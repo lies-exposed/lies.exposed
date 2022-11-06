@@ -325,7 +325,7 @@ export const SocietyCollapseForecastGraph = withTooltip<
                           fill={tickColor}
                           fontFamily={"Arial"}
                         >
-                          {tick.value}
+                          {tick.value.toString()}
                         </text>
                       </Group>
                     );

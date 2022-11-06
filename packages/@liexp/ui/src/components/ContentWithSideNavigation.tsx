@@ -34,7 +34,7 @@ interface ContentWithSideNavigationProps {
 }
 
 export const ContentWithSideNavigation: React.FC<
-  ContentWithSideNavigationProps
+React.PropsWithChildren<ContentWithSideNavigationProps>
 > = ({ items, children }) => {
   return (
     <StyledGrid container direction="column">

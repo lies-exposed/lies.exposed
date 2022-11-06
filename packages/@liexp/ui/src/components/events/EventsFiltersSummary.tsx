@@ -1,26 +1,25 @@
 import * as React from "react";
-import { SearchEventQueryResult, SearchEventQueryInput } from "../../state/queries/SearchEventsQuery";
-import { styled } from '../../theme';
+import {
+  SearchEventQueryResult,
+  SearchEventQueryInput,
+} from "../../state/queries/SearchEventsQuery";
+import { styled } from "../../theme";
 import { ActorList } from "../lists/ActorList";
 import GroupList from "../lists/GroupList";
 import { GroupsMembersList } from "../lists/GroupMemberList";
 import KeywordList from "../lists/KeywordList";
-import { Grid, Typography ,Box} from "../mui";
+import { Grid, Typography, Box } from "../mui";
 
-const PREFIX = 'EventsFilterSummary';
+const PREFIX = "EventsFilterSummary";
 
 const classes = {
   filterBox: `${PREFIX}-filterBox`,
   filterLabel: `${PREFIX}-filterLabel`,
   filterValue: `${PREFIX}-filterValue`,
-  offset: `${PREFIX}-offset`
+  offset: `${PREFIX}-offset`,
 };
 
-const StyledGrid = styled(Grid)((
-  {
-    theme
-  }
-) => ({
+const StyledGrid = styled(Grid)(({ theme }) => ({
   [`& .${classes.filterBox}`]: {
     display: "flex",
     alignItems: "center",
@@ -38,17 +37,19 @@ const StyledGrid = styled(Grid)((
   [`& .${classes.offset}`]: {
     height: 200,
     minHeight: 200,
-  }
+  },
 }));
 
 export interface EventsFilterSummaryProps
-  extends Omit<SearchEventQueryResult, "events" | 'total'> {
+  extends Omit<SearchEventQueryResult, "events" | "total"> {
   className: string;
   queryFilters: SearchEventQueryInput;
   onQueryChange: (f: SearchEventQueryInput) => void;
 }
 
-const EventsFilterSummary: React.FC<EventsFilterSummaryProps> = (props) => {
+const EventsFilterSummary: React.FC<
+  React.PropsWithChildren<EventsFilterSummaryProps>
+> = (props) => {
   const {
     children,
     actors,
@@ -58,7 +59,6 @@ const EventsFilterSummary: React.FC<EventsFilterSummaryProps> = (props) => {
     queryFilters: { startDate, endDate, ...query },
     onQueryChange,
   } = props;
-
 
   return (
     <StyledGrid
@@ -170,7 +170,9 @@ const EventsFilterSummary: React.FC<EventsFilterSummaryProps> = (props) => {
                   ...query,
                   startDate,
                   endDate,
-                  groupsMembers: query.groupsMembers?.filter((aId) => aId !== gm.id),
+                  groupsMembers: query.groupsMembers?.filter(
+                    (aId) => aId !== gm.id
+                  ),
                 });
               }}
             />

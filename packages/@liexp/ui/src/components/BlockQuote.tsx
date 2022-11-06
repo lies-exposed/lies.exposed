@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export const BlockQuote: React.FC = ({ children }) => {
+export const BlockQuote: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <blockquote
       style={{

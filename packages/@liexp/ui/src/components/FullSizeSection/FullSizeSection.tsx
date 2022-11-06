@@ -15,7 +15,9 @@ export interface FullSizeViewportProps {
   children: (viewport: Viewport) => React.ReactElement;
 }
 
-export const FullSizeViewport: React.FC<FullSizeViewportProps> = (props) => {
+export const FullSizeViewport: React.FC<
+  FullSizeViewportProps & { children: () => JSX.Element }
+> = (props) => {
   const { id, backgroundColor, backgroundImage, children } = props;
   const [{ width, height }, setPageSize] = React.useState({
     height: isServer ? 800 : window.innerHeight,
@@ -68,8 +70,8 @@ export const FullSizeViewport: React.FC<FullSizeViewportProps> = (props) => {
 };
 
 export const FullSizeSection: React.FC<
-  Omit<FullSizeViewportProps, "contentWrapper">
-> = (props) => (
+  Omit<React.PropsWithChildren<FullSizeViewportProps>, "contentWrapper">
+> = ({ children, ...props }) => (
   <FullSizeViewport {...props}>
     {() => (
       <MainContent
@@ -83,7 +85,7 @@ export const FullSizeSection: React.FC<
           paddingRight: "30px",
         }}
       >
-        {props.children}
+        {children}
       </MainContent>
     )}
   </FullSizeViewport>

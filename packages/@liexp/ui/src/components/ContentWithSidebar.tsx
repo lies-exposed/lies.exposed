@@ -8,7 +8,7 @@ interface ContentWithSidebarProps {
   defaultOpen?: boolean;
 }
 
-export const ContentWithSidebar: React.FC<ContentWithSidebarProps> = ({
+export const ContentWithSidebar: React.FC<React.PropsWithChildren<ContentWithSidebarProps>> = ({
   sidebar,
   defaultOpen = false,
   children,
