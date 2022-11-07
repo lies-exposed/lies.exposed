@@ -33,6 +33,7 @@ srvConfig.resolve = {
     "react/jsx-dev-runtime.js": "react/jsx-dev-runtime",
   },
 };
+
 srvConfig.optimization = srvConfig.mode === "production" ? webOptimization : {};
 
 export default srvConfig;

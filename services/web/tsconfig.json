@@ -19,7 +19,7 @@
     "typeRoots": [
       "../../node_modules/@types",
       "node_modules/@types",
-      "../../packages/@liexp/ui/shared",
+      "../../packages/@liexp/shared/typings",
       "../../packages/@liexp/ui/typings",
       "typings"
     ],

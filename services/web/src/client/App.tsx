@@ -11,7 +11,7 @@ import { routes } from "./routes";
 
 const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
   // eslint-disable-next-line no-console
-  console.log(error);
+  console.error('error', error);
   return (
     <>
       <div>{error.name}</div>

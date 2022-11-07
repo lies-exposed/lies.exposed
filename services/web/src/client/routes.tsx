@@ -69,7 +69,11 @@ export const routes = [
     route: () => {
       const params = useParams<{ groupId: string }>();
       if (params.groupId) {
-        return <GroupTemplate groupId={params.groupId} />;
+        return (
+          <React.Suspense fallback="loading...">
+            <GroupTemplate groupId={params.groupId} />
+          </React.Suspense>
+        );
       }
       return <NotFoundPage />;
     },

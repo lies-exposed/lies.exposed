@@ -41,9 +41,7 @@ function Main(): JSX.Element {
             <QueryClientProvider client={queryClient}>
               <Hydrate state={dehydratedState}>
                 <CssBaseline enableColorScheme />
-                <React.Suspense fallback="loading">
-                  <App />
-                </React.Suspense>
+                <App />
               </Hydrate>
             </QueryClientProvider>
           </ThemeProvider>
@@ -55,7 +53,9 @@ function Main(): JSX.Element {
 
 ReactDOM.hydrate(
   <React.StrictMode>
-    <Main />
+    <React.Suspense fallback="Loading...">
+      <Main />
+    </React.Suspense>
   </React.StrictMode>,
   document.getElementById("root")
 );
