@@ -24,22 +24,18 @@
       "@utils/*": ["utils/*"],
       "@liexp/core/*": ["../../../packages/@liexp/core/src/*"],
       "@liexp/test/*": ["../../../packages/@liexp/test/src/*"],
-      "@liexp/shared/*": ["../../../packages/@liexp/shared/src/*"],
-      "@liexp/ui/*": ["../../../packages/@liexp/ui/src/*"]
+      "@liexp/shared/*": ["../../../packages/@liexp/shared/src/*"]
     }
   },
   "references": [
     {
-      "path": "../../packages/@liexp/core"
+      "path": "../../packages/@liexp/test"
     },
     {
       "path": "../../packages/@liexp/shared"
     },
     {
-      "path": "../../packages/@liexp/test"
-    },
-    {
-      "path": "../../packages/@liexp/ui"
+      "path": "../../packages/@liexp/core"
     }
   ],
   "include": ["./src", "./test", "./bin"],

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const jestBaseConfig = require("../../jest.config.base");
 const { pathsToModuleNameMapper } = require("ts-jest");
-const { compilerOptions } = require("./tsconfig");
+const { compilerOptions } = require("./tsconfig.json");
 
 const paths = pathsToModuleNameMapper(compilerOptions.paths, {
   prefix: "<rootDir>/src/",
@@ -10,8 +10,12 @@ const paths = pathsToModuleNameMapper(compilerOptions.paths, {
 const moduleNameMapper = {
   ...paths,
   ...jestBaseConfig.moduleNameMapper,
+  "^@react-page/editor": "<rootDir>/__mocks__/react-page-editor.mock.ts",
+  "^@react-page/plugins-slate": "<rootDir>/__mocks__/react-page-plugin-slate.mock.ts",
+  "^@react-page/react-admin": "<rootDir>/__mocks__/react-page-react-admin.mock.ts",
 };
 
+/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
   ...jestBaseConfig,
   displayName: "api",
@@ -27,10 +31,10 @@ module.exports = {
     ],
   },
   moduleNameMapper,
-  collectCoverageFrom: ["./src/**/*.ts"],
+  collectCoverageFrom: ["<rootDir>/src/**/*.ts"],
   coveragePathIgnorePatterns: jestBaseConfig.coveragePathIgnorePatterns.concat([
-    "/src/migrations",
-    "/src/scripts",
+    "<rootDir>/src/migrations",
+    "<rootDir>/src/scripts",
   ]),
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   globalSetup: "<rootDir>/test/globalSetup.ts",

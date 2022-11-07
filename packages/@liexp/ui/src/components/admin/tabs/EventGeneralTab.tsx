@@ -4,7 +4,9 @@ import { Box, Grid } from "../../mui";
 import ReactPageInput from "../ReactPageInput";
 import ReferenceArrayKeywordInput from "../common/ReferenceArrayKeywordInput";
 
-export const EventGeneralTab: React.FC = ({ children }) => {
+export const EventGeneralTab: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   return (
     <Grid container>
       <Grid

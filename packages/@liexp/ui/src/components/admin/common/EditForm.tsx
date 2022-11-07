@@ -6,7 +6,7 @@ export interface EditFormProps extends EditProps {
   preview: React.ReactNode;
 }
 
-export const EditForm: React.FC<EditFormProps> = ({
+export const EditForm: React.FC<React.PropsWithChildren<EditFormProps>> = ({
   children,
   title,
   transform,

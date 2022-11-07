@@ -1,10 +1,10 @@
-import * as fs from "fs";
-import * as path from "path";
 import { CacheProvider } from "@emotion/react";
 import createEmotionServer from "@emotion/server/create-instance";
 import { dom } from "@fortawesome/fontawesome-svg-core";
 import { GetLogger } from "@liexp/core/logger";
 import * as express from "express";
+import * as fs from "fs";
+import * as path from "path";
 import * as React from "react";
 import * as ReactDOMServer from "react-dom/server";
 import {
@@ -14,8 +14,8 @@ import {
   QueryClientProvider,
 } from "react-query";
 import { StaticRouter } from "react-router-dom/server";
-import { HelmetProvider } from "../components/SEO";
 import { CssBaseline, ThemeProvider } from "../components/mui";
+import { HelmetProvider } from "../components/SEO";
 import { ECOTheme } from "../theme";
 import createEmotionCache from "./createEmotionCache";
 
@@ -56,10 +56,6 @@ export const getServer = (
           helmet: undefined,
         };
 
-        const cache = createEmotionCache();
-        const { extractCriticalToChunks, constructStyleTagsFromChunks } =
-          createEmotionServer(cache);
-
         const queryClient = new QueryClient({
           defaultOptions: {
             queries: {
@@ -87,9 +83,10 @@ export const getServer = (
           .then(() => {
             const dehydratedState = dehydrate(queryClient);
 
-            // const sheets = new ServerStyleSheets();
+            const cache = createEmotionCache();
+            const { renderStylesToNodeStream } = createEmotionServer(cache);
 
-            const html = ReactDOMServer.renderToString(
+            const stream = ReactDOMServer.renderToPipeableStream(
               <StaticRouter location={req.url}>
                 <HelmetProvider context={helmetContext}>
                   <QueryClientProvider client={queryClient}>
@@ -103,56 +100,68 @@ export const getServer = (
                     </Hydrate>
                   </QueryClientProvider>
                 </HelmetProvider>
-              </StaticRouter>
-            );
+              </StaticRouter>,
+              {
+                onAllReady() {
+                  // Grab the CSS from emotion
+                  // const emotionChunks = extractCriticalToChunks(
+                  //   ReactDOMServer.renderToString(stream)
+                  // );
+                  // const emotionCss =
+                  //   constructStyleTagsFromChunks(emotionChunks);
 
-            // Grab the CSS from emotion
-            const emotionChunks = extractCriticalToChunks(html);
-            const emotionCss = constructStyleTagsFromChunks(emotionChunks);
+                  if (context.url) {
+                    return next();
+                  } else {
+                    // Grab the CSS from the sheets.
+                    // const css = emotionCss;
+                    const h = helmetContext.helmet as any;
 
-            if (context.url) {
-              return next();
-            } else {
-              // Grab the CSS from the sheets.
-              const css = emotionCss;
-              const h = helmetContext.helmet as any;
+                    const fontawesomeCss = dom.css();
+                    const head = `
+                      ${h.title.toString()}
+                      ${h.meta.toString().replace("/>", "/>\n")}
+                      ${h.script.toString()}
+                    `;
 
-              const fontawesomeCss = dom.css();
-              const head = `
-            ${h.title.toString()}
-            ${h.meta.toString().replace("/>", "/>\n")}
-            ${h.script.toString()}
-          `;
+                    res.setHeader("Content-Type", "text/html").send(
+                      data
+                        .replace(
+                          "<head>",
+                          `<head ${h.htmlAttributes.toString()}>`
+                        )
+                        .replace('<meta id="helmet-head"/>', head)
+                        .replace(
+                          "<body>",
+                          `<body ${h.bodyAttributes.toString()}>`
+                        )
+                        .replace(
+                          '<style id="font-awesome-css"></style>',
+                          `<style type="text/css">${fontawesomeCss}</style>`
+                        )
+                      //     .replace(
+                      //       '<div id="root"></div>',
+                      //       `<div id="root"></div>
+                      //   <script>
+                      //     window.__REACT_QUERY_STATE__ = ${JSON.stringify(
+                      //       dehydratedState
+                      //     )};
+                      //   </script>
+                      // `
+                      //     )
+                    );
+                  }
 
-              res.setHeader("Content-Type", "text/html").send(
-                data
-                  .replace("<head>", `<head ${h.htmlAttributes.toString()}>`)
-                  .replace('<meta id="helmet-head"/>', head)
-                  .replace("<body>", `<body ${h.bodyAttributes.toString()}>`)
-                  .replace(
-                    '<style id="font-awesome-css"></style>',
-                    `<style type="text/css">${fontawesomeCss}</style>`
-                  )
-                  .replace('<style id="css-server-side"></style>', css)
-                  .replace(
-                    '<div id="root"></div>',
-                    `<div id="root">${html}</div>
-                      <script>
-                        window.__REACT_QUERY_STATE__ = ${JSON.stringify(
-                          dehydratedState
-                        )};
-                      </script>
-                    `
-                  )
-              );
-            }
-
-            queryClient.clear();
+                  stream.pipe(res);
+                },
+              }
+            ).pipe(renderStylesToNodeStream());
           })
           .catch((e) => {
-            ssrLog.error.log('Error %O', e);
+            ssrLog.error.log("Error %O", e);
             res.status(500).send(e.message);
-
+          })
+          .finally(() => {
             queryClient.clear();
           });
       }

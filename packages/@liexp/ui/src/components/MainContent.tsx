@@ -5,7 +5,7 @@ interface MainContentProps {
   style?: React.CSSProperties;
 }
 
-export const MainContent: React.FC<MainContentProps> = ({
+export const MainContent: React.FC<React.PropsWithChildren<MainContentProps>> = ({
   children,
   style = {},
 }) => {

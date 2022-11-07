@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const Gallery: React.FC = (props) => {
+const Gallery: React.FC<React.PropsWithChildren> = (props) => {
   const children = Array.isArray(props.children)
     ? props.children
     : [props.children];
