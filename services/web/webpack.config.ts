@@ -1,4 +1,3 @@
-import HTMLWebpackPlugin from "html-webpack-plugin";
 import HtmlReplaceWebpackPlugin from "html-replace-webpack-plugin";
 import path from "path";
 import { defineEnv } from "../../packages/@liexp/core/src/webpack/config";

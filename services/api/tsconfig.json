@@ -12,6 +12,10 @@
       "../../packages/@liexp/shared/typings",
       "../../node_modules/@types"
     ],
+    "target": "esnext",
+    "module": "NodeNext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
     "declaration": false,
     "skipLibCheck": true,
     "experimentalDecorators": true,
@@ -40,6 +44,8 @@
   ],
   "include": ["./src", "./test", "./bin"],
   "ts-node": {
-    "require": ["tsconfig-paths/register"]
+    "transpileOnly": false,
+    "esm": true,
+    "require": ["tsconfig-paths/register", "dotenv/config"]
   }
 }

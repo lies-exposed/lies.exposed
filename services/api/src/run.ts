@@ -1,14 +1,14 @@
-/* eslint-disable import/first */
+/* eslint-disable import/order, import/first */
 import path from "path";
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require("module-alias")(path.resolve(__dirname, "../"));
+import moduleAlias from "module-alias";
+moduleAlias(path.resolve(__dirname, "../"));
 import * as logger from "@liexp/core/logger";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { failure } from "io-ts/lib/PathReporter";
 import { makeApp, makeContext } from "./server";
 
-export const run = (): Promise<void> => {
+const run = (): Promise<void> => {
   const serverLogger = logger.GetLogger("api");
 
   return pipe(

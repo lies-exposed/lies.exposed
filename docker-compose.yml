@@ -52,7 +52,7 @@ services:
   api:
     build:
       context: .
-      target: production
+      target: build
       dockerfile: api.Dockerfile
     container_name: liexp-api
     env_file:
@@ -68,9 +68,9 @@ services:
       - space
     ports:
       - "4010:4010"
-    # volumes:
-    #   - ./packages/@liexp:/app/packages/@liexp
-    #   - ./services/api:/app/services/api
+    volumes:
+      - ./packages/@liexp:/app/packages/@liexp
+      - ./services/api:/app/services/api
     tty: true
     stdin_open: true
     working_dir: /app/services/api
@@ -81,18 +81,18 @@ services:
   web:
     build:
       context: .
-      target: production
+      target: build
       dockerfile: web.Dockerfile
     container_name: liexp-web
     env_file:
       - ./services/web/.env
     ports:
       - "4020:4020"
-    # volumes:
-    #   - ./.eslintrc:/app/.eslintrc
-    #   - ./tsconfig.json:/app/tsconfig.json
-    #   - ./packages/@liexp:/app/packages/@liexp:cached
-    #   - ./services/web:/app/services/web:cached
+    volumes:
+      - ./.eslintrc:/app/.eslintrc
+      - ./tsconfig.json:/app/tsconfig.json
+      - ./packages/@liexp:/app/packages/@liexp:cached
+      - ./services/web:/app/services/web:cached
     working_dir: /app/services/web
     command: yarn serve
     tty: false

@@ -74,8 +74,8 @@
   "resolutions": {
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "react-dnd": "^16",
-    "react-dnd-html5-backend": "^16",
+    "react-dnd": "^15",
+    "react-dnd-html5-backend": "^15",
     "terser": ">=5.14.2",
     "webpack": "^5"
   }
