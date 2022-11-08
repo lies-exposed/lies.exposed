@@ -16,6 +16,7 @@
     "paths": {
       "@liexp/core/*": ["packages/@liexp/core/src/*"],
       "@liexp/shared/*": ["packages/@liexp/shared/src/*"],
+      "@liexp/test/*": ["packages/@liexp/test/src/*"],
       "@liexp/ui/*": ["packages/@liexp/ui/src/*"]
     }
   },

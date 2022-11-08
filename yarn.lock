@@ -8516,6 +8516,7 @@ __metadata:
     ts-endpoint-express: ^2.0.0
     ts-jest: ^29.0.3
     ts-node: ^10.9.1
+    ts-node-dev: ^2.0.0
     ts-shared: 2.0.0-alpha.6
     typeorm: ^0.3.10
     typeorm-uml: ^1.6.5

@@ -24,7 +24,6 @@
     {
       "path": "../../packages/@liexp/shared"
     }
-    
   ],
   "include": ["./src"],
   "exclude": ["**/__tests__/**", "*/__mocks__/**", "./test/**"]
