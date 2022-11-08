@@ -94,7 +94,7 @@ services:
       - ./packages/@liexp:/app/packages/@liexp:cached
       - ./services/web:/app/services/web:cached
     working_dir: /app/services/web
-    command: yarn watch:server
+    command: yarn serve
     tty: false
     stdin_open: true
     depends_on:

@@ -21,4 +21,12 @@ const srvConfig = getConfig({
   target: "node",
 });
 
+srvConfig.resolve = {
+  ...srvConfig.resolve,
+  alias: {
+    "react/jsx-runtime.js": "react/jsx-runtime",
+    "react/jsx-dev-runtime.js": "react/jsx-dev-runtime",
+  },
+};
+
 export default srvConfig;
