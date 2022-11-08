@@ -10,6 +10,9 @@ on:
       - "packages/**"
       - "services/web/**"
 
+env:
+  WEB_IMAGE_NAME: liexp-web
+
 jobs:
   install:
     runs-on: ubuntu-latest
@@ -87,3 +90,12 @@ jobs:
           yarn packages:build
           yarn web build:app
           yarn web build:server
+
+      - name: Log in to registry
+        # This is where you will update the personal access token to GITHUB_TOKEN
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+
+      - name: Build Web image
+        run: docker build . --file web.Dockerfile --tag $WEB_IMAGE_NAME --label "runnumber=${GITHUB_RUN_ID}"
+
+

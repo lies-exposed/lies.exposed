@@ -9,6 +9,9 @@ on:
     paths:
       - "services/api/**"
 
+env:
+  API_IMAGE_NAME: liexp-api
+
 jobs:
   pull_request:
     runs-on: ubuntu-latest
@@ -75,3 +78,13 @@ jobs:
         env:
           DEBUG: "@liexp*"
         run: yarn api test --ci --runInBand --forceExit
+
+      - name: Log in to registry
+        # This is where you will update the personal access token to GITHUB_TOKEN
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+
+      - name: Build API image
+        run: docker build . --file api.Dockerfile --tag $API_IMAGE_NAME --label "runnumber=${GITHUB_RUN_ID}"
+
+
+
