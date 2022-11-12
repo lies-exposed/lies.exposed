@@ -85,7 +85,7 @@ services:
       dockerfile: web.Dockerfile
     container_name: liexp-web
     env_file:
-      - ./services/web/.env.development
+      - ./services/web/.env
     ports:
       - "4020:4020"
     volumes:
