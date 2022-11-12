@@ -1,4 +1,5 @@
 import "@liexp/ui/components/Common/Icons/library";
+import { FullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
 import { Footer } from "@liexp/ui/components/Footer";
 import SEO from "@liexp/ui/components/SEO";
 import { Grid, useMediaQuery } from "@liexp/ui/components/mui";
@@ -11,7 +12,7 @@ import { routes } from "./routes";
 
 const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
   // eslint-disable-next-line no-console
-  console.log(error);
+  console.error('error', error);
   return (
     <>
       <div>{error.name}</div>
@@ -44,7 +45,15 @@ export const App: React.FC = () => {
           >
             <Routes>
               {routes.map((r) => (
-                <Route key={r.path} path={r.path} element={<r.route />} />
+                <Route
+                  key={r.path}
+                  path={r.path}
+                  element={
+                    <React.Suspense fallback={<FullSizeLoader />}>
+                      <r.route />
+                    </React.Suspense>
+                  }
+                />
               ))}
             </Routes>
           </Grid>

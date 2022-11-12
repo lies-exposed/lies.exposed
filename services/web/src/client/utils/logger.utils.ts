@@ -1,7 +1,4 @@
 import { GetLogger } from "@liexp/core/logger";
-import debug from "debug";
-
-debug.enable(process.env.DEBUG);
 
 const webLogger = GetLogger("web");
 

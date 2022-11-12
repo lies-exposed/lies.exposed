@@ -1,8 +1,9 @@
 import path from "path";
 import {
   defineEnv,
-  getConfig,
+  getConfig
 } from "../../packages/@liexp/core/src/webpack/config";
+import { webOptimization } from "./webpack.config";
 
 const SrvEnv = defineEnv((t) => ({
   NODE_ENV: t.string,
@@ -19,6 +20,10 @@ const srvConfig = getConfig({
     ssr: path.resolve(__dirname, "src/server/ssr.tsx"),
   },
   target: "node",
+  tsConfigFile:
+    process.env.NODE_ENV === "production"
+      ? "tsconfig.build.json"
+      : "tsconfig.json",
 });
 
 srvConfig.resolve = {
@@ -28,5 +33,7 @@ srvConfig.resolve = {
     "react/jsx-dev-runtime.js": "react/jsx-dev-runtime",
   },
 };
+
+srvConfig.optimization = srvConfig.mode === "production" ? webOptimization : {};
 
 export default srvConfig;

@@ -36,6 +36,7 @@ export interface GetConfigParams<A extends Record<string, t.Mixed>> {
   devServer?: boolean;
   target: webpack.Configuration["target"];
   output?: webpack.Configuration["output"];
+  tsConfigFile?: string;
   hot: boolean;
 }
 
@@ -127,9 +128,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       stringifiedAppEnv
     );
 
-    plugins.push(
-      new webpack.DefinePlugin(stringifiedAppEnv)
-    );
+    plugins.push(new webpack.DefinePlugin(stringifiedAppEnv));
     plugins.push(
       new DotenvWebpackPlugin({
         path: DOTENV_CONFIG_PATH,
@@ -164,19 +163,33 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       }
     : {};
 
+  const entry = opts.entry ?? {
+    app: path.resolve(opts.cwd, "src/index.tsx"),
+  };
+
+  const entryKeys = Object.keys(entry);
+
   const config: webpack.Configuration = {
     mode,
     ...devServerConf,
     target: opts.target,
     context: opts.cwd,
-    entry: opts.entry ?? {
-      app: path.resolve(opts.cwd, "src/index.tsx"),
-    },
+    entry,
 
     output: {
       path: opts.output?.path ?? path.resolve(opts.cwd, "build"),
       publicPath: opts.output?.publicPath ?? "/",
-      filename: "[name].js",
+      chunkFilename: (pathData) => {
+        return entryKeys.some((s) => s === pathData.chunk?.name)
+          ? "[name].js"
+          : "[name].js";
+      },
+      filename: (pathData) => {
+        return entryKeys.some((s) => s === pathData.chunk?.name)
+          ? "[name].js"
+          : "[name].js";
+      },
+      clean: true,
     },
     // optimization,
     module: {
@@ -189,8 +202,9 @@ const getConfig = <A extends Record<string, t.Mixed>>(
               loader: "ts-loader",
               options: {
                 context: opts.cwd,
-                projectReferences: true,
+                projectReferences: mode === "development",
                 transpileOnly: true,
+                configFile: opts.tsConfigFile ?? "tsconfig.json",
                 getCustomTransformers: () => ({
                   before: [
                     mode === "development" &&
@@ -223,11 +237,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".jsx"],
       plugins: [new TsconfigPathsPlugin({}) as any],
-      modules: [
-        "node_modules",
-        // path.resolve(opts.cwd, "../../packages"),
-        path.resolve(opts.cwd),
-      ],
+      modules: ["node_modules", path.resolve(opts.cwd)],
     },
     plugins: plugins as any,
   };

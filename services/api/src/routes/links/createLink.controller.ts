@@ -23,7 +23,6 @@ export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
       // };
 
       ctx.logger.debug.log("Body %O", body);
-      ctx.logger.debug.log("User %O", req.user);
 
       return pipe(
         ensureUserExists(req.user),

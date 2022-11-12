@@ -160,7 +160,7 @@ describe("Create From TG Message", () => {
         ({ id, ...r }) => r
       ) as any[];
 
-      const media = await throwTE(
+      const { creator, areas, ...media } = await throwTE(
         Test.ctx.db.findOneOrFail(MediaEntity, {
           where: { description: Equal(message.caption) },
         })
@@ -181,7 +181,13 @@ describe("Create From TG Message", () => {
 
       expect(result).toMatchObject({
         link: undefined,
-        photos: [media],
+        photos: [
+          {
+            ...media,
+            events: [],
+            links: [],
+          },
+        ],
         hashtags: [],
         videos: [],
       });

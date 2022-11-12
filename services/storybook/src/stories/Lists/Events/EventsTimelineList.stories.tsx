@@ -5,7 +5,7 @@ import {
   UncategorizedArb
 } from "@liexp/shared/tests";
 import { KeywordArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
-import { fc } from "@liexp/test/index";
+import { fc } from "@liexp/test";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import EventsTimelineList, {
   EventsTimelineListProps

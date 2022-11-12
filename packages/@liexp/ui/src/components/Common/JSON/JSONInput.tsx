@@ -24,6 +24,7 @@ const JSONInput: React.FC<JSONInputProps> = ({
   const JSONView =
     React.useMemo((): React.ComponentType<any> => {
       if (typeof window !== "undefined") {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         return require("react-json-view").default;
       }
       // eslint-disable-next-line react/display-name

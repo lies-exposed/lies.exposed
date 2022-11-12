@@ -1,4 +1,3 @@
-import { eventMetadataMapEmpty } from "@liexp/shared/mock-data/events/events-metadata";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import { ProjectPageContent } from "@liexp/ui/components/ProjectPageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
@@ -29,7 +28,15 @@ export default class ProjectTemplate extends React.PureComponent<
                 />
                 <ProjectPageContent
                   {...project}
-                  metadata={eventMetadataMapEmpty}
+                  metadata={{
+                    Protest: [],
+                    Condemned: [],
+                    Arrest: [],
+                    Death: [],
+                    PublicAnnouncement: [],
+                    Uncategorized: [],
+                    Transaction: [],
+                  }}
                 />
               </MainContent>
             )}

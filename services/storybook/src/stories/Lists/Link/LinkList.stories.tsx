@@ -1,5 +1,5 @@
 import { LinkArb } from "@liexp/shared/tests";
-import { fc } from "@liexp/test/index";
+import { fc } from "@liexp/test";
 import { LinksList, LinksListProps } from "@liexp/ui/components/lists/LinkList";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from 'react';

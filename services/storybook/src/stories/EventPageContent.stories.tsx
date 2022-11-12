@@ -4,7 +4,6 @@ import {
 } from "@liexp/ui/components/EventPageContent";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { eventPageContentArgs } from "@liexp/ui/components/examples/EventPageContentExample";
 import { useEventsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from "react";
@@ -48,6 +47,8 @@ const Template: Story<EventPageContentProps> = (props) => {
 
 const EventPageContentExample = Template.bind({});
 
-EventPageContentExample.args = eventPageContentArgs;
+EventPageContentExample.args = {
+  event: undefined,
+};
 
 export { EventPageContentExample as EventPageContent };

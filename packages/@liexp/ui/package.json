@@ -7,13 +7,14 @@
   "private": true,
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "tsc -b tsconfig.build.json",
+    "build": "tsc -b",
     "watch": "tsc -b -w",
     "test": "jest",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\""
   },
   "dependencies": {
+    "@emotion/css": "^11.10.5",
     "@emotion/server": "^11.10.0",
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
     "@fortawesome/free-brands-svg-icons": "^6.2.0",

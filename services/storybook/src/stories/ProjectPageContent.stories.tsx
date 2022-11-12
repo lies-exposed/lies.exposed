@@ -2,7 +2,6 @@ import {
   ProjectPageContent,
   ProjectPageContentProps,
 } from "@liexp/ui/components/ProjectPageContent";
-import { projectPageContentExampleArgs } from "@liexp/ui/components/examples/ProjectPageContentExample";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 
@@ -29,6 +28,6 @@ const Template: Story<ProjectPageContentProps> = (props) => {
 
 const ProjectPageContentExample = Template.bind({});
 
-ProjectPageContentExample.args = projectPageContentExampleArgs;
+ProjectPageContentExample.args = {};
 
 export { ProjectPageContentExample };

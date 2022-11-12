@@ -4,7 +4,7 @@ import { CircularProgress } from "../mui";
 
 export const FullSizeLoader: React.FC<any> = () => {
   return (
-    <ParentSize>
+    <ParentSize style={{ minHeight: "60%" }}>
       {({ width, height }) => {
         return (
           <div

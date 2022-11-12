@@ -5,8 +5,8 @@ import * as Map from "fp-ts/Map";
 import * as O from "fp-ts/Option";
 import * as Ord from "fp-ts/Ord";
 import { pipe } from "fp-ts/function";
-import * as N from 'fp-ts/number'
-import * as S from 'fp-ts/string';
+import * as N from "fp-ts/number";
+import * as S from "fp-ts/string";
 import {
   Actor,
   Common,
@@ -15,10 +15,9 @@ import {
   GroupMember,
   Keyword,
   Media,
-  Project
+  Project,
 } from "../io/http";
 import { SearchEvent } from "../io/http/Events/SearchEvent";
-import { eventMetadataMapEmpty } from "../mock-data/events/events-metadata";
 
 type EventsByYearMap = Map<number, Map<number, Events.Event[]>>;
 
@@ -53,10 +52,9 @@ export const eventsDataToNavigatorItems = (
             O.fold(
               () => Map.upsertAt(N.Eq)(month, [e])(monthMap),
               ([monthKey, eventsInMonth]) => {
-                return Map.upsertAt(N.Eq)(
-                  monthKey,
-                  eventsInMonth.concat(e)
-                )(monthMap);
+                return Map.upsertAt(N.Eq)(monthKey, eventsInMonth.concat(e))(
+                  monthMap
+                );
               }
             )
           )
@@ -67,28 +65,29 @@ export const eventsDataToNavigatorItems = (
   }, initial);
 
   const initialData: NavigationItem[] = [];
-  return Map.toArray(Ord.reverse(N.Ord))(yearItems).reduce<
-    NavigationItem[]
-  >((acc, [year, monthMap]) => {
-    const months = Map.toArray(Ord.reverse(N.Ord))(monthMap).reduce<
-      NavigationItem[]
-    >((monthAcc, [month, events]) => {
-      return monthAcc.concat({
-        itemId: `#m-${month.toString()}`,
-        title: format(new Date().setMonth(month), "MMMM"),
-        subNav: events.map((e) => ({
-          title: "",
-          itemId: `#${e.id}`,
-        })),
-      });
-    }, []);
+  return Map.toArray(Ord.reverse(N.Ord))(yearItems).reduce<NavigationItem[]>(
+    (acc, [year, monthMap]) => {
+      const months = Map.toArray(Ord.reverse(N.Ord))(monthMap).reduce<
+        NavigationItem[]
+      >((monthAcc, [month, events]) => {
+        return monthAcc.concat({
+          itemId: `#m-${month.toString()}`,
+          title: format(new Date().setMonth(month), "MMMM"),
+          subNav: events.map((e) => ({
+            title: "",
+            itemId: `#${e.id}`,
+          })),
+        });
+      }, []);
 
-    return acc.concat({
-      itemId: `#y-${year.toString()}`,
-      title: year.toString(),
-      subNav: months,
-    });
-  }, initialData);
+      return acc.concat({
+        itemId: `#y-${year.toString()}`,
+        title: year.toString(),
+        subNav: months,
+      });
+    },
+    initialData
+  );
 };
 
 export const filterMetadataForActor =
@@ -239,10 +238,24 @@ export const extractEventsMetadata =
         );
       }),
       Map.toArray(Ord.ordString),
-      A.reduce(eventMetadataMapEmpty, (acc, [index, m]) => ({
-        ...acc,
-        [index]: m,
-      }))
+      A.reduce(
+        {
+          PublicAnnouncement: [],
+          ProjectTransaction: [],
+          ProjectImpact: [],
+          Protest: [],
+          StudyPublished: [],
+          Arrest: [],
+          Death: [],
+          Condemned: [],
+          Uncategorized: [],
+          Transaction: [],
+        },
+        (acc, [index, m]) => ({
+          ...acc,
+          [index]: m,
+        })
+      )
     );
 
     return results;
@@ -261,7 +274,7 @@ export const getRelationIds = (e: Events.Event): EventRelationIds => {
   const commonIds = {
     media: e.media,
     keywords: e.keywords,
-    links: e.links
+    links: e.links,
   };
 
   switch (e.type) {
@@ -346,7 +359,7 @@ export const getEventsMetadata = (e: SearchEvent): EventRelations => {
   const commonIds = {
     media: e.media,
     keywords: e.keywords,
-    links: e.links
+    links: e.links,
   };
 
   switch (e.type) {
@@ -386,14 +399,8 @@ export const getEventsMetadata = (e: SearchEvent): EventRelations => {
     case Events.Documentary.DOCUMENTARY.value: {
       return {
         ...commonIds,
-        actors: [
-          ...e.payload.authors.actors,
-          ...e.payload.subjects.actors,
-        ],
-        groups: [
-          ...e.payload.authors.groups,
-          ...e.payload.subjects.groups,
-        ],
+        actors: [...e.payload.authors.actors, ...e.payload.subjects.actors],
+        groups: [...e.payload.authors.groups, ...e.payload.subjects.groups],
         groupsMembers: [],
         media: [...commonIds.media, e.payload.media],
       };

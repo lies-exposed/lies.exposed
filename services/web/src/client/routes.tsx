@@ -26,13 +26,13 @@ import {
   getLinkQueryKey,
   getMediaQueryKey,
   getPageContentByPathQueryKey,
-  useStatsQuery,
+  useStatsQuery
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import {
   fetchSearchEvents,
   fetchSearchEventsInfinite,
   getSearchEventsInfiniteQueryKey,
-  getSearchEventsQueryKey,
+  getSearchEventsQueryKey
 } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { fetchGithubRepo } from "@liexp/ui/state/queries/github";
 import { UUID } from "io-ts-types/lib/UUID";
@@ -41,19 +41,19 @@ import { useParams } from "react-router-dom";
 import IndexPage from "./pages";
 import NotFoundPage from "./pages/404";
 import ActorsPage, { queryParams } from "./pages/ActorsPage";
-import AreasPage from "./pages/AreasPage";
-import EventsPage from "./pages/EventsPage";
-import GroupsPage from "./pages/GroupsPage";
-import KeywordsPage from "./pages/KeywordsPage";
-import MediaPage from "./pages/MediaPage";
-import ProfilePage from "./pages/Profile";
-import ActorTemplate from "./templates/ActorTemplate";
-import AreaTemplate from "./templates/AreaTemplate";
-import EventTemplate from "./templates/EventTemplate";
-import GroupTemplate from "./templates/GroupTemplate";
-import KeywordTemplate from "./templates/KeywordTemplate";
-import MediaTemplate from "./templates/MediaTemplate";
 import { hashToQuery } from "./utils/history.utils";
+const AreasPage = React.lazy(() => import("./pages/AreasPage"));
+const EventsPage = React.lazy(() => import("./pages/EventsPage"));
+const GroupsPage = React.lazy(() => import("./pages/GroupsPage"));
+const KeywordsPage = React.lazy(() => import("./pages/KeywordsPage"));
+const MediaPage = React.lazy(() => import("./pages/MediaPage"));
+const ActorTemplate = React.lazy(() => import("./templates/ActorTemplate"));
+const AreaTemplate = React.lazy(() => import("./templates/AreaTemplate"));
+const EventTemplate = React.lazy(() => import("./templates/EventTemplate"));
+const GroupTemplate = React.lazy(() => import("./templates/GroupTemplate"));
+const KeywordTemplate = React.lazy(() => import("./templates/KeywordTemplate"));
+const MediaTemplate = React.lazy(() => import("./templates/MediaTemplate"));
+const ProfilePage = React.lazy(() => import("./pages/ProfilePage"));
 
 const githubQuery = {
   queryKey: ["github", { user: "lies-exposed", repo: "lies.exposed" }],
@@ -499,6 +499,16 @@ export const routes = [
           _end: 50,
         }),
         queryFn: fetchKeywordsDistribution,
+      },
+      {
+        queryKey: getSearchEventsQueryKey({
+          hash: `${"Last updated events".trim()}`,
+          _sort: "updatedAt",
+          _order: "DESC",
+          _start: 0,
+          _end: 6,
+        }),
+        queryFn: fetchSearchEvents,
       },
     ],
   },
