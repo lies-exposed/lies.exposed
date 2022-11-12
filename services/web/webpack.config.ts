@@ -1,7 +1,5 @@
 import HtmlReplaceWebpackPlugin from "html-replace-webpack-plugin";
 import path from "path";
-import TerserPlugin from "terser-webpack-plugin";
-import * as webpack from "webpack";
 import { defineEnv } from "../../packages/@liexp/core/src/webpack/config";
 import { getWebConfig } from "../../packages/@liexp/core/src/webpack/web.config";
 
