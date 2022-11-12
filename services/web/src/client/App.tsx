@@ -1,4 +1,5 @@
 import "@liexp/ui/components/Common/Icons/library";
+import { FullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
 import { Footer } from "@liexp/ui/components/Footer";
 import SEO from "@liexp/ui/components/SEO";
 import { Grid, useMediaQuery } from "@liexp/ui/components/mui";
@@ -8,7 +9,6 @@ import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import { Route, Routes, useLocation } from "react-router";
 import AppHeader from "./components/header/AppHeader";
 import { routes } from "./routes";
-import { FullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
 
 const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
   // eslint-disable-next-line no-console

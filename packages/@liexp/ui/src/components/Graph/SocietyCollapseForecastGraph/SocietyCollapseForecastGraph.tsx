@@ -1,6 +1,6 @@
 import {
   ClimateChangeForecast,
-  ClimateChangeHistoryOfSummits
+  ClimateChangeHistoryOfSummits,
 } from "@liexp/shared/endpoints/graph.endpoints";
 import { Forecast } from "@liexp/shared/io/http/climate-change/Forecast";
 import { numTicksForWidth } from "@liexp/shared/utils/graph.utils";
@@ -325,7 +325,10 @@ export const SocietyCollapseForecastGraph = withTooltip<
                           fill={tickColor}
                           fontFamily={"Arial"}
                         >
-                          {tick.value.toString()}
+                          {
+                            // eslint-disable-next-line @typescript-eslint/no-base-to-string
+                            tick.value.toString()
+                          }
                         </text>
                       </Group>
                     );
