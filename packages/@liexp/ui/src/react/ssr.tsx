@@ -1,5 +1,4 @@
 import { CacheProvider } from "@emotion/react";
-import createEmotionServer from "@emotion/server/create-instance";
 import { dom } from "@fortawesome/fontawesome-svg-core";
 import { GetLogger } from "@liexp/core/logger";
 import * as express from "express";
@@ -12,7 +11,7 @@ import {
   dehydrate,
   Hydrate,
   QueryClient,
-  QueryClientProvider,
+  QueryClientProvider
 } from "react-query";
 import { StaticRouter } from "react-router-dom/server";
 import { CssBaseline, ThemeProvider } from "../components/mui";
@@ -42,7 +41,9 @@ export const getServer = (
 ): express.Express => {
   const indexFile = path.resolve(publicDir, "./index.html");
 
-  const indexHTML = fs.readFileSync(indexFile, "utf8");
+  const indexHTML = fs
+    .readFileSync(indexFile, "utf8")
+    .split('<div id="root">')[0];
 
   const requestHandler = (
     req: express.Request,
@@ -56,6 +57,7 @@ export const getServer = (
     const queryClient = new QueryClient({
       defaultOptions: {
         queries: {
+          suspense: true,
           notifyOnChangeProps: ["data"],
         },
       },
@@ -68,11 +70,9 @@ export const getServer = (
     )
       .then((queries) => {
         const routeQueries = queries.flatMap((r) => r);
-        // eslint-disable-next-line no-console
-        console.log("route queries", routeQueries);
-
         return Promise.all(
           routeQueries.map((r) => {
+            ssrLog.debug.log("Prefetch query %O", r);
             return queryClient.prefetchQuery(r.queryKey, r.queryFn);
           })
         );
@@ -82,12 +82,17 @@ export const getServer = (
         const dehydratedState = dehydrate(queryClient);
 
         const cache = createEmotionCache();
-        const { renderStylesToNodeStream } = createEmotionServer(cache);
+
+        let body = "";
 
         // Simple stream wrapper for writing `backHTML` before closing the stream.
         const resStream = new Writable({
           write(chunk, _encoding, cb) {
-            res.write(chunk, cb);
+            const content = chunk.toString("utf8");
+
+            body += content;
+
+            cb();
           },
           final() {
             const h = helmetContext.helmet as any;
@@ -99,7 +104,12 @@ export const getServer = (
                     ${h.script.toString()}
                   `;
 
-            res.end(
+            // const { extractCritical } = createEmotionServer(cache);
+
+            // const emotionCss = extractCritical(body);
+            // console.log(emotionCss);
+
+            res.write(
               indexHTML
                 .replace("<head>", `<head ${h.htmlAttributes.toString()}>`)
                 .replace('<meta id="helmet-head"/>', head)
@@ -108,18 +118,24 @@ export const getServer = (
                   '<style id="font-awesome-css"></style>',
                   `<style type="text/css">${fontawesomeCss}</style>`
                 )
-                .replace(
-                  "<!-- SSR DATA -->",
-                  `<script>
-                        window.__REACT_QUERY_STATE__ = ${JSON.stringify(
-                          dehydratedState
-                        )};
-                      </script>
-                      `
-                )
+                // .replace('<style id="css-server-side"></style>', emotionCss.css)
+                .concat('<div id="root">')
+                .concat(body)
+            );
+
+            res.end(
+              `</div>
+                <script>
+                  window.__REACT_QUERY_STATE__ = ${JSON.stringify(
+                    dehydratedState
+                  )};
+                </script>
+              </body>
+            </html>`
             );
           },
         });
+
         const { pipe, abort } = ReactDOMServer.renderToPipeableStream(
           <StaticRouter location={req.url}>
             <HelmetProvider context={helmetContext}>
@@ -128,7 +144,9 @@ export const getServer = (
                   <CacheProvider value={cache}>
                     <ThemeProvider theme={ECOTheme}>
                       <CssBaseline enableColorScheme />
-                      <App />
+                      <React.Suspense>
+                        <App />
+                      </React.Suspense>
                     </ThemeProvider>
                   </CacheProvider>
                 </Hydrate>
@@ -138,39 +156,44 @@ export const getServer = (
           {
             // Executed when the shell render resulted in error
             onError(x) {
+              ssrLog.error.log(`Error caught %O`, x);
               didError = true;
-              ssrLog.error.log(`Error %O`, x);
             },
             onShellError(err) {
               didError = true;
-
-              ssrLog.error.log(`Shell Error %O`, err);
+              ssrLog.error.log(`Shell error caught %O`, err);
             },
             onAllReady() {
               ssrLog.debug.log("On all ready");
             },
             onShellReady() {
-              ssrLog.debug.log("On shell ready");
+              const status = didError ? 500 : 200;
+
+              ssrLog.debug.log("Send response %d", status);
 
               res
-                .status(didError ? 500 : 200)
+                .status(status)
                 .setHeader("Content-Type", "text/html; charset=utf-8");
 
-              stream.pipe(resStream);
+              pipe(resStream);
             },
           }
         );
 
-        const stream = pipe(renderStylesToNodeStream());
+        // const stream = pipe(renderStylesToNodeStream());
 
         // Abort when the stream takes too long.
         setTimeout(() => {
-          abort();
+          ssrLog.debug.log("Request timeout %d", ABORT_DELAY);
+          if (didError) {
+            ssrLog.debug.log("Error thrown");
+            abort();
+          }
         }, ABORT_DELAY);
       })
       .catch((e) => {
-        ssrLog.error.log("Error %O", e);
-        res.status(500).send(e.message);
+        ssrLog.error.log("Caught error %O", e);
+        res.status(500).end(e.message);
       })
       .finally(() => {
         queryClient.clear();

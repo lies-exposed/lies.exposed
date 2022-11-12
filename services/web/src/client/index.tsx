@@ -53,9 +53,7 @@ function Main(): JSX.Element {
 
 ReactDOM.hydrate(
   <React.StrictMode>
-    <React.Suspense fallback="Loading...">
-      <Main />
-    </React.Suspense>
+    <Main />
   </React.StrictMode>,
   document.getElementById("root")
 );

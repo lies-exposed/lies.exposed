@@ -8,6 +8,7 @@ import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import { Route, Routes, useLocation } from "react-router";
 import AppHeader from "./components/header/AppHeader";
 import { routes } from "./routes";
+import { FullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
 
 const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
   // eslint-disable-next-line no-console
@@ -44,7 +45,15 @@ export const App: React.FC = () => {
           >
             <Routes>
               {routes.map((r) => (
-                <Route key={r.path} path={r.path} element={<r.route />} />
+                <Route
+                  key={r.path}
+                  path={r.path}
+                  element={
+                    <React.Suspense fallback={<FullSizeLoader />}>
+                      <r.route />
+                    </React.Suspense>
+                  }
+                />
               ))}
             </Routes>
           </Grid>

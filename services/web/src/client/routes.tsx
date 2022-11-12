@@ -33,6 +33,7 @@ import {
   fetchSearchEventsInfinite,
   getSearchEventsInfiniteQueryKey,
   getSearchEventsQueryKey,
+  searchEventsQuery,
 } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { fetchGithubRepo } from "@liexp/ui/state/queries/github";
 import { UUID } from "io-ts-types/lib/UUID";
@@ -69,11 +70,7 @@ export const routes = [
     route: () => {
       const params = useParams<{ groupId: string }>();
       if (params.groupId) {
-        return (
-          <React.Suspense fallback="loading...">
-            <GroupTemplate groupId={params.groupId} />
-          </React.Suspense>
-        );
+        return <GroupTemplate groupId={params.groupId} />;
       }
       return <NotFoundPage />;
     },
@@ -503,6 +500,16 @@ export const routes = [
           _end: 50,
         }),
         queryFn: fetchKeywordsDistribution,
+      },
+      {
+        queryKey: getSearchEventsQueryKey({
+          hash: `${"Last updated events".trim()}`,
+          _sort: "updatedAt",
+          _order: "DESC",
+          _start: 0,
+          _end: 6,
+        }),
+        queryFn: fetchSearchEvents,
       },
     ],
   },
