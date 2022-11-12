@@ -1,14 +1,14 @@
 import { http } from "@liexp/shared/io";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
-import { throwTE } from '@liexp/shared/utils/task.utils';
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as tests from "@liexp/test";
-import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { AppTest, GetAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
 
 describe("List Actor", () => {
   let Test: AppTest, authorizationToken: string, actors: http.Actor.Actor[];
   beforeAll(async () => {
-    Test = await initAppTest();
+    Test = GetAppTest();
     authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
       id: "1",
     } as any)()}`;
@@ -26,11 +26,12 @@ describe("List Actor", () => {
   });
 
   afterAll(async () => {
-    await throwTE( Test.ctx.db.delete(
-      ActorEntity,
-      actors.map((a) => a.id)
-    ));
-    await throwTE( Test.ctx.db.close());
+    await throwTE(
+      Test.ctx.db.delete(
+        ActorEntity,
+        actors.map((a) => a.id)
+      )
+    );
   });
 
   test("Should return actors", async () => {

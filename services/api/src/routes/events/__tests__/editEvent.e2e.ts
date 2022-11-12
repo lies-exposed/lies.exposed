@@ -8,7 +8,7 @@ import { MediaArb } from "@liexp/shared/tests/arbitrary/Media.arbitrary";
 import { UserArb } from "@liexp/shared/tests/arbitrary/User.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { fc } from "@liexp/test";
-import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { AppTest, GetAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
 import { AreaEntity } from "@entities/Area.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
@@ -56,7 +56,7 @@ describe("Edit Event", () => {
   }));
 
   beforeAll(async () => {
-    appTest = await initAppTest();
+    appTest = GetAppTest();
 
     await throwTE(appTest.ctx.db.save(AreaEntity, [{ ...area, media: [] }]));
     await throwTE(appTest.ctx.db.save(ActorEntity, [actor] as any[]));

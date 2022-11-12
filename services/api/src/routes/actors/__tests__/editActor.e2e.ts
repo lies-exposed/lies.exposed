@@ -1,7 +1,7 @@
 import { ActorArb, GroupArb } from "@liexp/shared/tests";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as tests from "@liexp/test";
-import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { AppTest, GetAppTest } from "../../../../test/AppTest";
 import { loginUser, saveUser } from "../../../../test/user.utils";
 import { ActorEntity } from "@entities/Actor.entity";
 import { GroupEntity } from "@entities/Group.entity";
@@ -19,7 +19,7 @@ describe("Edit Actor", () => {
     }))[0];
 
   beforeAll(async () => {
-    Test = await initAppTest();
+    Test = GetAppTest();
     user = await saveUser(Test, ["admin:create"]);
     const { authorization } = await loginUser(Test)(user);
     authorizationToken = authorization;
@@ -30,7 +30,6 @@ describe("Edit Actor", () => {
   afterAll(async () => {
     await throwTE(Test.ctx.db.delete(ActorEntity, [actor.id]));
     await throwTE(Test.ctx.db.delete(UserEntity, [user.id]));
-    await throwTE(Test.ctx.db.close());
   });
 
   test("Should return a 401", async () => {

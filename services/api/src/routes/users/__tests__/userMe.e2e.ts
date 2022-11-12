@@ -1,7 +1,7 @@
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { fc } from "@liexp/test";
-import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { AppTest, GetAppTest } from "../../../../test/AppTest";
 import { UserEntity } from "@entities/User.entity";
 import { hash } from "@utils/password.utils";
 
@@ -13,7 +13,7 @@ describe("GET User Me", () => {
   const supporterUsername = `${supporterId}-supporter@lies.exposed`;
 
   beforeAll(async () => {
-    Test = await initAppTest();
+    Test = GetAppTest();
     const adminPassword = await throwTE(hash("admin-password"));
     const supporterPassword = await throwTE(hash("supporter-password"));
 
@@ -42,7 +42,6 @@ describe("GET User Me", () => {
 
   afterAll(async () => {
     await throwTE(Test.ctx.db.delete(UserEntity, [adminId, supporterId]));
-    await throwTE(Test.ctx.db.close());
   });
 
   test("Should return 401 when no authorization token is given", async () => {

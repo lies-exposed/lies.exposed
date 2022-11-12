@@ -1,7 +1,7 @@
 import { PatentEventArb } from "@liexp/shared/tests/arbitrary/events/PatentEvent.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { fc } from "@liexp/test";
-import { AppTest, initAppTest } from "../../../../../test/AppTest";
+import { AppTest, GetAppTest } from "../../../../../test/AppTest";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 
 describe("Get Patent List", () => {
@@ -15,7 +15,7 @@ describe("Get Patent List", () => {
   }));
 
   beforeAll(async () => {
-    appTest = await initAppTest();
+    appTest = GetAppTest();
 
     await throwTE(appTest.ctx.db.save(EventV2Entity, eventsData as any[]));
   });

@@ -3,18 +3,18 @@ import { TagArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
 import { ColorArb } from "@liexp/shared/tests/arbitrary/common/Color.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { fc } from "@liexp/test";
-import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { AppTest, GetAppTest } from "../../../../test/AppTest";
 import { loginUser, saveUser } from "../../../../test/user.utils";
 import { KeywordEntity } from "@entities/Keyword.entity";
 
 describe("Create Keyword", () => {
   let Test: AppTest;
-    const users: any[] = [];
-    let authorizationToken: string;
-    let keyword: http.Keyword.Keyword;
+  const users: any[] = [];
+  let authorizationToken: string;
+  let keyword: http.Keyword.Keyword;
 
   beforeAll(async () => {
-    Test = await initAppTest();
+    Test = GetAppTest();
     const user = await saveUser(Test, ["admin:create"]);
     users.push(user);
     const { authorization } = await loginUser(Test)(user);
@@ -23,7 +23,6 @@ describe("Create Keyword", () => {
 
   afterAll(async () => {
     await throwTE(Test.ctx.db.delete(KeywordEntity, keyword.id));
-    await throwTE(Test.ctx.db.close());
   });
 
   test("Should return a 401 when no Authorization header is present", async () => {

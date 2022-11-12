@@ -5,7 +5,7 @@ import { fc } from "@liexp/test";
 import * as A from "fp-ts/Array";
 import { pipe } from "fp-ts/function";
 import jwt from "jsonwebtoken";
-import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { AppTest, GetAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
@@ -19,7 +19,7 @@ describe("List Groups", () => {
   let groupMembers: any[];
 
   beforeAll(async () => {
-    appTest = await initAppTest();
+    appTest = GetAppTest();
 
     await throwTE(appTest.ctx.db.save(ActorEntity, actors as any[]));
 
@@ -64,7 +64,6 @@ describe("List Groups", () => {
         groups.map((g) => g.id)
       )
     );
-    await throwTE(appTest.ctx.db.close());
   });
 
   test("Should return all groups", async () => {

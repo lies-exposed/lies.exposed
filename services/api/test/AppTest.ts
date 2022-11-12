@@ -29,21 +29,30 @@ export interface AppTest {
   };
 }
 
-let appTest: AppTest;
+export const GetAppTest = (): AppTest => {
+  const appTestG = (global as any).appTest;
+  // console.log("get global", appTestG);
+  return appTestG;
+};
 
 export const initAppTest = async (): Promise<AppTest> => {
+  const appTest = GetAppTest();
   if (appTest) {
-    return await Promise.resolve(appTest);
+    console.log("app test exists!!!");
+    return appTest;
   }
+
+  const dataSource = getDataSource(process.env as any, false);
+  
 
   const fetchHTML = jest.fn();
   const fetchMetadata = jest.fn();
 
   const logger = GetLogger("@test");
 
-  appTest = await pipe(
+  return await pipe(
     sequenceS(TE.ApplicativePar)({
-      db: GetTypeORMClient(getDataSource(process.env as any, false)),
+      db: GetTypeORMClient(dataSource),
       env: pipe(
         ENV.decode(process.env),
         TE.fromEither,
@@ -94,8 +103,12 @@ export const initAppTest = async (): Promise<AppTest> => {
 
       req: supertest(makeApp(ctx)),
     })),
+    TE.map((appTest) => {
+      (globalThis as any).appTest = appTest;
+      (global as any).appTest = appTest;
+      (global as any).dataSource = dataSource;
+      return appTest;
+    }),
     throwTE
   );
-
-  return appTest;
 };

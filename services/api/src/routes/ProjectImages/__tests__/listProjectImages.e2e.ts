@@ -4,7 +4,7 @@ import { throwTE } from "@liexp/shared/utils/task.utils";
 import { fc } from "@liexp/test";
 import * as t from "io-ts";
 import jwt from "jsonwebtoken";
-import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { AppTest, GetAppTest } from "../../../../test/AppTest";
 import { MediaEntity } from "@entities/Media.entity";
 import { ProjectEntity } from "@entities/Project.entity";
 import { ProjectImageEntity } from "@entities/ProjectImage.entity";
@@ -18,7 +18,7 @@ describe("List Project Images", () => {
   let authorizationToken: string;
 
   beforeAll(async () => {
-    appTest = await initAppTest();
+    appTest = GetAppTest();
 
     await throwTE(appTest.ctx.db.save(MediaEntity, media as any[]));
     projects = await throwTE(
@@ -71,7 +71,7 @@ describe("List Project Images", () => {
         media.map((m) => m.id)
       )
     );
-    await throwTE(appTest.ctx.db.close());
+
   });
 
   test("Should return a 200", async () => {

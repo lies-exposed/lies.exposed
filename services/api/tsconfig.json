@@ -15,6 +15,7 @@
     "target": "esnext",
     "module": "NodeNext",
     "moduleResolution": "node",
+    "allowJs": true,
     "esModuleInterop": true,
     "declaration": false,
     "skipLibCheck": true,
@@ -42,7 +43,8 @@
       "path": "../../packages/@liexp/core"
     }
   ],
-  "include": ["./src", "./test", "./bin"],
+  "include": ["./src", "./scripts", "./test"],
+  "exclude": ["build", "**/lib"],
   "ts-node": {
     "transpileOnly": false,
     "esm": true,

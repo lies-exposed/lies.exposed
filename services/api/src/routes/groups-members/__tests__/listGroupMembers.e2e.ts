@@ -2,7 +2,7 @@ import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as tests from "@liexp/test";
-import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { AppTest, GetAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
@@ -28,7 +28,7 @@ describe("List Group Member", () => {
   }));
 
   beforeAll(async () => {
-    Test = await initAppTest();
+    Test = GetAppTest();
 
     authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
       id: "1",
@@ -57,7 +57,6 @@ describe("List Group Member", () => {
         actors.map((a) => a.id)
       )
     );
-    await throwTE(Test.ctx.db.close());
   });
 
   test("Should return group member by given search", async () => {

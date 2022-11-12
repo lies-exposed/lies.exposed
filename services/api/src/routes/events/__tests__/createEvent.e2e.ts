@@ -8,7 +8,7 @@ import * as A from "fp-ts/Array";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { In } from "typeorm";
-import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { AppTest, GetAppTest } from "../../../../test/AppTest";
 import { loginUser, saveUser } from "../../../../test/user.utils";
 import { ActorEntity } from "@entities/Actor.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
@@ -30,7 +30,7 @@ describe("Create Event", () => {
   let actorIds: string[] = [];
 
   beforeAll(async () => {
-    appTest = await initAppTest();
+    appTest = GetAppTest();
     const user = await saveUser(appTest, ["admin:create"]);
     users.push(user);
     const { authorization } = await loginUser(appTest)(user);
@@ -121,6 +121,5 @@ describe("Create Event", () => {
     await throwTE(appTest.ctx.db.delete(EventV2Entity, eventIds));
     await throwTE(appTest.ctx.db.delete(ActorEntity, actorIds));
     await throwTE(appTest.ctx.db.delete(KeywordEntity, keywords));
-    await throwTE(appTest.ctx.db.close());
   });
 });

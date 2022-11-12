@@ -2,7 +2,7 @@ import { http } from "@liexp/shared/io";
 import { MediaArb, UncategorizedArb } from "@liexp/shared/tests";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as tests from "@liexp/test";
-import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { AppTest, GetAppTest } from "../../../../test/AppTest";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { MediaEntity } from "@entities/Media.entity";
 
@@ -12,7 +12,7 @@ describe("List Media", () => {
     media: http.Media.Media[],
     event: http.Events.Event;
   beforeAll(async () => {
-    Test = await initAppTest();
+    Test = GetAppTest();
     authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
       id: "1",
     } as any)()}`;
@@ -47,7 +47,6 @@ describe("List Media", () => {
         media.map((a) => a.id)
       )
     );
-    await throwTE(Test.ctx.db.close());
   });
 
   test("Should list media", async () => {
