@@ -9,6 +9,8 @@ on:
     paths:
       - "packages/**"
       - "services/admin-web/**"
+env:
+  ADMIN_WEB_IMAGE_NAME: liexp-admin-web
 
 jobs:
   install:
@@ -80,7 +82,9 @@ jobs:
       - name: Type Check Web
         run: yarn admin-web tsc -b
 
-      - name: Build admin web
-        run: |
-          yarn packages:build
-          yarn admin-web build
+      - name: Log in to registry
+        # This is where you will update the personal access token to GITHUB_TOKEN
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+
+      - name: Build Web image
+        run: docker build . --file adminWeb.Dockerfile --tag $ADMIN_WEB_IMAGE_NAME --label "runnumber=${GITHUB_RUN_ID}"

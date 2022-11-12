@@ -6,6 +6,7 @@
     "clean": "rm -rf build",
     "start": "webpack serve",
     "build": "webpack",
+    "serve": "serve build",
     "test": "jest",
     "tsc:build": "tsc -b",
     "tsc:watch": "tsc -b --watch",

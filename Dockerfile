@@ -4,6 +4,7 @@ WORKDIR /app
 
 COPY .yarn  ./.yarn
 COPY packages/@liexp/core ./packages/@liexp/core
+COPY packages/@liexp/test ./packages/@liexp/test
 COPY packages/@liexp/shared ./packages/@liexp/shared
 COPY packages/@liexp/ui ./packages/@liexp/ui
 
