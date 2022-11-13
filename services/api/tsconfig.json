@@ -46,7 +46,7 @@
   "include": ["./src", "./scripts", "./test"],
   "exclude": ["build", "**/lib"],
   "ts-node": {
-    "transpileOnly": false,
+    "transpileOnly": true,
     "esm": true,
     "require": ["tsconfig-paths/register", "dotenv/config"]
   }
