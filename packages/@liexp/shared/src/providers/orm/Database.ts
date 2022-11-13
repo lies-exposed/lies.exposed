@@ -2,26 +2,20 @@
 import { escapePostgresIdentifier } from "@databases/escape-identifier";
 import { FormatConfig, SQLQuery } from "@databases/sql";
 import * as logger from "@liexp/core/logger";
+import { pipe } from "fp-ts/function";
 import * as O from "fp-ts/Option";
 import * as Reader from "fp-ts/Reader";
 import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
 import { IOError } from "ts-io-error";
 import {
-  Connection,
-  ConnectionManager,
-  DataSource,
+  Connection, DataSource,
   DeepPartial,
   DeleteResult,
   EntityManager,
   EntityTarget,
   FindManyOptions,
-  FindOneOptions,
-  getConnectionManager,
-  ObjectID,
-  SaveOptions,
-  UpdateResult,
-  ObjectLiteral,
+  FindOneOptions, ObjectID, ObjectLiteral, SaveOptions,
+  UpdateResult
 } from "typeorm";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
@@ -280,7 +274,6 @@ type DatabaseConnectionOpts = PostgresConnectionOptions;
 
 interface MakeDatabaseClientCtx {
   connectionName: string;
-  connectionManager: ConnectionManager;
   logger: logger.Logger;
 }
 
@@ -289,18 +282,18 @@ type MakeDatabaseClient = (
 ) => (ctx: DataSource) => TE.TaskEither<DBError, DatabaseClient>;
 
 const MakeDatabaseClient: MakeDatabaseClient =
-  ({ connectionManager: cm, connectionName, logger }) =>
+  ({ connectionName, logger }) =>
   (ctx) => {
     const getConnection = (
-      cm: ConnectionManager,
       dataSource: DataSource
     ): TE.TaskEither<DBError, DataSource> => {
-      logger.debug.log("Getting connection %s", connectionName);
-      if (cm.has(connectionName)) {
+      logger.debug.log("Connection %O", dataSource);
+
+      if (dataSource.isInitialized) {
         logger.debug.log(
           "The connection is already present in connection manager..."
         );
-        const conn = cm.get(connectionName);
+        const conn = dataSource;
 
         return TE.tryCatch(
           () =>
@@ -315,7 +308,7 @@ const MakeDatabaseClient: MakeDatabaseClient =
     };
 
     return pipe(
-      getConnection(cm, ctx),
+      getConnection(ctx),
       TE.map((connection) => {
         return GetDatabaseClient({ connection, logger });
       })
@@ -326,7 +319,6 @@ const GetTypeORMClient: Reader.Reader<
   DataSource,
   TE.TaskEither<DBError, DatabaseClient>
 > = MakeDatabaseClient({
-  connectionManager: getConnectionManager(),
   connectionName: "default",
   logger: logger.GetLogger("typeorm"),
 });

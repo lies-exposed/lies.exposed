@@ -2,7 +2,7 @@ import { http } from "@liexp/shared/io";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { fc } from "@liexp/test";
-import { AppTest, initAppTest } from "../../../../../test/AppTest";
+import { AppTest, GetAppTest } from "../../../../../test/AppTest";
 import { loginUser, saveUser } from "../../../../../test/user.utils";
 import { ActorEntity } from "@entities/Actor.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
@@ -16,7 +16,7 @@ describe("Create Death Event", () => {
   let deathEvent: EventV2Entity;
 
   beforeAll(async () => {
-    appTest = await initAppTest();
+    appTest = GetAppTest();
     await throwTE(appTest.ctx.db.save(ActorEntity, [actor] as any[]));
   });
 

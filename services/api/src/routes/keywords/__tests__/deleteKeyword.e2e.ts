@@ -2,14 +2,14 @@ import { TagArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
 import { ColorArb } from "@liexp/shared/tests/arbitrary/common/Color.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as tests from "@liexp/test";
-import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { AppTest, GetAppTest } from "../../../../test/AppTest";
 import { loginUser, saveUser } from "../../../../test/user.utils";
 import { KeywordEntity } from "@entities/Keyword.entity";
 
 describe("Delete Keyword", () => {
   let Test: AppTest, keyword: any, user: any, authorizationToken: string;
   beforeAll(async () => {
-    Test = await initAppTest();
+    Test = GetAppTest();
     user = await saveUser(Test, ["admin:create"]);
     const { authorization } = await loginUser(Test)(user);
     authorizationToken = authorization;

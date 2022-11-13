@@ -7,7 +7,7 @@ import { HumanReadableStringArb } from "@liexp/shared/tests/arbitrary/HumanReada
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { fc } from "@liexp/test";
 import jwt from "jsonwebtoken";
-import { AppTest, initAppTest } from "../../../../../test/AppTest";
+import { AppTest, GetAppTest } from "../../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
@@ -20,7 +20,7 @@ describe("Create Scientific Study", () => {
   const [group] = fc.sample(GroupArb, 1);
 
   beforeAll(async () => {
-    appTest = await initAppTest();
+    appTest = GetAppTest();
 
     await throwTE(
       appTest.ctx.db.save(ActorEntity, [
@@ -41,7 +41,6 @@ describe("Create Scientific Study", () => {
     await throwTE(appTest.ctx.db.delete(EventV2Entity, scientificStudyIds));
     await throwTE(appTest.ctx.db.delete(ActorEntity, [actor.id]));
     await throwTE(appTest.ctx.db.delete(GroupEntity, [group.id]));
-    await throwTE(appTest.ctx.db.close());
   });
 
   test("Should create a scientific study from url", async () => {

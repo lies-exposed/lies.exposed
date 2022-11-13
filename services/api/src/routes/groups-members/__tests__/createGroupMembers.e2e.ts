@@ -2,7 +2,7 @@ import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as tests from "@liexp/test";
-import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { AppTest, GetAppTest } from "../../../../test/AppTest";
 import { loginUser, saveUser } from "../../../../test/user.utils";
 import { ActorEntity } from "@entities/Actor.entity";
 import { GroupEntity } from "@entities/Group.entity";
@@ -16,7 +16,7 @@ describe("Create Group Member", () => {
     let groups: GroupEntity[];
     const groupsMembers: GroupMemberEntity[] = [];
   beforeAll(async () => {
-    Test = await initAppTest();
+    Test = GetAppTest();
     const user = await saveUser(Test, ["admin:create"]);
     users.push(user);
     const { authorization } = await loginUser(Test)(user);
@@ -55,7 +55,6 @@ describe("Create Group Member", () => {
         actors.map((a) => a.id)
       )
     );
-    await throwTE(Test.ctx.db.close());
   });
 
   test("Should return a 401", async () => {

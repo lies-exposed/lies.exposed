@@ -2,16 +2,14 @@
 import moduleAlias from "module-alias";
 import * as path from "path";
 moduleAlias(path.resolve(__dirname, "../package.json"));
+import * as logger from "@liexp/core/logger";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as dotenv from "dotenv";
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
 import * as TE from "fp-ts/TaskEither";
 import { PathReporter } from "io-ts/lib/PathReporter";
-import * as logger from "@liexp/core/logger";
-import * as orm from "@liexp/shared/providers/orm";
-import { getDataSource } from "../src/utils/data-source";
 import { TestENV } from "./TestENV";
-import { throwTE } from "@liexp/shared/utils/task.utils";
 
 export default async (): Promise<void> => {
   try {
@@ -34,12 +32,16 @@ export default async (): Promise<void> => {
       }),
       TE.fromEither,
       TE.chain((env) => {
-        if (env.npm_lifecycle_event.indexOf("spec") > 0) {
-          return TE.right(undefined);
-        }
+        // if (env.npm_lifecycle_event.indexOf("spec") > 0) {
+        //   return TE.right(undefined);
+        // }
+
         return pipe(
-          orm.GetTypeORMClient(getDataSource(env, false)),
+          TE.tryCatch(() => Promise.resolve(), E.toError),
           TE.orElse(TE.throwError)
+          // TE.map((appTest) => {
+          //   (globalThis as any).appTest = appTest;
+          // })
         );
       }),
       (te) => throwTE<any, any>(te)

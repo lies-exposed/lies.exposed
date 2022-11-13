@@ -2,14 +2,14 @@ import { http } from "@liexp/shared/io";
 import { LinkArb, UncategorizedArb } from "@liexp/shared/tests";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as tests from "@liexp/test";
-import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { AppTest, GetAppTest } from "../../../../test/AppTest";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { LinkEntity } from "@entities/Link.entity";
 
 describe("List Links", () => {
   let Test: AppTest, authorizationToken: string, links: http.Link.Link[];
   beforeAll(async () => {
-    Test = await initAppTest();
+    Test = GetAppTest();
     authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
       id: "1",
     } as any)()}`;

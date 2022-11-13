@@ -3,7 +3,7 @@ import { MediaArb, ProjectArb, AreaArb } from "@liexp/shared/tests";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { fc } from "@liexp/test";
 import { pipe } from "fp-ts/function";
-import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { AppTest, GetAppTest } from "../../../../test/AppTest";
 import { loginUser, saveUser } from "../../../../test/user.utils";
 import { AreaEntity } from "@entities/Area.entity";
 import { ProjectEntity } from "@entities/Project.entity";
@@ -11,13 +11,13 @@ import { UserEntity } from "@entities/User.entity";
 
 describe("Edit Project ", () => {
   let appTest: AppTest;
-    const users: any[] = [];
-    let authorizationToken: string;
-    let project: ProjectEntity;
-    let area: AreaEntity;
+  const users: any[] = [];
+  let authorizationToken: string;
+  let project: ProjectEntity;
+  let area: AreaEntity;
 
   beforeAll(async () => {
-    appTest = await initAppTest();
+    appTest = GetAppTest();
     const user = await saveUser(appTest, ["admin:edit"]);
     users.push(user);
     const { authorization } = await loginUser(appTest)(user);
@@ -49,7 +49,6 @@ describe("Edit Project ", () => {
         users.map((u) => u.id)
       )
     );
-    await throwTE(appTest.ctx.db.close());
   });
 
   test("Should return a 200", async () => {

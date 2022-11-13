@@ -1,0 +1,21 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": false,
+      "decorators": true,
+      "dynamicImport": true 
+    },
+    "baseUrl": "./src",
+    "paths": {
+      "@io/*": ["io/*"],
+      "@entities/*": ["entities/*"],
+      "@flows/*": ["flows/*"],
+      "@routes/*": ["routes/*"],
+      "@utils/*": ["utils/*"],
+      "@liexp/core/*": ["../../../packages/@liexp/core/src/*"],
+      "@liexp/test/*": ["../../../packages/@liexp/test/src/*"],
+      "@liexp/shared/*": ["../../../packages/@liexp/shared/src/*"]
+    }
+  }
+}

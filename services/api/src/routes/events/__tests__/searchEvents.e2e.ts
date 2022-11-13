@@ -7,7 +7,7 @@ import { fc } from "@liexp/test";
 import * as A from "fp-ts/Array";
 import { pipe } from "fp-ts/function";
 import jwt from "jsonwebtoken";
-import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { AppTest, GetAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
@@ -33,7 +33,7 @@ describe("Search Events", () => {
   }));
 
   beforeAll(async () => {
-    appTest = await initAppTest();
+    appTest = GetAppTest();
 
     await throwTE(
       appTest.ctx.db.save(ActorEntity, [firstActor, secondActor] as any[])

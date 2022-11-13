@@ -2,7 +2,7 @@ import { http } from "@liexp/shared/io";
 import { KeywordArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as tests from "@liexp/test";
-import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { AppTest, GetAppTest } from "../../../../test/AppTest";
 import { KeywordEntity } from "@entities/Keyword.entity";
 
 describe("List Keywords", () => {
@@ -10,7 +10,7 @@ describe("List Keywords", () => {
     authorizationToken: string,
     keywords: http.Keyword.Keyword[];
   beforeAll(async () => {
-    Test = await initAppTest();
+    Test = GetAppTest();
     authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
       id: "1",
     } as any)()}`;
@@ -36,7 +36,6 @@ describe("List Keywords", () => {
         keywords.map((a) => a.id)
       )
     );
-    await throwTE(Test.ctx.db.close());
   });
 
   test("Should list keywords", async () => {

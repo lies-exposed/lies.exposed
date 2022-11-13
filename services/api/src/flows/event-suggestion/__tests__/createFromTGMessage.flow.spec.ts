@@ -12,7 +12,7 @@ import { uuid } from "@liexp/shared/utils/uuid";
 import { fc } from "@liexp/test";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
-import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { AppTest, GetAppTest } from "../../../../test/AppTest";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { LinkEntity } from "@entities/Link.entity";
 import { MediaEntity } from "@entities/Media.entity";
@@ -23,14 +23,10 @@ const tempDir = path.resolve(__dirname, `../../../../temp/tg/media`);
 describe("Create From TG Message", () => {
   let Test: AppTest;
   beforeAll(async () => {
-    Test = await initAppTest();
+    Test = GetAppTest();
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }
-  });
-
-  afterAll(async () => {
-    await throwTE(Test.ctx.db.close());
   });
 
   describe("createEventSuggestion", () => {

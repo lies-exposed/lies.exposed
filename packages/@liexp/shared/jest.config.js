@@ -18,7 +18,7 @@ module.exports = {
     "^.+\\.tsx?$": [
       "ts-jest",
       {
-        tsconfig: __dirname + "/tsconfig.json",
+        tsconfig: "<rootDir>/tsconfig.json",
         isolatesModules: true,
       },
     ],
@@ -31,5 +31,6 @@ module.exports = {
     "/src/mock-data/",
     "/src/tests/",
   ]),
+  modulePaths: [compilerOptions.baseUrl], // <-- This will be set to 'baseUrl' value
   moduleNameMapper,
 };

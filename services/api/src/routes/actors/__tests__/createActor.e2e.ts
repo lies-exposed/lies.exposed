@@ -1,19 +1,15 @@
-import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as tests from "@liexp/test";
-import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { AppTest, GetAppTest } from "../../../../test/AppTest";
 import { loginUser, saveUser } from "../../../../test/user.utils";
 
 describe("Create Actor", () => {
   let Test: AppTest, authorizationToken: string, user;
+
   beforeAll(async () => {
-    Test = await initAppTest();
+    Test = GetAppTest();
     user = await saveUser(Test, []);
     const { authorization } = await loginUser(Test)(user);
     authorizationToken = authorization;
-  });
-
-  afterAll(async () => {
-    await throwTE(Test.ctx.db.close());
   });
 
   test("Should return a 401 when Authorization header is not present", async () => {
