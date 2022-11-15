@@ -3,7 +3,7 @@ import {
   defineEnv,
   getConfig
 } from "../../packages/@liexp/core/src/webpack/config";
-import { webOptimization } from "./webpack.config";
+import { webOptimization } from "../../packages/@liexp/core/src/webpack/web.config";;
 
 const SrvEnv = defineEnv((t) => ({
   NODE_ENV: t.string,

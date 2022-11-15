@@ -102,8 +102,11 @@ services:
       - space
 
   admin-web:
+    build:
+      context: .
+      target: build
+      dockerfile: adminWeb.Dockerfile
     container_name: liexp-admin-web
-    image: liexp_base
     env_file:
       - ./services/admin-web/.env.development
     ports:
@@ -119,6 +122,15 @@ services:
     depends_on:
       - api
       - space
+
+  admin-web-serve:
+    image: cupcakearmy/static
+    restart: unless-stopped
+    ports:
+      - "4001:80"
+    volumes:
+      - ./services/admin-web/build/:/usr/local/nginx/html/:ro
+      - ./services/admin-web/deploy/nginx/alpha.conf:/usr/local/nginx/conf/sites/default.conf
 
   storybook:
     container_name: liexp-storybook
