@@ -7,11 +7,117 @@ import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { Brackets, In } from "typeorm";
+import { Brackets, In, SelectQueryBuilder } from "typeorm";
 import { RouteContext } from "../../route.types";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { addOrder } from "@utils/orm.utils";
+
+type WhereT = "AND" | "OR";
+
+const getWhere = (
+  q: SelectQueryBuilder<EventV2Entity>,
+  whereT?: WhereT
+): typeof q.where | typeof q.andWhere | typeof q.orWhere => {
+  return whereT === "AND"
+    ? q.andWhere.bind(q)
+    : whereT === "OR"
+    ? q.orWhere.bind(q)
+    : q.where.bind(q);
+};
+
+export const whereActorInArray = (
+  q: SelectQueryBuilder<EventV2Entity>,
+  actors: string[],
+  whereT?: WhereT
+): SelectQueryBuilder<EventV2Entity> => {
+  const where = getWhere(q, whereT);
+  where(
+    new Brackets((q) => {
+      q.where(
+        new Brackets((qqb) => {
+          qqb
+            .where(" event.type = 'Uncategorized' ")
+            .andWhere(
+              `"event"."payload"::jsonb -> 'actors' ?| ARRAY[:...actors] `
+            );
+        })
+      )
+        .orWhere(
+          new Brackets((qb) => {
+            qb.where(" event.type = 'Death' ").andWhere(
+              ` "event"."payload"::jsonb -> 'victim' ?| ARRAY[:...actors] `
+            );
+          })
+        )
+        .orWhere(
+          new Brackets((qb) => {
+            qb.where(" event.type = 'Documentary' ").andWhere(
+              `( "event"."payload"::jsonb -> 'subjects' -> 'actors' ?| ARRAY[:...actors] OR "event"."payload"::jsonb -> 'authors' -> 'actors' ?| ARRAY[:...actors] )`
+            );
+          })
+        )
+        .orWhere(
+          new Brackets((qb) => {
+            qb.where(" event.type = 'ScientificStudy' ").andWhere(
+              ` "event"."payload"::jsonb -> 'authors' ?| ARRAY[:...actors] `
+            );
+          })
+        )
+        .orWhere(
+          new Brackets((qb) => {
+            qb.where(" event.type = 'Patent' ").andWhere(
+              ` "event"."payload"::jsonb -> 'owners' -> 'actors' ?| ARRAY[:...actors] `
+            );
+          })
+        )
+        .orWhere(
+          new Brackets((qb) => {
+            qb.where(" event.type = 'Transaction' ").andWhere(
+              `( ("event"."payload"::jsonb -> 'from' ->> 'type' = 'Actor' AND "event"."payload"::jsonb -> 'from' -> 'id' ?| ARRAY[:...actors]) OR ` +
+                ` ("event"."payload"::jsonb -> 'to' ->> 'type' = 'Actor' AND "event"."payload"::jsonb -> 'to' -> 'id' ?| ARRAY[:...actors]) )`
+            );
+          })
+        );
+    })
+  );
+  q.setParameter("actors", actors);
+  return q;
+};
+
+export const whereGroupInArray = (
+  q: SelectQueryBuilder<EventV2Entity>,
+  groups: string[],
+  whereT?: WhereT
+): SelectQueryBuilder<EventV2Entity> => {
+  const where = getWhere(q, whereT);
+  where(
+    new Brackets((qq) => {
+      qq.where(
+        ` (event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groups' ?| ARRAY[:...groups]) `
+      )
+        .orWhere(
+          ` (event.type = 'ScientificStudy' AND "event"."payload"::jsonb -> 'publisher' ?| ARRAY[:...groups])`
+        )
+        .orWhere(
+          `(event.type = 'Documentary' AND ( "event"."payload"::jsonb -> 'subjects' -> 'groups' ?| ARRAY[:...groups] OR "event"."payload"::jsonb -> 'authors' -> 'groups' ?| ARRAY[:...groups] ) )`
+        )
+        .orWhere(
+          ` (event.type = 'Patent' AND "event"."payload"::jsonb -> 'owners' -> 'groups' ?| ARRAY[:...groups])`
+        )
+        .orWhere(
+          new Brackets((qb) => {
+            qb.where(" event.type = 'Transaction' ").andWhere(
+              `( ("event"."payload"::jsonb -> 'from' ->> 'type' = 'Group' AND "event"."payload"::jsonb -> 'from' -> 'id' ?| ARRAY[:...groups]) OR ` +
+                ` ("event"."payload"::jsonb -> 'to' ->> 'type' = 'Group' AND "event"."payload"::jsonb -> 'to' -> 'id' ?| ARRAY[:...groups]) )`
+            );
+          })
+        );
+    })
+  );
+
+  return q.setParameter("groups", groups);
+};
 
 interface SearchEventQuery {
   actors: O.Option<string[]>;
@@ -177,99 +283,22 @@ export const searchEventV2Query =
 
                 let hasWhereActor = false;
                 if (O.isSome(actors)) {
-                  const where = hasWhere
-                    ? qb.andWhere.bind(qb)
-                    : qb.where.bind(qb);
-                  where(
-                    new Brackets((actorQb) => {
-                      actorQb
-                        .where(
-                          new Brackets((qqb) => {
-                            qqb
-                              .where(" event.type = 'Uncategorized' ")
-                              .andWhere(
-                                `"event"."payload"::jsonb -> 'actors' ?| ARRAY[:...actors] `
-                              );
-                          })
-                        )
-                        .orWhere(
-                          new Brackets((qb) => {
-                            qb.where(" event.type = 'Death' ").andWhere(
-                              ` "event"."payload"::jsonb -> 'victim' ?| ARRAY[:...actors] `
-                            );
-                          })
-                        )
-                        .orWhere(
-                          new Brackets((qb) => {
-                            qb.where(" event.type = 'Documentary' ").andWhere(
-                              `( "event"."payload"::jsonb -> 'subjects' -> 'actors' ?| ARRAY[:...actors] OR "event"."payload"::jsonb -> 'authors' -> 'actors' ?| ARRAY[:...actors] )`
-                            );
-                          })
-                        )
-                        .orWhere(
-                          new Brackets((qb) => {
-                            qb.where(
-                              " event.type = 'ScientificStudy' "
-                            ).andWhere(
-                              ` "event"."payload"::jsonb -> 'authors' ?| ARRAY[:...actors] `
-                            );
-                          })
-                        )
-                        .orWhere(
-                          new Brackets((qb) => {
-                            qb.where(" event.type = 'Patent' ").andWhere(
-                              ` "event"."payload"::jsonb -> 'owners' -> 'actors' ?| ARRAY[:...actors] `
-                            );
-                          })
-                        )
-                        .orWhere(
-                          new Brackets((qb) => {
-                            qb.where(" event.type = 'Transaction' ").andWhere(
-                              `( ("event"."payload"::jsonb -> 'from' ->> 'type' = 'Actor' AND "event"."payload"::jsonb -> 'from' -> 'id' ?| ARRAY[:...actors]) OR ` +
-                                ` ("event"."payload"::jsonb -> 'to' ->> 'type' = 'Actor' AND "event"."payload"::jsonb -> 'to' -> 'id' ?| ARRAY[:...actors]) )`
-                            );
-                          })
-                        );
-                    })
+                  whereActorInArray(
+                    q,
+                    actors.value,
+                    hasWhere ? "AND" : undefined
                   );
-                  q.setParameter("actors", actors.value);
                   hasWhere = true;
                   hasWhereActor = true;
                 }
 
                 if (O.isSome(groups)) {
-                  const where = hasWhereActor
-                    ? qb.orWhere.bind(qb)
+                  const whereT = hasWhereActor
+                    ? "OR"
                     : hasWhere
-                    ? qb.andWhere.bind(qb)
-                    : qb.where.bind(qb);
-                  where(
-                    new Brackets((groupQb) => {
-                      groupQb
-                        .where(
-                          ` (event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groups' ?| ARRAY[:...groups]) `
-                        )
-                        .orWhere(
-                          ` (event.type = 'ScientificStudy' AND "event"."payload"::jsonb -> 'publisher' ?| ARRAY[:...groups])`
-                        )
-                        .orWhere(
-                          `(event.type = 'Documentary' AND ( "event"."payload"::jsonb -> 'subjects' -> 'groups' ?| ARRAY[:...groups] OR "event"."payload"::jsonb -> 'authors' -> 'groups' ?| ARRAY[:...groups] ) )`
-                        )
-                        .orWhere(
-                          ` (event.type = 'Patent' AND "event"."payload"::jsonb -> 'owners' -> 'groups' ?| ARRAY[:...groups])`
-                        )
-                        .orWhere(
-                          new Brackets((qb) => {
-                            qb.where(" event.type = 'Transaction' ").andWhere(
-                              `( ("event"."payload"::jsonb -> 'from' ->> 'type' = 'Group' AND "event"."payload"::jsonb -> 'from' -> 'id' ?| ARRAY[:...groups]) OR ` +
-                                ` ("event"."payload"::jsonb -> 'to' ->> 'type' = 'Group' AND "event"."payload"::jsonb -> 'to' -> 'id' ?| ARRAY[:...groups]) )`
-                            );
-                          })
-                        );
-                    })
-                  );
-
-                  q.setParameter("groups", groups.value);
+                    ? "AND"
+                    : undefined;
+                  whereGroupInArray(q, groups.value, whereT);
                 }
 
                 if (groupsMembers.length > 0) {

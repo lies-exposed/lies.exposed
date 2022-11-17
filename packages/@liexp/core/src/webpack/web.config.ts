@@ -3,9 +3,9 @@ import CopyWebpackPlugin from "copy-webpack-plugin";
 import HtmlReplaceWebpackPlugin from "html-replace-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import * as t from "io-ts";
+import TerserPlugin from "terser-webpack-plugin";
 import * as webpack from "webpack";
 import { getConfig, GetConfigParams } from "./config";
-import TerserPlugin from "terser-webpack-plugin";
 
 export const webOptimization: webpack.Configuration["optimization"] = {
   chunkIds: "named",

@@ -34,7 +34,7 @@ export class ActorEntity {
   })
   memberIn: GroupMemberEntity[];
 
-  @ManyToMany(() => EventV2Entity, { cascade: false })
+  @ManyToMany(() => EventV2Entity, e => e.actors, { cascade: false })
   events: EventV2Entity[];
 
   @Column({ type: "json", nullable: true })
@@ -51,4 +51,6 @@ export class ActorEntity {
 
   @DeleteDateColumn()
   deletedAt: Date | null;
+
+  eventCount: number;
 }

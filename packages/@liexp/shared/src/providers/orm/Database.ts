@@ -2,10 +2,10 @@
 import { escapePostgresIdentifier } from "@databases/escape-identifier";
 import { FormatConfig, SQLQuery } from "@databases/sql";
 import * as logger from "@liexp/core/logger";
-import { pipe } from "fp-ts/function";
 import * as O from "fp-ts/Option";
 import * as Reader from "fp-ts/Reader";
 import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { IOError } from "ts-io-error";
 import {
   Connection, DataSource,

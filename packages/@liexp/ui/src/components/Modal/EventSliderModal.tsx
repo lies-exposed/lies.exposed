@@ -6,9 +6,9 @@ import {
   SearchEventsQueryInputNoPagination,
 } from "../../state/queries/SearchEventsQuery";
 import { styled, useTheme } from "../../theme";
+import QueriesRenderer from "../QueriesRenderer";
 import { EventsAppBarMinimized } from "../events/EventsAppBarMinimized";
 import { Box, CloseIcon, IconButton, Modal } from "../mui";
-import QueriesRenderer from "../QueriesRenderer";
 import { EventSlider, EventSliderProps } from "../sliders/EventSlider";
 
 const EVENT_SLIDER_MODAL_PREFIX = "event-slider-modal";
