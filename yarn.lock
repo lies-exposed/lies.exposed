@@ -2756,7 +2756,7 @@ __metadata:
     "@types/fluent-ffmpeg": ^2.1.20
     "@types/jest": ^29.2.3
     "@types/jsonwebtoken": ^8.5.9
-    "@types/node-telegram-bot-api": ^0.57.5
+    "@types/node-telegram-bot-api": ^0.57.6
     "@types/prettier": ^2.7.1
     "@types/throttle-debounce": ^5.0.0
     "@visx/network": ^2.10.0
@@ -6746,10 +6746,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.149, @types/lodash@npm:^4.14.167, @types/lodash@npm:^4.14.172, @types/lodash@npm:^4.14.188":
-  version: 4.14.188
-  resolution: "@types/lodash@npm:4.14.188"
-  checksum: 89c32f0a18e0da6ae914b430e76b3d0451c4c85b9c838b440c0c9a8d4966c8e2a76dbb30964c7126402856b2997ec56a8c36d8d6461ec14387689ec37594f09f
+"@types/lodash@npm:^4.14.149, @types/lodash@npm:^4.14.167, @types/lodash@npm:^4.14.172, @types/lodash@npm:^4.14.189":
+  version: 4.14.189
+  resolution: "@types/lodash@npm:4.14.189"
+  checksum: 096d1e0954794fb76bd6a0ea443067f02004b53e3c59ac6e3fed88817a1468fc2e6614abdf44341f5e0fdff5f9a3c94a934cc9ff7126e07efbcd94355a21fe45
   languageName: node
   linkType: hard
 
@@ -6815,10 +6815,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node-cron@npm:^3.0.5":
-  version: 3.0.5
-  resolution: "@types/node-cron@npm:3.0.5"
-  checksum: 40347212fad2b1a82b0590edc6c031ccbb173c3d7e3e01e587268deb78865270d70e6a6e2f54de6a92e666fdde00ce56cc1714578edd2af3c302dcc86b7f7c3c
+"@types/node-cron@npm:^3.0.6":
+  version: 3.0.6
+  resolution: "@types/node-cron@npm:3.0.6"
+  checksum: dfddb32f3a84e80413d78ff1bd7b0760765a3876929c54d3f35e0fe9d3365d19a32db38290c1d585de4dc35ab3e67dbe93faf440d8c524a520d5b96a8aa07404
   languageName: node
   linkType: hard
 
@@ -6832,7 +6832,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node-telegram-bot-api@npm:^0.57.5, @types/node-telegram-bot-api@npm:^0.57.6":
+"@types/node-telegram-bot-api@npm:^0.57.6":
   version: 0.57.6
   resolution: "@types/node-telegram-bot-api@npm:0.57.6"
   dependencies:
@@ -8276,11 +8276,11 @@ __metadata:
     "@testing-library/user-event": ^14.4.3
     "@types/debug": ^4.1.7
     "@types/jest": ^29.2.3
-    "@types/lodash": ^4.14.188
+    "@types/lodash": ^4.14.189
     "@types/node": ^16.18.3
     "@types/prettier": ^2.7.1
     "@types/react": ^18.0.25
-    "@types/react-dom": ^18.0.8
+    "@types/react-dom": ^18.0.9
     "@types/webpack-bundle-analyzer": ^4.6.0
     "@typescript-eslint/eslint-plugin": ^5.43.0
     "@typescript-eslint/parser": ^5.43.0
@@ -8619,7 +8619,7 @@ __metadata:
     "@types/module-alias": ^2.0.1
     "@types/multer": ^1.4.7
     "@types/node": ^16.18.3
-    "@types/node-cron": ^3.0.5
+    "@types/node-cron": ^3.0.6
     "@types/node-telegram-bot-api": ^0.57.6
     "@types/pg": ^8.6.5
     "@types/supertest": ^2.0.12
