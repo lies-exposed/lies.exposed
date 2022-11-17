@@ -75,6 +75,7 @@ const ENV = t.intersection(
       {
         TG_BOT_TOKEN: t.string,
         TG_BOT_CHAT: t.string,
+        TG_BOT_USERNAME: t.string,
         TG_BOT_POLLING: BooleanFromString
       },
       "TG_BOT_ENV"

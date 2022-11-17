@@ -12,6 +12,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
+import { ActorEntity } from './Actor.entity';
+import { GroupEntity } from './Group.entity';
 import { KeywordEntity } from "./Keyword.entity";
 import { LinkEntity } from "./Link.entity";
 import { MediaEntity } from "./Media.entity";
@@ -64,6 +66,9 @@ export class EventV2Entity {
   })
   @JoinTable()
   keywords: KeywordEntity[];
+
+  actors: ActorEntity[];
+  groups: GroupEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

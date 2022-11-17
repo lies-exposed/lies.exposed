@@ -22,10 +22,11 @@ import { PathReporter } from "io-ts/lib/PathReporter";
 import metadataParser from "page-metadata-parser";
 import puppeteer from "puppeteer-core";
 import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
+import { upsertPinnedMessage } from "@flows/tg/upsertPinnedMessage.flow";
 import {
   ControllerError,
   DecodeError,
-  toControllerError,
+  toControllerError
 } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
 import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.routes";
@@ -131,7 +132,10 @@ export const makeContext = (
       ...e,
       name: e.name,
       status: 500,
-    }))
+    })),
+    TE.chainFirst((ctx) =>
+      upsertPinnedMessage(ctx)(20)
+    )
   );
 };
 

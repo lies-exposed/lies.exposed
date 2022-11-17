@@ -40,4 +40,9 @@ export class KeywordEntity {
 
   @DeleteDateColumn()
   deletedAt: Date | null;
+
+  eventCount: number
+
+  linkCount: number
+
 }

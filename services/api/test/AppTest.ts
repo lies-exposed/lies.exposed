@@ -90,7 +90,7 @@ export const initAppTest = async (): Promise<AppTest> => {
       },
     })),
     TE.map((ctx) => ({
-      ctx: ctx,
+      ctx,
       mocks: {
         tg: tgProviderMock,
         s3: awsMock,
