@@ -48,7 +48,7 @@
   "devDependencies": {
     "@types/bs58": "^4.0.1",
     "@types/fluent-ffmpeg": "^2.1.20",
-    "@types/jest": "^29.2.1",
+    "@types/jest": "^29.2.3",
     "@types/jsonwebtoken": "^8.5.9",
     "@types/node-telegram-bot-api": "^0.57.5",
     "@types/prettier": "^2.7.1",
