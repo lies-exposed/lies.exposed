@@ -36,7 +36,7 @@ export const createEventSuggestionFromLink =
               date: publishDate,
               links: [l.id],
               media: [],
-              keywords: hashtags,
+              keywords: hashtags.map((k) => k.id),
             },
           },
         },
