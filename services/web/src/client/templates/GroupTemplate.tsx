@@ -81,6 +81,7 @@ const GroupTemplate: React.FC<{ groupId: string }> = ({ groupId }) => {
               />
             </MainContent>
             <EventsPanel
+              slide={false}
               query={{
                 hash: `group-${groupId}`,
                 groups: [group.id],

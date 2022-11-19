@@ -13,6 +13,7 @@ import {
 import {
   clearSearchEventsQueryCache,
   SearchEventQueryInput,
+  SearchEventsQueryInputNoPagination,
 } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { styled } from "@liexp/ui/theme";
 import * as React from "react";
@@ -131,6 +132,7 @@ const drawerWidth = 240;
 
 const useEventsPageQuery = (): GetSearchEventsQueryInput & {
   tab?: string;
+  slide?: string;
   hash: string;
 } => {
   const query = useRouteQuery();
@@ -151,8 +153,9 @@ const EventsPage: React.FC<EventsPageProps> = () => {
 
   const navigateTo = useNavigateToResource();
   const tab = parseInt(query.tab ?? "0", 10);
+  const slide = parseInt(query.slide ?? "0", 10) === 1;
 
-  const params: Omit<SearchEventQueryInput, '_start' | '_end'> = {
+  const params: Omit<SearchEventQueryInput, "_start" | "_end"> = {
     hash,
     startDate: query.startDate,
     endDate: query.endDate,
@@ -169,23 +172,24 @@ const EventsPage: React.FC<EventsPageProps> = () => {
   };
 
   const handleUpdateEventsSearch = React.useCallback(
-    (update: Omit<SearchEventQueryInput, '_start' | '_end'>, tab: number): void => {
+    (
+      { slide, ...update }: SearchEventsQueryInputNoPagination,
+      tab: number
+    ): void => {
       clearSearchEventsQueryCache();
       void queryClient.invalidateQueries("events-search-infinite").then(() => {
         navigateTo.events(
           {},
-          { hash: queryToHash({ ...params, ...update }), tab }
+          {
+            hash: queryToHash({ ...params, ...update }),
+            tab,
+            slide: slide ? 1 : 0,
+          }
         );
       });
     },
     [hash, tab, params]
   );
-
-  // const hasFilters =
-  //   params.actors.length > 0 ||
-  //   params.groups.length > 0 ||
-  //   params.keywords.length > 0 ||
-  //   params.media.length > 0;
 
   return (
     <StyledGrid container justifyContent="center" style={{ height: "100%" }}>
@@ -216,7 +220,10 @@ const EventsPage: React.FC<EventsPageProps> = () => {
           ),
           filterGroupsMembers: useGroupMembersQuery(
             {
-              pagination: { page: 1, perPage: params.groupsMembers?.length ?? 0 },
+              pagination: {
+                page: 1,
+                perPage: params.groupsMembers?.length ?? 0,
+              },
               filter: { ids: params.groupsMembers },
             },
             true
@@ -292,8 +299,9 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                 </Grid>
                 <main className={classes.content}>
                   <EventsPanel
-                    query={{...params, hash}}
+                    query={{ ...query, ...params, slide, hash }}
                     tab={tab}
+                    slide={slide}
                     actors={filterActors.data}
                     groups={filterGroups.data}
                     keywords={filterKeywords.data}

@@ -14,7 +14,8 @@ export interface EventsView extends CommonViewArgs {
   startDate?: string;
   endDate?: string;
   hash?: string;
-  page?: number;
+  _start?: number;
+  _end?: number;
 }
 
 const isEventsQueryEmpty = (v: Omit<EventsView, "view">): boolean => {
@@ -47,7 +48,7 @@ interface NavigationHooks {
   events: NavigateToResource;
   groups: NavigateToResource;
   keywords: NavigateToResource;
-  media: NavigateToResource
+  media: NavigateToResource;
 }
 
 export function useNavigateToResource(): NavigationHooks {

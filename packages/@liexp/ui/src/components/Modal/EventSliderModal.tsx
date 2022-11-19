@@ -1,3 +1,4 @@
+import { EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import RunIcon from "@mui/icons-material/PlayCircleOutline";
 import * as React from "react";
 import {
@@ -5,9 +6,9 @@ import {
   SearchEventsQueryInputNoPagination,
 } from "../../state/queries/SearchEventsQuery";
 import { styled, useTheme } from "../../theme";
-import QueriesRenderer from "../QueriesRenderer";
 import { EventsAppBarMinimized } from "../events/EventsAppBarMinimized";
 import { Box, CloseIcon, IconButton, Modal } from "../mui";
+import QueriesRenderer from "../QueriesRenderer";
 import { EventSlider, EventSliderProps } from "../sliders/EventSlider";
 
 const EVENT_SLIDER_MODAL_PREFIX = "event-slider-modal";
@@ -28,7 +29,7 @@ const StyledModal = styled(Modal)(({ theme }) => ({
     display: "flex",
     flexDirection: "column",
     height: "100%",
-    margin: theme.spacing(2),
+    // margin: theme.spacing(2),
     padding: theme.spacing(2),
     backgroundColor: theme.palette.common.white,
   },
@@ -46,33 +47,80 @@ export interface EventSliderModalProps
   onQueryClear: () => void;
 }
 
+const perPage = 10;
+
 const EventSliderModal: React.FC<EventSliderModalProps> = ({
-  open: _open,
-  query: _query,
+  open,
+  query,
   onQueryChange,
   onQueryClear,
   ...props
 }) => {
   const theme = useTheme();
 
-  const [open, setOpen] = React.useState(_open ?? false);
-
-  const [current, setCurrent] = React.useState(0);
+  // const [open, setOpen] = React.useState(_open ?? false);
 
   const hash = "slider";
+  const start = parseInt((query as any)._start ?? "0", 10);
+  // const end = parseInt((query._end as any) ?? "20", 10);
 
-  const query = React.useMemo(
-    () => ({
-      ..._query,
-      _start: current,
-      _end: current + 3,
-      hash,
-    }),
-    [_query, current]
-  );
+  const [current, setCurrent] = React.useState(start);
+
+  // const query = React.useMemo((): SearchEventQueryInput => {
+  //   // if (current % 10 === 0) {
+  //   return {
+  //     ..._query,
+  //     _start: current,
+  //     _end: end,
+  //     hash,
+  //   };
+  //   // }
+  // }, [_query, current]);
 
   // console.log({ url, selectedSuggestion, createDisabled });
 
+  const handleBeforeSlide = React.useCallback(
+    (nextSlide: number, totals: EventTotals) => {
+      // const total = getTotal(totals, {
+      //   uncategorized: true,
+      //   documentaries: true,
+      //   transactions: true,
+      //   deaths: true,
+      //   scientificStudies: true,
+      //   patents: true,
+      // });
+
+      const modulo = nextSlide % perPage;
+
+      // console.log({ nextSlide, modulo, current });
+      const currentStart = modulo === perPage - 1 ? start + perPage : start;
+
+      // console.log("start", { start, currentStart });
+
+      setCurrent(nextSlide);
+
+      onQueryChange({
+        ...query,
+        hash,
+        _start: currentStart,
+        _end: currentStart + perPage,
+      } as any);
+    },
+    [current, query, hash]
+  );
+
+  const handleQueryChange = React.useCallback(
+    (slide: boolean) => {
+      onQueryChange({
+        ...query,
+        hash,
+        slide,
+      });
+    },
+    [query, hash]
+  );
+
+  // console.log(start);
   return (
     <div>
       <Box
@@ -87,7 +135,7 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
           color="secondary"
           size="small"
           onClick={() => {
-            setOpen(true);
+            handleQueryChange(true);
           }}
         >
           <RunIcon fontSize="large" />
@@ -95,14 +143,18 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
       </Box>
       <StyledModal
         className={classes.modal}
-        open={open}
+        open={open ?? false}
         onClose={() => {
-          setOpen(false);
+          handleQueryChange(false);
         }}
       >
         <QueriesRenderer
           queries={{
-            events: searchEventsQuery(query),
+            events: searchEventsQuery({
+              ...query,
+              _start: start,
+              _end: start + perPage,
+            }),
           }}
           render={({ events: { events, totals, ...rest } }) => {
             return (
@@ -114,7 +166,7 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
                     size="small"
                     style={{ margin: 0 }}
                     onClick={() => {
-                      setOpen(false);
+                      handleQueryChange(false);
                     }}
                   >
                     <CloseIcon fontSize="small" />
@@ -123,11 +175,11 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
 
                 <EventSlider
                   {...props}
-                  events={events}
+                  events={events.slice(start, start + perPage)}
                   totals={totals}
                   slider={{
                     beforeChange: (c, n) => {
-                      setCurrent(n + current);
+                      handleBeforeSlide(n, totals);
                     },
                   }}
                 />

@@ -32,6 +32,7 @@ const AreaTemplate: React.FC<{ areaId: string }> = ({ areaId }) => {
               <AreaPageContent area={area} onGroupClick={() => {}} />
             </MainContent>
             <EventsPanel
+              slide={false}
               keywords={[]}
               actors={[]}
               groups={[]}

@@ -15,19 +15,11 @@ const meta: Meta<EventSliderModalProps> = {
 
 export default meta;
 
-const Template: Story<EventSliderModalProps> = (props) => {
-  return (
-    <MainContent>
-      <EventSliderModal open={true} {...props} />
-    </MainContent>
-  );
-};
-
-const Example = Template.bind({});
-
-Example.args = {
-  query: {
-    hash: 'event-slider-modal-story',
+const Template: Story<EventSliderModalProps> = ({
+  query: _query,
+  ...props
+}) => {
+  const [query, setQuery] = React.useState({
     type: undefined,
     title: undefined,
     actors: [],
@@ -45,6 +37,40 @@ Example.args = {
     draft: undefined,
     _sort: null,
     _order: null,
+    ..._query,
+  });
+
+  const onQueryChange = (q: any): void => {
+    setQuery({ ...query, ...q });
+  };
+
+  return (
+    <MainContent>
+      <EventSliderModal
+        open={true}
+        {...props}
+        query={query}
+        onQueryChange={onQueryChange}
+        onActorClick={(a) => {
+          onQueryChange({
+            actors: [a.id],
+          });
+        }}
+        onKeywordClick={(k) => {
+          onQueryChange({
+            keywords: [k.id],
+          });
+        }}
+      />
+    </MainContent>
+  );
+};
+
+const Example = Template.bind({});
+
+Example.args = {
+  query: {
+    hash: "event-slider-modal-story",
   },
   onClick: () => {},
 };

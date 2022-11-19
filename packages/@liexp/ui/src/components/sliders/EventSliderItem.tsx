@@ -141,7 +141,7 @@ export const EventSliderItemBase: React.FC<EventSliderItemBaseProps> = ({
               <MediaSlider
                 data={media}
                 style={{ width: "100%", minHeight: 200, maxHeight: 400 }}
-                itemStyle={{ minHeight: 200, maxHeight: 400, maxWidth: 600 }}
+                itemStyle={{ minHeight: 200, maxHeight: 400, maxWidth: "100%" }}
                 onLoad={onLoad}
                 enableDescription={true}
               />
@@ -166,7 +166,12 @@ export const EventSliderItemBase: React.FC<EventSliderItemBaseProps> = ({
       <Grid item sm={12}>
         <Box sx={{ display: "flex" }}>
           <ActorList
-            style={{ width: "50%" }}
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              flexDirection: "row",
+              width: "50%",
+            }}
             actors={actors.map((s) => ({ ...s, selected: true }))}
             onActorClick={onActorClick}
           />

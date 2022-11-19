@@ -70,6 +70,7 @@ const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
               />
             </MainContent>
             <EventsPanel
+              slide={false}
               keywords={[]}
               actors={[]}
               groups={[]}
