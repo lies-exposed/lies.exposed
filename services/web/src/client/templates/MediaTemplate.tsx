@@ -38,6 +38,7 @@ const MediaTemplate: React.FC<{ mediaId: string }> = ({ mediaId }) => {
               keywords={[]}
               actors={[]}
               groups={[]}
+              slide={false}
               groupsMembers={[]}
               query={{
                 hash: `media-${mediaId}`,

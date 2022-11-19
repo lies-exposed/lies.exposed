@@ -48,6 +48,7 @@ const KeywordTemplate: React.FC<{ keywordId: string }> = ({ keywordId }) => {
 
             <EventsPanel
               tab={typeof tab === "string" ? parseInt(tab, 10) : (tab as any)}
+              slide={false}
               query={{
                 hash: `keyword-${keywordId}`,
                 keywords: [keyword.id],

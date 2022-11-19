@@ -5,9 +5,7 @@ import EventSliderModal from "@liexp/ui/components/Modal/EventSliderModal";
 import EventsTimeline from "@liexp/ui/components/lists/EventList/EventsTimeline";
 import { Box, Grid } from "@liexp/ui/components/mui";
 import useWindowsDimensions from "@liexp/ui/hooks/useWindowsDimensions";
-import {
-  SearchEventsQueryInputNoPagination
-} from "@liexp/ui/state/queries/SearchEventsQuery";
+import { SearchEventsQueryInputNoPagination } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { styled } from "@liexp/ui/theme";
 import { clsx } from "clsx";
 import * as React from "react";
@@ -142,6 +140,7 @@ export interface EventsQueryParams {
 interface EventsPanelProps {
   query: SearchEventsQueryInputNoPagination;
   tab: number;
+  slide: boolean;
   keywords: Keyword.Keyword[];
   actors: Actor.Actor[];
   groups: Group.Group[];
@@ -151,6 +150,7 @@ interface EventsPanelProps {
 
 export const EventsPanel: React.FC<EventsPanelProps> = ({
   tab,
+  slide,
   query: { hash, ...query },
   onQueryChange,
 }) => {
@@ -160,9 +160,9 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
 
   const handleUpdateEventsSearch = React.useCallback(
     (update: Partial<SearchEventsQueryInputNoPagination>): void => {
-      onQueryChange({ ...query, ...update, hash }, tab);
+      onQueryChange({ ...query, ...update, hash, slide }, tab);
     },
-    [hash, tab, query]
+    [hash, tab, query, slide]
   );
 
   const handleEventClick = React.useCallback((e: SearchEvent.SearchEvent) => {
@@ -170,7 +170,11 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   }, []);
 
   const onActorsChange = React.useCallback(
-    (actors: string[]): void => {
+    (a: Actor.Actor): void => {
+      const aa = query.actors ?? [];
+      const actors = aa.includes(a.id)
+        ? aa.filter((aa) => a.id !== aa)
+        : aa.concat(a.id);
       handleUpdateEventsSearch({
         actors,
       });
@@ -179,7 +183,12 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   );
 
   const onGroupsChange = React.useCallback(
-    (groups: string[]): void => {
+    (g: Group.Group): void => {
+      const gg = query.groups ?? [];
+
+      const groups = gg.includes(g.id)
+        ? gg.filter((aa) => g.id !== aa)
+        : gg.concat(g.id);
       handleUpdateEventsSearch({
         groups,
       });
@@ -197,7 +206,11 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   );
 
   const onKeywordsChange = React.useCallback(
-    (keywords: string[]): void => {
+    (k: Keyword.Keyword): void => {
+      const kk = query.keywords ?? [];
+      const keywords = kk.includes(k.id)
+        ? kk.filter((aa) => k.id !== aa)
+        : kk.concat(k.id);
       handleUpdateEventsSearch({
         keywords,
       });
@@ -234,12 +247,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
                 queryParams={query}
                 onClick={handleEventClick}
                 onGroupClick={(g) => {
-                  const gg = query.groups ?? [];
-                  onGroupsChange(
-                    gg.includes(g.id)
-                      ? gg.filter((aa) => g.id !== aa)
-                      : gg.concat(g.id)
-                  );
+                  onGroupsChange(g);
                 }}
                 onGroupMemberClick={(gm) => {
                   const gmgg = query.groupsMembers ?? [];
@@ -250,20 +258,10 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
                   );
                 }}
                 onActorClick={(a) => {
-                  const aa = query.actors ?? [];
-                  onActorsChange(
-                    aa.includes(a.id)
-                      ? aa.filter((aa) => a.id !== aa)
-                      : aa.concat(a.id)
-                  );
+                  onActorsChange(a);
                 }}
                 onKeywordClick={(k) => {
-                  const kk = query.keywords ?? [];
-                  onKeywordsChange(
-                    kk.includes(k.id)
-                      ? kk.filter((aa) => k.id !== aa)
-                      : kk.concat(k.id)
-                  );
+                  onKeywordsChange(k);
                 }}
               />
             ) : null}
@@ -320,6 +318,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
         ) : null}
       </TabPanel> */}
       <EventSliderModal
+        open={slide}
         query={{ ...query, hash }}
         onQueryChange={handleUpdateEventsSearch}
         onQueryClear={() => {}}
@@ -327,13 +326,13 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
           navigateTo.events({ id: e.id });
         }}
         onActorClick={(a) => {
-          navigateTo.actors({ id: a.id });
+          onActorsChange(a);
         }}
         onGroupClick={(g) => {
-          navigateTo.groups({ id: g.id });
+          onGroupsChange(g);
         }}
         onKeywordClick={(k) => {
-          navigateTo.keywords({ id: k.id });
+          onKeywordsChange(k);
         }}
         onGroupMemberClick={(g) => {
           navigateTo.actors({ id: g.actor.id });

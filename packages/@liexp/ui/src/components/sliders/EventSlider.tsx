@@ -66,6 +66,7 @@ export const EventSlider: React.FC<EventSliderProps> = ({
           dots={true}
           style={{
             width: "100%",
+            height: "100%",
           }}
           {...slider}
         >
@@ -77,6 +78,7 @@ export const EventSlider: React.FC<EventSliderProps> = ({
                 onClick={onClick}
                 style={{
                   width: "100%",
+                  height: "100%",
                 }}
                 {...props}
               />

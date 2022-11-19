@@ -1,14 +1,19 @@
 import { GetLogger } from "@liexp/core/logger";
 import { ListEventOutput } from "@liexp/shared/endpoints/event.endpoints";
 import { EventRelationIds } from "@liexp/shared/helpers/event";
-import { getNewRelationIds, EventTotals, updateCache, SearchEventsQueryCache } from "@liexp/shared/helpers/event/search-event";
+import {
+  getNewRelationIds,
+  EventTotals,
+  updateCache,
+  SearchEventsQueryCache,
+} from "@liexp/shared/helpers/event/search-event";
 import {
   Actor,
   Events,
   Group,
   GroupMember,
   Keyword,
-  Media
+  Media,
 } from "@liexp/shared/io/http";
 import { GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import { APIError } from "@liexp/shared/providers/api.provider";
@@ -19,7 +24,7 @@ import {
   useInfiniteQuery,
   UseInfiniteQueryResult,
   useQuery,
-  UseQueryResult
+  UseQueryResult,
 } from "react-query";
 import { foldTE } from "../../providers/DataProvider";
 import { api } from "../api";
@@ -156,9 +161,11 @@ export interface SearchEventQueryInput
   _start: number;
   _end: number;
   hash: string;
+  slide?: boolean;
 }
 
-export interface SearchEventsQueryInputNoPagination extends Omit<SearchEventQueryInput, '_start' | '_end'> {}
+export interface SearchEventsQueryInputNoPagination
+  extends Omit<SearchEventQueryInput, "_start" | "_end"> {}
 
 const searchEventsQ =
   (getEvents: (input: any) => TE.TaskEither<APIError, ListEventOutput>) =>

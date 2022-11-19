@@ -56,6 +56,7 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
   onQueryClear,
   totals,
 }) => {
+
   const filters = React.useMemo(() => {
     if (!query.type) {
       return {
