@@ -152,8 +152,6 @@ const EventsPage: React.FC<EventsPageProps> = () => {
   const { hash, ...query } = useEventsPageQuery();
 
   const navigateTo = useNavigateToResource();
-  const tab = parseInt(query.tab ?? "0", 10);
-  const slide = parseInt(query.slide ?? "0", 10) === 1;
 
   const params: Omit<SearchEventQueryInput, "_start" | "_end"> = {
     hash,
@@ -170,6 +168,12 @@ const EventsPage: React.FC<EventsPageProps> = () => {
     _order: query._order ?? "ASC",
     _sort: "date",
   };
+
+  const tab = parseInt(query.tab ?? "0", 10);
+  const slide = React.useMemo(
+    () => parseInt(query.slide ?? "0", 10) === 1,
+    [query]
+  );
 
   const handleUpdateEventsSearch = React.useCallback(
     (
@@ -188,7 +192,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
         );
       });
     },
-    [hash, tab, params]
+    [hash, tab, params, slide]
   );
 
   return (
