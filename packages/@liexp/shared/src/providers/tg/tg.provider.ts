@@ -49,13 +49,17 @@ export const TGBotProvider = (opts: TGBotProviderOpts): TGBotProvider => {
               )
             );
           } else {
+            const te =
+              text === message.text
+                ? TE.right(message)
+                : liftTGTE(() =>
+                    bot.editMessageText(text, {
+                      message_id: message.message_id,
+                      chat_id: opts.chat,
+                    })
+                  );
             return pipe(
-              liftTGTE(() =>
-                bot.editMessageText(text, {
-                  message_id: message.message_id,
-                  chat_id: opts.chat,
-                })
-              ),
+              te,
               TE.map(() => message)
             );
           }

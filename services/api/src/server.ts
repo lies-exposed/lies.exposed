@@ -26,7 +26,7 @@ import { upsertPinnedMessage } from "@flows/tg/upsertPinnedMessage.flow";
 import {
   ControllerError,
   DecodeError,
-  toControllerError
+  toControllerError,
 } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
 import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.routes";
@@ -55,6 +55,7 @@ import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller.ts";
 import { MakeUserRoutes } from "@routes/users/User.routes";
 import { getDataSource } from "@utils/data-source";
 import { GetWriteJSON } from "@utils/json.utils";
+import TelegramBot from "node-telegram-bot-api";
 
 // var whitelist = ["http://localhost:8002"]
 const corsOptions: cors.CorsOptions = {
@@ -134,7 +135,17 @@ export const makeContext = (
       status: 500,
     })),
     TE.chainFirst((ctx) =>
-      upsertPinnedMessage(ctx)(20)
+      pipe(
+        upsertPinnedMessage(ctx)(20),
+        TE.fold(
+          (e) =>
+            (): Promise<
+              E.Either<ControllerError, Error | TelegramBot.Message>
+            > =>
+              Promise.resolve(E.right(e)),
+          (a) => () => Promise.resolve(E.right(a))
+        )
+      )
     )
   );
 };
