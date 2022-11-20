@@ -160,7 +160,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
 
   const handleUpdateEventsSearch = React.useCallback(
     (update: Partial<SearchEventsQueryInputNoPagination>): void => {
-      onQueryChange({ ...query, ...update, hash, slide }, tab);
+      onQueryChange({ ...query, ...update, hash }, tab);
     },
     [hash, tab, query, slide]
   );
