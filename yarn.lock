@@ -2841,7 +2841,7 @@ __metadata:
     "@react-page/react-admin": ^5.2.0
     "@types/chroma-js": ^2.1.4
     "@types/d3": ^7.4.0
-    "@types/d3-sankey": ^0.11.2
+    "@types/d3-sankey": ^0.12.0
     "@types/eslint": ^8.4.10
     "@types/jest": ^29.2.3
     "@types/ol": ^6.5.3
@@ -6241,12 +6241,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/d3-sankey@npm:^0.11.2":
-  version: 0.11.2
-  resolution: "@types/d3-sankey@npm:0.11.2"
+"@types/d3-sankey@npm:^0.12.0":
+  version: 0.12.0
+  resolution: "@types/d3-sankey@npm:0.12.0"
   dependencies:
     "@types/d3-shape": ^1
-  checksum: bf45c17beda4d2ac178a0b6abb50d14e4072ed0b8a0605f56d8fdfaaf1a1038aa3fd5324c9da7f45472fb860d338b644c2ccb28dfc9b2557963c34d06ae19e84
+  checksum: 6667126afe52a0b329d7ab61b242bd402e6a764d6f41d06b4b6da37bf33e2b498af40a7752faa986eeac7e020d2f4ffb25c9e65363ab15324f00aa1661201e72
   languageName: node
   linkType: hard
 
