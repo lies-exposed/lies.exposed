@@ -21707,21 +21707,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-graph-vis@npm:^1.0.7":
-  version: 1.0.7
-  resolution: "react-graph-vis@npm:1.0.7"
-  dependencies:
-    lodash: ^4.17.15
-    prop-types: ^15.5.10
-    uuid: ^2.0.1
-    vis-data: ^7.1.2
-    vis-network: ^9.0.0
-  peerDependencies:
-    react: "*"
-  checksum: f5f6185cff169f541f91a361ea598df13cde429b0ef3c20ee9fe4adc3a0b5d1faf9e692257f2e2a620d606048bb53ce05cd73de8c5988131ac2f4260b70e6d34
-  languageName: node
-  linkType: hard
-
 "react-helmet-async@npm:^1.3.0":
   version: 1.3.0
   resolution: "react-helmet-async@npm:1.3.0"
@@ -25868,13 +25853,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:^2.0.1":
-  version: 2.0.3
-  resolution: "uuid@npm:2.0.3"
-  checksum: 44adb0e235a683005fda9a869ddf2e88decbea082ea6b938e6f21b83147fda494fdc25ed8eba56196c4d5794ffc1c3efa4e3fef3e6205be2ee4084497f434e0f
-  languageName: node
-  linkType: hard
-
 "uuid@npm:^3.2.1, uuid@npm:^3.3.2":
   version: 3.4.0
   resolution: "uuid@npm:3.4.0"
@@ -25956,31 +25934,6 @@ __metadata:
     unist-util-stringify-position: ^2.0.0
     vfile-message: ^2.0.0
   checksum: ee5726e10d170472cde778fc22e0f7499caa096eb85babea5d0ce0941455b721037ee1c9e6ae506ca2803250acd313d0f464328ead0b55cfe7cb6315f1b462d6
-  languageName: node
-  linkType: hard
-
-"vis-data@npm:^7.1.2":
-  version: 7.1.2
-  resolution: "vis-data@npm:7.1.2"
-  peerDependencies:
-    uuid: ^7.0.0 || ^8.0.0
-    vis-util: ^4.0.0 || ^5.0.0
-  checksum: ebc74cd7de8fe27cb8cc111a812de87a4cc644652a392e43f191876ac8c66888488e6fd1f1945ead89193b971a0bc74a13a67daa18aabd3801e185e4a7efc83b
-  languageName: node
-  linkType: hard
-
-"vis-network@npm:^9.0.0":
-  version: 9.1.0
-  resolution: "vis-network@npm:9.1.0"
-  peerDependencies:
-    "@egjs/hammerjs": ^2.0.0
-    component-emitter: ^1.3.0
-    keycharm: ^0.2.0 || ^0.3.0 || ^0.4.0
-    timsort: ^0.3.0
-    uuid: ^3.4.0 || ^7.0.0 || ^8.0.0
-    vis-data: ^7.0.0
-    vis-util: ^5.0.1
-  checksum: 1cbc12a59f8eb07b0e4abb65e18ca204242ae7d5fcedfee6031685f0666545ab1b1e6b33e949704755352eeec67762e7088e35c534dab959ca5bb8546d834b4d
   languageName: node
   linkType: hard
 
@@ -26154,7 +26107,6 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     react-error-boundary: ^3.1.4
-    react-graph-vis: ^1.0.7
     react-helmet: ^6.1.0
     react-router-dom: ^6.4.3
     react-share: ^4.4.1
