@@ -433,8 +433,10 @@ const VaccineADRGraphComponent = withTooltip<
         </svg>
         {tooltipOpen && tooltipData ? (
           <TooltipWithBounds
-            width={300}
-            height={100}
+            style={{
+              width: 300,
+              height: 100,
+            }}
             top={(tooltipTop ?? 100) - 100}
             left={tooltipLeft}
           >
