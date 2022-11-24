@@ -2726,7 +2726,7 @@ __metadata:
     io-ts: ^2.2.19
     io-ts-types: ^0.5.19
     mini-css-extract-plugin: ^2.7.0
-    prettier: ^2.7.1
+    prettier: ^2.8.0
     react-refresh: ^0.14.0
     react-refresh-typescript: ^2.0.7
     sass: ^1.56.1
@@ -2781,7 +2781,7 @@ __metadata:
     jsonwebtoken: ^8.5.1
     node-telegram-bot-api: ^0.60.0
     page-metadata-parser: ^1.1.4
-    prettier: ^2.7.1
+    prettier: ^2.8.0
     puppeteer-core: ^13.7.0
     puppeteer-extra: ^3.3.4
     puppeteer-extra-plugin-stealth: ^2.11.1
@@ -2893,7 +2893,7 @@ __metadata:
     jest: ^29.3.1
     lodash: ^4.17.21
     ol: ^6.15.1
-    prettier: ^2.7.1
+    prettier: ^2.8.0
     query-string: ^7.1.1
     ra-input-rich-text: ^4.5.2
     react: ^18.2.0
@@ -8307,7 +8307,7 @@ __metadata:
     jest: ^29.3.1
     mini-create-react-context: ^0.4.1
     page-metadata-parser: ^1.1.4
-    prettier: ^2.7.1
+    prettier: ^2.8.0
     ra-core: ^4.5.2
     ra-i18n-polyglot: ^4.5.2
     ra-input-rich-text: ^4.5.2
@@ -8659,7 +8659,7 @@ __metadata:
     page-metadata-parser: ^1.1.4
     pdfjs-dist: ^2.16.105
     pg: ^8.8.0
-    prettier: ^2.7.1
+    prettier: ^2.8.0
     puppeteer-core: ^13.7.0
     supertest: ^6.3.1
     ts-endpoint-express: ^2.0.0
@@ -17393,7 +17393,7 @@ __metadata:
     jest: ^29.3.1
     lint-staged: ^13.0.3
     pm2: ^5.2.2
-    prettier: ^2.7.1
+    prettier: ^2.8.0
     terser: ^5.15.1
     ts-jest: ^29.0.3
     typescript: ^4.9.3
@@ -20672,12 +20672,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.7.1":
-  version: 2.7.1
-  resolution: "prettier@npm:2.7.1"
+"prettier@npm:^2.8.0":
+  version: 2.8.0
+  resolution: "prettier@npm:2.8.0"
   bin:
     prettier: bin-prettier.js
-  checksum: 55a4409182260866ab31284d929b3cb961e5fdb91fe0d2e099dac92eaecec890f36e524b4c19e6ceae839c99c6d7195817579cdffc8e2c80da0cb794463a748b
+  checksum: 72004ce0cc9bb097daf3e3833f62495768724392c1d5b178dd47372337616e9e50ecbb0804f236596223f7b5eb1bbe69cefc8957dca21112c5777e77ef73a564
   languageName: node
   linkType: hard
 
@@ -23922,7 +23922,7 @@ __metadata:
     "@storybook/theming": ^6.5.13
     "@types/prettier": ^2.7.1
     d3: ^7.6.1
-    prettier: ^2.7.1
+    prettier: ^2.8.0
     react: ^18.2.0
     react-dom: ^18.2.0
     react-spring: ^9.5.5
@@ -26039,7 +26039,7 @@ __metadata:
     is-plain-object: ^5.0.0
     nodemon: ^2.0.20
     ol: ^6.15.1
-    prettier: ^2.7.1
+    prettier: ^2.8.0
     prop-types: ^15.8.1
     query-string: ^7.1.1
     react: ^18.2.0
