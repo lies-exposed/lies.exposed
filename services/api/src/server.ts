@@ -19,6 +19,7 @@ import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { PathReporter } from "io-ts/lib/PathReporter";
+import TelegramBot from "node-telegram-bot-api";
 import metadataParser from "page-metadata-parser";
 import puppeteer from "puppeteer-core";
 import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
@@ -55,7 +56,6 @@ import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller.ts";
 import { MakeUserRoutes } from "@routes/users/User.routes";
 import { getDataSource } from "@utils/data-source";
 import { GetWriteJSON } from "@utils/json.utils";
-import TelegramBot from "node-telegram-bot-api";
 
 // var whitelist = ["http://localhost:8002"]
 const corsOptions: cors.CorsOptions = {
