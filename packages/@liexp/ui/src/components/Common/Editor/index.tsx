@@ -1,7 +1,5 @@
 import { customSlate } from "@liexp/shared/slate";
-import RPEditor, {
-  EditorProps, Value
-} from "@react-page/editor";
+import RPEditor, { EditorProps, Value } from "@react-page/editor";
 import background from "@react-page/plugins-background";
 import divider from "@react-page/plugins-divider";
 import html5Video from "@react-page/plugins-html5-video";
@@ -10,6 +8,7 @@ import spacer from "@react-page/plugins-spacer";
 import video from "@react-page/plugins-video";
 import * as React from "react";
 import gridCellPlugin from "./plugins/gridCellPlugin";
+import mediaBlock from "./plugins/media/mediaBlock";
 
 export const minimalCellPlugins = [customSlate] as any[];
 
@@ -23,6 +22,7 @@ export const cellPlugins = [
   video,
   html5Video,
   gridCellPlugin,
+  mediaBlock({}),
 ] as any[];
 
 const Editor: React.FC<Omit<EditorProps, "cellPlugins">> = ({

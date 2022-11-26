@@ -22,10 +22,10 @@ export default class ArticleTemplate extends React.PureComponent<
               <>
                 <SEO
                   title={article.title}
-                  image={article.featuredImage}
+                  image={article.featuredImage?.location}
                   urlPath={`blog/${article.path}`}
                 />
-                <ArticlePageContent {...article} />
+                <ArticlePageContent article={article} />
               </>
             )}
           />

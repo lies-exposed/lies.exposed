@@ -66,13 +66,13 @@ const Template: Story<EventSliderModalProps> = ({
   );
 };
 
-const Example = Template.bind({});
+const ExampleSliderModal = Template.bind({});
 
-Example.args = {
+ExampleSliderModal.args = {
   query: {
     hash: "event-slider-modal-story",
   },
   onClick: () => {},
 };
 
-export { Example as EventSliderModal };
+export { ExampleSliderModal };
