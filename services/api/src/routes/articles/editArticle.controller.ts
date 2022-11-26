@@ -10,7 +10,7 @@ import { Route } from "@routes/route.types";
 export const MakeEditArticleRoute: Route = (r, ctx) => {
   AddEndpoint(r)(
     Endpoints.Article.Edit,
-    ({ params: { id }, body: { featuredImage, ...body } }) => {
+    ({ params: { id }, body: { featuredImage, body2, ...body } }) => {
       return pipe(
         ctx.db.findOneOrFail(ArticleEntity, { where: { id: Equal(id) } }),
         TE.chain((e) =>
@@ -18,14 +18,20 @@ export const MakeEditArticleRoute: Route = (r, ctx) => {
             {
               ...e,
               ...body,
-              featuredImage: pipe(
-                featuredImage,
-                O.getOrElse(() => e.featuredImage)
-              ),
+              body2: body2 as any,
+              featuredImage: {
+                id: pipe(
+                  featuredImage,
+                  O.map((f) => f.id),
+                  O.getOrElse(() => e.featuredImage?.id)
+                ),
+              },
             },
           ])
         ),
-        TE.map((articles) => articles[0]),
+        TE.chain(() =>
+          ctx.db.findOneOrFail(ArticleEntity, { where: { id: Equal(id) } })
+        ),
         TE.chainEitherK(toArticleIO),
         TE.map((data) => ({
           body: {

@@ -29,8 +29,9 @@ export const MakeListArticlesRoute: Route = (r, { env, db, logger }) => {
                 ...findOptions.where,
                 ...draft,
               },
+              relations: ["featuredImage"],
             }),
-            TE.chainEitherK(A.traverse(E.either)(toArticleIO))
+            TE.chainEitherK(A.traverse(E.Applicative)(toArticleIO))
           ),
           total: db.count(ArticleEntity),
         }),

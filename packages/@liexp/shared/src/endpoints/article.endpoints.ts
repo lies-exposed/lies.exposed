@@ -3,6 +3,7 @@ import { UUID } from 'io-ts-types/UUID';
 import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
+import { UUID } from "io-ts-types/UUID";
 import { Endpoint } from "ts-endpoint";
 import { Article } from "../io/http";
 import { Output } from "../io/http/Common/Output";
@@ -23,7 +24,7 @@ export const ListArticles = Endpoint({
   Input: {
     Query: ListArticlesQuery,
   },
-  Output: Output(t.array(Article.Article), "Articles"),
+  Output: Output(t.array(Article.Article), "Article"),
 });
 
 export const Get = Endpoint({
@@ -32,7 +33,7 @@ export const Get = Endpoint({
   Input: {
     Params: t.type({ id: UUID }),
   },
-  Output: Output(Article.Article, "Articles"),
+  Output: Output(Article.Article, "Article"),
 });
 
 export const Create = Endpoint({
@@ -45,7 +46,7 @@ export const Create = Endpoint({
         path: t.string,
         draft: t.boolean,
         date: DateFromISOString,
-        featuredImage: optionFromNullable(t.string),
+        featuredImage: optionFromNullable(UUID),
         body: t.string,
       },
       "CreateArticleBody"
@@ -69,8 +70,9 @@ export const articles = ResourceEndpoints({
           path: t.string,
           draft: t.boolean,
           date: DateFromISOString,
-          featuredImage: optionFromNullable(t.string),
+          featuredImage: optionFromNullable(t.strict({ id: UUID })),
           body: t.string,
+          body2: t.unknown,
         },
         "EditArticleBody"
       ),
