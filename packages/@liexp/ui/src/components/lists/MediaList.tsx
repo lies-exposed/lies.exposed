@@ -34,12 +34,12 @@ const StyledGridItem = styled(Grid)({
   [`& .${classes.wrapper}`]: {
     position: "relative",
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
     width: "100%",
     height: "100%",
   },
   [`& .${classes.media}`]: {
-    height: 200,
+    height: "100%",
     objectFit: "cover",
   },
   [`& .${classes.description}`]: {
@@ -53,11 +53,17 @@ const StyledGridItem = styled(Grid)({
   },
 }) as typeof Grid;
 
-export const MediaListItem: React.FC<
-  ListItemProps<Media> & {
-    style?: React.CSSProperties;
-  }
-> = ({ item, onClick, style }) => {
+interface MediaListItemProps extends ListItemProps<Media> {
+  style?: React.CSSProperties;
+  hideDescription?: boolean;
+}
+
+export const MediaListItem: React.FC<MediaListItemProps> = ({
+  item,
+  onClick,
+  style,
+  hideDescription,
+}) => {
   return (
     <StyledGridItem
       key={item.id}
@@ -77,11 +83,18 @@ export const MediaListItem: React.FC<
           title={item.description}
         />
 
-        <Box className={classes.description}>
-          <Typography gutterBottom variant="body2" component="p" color="white">
-            {item.description.substring(0, 100).concat("...")}
-          </Typography>
-        </Box>
+        {!hideDescription ? (
+          <Box className={classes.description}>
+            <Typography
+              gutterBottom
+              variant="body2"
+              component="p"
+              color="white"
+            >
+              {item.description.substring(0, 100).concat("...")}
+            </Typography>
+          </Box>
+        ) : null}
       </Box>
     </StyledGridItem>
   );
@@ -90,8 +103,10 @@ export const MediaListItem: React.FC<
 export interface MediaListProps extends ListProps {
   className?: string;
   media: Media[];
+  hideDescription?: boolean;
   onItemClick: (item: Media) => void;
   style?: React.CSSProperties;
+  itemStyle?: React.CSSProperties;
 }
 
 const LIST_PREFIX = "media-list";
@@ -110,7 +125,10 @@ const StyledList = styled(Grid)(() => ({
 export const MediaList: React.FC<MediaListProps> = ({
   className,
   media,
+  style,
+  hideDescription,
   onItemClick,
+  itemStyle,
   ...props
 }) => {
   return (
@@ -122,9 +140,16 @@ export const MediaList: React.FC<MediaListProps> = ({
       spacing={2}
       className={clsx(listClasses.root, className)}
       component="ul"
+      style={style}
     >
       {media.map((m) => (
-        <MediaListItem key={m.id} onClick={onItemClick} item={{ ...m }} />
+        <MediaListItem
+          key={m.id}
+          onClick={onItemClick}
+          item={{ ...m }}
+          style={itemStyle}
+          hideDescription={hideDescription}
+        />
       ))}
     </StyledList>
   );

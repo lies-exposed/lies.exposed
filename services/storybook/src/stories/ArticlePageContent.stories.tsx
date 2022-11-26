@@ -26,7 +26,7 @@ const Template: Story<ArticlePageContentProps> = (props) => {
             page: 1,
           },
           sort: { field: "date", order: "DESC" },
-          filter: undefined,
+          filter: { draft: true },
         }),
       }}
       render={({ article }) => {
@@ -39,7 +39,9 @@ const Template: Story<ArticlePageContentProps> = (props) => {
               }}
             >
               {article.data.map((a, i) => (
-                <option value={i}>{a.title}</option>
+                <option key={a.id} value={i}>
+                  {a.title}
+                </option>
               ))}
             </select>
             <ArticlePageContent article={art} />

@@ -6,9 +6,9 @@ import { LoadingIndicator, useEditContext } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ECOTheme } from "../../../theme";
 import { ArticlePageContent } from "../../ArticlePageContent";
-import { ThemeProvider } from "../../mui";
 import { HelmetProvider } from "../../SEO";
 import { ValidationErrorsLayout } from "../../ValidationErrorsLayout";
+import { ThemeProvider } from "../../mui";
 
 const ArticlePreview: React.FC = () => {
   const { record } = useEditContext();

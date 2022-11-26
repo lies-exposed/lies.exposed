@@ -32,6 +32,10 @@ export const emptyQuery = (): Promise<any> =>
     total: 0,
   });
 
+export type FetchQuery<FN extends (...args: any[]) => Promise<any>> = (
+  q: any
+) => ReturnType<FN>;
+
 export const fetchQuery =
   <P extends any, R extends any>(q: (p: P) => Promise<R>) =>
   async ({ queryKey }: any): Promise<R> => {
@@ -69,7 +73,9 @@ export const getEventsQueryKey = (
   ];
 };
 
-export const fetchEvents = fetchQuery(Queries.Event.getList);
+export const fetchEvents: (a: any) => Promise<any> = fetchQuery(
+  Queries.Event.getList
+);
 
 export const useEventsQuery = (
   params: Partial<GetListParams>,
@@ -101,7 +107,9 @@ export const getActorsQueryKey = (
   ];
 };
 
-export const fetchActors = fetchQuery(Queries.Actor.getList);
+export const fetchActors: FetchQuery<typeof Queries.Actor.getList> = fetchQuery(
+  Queries.Actor.getList
+);
 
 export const useActorsQuery = (
   params: Partial<GetListParams>,
@@ -161,7 +169,9 @@ export const getGroupsQueryKey = (
   ];
 };
 
-export const fetchGroups = fetchQuery(Queries.Group.getList);
+export const fetchGroups: FetchQuery<typeof Queries.Group.getList> = fetchQuery(
+  Queries.Group.getList
+);
 
 export const useGroupsQuery = (
   params: Partial<GetListParams>,
@@ -203,7 +213,10 @@ export const getGroupsMembersQueryKey = (
   ];
 };
 
-export const fetchGroupsMembers = fetchQuery(Queries.GroupMember.getList);
+export const fetchGroupsMembers: FetchQuery<
+  typeof Queries.GroupMember.getList
+> = fetchQuery(Queries.GroupMember.getList);
+
 export const useGroupMembersQuery = (
   params: Partial<GetListParams>,
   discrete: boolean
@@ -217,7 +230,8 @@ export const useGroupMembersQuery = (
   );
 };
 
-export const fetchKeywords = fetchQuery(Queries.Keyword.getList);
+export const fetchKeywords: FetchQuery<typeof Queries.Keyword.getList> =
+  fetchQuery(Queries.Keyword.getList);
 
 export const getKeywordsQueryKey = (
   p: Partial<GetListParams>,
@@ -299,7 +313,9 @@ export const getMediaQueryKey = (
   ];
 };
 
-export const fetchMedia = fetchQuery(Queries.Media.getList);
+export const fetchMedia: FetchQuery<typeof Queries.Media.getList> = fetchQuery(
+  Queries.Media.getList
+);
 
 export const useMediaQuery = (
   params: Partial<GetListParams>,
@@ -330,7 +346,9 @@ export const getLinkQueryKey = (
     discrete,
   ];
 };
-export const fetchLinks = fetchQuery(Queries.Link.getList);
+export const fetchLinks: FetchQuery<typeof Queries.Link.getList> = fetchQuery(
+  Queries.Link.getList
+);
 
 export const useLinksQuery = (
   params: Partial<GetListParams>,
@@ -459,7 +477,9 @@ export const getAreaQueryKey = (
     discrete,
   ];
 };
-export const fetchAreas = fetchQuery(Queries.Area.getList);
+export const fetchAreas: FetchQuery<typeof Queries.Area.getList> = fetchQuery(
+  Queries.Area.getList
+);
 
 export const useAreasQuery = (
   params: Partial<GetListParams>,

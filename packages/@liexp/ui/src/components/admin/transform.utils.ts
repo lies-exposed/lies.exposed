@@ -115,21 +115,20 @@ export const transformEvent =
     // console.log({ rawMedia, otherMedia });
 
     const mediaTask = pipe(
-      A.sequence(TE.ApplicativePar)(
-        rawMedia.map((r: RawMedia) =>
-          uploadFile(dataProvider)(
-            "media",
-            id,
-            r.location.rawFile,
-            r.location.rawFile.type as any
-          )
+      rawMedia.map((r: RawMedia) =>
+        uploadFile(dataProvider)(
+          "media",
+          id,
+          r.location.rawFile,
+          r.location.rawFile.type as any
         )
       ),
+      A.sequence(TE.ApplicativePar),
       TE.map((urls) =>
         pipe(
           urls,
           A.zip(rawMedia),
-          A.map(([location, media]) => ({
+          A.map(([location, media]: [any, any]) => ({
             ...media,
             ...location,
             thumbnail: http.Media.ImageType.is(location.type)

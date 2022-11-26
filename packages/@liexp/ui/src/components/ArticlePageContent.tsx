@@ -10,15 +10,15 @@ import { ContentWithSidebar } from "./ContentWithSidebar";
 import { MainContent } from "./MainContent";
 import { Grid, Typography } from "./mui";
 
-export type ArticlePageContentProps = {
+export interface ArticlePageContentProps {
   article: Article.Article;
-};
+}
 
 export const ArticlePageContent: React.FC<ArticlePageContentProps> = ({
   article: { featuredImage, ...article },
 }) => {
   const theme = useTheme();
-  console.log(article.body2);
+
   return (
     <Grid container>
       <Grid

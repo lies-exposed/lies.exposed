@@ -1,7 +1,10 @@
-import HtmlReplaceWebpackPlugin from "html-replace-webpack-plugin";
 import path from "path";
+import webpack from "webpack";
 import { defineEnv } from "../../packages/@liexp/core/src/webpack/config";
-import { getWebConfig } from "../../packages/@liexp/core/src/webpack/web.config";
+import {
+  getWebConfig,
+  HtmlReplaceWebpackPlugin,
+} from "../../packages/@liexp/core/src/webpack/web.config";
 
 const AppEnv = defineEnv((t) => ({
   NODE_ENV: t.string,
@@ -14,7 +17,7 @@ const AppEnv = defineEnv((t) => ({
 const port =
   process.env.PORT !== undefined ? parseInt(process.env.PORT, 10) : 4000;
 
-const webConfig = getWebConfig({
+const webConfig: webpack.Configuration = getWebConfig({
   cwd: __dirname,
   env: AppEnv,
   envFileDir: __dirname,

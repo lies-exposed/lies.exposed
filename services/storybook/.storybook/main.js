@@ -74,6 +74,11 @@ module.exports = {
     // console.log("config", config.resolve.plugins);
     // console.log("config", config);
 
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      assert: require.resolve("browser-assert"),
+    };
+
     return config;
   },
 };

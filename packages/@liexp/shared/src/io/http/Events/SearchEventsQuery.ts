@@ -1,4 +1,5 @@
 import * as t from "io-ts";
+import { UUID } from "io-ts-types";
 import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromUndefined } from "../../Common/optionFromUndefined";
@@ -7,6 +8,7 @@ import { GetListQuery } from "../Query";
 export const GetSearchEventsQuery = t.strict(
   {
     ...GetListQuery.props,
+    ids: optionFromUndefined(t.array(UUID)),
     type: optionFromUndefined(t.union([t.string, t.array(t.string)])),
     groupsMembers: optionFromUndefined(t.array(t.string)),
     actors: optionFromUndefined(t.array(t.string)),

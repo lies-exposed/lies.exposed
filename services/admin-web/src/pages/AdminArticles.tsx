@@ -1,11 +1,11 @@
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uploadImages } from "@liexp/ui/client/admin/MediaAPI";
+import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
 import ReferenceMediaInput from "@liexp/ui/components/admin/common/ReferenceMediaInput";
 import ArticlePreview from "@liexp/ui/components/admin/previews/ArticlePreview";
-import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import { pipe } from "fp-ts/function";
 import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import {
   ArrayInput,
@@ -24,7 +24,6 @@ import {
   List,
   ListProps,
   RaRecord,
-  required,
   SimpleForm,
   SimpleFormIterator,
   TabbedForm,
@@ -113,7 +112,7 @@ export const ArticleCreate: React.FC<CreateProps> = (props) => {
             <TextInput source="" />
           </SimpleFormIterator>
         </ArrayInput>
-        <ReactPageInput source="body" validate={[required()]} />
+        <ReactPageInput source="body2"  />
       </SimpleForm>
     </Create>
   );

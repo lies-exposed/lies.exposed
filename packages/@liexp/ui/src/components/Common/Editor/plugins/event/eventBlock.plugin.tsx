@@ -1,38 +1,38 @@
-import { Media } from "@liexp/shared/io/http";
+import { Event } from "@liexp/shared/io/http/Events";
 import MediaIcon from "@mui/icons-material/VideoFileOutlined";
 import type {
   CellPlugin,
   CellPluginComponentProps,
   DataTType,
-  ImageUploadType,
+  ImageUploadType
 } from "@react-page/editor";
 import React from "react";
-import MediaSliderBox from "../../../../../containers/MediaSliderBox";
-import { AutocompleteMediaInput } from "../../../../Input/AutocompleteMediaInput";
+import { AutocompleteEventInput } from "../../../../Input/AutocompleteEventInput";
+import EventsBox from "../../../../containers/EventsBox";
 import { Box } from "../../../../mui";
 
-export interface MediaBlockState extends DataTType {
-  mediaId: Media.Media[];
+export interface EventBlockState extends DataTType {
+  event: Event[];
 }
 
-export interface MediaBlockSettings {
+export interface EventBlockSettings {
   imageUpload?: ImageUploadType;
   icon?: React.ReactNode;
 }
 
-export const defaultSettings: MediaBlockSettings = {
+export const defaultSettings: EventBlockSettings = {
   icon: <MediaIcon />,
 };
 
 export type ImageControlType = React.ComponentType<
-  CellPluginComponentProps<MediaBlockState> & {
+  CellPluginComponentProps<EventBlockState> & {
     imageUpload?: ImageUploadType;
   }
 >;
 
 const createPlugin = (
-  settings?: MediaBlockSettings
-): CellPlugin<MediaBlockState> => {
+  settings?: EventBlockSettings
+): CellPlugin<EventBlockState> => {
   const mergedSettings = { ...defaultSettings, ...settings };
 
   return {
@@ -40,33 +40,29 @@ const createPlugin = (
       type: "custom",
       Component: (props) => {
         // console.log(props);
-        const selectedItems = props.data?.mediaId ?? [];
+        const selectedItems = props.data?.event ?? [];
         return (
           <Box style={{ height: 200 }}>
-            <AutocompleteMediaInput
+            <AutocompleteEventInput
               {...props}
               selectedItems={selectedItems}
-              onChange={(items) => props.onChange({ mediaId: items })}
+              onChange={(items) => props.onChange({ event: items })}
             />
           </Box>
         );
       },
     },
     Renderer: ({ children, ...props }) => {
-
-      const ids = props.data.mediaId.map((v) => v.id);
+      const ids = props.data.event.map((v) => v.id);
       if (ids.length > 0) {
         return (
           <Box style={{ maxWidth: 1200, flexGrow: 0 }}>
-            <MediaSliderBox
-              enableDescription={true}
+            <EventsBox
+              title=""
               query={{
-                filter: {
-                  ids,
-                },
-                pagination: { perPage: ids.length, page: 1 },
-                sort: { field: "createdAt", order: "DESC" },
+                ids,
               }}
+              onEventClick={() => {}}
             />
           </Box>
         );
@@ -74,7 +70,7 @@ const createPlugin = (
 
       return <div>Select a media...</div>;
     },
-    id: "liexp/editor/plugins/mediaBlock",
+    id: "liexp/editor/plugins/EventBlock",
     version: 1,
     icon: mergedSettings.icon,
     title: "Media Block",

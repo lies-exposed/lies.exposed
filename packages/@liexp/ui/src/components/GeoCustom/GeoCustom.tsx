@@ -49,7 +49,7 @@ const color = scaleQuantize({
   ],
 });
 
-const GeoCustom = <P extends GeoPermissibleObjects>({
+const GeoCustom: any = <P extends GeoPermissibleObjects>({
   width,
   height,
   projection,

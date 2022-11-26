@@ -1,9 +1,8 @@
 import * as t from "io-ts";
-import { UUID } from 'io-ts-types/UUID';
+import { UUID } from "io-ts-types/UUID";
 import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
-import { UUID } from "io-ts-types/UUID";
 import { Endpoint } from "ts-endpoint";
 import { Article } from "../io/http";
 import { Output } from "../io/http/Common/Output";
