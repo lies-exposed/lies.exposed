@@ -2886,7 +2886,7 @@ __metadata:
     eslint: ^8.28.0
     eslint-plugin-import: ^2.26.0
     fp-ts: ^2.13.1
-    geotiff: ^2.0.5
+    geotiff: ^2.0.7
     io-ts: ^2.2.19
     io-ts-types: ^0.5.19
     is-plain-object: ^5.0.0
@@ -14321,18 +14321,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"geotiff@npm:^2.0.5":
-  version: 2.0.5
-  resolution: "geotiff@npm:2.0.5"
+"geotiff@npm:^2.0.7":
+  version: 2.0.7
+  resolution: "geotiff@npm:2.0.7"
   dependencies:
     "@petamoriken/float16": ^3.4.7
     lerc: ^3.0.0
     pako: ^2.0.4
     parse-headers: ^2.0.2
-    quick-lru: ^6.1.0
+    quick-lru: ^6.1.1
     web-worker: ^1.2.0
     xml-utils: ^1.0.2
-  checksum: d27c70038e9d68d116bc7f4fd51176d531b5d238f5bf4e97cbd48cf1a4e790a2d6c3f4c370af24009fc3e7dc7521b2f0d4fd5ace2df85191da243d2d2a07e1c4
+  checksum: d64bd3c3cf0342368899fe693059520e003a6610515760e6afe1cb4191397e5fc180591f2aa75729bb0283190eda0574e10e3da0241be2556cbedc5c50222f69
   languageName: node
   linkType: hard
 
@@ -21260,7 +21260,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"quick-lru@npm:^6.1.0":
+"quick-lru@npm:^6.1.1":
   version: 6.1.1
   resolution: "quick-lru@npm:6.1.1"
   checksum: a9c75bf1d208c1d207590e10403a75d037f9faf7857f2e0d38c294d92b40d8b400776bcb5d4dd516baa84e6f5e3baf2a16cf405e6fedc18107922f46aeae83ee
