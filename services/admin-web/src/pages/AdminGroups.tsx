@@ -170,8 +170,9 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
       }
       transform={transformGroup(dataProvider)}
       preview={<GroupPreview />}
+      redirect={false}
     >
-      <TabbedForm redirect={false}>
+      <TabbedForm>
         <FormTab label="Generals">
           <TextInput source="name" />
           <ColorInput source="color" />
