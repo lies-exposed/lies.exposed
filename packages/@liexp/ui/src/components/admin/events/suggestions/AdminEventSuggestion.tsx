@@ -145,7 +145,7 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
         return { id, ...r.payload, event: updatedEvent };
       }}
     >
-      <TabbedForm redirect={false}>
+      <TabbedForm>
         <FormTab label="Generals">
           <TextField label="Suggestion type" source="payload.type" />
           <TextField label="Suggestion status" source="status" />
