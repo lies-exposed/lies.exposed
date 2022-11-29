@@ -357,7 +357,7 @@ export const useLinksQuery = (
   return useQuery(getLinkQueryKey(params, discrete), fetchLinks);
 };
 
-export const getPageContentByPathQueryKey = (path: string): any[] => ["pages", { path }];
+export const getPageContentByPathQueryKey = (p: any): any[] => ["pages", p];
 
 export const fetchPageContentByPath = async ({
   queryKey,
@@ -396,7 +396,7 @@ export const usePageContentByPathQuery = ({
 }: {
   path: string;
 }): UseQueryResult<Page.Page, APIError> =>
-  useQuery(getPageContentByPathQueryKey(path), fetchPageContentByPath);
+  useQuery(getPageContentByPathQueryKey({ path }), fetchPageContentByPath);
 
 export const useArticleByPathQuery = ({
   path,
