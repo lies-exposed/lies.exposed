@@ -25,8 +25,8 @@ export class PageEntity {
   @Column({ type: 'json', nullable: true })
   excerpt: Record<string, unknown> | null;
 
-  @Column({ type: "varchar" })
-  body: string;
+  @Column({ type: "varchar", nullable: true })
+  body: string | null;
 
   @Column({ type: "json", nullable: true })
   body2: Record<string, unknown> | null;

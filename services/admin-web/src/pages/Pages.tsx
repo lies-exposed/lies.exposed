@@ -1,14 +1,15 @@
 import { http } from "@liexp/shared/io";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import { EditForm } from '@liexp/ui/components/admin/common/EditForm';
-import RichTextInput from "@liexp/ui/components/admin/common/RichTextInput";
-import PagePreview from '@liexp/ui/components/admin/previews/PagePreview';
+import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
+import PagePreview from "@liexp/ui/components/admin/previews/PagePreview";
 import * as React from "react";
 import {
   Create,
   CreateProps,
   Datagrid,
-  DateField, EditProps, FormTab,
+  DateField,
+  EditProps,
+  FormTab,
   List,
   ListProps,
   required,
@@ -37,7 +38,12 @@ const EditTitle: React.FC<{ record?: http.Page.Page }> = ({ record }) => {
 export const PageEdit: React.FC<EditProps> = (props) => {
   const record = useRecordContext<http.Page.Page>();
   return (
-    <EditForm preview={<PagePreview />} title={<EditTitle record={record} />} {...props} redirect={false}>
+    <EditForm
+      preview={<PagePreview />}
+      title={<EditTitle record={record} />}
+      {...props}
+      redirect={false}
+    >
       <TabbedForm>
         <FormTab label="Generals">
           <TextInput source="title" />
@@ -57,8 +63,8 @@ export const PageCreate: React.FC<CreateProps> = (props) => (
     <SimpleForm>
       <TextInput source="title" validate={[required()]} />
       <TextInput source="path" validate={[required()]} />
-      <RichTextInput source="excerpt" validate={[required()]} />
-      <ReactPageInput source="body" validate={[required()]} />
+      <TextInput source="body" multiline />
+      <ReactPageInput source="excerpt" validate={[required()]} onlyText />
       <ReactPageInput source="body2" validate={[required()]} />
     </SimpleForm>
   </Create>

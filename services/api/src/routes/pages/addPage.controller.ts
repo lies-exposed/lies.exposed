@@ -1,10 +1,10 @@
-import { Endpoints, AddEndpoint } from "@liexp/shared/endpoints";
+import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { Router } from "express";
-import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { PageEntity } from "../../entities/Page.entity";
 import { RouteContext } from "../route.types";
+import { toPageIO } from "./page.io";
+import { PageEntity } from "@entities/Page.entity";
 import { authenticationHandler } from "@utils/authenticationHandler";
 
 export const MakeAddPageRoute = (r: Router, ctx: RouteContext): void => {
@@ -12,18 +12,13 @@ export const MakeAddPageRoute = (r: Router, ctx: RouteContext): void => {
     Endpoints.Page.Create,
     ({ body }) => {
       return pipe(
-        ctx.db.save(PageEntity, [body]),
-        TE.chain(([page]) =>
-          sequenceS(TE.taskEither)({
-            page: TE.right(page),
-          })
-        ),
-        TE.map(({ page }) => ({
+        ctx.db.save(PageEntity, [
+          { ...body, body: undefined, body2: body.body2 as any },
+        ]),
+        TE.chainEitherK(([page]) => toPageIO(page)),
+        TE.map((data) => ({
           body: {
-            data: {
-              ...page,
-              // body,
-            },
+            data,
           },
           statusCode: 200,
         }))

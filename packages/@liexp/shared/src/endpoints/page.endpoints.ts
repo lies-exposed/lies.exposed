@@ -30,11 +30,7 @@ export const CreatePage = Endpoint({
   Method: "POST",
   getPath: () => `/pages`,
   Input: {
-    Body: t.strict({
-      title: t.string,
-      path: t.string,
-      body: t.string,
-    }),
+    Body: Page.CreatePage,
   },
   Output: t.strict({ data: Page.Page }),
 });
