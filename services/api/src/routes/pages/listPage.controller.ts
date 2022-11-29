@@ -1,10 +1,13 @@
 import { Endpoints, AddEndpoint } from "@liexp/shared/endpoints";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/Apply";
+import * as A from "fp-ts/Array";
+import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { PageEntity } from "../../entities/Page.entity";
 import { RouteContext } from "../route.types";
+import { toPageIO } from "./page.io";
 import { getORMOptions } from "@utils/orm.utils";
 
 export const MakeListPageRoute = (r: Router, ctx: RouteContext): void => {
@@ -17,12 +20,18 @@ export const MakeListPageRoute = (r: Router, ctx: RouteContext): void => {
         }),
         total: ctx.db.count(PageEntity),
       }),
+      TE.chain(({ data, total }) =>
+        pipe(
+          data,
+          A.map(toPageIO),
+          A.sequence(E.Applicative),
+          TE.fromEither,
+          TE.map((data) => ({ total, data }))
+        )
+      ),
       TE.map(({ data, total }) => ({
         body: {
-          data: data.map((page) => ({
-            ...page,
-            type: "PageFrontmatter" as const,
-          })),
+          data,
           total,
         },
         statusCode: 200,

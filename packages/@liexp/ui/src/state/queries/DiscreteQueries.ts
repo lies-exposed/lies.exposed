@@ -339,12 +339,12 @@ export const useLinksQuery = (
   return useQuery(getLinkQueryKey(params, discrete), fetchLinks);
 };
 
-export const getPageContentByPathQueryKey = (p: string): any[] => ["pages", p];
+export const getPageContentByPathQueryKey = (path: string): any[] => ["pages", { path }];
 
 export const fetchPageContentByPath = async ({
   queryKey,
 }: any): Promise<Page.Page> => {
-  const path = queryKey[1];
+  const path = queryKey[1].path;
   return await pipe(
     TE.tryCatch(
       () =>

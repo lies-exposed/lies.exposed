@@ -7,7 +7,7 @@ export const Page = t.strict(
     ...BaseProps.type.props,
     title: t.string,
     path: t.string,
-    body: t.string,
+    body: t.union([t.string, t.undefined]),
     excerpt: t.union([t.UnknownRecord, t.null]),
     body2: t.union([t.UnknownRecord, t.null]),
   },
@@ -15,8 +15,14 @@ export const Page = t.strict(
 );
 export type Page = t.TypeOf<typeof Page>;
 
-export const EditPage = t.strict(
+export const CreatePage = t.strict(
   propsOmit(Page, ["id", "createdAt", "updatedAt"]),
+  "CreatePage"
+);
+export type CreatePage = t.TypeOf<typeof CreatePage>;
+
+export const EditPage = t.strict(
+  propsOmit(Page, ["id", "body", "createdAt", "updatedAt"]),
   "EditPage"
 );
 
