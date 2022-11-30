@@ -18,6 +18,9 @@ const run = (): void => {
         express(),
         App,
         path.resolve(__dirname, "../"),
+        {
+          NODE_ENV: (process.env.NODE_ENV as any) ?? "development",
+        },
         routes
       );
 

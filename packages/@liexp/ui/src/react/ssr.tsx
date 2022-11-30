@@ -27,6 +27,9 @@ export const getServer = (
   app: express.Express,
   App: React.ComponentType,
   publicDir: string,
+  env: {
+    NODE_ENV: "production" | "development";
+  },
   routes: Array<{
     path: string;
     route: React.FC;
@@ -144,9 +147,13 @@ export const getServer = (
                   <CacheProvider value={cache}>
                     <ThemeProvider theme={ECOTheme}>
                       <CssBaseline enableColorScheme />
-                      <React.Suspense>
+                      {env.NODE_ENV === "development" ? (
                         <App />
-                      </React.Suspense>
+                      ) : (
+                        <React.Suspense>
+                          <App />
+                        </React.Suspense>
+                      )}
                     </ThemeProvider>
                   </CacheProvider>
                 </Hydrate>
