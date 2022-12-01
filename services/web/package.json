@@ -29,7 +29,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@mui/material": "^5.10.14",
+    "@mui/material": "^5.10.16",
     "@visx/axis": "^2.14.0",
     "@visx/gradient": "^2.10.0",
     "@visx/legend": "^2.10.0",
