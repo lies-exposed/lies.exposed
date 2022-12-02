@@ -1,8 +1,6 @@
 /* gist.github.com/phanngoc/473229c74d0119704d9c603b1251782a */
 import {
-  createExcerptValue,
-  minimalCellPlugins,
-  isValidValue,
+  createExcerptValue, isValidValue, minimalCellPlugins
 } from "@liexp/shared/slate";
 import Editor, { EditorProps } from "@react-page/editor";
 import get from "lodash/get";
@@ -10,7 +8,7 @@ import * as React from "react";
 import { InputProps, Labeled, useInput, useRecordContext } from "react-admin";
 import { cellPlugins } from "../Common/Editor";
 import JSONInput from "../Common/JSON/JSONInput";
-import { Paper } from "../mui";
+import { Box, FormControlLabel, Paper, Switch } from "../mui";
 
 export type RaReactPageInputProps = {
   label?: string;
@@ -36,18 +34,31 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
     [value]
   );
 
-  const [toggleEdit, setToggleEditor] = React.useState(!isValueValid);
+  const [showJSONEditor, setShowJSONEditor] = React.useState(!isValueValid);
 
   return (
-    <Labeled label={label} source={source} fullWidth>
+    <Labeled
+      label={
+        <Box style={{ display: "flex" }}>
+          <Box style={{ display: "flex", flexGrow: 1 }}>{label}</Box>
+
+          <FormControlLabel
+            control={
+              <Switch
+                defaultChecked={!showJSONEditor}
+                onChange={(ev, c) => {
+                  setShowJSONEditor(!c);
+                }}
+              />
+            }
+            label={!showJSONEditor ? "RichEditor" : "JSON"}
+          />
+        </Box>
+      }
+      source={source}
+      fullWidth
+    >
       <>
-        <div
-          onClick={() => {
-            setToggleEditor(!toggleEdit);
-          }}
-        >
-          {toggleEdit ? "Plain" : "Slate"}
-        </div>
         <Paper
           elevation={5}
           style={{
@@ -59,13 +70,13 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
           }}
         >
           {isValueValid ? (
-            toggleEdit ? (
+            showJSONEditor ? (
               <JSONInput
                 source={source}
                 onClear={() => {
                   const value = createExcerptValue("");
                   onChange(value);
-                  setToggleEditor(false);
+                  setShowJSONEditor(false);
                 }}
               />
             ) : (
@@ -77,7 +88,7 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
               onClear={() => {
                 const value = createExcerptValue("");
                 onChange(value);
-                setToggleEditor(false);
+                setShowJSONEditor(false);
               }}
             />
           )}
@@ -94,7 +105,7 @@ const ReactPageInput: React.FC<InputProps & { onlyText?: boolean }> = ({
   return (
     <RaReactPageInput
       {...props}
-      label={props.source}
+      label={typeof props.label === "string" ? props.label : props.source}
       cellPlugins={onlyText ? minimalCellPlugins : cellPlugins}
       lang="en"
     />

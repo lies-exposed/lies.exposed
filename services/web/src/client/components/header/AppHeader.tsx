@@ -1,5 +1,7 @@
+import { Loader } from "@liexp/ui/components/Common/Loader";
 import Header, { HeaderMenuItem } from "@liexp/ui/components/Header";
 import * as React from "react";
+import { useGetIdentity } from "react-admin";
 import { useNavigateTo } from "../../utils/history.utils";
 import { useNavigateToResource } from "../../utils/location.utils";
 
@@ -33,21 +35,36 @@ const dataMenuItem = {
     },
   ],
 };
+
+const loginMenuItem: HeaderMenuItem = {
+  view: "/profile/login",
+  label: "Login",
+  subItems: [],
+};
 const profileMenuItem: HeaderMenuItem = {
   view: "/profile",
   label: "Profile",
-  subItems: []
+  subItems: [
+    {
+      view: "/logout",
+      label: "Logout",
+    },
+  ],
 };
-
-export const mainMenu: HeaderMenuItem[] = [dataMenuItem, profileMenuItem];
 
 const AppHeader: React.FC = () => {
   const navigateTo = useNavigateTo();
   const navigateToResource = useNavigateToResource();
+  const identity = useGetIdentity();
 
+  const userMenuItem = identity.isLoading
+    ? { view: "/", label: <Loader />, subItems: [] }
+    : identity.data?.id === ""
+    ? loginMenuItem
+    : profileMenuItem;
   return (
     <Header
-      menu={mainMenu}
+      menu={[dataMenuItem, userMenuItem]}
       onTitleClick={() => {
         navigateToResource.index({});
       }}

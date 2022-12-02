@@ -38,7 +38,7 @@ export class UserEntity {
   @Column({ type: "json", default: [] })
   permissions: UserPermission[];
 
-  @OneToMany(() => EventSuggestionEntity, (e) => e.createdBy, {
+  @OneToMany(() => EventSuggestionEntity, (e) => e.creator, {
     cascade: false,
     nullable: true,
   })

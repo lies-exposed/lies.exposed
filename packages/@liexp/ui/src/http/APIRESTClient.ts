@@ -4,7 +4,7 @@ import * as Task from "fp-ts/Task";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import type * as RA from "react-admin";
-import { RaRecord } from 'react-admin';
+import { RaRecord } from "react-admin";
 
 export interface APIRESTClient {
   request: <T = any>(config: AxiosRequestConfig<T>) => Promise<any>;

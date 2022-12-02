@@ -1,5 +1,6 @@
 import { API } from "@liexp/shared/providers/api.provider";
 import { throwTE } from "@liexp/shared/utils/task.utils";
+import { AxiosError } from "axios";
 import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -40,14 +41,19 @@ export const authProvider: AuthProvider = {
     localStorage.removeItem("auth");
     return await Promise.resolve(undefined);
   },
-  checkAuth: async () =>
-    localStorage.getItem("auth")
+  checkAuth: async () => {
+    const auth = localStorage.getItem("auth");
+    // console.log("auth", auth);
+    return auth
       ? await Promise.resolve()
       : // eslint-disable-next-line prefer-promise-reject-errors
-        await Promise.reject(),
-  checkError: (e) => {
+        await Promise.reject();
+  },
+  checkError: (e: AxiosError) => {
+    // console.log("check error", e);
     if (e?.response?.status === 401) {
-      return Promise.reject(new Error(e.response.body.message));
+      localStorage.removeItem("auth");
+      return Promise.reject(new Error(JSON.stringify(e.response.data)));
     }
 
     return Promise.resolve();

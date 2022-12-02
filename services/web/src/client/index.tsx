@@ -6,7 +6,7 @@ import createEmotionCache from "@liexp/ui/react/createEmotionCache";
 import { ECOTheme } from "@liexp/ui/theme";
 import debug from "debug";
 import * as React from "react";
-import * as ReactDOM from "react-dom";
+import * as ReactDOM from "react-dom/client";
 import { Hydrate, QueryClientProvider } from "react-query";
 import { BrowserRouter } from "react-router-dom";
 import { App } from "./App";
@@ -51,9 +51,11 @@ function Main(): JSX.Element {
   );
 }
 
-ReactDOM.hydrate(
+const container: any = document.getElementById("root");
+const root = ReactDOM.createRoot(container);
+
+root.render(
   <React.StrictMode>
     <Main />
-  </React.StrictMode>,
-  document.getElementById("root")
+  </React.StrictMode>
 );

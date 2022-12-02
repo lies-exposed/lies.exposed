@@ -25,7 +25,7 @@ export const getProfileLink = (
 ): string => {
   switch (key) {
     case "events/suggestions": {
-      return `/profile/${key}/${f.id}`;
+      return `/profile/${key}/${f.id}?type=Update`;
     }
     default:
       return `/profile`;
