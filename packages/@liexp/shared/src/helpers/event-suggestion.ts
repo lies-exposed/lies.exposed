@@ -9,7 +9,7 @@ export const getSuggestions = (
   m: Metadata,
   link: O.Option<http.Link.Link>,
   media: O.Option<http.Media.Media>
-): http.EventSuggestion.EventSuggestion[] => {
+): http.EventSuggestion.CreateEventSuggestion[] => {
   const urlDate = m.date ? new Date(m.date) : new Date();
 
   const suggestedTitle = pipe(
@@ -52,7 +52,7 @@ export const getSuggestions = (
     deletedAt: undefined,
   };
 
-  const suggestions: http.EventSuggestion.EventSuggestion[] = [
+  const suggestions: http.EventSuggestion.CreateEventSuggestion[] = [
     {
       type: http.EventSuggestion.EventSuggestionType.types[0].value,
       event: {

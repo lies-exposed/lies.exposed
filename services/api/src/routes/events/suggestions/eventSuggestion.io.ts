@@ -1,6 +1,7 @@
 import * as io from "@liexp/shared/io";
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
+import { UUID } from "io-ts-types/lib/UUID";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 
@@ -16,6 +17,12 @@ export const toEventSuggestion = (
         return {
           ...acc,
           links: acc.links.concat(l as any),
+        };
+      }
+      if (UUID.is((l as any).id)) {
+        return {
+          ...acc,
+          links: acc.links.concat((l as any).id),
         };
       }
       return {
@@ -34,9 +41,16 @@ export const toEventSuggestion = (
 
   const eventEncoded = {
     ...event.payload,
+    id: event.id,
+    createdAt: event.createdAt.toISOString(),
+    updatedAt: event.updatedAt.toISOString(),
     event: {
       ...event.payload.event,
       draft: event.payload.event.draft ?? true,
+      date:
+        typeof event.payload.event.date === "object"
+          ? event.payload.event.date.toISOString()
+          : event.payload.event.date,
       media: [],
       links,
       newLinks: (event.payload.event.newLinks ?? []).concat(newLinks),
@@ -45,7 +59,10 @@ export const toEventSuggestion = (
 
   return pipe(
     io.http.EventSuggestion.EventSuggestion.decode(eventEncoded),
-    E.map((payload) => ({ ...event, payload })),
+    E.map((payload) => ({
+      ...event,
+      payload,
+    })),
     E.mapLeft((e) =>
       DecodeError(`Failed to decode Event Suggestion (${event.id})`, e)
     )

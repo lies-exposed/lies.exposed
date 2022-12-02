@@ -4,7 +4,7 @@ import { uuid } from "@liexp/shared/utils/uuid";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { fetchRelations } from "./queries/fetchEventRelations.utils";
+import { fetchRelations } from "../queries/fetchEventRelations.utils";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { Route } from "@routes/route.types";

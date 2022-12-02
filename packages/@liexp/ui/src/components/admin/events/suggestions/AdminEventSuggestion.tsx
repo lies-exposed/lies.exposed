@@ -8,30 +8,33 @@ import {
   Datagrid,
   DateField,
   DateInput,
-  Edit,
   EditProps,
   FormDataConsumer,
   FormTab,
   FunctionField,
   List,
   ListProps,
+  LoadingPage,
   ReferenceField,
   SelectInput,
   TabbedForm,
   TextField,
   useDataProvider,
+  useGetIdentity,
+  usePermissions,
   useRecordContext,
   useRefresh,
 } from "react-admin";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ECOTheme } from "../../../../theme";
+import { getTitle } from "../../../../helpers/event.helper";
+import { checkIsAdmin } from "../../../../utils/user.utils";
 import { EventIcon } from "../../../Common/Icons";
-import { EventPageContent } from "../../../EventPageContent";
-import { HelmetProvider } from "../../../SEO";
 import ReactPageInput from "../../../admin/ReactPageInput";
 import ReferenceArrayKeywordInput from "../../../admin/common/ReferenceArrayKeywordInput";
 import { WebPreviewButton } from "../../../admin/common/WebPreviewButton";
-import { Box, ThemeProvider, Typography } from "../../../mui";
+import { Box, Grid, Typography } from "../../../mui";
+import { EditForm } from "../../common/EditForm";
+import ReferenceUserInput from "../../common/ReferenceUserInput";
+import { EventSuggestionPreview } from "../../previews/EventSuggestionPreview";
 import { DeathEventEditFormTab } from "../../tabs/DeathEventEditFormTab";
 import { DocumentaryEditFormTab } from "../../tabs/DocumentaryEditFormTab";
 import { PatentEventEditFormTab } from "../../tabs/PatentEventEditTab";
@@ -54,62 +57,89 @@ const eventSuggestionListFilter = [
   />,
 ];
 
-export const EventSuggestionList: React.FC<ListProps> = (props) => (
-  <List
-    {...props}
-    resource={RESOURCE}
-    filters={eventSuggestionListFilter}
-    filterDefaultValues={{
-      _sort: "createdAt",
-      _order: "ASC",
-      status: "PENDING",
-      withDeleted: false,
-    }}
-    perPage={25}
-  >
-    <Datagrid rowClick="edit">
-      <FunctionField
-        label="type"
-        render={(r: any) => {
-          return (
-            <Box>
-              <EventIcon color="primary" type={r.payload.event.type} />{" "}
-              <Typography display="inline" variant="subtitle1">
-                {r.payload.type}
-              </Typography>{" "}
-              {[
-                io.http.Events.Uncategorized.UNCATEGORIZED.value,
-                io.http.Events.ScientificStudy.SCIENTIFIC_STUDY.value,
-                io.http.Events.Patent.PATENT.value,
-              ].includes(r.payload.event.type) ? (
-                <Typography>{r.payload.event.payload.title}</Typography>
-              ) : (
-                <ReferenceField
-                  source="payload.event.payload.victim"
-                  reference="actors"
-                >
-                  <TextField source="username" />
-                </ReferenceField>
-              )}
-            </Box>
-          );
-        }}
-      />
-      <TextField source="status" />
-      <DateField source="payload.event.date" />
-      <FunctionField
-        source="payload.event.links"
-        render={(r: any) => r.links?.length ?? 0}
-      />
-      <FunctionField
-        source="payload.media"
-        render={(r: any) => r.media?.length ?? 0}
-      />
-      <DateField source="createdAt" />
-      <DateField source="updatedAt" />
-    </Datagrid>
-  </List>
-);
+export const EventSuggestionList: React.FC<ListProps> = (props) => {
+  const { identity, isLoading } = useGetIdentity();
+  const { permissions, isLoading: isPermsLoading } = usePermissions();
+
+  if (isLoading || isPermsLoading) {
+    return <LoadingPage />;
+  }
+
+  const isAdmin = checkIsAdmin(permissions);
+  const filter = !isAdmin && identity?.id ? { creator: identity?.id } : {};
+
+  return (
+    <List
+      {...props}
+      resource={RESOURCE}
+      filters={eventSuggestionListFilter}
+      filterDefaultValues={{
+        _sort: "createdAt",
+        _order: "ASC",
+        status: "PENDING",
+        withDeleted: false,
+      }}
+      filter={filter}
+      perPage={25}
+    >
+      <Datagrid rowClick="edit">
+        <FunctionField
+          label="type"
+          render={(r: any) => {
+            return (
+              <Box>
+                <EventIcon color="primary" type={r.payload.event.type} />{" "}
+                <Typography display="inline" variant="subtitle1">
+                  {r.payload.type}
+                </Typography>{" "}
+                {[
+                  io.http.Events.Uncategorized.UNCATEGORIZED.value,
+                  io.http.Events.ScientificStudy.SCIENTIFIC_STUDY.value,
+                  io.http.Events.Patent.PATENT.value,
+                ].includes(r.payload.event.type) ? (
+                  <Typography>
+                    {getTitle(r.payload.event, {
+                      media: [],
+                      keywords: [],
+                      groups: [],
+                      actors: [],
+                      groupsMembers: [],
+                    })}
+                  </Typography>
+                ) : (
+                  <ReferenceField
+                    source="payload.event.payload.victim"
+                    reference="actors"
+                  >
+                    <TextField source="username" />
+                  </ReferenceField>
+                )}
+              </Box>
+            );
+          }}
+        />
+        {isAdmin && (
+          <ReferenceField source="creator" reference="users">
+            <TextField source="username" />
+          </ReferenceField>
+        )}
+
+        <TextField source="status" />
+        <DateField source="payload.event.date" />
+        <FunctionField
+          source="payload.event.links"
+          render={(r: any) => r.links?.length ?? 0}
+        />
+        <FunctionField
+          source="payload.media"
+          render={(r: any) => r.media?.length ?? 0}
+        />
+        <DateField source="createdAt" />
+        <DateField source="updatedAt" />
+      </Datagrid>
+    </List>
+  );
+};
 
 const CreateEventButton: React.FC = () => {
   const refresh = useRefresh();
@@ -130,43 +160,74 @@ const CreateEventButton: React.FC = () => {
 
 export const EventSuggestionEdit: React.FC<EditProps> = () => {
   const dataProvider = useDataProvider();
+  const { permissions, isLoading: isLoadingPermissions } = usePermissions();
+  if (isLoadingPermissions) {
+    return <LoadingPage />;
+  }
+  const isAdmin = checkIsAdmin(permissions);
+
   return (
-    <Edit
+    <EditForm
       redirect={false}
       actions={
         <Box style={{ padding: 10 }}>
-          <WebPreviewButton resource="/dashboard/events" source="id" />
+          <WebPreviewButton resource="/events" source="id" />
           <CreateEventButton />
         </Box>
       }
       transform={async ({ id, ...r }) => {
-        const updatedEvent = await transformEvent(dataProvider)(id, r.payload.event);
+        const updatedEvent = await transformEvent(dataProvider)(
+          id,
+          r.payload.event
+        );
 
         return { id, ...r.payload, event: updatedEvent };
       }}
+      preview={<EventSuggestionPreview />}
     >
       <TabbedForm>
         <FormTab label="Generals">
-          <TextField label="Suggestion type" source="payload.type" />
-          <TextField label="Suggestion status" source="status" />
-          <DateInput label="date" source="payload.event.date" />
-          <BooleanInput label="draft" source="payload.event.draft" />
-          <ReactPageInput
-            label="excerpt"
-            source="payload.event.excerpt"
-            onlyText
-          />
-          <ReferenceArrayKeywordInput source="payload.event.keywords" showAdd />
-          <DateField
-            label="updatedAt"
-            source="payload.event.updatedAt"
-            showTime={true}
-          />
-          <DateField
-            label="createdAt"
-            source="payload.event.createdAt"
-            showTime={true}
-          />
+          <Grid container spacing={2}>
+            <Grid
+              item
+              md={6}
+              sm={6}
+              style={{ display: "flex", flexDirection: "column" }}
+            >
+              <BooleanInput label="draft" source="payload.event.draft" />
+              <TextField label="Suggestion type" source="payload.type" />
+              <TextField label="Suggestion status" source="status" />
+              <DateInput label="date" source="payload.event.date" />
+              <DateInput
+                label="endDate"
+                source="payload.event.payload.endDate"
+              />
+            </Grid>
+            <Grid item md={6} sm={6}>
+              {isAdmin && <ReferenceUserInput source="payload.creator" />}
+            </Grid>
+            <Grid item md={12}>
+              <ReactPageInput
+                label="excerpt"
+                source="payload.event.excerpt"
+                onlyText
+              />
+              <ReferenceArrayKeywordInput
+                source="payload.event.keywords"
+                showAdd
+              />
+              <DateField
+                label="updatedAt"
+                source="payload.event.updatedAt"
+                showTime={true}
+              />
+              <DateField
+                label="createdAt"
+                source="payload.event.createdAt"
+                showTime={true}
+              />
+            </Grid>
+          </Grid>
         </FormTab>
         <FormTab label="body">
           <ReactPageInput label="body" source="payload.event.body" />
@@ -208,41 +269,7 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
         <FormTab label="Links">
           <ReferenceLinkTab source="payload.event.links" />
         </FormTab>
-        <FormTab label="Preview">
-          <FormDataConsumer>
-            {({ formData, ...rest }) => {
-              const qc = new QueryClient();
-              return (
-                <HelmetProvider>
-                  <QueryClientProvider client={qc}>
-                    <ThemeProvider theme={ECOTheme}>
-                      {formData.payload.event.type === "Uncategorized" ? (
-                        <EventPageContent
-                          event={{
-                            media: [],
-                            keywords: [],
-                            links: [],
-                            ...formData.payload.event,
-                          }}
-                          onDateClick={() => undefined}
-                          onAreaClick={() => undefined}
-                          onActorClick={() => undefined}
-                          onGroupClick={() => undefined}
-                          onKeywordClick={() => undefined}
-                          onLinkClick={() => undefined}
-                          onGroupMemberClick={() => undefined}
-                        />
-                      ) : (
-                        <div />
-                      )}
-                    </ThemeProvider>
-                  </QueryClientProvider>
-                </HelmetProvider>
-              );
-            }}
-          </FormDataConsumer>
-        </FormTab>
       </TabbedForm>
-    </Edit>
+    </EditForm>
   );
 };

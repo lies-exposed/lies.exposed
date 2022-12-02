@@ -17,7 +17,7 @@ export const editEventQuery =
   (ctx: RouteContext) =>
   (
     storedEvent: EventV2Entity,
-    input: http.Events.EditEventBody
+    input: http.Events.EditEventBody,
   ): TE.TaskEither<DBError, EditEventEntity> => {
     return pipe(
       fetchRelations(ctx)(input),

@@ -2,8 +2,8 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { editEventQuery } from "./queries/editEvent.query";
-import { toEventSuggestion } from "./suggestions/eventSuggestion.io";
+import { editEventQuery } from "../queries/editEvent.query";
+import { toEventSuggestion } from "./eventSuggestion.io"
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { Route } from "@routes/route.types";
 
@@ -35,6 +35,9 @@ export const EditEventSuggestionRoute: Route = (r, ctx) => {
               ctx.db.save(EventSuggestionEntity, [
                 {
                   ...suggestion,
+                  creator: body.creator
+                    ? { id: body.creator }
+                    : { id: suggestion.creator.id },
                   payload: {
                     ...body,
                     event: {

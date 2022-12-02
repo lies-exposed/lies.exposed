@@ -23,9 +23,9 @@ import * as React from "react";
 import { createEventSuggestion, getURLMetadata } from "../../state/commands";
 
 interface EventSuggestionsListProps {
-  suggestions: http.EventSuggestion.EventSuggestion[];
-  selected?: http.EventSuggestion.EventSuggestion & { id: string };
-  onSelect: (e: http.EventSuggestion.EventSuggestion & { id: string }) => void;
+  suggestions: http.EventSuggestion.CreateEventSuggestion[];
+  selected?: http.EventSuggestion.CreateEventSuggestion & { id: string };
+  onSelect: (e: http.EventSuggestion.CreateEventSuggestion & { id: string }) => void;
 }
 
 const EventSuggestionsList: React.FC<EventSuggestionsListProps> = ({
@@ -77,7 +77,7 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
   });
 
   const [selectedSuggestion, setSelectedSuggestion] = React.useState<
-    (http.EventSuggestion.EventSuggestion & { id: string }) | undefined
+    (http.EventSuggestion.CreateEventSuggestion & { id: string }) | undefined
   >(undefined);
 
   const createEventSuggestionM = createEventSuggestion();

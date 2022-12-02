@@ -95,7 +95,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
               deletedAt: undefined,
             };
 
-            const suggestions: EventSuggestion.EventSuggestion[] = [
+            const suggestions: EventSuggestion.CreateEventSuggestion[] = [
               {
                 type: EventSuggestion.EventSuggestionType.types[0].value,
                 event: {

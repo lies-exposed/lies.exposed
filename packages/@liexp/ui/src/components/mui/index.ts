@@ -55,6 +55,7 @@ import Paper from "@mui/material/Paper";
 import Popper from "@mui/material/Popper";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import StyledEngineProvider from "@mui/material/StyledEngineProvider";
+import Switch from '@mui/material/Switch';
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
@@ -134,5 +135,6 @@ export {
   Checkbox,
   CheckBoxIcon,
   PlayCircleOutline,
-  CloseIcon
+  CloseIcon,
+  Switch
 };

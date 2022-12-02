@@ -80,7 +80,7 @@ export const CreateSuggestion = Endpoint({
   Method: "POST",
   getPath: () => `/events/suggestions`,
   Input: {
-    Body: http.EventSuggestion.EventSuggestion,
+    Body: http.EventSuggestion.CreateEventSuggestion,
   },
   Output: t.strict(
     {
@@ -150,7 +150,7 @@ export const GetFromLink = Endpoint({
     [
       ListEventOutput,
       t.type({
-        suggestions: t.array(http.EventSuggestion.EventSuggestion),
+        suggestions: t.array(http.EventSuggestion.CreateEventSuggestion),
       }),
     ],
     "GetEventsFromLinkOutput"
@@ -176,6 +176,7 @@ export const GetSuggestions = Endpoint({
       ...http.Query.PaginationQuery.props,
       status: optionFromNullable(http.EventSuggestion.EventSuggestionStatus),
       links: optionFromNullable(t.array(UUID)),
+      creator: optionFromNullable(UUID)
     }),
   },
   Output: http.Common.ListOutput(

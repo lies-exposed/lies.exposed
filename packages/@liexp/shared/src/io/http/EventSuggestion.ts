@@ -9,7 +9,7 @@ import {
   Event,
   Patent,
   ScientificStudy,
-  Uncategorized,
+  Uncategorized
 } from "./Events";
 
 const EventSuggestionNewType = t.literal("New");
@@ -32,14 +32,17 @@ export const EventSuggestionStatus = t.union(
 export type EventSuggestionStatus = t.TypeOf<typeof EventSuggestionStatus>;
 
 const EventSuggestionLinks = t.array(
-  t.union([
-    UUID,
-    t.type({
-      fromURL: t.boolean,
-      url: URL,
-      publishDate: t.union([DateFromISOString, t.null]),
-    }),
-  ])
+  t.union(
+    [
+      UUID,
+      t.type({
+        fromURL: t.boolean,
+        url: URL,
+        publishDate: t.union([DateFromISOString, t.null], "PublishDate?"),
+      }),
+    ],
+    "EventSuggestionLinks"
+  )
 );
 
 const UpdateEventSuggestion = t.type(
@@ -49,7 +52,7 @@ const UpdateEventSuggestion = t.type(
     event: t.intersection([
       Event,
       t.strict({ newLinks: EventSuggestionLinks }),
-    ]),
+    ], 'Event'),
   },
   "UpdateEventSuggestion"
 );
@@ -95,23 +98,40 @@ const NewUncategorizedEvent = t.strict(
   "NewUncategorizedEvent"
 );
 
-export const NewEventSuggestion = t.strict({
-  type: EventSuggestionNewType,
-  event: t.union(
-    [
-      NewDeathEvent,
-      NewScientificStudyEvent,
-      NewPatentEvent,
-      NewUncategorizedEvent,
-      NewDocumentaryEvent,
-    ],
-    "Event"
-  ),
-});
+export const NewEventSuggestion = t.strict(
+  {
+    type: EventSuggestionNewType,
+    event: t.union(
+      [
+        NewDeathEvent,
+        NewScientificStudyEvent,
+        NewPatentEvent,
+        NewUncategorizedEvent,
+        NewDocumentaryEvent,
+      ],
+      "Event"
+    ),
+  },
+  "NewEventSuggestion"
+);
 export type NewEventSuggestion = t.TypeOf<typeof NewEventSuggestion>;
 
-export const EventSuggestion = t.union(
+export const CreateEventSuggestion = t.union(
   [UpdateEventSuggestion, NewEventSuggestion],
+  "EventSuggestion"
+);
+export type CreateEventSuggestion = t.TypeOf<typeof CreateEventSuggestion>
+
+export const EventSuggestion = t.intersection(
+  [
+    t.strict({
+      id: UUID,
+      creator: t.union([ UUID, t.undefined]),
+      createdAt: DateFromISOString,
+      updatedAt: DateFromISOString,
+    }, 'EventSuggestionBase'),
+    CreateEventSuggestion,
+  ],
   "EventSuggestion"
 );
 

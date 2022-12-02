@@ -91,7 +91,7 @@ interface View {
 }
 
 export interface HeaderMenuItem extends View {
-  label: string;
+  label: React.ReactNode;
   subItems: Array<Omit<HeaderMenuItem, "subItems">>;
 }
 

@@ -73,7 +73,7 @@ export const findEventByLinkOrCreateSuggestion =
                     order: {},
                     skip: 0,
                     take: 5,
-                    createdBy: O.none
+                    creator: O.none
                   }),
                   TE.chain(({ data }) => {
                     ctx.logger.debug.log("Found event suggestions %O", data);
@@ -102,7 +102,7 @@ export const findEventByLinkOrCreateSuggestion =
             order: {},
             skip: 0,
             take: 1,
-            createdBy: O.none
+            creator: O.none
           }),
           TE.map(({ data }) => O.fromNullable(data[0])),
           TE.chain((optEventSuggestion) => {

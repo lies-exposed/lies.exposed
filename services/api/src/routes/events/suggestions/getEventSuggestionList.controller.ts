@@ -15,7 +15,20 @@ import { foldOptionals } from "@utils/foldOptionals.utils";
 export const GetEventSuggestionListRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(ctx, ["event-suggestion:read"]))(
     Endpoints.Event.Custom.GetSuggestions,
-    ({ query: { status, links, _order, _sort, _start, _end } }, { user }) => {
+    (
+      {
+        query: {
+          status,
+          links,
+          _order,
+          _sort,
+          _start,
+          _end,
+          creator: _creator,
+        },
+      },
+      { user }
+    ) => {
       const u: User = user as any;
       const ordering = foldOptionals({
         _sort,
@@ -32,11 +45,17 @@ export const GetEventSuggestionListRoute: Route = (r, ctx) => {
           )
         );
 
-      const createdBy = [EventSuggestionRead.value].some((p) =>
-        u.permissions.includes(p)
-      )
-        ? O.some(u.id)
-        : O.none;
+      ctx.logger.debug.log("_Creator %O", _creator);
+      const creator = pipe(
+        _creator,
+        O.alt(() =>
+          [EventSuggestionRead.value].some((p) => u.permissions.includes(p))
+            ? O.some(u.id)
+            : O.none
+        )
+      );
+
+      ctx.logger.debug.log("Creator %O", creator);
 
       return pipe(
         searchEventSuggestion(ctx)({
@@ -46,14 +65,16 @@ export const GetEventSuggestionListRoute: Route = (r, ctx) => {
           order: {
             [ordering._sort]: ordering._order,
           },
-          createdBy,
+          creator,
           skip: O.getOrElse(() => 0)(_start),
           take: O.getOrElse(() => 20)(_end),
         }),
         TE.chainEitherK(({ data, total }) =>
           pipe(
             data,
-            A.map(toEventSuggestion),
+            A.map((d) =>
+              toEventSuggestion({ ...d, creator: d.creator?.id as any })
+            ),
             A.sequence(E.Applicative),
             E.map((data) => ({ data, total }))
           )
