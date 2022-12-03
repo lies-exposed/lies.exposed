@@ -28,7 +28,7 @@ export type ActorInlineControlType = React.ComponentType<
 const actorInlinePlugin: any =
   pluginFactories.createComponentPlugin<ActorInlineState>({
     Component: ({ displayFullName, actor, style, className, ...props }) => {
-      console.log({ ...props, actor, style, className, displayFullName });
+      // console.log({ ...props, actor, style, className, displayFullName });
       if (actor) {
         const ids = [actor.id];
         return (
