@@ -246,7 +246,11 @@ export const makeApp = (ctx: RouteContext): express.Express => {
         const message = [
           "Thanks for your contribution! 🫶",
           "\n",
-          `Links: ${eventSuggestion.link ? eventSuggestion.link.url : ""}`,
+          `Links: ${
+            eventSuggestion.link
+              ? eventSuggestion.link.map((l) => `${l.url}\n`)
+              : ""
+          }`,
           `Photos: ${eventSuggestion.photos.length}`,
           `Videos: ${eventSuggestion.videos.length}`,
         ];

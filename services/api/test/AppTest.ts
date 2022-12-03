@@ -16,6 +16,7 @@ import { awsMock } from "../__mocks__/aws.mock";
 import { tgProviderMock } from "../__mocks__/tg.mock";
 import puppeteerMocks from "../__mocks__/puppeteer.mock";
 import { GetPuppeteerProvider } from "@liexp/shared/providers/puppeteer.provider";
+import D from 'debug';
 export interface AppTest {
   ctx: RouteContext;
   req: supertest.SuperTest<supertest.Test>;
@@ -42,13 +43,14 @@ export const initAppTest = async (): Promise<AppTest> => {
     return appTest;
   }
 
+  D.enable(process.env.DEBUG ?? "*");
+
   const dataSource = getDataSource(process.env as any, false);
-  
 
   const fetchHTML = jest.fn();
   const fetchMetadata = jest.fn();
 
-  const logger = GetLogger("@test");
+  const logger = GetLogger("test");
 
   return await pipe(
     sequenceS(TE.ApplicativePar)({

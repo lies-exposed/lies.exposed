@@ -23,6 +23,7 @@ export const pageMock = {
       setTimeout(resolve, ms / 10);
     });
   }),
+  browser: () => browserMock,
 };
 
 export const browserMock = {
