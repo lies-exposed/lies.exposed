@@ -17,12 +17,12 @@ import { fetchAndSave } from "@flows/link.flow";
 import {
   ControllerError,
   ServerError,
-  toControllerError
+  toControllerError,
 } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
 
 interface EventResult {
-  link: LinkEntity | undefined;
+  link: LinkEntity[];
   photos: MediaEntity[];
   videos: MediaEntity[];
   hashtags: string[];
@@ -42,10 +42,10 @@ const parseVideo =
         () => TE.right(undefined as any as string),
         (id) =>
           pipe(
-            TE.tryCatch(
-              () => ctx.tg.bot.downloadFile(id, tempFolder),
-              toControllerError
-            ),
+            TE.tryCatch(() => {
+              ctx.logger.debug.log("Download file from TG %s", id);
+              return ctx.tg.bot.downloadFile(id, tempFolder);
+            }, toControllerError),
             TE.chain((f) =>
               ctx.s3.upload({
                 Bucket: ctx.env.SPACE_BUCKET,
@@ -119,6 +119,18 @@ const parsePhoto =
     );
   };
 
+const takeURLFromMessageEntity =
+  (text?: string) =>
+  (acc: URL[], e: TelegramBot.MessageEntity): URL[] => {
+    if (e.type === "url" && text) {
+      return acc.concat(text.slice(e.offset, e.length) as any);
+    }
+    if (e.type === "text_link") {
+      return acc.concat(e.url as any);
+    }
+    return acc;
+  };
+
 export const createFromTGMessage =
   (ctx: RouteContext) =>
   (
@@ -135,32 +147,44 @@ export const createFromTGMessage =
     // fetch url metadata and create hashtags when given
     // save the event suggestion
 
-    const urlEntity = (message.entities ?? [])
-      .concat(message.caption_entities ?? [])
-      .reduce<URL[]>((acc, e) => {
-        if (e.type === "url") {
-          return acc.concat(message.text?.slice(e.offset, e.length) as any);
-        }
-        if (e.type === "text_link") {
-          return acc.concat(e.url as any);
-        }
-        return acc;
-      }, []);
+    const urlEntity = [
+      ...(message.entities ?? []).reduce(
+        takeURLFromMessageEntity(message.text),
+        []
+      ),
+      ...(message.caption_entities ?? []).reduce(
+        takeURLFromMessageEntity(message.caption),
+        []
+      ),
+    ];
 
-    const url = pipe(O.fromNullable(urlEntity[0]));
+    ctx.logger.info.log("URL entity %O", urlEntity);
+
+    const urls = pipe(
+      urlEntity,
+      O.fromPredicate((u) => u.length > 0)
+    );
+
+    ctx.logger.info.log("URL %O", urls);
+
+    ctx.logger.info.log("Message photo%O", message.photo);
     const photo = pipe(
       message.photo,
       O.fromPredicate((p) => (p?.length ?? 0) > 0)
     );
 
+    ctx.logger.info.log("Photo %O", photo);
+
     const video = O.fromNullable(message.video);
 
-    if (O.isNone(url)) {
-      ctx.logger.debug.log("No url given...");
+    ctx.logger.info.log("Video %O", video);
+
+    if (O.isNone(urls)) {
+      ctx.logger.info.log("No url given...");
       if (O.isNone(photo)) {
-        ctx.logger.debug.log("No photo given");
+        ctx.logger.info.log("No photo given");
         if (O.isNone(video)) {
-          ctx.logger.debug.log("No video given");
+          ctx.logger.info.log("No video given");
           return TE.left(
             ServerError(["No url given", "No photo given", "No video given"])
           );
@@ -173,28 +197,37 @@ export const createFromTGMessage =
       .map((h) => message.text?.slice(h.offset, h.length))
       .filter((s): s is string => typeof s !== "undefined");
 
+    ctx.logger.info.log("Hashtags %O", hashtags);
+
     const byURLTask = pipe(
-      url,
-      O.map((u) =>
+      urls,
+      O.map((uu) =>
         pipe(
-          ctx.db.findOne(LinkEntity, {
-            where: {
-              url: Equal(u),
-            },
-          }),
-          TE.chain((link) => {
-            if (O.isSome(link)) {
-              return TE.right(link);
-            }
+          uu,
+          A.map((u) => {
             return pipe(
-              fetchAndSave(ctx)(u),
-              TE.mapLeft(toControllerError),
-              TE.map((l) => O.some(l))
+              ctx.db.findOne(LinkEntity, {
+                where: {
+                  url: Equal(u),
+                },
+              }),
+              TE.chain((link) => {
+                ctx.logger.info.log("Link %O", link);
+                if (O.isSome(link)) {
+                  return TE.right(link.value);
+                }
+
+                return pipe(
+                  fetchAndSave(ctx)(u),
+                  TE.mapLeft(toControllerError)
+                );
+              })
             );
-          })
+          }),
+          A.sequence(TE.ApplicativeSeq)
         )
       ),
-      O.getOrElse(() => TE.right<ControllerError, O.Option<LinkEntity>>(O.none))
+      O.getOrElse(() => TE.right<ControllerError, LinkEntity[]>([]))
     );
 
     const byPhotoTask = pipe(
@@ -214,11 +247,12 @@ export const createFromTGMessage =
         },
         { unique: [] as TelegramBot.PhotoSize[], ids: [] as string[] }
       ),
-      ctx.logger.debug.logInPipe('Photo to parse %O'),
+      ctx.logger.debug.logInPipe("Photo to parse %O"),
       TE.right,
       TE.chain((pp) => parsePhoto(ctx)(message.caption ?? "", pp.unique))
     );
 
+    ctx.logger.debug.log("Video to parse %O", video);
     const byVideoTask = O.isSome(video)
       ? pipe(parseVideo(ctx)(message.caption ?? "", video.value))
       : TE.right([]);
@@ -230,10 +264,6 @@ export const createFromTGMessage =
         videos: byVideoTask,
         hashtags: TE.right(hashtags),
       }),
-      TE.map(({ link, ...result }) => ({
-        ...result,
-        link: O.toUndefined(link),
-      })),
       TE.mapLeft((e) => {
         ctx.logger.error.log("Error %O", e);
         return e;

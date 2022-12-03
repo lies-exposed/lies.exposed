@@ -28,11 +28,7 @@ const run = async () => {
     })
   );
 
-  // if (result.link) {
-  //   ctx.logger.debug.log("Remove message file %s", messageFile);
-  //   fs.rmSync(messageFile);
-  // }
   console.log(result);
 };
 
-run().catch(console.error);
+void run().catch(console.error);
