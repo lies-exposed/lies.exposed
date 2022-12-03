@@ -15,8 +15,6 @@ export const EventSuggestionPreview: React.FC = () => {
 
   const qc = React.useMemo(() => new QueryClient(), []);
 
-  console.log(record);
-
   const result = React.useMemo(() => {
     const { payload, ...r } = record;
     return http.EventSuggestion.EventSuggestion.decode({
