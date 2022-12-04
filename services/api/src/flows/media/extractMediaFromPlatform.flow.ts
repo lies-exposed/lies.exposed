@@ -78,7 +78,7 @@ export const extractMediaFromPlatform =
   ): TE.TaskEither<ControllerError, Partial<MediaEntity>> => {
     ctx.logger.debug.log("Extracting media from %s (%O)", url, m);
     return pipe(
-      sequenceS(TE.ApplicativePar)({
+      sequenceS(TE.ApplicativeSeq)({
         description: extractDescriptionFromPlatform(m, page),
         location: extractEmbedFromPlatform(url, m, page),
         thumbnail: pipe(

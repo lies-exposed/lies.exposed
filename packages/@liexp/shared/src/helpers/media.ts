@@ -41,7 +41,7 @@ const odyseeVideoRegExp =
 
 const rumbleVideoRegExp =
   /http(?:s?):\/\/(?:www\.)?rumble\.com\/embed\/([\w\-_]*)\/?([\w?=]*)/;
-const rumbleVideoRegExp2 = /http(?:s?):\/\/(?:www\.)?rumble\.com\/([\w\^-_]*)/;
+const rumbleVideoRegExp2 = /http(?:s?):\/\/(?:www\.)?rumble\.com\/([\w\-_]*)/;
 
 const peertubeVideoRegExp =
   /http(?:s?):\/\/([^/]+)\/videos\/watch\/([^/]+)(&(amp;)?[\w?=]*)?/;
@@ -90,9 +90,8 @@ export const getPlatform = (
       id: rumbleMatch[1],
     });
   }
-  const rumbleMatch2 = url.match(rumbleVideoRegExp2);
-  console.log(rumbleMatch2);
 
+  const rumbleMatch2 = url.match(rumbleVideoRegExp2);
   if (rumbleMatch2) {
     return E.right({
       platform: "rumble",

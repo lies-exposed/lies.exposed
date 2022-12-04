@@ -1,8 +1,8 @@
 import { GetLogger } from "@liexp/core/logger";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import * as E from "fp-ts/Either";
-import { flow, pipe } from "fp-ts/function";
 import * as TE from "fp-ts/TaskEither";
+import { flow, pipe } from "fp-ts/function";
 import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import { MinimalEndpointInstance, TypeOfEndpointInstance } from "ts-endpoint";
@@ -59,7 +59,7 @@ export type TERequest<E extends MinimalEndpointInstance> = (
   input: TypeOfEndpointInstance<E>["Input"]
 ) => TE.TaskEither<APIError, TypeOfEndpointInstance<E>["Output"]>;
 
-type HTTP = {
+interface HTTP {
   get: <T>(
     url: string,
     config?: AxiosRequestConfig<any>
@@ -74,7 +74,7 @@ type HTTP = {
     data?: T,
     config?: AxiosRequestConfig<T>
   ) => TE.TaskEither<Error, R>;
-};
+}
 
 const HTTP = (c: AxiosRequestConfig): HTTP => {
   const client = axios.create(c);

@@ -1,8 +1,11 @@
 import * as fs from "fs";
 import path from "path";
+import { getPlatformEmbedURL } from "@liexp/shared/helpers/media";
+import { AdminCreate } from "@liexp/shared/io/http/User";
 import { createExcerptValue } from "@liexp/shared/slate";
 import { HumanReadableStringArb } from "@liexp/shared/tests/arbitrary/HumanReadableString.arbitrary";
 import { URLArb } from "@liexp/shared/tests/arbitrary/URL.arbitrary";
+import { UserArb } from "@liexp/shared/tests/arbitrary/User.arbitrary";
 import {
   TGMessageArb,
   TGPhotoArb,
@@ -18,6 +21,7 @@ import { AppTest, GetAppTest } from "../../../../test/AppTest";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { LinkEntity } from "@entities/Link.entity";
 import { MediaEntity } from "@entities/Media.entity";
+import { UserEntity } from "@entities/User.entity";
 import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
 
 const tempDir = path.resolve(__dirname, `../../../../temp/tg/media`);
@@ -32,17 +36,35 @@ interface MessageTest {
 
 describe("Create From TG Message", () => {
   let Test: AppTest;
+  let admin: any = fc.sample(UserArb, 1).map((u) => ({
+    ...u,
+    passwordHash: "password-hash",
+    permissions: [AdminCreate.value],
+  }))[0];
+
   beforeAll(async () => {
     Test = GetAppTest();
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }
+
+    await throwTE(Test.ctx.db.save(UserEntity, [admin]));
+    admin = await throwTE(
+      Test.ctx.db.findOneOrFail(UserEntity, { where: { email: admin.email } })
+    );
+  });
+
+  afterAll(async () => {
+    await throwTE(Test.ctx.db.delete(UserEntity, [admin.id]));
+    fs.rmSync(tempDir, { recursive: true });
   });
 
   describe("createEventSuggestion", () => {
     test("succeeds when link is not yet present in db", async () => {
       const url = fc.sample(URLArb, 1)[0];
       const description = fc.sample(HumanReadableStringArb(), 1)[0];
+
+      Test.mocks.puppeteer.page.goto.mockReset().mockResolvedValueOnce({});
 
       Test.mocks.urlMetadata.fetchMetadata.mockResolvedValueOnce({
         url,
@@ -98,6 +120,8 @@ describe("Create From TG Message", () => {
 
       [link] = await throwTE(Test.ctx.db.save(LinkEntity, [link]));
 
+      Test.mocks.puppeteer.page.goto.mockReset().mockResolvedValueOnce({});
+
       const result = await throwTE(
         createFromTGMessage(Test.ctx)(
           {
@@ -137,8 +161,6 @@ describe("Create From TG Message", () => {
         caption: title,
         caption_entities: [],
       }));
-
-      Test.ctx.logger.debug.log("Message %O", message);
 
       // // create the media
 
@@ -206,18 +228,35 @@ describe("Create From TG Message", () => {
       });
     });
 
-    let messageCases: MessageTest[] = [
+    const messageCases: MessageTest[] = [
       {
         n: 95,
-        urls(m) {
-          return [{ url: m.caption_entities?.[1].url }];
-        },
-        videos(m) {
+        urls: () => [],
+        platformVideos(m) {
+          const description = fc.sample(fc.string(), 1)[0];
+          const thumbnail = fc.sample(fc.webUrl(), 1)[0];
+          puppeteerMocks.page.$eval
+            .mockReset()
+            .mockResolvedValueOnce(description)
+            .mockResolvedValueOnce(thumbnail);
+          const ytURLChunks = m.caption_entities?.[1].url?.split("/") ?? [];
+
           return [
             {
-              description: m.caption,
+              description,
+              thumbnail,
+              location: getPlatformEmbedURL(
+                {
+                  platform: "youtube",
+                  id: ytURLChunks[ytURLChunks?.length - 1],
+                },
+                m.caption_entities?.[1].url as any
+              ),
             },
           ];
+        },
+        videos(m) {
+          return [];
         },
       },
       {
@@ -232,14 +271,33 @@ describe("Create From TG Message", () => {
       {
         n: 97,
         urls(m) {
+          return [];
+        },
+        platformVideos: (m) => {
+          const description = fc.sample(fc.string(), 1)[0];
+          const thumbnail = fc.sample(fc.webUrl(), 1)[0];
+          puppeteerMocks.page.$eval
+            .mockReset()
+            .mockResolvedValueOnce(description)
+            .mockResolvedValueOnce(thumbnail);
+          const ytURLChunks = m.caption_entities?.[1].url?.split("/") ?? [];
+
           return [
             {
-              url: m.caption_entities?.[1].url,
+              description,
+              thumbnail,
+              location: getPlatformEmbedURL(
+                {
+                  platform: "youtube",
+                  id: ytURLChunks[ytURLChunks?.length - 1],
+                },
+                m.caption_entities?.[1].url as any
+              ),
             },
           ];
         },
         videos(m) {
-          return [{ description: m.caption }];
+          return [];
         },
       },
       {
@@ -265,10 +323,33 @@ describe("Create From TG Message", () => {
       {
         n: 99,
         urls: (m) => {
-          return [{ url: m.caption_entities?.[1].url }];
+          return [];
+        },
+        platformVideos: (m) => {
+          const description = fc.sample(fc.string(), 1)[0];
+          const thumbnail = fc.sample(fc.webUrl(), 1)[0];
+          puppeteerMocks.page.$eval
+            .mockReset()
+            .mockResolvedValueOnce(description)
+            .mockResolvedValueOnce(thumbnail);
+          const ytURLChunks = m.caption_entities?.[1].url?.split("/") ?? [];
+
+          return [
+            {
+              description,
+              thumbnail,
+              location: getPlatformEmbedURL(
+                {
+                  platform: "youtube",
+                  id: ytURLChunks[ytURLChunks?.length - 1],
+                },
+                m.caption_entities?.[1].url as any
+              ),
+            },
+          ];
         },
         videos: (m) => {
-          return [{ description: m.caption }];
+          return [];
         },
       },
       {
@@ -286,15 +367,6 @@ describe("Create From TG Message", () => {
         },
         photos: () => [],
         videos: () => [],
-      },
-      {
-        n: 101,
-        urls: () => {
-          return [];
-        },
-        videos(m) {
-          return [{ description: m.caption }];
-        },
       },
       {
         n: 102,
@@ -365,8 +437,26 @@ describe("Create From TG Message", () => {
             },
           ];
         },
-        videos: (m) => {
-          return [[{ url: m.caption_entities?.[4].url }]];
+        platformVideos: (m) => {
+          const rumbleState = {
+            description: "rumble description",
+            embedUrl: "url to embed",
+            thumbnailUrl: "rumble thumbnail",
+          };
+
+          puppeteerMocks.page.$eval
+            .mockReset()
+            .mockResolvedValueOnce(rumbleState)
+            .mockResolvedValueOnce(rumbleState)
+            .mockResolvedValueOnce(rumbleState);
+
+          return [
+            {
+              description: rumbleState.description,
+              location: rumbleState.embedUrl,
+              thumbnail: rumbleState.thumbnailUrl,
+            },
+          ];
         },
       },
       {
@@ -396,9 +486,9 @@ describe("Create From TG Message", () => {
       },
     ];
 
-    messageCases = messageCases.filter((n: MessageTest) => [431].includes(n.n));
+    // messageCases = messageCases.filter((n: MessageTest) => [865].includes(n.n));
 
-    test.only.each(messageCases)(
+    test.skip.each(messageCases)(
       "Running message case $n",
       async (c: MessageTest) => {
         const message = pipe(
@@ -416,15 +506,12 @@ describe("Create From TG Message", () => {
           Test.mocks.urlMetadata.fetchMetadata.mockResolvedValueOnce(m);
         });
 
-        const platformVideos = c.platformVideos?.(message) ?? [];
-        platformVideos.forEach(() => {
-          puppeteerMocks.page.goto.mockReset().mockResolvedValueOnce({});
-          puppeteerMocks.page.waitForSelector
-            .mockReset()
-            .mockResolvedValueOnce({});
-          puppeteerMocks.page.$eval.mockReset().mockResolvedValueOnce({});
-        });
+        puppeteerMocks.page.goto.mockReset().mockResolvedValueOnce({});
+        puppeteerMocks.page.waitForSelector
+          .mockReset()
+          .mockResolvedValueOnce({});
 
+        const platformVideos = c.platformVideos?.(message) ?? [];
         const photos = c.photos?.(message) ?? [];
         const videos = c.videos?.(message) ?? [];
 
@@ -458,8 +545,6 @@ describe("Create From TG Message", () => {
               Location: fc.sample(fc.webUrl(), 1)[0],
             })
           );
-
-          puppeteerMocks.page.goto.mockReset().mockResolvedValueOnce({});
         });
 
         videos.forEach((p) => {
@@ -502,12 +587,6 @@ describe("Create From TG Message", () => {
                 )[0],
               })
             );
-
-          puppeteerMocks.page.goto.mockReset().mockResolvedValueOnce({});
-          puppeteerMocks.page.waitForSelector
-            .mockReset()
-            .mockResolvedValueOnce({});
-          puppeteerMocks.page.$eval.mockReset().mockResolvedValueOnce({});
         });
 
         const result = await throwTE(
@@ -521,7 +600,7 @@ describe("Create From TG Message", () => {
           }))
         );
         expect(result.photos).toMatchObject(photos);
-        expect(result.videos).toMatchObject(videos);
+        expect(result.videos).toMatchObject([...videos, ...platformVideos]);
 
         if (result.link.length > 0) {
           await throwTE(

@@ -1,3 +1,25 @@
+import * as fs from "fs";
+import path from "path";
+import { isExcludedURL } from "@liexp/shared/helpers/link.helper";
+import { getPlatform, VideoPlatformMatch } from "@liexp/shared/helpers/media";
+import { URL } from "@liexp/shared/io/http/Common";
+import { MediaType } from "@liexp/shared/io/http/Media";
+import {
+  AdminCreate,
+  AdminDelete,
+  AdminEdit,
+} from "@liexp/shared/io/http/User";
+import { uuid } from "@liexp/shared/utils/uuid";
+import { sequenceS } from "fp-ts/Apply";
+import * as A from "fp-ts/Array";
+import * as E from "fp-ts/Either";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
+import TelegramBot from "node-telegram-bot-api";
+import type puppeteer from "puppeteer-core";
+import { Equal } from "typeorm";
+import { createAndUpload } from "../media/createAndUpload.flow";
 import { LinkEntity } from "@entities/Link.entity";
 import { MediaEntity } from "@entities/Media.entity";
 import { UserEntity } from "@entities/User.entity";
@@ -6,31 +28,9 @@ import { extractMediaFromPlatform } from "@flows/media/extractMediaFromPlatform.
 import {
   ControllerError,
   ServerError,
-  toControllerError
+  toControllerError,
 } from "@io/ControllerError";
-import { isExcludedURL } from "@liexp/shared/helpers/link.helper";
-import { getPlatform, VideoPlatformMatch } from "@liexp/shared/helpers/media";
-import { URL } from "@liexp/shared/io/http/Common";
-import { MediaType } from "@liexp/shared/io/http/Media";
-import {
-  AdminCreate,
-  AdminDelete,
-  AdminEdit
-} from "@liexp/shared/io/http/User";
-import { uuid } from "@liexp/shared/utils/uuid";
 import { RouteContext } from "@routes/route.types";
-import { sequenceS } from "fp-ts/Apply";
-import * as A from "fp-ts/Array";
-import * as E from "fp-ts/Either";
-import { pipe } from "fp-ts/function";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import * as fs from "fs";
-import TelegramBot from "node-telegram-bot-api";
-import path from "path";
-import type puppeteer from "puppeteer-core";
-import { Equal } from "typeorm";
-import { createAndUpload } from "../media/createAndUpload.flow";
 
 interface EventResult {
   link: LinkEntity[];
@@ -51,7 +51,9 @@ const parsePlatformMedia =
     return pipe(
       extractMediaFromPlatform(ctx)(url, m, page),
       TE.chain((media) => {
-        return ctx.db.save(MediaEntity, [{ ...media, creator }]);
+        return ctx.db.save(MediaEntity, [
+          { ...media, creator: { id: creator.id } },
+        ]);
       }),
       TE.map((d) => d[0])
     );
@@ -194,7 +196,8 @@ export const createFromTGMessage =
             video: acc.video.concat({ ...platformURL.right, url }),
           };
         }
-        if (isExcludedURL(url)) {
+
+        if (!isExcludedURL(url)) {
           return {
             ...acc,
             url: acc.url.concat(url),
