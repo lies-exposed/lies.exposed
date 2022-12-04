@@ -17,31 +17,34 @@ export const extractDescriptionFromPlatform = (
   m: VideoPlatformMatch,
   page: puppeteer.Page
 ): TE.TaskEither<ControllerError, string | undefined> => {
-  return TE.tryCatch(async () => {
-    switch (m.platform) {
-      case "youtube": {
-        const selector = 'meta[property="og:title"]';
-        await page.waitForSelector(selector);
+  return pipe(
+    TE.tryCatch(async () => {
+      switch (m.platform) {
+        case "youtube": {
+          const selector = 'meta[property="og:title"]';
+          await page.waitForSelector(selector);
 
-        const description = await page.$eval(selector, (el) => {
-          return el.getAttribute("content");
-        });
+          const description = await page.$eval(selector, (el) => {
+            return el.getAttribute("content");
+          });
 
-        return description;
+          return description;
+        }
+
+        case "rumble": {
+          const selector = 'script[type="application/ld+json"]';
+          await page.waitForSelector(selector);
+
+          const rumbleState = await page.$eval(selector, (el) => {
+            return JSON.parse(el.innerHTML)[0];
+          });
+
+          return rumbleState.description;
+        }
       }
-
-      case "rumble": {
-        const selector = 'script[type="application/ld+json"]';
-        await page.waitForSelector(selector);
-
-        const rumbleState = await page.$eval(selector, (el) => {
-          return JSON.parse(el.innerHTML)[0];
-        });
-
-        return rumbleState.description;
-      }
-    }
-  }, toControllerError);
+    }, toControllerError),
+    TE.orElseW((e) => TE.right(undefined))
+  );
 };
 
 export const extractEmbedFromPlatform = (
@@ -49,24 +52,27 @@ export const extractEmbedFromPlatform = (
   m: VideoPlatformMatch,
   page: puppeteer.Page
 ): TE.TaskEither<ControllerError, string> => {
-  return TE.tryCatch(async () => {
-    await page.goto(url);
+  return pipe(
+    TE.tryCatch(async () => {
+      await page.goto(url);
 
-    switch (m.platform) {
-      case "rumble": {
-        const selector = 'script[type="application/ld+json"]';
-        await page.waitForSelector(selector);
+      switch (m.platform) {
+        case "rumble": {
+          const selector = 'script[type="application/ld+json"]';
+          await page.waitForSelector(selector);
 
-        const rumbleState = await page.$eval(selector, (el) => {
-          return JSON.parse(el.innerHTML)[0];
-        });
+          const rumbleState = await page.$eval(selector, (el) => {
+            return JSON.parse(el.innerHTML)[0];
+          });
 
-        return rumbleState.embedUrl;
+          return rumbleState.embedUrl;
+        }
+        default:
+          return getPlatformEmbedURL(m, url);
       }
-      default:
-        return getPlatformEmbedURL(m, url);
-    }
-  }, toControllerError);
+    }, toControllerError),
+    TE.orElse(() => TE.right(url))
+  );
 };
 
 export const extractMediaFromPlatform =
@@ -83,7 +89,11 @@ export const extractMediaFromPlatform =
         location: extractEmbedFromPlatform(url, m, page),
         thumbnail: pipe(
           extractThumbnail(m, page),
-          TE.mapLeft(toControllerError)
+          TE.mapLeft(toControllerError),
+          TE.orElse(
+            (): TE.TaskEither<ControllerError, string | undefined> =>
+              TE.right(undefined)
+          )
         ),
         type: TE.right(IframeVideoType.value),
       })
