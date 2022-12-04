@@ -1,5 +1,6 @@
 import { propsOmit } from "@liexp/core/io/utils";
 import * as t from "io-ts";
+import { UUID } from 'io-ts-types/UUID';
 import { Endpoint } from "ts-endpoint";
 import { Events } from "../../io/http";
 import { ListOutput, Output } from "../../io/http/Common/Output";
@@ -21,7 +22,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/patents/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
   },
   Output: SinglePatentOutput,
 });
@@ -43,7 +44,7 @@ export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/patents/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
     Body: t.strict(
       propsOmit(Events.Patent.EditPatentBody, ["type"]),
       "EditPatentBody"
@@ -56,7 +57,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/patents/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
   },
   Output: SinglePatentOutput,
 });

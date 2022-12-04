@@ -17,7 +17,7 @@ export const MakeUserGetMeRoute = (r: Router, ctx: RouteContext): void => {
         ensureUserExists(req.user),
         TE.fromEither,
         TE.chain((u) =>
-          ctx.db.findOneOrFail(UserEntity, { where: { id: Equal(u.id) } })
+          ctx.db.findOneOrFail(UserEntity, { where: { id: Equal(u.id as any) } })
         ),
         TE.chainEitherK(toUserIO),
         TE.map((user) => ({

@@ -31,7 +31,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/actors/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
   },
   Output: SingleActorOutput,
 });
@@ -60,7 +60,7 @@ export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/actors/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
     Body: nonEmptyRecordFromType({
       username: optionFromNullable(t.string),
       fullName: optionFromNullable(t.string),
@@ -89,7 +89,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/actors/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
   },
   Output: SingleActorOutput,
 });

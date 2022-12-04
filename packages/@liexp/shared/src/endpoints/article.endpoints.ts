@@ -1,4 +1,5 @@
 import * as t from "io-ts";
+import { UUID } from 'io-ts-types/UUID';
 import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
@@ -29,7 +30,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/articles/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
   },
   Output: Output(Article.Article, "Articles"),
 });
@@ -61,7 +62,7 @@ export const articles = ResourceEndpoints({
     Method: "PUT",
     getPath: ({ id }) => `/articles/${id}`,
     Input: {
-      Params: t.type({ id: t.string }),
+      Params: t.type({ id: UUID }),
       Body: t.strict(
         {
           title: t.string,

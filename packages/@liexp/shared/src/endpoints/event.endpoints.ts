@@ -8,6 +8,7 @@ import {
   GetSearchEventsQuery,
 } from "../io/http/Events/SearchEventsQuery";
 import { ResourceEndpoints } from "./types";
+import { URL } from '@io/http/Common';
 
 const SingleEventOutput = http.Common.Output(http.Events.Event, "Event");
 export const ListEventOutput = t.strict(
@@ -64,7 +65,7 @@ export const PostToPlatform = Endpoint({
   Method: "POST",
   getPath: ({ id }) => `/events/${id}/share`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
     Body: t.type({
       title: t.string,
       date: t.string,
@@ -144,7 +145,7 @@ export const GetFromLink = Endpoint({
   Method: "GET",
   getPath: () => `/events-from-link`,
   Input: {
-    Query: t.type({ url: t.string }),
+    Query: t.type({ url: URL }),
   },
   Output: t.intersection(
     [
@@ -207,7 +208,7 @@ export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/events/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
     Body: http.Events.EditEventBody,
   },
   Output: SingleEventOutput,
@@ -217,7 +218,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/events/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
   },
   Output: SingleEventOutput,
 });

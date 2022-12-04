@@ -1,4 +1,4 @@
-import { APIError } from "@liexp/shared/providers/http/api.provider";
+import { APIError } from "@liexp/shared/providers/http/http.provider";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
