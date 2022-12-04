@@ -43,7 +43,7 @@ export const extractDescriptionFromPlatform = (
         }
       }
     }, toControllerError),
-    TE.orElseW((e) => TE.right(undefined))
+    TE.orElseW((e) => TE.right(""))
   );
 };
 
