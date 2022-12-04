@@ -23,6 +23,7 @@
     "db:diagram": "ts-node -r tsconfig-paths/register -T ./node_modules/.bin/typeorm-uml ormconfig.js -D LR -d ./data/media/docs/diagrams/typeorm-uml.png",
     "migration:gen": "typeorm migration:generate -d ./ormconfig.js --check",
     "migration:run": "typeorm migration:run -d ./ormconfig.js",
+    "migration:show": "typeorm migration:show -d ./ormconfig.js",
     "migration:revert": "typeorm migration:revert -d ./ormconfig.js",
     "create-event-stats": "DOTENV_CONFIG_PATH=../../.env yarn ts:node ./bin/create-event-stats.ts",
     "parse-tg-message": "DOTENV_CONFIG_PATH=../../.env yarn ts:node ./bin/parse-tg-message.ts",
@@ -58,7 +59,7 @@
     "puppeteer-core": "^13.7.0",
     "ts-endpoint-express": "^2.0.0",
     "ts-shared": "2.0.0-alpha.6",
-    "typeorm": "^0.3.10",
+    "typeorm": "^0.3.11",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

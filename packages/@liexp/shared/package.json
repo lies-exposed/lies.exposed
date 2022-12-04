@@ -42,7 +42,7 @@
     "ts-endpoint": "^2.0.0",
     "ts-endpoint-express": "^2.0.0",
     "ts-io-error": "^2.0.0",
-    "typeorm": "^0.3.10",
+    "typeorm": "^0.3.11",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
