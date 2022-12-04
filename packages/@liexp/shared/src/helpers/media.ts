@@ -1,6 +1,7 @@
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
+import { URL } from "@io/http/Common";
 
 type Youtube = "youtube";
 type Bitchute = "bitchute";
@@ -20,6 +21,7 @@ export type VideoPlatformMatch =
     }
   | {
       platform: Rumble;
+      id: string;
     }
   | {
       platform: Peertube;
@@ -39,6 +41,8 @@ const odyseeVideoRegExp =
 
 const rumbleVideoRegExp =
   /http(?:s?):\/\/(?:www\.)?rumble\.com\/embed\/([\w\-_]*)\/?([\w?=]*)/;
+const rumbleVideoRegExp2 = /http(?:s?):\/\/(?:www\.)?rumble\.com\/([\w\^-_]*)/;
+
 const peertubeVideoRegExp =
   /http(?:s?):\/\/([^/]+)\/videos\/watch\/([^/]+)(&(amp;)?[\w?=]*)?/;
 
@@ -86,6 +90,15 @@ export const getPlatform = (
       id: rumbleMatch[1],
     });
   }
+  const rumbleMatch2 = url.match(rumbleVideoRegExp2);
+  console.log(rumbleMatch2);
+
+  if (rumbleMatch2) {
+    return E.right({
+      platform: "rumble",
+      id: rumbleMatch2[1],
+    });
+  }
 
   const peertubeMatch = url.match(peertubeVideoRegExp);
   if (
@@ -102,28 +115,36 @@ export const getPlatform = (
   return E.left(new Error(`URL not supported ${url}`));
 };
 
-export const parsePlatformURL = (url: string): E.Either<Error, string> => {
+export const getPlatformEmbedURL = (
+  match: VideoPlatformMatch,
+  url: URL
+): URL => {
+  switch (match.platform) {
+    case "bitchute": {
+      return `https://www.bitchute.com/embed/${match.id}/` as URL;
+    }
+    case "odysee": {
+      return `https://odysee.com/$/embed/${match.firstId}/${match.secondId}` as URL;
+    }
+    case "youtube": {
+      return `https://www.youtube.com/embed/${match.id}` as URL;
+    }
+
+    case "peertube": {
+      return `https://${match.host}/videos/embed/${match.id}` as URL;
+    }
+    case "rumble": {
+      return `https://rumble.com/embed/${match.id}/?pub=7a20` as URL;
+    }
+    default: {
+      return url;
+    }
+  }
+};
+
+export const parsePlatformURL = (url: URL): E.Either<Error, URL> => {
   return pipe(
     getPlatform(url),
-    E.map((match) => {
-      switch (match.platform) {
-        case "bitchute": {
-          return `https://www.bitchute.com/embed/${match.id}/`;
-        }
-        case "odysee": {
-          return `https://odysee.com/$/embed/${match.firstId}/${match.secondId}`;
-        }
-        case "youtube": {
-          return `https://www.youtube.com/embed/${match.id}`;
-        }
-
-        case "peertube": {
-          return `https://${match.host}/videos/embed/${match.id}`;
-        }
-        default: {
-          return url;
-        }
-      }
-    })
+    E.map((match) => getPlatformEmbedURL(match, url))
   );
 };

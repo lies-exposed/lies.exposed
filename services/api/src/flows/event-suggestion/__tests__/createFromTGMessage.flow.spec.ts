@@ -5,7 +5,7 @@ import { HumanReadableStringArb } from "@liexp/shared/tests/arbitrary/HumanReada
 import { URLArb } from "@liexp/shared/tests/arbitrary/URL.arbitrary";
 import {
   TGMessageArb,
-  TGPhotoArb
+  TGPhotoArb,
 } from "@liexp/shared/tests/arbitrary/common/TGMessage.arb";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
@@ -25,6 +25,7 @@ const tempDir = path.resolve(__dirname, `../../../../temp/tg/media`);
 interface MessageTest {
   n: number;
   urls: (m: TelegramBot.Message) => any[];
+  platformVideos?: (m: TelegramBot.Message) => any[];
   photos?: (m: TelegramBot.Message) => any[];
   videos?: (m: TelegramBot.Message) => any[];
 }
@@ -205,7 +206,7 @@ describe("Create From TG Message", () => {
       });
     });
 
-    const messageCases: MessageTest[] = [
+    let messageCases: MessageTest[] = [
       {
         n: 95,
         urls(m) {
@@ -349,10 +350,55 @@ describe("Create From TG Message", () => {
           return [first];
         },
       },
+      {
+        n: 431,
+        urls: (m) => {
+          return [
+            {
+              url: m.caption_entities?.[2].url,
+            },
+            {
+              url: m.caption_entities?.[5].url,
+            },
+            {
+              url: m.caption_entities?.[6].url,
+            },
+          ];
+        },
+        videos: (m) => {
+          return [[{ url: m.caption_entities?.[4].url }]];
+        },
+      },
+      {
+        n: 861,
+        urls: (m) => {
+          return [{ url: m.text }];
+        },
+      },
+      {
+        n: 863,
+        urls: (m) => {
+          return [{ url: m.text }];
+        },
+      },
+      {
+        n: 865,
+        urls: (m) => {
+          return [
+            {
+              url: m.text?.slice(
+                m.entities?.[1].offset,
+                m.entities?.[1].length
+              ),
+            },
+          ];
+        },
+      },
     ];
-    // .filter((n: MessageTest) => [106].includes(n.n));
 
-    test.skip.each(messageCases)(
+    messageCases = messageCases.filter((n: MessageTest) => [431].includes(n.n));
+
+    test.only.each(messageCases)(
       "Running message case $n",
       async (c: MessageTest) => {
         const message = pipe(
@@ -360,29 +406,7 @@ describe("Create From TG Message", () => {
             path.resolve(__dirname, `../../../../temp/tg/messages/${c.n}.json`),
             "utf-8"
           ),
-          JSON.parse,
-          (message) => ({
-            ...message,
-            from: fc.sample(
-              fc.record({
-                id: fc.nat(),
-                is_bot: fc.boolean(),
-                first_name: fc.string(),
-                last_name: fc.string(),
-                username: fc.string(),
-                language_code: fc.constant("en"),
-              })
-            )[0],
-            chat: fc.sample(
-              fc.record({
-                id: fc.nat(),
-                first_name: fc.string(),
-                last_name: fc.string(),
-                username: fc.string(),
-                type: fc.constant("private"),
-              })
-            )[0],
-          })
+          JSON.parse
         );
 
         Test.ctx.logger.debug.log("Message %O", message);
@@ -390,6 +414,15 @@ describe("Create From TG Message", () => {
         const urls = c.urls(message);
         urls.forEach((m) => {
           Test.mocks.urlMetadata.fetchMetadata.mockResolvedValueOnce(m);
+        });
+
+        const platformVideos = c.platformVideos?.(message) ?? [];
+        platformVideos.forEach(() => {
+          puppeteerMocks.page.goto.mockReset().mockResolvedValueOnce({});
+          puppeteerMocks.page.waitForSelector
+            .mockReset()
+            .mockResolvedValueOnce({});
+          puppeteerMocks.page.$eval.mockReset().mockResolvedValueOnce({});
         });
 
         const photos = c.photos?.(message) ?? [];
@@ -402,80 +435,80 @@ describe("Create From TG Message", () => {
         Test.mocks.tg.bot.downloadFile.mockReset();
         Test.mocks.s3.upload().promise.mockReset();
 
-        if (photos.length > 0 || videos.length > 0) {
-          // // create the media
+        // // create the media
 
-          photos.forEach((p) => {
-            Test.ctx.logger.debug.log("Mock photo upload %O", p);
-            const tempFileLocation = path.resolve(
-              tempDir,
-              `${message.message_id}.png`
-            );
+        photos.forEach((p) => {
+          Test.ctx.logger.debug.log("Mock photo upload %O", p);
+          const tempFileLocation = path.resolve(
+            tempDir,
+            `${message.message_id}.png`
+          );
 
-            fs.writeFileSync(tempFileLocation, new Uint8Array(10));
+          fs.writeFileSync(tempFileLocation, new Uint8Array(10));
 
-            // mock tg download
-            Test.mocks.tg.bot.downloadFile.mockImplementationOnce(() =>
-              Promise.resolve(tempFileLocation)
-            );
+          // mock tg download
+          Test.mocks.tg.bot.downloadFile.mockImplementationOnce(() =>
+            Promise.resolve(tempFileLocation)
+          );
 
-            // mock s3 upload
-            Test.mocks.s3.upload().promise.mockImplementationOnce(() =>
+          // mock s3 upload
+          Test.mocks.s3.upload().promise.mockImplementationOnce(() =>
+            Promise.resolve({
+              Key: fc.sample(fc.string(), 1)[0],
+              Location: fc.sample(fc.webUrl(), 1)[0],
+            })
+          );
+
+          puppeteerMocks.page.goto.mockReset().mockResolvedValueOnce({});
+        });
+
+        videos.forEach((p) => {
+          Test.ctx.logger.debug.log("Mock video upload %O", p);
+          const tempFileLocation = path.resolve(
+            tempDir,
+            `${message.message_id}.png`
+          );
+
+          fs.writeFileSync(tempFileLocation, new Uint8Array(10));
+
+          // mock tg download
+          Test.mocks.tg.bot.downloadFile
+            .mockImplementationOnce(() => Promise.resolve(tempFileLocation))
+            .mockImplementationOnce(() => Promise.resolve(tempFileLocation));
+
+          // mock s3 upload
+          Test.mocks.s3
+            .upload()
+            .promise.mockImplementationOnce((args) => {
+              Test.ctx.logger.debug.log("Upload %O", args);
+              return Promise.resolve({
+                Key: fc.sample(fc.string(), 1)[0],
+                Location: fc.sample(
+                  fc
+                    .string({ minLength: 10, maxLength: 12 })
+                    .map((id) => `https://youtube.com/watch?v=${id}`),
+                  1
+                )[0],
+              });
+            })
+            .mockImplementationOnce(() =>
               Promise.resolve({
                 Key: fc.sample(fc.string(), 1)[0],
-                Location: fc.sample(fc.webUrl(), 1)[0],
+                Location: fc.sample(
+                  fc
+                    .string({ minLength: 10, maxLength: 12 })
+                    .map((id) => `https://youtube.com/watch?v=${id}`),
+                  1
+                )[0],
               })
             );
 
-            puppeteerMocks.page.goto.mockReset().mockResolvedValueOnce({});
-          });
-
-          videos.forEach((p) => {
-            Test.ctx.logger.debug.log("Mock video upload %O", p);
-            const tempFileLocation = path.resolve(
-              tempDir,
-              `${message.message_id}.png`
-            );
-
-            fs.writeFileSync(tempFileLocation, new Uint8Array(10));
-
-            // mock tg download
-            Test.mocks.tg.bot.downloadFile
-              .mockImplementationOnce(() => Promise.resolve(tempFileLocation))
-              .mockImplementationOnce(() => Promise.resolve(tempFileLocation));
-
-            // mock s3 upload
-            Test.mocks.s3
-              .upload()
-              .promise.mockImplementationOnce((args) => {
-                Test.ctx.logger.debug.log("Upload %O", args);
-                return Promise.resolve({
-                  Key: fc.sample(fc.string(), 1)[0],
-                  Location: fc.sample(
-                    fc
-                      .string({ minLength: 10, maxLength: 12 })
-                      .map((id) => `https://youtube.com/watch?v=${id}`),
-                    1
-                  )[0],
-                });
-              })
-              .mockImplementationOnce(() =>
-                Promise.resolve({
-                  Key: fc.sample(fc.string(), 1)[0],
-                  Location: fc.sample(
-                    fc
-                      .string({ minLength: 10, maxLength: 12 })
-                      .map((id) => `https://youtube.com/watch?v=${id}`),
-                    1
-                  )[0],
-                })
-              );
-
-            puppeteerMocks.page.goto.mockReset().mockResolvedValueOnce({});
-            puppeteerMocks.page.waitForSelector.mockReset().mockResolvedValueOnce({});
-            puppeteerMocks.page.$eval.mockReset().mockResolvedValueOnce({});
-          });
-        }
+          puppeteerMocks.page.goto.mockReset().mockResolvedValueOnce({});
+          puppeteerMocks.page.waitForSelector
+            .mockReset()
+            .mockResolvedValueOnce({});
+          puppeteerMocks.page.$eval.mockReset().mockResolvedValueOnce({});
+        });
 
         const result = await throwTE(
           createFromTGMessage(Test.ctx)(message, {})

@@ -22,13 +22,13 @@ const run = async () => {
   );
 
   const message = fs.readFileSync(messageFile, "utf-8");
-  const result = await throwTE(
+  return throwTE(
     createFromTGMessage(ctx)(JSON.parse(message), {
       type: "text",
     })
-  );
-
-  console.log(result);
+  ).finally(async () => {
+    await ctx.db.close();
+  });
 };
 
-void run().catch(console.error);
+void run().then(console.log).catch(console.error);
