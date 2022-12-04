@@ -8,7 +8,7 @@ import { UUID } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import {
   CreateScientificStudyBody,
-  ScientificStudy,
+  ScientificStudy
 } from "../io/http/Events/ScientificStudy";
 import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
@@ -36,7 +36,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/scientific-studies/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
   },
   Output: SingleStudyOutput,
 });
@@ -76,7 +76,7 @@ export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/scientific-studies/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
     Body: t.strict(
       propsOmit(CreateScientificStudyBody.types[0], ["type"]),
       "CreateScientificStudyBody"
@@ -89,7 +89,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/scientific-studies/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
   },
   Output: SingleStudyOutput,
 });

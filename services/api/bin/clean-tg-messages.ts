@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-// import * as TE from "fp-ts/TaskEither";
+import { fc } from "@liexp/test";
 import dotenv from "dotenv";
 
 const run = async () => {
@@ -17,7 +17,32 @@ const run = async () => {
       const json = JSON.parse(message);
       fs.writeFileSync(
         path.resolve(messagesDir, m),
-        JSON.stringify({ ...json, chat: undefined, from: undefined }, null, 2),
+        JSON.stringify(
+          {
+            ...json,
+            chat: fc.sample(
+              fc.record({
+                id: fc.nat(),
+                first_name: fc.string(),
+                last_name: fc.string(),
+                username: fc.string(),
+                type: fc.constant("private"),
+              })
+            )[0],
+            from: fc.sample(
+              fc.record({
+                id: fc.nat(),
+                is_bot: fc.boolean(),
+                first_name: fc.string(),
+                last_name: fc.string(),
+                username: fc.string(),
+                language_code: fc.constant("en"),
+              })
+            )[0],
+          },
+          null,
+          2
+        ),
         "utf-8"
       );
     })

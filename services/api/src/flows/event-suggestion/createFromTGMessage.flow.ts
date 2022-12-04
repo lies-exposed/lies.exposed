@@ -1,19 +1,30 @@
 import * as fs from "fs";
 import path from "path";
+import { isExcludedURL } from "@liexp/shared/helpers/link.helper";
+import { getPlatform, VideoPlatformMatch } from "@liexp/shared/helpers/media";
 import { URL } from "@liexp/shared/io/http/Common";
 import { MediaType } from "@liexp/shared/io/http/Media";
+import {
+  AdminCreate,
+  AdminDelete,
+  AdminEdit,
+} from "@liexp/shared/io/http/User";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
+import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import TelegramBot from "node-telegram-bot-api";
+import type puppeteer from "puppeteer-core";
 import { Equal } from "typeorm";
 import { createAndUpload } from "../media/createAndUpload.flow";
 import { LinkEntity } from "@entities/Link.entity";
 import { MediaEntity } from "@entities/Media.entity";
+import { UserEntity } from "@entities/User.entity";
 import { fetchAndSave } from "@flows/link.flow";
+import { extractMediaFromPlatform } from "@flows/media/extractMediaFromPlatform.flow";
 import {
   ControllerError,
   ServerError,
@@ -27,6 +38,26 @@ interface EventResult {
   videos: MediaEntity[];
   hashtags: string[];
 }
+
+const parsePlatformMedia =
+  (ctx: RouteContext) =>
+  (
+    url: URL,
+    m: VideoPlatformMatch,
+    page: puppeteer.Page,
+    creator: UserEntity
+  ): TE.TaskEither<ControllerError, MediaEntity> => {
+    ctx.logger.debug.log("Parse platform media %O (%s)", m, url);
+    return pipe(
+      extractMediaFromPlatform(ctx)(url, m, page),
+      TE.chain((media) => {
+        return ctx.db.save(MediaEntity, [
+          { ...media, creator: { id: creator.id } },
+        ]);
+      }),
+      TE.map((d) => d[0])
+    );
+  };
 
 const parseVideo =
   (ctx: RouteContext) =>
@@ -147,7 +178,7 @@ export const createFromTGMessage =
     // fetch url metadata and create hashtags when given
     // save the event suggestion
 
-    const urlEntity = [
+    const { url: urlEntity, video: videoURLS } = [
       ...(message.entities ?? []).reduce(
         takeURLFromMessageEntity(message.text),
         []
@@ -156,13 +187,41 @@ export const createFromTGMessage =
         takeURLFromMessageEntity(message.caption),
         []
       ),
-    ];
+    ].reduce(
+      (acc, url) => {
+        const platformURL = getPlatform(url);
+        if (E.isRight(platformURL)) {
+          return {
+            ...acc,
+            video: acc.video.concat({ ...platformURL.right, url }),
+          };
+        }
+
+        if (!isExcludedURL(url)) {
+          return {
+            ...acc,
+            url: acc.url.concat(url),
+          };
+        }
+        return acc;
+      },
+      {
+        url: [] as URL[],
+        video: [] as Array<VideoPlatformMatch & { url: URL }>,
+      }
+    );
 
     ctx.logger.info.log("URL entity %O", urlEntity);
+    ctx.logger.info.log("URL video entity %O", videoURLS);
 
     const urls = pipe(
       urlEntity,
       O.fromPredicate((u) => u.length > 0)
+    );
+
+    const platformMediaURLs = pipe(
+      videoURLS,
+      O.fromPredicate((v) => v.length > 0)
     );
 
     ctx.logger.info.log("URL %O", urls);
@@ -175,19 +234,31 @@ export const createFromTGMessage =
 
     ctx.logger.info.log("Photo %O", photo);
 
-    const video = O.fromNullable(message.video);
+    const video = pipe(
+      O.fromNullable(message.video),
+      O.filter((v) => (v.file_size ?? 0) < 20 * 1000)
+    );
 
     ctx.logger.info.log("Video %O", video);
 
     if (O.isNone(urls)) {
       ctx.logger.info.log("No url given...");
-      if (O.isNone(photo)) {
-        ctx.logger.info.log("No photo given");
-        if (O.isNone(video)) {
-          ctx.logger.info.log("No video given");
-          return TE.left(
-            ServerError(["No url given", "No photo given", "No video given"])
-          );
+      if (O.isNone(platformMediaURLs)) {
+        ctx.logger.info.log("No platform url given...");
+        if (O.isNone(photo)) {
+          ctx.logger.info.log("No photo given");
+          if (O.isNone(video)) {
+            ctx.logger.info.log("No video given");
+
+            return TE.left(
+              ServerError([
+                "No url given",
+                "No platform url given",
+                "No photo given",
+                "No video given",
+              ])
+            );
+          }
         }
       }
     }
@@ -201,33 +272,25 @@ export const createFromTGMessage =
 
     const byURLTask = pipe(
       urls,
-      O.map((uu) =>
-        pipe(
-          uu,
-          A.map((u) => {
-            return pipe(
-              ctx.db.findOne(LinkEntity, {
-                where: {
-                  url: Equal(u),
-                },
-              }),
-              TE.chain((link) => {
-                ctx.logger.info.log("Link %O", link);
-                if (O.isSome(link)) {
-                  return TE.right(link.value);
-                }
-
-                return pipe(
-                  fetchAndSave(ctx)(u),
-                  TE.mapLeft(toControllerError)
-                );
-              })
-            );
+      O.getOrElse((): URL[] => []),
+      A.map((u) => {
+        return pipe(
+          ctx.db.findOne(LinkEntity, {
+            where: {
+              url: Equal(u),
+            },
           }),
-          A.sequence(TE.ApplicativeSeq)
-        )
-      ),
-      O.getOrElse(() => TE.right<ControllerError, LinkEntity[]>([]))
+          TE.chain((link) => {
+            ctx.logger.info.log("Link %O", link);
+            if (O.isSome(link)) {
+              return TE.right(link.value);
+            }
+
+            return pipe(fetchAndSave(ctx)(u), TE.mapLeft(toControllerError));
+          })
+        );
+      }),
+      A.sequence(TE.ApplicativeSeq)
     );
 
     const byPhotoTask = pipe(
@@ -257,13 +320,62 @@ export const createFromTGMessage =
       ? pipe(parseVideo(ctx)(message.caption ?? "", video.value))
       : TE.right([]);
 
+    const byPlatformMediaTask = (
+      p: puppeteer.Page,
+      creator: UserEntity
+    ): TE.TaskEither<ControllerError, MediaEntity[]> =>
+      pipe(
+        videoURLS,
+        A.map(({ url, ...m }) => parsePlatformMedia(ctx)(url, m, p, creator)),
+        A.sequence(TE.ApplicativeSeq)
+      );
+
     return pipe(
-      sequenceS(TE.ApplicativePar)({
-        link: byURLTask,
-        photos: byPhotoTask,
-        videos: byVideoTask,
-        hashtags: TE.right(hashtags),
-      }),
+      ctx.db.execQuery(() =>
+        ctx.db.manager
+          .createQueryBuilder(UserEntity, "u")
+          .where(`u.permissions::jsonb ? :perm`, {
+            perm: AdminDelete.value,
+          })
+          .orWhere(`u.permissions::jsonb ? :perm`, {
+            perm: AdminEdit.value,
+          })
+          .orWhere("u.permissions::jsonb ? :perm", {
+            perm: AdminCreate.value,
+          })
+          .getOneOrFail()
+      ),
+      TE.chain((creator) =>
+        pipe(
+          TE.bracket(
+            pipe(
+              ctx.puppeteer.getBrowserFirstPage("about:blank", {
+                headless: true,
+              }),
+              TE.mapLeft(toControllerError)
+            ),
+            (page) =>
+              sequenceS(TE.ApplicativePar)({
+                link: byURLTask,
+                photos: byPhotoTask,
+                videos: byVideoTask,
+                platformMedia: byPlatformMediaTask(page, creator),
+                hashtags: TE.right(hashtags),
+              }),
+            (page) => {
+              return TE.tryCatch(
+                () => page.browser().close(),
+                toControllerError
+              );
+            }
+          )
+        )
+      ),
+      TE.map(({ videos, platformMedia, ...others }) => ({
+        ...others,
+        videos: [...videos, ...platformMedia],
+      })),
+
       TE.mapLeft((e) => {
         ctx.logger.error.log("Error %O", e);
         return e;

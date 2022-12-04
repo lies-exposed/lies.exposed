@@ -1,5 +1,6 @@
 import * as t from "io-ts";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
+import { UUID } from 'io-ts-types/UUID';
+import { optionFromNullable } from "io-ts-types/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { Page } from "../io/http";
 import { GetListQuery } from "../io/http/Query";
@@ -21,7 +22,7 @@ export const GetPage = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/pages/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
   },
   Output: t.strict({ data: Page.Page }),
 });
@@ -39,7 +40,7 @@ export const EditPage = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/pages/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
     Body: Page.EditPage,
   },
   Output: t.strict({ data: Page.Page }),
@@ -49,7 +50,7 @@ export const DeletePage = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/pages/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
   },
   Output: t.strict({ data: Page.Page }),
 });

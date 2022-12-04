@@ -36,7 +36,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/media/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
   },
   Output: t.unknown,
 });
@@ -51,7 +51,7 @@ export const Create = Endpoint({
         type: MediaType,
         location: t.string,
         description: t.string,
-        events: t.array(t.string),
+        events: t.array(UUID),
       },
       "CreateImageBody"
     ),
@@ -82,7 +82,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/media/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
   },
   Output: SingleMediaOutput,
 });

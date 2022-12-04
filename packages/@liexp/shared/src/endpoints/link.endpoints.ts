@@ -31,7 +31,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/links/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
   },
   Output: OneLinkOutput,
 });
@@ -58,7 +58,7 @@ export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/links/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
     Body: Link.EditLink,
   },
   Output: OneLinkOutput,
@@ -68,7 +68,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/links/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
   },
   Output: OneLinkOutput,
 });
@@ -77,7 +77,7 @@ export const UpdateMetadata = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/links/${id}/metadata`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
   },
   Output: OneLinkOutput,
 });

@@ -94,7 +94,7 @@ const parseURL = (
 
   if (iframeVideosMatch) {
     return pipe(
-      parsePlatformURL(url),
+      parsePlatformURL(url as any),
       E.map((location) => ({
         type: MediaType.types[7].value,
         location,

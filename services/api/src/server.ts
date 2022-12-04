@@ -2,6 +2,7 @@ import * as path from "path";
 import * as logger from "@liexp/core/logger";
 import { MakeURLMetadata } from "@liexp/shared/providers/URLMetadata.provider";
 import { GetFFMPEGProvider } from "@liexp/shared/providers/ffmpeg.provider";
+import { HTTP } from "@liexp/shared/providers/http/http.provider";
 import { GetJWTClient } from "@liexp/shared/providers/jwt/JWTClient";
 import { GetTypeORMClient } from "@liexp/shared/providers/orm";
 import { GetPuppeteerProvider } from "@liexp/shared/providers/puppeteer.provider";
@@ -27,7 +28,7 @@ import { upsertPinnedMessage } from "@flows/tg/upsertPinnedMessage.flow";
 import {
   ControllerError,
   DecodeError,
-  toControllerError,
+  toControllerError
 } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
 import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.routes";
@@ -127,6 +128,7 @@ export const makeContext = (
           })
         ),
         ffmpeg: TE.right(GetFFMPEGProvider(ffmpeg)),
+        http: TE.right(HTTP({})),
       });
     }),
     TE.mapLeft((e) => ({

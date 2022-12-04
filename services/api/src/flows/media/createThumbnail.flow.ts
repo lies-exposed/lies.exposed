@@ -14,7 +14,7 @@ import { Page } from "puppeteer-core";
 import {
   ControllerError,
   ServerError,
-  toControllerError
+  toControllerError,
 } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
 
@@ -43,18 +43,16 @@ export const extractThumbnail = (
           });
         }
         case "youtube": {
-          const selector = ".ytp-cued-thumbnail-overlay-image";
+          const selector = 'meta[property="og:image"]';
           await page.waitForSelector(selector);
 
-          return await page.$eval(selector, (el) => {
-            const style = el.getAttribute("style");
+          const coverUrl = await page.$eval(selector, (el) => {
+            const href = el.getAttribute("content");
 
-            const coverUrl = style
-              ?.replace('background-image: url("', "")
-              .replace('")', "");
-
-            return coverUrl;
+            return href;
           });
+
+          return coverUrl;
         }
         case "odysee": {
           const selector = ".vjs-poster";
@@ -71,12 +69,14 @@ export const extractThumbnail = (
           });
         }
         case "rumble": {
-          const selector = "video";
+          const selector = 'script[type="application/ld+json"]';
           await page.waitForSelector(selector);
 
-          return await page.$eval(selector, (el) => {
-            return el.getAttribute("poster");
+          const rumbleState = await page.$eval(selector, (el) => {
+            return JSON.parse(el.innerHTML)[0];
           });
+
+          return rumbleState.thumbnailUrl;
         }
         default: {
           return undefined;

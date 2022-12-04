@@ -64,7 +64,7 @@ export const PostToPlatform = Endpoint({
   Method: "POST",
   getPath: ({ id }) => `/events/${id}/share`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
     Body: t.type({
       title: t.string,
       date: t.string,
@@ -144,7 +144,7 @@ export const GetFromLink = Endpoint({
   Method: "GET",
   getPath: () => `/events-from-link`,
   Input: {
-    Query: t.type({ url: t.string }),
+    Query: t.type({ url: http.Common.URL }),
   },
   Output: t.intersection(
     [
@@ -176,7 +176,7 @@ export const GetSuggestions = Endpoint({
       ...http.Query.PaginationQuery.props,
       status: optionFromNullable(http.EventSuggestion.EventSuggestionStatus),
       links: optionFromNullable(t.array(UUID)),
-      creator: optionFromNullable(UUID)
+      creator: optionFromNullable(UUID),
     }),
   },
   Output: http.Common.ListOutput(
@@ -194,7 +194,7 @@ export const SearchEventsFromProvider = Endpoint({
       p: t.number,
       providers: t.array(t.string),
       keywords: t.array(t.string),
-      date: optionFromNullable(t.string)
+      date: optionFromNullable(t.string),
     }),
   },
   Output: http.Common.ListOutput(
@@ -207,7 +207,7 @@ export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/events/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
     Body: http.Events.EditEventBody,
   },
   Output: SingleEventOutput,
@@ -217,7 +217,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/events/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
   },
   Output: SingleEventOutput,
 });

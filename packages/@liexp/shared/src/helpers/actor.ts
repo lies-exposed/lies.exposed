@@ -1,11 +1,11 @@
-import { eqString } from "fp-ts/Eq";
+import * as S from "fp-ts/string";
 import { Actor, Common, Group } from "../io/http";
 
 export const getActors =
   (allActors: Actor.Actor[]) =>
   (actorUUIDs: string[]): Actor.Actor[] => {
     return actorUUIDs.reduce<Actor.Actor[]>((acc, id) => {
-      const actor = allActors.find((a) => eqString.equals(a.id, id));
+      const actor = allActors.find((a) => S.Eq.equals(a.id, id));
       return actor !== undefined ? acc.concat(actor) : acc;
     }, []);
   };

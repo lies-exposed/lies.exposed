@@ -40,8 +40,9 @@ export type PuppeteerError =
   | UnknownPuppeteerError;
 
 export const toPuppeteerError = (e: unknown): PuppeteerError => {
+  puppeteerLogger.error.log("Error %O", e);
+
   if (e instanceof Error) {
-    puppeteerLogger.error.log("Error %O", e);
     if (e.message.indexOf("net::ERR_NAME_NOT_RESOLVED") === 0) {
       return {
         name: "NameNotResolvedError",

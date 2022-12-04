@@ -1,7 +1,7 @@
 import { Endpoints } from "@liexp/shared/endpoints";
 import { ResourceEndpoints } from "@liexp/shared/endpoints/types";
 import * as io from "@liexp/shared/io/index";
-import { APIError } from "@liexp/shared/providers/api.provider";
+import { APIError } from "@liexp/shared/providers/http/http.provider";
 import axios from "axios";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
