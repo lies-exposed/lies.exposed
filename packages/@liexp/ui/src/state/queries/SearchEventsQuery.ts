@@ -16,7 +16,7 @@ import {
   Media,
 } from "@liexp/shared/io/http";
 import { GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
-import { APIError } from "@liexp/shared/providers/http/api.provider";
+import { APIError } from "@liexp/shared/providers/http/http.provider";
 import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

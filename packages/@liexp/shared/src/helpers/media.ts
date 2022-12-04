@@ -1,13 +1,14 @@
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
-import { URL } from "@io/http/Common";
+import { URL } from "../io/http/Common";
 
 type Youtube = "youtube";
 type Bitchute = "bitchute";
 type OdySee = "odysee";
 type Peertube = "peertube";
 type Rumble = "rumble";
+
 // type VideoPlatform = Youtube | Bitchute | OdySee | Peertube | Rumble;
 export type VideoPlatformMatch =
   | {
@@ -34,8 +35,10 @@ const ytVideoEmbedRegExp =
 
 const ytVideoRegExp =
   /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-_]*)(&(amp;)?[\w?=]*)?/;
+
 const bitchuteVideoRegExp =
   /http(?:s?):\/\/(?:www\.)?bitchute\.com\/(video|embed)\/([\w\-_]*)/;
+
 const odyseeVideoRegExp =
   /http(?:s?):\/\/(?:www\.)?odysee\.com\/\$\/(download|embed)\/([^/]+)\/([^/]+)$/;
 

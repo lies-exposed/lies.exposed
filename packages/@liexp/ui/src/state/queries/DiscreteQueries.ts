@@ -11,7 +11,7 @@ import {
   Page,
   Project,
 } from "@liexp/shared/io/http";
-import { APIError } from "@liexp/shared/providers/http/api.provider";
+import { APIError } from "@liexp/shared/providers/http/http.provider";
 import * as A from "fp-ts/Array";
 import * as R from "fp-ts/Record";
 import * as TE from "fp-ts/TaskEither";

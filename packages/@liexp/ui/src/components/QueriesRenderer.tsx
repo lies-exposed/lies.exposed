@@ -1,4 +1,4 @@
-import { APIError } from "@liexp/shared/providers/http/api.provider";
+import { APIError } from "@liexp/shared/providers/http/http.provider";
 import * as React from "react";
 import { QueryObserverSuccessResult, UseQueryResult } from "react-query";
 import { ErrorBox } from "./Common/ErrorBox";

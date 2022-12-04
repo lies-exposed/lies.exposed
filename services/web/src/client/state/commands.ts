@@ -30,7 +30,7 @@ export const getEventFromLink = (): UseMutationResult<
     pipe(
       api.Event.Custom.GetFromLink({
         Query: {
-          url: params.url,
+          url: params.url as any,
         },
       }),
       foldTE

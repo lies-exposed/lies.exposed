@@ -8,7 +8,6 @@ import {
   GetSearchEventsQuery,
 } from "../io/http/Events/SearchEventsQuery";
 import { ResourceEndpoints } from "./types";
-import { URL } from '@io/http/Common';
 
 const SingleEventOutput = http.Common.Output(http.Events.Event, "Event");
 export const ListEventOutput = t.strict(
@@ -145,7 +144,7 @@ export const GetFromLink = Endpoint({
   Method: "GET",
   getPath: () => `/events-from-link`,
   Input: {
-    Query: t.type({ url: URL }),
+    Query: t.type({ url: http.Common.URL }),
   },
   Output: t.intersection(
     [
@@ -177,7 +176,7 @@ export const GetSuggestions = Endpoint({
       ...http.Query.PaginationQuery.props,
       status: optionFromNullable(http.EventSuggestion.EventSuggestionStatus),
       links: optionFromNullable(t.array(UUID)),
-      creator: optionFromNullable(UUID)
+      creator: optionFromNullable(UUID),
     }),
   },
   Output: http.Common.ListOutput(
@@ -195,7 +194,7 @@ export const SearchEventsFromProvider = Endpoint({
       p: t.number,
       providers: t.array(t.string),
       keywords: t.array(t.string),
-      date: optionFromNullable(t.string)
+      date: optionFromNullable(t.string),
     }),
   },
   Output: http.Common.ListOutput(

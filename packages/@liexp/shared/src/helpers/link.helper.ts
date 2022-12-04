@@ -1,7 +1,7 @@
-import { URL } from "@io/http/Common";
+import { URL } from "../io/http/Common";
 
-const exludedURLs = [/http(?:s?):\/\/(?:www\.)?t\.me\/([\w\-_]*)/];
+const excludedURLs = [/http(?:s?):\/\/(?:www\.)?t\.me\/([\w\-_]*)/];
 
 export const isExcludedURL = (url: URL): boolean => {
-  return exludedURLs.some((u) => u.test(url));
+  return excludedURLs.some((u) => u.test(url));
 };
