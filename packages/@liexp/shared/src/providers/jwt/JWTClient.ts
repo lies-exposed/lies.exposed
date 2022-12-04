@@ -5,7 +5,7 @@ import { pipe } from "fp-ts/function";
 import * as jwt from "jsonwebtoken";
 import { IOError } from "ts-io-error";
 import { User } from "../../io/http/User";
-import { fromValidationErrors } from "../api.provider";
+import { fromValidationErrors } from "../http/api.provider";
 
 export class JWTError extends IOError {}
 

@@ -1,36 +1,21 @@
-import * as path from "path";
-import * as logger from "@liexp/core/logger";
-import { MakeURLMetadata } from "@liexp/shared/providers/URLMetadata.provider";
-import { GetFFMPEGProvider } from "@liexp/shared/providers/ffmpeg.provider";
-import { GetJWTClient } from "@liexp/shared/providers/jwt/JWTClient";
-import { GetTypeORMClient } from "@liexp/shared/providers/orm";
-import { GetPuppeteerProvider } from "@liexp/shared/providers/puppeteer.provider";
-import { S3Client } from "@liexp/shared/providers/space";
-import { TGBotProvider } from "@liexp/shared/providers/tg/tg.provider";
-import { throwTE } from "@liexp/shared/utils/task.utils";
-import * as AWS from "aws-sdk";
-import axios from "axios";
-import cors from "cors";
-import express from "express";
-import { expressjwt as jwt } from "express-jwt";
-import ffmpeg from "fluent-ffmpeg";
-import { sequenceS } from "fp-ts/Apply";
-import * as E from "fp-ts/Either";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { PathReporter } from "io-ts/lib/PathReporter";
-import TelegramBot from "node-telegram-bot-api";
-import metadataParser from "page-metadata-parser";
-import puppeteer from "puppeteer-core";
 import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
 import { upsertPinnedMessage } from "@flows/tg/upsertPinnedMessage.flow";
 import {
   ControllerError,
   DecodeError,
-  toControllerError,
+  toControllerError
 } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
-import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.routes";
+import * as logger from "@liexp/core/logger";
+import { GetFFMPEGProvider } from "@liexp/shared/providers/ffmpeg.provider";
+import { HTTP } from "@liexp/shared/providers/http/http.provider";
+import { GetJWTClient } from "@liexp/shared/providers/jwt/JWTClient";
+import { GetTypeORMClient } from "@liexp/shared/providers/orm";
+import { GetPuppeteerProvider } from "@liexp/shared/providers/puppeteer.provider";
+import { S3Client } from "@liexp/shared/providers/space";
+import { TGBotProvider } from "@liexp/shared/providers/tg/tg.provider";
+import { MakeURLMetadata } from "@liexp/shared/providers/URLMetadata.provider";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import { MakeActorRoutes } from "@routes/actors/actors.routes";
 import { MakeAreasRoutes } from "@routes/areas/Areas.routes";
 import { MakeArticlesRoutes } from "@routes/articles/articles.route";
@@ -48,6 +33,7 @@ import { MakeLinkRoutes } from "@routes/links/LinkRoute.route";
 import { MakeMediaRoutes } from "@routes/media/media.routes";
 import { MakeOpenGraphRoutes } from "@routes/open-graph/openGraph.routes";
 import { MakePageRoutes } from "@routes/pages/pages.route";
+import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.routes";
 import { MakeProjectRoutes } from "@routes/projects/project.routes";
 import { RouteContext } from "@routes/route.types";
 import { MakeStatsRoutes } from "@routes/stats/stats.routes";
@@ -56,6 +42,21 @@ import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller.ts";
 import { MakeUserRoutes } from "@routes/users/User.routes";
 import { getDataSource } from "@utils/data-source";
 import { GetWriteJSON } from "@utils/json.utils";
+import * as AWS from "aws-sdk";
+import axios from "axios";
+import cors from "cors";
+import express from "express";
+import { expressjwt as jwt } from "express-jwt";
+import ffmpeg from "fluent-ffmpeg";
+import { sequenceS } from "fp-ts/Apply";
+import * as E from "fp-ts/Either";
+import { pipe } from "fp-ts/function";
+import * as TE from "fp-ts/TaskEither";
+import { PathReporter } from "io-ts/lib/PathReporter";
+import TelegramBot from "node-telegram-bot-api";
+import metadataParser from "page-metadata-parser";
+import * as path from "path";
+import puppeteer from "puppeteer-core";
 
 // var whitelist = ["http://localhost:8002"]
 const corsOptions: cors.CorsOptions = {
@@ -127,6 +128,7 @@ export const makeContext = (
           })
         ),
         ffmpeg: TE.right(GetFFMPEGProvider(ffmpeg)),
+        http: TE.right(HTTP({})),
       });
     }),
     TE.mapLeft((e) => ({

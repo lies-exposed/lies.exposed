@@ -1,11 +1,14 @@
 import { toControllerError } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
 import { GetLogger } from "@liexp/core/logger";
-import { throwTE } from "@liexp/shared/utils/task.utils";
+import { HTTP } from "@liexp/shared/providers/http/http.provider";
 import { GetJWTClient } from "@liexp/shared/providers/jwt/JWTClient";
 import { GetTypeORMClient } from "@liexp/shared/providers/orm";
+import { GetPuppeteerProvider } from "@liexp/shared/providers/puppeteer.provider";
 import { MakeSpaceClient } from "@liexp/shared/providers/space/SpaceClient";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import { getDataSource } from "@utils/data-source";
+import D from "debug";
 import { sequenceS } from "fp-ts/Apply";
 import { pipe } from "fp-ts/function";
 import * as TE from "fp-ts/TaskEither";
@@ -13,10 +16,8 @@ import supertest from "supertest";
 import { RouteContext } from "../src/routes/route.types";
 import { makeApp } from "../src/server";
 import { awsMock } from "../__mocks__/aws.mock";
-import { tgProviderMock } from "../__mocks__/tg.mock";
 import puppeteerMocks from "../__mocks__/puppeteer.mock";
-import { GetPuppeteerProvider } from "@liexp/shared/providers/puppeteer.provider";
-import D from 'debug';
+import { tgProviderMock } from "../__mocks__/tg.mock";
 export interface AppTest {
   ctx: RouteContext;
   req: supertest.SuperTest<supertest.Test>;
@@ -90,6 +91,7 @@ export const initAppTest = async (): Promise<AppTest> => {
           );
         },
       },
+      http: HTTP({}),
     })),
     TE.map((ctx) => ({
       ctx,

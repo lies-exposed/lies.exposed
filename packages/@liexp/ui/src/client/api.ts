@@ -1,4 +1,4 @@
-import { API } from "@liexp/shared/providers/api.provider";
+import { API } from "@liexp/shared/providers/http/api.provider";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { AxiosError } from "axios";
 import * as E from "fp-ts/lib/Either";

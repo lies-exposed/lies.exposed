@@ -1,4 +1,4 @@
-import { APIError } from "@liexp/shared/providers/api.provider";
+import { APIError } from "@liexp/shared/providers/http/api.provider";
 import { useQuery, UseQueryResult } from "react-query";
 import { foldTE } from "../../providers/DataProvider";
 import { api } from "../api";
