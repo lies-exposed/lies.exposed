@@ -1,7 +1,7 @@
 import * as t from "io-ts";
-import { UUID } from "io-ts-types";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
+import { UUID } from "io-ts-types/UUID";
+import { BooleanFromString } from "io-ts-types/BooleanFromString";
+import { DateFromISOString } from "io-ts-types/DateFromISOString";
 import { optionFromUndefined } from "../../Common/optionFromUndefined";
 import { GetListQuery } from "../Query";
 
