@@ -96,6 +96,7 @@ export const uploadImages =
       media.map((file) =>
         uploadFile(client)(resource, resourceId, file.file, file.type)
       ),
-      A.sequence(TE.ApplicativeSeq)
+      A.sequence(TE.ApplicativeSeq),
+      TE.mapLeft((e): Error => e as any)
     );
   };

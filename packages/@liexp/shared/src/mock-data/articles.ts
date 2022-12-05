@@ -6,15 +6,16 @@ export const firstArticle: Article.Article = {
   id: uuid() as any,
   title: "First article",
   path: "first-article",
-  featuredImage: firstImage.location,
+  featuredImage: firstImage,
   links: [],
   draft: false,
   date: new Date(),
   createdAt: new Date(),
   updatedAt: new Date(),
+  body2: {},
   body: `
   ## Subtitle
-  
+
   Paragraph
 
   > Quote from an important person

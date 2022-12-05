@@ -1,11 +1,9 @@
-import { http } from "@liexp/shared/io";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uploadImages } from "@liexp/ui/client/admin/MediaAPI";
-import { ArticlePageContent } from "@liexp/ui/components/ArticlePageContent";
-import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import RichTextInput from "@liexp/ui/components/admin/common/RichTextInput";
-import * as E from "fp-ts/Either";
+import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
+import ReferenceMediaInput from "@liexp/ui/components/admin/common/ReferenceMediaInput";
+import ArticlePreview from "@liexp/ui/components/admin/previews/ArticlePreview";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
@@ -19,16 +17,13 @@ import {
   DataProvider,
   DateField,
   DateInput,
-  Edit,
   EditProps,
-  FormDataConsumer,
   FormTab,
   ImageField,
   ImageInput,
   List,
   ListProps,
   RaRecord,
-  required,
   SimpleForm,
   SimpleFormIterator,
   TabbedForm,
@@ -72,39 +67,32 @@ const transformArticle =
 export const ArticleEdit: React.FC<EditProps> = (props) => {
   const dataProvider = useDataProvider();
   return (
-    <Edit {...props} transform={transformArticle(dataProvider)}>
+    <EditForm
+      {...props}
+      transform={transformArticle(dataProvider)}
+      preview={<ArticlePreview />}
+    >
       <TabbedForm>
         <FormTab label="generals">
           <BooleanInput source="draft" />
           <TextInput source="title" fullWidth={true} />
           <TextInput source="path" fullWidth={true} />
-          <ImageInput source="featuredImage">
-            <ImageField source="src" />
-          </ImageInput>
-          <ImageField source="featuredImage" />
+
+          <ReferenceMediaInput
+            source="featuredImage.id"
+            allowedTypes={["image/jpeg", "image/jpg", "image/png"]}
+          />
           <DateInput source="date" />
           <ArrayInput source="links">
             <SimpleFormIterator>
               <TextInput source="" />
             </SimpleFormIterator>
           </ArrayInput>
-          <RichTextInput source="body" />
-        </FormTab>
-
-        <FormTab label="Preview">
-          <FormDataConsumer>
-            {({ formData, ...rest }) => {
-              return pipe(
-                http.Article.Article.decode({ ...formData, links: [] }),
-                E.fold(ValidationErrorsLayout, (p) => (
-                  <ArticlePageContent {...p} />
-                ))
-              );
-            }}
-          </FormDataConsumer>
+          <TextInput source="body" />
+          <ReactPageInput source="body2" />
         </FormTab>
       </TabbedForm>
-    </Edit>
+    </EditForm>
   );
 };
 
@@ -124,7 +112,7 @@ export const ArticleCreate: React.FC<CreateProps> = (props) => {
             <TextInput source="" />
           </SimpleFormIterator>
         </ArrayInput>
-        <ReactPageInput source="body" validate={[required()]} />
+        <ReactPageInput source="body2"  />
       </SimpleForm>
     </Create>
   );

@@ -21,7 +21,7 @@ export const MakeListArticlesRoute: Route = (r, { env, db, logger }) => {
         O.getOrElse(() => ({}))
       );
       return pipe(
-        sequenceS(TE.taskEither)({
+        sequenceS(TE.ApplicativeSeq)({
           data: pipe(
             db.find(ArticleEntity, {
               ...findOptions,
@@ -29,8 +29,9 @@ export const MakeListArticlesRoute: Route = (r, { env, db, logger }) => {
                 ...findOptions.where,
                 ...draft,
               },
+              relations: ["featuredImage"],
             }),
-            TE.chainEitherK(A.traverse(E.either)(toArticleIO))
+            TE.chainEitherK(A.traverse(E.Applicative)(toArticleIO))
           ),
           total: db.count(ArticleEntity),
         }),

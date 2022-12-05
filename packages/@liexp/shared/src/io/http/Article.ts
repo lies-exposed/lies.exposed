@@ -1,7 +1,8 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
+import { DateFromISOString } from "io-ts-types/DateFromISOString";
 import { BaseProps } from "./Common/BaseProps";
 import { markdownRemark } from "./Common/Markdown";
+import { Media } from './Media';
 
 export const Article = t.strict(
   {
@@ -10,9 +11,10 @@ export const Article = t.strict(
     path: t.string,
     draft: t.boolean,
     date: DateFromISOString,
-    featuredImage: t.string,
+    featuredImage: t.union([Media, t.undefined]),
     links: t.array(t.string),
     body: t.string,
+    body2: t.union([t.unknown, t.null]),
   },
   "Article"
 );

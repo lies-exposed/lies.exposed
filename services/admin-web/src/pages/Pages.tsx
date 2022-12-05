@@ -17,7 +17,7 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  useRecordContext
+  useRecordContext,
 } from "react-admin";
 
 export const PageList: React.FC<ListProps> = (props) => (

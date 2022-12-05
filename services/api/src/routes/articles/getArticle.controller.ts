@@ -1,19 +1,21 @@
-import { Endpoints, AddEndpoint } from "@liexp/shared/endpoints";
+import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Route } from "../route.types";
+import { toArticleIO } from "./article.io";
 import { ArticleEntity } from "@entities/Article.entity";
 
 export const MakeGetArticleRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Article.Get, ({ params: { id } }) => {
     return pipe(
-      ctx.db.findOneOrFail(ArticleEntity, { where: { path: id } }),
+      ctx.db.findOneOrFail(ArticleEntity, {
+        where: { id },
+        relations: ["featuredImage"],
+      }),
+      TE.chainEitherK(toArticleIO),
       TE.map((article) => ({
         body: {
-          data: {
-            ...article,
-            type: "Article",
-          },
+          data: article,
         },
         statusCode: 200,
       }))

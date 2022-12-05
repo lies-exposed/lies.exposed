@@ -92,10 +92,10 @@ export const GetCSVUtil = ({ log }: CSVUtilOptions): CSVUtil => {
         const r = pipe(
           results,
           A.map((v) => decoder.decode(mapper ? mapper(v) : v)),
-          A.sequence(E.either)
+          A.sequence(E.Applicative)
         );
 
-        return r;
+        return r as E.Either<t.ValidationError[], any>;
       }),
       TE.mapLeft((errs) => {
         // eslint-disable-next-line

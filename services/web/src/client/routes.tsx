@@ -465,7 +465,7 @@ export const routes = [
     queries: async () => [
       ...commonQueries,
       {
-        queryKey: getPageContentByPathQueryKey("media"),
+        queryKey: getPageContentByPathQueryKey({ path: "media" }),
         queryFn: fetchPageContentByPath,
       },
       {

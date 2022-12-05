@@ -1,4 +1,4 @@
-import { Endpoints, AddEndpoint } from "@liexp/shared/endpoints";
+import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";

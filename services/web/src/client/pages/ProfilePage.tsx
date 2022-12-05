@@ -8,6 +8,7 @@ import "@react-page/plugins-spacer/lib/index.css";
 import "@react-page/plugins-video/lib/index.css";
 
 import { authProvider, httpRestClient } from "@liexp/ui/client/api";
+import { Admin, Login, Resource } from "@liexp/ui/components/admin";
 import {
   LinkCreate,
   LinkEdit,
@@ -15,16 +16,17 @@ import {
 } from "@liexp/ui/components/admin/AdminLinks";
 import {
   MediaCreate,
-  MediaEdit, MediaList
+  MediaEdit,
+  MediaList
 } from "@liexp/ui/components/admin/AdminMedia";
 import {
-  EventSuggestionEdit, EventSuggestionList
+  EventSuggestionEdit,
+  EventSuggestionList
 } from "@liexp/ui/components/admin/events/suggestions/AdminEventSuggestion";
 import englishMessages from "@liexp/ui/i18n/en-US";
 import { themeOptions } from "@liexp/ui/theme";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import * as React from "react";
-import { Admin, Login, Resource } from "react-admin";
 
 
 

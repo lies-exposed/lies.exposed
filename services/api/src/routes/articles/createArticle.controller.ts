@@ -10,7 +10,12 @@ export const MakeCreateArticleRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Article.Create, ({ body }) => {
     const featuredImage = pipe(body.featuredImage, O.toNullable);
     return pipe(
-      ctx.db.save(ArticleEntity, [{ ...body, featuredImage }]),
+      ctx.db.save(ArticleEntity, [
+        {
+          ...body,
+          featuredImage: featuredImage ? { id: featuredImage } : null,
+        },
+      ]),
       TE.map((articles) => articles[0]),
       TE.chainEitherK(toArticleIO),
       TE.map((data) => ({

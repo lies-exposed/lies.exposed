@@ -3,9 +3,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { MediaEntity } from "./Media.entity";
 
 @Entity("article")
 export class ArticleEntity {
@@ -26,8 +29,9 @@ export class ArticleEntity {
   @Column({ type: "timestamptz", nullable: true })
   date: Date | null;
 
-  @Column({ type: "varchar", nullable: true })
-  featuredImage: string | null;
+  @OneToOne(() => MediaEntity, (v) => v.id, { nullable: true })
+  @JoinColumn()
+  featuredImage: MediaEntity | null;
 
   @Column({ type: "varchar", nullable: true })
   excerpt: string | null;
@@ -36,7 +40,7 @@ export class ArticleEntity {
   body: string;
 
   @Column({ type: "json", nullable: true })
-  body2: Record<string, unknown> | true;
+  body2: Record<string, unknown> | null;
 
   @CreateDateColumn()
   createdAt: Date;

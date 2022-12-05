@@ -25,7 +25,7 @@ const QueriesRenderer = <
   loader = "default",
   ...props
 }: QueriesRendererProps<Q>): JSX.Element => {
-  const { isLoading, isError, data } = Object.entries(queries).reduce(
+  const { isLoading, isError, data, errors } = Object.entries(queries).reduce(
     (acc, [key, value]) => {
       // if (!value.isSuccess) {
       //   // eslint-disable-next-line no-console
@@ -41,11 +41,18 @@ const QueriesRenderer = <
               [key]: value.data,
             }
           : acc.data,
+        errors: value.error
+          ? {
+              ...acc.errors,
+              [key]: value.error,
+            }
+          : acc.errors,
       };
     },
     {
       isLoading: false,
       isError: false,
+      errors: {},
       data: {},
     }
   );
@@ -60,7 +67,7 @@ const QueriesRenderer = <
   }
 
   if (isError) {
-    return <ErrorBox />;
+    return ErrorBox(errors as any);
   }
 
   return props.render(data as any);

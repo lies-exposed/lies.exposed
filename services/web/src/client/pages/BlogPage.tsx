@@ -18,7 +18,6 @@ import * as React from "react";
 
 export default class BlogPage extends React.PureComponent<RouteComponentProps> {
   render(): JSX.Element {
-
     return (
       <>
         <MainContent>
@@ -48,13 +47,15 @@ export default class BlogPage extends React.PureComponent<RouteComponentProps> {
                             }
                           />
                           <CardActionArea>
-                            <CardMedia
-                              component="img"
-                              alt="Contemplative Reptile"
-                              height="140"
-                              image={a.featuredImage}
-                              title="Contemplative Reptile"
-                            />
+                            {a.featuredImage ? (
+                              <CardMedia
+                                component="img"
+                                alt="Contemplative Reptile"
+                                height="140"
+                                image={a.featuredImage.location}
+                                title="Contemplative Reptile"
+                              />
+                            ) : null}
                           </CardActionArea>
                           <CardActions>
                             <Button

@@ -1,10 +1,9 @@
 import { List, ListItem, ListItemText, Typography } from "@mui/material";
-import slate from "@react-page/plugins-slate";
+import slate, { SlateCellPlugin } from "@react-page/plugins-slate";
 import * as React from "react";
-import { actorLinkPlugin } from "./actorLink";
 
-const customSlate = slate((def) => {
-  return {
+export const getLiexpSlate = (custom: any): SlateCellPlugin<any> => {
+  return slate((def) => ({
     ...def,
     id: "eco-slate-plugin",
     title: "@liexp Slate plugin",
@@ -101,13 +100,11 @@ const customSlate = slate((def) => {
           ),
         })),
       },
-      custom: {
-        actorLink: actorLinkPlugin,
-      },
+      custom,
     },
 
     // other overrides
-  };
-});
+  }));
+};
 
-export default customSlate;
+// export const liexpSlate = getLiexpSlate({});

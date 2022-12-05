@@ -130,3 +130,5 @@ export const getWebConfig = <A extends Record<string, t.Mixed>>(
 
   return config;
 };
+
+export { HtmlWebpackPlugin, TerserPlugin, HtmlReplaceWebpackPlugin };
