@@ -21,7 +21,7 @@ export const MakeListArticlesRoute: Route = (r, { env, db, logger }) => {
         O.getOrElse(() => ({}))
       );
       return pipe(
-        sequenceS(TE.taskEither)({
+        sequenceS(TE.ApplicativeSeq)({
           data: pipe(
             db.find(ArticleEntity, {
               ...findOptions,

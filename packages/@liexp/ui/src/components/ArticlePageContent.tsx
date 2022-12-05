@@ -42,7 +42,9 @@ export const ArticlePageContent: React.FC<ArticlePageContentProps> = ({
             margin: "30px auto",
           }}
         >
-          <Typography variant="h1">{article.title}</Typography>
+          <Typography variant="h1" style={{ fontSize: "3rem" }}>
+            {article.title}
+          </Typography>
         </MainContent>
       </Grid>
       <Grid container>
