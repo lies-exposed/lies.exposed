@@ -1,7 +1,5 @@
 /* gist.github.com/phanngoc/473229c74d0119704d9c603b1251782a */
-import {
-  createExcerptValue, isValidValue, minimalCellPlugins
-} from "@liexp/shared/slate";
+import { createExcerptValue, isValidValue } from "@liexp/shared/slate";
 import Editor, { EditorProps } from "@react-page/editor";
 import get from "lodash/get";
 import * as React from "react";

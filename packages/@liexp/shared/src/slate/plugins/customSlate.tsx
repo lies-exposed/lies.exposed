@@ -1,8 +1,8 @@
 import { List, ListItem, ListItemText, Typography } from "@mui/material";
-import slate from "@react-page/plugins-slate";
+import slate, { SlateCellPlugin } from "@react-page/plugins-slate";
 import * as React from "react";
 
-export const getLiexpSlate = (custom: any): any => {
+export const getLiexpSlate = (custom: any): SlateCellPlugin<any> => {
   return slate((def) => ({
     ...def,
     id: "eco-slate-plugin",
