@@ -4,13 +4,13 @@ import MediaIcon from "@mui/icons-material/VideoFileOutlined";
 import type { CellPluginComponentProps, DataTType } from "@react-page/editor";
 import { pluginFactories } from "@react-page/plugins-slate";
 import React from "react";
-import ActorsBox from "../../../../../containers/ActorsBox";
+import { ActorChip } from "../../../../actors/ActorChip";
 import { AutocompleteActorInput } from "../../../../Input/AutocompleteActorInput";
-import { Box, Checkbox, FormControlLabel, Grid } from "../../../../mui";
+import { Box, Button, Checkbox, FormControlLabel, Grid } from "../../../../mui";
 
 export interface ActorInlineState extends DataTType {
-  actor?: Actor.Actor;
-  displayFullName?: boolean;
+  actor: Actor.Actor;
+  displayFullName: boolean;
 }
 
 export interface ActorInlineSettings {
@@ -30,19 +30,17 @@ const actorInlinePlugin: any =
     Component: ({ displayFullName, actor, style, className, ...props }) => {
       // console.log({ ...props, actor, style, className, displayFullName });
       if (actor) {
-        const ids = [actor.id];
         return (
-          <ActorsBox
+          <ActorChip
             className={className}
             style={{ ...style, display: "inline-block" }}
-            itemStyle={{ display: "inline" }}
             displayFullName={displayFullName}
-            params={{
-              filter: { ids },
-              pagination: { perPage: 1, page: 1 },
-              sort: { field: "createdAt", order: "DESC" },
+            actor={actor}
+            avatarStyle={{
+              display: "inline-block",
+              verticalAlign: "middle",
             }}
-            onItemClick={() => {}}
+            onClick={() => {}}
           />
         );
       }
@@ -51,21 +49,27 @@ const actorInlinePlugin: any =
     controls: {
       type: "custom",
       Component: ({ add, remove, ...props }) => {
+        const [s, setS] = React.useState<ActorInlineState>({
+          actor: undefined as any,
+          displayFullName: false,
+        });
+
+        const selectedItems = ([] as any[])
+          .concat(s.actor ? [s.actor] : [])
+          .concat(props.data?.actor ? [props.data.actor] : []);
+
         return (
           <Box style={{ height: 200 }}>
             <Grid container spacing={2}>
               <Grid item sm={6}>
                 <AutocompleteActorInput
-                  {...props}
-                  selectedItems={props.data?.actor ? [props.data.actor] : []}
+                  selectedItems={selectedItems}
                   onChange={(items) => {
                     const newActor = items[items.length - 1];
-                    add({
-                      data: {
-                        displayFullName: props.data?.displayFullName,
-                        actor: newActor,
-                      },
-                      text: `Actor updated ${newActor.fullName}`,
+
+                    setS({
+                      displayFullName: !!props.data?.displayFullName,
+                      actor: newActor as any,
                     });
                   }}
                 />
@@ -78,18 +82,36 @@ const actorInlinePlugin: any =
                       color="info"
                       disabled={false}
                       size="small"
+                      value={props.data?.displayFullName ?? s.displayFullName}
                       onChange={(v, c) => {
-                        add({
-                          data: {
-                            actor: props.data?.actor,
-                            displayFullName: c,
-                          },
+                        setS({
+                          ...s,
+                          actor: selectedItems[0],
+                          displayFullName: c,
                         });
                       }}
                     />
                   }
                   label="Display full name?"
                 />
+              </Grid>
+              <Grid item sm={12}>
+                <Button
+                  onClick={() => {
+                    add({
+                      data: s,
+                    });
+                  }}
+                >
+                  Insert actor
+                </Button>
+                <Button
+                  onClick={() => {
+                    remove();
+                  }}
+                >
+                  Remove actor
+                </Button>
               </Grid>
             </Grid>
           </Box>
@@ -100,7 +122,7 @@ const actorInlinePlugin: any =
     addToolbarButton: true,
     type: "ActorInline",
     object: "inline",
-    isVoid: true, // <--- makes it a void plugin
+    isVoid: true,
     icon: <RecentActorsIcon />,
     label: "Actor",
   });
