@@ -53,8 +53,7 @@ const createPlugin = (
       },
     },
     Renderer: ({ children, ...props }) => {
-
-      const ids = props.data.mediaId.map((v) => v.id);
+      const ids = props.data?.mediaId?.map((v) => v.id) ?? [];
       if (ids.length > 0) {
         return (
           <Box style={{ maxWidth: 1200, flexGrow: 0 }}>

@@ -8,7 +8,7 @@ import { UUID } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import {
   CreateScientificStudyBody,
-  ScientificStudy
+  ScientificStudy,
 } from "../io/http/Events/ScientificStudy";
 import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
@@ -23,6 +23,7 @@ export const List = Endpoint({
     Query: t.type({
       ...GetListQuery.props,
       draft: optionFromNullable(BooleanFromString),
+      ids: optionFromNullable(t.array(UUID)),
       title: optionFromNullable(t.string),
       provider: optionFromNullable(UUID),
       publishedDate: optionFromNullable(DateFromISOString),

@@ -1,4 +1,4 @@
-import { formatDate } from "@liexp/shared/utils/date";
+import { formatDate, parseISO } from "@liexp/shared/utils/date";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import { PageContent } from "@liexp/ui/components/PageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
@@ -14,72 +14,82 @@ import {
 } from "@liexp/ui/components/mui";
 import { useArticlesQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import { RouteComponentProps } from "@reach/router";
+import * as t from 'io-ts';
 import * as React from "react";
+import { useNavigateToResource } from "../utils/location.utils";
 
-export default class BlogPage extends React.PureComponent<RouteComponentProps> {
-  render(): JSX.Element {
-    return (
-      <>
-        <MainContent>
-          <PageContent path="blog" />
-          <QueriesRenderer
-            queries={{
-              articles: useArticlesQuery({
+const BlogPage: React.FC<RouteComponentProps> = () => {
+  const navigateTo = useNavigateToResource();
+
+  return (
+    <>
+      <MainContent>
+        <PageContent path="blog" />
+        <QueriesRenderer
+          queries={{
+            articles: useArticlesQuery(
+              {
                 pagination: { page: 1, perPage: 20 },
                 sort: { field: "id", order: "DESC" },
                 filter: { draft: false },
-              }),
-            }}
-            render={({ articles: { data: articles } }) => {
-              return (
-                <div>
-                  <SEO title="Blog" image="" urlPath={`blog`} />
-                  <Grid container spacing={2} style={{ marginBottom: 100 }}>
-                    {articles.map((a) => (
-                      <Grid item key={a.id} xs={6}>
-                        <Card key={a.id}>
-                          <CardHeader
-                            title={a.title}
-                            subheader={
-                              <p style={{ fontSize: 11 }}>
-                                {formatDate(a.createdAt)}
-                              </p>
-                            }
-                          />
-                          <CardActionArea>
-                            {a.featuredImage ? (
-                              <CardMedia
-                                component="img"
-                                alt="Contemplative Reptile"
-                                height="140"
-                                image={a.featuredImage.location}
-                                title="Contemplative Reptile"
-                              />
-                            ) : null}
-                          </CardActionArea>
-                          <CardActions>
-                            <Button
-                              size="small"
-                              color="primary"
-                              onClick={() => {
-                                // navigateTo.articles({
-                                //   articlePath: a.path,
-                                // });
-                              }}
-                            >
-                              Leggi
-                            </Button>
-                          </CardActions>
-                        </Card>
-                      </Grid>
-                    ))}
-                  </Grid>
-                </div>
-              );
-            }}
-          />
-        </MainContent>
-      </>
-    );
-  }
-}
+              },
+              false
+            ),
+          }}
+          render={({ articles: { data: articles } }) => {
+            return (
+              <div>
+                <SEO title="Blog" image="" urlPath={`blog`} />
+                <Grid container spacing={2} style={{ marginBottom: 100 }}>
+                  {articles.map((a) => (
+                    <Grid item key={a.id} xs={6}>
+                      <Card key={a.id}>
+                        <CardHeader
+                          title={a.title}
+                          subheader={
+                            <p style={{ fontSize: 11 }}>
+                              {formatDate(
+                                t.string.is(a.createdAt)
+                                  ? parseISO(a.createdAt)
+                                  : a.createdAt
+                              )}
+                            </p>
+                          }
+                        />
+                        <CardActionArea>
+                          {a.featuredImage ? (
+                            <CardMedia
+                              component="img"
+                              alt="Contemplative Reptile"
+                              height="140"
+                              image={a.featuredImage.location}
+                              title="Contemplative Reptile"
+                            />
+                          ) : null}
+                        </CardActionArea>
+                        <CardActions>
+                          <Button
+                            size="small"
+                            color="primary"
+                            onClick={() => {
+                              navigateTo.stories({
+                                path: a.path,
+                              });
+                            }}
+                          >
+                            Leggi
+                          </Button>
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              </div>
+            );
+          }}
+        />
+      </MainContent>
+    </>
+  );
+};
+export default BlogPage;

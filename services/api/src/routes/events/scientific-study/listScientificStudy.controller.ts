@@ -15,11 +15,12 @@ export const MakeListScientificStudyRoute: Route = (
 ) => {
   AddEndpoint(r)(
     Endpoints.ScientificStudy.List,
-    ({ query: { publishedDate, provider, title, draft, ...query } }) => {
+    ({ query: { publishedDate, provider, title, draft, ids, ...query } }) => {
       const queryOptions = getORMOptions({ ...query }, env.DEFAULT_PAGE_SIZE);
 
       return pipe(
         searchEventV2Query({ db, logger, env, ...ctx })({
+          ids,
           type: O.some([SCIENTIFIC_STUDY.value]),
           groups: pipe(
             provider,

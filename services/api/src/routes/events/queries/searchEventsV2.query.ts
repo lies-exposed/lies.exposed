@@ -120,6 +120,7 @@ export const whereGroupInArray = (
 };
 
 interface SearchEventQuery {
+  ids: O.Option<string[]>;
   actors: O.Option<string[]>;
   groups: O.Option<string[]>;
   groupsMembers: O.Option<string[]>;
@@ -150,6 +151,7 @@ export const searchEventV2Query =
   ({ db, logger }: RouteContext) =>
   ({
     exclude,
+    ids,
     actors,
     groups,
     groupsMembers: _groupsMembers,
@@ -214,7 +216,12 @@ export const searchEventV2Query =
           (q) => {
             let hasWhere = false;
 
-            if (O.isSome(exclude)) {
+            if (O.isSome(ids)) {
+              q.where("event.id IN (:...ids)", {
+                ids: ids.value,
+              });
+              return q;
+            } else if (O.isSome(exclude)) {
               q.where("event.id NOT IN (:...ids)", {
                 ids: exclude.value,
               });
@@ -348,7 +355,9 @@ export const searchEventV2Query =
             } else if (!withDrafts) {
               q.andWhere("event.draft = false");
             }
-
+            return q;
+          },
+          (q) => {
             if (withDeleted) {
               q.withDeleted();
             }

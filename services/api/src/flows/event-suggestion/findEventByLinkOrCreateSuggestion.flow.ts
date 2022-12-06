@@ -36,6 +36,7 @@ export const findEventByLinkOrCreateSuggestion =
 
           return pipe(
             searchEventV2Query(ctx)({
+              ids: O.none,
               title: O.none,
               type: O.none,
               draft: O.none,

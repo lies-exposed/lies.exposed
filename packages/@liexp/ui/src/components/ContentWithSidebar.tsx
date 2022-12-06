@@ -33,7 +33,7 @@ export const ContentWithSidebar: React.FC<React.PropsWithChildren<ContentWithSid
         ) : (
           <div
             onClick={() => toggleSidebar(!showSidebar)}
-            style={{ position: "absolute", backgroundColor: "red" }}
+            style={{ position: "absolute" }}
           >
             <ChevronRightIcon />
           </div>

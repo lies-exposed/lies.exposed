@@ -1,4 +1,3 @@
-import * as io from "@liexp/shared/io";
 import React from "react";
 import { queryToHash, useNavigateTo } from "./history.utils";
 
@@ -49,6 +48,7 @@ interface NavigationHooks {
   groups: NavigateToResource;
   keywords: NavigateToResource;
   media: NavigateToResource;
+  stories: (f: { path?: string }, search?: any) => void;
 }
 
 export function useNavigateToResource(): NavigationHooks {
@@ -56,12 +56,17 @@ export function useNavigateToResource(): NavigationHooks {
 
   return React.useMemo(() => {
     const navigateToResource =
-      <K extends io.http.ResourcesNames>(resourceName: K) =>
-      (f: { id?: string }, search?: any): void => {
+      <K extends keyof NavigationHooks>(resourceName: K) =>
+      (f: any, search?: any): void => {
         switch (resourceName) {
           case "index":
             n.navigateTo("/");
             break;
+          case "stories": {
+            const path = f.path ? `/${f.path}` : "";
+            n.navigateTo(`/${resourceName}${path}`, search);
+            break;
+          }
           case "media":
           case "areas":
           case "articles":
@@ -74,6 +79,7 @@ export function useNavigateToResource(): NavigationHooks {
             n.navigateTo(`/${resourceName}${id}`, search);
             break;
           }
+
           default:
             break;
         }
@@ -87,6 +93,7 @@ export function useNavigateToResource(): NavigationHooks {
       keywords: navigateToResource("keywords"),
       areas: navigateToResource("areas"),
       media: navigateToResource("media"),
+      stories: navigateToResource("stories"),
     };
   }, [n.pathname]);
 }

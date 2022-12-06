@@ -29,6 +29,7 @@ export const MakeGetListDocumentaryEventRoute: Route = (r, ctx) => {
         title,
         locations,
         exclude,
+        ids,
         ...query
       },
     }) => {
@@ -37,6 +38,7 @@ export const MakeGetListDocumentaryEventRoute: Route = (r, ctx) => {
       return pipe(
         searchEventV2Query(ctx)({
           // ...query,
+          ids,
           draft,
           locations,
           exclude,

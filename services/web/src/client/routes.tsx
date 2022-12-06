@@ -1,11 +1,13 @@
 import { getRelationIds } from "@liexp/shared/helpers/event";
 import { EventType } from "@liexp/shared/io/http/Events";
 import { StatsType } from "@liexp/shared/io/http/Stats";
+import { articleByPath } from "@liexp/ui/providers/DataProvider";
 import {
   fetchActor,
   fetchActors,
   fetchArea,
   fetchAreas,
+  fetchArticles,
   fetchEvent,
   fetchGroup,
   fetchGroups,
@@ -19,6 +21,7 @@ import {
   getActorQueryKey,
   getActorsQueryKey,
   getAreaQueryKey,
+  getArticleQueryKey,
   getGroupsMembersQueryKey,
   getGroupsQueryKey,
   getKeywordsDistributionQueryKey,
@@ -43,6 +46,8 @@ import NotFoundPage from "./pages/404";
 import ActorsPage, { queryParams } from "./pages/ActorsPage";
 import { hashToQuery } from "./utils/history.utils";
 const AreasPage = React.lazy(() => import("./pages/AreasPage"));
+const BlogPage = React.lazy(() => import("./pages/BlogPage"));
+const ArticleTemplate = React.lazy(() => import("./templates/ArticleTemplate"));
 const EventsPage = React.lazy(() => import("./pages/EventsPage"));
 const GroupsPage = React.lazy(() => import("./pages/GroupsPage"));
 const KeywordsPage = React.lazy(() => import("./pages/KeywordsPage"));
@@ -476,6 +481,42 @@ export const routes = [
           false
         ),
         queryFn: fetchMedia,
+      },
+    ],
+  },
+  {
+    path: "/stories/:storyPath",
+    route: () => {
+      const params = useParams<{ storyPath: string }>();
+      if (params.storyPath) {
+        return <ArticleTemplate storyPath={params.storyPath} />;
+      }
+      return <NotFoundPage />;
+    },
+
+    queries: async ({ storyPath }: any) => [
+      ...commonQueries,
+      {
+        queryKey: getArticleQueryKey({ filter: { path: storyPath } }, false),
+        queryFn: articleByPath,
+      },
+    ],
+  },
+  {
+    path: "/stories",
+    route: () => <BlogPage />,
+    queries: async () => [
+      ...commonQueries,
+      {
+        queryKey: getArticleQueryKey(
+          {
+            pagination: { page: 1, perPage: 20 },
+            sort: { field: "id", order: "DESC" },
+            filter: { draft: false },
+          },
+          false
+        ),
+        queryFn: fetchArticles,
       },
     ],
   },

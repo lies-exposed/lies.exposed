@@ -190,6 +190,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                   link,
                   O.map((l) => [l.id])
                 ),
+                ids: O.none,
                 draft: O.none,
                 locations: O.none,
                 startDate: O.some(minDate),

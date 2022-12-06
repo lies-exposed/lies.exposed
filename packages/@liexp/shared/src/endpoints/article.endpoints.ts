@@ -56,34 +56,41 @@ export const Create = Endpoint({
   Output: Output(Article.Article, "Article"),
 });
 
+const EditArticle = Endpoint({
+  Method: "PUT",
+  getPath: ({ id }) => `/articles/${id}`,
+  Input: {
+    Params: t.type({ id: UUID }),
+    Body: t.strict(
+      {
+        title: t.string,
+        path: t.string,
+        draft: t.boolean,
+        creator: UUID,
+        date: DateFromISOString,
+        featuredImage: optionFromNullable(t.strict({ id: UUID })),
+        body2: t.unknown,
+      },
+      "EditArticleBody"
+    ),
+  },
+  Output: Output(Article.Article, "Article"),
+});
+
+const DeleteArticle = Endpoint({
+  Method: "DELETE",
+  getPath: ({ id }) => `/articles/${id}`,
+  Input: {
+    Params: t.type({ id: UUID }),
+  },
+  Output: Output(Article.Article, "Article"),
+});
+
 export const articles = ResourceEndpoints({
   Get,
   List: ListArticles,
   Create,
-  Edit: Endpoint({
-    Method: "PUT",
-    getPath: ({ id }) => `/articles/${id}`,
-    Input: {
-      Params: t.type({ id: UUID }),
-      Body: t.strict(
-        {
-          title: t.string,
-          path: t.string,
-          draft: t.boolean,
-          creator: UUID,
-          date: DateFromISOString,
-          featuredImage: optionFromNullable(t.strict({ id: UUID })),
-          body2: t.unknown,
-        },
-        "EditArticleBody"
-      ),
-    },
-    Output: Output(Article.Article, "Article"),
-  }),
-  Delete: Endpoint({
-    Method: "DELETE",
-    getPath: () => `/articles`,
-    Output: Output(Article.Article, "Article"),
-  }),
+  Edit: EditArticle,
+  Delete: DeleteArticle,
   Custom: {},
 });

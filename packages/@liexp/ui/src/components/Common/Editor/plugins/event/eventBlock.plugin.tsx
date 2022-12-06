@@ -53,7 +53,7 @@ const createPlugin = (
       },
     },
     Renderer: ({ children, ...props }) => {
-      const ids = props.data.event.map((v) => v.id);
+      const ids = props.data?.event?.map((v) => v.id) ?? [];
       if (ids.length > 0) {
         return (
           <Box style={{ maxWidth: 1200, flexGrow: 0 }}>
@@ -68,14 +68,14 @@ const createPlugin = (
         );
       }
 
-      return <div>Select a media...</div>;
+      return <div>Select an event...</div>;
     },
     id: "liexp/editor/plugins/EventBlock",
     version: 1,
     icon: mergedSettings.icon,
-    title: "Media Block",
+    title: "Event Block",
     isInlineable: true,
-    description: "Select a media to display",
+    description: "Display events carousel",
   };
 };
 export default createPlugin;

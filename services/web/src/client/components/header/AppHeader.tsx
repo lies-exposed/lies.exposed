@@ -32,6 +32,10 @@ const dataMenuItem = {
       view: "/media",
       label: "Media",
     },
+    {
+      view: "/articles",
+      label: "Stories",
+    },
   ],
 };
 

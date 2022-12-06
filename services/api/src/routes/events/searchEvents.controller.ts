@@ -30,6 +30,7 @@ export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {
       exclude,
       withDeleted,
       withDrafts,
+      ids,
       ...queryRest
     } = query;
 
@@ -70,6 +71,7 @@ export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {
         media,
         exclude,
         draft,
+        ids,
         withDeleted: O.getOrElse(() => false)(withDeleted),
         withDrafts: O.getOrElse(() => false)(withDrafts),
         ...findOptions,

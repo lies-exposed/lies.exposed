@@ -398,25 +398,6 @@ export const usePageContentByPathQuery = ({
 }): UseQueryResult<Page.Page, APIError> =>
   useQuery(getPageContentByPathQueryKey({ path }), fetchPageContentByPath);
 
-export const useArticleByPathQuery = ({
-  path,
-}: {
-  path: string;
-}): UseQueryResult<Article.Article, APIError> =>
-  useQuery(["articles", path], async () => {
-    return await articleByPath({ path });
-  });
-
-export const useArticlesQuery = (
-  params: GetListParams
-): UseQueryResult<{ data: Article.Article[]; total: number }, APIError> => {
-  return useQuery(["articles"], async () => {
-    return R.isEmpty(params.filter) || params.filter.ids?.length === 0
-      ? await emptyQuery()
-      : await Queries.Article.getList(params);
-  });
-};
-
 export const fetchEvent = async ({ queryKey }: any): Promise<Events.Event> =>
   await Queries.Event.get(queryKey[1]);
 
@@ -497,6 +478,47 @@ export const useAreaQuery = (params: {
 }): UseQueryResult<Area.Area, APIError> => {
   return useQuery(["areas", params], fetchArea);
 };
+
+export const getArticleQueryKey = (
+  p: Partial<GetListParams>,
+  discrete: boolean
+): [string, GetListParams, boolean] => {
+  return [
+    "articles",
+    {
+      filter: p.filter ?? {},
+      pagination: {
+        perPage: 20,
+        page: 1,
+        ...p.pagination,
+      },
+      sort: {
+        field: "createdAt",
+        order: "DESC",
+        ...p.sort,
+      },
+    },
+    discrete,
+  ];
+};
+
+export const fetchArticles = fetchQuery(Queries.Article.getList);
+
+export const useArticlesQuery = (
+  params: Partial<GetListParams>,
+  discrete: boolean
+): UseQueryResult<{ data: Article.Article[]; total: number }, APIError> => {
+  return useQuery(getArticleQueryKey(params, discrete), fetchArticles);
+};
+
+export const useArticleByPathQuery = ({
+  path,
+}: {
+  path: string;
+}): UseQueryResult<Article.Article, APIError> =>
+  useQuery(getArticleQueryKey({ filter: { path } }, false), async () => {
+    return await articleByPath({ path });
+  });
 
 export const fetchStats = async (params: any): Promise<any> => {
   return await fetchQuery(Queries.Stats.getList)(params).then(
