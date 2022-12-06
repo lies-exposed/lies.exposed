@@ -1,6 +1,7 @@
 import { throwTE } from "@liexp/shared/utils/task.utils";
-import * as TE from "fp-ts/TaskEither";
+import { Grid } from "@mui/material";
 import { pipe } from "fp-ts/function";
+import * as TE from "fp-ts/TaskEither";
 import * as React from "react";
 import {
   ArrayInput,
@@ -27,15 +28,15 @@ import {
   TextInput,
   useDataProvider,
   useGetIdentity,
-  usePermissions,
+  usePermissions
 } from "react-admin";
 import { uploadImages } from "../../client/admin/MediaAPI";
 import { checkIsAdmin } from "../../utils/user.utils";
-import ReactPageInput from "./ReactPageInput";
 import { EditForm } from "./common/EditForm";
 import ReferenceMediaInput from "./common/ReferenceMediaInput";
 import ReferenceUserInput from "./common/ReferenceUserInput";
 import ArticlePreview from "./previews/ArticlePreview";
+import ReactPageInput from "./ReactPageInput";
 
 export const ArticleList: React.FC<ListProps> = (props) => {
   const { data, isLoading } = useGetIdentity();
@@ -104,26 +105,40 @@ export const ArticleEdit: React.FC<EditProps> = (props) => {
     >
       <TabbedForm>
         <FormTab label="generals">
-          <BooleanInput source="draft" />
-          {isAdmin ? (
-            <ReferenceUserInput source="creator" />
-          ) : (
-            <TextInput source="creator" defaultValue={data?.id} hidden />
-          )}
-          <TextInput source="title" fullWidth={true} />
-          <TextInput source="path" fullWidth={true} />
+          <Grid container>
+            <Grid item md={6}>
+              <TextInput source="title" fullWidth={true} />
+              <TextInput source="path" fullWidth={true} />
+              <DateInput source="date" />
+            </Grid>
+            <Grid
+              item
+              md={6}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-end",
+              }}
+            >
+              <BooleanInput source="draft" />
+              {isAdmin ? (
+                <ReferenceUserInput source="creator" />
+              ) : (
+                <TextInput source="creator" defaultValue={data?.id} hidden />
+              )}
+            </Grid>
+          </Grid>
 
           <ReferenceMediaInput
             source="featuredImage.id"
             allowedTypes={["image/jpeg", "image/jpg", "image/png"]}
           />
-          <DateInput source="date" />
+
           <ArrayInput source="links">
             <SimpleFormIterator>
               <TextInput source="" />
             </SimpleFormIterator>
           </ArrayInput>
-          {isAdmin && <TextInput source="body" fullWidth multiline />}
           <ReactPageInput source="body2" />
         </FormTab>
       </TabbedForm>

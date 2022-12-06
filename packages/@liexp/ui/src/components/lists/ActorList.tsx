@@ -10,13 +10,19 @@ export interface Actor extends io.Actor.Actor {
   selected: boolean;
 }
 
-export const ActorListItem: React.FC<
-  ListItemProps<Actor> & {
-    avatarSize?: AvatarSize;
-    displayFullName?: boolean;
-    style?: React.CSSProperties;
-  }
-> = ({ item, avatarSize, displayFullName = false, onClick, style }) => {
+export interface ActorListItemProps extends ListItemProps<Actor> {
+  avatarSize?: AvatarSize;
+  displayFullName?: boolean;
+  style?: React.CSSProperties;
+}
+
+export const ActorListItem: React.FC<ActorListItemProps> = ({
+  item,
+  avatarSize,
+  displayFullName = false,
+  onClick,
+  style,
+}) => {
   return (
     <Box
       key={item.id}
