@@ -1,18 +1,19 @@
 import { apiProvider, authProvider } from "@liexp/ui/client/api";
+import { ArticleCreate, ArticleEdit, ArticleList } from "@liexp/ui/components/admin/AdminArticles";
 import {
   EventSuggestionEdit,
-  EventSuggestionList,
+  EventSuggestionList
 } from "@liexp/ui/components/admin/events/suggestions/AdminEventSuggestion";
 import englishMessages from "@liexp/ui/i18n/en-US";
 import {
   LinkCreate,
   LinkEdit,
-  LinkList,
+  LinkList
 } from "@liexp/ui/src/components/admin/AdminLinks";
 import {
   MediaCreate,
   MediaEdit,
-  MediaList,
+  MediaList
 } from "@liexp/ui/src/components/admin/AdminMedia";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import EventIcon from "@mui/icons-material/Event";
@@ -25,47 +26,46 @@ import RecentActorsIcon from "@mui/icons-material/RecentActors";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import * as React from "react";
 import { Admin, Login, Resource } from "react-admin";
+import "./index.css";
 import { ActorCreate, ActorEdit, ActorList } from "./pages/AdminActors";
 import { AreaCreate, AreaEdit, AreaList } from "./pages/AdminAreas";
-import { ArticleCreate, ArticleEdit, ArticleList } from "./pages/AdminArticles";
 import { EventEdit, EventList } from "./pages/AdminEvents";
 import {
   GroupMemberCreate,
   GroupMemberEdit,
-  GroupMemberList,
+  GroupMemberList
 } from "./pages/AdminGroupMember";
 import { GroupCreate, GroupEdit, GroupList } from "./pages/AdminGroups";
-import { KeywordEdit, KeywordList, KeywordCreate } from "./pages/AdminKeyword";
+import { KeywordCreate, KeywordEdit, KeywordList } from "./pages/AdminKeyword";
 import { UserCreate, UserEdit, UserList } from "./pages/AdminUsers";
 import { PageCreate, PageEdit, PageList } from "./pages/Pages";
 import {
   DeathCreate,
   DeathEdit,
-  DeathList,
+  DeathList
 } from "./pages/events/AdminDeathEvent";
 import {
   DocumentaryCreate,
   DocumentaryEdit,
-  DocumentaryList,
+  DocumentaryList
 } from "./pages/events/AdminDocumentaryEvent";
 import {
   PatentCreate,
   PatentEdit,
-  PatentList,
+  PatentList
 } from "./pages/events/AdminPatentEvent";
 import {
   ScientificStudiesList,
   ScientificStudyCreate,
-  ScientificStudyEdit,
+  ScientificStudyEdit
 } from "./pages/events/AdminScientificStudyEvent";
 import {
   TransactionCreate,
   TransactionEdit,
-  TransactionList,
+  TransactionList
 } from "./pages/events/AdminTransactionEvent";
 import { UncategorizedEventCreate } from "./pages/events/AdminUncategorizedEvent";
 import { adminThemeOptions } from "./theme";
-import "./index.css";
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
 

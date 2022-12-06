@@ -7,6 +7,7 @@ export const firstArticle: Article.Article = {
   title: "First article",
   path: "first-article",
   featuredImage: firstImage,
+  creator: undefined,
   links: [],
   draft: false,
   date: new Date(),

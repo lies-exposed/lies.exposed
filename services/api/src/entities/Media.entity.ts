@@ -12,6 +12,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { AreaEntity } from "./Area.entity";
+import { ArticleEntity } from "./Article.entity";
 import { EventV2Entity } from "./Event.v2.entity";
 import { LinkEntity } from "./Link.entity";
 import { UserEntity } from "./User.entity";
@@ -38,7 +39,7 @@ export class MediaEntity {
   type: MediaType;
 
   @ManyToOne(() => UserEntity, (u) => u.media, { cascade: false })
-  creator: UserEntity | null;
+  creator: UserEntity;
 
   @ManyToMany(() => EventV2Entity, (e) => e.media, { cascade: false })
   events: EventV2Entity[];
@@ -48,6 +49,9 @@ export class MediaEntity {
 
   @ManyToMany(() => AreaEntity, (a) => a.media)
   areas: AreaEntity[];
+
+  @OneToMany(() => ArticleEntity, (a) => a.featuredImage, { cascade: false })
+  articles: ArticleEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

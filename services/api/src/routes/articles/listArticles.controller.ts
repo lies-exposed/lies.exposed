@@ -30,6 +30,9 @@ export const MakeListArticlesRoute: Route = (r, { env, db, logger }) => {
                 ...draft,
               },
               relations: ["featuredImage"],
+              loadRelationIds: {
+                relations: ["creator"],
+              },
             }),
             TE.chainEitherK(A.traverse(E.Applicative)(toArticleIO))
           ),

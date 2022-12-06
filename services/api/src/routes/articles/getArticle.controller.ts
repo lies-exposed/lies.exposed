@@ -11,6 +11,9 @@ export const MakeGetArticleRoute: Route = (r, ctx) => {
       ctx.db.findOneOrFail(ArticleEntity, {
         where: { id },
         relations: ["featuredImage"],
+        loadRelationIds: {
+          relations: ["creator"],
+        },
       }),
       TE.chainEitherK(toArticleIO),
       TE.map((article) => ({

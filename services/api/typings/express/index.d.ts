@@ -1,9 +1,10 @@
 import { IncomingHttpHeaders } from "http";
+import { UUID } from 'io-ts-types/UUID';
 
 declare global {
   namespace Express {
     interface User {
-      id: string;
+      id: UUID;
       firstName: string;
       lastName: string;
       username: string;

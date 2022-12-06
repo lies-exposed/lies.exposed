@@ -1,7 +1,6 @@
-import { Loader } from "@liexp/ui/components/Common/Loader";
 import Header, { HeaderMenuItem } from "@liexp/ui/components/Header";
 import * as React from "react";
-import { useGetIdentity } from "react-admin";
+import { useHasAuth } from "../../utils/auth.utils";
 import { useNavigateTo } from "../../utils/history.utils";
 import { useNavigateToResource } from "../../utils/location.utils";
 
@@ -42,9 +41,25 @@ const loginMenuItem: HeaderMenuItem = {
   subItems: [],
 };
 const profileMenuItem: HeaderMenuItem = {
-  view: "/profile",
   label: "Profile",
+  view: "/profile",
   subItems: [
+    {
+      view: "/profile/links",
+      label: "Links",
+    },
+    {
+      view: "/profile/media",
+      label: "Media",
+    },
+    {
+      view: "/profile/events/suggestions",
+      label: "Event Suggestions",
+    },
+    {
+      view: "/profile/articles",
+      label: "Articles",
+    },
     {
       view: "/logout",
       label: "Logout",
@@ -55,13 +70,9 @@ const profileMenuItem: HeaderMenuItem = {
 const AppHeader: React.FC = () => {
   const navigateTo = useNavigateTo();
   const navigateToResource = useNavigateToResource();
-  const identity = useGetIdentity();
+  const hasAuth = useHasAuth();
 
-  const userMenuItem = identity.isLoading
-    ? { view: "/", label: <Loader />, subItems: [] }
-    : identity.data?.id === ""
-    ? loginMenuItem
-    : profileMenuItem;
+  const userMenuItem = hasAuth ? profileMenuItem : loginMenuItem;
   return (
     <Header
       menu={[dataMenuItem, userMenuItem]}
