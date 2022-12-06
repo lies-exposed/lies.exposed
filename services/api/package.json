@@ -47,7 +47,7 @@
     "fp-ts": "^2.13.1",
     "front-matter": "4.0.2",
     "gray-matter": "^4.0.3",
-    "io-ts": "^2.2.19",
+    "io-ts": "^2.2.20",
     "io-ts-types": "^0.5.19",
     "jsonwebtoken": "^8.5.1",
     "module-alias": "^2.2.2",
