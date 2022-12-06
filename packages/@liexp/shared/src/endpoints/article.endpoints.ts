@@ -14,6 +14,7 @@ const ListArticlesQuery = t.type(
     ...GetListQuery.props,
     draft: optionFromNullable(BooleanFromString),
     path: optionFromNullable(t.string),
+    creator: optionFromNullable(UUID),
   },
   "ListArticlesQuery"
 );
@@ -46,7 +47,8 @@ export const Create = Endpoint({
         draft: t.boolean,
         date: DateFromISOString,
         featuredImage: optionFromNullable(UUID),
-        body: t.string,
+        creator: optionFromNullable(UUID),
+        body2: t.unknown,
       },
       "CreateArticleBody"
     ),
@@ -68,9 +70,9 @@ export const articles = ResourceEndpoints({
           title: t.string,
           path: t.string,
           draft: t.boolean,
+          creator: UUID,
           date: DateFromISOString,
           featuredImage: optionFromNullable(t.strict({ id: UUID })),
-          body: t.string,
           body2: t.unknown,
         },
         "EditArticleBody"

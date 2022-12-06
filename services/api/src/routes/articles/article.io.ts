@@ -14,6 +14,7 @@ export const toArticleIO = ({
     io.http.Article.Article.decode({
       ...article,
       type: "Article",
+      creator: article.creator ?? undefined,
       body,
       body2,
       links: [],

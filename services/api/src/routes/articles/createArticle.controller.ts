@@ -5,25 +5,32 @@ import { pipe } from "fp-ts/function";
 import { toArticleIO } from "./article.io";
 import { ArticleEntity } from "@entities/Article.entity";
 import { Route } from "@routes/route.types";
+import { authenticationHandler } from "@utils/authenticationHandler";
 
 export const MakeCreateArticleRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(Endpoints.Article.Create, ({ body }) => {
-    const featuredImage = pipe(body.featuredImage, O.toNullable);
-    return pipe(
-      ctx.db.save(ArticleEntity, [
-        {
-          ...body,
-          featuredImage: featuredImage ? { id: featuredImage } : null,
-        },
-      ]),
-      TE.map((articles) => articles[0]),
-      TE.chainEitherK(toArticleIO),
-      TE.map((data) => ({
-        body: {
-          data,
-        },
-        statusCode: 200,
-      }))
-    );
-  });
+  AddEndpoint(r, authenticationHandler(ctx, ["event-suggestion:create"]))(
+    Endpoints.Article.Create,
+    ({ body: { body2, ...body } }, r) => {
+      const featuredImage = pipe(body.featuredImage, O.toNullable);
+      return pipe(
+        ctx.db.save(ArticleEntity, [
+          {
+            ...body,
+            body: "",
+            body2: body2 as any,
+            creator: { id: r.user?.id },
+            featuredImage: featuredImage ? { id: featuredImage } : null,
+          },
+        ]),
+        TE.map((articles) => articles[0]),
+        TE.chainEitherK(toArticleIO),
+        TE.map((data) => ({
+          body: {
+            data,
+          },
+          statusCode: 200,
+        }))
+      );
+    }
+  );
 };

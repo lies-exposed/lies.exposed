@@ -2,13 +2,11 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
-  Entity,
-  JoinColumn,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  Entity, ManyToOne, PrimaryGeneratedColumn,
+  UpdateDateColumn
 } from "typeorm";
 import { MediaEntity } from "./Media.entity";
+import { UserEntity } from "./User.entity";
 
 @Entity("article")
 export class ArticleEntity {
@@ -29,8 +27,10 @@ export class ArticleEntity {
   @Column({ type: "timestamptz", nullable: true })
   date: Date | null;
 
-  @OneToOne(() => MediaEntity, (v) => v.id, { nullable: true })
-  @JoinColumn()
+  @ManyToOne(() => MediaEntity, (v) => v.articles, {
+    cascade: false,
+    nullable: true,
+  })
   featuredImage: MediaEntity | null;
 
   @Column({ type: "varchar", nullable: true })
@@ -41,6 +41,12 @@ export class ArticleEntity {
 
   @Column({ type: "json", nullable: true })
   body2: Record<string, unknown> | null;
+
+  @ManyToOne(() => UserEntity, (u) => u.articles, {
+    cascade: false,
+    nullable: true,
+  })
+  creator: UserEntity | null;
 
   @CreateDateColumn()
   createdAt: Date;
