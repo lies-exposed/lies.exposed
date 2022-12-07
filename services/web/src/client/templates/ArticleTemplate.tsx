@@ -6,6 +6,7 @@ import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
 import NotFoundPage from "../pages/404";
+import ArticlesBox from "@liexp/ui/containers/ArticlesBox";
 
 const ArticleTemplate: React.FC<{ storyPath: string }> = ({ storyPath }) => {
   return pipe(
@@ -23,6 +24,8 @@ const ArticleTemplate: React.FC<{ storyPath: string }> = ({ storyPath }) => {
                 urlPath={`blog/${article.path}`}
               />
               <ArticlePageContent article={{ ...article }} />
+
+              <ArticlesBox params={{}} onClick={() => {}} />
             </>
           )}
         />
