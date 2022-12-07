@@ -9,14 +9,14 @@ import image from "@react-page/plugins-image";
 import spacer from "@react-page/plugins-spacer";
 import video from "@react-page/plugins-video";
 import * as React from "react";
-import { actorInlinePlugin } from "./plugins/actor/ActorInline";
+// import { actorInlinePlugin } from "./plugins/actor/ActorInline";
 import eventsBlock from "./plugins/event/eventBlock.plugin";
 import gridCellPlugin from "./plugins/gridCellPlugin";
 import mediaBlock from "./plugins/media/mediaBlock";
 
 export const minimalCellPlugins = [
   getLiexpSlate({
-    actorInlinePlugin,
+    // actorInlinePlugin,
   }),
 ] as any[];
 

@@ -1,20 +1,13 @@
-import { formatDate, parseISO } from "@liexp/shared/utils/date";
+import { ArticleCard } from "@liexp/ui/components/articles/ArticleCard";
 import { MainContent } from "@liexp/ui/components/MainContent";
+import {
+  Grid
+} from "@liexp/ui/components/mui";
 import { PageContent } from "@liexp/ui/components/PageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
-import {
-  Button,
-  Card,
-  CardActionArea,
-  CardActions,
-  CardHeader,
-  CardMedia,
-  Grid
-} from "@liexp/ui/components/mui";
 import { useArticlesQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import { RouteComponentProps } from "@reach/router";
-import * as t from 'io-ts';
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 
@@ -43,44 +36,12 @@ const BlogPage: React.FC<RouteComponentProps> = () => {
                 <Grid container spacing={2} style={{ marginBottom: 100 }}>
                   {articles.map((a) => (
                     <Grid item key={a.id} xs={6}>
-                      <Card key={a.id}>
-                        <CardHeader
-                          title={a.title}
-                          subheader={
-                            <p style={{ fontSize: 11 }}>
-                              {formatDate(
-                                t.string.is(a.createdAt)
-                                  ? parseISO(a.createdAt)
-                                  : a.createdAt
-                              )}
-                            </p>
-                          }
-                        />
-                        <CardActionArea>
-                          {a.featuredImage ? (
-                            <CardMedia
-                              component="img"
-                              alt="Contemplative Reptile"
-                              height="140"
-                              image={a.featuredImage.location}
-                              title="Contemplative Reptile"
-                            />
-                          ) : null}
-                        </CardActionArea>
-                        <CardActions>
-                          <Button
-                            size="small"
-                            color="primary"
-                            onClick={() => {
-                              navigateTo.stories({
-                                path: a.path,
-                              });
-                            }}
-                          >
-                            Leggi
-                          </Button>
-                        </CardActions>
-                      </Card>
+                      <ArticleCard
+                        article={a}
+                        onClick={(a) => {
+                          navigateTo.stories({ path: a.path });
+                        }}
+                      />
                     </Grid>
                   ))}
                 </Grid>
