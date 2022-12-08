@@ -40,11 +40,6 @@ type MapInputProps = InputProps & {
   onReset: () => void;
 };
 
-export const MapInputType = {
-  POINT: 'POINT',
-  POLYGON: 'POLYGON'
-};
-
 const MapInput: React.FC<MapInputProps> = ({
   value,
   onChange,
@@ -154,11 +149,11 @@ const MapInputWrapper: React.FC<
       <SelectInput
         label="type"
         source={typeField.field.name}
-        choices={[MapInputType.POINT, MapInputType.POLYGON].map((g) => ({
-          id: g,
-          name: g,
+        choices={http.Common.Geometry.Geometry.types.map((g) => ({
+          id: g.type.props.type.value,
+          name: g.type.props.type.value,
         }))}
-        defaultValue={MapInputType.POINT}
+        defaultValue={http.Common.Geometry.Point.type.props.type.value}
         onChange={(e) => {
           typeField.field.onChange({ type: e.target.value, coordinates: [] });
         }}
