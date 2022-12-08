@@ -1,7 +1,6 @@
 import { throwTE } from "@liexp/shared/utils/task.utils";
-import { Grid } from "@mui/material";
-import { pipe } from "fp-ts/function";
 import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import {
   ArrayInput,
@@ -28,15 +27,17 @@ import {
   TextInput,
   useDataProvider,
   useGetIdentity,
-  usePermissions
+  usePermissions,
 } from "react-admin";
 import { uploadImages } from "../../client/admin/MediaAPI";
 import { checkIsAdmin } from "../../utils/user.utils";
+import {Grid} from '../mui'
+import ReactPageInput from "./ReactPageInput";
 import { EditForm } from "./common/EditForm";
+import ReferenceArrayKeywordInput from "./common/ReferenceArrayKeywordInput";
 import ReferenceMediaInput from "./common/ReferenceMediaInput";
 import ReferenceUserInput from "./common/ReferenceUserInput";
 import ArticlePreview from "./previews/ArticlePreview";
-import ReactPageInput from "./ReactPageInput";
 
 export const ArticleList: React.FC<ListProps> = (props) => {
   const { data, isLoading } = useGetIdentity();
@@ -126,6 +127,7 @@ export const ArticleEdit: React.FC<EditProps> = (props) => {
               ) : (
                 <TextInput source="creator" defaultValue={data?.id} hidden />
               )}
+              <ReferenceArrayKeywordInput source="keywords" showAdd={true} />
             </Grid>
           </Grid>
 
@@ -159,6 +161,7 @@ export const ArticleCreate: React.FC<CreateProps> = (props) => {
         <BooleanInput source="draft" />
         <TextInput source="title" fullWidth={true} />
         <TextInput source="path" fullWidth={true} />
+        <ReferenceArrayKeywordInput source="keywords" showAdd={true} />
         <ReferenceMediaInput
           source="featuredImage"
           allowedTypes={["image/jpeg", "image/jpg", "image/png"]}

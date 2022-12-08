@@ -1,7 +1,7 @@
 import { Keyword } from "@liexp/shared/io/http";
 import * as React from "react";
 import { List, ListItemProps } from "../Common/List";
-import {Typography} from "../mui";
+import { Typography } from "../mui";
 
 export interface KeywordListTopic extends Keyword.Keyword {
   selected: boolean;
@@ -46,14 +46,7 @@ const KeywordList: React.FC<KeywordListProps> = ({
       onItemClick={onItemClick}
       getKey={(t) => t.id}
       style={{ display: "flex", ...style }}
-      ListItem={(p) => (
-        <KeywordListItem
-          {...p}
-          onClick={(p) => {
-            onItemClick(p);
-          }}
-        />
-      )}
+      ListItem={(p) => <KeywordListItem {...p} onClick={onItemClick} />}
     />
   );
 };

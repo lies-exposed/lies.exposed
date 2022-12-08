@@ -17,6 +17,7 @@ export const Article = t.strict(
     links: t.array(t.string),
     body: t.string,
     body2: t.union([t.unknown, t.null]),
+    keywords: t.array(UUID)
   },
   "Article"
 );

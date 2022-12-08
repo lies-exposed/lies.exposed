@@ -27,7 +27,7 @@ const Template: Story<ArticlePageContentProps> = (props) => {
           },
           sort: { field: "date", order: "DESC" },
           filter: { draft: true },
-        }),
+        }, false),
       }}
       render={({ article }) => {
         const art = article.data[index];
@@ -44,7 +44,7 @@ const Template: Story<ArticlePageContentProps> = (props) => {
                 </option>
               ))}
             </select>
-            <ArticlePageContent article={art} />
+            <ArticlePageContent article={art} onKeywordClick={() => {}} />
           </>
         ) : (
           <div />

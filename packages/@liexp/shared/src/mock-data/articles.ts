@@ -9,6 +9,7 @@ export const firstArticle: Article.Article = {
   featuredImage: firstImage,
   creator: undefined,
   links: [],
+  keywords: [],
   draft: false,
   date: new Date(),
   createdAt: new Date(),

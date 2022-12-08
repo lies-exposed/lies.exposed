@@ -13,6 +13,7 @@ const ListArticlesQuery = t.type(
   {
     ...GetListQuery.props,
     draft: optionFromNullable(BooleanFromString),
+    exclude: optionFromNullable(t.array(UUID)),
     path: optionFromNullable(t.string),
     creator: optionFromNullable(UUID),
   },
@@ -49,6 +50,7 @@ export const Create = Endpoint({
         featuredImage: optionFromNullable(UUID),
         creator: optionFromNullable(UUID),
         body2: t.unknown,
+        keywords: t.array(UUID),
       },
       "CreateArticleBody"
     ),
@@ -70,6 +72,7 @@ const EditArticle = Endpoint({
         date: DateFromISOString,
         featuredImage: optionFromNullable(t.strict({ id: UUID })),
         body2: t.unknown,
+        keywords: t.array(UUID),
       },
       "EditArticleBody"
     ),

@@ -4,9 +4,15 @@ import { useHasAuth } from "../../utils/auth.utils";
 import { useNavigateTo } from "../../utils/history.utils";
 import { useNavigateToResource } from "../../utils/location.utils";
 
-const dataMenuItem = {
+const storiesMenuItem: HeaderMenuItem = {
+  view: "/stories",
+  label: "Stories",
+  subItems: [],
+};
+
+const dataMenuItem: HeaderMenuItem = {
   view: "index",
-  label: "Explore",
+  label: "Data",
   subItems: [
     {
       view: "/events",
@@ -31,10 +37,6 @@ const dataMenuItem = {
     {
       view: "/media",
       label: "Media",
-    },
-    {
-      view: "/articles",
-      label: "Stories",
     },
   ],
 };
@@ -79,7 +81,7 @@ const AppHeader: React.FC = () => {
   const userMenuItem = hasAuth ? profileMenuItem : loginMenuItem;
   return (
     <Header
-      menu={[dataMenuItem, userMenuItem]}
+      menu={[storiesMenuItem, dataMenuItem, userMenuItem]}
       onTitleClick={() => {
         navigateToResource.index({});
       }}

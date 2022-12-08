@@ -10,6 +10,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { ArticleEntity } from './Article.entity';
 import { EventV2Entity } from "./Event.v2.entity";
 import { LinkEntity } from "./Link.entity";
 
@@ -31,6 +32,10 @@ export class KeywordEntity {
   @ManyToMany(() => LinkEntity, (e) => e.keywords, { cascade: false })
   @JoinTable()
   links: LinkEntity[];
+
+  @ManyToMany(() => ArticleEntity, (e) => e.keywords, { cascade: false })
+  @JoinTable()
+  articles: ArticleEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

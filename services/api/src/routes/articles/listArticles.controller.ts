@@ -5,6 +5,7 @@ import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
+import { In, Not } from 'typeorm';
 import { Route } from "../route.types";
 import { toArticleIO } from "./article.io";
 import { ArticleEntity } from "@entities/Article.entity";
@@ -13,11 +14,19 @@ import { getORMOptions } from "@utils/orm.utils";
 export const MakeListArticlesRoute: Route = (r, { env, db, logger }) => {
   AddEndpoint(r)(
     Endpoints.Article.List,
-    ({ query: { draft: _draft, ...query } }) => {
+    ({ query: { draft: _draft, exclude: _exclude, ...query } }) => {
       const findOptions = getORMOptions({ ...query }, env.DEFAULT_PAGE_SIZE);
       const draft = pipe(
         _draft,
         O.map((d) => ({ draft: d })),
+        O.getOrElse(() => ({}))
+      );
+
+      const exclude = pipe(
+        _exclude,
+        O.map((e) => ({
+          "id": Not(In(e)),
+        })),
         O.getOrElse(() => ({}))
       );
       return pipe(
@@ -28,10 +37,11 @@ export const MakeListArticlesRoute: Route = (r, { env, db, logger }) => {
               where: {
                 ...findOptions.where,
                 ...draft,
+                ...exclude,
               },
               relations: ["featuredImage"],
               loadRelationIds: {
-                relations: ["creator"],
+                relations: ["creator", 'keywords'],
               },
             }),
             TE.chainEitherK(A.traverse(E.Applicative)(toArticleIO))
