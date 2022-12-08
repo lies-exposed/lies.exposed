@@ -12,7 +12,10 @@ export const MakeEditArticleRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(ctx, ["event-suggestion:create"]))(
     Endpoints.Article.Edit,
     (
-      { params: { id }, body: { featuredImage, body2, creator, ...body } },
+      {
+        params: { id },
+        body: { featuredImage, body2, creator, keywords, ...body },
+      },
       r
     ) => {
       return pipe(
@@ -30,6 +33,7 @@ export const MakeEditArticleRoute: Route = (r, ctx) => {
             {
               ...e,
               ...body,
+              keywords: keywords.map((k) => ({ id: k })),
               body2: body2 as any,
               creator: creator as any,
               featuredImage: featuredImageId,
@@ -37,7 +41,13 @@ export const MakeEditArticleRoute: Route = (r, ctx) => {
           ]);
         }),
         TE.chain(() =>
-          ctx.db.findOneOrFail(ArticleEntity, { where: { id: Equal(id) } })
+          ctx.db.findOneOrFail(ArticleEntity, {
+            where: { id: Equal(id) },
+            relations: ["featuredImage"],
+            loadRelationIds: {
+              relations: ["creator", "keywords"],
+            },
+          })
         ),
         TE.chainEitherK(toArticleIO),
         TE.map((data) => ({

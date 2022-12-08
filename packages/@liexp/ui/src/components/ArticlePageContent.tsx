@@ -1,4 +1,5 @@
 import { Article } from "@liexp/shared/io/http";
+import { Keyword } from "@liexp/shared/io/http/Keyword";
 import { isValidValue } from "@liexp/shared/slate";
 import { formatDate } from "@liexp/shared/utils/date";
 import { parseISO } from "date-fns";
@@ -7,15 +8,18 @@ import * as React from "react";
 import { useTheme } from "../theme";
 import EditButton from "./Common/Button/EditButton";
 import Editor from "./Common/Editor";
+import { KeywordsBox } from "./KeywordsBox";
 import { MainContent } from "./MainContent";
-import { Grid, Typography } from "./mui";
+import { alpha, Grid, Typography } from "./mui";
 
 export interface ArticlePageContentProps {
   article: Article.Article;
+  onKeywordClick: (k: Keyword) => void;
 }
 
 export const ArticlePageContent: React.FC<ArticlePageContentProps> = ({
   article: { featuredImage, ...article },
+  onKeywordClick,
 }) => {
   const theme = useTheme();
 
@@ -39,13 +43,14 @@ export const ArticlePageContent: React.FC<ArticlePageContentProps> = ({
           style={{
             paddingTop: 40,
             paddingBottom: 40,
-            backgroundColor: `${theme.palette.secondary.main}40`,
+            backgroundColor: `${alpha(theme.palette.common.white, 0.8)}`,
             margin: "30px auto",
           }}
         >
           <Typography variant="h1" style={{ fontSize: "3rem" }}>
             {article.title}
           </Typography>
+          <KeywordsBox ids={article.keywords} onItemClick={onKeywordClick} />
         </MainContent>
       </Grid>
       <Grid container>
@@ -65,10 +70,10 @@ export const ArticlePageContent: React.FC<ArticlePageContentProps> = ({
                   : article.createdAt
               )}
             </Typography>{" "}
-            <Typography className="label">
-              {/* Tempo di lettura: {O.getOrElse(() => 1)(props.timeToRead)} min */}
+            {/* <Typography className="label">
+              {/* Tempo di lettura: {O.getOrElse(() => 1)(props.timeToRead)} min
               Tempo di lettura: TODO min
-            </Typography>
+            </Typography> */}
           </div>
 
           {isValidValue(article.body2) ? (

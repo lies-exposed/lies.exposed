@@ -493,32 +493,72 @@ export const routes = [
       }
       return <NotFoundPage />;
     },
-
-    queries: async ({ storyPath }: any) => [
-      ...commonQueries,
-      {
-        queryKey: getArticleQueryKey({ filter: { path: storyPath } }, false),
-        queryFn: articleByPath,
-      },
-    ],
+    queries: async ({ storyPath }: any) => {
+      const story = await articleByPath({ path: storyPath });
+      return [
+        ...commonQueries,
+        {
+          queryKey: getArticleQueryKey({ filter: { path: storyPath } }, false),
+          queryFn: async () => story,
+        },
+        {
+          queryKey: getArticleQueryKey(
+            {
+              pagination: {
+                perPage: 3,
+                page: 1,
+              },
+              sort: { field: "updatedAt", order: "DESC" },
+              filter: {
+                exclude: [story.id],
+              },
+            },
+            false
+          ),
+          queryFn: fetchArticles,
+        },
+        {
+          queryKey: getKeywordsQueryKey(
+            {
+              pagination: {
+                perPage: story.keywords.length,
+                page: 1,
+              },
+              sort: { field: "updatedAt", order: "DESC" },
+              filter: {
+                ids: story.keywords,
+              },
+            },
+            false
+          ),
+          queryFn: fetchKeywords,
+        },
+      ];
+    },
   },
   {
     path: "/stories",
     route: () => <BlogPage />,
-    queries: async () => [
-      ...commonQueries,
-      {
-        queryKey: getArticleQueryKey(
-          {
-            pagination: { page: 1, perPage: 20 },
-            sort: { field: "id", order: "DESC" },
-            filter: { draft: false },
-          },
-          false
-        ),
-        queryFn: fetchArticles,
-      },
-    ],
+    queries: async () => {
+      return [
+        ...commonQueries,
+        {
+          queryKey: getPageContentByPathQueryKey("stories"),
+          queryFn: fetchPageContentByPath,
+        },
+        {
+          queryKey: getArticleQueryKey(
+            {
+              pagination: { page: 1, perPage: 20 },
+              sort: { field: "id", order: "DESC" },
+              filter: { draft: false, exclude: [] },
+            },
+            false
+          ),
+          queryFn: fetchArticles,
+        },
+      ];
+    },
   },
   {
     path: "/profile*",

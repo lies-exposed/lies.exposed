@@ -1,23 +1,43 @@
 import { Article } from "@liexp/shared/io/http/Article";
-import { Button, Card, CardActionArea, CardActions, CardHeader, CardMedia } from "../mui";
-import * as React from "react";
-import * as t from "io-ts";
 import { formatDate } from "@liexp/shared/utils/date";
 import { parseISO } from "date-fns";
+import * as t from "io-ts";
+import * as React from "react";
+import {
+  Button,
+  Card,
+  CardActionArea,
+  CardActions,
+  CardHeader,
+  CardMedia,
+} from "../mui";
 
 interface ArticleCardProps {
   article: Article;
+  style?: React.CSSProperties;
   onClick: (a: Article) => void;
 }
 
 export const ArticleCard: React.FC<ArticleCardProps> = ({
   article: a,
+  style,
   onClick,
 }) => {
   return (
-    <Card>
+    <Card style={style}>
       <CardHeader
-        title={a.title}
+        title={
+          <span
+            style={{
+              height: 65,
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              display: "block",
+            }}
+          >
+            {a.title}
+          </span>
+        }
         subheader={
           <p style={{ fontSize: 11 }}>
             {formatDate(

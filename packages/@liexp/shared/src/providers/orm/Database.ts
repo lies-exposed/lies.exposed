@@ -171,7 +171,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       );
     },
     find: (entity, options) => {
-      ctx.logger.debug.log(`find %s with options %O`, entity, options);
+      ctx.logger.debug.log(`find %s with options %O`, entity.valueOf().constructor.name, options);
       return TE.tryCatch(
         () => ctx.connection.manager.find(entity, options),
         handleError()

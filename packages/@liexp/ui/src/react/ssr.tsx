@@ -75,7 +75,7 @@ export const getServer = (
         const routeQueries = queries.flatMap((r) => r);
         return Promise.all(
           routeQueries.map((r) => {
-            ssrLog.debug.log("Prefetch query %O", r);
+            ssrLog.debug.log("Prefetch query %O", r.queryKey);
             return queryClient.prefetchQuery(r.queryKey, r.queryFn);
           })
         );

@@ -12,7 +12,7 @@ export const MakeGetArticleRoute: Route = (r, ctx) => {
         where: { id },
         relations: ["featuredImage"],
         loadRelationIds: {
-          relations: ["creator"],
+          relations: ["creator", 'keywords'],
         },
       }),
       TE.chainEitherK(toArticleIO),

@@ -4,8 +4,8 @@ import MediaIcon from "@mui/icons-material/VideoFileOutlined";
 import type { CellPluginComponentProps, DataTType } from "@react-page/editor";
 import { pluginFactories } from "@react-page/plugins-slate";
 import React from "react";
-import { ActorChip } from "../../../../actors/ActorChip";
 import { AutocompleteActorInput } from "../../../../Input/AutocompleteActorInput";
+import { ActorChip } from "../../../../actors/ActorChip";
 import { Box, Button, Checkbox, FormControlLabel, Grid } from "../../../../mui";
 
 export interface ActorInlineState extends DataTType {

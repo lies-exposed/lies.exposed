@@ -2,9 +2,10 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
-  Entity, ManyToOne, PrimaryGeneratedColumn,
+  Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
+import { KeywordEntity } from './Keyword.entity';
 import { MediaEntity } from "./Media.entity";
 import { UserEntity } from "./User.entity";
 
@@ -47,6 +48,11 @@ export class ArticleEntity {
     nullable: true,
   })
   creator: UserEntity | null;
+
+  @ManyToMany(() => KeywordEntity, k => k.articles, {
+    cascade: false,
+  })
+  keywords: KeywordEntity[]
 
   @CreateDateColumn()
   createdAt: Date;

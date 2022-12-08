@@ -30,7 +30,7 @@ const ArticlePreview: React.FC = () => {
       <HelmetProvider>
         <ThemeProvider theme={ECOTheme}>
           <QueryClientProvider client={qc}>
-            <ArticlePageContent article={p} />
+            <ArticlePageContent article={p} onKeywordClick={() => {}} />
           </QueryClientProvider>
         </ThemeProvider>
       </HelmetProvider>
