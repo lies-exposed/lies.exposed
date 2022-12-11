@@ -4,6 +4,7 @@ import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
 import EventsAppBar from "@liexp/ui/components/events/EventsAppBar";
 import { Box, Grid } from "@liexp/ui/components/mui";
+import { EventsPanel } from "@liexp/ui/containers/EventsPanel";
 import {
   useActorsQuery,
   useGroupsQuery,
@@ -16,15 +17,14 @@ import {
   SearchEventsQueryInputNoPagination,
 } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { styled } from "@liexp/ui/theme";
-import * as React from "react";
-import { queryClient } from "../state/queries";
 import {
   queryToHash,
   useQueryFromHash,
   useRouteQuery,
-} from "../utils/history.utils";
+} from "@liexp/ui/utils/history.utils";
+import * as React from "react";
+import { queryClient } from "../state/queries";
 import { EventsView, useNavigateToResource } from "../utils/location.utils";
-import { EventsPanel } from "@containers/EventsPanel";
 
 const PREFIX = "EventsPage";
 
@@ -302,16 +302,21 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                   />
                 </Grid>
                 <main className={classes.content}>
-                  <EventsPanel
-                    query={{ ...query, ...params, slide, hash }}
-                    tab={tab}
-                    slide={slide}
-                    actors={filterActors.data}
-                    groups={filterGroups.data}
-                    keywords={filterKeywords.data}
-                    groupsMembers={filterGroupsMembers.data}
-                    onQueryChange={handleUpdateEventsSearch}
-                  />
+                  <Grid container alignContent="center" justifyContent="center">
+                    <Grid item lg={8} md={8} sm={12} xs={12}>
+                      <EventsPanel
+                        query={{ ...query, ...params, slide, hash }}
+                        tab={tab}
+                        slide={slide}
+                        actors={filterActors.data}
+                        groups={filterGroups.data}
+                        keywords={filterKeywords.data}
+                        groupsMembers={filterGroupsMembers.data}
+                        onQueryChange={handleUpdateEventsSearch}
+                        onEventClick={(e) => { navigateTo.events({ id: e.id }); }}
+                      />
+                    </Grid>
+                  </Grid>
                 </main>
               </Grid>
             </Box>

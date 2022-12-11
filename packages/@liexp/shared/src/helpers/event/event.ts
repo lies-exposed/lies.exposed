@@ -7,6 +7,7 @@ import * as Ord from "fp-ts/Ord";
 import { pipe } from "fp-ts/function";
 import * as N from "fp-ts/number";
 import * as S from "fp-ts/string";
+import { UUID } from "io-ts-types/lib/UUID";
 import {
   Actor,
   Common,
@@ -16,8 +17,8 @@ import {
   Keyword,
   Media,
   Project,
-} from "../io/http";
-import { SearchEvent } from "../io/http/Events/SearchEvent";
+} from "../../io/http";
+import { SearchEvent } from "../../io/http/Events/SearchEvent";
 
 type EventsByYearMap = Map<number, Map<number, Events.Event[]>>;
 
@@ -263,11 +264,11 @@ export const extractEventsMetadata =
   };
 
 export interface EventRelationIds {
-  actors: string[];
-  groups: string[];
-  groupsMembers: string[];
-  keywords: string[];
-  media: string[];
+  actors: UUID[];
+  groups: UUID[];
+  groupsMembers: UUID[];
+  keywords: UUID[];
+  media: UUID[];
   // links: string[]
 }
 
@@ -299,11 +300,11 @@ export const getRelationIds = (e: Events.Event): EventRelationIds => {
       const actors = [
         e.payload.from.type === "Actor" ? e.payload.from.id : undefined,
         e.payload.to.type === "Actor" ? e.payload.to.id : undefined,
-      ].filter((e): e is string => e !== undefined);
+      ].filter(UUID.is);
       const groups = [
         e.payload.from.type === "Group" ? e.payload.from.id : undefined,
         e.payload.to.type === "Group" ? e.payload.to.id : undefined,
-      ].filter((e): e is string => e !== undefined);
+      ].filter(UUID.is);
       return {
         ...commonIds,
         actors,

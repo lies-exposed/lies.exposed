@@ -175,7 +175,7 @@ const Header: React.FC<HeaderProps> = ({
         <Typography
           variant="h6"
           className={classes.title}
-          onClick={() => onTitleClick()}
+          onClick={() => { onTitleClick(); }}
         >
           {title}
         </Typography>
@@ -203,7 +203,7 @@ const Header: React.FC<HeaderProps> = ({
               ref={buttonRef}
               aria-controls={open ? "menu-list-grow" : undefined}
               aria-haspopup="true"
-              onClick={() => handleToggle(buttonRef, m)}
+              onClick={() => { handleToggle(buttonRef, m); }}
             >
               {m.label}
             </Button>
@@ -231,7 +231,7 @@ const Header: React.FC<HeaderProps> = ({
                 >
                   <Paper>
                     <ClickAwayListener
-                      onClickAway={(e) => handleClose(e as any)}
+                      onClickAway={(e) => { handleClose(e as any); }}
                     >
                       <MenuList
                         autoFocusItem={open}

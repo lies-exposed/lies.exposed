@@ -79,7 +79,7 @@ const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
 
       <Modal
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => { setOpen(false); }}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -91,7 +91,7 @@ const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
               style={{ position: "relative", height: "100%" }}
             >
               <Box display="inline">
-                <CloseOutlined onClick={() => setOpen(false)} />
+                <CloseOutlined onClick={() => { setOpen(false); }} />
                 <Typography
                   id="alert-dialog-title"
                   variant="h4"

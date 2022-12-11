@@ -55,20 +55,23 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({ area }) => {
             />
           </Grid>
           <Grid item md={9}>
-            <MediaSliderBox
-              query={{
-                filter: { ids: area.media },
-                pagination: {
-                  perPage: 10,
-                  page: 1,
-                },
-                sort: {
-                  field: "createdAt",
-                  order: "DESC",
-                },
-              }}
-              onClick={() => {}}
-            />
+            <>
+              <MediaSliderBox
+                query={{
+                  filter: { ids: area.media },
+                  pagination: {
+                    perPage: 10,
+                    page: 1,
+                  },
+                  sort: {
+                    field: "createdAt",
+                    order: "DESC",
+                  },
+                }}
+                onClick={() => {}}
+              />
+            </>
+
             <Box
               sx={() => ({
                 py: 2,

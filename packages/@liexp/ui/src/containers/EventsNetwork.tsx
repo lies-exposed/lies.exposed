@@ -1,21 +1,21 @@
-import { getEventsMetadata } from "@liexp/shared/helpers/event";
+import { getEventsMetadata } from "@liexp/shared/helpers/event/event";
+import * as React from "react";
 import {
-  EventsNetworkGraph,
-  EventsNetworkGraphProps,
-} from "@liexp/ui/components/Graph/EventsNetworkGraph";
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { Box } from "@liexp/ui/components/mui";
+  EventsSankeyGraph,
+  EventsSankeyGraphProps,
+} from "../components/Graph/EventsSankeyGraph";
+import QueriesRenderer from "../components/QueriesRenderer";
+import { Box } from "../components/mui";
 import {
   useActorsQuery,
   useGroupsQuery,
-} from "@liexp/ui/state/queries/DiscreteQueries";
-import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
-import * as React from "react";
+} from "../state/queries/DiscreteQueries";
+import { searchEventsQuery } from "../state/queries/SearchEventsQuery";
 import { EventsQueryParams } from "./EventsPanel";
 
 interface EventsNetworkProps
   extends Omit<
-    EventsNetworkGraphProps,
+    EventsSankeyGraphProps,
     | "events"
     | "actors"
     | "groups"
@@ -49,6 +49,8 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
         }),
       }}
       render={({ events: { events, actors, groups, keywords } }) => {
+        // console.log(events);
+
         const relationIds = events.reduce(
           (acc, e) => {
             const { actors, groups, groupsMembers } = getEventsMetadata(e);
@@ -103,8 +105,9 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
                 ),
               }}
               render={({ actors: { data: actors } }) => {
+
                 return (
-                  <EventsNetworkGraph
+                  <EventsSankeyGraph
                     {...props}
                     events={events}
                     actors={actors}

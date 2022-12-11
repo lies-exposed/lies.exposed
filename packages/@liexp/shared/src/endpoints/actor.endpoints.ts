@@ -6,7 +6,6 @@ import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import { Actor } from "../io/http";
 import { UUID } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
-import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
 
 export const SingleActorOutput = Output(Actor.Actor, "Actor");
@@ -19,10 +18,7 @@ export const List = Endpoint({
   Method: "GET",
   getPath: () => "/actors",
   Input: {
-    Query: t.type({
-      ...GetListQuery.props,
-      ...Actor.GetListActorQueryFilter.props,
-    }),
+    Query: Actor.GetListActorQuery,
   },
   Output: ListActorOutput,
 });

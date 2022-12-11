@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "noEmit": false,
     "outDir": "./build",
     "baseUrl": "./src",
     "jsx": "react",
@@ -44,10 +45,14 @@
     }
   ],
   "include": ["./src", "./scripts", "./test"],
-  "exclude": ["build", "**/lib"],
+  "exclude": ["**/build", "**/lib"],
   "ts-node": {
     "transpileOnly": true,
-    "esm": true,
-    "require": ["tsconfig-paths/register", "dotenv/config"]
+    "require": ["tsconfig-paths/register", "dotenv/config"],
+    "logError": true,
+    "compilerOptions": {
+      "module": "CommonJS"
+    },
+    "files": true
   }
 }

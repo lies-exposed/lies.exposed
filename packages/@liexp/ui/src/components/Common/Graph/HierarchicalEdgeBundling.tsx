@@ -72,7 +72,7 @@ export function HierarchicalEdgeBundling({
   onNodeClick,
   onLinkClick,
 }: HierarchicalEdgeBundlingProps): JSX.Element {
-  const SVG_ID = "hierararchicalEdgeBundling";
+  const svgRef = React.useRef(null);
 
   const radius = width / 2;
 
@@ -122,7 +122,7 @@ export function HierarchicalEdgeBundling({
     >;
 
     const svg = d3
-      .select(`#${SVG_ID}`)
+      .select(svgRef.current)
       .html(null)
       .attr("viewBox", [-width / 2, -width / 2, width, width] as any);
 
@@ -205,7 +205,7 @@ export function HierarchicalEdgeBundling({
         })
         .on("mouseover", hovered)
         .on("mouseout", outed)
-        .on("click", (_, d) => onNodeClick(d))
+        .on("click", (_, d) => { onNodeClick(d); })
         .call((text) =>
           text
             .append("title")
@@ -248,7 +248,7 @@ export function HierarchicalEdgeBundling({
       avatars
         .on("mouseover", hovered)
         .on("mouseout", outed)
-        .on("click", (_, d) => onNodeClick(d));
+        .on("click", (_, d) => { onNodeClick(d); });
     }
 
     const link = svg
@@ -267,9 +267,10 @@ export function HierarchicalEdgeBundling({
       .on("click", (_, d) => {
         onLinkClick(d);
       });
+
   }, [graph.nodes.length]);
 
-  return <svg id={SVG_ID} />;
+  return <svg ref={svgRef} />;
 }
 
 export { HierarchicalEdgeBundlingProps };

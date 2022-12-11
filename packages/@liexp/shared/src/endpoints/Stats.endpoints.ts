@@ -1,9 +1,8 @@
-
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import { GetListQuery } from "../io/http/Query";
-import { StatsType } from '../io/http/Stats';
+import { StatsType } from "../io/http/Stats";
 import { ResourceEndpoints } from "./types";
 
 const SingleOutput = Output(t.any, "Stats");
@@ -24,7 +23,7 @@ export const List = Endpoint({
 
 export const Create = Endpoint({
   Method: "POST",
-  getPath: () => "/groups",
+  getPath: () => "/stats",
   Input: {
     Query: undefined,
     Body: t.unknown,
@@ -38,7 +37,7 @@ export const Get = Endpoint({
   Input: {
     Query: undefined,
     Params: t.type({
-      type: t.union([t.literal("keyword"), t.literal("actor")]),
+      type: StatsType,
       id: t.string,
     }),
   },

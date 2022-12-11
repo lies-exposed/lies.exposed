@@ -3,17 +3,17 @@ import { AreaPageContent } from "@liexp/ui/components/AreaPageContent";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { Box } from "@liexp/ui/components/mui";
+import { EventsPanel } from "@liexp/ui/containers/EventsPanel";
 import { useAreaQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import { useRouteQuery } from "@liexp/ui/utils/history.utils";
 import { subYears } from "date-fns";
 import * as React from "react";
-import { useRouteQuery } from "../utils/history.utils";
-import { EventsPanel } from "@containers/EventsPanel";
 // import { useNavigateToResource } from "../utils/location.utils";
 
 const AreaTemplate: React.FC<{ areaId: string }> = ({ areaId }) => {
   // const params = useParams();
   // const navigateToResource = useNavigateToResource();
-  const { tab = 0 } = useRouteQuery<{ tab?: string }>();
+  const { tab } = useRouteQuery({ tab: 0 });
 
   return (
     <QueriesRenderer
@@ -55,6 +55,7 @@ const AreaTemplate: React.FC<{ areaId: string }> = ({ areaId }) => {
               onQueryChange={(q, tab) => {
                 // navigateToResource.area({ id: actor.id }, { tab });
               }}
+              onEventClick={(e) => {}}
             />
           </Box>
         );

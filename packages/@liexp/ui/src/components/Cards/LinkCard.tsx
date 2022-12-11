@@ -41,7 +41,7 @@ const LinkCard: React.FC<LinkCardProps> = ({ link, onClick }) => {
         height: "100%",
         maxHeight: 300,
       }}
-      onClick={() => onClick(link)}
+      onClick={() => { onClick(link); }}
     >
       <CardMedia
         component="img"

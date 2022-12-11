@@ -1,6 +1,6 @@
 import { GetLogger } from "@liexp/core/logger";
 import { ListEventOutput } from "@liexp/shared/endpoints/event.endpoints";
-import { EventRelationIds } from "@liexp/shared/helpers/event";
+import { EventRelationIds } from "@liexp/shared/helpers/event/event";
 import {
   getNewRelationIds,
   updateCache,

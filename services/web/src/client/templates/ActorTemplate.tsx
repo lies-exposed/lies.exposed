@@ -1,97 +1,51 @@
-import { EventType } from "@liexp/shared/io/http/Events";
-import { ActorPageContent } from "@liexp/ui/components/ActorPageContent";
-import { MainContent } from "@liexp/ui/components/MainContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
 import { Box } from "@liexp/ui/components/mui";
 import {
-  useActorQuery,
-  useGroupsQuery,
+  useActorQuery
 } from "@liexp/ui/state/queries/DiscreteQueries";
+import {
+  ActorTemplate
+} from "@liexp/ui/templates/ActorTemplate";
+import { useRouteQuery } from "@liexp/ui/utils/history.utils";
 import * as React from "react";
-import { queryToHash, useRouteQuery } from "../utils/history.utils";
 import { useNavigateToResource } from "../utils/location.utils";
-import { EventsPanel } from "@containers/EventsPanel";
 
-const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
+const ActorPage: React.FC<{ actorId: string }> = ({ actorId }) => {
   // const params = useParams();
   const navigateToResource = useNavigateToResource();
-  const { tab = 0 } = useRouteQuery<{ tab?: string }>();
+  const { tab } = useRouteQuery({ tab: 0 });
 
   return (
     <QueriesRenderer
       queries={{
         actor: useActorQuery({ id: actorId }),
-        groups: useGroupsQuery(
-          {
-            pagination: { perPage: 20, page: 1 },
-            sort: { field: "createdAt", order: "DESC" },
-            filter: { members: [actorId] },
-          },
-          false
-        ),
       }}
-      render={({ actor, groups: { data: groups } }) => {
+      render={({ actor }) => {
         return (
           <Box>
-            <MainContent>
-              <SEO
-                title={actor.fullName}
-                image={actor.avatar ?? ""}
-                urlPath={`actors/${actor.id}`}
-              />
-              <ActorPageContent
-                actor={actor}
-                groups={groups}
-                onGroupClick={(g) => {navigateToResource.groups({ id: g.id })}}
-                onActorClick={(a) => {navigateToResource.actors({ id: a.id })}}
-                hierarchicalGraph={{
-                  onNodeClick: (n) => {
-                    navigateToResource.events(
-                      {},
-                      {
-                        hash: queryToHash({
-                          actors: [n.data.id],
-                        }),
-                      }
-                    );
-                  },
-                  onLinkClick: (ll) => {
-                    navigateToResource.events(
-                      {},
-                      {
-                        hash: queryToHash({
-                          actors: ll.map((l) => l.data.id),
-                        }),
-                      }
-                    );
-                  },
-                }}
-              />
-            </MainContent>
-            <EventsPanel
-              slide={false}
-              keywords={[]}
-              actors={[]}
-              groups={[]}
-              groupsMembers={[]}
-              query={{
-                hash: `actor-${actorId}`,
-                startDate: undefined,
-                endDate: new Date().toDateString(),
-                actors: actorId ? [actorId] : [],
-                groups: [],
-                groupsMembers: [],
-                media: [],
-                keywords: [],
-                locations: [],
-                type: EventType.types.map((t) => t.value),
-                _sort: "date",
-                _order: "DESC",
+            <SEO
+              title={actor.fullName}
+              image={actor.avatar ?? ""}
+              urlPath={`actors/${actor.id}`}
+            />
+            <ActorTemplate
+              tab={tab}
+              onTabChange={(t) => {
+                navigateToResource.actors({ id: actor.id }, { tab: t });
               }}
-              tab={typeof tab === "string" ? parseInt(tab, 10) : (tab as any)}
-              onQueryChange={(q, tab) => {
-                navigateToResource.actors({ id: actor.id }, { tab });
+              actor={actor}
+              onGroupClick={(g) => {
+                navigateToResource.groups({ id: g.id });
+              }}
+              onActorClick={(a) => {
+                navigateToResource.actors({ id: a.id });
+              }}
+              onEventClick={(e) => {
+                navigateToResource.events({ id: e.id });
+              }}
+              onKeywordClick={(k) => {
+                navigateToResource.keywords({ id: k.id });
               }}
             />
           </Box>
@@ -101,4 +55,4 @@ const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
   );
 };
 
-export default ActorTemplate;
+export default ActorPage;

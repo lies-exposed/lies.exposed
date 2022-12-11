@@ -1,7 +1,4 @@
 /* eslint-disable import/order, import/first */
-import path from "path";
-import moduleAlias from "module-alias";
-moduleAlias(path.resolve(__dirname, "../"));
 import * as logger from "@liexp/core/logger";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

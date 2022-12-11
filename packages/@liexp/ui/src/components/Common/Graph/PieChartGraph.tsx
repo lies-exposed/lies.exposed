@@ -73,12 +73,12 @@ export const PieChartGraph = <S extends any>({
               animate={animate}
               getLabel={(arc) => getLabel(arc.data)}
               onClickDatum={({ data }) =>
-                animate &&
+                { animate &&
                 setSelectedSlice(
                   selectedSlice !== null && selectedSlice === getKey(data)
                     ? null
                     : getKey(data)
-                )
+                ); }
               }
               getColor={(arc) => getSliceColor(getKey(arc.data))}
             />
@@ -167,8 +167,8 @@ function AnimatedPie<Datum>({
                 })
               )}
               fill={getColor(item)}
-              onClick={() => onClickDatum(item)}
-              onTouchStart={() => onClickDatum(item)}
+              onClick={() => { onClickDatum(item); }}
+              onTouchStart={() => { onClickDatum(item); }}
             />
             {hasSpaceForLabel && (
               <animated.g style={{ opacity: (item as any).opacity }}>

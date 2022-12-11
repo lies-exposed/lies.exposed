@@ -3,9 +3,9 @@ import { actors } from "@liexp/shared/mock-data/actors";
 import { events } from "@liexp/shared/mock-data/events";
 import { groups } from "@liexp/shared/mock-data/groups";
 import {
-  EventsNetworkGraph,
-  EventsNetworkGraphProps,
-} from "@liexp/ui/components/Graph/EventsNetworkGraph";
+  EventsSankeyGraph,
+  EventsSankeyGraphProps,
+} from "@liexp/ui/components/Graph/EventsSankeyGraph";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
@@ -13,8 +13,8 @@ import { pipe } from "fp-ts/function";
 import * as React from "react";
 
 const meta: Meta = {
-  title: "Components/Graph/EventsNetworkGraph",
-  component: EventsNetworkGraph,
+  title: "Components/Graph/EventsSankeyGraph",
+  component: EventsSankeyGraph,
 };
 
 export default meta;
@@ -33,11 +33,11 @@ const uncategorizedEvents: Events.Uncategorized.Uncategorized[] = pipe(
   }))
 );
 
-const Template: Story<EventsNetworkGraphProps> = (props) => {
+const Template: Story<EventsSankeyGraphProps> = (props) => {
   return (
     <div>
       <div>
-        <EventsNetworkGraph {...props} />
+        <EventsSankeyGraph {...props} />
       </div>
     </div>
   );
@@ -45,7 +45,7 @@ const Template: Story<EventsNetworkGraphProps> = (props) => {
 
 const NetworkGraphExample = Template.bind({});
 
-const args: EventsNetworkGraphProps = {
+const args: EventsSankeyGraphProps = {
   scale: "all" as "all",
   groupBy: "group",
   scalePoint: O.none,

@@ -28,7 +28,7 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
             ...i,
             selected: true,
           }))}
-          onActorClick={(a) => onChange(items.filter((i) => i.id !== a.id))}
+          onActorClick={(a) => { onChange(items.filter((i) => i.id !== a.id)); }}
         />
       )}
       renderOption={(props, item, state) => (

@@ -28,11 +28,11 @@ export const ContentWithSidebar: React.FC<React.PropsWithChildren<ContentWithSid
         {showSidebar ? (
           <Box>
             {sidebar}
-            <ExpandMoreIcon onClick={() => toggleSidebar(!showSidebar)} />
+            <ExpandMoreIcon onClick={() => { toggleSidebar(!showSidebar); }} />
           </Box>
         ) : (
           <div
-            onClick={() => toggleSidebar(!showSidebar)}
+            onClick={() => { toggleSidebar(!showSidebar); }}
             style={{ position: "absolute" }}
           >
             <ChevronRightIcon />

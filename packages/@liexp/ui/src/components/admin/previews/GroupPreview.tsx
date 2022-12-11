@@ -4,8 +4,8 @@ import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { LoadingIndicator, useEditContext } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { GroupTemplate } from "../../../templates/GroupTemplate";
 import { ECOTheme } from "../../../theme";
-import { GroupPageContent } from "../../GroupPageContent";
 import { HelmetProvider } from "../../SEO";
 import { ValidationErrorsLayout } from "../../ValidationErrorsLayout";
 import { ThemeProvider } from "../../mui";
@@ -23,6 +23,8 @@ const GroupPreview: React.FC = () => {
     [record]
   );
 
+  const [tab, setTab] = React.useState(0);
+
   if (!record) {
     return <LoadingIndicator />;
   }
@@ -33,18 +35,14 @@ const GroupPreview: React.FC = () => {
       <HelmetProvider>
         <QueryClientProvider client={qc}>
           <ThemeProvider theme={ECOTheme}>
-            <GroupPageContent
+            <GroupTemplate
               group={p}
-              groupsMembers={[]}
-              projects={[]}
-              funds={[]}
-              onMemberClick={() => undefined}
+              tab={tab}
+              onTabChange={setTab}
+              onActorClick={() => undefined}
               onGroupClick={() => undefined}
-              ownedGroups={[]}
-              hierarchicalGraph={{
-                onNodeClick(n) {},
-                onLinkClick(l) {},
-              }}
+              onEventClick={() => undefined}
+              onKeywordClick={() => undefined}
             />
           </ThemeProvider>
         </QueryClientProvider>

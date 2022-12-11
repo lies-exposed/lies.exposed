@@ -56,7 +56,7 @@ export const CreateEventButton: React.FC<CreateEventButtonProps> = ({
             const { data: e } = await apiProvider.create(`/events`, {
               data: r,
             });
-            return navigate(`/events/${e.id}`);
+            navigate(`/events/${e.id}`);
           });
         }}
       />

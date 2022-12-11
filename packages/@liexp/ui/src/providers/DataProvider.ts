@@ -199,11 +199,11 @@ const toQueries = <
       pipe(
         liftFetch(
           () =>
-            dataProvider.getOne<
+            dataProvider.get<
               serializedType<InferEndpointParams<G>["output"]> & {
                 id: string;
               }
-            >(e.Get.getPath(params).split("/")[1], params),
+            >(e.Get.getPath(params), params),
           e.Get.Output.decode
         ),
         TE.map((r) => r.data),

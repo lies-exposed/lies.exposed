@@ -1,4 +1,4 @@
-import { getRelationIds } from "@liexp/shared/helpers/event";
+import { getRelationIds } from "@liexp/shared/helpers/event/event";
 import { EventType } from "@liexp/shared/io/http/Events";
 import { StatsType } from "@liexp/shared/io/http/Stats";
 import { articleByPath } from "@liexp/ui/providers/DataProvider";
@@ -31,22 +31,22 @@ import {
   getMediaQueryKey,
   getMediaQueryListKey,
   getPageContentByPathQueryKey,
-  useStatsQuery
+  getStatsQueryKey,
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import {
   fetchSearchEvents,
   fetchSearchEventsInfinite,
   getSearchEventsInfiniteQueryKey,
-  getSearchEventsQueryKey
+  getSearchEventsQueryKey,
 } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { fetchGithubRepo } from "@liexp/ui/state/queries/github";
+import { hashToQuery } from "@liexp/ui/utils/history.utils";
 import { UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
 import { useParams } from "react-router-dom";
 import IndexPage from "./pages";
 import NotFoundPage from "./pages/404";
 import ActorsPage, { queryParams } from "./pages/ActorsPage";
-import { hashToQuery } from "./utils/history.utils";
 const AreasPage = React.lazy(() => import("./pages/AreasPage"));
 const BlogPage = React.lazy(() => import("./pages/BlogPage"));
 const ArticleTemplate = React.lazy(() => import("./templates/ArticleTemplate"));
@@ -153,13 +153,13 @@ export const routes = [
         ),
         queryFn: fetchGroups,
       },
-      {
-        queryKey: useStatsQuery({
-          id: actorId,
-          type: StatsType.types[1].value,
-        }),
-        queryFn: fetchStats,
-      },
+      // {
+      //   queryKey: useStatsQuery({
+      //     id: actorId,
+      //     type: StatsType.types[1].value,
+      //   }),
+      //   queryFn: fetchStats,
+      // },
     ],
   },
   // actors
@@ -391,10 +391,12 @@ export const routes = [
       return [
         ...commonQueries,
         {
-          queryKey: [
-            "stats",
-            { id: params.id, type: StatsType.types[0].value },
-          ],
+          queryKey: getStatsQueryKey(
+            {
+              filter: { id: params.keywordId, type: StatsType.types[0].value },
+            },
+            true
+          ),
           queryFn: fetchStats,
         },
       ];
@@ -454,9 +456,7 @@ export const routes = [
     queries: async ({ mediaId }: any) => [
       ...commonQueries,
       {
-        queryKey: getMediaQueryKey(
-          mediaId
-        ),
+        queryKey: getMediaQueryKey(mediaId),
         queryFn: fetchSingleMedia,
       },
     ],

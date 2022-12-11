@@ -53,7 +53,7 @@ export const CreateEventFromLinkButton: React.FC = () => {
                   links: newLinks,
                 },
               });
-              return navigate(`/events/${e.id}`);
+              navigate(`/events/${e.id}`);
             });
         }}
       />

@@ -23,10 +23,7 @@ function numTicksForWidth(width: number): number {
 
 export type NetworkScale = "all" | "year" | "month" | "week" | "day";
 
-export type NetworkGraphType<L, N extends NetworkNodeDatum> = GraphType<
-  L,
-  NetworkPointNode<N>
->;
+export type NetworkGraphType<L, N extends NetworkNodeDatum> = GraphType<L, N>;
 
 export interface NetworkBaseProps<
   L extends NetworkLinkProps<N>,
@@ -109,7 +106,7 @@ const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
             onDoubleClick={(event) => {
               const point = localPoint(event);
               if (point !== null) {
-                const [first, last] = A.splitAt(1)(graph.nodes);
+                const [first, last] = A.splitAt(1)(graph.nodes as any[]);
                 const nearestPoint = last.reduce((acc, n) => {
                   if (Math.abs(acc.x - point.x) < Math.abs(n.x - point.x)) {
                     return acc;
@@ -156,7 +153,7 @@ const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
             linkComponent={(props) => NetworkLink(props.link)}
             nodeComponent={(props) =>
               NetworkNode({
-                ...props,
+                ...(props as any),
                 onMouseOver: handleMouseOver,
                 onMouseOut: hideTooltip,
                 onClick: onNodeClick,

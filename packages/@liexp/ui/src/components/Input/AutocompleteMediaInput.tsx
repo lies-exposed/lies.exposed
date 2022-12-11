@@ -32,7 +32,7 @@ export const AutocompleteMediaInput: React.FC<AutocompleteMediaInputProps> = ({
           style={{ flexWrap: "wrap", flexDirection: "row" }}
           hideDescription={false}
           itemStyle={{ height: 50, maxWidth: 100 }}
-          onItemClick={(a) => onChange(items.filter((i) => i.id !== a.id))}
+          onItemClick={(a) => { onChange(items.filter((i) => i.id !== a.id)); }}
         />
       )}
       renderOption={(props, item, state) => (

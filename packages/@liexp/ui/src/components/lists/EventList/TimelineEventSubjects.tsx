@@ -1,4 +1,4 @@
-import { getEventsMetadata } from "@liexp/shared/helpers/event";
+import { getEventsMetadata } from "@liexp/shared/helpers/event/event";
 import { Actor, Group, GroupMember } from "@liexp/shared/io/http";
 import { SearchEvent } from "@liexp/shared/io/http/Events";
 import * as React from "react";

@@ -1,8 +1,8 @@
+import { getTitleForSearchEvent } from "@liexp/shared/helpers/event/getTitle.helper";
 import { Events } from "@liexp/shared/io/http";
 import { getTextContentsCapped, isValidValue } from "@liexp/shared/slate";
 import { formatDate } from "@liexp/shared/utils/date";
 import * as React from "react";
-import { getTitleForSearchEvent } from "../../../helpers/event.helper";
 import { EventIcon } from "../../Common/Icons";
 import KeywordList from "../../lists/KeywordList";
 import {
@@ -33,7 +33,7 @@ const CreateEventCard: React.FC<EventCardProps> = ({
   const image = "";
 
   return (
-    <Box onClick={() => onClick(event)}>
+    <Box onClick={() => { onClick(event); }}>
       <Card {...props}>
         <CardMedia component="img" image={image} />
         <CardHeader

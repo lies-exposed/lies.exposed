@@ -22,7 +22,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
   onClick,
 }) => {
   return (
-    <Card style={style} onClick={() => onClick(a)}>
+    <Card style={style} onClick={() => { onClick(a); }}>
       <CardHeader
         title={
           <span

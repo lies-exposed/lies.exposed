@@ -1,10 +1,10 @@
 import { Link } from "@visx/network/lib/types";
 import { LinkVertical } from "@visx/shape";
 import * as React from "react";
-import { NetworkNodeDatum, NetworkPointNode } from "./NetworkNode";
+import { NetworkNodeDatum } from "./NetworkNode";
 
 export interface NetworkLinkProps<N extends NetworkNodeDatum>
-  extends Link<NetworkPointNode<N>> {
+  extends Link<N> {
   stroke: string;
 }
 
@@ -15,7 +15,7 @@ const NetworkLink = <N extends NetworkNodeDatum>({
 }: NetworkLinkProps<N>): JSX.Element => {
   return (
     <LinkVertical
-      key={`link-${source.data.id}-${target.data.id}`}
+      key={`link-${source.id}-${target.id}`}
       data={{ source, target }}
       stroke={stroke}
       strokeWidth="2"

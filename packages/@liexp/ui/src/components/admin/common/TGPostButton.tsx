@@ -1,3 +1,4 @@
+import { getShareMedia, getTitle } from "@liexp/shared/helpers/event";
 import { getTextContentsCapped } from "@liexp/shared/slate";
 import { formatDate, parseISO } from "@liexp/shared/utils/date";
 import * as React from "react";
@@ -7,7 +8,6 @@ import {
   useDataProvider,
   useRecordContext,
 } from "react-admin";
-import { getShareMedia, getTitle } from "../../../helpers/event.helper";
 import {
   Box,
   Button,

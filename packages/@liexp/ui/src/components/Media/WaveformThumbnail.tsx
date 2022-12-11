@@ -49,7 +49,7 @@ export const WaveformThumbnail: React.FC<WaveformThumbnailProps> = ({
           });
         });
       })
-      .then((d) => setWaveformData(d))
+      .then((d) => { setWaveformData(d); })
       .catch((e) => {
         // eslint-disable-next-line no-console
         console.error(`Error while fetching ${location}`, e);

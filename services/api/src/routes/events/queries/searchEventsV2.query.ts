@@ -86,8 +86,7 @@ export const whereActorInArray = (
               ` ("event"."payload"::jsonb -> 'actor' ?| ARRAY[:...actors]) `
             );
           })
-        )
-        ;
+        );
     })
   );
   q.setParameter("actors", actors);
@@ -150,6 +149,27 @@ interface SearchEventQuery {
   order?: Record<string, "ASC" | "DESC">;
 }
 
+const searchQueryDefaults: SearchEventQuery = {
+  ids: O.none,
+  title: O.none,
+  startDate: O.none,
+  endDate: O.none,
+  exclude: O.none,
+  withDeleted: false,
+  withDrafts: false,
+  keywords: O.none,
+  groups: O.none,
+  actors: O.none,
+  skip: 0,
+  take: 100,
+  links: O.none,
+  media: O.none,
+  locations: O.none,
+  type: O.none,
+  draft: O.none,
+  groupsMembers: O.none,
+};
+
 export interface SearchEventOutput {
   results: EventV2Entity[];
   totals: EventTotals;
@@ -158,27 +178,36 @@ export interface SearchEventOutput {
 
 export const searchEventV2Query =
   ({ db, logger }: RouteContext) =>
-  ({
-    exclude,
-    ids,
-    actors,
-    groups,
-    groupsMembers: _groupsMembers,
-    locations,
-    keywords,
-    media,
-    links,
-    type,
-    title,
-    startDate,
-    endDate,
-    withDeleted,
-    withDrafts,
-    draft,
-    order,
-    skip,
-    take,
-  }: SearchEventQuery): TE.TaskEither<DBError, SearchEventOutput> => {
+  (
+    query: Partial<SearchEventQuery>
+  ): TE.TaskEither<DBError, SearchEventOutput> => {
+    const opts = {
+      ...searchQueryDefaults,
+      ...query,
+    };
+
+    const {
+      exclude,
+      ids,
+      actors,
+      groups,
+      groupsMembers: _groupsMembers,
+      locations,
+      keywords,
+      media,
+      links,
+      type,
+      title,
+      startDate,
+      endDate,
+      withDeleted,
+      withDrafts,
+      draft,
+      order,
+      skip,
+      take,
+    } = opts;
+
     const groupsMembersQuery = pipe(
       O.isSome(actors)
         ? pipe(

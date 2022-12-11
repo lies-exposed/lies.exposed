@@ -36,7 +36,7 @@ export const ActorChip: React.FC<ActorChipProps> = ({
         margin: 0,
         ...style,
       }}
-      onClick={() => onClick?.(actor)}
+      onClick={() => { onClick?.(actor); }}
     >
       {pipe(
         O.fromNullable(actor.avatar),

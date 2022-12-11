@@ -1,3 +1,4 @@
+import { getTotal } from "@liexp/shared/helpers/event";
 import { Actor, Group, GroupMember, Keyword } from "@liexp/shared/io/http";
 import {
   Death,
@@ -24,7 +25,6 @@ import * as R from "fp-ts/Record";
 import { pipe } from "fp-ts/function";
 import * as S from "fp-ts/string";
 import * as React from "react";
-import { getTotal } from "../../helpers/event.helper";
 import { SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery";
 import { ActorList } from "../lists/ActorList";
 import GroupList from "../lists/GroupList";
@@ -166,7 +166,7 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
         style={{
           padding: 0,
         }}
-        onClick={() => onQueryClear()}
+        onClick={() => { onQueryClear(); }}
         size="large"
       >
         <HighlightOffIcon />

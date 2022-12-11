@@ -1,4 +1,4 @@
-import { ordEventDate } from "@liexp/shared/helpers/event";
+import { ordEventDate } from "@liexp/shared/helpers/event/event";
 import { Events } from "@liexp/shared/io/http";
 import { formatDate } from "@liexp/shared/utils/date";
 import { Group } from "@visx/group";

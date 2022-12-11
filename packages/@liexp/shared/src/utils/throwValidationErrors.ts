@@ -1,9 +1,8 @@
-import * as E from "fp-ts/Either";
 import * as t from "io-ts";
-import { ThrowReporter } from "io-ts/lib/ThrowReporter";
+import { failure } from "io-ts/lib/PathReporter";
 
 export const throwValidationErrors = (errs: t.Errors): null => {
   // eslint-disable-next-line no-console
-  console.log(ThrowReporter.report(E.left(errs)));
+  console.log(failure(errs));
   return null;
 };

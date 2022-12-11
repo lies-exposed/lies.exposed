@@ -19,7 +19,7 @@ export const convertFileToBase64 = (file: File): TE.TaskEither<Error, string> =>
     () =>
       new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = () => resolve(reader.result as string);
+        reader.onload = () => { resolve(reader.result as string); };
         reader.onerror = reject;
 
         reader.readAsDataURL(file);
@@ -96,7 +96,6 @@ export const uploadImages =
       media.map((file) =>
         uploadFile(client)(resource, resourceId, file.file, file.type)
       ),
-      A.sequence(TE.ApplicativeSeq),
-      TE.mapLeft((e): Error => e as any)
+      A.sequence(TE.ApplicativeSeq)
     );
   };

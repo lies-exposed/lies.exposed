@@ -2,6 +2,8 @@ import { Group } from "@visx/group";
 import * as React from "react";
 
 export interface NetworkNodeDatum {
+  // x: number;
+  // y: number;
   id: string;
   label: string;
   innerColor: string;
@@ -15,13 +17,13 @@ export interface NetworkPointNode<N extends NetworkNodeDatum> {
 }
 
 export interface NetworkNodeProps<Datum extends NetworkNodeDatum> {
-  node: NetworkPointNode<Datum>;
+  node: Datum;
   onMouseOver?: (
     event: React.MouseEvent<SVGElement, React.MouseEvent>,
     data: Datum
   ) => void;
   onMouseOut?: (event: React.MouseEvent<SVGElement, React.MouseEvent>) => void;
-  onClick: (event: NetworkPointNode<Datum>) => void;
+  onClick: (event: Datum) => void;
 }
 
 export const NetworkNode = <D extends NetworkNodeDatum>({
@@ -35,7 +37,7 @@ export const NetworkNode = <D extends NetworkNodeDatum>({
       ? {
           onMouseOver: (
             event: React.MouseEvent<SVGElement, React.MouseEvent>
-          ) => onMouseOver(event, node.data),
+          ) => { onMouseOver(event, node); },
         }
       : {}),
     ...(onMouseOut !== undefined
@@ -45,11 +47,11 @@ export const NetworkNode = <D extends NetworkNodeDatum>({
       : {}),
   };
 
-  const innerCircleColor = node.data.innerColor;
-  const outerCircleColor = node.data.outerColor;
+  const innerCircleColor = node.innerColor;
+  const outerCircleColor = node.outerColor;
 
   return (
-    <Group {...(groupProps as any)} onClick={() => onClick(node)}>
+    <Group {...(groupProps as any)} onClick={() => { onClick(node); }}>
       <>
         <circle r={8} fill={outerCircleColor} />
         <circle r={6} fill={innerCircleColor} />

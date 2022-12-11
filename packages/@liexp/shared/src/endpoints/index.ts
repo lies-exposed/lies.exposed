@@ -1,9 +1,10 @@
 import { GetEndpointSubscriber } from "ts-endpoint-express";
 import { IOError } from "ts-io-error/lib";
 import * as GroupMember from "./GroupMember.endpoints";
+import * as Networks from "./Network.endpoints";
 import * as OpenGraph from "./OpenGraph.endpoints";
 import * as ProjectImage from "./ProjectImage.endpoints";
-import * as Stats from './Stats.endpoints';
+import * as Stats from "./Stats.endpoints";
 import * as User from "./User.endpoints";
 import * as Actor from "./actor.endpoints";
 import * as Area from "./area.endpoints";
@@ -48,6 +49,7 @@ const Endpoints = {
   Project: Project.projects,
   ProjectImage: ProjectImage.projectImages,
   Stats: Stats.stats,
+  Networks: Networks.networks,
   // Uploads: Uploads.uploads,
   User: User.users,
 };

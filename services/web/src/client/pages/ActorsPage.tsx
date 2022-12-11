@@ -29,6 +29,14 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
           return (
             <MainContent>
               <PageContent path="actors" />
+              {/* <Box style={{ height: 300 }}>
+                <EventNetworkGraphBox
+                  groupBy="actor"
+                  count={100}
+                  includeEmptyRelations={false}
+                />
+              </Box> */}
+
               <>
                 <AutocompleteActorInput
                   selectedItems={[]}

@@ -30,7 +30,7 @@ export type ImageControlType = React.ComponentType<
   }
 >;
 
-const createPlugin = (
+const createMediaBlockPlugin = (
   settings?: MediaBlockSettings
 ): CellPlugin<MediaBlockState> => {
   const mergedSettings = { ...defaultSettings, ...settings };
@@ -39,14 +39,13 @@ const createPlugin = (
     controls: {
       type: "custom",
       Component: (props) => {
-        // console.log(props);
         const selectedItems = props.data?.mediaId ?? [];
         return (
           <Box style={{ height: 200 }}>
             <AutocompleteMediaInput
               {...props}
               selectedItems={selectedItems}
-              onChange={(items) => props.onChange({ mediaId: items })}
+              onChange={(items) => { props.onChange({ mediaId: items }); }}
             />
           </Box>
         );
@@ -81,4 +80,4 @@ const createPlugin = (
     description: "Select a media to display",
   };
 };
-export default createPlugin;
+export default createMediaBlockPlugin;

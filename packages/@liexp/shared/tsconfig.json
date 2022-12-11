@@ -5,6 +5,7 @@
     "jsx": "react",
     "noEmit": false,
     "composite": true,
+    "incremental": true,
     "declaration": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,

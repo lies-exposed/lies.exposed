@@ -1,16 +1,14 @@
 import { Actor, Group, GroupMember, Keyword } from "@liexp/shared/io/http";
 import { EventType, SearchEvent } from "@liexp/shared/io/http/Events";
-import { TabPanel } from "@liexp/ui/components/Common/TabPanel";
-import EventSliderModal from "@liexp/ui/components/Modal/EventSliderModal";
-import EventsTimeline from "@liexp/ui/components/lists/EventList/EventsTimeline";
-import { Box, Grid } from "@liexp/ui/components/mui";
-import useWindowsDimensions from "@liexp/ui/hooks/useWindowsDimensions";
-import { SearchEventsQueryInputNoPagination } from "@liexp/ui/state/queries/SearchEventsQuery";
-import { styled } from "@liexp/ui/theme";
 import { clsx } from "clsx";
 import * as React from "react";
-import AddEventModal from "../components/events/AddEventModal";
-import { useNavigateToResource } from "../utils/location.utils";
+import { TabPanel } from "../components/Common/TabPanel";
+import EventSliderModal from "../components/Modal/EventSliderModal";
+import EventsTimeline from "../components/lists/EventList/EventsTimeline";
+import { Box, Grid } from "../components/mui";
+import useWindowsDimensions from "../hooks/useWindowsDimensions";
+import { SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
+import { styled } from "../theme";
 
 const PREFIX = "EventsPanel";
 
@@ -146,6 +144,7 @@ interface EventsPanelProps {
   groups: Group.Group[];
   groupsMembers: GroupMember.GroupMember[];
   onQueryChange: (q: SearchEventsQueryInputNoPagination, tab: number) => void;
+  onEventClick: (e: SearchEvent.SearchEvent) => void;
 }
 
 export const EventsPanel: React.FC<EventsPanelProps> = ({
@@ -153,9 +152,8 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   slide,
   query: { hash, ...query },
   onQueryChange,
+  onEventClick,
 }) => {
-  const navigateTo = useNavigateToResource();
-
   const { height } = useWindowsDimensions();
 
   const handleUpdateEventsSearch = React.useCallback(
@@ -166,7 +164,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   );
 
   const handleEventClick = React.useCallback((e: SearchEvent.SearchEvent) => {
-    navigateTo.events({ id: e.id });
+    onEventClick(e);
   }, []);
 
   const onActorsChange = React.useCallback(
@@ -323,7 +321,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
         onQueryChange={handleUpdateEventsSearch}
         onQueryClear={() => {}}
         onClick={(e) => {
-          navigateTo.events({ id: e.id });
+          onEventClick(e);
         }}
         onActorClick={(a) => {
           onActorsChange(a);
@@ -335,10 +333,9 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
           onKeywordsChange(k);
         }}
         onGroupMemberClick={(g) => {
-          navigateTo.actors({ id: g.actor.id });
+          onActorsChange(g.actor);
         }}
       />
-      <AddEventModal query={query} hash={hash} container={"events-panel"} />
     </StyledBox>
   );
 };

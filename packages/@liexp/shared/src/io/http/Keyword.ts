@@ -4,17 +4,20 @@ import { UUID, Tag, BaseProps } from "./Common";
 import { Color } from "./Common/Color";
 import { GetListQuery } from "./Query";
 
-export const ListQuery = t.partial(
+export const KEYWORDS = t.literal('keywords');
+export type KEYWORDS = t.TypeOf<typeof KEYWORDS>
+
+export const GetKeywordListQuery = t.type(
   {
     ...GetListQuery.props,
     ids: optionFromNullable(t.array(t.string)),
     events: optionFromNullable(t.array(t.string)),
     search: optionFromNullable(t.string),
   },
-  "GetListKeywordQueryFilter"
+  "GetKeywordListQuery"
 );
 
-export type ListQuery = t.TypeOf<typeof ListQuery>;
+export type GetKeywordListQuery = t.TypeOf<typeof GetKeywordListQuery>;
 
 export const CreateKeyword = t.strict(
   {

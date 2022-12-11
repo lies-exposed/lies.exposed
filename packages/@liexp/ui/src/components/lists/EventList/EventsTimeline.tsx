@@ -108,7 +108,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
         await fetchNextPage({ pageParam: params });
       }
     }
-    return await Promise.resolve(undefined);
+    await Promise.resolve(undefined);
   };
 
   React.useEffect(() => {

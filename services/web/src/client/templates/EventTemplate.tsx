@@ -1,12 +1,12 @@
-import { getRelationIds } from "@liexp/shared/helpers/event";
+import { getRelationIds } from "@liexp/shared/helpers/event/event";
 import { formatDate } from "@liexp/shared/utils/date";
 import { EventPageContent } from "@liexp/ui/components/EventPageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import EventsBox from "@liexp/ui/components/containers/EventsBox";
 import { Box, Grid } from "@liexp/ui/components/mui";
 import { useEventQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import { queryToHash } from "@liexp/ui/utils/history.utils";
 import * as React from "react";
-import { queryToHash } from "../utils/history.utils";
 import { useNavigateToResource } from "../utils/location.utils";
 
 const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
@@ -61,7 +61,7 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
 
             <Grid container justifyContent="center">
               {relationIds.keywords.length > 0 ? (
-                <Grid item md={8} sm={12} xs={12}>
+                <Grid item lg={10} md={12} sm={12} xs={12}>
                   <EventsBox
                     title="More events by keywords"
                     query={{
@@ -77,7 +77,7 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
                 </Grid>
               ) : null}
               {relationIds.actors.length > 0 ? (
-                <Grid item md={8} sm={12} xs={12}>
+                <Grid item lg={10} md={12} sm={12} xs={12}>
                   <EventsBox
                     title="More events by actors"
                     query={{
@@ -93,7 +93,7 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
                 </Grid>
               ) : null}
               {relationIds.groups.length > 0 ? (
-                <Grid item md={8} sm={12} xs={12}>
+                <Grid item lg={10} md={12} sm={12} xs={12}>
                   <EventsBox
                     title="More events by groups"
                     query={{

@@ -1,3 +1,4 @@
+import { fp } from "@liexp/core/fp";
 import {
   Actor,
   Area,
@@ -11,14 +12,19 @@ import {
   Page,
   Project,
 } from "@liexp/shared/io/http";
+import {
+  GetNetworkParams,
+  GetNetworkQuery,
+} from "@liexp/shared/io/http/Network";
 import { APIError } from "@liexp/shared/providers/http/http.provider";
 import * as A from "fp-ts/Array";
 import * as R from "fp-ts/Record";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
-import { GetListParams, GetOneParams } from "react-admin";
+import type { GetListParams, GetOneParams } from "react-admin";
 import { useQuery, UseQueryResult } from "react-query";
+import { runtimeType } from "ts-io-error/lib/Codec";
 import {
   articleByPath,
   foldTE,
@@ -528,6 +534,29 @@ export const useArticleByPathQuery = ({
     return await articleByPath({ path });
   });
 
+export const getStatsQueryKey = (
+  p: Partial<GetListParams>,
+  discrete: boolean
+): [string, GetListParams, boolean] => {
+  return [
+    "stats",
+    {
+      filter: p.filter ?? {},
+      pagination: {
+        perPage: 20,
+        page: 1,
+        ...p.pagination,
+      },
+      sort: {
+        field: "createdAt",
+        order: "DESC",
+        ...p.sort,
+      },
+    },
+    discrete,
+  ];
+};
+
 export const fetchStats = async (params: any): Promise<any> => {
   return await fetchQuery(Queries.Stats.getList)(params).then(
     (results) => results.data[0]
@@ -539,10 +568,29 @@ export const useStatsQuery = (params: {
   type: string;
 }): UseQueryResult<any, APIError> => {
   return useQuery(
-    [
-      "stats",
+    getStatsQueryKey(
       {
         filter: params,
+      },
+      false
+    ),
+    fetchStats
+  );
+};
+
+export const fetchNetworkGraph = async (params: any): Promise<any> => {
+  return await fetchQuery(Queries.Networks.get)(params);
+};
+
+export const useNetworkGraphQuery = (
+  params: GetNetworkParams,
+  query: Partial<runtimeType<typeof GetNetworkQuery>>
+): UseQueryResult<any, APIError> => {
+  return useQuery(
+    [
+      `network-${params.type}-${params.id}`,
+      {
+        ...params,
         pagination: {
           perPage: 1,
           page: 1,
@@ -551,8 +599,12 @@ export const useStatsQuery = (params: {
           order: "DESC",
           field: "date",
         },
+        ...query,
+        emptyRelations: query.emptyRelations
+          ? fp.O.toUndefined(query.emptyRelations)
+          : undefined,
       },
     ],
-    fetchStats
+    fetchNetworkGraph
   );
 };

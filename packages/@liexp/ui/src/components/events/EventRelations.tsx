@@ -1,4 +1,4 @@
-import { getRelationIds } from "@liexp/shared/helpers/event";
+import { getRelationIds } from "@liexp/shared/helpers/event/event";
 import { Actor, Area, Group, GroupMember } from "@liexp/shared/io/http";
 import { Event } from "@liexp/shared/io/http/Events";
 import { Media } from "@liexp/shared/io/http/Media";

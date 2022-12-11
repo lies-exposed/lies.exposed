@@ -4,7 +4,7 @@ import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { DeepPartial } from "typeorm";
-import { fetchRelations } from "./fetchEventRelations.utils";
+import { fetchRelationIds } from "./fetchEventRelations.utils";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { RouteContext } from "@routes/route.types";
 import { optionalsToUndefined } from "@utils/foldOptionals.utils";
@@ -20,7 +20,7 @@ export const editEventQuery =
     input: http.Events.EditEventBody,
   ): TE.TaskEither<DBError, EditEventEntity> => {
     return pipe(
-      fetchRelations(ctx)(input),
+      fetchRelationIds(ctx)(input),
       TE.chain((commonData) => {
         ctx.logger.debug.log('event relations %O', commonData);
         // const oldMedia = storedEvent.media ?? [];

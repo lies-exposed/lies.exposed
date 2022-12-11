@@ -7,12 +7,12 @@ import { AutocompleteInput } from "./AutocompleteInput";
 interface AutocompleteKeywordInputProps {
   className?: string;
   selectedItems: Keyword.Keyword[];
-  onItemClick: (item: Keyword.Keyword[]) => void;
+  onChange: (item: Keyword.Keyword[]) => void;
 }
 
 export const AutocompleteKeywordInput: React.FC<
   AutocompleteKeywordInputProps
-> = ({ selectedItems, onItemClick, ...props }) => {
+> = ({ selectedItems, onChange, ...props }) => {
   return (
     <AutocompleteInput<Keyword.Keyword>
       placeholder="Keyword..."
@@ -29,7 +29,7 @@ export const AutocompleteKeywordInput: React.FC<
             ...i,
             selected: true,
           }))}
-          onItemClick={(k) => onItemClick(items.filter((i) => i.id !== k.id))}
+          onItemClick={(k) => { onChange(items.filter((i) => i.id !== k.id)); }}
         />
       )}
       renderOption={(props, item, state) => {
@@ -40,11 +40,11 @@ export const AutocompleteKeywordInput: React.FC<
               ...item,
               selected: selectedItems.some((i) => i.id === item.id),
             }}
-            onClick={() => onItemClick([item])}
+            onClick={() => { onChange([item]); }}
           />
         );
       }}
-      onItemsChange={onItemClick}
+      onItemsChange={onChange}
       {...props}
     />
   );

@@ -10,6 +10,7 @@ interface QueriesRendererProps<
 > {
   loader?: "fullsize" | "default";
   queries: Q;
+  debug?: boolean;
   render: (data: {
     [K in keyof Q]: QueryObserverSuccessResult<
       Q[K] extends UseQueryResult<infer A, APIError> ? A : never,
@@ -68,6 +69,10 @@ const QueriesRenderer = <
 
   if (isError) {
     return ErrorBox(errors as any);
+  }
+
+  if (props.debug) {
+    return <div />;
   }
 
   return props.render(data as any);

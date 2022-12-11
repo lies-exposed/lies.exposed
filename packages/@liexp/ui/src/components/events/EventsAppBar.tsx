@@ -346,7 +346,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                     ]);
                   }}
                   onBlur={(e) =>
-                    onQueryChange(
+                    { onQueryChange(
                       {
                         ...query,
                         startDate: currentDateRange[1],
@@ -354,7 +354,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                           e.target.value === "" ? undefined : e.target.value,
                       },
                       tab
-                    )
+                    ); }
                   }
                   style={{ width: "100%" }}
                 />

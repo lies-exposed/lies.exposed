@@ -21,6 +21,9 @@ import { tgProviderMock } from "../__mocks__/tg.mock";
 export interface AppTest {
   ctx: RouteContext;
   req: supertest.SuperTest<supertest.Test>;
+  utils: {
+    
+  }
   mocks: {
     tg: typeof tgProviderMock;
     s3: typeof awsMock;
@@ -104,7 +107,7 @@ export const initAppTest = async (): Promise<AppTest> => {
         },
         puppeteer: puppeteerMocks,
       },
-
+      utils: {},
       req: supertest(makeApp(ctx)),
     })),
     TE.map((appTest) => {

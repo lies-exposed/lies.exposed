@@ -1,0 +1,81 @@
+import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
+import { UncategorizedArb } from "@liexp/shared/tests";
+import { KeywordArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
+import { throwTE } from "@liexp/shared/utils/task.utils";
+import * as tests from "@liexp/test";
+import { addDays } from "date-fns";
+import { AppTest, GetAppTest } from "../../../../test/AppTest";
+import { EventV2Entity } from "@entities/Event.v2.entity";
+import { KeywordEntity } from "@entities/Keyword.entity";
+
+describe("Get Network", () => {
+  let Test: AppTest, authorizationToken: string, events: any[], keywords: any[];
+
+  beforeAll(async () => {
+    Test = GetAppTest();
+    authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
+      id: "1",
+    } as any)()}`;
+  });
+
+  afterEach(async () => {
+    await throwTE(
+      Test.ctx.db.delete(
+        EventV2Entity,
+        events.map((e) => e.id)
+      )
+    );
+
+    await throwTE(
+      Test.ctx.db.delete(
+        KeywordEntity,
+        keywords.map((e) => e.id)
+      )
+    );
+  });
+
+  test("Should return nodes and links for type 'keyword' ", async () => {
+    const [keyword] = tests.fc.sample(KeywordArb, 1);
+
+    await throwTE(Test.ctx.db.save(KeywordEntity, [keyword]));
+
+    keywords = [keyword];
+
+    events = tests.fc.sample(UncategorizedArb, 10).map((e, i) => ({
+      ...e,
+      draft: false,
+      media: [],
+      payload: {
+        ...e.payload,
+        actors: [],
+        groups: [],
+        groupsMembers: [],
+      },
+      keywords: i % 2 === 0 ? [keyword] : [],
+      links: [],
+      date: addDays(new Date(), i),
+      createdAt: addDays(new Date(), i),
+    }));
+
+    await throwTE(Test.ctx.db.save(EventV2Entity, events));
+
+    const response = await Test.req
+      .get(`/v1/networks/${KEYWORDS.value}/${keyword.id}`)
+      .set("Authorization", authorizationToken)
+      .query({ groupBy: KEYWORDS.value })
+      .expect(200);
+
+    const eventNodes = events
+      .filter((e, i) => i % 2 === 0)
+      .sort((a, b) => b.date - a.date)
+      .map((e) => ({ id: e.id }));
+
+    expect(response.body.data.nodes).toHaveLength(6);
+    expect(response.body.data.nodes).toMatchObject([
+      ...eventNodes,
+      { id: keyword.id },
+    ]);
+
+    expect(response.body.data.links).toHaveLength(5);
+  });
+});
