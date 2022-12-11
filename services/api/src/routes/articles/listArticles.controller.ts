@@ -5,7 +5,7 @@ import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { In, Not } from 'typeorm';
+import { In, Not } from "typeorm";
 import { Route } from "../route.types";
 import { toArticleIO } from "./article.io";
 import { ArticleEntity } from "@entities/Article.entity";
@@ -25,7 +25,7 @@ export const MakeListArticlesRoute: Route = (r, { env, db, logger }) => {
       const exclude = pipe(
         _exclude,
         O.map((e) => ({
-          "id": Not(In(e)),
+          id: Not(In(e)),
         })),
         O.getOrElse(() => ({}))
       );
@@ -41,7 +41,7 @@ export const MakeListArticlesRoute: Route = (r, { env, db, logger }) => {
               },
               relations: ["featuredImage"],
               loadRelationIds: {
-                relations: ["creator", 'keywords'],
+                relations: ["creator", "keywords"],
               },
             }),
             TE.chainEitherK(A.traverse(E.Applicative)(toArticleIO))

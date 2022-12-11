@@ -11,6 +11,7 @@ import { RouteContext } from "@routes/route.types";
 import { getORMOptions } from "@utils/orm.utils";
 
 export const MakeListKeywordRoute = (r: Router, ctx: RouteContext): void => {
+  const logger = ctx.logger.extend("list-keywords");
   AddEndpoint(r)(
     Endpoints.Keyword.List,
     ({ query: { ids, events, search, ...query } }) => {
@@ -19,7 +20,7 @@ export const MakeListKeywordRoute = (r: Router, ctx: RouteContext): void => {
         ctx.env.DEFAULT_PAGE_SIZE
       );
 
-      ctx.logger.debug.log(`Find Options %O`, { ...findOptions, events });
+      logger.debug.log(`Find Options %O`, { ...findOptions, events });
 
       const findTask = pipe(
         ctx.db.manager.createQueryBuilder(KeywordEntity, "keyword"),
