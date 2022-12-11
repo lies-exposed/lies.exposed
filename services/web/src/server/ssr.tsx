@@ -27,7 +27,7 @@ const run = (): void => {
       webSrvLog.debug.log("port", process.env.PUBLIC_URL);
 
       app.listen(process.env.PORT, () =>
-        webSrvLog.debug.log("app listening on port %s", process.env.PORT)
+        { webSrvLog.debug.log("app listening on port %s", process.env.PORT); }
       );
     }
   );

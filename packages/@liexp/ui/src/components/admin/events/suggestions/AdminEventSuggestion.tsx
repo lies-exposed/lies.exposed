@@ -1,3 +1,4 @@
+import { getTitle } from "@liexp/shared/helpers/event";
 import * as io from "@liexp/shared/io";
 import { EventSuggestionStatus } from "@liexp/shared/io/http/EventSuggestion";
 import { Documentary, Patent } from "@liexp/shared/io/http/Events";
@@ -25,7 +26,6 @@ import {
   useRecordContext,
   useRefresh,
 } from "react-admin";
-import { getTitle } from "../../../../helpers/event.helper";
 import { checkIsAdmin } from "../../../../utils/user.utils";
 import { EventIcon } from "../../../Common/Icons";
 import ReactPageInput from "../../../admin/ReactPageInput";
@@ -152,7 +152,7 @@ const CreateEventButton: React.FC = () => {
       onClick={() => {
         void apiProvider
           .create(`/events/suggestions/${record?.id}/event`, { data: {} })
-          .then(() => refresh());
+          .then(() => { refresh(); });
       }}
     />
   );

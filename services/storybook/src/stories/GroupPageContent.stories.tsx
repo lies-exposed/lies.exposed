@@ -73,10 +73,6 @@ const GroupPageContentExample = Template.bind({});
 
 GroupPageContentExample.args = {
   ownedGroups: [],
-  hierarchicalGraph: {
-    onNodeClick(n) {},
-    onLinkClick(ll) {},
-  },
 };
 
 export { GroupPageContentExample };

@@ -1,9 +1,9 @@
+import { getEventCommonProps } from "@liexp/shared/helpers/event";
 import * as http from "@liexp/shared/io/http";
 import { Quote } from "@liexp/shared/io/http/Events";
 import { getTextContentsCapped, isValidValue } from "@liexp/shared/slate";
 import { formatAnyDateToShort } from "@liexp/shared/utils/date";
 import * as React from "react";
-import { getEventCommonProps } from "../helpers/event.helper";
 import { useTheme } from "../theme";
 import EditButton from "./Common/Button/EditButton";
 import { ShareButtons } from "./Common/Button/ShareButtons";

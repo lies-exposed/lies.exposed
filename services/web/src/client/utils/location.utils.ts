@@ -1,5 +1,5 @@
+import { queryToHash, useNavigateTo } from "@liexp/ui/utils/history.utils";
 import React from "react";
-import { queryToHash, useNavigateTo } from "./history.utils";
 
 interface CommonViewArgs {
   tab?: number;

@@ -50,7 +50,7 @@ const JSONInput: React.FC<JSONInputProps> = ({
         />
 
         <Button label="Clear" onClick={() => onClear?.()} />
-        <Button label="Save" onClick={() => onChange(json)} />
+        <Button label="Save" onClick={() => { onChange(json); }} />
       </>
     </Labeled>
   );

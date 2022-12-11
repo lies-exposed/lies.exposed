@@ -46,7 +46,7 @@ const createPlugin = (
             <AutocompleteEventInput
               {...props}
               selectedItems={selectedItems}
-              onChange={(items) => props.onChange({ event: items })}
+              onChange={(items) => { props.onChange({ event: items }); }}
             />
           </Box>
         );

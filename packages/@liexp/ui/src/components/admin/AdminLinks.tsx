@@ -151,7 +151,7 @@ const OverrideThumbnail: React.FC = () => {
               overrideThumbnail: true,
             })
           )
-          .then(() => refresh());
+          .then(() => { refresh(); });
       }}
     />
   );
@@ -168,7 +168,7 @@ const UpdateMetadataButton: React.FC = () => {
       onClick={() => {
         void dataProvider
           .put(`/links/${record?.id}/metadata`)
-          .then(() => refresh());
+          .then(() => { refresh(); });
       }}
     />
   );

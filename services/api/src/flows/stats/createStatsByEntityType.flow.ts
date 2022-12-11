@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { EventRelationIds } from "@liexp/shared/helpers/event";
+import { EventRelationIds } from "@liexp/shared/helpers/event/event";
 import {
   getNewRelationIds,
   SearchEventsQueryCache,
@@ -20,6 +20,7 @@ import {
 import { EventType } from "@liexp/shared/io/http/Events";
 import { StatsType } from "@liexp/shared/io/http/Stats";
 import { DBError } from "@liexp/shared/providers/orm";
+import { walkPaginatedRequest } from "@liexp/shared/utils/fp.utils";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
@@ -29,7 +30,6 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { In } from "typeorm";
 import { ActorEntity } from "@entities/Actor.entity";
-import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { KeywordEntity } from "@entities/Keyword.entity";
@@ -37,10 +37,7 @@ import { MediaEntity } from "@entities/Media.entity";
 import { ControllerError, toControllerError } from "@io/ControllerError";
 import { toActorIO } from "@routes/actors/actor.io";
 import { toEventV2IO } from "@routes/events/eventV2.io";
-import {
-  SearchEventOutput,
-  searchEventV2Query,
-} from "@routes/events/queries/searchEventsV2.query";
+import { searchEventV2Query } from "@routes/events/queries/searchEventsV2.query";
 import { toGroupMemberIO } from "@routes/groups-members/groupMember.io";
 import { toGroupIO } from "@routes/groups/group.io";
 import { toKeywordIO } from "@routes/keywords/keyword.io";
@@ -55,10 +52,10 @@ export const createStatsByEntityType =
   ): TE.TaskEither<ControllerError, HierarchicalEdgeBundlingProps["graph"]> => {
     const filePath = path.resolve(
       process.cwd(),
-      `temp/stats/keywords/${id}.json`
+      `temp/stats/${type}/${id}.json`
     );
 
-    ctx.logger.debug.log("Keyword stats file %s", filePath);
+    ctx.logger.debug.log("%s stats file %s", type, filePath);
 
     const fetchRelations = ({
       actors,
@@ -122,63 +119,6 @@ export const createStatsByEntityType =
       });
     };
 
-    const searchLoop = (
-      type: StatsType,
-      id: string,
-      acc: EventV2Entity[]
-    ): TE.TaskEither<DBError, SearchEventOutput> => {
-      ctx.logger.debug.log("Searching loop %d", acc.length);
-
-      return pipe(
-        searchEventV2Query(ctx)({
-          ids: O.none,
-          actors: type === StatsType.types[1].value ? O.some([id]) : O.none,
-          groups: type === StatsType.types[2].value ? O.some([id]): O.none,
-          groupsMembers: O.none,
-          keywords: type === StatsType.types[0].value ? O.some([id]) : O.none,
-          links: O.none,
-          locations: O.none,
-          type: O.some(EventType.types.map((t) => t.value)),
-          title: O.none,
-          startDate: O.none,
-          endDate: O.none,
-          media: O.none,
-          exclude: O.none,
-          draft: O.none,
-          withDeleted: false,
-          withDrafts: false,
-          order: {
-            id: "DESC",
-          },
-          skip: acc.length,
-          take: 100,
-        }),
-        TE.chain((results) => {
-          ctx.logger.debug.log(
-            "Search results length %d",
-            results.results.length
-          );
-          ctx.logger.debug.log("Search results totals %O", results);
-
-          if (results.results.length === 0 || results.total === 0) {
-            return TE.right({
-              ...results,
-              results: acc,
-            });
-          }
-
-          if (acc.length === results.total) {
-            return TE.right({
-              ...results,
-              results: acc,
-            });
-          }
-
-          return searchLoop(type, id, acc.concat(results.results));
-        })
-      );
-    };
-
     const initialSearchEventsQueryCache: SearchEventsQueryCache = {
       events: [],
       actors: new Map(),
@@ -206,8 +146,40 @@ export const createStatsByEntityType =
           }
         }, toControllerError)
       ),
-      TE.chain(() => searchLoop(type, id, [])),
-      TE.chain(({ results, total, totals }) =>
+      TE.chain(() =>
+        walkPaginatedRequest(ctx)(
+          ({ skip, amount }) =>
+            searchEventV2Query(ctx)({
+              ids: O.none,
+              actors: type === StatsType.types[1].value ? O.some([id]) : O.none,
+              groups: type === StatsType.types[2].value ? O.some([id]) : O.none,
+              groupsMembers: O.none,
+              keywords:
+                type === StatsType.types[0].value ? O.some([id]) : O.none,
+              links: O.none,
+              locations: O.none,
+              type: O.some(EventType.types.map((t) => t.value)),
+              title: O.none,
+              startDate: O.none,
+              endDate: O.none,
+              media: O.none,
+              exclude: O.none,
+              draft: O.none,
+              withDeleted: false,
+              withDrafts: false,
+              order: {
+                id: "DESC",
+              },
+              skip,
+              take: amount,
+            }),
+          (r) => r.total,
+          (r) => r.results,
+          0,
+          50
+        )
+      ),
+      TE.chain((results) =>
         pipe(
           results,
           A.map((e) => toEventV2IO(e)),
@@ -221,7 +193,19 @@ export const createStatsByEntityType =
               TE.chain(fetchRelations),
               TE.map(({ actors, groups, groupsMembers, media, keywords }) => {
                 searchEventsQueryCache = updateCache(searchEventsQueryCache, {
-                  events: { data: events, total, totals },
+                  events: {
+                    data: events,
+                    total: events.length,
+                    totals: {
+                      uncategorized: 0,
+                      deaths: 0,
+                      documentaries: 0,
+                      transactions: 0,
+                      scientificStudies: 0,
+                      patents: 0,
+                      quotes: 0
+                    },
+                  },
                   actors: pipe(
                     actors,
                     A.map((a) => toActorIO(a)),

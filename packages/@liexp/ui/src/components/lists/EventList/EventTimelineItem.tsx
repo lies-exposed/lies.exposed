@@ -11,7 +11,7 @@ import * as React from "react";
 import { styled } from "../../../theme";
 import EditButton from "../../Common/Button/EditButton";
 import { EventIcon } from "../../Common/Icons/EventIcon";
-import { Box, Grid, Typography } from "../../mui";
+import { Box, Typography } from "../../mui";
 import { EventListItem, EventListItemProps } from "./EventListItem";
 import { TimelineEventSubjects } from "./TimelineEventSubjects";
 
@@ -62,6 +62,8 @@ const Root = styled("div")(({ theme }) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-end",
+    maxWidth: "15%",
+    margin: 0,
     [theme.breakpoints.down("md")]: {
       flexDirection: "row",
       alignItems: "center",
@@ -83,6 +85,7 @@ const Root = styled("div")(({ theme }) => ({
   },
 
   [`& .${classes.separator}`]: {
+    maxWidth: "10%",
     [theme.breakpoints.down("md")]: {
       display: "none",
     },
@@ -93,10 +96,13 @@ const Root = styled("div")(({ theme }) => ({
   },
 
   [`& .${classes.content}`]: {
-    maxWidth: "100%",
+    maxWidth: "75%",
     flexGrow: 1,
     flexShrink: 0,
     paddingBottom: 20,
+    [theme.breakpoints.down("md")]: {
+      maxWidth: "100%",
+    },
   },
 }));
 
@@ -121,40 +127,40 @@ const EventTimelineItem = React.forwardRef<any, EventTimelineItemProps>(
           marginBottom: isLast ? 100 : style?.marginBottom,
         }}
       >
-        <Grid container alignContent="center" justifyContent="center">
-          <Grid item lg={8} md={8} sm={12} xs={12}>
-            <TimelineItem className={classes.timelineItem}>
-              <TimelineOppositeContent className={classes.oppositeContent}>
-                <Typography variant="subtitle1" color="primary">
-                  {formatDate(e.date)}
-                </Typography>
-                <TimelineEventSubjects event={e} {...props} />
+        <TimelineItem className={classes.timelineItem}>
+          <TimelineOppositeContent className={classes.oppositeContent}>
+            <Typography variant="subtitle1" color="primary">
+              {formatDate(e.date)}
+            </Typography>
+            <TimelineEventSubjects event={e} {...props} />
 
-                <Box className={classes.editButtonBox}>
-                  <EditButton admin={false} resourceName="events/suggestions" resource={{ id: e.id }} />
-                </Box>
-              </TimelineOppositeContent>
-              <TimelineSeparator className={classes.separator}>
-                <TimelineDot
-                  className={classes.dot}
-                  variant="outlined"
-                  color="inherit"
-                >
-                  <EventIcon type={e.type} size="2x" />
-                </TimelineDot>
-                {!isLast ? <TimelineConnector /> : null}
-              </TimelineSeparator>
-              <TimelineContent className={classes.content}>
-                <EventListItem
-                  event={e}
-                  onKeywordClick={onKeywordClick}
-                  onRowInvalidate={onRowInvalidate}
-                  {...props}
-                />
-              </TimelineContent>
-            </TimelineItem>
-          </Grid>
-        </Grid>
+            <Box className={classes.editButtonBox}>
+              <EditButton
+                admin={false}
+                resourceName="events/suggestions"
+                resource={{ id: e.id }}
+              />
+            </Box>
+          </TimelineOppositeContent>
+          <TimelineSeparator className={classes.separator}>
+            <TimelineDot
+              className={classes.dot}
+              variant="outlined"
+              color="inherit"
+            >
+              <EventIcon type={e.type} size="2x" />
+            </TimelineDot>
+            {!isLast ? <TimelineConnector /> : null}
+          </TimelineSeparator>
+          <TimelineContent className={classes.content}>
+            <EventListItem
+              event={e}
+              onKeywordClick={onKeywordClick}
+              onRowInvalidate={onRowInvalidate}
+              {...props}
+            />
+          </TimelineContent>
+        </TimelineItem>
       </Root>
     );
   }

@@ -1,3 +1,4 @@
+import { fp } from "@liexp/core/fp";
 import * as http from "@liexp/shared/io/http";
 import { CreateLink } from "@liexp/shared/io/http/Link";
 import { URLMetadataClient } from "@liexp/shared/providers/URLMetadata.provider";
@@ -10,6 +11,11 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { UUID } from "io-ts-types/lib/UUID";
 import { DeepPartial } from "typeorm";
+import { fetchActors } from "../../../queries/actors/fetchActors.query";
+import { fetchGroups } from "../../../queries/groups/fetchGroups.query";
+import { fetchKeywords } from "../../../queries/keywords/fetchKeywords.query";
+import { ActorEntity } from "@entities/Actor.entity";
+import { GroupEntity } from "@entities/Group.entity";
 import { KeywordEntity } from "@entities/Keyword.entity";
 import { LinkEntity } from "@entities/Link.entity";
 import { MediaEntity } from "@entities/Media.entity";
@@ -79,7 +85,7 @@ export const fetchLinksT =
     );
   };
 
-export const fetchRelations =
+export const fetchRelationIds =
   ({ urlMetadata, logger }: RouteContext) =>
   (
     input: Pick<http.Events.EditEventBody, "links" | "keywords" | "media">
@@ -118,6 +124,44 @@ export const fetchRelations =
         O.getOrElse((): UUID[] => []),
         A.map((k) => ({ id: k })),
         TE.right
+      ),
+    });
+  };
+
+export const fetchRelations =
+  (ctx: RouteContext) =>
+  (
+    input: Pick<http.Events.EditEventBody, "links" | "keywords" | "media"> & {
+      actors: O.Option<UUID[]>;
+      groups: O.Option<UUID[]>;
+      groupsMembers: O.Option<UUID[]>;
+    }
+  ): TE.TaskEither<
+    DBError,
+    {
+      actors: ActorEntity[];
+      groups: GroupEntity[];
+      keywords: KeywordEntity[];
+      // links: LinkEntity[];
+      // media: MediaEntity[];
+    }
+  > => {
+    ctx.logger.debug.log("Links %O", input.links);
+    ctx.logger.debug.log("Media %O", input.media);
+    ctx.logger.debug.log("Keywords %O", input.keywords);
+
+    return sequenceS(fp.TE.ApplicativePar)({
+      actors: pipe(
+        fetchActors(ctx)({ ids: input.actors }),
+        fp.TE.map((r) => r.results)
+      ),
+      groups: pipe(
+        fetchGroups(ctx)({ ids: input.groups }),
+        fp.TE.map(([results]) => results)
+      ),
+      keywords: pipe(
+        fetchKeywords(ctx)({ ids: input.keywords }),
+        fp.TE.map(([results]) => results)
       ),
     });
   };

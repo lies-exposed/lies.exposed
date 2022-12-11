@@ -40,11 +40,6 @@ const Template: Story<KeywordPageContentProps> = (props) => {
 
 const KeywordPageContentExample = Template.bind({});
 
-KeywordPageContentExample.args = {
-  hierarchicalGraph: {
-    onNodeClick(n) {},
-    onLinkClick(l) {},
-  },
-};
+KeywordPageContentExample.args = {};
 
 export { KeywordPageContentExample };

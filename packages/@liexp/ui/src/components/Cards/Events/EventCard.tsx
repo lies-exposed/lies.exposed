@@ -1,4 +1,4 @@
-import { getEventsMetadata } from "@liexp/shared/helpers/event";
+import { getEventsMetadata } from "@liexp/shared/helpers/event/event";
 import { Events } from "@liexp/shared/io/http";
 import { SearchEvent } from "@liexp/shared/io/http/Events";
 import { formatDate } from "@liexp/shared/utils/date";
@@ -51,7 +51,7 @@ const EventCard: React.FC<EventCardProps> = ({
     typeof event.date === "string" ? parseISO(event.date as any) : event.date;
 
   return (
-    <Card onClick={() => onEventClick(event)} {...props}>
+    <Card onClick={() => { onEventClick(event); }} {...props}>
       <CardActionArea>
         <CardMedia component="img" image={image} style={{ height: 200 }} />
         <CardHeader

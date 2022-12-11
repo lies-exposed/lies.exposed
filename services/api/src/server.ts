@@ -48,6 +48,7 @@ import { MakeGroupRoutes } from "@routes/groups/groups.route";
 import { MakeKeywordRoutes } from "@routes/keywords/keywords.routes";
 import { MakeLinkRoutes } from "@routes/links/LinkRoute.route";
 import { MakeMediaRoutes } from "@routes/media/media.routes";
+import { MakeNetworksRoutes } from '@routes/networks/networks.routes';
 import { MakeOpenGraphRoutes } from "@routes/open-graph/openGraph.routes";
 import { MakePageRoutes } from "@routes/pages/pages.route";
 import { MakeProjectRoutes } from "@routes/projects/project.routes";
@@ -228,6 +229,10 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   // stats
   MakeStatsRoutes(router, ctx);
 
+  // networks
+  MakeNetworksRoutes(router, ctx);
+
+  // uploads
   MakeUploadsRoutes(router, ctx);
 
   const tgLogger = ctx.logger.extend("tg-bot");

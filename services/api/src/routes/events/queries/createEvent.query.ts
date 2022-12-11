@@ -4,7 +4,7 @@ import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { DeepPartial } from "typeorm";
-import { fetchRelations } from "./fetchEventRelations.utils";
+import { fetchRelationIds } from "./fetchEventRelations.utils";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { RouteContext } from "@routes/route.types";
 
@@ -14,7 +14,7 @@ export const createEventQuery =
     input: http.Events.CreateEventBody
   ): TE.TaskEither<DBError, DeepPartial<EventV2Entity>> => {
     return pipe(
-      fetchRelations(ctx)({
+      fetchRelationIds(ctx)({
         links: pipe(
           input.links,
           O.fromPredicate((arr) => arr.length > 0)

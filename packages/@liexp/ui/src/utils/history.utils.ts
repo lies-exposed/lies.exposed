@@ -3,10 +3,9 @@ import { pipe } from "fp-ts/function";
 import qs from "query-string";
 import React from "react";
 import {
-  NavigateFunction,
+  Location, NavigateFunction,
   useLocation,
-  useNavigate,
-  Location,
+  useNavigate
 } from "react-router";
 
 const toBase64 = (data: string): string => {
@@ -20,15 +19,14 @@ const fromBase64 = (hash: string): string => {
 const parseQuery = (s: string): qs.ParsedQuery =>
   qs.parse(s.replace("?", ""), { arrayFormat: "bracket" });
 
-export const stringifyQuery = (search: Record<string, string | string[]>): string => qs.stringify(search, { arrayFormat: "bracket" });
+export const stringifyQuery = (
+  search: Record<string, string | string[]>
+): string => qs.stringify(search, { arrayFormat: "bracket" });
 
-export function useRouteQuery<Q = any>(): qs.ParsedQuery<Q> {
+export function useRouteQuery(def?: any): any {
   const { search } = useLocation();
 
-  return React.useMemo(
-    () => parseQuery(search) as any as qs.ParsedQuery<Q>,
-    [search]
-  );
+  return React.useMemo(() => ({ ...def, ...parseQuery(search) }), [search]);
 }
 
 export const queryToHash = (q: any): string => {

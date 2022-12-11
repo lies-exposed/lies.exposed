@@ -13,6 +13,7 @@ import { VaccineADRGraph } from "@liexp/ui/components/Graph/covid/vaccines/Vacci
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { Box, Grid, Tab, Tabs, Typography } from "@liexp/ui/components/mui";
 import { useJSONDataQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import { useNavigateTo } from "@liexp/ui/utils/history.utils";
 import { scaleOrdinal } from "@visx/scale";
 import { isAfter, isBefore } from "date-fns";
 import * as A from "fp-ts/Array";
@@ -23,7 +24,6 @@ import * as Ord from "fp-ts/Ord";
 import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
 import * as React from "react";
-import { useNavigateTo } from "../../utils/history.utils";
 
 const LAST_DAY_2020 = new Date("2020-12-31");
 const LAST_DAY_2021 = new Date("2021-12-31");

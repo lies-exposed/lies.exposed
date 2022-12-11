@@ -114,7 +114,7 @@ export const EventSliderItemBase: React.FC<EventSliderItemBaseProps> = ({
                   marginBottom: 20,
                 }}
                 keywords={kk.map((k) => ({ ...k, selected: true }))}
-                onItemClick={(k) => onKeywordClick?.(k)}
+                onItemClick={(k) => { onKeywordClick?.(k); }}
               />
             )
           )

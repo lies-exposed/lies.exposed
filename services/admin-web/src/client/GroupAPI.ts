@@ -67,7 +67,7 @@ export const editGroup =
         ? TE.right([{ type: MediaType.types[0].value, location: avatar }])
         : data.id
         ? uploadImages(client)(resource, data.id, [(avatar as any).rawFile])
-        : TE.right([{ type: MediaType.types[0].value, location: avatar }]);
+        : TE.left(new Error("No avatar to upload"));
 
     return pipe(
       avatarTask,

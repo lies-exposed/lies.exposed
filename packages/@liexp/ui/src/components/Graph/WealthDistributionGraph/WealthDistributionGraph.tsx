@@ -86,7 +86,7 @@ export const WealthDistributionGraph: React.FC<WealthDistributionGraphProps> = (
                 ).toFixed(2),
                 color: d.color,
               }))}
-              onClick={() => setToggle(!toggle)}
+              onClick={() => { setToggle(!toggle); }}
             />
 
             {/* <BubbleGraph

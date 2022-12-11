@@ -5,7 +5,6 @@ import EventsBox from "@liexp/ui/components/containers/EventsBox";
 import { Grid } from "@liexp/ui/components/mui";
 import { RouteComponentProps } from "@reach/router";
 import * as React from "react";
-import { queryToHash } from "../utils/history.utils";
 import { useNavigateToResource } from "../utils/location.utils";
 
 const IndexPage: React.FC<RouteComponentProps> = () => {
@@ -22,7 +21,7 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
         <PageContent path="index" />
         <KeywordsDistributionGraph
           onClick={(k) => {
-            navigateTo.events({}, { hash: queryToHash({ keywords: [k.id] }) });
+            navigateTo.keywords({ id: k.id });
           }}
         />
         <EventsBox

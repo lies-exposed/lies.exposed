@@ -31,7 +31,7 @@ export const AutocompleteGroupMemberInput: React.FC<
             ...i,
             selected: true,
           }))}
-          onItemClick={(k) => onItemClick(items.filter((i) => i.id !== k.id))}
+          onItemClick={(k) => { onItemClick(items.filter((i) => i.id !== k.id)); }}
         />
       )}
       renderOption={(props, item, state) => (

@@ -76,7 +76,7 @@ const KeywordsDistributionGraphComponent: React.FC<
                   fontFamily={w.font}
                   fontWeight={600}
                   style={{ cursor: "pointer" }}
-                  onClick={() => onClick(w)}
+                  onClick={() => { onClick(w); }}
                 >
                   {w.text}
                 </Text>

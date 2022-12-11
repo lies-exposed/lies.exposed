@@ -2,6 +2,10 @@ import * as t from "io-ts";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { BaseProps } from "./Common/BaseProps";
 import { Color } from "./Common/Color";
+import { GetListQuery } from "./Query";
+
+export const ACTORS = t.literal("actors");
+export type ACTORS = t.TypeOf<typeof ACTORS>;
 
 export const GetListActorQueryFilter = t.partial({
   ids: optionFromNullable(t.array(t.string)),
@@ -9,6 +13,15 @@ export const GetListActorQueryFilter = t.partial({
 });
 
 export type GetListActorQueryFilter = t.TypeOf<typeof GetListActorQueryFilter>;
+
+export const GetListActorQuery = t.type(
+  {
+    ...GetListQuery.props,
+    ...GetListActorQueryFilter.props,
+  },
+  "GetListActorQuery"
+);
+export type GetListActorQuery = t.TypeOf<typeof GetListActorQuery>;
 
 export const Actor = t.strict(
   {

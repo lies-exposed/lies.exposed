@@ -112,7 +112,7 @@ const MapInput: React.FC<MapInputProps> = ({
         style={{ height: 300, width: 600 }}
       />
       <div style={{ marginTop: 20 }}>
-        <Button label="reset" variant="outlined" onClick={() => onReset()} />
+        <Button label="reset" variant="outlined" onClick={() => { onReset(); }} />
       </div>
     </>
   );

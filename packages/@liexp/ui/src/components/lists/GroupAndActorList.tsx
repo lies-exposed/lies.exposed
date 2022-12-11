@@ -45,9 +45,9 @@ const GroupOrActorList: React.FC<ByEitherGroupOrActorListProps> = ({
             index={p.index}
             avatarSize={avatarSize}
             item={{ ...item.group, selected: true }}
-            onClick={(group) =>
-              p.onClick !== undefined ? p.onClick({ type: "Group", group }) : {}
-            }
+            onClick={(group) => {
+              p.onClick?.({ type: "Group", group });
+            }}
           />
         ) : (
           <ActorListItem
@@ -55,11 +55,9 @@ const GroupOrActorList: React.FC<ByEitherGroupOrActorListProps> = ({
             key={`actor-${item.actor.id}`}
             index={p.index}
             avatarSize={avatarSize}
-            onClick={(a) =>
-              p.onClick !== undefined
-                ? p.onClick({ type: "Actor", actor: a })
-                : {}
-            }
+            onClick={(a) => {
+              p.onClick?.({ type: "Actor", actor: a });
+            }}
             item={{ ...item.actor, selected: true }}
           />
         );

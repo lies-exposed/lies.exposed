@@ -39,12 +39,12 @@ export const authProvider: AuthProvider = {
   },
   logout: async () => {
     localStorage.removeItem("auth");
-    return await Promise.resolve(undefined);
+    await Promise.resolve(undefined);
   },
   checkAuth: async () => {
     const auth = localStorage.getItem("auth");
     // console.log("auth", auth);
-    return auth
+    auth
       ? await Promise.resolve()
       : // eslint-disable-next-line prefer-promise-reject-errors
         await Promise.reject();

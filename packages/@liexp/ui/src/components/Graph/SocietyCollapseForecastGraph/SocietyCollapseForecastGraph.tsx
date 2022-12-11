@@ -147,7 +147,7 @@ export const SocietyCollapseForecastGraph = withTooltip<
             onTouchStart={handleTooltip}
             onTouchMove={handleTooltip}
             onMouseMove={handleTooltip}
-            onMouseLeave={() => hideTooltip()}
+            onMouseLeave={() => { hideTooltip(); }}
           />
 
           <LinearGradient id={backgroundId} from="#c30ff7" to="#fff" />

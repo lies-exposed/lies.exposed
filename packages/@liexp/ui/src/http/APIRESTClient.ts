@@ -8,7 +8,7 @@ import { RaRecord } from "react-admin";
 
 export interface APIRESTClient {
   request: <T = any>(config: AxiosRequestConfig<T>) => Promise<any>;
-  get: (resource: string, params: any) => Promise<any>;
+  get: <R = any>(url: string, params: any) => Promise<R>;
   put: (url: string, data?: any) => Promise<AxiosResponse<any>>;
   getList: <R extends RaRecord>(
     resource: string,

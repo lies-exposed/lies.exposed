@@ -96,7 +96,7 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
 
       <Modal
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => { setOpen(false); }}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -111,7 +111,7 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
                 display="flex"
                 style={{ position: 'absolute', flexDirection: "column", alignItems: "flex-end" }}
               >
-                <CloseOutlined onClick={() => setOpen(false)} />
+                <CloseOutlined onClick={() => { setOpen(false); }} />
               </Box>
 
               <Box

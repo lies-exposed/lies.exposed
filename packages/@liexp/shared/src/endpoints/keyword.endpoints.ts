@@ -11,7 +11,7 @@ export const List = Endpoint({
   Method: "GET",
   getPath: () => "/keywords",
   Input: {
-    Query: Keyword.ListQuery,
+    Query: Keyword.GetKeywordListQuery,
   },
   Output: ListKeywordOutput,
 });
@@ -57,7 +57,7 @@ export const Distribution = Endpoint({
   Method: "GET",
   getPath: () => "/keywords/distribution",
   Input: {
-    Query: Keyword.ListQuery,
+    Query: Keyword.GetKeywordListQuery,
   },
   Output: t.strict({
     data: t.any,

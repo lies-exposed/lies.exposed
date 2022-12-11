@@ -121,7 +121,7 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
               id="q"
               type="text"
               value={q}
-              onChange={(e) => setQ(e.target.value)}
+              onChange={(e) => { setQ(e.target.value); }}
             />
             <TextField
               label="Query"
@@ -129,7 +129,7 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
               type="date"
               name="date"
               value={date}
-              onChange={(e) => setDate(e.target.value)}
+              onChange={(e) => { setDate(e.target.value); }}
             />
 
             <TextField
@@ -137,14 +137,14 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
               id="p"
               type="number"
               value={p}
-              onChange={(e) => setP(+e.target.value)}
+              onChange={(e) => { setP(+e.target.value); }}
             />
 
             <TextField
               id="keywords"
               label="keywords"
               value={keywords}
-              onChange={(e) => setKeywords(e.target.value)}
+              onChange={(e) => { setKeywords(e.target.value); }}
             />
           </FormGroup>
 
@@ -174,10 +174,10 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
           <LinkEntityList links={links} onItemClick={handleLinkClick} />
         </DialogContent>
         <DialogActions>
-          <Button label="Cancel" onClick={() => setOpen(false)} />
-          <Button label="Search" onClick={() => handleSearch()} />
+          <Button label="Cancel" onClick={() => { setOpen(false); }} />
+          <Button label="Search" onClick={() => { handleSearch(); }} />
           {links.length > 0 ? (
-            <Button label="Create" onClick={() => handleCreate()} />
+            <Button label="Create" onClick={() => { handleCreate(); }} />
           ) : null}
         </DialogActions>
       </Dialog>

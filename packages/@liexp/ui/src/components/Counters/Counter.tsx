@@ -33,7 +33,7 @@ export const Counter: React.FC<CounterProps> = (props) => {
     const countdownTimer = setTimeout(() => {
       setCount(props.getCount());
     }, 1000);
-    return () => clearTimeout(countdownTimer);
+    return () => { clearTimeout(countdownTimer); };
   });
 
   return (

@@ -1,7 +1,11 @@
 const dotenv = require("dotenv");
 const path = require("path");
 const fs = require("fs");
-const { webServe, apiServe } = require("./ecosystem.config");
+const { webServe } = require("./ecosystem.config");
+
+const apiEnv = dotenv.parse(
+  fs.readFileSync(path.resolve(__dirname, ".env"), "utf-8")
+);
 
 const webEnv = dotenv.parse(
   fs.readFileSync(
@@ -9,13 +13,12 @@ const webEnv = dotenv.parse(
     "utf-8"
   )
 );
-
-
+/** {} */
 module.exports = {
   apps: [
     {
       name: "web-app-watch",
-      namespace: 'liexp',
+      namespace: "liexp",
       cwd: path.resolve(__dirname, "./services/web"),
       script: "yarn watch:app",
       watch: false,
@@ -23,7 +26,7 @@ module.exports = {
     },
     {
       name: "web-server-watch",
-      namespace: 'liexp',
+      namespace: "liexp",
       cwd: path.resolve(__dirname, "./services/web"),
       script: "yarn watch:server",
       watch: false,
@@ -34,16 +37,21 @@ module.exports = {
       env: webEnv,
     },
     {
-      name: "api-watch",
-      namespace: 'liexp',
+      name: "api-develop",
+      namespace: "liexp",
       cwd: path.resolve(__dirname, "./services/api"),
-      script: "yarn watch",
-      watch: false,
+      script: "yarn develop",
+      watch: [path.resolve(__dirname, "./services/api/src")],
+      watch_delay: 2000,
+      ignore_watch: [
+        path.resolve(__dirname, "./services/api/node_modules"),
+        path.resolve(__dirname, "./services/api/build"),
+      ],
+      env: apiEnv,
     },
-    apiServe,
     {
       name: "admin",
-      namespace: 'liexp',
+      namespace: "liexp",
       cwd: path.resolve(__dirname, "./services/admin-web"),
       script: "yarn start",
       watch: false,

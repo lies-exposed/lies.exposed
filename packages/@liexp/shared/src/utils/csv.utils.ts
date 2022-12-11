@@ -52,7 +52,7 @@ export const GetCSVUtil = ({ log }: CSVUtilOptions): CSVUtil => {
 
             if (E.isLeft(decoded)) {
               log.debug.log("Decode failed %O", PathReporter.report(decoded));
-              return reject(decoded.left);
+              reject(decoded.left); return;
             }
 
             data.push(decoded.right);

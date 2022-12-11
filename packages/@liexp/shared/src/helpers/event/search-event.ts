@@ -10,8 +10,8 @@ import {
   Keyword,
   Media,
 } from "../../io/http";
-import { EventTotals } from '../../io/http/Events/SearchEventsQuery';
-import { EventRelationIds, getRelationIds } from "../event";
+import { EventTotals } from "../../io/http/Events/SearchEventsQuery";
+import { EventRelationIds, getRelationIds } from "./event";
 
 export interface SearchEventsQueryCache {
   events: Events.SearchEvent.SearchEvent[];
@@ -138,15 +138,20 @@ export const updateCache = (
   //   })
   // );
 
-  const newEvents = toSearchEvent(update.events.data, {
-    events: s.events,
-    actors,
-    groups,
-    groupsMembers,
-    media,
-    keywords,
-    // links,
-  });
+  const newEvents = pipe(
+    update.events.data,
+    A.map((e) =>
+      toSearchEvent(e, {
+        events: s.events,
+        actors,
+        groups,
+        groupsMembers,
+        media,
+        keywords,
+        // links,
+      })
+    )
+  );
 
   return {
     events: newEvents,
@@ -159,174 +164,155 @@ export const updateCache = (
   };
 };
 
-const toSearchEvent = (
-  events: Events.Event[],
+export const toSearchEvent = (
+  e: Events.Event,
   s: SearchEventsQueryCache
-): Events.SearchEvent.SearchEvent[] => {
-  return pipe(
-    events,
-    A.reduce([] as Events.SearchEvent.SearchEvent[], (acc, e) => {
-      const {
-        actors: actorIds,
-        groups: groupIds,
-        groupsMembers: groupsMembersIds,
-        media: mediaIds,
-        keywords: keywordIds,
-      } = getRelationIds(e);
+): Events.SearchEvent.SearchEvent => {
+  const {
+    actors: actorIds,
+    groups: groupIds,
+    groupsMembers: groupsMembersIds,
+    media: mediaIds,
+    keywords: keywordIds,
+  } = getRelationIds(e);
 
-      const actors = pipe(
-        actorIds,
-        A.map((a) => pipe(s.actors, M.lookup(S.Eq)(a))),
-        A.compact
-      );
-
-      const groups = pipe(
-        groupIds,
-        A.map((a) => pipe(s.groups, M.lookup(S.Eq)(a))),
-        A.compact
-      );
-
-      const groupsMembers = pipe(
-        groupsMembersIds,
-        A.map((a) => pipe(s.groupsMembers, M.lookup(S.Eq)(a))),
-        A.compact
-      );
-
-      const media = pipe(
-        mediaIds,
-        A.map((a) => pipe(s.media, M.lookup(S.Eq)(a))),
-        A.compact
-      );
-
-      const keywords = pipe(
-        keywordIds,
-        A.map((a) => pipe(s.keywords, M.lookup(S.Eq)(a))),
-        A.compact
-      );
-
-      switch (e.type) {
-        case Events.Quote.QUOTE.value: {
-          return acc.concat([
-            {
-              ...e,
-              payload: {
-                ...e.payload,
-                actor: actors[0],
-              },
-              media,
-              keywords,
-            },
-          ]);
-        }
-        case Events.Death.DEATH.value: {
-          return acc.concat([
-            {
-              ...e,
-              payload: {
-                ...e.payload,
-                victim: actors[0],
-              },
-              media,
-              keywords,
-            },
-          ]);
-        }
-        case Events.EventType.types[2].value: {
-          return acc.concat([
-            {
-              ...e,
-              payload: {
-                ...e.payload,
-                authors: actors,
-                publisher: groups[0],
-              },
-              media,
-              keywords,
-            },
-          ]);
-        }
-        case Events.EventType.types[3].value: {
-          return acc.concat([
-            {
-              ...e,
-              payload: {
-                ...e.payload,
-                owners: { actors, groups },
-              },
-              media,
-              keywords,
-            },
-          ]);
-        }
-        case Events.EventType.types[4].value: {
-          return acc.concat([
-            {
-              ...e,
-              payload: {
-                ...e.payload,
-                media: media.find((m) => m.id === e.payload.media) ?? media[0],
-                authors: {
-                  actors: actors.filter((a) =>
-                    e.payload.authors.actors.includes(a.id)
-                  ),
-                  groups: groups.filter((g) =>
-                    e.payload.authors.groups.includes(g.id)
-                  ),
-                },
-                subjects: {
-                  actors: actors.filter((a) =>
-                    e.payload.subjects.actors.includes(a.id)
-                  ),
-                  groups: groups.filter((g) =>
-                    e.payload.subjects.groups.includes(g.id)
-                  ),
-                },
-              },
-              media,
-              keywords,
-            },
-          ]);
-        }
-        case Events.EventType.types[5].value: {
-          const from =
-            e.payload.from.type === "Group"
-              ? groups.find((g) => g.id === e.payload.from.id)
-              : actors.find((a) => a.id === e.payload.from.id);
-
-          const to =
-            e.payload.to.type === "Group"
-              ? groups.find((g) => g.id === e.payload.to.id)
-              : actors.find((a) => a.id === e.payload.to.id);
-
-          return acc.concat([
-            {
-              ...e,
-              payload: {
-                ...e.payload,
-                from: { ...e.payload.from, id: from as any },
-                to: { ...e.payload.to, id: to as any },
-              },
-              media,
-              keywords,
-            },
-          ]);
-        }
-        default: {
-          return acc.concat([
-            {
-              ...e,
-              payload: {
-                ...e.payload,
-                actors,
-                groups,
-                groupsMembers,
-              },
-              media,
-              keywords,
-            },
-          ]);
-        }
-      }
-    })
+  const actors = pipe(
+    actorIds,
+    A.map((a) => pipe(s.actors, M.lookup(S.Eq)(a))),
+    A.compact
   );
+
+  const groups = pipe(
+    groupIds,
+    A.map((a) => pipe(s.groups, M.lookup(S.Eq)(a))),
+    A.compact
+  );
+
+  const groupsMembers = pipe(
+    groupsMembersIds,
+    A.map((a) => pipe(s.groupsMembers, M.lookup(S.Eq)(a))),
+    A.compact
+  );
+
+  const media = pipe(
+    mediaIds,
+    A.map((a) => pipe(s.media, M.lookup(S.Eq)(a))),
+    A.compact
+  );
+
+  const keywords = pipe(
+    keywordIds,
+    A.map((a) => pipe(s.keywords, M.lookup(S.Eq)(a))),
+    A.compact
+  );
+
+  switch (e.type) {
+    case Events.Quote.QUOTE.value: {
+      return {
+        ...e,
+        payload: {
+          ...e.payload,
+          actor: actors[0],
+        },
+        media,
+        keywords,
+      };
+    }
+    case Events.Death.DEATH.value: {
+      return {
+        ...e,
+        payload: {
+          ...e.payload,
+          victim: actors[0],
+        },
+        media,
+        keywords,
+      };
+    }
+    case Events.EventType.types[2].value: {
+      return {
+        ...e,
+        payload: {
+          ...e.payload,
+          authors: actors,
+          publisher: groups[0],
+        },
+        media,
+        keywords,
+      };
+    }
+    case Events.EventType.types[3].value: {
+      return {
+        ...e,
+        payload: {
+          ...e.payload,
+          owners: { actors, groups },
+        },
+        media,
+        keywords,
+      };
+    }
+    case Events.EventType.types[4].value: {
+      return {
+        ...e,
+        payload: {
+          ...e.payload,
+          media: media.find((m) => m.id === e.payload.media) ?? media[0],
+          authors: {
+            actors: actors.filter((a) =>
+              e.payload.authors.actors.includes(a.id)
+            ),
+            groups: groups.filter((g) =>
+              e.payload.authors.groups.includes(g.id)
+            ),
+          },
+          subjects: {
+            actors: actors.filter((a) =>
+              e.payload.subjects.actors.includes(a.id)
+            ),
+            groups: groups.filter((g) =>
+              e.payload.subjects.groups.includes(g.id)
+            ),
+          },
+        },
+        media,
+        keywords,
+      };
+    }
+    case Events.EventType.types[5].value: {
+      const from =
+        e.payload.from.type === "Group"
+          ? groups.find((g) => g.id === e.payload.from.id)
+          : actors.find((a) => a.id === e.payload.from.id);
+
+      const to =
+        e.payload.to.type === "Group"
+          ? groups.find((g) => g.id === e.payload.to.id)
+          : actors.find((a) => a.id === e.payload.to.id);
+
+      return {
+        ...e,
+        payload: {
+          ...e.payload,
+          from: { ...e.payload.from, id: from as any },
+          to: { ...e.payload.to, id: to as any },
+        },
+        media,
+        keywords,
+      };
+    }
+    default: {
+      return {
+        ...e,
+        payload: {
+          ...e.payload,
+          actors,
+          groups,
+          groupsMembers,
+        },
+        media,
+        keywords,
+      };
+    }
+  }
 };

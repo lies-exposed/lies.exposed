@@ -6,16 +6,16 @@ import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
 import { Box, Typography } from "@liexp/ui/components/mui";
 import { MediaSlider } from "@liexp/ui/components/sliders/MediaSlider";
+import { EventsPanel } from "@liexp/ui/containers/EventsPanel";
 import { useGetMediaQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import { useRouteQuery } from "@liexp/ui/utils/history.utils";
 import * as React from "react";
-import { useRouteQuery } from "../utils/history.utils";
 import { useNavigateToResource } from "../utils/location.utils";
-import { EventsPanel } from "@containers/EventsPanel";
 
 const MediaTemplate: React.FC<{ mediaId: string }> = ({ mediaId }) => {
   // const params = useParams();
   const navigateToResource = useNavigateToResource();
-  const { tab = 0 } = useRouteQuery<{ tab?: string }>();
+  const { tab } = useRouteQuery({ tab: 0 });
 
   return (
     <QueriesRenderer
@@ -38,9 +38,7 @@ const MediaTemplate: React.FC<{ mediaId: string }> = ({ mediaId }) => {
                 <KeywordsBox
                   ids={m.keywords}
                   onItemClick={(k) => {
-                    navigateToResource.keywords(
-                      { id: k.id },
-                    );
+                    navigateToResource.keywords({ id: k.id });
                   }}
                 />
               </Box>
@@ -68,6 +66,9 @@ const MediaTemplate: React.FC<{ mediaId: string }> = ({ mediaId }) => {
               tab={typeof tab === "string" ? parseInt(tab, 10) : (tab as any)}
               onQueryChange={(q, tab) => {
                 navigateToResource.media({ id: m.id }, { tab });
+              }}
+              onEventClick={(e) => {
+                navigateToResource.events({ id: e.id });
               }}
             />
           </Box>

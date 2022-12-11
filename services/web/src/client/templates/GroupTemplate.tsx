@@ -1,115 +1,43 @@
-import { EventType } from "@liexp/shared/io/http/Events";
-import { GroupPageContent } from "@liexp/ui/components/GroupPageContent";
-import { MainContent } from "@liexp/ui/components/MainContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import SEO from "@liexp/ui/components/SEO";
-import { Box } from "@liexp/ui/components/mui";
-import {
-  useGroupMembersQuery,
-  useGroupQuery,
-} from "@liexp/ui/state/queries/DiscreteQueries";
+import { useGroupQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import { GroupTemplate } from "@liexp/ui/templates/GroupTemplate";
+import { useRouteQuery } from "@liexp/ui/utils/history.utils";
 import * as React from "react";
-import { EventsPanel } from "../containers/EventsPanel";
-import { queryToHash, useRouteQuery } from "../utils/history.utils";
 import { useNavigateToResource } from "../utils/location.utils";
 
-const GroupTemplate: React.FC<{ groupId: string }> = ({ groupId }) => {
+const GroupPage: React.FC<{ groupId: string }> = ({ groupId }) => {
   const navigateTo = useNavigateToResource();
   const { tab: _tab = "0" } = useRouteQuery();
   const tab = parseInt(_tab, 10);
 
   return (
     <QueriesRenderer
-      queries={{
-        group: useGroupQuery({ id: groupId }),
-        groupsMembers: useGroupMembersQuery(
-          {
-            filter: {
-              group: groupId,
-            },
-          },
-          false
-        ),
-      }}
-      render={({ group, groupsMembers }) => {
+      queries={{ group: useGroupQuery({ id: groupId }) }}
+      render={({ group }) => {
         return (
-          <Box>
-            <MainContent>
-              <SEO
-                title={group.name}
-                image={group.avatar}
-                urlPath={`groups/${group.id}`}
-              />
-              <GroupPageContent
-                group={group}
-                groupsMembers={groupsMembers.data}
-                funds={[]}
-                projects={[]}
-                onMemberClick={(a) => {
-                  navigateTo.actors({
-                    id: a.id,
-                  });
-                }}
-                onGroupClick={(g) => {
-                  navigateTo.groups({
-                    id: g.id,
-                  });
-                }}
-                hierarchicalGraph={{
-                  onNodeClick: (n) => {
-                    navigateTo.events(
-                      {},
-                      {
-                        hash: queryToHash({
-                          groups: [n.data.id],
-                        }),
-                      }
-                    );
-                  },
-                  onLinkClick: (ll) => {
-                    navigateTo.events(
-                      {},
-                      {
-                        hash: queryToHash({
-                          groups: ll.map((l) => l.data.id),
-                        }),
-                      }
-                    );
-                  },
-                }}
-                ownedGroups={[]}
-              />
-            </MainContent>
-            <EventsPanel
-              slide={false}
-              query={{
-                hash: `group-${groupId}`,
-                groups: [group.id],
-                groupsMembers: [],
-                keywords: [],
-                actors: [],
-                locations: [],
-                media: [],
-                startDate: undefined,
-                endDate: new Date().toDateString(),
-                type: EventType.types.map((t) => t.value),
-                _sort: "date",
-                _order: "DESC",
-              }}
-              tab={tab}
-              actors={[]}
-              groups={[]}
-              groupsMembers={[]}
-              keywords={[]}
-              onQueryChange={(q, tab) => {
-                navigateTo.groups({ id: group.id }, { tab });
-              }}
-            />
-          </Box>
+          <GroupTemplate
+            group={group}
+            tab={tab}
+            onTabChange={(t) => {
+              navigateTo.groups({ id: groupId }, { tab: t });
+            }}
+            onEventClick={(e) => {
+              navigateTo.events({ id: e.id });
+            }}
+            onKeywordClick={(k) => {
+              navigateTo.keywords({ id: k.id });
+            }}
+            onActorClick={(a) => {
+              navigateTo.actors({ id: a.id });
+            }}
+            onGroupClick={(g) => {
+              navigateTo.groups({ id: g.id });
+            }}
+          />
         );
       }}
     />
   );
 };
 
-export default GroupTemplate;
+export default GroupPage;

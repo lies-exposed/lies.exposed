@@ -427,8 +427,8 @@ const VaccineADRGraphComponent = withTooltip<
             rx={0}
             onMouseEnter={handleTooltip}
             onMouseMove={handleTooltip}
-            onMouseLeave={() => hideTooltip()}
-            onMouseOut={() => hideTooltip()}
+            onMouseLeave={() => { hideTooltip(); }}
+            onMouseOut={() => { hideTooltip(); }}
           />
         </svg>
         {tooltipOpen && tooltipData ? (

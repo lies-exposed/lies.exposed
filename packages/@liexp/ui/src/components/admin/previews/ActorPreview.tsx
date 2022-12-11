@@ -38,10 +38,7 @@ const ActorPreview: React.FC = () => {
               groups={[]}
               onGroupClick={() => {}}
               onActorClick={() => {}}
-              hierarchicalGraph={{
-                onNodeClick(n) {},
-                onLinkClick(l) {},
-              }}
+              onEventClick={() => {}}
             />
           </ThemeProvider>
         </QueryClientProvider>

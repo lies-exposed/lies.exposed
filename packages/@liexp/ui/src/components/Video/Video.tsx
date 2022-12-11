@@ -48,7 +48,7 @@ export const Video: React.FC<VideoProps> = ({
     <Root
       className={classes.wrapper}
       style={style}
-      onClick={() => setLoaded(true)}
+      onClick={() => { setLoaded(true); }}
     >
       {loaded ? (
         <video

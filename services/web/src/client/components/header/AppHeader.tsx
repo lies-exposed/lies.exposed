@@ -1,7 +1,7 @@
 import Header, { HeaderMenuItem } from "@liexp/ui/components/Header";
+import { useNavigateTo } from "@liexp/ui/utils/history.utils";
 import * as React from "react";
 import { useHasAuth } from "../../utils/auth.utils";
-import { useNavigateTo } from "../../utils/history.utils";
 import { useNavigateToResource } from "../../utils/location.utils";
 
 const storiesMenuItem: HeaderMenuItem = {

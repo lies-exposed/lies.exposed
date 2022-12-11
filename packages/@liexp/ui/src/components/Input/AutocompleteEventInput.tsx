@@ -1,6 +1,6 @@
+import { getTitle } from "@liexp/shared/helpers/event";
 import { Events } from "@liexp/shared/io/http";
 import * as React from "react";
-import { getTitle } from "../../helpers/event.helper";
 import {
   useEventsQuery
 } from "../../state/queries/DiscreteQueries";
@@ -39,7 +39,7 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
       renderTags={(items) => (
         <EventCardGrid
           events={items as any[]}
-          onItemClick={(a) => onChange(items.filter((i) => i.id !== a.id))}
+          onItemClick={(a) => { onChange(items.filter((i) => i.id !== a.id)); }}
         />
       )}
       renderOption={(props, item, state) => (
