@@ -17,7 +17,7 @@
     "io-ts-types": "^0.5.19"
   },
   "devDependencies": {
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.9",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@types/copy-webpack-plugin": "^10.1.0",
     "@types/debug": "^4.1.7",
     "@types/dotenv-webpack": "^7.0.3",
