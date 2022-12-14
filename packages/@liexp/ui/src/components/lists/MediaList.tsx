@@ -37,10 +37,14 @@ const StyledGridItem = styled(Grid)({
     flexDirection: "row",
     width: "100%",
     height: "100%",
+    maxHeight: 250,
+    alignItems: "center",
+    overflow: "hidden",
   },
   [`& .${classes.media}`]: {
+    maxWidth: "100%",
     height: "100%",
-    objectFit: "cover",
+    objectFit: "contain",
   },
   [`& .${classes.description}`]: {
     position: "absolute",
