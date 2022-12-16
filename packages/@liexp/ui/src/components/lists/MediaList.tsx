@@ -85,6 +85,7 @@ export const MediaListItem: React.FC<MediaListItemProps> = ({
           className={classes.media}
           src={item.thumbnail ?? defaultImage}
           title={item.description}
+          loading="lazy"
         />
 
         {!hideDescription ? (
