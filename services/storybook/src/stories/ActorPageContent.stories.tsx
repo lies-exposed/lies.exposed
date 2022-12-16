@@ -9,7 +9,7 @@ import {
   useActorsQuery,
   useGroupsQuery,
 } from "@liexp/ui/state/queries/DiscreteQueries";
-import { type Meta, type Story } from "@storybook/react/types-6-0";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
@@ -19,7 +19,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<
+const Template: StoryFn<
   Omit<ActorPageContentProps, "actor"> & { id: string }
 > = ({ id, ...props }) => {
   return (
