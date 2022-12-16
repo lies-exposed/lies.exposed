@@ -1,7 +1,7 @@
 import { LinkArb } from "@liexp/shared/tests";
 import { fc } from "@liexp/test";
 import LinkCard, { type LinkCardProps } from "@liexp/ui/components/Cards/LinkCard";
-import { type Meta, type Story } from "@storybook/react/types-6-0";
+import { type Meta, type StoryFn as Story } from "@storybook/react";
 import * as React from 'react';
 
 const meta: Meta = {

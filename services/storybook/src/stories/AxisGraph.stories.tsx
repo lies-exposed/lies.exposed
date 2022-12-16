@@ -3,7 +3,7 @@ import {
   AxisGraph,
   type AxisGraphProps,
 } from "@liexp/ui/components/Common/Graph/AxisGraph";
-import { type Meta, type Story } from "@storybook/react/types-6-0";
+import { type Meta, type StoryFn as Story } from "@storybook/react";
 import { LinearGradient } from "@visx/gradient";
 import React from "react";
 

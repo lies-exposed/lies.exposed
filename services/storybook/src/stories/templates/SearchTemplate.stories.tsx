@@ -1,7 +1,7 @@
 import SearchAreaTemplate, {
   type SearchAreaTemplateProps,
 } from "@liexp/ui/templates/SearchAreaTemplate";
-import { type Meta, type Story } from "@storybook/react/types-6-0";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
@@ -11,7 +11,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<SearchAreaTemplateProps> = (props) => {
+const Template: StoryFn<SearchAreaTemplateProps> = (props) => {
 
   return <SearchAreaTemplate {...props} />;
 };

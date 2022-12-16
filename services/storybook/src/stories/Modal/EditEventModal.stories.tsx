@@ -9,12 +9,11 @@ import {
   EditEventModal,
   type EditEventModalProps,
 } from "@liexp/ui/components/Modal/EditEventModal";
-import EventSliderModal from "@liexp/ui/components/Modal/EventSliderModal";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { Button } from "@mui/material";
 import { Box } from "@mui/system";
-import { type Meta, type Story } from "@storybook/react/types-6-0";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta<EditEventModalProps> = {
@@ -25,7 +24,7 @@ const meta: Meta<EditEventModalProps> = {
 
 export default meta;
 
-const Template: Story<EditEventModalProps> = ({ ...props }) => {
+const Template: StoryFn<EditEventModalProps> = ({ ...props }) => {
   const [{ start, end }, setStartEnd] = React.useState({
     start: 0,
     end: 1,

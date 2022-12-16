@@ -5,7 +5,7 @@ import {
   type MediaSliderProps,
 } from "@liexp/ui/components/sliders/MediaSlider";
 import { useMediaQuery } from "@liexp/ui/state/queries/media.queries";
-import { type Meta, type Story } from "@storybook/react/types-6-0";
+import { type Meta, type Story } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
