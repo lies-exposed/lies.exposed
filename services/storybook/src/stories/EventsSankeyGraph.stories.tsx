@@ -6,7 +6,7 @@ import {
   EventsSankeyGraph,
   type EventsSankeyGraphProps,
 } from "@liexp/ui/components/Graph/EventsSankeyGraph";
-import { type Meta, type Story } from "@storybook/react/types-6-0";
+import { type Meta, type StoryFn as Story } from "@storybook/react";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";

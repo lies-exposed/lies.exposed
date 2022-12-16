@@ -7,9 +7,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "start-storybook --quiet -p 6006",
+    "start": "storybook dev --quiet -p 6006",
     "build": "tsc -b",
-    "build-sb": "build-storybook -o build",
+    "build-sb": "storybook build -o build",
     "clean": "rm -rf build",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\""
@@ -18,7 +18,8 @@
     "d3": "^7.8.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-spring": "^9.7.1"
+    "react-spring": "^9.7.1",
+    "storybook": "7.0.2"
   },
   "lint-staged": {
     "**/*.(ts|tsx|js|jsx)": "eslint --fix",
@@ -27,14 +28,15 @@
     ]
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^6.5.16",
-    "@storybook/addon-essentials": "^6.5.16",
-    "@storybook/addon-links": "^6.5.16",
-    "@storybook/addon-viewport": "^6.5.16",
-    "@storybook/builder-webpack5": "^6.5.16",
+    "@storybook/addon-actions": "7.0.2",
+    "@storybook/addon-essentials": "7.0.2",
+    "@storybook/addon-links": "7.0.2",
+    "@storybook/addon-viewport": "7.0.2",
+    "@storybook/builder-webpack5": "^7.0.2",
     "@storybook/manager-webpack5": "^6.5.16",
-    "@storybook/react": "^6.5.16",
-    "@storybook/theming": "^6.5.16",
+    "@storybook/react": "7.0.2",
+    "@storybook/react-webpack5": "7.0.2",
+    "@storybook/theming": "7.0.2",
     "@types/prettier": "^2.7.2",
     "prettier": "^2.8.7",
     "typescript": "^4.9.5",
