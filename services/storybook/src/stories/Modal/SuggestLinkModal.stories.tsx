@@ -1,9 +1,10 @@
-import SuggestLinkButton from "@liexp/ui/components/Common/Button/SuggestLinkButton";
-import { SuggestLinkModal, type SuggestLinkModalProps } from "@liexp/ui/components/Modal/SuggestLinkModal";
-import { type Meta, type Story } from "@storybook/react/types-6-0";
+import SuggestLinkButton, {
+  type SuggestLinkButtonProps,
+} from "@liexp/ui/components/Common/Button/SuggestLinkButton";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
-const meta: Meta<SuggestLinkModalProps> = {
+const meta: Meta<SuggestLinkButtonProps> = {
   title: "Components/Modal/SuggestLinkModal",
   component: SuggestLinkButton,
   argTypes: {},
@@ -11,11 +12,8 @@ const meta: Meta<SuggestLinkModalProps> = {
 
 export default meta;
 
-const Template: Story<SuggestLinkModalProps> = ({ ...props }) => {
-
-  return (
-    <SuggestLinkButton />
-  );
+const Template: StoryFn<SuggestLinkButtonProps> = ({ ...props }) => {
+  return <SuggestLinkButton />;
 };
 
 const SuggestLinkModalExample = Template.bind({});

@@ -3,7 +3,7 @@ import * as React from "react";
 import { SuggestLinkModal } from "../../Modal/SuggestLinkModal";
 import { Box, IconButton } from "../../mui";
 
-interface SuggestLinkButtonProps {
+export interface SuggestLinkButtonProps {
   className?: string;
   color?: any;
 }

@@ -5,7 +5,7 @@ import {
 } from "@liexp/ui/components/ArticlePageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { useArticlesQuery } from "@liexp/ui/state/queries/article.queries";
-import { type Meta, type Story } from "@storybook/react/types-6-0";
+import { type Meta, type Story } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {

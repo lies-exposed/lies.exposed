@@ -10,8 +10,8 @@ import {
   EventNetworkGraphBox,
   type EventNetworkGraphBoxProps,
 } from "@liexp/ui/containers/graphs/EventNetworkGraphBox";
-import { type Meta, type Story } from "@storybook/react/types-6-0";
-import { subWeeks } from "date-fns";
+import { type Meta, type Story } from "@storybook/react";
+import { subWeeks } from 'date-fns';
 import * as React from "react";
 
 const meta: Meta = {

@@ -5,7 +5,7 @@ import EventTimelineItem, {
   type EventTimelineItemProps,
 } from "@liexp/ui/components/lists/EventList/EventTimelineItem";
 import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
-import { type Meta, type Story } from "@storybook/react/types-6-0";
+import { type Meta, type StoryFn as Story } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
