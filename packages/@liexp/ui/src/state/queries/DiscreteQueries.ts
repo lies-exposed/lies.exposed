@@ -278,7 +278,7 @@ export const getKeywordsDistributionQueryKey = (params: any): any[] => {
 export const fetchKeywordsDistribution = async ({
   queryKey,
 }: any): Promise<{ data: Keyword.Keyword[]; total: number }> => {
-  return Queries.Keyword.Custom.Distribution({ Query: queryKey[2] });
+  return await Queries.Keyword.Custom.Distribution({ Query: queryKey[2] });
 };
 
 export const useKeywordsDistributionQuery = (

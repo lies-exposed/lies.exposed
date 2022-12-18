@@ -15,9 +15,7 @@ const queryStringOpts: querystring.ParseOptions = {
  *
  * @param query parsed query
  */
-const stripInvalid = (query: {
-  [key: string]: any;
-}): querystring.ParsedQuery => {
+const stripInvalid = (query: Record<string, any>): querystring.ParsedQuery => {
   return R.record.filter(query, (r) => {
     const isUndefined = t.undefined.is(r);
     const isEmptyString = typeof r === "string" && eqString.equals(r, "");

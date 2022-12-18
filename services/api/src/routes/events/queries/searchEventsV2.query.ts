@@ -138,7 +138,7 @@ interface SearchEventQuery {
   withDrafts: boolean;
   skip: number;
   take: number;
-  order?: { [key: string]: "ASC" | "DESC" };
+  order?: Record<string, "ASC" | "DESC">;
 }
 
 export interface SearchEventOutput {

@@ -2,12 +2,8 @@ import * as A from "fp-ts/Array";
 import { pipe } from "fp-ts/function";
 
 interface Avatars {
-  actors: {
-    [key: number]: string;
-  };
-  groups: {
-    [key: number]: string;
-  };
+  actors: Record<number, string>;
+  groups: Record<number, string>;
 }
 
 export const avatars: Avatars = {

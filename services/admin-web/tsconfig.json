@@ -8,6 +8,7 @@
     "noEmit": false,
     "allowJs": true,
     "strict": false,
+    "strictNullChecks": true,
     "esModuleInterop": true,
     "noUnusedLocals": false,
     "resolveJsonModule": true,

@@ -18,7 +18,7 @@ export const toKey = (cachePrefix: string, hash?: string): string => {
   return cacheKey;
 };
 
-export const infiniteListCache: { [key: string]: { [page: number]: any } } = {};
+export const infiniteListCache: Record<string, Record<number, any>> = {};
 
 export const getFromCache = <T extends t.Any, M>(
   cacheKey: string,

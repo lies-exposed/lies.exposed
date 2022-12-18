@@ -63,7 +63,7 @@ const GroupMemberArrayInput: React.FC<Omit<ArrayInputProps, "children">> = (
   props
 ) => {
   return (
-    <ArrayInput source="members" {...props}>
+    <ArrayInput {...props}>
       <SimpleFormIterator>
         <ReferenceActorInput source="actor" />
         <DateInput source="startDate" />

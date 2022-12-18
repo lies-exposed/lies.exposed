@@ -32,7 +32,7 @@ export interface GetConfigParams<A extends Record<string, t.Mixed>> {
   env: t.ExactC<t.TypeC<A>>;
   envFileDir: string;
   port?: number;
-  entry?: { [key: string]: string };
+  entry?: Record<string, string>;
   devServer?: boolean;
   target: webpack.Configuration["target"];
   output?: webpack.Configuration["output"];
