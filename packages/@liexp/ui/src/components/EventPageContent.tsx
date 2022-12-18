@@ -146,6 +146,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                     }}
                   >
                     <Box
+                      className="date"
                       style={{
                         display: "flex",
                         flexDirection: isDownSM ? "row" : "column",
