@@ -1,18 +1,19 @@
+import clsx from 'clsx';
 import * as React from "react";
 import { Container, Grid } from "./mui";
 
 interface MainContentProps {
+  className?: string;
   style?: React.CSSProperties;
 }
 
-export const MainContent: React.FC<React.PropsWithChildren<MainContentProps>> = ({
-  children,
-  style = {},
-}) => {
+export const MainContent: React.FC<
+  React.PropsWithChildren<MainContentProps>
+> = ({ children, className, style = {} }) => {
   return (
     <Container
+      className={clsx("main-content", className)}
       maxWidth="md"
-      // style={{ flexDirection: "column" }}
       style={style}
     >
       <Grid>

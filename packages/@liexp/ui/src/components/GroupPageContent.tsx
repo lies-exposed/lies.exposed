@@ -36,7 +36,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
   const theme = useTheme();
 
   return (
-    <Grid container direction="column">
+    <Grid className="group-page-content" container direction="column">
       <Grid
         container
         direction="row"

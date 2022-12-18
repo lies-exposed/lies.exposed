@@ -28,7 +28,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
   hierarchicalGraph,
 }) => {
   return (
-    <Grid container spacing={2}>
+    <Grid className="actor-page-content" container spacing={2}>
       <Grid container direction="row" alignItems="flex-start">
         <Grid
           item

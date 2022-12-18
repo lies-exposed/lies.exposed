@@ -19,7 +19,7 @@ export const ArticleList: React.FC<ArticleListProps> = ({
   return (
     <Grid container style={style} spacing={2}>
       {articles.map((a) => (
-        <Grid key={a.id} item xs={6}>
+        <Grid key={a.id} item md={4} xs={6}>
           <ArticleCard
             key={a.id}
             article={a}

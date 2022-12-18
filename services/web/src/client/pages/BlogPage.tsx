@@ -11,21 +11,22 @@ const BlogPage: React.FC<RouteComponentProps> = () => {
 
   return (
     <>
+      <SEO title="Stories" image="" urlPath={`stories`} />
       <MainContent>
         <PageContent path="stories" />
-        <SEO title="Stories" image="" urlPath={`stories`} />
-        <ArticlesBox
-          params={{
-            pagination: { page: 1, perPage: 20 },
-            sort: { field: "id", order: "DESC" },
-            filter: { draft: false },
-          }}
-          style={{ marginBottom: 100 }}
-          onItemClick={(a) => {
-            navigateTo.stories({ path: a.path });
-          }}
-        />
       </MainContent>
+
+      <ArticlesBox
+        params={{
+          pagination: { page: 1, perPage: 20 },
+          sort: { field: "id", order: "DESC" },
+          filter: { draft: false },
+        }}
+        style={{ marginBottom: 100 }}
+        onItemClick={(a) => {
+          navigateTo.stories({ path: a.path });
+        }}
+      />
     </>
   );
 };

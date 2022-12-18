@@ -4,12 +4,10 @@ import { parseISO } from "date-fns";
 import * as t from "io-ts";
 import * as React from "react";
 import {
-  Button,
   Card,
   CardActionArea,
-  CardActions,
   CardHeader,
-  CardMedia,
+  CardMedia
 } from "../mui";
 
 interface ArticleCardProps {
@@ -24,7 +22,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
   onClick,
 }) => {
   return (
-    <Card style={style}>
+    <Card style={style} onClick={() => onClick(a)}>
       <CardHeader
         title={
           <span
@@ -57,17 +55,6 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           />
         ) : null}
       </CardActionArea>
-      <CardActions>
-        <Button
-          size="small"
-          color="primary"
-          onClick={() => {
-            onClick(a);
-          }}
-        >
-          Leggi
-        </Button>
-      </CardActions>
     </Card>
   );
 };

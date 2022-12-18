@@ -9,7 +9,6 @@ export const toArticleIO = ({
   body2,
   ...article
 }: ArticleEntity): E.Either<ControllerError, io.http.Article.Article> => {
-
   return pipe(
     io.http.Article.Article.decode({
       ...article,
@@ -21,6 +20,7 @@ export const toArticleIO = ({
       featuredImage: article.featuredImage
         ? {
             ...article.featuredImage,
+            thumbnail: article.featuredImage.thumbnail ?? undefined,
             createdAt: article.featuredImage.createdAt.toISOString(),
             updatedAt: article.featuredImage.updatedAt.toISOString(),
             events: [],

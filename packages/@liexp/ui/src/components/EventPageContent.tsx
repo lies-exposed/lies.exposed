@@ -119,7 +119,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
           `${process.env.PUBLIC_URL}/liexp-logo.png`;
 
         return (
-          <MainContent>
+          <MainContent className="event-page-content">
             <SEO
               title={title}
               description={
