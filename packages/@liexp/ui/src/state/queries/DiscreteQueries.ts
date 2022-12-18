@@ -297,7 +297,7 @@ export const getMediaQueryKey = (
   return [
     "media",
     {
-      filter: p.filter ? p.filter : {},
+      filter: p.filter ?? {},
       pagination: {
         perPage: 20,
         page: 1,
