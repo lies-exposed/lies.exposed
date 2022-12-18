@@ -14,6 +14,7 @@ import ReferenceManyEventField from "@liexp/ui/components/admin/common/Reference
 import { SearchLinksButton } from "@liexp/ui/components/admin/common/SearchLinksButton";
 import { WebPreviewButton } from "@liexp/ui/components/admin/common/WebPreviewButton";
 import ActorPreview from "@liexp/ui/components/admin/previews/ActorPreview";
+import * as O from 'fp-ts/Option';
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
@@ -41,7 +42,7 @@ import {
   TextField,
   TextInput,
   useDataProvider,
-  useRecordContext,
+  useRecordContext
 } from "react-admin";
 
 const actorFilters = [
@@ -182,7 +183,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
                   date: new Date(),
                   payload: {
                     victim: r.id,
-                    location: undefined,
+                    location: O.none,
                   },
                   media: [],
                   keywords: [],

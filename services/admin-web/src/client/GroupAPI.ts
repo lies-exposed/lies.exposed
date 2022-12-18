@@ -65,7 +65,9 @@ export const editGroup =
     const avatarTask =
       typeof avatar === "string"
         ? TE.right([{ type: MediaType.types[0].value, location: avatar }])
-        : uploadImages(client)(resource, data.id, [(avatar as any).rawFile]);
+        : data.id
+        ? uploadImages(client)(resource, data.id, [(avatar as any).rawFile])
+        : TE.right([{ type: MediaType.types[0].value, location: avatar }]);
 
     return pipe(
       avatarTask,

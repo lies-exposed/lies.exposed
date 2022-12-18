@@ -6,7 +6,7 @@ import { FullSizeLoader } from "./Common/FullSizeLoader";
 import { Loader } from "./Common/Loader";
 
 interface QueriesRendererProps<
-  Q extends { [key: string]: UseQueryResult<any, APIError> }
+  Q extends Record<string, UseQueryResult<any, APIError>>
 > {
   loader?: "fullsize" | "default";
   queries: Q;
@@ -19,7 +19,7 @@ interface QueriesRendererProps<
 }
 
 const QueriesRenderer = <
-  Q extends { [key: string]: UseQueryResult<any, APIError> }
+  Q extends Record<string, UseQueryResult<any, APIError>>
 >({
   queries,
   loader = "default",

@@ -15,7 +15,7 @@ import {
 } from "typeorm";
 
 interface ORMOrder {
-  order: { [key: string]: "ASC" | "DESC" };
+  order: Record<string, "ASC" | "DESC">;
 }
 
 interface ORMPagination {

@@ -87,7 +87,7 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
 
 interface View {
   view: string;
-  search?: { [key: string]: any };
+  search?: Record<string, any>;
 }
 
 export interface HeaderMenuItem extends View {

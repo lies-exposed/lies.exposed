@@ -7,9 +7,7 @@ interface BreadCrumbProps {
     view: string;
     [key: string]: any;
   };
-  segments: {
-    [key: string]: string[];
-  };
+  segments: Record<string, string[]>;
 }
 
 export const BreadCrumb: React.FC<BreadCrumbProps> = ({ view, segments }) => {

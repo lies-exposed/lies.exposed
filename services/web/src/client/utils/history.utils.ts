@@ -20,9 +20,7 @@ const fromBase64 = (hash: string): string => {
 const parseQuery = (s: string): qs.ParsedQuery =>
   qs.parse(s.replace("?", ""), { arrayFormat: "bracket" });
 
-export const stringifyQuery = (search: {
-  [key: string]: string | string[];
-}): string => qs.stringify(search, { arrayFormat: "bracket" });
+export const stringifyQuery = (search: Record<string, string | string[]>): string => qs.stringify(search, { arrayFormat: "bracket" });
 
 export function useRouteQuery<Q = any>(): qs.ParsedQuery<Q> {
   const { search } = useLocation();

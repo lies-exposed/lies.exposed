@@ -123,7 +123,7 @@ export const pageContentByPath = ({
 interface Query<G, L, CC> {
   get: (params: GetOneParams) => Promise<G>;
   getList: (params: GetListParams) => Promise<L>;
-  Custom: CC extends { [key: string]: MinimalEndpointInstance }
+  Custom: CC extends Record<string, MinimalEndpointInstance>
     ? {
         [K in keyof CC]: (
           params: (InferEndpointParams<CC[K]>["headers"] extends t.Mixed
@@ -169,7 +169,7 @@ type Queries = {
 const toQueries = <
   G extends MinimalEndpoint,
   L extends MinimalEndpoint,
-  CC extends { [key: string]: MinimalEndpointInstance }
+  CC extends Record<string, MinimalEndpointInstance>
 >(
   e: ResourceEndpoints<
     EndpointInstance<G>,

@@ -29,7 +29,7 @@ type API = {
     ? {
         List: TERequest<List>;
         Get: TERequest<Get>;
-        Custom: CC extends { [key: string]: MinimalEndpointInstance }
+        Custom: CC extends Record<string, MinimalEndpointInstance>
           ? {
               [K in keyof CC]: TERequest<CC[K]>;
             }
