@@ -17,33 +17,32 @@ const MediaPage: React.FC<RouteComponentProps> = (props) => {
   const navigateTo = useNavigateToResource();
 
   return (
-    <>
-      <QueriesRenderer
-        queries={{
-          media: useMediaQuery(queryParams, false),
-        }}
-        render={({ media: { data: media } }) => {
-          return (
-            <Box>
-              <PageContent path="media" />
-              <>
-                <MediaList
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                  }}
-                  media={media.map((m) => ({ ...m, selected: true }))}
-                  onItemClick={(a) => {
-                    navigateTo.media({ id: a.id });
-                  }}
-                />
-              </>
-            </Box>
-          );
-        }}
-      />
-    </>
+    <QueriesRenderer
+      queries={{
+        media: useMediaQuery(queryParams, false),
+      }}
+      render={({ media: { data: media } }) => {
+        return (
+          <Box style={{ display: "flex", justifyContent: "center" }}>
+            <PageContent path="media" />
+            <>
+              <MediaList
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                  justifyContent: "center",
+                }}
+                media={media.map((m) => ({ ...m, selected: true }))}
+                onItemClick={(a) => {
+                  navigateTo.media({ id: a.id });
+                }}
+              />
+            </>
+          </Box>
+        );
+      }}
+    />
   );
 };
 
