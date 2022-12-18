@@ -31,7 +31,7 @@
     "@types/webpack-bundle-analyzer": "^4.6.0",
     "@types/webpack-node-externals": "^2.5.3",
     "copy-webpack-plugin": "^11.0.0",
-    "css-loader": "^6.7.2",
+    "css-loader": "^6.7.3",
     "css-minimizer-webpack-plugin": "^4.2.2",
     "dotenv-webpack": "^7.1.1",
     "eslint": "^8.30.0",
