@@ -11,6 +11,7 @@ export const getAdminLink = <K extends io.http.ResourcesNames>(
     case "events":
     case "topics":
     case "actors":
+    case "media":
     case "groups": {
       return `${process.env.ADMIN_URL}/index.html?#/${key}/${f.id}`;
     }
@@ -24,6 +25,7 @@ export const getProfileLink = (
   f: { id: string }
 ): string => {
   switch (key) {
+    case "media":
     case "events/suggestions": {
       return `/profile/${key}/${f.id}?type=Update`;
     }

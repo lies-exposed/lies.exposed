@@ -13,6 +13,7 @@ export const toImageIO = (
       creator: media.creator ?? undefined,
       links: media.links ?? [],
       events: media.events ?? [],
+      keywords: media.keywords ?? [],
       thumbnail: media.thumbnail ?? undefined,
       createdAt: media.createdAt.toISOString(),
       updatedAt: media.updatedAt.toISOString(),

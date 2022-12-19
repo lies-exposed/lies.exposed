@@ -17,6 +17,7 @@ import {
   fetchLinks,
   fetchMedia,
   fetchPageContentByPath,
+  fetchSingleMedia,
   fetchStats,
   getActorQueryKey,
   getActorsQueryKey,
@@ -28,14 +29,15 @@ import {
   getKeywordsQueryKey,
   getLinkQueryKey,
   getMediaQueryKey,
+  getMediaQueryListKey,
   getPageContentByPathQueryKey,
-  useStatsQuery,
+  useStatsQuery
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import {
   fetchSearchEvents,
   fetchSearchEventsInfinite,
   getSearchEventsInfiniteQueryKey,
-  getSearchEventsQueryKey,
+  getSearchEventsQueryKey
 } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { fetchGithubRepo } from "@liexp/ui/state/queries/github";
 import { UUID } from "io-ts-types/lib/UUID";
@@ -216,7 +218,7 @@ export const routes = [
         },
 
         {
-          queryKey: getMediaQueryKey(
+          queryKey: getMediaQueryListKey(
             {
               pagination: {
                 perPage: media.length,
@@ -453,14 +455,9 @@ export const routes = [
       ...commonQueries,
       {
         queryKey: getMediaQueryKey(
-          {
-            filter: {
-              ids: [mediaId],
-            },
-          },
-          false
+          mediaId
         ),
-        queryFn: fetchMedia,
+        queryFn: fetchSingleMedia,
       },
     ],
   },
@@ -474,7 +471,7 @@ export const routes = [
         queryFn: fetchPageContentByPath,
       },
       {
-        queryKey: getMediaQueryKey(
+        queryKey: getMediaQueryListKey(
           {
             filter: null,
           },

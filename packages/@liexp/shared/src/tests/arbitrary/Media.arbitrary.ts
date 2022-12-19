@@ -12,6 +12,7 @@ const mediaProps = propsOmit(http.Media.Media, [
   "creator",
   "links",
   "events",
+  "keywords",
 ]);
 
 export const placeKitten = (): string => {
@@ -26,6 +27,7 @@ export const MediaArb: tests.fc.Arbitrary<http.Media.Media> = tests
       ...i,
       events: [],
       links: [],
+      keywords: [],
       type: "image/png",
       // creator: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
       creator: undefined,

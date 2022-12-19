@@ -290,7 +290,7 @@ export const useKeywordsDistributionQuery = (
   );
 };
 
-export const getMediaQueryKey = (
+export const getMediaQueryListKey = (
   p: Partial<GetListParams>,
   discrete: boolean
 ): [string, GetListParams, boolean] => {
@@ -321,7 +321,15 @@ export const useMediaQuery = (
   params: Partial<GetListParams>,
   discrete: boolean
 ): UseQueryResult<{ data: Media.Media[]; total: number }, any> => {
-  return useQuery(getMediaQueryKey(params, discrete), fetchMedia);
+  return useQuery(getMediaQueryListKey(params, discrete), fetchMedia);
+};
+
+export const getMediaQueryKey = (id: string): any[] => ["media", { id }];
+export const fetchSingleMedia = fetchQuery(Queries.Media.get);
+export const useGetMediaQuery = (
+  id: string
+): UseQueryResult<Media.Media, any> => {
+  return useQuery(getMediaQueryKey(id), fetchSingleMedia);
 };
 
 export const getLinkQueryKey = (
