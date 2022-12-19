@@ -50,6 +50,7 @@ const EventPreview: React.FC = () => {
               onGroupMemberClick={() => undefined}
               onDateClick={() => undefined}
               onAreaClick={() => undefined}
+              onMediaClick={() => undefined}
             />
           </QueryClientProvider>
         </ThemeProvider>

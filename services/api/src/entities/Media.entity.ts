@@ -14,6 +14,7 @@ import {
 import { AreaEntity } from "./Area.entity";
 import { ArticleEntity } from "./Article.entity";
 import { EventV2Entity } from "./Event.v2.entity";
+import { KeywordEntity } from "./Keyword.entity";
 import { LinkEntity } from "./Link.entity";
 import { UserEntity } from "./User.entity";
 
@@ -52,6 +53,9 @@ export class MediaEntity {
 
   @OneToMany(() => ArticleEntity, (a) => a.featuredImage, { cascade: false })
   articles: ArticleEntity[];
+
+  @ManyToMany(() => KeywordEntity, (a) => a.media, { cascade: false })
+  keywords: KeywordEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

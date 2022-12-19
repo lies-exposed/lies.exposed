@@ -36,6 +36,7 @@ export interface EventPageContentProps {
   onDateClick: (d: Date) => void;
   onActorClick: (a: http.Actor.Actor) => void;
   onGroupClick: (a: http.Group.Group) => void;
+  onMediaClick: (m: http.Media.Media) => void
   onGroupMemberClick: (g: http.GroupMember.GroupMember) => void;
   onLinkClick: (a: http.Link.Link) => void;
   onKeywordClick: (a: http.Keyword.Keyword) => void;
@@ -51,6 +52,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
   onKeywordClick,
   onLinkClick,
   onAreaClick,
+  onMediaClick
 }) => {
   const theme = useTheme();
   const { actors, groups, groupsMembers, media } = getRelationIds(event);
@@ -275,7 +277,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                         {media.length > 0 ? (
                           <MediaSlider
                             data={media}
-                            onClick={() => {}}
+                            onClick={onMediaClick}
                             itemStyle={{
                               maxWidth: 800,
                               maxHeight: 400,

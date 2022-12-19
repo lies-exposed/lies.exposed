@@ -1,10 +1,12 @@
 import { EventType } from "@liexp/shared/io/http/Events";
+import EditButton from "@liexp/ui/components/Common/Button/EditButton";
+import { KeywordsBox } from "@liexp/ui/components/KeywordsBox";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
-import { Box } from "@liexp/ui/components/mui";
+import { Box, Typography } from "@liexp/ui/components/mui";
 import { MediaSlider } from "@liexp/ui/components/sliders/MediaSlider";
-import { useMediaQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import { useGetMediaQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import * as React from "react";
 import { useRouteQuery } from "../utils/history.utils";
 import { useNavigateToResource } from "../utils/location.utils";
@@ -18,10 +20,9 @@ const MediaTemplate: React.FC<{ mediaId: string }> = ({ mediaId }) => {
   return (
     <QueriesRenderer
       queries={{
-        media: useMediaQuery({ filter: { ids: [mediaId] } }, false),
+        media: useGetMediaQuery(mediaId),
       }}
-      render={({ media }) => {
-        const m = media.data[0];
+      render={({ media: m }) => {
         return (
           <Box>
             <MainContent>
@@ -30,8 +31,18 @@ const MediaTemplate: React.FC<{ mediaId: string }> = ({ mediaId }) => {
                 image={m.thumbnail ?? ""}
                 urlPath={`media/${m.id}`}
               />
+              <EditButton resourceName="media" resource={m} admin={true} />
               <Box style={{ padding: 10 }}>
                 <MediaSlider data={[m]} onClick={() => undefined} />
+                <Typography>{m.description}</Typography>
+                <KeywordsBox
+                  ids={m.keywords}
+                  onItemClick={(k) => {
+                    navigateToResource.keywords(
+                      { id: k.id },
+                    );
+                  }}
+                />
               </Box>
             </MainContent>
             <EventsPanel

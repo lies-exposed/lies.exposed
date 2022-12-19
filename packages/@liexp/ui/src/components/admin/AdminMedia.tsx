@@ -46,7 +46,8 @@ import { MediaTypeInput } from "../admin/common/MediaTypeInput";
 import ReferenceArrayEventInput from "../admin/common/ReferenceArrayEventInput";
 import MediaPreview from "../admin/previews/MediaPreview";
 import { ReferenceLinkTab } from "../admin/tabs/ReferenceLinkTab";
-import { Box, Button, Typography } from "../mui";
+import { Box, Button, Grid, Typography } from "../mui";
+import ReferenceArrayKeywordInput from "./common/ReferenceArrayKeywordInput";
 import ReferenceUserInput from "./common/ReferenceUserInput";
 
 const RESOURCE = "media";
@@ -210,6 +211,7 @@ const transformMedia =
     const links = (data.links ?? []).concat(
       (data.newLinks ?? []).flatMap((l: any) => l.ids)
     );
+    const keywords = (data.keywords ?? []).concat(data.newKeywords ?? []);
 
     return pipe(
       mediaTask,
@@ -219,6 +221,7 @@ const transformMedia =
         ...media,
         events,
         links,
+        keywords
       })),
       throwTE
     );
@@ -312,11 +315,24 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
     >
       <TabbedForm>
         <FormTab label="general">
-          <ThumbnailField />
-          <DateField source="updatedAt" showTime={true} />
-          <DateField source="createdAt" showTime={true} />
-          {isAdmin && <ReferenceUserInput source="creator" />}
-          <TextInput source="description" fullWidth multiline />
+          <Grid container>
+            <Grid item md={6}>
+              <ThumbnailField />
+            </Grid>
+            <Grid item md={6}>
+              {isAdmin && <ReferenceUserInput source="creator" />}
+              <ReferenceArrayKeywordInput source="keywords" showAdd />
+            </Grid>
+            <Grid item md={12}>
+              <TextInput source="description" fullWidth multiline />
+              <Box>
+                <Box>
+                  <DateField source="updatedAt" showTime={true} />
+                </Box>
+                <DateField source="createdAt" showTime={true} />
+              </Box>
+            </Grid>
+          </Grid>
         </FormTab>
         <FormTab label="events">
           <CreateEventFromMediaButton />

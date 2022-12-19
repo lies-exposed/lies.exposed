@@ -54,6 +54,7 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
               onAreaClick={(a) => {
                 navigateTo.areas({ id: a.id });
               }}
+              onMediaClick={(m) => navigateTo.media({ id: m.id })}
             />
 
             <Grid container justifyContent="center">

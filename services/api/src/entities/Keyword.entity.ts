@@ -13,6 +13,7 @@ import {
 import { ArticleEntity } from './Article.entity';
 import { EventV2Entity } from "./Event.v2.entity";
 import { LinkEntity } from "./Link.entity";
+import { MediaEntity } from './Media.entity';
 
 @Entity("keyword")
 @Index(["tag"], { unique: true })
@@ -36,6 +37,10 @@ export class KeywordEntity {
   @ManyToMany(() => ArticleEntity, (e) => e.keywords, { cascade: false })
   @JoinTable()
   articles: ArticleEntity[];
+
+  @ManyToMany(() => MediaEntity, (e) => e.keywords, { cascade: false })
+  @JoinTable()
+  media: MediaEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

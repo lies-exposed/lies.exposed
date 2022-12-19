@@ -56,9 +56,10 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
             {
               ...image,
               ...body,
-              links: body.links.map((l) => ({ id: l })),
-              events: body.events.map((e) => ({
-                id: e,
+              keywords: body.keywords.map((id) => ({ id })),
+              links: body.links.map((id) => ({ id })),
+              events: body.events.map((id) => ({
+                id,
               })),
               id,
             },
@@ -69,6 +70,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
             toImageIO({
               ...results[0],
               creator: results[0].creator?.id as any,
+              keywords: results[0].keywords.map((k) => k.id) as any[],
               links: results[0].links.map((l) => l.id) as any[],
               events: results[0].events.map((e) => e.id) as any[],
             })

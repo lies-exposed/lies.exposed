@@ -51,6 +51,7 @@ export const Create = Endpoint({
         type: MediaType,
         location: t.string,
         description: t.string,
+        keywords: t.array(UUID),
         events: t.array(UUID),
       },
       "CreateImageBody"
@@ -71,6 +72,7 @@ export const Edit = Endpoint({
       description: t.string,
       links: t.array(UUID),
       events: t.array(UUID),
+      keywords: t.array(UUID),
       creator: optionFromNullable(UUID),
       overrideThumbnail: optionFromNullable(t.boolean),
     }),

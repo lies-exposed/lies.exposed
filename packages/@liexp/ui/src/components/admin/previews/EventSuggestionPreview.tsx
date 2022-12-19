@@ -44,6 +44,7 @@ export const EventSuggestionPreview: React.FC = () => {
               onAreaClick={() => undefined}
               onActorClick={() => undefined}
               onGroupClick={() => undefined}
+              onMediaClick={() => undefined}
               onKeywordClick={() => undefined}
               onLinkClick={() => undefined}
               onGroupMemberClick={() => undefined}

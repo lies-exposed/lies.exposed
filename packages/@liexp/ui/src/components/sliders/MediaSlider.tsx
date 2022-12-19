@@ -1,6 +1,7 @@
 import { Media } from "@liexp/shared/io/http";
 import * as React from "react";
 import { styled } from "../../theme";
+import { LinkIcon } from "../Common/Icons";
 import { Slider, SliderProps } from "../Common/Slider/Slider";
 import MediaElement from "../Media/MediaElement";
 
@@ -52,10 +53,10 @@ export const MediaSlider: React.FC<MediaSliderProps> = ({
       {...props}
     >
       {data
-        .filter((s) => s !== undefined)
-        .map((s, i) => (
+        .filter((m) => m !== undefined)
+        .map((m, i) => (
           <div
-            key={s.id}
+            key={m.id}
             style={{
               margin: "auto",
               maxHeight: 400,
@@ -65,8 +66,8 @@ export const MediaSlider: React.FC<MediaSliderProps> = ({
             }}
           >
             <MediaElement
-              key={s.id}
-              media={s}
+              key={m.id}
+              media={m}
               className={classes.item}
               style={{
                 maxWidth: 600,
@@ -77,6 +78,7 @@ export const MediaSlider: React.FC<MediaSliderProps> = ({
               onLoad={i === 0 ? onLoad : undefined}
               enableDescription={enableDescription}
             />
+            <LinkIcon onClick={() => onClick?.(m)} />
           </div>
         ))}
     </StyledSlider>

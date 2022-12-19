@@ -1,3 +1,5 @@
+import { AutocompleteMediaInput } from "@liexp/ui/components/Input/AutocompleteMediaInput";
+import { MainContent } from "@liexp/ui/components/MainContent";
 import { PageContent } from "@liexp/ui/components/PageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { MediaList } from "@liexp/ui/components/lists/MediaList";
@@ -23,8 +25,24 @@ const MediaPage: React.FC<RouteComponentProps> = (props) => {
       }}
       render={({ media: { data: media } }) => {
         return (
-          <Box style={{ display: "flex", justifyContent: "center" }}>
-            <PageContent path="media" />
+          <Box
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}
+          >
+            <MainContent>
+              <PageContent path="media" />
+              <AutocompleteMediaInput
+                selectedItems={[]}
+                onChange={(c) => {
+                  navigateTo.media({
+                    id: c[0].id,
+                  });
+                }}
+              />
+            </MainContent>
             <>
               <MediaList
                 style={{
