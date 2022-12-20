@@ -2729,7 +2729,7 @@ __metadata:
     prettier: ^2.8.1
     react-refresh: ^0.14.0
     react-refresh-typescript: ^2.0.7
-    sass: ^1.56.2
+    sass: ^1.57.1
     speed-measure-webpack-plugin: ^1.5.0
     style-loader: ^3.3.1
     ts-loader: ^9.4.2
@@ -22584,16 +22584,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.56.2":
-  version: 1.56.2
-  resolution: "sass@npm:1.56.2"
+"sass@npm:^1.57.1":
+  version: 1.57.1
+  resolution: "sass@npm:1.57.1"
   dependencies:
     chokidar: ">=3.0.0 <4.0.0"
     immutable: ^4.0.0
     source-map-js: ">=0.6.2 <2.0.0"
   bin:
     sass: sass.js
-  checksum: 7b1f524d04bc42df3bac6dc5201ff7475635b7df9a1390430ed5bd58b6a73ea1ae58b83ccea8da293cb77b85b4c848faf5f2779ca4b91b9303948c251d0ddca4
+  checksum: 734a08781bcbe0e8defb2d54864e7012014ed3e68ba5fcb766189b002929019fc37b2f83a18d4be0b5f69ad77317c92396ce6112447ab47a194ed600ae1afb27
   languageName: node
   linkType: hard
 
