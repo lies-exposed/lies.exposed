@@ -25,101 +25,120 @@ export const createEventQuery =
         ),
         keywords: pipe(
           input.keywords,
-          O.fromPredicate((arr) => arr.length > 0)
+          O.fromPredicate((arr) => arr.length > 0),
         ),
       }),
-      TE.chain(({ keywords, links, media }) => {
-        switch (input.type) {
-          case http.Events.Patent.PATENT.value: {
-            const { type, date, draft, excerpt, payload } = input;
-            return TE.right({
-              type,
-              draft,
-              payload: {
-                ...payload,
-              },
-              date,
-              excerpt,
-              keywords,
-              links,
-              media,
-            } as any);
-          }
-          case http.Events.Death.DEATH.value: {
-            const { type, date, draft, excerpt, payload } = input;
-            return TE.right({
-              type,
-              draft,
-              payload: {
-                ...payload,
-                location: O.toUndefined(payload.location),
-              },
-              date,
-              excerpt,
-              keywords,
-              links,
-              media,
-            });
-          }
-          case http.Events.ScientificStudy.SCIENTIFIC_STUDY.value: {
-            const { type, draft, excerpt, date, payload } = input;
-            return TE.right({
-              type,
-              draft,
-              excerpt,
-              date,
-              payload,
-              keywords,
-              links,
-              media,
-            });
-          }
-          case http.Events.Documentary.DOCUMENTARY.value: {
-            const { type, draft, excerpt, date, payload } = input;
-            return TE.right({
-              type,
-              draft,
-              excerpt,
-              date,
-              payload,
-              keywords,
-              links,
-              media,
-            });
-          }
-          case http.Events.Transaction.TRANSACTION.value: {
-            const { type, draft, excerpt, date, payload } = input;
-            return TE.right({
-              type,
-              draft,
-              excerpt,
-              date,
-              payload,
-              keywords,
-              links,
-              media,
-            });
-          }
-          case http.Events.Uncategorized.UNCATEGORIZED.value:
-          default: {
-            const { excerpt, type, draft, date, payload } = input;
-            const uncategorizedEvent: DeepPartial<EventV2Entity> = {
-              type,
-              date,
-              draft,
-              excerpt,
-              payload: {
-                ...payload,
-                location: O.toUndefined(payload.location),
-                endDate: O.toUndefined(payload.endDate),
-              },
-              keywords,
-              links,
-              media,
-            };
-            return TE.right(uncategorizedEvent);
+      TE.chain(
+        ({
+          keywords,
+          links,
+          media,
+        }) => {
+          switch (input.type) {
+            case http.Events.Quote.QUOTE.value: {
+              const { type, date, draft, excerpt, payload } = input;
+              return TE.right({
+                type,
+                payload,
+                draft,
+                date,
+                excerpt,
+                keywords,
+                links,
+                media,
+              });
+            }
+            case http.Events.Patent.PATENT.value: {
+              const { type, date, draft, excerpt, payload } = input;
+              return TE.right({
+                type,
+                draft,
+                payload: {
+                  ...payload,
+                },
+                date,
+                excerpt,
+                keywords,
+                links,
+                media,
+              } as any);
+            }
+            case http.Events.Death.DEATH.value: {
+              const { type, date, draft, excerpt, payload } = input;
+              return TE.right({
+                type,
+                draft,
+                payload: {
+                  ...payload,
+                  location: O.toUndefined(payload.location),
+                },
+                date,
+                excerpt,
+                keywords,
+                links,
+                media,
+              });
+            }
+            case http.Events.ScientificStudy.SCIENTIFIC_STUDY.value: {
+              const { type, draft, excerpt, date, payload } = input;
+              return TE.right({
+                type,
+                draft,
+                excerpt,
+                date,
+                payload,
+                keywords,
+                links,
+                media,
+              });
+            }
+            case http.Events.Documentary.DOCUMENTARY.value: {
+              const { type, draft, excerpt, date, payload } = input;
+              return TE.right({
+                type,
+                draft,
+                excerpt,
+                date,
+                payload,
+                keywords,
+                links,
+                media,
+              });
+            }
+            case http.Events.Transaction.TRANSACTION.value: {
+              const { type, draft, excerpt, date, payload } = input;
+              return TE.right({
+                type,
+                draft,
+                excerpt,
+                date,
+                payload,
+                keywords,
+                links,
+                media,
+              });
+            }
+            case http.Events.Uncategorized.UNCATEGORIZED.value:
+            default: {
+              const { excerpt, type, draft, date, payload } = input;
+              const uncategorizedEvent: DeepPartial<EventV2Entity> = {
+                type,
+                date,
+                draft,
+                excerpt,
+                payload: {
+                  ...payload,
+                  location: O.toUndefined(payload.location),
+                  endDate: O.toUndefined(payload.endDate),
+                },
+                keywords,
+                links,
+                media,
+              };
+              return TE.right(uncategorizedEvent);
+            }
           }
         }
-      })
+      )
     );
   };

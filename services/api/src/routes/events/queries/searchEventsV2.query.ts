@@ -1,5 +1,6 @@
 // https://www.postgresql.org/docs/12/functions-json.html
 
+import { QUOTE } from "@liexp/shared/io/http/Events/Quote";
 import { EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import { DBError } from "@liexp/shared/providers/orm/Database";
 import { sequenceS } from "fp-ts/Apply";
@@ -78,7 +79,15 @@ export const whereActorInArray = (
                 ` ("event"."payload"::jsonb -> 'to' ->> 'type' = 'Actor' AND "event"."payload"::jsonb -> 'to' -> 'id' ?| ARRAY[:...actors]) )`
             );
           })
-        );
+        )
+        .orWhere(
+          new Brackets((qb) => {
+            qb.where(` event.type = '${QUOTE.value}' `).andWhere(
+              ` ("event"."payload"::jsonb -> 'actor' ?| ARRAY[:...actors]) `
+            );
+          })
+        )
+        ;
     })
   );
   q.setParameter("actors", actors);
@@ -253,6 +262,8 @@ export const searchEventV2Query =
                       CASE
                         WHEN event.type IN ('Uncategorized', 'Documentary', 'ScientificStudy', 'Patent') THEN "event"."payload"::jsonb ->> 'title'
                         WHEN event.type IN ('Death') THEN "event"."payload"::jsonb ->> 'victim'::text
+                        WHEN event.type IN (${QUOTE.value}) THEN "event"."payload"::jsonb ->> 'quote'::text
+
                       END, ''
                     )
                   ),
@@ -412,6 +423,10 @@ export const searchEventV2Query =
             //   ...transactions.getQueryAndParameters()
             // );
 
+            const quotesCount = q
+              .clone()
+              .andWhere(`event.type = '${QUOTE.value}'`);
+
             if (O.isSome(type)) {
               q.andWhere("event.type::text IN (:...types)", {
                 types: type.value,
@@ -431,6 +446,7 @@ export const searchEventV2Query =
               patentCount,
               documentariesCount,
               transactionsCount,
+              quotesCount,
             };
           }
         );
@@ -468,6 +484,7 @@ export const searchEventV2Query =
           transactions: db.execQuery(() =>
             searchV2Query.transactionsCount.getCount()
           ),
+          quotes: db.execQuery(() => searchV2Query.quotesCount.getCount()),
         });
       }),
       TE.map(({ results, ...totals }) => ({
@@ -479,7 +496,8 @@ export const searchEventV2Query =
           totals.patents +
           totals.scientificStudies +
           totals.uncategorized +
-          totals.transactions,
+          totals.transactions +
+          totals.quotes,
       }))
     );
   };

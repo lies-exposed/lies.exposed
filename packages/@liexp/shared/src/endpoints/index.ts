@@ -9,10 +9,11 @@ import * as Actor from "./actor.endpoints";
 import * as Area from "./area.endpoints";
 import * as Article from "./article.endpoints";
 import * as Event from "./event.endpoints";
-import * as DeathEvent from "./events/death.endpoint";
+import * as DeathEvent from "./events/death.endpoints";
 import * as DocumentaryEvent from './events/documentary.endpoints';
-import * as PatentEvent from "./events/patent.endpoint";
-import * as Transaction from './events/transactions.endpoints'
+import * as PatentEvent from "./events/patent.endpoints";
+import * as QuoteEvent from './events/quote.endpoints';
+import * as Transaction from './events/transactions.endpoints';
 import * as Graph from "./graph.endpoints";
 import * as Group from "./group.endpoints";
 import * as Keyword from "./keyword.endpoints";
@@ -39,6 +40,7 @@ const Endpoints = {
   PatentEvent: PatentEvent.patents,
   ScientificStudy: ScientificStudy.scientificStudies,
   DocumentaryEvent: DocumentaryEvent.documentaries,
+  QuoteEvent: QuoteEvent.quotes,
   TransactionEvent: Transaction.transactions,
   // other
   OpenGraph: OpenGraph.openGraphs,

@@ -39,6 +39,7 @@ export const EventTotals = t.strict(
     patents: t.number,
     documentaries: t.number,
     transactions: t.number,
+    quotes: t.number
   },
   "EventTotals"
 );

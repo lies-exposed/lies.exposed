@@ -1,3 +1,4 @@
+import { Quote } from "@liexp/shared/io/http/Events";
 import {
   EventPageContent,
   EventPageContentProps,
@@ -15,13 +16,17 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<EventPageContentProps> = (props) => {
+const Template: Story<{ type: string } & EventPageContentProps> = ({
+  type,
+  ...props
+}) => {
   return (
     <QueriesRenderer
       loader="fullsize"
       queries={{
         events: useEventsQuery(
           {
+            filter: { type },
             pagination: {
               perPage: 1,
               page: 1,
@@ -45,10 +50,15 @@ const Template: Story<EventPageContentProps> = (props) => {
   );
 };
 
-const EventPageContentExample = Template.bind({});
+const DefaultEventPageContent = Template.bind({});
 
-EventPageContentExample.args = {
+DefaultEventPageContent.args = {
   event: undefined,
 };
 
-export { EventPageContentExample as EventPageContent };
+const QuoteEventPageContent = Template.bind({});
+QuoteEventPageContent.args = {
+  type: Quote.QUOTE.value,
+};
+
+export { DefaultEventPageContent, QuoteEventPageContent };

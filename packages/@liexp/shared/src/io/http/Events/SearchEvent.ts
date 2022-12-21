@@ -1,20 +1,18 @@
-import * as Actor from '../Actor';
-import * as Group from '../Group';
-import * as GroupMember from '../GroupMember';
-import * as Keyword from '../Keyword';
-import * as Media from '../Media';
-import * as Death from './Death';
-import * as Documentary from './Documentary';
-import * as Patent from './Patent';
-import * as ScientificStudy from './ScientificStudy';
-import * as Transaction from './Transaction';
-import * as Uncategorized from './Uncategorized';
+import * as Actor from "../Actor";
+import * as Group from "../Group";
+import * as GroupMember from "../GroupMember";
+import * as Keyword from "../Keyword";
+import * as Media from "../Media";
+import * as Death from "./Death";
+import * as Documentary from "./Documentary";
+import * as Patent from "./Patent";
+import * as Quote from "./Quote";
+import * as ScientificStudy from "./ScientificStudy";
+import * as Transaction from "./Transaction";
+import * as Uncategorized from "./Uncategorized";
 
 export interface SearchUncategorizedEvent
-  extends Omit<
-    Uncategorized.Uncategorized,
-    "payload" | "media" | "keywords"
-  > {
+  extends Omit<Uncategorized.Uncategorized, "payload" | "media" | "keywords"> {
   payload: Omit<
     Uncategorized.Uncategorized["payload"],
     "actors" | "groups" | "groupsMembers"
@@ -65,10 +63,7 @@ export interface SearchPatentEvent
 }
 
 export interface SearchDocumentaryEvent
-  extends Omit<
-    Documentary.Documentary,
-    "payload" | "media" | "keywords"
-  > {
+  extends Omit<Documentary.Documentary, "payload" | "media" | "keywords"> {
   payload: Omit<
     Documentary.DocumentaryPayload,
     "media" | "authors" | "subjects"
@@ -87,11 +82,17 @@ export interface SearchDocumentaryEvent
   keywords: Keyword.Keyword[];
 }
 
+export interface SearchQuoteEvent
+  extends Omit<Quote.Quote, "payload" | "media" | "keywords"> {
+  payload: Omit<Quote.QuotePayload, "actor"> & {
+    actor: Actor.Actor;
+  };
+  media: Media.Media[];
+  keywords: Keyword.Keyword[];
+}
+
 export interface SearchTransactionEvent
-  extends Omit<
-    Transaction.Transaction,
-    "payload" | "media" | "keywords"
-  > {
+  extends Omit<Transaction.Transaction, "payload" | "media" | "keywords"> {
   payload: Omit<Transaction.TransactionPayload, "from" | "to"> & {
     from:
       | {
@@ -122,4 +123,5 @@ export type SearchEvent =
   | SearchUncategorizedEvent
   | SearchPatentEvent
   | SearchDocumentaryEvent
-  | SearchTransactionEvent;
+  | SearchTransactionEvent
+  | SearchQuoteEvent;

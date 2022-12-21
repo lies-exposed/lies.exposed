@@ -1,8 +1,9 @@
 import {
   eqByUUID,
   getEventsMetadata,
-  ordEventDate
+  ordEventDate,
 } from "@liexp/shared/helpers/event";
+import { http } from "@liexp/shared/io";
 import {
   Actor,
   Common,
@@ -10,7 +11,7 @@ import {
   Group,
   Keyword,
   Page,
-  Topic
+  Topic,
 } from "@liexp/shared/io/http";
 import { UUID } from "@liexp/shared/io/http/Common/UUID";
 import { SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
@@ -31,7 +32,7 @@ import * as React from "react";
 import { NetworkScale } from "../Common/Graph/Network/Network";
 import {
   NetworkNodeDatum,
-  NetworkPointNode
+  NetworkPointNode,
 } from "../Common/Graph/Network/NetworkNode";
 import SankeyGraph from "../Common/Graph/SankeyGraph";
 import { Box, Grid } from "../mui";
@@ -564,7 +565,12 @@ export function createEventNetworkGraphProps({
       );
 
       if (isBetweenDateRange) {
-        const eventTitle = e.type === "Death" ? "Died" : e.payload.title;
+        const eventTitle =
+          e.type === "Death"
+            ? `Death of ${e.payload.victim.fullName}`
+            : e.type === http.Events.Quote.QUOTE.value
+            ? `Quote by: ${e.payload.actor.fullName}`
+            : e.payload.title;
 
         const {
           actors: eventActors,

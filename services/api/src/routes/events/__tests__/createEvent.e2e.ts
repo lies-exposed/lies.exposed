@@ -1,4 +1,5 @@
 import * as http from "@liexp/shared/io/http";
+import { Quote } from "@liexp/shared/io/http/Events";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { CreateEventBodyArb } from "@liexp/shared/tests/arbitrary/Event.arbitrary";
 import { KeywordArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
@@ -16,8 +17,8 @@ import { KeywordEntity } from "@entities/Keyword.entity";
 
 describe("Create Event", () => {
   let appTest: AppTest;
-    const users: any[] = [];
-    let authorizationToken: string;
+  const users: any[] = [];
+  let authorizationToken: string;
 
   let event: http.Events.Uncategorized.Uncategorized;
   const keywords = fc.sample(KeywordArb, 5);
@@ -99,6 +100,34 @@ describe("Create Event", () => {
   test.todo("Should create an event with groups");
   test.todo("Should create an event with group members");
 
+  test(`Should create a ${Quote.QUOTE.value} event `, async () => {
+    const eventData = {
+      date: new Date().toISOString(),
+      draft: false,
+      type: Quote.QUOTE.value,
+      payload: {
+        quote: fc.sample(fc.string(), 1)[0],
+        actor: actors[0].id,
+      },
+      media: [],
+      keywords: [],
+      links: [],
+    };
+    const response = await appTest.req
+      .post(`/v1/events`)
+      .set("Authorization", authorizationToken)
+      .send(eventData);
+
+    const body = response.body.data;
+    const decodedBody = http.Events.Quote.Quote.decode(body);
+
+    expect(response.status).toEqual(201);
+
+    expect(decodedBody._tag).toEqual("Right");
+    event = response.body.data;
+    eventIds.push(event.id);
+  });
+
   afterAll(async () => {
     const keywords = await pipe(
       appTest.ctx.db.find(EventV2Entity, {
@@ -119,7 +148,14 @@ describe("Create Event", () => {
     );
 
     await throwTE(appTest.ctx.db.delete(EventV2Entity, eventIds));
-    await throwTE(appTest.ctx.db.delete(ActorEntity, actorIds));
-    await throwTE(appTest.ctx.db.delete(KeywordEntity, keywords));
+    await throwTE(
+      appTest.ctx.db.delete(
+        ActorEntity,
+        actors.map((a) => a.id)
+      )
+    );
+    if (keywords.length) {
+      await throwTE(appTest.ctx.db.delete(KeywordEntity, keywords));
+    }
   });
 });

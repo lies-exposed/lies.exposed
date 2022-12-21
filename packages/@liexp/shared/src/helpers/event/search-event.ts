@@ -10,16 +10,8 @@ import {
   Keyword,
   Media,
 } from "../../io/http";
+import { EventTotals } from '../../io/http/Events/SearchEventsQuery';
 import { EventRelationIds, getRelationIds } from "../event";
-
-export interface EventTotals {
-  uncategorized: number;
-  deaths: number;
-  scientificStudies: number;
-  patents: number;
-  documentaries: number;
-  transactions: number;
-}
 
 export interface SearchEventsQueryCache {
   events: Events.SearchEvent.SearchEvent[];
@@ -213,7 +205,20 @@ const toSearchEvent = (
       );
 
       switch (e.type) {
-        case Events.EventType.types[0].value: {
+        case Events.Quote.QUOTE.value: {
+          return acc.concat([
+            {
+              ...e,
+              payload: {
+                ...e.payload,
+                actor: actors[0],
+              },
+              media,
+              keywords,
+            },
+          ]);
+        }
+        case Events.Death.DEATH.value: {
           return acc.concat([
             {
               ...e,

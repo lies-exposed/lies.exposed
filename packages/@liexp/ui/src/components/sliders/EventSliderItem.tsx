@@ -215,6 +215,17 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
   ...props
 }) => {
   switch (e.type) {
+    case Events.Quote.QUOTE.value: {
+      return (
+        <EventSliderItemBase
+          {...props}
+          {...e}
+          title="Quote"
+          actors={[e.payload.actor]}
+          groups={[]}
+        />
+      );
+    }
     case Events.Transaction.TRANSACTION.value: {
       const actors = e.payload.from.type === "Actor" ? [e.payload.from.id] : [];
       const groups = e.payload.from.type === "Group" ? [e.payload.from.id] : [];

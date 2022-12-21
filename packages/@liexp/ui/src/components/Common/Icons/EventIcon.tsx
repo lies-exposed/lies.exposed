@@ -1,26 +1,30 @@
-import { FontAwesomeIcon, FontAwesomeIconProps } from "@fortawesome/react-fontawesome";
+import {
+  FontAwesomeIcon,
+  FontAwesomeIconProps,
+} from "@fortawesome/react-fontawesome";
 import {
   Death,
   Documentary,
   Event,
   Patent,
+  Quote,
   ScientificStudy,
   Transaction,
   Uncategorized,
 } from "@liexp/shared/io/http/Events";
 import * as React from "react";
-import { styled } from '../../../theme';
+import { styled } from "../../../theme";
 
-const PREFIX = 'EventTypeColor';
+const PREFIX = "EventTypeColor";
 
 const classes = {
-  fontAwesome: `${PREFIX}-fontAwesome`
+  fontAwesome: `${PREFIX}-fontAwesome`,
 };
 
-const Root = styled('text')(() => ({
+const Root = styled("text")(() => ({
   [`&.${classes.fontAwesome}`]: {
     fontFamily: "Font Awesome 6 Free",
-  }
+  },
 }));
 
 export const EventTypeColor = {
@@ -30,17 +34,27 @@ export const EventTypeColor = {
   [Patent.PATENT.value]: "#BE259E",
   [Documentary.DOCUMENTARY.value]: "#2538BE",
   [Transaction.TRANSACTION.value]: "#2DBE25",
+  [Quote.QUOTE.value]: "#451ade",
 };
 
 const ScientificStudyIcon = ["flask", "f0c3"];
 const PatentIcon = ["barcode", "f02a"];
 
-interface EventIconProps extends Omit<FontAwesomeIconProps, 'icon'> {
+interface EventIconProps extends Omit<FontAwesomeIconProps, "icon"> {
   type: Event["type"];
 }
 
 export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
   switch (type) {
+    case Quote.QUOTE.value:
+      return (
+        <FontAwesomeIcon
+          {...props}
+          mask={undefined}
+          icon={"quote-left"}
+          style={{ ...props.style, color: EventTypeColor.Quote }}
+        />
+      );
     case ScientificStudy.SCIENTIFIC_STUDY.value:
       return (
         <FontAwesomeIcon
@@ -104,7 +118,6 @@ export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
 export const EventIconInSVG: React.FC<
   EventIconProps & React.SVGProps<SVGTextElement>
 > = ({ type, ...props }) => {
-
   const unicode = React.useMemo(() => {
     switch (type) {
       case ScientificStudy.SCIENTIFIC_STUDY.value: {

@@ -1,19 +1,23 @@
 import { apiProvider, authProvider } from "@liexp/ui/client/api";
-import { ArticleCreate, ArticleEdit, ArticleList } from "@liexp/ui/components/admin/AdminArticles";
+import {
+  ArticleCreate,
+  ArticleEdit,
+  ArticleList,
+} from "@liexp/ui/components/admin/AdminArticles";
 import {
   EventSuggestionEdit,
-  EventSuggestionList
+  EventSuggestionList,
 } from "@liexp/ui/components/admin/events/suggestions/AdminEventSuggestion";
 import englishMessages from "@liexp/ui/i18n/en-US";
 import {
   LinkCreate,
   LinkEdit,
-  LinkList
+  LinkList,
 } from "@liexp/ui/src/components/admin/AdminLinks";
 import {
   MediaCreate,
   MediaEdit,
-  MediaList
+  MediaList,
 } from "@liexp/ui/src/components/admin/AdminMedia";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import EventIcon from "@mui/icons-material/Event";
@@ -33,7 +37,7 @@ import { EventEdit, EventList } from "./pages/AdminEvents";
 import {
   GroupMemberCreate,
   GroupMemberEdit,
-  GroupMemberList
+  GroupMemberList,
 } from "./pages/AdminGroupMember";
 import { GroupCreate, GroupEdit, GroupList } from "./pages/AdminGroups";
 import { KeywordCreate, KeywordEdit, KeywordList } from "./pages/AdminKeyword";
@@ -42,27 +46,32 @@ import { PageCreate, PageEdit, PageList } from "./pages/Pages";
 import {
   DeathCreate,
   DeathEdit,
-  DeathList
+  DeathList,
 } from "./pages/events/AdminDeathEvent";
 import {
   DocumentaryCreate,
   DocumentaryEdit,
-  DocumentaryList
+  DocumentaryList,
 } from "./pages/events/AdminDocumentaryEvent";
 import {
   PatentCreate,
   PatentEdit,
-  PatentList
+  PatentList,
 } from "./pages/events/AdminPatentEvent";
+import {
+  QuoteCreate,
+  QuoteEdit,
+  QuoteList,
+} from "./pages/events/AdminQuoteEvent";
 import {
   ScientificStudiesList,
   ScientificStudyCreate,
-  ScientificStudyEdit
+  ScientificStudyEdit,
 } from "./pages/events/AdminScientificStudyEvent";
 import {
   TransactionCreate,
   TransactionEdit,
-  TransactionList
+  TransactionList,
 } from "./pages/events/AdminTransactionEvent";
 import { UncategorizedEventCreate } from "./pages/events/AdminUncategorizedEvent";
 import { adminThemeOptions } from "./theme";
@@ -183,6 +192,13 @@ const AdminPage: React.FC = () => {
         list={TransactionList}
         edit={TransactionEdit}
         create={TransactionCreate}
+      />
+
+      <Resource
+        name="quotes"
+        list={QuoteList}
+        edit={QuoteEdit}
+        create={QuoteCreate}
       />
       <Resource
         name="links"

@@ -1,10 +1,8 @@
 import { Events } from "@liexp/shared/io/http";
-import {
-  getTextContentsCapped,
-  isValidValue
-} from "@liexp/shared/slate";
+import { getTextContentsCapped, isValidValue } from "@liexp/shared/slate";
 import { formatDate } from "@liexp/shared/utils/date";
 import * as React from "react";
+import { getTitleForSearchEvent } from "../../../helpers/event.helper";
 import { EventIcon } from "../../Common/Icons";
 import KeywordList from "../../lists/KeywordList";
 import {
@@ -30,8 +28,8 @@ const CreateEventCard: React.FC<EventCardProps> = ({
   ...props
 }) => {
   const { keywords } = event;
-  const title =
-    event.type === Events.Death.DEATH.value ? `Death` : event.payload.title;
+  const title = getTitleForSearchEvent(event);
+
   const image = "";
 
   return (
