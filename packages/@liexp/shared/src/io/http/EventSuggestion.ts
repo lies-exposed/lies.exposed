@@ -8,8 +8,9 @@ import {
   Documentary,
   Event,
   Patent,
+  Quote,
   ScientificStudy,
-  Uncategorized
+  Uncategorized,
 } from "./Events";
 
 const EventSuggestionNewType = t.literal("New");
@@ -49,10 +50,10 @@ const UpdateEventSuggestion = t.type(
   {
     type: EventSuggestionUpdateType,
     eventId: UUID,
-    event: t.intersection([
-      Event,
-      t.strict({ newLinks: EventSuggestionLinks }),
-    ], 'Event'),
+    event: t.intersection(
+      [Event, t.strict({ newLinks: EventSuggestionLinks })],
+      "Event"
+    ),
   },
   "UpdateEventSuggestion"
 );
@@ -89,6 +90,13 @@ const NewDocumentaryEvent = t.strict(
   },
   "NewDocumentaryEvent"
 );
+const NewQuoteEvent = t.strict(
+  {
+    ...propsOmit(Quote.Quote, ["id", "createdAt", "updatedAt"]),
+    newLinks: EventSuggestionLinks,
+  },
+  "NewQuoteEvent"
+);
 
 const NewUncategorizedEvent = t.strict(
   {
@@ -108,6 +116,7 @@ export const NewEventSuggestion = t.strict(
         NewPatentEvent,
         NewUncategorizedEvent,
         NewDocumentaryEvent,
+        NewQuoteEvent,
       ],
       "Event"
     ),
@@ -120,16 +129,19 @@ export const CreateEventSuggestion = t.union(
   [UpdateEventSuggestion, NewEventSuggestion],
   "EventSuggestion"
 );
-export type CreateEventSuggestion = t.TypeOf<typeof CreateEventSuggestion>
+export type CreateEventSuggestion = t.TypeOf<typeof CreateEventSuggestion>;
 
 export const EventSuggestion = t.intersection(
   [
-    t.strict({
-      id: UUID,
-      creator: t.union([ UUID, t.undefined]),
-      createdAt: DateFromISOString,
-      updatedAt: DateFromISOString,
-    }, 'EventSuggestionBase'),
+    t.strict(
+      {
+        id: UUID,
+        creator: t.union([UUID, t.undefined]),
+        createdAt: DateFromISOString,
+        updatedAt: DateFromISOString,
+      },
+      "EventSuggestionBase"
+    ),
     CreateEventSuggestion,
   ],
   "EventSuggestion"

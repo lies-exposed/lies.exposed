@@ -38,7 +38,10 @@ const EventCard: React.FC<EventCardProps> = ({
   const title =
     event.type === Events.Death.DEATH.value
       ? `Death ${event.payload.victim?.fullName}`
+      : event.type === Events.Quote.QUOTE.value
+      ? `Quote by ${event.payload.actor.fullName}`
       : event.payload.title;
+
   const image =
     event.type === Events.Death.DEATH.value
       ? event.payload.victim?.avatar

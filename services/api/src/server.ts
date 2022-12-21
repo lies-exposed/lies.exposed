@@ -28,7 +28,7 @@ import { upsertPinnedMessage } from "@flows/tg/upsertPinnedMessage.flow";
 import {
   ControllerError,
   DecodeError,
-  toControllerError
+  toControllerError,
 } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
 import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.routes";
@@ -39,6 +39,7 @@ import { MakeDeathEventsRoutes } from "@routes/events/deaths/death.routes";
 import { MakeDocumentaryReleaseRoutes } from "@routes/events/documentary/documentary.routes";
 import { MakeEventRoutes } from "@routes/events/event.routes";
 import { MakePatentEventsRoutes } from "@routes/events/patents/patent.routes";
+import { MakeQuoteRoutes } from "@routes/events/quotes/quote.routes";
 import { MakeScientificStudyRoutes } from "@routes/events/scientific-study/ScientificStudyRoute.route";
 import { MakeTransactionEventsRoutes } from "@routes/events/transactions/transaction.routes";
 import { MakeGraphsRoute } from "@routes/graphs/getGraph.controller";
@@ -212,6 +213,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   MakePatentEventsRoutes(router, ctx);
   MakeDocumentaryReleaseRoutes(router, ctx);
   MakeTransactionEventsRoutes(router, ctx);
+  MakeQuoteRoutes(router, ctx);
 
   // links
   MakeLinkRoutes(router, ctx);
@@ -269,7 +271,12 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   app.use(function (err: any, req: any, res: any, next: any) {
     // eslint-disable-next-line no-console
     try {
-      ctx.logger.error.log("An error occurred %O", err);
+      ctx.logger.error.log(
+        "An error occurred during %s %s %O",
+        req.method,
+        req.url,
+        err
+      );
       if (err) {
         if (err.details?.kind === "DecodingError") {
           const errors = PathReporter.report(E.left(err.details.errors));
@@ -306,7 +313,9 @@ export const makeApp = (ctx: RouteContext): express.Express => {
       return res.status(err.status ?? 500).send(err);
     } catch (e) {
       ctx.logger.error.log(
-        `An error occurred %O`,
+        `An error occurred during %s %s: %O`,
+        req.method,
+        req.url,
         JSON.stringify(err, null, 2)
       );
       return res.status(500).send(err);

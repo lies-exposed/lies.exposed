@@ -1,27 +1,22 @@
-import { getRelationIds } from "@liexp/shared/helpers/event";
 import * as http from "@liexp/shared/io/http";
-import { UUID } from "@liexp/shared/io/http/Common";
+import { Quote } from "@liexp/shared/io/http/Events";
 import { getTextContentsCapped, isValidValue } from "@liexp/shared/slate";
-import { formatDateToShort, parseISO } from "@liexp/shared/utils/date";
+import { formatDateToShort } from "@liexp/shared/utils/date";
 import * as React from "react";
 import { getEventCommonProps } from "../helpers/event.helper";
-import {
-  useActorsQuery,
-  useAreasQuery,
-  useMediaQuery,
-} from "../state/queries/DiscreteQueries";
 import { useTheme } from "../theme";
 import EditButton from "./Common/Button/EditButton";
 import { ShareButtons } from "./Common/Button/ShareButtons";
-import Editor from "./Common/Editor";
-import { GroupMembersBox } from "./GroupMembersBox";
-import { GroupsBox } from "./GroupsBox";
+import { GroupMembersList } from "./GroupMembersBox";
 import { KeywordsBox } from "./KeywordsBox";
 import { LinksBox } from "./LinksBox";
 import { MainContent } from "./MainContent";
-import QueriesRenderer from "./QueriesRenderer";
 import SEO from "./SEO";
+import { EventRelations } from "./events/EventRelations";
+import { DefaultEventPageContent } from "./events/page-content/DefaultEventPageContent";
+import { QuoteEventPageContent } from "./events/page-content/QuoteEventPageContent";
 import { ActorList } from "./lists/ActorList";
+import GroupList from "./lists/GroupList";
 import {
   Box,
   Grid,
@@ -29,18 +24,17 @@ import {
   Typography,
   useMediaQuery as useMuiMediaQuery,
 } from "./mui";
-import { MediaSlider } from "./sliders/MediaSlider";
 
 export interface EventPageContentProps {
   event: http.Events.Event;
   onDateClick: (d: Date) => void;
   onActorClick: (a: http.Actor.Actor) => void;
   onGroupClick: (a: http.Group.Group) => void;
-  onMediaClick: (m: http.Media.Media) => void
-  onGroupMemberClick: (g: http.GroupMember.GroupMember) => void;
+  onMediaClick: (m: http.Media.Media) => void;
   onLinkClick: (a: http.Link.Link) => void;
   onKeywordClick: (a: http.Keyword.Keyword) => void;
   onAreaClick: (a: http.Area.Area) => void;
+  onGroupMemberClick: (g: http.GroupMember.GroupMember) => void;
 }
 
 export const EventPageContent: React.FC<EventPageContentProps> = ({
@@ -52,61 +46,14 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
   onKeywordClick,
   onLinkClick,
   onAreaClick,
-  onMediaClick
+  onMediaClick,
 }) => {
   const theme = useTheme();
-  const { actors, groups, groupsMembers, media } = getRelationIds(event);
-
   const isDownSM = useMuiMediaQuery(theme.breakpoints.down("md"));
-
-  const date =
-    typeof event.date === "string" ? parseISO(event.date as any) : event.date;
-
+  const { date } = event;
   return (
-    <QueriesRenderer
-      queries={{
-        actors: useActorsQuery(
-          {
-            filter: { ids: actors },
-            pagination: {
-              perPage: actors.length,
-              page: 1,
-            },
-          },
-          true
-        ),
-        media: useMediaQuery(
-          {
-            filter: { ids: media },
-            pagination: {
-              perPage: media.length,
-              page: 1,
-            },
-            sort: {
-              field: "createdAt",
-              order: "DESC",
-            },
-          },
-          true
-        ),
-        area: useAreasQuery(
-          {
-            filter: UUID.is((event.payload as any).location)
-              ? { ids: [(event.payload as any).location] }
-              : {},
-            pagination: {
-              perPage: 1,
-              page: 1,
-            },
-          },
-          true
-        ),
-      }}
-      render={({
-        actors: { data: actors },
-        media: { data: media },
-        area: { data: area },
-      }) => {
+    <EventRelations event={event}>
+      {({ actors, groups, groupsMembers, media, areas }) => {
         const { title, url } = getEventCommonProps(event, {
           actors,
           groups: [],
@@ -119,6 +66,17 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
           media[0]?.thumbnail ??
           media[0]?.location ??
           `${process.env.PUBLIC_URL}/liexp-logo.png`;
+
+        const eventPageContent =
+          event.type === Quote.QUOTE.value ? (
+            <QuoteEventPageContent event={event} actor={actors[0]} />
+          ) : (
+            <DefaultEventPageContent
+              event={event}
+              media={media}
+              onMediaClick={onMediaClick}
+            />
+          );
 
         return (
           <MainContent className="event-page-content">
@@ -177,8 +135,8 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                         ))}
                     </Box>
 
-                    <GroupsBox
-                      ids={groups}
+                    <GroupList
+                      groups={groups.map((g) => ({ ...g, selected: true }))}
                       style={{
                         display: "flex",
                         flexDirection: isDownSM ? "row" : "row-reverse",
@@ -197,8 +155,8 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                       onActorClick={onActorClick}
                     />
 
-                    <GroupMembersBox
-                      ids={groupsMembers}
+                    <GroupMembersList
+                      groupsMembers={groupsMembers}
                       style={{
                         display: "flex",
                         flexDirection: isDownSM ? "row" : "row-reverse",
@@ -253,51 +211,16 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                         />
                         <Box
                           onClick={() => {
-                            onAreaClick(area[0]);
+                            onAreaClick(areas[0]);
                           }}
                         >
-                          {area.length === 1 ? (
-                            <span>{area[0].label}</span>
+                          {areas.length === 1 ? (
+                            <span>{areas[0].label}</span>
                           ) : null}
                         </Box>
                       </Box>
                     </Box>
-
-                    <Grid container>
-                      <Grid
-                        item
-                        lg={12}
-                        md={12}
-                        xs={12}
-                        style={{
-                          alignContent: "flex-start",
-                          marginBottom: theme.spacing(5),
-                        }}
-                      >
-                        {media.length > 0 ? (
-                          <MediaSlider
-                            data={media}
-                            onClick={onMediaClick}
-                            itemStyle={{
-                              maxWidth: 800,
-                              maxHeight: 400,
-                              margin: "auto",
-                            }}
-                          />
-                        ) : null}
-                      </Grid>
-                    </Grid>
-
-                    {isValidValue(event.excerpt) ? (
-                      <Box style={{ marginBottom: theme.spacing(2) }}>
-                        <Editor value={event.excerpt} readOnly={true} />
-                      </Box>
-                    ) : null}
-                    {isValidValue(event.body) ? (
-                      <Box style={{ marginBottom: theme.spacing(2) }}>
-                        <Editor value={event.body} readOnly={true} />
-                      </Box>
-                    ) : null}
+                    {eventPageContent}
                   </Grid>
                 </Grid>
               </Grid>
@@ -317,6 +240,6 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
           </MainContent>
         );
       }}
-    />
+    </EventRelations>
   );
 };

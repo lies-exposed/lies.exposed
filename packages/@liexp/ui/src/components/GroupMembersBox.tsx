@@ -1,5 +1,4 @@
 import { GroupMember } from "@liexp/shared/io/http";
-import * as NEA from "fp-ts/NonEmptyArray";
 import * as React from "react";
 import { useGroupMembersQuery } from "../state/queries/DiscreteQueries";
 import QueriesRenderer from "./QueriesRenderer";
@@ -12,43 +11,25 @@ interface GroupMembersBoxProps {
   style?: React.CSSProperties;
 }
 
-const GroupMembersList: React.FC<{
-  ids: NEA.NonEmptyArray<string>;
+export const GroupMembersList: React.FC<{
+  groupsMembers: GroupMember.GroupMember[];
   onItemClick: (g: GroupMember.GroupMember) => void;
   style?: React.CSSProperties;
-}> = ({ ids, ...props }) => {
+}> = ({ groupsMembers, ...props }) => {
   return (
-    <QueriesRenderer
-      loader="default"
-      queries={{
-        groupsMembers: useGroupMembersQuery({
-          pagination: { page: 1, perPage: 10 },
-          sort: { field: "createdAt", order: "DESC" },
-          filter: {
-            ids,
-          },
-        }, false),
-      }}
-      render={({ groupsMembers: { data: groupsMembers } }) => {
-        // eslint-disable-next-line react/jsx-key
-        return (
-          <GroupsMembersList
-            {...props}
-            groupsMembers={groupsMembers.map((a) => ({
-              ...a,
-              selected: true,
-            }))}
-          />
-        );
-      }}
+    <GroupsMembersList
+      {...props}
+      groupsMembers={groupsMembers.map((a) => ({
+        ...a,
+        selected: true,
+      }))}
     />
   );
 };
 
 export const GroupMembersBox: React.FC<GroupMembersBoxProps> = ({
   ids,
-  style,
-  onItemClick,
+  ...props
 }) => {
   if (ids.length === 0) {
     return null;
@@ -56,11 +37,23 @@ export const GroupMembersBox: React.FC<GroupMembersBoxProps> = ({
 
   return (
     <Box>
-      <GroupMembersList
-        key="non-empty"
-        ids={ids as NEA.NonEmptyArray<string>}
-        style={style}
-        onItemClick={onItemClick}
+      <QueriesRenderer
+        loader="default"
+        queries={{
+          groupsMembers: useGroupMembersQuery(
+            {
+              pagination: { page: 1, perPage: 10 },
+              sort: { field: "createdAt", order: "DESC" },
+              filter: {
+                ids,
+              },
+            },
+            false
+          ),
+        }}
+        render={({ groupsMembers: { data: groupsMembers } }) => {
+          return <GroupMembersList {...props} groupsMembers={groupsMembers} />;
+        }}
       />
     </Box>
   );

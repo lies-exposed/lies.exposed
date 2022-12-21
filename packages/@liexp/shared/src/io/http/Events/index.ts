@@ -7,6 +7,7 @@ import * as Fined from "./Fined";
 import * as Patent from "./Patent";
 import * as Protest from "./Protest";
 import * as PublicAnnouncement from "./PublicAnnouncement";
+import * as Quote from "./Quote";
 import * as ScientificStudy from "./ScientificStudy";
 import * as SearchEvent from "./SearchEvent";
 import * as Transaction from "./Transaction";
@@ -29,6 +30,7 @@ export const EventMap: { [key in Event["type"]]: t.Mixed } = {
   Uncategorized: Uncategorized.Uncategorized,
   Documentary: Documentary.Documentary,
   Transaction: Transaction.Transaction,
+  Quote: Quote.Quote,
 };
 
 export const CreateEventBody = t.union(
@@ -39,6 +41,7 @@ export const CreateEventBody = t.union(
     Uncategorized.CreateEventBody,
     Documentary.CreateDocumentaryBody,
     Transaction.CreateTransactionBody,
+    Quote.CreateQuoteBody
   ],
   "CreateEventBody"
 );
@@ -53,6 +56,7 @@ export const EditEventBody = t.union(
     Uncategorized.EditEventBody,
     Documentary.EditDocumentaryBody,
     Transaction.EditTransactionBody,
+    Quote.EditQuoteBody
   ],
   "EditEventBody"
 );
@@ -81,6 +85,7 @@ export const EventType = t.union(
     Patent.PATENT,
     Documentary.DOCUMENTARY,
     Transaction.TRANSACTION,
+    Quote.QUOTE,
   ],
   "EventType"
 );
@@ -94,12 +99,12 @@ export const Event = t.union(
     Patent.Patent,
     Documentary.Documentary,
     Transaction.Transaction,
+    Quote.Quote
   ],
   "EventV2"
 );
 
 export type Event = t.TypeOf<typeof Event>;
-
 
 export {
   Protest,
@@ -113,5 +118,6 @@ export {
   Patent,
   Documentary,
   Transaction,
+  Quote,
   SearchEvent,
 };

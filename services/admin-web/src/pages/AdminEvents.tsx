@@ -6,12 +6,6 @@ import {
   Documentary,
   ScientificStudy
 } from "@liexp/shared/io/http/Events";
-import { DEATH } from "@liexp/shared/io/http/Events/Death";
-import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
-import { PATENT } from "@liexp/shared/io/http/Events/Patent";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
-import { TRANSACTION } from "@liexp/shared/io/http/Events/Transaction";
-import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
 import { getTextContentsCapped } from "@liexp/shared/slate";
 import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
@@ -22,13 +16,13 @@ import ReferenceArrayGroupInput from "@liexp/ui/components/admin/common/Referenc
 import ReferenceArrayGroupMemberInput from "@liexp/ui/components/admin/common/ReferenceArrayGroupMemberInput";
 import ReferenceArrayKeywordInput from "@liexp/ui/components/admin/common/ReferenceArrayKeywordInput";
 import EventPreview from "@liexp/ui/components/admin/previews/EventPreview";
-import { DeathEventEditFormTab } from '@liexp/ui/components/admin/tabs/DeathEventEditFormTab';
-import { DocumentaryEditFormTab } from '@liexp/ui/components/admin/tabs/DocumentaryEditFormTab';
+import { DeathEventEditFormTab } from "@liexp/ui/components/admin/tabs/DeathEventEditFormTab";
+import { DocumentaryEditFormTab } from "@liexp/ui/components/admin/tabs/DocumentaryEditFormTab";
 import { EventGeneralTab } from "@liexp/ui/components/admin/tabs/EventGeneralTab";
 import { ReferenceLinkTab } from "@liexp/ui/components/admin/tabs/ReferenceLinkTab";
 import { ReferenceMediaTab } from "@liexp/ui/components/admin/tabs/ReferenceMediaTab";
-import { ScientificStudyEventEditTab } from '@liexp/ui/components/admin/tabs/ScientificStudyEventEditTab';
-import { UncategorizedEventEditTab } from '@liexp/ui/components/admin/tabs/UncategorizedEventEditTab';
+import { ScientificStudyEventEditTab } from "@liexp/ui/components/admin/tabs/ScientificStudyEventEditTab";
+import { UncategorizedEventEditTab } from "@liexp/ui/components/admin/tabs/UncategorizedEventEditTab";
 import { transformEvent } from "@liexp/ui/components/admin/transform.utils";
 import { Box, Typography } from "@liexp/ui/components/mui";
 import PinDropIcon from "@mui/icons-material/PinDrop";
@@ -53,22 +47,13 @@ import {
   useDataProvider,
   useRecordContext
 } from "react-admin";
-import {
-
-  DeathEventTitle
-} from "./events/AdminDeathEvent";
-import {
-  DocumentaryReleaseTitle
-} from "./events/AdminDocumentaryEvent";
+import { DeathEventTitle } from "./events/AdminDeathEvent";
+import { DocumentaryReleaseTitle } from "./events/AdminDocumentaryEvent";
 import { PatentEventTitle } from "./events/AdminPatentEvent";
-import {
-
-  ScientificStudyEventTitle
-} from "./events/AdminScientificStudyEvent";
+import { QuoteTitle } from "./events/AdminQuoteEvent";
+import { ScientificStudyEventTitle } from "./events/AdminScientificStudyEvent";
 import { TransactionTitle } from "./events/AdminTransactionEvent";
-import {
-  UncategorizedEventTitle
-} from "./events/AdminUncategorizedEvent";
+import { UncategorizedEventTitle } from "./events/AdminUncategorizedEvent";
 import { EventEditActions } from "./events/actions/EditEventActions";
 
 const RESOURCE = "events";
@@ -119,10 +104,12 @@ export const EventList: React.FC = () => (
   >
     <Datagrid
       rowClick={(_props, _id, record) => {
-        if (record.type === SCIENTIFIC_STUDY.value) {
+        if (
+          record.type === http.Events.ScientificStudy.SCIENTIFIC_STUDY.value
+        ) {
           return `/scientific-studies/${record.id}`;
         }
-        if (record.type === DEATH.value) {
+        if (record.type === http.Events.Death.DEATH.value) {
           return `/deaths/${record.id}`;
         }
         return `/events/${record.id}`;
@@ -197,11 +184,11 @@ export const EventList: React.FC = () => (
         label="groupsMembers"
         source="payload"
         render={(r: Record | undefined) => {
-          if (r?.type === "Uncategorized") {
+          if (r?.type === http.Events.Uncategorized.UNCATEGORIZED.value) {
             return r.payload.groupsMembers.length;
           }
 
-          if (r?.type === "ScientificStudy") {
+          if (r?.type === http.Events.ScientificStudy.SCIENTIFIC_STUDY.value) {
             return 0;
           }
 
@@ -237,18 +224,20 @@ export const EditTitle: React.FC = () => {
   const record = useRecordContext<http.Events.Event>();
   if (record) {
     switch (record.type) {
-      case UNCATEGORIZED.value:
+      case http.Events.Uncategorized.UNCATEGORIZED.value:
         return <UncategorizedEventTitle />;
-      case SCIENTIFIC_STUDY.value:
+      case http.Events.ScientificStudy.SCIENTIFIC_STUDY.value:
         return <ScientificStudyEventTitle />;
-      case DEATH.value:
+      case http.Events.Death.DEATH.value:
         return <DeathEventTitle />;
-      case PATENT.value:
+      case http.Events.Patent.PATENT.value:
         return <PatentEventTitle />;
-      case DOCUMENTARY.value:
+      case http.Events.Documentary.DOCUMENTARY.value:
         return <DocumentaryReleaseTitle />;
-      case TRANSACTION.value:
+      case http.Events.Transaction.TRANSACTION.value:
         return <TransactionTitle record={record} />;
+      case http.Events.Quote.QUOTE.value:
+        return <QuoteTitle />;
     }
   }
   return <span>No record</span>;

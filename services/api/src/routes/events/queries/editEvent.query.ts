@@ -46,6 +46,26 @@ export const editEventQuery =
         // };
 
         switch (input.type) {
+          case http.Events.Quote.QUOTE.value: {
+            const { excerpt, body, payload, date , draft } = input;
+            const baseProps = optionalsToUndefined({
+              excerpt,
+              body,
+              date,
+              draft
+            });
+            const event: EditEventEntity = {
+              ...storedEvent,
+              ...baseProps,
+              type: input.type,
+              payload: {
+                ...storedEvent.payload,
+                ...payload,
+              },
+              ...commonData,
+            };
+            return TE.right(event);
+          }
           case http.Events.Transaction.TRANSACTION.value: {
             const { excerpt, body, payload, date , draft } = input;
             const baseProps = optionalsToUndefined({

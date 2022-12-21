@@ -72,6 +72,7 @@ const args: Omit<EventsTimelineListProps, "ref"> = {
       patents: 0,
       documentaries: 0,
       transactions: 0,
+      quotes: 0,
     },
     total: 10,
   },

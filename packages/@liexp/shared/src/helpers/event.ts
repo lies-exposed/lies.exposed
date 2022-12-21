@@ -155,6 +155,7 @@ const colorMap: Record<Events.Event["type"], string> = {
   Patent: "purple",
   Documentary: "orange",
   Transaction: "green",
+  Quote: "brown",
 };
 export const getColorByEventType = ({
   type,
@@ -278,6 +279,14 @@ export const getRelationIds = (e: Events.Event): EventRelationIds => {
   };
 
   switch (e.type) {
+    case Events.Quote.QUOTE.value: {
+      return {
+        ...commonIds,
+        actors: [e.payload.actor],
+        groups: [],
+        groupsMembers: [],
+      };
+    }
     case Events.Death.DEATH.value: {
       return {
         ...commonIds,
@@ -411,6 +420,15 @@ export const getEventsMetadata = (e: SearchEvent): EventRelations => {
         ...commonIds,
         actors: e.payload.authors,
         groups: e.payload.publisher ? [e.payload.publisher] : [],
+        groupsMembers: [],
+      };
+    }
+
+    case Events.Quote.QUOTE.value: {
+      return {
+        ...commonIds,
+        actors: [e.payload.actor],
+        groups: [],
         groupsMembers: [],
       };
     }

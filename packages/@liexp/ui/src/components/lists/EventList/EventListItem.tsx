@@ -3,12 +3,13 @@ import {
   Events,
   Group,
   GroupMember,
-  Keyword
+  Keyword,
 } from "@liexp/shared/io/http";
 import * as React from "react";
 import { DeathListItem } from "./DeathListItem";
 import { DocumentaryListItem } from "./DocumentaryListItem";
 import PatentListItem from "./PatentListItem";
+import { QuoteListItem } from "./QuoteListItem";
 import { ScientificStudyListItem } from "./ScientificStudyListItem";
 import { TransactionListItem } from "./TransactionListItem";
 import { UncategorizedListItem } from "./UncategorizedListItem";
@@ -44,6 +45,9 @@ export const EventListItem: React.FC<EventListItemProps> = ({
     }
     case Events.Patent.PATENT.value: {
       return <PatentListItem item={e} {...props} />;
+    }
+    case Events.Quote.QUOTE.value: {
+      return <QuoteListItem {...props} item={e} />;
     }
     default:
       return <UncategorizedListItem item={e} {...props} />;

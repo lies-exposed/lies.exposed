@@ -3,6 +3,7 @@ import { fab, faGithub, faPaypal, faTelegram } from "@fortawesome/free-brands-sv
 import { faEdit, faBarcode, faLink, faFilm, faMoneyBill1Wave, faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { faCircleDollarToSlot } from "@fortawesome/free-solid-svg-icons/faCircleDollarToSlot";
 import { faFlask } from "@fortawesome/free-solid-svg-icons/faFlask";
+import {faQuoteLeft} from '@fortawesome/free-solid-svg-icons/faQuoteLeft'
 import { faSkullCrossbones } from "@fortawesome/free-solid-svg-icons/faSkullCrossbones";
 
 library.add(
@@ -15,6 +16,7 @@ library.add(
     // solid
     faCalendar,
     faFlask,
+    faQuoteLeft,
     faCircleDollarToSlot,
     faSkullCrossbones,
     faEdit,

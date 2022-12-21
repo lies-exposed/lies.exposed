@@ -1,4 +1,4 @@
-import { EventType } from "@liexp/shared/io/http/Events";
+import { Death, EventType, Quote } from "@liexp/shared/io/http/Events";
 import { Loader } from "@liexp/ui/components/Common/Loader";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import EventTimelineItem, {
@@ -47,10 +47,10 @@ const Template: Story<EventTimelineItemStoryProps> = ({ type, ...props }) => {
   );
 };
 
-const EventsTimelineListItemExample = Template.bind({});
+const DeathEventTimelineListItem = Template.bind({});
 
-const args: Omit<EventTimelineItemStoryProps, "event"> = {
-  type: "Death",
+DeathEventTimelineListItem.args = {
+  type: Death.DEATH.value,
   isLast: false,
   onActorClick: () => {},
   onGroupClick() {},
@@ -61,6 +61,10 @@ const args: Omit<EventTimelineItemStoryProps, "event"> = {
   onLoad: () => {},
 };
 
-EventsTimelineListItemExample.args = args;
+const QuoteEventTimelineListItem = Template.bind({});
+QuoteEventTimelineListItem.args = {
+  type: Quote.QUOTE.value,
+  isLast: false,
+};
 
-export { EventsTimelineListItemExample as EventsTimelineListItem };
+export { DeathEventTimelineListItem, QuoteEventTimelineListItem };

@@ -3,7 +3,6 @@ import { ListEventOutput } from "@liexp/shared/endpoints/event.endpoints";
 import { EventRelationIds } from "@liexp/shared/helpers/event";
 import {
   getNewRelationIds,
-  EventTotals,
   updateCache,
   SearchEventsQueryCache,
 } from "@liexp/shared/helpers/event/search-event";
@@ -15,7 +14,7 @@ import {
   Keyword,
   Media,
 } from "@liexp/shared/io/http";
-import { GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
+import { EventTotals, GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import { APIError } from "@liexp/shared/providers/http/http.provider";
 import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";

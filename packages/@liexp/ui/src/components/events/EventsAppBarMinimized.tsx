@@ -4,13 +4,15 @@ import {
   Documentary,
   EventType,
   Patent,
+  Quote,
   ScientificStudy,
   Transaction,
-  Uncategorized,
+  Uncategorized
 } from "@liexp/shared/io/http/Events";
 import { DEATH } from "@liexp/shared/io/http/Events/Death";
 import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
 import { PATENT } from "@liexp/shared/io/http/Events/Patent";
+import { QUOTE } from "@liexp/shared/io/http/Events/Quote";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
 import { EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import { TRANSACTION } from "@liexp/shared/io/http/Events/Transaction";
@@ -56,7 +58,6 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
   onQueryClear,
   totals,
 }) => {
-
   const filters = React.useMemo(() => {
     if (!query.type) {
       return {
@@ -66,6 +67,7 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
         [Patent.PATENT.value]: true,
         [Documentary.DOCUMENTARY.value]: true,
         [Transaction.TRANSACTION.value]: true,
+        [Quote.QUOTE.value]: true,
       };
     }
     return {
@@ -83,6 +85,7 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
       [Transaction.TRANSACTION.value]: !!query.type?.includes(
         Transaction.TRANSACTION.value
       ),
+      [Quote.QUOTE.value]: !!query.type?.includes(Quote.QUOTE.value),
     };
   }, [query.type]);
 
@@ -93,6 +96,7 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
     patents: filters.Patent,
     scientificStudies: filters.ScientificStudy,
     deaths: filters.Death,
+    quotes: filters.Quote,
   });
 
   const handleFilterChange = React.useCallback(
@@ -115,6 +119,7 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
             [Uncategorized.UNCATEGORIZED.value]: false,
             [Death.DEATH.value]: false,
             [ScientificStudy.SCIENTIFIC_STUDY.value]: false,
+            [Quote.QUOTE.value]: false,
             [filterK]: true,
           }
         : allDisabled
@@ -125,6 +130,7 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
             [Uncategorized.UNCATEGORIZED.value]: true,
             [Death.DEATH.value]: true,
             [ScientificStudy.SCIENTIFIC_STUDY.value]: true,
+            [Quote.QUOTE.value]: true,
           }
         : {
             ...filters,
@@ -138,6 +144,7 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
         [ff.Patent, PATENT.value],
         [ff.ScientificStudy, SCIENTIFIC_STUDY.value],
         [ff.Transaction, TRANSACTION.value],
+        [ff.Quote, QUOTE.value],
       ]
         .map(([enabled, key]: any[]) => (enabled ? key : undefined))
         .filter((a) => a !== undefined);
