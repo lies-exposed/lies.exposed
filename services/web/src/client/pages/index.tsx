@@ -12,7 +12,11 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
   const navigateTo = useNavigateToResource();
 
   return (
-    <Grid container style={{ width: "100%", justifyContent: "center" }} spacing={2}>
+    <Grid
+      container
+      style={{ width: "100%", justifyContent: "center" }}
+      spacing={2}
+    >
       <Grid item lg={10} md={12} xs={12}>
         <SEO title="lies.exposed" urlPath="/" />
         <PageContent path="index" />
@@ -29,7 +33,9 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
             _start: 0,
             _end: 6,
           }}
-          onEventClick={(e) => navigateTo.events({ id: e.id })}
+          onEventClick={(e) => {
+            navigateTo.events({ id: e.id });
+          }}
         />
       </Grid>
     </Grid>

@@ -57,9 +57,9 @@ const run = (): Promise<void> => {
           // );
           // ctx.logger.debug.log('Setup "download vaccine data task" (%s)', ctx.env.DOWNLOAD_VACCINE_DATA_CRON);
 
-          const server = app.listen(ctx.env.API_PORT, () =>
-            ctx.logger.info.log(`Server is listening ${ctx.env.API_PORT}`)
-          );
+          const server = app.listen(ctx.env.API_PORT, () => {
+            ctx.logger.info.log(`Server is listening ${ctx.env.API_PORT}`);
+          });
 
           process.on("SIGINT", () => {
             // eslint-disable-next-line no-console
@@ -74,12 +74,15 @@ const run = (): Promise<void> => {
               .stopPolling({})()
               // eslint-disable-next-line no-console
               .then(
-                (b) => serverLogger.debug.log(`TG bot polling stop`),
-                (e) =>
+                (b) => {
+                  serverLogger.debug.log(`TG bot polling stop`);
+                },
+                (e) => {
                   serverLogger.error.log(
                     `TG Bot error during polling stop %O`,
                     e
-                  )
+                  );
+                }
               );
             void ctx.db
               .close()()

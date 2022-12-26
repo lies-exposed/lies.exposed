@@ -54,7 +54,9 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
               onAreaClick={(a) => {
                 navigateTo.areas({ id: a.id });
               }}
-              onMediaClick={(m) => navigateTo.media({ id: m.id })}
+              onMediaClick={(m) => {
+                navigateTo.media({ id: m.id });
+              }}
             />
 
             <Grid container justifyContent="center">
@@ -68,7 +70,9 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
                       _end: 3,
                       exclude: [event.id],
                     }}
-                    onEventClick={(e) => navigateTo.events({ id: e.id })}
+                    onEventClick={(e) => {
+                      navigateTo.events({ id: e.id });
+                    }}
                   />
                 </Grid>
               ) : null}
@@ -82,7 +86,9 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
                       _end: 3,
                       exclude: [event.id],
                     }}
-                    onEventClick={(e) => navigateTo.events({ id: e.id })}
+                    onEventClick={(e) => {
+                      navigateTo.events({ id: e.id });
+                    }}
                   />
                 </Grid>
               ) : null}
@@ -96,7 +102,9 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
                       _end: 3,
                       exclude: [event.id],
                     }}
-                    onEventClick={(e) => navigateTo.events({ id: e.id })}
+                    onEventClick={(e) => {
+                      navigateTo.events({ id: e.id });
+                    }}
                   />
                 </Grid>
               ) : null}

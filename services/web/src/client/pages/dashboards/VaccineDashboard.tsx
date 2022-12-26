@@ -274,7 +274,7 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
                 <Tabs
                   value={adrTab}
                   onChange={(e, v) => {
-                    void navigateTo.navigateTo("/dashboard/covid19-vaccines", {
+                   navigateTo.navigateTo("/dashboard/covid19-vaccines", {
                       adrTab: v,
                     });
                   }}

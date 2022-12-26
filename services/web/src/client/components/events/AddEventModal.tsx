@@ -14,9 +14,9 @@ import {
   Grid,
   IconButton,
   Input,
-  Typography
+  Typography,
 } from "@liexp/ui/components/mui";
-import { useTheme } from '@liexp/ui/theme';
+import { useTheme } from "@liexp/ui/theme";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import * as O from "fp-ts/Option";
 import * as React from "react";
@@ -25,7 +25,9 @@ import { createEventSuggestion, getURLMetadata } from "../../state/commands";
 interface EventSuggestionsListProps {
   suggestions: http.EventSuggestion.CreateEventSuggestion[];
   selected?: http.EventSuggestion.CreateEventSuggestion & { id: string };
-  onSelect: (e: http.EventSuggestion.CreateEventSuggestion & { id: string }) => void;
+  onSelect: (
+    e: http.EventSuggestion.CreateEventSuggestion & { id: string }
+  ) => void;
 }
 
 const EventSuggestionsList: React.FC<EventSuggestionsListProps> = ({
@@ -85,7 +87,7 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
 
   const handleSubmit = (): void => {
     if (selectedSuggestion) {
-      void createEventSuggestionM.mutate(selectedSuggestion, {
+      createEventSuggestionM.mutate(selectedSuggestion, {
         onSuccess: () => {
           setOpen(false);
           setUrl({
@@ -97,7 +99,7 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
         },
       });
     } else {
-      void getURLMetadataM.mutate(
+      getURLMetadataM.mutate(
         {
           url: url.value,
         },
@@ -159,14 +161,14 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
             type="url"
             value={url.value}
             placeholder="http://my.url/..."
-            onChange={(e) =>
+            onChange={(e) => {
               setUrl({
                 value: e.target.value,
                 submitted: "",
                 suggestions: [],
                 events: [],
-              })
-            }
+              });
+            }}
           />
           <Box marginTop={2} marginBottom={2}>
             {url.submitted !== "" ? (

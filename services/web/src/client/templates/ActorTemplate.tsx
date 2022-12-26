@@ -43,8 +43,8 @@ const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
               <ActorPageContent
                 actor={actor}
                 groups={groups}
-                onGroupClick={(g) => navigateToResource.groups({ id: g.id })}
-                onActorClick={(a) => navigateToResource.actors({ id: a.id })}
+                onGroupClick={(g) => {navigateToResource.groups({ id: g.id })}}
+                onActorClick={(a) => {navigateToResource.actors({ id: a.id })}}
                 hierarchicalGraph={{
                   onNodeClick: (n) => {
                     navigateToResource.events(
