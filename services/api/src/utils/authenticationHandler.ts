@@ -111,10 +111,12 @@ export const authenticationHandler: (
   const headerKeys = Object.keys(req.headers);
   ctx.logger.debug.log(`Checking headers %O for authorization`, headerKeys);
 
-  return pipe(
+  pipe(
     decodeUserFromHeaders(ctx)(req.headers, routePerms),
     IOE.fold(
-      (e) => () => next(e),
+      (e) => () => {
+        next(e);
+      },
       (user) => () => {
         ctx.logger.debug.log("Calling next handler with user %s", user.id);
         req.user = user;

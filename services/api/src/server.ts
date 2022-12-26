@@ -262,7 +262,9 @@ export const makeApp = (ctx: RouteContext): express.Express => {
           reply_to_message_id: msg.message_id,
         });
       },
-      (e) => tgLogger.error.log("Error %O", e)
+      (e) => {
+        tgLogger.error.log("Error %O", e)
+      }
     );
   });
 
