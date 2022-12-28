@@ -66,7 +66,10 @@
     "@react-page/editor": "^5.2.0",
     "@react-page/plugins-slate": "^5.2.0",
     "@react-page/react-admin": "^5.2.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "react": "^18",
+    "react-admin": "^4",
+    "react-dom": "^18"
   },
   "lint-staged": {
     "**/*.(ts|tsx|js|jsx)": "eslint --fix",
