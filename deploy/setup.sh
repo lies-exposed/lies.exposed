@@ -2,7 +2,7 @@
 
 set -e -x
 
-export SSH_DOMAIN=alpha.api.lies.exposed
+export SSH_DOMAIN=alpha.lies.exposed
 scp .env.alpha $SSH_DOMAIN:.env
 scp -r ./deploy/nginx $SSH_DOMAIN:/root/
 

@@ -3,6 +3,7 @@ name: Deploy Alpha
 on:
   push:
     branches:
+      - ci/deploy-alpha
       - release/alpha
 
 jobs:
@@ -27,77 +28,19 @@ jobs:
         # if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
 
-      # - name: API Deploy
-      #   env:
-      #     SSH_HOST: ${{ secrets.SSH_HOST }}
-      #     SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
-      #     SSH_KEY: ${{ secrets.SSH_KEY }}
-      #     REF: origin/release/alpha
-      #   run: yarn pm2 deploy ecosystem.config.js alpha
-
-
-      # - name: Build Packages
-      #   run: yarn packages:build
-
-      # - name: Build Storybook
-      #   run: yarn workspace storybook build
-
-      # - name: Upload Storybook to DO Space
-      #   env:
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.ALPHA_ACCESS_KEY_ID }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.ALPHA_SECRET_ACCESS_KEY }}
-      #   run: |
-      #     aws s3 sync ./services/storybook/build s3://econnessione-alpha/storybook \
-      #       --follow-symlinks \
-      #       --delete \
-      #       --endpoint https://fra1.digitaloceanspaces.com/ \
-      #       --acl public-read \
-      #       --region fra1
-
-      # - name: Build Admin Web
-      #   run: yarn workspace admin-web build
-      #   env:
-      #     NODE_ENV: production
-      #     PUBLIC_URL: https://alpha.lies.exposed/admin/
-      #     API_URL: https://alpha.api.lies.exposed/v1
-
-      # - name: Upload Admin Web build to DO Space
-      #   env:
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.ALPHA_ACCESS_KEY_ID }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.ALPHA_SECRET_ACCESS_KEY }}
-      #   run: |
-      #     aws s3 sync ./services/admin-web/build s3://econnessione-alpha/admin \
-      #       --follow-symlinks \
-      #       --delete \
-      #       --endpoint https://fra1.digitaloceanspaces.com/ \
-      #       --acl public-read \
-      #       --region fra1
-
-      - name: Build Web
+      - name: API Deploy
         env:
-          NODE_ENV: production
-          PUBLIC_URL: https://alpha.lies.exposed/web/
-          API_URL: https://alpha.api.lies.exposed/v1
-          ADMIN_URL: https://alpha.lies.exposed/admin
-        run: yarn web build:app-server
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          REF: origin/release/alpha
+        run: yarn pm2 deploy ecosystem.config.js alpha
 
 
-      # - name: Upload Web build to DO Space
-      #   env:
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.ALPHA_ACCESS_KEY_ID }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.ALPHA_SECRET_ACCESS_KEY }}
-      #   run: |
-      #     aws s3 sync ./services/web/build s3://econnessione-alpha/web \
-      #       --follow-symlinks \
-      #       --delete \
-      #       --endpoint https://fra1.digitaloceanspaces.com/ \
-      #       --acl public-read \
-      #       --region fra1
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.ALPHA_DO_ACCESS_TOKEN }}
 
-      # - name: Install doctl
-      #   uses: digitalocean/action-doctl@v2
-      #   with:
-      #     token: ${{ secrets.ALPHA_DO_ACCESS_TOKEN }}
-
-      # - name: Flush CDN
-      #   run: doctl compute cdn flush fbe4de1b-1ca5-46fd-bd75-c57d56b0e0b8
+      - name: Flush CDN
+        run: doctl compute cdn flush fbe4de1b-1ca5-46fd-bd75-c57d56b0e0b8
