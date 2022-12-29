@@ -11,7 +11,7 @@ import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import ReactRefreshTypescript from "react-refresh-typescript";
-import TerserPlugin from "terser-webpack-plugin";
+// import TerserPlugin from "terser-webpack-plugin";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import * as webpack from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
@@ -254,10 +254,10 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       minimize: true,
       minimizer: [
         new CssMinimizerPlugin(),
-        new TerserPlugin({
-          parallel: false,
-          extractComments: "all",
-        }),
+        // new TerserPlugin({
+        //   parallel: false,
+        //   extractComments: "all",
+        // }),
       ],
     };
   }
