@@ -3,6 +3,7 @@ import * as path from "path";
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import DotenvWebpackPlugin from "dotenv-webpack";
+import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import * as R from "fp-ts/Record";
 import { pipe } from "fp-ts/function";
 import * as S from "fp-ts/string";
@@ -11,7 +12,6 @@ import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import ReactRefreshTypescript from "react-refresh-typescript";
-// import TerserPlugin from "terser-webpack-plugin";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import * as webpack from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
@@ -135,6 +135,18 @@ const getConfig = <A extends Record<string, t.Mixed>>(
         silent: true,
       })
     );
+
+    plugins.push(
+      new ForkTsCheckerWebpackPlugin({
+        typescript: {
+          context: opts.cwd,
+          build: mode === "development",
+          configFile:
+            opts.tsConfigFile ?? path.resolve(opts.cwd, "tsconfig.json"),
+          mode: mode === "development" ? "write-references" : "readonly",
+        },
+      })
+    );
   }
 
   if (opts.hot && opts.target === "web" && mode === "development") {
@@ -204,7 +216,8 @@ const getConfig = <A extends Record<string, t.Mixed>>(
                 context: opts.cwd,
                 projectReferences: mode === "development",
                 transpileOnly: true,
-                configFile: opts.tsConfigFile ?? "tsconfig.json",
+                configFile:
+                  opts.tsConfigFile ?? path.resolve(opts.cwd, "tsconfig.json"),
                 getCustomTransformers: () => ({
                   before: [
                     mode === "development" &&
@@ -236,7 +249,12 @@ const getConfig = <A extends Record<string, t.Mixed>>(
 
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".jsx"],
-      plugins: [new TsconfigPathsPlugin({}) as any],
+      plugins: [
+        new TsconfigPathsPlugin({
+          configFile:
+            opts.tsConfigFile ?? path.resolve(opts.cwd, "tsconfig.json"),
+        }),
+      ],
       modules: ["node_modules", path.resolve(opts.cwd)],
     },
     plugins: plugins as any,

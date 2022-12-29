@@ -15,7 +15,7 @@ export const webOptimization: webpack.Configuration["optimization"] = {
   minimize: true,
   minimizer: [
     new TerserPlugin({
-      parallel: false,
+      parallel: 6,
       extractComments: "all",
     }),
   ],

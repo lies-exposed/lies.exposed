@@ -1,7 +1,7 @@
 import * as http from "@liexp/shared/io/http";
 import { Quote } from "@liexp/shared/io/http/Events";
 import { getTextContentsCapped, isValidValue } from "@liexp/shared/slate";
-import { formatDateToShort } from "@liexp/shared/utils/date";
+import { formatAnyDateToShort } from "@liexp/shared/utils/date";
 import * as React from "react";
 import { getEventCommonProps } from "../helpers/event.helper";
 import { useTheme } from "../theme";
@@ -22,7 +22,7 @@ import {
   Grid,
   Link,
   Typography,
-  useMediaQuery as useMuiMediaQuery,
+  useMediaQuery as useMuiMediaQuery
 } from "./mui";
 
 export interface EventPageContentProps {
@@ -118,7 +118,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                         onDateClick(date);
                       }}
                     >
-                      {formatDateToShort(date)
+                      {formatAnyDateToShort(date)
                         .split(" ")
                         .map((chunk, k) => (
                           <Typography

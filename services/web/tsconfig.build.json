@@ -33,7 +33,7 @@
       "@liexp/ui/*": ["../../../packages/@liexp/ui/src/*"]
     }
   },
-  "include": ["./src", "./typings", "./webpack.*.ts"],
+  "include": ["./src", "./typings"],
   "exclude": ["**/__tests__", "**/__specs__", "**/tests", "**/test"],
   "ts-node": {
     "require": ["tsconfig-paths/register"],

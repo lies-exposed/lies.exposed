@@ -16,6 +16,8 @@ COPY services/admin-web ./services/admin-web
 
 RUN yarn
 
+RUN yarn packages:build
+
 RUN NODE_ENV=production yarn admin-web build
 
 FROM node:16-slim as production

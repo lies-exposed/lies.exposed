@@ -17,6 +17,8 @@ COPY services/web ./services/web
 
 RUN yarn
 
+RUN yarn packages:build
+
 RUN NODE_ENV=production yarn web build
 
 FROM node:16-slim as production
