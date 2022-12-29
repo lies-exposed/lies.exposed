@@ -83,14 +83,6 @@ jobs:
       - name: Type Check Web
         run: yarn web tsc -b
 
-      - name: Build web
-        env:
-          NODE_ENV: production
-        run: |
-          yarn packages:build
-          yarn web build:app
-          yarn web build:server
-
       - name: Log in to registry
         # This is where you will update the personal access token to GITHUB_TOKEN
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
