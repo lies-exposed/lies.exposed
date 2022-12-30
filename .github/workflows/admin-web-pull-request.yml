@@ -7,6 +7,7 @@ on:
       - release/alpha
       - master
     paths:
+      - ".github/workflows/**"
       - "packages/**"
       - "services/admin-web/**"
 env:
@@ -17,15 +18,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: 16
           cache: "yarn"
           cache-dependency-path: yarn.lock
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
@@ -38,15 +39,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: [install]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: "16"
           cache: "yarn"
           cache-dependency-path: yarn.lock
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
@@ -59,20 +60,20 @@ jobs:
     needs: [install]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: "16"
           cache: "yarn"
           cache-dependency-path: yarn.lock
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: |
             packages/**/lib

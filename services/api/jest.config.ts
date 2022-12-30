@@ -36,7 +36,7 @@ const config: Config = {
     "^.+\\.(t|j)sx?$": ["@swc/jest"],
   },
   modulePaths: [compilerOptions.baseUrl], // <-- This will be set to 'baseUrl' value
-  moduleFileExtensions: ["js", "ts"],
+  moduleFileExtensions: ["js", "ts", "tsx"],
   moduleNameMapper,
   collectCoverageFrom: ["<rootDir>/src/**/*.ts"],
   coveragePathIgnorePatterns: jestBaseConfig.coveragePathIgnorePatterns.concat([
