@@ -23,6 +23,7 @@ export const toArticleIO = ({
             thumbnail: article.featuredImage.thumbnail ?? undefined,
             createdAt: article.featuredImage.createdAt.toISOString(),
             updatedAt: article.featuredImage.updatedAt.toISOString(),
+            keywords: [],
             events: [],
             links: [],
           }
