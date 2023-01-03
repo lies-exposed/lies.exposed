@@ -58,6 +58,7 @@ interface EventListItemBaseProps<E> {
   onLoad?: () => void;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 const EventListItemBase = <E extends any>({
   event,
   title,

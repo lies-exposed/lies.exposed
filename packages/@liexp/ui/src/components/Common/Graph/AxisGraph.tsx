@@ -37,6 +37,7 @@ export interface AxisGraphProps<D> {
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 export const AxisGraph = <D extends any>({
   id,
   data,

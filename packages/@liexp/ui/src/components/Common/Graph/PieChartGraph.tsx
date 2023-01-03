@@ -19,6 +19,7 @@ export interface PieProps<S> {
   animate?: boolean;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 export const PieChartGraph = <S extends any>({
   width,
   height,

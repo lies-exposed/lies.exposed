@@ -37,7 +37,7 @@ export type FetchQuery<FN extends (...args: any[]) => Promise<any>> = (
 ) => ReturnType<FN>;
 
 export const fetchQuery =
-  <P extends any, R extends any>(q: (p: P) => Promise<R>) =>
+  <P, R>(q: (p: P) => Promise<R>) =>
   async ({ queryKey }: any): Promise<R> => {
     const params = queryKey[1];
     const discrete = queryKey[2];

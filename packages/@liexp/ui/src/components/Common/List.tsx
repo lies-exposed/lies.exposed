@@ -21,6 +21,7 @@ export type ListProps<
   }
 >;
 
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 export const List = <A extends any, D extends React.ElementType<any> = "ul">({
   className,
   ListItem,
