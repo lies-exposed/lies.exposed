@@ -30,6 +30,9 @@ export interface EventsNetworkGraphProps {
   selectedKeywordIds?: string[];
   scale?: NetworkScale;
   onEventClick?: (e: SearchEvent) => void;
+  onActorClick?: (a: Actor.Actor) => void;
+  onGroupClick?: (g: Group.Group) => void;
+  onKeywordClick?: (k: Keyword.Keyword) => void;
   height: number;
   width: number;
 }
@@ -37,7 +40,10 @@ export interface EventsNetworkGraphProps {
 export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
   width,
   height,
+  onActorClick,
   onEventClick,
+  onGroupClick,
+  onKeywordClick,
   ...props
 }) => {
   // const [groupBy] = React.useState(props.groupBy);
@@ -73,7 +79,15 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
       linkSource={(l) => l.source}
       linkTarget={(l) => l.target}
       onClick={(m) => {
-        onEventClick?.(m);
+        if (m.type === ACTORS.value) {
+          onActorClick?.(m);
+        } else if (m.type === GROUPS.value) {
+          onGroupClick?.(m);
+        } else if (m.type === KEYWORDS.value) {
+          onKeywordClick?.(m);
+        } else {
+          onEventClick?.(m);
+        }
       }}
       nodeGroups={[ACTORS.value, KEYWORDS.value, GROUPS.value]}
       colors={colors}

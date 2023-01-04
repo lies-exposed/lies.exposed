@@ -60,15 +60,9 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
             <SplitPageTemplate
               tab={tab}
               onTabChange={onTabChange}
-              sidebar={() => {
+              sidebar={({ className }) => {
                 return (
-                  <Box
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "flex-end",
-                    }}
-                  >
+                  <Box className={className}>
                     {pipe(
                       fp.O.fromNullable(actor.avatar),
                       fp.O.fold(
@@ -141,6 +135,9 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                     emptyRelations: fp.O.none,
                   }}
                   selectedActorIds={[actor.id]}
+                  onActorClick={onActorClick}
+                  onGroupClick={onGroupClick}
+                  onKeywordClick={onKeywordClick}
                   onEventClick={onEventClick}
                 />
               </Box>

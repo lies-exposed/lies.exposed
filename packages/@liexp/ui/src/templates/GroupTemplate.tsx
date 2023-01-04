@@ -56,14 +56,9 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
             <SplitPageTemplate
               tab={tab}
               onTabChange={onTabChange}
-              sidebar={() => {
+              sidebar={({ className }) => {
                 return (
-                  <Box
-                    display="flex"
-                    flexDirection="column"
-                    alignItems="flex-end"
-                    justifyContent="flex-end"
-                  >
+                  <Box className={className}>
                     {pipe(
                       fp.O.fromNullable(group.avatar),
                       fp.O.fold(
@@ -153,6 +148,9 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                     groupBy: Group.GROUPS.value,
                     emptyRelations: fp.O.none,
                   }}
+                  onActorClick={onActorClick}
+                  onGroupClick={onGroupClick}
+                  onKeywordClick={onKeywordClick}
                   onEventClick={onEventClick}
                 />
               </Box>

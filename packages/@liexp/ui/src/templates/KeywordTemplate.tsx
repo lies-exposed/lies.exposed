@@ -34,18 +34,18 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
       queries={{ keyword: useKeywordQuery({ id: keywordId }) }}
       render={({ keyword }) => {
         return (
-          <Box display="flex" flexDirection="column" height="100%">
+          <Box
+            display="flex"
+            flexDirection="column"
+            height="100%"
+            style={{ paddingTop: 20 }}
+          >
             <SEO title={"keywords"} urlPath={`keywords/${keyword.tag}`} />
             <SplitPageTemplate
               tab={tab}
               onTabChange={onTabChange}
-              sidebar={() => (
-                <Box
-                  display="flex"
-                  flexDirection="row"
-                  alignItems="flex-end"
-                  justifyContent="flex-end"
-                >
+              sidebar={({ className }) => (
+                <Box className={className}>
                   <Typography
                     variant="h4"
                     color={keyword.color as any}
@@ -122,6 +122,7 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
                     groupBy: KEYWORDS.value,
                     emptyRelations: fp.O.none,
                   }}
+                  onKeywordClick={onKeywordClick}
                   onEventClick={onEventClick}
                 />
               </Box>
