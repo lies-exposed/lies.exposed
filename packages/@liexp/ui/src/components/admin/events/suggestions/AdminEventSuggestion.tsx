@@ -2,6 +2,7 @@ import { getTitle } from "@liexp/shared/helpers/event";
 import * as io from "@liexp/shared/io";
 import { EventSuggestionStatus } from "@liexp/shared/io/http/EventSuggestion";
 import { Documentary, Patent } from "@liexp/shared/io/http/Events";
+import { checkIsAdmin } from "@liexp/shared/utils/user.utils";
 import * as React from "react";
 import {
   BooleanInput,
@@ -26,7 +27,6 @@ import {
   useRecordContext,
   useRefresh,
 } from "react-admin";
-import { checkIsAdmin } from "../../../../utils/user.utils";
 import { EventIcon } from "../../../Common/Icons";
 import ReactPageInput from "../../../admin/ReactPageInput";
 import ReferenceArrayKeywordInput from "../../../admin/common/ReferenceArrayKeywordInput";

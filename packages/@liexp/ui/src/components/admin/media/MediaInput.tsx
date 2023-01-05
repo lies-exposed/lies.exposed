@@ -1,6 +1,12 @@
 import { MediaType } from "@liexp/shared/io/http/Media";
 import * as React from "react";
-import { FileInput, SelectInput, FormDataConsumer, InputProps } from "react-admin";
+import {
+  FileInput,
+  SelectInput,
+  FormDataConsumer,
+  InputProps,
+  TextInput,
+} from "react-admin";
 import { Box } from "../../mui";
 import { MediaField } from "./MediaField";
 
@@ -20,23 +26,36 @@ export const MediaInput: React.FC<MediaInputProps> = ({
 
   return (
     <Box>
-      <FileInput
-        {...props}
-        source={sourceLocation}
-        accept={types.map((a) => `.${a.split("/")[1]}`).join(",")}
-      >
-        <MediaField source={sourceType} />
-      </FileInput>
+      <SelectInput
+        source="_type"
+        defaultValue={"fromURL"}
+        choices={[
+          { name: "fromURL", id: "fromURL" },
+          {
+            name: "fromFile",
+            id: "fromFile",
+          },
+        ]}
+      />
       <FormDataConsumer>
         {({ formData, scopedFormData, getSource, ...rest }) => {
           const mediaType = formData[sourceLocation]?.rawFile?.type;
 
-          if (!mediaType) {
-            return null;
+          if (formData._type === "fromFile") {
+            return (
+              <FileInput
+                {...props}
+                source={sourceLocation}
+                accept={types.map((a) => `.${a.split("/")[1]}`).join(",")}
+              >
+                <MediaField source={sourceType} />
+              </FileInput>
+            );
           }
 
           return (
             <Box>
+              <TextInput source={sourceLocation} />
               <SelectInput
                 {...rest}
                 fullWidth

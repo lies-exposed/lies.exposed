@@ -1,4 +1,5 @@
 import { throwTE } from "@liexp/shared/utils/task.utils";
+import { checkIsAdmin } from "@liexp/shared/utils/user.utils";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
@@ -30,7 +31,6 @@ import {
   usePermissions,
 } from "react-admin";
 import { uploadImages } from "../../client/admin/MediaAPI";
-import { checkIsAdmin } from "../../utils/user.utils";
 import {Grid} from '../mui'
 import ReactPageInput from "./ReactPageInput";
 import { EditForm } from "./common/EditForm";

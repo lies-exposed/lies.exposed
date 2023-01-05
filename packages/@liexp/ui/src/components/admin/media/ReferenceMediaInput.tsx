@@ -32,6 +32,7 @@ const ReferenceMediaInput: React.FC<
   Omit<ReferenceInputProps, "children"> & {
     source: string;
     allowedTypes?: MediaType[];
+    fullWidth?: boolean;
   }
 > = ({ allowedTypes, ...props }) => {
   return (

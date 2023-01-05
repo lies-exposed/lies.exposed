@@ -1,4 +1,5 @@
 import * as io from "@liexp/shared/io";
+import { checkIsAdmin } from "@liexp/shared/utils/user.utils";
 import * as React from "react";
 import {
   AutocompleteArrayInput,
@@ -27,9 +28,8 @@ import {
   useGetIdentity,
   usePermissions,
   useRecordContext,
-  useRefresh,
+  useRefresh
 } from "react-admin";
-import { checkIsAdmin } from "../../utils/user.utils";
 import { Box, Toolbar } from "../mui";
 import { CreateEventFromLinkButton } from "./common/CreateEventFromLinkButton";
 import { EditForm } from "./common/EditForm";
@@ -201,10 +201,9 @@ export const LinkEdit: React.FC = () => {
           {isAdmin && <ReferenceUserInput source="creator" />}
 
           <DateInput source="publishDate" />
-          <ReferenceField source="image.id" reference="media">
-            <TextField source="location" />
-          </ReferenceField>
-          <MediaField source="image.location" type="image/jpeg" />
+          <MediaField source="image.thumbnail" sourceType="image/jpeg" />
+          <MediaField source="image.location" type="image.type" />
+           
           <OverrideThumbnail />
           <TextInput source="description" fullWidth multiline />
           <ReferenceGroupInput source="provider" />
