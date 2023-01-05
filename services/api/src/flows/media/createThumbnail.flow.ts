@@ -69,14 +69,14 @@ export const extractThumbnail = (
           });
         }
         case "rumble": {
-          const selector = 'script[type="application/ld+json"]';
+          const selector = "#player video[poster]";
           await page.waitForSelector(selector);
 
-          const rumbleState = await page.$eval(selector, (el) => {
-            return JSON.parse(el.innerHTML)[0];
+          const videoPosterSrc = await page.$eval(selector, (el) => {
+            return el.getAttribute("poster");
           });
 
-          return rumbleState.thumbnailUrl;
+          return videoPosterSrc;
         }
         default: {
           return undefined;

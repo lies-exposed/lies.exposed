@@ -16,8 +16,9 @@ export const ReferenceMediaDataGrid: React.FC<
       reference="media"
       sortBy="updatedAt"
       sortByOrder="DESC"
+      fullWidth={true}
     >
-      <Datagrid rowClick="edit">
+      <Datagrid rowClick="edit" width="100%">
         <TextField source="id" />
         <MediaField source="thumbnail" fullWidth={false} />
         <TextField source="description" />
