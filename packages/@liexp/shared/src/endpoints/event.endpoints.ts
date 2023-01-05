@@ -7,6 +7,7 @@ import {
   EventTotals,
   GetSearchEventsQuery,
 } from "../io/http/Events/SearchEventsQuery";
+import { ShareMessageBody } from "../io/http/ShareMessage";
 import { ResourceEndpoints } from "./types";
 
 const SingleEventOutput = http.Common.Output(http.Events.Event, "Event");
@@ -65,13 +66,7 @@ export const PostToPlatform = Endpoint({
   getPath: ({ id }) => `/events/${id}/share`,
   Input: {
     Params: t.type({ id: UUID }),
-    Body: t.type({
-      title: t.string,
-      date: t.string,
-      content: t.string,
-      media: t.string,
-      url: t.string,
-    }),
+    Body: ShareMessageBody,
   },
   Output: t.any,
 });
