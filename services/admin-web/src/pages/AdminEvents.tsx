@@ -278,7 +278,7 @@ export const EventEdit: React.FC = () => {
 
         <FormTab label="Media">
           <ImportMediaButton />
-          <ReferenceMediaTab source="media" />
+          <ReferenceMediaTab source="media" fullWidth />
         </FormTab>
         <FormTab label="Links">
           <ReferenceLinkTab source="links" />

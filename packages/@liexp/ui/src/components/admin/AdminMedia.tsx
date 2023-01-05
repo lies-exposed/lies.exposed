@@ -221,7 +221,7 @@ const transformMedia =
         ...media,
         events,
         links,
-        keywords
+        keywords,
       })),
       throwTE
     );
@@ -253,37 +253,78 @@ const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
   );
 };
 
-export const ThumbnailField: React.FC<FieldProps> = (props) => {
+export const ThumbnailEditField: React.FC<FieldProps> = (props) => {
   const [loaded, setLoaded] = React.useState(false);
 
   return (
-    <Box>
+    <Box style={{ display: "flex" }}>
       {!loaded ? (
-        <Box>
+        <Box style={{ display: "flex", flexDirection: "column" }}>
+          <Box
+            onClick={() => {
+              setLoaded(true);
+            }}
+          >
+            <MediaField {...props} source="thumbnail" type="image/jpg" />
+          </Box>
+          <GenerateThumbnailButton {...props} />
+        </Box>
+      ) : (
+        <Box style={{ display: "flex", flexDirection: "column" }}>
           <TextInput
             {...props}
             label="thumbnail"
             source="thumbnail"
             type={"url"}
           />
-          <Box
+          <MediaInput
+            {...props}
+            label="Location"
+            sourceLocation="thumbnail"
+            sourceType=""
+          />
+          <Button
             onClick={() => {
-              setLoaded(true);
+              setLoaded(false);
             }}
           >
-            <GenerateThumbnailButton {...props} />
-            <MediaField {...props} source="thumbnail" />
-          </Box>
+            Preview
+          </Button>
+        </Box>
+      )}
+    </Box>
+  );
+};
+
+export const MediaEditField: React.FC<FieldProps> = (props) => {
+  const [loaded, setLoaded] = React.useState(false);
+
+  return (
+    <Box>
+      {!loaded ? (
+        <Box
+          style={{ display: "flex", flexDirection: "column" }}
+          onClick={() => {
+            setLoaded(true);
+          }}
+        >
+          <MediaField {...props} source="location" label="Location" />
         </Box>
       ) : (
-        <Box>
-          <MediaField {...props} source="location" />
+        <Box style={{ display: "flex", flexDirection: "column" }}>
+          <TextInput
+            {...props}
+            label="Location"
+            source="location"
+            type={"url"}
+          />
           <MediaInput
             {...props}
             label="Location"
             sourceLocation="location"
             sourceType="type"
           />
+          <MediaTypeInput source="type" />
           <Button
             onClick={() => {
               setLoaded(false);
@@ -317,11 +358,12 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
         <FormTab label="general">
           <Grid container>
             <Grid item md={6}>
-              <ThumbnailField />
+              <MediaEditField />
             </Grid>
             <Grid item md={6}>
               {isAdmin && <ReferenceUserInput source="creator" />}
               <ReferenceArrayKeywordInput source="keywords" showAdd />
+              <ThumbnailEditField />
             </Grid>
             <Grid item md={12}>
               <TextInput source="description" fullWidth multiline />

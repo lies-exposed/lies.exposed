@@ -17,7 +17,7 @@ export const MediaArrayInput: React.FC<
 > = (props) => {
   return (
     <ArrayInput {...props} style={{ width: "100%" }} fullWidth>
-      <SimpleFormIterator>
+      <SimpleFormIterator fullWidth>
         <BooleanInput source="addNew" />
         <FormDataConsumer>
           {({ formData, scopedFormData, getSource, ...rest }) => {
