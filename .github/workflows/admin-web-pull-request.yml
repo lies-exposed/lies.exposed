@@ -81,7 +81,10 @@ jobs:
           key: admin-web-build
 
       - name: Type Check Web
-        run: yarn admin-web tsc -b
+        run: yarn admin-web build
+
+      - name: Build app with Webpack
+        run: yarn admin-web build:app
 
       - name: Log in to registry
         # This is where you will update the personal access token to GITHUB_TOKEN

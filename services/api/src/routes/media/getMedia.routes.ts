@@ -8,13 +8,15 @@ import { RouteContext } from "@routes/route.types";
 import { toImageIO } from "./media.io";
 
 export const MakeGetMediaRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(Endpoints.Media.Get, ({ params: { id } }) => {
+  AddEndpoint(r)(Endpoints.Media.Get, ({ params: { id } }, req) => {
+    ctx.logger.debug.log("User decoded %O", req.user);
     return pipe(
       ctx.db.findOneOrFail(MediaEntity, {
         where: { id: Equal(id) },
         loadRelationIds: {
           relations: ["creator", "events", "keywords", "links"],
         },
+        withDeleted: true,
       }),
       TE.chainEitherK(toImageIO),
       TE.map((data) => ({

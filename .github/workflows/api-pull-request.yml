@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       pg-db:
-        image: postgres:12
+        image: postgres:14
         env:
           POSTGRES_USER: liexp
           POSTGRES_PASSWORD: liexp-password
@@ -33,7 +33,7 @@ jobs:
           - 8432:5432
 
       pg-db-test:
-        image: postgres:12
+        image: postgres:14
         env:
           POSTGRES_USER: liexp
           POSTGRES_PASSWORD: liexp-password

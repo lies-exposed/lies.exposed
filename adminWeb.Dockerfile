@@ -18,7 +18,7 @@ RUN yarn
 
 RUN yarn packages:build
 
-RUN NODE_ENV=production yarn admin-web build
+RUN NODE_ENV=production yarn admin-web build:app
 
 FROM node:16-slim as production
 

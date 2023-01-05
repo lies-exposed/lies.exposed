@@ -5,11 +5,11 @@
   "scripts": {
     "clean": "rm -rf build",
     "start": "webpack serve",
-    "build": "webpack",
+    "build:app": "webpack",
     "serve": "serve build",
     "test": "jest",
-    "tsc:build": "tsc -b",
-    "tsc:watch": "tsc -b --watch",
+    "build": "tsc -b",
+    "watch": "tsc -b --watch",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
     "bundle-stats": "webpack-bundle-analyzer build/stats.json"
