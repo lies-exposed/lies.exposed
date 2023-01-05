@@ -38,17 +38,17 @@ import {
 } from "react-admin";
 import { uploadFile } from "../../client/admin/MediaAPI";
 import { checkIsAdmin } from "../../utils/user.utils";
-import { CreateEventFromMediaButton } from "../admin/common/CreateEventFromMediaButton";
-import { EditForm } from "../admin/common/EditForm";
-import { MediaField } from "../admin/common/MediaField";
-import { MediaInput } from "../admin/common/MediaInput";
-import { MediaTypeInput } from "../admin/common/MediaTypeInput";
-import ReferenceArrayEventInput from "../admin/common/ReferenceArrayEventInput";
-import MediaPreview from "../admin/previews/MediaPreview";
-import { ReferenceLinkTab } from "../admin/tabs/ReferenceLinkTab";
 import { Box, Button, Grid, Typography } from "../mui";
+import { CreateEventFromMediaButton } from "./common/CreateEventFromMediaButton";
+import { EditForm } from "./common/EditForm";
+import ReferenceArrayEventInput from "./common/ReferenceArrayEventInput";
 import ReferenceArrayKeywordInput from "./common/ReferenceArrayKeywordInput";
 import ReferenceUserInput from "./common/ReferenceUserInput";
+import { MediaField } from "./media/MediaField";
+import { MediaInput } from "./media/MediaInput";
+import { MediaTypeInput } from "./media/MediaTypeInput";
+import MediaPreview from "./previews/MediaPreview";
+import { ReferenceLinkTab } from "./tabs/ReferenceLinkTab";
 
 const RESOURCE = "media";
 

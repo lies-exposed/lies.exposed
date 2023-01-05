@@ -35,8 +35,8 @@ import {Grid} from '../mui'
 import ReactPageInput from "./ReactPageInput";
 import { EditForm } from "./common/EditForm";
 import ReferenceArrayKeywordInput from "./common/ReferenceArrayKeywordInput";
-import ReferenceMediaInput from "./common/ReferenceMediaInput";
 import ReferenceUserInput from "./common/ReferenceUserInput";
+import ReferenceMediaInput from "./media/ReferenceMediaInput";
 import ArticlePreview from "./previews/ArticlePreview";
 
 export const ArticleList: React.FC<ListProps> = (props) => {

@@ -8,7 +8,7 @@ import {
   EventSuggestionRead
 } from "@liexp/shared/io/http/User";
 import { AvatarField } from "@liexp/ui/components/admin/common/AvatarField";
-import { MediaField } from "@liexp/ui/components/admin/common/MediaField";
+import { MediaField } from "@liexp/ui/components/admin/media/MediaField";
 import * as React from "react";
 import {
   AutocompleteArrayInput,
