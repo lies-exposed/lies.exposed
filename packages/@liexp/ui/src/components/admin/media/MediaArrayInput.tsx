@@ -8,9 +8,9 @@ import {
   TextInput,
 } from "react-admin";
 import { Box } from "../../mui";
+import ReferenceArrayMediaInput from "../common/ReferenceArrayMediaInput";
 import { MediaInput } from "./MediaInput";
 import { MediaTypeInput } from "./MediaTypeInput";
-import ReferenceArrayMediaInput from "./ReferenceArrayMediaInput";
 
 export const MediaArrayInput: React.FC<
   { source: string } & Omit<ArrayInputProps, "children">

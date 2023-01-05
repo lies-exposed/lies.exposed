@@ -1,14 +1,14 @@
 import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
-import { MediaArrayInput } from "@liexp/ui/components/admin/common/MediaArrayInput";
 import ReferenceActorInput from "@liexp/ui/components/admin/common/ReferenceActorInput";
 import ReferenceArrayActorInput from "@liexp/ui/components/admin/common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "@liexp/ui/components/admin/common/ReferenceArrayGroupInput";
 import ReferenceArrayKeywordInput from "@liexp/ui/components/admin/common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "@liexp/ui/components/admin/common/ReferenceArrayLinkInput";
-import { ReferenceMediaDataGrid } from "@liexp/ui/components/admin/common/ReferenceMediaDataGrid";
 import URLMetadataInput from "@liexp/ui/components/admin/common/URLMetadataInput";
+import { MediaArrayInput } from "@liexp/ui/components/admin/media/MediaArrayInput";
+import { ReferenceMediaDataGrid } from "@liexp/ui/components/admin/media/ReferenceMediaDataGrid";
 import EventPreview from "@liexp/ui/components/admin/previews/EventPreview";
 import { EventGeneralTab } from "@liexp/ui/components/admin/tabs/EventGeneralTab";
 import { PatentEventEditFormTab } from '@liexp/ui/components/admin/tabs/PatentEventEditTab';

@@ -33,12 +33,12 @@ import { checkIsAdmin } from "../../utils/user.utils";
 import { Box, Toolbar } from "../mui";
 import { CreateEventFromLinkButton } from "./common/CreateEventFromLinkButton";
 import { EditForm } from "./common/EditForm";
-import { MediaField } from "./common/MediaField";
 import ReferenceArrayEventInput from "./common/ReferenceArrayEventInput";
 import ReferenceGroupInput from "./common/ReferenceGroupInput";
 import ReferenceUserInput from "./common/ReferenceUserInput";
 import { SearchLinksButton } from "./common/SearchLinksButton";
 import URLMetadataInput from "./common/URLMetadataInput";
+import { MediaField } from "./media/MediaField";
 import LinkPreview from "./previews/LinkPreview";
 
 const RESOURCE = "links";

@@ -5,20 +5,20 @@ import {
   ArticleList,
 } from "@liexp/ui/components/admin/AdminArticles";
 import {
-  EventSuggestionEdit,
-  EventSuggestionList,
-} from "@liexp/ui/components/admin/events/suggestions/AdminEventSuggestion";
-import englishMessages from "@liexp/ui/i18n/en-US";
-import {
   LinkCreate,
   LinkEdit,
   LinkList,
-} from "@liexp/ui/src/components/admin/AdminLinks";
+} from "@liexp/ui/components/admin/AdminLinks";
 import {
   MediaCreate,
   MediaEdit,
   MediaList,
-} from "@liexp/ui/src/components/admin/AdminMedia";
+} from "@liexp/ui/components/admin/AdminMedia";
+import {
+  EventSuggestionEdit,
+  EventSuggestionList,
+} from "@liexp/ui/components/admin/events/suggestions/AdminEventSuggestion";
+import englishMessages from "@liexp/ui/i18n/en-US";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import EventIcon from "@mui/icons-material/Event";
 import GroupIcon from "@mui/icons-material/Group";

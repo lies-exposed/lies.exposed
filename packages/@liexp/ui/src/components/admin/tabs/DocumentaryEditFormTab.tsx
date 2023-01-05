@@ -6,7 +6,7 @@ import { Box } from "../../mui";
 import ReferenceAreaInput from "../common/ReferenceAreaInput";
 import ReferenceArrayActorInput from "../common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "../common/ReferenceArrayGroupInput";
-import ReferenceMediaInput from "../common/ReferenceMediaInput";
+import ReferenceMediaInput from "../media/ReferenceMediaInput";
 
 export const DocumentaryEditFormTab: React.FC<EditProps & { record?: any }> = (
     props

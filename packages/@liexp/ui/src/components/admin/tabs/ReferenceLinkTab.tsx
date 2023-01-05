@@ -8,7 +8,7 @@ import {
 } from "react-admin";
 import { Box } from "../../mui";
 import { LinkArrayInput } from "../common/LinkArrayInput";
-import { MediaField } from "../common/MediaField";
+import { MediaField } from "../media/MediaField";
 
 export const ReferenceLinkTab: React.FC<FieldProps> = (props) => {
   const newLinksSource =
