@@ -26,19 +26,25 @@ yarn packages:build
 
 # admin web
 # mkdir -p "/var/www/html/${HOST}/admin"
-yarn admin-web build
+cd ./services/admin-web;
+yarn build
+cd ../../;
 cp -r /root/node/app/current/services/admin-web/build/* "/var/www/html/${HOST}/admin/"
 sudo chown -R www-data:www-data "/var/www/html/${HOST}"
 
 # web
+cd ./service/web;
 yarn web build:app
 yarn web build:server
+cd ../../;
 
 # api
-yarn api build
-yarn api migration:run
+cd ./services/api;
 mkdir -p ./services/api/temp
 mkdir -p ./services/api/temp/tg/messages
+yarn api build
+yarn api migration:run
+cd ../../;
 
 # reload services
 sudo nginx -s reload

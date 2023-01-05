@@ -14,6 +14,8 @@ import {
   Datagrid,
   DataProvider,
   DateField,
+  DeleteButton,
+  DeleteWithConfirmButton,
   EditProps,
   FieldProps,
   FormTab,
@@ -25,6 +27,7 @@ import {
   ReferenceField,
   ReferenceManyField,
   required,
+  SaveButton,
   SimpleForm,
   TabbedForm,
   TextField,
@@ -108,6 +111,7 @@ const mediaFilters = [
   <TextInput key="description" source="description" alwaysOn size="small" />,
   <BooleanInput key="emptyEvents" source="emptyEvents" alwaysOn size="small" />,
   <MediaTypeInput key="type" source="type" alwaysOn size="small" />,
+  <BooleanInput key="deletedOnly" source="deletedOnly" alwaysOn size="small" />,
 ];
 
 export const MediaList: React.FC<ListProps> = (props) => {
@@ -336,6 +340,22 @@ export const MediaEditField: React.FC<FieldProps> = (props) => {
   );
 };
 
+const MediaEditToolbar: React.FC = () => {
+  return (
+    <React.Fragment>
+      <Grid container>
+        <Grid>
+          <SaveButton />
+        </Grid>
+        <Grid>
+          <DeleteWithConfirmButton />
+          <DeleteButton />
+        </Grid>
+      </Grid>
+    </React.Fragment>
+  );
+};
+
 export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
   const apiProvider = useDataProvider();
   const { permissions, isLoading: isLoadingPermissions } = usePermissions();
@@ -344,6 +364,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
   }
 
   const isAdmin = checkIsAdmin(permissions);
+
   return (
     <EditForm
       title={<EditTitle {...props} />}
@@ -352,7 +373,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
       redirect={false}
       preview={<MediaPreview />}
     >
-      <TabbedForm>
+    <TabbedForm toolbar={<MediaEditToolbar />}>
         <FormTab label="general">
           <Grid container>
             <Grid item md={6}>

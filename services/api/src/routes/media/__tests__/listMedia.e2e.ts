@@ -19,6 +19,7 @@ describe("List Media", () => {
 
     media = tests.fc.sample(MediaArb, 100).map((m) => ({
       ...m,
+      location: m.location + `?timestapm=${new Date().toISOString()}`,
       creator: undefined,
     }));
 

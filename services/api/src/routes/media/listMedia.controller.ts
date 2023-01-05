@@ -21,6 +21,7 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
         description,
         type: _type,
         emptyEvents,
+        deletedOnly,
         creator,
         ...query
       },
@@ -41,6 +42,7 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
         description,
         type,
         emptyEvents,
+        deletedOnly,
         ...findOptions,
       });
 
@@ -96,6 +98,14 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
               where("events.id IS NULL");
               hasWhere = true;
             }
+          }
+
+          const includeDeleted = pipe(
+            deletedOnly,
+            O.getOrElse(() => false)
+          );
+          if (includeDeleted) {
+            q.where("media.deletedAt IS NOT NULL").withDeleted();
           }
 
           return q;

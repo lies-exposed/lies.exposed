@@ -43,7 +43,7 @@ const run = (): T.Task<void> => {
         port: env.DB_PORT,
         host: env.DB_HOST,
         dbname: env.DB_DATABASE,
-        connect_timeout: 15,
+        connect_timeout: 30,
         ...ssl,
       };
       const pgDumpArgsString = Object.entries(pgDumpArgs).reduce(
@@ -52,7 +52,7 @@ const run = (): T.Task<void> => {
       );
       return pipe(
         E.tryCatch(() => {
-          const cmd = `pg_dump "${pgDumpArgsString}" -O --file ${path.resolve(
+          const cmd = `pg_dump "${pgDumpArgsString.trim()}" -v -O --file ${path.resolve(
             outputDir,
             `${prefix}_${new Date().toISOString()}.sql`
           )}`;

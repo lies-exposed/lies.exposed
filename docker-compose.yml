@@ -3,7 +3,7 @@ version: "3.7"
 services:
 
   db-test:
-    image: postgres:12
+    image: postgres:14
     ports:
       - "127.0.0.1:9432:5432"
     environment:
@@ -14,7 +14,7 @@ services:
       - db-test-data:/var/lib/postgresql/data
 
   db:
-    image: postgres:12
+    image: postgres:14
     ports:
       - "8432:5432"
     expose:

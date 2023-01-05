@@ -26,7 +26,7 @@ export class MediaEntity {
   @Column({ type: "varchar", nullable: true })
   thumbnail: string | null;
 
-  @Column({ type: "varchar", nullable: false })
+  @Column({ type: "varchar", nullable: false, unique: true })
   location: string;
 
   @Column({ type: "varchar", nullable: false })
