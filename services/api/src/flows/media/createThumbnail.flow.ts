@@ -43,13 +43,19 @@ export const extractThumbnail = (
           });
         }
         case "youtube": {
-          const selector = 'meta[property="og:image"]';
-          await page.waitForSelector(selector);
+          const selector = 'div[class*="thumbnail-overlay-image"]';
+          await page.waitForSelector(selector, { timeout: 5000 });
 
           const coverUrl = await page.$eval(selector, (el) => {
-            const href = el.getAttribute("content");
+            const style = el.getAttribute("style");
 
-            return href;
+            if (style) {
+              return style
+                .replace('background-image: url("', "")
+                .replace('");', "");
+            }
+
+            return undefined;
           });
 
           return coverUrl;

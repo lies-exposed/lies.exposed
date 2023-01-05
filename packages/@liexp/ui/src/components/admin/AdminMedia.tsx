@@ -1,6 +1,7 @@
 import { parsePlatformURL } from "@liexp/shared/helpers/media";
 import { MediaType } from "@liexp/shared/io/http/Media";
 import { throwTE } from "@liexp/shared/utils/task.utils";
+import { checkIsAdmin } from "@liexp/shared/utils/user.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
@@ -15,7 +16,6 @@ import {
   DateField,
   EditProps,
   FieldProps,
-  FormDataConsumer,
   FormTab,
   FunctionField,
   List,
@@ -25,7 +25,6 @@ import {
   ReferenceField,
   ReferenceManyField,
   required,
-  SelectInput,
   SimpleForm,
   TabbedForm,
   TextField,
@@ -37,7 +36,6 @@ import {
   useRefresh,
 } from "react-admin";
 import { uploadFile } from "../../client/admin/MediaAPI";
-import { checkIsAdmin } from "../../utils/user.utils";
 import { Box, Button, Grid, Typography } from "../mui";
 import { CreateEventFromMediaButton } from "./common/CreateEventFromMediaButton";
 import { EditForm } from "./common/EditForm";
@@ -358,7 +356,8 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
         <FormTab label="general">
           <Grid container>
             <Grid item md={6}>
-              <MediaEditField />
+              <MediaField source="location" />
+              <MediaInput sourceLocation="location" sourceType="type" />
             </Grid>
             <Grid item md={6}>
               {isAdmin && <ReferenceUserInput source="creator" />}
@@ -408,43 +407,13 @@ export const MediaCreate: React.FC<CreateProps> = (props) => {
       transform={(r: any) => transformMedia(apiProvider)({ ...r, id: uuid() })}
     >
       <SimpleForm>
-        <SelectInput
-          source="_type"
-          choices={[
-            { name: "fromURL", id: "fromURL" },
-            {
-              name: "fromFile",
-              id: "fromFile",
-            },
-          ]}
+        <MediaInput sourceLocation="location" sourceType="type" />
+        <TextInput
+          source="description"
+          multiline
+          fullWidth
+          validate={[required()]}
         />
-        <FormDataConsumer>
-          {({ formData }) => {
-            if (formData._type === "fromFile") {
-              return (
-                <Box>
-                  <MediaInput sourceType="type" sourceLocation="location" />
-                  <TextInput
-                    source="description"
-                    multiline
-                    validate={[required()]}
-                  />
-                </Box>
-              );
-            }
-            return (
-              <Box>
-                <TextInput source="url" />
-                <TextInput
-                  source="description"
-                  multiline
-                  fullWidth
-                  validate={[required()]}
-                />
-              </Box>
-            );
-          }}
-        </FormDataConsumer>
       </SimpleForm>
     </Create>
   );
