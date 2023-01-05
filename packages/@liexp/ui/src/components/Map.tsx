@@ -1,4 +1,4 @@
-import Feature from "ol/Feature";
+import Feature, { FeatureLike } from "ol/Feature";
 import OlMap from "ol/Map";
 import * as OlControl from "ol/control";
 import Geometry from "ol/geom/Geometry";
@@ -18,9 +18,9 @@ export interface MapProps<G extends Geometry> {
   features: Array<Feature<G>>;
   center?: [number, number];
   zoom?: number;
-  interactions?: OlInteraction.DefaultsOptions;
-  controls?: OlControl.DefaultsOptions;
-  onMapClick: (geoms: Array<Feature<Geometry>>) => void;
+  interactions?: any;
+  controls?: any;
+  onMapClick: (geoms: FeatureLike[]) => void;
 }
 
 const Map = <G extends Geometry>({

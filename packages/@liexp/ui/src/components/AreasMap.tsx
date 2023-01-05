@@ -61,6 +61,7 @@ const AreasMap: React.FC<AreasMapProps> = (props) => {
                 }}
                 interactions={{
                   doubleClickZoom: true,
+                  
                   dragPan: true,
                 }}
               />
