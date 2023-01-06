@@ -93,7 +93,11 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
     const L = typeof linkStroke !== "function" ? [] : d3.map(links, linkStroke);
 
     // Replace the input nodes and links with mutable objects for the simulation.
-    nodes = d3.map(nodes, (_, i) => ({ id: N[i] }));
+    nodes = d3.map(nodes, (_, i) => ({
+      id: N[i],
+      type: _.type,
+      payload: _.payload,
+    }));
     links = d3.map(links, (_, i) => ({
       source: LS[i],
       target: LT[i],
