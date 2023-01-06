@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { BooleanFromString } from 'io-ts-types/BooleanFromString';
+import { BooleanFromString } from "io-ts-types/BooleanFromString";
 import { UUID } from "io-ts-types/UUID";
 import { optionFromNullable } from "io-ts-types/optionFromNullable";
 import { ACTORS } from "./Actor";
@@ -17,7 +17,8 @@ export type NetworkGroupBy = t.TypeOf<typeof NetworkGroupBy>;
 
 export const GetNetworkQuery = t.type(
   {
-    // ids: t.array(UUID),
+    startDate: optionFromNullable(t.string),
+    endDate: optionFromNullable(t.string),
     groupBy: NetworkGroupBy,
     emptyRelations: optionFromNullable(BooleanFromString),
   },

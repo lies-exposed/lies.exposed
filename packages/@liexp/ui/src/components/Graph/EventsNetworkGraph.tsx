@@ -93,6 +93,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
       colors={colors}
       nodeId={(n) => n.id}
       linkStrokeWidth={(l) => l.value}
+      linkStrength={l => l.value}
       nodeTitle={(n) => {
         if (n.type === KEYWORDS.value) {
           return n.tag;
@@ -110,7 +111,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
           media: [],
         });
       }}
-      nodeRadius={(n) => n.value ?? 10}
+      nodeRadius={(n) => 14}
       // nodeStrength={(n) => {
       //   if (n.type === KEYWORDS.value) {
       //     return 1;

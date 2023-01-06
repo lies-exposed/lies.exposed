@@ -67,7 +67,13 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                       fp.O.fromNullable(actor.avatar),
                       fp.O.fold(
                         () => <div />,
-                        (src) => <Avatar size="xlarge" src={src} />
+                        (src) => (
+                          <Avatar
+                            size="xlarge"
+                            src={src}
+                            style={{ marginTop: 20, marginBottom: 60 }}
+                          />
+                        )
                       )
                     )}
                     <Typography variant="h4">{actor.fullName}</Typography>
@@ -132,7 +138,6 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                   type={ACTORS.value}
                   query={{
                     groupBy: KEYWORDS.value,
-                    emptyRelations: fp.O.none,
                   }}
                   selectedActorIds={[actor.id]}
                   onActorClick={onActorClick}

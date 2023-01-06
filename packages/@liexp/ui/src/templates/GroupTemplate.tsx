@@ -68,7 +68,7 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                             src={src}
                             style={{
                               width: "100px",
-                              marginRight: 20,
+                              marginTop: 20,
                               marginBottom: 60,
                             }}
                           />
@@ -146,7 +146,6 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                   id={group.id}
                   query={{
                     groupBy: Group.GROUPS.value,
-                    emptyRelations: fp.O.none,
                   }}
                   onActorClick={onActorClick}
                   onGroupClick={onGroupClick}

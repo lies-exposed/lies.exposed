@@ -5,15 +5,11 @@ import { AutocompleteActorInput } from "@liexp/ui/components/Input/AutocompleteA
 import { AutocompleteGroupInput } from "@liexp/ui/components/Input/AutocompleteGroupInput";
 import { AutocompleteKeywordInput } from "@liexp/ui/components/Input/AutocompleteKeywordInput";
 import {
-  Box,
-  FormControlLabel,
-  InputLabel,
-  MenuItem,
-  Select,
+  Box
 } from "@liexp/ui/components/mui";
 import {
   EventNetworkGraphBox,
-  EventNetworkGraphBoxProps,
+  EventNetworkGraphBoxProps
 } from "@liexp/ui/containers/graphs/EventNetworkGraphBox";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from "react";
@@ -33,11 +29,8 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<EventNetworkGraphBoxProps> = (props) => {
-  const [includeEmptyRelations, setIncludeEmptyRelations] =
-    React.useState(false);
-  const [item, setItem] = React.useState<any>(undefined);
-  const [groupBy, setGroupBy] = React.useState<any>(KEYWORDS.value);
+const Template: Story<EventNetworkGraphBoxProps> = ({ id, ...props }) => {
+  const [item, setItem] = React.useState<any>(id ? { id } : undefined);
 
   const inputProps = {
     style: { width: "100%" },
@@ -68,22 +61,6 @@ const Template: Story<EventNetworkGraphBoxProps> = (props) => {
       >
         <Box style={{ display: "flex", flexDirection: "column" }}>
           <Box style={{ display: "flex" }}>{input}</Box>
-
-          <Box>
-            <FormControlLabel
-              label={"Group By"}
-              control={
-                <Select
-                  value={groupBy}
-                  onChange={(e) => { setGroupBy(e.target.value); }}
-                >
-                  <MenuItem value={ACTORS.value}>{ACTORS.value}</MenuItem>
-                  <MenuItem value={KEYWORDS.value}>{KEYWORDS.value}</MenuItem>
-                  <MenuItem value={GROUPS.value}>{GROUPS.value}</MenuItem>
-                </Select>
-              }
-            />
-          </Box>
         </Box>
         <Box style={{ display: "flex", flexGrow: 1, maxHeight: 600 }}>
           {item ? (
@@ -91,7 +68,6 @@ const Template: Story<EventNetworkGraphBoxProps> = (props) => {
               {...props}
               query={{
                 ...props.query,
-                groupBy,
               }}
               id={item.id}
             />

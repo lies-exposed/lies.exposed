@@ -20,6 +20,10 @@ export class APIError extends Error {
 export const toAPIError = (e: unknown): APIError => {
   // eslint-disable-next-line
   apiLogger.error.log("An error occurred %O", e);
+  if ((e as any)?.name === "APIError") {
+    return e as any;
+  }
+
   if (e instanceof Error) {
     return new APIError(e.message, []);
   }

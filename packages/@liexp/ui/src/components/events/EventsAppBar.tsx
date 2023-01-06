@@ -2,10 +2,10 @@ import { Actor, Group, GroupMember, Keyword } from "@liexp/shared/io/http";
 import * as React from "react";
 import {
   searchEventsQuery,
-  SearchEventsQueryInputNoPagination,
+  SearchEventsQueryInputNoPagination
 } from "../../state/queries/SearchEventsQuery";
 import { styled, useTheme } from "../../theme";
-import DatePicker from "../Common/DatePicker";
+import { DateRangePicker } from "../Common/DateRangePicker";
 import QueriesRenderer from "../QueriesRenderer";
 import {
   Accordion,
@@ -16,7 +16,7 @@ import {
   Grid,
   SearchIcon,
   Toolbar,
-  Typography,
+  Typography
 } from "../mui";
 import { EventsAppBarMinimized } from "./EventsAppBarMinimized";
 import SearchEventInput, { SearchOption } from "./inputs/SearchEventInput";
@@ -30,7 +30,6 @@ const classes = {
   offset: `${PREFIX}-offset`,
   search: `${PREFIX}-search`,
   searchIcon: `${PREFIX}-searchIcon`,
-  dateInput: `${PREFIX}-dateInput`,
   inputRoot: `${PREFIX}-inputRoot`,
   inputInput: `${PREFIX}-inputInput`,
   tabs: `${PREFIX}-tabs`,
@@ -79,10 +78,6 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-  },
-
-  [`& .${classes.dateInput}`]: {
-    marginBottom: theme.spacing(2),
   },
 
   [`& .${classes.inputRoot}`]: {
@@ -300,21 +295,12 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                 {searchBox}
                 {searchTermBox}
               </Grid>
-              <Grid item md={2} sm={3} xs={6}>
-                <DatePicker
-                  className={classes.dateInput}
-                  size="small"
-                  value={currentDateRange[0]}
-                  variant="standard"
-                  datatype="date"
-                  InputLabelProps={{
-                    disabled: true,
-                  }}
-                  onChange={(e) => {
-                    setCurrentDateRange([
-                      e.target.value === "" ? undefined : e.target.value,
-                      currentDateRange[1],
-                    ]);
+              <Grid item xs={12}>
+                <DateRangePicker
+                  from={currentDateRange[0]}
+                  to={currentDateRange[1]}
+                  onDateRangeChange={([from, to]) => {
+                    setCurrentDateRange([from, to]);
                   }}
                   onBlur={(e) => {
                     onQueryChange(
@@ -327,36 +313,6 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                       tab
                     );
                   }}
-                  style={{ width: "100%" }}
-                />
-              </Grid>
-              <Grid item md={2} sm={3} xs={6}>
-                <DatePicker
-                  className={classes.dateInput}
-                  size="small"
-                  value={currentDateRange[1]}
-                  variant="standard"
-                  InputLabelProps={{
-                    disabled: true,
-                  }}
-                  onChange={(e) => {
-                    setCurrentDateRange([
-                      currentDateRange[0],
-                      e.target.value === "" ? undefined : e.target.value,
-                    ]);
-                  }}
-                  onBlur={(e) =>
-                    { onQueryChange(
-                      {
-                        ...query,
-                        startDate: currentDateRange[1],
-                        endDate:
-                          e.target.value === "" ? undefined : e.target.value,
-                      },
-                      tab
-                    ); }
-                  }
-                  style={{ width: "100%" }}
                 />
               </Grid>
               {tabs}

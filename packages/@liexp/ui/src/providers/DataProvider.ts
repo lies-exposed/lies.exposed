@@ -1,7 +1,10 @@
 import { Endpoints } from "@liexp/shared/endpoints";
 import { ResourceEndpoints } from "@liexp/shared/endpoints/types";
 import * as io from "@liexp/shared/io/index";
-import { APIError } from "@liexp/shared/providers/http/http.provider";
+import {
+  APIError,
+  toAPIError
+} from "@liexp/shared/providers/http/http.provider";
 import axios from "axios";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
@@ -14,14 +17,14 @@ import type {
   GetListParams,
   GetListResult,
   GetOneParams,
-  GetOneResult,
+  GetOneResult
 } from "react-admin";
 import {
   EndpointInstance,
   InferEndpointParams,
   MinimalEndpoint,
   MinimalEndpointInstance,
-  TypeOfEndpointInstance,
+  TypeOfEndpointInstance
 } from "ts-endpoint";
 import { serializedType } from "ts-io-error/lib/Codec";
 import { APIRESTClient } from "../http";
@@ -40,20 +43,10 @@ import { APIRESTClient } from "../http";
 // }
 
 const toError = (e: unknown): APIError => {
-  // console.error(e);
-  if (e instanceof Error) {
-    return {
-      name: "APIError",
-      message: e.message,
-      stack: e.stack,
-      details: [],
-    };
+  if ((e as any).name === "AxiosError") {
+    return toAPIError((e as any).response.data);
   }
-  return {
-    name: "APIError",
-    message: "An error occurred",
-    details: [],
-  };
+  return toAPIError(e);
 };
 
 export const dataProvider = APIRESTClient({
