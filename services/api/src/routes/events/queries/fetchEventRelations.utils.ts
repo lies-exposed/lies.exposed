@@ -152,15 +152,33 @@ export const fetchRelations =
 
     return sequenceS(fp.TE.ApplicativePar)({
       actors: pipe(
-        fetchActors(ctx)({ ids: input.actors }),
+        fetchActors(ctx)({
+          ids: input.actors,
+          _end: pipe(
+            input.actors,
+            fp.O.map((a) => a.length as any)
+          ),
+        }),
         fp.TE.map((r) => r.results)
       ),
       groups: pipe(
-        fetchGroups(ctx)({ ids: input.groups }),
+        fetchGroups(ctx)({
+          ids: input.groups,
+          _end: pipe(
+            input.groups,
+            fp.O.map((a) => a.length as any)
+          ),
+        }),
         fp.TE.map(([results]) => results)
       ),
       keywords: pipe(
-        fetchKeywords(ctx)({ ids: input.keywords }),
+        fetchKeywords(ctx)({
+          ids: input.keywords,
+          _end: pipe(
+            input.keywords,
+            fp.O.map((a) => a.length as any)
+          ),
+        }),
         fp.TE.map(([results]) => results)
       ),
     });

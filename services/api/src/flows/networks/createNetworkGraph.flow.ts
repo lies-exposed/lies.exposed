@@ -20,7 +20,9 @@ import {
   NetworkType,
 } from "@liexp/shared/io/http/Network";
 import { EventNetworkDatum } from "@liexp/shared/io/http/Network/networks";
+import { distanceFromNow } from "@liexp/shared/utils/date";
 import { walkPaginatedRequest } from "@liexp/shared/utils/fp.utils";
+import { differenceInHours } from "date-fns";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
@@ -113,10 +115,14 @@ const takeEventRelations = (ev: Event[]): EventRelationIds => {
         const { actors, keywords, groups, groupsMembers } = getRelationIds(e);
         return {
           keywords: acc.keywords.concat(
-            keywords.filter((k) => !acc.keywords.some((kk) => kk === k))
+            keywords.filter((k) => !acc.keywords.includes(k))
           ),
-          actors: acc.actors.concat(actors),
-          groups: acc.groups.concat(groups),
+          actors: acc.actors.concat(
+            actors.filter((a) => !acc.actors.includes(a))
+          ),
+          groups: acc.groups.concat(
+            groups.filter((g) => !acc.groups.includes(g))
+          ),
           groupsMembers: acc.groupsMembers.concat(groupsMembers),
           media: [],
           links: [],
@@ -536,13 +542,27 @@ export const createNetworkGraph =
             );
             fs.mkdirSync(filePathDir, { recursive: true });
           }
+
           const statsExists = fs.existsSync(filePath);
           ctx.logger.debug.log(
             "Network file path %s exists? %s",
             path.relative(process.cwd(), filePath),
             statsExists
           );
-          return statsExists;
+          if (statsExists) {
+            const { mtime } = fs.statSync(filePath);
+            const hoursDelta = differenceInHours(new Date(), mtime);
+
+            ctx.logger.debug.log(
+              "Last network file update %s (%d h)",
+              distanceFromNow(mtime),
+              hoursDelta
+            );
+
+            return hoursDelta < 6;
+          }
+
+          return false;
         }, toControllerError)
       ),
       TE.chain((statsExist) => {

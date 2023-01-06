@@ -63,7 +63,9 @@ export const fetchActors =
         return q;
       },
       (q) => {
-        return q.skip(findOptions.skip).take(findOptions.take);
+        return q
+          .skip(findOptions.skip)
+          .take(findOptions.take);
       },
       (q) => db.execQuery(() => q.getManyAndCount()),
       TE.map(([results, total]) => ({ total, results }))

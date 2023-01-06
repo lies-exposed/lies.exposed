@@ -93,7 +93,7 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
             <Tab key={t.label} label={t.label} {...a11yProps(i)} />
           ),
           tabsContent: acc.tabsContent.concat(
-            <TabPanel index={i} value={tab}>
+            <TabPanel key={t.label} index={i} value={tab}>
               {children[i]}
             </TabPanel>
           ),
