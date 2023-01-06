@@ -291,7 +291,7 @@ export const searchEventV2Query =
                       CASE
                         WHEN event.type IN ('Uncategorized', 'Documentary', 'ScientificStudy', 'Patent') THEN "event"."payload"::jsonb ->> 'title'
                         WHEN event.type IN ('Death') THEN "event"."payload"::jsonb ->> 'victim'::text
-                        WHEN event.type IN (${QUOTE.value}) THEN "event"."payload"::jsonb ->> 'quote'::text
+                        WHEN event.type IN ('${QUOTE.value}') AND "event"."payload"::jsonb ? 'quote' THEN "event"."payload"::jsonb ->> 'quote'::text
 
                       END, ''
                     )

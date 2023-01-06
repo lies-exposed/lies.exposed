@@ -4,7 +4,8 @@ import { Events } from "@liexp/shared/io/http";
 import {
   Death,
   Documentary,
-  ScientificStudy
+  Quote,
+  ScientificStudy,
 } from "@liexp/shared/io/http/Events";
 import { getTextContentsCapped } from "@liexp/shared/slate";
 import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
@@ -19,6 +20,7 @@ import EventPreview from "@liexp/ui/components/admin/previews/EventPreview";
 import { DeathEventEditFormTab } from "@liexp/ui/components/admin/tabs/DeathEventEditFormTab";
 import { DocumentaryEditFormTab } from "@liexp/ui/components/admin/tabs/DocumentaryEditFormTab";
 import { EventGeneralTab } from "@liexp/ui/components/admin/tabs/EventGeneralTab";
+import { QuoteEditFormTab } from "@liexp/ui/components/admin/tabs/QuoteEditFormTab";
 import { ReferenceLinkTab } from "@liexp/ui/components/admin/tabs/ReferenceLinkTab";
 import { ReferenceMediaTab } from "@liexp/ui/components/admin/tabs/ReferenceMediaTab";
 import { ScientificStudyEventEditTab } from "@liexp/ui/components/admin/tabs/ScientificStudyEventEditTab";
@@ -45,7 +47,7 @@ import {
   TextField,
   TextInput,
   useDataProvider,
-  useRecordContext
+  useRecordContext,
 } from "react-admin";
 import { DeathEventTitle } from "./events/AdminDeathEvent";
 import { DocumentaryReleaseTitle } from "./events/AdminDocumentaryEvent";
@@ -266,6 +268,9 @@ export const EventEdit: React.FC = () => {
                 }
                 if (formData.type === ScientificStudy.SCIENTIFIC_STUDY.value) {
                   return <ScientificStudyEventEditTab />;
+                }
+                if (formData.type === Quote.QUOTE.value) {
+                  return <QuoteEditFormTab />;
                 }
                 return <UncategorizedEventEditTab />;
               }}

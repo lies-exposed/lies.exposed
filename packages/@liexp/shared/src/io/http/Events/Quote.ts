@@ -20,6 +20,7 @@ export type QuoteListQuery = t.TypeOf<typeof QuoteListQuery>;
 export const QuotePayload = t.strict(
   {
     actor: UUID,
+    quote: t.union([t.string, t.undefined]),
     details: t.union([t.string, t.undefined]),
   },
   "QuotePayload"

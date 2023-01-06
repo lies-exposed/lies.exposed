@@ -1,7 +1,9 @@
 import * as http from "@liexp/shared/io/http";
 import { DEATH } from "@liexp/shared/io/http/Events/Death";
+import { QUOTE } from "@liexp/shared/io/http/Events/Quote";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
 import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
+import { getTextContents } from "@liexp/shared/slate";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as A from "fp-ts/Array";
 import * as TE from "fp-ts/TaskEither";
@@ -81,6 +83,18 @@ export const transformScientificStudy = (
   };
 };
 
+export const transformQuote = (
+  data: any
+): http.Events.Quote.CreateQuoteBody & { id: http.Common.UUID } => {
+  return {
+    ...data,
+    payload: {
+      ...data.payload,
+      quote: getTextContents(data.excerpt).join('\n\n'),
+    },
+  };
+};
+
 export const transformEvent =
   (dataProvider: DataProvider<any>) =>
   async (id: string, data: RaRecord): Promise<RaRecord> => {
@@ -150,6 +164,8 @@ export const transformEvent =
         ? transformDeath(data)
         : data.type === SCIENTIFIC_STUDY.value
         ? transformScientificStudy(data)
+        : data.type === QUOTE.value
+        ? transformQuote(data)
         : data;
 
     // eslint-disable-next-line @typescript-eslint/return-await
