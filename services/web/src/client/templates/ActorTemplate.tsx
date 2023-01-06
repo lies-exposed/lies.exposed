@@ -14,7 +14,8 @@ import { useNavigateToResource } from "../utils/location.utils";
 const ActorPage: React.FC<{ actorId: string }> = ({ actorId }) => {
   // const params = useParams();
   const navigateToResource = useNavigateToResource();
-  const { tab } = useRouteQuery({ tab: 0 });
+  const { tab: _tab = "0" } = useRouteQuery();
+  const tab = parseInt(_tab, 10);
 
   return (
     <QueriesRenderer

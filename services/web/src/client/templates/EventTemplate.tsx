@@ -39,10 +39,7 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
                 navigateTo.groups({ id: g.id });
               }}
               onKeywordClick={(k) => {
-                navigateTo.events(
-                  {},
-                  { hash: queryToHash({ keywords: [k.id] }) }
-                );
+                navigateTo.keywords({ id: k.id }, {});
               }}
               onActorClick={(a) => {
                 navigateTo.actors({ id: a.id });
@@ -50,7 +47,9 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
               onGroupMemberClick={(g) => {
                 navigateTo.actors({ id: g.actor.id });
               }}
-              onLinkClick={() => {}}
+              onLinkClick={() => {
+
+              }}
               onAreaClick={(a) => {
                 navigateTo.areas({ id: a.id });
               }}

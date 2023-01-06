@@ -120,7 +120,7 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
     }));
 
     // Construct the forces.
-    const forceNode = d3.forceManyBody()
+    const forceNode = d3.forceManyBody();
 
     const forceLink = d3.forceLink(links).id(({ index: i }) => {
       return N[i ?? 0];
@@ -176,7 +176,9 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
         .style("font-size", "12px")
         .style("stroke", "#000")
         .style("display", "none")
-        .text(({ index: i }) => T[i]);
+        .text(({ index: i, type }) =>
+          type === KEYWORDS.value ? `#${T[i]}` : T[i]
+        );
     }
 
     const link = g
@@ -209,30 +211,27 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
       .attr("x", 0)
       .attr("y", 0);
 
+    // event icons defs
     const svgPattern = g
       .append("svg:defs")
       .selectAll("pattern")
-      .data(
-        nodes.filter(
-          (n) => ![ACTORS.value, GROUPS.value, KEYWORDS.value].includes(n.type)
-        )
-      )
+      .data(Object.entries(EventTypeIconClass))
       .join("svg:pattern")
-      .attr("id", (n: any) => `${n.type}-${n.id}`)
+      .attr("id", (n) => `event-${n[0].toLowerCase()}`)
       .attr("width", (d) => nodeRadius(d) * 2)
       .attr("height", (d) => nodeRadius(d) * 2)
       .attr("patternUnits", "userSpaceOnUse")
       .attr("preserveAspectRatio", "none")
       .append("svg")
-      .attr("class", (d) => `fa fa-${(EventTypeIconClass as any)[d.type]}`)
-      .attr("fill", (d) => (EventTypeColor as any)[d.type])
-      .style("color", (d) => (EventTypeColor as any)[d.type])
+      .attr("class", (d) => `fa fa-${d[1]}`)
       .attr("preserveAspectRatio", "none")
       .attr("height", (d) => nodeRadius(d) * 1.8 + "px")
       .attr("width", (d) => nodeRadius(d) * 1.8 + "px")
       .attr("x", 0)
       .attr("y", 0)
-      .style("font-size", (d) => nodeRadius(d));
+      .style("font-size", (d) => nodeRadius(d))
+      .style("color", (d) => (EventTypeColor as any)[d[0]])
+      .style("background-color", "white");
 
     const node = g
       .append("g")
@@ -246,14 +245,12 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
       .attr("class", "node")
       .attr("r", nodeRadius)
       .attr("fill", (d: any) => {
-        if (
-          [
-            ACTORS.value,
-            GROUPS.value,
-            ...EventType.types.flatMap((t) => t.value),
-          ].includes(d.type)
-        ) {
+        if ([ACTORS.value, GROUPS.value].includes(d.type)) {
           return `url(#${d.type}-${d.id})`;
+        }
+
+        if (EventType.types.flatMap((t) => t.value).includes(d.type)) {
+          return `url(#event-${d.type.toLowerCase()})`;
         }
         if (d.color) {
           return `#${d.color}`;
