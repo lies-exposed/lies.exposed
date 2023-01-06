@@ -1,4 +1,3 @@
-import { fp } from "@liexp/core/fp";
 import { Keyword } from "@liexp/shared/io/http";
 import { EventType } from "@liexp/shared/io/http/Events";
 import { SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
@@ -120,7 +119,6 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
                   id={keyword.id}
                   query={{
                     groupBy: KEYWORDS.value,
-                    emptyRelations: fp.O.none,
                   }}
                   onKeywordClick={onKeywordClick}
                   onEventClick={onEventClick}

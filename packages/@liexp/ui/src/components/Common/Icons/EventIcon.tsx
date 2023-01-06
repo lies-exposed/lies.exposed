@@ -1,6 +1,7 @@
+import { IconName } from "@fortawesome/fontawesome-svg-core";
 import {
   FontAwesomeIcon,
-  FontAwesomeIconProps,
+  FontAwesomeIconProps
 } from "@fortawesome/react-fontawesome";
 import {
   Death,
@@ -10,7 +11,7 @@ import {
   Quote,
   ScientificStudy,
   Transaction,
-  Uncategorized,
+  Uncategorized
 } from "@liexp/shared/io/http/Events";
 import * as React from "react";
 import { styled } from "../../../theme";
@@ -37,8 +38,15 @@ export const EventTypeColor = {
   [Quote.QUOTE.value]: "#451ade",
 };
 
-const ScientificStudyIcon = ["flask", "f0c3"];
-const PatentIcon = ["barcode", "f02a"];
+export const EventTypeIconClass = {
+  [Uncategorized.UNCATEGORIZED.value]: "calendar" as IconName,
+  [Death.DEATH.value]: "skull-crossbones" as IconName,
+  [ScientificStudy.SCIENTIFIC_STUDY.value]: "flask" as IconName,
+  [Patent.PATENT.value]: "barcode" as IconName,
+  [Documentary.DOCUMENTARY.value]: "film" as IconName,
+  [Transaction.TRANSACTION.value]: "money-bill-1-wave" as IconName,
+  [Quote.QUOTE.value]: "quote-left" as IconName,
+};
 
 interface EventIconProps extends Omit<FontAwesomeIconProps, "icon"> {
   type: Event["type"];
@@ -51,7 +59,7 @@ export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
         <FontAwesomeIcon
           {...props}
           mask={undefined}
-          icon={"quote-left"}
+          icon={EventTypeIconClass.Quote}
           style={{ ...props.style, color: EventTypeColor.Quote }}
         />
       );
@@ -60,7 +68,7 @@ export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
         <FontAwesomeIcon
           {...props}
           mask={undefined}
-          icon={"flask"}
+          icon={EventTypeIconClass.ScientificStudy}
           style={{ ...props.style, color: EventTypeColor.ScientificStudy }}
         />
       );
@@ -69,7 +77,7 @@ export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
         <FontAwesomeIcon
           {...props}
           mask={undefined}
-          icon={"skull-crossbones"}
+          icon={EventTypeIconClass.Death}
           style={{ ...props.style, color: EventTypeColor.Death }}
         />
       );
@@ -78,7 +86,7 @@ export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
         <FontAwesomeIcon
           {...props}
           mask={undefined}
-          icon={"barcode"}
+          icon={EventTypeIconClass.Patent}
           style={{ ...props.style, color: EventTypeColor.Patent }}
         />
       );
@@ -87,7 +95,7 @@ export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
         <FontAwesomeIcon
           {...props}
           mask={undefined}
-          icon={"film"}
+          icon={EventTypeIconClass.Documentary}
           style={{ ...props.style, color: EventTypeColor.Documentary }}
         />
       );
@@ -96,7 +104,7 @@ export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
         <FontAwesomeIcon
           {...props}
           mask={undefined}
-          icon={"money-bill-1-wave"}
+          icon={EventTypeIconClass.Transaction}
           style={{ ...props.style, color: EventTypeColor.Transaction }}
         />
       );
@@ -105,7 +113,7 @@ export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
         <FontAwesomeIcon
           {...props}
           mask={undefined}
-          icon={"calendar"}
+          icon={EventTypeIconClass.Uncategorized}
           style={{
             ...props.style,
             color: EventTypeColor.Uncategorized,
@@ -119,13 +127,7 @@ export const EventIconInSVG: React.FC<
   EventIconProps & React.SVGProps<SVGTextElement>
 > = ({ type, ...props }) => {
   const unicode = React.useMemo(() => {
-    switch (type) {
-      case ScientificStudy.SCIENTIFIC_STUDY.value: {
-        return `&#x${ScientificStudyIcon[1]}`;
-      }
-      default:
-        return `&#x${PatentIcon[1]}`;
-    }
+    return `&#x${EventTypeIconClass[type]}`;
   }, [type]);
 
   return (

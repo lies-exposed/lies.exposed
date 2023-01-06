@@ -1,4 +1,3 @@
-import { fp } from "@liexp/core/fp";
 import {
   Actor,
   Area,
@@ -24,7 +23,7 @@ import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
 import type { GetListParams, GetOneParams } from "react-admin";
 import { useQuery, UseQueryResult } from "react-query";
-import { runtimeType } from "ts-io-error/lib/Codec";
+import { serializedType } from "ts-io-error/lib/Codec";
 import {
   articleByPath,
   foldTE,
@@ -584,7 +583,7 @@ export const fetchNetworkGraph = async (params: any): Promise<any> => {
 
 export const useNetworkGraphQuery = (
   params: GetNetworkParams,
-  query: Partial<runtimeType<typeof GetNetworkQuery>>
+  query: Partial<serializedType<typeof GetNetworkQuery>>
 ): UseQueryResult<any, APIError> => {
   return useQuery(
     [
@@ -600,9 +599,7 @@ export const useNetworkGraphQuery = (
           field: "date",
         },
         ...query,
-        emptyRelations: query.emptyRelations
-          ? fp.O.toUndefined(query.emptyRelations)
-          : undefined,
+        emptyRelations: query.emptyRelations ?? undefined,
       },
     ],
     fetchNetworkGraph

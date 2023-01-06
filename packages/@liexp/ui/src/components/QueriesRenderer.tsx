@@ -26,6 +26,7 @@ const QueriesRenderer = <
   loader = "default",
   ...props
 }: QueriesRendererProps<Q>): JSX.Element => {
+  const initialErrors: Record<string, APIError> = {};
   const { isLoading, isError, data, errors } = Object.entries(queries).reduce(
     (acc, [key, value]) => {
       // if (!value.isSuccess) {
@@ -53,7 +54,7 @@ const QueriesRenderer = <
     {
       isLoading: false,
       isError: false,
-      errors: {},
+      errors: initialErrors,
       data: {},
     }
   );
@@ -68,7 +69,13 @@ const QueriesRenderer = <
   }
 
   if (isError) {
-    return ErrorBox(errors as any);
+    return (
+      <div>
+        {Object.values(errors).map((err, i) => (
+          <ErrorBox {...err} key={i} />
+        ))}
+      </div>
+    );
   }
 
   if (props.debug) {

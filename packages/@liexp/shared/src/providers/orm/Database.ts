@@ -8,14 +8,18 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { IOError } from "ts-io-error";
 import {
-  Connection, DataSource,
+  Connection,
+  DataSource,
   DeepPartial,
   DeleteResult,
   EntityManager,
   EntityTarget,
   FindManyOptions,
-  FindOneOptions, ObjectID, ObjectLiteral, SaveOptions,
-  UpdateResult
+  FindOneOptions,
+  ObjectID,
+  ObjectLiteral,
+  SaveOptions,
+  UpdateResult,
 } from "typeorm";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
@@ -99,7 +103,7 @@ export const toError =
         name: "DBError",
         message: e.message,
         details: {
-          kind: "ClientError",
+          kind: "ServerError",
           status: "500",
           meta: [e.stack],
         },
@@ -171,7 +175,11 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       );
     },
     find: (entity, options) => {
-      ctx.logger.debug.log(`find %s with options %O`, entity.valueOf().constructor.name, options);
+      ctx.logger.debug.log(
+        `find %s with options %O`,
+        entity.valueOf().constructor.name,
+        options
+      );
       return TE.tryCatch(
         () => ctx.connection.manager.find(entity, options),
         handleError()

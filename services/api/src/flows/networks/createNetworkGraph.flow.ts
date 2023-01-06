@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import path from "path";
+import { isDate } from "util/types";
 import { fp } from "@liexp/core/fp";
 import {
   eqByUUID,
@@ -20,7 +21,7 @@ import {
   NetworkType,
 } from "@liexp/shared/io/http/Network";
 import { EventNetworkDatum } from "@liexp/shared/io/http/Network/networks";
-import { distanceFromNow } from "@liexp/shared/utils/date";
+import { distanceFromNow, parseISO } from "@liexp/shared/utils/date";
 import { walkPaginatedRequest } from "@liexp/shared/utils/fp.utils";
 import { differenceInHours } from "date-fns";
 import * as A from "fp-ts/Array";
@@ -85,7 +86,7 @@ const getLinks =
                 source: relation.id,
                 sourceType: relationType,
                 target: id,
-                value: (1 / relations.length) * 100,
+                value: 1 / relations.length,
                 stroke: `#${relation.color}`,
                 fill: `#${relation.color}`,
               },
@@ -343,7 +344,9 @@ const getEventGraph =
                 if (sourceLinkIndex > -1) {
                   acc.eventLinks[sourceLinkIndex] = {
                     ...acc.eventLinks[sourceLinkIndex],
-                    value: acc.eventLinks[sourceLinkIndex].value + 1,
+                    value:
+                      (acc.eventLinks[sourceLinkIndex].value + 1) /
+                      acc.eventLinks[sourceLinkIndex].value,
                   };
                 } else {
                   linkAcc.push({
@@ -352,7 +355,7 @@ const getEventGraph =
                     target: item.id,
                     fill: `#${item.color}`,
                     stroke: `#${item.color}`,
-                    value: 0,
+                    value: 1,
                   });
                 }
 
@@ -523,7 +526,7 @@ export const createNetworkGraph =
   (
     type: NetworkType,
     id: UUID,
-    { groupBy, emptyRelations }: GetNetworkQuery
+    { groupBy, emptyRelations, startDate, endDate }: GetNetworkQuery
   ): TE.TaskEither<ControllerError, Graph> => {
     const filePath = path.resolve(
       process.cwd(),
@@ -693,6 +696,40 @@ export const createNetworkGraph =
             }, toControllerError);
           })
         );
+      }),
+      TE.map((graph) => {
+        ctx.logger.debug.log(
+          "Filter nodes and links from %s to %s",
+          O.toUndefined(startDate),
+          O.toUndefined(endDate)
+        );
+
+        if (O.isSome(startDate)) {
+          const nodes = graph.nodes.filter((n: any) => {
+            if (
+              ![ACTORS.value, GROUPS.value, KEYWORDS.value].includes(n.type)
+            ) {
+
+              const d = isDate(n.date) ? n.date : parseISO(n.date);
+
+              return new Date(startDate.value) < d;
+            }
+            return n;
+          });
+
+          const links = graph.links.filter(
+            (l: any) =>
+              nodes.some((n: any) => l.target === n.id) &&
+              nodes.some((n: any) => l.source === n.id)
+          );
+
+          return {
+            nodes,
+            links,
+          };
+        }
+
+        return graph;
       })
     );
   };

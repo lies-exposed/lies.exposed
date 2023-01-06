@@ -48,7 +48,7 @@ import { MakeGroupRoutes } from "@routes/groups/groups.route";
 import { MakeKeywordRoutes } from "@routes/keywords/keywords.routes";
 import { MakeLinkRoutes } from "@routes/links/LinkRoute.route";
 import { MakeMediaRoutes } from "@routes/media/media.routes";
-import { MakeNetworksRoutes } from '@routes/networks/networks.routes';
+import { MakeNetworksRoutes } from "@routes/networks/networks.routes";
 import { MakeOpenGraphRoutes } from "@routes/open-graph/openGraph.routes";
 import { MakePageRoutes } from "@routes/pages/pages.route";
 import { MakeProjectRoutes } from "@routes/projects/project.routes";
@@ -268,7 +268,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
         });
       },
       (e) => {
-        tgLogger.error.log("Error %O", e)
+        tgLogger.error.log("Error %O", e);
       }
     );
   });
@@ -285,6 +285,18 @@ export const makeApp = (ctx: RouteContext): express.Express => {
         err
       );
       if (err) {
+        if (err.name === "UnauthorizedError") {
+          return res.status(err.status).send(err);
+        }
+
+        if (err.name === "DBError") {
+          return res.status(500).send({
+            name: "APIError",
+            message: err.message,
+            details: [...err.details.meta],
+          });
+        }
+
         if (err.details?.kind === "DecodingError") {
           const errors = PathReporter.report(E.left(err.details.errors));
           ctx.logger.error.log(`DecodingError %O`, errors);
@@ -292,9 +304,6 @@ export const makeApp = (ctx: RouteContext): express.Express => {
             name: "DecodingError",
             details: errors,
           });
-        }
-        if (err.name === "UnauthorizedError") {
-          return res.status(err.status).send(err);
         }
 
         ctx.logger.debug.log("An error occurred %O", err);
@@ -304,17 +313,20 @@ export const makeApp = (ctx: RouteContext): express.Express => {
             const errors = PathReporter.report(E.left(err.details.meta.errors));
             ctx.logger.error.log(`An error occurred %O`, errors);
             return res.status(500).send({
-              name: "DecodingError",
-              details: errors,
+              ...err,
+              name: "APIError",
+              details: ["DecodingError", errors],
             });
           }
         }
 
         if (err.name === "APIError") {
           ctx.logger.error.log("APIError %O", JSON.stringify(err, null, 2));
-          return res
-            .status(err.status)
-            .send({ message: err.message, details: err.details });
+          return res.status(err.status).send({
+            name: "APIError",
+            message: err.message,
+            details: err.details,
+          });
         }
       }
       return res.status(err.status ?? 500).send(err);
