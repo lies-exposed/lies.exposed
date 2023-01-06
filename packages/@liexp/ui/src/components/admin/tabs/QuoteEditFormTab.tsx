@@ -1,5 +1,5 @@
 import * as React from "react";
-import { EditProps, TextInput } from "react-admin";
+import { EditProps, TextInput, TextField } from "react-admin";
 import { Box } from "../../mui";
 import ReferenceActorInput from "../common/ReferenceActorInput";
 
@@ -8,6 +8,7 @@ export const QuoteEditFormTab: React.FC<EditProps & { record?: any }> = (
 ) => (
   <Box>
     <ReferenceActorInput source="payload.actor" />
-    <TextInput source="payload.details" />
+    <TextInput source="payload.details" fullWidth />
+    <TextField source="payload.quote" fullWidth />
   </Box>
 );

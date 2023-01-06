@@ -1,20 +1,23 @@
-import { createValue, getTextContents, Value } from "@react-page/editor";
+import {
+  createValue,
+  getTextContents as defaultGetTextContents,
+  Value
+} from "@react-page/editor";
 import { getLiexpSlate } from "./plugins/customSlate";
 
-// export const minimalCellPlugins = [] as any[];
+export const getTextContents = (v: Value): string[] => {
+  return defaultGetTextContents(v, {
+    lang: "en",
+    cellPlugins: [getLiexpSlate({})],
+  });
+};
 
-export { getTextContents };
 export const getTextContentsCapped = (
   v: Value | undefined,
   end: number
 ): string => {
   if (v) {
-    const contents = getTextContents(v, {
-      lang: "en",
-      cellPlugins: [getLiexpSlate({})],
-    })
-      .join("\n")
-      .substring(0, end);
+    const contents = getTextContents(v).join("\n").substring(0, end);
 
     return contents;
   }
