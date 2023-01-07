@@ -1,12 +1,12 @@
 import { getShareMedia, getTitle } from "@liexp/shared/helpers/event";
-import { getTextContentsCapped } from "@liexp/shared/slate";
+import { getTextContents } from "@liexp/shared/slate";
 import { formatDate, parseISO } from "@liexp/shared/utils/date";
 import * as React from "react";
 import {
   FieldProps,
   Identifier,
   useDataProvider,
-  useRecordContext,
+  useRecordContext
 } from "react-admin";
 import {
   Box,
@@ -14,10 +14,8 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
-  Link,
-  Typography,
-  Input,
+  DialogTitle, Input, Link,
+  Typography
 } from "../../mui";
 
 interface TGPostButtonProps extends FieldProps {
@@ -100,7 +98,7 @@ export const TGPostButton: React.FC<TGPostButtonProps> = () => {
                 event.media,
                 `${process.env.WEB_URL}/liexp-logo-1200x630.png`
               );
-              const content = getTextContentsCapped(event.excerpt, 200);
+              const content = getTextContents(event.excerpt);
               const url = `${process.env.WEB_URL}/events/${record?.id}`;
               const keywords = event.keywords;
 
