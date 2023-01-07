@@ -1,11 +1,11 @@
 import { LinearGradient } from "@visx/gradient";
-import ParentSize from '@visx/responsive/lib/components/ParentSize';
+import { ParentSize } from "@visx/responsive";
 import * as t from "io-ts";
 import * as React from "react";
 import { useGraphQuery } from "../../state/queries/DiscreteQueries";
 import { AxisGraph } from "../Common/Graph/AxisGraph";
-import QueriesRenderer from "../QueriesRenderer";
 import { Checkbox } from "../mui";
+import QueriesRenderer from "../QueriesRenderer";
 
 /**
  * CO2.Earth Data set: https://www.co2.earth/historical-co2-datasets
@@ -85,96 +85,89 @@ interface State {
   toggleData: ToggleKey;
 }
 
-export class CO2LevelsGraph extends React.PureComponent<
-  CO2LevelsGraphProps,
-  State
-> {
-  state: State = {
-    toggleData: "last-2000-years",
-  };
+const initialState: State = {
+  toggleData: "last-2000-years",
+};
+export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = (props) => {
+  const { showPoints, showGrid = true, style } = props;
 
-  render(): JSX.Element {
-    const {
-      props: { showPoints, showGrid = true, style },
-      state: { toggleData },
-    } = this;
-    const id =
-      toggleData === "last-2000-years"
-        ? "co2_ppm_earth_data"
-        : "ghg-concentrations_800k-hundred-years-aggregated";
+  const [{ toggleData }, setToggleData] = React.useState(initialState);
+  const id =
+    toggleData === "last-2000-years"
+      ? "co2_ppm_earth_data"
+      : "ghg-concentrations_800k-hundred-years-aggregated";
 
-    return (
-      <QueriesRenderer
-        queries={{ data: useGraphQuery(id) }}
-        render={({ data }) => (
-          <ParentSize
-            style={{ height: 400, width: "100%", ...style }}
-            debounceTime={30}
-          >
-            {({ width, height }) => (
-              <div style={{ height, width }}>
-                <AxisGraph<CO2LevelDatum>
-                  id="co2-levels"
-                  width={width}
-                  height={height - 50}
-                  margin={{ top: 60, right: 60, bottom: 60, left: 60 }}
-                  linePathElement={(id: string) => (
-                    <LinearGradient
-                      id={id}
-                      vertical={true}
-                      fromOpacity={1}
-                      toOpacity={1}
-                      to="#fcc317"
-                      from="#fc2317"
-                      fromOffset="40%"
-                      toOffset="80%"
-                    />
-                  )}
-                  background={(id: string) => (
-                    <LinearGradient
-                      id={id}
-                      vertical={true}
-                      from={"#de8cf3"}
-                      to={"#177ffc"}
-                      fromOpacity={1}
-                      toOpacity={0.5}
-                    />
-                  )}
-                  showPoints={showPoints}
-                  showGrid={showGrid}
-                  data={
-                    toggleData === "last-2000-years"
-                      ? data.data.map((d: any) => ({
-                          year: d.year,
-                          value: d.data_mean_global,
-                        }))
-                      : data.data
-                  }
-                  minYRange={toggleData === "last-2000-years" ? 240 : 150}
-                  getX={(d) => d.year}
-                  getY={(d) => d.value}
-                  axisLeftLabel={"CO2 cocentration (part per million)"}
-                  axisRightLabel={"CO2 cocentration (part per million)"}
-                  axisBottomLabel={"Date"}
-                />
+  return (
+    <QueriesRenderer
+      queries={{ data: useGraphQuery(id) }}
+      render={({ data }) => (
+        <ParentSize
+          style={{ height: 400, width: "100%", ...style }}
+          debounceTime={30}
+        >
+          {({ width, height }) => (
+            <div style={{ height, width }}>
+              <AxisGraph<CO2LevelDatum>
+                id="co2-levels"
+                width={width}
+                height={height - 50}
+                margin={{ top: 60, right: 60, bottom: 60, left: 60 }}
+                linePathElement={(id: string) => (
+                  <LinearGradient
+                    id={id}
+                    vertical={true}
+                    fromOpacity={1}
+                    toOpacity={1}
+                    to="#fcc317"
+                    from="#fc2317"
+                    fromOffset="40%"
+                    toOffset="80%"
+                  />
+                )}
+                background={(id: string) => (
+                  <LinearGradient
+                    id={id}
+                    vertical={true}
+                    from={"#de8cf3"}
+                    to={"#177ffc"}
+                    fromOpacity={1}
+                    toOpacity={0.5}
+                  />
+                )}
+                showPoints={showPoints}
+                showGrid={showGrid}
+                data={
+                  toggleData === "last-2000-years"
+                    ? data.data.map((d: any) => ({
+                        year: d.year,
+                        value: d.data_mean_global,
+                      }))
+                    : data.data
+                }
+                minYRange={toggleData === "last-2000-years" ? 240 : 150}
+                getX={(d) => d.year}
+                getY={(d) => d.value}
+                axisLeftLabel={"CO2 cocentration (part per million)"}
+                axisRightLabel={"CO2 cocentration (part per million)"}
+                axisBottomLabel={"Date"}
+              />
 
-                {localiseToggleKey[toggleData]}
-                <Checkbox
-                  checked={toggleData === "last-2000-years"}
-                  onChange={() => {
-                    this.setState({
-                      toggleData:
-                        toggleData === "last-2000-years"
-                          ? "last-800k-years"
-                          : "last-2000-years",
-                    });
-                  }}
-                />
-              </div>
-            )}
-          </ParentSize>
-        )}
-      />
-    );
-  }
-}
+              {localiseToggleKey[toggleData]}
+              <Checkbox
+                checked={toggleData === "last-2000-years"}
+                onChange={() => {
+                  setToggleData({
+                    toggleData:
+                      toggleData === "last-2000-years"
+                        ? "last-800k-years"
+                        : "last-2000-years",
+                  });
+                }}
+              />
+            </div>
+          )}
+        </ParentSize>
+      )}
+    />
+  );
+};

@@ -1,5 +1,5 @@
 import { Media } from "@liexp/shared/io/http";
-import ParentSize from "@visx/responsive/lib/components/ParentSizeModern";
+import { ParentSize } from "@visx/responsive";
 import { clsx } from "clsx";
 import * as React from "react";
 import ReactAudioPlayer from "react-audio-player";
@@ -17,9 +17,9 @@ const classes = {
 const Root = styled("div")(() => ({
   [`&.${classes.root}`]: {
     display: "flex",
-    flexDirection: 'column',
+    flexDirection: "column",
     alignItems: "center",
-    justifyContent: 'center'
+    justifyContent: "center",
   },
   [`& .${classes.player}`]: {
     display: "flex",
@@ -44,8 +44,8 @@ const AudioMediaElement: React.FC<AudioMediaElementProps> = ({
 
   return (
     <Root className={classes.root} style={style}>
-      <Box style={{ display: "flex", width: '100%' }}>
-        <ParentSize style={{ width: '100%', minHeight: 60, maxHeight: 200 }}>
+      <Box style={{ display: "flex", width: "100%" }}>
+        <ParentSize style={{ width: "100%", minHeight: 60, maxHeight: 200 }}>
           {({ height, width }) => (
             <WaveformThumbnail
               {...props}
