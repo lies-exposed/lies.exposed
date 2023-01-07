@@ -8,7 +8,7 @@ import {
   Quote,
   ScientificStudy,
   Transaction,
-  Uncategorized
+  Uncategorized,
 } from "@liexp/shared/io/http/Events";
 import { DEATH } from "@liexp/shared/io/http/Events/Death";
 import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
@@ -26,12 +26,28 @@ import { pipe } from "fp-ts/function";
 import * as S from "fp-ts/string";
 import * as React from "react";
 import { SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery";
+import { styled } from "../../theme";
 import { ActorList } from "../lists/ActorList";
 import GroupList from "../lists/GroupList";
 import { GroupsMembersList } from "../lists/GroupMemberList";
 import KeywordList from "../lists/KeywordList";
 import { Box, IconButton, Typography } from "../mui";
 import { EventTypeFilters } from "./EventTypeFilters";
+
+const PREFIX = "events-app-bar-minimized";
+const classes = {
+  root: `${PREFIX}-root`,
+};
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  [`&.${classes.root}`]: {
+    display: "flex",
+    width: "100%",
+    [theme.breakpoints.down("md")]: {
+      flexDirection: "column",
+    },
+  },
+}));
 
 interface EventsAppBarMinimizedProps {
   query: SearchEventsQueryInputNoPagination;
@@ -166,7 +182,9 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
         style={{
           padding: 0,
         }}
-        onClick={() => { onQueryClear(); }}
+        onClick={() => {
+          onQueryClear();
+        }}
         size="large"
       >
         <HighlightOffIcon />
@@ -309,12 +327,7 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
   );
 
   return (
-    <Box
-      style={{
-        display: "flex",
-        width: "100%",
-      }}
-    >
+    <StyledBox className={classes.root}>
       {dateRangeBox}
       <EventTypeFilters
         filters={filters}
@@ -346,6 +359,6 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
         </Box>
       ) : null}
       {eventTotal}
-    </Box>
+    </StyledBox>
   );
 };

@@ -2,7 +2,7 @@ import { Actor, Group, GroupMember, Keyword } from "@liexp/shared/io/http";
 import * as React from "react";
 import {
   searchEventsQuery,
-  SearchEventsQueryInputNoPagination
+  SearchEventsQueryInputNoPagination,
 } from "../../state/queries/SearchEventsQuery";
 import { styled, useTheme } from "../../theme";
 import { DateRangePicker } from "../Common/DateRangePicker";
@@ -16,7 +16,7 @@ import {
   Grid,
   SearchIcon,
   Toolbar,
-  Typography
+  Typography,
 } from "../mui";
 import { EventsAppBarMinimized } from "./EventsAppBarMinimized";
 import SearchEventInput, { SearchOption } from "./inputs/SearchEventInput";
@@ -33,6 +33,7 @@ const classes = {
   inputRoot: `${PREFIX}-inputRoot`,
   inputInput: `${PREFIX}-inputInput`,
   tabs: `${PREFIX}-tabs`,
+  expandedBox: `${PREFIX}-expanded-box`,
 };
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
@@ -102,6 +103,13 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
       paddingTop: 20,
       display: "flex",
       alignItems: "center",
+    },
+  },
+  [`& .${classes.expandedBox}`]: {
+    display: "flex",
+    flexDirection: "row",
+    [theme.breakpoints.down("md")]: {
+      flexDirection: "column",
     },
   },
 }));
@@ -289,8 +297,8 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
         );
 
         const expanded = (
-          <Box display="flex" style={{ width: "100%" }}>
-            <Grid container>
+          <Box>
+            <Grid container className={classes.expandedBox}>
               <Grid item md={8} sm={6} xs={12}>
                 {searchBox}
                 {searchTermBox}
@@ -340,32 +348,22 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
               style={{ width: "100%" }}
             >
               <AccordionSummary>
-                <Box
-                  style={{
-                    display: "flex",
-                    width: "100%",
-                    alignItems: "center",
-                    justifyItems: "center",
-                    flexDirection: "column",
-                  }}
-                >
-                  <EventsAppBarMinimized
-                    open={isExpanded}
-                    query={query}
-                    tab={tab}
-                    actors={actors.filter((a) => query.actors?.includes(a.id))}
-                    groups={groups.filter((g) => query.groups?.includes(g.id))}
-                    groupsMembers={groupsMembers.filter((gm) =>
-                      query.groupsMembers?.includes(gm.id)
-                    )}
-                    keywords={keywords.filter((k) =>
-                      query.keywords?.includes(k.id)
-                    )}
-                    totals={totals}
-                    onQueryChange={onQueryChange}
-                    onQueryClear={onQueryClear}
-                  />
-                </Box>
+                <EventsAppBarMinimized
+                  open={isExpanded}
+                  query={query}
+                  tab={tab}
+                  actors={actors.filter((a) => query.actors?.includes(a.id))}
+                  groups={groups.filter((g) => query.groups?.includes(g.id))}
+                  groupsMembers={groupsMembers.filter((gm) =>
+                    query.groupsMembers?.includes(gm.id)
+                  )}
+                  keywords={keywords.filter((k) =>
+                    query.keywords?.includes(k.id)
+                  )}
+                  totals={totals}
+                  onQueryChange={onQueryChange}
+                  onQueryClear={onQueryClear}
+                />
               </AccordionSummary>
               <AccordionDetails>{expanded}</AccordionDetails>
             </Accordion>
