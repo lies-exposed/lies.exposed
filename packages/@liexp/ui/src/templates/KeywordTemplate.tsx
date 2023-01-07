@@ -6,11 +6,11 @@ import * as React from "react";
 import { KeywordHierarchyEdgeBundlingGraph } from "../components/Graph/KeywordHierarchyEdgeBundlingGraph";
 import QueriesRenderer from "../components/QueriesRenderer";
 import SEO from "../components/SEO";
-import { Box, Typography } from "../components/mui";
-import { EventsPanel } from "../containers/EventsPanel";
+import { Box } from "../components/mui";
+import { EventsPanelBox } from "../containers/EventsPanel";
 import { EventNetworkGraphBox } from "../containers/graphs/EventNetworkGraphBox";
 import { useKeywordQuery } from "../state/queries/DiscreteQueries";
-import { SearchEventsQueryInputNoPagination } from '../state/queries/SearchEventsQuery';
+import { SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
 import { SplitPageTemplate } from "./SplitPageTemplate";
 
 export interface KeywordTemplateProps {
@@ -20,7 +20,7 @@ export interface KeywordTemplateProps {
   onEventClick: (e: SearchEvent) => void;
   onKeywordClick: (k: Keyword.Keyword) => void;
   query: SearchEventsQueryInputNoPagination;
-  onQueryChange: (q: SearchEventsQueryInputNoPagination, tab: number) => void
+  onQueryChange: (q: SearchEventsQueryInputNoPagination, tab: number) => void;
 }
 
 export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
@@ -47,19 +47,7 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
             <SplitPageTemplate
               tab={tab}
               onTabChange={onTabChange}
-              sidebar={({ className }) => (
-                <Box className={className}>
-                  <Typography
-                    variant="h4"
-                    color={keyword.color as any}
-                    style={{
-                      color: `#${keyword.color}`,
-                    }}
-                  >
-                    #{keyword.tag}
-                  </Typography>
-                </Box>
-              )}
+              name={keyword.tag}
               tabs={[
                 { label: "Events" },
                 { label: "Hierarchy" },
@@ -70,18 +58,16 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
                 item: keyword,
               }}
             >
-              <EventsPanel
+              <EventsPanelBox
                 tab={tab}
                 slide={false}
                 query={{
                   ...query,
                   hash: `keyword-${keywordId}`,
-                  keywords: [keyword.id],
+                  keywords: query.keywords
+                    ? [...query.keywords, keyword.id]
+                    : [keyword.id],
                 }}
-                keywords={[keyword]}
-                actors={[]}
-                groups={[]}
-                groupsMembers={[]}
                 onQueryChange={onQueryChange}
                 onEventClick={onEventClick}
               />

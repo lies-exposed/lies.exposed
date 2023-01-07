@@ -3,21 +3,17 @@ import {
   Documentary,
   Patent,
   ScientificStudy,
-  Uncategorized
+  Uncategorized,
 } from "@liexp/shared/io/http/Events";
 import { EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import * as React from "react";
-import {
-  Index,
-  IndexRange,
-  InfiniteLoader
-} from "react-virtualized";
+import { AutoSizer, Index, IndexRange, InfiniteLoader } from "react-virtualized";
 import {
   SearchEventQueryInput,
-  searchEventsInfiniteQuery
+  searchEventsInfiniteQuery,
 } from "../../../state/queries/SearchEventsQuery";
 import { FullSizeLoader } from "../../Common/FullSizeLoader";
-import { Box } from '../../mui';
+import { Box } from "../../mui";
 import { EventListItemProps } from "./EventListItem";
 import EventsTimelineList from "./EventsTimelineList";
 
@@ -29,11 +25,7 @@ export interface EventsTimelineProps
 }
 
 const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
-  const {
-    hash,
-    queryParams,
-    ...listProps
-  } = props;
+  const { hash, queryParams, ...listProps } = props;
 
   // const isDownSM = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -121,8 +113,8 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
 
   return (
     <Box
-      display={"flex"}
       style={{
+        display: "flex",
         flexGrow: 1,
         flexShrink: 0,
         flexBasis: "auto",
@@ -137,13 +129,21 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
         minimumBatchSize={20}
       >
         {({ onRowsRendered, registerChild }) => (
-          <EventsTimelineList
-            {...listProps}
-            total={totalEvents}
-            events={searchEvents}
-            ref={registerChild}
-            onRowsRendered={onRowsRendered}
-          />
+          <AutoSizer>
+            {({ width, height }) => {
+              return (
+                <EventsTimelineList
+                  {...listProps}
+                  width={width}
+                  height={height}
+                  total={totalEvents}
+                  events={searchEvents}
+                  ref={registerChild}
+                  onRowsRendered={onRowsRendered}
+                />
+              );
+            }}
+          </AutoSizer>
         )}
       </InfiniteLoader>
     </Box>

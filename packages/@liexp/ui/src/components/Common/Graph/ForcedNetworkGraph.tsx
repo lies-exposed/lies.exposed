@@ -160,14 +160,13 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
         nodeStrokeWidth / Math.sqrt(transform.k)
       );
 
-      eventIconPattern.attr(
-        "width",
-        (n) => (nodeRadius(n) * 2) / Math.sqrt(transform.k)
-      );
+      // eventIconPattern
+      //   .attr("width", "100")
+      //   .attr("height", "1");
 
       eventIconSvg
-        .attr("width", (n) => (nodeRadius(n) * 2) / Math.sqrt(transform.k))
-        .attr("height", (n) => (nodeRadius(n) * 2) / Math.sqrt(transform.k))
+        .attr("width", (n) => nodeRadius(n) * 2)
+        .attr("height", (n) => nodeRadius(n) * 2)
         .style("font-size", "12px");
 
       eventIconRect
@@ -311,7 +310,7 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
     const keywordPattern = nodeG
       .filter((n) => KEYWORDS.value === n.type)
       .append("text")
-      .text((d) => `#`)
+      .text(`#`)
       .attr("fill", (d) => `#${d.color}`)
       .attr("stroke", (d) => `#${d.color}`)
       .style("cursor", "pointer")
@@ -345,15 +344,11 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
         const text = d3.select(`.title[data-id="${dataId}"]`);
         return text.style("display", "block");
       })
-      .on(
-        "mouseout",
-
-        function (this: any) {
-          const dataId = d3.select(this).attr("data-id");
-          const text = d3.select(`.title[data-id='${dataId}']`);
-          return text.style("display", "none");
-        }
-      );
+      .on("mouseout", function (this: any) {
+        const dataId = d3.select(this).attr("data-id");
+        const text = d3.select(`.title[data-id='${dataId}']`);
+        return text.style("display", "none");
+      });
 
     if (onClick) {
       node.on("click", function (this: any) {

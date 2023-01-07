@@ -1,13 +1,16 @@
 import { Actor, Group, GroupMember, Keyword } from "@liexp/shared/io/http";
 import { EventType, SearchEvent } from "@liexp/shared/io/http/Events";
-import { clsx } from "clsx";
 import * as React from "react";
-import { TabPanel } from "../components/Common/TabPanel";
 import EventSliderModal from "../components/Modal/EventSliderModal";
+import QueriesRenderer from "../components/QueriesRenderer";
 import EventsAppBar from "../components/events/EventsAppBar";
 import EventsTimeline from "../components/lists/EventList/EventsTimeline";
 import { Box, Grid } from "../components/mui";
-import useWindowsDimensions from "../hooks/useWindowsDimensions";
+import {
+  useActorsQuery,
+  useGroupsQuery,
+  useKeywordsQuery,
+} from "../state/queries/DiscreteQueries";
 import { SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
 import { styled } from "../theme";
 
@@ -23,16 +26,15 @@ const classes = {
   drawerClose: `${PREFIX}-drawerClose`,
   drawerContainer: `${PREFIX}-drawerContainer`,
   toolbar: `${PREFIX}-toolbar`,
-  tabPanel: `${PREFIX}-tabPanel`,
-  tabPanelSelected: `${PREFIX}-tabPanelSelected`,
   content: `${PREFIX}-content`,
   eventFiltersBox: `${PREFIX}-eventFiltersBox`,
 };
 
 const StyledBox = styled(Box)(({ theme }) => ({
-  [`& .${classes.root}`]: {
+  [`&.${classes.root}`]: {
     display: "flex",
     flexDirection: "row",
+    height: "100%",
     [theme.breakpoints.down("md")]: {
       flexDirection: "column",
     },
@@ -88,21 +90,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
     ...theme.mixins.toolbar,
   },
 
-  [`& .${classes.tabPanel}`]: {
-    maxHeight: "100%",
-    minHeight: 500,
-    width: "100%",
-    flexGrow: 1,
-    flexShrink: 0,
-    height: "100%",
-    display: "none",
-  },
-
-  [`& .${classes.tabPanelSelected}`]: {
-    display: "flex",
-  },
-
-  [`&.${classes.content}`]: {
+  [`& .${classes.content}`]: {
     flexGrow: 1,
     height: "100%",
     width: "100%",
@@ -159,8 +147,6 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   onQueryChange,
   onEventClick,
 }) => {
-  const { height } = useWindowsDimensions();
-
   const handleUpdateEventsSearch = React.useCallback(
     (update: Partial<SearchEventsQueryInputNoPagination>): void => {
       onQueryChange({ ...query, ...update, hash }, tab);
@@ -223,10 +209,10 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
 
   return (
     <StyledBox
-      id="events-panel"
+      id={`events-panel-${hash}`}
       className={classes.content}
       style={{
-        height,
+        height: "100%",
       }}
     >
       <Grid
@@ -253,92 +239,97 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
         </Grid>
 
         <Grid item lg={12} xs={12} style={{ height: "100%" }}>
-          <TabPanel
-            className={clsx(classes.tabPanel, {
-              [classes.tabPanelSelected]: tab === 0,
-            })}
-            value={tab}
-            index={0}
-          >
-            {tab === 0 ? (
-              <EventsTimeline
-                hash={hash}
-                queryParams={query}
-                onClick={handleEventClick}
-                onGroupClick={(g) => {
-                  onGroupsChange(g);
-                }}
-                onGroupMemberClick={(gm) => {
-                  const gmgg = query.groupsMembers ?? [];
-                  onGroupMembersChange(
-                    gmgg.includes(gm.id)
-                      ? gmgg.filter((aa) => gm.id !== aa)
-                      : gmgg.concat(gm.id)
-                  );
-                }}
-                onActorClick={(a) => {
-                  onActorsChange(a);
-                }}
-                onKeywordClick={(k) => {
-                  onKeywordsChange(k);
-                }}
-              />
-            ) : null}
-          </TabPanel>
-          {/* <TabPanel
-            className={clsx(classes.tabPanel, {
-              [classes.tabPanelSelected]: tab === 1,
-            })}
-            value={tab}
-            index={1}
-          >
-            {tab === 1 ? (
-              <Grid
-                item
-                lg={10}
-                style={{
-                  margin: "auto",
-                }}
-              >
-                <EventsNetwork
-                  includeEmptyRelations={false}
-                  filter={query}
-                  groupBy={"actor"}
-                  scale={"all"}
-                  scalePoint={O.none}
-                  onEventClick={(e) => {
-                    navigateTo.events({
-                      id: e.id,
-                    });
-                  }}
-                />
-              </Grid>
-            ) : null}
-            <div />
-          </TabPanel> */}
+          <EventsTimeline
+            hash={hash}
+            queryParams={query}
+            onClick={handleEventClick}
+            onGroupClick={onGroupsChange}
+            onGroupMemberClick={(gm) => {
+              const gmgg = query.groupsMembers ?? [];
+              onGroupMembersChange(
+                gmgg.includes(gm.id)
+                  ? gmgg.filter((aa) => gm.id !== aa)
+                  : gmgg.concat(gm.id)
+              );
+            }}
+            onActorClick={onActorsChange}
+            onKeywordClick={onKeywordsChange}
+          />
         </Grid>
       </Grid>
       <EventSliderModal
         open={slide}
         query={{ ...query, hash }}
         onQueryChange={handleUpdateEventsSearch}
-        onQueryClear={() => {}}
-        onClick={(e) => {
-          onEventClick(e);
+        onQueryClear={() => {
+          onQueryChange({ hash }, 0);
         }}
-        onActorClick={(a) => {
-          onActorsChange(a);
-        }}
-        onGroupClick={(g) => {
-          onGroupsChange(g);
-        }}
-        onKeywordClick={(k) => {
-          onKeywordsChange(k);
-        }}
+        onClick={onEventClick}
+        onActorClick={onActorsChange}
+        onGroupClick={onGroupsChange}
+        onKeywordClick={onKeywordsChange}
         onGroupMemberClick={(g) => {
           onActorsChange(g.actor);
         }}
       />
     </StyledBox>
+  );
+};
+
+interface EventsPanelBoxProps
+  extends Omit<
+    EventsPanelProps,
+    "groups" | "actors" | "keywords" | "groupsMembers"
+  > {}
+
+export const EventsPanelBox: React.FC<EventsPanelBoxProps> = ({
+  query,
+  ...props
+}) => {
+  return (
+    <QueriesRenderer
+      queries={{
+        groups: useGroupsQuery(
+          {
+            pagination: { perPage: query.groups?.length ?? 0, page: 1 },
+            sort: { field: "createdAt", order: "DESC" },
+            filter: { ids: query.groups },
+          },
+          true
+        ),
+        actors: useActorsQuery(
+          {
+            pagination: { perPage: query.actors?.length ?? 0, page: 1 },
+            sort: { field: "createdAt", order: "DESC" },
+            filter: { ids: query.actors },
+          },
+          true
+        ),
+        keywords: useKeywordsQuery(
+          {
+            pagination: { perPage: query.keywords?.length ?? 0, page: 1 },
+            sort: { field: "createdAt", order: "DESC" },
+            filter: { ids: query.keywords },
+          },
+          true
+        ),
+      }}
+      render={({
+        actors: { data: actors },
+        groups: { data: groups },
+        keywords: { data: keywords },
+      }) => {
+        return (
+          <EventsPanel
+            {...props}
+            query={query}
+            actors={actors}
+            groups={groups}
+            keywords={keywords}
+            groupsMembers={[]}
+          />
+        );
+      }}
+    />
   );
 };

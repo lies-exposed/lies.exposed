@@ -2,19 +2,18 @@ import {
   ActorArb,
   GroupArb,
   MediaArb,
-  UncategorizedArb
+  UncategorizedArb,
 } from "@liexp/shared/tests";
 import { KeywordArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
 import { fc } from "@liexp/test";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import EventsTimelineList, {
-  EventsTimelineListProps
+  EventsTimelineListProps,
 } from "@liexp/ui/components/lists/EventList/EventsTimelineList";
-import {
-  searchEventsQuery
-} from "@liexp/ui/state/queries/SearchEventsQuery";
+import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from "react";
+import { AutoSizer } from "react-virtualized";
 
 const meta: Meta = {
   title: "Components/Lists/Events/EventTimelineList",
@@ -37,7 +36,21 @@ const Template: Story<EventsTimelineListProps> = (props) => {
           }),
         }}
         render={({ events }) => {
-          return <EventsTimelineList {...props} events={events} ref={ref} />;
+          return (
+            <AutoSizer>
+              {({ width, height }) => {
+                return (
+                  <EventsTimelineList
+                    {...props}
+                    width={width}
+                    height={height}
+                    events={events}
+                    ref={ref}
+                  />
+                );
+              }}
+            </AutoSizer>
+          );
         }}
       />
     </div>
@@ -46,8 +59,7 @@ const Template: Story<EventsTimelineListProps> = (props) => {
 
 const EventsTimelineListExample = Template.bind({});
 
-const args: Omit<EventsTimelineListProps, "ref"> = {
-  defaultHeight: 600,
+EventsTimelineListExample.args = {
   events: {
     events: fc.sample(UncategorizedArb, 10).map((u) => ({
       ...u,
@@ -84,7 +96,5 @@ const args: Omit<EventsTimelineListProps, "ref"> = {
   onClick(e) {},
   onRowsRendered(info) {},
 };
-
-EventsTimelineListExample.args = args;
 
 export { EventsTimelineListExample as EventsTimelineList };

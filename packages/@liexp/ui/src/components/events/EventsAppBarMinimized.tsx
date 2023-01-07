@@ -37,12 +37,23 @@ import { EventTypeFilters } from "./EventTypeFilters";
 const PREFIX = "events-app-bar-minimized";
 const classes = {
   root: `${PREFIX}-root`,
+  dateRangeBox: `${PREFIX}-date-range-box`,
 };
 
 const StyledBox = styled(Box)(({ theme }) => ({
   [`&.${classes.root}`]: {
     display: "flex",
     width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "column",
+    },
+  },
+  [`& .${classes.dateRangeBox}`]: {
+    display: "flex",
+    alignItems: "center",
+    flexShrink: 0,
     [theme.breakpoints.down("md")]: {
       flexDirection: "column",
     },
@@ -182,7 +193,8 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
         style={{
           padding: 0,
         }}
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
           onQueryClear();
         }}
         size="large"
@@ -233,7 +245,7 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
 
   const dateRangeBox =
     query.startDate ?? query.endDate ? (
-      <Box style={{ display: "flex", alignItems: "center" }}>
+      <Box className={classes.dateRangeBox}>
         {query.startDate ? (
           <Typography variant="subtitle1" style={{ marginRight: 10 }}>
             From <b>{query.startDate}</b>
