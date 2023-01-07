@@ -8276,7 +8276,7 @@ __metadata:
     eslint-import-resolver-typescript: ^3.5.2
     eslint-plugin-import: ^2.26.0
     express: ^4.18.2
-    express-jwt: ^8.2.1
+    express-jwt: ^8.3.0
     fast-csv: ^4.3.6
     fluent-ffmpeg: ^2.1.2
     form-data: ^4.0.0
@@ -13017,14 +13017,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-jwt@npm:*, express-jwt@npm:^8.2.1":
-  version: 8.2.1
-  resolution: "express-jwt@npm:8.2.1"
+"express-jwt@npm:*, express-jwt@npm:^8.3.0":
+  version: 8.3.0
+  resolution: "express-jwt@npm:8.3.0"
   dependencies:
     "@types/jsonwebtoken": ^9
     express-unless: ^2.1.3
     jsonwebtoken: ^9.0.0
-  checksum: 3948b46e4721e63ea1c3e4f48f9300466d2a0107ac28fdf9662eaaa53e55f93e67fc4ed77ec002b64c2e51198b12d66c3f1d70309f84ef06e93430a48f6c133e
+    lodash.set: ^4.3.2
+  checksum: dc2de448dd90a8fa66573a464c70cdf64329c476a88311998b96954458da74dac003570c77d4dc05ba48e25a5133e2ba97bdfd53c7310eb6e2a42ed3333e5bbd
   languageName: node
   linkType: hard
 
@@ -17384,6 +17385,13 @@ __metadata:
   version: 4.6.2
   resolution: "lodash.mergewith@npm:4.6.2"
   checksum: a6db2a9339752411f21b956908c404ec1e088e783a65c8b29e30ae5b3b6384f82517662d6f425cc97c2070b546cc2c7daaa8d33f78db7b6e9be06cd834abdeb8
+  languageName: node
+  linkType: hard
+
+"lodash.set@npm:^4.3.2":
+  version: 4.3.2
+  resolution: "lodash.set@npm:4.3.2"
+  checksum: a9122f49eef9f2d0fc9061a33d87f8e5b8c6b23d46e8b9e9ce1529d3588d79741bd1145a3abdfa3b13082703e65af27ff18d8a07bfc22b9be32f3fc36f763f70
   languageName: node
   linkType: hard
 
