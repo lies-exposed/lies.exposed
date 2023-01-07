@@ -4,6 +4,7 @@ import { clsx } from "clsx";
 import * as React from "react";
 import { TabPanel } from "../components/Common/TabPanel";
 import EventSliderModal from "../components/Modal/EventSliderModal";
+import EventsAppBar from "../components/events/EventsAppBar";
 import EventsTimeline from "../components/lists/EventList/EventsTimeline";
 import { Box, Grid } from "../components/mui";
 import useWindowsDimensions from "../hooks/useWindowsDimensions";
@@ -151,6 +152,10 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   tab,
   slide,
   query: { hash, ...query },
+  actors,
+  groups,
+  groupsMembers,
+  keywords,
   onQueryChange,
   onEventClick,
 }) => {
@@ -231,6 +236,22 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
           height: "100%",
         }}
       >
+        <Grid container justifyContent="center">
+          <EventsAppBar
+            hash={hash}
+            query={{ ...query, hash }}
+            tab={tab}
+            actors={actors}
+            groups={groups}
+            groupsMembers={groupsMembers}
+            keywords={keywords}
+            onQueryChange={handleUpdateEventsSearch}
+            onQueryClear={() => {
+              onQueryChange({ hash }, 0);
+            }}
+          />
+        </Grid>
+
         <Grid item lg={12} xs={12} style={{ height: "100%" }}>
           <TabPanel
             className={clsx(classes.tabPanel, {
@@ -297,24 +318,6 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
           </TabPanel> */}
         </Grid>
       </Grid>
-
-      {/* <TabPanel
-        className={clsx(classes.tabPanel, {
-          [classes.tabPanelSelected]: tab === 1,
-        })}
-        value={tab}
-        index={1}
-      >
-        {tab === 1 ? (
-          <EventsMap
-            filter={{
-              actors: [],
-              groups: [],
-            }}
-            onMapClick={() => {}}
-          />
-        ) : null}
-      </TabPanel> */}
       <EventSliderModal
         open={slide}
         query={{ ...query, hash }}

@@ -1,26 +1,22 @@
 import { EventType } from "@liexp/shared/io/http/Events";
 import { GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
+import { Box, Grid } from "@liexp/ui/components/mui";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
-import EventsAppBar from "@liexp/ui/components/events/EventsAppBar";
-import { Box, Grid } from "@liexp/ui/components/mui";
 import { EventsPanel } from "@liexp/ui/containers/EventsPanel";
 import {
-  useActorsQuery,
-  useGroupsQuery,
-  useGroupMembersQuery,
-  useKeywordsQuery,
+  useActorsQuery, useGroupMembersQuery, useGroupsQuery, useKeywordsQuery
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import {
   clearSearchEventsQueryCache,
   SearchEventQueryInput,
-  SearchEventsQueryInputNoPagination,
+  SearchEventsQueryInputNoPagination
 } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { styled } from "@liexp/ui/theme";
 import {
   queryToHash,
   useQueryFromHash,
-  useRouteQuery,
+  useRouteQuery
 } from "@liexp/ui/utils/history.utils";
 import * as React from "react";
 import { queryClient } from "../state/queries";
@@ -286,21 +282,6 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                   width: "100%",
                 }}
               >
-                <Grid container justifyContent="center">
-                  <EventsAppBar
-                    hash={hash}
-                    query={params}
-                    tab={tab}
-                    actors={filterActors.data}
-                    groups={filterGroups.data}
-                    groupsMembers={filterGroupsMembers.data}
-                    keywords={filterKeywords.data}
-                    onQueryChange={handleUpdateEventsSearch}
-                    onQueryClear={() => {
-                      navigateTo.events({}, {});
-                    }}
-                  />
-                </Grid>
                 <main className={classes.content}>
                   <Grid container alignContent="center" justifyContent="center">
                     <Grid item lg={8} md={8} sm={12} xs={12}>
@@ -313,7 +294,9 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                         keywords={filterKeywords.data}
                         groupsMembers={filterGroupsMembers.data}
                         onQueryChange={handleUpdateEventsSearch}
-                        onEventClick={(e) => { navigateTo.events({ id: e.id }); }}
+                        onEventClick={(e) => {
+                          navigateTo.events({ id: e.id });
+                        }}
                       />
                     </Grid>
                   </Grid>
