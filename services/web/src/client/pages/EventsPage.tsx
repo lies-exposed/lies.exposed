@@ -1,8 +1,8 @@
 import { EventType } from "@liexp/shared/io/http/Events";
 import { GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
-import { Box, Grid } from "@liexp/ui/components/mui";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
+import { Box, Grid } from "@liexp/ui/components/mui";
 import { EventsPanel } from "@liexp/ui/containers/EventsPanel";
 import {
   useActorsQuery, useGroupMembersQuery, useGroupsQuery, useKeywordsQuery

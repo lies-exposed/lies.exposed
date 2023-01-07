@@ -17,7 +17,7 @@ export const MediaArrayInput: React.FC<
   return (
     <ArrayInput {...props} style={{ width: "100%" }} fullWidth>
       <SimpleFormIterator fullWidth>
-        <BooleanInput source="addNew" />
+        <BooleanInput source="addNew" defaultValue={false} />
         <FormDataConsumer>
           {({
             formData: record,
@@ -31,6 +31,7 @@ export const MediaArrayInput: React.FC<
             const descriptionSource = getSrc("description");
             const locationSource = getSrc("location");
             const typeSource = getSrc("type");
+            const idSource = getSrc('id');
 
             if (scopedFormData?.addNew) {
               return (
@@ -48,7 +49,7 @@ export const MediaArrayInput: React.FC<
 
             return (
               <Box width={"100%"}>
-                <ReferenceMediaInput source={locationSource} fullWidth />
+                <ReferenceMediaInput source={idSource} fullWidth />
               </Box>
             );
           }}
