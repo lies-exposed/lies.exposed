@@ -130,7 +130,7 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
           />
         </div>
       </Grid>
-      <Grid item lg={7} md={9} sm={12} xs={12} className={classes.main}>
+      <Grid item lg={9} md={9} sm={12} xs={12} className={classes.main}>
         {tabsContent}
       </Grid>
     </StyledGrid>

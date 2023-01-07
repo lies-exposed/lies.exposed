@@ -1,7 +1,7 @@
 import { fp } from "@liexp/core/fp";
 import { Actor, Group, Keyword } from "@liexp/shared/io/http";
 import { ACTORS } from "@liexp/shared/io/http/Actor";
-import { EventType, SearchEvent } from "@liexp/shared/io/http/Events";
+import { SearchEvent } from "@liexp/shared/io/http/Events";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
@@ -14,11 +14,14 @@ import { Box, Typography } from "../components/mui";
 import { EventsPanel } from "../containers/EventsPanel";
 import { EventNetworkGraphBox } from "../containers/graphs/EventNetworkGraphBox";
 import { useGroupsQuery } from "../state/queries/DiscreteQueries";
+import { SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
 import { SplitPageTemplate } from "./SplitPageTemplate";
 
 export interface ActorTemplateProps {
   actor: Actor.Actor;
   tab: number;
+  query: SearchEventsQueryInputNoPagination;
+  onQueryChange: (q: SearchEventsQueryInputNoPagination, tab: number) => void;
   onTabChange: (t: number) => void;
   onActorClick: (a: Actor.Actor) => void;
   onGroupClick: (g: Group.Group) => void;
@@ -30,6 +33,8 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
   actor,
   tab,
   onTabChange,
+  query,
+  onQueryChange,
   onActorClick,
   onGroupClick,
   onKeywordClick,
@@ -114,21 +119,12 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                 groups={groups}
                 groupsMembers={[]}
                 query={{
+                  ...query,
                   hash: `actor-${actor.id}`,
-                  startDate: undefined,
-                  endDate: new Date().toDateString(),
-                  actors: actor.id ? [actor.id] : [],
-                  groups: [],
-                  groupsMembers: [],
-                  media: [],
-                  keywords: [],
-                  locations: [],
-                  type: EventType.types.map((t) => t.value),
-                  _sort: "date",
-                  _order: "DESC",
+                  actors: [actor.id],
                 }}
                 tab={0}
-                onQueryChange={(q, tab) => {}}
+                onQueryChange={onQueryChange}
                 onEventClick={onEventClick}
               />
 

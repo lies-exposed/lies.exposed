@@ -1,5 +1,4 @@
 import { Keyword } from "@liexp/shared/io/http";
-import { EventType } from "@liexp/shared/io/http/Events";
 import { SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
 import { ParentSize } from "@visx/responsive";
@@ -11,6 +10,7 @@ import { Box, Typography } from "../components/mui";
 import { EventsPanel } from "../containers/EventsPanel";
 import { EventNetworkGraphBox } from "../containers/graphs/EventNetworkGraphBox";
 import { useKeywordQuery } from "../state/queries/DiscreteQueries";
+import { SearchEventsQueryInputNoPagination } from '../state/queries/SearchEventsQuery';
 import { SplitPageTemplate } from "./SplitPageTemplate";
 
 export interface KeywordTemplateProps {
@@ -19,6 +19,8 @@ export interface KeywordTemplateProps {
   onTabChange: (t: number) => void;
   onEventClick: (e: SearchEvent) => void;
   onKeywordClick: (k: Keyword.Keyword) => void;
+  query: SearchEventsQueryInputNoPagination;
+  onQueryChange: (q: SearchEventsQueryInputNoPagination, tab: number) => void
 }
 
 export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
@@ -27,6 +29,8 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
   onTabChange,
   onKeywordClick,
   onEventClick,
+  query,
+  onQueryChange,
 }) => {
   return (
     <QueriesRenderer
@@ -70,24 +74,15 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
                 tab={tab}
                 slide={false}
                 query={{
+                  ...query,
                   hash: `keyword-${keywordId}`,
                   keywords: [keyword.id],
-                  startDate: undefined,
-                  endDate: new Date().toDateString(),
-                  actors: [],
-                  groups: [],
-                  groupsMembers: [],
-                  media: [],
-                  locations: [],
-                  type: EventType.types.map((t) => t.value),
-                  _sort: "date",
-                  _order: "DESC",
                 }}
                 keywords={[keyword]}
                 actors={[]}
                 groups={[]}
                 groupsMembers={[]}
-                onQueryChange={(q, tab) => {}}
+                onQueryChange={onQueryChange}
                 onEventClick={onEventClick}
               />
               <ParentSize style={{ maxWidth: 400, minWidth: 200 }}>
