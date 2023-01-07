@@ -2,7 +2,7 @@ import { Keyword } from "@liexp/shared/io/http";
 import { EventType } from "@liexp/shared/io/http/Events";
 import { SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
-import ParentSize from "@visx/responsive/lib/components/ParentSizeModern";
+import { ParentSize } from "@visx/responsive";
 import * as React from "react";
 import { KeywordHierarchyEdgeBundlingGraph } from "../components/Graph/KeywordHierarchyEdgeBundlingGraph";
 import QueriesRenderer from "../components/QueriesRenderer";

@@ -1,8 +1,10 @@
+import { fc } from "@liexp/test";
 import {
   AxisGraph,
   AxisGraphProps,
 } from "@liexp/ui/components/Common/Graph/AxisGraph";
-import { Story, Meta } from "@storybook/react/types-6-0";
+import { Meta, Story } from "@storybook/react/types-6-0";
+import { LinearGradient } from "@visx/gradient";
 import React from "react";
 
 const meta: Meta = {
@@ -23,5 +25,41 @@ const Template: Story<AxisGraphProps<any>> = (args) => <AxisGraph {...args} />;
 export const AxisGraphExample = Template.bind({});
 AxisGraphExample.args = {
   width: 600,
-  data: [],
+  height: 300,
+  margin: { top: 10, left: 10, right: 10, bottom: 10 },
+  getX: (n) => n.x,
+  getY: (n) => n.y,
+  minXRange: 0,
+  minYRange: 0,
+  background: (id) => {
+    return (
+      <LinearGradient
+        id={id}
+        vertical={true}
+        fromOpacity={1}
+        toOpacity={1}
+        to="#34e56a"
+        from="#123de6"
+        fromOffset="40%"
+        toOffset="80%"
+      />
+    );
+  },
+  linePathElement: (id) => {
+    return (
+      <LinearGradient
+        id={id}
+        vertical={true}
+        fromOpacity={1}
+        toOpacity={1}
+        to="#fcc317"
+        from="#fc2317"
+        fromOffset="40%"
+        toOffset="80%"
+      />
+    );
+  },
+  data: fc
+    .sample(fc.record({ x: fc.nat(), y: fc.nat() }))
+    .sort((a, b) => a.x - b.x),
 };
