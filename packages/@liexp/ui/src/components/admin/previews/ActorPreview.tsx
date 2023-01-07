@@ -4,8 +4,8 @@ import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { LoadingIndicator, useEditContext } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ActorTemplate } from "../../../templates/ActorTemplate";
 import { ECOTheme } from "../../../theme";
-import { ActorPageContent } from "../../ActorPageContent";
 import { HelmetProvider } from "../../SEO";
 import { ValidationErrorsLayout } from "../../ValidationErrorsLayout";
 import { ThemeProvider } from "../../mui";
@@ -33,12 +33,16 @@ const ActorPreview: React.FC = () => {
       <HelmetProvider>
         <QueryClientProvider client={qc}>
           <ThemeProvider theme={ECOTheme}>
-            <ActorPageContent
+            <ActorTemplate
               actor={a}
-              groups={[]}
+              query={{} as any}
+              onQueryChange={() => undefined}
+              tab={0}
+              onTabChange={() => undefined}
               onGroupClick={() => {}}
               onActorClick={() => {}}
               onEventClick={() => {}}
+              onKeywordClick={() => undefined}
             />
           </ThemeProvider>
         </QueryClientProvider>

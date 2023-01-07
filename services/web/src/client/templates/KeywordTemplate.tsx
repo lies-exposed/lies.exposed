@@ -4,21 +4,27 @@ import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 
 const KeywordPage: React.FC<{ keywordId: string }> = ({ keywordId }) => {
-  const t = useRouteQuery({ tab: "0" });
+  const { tab: _tab = "0", ...query } = useRouteQuery();
   const navigateTo = useNavigateToResource();
 
-  const tab = React.useMemo(() => parseInt(t.tab, 10), [t]);
+  const tab = React.useMemo(() => parseInt(_tab, 10), [_tab]);
 
   return (
     <KeywordTemplate
       id={keywordId}
       tab={tab}
+      query={query}
       onTabChange={(tab) => {
         navigateTo.keywords({ id: keywordId }, { tab });
       }}
-      onKeywordClick={() => {}}
+      onKeywordClick={(k) => {
+        navigateTo.keywords({ id: k.id }, {});
+      }}
       onEventClick={(e) => {
         navigateTo.events({ id: e.id });
+      }}
+      onQueryChange={(q) => {
+        navigateTo.keywords({ id: keywordId }, { ...q, tab });
       }}
     />
   );

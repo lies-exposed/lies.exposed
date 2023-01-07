@@ -1,7 +1,6 @@
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import {
-  useGroupsQuery,
-} from "@liexp/ui/state/queries/DiscreteQueries";
+import { useGroupsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import { SearchEventsQueryInputNoPagination } from "@liexp/ui/state/queries/SearchEventsQuery";
 import {
   GroupTemplate,
   GroupTemplateProps,
@@ -18,6 +17,9 @@ export default meta;
 
 const Template: Story<GroupTemplateProps> = (props) => {
   const [tab, setTab] = React.useState(0);
+  const [q, setQ] = React.useState<SearchEventsQueryInputNoPagination>({
+    hash: `query-${Math.random() * 100}`,
+  });
 
   return (
     <QueriesRenderer
@@ -36,6 +38,8 @@ const Template: Story<GroupTemplateProps> = (props) => {
             {...props}
             group={data[0]}
             tab={tab}
+            query={q}
+            onQueryChange={(q) => { setQ(q); }}
             onTabChange={setTab}
           />
         );

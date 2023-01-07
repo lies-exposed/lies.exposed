@@ -7,7 +7,7 @@ import { useNavigateToResource } from "../utils/location.utils";
 
 const GroupPage: React.FC<{ groupId: string }> = ({ groupId }) => {
   const navigateTo = useNavigateToResource();
-  const { tab: _tab = "0" } = useRouteQuery();
+  const { tab: _tab = "0", ...query } = useRouteQuery();
   const tab = parseInt(_tab, 10);
 
   return (
@@ -18,8 +18,12 @@ const GroupPage: React.FC<{ groupId: string }> = ({ groupId }) => {
           <GroupTemplate
             group={group}
             tab={tab}
+            query={query}
             onTabChange={(t) => {
               navigateTo.groups({ id: groupId }, { tab: t });
+            }}
+            onQueryChange={(q) => {
+              navigateTo.groups({ id: groupId }, { ...q, tab });
             }}
             onEventClick={(e) => {
               navigateTo.events({ id: e.id });

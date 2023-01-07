@@ -39,6 +39,8 @@ const GroupPreview: React.FC = () => {
               group={p}
               tab={tab}
               onTabChange={setTab}
+              query={{} as any}
+              onQueryChange={() => undefined}
               onActorClick={() => undefined}
               onGroupClick={() => undefined}
               onEventClick={() => undefined}

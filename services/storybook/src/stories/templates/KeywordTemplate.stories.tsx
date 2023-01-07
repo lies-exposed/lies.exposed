@@ -1,5 +1,7 @@
+import { EventType } from "@liexp/shared/io/http/Events";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { useKeywordsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import { SearchEventsQueryInputNoPagination } from "@liexp/ui/state/queries/SearchEventsQuery";
 import {
   KeywordTemplate,
   KeywordTemplateProps
@@ -15,6 +17,20 @@ const meta: Meta = {
 export default meta;
 
 const Template: Story<KeywordTemplateProps> = (props) => {
+  const [q, setQueryChange] =
+    React.useState<SearchEventsQueryInputNoPagination>({
+      hash: `query-${Math.random() * 100}`,
+      startDate: undefined,
+      endDate: new Date().toDateString(),
+      actors: [],
+      groups: [],
+      groupsMembers: [],
+      media: [],
+      locations: [],
+      type: EventType.types.map((t) => t.value),
+      _sort: "date",
+      _order: "DESC",
+    });
   const [tab, setTab] = React.useState(0);
 
   return (
@@ -34,7 +50,9 @@ const Template: Story<KeywordTemplateProps> = (props) => {
             {...props}
             id={keywords[0].id}
             tab={tab}
+            query={q}
             onTabChange={setTab}
+            onQueryChange={setQueryChange}
           />
         );
       }}

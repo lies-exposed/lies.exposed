@@ -1,12 +1,8 @@
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
 import { Box } from "@liexp/ui/components/mui";
-import {
-  useActorQuery
-} from "@liexp/ui/state/queries/DiscreteQueries";
-import {
-  ActorTemplate
-} from "@liexp/ui/templates/ActorTemplate";
+import { useActorQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import { ActorTemplate } from "@liexp/ui/templates/ActorTemplate";
 import { useRouteQuery } from "@liexp/ui/utils/history.utils";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
@@ -14,7 +10,7 @@ import { useNavigateToResource } from "../utils/location.utils";
 const ActorPage: React.FC<{ actorId: string }> = ({ actorId }) => {
   // const params = useParams();
   const navigateToResource = useNavigateToResource();
-  const { tab: _tab = "0" } = useRouteQuery();
+  const { tab: _tab = "0", ...query } = useRouteQuery();
   const tab = parseInt(_tab, 10);
 
   return (
@@ -32,6 +28,10 @@ const ActorPage: React.FC<{ actorId: string }> = ({ actorId }) => {
             />
             <ActorTemplate
               tab={tab}
+              query={query}
+              onQueryChange={(q) => {
+                navigateToResource.actors({ id: actor.id }, { ...q, tab });
+              }}
               onTabChange={(t) => {
                 navigateToResource.actors({ id: actor.id }, { tab: t });
               }}

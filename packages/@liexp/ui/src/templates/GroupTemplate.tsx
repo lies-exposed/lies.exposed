@@ -1,6 +1,6 @@
 import { fp } from "@liexp/core/fp";
 import { Actor, Group, Keyword } from "@liexp/shared/io/http";
-import { EventType, SearchEvent } from "@liexp/shared/io/http/Events";
+import { SearchEvent } from "@liexp/shared/io/http/Events";
 import { GROUPS } from "@liexp/shared/io/http/Group";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
@@ -12,22 +12,27 @@ import { Box, Typography } from "../components/mui";
 import { EventsPanel } from "../containers/EventsPanel";
 import { EventNetworkGraphBox } from "../containers/graphs/EventNetworkGraphBox";
 import { useGroupMembersQuery } from "../state/queries/DiscreteQueries";
+import { SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
 import { SplitPageTemplate } from "./SplitPageTemplate";
 
 export interface GroupTemplateProps {
   group: Group.Group;
   tab: number;
+  query: SearchEventsQueryInputNoPagination;
   onTabChange: (t: number) => void;
   onActorClick: (a: Actor.Actor) => void;
   onGroupClick: (g: Group.Group) => void;
   onKeywordClick: (k: Keyword.Keyword) => void;
   onEventClick: (e: SearchEvent.SearchEvent) => void;
+  onQueryChange: (q: SearchEventsQueryInputNoPagination, tab: number) => void;
 }
 
 export const GroupTemplate: React.FC<GroupTemplateProps> = ({
   group,
   tab,
   onTabChange,
+  query,
+  onQueryChange,
   onGroupClick,
   onActorClick,
   onKeywordClick,
@@ -115,30 +120,17 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
               <EventsPanel
                 slide={false}
                 query={{
+                  ...query,
                   hash: `group-${group.id}`,
                   groups: [group.id],
-                  groupsMembers: [],
-                  keywords: [],
-                  actors: [],
-                  locations: [],
-                  media: [],
-                  startDate: undefined,
-                  endDate: new Date().toDateString(),
-                  type: EventType.types.map((t) => t.value),
-                  _sort: "date",
-                  _order: "DESC",
                 }}
                 tab={0}
                 actors={[]}
                 groups={[]}
                 groupsMembers={[]}
                 keywords={[]}
-                onQueryChange={(q, tab) => {
-                  // navigateTo.groups({ id: group.id }, { tab });
-                }}
-                onEventClick={(e) => {
-                  onEventClick(e);
-                }}
+                onQueryChange={onQueryChange}
+                onEventClick={onEventClick}
               />
               <Box style={{ height: 600 }}>
                 <EventNetworkGraphBox
