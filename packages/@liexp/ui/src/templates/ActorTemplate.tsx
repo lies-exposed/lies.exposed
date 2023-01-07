@@ -1,17 +1,14 @@
-import { fp } from "@liexp/core/fp";
 import { Actor, Group, Keyword } from "@liexp/shared/io/http";
 import { ACTORS } from "@liexp/shared/io/http/Actor";
 import { SearchEvent } from "@liexp/shared/io/http/Events";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
-import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { ActorPageContent } from "../components/ActorPageContent";
-import { Avatar } from "../components/Common/Avatar";
 import { ActorHierarchyEdgeBundlingGraph } from "../components/Graph/ActorHierarchyEdgeBundlingGraph";
 import QueriesRenderer from "../components/QueriesRenderer";
 import SEO from "../components/SEO";
-import { Box, Typography } from "../components/mui";
-import { EventsPanel } from "../containers/EventsPanel";
+import { Box } from "../components/mui";
+import { EventsPanelBox } from "../containers/EventsPanel";
 import { EventNetworkGraphBox } from "../containers/graphs/EventNetworkGraphBox";
 import { useGroupsQuery } from "../state/queries/DiscreteQueries";
 import { SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
@@ -56,7 +53,12 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
       }}
       render={({ groups: { data: groups } }) => {
         return (
-          <Box>
+          <Box
+            display="flex"
+            flexDirection="column"
+            height="100%"
+            style={{ paddingTop: 20 }}
+          >
             <SEO
               title={actor.fullName}
               image={actor.avatar ?? ""}
@@ -65,26 +67,8 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
             <SplitPageTemplate
               tab={tab}
               onTabChange={onTabChange}
-              sidebar={({ className }) => {
-                return (
-                  <Box className={className}>
-                    {pipe(
-                      fp.O.fromNullable(actor.avatar),
-                      fp.O.fold(
-                        () => <div />,
-                        (src) => (
-                          <Avatar
-                            size="xlarge"
-                            src={src}
-                            style={{ marginTop: 20, marginBottom: 60 }}
-                          />
-                        )
-                      )
-                    )}
-                    <Typography variant="h4">{actor.fullName}</Typography>
-                  </Box>
-                );
-              }}
+              name={actor.fullName}
+              avatar={actor.avatar}
               tabs={[
                 {
                   label: "General",
@@ -112,16 +96,14 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                 onEventClick={onEventClick}
               />
 
-              <EventsPanel
+              <EventsPanelBox
                 slide={false}
-                keywords={[]}
-                actors={[actor]}
-                groups={groups}
-                groupsMembers={[]}
                 query={{
                   ...query,
                   hash: `actor-${actor.id}`,
-                  actors: [actor.id],
+                  actors: query.actors
+                    ? [...query.actors, actor.id]
+                    : [actor.id],
                 }}
                 tab={0}
                 onQueryChange={onQueryChange}

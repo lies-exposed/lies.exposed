@@ -1,15 +1,13 @@
-import { fp } from "@liexp/core/fp";
 import { Actor, Group, Keyword } from "@liexp/shared/io/http";
 import { SearchEvent } from "@liexp/shared/io/http/Events";
 import { GROUPS } from "@liexp/shared/io/http/Group";
-import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { GroupHierarchyEdgeBundlingGraph } from "../components/Graph/GroupHierarchyEdgeBundlingGraph";
 import { GroupPageContent } from "../components/GroupPageContent";
 import QueriesRenderer from "../components/QueriesRenderer";
 import SEO from "../components/SEO";
-import { Box, Typography } from "../components/mui";
-import { EventsPanel } from "../containers/EventsPanel";
+import { Box } from "../components/mui";
+import { EventsPanelBox } from "../containers/EventsPanel";
 import { EventNetworkGraphBox } from "../containers/graphs/EventNetworkGraphBox";
 import { useGroupMembersQuery } from "../state/queries/DiscreteQueries";
 import { SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
@@ -52,7 +50,12 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
       }}
       render={({ groupsMembers }) => {
         return (
-          <Box>
+          <Box
+            display="flex"
+            flexDirection="column"
+            height="100%"
+            style={{ paddingTop: 20 }}
+          >
             <SEO
               title={group.name}
               image={group.avatar}
@@ -61,34 +64,8 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
             <SplitPageTemplate
               tab={tab}
               onTabChange={onTabChange}
-              sidebar={({ className }) => {
-                return (
-                  <Box className={className}>
-                    {pipe(
-                      fp.O.fromNullable(group.avatar),
-                      fp.O.fold(
-                        () => <div />,
-                        (src) => (
-                          <img
-                            src={src}
-                            style={{
-                              width: "100px",
-                              marginTop: 20,
-                              marginBottom: 60,
-                            }}
-                          />
-                        )
-                      )
-                    )}
-                    <Typography
-                      variant="h4"
-                      style={{ marginBottom: 50, textAlign: "right" }}
-                    >
-                      {group.name}
-                    </Typography>
-                  </Box>
-                );
-              }}
+              name={group.name}
+              avatar={group.avatar}
               tabs={[
                 {
                   label: "General",
@@ -117,18 +94,16 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                 onGroupClick={onGroupClick}
                 ownedGroups={[]}
               />
-              <EventsPanel
+              <EventsPanelBox
                 slide={false}
                 query={{
                   ...query,
                   hash: `group-${group.id}`,
-                  groups: [group.id],
+                  groups: query.groups
+                    ? [...query.groups, group.id]
+                    : [group.id],
                 }}
                 tab={0}
-                actors={[]}
-                groups={[]}
-                groupsMembers={[]}
-                keywords={[]}
                 onQueryChange={onQueryChange}
                 onEventClick={onEventClick}
               />

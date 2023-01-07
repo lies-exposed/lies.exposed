@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
-  AutoSizer,
   CellMeasurer,
   CellMeasurerCache,
   List,
@@ -21,7 +20,7 @@ const classes = {
 };
 
 const StyledList = styled(List)(({ theme }) => ({
-  [`& .${classes.timeline}`]: {
+  [`&.${classes.timeline}`]: {
     padding: 0,
     paddingTop: 20,
     width: "100%",
@@ -72,11 +71,7 @@ const Row: React.FC<
       {({ registerChild, measure }) => {
         if (!event) {
           return (
-            <div
-              ref={registerChild as any}
-              key={key}
-              style={{ height: 100 }}
-            />
+            <div ref={registerChild as any} key={key} style={{ height: 100 }} />
           );
         }
 
@@ -124,7 +119,8 @@ const Row: React.FC<
 export interface EventsTimelineListProps
   extends Omit<EventListItemProps, "event" | "onRowInvalidate"> {
   events: SearchEventQueryResult;
-  defaultHeight?: number;
+  width: number;
+  height: number;
   total: number;
   onRowsRendered: ((info: RenderedRows) => void) | undefined;
 }
@@ -134,7 +130,8 @@ const EventsTimelineList: React.ForwardRefRenderFunction<
   EventsTimelineListProps
 > = (props, ref) => {
   const {
-    defaultHeight = 800,
+    height,
+    width,
     events,
     total,
     onRowsRendered,
@@ -157,40 +154,34 @@ const EventsTimelineList: React.ForwardRefRenderFunction<
   };
 
   return (
-    <AutoSizer defaultHeight={defaultHeight}>
-      {({ width, height }) => {
-        return (
-          <StyledList
-            {...listProps}
-            className={classes.timeline}
-            ref={ref}
-            width={width}
-            height={height}
-            estimatedRowSize={total}
-            overscanRowCount={5}
-            onRowsRendered={onRowsRendered}
-            rowRenderer={({ key, ...props }) => {
-              const event = events?.events[props.index];
-              const isLast = events?.events[props.index + 1] === undefined;
+    <StyledList
+      {...listProps}
+      className={classes.timeline}
+      ref={ref}
+      width={width}
+      height={height}
+      estimatedRowSize={300}
+      overscanRowCount={5}
+      onRowsRendered={onRowsRendered}
+      rowRenderer={({ key, ...props }) => {
+        const event = events?.events[props.index];
+        const isLast = events?.events[props.index + 1] === undefined;
 
-              return (
-                <Row
-                  {...itemProps}
-                  {...props}
-                  key={key}
-                  k={key}
-                  event={event}
-                  isLast={isLast}
-                />
-              );
-            }}
-            rowCount={events.events.length}
-            rowHeight={cellCache.rowHeight}
-            deferredMeasurementCache={cellCache}
+        return (
+          <Row
+            {...itemProps}
+            {...props}
+            key={key}
+            k={key}
+            event={event}
+            isLast={isLast}
           />
         );
       }}
-    </AutoSizer>
+      rowCount={events.events.length}
+      rowHeight={cellCache.rowHeight}
+      deferredMeasurementCache={cellCache}
+    />
   );
 };
 

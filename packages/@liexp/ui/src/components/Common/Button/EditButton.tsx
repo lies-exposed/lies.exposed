@@ -18,6 +18,8 @@ const EditButton: React.FC<EditButtonProps> = ({
   const href = admin
     ? getAdminLink(resourceName, resource)
     : getProfileLink(resourceName, resource);
+
+
   return (
     <Link href={href} target="_blank" rel="noreferrer">
       <FontAwesomeIcon icon="edit" />

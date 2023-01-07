@@ -37,16 +37,25 @@ const ActorPage: React.FC<{ actorId: string }> = ({ actorId }) => {
               }}
               actor={actor}
               onGroupClick={(g) => {
-                navigateToResource.groups({ id: g.id });
+                navigateToResource.actors(
+                  { id: actor.id },
+                  { ...query, tab: "1", groups: [g.id] }
+                );
               }}
               onActorClick={(a) => {
-                navigateToResource.actors({ id: a.id });
+                navigateToResource.actors(
+                  { id: actor.id },
+                  { ...query, tab: "1", actors: [a.id] }
+                );
+              }}
+              onKeywordClick={(k) => {
+                navigateToResource.actors(
+                  { id: actor.id },
+                  { ...query, tab: "1", keywords: [k.id] }
+                );
               }}
               onEventClick={(e) => {
                 navigateToResource.events({ id: e.id });
-              }}
-              onKeywordClick={(k) => {
-                navigateToResource.keywords({ id: k.id });
               }}
             />
           </Box>

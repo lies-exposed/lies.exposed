@@ -22,7 +22,7 @@ import {
   Grid,
   Link,
   Typography,
-  useMediaQuery as useMuiMediaQuery
+  useMediaQuery as useMuiMediaQuery,
 } from "./mui";
 
 export interface EventPageContentProps {
@@ -79,165 +79,160 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
           );
 
         return (
-          <MainContent className="event-page-content">
-            <SEO
-              title={title}
-              description={
-                isValidValue(event.excerpt)
-                  ? getTextContentsCapped(event.excerpt, 230)
-                  : ""
-              }
-              image={seoImage}
-              urlPath={`/events/${event.id}`}
-            />
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Grid container alignItems="flex-start">
-                  <Grid
-                    item
-                    md={2}
-                    sm={12}
-                    style={{
-                      display: "flex",
-                      flexDirection: isDownSM ? "row" : "column",
-                      alignItems: isDownSM ? "center" : "flex-end",
-                      justifyContent: isDownSM ? "flex-start" : "flex-end",
-                      paddingRight: 20,
-                    }}
-                  >
-                    <Box
-                      className="date"
+          <Box className="event-page-content">
+            <MainContent>
+              <SEO
+                title={title}
+                description={
+                  isValidValue(event.excerpt)
+                    ? getTextContentsCapped(event.excerpt, 230)
+                    : ""
+                }
+                image={seoImage}
+                urlPath={`/events/${event.id}`}
+              />
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Grid container alignItems="flex-start">
+                    <Grid
+                      item
+                      md={2}
+                      sm={12}
                       style={{
                         display: "flex",
                         flexDirection: isDownSM ? "row" : "column",
-                        flexGrow: isDownSM ? 1 : 0,
-                        alignItems: "flex-end",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => {
-                        onDateClick(date);
+                        alignItems: isDownSM ? "center" : "flex-end",
+                        justifyContent: isDownSM ? "flex-start" : "flex-end",
+                        paddingRight: 20,
                       }}
                     >
-                      {formatAnyDateToShort(date)
-                        .split(" ")
-                        .map((chunk, k) => (
-                          <Typography
-                            key={k}
-                            variant="h6"
-                            color="primary"
-                            style={{
-                              marginBottom: 0,
-                              marginLeft: k > 0 ? theme.spacing(1) : 0,
-                            }}
-                          >
-                            {chunk}
-                          </Typography>
-                        ))}
-                    </Box>
-
-                    <GroupList
-                      groups={groups.map((g) => ({ ...g, selected: true }))}
-                      style={{
-                        display: "flex",
-                        flexDirection: isDownSM ? "row" : "row-reverse",
-                      }}
-                      onItemClick={onGroupClick}
-                    />
-
-                    <ActorList
-                      actors={actors.map((a) => ({ ...a, selected: true }))}
-                      style={{
-                        display: "flex",
-                        flexWrap: "wrap",
-                        flexDirection: isDownSM ? "row" : "row-reverse",
-                        maxWidth: "100%",
-                      }}
-                      onActorClick={onActorClick}
-                    />
-
-                    <GroupMembersList
-                      groupsMembers={groupsMembers}
-                      style={{
-                        display: "flex",
-                        flexDirection: isDownSM ? "row" : "row-reverse",
-                      }}
-                      onItemClick={onGroupMemberClick}
-                    />
-                    <Box>
-                      <EditButton
-                        admin={false}
-                        resourceName="events/suggestions"
-                        resource={{ id: event.id }}
-                      />
-                    </Box>
-                  </Grid>
-
-                  <Grid
-                    item
-                    md={10}
-                    sm={12}
-                    style={{
-                      alignItems: "flex-start",
-                      marginBottom: theme.spacing(2),
-                    }}
-                  >
-                    <Typography variant="h4">{title}</Typography>
-                    <Box style={{ marginBottom: theme.spacing(3) }}>
-                      <ShareButtons
-                        urlPath={`/events/${event.id}`}
-                        title={title}
-                        message={
-                          isValidValue(event.excerpt)
-                            ? getTextContentsCapped(event.excerpt, 100)
-                            : ""
-                        }
-                        keywords={[]}
+                      <Box
+                        className="date"
                         style={{
                           display: "flex",
+                          flexDirection: isDownSM ? "row" : "column",
+                          flexGrow: isDownSM ? 1 : 0,
                           alignItems: "flex-end",
-                          marginBottom: theme.spacing(2),
+                          cursor: "pointer",
                         }}
-                      />
-                      {url ? <Link href={url}>{url}</Link> : null}
+                        onClick={() => {
+                          onDateClick(date);
+                        }}
+                      >
+                        {formatAnyDateToShort(date)
+                          .split(" ")
+                          .map((chunk, k) => (
+                            <Typography
+                              key={k}
+                              variant="h6"
+                              color="primary"
+                              style={{
+                                marginBottom: 0,
+                                marginLeft: k > 0 ? theme.spacing(1) : 0,
+                              }}
+                            >
+                              {chunk}
+                            </Typography>
+                          ))}
+                      </Box>
 
-                      <Box style={{ display: "flex", flexDirection: "row" }}>
-                        <KeywordsBox
-                          ids={event.keywords}
-                          onItemClick={onKeywordClick}
+                      <GroupList
+                        groups={groups.map((g) => ({ ...g, selected: true }))}
+                        style={{
+                          display: "flex",
+                          flexDirection: isDownSM ? "row" : "row-reverse",
+                        }}
+                        onItemClick={onGroupClick}
+                      />
+
+                      <ActorList
+                        actors={actors.map((a) => ({ ...a, selected: true }))}
+                        style={{
+                          display: "flex",
+                          flexWrap: "wrap",
+                          flexDirection: isDownSM ? "row" : "row-reverse",
+                          maxWidth: "100%",
+                        }}
+                        onActorClick={onActorClick}
+                      />
+
+                      <GroupMembersList
+                        groupsMembers={groupsMembers}
+                        style={{
+                          display: "flex",
+                          flexDirection: isDownSM ? "row" : "row-reverse",
+                        }}
+                        onItemClick={onGroupMemberClick}
+                      />
+                      <Box>
+                        <EditButton
+                          admin={false}
+                          resourceName="events/suggestions"
+                          resource={{ id: event.id }}
+                        />
+                      </Box>
+                    </Grid>
+
+                    <Grid
+                      item
+                      md={10}
+                      sm={12}
+                      style={{
+                        alignItems: "flex-start",
+                        marginBottom: theme.spacing(2),
+                      }}
+                    >
+                      <Typography variant="h4">{title}</Typography>
+                      <Box style={{ marginBottom: theme.spacing(3) }}>
+                        <ShareButtons
+                          urlPath={`/events/${event.id}`}
+                          title={title}
+                          message={
+                            isValidValue(event.excerpt)
+                              ? getTextContentsCapped(event.excerpt, 100)
+                              : ""
+                          }
+                          keywords={[]}
                           style={{
                             display: "flex",
-                            flexGrow: 1,
+                            alignItems: "flex-end",
+                            marginBottom: theme.spacing(2),
                           }}
                         />
-                        <Box
-                          onClick={() => {
-                            onAreaClick(areas[0]);
-                          }}
-                        >
-                          {areas.length === 1 ? (
-                            <span>{areas[0].label}</span>
-                          ) : null}
+                        {url ? <Link href={url}>{url}</Link> : null}
+
+                        <Box style={{ display: "flex", flexDirection: "row" }}>
+                          <KeywordsBox
+                            ids={event.keywords}
+                            onItemClick={onKeywordClick}
+                            style={{
+                              display: "flex",
+                              flexGrow: 1,
+                            }}
+                          />
+                          <Box
+                            onClick={() => {
+                              onAreaClick(areas[0]);
+                            }}
+                          >
+                            {areas.length === 1 ? (
+                              <span>{areas[0].label}</span>
+                            ) : null}
+                          </Box>
                         </Box>
                       </Box>
-                    </Box>
-                    {eventPageContent}
+                      {eventPageContent}
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <Grid container>
-                  <Grid item md={2} />
-                  <Grid item md={10} sm={12} xs={12}>
-                    <LinksBox
-                      ids={event.links}
-                      defaultExpanded={true}
-                      onClick={onLinkClick}
-                    />
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-          </MainContent>
+            </MainContent>
+            <LinksBox
+              ids={event.links}
+              defaultExpanded={true}
+              onClick={onLinkClick}
+            />
+          </Box>
         );
       }}
     </EventRelations>

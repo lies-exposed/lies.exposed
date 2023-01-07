@@ -18,7 +18,14 @@ const KeywordPage: React.FC<{ keywordId: string }> = ({ keywordId }) => {
         navigateTo.keywords({ id: keywordId }, { tab });
       }}
       onKeywordClick={(k) => {
-        navigateTo.keywords({ id: k.id }, {});
+        navigateTo.keywords(
+          { id: keywordId },
+          {
+            ...query,
+            tab: "1",
+            keywords: [k.id],
+          }
+        );
       }}
       onEventClick={(e) => {
         navigateTo.events({ id: e.id });

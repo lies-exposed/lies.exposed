@@ -7,7 +7,7 @@ import {
   Transaction,
   Uncategorized,
 } from "@liexp/shared/io/http/Events";
-import { EventTotals } from '@liexp/shared/io/http/Events/SearchEventsQuery';
+import { EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import { clsx } from "clsx";
 import * as React from "react";
 import { styled } from "../../theme";
@@ -17,18 +17,32 @@ import { Box, IconButton, Typography } from "../mui";
 const PREFIX = "event-type-filters";
 
 const classes = {
+  root: `${PREFIX}-root`,
   iconButton: `${PREFIX}-iconButton`,
   iconButtonSelected: `${PREFIX}-iconButtonSelected`,
+  typeTotal: `${PREFIX}-type-total`,
 };
 
 const StyledBox = styled(Box)(({ theme }) => ({
-  [`& .${classes.iconButton}`]: {
-    marginRight: 10,
-    opacity: 0.5,
+  [`&.${classes.root}`]: {
+    display: "flex",
+    width: "100%",
   },
-
+  [`& .${classes.iconButton}`]: {
+    marginRight: -15,
+    opacity: 0.5,
+    [`& .${classes.typeTotal}`]: {
+      display: "none",
+    },
+  },
   [`& .${classes.iconButtonSelected}`]: {
     opacity: 1,
+  },
+  [`&:hover .${classes.iconButton}`]: {
+    marginRight: 10,
+    [`& .${classes.typeTotal}`]: {
+      display: "block",
+    },
   },
 }));
 
@@ -53,25 +67,19 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
   onChange,
 }) => {
   return (
-    <StyledBox
-      style={{
-        display: "flex",
-        width: "100%",
-      }}
-    >
+    <StyledBox className={classes.root}>
       <IconButton
         className={clsx(classes.iconButton, {
           [classes.iconButtonSelected]: filters.Uncategorized,
         })}
         color="primary"
-        style={{ marginRight: 10 }}
         onClick={() => {
           onChange(Uncategorized.UNCATEGORIZED.value);
         }}
         size="large"
       >
         <EventIcon type="Uncategorized" {...eventIconProps} />
-        <Typography variant="caption">{totals.uncategorized}</Typography>
+        <Typography className={classes.typeTotal} variant="caption">{totals.uncategorized}</Typography>
       </IconButton>
       <IconButton
         color="primary"
@@ -84,7 +92,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
         size="large"
       >
         <EventIcon type="Death" {...eventIconProps} />
-        <Typography variant="caption">{totals.deaths}</Typography>
+        <Typography variant="caption" className={classes.typeTotal}>{totals.deaths}</Typography>
       </IconButton>
       <IconButton
         color="primary"
@@ -97,7 +105,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
         size="large"
       >
         <EventIcon type="ScientificStudy" {...eventIconProps} />
-        <Typography variant="caption">{totals.scientificStudies}</Typography>
+        <Typography variant="caption" className={classes.typeTotal}>{totals.scientificStudies}</Typography>
       </IconButton>
       <IconButton
         color="primary"
@@ -110,7 +118,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
         size="large"
       >
         <EventIcon type={Documentary.DOCUMENTARY.value} {...eventIconProps} />
-        <Typography variant="caption">{totals.documentaries}</Typography>
+        <Typography variant="caption" className={classes.typeTotal}>{totals.documentaries}</Typography>
       </IconButton>
       <IconButton
         color="primary"
@@ -123,7 +131,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
         size="large"
       >
         <EventIcon type="Patent" {...eventIconProps} />
-        <Typography variant="caption">{totals.patents}</Typography>
+        <Typography variant="caption" className={classes.typeTotal}>{totals.patents}</Typography>
       </IconButton>
       <IconButton
         color="primary"
@@ -136,7 +144,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
         size="large"
       >
         <EventIcon type="Transaction" {...eventIconProps} />
-        <Typography variant="caption">{totals.transactions}</Typography>
+        <Typography variant="caption" className={classes.typeTotal}>{totals.transactions}</Typography>
       </IconButton>
     </StyledBox>
   );
