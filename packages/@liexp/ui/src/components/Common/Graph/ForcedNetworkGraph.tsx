@@ -3,6 +3,7 @@ import { EventType } from "@liexp/shared/io/http/Events";
 import { GROUPS } from "@liexp/shared/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
 import * as d3 from "d3";
+import { debounce } from "lodash";
 import * as React from "react";
 import { EventTypeColor, EventTypeIconClass } from "../Icons";
 
@@ -111,6 +112,7 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
       payload: _.payload,
       avatar: _.avatar,
       color: _.color,
+      tag: _.tag,
     }));
 
     links = d3.map(links, (_, i) => ({
@@ -138,9 +140,8 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
     const zoom = d3.zoom().on("zoom", (e) => {
       g.attr("transform", (transform = e.transform));
       // g.style("stroke-width", 3 / Math.sqrt(transform.k));
-      node
-        .attr("r", (n) => nodeRadius(n) / Math.sqrt(transform.k))
-        .attr("stroke-width", nodeStrokeWidth / Math.sqrt(transform.k));
+      node.attr("r", (n) => nodeRadius(n) / Math.sqrt(transform.k));
+      // .attr("stroke-width", nodeStrokeWidth / Math.sqrt(transform.k));
 
       link.attr(
         "stroke-width",
@@ -149,17 +150,31 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
       );
 
       text.style("font-size", 12 / Math.sqrt(transform.k));
+
       actorOrGroupImage
         .attr("width", (n) => (nodeRadius(n) * 2) / Math.sqrt(transform.k))
         .attr("height", (n) => (nodeRadius(n) * 2) / Math.sqrt(transform.k));
 
+      actorOrGroupNode.attr(
+        "stroke-width",
+        nodeStrokeWidth / Math.sqrt(transform.k)
+      );
+
+      eventIconPattern.attr(
+        "width",
+        (n) => (nodeRadius(n) * 2) / Math.sqrt(transform.k)
+      );
+
       eventIconSvg
-        .attr("width", (n) => (nodeRadius(n) * 1.4) / Math.sqrt(transform.k))
-        .attr("height", (n) => (nodeRadius(n) * 1.4) / Math.sqrt(transform.k))
-        .attr("font-size", 10);
+        .attr("width", (n) => (nodeRadius(n) * 2) / Math.sqrt(transform.k))
+        .attr("height", (n) => (nodeRadius(n) * 2) / Math.sqrt(transform.k))
+        .style("font-size", "12px");
+
       eventIconRect
         .attr("height", (d) => (nodeRadius(d) * 2) / Math.sqrt(transform.k))
         .attr("width", (d) => (nodeRadius(d) * 2) / Math.sqrt(transform.k));
+
+      keywordPattern.style("font-size", "18px");
     });
 
     const simulation = d3
@@ -178,7 +193,11 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
         .attr("stroke-opacity", nodeStrokeOpacity)
         .attr("stroke-width", nodeStrokeWidth)
         .selectAll("text")
-        .data(nodes)
+        .data(
+          nodes.filter((n) =>
+            EventType.types.flatMap((t) => t.value).includes(n.type)
+          )
+        )
         .join("text")
         .attr("class", "title")
         .attr("data-id", (d) => d.id)
@@ -205,9 +224,6 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
     const nodeG = g
       .append("g")
       .attr("fill", nodeFill)
-      .attr("stroke", nodeStroke)
-      .attr("stroke-opacity", nodeStrokeOpacity)
-      .attr("stroke-width", nodeStrokeWidth)
       .selectAll("g")
       .data(nodes)
       .join("g");
@@ -248,8 +264,15 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
       .attr("class", (d) => `fa fa-${d[1]}`)
       .style("color", (d) => (EventTypeColor as any)[d[0]]);
 
-    const actorOrGroupImage = nodeG
-      .filter((n) => [ACTORS.value, GROUPS.value].includes(n.type))
+    const actorOrGroupNode = nodeG.filter((n) =>
+      [ACTORS.value, GROUPS.value].includes(n.type)
+    );
+
+    actorOrGroupNode
+      .attr("stroke", (d) => `#${d.color}`)
+      .attr("stroke-opacity", nodeStrokeOpacity);
+
+    const actorOrGroupImage = actorOrGroupNode
       .append("pattern")
       .attr("id", (n: any) => `${n.type}-${n.id}`)
       .attr("width", "1.2")
@@ -265,13 +288,14 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
       .attr("r", nodeRadius)
       .attr("fill", "#fff")
       .attr("fill", (d: any) => {
-        if ([ACTORS.value, GROUPS.value].includes(d.type)) {
+        if ([ACTORS.value, GROUPS.value, KEYWORDS.value].includes(d.type)) {
           return `url(#${d.type}-${d.id})`;
         }
 
         if (EventType.types.flatMap((t) => t.value).includes(d.type)) {
           return `url(#event-${d.type.toLowerCase()})`;
         }
+
         if (d.color) {
           return `#${d.color}`;
         }
@@ -280,34 +304,56 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
         }
         return "white";
       })
-      .attr("stroke", (d) => {
-        if (EventType.types.flatMap((t) => t.value).includes(d.type)) {
-          return (EventTypeColor as any)[d.type];
-        }
-
-        if (d.color) {
-          return `#${d.color}`;
-        }
-
-        return "white";
-      })
       .attr("data-id", (d: any) => d.id)
       .style("cursor", "pointer")
       .call(drag(simulation));
 
+    const keywordPattern = nodeG
+      .filter((n) => KEYWORDS.value === n.type)
+      .append("text")
+      .text((d) => `#`)
+      .attr("fill", (d) => `#${d.color}`)
+      .attr("stroke", (d) => `#${d.color}`)
+      .style("cursor", "pointer")
+      .on(
+        "mouseenter",
+        debounce(
+          function (this: any, _, d) {
+            d3.select(this).raise().text(`#${d.tag}`);
+          },
+          300,
+          { leading: true }
+        )
+      )
+      .on(
+        "mouseout",
+        debounce(
+          function (this: any, _, d) {
+            d3.select(this).text(`#`);
+          },
+          300,
+          { leading: true }
+        )
+      );
+
     node
-      .on("mouseover", function (this: any) {
+      .filter((n) => EventType.types.map((t) => t.value).includes(n.type))
+      .on("mouseenter", function (this: any) {
         const n = d3.select(this);
         const dataId = n.attr("data-id");
         n.raise();
         const text = d3.select(`.title[data-id="${dataId}"]`);
         return text.style("display", "block");
       })
-      .on("mouseout", function (this: any) {
-        const dataId = d3.select(this).attr("data-id");
-        const text = d3.select(`.title[data-id='${dataId}']`);
-        return text.style("display", "none");
-      });
+      .on(
+        "mouseout",
+
+        function (this: any) {
+          const dataId = d3.select(this).attr("data-id");
+          const text = d3.select(`.title[data-id='${dataId}']`);
+          return text.style("display", "none");
+        }
+      );
 
     if (onClick) {
       node.on("click", function (this: any) {
@@ -345,13 +391,19 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
         .attr("dx", (d: any) => d.x + nodeRadius(d) * 2)
         .attr("dy", (d: any) => d.y - nodeRadius(d) * 2);
 
-      actorOrGroupImage.attr("x", 0).attr("y", 0);
-
-      eventIconPattern.attr("x", 0).attr("y", 0);
+      // actorOrGroupImage.attr("x", 0).attr("y", 0);
 
       eventIconSvg
         .attr("x", (d) => nodeRadius(d) / 3)
         .attr("y", (d) => nodeRadius(d) / 3);
+
+      keywordPattern
+        .attr("dx", function (this, d) {
+          return d.x - 9;
+        })
+        .attr("dy", function (this, d) {
+          return d.y + this.getComputedTextLength() / 2;
+        });
     }
 
     function drag(this: any, simulation: any): any {
