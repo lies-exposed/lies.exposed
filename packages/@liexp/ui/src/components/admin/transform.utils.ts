@@ -27,17 +27,19 @@ export const transformLinks = (links: any[]): any[] => {
 };
 
 export const transformMedia = (newMedia: any[]): any[] => {
-  return newMedia.reduce((acc, m) => {
-    if (Array.isArray(m.ids)) {
-      return acc.concat(m.ids);
-    }
 
+  return newMedia.reduce((acc, m) => {
     if (m.fromURL) {
       return acc.concat({
         ...m,
         thumbnail: m.location,
       });
     }
+
+    if (m.id) {
+      return acc.concat(m.id);
+    }
+
     return acc.concat(m);
   }, []);
 };
@@ -90,7 +92,7 @@ export const transformQuote = (
     ...data,
     payload: {
       ...data.payload,
-      quote: getTextContents(data.excerpt).join('\n\n'),
+      quote: getTextContents(data.excerpt).join("\n\n"),
     },
   };
 };
