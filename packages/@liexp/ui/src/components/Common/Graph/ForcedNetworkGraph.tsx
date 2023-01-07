@@ -149,7 +149,17 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
       );
 
       text.style("font-size", 12 / Math.sqrt(transform.k));
-      svgPattern.attr("font-size", 18 / Math.sqrt(transform.k));
+      actorOrGroupImage
+        .attr("width", (n) => (nodeRadius(n) * 2) / Math.sqrt(transform.k))
+        .attr("height", (n) => (nodeRadius(n) * 2) / Math.sqrt(transform.k));
+
+      eventIconSvg
+        .attr("width", (n) => (nodeRadius(n) * 1.4) / Math.sqrt(transform.k))
+        .attr("height", (n) => (nodeRadius(n) * 1.4) / Math.sqrt(transform.k))
+        .attr("font-size", 10);
+      eventIconRect
+        .attr("height", (d) => (nodeRadius(d) * 2) / Math.sqrt(transform.k))
+        .attr("width", (d) => (nodeRadius(d) * 2) / Math.sqrt(transform.k));
     });
 
     const simulation = d3
@@ -192,48 +202,7 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
       .append("line")
       .attr("class", "link");
 
-    // actors and groups avatars
-    g.append("svg:defs")
-      .selectAll("pattern")
-      .data(nodes.filter((n) => [ACTORS.value, GROUPS.value].includes(n.type)))
-      .join("svg:pattern")
-      .attr("id", (n: any) => `${n.type}-${n.id}`)
-      .attr("width", (d) => nodeRadius(d) * 2)
-      .attr("height", (d) => nodeRadius(d) * 2)
-      .attr("viewBox", (d) => [0, 0, nodeRadius(d) * 2, nodeRadius(d) * 2])
-      .attr("patternUnits", "userSpaceOnUse")
-      .attr("preserveAspectRatio", "none")
-      .append("svg:image")
-      .attr("width", (d) => nodeRadius(d) * 2)
-      .attr("height", (d) => nodeRadius(d) * 2)
-      .attr("xlink:href", (d) => d.avatar)
-      .attr("preserveAspectRatio", "xMidYMid slice")
-      .attr("x", 0)
-      .attr("y", 0);
-
-    // event icons defs
-    const svgPattern = g
-      .append("svg:defs")
-      .selectAll("pattern")
-      .data(Object.entries(EventTypeIconClass))
-      .join("svg:pattern")
-      .attr("id", (n) => `event-${n[0].toLowerCase()}`)
-      .attr("width", (d) => nodeRadius(d) * 2)
-      .attr("height", (d) => nodeRadius(d) * 2)
-      .attr("patternUnits", "userSpaceOnUse")
-      .attr("preserveAspectRatio", "none")
-      .append("svg")
-      .attr("class", (d) => `fa fa-${d[1]}`)
-      .attr("preserveAspectRatio", "none")
-      .attr("height", (d) => nodeRadius(d) * 1.8 + "px")
-      .attr("width", (d) => nodeRadius(d) * 1.8 + "px")
-      .attr("x", 0)
-      .attr("y", 0)
-      .style("font-size", (d) => nodeRadius(d))
-      .style("color", (d) => (EventTypeColor as any)[d[0]])
-      .style("background-color", "white");
-
-    const node = g
+    const nodeG = g
       .append("g")
       .attr("fill", nodeFill)
       .attr("stroke", nodeStroke)
@@ -241,9 +210,60 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
       .attr("stroke-width", nodeStrokeWidth)
       .selectAll("g")
       .data(nodes)
-      .join("circle")
+      .join("g");
+
+    // actors and groups avatars
+
+    // patternNode
+    //   .append("clipPath")
+    //   .append("circle")
+    //   .attr("cx", (d) => d.x)
+    //   .attr("cy", (d) => d.y)
+    //   .attr("r", nodeRadius)
+    //   .attr("fill", (d) => `url(#${d.type}-${d.id})`)
+    //   .style("width", (d) => nodeRadius(d) * 2 + "px")
+    //   .style("height", (d) => nodeRadius(d) * 2 + "px");
+
+    // event icons svg
+    const eventIconPattern = g
+      .append("svg:defs")
+      .selectAll("pattern")
+      .data(Object.entries(EventTypeIconClass))
+      .join("svg:pattern")
+      .attr("id", (n) => `event-${n[0].toLowerCase()}`)
+      .attr("width", "1")
+      .attr("height", "1")
+      .attr("x", 0)
+      .attr("y", 0)
+      .append("g");
+
+    const eventIconRect = eventIconPattern
+      .append("rect")
+      .attr("fill", "#fff")
+      .attr("x", 0)
+      .attr("y", 0);
+
+    const eventIconSvg = eventIconPattern
+      .append("svg:i")
+      .attr("class", (d) => `fa fa-${d[1]}`)
+      .style("color", (d) => (EventTypeColor as any)[d[0]]);
+
+    const actorOrGroupImage = nodeG
+      .filter((n) => [ACTORS.value, GROUPS.value].includes(n.type))
+      .append("pattern")
+      .attr("id", (n: any) => `${n.type}-${n.id}`)
+      .attr("width", "1.2")
+      .attr("height", "1.2")
+      .attr("x", 0)
+      .attr("y", 0)
+      .append("svg:image")
+      .attr("xlink:href", (d) => d.avatar);
+
+    const node = nodeG
+      .append("circle")
       .attr("class", "node")
       .attr("r", nodeRadius)
+      .attr("fill", "#fff")
       .attr("fill", (d: any) => {
         if ([ACTORS.value, GROUPS.value].includes(d.type)) {
           return `url(#${d.type}-${d.id})`;
@@ -258,6 +278,17 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
         if (color) {
           return color(d.type);
         }
+        return "white";
+      })
+      .attr("stroke", (d) => {
+        if (EventType.types.flatMap((t) => t.value).includes(d.type)) {
+          return (EventTypeColor as any)[d.type];
+        }
+
+        if (d.color) {
+          return `#${d.color}`;
+        }
+
         return "white";
       })
       .attr("data-id", (d: any) => d.id)
@@ -313,6 +344,14 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
       text
         .attr("dx", (d: any) => d.x + nodeRadius(d) * 2)
         .attr("dy", (d: any) => d.y - nodeRadius(d) * 2);
+
+      actorOrGroupImage.attr("x", 0).attr("y", 0);
+
+      eventIconPattern.attr("x", 0).attr("y", 0);
+
+      eventIconSvg
+        .attr("x", (d) => nodeRadius(d) / 3)
+        .attr("y", (d) => nodeRadius(d) / 3);
     }
 
     function drag(this: any, simulation: any): any {
