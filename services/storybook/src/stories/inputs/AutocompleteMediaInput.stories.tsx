@@ -4,7 +4,7 @@ import {
   type AutocompleteMediaInputProps
 } from "@liexp/ui/lib/components/Input/AutocompleteMediaInput";
 import { MainContent } from "@liexp/ui/lib/components/MainContent";
-import { type Meta, type StoryFn as Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
@@ -14,7 +14,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<AutocompleteMediaInputProps> = (props) => {
+const Template: StoryFn<AutocompleteMediaInputProps> = (props) => {
   const [items, setItems] = React.useState<Media.Media[]>([]);
   return (
     <MainContent>

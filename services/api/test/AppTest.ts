@@ -17,6 +17,7 @@ import {
   type ObjectLiteral,
 } from "typeorm";
 import { awsMock } from "../__mocks__/aws.mock";
+import { igProviderMock } from '../__mocks__/ig.mock';
 import puppeteerMocks from "../__mocks__/puppeteer.mock";
 import { tgProviderMock } from "../__mocks__/tg.mock";
 import { type RouteContext } from "../src/routes/route.types";
@@ -91,6 +92,7 @@ export const initAppTest = async (): Promise<AppTest> => {
       s3: MakeSpaceClient({
         client: awsMock as any,
       }),
+      ig: igProviderMock,
       fs: GetFSClient(),
       urlMetadata: {
         fetchHTML: (url: string, opts: any) => {

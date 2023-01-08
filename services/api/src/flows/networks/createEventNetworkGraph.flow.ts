@@ -36,6 +36,7 @@ import { pipe } from "fp-ts/lib/function";
 import { type UUID } from "io-ts-types/lib/UUID";
 import { Equal } from "typeorm";
 import { EventV2Entity } from "@entities/Event.v2.entity";
+import { type Flow, type TEFlow } from "@flows/flow.types";
 import { toControllerError, type ControllerError } from "@io/ControllerError";
 import { toActorIO } from "@routes/actors/actor.io";
 import { toEventV2IO } from "@routes/events/eventV2.io";
@@ -44,7 +45,6 @@ import { infiniteSearchEventQuery } from "@routes/events/queries/searchEventsV2.
 import { toGroupIO } from "@routes/groups/group.io";
 import { toKeywordIO } from "@routes/keywords/keyword.io";
 import { toImageIO } from "@routes/media/media.io";
-import { type RouteContext } from "@routes/route.types";
 
 interface NetworkLink {
   source: UUID;
@@ -65,8 +65,8 @@ interface GetEventGraphOpts {
   relation: NetworkGroupBy;
 }
 
-const getEventGraph =
-  (ctx: RouteContext) =>
+const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
+  (ctx) =>
   ({
     events,
     actors: allActors,
@@ -75,7 +75,7 @@ const getEventGraph =
     media: allMedia,
     relation,
     emptyRelations,
-  }: GetEventGraphOpts): NetworkGraphOutput => {
+  }) => {
     return pipe(
       events,
       A.reduceWithIndex(initialResult, (index, acc, e) => {
@@ -301,9 +301,8 @@ const monoidOutput: Monoid<NetworkGraphOutput> = {
   }),
 };
 
-const reduceResultToOutput =
-  (ctx: RouteContext) =>
-  (results: NetworkGraphOutput[]): NetworkGraphOutput => {
+const reduceResultToOutput: Flow<[NetworkGraphOutput[]], NetworkGraphOutput> =
+  (ctx) => (results) => {
     return pipe(results, A.reduce(initialOutput, monoidOutput.concat));
   };
 
@@ -325,12 +324,12 @@ const initialResult: Result = {
   keywordLinks: [],
 };
 
-export const createEventNetworkGraph =
-  (ctx: RouteContext) =>
-  (
-    id: UUID,
-    { relations: relation }: GetNetworkQuery
-  ): TE.TaskEither<ControllerError, NetworkGraphOutput> => {
+export const createEventNetworkGraph: TEFlow<
+  [UUID, GetNetworkQuery],
+  NetworkGraphOutput
+> =
+  (ctx) =>
+  (id, { relations: relation }) => {
     const filePath = path.resolve(
       process.cwd(),
       `temp/networks/events/${id}.json`

@@ -4,8 +4,8 @@ import { sequenceS } from "fp-ts/lib/Apply";
 import type TelegramBot from "node-telegram-bot-api";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { KeywordEntity } from "@entities/Keyword.entity";
-import { type ControllerError, toControllerError } from "@io/ControllerError";
-import { type RouteContext } from "@routes/route.types";
+import { type TEFlow } from "@flows/flow.types";
+import { toControllerError } from "@io/ControllerError";
 
 interface ToPinnedMessageOptions {
   bot: string;
@@ -20,9 +20,9 @@ export const toPinnedMessage = ({
   bot,
   keywords,
   keywordLimit,
-  // actors,
-  // actorLimit,
-}: ToPinnedMessageOptions): string => `
+}: // actors,
+// actorLimit,
+ToPinnedMessageOptions): string => `
 Hello folks, this is the official channel of alpha.lies.exposed!\n\n
 Lies Exposed is a collaborative project that collects and expose the lies perpetrated against humanity.\n\n
 To contribute you can send a link to ${bot} or join the discussion chat.\n
@@ -32,11 +32,9 @@ ${keywords.map((k) => `#${k.tag} (${k.eventCount})`).join("\n")}
 \n
 `;
 
-export const upsertPinnedMessage =
-  (ctx: RouteContext) =>
-  (limit: number): TE.TaskEither<ControllerError, TelegramBot.Message> => {
-
-    ctx.logger.info.log('Fetch resources totals...');
+export const upsertPinnedMessage: TEFlow<[number], TelegramBot.Message> =
+  (ctx) => (limit) => {
+    ctx.logger.info.log("Fetch resources totals...");
     return pipe(
       sequenceS(TE.ApplicativePar)({
         keywords: ctx.db.execQuery(() =>
@@ -84,7 +82,7 @@ export const upsertPinnedMessage =
           // actorLimit: limit,
         })
       ),
-      ctx.logger.info.logInTaskEither('Updated Pinned message'),
+      ctx.logger.info.logInTaskEither("Updated Pinned message"),
       TE.chain((message) => ctx.tg.upsertPinnedMessage(message)),
       TE.mapLeft(toControllerError)
     );

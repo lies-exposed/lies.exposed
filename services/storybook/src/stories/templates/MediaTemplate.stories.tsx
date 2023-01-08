@@ -4,7 +4,7 @@ import {
   MediaTemplateUI,
   type MediaTemplateUIProps,
 } from "@liexp/ui/lib/templates/MediaTemplateUI";
-import { type Meta, type StoryFn as Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
@@ -14,7 +14,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<MediaTemplateUIProps> = (props) => {
+const Template: StoryFn<MediaTemplateUIProps> = (props) => {
   const [tab, setTab] = React.useState(0);
 
   return (

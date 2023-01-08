@@ -5,7 +5,7 @@ import {
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import { useKeywordsQuery } from "@liexp/ui/lib/state/queries/keywords.queries";
 import { Box } from "@mui/material";
-import { type Meta, type StoryFn as Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
@@ -15,7 +15,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<KeywordPageContentProps> = (props) => {
+const Template: StoryFn<KeywordPageContentProps> = (props) => {
   return (
     <QueriesRenderer
       queries={{

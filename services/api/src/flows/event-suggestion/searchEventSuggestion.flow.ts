@@ -4,8 +4,7 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { type UUID } from "io-ts-types/lib/UUID";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
-import { type ControllerError } from "@io/ControllerError";
-import { type RouteContext } from "@routes/route.types";
+import { type TEFlow } from "@flows/flow.types";
 import { addOrder } from "@utils/orm.utils";
 
 interface SearchEventSuggestionFilter {
@@ -18,16 +17,12 @@ interface SearchEventSuggestionFilter {
   creator: O.Option<UUID>;
 }
 
-export const searchEventSuggestion =
-  (ctx: RouteContext) =>
-  ({
-    skip,
-    take,
-    ...filter
-  }: SearchEventSuggestionFilter): TE.TaskEither<
-    ControllerError,
-    { total: number; data: EventSuggestionEntity[] }
-  > => {
+export const searchEventSuggestion: TEFlow<
+  [SearchEventSuggestionFilter],
+  { total: number; data: EventSuggestionEntity[] }
+> =
+  (ctx) =>
+  ({ skip, take, ...filter }) => {
     ctx.logger.debug.log("Find event suggestion by filter %O", filter);
 
     const query = pipe(
@@ -37,7 +32,9 @@ export const searchEventSuggestion =
         .leftJoinAndSelect("eventSuggestion.creator", "creator"),
       (q) => {
         if (O.isSome(filter.status)) {
-          q.where("eventSuggestion.status IN (:...status)", { status: filter.status.value });
+          q.where("eventSuggestion.status IN (:...status)", {
+            status: filter.status.value,
+          });
         }
 
         if (O.isSome(filter.links)) {

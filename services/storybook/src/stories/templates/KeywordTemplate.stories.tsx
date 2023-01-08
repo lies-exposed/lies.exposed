@@ -6,7 +6,7 @@ import {
   KeywordTemplate,
   type KeywordTemplateProps,
 } from "@liexp/ui/lib/templates/KeywordTemplate";
-import { type Meta, type StoryFn as Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta<KeywordTemplateProps> = {
@@ -17,7 +17,7 @@ const meta: Meta<KeywordTemplateProps> = {
 
 export default meta;
 
-const Template: Story<KeywordTemplateProps> = (props) => {
+const Template: StoryFn<KeywordTemplateProps> = (props) => {
   const [q, setQueryChange] =
     React.useState<SearchEventsQueryInputNoPagination>({
       hash: `query-${Math.random() * 100}`,

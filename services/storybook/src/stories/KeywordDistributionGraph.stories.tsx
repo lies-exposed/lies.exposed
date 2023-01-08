@@ -1,7 +1,7 @@
 import KeywordDistributionGraph, {
   type KeywordsDistributionGraphProps,
 } from "@liexp/ui/lib/components/Graph/KeywordDistributionGraph";
-import { type Meta, type StoryFn as Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import React from "react";
 
 const meta: Meta = {
@@ -17,7 +17,7 @@ const meta: Meta = {
 };
 export default meta;
 
-const Template: Story<KeywordsDistributionGraphProps> = (args) => (
+const Template: StoryFn<KeywordsDistributionGraphProps> = (args) => (
   <KeywordDistributionGraph {...args} />
 );
 

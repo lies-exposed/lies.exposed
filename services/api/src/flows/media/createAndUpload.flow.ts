@@ -5,19 +5,14 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { createThumbnail } from "./createThumbnail.flow";
 import { MediaEntity } from "@entities/Media.entity";
-import { type ControllerError } from "@io/ControllerError";
-import { type RouteContext } from "@routes/route.types";
+import { type TEFlow } from "@flows/flow.types";
 
-export const createAndUpload =
-  (ctx: RouteContext) =>
-  (
-    location: Media.CreateMedia,
-    body: any
-  ): TE.TaskEither<ControllerError, MediaEntity> => {
+export const createAndUpload: TEFlow<[Media.CreateMedia, any], MediaEntity> =
+  (ctx) => (location, body) => {
     ctx.logger.debug.log("Create media and upload %s", location);
 
     const mediaId = uuid() as any;
-    const mediaKey = getMediaKey('media', mediaId, mediaId, location.type);
+    const mediaKey = getMediaKey("media", mediaId, mediaId, location.type);
     return pipe(
       ctx.s3.upload({
         Bucket: ctx.env.SPACE_BUCKET,

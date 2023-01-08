@@ -1,5 +1,5 @@
 import Header, { type HeaderProps } from "@liexp/ui/lib/components/Header";
-import { type Meta, type StoryFn as Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
@@ -15,7 +15,7 @@ const meta: Meta = {
 };
 export default meta;
 
-const Template: Story<HeaderProps> = (args) => {
+const Template: StoryFn<HeaderProps> = (args) => {
   const [p, setP] = React.useState("#explore");
   return (
     <Header

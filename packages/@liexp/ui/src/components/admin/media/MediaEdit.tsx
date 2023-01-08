@@ -25,7 +25,7 @@ import {
 import { transformMedia } from '../../../client/admin/MediaAPI';
 import { Box, Button, Grid } from "../../mui";
 import { EditForm } from "../common/EditForm";
-import { MediaTGPostButton } from "../common/TGPostButton";
+import { MediaTGPostButton } from "../common/SocialPostButton";
 import { CreateEventFromMediaButton } from "../events/CreateEventFromMediaButton";
 import ReferenceArrayEventInput from "../events/ReferenceArrayEventInput";
 import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput";

@@ -2,7 +2,7 @@ import {
   CO2LevelsGraph,
   type CO2LevelsGraphProps,
 } from "@liexp/ui/lib/components/Graph/CO2LevelsGraph";
-import { type Meta, type StoryFn as Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
@@ -12,7 +12,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<CO2LevelsGraphProps> = (props) => {
+const Template: StoryFn<CO2LevelsGraphProps> = (props) => {
   return (
     <div style={{ width: "100%" }}>
       <CO2LevelsGraph {...props} />

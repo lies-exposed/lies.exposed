@@ -1,5 +1,5 @@
 import { getShareMedia, getTitle } from "@liexp/shared/lib/helpers/event";
-import { type Media, type Keyword } from "@liexp/shared/lib/io/http";
+import { type Keyword, type Media } from "@liexp/shared/lib/io/http";
 import { MediaType } from "@liexp/shared/lib/io/http/Media";
 import { type ShareMessageBody } from "@liexp/shared/lib/io/http/ShareMessage";
 import { getTextContents } from "@liexp/shared/lib/slate";
@@ -12,48 +12,35 @@ import {
   type FieldProps,
   type Identifier,
 } from "react-admin";
-import { MediaList } from "../../lists/MediaList";
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  FormControlLabel,
-  Input,
-  Link,
-  Switch,
-  Typography,
-} from "../../mui";
+import { Box, Button, CircularProgress } from "../../mui";
+import { ShareModal, emptySharePayload } from "../Modal/ShareModal";
 
-const emptySharePayload = {
-  title: undefined,
-  date: undefined,
-  media: undefined,
-  content: undefined,
-  url: undefined,
-  keywords: [],
-};
+// const emptySharePayload: Partial<ShareMessageBody> = {
+//   title: undefined,
+//   date: undefined,
+//   media: undefined,
+//   content: undefined,
+//   url: undefined,
+//   keywords: [],
+// };
 
 interface OnLoadSharePayloadClickOpts {
   multipleMedia: boolean;
 }
-interface TGPostButtonProps extends FieldProps {
+export interface SocialPostButtonProps extends FieldProps {
   id?: Identifier;
   onLoadSharePayloadClick: (
     opts: OnLoadSharePayloadClickOpts
   ) => Promise<Omit<ShareMessageBody, "media"> & { media: Media.Media[] }>;
 }
 
-export const TGPostButton: React.FC<TGPostButtonProps> = ({
+export const SocialPostButton: React.FC<SocialPostButtonProps> = ({
   onLoadSharePayloadClick,
 }) => {
   const record = useRecordContext();
-  const apiProvider = useDataProvider();
+
   const [{ payload, media, multipleMedia }, setState] = React.useState<{
-    payload: Partial<ShareMessageBody>;
+    payload: ShareMessageBody | undefined;
     multipleMedia: boolean;
     media: Media.Media[];
   }>({ payload: emptySharePayload, multipleMedia: false, media: [] });
@@ -81,136 +68,36 @@ export const TGPostButton: React.FC<TGPostButtonProps> = ({
           });
         }}
       >
-        Post on TG
+        Post on Social
       </Button>
-      <Dialog open={!!payload.title}>
-        <DialogTitle>Post on Telegram</DialogTitle>
-
-        <DialogContent>
-          <Box>
-            <FormControlLabel
-              control={
-                <Switch
-                  inputProps={{
-                    "aria-label": "Group media",
-                  }}
-                  value={multipleMedia}
-                  onChange={() => {
-                    setState((s) => ({
-                      ...s,
-                      multipleMedia: !multipleMedia,
-                      payload: {
-                        ...s.payload,
-                        media: getShareMedia(
-                          s.media,
-                          `${process.env.WEB_URL}/liexp-logo-1200x630.png`,
-                          !multipleMedia
-                        ),
-                      },
-                    }));
-                  }}
-                />
-              }
-              label={multipleMedia ? "Media group" : "Single media"}
-            />
-          </Box>
-          {payload?.date ? (
-            <Box style={{ width: "100%" }}>
-              <Typography>
-                <Link href={payload.url}>{payload.title}</Link>
-              </Typography>
-              <br />
-
-              {multipleMedia ? (
-                <MediaList
-                  style={{ width: "100%" }}
-                  columns={media.length > 3 ? 3 : media.length}
-                  hideDescription
-                  media={media.map((m) => ({ ...m, selected: true }))}
-                  onItemClick={() => {}}
-                />
-              ) : (
-                <img src={media[0].thumbnail} style={{ width: "100%" }} />
-              )}
-              <Typography>
-                <Link
-                  href={`${process.env.WEB_URL}/events?startDate=${payload.date}`}
-                >
-                  {payload.date}
-                </Link>
-                <Box>
-                  <Input
-                    fullWidth
-                    multiline
-                    name="content"
-                    defaultValue={payload.content ?? ""}
-                    value={payload.content ?? ""}
-                    onChange={(e) => {
-                      setState((s) => ({
-                        ...s,
-                        payload: {
-                          ...payload,
-                          content: e.target.value,
-                        },
-                      }));
-                    }}
-                  />
-                </Box>
-              </Typography>
-              <>
-                {(payload?.keywords ?? []).map((k: any) => (
-                  <a
-                    key={k.id}
-                    href={`${process.env.WEB_URL}/events?keywords[]=${k.id}`}
-                    style={{ marginRight: 10 }}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    #{k.tag}
-                  </a>
-                ))}
-              </>
-            </Box>
-          ) : null}
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => {
-              setState((s) => ({ ...s, payload: emptySharePayload }));
-            }}
-          >
-            Clear
-          </Button>
-          <Button
-            onClick={() => {
-              void apiProvider
-                .create(`/admins/share/${record?.id}`, {
-                  data: payload,
-                })
-                .then((result) => {
-                  setState({
-                    multipleMedia: false,
-                    payload: emptySharePayload,
-                    media: [],
-                  });
-                });
-            }}
-          >
-            Post
-          </Button>
-        </DialogActions>
-      </Dialog>
+      {payload?.title ? (
+        <ShareModal
+          id={record.id}
+          open={!!payload.title}
+          type="events"
+          payload={payload}
+          media={media}
+          multipleMedia={multipleMedia}
+          onClose={() => {
+            setState({
+              media: [],
+              multipleMedia: false,
+              payload: undefined,
+            });
+          }}
+        />
+      ) : null}
     </Box>
   );
 };
 
-export const EventTGPostButton: React.FC<
-  Omit<TGPostButtonProps, "onLoadSharePayloadClick"> & { id: UUID }
+export const EventSocialPostButton: React.FC<
+  Omit<SocialPostButtonProps, "onLoadSharePayloadClick"> & { id: UUID }
 > = ({ id }) => {
   const apiProvider = useDataProvider();
 
   return (
-    <TGPostButton
+    <SocialPostButton
       onLoadSharePayloadClick={async ({ multipleMedia }) => {
         return await apiProvider
           .getOne(`events`, { id })
@@ -302,6 +189,7 @@ export const EventTGPostButton: React.FC<
               content,
               url,
               keywords,
+              platforms: { TG: true, IG: false },
             };
           });
       }}
@@ -310,7 +198,7 @@ export const EventTGPostButton: React.FC<
 };
 
 export const MediaTGPostButton: React.FC<
-  Omit<TGPostButtonProps, "onLoadSharePayloadClick">
+  Omit<SocialPostButtonProps, "onLoadSharePayloadClick">
 > = () => {
   const record = useRecordContext();
   const apiProvider = useDataProvider();
@@ -320,7 +208,7 @@ export const MediaTGPostButton: React.FC<
   }
 
   return (
-    <TGPostButton
+    <SocialPostButton
       onLoadSharePayloadClick={async () => {
         const url = `${process.env.WEB_URL}/media/${record.id}`;
 
@@ -344,6 +232,7 @@ export const MediaTGPostButton: React.FC<
           date,
           content: record.description,
           url,
+          platforms: { TG: true, IG: false },
         };
       }}
     />

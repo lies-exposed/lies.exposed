@@ -10,7 +10,7 @@ import {
 import {
   useGroupsQuery,
 } from "@liexp/ui/lib/state/queries/groups.queries";
-import { type Meta, type Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
@@ -20,7 +20,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<GroupPageContentProps> = (props) => {
+const Template: StoryFn<GroupPageContentProps> = (props) => {
   return (
     <QueriesRenderer
       queries={{

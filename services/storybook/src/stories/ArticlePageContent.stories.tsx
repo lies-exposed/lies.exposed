@@ -5,7 +5,7 @@ import {
 } from "@liexp/ui/lib/components/ArticlePageContent";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import { useArticlesQuery } from "@liexp/ui/lib/state/queries/article.queries";
-import { type Meta, type Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
@@ -15,7 +15,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<ArticlePageContentProps> = (props) => {
+const Template: StoryFn<ArticlePageContentProps> = (props) => {
   const [index, setIndex] = React.useState(0);
   return (
     <QueriesRenderer

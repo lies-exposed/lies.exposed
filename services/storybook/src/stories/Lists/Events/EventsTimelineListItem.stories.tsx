@@ -5,7 +5,7 @@ import EventTimelineItem, {
   type EventTimelineItemProps,
 } from "@liexp/ui/lib/components/lists/EventList/EventTimelineItem";
 import { searchEventsQuery } from "@liexp/ui/lib/state/queries/SearchEventsQuery";
-import { type Meta, type StoryFn as Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
@@ -24,7 +24,7 @@ interface EventTimelineItemStoryProps extends EventTimelineItemProps {
   type: EventType;
 }
 
-const Template: Story<EventTimelineItemStoryProps> = ({ type, ...props }) => {
+const Template: StoryFn<EventTimelineItemStoryProps> = ({ type, ...props }) => {
   return (
     <div style={{ height: "100%" }}>
       <QueriesRenderer

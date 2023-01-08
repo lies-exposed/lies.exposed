@@ -32,6 +32,7 @@
     "fast-csv": "^4.3.6",
     "fluent-ffmpeg": "^2.1.2",
     "fp-ts": "^2.13.1",
+    "instagram-private-api": "^1.45.3",
     "io-ts": "^2.2.20",
     "io-ts-types": "^0.5.19",
     "jsonwebtoken": "^9.0.0",

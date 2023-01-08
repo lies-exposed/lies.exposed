@@ -11,7 +11,7 @@ import EventsTimelineList, {
   type EventsTimelineListProps,
 } from "@liexp/ui/lib/components/lists/EventList/EventsTimelineList";
 import { searchEventsQuery } from "@liexp/ui/lib/state/queries/SearchEventsQuery";
-import { type Meta, type StoryFn as Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 import { AutoSizer } from "react-virtualized";
 
@@ -22,7 +22,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<EventsTimelineListProps> = (props) => {
+const Template: StoryFn<EventsTimelineListProps> = (props) => {
   const ref = React.createRef();
 
   return (
