@@ -8,19 +8,14 @@ import { findByURL } from "../../../queries/events/scientificStudy.query";
 import { extractFromURL } from "../extractFromURL.flow";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { type UserEntity } from "@entities/User.entity";
+import { type TEFlow } from "@flows/flow.types";
 import {
   ServerError,
-  toControllerError,
-  type ControllerError,
+  toControllerError
 } from "@io/ControllerError";
-import { type RouteContext } from "@routes/route.types";
 
-export const createEventFromURL =
-  (ctx: RouteContext) =>
-  (
-    user: UserEntity,
-    url: URL
-  ): TE.TaskEither<ControllerError, EventV2Entity> => {
+export const createEventFromURL: TEFlow<[UserEntity, URL], EventV2Entity> =
+  (ctx) => (user, url) => {
     return pipe(
       findByURL(ctx)(url),
       TE.chain((existingEvent) => {

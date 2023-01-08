@@ -4,7 +4,7 @@ import {
   type MediaListProps,
 } from "@liexp/ui/lib/components/lists/MediaList";
 import { useMediaQuery } from "@liexp/ui/lib/state/queries/media.queries";
-import { type Meta, type Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
@@ -14,7 +14,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<MediaListProps> = (props) => {
+const Template: StoryFn<MediaListProps> = (props) => {
   const ref = React.createRef();
 
   return (

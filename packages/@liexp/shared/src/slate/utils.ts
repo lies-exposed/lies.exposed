@@ -5,11 +5,11 @@ import {
 import { getTextContents as defaultGetTextContents } from "@react-page/editor/lib/core/utils/getTextContents";
 import { getLiexpSlate } from "./plugins/customSlate";
 
-export const getTextContents = (v: Value): string[] => {
+export const getTextContents = (v: Value, j?: string): string => {
   return defaultGetTextContents(v, {
     lang: "en",
     cellPlugins: [getLiexpSlate({})],
-  });
+  }).join(j ?? "\n");
 };
 
 export const getTextContentsCapped = (
@@ -17,7 +17,7 @@ export const getTextContentsCapped = (
   end: number
 ): string => {
   if (v) {
-    const contents = getTextContents(v).join("\n").substring(0, end);
+    const contents = getTextContents(v).substring(0, end);
 
     return contents;
   }

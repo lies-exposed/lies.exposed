@@ -19,20 +19,19 @@ import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
 import * as pdfJS from "pdfjs-dist/legacy/build/pdf";
 import { type Page } from "puppeteer-core";
+import { type TEFlow } from "@flows/flow.types";
 import {
   ServerError,
   toControllerError,
   type ControllerError,
 } from "@io/ControllerError";
-import { type RouteContext } from "@routes/route.types";
 
-export const createFromRemote =
-  (ctx: RouteContext) =>
-  (
-    id: string,
-    location: string,
-    contentType: Media.MediaType
-  ): TE.TaskEither<ControllerError, string> => {
+export const createFromRemote: TEFlow<
+  [string, string, Media.MediaType],
+  string
+> =
+  (ctx) =>
+  (id, location, contentType): TE.TaskEither<ControllerError, string> => {
     return pipe(
       TE.tryCatch(
         () =>
@@ -160,211 +159,207 @@ export const extractThumbnail = (
   );
 };
 
-export const createThumbnail =
-  (ctx: RouteContext) =>
-  (
-    media: Pick<Media.Media, "id" | "location" | "type">
-  ): TE.TaskEither<ControllerError, string> => {
-    ctx.logger.debug.log(
-      "Extracting thumbnail from url %s with type %s",
-      media.location,
-      media.type
-    );
+export const createThumbnail: TEFlow<
+  [Pick<Media.Media, "id" | "location" | "type">],
+  string
+> = (ctx) => (media) => {
+  ctx.logger.debug.log(
+    "Extracting thumbnail from url %s with type %s",
+    media.location,
+    media.type
+  );
 
-    if (Media.PDFType.is(media.type)) {
-      return pipe(
-        TE.tryCatch(async () => {
-          const pdfStream = await axios.get(media.location, {
-            responseType: "blob",
-          });
-          const pdf = await pdfJS.getDocument(pdfStream).promise;
-          const page = await pdf.getPage(1);
-          return page;
-        }, toControllerError),
-        TE.chain((page) => {
-          return pipe(
-            TE.tryCatch(async () => {
-              const scale = 1.5;
-              const viewport = page.getViewport({ scale });
-
-              const outputScale = 1;
-
-              const canvas = Canvas.createCanvas(
-                viewport.width,
-                viewport.height
-              );
-              const context = canvas.getContext("2d");
-
-              const transform =
-                outputScale !== 1
-                  ? [outputScale, 0, 0, outputScale, 0, 0]
-                  : undefined;
-
-              const renderContext: any = {
-                canvasContext: context,
-                transform,
-                viewport,
-              };
-              await page.render(renderContext).promise;
-              return canvas.toBuffer();
-            }, toControllerError),
-
-            TE.chainFirst(() => TE.fromIO(() => page.cleanup()))
-          );
-        }),
-
-        TE.chain((screenshotPath) => {
-          const url = media.location.split("/");
-          const thumbnailName = url[url.length - 1].replace(
-            ".pdf",
-            "-thumbnail.png"
-          );
-
-          const key = `public/media/${url[url.length - 2]}/${thumbnailName}`;
-
-          return ctx.s3.upload({
-            Key: key,
-            Body: screenshotPath,
-            ContentType: "image/png",
-            Bucket: ctx.env.SPACE_BUCKET,
-            ACL: "public-read",
-          });
-        }),
-        TE.map((s) => s.Location),
-        TE.filterOrElse(t.string.is, () => toControllerError(new Error()))
-      );
-    }
-
-    if (Media.MP4Type.is(media.type)) {
-      return pipe(
-        TE.tryCatch(
-          () =>
-            axios.get(media.location, {
-              responseType: "stream",
-            }),
-          toControllerError
-        ),
-        TE.chain((stream) => {
-          const tempFolder = path.resolve(process.cwd(), "temp");
-
-          const tempVideoFilePath = path.resolve(tempFolder, `${media.id}.mp4`);
-          const tempVideoFile = fs.createWriteStream(tempVideoFilePath);
-
-          const filename = `${media.id}-thumb-%i.png`;
-          const tempFile = path.resolve(tempFolder, filename);
-
-          const tempThumbnail = tempFile.replace("%i", "1");
-
-          const screenshotOpts = {
-            timemarks: [2],
-            folder: tempFolder,
-            filename,
-            count: 1,
-          };
-
-          return pipe(
-            TE.tryCatch(() => {
-              stream.data.pipe(tempVideoFile);
-
-              return new Promise((resolve, reject) => {
-                if (fs.existsSync(tempFile)) {
-                  fs.rmSync(tempFile);
-                }
-
-                tempVideoFile.on("error", (e) => {
-                  reject(e);
-                });
-
-                tempVideoFile.on("finish", () => {
-                  resolve(undefined);
-                });
-              });
-            }, toControllerError),
-            TE.chain(() => {
-              return ctx.ffmpeg.runCommand((ffmpeg) => {
-                const command = ffmpeg(tempVideoFilePath)
-                  .inputFormat("mp4")
-                  .noAudio()
-                  .screenshots(screenshotOpts);
-                // .outputOptions("-movflags frag_keyframe+empty_moov");
-
-                return command;
-              });
-            }),
-            TE.mapLeft(toControllerError),
-            // read file from temp path
-            TE.chain(() => {
-              const url = media.location.split("/");
-              const thumbnailName = url[url.length - 1]
-                .replace(".mp4", "")
-                .concat("-thumbnail");
-
-              ctx.logger.debug.log("Thumbnail file name %s", thumbnailName);
-              const key = getMediaKey(
-                "media",
-                media.id,
-                thumbnailName,
-                "image/png"
-              );
-
-              ctx.logger.debug.log("Thumbnail key %s", key);
-
-              return ctx.s3.upload({
-                Key: key,
-                Body: fs.createReadStream(tempThumbnail),
-                ContentType: "image/png",
-                Bucket: ctx.env.SPACE_BUCKET,
-                ACL: "public-read",
-              });
-            }),
-            TE.map((r) => r.Location),
-            TE.chainFirst(() =>
-              TE.tryCatch(() => {
-                fs.rmSync(tempThumbnail);
-                fs.rmSync(tempVideoFilePath);
-                return Promise.resolve();
-              }, toControllerError)
-            )
-          );
-        })
-      );
-    }
-
-    if (Media.ImageType.is(media.type)) {
-      return TE.right(media.location);
-    }
-
+  if (Media.PDFType.is(media.type)) {
     return pipe(
-      sequenceS(TE.ApplyPar)({
-        html: pipe(
-          ctx.puppeteer.getBrowserFirstPage(media.location, {}),
-          TE.chain((page) => {
-            return TE.tryCatch(async () => {
-              await page.goto(media.location, { waitUntil: "networkidle0" });
-
-              return page;
-            }, toPuppeteerError);
-          }),
-          TE.mapLeft((e) => ServerError(e as any))
-        ),
-        match: pipe(
-          getPlatform(media.location),
-          E.mapLeft((e) => ServerError(e as any)),
-          TE.fromEither
-        ),
-      }),
-      TE.chain(({ html, match }) => {
+      TE.tryCatch(async () => {
+        const pdfStream = await axios.get(media.location, {
+          responseType: "blob",
+        });
+        const pdf = await pdfJS.getDocument(pdfStream).promise;
+        const page = await pdf.getPage(1);
+        return page;
+      }, toControllerError),
+      TE.chain((page) => {
         return pipe(
-          extractThumbnail(match, html),
-          TE.mapLeft((e) => ServerError(e as any)),
-          TE.chain((url) => createFromRemote(ctx)(media.id, url, "image/jpg")),
+          TE.tryCatch(async () => {
+            const scale = 1.5;
+            const viewport = page.getViewport({ scale });
+
+            const outputScale = 1;
+
+            const canvas = Canvas.createCanvas(viewport.width, viewport.height);
+            const context = canvas.getContext("2d");
+
+            const transform =
+              outputScale !== 1
+                ? [outputScale, 0, 0, outputScale, 0, 0]
+                : undefined;
+
+            const renderContext: any = {
+              canvasContext: context,
+              transform,
+              viewport,
+            };
+            await page.render(renderContext).promise;
+            return canvas.toBuffer();
+          }, toControllerError),
+
+          TE.chainFirst(() => TE.fromIO(() => page.cleanup()))
+        );
+      }),
+
+      TE.chain((screenshotPath) => {
+        const url = media.location.split("/");
+        const thumbnailName = url[url.length - 1].replace(
+          ".pdf",
+          "-thumbnail.png"
+        );
+
+        const key = `public/media/${url[url.length - 2]}/${thumbnailName}`;
+
+        return ctx.s3.upload({
+          Key: key,
+          Body: screenshotPath,
+          ContentType: "image/png",
+          Bucket: ctx.env.SPACE_BUCKET,
+          ACL: "public-read",
+        });
+      }),
+      TE.map((s) => s.Location),
+      TE.filterOrElse(t.string.is, () => toControllerError(new Error()))
+    );
+  }
+
+  if (Media.MP4Type.is(media.type)) {
+    return pipe(
+      TE.tryCatch(
+        () =>
+          axios.get(media.location, {
+            responseType: "stream",
+          }),
+        toControllerError
+      ),
+      TE.chain((stream) => {
+        const tempFolder = path.resolve(process.cwd(), "temp");
+
+        const tempVideoFilePath = path.resolve(tempFolder, `${media.id}.mp4`);
+        const tempVideoFile = fs.createWriteStream(tempVideoFilePath);
+
+        const filename = `${media.id}-thumb-%i.png`;
+        const tempFile = path.resolve(tempFolder, filename);
+
+        const tempThumbnail = tempFile.replace("%i", "1");
+
+        const screenshotOpts = {
+          timemarks: [2],
+          folder: tempFolder,
+          filename,
+          count: 1,
+        };
+
+        return pipe(
+          TE.tryCatch(() => {
+            stream.data.pipe(tempVideoFile);
+
+            return new Promise((resolve, reject) => {
+              if (fs.existsSync(tempFile)) {
+                fs.rmSync(tempFile);
+              }
+
+              tempVideoFile.on("error", (e) => {
+                reject(e);
+              });
+
+              tempVideoFile.on("finish", () => {
+                resolve(undefined);
+              });
+            });
+          }, toControllerError),
+          TE.chain(() => {
+            return ctx.ffmpeg.runCommand((ffmpeg) => {
+              const command = ffmpeg(tempVideoFilePath)
+                .inputFormat("mp4")
+                .noAudio()
+                .screenshots(screenshotOpts);
+              // .outputOptions("-movflags frag_keyframe+empty_moov");
+
+              return command;
+            });
+          }),
+          TE.mapLeft(toControllerError),
+          // read file from temp path
+          TE.chain(() => {
+            const url = media.location.split("/");
+            const thumbnailName = url[url.length - 1]
+              .replace(".mp4", "")
+              .concat("-thumbnail");
+
+            ctx.logger.debug.log("Thumbnail file name %s", thumbnailName);
+            const key = getMediaKey(
+              "media",
+              media.id,
+              thumbnailName,
+              "image/png"
+            );
+
+            ctx.logger.debug.log("Thumbnail key %s", key);
+
+            return ctx.s3.upload({
+              Key: key,
+              Body: fs.createReadStream(tempThumbnail),
+              ContentType: "image/png",
+              Bucket: ctx.env.SPACE_BUCKET,
+              ACL: "public-read",
+            });
+          }),
+          TE.map((r) => r.Location),
           TE.chainFirst(() =>
-            TE.tryCatch(
-              () => html.browser().close(),
-              (e) => ServerError(e as any)
-            )
+            TE.tryCatch(() => {
+              fs.rmSync(tempThumbnail);
+              fs.rmSync(tempVideoFilePath);
+              return Promise.resolve();
+            }, toControllerError)
           )
         );
       })
     );
-  };
+  }
+
+  if (Media.ImageType.is(media.type)) {
+    return TE.right(media.location);
+  }
+
+  return pipe(
+    sequenceS(TE.ApplyPar)({
+      html: pipe(
+        ctx.puppeteer.getBrowserFirstPage(media.location, {}),
+        TE.chain((page) => {
+          return TE.tryCatch(async () => {
+            await page.goto(media.location, { waitUntil: "networkidle0" });
+
+            return page;
+          }, toPuppeteerError);
+        }),
+        TE.mapLeft((e) => ServerError(e as any))
+      ),
+      match: pipe(
+        getPlatform(media.location),
+        E.mapLeft((e) => ServerError(e as any)),
+        TE.fromEither
+      ),
+    }),
+    TE.chain(({ html, match }) => {
+      return pipe(
+        extractThumbnail(match, html),
+        TE.mapLeft((e) => ServerError(e as any)),
+        TE.chain((url) => createFromRemote(ctx)(media.id, url, "image/jpg")),
+        TE.chainFirst(() =>
+          TE.tryCatch(
+            () => html.browser().close(),
+            (e) => ServerError(e as any)
+          )
+        )
+      );
+    })
+  );
+};

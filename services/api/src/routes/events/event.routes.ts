@@ -1,5 +1,4 @@
 import { type Router } from "express";
-import { PostSharePayloadToPlatformRoute } from "../admins/sharePostToPlatform.controller";
 import { CreateEventRoute } from "./createEvent.controller";
 import { DeleteEventRoute } from "./deleteEvent.controller";
 import { DeleteEventSuggestionRoute } from "./deleteEventSuggestion.controller";
@@ -21,7 +20,6 @@ export const MakeEventRoutes = (router: Router, ctx: RouteContext): void => {
   SearchEventsFromProviderRoute(router, ctx);
   CreateEventSuggestionRoute(router, ctx);
   CreateEventRoute(router, ctx);
-  PostSharePayloadToPlatformRoute(router, ctx);
   EditEventSuggestionRoute(router, ctx);
   EditEventRoute(router, ctx);
   DeleteEventSuggestionRoute(router, ctx);

@@ -51,7 +51,7 @@ export const SearchEventsFromProviderRoute = (
                 TE.mapLeft(toControllerError),
                 TE.chain((ll) => {
                   return pipe(
-                    ll.map((l: any) => fetchAsLink(ctx)(user, l)),
+                    ll.map((l: any) => fetchAsLink(ctx)(user, l, undefined)),
                     A.sequence(TE.ApplicativePar)
                   );
                 })

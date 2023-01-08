@@ -4,6 +4,7 @@ import { MakeURLMetadata } from "@liexp/shared/lib/providers/URLMetadata.provide
 import { GetFFMPEGProvider } from "@liexp/shared/lib/providers/ffmpeg.provider";
 import { GetFSClient } from "@liexp/shared/lib/providers/fs/fs.provider";
 import { HTTP } from "@liexp/shared/lib/providers/http/http.provider";
+import { IGProvider } from "@liexp/shared/lib/providers/ig/ig.provider";
 import { GetJWTClient } from "@liexp/shared/lib/providers/jwt/JWTClient";
 import { GetTypeORMClient } from "@liexp/shared/lib/providers/orm";
 import { GetPuppeteerProvider } from "@liexp/shared/lib/providers/puppeteer.provider";
@@ -23,10 +24,7 @@ import { PathReporter } from "io-ts/lib/PathReporter";
 import metadataParser from "page-metadata-parser";
 import puppeteer from "puppeteer-core";
 import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
-import {
-  toControllerError,
-  type ControllerError
-} from "@io/ControllerError";
+import { toControllerError, type ControllerError } from "@io/ControllerError";
 import { type ENV } from "@io/ENV";
 import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.routes";
 import { MakeActorRoutes } from "@routes/actors/actors.routes";
@@ -126,6 +124,12 @@ export const makeContext = (
       ),
       ffmpeg: TE.right(GetFFMPEGProvider(ffmpeg)),
       http: TE.right(HTTP({})),
+      ig: TE.right(
+        IGProvider({
+          logger: logger.GetLogger("ig"),
+          credentials: { username: env.IG_USERNAME, password: env.IG_PASSWORD },
+        })
+      ),
     }),
     TE.mapLeft((e) => ({
       ...e,

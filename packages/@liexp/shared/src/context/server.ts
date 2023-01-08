@@ -3,6 +3,7 @@ import { type URLMetadataClient } from "../providers/URLMetadata.provider";
 import { type FFMPEGProvider } from "../providers/ffmpeg.provider";
 import { type FSClient } from '../providers/fs/fs.provider';
 import { type HTTP } from '../providers/http/http.provider';
+import { type IGProvider } from '../providers/ig/ig.provider';
 import { type JWTClient } from "../providers/jwt/JWTClient";
 import { type DatabaseClient } from "../providers/orm";
 import { type PuppeteerProvider } from "../providers/puppeteer.provider";
@@ -20,4 +21,5 @@ export interface ServerContext {
   ffmpeg: FFMPEGProvider;
   http: HTTP;
   fs: FSClient
+  ig: IGProvider;
 }

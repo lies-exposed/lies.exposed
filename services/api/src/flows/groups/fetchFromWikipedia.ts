@@ -5,12 +5,12 @@ import { createExcerptValue } from "@liexp/shared/lib/slate";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-import { toControllerError, type ControllerError } from "@io/ControllerError";
-import { type RouteContext } from "@routes/route.types";
+import { type TEFlow } from '@flows/flow.types';
+import { toControllerError } from "@io/ControllerError";
 
-export const fetchFromWikipedia =
-  (ctx: RouteContext) =>
-  (url: URL): TE.TaskEither<ControllerError, CreateGroupBody> => {
+export const fetchFromWikipedia: TEFlow<[URL], CreateGroupBody> =
+  (ctx) =>
+  (url) => {
     return pipe(
       ctx.puppeteer.getBrowserFirstPage(url, {}),
       TE.chain((page) => {

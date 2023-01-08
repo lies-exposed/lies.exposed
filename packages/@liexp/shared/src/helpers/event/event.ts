@@ -457,7 +457,7 @@ export const transform = (
         type: Events.Quote.QUOTE.value,
         payload: {
           quote: e.excerpt
-            ? getTextContents(e.excerpt as any).join("\n")
+            ? getTextContents(e.excerpt as any)
             : undefined,
           actor: props.actors.at(0) as any,
           details: undefined,

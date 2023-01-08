@@ -4,15 +4,14 @@ import { pipe } from "fp-ts/function";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { type KeywordEntity } from "@entities/Keyword.entity";
 import { type LinkEntity } from "@entities/Link.entity";
-import { type ControllerError } from "@io/ControllerError";
-import { type RouteContext } from "@routes/route.types";
+import { type TEFlow } from '@flows/flow.types';
 
-export const createEventFromLink =
-  (ctx: RouteContext) =>
+export const createEventFromLink: TEFlow<[LinkEntity, KeywordEntity[]], EventV2Entity> =
+  (ctx) =>
   (
-    l: LinkEntity,
-    hashtags: KeywordEntity[]
-  ): TE.TaskEither<ControllerError, EventV2Entity> => {
+    l,
+    hashtags
+  ) => {
     const suggestedExcerpt = l.description
       ? createExcerptValue(l.description)
       : undefined;

@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { BooleanFromString } from 'io-ts-types/lib/BooleanFromString';
+import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { NumberFromString } from "io-ts-types/lib/NumberFromString";
 
 const DEVELOPMENT = t.literal("development");
@@ -76,7 +76,9 @@ const ENV = t.intersection(
         TG_BOT_TOKEN: t.string,
         TG_BOT_CHAT: t.string,
         TG_BOT_USERNAME: t.string,
-        TG_BOT_POLLING: BooleanFromString
+        TG_BOT_POLLING: BooleanFromString,
+        IG_USERNAME: t.string,
+        IG_PASSWORD: t.string,
       },
       "TG_BOT_ENV"
     ),

@@ -2,7 +2,7 @@ import { MainContent } from "@liexp/ui/lib/components/MainContent";
 import EventSliderModal, {
   type EventSliderModalProps,
 } from "@liexp/ui/lib/components/Modal/EventSliderModal";
-import { type Meta, type StoryFn as Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta<EventSliderModalProps> = {
@@ -15,7 +15,7 @@ const meta: Meta<EventSliderModalProps> = {
 
 export default meta;
 
-const Template: Story<EventSliderModalProps> = ({
+const Template: StoryFn<EventSliderModalProps> = ({
   query: _query,
   ...props
 }) => {

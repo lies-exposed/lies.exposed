@@ -3,7 +3,7 @@ import {
   LinksPageTemplate,
   type LinksPageTemplateProps,
 } from "@liexp/ui/lib/templates/links/LinksPageTemplate";
-import { type Meta, type StoryFn as Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
@@ -13,7 +13,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<LinksPageTemplateProps> = (props) => {
+const Template: StoryFn<LinksPageTemplateProps> = (props) => {
   // const [tab, setTab] = React.useState(0);
   // const [q, setQ] = React.useState<SearchEventsQueryInputNoPagination>({
   //   hash: `query-${Math.random() * 100}`,

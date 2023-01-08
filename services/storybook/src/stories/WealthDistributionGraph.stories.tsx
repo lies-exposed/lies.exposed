@@ -2,7 +2,7 @@ import {
   WealthDistributionGraph,
   type WealthDistributionGraphProps,
 } from "@liexp/ui/lib/components/Graph/WealthDistributionGraph/WealthDistributionGraph";
-import { type Meta, type StoryFn as Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
@@ -12,7 +12,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<WealthDistributionGraphProps> = (props) => {
+const Template: StoryFn<WealthDistributionGraphProps> = (props) => {
   return (
     <div style={{ width: "100%" }}>
       <WealthDistributionGraph {...props} />

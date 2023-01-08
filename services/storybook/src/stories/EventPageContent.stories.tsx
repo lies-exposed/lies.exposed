@@ -6,7 +6,7 @@ import {
 import { MainContent } from "@liexp/ui/lib/components/MainContent";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import { useEventsQuery } from "@liexp/ui/lib/state/queries/DiscreteQueries";
-import { type Meta, type StoryFn as Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
@@ -16,7 +16,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<{ type: string } & EventPageContentProps> = ({
+const Template: StoryFn<{ type: string } & EventPageContentProps> = ({
   type,
   ...props
 }) => {

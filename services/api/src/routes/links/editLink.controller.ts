@@ -61,7 +61,7 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
                 O.map((t) => {
                   if (t) {
                     return pipe(
-                      fetchAsLink(ctx)(user, l.url),
+                      fetchAsLink(ctx)(user, l.url, undefined),
                       TE.map((ll) => ({
                         ...ll,
                         ...l,

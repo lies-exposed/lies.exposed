@@ -2,7 +2,7 @@ import { MainContent } from "@liexp/ui/lib/components/MainContent";
 import Map, { type MapProps } from "@liexp/ui/lib/components/Map";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import { useActorsQuery } from "@liexp/ui/lib/state/queries/actor.queries";
-import { type Meta, type Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
@@ -12,7 +12,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<MapProps<any>> = (props) => {
+const Template: StoryFn<MapProps<any>> = (props) => {
   return (
     <QueriesRenderer
       queries={{ actors: useActorsQuery({}, false) }}

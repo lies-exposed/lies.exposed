@@ -1,11 +1,11 @@
 import { createStats } from "@flows/stats/createStats.flow";
 import { fp } from "@liexp/core/lib/fp";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import dotenv from "dotenv";
 import { pipe } from "fp-ts/lib/function";
 import { PathReporter } from "io-ts/lib/PathReporter";
-import path from "path";
 import { makeContext } from "../src/server";
+import { parseENV } from "@utils/env.utils";
+import { loadENV } from '@liexp/core/lib/env/utils';
 
 const toError = (m: string) => `
 
@@ -32,12 +32,12 @@ const run = () => {
 
   process.env.DEBUG = "*";
 
-  dotenv.config({
-    path: path.resolve(process.cwd(), process.env.DOTENV_CONFIG_PATH ?? ".env"),
-  });
+  loadENV(process.cwd(),  process.env.DOTENV_CONFIG_PATH ?? ".env");
 
   return pipe(
-    makeContext({ ...process.env, TG_BOT_POLLING: "false" }),
+    parseENV({ ...process.env, TG_BOT_POLLING: "false" }),
+    fp.TE.fromEither,
+    fp.TE.chain(makeContext),
     fp.TE.chain((ctx) =>
       pipe(
         createStats(ctx)(type, id),

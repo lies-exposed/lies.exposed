@@ -1,9 +1,7 @@
 import { getEventMetadata } from "@liexp/shared/lib/helpers/event/event";
 import { getTitle } from "@liexp/shared/lib/helpers/event/getTitle.helper";
 import { UNCATEGORIZED } from "@liexp/shared/lib/io/http/Events/Uncategorized";
-import {
-  EventTGPostButton
-} from "@liexp/ui/lib/components/admin/common/TGPostButton";
+import { EventSocialPostButton } from "@liexp/ui/lib/components/admin/common/SocialPostButton";
 import { UpdateMetadataButton } from "@liexp/ui/lib/components/admin/common/UpdateMetadataButton";
 import { WebPreviewButton } from "@liexp/ui/lib/components/admin/common/WebPreviewButton";
 import { SearchLinksButton } from "@liexp/ui/lib/components/admin/links/SearchLinksButton";
@@ -33,7 +31,7 @@ export const EventEditActions: React.FC = () => {
   return (
     <Box style={{ display: "flex", flexDirection: "row", margin: 10 }}>
       <WebPreviewButton resource="events" source="id" />
-      <EventTGPostButton id={record?.id} />
+      <EventSocialPostButton id={record?.id} />
       <SearchLinksButton query={title} date={date} />
       <UpdateMetadataButton type={type} />
     </Box>
