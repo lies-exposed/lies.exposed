@@ -43,7 +43,7 @@
     "html-replace-webpack-plugin": "^2.6.0",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.7.2",
-    "prettier": "^2.8.1",
+    "prettier": "^2.8.2",
     "react-refresh": "^0.14.0",
     "react-refresh-typescript": "^2.0.7",
     "sass": "^1.57.1",
