@@ -2,7 +2,7 @@ import {
   HumanPopulationGrowthGraph,
   type HumanPopulationGrowthGraphProps,
 } from "@liexp/ui/lib/components/Graph/HumanPopulationGrowthGraph";
-import { type Meta, type StoryFn as Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
@@ -12,7 +12,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<HumanPopulationGrowthGraphProps> = (props) => {
+const Template: StoryFn<HumanPopulationGrowthGraphProps> = (props) => {
   return (
     <div style={{ width: "100%" }}>
       <HumanPopulationGrowthGraph {...props} />

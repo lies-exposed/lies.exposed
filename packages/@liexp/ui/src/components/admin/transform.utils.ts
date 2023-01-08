@@ -91,7 +91,7 @@ export const transformQuote = (
     ...data,
     payload: {
       ...data.payload,
-      quote: getTextContents(data.excerpt).join("\n\n"),
+      quote: getTextContents(data.excerpt, "\n\n"),
     },
   };
 };

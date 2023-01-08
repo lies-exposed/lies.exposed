@@ -1,7 +1,7 @@
 import { LinkArb } from "@liexp/shared/lib/tests";
 import { fc } from "@liexp/test";
 import LinkCard, { type LinkCardProps } from "@liexp/ui/lib/components/Cards/LinkCard";
-import { type Meta, type StoryFn as Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from 'react';
 
 const meta: Meta = {
@@ -11,7 +11,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<LinkCardProps> = (props) => {
+const Template: StoryFn<LinkCardProps> = (props) => {
   return <LinkCard {...props} />;
 };
 

@@ -8,19 +8,18 @@ import { pipe } from "fp-ts/function";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { type Metadata } from "page-metadata-parser";
 import { Equal } from "typeorm";
+import { type TEFlow } from "./flow.types";
 import { LinkEntity } from "@entities/Link.entity";
 import { MediaEntity } from "@entities/Media.entity";
 import { type UserEntity } from "@entities/User.entity";
 import { ServerError, type ControllerError } from "@io/ControllerError";
-import { type RouteContext } from "@routes/route.types";
 
-export const fetchAsLink =
-  (ctx: RouteContext) =>
-  (
-    creator: UserEntity,
-    url: URL,
-    defaults?: Partial<Metadata>
-  ): TE.TaskEither<ControllerError, LinkEntity> => {
+export const fetchAsLink: TEFlow<
+  [UserEntity, URL, Partial<Metadata> | undefined],
+  LinkEntity
+> =
+  (ctx) =>
+  (creator, url, defaults): TE.TaskEither<ControllerError, LinkEntity> => {
     return pipe(
       ctx.urlMetadata.fetchMetadata(url, {}, (e) =>
         ServerError([`Error fetching metadata from url ${url}`])
@@ -105,9 +104,8 @@ export const fetchAsLink =
 /**
  * Fetch open graph metadata from the given url and creates a LinkEntity.
  */
-export const fetchAndSave =
-  (ctx: RouteContext) =>
-  (u: UserEntity, url: URL): TE.TaskEither<ControllerError, LinkEntity> => {
+export const fetchAndSave: TEFlow<[UserEntity, URL], LinkEntity> =
+  (ctx) => (u, url) => {
     ctx.logger.debug.log("Searching link with url %s", url);
     return pipe(
       ctx.db.findOne(LinkEntity, { where: { url: Equal(url) } }),
@@ -119,7 +117,7 @@ export const fetchAndSave =
 
         ctx.logger.debug.log("Link not found, fetching...");
         return pipe(
-          fetchAsLink(ctx)(u, url),
+          fetchAsLink(ctx)(u, url, undefined),
           TE.chain((l) => ctx.db.save(LinkEntity, [l])),
           TE.map((ll) => ll[0])
         );

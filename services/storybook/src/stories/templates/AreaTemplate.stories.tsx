@@ -5,7 +5,7 @@ import {
 import {
   type AreaTemplateProps, AreaTemplateUI
 } from "@liexp/ui/lib/templates/AreaTemplate";
-import { type Meta, type StoryFn as Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
@@ -15,7 +15,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<AreaTemplateProps> = (props) => {
+const Template: StoryFn<AreaTemplateProps> = (props) => {
   const [tab, setTab] = React.useState(0);
 
   return (

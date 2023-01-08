@@ -3,7 +3,7 @@ import {
   AxisGraph,
   type AxisGraphProps,
 } from "@liexp/ui/lib/components/Common/Graph/AxisGraph";
-import { type Meta, type StoryFn as Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import { LinearGradient } from "@visx/gradient";
 import React from "react";
 
@@ -20,7 +20,7 @@ const meta: Meta = {
 };
 export default meta;
 
-const Template: Story<AxisGraphProps<any>> = (args) => <AxisGraph {...args} />;
+const Template: StoryFn<AxisGraphProps<any>> = (args) => <AxisGraph {...args} />;
 
 export const AxisGraphExample = Template.bind({});
 AxisGraphExample.args = {

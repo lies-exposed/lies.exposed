@@ -17,14 +17,6 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false
   },
-  "references": [
-    {
-      "path": "../../packages/@liexp/core"
-    },
-    {
-      "path": "../../packages/@liexp/shared"
-    }
-  ],
   "include": ["./src"],
   "exclude": ["**/__tests__/**", "*/__mocks__/**", "./test/**"]
 }

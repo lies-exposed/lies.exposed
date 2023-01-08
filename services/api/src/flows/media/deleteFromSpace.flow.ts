@@ -3,12 +3,11 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { sequenceS } from "fp-ts/lib/Apply";
 import { type MediaEntity } from "@entities/Media.entity";
-import { type ControllerError } from "@io/ControllerError";
-import { type RouteContext } from "@routes/route.types";
+import { type TEFlow } from '@flows/flow.types';
 
-export const deleteFromSpace =
-  (ctx: RouteContext) =>
-  (m: MediaEntity): TE.TaskEither<ControllerError, MediaEntity> => {
+export const deleteFromSpace: TEFlow<[MediaEntity], MediaEntity> =
+  (ctx) =>
+  (m) => {
     ctx.logger.debug.log("Create media and upload %s", m.location);
 
     const isLocationInBucket = m.location.includes(ctx.env.SPACE_BUCKET);

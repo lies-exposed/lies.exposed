@@ -3,7 +3,7 @@ import {
   type KeywordHierarchyEdgeBundlingGraphProps
 } from "@liexp/ui/lib/components/Graph/KeywordHierarchyEdgeBundlingGraph";
 import { Box } from '@mui/material';
-import { type Meta, type StoryFn as Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from 'react';
 
 const meta: Meta = {
@@ -20,7 +20,7 @@ const meta: Meta = {
 };
 export default meta;
 
-const Template: Story<KeywordHierarchyEdgeBundlingGraphProps> = (args) => (
+const Template: StoryFn<KeywordHierarchyEdgeBundlingGraphProps> = (args) => (
   <Box style={{ width: args.width }}>
     <KeywordHierarchyEdgeBundlingGraph {...args} />
   </Box>

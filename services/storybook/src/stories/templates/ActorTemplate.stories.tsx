@@ -5,7 +5,7 @@ import {
   ActorTemplate,
   type ActorTemplateProps,
 } from "@liexp/ui/lib/templates/ActorTemplate";
-import { type Meta, type StoryFn as Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
@@ -16,7 +16,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<ActorTemplateProps> = (props) => {
+const Template: StoryFn<ActorTemplateProps> = (props) => {
   const [tab, setTab] = React.useState(props.tab ?? 0);
   const [q, setQ] = React.useState<SearchEventsQueryInputNoPagination>({
     hash: `query-${Math.random() * 100}`,

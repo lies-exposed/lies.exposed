@@ -1,5 +1,5 @@
 import Editor from "@liexp/ui/lib/components/Common/Editor";
-import { type Meta, type Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
@@ -10,7 +10,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<any> = (props) => {
+const Template: StoryFn<any> = (props) => {
   return (
     <div style={{ height: "100%", width: "100%" }}>
       <Editor readOnly={false} value={null} />

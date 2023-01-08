@@ -1,12 +1,15 @@
 import * as fs from "fs";
 import { fp } from "@liexp/core/lib/fp";
 import { pipe } from "fp-ts/lib/function";
-import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
+import {
+  type EventResult,
+  createFromTGMessage,
+} from "@flows/event-suggestion/createFromTGMessage.flow";
+import { type TEFlow } from "@flows/flow.types";
 import { toControllerError } from "@io/ControllerError";
-import { type RouteContext } from "@routes/route.types";
 
-export const parseTGMessageFlow =
-  (ctx: RouteContext) => (filePath: string, deleteFile?: boolean) => {
+export const parseTGMessageFlow: TEFlow<[string, boolean], EventResult> =
+  (ctx) => (filePath, deleteFile) => {
     return pipe(
       fp.TE.fromIOEither(
         fp.IOE.tryCatch(

@@ -1,6 +1,7 @@
 import * as t from "io-ts";
 import { UUID } from "io-ts-types/lib/UUID";
 import { Endpoint } from "ts-endpoint";
+import { NetworkType } from '../io/http/Network';
 import { ShareMessageBody } from "../io/http/ShareMessage";
 import { ResourceEndpoints } from "./types";
 
@@ -21,9 +22,9 @@ export const Create = Endpoint({
 
 export const PostToPlatform = Endpoint({
   Method: "POST",
-  getPath: ({ id }) => `/admins/share/${id}`,
+  getPath: ({ type, id }) => `/admins/share/${type}/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: t.type({ id: UUID, type: NetworkType }),
     Body: ShareMessageBody,
   },
   Output: t.any,

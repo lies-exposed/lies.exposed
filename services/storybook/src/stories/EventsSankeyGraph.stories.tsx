@@ -6,7 +6,7 @@ import {
   EventsSankeyGraph,
   type EventsSankeyGraphProps,
 } from "@liexp/ui/lib/components/Graph/EventsSankeyGraph";
-import { type Meta, type StoryFn as Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
@@ -33,7 +33,7 @@ const uncategorizedEvents: Events.Uncategorized.Uncategorized[] = pipe(
   }))
 );
 
-const Template: Story<EventsSankeyGraphProps> = (props) => {
+const Template: StoryFn<EventsSankeyGraphProps> = (props) => {
   return (
     <div>
       <div>

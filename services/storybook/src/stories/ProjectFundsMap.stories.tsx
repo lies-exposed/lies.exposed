@@ -3,7 +3,7 @@ import {
   ProjectAreasMap,
   type ProjectAreasMapProps,
 } from "@liexp/ui/lib/components/Graph/ProjectAreasMap";
-import { type Meta, type StoryFn as Story } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
@@ -13,7 +13,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<ProjectAreasMapProps> = (props) => {
+const Template: StoryFn<ProjectAreasMapProps> = (props) => {
   return <ProjectAreasMap {...props} />;
 };
 

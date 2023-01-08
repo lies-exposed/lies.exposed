@@ -33,7 +33,7 @@ import { sequenceS } from "fp-ts/lib/Apply";
 import { pipe } from "fp-ts/lib/function";
 import * as S from "fp-ts/string";
 import { type UUID } from "io-ts-types/lib/UUID";
-import { type ControllerError } from "@io/ControllerError";
+import { type TEFlow } from "@flows/flow.types";
 import { toActorIO } from "@routes/actors/actor.io";
 import { toEventV2IO } from "@routes/events/eventV2.io";
 import { fetchRelations } from "@routes/events/queries/fetchEventRelations.utils";
@@ -41,7 +41,6 @@ import { searchEventV2Query } from "@routes/events/queries/searchEventsV2.query"
 import { toGroupIO } from "@routes/groups/group.io";
 import { toKeywordIO } from "@routes/keywords/keyword.io";
 import { toImageIO } from "@routes/media/media.io";
-import { type RouteContext } from "@routes/route.types";
 
 const uniqueId = GetEncodeUtils<
   {
@@ -308,18 +307,16 @@ export interface Graph {
   links: any[];
 }
 
-export const createNetworkGraph =
-  (ctx: RouteContext) =>
+export const createNetworkGraph: TEFlow<
+  [NetworkType, UUID[], GetNetworkQuery],
+  NetworkGraphOutput
+> =
+  (ctx) =>
   (
-    type: NetworkType,
-    ids: UUID[],
-    {
-      relations: _relations,
-      emptyRelations,
-      startDate,
-      endDate,
-    }: GetNetworkQuery
-  ): TE.TaskEither<ControllerError, NetworkGraphOutput> => {
+    type,
+    ids,
+    { relations: _relations, emptyRelations, startDate, endDate }
+  ) => {
     const relations = pipe(
       _relations,
       O.getOrElse((): NetworkGroupBy[] => [])
