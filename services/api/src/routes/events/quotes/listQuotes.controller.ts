@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { QUOTE } from '@liexp/shared/io/http/Events/Quote';
+import { QUOTE } from "@liexp/shared/io/http/Events/Quote";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";
@@ -30,6 +30,11 @@ export const MakeGetListQuoteRoute: Route = (r, ctx) => {
         locations,
         exclude,
         ids,
+        emptyActors,
+        emptyGroups,
+        emptyKeywords,
+        emptyLinks,
+        emptyMedia,
         ...query
       },
     }) => {
@@ -52,6 +57,8 @@ export const MakeGetListQuoteRoute: Route = (r, ctx) => {
           title,
           groups,
           groupsMembers,
+          emptyLinks,
+          emptyMedia,
           withDeleted: O.getOrElse(() => false)(withDeleted),
           withDrafts: O.getOrElse(() => false)(withDrafts),
           ...ormOptions,

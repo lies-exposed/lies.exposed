@@ -1,6 +1,5 @@
 import { propsOmit } from "@liexp/core/io/utils";
 import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
@@ -8,9 +7,9 @@ import { UUID } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import {
   CreateScientificStudyBody,
-  ScientificStudy,
+  ScientificStudy
 } from "../io/http/Events/ScientificStudy";
-import { GetListQuery } from "../io/http/Query";
+import { GetSearchEventsQuery } from '../io/http/Events/SearchEventsQuery';
 import { ResourceEndpoints } from "./types";
 
 const SingleStudyOutput = Output(ScientificStudy, "Death");
@@ -21,10 +20,7 @@ export const List = Endpoint({
   getPath: () => "/scientific-studies",
   Input: {
     Query: t.type({
-      ...GetListQuery.props,
-      draft: optionFromNullable(BooleanFromString),
-      ids: optionFromNullable(t.array(UUID)),
-      title: optionFromNullable(t.string),
+      ...GetSearchEventsQuery.type.props,
       provider: optionFromNullable(UUID),
       publishedDate: optionFromNullable(DateFromISOString),
       authors: optionFromNullable(t.array(UUID)),

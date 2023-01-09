@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { TRANSACTION } from '@liexp/shared/io/http/Events/Transaction';
+import { TRANSACTION } from "@liexp/shared/io/http/Events/Transaction";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";
@@ -21,6 +21,11 @@ export const MakeGetListTransactionEventRoute: Route = (r, ctx) => {
         withDeleted,
         withDrafts,
         draft,
+        emptyActors,
+        emptyGroups,
+        emptyKeywords,
+        emptyLinks,
+        emptyMedia,
         ...query
       },
     }) => {
@@ -35,6 +40,8 @@ export const MakeGetListTransactionEventRoute: Route = (r, ctx) => {
           keywords,
           links,
           media,
+          emptyLinks,
+          emptyMedia,
           withDeleted: O.getOrElse(() => false)(withDeleted),
           withDrafts: O.getOrElse(() => false)(withDrafts),
           ...ormOptions,

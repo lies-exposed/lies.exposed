@@ -144,6 +144,8 @@ interface SearchEventQuery {
   exclude: O.Option<string[]>;
   withDeleted: boolean;
   withDrafts: boolean;
+  emptyMedia: O.Option<boolean>;
+  emptyLinks: O.Option<boolean>;
   skip: number;
   take: number;
   order?: Record<string, "ASC" | "DESC">;
@@ -168,6 +170,8 @@ const searchQueryDefaults: SearchEventQuery = {
   type: O.none,
   draft: O.none,
   groupsMembers: O.none,
+  emptyLinks: O.none,
+  emptyMedia: O.none,
 };
 
 export interface SearchEventOutput {
@@ -203,6 +207,8 @@ export const searchEventV2Query =
       withDeleted,
       withDrafts,
       draft,
+      emptyLinks,
+      emptyMedia,
       order,
       skip,
       take,
@@ -377,13 +383,17 @@ export const searchEventV2Query =
               });
             }
 
-            if (O.isSome(media)) {
+            if (O.isSome(emptyMedia) && O.toUndefined(emptyMedia)) {
+              q.andWhere("media.id IS NULL");
+            } else if (O.isSome(media)) {
               q.andWhere("media.id IN (:...media)", {
                 media: media.value,
               });
             }
 
-            if (O.isSome(links)) {
+            if (O.isSome(emptyLinks) && O.toUndefined(emptyLinks)) {
+              q.andWhere("links.id IS NULL");
+            } else if (O.isSome(links)) {
               const where = hasWhere ? q.andWhere.bind(q) : q.andWhere.bind(q);
               where("links.id IN (:...links)", {
                 links: links.value,

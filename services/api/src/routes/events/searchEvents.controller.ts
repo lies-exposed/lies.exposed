@@ -30,6 +30,11 @@ export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {
       exclude,
       withDeleted,
       withDrafts,
+      emptyActors,
+      emptyGroups,
+      emptyKeywords,
+      emptyLinks,
+      emptyMedia,
       ids,
       ...queryRest
     } = query;
@@ -74,6 +79,8 @@ export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {
         ids,
         withDeleted: O.getOrElse(() => false)(withDeleted),
         withDrafts: O.getOrElse(() => false)(withDrafts),
+        emptyMedia,
+        emptyLinks,
         ...findOptions,
       }),
       TE.chain(({ results, totals }) =>
