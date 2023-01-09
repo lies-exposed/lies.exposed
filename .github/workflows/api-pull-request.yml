@@ -79,7 +79,7 @@ jobs:
       - name: Run tests
         env:
           DEBUG: "@liexp*"
-        run: yarn api test --ci --runInBand --forceExit --logHeapUsage
+        run: yarn api jest --ci --runInBand --forceExit --logHeapUsage
 
       # - name: Log in to registry
         # This is where you will update the personal access token to GITHUB_TOKEN
