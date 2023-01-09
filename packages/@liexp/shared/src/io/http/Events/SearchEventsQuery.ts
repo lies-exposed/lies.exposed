@@ -24,6 +24,11 @@ export const GetSearchEventsQuery = t.strict(
     withDeleted: optionFromUndefined(BooleanFromString),
     withDrafts: optionFromUndefined(BooleanFromString),
     draft: optionFromUndefined(BooleanFromString),
+    emptyKeywords: optionFromUndefined(BooleanFromString),
+    emptyActors: optionFromUndefined(BooleanFromString),
+    emptyGroups: optionFromUndefined(BooleanFromString),
+    emptyMedia: optionFromUndefined(BooleanFromString),
+    emptyLinks: optionFromUndefined(BooleanFromString),
   },
   "GetEventsQueryFilter"
 );

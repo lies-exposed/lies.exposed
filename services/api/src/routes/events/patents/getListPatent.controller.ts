@@ -24,6 +24,11 @@ export const MakeGetListPatentEventRoute: Route = (r, ctx) => {
         locations,
         withDeleted,
         withDrafts,
+        emptyActors,
+        emptyGroups,
+        emptyKeywords,
+        emptyLinks,
+        emptyMedia,
         ...query
       },
     }) => {
@@ -39,6 +44,8 @@ export const MakeGetListPatentEventRoute: Route = (r, ctx) => {
           links,
           media,
           locations,
+          emptyLinks,
+          emptyMedia,
           withDeleted: O.getOrElse(() => false)(withDeleted),
           withDrafts: O.getOrElse(() => false)(withDrafts),
           ...ormOptions,

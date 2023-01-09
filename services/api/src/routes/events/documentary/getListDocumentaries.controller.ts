@@ -30,6 +30,11 @@ export const MakeGetListDocumentaryEventRoute: Route = (r, ctx) => {
         locations,
         exclude,
         ids,
+        emptyLinks,
+        emptyMedia,
+        emptyActors,
+        emptyGroups,
+        emptyKeywords,
         ...query
       },
     }) => {
@@ -52,6 +57,8 @@ export const MakeGetListDocumentaryEventRoute: Route = (r, ctx) => {
           title,
           groups,
           groupsMembers,
+          emptyLinks,
+          emptyMedia,
           withDeleted: O.getOrElse(() => false)(withDeleted),
           withDrafts: O.getOrElse(() => false)(withDrafts),
           ...ormOptions,

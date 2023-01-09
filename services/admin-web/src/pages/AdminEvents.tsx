@@ -4,10 +4,12 @@ import { Events } from "@liexp/shared/io/http";
 import {
   Death,
   Documentary,
+  EventType,
   Quote,
   ScientificStudy,
 } from "@liexp/shared/io/http/Events";
 import { getTextContentsCapped } from "@liexp/shared/slate";
+import { LinkIcon } from '@liexp/ui/components/Common/Icons';
 import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
@@ -26,7 +28,14 @@ import { ReferenceMediaTab } from "@liexp/ui/components/admin/tabs/ReferenceMedi
 import { ScientificStudyEventEditTab } from "@liexp/ui/components/admin/tabs/ScientificStudyEventEditTab";
 import { UncategorizedEventEditTab } from "@liexp/ui/components/admin/tabs/UncategorizedEventEditTab";
 import { transformEvent } from "@liexp/ui/components/admin/transform.utils";
-import { Box, Typography } from "@liexp/ui/components/mui";
+import {
+  alpha,
+  Box,
+  Card,
+  CardContent,
+  PlayCircleOutline,
+  Typography,
+} from "@liexp/ui/components/mui";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import * as R from "fp-ts/Record";
 import * as React from "react";
@@ -36,16 +45,18 @@ import {
   Datagrid,
   DateField,
   DateInput,
+  FilterList,
+  FilterListItem,
+  FilterLiveSearch,
   FormDataConsumer,
   FormTab,
   FunctionField,
   List,
   RaRecord as Record,
   ReferenceField,
-  SelectInput,
+  SavedQueriesList,
   TabbedForm,
   TextField,
-  TextInput,
   useDataProvider,
   useRecordContext,
 } from "react-admin";
@@ -61,7 +72,12 @@ import { EventEditActions } from "./events/actions/EditEventActions";
 const RESOURCE = "events";
 
 const eventsFilter = [
-  <TextInput key="title" source="title" alwaysOn size="small" />,
+  <ReferenceArrayKeywordInput
+    key="keywords"
+    source="keywords"
+    showAdd={false}
+    alwaysOn
+  />,
   <BooleanInput
     key="draft"
     label="Draft"
@@ -71,23 +87,7 @@ const eventsFilter = [
     size="small"
   />,
   <BooleanInput key="withDeleted" source="withDeleted" alwaysOn size="small" />,
-  <SelectInput
-    key="type[]"
-    source="type"
-    alwaysOn
-    size="small"
-    choices={io.http.Events.EventType.types.map((t) => ({
-      id: t.value,
-      name: t.value,
-    }))}
-  />,
-  <ReferenceArrayKeywordInput
-    key="keywords"
-    source="keywords"
-    showAdd={false}
-    alwaysOn
-  />,
-  <ReferenceArrayGroupInput key="groups" source="groups" />,
+  <ReferenceArrayGroupInput key="groups" source="groups" size="small" />,
   <ReferenceArrayActorInput key="actors" source="actors" />,
   <ReferenceArrayGroupMemberInput key="groupsMembers" source="groupsMembers" />,
   <DateInput key="startDate" source="startDate" />,
@@ -103,14 +103,56 @@ export const EventList: React.FC = () => (
     }}
     filters={eventsFilter}
     perPage={20}
+    aside={
+      <Card
+        sx={{
+          order: -1,
+          mr: 2,
+          mt: 0,
+          width: 300,
+          display: "flex",
+          flex: "1 0 auto",
+        }}
+      >
+        <CardContent>
+          <SavedQueriesList />
+          <FilterLiveSearch source="title" />
+          <FilterList label="Media" icon={<PlayCircleOutline  />}>
+            <FilterListItem label="Empty Media" value={{ emptyMedia: true }} />
+          </FilterList>
+          <FilterList label="Links" icon={<LinkIcon  />}>
+            <FilterListItem label="Empty Links" value={{ emptyLinks: true }} />
+          </FilterList>
+          <FilterList label="Type" icon={<EventIcon type="Uncategorized" />}>
+            {EventType.types.map((t) => (
+              <FilterListItem
+                key={t.value}
+                label={
+                  <span>
+                    <EventIcon type={t.value} /> {t.value}
+                  </span>
+                }
+                value={{ type: [t.value] }}
+              />
+            ))}
+          </FilterList>
+        </CardContent>
+      </Card>
+    }
   >
     <Datagrid
+      rowStyle={(record) => {
+        return {
+          backgroundColor: record.deletedAt ? alpha("#FF0000", 20) : undefined,
+        };
+      }}
       rowClick={(_props, _id, record) => {
         if (
           record.type === http.Events.ScientificStudy.SCIENTIFIC_STUDY.value
         ) {
           return `/scientific-studies/${record.id}`;
         }
+
         if (record.type === http.Events.Death.DEATH.value) {
           return `/deaths/${record.id}`;
         }
@@ -206,18 +248,8 @@ export const EventList: React.FC = () => (
       />
 
       <DateField source="date" />
-      <FunctionField
-        label="Dates"
-        render={(r: Record | undefined) => {
-          return (
-            <Box>
-              <DateField source="updatedAt" />
-              <DateField source="createdAt" />
-              <DateField source="deletedAt" />
-            </Box>
-          );
-        }}
-      />
+      <DateField source="updatedAt" />
+      <DateField source="createdAt" />
     </Datagrid>
   </List>
 );
