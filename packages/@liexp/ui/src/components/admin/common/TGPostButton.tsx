@@ -98,7 +98,7 @@ export const TGPostButton: React.FC<TGPostButtonProps> = () => {
                 event.media,
                 `${process.env.WEB_URL}/liexp-logo-1200x630.png`
               );
-              const content = getTextContents(event.excerpt);
+              const content = getTextContents(event.excerpt)[0];
               const url = `${process.env.WEB_URL}/events/${record?.id}`;
               const keywords = event.keywords;
 
@@ -131,7 +131,6 @@ export const TGPostButton: React.FC<TGPostButtonProps> = () => {
                 >
                   {sharePayload.date}
                 </Link>
-                -
                 <Box>
                   <Input
                     fullWidth
