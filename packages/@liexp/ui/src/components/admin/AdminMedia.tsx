@@ -1,5 +1,5 @@
 import { parsePlatformURL } from "@liexp/shared/helpers/media";
-import { MediaType } from "@liexp/shared/io/http/Media";
+import { ImageType, MediaType } from "@liexp/shared/io/http/Media";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { checkIsAdmin } from "@liexp/shared/utils/user.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
@@ -199,7 +199,7 @@ const transformMedia =
             "media",
             data.id.toString(),
             data.location.rawFile,
-            data.type
+            data.location.rawFile.type
           )
         : data._type === "fromURL" && data.url
         ? TE.fromEither(parseURL(data.url))
@@ -279,7 +279,7 @@ export const ThumbnailEditField: React.FC<FieldProps> = (props) => {
             {...props}
             label="Location"
             sourceLocation="thumbnail"
-            sourceType=""
+            sourceType={ImageType.types[0].value}
           />
           <Button
             onClick={() => {
@@ -357,7 +357,10 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
           <Grid container>
             <Grid item md={6}>
               <MediaField source="location" />
-              <MediaInput sourceLocation="location" sourceType="type" />
+              <MediaInput
+                sourceLocation="location"
+                sourceType="type"
+              />
             </Grid>
             <Grid item md={6}>
               {isAdmin && <ReferenceUserInput source="creator" />}
@@ -400,6 +403,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
 
 export const MediaCreate: React.FC<CreateProps> = (props) => {
   const apiProvider = useDataProvider();
+
   return (
     <Create
       title="Create a Media"
