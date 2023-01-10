@@ -22,7 +22,7 @@ export const MakeSignedUrlRoute = (r: Router, ctx: RouteContext): void => {
         }),
         TE.map((url) => ({
           body: {
-            data: { url },
+            data: { id: resourceId, url },
           },
           statusCode: 200,
         }))

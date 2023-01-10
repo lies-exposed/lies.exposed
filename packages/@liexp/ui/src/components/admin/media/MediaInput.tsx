@@ -2,9 +2,9 @@ import { MediaType } from "@liexp/shared/io/http/Media";
 import * as React from "react";
 import {
   FileInput,
-  SelectInput,
   FormDataConsumer,
   InputProps,
+  SelectInput,
   TextInput,
 } from "react-admin";
 import { Box } from "../../mui";
@@ -43,13 +43,15 @@ export const MediaInput: React.FC<MediaInputProps> = ({
 
           if (formData._type === "fromFile") {
             return (
-              <FileInput
-                {...props}
-                source={sourceLocation}
-                accept={types.map((a) => `.${a.split("/")[1]}`).join(",")}
-              >
-                <MediaField source={sourceType} />
-              </FileInput>
+              <Box>
+                <FileInput
+                  {...props}
+                  source={sourceLocation}
+                  accept={types.map((a) => `.${a.split("/")[1]}`).join(",")}
+                >
+                  <MediaField source={sourceLocation} type={sourceType} />
+                </FileInput>
+              </Box>
             );
           }
 
