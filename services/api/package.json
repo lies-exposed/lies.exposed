@@ -92,7 +92,7 @@
     "nodemon": "^2.0.20",
     "prettier": "^2.8.2",
     "supertest": "^6.3.3",
-    "ts-jest": "^29.0.3",
+    "ts-jest": "^29.0.4",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
     "typeorm-uml": "^1.6.5",
