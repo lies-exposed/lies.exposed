@@ -3,11 +3,11 @@ import { Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
+import { NotFoundError } from "@io/ControllerError";
 import { PageEntity } from "../../entities/Page.entity";
+import { authenticationHandler } from "@utils/authenticationHandler";
 import { RouteContext } from "../route.types";
 import { toPageIO } from "./page.io";
-import { NotFoundError } from "@io/ControllerError";
-import { authenticationHandler } from "@utils/authenticationHandler";
 
 export const MakeDeletePageRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r, authenticationHandler(ctx, ["admin:delete"]))(

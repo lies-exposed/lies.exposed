@@ -5,10 +5,10 @@ import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
+import { ProjectEntity } from "@entities/Project.entity";
 import { getORMOptions } from "../../utils/orm.utils";
 import { RouteContext } from "../route.types";
 import { toProjectIO } from "./project.io";
-import { ProjectEntity } from "@entities/Project.entity";
 
 export const MakeListProjectRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Project.List, ({ query }) => {

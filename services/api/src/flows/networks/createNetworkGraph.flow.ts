@@ -2,18 +2,26 @@ import * as fs from "fs";
 import path from "path";
 import { isDate } from "util/types";
 import { fp } from "@liexp/core/fp";
+import { ControllerError, toControllerError } from "@io/ControllerError";
 import {
   eqByUUID,
   EventRelationIds,
   getEventsMetadata,
   getRelationIds,
 } from "@liexp/shared/helpers/event/event";
+import { toActorIO } from "@routes/actors/actor.io";
 import { getTitleForSearchEvent } from "@liexp/shared/helpers/event/getTitle.helper";
+import { toEventV2IO } from "@routes/events/eventV2.io";
 import { toSearchEvent } from "@liexp/shared/helpers/event/search-event";
+import { fetchRelations } from "@routes/events/queries/fetchEventRelations.utils";
 import { Actor, Common, Group, Keyword } from "@liexp/shared/io/http";
+import { searchEventV2Query } from "@routes/events/queries/searchEventsV2.query";
 import { ACTORS } from "@liexp/shared/io/http/Actor";
+import { toGroupIO } from "@routes/groups/group.io";
 import { Event, SearchEvent } from "@liexp/shared/io/http/Events";
+import { toKeywordIO } from "@routes/keywords/keyword.io";
 import { GROUPS } from "@liexp/shared/io/http/Group";
+import { RouteContext } from "@routes/route.types";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
 import {
   GetNetworkQuery,
@@ -32,14 +40,6 @@ import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
 import { pipe } from "fp-ts/lib/function";
 import * as S from "fp-ts/string";
 import { UUID } from "io-ts-types/lib/UUID";
-import { ControllerError, toControllerError } from "@io/ControllerError";
-import { toActorIO } from "@routes/actors/actor.io";
-import { toEventV2IO } from "@routes/events/eventV2.io";
-import { fetchRelations } from "@routes/events/queries/fetchEventRelations.utils";
-import { searchEventV2Query } from "@routes/events/queries/searchEventsV2.query";
-import { toGroupIO } from "@routes/groups/group.io";
-import { toKeywordIO } from "@routes/keywords/keyword.io";
-import { RouteContext } from "@routes/route.types";
 
 interface NetworkLink {
   source: UUID;

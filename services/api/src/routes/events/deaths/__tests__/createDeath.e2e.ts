@@ -2,10 +2,10 @@ import { http } from "@liexp/shared/io";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { fc } from "@liexp/test";
-import { AppTest, GetAppTest } from "../../../../../test/AppTest";
-import { loginUser, saveUser } from "../../../../../test/user.utils";
 import { ActorEntity } from "@entities/Actor.entity";
+import { AppTest, GetAppTest } from "../../../../../test/AppTest";
 import { EventV2Entity } from "@entities/Event.v2.entity";
+import { loginUser, saveUser } from "../../../../../test/user.utils";
 import { UserEntity } from "@entities/User.entity";
 
 describe("Create Death Event", () => {

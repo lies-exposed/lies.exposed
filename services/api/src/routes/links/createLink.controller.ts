@@ -2,17 +2,17 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { EventSuggestionRead } from "@liexp/shared/io/http/User";
 import { parseISO } from "@liexp/shared/utils/date";
 import { sanitizeURL } from "@liexp/shared/utils/url.utils";
+import { LinkEntity } from "@entities/Link.entity";
 import { Router } from "express";
+import { ServerError } from "@io/ControllerError";
 import * as A from "fp-ts/Array";
+import { RouteContext } from "@routes/route.types";
 import * as E from "fp-ts/Either";
+import { authenticationHandler } from "@utils/authenticationHandler";
 import * as TE from "fp-ts/TaskEither";
+import { ensureUserExists } from "@utils/user.utils";
 import { pipe } from "fp-ts/function";
 import { toLinkIO } from "./link.io";
-import { LinkEntity } from "@entities/Link.entity";
-import { ServerError } from "@io/ControllerError";
-import { RouteContext } from "@routes/route.types";
-import { authenticationHandler } from "@utils/authenticationHandler";
-import { ensureUserExists } from "@utils/user.utils";
 
 export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r, authenticationHandler(ctx, [EventSuggestionRead.value]))(

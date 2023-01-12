@@ -4,12 +4,12 @@ import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { Equal } from "typeorm";
-import { Route } from "../route.types";
-import { toActorIO } from "./actor.io";
 import { ActorEntity } from "@entities/Actor.entity";
+import { Equal } from "typeorm";
 import { authenticationHandler } from "@utils/authenticationHandler";
 import { foldOptionals } from "@utils/foldOptionals.utils";
+import { Route } from "../route.types";
+import { toActorIO } from "./actor.io";
 
 export const MakeEditActorRoute: Route = (r, { db, logger, jwt }) => {
   AddEndpoint(r, authenticationHandler({ logger, jwt }, ["admin:create"]))(

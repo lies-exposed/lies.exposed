@@ -4,9 +4,9 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { GroupEntity } from "../../entities/Group.entity";
+import { authenticationHandler } from "@utils/authenticationHandler";
 import { Route } from "../route.types";
 import { toGroupIO } from "./group.io";
-import { authenticationHandler } from "@utils/authenticationHandler";
 
 export const MakeCreateGroupRoute: Route = (r, { db, jwt, logger }) => {
   AddEndpoint(r, authenticationHandler({ logger, jwt }, ["admin:create"]))(

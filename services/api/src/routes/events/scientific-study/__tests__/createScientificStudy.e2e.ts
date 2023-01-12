@@ -4,13 +4,13 @@ import { createExcerptValue } from "@liexp/shared/slate";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
 import { HumanReadableStringArb } from "@liexp/shared/tests/arbitrary/HumanReadableString.arbitrary";
+import { ActorEntity } from "@entities/Actor.entity";
 import { throwTE } from "@liexp/shared/utils/task.utils";
+import { EventV2Entity } from "@entities/Event.v2.entity";
 import { fc } from "@liexp/test";
+import { GroupEntity } from "@entities/Group.entity";
 import jwt from "jsonwebtoken";
 import { AppTest, GetAppTest } from "../../../../../test/AppTest";
-import { ActorEntity } from "@entities/Actor.entity";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { GroupEntity } from "@entities/Group.entity";
 
 describe("Create Scientific Study", () => {
   let appTest: AppTest;

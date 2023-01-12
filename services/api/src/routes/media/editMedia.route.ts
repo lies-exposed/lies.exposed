@@ -4,10 +4,10 @@ import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
-import { toImageIO } from "./media.io";
 import { MediaEntity } from "@entities/Media.entity";
 import { createThumbnail } from "@flows/media/createThumbnail.flow";
 import { RouteContext } from "@routes/route.types";
+import { toImageIO } from "./media.io";
 
 export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(

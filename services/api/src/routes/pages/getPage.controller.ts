@@ -4,8 +4,8 @@ import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { PageEntity } from "../../entities/Page.entity";
 import { Route } from "../route.types";
-import { toPageIO } from "./page.io";
 import { NotFoundError } from "@io/ControllerError";
+import { toPageIO } from "./page.io";
 
 export const MakeGetPageRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Page.Get, ({ params: { id } }) => {

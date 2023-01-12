@@ -3,14 +3,14 @@ import { Link } from "@liexp/shared/io/http";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/Apply";
 import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { Metadata } from "page-metadata-parser";
-import { Equal } from 'typeorm';
 import { LinkEntity } from "@entities/Link.entity";
+import * as TE from "fp-ts/TaskEither";
 import { ControllerError, ServerError } from "@io/ControllerError";
+import { pipe } from "fp-ts/function";
 import { toLinkIO } from "@routes/links/link.io";
+import { Metadata } from "page-metadata-parser";
 import { RouteContext } from "@routes/route.types";
+import { Equal } from 'typeorm';
 
 export const MakeGetMetadataRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
