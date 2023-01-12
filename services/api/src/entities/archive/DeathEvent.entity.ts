@@ -14,8 +14,8 @@ import {
 } from "typeorm";
 import { GroupMemberEntity } from "../GroupMember.entity";
 import { LinkEntity } from "../Link.entity";
-import { MediaV1Entity } from './Media.v1.entity';
 import { ActorEntity } from "@entities/Actor.entity";
+import { MediaV1Entity } from './Media.v1.entity';
 import { GroupEntity } from "@entities/Group.entity";
 
 @Entity("death_event")

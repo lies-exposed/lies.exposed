@@ -7,16 +7,16 @@ import axios from "axios";
 import * as Canvas from "canvas";
 import { sequenceS } from "fp-ts/Apply";
 import * as E from "fp-ts/Either";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import * as pdfJS from "pdfjs-dist/legacy/build/pdf";
-import { Page } from "puppeteer-core";
 import {
   ControllerError,
   ServerError,
   toControllerError,
 } from "@io/ControllerError";
+import * as TE from "fp-ts/TaskEither";
 import { RouteContext } from "@routes/route.types";
+import { pipe } from "fp-ts/function";
+import * as pdfJS from "pdfjs-dist/legacy/build/pdf";
+import { Page } from "puppeteer-core";
 
 export const extractThumbnail = (
   match: VideoPlatformMatch,

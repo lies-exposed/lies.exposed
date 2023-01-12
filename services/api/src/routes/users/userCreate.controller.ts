@@ -2,11 +2,11 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { uuid } from "@liexp/shared/utils/uuid";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { toUserIO } from "./user.io";
 import { UserEntity } from "@entities/User.entity";
 import { Route } from "@routes/route.types";
 import { authenticationHandler } from "@utils/authenticationHandler";
 import * as passwordUtils from "@utils/password.utils";
+import { toUserIO } from "./user.io";
 
 export const MakeUserCreateRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(ctx, ["admin:create"]))(

@@ -3,14 +3,14 @@ import { UpdateMetadata } from "@liexp/shared/endpoints/link.endpoints";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/Apply";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { Equal } from "typeorm";
-import { toLinkIO } from "./link.io";
 import { LinkEntity } from "@entities/Link.entity";
+import * as TE from "fp-ts/TaskEither";
 import { ServerError } from "@io/ControllerError";
+import { pipe } from "fp-ts/function";
 import { RouteContext } from "@routes/route.types";
+import { Equal } from "typeorm";
 import { authenticationHandler } from '@utils/authenticationHandler';
+import { toLinkIO } from "./link.io";
 
 export const MakeEditLinkMetadataRoute = (
   r: Router,

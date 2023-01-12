@@ -3,8 +3,8 @@ import { PATENT } from "@liexp/shared/io/http/Events/Patent";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from 'typeorm';
-import { toEventV2IO } from "../eventV2.io";
 import { EventV2Entity } from "@entities/Event.v2.entity";
+import { toEventV2IO } from "../eventV2.io";
 import { Route } from "@routes/route.types";
 
 export const MakeGetPatentEventRoute: Route = (r, ctx) => {

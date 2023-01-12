@@ -2,9 +2,9 @@ import { Router } from "express";
 import { MakeCreateArticleRoute } from "./createArticle.controller";
 import { MakeDeleteArticleRoute } from "./deleteArticle.controller";
 import { MakeEditArticleRoute } from "./editArticle.controller";
+import { RouteContext } from "@routes/route.types";
 import { MakeGetArticleRoute } from "./getArticle.controller";
 import { MakeListArticlesRoute } from "./listArticles.controller";
-import { RouteContext } from "@routes/route.types";
 
 export const MakeArticlesRoutes = (router: Router, ctx: RouteContext): void => {
   MakeListArticlesRoute(router, ctx);

@@ -3,14 +3,14 @@ import { KeywordArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { fc } from "@liexp/test";
 import * as E from "fp-ts/Either";
+import { ActorEntity } from "@entities/Actor.entity";
+import { EventV2Entity } from "@entities/Event.v2.entity";
 import { AppTest, GetAppTest } from "../../../../test/AppTest";
+import { KeywordEntity } from "@entities/Keyword.entity";
 import {
   toPinnedMessage,
   upsertPinnedMessage,
 } from "../upsertPinnedMessage.flow";
-import { ActorEntity } from "@entities/Actor.entity";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { KeywordEntity } from "@entities/Keyword.entity";
 
 describe("Upsert Pinned Message Flow", () => {
   let Test: AppTest;

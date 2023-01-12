@@ -4,8 +4,8 @@ import * as O from "fp-ts/Option";
 import * as R from "fp-ts/Record";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import * as S from "fp-ts/string";
 import { ActorEntity } from "@entities/Actor.entity";
+import * as S from "fp-ts/string";
 import { RouteContext } from "@routes/route.types";
 import { getORMOptions } from "@utils/orm.utils";
 

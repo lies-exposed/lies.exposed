@@ -5,10 +5,10 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { UUID } from "io-ts-types/lib/UUID";
 import { Equal } from "typeorm";
-import { GroupEntity } from "../../entities/Group.entity";
-import { toGroupIO } from "./group.io";
 import { RouteContext } from "@routes/route.types";
 import { authenticationHandler } from "@utils/authenticationHandler";
+import { GroupEntity } from "../../entities/Group.entity";
+import { toGroupIO } from "./group.io";
 
 export const MakeEditGroupRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r, authenticationHandler(ctx, ["admin:edit"]))(

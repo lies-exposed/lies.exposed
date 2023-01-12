@@ -2,11 +2,11 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { toImageIO } from "./media.io";
 import { MediaEntity } from "@entities/Media.entity";
 import { RouteContext } from "@routes/route.types";
 import { authenticationHandler } from "@utils/authenticationHandler";
 import { ensureUserExists } from "@utils/user.utils";
+import { toImageIO } from "./media.io";
 
 export const MakeCreateMediaRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r, authenticationHandler(ctx, []))(

@@ -4,11 +4,11 @@ import { throwTE } from "@liexp/shared/utils/task.utils";
 import { fc } from "@liexp/test";
 import * as A from "fp-ts/Array";
 import { pipe } from "fp-ts/function";
-import jwt from "jsonwebtoken";
-import { AppTest, GetAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
+import jwt from "jsonwebtoken";
 import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
+import { AppTest, GetAppTest } from "../../../../test/AppTest";
 
 describe("List Groups", () => {
   let appTest: AppTest;

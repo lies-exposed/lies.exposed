@@ -4,8 +4,8 @@ import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { AreaEntity } from "../../entities/Area.entity";
 import { Route } from "../route.types";
-import { toAreaIO } from "./Area.io";
 import { authenticationHandler } from "@utils/authenticationHandler";
+import { toAreaIO } from "./Area.io";
 
 export const MakeCreateAreaRoute: Route = (r, { db, logger, jwt }) => {
   AddEndpoint(r, authenticationHandler({ logger, jwt }, ["admin:create"]))(

@@ -3,8 +3,8 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from 'typeorm';
 import { Route } from "../route.types";
-import { toAreaIO } from "./Area.io";
 import { AreaEntity } from "@entities/Area.entity";
+import { toAreaIO } from "./Area.io";
 
 export const MakeDeleteAreaRoute: Route = (r, { s3, db, env }) => {
   AddEndpoint(r)(Endpoints.Area.Delete, ({ params: { id } }) => {

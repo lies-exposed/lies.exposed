@@ -4,9 +4,9 @@ import { KeywordArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as tests from "@liexp/test";
 import { addDays } from "date-fns";
-import { AppTest, GetAppTest } from "../../../../test/AppTest";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { KeywordEntity } from "@entities/Keyword.entity";
+import { AppTest, GetAppTest } from "../../../../test/AppTest";
 
 describe("Get Network", () => {
   let Test: AppTest, authorizationToken: string, events: any[], keywords: any[];

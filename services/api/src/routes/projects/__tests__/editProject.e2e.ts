@@ -3,11 +3,11 @@ import { MediaArb, ProjectArb, AreaArb } from "@liexp/shared/tests";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { fc } from "@liexp/test";
 import { pipe } from "fp-ts/function";
-import { AppTest, GetAppTest } from "../../../../test/AppTest";
-import { loginUser, saveUser } from "../../../../test/user.utils";
 import { AreaEntity } from "@entities/Area.entity";
 import { ProjectEntity } from "@entities/Project.entity";
+import { AppTest, GetAppTest } from "../../../../test/AppTest";
 import { UserEntity } from "@entities/User.entity";
+import { loginUser, saveUser } from "../../../../test/user.utils";
 
 describe("Edit Project ", () => {
   let appTest: AppTest;

@@ -3,13 +3,13 @@ import { Router } from "express";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { toUserIO } from "./user.io";
 import { UserEntity } from "@entities/User.entity";
+import * as TE from "fp-ts/TaskEither";
 import { RouteContext } from "@routes/route.types";
+import { pipe } from "fp-ts/function";
 import { authenticationHandler } from "@utils/authenticationHandler";
 import { getORMOptions } from "@utils/orm.utils";
+import { toUserIO } from "./user.io";
 
 export const MakeUserListRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r, authenticationHandler(ctx, ["admin:read"]))(

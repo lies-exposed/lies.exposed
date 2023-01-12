@@ -1,15 +1,24 @@
 import fs from "fs";
 import path from "path";
+import { ActorEntity } from "@entities/Actor.entity";
+import { GroupEntity } from "@entities/Group.entity";
+import { GroupMemberEntity } from "@entities/GroupMember.entity";
+import { KeywordEntity } from "@entities/Keyword.entity";
+import { MediaEntity } from "@entities/Media.entity";
+import { ControllerError, toControllerError } from "@io/ControllerError";
 import { EventRelationIds } from "@liexp/shared/helpers/event/event";
+import { toActorIO } from "@routes/actors/actor.io";
 import {
   getNewRelationIds,
   SearchEventsQueryCache,
   updateCache,
 } from "@liexp/shared/helpers/event/search-event";
+import { toEventV2IO } from "@routes/events/eventV2.io";
 import {
   createHierarchicalEdgeBundling,
   HierarchicalEdgeBundlingProps,
 } from "@liexp/shared/helpers/graph/createHierarchicalEdgeBundlingData";
+import { searchEventV2Query } from "@routes/events/queries/searchEventsV2.query";
 import {
   Actor,
   Group,
@@ -17,10 +26,15 @@ import {
   Keyword,
   Media,
 } from "@liexp/shared/io/http";
+import { toGroupIO } from "@routes/groups/group.io";
 import { EventType } from "@liexp/shared/io/http/Events";
+import { toGroupMemberIO } from "@routes/groups-members/groupMember.io";
 import { StatsType } from "@liexp/shared/io/http/Stats";
+import { toKeywordIO } from "@routes/keywords/keyword.io";
 import { DBError } from "@liexp/shared/providers/orm";
+import { toImageIO } from "@routes/media/media.io";
 import { walkPaginatedRequest } from "@liexp/shared/utils/fp.utils";
+import { RouteContext } from "@routes/route.types";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
@@ -29,20 +43,6 @@ import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { In } from "typeorm";
-import { ActorEntity } from "@entities/Actor.entity";
-import { GroupEntity } from "@entities/Group.entity";
-import { GroupMemberEntity } from "@entities/GroupMember.entity";
-import { KeywordEntity } from "@entities/Keyword.entity";
-import { MediaEntity } from "@entities/Media.entity";
-import { ControllerError, toControllerError } from "@io/ControllerError";
-import { toActorIO } from "@routes/actors/actor.io";
-import { toEventV2IO } from "@routes/events/eventV2.io";
-import { searchEventV2Query } from "@routes/events/queries/searchEventsV2.query";
-import { toGroupMemberIO } from "@routes/groups-members/groupMember.io";
-import { toGroupIO } from "@routes/groups/group.io";
-import { toKeywordIO } from "@routes/keywords/keyword.io";
-import { toImageIO } from "@routes/media/media.io";
-import { RouteContext } from "@routes/route.types";
 
 export const createStatsByEntityType =
   (ctx: RouteContext) =>

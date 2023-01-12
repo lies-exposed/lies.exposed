@@ -4,8 +4,8 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from 'typeorm';
 import { RouteContext } from "../route.types";
-import { toAreaIO } from "./Area.io";
 import { AreaEntity } from "@entities/Area.entity";
+import { toAreaIO } from "./Area.io";
 
 export const MakeGetAreaRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Area.Get, ({ params: { id } }) => {

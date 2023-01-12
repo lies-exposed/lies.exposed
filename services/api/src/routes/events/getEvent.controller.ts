@@ -3,8 +3,8 @@ import { Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { RouteContext } from "../route.types";
-import { toEventV2IO } from "./eventV2.io";
 import { EventV2Entity } from "@entities/Event.v2.entity";
+import { toEventV2IO } from "./eventV2.io";
 
 export const GetEventRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Event.Get, ({ params: { id } }) => {
