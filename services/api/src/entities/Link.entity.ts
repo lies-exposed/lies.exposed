@@ -23,7 +23,7 @@ export class LinkEntity {
   @PrimaryGeneratedColumn("uuid")
   id: UUID;
 
-  @Column({ type: "varchar", nullable: false })
+  @Column({ type: "varchar", nullable: false, unique: true })
   url: URL;
 
   @Column({ type: "varchar", nullable: true })
