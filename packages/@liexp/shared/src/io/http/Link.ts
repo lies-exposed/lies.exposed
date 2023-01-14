@@ -24,6 +24,19 @@ export const EditLink = t.strict(
     provider: t.union([UUID, t.undefined]),
     events: t.array(UUID),
     creator: optionFromUndefined(UUID),
+    image: t.union(
+      [
+        t.strict(
+          {
+            id: UUID,
+            ...CreateMedia.type.props,
+          },
+          "LinkMedia"
+        ),
+        t.undefined,
+      ],
+      "LinkImage"
+    ),
     overrideThumbnail: optionFromUndefined(t.boolean),
   },
   "EditLinkBody"
@@ -40,19 +53,6 @@ export const Link = t.strict(
     title: t.union([t.string, t.undefined]),
     description: t.union([t.string, t.undefined]),
     publishDate: t.union([DateFromISOString, t.undefined]),
-    image: t.union(
-      [
-        t.strict(
-          {
-            id: UUID,
-            ...CreateMedia.type.props,
-          },
-          "LinkMedia"
-        ),
-        t.undefined,
-      ],
-      "LinkImage"
-    ),
     keywords: t.array(UUID),
     provider: t.union([UUID, t.undefined]),
     creator: t.union([UUID, t.undefined]),
