@@ -1,4 +1,5 @@
 import * as io from "@liexp/shared/io";
+import { ImageType } from "@liexp/shared/io/http/Media";
 import { checkIsAdmin } from "@liexp/shared/utils/user.utils";
 import * as React from "react";
 import {
@@ -28,7 +29,7 @@ import {
   useGetIdentity,
   usePermissions,
   useRecordContext,
-  useRefresh
+  useRefresh,
 } from "react-admin";
 import { Box, Toolbar } from "../mui";
 import { CreateEventFromLinkButton } from "./common/CreateEventFromLinkButton";
@@ -39,6 +40,7 @@ import ReferenceUserInput from "./common/ReferenceUserInput";
 import { SearchLinksButton } from "./common/SearchLinksButton";
 import URLMetadataInput from "./common/URLMetadataInput";
 import { MediaField } from "./media/MediaField";
+import ReferenceMediaInput from "./media/ReferenceMediaInput";
 import LinkPreview from "./previews/LinkPreview";
 
 const RESOURCE = "links";
@@ -124,6 +126,7 @@ export const LinkList: React.FC<ListProps> = (props) => {
 const transformLink = ({ newEvents, ...r }: RaRecord): RaRecord => {
   return {
     ...r,
+    image: r.image.id ? r.image.id : undefined,
     provider: r.provider === "" ? undefined : r.provider,
     events: (r.events ?? []).concat(newEvents ?? []),
   };
@@ -151,7 +154,9 @@ const OverrideThumbnail: React.FC = () => {
               overrideThumbnail: true,
             })
           )
-          .then(() => { refresh(); });
+          .then(() => {
+            refresh();
+          });
       }}
     />
   );
@@ -166,9 +171,9 @@ const UpdateMetadataButton: React.FC = () => {
       label="resources.links.actions.update_metadata"
       variant="contained"
       onClick={() => {
-        void dataProvider
-          .put(`/links/${record?.id}/metadata`)
-          .then(() => { refresh(); });
+        void dataProvider.put(`/links/${record?.id}/metadata`).then(() => {
+          refresh();
+        });
       }}
     />
   );
@@ -202,8 +207,11 @@ export const LinkEdit: React.FC = () => {
 
           <DateInput source="publishDate" />
           <MediaField source="image.thumbnail" sourceType="image/jpeg" />
-          <MediaField source="image.location" type="image.type" />
-           
+          <ReferenceMediaInput
+            source="image.id"
+            allowedTypes={ImageType.types.map((t) => t.value)}
+          />
+
           <OverrideThumbnail />
           <TextInput source="description" fullWidth multiline />
           <ReferenceGroupInput source="provider" />

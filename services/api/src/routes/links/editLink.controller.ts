@@ -19,7 +19,7 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
     (
       {
         params: { id },
-        body: { events, url, overrideThumbnail, creator, ...body },
+        body: { events, url, overrideThumbnail, image, creator, ...body },
       },
       req
     ) => {
@@ -32,6 +32,7 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
           const linkUpdate = {
             ...body,
             url: sanitizeURL(url),
+            image: image??  null,
             // events: events.map((e) => ({ id: e })),
             keywords: body.keywords.map((k) => ({ id: k })),
             id,
@@ -61,7 +62,12 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
                         ...ll,
                         ...l,
                         ...linkUpdate,
-                        image: ll.image,
+                        image: ll.image
+                          ? {
+                              ...ll.image,
+                              thumbnail: ll.image.thumbnail ?? undefined,
+                            }
+                          : null,
                       }))
                     );
                   }
