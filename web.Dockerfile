@@ -19,7 +19,7 @@ RUN yarn
 
 RUN yarn packages:build
 
-RUN NODE_ENV=production yarn web build
+RUN NODE_ENV=production yarn web build:app-server
 
 FROM node:16-slim as production
 
