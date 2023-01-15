@@ -8262,7 +8262,7 @@ __metadata:
     node-telegram-bot-api: ^0.61.0
     nodemon: ^2.0.20
     page-metadata-parser: ^1.1.4
-    pdfjs-dist: ^2.16.105
+    pdfjs-dist: ^3.2.146
     pg: ^8.8.0
     prettier: ^2.8.3
     puppeteer-core: ^13.7.0
@@ -11881,13 +11881,6 @@ __metadata:
   version: 2.1.6
   resolution: "domino@npm:2.1.6"
   checksum: 9b1b6d2661efd8bf942b70d5e11ac0de6a63f17e49b7eb227d9a612fa7b7c12b7775520d64f498988a8ee334ea9c59a463c84ea510b0af17dd3e13fdce120410
-  languageName: node
-  linkType: hard
-
-"dommatrix@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "dommatrix@npm:1.0.3"
-  checksum: 8ac727c1a14cf8de30a5b49a3bd6b2622a661b391fe1ac54e855eaa14a857ed86d63492150b5f70f912acc24fa3acc31d750259c47e9b5801de237624b0a319f
   languageName: node
   linkType: hard
 
@@ -19319,18 +19312,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pdfjs-dist@npm:^2.16.105":
-  version: 2.16.105
-  resolution: "pdfjs-dist@npm:2.16.105"
+"pdfjs-dist@npm:^3.2.146":
+  version: 3.2.146
+  resolution: "pdfjs-dist@npm:3.2.146"
   dependencies:
-    dommatrix: ^1.0.3
+    canvas: ^2.11.0
     web-streams-polyfill: ^3.2.1
-  peerDependencies:
-    worker-loader: ^3.0.8
-  peerDependenciesMeta:
-    worker-loader:
+  dependenciesMeta:
+    canvas:
       optional: true
-  checksum: 16ad2fa0ff8404fefd1a3e83f92ef1a594fcc4d3ff65512f801365c8f06d300d4a38023a867994f0b964a8e146773e6dcc9988c7c1a791917eb6371d5bd72863
+  checksum: 54d4c75140f7fc1eb2008a7bb55e664c59602be09def9883da6aff4c1a7ad58a09aaa927d07f2a695181da0f20b8a96b569365195c34a0aac6ecb0d378959f8a
   languageName: node
   linkType: hard
 
