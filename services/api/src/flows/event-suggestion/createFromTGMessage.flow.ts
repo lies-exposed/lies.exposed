@@ -28,7 +28,7 @@ import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import TelegramBot from "node-telegram-bot-api";
-import type puppeteer from "puppeteer-core";
+import type * as puppeteer from "puppeteer-core";
 import { Equal } from "typeorm";
 import { createAndUpload } from "../media/createAndUpload.flow";
 

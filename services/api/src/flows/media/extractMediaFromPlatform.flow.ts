@@ -8,7 +8,7 @@ import * as TE from "fp-ts/TaskEither";
 import { sequenceS } from "fp-ts/lib/Apply";
 import { pipe } from "fp-ts/lib/function";
 import { MediaEntity } from "@entities/Media.entity";
-import type puppeteer from "puppeteer-core";
+import type * as puppeteer from "puppeteer-core";
 import { ControllerError, toControllerError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
 import { extractThumbnail } from "./createThumbnail.flow";

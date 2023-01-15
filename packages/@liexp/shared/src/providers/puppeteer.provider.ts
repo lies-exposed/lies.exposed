@@ -225,7 +225,7 @@ export const GetPuppeteerProvider = (
     return pipe(
       TE.tryCatch(() => page.goto(url), toPuppeteerError),
       TE.chain((response) => {
-        puppeteerLogger.debug.log("page exists", response.status());
+        puppeteerLogger.debug.log("page exists: %d", response?.status() ?? 500);
         if (!response) {
           return TE.left(
             makePuppeteerError(

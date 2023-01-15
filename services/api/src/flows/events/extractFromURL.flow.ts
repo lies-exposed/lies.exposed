@@ -56,7 +56,7 @@ const extractEventFromProviderLink =
 
           // get "Results" element next element sibling
           const contentText = await contentTitle?.evaluate(
-            (el) => el.nextElementSibling?.textContent
+            (el) => el.nextSibling?.textContent
           );
 
           return O.some({
@@ -94,7 +94,7 @@ const extractEventFromProviderLink =
 
           // get "Results" element next element sibling
           const contentText = await contentTitle.evaluate(
-            (el) => el.nextElementSibling?.innerHTML
+            (el) => el.nextSibling?.textContent
           );
 
           return O.some({
@@ -122,7 +122,7 @@ const extractEventFromProviderLink =
 
           // get "Results" element next element sibling
           const contentText = await contentTitle.evaluate(
-            (el) => el.nextElementSibling?.innerHTML
+            (el) => el.nextSibling?.textContent
           );
 
           return O.some({
