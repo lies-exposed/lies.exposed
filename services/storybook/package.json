@@ -8,7 +8,8 @@
   "private": true,
   "scripts": {
     "start": "start-storybook --quiet -p 6006",
-    "build": "build-storybook -o build",
+    "build": "tsc -b",
+    "build-sb": "build-storybook -o build",
     "clean": "rm -rf build",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\""

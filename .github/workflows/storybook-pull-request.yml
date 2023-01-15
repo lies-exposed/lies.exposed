@@ -79,9 +79,9 @@ jobs:
           key: storybook-build
 
       - name: Type Check Storybook
-        run: yarn storybook tsc -b
+        run: yarn storybook build
 
       - name: Build Storybook
         env:
           NODE_ENV: development
-        run: yarn storybook build
+        run: yarn storybook build-sb
