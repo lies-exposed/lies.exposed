@@ -61,6 +61,7 @@ const GroupTemplate = React.lazy(() => import("./templates/GroupTemplate"));
 const KeywordTemplate = React.lazy(() => import("./templates/KeywordTemplate"));
 const MediaTemplate = React.lazy(() => import("./templates/MediaTemplate"));
 const ProfilePage = React.lazy(() => import("./pages/ProfilePage"));
+const PageTemplate = React.lazy(() => import("./templates/PageTemplate"));
 
 const githubQuery = {
   queryKey: ["github", { user: "lies-exposed", repo: "lies.exposed" }],
@@ -560,6 +561,19 @@ export const routes = [
   {
     path: "/profile*",
     route: () => <ProfilePage />,
+    queries: async () => [],
+  },
+  {
+    path: "/:customPath",
+    route: () => {
+      const params = useParams<{ customPath: string }>();
+
+      if (params.customPath) {
+        return <PageTemplate customPath={params.customPath} />;
+      }
+
+      return <NotFoundPage />;
+    },
     queries: async () => [],
   },
   {
