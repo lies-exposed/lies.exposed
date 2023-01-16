@@ -15,15 +15,49 @@ const meta: Meta = {
 };
 export default meta;
 
-const Template: Story<HeaderProps> = (args) => <Header {...args} />;
+const Template: Story<HeaderProps> = (args) => {
+  const [p, setP] = React.useState("#explore");
+  return (
+    <Header
+      {...args}
+      pathname={p}
+      onMenuItemClick={(m) => {
+        setP(m.view);
+      }}
+    />
+  );
+};
 
 export const HeaderExample = Template.bind({});
 HeaderExample.args = {
   menu: [
     {
+      label: "Explore",
+      view: "#explore",
+      subItems: [
+        {
+          label: "Events",
+          view: "#events",
+        },
+        {
+          label: "Actors",
+          view: "#actors",
+        },
+      ],
+    },
+    {
       label: "Profile",
       view: "/profile",
-      subItems: [],
+      subItems: [
+        {
+          label: "Links",
+          view: "#links",
+        },
+        {
+          label: "Media",
+          view: "#media",
+        },
+      ],
     },
   ],
 };

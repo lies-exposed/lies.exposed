@@ -1,3 +1,4 @@
+import { clsx } from "clsx";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
@@ -23,7 +24,6 @@ import {
 const PREFIX = "Header";
 
 const classes = {
-  root: `${PREFIX}-root`,
   appBar: `${PREFIX}-appBar`,
   menuButton: `${PREFIX}-menuButton`,
   menuItem: `${PREFIX}-menuItem`,
@@ -34,11 +34,6 @@ const classes = {
 };
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
-  [`& .${classes.root}`]: {
-    flexGrow: 0,
-    flexShrink: 0,
-  },
-
   [`&.${classes.appBar}`]: {
     position: "fixed",
     boxShadow: "none",
@@ -70,13 +65,20 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
   [`& .${classes.menuItem}`]: {
     color: theme.palette.common.white,
     ...(theme.typography.subtitle1 as any),
+    fontWeight: theme.typography.fontWeightBold as any,
+    fontSize: 16,
+    textTransform: "none",
+    cursor: "pointer",
+    "&.selected": {
+      color: theme.palette.secondary.main,
+      backgroundColor: theme.palette.common.white,
+    },
   },
 
   [`& .${classes.menuItemLink}`]: {
     color: theme.palette.text.primary,
-    fontWeight: theme.typography.fontWeightBold as any,
-    textTransform: "uppercase",
     ...(theme.typography.subtitle1 as any),
+    // fontWeight: theme.typography.fontWeightBold as any,
     fontSize: 14,
     margin: 0,
   },
@@ -99,9 +101,11 @@ export interface HeaderProps {
   onTitleClick: () => void;
   onMenuItemClick: (m: HeaderMenuItem) => void;
   menu: HeaderMenuItem[];
+  pathname: string;
 }
 
 const Header: React.FC<HeaderProps> = ({
+  pathname,
   onTitleClick,
   onMenuItemClick,
   menu,
@@ -175,7 +179,9 @@ const Header: React.FC<HeaderProps> = ({
         <Typography
           variant="h6"
           className={classes.title}
-          onClick={() => { onTitleClick(); }}
+          onClick={() => {
+            onTitleClick();
+          }}
         >
           {title}
         </Typography>
@@ -196,14 +202,22 @@ const Header: React.FC<HeaderProps> = ({
             m.subItems.length > 0
               ? React.useRef<HTMLButtonElement>(null)
               : null;
+
+          const selected =
+            m.view === pathname || m.subItems.some((i) => i.view === pathname);
+
           return (
             <Button
               key={m.view}
-              className={classes.menuItem}
+              className={clsx(classes.menuItem, {
+                selected,
+              })}
               ref={buttonRef}
               aria-controls={open ? "menu-list-grow" : undefined}
               aria-haspopup="true"
-              onClick={() => { handleToggle(buttonRef, m); }}
+              onClick={() => {
+                handleToggle(buttonRef, m);
+              }}
             >
               {m.label}
             </Button>
@@ -231,7 +245,9 @@ const Header: React.FC<HeaderProps> = ({
                 >
                   <Paper>
                     <ClickAwayListener
-                      onClickAway={(e) => { handleClose(e as any); }}
+                      onClickAway={(e) => {
+                        handleClose(e as any);
+                      }}
                     >
                       <MenuList
                         autoFocusItem={open}
