@@ -11,7 +11,7 @@ import {
   dehydrate,
   Hydrate,
   QueryClient,
-  QueryClientProvider
+  QueryClientProvider,
 } from "react-query";
 import { StaticRouter } from "react-router-dom/server";
 import { HelmetProvider } from "../components/SEO";
@@ -215,15 +215,15 @@ export const getServer = (
   //   );
   // }
 
-  routes.forEach((r) => {
-    app.get(r.path, requestHandler);
-  });
-
   app.use(
     express.static(publicDir, {
       index: false,
     })
   );
+
+  routes.forEach((r) => {
+    app.get(r.path, requestHandler);
+  });
 
   return app;
 };
