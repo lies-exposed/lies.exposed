@@ -15,7 +15,7 @@
   "dependencies": {
     "@databases/escape-identifier": "^1.0.3",
     "@databases/sql": "^3.2.0",
-    "@mui/material": "^5.11.3",
+    "@mui/material": "^5.11.4",
     "@react-page/editor": "^5.3.0",
     "@react-page/plugins-slate": "^5.3.0",
     "@react-page/react-admin": "^5.3.0",
