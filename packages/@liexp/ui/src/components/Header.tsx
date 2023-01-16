@@ -74,7 +74,6 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
       backgroundColor: theme.palette.common.white,
     },
   },
-
   [`& .${classes.menuItemLink}`]: {
     color: theme.palette.text.primary,
     ...(theme.typography.subtitle1 as any),
@@ -96,6 +95,40 @@ export interface HeaderMenuItem extends View {
   label: React.ReactNode;
   subItems: Array<Omit<HeaderMenuItem, "subItems">>;
 }
+
+const HeaderMenuItem: React.FC<{
+  item: HeaderMenuItem;
+  className?: string;
+  open: boolean;
+  currentView: string;
+  onClick: (
+    ref: React.RefObject<HTMLButtonElement> | null,
+    i: HeaderMenuItem
+  ) => void;
+}> = ({ item: m, className, open, currentView, onClick }) => {
+  const buttonRef =
+    m.subItems.length > 0 ? React.useRef<HTMLButtonElement>(null) : null;
+
+  const selected =
+    m.view === currentView || m.subItems.some((i) => i.view === currentView);
+
+  return (
+    <Button
+      key={m.view}
+      className={clsx(className, {
+        selected,
+      })}
+      ref={buttonRef}
+      aria-controls={open ? "menu-list-grow" : undefined}
+      aria-haspopup="true"
+      onClick={() => {
+        onClick(buttonRef, m);
+      }}
+    >
+      {m.label}
+    </Button>
+  );
+};
 
 export interface HeaderProps {
   onTitleClick: () => void;
@@ -198,29 +231,15 @@ const Header: React.FC<HeaderProps> = ({
 
         <DonateButton className={classes.menuItem} />
         {menu.map((m) => {
-          const buttonRef =
-            m.subItems.length > 0
-              ? React.useRef<HTMLButtonElement>(null)
-              : null;
-
-          const selected =
-            m.view === pathname || m.subItems.some((i) => i.view === pathname);
-
           return (
-            <Button
+            <HeaderMenuItem
               key={m.view}
-              className={clsx(classes.menuItem, {
-                selected,
-              })}
-              ref={buttonRef}
-              aria-controls={open ? "menu-list-grow" : undefined}
-              aria-haspopup="true"
-              onClick={() => {
-                handleToggle(buttonRef, m);
-              }}
-            >
-              {m.label}
-            </Button>
+              item={m}
+              className={classes.menuItem}
+              currentView={pathname}
+              open={open}
+              onClick={handleToggle}
+            />
           );
         })}
 

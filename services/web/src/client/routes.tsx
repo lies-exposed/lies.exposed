@@ -49,19 +49,22 @@ import NotFoundPage from "./pages/404";
 import ActorsPage, { queryParams } from "./pages/ActorsPage";
 const AreasPage = React.lazy(() => import("./pages/AreasPage"));
 const BlogPage = React.lazy(() => import("./pages/BlogPage"));
-const ArticleTemplate = React.lazy(() => import("./templates/ArticleTemplate"));
 const EventsPage = React.lazy(() => import("./pages/EventsPage"));
 const GroupsPage = React.lazy(() => import("./pages/GroupsPage"));
 const KeywordsPage = React.lazy(() => import("./pages/KeywordsPage"));
 const MediaPage = React.lazy(() => import("./pages/MediaPage"));
+const ProfilePage = React.lazy(() => import("./pages/ProfilePage"));
+const LogoutPage = React.lazy(() => import("./pages/Logout"));
+const ArticleTemplate = React.lazy(() => import("./templates/ArticleTemplate"));
 const ActorTemplate = React.lazy(() => import("./templates/ActorTemplate"));
 const AreaTemplate = React.lazy(() => import("./templates/AreaTemplate"));
 const EventTemplate = React.lazy(() => import("./templates/EventTemplate"));
 const GroupTemplate = React.lazy(() => import("./templates/GroupTemplate"));
 const KeywordTemplate = React.lazy(() => import("./templates/KeywordTemplate"));
 const MediaTemplate = React.lazy(() => import("./templates/MediaTemplate"));
-const ProfilePage = React.lazy(() => import("./pages/ProfilePage"));
+
 const PageTemplate = React.lazy(() => import("./templates/PageTemplate"));
+
 
 const githubQuery = {
   queryKey: ["github", { user: "lies-exposed", repo: "lies.exposed" }],
@@ -561,6 +564,11 @@ export const routes = [
   {
     path: "/profile*",
     route: () => <ProfilePage />,
+    queries: async () => [],
+  },
+  {
+    path: "/logout",
+    route: () => <LogoutPage />,
     queries: async () => [],
   },
   {
