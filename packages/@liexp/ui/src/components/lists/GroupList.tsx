@@ -69,6 +69,7 @@ const GroupList: React.FC<GroupListProps> = ({
   groups,
   onItemClick: onGroupClick,
   style,
+  avatarSize,
   ...props
 }) => {
   return (
@@ -79,7 +80,7 @@ const GroupList: React.FC<GroupListProps> = ({
       filter={(_) => true}
       onItemClick={onGroupClick}
       getKey={(g) => g.id}
-      ListItem={(p) => <GroupListItem {...p} {...props} />}
+      ListItem={(p) => <GroupListItem {...{ ...p, ...props, avatarSize }} />}
     />
   );
 };

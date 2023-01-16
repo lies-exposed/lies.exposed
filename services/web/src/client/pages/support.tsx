@@ -5,6 +5,7 @@ import * as React from "react";
 const SupportPage: React.FunctionComponent = () => (
   <Layout
     header={{
+      pathname: "",
       menu: [],
       onTitleClick: () => undefined,
       onMenuItemClick: () => undefined,

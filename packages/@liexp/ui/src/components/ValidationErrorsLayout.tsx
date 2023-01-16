@@ -10,6 +10,7 @@ export const ValidationErrorsLayout = (errs: t.Errors): JSX.Element => {
   return (
     <Layout
       header={{
+        pathname: "",
         onTitleClick: () => undefined,
         onMenuItemClick: () => undefined,
         menu: [],
