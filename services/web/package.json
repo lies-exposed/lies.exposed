@@ -61,7 +61,7 @@
     "throttle-debounce": "^5.0.0",
     "topojson-client": "3.1.0",
     "topojson-server": "3.0.1",
-    "uuid": "^8.3.2",
+    "uuid": "^9.0.0",
     "world-atlas": "2.0.2"
   },
   "devDependencies": {
@@ -80,7 +80,7 @@
     "@types/throttle-debounce": "^5.0.0",
     "@types/topojson-client": "^3.1.1",
     "@types/topojson-server": "^3.0.1",
-    "@types/uuid": "^8.3.4",
+    "@types/uuid": "^9.0.0",
     "@types/webpack-bundle-analyzer": "^4.6.0",
     "@types/webpack-node-externals": "^2.5.3",
     "@typescript-eslint/eslint-plugin": "^5.48.2",
