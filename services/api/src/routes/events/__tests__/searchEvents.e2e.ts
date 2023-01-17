@@ -3,15 +3,15 @@ import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { UncategorizedArb } from "@liexp/shared/tests/arbitrary/Event.arbitrary";
 import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
-import { ActorEntity } from "@entities/Actor.entity";
 import { fc } from "@liexp/test";
-import { EventV2Entity } from "@entities/Event.v2.entity";
 import * as A from "fp-ts/Array";
-import { GroupEntity } from "@entities/Group.entity";
 import { pipe } from "fp-ts/function";
-import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import jwt from "jsonwebtoken";
 import { AppTest, GetAppTest } from "../../../../test/AppTest";
+import { ActorEntity } from "@entities/Actor.entity";
+import { EventV2Entity } from "@entities/Event.v2.entity";
+import { GroupEntity } from "@entities/Group.entity";
+import { GroupMemberEntity } from "@entities/GroupMember.entity";
 
 describe("Search Events", () => {
   let appTest: AppTest, authorizationToken: string, totalEvents: number;

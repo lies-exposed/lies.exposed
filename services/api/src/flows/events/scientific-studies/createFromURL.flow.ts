@@ -4,11 +4,11 @@ import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
+import { findByURL } from "../../../queries/events/scientificStudy.query";
+import { extractFromURL } from "../extractFromURL.flow";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { ControllerError, ServerError, toControllerError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
-import { findByURL } from "../../../queries/events/scientificStudy.query";
-import { extractFromURL } from "../extractFromURL.flow";
 
 export const createEventFromURL =
   (ctx: RouteContext) =>

@@ -3,14 +3,14 @@ import { EventSuggestion } from "@liexp/shared/io/http";
 import { EventSuggestionRead, User } from "@liexp/shared/io/http/User";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
-import { searchEventSuggestion } from "@flows/event-suggestion/searchEventSuggestion.flow";
 import * as O from "fp-ts/Option";
-import { Route } from "@routes/route.types";
 import * as TE from "fp-ts/TaskEither";
-import { authenticationHandler } from "@utils/authenticationHandler";
 import { pipe } from "fp-ts/function";
-import { foldOptionals } from "@utils/foldOptionals.utils";
 import { toEventSuggestion } from "./eventSuggestion.io";
+import { searchEventSuggestion } from "@flows/event-suggestion/searchEventSuggestion.flow";
+import { Route } from "@routes/route.types";
+import { authenticationHandler } from "@utils/authenticationHandler";
+import { foldOptionals } from "@utils/foldOptionals.utils";
 
 export const GetEventSuggestionListRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(ctx, ["event-suggestion:read"]))(

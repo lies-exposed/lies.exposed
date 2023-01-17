@@ -4,10 +4,10 @@ import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { DeepPartial } from "typeorm";
+import { fetchRelationIds } from "./fetchEventRelations.utils";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { RouteContext } from "@routes/route.types";
 import { optionalsToUndefined } from "@utils/foldOptionals.utils";
-import { fetchRelationIds } from "./fetchEventRelations.utils";
 
 interface EditEventEntity extends Omit<DeepPartial<EventV2Entity>, "type"> {
   type: http.Events.EventType;

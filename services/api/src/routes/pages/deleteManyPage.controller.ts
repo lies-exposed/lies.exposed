@@ -4,8 +4,8 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { In } from "typeorm";
 import { PageEntity } from "../../entities/Page.entity";
-import { authenticationHandler } from '@utils/authenticationHandler';
 import { RouteContext } from "../route.types";
+import { authenticationHandler } from '@utils/authenticationHandler';
 
 export const MakeDeleteManyPageRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r, authenticationHandler(ctx, ['admin:delete']))(PageDeleteMany, ({ query: { ids } }) => {

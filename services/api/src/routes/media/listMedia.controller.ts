@@ -4,12 +4,12 @@ import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
-import { MediaEntity } from "@entities/Media.entity";
 import { pipe } from "fp-ts/function";
-import { RouteContext } from "@routes/route.types";
 import * as t from "io-ts";
-import { addOrder, getORMOptions } from "@utils/orm.utils";
 import { toImageIO } from "./media.io";
+import { MediaEntity } from "@entities/Media.entity";
+import { RouteContext } from "@routes/route.types";
+import { addOrder, getORMOptions } from "@utils/orm.utils";
 
 export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(

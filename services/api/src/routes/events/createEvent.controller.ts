@@ -2,11 +2,11 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
+import { toEventV2IO } from "./eventV2.io";
+import { createEventQuery } from "./queries/createEvent.query";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { Route } from "@routes/route.types";
 import { authenticationHandler } from "@utils/authenticationHandler";
-import { toEventV2IO } from "./eventV2.io";
-import { createEventQuery } from "./queries/createEvent.query";
 
 export const CreateEventRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(ctx, ["admin:create"]))(

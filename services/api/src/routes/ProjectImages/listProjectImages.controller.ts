@@ -5,9 +5,9 @@ import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { ProjectImageEntity } from "@entities/ProjectImage.entity";
 import { RouteContext } from "../route.types";
 import { toProjectImageIO } from "./ProjectImage.io";
+import { ProjectImageEntity } from "@entities/ProjectImage.entity";
 
 export const MakeListProjectImageRoute = (
   r: Router,

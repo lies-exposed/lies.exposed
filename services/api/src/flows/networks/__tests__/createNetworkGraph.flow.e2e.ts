@@ -4,13 +4,13 @@ import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
 import { ActorArb, UncategorizedArb } from "@liexp/shared/tests";
 import { KeywordArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
-import { ActorEntity } from "@entities/Actor.entity";
 import { fc } from "@liexp/test";
-import { EventV2Entity } from "@entities/Event.v2.entity";
 import subDays from "date-fns/subDays";
-import { KeywordEntity } from "@entities/Keyword.entity";
 import { AppTest, GetAppTest } from "../../../../test/AppTest";
 import { createNetworkGraph } from "../createNetworkGraph.flow";
+import { ActorEntity } from "@entities/Actor.entity";
+import { EventV2Entity } from "@entities/Event.v2.entity";
+import { KeywordEntity } from "@entities/Keyword.entity";
 
 describe("Create Network Graph", () => {
   let Test: AppTest;

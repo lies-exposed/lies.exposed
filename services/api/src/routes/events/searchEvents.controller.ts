@@ -5,11 +5,11 @@ import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { RouteContext } from "@routes/route.types";
 import * as t from "io-ts";
-import { getORMOptions } from "@utils/orm.utils";
 import { toEventV2IO } from "./eventV2.io";
 import { searchEventV2Query } from "./queries/searchEventsV2.query";
+import { RouteContext } from "@routes/route.types";
+import { getORMOptions } from "@utils/orm.utils";
 
 export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Event.List, ({ query }) => {

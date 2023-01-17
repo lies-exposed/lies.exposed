@@ -6,13 +6,13 @@ import { DBError } from "@liexp/shared/providers/orm/Database";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
-import { EventV2Entity } from "@entities/Event.v2.entity";
 import * as TE from "fp-ts/TaskEither";
-import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { pipe } from "fp-ts/function";
-import { addOrder } from "@utils/orm.utils";
 import { Brackets, In, SelectQueryBuilder } from "typeorm";
 import { RouteContext } from "../../route.types";
+import { EventV2Entity } from "@entities/Event.v2.entity";
+import { GroupMemberEntity } from "@entities/GroupMember.entity";
+import { addOrder } from "@utils/orm.utils";
 
 type WhereT = "AND" | "OR";
 

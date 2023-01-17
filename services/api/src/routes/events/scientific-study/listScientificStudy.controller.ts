@@ -4,10 +4,10 @@ import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
+import { searchEventV2Query } from "../queries/searchEventsV2.query";
 import { toEventV2IO } from "@routes/events/eventV2.io";
 import { Route } from "@routes/route.types";
 import { getORMOptions } from "@utils/orm.utils";
-import { searchEventV2Query } from "../queries/searchEventsV2.query";
 
 export const MakeListScientificStudyRoute: Route = (
   r,

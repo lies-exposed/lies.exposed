@@ -4,12 +4,12 @@ import { Router } from "express";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { ProjectEntity } from "@entities/Project.entity";
 import { Equal } from "typeorm";
-import { authenticationHandler } from "@utils/authenticationHandler";
-import { foldOptionals } from "@utils/foldOptionals.utils";
 import { RouteContext } from "../route.types";
 import { toProjectIO } from "./project.io";
+import { ProjectEntity } from "@entities/Project.entity";
+import { authenticationHandler } from "@utils/authenticationHandler";
+import { foldOptionals } from "@utils/foldOptionals.utils";
 
 export const MakeEditProjectRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r, authenticationHandler(ctx, ["admin:edit"]))(

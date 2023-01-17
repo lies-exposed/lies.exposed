@@ -2,10 +2,10 @@ import { Endpoints, AddEndpoint } from "@liexp/shared/endpoints";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
+import { toArticleIO } from "./article.io";
 import { ArticleEntity } from "@entities/Article.entity";
 import { Route } from "@routes/route.types";
 import { authenticationHandler } from "@utils/authenticationHandler";
-import { toArticleIO } from "./article.io";
 
 export const MakeCreateArticleRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(ctx, ["event-suggestion:create"]))(

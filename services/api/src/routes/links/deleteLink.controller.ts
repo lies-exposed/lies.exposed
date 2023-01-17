@@ -3,9 +3,9 @@ import { Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
+import { RouteContext } from "../route.types";
 import { LinkEntity } from "@entities/Link.entity";
 import { NotFoundError } from "@io/ControllerError";
-import { RouteContext } from "../route.types";
 import { authenticationHandler } from "@utils/authenticationHandler";
 
 export const MakeDeleteLinkRoute = (r: Router, ctx: RouteContext): void => {

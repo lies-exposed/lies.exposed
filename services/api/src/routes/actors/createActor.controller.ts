@@ -3,11 +3,11 @@ import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
-import { ServerError } from "@io/ControllerError";
 import { ActorEntity } from "../../entities/Actor.entity";
-import { authenticationHandler } from "@utils/authenticationHandler";
 import { Route } from "../route.types";
 import { toActorIO } from "./actor.io";
+import { ServerError } from "@io/ControllerError";
+import { authenticationHandler } from "@utils/authenticationHandler";
 
 export const MakeCreateActorRoute: Route = (r, { db, logger, jwt }) => {
   AddEndpoint(r, authenticationHandler({ logger, jwt }, ["admin:create"]))(

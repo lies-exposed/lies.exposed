@@ -4,14 +4,14 @@ import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as IOE from "fp-ts/IOEither";
 import * as O from "fp-ts/Option";
-import { AreaEntity } from "@entities/Area.entity";
 import * as R from "fp-ts/Record";
-import { toControllerError } from "@io/ControllerError";
 import * as TE from "fp-ts/TaskEither";
-import { getORMOptions } from "@utils/orm.utils";
 import { pipe } from "fp-ts/function";
 import { RouteContext } from "../route.types";
 import { toAreaIO } from "./Area.io";
+import { AreaEntity } from "@entities/Area.entity";
+import { toControllerError } from "@io/ControllerError";
+import { getORMOptions } from "@utils/orm.utils";
 
 export const MakeListAreaRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(

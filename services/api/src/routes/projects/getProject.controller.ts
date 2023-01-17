@@ -4,8 +4,8 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from 'typeorm';
 import { RouteContext } from "../route.types";
-import { ProjectEntity } from "@entities/Project.entity";
 import { toProjectIO } from "./project.io";
+import { ProjectEntity } from "@entities/Project.entity";
 
 export const MakeGetProjectRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Project.Get, ({ params: { id } }) => {

@@ -4,10 +4,10 @@ import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal, Raw } from "typeorm";
-import { EventV2Entity } from "@entities/Event.v2.entity";
 import { ActorEntity } from "../../entities/Actor.entity";
 import { RouteContext } from "../route.types";
 import { toActorIO } from "./actor.io";
+import { EventV2Entity } from "@entities/Event.v2.entity";
 
 export const MakeGetActorRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Actor.Get, ({ params: { id } }) => {

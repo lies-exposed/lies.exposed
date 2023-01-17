@@ -3,10 +3,10 @@ import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
-import { ActorEntity } from "@entities/Actor.entity";
 import { Route } from "../route.types";
-import { authenticationHandler } from "@utils/authenticationHandler";
 import { toActorIO } from "./actor.io";
+import { ActorEntity } from "@entities/Actor.entity";
+import { authenticationHandler } from "@utils/authenticationHandler";
 
 export const MakeDeleteActorRoute: Route = (
   r,

@@ -3,9 +3,9 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from 'typeorm';
 import { Route } from "../route.types";
+import { toAreaIO } from "./Area.io";
 import { AreaEntity } from "@entities/Area.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
-import { toAreaIO } from "./Area.io";
 
 export const MakeEditAreaRoute: Route = (r, { db, env, logger }) => {
   AddEndpoint(r)(

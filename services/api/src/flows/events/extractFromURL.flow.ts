@@ -3,15 +3,15 @@ import { URL as URLT } from "@liexp/shared/io/http/Common";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { parse } from "date-fns";
 import * as O from "fp-ts/Option";
-import { EventV2Entity } from "@entities/Event.v2.entity";
 import * as TE from "fp-ts/TaskEither";
-import { LinkEntity } from "@entities/Link.entity";
 import { pipe } from "fp-ts/function";
-import { ControllerError, toControllerError } from "@io/ControllerError";
 import { Metadata } from "page-metadata-parser";
-import { RouteContext } from "@routes/route.types";
 import * as puppeteer from "puppeteer-core";
 import { fetchAndSave } from "../link.flow";
+import { EventV2Entity } from "@entities/Event.v2.entity";
+import { LinkEntity } from "@entities/Link.entity";
+import { ControllerError, toControllerError } from "@io/ControllerError";
+import { RouteContext } from "@routes/route.types";
 
 const extractEventFromProviderLink =
   (ctx: RouteContext) =>

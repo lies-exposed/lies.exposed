@@ -2,8 +2,8 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Route } from "../route.types";
-import { ArticleEntity } from "@entities/Article.entity";
 import { toArticleIO } from "./article.io";
+import { ArticleEntity } from "@entities/Article.entity";
 
 export const MakeGetArticleRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Article.Get, ({ params: { id } }) => {

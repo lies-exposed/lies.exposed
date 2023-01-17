@@ -3,9 +3,9 @@ import { Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { RouteContext } from "../route.types";
+import { toPageIO } from "./page.io";
 import { PageEntity } from "@entities/Page.entity";
 import { authenticationHandler } from "@utils/authenticationHandler";
-import { toPageIO } from "./page.io";
 
 export const MakeAddPageRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r, authenticationHandler(ctx, ["admin:create"]))(

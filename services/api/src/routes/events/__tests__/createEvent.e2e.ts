@@ -4,16 +4,16 @@ import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { CreateEventBodyArb } from "@liexp/shared/tests/arbitrary/Event.arbitrary";
 import { KeywordArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
-import { ActorEntity } from "@entities/Actor.entity";
 import { fc } from "@liexp/test";
-import { EventV2Entity } from "@entities/Event.v2.entity";
 import * as A from "fp-ts/Array";
-import { KeywordEntity } from "@entities/Keyword.entity";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { In } from "typeorm";
 import { AppTest, GetAppTest } from "../../../../test/AppTest";
 import { loginUser, saveUser } from "../../../../test/user.utils";
+import { ActorEntity } from "@entities/Actor.entity";
+import { EventV2Entity } from "@entities/Event.v2.entity";
+import { KeywordEntity } from "@entities/Keyword.entity";
 
 describe("Create Event", () => {
   let appTest: AppTest;

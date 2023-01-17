@@ -3,11 +3,11 @@ import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
+import { Route } from "../route.types";
+import { toKeywordIO } from "./keyword.io";
 import { KeywordEntity } from "@entities/Keyword.entity";
 import { ServerError } from "@io/ControllerError";
-import { Route } from "../route.types";
 import { authenticationHandler } from "@utils/authenticationHandler";
-import { toKeywordIO } from "./keyword.io";
 
 export const MakeCreateKeywordRoute: Route = (r, { db, logger, jwt }) => {
   AddEndpoint(r, authenticationHandler({ logger, jwt }, ["admin:create"]))(

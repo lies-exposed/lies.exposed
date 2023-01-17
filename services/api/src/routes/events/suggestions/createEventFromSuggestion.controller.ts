@@ -4,10 +4,10 @@ import { uuid } from "@liexp/shared/utils/uuid";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
+import { fetchRelationIds } from "../queries/fetchEventRelations.utils";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { Route } from "@routes/route.types";
-import { fetchRelationIds } from "../queries/fetchEventRelations.utils";
 
 export const CreateEventFromSuggestionRoute: Route = (r, ctx) => {
   AddEndpoint(r)(

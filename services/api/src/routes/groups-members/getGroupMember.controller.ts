@@ -4,8 +4,8 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from 'typeorm';
 import { RouteContext } from "../route.types";
-import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { toGroupMemberIO } from "./groupMember.io";
+import { GroupMemberEntity } from "@entities/GroupMember.entity";
 
 export const MakeGetGroupMemberRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.GroupMember.Get, ({ params: { id } }) => {

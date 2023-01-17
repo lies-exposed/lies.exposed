@@ -4,8 +4,8 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { RouteContext } from "../route.types";
-import { LinkEntity } from "@entities/Link.entity";
 import { toLinkIO } from "./link.io";
+import { LinkEntity } from "@entities/Link.entity";
 
 export const MakeGetLinksRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Link.Get, ({ params: { id } }) => {

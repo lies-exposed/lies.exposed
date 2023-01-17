@@ -3,10 +3,10 @@ import { Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from 'typeorm';
-import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { RouteContext } from "../route.types";
-import { authenticationHandler } from '@utils/authenticationHandler';
 import { toGroupMemberIO } from "./groupMember.io";
+import { GroupMemberEntity } from "@entities/GroupMember.entity";
+import { authenticationHandler } from '@utils/authenticationHandler';
 
 export const MakeDeleteGroupMemberRoute = (
   r: Router,

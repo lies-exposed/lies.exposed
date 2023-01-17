@@ -4,18 +4,13 @@ import { getPlatformEmbedURL } from "@liexp/shared/helpers/media";
 import { AdminCreate } from "@liexp/shared/io/http/User";
 import { createExcerptValue } from "@liexp/shared/slate";
 import { HumanReadableStringArb } from "@liexp/shared/tests/arbitrary/HumanReadableString.arbitrary";
-import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { URLArb } from "@liexp/shared/tests/arbitrary/URL.arbitrary";
-import { LinkEntity } from "@entities/Link.entity";
 import { UserArb } from "@liexp/shared/tests/arbitrary/User.arbitrary";
-import { MediaEntity } from "@entities/Media.entity";
 import {
   TGMessageArb,
   TGPhotoArb,
 } from "@liexp/shared/tests/arbitrary/common/TGMessage.arb";
-import { UserEntity } from "@entities/User.entity";
 import { throwTE } from "@liexp/shared/utils/task.utils";
-import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { fc } from "@liexp/test";
 import { pipe } from "fp-ts/function";
@@ -23,6 +18,11 @@ import TelegramBot from "node-telegram-bot-api";
 import { Equal } from "typeorm";
 import puppeteerMocks from "../../../../__mocks__/puppeteer.mock";
 import { AppTest, GetAppTest } from "../../../../test/AppTest";
+import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
+import { LinkEntity } from "@entities/Link.entity";
+import { MediaEntity } from "@entities/Media.entity";
+import { UserEntity } from "@entities/User.entity";
+import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
 
 const tempDir = path.resolve(__dirname, `../../../../temp/tg/media`);
 

@@ -3,11 +3,11 @@ import { Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
+import { RouteContext } from "../route.types";
+import { toGroupMemberIO } from "./groupMember.io";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { authenticationHandler } from "@utils/authenticationHandler";
-import { RouteContext } from "../route.types";
 import { foldOptionals } from "@utils/foldOptionals.utils";
-import { toGroupMemberIO } from "./groupMember.io";
 
 export const MakeEditGroupMemberRoute = (
   r: Router,
