@@ -1,9 +1,7 @@
 import { fp } from "@liexp/core/fp";
 import { ResourcesNames } from "@liexp/shared/io/http";
-import { checkIsAdmin } from "@liexp/shared/utils/user.utils";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
-import { usePermissions } from "react-admin";
 import { Avatar } from "../components/Common/Avatar";
 import EditButton from "../components/Common/Button/EditButton";
 import { a11yProps, TabPanel } from "../components/Common/TabPanel";
@@ -13,7 +11,7 @@ import {
   Tab,
   Tabs,
   Typography,
-  useMediaQuery as useMuiMediaQuery,
+  useMediaQuery as useMuiMediaQuery
 } from "../components/mui";
 import { styled, useTheme } from "../theme";
 
@@ -130,9 +128,6 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
 
   const isSM = useMuiMediaQuery(theme.breakpoints.down("md"));
 
-  const { permissions = [], isLoading: isPermsLoading } = usePermissions();
-  const isAdmin = isPermsLoading ? checkIsAdmin(permissions) : false;
-
   const { tabs, tabsContent } = React.useMemo(() => {
     return _tabs.reduce(
       (acc, t, i) => {
@@ -165,7 +160,12 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
               fp.O.fold(
                 () => <div />,
                 (src) => (
-                  <Avatar className={classes.avatar} size="xlarge" src={src} fit="cover" />
+                  <Avatar
+                    className={classes.avatar}
+                    size="xlarge"
+                    src={src}
+                    fit="cover"
+                  />
                 )
               )
             )}
@@ -177,7 +177,6 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
 
             <Box className={classes.editButtonBox}>
               <EditButton
-                admin={isAdmin}
                 resourceName={resource.name}
                 resource={resource.item}
               />
