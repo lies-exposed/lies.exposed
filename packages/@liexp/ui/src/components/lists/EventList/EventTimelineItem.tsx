@@ -136,8 +136,8 @@ const EventTimelineItem = React.forwardRef<any, EventTimelineItemProps>(
 
             <Box className={classes.editButtonBox}>
               <EditButton
-                admin={false}
-                resourceName="events/suggestions"
+                resourceName="events"
+                userResourceName="events/suggestions"
                 resource={{ id: e.id }}
               />
             </Box>
