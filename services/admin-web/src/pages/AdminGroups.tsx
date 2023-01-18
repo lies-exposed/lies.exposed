@@ -8,6 +8,7 @@ import { AvatarField } from "@liexp/ui/components/admin/common/AvatarField";
 import { ColorInput } from "@liexp/ui/components/admin/common/ColorInput";
 import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
 import ReferenceActorInput from "@liexp/ui/components/admin/common/ReferenceActorInput";
+import ReferenceManyEventField from "@liexp/ui/components/admin/common/ReferenceManyEventField";
 import { WebPreviewButton } from "@liexp/ui/components/admin/common/WebPreviewButton";
 import { MediaField } from "@liexp/ui/components/admin/media/MediaField";
 import GroupPreview from "@liexp/ui/components/admin/previews/GroupPreview";
@@ -42,7 +43,7 @@ import {
   TextField,
   TextInput,
   useDataProvider,
-  useRecordContext,
+  useRecordContext
 } from "react-admin";
 
 const RESOURCE = "groups";
@@ -133,7 +134,6 @@ const transformGroup =
       ...m,
       body: {},
     }));
-
     const members = (data.members ?? []).concat(newMembers);
 
     return pipe(
@@ -197,7 +197,6 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
               <ReferenceActorInput source="actor" />
               <DateInput source="startDate" />
               <DateInput source="endDate" />
-              {/* <ReactPageInput onlyText={true} source="body" /> */}
             </SimpleFormIterator>
           </ArrayInput>
 
@@ -210,17 +209,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           </ReferenceManyField>
         </FormTab>
         <FormTab label="events">
-          <ReferenceManyField
-            label="groups"
-            target="groups[]"
-            reference="events"
-          >
-            <Datagrid rowClick="edit">
-              <TextField source="title" />
-              <DateField source="startDate" />
-              <DateField source="endDate" />
-            </Datagrid>
-          </ReferenceManyField>
+          <ReferenceManyEventField source="id" target="groups[]" />
         </FormTab>
       </TabbedForm>
     </EditForm>
