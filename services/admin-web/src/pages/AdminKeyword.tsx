@@ -2,15 +2,12 @@ import { toColor } from "@liexp/shared/io/http/Common";
 import { ColorInput } from "@liexp/ui/components/admin/common/ColorInput";
 import * as React from "react";
 import {
-  AutocompleteArrayInput,
   Create,
   CreateProps,
   Datagrid,
   DateField,
   Edit, List,
-  ListProps,
-  ReferenceArrayInput,
-  SimpleForm,
+  ListProps, SimpleForm,
   TextField,
   TextInput,
   useRecordContext
@@ -19,14 +16,7 @@ import {
 const RESOURCE = "keywords";
 
 const keywordsFilter = [
-  <ReferenceArrayInput
-    key="keywords"
-    source="events"
-    reference="events"
-    alwaysOn
-  >
-    <AutocompleteArrayInput optionText="title" />
-  </ReferenceArrayInput>,
+  <TextInput key="search" source="search" alwaysOn />
 ];
 
 export const KeywordList: React.FC<ListProps> = (props) => (
