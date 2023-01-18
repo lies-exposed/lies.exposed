@@ -15,6 +15,16 @@ export const CreateLink = t.strict(
 );
 export type CreateLink = t.TypeOf<typeof CreateLink>;
 
+
+const LinkMedia = t.strict(
+  {
+    id: UUID,
+    ...CreateMedia.type.props,
+  },
+  "LinkMedia"
+);
+type LinkMedia = t.TypeOf<typeof LinkMedia>;
+
 export const EditLink = t.strict(
   {
     ...CreateLink.type.props,
@@ -26,13 +36,8 @@ export const EditLink = t.strict(
     creator: optionFromUndefined(UUID),
     image: t.union(
       [
-        t.strict(
-          {
-            id: UUID,
-            ...CreateMedia.type.props,
-          },
-          "LinkMedia"
-        ),
+        LinkMedia,
+        UUID,
         t.undefined,
       ],
       "LinkImage"
@@ -44,7 +49,8 @@ export const EditLink = t.strict(
 
 export type EditLink = t.TypeOf<typeof EditLink>;
 
-const { events, overrideThumbnail, ...linkBaseProps } = EditLink.type.props;
+const { events, overrideThumbnail, image, ...linkBaseProps } =
+  EditLink.type.props;
 
 export const Link = t.strict(
   {
@@ -53,6 +59,7 @@ export const Link = t.strict(
     title: t.union([t.string, t.undefined]),
     description: t.union([t.string, t.undefined]),
     publishDate: t.union([DateFromISOString, t.undefined]),
+    image: t.union([LinkMedia, t.undefined]),
     keywords: t.array(UUID),
     provider: t.union([UUID, t.undefined]),
     creator: t.union([UUID, t.undefined]),
