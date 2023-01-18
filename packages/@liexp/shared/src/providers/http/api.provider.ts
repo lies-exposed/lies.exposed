@@ -11,8 +11,6 @@ import { APIError, HTTP, liftFetch } from "./http.provider";
 
 const apiLogger = GetLogger("API");
 
-
-
 export type TERequest<E extends MinimalEndpointInstance> = (
   input: TypeOfEndpointInstance<E>["Input"]
 ) => TE.TaskEither<APIError, TypeOfEndpointInstance<E>["Output"]>;
@@ -33,7 +31,8 @@ type API = {
           ? {
               [K in keyof CC]: TERequest<CC[K]>;
             }
-          : {};
+          : // eslint-disable-next-line @typescript-eslint/ban-types
+            {};
       }
     : never;
 } & HTTP;
@@ -78,6 +77,7 @@ const API = (c: AxiosRequestConfig): API => {
           MinimalEndpointInstance,
           MinimalEndpointInstance,
           MinimalEndpointInstance,
+          // eslint-disable-next-line @typescript-eslint/ban-types
           {}
         >
       ],
