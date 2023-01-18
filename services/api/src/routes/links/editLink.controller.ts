@@ -4,6 +4,7 @@ import { Router } from "express";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
+import { UUID } from "io-ts-types/lib/UUID";
 import { Equal, In } from "typeorm";
 import { RouteContext } from "../route.types";
 import { toLinkIO } from "./link.io";
@@ -32,7 +33,7 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
           const linkUpdate = {
             ...body,
             url: sanitizeURL(url),
-            image: image??  null,
+            image: UUID.is(image) ? { id: image } : image ?? null,
             // events: events.map((e) => ({ id: e })),
             keywords: body.keywords.map((k) => ({ id: k })),
             id,
@@ -57,7 +58,7 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
                 O.map((t) => {
                   if (t) {
                     return pipe(
-                      fetchAsLink(ctx)(l.url as any),
+                      fetchAsLink(ctx)(l.url),
                       TE.map((ll) => ({
                         ...ll,
                         ...l,
