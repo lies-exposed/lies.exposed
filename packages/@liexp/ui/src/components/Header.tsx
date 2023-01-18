@@ -25,6 +25,7 @@ const PREFIX = "Header";
 
 const classes = {
   appBar: `${PREFIX}-appBar`,
+  logo: `${PREFIX}-logo`,
   menuButton: `${PREFIX}-menuButton`,
   menuItem: `${PREFIX}-menuItem`,
   menuLeft: `${PREFIX}-menuLeft`,
@@ -40,6 +41,10 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
     zIndex: theme.zIndex.drawer + 1,
     flexGrow: 0,
     maxHeight: 64,
+  },
+  [`& .${classes.logo}`]: {
+    padding: 10,
+    height: 64
   },
   [`& .${classes.title}`]: {
     margin: 0,
@@ -131,6 +136,7 @@ const HeaderMenuItem: React.FC<{
 };
 
 export interface HeaderProps {
+  logoSrc?: string;
   onTitleClick: () => void;
   onMenuItemClick: (m: HeaderMenuItem) => void;
   menu: HeaderMenuItem[];
@@ -138,6 +144,7 @@ export interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({
+  logoSrc,
   pathname,
   onTitleClick,
   onMenuItemClick,
@@ -209,6 +216,7 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <StyledAppBar className={classes.appBar} position="fixed">
       <Toolbar>
+        {logoSrc ? <img className={classes.logo} src={logoSrc} /> : null}
         <Typography
           variant="h6"
           className={classes.title}

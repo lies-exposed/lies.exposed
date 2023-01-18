@@ -11,7 +11,7 @@ import { serializedType } from "ts-io-error/lib/Codec";
 import { DateRangePicker } from "../../components/Common/DateRangePicker";
 import {
   EventsNetworkGraph,
-  EventsNetworkGraphProps
+  EventsNetworkGraphProps,
 } from "../../components/Graph/EventsNetworkGraph";
 import QueriesRenderer from "../../components/QueriesRenderer";
 import { Box, MenuItem, Select } from "../../components/mui";
@@ -26,6 +26,7 @@ export interface EventNetworkGraphBoxProps
   type: NetworkType;
   id: UUID;
   query: Partial<serializedType<typeof GetNetworkQuery>>;
+  showFilter?: boolean;
 }
 
 export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
@@ -33,6 +34,7 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
   query,
   id,
   type,
+  showFilter = true,
   ...props
 }) => {
   const [groupBy, setGroupBy] = React.useState<any>(
@@ -49,28 +51,30 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
         width: "100%",
       }}
     >
-      <Box style={{ margin: 20, display: "flex", flexDirection: "row" }}>
-        <DateRangePicker
-          from={startDate}
-          to={endDate}
-          onDateRangeChange={([from, to]) => {
-            setDateRange([from, to]);
-          }}
-        />
+      {showFilter ? (
+        <Box style={{ margin: 20, display: "flex", flexDirection: "row" }}>
+          <DateRangePicker
+            from={startDate}
+            to={endDate}
+            onDateRangeChange={([from, to]) => {
+              setDateRange([from, to]);
+            }}
+          />
 
-        <Select
-          label={"Group By"}
-          value={groupBy}
-          size="small"
-          onChange={(e) => {
-            setGroupBy(e.target.value);
-          }}
-        >
-          <MenuItem value={ACTORS.value}>{ACTORS.value}</MenuItem>
-          <MenuItem value={KEYWORDS.value}>{KEYWORDS.value}</MenuItem>
-          <MenuItem value={GROUPS.value}>{GROUPS.value}</MenuItem>
-        </Select>
-      </Box>
+          <Select
+            label={"Group By"}
+            value={groupBy}
+            size="small"
+            onChange={(e) => {
+              setGroupBy(e.target.value);
+            }}
+          >
+            <MenuItem value={ACTORS.value}>{ACTORS.value}</MenuItem>
+            <MenuItem value={KEYWORDS.value}>{KEYWORDS.value}</MenuItem>
+            <MenuItem value={GROUPS.value}>{GROUPS.value}</MenuItem>
+          </Select>
+        </Box>
+      ) : null}
 
       <QueriesRenderer
         queries={{

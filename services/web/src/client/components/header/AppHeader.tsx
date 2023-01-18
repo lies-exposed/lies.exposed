@@ -4,6 +4,8 @@ import * as React from "react";
 import { useHasAuth } from "../../utils/auth.utils";
 import { useNavigateToResource } from "../../utils/location.utils";
 
+const liesExpLogoSrc = "/logo192.png";
+
 const projectMenuItem: HeaderMenuItem = {
   view: "/project",
   label: "Project",
@@ -82,6 +84,7 @@ const AppHeader: React.FC = () => {
 
   return (
     <Header
+      logoSrc={liesExpLogoSrc}
       pathname={pathname}
       menu={[projectMenuItem, dataMenuItem, userMenuItem]}
       onTitleClick={() => {
