@@ -7,7 +7,7 @@ import { useTheme } from "@liexp/ui/theme";
 import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import { Route, Routes, useLocation } from "react-router";
-import AppHeader from "./components/header/AppHeader";
+import AppHeader, { logo192 } from "./components/header/AppHeader";
 import { routes } from "./routes";
 
 const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
@@ -59,6 +59,7 @@ export const App: React.FC = () => {
           </Grid>
           <Grid item xs={12}>
             <Footer
+            logoSrc={logo192}
               style={{
                 paddingLeft:
                   location.pathname === "/events" && !isDownSM ? 240 : 0,

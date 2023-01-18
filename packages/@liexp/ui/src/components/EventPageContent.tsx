@@ -10,7 +10,6 @@ import { ShareButtons } from "./Common/Button/ShareButtons";
 import { GroupMembersList } from "./GroupMembersBox";
 import { KeywordsBox } from "./KeywordsBox";
 import { LinksBox } from "./LinksBox";
-import { MainContent } from "./MainContent";
 import SEO from "./SEO";
 import { EventRelations } from "./events/EventRelations";
 import { DefaultEventPageContent } from "./events/page-content/DefaultEventPageContent";
@@ -19,6 +18,7 @@ import { ActorList } from "./lists/ActorList";
 import GroupList from "./lists/GroupList";
 import {
   Box,
+  Container,
   Grid,
   Link,
   Typography,
@@ -80,7 +80,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
 
         return (
           <Box className="event-page-content">
-            <MainContent>
+            <Container>
               <SEO
                 title={title}
                 description={
@@ -222,16 +222,18 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                         </Box>
                       </Box>
                       {eventPageContent}
+                      <LinksBox
+                        ids={event.links}
+                        defaultExpanded={true}
+                        layout="list"
+                        onClick={onLinkClick}
+                        // style={{ maxHeight: 200 }}
+                      />
                     </Grid>
                   </Grid>
                 </Grid>
               </Grid>
-            </MainContent>
-            <LinksBox
-              ids={event.links}
-              defaultExpanded={true}
-              onClick={onLinkClick}
-            />
+            </Container>
           </Box>
         );
       }}

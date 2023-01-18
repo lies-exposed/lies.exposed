@@ -16,11 +16,25 @@ import {
 } from "./mui";
 
 interface LinksListProps {
+  layout?: "list" | { md: number; sm: number; lg: number };
   links: http.Link.Link[];
   onClick: (l: http.Link.Link) => void;
 }
 
-export const LinksList: React.FC<LinksListProps> = ({ links, onClick }) => {
+export const LinksList: React.FC<LinksListProps> = ({
+  layout = "list",
+  links,
+  onClick,
+}) => {
+  const gridProps =
+    layout === "list"
+      ? {
+          md: 12,
+          lg: 12,
+          sm: 12,
+          xs: 12,
+        }
+      : layout;
   return (
     <Grid
       container
@@ -33,12 +47,9 @@ export const LinksList: React.FC<LinksListProps> = ({ links, onClick }) => {
     >
       {links.map((l, i) => (
         <Grid
+          {...gridProps}
           key={l.id}
           item
-          lg={6}
-          md={12}
-          sm={12}
-          xs={12}
           style={{
             display: "flex",
           }}
@@ -50,7 +61,7 @@ export const LinksList: React.FC<LinksListProps> = ({ links, onClick }) => {
   );
 };
 
-interface LinksBoxProps {
+interface LinksBoxProps extends Omit<LinksListProps, "links"> {
   ids: string[];
   defaultExpanded?: boolean;
   style?: React.CSSProperties;
@@ -65,6 +76,7 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
   onOpen,
   onClose,
   onClick,
+  layout,
   style,
 }) => {
   const [expanded, setExpanded] = React.useState(defaultExpanded);
@@ -102,6 +114,7 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
             }}
             elevation={0}
             style={{
+              ...style,
               width: "100%",
               background: "transparent",
             }}
@@ -131,7 +144,7 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
                 maxHeight: "100%",
               }}
             >
-              <LinksList links={links} onClick={onClick} />
+              <LinksList layout={layout} links={links} onClick={onClick} />
             </AccordionDetails>
           </Accordion>
         );

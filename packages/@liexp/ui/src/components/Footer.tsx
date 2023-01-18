@@ -1,5 +1,5 @@
 import * as React from "react";
-import { styled, useTheme } from '../theme';
+import { styled, useTheme } from "../theme";
 import DonateButton from "./Common/Button/DonateButton";
 import { GithubIcon, TelegramIcon } from "./Common/Icons";
 import {
@@ -12,21 +12,17 @@ import {
   Typography,
 } from "./mui";
 
-const PREFIX = 'Footer';
+const PREFIX = "Footer";
 
 const classes = {
   root: `${PREFIX}-root`,
   title: `${PREFIX}-title`,
   link: `${PREFIX}-link`,
   linkText: `${PREFIX}-linkText`,
-  rightColumn: `${PREFIX}-rightColumn`
+  rightColumn: `${PREFIX}-rightColumn`,
 };
 
-const Root = styled('footer')((
-  {
-    theme
-  }
-) => ({
+const Root = styled("footer")(({ theme }) => ({
   [`&.${classes.root}`]: {
     display: "flex",
     width: "100%",
@@ -38,6 +34,7 @@ const Root = styled('footer')((
   [`& .${classes.title}`]: {
     color: theme.palette.common.white,
     fontSize: 18,
+    marginBottom: 0
     // fontWeight: theme.typography.fontWeightBold?.valueOf(),
   },
 
@@ -54,12 +51,14 @@ const Root = styled('footer')((
 
   [`& .${classes.rightColumn}`]: {
     textAlign: "left",
-  }
+  },
 }));
 
-export const Footer: React.FC<{ style?: React.CSSProperties }> = (props) => {
+export const Footer: React.FC<{
+  logoSrc?: string;
+  style?: React.CSSProperties;
+}> = ({ style, logoSrc }) => {
   const theme = useTheme();
-
 
   const {
     site: {
@@ -83,17 +82,38 @@ export const Footer: React.FC<{ style?: React.CSSProperties }> = (props) => {
         paddingTop: theme.spacing(2),
         paddingBottom: theme.spacing(2),
         background: theme.palette.secondary.main,
-        ...props.style,
+        ...style,
       }}
     >
       <Container>
         <Grid container>
           <Grid item sm={4}>
-            <Typography className={classes.title} variant="h6">
-              {title}
-            </Typography>
-            <Box style={{ display: 'flex', alignItems: 'center', flexDirection: "row" }}>
-              <DonateButton  />
+            <Box
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              {logoSrc ? (
+                <img style={{ height: 64, padding: 10 }} src={logoSrc} />
+              ) : null}
+              <Typography
+                className={classes.title}
+                variant="h6"
+              >
+                {title}
+              </Typography>
+            </Box>
+
+            <Box
+              style={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "row",
+              }}
+            >
+              <DonateButton />
               <Typography
                 display="inline"
                 variant="subtitle2"
