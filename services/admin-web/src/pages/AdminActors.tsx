@@ -8,7 +8,6 @@ import { AvatarField } from "@liexp/ui/components/admin/common/AvatarField";
 import { ColorInput } from "@liexp/ui/components/admin/common/ColorInput";
 import { CreateEventButton } from "@liexp/ui/components/admin/common/CreateEventButton";
 import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
-import ReferenceArrayEventInput from "@liexp/ui/components/admin/common/ReferenceArrayEventInput";
 import ReferenceManyEventField from "@liexp/ui/components/admin/common/ReferenceManyEventField";
 import { SearchLinksButton } from "@liexp/ui/components/admin/common/SearchLinksButton";
 import { WebPreviewButton } from "@liexp/ui/components/admin/common/WebPreviewButton";
@@ -170,7 +169,6 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
           </ReferenceArrayField>
         </FormTab>
         <FormTab label="Events">
-          <ReferenceArrayEventInput source="newEvents" />
           <ReferenceManyEventField source="id" target="actors[]" />
           <CreateEventButton
             transform={async (t, r: any) => {
