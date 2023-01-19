@@ -2,7 +2,7 @@ import * as io from "@liexp/shared/io";
 import * as E from "fp-ts/Either";
 import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter";
-import { IOError } from "ts-shared/lib/errors";
+import { IOError } from "ts-io-error";
 
 export const APIStatusCode = t.union(
   [
@@ -39,7 +39,7 @@ export const fromIOError = (e: IOError): APIError => {
         status: 400,
         name: e.details.kind,
         message: e.details.kind,
-        details: PathReporter.report(E.left(e.details.errors)),
+        details: PathReporter.report(E.left(e.details.errors as any[])),
       };
     default:
       return {

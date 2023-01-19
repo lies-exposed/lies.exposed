@@ -183,6 +183,7 @@ const extractByProvider =
                     groups: [],
                     createdAt: new Date(),
                     updatedAt: new Date(),
+                    deletedAt: undefined
                   }),
                   O.none
                 )

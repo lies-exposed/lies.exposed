@@ -33,6 +33,7 @@ import {
 } from "react-admin";
 import { Box, Toolbar } from "../mui";
 import { CreateEventFromLinkButton } from "./common/CreateEventFromLinkButton";
+import { DangerZoneField } from "./common/DangerZoneField";
 import { EditForm } from "./common/EditForm";
 import ReferenceArrayEventInput from "./common/ReferenceArrayEventInput";
 import ReferenceGroupInput from "./common/ReferenceGroupInput";
@@ -52,6 +53,7 @@ const linksFilter = [
     <AutocompleteArrayInput optionText="payload.title" size="small" />
   </ReferenceArrayInput>,
   <BooleanInput key="emptyEvents" source="emptyEvents" alwaysOn />,
+  <BooleanInput key="onlyDeleted" source="onlyDeleted" alwaysOn />,
 ];
 
 export const LinkListActions: React.FC = () => {
@@ -215,6 +217,7 @@ export const LinkEdit: React.FC = () => {
           <OverrideThumbnail />
           <TextInput source="description" fullWidth multiline />
           <ReferenceGroupInput source="provider" />
+          {isAdmin && <DangerZoneField />}
         </FormTab>
         <FormTab label="Events">
           <CreateEventFromLinkButton />

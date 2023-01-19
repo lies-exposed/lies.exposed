@@ -8271,7 +8271,6 @@ __metadata:
     ts-jest: ^29.0.5
     ts-node: ^10.9.1
     ts-node-dev: ^2.0.0
-    ts-shared: 2.0.0-alpha.6
     typeorm: ^0.3.11
     typeorm-uml: ^1.6.5
     typescript: ^4.9.4
@@ -15101,7 +15100,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"io-ts-types@npm:^0.5.19, io-ts-types@npm:^0.5.8":
+"io-ts-types@npm:^0.5.19":
   version: 0.5.19
   resolution: "io-ts-types@npm:0.5.19"
   peerDependencies:
@@ -18045,15 +18044,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"monocle-ts@npm:^2.3.3":
-  version: 2.3.11
-  resolution: "monocle-ts@npm:2.3.11"
-  peerDependencies:
-    fp-ts: ^2.5.0
-  checksum: b982760f42c40f548fc6fae094c32a82666752cb4463ea7b2af506e8550d9431b625b737bdf008c815a0ce01798b9f0b4bbd1dfa2a06522890f5eebf8e130fcd
-  languageName: node
-  linkType: hard
-
 "mrmime@npm:^1.0.0":
   version: 1.0.0
   resolution: "mrmime@npm:1.0.0"
@@ -18261,16 +18251,6 @@ __metadata:
   version: 2.0.2
   resolution: "netmask@npm:2.0.2"
   checksum: c65cb8d3f7ea5669edddb3217e4c96910a60d0d9a4b52d9847ff6b28b2d0277cd8464eee0ef85133cdee32605c57940cacdd04a9a019079b091b6bba4cb0ec22
-  languageName: node
-  linkType: hard
-
-"newtype-ts@npm:^0.3.4":
-  version: 0.3.4
-  resolution: "newtype-ts@npm:0.3.4"
-  peerDependencies:
-    fp-ts: ^2.0.0
-    monocle-ts: ^2.0.0
-  checksum: 0863ff0bf5ccf495753eecac513a460a60cb99c3be9afe18e515cb460c4e2b8c2157f6aeb4a6aef04acaeaa534b40a8d89d6d3db6214b386b738200ad925f37f
   languageName: node
   linkType: hard
 
@@ -20687,7 +20667,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"qs@npm:6.11.0, qs@npm:^6.10.0, qs@npm:^6.11.0, qs@npm:^6.9.4":
+"qs@npm:6.11.0, qs@npm:^6.10.0, qs@npm:^6.11.0":
   version: 6.11.0
   resolution: "qs@npm:6.11.0"
   dependencies:
@@ -24470,22 +24450,6 @@ __metadata:
     typescript:
       optional: true
   checksum: c2a698b85d521298fe6f2435fbf2d3dc5834b423ea25abd321805ead3f399dbeedce7ca09492d7eb005b9d2c009c6b9587055bc3ab273dc6b9e40eefd7edb5b2
-  languageName: node
-  linkType: hard
-
-"ts-shared@npm:2.0.0-alpha.6":
-  version: 2.0.0-alpha.6
-  resolution: "ts-shared@npm:2.0.0-alpha.6"
-  dependencies:
-    io-ts-types: ^0.5.8
-    monocle-ts: ^2.3.3
-    newtype-ts: ^0.3.4
-    qs: ^6.9.4
-    typelevel-ts: ^0.4.0
-  peerDependencies:
-    fp-ts: ^2.0.0
-    io-ts: ^2.2.7
-  checksum: deeef33115922f792d9013c8acbe84aa6ab5e748559097e28feab997306ae674551112e5ad43a1886442a23ff4471f24fd43df1ae7d73af3beff38f342421ebc
   languageName: node
   linkType: hard
 

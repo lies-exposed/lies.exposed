@@ -22,6 +22,7 @@ export const List = Endpoint({
       provider: optionFromNullable(UUID),
       creator: optionFromNullable(UUID),
       emptyEvents: optionFromNullable(BooleanFromString),
+      onlyDeleted: optionFromNullable(BooleanFromString),
     }),
   },
   Output: ManyLinkOutput,
@@ -69,6 +70,7 @@ export const Delete = Endpoint({
   getPath: ({ id }) => `/links/${id}`,
   Input: {
     Params: t.type({ id: UUID }),
+    Body: t.type({ perm: optionFromNullable(BooleanFromString) }),
   },
   Output: OneLinkOutput,
 });
