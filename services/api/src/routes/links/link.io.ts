@@ -23,9 +23,10 @@ export const toLinkIO = (
       provider: UUID.is(link.provider) ? link.provider : undefined,
       creator: UUID.is(link.creator) ? link.creator : undefined,
       publishDate: link.publishDate?.toISOString() ?? undefined,
+      events: link.events ?? [],
       createdAt: link.createdAt.toISOString(),
       updatedAt: link.updatedAt.toISOString(),
-      events: link.events ?? [],
+      deletedAt: link.deletedAt?.toISOString(),
     }),
     E.mapLeft((e) => DecodeError(`Failed to decode link (${link.id})`, e))
   );

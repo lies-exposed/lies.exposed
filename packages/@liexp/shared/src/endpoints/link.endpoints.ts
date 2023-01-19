@@ -22,6 +22,7 @@ export const List = Endpoint({
       provider: optionFromNullable(UUID),
       creator: optionFromNullable(UUID),
       emptyEvents: optionFromNullable(BooleanFromString),
+      onlyDeleted: optionFromNullable(BooleanFromString),
     }),
   },
   Output: ManyLinkOutput,

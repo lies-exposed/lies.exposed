@@ -15,7 +15,6 @@ export const CreateLink = t.strict(
 );
 export type CreateLink = t.TypeOf<typeof CreateLink>;
 
-
 const LinkMedia = t.strict(
   {
     id: UUID,
@@ -34,14 +33,7 @@ export const EditLink = t.strict(
     provider: t.union([UUID, t.undefined]),
     events: t.array(UUID),
     creator: optionFromUndefined(UUID),
-    image: t.union(
-      [
-        LinkMedia,
-        UUID,
-        t.undefined,
-      ],
-      "LinkImage"
-    ),
+    image: t.union([LinkMedia, UUID, t.undefined], "LinkImage"),
     overrideThumbnail: optionFromUndefined(t.boolean),
   },
   "EditLinkBody"
@@ -66,6 +58,7 @@ export const Link = t.strict(
     events: t.array(UUID),
     createdAt: DateFromISOString,
     updatedAt: DateFromISOString,
+    deletedAt: t.union([DateFromISOString, t.undefined]),
   },
   "Link"
 );

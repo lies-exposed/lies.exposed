@@ -295,7 +295,6 @@ const MakeDatabaseClient: MakeDatabaseClient =
     const getConnection = (
       dataSource: DataSource
     ): TE.TaskEither<DBError, DataSource> => {
-      logger.debug.log("Connection %O", dataSource);
 
       if (dataSource.isInitialized) {
         logger.debug.log(

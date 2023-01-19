@@ -21,6 +21,7 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
           ids,
           q: search,
           emptyEvents,
+          onlyDeleted,
           provider,
           creator,
           ...query
@@ -88,6 +89,12 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
                 return q.where("events.id IN (:...events)", {
                   events: events.value,
                 });
+              }
+
+              if (O.isSome(onlyDeleted)) {
+                if (onlyDeleted.value) {
+                  q.withDeleted().where("link.deletedAt IS NOT NULL");
+                }
               }
 
               return q;
