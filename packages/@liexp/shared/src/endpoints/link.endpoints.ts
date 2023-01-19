@@ -70,6 +70,7 @@ export const Delete = Endpoint({
   getPath: ({ id }) => `/links/${id}`,
   Input: {
     Params: t.type({ id: UUID }),
+    Body: t.type({ perm: optionFromNullable(BooleanFromString) }),
   },
   Output: OneLinkOutput,
 });
