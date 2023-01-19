@@ -1,4 +1,3 @@
-import { IncomingHttpHeaders } from "http";
 import * as logger from "@liexp/core/logger";
 import {
   AdminCreate,
@@ -9,7 +8,7 @@ import {
   EventSuggestionEdit,
   EventSuggestionRead,
   User,
-  UserPermission,
+  UserPermission
 } from "@liexp/shared/io/http/User";
 import { JWTClient, JWTError } from "@liexp/shared/providers/jwt/JWTClient";
 import * as express from "express";
@@ -31,13 +30,15 @@ interface AuthenticationContext {
   jwt: JWTClient;
 }
 
-export const decodeUserFromHeaders =
+export const decodeUserFromRequest =
   ({ logger, jwt }: AuthenticationContext) =>
   (
-    headers: IncomingHttpHeaders,
+    req: Express.Request,
     routePerms: UserPermission[]
   ): IOE.IOEither<JWTError, User> => {
-    const decodedHeaders = HeadersWithAuthorization.decode(headers);
+    const headerKeys = Object.keys(req.headers);
+    logger.debug.log(`Checking headers %O for authorization`, headerKeys);
+    const decodedHeaders = HeadersWithAuthorization.decode(req.headers);
 
     logger.debug.log(
       "Decoded headers errors %O",
@@ -108,11 +109,8 @@ export const authenticationHandler: (
   ctx: AuthenticationContext,
   routePerms: UserPermission[]
 ) => express.RequestHandler = (ctx, routePerms) => (req, _res, next) => {
-  const headerKeys = Object.keys(req.headers);
-  ctx.logger.debug.log(`Checking headers %O for authorization`, headerKeys);
-
   pipe(
-    decodeUserFromHeaders(ctx)(req.headers, routePerms),
+    decodeUserFromRequest(ctx)(req, routePerms),
     IOE.fold(
       (e) => () => {
         next(e);
