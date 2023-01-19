@@ -18,10 +18,10 @@ type HierarchyLinkedNode<N> = N & {
 function bilink(
   root: HierarchyLinkedNode<d3.HierarchyNode<HierarchicalEdgeBundlingDatum>>
 ): HierarchyLinkedNode<d3.HierarchyNode<HierarchicalEdgeBundlingDatum>> {
-  const map: Map<
+  const map = new Map<
     string,
     HierarchyLinkedNode<d3.HierarchyNode<HierarchicalEdgeBundlingDatum>>
-  > = new Map(root.leaves().map((d) => [d.data.id, d]));
+  >(root.leaves().map((d) => [d.data.id, d]));
   const leaves = root.leaves();
   for (const d of leaves) {
     d.incoming = [];
@@ -82,10 +82,10 @@ export function HierarchicalEdgeBundling({
     children: Array<{ id: string; children: HierarchicalEdgeBundlingDatum[] }>;
   } => {
     const { nodes, links } = graph;
-    const nodeMap: Map<
+    const nodeMap = new Map<
       string,
       { id: string; children: HierarchicalEdgeBundlingDatum[] }
-    > = new Map();
+    >();
     const nodeById = new Map(nodes.map((node) => [node.id, node]));
 
     for (const node of nodes) {

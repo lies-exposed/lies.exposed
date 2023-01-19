@@ -55,7 +55,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
 
   const handleSearchChange = React.useCallback(
     (
-      e: React.ChangeEvent<{}>,
+      e: React.ChangeEvent<any>,
       value: string,
       reason: AutocompleteInputChangeReason
     ): void => {

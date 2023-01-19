@@ -22,7 +22,7 @@ export const defaultSettings: ActorInlineSettings = {
 };
 
 export type ActorInlineControlType = React.ComponentType<
-  CellPluginComponentProps<ActorInlineState> & {}
+  CellPluginComponentProps<ActorInlineState>
 >;
 
 const actorInlinePlugin: any =

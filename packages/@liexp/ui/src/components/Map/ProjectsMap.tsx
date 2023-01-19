@@ -9,7 +9,7 @@ import QueriesRenderer from "../QueriesRenderer";
 
 export interface ProjectsMapProps {
   id: string;
-  filter: {};
+  filter: any;
   style?: React.CSSProperties;
 }
 

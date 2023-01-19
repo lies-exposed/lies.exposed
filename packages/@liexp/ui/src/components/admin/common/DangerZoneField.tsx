@@ -8,9 +8,9 @@ import {
 import { apiProvider } from "../../../client/api";
 import { Box } from "../../mui";
 
-interface DangerZoneFieldProps {}
+// interface DangerZoneFieldProps {}
 
-export const DangerZoneField: React.FC<DangerZoneFieldProps> = ({}) => {
+export const DangerZoneField: React.FC = () => {
   const record = useRecordContext();
   const resource = useResourceContext();
   const redirect = useRedirect();
