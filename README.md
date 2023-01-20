@@ -1,9 +1,15 @@
 # lies.exposed
 
+<img src="./services/web/public/logo192.png" height="100" />
+
 ![GitHub issues](https://img.shields.io/github/issues/lies-exposed/lies.exposed)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/lies-exposed/lies.exposed)
-![GitHub Workflow Tests Spec Status](https://img.shields.io/github/workflow/status/lies-exposed/lies.exposed/tests-spec)
-![GitHub Workflow Tests E2E Status](https://img.shields.io/github/workflow/status/lies-exposed/lies.exposed/tests-e2e)
+
+![GitHub Workflow API Status](https://img.shields.io/github/actions/workflow/status/lies-exposed/lies.exposed/api-pull-request.yml?label=PR%20-%20API)
+![GitHub Workflow Web Status](https://img.shields.io/github/actions/workflow/status/lies-exposed/lies.exposed/web-pull-request.yml?label=PR%20-%20Web)
+![GitHub Workflow Web Status](https://img.shields.io/github/actions/workflow/status/lies-exposed/lies.exposed/admin-web-pull-request.yml?label=PR%20-%20Admin%20Web)
+
+![GitHub Workflow Deploy Alpha Status](https://img.shields.io/github/actions/workflow/status/lies-exposed/lies.exposed/deploy-alpha.yml?branch=release/alpha&label=Deploy%20Alpha)
 
 ---
 
@@ -53,16 +59,16 @@ docker-compose up api web admin-web data # starts api, web, admin-web and data s
 
 **N.B.: you need to run `yarn api watch` in another shell to make the api container to trigger restart event**
 
-#### Storybook
+### Build
+
+```sh
+yarn build
+```
+
+### Storybook
 
 `Storybook` is available to develop new components:
 
 ```sh
-npm run storybook
-```
-
-### Build
-
-```sh
-npm run build
+yarn storybook start
 ```
