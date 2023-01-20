@@ -63,6 +63,7 @@ export const Media = t.strict(
     keywords: t.array(UUID),
     createdAt: DateFromISOString,
     updatedAt: DateFromISOString,
+    deletedAt: t.union([DateFromISOString, t.undefined]),
   },
   "Media"
 );

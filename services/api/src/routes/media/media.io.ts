@@ -17,6 +17,7 @@ export const toImageIO = (
       thumbnail: media.thumbnail ?? undefined,
       createdAt: media.createdAt.toISOString(),
       updatedAt: media.updatedAt.toISOString(),
+      deletedAt: media.deletedAt?.toISOString() ?? undefined
     }),
     E.mapLeft((e) => DecodeError(`Failed to decode media (${media.id})`, e))
   );
