@@ -27,6 +27,9 @@ jobs:
         # if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
 
+      - name: Build packages
+        run: yarn packages:build
+
       # - name: API Deploy
       #   env:
       #     SSH_HOST: ${{ secrets.SSH_HOST }}
@@ -60,18 +63,6 @@ jobs:
       #     NODE_ENV: production
       #     PUBLIC_URL: https://alpha.lies.exposed/admin/
       #     API_URL: https://alpha.api.lies.exposed/v1
-
-      # - name: Upload Admin Web build to DO Space
-      #   env:
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.ALPHA_ACCESS_KEY_ID }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.ALPHA_SECRET_ACCESS_KEY }}
-      #   run: |
-      #     aws s3 sync ./services/admin-web/build s3://econnessione-alpha/admin \
-      #       --follow-symlinks \
-      #       --delete \
-      #       --endpoint https://fra1.digitaloceanspaces.com/ \
-      #       --acl public-read \
-      #       --region fra1
 
       - name: Build Web
         env:
