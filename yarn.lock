@@ -1922,10 +1922,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@databases/sql@npm:^3.0.0, @databases/sql@npm:^3.2.0":
-  version: 3.2.0
-  resolution: "@databases/sql@npm:3.2.0"
-  checksum: b8be069087ffefb522d6c1cf56394b303cd0ab45bcf45bd58bce0d064e71d3fafd8de3c86164a4a7cb69efdac54e7f4a1c965bf5d54d609378c5ff17a38522a7
+"@databases/sql@npm:^3.0.0, @databases/sql@npm:^3.2.0, @databases/sql@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "@databases/sql@npm:3.3.0"
+  checksum: b3c4fb30116e76328f5ef5d17931490a5322d446a25b1801f5a714618e184846686382223fd0632256e59c5352143a2562ccfdff0f71070b5f69b45e9f31d81b
   languageName: node
   linkType: hard
 
@@ -2718,7 +2718,7 @@ __metadata:
   resolution: "@liexp/shared@workspace:packages/@liexp/shared"
   dependencies:
     "@databases/escape-identifier": ^1.0.3
-    "@databases/sql": ^3.2.0
+    "@databases/sql": ^3.3.0
     "@mui/material": ^5.11.4
     "@react-page/editor": ^5.3.0
     "@react-page/plugins-slate": ^5.3.0
