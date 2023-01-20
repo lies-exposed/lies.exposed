@@ -1,3 +1,5 @@
+import { fp } from "@liexp/core/fp";
+import { pipe } from "fp-ts/lib/function";
 import { ValidContentType } from "../endpoints/upload.endpoints";
 import * as Media from "../io/http/Media";
 
@@ -18,4 +20,16 @@ export const fileExtFromContentType = (c: ValidContentType): string => {
     case Media.MediaType.types[0].value:
       return "jpg";
   }
+};
+
+export const getMediaKeyFromLocation = (u: string): string => {
+  const id = pipe(
+    u.split("/"),
+    fp.A.last,
+    fp.O.alt(() => fp.O.some(u)),
+    fp.O.map((file) => file.split(".")[0]),
+    fp.O.getOrElse(() => u)
+  );
+
+  return id;
 };

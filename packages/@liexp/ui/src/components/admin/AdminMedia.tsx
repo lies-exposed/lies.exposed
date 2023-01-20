@@ -341,17 +341,27 @@ export const MediaEditField: React.FC<FieldProps> = (props) => {
 };
 
 const MediaEditToolbar: React.FC = () => {
+  const record = useRecordContext();
   return (
     <React.Fragment>
-      <Grid container>
-        <Grid>
-          <SaveButton />
+      <Box style={{ display: "flex", margin: "20px" }}>
+        <Grid container spacing={2} style={{ maxWidth: "100%" }}>
+          <Grid flexGrow={1} item md={6}>
+            <SaveButton />
+          </Grid>
+          <Grid
+            item
+            md={6}
+            style={{
+              display: "flex",
+              alignItems: "flex-center",
+              justifyContent: "flex-end",
+            }}
+          >
+            {record.deletedAt ? <DeleteWithConfirmButton /> : <DeleteButton />}
+          </Grid>
         </Grid>
-        <Grid>
-          <DeleteWithConfirmButton />
-          <DeleteButton />
-        </Grid>
-      </Grid>
+      </Box>
     </React.Fragment>
   );
 };
@@ -373,15 +383,12 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
       redirect={false}
       preview={<MediaPreview />}
     >
-    <TabbedForm toolbar={<MediaEditToolbar />}>
+      <TabbedForm toolbar={<MediaEditToolbar />}>
         <FormTab label="general">
           <Grid container>
             <Grid item md={6}>
               <MediaField source="location" />
-              <MediaInput
-                sourceLocation="location"
-                sourceType="type"
-              />
+              <MediaInput sourceLocation="location" sourceType="type" />
             </Grid>
             <Grid item md={6}>
               {isAdmin && <ReferenceUserInput source="creator" />}

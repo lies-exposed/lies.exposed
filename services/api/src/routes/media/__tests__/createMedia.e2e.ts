@@ -45,6 +45,7 @@ describe("Create Media", () => {
     expect(response.status).toEqual(200);
 
     delete media.thumbnail;
+    delete media.deletedAt;
 
     expect(response.body.data).toMatchObject({
       ...media,

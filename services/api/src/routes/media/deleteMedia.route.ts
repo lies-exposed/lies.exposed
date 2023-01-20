@@ -12,7 +12,7 @@ import { RouteContext } from "@routes/route.types";
 export const MakeDeleteMediaRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Media.Delete, ({ params: { id } }) => {
     return pipe(
-      ctx.db.findOneOrFail(MediaEntity, { withDeleted: true }),
+      ctx.db.findOneOrFail(MediaEntity, { where: { id }, withDeleted: true }),
       TE.chain((m) =>
         sequenceS(TE.ApplicativeSeq)({
           projectImages: pipe(
@@ -28,7 +28,10 @@ export const MakeDeleteMediaRoute = (r: Router, ctx: RouteContext): void => {
                 : TE.right(undefined)
             )
           ),
-          space: m.deletedAt ? deleteFromSpace(ctx)(m) : TE.right(undefined),
+          space:
+            m.deletedAt 
+              ? deleteFromSpace(ctx)(m)
+              : TE.right(undefined),
           media: m.deletedAt
             ? ctx.db.delete(MediaEntity, id)
             : ctx.db.softDelete(MediaEntity, id),
