@@ -27,7 +27,7 @@
     ]
   },
   "dependencies": {
-    "@mui/material": "^5.11.4",
+    "@mui/material": "^5.11.5",
     "debug": "^4.3.4",
     "final-form": "^4.20.8",
     "fp-ts": "^2.13.1",
