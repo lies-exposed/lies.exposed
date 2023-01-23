@@ -7,7 +7,6 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { type AuthProvider } from "react-admin";
 import * as http from "../http";
-import { createProject } from "./admin/ProjectAPI";
 
 export const api = API({
   baseURL: process.env.API_URL,
@@ -17,7 +16,7 @@ const publicDataProvider = http.APIRESTClient({
   url: process.env.API_URL,
 });
 
-export const httpRestClient = http.APIRESTClient({
+export const apiProvider = http.APIRESTClient({
   url: process.env.API_URL,
   getAuth: () => {
     const token = localStorage.getItem("auth");
@@ -63,7 +62,7 @@ export const authProvider: AuthProvider = {
     return await pipe(
       user,
       O.fromNullable,
-      O.map((u) => JSON.parse(u).permissions),
+      O.chainNullableK((u) => JSON.parse(u).permissions),
       E.fromOption(() => new Error("User is missing")),
       TE.fromEither,
       throwTE
@@ -71,7 +70,7 @@ export const authProvider: AuthProvider = {
   },
   getIdentity: async () => {
     try {
-      const user = await httpRestClient.get("users/me", {});
+      const user = await apiProvider.get("users/me", {});
 
       localStorage.setItem("user", JSON.stringify(user));
       return user;
@@ -80,16 +79,5 @@ export const authProvider: AuthProvider = {
       console.error(e);
       return undefined;
     }
-  },
-};
-
-export const apiProvider: http.APIRESTClient = {
-  ...httpRestClient,
-  create: (resource, params) => {
-    if (resource === "projects") {
-      return createProject(httpRestClient)(resource, params);
-    }
-
-    return httpRestClient.create<any>(resource, params);
   },
 };

@@ -4,7 +4,7 @@ import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
 import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { type RawMedia, uploadFile } from "@liexp/ui/client/admin/MediaAPI";
-import { httpRestClient } from "@liexp/ui/client/api";
+import { apiProvider } from "@liexp/ui/client/api";
 import * as A from "fp-ts/Array";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
@@ -119,7 +119,7 @@ export const transformEvent = async (
   const mediaTask = pipe(
     A.sequence(TE.ApplicativePar)(
       rawMedia.map((r: RawMedia) =>
-        uploadFile(httpRestClient)(
+        uploadFile(apiProvider)(
           "media",
           id,
           r.location.rawFile,

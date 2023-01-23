@@ -1,8 +1,12 @@
+import { get, set } from "lodash";
 import * as React from "react";
 import { useDataProvider, useRecordContext, useRefresh } from "react-admin";
 import { Button } from "../../mui";
 
-export const ImportMediaButton: React.FC = () => {
+export const ImportMediaButton: React.FC<{ source?: string, reference?: 'events'| 'events/suggestions' }> = ({
+  source: _source = "media",
+  reference = 'events'
+}) => {
   const record = useRecordContext();
   const refresh = useRefresh();
   const apiProvider = useDataProvider();
@@ -19,11 +23,13 @@ export const ImportMediaButton: React.FC = () => {
             const media = results.data
               .filter((r) => !!r.image)
               .map((r) => r.image.id);
+            const source = get(record, _source) ?? [];
+            const data = set(record, _source, source.concat(media));
             return apiProvider
-              .update("events", {
+              .update(reference, {
                 id: record.id,
                 previousData: record,
-                data: { ...record, media: record.media.concat(media) },
+                data,
               })
               .then(() => {
                 refresh();
