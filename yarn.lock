@@ -2735,7 +2735,7 @@ __metadata:
     "@types/throttle-debounce": ^5.0.0
     "@types/uuid": ^9.0.0
     "@visx/network": ^3.0.0
-    aws-sdk: ^2.1248.0
+    aws-sdk: ^2.1299.0
     axios: ^0.27.2
     bs58: ^5.0.0
     cheerio: ^1.0.0-rc.12
@@ -5278,9 +5278,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/dom@npm:^8.19.1, @testing-library/dom@npm:^8.5.0":
-  version: 8.19.1
-  resolution: "@testing-library/dom@npm:8.19.1"
+"@testing-library/dom@npm:^8.20.0, @testing-library/dom@npm:^8.5.0":
+  version: 8.20.0
+  resolution: "@testing-library/dom@npm:8.20.0"
   dependencies:
     "@babel/code-frame": ^7.10.4
     "@babel/runtime": ^7.12.5
@@ -5290,7 +5290,7 @@ __metadata:
     dom-accessibility-api: ^0.5.9
     lz-string: ^1.4.4
     pretty-format: ^27.0.2
-  checksum: 0fb1f05fa199491795063eae5e892922851570717c85131776de6edd5477b1bfa528790401120a616ce4846584570d1436b0bce4649652ddb6ea9d67a1f00b19
+  checksum: 1e599129a2fe91959ce80900a0a4897232b89e2a8e22c1f5950c36d39c97629ea86b4986b60b173b5525a05de33fde1e35836ea597b03de78cc51b122835c6f0
   languageName: node
   linkType: hard
 
@@ -7881,7 +7881,7 @@ __metadata:
   resolution: "admin-web@workspace:services/admin-web"
   dependencies:
     "@mui/material": ^5.11.5
-    "@testing-library/dom": ^8.19.1
+    "@testing-library/dom": ^8.20.0
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^13.4.0
     "@testing-library/user-event": ^14.4.3
@@ -8234,7 +8234,7 @@ __metadata:
     "@types/pg": ^8.6.6
     "@types/supertest": ^2.0.12
     "@types/uuid": ^9.0.0
-    aws-sdk: ^2.1248.0
+    aws-sdk: ^2.1299.0
     axios: ^0.27.2
     canvas: ^2.11.0
     cors: 2.8.5
@@ -8724,9 +8724,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1248.0":
-  version: 2.1248.0
-  resolution: "aws-sdk@npm:2.1248.0"
+"aws-sdk@npm:^2.1299.0":
+  version: 2.1299.0
+  resolution: "aws-sdk@npm:2.1299.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -8738,7 +8738,7 @@ __metadata:
     util: ^0.12.4
     uuid: 8.0.0
     xml2js: 0.4.19
-  checksum: ea6d37f788f1db5a0c0ef8c10b65953de8eae4c261db90ffb875130e9a1a7df74514c3a7de2431b18ed88fa587445aee93c12e724668bce965b5d879af6757c8
+  checksum: 408c21837a946e411aaf340d729fa44136b0f9d353bc32336b6ecbe4d44a1781f484d7ed977053ca745ceba2e57c863d5663cd6220f1aa38a090fd5df8130629
   languageName: node
   linkType: hard
 
