@@ -37,11 +37,12 @@ export const saveUser = async (
   await throwTE(
     Test.ctx.db.save(UserEntity, [
       {
-        id: id,
-        username: username,
-        passwordHash: passwordHash,
+        id,
+        username,
+        passwordHash,
         email: username,
         permissions,
+        status: 'Approved',
         firstName: fc.sample(fc.string())[0],
         lastName: fc.sample(fc.string())[0],
       },

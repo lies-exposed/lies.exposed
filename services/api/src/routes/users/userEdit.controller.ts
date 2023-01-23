@@ -1,28 +1,24 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { UserStatusApproved } from '@liexp/shared/io/http/User';
-import { uuid } from "@liexp/shared/utils/uuid";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
+import { Equal } from "typeorm";
 import { toUserIO } from "./user.io";
 import { UserEntity } from "@entities/User.entity";
 import { Route } from "@routes/route.types";
 import { authenticationHandler } from "@utils/authenticationHandler";
-import * as passwordUtils from "@utils/password.utils";
 
-export const MakeUserCreateRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:create"]))(
-    Endpoints.User.Create,
-    ({ body: { password, ...userData } }) => {
-      ctx.logger.debug.log("Login user with username or email %O", userData);
+export const MakeUserEditRoute: Route = (r, ctx) => {
+  AddEndpoint(r, authenticationHandler(ctx, ["admin:edit"]))(
+    Endpoints.User.Edit,
+    ({ params: { id }, body: { ...userData } }) => {
+      ctx.logger.debug.log("Edit user %s  with %O", id, userData);
       return pipe(
-        passwordUtils.hash(password),
-        TE.chain((pw) =>
+        ctx.db.findOneOrFail(UserEntity, { where: { id: Equal(id) } }),
+        TE.chain((u) =>
           ctx.db.save(UserEntity, [
             {
-              id: uuid(),
+              ...u,
               ...userData,
-              status: UserStatusApproved.value,
-              passwordHash: pw,
             },
           ])
         ),

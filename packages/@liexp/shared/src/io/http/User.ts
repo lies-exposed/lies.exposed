@@ -1,3 +1,4 @@
+import { propsOmit } from "@liexp/core/io/utils";
 import * as t from "io-ts";
 import { BaseProps } from "./Common/BaseProps";
 
@@ -23,6 +24,36 @@ export const UserPermission = t.union(
 );
 export type UserPermission = t.TypeOf<typeof UserPermission>;
 
+export const UserStatusPending = t.literal("Pending");
+export const UserStatusApproved = t.literal("Approved");
+export const UserStatusDeclined = t.literal("Declined");
+export const UserStatus = t.union(
+  [UserStatusPending, UserStatusApproved, UserStatusDeclined],
+  "UserStatus"
+);
+export type UserStatus = t.TypeOf<typeof UserStatus>;
+
+export const SignUpUserBody = t.strict(
+  {
+    username: t.string,
+    firstName: t.string,
+    lastName: t.string,
+    email: t.string,
+    password: t.string,
+  },
+  "SignUpUserBody"
+);
+export type SignUpUserBody = t.TypeOf<typeof SignUpUserBody>;
+
+export const EditUserBody = t.strict(
+  {
+    ...propsOmit(SignUpUserBody, ["password"]),
+    status: UserStatus
+  },
+  "EditUserBody"
+);
+export type EditUserBody = t.TypeOf<typeof EditUserBody>;
+
 export const User = t.strict(
   {
     ...BaseProps.type.props,
@@ -30,6 +61,7 @@ export const User = t.strict(
     lastName: t.string,
     username: t.string,
     email: t.string,
+    status: UserStatus,
     permissions: t.array(UserPermission),
     createdAt: t.string,
     updatedAt: t.string,

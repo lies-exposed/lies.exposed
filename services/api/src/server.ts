@@ -167,9 +167,11 @@ export const makeApp = (ctx: RouteContext): express.Express => {
     jwt({ secret: ctx.env.JWT_SECRET, algorithms: ["HS256"] }).unless({
       path: [
         { url: "/v1/users/login", method: "POST" },
+        { url: "/v1/users/signup", method: "POST" },
         { url: /\/v1\/*/, method: "GET" },
         { url: /\/v1\/uploads*\//, method: "PUT" },
         { url: "/v1/events/suggestions", method: "POST" },
+        { url: /\/v1\/events\/suggestions*\//, method: "PUT" },
         { url: /\/media\/*/ },
       ],
     })
