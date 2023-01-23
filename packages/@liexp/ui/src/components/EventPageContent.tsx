@@ -5,7 +5,7 @@ import { getTextContentsCapped, isValidValue } from "@liexp/shared/slate";
 import { formatAnyDateToShort } from "@liexp/shared/utils/date";
 import * as React from "react";
 import { useTheme } from "../theme";
-import EditButton from "./Common/Button/EditButton";
+import EditEventButton from './Common/Button/EditEventButton';
 import { ShareButtons } from "./Common/Button/ShareButtons";
 import { GroupMembersList } from "./GroupMembersBox";
 import { KeywordsBox } from "./KeywordsBox";
@@ -22,7 +22,7 @@ import {
   Grid,
   Link,
   Typography,
-  useMediaQuery as useMuiMediaQuery,
+  useMediaQuery as useMuiMediaQuery
 } from "./mui";
 
 export interface EventPageContentProps {
@@ -165,11 +165,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                         onItemClick={onGroupMemberClick}
                       />
                       <Box>
-                        <EditButton
-                          resourceName="events"
-                          userResourceName="events/suggestions"
-                          resource={{ id: event.id }}
-                        />
+                        <EditEventButton id={event.id} />
                       </Box>
                     </Grid>
 

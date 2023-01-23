@@ -6,12 +6,15 @@ import { checkIsAdmin } from "@liexp/shared/utils/user.utils";
 import * as React from "react";
 import {
   BooleanInput,
-  Button, Datagrid,
-  DateField, FormDataConsumer,
+  Button,
+  Datagrid,
+  DateField,
+  FormDataConsumer,
   FormTab,
-  DateInput,
   FunctionField,
-  List, LoadingPage,
+  Create,
+  List,
+  LoadingPage,
   ReferenceField,
   SelectInput,
   TabbedForm,
@@ -20,15 +23,21 @@ import {
   useGetIdentity,
   usePermissions,
   useRecordContext,
-  useRefresh, type EditProps, type ListProps
+  useRefresh,
+  type EditProps,
+  type ListProps,
+  type CreateProps,
+  useCreateController,
 } from "react-admin";
 import { EventIcon } from "../../../Common/Icons";
 import ReactPageInput from "../../../admin/ReactPageInput";
-import ReferenceArrayKeywordInput from "../../../admin/common/ReferenceArrayKeywordInput";
 import { WebPreviewButton } from "../../../admin/common/WebPreviewButton";
 import { Box, Grid, Typography } from "../../../mui";
 import { EditForm } from "../../common/EditForm";
 import ReferenceUserInput from "../../common/ReferenceUserInput";
+import { EventSuggestionStatusInput } from "../../common/inputs/EventSuggestionStatusInput";
+import { EventSuggestionTypeInput } from "../../common/inputs/EventSuggestionTypeInput";
+import { ImportMediaButton } from "../../media/ImportMediaButton";
 import { EventSuggestionPreview } from "../../previews/EventSuggestionPreview";
 import { DeathEventEditFormTab } from "../../tabs/DeathEventEditFormTab";
 import { DocumentaryEditFormTab } from "../../tabs/DocumentaryEditFormTab";
@@ -147,7 +156,9 @@ const CreateEventButton: React.FC = () => {
       onClick={() => {
         void apiProvider
           .create(`/events/suggestions/${record?.id}/event`, { data: {} })
-          .then(() => { refresh(); });
+          .then(() => {
+            refresh();
+          });
       }}
     />
   );
@@ -180,55 +191,36 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
       }}
       preview={<EventSuggestionPreview />}
     >
-      <TabbedForm>
-        <FormTab label="Generals">
-          <Grid container spacing={2}>
-            <Grid
-              item
-              md={6}
-              sm={6}
-              style={{ display: "flex", flexDirection: "column" }}
-            >
-              <BooleanInput label="draft" source="payload.event.draft" />
-              <TextField label="Suggestion type" source="payload.type" />
-              <TextField label="Suggestion status" source="status" />
-              <DateInput label="date" source="payload.event.date" />
-              <DateInput
-                label="endDate"
-                source="payload.event.payload.endDate"
-              />
-            </Grid>
-            <Grid item md={6} sm={6}>
-              {isAdmin && <ReferenceUserInput source="payload.creator" />}
-            </Grid>
-            <Grid item md={12}>
-              <ReactPageInput
-                label="excerpt"
-                source="payload.event.excerpt"
-                onlyText
-              />
-              <ReferenceArrayKeywordInput
-                source="payload.event.keywords"
-                showAdd
-              />
-              <DateField
-                label="updatedAt"
-                source="payload.event.updatedAt"
-                showTime={true}
-              />
-              <DateField
-                label="createdAt"
-                source="payload.event.createdAt"
-                showTime={true}
-              />
-            </Grid>
-          </Grid>
-        </FormTab>
-        <FormTab label="body">
-          <ReactPageInput label="body" source="payload.event.body" />
-        </FormTab>
-
+      <TabbedForm syncWithLocation={isAdmin}>
         <FormTab label="payload">
+          {isAdmin ? (
+            <Grid container spacing={2}>
+              <Grid
+                item
+                md={6}
+                sm={6}
+                style={{ display: "flex", flexDirection: "column" }}
+              >
+                <EventSuggestionTypeInput source="payload.type" />
+                <EventSuggestionStatusInput source="status" />
+              </Grid>
+              <Grid item md={6} sm={6}>
+                <ReferenceUserInput source="payload.creator" />
+              </Grid>
+              <Grid item md={12}>
+                <DateField
+                  label="updatedAt"
+                  source="payload.event.updatedAt"
+                  showTime={true}
+                />
+                <DateField
+                  label="createdAt"
+                  source="payload.event.createdAt"
+                  showTime={true}
+                />
+              </Grid>
+            </Grid>
+          ) : null}
           <FormDataConsumer>
             {({ formData, getSource, scopedFormData, ...rest }) => {
               // console.log({ formData, scopedFormData, rest });
@@ -258,7 +250,14 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
             }}
           </FormDataConsumer>
         </FormTab>
+        <FormTab label="body">
+          <ReactPageInput label="body" source="payload.event.body" />
+        </FormTab>
         <FormTab label="Media">
+          <ImportMediaButton
+            reference="events/suggestions"
+            source="payload.event.media"
+          />
           <ReferenceMediaTab source="payload.event.media" />
         </FormTab>
         <FormTab label="Links">
@@ -266,5 +265,132 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
         </FormTab>
       </TabbedForm>
     </EditForm>
+  );
+};
+
+export const EventSuggestionCreate: React.FC<CreateProps & { event: any }> = ({
+  event,
+  ...props
+}) => {
+  const record = useRecordContext({
+    record: {
+      status: "Pending",
+      payload: { type: "New", event },
+    },
+  });
+  const { save } = useCreateController({
+    resource: "events/suggestions",
+    ...props,
+  });
+
+  const dataProvider = useDataProvider();
+
+  const { permissions = [], isLoading: isLoadingPermissions } =
+    usePermissions();
+
+  if (isLoadingPermissions) {
+    return <LoadingPage />;
+  }
+  const isAdmin = checkIsAdmin(permissions);
+
+  return (
+    <Create
+      {...props}
+      record={record}
+      redirect={false}
+      actions={
+        isAdmin ? (
+          <Box style={{ padding: 10 }}>
+            <WebPreviewButton resource="/events" source="id" />
+            <CreateEventButton />
+          </Box>
+        ) : undefined
+      }
+      transform={async ({ id, ...r }: any) => {
+        const updatedEvent = await transformEvent(dataProvider)(
+          id,
+          r.payload.event
+        );
+
+        return { id, ...r.payload, event: updatedEvent };
+      }}
+    >
+      <TabbedForm
+        syncWithLocation={false}
+        onSubmit={(e) => {
+          void save?.(e);
+        }}
+      >
+        <FormTab label="payload">
+          {isAdmin ? (
+            <Grid container spacing={2}>
+              <Grid
+                item
+                md={6}
+                sm={6}
+                style={{ display: "flex", flexDirection: "column" }}
+              >
+                <BooleanInput label="draft" source="payload.event.draft" />
+                <TextField label="Suggestion type" source="payload.type" />
+                <EventSuggestionTypeInput source="payload.type" />
+                <EventSuggestionStatusInput source="status" />
+              </Grid>
+              <Grid item md={6} sm={6}>
+                {isAdmin && <ReferenceUserInput source="payload.creator" />}
+              </Grid>
+              <Grid item md={12}>
+                <DateField
+                  label="updatedAt"
+                  source="payload.event.updatedAt"
+                  showTime={true}
+                />
+                <DateField
+                  label="createdAt"
+                  source="payload.event.createdAt"
+                  showTime={true}
+                />
+              </Grid>
+            </Grid>
+          ) : null}
+          <FormDataConsumer>
+            {({ formData, getSource, scopedFormData, ...rest }) => {
+              // console.log({ formData, scopedFormData, rest });
+
+              if (
+                formData.payload.event.type === Documentary.DOCUMENTARY.value
+              ) {
+                return <DocumentaryEditFormTab {...rest} />;
+              }
+              if (formData.payload.event.type === "Death") {
+                return <DeathEventEditFormTab {...rest} />;
+              }
+              if (formData.payload.event.type === "ScientificStudy") {
+                return <ScientificStudyEventEditTab {...rest} />;
+              }
+              if (formData.payload.event.type === Patent.PATENT.value) {
+                return <PatentEventEditFormTab {...rest} />;
+              }
+
+              return (
+                <UncategorizedEventEditTab
+                  {...rest}
+                  sourcePrefix={"payload.event"}
+                  record={formData.payload.event}
+                />
+              );
+            }}
+          </FormDataConsumer>
+        </FormTab>
+        <FormTab label="body">
+          <ReactPageInput label="body" source="payload.event.body" />
+        </FormTab>
+        <FormTab label="Media">
+          <ReferenceMediaTab source="payload.event.media" />
+        </FormTab>
+        <FormTab label="Links">
+          <ReferenceLinkTab source="payload.event.links" />
+        </FormTab>
+      </TabbedForm>
+    </Create>
   );
 };

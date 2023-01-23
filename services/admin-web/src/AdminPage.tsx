@@ -18,7 +18,7 @@ import {
   EventSuggestionEdit,
   EventSuggestionList,
 } from "@liexp/ui/components/admin/events/suggestions/AdminEventSuggestion";
-import englishMessages from "@liexp/ui/i18n/en-US";
+import { i18nProvider} from "@liexp/ui/i18n/i18n.provider";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import EventIcon from "@mui/icons-material/Event";
 import GroupIcon from "@mui/icons-material/Group";
@@ -27,7 +27,6 @@ import MapIcon from "@mui/icons-material/Map";
 import PermMediaIcon from "@mui/icons-material/PermMedia";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import RecentActorsIcon from "@mui/icons-material/RecentActors";
-import polyglotI18nProvider from "ra-i18n-polyglot";
 import * as React from "react";
 import { Admin, Login, Resource } from "react-admin";
 import "./index.css";
@@ -75,8 +74,6 @@ import {
 } from "./pages/events/AdminTransactionEvent";
 import { UncategorizedEventCreate } from "./pages/events/AdminUncategorizedEvent";
 import { adminThemeOptions } from "./theme";
-
-const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
 
 const AdminPage: React.FC = () => {
   // eslint-disable-next-line no-console

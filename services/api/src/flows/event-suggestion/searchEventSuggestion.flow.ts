@@ -37,7 +37,7 @@ export const searchEventSuggestion =
         .leftJoinAndSelect("eventSuggestion.creator", "creator"),
       (q) => {
         if (O.isSome(filter.status)) {
-          q.where("status IN (:...status)", { status: filter.status.value });
+          q.where("eventSuggestion.status IN (:...status)", { status: filter.status.value });
         }
 
         if (O.isSome(filter.links)) {

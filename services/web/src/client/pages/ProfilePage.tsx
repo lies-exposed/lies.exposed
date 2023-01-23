@@ -7,7 +7,7 @@ import "@react-page/plugins-slate/lib/index.css";
 import "@react-page/plugins-spacer/lib/index.css";
 import "@react-page/plugins-video/lib/index.css";
 
-import { authProvider, httpRestClient } from "@liexp/ui/client/api";
+import { authProvider, apiProvider } from "@liexp/ui/client/api";
 import { Admin, Login, Resource } from "@liexp/ui/components/admin";
 import {
   ArticleCreate,
@@ -41,12 +41,12 @@ const ProfilePage: React.FC = () => {
 
   return (
     <Admin
-      dataProvider={httpRestClient}
+      dataProvider={apiProvider}
       authProvider={authProvider}
       i18nProvider={i18nProvider}
       loginPage={
         <Login>
-          <SignIn />
+          <SignIn redirectTo={"/profile"} />
         </Login>
       }
       theme={themeOptions}

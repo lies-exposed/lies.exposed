@@ -9,7 +9,7 @@ import {
 } from "@mui/lab";
 import * as React from "react";
 import { styled } from "../../../theme";
-import EditButton from "../../Common/Button/EditButton";
+import EditEventButton from "../../Common/Button/EditEventButton";
 import { EventIcon } from "../../Common/Icons/EventIcon";
 import { Box, Typography } from "../../mui";
 import { EventListItem, type EventListItemProps } from "./EventListItem";
@@ -135,11 +135,7 @@ const EventTimelineItem = React.forwardRef<any, EventTimelineItemProps>(
             <TimelineEventSubjects event={e} {...props} />
 
             <Box className={classes.editButtonBox}>
-              <EditButton
-                resourceName="events"
-                userResourceName="events/suggestions"
-                resource={{ id: e.id }}
-              />
+              <EditEventButton id={e.id} />
             </Box>
           </TimelineOppositeContent>
           <TimelineSeparator className={classes.separator}>
