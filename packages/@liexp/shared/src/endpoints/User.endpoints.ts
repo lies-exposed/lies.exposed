@@ -3,7 +3,7 @@ import { UUID } from "io-ts-types/lib/UUID";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { GetListQuery } from "../io/http/Query";
-import { User, UserPermission } from "../io/http/User";
+import { EditUserBody, SignUpUserBody, User, UserPermission } from "../io/http/User";
 import { ResourceEndpoints } from "./types";
 
 export const UserLogin = Endpoint({
@@ -21,15 +21,34 @@ export const UserCreate = Endpoint({
   Input: {
     Body: t.strict(
       {
-        username: t.string,
-        firstName: t.string,
-        lastName: t.string,
+        ...SignUpUserBody.type.props,
         permissions: t.array(UserPermission),
-        email: t.string,
-        password: t.string,
       },
       "UserCreateBody"
     ),
+  },
+  Output: t.strict({
+    data: User,
+  }),
+});
+
+export const UserEdit = Endpoint({
+  Method: "PUT",
+  getPath: ({ id }) => `/users/${id}`,
+  Input: {
+    Params: t.type({ id: UUID }),
+    Body: EditUserBody,
+  },
+  Output: t.strict({
+    data: User,
+  }),
+});
+
+export const SignUpUser = Endpoint({
+  Method: "POST",
+  getPath: () => "/users/signup",
+  Input: {
+    Body: SignUpUserBody,
   },
   Output: t.strict({
     data: User,
@@ -41,9 +60,9 @@ export const UserGet = Endpoint({
   getPath: ({ id }) => `/users/${id}`,
   Input: {
     Query: GetListQuery,
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
   },
-  Output: t.strict({ data: t.array(User), total: t.number }),
+  Output: t.strict({ data: User }),
 });
 
 export const GetUserMe = Endpoint({
@@ -71,14 +90,7 @@ export const users = ResourceEndpoints({
   Get: UserGet,
   Create: UserCreate,
   List: UserList,
-  Edit: Endpoint({
-    Method: "PUT",
-    getPath: () => `/users`,
-    Input: {
-      Body: t.unknown,
-    },
-    Output: t.undefined,
-  }),
+  Edit: UserEdit,
   Delete: Endpoint({
     Method: "DELETE",
     getPath: () => `/users`,
@@ -86,5 +98,6 @@ export const users = ResourceEndpoints({
   }),
   Custom: {
     GetUserMe,
+    SignUpUser,
   },
 });

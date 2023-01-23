@@ -28,6 +28,7 @@ import {
   EventSuggestionEdit,
   EventSuggestionList,
 } from "@liexp/ui/components/admin/events/suggestions/AdminEventSuggestion";
+import { SignIn } from "@liexp/ui/components/admin/user/SignIn";
 import englishMessages from "@liexp/ui/i18n/en-US";
 import { themeOptions } from "@liexp/ui/theme";
 import polyglotI18nProvider from "ra-i18n-polyglot";
@@ -43,7 +44,11 @@ const ProfilePage: React.FC = () => {
       dataProvider={httpRestClient}
       authProvider={authProvider}
       i18nProvider={i18nProvider}
-      loginPage={Login}
+      loginPage={
+        <Login>
+          <SignIn />
+        </Login>
+      }
       theme={themeOptions}
       requireAuth
       basename="/profile"

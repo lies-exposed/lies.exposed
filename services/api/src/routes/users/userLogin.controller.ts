@@ -1,9 +1,10 @@
-import { UserLogin, AddEndpoint } from "@liexp/shared/endpoints";
+import { AddEndpoint, UserLogin } from "@liexp/shared/endpoints";
+import { UserStatusApproved } from '@liexp/shared/io/http/User';
 import { Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { UserEntity } from "@entities/User.entity";
-import { BadRequestError, NotFoundError } from "@io/ControllerError";
+import { BadRequestError, NotFoundError, ServerError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
 import * as passwordUtils from "@utils/password.utils";
 
@@ -16,6 +17,7 @@ export const MakeUserLoginRoute = (r: Router, ctx: RouteContext): void => {
       }),
       TE.mapLeft(() => NotFoundError("User")),
       ctx.logger.debug.logInTaskEither("User %O"),
+      TE.filterOrElse(e => e.status === UserStatusApproved.value, () => ServerError(["User not approved"])),
       TE.chainFirst((user) =>
         pipe(
           passwordUtils.verify(password, user.passwordHash),

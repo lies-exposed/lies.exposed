@@ -78,12 +78,14 @@ describe("Edit Event", () => {
 
     adminUser = fc.sample(UserArb).map((u) => ({
       ...u,
+      status: 'Approved' as const,
       permissions: [http.User.AdminDelete.value],
     }))[0];
 
     const supporterPasswordHash = await throwTE(hash(supporterPassword));
     supporterUser = fc.sample(UserArb).map((u) => ({
       ...u,
+      status: 'Approved' as const,
       permissions: [http.User.EventSuggestionEdit.value],
     }))[0];
 

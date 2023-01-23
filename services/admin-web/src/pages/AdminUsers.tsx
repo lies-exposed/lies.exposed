@@ -5,7 +5,7 @@ import {
   AdminRead,
   EventSuggestionCreate,
   EventSuggestionEdit,
-  EventSuggestionRead
+  EventSuggestionRead, UserStatus
 } from "@liexp/shared/io/http/User";
 import { AvatarField } from "@liexp/ui/components/admin/common/AvatarField";
 import { MediaField } from "@liexp/ui/components/admin/media/MediaField";
@@ -20,7 +20,7 @@ import {
   EditProps,
   FormTab,
   List,
-  ListProps,
+  ListProps, SelectInput,
   SimpleForm,
   TabbedForm,
   TextField,
@@ -35,6 +35,7 @@ export const UserList: React.FC<ListProps> = (props) => (
       <TextField source="lastName" />
       <TextField source="username" />
       <TextField source="email" />
+      <TextField source="status" />
       <TextField source="permissions" />
       <DateField label="Updated At" source="updatedAt" showTime={true} />
       <DateField label="Created At" source="createdAt" showTime={true} />
@@ -54,12 +55,17 @@ export const UserEdit: React.FC<EditProps> = (props) => (
         <AvatarField source="avatar" />
         <MediaField source="avatar" type="image/jpeg" />
         <TextInput source="username" />
+        <TextInput source="firstName" />
+        <TextInput source="lastName" />
+        <SelectInput
+          source="status"
+          choices={UserStatus.types.map((t) => ({
+            id: t.value,
+            name: t.value,
+          }))}
+        />
         <DateField source="createdAt" />
         <DateField source="updatedAt" />
-      </FormTab>
-
-      <FormTab label="Body">
-        <TextField source="body" />
       </FormTab>
     </TabbedForm>
   </Edit>
