@@ -1,9 +1,9 @@
 import {
   KeywordHierarchyEdgeBundlingGraph,
-  KeywordHierarchyEdgeBundlingGraphProps
+  type KeywordHierarchyEdgeBundlingGraphProps
 } from "@liexp/ui/components/Graph/KeywordHierarchyEdgeBundlingGraph";
 import { Box } from '@mui/material';
-import { Meta, Story } from "@storybook/react/types-6-0";
+import { type Meta, type Story } from "@storybook/react/types-6-0";
 import * as React from 'react';
 
 const meta: Meta = {

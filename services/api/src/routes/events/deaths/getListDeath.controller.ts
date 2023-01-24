@@ -7,7 +7,7 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { toEventV2IO } from "../eventV2.io";
 import { searchEventV2Query } from "../queries/searchEventsV2.query";
-import { Route } from "@routes/route.types";
+import { type Route } from "@routes/route.types";
 import { getORMOptions } from "@utils/orm.utils";
 
 export const MakeGetListDeathEventRoute: Route = (r, ctx) => {

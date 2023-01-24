@@ -1,8 +1,8 @@
 import * as io from "@liexp/shared/io";
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
-import { AreaEntity } from "../../entities/Area.entity";
-import { ControllerError, DecodeError } from "@io/ControllerError";
+import { type AreaEntity } from "../../entities/Area.entity";
+import { type ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toAreaIO = (
   a: AreaEntity

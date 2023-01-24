@@ -1,8 +1,8 @@
-import { Actor } from "@liexp/shared/io/http/Actor";
+import { type Actor } from "@liexp/shared/io/http/Actor";
 import * as React from "react";
-import { GetListParams } from "react-admin";
+import { type GetListParams } from "react-admin";
 import QueriesRenderer from "../components/QueriesRenderer";
-import { ActorList, ActorListProps } from "../components/lists/ActorList";
+import { ActorList, type ActorListProps } from "../components/lists/ActorList";
 import { useActorsQuery } from "../state/queries/DiscreteQueries";
 
 type ActorsBoxProps<D extends React.ElementType<any> = "ul"> = Omit<

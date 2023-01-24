@@ -1,5 +1,5 @@
 import { GetLogger } from "@liexp/core/logger";
-import ffmpeg from "fluent-ffmpeg";
+import type ffmpeg from "fluent-ffmpeg";
 import * as TE from "fp-ts/TaskEither";
 
 const ffmpegLogger = GetLogger("ffmpeg");

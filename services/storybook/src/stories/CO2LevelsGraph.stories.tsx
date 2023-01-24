@@ -1,8 +1,8 @@
 import {
   CO2LevelsGraph,
-  CO2LevelsGraphProps,
+  type CO2LevelsGraphProps,
 } from "@liexp/ui/components/Graph/CO2LevelsGraph";
-import { Meta, Story } from "@storybook/react/types-6-0";
+import { type Meta, type Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 
 const meta: Meta = {

@@ -1,15 +1,15 @@
-import { EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
+import { type EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import RunIcon from "@mui/icons-material/PlayCircleOutline";
 import * as React from "react";
 import {
   searchEventsQuery,
-  SearchEventsQueryInputNoPagination,
+  type SearchEventsQueryInputNoPagination,
 } from "../../state/queries/SearchEventsQuery";
 import { styled, useTheme } from "../../theme";
 import QueriesRenderer from "../QueriesRenderer";
 import { EventsAppBarMinimized } from "../events/EventsAppBarMinimized";
 import { Box, CloseIcon, IconButton, Modal } from "../mui";
-import { EventSlider, EventSliderProps } from "../sliders/EventSlider";
+import { EventSlider, type EventSliderProps } from "../sliders/EventSlider";
 
 const EVENT_SLIDER_MODAL_PREFIX = "event-slider-modal";
 

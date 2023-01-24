@@ -2,10 +2,10 @@ import { createExcerptValue } from "@liexp/shared/slate";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { EventV2Entity } from "@entities/Event.v2.entity";
-import { KeywordEntity } from "@entities/Keyword.entity";
-import { LinkEntity } from "@entities/Link.entity";
-import { ControllerError } from "@io/ControllerError";
-import { RouteContext } from "@routes/route.types";
+import { type KeywordEntity } from "@entities/Keyword.entity";
+import { type LinkEntity } from "@entities/Link.entity";
+import { type ControllerError } from "@io/ControllerError";
+import { type RouteContext } from "@routes/route.types";
 
 export const createEventFromLink =
   (ctx: RouteContext) =>

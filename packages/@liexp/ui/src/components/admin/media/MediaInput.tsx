@@ -3,7 +3,7 @@ import * as React from "react";
 import {
   FileInput,
   FormDataConsumer,
-  InputProps,
+  type InputProps,
   SelectInput,
   TextInput,
 } from "react-admin";

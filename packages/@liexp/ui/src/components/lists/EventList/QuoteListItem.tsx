@@ -1,4 +1,4 @@
-import { Actor, Events, Keyword } from "@liexp/shared/io/http";
+import { type Actor, type Events, type Keyword } from "@liexp/shared/io/http";
 import { QUOTE } from "@liexp/shared/io/http/Events/Quote";
 import { getTextContentsCapped } from "@liexp/shared/slate";
 import * as React from "react";

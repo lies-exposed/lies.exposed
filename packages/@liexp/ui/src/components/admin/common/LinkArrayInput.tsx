@@ -1,7 +1,7 @@
 import * as React from "react";
 import {
   ArrayInput,
-  ArrayInputProps,
+  type ArrayInputProps,
   BooleanInput,
   DateInput,
   SimpleFormIterator,

@@ -1,7 +1,7 @@
 import * as React from "react";
 import {
-  SearchEventQueryResult,
-  SearchEventQueryInput,
+  type SearchEventQueryResult,
+  type SearchEventQueryInput,
 } from "../../state/queries/SearchEventsQuery";
 import { styled } from "../../theme";
 import { ActorList } from "../lists/ActorList";

@@ -1,5 +1,5 @@
-import { Keyword } from "@liexp/shared/io/http";
-import { SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
+import { type Keyword } from "@liexp/shared/io/http";
+import { type SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
 import { ParentSize } from "@visx/responsive";
 import * as React from "react";
@@ -10,7 +10,7 @@ import { Box } from "../components/mui";
 import { EventsPanelBox } from "../containers/EventsPanel";
 import { EventNetworkGraphBox } from "../containers/graphs/EventNetworkGraphBox";
 import { useKeywordQuery } from "../state/queries/DiscreteQueries";
-import { SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
+import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
 import { SplitPageTemplate } from "./SplitPageTemplate";
 
 export interface KeywordTemplateProps {

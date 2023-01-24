@@ -12,7 +12,7 @@ import { styled } from "../../../theme";
 import EditButton from "../../Common/Button/EditButton";
 import { EventIcon } from "../../Common/Icons/EventIcon";
 import { Box, Typography } from "../../mui";
-import { EventListItem, EventListItemProps } from "./EventListItem";
+import { EventListItem, type EventListItemProps } from "./EventListItem";
 import { TimelineEventSubjects } from "./TimelineEventSubjects";
 
 const PREFIX = "EventTimelineItem";

@@ -1,6 +1,6 @@
-import { Area } from "@liexp/shared/io/http";
+import { type Area } from "@liexp/shared/io/http";
 import { EventType } from "@liexp/shared/io/http/Events";
-import { SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
+import { type SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
 import * as React from "react";
 import { AreaPageContent } from "../components/AreaPageContent";
 import { Box } from "../components/mui";

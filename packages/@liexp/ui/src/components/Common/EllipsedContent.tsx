@@ -1,4 +1,4 @@
-import { Value } from "@react-page/editor";
+import { type Value } from "@react-page/editor";
 import * as React from "react";
 import { Box } from "../mui";
 import Editor from "./Editor";

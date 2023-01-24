@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import * as TE from "fp-ts/TaskEither";
-import { ControllerError, ServerError } from "@io/ControllerError";
+import { type ControllerError, ServerError } from "@io/ControllerError";
 
 const toError = (e: unknown): ControllerError => {
   if (e instanceof Error) {

@@ -1,9 +1,9 @@
 import { fc } from "@liexp/test";
 import {
   AxisGraph,
-  AxisGraphProps,
+  type AxisGraphProps,
 } from "@liexp/ui/components/Common/Graph/AxisGraph";
-import { Meta, Story } from "@storybook/react/types-6-0";
+import { type Meta, type Story } from "@storybook/react/types-6-0";
 import { LinearGradient } from "@visx/gradient";
 import React from "react";
 

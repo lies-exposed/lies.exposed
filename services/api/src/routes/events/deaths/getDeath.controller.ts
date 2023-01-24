@@ -2,7 +2,7 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from 'typeorm';
-import { Route } from "../../route.types";
+import { type Route } from "../../route.types";
 import { toEventV2IO } from "../eventV2.io";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 

@@ -1,5 +1,5 @@
-import { Actor } from "@liexp/shared/io/http";
-import { Quote } from "@liexp/shared/io/http/Events";
+import { type Actor } from "@liexp/shared/io/http";
+import { type Quote } from "@liexp/shared/io/http/Events";
 import { getTextContentsCapped } from "@liexp/shared/slate";
 import * as React from "react";
 import { Avatar } from "../../Common/Avatar";

@@ -2,7 +2,7 @@ import * as React from "react";
 import {
   Datagrid,
   ReferenceArrayField,
-  ReferenceArrayFieldProps,
+  type ReferenceArrayFieldProps,
   TextField,
 } from "react-admin";
 import { MediaField } from "./MediaField";

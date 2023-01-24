@@ -3,10 +3,10 @@ import * as A from "fp-ts/Array";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as S from "fp-ts/string";
-import { Browser } from "puppeteer-core";
-import { ServerContext } from "../context/server";
+import { type Browser } from "puppeteer-core";
+import { type ServerContext } from "../context/server";
 import {
-  PuppeteerError,
+  type PuppeteerError,
   toPuppeteerError,
 } from "../providers/puppeteer.provider";
 

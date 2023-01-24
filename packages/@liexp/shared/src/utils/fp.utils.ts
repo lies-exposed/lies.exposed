@@ -1,8 +1,8 @@
 import {fp} from '@liexp/core/fp'
-import { Logger } from '@liexp/core/logger';
+import { type Logger } from '@liexp/core/logger';
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
-import * as TE from 'fp-ts/TaskEither';
+import type * as TE from 'fp-ts/TaskEither';
 import { pipe } from "fp-ts/lib/function";
 
 export const traverseArrayOfE = <A, E, B>(

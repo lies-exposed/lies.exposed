@@ -1,8 +1,8 @@
 import * as io from "@liexp/shared/io";
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
-import { DeathEventViewEntity } from "@entities/events/DeathEvent.entity";
-import { ControllerError, DecodeError } from "@io/ControllerError";
+import { type DeathEventViewEntity } from "@entities/events/DeathEvent.entity";
+import { type ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toDeathIO = (
   event: DeathEventViewEntity

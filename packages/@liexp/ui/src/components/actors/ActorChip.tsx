@@ -1,8 +1,8 @@
-import { Actor } from "@liexp/shared/io/http/Actor";
+import { type Actor } from "@liexp/shared/io/http/Actor";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
-import { Avatar, AvatarSize } from "../Common/Avatar";
+import { Avatar, type AvatarSize } from "../Common/Avatar";
 import { Typography } from "../mui";
 
 export interface ActorChipProps {

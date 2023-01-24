@@ -5,7 +5,7 @@ import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { MediaList } from "@liexp/ui/components/lists/MediaList";
 import { Box } from "@liexp/ui/components/mui";
 import { useMediaQuery } from "@liexp/ui/state/queries/DiscreteQueries";
-import { RouteComponentProps } from "@reach/router";
+import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 

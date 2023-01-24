@@ -1,9 +1,9 @@
 import { firstGoodProject } from "@liexp/shared/mock-data/projects";
 import {
   ProjectAreasMap,
-  ProjectAreasMapProps,
+  type ProjectAreasMapProps,
 } from "@liexp/ui/components/Graph/ProjectAreasMap";
-import { Meta, Story } from "@storybook/react/types-6-0";
+import { type Meta, type Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 
 const meta: Meta = {

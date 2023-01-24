@@ -1,10 +1,10 @@
 import * as fs from "fs";
-import { Logger } from "@liexp/core/logger";
+import { type Logger } from "@liexp/core/logger";
 import * as E from "fp-ts/Either";
 import * as IOE from "fp-ts/IOEither";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import * as t from "io-ts";
+import type * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter";
 
 export const GetWriteJSON =

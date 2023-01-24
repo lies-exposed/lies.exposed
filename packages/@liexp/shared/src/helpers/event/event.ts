@@ -9,16 +9,16 @@ import * as N from "fp-ts/number";
 import * as S from "fp-ts/string";
 import { UUID } from "io-ts-types/lib/UUID";
 import {
-  Actor,
-  Common,
+  type Actor,
+  type Common,
   Events,
-  Group,
-  GroupMember,
-  Keyword,
-  Media,
-  Project,
+  type Group,
+  type GroupMember,
+  type Keyword,
+  type Media,
+  type Project,
 } from "../../io/http";
-import { SearchEvent } from "../../io/http/Events/SearchEvent";
+import { type SearchEvent } from "../../io/http/Events/SearchEvent";
 
 type EventsByYearMap = Map<number, Map<number, Events.Event[]>>;
 

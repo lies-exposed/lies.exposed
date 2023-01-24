@@ -2,7 +2,7 @@ import React from "react";
 import {
   AutocompleteInput,
   ReferenceInput,
-  ReferenceInputProps,
+  type ReferenceInputProps,
 } from "react-admin";
 
 const ReferenceUserInput: React.FC<

@@ -1,8 +1,8 @@
-import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
+import { type SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
 import * as React from "react";
 import {
   TextInput,
-  TextInputProps,
+  type TextInputProps,
   useDataProvider,
   useInput,
 } from "react-admin";

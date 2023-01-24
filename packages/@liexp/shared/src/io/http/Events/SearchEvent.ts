@@ -1,15 +1,15 @@
-import * as Actor from "../Actor";
-import * as Group from "../Group";
-import * as GroupMember from "../GroupMember";
-import * as Keyword from "../Keyword";
-import * as Media from "../Media";
-import * as Death from "./Death";
-import * as Documentary from "./Documentary";
-import * as Patent from "./Patent";
-import * as Quote from "./Quote";
-import * as ScientificStudy from "./ScientificStudy";
-import * as Transaction from "./Transaction";
-import * as Uncategorized from "./Uncategorized";
+import type * as Actor from "../Actor";
+import type * as Group from "../Group";
+import type * as GroupMember from "../GroupMember";
+import type * as Keyword from "../Keyword";
+import type * as Media from "../Media";
+import type * as Death from "./Death";
+import type * as Documentary from "./Documentary";
+import type * as Patent from "./Patent";
+import type * as Quote from "./Quote";
+import type * as ScientificStudy from "./ScientificStudy";
+import type * as Transaction from "./Transaction";
+import type * as Uncategorized from "./Uncategorized";
 
 export interface SearchUncategorizedEvent
   extends Omit<Uncategorized.Uncategorized, "payload" | "media" | "keywords"> {

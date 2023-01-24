@@ -1,4 +1,4 @@
-import { Media } from "@liexp/shared/io/http";
+import { type Media } from "@liexp/shared/io/http";
 import * as d3 from "d3";
 import * as React from "react";
 import WaveformData from "waveform-data";

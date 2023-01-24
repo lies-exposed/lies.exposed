@@ -1,5 +1,5 @@
 import * as React from "react";
-import { IconProps } from "../../components/mui";
+import { type IconProps } from "../../components/mui";
 import GreyIcon from "./mattermost-logomark-grey.png";
 import WhiteIcon from "./mattermost-logomark-white.png";
 

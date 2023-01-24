@@ -4,9 +4,9 @@ import { events } from "@liexp/shared/mock-data/events";
 import { groups } from "@liexp/shared/mock-data/groups";
 import {
   EventsSankeyGraph,
-  EventsSankeyGraphProps,
+  type EventsSankeyGraphProps,
 } from "@liexp/ui/components/Graph/EventsSankeyGraph";
-import { Meta, Story } from "@storybook/react/types-6-0";
+import { type Meta, type Story } from "@storybook/react/types-6-0";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";

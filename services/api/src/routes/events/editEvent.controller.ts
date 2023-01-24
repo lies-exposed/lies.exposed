@@ -1,10 +1,10 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { AdminEdit } from '@liexp/shared/io/http/User';
-import { Router } from "express";
+import { type Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
-import { RouteContext } from "../route.types";
+import { type RouteContext } from "../route.types";
 import { toEventV2IO } from "./eventV2.io";
 import { editEventQuery } from "./queries/editEvent.query";
 import { EventV2Entity } from "@entities/Event.v2.entity";

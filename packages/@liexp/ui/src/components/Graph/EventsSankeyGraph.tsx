@@ -5,34 +5,34 @@ import {
   ordEventDate
 } from "@liexp/shared/helpers/event/event";
 import {
-  Actor,
-  Common,
-  Events,
-  Group,
-  Keyword,
-  Page,
-  Topic
+  type Actor,
+  type Common,
+  type Events,
+  type Group,
+  type Keyword,
+  type Page,
+  type Topic
 } from "@liexp/shared/io/http";
-import { UUID } from "@liexp/shared/io/http/Common/UUID";
-import { SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
+import { type UUID } from "@liexp/shared/io/http/Common/UUID";
+import { type SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
 import { LegendItem, LegendLabel, LegendOrdinal } from "@visx/legend";
-import { Link } from "@visx/network/lib/types";
+import { type Link } from "@visx/network/lib/types";
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
 import ordinalScale from "@visx/scale/lib/scales/ordinal";
-import { ScaleOrdinal } from "d3-scale";
+import { type ScaleOrdinal } from "d3-scale";
 import { subWeeks } from "date-fns";
 import * as A from "fp-ts/Array";
 import * as Map from "fp-ts/Map";
-import * as NEA from "fp-ts/NonEmptyArray";
+import type * as NEA from "fp-ts/NonEmptyArray";
 import * as O from "fp-ts/Option";
 import * as Ord from "fp-ts/Ord";
 import { pipe } from "fp-ts/function";
 import * as S from "fp-ts/string";
 import * as React from "react";
-import { NetworkScale } from "../Common/Graph/Network/Network";
+import { type NetworkScale } from "../Common/Graph/Network/Network";
 import {
-  NetworkNodeDatum,
-  NetworkPointNode
+  type NetworkNodeDatum,
+  type NetworkPointNode
 } from "../Common/Graph/Network/NetworkNode";
 import SankeyGraph from "../Common/Graph/SankeyGraph";
 import { Box, Grid } from "../mui";

@@ -1,4 +1,4 @@
-import { URL } from "../io/http/Common";
+import { type URL } from "../io/http/Common";
 
 const excludedURLs = [/http(?:s?):\/\/(?:www\.)?t\.me\/([\w\-_]*)/];
 

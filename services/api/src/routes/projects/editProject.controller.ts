@@ -1,11 +1,11 @@
 import { Endpoints, AddEndpoint } from "@liexp/shared/endpoints";
 import { uuid } from "@liexp/shared/utils/uuid";
-import { Router } from "express";
+import { type Router } from "express";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
-import { RouteContext } from "../route.types";
+import { type RouteContext } from "../route.types";
 import { toProjectIO } from "./project.io";
 import { ProjectEntity } from "@entities/Project.entity";
 import { authenticationHandler } from "@utils/authenticationHandler";

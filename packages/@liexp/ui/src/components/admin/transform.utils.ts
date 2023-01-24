@@ -8,8 +8,8 @@ import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as A from "fp-ts/Array";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { DataProvider, RaRecord } from "react-admin";
-import { RawMedia, uploadFile } from "../../client/admin/MediaAPI";
+import { type DataProvider, type RaRecord } from "react-admin";
+import { type RawMedia, uploadFile } from "../../client/admin/MediaAPI";
 
 export const transformLinks = (links: any[]): any[] => {
   return links.reduce<Array<string | { url: string; publishDate: Date }>>(

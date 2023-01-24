@@ -2,7 +2,7 @@ import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
 import * as S from "fp-ts/string";
-import { Topic } from "../io/http";
+import { type Topic } from "../io/http";
 
 export const getTopics = (
   topicUUIDs: string[],

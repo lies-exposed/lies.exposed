@@ -3,7 +3,7 @@ import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from 'typeorm';
-import { Route } from "../../route.types";
+import { type Route } from "../../route.types";
 import { toEventV2IO } from "../eventV2.io";
 import { editEventQuery } from "../queries/editEvent.query";
 import { EventV2Entity } from "@entities/Event.v2.entity";

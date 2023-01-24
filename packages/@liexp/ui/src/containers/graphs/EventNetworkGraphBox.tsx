@@ -1,17 +1,17 @@
 import { ACTORS } from "@liexp/shared/io/http/Actor";
 import { GROUPS } from "@liexp/shared/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
-import { GetNetworkQuery, NetworkType } from "@liexp/shared/io/http/Network";
+import { type GetNetworkQuery, type NetworkType } from "@liexp/shared/io/http/Network";
 import { formatDate } from "@liexp/shared/utils/date";
 import { ParentSize } from "@visx/responsive";
 import subWeeks from "date-fns/subWeeks";
-import { UUID } from "io-ts-types/UUID";
+import { type UUID } from "io-ts-types/UUID";
 import * as React from "react";
-import { serializedType } from "ts-io-error/lib/Codec";
+import { type serializedType } from "ts-io-error/lib/Codec";
 import { DateRangePicker } from "../../components/Common/DateRangePicker";
 import {
   EventsNetworkGraph,
-  EventsNetworkGraphProps,
+  type EventsNetworkGraphProps,
 } from "../../components/Graph/EventsNetworkGraph";
 import QueriesRenderer from "../../components/QueriesRenderer";
 import { Box, MenuItem, Select } from "../../components/mui";

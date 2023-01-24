@@ -1,6 +1,6 @@
 // import { customSlate } from "@liexp/shared/slate";
 import { getLiexpSlate } from "@liexp/shared/slate";
-import RPEditor, { EditorProps, Value } from "@react-page/editor";
+import RPEditor, { type EditorProps, type Value } from "@react-page/editor";
 import background from "@react-page/plugins-background";
 import divider from "@react-page/plugins-divider";
 import html5Video from "@react-page/plugins-html5-video";

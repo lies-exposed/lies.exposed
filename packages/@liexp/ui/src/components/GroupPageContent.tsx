@@ -1,5 +1,5 @@
-import { Actor, Group, Project } from "@liexp/shared/io/http";
-import { GroupMember } from "@liexp/shared/io/http/GroupMember";
+import { type Actor, type Group, type Project } from "@liexp/shared/io/http";
+import { type GroupMember } from "@liexp/shared/io/http/GroupMember";
 import { isValidValue } from "@liexp/shared/slate";
 import * as React from "react";
 import { useTheme } from "../theme";

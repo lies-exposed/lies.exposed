@@ -1,9 +1,9 @@
-import * as io from "@liexp/shared/io/http";
+import type * as io from "@liexp/shared/io/http";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
-import { Avatar, AvatarSize } from "../Common/Avatar";
-import { List, ListItemProps, ListProps } from "../Common/List";
+import { Avatar, type AvatarSize } from "../Common/Avatar";
+import { List, type ListItemProps, type ListProps } from "../Common/List";
 import { Box, Typography } from "../mui";
 
 export interface Actor extends io.Actor.Actor {

@@ -1,4 +1,4 @@
-import { UUID } from "io-ts-types/lib/UUID";
+import { type UUID } from "io-ts-types/lib/UUID";
 import {
   Column,
   CreateDateColumn,

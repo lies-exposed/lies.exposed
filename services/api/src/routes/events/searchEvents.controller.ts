@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { Router } from "express";
+import { type Router } from "express";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";
@@ -8,7 +8,7 @@ import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
 import { toEventV2IO } from "./eventV2.io";
 import { searchEventV2Query } from "./queries/searchEventsV2.query";
-import { RouteContext } from "@routes/route.types";
+import { type RouteContext } from "@routes/route.types";
 import { getORMOptions } from "@utils/orm.utils";
 
 export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {

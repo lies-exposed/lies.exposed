@@ -1,12 +1,12 @@
 import { Quote } from "@liexp/shared/io/http/Events";
 import {
   EventPageContent,
-  EventPageContentProps,
+  type EventPageContentProps,
 } from "@liexp/ui/components/EventPageContent";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { useEventsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
-import { Meta, Story } from "@storybook/react/types-6-0";
+import { type Meta, type Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 
 const meta: Meta = {

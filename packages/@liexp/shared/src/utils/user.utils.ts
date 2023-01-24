@@ -1,4 +1,4 @@
-import { User } from "../io/http";
+import { type User } from "../io/http";
 import {
   AdminCreate,
   AdminDelete,

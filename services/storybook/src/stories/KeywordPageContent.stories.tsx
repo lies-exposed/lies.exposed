@@ -1,11 +1,11 @@
 import {
   KeywordPageContent,
-  KeywordPageContentProps,
+  type KeywordPageContentProps,
 } from "@liexp/ui/components/KeywordPageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { useKeywordsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import { Box } from "@mui/material";
-import { Meta, Story } from "@storybook/react/types-6-0";
+import { type Meta, type Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 
 const meta: Meta = {

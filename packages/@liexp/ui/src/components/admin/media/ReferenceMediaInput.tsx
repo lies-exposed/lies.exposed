@@ -1,9 +1,9 @@
-import { Media, MediaType } from "@liexp/shared/io/http/Media";
+import { type Media, type MediaType } from "@liexp/shared/io/http/Media";
 import React from "react";
 import {
   AutocompleteInput,
   ReferenceInput,
-  ReferenceInputProps,
+  type ReferenceInputProps,
   useRecordContext,
 } from "react-admin";
 import { Typography } from "../../mui";

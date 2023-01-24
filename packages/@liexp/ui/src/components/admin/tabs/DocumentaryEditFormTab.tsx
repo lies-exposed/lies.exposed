@@ -1,6 +1,6 @@
 import * as React from "react";
 import {
-    EditProps, TextInput
+    type EditProps, TextInput
 } from "react-admin";
 import { Box } from "../../mui";
 import ReferenceAreaInput from "../common/ReferenceAreaInput";

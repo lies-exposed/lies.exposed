@@ -1,5 +1,5 @@
-import * as io from "@liexp/shared/io/index";
-import { NavigateFn } from "@reach/router";
+import type * as io from "@liexp/shared/io/index";
+import { type NavigateFn } from "@reach/router";
 
 export const getAdminLink = <K extends io.http.ResourcesNames>(
   key: K,

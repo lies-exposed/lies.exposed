@@ -1,15 +1,15 @@
-import { URL } from "@liexp/shared/io/http/Common";
+import { type URL } from "@liexp/shared/io/http/Common";
 import { uuid } from "@liexp/shared/utils/uuid";
 import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { Metadata } from "page-metadata-parser";
+import { type Metadata } from "page-metadata-parser";
 import { Equal } from "typeorm";
 import { LinkEntity } from "@entities/Link.entity";
-import { ControllerError, ServerError } from "@io/ControllerError";
-import { RouteContext } from "@routes/route.types";
+import { type ControllerError, ServerError } from "@io/ControllerError";
+import { type RouteContext } from "@routes/route.types";
 
 export const fetchAsLink =
   (ctx: RouteContext) =>

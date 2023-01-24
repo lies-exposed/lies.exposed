@@ -1,7 +1,7 @@
 import { GradientPinkBlue } from "@visx/gradient";
 import { Group } from "@visx/group";
 import { scaleOrdinal } from "@visx/scale";
-import Pie, { PieArcDatum, ProvidedProps } from "@visx/shape/lib/shapes/Pie";
+import Pie, { type PieArcDatum, type ProvidedProps } from "@visx/shape/lib/shapes/Pie";
 import * as React from "react";
 import { animated, to, useTransition } from "react-spring";
 

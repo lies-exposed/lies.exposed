@@ -4,7 +4,7 @@ import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { toEventV2IO } from "../eventV2.io";
 import { EventV2Entity } from "@entities/Event.v2.entity";
-import { Route } from "@routes/route.types";
+import { type Route } from "@routes/route.types";
 
 export const MakeGetQuoteRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.QuoteEvent.Get, ({ params: { id } }) => {

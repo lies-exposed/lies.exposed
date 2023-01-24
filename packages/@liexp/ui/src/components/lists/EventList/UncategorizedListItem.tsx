@@ -1,8 +1,8 @@
 import {
-  Actor,
-  Group,
-  GroupMember,
-  Keyword,
+  type Actor,
+  type Group,
+  type GroupMember,
+  type Keyword,
   Events,
 } from "@liexp/shared/io/http";
 import * as React from "react";

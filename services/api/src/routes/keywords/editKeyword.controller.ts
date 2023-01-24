@@ -3,7 +3,7 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { toKeywordIO } from "./keyword.io";
 import { KeywordEntity } from "@entities/Keyword.entity";
-import { Route } from "@routes/route.types";
+import { type Route } from "@routes/route.types";
 import { authenticationHandler } from "@utils/authenticationHandler";
 
 export const MakeEditKeywordsRoute: Route = (r, { db, logger, jwt }) => {

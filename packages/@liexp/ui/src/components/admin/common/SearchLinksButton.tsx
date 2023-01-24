@@ -2,7 +2,7 @@ import { defaultSites } from "@liexp/shared/scrapers/defaultSites";
 import { formatDate, parseISO } from "@liexp/shared/utils/date";
 import * as React from "react";
 import { Button, useDataProvider, useRefresh } from "react-admin";
-import { Link } from "../../Cards/LinkCard";
+import { type Link } from "../../Cards/LinkCard";
 import { LinksList as LinkEntityList } from "../../lists/LinkList";
 import {
   Box,

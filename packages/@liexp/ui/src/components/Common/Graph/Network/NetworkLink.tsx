@@ -1,7 +1,7 @@
-import { Link } from "@visx/network/lib/types";
+import { type Link } from "@visx/network/lib/types";
 import { LinkVertical } from "@visx/shape";
 import * as React from "react";
-import { NetworkNodeDatum } from "./NetworkNode";
+import { type NetworkNodeDatum } from "./NetworkNode";
 
 export interface NetworkLinkProps<N extends NetworkNodeDatum>
   extends Link<N> {

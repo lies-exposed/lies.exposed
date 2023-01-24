@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { Router } from "express";
+import { type Router } from "express";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";
@@ -8,7 +8,7 @@ import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
 import { toImageIO } from "./media.io";
 import { MediaEntity } from "@entities/Media.entity";
-import { RouteContext } from "@routes/route.types";
+import { type RouteContext } from "@routes/route.types";
 import { addOrder, getORMOptions } from "@utils/orm.utils";
 
 export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {

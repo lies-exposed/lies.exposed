@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { type Router } from "express";
 import { CreateEventRoute } from "./createEvent.controller";
 import { DeleteEventRoute } from "./deleteEvent.controller";
 import { DeleteEventSuggestionRoute } from "./deleteEventSuggestion.controller";
@@ -13,7 +13,7 @@ import { CreateEventSuggestionRoute } from "./suggestions/createEventSuggestion.
 import { EditEventSuggestionRoute } from "./suggestions/editEventSuggestion.controller";
 import { GetEventSuggestionRoute } from "./suggestions/getEventSuggestion.controller";
 import { GetEventSuggestionListRoute } from "./suggestions/getEventSuggestionList.controller";
-import { RouteContext } from "@routes/route.types";
+import { type RouteContext } from "@routes/route.types";
 
 export const MakeEventRoutes = (router: Router, ctx: RouteContext): void => {
   // MakeCreateEventFromLinkRoute(router, ctx);

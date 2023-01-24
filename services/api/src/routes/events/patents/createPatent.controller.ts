@@ -4,15 +4,15 @@ import { sequenceS } from "fp-ts/Apply";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { UUID } from "io-ts-types/lib/UUID";
+import { type UUID } from "io-ts-types/lib/UUID";
 import { Equal, In } from "typeorm";
-import { Route } from "../../route.types";
+import { type Route } from "../../route.types";
 import { toEventV2IO } from "../eventV2.io";
 import { createEventQuery } from "../queries/createEvent.query";
 import { ActorEntity } from "@entities/Actor.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
-import { ControllerError } from "@io/ControllerError";
+import { type ControllerError } from "@io/ControllerError";
 
 export const MakeCreatePatentEventRoute: Route = (r, ctx) => {
   AddEndpoint(r)(

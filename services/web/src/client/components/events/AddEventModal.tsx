@@ -1,5 +1,5 @@
 import { getSuggestions } from "@liexp/shared/helpers/event-suggestion";
-import { http } from "@liexp/shared/io";
+import { type http } from "@liexp/shared/io";
 import { uuid } from "@liexp/shared/utils/uuid";
 import CreateEventCard from "@liexp/ui/components/Cards/Events/CreateEventCard";
 import EventCard from "@liexp/ui/components/Cards/Events/EventCard";

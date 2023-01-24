@@ -1,5 +1,5 @@
 import * as http from "../../io/http";
-import { EventRelations } from "./event";
+import { type EventRelations } from "./event";
 import { getTitle } from './getTitle.helper';
 
 

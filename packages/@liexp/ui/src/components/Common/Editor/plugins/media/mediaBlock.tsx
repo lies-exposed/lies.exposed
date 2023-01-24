@@ -1,4 +1,4 @@
-import { Media } from "@liexp/shared/io/http";
+import { type Media } from "@liexp/shared/io/http";
 import MediaIcon from "@mui/icons-material/VideoFileOutlined";
 import type {
   CellPlugin,

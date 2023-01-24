@@ -1,8 +1,8 @@
 import * as fs from "fs";
 import path from "path";
 import { isExcludedURL } from "@liexp/shared/helpers/link.helper";
-import { getPlatform, VideoPlatformMatch } from "@liexp/shared/helpers/media";
-import { URL } from "@liexp/shared/io/http/Common";
+import { getPlatform, type VideoPlatformMatch } from "@liexp/shared/helpers/media";
+import { type URL } from "@liexp/shared/io/http/Common";
 import { MediaType } from "@liexp/shared/io/http/Media";
 import {
   AdminCreate,
@@ -16,7 +16,7 @@ import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import TelegramBot from "node-telegram-bot-api";
+import type TelegramBot from "node-telegram-bot-api";
 import type * as puppeteer from "puppeteer-core";
 import { Equal } from "typeorm";
 import { createAndUpload } from "../media/createAndUpload.flow";
@@ -26,11 +26,11 @@ import { UserEntity } from "@entities/User.entity";
 import { fetchAndSave } from "@flows/link.flow";
 import { extractMediaFromPlatform } from "@flows/media/extractMediaFromPlatform.flow";
 import {
-  ControllerError,
+  type ControllerError,
   ServerError,
   toControllerError,
 } from "@io/ControllerError";
-import { RouteContext } from "@routes/route.types";
+import { type RouteContext } from "@routes/route.types";
 
 interface EventResult {
   link: LinkEntity[];

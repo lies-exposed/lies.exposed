@@ -2,7 +2,7 @@ import * as React from "react";
 import {
   Datagrid,
   DateField,
-  FieldProps,
+  type FieldProps,
   ReferenceArrayField,
   TextField,
 } from "react-admin";

@@ -3,7 +3,7 @@ import { uuid } from "@liexp/shared/utils/uuid";
 import { fc } from "@liexp/test";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { AppTest, GetAppTest } from "../../../../test/AppTest";
+import { type AppTest, GetAppTest } from "../../../../test/AppTest";
 import { UserEntity } from "@entities/User.entity";
 import { hash } from "@utils/password.utils";
 

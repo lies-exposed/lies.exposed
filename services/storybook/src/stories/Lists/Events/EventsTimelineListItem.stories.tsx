@@ -2,10 +2,10 @@ import { Death, EventType, Quote } from "@liexp/shared/io/http/Events";
 import { Loader } from "@liexp/ui/components/Common/Loader";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import EventTimelineItem, {
-  EventTimelineItemProps,
+  type EventTimelineItemProps,
 } from "@liexp/ui/components/lists/EventList/EventTimelineItem";
 import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
-import { Meta, Story } from "@storybook/react/types-6-0";
+import { type Meta, type Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 
 const meta: Meta = {

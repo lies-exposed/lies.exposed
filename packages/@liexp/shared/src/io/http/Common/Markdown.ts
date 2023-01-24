@@ -1,7 +1,7 @@
 import * as t from "io-ts";
 import {
   optionFromNullable,
-  OptionFromNullableC,
+  type OptionFromNullableC,
 } from "io-ts-types/lib/optionFromNullable";
 
 export interface TOCItem {

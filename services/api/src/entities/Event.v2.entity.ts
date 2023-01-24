@@ -1,6 +1,6 @@
 import * as http from "@liexp/shared/io/http";
 import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
-import { UUID } from 'io-ts-types/lib/UUID';
+import { type UUID } from 'io-ts-types/lib/UUID';
 import {
   Column,
   CreateDateColumn,
@@ -12,8 +12,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
-import { ActorEntity } from './Actor.entity';
-import { GroupEntity } from './Group.entity';
+import { type ActorEntity } from './Actor.entity';
+import { type GroupEntity } from './Group.entity';
 import { KeywordEntity } from "./Keyword.entity";
 import { LinkEntity } from "./Link.entity";
 import { MediaEntity } from "./Media.entity";

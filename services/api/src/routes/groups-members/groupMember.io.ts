@@ -2,8 +2,8 @@ import * as io from "@liexp/shared/io";
 import { toColor } from "@liexp/shared/io/http/Common";
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
-import { GroupMemberEntity } from "../../entities/GroupMember.entity";
-import { ControllerError, DecodeError } from "@io/ControllerError";
+import { type GroupMemberEntity } from "../../entities/GroupMember.entity";
+import { type ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toGroupMemberIO = (
   groupMember: GroupMemberEntity

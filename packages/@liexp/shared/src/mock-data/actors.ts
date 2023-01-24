@@ -1,5 +1,5 @@
 import { fc } from "@liexp/test";
-import { Actor } from "../io/http";
+import { type Actor } from "../io/http";
 import { ActorArb } from "../tests/arbitrary/Actor.arbitrary";
 
 export const [goodActor, goodSecondActor, badActor, badSecondActor] = fc.sample(

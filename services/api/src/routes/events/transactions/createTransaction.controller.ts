@@ -4,7 +4,7 @@ import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
-import { Route } from "../../route.types";
+import { type Route } from "../../route.types";
 import { toEventV2IO } from "../eventV2.io";
 import { createEventQuery } from "../queries/createEvent.query";
 import { ActorEntity } from "@entities/Actor.entity";

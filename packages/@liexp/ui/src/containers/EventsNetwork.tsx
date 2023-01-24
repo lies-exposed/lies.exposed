@@ -2,7 +2,7 @@ import { getEventsMetadata } from "@liexp/shared/helpers/event/event";
 import * as React from "react";
 import {
   EventsSankeyGraph,
-  EventsSankeyGraphProps,
+  type EventsSankeyGraphProps,
 } from "../components/Graph/EventsSankeyGraph";
 import QueriesRenderer from "../components/QueriesRenderer";
 import { Box } from "../components/mui";
@@ -11,7 +11,7 @@ import {
   useGroupsQuery,
 } from "../state/queries/DiscreteQueries";
 import { searchEventsQuery } from "../state/queries/SearchEventsQuery";
-import { EventsQueryParams } from "./EventsPanel";
+import { type EventsQueryParams } from "./EventsPanel";
 
 interface EventsNetworkProps
   extends Omit<

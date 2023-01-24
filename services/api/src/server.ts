@@ -20,13 +20,13 @@ import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { PathReporter } from "io-ts/lib/PathReporter";
-import TelegramBot from "node-telegram-bot-api";
+import type TelegramBot from "node-telegram-bot-api";
 import metadataParser from "page-metadata-parser";
 import puppeteer from "puppeteer-core";
 import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
 import { upsertPinnedMessage } from "@flows/tg/upsertPinnedMessage.flow";
 import {
-  ControllerError,
+  type ControllerError,
   DecodeError,
   toControllerError,
 } from "@io/ControllerError";
@@ -52,7 +52,7 @@ import { MakeNetworksRoutes } from "@routes/networks/networks.routes";
 import { MakeOpenGraphRoutes } from "@routes/open-graph/openGraph.routes";
 import { MakePageRoutes } from "@routes/pages/pages.route";
 import { MakeProjectRoutes } from "@routes/projects/project.routes";
-import { RouteContext } from "@routes/route.types";
+import { type RouteContext } from "@routes/route.types";
 import { MakeStatsRoutes } from "@routes/stats/stats.routes";
 import { MakeUploadsRoutes } from "@routes/uploads/upload.routes";
 import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller.ts";

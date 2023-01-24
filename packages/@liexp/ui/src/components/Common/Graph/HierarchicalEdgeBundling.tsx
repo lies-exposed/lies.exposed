@@ -1,10 +1,10 @@
 // https://observablehq.com/@d3/bilevel-edge-bundling?collection=@d3/d3-hierarchy
 
 import {
-  HierarchicalEdgeBundlingDatum,
-  HierarchicalEdgeBundlingProps as BaseHierarchicalEdgeBundlingProps,
+  type HierarchicalEdgeBundlingDatum,
+  type HierarchicalEdgeBundlingProps as BaseHierarchicalEdgeBundlingProps,
 } from "@liexp/shared/helpers/graph/createHierarchicalEdgeBundlingData";
-import { HierarchyPointNode } from "@visx/hierarchy/lib/types";
+import { type HierarchyPointNode } from "@visx/hierarchy/lib/types";
 import * as d3 from "d3";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
@@ -273,4 +273,4 @@ export function HierarchicalEdgeBundling({
   return <svg ref={svgRef} />;
 }
 
-export { HierarchicalEdgeBundlingProps };
+export type { HierarchicalEdgeBundlingProps };

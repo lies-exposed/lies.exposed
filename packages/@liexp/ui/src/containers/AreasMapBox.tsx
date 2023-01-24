@@ -1,5 +1,5 @@
 import * as React from "react";
-import AreasMap, { AreasMapProps } from "../components/AreasMap";
+import AreasMap, { type AreasMapProps } from "../components/AreasMap";
 import QueriesRenderer from "../components/QueriesRenderer";
 import { useAreasQuery } from "../state/queries/DiscreteQueries";
 

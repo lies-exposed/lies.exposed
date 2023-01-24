@@ -4,7 +4,7 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import * as IOE from "fp-ts/IOEither";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { Route } from "../route.types";
+import { type Route } from "../route.types";
 import { createStatsByEntityType } from "@flows/stats/createStatsByEntityType.flow";
 import { toControllerError } from "@io/ControllerError";
 

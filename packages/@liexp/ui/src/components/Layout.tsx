@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Footer } from "./Footer";
-import Header, { HeaderProps } from "./Header";
+import Header, { type HeaderProps } from "./Header";
 import { Grid } from "./mui";
 
 interface LayoutProps {

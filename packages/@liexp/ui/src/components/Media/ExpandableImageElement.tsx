@@ -1,4 +1,4 @@
-import { Media } from "@liexp/shared/io/http";
+import { type Media } from "@liexp/shared/io/http";
 import { CloseOutlined, ExpandMore } from "@mui/icons-material";
 import * as React from "react";
 import { styled } from '../../theme';

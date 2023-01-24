@@ -1,5 +1,5 @@
 import * as A from "fp-ts/Array";
-import * as Eq from "fp-ts/Eq";
+import type * as Eq from "fp-ts/Eq";
 import { pipe } from "fp-ts/function";
 
 export const groupBy = <A>(S: Eq.Eq<A>): ((as: A[]) => A[][]) => {

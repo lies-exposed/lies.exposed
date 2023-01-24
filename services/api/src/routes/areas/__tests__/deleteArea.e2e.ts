@@ -1,8 +1,8 @@
-import { http } from "@liexp/shared/io";
+import { type http } from "@liexp/shared/io";
 import { AreaArb } from "@liexp/shared/tests/arbitrary/Area.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as tests from "@liexp/test";
-import { AppTest, GetAppTest } from "../../../../test/AppTest";
+import { type AppTest, GetAppTest } from "../../../../test/AppTest";
 import { AreaEntity } from "@entities/Area.entity";
 
 describe("Delete Area", () => {

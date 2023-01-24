@@ -1,7 +1,7 @@
 import * as React from "react";
-import { GetListParams } from "react-admin";
+import { type GetListParams } from "react-admin";
 import QueriesRenderer from "../components/QueriesRenderer";
-import { Area, AreaList } from "../components/lists/AreaList";
+import { type Area, AreaList } from "../components/lists/AreaList";
 import { useAreasQuery } from "../state/queries/DiscreteQueries";
 
 const AreasBox: React.FC<{

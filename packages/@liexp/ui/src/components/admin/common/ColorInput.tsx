@@ -1,6 +1,6 @@
 import get from "lodash/get";
 import * as React from "react";
-import { TextInput, TextInputProps, useRecordContext } from "react-admin";
+import { TextInput, type TextInputProps, useRecordContext } from "react-admin";
 
 export const ColorInput: React.FC<TextInputProps> = (props) => {
   const record = useRecordContext();

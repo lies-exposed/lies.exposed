@@ -1,4 +1,4 @@
-import { Events } from "@liexp/shared/io/http";
+import { type Events } from "@liexp/shared/io/http";
 import * as A from "fp-ts/Array";
 import { pipe } from "fp-ts/function";
 import React from "react";

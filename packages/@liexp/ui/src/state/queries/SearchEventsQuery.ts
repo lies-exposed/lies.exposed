@@ -1,29 +1,29 @@
 import { GetLogger } from "@liexp/core/logger";
-import { ListEventOutput } from "@liexp/shared/endpoints/event.endpoints";
-import { EventRelationIds } from "@liexp/shared/helpers/event/event";
+import { type ListEventOutput } from "@liexp/shared/endpoints/event.endpoints";
+import { type EventRelationIds } from "@liexp/shared/helpers/event/event";
 import {
   getNewRelationIds,
   updateCache,
-  SearchEventsQueryCache,
+  type SearchEventsQueryCache,
 } from "@liexp/shared/helpers/event/search-event";
 import {
-  Actor,
-  Events,
-  Group,
-  GroupMember,
-  Keyword,
-  Media,
+  type Actor,
+  type Events,
+  type Group,
+  type GroupMember,
+  type Keyword,
+  type Media,
 } from "@liexp/shared/io/http";
-import { EventTotals, GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
-import { APIError } from "@liexp/shared/providers/http/http.provider";
+import { type EventTotals, type GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
+import { type APIError } from "@liexp/shared/providers/http/http.provider";
 import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import {
   useInfiniteQuery,
-  UseInfiniteQueryResult,
+  type UseInfiniteQueryResult,
   useQuery,
-  UseQueryResult,
+  type UseQueryResult,
 } from "react-query";
 import { foldTE } from "../../providers/DataProvider";
 import { api } from "../api";

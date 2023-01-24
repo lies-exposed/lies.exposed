@@ -1,4 +1,4 @@
-import { Article } from "@liexp/shared/io/http/Article";
+import { type Article } from "@liexp/shared/io/http/Article";
 import * as React from "react";
 import { Grid } from "../mui";
 import { ArticleCard } from "./ArticleCard";

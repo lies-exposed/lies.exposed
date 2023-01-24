@@ -4,7 +4,7 @@ import { PageContent } from "@liexp/ui/components/PageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { ActorList } from "@liexp/ui/components/lists/ActorList";
 import { useActorsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
-import { RouteComponentProps } from "@reach/router";
+import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 

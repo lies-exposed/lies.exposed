@@ -2,9 +2,9 @@ import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { useMediaQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import {
   MediaTemplateUI,
-  MediaTemplateUIProps
+  type MediaTemplateUIProps
 } from "@liexp/ui/templates/MediaTemplateUI";
-import { Meta, Story } from "@storybook/react/types-6-0";
+import { type Meta, type Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 
 const meta: Meta = {

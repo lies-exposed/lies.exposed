@@ -1,4 +1,4 @@
-import * as logger from "@liexp/core/logger";
+import type * as logger from "@liexp/core/logger";
 import * as IO from "fp-ts/IO";
 import * as IOE from "fp-ts/IOEither";
 import { pipe } from "fp-ts/function";

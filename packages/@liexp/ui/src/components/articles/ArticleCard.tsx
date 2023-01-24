@@ -1,4 +1,4 @@
-import { Article } from "@liexp/shared/io/http/Article";
+import { type Article } from "@liexp/shared/io/http/Article";
 import { formatDate } from "@liexp/shared/utils/date";
 import { parseISO } from "date-fns";
 import * as t from "io-ts";

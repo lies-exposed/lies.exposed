@@ -12,7 +12,7 @@ import {
   useActorsQuery,
   useGroupsQuery,
 } from "@liexp/ui/state/queries/DiscreteQueries";
-import { RouteComponentProps } from "@reach/router";
+import { type RouteComponentProps } from "@reach/router";
 import subYears from "date-fns/subYears";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";

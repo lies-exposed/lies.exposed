@@ -1,4 +1,4 @@
-import { MP4Type } from "@liexp/shared/io/http/Media";
+import { type MP4Type } from "@liexp/shared/io/http/Media";
 import * as React from "react";
 import { styled } from "../../theme";
 import { VideoCover } from "../Media/VideoCover";

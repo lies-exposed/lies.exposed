@@ -1,6 +1,6 @@
-import { APIError } from "@liexp/shared/providers/http/http.provider";
+import { type APIError } from "@liexp/shared/providers/http/http.provider";
 import * as React from "react";
-import { QueryObserverSuccessResult, UseQueryResult } from "react-query";
+import { type QueryObserverSuccessResult, type UseQueryResult } from "react-query";
 import { ErrorBox } from "./Common/ErrorBox";
 import { FullSizeLoader } from "./Common/FullSizeLoader";
 import { Loader } from "./Common/Loader";

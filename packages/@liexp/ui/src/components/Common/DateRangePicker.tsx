@@ -1,7 +1,7 @@
 import * as React from "react";
 import { styled } from "../../theme";
 import { Grid } from "../mui";
-import DatePicker, { DatePickerProps } from "./DatePicker";
+import DatePicker, { type DatePickerProps } from "./DatePicker";
 
 const PREFIX = "date-range-picker";
 const classes = {

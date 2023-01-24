@@ -1,5 +1,5 @@
 import { EventType } from "@liexp/shared/io/http/Events";
-import { GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
+import { type GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
 import { Box, Grid } from "@liexp/ui/components/mui";
@@ -9,8 +9,8 @@ import {
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import {
   clearSearchEventsQueryCache,
-  SearchEventQueryInput,
-  SearchEventsQueryInputNoPagination
+  type SearchEventQueryInput,
+  type SearchEventsQueryInputNoPagination
 } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { styled } from "@liexp/ui/theme";
 import {
@@ -20,7 +20,7 @@ import {
 } from "@liexp/ui/utils/history.utils";
 import * as React from "react";
 import { queryClient } from "../state/queries";
-import { EventsView, useNavigateToResource } from "../utils/location.utils";
+import { type EventsView, useNavigateToResource } from "../utils/location.utils";
 
 const PREFIX = "EventsPage";
 

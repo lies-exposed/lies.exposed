@@ -7,11 +7,11 @@ import * as t from "io-ts";
 import { BigIntFromString } from "io-ts-types/lib/BigIntFromString";
 import {
   Equal,
-  FindOperator,
+  type FindOperator,
   In,
   Like,
-  SelectQueryBuilder,
-  ObjectLiteral,
+  type SelectQueryBuilder,
+  type ObjectLiteral,
 } from "typeorm";
 
 interface ORMOrder {

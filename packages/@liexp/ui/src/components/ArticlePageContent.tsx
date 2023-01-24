@@ -1,5 +1,5 @@
-import { Article } from "@liexp/shared/io/http";
-import { Keyword } from "@liexp/shared/io/http/Keyword";
+import { type Article } from "@liexp/shared/io/http";
+import { type Keyword } from "@liexp/shared/io/http/Keyword";
 import { isValidValue } from "@liexp/shared/slate";
 import { formatDate } from "@liexp/shared/utils/date";
 import { parseISO } from "date-fns";

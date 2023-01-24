@@ -1,7 +1,7 @@
 import get from "lodash/get";
 import has from "lodash/has";
 import * as React from "react";
-import { FieldProps, useRecordContext } from "react-admin";
+import { type FieldProps, useRecordContext } from "react-admin";
 import { Button } from "../../mui";
 
 interface WebPreviewButtonProps extends FieldProps {

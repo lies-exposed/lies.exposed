@@ -1,4 +1,4 @@
-import { Article } from "../io/http";
+import { type Article } from "../io/http";
 import { uuid } from "../utils/uuid";
 import { firstImage } from "./images";
 

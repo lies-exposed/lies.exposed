@@ -1,13 +1,13 @@
 import { GetLogger } from "@liexp/core/logger";
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { type AxiosRequestConfig, type AxiosResponse } from "axios";
 import * as A from "fp-ts/Array";
 import * as R from "fp-ts/Record";
-import * as TE from "fp-ts/TaskEither";
+import type * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { MinimalEndpointInstance, TypeOfEndpointInstance } from "ts-endpoint";
+import { type MinimalEndpointInstance, type TypeOfEndpointInstance } from "ts-endpoint";
 import { Endpoints } from "../../endpoints";
-import { ResourceEndpoints } from "../../endpoints/types";
-import { APIError, HTTP, liftFetch } from "./http.provider";
+import { type ResourceEndpoints } from "../../endpoints/types";
+import { type APIError, HTTP, liftFetch } from "./http.provider";
 
 const apiLogger = GetLogger("API");
 

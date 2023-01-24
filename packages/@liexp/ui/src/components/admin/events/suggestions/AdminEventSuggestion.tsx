@@ -6,17 +6,12 @@ import { checkIsAdmin } from "@liexp/shared/utils/user.utils";
 import * as React from "react";
 import {
   BooleanInput,
-  Button,
-  Datagrid,
-  DateField,
-  DateInput,
-  EditProps,
-  FormDataConsumer,
+  Button, Datagrid,
+  DateField, FormDataConsumer,
   FormTab,
+  DateInput,
   FunctionField,
-  List,
-  ListProps,
-  LoadingPage,
+  List, LoadingPage,
   ReferenceField,
   SelectInput,
   TabbedForm,
@@ -25,7 +20,7 @@ import {
   useGetIdentity,
   usePermissions,
   useRecordContext,
-  useRefresh,
+  useRefresh, type EditProps, type ListProps
 } from "react-admin";
 import { EventIcon } from "../../../Common/Icons";
 import ReactPageInput from "../../../admin/ReactPageInput";

@@ -4,7 +4,7 @@ import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
-import { Route } from "../route.types";
+import { type Route } from "../route.types";
 import { ProjectEntity } from "@entities/Project.entity";
 import { ProjectImageEntity } from "@entities/ProjectImage.entity";
 import { authenticationHandler } from "@utils/authenticationHandler";

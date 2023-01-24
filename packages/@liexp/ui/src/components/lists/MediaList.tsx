@@ -1,10 +1,10 @@
-import * as io from "@liexp/shared/io/http";
+import type * as io from "@liexp/shared/io/http";
 import { clsx } from "clsx";
 import * as React from "react";
 import { styled } from "../../theme";
-import { ListItemProps } from "../Common/List";
+import { type ListItemProps } from "../Common/List";
 import { defaultImage } from "../SEO";
-import { Box, Grid, ListProps, Typography } from "../mui";
+import { Box, Grid, type ListProps, Typography } from "../mui";
 
 export interface Media extends io.Media.Media {
   selected: boolean;

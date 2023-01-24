@@ -1,6 +1,6 @@
 import {
   GroupPageContent,
-  GroupPageContentProps,
+  type GroupPageContentProps,
 } from "@liexp/ui/components/GroupPageContent";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
@@ -8,7 +8,7 @@ import {
   useGroupsQuery,
   useGroupMembersQuery,
 } from "@liexp/ui/state/queries/DiscreteQueries";
-import { Meta, Story } from "@storybook/react/types-6-0";
+import { type Meta, type Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 
 const meta: Meta = {

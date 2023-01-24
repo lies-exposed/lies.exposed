@@ -1,6 +1,6 @@
 import * as AWS from "aws-sdk";
-import { Reader } from "fp-ts/Reader";
-import { MakeSpaceClient, SpaceClient } from "./SpaceClient";
+import { type Reader } from "fp-ts/Reader";
+import { MakeSpaceClient, type SpaceClient } from "./SpaceClient";
 
 type GetS3ClientConfig = AWS.S3.Types.ClientConfiguration;
 

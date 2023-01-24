@@ -1,17 +1,17 @@
 import {
   getPlatformEmbedURL,
-  VideoPlatformMatch,
+  type VideoPlatformMatch,
 } from "@liexp/shared/helpers/media";
-import { URL } from "@liexp/shared/io/http/Common";
+import { type URL } from "@liexp/shared/io/http/Common";
 import { IframeVideoType } from "@liexp/shared/io/http/Media";
 import * as TE from "fp-ts/TaskEither";
 import { sequenceS } from "fp-ts/lib/Apply";
 import { pipe } from "fp-ts/lib/function";
 import type * as puppeteer from "puppeteer-core";
 import { extractThumbnail } from "./createThumbnail.flow";
-import { MediaEntity } from "@entities/Media.entity";
-import { ControllerError, toControllerError } from "@io/ControllerError";
-import { RouteContext } from "@routes/route.types";
+import { type MediaEntity } from "@entities/Media.entity";
+import { type ControllerError, toControllerError } from "@io/ControllerError";
+import { type RouteContext } from "@routes/route.types";
 
 export const extractDescriptionFromPlatform = (
   m: VideoPlatformMatch,

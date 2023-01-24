@@ -1,25 +1,25 @@
 import fs from "fs";
 import path from "path";
-import { EventRelationIds } from "@liexp/shared/helpers/event/event";
+import { type EventRelationIds } from "@liexp/shared/helpers/event/event";
 import {
   getNewRelationIds,
-  SearchEventsQueryCache,
+  type SearchEventsQueryCache,
   updateCache,
 } from "@liexp/shared/helpers/event/search-event";
 import {
   createHierarchicalEdgeBundling,
-  HierarchicalEdgeBundlingProps,
+  type HierarchicalEdgeBundlingProps,
 } from "@liexp/shared/helpers/graph/createHierarchicalEdgeBundlingData";
 import {
-  Actor,
-  Group,
-  GroupMember,
-  Keyword,
-  Media,
+  type Actor,
+  type Group,
+  type GroupMember,
+  type Keyword,
+  type Media,
 } from "@liexp/shared/io/http";
 import { EventType } from "@liexp/shared/io/http/Events";
 import { StatsType } from "@liexp/shared/io/http/Stats";
-import { DBError } from "@liexp/shared/providers/orm";
+import { type DBError } from "@liexp/shared/providers/orm";
 import { walkPaginatedRequest } from "@liexp/shared/utils/fp.utils";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
@@ -34,7 +34,7 @@ import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { KeywordEntity } from "@entities/Keyword.entity";
 import { MediaEntity } from "@entities/Media.entity";
-import { ControllerError, toControllerError } from "@io/ControllerError";
+import { type ControllerError, toControllerError } from "@io/ControllerError";
 import { toActorIO } from "@routes/actors/actor.io";
 import { toEventV2IO } from "@routes/events/eventV2.io";
 import { searchEventV2Query } from "@routes/events/queries/searchEventsV2.query";
@@ -42,7 +42,7 @@ import { toGroupIO } from "@routes/groups/group.io";
 import { toGroupMemberIO } from "@routes/groups-members/groupMember.io";
 import { toKeywordIO } from "@routes/keywords/keyword.io";
 import { toImageIO } from "@routes/media/media.io";
-import { RouteContext } from "@routes/route.types";
+import { type RouteContext } from "@routes/route.types";
 
 export const createStatsByEntityType =
   (ctx: RouteContext) =>

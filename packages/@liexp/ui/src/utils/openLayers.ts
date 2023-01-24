@@ -1,4 +1,4 @@
-import * as http from "@liexp/shared/io/http";
+import type * as http from "@liexp/shared/io/http";
 import { Polygon } from "ol/geom";
 import { getArea } from "ol/sphere";
 

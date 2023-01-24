@@ -1,8 +1,8 @@
-import { Media } from "@liexp/shared/io/http";
+import { type Media } from "@liexp/shared/io/http";
 import * as React from "react";
 import { styled } from "../../theme";
 import { LinkIcon } from "../Common/Icons";
-import { Slider, SliderProps } from "../Common/Slider/Slider";
+import { Slider, type SliderProps } from "../Common/Slider/Slider";
 import MediaElement from "../Media/MediaElement";
 
 const MEDIA_SLIDER_PREFIX = "media-slider";

@@ -1,11 +1,11 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { Router } from "express";
+import { type Router } from "express";
 import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal, Raw } from "typeorm";
 import { ActorEntity } from "../../entities/Actor.entity";
-import { RouteContext } from "../route.types";
+import { type RouteContext } from "../route.types";
 import { toActorIO } from "./actor.io";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 

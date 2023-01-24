@@ -1,5 +1,5 @@
 import * as S from "fp-ts/string";
-import { Actor, Common, Group } from "../io/http";
+import { type Actor, type Common, type Group } from "../io/http";
 
 export const getActors =
   (allActors: Actor.Actor[]) =>

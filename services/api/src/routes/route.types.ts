@@ -1,6 +1,6 @@
-import { ServerContext } from "@liexp/shared/context/server";
-import { Router } from "express";
-import { ENV } from "@io/ENV";
+import { type ServerContext } from "@liexp/shared/context/server";
+import { type Router } from "express";
+import { type ENV } from "@io/ENV";
 
 
 export interface RouteContext extends ServerContext {

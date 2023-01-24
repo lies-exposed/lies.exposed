@@ -1,11 +1,11 @@
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { useActorsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
-import { SearchEventsQueryInputNoPagination } from "@liexp/ui/state/queries/SearchEventsQuery";
+import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/state/queries/SearchEventsQuery";
 import {
   ActorTemplate,
-  ActorTemplateProps,
+  type ActorTemplateProps,
 } from "@liexp/ui/templates/ActorTemplate";
-import { Meta, Story } from "@storybook/react/types-6-0";
+import { type Meta, type Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 
 const meta: Meta = {

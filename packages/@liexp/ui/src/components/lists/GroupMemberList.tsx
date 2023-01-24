@@ -1,9 +1,9 @@
-import * as io from "@liexp/shared/io/http";
+import type * as io from "@liexp/shared/io/http";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
-import { Avatar, AvatarSize } from "../Common/Avatar";
-import { List, ListItemProps } from "../Common/List";
+import { Avatar, type AvatarSize } from "../Common/Avatar";
+import { List, type ListItemProps } from "../Common/List";
 import { Box, Typography } from "../mui";
 
 export interface GroupMember extends io.GroupMember.GroupMember {

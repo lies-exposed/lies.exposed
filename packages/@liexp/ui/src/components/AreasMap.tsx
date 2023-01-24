@@ -1,9 +1,9 @@
-import { Area } from "@liexp/shared/io/http";
+import { type Area } from "@liexp/shared/io/http";
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
 import Feature  from "ol/Feature";
 import * as React from "react";
 import { geoJSONFormat } from "../utils/map.utils";
-import Map, { MapProps } from "./Map";
+import Map, { type MapProps } from "./Map";
 
 export interface AreasMapProps extends Pick<MapProps<any>, "onMapClick"> {
   center?: [number, number];

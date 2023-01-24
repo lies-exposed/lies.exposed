@@ -1,7 +1,7 @@
 import EventsBox, {
-  EventsBoxProps
+  type EventsBoxProps
 } from "@liexp/ui/components/containers/EventsBox";
-import { Meta, Story } from "@storybook/react/types-6-0";
+import { type Meta, type Story } from "@storybook/react/types-6-0";
 import * as React from 'react';
 
 const meta: Meta = {

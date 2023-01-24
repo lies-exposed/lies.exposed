@@ -1,9 +1,9 @@
 import { getTotal } from "@liexp/shared/helpers/event";
-import { Actor, Group, GroupMember, Keyword } from "@liexp/shared/io/http";
+import { type Actor, type Group, type GroupMember, type Keyword } from "@liexp/shared/io/http";
 import {
   Death,
   Documentary,
-  EventType,
+  type EventType,
   Patent,
   Quote,
   ScientificStudy,
@@ -15,7 +15,7 @@ import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
 import { PATENT } from "@liexp/shared/io/http/Events/Patent";
 import { QUOTE } from "@liexp/shared/io/http/Events/Quote";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
-import { EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
+import { type EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import { TRANSACTION } from "@liexp/shared/io/http/Events/Transaction";
 import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
 import ArrowDownIcon from "@mui/icons-material/ArrowDownward";
@@ -25,7 +25,7 @@ import * as R from "fp-ts/Record";
 import { pipe } from "fp-ts/function";
 import * as S from "fp-ts/string";
 import * as React from "react";
-import { SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery";
+import { type SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery";
 import { styled } from "../../theme";
 import { ActorList } from "../lists/ActorList";
 import GroupList from "../lists/GroupList";

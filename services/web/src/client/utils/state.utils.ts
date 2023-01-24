@@ -1,7 +1,7 @@
-import { APIError } from "@liexp/shared/providers/http/http.provider";
+import { type APIError } from "@liexp/shared/providers/http/http.provider";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import * as t from "io-ts";
+import type * as t from "io-ts";
 import { stateLogger } from "./logger.utils";
 
 export const toKey = (cachePrefix: string, hash?: string): string => {

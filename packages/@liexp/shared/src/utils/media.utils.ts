@@ -1,6 +1,6 @@
 import { fp } from "@liexp/core/fp";
 import { pipe } from "fp-ts/lib/function";
-import { ValidContentType } from "../endpoints/upload.endpoints";
+import { type ValidContentType } from "../endpoints/upload.endpoints";
 import * as Media from "../io/http/Media";
 
 export const fileExtFromContentType = (c: ValidContentType): string => {

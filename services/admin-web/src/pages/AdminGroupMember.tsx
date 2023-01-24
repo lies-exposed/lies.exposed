@@ -1,4 +1,4 @@
-import * as http from '@liexp/shared/io/http';
+import type * as http from '@liexp/shared/io/http';
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { AvatarField } from "@liexp/ui/components/admin/common/AvatarField";
 import ReferenceActorInput from "@liexp/ui/components/admin/common/ReferenceActorInput";
@@ -9,14 +9,14 @@ import { FormControl, Grid } from "@liexp/ui/components/mui";
 import * as React from "react";
 import {
   Create,
-  CreateProps,
+  type CreateProps,
   Datagrid,
   DateField,
   DateInput,
   Edit, FormTab,
   List,
-  ListProps,
-  RaRecord,
+  type ListProps,
+  type RaRecord,
   ReferenceField,
   ReferenceManyField,
   SimpleForm,

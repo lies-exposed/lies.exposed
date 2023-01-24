@@ -2,7 +2,7 @@ import { MediaType } from "@liexp/shared/io/http/Media";
 import get from "lodash/get";
 import * as React from "react";
 import {
-  FieldProps,
+  type FieldProps,
   ImageField,
   UrlField,
   useRecordContext,

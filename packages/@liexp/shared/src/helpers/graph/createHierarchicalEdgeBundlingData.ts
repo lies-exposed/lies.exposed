@@ -7,8 +7,8 @@ import * as O from "fp-ts/Option";
 import * as Ord from "fp-ts/Ord";
 import { pipe } from "fp-ts/function";
 import * as S from "fp-ts/string";
-import { Actor, Events, Group, Keyword, Stats } from "../../io/http";
-import { UUID } from "../../io/http/Common";
+import { type Actor, type Events, type Group, type Keyword, Stats } from "../../io/http";
+import { type UUID } from "../../io/http/Common";
 import { getEventsMetadata } from "../event/event";
 
 const logger = GetLogger("hierarchy-edge-bundling");

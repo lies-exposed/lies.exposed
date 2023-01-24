@@ -1,11 +1,11 @@
 import { GetLogger } from "@liexp/core/logger";
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { type AxiosRequestConfig, type AxiosResponse } from "axios";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { flow, pipe } from "fp-ts/function";
 import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter";
-import { MinimalEndpointInstance, TypeOfEndpointInstance } from "ts-endpoint";
+import { type MinimalEndpointInstance, type TypeOfEndpointInstance } from "ts-endpoint";
 
 const apiLogger = GetLogger("http");
 

@@ -1,7 +1,8 @@
-import Feature, { FeatureLike } from "ol/Feature";
+import {type FeatureLike} from "ol/Feature";
+import type Feature from "ol/Feature";
 import OlMap from "ol/Map";
 import * as OlControl from "ol/control";
-import Geometry from "ol/geom/Geometry";
+import type Geometry from "ol/geom/Geometry";
 import * as OlInteraction from "ol/interaction";
 import TileLayer from "ol/layer/Tile";
 import VectorLayer from "ol/layer/Vector";

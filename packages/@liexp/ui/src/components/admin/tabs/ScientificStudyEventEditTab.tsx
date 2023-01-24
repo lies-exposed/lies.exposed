@@ -1,7 +1,7 @@
 import { ScientificStudy } from '@liexp/shared/io/http/Events';
 import * as React from "react";
 import {
-  EditProps, RaRecord, TextInput
+  type EditProps, type RaRecord, TextInput
 } from "react-admin";
 import { Box } from "../../mui";
 import ReferenceArrayActorInput from "../common/ReferenceArrayActorInput";

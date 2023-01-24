@@ -1,10 +1,10 @@
-import { Events } from "@liexp/shared/io/http";
-import { EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
+import { type Events } from "@liexp/shared/io/http";
+import { type EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import * as React from "react";
 import { styled } from "../../theme";
-import { Slider, SliderProps } from "../Common/Slider/Slider";
+import { Slider, type SliderProps } from "../Common/Slider/Slider";
 import { Box } from "../mui";
-import EventSliderItem, { EventSliderItemBaseProps } from "./EventSliderItem";
+import EventSliderItem, { type EventSliderItemBaseProps } from "./EventSliderItem";
 
 const EVENT_SLIDER_PREFIX = "event-slider";
 

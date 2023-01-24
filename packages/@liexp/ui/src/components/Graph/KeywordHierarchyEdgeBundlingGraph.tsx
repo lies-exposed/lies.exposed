@@ -2,7 +2,7 @@ import * as React from "react";
 import { useStatsQuery } from "../../state/queries/DiscreteQueries";
 import {
   HierarchicalEdgeBundling,
-  HierarchicalEdgeBundlingOnClickProps,
+  type HierarchicalEdgeBundlingOnClickProps,
 } from "../Common/Graph/HierarchicalEdgeBundling";
 import QueriesRenderer from "../QueriesRenderer";
 

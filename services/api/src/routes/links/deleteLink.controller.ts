@@ -1,11 +1,11 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { checkIsAdmin } from "@liexp/shared/utils/user.utils";
-import { Router } from "express";
+import { type Router } from "express";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
-import { RouteContext } from "../route.types";
+import { type RouteContext } from "../route.types";
 import { LinkEntity } from "@entities/Link.entity";
 import { NotFoundError } from "@io/ControllerError";
 import { authenticationHandler } from "@utils/authenticationHandler";

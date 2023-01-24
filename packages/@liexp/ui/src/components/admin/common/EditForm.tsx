@@ -1,4 +1,4 @@
-import { Edit, EditProps } from "ra-ui-materialui";
+import { Edit, type EditProps } from "ra-ui-materialui";
 import * as React from "react";
 import { Button, Grid } from "../../mui";
 

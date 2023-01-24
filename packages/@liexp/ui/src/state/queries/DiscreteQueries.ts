@@ -1,29 +1,29 @@
 import {
-  Actor,
-  Area,
-  Article,
-  Events,
-  Group,
-  GroupMember,
-  Keyword,
-  Link,
-  Media,
-  Page,
-  Project,
+  type Actor,
+  type Area,
+  type Article,
+  type Events,
+  type Group,
+  type GroupMember,
+  type Keyword,
+  type Link,
+  type Media,
+  type Page,
+  type Project,
 } from "@liexp/shared/io/http";
 import {
-  GetNetworkParams,
-  GetNetworkQuery,
+  type GetNetworkParams,
+  type GetNetworkQuery,
 } from "@liexp/shared/io/http/Network";
-import { APIError } from "@liexp/shared/providers/http/http.provider";
+import { type APIError } from "@liexp/shared/providers/http/http.provider";
 import * as A from "fp-ts/Array";
 import * as R from "fp-ts/Record";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import * as t from "io-ts";
+import type * as t from "io-ts";
 import type { GetListParams, GetOneParams } from "react-admin";
-import { useQuery, UseQueryResult } from "react-query";
-import { serializedType } from "ts-io-error/lib/Codec";
+import { useQuery, type UseQueryResult } from "react-query";
+import { type serializedType } from "ts-io-error/lib/Codec";
 import {
   articleByPath,
   foldTE,

@@ -1,16 +1,16 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { Link } from "@liexp/shared/io/http";
-import { Router } from "express";
+import { type Link } from "@liexp/shared/io/http";
+import { type Router } from "express";
 import { sequenceS } from "fp-ts/Apply";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { Metadata } from "page-metadata-parser";
+import { type Metadata } from "page-metadata-parser";
 import { Equal } from 'typeorm';
 import { LinkEntity } from "@entities/Link.entity";
-import { ControllerError, ServerError } from "@io/ControllerError";
+import { type ControllerError, ServerError } from "@io/ControllerError";
 import { toLinkIO } from "@routes/links/link.io";
-import { RouteContext } from "@routes/route.types";
+import { type RouteContext } from "@routes/route.types";
 
 export const MakeGetMetadataRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(

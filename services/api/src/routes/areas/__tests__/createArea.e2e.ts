@@ -1,6 +1,6 @@
 import { MediaArb } from "@liexp/shared/tests";
 import * as tests from "@liexp/test";
-import { AppTest, GetAppTest } from "../../../../test/AppTest";
+import { type AppTest, GetAppTest } from "../../../../test/AppTest";
 import { loginUser, saveUser } from "../../../../test/user.utils";
 
 describe("Create Area", () => {

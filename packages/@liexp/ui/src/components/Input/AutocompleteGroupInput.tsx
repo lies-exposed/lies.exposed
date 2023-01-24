@@ -1,4 +1,4 @@
-import { Group } from "@liexp/shared/io/http";
+import { type Group } from "@liexp/shared/io/http";
 import * as React from "react";
 import { useGroupsQuery } from "../../state/queries/DiscreteQueries";
 import GroupList, { GroupListItem } from "../lists/GroupList";

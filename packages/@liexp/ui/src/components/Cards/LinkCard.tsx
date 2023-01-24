@@ -1,4 +1,4 @@
-import { http } from "@liexp/shared/io";
+import { type http } from "@liexp/shared/io";
 import { formatDate, parseISO } from "@liexp/shared/utils/date";
 import LinkIcon from "@mui/icons-material/LinkOutlined";
 import ShareIcon from "@mui/icons-material/ShareOutlined";

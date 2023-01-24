@@ -5,7 +5,7 @@ import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import GroupList from "@liexp/ui/components/lists/GroupList";
 import { Typography } from "@liexp/ui/components/mui";
 import { useGroupsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
-import { RouteComponentProps } from "@reach/router";
+import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 

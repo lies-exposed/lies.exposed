@@ -1,4 +1,4 @@
-import { WindowLocation } from "@reach/router";
+import { type WindowLocation } from "@reach/router";
 import * as E from "fp-ts/Either";
 import { eqString } from "fp-ts/Eq";
 import * as R from "fp-ts/Record";
