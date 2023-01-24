@@ -1,11 +1,11 @@
 import { ordEventDate } from "@liexp/shared/helpers/event/event";
-import { Events } from "@liexp/shared/io/http";
+import { type Events } from "@liexp/shared/io/http";
 import { formatDate } from "@liexp/shared/utils/date";
 import { Group } from "@visx/group";
 import { HeatmapCircle } from "@visx/heatmap";
 import { scaleLinear } from "@visx/scale";
 import { TooltipWithBounds, withTooltip } from "@visx/tooltip";
-import { WithTooltipProvidedProps } from "@visx/tooltip/lib/enhancers/withTooltip";
+import { type WithTooltipProvidedProps } from "@visx/tooltip/lib/enhancers/withTooltip";
 import { addDays, differenceInDays } from "date-fns";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";

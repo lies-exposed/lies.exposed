@@ -1,8 +1,8 @@
 import * as io from "@liexp/shared/io";
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
-import { ProjectEntity } from "@entities/Project.entity";
-import { ControllerError, DecodeError } from "@io/ControllerError";
+import { type ProjectEntity } from "@entities/Project.entity";
+import { type ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toProjectIO = (
   project: ProjectEntity

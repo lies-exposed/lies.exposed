@@ -1,4 +1,4 @@
-import { Media } from "@liexp/shared/io/http";
+import { type Media } from "@liexp/shared/io/http";
 import * as React from "react";
 import { useMediaQuery } from "../../state/queries/DiscreteQueries";
 import { MediaList, MediaListItem } from "../lists/MediaList";

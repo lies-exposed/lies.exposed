@@ -52,7 +52,7 @@ import {
   FormTab,
   FunctionField,
   List,
-  RaRecord as Record,
+  type RaRecord as Record,
   ReferenceField,
   SavedQueriesList,
   TabbedForm,

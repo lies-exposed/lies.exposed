@@ -1,5 +1,5 @@
 import * as io from "@liexp/shared/io";
-import { Media } from "@liexp/shared/io/http";
+import { type Media } from "@liexp/shared/io/http";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { uploadImages } from "@liexp/ui/client/admin/MediaAPI";
@@ -18,25 +18,25 @@ import { pipe } from "fp-ts/function";
 import * as React from "react";
 import {
   ArrayInput,
-  ArrayInputProps,
+  type ArrayInputProps,
   AutocompleteArrayInput,
   Create,
-  CreateProps,
+  type CreateProps,
   Datagrid,
-  DataProvider,
+  type DataProvider,
   DateField,
   DateInput,
-  EditProps,
+  type EditProps,
   FormTab,
   FunctionField,
   ImageField,
   ImageInput,
   List,
-  RaRecord,
+  type RaRecord,
   ReferenceArrayInput,
   ReferenceManyField,
   SelectInput,
-  SelectInputProps,
+  type SelectInputProps,
   SimpleForm,
   SimpleFormIterator,
   TabbedForm,

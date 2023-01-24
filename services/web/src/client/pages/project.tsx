@@ -1,7 +1,7 @@
 import { ContentWithSidebar } from "@liexp/ui/components/ContentWithSidebar";
 import { PageContent } from "@liexp/ui/components/PageContent";
 import { TableOfContents } from "@liexp/ui/components/TableOfContents";
-import { RouteComponentProps } from "@reach/router";
+import { type RouteComponentProps } from "@reach/router";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
 import * as React from "react";

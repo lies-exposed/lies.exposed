@@ -2,7 +2,7 @@ import { execSync } from "child_process";
 import * as path from "path";
 import * as logger from "@liexp/core/logger";
 import * as E from "fp-ts/Either";
-import * as T from "fp-ts/Task";
+import type * as T from "fp-ts/Task";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { PathReporter } from "io-ts/lib/PathReporter";

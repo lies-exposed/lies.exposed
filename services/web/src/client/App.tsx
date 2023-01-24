@@ -5,7 +5,7 @@ import SEO from "@liexp/ui/components/SEO";
 import { Grid, useMediaQuery } from "@liexp/ui/components/mui";
 import { useTheme } from "@liexp/ui/theme";
 import * as React from "react";
-import { ErrorBoundary, FallbackProps } from "react-error-boundary";
+import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 import { Route, Routes, useLocation } from "react-router";
 import AppHeader, { logo192 } from "./components/header/AppHeader";
 import { routes } from "./routes";

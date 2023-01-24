@@ -2,7 +2,7 @@ import React from "react";
 import {
   AutocompleteArrayInput,
   ReferenceArrayInput,
-  ReferenceArrayInputProps,
+  type ReferenceArrayInputProps,
 } from "react-admin";
 
 const ReferenceArrayGroupMemberInput: React.FC<

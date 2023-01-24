@@ -5,7 +5,7 @@ import { pipe } from "fp-ts/function";
 import { editEventQuery } from "../queries/editEvent.query";
 import { toEventSuggestion } from "./eventSuggestion.io"
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
-import { Route } from "@routes/route.types";
+import { type Route } from "@routes/route.types";
 
 export const EditEventSuggestionRoute: Route = (r, ctx) => {
   AddEndpoint(r)(

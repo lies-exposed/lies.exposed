@@ -1,11 +1,11 @@
-import { http } from "@liexp/shared/io";
+import { type http } from "@liexp/shared/io";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { UUID } from "io-ts-types/lib/UUID";
+import { type UUID } from "io-ts-types/lib/UUID";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
-import { ControllerError } from "@io/ControllerError";
-import { RouteContext } from "@routes/route.types";
+import { type ControllerError } from "@io/ControllerError";
+import { type RouteContext } from "@routes/route.types";
 import { addOrder } from "@utils/orm.utils";
 
 interface SearchEventSuggestionFilter {

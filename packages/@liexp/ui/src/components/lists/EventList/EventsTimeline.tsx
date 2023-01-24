@@ -5,16 +5,16 @@ import {
   ScientificStudy,
   Uncategorized,
 } from "@liexp/shared/io/http/Events";
-import { EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
+import { type EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import * as React from "react";
-import { AutoSizer, Index, IndexRange, InfiniteLoader } from "react-virtualized";
+import { AutoSizer, type Index, type IndexRange, InfiniteLoader } from "react-virtualized";
 import {
-  SearchEventQueryInput,
+  type SearchEventQueryInput,
   searchEventsInfiniteQuery,
 } from "../../../state/queries/SearchEventsQuery";
 import { FullSizeLoader } from "../../Common/FullSizeLoader";
 import { Box } from "../../mui";
-import { EventListItemProps } from "./EventListItem";
+import { type EventListItemProps } from "./EventListItem";
 import EventsTimelineList from "./EventsTimelineList";
 
 export interface EventsTimelineProps

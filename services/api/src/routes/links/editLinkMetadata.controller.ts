@@ -1,7 +1,7 @@
 import { AddEndpoint } from "@liexp/shared/endpoints";
 import { UpdateMetadata } from "@liexp/shared/endpoints/link.endpoints";
 import { uuid } from "@liexp/shared/utils/uuid";
-import { Router } from "express";
+import { type Router } from "express";
 import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
@@ -9,7 +9,7 @@ import { Equal } from "typeorm";
 import { toLinkIO } from "./link.io";
 import { LinkEntity } from "@entities/Link.entity";
 import { ServerError } from "@io/ControllerError";
-import { RouteContext } from "@routes/route.types";
+import { type RouteContext } from "@routes/route.types";
 import { authenticationHandler } from '@utils/authenticationHandler';
 
 export const MakeEditLinkMetadataRoute = (

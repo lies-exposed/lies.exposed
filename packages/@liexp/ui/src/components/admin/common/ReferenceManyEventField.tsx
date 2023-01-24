@@ -3,7 +3,7 @@ import React from "react";
 import {
   BooleanField,
   Datagrid,
-  FunctionField, ReferenceManyField, ReferenceManyFieldProps
+  FunctionField, ReferenceManyField, type ReferenceManyFieldProps
 } from "react-admin";
 
 const ReferenceManyEventField: React.FC<

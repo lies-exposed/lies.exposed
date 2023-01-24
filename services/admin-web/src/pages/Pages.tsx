@@ -1,17 +1,17 @@
-import { http } from "@liexp/shared/io";
+import { type http } from "@liexp/shared/io";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
 import PagePreview from "@liexp/ui/components/admin/previews/PagePreview";
 import * as React from "react";
 import {
   Create,
-  CreateProps,
+  type CreateProps,
   Datagrid,
   DateField,
-  EditProps,
+  type EditProps,
   FormTab,
   List,
-  ListProps,
+  type ListProps,
   required,
   SimpleForm,
   TabbedForm,

@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { type Router } from "express";
 import { MakeCreateScientificStudyRoute } from "./createScientificStudy.controller";
 // import { MakeCreateScientificStudyFromURLRoute } from "./createScientificStudyFromUrl.controller";
 import { MakeDeleteScientificStudyRoute } from "./deleteScientificStudy.controller";
@@ -6,7 +6,7 @@ import { MakeEditScientificStudyRoute } from "./editScientificStudy.controller";
 import { MakeExtractScientificStudyFromURLRoute } from './extractScientificStudyFromUrl.controller';
 import { MakeGetScientificStudyRoute } from "./getScientificStudy.controller";
 import { MakeListScientificStudyRoute } from "./listScientificStudy.controller";
-import { RouteContext } from "@routes/route.types";
+import { type RouteContext } from "@routes/route.types";
 
 export const MakeScientificStudyRoutes = (
   router: Router,

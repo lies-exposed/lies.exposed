@@ -1,5 +1,5 @@
-import { Actor, Group, GroupMember, Keyword } from "@liexp/shared/io/http";
-import { EventType, SearchEvent } from "@liexp/shared/io/http/Events";
+import { type Actor, type Group, type GroupMember, type Keyword } from "@liexp/shared/io/http";
+import { type EventType, type SearchEvent } from "@liexp/shared/io/http/Events";
 import * as React from "react";
 import EventSliderModal from "../components/Modal/EventSliderModal";
 import QueriesRenderer from "../components/QueriesRenderer";
@@ -11,7 +11,7 @@ import {
   useGroupsQuery,
   useKeywordsQuery,
 } from "../state/queries/DiscreteQueries";
-import { SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
+import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
 import { styled } from "../theme";
 
 const PREFIX = "EventsPanel";

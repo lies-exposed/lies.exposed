@@ -1,11 +1,11 @@
 import * as qs from "querystring";
-import { MediaType } from "@liexp/shared/io/http/Media";
+import { type MediaType } from "@liexp/shared/io/http/Media";
 import axios from "axios";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { DataProvider } from "react-admin";
+import { type DataProvider } from "react-admin";
 
 export interface RawMedia {
   location: {

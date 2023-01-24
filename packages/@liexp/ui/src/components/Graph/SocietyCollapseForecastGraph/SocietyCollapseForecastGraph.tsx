@@ -2,7 +2,7 @@ import {
   ClimateChangeForecast,
   ClimateChangeHistoryOfSummits,
 } from "@liexp/shared/endpoints/graph.endpoints";
-import { Forecast } from "@liexp/shared/io/http/climate-change/Forecast";
+import { type Forecast } from "@liexp/shared/io/http/climate-change/Forecast";
 import { numTicksForWidth } from "@liexp/shared/utils/graph.utils";
 import { AxisBottom } from "@visx/axis";
 import { curveBasis, curveBasisOpen } from "@visx/curve";

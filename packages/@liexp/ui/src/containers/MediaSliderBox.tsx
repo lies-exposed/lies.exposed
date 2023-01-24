@@ -1,10 +1,10 @@
 import * as React from "react";
-import { GetListParams } from "react-admin";
+import { type GetListParams } from "react-admin";
 import QueriesRenderer from "../components/QueriesRenderer";
 import { Box } from "../components/mui";
 import {
   MediaSlider,
-  MediaSliderProps
+  type MediaSliderProps
 } from "../components/sliders/MediaSlider";
 import { useMediaQuery } from "../state/queries/DiscreteQueries";
 

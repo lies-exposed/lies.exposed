@@ -1,7 +1,7 @@
-import { DeathPayload } from "@liexp/shared/io/http/Events/Death";
+import { type DeathPayload } from "@liexp/shared/io/http/Events/Death";
 import { ViewColumn, ViewEntity } from "typeorm";
-import { LinkEntity } from "../Link.entity";
-import { ActorEntity } from "@entities/Actor.entity";
+import { type LinkEntity } from "../Link.entity";
+import { type ActorEntity } from "@entities/Actor.entity";
 
 @ViewEntity({
   expression: `

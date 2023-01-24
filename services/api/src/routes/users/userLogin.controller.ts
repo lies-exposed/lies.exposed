@@ -1,11 +1,11 @@
 import { AddEndpoint, UserLogin } from "@liexp/shared/endpoints";
 import { UserStatusApproved } from '@liexp/shared/io/http/User';
-import { Router } from "express";
+import { type Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { UserEntity } from "@entities/User.entity";
 import { BadRequestError, NotFoundError, ServerError } from "@io/ControllerError";
-import { RouteContext } from "@routes/route.types";
+import { type RouteContext } from "@routes/route.types";
 import * as passwordUtils from "@utils/password.utils";
 
 export const MakeUserLoginRoute = (r: Router, ctx: RouteContext): void => {

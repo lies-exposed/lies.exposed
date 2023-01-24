@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { getPlatform, VideoPlatformMatch } from "@liexp/shared/helpers/media";
+import { getPlatform, type VideoPlatformMatch } from "@liexp/shared/helpers/media";
 import { Media } from "@liexp/shared/io/http";
 import { toPuppeteerError } from "@liexp/shared/providers/puppeteer.provider";
 import axios from "axios";
@@ -10,13 +10,13 @@ import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as pdfJS from "pdfjs-dist/legacy/build/pdf";
-import { Page } from "puppeteer-core";
+import { type Page } from "puppeteer-core";
 import {
-  ControllerError,
+  type ControllerError,
   ServerError,
   toControllerError,
 } from "@io/ControllerError";
-import { RouteContext } from "@routes/route.types";
+import { type RouteContext } from "@routes/route.types";
 
 export const extractThumbnail = (
   match: VideoPlatformMatch,

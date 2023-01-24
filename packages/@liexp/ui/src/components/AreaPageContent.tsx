@@ -1,4 +1,4 @@
-import { Area, Group } from "@liexp/shared/io/http";
+import { type Area, type Group } from "@liexp/shared/io/http";
 import Feature from "ol/Feature";
 import * as React from "react";
 import MediaSliderBox from "../containers/MediaSliderBox";

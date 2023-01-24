@@ -5,7 +5,7 @@ import {
   Covid19WorldVaccineDistribution,
   CovidWHOWorldData,
 } from "@liexp/shared/endpoints/graph.endpoints";
-import { VaccineDistributionDatum } from "@liexp/shared/io/http/covid/VaccineDistributionDatum";
+import { type VaccineDistributionDatum } from "@liexp/shared/io/http/covid/VaccineDistributionDatum";
 import { StatAccordion } from "@liexp/ui/components/Common/StatAccordion";
 // import { VaccineEffectivenessIndicators } from "@liexp/ui/components/Graph/covid/vaccines/VaccineEffectivenessIndicators";
 import { a11yProps, TabPanel } from "@liexp/ui/components/Common/TabPanel";

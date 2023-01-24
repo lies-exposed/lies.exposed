@@ -1,8 +1,8 @@
 import { fp } from "@liexp/core/fp";
 import * as http from "@liexp/shared/io/http";
-import { CreateLink } from "@liexp/shared/io/http/Link";
-import { URLMetadataClient } from "@liexp/shared/providers/URLMetadata.provider";
-import { DBError } from "@liexp/shared/providers/orm";
+import { type CreateLink } from "@liexp/shared/io/http/Link";
+import { type URLMetadataClient } from "@liexp/shared/providers/URLMetadata.provider";
+import { type DBError } from "@liexp/shared/providers/orm";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
@@ -10,17 +10,17 @@ import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { UUID } from "io-ts-types/lib/UUID";
-import { DeepPartial } from "typeorm";
+import { type DeepPartial } from "typeorm";
 import { fetchActors } from "../../../queries/actors/fetchActors.query";
 import { fetchGroups } from "../../../queries/groups/fetchGroups.query";
 import { fetchKeywords } from "../../../queries/keywords/fetchKeywords.query";
-import { ActorEntity } from "@entities/Actor.entity";
-import { GroupEntity } from "@entities/Group.entity";
-import { KeywordEntity } from "@entities/Keyword.entity";
-import { LinkEntity } from "@entities/Link.entity";
-import { MediaEntity } from "@entities/Media.entity";
+import { type ActorEntity } from "@entities/Actor.entity";
+import { type GroupEntity } from "@entities/Group.entity";
+import { type KeywordEntity } from "@entities/Keyword.entity";
+import { type LinkEntity } from "@entities/Link.entity";
+import { type MediaEntity } from "@entities/Media.entity";
 import { ServerError } from "@io/ControllerError";
-import { RouteContext } from "@routes/route.types";
+import { type RouteContext } from "@routes/route.types";
 
 export const fetchLinksT =
   (urlMetadata: URLMetadataClient) =>

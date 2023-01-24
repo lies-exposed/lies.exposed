@@ -5,7 +5,7 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { toUserIO } from "./user.io";
 import { UserEntity } from "@entities/User.entity";
-import { Route } from "@routes/route.types";
+import { type Route } from "@routes/route.types";
 import { authenticationHandler } from "@utils/authenticationHandler";
 import * as passwordUtils from "@utils/password.utils";
 

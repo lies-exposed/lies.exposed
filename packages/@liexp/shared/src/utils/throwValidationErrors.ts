@@ -1,4 +1,4 @@
-import * as t from "io-ts";
+import type * as t from "io-ts";
 import { failure } from "io-ts/lib/PathReporter";
 
 export const throwValidationErrors = (errs: t.Errors): null => {

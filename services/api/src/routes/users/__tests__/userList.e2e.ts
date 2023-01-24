@@ -1,7 +1,7 @@
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { fc } from "@liexp/test";
-import { AppTest, GetAppTest } from "../../../../test/AppTest";
+import { type AppTest, GetAppTest } from "../../../../test/AppTest";
 import { UserEntity } from "@entities/User.entity";
 import { hash } from "@utils/password.utils";
 

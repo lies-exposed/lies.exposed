@@ -1,12 +1,12 @@
 import { EventType } from "@liexp/shared/io/http/Events";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { useKeywordsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
-import { SearchEventsQueryInputNoPagination } from "@liexp/ui/state/queries/SearchEventsQuery";
+import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/state/queries/SearchEventsQuery";
 import {
   KeywordTemplate,
-  KeywordTemplateProps
+  type KeywordTemplateProps
 } from "@liexp/ui/templates/KeywordTemplate";
-import { Meta, Story } from "@storybook/react/types-6-0";
+import { type Meta, type Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 
 const meta: Meta = {

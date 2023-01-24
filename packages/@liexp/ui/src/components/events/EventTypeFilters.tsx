@@ -1,13 +1,13 @@
 import {
   Death,
   Documentary,
-  EventType,
+  type EventType,
   Patent,
   ScientificStudy,
   Transaction,
   Uncategorized,
 } from "@liexp/shared/io/http/Events";
-import { EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
+import { type EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import { clsx } from "clsx";
 import * as React from "react";
 import { styled } from "../../theme";

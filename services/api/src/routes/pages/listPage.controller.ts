@@ -1,12 +1,12 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { Router } from "express";
+import { type Router } from "express";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { PageEntity } from "../../entities/Page.entity";
-import { RouteContext } from "../route.types";
+import { type RouteContext } from "../route.types";
 import { toPageIO } from "./page.io";
 import { getORMOptions } from "@utils/orm.utils";
 

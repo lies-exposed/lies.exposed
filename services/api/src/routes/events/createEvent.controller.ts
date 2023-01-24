@@ -5,7 +5,7 @@ import { Equal } from "typeorm";
 import { toEventV2IO } from "./eventV2.io";
 import { createEventQuery } from "./queries/createEvent.query";
 import { EventV2Entity } from "@entities/Event.v2.entity";
-import { Route } from "@routes/route.types";
+import { type Route } from "@routes/route.types";
 import { authenticationHandler } from "@utils/authenticationHandler";
 
 export const CreateEventRoute: Route = (r, ctx) => {

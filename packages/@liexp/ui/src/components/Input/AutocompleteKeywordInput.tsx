@@ -1,4 +1,4 @@
-import { Keyword } from "@liexp/shared/io/http";
+import { type Keyword } from "@liexp/shared/io/http";
 import * as React from "react";
 import { useKeywordsQuery } from "../../state/queries/DiscreteQueries";
 import KeywordList, { KeywordListItem } from "../lists/KeywordList";

@@ -1,9 +1,9 @@
-import { http } from "@liexp/shared/io";
+import { type http } from "@liexp/shared/io";
 import { TagArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
 import { ColorArb } from "@liexp/shared/tests/arbitrary/common/Color.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { fc } from "@liexp/test";
-import { AppTest, GetAppTest } from "../../../../test/AppTest";
+import { type AppTest, GetAppTest } from "../../../../test/AppTest";
 import { loginUser, saveUser } from "../../../../test/user.utils";
 import { KeywordEntity } from "@entities/Keyword.entity";
 

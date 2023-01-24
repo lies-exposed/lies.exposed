@@ -1,8 +1,8 @@
-import { SearchEvent } from "@liexp/shared/io/http/Events";
+import { type SearchEvent } from "@liexp/shared/io/http/Events";
 import * as A from "fp-ts/Array";
 import * as React from "react";
 import {
-  SearchEventQueryInput,
+  type SearchEventQueryInput,
   searchEventsQuery,
 } from "../../state/queries/SearchEventsQuery";
 import { useTheme } from "../../theme";

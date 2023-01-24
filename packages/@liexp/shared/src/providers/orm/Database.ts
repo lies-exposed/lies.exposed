@@ -1,28 +1,28 @@
 // import { EOL } from "os";
 import { escapePostgresIdentifier } from "@databases/escape-identifier";
-import { FormatConfig, SQLQuery } from "@databases/sql";
+import { type FormatConfig, type SQLQuery } from "@databases/sql";
 import * as logger from "@liexp/core/logger";
 import * as O from "fp-ts/Option";
-import * as Reader from "fp-ts/Reader";
+import type * as Reader from "fp-ts/Reader";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { IOError } from "ts-io-error";
 import {
-  Connection,
-  DataSource,
-  DeepPartial,
-  DeleteResult,
-  EntityManager,
-  EntityTarget,
-  FindManyOptions,
-  FindOneOptions,
-  ObjectID,
-  ObjectLiteral,
-  SaveOptions,
-  UpdateResult,
+  type Connection,
+  type DataSource,
+  type DeepPartial,
+  type DeleteResult,
+  type EntityManager,
+  type EntityTarget,
+  type FindManyOptions,
+  type FindOneOptions,
+  type ObjectID,
+  type ObjectLiteral,
+  type SaveOptions,
+  type UpdateResult,
 } from "typeorm";
-import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
-import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
+import { type PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
+import { type QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 
 export class DBError extends IOError {}
 
@@ -331,11 +331,11 @@ const GetTypeORMClient: Reader.Reader<
 });
 
 export {
-  DatabaseClient,
-  GetDatabaseClientCtx,
+  type DatabaseClient,
+  type GetDatabaseClientCtx,
   GetDatabaseClient,
-  DatabaseConnectionOpts,
-  MakeDatabaseClientCtx,
+  type DatabaseConnectionOpts,
+  type MakeDatabaseClientCtx,
   MakeDatabaseClient,
   GetTypeORMClient,
 };

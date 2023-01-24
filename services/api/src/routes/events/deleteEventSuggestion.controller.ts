@@ -2,7 +2,7 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
-import { Route } from "@routes/route.types";
+import { type Route } from "@routes/route.types";
 
 export const DeleteEventSuggestionRoute: Route = (r, ctx) => {
   AddEndpoint(r)(

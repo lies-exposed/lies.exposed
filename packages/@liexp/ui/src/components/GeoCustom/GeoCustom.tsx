@@ -1,9 +1,9 @@
 import { CustomProjection, Graticule } from "@visx/geo";
 import {
-  ProjectionProps,
-  ParsedFeature,
+  type ProjectionProps,
+  type ParsedFeature,
 } from "@visx/geo/lib/projections/Projection";
-import { GeoPermissibleObjects } from "@visx/geo/lib/types";
+import { type GeoPermissibleObjects } from "@visx/geo/lib/types";
 import { scaleQuantize } from "@visx/scale";
 import { Zoom } from "@visx/zoom";
 import * as React from "react";

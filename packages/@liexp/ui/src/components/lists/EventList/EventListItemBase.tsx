@@ -1,5 +1,5 @@
-import * as http from "@liexp/shared/io/http";
-import { EventType } from "@liexp/shared/io/http/Events";
+import type * as http from "@liexp/shared/io/http";
+import { type EventType } from "@liexp/shared/io/http/Events";
 import { getTextContentsCapped, isValidValue } from "@liexp/shared/slate";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";

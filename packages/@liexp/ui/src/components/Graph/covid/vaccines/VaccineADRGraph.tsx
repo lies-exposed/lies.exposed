@@ -11,7 +11,7 @@ import {
   VaccineDatum,
   ZeroToOneMonth,
 } from "@liexp/shared/io/http/covid/VaccineDatum";
-import { VaccineDistributionDatum } from "@liexp/shared/io/http/covid/VaccineDistributionDatum";
+import { type VaccineDistributionDatum } from "@liexp/shared/io/http/covid/VaccineDistributionDatum";
 import { formatDate } from "@liexp/shared/utils/date";
 import { AxisBottom, AxisLeft, AxisRight } from "@visx/axis";
 import { curveLinear } from "@visx/curve";
@@ -21,7 +21,7 @@ import { Group } from "@visx/group";
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
 import { scaleLinear, scaleTime } from "@visx/scale";
 import { Bar, LinePath } from "@visx/shape";
-import { Accessor } from "@visx/shape/lib/types";
+import { type Accessor } from "@visx/shape/lib/types";
 import { TooltipWithBounds, withTooltip } from "@visx/tooltip";
 import { isDate } from "date-fns";
 import * as t from "io-ts";
@@ -38,8 +38,8 @@ import {
   MenuItem,
   Select,
   Typography,
-  TypographyProps,
-  SelectChangeEvent,
+  type TypographyProps,
+  type SelectChangeEvent,
 } from "../../../mui";
 
 const PREFIX = "VaccineADRGraph";

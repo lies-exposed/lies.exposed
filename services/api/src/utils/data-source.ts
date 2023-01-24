@@ -21,7 +21,7 @@ import { DeathEventEntity } from "@entities/archive/DeathEvent.entity";
 import { EventEntity } from "@entities/archive/Event.entity";
 import { MediaV1Entity } from "@entities/archive/Media.v1.entity";
 import { ScientificStudyEntity } from "@entities/archive/ScientificStudy.entity";
-import { ENV } from "@io/ENV";
+import { type ENV } from "@io/ENV";
 
 export const getDataSource = (
   env: ENV,

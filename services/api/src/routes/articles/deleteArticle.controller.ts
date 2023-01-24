@@ -4,7 +4,7 @@ import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { toArticleIO } from "./article.io";
 import { ArticleEntity } from "@entities/Article.entity";
-import { Route } from "@routes/route.types";
+import { type Route } from "@routes/route.types";
 import { authenticationHandler } from "@utils/authenticationHandler";
 
 export const MakeDeleteArticleRoute: Route = (r, ctx) => {

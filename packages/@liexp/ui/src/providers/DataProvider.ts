@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
 import { Endpoints } from "@liexp/shared/endpoints";
-import { ResourceEndpoints } from "@liexp/shared/endpoints/types";
+import { type ResourceEndpoints } from "@liexp/shared/endpoints/types";
 import * as io from "@liexp/shared/io/index";
 import {
-  APIError,
+  type APIError,
   toAPIError
 } from "@liexp/shared/providers/http/http.provider";
 import axios from "axios";
@@ -13,7 +13,7 @@ import * as E from "fp-ts/Either";
 import * as R from "fp-ts/Record";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import * as t from "io-ts";
+import type * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import type {
   GetListParams,
@@ -22,13 +22,13 @@ import type {
   GetOneResult
 } from "react-admin";
 import {
-  EndpointInstance,
-  InferEndpointParams,
-  MinimalEndpoint,
-  MinimalEndpointInstance,
-  TypeOfEndpointInstance
+  type EndpointInstance,
+  type InferEndpointParams,
+  type MinimalEndpoint,
+  type MinimalEndpointInstance,
+  type TypeOfEndpointInstance
 } from "ts-endpoint";
-import { serializedType } from "ts-io-error/lib/Codec";
+import { type serializedType } from "ts-io-error/lib/Codec";
 import { APIRESTClient } from "../http";
 
 // const httpClient = (

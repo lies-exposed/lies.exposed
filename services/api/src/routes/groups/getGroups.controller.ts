@@ -1,11 +1,11 @@
 import { fp } from "@liexp/core/fp";
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { Router } from "express";
+import { type Router } from "express";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { fetchGroups } from "../../queries/groups/fetchGroups.query";
-import { RouteContext } from "../route.types";
+import { type RouteContext } from "../route.types";
 import { toGroupIO } from "./group.io";
 
 export const MakeListGroupRoute = (r: Router, ctx: RouteContext): void => {

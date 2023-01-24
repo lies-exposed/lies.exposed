@@ -3,7 +3,7 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { PageEntity } from "../../entities/Page.entity";
-import { Route } from "../route.types";
+import { type Route } from "../route.types";
 import { toPageIO } from "./page.io";
 import { NotFoundError } from "@io/ControllerError";
 

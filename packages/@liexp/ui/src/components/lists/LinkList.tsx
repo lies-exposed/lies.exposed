@@ -1,5 +1,5 @@
 import * as React from "react";
-import LinkCard, { Link } from "../Cards/LinkCard";
+import LinkCard, { type Link } from "../Cards/LinkCard";
 import { Grid } from "../mui";
 
 export interface LinksListProps {

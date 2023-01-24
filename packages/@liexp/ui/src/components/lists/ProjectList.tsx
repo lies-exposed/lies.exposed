@@ -1,9 +1,9 @@
-import { Project } from "@liexp/shared/io/http";
+import { type Project } from "@liexp/shared/io/http";
 import { formatDate } from "@liexp/shared/utils/date";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
-import { List, ListItemProps } from "../Common/List";
+import { List, type ListItemProps } from "../Common/List";
 import {
   Card,
   CardActionArea,

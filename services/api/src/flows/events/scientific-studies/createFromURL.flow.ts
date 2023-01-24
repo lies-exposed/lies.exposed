@@ -1,4 +1,4 @@
-import { URL } from "@liexp/shared/io/http/Common";
+import { type URL } from "@liexp/shared/io/http/Common";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
@@ -7,8 +7,8 @@ import { Equal } from "typeorm";
 import { findByURL } from "../../../queries/events/scientificStudy.query";
 import { extractFromURL } from "../extractFromURL.flow";
 import { EventV2Entity } from "@entities/Event.v2.entity";
-import { ControllerError, ServerError, toControllerError } from "@io/ControllerError";
-import { RouteContext } from "@routes/route.types";
+import { type ControllerError, ServerError, toControllerError } from "@io/ControllerError";
+import { type RouteContext } from "@routes/route.types";
 
 export const createEventFromURL =
   (ctx: RouteContext) =>

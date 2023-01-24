@@ -1,7 +1,7 @@
 import React from "react";
 import {
   AutocompleteArrayInput,
-  ReferenceArrayInputProps,
+  type ReferenceArrayInputProps,
   ReferenceInput,
 } from "react-admin";
 

@@ -2,8 +2,8 @@ import * as io from "@liexp/shared/io";
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
 import { UUID } from "io-ts-types/lib/UUID";
-import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
-import { ControllerError, DecodeError } from "@io/ControllerError";
+import { type EventSuggestionEntity } from "@entities/EventSuggestion.entity";
+import { type ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toEventSuggestion = (
   event: EventSuggestionEntity

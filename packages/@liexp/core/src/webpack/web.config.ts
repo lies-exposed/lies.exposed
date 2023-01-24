@@ -2,10 +2,10 @@ import * as path from "path";
 import CopyWebpackPlugin from "copy-webpack-plugin";
 import HtmlReplaceWebpackPlugin from "html-replace-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
-import * as t from "io-ts";
+import type * as t from "io-ts";
 import TerserPlugin from "terser-webpack-plugin";
-import * as webpack from "webpack";
-import { getConfig, GetConfigParams } from "./config";
+import type * as webpack from "webpack";
+import { getConfig, type GetConfigParams } from "./config";
 
 export const webOptimization: webpack.Configuration["optimization"] = {
   chunkIds: "named",

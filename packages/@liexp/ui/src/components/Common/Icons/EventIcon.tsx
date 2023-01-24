@@ -1,12 +1,12 @@
-import { IconName } from "@fortawesome/fontawesome-svg-core";
+import { type IconName } from "@fortawesome/fontawesome-svg-core";
 import {
   FontAwesomeIcon,
-  FontAwesomeIconProps
+  type FontAwesomeIconProps
 } from "@fortawesome/react-fontawesome";
 import {
   Death,
   Documentary,
-  Event,
+  type Event,
   Patent,
   Quote,
   ScientificStudy,

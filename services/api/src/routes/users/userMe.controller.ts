@@ -1,11 +1,11 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { Router } from "express";
+import { type Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { toUserIO } from "./user.io";
 import { UserEntity } from "@entities/User.entity";
-import { RouteContext } from "@routes/route.types";
+import { type RouteContext } from "@routes/route.types";
 import { authenticationHandler } from "@utils/authenticationHandler";
 import { ensureUserExists } from "@utils/user.utils";
 

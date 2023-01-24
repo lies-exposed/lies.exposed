@@ -3,15 +3,15 @@ import * as M from "fp-ts/Map";
 import { pipe } from "fp-ts/function";
 import * as S from "fp-ts/string";
 import {
-  Actor,
+  type Actor,
   Events,
-  Group,
-  GroupMember,
-  Keyword,
-  Media,
+  type Group,
+  type GroupMember,
+  type Keyword,
+  type Media,
 } from "../../io/http";
-import { EventTotals } from "../../io/http/Events/SearchEventsQuery";
-import { EventRelationIds, getRelationIds } from "./event";
+import { type EventTotals } from "../../io/http/Events/SearchEventsQuery";
+import { type EventRelationIds, getRelationIds } from "./event";
 
 export interface SearchEventsQueryCache {
   events: Events.SearchEvent.SearchEvent[];

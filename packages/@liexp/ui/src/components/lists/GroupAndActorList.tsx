@@ -1,6 +1,6 @@
-import { Actor, Group } from "@liexp/shared/io/http";
+import { type Actor, type Group } from "@liexp/shared/io/http";
 import * as React from "react";
-import { AvatarSize } from "../Common/Avatar";
+import { type AvatarSize } from "../Common/Avatar";
 import { List } from "../Common/List";
 import { ActorListItem } from "./ActorList";
 import { GroupListItem } from "./GroupList";

@@ -1,16 +1,16 @@
-import { Group } from "@liexp/shared/io/http/Group";
+import { type Group } from "@liexp/shared/io/http/Group";
 import { MediaType } from "@liexp/shared/io/http/Media";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uploadImages } from "@liexp/ui/client/admin/MediaAPI";
-import { APIRESTClient } from "@liexp/ui/http";
+import { type APIRESTClient } from "@liexp/ui/http";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import {
-  CreateParams,
-  CreateResult,
-  UpdateParams,
-  UpdateResult,
+  type CreateParams,
+  type CreateResult,
+  type UpdateParams,
+  type UpdateResult,
 } from "react-admin";
 
 export const createGroup =

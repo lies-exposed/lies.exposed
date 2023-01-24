@@ -1,11 +1,11 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { Router } from "express";
+import { type Router } from "express";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { KeywordEntity } from "@entities/Keyword.entity";
-import { ControllerError } from "@io/ControllerError";
-import { RouteContext } from "@routes/route.types";
+import { type ControllerError } from "@io/ControllerError";
+import { type RouteContext } from "@routes/route.types";
 import { getORMOptions } from "@utils/orm.utils";
 
 export const MakeKeywordsDistributionRoute = (

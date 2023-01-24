@@ -1,5 +1,5 @@
-import { Actor, Group } from "@liexp/shared/io/http";
-import { SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
+import { type Actor, type Group } from "@liexp/shared/io/http";
+import { type SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
 import * as React from "react";
 import ActorsBox from "../containers/ActorsBox";
 import { DeathBox } from "../containers/DeathBox";

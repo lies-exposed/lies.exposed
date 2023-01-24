@@ -2,12 +2,12 @@ import { AddEndpoint, Graph } from "@liexp/shared/endpoints";
 // import { VaccineDatum } from "@liexp/shared/io/http/covid/VaccineDatum";
 // import { VaccineDistributionDatum } from "@liexp/shared/io/http/covid/VaccineDistributionDatum";
 import { GetCSVUtil } from "@liexp/shared/utils/csv.utils";
-import { Router } from "express";
+import { type Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
 import { NotFoundError, ServerError } from "@io/ControllerError";
-import { RouteContext } from "@routes/route.types";
+import { type RouteContext } from "@routes/route.types";
 
 // const getDecoderById = (
 //   id: Graph.GraphId

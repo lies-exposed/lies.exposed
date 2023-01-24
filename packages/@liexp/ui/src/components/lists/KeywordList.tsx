@@ -1,6 +1,6 @@
-import { Keyword } from "@liexp/shared/io/http";
+import { type Keyword } from "@liexp/shared/io/http";
 import * as React from "react";
-import { List, ListItemProps } from "../Common/List";
+import { List, type ListItemProps } from "../Common/List";
 import { Typography } from "../mui";
 
 export interface KeywordListTopic extends Keyword.Keyword {

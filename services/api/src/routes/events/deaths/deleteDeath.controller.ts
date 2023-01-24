@@ -1,7 +1,7 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { Route } from "../../route.types";
+import { type Route } from "../../route.types";
 import { toDeathIO } from "./death.io";
 import { DeathEventViewEntity } from "@entities/events/DeathEvent.entity";
 

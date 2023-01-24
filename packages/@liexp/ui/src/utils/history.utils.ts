@@ -3,7 +3,7 @@ import { pipe } from "fp-ts/function";
 import qs from "query-string";
 import React from "react";
 import {
-  Location, NavigateFunction,
+  type Location, type NavigateFunction,
   useLocation,
   useNavigate
 } from "react-router";

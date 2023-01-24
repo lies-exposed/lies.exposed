@@ -1,6 +1,6 @@
-import { Actor, Group, Keyword } from "@liexp/shared/io/http";
+import { type Actor, type Group, type Keyword } from "@liexp/shared/io/http";
 import { ACTORS } from "@liexp/shared/io/http/Actor";
-import { SearchEvent } from "@liexp/shared/io/http/Events";
+import { type SearchEvent } from "@liexp/shared/io/http/Events";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
 import * as React from "react";
 import { ActorPageContent } from "../components/ActorPageContent";
@@ -11,7 +11,7 @@ import { Box } from "../components/mui";
 import { EventsPanelBox } from "../containers/EventsPanel";
 import { EventNetworkGraphBox } from "../containers/graphs/EventNetworkGraphBox";
 import { useGroupsQuery } from "../state/queries/DiscreteQueries";
-import { SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
+import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
 import { SplitPageTemplate } from "./SplitPageTemplate";
 
 export interface ActorTemplateProps {

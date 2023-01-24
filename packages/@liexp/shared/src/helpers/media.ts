@@ -1,7 +1,7 @@
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
-import { URL } from "../io/http/Common";
+import { type URL } from "../io/http/Common";
 
 type Youtube = "youtube";
 type Bitchute = "bitchute";

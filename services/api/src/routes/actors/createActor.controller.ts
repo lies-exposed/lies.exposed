@@ -4,7 +4,7 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { ActorEntity } from "../../entities/Actor.entity";
-import { Route } from "../route.types";
+import { type Route } from "../route.types";
 import { toActorIO } from "./actor.io";
 import { ServerError } from "@io/ControllerError";
 import { authenticationHandler } from "@utils/authenticationHandler";

@@ -3,7 +3,7 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { AreaEntity } from "../../entities/Area.entity";
-import { Route } from "../route.types";
+import { type Route } from "../route.types";
 import { toAreaIO } from "./Area.io";
 import { authenticationHandler } from "@utils/authenticationHandler";
 

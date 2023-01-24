@@ -1,4 +1,4 @@
-import { Area } from "../io/http";
+import { type Area } from "../io/http";
 import { uuid } from "../utils/uuid";
 
 export const firstArea: Area.Area = {

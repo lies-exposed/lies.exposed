@@ -1,9 +1,9 @@
 import * as io from "@liexp/shared/io";
-import { CreateEventBody } from "@liexp/shared/io/http/Events";
+import { type CreateEventBody } from "@liexp/shared/io/http/Events";
 import * as React from "react";
 import {
   Button,
-  RaRecord,
+  type RaRecord,
   useRecordContext,
   useDataProvider,
 } from "react-admin";

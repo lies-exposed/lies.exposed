@@ -1,7 +1,7 @@
-import { Actor, Common, Group } from "@liexp/shared/io/http";
+import { type Actor, Common, type Group } from "@liexp/shared/io/http";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import * as React from "react";
-import { ListItemProps } from "../../Common/List";
+import { type ListItemProps } from "../../Common/List";
 
 export interface ProjectTransactionListItemProps {
   event: any;

@@ -1,5 +1,5 @@
-import { Actor, Group, Keyword } from "@liexp/shared/io/http";
-import { SearchEvent } from "@liexp/shared/io/http/Events";
+import { type Actor, Group, type Keyword } from "@liexp/shared/io/http";
+import { type SearchEvent } from "@liexp/shared/io/http/Events";
 import { GROUPS } from "@liexp/shared/io/http/Group";
 import * as React from "react";
 import { GroupHierarchyEdgeBundlingGraph } from "../components/Graph/GroupHierarchyEdgeBundlingGraph";
@@ -10,7 +10,7 @@ import { Box } from "../components/mui";
 import { EventsPanelBox } from "../containers/EventsPanel";
 import { EventNetworkGraphBox } from "../containers/graphs/EventNetworkGraphBox";
 import { useGroupMembersQuery } from "../state/queries/DiscreteQueries";
-import { SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
+import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
 import { SplitPageTemplate } from "./SplitPageTemplate";
 
 export interface GroupTemplateProps {

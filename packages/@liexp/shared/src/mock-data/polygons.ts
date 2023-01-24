@@ -1,4 +1,4 @@
-import { Polygon } from "../io/http/Common/Geometry";
+import { type Polygon } from "../io/http/Common/Geometry";
 
 export const firstPolygon: Polygon = {
   type: "Polygon",

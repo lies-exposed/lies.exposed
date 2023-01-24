@@ -5,7 +5,7 @@ import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
-import { Route } from "../route.types";
+import { type Route } from "../route.types";
 import { toActorIO } from "./actor.io";
 import { ActorEntity } from "@entities/Actor.entity";
 import { authenticationHandler } from "@utils/authenticationHandler";

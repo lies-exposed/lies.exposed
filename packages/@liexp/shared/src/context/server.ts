@@ -1,12 +1,12 @@
-import * as logger from "@liexp/core/logger";
-import { URLMetadataClient } from "../providers/URLMetadata.provider";
-import { FFMPEGProvider } from "../providers/ffmpeg.provider";
-import { HTTP } from '../providers/http/http.provider';
-import { JWTClient } from "../providers/jwt/JWTClient";
-import { DatabaseClient } from "../providers/orm";
-import { PuppeteerProvider } from "../providers/puppeteer.provider";
-import { SpaceClient } from "../providers/space";
-import { TGBotProvider } from "../providers/tg/tg.provider";
+import type * as logger from "@liexp/core/logger";
+import { type URLMetadataClient } from "../providers/URLMetadata.provider";
+import { type FFMPEGProvider } from "../providers/ffmpeg.provider";
+import { type HTTP } from '../providers/http/http.provider';
+import { type JWTClient } from "../providers/jwt/JWTClient";
+import { type DatabaseClient } from "../providers/orm";
+import { type PuppeteerProvider } from "../providers/puppeteer.provider";
+import { type SpaceClient } from "../providers/space";
+import { type TGBotProvider } from "../providers/tg/tg.provider";
 
 export interface ServerContext {
   db: DatabaseClient;

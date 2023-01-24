@@ -1,4 +1,4 @@
-import { CellPlugin } from "@react-page/editor";
+import { type CellPlugin } from "@react-page/editor";
 import * as React from "react";
 import { ECOTheme } from "../../../../theme/index";
 import { Box, ThemeProvider, StyledEngineProvider } from "../../../mui";

@@ -1,8 +1,8 @@
-import { Actor, Group, GroupMember, Keyword } from "@liexp/shared/io/http";
+import { type Actor, type Group, type GroupMember, type Keyword } from "@liexp/shared/io/http";
 import * as React from "react";
 import {
   searchEventsQuery,
-  SearchEventsQueryInputNoPagination,
+  type SearchEventsQueryInputNoPagination,
 } from "../../state/queries/SearchEventsQuery";
 import { styled, useTheme } from "../../theme";
 import { DateRangePicker } from "../Common/DateRangePicker";
@@ -19,7 +19,7 @@ import {
   Typography,
 } from "../mui";
 import { EventsAppBarMinimized } from "./EventsAppBarMinimized";
-import SearchEventInput, { SearchOption } from "./inputs/SearchEventInput";
+import SearchEventInput, { type SearchOption } from "./inputs/SearchEventInput";
 
 const PREFIX = "EventsAppBar";
 

@@ -1,11 +1,11 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { Router } from "express";
+import { type Router } from "express";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { fetchActors } from '../../queries/actors/fetchActors.query';
-import { RouteContext } from "../route.types";
+import { type RouteContext } from "../route.types";
 import { toActorIO } from "./actor.io";
 
 export const MakeListPageRoute = (r: Router, ctx: RouteContext): void => {

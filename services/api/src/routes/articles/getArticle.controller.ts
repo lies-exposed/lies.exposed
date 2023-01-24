@@ -1,7 +1,7 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { Route } from "../route.types";
+import { type Route } from "../route.types";
 import { toArticleIO } from "./article.io";
 import { ArticleEntity } from "@entities/Article.entity";
 

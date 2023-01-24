@@ -1,5 +1,5 @@
 import * as React from "react";
-import { FieldProps } from "react-admin";
+import { type FieldProps } from "react-admin";
 import { Box } from "../../mui";
 import { MediaArrayInput } from "../media/MediaArrayInput";
 import { ReferenceMediaDataGrid } from "../media/ReferenceMediaDataGrid";

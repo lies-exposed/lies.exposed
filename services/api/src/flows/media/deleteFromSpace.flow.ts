@@ -2,9 +2,9 @@ import { getMediaKeyFromLocation } from "@liexp/shared/utils/media.utils";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { sequenceS } from "fp-ts/lib/Apply";
-import { MediaEntity } from "@entities/Media.entity";
-import { ControllerError } from "@io/ControllerError";
-import { RouteContext } from "@routes/route.types";
+import { type MediaEntity } from "@entities/Media.entity";
+import { type ControllerError } from "@io/ControllerError";
+import { type RouteContext } from "@routes/route.types";
 
 export const deleteFromSpace =
   (ctx: RouteContext) =>

@@ -1,12 +1,12 @@
-import { Project } from "@liexp/shared/io/http/Project";
+import { type Project } from "@liexp/shared/io/http/Project";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { CreateParams, CreateResult, UpdateParams } from "react-admin";
-import * as http from "../../http";
+import { type CreateParams, type CreateResult, type UpdateParams } from "react-admin";
+import type * as http from "../../http";
 import { uploadImages } from "./MediaAPI";
 
 export const editProject =

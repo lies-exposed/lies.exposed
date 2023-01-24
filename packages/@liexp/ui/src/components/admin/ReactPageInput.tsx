@@ -1,9 +1,9 @@
 /* gist.github.com/phanngoc/473229c74d0119704d9c603b1251782a */
 import { createExcerptValue, isValidValue } from "@liexp/shared/slate";
-import Editor, { EditorProps } from "@react-page/editor";
+import Editor, { type EditorProps } from "@react-page/editor";
 import get from "lodash/get";
 import * as React from "react";
-import { InputProps, Labeled, useInput, useRecordContext } from "react-admin";
+import { type InputProps, Labeled, useInput, useRecordContext } from "react-admin";
 import { cellPlugins, minimalCellPlugins } from "../Common/Editor";
 import JSONInput from "../Common/JSON/JSONInput";
 import { Box, FormControlLabel, Paper, Switch } from "../mui";

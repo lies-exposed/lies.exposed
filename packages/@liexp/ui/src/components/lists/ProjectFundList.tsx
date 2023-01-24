@@ -2,7 +2,7 @@ import * as React from "react";
 import { List } from "../Common/List";
 import {
   ProjectTransactionListItem,
-  ProjectTransactionListItemProps,
+  type ProjectTransactionListItemProps,
 } from "./EventList/ProjectTransactionListItem";
 
 interface ProjectListProps {

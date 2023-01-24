@@ -1,5 +1,5 @@
 import * as React from "react";
-import { TextField, TextFieldProps } from "../mui";
+import { TextField, type TextFieldProps } from "../mui";
 
 export type DatePickerProps = TextFieldProps;
 

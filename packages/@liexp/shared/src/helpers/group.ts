@@ -1,5 +1,5 @@
 import { eqString } from "fp-ts/Eq";
-import { Group } from "../io/http";
+import { type Group } from "../io/http";
 
 export const getGroups =
   (groups: Group.Group[]) =>

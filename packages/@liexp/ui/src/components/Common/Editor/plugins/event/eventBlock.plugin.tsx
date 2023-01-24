@@ -1,4 +1,4 @@
-import { Event } from "@liexp/shared/io/http/Events";
+import { type Event } from "@liexp/shared/io/http/Events";
 import MediaIcon from "@mui/icons-material/VideoFileOutlined";
 import type {
   CellPlugin,

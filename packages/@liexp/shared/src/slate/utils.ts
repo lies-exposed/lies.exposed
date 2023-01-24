@@ -1,7 +1,7 @@
 import {
   createValue,
   getTextContents as defaultGetTextContents,
-  Value
+  type Value
 } from "@react-page/editor";
 import { getLiexpSlate } from "./plugins/customSlate";
 

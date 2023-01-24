@@ -1,7 +1,7 @@
-import { Actor } from '../Actor';
-import { SearchEvent } from '../Events/SearchEvent';
-import { Group } from '../Group';
-import { Keyword } from '../Keyword';
+import { type Actor } from '../Actor';
+import { type SearchEvent } from '../Events/SearchEvent';
+import { type Group } from '../Group';
+import { type Keyword } from '../Keyword';
 
 export interface NetworkNodeDatum {
     // x: number;

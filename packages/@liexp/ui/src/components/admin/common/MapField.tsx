@@ -8,7 +8,7 @@ import GeoJSON from "ol/format/GeoJSON";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { OSM as OSMSource, Vector as VectorSource } from "ol/source";
 import * as React from "react";
-import { FieldProps } from "react-admin";
+import { type FieldProps } from "react-admin";
 
 const formatOptions = {
   dataProjection: "EPSG:4326",

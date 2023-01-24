@@ -5,7 +5,7 @@ import { AreaList } from "@liexp/ui/components/lists/AreaList";
 import { Grid } from "@liexp/ui/components/mui";
 import { useAreasQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import { useTheme } from "@liexp/ui/theme";
-import { RouteComponentProps } from "@reach/router";
+import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
 import { AutoSizer } from "react-virtualized";
 import { useNavigateToResource } from "../utils/location.utils";

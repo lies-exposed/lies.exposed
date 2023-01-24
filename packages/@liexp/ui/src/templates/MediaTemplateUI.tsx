@@ -1,6 +1,6 @@
-import { Keyword, Media } from "@liexp/shared/io/http";
+import { type Keyword, type Media } from "@liexp/shared/io/http";
 import { EventType } from "@liexp/shared/io/http/Events";
-import { SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
+import { type SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
 import * as React from "react";
 import EditButton from "../components/Common/Button/EditButton";
 import { a11yProps, TabPanel } from "../components/Common/TabPanel";

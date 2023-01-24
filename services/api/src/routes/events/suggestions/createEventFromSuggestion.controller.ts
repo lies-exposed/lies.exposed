@@ -7,7 +7,7 @@ import { pipe } from "fp-ts/function";
 import { fetchRelationIds } from "../queries/fetchEventRelations.utils";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
-import { Route } from "@routes/route.types";
+import { type Route } from "@routes/route.types";
 
 export const CreateEventFromSuggestionRoute: Route = (r, ctx) => {
   AddEndpoint(r)(

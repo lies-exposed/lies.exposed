@@ -4,7 +4,7 @@ import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { toUserIO } from "./user.io";
 import { UserEntity } from "@entities/User.entity";
-import { Route } from "@routes/route.types";
+import { type Route } from "@routes/route.types";
 import { authenticationHandler } from "@utils/authenticationHandler";
 
 export const MakeUserEditRoute: Route = (r, ctx) => {

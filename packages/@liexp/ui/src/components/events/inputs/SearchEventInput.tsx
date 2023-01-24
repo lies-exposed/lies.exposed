@@ -1,18 +1,18 @@
-import { Actor, Group, Keyword } from "@liexp/shared/io/http";
+import { type Actor, type Group, type Keyword } from "@liexp/shared/io/http";
 import * as React from "react";
 import {
   fetchActors,
   fetchGroups,
   fetchKeywords
 } from "../../../state/queries/DiscreteQueries";
-import { SearchEventsQueryInputNoPagination } from '../../../state/queries/SearchEventsQuery';
+import { type SearchEventsQueryInputNoPagination } from '../../../state/queries/SearchEventsQuery';
 import { ActorListItem } from "../../lists/ActorList";
 import { GroupListItem } from "../../lists/GroupList";
 import { KeywordListItem } from "../../lists/KeywordList";
 import {
   Autocomplete,
-  AutocompleteInputChangeReason,
-  AutocompleteProps,
+  type AutocompleteInputChangeReason,
+  type AutocompleteProps,
   Box,
   TextField,
   Typography

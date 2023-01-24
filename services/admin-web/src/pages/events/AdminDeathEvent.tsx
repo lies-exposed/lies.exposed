@@ -1,4 +1,4 @@
-import { http } from "@liexp/shared/io";
+import { type http } from "@liexp/shared/io";
 import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { AvatarField } from "@liexp/ui/components/admin/common/AvatarField";
@@ -21,13 +21,13 @@ import {
   BooleanField,
   BooleanInput,
   Create,
-  CreateProps,
+  type CreateProps,
   Datagrid,
   DateField,
   DateInput,
   FormTab,
   List,
-  ListProps,
+  type ListProps,
   ReferenceField,
   ReferenceInput,
   SimpleForm,

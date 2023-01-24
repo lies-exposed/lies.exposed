@@ -1,4 +1,4 @@
-import { Events } from "@liexp/shared/io/http";
+import { type Events } from "@liexp/shared/io/http";
 import { formatDate } from "@liexp/shared/utils/date";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";

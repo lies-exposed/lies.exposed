@@ -1,4 +1,4 @@
-import * as io from "@liexp/shared/io";
+import type * as io from "@liexp/shared/io";
 import { Events } from "@liexp/shared/io/http";
 import * as React from "react";
 import { Box, Grid } from "../../mui";

@@ -4,23 +4,23 @@ import { isDate } from "util/types";
 import { fp } from "@liexp/core/fp";
 import {
   eqByUUID,
-  EventRelationIds,
+  type EventRelationIds,
   getEventsMetadata,
   getRelationIds,
 } from "@liexp/shared/helpers/event/event";
 import { getTitleForSearchEvent } from "@liexp/shared/helpers/event/getTitle.helper";
 import { toSearchEvent } from "@liexp/shared/helpers/event/search-event";
-import { Actor, Common, Group, Keyword } from "@liexp/shared/io/http";
+import { type Actor, type Common, type Group, type Keyword } from "@liexp/shared/io/http";
 import { ACTORS } from "@liexp/shared/io/http/Actor";
-import { Event, SearchEvent } from "@liexp/shared/io/http/Events";
+import { type Event, type SearchEvent } from "@liexp/shared/io/http/Events";
 import { GROUPS } from "@liexp/shared/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
 import {
-  GetNetworkQuery,
-  NetworkGroupBy,
-  NetworkType,
+  type GetNetworkQuery,
+  type NetworkGroupBy,
+  type NetworkType,
 } from "@liexp/shared/io/http/Network";
-import { EventNetworkDatum } from "@liexp/shared/io/http/Network/networks";
+import { type EventNetworkDatum } from "@liexp/shared/io/http/Network/networks";
 import { distanceFromNow, parseISO } from "@liexp/shared/utils/date";
 import { walkPaginatedRequest } from "@liexp/shared/utils/fp.utils";
 import { differenceInHours } from "date-fns";
@@ -28,18 +28,18 @@ import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { sequenceS } from "fp-ts/lib/Apply";
-import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
+import { type NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
 import { pipe } from "fp-ts/lib/function";
 import * as S from "fp-ts/string";
-import { UUID } from "io-ts-types/lib/UUID";
-import { ControllerError, toControllerError } from "@io/ControllerError";
+import { type UUID } from "io-ts-types/lib/UUID";
+import { type ControllerError, toControllerError } from "@io/ControllerError";
 import { toActorIO } from "@routes/actors/actor.io";
 import { toEventV2IO } from "@routes/events/eventV2.io";
 import { fetchRelations } from "@routes/events/queries/fetchEventRelations.utils";
 import { searchEventV2Query } from "@routes/events/queries/searchEventsV2.query";
 import { toGroupIO } from "@routes/groups/group.io";
 import { toKeywordIO } from "@routes/keywords/keyword.io";
-import { RouteContext } from "@routes/route.types";
+import { type RouteContext } from "@routes/route.types";
 
 interface NetworkLink {
   source: UUID;

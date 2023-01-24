@@ -1,5 +1,5 @@
-import Header, { HeaderProps } from "@liexp/ui/components/Header";
-import { Meta, Story } from "@storybook/react/types-6-0";
+import Header, { type HeaderProps } from "@liexp/ui/components/Header";
+import { type Meta, type Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 
 const meta: Meta = {

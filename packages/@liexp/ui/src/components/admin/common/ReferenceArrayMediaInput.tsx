@@ -1,9 +1,9 @@
-import { MediaType } from "@liexp/shared/io/http/Media";
+import { type MediaType } from "@liexp/shared/io/http/Media";
 import React from "react";
 import {
   AutocompleteArrayInput,
   ReferenceArrayInput,
-  ReferenceArrayInputProps,
+  type ReferenceArrayInputProps,
 } from "react-admin";
 import {
   matchMediaSuggestions,

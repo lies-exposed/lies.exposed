@@ -1,10 +1,10 @@
-import { Area } from "@liexp/shared/io/http/Area";
+import { type Area } from "@liexp/shared/io/http/Area";
 import { throwTE } from "@liexp/shared/utils/task.utils";
-import * as http from "@liexp/ui/http";
+import type * as http from "@liexp/ui/http";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { UpdateParams, UpdateResult } from "react-admin";
+import { type UpdateParams, type UpdateResult } from "react-admin";
 
 export const editArea =
   (client: http.APIRESTClient) =>

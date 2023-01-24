@@ -1,7 +1,7 @@
 import * as O from "fp-ts/Option";
 import * as R from "fp-ts/Record";
 import { pipe } from "fp-ts/function";
-import * as t from "io-ts";
+import type * as t from "io-ts";
 
 export const propsOmit = <P extends t.Props, PP extends Array<keyof P>>(
   codec: t.ExactC<t.TypeC<P>>,

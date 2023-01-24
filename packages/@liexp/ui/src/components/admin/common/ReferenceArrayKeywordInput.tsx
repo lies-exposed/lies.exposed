@@ -4,7 +4,7 @@ import {
   AutocompleteArrayInput,
   Button,
   ReferenceArrayInput,
-  ReferenceInputProps,
+  type ReferenceInputProps,
   useRefresh,
 } from "react-admin";
 import { apiProvider } from "../../../client/api";

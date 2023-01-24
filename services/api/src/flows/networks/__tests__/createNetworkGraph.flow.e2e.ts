@@ -6,7 +6,7 @@ import { KeywordArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { fc } from "@liexp/test";
 import subDays from "date-fns/subDays";
-import { AppTest, GetAppTest } from "../../../../test/AppTest";
+import { type AppTest, GetAppTest } from "../../../../test/AppTest";
 import { createNetworkGraph } from "../createNetworkGraph.flow";
 import { ActorEntity } from "@entities/Actor.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";

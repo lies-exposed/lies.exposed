@@ -2,7 +2,7 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { EventV2Entity } from "@entities/Event.v2.entity";
-import { Route } from "@routes/route.types";
+import { type Route } from "@routes/route.types";
 
 export const MakeDeleteScientificStudyRoute: Route = (r, { db }) => {
   AddEndpoint(r)(Endpoints.ScientificStudy.Delete, ({ params: { id } }) => {

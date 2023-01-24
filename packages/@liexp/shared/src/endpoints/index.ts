@@ -1,5 +1,5 @@
 import { GetEndpointSubscriber } from "ts-endpoint-express";
-import { IOError } from "ts-io-error/lib";
+import { type IOError } from "ts-io-error/lib";
 import * as GroupMember from "./GroupMember.endpoints";
 import * as Networks from "./Network.endpoints";
 import * as OpenGraph from "./OpenGraph.endpoints";

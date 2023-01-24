@@ -1,15 +1,15 @@
-import * as io from "@liexp/shared/io/http";
+import type * as io from "@liexp/shared/io/http";
 import  { getTextContentsCapped } from "@liexp/shared/slate";
 import * as React from "react";
 import { useMediaQuery } from "../../state/queries/DiscreteQueries";
 import { styled } from "../../theme";
-import { List, ListItemProps } from "../Common/List";
+import { List, type ListItemProps } from "../Common/List";
 import {
   Card,
   CardActionArea,
   CardContent,
   CardMedia,
-  ListProps,
+  type ListProps,
   Typography,
   Box,
 } from "../mui";

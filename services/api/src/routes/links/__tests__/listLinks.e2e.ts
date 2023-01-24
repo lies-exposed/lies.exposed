@@ -1,8 +1,8 @@
-import { http } from "@liexp/shared/io";
+import { type http } from "@liexp/shared/io";
 import { LinkArb, UncategorizedArb } from "@liexp/shared/tests";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as tests from "@liexp/test";
-import { AppTest, GetAppTest } from "../../../../test/AppTest";
+import { type AppTest, GetAppTest } from "../../../../test/AppTest";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { LinkEntity } from "@entities/Link.entity";
 

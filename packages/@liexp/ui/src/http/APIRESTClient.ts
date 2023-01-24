@@ -1,32 +1,31 @@
-import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
+import axios, { type AxiosResponse, type AxiosRequestConfig } from "axios";
 import * as E from "fp-ts/Either";
 import * as Task from "fp-ts/Task";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import type * as RA from "react-admin";
-import { RaRecord } from "react-admin";
 
 export interface APIRESTClient {
   request: <T = any>(config: AxiosRequestConfig<T>) => Promise<any>;
   get: <R = any>(url: string, params: any) => Promise<R>;
   put: (url: string, data?: any) => Promise<AxiosResponse<any>>;
-  getList: <R extends RaRecord>(
+  getList: <R extends RA.RaRecord>(
     resource: string,
     params: RA.GetListParams
   ) => Promise<RA.GetListResult<R>>;
-  getOne: <R extends RaRecord>(
+  getOne: <R extends RA.RaRecord>(
     resource: string,
     params: RA.GetOneParams
   ) => Promise<RA.GetOneResult<R>>;
-  getMany: <R extends RaRecord>(
+  getMany: <R extends RA.RaRecord>(
     resource: string,
     params: RA.GetManyParams
   ) => Promise<RA.GetManyResult<R>>;
-  getManyReference: <R extends RaRecord>(
+  getManyReference: <R extends RA.RaRecord>(
     resource: string,
     params: RA.GetManyReferenceParams
   ) => Promise<RA.GetManyReferenceResult<R>>;
-  update: <R extends RaRecord>(
+  update: <R extends RA.RaRecord>(
     resource: string,
     params: RA.UpdateParams
   ) => Promise<RA.UpdateResult<R>>;
@@ -34,11 +33,11 @@ export interface APIRESTClient {
     resource: string,
     params: RA.UpdateManyParams
   ) => Promise<RA.UpdateManyResult>;
-  create: <R extends Omit<RaRecord, "id">>(
+  create: <R extends Omit<RA.RaRecord, "id">>(
     resource: string,
     params: RA.CreateParams
   ) => Promise<RA.CreateResult<R & { id: string }>>;
-  delete: <R extends RaRecord>(
+  delete: <R extends RA.RaRecord>(
     resource: string,
     params: RA.DeleteParams
   ) => Promise<RA.DeleteResult<R>>;

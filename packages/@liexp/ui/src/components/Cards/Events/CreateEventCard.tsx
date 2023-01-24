@@ -1,5 +1,5 @@
 import { getTitleForSearchEvent } from "@liexp/shared/helpers/event/getTitle.helper";
-import { Events } from "@liexp/shared/io/http";
+import { type Events } from "@liexp/shared/io/http";
 import { getTextContentsCapped, isValidValue } from "@liexp/shared/slate";
 import { formatDate } from "@liexp/shared/utils/date";
 import * as React from "react";
@@ -12,7 +12,7 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
-  CardProps
+  type CardProps
 } from "../../mui";
 
 interface EventCardProps extends Omit<CardProps, "onClick"> {

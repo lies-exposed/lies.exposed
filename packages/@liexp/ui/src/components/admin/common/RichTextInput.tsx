@@ -1,6 +1,6 @@
 import {
   RichTextInput as RaRichTextInput,
-  RichTextInputProps as RaRichTextInputProps,
+  type RichTextInputProps as RaRichTextInputProps,
 } from "ra-input-rich-text";
 import * as React from "react";
 import { useRecordContext } from "react-admin";

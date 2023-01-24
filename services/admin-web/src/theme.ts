@@ -1,4 +1,4 @@
-import { themeOptions, secondary, ThemeOptions } from "@liexp/ui/theme";
+import { themeOptions, secondary, type ThemeOptions } from "@liexp/ui/theme";
 
 const adminThemeOptions: ThemeOptions = {
   ...themeOptions,

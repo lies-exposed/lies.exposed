@@ -1,4 +1,4 @@
-import * as Events from "@liexp/shared/io/http/Events";
+import type * as Events from "@liexp/shared/io/http/Events";
 import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
@@ -15,13 +15,13 @@ import * as React from "react";
 import {
   BooleanInput,
   Create,
-  CreateProps,
+  type CreateProps,
   Datagrid,
   DateField,
   DateInput,
   FormTab,
   List,
-  ListProps,
+  type ListProps,
   ReferenceField,
   SimpleForm,
   TabbedForm,

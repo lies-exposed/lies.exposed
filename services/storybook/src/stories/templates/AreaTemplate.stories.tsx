@@ -3,9 +3,9 @@ import {
   useAreasQuery
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import {
-  AreaTemplateProps, AreaTemplateUI
+  type AreaTemplateProps, AreaTemplateUI
 } from "@liexp/ui/templates/AreaTemplate";
-import { Meta, Story } from "@storybook/react/types-6-0";
+import { type Meta, type Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 
 const meta: Meta = {

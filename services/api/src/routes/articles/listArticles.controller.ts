@@ -6,7 +6,7 @@ import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { In, Not } from "typeorm";
-import { Route } from "../route.types";
+import { type Route } from "../route.types";
 import { toArticleIO } from "./article.io";
 import { ArticleEntity } from "@entities/Article.entity";
 import { getORMOptions } from "@utils/orm.utils";

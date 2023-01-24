@@ -2,8 +2,8 @@ import * as io from "@liexp/shared/io";
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
 import { UUID } from "io-ts-types/lib/UUID";
-import { EventEntity } from "@entities/archive/Event.entity";
-import { ControllerError, DecodeError } from "@io/ControllerError";
+import { type EventEntity } from "@entities/archive/Event.entity";
+import { type ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toEventIO = (
   event: EventEntity

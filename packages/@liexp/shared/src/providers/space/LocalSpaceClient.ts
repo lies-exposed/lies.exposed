@@ -1,12 +1,12 @@
 import * as path from "path";
-import * as logger from "@liexp/core/logger";
-import { Body } from "aws-sdk/clients/s3";
-import { AxiosInstance, AxiosResponse } from "axios";
+import type * as logger from "@liexp/core/logger";
+import { type Body } from "aws-sdk/clients/s3";
+import { type AxiosInstance, type AxiosResponse } from "axios";
 import FormData from "form-data";
-import { Reader } from "fp-ts/Reader";
+import { type Reader } from "fp-ts/Reader";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { SpaceClient, toError } from "./SpaceClient";
+import { type SpaceClient, toError } from "./SpaceClient";
 
 interface LocalSpaceClientCtx {
   client: AxiosInstance;

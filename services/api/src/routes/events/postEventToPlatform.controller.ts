@@ -1,9 +1,9 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { ShareMessageBody } from "@liexp/shared/io/http/ShareMessage";
+import { type ShareMessageBody } from "@liexp/shared/io/http/ShareMessage";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { ServerError } from "@io/ControllerError";
-import { Route } from "@routes/route.types";
+import { type Route } from "@routes/route.types";
 
 export const PostEventToPlatformRoute: Route = (r, ctx) => {
   const writeText = (body: ShareMessageBody): string => {

@@ -1,9 +1,9 @@
 import {
-  Actor,
+  type Actor,
   Events,
-  Group,
-  GroupMember,
-  Keyword,
+  type Group,
+  type GroupMember,
+  type Keyword,
 } from "@liexp/shared/io/http";
 import * as React from "react";
 import { DeathListItem } from "./DeathListItem";

@@ -1,17 +1,17 @@
 import { getTitle } from "@liexp/shared/helpers/event/getTitle.helper";
-import { Actor, Group, Keyword } from "@liexp/shared/io/http";
+import { type Actor, type Group, type Keyword } from "@liexp/shared/io/http";
 import { ACTORS } from "@liexp/shared/io/http/Actor";
 import { DEATH } from "@liexp/shared/io/http/Events/Death";
 import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
 import { PATENT } from "@liexp/shared/io/http/Events/Patent";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
-import { SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
+import { type SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
 import { GROUPS } from "@liexp/shared/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
-import { EventNetworkDatum } from "@liexp/shared/io/http/Network/networks";
+import { type EventNetworkDatum } from "@liexp/shared/io/http/Network/networks";
 import * as React from "react";
 import { ForcedNetworkGraph } from "../Common/Graph/ForcedNetworkGraph";
-import { NetworkScale } from "../Common/Graph/Network/Network";
+import { type NetworkScale } from "../Common/Graph/Network/Network";
 import { EventTypeColor } from "../Common/Icons";
 
 export type EventsNetworkGraphPropsGroupBy = "group" | "actor" | "keyword";

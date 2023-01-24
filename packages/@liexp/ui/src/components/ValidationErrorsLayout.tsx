@@ -1,5 +1,5 @@
 // import * as E from "fp-ts/Either";
-import * as t from "io-ts";
+import type * as t from "io-ts";
 import { failure } from "io-ts/lib/PathReporter";
 import * as React from "react";
 

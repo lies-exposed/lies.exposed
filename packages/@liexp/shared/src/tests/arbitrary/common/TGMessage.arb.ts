@@ -1,5 +1,5 @@
 import { fc } from "@liexp/test";
-import TelegramBot from "node-telegram-bot-api";
+import type TelegramBot from "node-telegram-bot-api";
 
 export const TGFromArb = fc.record({
   id: fc.nat(),

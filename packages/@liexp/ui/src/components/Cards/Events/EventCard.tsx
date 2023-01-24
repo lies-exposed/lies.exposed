@@ -1,6 +1,6 @@
 import { getEventsMetadata } from "@liexp/shared/helpers/event/event";
 import { Events } from "@liexp/shared/io/http";
-import { SearchEvent } from "@liexp/shared/io/http/Events";
+import { type SearchEvent } from "@liexp/shared/io/http/Events";
 import { formatDate } from "@liexp/shared/utils/date";
 import { parseISO } from "date-fns";
 import * as React from "react";
@@ -17,7 +17,7 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
-  CardProps,
+  type CardProps,
 } from "../../mui";
 
 const defaultImage = "/liexp-logo-1200x630.png";

@@ -1,4 +1,4 @@
-import { Actor, Events, Keyword } from "@liexp/shared/io/http";
+import { type Actor, type Events, type Keyword } from "@liexp/shared/io/http";
 import { ByActor, ByGroup } from "@liexp/shared/io/http/Common";
 import { TRANSACTION } from "@liexp/shared/io/http/Events/Transaction";
 import { getTextContentsCapped, isValidValue } from "@liexp/shared/slate";

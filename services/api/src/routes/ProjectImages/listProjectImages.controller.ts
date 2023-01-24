@@ -1,11 +1,11 @@
 import { Endpoints, AddEndpoint } from "@liexp/shared/endpoints";
-import { Router } from "express";
+import { type Router } from "express";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { RouteContext } from "../route.types";
+import { type RouteContext } from "../route.types";
 import { toProjectImageIO } from "./ProjectImage.io";
 import { ProjectImageEntity } from "@entities/ProjectImage.entity";
 

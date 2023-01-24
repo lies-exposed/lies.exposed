@@ -1,12 +1,12 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { sanitizeURL } from "@liexp/shared/utils/url.utils";
-import { Router } from "express";
+import { type Router } from "express";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { UUID } from "io-ts-types/lib/UUID";
 import { Equal, In } from "typeorm";
-import { RouteContext } from "../route.types";
+import { type RouteContext } from "../route.types";
 import { toLinkIO } from "./link.io";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { LinkEntity } from "@entities/Link.entity";

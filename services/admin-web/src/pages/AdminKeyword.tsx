@@ -3,11 +3,11 @@ import { ColorInput } from "@liexp/ui/components/admin/common/ColorInput";
 import * as React from "react";
 import {
   Create,
-  CreateProps,
+  type CreateProps,
   Datagrid,
   DateField,
   Edit, List,
-  ListProps, SimpleForm,
+  type ListProps, SimpleForm,
   TextField,
   TextInput,
   useRecordContext

@@ -9,9 +9,9 @@ import {
 } from "@liexp/ui/components/mui";
 import {
   EventNetworkGraphBox,
-  EventNetworkGraphBoxProps
+  type EventNetworkGraphBoxProps
 } from "@liexp/ui/containers/graphs/EventNetworkGraphBox";
-import { Meta, Story } from "@storybook/react/types-6-0";
+import { type Meta, type Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 
 const meta: Meta = {

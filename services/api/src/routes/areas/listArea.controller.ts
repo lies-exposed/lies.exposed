@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { Router } from "express";
+import { type Router } from "express";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as IOE from "fp-ts/IOEither";
@@ -7,7 +7,7 @@ import * as O from "fp-ts/Option";
 import * as R from "fp-ts/Record";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { RouteContext } from "../route.types";
+import { type RouteContext } from "../route.types";
 import { toAreaIO } from "./Area.io";
 import { AreaEntity } from "@entities/Area.entity";
 import { toControllerError } from "@io/ControllerError";

@@ -4,7 +4,7 @@ import { pipe } from "fp-ts/function";
 import { Equal } from 'typeorm';
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { toEventV2IO } from "@routes/events/eventV2.io";
-import { Route } from "@routes/route.types";
+import { type Route } from "@routes/route.types";
 
 export const MakeGetScientificStudyRoute: Route = (r, { db }) => {
   AddEndpoint(r)(Endpoints.ScientificStudy.Get, ({ params: { id } }) => {

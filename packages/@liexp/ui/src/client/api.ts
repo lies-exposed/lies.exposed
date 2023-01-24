@@ -1,11 +1,11 @@
 import { API } from "@liexp/shared/providers/http/api.provider";
 import { throwTE } from "@liexp/shared/utils/task.utils";
-import { AxiosError } from "axios";
+import { type AxiosError } from "axios";
 import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-import { AuthProvider } from "react-admin";
+import { type AuthProvider } from "react-admin";
 import * as http from "../http";
 import { createProject } from "./admin/ProjectAPI";
 

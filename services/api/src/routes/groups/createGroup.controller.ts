@@ -4,7 +4,7 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { GroupEntity } from "../../entities/Group.entity";
-import { Route } from "../route.types";
+import { type Route } from "../route.types";
 import { toGroupIO } from "./group.io";
 import { authenticationHandler } from "@utils/authenticationHandler";
 

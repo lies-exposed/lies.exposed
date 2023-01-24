@@ -14,7 +14,7 @@ import {
   DateInput,
   FunctionField,
   List,
-  RaRecord as Record,
+  type RaRecord as Record,
   ReferenceField,
   SelectInput,
   TextField,

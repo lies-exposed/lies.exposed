@@ -1,7 +1,7 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import {
   CreateScientificStudyBody,
-  CreateScientificStudyPlainBody,
+  type CreateScientificStudyPlainBody,
 } from "@liexp/shared/io/http/Events/ScientificStudy";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
@@ -9,9 +9,9 @@ import { UUID } from "io-ts-types/lib/UUID";
 import { Equal } from "typeorm";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { createEventFromURL } from "@flows/events/scientific-studies/createFromURL.flow";
-import { ControllerError } from "@io/ControllerError";
+import { type ControllerError } from "@io/ControllerError";
 import { toEventV2IO } from "@routes/events/eventV2.io";
-import { Route, RouteContext } from "@routes/route.types";
+import { type Route, type RouteContext } from "@routes/route.types";
 
 const createScientificStudyFromPlainObject =
   (ctx: RouteContext) =>

@@ -1,7 +1,7 @@
 import { authProvider } from "@liexp/ui/client/api";
 import { FullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
 import { Container } from "@mui/system";
-import { RouteComponentProps } from "@reach/router";
+import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 

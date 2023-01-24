@@ -1,7 +1,7 @@
 import {
-  Media
+  type Media
 } from "@liexp/shared/io/http";
-import { Event } from "@liexp/shared/io/http/Events";
+import { type Event } from "@liexp/shared/io/http/Events";
 import { isValidValue } from "@liexp/shared/slate";
 import * as React from "react";
 import { useTheme } from "../../../theme";

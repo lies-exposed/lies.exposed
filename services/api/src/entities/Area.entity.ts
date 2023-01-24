@@ -1,4 +1,4 @@
-import { Geometry } from "@liexp/shared/io/http/Common";
+import { type Geometry } from "@liexp/shared/io/http/Common";
 import {
   Column,
   CreateDateColumn,

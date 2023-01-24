@@ -1,9 +1,9 @@
 import {
-  UserPermission,
+  type UserPermission,
   UserStatus,
   UserStatusPending,
 } from "@liexp/shared/io/http/User";
-import { UUID } from "io-ts-types/lib/UUID";
+import { type UUID } from "io-ts-types/lib/UUID";
 import {
   Column,
   CreateDateColumn,

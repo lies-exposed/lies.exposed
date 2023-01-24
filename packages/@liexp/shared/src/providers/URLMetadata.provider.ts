@@ -1,8 +1,8 @@
-import { AxiosInstance } from "axios";
+import { type AxiosInstance } from "axios";
 import domino from 'domino';
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { Metadata, metadataRuleSets } from "page-metadata-parser";
+import { type Metadata, metadataRuleSets } from "page-metadata-parser";
 
 metadataRuleSets.date = {
   rules: [

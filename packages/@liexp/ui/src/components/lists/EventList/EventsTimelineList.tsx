@@ -3,13 +3,13 @@ import {
   CellMeasurer,
   CellMeasurerCache,
   List,
-  ListRowProps,
+  type ListRowProps,
 } from "react-virtualized";
-import { RenderedRows } from "react-virtualized/dist/es/List";
-import { SearchEventQueryResult } from "../../../state/queries/SearchEventsQuery";
+import { type RenderedRows } from "react-virtualized/dist/es/List";
+import { type SearchEventQueryResult } from "../../../state/queries/SearchEventsQuery";
 import { styled } from "../../../theme";
-import { EventListItemProps } from "./EventListItem";
-import EventTimelineItem, { EventTimelineItemProps } from "./EventTimelineItem";
+import { type EventListItemProps } from "./EventListItem";
+import EventTimelineItem, { type EventTimelineItemProps } from "./EventTimelineItem";
 
 const PREFIX = "EventsTimeline";
 

@@ -3,7 +3,7 @@ import { scaleBand, scaleLinear, scaleOrdinal } from "@visx/scale";
 import * as React from "react";
 import {
   BarStackGraph,
-  TooltipData,
+  type TooltipData,
 } from "../../../Common/Graph/BarStackGraph";
 import { Grid, Typography } from "../../../mui";
 

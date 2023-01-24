@@ -3,7 +3,7 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { toEventSuggestion } from './eventSuggestion.io';
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
-import { Route } from "@routes/route.types";
+import { type Route } from "@routes/route.types";
 
 export const GetEventSuggestionRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Event.Custom.GetSuggestion, ({ params: { id } }) => {

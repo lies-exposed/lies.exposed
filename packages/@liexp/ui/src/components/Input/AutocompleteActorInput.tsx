@@ -1,4 +1,4 @@
-import { Actor } from "@liexp/shared/io/http";
+import { type Actor } from "@liexp/shared/io/http";
 import * as React from "react";
 import { useActorsQuery } from "../../state/queries/DiscreteQueries";
 import { ActorList, ActorListItem } from "../lists/ActorList";

@@ -1,5 +1,5 @@
-import { Actor, Events, Group, Keyword, Media } from "@liexp/shared/io/http";
-import { EventType } from "@liexp/shared/io/http/Events";
+import { type Actor, Events, type Group, type Keyword, type Media } from "@liexp/shared/io/http";
+import { type EventType } from "@liexp/shared/io/http/Events";
 import { getTextContentsCapped, isValidValue } from "@liexp/shared/slate";
 import { formatDateToShort } from "@liexp/shared/utils/date";
 import * as A from "fp-ts/Array";
@@ -10,7 +10,7 @@ import { styled } from "../../theme";
 import { EventIcon } from "../Common/Icons";
 import { LinksBox } from "../LinksBox";
 import { ActorList } from "../lists/ActorList";
-import { EventListItemProps } from "../lists/EventList/EventListItem";
+import { type EventListItemProps } from "../lists/EventList/EventListItem";
 import GroupList from "../lists/GroupList";
 import KeywordList from "../lists/KeywordList";
 import { Box, Grid, Link, Typography } from "../mui";

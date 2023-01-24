@@ -12,7 +12,7 @@ import * as React from "react";
 import {
   Button,
   FormDataConsumer,
-  InputProps,
+  type InputProps,
   SelectInput,
   useInput,
 } from "react-admin";

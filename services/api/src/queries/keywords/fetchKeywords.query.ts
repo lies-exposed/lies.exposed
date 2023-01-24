@@ -1,10 +1,10 @@
-import { http } from "@liexp/shared/io";
-import { DBError } from "@liexp/shared/providers/orm";
+import { type http } from "@liexp/shared/io";
+import { type DBError } from "@liexp/shared/providers/orm";
 import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
+import type * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { KeywordEntity } from "@entities/Keyword.entity";
-import { RouteContext } from "@routes/route.types";
+import { type RouteContext } from "@routes/route.types";
 import { getORMOptions } from "@utils/orm.utils";
 
 // import * as O from 'fp-ts/Option'

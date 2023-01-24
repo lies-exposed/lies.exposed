@@ -3,8 +3,8 @@ import * as React from "react";
 import {
   Datagrid,
   DateInput,
-  EditProps,
-  RaRecord,
+  type EditProps,
+  type RaRecord,
   ReferenceArrayField,
   TextField,
   TextInput,

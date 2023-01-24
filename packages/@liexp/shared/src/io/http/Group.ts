@@ -1,6 +1,6 @@
 import * as t from "io-ts";
 import { UUID } from "io-ts-types/UUID";
-import { DateFromISOStringC } from "io-ts-types/lib/DateFromISOString";
+import { type DateFromISOStringC } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/optionFromNullable";
 import { BaseProps } from "./Common/BaseProps";
 import { Color } from "./Common/Color";

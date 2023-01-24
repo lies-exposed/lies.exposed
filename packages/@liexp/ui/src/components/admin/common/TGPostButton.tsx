@@ -3,8 +3,8 @@ import { getTextContents } from "@liexp/shared/slate";
 import { formatDate, parseISO } from "@liexp/shared/utils/date";
 import * as React from "react";
 import {
-  FieldProps,
-  Identifier,
+  type FieldProps,
+  type Identifier,
   useDataProvider,
   useRecordContext
 } from "react-admin";

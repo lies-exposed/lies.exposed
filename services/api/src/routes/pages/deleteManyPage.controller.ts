@@ -1,10 +1,10 @@
 import { PageDeleteMany, AddEndpoint } from "@liexp/shared/endpoints";
-import { Router } from "express";
+import { type Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { In } from "typeorm";
 import { PageEntity } from "../../entities/Page.entity";
-import { RouteContext } from "../route.types";
+import { type RouteContext } from "../route.types";
 import { authenticationHandler } from '@utils/authenticationHandler';
 
 export const MakeDeleteManyPageRoute = (r: Router, ctx: RouteContext): void => {

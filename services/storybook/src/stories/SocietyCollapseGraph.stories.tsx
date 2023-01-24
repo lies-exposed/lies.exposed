@@ -1,8 +1,8 @@
 import {
   SocietyCollapseForecastGraphContainer as SocietyCollapseForecastGraph,
-  SocietyCollapseForecastGraphProps,
+  type SocietyCollapseForecastGraphProps,
 } from "@liexp/ui/components/Graph/SocietyCollapseForecastGraph/SocietyCollapseForecastGraph";
-import { Meta, Story } from "@storybook/react/types-6-0";
+import { type Meta, type Story } from "@storybook/react/types-6-0";
 import React from "react";
 
 const meta: Meta = {

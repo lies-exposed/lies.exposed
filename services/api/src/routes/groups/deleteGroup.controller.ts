@@ -1,9 +1,9 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { Router } from "express";
+import { type Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { GroupEntity } from "../../entities/Group.entity";
-import { RouteContext } from "../route.types";
+import { type RouteContext } from "../route.types";
 import { authenticationHandler } from '@utils/authenticationHandler';
 
 export const MakeDeleteGroupRoute = (r: Router, ctx: RouteContext): void => {

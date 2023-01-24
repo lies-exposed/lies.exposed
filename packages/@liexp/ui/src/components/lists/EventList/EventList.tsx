@@ -1,4 +1,4 @@
-import { Events } from "@liexp/shared/io/http";
+import { type Events } from "@liexp/shared/io/http";
 import { groupBy } from "@liexp/shared/utils/array.utils";
 import { distanceFromNow } from "@liexp/shared/utils/date";
 import * as Eq from "fp-ts/Eq";
@@ -7,7 +7,7 @@ import * as S from "fp-ts/string";
 import * as React from "react";
 import { styled } from "../../../theme";
 import { Grid, List, ListItem, ListSubheader, Typography } from "../../mui";
-import { EventListItem, EventListItemProps } from "./EventListItem";
+import { EventListItem, type EventListItemProps } from "./EventListItem";
 
 const PREFIX = "EventList";
 
