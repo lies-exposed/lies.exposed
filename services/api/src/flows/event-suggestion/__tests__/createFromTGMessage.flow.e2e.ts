@@ -5,7 +5,6 @@ import { AdminCreate } from "@liexp/shared/io/http/User";
 import { createExcerptValue } from "@liexp/shared/slate";
 import { HumanReadableStringArb } from "@liexp/shared/tests/arbitrary/HumanReadableString.arbitrary";
 import { URLArb } from "@liexp/shared/tests/arbitrary/URL.arbitrary";
-import { UserArb } from "@liexp/shared/tests/arbitrary/User.arbitrary";
 import {
   TGMessageArb,
   TGPhotoArb,
@@ -18,6 +17,7 @@ import type TelegramBot from "node-telegram-bot-api";
 import { Equal } from "typeorm";
 import puppeteerMocks from "../../../../__mocks__/puppeteer.mock";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
+import { saveUser, type UserTest } from '../../../../test/user.utils';
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { LinkEntity } from "@entities/Link.entity";
 import { MediaEntity } from "@entities/Media.entity";
@@ -36,11 +36,7 @@ interface MessageTest {
 
 describe("Create From TG Message", () => {
   let Test: AppTest;
-  let admin: any = fc.sample(UserArb, 1).map((u) => ({
-    ...u,
-    passwordHash: "password-hash",
-    permissions: [AdminCreate.value],
-  }))[0];
+  let admin: UserTest;
 
   beforeAll(async () => {
     Test = GetAppTest();
@@ -48,10 +44,8 @@ describe("Create From TG Message", () => {
       fs.mkdirSync(tempDir, { recursive: true });
     }
 
-    await throwTE(Test.ctx.db.save(UserEntity, [admin]));
-    admin = await throwTE(
-      Test.ctx.db.findOneOrFail(UserEntity, { where: { email: admin.email } })
-    );
+    admin = await saveUser(Test, [AdminCreate.value]);
+
   });
 
   afterAll(async () => {

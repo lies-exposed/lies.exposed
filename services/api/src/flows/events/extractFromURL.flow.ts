@@ -10,6 +10,7 @@ import type * as puppeteer from "puppeteer-core";
 import { fetchAndSave } from "../link.flow";
 import { type EventV2Entity } from "@entities/Event.v2.entity";
 import { type LinkEntity } from "@entities/Link.entity";
+import { type UserEntity } from '@entities/User.entity';
 import { type ControllerError, toControllerError } from "@io/ControllerError";
 import { type RouteContext } from "@routes/route.types";
 
@@ -228,6 +229,7 @@ export const extractFromURL =
   (ctx: RouteContext) =>
   (
     p: puppeteer.Page,
+    user: UserEntity,
     l: DataPayloadLink
   ): TE.TaskEither<ControllerError, O.Option<EventV2Entity>> => {
     const host = new URL(l.url).hostname;
@@ -235,7 +237,7 @@ export const extractFromURL =
     ctx.logger.debug.log("Extracting event from host %s (%s)", host, l.url);
 
     return pipe(
-      fetchAndSave(ctx)(l.url),
+      fetchAndSave(ctx)(user, l.url),
       TE.chain((le) => extractByProvider(ctx)(p, host, le))
     );
   };

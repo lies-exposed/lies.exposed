@@ -1,14 +1,12 @@
 import * as fs from "fs";
 import path from "path";
 import { isExcludedURL } from "@liexp/shared/helpers/link.helper";
-import { getPlatform, type VideoPlatformMatch } from "@liexp/shared/helpers/media";
+import {
+  getPlatform,
+  type VideoPlatformMatch,
+} from "@liexp/shared/helpers/media";
 import { type URL } from "@liexp/shared/io/http/Common";
 import { MediaType } from "@liexp/shared/io/http/Media";
-import {
-  AdminCreate,
-  AdminDelete,
-  AdminEdit,
-} from "@liexp/shared/io/http/User";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
@@ -22,9 +20,10 @@ import { Equal } from "typeorm";
 import { createAndUpload } from "../media/createAndUpload.flow";
 import { LinkEntity } from "@entities/Link.entity";
 import { MediaEntity } from "@entities/Media.entity";
-import { UserEntity } from "@entities/User.entity";
+import { type UserEntity } from "@entities/User.entity";
 import { fetchAndSave } from "@flows/link.flow";
 import { extractMediaFromPlatform } from "@flows/media/extractMediaFromPlatform.flow";
+import { getOneAdminOrFail } from '@flows/users/getOneUserOrFail.flow';
 import {
   type ControllerError,
   ServerError,
@@ -270,28 +269,34 @@ export const createFromTGMessage =
 
     ctx.logger.info.log("Hashtags %O", hashtags);
 
-    const byURLTask = pipe(
-      urls,
-      O.getOrElse((): URL[] => []),
-      A.map((u) => {
-        return pipe(
-          ctx.db.findOne(LinkEntity, {
-            where: {
-              url: Equal(u),
-            },
-          }),
-          TE.chain((link) => {
-            ctx.logger.info.log("Link %O", link);
-            if (O.isSome(link)) {
-              return TE.right(link.value);
-            }
+    const byURLTask = (
+      user: UserEntity
+    ): TE.TaskEither<ControllerError, LinkEntity[]> =>
+      pipe(
+        urls,
+        O.getOrElse((): URL[] => []),
+        A.map((url) => {
+          return pipe(
+            ctx.db.findOne(LinkEntity, {
+              where: {
+                url: Equal(url),
+              },
+            }),
+            TE.chain((link) => {
+              ctx.logger.info.log("Link %O", link);
+              if (O.isSome(link)) {
+                return TE.right(link.value);
+              }
 
-            return pipe(fetchAndSave(ctx)(u), TE.mapLeft(toControllerError));
-          })
-        );
-      }),
-      A.sequence(TE.ApplicativeSeq)
-    );
+              return pipe(
+                fetchAndSave(ctx)(user, url),
+                TE.mapLeft(toControllerError)
+              );
+            })
+          );
+        }),
+        A.sequence(TE.ApplicativeSeq)
+      );
 
     const byPhotoTask = pipe(
       (message.photo ?? []).reduce(
@@ -323,28 +328,15 @@ export const createFromTGMessage =
     const byPlatformMediaTask = (
       p: puppeteer.Page,
       creator: UserEntity
-    ): TE.TaskEither<ControllerError, MediaEntity[]> =>
-      pipe(
+    ): TE.TaskEither<ControllerError, MediaEntity[]> => {
+      return pipe(
         videoURLS,
         A.map(({ url, ...m }) => parsePlatformMedia(ctx)(url, m, p, creator)),
         A.sequence(TE.ApplicativeSeq)
       );
-
+    };
     return pipe(
-      ctx.db.execQuery(() =>
-        ctx.db.manager
-          .createQueryBuilder(UserEntity, "u")
-          .where(`u.permissions::jsonb ? :perm`, {
-            perm: AdminDelete.value,
-          })
-          .orWhere(`u.permissions::jsonb ? :perm`, {
-            perm: AdminEdit.value,
-          })
-          .orWhere("u.permissions::jsonb ? :perm", {
-            perm: AdminCreate.value,
-          })
-          .getOneOrFail()
-      ),
+      getOneAdminOrFail(ctx),
       TE.chain((creator) =>
         pipe(
           TE.bracket(
@@ -356,7 +348,7 @@ export const createFromTGMessage =
             ),
             (page) =>
               sequenceS(TE.ApplicativePar)({
-                link: byURLTask,
+                link: byURLTask(creator),
                 photos: byPhotoTask,
                 videos: byVideoTask,
                 platformMedia: byPlatformMediaTask(page, creator),

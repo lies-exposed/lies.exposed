@@ -5,26 +5,22 @@ import { UncategorizedArb } from "@liexp/shared/tests/arbitrary/Event.arbitrary"
 import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
 import { LinkArb } from "@liexp/shared/tests/arbitrary/Link.arbitrary";
 import { MediaArb } from "@liexp/shared/tests/arbitrary/Media.arbitrary";
-import { UserArb } from "@liexp/shared/tests/arbitrary/User.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { fc } from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
+import { saveUser, loginUser, type UserTest } from "../../../../test/user.utils";
 import { ActorEntity } from "@entities/Actor.entity";
 import { AreaEntity } from "@entities/Area.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
-import { UserEntity } from "@entities/User.entity";
-import { hash } from "@utils/password.utils";
 
 describe("Edit Event", () => {
   let appTest: AppTest;
   let adminAuthToken: string;
   let supporterAuthToken: string;
-  const adminUserPassword = "admin1";
-  let adminUser: http.User.User;
-  const supporterPassword = "supporter1";
-  let supporterUser: http.User.User;
+  let adminUser: UserTest;
+  let supporterUser: UserTest;
 
   const [area] = fc.sample(AreaArb, 1);
   const [actor] = fc.sample(ActorArb, 1).map((a) => ({
@@ -74,42 +70,17 @@ describe("Edit Event", () => {
       ...(result[0] as any),
     };
 
-    const adminPasswordHash = await throwTE(hash(adminUserPassword));
+    adminUser = await saveUser(appTest, [http.User.AdminDelete.value]);
 
-    adminUser = fc.sample(UserArb).map((u) => ({
-      ...u,
-      status: 'Approved' as const,
-      permissions: [http.User.AdminDelete.value],
-    }))[0];
+    supporterUser = await saveUser(appTest, []);
 
-    const supporterPasswordHash = await throwTE(hash(supporterPassword));
-    supporterUser = fc.sample(UserArb).map((u) => ({
-      ...u,
-      status: 'Approved' as const,
-      permissions: [http.User.EventSuggestionEdit.value],
-    }))[0];
-
-    await throwTE(
-      appTest.ctx.db.save(UserEntity, [
-        { ...adminUser, passwordHash: adminPasswordHash },
-        { ...supporterUser, passwordHash: supporterPasswordHash },
-      ])
+    adminAuthToken = await loginUser(appTest)(adminUser).then(
+      ({ authorization }) => authorization
     );
 
-    adminAuthToken = await appTest.req
-      .post("/v1/users/login")
-      .send({ username: adminUser.username, password: adminUserPassword })
-      .expect(201)
-      .then((response) => {
-        return response.body.data.token;
-      });
-
-    supporterAuthToken = await appTest.req
-      .post("/v1/users/login")
-      .send({ username: supporterUser.username, password: supporterPassword })
-      .then((response) => {
-        return response.body.data.token;
-      });
+    supporterAuthToken = await loginUser(appTest)(supporterUser).then(
+      ({ authorization }) => authorization
+    );
   });
 
   afterAll(async () => {
@@ -134,7 +105,7 @@ describe("Edit Event", () => {
 
     await appTest.req
       .put(`/v1/events/${event.id}`)
-      .set("Authorization", `Token ${supporterAuthToken}`)
+      .set("Authorization", supporterAuthToken)
       .send(eventData)
       .expect(401);
   });
@@ -153,7 +124,7 @@ describe("Edit Event", () => {
 
     const response = await appTest.req
       .put(`/v1/events/${event.id}`)
-      .set("Authorization", `Bearer ${adminAuthToken}`)
+      .set("Authorization", adminAuthToken)
       .send(eventData);
 
     const body = response.body.data;
@@ -195,7 +166,7 @@ describe("Edit Event", () => {
 
     const response = await appTest.req
       .put(`/v1/events/${event.id}`)
-      .set("Authorization", `Bearer ${adminAuthToken}`)
+      .set("Authorization", adminAuthToken)
       .send(eventData)
       .expect(200);
 
@@ -245,7 +216,7 @@ describe("Edit Event", () => {
     };
     const response = await appTest.req
       .put(`/v1/events/${event.id}`)
-      .set("Authorization", `Bearer ${adminAuthToken}`)
+      .set("Authorization", adminAuthToken)
       .send(eventData);
 
     const body = response.body.data;
@@ -275,7 +246,7 @@ describe("Edit Event", () => {
     };
     const response = await appTest.req
       .put(`/v1/events/${event.id}`)
-      .set("Authorization", `Bearer ${adminAuthToken}`)
+      .set("Authorization", adminAuthToken)
       .send(eventData);
 
     const body = response.body.data;
@@ -305,7 +276,7 @@ describe("Edit Event", () => {
 
     const response = await appTest.req
       .put(`/v1/events/${event.id}`)
-      .set("Authorization", `Bearer ${adminAuthToken}`)
+      .set("Authorization", adminAuthToken)
       .send(eventData)
       .expect(200);
 
@@ -333,7 +304,7 @@ describe("Edit Event", () => {
     };
     const response = await appTest.req
       .put(`/v1/events/${event.id}`)
-      .set("Authorization", `Bearer ${adminAuthToken}`)
+      .set("Authorization", adminAuthToken)
       .send(eventData);
 
     const body = response.body.data;
@@ -360,7 +331,7 @@ describe("Edit Event", () => {
     };
     const response = await appTest.req
       .put(`/v1/events/${event.id}`)
-      .set("Authorization", `Bearer ${adminAuthToken}`)
+      .set("Authorization", adminAuthToken)
       .send(eventData);
 
     const body = response.body.data;
