@@ -7,14 +7,20 @@ import { VideoCover } from "./VideoCover";
 const PREFIX = "IframeMediaElement";
 
 const classes = {
+  root: `${PREFIX}-root`,
   iframe: `${PREFIX}-iframe`,
+  cover: `${PREFIX}-cover`,
 };
 
 const Root = styled("div")(() => ({
-  [`&.${classes.iframe}`]: {
+  [`&.${classes.root}`]: {},
+  [`& .${classes.iframe}`]: {
     display: "flex",
-    minHeight: 400,
-    maxWidth: 800,
+    height: "100%",
+    width: "100%",
+  },
+  [`& .${classes.cover}`]: {
+    height: "100%",
     width: "100%",
   },
 }));
@@ -30,16 +36,17 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
   media,
   onLoad,
   style,
+  className,
   ...props
 }) => {
   const ref = React.useRef<HTMLIFrameElement | null>(null);
   const [loaded, setLoaded] = React.useState(false);
 
   return (
-    <Root>
+    <Root className={clsx(classes.root, className)}>
       {loaded ? (
         <iframe
-          className={clsx(classes.iframe, props.className)}
+          className={classes.iframe}
           {...props}
           src={media.location}
           ref={ref}
@@ -57,12 +64,12 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
         />
       ) : (
         <VideoCover
+          className={classes.cover}
           thumbnail={media.thumbnail}
           onClick={(e) => {
             e.stopPropagation();
             setLoaded(true);
           }}
-          style={style}
           onLoad={onLoad}
         />
       )}

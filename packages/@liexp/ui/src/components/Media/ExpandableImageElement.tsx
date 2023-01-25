@@ -1,27 +1,19 @@
 import { type Media } from "@liexp/shared/io/http";
 import { CloseOutlined, ExpandMore } from "@mui/icons-material";
 import * as React from "react";
-import { styled } from '../../theme';
-import {
-  Box,
-  IconButton,
-  Modal,
-  Typography,
-} from "../mui";
+import { styled } from "../../theme";
+import { Box, IconButton, Modal, Typography } from "../mui";
 
-const PREFIX = 'ExpandableImageElement';
+const PREFIX = "ExpandableImageElement";
 
 const classes = {
   modalContainer: `${PREFIX}-modalContainer`,
   paper: `${PREFIX}-paper`,
-  image: `${PREFIX}-image`
+  image: `${PREFIX}-image`,
+  expandIcon: `${PREFIX}-expand-icon`,
 };
 
-const StyledBox = styled(Box)((
-  {
-    theme
-  }
-) => ({
+const StyledBox = styled(Box)(({ theme }) => ({
   [`& .${classes.modalContainer}`]: {
     position: "absolute",
     top: 0,
@@ -35,7 +27,6 @@ const StyledBox = styled(Box)((
 
   [`& .${classes.paper}`]: {
     width: "80%",
-    minHeight: 400,
     maxHeight: "90%",
     height: "100%",
     backgroundColor: theme.palette.background.paper,
@@ -48,7 +39,12 @@ const StyledBox = styled(Box)((
     maxWidth: "100%",
     maxHeight: 800,
     objectFit: "cover",
-  }
+  },
+  [`& .${classes.expandIcon}`]: {
+    position: "absolute",
+    right: 0,
+    top: 0
+  },
 }));
 
 interface ExpandableImageElementProps {
@@ -64,7 +60,6 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
   style,
   onLoad,
 }) => {
-
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -76,14 +71,13 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
       justifyContent="center"
     >
       <IconButton
+        className={classes.expandIcon}
         aria-label="expand"
         onClick={(e) => {
           setOpen(true);
         }}
-        style={{
-          position: 'absolute'
-        }}
-        size="large">
+        size="large"
+      >
         <ExpandMore />
       </IconButton>
       <img
@@ -96,7 +90,9 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
 
       <Modal
         open={open}
-        onClose={() => { setOpen(false); }}
+        onClose={() => {
+          setOpen(false);
+        }}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -109,9 +105,17 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
             >
               <Box
                 display="flex"
-                style={{ position: 'absolute', flexDirection: "column", alignItems: "flex-end" }}
+                style={{
+                  position: "absolute",
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                }}
               >
-                <CloseOutlined onClick={() => { setOpen(false); }} />
+                <CloseOutlined
+                  onClick={() => {
+                    setOpen(false);
+                  }}
+                />
               </Box>
 
               <Box
@@ -124,9 +128,13 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
                   flexDirection: "column",
                 }}
               >
-                <img className={classes.image} src={media.location} style={{
-                  maxHeight: '100%'
-                }} />
+                <img
+                  className={classes.image}
+                  src={media.location}
+                  style={{
+                    maxHeight: "100%",
+                  }}
+                />
                 <Typography id="alert-dialog-title" variant="body2">
                   {media.description}
                 </Typography>

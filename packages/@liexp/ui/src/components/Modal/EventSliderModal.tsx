@@ -1,5 +1,6 @@
 import { type EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import RunIcon from "@mui/icons-material/PlayCircleOutline";
+import {clsx} from "clsx";
 import * as React from "react";
 import {
   searchEventsQuery,
@@ -17,6 +18,9 @@ const classes = {
   modal: `${EVENT_SLIDER_MODAL_PREFIX}-modal`,
   paper: `${EVENT_SLIDER_MODAL_PREFIX}-paper`,
   closeIconBox: `${EVENT_SLIDER_MODAL_PREFIX}-close-icon-box`,
+  content: `${EVENT_SLIDER_MODAL_PREFIX}-content`,
+  eventsSlider: `${EVENT_SLIDER_MODAL_PREFIX}-events-slider`,
+  eventsAppBar: `${EVENT_SLIDER_MODAL_PREFIX}-events-app-bar`,
 };
 
 const StyledModal = styled(Modal)(({ theme }) => ({
@@ -24,6 +28,7 @@ const StyledModal = styled(Modal)(({ theme }) => ({
     display: "flex",
     flexDirection: "column",
     width: "100%",
+    height: "100%",
   },
   [`& .${classes.paper}`]: {
     display: "flex",
@@ -36,6 +41,19 @@ const StyledModal = styled(Modal)(({ theme }) => ({
   [`& .${classes.closeIconBox}`]: {
     display: "flex",
     alignSelf: "flex-end",
+  },
+  [`& .${classes.content}`]: {
+    display: "flex",
+    flexDirection: "column",
+    flexGrow: 1,
+  },
+  [`& .${classes.eventsSlider}`]: {
+    flexShrink: 1,
+    flexGrow: 1,
+    overflow: "auto",
+  },
+  [`& .${classes.eventsAppBar}`]: {
+    flexShrink: 0,
   },
 }));
 
@@ -61,11 +79,13 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
   // const [open, setOpen] = React.useState(_open ?? false);
 
   const hash = "slider";
-  const start = parseInt((query as any)._start ?? "0", 10);
-  // const end = parseInt((query._end as any) ?? "20", 10);
+  const _start = parseInt((query as any)._start ?? "0", 10);
 
-  const [current, setCurrent] = React.useState(start);
-
+  const [{ start, current }, setBounds] = React.useState({
+    current: _start,
+    start: _start,
+  });
+  const end = start + perPage + 1;
   // const query = React.useMemo((): SearchEventQueryInput => {
   //   // if (current % 10 === 0) {
   //   return {
@@ -90,23 +110,22 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
       //   patents: true,
       // });
 
-      const modulo = nextSlide % perPage;
+      // const modulo = nextSlide % perPage;
 
-      // console.log({ nextSlide, modulo, current });
-      const currentStart = modulo === perPage - 1 ? start + perPage : start;
-
-      // console.log("start", { start, currentStart });
-
-      setCurrent(nextSlide);
-
-      onQueryChange({
-        ...query,
-        hash,
-        _start: currentStart,
-        _end: currentStart + perPage,
-      } as any);
+      // console.log({ nextSlide, current });
+      if (nextSlide === perPage) {
+        // onQueryChange({
+        //   ...query,
+        //   hash,
+        //   _start: nextStart,
+        //   _end: nextStart + perPage,
+        // } as any);
+        setBounds({ current: 0, start: start + perPage });
+      } else {
+        setBounds({ current: nextSlide, start });
+      }
     },
-    [current, query, hash]
+    [start, current, query, hash]
   );
 
   const handleQueryChange = React.useCallback(
@@ -120,9 +139,15 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
     [query, hash]
   );
 
-  // console.log(start);
+  // console.log({ start });
   return (
-    <div>
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        background: theme.palette.background.paper,
+      }}
+    >
       <Box
         style={{
           position: "fixed",
@@ -131,7 +156,7 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
         }}
       >
         <IconButton
-          aria-label="Add Link"
+          aria-label="Run slideshow"
           color="secondary"
           size="small"
           onClick={() => {
@@ -148,65 +173,76 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
           handleQueryChange(false);
         }}
       >
-        <QueriesRenderer
-          queries={{
-            events: searchEventsQuery({
-              ...query,
-              _start: start,
-              _end: start + perPage,
-            }),
-          }}
-          render={({ events: { events, totals, ...rest } }) => {
-            return (
-              <Box className={classes.paper}>
-                <Box className={classes.closeIconBox}>
-                  <IconButton
-                    aria-label="Close"
-                    color="secondary"
-                    size="small"
-                    style={{ margin: 0 }}
-                    onClick={() => {
-                      handleQueryChange(false);
-                    }}
-                  >
-                    <CloseIcon fontSize="small" />
-                  </IconButton>
-                </Box>
+        <Box className={classes.paper}>
+          <Box className={classes.closeIconBox}>
+            <IconButton
+              aria-label="Close"
+              color="secondary"
+              size="small"
+              style={{ margin: 0 }}
+              onClick={() => {
+                handleQueryChange(false);
+              }}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </Box>
+          <QueriesRenderer
+            loader="fullsize"
+            queries={{
+              events: searchEventsQuery({
+                ...query,
+                _start: start,
+                _end: end,
+              }),
+            }}
+            render={({ events: { events, totals, ...rest } }) => {
+              const eventsChunk = events.slice(start, end);
+              const appBarCurrent = start + current + 1;
+              // console.log({ current, perPage, start, appBarCurrent });
 
-                <EventSlider
-                  {...props}
-                  events={events.slice(start, start + perPage)}
-                  totals={totals}
-                  slider={{
-                    beforeChange: (c, n) => {
-                      handleBeforeSlide(n, totals);
-                    },
-                  }}
-                />
-                <EventsAppBarMinimized
-                  query={query}
-                  tab={0}
-                  open={false}
-                  totals={totals}
-                  onQueryChange={onQueryChange}
-                  onQueryClear={onQueryClear}
-                  actors={rest.actors.filter((a) =>
-                    query.actors?.includes(a.id)
-                  )}
-                  groups={rest.groups.filter((g) =>
-                    query.groups?.includes(g.id)
-                  )}
-                  groupsMembers={rest.groupsMembers.filter((gm) =>
-                    query.groupsMembers?.includes(gm.id)
-                  )}
-                  keywords={rest.keywords.filter((k) =>
-                    query.keywords?.includes(k.id)
-                  )}
-                />
-              </Box>
-            );
-          }}
-        />
+              return (
+                <Box className={classes.content}>
+                  <Box className={clsx(classes.eventsSlider)}>
+                    <EventSlider
+                      {...props}
+                      events={eventsChunk}
+                      totals={totals}
+                      slider={{
+                        beforeChange: (c, n) => {
+                          handleBeforeSlide(n, totals);
+                        },
+                      }}
+                    />
+                  </Box>
+
+                  <EventsAppBarMinimized
+                    className={classes.eventsAppBar}
+                    query={query}
+                    tab={0}
+                    current={appBarCurrent}
+                    open={false}
+                    totals={totals}
+                    onQueryChange={onQueryChange}
+                    onQueryClear={onQueryClear}
+                    actors={rest.actors.filter((a) =>
+                      query.actors?.includes(a.id)
+                    )}
+                    groups={rest.groups.filter((g) =>
+                      query.groups?.includes(g.id)
+                    )}
+                    groupsMembers={rest.groupsMembers.filter((gm) =>
+                      query.groupsMembers?.includes(gm.id)
+                    )}
+                    keywords={rest.keywords.filter((k) =>
+                      query.keywords?.includes(k.id)
+                    )}
+                  />
+                </Box>
+              );
+            }}
+          />
+        </Box>
       </StyledModal>
     </div>
   );

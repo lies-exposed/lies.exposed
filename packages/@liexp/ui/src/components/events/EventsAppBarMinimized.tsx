@@ -1,5 +1,10 @@
 import { getTotal } from "@liexp/shared/helpers/event";
-import { type Actor, type Group, type GroupMember, type Keyword } from "@liexp/shared/io/http";
+import {
+  type Actor,
+  type Group,
+  type GroupMember,
+  type Keyword,
+} from "@liexp/shared/io/http";
 import {
   Death,
   Documentary,
@@ -21,6 +26,7 @@ import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
 import ArrowDownIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpIcon from "@mui/icons-material/ArrowUpward";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import {clsx} from "clsx";
 import * as R from "fp-ts/Record";
 import { pipe } from "fp-ts/function";
 import * as S from "fp-ts/string";
@@ -61,8 +67,10 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 interface EventsAppBarMinimizedProps {
+  className?: string;
   query: SearchEventsQueryInputNoPagination;
   tab: number;
+  current?: number;
   totals: EventTotals;
   actors: Actor.Actor[];
   groups: Group.Group[];
@@ -74,6 +82,7 @@ interface EventsAppBarMinimizedProps {
 }
 
 export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
+  className,
   open: isExpanded,
   query,
   tab,
@@ -84,6 +93,7 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
   onQueryChange,
   onQueryClear,
   totals,
+  current,
 }) => {
   const filters = React.useMemo(() => {
     if (!query.type) {
@@ -220,7 +230,7 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
           marginRight: 0,
         }}
       >
-        {totalEvents}
+        {current ? `${current}/${totalEvents}` : totalEvents}
       </Typography>
       <IconButton
         style={{
@@ -339,7 +349,7 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
   );
 
   return (
-    <StyledBox className={classes.root}>
+    <StyledBox className={clsx(classes.root, className)}>
       {dateRangeBox}
       <EventTypeFilters
         filters={filters}

@@ -36,10 +36,10 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
       marginRight: theme.spacing(2),
     },
   },
-
   [`& .${classes.eventMedia}`]: {
+    maxHeight: 400,
     [theme.breakpoints.down("md")]: {
-      padding: 0,
+      maxHeight: 300,
     },
   },
 }));

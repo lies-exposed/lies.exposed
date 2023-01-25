@@ -1,7 +1,7 @@
 import { type Media } from "@liexp/shared/io/http";
+import { clsx } from "clsx";
 import * as React from "react";
 import { styled } from "../../theme";
-import { LinkIcon } from "../Common/Icons";
 import { Slider, type SliderProps } from "../Common/Slider/Slider";
 import MediaElement from "../Media/MediaElement";
 
@@ -12,16 +12,22 @@ const classes = {
 };
 
 const StyledSlider = styled(Slider)(({ theme }) => ({
-  [`& .${classes.item}`]: {
-    margin: "auto",
+  [`&.${classes.root}`]: {
     height: "100%",
     width: "100%",
-    display: "block",
-    objectFit: "contain",
-    [theme.breakpoints.down("md")]: {
+    [`& .${classes.item}`]: {
+      margin: "auto",
       width: "100%",
+      maxWidth: 600,
+      height: 400,
+      display: "block",
+      objectFit: "contain",
+      [theme.breakpoints.down("md")]: {
+        height: 300,
+      },
     },
   },
+  
 }));
 export interface MediaSliderProps extends Omit<SliderProps, "slides"> {
   data: Media.Media[];
@@ -30,6 +36,7 @@ export interface MediaSliderProps extends Omit<SliderProps, "slides"> {
   onLoad?: () => void;
   style?: React.CSSProperties;
   itemStyle?: React.CSSProperties;
+  itemClassName?: string;
 }
 
 export const MediaSlider: React.FC<MediaSliderProps> = ({
@@ -39,6 +46,8 @@ export const MediaSlider: React.FC<MediaSliderProps> = ({
   style,
   onLoad,
   enableDescription,
+  className,
+  itemClassName,
   ...props
 }) => {
   return (
@@ -51,6 +60,7 @@ export const MediaSlider: React.FC<MediaSliderProps> = ({
       centerMode={true}
       maxHeight={400}
       {...props}
+      className={clsx(classes.root, className)}
     >
       {data
         .filter((m) => m !== undefined)
@@ -59,7 +69,7 @@ export const MediaSlider: React.FC<MediaSliderProps> = ({
             key={m.id}
             style={{
               margin: "auto",
-              maxHeight: 400,
+              height: "100%",
             }}
             onClick={(e) => {
               e.stopPropagation();
@@ -68,17 +78,10 @@ export const MediaSlider: React.FC<MediaSliderProps> = ({
             <MediaElement
               key={m.id}
               media={m}
-              className={classes.item}
-              style={{
-                maxWidth: 600,
-                minHeight: 200,
-                height: 400,
-                ...itemStyle,
-              }}
+              className={clsx(classes.item, itemClassName)}
               onLoad={i === 0 ? onLoad : undefined}
               enableDescription={enableDescription}
             />
-            <LinkIcon onClick={() => onClick?.(m)} />
           </div>
         ))}
     </StyledSlider>
