@@ -10,6 +10,7 @@ import { type EventV2Entity } from "@entities/Event.v2.entity";
 import { type EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { KeywordEntity } from "@entities/Keyword.entity";
 import { LinkEntity } from "@entities/Link.entity";
+import { UserEntity } from '@entities/User.entity';
 import { type ControllerError } from "@io/ControllerError";
 import { searchEventV2Query } from "@routes/events/queries/searchEventsV2.query";
 import { type RouteContext } from "@routes/route.types";
@@ -109,7 +110,7 @@ export const findEventByLinkOrCreateSuggestion =
           TE.chain((optEventSuggestion) => {
             if (O.isNone(optEventSuggestion)) {
               return pipe(
-                linkFlows.fetchAndSave(ctx)(url),
+                linkFlows.fetchAndSave(ctx)(new UserEntity(), url),
                 TE.chain((l) => {
                   const upsertHashtagsT = hashtags
                     ? pipe(

@@ -1,4 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
+import { toPuppeteerError } from "@liexp/shared/providers/puppeteer.provider";
 import { defaultSites } from "@liexp/shared/scrapers/defaultSites";
 import { searchWithGoogle } from "@liexp/shared/scrapers/searchLinksWithGoogle";
 import { type Router } from "express";
@@ -10,6 +11,7 @@ import { pipe } from "fp-ts/function";
 import * as S from "fp-ts/string";
 import { type LinkEntity } from "@entities/Link.entity";
 import { fetchAsLink } from "@flows/link.flow";
+import { getOneAdminOrFail } from "@flows/users/getOneUserOrFail.flow";
 import { toControllerError } from "@io/ControllerError";
 import { type RouteContext } from "@routes/route.types";
 
@@ -24,11 +26,18 @@ export const SearchEventsFromProviderRoute = (
       ctx.logger.debug.log("Query %O", { q, providers, keywords, date });
 
       const tasks = pipe(
-        ctx.puppeteer.getBrowser({
-          headless: true,
-        }),
+        getOneAdminOrFail(ctx),
+        TE.mapLeft(toPuppeteerError),
+        TE.chain((user) =>
+          pipe(
+            ctx.puppeteer.getBrowser({
+              headless: true,
+            }),
+            TE.map((browser) => ({ browser, user }))
+          )
+        ),
         TE.mapLeft(toControllerError),
-        TE.chain((browser) =>
+        TE.chain(({ browser, user }) =>
           pipe(
             providers,
             A.map((provider) => {
@@ -42,7 +51,7 @@ export const SearchEventsFromProviderRoute = (
                 TE.mapLeft(toControllerError),
                 TE.chain((ll) => {
                   return pipe(
-                    ll.map((l: any) => fetchAsLink(ctx)(l)),
+                    ll.map((l: any) => fetchAsLink(ctx)(user, l)),
                     A.sequence(TE.ApplicativePar)
                   );
                 })

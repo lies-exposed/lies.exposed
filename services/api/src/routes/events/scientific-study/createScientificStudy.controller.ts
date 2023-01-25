@@ -3,15 +3,19 @@ import {
   CreateScientificStudyBody,
   type CreateScientificStudyPlainBody,
 } from "@liexp/shared/io/http/Events/ScientificStudy";
+import { AdminCreate } from "@liexp/shared/io/http/User";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { UUID } from "io-ts-types/lib/UUID";
 import { Equal } from "typeorm";
 import { EventV2Entity } from "@entities/Event.v2.entity";
+import { UserEntity } from "@entities/User.entity";
 import { createEventFromURL } from "@flows/events/scientific-studies/createFromURL.flow";
 import { type ControllerError } from "@io/ControllerError";
 import { toEventV2IO } from "@routes/events/eventV2.io";
 import { type Route, type RouteContext } from "@routes/route.types";
+import { authenticationHandler } from "@utils/authenticationHandler";
+import { ensureUserExists } from "@utils/user.utils";
 
 const createScientificStudyFromPlainObject =
   (ctx: RouteContext) =>
@@ -75,20 +79,32 @@ const createScientificStudyFromPlainObject =
   };
 
 export const MakeCreateScientificStudyRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(Endpoints.ScientificStudy.Create, ({ body }) => {
-    const scientificStudyTask = CreateScientificStudyBody.types[1].is(body)
-      ? createEventFromURL(ctx)(body.url)
-      : createScientificStudyFromPlainObject(ctx)(body);
+  AddEndpoint(r, authenticationHandler(ctx, [AdminCreate.value]))(
+    Endpoints.ScientificStudy.Create,
+    ({ body }, req) => {
+      const scientificStudyTask = CreateScientificStudyBody.types[1].is(body)
+        ? pipe(
+            ensureUserExists(req.user),
+            TE.fromEither,
+            TE.map((u) => {
+              const user = new UserEntity();
+              user.id = u.id;
+              return user;
+            }),
+            TE.chain((u) => createEventFromURL(ctx)(u, body.url))
+          )
+        : createScientificStudyFromPlainObject(ctx)(body);
 
-    return pipe(
-      scientificStudyTask,
-      TE.chainEitherK(toEventV2IO),
-      TE.map((data) => ({
-        body: {
-          data,
-        },
-        statusCode: 201,
-      }))
-    );
-  });
+      return pipe(
+        scientificStudyTask,
+        TE.chainEitherK(toEventV2IO),
+        TE.map((data) => ({
+          body: {
+            data,
+          },
+          statusCode: 201,
+        }))
+      );
+    }
+  );
 };

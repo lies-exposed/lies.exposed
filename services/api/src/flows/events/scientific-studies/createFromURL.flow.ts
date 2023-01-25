@@ -7,12 +7,20 @@ import { Equal } from "typeorm";
 import { findByURL } from "../../../queries/events/scientificStudy.query";
 import { extractFromURL } from "../extractFromURL.flow";
 import { EventV2Entity } from "@entities/Event.v2.entity";
-import { type ControllerError, ServerError, toControllerError } from "@io/ControllerError";
+import { type UserEntity } from "@entities/User.entity";
+import {
+  ServerError,
+  toControllerError,
+  type ControllerError,
+} from "@io/ControllerError";
 import { type RouteContext } from "@routes/route.types";
 
 export const createEventFromURL =
   (ctx: RouteContext) =>
-  (url: URL): TE.TaskEither<ControllerError, EventV2Entity> => {
+  (
+    user: UserEntity,
+    url: URL
+  ): TE.TaskEither<ControllerError, EventV2Entity> => {
     return pipe(
       findByURL(ctx)(url),
       TE.chain((existingEvent) => {
@@ -27,7 +35,7 @@ export const createEventFromURL =
                   toControllerError
                 ),
                 TE.chain((p) =>
-                  extractFromURL(ctx)(p, {
+                  extractFromURL(ctx)(p, user, {
                     type: SCIENTIFIC_STUDY.value,
                     url,
                   })

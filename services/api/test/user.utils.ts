@@ -25,10 +25,12 @@ export const loginUser =
     return { token, authorization: `Bearer ${token}` };
   };
 
+export interface UserTest { id: string; username: string; password: string }
+
 export const saveUser = async (
   Test: AppTest,
   permissions: UserPermission[]
-): Promise<{ id: string; username: string; password: string }> => {
+): Promise<UserTest> => {
   const id = uuid();
   const username = `${id}@lies.exp`;
   const password = "password";

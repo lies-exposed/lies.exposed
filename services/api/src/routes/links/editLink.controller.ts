@@ -10,6 +10,7 @@ import { type RouteContext } from "../route.types";
 import { toLinkIO } from "./link.io";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { LinkEntity } from "@entities/Link.entity";
+import { UserEntity } from '@entities/User.entity';
 import { fetchAsLink } from "@flows/link.flow";
 import { authenticationHandler } from "@utils/authenticationHandler";
 import { ensureUserExists } from "@utils/user.utils";
@@ -29,7 +30,7 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
       return pipe(
         ensureUserExists(req.user),
         TE.fromEither,
-        TE.map(() => {
+        TE.map((u) => {
           const linkUpdate = {
             ...body,
             url: sanitizeURL(url),
@@ -44,9 +45,11 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
             ),
           };
           ctx.logger.debug.log("Update link data %O", linkUpdate);
-          return linkUpdate;
+          const user = new UserEntity();
+          user.id = u.id;
+          return { linkUpdate, user };
         }),
-        TE.chain((linkUpdate) =>
+        TE.chain(({linkUpdate, user }) =>
           pipe(
             ctx.db.findOneOrFail(LinkEntity, {
               where: { id: Equal(id) },
@@ -58,7 +61,7 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
                 O.map((t) => {
                   if (t) {
                     return pipe(
-                      fetchAsLink(ctx)(l.url),
+                      fetchAsLink(ctx)(user, l.url),
                       TE.map((ll) => ({
                         ...ll,
                         ...l,

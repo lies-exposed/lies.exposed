@@ -1,13 +1,14 @@
 import { http } from "@liexp/shared/io";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
+import { AdminCreate } from "@liexp/shared/io/http/User";
 import { createExcerptValue } from "@liexp/shared/slate";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
 import { HumanReadableStringArb } from "@liexp/shared/tests/arbitrary/HumanReadableString.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { fc } from "@liexp/test";
-import jwt from "jsonwebtoken";
 import { type AppTest, GetAppTest } from "../../../../../test/AppTest";
+import { loginUser, saveUser } from "../../../../../test/user.utils";
 import { ActorEntity } from "@entities/Actor.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
@@ -31,10 +32,11 @@ describe("Create Scientific Study", () => {
       appTest.ctx.db.save(GroupEntity, [{ ...group, members: [] }])
     );
 
-    authorizationToken = `Bearer ${jwt.sign(
-      { id: "1" },
-      appTest.ctx.env.JWT_SECRET
-    )}`;
+    const admin = await saveUser(appTest, [AdminCreate.value]);
+
+    authorizationToken = await loginUser(appTest)(admin).then(
+      ({ authorization }) => authorization
+    );
   });
 
   afterAll(async () => {
