@@ -15,6 +15,7 @@ import { TransactionListItem } from "./TransactionListItem";
 import { UncategorizedListItem } from "./UncategorizedListItem";
 
 export interface EventListItemProps {
+  className?: string;
   event: Events.SearchEvent.SearchEvent;
   style?: React.CSSProperties;
   onClick: (e: any) => void;

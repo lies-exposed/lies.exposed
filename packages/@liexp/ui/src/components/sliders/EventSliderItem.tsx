@@ -1,4 +1,10 @@
-import { type Actor, Events, type Group, type Keyword, type Media } from "@liexp/shared/io/http";
+import {
+  type Actor,
+  Events,
+  type Group,
+  type Keyword,
+  type Media,
+} from "@liexp/shared/io/http";
 import { type EventType } from "@liexp/shared/io/http/Events";
 import { getTextContentsCapped, isValidValue } from "@liexp/shared/slate";
 import { formatDateToShort } from "@liexp/shared/utils/date";
@@ -47,14 +53,18 @@ const classes = {
   root: `${EVENT_SLIDER_ITEM_BASE_PREFIX}-root`,
   title: `${EVENT_SLIDER_ITEM_BASE_PREFIX}-title`,
   eventIcon: `${EVENT_SLIDER_ITEM_BASE_PREFIX}-event-icon`,
+  mediaSlider: `${EVENT_SLIDER_ITEM_BASE_PREFIX}-media-slider`,
+  mediaSliderItem: `${EVENT_SLIDER_ITEM_BASE_PREFIX}-media-slider-item`,
 };
 
 const StyledGrid = styled(Grid)(({ theme }) => ({
   [`&.${classes.root}`]: {
     display: "flex",
     flexDirection: "column",
-    marginRight: theme.spacing(3),
-    marginLeft: theme.spacing(3),
+    paddingRight: theme.spacing(3),
+    paddingLeft: theme.spacing(3),
+    width: "100%",
+    height: "100%",
   },
   [`& .${classes.title}`]: {
     display: "flex",
@@ -62,6 +72,20 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
   },
   [`& .${classes.eventIcon}`]: {
     marginRight: 10,
+  },
+  [`& .${classes.mediaSlider}`]: {
+    width: "100%",
+    maxHeight: 400,
+    [theme.breakpoints.down("md")]: {
+      maxHeight: 200,
+    },
+  },
+  [`& .${classes.mediaSliderItem}`]: {
+    maxHeight: 400,
+    maxWidth: "100%",
+    [theme.breakpoints.down("md")]: {
+      maxHeight: 200,
+    },
   },
 })) as typeof Grid;
 
@@ -114,7 +138,9 @@ export const EventSliderItemBase: React.FC<EventSliderItemBaseProps> = ({
                   marginBottom: 20,
                 }}
                 keywords={kk.map((k) => ({ ...k, selected: true }))}
-                onItemClick={(k) => { onKeywordClick?.(k); }}
+                onItemClick={(k) => {
+                  onKeywordClick?.(k);
+                }}
               />
             )
           )
@@ -139,9 +165,9 @@ export const EventSliderItemBase: React.FC<EventSliderItemBaseProps> = ({
             // eslint-disable-next-line react/jsx-key
             <Grid item sm={12} md={8} lg={8}>
               <MediaSlider
+                className={classes.mediaSlider}
+                itemClassName={classes.mediaSliderItem}
                 data={media}
-                style={{ width: "100%", minHeight: 200, maxHeight: 400 }}
-                itemStyle={{ minHeight: 200, maxHeight: 400, maxWidth: "100%" }}
                 onLoad={onLoad}
                 enableDescription={true}
               />

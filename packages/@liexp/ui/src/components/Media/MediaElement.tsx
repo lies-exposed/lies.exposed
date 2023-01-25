@@ -1,4 +1,5 @@
 import { Media } from "@liexp/shared/io/http";
+import { clsx } from "clsx";
 import * as React from "react";
 import { styled } from "../../theme";
 import { Video } from "../Video/Video";
@@ -13,11 +14,20 @@ const MEDIA_ELEMENT_PREFIX = "media-element";
 const classes = {
   root: `${MEDIA_ELEMENT_PREFIX}-root`,
   description: `${MEDIA_ELEMENT_PREFIX}-description`,
+  item: `${MEDIA_ELEMENT_PREFIX}-item`,
 };
 
 const StyledBox = styled(Box)(() => ({
   [`&.${classes.root}`]: {
     position: "relative",
+    height: "100%",
+  },
+  [`& .${classes.item}`]: {
+    width: "100%",
+    height: "100%",
+    maxWidth: 800,
+    maxHeight: 400,
+    margin: "auto",
   },
   [`& .${classes.description}`]: {
     position: "absolute",
@@ -45,31 +55,21 @@ const MediaElement: React.FC<MediaElementProps> = ({
   ...props
 }) => {
   const mediaElement = React.useMemo(() => {
-    const commonStyle = {
-      width: "100%",
-      maxWidth: 800,
-      minHeight: 300,
-      margin: "auto",
-      ...style,
-    };
-
     switch (media.type) {
       case Media.MediaType.types[7].value:
         return (
           <IframeMediaElement
             {...props}
-            className={className}
+            className={clsx(classes.item, className)}
             media={{ ...media, type: "iframe/video" }}
-            style={commonStyle}
           />
         );
       case Media.MediaType.types[6].value: {
         return (
           <PDFMediaElement
             {...props}
-            className={className}
+            className={clsx(classes.item, className)}
             media={{ ...media, type: "application/pdf" }}
-            style={commonStyle}
           />
         );
       }
@@ -77,7 +77,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
         return (
           <Video
             {...props}
-            className={className}
+            className={clsx(classes.item, className)}
             thumbnail={media.thumbnail}
             src={media.location}
             type={"video/mp4"}
@@ -85,7 +85,6 @@ const MediaElement: React.FC<MediaElementProps> = ({
             loop={false}
             controls={true}
             autoPlay={false}
-            style={commonStyle}
           />
         );
       }
@@ -93,8 +92,8 @@ const MediaElement: React.FC<MediaElementProps> = ({
       case Media.MediaType.types[3].value: {
         return (
           <AudioMediaElement
+            className={clsx(classes.item, className)}
             media={media as any}
-            style={{ ...commonStyle, ...style }}
           />
         );
       }
@@ -103,9 +102,8 @@ const MediaElement: React.FC<MediaElementProps> = ({
         return (
           <ExpandableImageElement
             {...props}
-            className={className}
+            className={clsx(classes.item, className)}
             media={media as any}
-            style={{ ...commonStyle, ...style }}
           />
         );
     }

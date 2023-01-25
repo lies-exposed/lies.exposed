@@ -71,7 +71,12 @@ export const Video: React.FC<VideoProps> = ({
             e.stopPropagation();
             setLoaded(true);
           }}
-          style={style}
+          style={{
+            width: "100%",
+            height: "100%",
+            flexGrow: 1,
+            ...style,
+          }}
           onLoad={onLoad}
         />
       )}

@@ -6,13 +6,13 @@ import { styled, useTheme } from "../../../theme";
 const PREFIX = "Slider";
 
 const classes = {
-  mediaSlider: `${PREFIX}-mediaSlider`,
+  root: `${PREFIX}-root`,
   mediaSliderDownMD: `${PREFIX}-mediaSliderDownMD`,
   item: `${PREFIX}-item`,
 };
 
 const StyledSlickSlider = styled(SlickSlider.default)(({ theme }) => ({
-  [`.${classes.mediaSlider}`]: {
+  [`.${classes.root}`]: {
     margin: 0,
     width: "100%",
     maxHeight: "100%",
@@ -46,7 +46,7 @@ export const Slider: React.FC<SliderProps> = ({
 
   return (
     <StyledSlickSlider
-      className={clsx(classes.mediaSlider, className)}
+      className={clsx(classes.root, className)}
       adaptiveHeight={true}
       infinite={false}
       arrows={true}
@@ -62,7 +62,7 @@ export const Slider: React.FC<SliderProps> = ({
           breakpoint: theme.breakpoints.values.md,
           settings: {
             ...props,
-            className: clsx(classes.mediaSlider, classes.mediaSliderDownMD),
+            className: clsx(classes.root, className, classes.mediaSliderDownMD),
             centerPadding: "0px",
           },
         },

@@ -6,9 +6,11 @@ interface VideoCoverProps {
   onClick: React.MouseEventHandler<HTMLDivElement>;
   style?: React.CSSProperties;
   onLoad?: () => void;
+  className?: string
 }
 
 export const VideoCover: React.FC<VideoCoverProps> = ({
+  className,
   thumbnail,
   onClick,
   style,
@@ -20,6 +22,7 @@ export const VideoCover: React.FC<VideoCoverProps> = ({
 
   return (
     <div
+    className={className}
       onClick={onClick}
       style={{
         ...style,

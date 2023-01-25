@@ -21,6 +21,7 @@ export const fetchAsLink =
     url: URL,
     defaults?: Partial<Metadata>
   ): TE.TaskEither<ControllerError, LinkEntity> => {
+    
     return pipe(
       ctx.urlMetadata.fetchMetadata(url, {}, (e) =>
         ServerError([`Error fetching metadata from url ${url}`])
