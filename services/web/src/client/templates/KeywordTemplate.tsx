@@ -30,6 +30,9 @@ const KeywordPage: React.FC<{ keywordId: string }> = ({ keywordId }) => {
       onEventClick={(e) => {
         navigateTo.events({ id: e.id });
       }}
+      onMediaClick={(m) => {
+        navigateTo.media({ id: m.id });
+      }}
       onQueryChange={(q) => {
         navigateTo.keywords({ id: keywordId }, { ...q, tab });
       }}

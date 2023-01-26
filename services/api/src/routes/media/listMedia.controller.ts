@@ -23,6 +23,7 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
         emptyEvents,
         deletedOnly,
         creator,
+        keywords,
         ...query
       },
     }) => {
@@ -51,8 +52,9 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
           .getRepository(MediaEntity)
           .createQueryBuilder("media")
           .leftJoinAndSelect("media.events", "events")
+          .leftJoinAndSelect('media.keywords', 'keywords')
           .leftJoinAndSelect("media.links", "links")
-          .loadAllRelationIds({ relations: ["creator", "keywords"] }),
+          .loadAllRelationIds({ relations: ["creator"] }),
         (q) => {
           let hasWhere = false;
           if (O.isSome(description)) {
@@ -82,6 +84,14 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
             const where = hasWhere ? q.andWhere.bind(q) : q.where.bind(q);
             where("media.type IN (:...types)", {
               types: type.value,
+            });
+            hasWhere = true;
+          }
+
+          if (O.isSome(keywords)) {
+            const where = hasWhere ? q.andWhere.bind(q) : q.where.bind(q);
+            where("keywords.id IN (:...keywordIds)", {
+              keywordIds: keywords.value,
             });
             hasWhere = true;
           }
@@ -140,6 +150,7 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
               ...d,
               links: d.links.map((l) => l.id) as any[],
               events: d.events.map((e) => e.id) as any[],
+              keywords: d.keywords.map((e) => e.id) as any[],
             })),
             A.traverse(E.Applicative)(toImageIO),
             TE.fromEither,

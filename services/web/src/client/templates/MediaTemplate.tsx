@@ -10,7 +10,7 @@ import { useNavigateToResource } from "../utils/location.utils";
 const MediaTemplate: React.FC<{ mediaId: string }> = ({ mediaId }) => {
   // const params = useParams();
   const navigateToResource = useNavigateToResource();
-  const { tab } = useRouteQuery({ tab: 0 });
+  const { tab = "0" } = useRouteQuery();
 
   return (
     <QueriesRenderer
@@ -27,9 +27,9 @@ const MediaTemplate: React.FC<{ mediaId: string }> = ({ mediaId }) => {
             />
             <MediaTemplateUI
               media={m}
-              tab={tab}
+              tab={parseInt(tab, 10)}
               onTabChange={(t) => {
-                navigateToResource.media({ id: m.id }, { tab });
+                navigateToResource.media({ id: m.id }, { tab: t });
               }}
               onEventClick={(e) => {
                 navigateToResource.events({ id: e.id });

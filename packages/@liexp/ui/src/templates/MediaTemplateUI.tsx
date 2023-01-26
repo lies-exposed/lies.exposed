@@ -37,7 +37,6 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
         </Box>
       </MainContent>
       <Tabs value={tab} onChange={(e, v) => { onTabChange(v); }}>
-        {/* <Tab label="General" {...a11yProps(0)} /> */}
         <Tab label="Events" {...a11yProps(0)} />
         <Tab label="Links" {...a11yProps(1)} />
       </Tabs>

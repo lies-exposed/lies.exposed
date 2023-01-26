@@ -95,5 +95,5 @@ export function useNavigateToResource(): NavigationHooks {
       media: navigateToResource("media"),
       stories: navigateToResource("stories"),
     };
-  }, [n.pathname]);
+  }, [n.pathname, n.search]);
 }
