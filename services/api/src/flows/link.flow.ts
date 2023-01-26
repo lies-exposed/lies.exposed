@@ -21,7 +21,6 @@ export const fetchAsLink =
     url: URL,
     defaults?: Partial<Metadata>
   ): TE.TaskEither<ControllerError, LinkEntity> => {
-    
     return pipe(
       ctx.urlMetadata.fetchMetadata(url, {}, (e) =>
         ServerError([`Error fetching metadata from url ${url}`])
@@ -77,12 +76,6 @@ export const fetchAsLink =
             ...m,
             image: pipe(
               image,
-              fp.O.map((i) => {
-                const media = new MediaEntity();
-                media.id = i.id;
-
-                return media;
-              }),
               fp.O.toNullable
             ),
           }))
