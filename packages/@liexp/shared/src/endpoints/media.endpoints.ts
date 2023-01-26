@@ -26,6 +26,7 @@ export const List = Endpoint({
         emptyEvents: optionFromNullable(BooleanFromString),
         deletedOnly: optionFromNullable(BooleanFromString),
         creator: optionFromNullable(UUID),
+        keywords: optionFromNullable(t.array(UUID))
       },
       "MediaListQuery"
     ),

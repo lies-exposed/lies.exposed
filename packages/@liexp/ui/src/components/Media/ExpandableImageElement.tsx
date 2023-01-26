@@ -39,11 +39,12 @@ const StyledBox = styled(Box)(({ theme }) => ({
     maxWidth: "100%",
     maxHeight: 800,
     objectFit: "cover",
+    margin: "auto",
   },
   [`& .${classes.expandIcon}`]: {
     position: "absolute",
     right: 0,
-    top: 0
+    top: 0,
   },
 }));
 
@@ -128,13 +129,7 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
                   flexDirection: "column",
                 }}
               >
-                <img
-                  className={classes.image}
-                  src={media.location}
-                  style={{
-                    maxHeight: "100%",
-                  }}
-                />
+                <img className={classes.image} src={media.location} />
                 <Typography id="alert-dialog-title" variant="body2">
                   {media.description}
                 </Typography>
