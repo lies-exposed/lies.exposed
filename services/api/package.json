@@ -74,7 +74,7 @@
     "@types/express": "^4.17.15",
     "@types/express-jwt": "^7.4.2",
     "@types/fluent-ffmpeg": "^2.1.20",
-    "@types/jest": "^29.2.6",
+    "@types/jest": "^29.4.0",
     "@types/jsonwebtoken": "^9.0.1",
     "@types/module-alias": "^2.0.1",
     "@types/multer": "^1.4.7",
