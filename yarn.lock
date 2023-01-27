@@ -2720,9 +2720,9 @@ __metadata:
     "@databases/escape-identifier": ^1.0.3
     "@databases/sql": ^3.3.0
     "@mui/material": ^5.11.5
-    "@react-page/editor": ^5.3.0
-    "@react-page/plugins-slate": ^5.3.0
-    "@react-page/react-admin": ^5.3.0
+    "@react-page/editor": ^5.3.11
+    "@react-page/plugins-slate": ^5.3.11
+    "@react-page/react-admin": ^5.3.11
     "@types/bs58": ^4.0.1
     "@types/fluent-ffmpeg": ^2.1.20
     "@types/jest": ^29.4.0
@@ -2806,15 +2806,15 @@ __metadata:
     "@mui/system": ^5.11.5
     "@mui/x-data-grid": ^5.17.20
     "@reach/router": ^1.3.4
-    "@react-page/editor": ^5.3.0
-    "@react-page/plugins-background": ^5.3.0
-    "@react-page/plugins-divider": ^5.3.0
-    "@react-page/plugins-html5-video": ^5.3.0
-    "@react-page/plugins-image": ^5.3.0
-    "@react-page/plugins-slate": ^5.3.0
-    "@react-page/plugins-spacer": ^5.3.0
-    "@react-page/plugins-video": ^5.3.0
-    "@react-page/react-admin": ^5.3.0
+    "@react-page/editor": ^5.3.11
+    "@react-page/plugins-background": ^5.3.11
+    "@react-page/plugins-divider": ^5.3.11
+    "@react-page/plugins-html5-video": ^5.3.11
+    "@react-page/plugins-image": ^5.3.11
+    "@react-page/plugins-slate": ^5.3.11
+    "@react-page/plugins-spacer": ^5.3.11
+    "@react-page/plugins-video": ^5.3.11
+    "@react-page/react-admin": ^5.3.11
     "@types/chroma-js": ^2.1.4
     "@types/d3": ^7.4.0
     "@types/d3-sankey": ^0.12.0
@@ -3601,9 +3601,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-page/editor@npm:^5.3.0":
-  version: 5.3.0
-  resolution: "@react-page/editor@npm:5.3.0"
+"@react-page/editor@npm:^5.3.11":
+  version: 5.3.11
+  resolution: "@react-page/editor@npm:5.3.11"
   dependencies:
     "@mui/icons-material": ^5.8.0
     "@mui/material": ^5.8.1
@@ -3634,71 +3634,71 @@ __metadata:
   peerDependencies:
     react: ">= 16.14"
     react-dom: ">= 16.14"
-  checksum: cf17185381a960b9bb91c67ce8c09d36d8e14611ba60fdea106a386c3d041bb73ed36fbfcade7f770b603de3cfc007ff1c144ba88a8f7ce1a16a9468bb4254f8
+  checksum: 4af7ae5a6c5817206c812a65c00db95ce267df91d1f1dfcc704d47fbfe52a5b22017398869badceb7db49305daf3100934f7055a9adc269dc291d136c2c28fbc
   languageName: node
   linkType: hard
 
-"@react-page/plugins-background@npm:^5.3.0":
-  version: 5.3.0
-  resolution: "@react-page/plugins-background@npm:5.3.0"
+"@react-page/plugins-background@npm:^5.3.11":
+  version: 5.3.11
+  resolution: "@react-page/plugins-background@npm:5.3.11"
   dependencies:
     "@mui/icons-material": ^5.8.0
-    "@react-page/editor": ^5.3.0
+    "@react-page/editor": ^5.3.11
   peerDependencies:
     "@mui/material": "*"
     react: ">= 16.14"
     react-dom: ">= 16.14"
-  checksum: 02bc36e0cacb451f8eafa47ee0b5fd31e0b32620c726fb3db3a7d04380e493b75734dc10eb9668ed4d5e06e088dcb5b20e861dbb75bbaadfe45289bc62c4e687
+  checksum: 581e6c1a17aa79d4d5c4b240638f4430546ada59d292285700127e232cf1f37514ff04259b334480a5d9f5f1e716ea7eb2b4b901578e7124df1da0c3521ef48f
   languageName: node
   linkType: hard
 
-"@react-page/plugins-divider@npm:^5.3.0":
-  version: 5.3.0
-  resolution: "@react-page/plugins-divider@npm:5.3.0"
+"@react-page/plugins-divider@npm:^5.3.11":
+  version: 5.3.11
+  resolution: "@react-page/plugins-divider@npm:5.3.11"
   dependencies:
     "@mui/icons-material": ^5.8.0
-    "@react-page/editor": ^5.3.0
+    "@react-page/editor": ^5.3.11
   peerDependencies:
     react: ">= 16.14"
     react-dom: ">= 16.14"
-  checksum: 82213a293a9c008b96c5bce0712be7ad53c993d20638a20a80569481546af8a104a81465a38b1c60c7364d637b6eef81e7b28c20e6c37476bade6d647d85b47a
+  checksum: 8d595682e5fcbe95813db4eebbd59aa06241b5d0a901926863d4e6a651943ba78afb4cc373624e9f5c8820e7daad90d74d4f38abc3b4c145a22fa290fdc40a98
   languageName: node
   linkType: hard
 
-"@react-page/plugins-html5-video@npm:^5.3.0":
-  version: 5.3.0
-  resolution: "@react-page/plugins-html5-video@npm:5.3.0"
+"@react-page/plugins-html5-video@npm:^5.3.11":
+  version: 5.3.11
+  resolution: "@react-page/plugins-html5-video@npm:5.3.11"
   dependencies:
-    "@react-page/editor": ^5.3.0
+    "@react-page/editor": ^5.3.11
   peerDependencies:
     "@mui/material": "*"
     react: ">= 16.14"
     react-dom: ">= 16.14"
-  checksum: 6fd854d61a7e72c76fe9ee78e8d55fa232233ca85ddb6ffa1c8be348aa26a606f504348d43f31112432db3c3bd2856a3a48bb3fbe3db88bf2b86bf21b9b832e4
+  checksum: 4fc0bf013c16fec135fdf0aa4557af3bad6d2616f7c5705a384fbe0802e4afbd0365e96a348dae857807e45d15201ca218fc848f692e5d4e78ac30cb596a8a9a
   languageName: node
   linkType: hard
 
-"@react-page/plugins-image@npm:^5.3.0":
-  version: 5.3.0
-  resolution: "@react-page/plugins-image@npm:5.3.0"
+"@react-page/plugins-image@npm:^5.3.11":
+  version: 5.3.11
+  resolution: "@react-page/plugins-image@npm:5.3.11"
   dependencies:
     "@mui/icons-material": ^5.8.0
-    "@react-page/editor": ^5.3.0
+    "@react-page/editor": ^5.3.11
   peerDependencies:
     "@mui/material": "*"
     react: ">= 16.14"
     react-dom: ">= 16.14"
-  checksum: 57deca80fec271cd87c8c9d7bebe62e17a3f626e72451754b428ad4e079e2f1074d0e82aaa6a1d4eddd63735a7817635ed5472d636328844e547115477c86b5c
+  checksum: 893473374804963b180012d42127390549740fef3014d52b6b3d62d6d6e939c3260ed066ae64b0c21123f0951a345636ca3639d096538e1a87f41738f20d1957
   languageName: node
   linkType: hard
 
-"@react-page/plugins-slate@npm:^5.3.0":
-  version: 5.3.0
-  resolution: "@react-page/plugins-slate@npm:5.3.0"
+"@react-page/plugins-slate@npm:^5.3.11":
+  version: 5.3.11
+  resolution: "@react-page/plugins-slate@npm:5.3.11"
   dependencies:
     "@emotion/is-prop-valid": ^1.2.0
     "@mui/icons-material": ^5.8.0
-    "@react-page/editor": ^5.3.0
+    "@react-page/editor": ^5.3.11
     "@xmldom/xmldom": ^0.8.1
     cssstyle: ^2.3.0
     deep-rename-keys: ^0.2.1
@@ -3720,47 +3720,47 @@ __metadata:
     "@types/react": "*"
     react: ">= 16.14"
     react-dom: ">= 16.14"
-  checksum: 7fcea46b94979c167ba11ae2c69ad10fed8712e124cc300d2eb30ef1810075e7177279187f84c9674017b915f39032802a57176912eba94281723065c84af6f7
+  checksum: 1c245a1bdb1372f3699f3fab52bc9bda7aeae95c0031ea6df5e596ee2f26165c1c179ad312f718c563d0a8a342ace71883185a9dca667b2128069c0943617b6c
   languageName: node
   linkType: hard
 
-"@react-page/plugins-spacer@npm:^5.3.0":
-  version: 5.3.0
-  resolution: "@react-page/plugins-spacer@npm:5.3.0"
+"@react-page/plugins-spacer@npm:^5.3.11":
+  version: 5.3.11
+  resolution: "@react-page/plugins-spacer@npm:5.3.11"
   dependencies:
     "@mui/icons-material": ^5.8.0
-    "@react-page/editor": ^5.3.0
+    "@react-page/editor": ^5.3.11
     classnames: 2.2.6
     react-resizable: ^3.0.4
   peerDependencies:
     "@mui/material": "*"
     react: ">= 16.14"
     react-dom: ">= 16.14"
-  checksum: 53479b15eb8894a3cfbacdaecdac6846ee8c10cc15170744a4475e6e4431e6714ecff2de0afa7c0807510a56b59ceb93451a643f70dd42d0e414507e9e3fc100
+  checksum: 37ab6a3d7254849703c4ab696a75f565f69fa46685e793b67678107054d68327c1b2952304e7b9bfe3984150869a932ee6e77d0b10444c950b8aeacf10510f00
   languageName: node
   linkType: hard
 
-"@react-page/plugins-video@npm:^5.3.0":
-  version: 5.3.0
-  resolution: "@react-page/plugins-video@npm:5.3.0"
+"@react-page/plugins-video@npm:^5.3.11":
+  version: 5.3.11
+  resolution: "@react-page/plugins-video@npm:5.3.11"
   dependencies:
     "@mui/icons-material": ^5.8.0
-    "@react-page/editor": ^5.3.0
+    "@react-page/editor": ^5.3.11
     react-player: ^2.10.1
   peerDependencies:
     "@mui/material": "*"
     react: ">= 16.14"
     react-dom: ">= 16.14"
-  checksum: 306b36c3c5965434fc0005ae9f72387e5e788fcdb09c3e88d8ad087bdcd09950b66922f1098a9ee52387071b050250a41e1102e93e0fa9e81494caf1698b4953
+  checksum: d8cbbc0f054dc650ecc87bcf114116dc170bad0d5f99239066fe485bf5b8304498e004557c5b436c0dd3114a6adca42f0fa16e7dcf0acdb8723c3cbfd17deacd
   languageName: node
   linkType: hard
 
-"@react-page/react-admin@npm:^5.3.0":
-  version: 5.3.0
-  resolution: "@react-page/react-admin@npm:5.3.0"
+"@react-page/react-admin@npm:^5.3.11":
+  version: 5.3.11
+  resolution: "@react-page/react-admin@npm:5.3.11"
   dependencies:
     "@mui/icons-material": ^5.8.0
-    "@react-page/editor": ^5.3.0
+    "@react-page/editor": ^5.3.11
   peerDependencies:
     "@mui/material": "*"
     react: ">= 16.14"
@@ -3768,7 +3768,7 @@ __metadata:
     react-dom: ">= 16.14"
     react-final-form: "*"
     uniforms: "*"
-  checksum: e1967eccfafcdca863e83fa4b4e908c101eef3eee61137d82523d720d6a23cf443d9886f124dcbcab86bf0867305b640beb2661a0d33e24bc9328d68df440977
+  checksum: 6e839b2241540e24c6e60e4762b3a26094114d5f88265f47d9408ea1a9737dc21f82ea0ea59a630d4635b94b1eee3b5538af38aebb7bf45a3fba31a8691047b6
   languageName: node
   linkType: hard
 
