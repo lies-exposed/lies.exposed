@@ -151,7 +151,7 @@ const EventListItemBase = <E extends any>({
           (ll) => (
             <Grid item lg={12} md={12} sm={12} xs={12}>
               <LinksBox
-                ids={ll}
+                filter={{ ids: ll }}
                 onOpen={() => {
                   onRowInvalidate(event);
                 }}

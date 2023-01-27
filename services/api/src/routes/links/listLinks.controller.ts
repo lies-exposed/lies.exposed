@@ -18,6 +18,7 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
       {
         query: {
           events,
+          keywords,
           ids,
           q: search,
           emptyEvents,
@@ -86,9 +87,15 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
               }
 
               if (O.isSome(events)) {
-                return q.where("events.id IN (:...events)", {
-                  events: events.value,
+                return q.where("events.id IN (:...eventIds)", {
+                  eventIds: events.value,
                 });
+              }
+
+              if (O.isSome(keywords)) {
+                return q.where('keywords.id IN (:...keywordIds)', {
+                  keywordIds: keywords.value
+                })
               }
 
               if (O.isSome(onlyDeleted)) {
@@ -127,6 +134,7 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
             results.map((r) => ({
               ...r,
               events: r.events.map((e) => e.id) as any[],
+              keywords: r.keywords.map((e) => e.id) as any[],
             })),
             A.traverse(E.Applicative)(toLinkIO),
             E.map((data) => ({ data, total }))

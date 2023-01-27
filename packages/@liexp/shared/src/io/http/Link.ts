@@ -1,8 +1,27 @@
 import * as t from "io-ts";
+import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { optionFromUndefined } from "../Common/optionFromUndefined";
 import { URL, UUID } from "./Common";
 import { CreateMedia } from "./Media";
+import { GetListQuery } from './Query';
+
+export const GetListLinkQuery = t.type(
+  {
+    ...GetListQuery.props,
+    q: optionFromNullable(t.string),
+    events: optionFromNullable(t.array(UUID)),
+    keywords: optionFromNullable(t.array(UUID)),
+    ids: optionFromNullable(t.array(UUID)),
+    provider: optionFromNullable(UUID),
+    creator: optionFromNullable(UUID),
+    emptyEvents: optionFromNullable(BooleanFromString),
+    onlyDeleted: optionFromNullable(BooleanFromString),
+  },
+  "GetListLinkQuery"
+);
+export type GetListLinkQuery = t.TypeOf<typeof GetListLinkQuery>;
 
 export const CreateLink = t.strict(
   {

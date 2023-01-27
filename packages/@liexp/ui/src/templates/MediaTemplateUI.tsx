@@ -36,7 +36,12 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
           <KeywordsBox ids={m.keywords} onItemClick={onKeywordClick} />
         </Box>
       </MainContent>
-      <Tabs value={tab} onChange={(e, v) => { onTabChange(v); }}>
+      <Tabs
+        value={tab}
+        onChange={(e, v) => {
+          onTabChange(v);
+        }}
+      >
         <Tab label="Events" {...a11yProps(0)} />
         <Tab label="Links" {...a11yProps(1)} />
       </Tabs>
@@ -68,7 +73,7 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
           />
         </TabPanel>
         <TabPanel index={1} value={tab}>
-          <LinksBox ids={m.links} onClick={() => {}} />
+          <LinksBox filter={{ ids: m.links }} onClick={() => {}} />
         </TabPanel>
       </Box>
     </Box>

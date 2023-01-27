@@ -1,10 +1,7 @@
 import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { ListOutput, Output, UUID } from "../io/http/Common";
 import * as Link from "../io/http/Link";
-import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
 
 const OneLinkOutput = Output(Link.Link, "Link");
@@ -14,16 +11,7 @@ export const List = Endpoint({
   Method: "GET",
   getPath: () => "/links",
   Input: {
-    Query: t.type({
-      ...GetListQuery.props,
-      q: optionFromNullable(t.string),
-      events: optionFromNullable(t.array(UUID)),
-      ids: optionFromNullable(t.array(UUID)),
-      provider: optionFromNullable(UUID),
-      creator: optionFromNullable(UUID),
-      emptyEvents: optionFromNullable(BooleanFromString),
-      onlyDeleted: optionFromNullable(BooleanFromString),
-    }),
+    Query: Link.GetListLinkQuery,
   },
   Output: ManyLinkOutput,
 });

@@ -220,7 +220,7 @@ export const EventSliderItemBase: React.FC<EventSliderItemBaseProps> = ({
           (ll) => (
             <Grid item lg={12} md={12} sm={12} xs={12}>
               <LinksBox
-                ids={ll}
+                filter={{ ids: ll}}
                 onOpen={() => {}}
                 onClose={() => {}}
                 onClick={() => {}}
