@@ -31,11 +31,12 @@ import {
   useRecordContext,
   useRefresh,
 } from "react-admin";
-import { Box, Toolbar } from "../mui";
+import { Box, Grid, Toolbar } from "../mui";
 import { CreateEventFromLinkButton } from "./common/CreateEventFromLinkButton";
 import { DangerZoneField } from "./common/DangerZoneField";
 import { EditForm } from "./common/EditForm";
 import ReferenceArrayEventInput from "./common/ReferenceArrayEventInput";
+import ReferenceArrayKeywordInput from "./common/ReferenceArrayKeywordInput";
 import ReferenceGroupInput from "./common/ReferenceGroupInput";
 import ReferenceUserInput from "./common/ReferenceUserInput";
 import { SearchLinksButton } from "./common/SearchLinksButton";
@@ -203,21 +204,26 @@ export const LinkEdit: React.FC = () => {
     >
       <TabbedForm>
         <FormTab label="General">
-          <TextInput source="title" fullWidth />
-          <URLMetadataInput source="url" type="Link" />
-          {isAdmin && <ReferenceUserInput source="creator" />}
-
-          <DateInput source="publishDate" />
-          <MediaField source="image.thumbnail" sourceType="image/jpeg" />
-          <ReferenceMediaInput
-            source="image.id"
-            allowedTypes={ImageType.types.map((t) => t.value)}
-          />
-
-          <OverrideThumbnail />
-          <TextInput source="description" fullWidth multiline />
-          <ReferenceGroupInput source="provider" />
-          {isAdmin && <DangerZoneField />}
+          <Grid container spacing={2}>
+            <Grid item md={6}>
+              <TextInput source="title" fullWidth />
+              <URLMetadataInput source="url" type="Link" />
+              <DateInput source="publishDate" />
+              <MediaField source="image.thumbnail" sourceType="image/jpeg" />
+              <ReferenceMediaInput
+                source="image.id"
+                allowedTypes={ImageType.types.map((t) => t.value)}
+              />
+              <OverrideThumbnail />
+              <TextInput source="description" fullWidth multiline />
+              <ReferenceGroupInput source="provider" />
+              {isAdmin && <DangerZoneField />}
+            </Grid>
+            <Grid item md={6}>
+              <ReferenceArrayKeywordInput source="keywords" showAdd={false} />
+              {isAdmin && <ReferenceUserInput source="creator" />}
+            </Grid>
+          </Grid>
         </FormTab>
         <FormTab label="Events">
           <CreateEventFromLinkButton />

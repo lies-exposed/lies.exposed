@@ -219,11 +219,10 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                       </Box>
                       {eventPageContent}
                       <LinksBox
-                        ids={event.links}
+                        filter={{ ids: event.links }}
                         defaultExpanded={true}
                         layout="list"
                         onClick={onLinkClick}
-                        // style={{ maxHeight: 200 }}
                       />
                     </Grid>
                   </Grid>

@@ -1,9 +1,10 @@
-import { type Media, type Keyword } from "@liexp/shared/io/http";
+import { type Keyword, type Media } from "@liexp/shared/io/http";
 import { type SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
 import { ParentSize } from "@visx/responsive";
 import * as React from "react";
 import { KeywordHierarchyEdgeBundlingGraph } from "../components/Graph/KeywordHierarchyEdgeBundlingGraph";
+import { LinksListBox } from "../components/LinksBox";
 import QueriesRenderer from "../components/QueriesRenderer";
 import SEO from "../components/SEO";
 import { MediaBox } from "../components/containers/MediaBox";
@@ -20,7 +21,7 @@ export interface KeywordTemplateProps {
   onTabChange: (t: number) => void;
   onEventClick: (e: SearchEvent) => void;
   onKeywordClick: (k: Keyword.Keyword) => void;
-  onMediaClick: (m: Media.Media) => void
+  onMediaClick: (m: Media.Media) => void;
   query: SearchEventsQueryInputNoPagination;
   onQueryChange: (q: SearchEventsQueryInputNoPagination, tab: number) => void;
 }
@@ -46,7 +47,10 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
             height="100%"
             style={{ paddingTop: 20 }}
           >
-            <SEO title={`#${keyword.tag}`} urlPath={`keywords/${keyword.tag}`} />
+            <SEO
+              title={`#${keyword.tag}`}
+              urlPath={`keywords/${keyword.tag}`}
+            />
             <SplitPageTemplate
               tab={tab}
               onTabChange={onTabChange}
@@ -54,6 +58,7 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
               tabs={[
                 { label: "Events" },
                 { label: "Media" },
+                { label: "Links" },
                 { label: "Hierarchy" },
                 { label: "Networks" },
               ]}
@@ -78,6 +83,15 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
               <MediaBox
                 filter={{ keywords: [keyword.id] }}
                 onClick={onMediaClick}
+              />
+              <LinksListBox
+                filter={{ keywords: [keyword.id] }}
+                onClick={() => {}}
+                layout={{
+                  sm: 6,
+                  md: 6,
+                  lg: 6,
+                }}
               />
               <ParentSize style={{ maxWidth: 400, minWidth: 200 }}>
                 {({ width }) => {

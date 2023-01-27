@@ -1,8 +1,10 @@
 import { type http } from "@liexp/shared/io";
 // import { formatDate } from "@liexp/shared/utils/date";
+import { type GetListLinkQuery } from "@liexp/shared/io/http/Link";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMoreOutlined";
 import LinkIcon from "@mui/icons-material/LinkOutlined";
 import * as React from "react";
+import { type serializedType } from "ts-io-error/lib/Codec";
 import { useLinksQuery } from "../state/queries/DiscreteQueries";
 import LinkCard from "./Cards/LinkCard";
 import QueriesRenderer from "./QueriesRenderer";
@@ -12,7 +14,7 @@ import {
   AccordionSummary,
   Box,
   Grid,
-  Typography,
+  Typography
 } from "./mui";
 
 interface LinksListProps {
@@ -62,7 +64,7 @@ export const LinksList: React.FC<LinksListProps> = ({
 };
 
 interface LinksBoxProps extends Omit<LinksListProps, "links"> {
-  ids: string[];
+  filter: Partial<serializedType<typeof GetListLinkQuery>>;
   defaultExpanded?: boolean;
   style?: React.CSSProperties;
   onClick: (l: http.Link.Link) => void;
@@ -71,7 +73,7 @@ interface LinksBoxProps extends Omit<LinksListProps, "links"> {
 }
 
 export const LinksBox: React.FC<LinksBoxProps> = ({
-  ids,
+  filter,
   defaultExpanded = false,
   onOpen,
   onClose,
@@ -80,18 +82,15 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
   style,
 }) => {
   const [expanded, setExpanded] = React.useState(defaultExpanded);
+  const perPage = filter?.ids?.length ?? 20;
 
   return (
     <QueriesRenderer
       queries={{
         links: useLinksQuery(
           {
-            pagination: { page: 1, perPage: ids.length },
-            filter: expanded
-              ? {
-                  ids,
-                }
-              : {},
+            pagination: { page: 1, perPage },
+            filter: expanded ? filter : {},
           },
           true
         ),
@@ -135,7 +134,7 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
               <Box display="flex" width="100%" padding={0}>
                 <LinkIcon />{" "}
                 <Typography component="span" variant="subtitle2">
-                  ({ids.length})
+                  ({links.length})
                 </Typography>
               </Box>
             </AccordionSummary>
@@ -148,6 +147,31 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
             </AccordionDetails>
           </Accordion>
         );
+      }}
+    />
+  );
+};
+
+export const LinksListBox: React.FC<LinksBoxProps> = ({
+  filter,
+  onClick,
+  layout,
+}) => {
+  const perPage = filter?.ids?.length ?? 20;
+
+  return (
+    <QueriesRenderer
+      queries={{
+        links: useLinksQuery(
+          {
+            pagination: { page: 1, perPage },
+            filter,
+          },
+          true
+        ),
+      }}
+      render={({ links: { data: links } }) => {
+        return <LinksList layout={layout} links={links} onClick={onClick} />;
       }}
     />
   );
