@@ -58,7 +58,7 @@
     "page-metadata-parser": "^1.1.4",
     "pdfjs-dist": "^3.2.146",
     "pg": "^8.8.0",
-    "puppeteer-core": "^19.6.0",
+    "puppeteer-core": "^19.6.1",
     "ts-endpoint-express": "^2.0.0",
     "ts-shared": "2.0.0-alpha.6",
     "typeorm": "^0.3.11",

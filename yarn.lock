@@ -2751,7 +2751,7 @@ __metadata:
     node-telegram-bot-api: ^0.61.0
     page-metadata-parser: ^1.1.4
     prettier: ^2.8.3
-    puppeteer-core: ^19.6.0
+    puppeteer-core: ^19.6.1
     puppeteer-extra: ^3.3.4
     puppeteer-extra-plugin-stealth: ^2.11.1
     query-string: ^7.1.3
@@ -8265,7 +8265,7 @@ __metadata:
     pdfjs-dist: ^3.2.146
     pg: ^8.8.0
     prettier: ^2.8.3
-    puppeteer-core: ^19.6.0
+    puppeteer-core: ^19.6.1
     supertest: ^6.3.3
     ts-endpoint-express: ^2.0.0
     ts-jest: ^29.0.5
@@ -20541,9 +20541,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"puppeteer-core@npm:^19.6.0":
-  version: 19.6.0
-  resolution: "puppeteer-core@npm:19.6.0"
+"puppeteer-core@npm:^19.6.1":
+  version: 19.6.1
+  resolution: "puppeteer-core@npm:19.6.1"
   dependencies:
     cross-fetch: 3.1.5
     debug: 4.3.4
@@ -20555,7 +20555,7 @@ __metadata:
     tar-fs: 2.1.1
     unbzip2-stream: 1.4.3
     ws: 8.11.0
-  checksum: 82927bc285c9e48e1036ffe1c345c85c9edbd49498577b21990a80c53d1b8b9415317841f63d0e56ee8babefc41325d0b6f4d7167785401924749752eae9bdda
+  checksum: 6235d81ddb2cb5116eff8f3c3b4e45e12f778ed673885bdf308327cb20b98eac5a0ecaea16d2582dcae51c495d5650376a99e384ffdca7dce1084e1cc9503bd5
   languageName: node
   linkType: hard
 
