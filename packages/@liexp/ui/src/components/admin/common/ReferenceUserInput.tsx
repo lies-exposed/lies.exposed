@@ -12,7 +12,9 @@ const ReferenceUserInput: React.FC<
     <ReferenceInput {...props} reference="users">
       <AutocompleteInput
         size="small"
-        optionText={(r) => (r ? r.firstName + " " + r.lastName : undefined)}
+        optionText={(r) =>
+          r ? `${r.firstName} ${r.lastName} (${r.username})` : undefined
+        }
         filterToQuery={(username) => ({ username })}
       />
     </ReferenceInput>

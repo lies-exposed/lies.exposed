@@ -38,6 +38,7 @@ export const authProvider: AuthProvider = {
   },
   logout: async () => {
     localStorage.removeItem("auth");
+    localStorage.removeItem("user");
     await Promise.resolve(undefined);
   },
   checkAuth: async () => {
@@ -51,7 +52,6 @@ export const authProvider: AuthProvider = {
   checkError: (e: AxiosError) => {
     // console.log("check error", e);
     if (e?.response?.status === 401) {
-      localStorage.removeItem("auth");
       return Promise.reject(new Error(JSON.stringify(e.response.data)));
     }
 
@@ -71,13 +71,12 @@ export const authProvider: AuthProvider = {
   getIdentity: async () => {
     try {
       const user = await apiProvider.get("users/me", {});
+      // console.log(user);
 
       localStorage.setItem("user", JSON.stringify(user));
       return user;
     } catch (e) {
-      // eslint-disable-next-line
-      console.error(e);
-      return undefined;
+      return await authProvider.checkError(e).catch(authProvider.logout);
     }
   },
 };
