@@ -1,12 +1,16 @@
 import { ACTORS } from "@liexp/shared/io/http/Actor";
 import { GROUPS } from "@liexp/shared/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
-import { type GetNetworkQuery, type NetworkType } from "@liexp/shared/io/http/Network";
+import {
+  type GetNetworkQuery,
+  type NetworkType,
+} from "@liexp/shared/io/http/Network";
 import { formatDate } from "@liexp/shared/utils/date";
 import { ParentSize } from "@visx/responsive";
 import subWeeks from "date-fns/subWeeks";
 import { type UUID } from "io-ts-types/UUID";
 import * as React from "react";
+import { type GetListParams } from "react-admin";
 import { type serializedType } from "ts-io-error/lib/Codec";
 import { DateRangePicker } from "../../components/Common/DateRangePicker";
 import {
@@ -15,7 +19,10 @@ import {
 } from "../../components/Graph/EventsNetworkGraph";
 import QueriesRenderer from "../../components/QueriesRenderer";
 import { Box, MenuItem, Select } from "../../components/mui";
-import { useNetworkGraphQuery } from "../../state/queries/DiscreteQueries";
+import {
+  useNetworkGraphQuery,
+  type DiscreteQueryFn,
+} from "../../state/queries/DiscreteQueries";
 
 export interface EventNetworkGraphBoxProps
   extends Omit<
@@ -24,6 +31,7 @@ export interface EventNetworkGraphBoxProps
   > {
   count?: number;
   type: NetworkType;
+  relation?: NetworkType;
   id: UUID;
   query: Partial<serializedType<typeof GetNetworkQuery>>;
   showFilter?: boolean;
@@ -34,9 +42,13 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
   query,
   id,
   type,
+  relation: _relation = query.groupBy,
   showFilter = true,
   ...props
 }) => {
+  const [relation, setRelation] = React.useState<any>(
+    _relation ?? KEYWORDS.value
+  );
   const [groupBy, setGroupBy] = React.useState<any>(
     query.groupBy ?? KEYWORDS.value
   );
@@ -73,6 +85,18 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
             <MenuItem value={KEYWORDS.value}>{KEYWORDS.value}</MenuItem>
             <MenuItem value={GROUPS.value}>{GROUPS.value}</MenuItem>
           </Select>
+          <Select
+            label={"Relation"}
+            value={relation}
+            size="small"
+            onChange={(e) => {
+              setRelation(e.target.value);
+            }}
+          >
+            <MenuItem value={ACTORS.value}>{ACTORS.value}</MenuItem>
+            <MenuItem value={KEYWORDS.value}>{KEYWORDS.value}</MenuItem>
+            <MenuItem value={GROUPS.value}>{GROUPS.value}</MenuItem>
+          </Select>
         </Box>
       ) : null}
 
@@ -80,7 +104,7 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
         queries={{
           graph: useNetworkGraphQuery(
             { id, type },
-            { ...query, startDate, endDate, groupBy }
+            { ...query, relation, startDate, endDate, groupBy }
           ),
         }}
         render={({ graph }) => {
@@ -109,5 +133,31 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
         }}
       />
     </Box>
+  );
+};
+
+interface EventsNetworkGraphBoxWithQueryProps
+  extends Omit<EventNetworkGraphBoxProps, "id" | "query"> {
+  useQuery: DiscreteQueryFn<any>;
+  params: Partial<GetListParams>;
+  eventsBoxQuery: any;
+}
+
+export const EventsNetworkGraphBoxWithQuery: React.FC<
+  EventsNetworkGraphBoxWithQueryProps
+> = ({ useQuery, params, eventsBoxQuery: query, ...props }) => {
+  return (
+    <QueriesRenderer
+      queries={{
+        items: useQuery(params, false),
+      }}
+      render={({ items: { data } }) => {
+        return (
+          <Box style={{ height: 600 }}>
+            <EventNetworkGraphBox {...props} id={data[0].id} query={query} />
+          </Box>
+        );
+      }}
+    />
   );
 };

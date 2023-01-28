@@ -271,13 +271,21 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
       .attr("stroke", (d) => `#${d.color}`)
       .attr("stroke-opacity", nodeStrokeOpacity);
 
-    const actorOrGroupImage = actorOrGroupNode
+    const actorOrGroupPattern = actorOrGroupNode
       .append("pattern")
       .attr("id", (n: any) => `${n.type}-${n.id}`)
       .attr("width", "1.2")
       .attr("height", "1.2")
       .attr("x", 0)
-      .attr("y", 0)
+      .attr("y", 0);
+
+    actorOrGroupPattern
+      .append("rect")
+      .attr("height", 28)
+      .attr('width', 28)
+      .attr("fill", "#fff");
+
+    const actorOrGroupImage = actorOrGroupPattern
       .append("svg:image")
       .attr("xlink:href", (d) => d.avatar);
 

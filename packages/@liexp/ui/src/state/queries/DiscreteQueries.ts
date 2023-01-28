@@ -55,6 +55,9 @@ export const fetchQuery =
     return await q(params);
   };
 
+
+export type DiscreteQueryFn<T> = (params: Partial<GetListParams>, discrete: boolean) => UseQueryResult<{ data: T[]; total: number}, APIError>
+
 export const getEventsQueryKey = (
   p: Partial<GetListParams>,
   discrete: boolean
@@ -82,9 +85,9 @@ export const fetchEvents: (a: any) => Promise<any> = fetchQuery(
   Queries.Event.getList
 );
 
-export const useEventsQuery = (
-  params: Partial<GetListParams>,
-  discrete: boolean
+export const useEventsQuery: DiscreteQueryFn<Events.Event> = (
+  params,
+  discrete
 ): UseQueryResult<{ data: Events.Event[]; total: number }, APIError> => {
   return useQuery(getEventsQueryKey(params, discrete), fetchEvents);
 };
