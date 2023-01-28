@@ -1,11 +1,14 @@
+import { GROUPS } from "@liexp/shared/io/http/Group";
 import { AutocompleteGroupInput } from "@liexp/ui/components/Input/AutocompleteGroupInput";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import { PageContent } from "@liexp/ui/components/PageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import GroupList from "@liexp/ui/components/lists/GroupList";
-import { Typography } from "@liexp/ui/components/mui";
+import { Grid, Typography } from "@liexp/ui/components/mui";
+import { GroupEventNetworkGraphBox } from "@liexp/ui/containers/graphs/GroupEventNetworkGraphBox";
 import { useGroupsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import { type RouteComponentProps } from "@reach/router";
+import { subYears } from "date-fns";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 
@@ -52,6 +55,41 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
                 });
               }}
             />
+            <Grid container>
+              <Grid item md={6}>
+                <GroupEventNetworkGraphBox
+                  params={{
+                    sort: { field: "updatedAt", order: "DESC" },
+                    pagination: {
+                      perPage: 1,
+                      page: 1,
+                    },
+                  }}
+                  type={GROUPS.value}
+                  query={{
+                    groupBy: GROUPS.value,
+                    startDate: subYears(new Date(), 2).toISOString(),
+                  }}
+                  showFilter={false}
+                />
+              </Grid>
+              <Grid item md={6}>
+                <GroupEventNetworkGraphBox
+                  params={{
+                    pagination: {
+                      perPage: 1,
+                      page: Math.floor(Math.random() * 10),
+                    },
+                  }}
+                  type={GROUPS.value}
+                  query={{
+                    groupBy: GROUPS.value,
+                    startDate: subYears(new Date(), 2).toISOString(),
+                  }}
+                  showFilter={false}
+                />
+              </Grid>
+            </Grid>
           </>
         )}
       />

@@ -124,9 +124,10 @@ const EventListItemBase = <E extends any>({
             data={media}
             style={{
               width: "100%",
-              height: 300,
+              height: 400,
+              marginBottom: 30,
             }}
-            itemStyle={{ height: 300, maxWidth: 600 }}
+            itemStyle={{ height: 400, maxWidth: 600 }}
             onLoad={onLoad}
             enableDescription={true}
           />

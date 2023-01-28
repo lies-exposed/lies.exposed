@@ -1,10 +1,14 @@
+import { ACTORS } from "@liexp/shared/io/http/Actor";
 import { AutocompleteActorInput } from "@liexp/ui/components/Input/AutocompleteActorInput";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import { PageContent } from "@liexp/ui/components/PageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { ActorList } from "@liexp/ui/components/lists/ActorList";
+import { ActorEventNetworkGraphBox } from "@liexp/ui/containers/graphs/ActorEventNetworkGraphBox";
 import { useActorsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import { Grid } from "@mui/material";
 import { type RouteComponentProps } from "@reach/router";
+import { subYears } from "date-fns";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 
@@ -29,13 +33,6 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
           return (
             <MainContent>
               <PageContent path="actors" />
-              {/* <Box style={{ height: 300 }}>
-                <EventNetworkGraphBox
-                  groupBy="actor"
-                  count={100}
-                  includeEmptyRelations={false}
-                />
-              </Box> */}
 
               <>
                 <AutocompleteActorInput
@@ -62,6 +59,41 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
                   }}
                 />
               </>
+              <Grid container>
+                <Grid item md={6}>
+                  <ActorEventNetworkGraphBox
+                    params={{
+                      sort: { field: "updatedAt", order: "DESC" },
+                      pagination: {
+                        perPage: 1,
+                        page: 1,
+                      },
+                    }}
+                    type={ACTORS.value}
+                    query={{
+                      groupBy: ACTORS.value,
+                      startDate: subYears(new Date(), 2).toISOString(),
+                    }}
+                    showFilter={false}
+                  />
+                </Grid>
+                <Grid item md={6}>
+                  <ActorEventNetworkGraphBox
+                    params={{
+                      pagination: {
+                        perPage: 1,
+                        page: 1,
+                      },
+                    }}
+                    type={ACTORS.value}
+                    query={{
+                      groupBy: ACTORS.value,
+                      startDate: subYears(new Date(), 2).toISOString(),
+                    }}
+                    showFilter={false}
+                  />
+                </Grid>
+              </Grid>
             </MainContent>
           );
         }}

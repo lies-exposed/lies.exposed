@@ -20,6 +20,7 @@ export const GetNetworkQuery = t.type(
     startDate: optionFromNullable(t.string),
     endDate: optionFromNullable(t.string),
     groupBy: NetworkGroupBy,
+    relation: NetworkGroupBy,
     emptyRelations: optionFromNullable(BooleanFromString),
   },
   "GetNetworkQuery"

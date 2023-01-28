@@ -123,6 +123,7 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
                   query={{
                     groupBy: KEYWORDS.value,
                   }}
+                  relation={KEYWORDS.value}
                   onKeywordClick={onKeywordClick}
                   onEventClick={onEventClick}
                 />

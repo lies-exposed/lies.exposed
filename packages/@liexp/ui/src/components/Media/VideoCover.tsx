@@ -32,6 +32,7 @@ export const VideoCover: React.FC<VideoCoverProps> = ({
         background: `url(${thumbnail}) no-repeat center center`,
         backgroundSize: "cover",
         cursor: "pointer",
+        height: '100%'
       }}
     >
       <PlayCircleOutline style={{ color: "white" }} fontSize="large" />

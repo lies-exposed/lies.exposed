@@ -10,7 +10,13 @@ import {
 } from "@liexp/shared/helpers/event/event";
 import { getTitleForSearchEvent } from "@liexp/shared/helpers/event/getTitle.helper";
 import { toSearchEvent } from "@liexp/shared/helpers/event/search-event";
-import { type Actor, type Common, type Group, type Keyword } from "@liexp/shared/io/http";
+import {
+  Events,
+  type Actor,
+  type Common,
+  type Group,
+  type Keyword,
+} from "@liexp/shared/io/http";
 import { ACTORS } from "@liexp/shared/io/http/Actor";
 import { type Event, type SearchEvent } from "@liexp/shared/io/http/Events";
 import { GROUPS } from "@liexp/shared/io/http/Group";
@@ -23,7 +29,7 @@ import {
 import { type EventNetworkDatum } from "@liexp/shared/io/http/Network/networks";
 import { distanceFromNow, parseISO } from "@liexp/shared/utils/date";
 import { walkPaginatedRequest } from "@liexp/shared/utils/fp.utils";
-import { differenceInHours } from "date-fns";
+import { differenceInHours, differenceInDays } from "date-fns";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
@@ -82,14 +88,14 @@ const getLinks =
           relations,
           A.reduce(acc, (acc1, relation) => {
             const eventLinks: NetworkLink[] = [
-              {
-                source: relation.id,
-                sourceType: relationType,
-                target: id,
-                value: 1 / relations.length,
-                stroke: `#${relation.color}`,
-                fill: `#${relation.color}`,
-              },
+              // {
+              //   source: relation.id,
+              //   sourceType: relationType,
+              //   target: id,
+              //   value: 1,
+              //   stroke: `#${relation.color}`,
+              //   fill: `#${relation.color}`,
+              // },
               {
                 source: p.id,
                 sourceType: "events" as any,
@@ -147,6 +153,7 @@ interface GetEventGraphOpts {
   groups: Group.Group[];
   keywords: Keyword.Keyword[];
   emptyRelations: boolean;
+  relation: NetworkGroupBy;
   groupBy: NetworkGroupBy;
 }
 
@@ -160,6 +167,7 @@ const getEventGraph =
       actors: allActors,
       groups: allGroups,
       keywords: allKeywords,
+      relation,
       emptyRelations,
       groupBy,
     }: GetEventGraphOpts
@@ -171,15 +179,15 @@ const getEventGraph =
 
         const {
           actors: eventActors,
-          groups: _eventGroups,
+          groups: eventGroups,
           keywords: eventKeywords,
         } = getEventsMetadata(e);
 
         const eventTitle = getTitleForSearchEvent(e);
 
         const nonEmptyEventActors = pipe(
-          O.some(eventActors),
-          O.filter((aa) => (emptyRelations ? true : aa.length > 0)),
+          eventActors,
+          O.fromPredicate((aa) => (emptyRelations ? true : aa.length > 0)),
           O.map((aa) =>
             allActors.filter((a) => aa.some((aa) => aa.id === a.id))
           ),
@@ -187,8 +195,8 @@ const getEventGraph =
         );
 
         const nonEmptyEventGroups = pipe(
-          O.some(_eventGroups),
-          O.filter((gg) => (emptyRelations ? true : gg.length > 0)),
+          eventGroups,
+          O.fromPredicate((gg) => (emptyRelations ? true : gg.length > 0)),
           O.map((gg) =>
             allGroups.filter((a) => gg.some((aa) => aa.id === a.id))
           ),
@@ -196,8 +204,8 @@ const getEventGraph =
         );
 
         const nonEmptyEventKeywords = pipe(
-          O.some(eventKeywords),
-          O.filter((gg) => (emptyRelations ? true : gg.length > 0)),
+          eventKeywords,
+          O.fromPredicate((gg) => (emptyRelations ? true : gg.length > 0)),
           O.map((gg) =>
             allKeywords.filter((a) => gg.some((aa) => aa.id === a.id))
           ),
@@ -222,6 +230,15 @@ const getEventGraph =
           O.map((d) => d.find((d) => d.id === id)),
           O.toUndefined
         );
+
+        const relationByEventList: O.Option<
+          NonEmptyArray<Keyword.Keyword | Group.Group | Actor.Actor>
+        > =
+          relation === GROUPS.value
+            ? nonEmptyEventGroups
+            : relation === ACTORS.value
+            ? nonEmptyEventActors
+            : nonEmptyEventKeywords;
 
         const eventNodes: EventNetworkDatum[] = [
           {
@@ -311,7 +328,7 @@ const getEventGraph =
         // });
 
         // console.log('actor links in acc', acc.actorLinks);
-        const actorLinks = pipe(
+        const actorLinks: any = pipe(
           nonEmptyEventActors,
           O.getOrElse((): Actor.Actor[] => []),
           getLinks(eventNodes, acc.actorLinks, ACTORS.value, type, id)
@@ -331,7 +348,52 @@ const getEventGraph =
           getLinks(eventNodes, acc.keywordLinks, KEYWORDS.value, type, id)
         );
 
-        const links = pipe(
+        const relationLinks = pipe(
+          relationByEventList,
+          O.map((arr) =>
+            pipe(
+              arr,
+              A.reduce([] as NetworkLink[], (linkAcc, item) => {
+                const sourceLinkIndex = acc.eventLinks.findIndex(
+                  (l) => l.source === id && l.target === item.id
+                );
+
+                if (sourceLinkIndex > -1) {
+                  acc.eventLinks[sourceLinkIndex] = {
+                    ...acc.eventLinks[sourceLinkIndex],
+                    value: acc.eventLinks[sourceLinkIndex].value + 1,
+                  };
+                }
+                // } else {
+                //   linkAcc.push({
+                //     source: id,
+                //     sourceType: relation,
+                //     target: item.id,
+                //     fill: `#${item.color}`,
+                //     stroke: `#${item.color}`,
+                //     value: 1,
+                //   });
+                // }
+
+                return linkAcc.concat(
+                  ...[
+                    {
+                      source: item.id,
+                      sourceType: relation,
+                      target: e.id,
+                      fill: `#${item.color}`,
+                      stroke: `#${item.color}`,
+                      value: 1,
+                    },
+                  ]
+                );
+              })
+            )
+          ),
+          O.getOrElse((): NetworkLink[] => [])
+        );
+
+        const groupByLinks = pipe(
           groupByEventList,
           O.map((arr) =>
             pipe(
@@ -391,7 +453,7 @@ const getEventGraph =
 
         return {
           eventNodes: evNodes,
-          eventLinks: [...acc.eventLinks, ...links],
+          eventLinks: [...acc.eventLinks, ...groupByLinks, ...relationLinks],
           actors,
           actorLinks,
           groups,
@@ -410,6 +472,7 @@ const makeGraph =
     type: NetworkType,
     id: UUID,
     groupBy: NetworkGroupBy,
+    relation: NetworkGroupBy,
     eventGraph: Result
   ): NetworkGraph => {
     ctx.logger.debug.log("Select network graph subject %s => %s", type, id);
@@ -426,15 +489,25 @@ const makeGraph =
       ([_k, keywords]) => keywords
     );
 
+    const selectedNode =
+      type === ACTORS.value
+        ? actorsArray.filter((a) => a.id === id)
+        : type === GROUPS.value
+        ? groupsArray.filter((g) => g.id === id)
+        : keywordsArray.filter((k) => k.id === id);
+
+    ctx.logger.info.log("Selected node %O", selectedNode);
+
     const nodes: any[] = [
+      ...selectedNode,
       ...eventGraph.eventNodes,
-      ...(type === ACTORS.value || groupBy === ACTORS.value
+      ...([groupBy, relation].includes(ACTORS.value)
         ? actorsArray.map((a) => ({ ...a, type: ACTORS.value }))
         : []),
-      ...(type === GROUPS.value || groupBy === GROUPS.value
+      ...([groupBy, relation].includes(GROUPS.value)
         ? groupsArray.map((a) => ({ ...a, type: GROUPS.value }))
         : []),
-      ...(type === KEYWORDS.value || groupBy === KEYWORDS.value
+      ...([groupBy, relation].includes(KEYWORDS.value)
         ? keywordsArray.map((k) => ({ ...k, type: KEYWORDS.value }))
         : []),
     ];
@@ -526,7 +599,7 @@ export const createNetworkGraph =
   (
     type: NetworkType,
     id: UUID,
-    { groupBy, emptyRelations, startDate, endDate }: GetNetworkQuery
+    { groupBy, relation, emptyRelations, startDate, endDate }: GetNetworkQuery
   ): TE.TaskEither<ControllerError, Graph> => {
     const filePath = path.resolve(
       process.cwd(),
@@ -678,6 +751,7 @@ export const createNetworkGraph =
               actors,
               groups,
               keywords,
+              relation,
               emptyRelations: pipe(
                 emptyRelations,
                 O.getOrElse(() => true)
@@ -685,7 +759,13 @@ export const createNetworkGraph =
               groupBy,
             });
 
-            const results = makeGraph(ctx)(type, id, groupBy, eventGraph);
+            const results = makeGraph(ctx)(
+              type,
+              id,
+              groupBy,
+              relation,
+              eventGraph
+            );
 
             return results;
           }),
@@ -706,13 +786,10 @@ export const createNetworkGraph =
 
         if (O.isSome(startDate)) {
           const nodes = graph.nodes.filter((n: any) => {
-            if (
-              ![ACTORS.value, GROUPS.value, KEYWORDS.value].includes(n.type)
-            ) {
-
+            if (Events.EventType.types.some((t) => t === n.type)) {
               const d = isDate(n.date) ? n.date : parseISO(n.date);
 
-              return new Date(startDate.value) < d;
+              return differenceInDays(new Date(startDate.value), d) === 0;
             }
             return n;
           });

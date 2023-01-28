@@ -12,6 +12,7 @@ const classes = {
 const Root = styled("div")(() => ({
   [`&.${classes.wrapper}`]: {
     display: "flex",
+    flexDirection: 'column',
     width: "100%",
     maxWidth: 800,
     minHeight: 300,

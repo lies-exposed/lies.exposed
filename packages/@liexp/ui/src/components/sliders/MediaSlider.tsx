@@ -13,7 +13,6 @@ const classes = {
 
 const StyledSlider = styled(Slider)(({ theme }) => ({
   [`&.${classes.root}`]: {
-    height: "100%",
     width: "100%",
     [`& .${classes.item}`]: {
       margin: "auto",
