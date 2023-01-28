@@ -48,10 +48,10 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
           pipe(
             ctx.db.manager
               .createQueryBuilder(LinkEntity, "link")
+              .leftJoinAndSelect("link.creator", "creator")
               .leftJoinAndSelect("link.image", "image")
               .leftJoinAndSelect("link.events", "events")
-              .leftJoinAndSelect("link.keywords", "keywords")
-              .loadAllRelationIds({ relations: ["creator"] }),
+              .leftJoinAndSelect("link.keywords", "keywords"),
             (q) => {
               if (O.isSome(search)) {
                 return q.where(
@@ -63,7 +63,7 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
               }
 
               if (O.isSome(creator)) {
-                return q.where("link.creator = :creator", {
+                return q.where("creator.id = :creator", {
                   creator: creator.value,
                 });
               }
@@ -93,9 +93,9 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
               }
 
               if (O.isSome(keywords)) {
-                return q.where('keywords.id IN (:...keywordIds)', {
-                  keywordIds: keywords.value
-                })
+                return q.where("keywords.id IN (:...keywordIds)", {
+                  keywordIds: keywords.value,
+                });
               }
 
               if (O.isSome(onlyDeleted)) {
@@ -133,6 +133,7 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
           pipe(
             results.map((r) => ({
               ...r,
+              creator: (r.creator?.id as any) ?? null,
               events: r.events.map((e) => e.id) as any[],
               keywords: r.keywords.map((e) => e.id) as any[],
             })),

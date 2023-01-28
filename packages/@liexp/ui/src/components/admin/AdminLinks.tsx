@@ -3,7 +3,7 @@ import { ImageType } from "@liexp/shared/io/http/Media";
 import { checkIsAdmin } from "@liexp/shared/utils/user.utils";
 import * as React from "react";
 import {
-  AutocompleteArrayInput,
+  // AutocompleteArrayInput,
   BooleanField,
   BooleanInput,
   Button,
@@ -18,7 +18,7 @@ import {
   type ListProps,
   LoadingPage,
   type RaRecord,
-  ReferenceArrayInput,
+  // ReferenceArrayInput,
   ReferenceField,
   ReferenceManyField,
   SimpleForm,
@@ -30,6 +30,7 @@ import {
   usePermissions,
   useRecordContext,
   useRefresh,
+  // AutocompleteInput,
 } from "react-admin";
 import { Box, Grid, Toolbar } from "../mui";
 import { CreateEventFromLinkButton } from "./common/CreateEventFromLinkButton";
@@ -50,9 +51,9 @@ const RESOURCE = "links";
 const linksFilter = [
   <TextInput key="search" label="Search" source="q" alwaysOn />,
   <ReferenceGroupInput key="provider" source="provider" alwaysOn />,
-  <ReferenceArrayInput key="events" source="events" reference="events" alwaysOn>
-    <AutocompleteArrayInput optionText="payload.title" size="small" />
-  </ReferenceArrayInput>,
+  // <ReferenceArrayInput key="events" source="events" reference="events" alwaysOn>
+  //   <AutocompleteInput optionText="payload.title" size="small" />
+  // </ReferenceArrayInput>,
   <BooleanInput key="emptyEvents" source="emptyEvents" alwaysOn />,
   <BooleanInput key="onlyDeleted" source="onlyDeleted" alwaysOn />,
 ];
@@ -67,7 +68,7 @@ export const LinkListActions: React.FC = () => {
 };
 
 export const LinkList: React.FC<ListProps> = (props) => {
-  const { identity, isLoading } = useGetIdentity();
+  const { data, isLoading } = useGetIdentity();
   const { permissions, isLoading: isPermsLoading } = usePermissions();
 
   if (isLoading || isPermsLoading) {
@@ -75,7 +76,7 @@ export const LinkList: React.FC<ListProps> = (props) => {
   }
 
   const isAdmin = checkIsAdmin(permissions);
-  const filter = !isAdmin && identity?.id ? { creator: identity?.id } : {};
+  const filter = !isAdmin && data?.id ? { creator: data?.id } : {};
 
   return (
     <List
@@ -108,7 +109,7 @@ export const LinkList: React.FC<ListProps> = (props) => {
         <DateField source="publishDate" />
         {isAdmin && (
           <ReferenceField source="creator" reference="users">
-            <TextField source="firstName" />
+            <FunctionField render={(u: any) => `${u.firstName} ${u.lastName} (${u.username})`} />
           </ReferenceField>
         )}
         <ReferenceField source="provider" reference="groups">
@@ -188,6 +189,7 @@ export const LinkEdit: React.FC = () => {
   if (isLoadingPermissions) {
     return <LoadingPage />;
   }
+
   const isAdmin = checkIsAdmin(permissions);
 
   return (
