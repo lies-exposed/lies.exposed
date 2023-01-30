@@ -2,12 +2,14 @@ import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
 import { type URL } from "../io/http/Common";
+import { MediaType } from "../io/http/Media";
 
 type Youtube = "youtube";
 type Bitchute = "bitchute";
 type OdySee = "odysee";
 type Peertube = "peertube";
 type Rumble = "rumble";
+type DailyMotion = "dailymotion";
 
 // type VideoPlatform = Youtube | Bitchute | OdySee | Peertube | Rumble;
 export type VideoPlatformMatch =
@@ -28,6 +30,16 @@ export type VideoPlatformMatch =
       platform: Peertube;
       host: string;
       id: string;
+    }
+  | {
+      platform: DailyMotion;
+      type: "embed";
+      id: string;
+    }
+  | {
+      platform: DailyMotion;
+      type: "html";
+      id: string;
     };
 
 const ytVideoEmbedRegExp =
@@ -46,8 +58,24 @@ const rumbleVideoRegExp =
   /http(?:s?):\/\/(?:www\.)?rumble\.com\/embed\/([\w\-_]*)\/?([\w?=]*)/;
 const rumbleVideoRegExp2 = /http(?:s?):\/\/(?:www\.)?rumble\.com\/([\w\-_]*)/;
 
+
+const dailyMotionRegExp =
+  /http(?:s?):\/\/(?:www\.)?dailymotion\.com\/embed\/video\/([\w\-_]*)/;
+  
+  const dailyMotionRegExp2 =
+  /http(?:s?):\/\/(?:www\.)?dailymotion\.com\/video\/([\w\-_]*)/;
+
 const peertubeVideoRegExp =
   /http(?:s?):\/\/([^/]+)\/videos\/watch\/([^/]+)(&(amp;)?[\w?=]*)?/;
+
+const supportedPlatformsRegExp = [
+  odyseeVideoRegExp,
+  rumbleVideoRegExp,
+  rumbleVideoRegExp2,
+  peertubeVideoRegExp,
+  dailyMotionRegExp,
+  dailyMotionRegExp2,
+];
 
 export const getPlatform = (
   url: string
@@ -102,6 +130,24 @@ export const getPlatform = (
     });
   }
 
+  const dailyMotionMatch = url.match(dailyMotionRegExp);
+  if (dailyMotionMatch) {
+    return E.right({
+      platform: "dailymotion",
+      id: dailyMotionMatch[1],
+      type: "embed",
+    });
+  }
+
+  const dailyMotionMatch2 = url.match(dailyMotionRegExp2);
+  if (dailyMotionMatch2) {
+    return E.right({
+      platform: "dailymotion",
+      id: dailyMotionMatch2[1],
+      type: "html",
+    });
+  }
+
   const peertubeMatch = url.match(peertubeVideoRegExp);
   if (
     typeof peertubeMatch?.[1] === "string" &&
@@ -138,6 +184,9 @@ export const getPlatformEmbedURL = (
     case "rumble": {
       return `https://rumble.com/embed/${match.id}/?pub=7a20` as URL;
     }
+    case "dailymotion": {
+      return `https://dailymotion.com/embed/video/${match.id}/` as URL;
+    }
     default: {
       return url;
     }
@@ -149,4 +198,50 @@ export const parsePlatformURL = (url: URL): E.Either<Error, URL> => {
     getPlatform(url),
     E.map((match) => getPlatformEmbedURL(match, url))
   );
+};
+
+export const parseURL = (
+  url: string
+): E.Either<Error, { type: MediaType; location: string }> => {
+  if (url.includes(".jpg") ?? url.includes(".jpeg")) {
+    return E.right({
+      type: MediaType.types[1].value,
+      location: url,
+    });
+  }
+
+  if (url.includes(".png")) {
+    return E.right({
+      type: MediaType.types[2].value,
+      location: url,
+    });
+  }
+
+  if (url.includes(".pdf")) {
+    return E.right({
+      type: MediaType.types[6].value,
+      location: url,
+    });
+  }
+
+  if (url.includes(".mp4")) {
+    return E.right({
+      type: MediaType.types[5].value,
+      location: url,
+    });
+  }
+
+  const iframeVideosMatch = supportedPlatformsRegExp.some((v) => v.test(url));
+
+  if (iframeVideosMatch) {
+    return pipe(
+      parsePlatformURL(url as any),
+      E.map((location) => ({
+        type: MediaType.types[7].value,
+        location,
+      }))
+    );
+  }
+
+  return E.left(new Error(`No matching media for given url: ${url}`));
 };

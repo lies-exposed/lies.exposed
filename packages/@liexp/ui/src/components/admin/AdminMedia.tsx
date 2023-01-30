@@ -1,9 +1,8 @@
-import { parsePlatformURL } from "@liexp/shared/helpers/media";
-import { ImageType, MediaType } from "@liexp/shared/io/http/Media";
+import { parseURL } from "@liexp/shared/helpers/media";
+import { ImageType } from "@liexp/shared/io/http/Media";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { checkIsAdmin } from "@liexp/shared/utils/user.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
-import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
@@ -52,60 +51,6 @@ import MediaPreview from "./previews/MediaPreview";
 import { ReferenceLinkTab } from "./tabs/ReferenceLinkTab";
 
 const RESOURCE = "media";
-
-const parseURL = (
-  url: string
-): E.Either<Error, { type: MediaType; location: string }> => {
-  if (url.includes(".jpg") ?? url.includes(".jpeg")) {
-    return E.right({
-      type: MediaType.types[1].value,
-      location: url,
-    });
-  }
-
-  if (url.includes(".png")) {
-    return E.right({
-      type: MediaType.types[2].value,
-      location: url,
-    });
-  }
-
-  if (url.includes(".pdf")) {
-    return E.right({
-      type: MediaType.types[6].value,
-      location: url,
-    });
-  }
-
-  if (url.includes(".mp4")) {
-    return E.right({
-      type: MediaType.types[5].value,
-      location: url,
-    });
-  }
-
-  const iframeVideosMatch = [
-    "youtube.com",
-    "youtu.be",
-    "bitchute.com",
-    "odysee.com",
-    "rumble.com",
-    // peertube video pattern
-    "/videos/watch",
-  ].some((v) => url.includes(v));
-
-  if (iframeVideosMatch) {
-    return pipe(
-      parsePlatformURL(url as any),
-      E.map((location) => ({
-        type: MediaType.types[7].value,
-        location,
-      }))
-    );
-  }
-
-  return E.left(new Error(`No matching media for given url: ${url}`));
-};
 
 const mediaFilters = [
   <TextInput key="description" source="description" alwaysOn size="small" />,

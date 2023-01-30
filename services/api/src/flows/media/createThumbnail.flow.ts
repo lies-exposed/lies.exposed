@@ -1,6 +1,9 @@
 import fs from "fs";
 import path from "path";
-import { getPlatform, type VideoPlatformMatch } from "@liexp/shared/helpers/media";
+import {
+  getPlatform,
+  type VideoPlatformMatch,
+} from "@liexp/shared/helpers/media";
 import { Media } from "@liexp/shared/io/http";
 import { toPuppeteerError } from "@liexp/shared/providers/puppeteer.provider";
 import axios from "axios";
@@ -83,6 +86,26 @@ export const extractThumbnail = (
           });
 
           return videoPosterSrc;
+        }
+        case "dailymotion": {
+          if (match.type === "embed") {
+            const selector = ".video_poster_image";
+
+            await page.waitForSelector(selector);
+
+            return await page.$eval(selector, (el) => {
+              return el.getAttribute("src");
+            });
+          }
+
+          const selector = 'meta[name="og:image:secure_url"]';
+          await page.waitForSelector(selector);
+
+          const url = await page.$eval(selector, (el) => {
+            return el.getAttribute("content");
+          });
+
+          return url;
         }
         default: {
           return undefined;
