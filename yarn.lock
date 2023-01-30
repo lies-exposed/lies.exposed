@@ -7906,7 +7906,7 @@ __metadata:
     eslint-plugin-promise: ^6.1.1
     eslint-plugin-react: ^7.32.2
     eslint-webpack-plugin: ^3.2.0
-    final-form: ^4.20.8
+    final-form: ^4.20.9
     fp-ts: ^2.13.1
     history: ^5.3.0
     jest: ^29.4.1
@@ -13354,12 +13354,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"final-form@npm:^4.20.8":
-  version: 4.20.8
-  resolution: "final-form@npm:4.20.8"
+"final-form@npm:^4.20.9":
+  version: 4.20.9
+  resolution: "final-form@npm:4.20.9"
   dependencies:
     "@babel/runtime": ^7.10.0
-  checksum: ad9b446fa1c35daee2247ddb589e65af5244eab2d07c8183fd75ed1cf1b40865655cfb4f7cf1454bf2e2f9ab7f8a25c41596ab39d86425c634fc761f6be729b4
+  checksum: 2235a41864e0b8aa24a358b8896a02764735d3660cd8ee30b9cea9e6d3a6239e74d1b6bc5dea0e663a5b90393045783c7714ceea13bceffe10811915c88a8d60
   languageName: node
   linkType: hard
 
@@ -16965,7 +16965,7 @@ __metadata:
     lint-staged: ^13.1.0
     pm2: ^5.2.2
     prettier: ^2.8.3
-    terser: ^5.16.1
+    terser: ^5.16.2
     ts-jest: ^29.0.5
     typescript: ^4.9.4
     webpack: ^5.75.0
