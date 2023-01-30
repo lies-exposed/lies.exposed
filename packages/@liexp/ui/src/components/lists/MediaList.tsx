@@ -124,6 +124,7 @@ const StyledList = styled(Grid)(() => ({
     display: "flex",
     flexDirection: "row",
     paddingRight: 0,
+    paddingLeft: 0
   },
 })) as typeof Grid;
 

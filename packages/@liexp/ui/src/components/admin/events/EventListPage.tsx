@@ -25,7 +25,7 @@ import { Box, Typography } from "../../mui";
 import ReferenceArrayActorInput from "../common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "../common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "../common/ReferenceArrayGroupMemberInput";
-import ReferenceArrayKeywordInput from "../common/ReferenceArrayKeywordInput";
+import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput";
 
 const RESOURCE = "events";
 

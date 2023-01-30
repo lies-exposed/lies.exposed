@@ -7,16 +7,16 @@ import {
   Button,
 } from "react-admin";
 
-export const ImportMediaButton: React.FC<{
+export const ImportKeywordButton: React.FC<{
   source?: string;
   reference?: "events" | "events/suggestions";
-}> = ({ source: _source = "media", reference = "events" }) => {
+}> = ({ source = "media", reference = "events" }) => {
   const record = useRecordContext();
   const refresh = useRefresh();
   const apiProvider = useDataProvider();
   return (
     <Button
-      label="Import from links"
+      label={`Import from ${source}`}
       onClick={() => {
         void apiProvider
           .getList("links", {
@@ -26,10 +26,10 @@ export const ImportMediaButton: React.FC<{
           })
           .then((results) => {
             const media = results.data
-              .filter((r) => !!r.image)
-              .map((r) => r.image.id);
-            const source = get(record, _source) ?? [];
-            const data = set(record, _source, source.concat(media));
+              .reduce((acc, c) => acc.concat(c.data), [])
+              .map((r: any) => r.id);
+            const currentSource = get(record, source) ?? [];
+            const data = set(record, source, currentSource.concat(media));
             return apiProvider
               .update(reference, {
                 id: record.id,

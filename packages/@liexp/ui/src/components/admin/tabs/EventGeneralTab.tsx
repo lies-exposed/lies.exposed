@@ -2,7 +2,7 @@ import * as React from "react";
 import { BooleanInput, DateField, DateInput, TextField } from "react-admin";
 import { Box, Grid } from "../../mui";
 import ReactPageInput from "../ReactPageInput";
-import ReferenceArrayKeywordInput from "../common/ReferenceArrayKeywordInput";
+import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput";
 
 export const EventGeneralTab: React.FC<React.PropsWithChildren> = ({
   children,

@@ -65,7 +65,7 @@ export const EditEventModal: React.FC<EditEventModalProps> = ({
         }}
       >
         <IconButton
-          aria-label="Add Link"
+          aria-label="Edit Link"
           color="secondary"
           size="small"
           onClick={() => {

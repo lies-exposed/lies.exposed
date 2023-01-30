@@ -8,7 +8,7 @@ import ReferenceAreaInput from "@liexp/ui/components/admin/common/ReferenceAreaI
 import ReferenceArrayActorInput from "@liexp/ui/components/admin/common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "@liexp/ui/components/admin/common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "@liexp/ui/components/admin/common/ReferenceArrayGroupMemberInput";
-import ReferenceArrayKeywordInput from "@liexp/ui/components/admin/common/ReferenceArrayKeywordInput";
+import ReferenceArrayKeywordInput from "@liexp/ui/components/admin/keywords/ReferenceArrayKeywordInput";
 import { ReferenceLinkTab } from "@liexp/ui/components/admin/tabs/ReferenceLinkTab";
 import { ReferenceMediaTab } from "@liexp/ui/components/admin/tabs/ReferenceMediaTab";
 import { UncategorizedEventEditTab } from "@liexp/ui/components/admin/tabs/UncategorizedEventEditTab";

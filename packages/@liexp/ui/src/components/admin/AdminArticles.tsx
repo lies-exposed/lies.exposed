@@ -34,8 +34,8 @@ import { uploadImages } from "../../client/admin/MediaAPI";
 import {Grid} from '../mui'
 import ReactPageInput from "./ReactPageInput";
 import { EditForm } from "./common/EditForm";
-import ReferenceArrayKeywordInput from "./common/ReferenceArrayKeywordInput";
 import ReferenceUserInput from "./common/ReferenceUserInput";
+import ReferenceArrayKeywordInput from "./keywords/ReferenceArrayKeywordInput";
 import ReferenceMediaInput from "./media/ReferenceMediaInput";
 import ArticlePreview from "./previews/ArticlePreview";
 

@@ -10,6 +10,7 @@ import {
 } from "react-admin";
 import { apiProvider } from "../../../client/api";
 import { Box, TextField } from "../../mui";
+import { ImportKeywordButton } from './ImportKeywordButton';
 
 const ReferenceArrayKeywordInput: React.FC<
   Omit<ReferenceInputProps, "children"> & { source: string; showAdd: boolean }
@@ -35,6 +36,9 @@ const ReferenceArrayKeywordInput: React.FC<
           filterToQuery={(search: string) => ({ search })}
         />
       </ReferenceArrayInput>
+      {showAdd ? (
+        <ImportKeywordButton />
+      ): null}
       {showAdd ? (
         <Box style={{ display: "flex" }}>
           <TextField
