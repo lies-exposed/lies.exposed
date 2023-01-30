@@ -326,7 +326,9 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
         "mouseenter",
         debounce(
           function (this: any, _, d) {
-            d3.select(this).raise().text(`#${d.tag}`);
+            const n = d3.select(this);
+            n.raise();
+            return n.text(`#${d.tag}`);
           },
           300,
           { leading: true }
@@ -336,7 +338,9 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
         "mouseout",
         debounce(
           function (this: any, _, d) {
-            d3.select(this).text(`#`);
+            const n = d3.select(this);
+            n.raise();
+            return n.text(`#`);
           },
           300,
           { leading: true }

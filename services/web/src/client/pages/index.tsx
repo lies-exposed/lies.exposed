@@ -1,4 +1,5 @@
 import { ACTORS } from "@liexp/shared/io/http/Actor";
+import { GROUPS } from '@liexp/shared/io/http/Group';
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
 import KeywordsDistributionGraph from "@liexp/ui/components/Graph/KeywordDistributionGraph";
 import { PageContent } from "@liexp/ui/components/PageContent";
@@ -36,14 +37,16 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
                 sort: { field: "updatedAt", order: "DESC" },
                 pagination: {
                   perPage: 1,
-                  page: 1,
+                  page: 2,
                 },
               }}
               type={KEYWORDS.value}
               query={{
                 groupBy: ACTORS.value,
                 startDate: subYears(new Date(), 2).toISOString(),
+                relation: GROUPS.value
               }}
+              showFilter={false}
             />
           </Grid>
           <Grid item md={6}>
@@ -52,14 +55,16 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
                 sort: { field: "updatedAt", order: "DESC" },
                 pagination: {
                   perPage: 1,
-                  page: 1,
+                  page: 2,
                 },
               }}
               type={KEYWORDS.value}
               query={{
                 groupBy: ACTORS.value,
                 startDate: subYears(new Date(), 2).toISOString(),
+                relation: GROUPS.value
               }}
+              showFilter={false}
             />
           </Grid>
         </Grid>

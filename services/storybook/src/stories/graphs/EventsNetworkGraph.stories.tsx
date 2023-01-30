@@ -84,10 +84,11 @@ const EventsByActors = Template.bind({});
 
 EventsByActors.args = {
   count: 20,
-  type: "actors",
+  type: ACTORS.value,
   id: "1bde0d49-03a1-411d-9f18-2e70a722532b" as any,
   query: {
-    groupBy: "keywords",
+    groupBy: KEYWORDS.value,
+    relation: ACTORS.value
   },
   selectedActorIds: ["1bde0d49-03a1-411d-9f18-2e70a722532b"],
 };
@@ -96,10 +97,11 @@ const EventsByKeywords = Template.bind({});
 
 EventsByKeywords.args = {
   count: 10,
-  type: "keywords",
+  type: KEYWORDS.value,
   id: "fe502631-ef4e-4dfc-a1ff-c2cd04f3ff6d" as any,
   query: {
-    groupBy: "keywords",
+    groupBy: KEYWORDS.value,
+    relation: GROUPS.value
   },
 };
 
@@ -111,6 +113,7 @@ EventsByGroups.args = {
   id: "1bde0d49-03a1-411d-9f18-2e70a722532b" as any,
   query: {
     groupBy: KEYWORDS.value,
+    relation: GROUPS.value
   },
 };
 
