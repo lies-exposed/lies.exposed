@@ -489,12 +489,27 @@ const makeGraph =
       ([_k, keywords]) => keywords
     );
 
+    const actorsWithTypeArray = actorsArray.map((a) => ({
+      ...a,
+      type: ACTORS.value,
+    }));
+
+    const groupsWithTypeArray = groupsArray.map((a) => ({
+      ...a,
+      type: GROUPS.value,
+    }));
+
+    const keywordsWithTypeArray = keywordsArray.map((k) => ({
+      ...k,
+      type: KEYWORDS.value,
+    }));
+
     const selectedNode =
       type === ACTORS.value
-        ? actorsArray.filter((a) => a.id === id)
+        ? actorsWithTypeArray.filter((a) => a.id === id)
         : type === GROUPS.value
-        ? groupsArray.filter((g) => g.id === id)
-        : keywordsArray.filter((k) => k.id === id);
+        ? groupsWithTypeArray.filter((g) => g.id === id)
+        : keywordsWithTypeArray.filter((k) => k.id === id);
 
     ctx.logger.info.log("Selected node %O", selectedNode);
 
@@ -502,13 +517,13 @@ const makeGraph =
       ...selectedNode,
       ...eventGraph.eventNodes,
       ...([groupBy, relation].includes(ACTORS.value)
-        ? actorsArray.map((a) => ({ ...a, type: ACTORS.value }))
+        ? actorsWithTypeArray.filter((g) => g.id !== id)
         : []),
       ...([groupBy, relation].includes(GROUPS.value)
-        ? groupsArray.map((a) => ({ ...a, type: GROUPS.value }))
+        ? groupsWithTypeArray.filter((g) => g.id !== id)
         : []),
       ...([groupBy, relation].includes(KEYWORDS.value)
-        ? keywordsArray.map((k) => ({ ...k, type: KEYWORDS.value }))
+        ? keywordsWithTypeArray.filter((g) => g.id !== id)
         : []),
     ];
 

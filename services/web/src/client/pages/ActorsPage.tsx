@@ -1,9 +1,9 @@
 import { ACTORS } from "@liexp/shared/io/http/Actor";
 import { AutocompleteActorInput } from "@liexp/ui/components/Input/AutocompleteActorInput";
+import { ActorList } from "@liexp/ui/components/lists/ActorList";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import { PageContent } from "@liexp/ui/components/PageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { ActorList } from "@liexp/ui/components/lists/ActorList";
 import { ActorEventNetworkGraphBox } from "@liexp/ui/containers/graphs/ActorEventNetworkGraphBox";
 import { useActorsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import { Grid } from "@mui/material";
@@ -75,6 +75,18 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
                       startDate: subYears(new Date(), 2).toISOString(),
                     }}
                     showFilter={false}
+                    onEventClick={(e) => {
+                      navigateTo.events({ id: e.id });
+                    }}
+                    onActorClick={(e) => {
+                      navigateTo.actors({ id: e.id });
+                    }}
+                    onGroupClick={(e) => {
+                      navigateTo.groups({ id: e.id });
+                    }}
+                    onKeywordClick={(e) => {
+                      navigateTo.keywords({ id: e.id });
+                    }}
                   />
                 </Grid>
                 <Grid item md={6}>
@@ -91,6 +103,18 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
                       startDate: subYears(new Date(), 2).toISOString(),
                     }}
                     showFilter={false}
+                    onEventClick={(e) => {
+                      navigateTo.events({ id: e.id });
+                    }}
+                    onActorClick={(e) => {
+                      navigateTo.actors({ id: e.id });
+                    }}
+                    onGroupClick={(e) => {
+                      navigateTo.groups({ id: e.id });
+                    }}
+                    onKeywordClick={(e) => {
+                      navigateTo.keywords({ id: e.id });
+                    }}
                   />
                 </Grid>
               </Grid>

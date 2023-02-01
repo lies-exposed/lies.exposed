@@ -1,5 +1,5 @@
 import { ACTORS } from "@liexp/shared/io/http/Actor";
-import { GROUPS } from '@liexp/shared/io/http/Group';
+import { GROUPS } from "@liexp/shared/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
 import KeywordsDistributionGraph from "@liexp/ui/components/Graph/KeywordDistributionGraph";
 import { PageContent } from "@liexp/ui/components/PageContent";
@@ -44,9 +44,21 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
               query={{
                 groupBy: ACTORS.value,
                 startDate: subYears(new Date(), 2).toISOString(),
-                relation: GROUPS.value
+                relation: GROUPS.value,
               }}
               showFilter={false}
+              onEventClick={(e) => {
+                navigateTo.events({ id: e.id });
+              }}
+              onActorClick={(e) => {
+                navigateTo.actors({ id: e.id });
+              }}
+              onGroupClick={(e) => {
+                navigateTo.groups({ id: e.id });
+              }}
+              onKeywordClick={(e) => {
+                navigateTo.keywords({ id: e.id });
+              }}
             />
           </Grid>
           <Grid item md={6}>
@@ -62,9 +74,21 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
               query={{
                 groupBy: ACTORS.value,
                 startDate: subYears(new Date(), 2).toISOString(),
-                relation: GROUPS.value
+                relation: GROUPS.value,
               }}
               showFilter={false}
+              onEventClick={(e) => {
+                navigateTo.events({ id: e.id });
+              }}
+              onActorClick={(e) => {
+                navigateTo.actors({ id: e.id });
+              }}
+              onGroupClick={(e) => {
+                navigateTo.groups({ id: e.id });
+              }}
+              onKeywordClick={(e) => {
+                navigateTo.keywords({ id: e.id });
+              }}
             />
           </Grid>
         </Grid>

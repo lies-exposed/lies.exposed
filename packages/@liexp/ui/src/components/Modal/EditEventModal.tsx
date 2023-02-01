@@ -1,11 +1,10 @@
-import RunIcon from "@mui/icons-material/PlayCircleOutline";
 import { type UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
 import { AdminContext, ResourceContextProvider } from "react-admin";
-import { authProvider, apiProvider } from "../../client/api";
-import { i18nProvider } from '../../i18n/i18n.provider';
+import { apiProvider, authProvider } from "../../client/api";
+import { i18nProvider } from "../../i18n/i18n.provider";
 import { useEventQuery } from "../../state/queries/DiscreteQueries";
-import { styled, useTheme, themeOptions } from "../../theme";
+import { styled, themeOptions } from "../../theme";
 import QueriesRenderer from "../QueriesRenderer";
 import { EventSuggestionCreate } from "../admin/events/suggestions/AdminEventSuggestion";
 import { Box, CloseIcon, IconButton, Modal } from "../mui";
@@ -24,7 +23,7 @@ const StyledModal = styled(Modal)(({ theme }) => ({
     flexDirection: "column",
     width: "80%",
     flexGrow: 1,
-    margin: '10% auto',
+    margin: "10% auto",
   },
   [`& .${classes.paper}`]: {
     display: "flex",
@@ -52,29 +51,11 @@ export const EditEventModal: React.FC<EditEventModalProps> = ({
   onClose,
   ...props
 }) => {
-  const theme = useTheme();
+  // const theme = useTheme();
 
   // console.log(start);
   return (
     <div>
-      <Box
-        style={{
-          position: "fixed",
-          right: theme.spacing(2),
-          bottom: theme.spacing(8),
-        }}
-      >
-        <IconButton
-          aria-label="Edit Link"
-          color="secondary"
-          size="small"
-          onClick={() => {
-            onClose();
-          }}
-        >
-          <RunIcon fontSize="large" />
-        </IconButton>
-      </Box>
       <QueriesRenderer
         queries={{
           event: useEventQuery({ id }),
@@ -85,7 +66,6 @@ export const EditEventModal: React.FC<EditEventModalProps> = ({
               className={classes.modal}
               open={open ?? false}
               onClose={onClose}
-              
             >
               <Box className={classes.paper}>
                 <Box className={classes.closeIconBox}>
