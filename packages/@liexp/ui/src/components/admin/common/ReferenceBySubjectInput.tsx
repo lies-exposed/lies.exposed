@@ -3,8 +3,8 @@ import _ from "lodash";
 import React from "react";
 import { FormDataConsumer, type ReferenceInputProps, SelectInput } from "react-admin";
 import { Box } from "../../mui";
-import ReferenceActorInput from "./ReferenceActorInput";
-import ReferenceGroupInput from "./ReferenceGroupInput";
+import ReferenceActorInput from "../actors/ReferenceActorInput";
+import ReferenceGroupInput from "../groups/ReferenceGroupInput";
 
 const ReferenceBySubjectInput: React.FC<
   Omit<ReferenceInputProps, "children"> & { source: string }

@@ -3,9 +3,9 @@ import {
     type EditProps, TextInput
 } from "react-admin";
 import { Box } from "../../mui";
+import ReferenceArrayActorInput from "../actors/ReferenceArrayActorInput";
 import ReferenceAreaInput from "../common/ReferenceAreaInput";
-import ReferenceArrayActorInput from "../common/ReferenceArrayActorInput";
-import ReferenceArrayGroupInput from "../common/ReferenceArrayGroupInput";
+import ReferenceArrayGroupInput from "../groups/ReferenceArrayGroupInput";
 import ReferenceMediaInput from "../media/ReferenceMediaInput";
 
 export const DocumentaryEditFormTab: React.FC<EditProps & { record?: any }> = (

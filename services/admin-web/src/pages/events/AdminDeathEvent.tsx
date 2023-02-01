@@ -1,12 +1,12 @@
 import { type http } from "@liexp/shared/io";
 import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import ReferenceArrayActorInput from "@liexp/ui/components/admin/actors/ReferenceArrayActorInput";
 import { AvatarField } from "@liexp/ui/components/admin/common/AvatarField";
 import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
 import ExcerptField from "@liexp/ui/components/admin/common/ExcerptField";
-import ReferenceArrayActorInput from "@liexp/ui/components/admin/common/ReferenceArrayActorInput";
-import ReferenceArrayLinkInput from "@liexp/ui/components/admin/common/ReferenceArrayLinkInput";
 import ReferenceArrayKeywordInput from "@liexp/ui/components/admin/keywords/ReferenceArrayKeywordInput";
+import ReferenceArrayLinkInput from "@liexp/ui/components/admin/links/ReferenceArrayLinkInput";
 import { ImportMediaButton } from "@liexp/ui/components/admin/media/ImportMediaButton";
 import { MediaArrayInput } from "@liexp/ui/components/admin/media/MediaArrayInput";
 import { ReferenceMediaDataGrid } from "@liexp/ui/components/admin/media/ReferenceMediaDataGrid";

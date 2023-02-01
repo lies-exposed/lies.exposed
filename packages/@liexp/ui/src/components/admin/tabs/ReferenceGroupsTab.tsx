@@ -8,7 +8,7 @@ import {
   useRecordContext,
 } from "react-admin";
 import { Box } from "../../mui";
-import ReferenceArrayGroupInput from "../common/ReferenceArrayGroupInput";
+import ReferenceArrayGroupInput from "../groups/ReferenceArrayGroupInput";
 
 export const ReferenceGroupsTab: React.FC<FieldProps> = (props) => {
   const record = useRecordContext();

@@ -1,12 +1,12 @@
 import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import ReferenceActorInput from "@liexp/ui/components/admin/actors/ReferenceActorInput";
+import ReferenceArrayActorInput from "@liexp/ui/components/admin/actors/ReferenceArrayActorInput";
 import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
-import ReferenceActorInput from "@liexp/ui/components/admin/common/ReferenceActorInput";
-import ReferenceArrayActorInput from "@liexp/ui/components/admin/common/ReferenceArrayActorInput";
-import ReferenceArrayGroupInput from "@liexp/ui/components/admin/common/ReferenceArrayGroupInput";
-import ReferenceArrayLinkInput from "@liexp/ui/components/admin/common/ReferenceArrayLinkInput";
 import URLMetadataInput from "@liexp/ui/components/admin/common/URLMetadataInput";
+import ReferenceArrayGroupInput from "@liexp/ui/components/admin/groups/ReferenceArrayGroupInput";
 import ReferenceArrayKeywordInput from "@liexp/ui/components/admin/keywords/ReferenceArrayKeywordInput";
+import ReferenceArrayLinkInput from "@liexp/ui/components/admin/links/ReferenceArrayLinkInput";
 import { MediaArrayInput } from "@liexp/ui/components/admin/media/MediaArrayInput";
 import { ReferenceMediaDataGrid } from "@liexp/ui/components/admin/media/ReferenceMediaDataGrid";
 import EventPreview from "@liexp/ui/components/admin/previews/EventPreview";

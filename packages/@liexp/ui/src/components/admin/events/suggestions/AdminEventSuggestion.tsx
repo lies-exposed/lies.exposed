@@ -34,7 +34,6 @@ import ReactPageInput from "../../../admin/ReactPageInput";
 import { WebPreviewButton } from "../../../admin/common/WebPreviewButton";
 import { Box, Grid, Typography } from "../../../mui";
 import { EditForm } from "../../common/EditForm";
-import ReferenceUserInput from "../../common/ReferenceUserInput";
 import { EventSuggestionStatusInput } from "../../common/inputs/EventSuggestionStatusInput";
 import { EventSuggestionTypeInput } from "../../common/inputs/EventSuggestionTypeInput";
 import { ImportMediaButton } from "../../media/ImportMediaButton";
@@ -47,6 +46,7 @@ import { ReferenceMediaTab } from "../../tabs/ReferenceMediaTab";
 import { ScientificStudyEventEditTab } from "../../tabs/ScientificStudyEventEditTab";
 import { UncategorizedEventEditTab } from "../../tabs/UncategorizedEventEditTab";
 import { transformEvent } from "../../transform.utils";
+import ReferenceUserInput from "../../user/ReferenceUserInput";
 
 const RESOURCE = "events/suggestions";
 

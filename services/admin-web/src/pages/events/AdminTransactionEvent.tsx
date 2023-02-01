@@ -1,12 +1,12 @@
 import type * as Events from "@liexp/shared/io/http/Events";
 import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import ReferenceActorInput from "@liexp/ui/components/admin/common/ReferenceActorInput";
+import ReferenceActorInput from "@liexp/ui/components/admin/actors/ReferenceActorInput";
 import ReferenceAreaInput from "@liexp/ui/components/admin/common/ReferenceAreaInput";
-import ReferenceArrayLinkInput from "@liexp/ui/components/admin/common/ReferenceArrayLinkInput";
 import { ReferenceBySubjectField } from "@liexp/ui/components/admin/common/ReferenceBySubjectField";
 import ReferenceBySubjectInput from "@liexp/ui/components/admin/common/ReferenceBySubjectInput";
 import ReferenceArrayKeywordInput from "@liexp/ui/components/admin/keywords/ReferenceArrayKeywordInput";
+import ReferenceArrayLinkInput from "@liexp/ui/components/admin/links/ReferenceArrayLinkInput";
 import { transformEvent } from "@liexp/ui/components/admin/transform.utils";
 import * as React from "react";
 import {

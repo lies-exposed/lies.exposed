@@ -1,7 +1,7 @@
 import * as React from "react";
 import { type EditProps, TextInput, TextField } from "react-admin";
 import { Box } from "../../mui";
-import ReferenceActorInput from "../common/ReferenceActorInput";
+import ReferenceActorInput from "../actors/ReferenceActorInput";
 
 export const QuoteEditFormTab: React.FC<EditProps & { record?: any }> = (
   props

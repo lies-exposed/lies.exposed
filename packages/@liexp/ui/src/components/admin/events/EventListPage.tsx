@@ -22,9 +22,9 @@ import {
 } from "react-admin";
 import { EventIcon } from "../../Common/Icons/EventIcon";
 import { Box, Typography } from "../../mui";
-import ReferenceArrayActorInput from "../common/ReferenceArrayActorInput";
-import ReferenceArrayGroupInput from "../common/ReferenceArrayGroupInput";
+import ReferenceArrayActorInput from "../actors/ReferenceArrayActorInput";
 import ReferenceArrayGroupMemberInput from "../common/ReferenceArrayGroupMemberInput";
+import ReferenceArrayGroupInput from "../groups/ReferenceArrayGroupInput";
 import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput";
 
 const RESOURCE = "events";

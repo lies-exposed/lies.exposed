@@ -33,18 +33,18 @@ import {
   // AutocompleteInput,
 } from "react-admin";
 import { Box, Grid, Toolbar } from "../mui";
-import { CreateEventFromLinkButton } from "./common/CreateEventFromLinkButton";
 import { DangerZoneField } from "./common/DangerZoneField";
 import { EditForm } from "./common/EditForm";
-import ReferenceArrayEventInput from "./common/ReferenceArrayEventInput";
-import ReferenceGroupInput from "./common/ReferenceGroupInput";
-import ReferenceUserInput from "./common/ReferenceUserInput";
-import { SearchLinksButton } from "./common/SearchLinksButton";
 import URLMetadataInput from "./common/URLMetadataInput";
+import { CreateEventFromLinkButton } from "./events/CreateEventFromLinkButton";
+import ReferenceArrayEventInput from "./events/ReferenceArrayEventInput";
+import ReferenceGroupInput from "./groups/ReferenceGroupInput";
 import ReferenceArrayKeywordInput from "./keywords/ReferenceArrayKeywordInput";
+import { SearchLinksButton } from "./links/SearchLinksButton";
 import { MediaField } from "./media/MediaField";
 import ReferenceMediaInput from "./media/ReferenceMediaInput";
 import LinkPreview from "./previews/LinkPreview";
+import ReferenceUserInput from "./user/ReferenceUserInput";
 
 const RESOURCE = "links";
 

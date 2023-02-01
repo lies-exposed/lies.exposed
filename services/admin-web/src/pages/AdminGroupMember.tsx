@@ -1,10 +1,10 @@
 import type * as http from '@liexp/shared/io/http';
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import ReferenceActorInput from "@liexp/ui/components/admin/actors/ReferenceActorInput";
 import { AvatarField } from "@liexp/ui/components/admin/common/AvatarField";
-import ReferenceActorInput from "@liexp/ui/components/admin/common/ReferenceActorInput";
-import ReferenceArrayEventInput from "@liexp/ui/components/admin/common/ReferenceArrayEventInput";
-import ReferenceGroupInput from "@liexp/ui/components/admin/common/ReferenceGroupInput";
 import { WebPreviewButton } from "@liexp/ui/components/admin/common/WebPreviewButton";
+import ReferenceArrayEventInput from "@liexp/ui/components/admin/events/ReferenceArrayEventInput";
+import ReferenceGroupInput from "@liexp/ui/components/admin/groups/ReferenceGroupInput";
 import { FormControl, Grid } from "@liexp/ui/components/mui";
 import * as React from "react";
 import {

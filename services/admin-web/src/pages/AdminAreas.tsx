@@ -4,7 +4,7 @@ import { HelmetProvider } from "@liexp/ui/components/SEO";
 import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
 import { MapInput } from "@liexp/ui/components/admin/MapInput";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import ReferenceArrayEventInput from "@liexp/ui/components/admin/common/ReferenceArrayEventInput";
+import ReferenceArrayEventInput from "@liexp/ui/components/admin/events/ReferenceArrayEventInput";
 import { ReferenceMediaTab } from "@liexp/ui/components/admin/tabs/ReferenceMediaTab";
 import { transformMedia } from "@liexp/ui/components/admin/transform.utils";
 import { ECOTheme } from "@liexp/ui/theme";

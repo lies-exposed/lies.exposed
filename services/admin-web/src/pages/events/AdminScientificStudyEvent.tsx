@@ -1,13 +1,13 @@
 import * as ScientificStudy from "@liexp/shared/io/http/Events/ScientificStudy";
 import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import ReferenceArrayActorInput from "@liexp/ui/components/admin/actors/ReferenceArrayActorInput";
 import { AvatarField } from "@liexp/ui/components/admin/common/AvatarField";
 import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
-import ReferenceArrayActorInput from "@liexp/ui/components/admin/common/ReferenceArrayActorInput";
-import ReferenceArrayLinkInput from "@liexp/ui/components/admin/common/ReferenceArrayLinkInput";
-import ReferenceGroupInput from "@liexp/ui/components/admin/common/ReferenceGroupInput";
 import URLMetadataInput from "@liexp/ui/components/admin/common/URLMetadataInput";
+import ReferenceGroupInput from "@liexp/ui/components/admin/groups/ReferenceGroupInput";
 import ReferenceArrayKeywordInput from "@liexp/ui/components/admin/keywords/ReferenceArrayKeywordInput";
+import ReferenceArrayLinkInput from "@liexp/ui/components/admin/links/ReferenceArrayLinkInput";
 import { MediaArrayInput } from "@liexp/ui/components/admin/media/MediaArrayInput";
 import { ReferenceMediaDataGrid } from "@liexp/ui/components/admin/media/ReferenceMediaDataGrid";
 import EventPreview from "@liexp/ui/components/admin/previews/EventPreview";
