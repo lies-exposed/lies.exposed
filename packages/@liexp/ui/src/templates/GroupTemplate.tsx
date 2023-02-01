@@ -1,6 +1,5 @@
-import { type Actor, Group, type Keyword } from "@liexp/shared/io/http";
+import { Actor, Group, Keyword } from "@liexp/shared/io/http";
 import { type SearchEvent } from "@liexp/shared/io/http/Events";
-import { GROUPS } from "@liexp/shared/io/http/Group";
 import * as React from "react";
 import { GroupHierarchyEdgeBundlingGraph } from "../components/Graph/GroupHierarchyEdgeBundlingGraph";
 import { GroupPageContent } from "../components/GroupPageContent";
@@ -81,7 +80,7 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                 },
               ]}
               resource={{
-                name: GROUPS.value,
+                name: Group.GROUPS.value,
                 item: group,
               }}
             >
@@ -112,8 +111,9 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                   type={Group.GROUPS.value}
                   id={group.id}
                   query={{
-                    groupBy: Group.GROUPS.value,
+                    groupBy: Actor.ACTORS.value,
                   }}
+                  relation={Keyword.KEYWORDS.value}
                   onActorClick={onActorClick}
                   onGroupClick={onGroupClick}
                   onKeywordClick={onKeywordClick}

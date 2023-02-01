@@ -3,7 +3,7 @@ import { GROUPS } from "@liexp/shared/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
 import {
   type GetNetworkQuery,
-  type NetworkType
+  type NetworkType,
 } from "@liexp/shared/io/http/Network";
 import { formatDate } from "@liexp/shared/utils/date";
 import { ParentSize } from "@visx/responsive";
@@ -15,13 +15,13 @@ import { type serializedType } from "ts-io-error/lib/Codec";
 import { DateRangePicker } from "../../components/Common/DateRangePicker";
 import {
   EventsNetworkGraph,
-  type EventsNetworkGraphProps
+  type EventsNetworkGraphProps,
 } from "../../components/Graph/EventsNetworkGraph";
 import QueriesRenderer from "../../components/QueriesRenderer";
 import { Box, MenuItem, Select } from "../../components/mui";
 import {
   useNetworkGraphQuery,
-  type DiscreteQueryFn
+  type DiscreteQueryFn,
 } from "../../state/queries/DiscreteQueries";
 
 export interface EventNetworkGraphBoxProps
@@ -64,7 +64,7 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
       }}
     >
       {showFilter ? (
-        <Box style={{ margin: 20, display: "flex", flexDirection: "row", }}>
+        <Box style={{ margin: 20, display: "flex", flexDirection: "row" }}>
           <DateRangePicker
             from={startDate}
             to={endDate}
@@ -80,6 +80,7 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
             onChange={(e) => {
               setGroupBy(e.target.value);
             }}
+            style={{ marginLeft: 10 }}
           >
             <MenuItem value={ACTORS.value}>{ACTORS.value}</MenuItem>
             <MenuItem value={KEYWORDS.value}>{KEYWORDS.value}</MenuItem>

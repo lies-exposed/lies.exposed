@@ -76,7 +76,7 @@ describe("Create Network Graph", () => {
         })
       );
 
-      expect(graph.nodes).toHaveLength(3 + events.length / 2);
+      expect(graph.nodes).toHaveLength(2 + events.length / 2);
       [
         {
           id: otherKeywords[0].id,
