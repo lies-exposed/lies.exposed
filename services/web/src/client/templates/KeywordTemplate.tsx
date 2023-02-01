@@ -33,6 +33,12 @@ const KeywordPage: React.FC<{ keywordId: string }> = ({ keywordId }) => {
       onMediaClick={(m) => {
         navigateTo.media({ id: m.id });
       }}
+      onActorClick={(m) => {
+        navigateTo.actors({ id: m.id });
+      }}
+      onGroupClick={(m) => {
+        navigateTo.groups({ id: m.id });
+      }}
       onQueryChange={(q) => {
         navigateTo.keywords({ id: keywordId }, { ...q, tab });
       }}
