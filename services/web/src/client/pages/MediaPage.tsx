@@ -2,7 +2,7 @@ import { MainContent } from "@liexp/ui/components/MainContent";
 import { PageContent } from "@liexp/ui/components/PageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { MediaList } from "@liexp/ui/components/lists/MediaList";
-import { Box, TextField } from "@liexp/ui/components/mui";
+import { Box, Container, TextField } from "@liexp/ui/components/mui";
 import { useMediaQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
@@ -47,31 +47,30 @@ const MediaPage: React.FC<RouteComponentProps> = (props) => {
             }}
           />
         </Box>
-
-        <Box style={{ display: "flex", width: "100%" }}>
-          <QueriesRenderer
-            queries={{
-              media: useMediaQuery(queryParams, false),
-            }}
-            render={({ media: { data: media } }) => {
-              return (
-                <MediaList
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    justifyContent: "center",
-                  }}
-                  media={media.map((m) => ({ ...m, selected: true }))}
-                  onItemClick={(a) => {
-                    navigateTo.media({ id: a.id });
-                  }}
-                />
-              );
-            }}
-          />
-        </Box>
       </MainContent>
+      <Container>
+        <QueriesRenderer
+          queries={{
+            media: useMediaQuery(queryParams, false),
+          }}
+          render={({ media: { data: media } }) => {
+            return (
+              <MediaList
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                  justifyContent: "center",
+                }}
+                media={media.map((m) => ({ ...m, selected: true }))}
+                onItemClick={(a) => {
+                  navigateTo.media({ id: a.id });
+                }}
+              />
+            );
+          }}
+        />
+      </Container>
     </Box>
   );
 };
