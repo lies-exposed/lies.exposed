@@ -1,5 +1,7 @@
-import { type Keyword, type Media } from "@liexp/shared/io/http";
+import { type Actor, type Group, type Keyword, type Media } from "@liexp/shared/io/http";
+import { ACTORS } from "@liexp/shared/io/http/Actor";
 import { type SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
+import { GROUPS } from "@liexp/shared/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
 import { ParentSize } from "@visx/responsive";
 import * as React from "react";
@@ -21,6 +23,8 @@ export interface KeywordTemplateProps {
   onTabChange: (t: number) => void;
   onEventClick: (e: SearchEvent) => void;
   onKeywordClick: (k: Keyword.Keyword) => void;
+  onActorClick: (k: Actor.Actor) => void;
+  onGroupClick: (k: Group.Group) => void;
   onMediaClick: (m: Media.Media) => void;
   query: SearchEventsQueryInputNoPagination;
   onQueryChange: (q: SearchEventsQueryInputNoPagination, tab: number) => void;
@@ -33,6 +37,8 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
   onKeywordClick,
   onEventClick,
   onMediaClick,
+  onActorClick,
+  onGroupClick,
   query,
   onQueryChange,
 }) => {
@@ -59,7 +65,7 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
                 { label: "Events" },
                 { label: "Media" },
                 { label: "Links" },
-                { label: "Hierarchy" },
+                // { label: "Hierarchy" },
                 { label: "Networks" },
               ]}
               resource={{
@@ -93,6 +99,20 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
                   lg: 6,
                 }}
               />
+              <Box style={{ height: 600 }}>
+                <EventNetworkGraphBox
+                  type={KEYWORDS.value}
+                  id={keyword.id}
+                  query={{
+                    groupBy: ACTORS.value,
+                  }}
+                  relation={GROUPS.value}
+                  onKeywordClick={onKeywordClick}
+                  onEventClick={onEventClick}
+                  onActorClick={onActorClick}
+                  onGroupClick={onGroupClick}
+                />
+              </Box>
               <ParentSize style={{ maxWidth: 400, minWidth: 200 }}>
                 {({ width }) => {
                   return (
@@ -116,18 +136,6 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
                   );
                 }}
               </ParentSize>
-              <Box style={{ height: 600 }}>
-                <EventNetworkGraphBox
-                  type={KEYWORDS.value}
-                  id={keyword.id}
-                  query={{
-                    groupBy: KEYWORDS.value,
-                  }}
-                  relation={KEYWORDS.value}
-                  onKeywordClick={onKeywordClick}
-                  onEventClick={onEventClick}
-                />
-              </Box>
             </SplitPageTemplate>
           </Box>
         );

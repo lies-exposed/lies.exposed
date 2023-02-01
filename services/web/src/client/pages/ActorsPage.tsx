@@ -1,9 +1,9 @@
 import { ACTORS } from "@liexp/shared/io/http/Actor";
 import { AutocompleteActorInput } from "@liexp/ui/components/Input/AutocompleteActorInput";
-import { ActorList } from "@liexp/ui/components/lists/ActorList";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import { PageContent } from "@liexp/ui/components/PageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
+import { ActorList } from "@liexp/ui/components/lists/ActorList";
 import { ActorEventNetworkGraphBox } from "@liexp/ui/containers/graphs/ActorEventNetworkGraphBox";
 import { useActorsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import { Grid } from "@mui/material";
