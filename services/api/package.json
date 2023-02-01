@@ -56,7 +56,7 @@
     "node-cron": "^3.0.2",
     "node-telegram-bot-api": "^0.61.0",
     "page-metadata-parser": "^1.1.4",
-    "pdfjs-dist": "^3.2.146",
+    "pdfjs-dist": "^3.3.122",
     "pg": "^8.9.0",
     "puppeteer-core": "^19.6.1",
     "ts-endpoint-express": "^2.0.0",

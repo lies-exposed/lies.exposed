@@ -8263,7 +8263,7 @@ __metadata:
     node-telegram-bot-api: ^0.61.0
     nodemon: ^2.0.20
     page-metadata-parser: ^1.1.4
-    pdfjs-dist: ^3.2.146
+    pdfjs-dist: ^3.3.122
     pg: ^8.9.0
     prettier: ^2.8.3
     puppeteer-core: ^19.6.1
@@ -19294,6 +19294,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"path2d-polyfill@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "path2d-polyfill@npm:2.0.1"
+  checksum: e38a4f920be3550e8334b899cc56f4fca0a976ca69404ee10d656a45d422996b7e27e294e2cf0aac2e410ce59d6977cde9f95586e62a24e6c904716695e059f8
+  languageName: node
+  linkType: hard
+
 "pbf@npm:3.2.1":
   version: 3.2.1
   resolution: "pbf@npm:3.2.1"
@@ -19306,16 +19313,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pdfjs-dist@npm:^3.2.146":
-  version: 3.2.146
-  resolution: "pdfjs-dist@npm:3.2.146"
+"pdfjs-dist@npm:^3.3.122":
+  version: 3.3.122
+  resolution: "pdfjs-dist@npm:3.3.122"
   dependencies:
     canvas: ^2.11.0
+    path2d-polyfill: ^2.0.1
     web-streams-polyfill: ^3.2.1
   dependenciesMeta:
     canvas:
       optional: true
-  checksum: 54d4c75140f7fc1eb2008a7bb55e664c59602be09def9883da6aff4c1a7ad58a09aaa927d07f2a695181da0f20b8a96b569365195c34a0aac6ecb0d378959f8a
+  checksum: 9df747b17a6fbf6ce757568825431c28a292bb37031db3dcb4683bcf1991524eadedbf5a4496561080b6edad4511af28c294ceb4c42fc6c05cdaaf2203766635
   languageName: node
   linkType: hard
 
