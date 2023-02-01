@@ -3,7 +3,7 @@ import { PageContent } from "@liexp/ui/components/PageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { AreaList } from "@liexp/ui/components/lists/AreaList";
 import { Grid } from "@liexp/ui/components/mui";
-import { useAreasQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import { useAreasQuery } from "@liexp/ui/state/queries/area.queries";
 import { useTheme } from "@liexp/ui/theme";
 import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";

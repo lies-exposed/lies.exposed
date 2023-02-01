@@ -3,7 +3,7 @@ import Editor from "@liexp/ui/components/Common/Editor";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
 import { Box, Container } from "@liexp/ui/components/mui";
-import { usePageContentByPathQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import { usePageContentByPathQuery } from "@liexp/ui/state/queries/page.queries";
 import * as React from "react";
 import NotFoundPage from "../pages/404";
 

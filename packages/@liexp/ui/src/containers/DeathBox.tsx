@@ -3,7 +3,7 @@ import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
 import QueriesRenderer from "../components/QueriesRenderer";
-import { useEventQuery } from "../state/queries/DiscreteQueries";
+import { useEventQuery } from "../state/queries/event.queries";
 
 export class DeathBox extends React.PureComponent<{
   id: string;

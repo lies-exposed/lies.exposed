@@ -1,6 +1,6 @@
 import { type Keyword } from "@liexp/shared/io/http";
 import * as React from "react";
-import { useKeywordsQuery } from "../../state/queries/DiscreteQueries";
+import { useKeywordsQuery } from "../../state/queries/keywords.queries";
 import KeywordList, { KeywordListItem } from "../lists/KeywordList";
 import { AutocompleteInput } from "./AutocompleteInput";
 

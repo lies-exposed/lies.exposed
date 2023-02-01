@@ -1,7 +1,7 @@
 import { EventType } from "@liexp/shared/io/http/Events";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { useKeywordsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/state/queries/SearchEventsQuery";
+import { useKeywordsQuery } from "@liexp/ui/state/queries/keywords.queries";
 import {
   KeywordTemplate,
   type KeywordTemplateProps

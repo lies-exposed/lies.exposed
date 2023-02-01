@@ -1,7 +1,7 @@
 import type * as io from "@liexp/shared/io/http";
 import  { getTextContentsCapped } from "@liexp/shared/slate";
 import * as React from "react";
-import { useMediaQuery } from "../../state/queries/DiscreteQueries";
+import { useMediaQuery } from "../../state/queries/media.queries";
 import { styled } from "../../theme";
 import { List, type ListItemProps } from "../Common/List";
 import {

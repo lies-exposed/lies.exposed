@@ -1,6 +1,6 @@
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { useGroupsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/state/queries/SearchEventsQuery";
+import { useGroupsQuery } from "@liexp/ui/state/queries/groups.queries";
 import {
   GroupTemplate,
   type GroupTemplateProps,

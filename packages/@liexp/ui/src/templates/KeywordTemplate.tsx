@@ -13,8 +13,8 @@ import { MediaBox } from "../components/containers/MediaBox";
 import { Box } from "../components/mui";
 import { EventsPanelBox } from "../containers/EventsPanel";
 import { EventNetworkGraphBox } from "../containers/graphs/EventNetworkGraphBox";
-import { useKeywordQuery } from "../state/queries/DiscreteQueries";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
+import { useKeywordQuery } from "../state/queries/keywords.queries";
 import { SplitPageTemplate } from "./SplitPageTemplate";
 
 export interface KeywordTemplateProps {

@@ -4,7 +4,7 @@ import { EventPageContent } from "@liexp/ui/components/EventPageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import EventsBox from "@liexp/ui/components/containers/EventsBox";
 import { Box, Grid } from "@liexp/ui/components/mui";
-import { useEventQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import { useEventQuery } from "@liexp/ui/state/queries/event.queries";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 

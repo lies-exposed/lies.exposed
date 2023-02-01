@@ -3,43 +3,44 @@ import { EventType } from "@liexp/shared/io/http/Events";
 import { StatsType } from "@liexp/shared/io/http/Stats";
 import { articleByPath } from "@liexp/ui/providers/DataProvider";
 import {
-  fetchActor,
-  fetchActors,
-  fetchArea,
-  fetchAreas,
-  fetchArticles,
-  fetchEvent,
-  fetchGroup,
-  fetchGroups,
   fetchGroupsMembers,
-  fetchKeywords,
-  fetchKeywordsDistribution,
-  fetchLinks,
-  fetchMedia,
-  fetchPageContentByPath,
-  fetchSingleMedia,
   fetchStats,
-  getActorQueryKey,
-  getActorsQueryKey,
-  getAreaQueryKey,
-  getArticleQueryKey,
   getGroupsMembersQueryKey,
-  getGroupsQueryKey,
-  getKeywordsDistributionQueryKey,
-  getKeywordsQueryKey,
-  getLinkQueryKey,
-  getMediaQueryKey,
-  getMediaQueryListKey,
-  getPageContentByPathQueryKey,
-  getStatsQueryKey,
+  getStatsQueryKey
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import {
   fetchSearchEvents,
   fetchSearchEventsInfinite,
   getSearchEventsInfiniteQueryKey,
-  getSearchEventsQueryKey,
+  getSearchEventsQueryKey
 } from "@liexp/ui/state/queries/SearchEventsQuery";
+import {
+  fetchActor,
+  fetchActors,
+  getActorQueryKey,
+  getActorsQueryKey
+} from "@liexp/ui/state/queries/actor.queries";
+import { fetchArea, fetchAreas, getAreaQueryKey } from "@liexp/ui/state/queries/area.queries";
+import { fetchArticles, getArticleQueryKey } from "@liexp/ui/state/queries/article.queries";
+import { fetchEvent } from "@liexp/ui/state/queries/event.queries";
 import { fetchGithubRepo } from "@liexp/ui/state/queries/github";
+import {
+  fetchGroup,
+  fetchGroups,
+  getGroupsQueryKey
+} from "@liexp/ui/state/queries/groups.queries";
+import { fetchKeywords, fetchKeywordsDistribution, getKeywordsDistributionQueryKey, getKeywordsQueryKey } from '@liexp/ui/state/queries/keywords.queries';
+import { fetchLinks, getLinkQueryKey } from "@liexp/ui/state/queries/link.queries";
+import {
+  fetchMedia,
+  fetchSingleMedia,
+  getMediaQueryKey,
+  getMediaQueryListKey
+} from "@liexp/ui/state/queries/media.queries";
+import {
+  fetchPageContentByPath,
+  getPageContentByPathQueryKey
+} from "@liexp/ui/state/queries/page.queries";
 import { hashToQuery } from "@liexp/ui/utils/history.utils";
 import { UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
@@ -64,7 +65,6 @@ const KeywordTemplate = React.lazy(() => import("./templates/KeywordTemplate"));
 const MediaTemplate = React.lazy(() => import("./templates/MediaTemplate"));
 
 const PageTemplate = React.lazy(() => import("./templates/PageTemplate"));
-
 
 const githubQuery = {
   queryKey: ["github", { user: "lies-exposed", repo: "lies.exposed" }],

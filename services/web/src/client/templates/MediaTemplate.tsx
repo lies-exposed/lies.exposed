@@ -1,7 +1,7 @@
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
 import { Box } from "@liexp/ui/components/mui";
-import { useGetMediaQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import { useGetMediaQuery } from "@liexp/ui/state/queries/media.queries";
 import { MediaTemplateUI } from "@liexp/ui/templates/MediaTemplateUI";
 import { useRouteQuery } from "@liexp/ui/utils/history.utils";
 import * as React from "react";

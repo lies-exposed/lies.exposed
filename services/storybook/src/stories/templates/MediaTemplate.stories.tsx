@@ -1,5 +1,5 @@
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { useMediaQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import { useMediaQuery } from "@liexp/ui/state/queries/media.queries";
 import {
   MediaTemplateUI,
   type MediaTemplateUIProps

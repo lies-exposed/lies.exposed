@@ -5,9 +5,11 @@ import {
 import { MainContent } from "@liexp/ui/components/MainContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import {
-  useGroupsQuery,
   useGroupMembersQuery,
 } from "@liexp/ui/state/queries/DiscreteQueries";
+import {
+  useGroupsQuery,
+} from "@liexp/ui/state/queries/groups.queries";
 import { type Meta, type Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 

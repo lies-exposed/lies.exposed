@@ -2,7 +2,7 @@ import { type UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
 import QueriesRenderer from "../../components/QueriesRenderer";
 import { ActorChip, type ActorChipProps } from "../../components/actors/ActorChip";
-import { useActorQuery } from "../../state/queries/DiscreteQueries";
+import { useActorQuery } from "../../state/queries/actor.queries";
 
 type ActorChipBoxProps = ActorChipProps & {
   id: UUID;

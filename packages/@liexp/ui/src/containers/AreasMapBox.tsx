@@ -1,7 +1,7 @@
 import * as React from "react";
 import AreasMap, { type AreasMapProps } from "../components/AreasMap";
 import QueriesRenderer from "../components/QueriesRenderer";
-import { useAreasQuery } from "../state/queries/DiscreteQueries";
+import { useAreasQuery } from "../state/queries/area.queries";
 
 const AreasMapBox: React.FC<AreasMapProps> = (props) => {
   return (

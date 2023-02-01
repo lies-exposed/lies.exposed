@@ -1,6 +1,6 @@
 import { type Actor } from "@liexp/shared/io/http";
 import * as React from "react";
-import { useActorsQuery } from "../../state/queries/DiscreteQueries";
+import { useActorsQuery } from "../../state/queries/actor.queries";
 import { ActorList, ActorListItem } from "../lists/ActorList";
 import { AutocompleteInput } from "./AutocompleteInput";
 

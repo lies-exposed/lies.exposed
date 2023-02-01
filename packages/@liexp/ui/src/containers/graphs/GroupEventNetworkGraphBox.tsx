@@ -1,7 +1,7 @@
 import { type NetworkType } from "@liexp/shared/io/http/Network";
 import * as React from "react";
 import { type GetListParams } from "react-admin";
-import { useGroupsQuery } from "../../state/queries/DiscreteQueries";
+import { useGroupsQuery } from "../../state/queries/groups.queries";
 import {
   EventsNetworkGraphBoxWithQuery,
   type EventNetworkGraphBoxProps,

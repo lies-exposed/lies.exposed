@@ -1,16 +1,19 @@
 import { getRelationIds } from "@liexp/shared/helpers/event/event";
-import { type Actor, type Area, type Group, type GroupMember } from "@liexp/shared/io/http";
+import {
+  type Actor,
+  type Area,
+  type Group,
+  type GroupMember,
+} from "@liexp/shared/io/http";
 import { type Event } from "@liexp/shared/io/http/Events";
 import { type Media } from "@liexp/shared/io/http/Media";
 import { UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
-import {
-  useActorsQuery,
-  useAreasQuery,
-  useGroupMembersQuery,
-  useGroupsQuery,
-  useMediaQuery,
-} from "../../state/queries/DiscreteQueries";
+import { useGroupMembersQuery } from "../../state/queries/DiscreteQueries";
+import { useActorsQuery } from "../../state/queries/actor.queries";
+import { useAreasQuery } from "../../state/queries/area.queries";
+import { useGroupsQuery } from '../../state/queries/groups.queries';
+import { useMediaQuery } from '../../state/queries/media.queries';
 import QueriesRenderer from "../QueriesRenderer";
 
 export const EventRelations: React.FC<{

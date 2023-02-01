@@ -1,7 +1,7 @@
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
 import { Box } from "@liexp/ui/components/mui";
-import { useActorQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import { useActorQuery } from "@liexp/ui/state/queries/actor.queries";
 import { ActorTemplate } from "@liexp/ui/templates/ActorTemplate";
 import { useRouteQuery } from "@liexp/ui/utils/history.utils";
 import * as React from "react";

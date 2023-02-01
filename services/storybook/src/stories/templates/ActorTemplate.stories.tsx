@@ -1,6 +1,6 @@
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { useActorsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/state/queries/SearchEventsQuery";
+import { useActorsQuery } from "@liexp/ui/state/queries/actor.queries";
 import {
   ActorTemplate,
   type ActorTemplateProps,

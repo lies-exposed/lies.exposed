@@ -1,6 +1,6 @@
 import { type Group } from "@liexp/shared/io/http";
 import * as React from "react";
-import { useGroupsQuery } from "../../state/queries/DiscreteQueries";
+import { useGroupsQuery } from "../../state/queries/groups.queries";
 import GroupList, { GroupListItem } from "../lists/GroupList";
 import { AutocompleteInput } from "./AutocompleteInput";
 

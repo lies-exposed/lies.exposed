@@ -5,7 +5,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMoreOutlined";
 import LinkIcon from "@mui/icons-material/LinkOutlined";
 import * as React from "react";
 import { type serializedType } from "ts-io-error/lib/Codec";
-import { useLinksQuery } from "../state/queries/DiscreteQueries";
+import { useLinksQuery } from "../state/queries/link.queries";
 import LinkCard from "./Cards/LinkCard";
 import QueriesRenderer from "./QueriesRenderer";
 import {
