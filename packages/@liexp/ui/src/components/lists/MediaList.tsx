@@ -1,10 +1,24 @@
 import type * as io from "@liexp/shared/io/http";
 import { clsx } from "clsx";
 import * as React from "react";
+import {
+  AutoSizer,
+  CellMeasurer,
+  CellMeasurerCache,
+  Masonry,
+  type MasonryCellProps,
+  type MasonryProps,
+  type Size,
+} from "react-virtualized";
+import { type RenderedRows } from "react-virtualized/dist/es/List";
+import {
+  createCellPositioner,
+  type Positioner,
+} from "react-virtualized/dist/es/Masonry";
 import { styled } from "../../theme";
 import { type ListItemProps } from "../Common/List";
 import { defaultImage } from "../SEO";
-import { Box, Grid, type ListProps, Typography } from "../mui";
+import { Box, Typography } from "../mui";
 
 export interface Media extends io.Media.Media {
   selected: boolean;
@@ -18,11 +32,10 @@ const classes = {
   description: `${MEDIA_LIST_ITEM_PREFIX}-description`,
 };
 
-const StyledGridItem = styled(Grid)({
+const StyledGridItem = styled(Box)({
   [`&.${classes.root}`]: {
     width: "100%",
     maxWidth: 300,
-    marginBottom: 20,
     display: "flex",
     flexDirection: "row",
     "&:hover": {
@@ -55,37 +68,35 @@ const StyledGridItem = styled(Grid)({
     padding: 10,
     backgroundColor: "black",
   },
-}) as typeof Grid;
+});
 
 interface MediaListItemProps extends ListItemProps<Media> {
   style?: React.CSSProperties;
   hideDescription?: boolean;
+  onLoad?: () => void;
 }
 
-export const MediaListItem: React.FC<MediaListItemProps> = ({
-  item,
-  onClick,
-  style,
-  hideDescription,
-}) => {
+export const MediaListItem: React.ForwardRefRenderFunction<
+  any,
+  MediaListItemProps
+> = ({ style, onClick, item, onLoad, hideDescription }, ref) => {
   return (
-    <StyledGridItem
-      key={item.id}
-      className={clsx(classes.root)}
-      display="flex"
-      item
-      sx={{ md: 3, sm: 6 }}
-      alignItems="center"
-      margin={0}
-      style={{ cursor: "pointer", flexDirection: "column", ...style }}
-      onClick={() => onClick?.(item)}
-    >
-      <Box className={classes.wrapper}>
+    <StyledGridItem className={clsx(classes.root)} style={style} ref={ref}>
+      <Box
+        className={clsx(classes.wrapper)}
+        style={{
+          cursor: "pointer",
+          display: "flex",
+          flexDirection: "column",
+        }}
+        onClick={() => onClick?.(item)}
+      >
         <img
           className={classes.media}
           src={item.thumbnail ?? defaultImage}
           title={item.description}
           loading="lazy"
+          onLoad={onLoad}
         />
 
         {!hideDescription ? (
@@ -105,13 +116,50 @@ export const MediaListItem: React.FC<MediaListItemProps> = ({
   );
 };
 
-export interface MediaListProps extends ListProps {
+export const MediaListItemRef = React.forwardRef(MediaListItem);
+
+export const MediaListItemCell: React.FC<
+  MediaListItemProps &
+    MasonryCellProps & {
+      cache: CellMeasurerCache;
+    } & { width: number }
+> = ({
+  item,
+  index,
+  isScrolling,
+  parent,
+  onClick,
+  style,
+  hideDescription,
+  cache,
+  width,
+}) => {
+  return (
+    <CellMeasurer cache={cache} parent={parent} index={index}>
+      {({ measure, registerChild }) => {
+        return (
+          <MediaListItemRef
+            ref={registerChild}
+            onLoad={measure}
+            item={item}
+            hideDescription={hideDescription}
+          />
+        );
+      }}
+    </CellMeasurer>
+  );
+};
+
+export interface MediaListProps extends MasonryProps {
   className?: string;
   media: Media[];
   hideDescription?: boolean;
   onItemClick: (item: Media) => void;
   style?: React.CSSProperties;
   itemStyle?: React.CSSProperties;
+  onRowsRendered?: ((info: RenderedRows) => void) | undefined;
+  columnWidth: number;
+  gutterSize?: number;
 }
 
 const LIST_PREFIX = "media-list";
@@ -119,44 +167,118 @@ const listClasses = {
   root: `${LIST_PREFIX}-root`,
 };
 
-const StyledList = styled(Grid)(() => ({
+const StyledMasonry = styled(Masonry)(() => ({
   [`&.${listClasses.root}`]: {
-    display: "flex",
-    flexDirection: "row",
     paddingRight: 0,
-    paddingLeft: 0
+    paddingLeft: 0,
   },
-})) as typeof Grid;
+}));
 
-export const MediaList: React.FC<MediaListProps> = ({
-  className,
-  media,
-  style,
-  hideDescription,
-  onItemClick,
-  itemStyle,
-  ...props
-}) => {
+const MediaList: React.ForwardRefRenderFunction<Masonry, MediaListProps> = (
+  {
+    className,
+    media,
+    style,
+    hideDescription,
+    onItemClick,
+    itemStyle,
+    onRowsRendered,
+    width,
+    columnWidth,
+    gutterSize = 20,
+    ...props
+  },
+  ref
+) => {
+  const masonryRef = React.useRef<Masonry>();
+
+  const getColumnCount = (w: number): number =>
+    Math.floor(w / (columnWidth + gutterSize));
+
+  const [columnCount, setColumnCount] = React.useState(getColumnCount(width));
+  const cellCache = React.useMemo(
+    () =>
+      new CellMeasurerCache({
+        fixedWidth: true,
+        defaultHeight: 200,
+        defaultWidth: 200,
+      }),
+    []
+  );
+
+  const cellPositioner = React.useMemo((): Positioner => {
+    return createCellPositioner({
+      cellMeasurerCache: cellCache,
+      columnCount,
+      columnWidth,
+      spacer: gutterSize,
+    });
+  }, []);
+
+  const resetCellPositioner = (): void => {
+    cellPositioner.reset({
+      columnCount,
+      columnWidth,
+      spacer: gutterSize,
+    });
+  };
+
+  const onResize = ({ width, height }: Size): void => {
+    setColumnCount(getColumnCount(width));
+    resetCellPositioner();
+    masonryRef.current?.recomputeCellPositions();
+  };
+
   return (
-    <StyledList
-      {...props}
-      container
-      alignItems="center"
-      justifyItems="center"
-      spacing={2}
-      className={clsx(listClasses.root, className)}
-      component="ul"
-      style={style}
-    >
-      {media.map((m) => (
-        <MediaListItem
-          key={m.id}
-          onClick={onItemClick}
-          item={{ ...m }}
-          style={itemStyle}
-          hideDescription={hideDescription}
-        />
-      ))}
-    </StyledList>
+    <AutoSizer onResize={onResize}>
+      {({ width, height }) => {
+        return (
+          <StyledMasonry
+            {...props}
+            className={clsx(listClasses.root, className)}
+            height={height}
+            width={width}
+            style={style}
+            ref={(i) => {
+              if (typeof ref === "function") {
+                ref(i);
+              }
+              masonryRef.current = i ?? undefined;
+            }}
+            columnCount={columnCount}
+            cellMeasurerCache={cellCache}
+            cellCount={media.length}
+            cellPositioner={cellPositioner}
+            overscanByPixels={0}
+            onCellsRendered={({ startIndex, stopIndex }) => {
+              onRowsRendered?.({
+                startIndex,
+                stopIndex,
+                overscanStartIndex: stopIndex,
+                overscanStopIndex: stopIndex + 20,
+              });
+            }}
+            cellRenderer={({ key, index, ...props }) => {
+              const m = media[index % media.length];
+
+              return (
+                <MediaListItemCell
+                  {...props}
+                  key={key}
+                  cache={cellCache}
+                  index={index}
+                  onClick={onItemClick}
+                  item={m}
+                  hideDescription={hideDescription}
+                  width={columnWidth}
+                />
+              );
+            }}
+          />
+        );
+      }}
+    </AutoSizer>
   );
 };
+
+export default React.forwardRef(MediaList);
