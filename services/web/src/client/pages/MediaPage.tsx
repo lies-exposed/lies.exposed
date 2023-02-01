@@ -28,11 +28,11 @@ const MediaPage: React.FC<RouteComponentProps> = (props) => {
         justifyContent: "center",
       }}
     >
-      <MainContent>
+      <MainContent
+        style={{ display: "flex", flexShrink: 0, flexDirection: "column" }}
+      >
         <Box
           style={{
-            display: "flex",
-            flexShrink: 0,
             width: "100%",
             marginBottom: 20,
           }}
