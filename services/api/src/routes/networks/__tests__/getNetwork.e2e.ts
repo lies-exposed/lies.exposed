@@ -70,11 +70,10 @@ describe("Get Network", () => {
       .sort((a, b) => b.date - a.date)
       .map((e) => ({ id: e.id }));
 
-    expect(response.body.data.nodes).toHaveLength(7);
+    expect(response.body.data.nodes).toHaveLength(6);
     expect(response.body.data.nodes).toMatchObject([
       { id: keyword.id },
       ...eventNodes,
-      { id: keyword.id },
     ]);
 
     expect(response.body.data.links).toHaveLength(10);

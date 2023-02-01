@@ -9,7 +9,9 @@ const classes = {
   dateInput: `${PREFIX}-dateInput`,
 };
 const StyledGrid = styled(Grid)(({ theme }) => ({
-  [`&.${classes.root}`]: {},
+  [`&.${classes.root}`]: {
+    marginTop: 0
+  },
   [`& .${classes.dateInput}`]: {
     marginBottom: theme.spacing(2),
   },
