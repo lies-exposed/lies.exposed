@@ -1,4 +1,6 @@
 import { ACTORS } from "@liexp/shared/io/http/Actor";
+import { GROUPS } from "@liexp/shared/io/http/Group";
+import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
 import { AutocompleteActorInput } from "@liexp/ui/components/Input/AutocompleteActorInput";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import { PageContent } from "@liexp/ui/components/PageContent";
@@ -20,8 +22,6 @@ export const queryParams = {
 
 const ActorsPage: React.FC<RouteComponentProps> = (props) => {
   const navigateTo = useNavigateToResource();
-
-  // const pageContentByPath = usePageContentByPathQuery({ path: "actors" });
 
   return (
     <>
@@ -71,7 +71,8 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
                     }}
                     type={ACTORS.value}
                     query={{
-                      groupBy: ACTORS.value,
+                      groupBy: GROUPS.value,
+                      relation: ACTORS.value,
                       startDate: subYears(new Date(), 2).toISOString(),
                     }}
                     showFilter={false}
@@ -99,7 +100,8 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
                     }}
                     type={ACTORS.value}
                     query={{
-                      groupBy: ACTORS.value,
+                      groupBy: KEYWORDS.value,
+                      relation: ACTORS.value,
                       startDate: subYears(new Date(), 2).toISOString(),
                     }}
                     showFilter={false}
