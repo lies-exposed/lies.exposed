@@ -156,6 +156,16 @@ export const EventList: React.FC = () => (
         if (record.type === http.Events.Death.DEATH.value) {
           return `/deaths/${record.id}`;
         }
+
+        if (record.type === http.Events.Patent.PATENT.value) {
+          return `/patents/${record.id}`;
+        }
+
+        if (record.type === http.Events.Documentary.DOCUMENTARY.value) {
+          return `/documentaries/${record.id}`;
+        }
+
+
         return `/events/${record.id}`;
       }}
     >
