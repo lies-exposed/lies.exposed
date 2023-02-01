@@ -2,7 +2,7 @@ import { MainContent } from "@liexp/ui/components/MainContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
 import { Box } from "@liexp/ui/components/mui";
-import { useAreaQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import { useAreaQuery } from "@liexp/ui/state/queries/area.queries";
 import { AreaTemplateUI } from "@liexp/ui/templates/AreaTemplate";
 import { useRouteQuery } from "@liexp/ui/utils/history.utils";
 import * as React from "react";

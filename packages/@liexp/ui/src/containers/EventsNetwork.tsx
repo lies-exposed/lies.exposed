@@ -6,11 +6,9 @@ import {
 } from "../components/Graph/EventsSankeyGraph";
 import QueriesRenderer from "../components/QueriesRenderer";
 import { Box } from "../components/mui";
-import {
-  useActorsQuery,
-  useGroupsQuery,
-} from "../state/queries/DiscreteQueries";
 import { searchEventsQuery } from "../state/queries/SearchEventsQuery";
+import { useActorsQuery } from "../state/queries/actor.queries";
+import { useGroupsQuery } from "../state/queries/groups.queries";
 import { type EventsQueryParams } from "./EventsPanel";
 
 interface EventsNetworkProps
@@ -105,7 +103,6 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
                 ),
               }}
               render={({ actors: { data: actors } }) => {
-
                 return (
                   <EventsSankeyGraph
                     {...props}

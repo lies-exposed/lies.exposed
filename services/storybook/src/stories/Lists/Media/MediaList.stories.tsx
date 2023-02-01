@@ -3,7 +3,7 @@ import {
     MediaList,
     type MediaListProps
 } from "@liexp/ui/components/lists/MediaList";
-import { useMediaQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import { useMediaQuery } from "@liexp/ui/state/queries/media.queries";
 import { type Meta, type Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 

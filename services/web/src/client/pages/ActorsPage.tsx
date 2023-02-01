@@ -7,7 +7,7 @@ import { PageContent } from "@liexp/ui/components/PageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { ActorList } from "@liexp/ui/components/lists/ActorList";
 import { ActorEventNetworkGraphBox } from "@liexp/ui/containers/graphs/ActorEventNetworkGraphBox";
-import { useActorsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import { useActorsQuery } from "@liexp/ui/state/queries/actor.queries";
 import { Grid } from "@mui/material";
 import { type RouteComponentProps } from "@reach/router";
 import { subYears } from "date-fns";

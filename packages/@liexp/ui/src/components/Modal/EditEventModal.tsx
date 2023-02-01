@@ -3,7 +3,7 @@ import * as React from "react";
 import { AdminContext, ResourceContextProvider } from "react-admin";
 import { apiProvider, authProvider } from "../../client/api";
 import { i18nProvider } from "../../i18n/i18n.provider";
-import { useEventQuery } from "../../state/queries/DiscreteQueries";
+import { useEventQuery } from "../../state/queries/event.queries";
 import { styled, themeOptions } from "../../theme";
 import QueriesRenderer from "../QueriesRenderer";
 import { EventSuggestionCreate } from "../admin/events/suggestions/AdminEventSuggestion";

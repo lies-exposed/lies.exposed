@@ -6,7 +6,7 @@ import {
   MediaSlider,
   type MediaSliderProps
 } from "../components/sliders/MediaSlider";
-import { useMediaQuery } from "../state/queries/DiscreteQueries";
+import { useMediaQuery } from "../state/queries/media.queries";
 
 export interface MediaSliderBoxProps extends Omit<MediaSliderProps, 'data'> {
   query: GetListParams;

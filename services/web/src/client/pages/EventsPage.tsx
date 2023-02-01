@@ -4,14 +4,15 @@ import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
 import { Box, Grid } from "@liexp/ui/components/mui";
 import { EventsPanel } from "@liexp/ui/containers/EventsPanel";
-import {
-  useActorsQuery, useGroupMembersQuery, useGroupsQuery, useKeywordsQuery
-} from "@liexp/ui/state/queries/DiscreteQueries";
+import { useGroupMembersQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import {
   clearSearchEventsQueryCache,
   type SearchEventQueryInput,
   type SearchEventsQueryInputNoPagination
 } from "@liexp/ui/state/queries/SearchEventsQuery";
+import { useActorsQuery } from "@liexp/ui/state/queries/actor.queries";
+import { useGroupsQuery } from "@liexp/ui/state/queries/groups.queries";
+import { useKeywordsQuery } from '@liexp/ui/state/queries/keywords.queries';
 import { styled } from "@liexp/ui/theme";
 import {
   queryToHash,
@@ -20,7 +21,9 @@ import {
 } from "@liexp/ui/utils/history.utils";
 import * as React from "react";
 import { queryClient } from "../state/queries";
-import { type EventsView, useNavigateToResource } from "../utils/location.utils";
+import {
+  useNavigateToResource, type EventsView
+} from "../utils/location.utils";
 
 const PREFIX = "EventsPage";
 

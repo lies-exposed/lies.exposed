@@ -1,11 +1,9 @@
 import { type Actor, type Group, type Keyword } from "@liexp/shared/io/http";
 import * as React from "react";
-import {
-  fetchActors,
-  fetchGroups,
-  fetchKeywords
-} from "../../../state/queries/DiscreteQueries";
-import { type SearchEventsQueryInputNoPagination } from '../../../state/queries/SearchEventsQuery';
+import { type SearchEventsQueryInputNoPagination } from "../../../state/queries/SearchEventsQuery";
+import { fetchActors } from "../../../state/queries/actor.queries";
+import { fetchGroups } from "../../../state/queries/groups.queries";
+import { fetchKeywords } from "../../../state/queries/keywords.queries";
 import { ActorListItem } from "../../lists/ActorList";
 import { GroupListItem } from "../../lists/GroupList";
 import { KeywordListItem } from "../../lists/KeywordList";
@@ -15,7 +13,7 @@ import {
   type AutocompleteProps,
   Box,
   TextField,
-  Typography
+  Typography,
 } from "../../mui";
 
 export type SearchOption =

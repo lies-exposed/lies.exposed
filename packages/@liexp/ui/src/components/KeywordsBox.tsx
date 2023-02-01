@@ -3,7 +3,7 @@ import * as NEA from "fp-ts/NonEmptyArray";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
-import { useKeywordsQuery } from "../state/queries/DiscreteQueries";
+import { useKeywordsQuery } from "../state/queries/keywords.queries";
 import QueriesRenderer from "./QueriesRenderer";
 import KeywordList from "./lists/KeywordList";
 import { Box, type BoxProps, Typography } from "./mui";

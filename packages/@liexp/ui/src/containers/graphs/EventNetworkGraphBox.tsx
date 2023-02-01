@@ -19,10 +19,8 @@ import {
 } from "../../components/Graph/EventsNetworkGraph";
 import QueriesRenderer from "../../components/QueriesRenderer";
 import { Box, MenuItem, Select } from "../../components/mui";
-import {
-  useNetworkGraphQuery,
-  type DiscreteQueryFn,
-} from "../../state/queries/DiscreteQueries";
+import { useNetworkGraphQuery } from "../../state/queries/DiscreteQueries";
+import { type UseListQueryFn } from "../../state/queries/type";
 
 export interface EventNetworkGraphBoxProps
   extends Omit<
@@ -139,7 +137,7 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
 
 interface EventsNetworkGraphBoxWithQueryProps
   extends Omit<EventNetworkGraphBoxProps, "id" | "query"> {
-  useQuery: DiscreteQueryFn<any>;
+  useQuery: UseListQueryFn<any>;
   params: Partial<GetListParams>;
   eventsBoxQuery: any;
 }

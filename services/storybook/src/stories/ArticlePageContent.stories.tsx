@@ -4,7 +4,7 @@ import {
   type ArticlePageContentProps,
 } from "@liexp/ui/components/ArticlePageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { useArticlesQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import { useArticlesQuery } from "@liexp/ui/state/queries/article.queries";
 import { type Meta, type Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 

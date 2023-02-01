@@ -3,7 +3,7 @@ import * as React from "react";
 import { type GetListParams } from "react-admin";
 import QueriesRenderer from "../components/QueriesRenderer";
 import { ArticleList } from "../components/articles/ArticleList";
-import { useArticlesQuery } from "../state/queries/DiscreteQueries";
+import { useArticlesQuery } from "../state/queries/article.queries";
 
 interface ActorsBoxProps {
   params: GetListParams;

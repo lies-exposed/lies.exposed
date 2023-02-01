@@ -1,7 +1,7 @@
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import {
   useAreasQuery
-} from "@liexp/ui/state/queries/DiscreteQueries";
+} from "@liexp/ui/state/queries/area.queries";
 import {
   type AreaTemplateProps, AreaTemplateUI
 } from "@liexp/ui/templates/AreaTemplate";

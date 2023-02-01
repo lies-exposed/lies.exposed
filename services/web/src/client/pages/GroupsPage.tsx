@@ -6,7 +6,7 @@ import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import GroupList from "@liexp/ui/components/lists/GroupList";
 import { Grid, Typography } from "@liexp/ui/components/mui";
 import { GroupEventNetworkGraphBox } from "@liexp/ui/containers/graphs/GroupEventNetworkGraphBox";
-import { useGroupsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import { useGroupsQuery } from "@liexp/ui/state/queries/groups.queries";
 import { type RouteComponentProps } from "@reach/router";
 import { subYears } from "date-fns";
 import * as React from "react";

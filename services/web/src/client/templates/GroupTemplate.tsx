@@ -1,5 +1,5 @@
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { useGroupQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import { useGroupQuery } from "@liexp/ui/state/queries/groups.queries";
 import { GroupTemplate } from "@liexp/ui/templates/GroupTemplate";
 import { useRouteQuery } from "@liexp/ui/utils/history.utils";
 import * as React from "react";

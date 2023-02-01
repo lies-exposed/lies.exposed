@@ -1,6 +1,6 @@
 import { type Media } from "@liexp/shared/io/http";
 import * as React from "react";
-import { useMediaQuery } from "../../state/queries/DiscreteQueries";
+import { useMediaQuery } from "../../state/queries/media.queries";
 import { MediaList, MediaListItem } from "../lists/MediaList";
 import { Grid, Typography } from "../mui";
 import { AutocompleteInput } from "./AutocompleteInput";

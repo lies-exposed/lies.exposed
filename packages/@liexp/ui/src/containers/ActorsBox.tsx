@@ -3,7 +3,7 @@ import * as React from "react";
 import { type GetListParams } from "react-admin";
 import QueriesRenderer from "../components/QueriesRenderer";
 import { ActorList, type ActorListProps } from "../components/lists/ActorList";
-import { useActorsQuery } from "../state/queries/DiscreteQueries";
+import { useActorsQuery } from "../state/queries/actor.queries";
 
 type ActorsBoxProps<D extends React.ElementType<any> = "ul"> = Omit<
   ActorListProps<D>,
