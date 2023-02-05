@@ -1,6 +1,20 @@
-FROM node:16-slim as build
+FROM node:16-alpine as build
 
 WORKDIR /app
+
+# see https://github.com/Automattic/node-canvas/issues/866
+RUN apk add --no-cache --virtual .build-deps \
+    build-base \
+	g++ \
+	cairo-dev \
+	jpeg-dev \
+	pango-dev \
+	giflib-dev \
+    && apk add --no-cache --virtual .runtime-deps \
+    cairo \
+	jpeg \
+	pango \
+	giflib
 
 COPY .yarn/ .yarn/
 COPY package.json .
