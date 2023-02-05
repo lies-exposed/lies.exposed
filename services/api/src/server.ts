@@ -117,7 +117,7 @@ export const makeContext = (
         ),
         env: TE.right(env),
         tg: TE.right(
-          TGBotProvider({
+          TGBotProvider(serverLogger, {
             token: env.TG_BOT_TOKEN,
             chat: env.TG_BOT_CHAT,
             polling: env.TG_BOT_POLLING,

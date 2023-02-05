@@ -1,6 +1,7 @@
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import TelegramBot from "node-telegram-bot-api";
+import { Logger } from "@liexp/core/logger";
 
 export interface TGBotProvider {
   bot: TelegramBot;
@@ -31,7 +32,11 @@ const liftTGTE = <A>(p: () => Promise<A>): TE.TaskEither<Error, A> => {
   return TE.tryCatch(p, toTGError);
 };
 
-export const TGBotProvider = (opts: TGBotProviderOpts): TGBotProvider => {
+export const TGBotProvider = (
+  logger: Logger,
+  opts: TGBotProviderOpts
+): TGBotProvider => {
+  logger.debug.log("tg bot provider %O", opts);
   const bot = new TelegramBot(opts.token, { polling: opts.polling });
 
   return {

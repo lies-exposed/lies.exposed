@@ -23,6 +23,7 @@ export default async (): Promise<void> => {
     dotenv.config({ path: dotenvConfigPath });
 
     moduleLogger.debug.log("Process env %O", process.env);
+
     return await pipe(
       TestENV.decode(process.env),
       E.mapLeft((errs) => {
@@ -38,10 +39,11 @@ export default async (): Promise<void> => {
 
         return pipe(
           TE.tryCatch(() => Promise.resolve(), E.toError),
-          TE.orElse(TE.throwError)
-          // TE.map((appTest) => {
-          //   (globalThis as any).appTest = appTest;
-          // })
+          TE.orElse(TE.throwError),
+          TE.map((appTest) => {
+            (global as any).appTest = appTest;
+            return appTest;
+          })
         );
       }),
       (te) => throwTE<any, any>(te)
