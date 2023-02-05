@@ -26,14 +26,14 @@ const config: Config = {
     // "^.+\\.(t|j)sx?$": ["@swc/jest", { compiler: {} }],
     // '^.+\\.[tj]sx?$' to process js/ts with `ts-jest`
     // '^.+\\.m?[tj]sx?$' to process js/ts/mjs/mts with `ts-jest`
-    // "^.+\\.tsx?$": [
-    //   "ts-jest",
-    //   {
-    //     tsconfig: "<rootDir>/tsconfig.json",
-    //     isolatesModules: true,
-    //   },
-    // ],
-    "^.+\\.(t|j)sx?$": ["@swc/jest"],
+    "^.+\\.tsx?$": [
+      "ts-jest",
+      {
+        tsconfig: "<rootDir>/tsconfig.json",
+        isolatesModules: true,
+      },
+    ],
+    // "^.+\\.(t|j)sx?$": ["@swc/jest"],
   },
   modulePaths: [compilerOptions.baseUrl], // <-- This will be set to 'baseUrl' value
   moduleFileExtensions: ["js", "ts", "tsx"],
