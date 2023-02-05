@@ -1,14 +1,14 @@
 import { type SearchEvent } from "@liexp/shared/io/http/Events";
 import * as A from "fp-ts/Array";
 import * as React from "react";
+import EventCard from "../components/Cards/Events/EventCard";
+import QueriesRenderer from "../components/QueriesRenderer";
+import { Grid, Typography } from "../components/mui";
 import {
   type SearchEventQueryInput,
   searchEventsQuery,
-} from "../../state/queries/SearchEventsQuery";
-import { useTheme } from "../../theme";
-import EventCard from "../Cards/Events/EventCard";
-import QueriesRenderer from "../QueriesRenderer";
-import { Grid, Typography } from "../mui";
+} from "../state/queries/SearchEventsQuery";
+import { useTheme } from "../theme";
 
 export interface EventsBoxProps {
   title: string;

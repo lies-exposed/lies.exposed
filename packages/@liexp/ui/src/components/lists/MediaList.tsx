@@ -32,7 +32,7 @@ const classes = {
   description: `${MEDIA_LIST_ITEM_PREFIX}-description`,
 };
 
-const StyledGridItem = styled(Box)({
+const StyledBox = styled(Box)({
   [`&.${classes.root}`]: {
     width: "100%",
     maxWidth: 300,
@@ -81,7 +81,7 @@ export const MediaListItem: React.ForwardRefRenderFunction<
   MediaListItemProps
 > = ({ style, onClick, item, onLoad, hideDescription }, ref) => {
   return (
-    <StyledGridItem className={clsx(classes.root)} style={style} ref={ref}>
+    <StyledBox className={clsx(classes.root)} style={style} ref={ref}>
       <Box
         className={clsx(classes.wrapper)}
         style={{
@@ -97,6 +97,7 @@ export const MediaListItem: React.ForwardRefRenderFunction<
           title={item.description}
           loading="lazy"
           onLoad={onLoad}
+          onError={onLoad}
         />
 
         {!hideDescription ? (
@@ -112,7 +113,7 @@ export const MediaListItem: React.ForwardRefRenderFunction<
           </Box>
         ) : null}
       </Box>
-    </StyledGridItem>
+    </StyledBox>
   );
 };
 
@@ -143,6 +144,8 @@ export const MediaListItemCell: React.FC<
             onLoad={measure}
             item={item}
             hideDescription={hideDescription}
+            style={{ ...style, width }}
+            onClick={onClick}
           />
         );
       }}
@@ -196,7 +199,9 @@ export const MediaList = React.forwardRef<Masonry, MediaListProps>(
     const getColumnCount = (w: number): number =>
       Math.floor(w / (columnWidth + gutterSize));
 
-    const [columnCount, setColumnCount] = React.useState(getColumnCount(width));
+    const [columnCount, setColumnCount] = React.useState(
+      getColumnCount(width > 0 ? width : 600)
+    );
     const cellCache = React.useMemo(
       () =>
         new CellMeasurerCache({
@@ -230,9 +235,16 @@ export const MediaList = React.forwardRef<Masonry, MediaListProps>(
       masonryRef.current?.recomputeCellPositions();
     };
 
+    React.useEffect(() => {
+      masonryRef.current?.recomputeCellPositions();
+    }, []);
+
+    console.log({ columnCount, columnWidth });
+
     return (
-      <AutoSizer onResize={onResize}>
+      <AutoSizer defaultHeight={600} defaultWidth={1000} onResize={onResize}>
         {({ width, height }) => {
+          console.log({ width, height, style });
           return (
             <StyledMasonry
               {...props}
@@ -268,8 +280,8 @@ export const MediaList = React.forwardRef<Masonry, MediaListProps>(
                     key={key}
                     cache={cellCache}
                     index={index}
-                    onClick={onItemClick}
                     item={m}
+                    onClick={onItemClick}
                     hideDescription={hideDescription}
                     width={columnWidth}
                   />

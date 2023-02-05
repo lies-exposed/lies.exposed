@@ -2,10 +2,11 @@ import { type Media } from "@liexp/shared/io/http";
 import * as React from "react";
 import { InfiniteLoader, type Index, type IndexRange } from "react-virtualized";
 import { type serializedType } from "ts-io-error/lib/Codec";
-import { type Endpoints } from "../../providers/DataProvider";
-import { useMediaInfiniteQuery } from "../../state/queries/media.queries";
-import {MediaList} from "../lists/MediaList";
-import { Box } from "../mui";
+import { FullSizeLoader } from "../components/Common/FullSizeLoader";
+import { MediaList } from "../components/lists/MediaList";
+import { Box } from "../components/mui";
+import { type Endpoints } from "../providers/DataProvider";
+import { useMediaInfiniteQuery } from "../state/queries/media.queries";
 
 export interface MediaBoxProps {
   filter: Partial<serializedType<typeof Endpoints.Media.List.Input.Query>>;
@@ -53,12 +54,18 @@ export const MediaBox: React.FC<MediaBoxProps> = ({ filter, onClick }) => {
     void refetch({ refetchPage: () => true });
   }, []);
 
+  console.log(data);
+
+  if (!data?.pages) {
+    return <FullSizeLoader />;
+  }
+
   return (
     <Box style={{ height: "100%" }}>
       <InfiniteLoader
         isRowLoaded={isRowLoaded}
         loadMoreRows={handleLoadMoreRows}
-        rowCount={data?.pages[0].total}
+        rowCount={data?.pages?.[0].total}
         minimumBatchSize={20}
       >
         {({ onRowsRendered, registerChild }) => (
@@ -71,7 +78,8 @@ export const MediaBox: React.FC<MediaBoxProps> = ({ filter, onClick }) => {
 
               setTimeout(() => {
                 onRowsRendered(params);
-              }, 100);
+              }, 0)
+              
             }}
             media={media.map((m) => ({ ...m, selected: true }))}
             onItemClick={onClick}

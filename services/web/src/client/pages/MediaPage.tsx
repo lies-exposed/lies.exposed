@@ -1,7 +1,7 @@
 import { MainContent } from "@liexp/ui/components/MainContent";
 import { PageContent } from "@liexp/ui/components/PageContent";
-import { MediaBox } from "@liexp/ui/components/containers/MediaBox";
 import { Box, Container, TextField } from "@liexp/ui/components/mui";
+import { MediaBox } from "@liexp/ui/containers/MediaBox";
 import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
@@ -24,6 +24,7 @@ const MediaPage: React.FC<RouteComponentProps> = (props) => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
+        height: '100%'
       }}
     >
       <MainContent
@@ -46,13 +47,15 @@ const MediaPage: React.FC<RouteComponentProps> = (props) => {
           />
         </Box>
       </MainContent>
-      <Container>
-        <MediaBox
-          filter={queryParams.filter}
-          onClick={(a) => {
-            navigateTo.media({ id: a.id });
-          }}
-        />
+
+      <MediaBox
+        filter={queryParams.filter}
+        onClick={(a) => {
+          navigateTo.media({ id: a.id });
+        }}
+      />
+      <Container style={{ display: "flex" }}>
+        <Box></Box>
       </Container>
     </Box>
   );

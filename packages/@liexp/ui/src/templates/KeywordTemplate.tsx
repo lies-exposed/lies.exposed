@@ -9,9 +9,9 @@ import { KeywordHierarchyEdgeBundlingGraph } from "../components/Graph/KeywordHi
 import { LinksListBox } from "../components/LinksBox";
 import QueriesRenderer from "../components/QueriesRenderer";
 import SEO from "../components/SEO";
-import { MediaBox } from "../components/containers/MediaBox";
 import { Box } from "../components/mui";
 import { EventsPanelBox } from "../containers/EventsPanel";
+import { MediaBox } from "../containers/MediaBox";
 import { EventNetworkGraphBox } from "../containers/graphs/EventNetworkGraphBox";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
 import { useKeywordQuery } from "../state/queries/keywords.queries";
