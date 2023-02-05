@@ -2666,7 +2666,7 @@ __metadata:
     "@types/copy-webpack-plugin": ^10.1.0
     "@types/debug": ^4.1.7
     "@types/dotenv-webpack": ^7.0.3
-    "@types/eslint": ^8.4.10
+    "@types/eslint": ^8.21.0
     "@types/express": ^4.17.16
     "@types/html-replace-webpack-plugin": ^2.6.1
     "@types/mime": ^1.3.2
@@ -2818,7 +2818,7 @@ __metadata:
     "@types/chroma-js": ^2.1.4
     "@types/d3": ^7.4.0
     "@types/d3-sankey": ^0.12.0
-    "@types/eslint": ^8.4.10
+    "@types/eslint": ^8.21.0
     "@types/jest": ^29.4.0
     "@types/ol": ^6.5.3
     "@types/prettier": ^2.7.2
@@ -6245,13 +6245,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:*, @types/eslint@npm:^7.29.0 || ^8.4.1, @types/eslint@npm:^8.4.10":
-  version: 8.4.10
-  resolution: "@types/eslint@npm:8.4.10"
+"@types/eslint@npm:*, @types/eslint@npm:^8.21.0, @types/eslint@npm:^8.4.10":
+  version: 8.21.0
+  resolution: "@types/eslint@npm:8.21.0"
   dependencies:
     "@types/estree": "*"
     "@types/json-schema": "*"
-  checksum: 21e009ed9ed9bc8920fdafc6e11ff321c4538b4cc18a56fdd59dc5184ea7bbf363c71638c9bdb59fc1254dddcdd567485136ed68b0ee4750948d4e32cb79c689
+  checksum: 48823b13e1ffbc6fe22c96d99f691a17507ef5a498c4aed95e3a9076ec6d44ff48ce8a632928b6f82bea92701ac8967bba0d78a5c9de4dfa3f2e12d26dae7da4
   languageName: node
   linkType: hard
 
@@ -7897,14 +7897,14 @@ __metadata:
     debug: ^4.3.4
     eslint: ^8.33.0
     eslint-config-prettier: ^8.6.0
-    eslint-config-standard-with-typescript: ^33.0.0
+    eslint-config-standard-with-typescript: ^34.0.0
     eslint-import-resolver-typescript: ^3.5.3
     eslint-plugin-import: ^2.27.5
     eslint-plugin-n: ^15.6.1
     eslint-plugin-node: ^11.1.0
     eslint-plugin-promise: ^6.1.1
     eslint-plugin-react: ^7.32.2
-    eslint-webpack-plugin: ^3.2.0
+    eslint-webpack-plugin: ^4.0.0
     final-form: ^4.20.9
     fp-ts: ^2.13.1
     history: ^5.3.0
@@ -8219,7 +8219,7 @@ __metadata:
     "@types/body-parser": ^1.19.2
     "@types/cors": ^2.8.13
     "@types/debug": ^4.1.7
-    "@types/eslint": ^8.4.10
+    "@types/eslint": ^8.21.0
     "@types/express": ^4.17.16
     "@types/express-jwt": ^7.4.2
     "@types/fluent-ffmpeg": ^2.1.20
@@ -12384,9 +12384,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-standard-with-typescript@npm:^33.0.0":
-  version: 33.0.0
-  resolution: "eslint-config-standard-with-typescript@npm:33.0.0"
+"eslint-config-standard-with-typescript@npm:^34.0.0":
+  version: 34.0.0
+  resolution: "eslint-config-standard-with-typescript@npm:34.0.0"
   dependencies:
     "@typescript-eslint/parser": ^5.0.0
     eslint-config-standard: 17.0.0
@@ -12397,7 +12397,7 @@ __metadata:
     eslint-plugin-n: ^15.0.0
     eslint-plugin-promise: ^6.0.0
     typescript: "*"
-  checksum: 89eef646c6040571c12ec1c25a2a079d05032d00779fff5c7dbdf7106c99b43c286c8e1c9436875373cfc63f59b940d042e5251dd5864a68dbac7d36119d64f2
+  checksum: d81fd7de4d6f65cad189d7f93d34a7289505b05bd77044edb81c78c1cc94b7e546fe6a8ab5fd5e88ff3db2ebef01569c56dd5b43d77797a7c5ae50062beae2b1
   languageName: node
   linkType: hard
 
@@ -12632,19 +12632,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-webpack-plugin@npm:^3.2.0":
-  version: 3.2.0
-  resolution: "eslint-webpack-plugin@npm:3.2.0"
+"eslint-webpack-plugin@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "eslint-webpack-plugin@npm:4.0.0"
   dependencies:
-    "@types/eslint": ^7.29.0 || ^8.4.1
-    jest-worker: ^28.0.2
+    "@types/eslint": ^8.4.10
+    jest-worker: ^29.4.1
     micromatch: ^4.0.5
     normalize-path: ^3.0.0
     schema-utils: ^4.0.0
   peerDependencies:
-    eslint: ^7.0.0 || ^8.0.0
+    eslint: ^8.0.0
     webpack: ^5.0.0
-  checksum: 095034c35e773fdb21ec7e597ae1f8a6899679c290db29d8568ca94619e8c7f4971f0f9edccc8a965322ab8af9286c87205985a38f4fdcf17654aee7cd8bb7b5
+  checksum: e57a1e6cd23ff72bfdcb96fbf61b8561eb0ed7793ca7922803c4ce9e2aac717168e674d5b08926e6a115126435494adb1f2c9e7cd646b7b56ab3ddf05f8ceec2
   languageName: node
   linkType: hard
 
@@ -16374,17 +16374,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-worker@npm:^28.0.2":
-  version: 28.1.3
-  resolution: "jest-worker@npm:28.1.3"
-  dependencies:
-    "@types/node": "*"
-    merge-stream: ^2.0.0
-    supports-color: ^8.0.0
-  checksum: e921c9a1b8f0909da9ea07dbf3592f95b653aef3a8bb0cbcd20fc7f9a795a1304adecac31eecb308992c167e8d7e75c522061fec38a5928ace0f9571c90169ca
-  languageName: node
-  linkType: hard
-
 "jest-worker@npm:^29.1.2, jest-worker@npm:^29.4.1":
   version: 29.4.1
   resolution: "jest-worker@npm:29.4.1"
@@ -16951,13 +16940,13 @@ __metadata:
     "@typescript-eslint/parser": ^5.50.0
     eslint: ^8.33.0
     eslint-config-prettier: ^8.6.0
-    eslint-config-standard-with-typescript: ^33.0.0
+    eslint-config-standard-with-typescript: ^34.0.0
     eslint-import-resolver-typescript: ^3.5.3
     eslint-plugin-import: ^2.27.5
     eslint-plugin-n: ^15.6.1
     eslint-plugin-node: ^11.1.0
     eslint-plugin-promise: ^6.1.1
-    eslint-webpack-plugin: ^3.2.0
+    eslint-webpack-plugin: ^4.0.0
     husky: ^8.0.3
     is-ci: ^3.0.1
     jest: ^29.4.1
@@ -25507,14 +25496,14 @@ __metadata:
     dotenv: ^16.0.3
     eslint: ^8.33.0
     eslint-config-prettier: ^8.6.0
-    eslint-config-standard-with-typescript: ^33.0.0
+    eslint-config-standard-with-typescript: ^34.0.0
     eslint-import-resolver-typescript: ^3.5.3
     eslint-plugin-import: ^2.27.5
     eslint-plugin-n: ^15.6.1
     eslint-plugin-node: ^11.1.0
     eslint-plugin-promise: ^6.1.1
     eslint-plugin-react: ^7.32.2
-    eslint-webpack-plugin: ^3.2.0
+    eslint-webpack-plugin: ^4.0.0
     express: ^4.18.2
     fp-ts: ^2.13.1
     io-ts: ^2.2.20
