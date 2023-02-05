@@ -1,5 +1,6 @@
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import MediaList, {
+import {
+  MediaList,
   type MediaListProps,
 } from "@liexp/ui/components/lists/MediaList";
 import { useMediaQuery } from "@liexp/ui/state/queries/media.queries";

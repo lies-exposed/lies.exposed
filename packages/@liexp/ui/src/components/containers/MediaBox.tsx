@@ -4,7 +4,7 @@ import { InfiniteLoader, type Index, type IndexRange } from "react-virtualized";
 import { type serializedType } from "ts-io-error/lib/Codec";
 import { type Endpoints } from "../../providers/DataProvider";
 import { useMediaInfiniteQuery } from "../../state/queries/media.queries";
-import MediaList from "../lists/MediaList";
+import {MediaList} from "../lists/MediaList";
 import { Box } from "../mui";
 
 export interface MediaBoxProps {

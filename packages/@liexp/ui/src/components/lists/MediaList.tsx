@@ -174,111 +174,111 @@ const StyledMasonry = styled(Masonry)(() => ({
   },
 }));
 
-const MediaList: React.ForwardRefRenderFunction<Masonry, MediaListProps> = (
-  {
-    className,
-    media,
-    style,
-    hideDescription,
-    onItemClick,
-    itemStyle,
-    onRowsRendered,
-    width,
-    columnWidth,
-    gutterSize = 20,
-    ...props
-  },
-  ref
-) => {
-  const masonryRef = React.useRef<Masonry>();
-
-  const getColumnCount = (w: number): number =>
-    Math.floor(w / (columnWidth + gutterSize));
-
-  const [columnCount, setColumnCount] = React.useState(getColumnCount(width));
-  const cellCache = React.useMemo(
-    () =>
-      new CellMeasurerCache({
-        fixedWidth: true,
-        defaultHeight: 200,
-        defaultWidth: 200,
-      }),
-    []
-  );
-
-  const cellPositioner = React.useMemo((): Positioner => {
-    return createCellPositioner({
-      cellMeasurerCache: cellCache,
-      columnCount,
+export const MediaList = React.forwardRef<Masonry, MediaListProps>(
+  (
+    {
+      className,
+      media,
+      style,
+      hideDescription,
+      onItemClick,
+      itemStyle,
+      onRowsRendered,
+      width,
       columnWidth,
-      spacer: gutterSize,
-    });
-  }, []);
+      gutterSize = 20,
+      ...props
+    },
+    ref
+  ) => {
+    const masonryRef = React.useRef<Masonry>();
 
-  const resetCellPositioner = (): void => {
-    cellPositioner.reset({
-      columnCount,
-      columnWidth,
-      spacer: gutterSize,
-    });
-  };
+    const getColumnCount = (w: number): number =>
+      Math.floor(w / (columnWidth + gutterSize));
 
-  const onResize = ({ width, height }: Size): void => {
-    setColumnCount(getColumnCount(width));
-    resetCellPositioner();
-    masonryRef.current?.recomputeCellPositions();
-  };
+    const [columnCount, setColumnCount] = React.useState(getColumnCount(width));
+    const cellCache = React.useMemo(
+      () =>
+        new CellMeasurerCache({
+          fixedWidth: true,
+          defaultHeight: 200,
+          defaultWidth: 200,
+        }),
+      []
+    );
 
-  return (
-    <AutoSizer onResize={onResize}>
-      {({ width, height }) => {
-        return (
-          <StyledMasonry
-            {...props}
-            className={clsx(listClasses.root, className)}
-            height={height}
-            width={width}
-            style={style}
-            ref={(i) => {
-              if (typeof ref === "function") {
-                ref(i);
-              }
-              masonryRef.current = i ?? undefined;
-            }}
-            columnCount={columnCount}
-            cellMeasurerCache={cellCache}
-            cellCount={media.length}
-            cellPositioner={cellPositioner}
-            overscanByPixels={0}
-            onCellsRendered={({ startIndex, stopIndex }) => {
-              onRowsRendered?.({
-                startIndex,
-                stopIndex,
-                overscanStartIndex: stopIndex,
-                overscanStopIndex: stopIndex + 20,
-              });
-            }}
-            cellRenderer={({ key, index, ...props }) => {
-              const m = media[index % media.length];
+    const cellPositioner = React.useMemo((): Positioner => {
+      return createCellPositioner({
+        cellMeasurerCache: cellCache,
+        columnCount,
+        columnWidth,
+        spacer: gutterSize,
+      });
+    }, []);
 
-              return (
-                <MediaListItemCell
-                  {...props}
-                  key={key}
-                  cache={cellCache}
-                  index={index}
-                  onClick={onItemClick}
-                  item={m}
-                  hideDescription={hideDescription}
-                  width={columnWidth}
-                />
-              );
-            }}
-          />
-        );
-      }}
-    </AutoSizer>
-  );
-};
+    const resetCellPositioner = (): void => {
+      cellPositioner.reset({
+        columnCount,
+        columnWidth,
+        spacer: gutterSize,
+      });
+    };
 
-export default React.forwardRef(MediaList);
+    const onResize = ({ width, height }: Size): void => {
+      setColumnCount(getColumnCount(width));
+      resetCellPositioner();
+      masonryRef.current?.recomputeCellPositions();
+    };
+
+    return (
+      <AutoSizer onResize={onResize}>
+        {({ width, height }) => {
+          return (
+            <StyledMasonry
+              {...props}
+              className={clsx(listClasses.root, className)}
+              height={height}
+              width={width}
+              style={style}
+              ref={(i) => {
+                if (typeof ref === "function") {
+                  ref(i);
+                }
+                masonryRef.current = i ?? undefined;
+              }}
+              columnCount={columnCount}
+              cellMeasurerCache={cellCache}
+              cellCount={media.length}
+              cellPositioner={cellPositioner}
+              overscanByPixels={0}
+              onCellsRendered={({ startIndex, stopIndex }) => {
+                onRowsRendered?.({
+                  startIndex,
+                  stopIndex,
+                  overscanStartIndex: stopIndex,
+                  overscanStopIndex: stopIndex + 20,
+                });
+              }}
+              cellRenderer={({ key, index, ...props }) => {
+                const m = media[index % media.length];
+
+                return (
+                  <MediaListItemCell
+                    {...props}
+                    key={key}
+                    cache={cellCache}
+                    index={index}
+                    onClick={onItemClick}
+                    item={m}
+                    hideDescription={hideDescription}
+                    width={columnWidth}
+                  />
+                );
+              }}
+            />
+          );
+        }}
+      </AutoSizer>
+    );
+  }
+);
