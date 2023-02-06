@@ -63,11 +63,11 @@ const formatParams = <P extends RA.GetListParams | RA.GetManyReferenceParams>(
   return {
     _sort: params.sort.field,
     _order: params.sort.order,
+    ...params.filter,
     _start:
       params.pagination.page * params.pagination.perPage -
       params.pagination.perPage,
     _end: params.pagination.perPage * params.pagination.page,
-    ...params.filter,
   };
 };
 

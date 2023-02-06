@@ -19,7 +19,7 @@ const Template: Story<MediaBoxProps> = (props) => {
 const MediaBoxExample = Template.bind({});
 
 const args: MediaBoxProps = {
-  filter: { _order: "DESC", _sort: "updatedAt", _end: "100" },
+  filter: { _order: "DESC", _sort: "updatedAt" },
   onClick(e) {},
 };
 

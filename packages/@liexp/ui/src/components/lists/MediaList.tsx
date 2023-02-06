@@ -156,6 +156,7 @@ export const MediaListItemCell: React.FC<
 export interface MediaListProps extends MasonryProps {
   className?: string;
   media: Media[];
+  total: number;
   hideDescription?: boolean;
   onItemClick: (item: Media) => void;
   style?: React.CSSProperties;
@@ -177,6 +178,7 @@ const StyledMasonry = styled(Masonry)(() => ({
   },
 }));
 
+// eslint-disable-next-line react/display-name
 export const MediaList = React.forwardRef<Masonry, MediaListProps>(
   (
     {
@@ -190,6 +192,7 @@ export const MediaList = React.forwardRef<Masonry, MediaListProps>(
       width,
       columnWidth,
       gutterSize = 20,
+      total,
       ...props
     },
     ref
@@ -200,14 +203,14 @@ export const MediaList = React.forwardRef<Masonry, MediaListProps>(
       Math.floor(w / (columnWidth + gutterSize));
 
     const [columnCount, setColumnCount] = React.useState(
-      getColumnCount(width > 0 ? width : 600)
+      getColumnCount(width > 0 ? width : 1000)
     );
     const cellCache = React.useMemo(
       () =>
         new CellMeasurerCache({
           fixedWidth: true,
-          defaultHeight: 200,
-          defaultWidth: 200,
+          defaultHeight: 50,
+          defaultWidth: 300,
         }),
       []
     );
@@ -236,7 +239,10 @@ export const MediaList = React.forwardRef<Masonry, MediaListProps>(
     };
 
     React.useEffect(() => {
-      masonryRef.current?.recomputeCellPositions();
+      setTimeout(() => {
+        masonryRef.current?.recomputeCellPositions();
+      }, 1000)
+      
     }, []);
 
     console.log({ columnCount, columnWidth });
@@ -260,9 +266,9 @@ export const MediaList = React.forwardRef<Masonry, MediaListProps>(
               }}
               columnCount={columnCount}
               cellMeasurerCache={cellCache}
-              cellCount={media.length}
+              cellCount={total}
               cellPositioner={cellPositioner}
-              overscanByPixels={0}
+              overscanByPixels={30}
               onCellsRendered={({ startIndex, stopIndex }) => {
                 onRowsRendered?.({
                   startIndex,

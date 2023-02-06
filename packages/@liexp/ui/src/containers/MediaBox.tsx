@@ -13,17 +13,17 @@ export interface MediaBoxProps {
   onClick: (e: Media.Media) => void;
 }
 
-const rowsCache: Record<number, boolean> = {};
-
 export const MediaBox: React.FC<MediaBoxProps> = ({ filter, onClick }) => {
   const {
     data,
-    refetch,
+    // refetch,
     isFetchingNextPage,
     isFetching,
     hasNextPage,
     fetchNextPage,
   } = useMediaInfiniteQuery({ filter });
+
+  const [rowsCache, setRowsCache] = React.useState<Record<number, boolean>>({});
 
   const media: Media.Media[] = (data?.pages ?? []).reduce<any[]>(
     (acc, d) => acc.concat(d.data ?? []),
@@ -50,11 +50,11 @@ export const MediaBox: React.FC<MediaBoxProps> = ({ filter, onClick }) => {
     await Promise.resolve(undefined);
   };
 
-  React.useEffect(() => {
-    void refetch({ refetchPage: () => true });
-  }, []);
+  // React.useEffect(() => {
+  //   void refetch({ refetchPage: () => true });
+  // }, []);
 
-  console.log(data);
+  console.log(data?.pages);
 
   if (!data?.pages) {
     return <FullSizeLoader />;
@@ -65,25 +65,29 @@ export const MediaBox: React.FC<MediaBoxProps> = ({ filter, onClick }) => {
       <InfiniteLoader
         isRowLoaded={isRowLoaded}
         loadMoreRows={handleLoadMoreRows}
-        rowCount={data?.pages?.[0].total}
         minimumBatchSize={20}
       >
         {({ onRowsRendered, registerChild }) => (
           <MediaList
             ref={registerChild}
             onRowsRendered={(params: IndexRange) => {
+              const updateRowsCache: Record<number, boolean> = {};
               for (let i = params.startIndex; i <= params.stopIndex; i++) {
-                rowsCache[i] = true;
+                updateRowsCache[i] = true;
               }
 
               setTimeout(() => {
+                setRowsCache((c) => ({
+                  ...c,
+                  ...updateRowsCache,
+                }));
                 onRowsRendered(params);
-              }, 0)
-              
+              }, 0);
             }}
+            total={data?.pages?.[0].total ?? media.length}
             media={media.map((m) => ({ ...m, selected: true }))}
             onItemClick={onClick}
-            columnWidth={200}
+            columnWidth={300}
           />
         )}
       </InfiniteLoader>
