@@ -2,7 +2,7 @@ import { awsMock } from "../__mocks__/aws.mock";
 import puppeteerMock from "../__mocks__/puppeteer.mock";
 import { tgProviderMock } from "../__mocks__/tg.mock";
 
-interface AppMocks {
+export interface AppMocks {
   tg: typeof tgProviderMock;
   s3: typeof awsMock;
   urlMetadata: {

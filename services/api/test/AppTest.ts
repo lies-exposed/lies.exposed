@@ -18,10 +18,11 @@ import { makeApp } from "../src/server";
 import { awsMock } from "../__mocks__/aws.mock";
 import puppeteerMocks from "../__mocks__/puppeteer.mock";
 import { tgProviderMock } from "../__mocks__/tg.mock";
-import { mocks } from './mocks';
+import { mocks, AppMocks } from './mocks';
 
 export interface AppTest {
   ctx: RouteContext;
+  mocks: AppMocks;
   req: supertest.SuperTest<supertest.Test>;
   utils: {};
 }
