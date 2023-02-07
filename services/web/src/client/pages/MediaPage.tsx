@@ -24,7 +24,7 @@ const MediaPage: React.FC<RouteComponentProps> = (props) => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        height: '100%'
+        height: "100%",
       }}
     >
       <MainContent
@@ -48,14 +48,13 @@ const MediaPage: React.FC<RouteComponentProps> = (props) => {
         </Box>
       </MainContent>
 
-      <MediaBox
-        filter={queryParams.filter}
-        onClick={(a) => {
-          navigateTo.media({ id: a.id });
-        }}
-      />
       <Container style={{ display: "flex" }}>
-        <Box></Box>
+        <MediaBox
+          filter={queryParams.filter}
+          onClick={(a) => {
+            navigateTo.media({ id: a.id });
+          }}
+        />
       </Container>
     </Box>
   );

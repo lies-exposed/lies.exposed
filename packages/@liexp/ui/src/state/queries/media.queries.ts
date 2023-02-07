@@ -78,9 +78,7 @@ export const useMediaInfiniteQuery = (
       refetchOnWindowFocus: false,
       refetchOnMount: false,
       getNextPageParam: (lastPage, allPages) => {
-        const loadedEvents = allPages
-          .map((p) => p.data)
-          .reduce((acc, ev) => acc + ev.length, 0);
+        const loadedEvents = allPages.flatMap((p) => p.data).length;
 
         if (loadedEvents >= lastPage.total) {
           return undefined;

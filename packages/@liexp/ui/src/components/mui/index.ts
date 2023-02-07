@@ -64,6 +64,7 @@ import Typography, { type TypographyProps } from "@mui/material/Typography";
 import { ThemeProvider } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { alpha } from "@mui/system/colorManipulator";
+import { Pagination } from "@mui/material";
 
 export {
   SearchIcon,
@@ -136,5 +137,6 @@ export {
   CheckBoxIcon,
   PlayCircleOutline,
   CloseIcon,
-  Switch
+  Switch,
+  Pagination
 };
