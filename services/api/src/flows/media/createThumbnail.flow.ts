@@ -63,6 +63,7 @@ export const extractThumbnail = (
 
           return coverUrl;
         }
+        case "peertube":
         case "odysee": {
           const selector = ".vjs-poster";
           await page.waitForSelector(selector);
