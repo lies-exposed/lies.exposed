@@ -13,31 +13,29 @@ import { sequenceS } from "fp-ts/Apply";
 import { pipe } from "fp-ts/function";
 import * as TE from "fp-ts/TaskEither";
 import supertest from "supertest";
+import { DataSource } from "typeorm";
 import { RouteContext } from "../src/routes/route.types";
 import { makeApp } from "../src/server";
 import { awsMock } from "../__mocks__/aws.mock";
 import puppeteerMocks from "../__mocks__/puppeteer.mock";
 import { tgProviderMock } from "../__mocks__/tg.mock";
+import { mocks, AppMocks } from "./mocks";
+
 export interface AppTest {
   ctx: RouteContext;
+  mocks: AppMocks;
   req: supertest.SuperTest<supertest.Test>;
-  utils: {
-    
-  }
-  mocks: {
-    tg: typeof tgProviderMock;
-    s3: typeof awsMock;
-    urlMetadata: {
-      fetchMetadata: jest.Mock<any, any>;
-    };
-    puppeteer: typeof puppeteerMocks;
-  };
+  utils: {};
 }
 
 export const GetAppTest = (): AppTest => {
   const appTestG = (global as any).appTest;
   // console.log("get global", appTestG);
   return appTestG;
+};
+
+const setDataSource = (d: DataSource): void => {
+  (global as any).dataSource = d;
 };
 
 export const initAppTest = async (): Promise<AppTest> => {
@@ -49,16 +47,16 @@ export const initAppTest = async (): Promise<AppTest> => {
 
   D.enable(process.env.DEBUG ?? "*");
 
-  const dataSource = getDataSource(process.env as any, false);
-
-  const fetchHTML = jest.fn();
-  const fetchMetadata = jest.fn();
+  const dataSource = (global as any).dataSource;
+  if (!dataSource) {
+    setDataSource(getDataSource(process.env as any, false));
+  }
 
   const logger = GetLogger("test");
 
   return await pipe(
     sequenceS(TE.ApplicativePar)({
-      db: GetTypeORMClient(dataSource),
+      db: GetTypeORMClient((global as any).dataSource),
       env: pipe(
         ENV.decode(process.env),
         TE.fromEither,
@@ -83,13 +81,13 @@ export const initAppTest = async (): Promise<AppTest> => {
       urlMetadata: {
         fetchHTML: (url: string, opts: any) => {
           return TE.tryCatch(
-            () => fetchHTML(url, opts) as Promise<any>,
+            () => mocks.urlMetadata.fetchHTML(url, opts) as Promise<any>,
             (e) => e as any
           );
         },
         fetchMetadata: (url: string, opts: any) => {
           return TE.tryCatch(
-            () => fetchMetadata(url, opts) as Promise<any>,
+            () => mocks.urlMetadata.fetchMetadata(url, opts) as Promise<any>,
             (e) => e as any
           );
         },
@@ -98,24 +96,17 @@ export const initAppTest = async (): Promise<AppTest> => {
     })),
     TE.map((ctx) => ({
       ctx,
-      mocks: {
-        tg: tgProviderMock,
-        s3: awsMock,
-        urlMetadata: {
-          fetchHTML: fetchHTML as any,
-          fetchMetadata: fetchMetadata as any,
-        },
-        puppeteer: puppeteerMocks,
-      },
+      mocks,
       utils: {},
       req: supertest(makeApp(ctx)),
     })),
     TE.map((appTest) => {
-      (globalThis as any).appTest = appTest;
       (global as any).appTest = appTest;
       (global as any).dataSource = dataSource;
+      // console.log(global);
       return appTest;
     }),
     throwTE
   );
 };
+

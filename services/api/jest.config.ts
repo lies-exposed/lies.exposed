@@ -23,18 +23,16 @@ const config: Config = {
   ...jestBaseConfig,
   displayName: "api",
   transform: {
-    // "^.+\\.(t|j)sx?$": ["@swc/jest", { compiler: {} }],
-    // '^.+\\.[tj]sx?$' to process js/ts with `ts-jest`
-    // '^.+\\.m?[tj]sx?$' to process js/ts/mjs/mts with `ts-jest`
     // "^.+\\.tsx?$": [
     //   "ts-jest",
     //   {
-    //     tsconfig: "<rootDir>/tsconfig.json",
+    //     tsconfig: __dirname + "/tsconfig.json",
     //     isolatesModules: true,
     //   },
     // ],
-    "^.+\\.(t|j)sx?$": ["@swc/jest"],
+    "^.+\\.(t|j)sx?$": "@swc/jest",
   },
+  runtime: '@side/jest-runtime',
   modulePaths: [compilerOptions.baseUrl], // <-- This will be set to 'baseUrl' value
   moduleFileExtensions: ["js", "ts", "tsx"],
   moduleNameMapper,
@@ -43,7 +41,7 @@ const config: Config = {
     "<rootDir>/src/migrations",
     "<rootDir>/src/scripts",
   ]),
-  setupFiles: ["<rootDir>/jest.setup.js"],
+  setupFiles: ["<rootDir>/jest.setup.ts"],
   setupFilesAfterEnv: ["<rootDir>/jest.setup-after-env.ts"],
   globalSetup: "<rootDir>/test/globalSetup.ts",
   globalTeardown: "<rootDir>/test/globalTeardown.ts",

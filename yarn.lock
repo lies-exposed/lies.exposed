@@ -3910,6 +3910,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@side/jest-runtime@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@side/jest-runtime@npm:1.1.0"
+  peerDependencies:
+    "@jest/transform": ">=28"
+    jest: ">=28"
+    jest-runtime: ">=28"
+  checksum: 48f44e610c1946f3d4a80d14e11e653147b04d932915c85a796574c32f99bb7c636fe40fb0760c86d8aa6ee955c65ddec09c730ddae2def8ac9b812ffe008100
+  languageName: node
+  linkType: hard
+
 "@sinclair/typebox@npm:^0.25.16":
   version: 0.25.21
   resolution: "@sinclair/typebox@npm:0.25.21"
@@ -8214,6 +8225,7 @@ __metadata:
   dependencies:
     "@databases/escape-identifier": ^1.0.3
     "@databases/pg": ^5.4.1
+    "@side/jest-runtime": ^1.1.0
     "@swc/core": ^1.3.32
     "@swc/jest": ^0.2.24
     "@types/body-parser": ^1.19.2

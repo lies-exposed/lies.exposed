@@ -4,7 +4,7 @@
       "syntax": "typescript",
       "tsx": false,
       "decorators": true,
-      "dynamicImport": true 
+      "dynamicImport": true
     },
     "baseUrl": "./src",
     "paths": {
