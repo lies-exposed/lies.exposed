@@ -13,12 +13,13 @@ import { sequenceS } from "fp-ts/Apply";
 import { pipe } from "fp-ts/function";
 import * as TE from "fp-ts/TaskEither";
 import supertest from "supertest";
+import { DataSource } from "typeorm";
 import { RouteContext } from "../src/routes/route.types";
 import { makeApp } from "../src/server";
 import { awsMock } from "../__mocks__/aws.mock";
 import puppeteerMocks from "../__mocks__/puppeteer.mock";
 import { tgProviderMock } from "../__mocks__/tg.mock";
-import { mocks, AppMocks } from './mocks';
+import { mocks, AppMocks } from "./mocks";
 
 export interface AppTest {
   ctx: RouteContext;
@@ -33,6 +34,10 @@ export const GetAppTest = (): AppTest => {
   return appTestG;
 };
 
+const setDataSource = (d: DataSource): void => {
+  (global as any).dataSource = d;
+};
+
 export const initAppTest = async (): Promise<AppTest> => {
   const appTest = GetAppTest();
   if (appTest) {
@@ -42,13 +47,16 @@ export const initAppTest = async (): Promise<AppTest> => {
 
   D.enable(process.env.DEBUG ?? "*");
 
-  const dataSource = getDataSource(process.env as any, false);
+  const dataSource = (global as any).dataSource;
+  if (!dataSource) {
+    setDataSource(getDataSource(process.env as any, false));
+  }
 
   const logger = GetLogger("test");
 
   return await pipe(
     sequenceS(TE.ApplicativePar)({
-      db: GetTypeORMClient(dataSource),
+      db: GetTypeORMClient((global as any).dataSource),
       env: pipe(
         ENV.decode(process.env),
         TE.fromEither,
