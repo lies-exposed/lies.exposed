@@ -16,7 +16,7 @@ export const MakeEditPatentEventRoute: Route = (r, ctx) => {
       body: { payload, media, keywords, links, ...body },
     }) => {
       return pipe(
-        ctx.db.findOneOrFail(EventV2Entity, { where: { id:Equal(id) } }),
+        ctx.db.findOneOrFail(EventV2Entity, { where: { id: Equal(id) } }),
         TE.chain((event) =>
           editEventQuery(ctx)(event, {
             ...body,

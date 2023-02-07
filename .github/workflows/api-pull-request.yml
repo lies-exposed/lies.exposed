@@ -78,7 +78,7 @@ jobs:
 
       - name: Run tests
         env:
-          DEBUG: "@liexp*"
+          DEBUG: "-@liexp*"
         run: yarn api jest --ci --runInBand --forceExit --logHeapUsage
 
       # - name: Log in to registry

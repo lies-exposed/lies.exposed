@@ -11,7 +11,7 @@ export const MakeGetProjectRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Project.Get, ({ params: { id } }) => {
     return pipe(
       ctx.db.findOneOrFail(ProjectEntity, {
-        where: { id : Equal(id)},
+        where: { id: Equal(id)},
         relations: ["media", "areas"],
         // loadRelationIds: true,
       }),
