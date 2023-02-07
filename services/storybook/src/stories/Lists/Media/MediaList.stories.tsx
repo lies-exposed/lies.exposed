@@ -1,7 +1,7 @@
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import {
-    MediaList,
-    type MediaListProps
+  MediaList,
+  type MediaListProps,
 } from "@liexp/ui/components/lists/MediaList";
 import { useMediaQuery } from "@liexp/ui/state/queries/media.queries";
 import { type Meta, type Story } from "@storybook/react/types-6-0";
@@ -47,11 +47,9 @@ const Template: Story<MediaListProps> = (props) => {
 
 const MediaListExample = Template.bind({});
 
-const args: MediaListProps = {
+MediaListExample.args = {
   media: [],
   onItemClick: () => {},
 };
-
-MediaListExample.args = args;
 
 export { MediaListExample as MediaList };

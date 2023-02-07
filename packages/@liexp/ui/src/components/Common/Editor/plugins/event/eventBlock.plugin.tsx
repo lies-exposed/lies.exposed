@@ -7,8 +7,8 @@ import type {
   ImageUploadType
 } from "@react-page/editor";
 import React from "react";
+import EventsBox from "../../../../../containers/EventsBox";
 import { AutocompleteEventInput } from "../../../../Input/AutocompleteEventInput";
-import EventsBox from "../../../../containers/EventsBox";
 import { Box } from "../../../../mui";
 
 export interface EventBlockState extends DataTType {

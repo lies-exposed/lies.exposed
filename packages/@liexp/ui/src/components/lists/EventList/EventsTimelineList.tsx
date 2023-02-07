@@ -5,7 +5,7 @@ import {
   List,
   type ListRowProps,
 } from "react-virtualized";
-import { type RenderedRows } from "react-virtualized/dist/es/List";
+import { type RenderedRows } from "react-virtualized/dist/commonjs/List";
 import { type SearchEventQueryResult } from "../../../state/queries/SearchEventsQuery";
 import { styled } from "../../../theme";
 import { type EventListItemProps } from "./EventListItem";

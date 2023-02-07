@@ -1,7 +1,7 @@
+import { type Logger } from "@liexp/core/logger";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import TelegramBot from "node-telegram-bot-api";
-import { Logger } from "@liexp/core/logger";
 
 export interface TGBotProvider {
   bot: TelegramBot;

@@ -41,7 +41,7 @@ const setDataSource = (d: DataSource): void => {
 export const initAppTest = async (): Promise<AppTest> => {
   const appTest = GetAppTest();
   if (appTest) {
-    console.log("app test exists!!!");
+    // console.log("app test exists!!!");
     return appTest;
   }
 

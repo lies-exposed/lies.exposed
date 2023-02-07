@@ -95,7 +95,7 @@ export interface SearchTransactionEvent
   extends Omit<Transaction.Transaction, "payload" | "media" | "keywords"> {
   payload: Omit<Transaction.TransactionPayload, "from" | "to"> & {
     from:
-      | {
+          | {
           type: "Group";
           id: Group.Group;
         }
@@ -104,7 +104,7 @@ export interface SearchTransactionEvent
           id: Actor.Actor;
         };
     to:
-      | {
+        | {
           type: "Group";
           id: Group.Group;
         }
