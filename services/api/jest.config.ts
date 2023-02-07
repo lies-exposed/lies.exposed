@@ -30,11 +30,9 @@ const config: Config = {
     //     isolatesModules: true,
     //   },
     // ],
-    "^.+\\.(t|j)sx?$": ["@swc/jest"],
+    "^.+\\.(t|j)sx?$": "@swc/jest",
   },
-  // globals: {
-  //   appTest: true
-  // },
+  runtime: '@side/jest-runtime',
   modulePaths: [compilerOptions.baseUrl], // <-- This will be set to 'baseUrl' value
   moduleFileExtensions: ["js", "ts", "tsx"],
   moduleNameMapper,
