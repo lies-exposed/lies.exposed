@@ -61,7 +61,7 @@
     "puppeteer-core": "^19.6.3",
     "ts-endpoint-express": "^2.0.0",
     "ts-shared": "2.0.0-alpha.6",
-    "typeorm": "^0.3.11",
+    "typeorm": "^0.3.12",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
