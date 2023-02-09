@@ -129,7 +129,7 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
                   flexDirection: "column",
                 }}
               >
-                <img className={classes.image} src={media.location} />
+                <img className={classes.image} src={media.location} loading='lazy' role="img" crossOrigin='anonymous' />
                 <Typography id="alert-dialog-title" variant="body2">
                   {media.description}
                 </Typography>

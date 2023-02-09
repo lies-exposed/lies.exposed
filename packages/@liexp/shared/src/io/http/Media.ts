@@ -38,12 +38,24 @@ export const ImageType = t.union([JpgType, JpegType, PngType], "ImageType");
 
 export type ImageType = t.TypeOf<typeof ImageType>;
 
+export const ValidContentType = t.union([
+  MediaType.types[0],
+  MediaType.types[1],
+  MediaType.types[2],
+  MediaType.types[3],
+  MediaType.types[4],
+  MediaType.types[5],
+  MediaType.types[6]
+]);
+export type ValidContentType = t.TypeOf<typeof ValidContentType>;
+
+
 export const CreateMedia = t.strict(
   {
     location: t.string,
     description: t.string,
     thumbnail: t.union([t.string, t.undefined]),
-    type: MediaType,
+    type: ValidContentType,
   },
   "CreateMedia"
 );

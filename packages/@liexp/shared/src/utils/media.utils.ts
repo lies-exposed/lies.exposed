@@ -1,9 +1,9 @@
 import { fp } from "@liexp/core/fp";
 import { pipe } from "fp-ts/lib/function";
-import { type ValidContentType } from "../endpoints/upload.endpoints";
+
 import * as Media from "../io/http/Media";
 
-export const fileExtFromContentType = (c: ValidContentType): string => {
+export const fileExtFromContentType = (c: Media.ValidContentType): string => {
   switch (c) {
     case Media.MediaType.types[6].value:
       return "pdf";
@@ -33,3 +33,7 @@ export const getMediaKeyFromLocation = (u: string): string => {
 
   return id;
 };
+
+export const getMediaKey = (id: string, fileName: string, contentType: Media.ValidContentType): string => {
+  return `public/media/${id}/${fileName}.${fileExtFromContentType(contentType)}`;
+}

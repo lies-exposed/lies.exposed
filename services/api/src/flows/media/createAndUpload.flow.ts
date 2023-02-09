@@ -1,4 +1,5 @@
 import { type Media } from "@liexp/shared/io/http";
+import { getMediaKey } from "@liexp/shared/utils/media.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
@@ -16,18 +17,22 @@ export const createAndUpload =
     ctx.logger.debug.log("Create media and upload %s", location);
 
     const mediaId = uuid() as any;
-    const mediaKey = `public/media/${mediaId}`;
+    const mediaKey = getMediaKey(mediaId, mediaId, location.type);
     return pipe(
       ctx.s3.upload({
         Bucket: ctx.env.SPACE_BUCKET,
         Key: mediaKey,
         Body: body,
-        ACL: 'public-read'
+        ACL: "public-read",
       }),
       ctx.logger.debug.logInTaskEither("Result %O"),
       TE.chain((upload) =>
         pipe(
-          createThumbnail(ctx)({ ...location, id: mediaId, location: upload.Location }),
+          createThumbnail(ctx)({
+            ...location,
+            id: mediaId,
+            location: upload.Location,
+          }),
           TE.map((thumb) => ({ thumb, upload }))
         )
       ),

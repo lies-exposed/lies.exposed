@@ -30,6 +30,13 @@ export type VideoPlatformMatch =
       platform: Peertube;
       host: string;
       id: string;
+      type: "html";
+    }
+  | {
+      platform: Peertube;
+      host: string;
+      id: string;
+      type: "embed";
     }
   | {
       platform: DailyMotion;
@@ -58,15 +65,16 @@ const rumbleVideoRegExp =
   /http(?:s?):\/\/(?:www\.)?rumble\.com\/embed\/([\w\-_]*)\/?([\w?=]*)/;
 const rumbleVideoRegExp2 = /http(?:s?):\/\/(?:www\.)?rumble\.com\/([\w\-_]*)/;
 
-
 const dailyMotionRegExp =
   /http(?:s?):\/\/(?:www\.)?dailymotion\.com\/embed\/video\/([\w\-_]*)/;
-  
-  const dailyMotionRegExp2 =
+
+const dailyMotionRegExp2 =
   /http(?:s?):\/\/(?:www\.)?dailymotion\.com\/video\/([\w\-_]*)/;
 
 const peertubeVideoRegExp =
   /http(?:s?):\/\/([^/]+)\/videos\/watch\/([^/]+)(&(amp;)?[\w?=]*)?/;
+const peertubeEmbedVideoRegExp =
+  /http(?:s?):\/\/([^/]+)\/videos\/embed\/([^/]+)(&(amp;)?[\w?=]*)?/;
 
 const supportedPlatformsRegExp = [
   odyseeVideoRegExp,
@@ -149,6 +157,7 @@ export const getPlatform = (
   }
 
   const peertubeMatch = url.match(peertubeVideoRegExp);
+
   if (
     typeof peertubeMatch?.[1] === "string" &&
     typeof peertubeMatch?.[2] === "string"
@@ -157,6 +166,22 @@ export const getPlatform = (
       platform: "peertube",
       host: peertubeMatch[1],
       id: peertubeMatch[2],
+      type: "html",
+    });
+  }
+
+  const peertubeEmbedMatch = url.match(peertubeEmbedVideoRegExp);
+
+
+  if (
+    typeof peertubeEmbedMatch?.[1] === "string" &&
+    typeof peertubeEmbedMatch?.[2] === "string"
+  ) {
+    return E.right({
+      platform: "peertube",
+      host: peertubeEmbedMatch[1],
+      id: peertubeEmbedMatch[2],
+      type: "embed",
     });
   }
 

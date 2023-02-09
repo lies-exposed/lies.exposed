@@ -7,6 +7,7 @@ import PlayCircleOutline from '@mui/icons-material/PlayCircleOutline';
 import SearchIcon from '@mui/icons-material/SearchOutlined';
 import TreeItem from "@mui/lab/TreeItem";
 import TreeView from "@mui/lab/TreeView";
+import { Pagination } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -64,7 +65,6 @@ import Typography, { type TypographyProps } from "@mui/material/Typography";
 import { ThemeProvider } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { alpha } from "@mui/system/colorManipulator";
-import { Pagination } from "@mui/material";
 
 export {
   SearchIcon,
