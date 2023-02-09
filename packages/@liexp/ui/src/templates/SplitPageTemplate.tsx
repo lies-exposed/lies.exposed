@@ -4,6 +4,7 @@ import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { Avatar } from "../components/Common/Avatar";
 import EditButton from "../components/Common/Button/EditButton";
+import { ShareButtons } from "../components/Common/Button/ShareButtons";
 import { a11yProps, TabPanel } from "../components/Common/TabPanel";
 import {
   Box,
@@ -11,7 +12,7 @@ import {
   Tab,
   Tabs,
   Typography,
-  useMediaQuery as useMuiMediaQuery
+  useMediaQuery as useMuiMediaQuery,
 } from "../components/mui";
 import { styled, useTheme } from "../theme";
 
@@ -51,7 +52,7 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
     flexDirection: "column",
     alignItems: "flex-end",
     [theme.breakpoints.down("md")]: {
-      flexDirection: "row",
+      flexDirection: "column",
       alignItems: "center",
     },
   },
@@ -103,11 +104,19 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
 export interface SplitPageTemplateProps {
   tab: number;
   onTabChange: (t: number) => void;
-  name: string;
-  avatar?: string;
+  aside:
+         | React.ReactNode
+    | {
+        name: string;
+        avatar?: string;
+      };
   tabs: Array<{
     label: string;
   }>;
+  share?: {
+    title: string;
+    message: string;
+  };
   resource: {
     name: ResourcesNames;
     item: any;
@@ -118,8 +127,8 @@ export interface SplitPageTemplateProps {
 export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
   tab,
   onTabChange,
-  name,
-  avatar,
+  share,
+  aside,
   tabs: _tabs,
   resource,
   children,
@@ -150,32 +159,57 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
       { tabs: [] as React.ReactNode[], tabsContent: [] as React.ReactNode[] }
     );
   }, [_tabs, tab]);
+
+  const asideNode = React.useMemo((): React.ReactNode[] => {
+    if ((aside as any).name) {
+      const as: any = aside;
+      return [
+        pipe(
+          fp.O.fromNullable(as.avatar),
+          fp.O.fold(
+            () => <div key="aside-avatar" />,
+            (src) => (
+              <Avatar
+                key="aside-avatar"
+                className={classes.avatar}
+                size="xlarge"
+                src={src}
+                fit="cover"
+              />
+            )
+          )
+        ),
+        <Box key="aside-name" className={classes.name}>
+          <Typography component="h1" variant="h4">
+            {as.name}
+          </Typography>
+        </Box>,
+      ];
+    }
+    return [aside] as any[] as React.ReactNode[];
+  }, [aside]);
+
   return (
     <StyledGrid className={classes.root} container spacing={2}>
       <Grid item lg={3} md={3} sm={12} xs={12} className={classes.left}>
         <Box width="100%">
           <Box className={classes.sidebar}>
-            {pipe(
-              fp.O.fromNullable(avatar),
-              fp.O.fold(
-                () => <div />,
-                (src) => (
-                  <Avatar
-                    className={classes.avatar}
-                    size="xlarge"
-                    src={src}
-                    fit="cover"
-                  />
-                )
-              )
-            )}
-            <Box className={classes.name}>
-              <Typography component="h1" variant="h4">
-                {name}
-              </Typography>
-            </Box>
-
+            {React.Children.toArray(asideNode)}
             <Box className={classes.editButtonBox}>
+              {share ? (
+                <ShareButtons
+                  urlPath={`/${resource.name}/${resource.item.id}`}
+                  title={share.title}
+                  message={share.message}
+                  keywords={[]}
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-end",
+                    marginBottom: theme.spacing(2),
+                  }}
+                />
+              ) : null}
+
               <EditButton
                 resourceName={resource.name}
                 resource={resource.item}

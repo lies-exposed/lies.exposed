@@ -10,7 +10,7 @@ const classes = {
 };
 const StyledGrid = styled(Grid)(({ theme }) => ({
   [`&.${classes.root}`]: {
-    marginTop: 0
+    marginTop: 0,
   },
   [`& .${classes.dateInput}`]: {
     marginBottom: theme.spacing(2),
@@ -29,23 +29,27 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   onDateRangeChange,
   ...props
 }) => {
+  const [[start, end], setDateRange] = React.useState([from, to]);
   return (
     <StyledGrid container spacing={2}>
       <Grid item md={2} sm={3} xs={6}>
         <DatePicker
           className={classes.dateInput}
           size="small"
-          value={from}
+          value={start}
           variant="standard"
           datatype="date"
           InputLabelProps={{
             disabled: true,
           }}
           onChange={(e) => {
-            onDateRangeChange([
+            setDateRange([
               e.target.value === "" ? undefined : e.target.value,
-              to,
+              end,
             ]);
+          }}
+          onBlur={(e) => {
+            onDateRangeChange([start, end]);
           }}
           style={{ width: "100%" }}
           {...props}
@@ -55,14 +59,14 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
         <DatePicker
           className={classes.dateInput}
           size="small"
-          value={to}
+          value={end}
           variant="standard"
           InputLabelProps={{
             disabled: true,
           }}
           onChange={(e) => {
             onDateRangeChange([
-              from,
+              start,
               e.target.value === "" ? undefined : e.target.value,
             ]);
           }}

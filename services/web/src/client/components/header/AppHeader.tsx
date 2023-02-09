@@ -18,7 +18,7 @@ const dataMenuItem: HeaderMenuItem = {
   subItems: [
     {
       view: "/events",
-      label: "Events",
+      label: "Explore",
     },
     {
       view: "/keywords",

@@ -26,7 +26,7 @@ const Template: Story<ActorTemplateProps> = (props) => {
         actor: useActorsQuery(
           {
             pagination: { perPage: 10, page: 1 },
-            filter: { search: "graphene" },
+            filter: { ids: ["ee898fbe-3880-4de2-a34f-47b40fce9872"] },
           },
           false
         ),
@@ -39,7 +39,9 @@ const Template: Story<ActorTemplateProps> = (props) => {
             tab={tab}
             onTabChange={setTab}
             query={q}
-            onQueryChange={(q) => { setQ(q); }}
+            onQueryChange={(q) => {
+              setQ(q);
+            }}
           />
         );
       }}

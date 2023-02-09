@@ -6,7 +6,7 @@ import { type Meta, type Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 
 const meta: Meta = {
-  title: "Components/containers/Media/MediaBox",
+  title: "Containers/Media/MediaBox",
   component: MediaBox,
 };
 

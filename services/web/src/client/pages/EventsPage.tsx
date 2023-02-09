@@ -1,28 +1,34 @@
+import { fp } from "@liexp/core/fp";
 import { EventType } from "@liexp/shared/io/http/Events";
 import { type GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
+import EventsAppBar from "@liexp/ui/components/events/EventsAppBar";
+import EventsTimeline from "@liexp/ui/components/lists/EventList/EventsTimeline";
 import { Box, Grid } from "@liexp/ui/components/mui";
-import { EventsPanel } from "@liexp/ui/containers/EventsPanel";
+import { EventNetworkGraphBox } from "@liexp/ui/containers/graphs/EventNetworkGraphBox";
 import { useGroupMembersQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import {
   clearSearchEventsQueryCache,
   type SearchEventQueryInput,
-  type SearchEventsQueryInputNoPagination
+  type SearchEventsQueryInputNoPagination,
 } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { useActorsQuery } from "@liexp/ui/state/queries/actor.queries";
 import { useGroupsQuery } from "@liexp/ui/state/queries/groups.queries";
-import { useKeywordsQuery } from '@liexp/ui/state/queries/keywords.queries';
+import { useKeywordsQuery } from "@liexp/ui/state/queries/keywords.queries";
+import { SplitPageTemplate } from "@liexp/ui/templates/SplitPageTemplate";
 import { styled } from "@liexp/ui/theme";
 import {
   queryToHash,
   useQueryFromHash,
-  useRouteQuery
+  useRouteQuery,
 } from "@liexp/ui/utils/history.utils";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { queryClient } from "../state/queries";
 import {
-  useNavigateToResource, type EventsView
+  useNavigateToResource,
+  type EventsView,
 } from "../utils/location.utils";
 
 const PREFIX = "EventsPage";
@@ -130,7 +136,7 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
 const drawerWidth = 240;
 
 const useEventsPageQuery = (): GetSearchEventsQueryInput & {
-  tab?: string;
+  tab: number;
   slide?: string;
   hash: string;
 } => {
@@ -141,6 +147,7 @@ const useEventsPageQuery = (): GetSearchEventsQueryInput & {
     return {
       ...query,
       ...hashQuery,
+      tab: parseInt(query.tab ?? "0", 10),
     };
   }, [query]);
 };
@@ -148,7 +155,7 @@ const useEventsPageQuery = (): GetSearchEventsQueryInput & {
 interface EventsPageProps extends Omit<EventsView, "view"> {}
 
 const EventsPage: React.FC<EventsPageProps> = () => {
-  const { hash, ...query } = useEventsPageQuery();
+  const { hash, tab, ...query } = useEventsPageQuery();
 
   const navigateTo = useNavigateToResource();
 
@@ -168,7 +175,6 @@ const EventsPage: React.FC<EventsPageProps> = () => {
     _sort: "date",
   };
 
-  const tab = parseInt(query.tab ?? "0", 10);
   const slide = React.useMemo(
     () => parseInt(query.slide ?? "0", 10) === 1,
     [query]
@@ -255,56 +261,149 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                 height: "100%",
               }}
             >
-              {/* <Hidden smDown>
-                <Drawer
-                  variant="permanent"
-                  className={clsx(classes.drawer, {
-                    [classes.drawerOpen]: open,
-                    [classes.drawerClose]: !open,
-                  })}
-                  classes={{
-                    paper: clsx(classes.drawerPaper, {
-                      [classes.drawerOpen]: open,
-                      [classes.drawerClose]: !open,
-                    }),
-                  }}
-                >
-                  <Toolbar />
-                  <div className={classes.drawerContainer}>{eventFilters}</div>
-                </Drawer>
-              </Hidden> */}
-
-              <Grid
-                item
-                lg={12}
-                md={12}
-                sm={12}
-                style={{
-                  maxWidth: `calc(100% - ${drawerWidth})`,
-                  height: "100%",
-                  width: "100%",
+              <SplitPageTemplate
+                aside={
+                  <EventsAppBar
+                    hash={hash}
+                    query={{ ...query, slide, hash }}
+                    actors={filterActors.data}
+                    groups={filterGroups.data}
+                    groupsMembers={filterGroupsMembers.data}
+                    keywords={filterKeywords.data}
+                    onQueryChange={(u) => {
+                      handleUpdateEventsSearch(u, tab);
+                    }}
+                    onQueryClear={() => {
+                      navigateTo.events({}, {});
+                    }}
+                  />
+                }
+                onTabChange={(tab) => {
+                  handleUpdateEventsSearch(
+                    {
+                      ...query,
+                      ...params,
+                      slide,
+                      hash,
+                    },
+                    tab
+                  );
                 }}
+                tab={tab}
+                tabs={[
+                  {
+                    label: "Events",
+                  },
+                  {
+                    label: "Network",
+                  },
+                ]}
+                resource={{ name: "events", item: {} }}
               >
-                <main className={classes.content}>
-                  <Grid container alignContent="center" justifyContent="center">
-                    <Grid item lg={8} md={8} sm={12} xs={12}>
-                      <EventsPanel
-                        query={{ ...query, ...params, slide, hash }}
-                        tab={tab}
-                        slide={slide}
-                        actors={filterActors.data}
-                        groups={filterGroups.data}
-                        keywords={filterKeywords.data}
-                        groupsMembers={filterGroupsMembers.data}
-                        onQueryChange={handleUpdateEventsSearch}
-                        onEventClick={(e) => {
-                          navigateTo.events({ id: e.id });
-                        }}
-                      />
-                    </Grid>
-                  </Grid>
-                </main>
-              </Grid>
+                <EventsTimeline
+                  hash={hash}
+                  queryParams={{ ...query, ...params, slide }}
+                  onClick={(e) => {
+                    navigateTo.events({ id: e.id });
+                  }}
+                  onActorClick={(actor) => {
+                    handleUpdateEventsSearch(
+                      {
+                        ...query,
+                        hash,
+                        slide,
+                        actors: (query.actors ?? []).concat([actor.id]),
+                      },
+                      tab
+                    );
+                  }}
+                  onGroupClick={(group) => {
+                    handleUpdateEventsSearch(
+                      {
+                        ...query,
+                        hash,
+                        slide,
+                        groups: (query.groups ?? []).concat([group.id]),
+                      },
+                      tab
+                    );
+                  }}
+                  onGroupMemberClick={() => {}}
+                  onKeywordClick={(keyword) => {
+                    handleUpdateEventsSearch(
+                      {
+                        ...query,
+                        hash,
+                        slide,
+                        keywords: (query.keywords ?? []).concat([keyword.id]),
+                      },
+                      tab
+                    );
+                  }}
+                />
+                <Box style={{ height: 600 }}>
+                  <EventNetworkGraphBox
+                    query={{
+                      keywords: pipe(
+                        fp.NEA.fromArray(filterKeywords.data.map((d) => d.id)),
+                        fp.O.toUndefined
+                      ),
+                      actors: pipe(
+                        fp.NEA.fromArray(filterActors.data.map((a) => a.id)),
+                        fp.O.toUndefined
+                      ),
+                      groups: pipe(
+                        fp.NEA.fromArray(filterGroups.data.map((a) => a.id)),
+                        fp.O.toUndefined
+                      ),
+                      startDate: query.startDate,
+                      endDate: query.endDate,
+                    }}
+                    type="events"
+                    onEventClick={(e) => {
+                      navigateTo.events({ id: e.id });
+                    }}
+                    onActorClick={(a) => {
+                      handleUpdateEventsSearch(
+                        {
+                          ...query,
+                          ...params,
+                          slide,
+                          hash,
+                          actors: [a.id],
+                        },
+                        tab
+                      );
+                    }}
+                    onKeywordClick={(k) => {
+                      handleUpdateEventsSearch(
+                        {
+                          ...query,
+                          ...params,
+                          slide,
+                          hash,
+                          keywords: [k.id],
+                        },
+                        tab
+                      );
+                    }}
+                    onGroupClick={(k) => {
+                      handleUpdateEventsSearch(
+                        {
+                          ...query,
+                          ...params,
+                          slide,
+                          hash,
+                          groups: params.groups
+                            ? params.groups.concat(k.id)
+                            : [k.id],
+                        },
+                        tab
+                      );
+                    }}
+                  />
+                </Box>
+              </SplitPageTemplate>
             </Box>
           );
         }}

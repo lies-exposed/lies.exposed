@@ -1,7 +1,6 @@
 import { type Actor, type Group, type Keyword } from "@liexp/shared/io/http";
 import { ACTORS } from "@liexp/shared/io/http/Actor";
 import { type SearchEvent } from "@liexp/shared/io/http/Events";
-import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
 import * as React from "react";
 import { ActorPageContent } from "../components/ActorPageContent";
 import { ActorHierarchyEdgeBundlingGraph } from "../components/Graph/ActorHierarchyEdgeBundlingGraph";
@@ -55,7 +54,7 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
         return (
           <Box
             display="flex"
-            flexDirection="column"
+            flexDirection="row"
             height="100%"
             style={{ paddingTop: 20 }}
           >
@@ -67,8 +66,10 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
             <SplitPageTemplate
               tab={tab}
               onTabChange={onTabChange}
-              name={actor.fullName}
-              avatar={actor.avatar}
+              aside={{
+                name: actor.fullName,
+                avatar: actor.avatar,
+              }}
               tabs={[
                 {
                   label: "General",
@@ -88,13 +89,14 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                 item: actor,
               }}
             >
-              <ActorPageContent
-                actor={actor}
-                groups={groups}
-                onGroupClick={onGroupClick}
-                onActorClick={onActorClick}
-                onEventClick={onEventClick}
-              />
+              <Box style={{ display: 'flex' }}>
+                <ActorPageContent
+                  actor={actor}
+                  groups={groups}
+                  onGroupClick={onGroupClick}
+                  onActorClick={onActorClick}
+                />
+              </Box>
 
               <EventsPanelBox
                 slide={false}
@@ -112,10 +114,9 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
 
               <Box style={{ height: 600 }}>
                 <EventNetworkGraphBox
-                  id={actor.id}
                   type={ACTORS.value}
                   query={{
-                    groupBy: KEYWORDS.value,
+                    ids: [actor.id],
                   }}
                   selectedActorIds={[actor.id]}
                   onActorClick={onActorClick}

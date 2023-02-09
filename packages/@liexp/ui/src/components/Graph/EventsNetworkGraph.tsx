@@ -89,11 +89,12 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
           onEventClick?.(m);
         }
       }}
-      nodeGroups={[ACTORS.value, KEYWORDS.value, GROUPS.value, ]}
+      nodeGroups={[ACTORS.value, KEYWORDS.value, GROUPS.value]}
       colors={colors}
       nodeId={(n) => n.id}
       linkStrokeWidth={(l) => l.value}
-      linkStrength={l => l.value}
+      linkStrength={(l) => l.value}
+      linkStroke={(l) => l.fill}
       nodeTitle={(n) => {
         if (n.type === KEYWORDS.value) {
           return n.tag;

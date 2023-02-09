@@ -1,20 +1,19 @@
 import {
   type Events,
-  type GroupMember, type Project
+  type GroupMember,
+  type Project,
 } from "@liexp/shared/io/http";
 import {
+  type NetworkGraphOutput,
   type GetNetworkParams,
-  type GetNetworkQuery
+  type GetNetworkQuery,
 } from "@liexp/shared/io/http/Network";
 import { type APIError } from "@liexp/shared/providers/http/http.provider";
 import type * as t from "io-ts";
 import type { GetListParams, GetOneParams } from "react-admin";
 import { useQuery, type UseQueryResult } from "react-query";
 import { type serializedType } from "ts-io-error/lib/Codec";
-import {
-  jsonData,
-  Queries
-} from "../../providers/DataProvider";
+import { jsonData, Queries } from "../../providers/DataProvider";
 import { fetchQuery } from "./common";
 import { type FetchQuery, type UseListQueryFn, type UseQueryFn } from "./type";
 
@@ -52,8 +51,6 @@ export const useEventsQuery: UseListQueryFn<Events.Event> = (
   return useQuery(getEventsQueryKey(params, discrete), fetchEvents);
 };
 
-
-
 // export const fetchActorsDiscreteQuery = async ({
 //   queryKey,
 // }: any): Promise<Actor.Actor[]> => {
@@ -68,9 +65,6 @@ export const useEventsQuery: UseListQueryFn<Events.Event> = (
 // ): UseQueryResult<{ data: Actor.Actor[]; total: number }, APIError> => {
 //   return useQuery(getActorsQueryKey(params, true), fetchActorsDiscreteQuery);
 // };
-
-
-
 
 export const getGroupsMembersQueryKey = (
   p: Partial<GetListParams>,
@@ -135,7 +129,6 @@ export const useGraphQuery = (id: string): UseQueryResult<any, APIError> => {
   });
 };
 
-
 export const getStatsQueryKey = (
   p: Partial<GetListParams>,
   discrete: boolean
@@ -190,10 +183,10 @@ export const fetchNetworkGraph: FetchQuery<any> = fetchQuery(
 export const useNetworkGraphQuery = (
   params: GetNetworkParams,
   query: Partial<serializedType<typeof GetNetworkQuery>>
-): UseQueryResult<any, APIError> => {
+): UseQueryResult<NetworkGraphOutput, APIError> => {
   return useQuery(
     [
-      `network-${params.type}-${params.id}`,
+      `network-${params.type}${query.ids ? `-${query.ids.join('-')}` : ""}`,
       {
         ...params,
         pagination: {

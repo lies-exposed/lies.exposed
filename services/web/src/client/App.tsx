@@ -36,11 +36,12 @@ export const App: React.FC = () => {
           <Grid
             style={{
               width: "100%",
-              minHeight: `calc(100% - ${
-                theme.mixins.toolbar.height ?? 64
-              }px - 100px)`,
+              // minHeight: `calc(100% - ${
+              //   theme.mixins.toolbar.height ?? 64
+              // }px - 100px)`,
+              minHeight: '100%',
               marginTop: theme.mixins.toolbar.height ?? 64,
-              marginBottom: 100,
+              // marginBottom: 100,
             }}
           >
             <Routes>

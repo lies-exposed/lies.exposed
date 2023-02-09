@@ -41,7 +41,11 @@ export const AutocompleteInput = <T extends { id: string }>({
   // params
   const itemQueryParams = React.useMemo(() => {
     const filter =
-      value !== undefined && value !== "" ? searchToFilter(value) : {};
+      value !== undefined && value !== ""
+        ? searchToFilter(value)
+        : selectedIds.length > 0
+        ? { ids: selectedIds }
+        : {};
     return {
       sort: { field: "createdAt", order: "DESC" },
       pagination: { page: 1, perPage: 20 },
@@ -70,7 +74,7 @@ export const AutocompleteInput = <T extends { id: string }>({
       size="small"
       placeholder={placeholder}
       inputValue={value}
-      value={selectedItems.filter((i) => selectedIds.includes(i.id))}
+      value={(items.data?.data ?? []).filter((i) => selectedIds.includes(i.id))}
       options={(items.data?.data ?? []).filter(
         (i) => !selectedIds.includes(i.id)
       )}

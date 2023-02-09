@@ -2,12 +2,12 @@ import * as t from "io-ts";
 import { UUID } from 'io-ts-types/UUID';
 import { Endpoint } from "ts-endpoint";
 import { ListOutput, Output } from "../io/http/Common/Output";
-import { GetNetworkParams, GetNetworkQuery } from '../io/http/Network';
+import { GetNetworkParams, GetNetworkQuery, NetworkGraphOutput } from '../io/http/Network';
 import { GetListQuery } from "../io/http/Query";
 import { StatsType } from "../io/http/Stats";
 import { ResourceEndpoints } from "./types";
 
-const SingleOutput = Output(t.any, "Networks");
+const SingleOutput = Output(NetworkGraphOutput, "Networks");
 const OutputList = ListOutput(t.any, "NetworkList");
 
 export const List = Endpoint({
@@ -35,7 +35,7 @@ export const Create = Endpoint({
 
 export const Get = Endpoint({
   Method: "GET",
-  getPath: ({ type, id }) => `/networks/${type}/${id}`,
+  getPath: ({ type }) => `/networks/${type}`,
   Input: {
     Query: GetNetworkQuery,
     Params: GetNetworkParams,

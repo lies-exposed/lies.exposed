@@ -1,5 +1,9 @@
-import { type Actor, type Group, type Keyword, type Media } from "@liexp/shared/io/http";
-import { ACTORS } from "@liexp/shared/io/http/Actor";
+import {
+  type Actor,
+  type Group,
+  type Keyword,
+  type Media
+} from "@liexp/shared/io/http";
 import { type SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
 import { GROUPS } from "@liexp/shared/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
@@ -60,7 +64,7 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
             <SplitPageTemplate
               tab={tab}
               onTabChange={onTabChange}
-              name={`#${keyword.tag}`}
+              aside={{ name: `#${keyword.tag}` }}
               tabs={[
                 { label: "Events" },
                 { label: "Media" },
@@ -102,11 +106,10 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
               <Box style={{ height: 600 }}>
                 <EventNetworkGraphBox
                   type={KEYWORDS.value}
-                  id={keyword.id}
                   query={{
-                    groupBy: ACTORS.value,
+                    ids: [keyword.id],
                   }}
-                  relation={GROUPS.value}
+                  relations={[GROUPS.value]}
                   onKeywordClick={onKeywordClick}
                   onEventClick={onEventClick}
                   onActorClick={onActorClick}
