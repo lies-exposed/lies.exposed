@@ -2,10 +2,14 @@ import fs from "fs";
 import path from "path";
 import {
   getPlatform,
-  type VideoPlatformMatch,
+  type VideoPlatformMatch
 } from "@liexp/shared/helpers/media";
 import { Media } from "@liexp/shared/io/http";
 import { toPuppeteerError } from "@liexp/shared/providers/puppeteer.provider";
+import {
+  getMediaKey,
+  getMediaKeyFromLocation
+} from "@liexp/shared/utils/media.utils";
 import axios from "axios";
 import * as Canvas from "canvas";
 import { sequenceS } from "fp-ts/Apply";
@@ -15,11 +19,42 @@ import { pipe } from "fp-ts/function";
 import * as pdfJS from "pdfjs-dist/legacy/build/pdf";
 import { type Page } from "puppeteer-core";
 import {
-  type ControllerError,
   ServerError,
-  toControllerError,
+  toControllerError, type ControllerError
 } from "@io/ControllerError";
 import { type RouteContext } from "@routes/route.types";
+
+export const createFromRemote =
+  (ctx: RouteContext) =>
+  (
+    id: string,
+    location: string,
+    contentType: Media.MediaType
+  ): TE.TaskEither<ControllerError, string> => {
+    return pipe(
+      TE.tryCatch(
+        () =>
+          axios.get(location, {
+            responseType: "stream",
+          }),
+        toControllerError
+      ),
+      TE.chain((stream) => {
+        const key = getMediaKeyFromLocation(location);
+
+        ctx.logger.debug.log("Key %s (%s) for location %s", key, id, location);
+
+        return ctx.s3.upload({
+          Key: getMediaKey(id, `${id}-thumb`, "image/jpg"),
+          Body: stream.data,
+          ACL: "public-read",
+          Bucket: ctx.env.SPACE_BUCKET,
+          ContentType: contentType,
+        });
+      }),
+      TE.map((r) => r.Location)
+    );
+  };
 
 export const extractThumbnail = (
   match: VideoPlatformMatch,
@@ -306,7 +341,7 @@ export const createThumbnail =
         return pipe(
           extractThumbnail(match, html),
           TE.mapLeft((e) => ServerError(e as any)),
-          TE.map((url) => url),
+          TE.chain((url) => createFromRemote(ctx)(media.id, url, "image/jpg")),
           TE.chainFirst(() =>
             TE.tryCatch(
               () => html.browser().close(),
