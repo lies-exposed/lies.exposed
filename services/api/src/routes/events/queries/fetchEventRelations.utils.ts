@@ -21,6 +21,7 @@ import { type LinkEntity } from "@entities/Link.entity";
 import { type MediaEntity } from "@entities/Media.entity";
 import { ServerError } from "@io/ControllerError";
 import { type RouteContext } from "@routes/route.types";
+import { fetchManyMedia } from "queries/media/fetchManyMedia.query";
 
 export const fetchLinksT =
   (urlMetadata: URLMetadataClient) =>
@@ -131,9 +132,10 @@ export const fetchRelationIds =
 export const fetchRelations =
   (ctx: RouteContext) =>
   (
-    input: Pick<http.Events.EditEventBody, "links" | "keywords" | "media"> & {
+    input: Pick<http.Events.EditEventBody, "links" | "keywords"> & {
       actors: O.Option<UUID[]>;
       groups: O.Option<UUID[]>;
+      media: O.Option<UUID[]>;
       groupsMembers: O.Option<UUID[]>;
     }
   ): TE.TaskEither<
@@ -142,8 +144,8 @@ export const fetchRelations =
       actors: ActorEntity[];
       groups: GroupEntity[];
       keywords: KeywordEntity[];
+      media: MediaEntity[];
       // links: LinkEntity[];
-      // media: MediaEntity[];
     }
   > => {
     ctx.logger.debug.log("Links %O", input.links);
@@ -177,6 +179,16 @@ export const fetchRelations =
           _end: pipe(
             input.keywords,
             fp.O.map((a) => a.length as any)
+          ),
+        }),
+        fp.TE.map(([results]) => results)
+      ),
+      media: pipe(
+        fetchManyMedia(ctx)({
+          ids: input.media,
+          _end: pipe(
+            input.media,
+            fp.O.map((m) => m.length as any)
           ),
         }),
         fp.TE.map(([results]) => results)

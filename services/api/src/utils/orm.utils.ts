@@ -108,6 +108,8 @@ export const addOrder = <T extends ObjectLiteral>(
   );
 };
 
+export type ORMOptions = Partial<ORMOrder> & ORMPagination & Partial<ORMFilter>;
+
 export const getORMOptions = (
   {
     _start,
@@ -117,7 +119,7 @@ export const getORMOptions = (
     ...filter
   }: Query.GetListQuery & Query.FilterQuery,
   defaultPageSize: number
-): Partial<ORMOrder> & ORMPagination & Partial<ORMFilter> => ({
+): ORMOptions => ({
   ...getSkipAndTakeOptions({ _start, _end }, defaultPageSize),
   ...getOrderQuery({ _sort, _order }),
   ...getWhereOption(filter),

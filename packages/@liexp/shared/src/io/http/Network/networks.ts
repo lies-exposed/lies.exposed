@@ -22,5 +22,6 @@ export type EventNetworkDatum = Omit<NetworkDatum, "x" | "y" | "keywords"> & {
   actors: Actor[];
   groups: Group[];
   keywords: Keyword[];
+  image: string | undefined;
   selected: boolean;
 };

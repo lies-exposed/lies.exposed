@@ -12,6 +12,7 @@ import { getTitleForSearchEvent } from "@liexp/shared/helpers/event/getTitle.hel
 import { toSearchEvent } from "@liexp/shared/helpers/event/search-event";
 import {
   Events,
+  type Media,
   type Actor,
   type Common,
   type Group,
@@ -21,6 +22,7 @@ import { ACTORS } from "@liexp/shared/io/http/Actor";
 import { type Event, type SearchEvent } from "@liexp/shared/io/http/Events";
 import { GROUPS } from "@liexp/shared/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
+import { ValidContentType } from "@liexp/shared/io/http/Media";
 import {
   type GetNetworkQuery,
   type NetworkGroupBy,
@@ -45,6 +47,7 @@ import { fetchRelations } from "@routes/events/queries/fetchEventRelations.utils
 import { searchEventV2Query } from "@routes/events/queries/searchEventsV2.query";
 import { toGroupIO } from "@routes/groups/group.io";
 import { toKeywordIO } from "@routes/keywords/keyword.io";
+import { toImageIO } from "@routes/media/media.io";
 import { type RouteContext } from "@routes/route.types";
 
 interface NetworkLink {
@@ -119,7 +122,8 @@ const takeEventRelations = (ev: Event[]): EventRelationIds => {
   return pipe(
     ev.reduce(
       (acc: EventRelationIds, e) => {
-        const { actors, keywords, groups, groupsMembers } = getRelationIds(e);
+        const { actors, keywords, groups, groupsMembers, media } =
+          getRelationIds(e);
         return {
           keywords: acc.keywords.concat(
             keywords.filter((k) => !acc.keywords.includes(k))
@@ -131,7 +135,7 @@ const takeEventRelations = (ev: Event[]): EventRelationIds => {
             groups.filter((g) => !acc.groups.includes(g))
           ),
           groupsMembers: acc.groupsMembers.concat(groupsMembers),
-          media: [],
+          media: acc.media.concat(media),
           links: [],
         };
       },
@@ -152,6 +156,7 @@ interface GetEventGraphOpts {
   actors: Actor.Actor[];
   groups: Group.Group[];
   keywords: Keyword.Keyword[];
+  media: Media.Media[]
   emptyRelations: boolean;
   relation: NetworkGroupBy;
   groupBy: NetworkGroupBy;
@@ -167,6 +172,7 @@ const getEventGraph =
       actors: allActors,
       groups: allGroups,
       keywords: allKeywords,
+      media: allMedia,
       relation,
       emptyRelations,
       groupBy,
@@ -181,6 +187,7 @@ const getEventGraph =
           actors: eventActors,
           groups: eventGroups,
           keywords: eventKeywords,
+          media: eventMedia,
         } = getEventsMetadata(e);
 
         const eventTitle = getTitleForSearchEvent(e);
@@ -240,6 +247,13 @@ const getEventGraph =
             ? nonEmptyEventActors
             : nonEmptyEventKeywords;
 
+        const featuredImage = pipe(
+          eventMedia,
+          fp.A.filter((m) => ValidContentType.is(m.type)),
+          fp.O.fromPredicate((mm) => mm.length > 0),
+          fp.O.map((mm) => mm[0].location),
+          fp.O.toUndefined
+        );
         const eventNodes: EventNetworkDatum[] = [
           {
             ...e,
@@ -248,7 +262,7 @@ const getEventGraph =
             body: {},
             payload: e.payload as any,
             deletedAt: undefined,
-            media: [],
+            image: featuredImage,
             title: eventTitle,
             selected: !!groupByItem,
             date: e.date,
@@ -717,7 +731,10 @@ export const createNetworkGraph =
                     ),
                     groupsMembers: O.some(relations.groupsMembers),
                     links: O.none,
-                    media: O.none,
+                    media: pipe(
+                      relations.media,
+                      O.fromPredicate((m) => m.length > 0)
+                    ),
                   }),
                   TE.map((relations) => ({ ...relations, events }))
                 )
@@ -742,11 +759,18 @@ export const createNetworkGraph =
                     fp.A.traverse(fp.E.Applicative)(toKeywordIO),
                     fp.TE.fromEither
                   ),
+                  media: pipe(
+                    relations.media,
+                    fp.A.traverse(fp.E.Applicative)((m) =>
+                      toImageIO({ ...m, links: [], keywords: [], events: [] })
+                    ),
+                    fp.TE.fromEither
+                  ),
                 })
               )
             );
           }),
-          TE.map(({ events: _events, actors, groups, keywords }) => {
+          TE.map(({ events: _events, actors, groups, keywords, media }) => {
             const events = pipe(
               _events,
               fp.A.map((aa) =>
@@ -755,7 +779,7 @@ export const createNetworkGraph =
                   actors: new Map(actors.map((a) => [a.id, a])),
                   groups: new Map(groups.map((g) => [g.id, g])),
                   keywords: new Map(keywords.map((k) => [k.id, k])),
-                  media: new Map(),
+                  media: new Map(media.map((m) => [m.id, m])),
                   groupsMembers: new Map(),
                 })
               )
@@ -766,6 +790,7 @@ export const createNetworkGraph =
               actors,
               groups,
               keywords,
+              media,
               relation,
               emptyRelations: pipe(
                 emptyRelations,
