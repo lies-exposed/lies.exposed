@@ -113,6 +113,7 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
       avatar: _.avatar,
       color: _.color,
       tag: _.tag,
+      image: _.image,
     }));
 
     links = d3.map(links, (_, i) => ({
@@ -160,9 +161,9 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
         nodeStrokeWidth / Math.sqrt(transform.k)
       );
 
-      // eventIconPattern
-      //   .attr("width", "100")
-      //   .attr("height", "1");
+      eventNodeImage
+        .attr("width", (n) => (nodeRadius(n) * 2) / Math.sqrt(transform.k))
+        .attr("height", (n) => (nodeRadius(n) * 2) / Math.sqrt(transform.k));
 
       eventIconSvg
         .attr("width", (n) => nodeRadius(n) * 2)
@@ -282,12 +283,38 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
     actorOrGroupPattern
       .append("rect")
       .attr("height", 28)
-      .attr('width', 28)
+      .attr("width", 28)
       .attr("fill", "#fff");
 
     const actorOrGroupImage = actorOrGroupPattern
       .append("svg:image")
       .attr("xlink:href", (d) => d.avatar);
+
+    const eventNodeNode = nodeG.filter(
+      (n) => ![ACTORS.value, GROUPS.value, KEYWORDS.value].includes(n.type)
+    );
+
+    // eventNodeNode
+    //   .attr("stroke", (d) => `#${d.color}`)
+    //   .attr("stroke-opacity", nodeStrokeOpacity);
+
+    const eventNodePattern = eventNodeNode
+      .append("pattern")
+      .attr("id", (n: any) => `event-${n.id}`)
+      .attr("width", "1.2")
+      .attr("height", "1.2")
+      .attr("x", 0)
+      .attr("y", 0);
+
+    eventNodePattern
+      .append("rect")
+      .attr("height", 28)
+      .attr("width", 28)
+      .attr("fill", "#fff");
+
+    const eventNodeImage = eventNodePattern
+      .append("svg:image")
+      .attr("xlink:href", (d) => d.image);
 
     const node = nodeG
       .append("circle")
@@ -299,6 +326,10 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
           return `url(#${d.type}-${d.id})`;
         }
 
+        if (d.image) {
+          return `url(#event-${d.id})`;
+        }
+
         if (EventType.types.flatMap((t) => t.value).includes(d.type)) {
           return `url(#event-${d.type.toLowerCase()})`;
         }
@@ -306,6 +337,7 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
         if (d.color) {
           return `#${d.color}`;
         }
+
         if (color) {
           return color(d.type);
         }
