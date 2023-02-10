@@ -14,6 +14,7 @@ import { type DeepPartial } from "typeorm";
 import { fetchActors } from "../../../queries/actors/fetchActors.query";
 import { fetchGroups } from "../../../queries/groups/fetchGroups.query";
 import { fetchKeywords } from "../../../queries/keywords/fetchKeywords.query";
+import { fetchManyMedia } from "../../../queries/media/fetchManyMedia.query";
 import { type ActorEntity } from "@entities/Actor.entity";
 import { type GroupEntity } from "@entities/Group.entity";
 import { type KeywordEntity } from "@entities/Keyword.entity";
@@ -21,7 +22,6 @@ import { type LinkEntity } from "@entities/Link.entity";
 import { type MediaEntity } from "@entities/Media.entity";
 import { ServerError } from "@io/ControllerError";
 import { type RouteContext } from "@routes/route.types";
-import { fetchManyMedia } from "queries/media/fetchManyMedia.query";
 
 export const fetchLinksT =
   (urlMetadata: URLMetadataClient) =>

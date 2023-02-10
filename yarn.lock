@@ -25810,6 +25810,7 @@ __metadata:
     io-ts: ^2.2.20
     io-ts-types: ^0.5.19
     is-plain-object: ^5.0.0
+    module-alias: ^2.2.2
     nodemon: ^2.0.20
     ol: ^7.2.2
     prettier: ^2.8.4

@@ -1,45 +1,52 @@
 version: "3"
 
 services:
-  nginx:
-    image: nginx:1.15-alpine
-    restart: unless-stopped
-    volumes:
-      - ./data/nginx:/etc/nginx/conf.d
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
-    ports:
-      - "80:80"
-      - "443:443"
-    command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
-
-  certbot:
-    image: certbot/certbot
-    restart: unless-stopped
-    volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-
-  # api:
-  #   # image: ghcr.io/lies-exposed/lies-exposed/api:release-alpha
-  #   container_name: api
-  #   env_file:
-  #     - .env
+  # nginx:
+  #   image: nginx:1.15-alpine
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./data/nginx:/etc/nginx/conf.d
+  #     - ./data/certbot/conf:/etc/letsencrypt
+  #     - ./data/certbot/www:/var/www/certbot
   #   ports:
-  #     - "4010:4010"
-  #   volumes:
-  #     - ./certs:/app/services/api/certs
-  #   working_dir: /app/services/api
-  #   command: yarn start
-  #   restart: always
+  #     - "80:80"
+  #     - "443:443"
+  #   command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
 
-  # migration:
-  #   container_name: migration
-  #   image: ghcr.io/lies-exposed/lies-exposed/api:release-alpha
-  #   env_file:
-  #     - .env
+  # certbot:
+  #   image: certbot/certbot
+  #   restart: unless-stopped
   #   volumes:
-  #     - ./certs:/app/services/api/certs
-  #   working_dir: /app/services/api
-  #   command: yarn migration:run
+  #     - ./data/certbot/conf:/etc/letsencrypt
+  #     - ./data/certbot/www:/var/www/certbot
+  #   entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+  api:
+    image: liexp-api:alpha
+    container_name: liexp-api
+    env_file:
+      - ../.env.alpha
+    ports:
+      - "4010:4010"
+    # expose:
+    #   - "25060"
+    volumes:
+      - ../services/api/certs:/app/services/api/certs
+    working_dir: /app/services/api
+    command: yarn start
+    restart: always
+
+  web:
+    image: liexp-web:alpha
+    container_name: liexp-web
+    env_file:
+      - ../services/web/.env.development
+    environment:
+      API_URL: http://api:4010/v1
+    ports:
+      - "4020:4020"
+    links:
+      - api
+    working_dir: /app/services/web
+    command: yarn serve
+    restart: always

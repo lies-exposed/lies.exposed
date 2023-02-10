@@ -45,6 +45,7 @@ services:
       retries: 3
 
   api:
+    image: liexp-api-build:alpha
     build:
       context: .
       target: build
@@ -74,6 +75,7 @@ services:
     mem_limit: 1024mb
 
   web:
+    image: liexp-web-build:alpha
     build:
       context: .
       target: build
@@ -143,9 +145,3 @@ volumes:
   web-node_modules: {}
   admin-web-node_modules: {}
   space-data:
-# networks:
-#   default:
-#     driver: bridge
-#     ipam:
-#       config:
-#         - subnet: 172.16.57.0/24
