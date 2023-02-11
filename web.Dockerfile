@@ -1,5 +1,8 @@
 FROM node:16-slim as build
 
+ARG NODE_ENV=production
+ARG DOTENV_CONFIG_PATH=.env
+
 WORKDIR /app
 
 COPY .yarn/ .yarn/
@@ -19,7 +22,10 @@ RUN yarn
 
 RUN yarn packages:build
 
-RUN NODE_ENV=production yarn web build:app-server
+RUN export NODE_ENV=${NODE_ENV}
+RUN export DOTENV_CONFIG_PATH=${DOTENV_CONFIG_PATH}
+
+RUN yarn web build:app-server
 
 FROM node:16-slim as production
 
@@ -40,7 +46,7 @@ COPY --from=build /app/packages/@liexp/test/package.json /app/packages/@liexp/te
 COPY --from=build /app/services/web/build /app/services/web/build
 COPY --from=build /app/services/web/package.json /app/services/web/package.json
 
-RUN yarn workspaces focus --production
+RUN yarn workspaces focus -A --production
 
 WORKDIR /app/services/web
 
