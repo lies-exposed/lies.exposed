@@ -2830,20 +2830,20 @@ __metadata:
     "@types/throttle-debounce": ^5.0.0
     "@types/topojson-client": ^3.1.1
     "@types/topojson-specification": ^1.0.2
-    "@visx/axis": ^3.0.0
+    "@visx/axis": ^3.0.1
     "@visx/chord": ^3.0.0
     "@visx/clip-path": ^3.0.0
-    "@visx/event": ^3.0.0
+    "@visx/event": ^3.0.1
     "@visx/geo": ^3.0.0
     "@visx/gradient": ^3.0.0
-    "@visx/grid": ^3.0.0
+    "@visx/grid": ^3.0.1
     "@visx/group": ^3.0.0
     "@visx/heatmap": ^3.0.0
     "@visx/hierarchy": ^3.0.0
     "@visx/legend": ^3.0.0
     "@visx/mock-data": ^3.0.0
     "@visx/network": ^3.0.0
-    "@visx/point": ^3.0.0
+    "@visx/point": ^3.0.1
     "@visx/responsive": ^3.0.0
     "@visx/scale": ^3.0.0
     "@visx/shape": ^3.0.0
@@ -2851,7 +2851,7 @@ __metadata:
     "@visx/threshold": ^3.0.0
     "@visx/tooltip": ^3.0.0
     "@visx/wordcloud": ^3.0.0
-    "@visx/zoom": ^3.0.0
+    "@visx/zoom": ^3.0.1
     axios: ^0.27.2
     chroma-js: ^2.4.2
     clsx: ^1.2.1
@@ -7321,13 +7321,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@visx/axis@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@visx/axis@npm:3.0.0"
+"@visx/axis@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@visx/axis@npm:3.0.1"
   dependencies:
     "@types/react": "*"
     "@visx/group": 3.0.0
-    "@visx/point": 3.0.0
+    "@visx/point": 3.0.1
     "@visx/scale": 3.0.0
     "@visx/shape": 3.0.0
     "@visx/text": 3.0.0
@@ -7335,7 +7335,7 @@ __metadata:
     prop-types: ^15.6.0
   peerDependencies:
     react: ^16.3.0-0 || ^17.0.0-0 || ^18.0.0-0
-  checksum: db1e8c7ab773c06fce0b3b5e689140bfd88fcc4bc12a09e6c4ba37f5000dba333c443b90f5aabf517a6b37aa692d0c0e0388bf4078927d14388d7a9ad120b0a2
+  checksum: b7d9ec66bb3d693414b2db35ce9a6936abdbd8bd120ee7f6e4b8009315e08310587167525a1c5427fc51f6982605e9d02eab81c0c36ef7b1f54d6d2aacc8bb32
   languageName: node
   linkType: hard
 
@@ -7390,13 +7390,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@visx/event@npm:3.0.0, @visx/event@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@visx/event@npm:3.0.0"
+"@visx/event@npm:3.0.1, @visx/event@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@visx/event@npm:3.0.1"
   dependencies:
     "@types/react": "*"
-    "@visx/point": 3.0.0
-  checksum: cd1605dc0fdfb2113948d6a01982a4ff62786b05bfcd766201ce0877a4dd8d4ce74dcdd8db73f894ef36880b621a46b412a037188d029a9dbccf0a78122b1560
+    "@visx/point": 3.0.1
+  checksum: 0cb4dd578bbe54bd428a0cfae9e64db141b039c2c6c1412d1cd1d04e1613d193212b031124948ca3b7eed877cdea87d161cc3a008b973c6f217e21a8a2dd27b0
   languageName: node
   linkType: hard
 
@@ -7429,21 +7429,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@visx/grid@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@visx/grid@npm:3.0.0"
+"@visx/grid@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@visx/grid@npm:3.0.1"
   dependencies:
     "@types/react": "*"
     "@visx/curve": 3.0.0
     "@visx/group": 3.0.0
-    "@visx/point": 3.0.0
+    "@visx/point": 3.0.1
     "@visx/scale": 3.0.0
     "@visx/shape": 3.0.0
     classnames: ^2.3.1
     prop-types: ^15.6.2
   peerDependencies:
     react: ^16.0.0-0 || ^17.0.0-0 || ^18.0.0-0
-  checksum: e00f3b2df912420a84fc99e25183de7bd8026e521dd30d668e9f0248aa89936f92d05116e91978cd1d3e8ae3cf981186d55f6a70b395423a416830eb9ce32de6
+  checksum: 2ff960b180f0ac1960170f3628a49667f3da58751242638af7844eb49a30273e52bba380103c14bb5b4829ca4bef0c072a8a78696abf2b41d4a49fcdbc02a263
   languageName: node
   linkType: hard
 
@@ -7529,10 +7529,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@visx/point@npm:3.0.0, @visx/point@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@visx/point@npm:3.0.0"
-  checksum: 3acca8953bf6afa0c9835909b2e26d3475b24d235b6b9c21608a2bbc166a1f3937ce354e706dcb01612ca1772c9ba338bfda9b7363183bef8ff56a7c6b21befc
+"@visx/point@npm:3.0.1, @visx/point@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@visx/point@npm:3.0.1"
+  checksum: 727f314826eb85a608b4088a9e2fedb7e6996a5f0fdddaeb40702a51aa04da07fdbc5fdcf2d595d914dfa083389c644f769fc69b3a247b4da274936dd58c7bb8
   languageName: node
   linkType: hard
 
@@ -7646,17 +7646,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@visx/zoom@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@visx/zoom@npm:3.0.0"
+"@visx/zoom@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@visx/zoom@npm:3.0.1"
   dependencies:
     "@types/react": "*"
     "@use-gesture/react": ^10.0.0-beta.22
-    "@visx/event": 3.0.0
+    "@visx/event": 3.0.1
     prop-types: ^15.6.2
   peerDependencies:
     react: ^16.0.0-0 || ^17.0.0-0 || ^18.0.0-0
-  checksum: 896c7eec1c08b2f375fee5cbc98e2e878ba2a6f96f32b206993a3b3bc13f2111e2a3e66c62d7e3873f1cdce6386e202801b3c2255d4ca25310c89a43b60173db
+  checksum: 19278fd0741851c6ea4db8baf8d52406c61aebf4a9f3534bc1f3f0e95bac9415a1e9765e8ed4055eeb2c587af1cace5ce7240295b69e2d9e01b181175df6275e
   languageName: node
   linkType: hard
 
@@ -25791,7 +25791,7 @@ __metadata:
     "@types/webpack-node-externals": ^2.5.3
     "@typescript-eslint/eslint-plugin": ^5.51.0
     "@typescript-eslint/parser": ^5.51.0
-    "@visx/axis": ^3.0.0
+    "@visx/axis": ^3.0.1
     "@visx/gradient": ^3.0.0
     "@visx/legend": ^3.0.0
     "@visx/network": ^3.0.0
