@@ -8009,7 +8009,7 @@ __metadata:
     ra-core: ^4.7.2
     ra-i18n-polyglot: ^4.7.2
     ra-input-rich-text: ^4.7.5
-    ra-ui-materialui: ^4.7.5
+    ra-ui-materialui: ^4.7.6
     react: ^18.2.0
     react-admin: ^4.7.5
     react-dom: ^18.2.0
@@ -12016,6 +12016,13 @@ __metadata:
   version: 2.1.6
   resolution: "domino@npm:2.1.6"
   checksum: 9b1b6d2661efd8bf942b70d5e11ac0de6a63f17e49b7eb227d9a612fa7b7c12b7775520d64f498988a8ee334ea9c59a463c84ea510b0af17dd3e13fdce120410
+  languageName: node
+  linkType: hard
+
+"dompurify@npm:^2.4.3":
+  version: 2.4.4
+  resolution: "dompurify@npm:2.4.4"
+  checksum: 6a29c2a1b76c0723564d009a26b9123e23ea61ac5d6f30cdcdd01f4d48b257a99adb5952c7a08390a7323353dbb333ad7d650c7cf3f5b6b5bb81eab5826a7f7c
   languageName: node
   linkType: hard
 
@@ -21139,6 +21146,36 @@ __metadata:
     react-router: ^6.1.0
     react-router-dom: ^6.1.0
   checksum: af7197945583c376073fc3bf64b937f06ecb4fea8921b889beb69dab36b49766bfb9e2d514f98fcb66ac73da90f3d0ef1dc0c73d30ca0bd33369e4750f1adb7f
+  languageName: node
+  linkType: hard
+
+"ra-ui-materialui@npm:^4.7.6":
+  version: 4.7.6
+  resolution: "ra-ui-materialui@npm:4.7.6"
+  dependencies:
+    autosuggest-highlight: ^3.1.1
+    clsx: ^1.1.1
+    css-mediaquery: ^0.1.2
+    dompurify: ^2.4.3
+    inflection: ~1.12.0
+    jsonexport: ^3.2.0
+    lodash: ~4.17.5
+    prop-types: ^15.7.0
+    query-string: ^7.1.1
+    react-dropzone: ^12.0.4
+    react-error-boundary: ^3.1.4
+    react-query: ^3.32.1
+    react-transition-group: ^4.4.1
+  peerDependencies:
+    "@mui/icons-material": ^5.0.1
+    "@mui/material": ^5.0.2
+    ra-core: ^4.0.0
+    react: ^16.9.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0
+    react-hook-form: "*"
+    react-router: ^6.1.0
+    react-router-dom: ^6.1.0
+  checksum: 7ff128656881cd3ef1459812f39abed197a635d34200de0ce3c95c548ae8cd53129aea380a71fb98304f6c4a95993b2054489204130777def7bf5b69a5bbb4ad
   languageName: node
   linkType: hard
 
