@@ -120,6 +120,7 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
       source: LS[i],
       target: LT[i],
       value: _.value,
+      color: L[i],
     }));
 
     // Construct the forces.

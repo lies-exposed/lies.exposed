@@ -1,8 +1,13 @@
-import { type Actor, type Group, type GroupMember, type Keyword } from "@liexp/shared/io/http";
+import {
+  type Actor,
+  type Group,
+  type GroupMember,
+  type Keyword
+} from "@liexp/shared/io/http";
 import * as React from "react";
 import {
   searchEventsQuery,
-  type SearchEventsQueryInputNoPagination,
+  type SearchEventsQueryInputNoPagination
 } from "../../state/queries/SearchEventsQuery";
 import { styled, useTheme } from "../../theme";
 import { DateRangePicker } from "../Common/DateRangePicker";
@@ -14,9 +19,7 @@ import {
   alpha,
   Box,
   Grid,
-  SearchIcon,
-  Toolbar,
-  Typography,
+  SearchIcon, Typography
 } from "../mui";
 import { EventsAppBarMinimized } from "./EventsAppBarMinimized";
 import SearchEventInput, { type SearchOption } from "./inputs/SearchEventInput";
@@ -36,7 +39,7 @@ const classes = {
   expandedBox: `${PREFIX}-expanded-box`,
 };
 
-const StyledToolbar = styled(Toolbar)(({ theme }) => ({
+const StyledToolbar = styled(Box)(({ theme }) => ({
   [`& .${classes.filterBox}`]: {
     display: "flex",
     alignItems: "center",
@@ -142,19 +145,17 @@ const serializeOption = (
 
 interface EventsToolbarProps {
   query: SearchEventsQueryInputNoPagination;
-  tab: number;
   hash: string;
   actors: Actor.Actor[];
   groups: Group.Group[];
   groupsMembers: GroupMember.GroupMember[];
   keywords: Keyword.Keyword[];
-  onQueryChange: (e: SearchEventsQueryInputNoPagination, tab: number) => void;
+  onQueryChange: (e: SearchEventsQueryInputNoPagination) => void;
   onQueryClear: () => void;
 }
 
 const EventsAppBar: React.FC<EventsToolbarProps> = ({
   query,
-  tab,
   hash,
   actors,
   groups,
@@ -175,22 +176,15 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
   const handleSearchChange = (options: SearchOption[]): void => {
     const queryUpdate = serializeOption(options);
 
-    onQueryChange(
-      {
-        ...query,
-        ...queryUpdate,
-        groups: (query.groups ?? []).concat(
-          queryUpdate.groups.map((g) => g.id)
-        ),
-        actors: (query.actors ?? []).concat(
-          queryUpdate.actors.map((g) => g.id)
-        ),
-        keywords: (query.keywords ?? []).concat(
-          queryUpdate.keywords.map((g) => g.id)
-        ),
-      },
-      tab
-    );
+    onQueryChange({
+      ...query,
+      ...queryUpdate,
+      groups: (query.groups ?? []).concat(queryUpdate.groups.map((g) => g.id)),
+      actors: (query.actors ?? []).concat(queryUpdate.actors.map((g) => g.id)),
+      keywords: (query.keywords ?? []).concat(
+        queryUpdate.keywords.map((g) => g.id)
+      ),
+    });
   };
 
   return (
@@ -231,13 +225,10 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
             <Typography
               onClick={() => {
                 if (isExpanded) {
-                  onQueryChange(
-                    {
-                      ...query,
-                      title: undefined,
-                    },
-                    tab
-                  );
+                  onQueryChange({
+                    ...query,
+                    title: undefined,
+                  });
                 }
               }}
               variant="subtitle1"
@@ -247,55 +238,6 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
           </Box>
         ) : null;
 
-        const tabs = (
-          <Grid
-            item
-            sm={12}
-            md={12}
-            lg={12}
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              flexDirection: "column",
-              margin: "auto",
-              width: "100%",
-            }}
-          >
-            {/* <Tabs
-              className={classes.tabs}
-              value={tab}
-              onChange={(e, tab) => onQueryChange({ ...query, tab })}
-            >
-              <Tab
-                label="list"
-                {...a11yProps(0)}
-                style={{
-                  display: "flex",
-                  flexGrow: 1,
-                  maxWidth: "100%",
-                }}
-              />
-               <Tab
-                label="map"
-                {...a11yProps(1)}
-                style={{
-                  display: "flex",
-                  flexGrow: 1,
-                  maxWidth: "100%",
-                }}
-              />  <Tab
-                label="network"
-                {...a11yProps(1)}
-                style={{
-                  display: "flex",
-                  flexGrow: 1,
-                  maxWidth: "100%",
-                }}
-              /> 
-            </Tabs> */}
-          </Grid>
-        );
-
         const expanded = (
           <Box>
             <Grid container className={classes.expandedBox}>
@@ -303,7 +245,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                 {searchBox}
                 {searchTermBox}
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={12} md={12} lg={12}>
                 <DateRangePicker
                   from={currentDateRange[0]}
                   to={currentDateRange[1]}
@@ -311,28 +253,21 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                     setCurrentDateRange([from, to]);
                   }}
                   onBlur={(e) => {
-                    onQueryChange(
-                      {
-                        ...query,
-                        startDate:
-                          e.target.value === "" ? undefined : e.target.value,
-                        endDate: currentDateRange[1],
-                      },
-                      tab
-                    );
+                    onQueryChange({
+                      ...query,
+                      startDate:
+                        e.target.value === "" ? undefined : e.target.value,
+                      endDate: currentDateRange[1],
+                    });
                   }}
                 />
               </Grid>
-              {tabs}
             </Grid>
           </Box>
         );
 
         return (
           <StyledToolbar
-            disableGutters
-            color="white"
-            variant="dense"
             style={{
               // position: 'relative',
               // top: theme.mixins.toolbar.height,
@@ -345,13 +280,13 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
               onChange={() => {
                 setIsExpanded(!isExpanded);
               }}
-              style={{ width: "100%" }}
+              variant={undefined}
+              style={{ width: "100%", border: 'none', boxShadow: 'none' }}
             >
               <AccordionSummary>
                 <EventsAppBarMinimized
                   open={isExpanded}
                   query={query}
-                  tab={tab}
                   actors={actors.filter((a) => query.actors?.includes(a.id))}
                   groups={groups.filter((g) => query.groups?.includes(g.id))}
                   groupsMembers={groupsMembers.filter((gm) =>

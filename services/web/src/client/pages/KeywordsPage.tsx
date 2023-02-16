@@ -20,14 +20,6 @@ const KeywordsPage: React.FC = () => {
         />
       </Box>
 
-      {/* <Box style={{ height: 600 }}>
-        <EventNetworkGraphBox
-          count={10}
-          groupBy="keyword"
-          includeEmptyRelations={false}
-        />
-      </Box> */}
-
       <KeywordsDistributionGraph
         onClick={(k) => {
           navigateTo.keywords({ id: k.id });

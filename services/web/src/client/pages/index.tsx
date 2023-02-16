@@ -1,4 +1,3 @@
-import { ACTORS } from "@liexp/shared/io/http/Actor";
 import { GROUPS } from "@liexp/shared/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
 import KeywordsDistributionGraph from "@liexp/ui/components/Graph/KeywordDistributionGraph";
@@ -42,9 +41,8 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
               }}
               type={KEYWORDS.value}
               query={{
-                groupBy: ACTORS.value,
                 startDate: subYears(new Date(), 2).toISOString(),
-                relation: GROUPS.value,
+                relations: [GROUPS.value],
               }}
               showFilter={false}
               onEventClick={(e) => {
@@ -72,9 +70,8 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
               }}
               type={KEYWORDS.value}
               query={{
-                groupBy: ACTORS.value,
                 startDate: subYears(new Date(), 2).toISOString(),
-                relation: GROUPS.value,
+                relations: [GROUPS.value],
               }}
               showFilter={false}
               onEventClick={(e) => {

@@ -49,6 +49,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
   [`& .${classes.drawer}`]: {
     width: drawerWidth,
+    height: '100%',
     flexShrink: 0,
   },
 
@@ -223,13 +224,14 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
         justifyContent="center"
         style={{
           height: "100%",
+          flexDirection: 'column',
+          flexWrap: 'nowrap'
         }}
       >
         <Grid container justifyContent="center">
           <EventsAppBar
             hash={hash}
             query={{ ...query, hash }}
-            tab={tab}
             actors={actors}
             groups={groups}
             groupsMembers={groupsMembers}
@@ -242,7 +244,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
         </Grid>
 
         <Grid item lg={12} xs={12} style={{ height: "100%" }}>
-          <EventsTimeline
+         <EventsTimeline
             hash={hash}
             queryParams={query}
             onClick={handleEventClick}

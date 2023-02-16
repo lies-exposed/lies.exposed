@@ -1,15 +1,14 @@
-import { getRelationIds } from "@liexp/shared/helpers/event/event";
-import { formatDate } from "@liexp/shared/utils/date";
-import { EventPageContent } from "@liexp/ui/components/EventPageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { Box, Grid } from "@liexp/ui/components/mui";
-import EventsBox from "@liexp/ui/containers/EventsBox";
 import { useEventQuery } from "@liexp/ui/state/queries/event.queries";
+import { EventTemplateUI } from "@liexp/ui/templates/EventTemplate";
+import { useRouteQuery } from "@liexp/ui/utils/history.utils";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 
 const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
   const navigateTo = useNavigateToResource();
+  const { tab: _tab = "0" } = useRouteQuery();
+  const tab = parseInt(_tab, 10);
 
   return (
     <QueriesRenderer
@@ -18,96 +17,36 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
         event: useEventQuery({ id: eventId }),
       }}
       render={({ event }) => {
-        const relationIds = getRelationIds(event);
-
         return (
-          <Box
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              margin: 20,
-              marginBottom: 100,
+          <EventTemplateUI
+            event={event}
+            tab={tab}
+            onTabChange={(tab) => {
+              navigateTo.events({ id: event.id }, { tab });
             }}
-          >
-            <EventPageContent
-              event={event}
-              onDateClick={(d) => {
-                navigateTo.events({}, { startDate: formatDate(d) });
-              }}
-              onGroupClick={(g) => {
-                navigateTo.groups({ id: g.id });
-              }}
-              onKeywordClick={(k) => {
-                navigateTo.keywords({ id: k.id }, {});
-              }}
-              onActorClick={(a) => {
-                navigateTo.actors({ id: a.id });
-              }}
-              onGroupMemberClick={(g) => {
-                navigateTo.actors({ id: g.actor.id });
-              }}
-              onLinkClick={() => {
-
-              }}
-              onAreaClick={(a) => {
-                navigateTo.areas({ id: a.id });
-              }}
-              onMediaClick={(m) => {
-                navigateTo.media({ id: m.id });
-              }}
-            />
-
-            <Grid container justifyContent="center">
-              {relationIds.keywords.length > 0 ? (
-                <Grid item lg={10} md={12} sm={12} xs={12}>
-                  <EventsBox
-                    title="More events by keywords"
-                    query={{
-                      keywords: relationIds.keywords,
-                      _start: 0,
-                      _end: 3,
-                      exclude: [event.id],
-                    }}
-                    onEventClick={(e) => {
-                      navigateTo.events({ id: e.id });
-                    }}
-                  />
-                </Grid>
-              ) : null}
-              {relationIds.actors.length > 0 ? (
-                <Grid item lg={10} md={12} sm={12} xs={12}>
-                  <EventsBox
-                    title="More events by actors"
-                    query={{
-                      actors: relationIds.actors,
-                      _start: 0,
-                      _end: 3,
-                      exclude: [event.id],
-                    }}
-                    onEventClick={(e) => {
-                      navigateTo.events({ id: e.id });
-                    }}
-                  />
-                </Grid>
-              ) : null}
-              {relationIds.groups.length > 0 ? (
-                <Grid item lg={10} md={12} sm={12} xs={12}>
-                  <EventsBox
-                    title="More events by groups"
-                    query={{
-                      groups: relationIds.groups,
-                      _start: 0,
-                      _end: 3,
-                      exclude: [event.id],
-                    }}
-                    onEventClick={(e) => {
-                      navigateTo.events({ id: e.id });
-                    }}
-                  />
-                </Grid>
-              ) : null}
-            </Grid>
-          </Box>
+            onDateClick={() => {}}
+            onActorClick={(a) => {
+              navigateTo.actors({ id: a.id }, { tab });
+            }}
+            onGroupClick={(a) => {
+              navigateTo.groups({ id: a.id }, { tab });
+            }}
+            onAreaClick={(a) => {
+              navigateTo.areas({ id: a.id }, { tab });
+            }}
+            onKeywordClick={(a) => {
+              navigateTo.keywords({ id: a.id }, { tab });
+            }}
+            onLinkClick={() => {
+              // navigateTo.actors({ id: a.id }, { tab });
+            }}
+            onMediaClick={(m) => {
+              navigateTo.media({ id: m.id }, { tab });
+            }}
+            onGroupMemberClick={(g) => {
+              navigateTo.actors({ id: g.actor.id });
+            }}
+          />
         );
       }}
     />

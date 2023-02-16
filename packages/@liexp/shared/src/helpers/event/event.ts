@@ -357,6 +357,39 @@ export const getRelationIds = (e: Events.Event): EventRelationIds => {
   }
 };
 
+export const takeEventRelations = (ev: Events.Event[]): EventRelationIds => {
+  return pipe(
+    ev.reduce(
+      (acc: EventRelationIds, e) => {
+        const { actors, keywords, groups, groupsMembers, media } =
+          getRelationIds(e);
+        return {
+          keywords: acc.keywords.concat(
+            keywords.filter((k) => !acc.keywords.includes(k))
+          ),
+          actors: acc.actors.concat(
+            actors.filter((a) => !acc.actors.includes(a))
+          ),
+          groups: acc.groups.concat(
+            groups.filter((g) => !acc.groups.includes(g))
+          ),
+          groupsMembers: acc.groupsMembers.concat(groupsMembers),
+          media: acc.media.concat(media),
+          links: [],
+        };
+      },
+      {
+        keywords: [],
+        groups: [],
+        actors: [],
+        groupsMembers: [],
+        media: [],
+        links: [],
+      }
+    )
+  );
+};
+
 export interface EventRelations {
   actors: Actor.Actor[];
   groups: Group.Group[];

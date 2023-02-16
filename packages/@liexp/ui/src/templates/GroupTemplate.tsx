@@ -1,4 +1,4 @@
-import { Actor, Group, Keyword } from "@liexp/shared/io/http";
+import { type Actor, Group, type Keyword } from "@liexp/shared/io/http";
 import { type SearchEvent } from "@liexp/shared/io/http/Events";
 import * as React from "react";
 import { GroupHierarchyEdgeBundlingGraph } from "../components/Graph/GroupHierarchyEdgeBundlingGraph";
@@ -63,8 +63,10 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
             <SplitPageTemplate
               tab={tab}
               onTabChange={onTabChange}
-              name={group.name}
-              avatar={group.avatar}
+              aside={{
+                name: group.name,
+                avatar: group.avatar,
+              }}
               tabs={[
                 {
                   label: "General",
@@ -109,11 +111,10 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
               <Box style={{ height: 600 }}>
                 <EventNetworkGraphBox
                   type={Group.GROUPS.value}
-                  id={group.id}
                   query={{
-                    groupBy: Actor.ACTORS.value,
+                    ids: [group.id],
                   }}
-                  relation={Keyword.KEYWORDS.value}
+                  relations={[]}
                   onActorClick={onActorClick}
                   onGroupClick={onGroupClick}
                   onKeywordClick={onKeywordClick}

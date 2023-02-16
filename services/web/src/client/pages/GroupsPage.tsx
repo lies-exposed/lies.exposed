@@ -67,7 +67,6 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
                   }}
                   type={GROUPS.value}
                   query={{
-                    groupBy: GROUPS.value,
                     startDate: subYears(new Date(), 2).toISOString(),
                   }}
                   showFilter={false}
@@ -83,7 +82,6 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
                   }}
                   type={GROUPS.value}
                   query={{
-                    groupBy: GROUPS.value,
                     startDate: subYears(new Date(), 2).toISOString(),
                   }}
                   showFilter={false}

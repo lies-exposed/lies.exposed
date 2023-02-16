@@ -3,12 +3,12 @@ import { GROUPS } from "@liexp/shared/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
 import {
   type GetNetworkQuery,
+  type NetworkGroupBy,
   type NetworkType,
 } from "@liexp/shared/io/http/Network";
 import { formatDate } from "@liexp/shared/utils/date";
 import { ParentSize } from "@visx/responsive";
-import subWeeks from "date-fns/subWeeks";
-import { type UUID } from "io-ts-types/UUID";
+import { parseISO, subWeeks } from "date-fns";
 import * as React from "react";
 import { type GetListParams } from "react-admin";
 import { type serializedType } from "ts-io-error/lib/Codec";
@@ -29,30 +29,27 @@ export interface EventNetworkGraphBoxProps
   > {
   count?: number;
   type: NetworkType;
-  relation?: NetworkType;
-  id: UUID;
+  relations?: NetworkGroupBy[];
   query: Partial<serializedType<typeof GetNetworkQuery>>;
   showFilter?: boolean;
 }
 
 export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
   count = 50,
-  query,
-  id,
+  query: { ids, startDate: _startDate, endDate: _endDate, ...query },
   type,
-  relation: _relation = query.groupBy,
+  relations: _relations = [KEYWORDS.value],
   showFilter = true,
   ...props
 }) => {
-  const [relation, setRelation] = React.useState<any>(
-    _relation ?? KEYWORDS.value
-  );
-  const [groupBy, setGroupBy] = React.useState<any>(
-    query.groupBy ?? KEYWORDS.value
-  );
+  const [relations, setRelation] = React.useState<NetworkGroupBy[]>(_relations);
+
   const [[startDate, endDate], setDateRange] = React.useState<
     [string | undefined, string | undefined]
-  >([formatDate(subWeeks(new Date(), 52)), formatDate(new Date())]);
+  >([
+    formatDate(_startDate ? parseISO(_startDate) : subWeeks(new Date(), 4)),
+    formatDate(_endDate ? parseISO(_endDate) : new Date()),
+  ]);
 
   return (
     <Box
@@ -72,24 +69,22 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
           />
 
           <Select
-            label={"Group By"}
-            value={groupBy}
-            size="small"
-            onChange={(e) => {
-              setGroupBy(e.target.value);
-            }}
-            style={{ marginLeft: 10 }}
-          >
-            <MenuItem value={ACTORS.value}>{ACTORS.value}</MenuItem>
-            <MenuItem value={KEYWORDS.value}>{KEYWORDS.value}</MenuItem>
-            <MenuItem value={GROUPS.value}>{GROUPS.value}</MenuItem>
-          </Select>
-          <Select
             label={"Relation"}
-            value={relation}
+            value={relations.map((id) => id)}
+            placeholder="Select.."
             size="small"
+            multiple
             onChange={(e) => {
-              setRelation(e.target.value);
+              setRelation((relations) => {
+                const idx = relations.findIndex((v) => v === e.target.value);
+                if (idx >= 0) {
+                  return relations.splice(idx, 1);
+                }
+                // return relations.concat(...(e.target.value as any[]));
+                return typeof e.target.value === "string"
+                  ? [e.target.value as any]
+                  : e.target.value;
+              });
             }}
           >
             <MenuItem value={ACTORS.value}>{ACTORS.value}</MenuItem>
@@ -102,11 +97,34 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
       <QueriesRenderer
         queries={{
           graph: useNetworkGraphQuery(
-            { id, type },
-            { ...query, relation, startDate, endDate, groupBy }
+            { type },
+            { ...query, ids, relations, startDate, endDate }
           ),
         }}
-        render={({ graph }) => {
+        render={({
+          graph: {
+            eventLinks,
+            actorLinks,
+            groupLinks,
+            keywordLinks,
+            selectedLinks,
+            events,
+            actors,
+            groups,
+            keywords,
+          },
+        }) => {
+          const nodes = events
+            .concat(actors.map((a) => ({ ...a, type: ACTORS.value })))
+            .concat(groups.map((g) => ({ ...g, type: GROUPS.value })))
+            .concat(keywords.map((k) => ({ ...k, type: KEYWORDS.value })));
+
+          const links = eventLinks
+          .concat(selectedLinks)
+            .concat(actorLinks)
+            .concat(groupLinks)
+            .concat(keywordLinks);
+
           return (
             <ParentSize
               debounceTime={1000}
@@ -120,7 +138,7 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
                     actors={[]}
                     groups={[]}
                     keywords={[]}
-                    graph={graph}
+                    graph={{ nodes, links }}
                     width={width}
                     height={height}
                     scale="all"
@@ -153,7 +171,10 @@ export const EventsNetworkGraphBoxWithQuery: React.FC<
       render={({ items: { data } }) => {
         return (
           <Box style={{ height: 600 }}>
-            <EventNetworkGraphBox {...props} id={data[0].id} query={query} />
+            <EventNetworkGraphBox
+              {...props}
+              query={{ ...query, id: data[0].id }}
+            />
           </Box>
         );
       }}

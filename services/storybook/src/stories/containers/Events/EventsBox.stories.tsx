@@ -5,7 +5,7 @@ import { type Meta, type Story } from "@storybook/react/types-6-0";
 import * as React from 'react';
 
 const meta: Meta = {
-  title: "Components/containers/Events/EventsBox",
+  title: "Containers/Events/EventsBox",
   component: EventsBox,
 };
 

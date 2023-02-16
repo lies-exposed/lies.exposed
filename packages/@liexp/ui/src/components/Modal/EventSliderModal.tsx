@@ -219,7 +219,6 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
                   <EventsAppBarMinimized
                     className={classes.eventsAppBar}
                     query={query}
-                    tab={0}
                     current={appBarCurrent}
                     open={false}
                     totals={totals}

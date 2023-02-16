@@ -26,7 +26,7 @@ import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
 import ArrowDownIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpIcon from "@mui/icons-material/ArrowUpward";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import {clsx} from "clsx";
+import { clsx } from "clsx";
 import * as R from "fp-ts/Record";
 import { pipe } from "fp-ts/function";
 import * as S from "fp-ts/string";
@@ -37,7 +37,7 @@ import { ActorList } from "../lists/ActorList";
 import GroupList from "../lists/GroupList";
 import { GroupsMembersList } from "../lists/GroupMemberList";
 import KeywordList from "../lists/KeywordList";
-import { Box, IconButton, Typography } from "../mui";
+import { Box, Grid, IconButton, Typography } from "../mui";
 import { EventTypeFilters } from "./EventTypeFilters";
 
 const PREFIX = "events-app-bar-minimized";
@@ -46,14 +46,15 @@ const classes = {
   dateRangeBox: `${PREFIX}-date-range-box`,
 };
 
-const StyledBox = styled(Box)(({ theme }) => ({
+const StyledGrid = styled(Grid)(({ theme }) => ({
   [`&.${classes.root}`]: {
     display: "flex",
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
+    flexWrap: "wrap",
     [theme.breakpoints.down("sm")]: {
-      flexDirection: "column",
+      flexDirection: "row",
     },
   },
   [`& .${classes.dateRangeBox}`]: {
@@ -69,14 +70,13 @@ const StyledBox = styled(Box)(({ theme }) => ({
 interface EventsAppBarMinimizedProps {
   className?: string;
   query: SearchEventsQueryInputNoPagination;
-  tab: number;
   current?: number;
   totals: EventTotals;
   actors: Actor.Actor[];
   groups: Group.Group[];
   keywords: Keyword.Keyword[];
   groupsMembers: GroupMember.GroupMember[];
-  onQueryChange: (e: SearchEventsQueryInputNoPagination, tab: number) => void;
+  onQueryChange: (e: SearchEventsQueryInputNoPagination) => void;
   onQueryClear: () => void;
   open: boolean;
 }
@@ -85,7 +85,6 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
   className,
   open: isExpanded,
   query,
-  tab,
   actors,
   groups,
   keywords,
@@ -186,13 +185,10 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
         .map(([enabled, key]: any[]) => (enabled ? key : undefined))
         .filter((a) => a !== undefined);
 
-      onQueryChange(
-        {
-          ...query,
-          type,
-        },
-        tab
-      );
+      onQueryChange({
+        ...query,
+        type,
+      });
     },
     [query]
   );
@@ -238,13 +234,10 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
         }}
         onClick={(e) => {
           e.stopPropagation();
-          onQueryChange(
-            {
-              ...query,
-              _order: query._order === "DESC" ? "ASC" : "DESC",
-            },
-            tab
-          );
+          onQueryChange({
+            ...query,
+            _order: query._order === "DESC" ? "ASC" : "DESC",
+          });
         }}
         size="large"
       >
@@ -277,13 +270,10 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
       }}
       actors={actors.map((a) => ({ ...a, selected: true }))}
       onActorClick={(gms) => {
-        onQueryChange(
-          {
-            actors: query.actors?.filter((g) => g !== gms.id),
-            ...query,
-          },
-          tab
-        );
+        onQueryChange({
+          actors: query.actors?.filter((g) => g !== gms.id),
+          ...query,
+        });
       }}
     />
   );
@@ -297,13 +287,10 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
       groups={groups.map((g) => ({ ...g, selected: true }))}
       onItemClick={(g) => {
         if (isExpanded) {
-          onQueryChange(
-            {
-              ...query,
-              groups: query.groups?.filter((gg) => gg !== g.id),
-            },
-            tab
-          );
+          onQueryChange({
+            ...query,
+            groups: query.groups?.filter((gg) => gg !== g.id),
+          });
         }
       }}
     />
@@ -318,14 +305,11 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
       keywords={keywords.map((k) => ({ ...k, selected: true }))}
       onItemClick={(k) => {
         if (isExpanded) {
-          onQueryChange(
-            {
-              ...query,
+          onQueryChange({
+            ...query,
 
-              keywords: query.keywords?.filter((kk) => kk !== k.id),
-            },
-            tab
-          );
+            keywords: query.keywords?.filter((kk) => kk !== k.id),
+          });
         }
       }}
     />
@@ -336,51 +320,66 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
       groupsMembers={groupsMembers.map((g) => ({ ...g, selected: true }))}
       onItemClick={(gm) => {
         if (isExpanded) {
-          onQueryChange(
-            {
-              ...query,
-              groupsMembers: query.groupsMembers?.filter((g) => gm.id !== g),
-            },
-            tab
-          );
+          onQueryChange({
+            ...query,
+            groupsMembers: query.groupsMembers?.filter((g) => gm.id !== g),
+          });
         }
       }}
     />
   );
 
   return (
-    <StyledBox className={clsx(classes.root, className)}>
-      {dateRangeBox}
-      <EventTypeFilters
-        filters={filters}
-        totals={totals}
-        onChange={handleFilterChange}
-      />
+    <StyledGrid className={clsx(classes.root, className)}>
+      <Grid
+        item
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "baseline",
+        }}
+      >
+        {dateRangeBox}
+        <EventTypeFilters
+          filters={filters}
+          totals={totals}
+          onChange={handleFilterChange}
+        />
+      </Grid>
+
       {actors.length > 0 || groups.length > 0 || keywords.length > 0 ? (
-        <Box
+        <Grid
+          item
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
-            width: "100%",
+            flexWrap: "wrap",
+            flexGrow: 1,
+            flexShrink: 0,
           }}
         >
           {keywordList}
           {actorsList}
           {groupsList}
           {groupsMembersList}
-          <Box
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              marginRight: 20,
-            }}
-          >
-            {clearButton}
-          </Box>
-        </Box>
+        </Grid>
       ) : null}
-      {eventTotal}
-    </StyledBox>
+      <Grid
+        item
+        style={{ display: "flex", flexDirection: "row", flexShrink: 0 }}
+      >
+        <Box
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginRight: 20,
+          }}
+        >
+          {clearButton}
+        </Box>
+        {eventTotal}
+      </Grid>
+    </StyledGrid>
   );
 };

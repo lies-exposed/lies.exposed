@@ -1,24 +1,15 @@
 import { type MediaType } from "@liexp/shared/io/http/Media";
-import {
-  ActorPageContent,
-  ActorPageContentProps,
-} from "@liexp/ui/components/ActorPageContent";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import MediaElement, {
   type MediaElementProps,
 } from "@liexp/ui/components/Media/MediaElement";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import {
-  useActorQuery,
-  useActorsQuery,
-} from "@liexp/ui/state/queries/actor.queries";
-import { useGroupsQuery } from "@liexp/ui/state/queries/groups.queries";
 import { useMediaQuery } from "@liexp/ui/state/queries/media.queries";
 import { type Meta, type Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 
 const meta: Meta = {
-  title: "Media/MediaElement",
+  title: "Components/Media/MediaElement",
   component: MediaElement,
 };
 
