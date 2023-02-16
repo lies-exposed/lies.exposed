@@ -1,8 +1,8 @@
-import {fp} from '@liexp/core/fp'
-import { type Logger } from '@liexp/core/logger';
+import { fp } from "@liexp/core/fp";
+import { type Logger } from "@liexp/core/logger";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
-import type * as TE from 'fp-ts/TaskEither';
+import type * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 
 export const traverseArrayOfE = <A, E, B>(
@@ -32,7 +32,9 @@ export const walkPaginatedRequest =
         apiReqFn({ skip, amount }),
         fp.TE.mapLeft((e) => ({
           ...e,
-          message: `Failed with skip(${skip}) and amount(${amount}): ${JSON.stringify(e)}`,
+          message: `Failed with skip(${skip}) and amount(${amount}): ${JSON.stringify(
+            e
+          )}`,
         })),
         fp.TE.chain((r) => {
           // logger.debug('Response: %o', r);

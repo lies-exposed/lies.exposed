@@ -1,5 +1,6 @@
 import * as t from "io-ts";
 import { BooleanFromString } from "io-ts-types/BooleanFromString";
+import { DateFromISOString } from "io-ts-types/DateFromISOString";
 import { UUID } from "io-ts-types/UUID";
 import { nonEmptyArray } from "io-ts-types/nonEmptyArray";
 import { optionFromNullable } from "io-ts-types/optionFromNullable";
@@ -56,6 +57,8 @@ export const NetworkGraphOutput = t.strict(
     actorLinks: t.array(t.any),
     groupLinks: t.array(t.any),
     keywordLinks: t.array(t.any),
+    startDate: DateFromISOString,
+    endDate: DateFromISOString,
   },
   "NetworkGraphOutput"
 );

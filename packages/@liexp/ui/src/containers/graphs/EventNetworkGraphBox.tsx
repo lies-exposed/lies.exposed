@@ -8,7 +8,7 @@ import {
 } from "@liexp/shared/io/http/Network";
 import { formatDate } from "@liexp/shared/utils/date";
 import { ParentSize } from "@visx/responsive";
-import { parseISO, subWeeks } from "date-fns";
+import { differenceInDays, parseISO, subWeeks } from "date-fns";
 import * as React from "react";
 import { type GetListParams } from "react-admin";
 import { type serializedType } from "ts-io-error/lib/Codec";
@@ -44,12 +44,12 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
 }) => {
   const [relations, setRelation] = React.useState<NetworkGroupBy[]>(_relations);
 
-  const [[startDate, endDate], setDateRange] = React.useState<
-    [string | undefined, string | undefined]
-  >([
-    formatDate(_startDate ? parseISO(_startDate) : subWeeks(new Date(), 4)),
-    formatDate(_endDate ? parseISO(_endDate) : new Date()),
-  ]);
+  const [[startDate, endDate], setDateRange] = React.useState<[string, string]>(
+    [
+      formatDate(_startDate ? parseISO(_startDate) : subWeeks(new Date(), 4)),
+      formatDate(_endDate ? parseISO(_endDate) : new Date()),
+    ]
+  );
 
   return (
     <Box
@@ -64,7 +64,7 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
             from={startDate}
             to={endDate}
             onDateRangeChange={([from, to]) => {
-              setDateRange([from, to]);
+              setDateRange([from ?? startDate, to ?? endDate]);
             }}
           />
 
@@ -112,19 +112,47 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
             actors,
             groups,
             keywords,
+            // startDate,
+            // endDate,
           },
         }) => {
-          const nodes = events
-            .concat(actors.map((a) => ({ ...a, type: ACTORS.value })))
-            .concat(groups.map((g) => ({ ...g, type: GROUPS.value })))
-            .concat(keywords.map((k) => ({ ...k, type: KEYWORDS.value })));
+          const filteredEvents = events.filter((e) => {
+            const min = differenceInDays(parseISO(e.date), parseISO(startDate));
+            const max = differenceInDays(parseISO(endDate), parseISO(e.date));
 
-          const links = eventLinks
-          .concat(selectedLinks)
+            return min >= 0 && max >= 0;
+          });
+
+          const nodeIds = filteredEvents.map((e) => e.id);
+
+          const relationLinks = selectedLinks
             .concat(actorLinks)
             .concat(groupLinks)
-            .concat(keywordLinks);
+            .concat(keywordLinks)
+            .filter(
+              (l) => nodeIds.includes(l.target) || nodeIds.includes(l.source)
+            );
 
+          const relationNodes = actors
+            .map((a): any => ({ ...a, type: ACTORS.value }))
+            .concat(groups.map((g) => ({ ...g, type: GROUPS.value })))
+            .concat(keywords.map((k) => ({ ...k, type: KEYWORDS.value })))
+            .filter(
+              (r) =>
+                // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+                ids?.includes(r.id) ||
+                relationLinks.some(
+                  (l) => r.id === l.target || r.id === l.source
+                )
+            );
+
+          const links = eventLinks
+            .filter(
+              (l) => nodeIds.includes(l.target) && nodeIds.includes(l.source)
+            )
+            .concat(relationLinks);
+
+          const nodes = filteredEvents.concat(relationNodes);
           return (
             <ParentSize
               debounceTime={1000}
@@ -138,7 +166,7 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
                     actors={[]}
                     groups={[]}
                     keywords={[]}
-                    graph={{ nodes, links }}
+                    graph={{ nodes: [...nodes], links: [...links] }}
                     width={width}
                     height={height}
                     scale="all"

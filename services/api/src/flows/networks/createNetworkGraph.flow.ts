@@ -26,7 +26,7 @@ import {
   type NetworkType,
 } from "@liexp/shared/io/http/Network";
 import { type EventNetworkDatum } from "@liexp/shared/io/http/Network/networks";
-import { distanceFromNow, parseISO } from "@liexp/shared/utils/date";
+import { distanceFromNow } from "@liexp/shared/utils/date";
 import { GetEncodeUtils } from "@liexp/shared/utils/encode.utils";
 import { walkPaginatedRequest } from "@liexp/shared/utils/fp.utils";
 import { differenceInHours } from "date-fns";
@@ -49,20 +49,10 @@ import { type RouteContext } from "@routes/route.types";
 
 const uniqueId = GetEncodeUtils<
   {
-    startDate: O.Option<string>;
-    endDate: O.Option<string>;
     ids: UUID[];
   },
-  { startDate: string; endDate: string; ids: string }
->(({ startDate, endDate, ids }) => ({
-  startDate: pipe(
-    startDate,
-    O.getOrElse(() => "")
-  ),
-  endDate: pipe(
-    endDate,
-    O.getOrElse(() => "")
-  ),
+  { ids: string }
+>(({ ids }) => ({
   ids: ids.join(","),
 }));
 export interface NetworkLink {
@@ -249,23 +239,47 @@ export const getEventGraph = (
         selectedLinks: [...acc.selectedLinks, ...selectedLinks],
       };
     }),
-    ({ eventNodes, actorLinks, groupLinks, keywordLinks, ...r }) => ({
-      ...r,
-      actorLinks: fp.Map.toArray(S.Ord)(actorLinks).flatMap(
-        ([_k, links]) => links
-      ),
-      groupLinks: fp.Map.toArray(S.Ord)(groupLinks).flatMap(
-        ([_k, links]) => links
-      ),
-      keywordLinks: fp.Map.toArray(S.Ord)(keywordLinks).flatMap(
-        ([_k, links]) => links
-      ),
-      events: eventNodes,
-      actors: allActors,
-      groups: allGroups,
-      keywords: allKeywords,
-      media: [],
-    })
+    ({ eventNodes, actorLinks, groupLinks, keywordLinks, ...r }) => {
+      const dateRange = pipe(
+        eventNodes,
+        A.foldMap({
+          empty: {
+            startDate: new Date(),
+            endDate: new Date(),
+          },
+          concat: (x, y) => ({
+            startDate: new Date(
+              Math.min(x.startDate.getTime(), y.startDate.getTime())
+            ),
+            endDate: new Date(
+              Math.max(x.endDate.getTime(), y.endDate.getTime())
+            ),
+          }),
+        })((f) => ({
+          startDate: f.date,
+          endDate: f.date,
+        }))
+      );
+
+      return {
+        ...r,
+        actorLinks: fp.Map.toArray(S.Ord)(actorLinks).flatMap(
+          ([_k, links]) => links
+        ),
+        groupLinks: fp.Map.toArray(S.Ord)(groupLinks).flatMap(
+          ([_k, links]) => links
+        ),
+        keywordLinks: fp.Map.toArray(S.Ord)(keywordLinks).flatMap(
+          ([_k, links]) => links
+        ),
+        events: eventNodes,
+        actors: allActors,
+        groups: allGroups,
+        keywords: allKeywords,
+        ...dateRange,
+        media: [],
+      };
+    }
   );
 };
 
@@ -304,7 +318,7 @@ export const createNetworkGraph =
       endDate,
     }: GetNetworkQuery
   ): TE.TaskEither<ControllerError, NetworkGraphOutput> => {
-    const networkId = uniqueId.hash({ startDate, endDate, ids });
+    const networkId = uniqueId.hash({ ids });
     const filePath = path.resolve(
       process.cwd(),
       `temp/networks/${type}/${networkId}.json`
@@ -377,8 +391,8 @@ export const createNetworkGraph =
                 actors: type === ACTORS.value ? O.some(ids) : O.none,
                 groups: type === GROUPS.value ? O.some(ids) : O.none,
                 keywords: type === KEYWORDS.value ? O.some(ids) : O.none,
-                startDate: pipe(startDate, O.map(parseISO)),
-                endDate: pipe(endDate, O.map(parseISO)),
+                startDate: O.none,
+                endDate: O.none,
                 skip,
                 take: amount,
                 order: { date: "DESC" },
