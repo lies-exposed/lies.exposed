@@ -69,7 +69,6 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
                 { label: "Events" },
                 { label: "Media" },
                 { label: "Links" },
-                // { label: "Hierarchy" },
                 { label: "Networks" },
               ]}
               resource={{

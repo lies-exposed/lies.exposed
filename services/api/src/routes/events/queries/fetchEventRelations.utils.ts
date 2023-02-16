@@ -153,45 +153,53 @@ export const fetchRelations =
     ctx.logger.debug.log("Keywords %O", input.keywords);
 
     return sequenceS(fp.TE.ApplicativePar)({
-      actors: pipe(
-        fetchActors(ctx)({
-          ids: input.actors,
-          _end: pipe(
-            input.actors,
-            fp.O.map((a) => a.length as any)
-          ),
-        }),
-        fp.TE.map((r) => r.results)
-      ),
-      groups: pipe(
-        fetchGroups(ctx)({
-          ids: input.groups,
-          _end: pipe(
-            input.groups,
-            fp.O.map((a) => a.length as any)
-          ),
-        }),
-        fp.TE.map(([results]) => results)
-      ),
-      keywords: pipe(
-        fetchKeywords(ctx)({
-          ids: input.keywords,
-          _end: pipe(
-            input.keywords,
-            fp.O.map((a) => a.length as any)
-          ),
-        }),
-        fp.TE.map(([results]) => results)
-      ),
-      media: pipe(
-        fetchManyMedia(ctx)({
-          ids: input.media,
-          _end: pipe(
-            input.media,
-            fp.O.map((m) => m.length as any)
-          ),
-        }),
-        fp.TE.map(([results]) => results)
-      ),
+      actors: O.isSome(input.actors)
+        ? pipe(
+            fetchActors(ctx)({
+              ids: input.actors,
+              _end: pipe(
+                input.actors,
+                fp.O.map((a) => a.length as any)
+              ),
+            }),
+            fp.TE.map((r) => r.results)
+          )
+        : TE.right([]),
+      groups: O.isSome(input.groups)
+        ? pipe(
+            fetchGroups(ctx)({
+              ids: input.groups,
+              _end: pipe(
+                input.groups,
+                fp.O.map((a) => a.length as any)
+              ),
+            }),
+            fp.TE.map(([results]) => results)
+          )
+        : TE.right([]),
+      keywords: O.isSome(input.keywords)
+        ? pipe(
+            fetchKeywords(ctx)({
+              ids: input.keywords,
+              _end: pipe(
+                input.keywords,
+                fp.O.map((a) => a.length as any)
+              ),
+            }),
+            fp.TE.map(([results]) => results)
+          )
+        : TE.right([]),
+      media: O.isSome(input.media)
+        ? pipe(
+            fetchManyMedia(ctx)({
+              ids: input.media,
+              _end: pipe(
+                input.media,
+                fp.O.map((m) => m.length as any)
+              ),
+            }),
+            fp.TE.map(([results]) => results)
+          )
+        : TE.right([]),
     });
   };
