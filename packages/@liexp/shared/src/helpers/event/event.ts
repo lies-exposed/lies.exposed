@@ -150,13 +150,13 @@ export const ordEventDate = Ord.ord.contramap(
 );
 
 const colorMap: Record<Events.Event["type"], string> = {
-  Death: "black",
-  ScientificStudy: "lightblue",
-  Uncategorized: "grey",
-  Patent: "purple",
-  Documentary: "orange",
-  Transaction: "green",
-  Quote: "brown",
+  Death: "#000",
+  ScientificStudy: "#e43a01",
+  Uncategorized: "#ccc111",
+  Patent: "#e873aa",
+  Documentary: "#981a1a",
+  Transaction: "#ba91ed",
+  Quote: "#ec0e5a",
 };
 export const getColorByEventType = ({
   type,

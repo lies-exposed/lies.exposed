@@ -2,47 +2,45 @@ import * as fs from "fs";
 import path from "path";
 import { fp } from "@liexp/core/fp";
 import {
-  eqByUUID,
+  getColorByEventType,
   getEventsMetadata,
-  takeEventRelations
+  getRelationIds,
 } from "@liexp/shared/helpers/event/event";
 import { getTitleForSearchEvent } from "@liexp/shared/helpers/event/getTitle.helper";
 import { toSearchEvent } from "@liexp/shared/helpers/event/search-event";
 import {
   type Actor,
-  type Common,
   type Group,
   type Keyword,
-  type Media
+  type Media,
 } from "@liexp/shared/io/http";
 import { ACTORS } from "@liexp/shared/io/http/Actor";
 import { type SearchEvent } from "@liexp/shared/io/http/Events";
 import { GROUPS } from "@liexp/shared/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
 import {
+  type NetworkGraphOutput,
   type GetNetworkQuery,
   type NetworkGroupBy,
-  type NetworkType
+  type NetworkType,
 } from "@liexp/shared/io/http/Network";
 import { type EventNetworkDatum } from "@liexp/shared/io/http/Network/networks";
-import { distanceFromNow, parseISO } from "@liexp/shared/utils/date";
-import { walkPaginatedRequest } from "@liexp/shared/utils/fp.utils";
+import { distanceFromNow } from "@liexp/shared/utils/date";
 import { differenceInHours } from "date-fns";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { sequenceS } from "fp-ts/lib/Apply";
-import { type NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
+import { type Monoid } from "fp-ts/lib/Monoid";
 import { pipe } from "fp-ts/lib/function";
-import * as S from "fp-ts/string";
 import { type UUID } from "io-ts-types/lib/UUID";
-import { In } from "typeorm";
+import { Equal } from "typeorm";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { toControllerError, type ControllerError } from "@io/ControllerError";
 import { toActorIO } from "@routes/actors/actor.io";
 import { toEventV2IO } from "@routes/events/eventV2.io";
 import { fetchRelations } from "@routes/events/queries/fetchEventRelations.utils";
-import { searchEventV2Query } from "@routes/events/queries/searchEventsV2.query";
+import { infiniteSearchEventQuery } from "@routes/events/queries/searchEventsV2.query";
 import { toGroupIO } from "@routes/groups/group.io";
 import { toKeywordIO } from "@routes/keywords/keyword.io";
 import { toImageIO } from "@routes/media/media.io";
@@ -57,65 +55,6 @@ interface NetworkLink {
   sourceType: NetworkType;
 }
 
-const updateMap =
-  <F extends Common.BaseProps>(acc: Map<string, F>) =>
-  (items: F[]): Map<string, F> => {
-    return pipe(
-      items,
-      A.reduce(acc, (r, t) => {
-        if (fp.Map.elem(eqByUUID)(t, r)) {
-          return r;
-        }
-        return fp.Map.upsertAt(S.Eq)(t.id, t)(r);
-      })
-    );
-  };
-
-const getLinks =
-  (
-    nodes: EventNetworkDatum[],
-    relationLinks: Map<string, NetworkLink[]>,
-    relationType: NetworkType,
-    type: NetworkType
-    // id: UUID
-  ) =>
-  (
-    relations: Array<Common.BaseProps & { color: string }>
-  ): Map<string, NetworkLink[]> => {
-    return pipe(
-      nodes,
-      A.reduce(relationLinks, (acc, p) => {
-        const newLinks = pipe(
-          relations,
-          A.reduce(acc, (acc1, relation) => {
-            const eventLinks: NetworkLink[] = [
-              // {
-              //   source: relation.id,
-              //   sourceType: relationType,
-              //   target: id,
-              //   value: 1,
-              //   stroke: `#${relation.color}`,
-              //   fill: `#${relation.color}`,
-              // },
-              {
-                source: p.id,
-                sourceType: "events" as any,
-                target: relation.id,
-                stroke: `#${relation.color}`,
-                fill: `#${relation.color}`,
-                value: 1,
-              },
-            ];
-
-            return pipe(acc1, fp.Map.upsertAt(S.Eq)(relation.id, eventLinks));
-          })
-        );
-
-        return newLinks;
-      })
-    );
-  };
-
 interface GetEventGraphOpts {
   events: SearchEvent.SearchEvent[];
   actors: Actor.Actor[];
@@ -128,21 +67,18 @@ interface GetEventGraphOpts {
 
 const getEventGraph =
   (ctx: RouteContext) =>
-  (
-    type: NetworkType,
-    {
-      events,
-      actors: allActors,
-      groups: allGroups,
-      keywords: allKeywords,
-      media: allMedia,
-      relation,
-      emptyRelations,
-    }: GetEventGraphOpts
-  ): Result => {
+  ({
+    events,
+    actors: allActors,
+    groups: allGroups,
+    keywords: allKeywords,
+    media: allMedia,
+    relation,
+    emptyRelations,
+  }: GetEventGraphOpts): NetworkGraphOutput => {
     return pipe(
       events,
-      A.reduce(initialResult, (acc, e) => {
+      A.reduceWithIndex(initialResult, (index, acc, e) => {
         // get topic from relative directory
 
         const {
@@ -154,47 +90,89 @@ const getEventGraph =
 
         const eventTitle = getTitleForSearchEvent(e);
 
-        const nonEmptyEventActors = pipe(
+        const actorLinks = pipe(
           eventActors,
           O.fromPredicate((aa) => (emptyRelations ? true : aa.length > 0)),
           O.map((aa) =>
             allActors.filter((a) => aa.some((aa) => aa.id === a.id))
           ),
-          O.filter(A.isNonEmpty)
+          O.filter(A.isNonEmpty),
+          O.map((aa) =>
+            pipe(
+              aa,
+              A.map((a): NetworkLink[] => [
+                // {
+                //   source: a.id,
+                //   target: e.id,
+                //   fill: `#${a.color}`,
+                //   stroke: `#${a.color}`,
+                //   sourceType: ACTORS.value,
+                //   value: 0,
+                // },
+              ]),
+              A.reduce(acc.actorLinks, (acc, i) => acc.concat(i))
+            )
+          ),
+          O.getOrElse((): NetworkLink[] => acc.actorLinks)
         );
 
-        const nonEmptyEventGroups = pipe(
+        const groupLinks = pipe(
           eventGroups,
           O.fromPredicate((gg) => (emptyRelations ? true : gg.length > 0)),
           O.map((gg) =>
             allGroups.filter((a) => gg.some((aa) => aa.id === a.id))
           ),
-          O.filter(A.isNonEmpty)
+          O.filter(A.isNonEmpty),
+          O.map((aa) =>
+            pipe(
+              aa,
+              A.map((a): NetworkLink[] => [
+                // {
+                //   source: a.id,
+                //   target: e.id,
+                //   fill: `#${a.color}`,
+                //   stroke: `#${a.color}`,
+                //   sourceType: GROUPS.value,
+                //   value: 0,
+                // },
+              ]),
+              A.reduce(acc.groupLinks, (acc, i) => acc.concat(i))
+            )
+          ),
+          O.getOrElse((): NetworkLink[] => acc.groupLinks)
         );
 
-        const nonEmptyEventKeywords = pipe(
+        const keywordLinks = pipe(
           eventKeywords,
           O.fromPredicate((gg) => (emptyRelations ? true : gg.length > 0)),
           O.map((gg) =>
             allKeywords.filter((a) => gg.some((aa) => aa.id === a.id))
           ),
-          O.filter(A.isNonEmpty)
+          O.filter(A.isNonEmpty),
+          O.map((aa) =>
+            pipe(
+              aa,
+              A.map((a): NetworkLink[] => [
+                // {
+                //   source: a.id,
+                //   target: e.id,
+                //   fill: `#${a.color}`,
+                //   stroke: `#${a.color}`,
+                //   sourceType: KEYWORDS.value,
+                //   value: 0,
+                // },
+              ]),
+              A.reduce(acc.keywordLinks, (acc, i) => acc.concat(i))
+            )
+          ),
+          O.getOrElse((): NetworkLink[] => acc.keywordLinks)
         );
 
         // console.log({ filteredEventActors, filteredEventGroups });
 
-        const relationByEventList: O.Option<
-          NonEmptyArray<Keyword.Keyword | Group.Group | Actor.Actor>
-        > =
-          relation === GROUPS.value
-            ? nonEmptyEventGroups
-            : relation === ACTORS.value
-            ? nonEmptyEventActors
-            : nonEmptyEventKeywords;
-
         const featuredImage = pipe(
           eventMedia,
-          fp.A.map((m) => m.thumbnail),
+          fp.A.map((m) => m?.thumbnail),
           fp.A.filter((m) => m !== undefined),
           fp.A.head,
           fp.O.toUndefined
@@ -218,318 +196,146 @@ const getEventGraph =
           },
         ];
 
-        // console.log(
-        //   "event actors",
-        //   eventActors
-        // );
+        let evLinks: NetworkLink[] = [];
+        if (index > 0) {
+          const sourceEv = acc.eventNodes[index - 1];
+          evLinks = [
+            {
+              source: sourceEv.id,
+              target: e.id,
+              sourceType: "events",
+              stroke: getColorByEventType({
+                type: sourceEv.type,
+              }),
+              fill: getColorByEventType({
+                type: sourceEv.type,
+              }),
+              value: 0.5,
+            },
+          ];
+        }
 
-        const actors = pipe(
-          nonEmptyEventActors,
-          O.getOrElse((): Actor.Actor[] => []),
-          updateMap(acc.actors)
-        );
-
-        // console.log("actors", actors);
-
-        const groups = pipe(
-          nonEmptyEventGroups,
-          O.getOrElse((): Group.Group[] => []),
-          updateMap(acc.groups)
-        );
-
-        // console.log("groups", groups);
-
-        // console.log("event keywords", nonEmptyEventKeywords);
-
-        const keywords = pipe(
-          nonEmptyEventKeywords,
-          O.getOrElse((): Keyword.Keyword[] => []),
-          updateMap(acc.keywords)
-        );
-
-        // console.log("keywords", keywords);
-
-        // const groupByItems = updateMap(acc.groupByItems)(groupByEventList);
-
-        // const groupByLinks = pipe(groupByEventList, (items: GroupByItem[]) => {
-        //   const emptyMap: Map<string, NetworkLink[]> = Map.empty;
-        //   return pipe(
-        //     items.map((item) =>
-        //       getLinks, type, id(
-        //         eventNodes.filter(
-        //           (e) =>
-        //             e.data.groupBy.findIndex((tt) => tt.id === item.id) === 0
-        //         ),
-        //         acc.groupByLinks
-        //       )([])
-        //     ),
-        //     A.reduce(emptyMap, (mm, m) => {
-        //       return pipe(
-        //         m,
-        //         Map.keys(Ord.ordString),
-        //         A.reduce(mm, (acc, key) => {
-        //           return pipe(
-        //             Map.lookup(Eq.eqString)(key, m),
-        //             O.map((mapLinks) =>
-        //               pipe(
-        //                 Map.lookup(Eq.eqString)(key, acc),
-        //                 O.map((accLinks) => [...accLinks, ...mapLinks]),
-        //                 O.getOrElse(() => mapLinks),
-        //                 (links) => Map.insertAt(Eq.eqString)(key, links)(acc)
-        //               )
-        //             ),
-        //             O.getOrElse((): Map<string, NetworkLink[]> => acc)
-        //           );
-        //         })
-        //       );
-        //     })
-        //   );
-        // });
-
-        // console.log('actor links in acc', acc.actorLinks);
-        const actorLinks: any = pipe(
-          nonEmptyEventActors,
-          O.getOrElse((): Actor.Actor[] => []),
-          getLinks(eventNodes, acc.actorLinks, ACTORS.value, type)
-        );
-
-        // console.log('actor links', actorLinks);
-
-        const groupLinks = pipe(
-          nonEmptyEventGroups,
-          O.getOrElse((): Group.Group[] => []),
-          getLinks(eventNodes, acc.groupLinks, GROUPS.value, type)
-        );
-
-        const keywordLinks = pipe(
-          nonEmptyEventKeywords,
-          O.getOrElse((): Keyword.Keyword[] => []),
-          getLinks(eventNodes, acc.keywordLinks, KEYWORDS.value, type)
-        );
-
-        const relationLinks = pipe(
-          relationByEventList,
-          O.map((arr) =>
-            pipe(
-              arr,
-              A.reduce([] as NetworkLink[], (linkAcc, item) => {
-                const sourceLinkIndex = acc.eventLinks.findIndex(
-                  (l) => l.target === item.id
-                );
-
-                if (sourceLinkIndex > -1) {
-                  acc.eventLinks[sourceLinkIndex] = {
-                    ...acc.eventLinks[sourceLinkIndex],
-                    value: acc.eventLinks[sourceLinkIndex].value + 1,
-                  };
-                }
-
-                // } else {
-                //   linkAcc.push({
-                //     source: id,
-                //     sourceType: relation,
-                //     target: item.id,
-                //     fill: `#${item.color}`,
-                //     stroke: `#${item.color}`,
-                //     value: 1,
-                //   });
-                // }
-
-                return linkAcc.concat(
-                  ...[
-                    {
-                      source: item.id,
-                      sourceType: relation,
-                      target: e.id,
-                      fill: `#${item.color}`,
-                      stroke: `#${item.color}`,
-                      value: 1,
-                    },
-                  ]
-                );
-              })
-            )
-          ),
-          O.getOrElse((): NetworkLink[] => [])
-        );
-
-        // ctx.logger.debug.log("Event links %O", links);
-
-        // const eventNodesToAdd = eventNodes;
-
-        const evNodes: any[] = [...acc.eventNodes, ...eventNodes];
+        const evNodes = [...acc.eventNodes, ...eventNodes];
 
         return {
           eventNodes: evNodes,
-          eventLinks: [...acc.eventLinks, ...relationLinks],
-          actors,
+          eventLinks: [...acc.eventLinks, ...evLinks],
           actorLinks,
-          groups,
           groupLinks,
-          keywords,
           keywordLinks,
-          selectedEvents: [...acc.selectedEvents, e.id],
+          selectedLinks: acc.selectedLinks,
         };
-      })
+      }),
+      ({ eventNodes, ...r }) => {
+        const dateRange = pipe(
+          eventNodes,
+          A.foldMap({
+            empty: {
+              startDate: new Date(),
+              endDate: new Date(),
+            },
+            concat: (x, y) => ({
+              startDate: new Date(
+                Math.min(x.startDate.getTime(), y.startDate.getTime())
+              ),
+              endDate: new Date(
+                Math.max(x.endDate.getTime(), y.endDate.getTime())
+              ),
+            }),
+          })((f) => ({
+            startDate: f.date,
+            endDate: f.date,
+          }))
+        );
+
+        return {
+          ...r,
+          ...dateRange,
+          media: [],
+          selectedLinks: [],
+          events: eventNodes,
+          actors: allActors,
+          groups: allGroups,
+          keywords: allKeywords,
+        };
+      }
     );
   };
 
-const makeGraph =
+const initialOutput: NetworkGraphOutput = {
+  events: [],
+  eventLinks: [],
+  actorLinks: [],
+  actors: [],
+  groupLinks: [],
+  groups: [],
+  keywordLinks: [],
+  keywords: [],
+  media: [],
+  selectedLinks: [],
+  startDate: new Date(),
+  endDate: new Date(),
+};
+
+const monoidOutput: Monoid<NetworkGraphOutput> = {
+  empty: initialOutput,
+  concat: (x, y) => ({
+    ...x,
+    keywords: x.keywords.concat(
+      y.keywords.filter((a) => !x.keywords.some((aa) => aa.id === a.id))
+    ),
+    actors: x.actors.concat(
+      y.actors.filter((a) => !x.actors.some((aa) => aa.id === a.id))
+    ),
+    groups: x.groups.concat(
+      y.groups.filter((a) => !x.groups.some((aa) => aa.id === a.id))
+    ),
+    events: x.events.concat(
+      y.events.filter((e) => !x.events.some((ee) => ee.id === e.id))
+    ),
+    selectedLinks: x.selectedLinks.concat(y.selectedLinks),
+    actorLinks: x.actorLinks.concat(y.actorLinks),
+    keywordLinks: x.keywordLinks.concat(y.keywordLinks),
+    groupLinks: x.groupLinks.concat(y.groupLinks),
+    eventLinks: x.eventLinks.concat(y.eventLinks),
+  }),
+};
+
+const reduceResultToOutput =
   (ctx: RouteContext) =>
-  (type: NetworkType, eventGraph: Result): NetworkGraph => {
-    ctx.logger.debug.log("Select network graph subject %s => %s", type);
-
-    const actorsArray = fp.Map.toArray(S.Ord)(eventGraph.actors).flatMap(
-      ([_k, actors]) => actors
-    );
-
-    const groupsArray = fp.Map.toArray(S.Ord)(eventGraph.groups).flatMap(
-      ([_k, groups]) => groups
-    );
-
-    const keywordsArray = fp.Map.toArray(S.Ord)(eventGraph.keywords).flatMap(
-      ([_k, keywords]) => keywords
-    );
-
-    const actorsWithTypeArray = actorsArray.map((a) => ({
-      ...a,
-      type: ACTORS.value,
-    }));
-
-    const groupsWithTypeArray = groupsArray.map((a) => ({
-      ...a,
-      type: GROUPS.value,
-    }));
-
-    const keywordsWithTypeArray = keywordsArray.map((k) => ({
-      ...k,
-      type: KEYWORDS.value,
-    }));
-
-    const selectedNode =
-      type === "events"
-        ? eventGraph.eventNodes
-        : type === ACTORS.value
-        ? actorsWithTypeArray
-        : type === GROUPS.value
-        ? groupsWithTypeArray
-        : keywordsWithTypeArray;
-
-    ctx.logger.info.log("Selected node %O", selectedNode);
-
-    const nodes: any[] = [
-      // ...selectedNode,
-      ...eventGraph.eventNodes,
-      ...actorsWithTypeArray,
-      ...groupsWithTypeArray,
-      ...keywordsWithTypeArray,
-    ];
-
-    const actorLinksArray = fp.Map.toArray(S.Ord)(
-      eventGraph.actorLinks
-    ).flatMap(([_k, links]) => links);
-
-    ctx.logger.debug.log(
-      "actor links (%d): %O",
-      actorLinksArray.length
-      // actorLinksArray
-    );
-
-    const groupLinksArray = fp.Map.toArray(S.Ord)(
-      eventGraph.groupLinks
-    ).flatMap(([_k, links]) => links);
-
-    ctx.logger.debug.log("group links (%d): %O", groupLinksArray.length);
-
-    const keywordLinksArray = fp.Map.toArray(S.Ord)(
-      eventGraph.keywordLinks
-    ).flatMap(([_k, links]) => links);
-
-    ctx.logger.debug.log(
-      "Keyword links (%d): %O",
-      keywordLinksArray.length,
-      keywordLinksArray
-    );
-
-    const links = eventGraph.eventLinks.filter((l) => l.target !== l.source);
-
-    const graph = {
-      nodes,
-      links,
-    };
-
-    return {
-      events: eventGraph.eventNodes,
-      groups: groupsArray,
-      actors: actorsArray,
-      keywords: keywordsArray,
-      graph,
-    };
+  (results: NetworkGraphOutput[]): NetworkGraphOutput => {
+    return pipe(results, A.reduce(initialOutput, monoidOutput.concat));
   };
 
 interface Result {
   eventNodes: EventNetworkDatum[];
-
   eventLinks: NetworkLink[];
-  selectedEvents: UUID[];
-  // actors
-  actors: Map<string, Actor.Actor>;
-  actorLinks: Map<string, NetworkLink[]>;
-  // groups
-  groups: Map<string, Group.Group>;
-  groupLinks: Map<string, NetworkLink[]>;
-  keywords: Map<string, Keyword.Keyword>;
-  keywordLinks: Map<string, NetworkLink[]>;
+  selectedLinks: [];
+  actorLinks: NetworkLink[];
+  groupLinks: NetworkLink[];
+  keywordLinks: NetworkLink[];
 }
 
 const initialResult: Result = {
   eventNodes: [],
   eventLinks: [],
-  actors: new Map(),
-  actorLinks: new Map(),
-  groups: new Map(),
-  groupLinks: new Map(),
-  keywords: new Map(),
-  keywordLinks: new Map(),
-  selectedEvents: [],
+  selectedLinks: [],
+  actorLinks: [],
+  groupLinks: [],
+  keywordLinks: [],
 };
-
-export interface Graph {
-  nodes: any[];
-  links: any[];
-}
-
-interface NetworkGraph {
-  graph: Graph;
-  events: EventNetworkDatum[];
-  groups: Group.Group[];
-  actors: Actor.Actor[];
-  keywords: Keyword.Keyword[];
-}
 
 export const createEventNetworkGraph =
   (ctx: RouteContext) =>
-  ({
-    ids: _ids,
-    relations: relation,
-    emptyRelations,
-    startDate,
-    endDate,
-    actors,
-    groups,
-    keywords,
-  }: GetNetworkQuery): TE.TaskEither<ControllerError, Graph> => {
-    const ids: UUID[] = pipe(
-      _ids,
-      O.fold(
-        (): UUID[] => [],
-        (id) => id
-      )
-    );
-
+  (
+    id: UUID,
+    {
+      relations: relation,
+    }: GetNetworkQuery
+  ): TE.TaskEither<ControllerError, NetworkGraphOutput> => {
     const filePath = path.resolve(
       process.cwd(),
-      `temp/networks/events/${ids.join("-")}.json`
+      `temp/networks/events/${id}.json`
     );
 
     return pipe(
@@ -581,184 +387,249 @@ export const createEventNetworkGraph =
           );
         }
 
-        ctx.logger.debug.log("Creating graph for events => %s", ids.join(","));
+        ctx.logger.debug.log("Creating graph for events => %s", id);
 
         return pipe(
-          ctx.db.find(EventV2Entity, {
+          ctx.db.findOneOrFail(EventV2Entity, {
             where: {
-              id: In(ids),
+              id: Equal(id),
             },
             loadRelationIds: {
-              relations: ["keywords"],
+              relations: ["keywords", "media"],
             },
           }),
-          TE.chainEitherK(
-            fp.A.traverse(fp.E.Applicative)((ev) =>
-              toEventV2IO({ ...ev, media: [], links: [] })
-            )
-          ),
-          fp.TE.map((events) => ({
-            ...takeEventRelations(events),
-            events,
+          TE.chainEitherK((ev) => toEventV2IO({ ...ev, links: [] })),
+          ctx.logger.debug.logInTaskEither(`event %O`),
+          // get all relations for the given event
+          fp.TE.map((event) => ({
+            ...getRelationIds(event),
+            event,
           })),
+          // get event timeline for each relation
           TE.chain(
-            ({
-              events,
-              actors: _actors,
-              groups: _groups,
-              keywords: _keywords,
-            }) => {
-              return walkPaginatedRequest(ctx)(
-                ({ skip, amount }) =>
-                  searchEventV2Query(ctx)({
-                    ids: O.none,
-                    actors: pipe(
-                      actors,
-                      O.alt(() => O.some(_actors)),
-                      O.filter(A.isNonEmpty)
-                    ),
-                    groups: pipe(
-                      groups,
-                      O.alt(() => O.some(_groups)),
-                      O.filter(A.isNonEmpty)
-                    ),
-                    keywords: pipe(
-                      keywords,
-                      O.alt(() => O.some(_keywords)),
-                      O.filter(A.isNonEmpty)
-                    ),
-                    startDate: pipe(
-                      startDate,
-                      fp.O.map((d) => parseISO(d))
-                    ),
-                    endDate: pipe(
-                      endDate,
-                      fp.O.map((d) => parseISO(d))
-                    ),
-                    skip,
-                    take: amount,
-                    order: { date: "DESC" },
-                  }),
-                (r) => r.total,
-                (r) => r.results,
-                0,
-                50
+            ({ actors, groups, keywords, groupsMembers, media, event }) => {
+              ctx.logger.debug.log("Relation graph for this event %O", {
+                actors: actors.length,
+                groups: groups.length,
+                keywords: keywords.length,
+              });
+
+              return pipe(
+                fetchRelations(ctx)({
+                  keywords: pipe(
+                    keywords,
+                    O.fromPredicate((a) => a.length > 0)
+                  ),
+                  actors: pipe(
+                    actors,
+                    O.fromPredicate((a) => a.length > 0)
+                  ),
+                  groups: pipe(
+                    groups,
+                    O.fromPredicate((g) => g.length > 0)
+                  ),
+                  groupsMembers: O.some(groupsMembers),
+                  links: O.none,
+                  media: pipe(
+                    media,
+                    O.fromPredicate((m) => m.length > 0)
+                  ),
+                }),
+                TE.map((r) => ({ event, ...r }))
               );
             }
           ),
-          TE.chain((results) => {
-            ctx.logger.debug.log("Events found %d", results.length);
-
-            return pipe(
-              results,
-              fp.A.traverse(fp.E.Applicative)(toEventV2IO),
-              fp.TE.fromEither,
-              fp.TE.map((events) => ({
-                ...takeEventRelations(events),
-                events,
-              })),
-              fp.TE.chain(({ events, ...relations }) =>
-                pipe(
-                  fetchRelations(ctx)({
-                    keywords: pipe(
-                      relations.keywords,
-                      O.fromPredicate((a) => a.length > 0)
-                    ),
-                    actors: pipe(
-                      relations.actors,
-                      O.fromPredicate((a) => a.length > 0)
-                    ),
-                    groups: pipe(
-                      relations.groups,
-                      O.fromPredicate((g) => g.length > 0)
-                    ),
-                    groupsMembers: O.some(relations.groupsMembers),
-                    links: O.none,
-                    media: pipe(
-                      relations.media,
-                      O.fromPredicate((m) => m.length > 0)
-                    ),
-                  }),
-                  TE.chain((relations) =>
-                    sequenceS(TE.ApplicativePar)({
-                      events: fp.TE.right(events),
-                      actors: pipe(
-                        relations.actors,
-                        fp.A.traverse(fp.E.Applicative)(toActorIO),
-                        fp.TE.fromEither
-                      ),
-                      groups: pipe(
-                        relations.groups,
-                        fp.A.traverse(fp.E.Applicative)((g) =>
-                          toGroupIO({ ...g, members: [] })
-                        ),
-                        fp.TE.fromEither
-                      ),
-                      keywords: pipe(
-                        relations.keywords,
-                        fp.A.traverse(fp.E.Applicative)(toKeywordIO),
-                        fp.TE.fromEither
-                      ),
-                      media: pipe(
-                        relations.media,
-                        fp.A.traverse(fp.E.Applicative)((m) =>
-                          toImageIO({
-                            ...m,
-                            links: [],
-                            keywords: [],
-                            events: [],
-                          })
-                        ),
-                        fp.TE.fromEither
-                      ),
-                    })
-                  )
-                )
-              )
-            );
-          }),
-          TE.map(({ events: _events, actors, groups, keywords, media }) => {
-            ctx.logger.debug.log(`Events %d`, _events.length);
+          TE.chain(({ event, ...relations }) =>
+            sequenceS(TE.ApplicativePar)({
+              event: fp.TE.right(event),
+              actors: pipe(
+                relations.actors,
+                fp.A.traverse(fp.E.Applicative)(toActorIO),
+                fp.TE.fromEither
+              ),
+              groups: pipe(
+                relations.groups,
+                fp.A.traverse(fp.E.Applicative)((g) =>
+                  toGroupIO({ ...g, members: [] })
+                ),
+                fp.TE.fromEither
+              ),
+              keywords: pipe(
+                relations.keywords,
+                fp.A.traverse(fp.E.Applicative)(toKeywordIO),
+                fp.TE.fromEither
+              ),
+              media: pipe(
+                relations.media,
+                fp.A.traverse(fp.E.Applicative)((m) =>
+                  toImageIO({
+                    ...m,
+                    links: [],
+                    keywords: [],
+                    events: [],
+                  })
+                ),
+                fp.TE.fromEither
+              ),
+            })
+          ),
+          TE.chain(({ event, actors, groups, keywords, media }) => {
             ctx.logger.debug.log(`Actors %d`, actors.length);
             ctx.logger.debug.log(`Groups %d`, groups.length);
             ctx.logger.debug.log(`Keywords %d`, keywords.length);
             ctx.logger.debug.log(`Media %d`, media.length);
-            const events = pipe(
-              _events,
-              fp.A.map((aa) =>
-                toSearchEvent(aa, {
-                  events: [],
-                  actors: new Map(actors.map((a) => [a.id, a])),
-                  groups: new Map(groups.map((g) => [g.id, g])),
-                  keywords: new Map(keywords.map((k) => [k.id, k])),
-                  media: new Map(media.map((m) => [m.id, m])),
-                  groupsMembers: new Map(),
-                })
+
+            const getGraph = (
+              ids: UUID[],
+              key: "keywords" | "actors" | "groups"
+            ): TE.TaskEither<ControllerError, NetworkGraphOutput> =>
+              pipe(
+                ids,
+                A.traverse(TE.ApplicativeSeq)((k) =>
+                  pipe(
+                    infiniteSearchEventQuery(ctx)({
+                      exclude: O.some([event.id]),
+                      [key]: O.some([k]),
+                      order: { date: "DESC" },
+                    }),
+                    fp.TE.chainEitherK(
+                      fp.A.traverse(fp.E.Applicative)((ev) =>
+                        toEventV2IO({ ...ev, links: [] })
+                      )
+                    ),
+                    fp.TE.map((aa): [string, NetworkGraphOutput] => [
+                      k,
+                      pipe(
+                        aa,
+                        fp.A.map((e) =>
+                          toSearchEvent(e, {
+                            events: [],
+                            actors: new Map(actors.map((a) => [a.id, a])),
+                            groups: new Map(groups.map((g) => [g.id, g])),
+                            keywords: new Map(keywords.map((k) => [k.id, k])),
+                            media: new Map(media.map((m) => [m.id, m])),
+                            groupsMembers: new Map(),
+                          })
+                        ),
+                        (events) =>
+                          getEventGraph(ctx)({
+                            events,
+                            keywords,
+                            actors,
+                            groups,
+                            media,
+                            relation: key,
+                            emptyRelations: false,
+                          })
+                      ),
+                    ]),
+                    fp.TE.map((tuples) => {
+                      const color = getColorByEventType({
+                        type: event.type,
+                      });
+                      const update: any = {};
+
+                      if (key === ACTORS.value) {
+                        update.actorLinks = [
+                          {
+                            source: k,
+                            sourceType: key,
+                            target: event.id,
+                            fill: color,
+                            stroke: color,
+                            value: 0,
+                          },
+                          {
+                            source: tuples[1].events?.[0]?.id,
+                            sourceType: "events",
+                            target: k,
+                            fill: color,
+                            stroke: color,
+                            value: 0,
+                          },
+                        ].concat(tuples[1].actorLinks);
+                      }
+
+                      if (key === GROUPS.value) {
+                        update.groupLinks = [
+                          {
+                            source: k,
+                            sourceType: key,
+                            target: event.id,
+                            fill: color,
+                            stroke: color,
+                            value: 0,
+                          },
+                          {
+                            source: tuples[1].events?.[0]?.id,
+                            sourceType: "events",
+                            target: k,
+                            fill: color,
+                            stroke: color,
+                            value: 0,
+                          },
+                        ].concat(tuples[1].groupLinks);
+                      }
+
+                      if (key === KEYWORDS.value) {
+                        update.keywordLinks = [
+                          {
+                            source: k,
+                            sourceType: key,
+                            target: event.id,
+                            fill: color,
+                            stroke: color,
+                            value: 0,
+                          },
+                          {
+                            source: tuples[1].events?.[0]?.id,
+                            sourceType: "events",
+                            target: k,
+                            fill: color,
+                            stroke: color,
+                            value: 0,
+                          },
+                        ].concat(tuples[1].keywordLinks);
+                      }
+
+                      return {
+                        ...tuples[1],
+                        ...update,
+                      };
+                    })
+                  )
+                ),
+                TE.map(reduceResultToOutput(ctx)),
+                TE.map((output) => ({
+                  ...output,
+                  actors,
+                  groups,
+                  keywords,
+                  events: [event].concat(output.events),
+                }))
+              );
+
+            return pipe(
+              sequenceS(TE.ApplicativePar)({
+                keywords: getGraph(
+                  keywords.map((k) => k.id),
+                  KEYWORDS.value
+                ),
+                actors: getGraph(
+                  actors.map((a) => a.id),
+                  ACTORS.value
+                ),
+                groups: getGraph(
+                  groups.map((g) => g.id),
+                  GROUPS.value
+                ),
+              }),
+              TE.map(({ keywords, groups, actors }) =>
+                reduceResultToOutput(ctx)([keywords, groups, actors])
               )
             );
-
-            const eventGraph = getEventGraph(ctx)("events", {
-              events,
-              actors,
-              groups,
-              keywords,
-              media,
-              relation: "keywords",
-              emptyRelations: pipe(
-                emptyRelations,
-                O.getOrElse(() => true)
-              ),
-            });
-
-            const results = makeGraph(ctx)("events", eventGraph);
-
-            ctx.logger.debug.log("Graph results %O", {
-              nodes: results.graph.nodes.length,
-              links: results.graph.links.length,
-            });
-            return results;
           }),
-          TE.chainIOEitherK(({ graph }) => {
+          TE.chainIOEitherK((graph) => {
             return fp.IOE.tryCatch(() => {
               fs.writeFileSync(filePath, JSON.stringify(graph));
               return graph;

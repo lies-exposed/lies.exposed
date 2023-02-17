@@ -116,21 +116,26 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
             // endDate,
           },
         }) => {
+          const endDateD = parseISO(endDate);
+          const startDateD = parseISO(startDate);
           const filteredEvents = events.filter((e) => {
-            const min = differenceInDays(parseISO(e.date), parseISO(startDate));
-            const max = differenceInDays(parseISO(endDate), parseISO(e.date));
+            const date = parseISO(e.date);
+            const min = differenceInDays(date, startDateD);
+            const max = differenceInDays(endDateD, date);
+
+            // console.log({ min, max });
 
             return min >= 0 && max >= 0;
           });
 
-          const nodeIds = filteredEvents.map((e) => e.id);
+          const eventIds = filteredEvents.map((e) => e.id);
 
           const relationLinks = selectedLinks
             .concat(actorLinks)
             .concat(groupLinks)
             .concat(keywordLinks)
             .filter(
-              (l) => nodeIds.includes(l.target) || nodeIds.includes(l.source)
+              (l) => eventIds.includes(l.target) || eventIds.includes(l.source)
             );
 
           const relationNodes = actors
@@ -140,19 +145,19 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
             .filter(
               (r) =>
                 // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-                ids?.includes(r.id) ||
                 relationLinks.some(
                   (l) => r.id === l.target || r.id === l.source
-                )
+                ) || ids?.includes(r.id)
             );
+
+          const nodes = filteredEvents.concat(relationNodes);
 
           const links = eventLinks
             .filter(
-              (l) => nodeIds.includes(l.target) && nodeIds.includes(l.source)
+              (l) => eventIds.includes(l.target) && eventIds.includes(l.source)
             )
             .concat(relationLinks);
 
-          const nodes = filteredEvents.concat(relationNodes);
           return (
             <ParentSize
               debounceTime={1000}
