@@ -50,11 +50,14 @@ import { type RouteContext } from "@routes/route.types";
 const uniqueId = GetEncodeUtils<
   {
     ids: UUID[];
+    relations: NetworkType[];
   },
-  { ids: string }
->(({ ids }) => ({
+  { ids: string; relations: string }
+>(({ ids, relations }) => ({
   ids: ids.join(","),
+  relations: relations.join("-"),
 }));
+
 export interface NetworkLink {
   source: UUID;
   target: UUID;
@@ -177,7 +180,7 @@ export const getEventGraph = (
       // console.log('actor links in acc', acc.actorLinks);
       const actorLinks = pipe(
         relations.includes(ACTORS.value) ? nonEmptyEventActors : O.none,
-        O.getOrElse((): ItemType[] => []),
+        O.getOrElse((): Actor.Actor[] => []),
         getRelationLinks(ACTORS.value, e)(acc.actorLinks)
       );
 
@@ -318,15 +321,20 @@ export const createNetworkGraph =
       endDate,
     }: GetNetworkQuery
   ): TE.TaskEither<ControllerError, NetworkGraphOutput> => {
-    const networkId = uniqueId.hash({ ids });
-    const filePath = path.resolve(
-      process.cwd(),
-      `temp/networks/${type}/${networkId}.json`
-    );
-
     const relations = pipe(
       _relations,
       O.getOrElse((): NetworkGroupBy[] => [])
+    );
+
+    ctx.logger.debug.log("Getting network for %O", {
+      type,
+      ids,
+    });
+
+    const networkId = uniqueId.hash({ ids, relations });
+    const filePath = path.resolve(
+      process.cwd(),
+      `temp/networks/${type}/${networkId}.json`
     );
 
     return pipe(

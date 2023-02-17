@@ -3,6 +3,7 @@
 import { QUOTE } from "@liexp/shared/io/http/Events/Quote";
 import { type EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import { type DBError } from "@liexp/shared/providers/orm/Database";
+import { walkPaginatedRequest } from "@liexp/shared/utils/fp.utils";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
@@ -12,6 +13,7 @@ import { Brackets, In, type SelectQueryBuilder } from "typeorm";
 import { type RouteContext } from "../../route.types";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
+import { type ControllerError } from "@io/ControllerError";
 import { addOrder } from "@utils/orm.utils";
 
 type WhereT = "AND" | "OR";
@@ -237,6 +239,7 @@ export const searchEventV2Query =
           `Find options for event (type: %O) %O`,
           O.toUndefined(type),
           {
+            exclude,
             startDate,
             endDate,
             actors,
@@ -269,6 +272,7 @@ export const searchEventV2Query =
               q.where("event.id NOT IN (:...ids)", {
                 ids: exclude.value,
               });
+              hasWhere = true;
             }
 
             if (O.isSome(title)) {
@@ -538,5 +542,21 @@ export const searchEventV2Query =
           totals.transactions +
           totals.quotes,
       }))
+    );
+  };
+
+export const infiniteSearchEventQuery =
+  (ctx: RouteContext) =>
+  (
+    query: Partial<SearchEventQuery>
+  ): TE.TaskEither<ControllerError, SearchEventOutput["results"]> => {
+    ctx.logger.debug.log("Infinite search event query %O", query);
+    return walkPaginatedRequest(ctx)(
+      ({ skip, amount }) =>
+        searchEventV2Query(ctx)({ ...query, skip, take: amount }),
+      (r) => r.total,
+      (r) => r.results,
+      0,
+      50
     );
   };

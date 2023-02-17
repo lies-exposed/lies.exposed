@@ -39,9 +39,8 @@ export const walkPaginatedRequest =
         fp.TE.chain((r) => {
           // logger.debug('Response: %o', r);
           const total = getTotal(r);
-          logger.debug.log("Total %d", total);
           const data = getData(r);
-          logger.debug.log("Data size %d", data.length);
+          logger.debug.log("Total %d, results size %d", total, data.length);
 
           if (amount < total) {
             return loop(skip + amount, amount + amount, result.concat(data));
