@@ -22,7 +22,7 @@
     "bundle-stats-server": "webpack-bundle-analyzer build/server/stats.json"
   },
   "dependencies": {
-    "@emotion/css": "^11.10.5",
+    "@emotion/css": "^11.10.6",
     "@emotion/server": "^11.10.0",
     "@fortawesome/fontawesome-svg-core": "^6.3.0",
     "@fortawesome/free-brands-svg-icons": "^6.3.0",
