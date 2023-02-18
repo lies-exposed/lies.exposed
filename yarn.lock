@@ -2686,7 +2686,7 @@ __metadata:
     prettier: ^2.8.4
     react-refresh: ^0.14.0
     react-refresh-typescript: ^2.0.8
-    sass: ^1.58.0
+    sass: ^1.58.3
     speed-measure-webpack-plugin: ^1.5.0
     style-loader: ^3.3.1
     ts-loader: ^9.4.2
@@ -2807,7 +2807,7 @@ __metadata:
     "@react-page/plugins-spacer": ^5.4.3
     "@react-page/plugins-video": ^5.4.3
     "@react-page/react-admin": ^5.4.3
-    "@types/chroma-js": ^2.1.5
+    "@types/chroma-js": ^2.4.0
     "@types/d3": ^7.4.0
     "@types/d3-sankey": ^0.12.1
     "@types/eslint": ^8.21.1
@@ -5865,10 +5865,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/chroma-js@npm:^2.1.5":
-  version: 2.1.5
-  resolution: "@types/chroma-js@npm:2.1.5"
-  checksum: 7cc7ba5d024f9048f11cf045b6f0a2d7025ecd930e89867cbcc35b4f668ebb0fbaf4231de418d3c447bf21b71fa25cce1b3c8d17d3d3de4ddbe38f66d469f106
+"@types/chroma-js@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "@types/chroma-js@npm:2.4.0"
+  checksum: aa91adf61a5dee8469c1e6b298d3496041d1baa8bd9938865a61050b5e392adc3425718c7c29b09a3d8dfe0d2e8a1301e98d4b458135e53c2ecb3ecca8cb7d21
   languageName: node
   linkType: hard
 
@@ -17090,7 +17090,7 @@ __metadata:
     lint-staged: ^13.1.2
     pm2: ^5.2.2
     prettier: ^2.8.4
-    terser: ^5.16.3
+    terser: ^5.16.4
     ts-jest: ^29.0.5
     typescript: ^4.9.5
     webpack: ^5.75.0
@@ -22665,16 +22665,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.58.0":
-  version: 1.58.0
-  resolution: "sass@npm:1.58.0"
+"sass@npm:^1.58.3":
+  version: 1.58.3
+  resolution: "sass@npm:1.58.3"
   dependencies:
     chokidar: ">=3.0.0 <4.0.0"
     immutable: ^4.0.0
     source-map-js: ">=0.6.2 <2.0.0"
   bin:
     sass: sass.js
-  checksum: a7219634881d2de6441fb619787fb1a02e3fa0333fb715be26aa335ba49d6bdb4f1105d9df70a80a67200893022b08346745783dc49046095d94fc6e044492d6
+  checksum: 35a2b98c037ef80fdc93c9b0be846e6ccc7d75596351a37ee79c397e66666d0a754c52c4696e746c0aff32327471e185343ca349e998a58340411adc9d0489a5
   languageName: node
   linkType: hard
 

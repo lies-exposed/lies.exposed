@@ -95,7 +95,7 @@
     "waveform-data": "^4.3.0"
   },
   "devDependencies": {
-    "@types/chroma-js": "^2.1.5",
+    "@types/chroma-js": "^2.4.0",
     "@types/d3": "^7.4.0",
     "@types/d3-sankey": "^0.12.1",
     "@types/eslint": "^8.21.1",
