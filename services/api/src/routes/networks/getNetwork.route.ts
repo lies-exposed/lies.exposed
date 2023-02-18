@@ -20,7 +20,7 @@ export const MakeGetNetworkRoute = (r: Router, ctx: RouteContext): void => {
     ): TE.TaskEither<ControllerError, NetworkGraphOutput> => {
       switch (type) {
         case "events": {
-          const { ids } = query;
+          const ids = pipe(query.ids, fp.O.filter(fp.A.isNonEmpty));
           if (fp.O.isSome(ids)) {
             if (ids.value[0]) {
               return createEventNetworkGraph(ctx)(ids.value[0], query);

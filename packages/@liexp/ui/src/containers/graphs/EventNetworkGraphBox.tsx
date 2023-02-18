@@ -206,7 +206,7 @@ export const EventsNetworkGraphBoxWithQuery: React.FC<
           <Box style={{ height: 600 }}>
             <EventNetworkGraphBox
               {...props}
-              query={{ ...query, id: data[0].id }}
+              query={{ ...query, ids: [data[0].id] }}
             />
           </Box>
         );
