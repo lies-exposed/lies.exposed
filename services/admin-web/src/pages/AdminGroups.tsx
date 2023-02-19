@@ -1,5 +1,6 @@
 import * as io from "@liexp/shared/io";
 import { type Media } from "@liexp/shared/io/http";
+import { parseDate } from "@liexp/shared/utils/date";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { uploadImages } from "@liexp/ui/client/admin/MediaAPI";
@@ -18,32 +19,32 @@ import { pipe } from "fp-ts/function";
 import * as React from "react";
 import {
   ArrayInput,
-  type ArrayInputProps,
   AutocompleteArrayInput,
   Create,
-  type CreateProps,
   Datagrid,
-  type DataProvider,
   DateField,
   DateInput,
-  type EditProps,
   FormTab,
   FunctionField,
   ImageField,
   ImageInput,
   List,
-  type RaRecord,
   ReferenceArrayInput,
   ReferenceManyField,
   SelectInput,
-  type SelectInputProps,
   SimpleForm,
   SimpleFormIterator,
   TabbedForm,
   TextField,
   TextInput,
   useDataProvider,
-  useRecordContext
+  useRecordContext,
+  type ArrayInputProps,
+  type CreateProps,
+  type DataProvider,
+  type EditProps,
+  type RaRecord,
+  type SelectInputProps
 } from "react-admin";
 
 const RESOURCE = "groups";
@@ -112,7 +113,8 @@ export const GroupList: React.FC = () => (
           return r.members?.length ?? 0;
         }}
       />
-      <DateField source="date" />
+      <DateField source="startDate" />
+      <DateField source="endDate" />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />
     </Datagrid>
@@ -142,6 +144,12 @@ const transformGroup =
         ...data,
         excerpt: data.excerpt ?? undefined,
         avatar: locations[0].location,
+        startDate: data.startDate.includes("T")
+          ? data.startDate
+          : parseDate(data.startDate).toISOString(),
+          endDate: data.endDate.includes("T")
+          ? data.endDate
+          : parseDate(data.endDate).toISOString(),
         members,
       })),
       throwTE
@@ -176,7 +184,8 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
         <FormTab label="Generals">
           <TextInput source="name" />
           <ColorInput source="color" />
-          <DateInput source="date" />
+          <DateInput source="startDate" />
+          <DateInput source="endDate" />
           <GroupKindInput source="kind" />
           <ReactPageInput label="excerpt" source="excerpt" />
           <DateField source="updatedAt" showTime={true} />
@@ -226,7 +235,8 @@ export const GroupCreate: React.FC<CreateProps> = (props) => {
     >
       <SimpleForm>
         <ColorInput source="color" />
-        <DateInput source="date" />
+        <DateInput source="startDate" />
+        <DateInput source="endDate" />
         <TextInput source="name" />
         <GroupKindInput source="kind" />
         <GroupMemberArrayInput source="members" />

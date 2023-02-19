@@ -47,7 +47,7 @@ export const MakeEditGroupRoute = (r: Router, ctx: RouteContext): void => {
             },
           })
         ),
-        ctx.logger.debug.logInTaskEither("Updated group %O"),
+        // ctx.logger.debug.logInTaskEither("Updated group %O"),
         TE.chainEitherK(toGroupIO),
         TE.map((data) => ({
           body: {

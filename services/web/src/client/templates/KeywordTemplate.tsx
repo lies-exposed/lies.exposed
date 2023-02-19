@@ -22,22 +22,22 @@ const KeywordPage: React.FC<{ keywordId: string }> = ({ keywordId }) => {
           { id: keywordId },
           {
             ...query,
-            tab: "1",
+            tab: "0",
             keywords: [k.id],
           }
         );
       }}
       onEventClick={(e) => {
-        navigateTo.events({ id: e.id });
+        navigateTo.events({ id: e.id }, { tab: 0 });
       }}
       onMediaClick={(m) => {
-        navigateTo.media({ id: m.id });
+        navigateTo.media({ id: m.id }, { tab: 0 });
       }}
       onActorClick={(m) => {
-        navigateTo.actors({ id: m.id });
+        navigateTo.actors({ id: m.id }, { tab: 0 });
       }}
       onGroupClick={(m) => {
-        navigateTo.groups({ id: m.id });
+        navigateTo.groups({ id: m.id } , { tab: 0 });
       }}
       onQueryChange={(q) => {
         navigateTo.keywords({ id: keywordId }, { ...q, tab });
