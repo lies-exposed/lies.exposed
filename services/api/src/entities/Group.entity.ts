@@ -22,7 +22,7 @@ export class GroupEntity {
   color: string;
 
   @Column({ type: "varchar", nullable: true })
-  avatar: string;
+  avatar: string | null;
 
   @Column({
     enum: io.http.Group.GroupKind.types.map((t) => t.value),
@@ -30,17 +30,23 @@ export class GroupEntity {
   })
   kind: io.http.Group.GroupKind;
 
-  @OneToMany(() => GroupMemberEntity, (member) => member.group, {
-    nullable: true,
-    cascade: true,
-  })
-  members: GroupMemberEntity[];
+  @Column({ type: "timestamp", nullable: true })
+  startDate: Date | null;
+
+  @Column({ type: "timestamp", nullable: true })
+  endDate: Date | null;
 
   @Column({ type: "json", nullable: true })
   excerpt: Record<string, unknown> | null;
 
   @Column({ type: "json", nullable: true })
   body: Record<string, unknown> | null;
+
+  @OneToMany(() => GroupMemberEntity, (member) => member.group, {
+    nullable: true,
+    cascade: true,
+  })
+  members: GroupMemberEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

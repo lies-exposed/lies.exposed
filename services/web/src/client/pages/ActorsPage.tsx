@@ -74,16 +74,16 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
                     }}
                     showFilter={false}
                     onEventClick={(e) => {
-                      navigateTo.events({ id: e.id });
+                      navigateTo.events({ id: e.id }, { tab: 0 });
                     }}
                     onActorClick={(e) => {
-                      navigateTo.actors({ id: e.id });
+                      navigateTo.actors({ id: e.id }, { tab: 0 });
                     }}
                     onGroupClick={(e) => {
-                      navigateTo.groups({ id: e.id });
+                      navigateTo.groups({ id: e.id }, { tab: 0 });
                     }}
                     onKeywordClick={(e) => {
-                      navigateTo.keywords({ id: e.id });
+                      navigateTo.keywords({ id: e.id }, { tab: 0 });
                     }}
                   />
                 </Grid>
@@ -102,16 +102,16 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
                     }}
                     showFilter={false}
                     onEventClick={(e) => {
-                      navigateTo.events({ id: e.id });
+                      navigateTo.events({ id: e.id } , { tab: 0 });
                     }}
                     onActorClick={(e) => {
-                      navigateTo.actors({ id: e.id });
+                      navigateTo.actors({ id: e.id }, { tab: 0 });
                     }}
                     onGroupClick={(e) => {
-                      navigateTo.groups({ id: e.id });
+                      navigateTo.groups({ id: e.id }, { tab: 0 });
                     }}
                     onKeywordClick={(e) => {
-                      navigateTo.keywords({ id: e.id });
+                      navigateTo.keywords({ id: e.id }, { tab: 0 });
                     }}
                   />
                 </Grid>

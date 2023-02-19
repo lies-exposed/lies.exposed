@@ -1,40 +1,35 @@
 import * as io from "@liexp/shared/io";
-import { toColor } from "@liexp/shared/io/http/Common";
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
+import { sequenceS } from "fp-ts/lib/Apply";
 import { type GroupMemberEntity } from "../../entities/GroupMember.entity";
-import { type ControllerError, DecodeError } from "@io/ControllerError";
+import { DecodeError, type ControllerError } from "@io/ControllerError";
+import { toActorIO } from "@routes/actors/actor.io";
+import { toGroupIO } from "@routes/groups/group.io";
 
 export const toGroupMemberIO = (
   groupMember: GroupMemberEntity
 ): E.Either<ControllerError, io.http.GroupMember.GroupMember> => {
   return pipe(
-    io.http.GroupMember.GroupMember.decode({
-      ...groupMember,
-      actor: {
-        ...groupMember.actor,
-        color: toColor(groupMember.actor.color),
-        avatar: groupMember.actor?.avatar ?? undefined,
-        memberIn: [],
-        createdAt: groupMember.actor?.createdAt.toISOString(),
-        updatedAt: groupMember.actor?.updatedAt.toISOString(),
-      },
-      group: {
-        ...groupMember.group,
-        color: toColor(groupMember.group.color),
-        subGroups: [],
-        members: [],
-        avatar: groupMember.group?.avatar ?? undefined,
-        createdAt: groupMember.group?.createdAt.toISOString(),
-        updatedAt: groupMember.group?.updatedAt.toISOString(),
-      },
-      startDate: (groupMember.startDate ?? new Date()).toISOString(),
-      endDate: groupMember.endDate?.toISOString() ?? undefined,
-      createdAt: groupMember.createdAt.toISOString(),
-      updatedAt: groupMember.updatedAt.toISOString(),
+    sequenceS(E.Applicative)({
+      group: toGroupIO(groupMember.group),
+      actor: toActorIO(groupMember.actor),
     }),
-    E.mapLeft((e) =>
-      DecodeError(`Failed to decode group member (${groupMember.id})`, e)
+    E.chain(({ group, actor }) =>
+      pipe(
+        io.http.GroupMember.GroupMember.decode({
+          ...groupMember,
+          actor: io.http.Actor.Actor.encode(actor),
+          group: io.http.Group.Group.encode(group),
+          startDate: (groupMember.startDate ?? new Date()).toISOString(),
+          endDate: groupMember.endDate?.toISOString() ?? undefined,
+          createdAt: groupMember.createdAt.toISOString(),
+          updatedAt: groupMember.updatedAt.toISOString(),
+        }),
+        E.mapLeft((e) =>
+          DecodeError(`Failed to decode group member (${groupMember.id})`, e)
+        )
+      )
     )
   );
 };

@@ -1,15 +1,14 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
-import * as http from "../io/http";
 import { UUID } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
+import * as Group from "../io/http/Group";
 import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
 
-const SingleGroupOutput = Output(http.Group.Group, "Group");
-const ListGroupOutput = ListOutput(http.Group.Group, "ListGroup");
+const SingleGroupOutput = Output(Group.Group, "Group");
+const ListGroupOutput = ListOutput(Group.Group, "ListGroup");
 
 export const List = Endpoint({
   Method: "GET",
@@ -33,35 +32,13 @@ export const List = Endpoint({
   Output: ListGroupOutput,
 });
 
-const CreateGroupBody = t.strict(
-  {
-    name: t.string,
-    color: t.string,
-    kind: http.Group.GroupKind,
-    avatar: t.string,
-    excerpt: t.union([t.UnknownRecord, t.undefined]),
-    body: t.UnknownRecord,
-    members: t.array(
-      t.strict(
-        {
-          actor: UUID,
-          body: t.UnknownRecord,
-          startDate: DateFromISOString,
-          endDate: optionFromNullable(DateFromISOString),
-        },
-        "CreateGroupMember"
-      )
-    ),
-  },
-  "CreateGroupBody"
-);
 
 export const Create = Endpoint({
   Method: "POST",
   getPath: () => "/groups",
   Input: {
     Query: undefined,
-    Body: CreateGroupBody,
+    Body: Group.CreateGroupBody,
   },
   Output: SingleGroupOutput,
 });
@@ -82,23 +59,7 @@ export const Edit = Endpoint({
   Input: {
     Query: undefined,
     Params: t.type({ id: t.string }),
-    Body: t.strict({
-      ...CreateGroupBody.type.props,
-      members: t.array(
-        t.union([
-          UUID,
-          t.strict(
-            {
-              actor: UUID,
-              body: t.UnknownRecord,
-              startDate: DateFromISOString,
-              endDate: optionFromNullable(DateFromISOString),
-            },
-            "CreateGroupMember"
-          ),
-        ])
-      ),
-    }),
+    Body: Group.EditGroupBody,
   },
   Output: SingleGroupOutput,
 });

@@ -1,6 +1,9 @@
 import { formatDistanceToNow, format, parseISO, parse } from "date-fns";
 
 export const formatDate = (date: Date): string => format(date, "yyyy-MM-dd");
+export const parseDate = (d: string): Date =>
+  parse(d, "yyyy-MM-dd", new Date());
+
 export const formatDateToShort = (date: Date): string =>
   format(date, "MMM do yyyy");
 
@@ -13,6 +16,7 @@ export const formatAnyDateToShort = (date: any): string => {
   }
   return formatDateToShort(new Date(date));
 };
+
 export const distanceFromNow = formatDistanceToNow;
 
 export { parseISO, parse };

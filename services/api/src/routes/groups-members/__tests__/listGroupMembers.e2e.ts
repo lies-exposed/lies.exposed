@@ -101,7 +101,11 @@ describe("List Group Member", () => {
         ...expectedResult,
         startDate: expectedResult.startDate.toISOString(),
         actor: expectedActor,
-        group: expectedGroup,
+        group: {
+          ...expectedGroup,
+          startDate: expectedGroup.startDate?.toISOString(),
+          endDate: expectedGroup.startDate?.toISOString(),
+        },
       });
     });
   });

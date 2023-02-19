@@ -22,26 +22,26 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
             event={event}
             tab={tab}
             onTabChange={(tab) => {
-              navigateTo.events({ id: event.id }, { tab });
+              navigateTo.events({ id: event.id }, { tab: 0 });
             }}
             onDateClick={() => {}}
             onActorClick={(a) => {
-              navigateTo.actors({ id: a.id }, { tab });
+              navigateTo.actors({ id: a.id }, { tab: 0 });
             }}
             onGroupClick={(a) => {
-              navigateTo.groups({ id: a.id }, { tab });
+              navigateTo.groups({ id: a.id }, { tab: 0 });
             }}
             onAreaClick={(a) => {
-              navigateTo.areas({ id: a.id }, { tab });
+              navigateTo.areas({ id: a.id }, { tab: 0 });
             }}
             onKeywordClick={(a) => {
-              navigateTo.keywords({ id: a.id }, { tab });
+              navigateTo.keywords({ id: a.id }, { tab: 0 });
             }}
             onLinkClick={() => {
               // navigateTo.actors({ id: a.id }, { tab });
             }}
             onMediaClick={(m) => {
-              navigateTo.media({ id: m.id }, { tab });
+              navigateTo.media({ id: m.id }, { tab: 0 });
             }}
             onGroupMemberClick={(g) => {
               navigateTo.actors({ id: g.actor.id });
