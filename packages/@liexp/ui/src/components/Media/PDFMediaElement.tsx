@@ -1,21 +1,17 @@
 import { type Media } from "@liexp/shared/io/http";
 import { CloseOutlined } from "@mui/icons-material";
 import * as React from "react";
-import { styled } from '../../theme';
+import { styled } from "../../theme";
 import { Box, Button, Modal, Typography } from "../mui";
 
-const PREFIX = 'PDFMediaElement';
+const PREFIX = "PDFMediaElement";
 
 const classes = {
   modalContainer: `${PREFIX}-modalContainer`,
-  paper: `${PREFIX}-paper`
+  paper: `${PREFIX}-paper`,
 };
 
-const StyledBox = styled(Box)((
-  {
-    theme
-  }
-) => ({
+const StyledBox = styled(Box)(({ theme }) => ({
   [`& .${classes.modalContainer}`]: {
     position: "absolute",
     top: 0,
@@ -34,7 +30,7 @@ const StyledBox = styled(Box)((
     height: "100%",
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(2),
-  }
+  },
 }));
 
 interface PDFMediaElementProps {
@@ -51,7 +47,6 @@ const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
   style,
   ...props
 }) => {
-
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -63,11 +58,13 @@ const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
       style={style}
       onLoad={onLoad}
     >
-      {media.thumbnail ?? <img className={className} src={media.thumbnail} />}
+      {media.thumbnail ? (
+        <img className={className} src={media.thumbnail} />
+      ) : null}
       <Button
         variant="contained"
         style={{
-          position: 'absolute'
+          position: "absolute",
         }}
         onClick={() => {
           setOpen(true);
@@ -79,7 +76,9 @@ const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
 
       <Modal
         open={open}
-        onClose={() => { setOpen(false); }}
+        onClose={() => {
+          setOpen(false);
+        }}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -91,7 +90,11 @@ const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
               style={{ position: "relative", height: "100%" }}
             >
               <Box display="inline">
-                <CloseOutlined onClick={() => { setOpen(false); }} />
+                <CloseOutlined
+                  onClick={() => {
+                    setOpen(false);
+                  }}
+                />
                 <Typography
                   id="alert-dialog-title"
                   variant="h4"
