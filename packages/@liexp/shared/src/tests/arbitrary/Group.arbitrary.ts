@@ -15,6 +15,8 @@ export const GroupArb: tests.fc.Arbitrary<http.Group.Group> = tests
         "color",
         "excerpt",
         "body",
+        "startDate",
+        "endDate",
         "createdAt",
         "updatedAt",
       ])
@@ -28,6 +30,8 @@ export const GroupArb: tests.fc.Arbitrary<http.Group.Group> = tests
     members: [],
     excerpt: {},
     body: {},
+    startDate: new Date(),
+    endDate: new Date(),
     createdAt: new Date(),
     updatedAt: new Date(),
   }));
