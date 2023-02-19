@@ -7,9 +7,8 @@ import {
 import { type SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
 import { GROUPS } from "@liexp/shared/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
-import { ParentSize } from "@visx/responsive";
+import subYears from 'date-fns/subYears';
 import * as React from "react";
-import { KeywordHierarchyEdgeBundlingGraph } from "../components/Graph/KeywordHierarchyEdgeBundlingGraph";
 import { LinksListBox } from "../components/LinksBox";
 import QueriesRenderer from "../components/QueriesRenderer";
 import SEO from "../components/SEO";
@@ -107,6 +106,7 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
                   type={KEYWORDS.value}
                   query={{
                     ids: [keyword.id],
+                    startDate: subYears(new Date(), 2).toISOString()
                   }}
                   relations={[GROUPS.value]}
                   onKeywordClick={onKeywordClick}
@@ -115,29 +115,6 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
                   onGroupClick={onGroupClick}
                 />
               </Box>
-              <ParentSize style={{ maxWidth: 400, minWidth: 200 }}>
-                {({ width }) => {
-                  return (
-                    <KeywordHierarchyEdgeBundlingGraph
-                      keyword={keyword.id}
-                      width={width}
-                      onNodeClick={(n) => {
-                        onKeywordClick(n.data);
-                      }}
-                      onLinkClick={([firstK, secondK]) => {
-                        // navigateToResource.events(
-                        //   {},
-                        //   {
-                        //     hash: queryToHash({
-                        //       keywords: [firstK.data.id, secondK.data.id],
-                        //     }),
-                        //   }
-                        // );
-                      }}
-                    />
-                  );
-                }}
-              </ParentSize>
             </SplitPageTemplate>
           </Box>
         );

@@ -12,6 +12,7 @@ import { EventNetworkGraphBox } from "../containers/graphs/EventNetworkGraphBox"
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
 import { useGroupsQuery } from "../state/queries/groups.queries";
 import { SplitPageTemplate } from "./SplitPageTemplate";
+import subYears from 'date-fns/subYears';
 
 export interface ActorTemplateProps {
   actor: Actor.Actor;
@@ -117,6 +118,7 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                   type={ACTORS.value}
                   query={{
                     ids: [actor.id],
+                    startDate: subYears(new Date(), 2).toISOString()
                   }}
                   selectedActorIds={[actor.id]}
                   onActorClick={onActorClick}

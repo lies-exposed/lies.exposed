@@ -1,5 +1,6 @@
 import { type Actor, Group, type Keyword } from "@liexp/shared/io/http";
 import { type SearchEvent } from "@liexp/shared/io/http/Events";
+import subYears from 'date-fns/subYears';
 import * as React from "react";
 import { GroupHierarchyEdgeBundlingGraph } from "../components/Graph/GroupHierarchyEdgeBundlingGraph";
 import { GroupPageContent } from "../components/GroupPageContent";
@@ -113,6 +114,7 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                   type={Group.GROUPS.value}
                   query={{
                     ids: [group.id],
+                    startDate: subYears(new Date(), 2).toISOString()
                   }}
                   relations={[]}
                   onActorClick={onActorClick}

@@ -72,21 +72,6 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
                   showFilter={false}
                 />
               </Grid>
-              <Grid item md={6}>
-                <GroupEventNetworkGraphBox
-                  params={{
-                    pagination: {
-                      perPage: 1,
-                      page: Math.floor(Math.random() * 10),
-                    },
-                  }}
-                  type={GROUPS.value}
-                  query={{
-                    startDate: subYears(new Date(), 2).toISOString(),
-                  }}
-                  showFilter={false}
-                />
-              </Grid>
             </Grid>
           </>
         )}

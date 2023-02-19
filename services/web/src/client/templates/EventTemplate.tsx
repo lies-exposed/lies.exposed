@@ -22,7 +22,7 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
             event={event}
             tab={tab}
             onTabChange={(tab) => {
-              navigateTo.events({ id: event.id }, { tab: 0 });
+              navigateTo.events({ id: event.id }, { tab });
             }}
             onDateClick={() => {}}
             onActorClick={(a) => {
