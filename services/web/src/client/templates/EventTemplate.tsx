@@ -44,7 +44,10 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
               navigateTo.media({ id: m.id }, { tab: 0 });
             }}
             onGroupMemberClick={(g) => {
-              navigateTo.actors({ id: g.actor.id });
+              navigateTo.actors({ id: g.actor.id }, { tab: 0 });
+            }}
+            onEventClick={(e) => {
+              navigateTo.events({ id: e.id }, { tab: 0 });
             }}
           />
         );

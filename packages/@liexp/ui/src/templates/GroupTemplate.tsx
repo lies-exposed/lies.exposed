@@ -1,4 +1,4 @@
-import { type Actor, Group, type Keyword } from "@liexp/shared/io/http";
+import { type Actor, Group, Keyword } from "@liexp/shared/io/http";
 import { type SearchEvent } from "@liexp/shared/io/http/Events";
 import subYears from 'date-fns/subYears';
 import * as React from "react";
@@ -116,7 +116,9 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                     ids: [group.id],
                     startDate: subYears(new Date(), 2).toISOString()
                   }}
-                  relations={[]}
+                  relations={[
+                    Keyword.KEYWORDS.value
+                  ]}
                   onActorClick={onActorClick}
                   onGroupClick={onGroupClick}
                   onKeywordClick={onKeywordClick}

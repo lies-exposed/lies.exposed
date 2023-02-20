@@ -50,6 +50,7 @@ export interface EventTemplateProps {
   onKeywordClick: (a: http.Keyword.Keyword) => void;
   onAreaClick: (a: http.Area.Area) => void;
   onGroupMemberClick: (g: http.GroupMember.GroupMember) => void;
+  onEventClick: (e: http.Events.SearchEvent.SearchEvent) => void;
 }
 
 export const EventTemplateUI: React.FC<EventTemplateProps> = ({
@@ -61,6 +62,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
   onGroupClick,
   onGroupMemberClick,
   onKeywordClick,
+  onEventClick,
 }) => {
   const theme = useTheme();
   const isDownSM = useMuiMediaQuery(theme.breakpoints.down("md"));

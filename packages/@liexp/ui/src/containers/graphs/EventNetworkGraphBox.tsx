@@ -18,7 +18,11 @@ import {
   type EventsNetworkGraphProps,
 } from "../../components/Graph/EventsNetworkGraph";
 import QueriesRenderer from "../../components/QueriesRenderer";
-import { Box, MenuItem, Select } from "../../components/mui";
+import {
+  allFiltersEnabled,
+  EventTypeFilters,
+} from "../../components/events/EventTypeFilters";
+import { Box, Grid, MenuItem, Select } from "../../components/mui";
 import { useNetworkGraphQuery } from "../../state/queries/DiscreteQueries";
 import { type UseListQueryFn } from "../../state/queries/type";
 
@@ -42,6 +46,7 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
   showFilter = true,
   ...props
 }) => {
+  const [filters, setFilters] = React.useState(allFiltersEnabled);
   const [relations, setRelation] = React.useState<NetworkGroupBy[]>(_relations);
 
   const [[startDate, endDate], setDateRange] = React.useState<[string, string]>(
@@ -60,37 +65,61 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
     >
       {showFilter ? (
         <Box style={{ margin: 20, display: "flex", flexDirection: "row" }}>
-          <DateRangePicker
-            from={startDate}
-            to={endDate}
-            onDateRangeChange={([from, to]) => {
-              setDateRange([from ?? startDate, to ?? endDate]);
-            }}
-          />
-
-          <Select
-            label={"Relation"}
-            value={relations.map((id) => id)}
-            placeholder="Select.."
-            size="small"
-            multiple
-            onChange={(e) => {
-              setRelation((relations) => {
-                const idx = relations.findIndex((v) => v === e.target.value);
-                if (idx >= 0) {
-                  return relations.splice(idx, 1);
-                }
-                // return relations.concat(...(e.target.value as any[]));
-                return typeof e.target.value === "string"
-                  ? [e.target.value as any]
-                  : e.target.value;
-              });
-            }}
-          >
-            <MenuItem value={ACTORS.value}>{ACTORS.value}</MenuItem>
-            <MenuItem value={KEYWORDS.value}>{KEYWORDS.value}</MenuItem>
-            <MenuItem value={GROUPS.value}>{GROUPS.value}</MenuItem>
-          </Select>
+          <Grid container>
+            <Grid item sm={6} md={4}>
+              <EventTypeFilters
+                filters={filters}
+                totals={{
+                  uncategorized: 0,
+                  transactions: 0,
+                  deaths: 0,
+                  documentaries: 0,
+                  scientificStudies: 0,
+                  patents: 0,
+                  quotes: 0,
+                }}
+                onChange={(filters) => {
+                  setFilters(filters);
+                }}
+              />
+            </Grid>
+            <Grid item sm={4} md={6}>
+              <DateRangePicker
+                from={startDate}
+                to={endDate}
+                onDateRangeChange={([from, to]) => {
+                  setDateRange([from ?? startDate, to ?? endDate]);
+                }}
+              />
+            </Grid>
+            <Grid item sm={12} md={2}>
+              <Select
+                label={"Relation"}
+                value={relations.map((id) => id)}
+                placeholder="Select.."
+                size="small"
+                multiple
+                onChange={(e) => {
+                  setRelation((relations) => {
+                    const idx = relations.findIndex(
+                      (v) => v === e.target.value
+                    );
+                    if (idx >= 0) {
+                      return relations.splice(idx, 1);
+                    }
+                    // return relations.concat(...(e.target.value as any[]));
+                    return typeof e.target.value === "string"
+                      ? [e.target.value as any]
+                      : e.target.value;
+                  });
+                }}
+              >
+                <MenuItem value={ACTORS.value}>{ACTORS.value}</MenuItem>
+                <MenuItem value={KEYWORDS.value}>{KEYWORDS.value}</MenuItem>
+                <MenuItem value={GROUPS.value}>{GROUPS.value}</MenuItem>
+              </Select>
+            </Grid>
+          </Grid>
         </Box>
       ) : null}
 
@@ -122,10 +151,10 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
             const date = parseISO(e.date);
             const min = differenceInDays(date, startDateD);
             const max = differenceInDays(endDateD, date);
-
+            const isTypeIncluded: boolean = (filters as any)[e.type];
             // console.log({ min, max });
 
-            return min >= 0 && max >= 0;
+            return min >= 0 && max >= 0 && isTypeIncluded;
           });
 
           const eventIds = filteredEvents.map((e) => e.id);

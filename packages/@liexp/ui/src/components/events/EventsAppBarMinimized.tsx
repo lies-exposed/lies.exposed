@@ -3,17 +3,15 @@ import {
   type Actor,
   type Group,
   type GroupMember,
-  type Keyword,
+  type Keyword
 } from "@liexp/shared/io/http";
 import {
   Death,
-  Documentary,
-  type EventType,
-  Patent,
+  Documentary, Patent,
   Quote,
   ScientificStudy,
   Transaction,
-  Uncategorized,
+  Uncategorized, type EventType
 } from "@liexp/shared/io/http/Events";
 import { DEATH } from "@liexp/shared/io/http/Events/Death";
 import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
@@ -27,9 +25,6 @@ import ArrowDownIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpIcon from "@mui/icons-material/ArrowUpward";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { clsx } from "clsx";
-import * as R from "fp-ts/Record";
-import { pipe } from "fp-ts/function";
-import * as S from "fp-ts/string";
 import * as React from "react";
 import { type SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery";
 import { styled } from "../../theme";
@@ -38,7 +33,7 @@ import GroupList from "../lists/GroupList";
 import { GroupsMembersList } from "../lists/GroupMemberList";
 import KeywordList from "../lists/KeywordList";
 import { Box, Grid, IconButton, Typography } from "../mui";
-import { EventTypeFilters } from "./EventTypeFilters";
+import { allFiltersEnabled, EventTypeFilters, type EventTypeMap } from "./EventTypeFilters";
 
 const PREFIX = "events-app-bar-minimized";
 const classes = {
@@ -96,15 +91,7 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
 }) => {
   const filters = React.useMemo(() => {
     if (!query.type) {
-      return {
-        [Death.DEATH.value]: true,
-        [Uncategorized.UNCATEGORIZED.value]: true,
-        [ScientificStudy.SCIENTIFIC_STUDY.value]: true,
-        [Patent.PATENT.value]: true,
-        [Documentary.DOCUMENTARY.value]: true,
-        [Transaction.TRANSACTION.value]: true,
-        [Quote.QUOTE.value]: true,
-      };
+      return allFiltersEnabled;
     }
     return {
       [Death.DEATH.value]: !!query.type?.includes(Death.DEATH.value),
@@ -136,43 +123,7 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
   });
 
   const handleFilterChange = React.useCallback(
-    (filterK: EventType) => {
-      const allEnabled = pipe(
-        filters,
-        R.reduce(S.Ord)(true, (acc, b) => acc && b)
-      );
-
-      const allDisabled = pipe(
-        filters,
-        R.reduce(S.Ord)(true, (acc, b) => acc && !b)
-      );
-
-      const ff = allEnabled
-        ? {
-            [Documentary.DOCUMENTARY.value]: false,
-            [Patent.PATENT.value]: false,
-            [Transaction.TRANSACTION.value]: false,
-            [Uncategorized.UNCATEGORIZED.value]: false,
-            [Death.DEATH.value]: false,
-            [ScientificStudy.SCIENTIFIC_STUDY.value]: false,
-            [Quote.QUOTE.value]: false,
-            [filterK]: true,
-          }
-        : allDisabled
-        ? {
-            [Documentary.DOCUMENTARY.value]: true,
-            [Patent.PATENT.value]: true,
-            [Transaction.TRANSACTION.value]: true,
-            [Uncategorized.UNCATEGORIZED.value]: true,
-            [Death.DEATH.value]: true,
-            [ScientificStudy.SCIENTIFIC_STUDY.value]: true,
-            [Quote.QUOTE.value]: true,
-          }
-        : {
-            ...filters,
-            [filterK]: !filters[filterK],
-          };
-
+    (ff: EventTypeMap, filterK: EventType) => {
       const type = [
         [ff.Uncategorized, UNCATEGORIZED.value],
         [ff.Death, DEATH.value],

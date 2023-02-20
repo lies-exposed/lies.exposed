@@ -4,6 +4,7 @@ import {
   type Keyword,
   type Media
 } from "@liexp/shared/io/http";
+import { ACTORS } from '@liexp/shared/io/http/Actor';
 import { type SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
 import { GROUPS } from "@liexp/shared/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
@@ -108,7 +109,7 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
                     ids: [keyword.id],
                     startDate: subYears(new Date(), 2).toISOString()
                   }}
-                  relations={[GROUPS.value]}
+                  relations={[GROUPS.value, ACTORS.value]}
                   onKeywordClick={onKeywordClick}
                   onEventClick={onEventClick}
                   onActorClick={onActorClick}
