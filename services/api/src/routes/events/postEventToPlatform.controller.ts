@@ -10,7 +10,7 @@ export const PostEventToPlatformRoute: Route = (r, ctx) => {
     const title = `<a href="${body.url}"><b>${body.title}</b></a>`;
     const date = `<a href="${ctx.env.WEB_URL}/events?startDate=${body.date}">${body.date}</a>`;
     const keywords = `${body.keywords.map((k) => `#${k.tag}`).join(" ")}`;
-    const footer = `Follow ${ctx.env.TG_BOT_CHAT}\n Posted by ${ctx.env.TG_BOT_USERNAME}`;
+    const footer = `Follow ${ctx.env.TG_BOT_CHAT}\nPosted by ${ctx.env.TG_BOT_USERNAME}`;
 
     return [title, date, "\n", body.content, "\n", keywords, "\n", footer].join(
       "\n"
