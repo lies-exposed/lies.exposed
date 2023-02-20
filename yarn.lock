@@ -2711,7 +2711,7 @@ __metadata:
   dependencies:
     "@databases/escape-identifier": ^1.0.3
     "@databases/sql": ^3.3.0
-    "@mui/material": ^5.11.9
+    "@mui/material": ^5.11.10
     "@react-page/editor": ^5.4.3
     "@react-page/plugins-slate": ^5.4.3
     "@react-page/react-admin": ^5.4.3
@@ -2793,7 +2793,7 @@ __metadata:
     "@fortawesome/react-fontawesome": ^0.2.0
     "@mui/icons-material": ^5.11.9
     "@mui/lab": 5.0.0-alpha.120
-    "@mui/material": ^5.11.9
+    "@mui/material": ^5.11.10
     "@mui/styles": ^5.11.9
     "@mui/system": ^5.11.9
     "@mui/x-data-grid": ^5.17.24
@@ -3085,7 +3085,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/material@npm:^5.0.2, @mui/material@npm:^5.11.9, @mui/material@npm:^5.8.1":
+"@mui/material@npm:^5.0.2, @mui/material@npm:^5.8.1":
   version: 5.11.9
   resolution: "@mui/material@npm:5.11.9"
   dependencies:
@@ -3115,6 +3115,39 @@ __metadata:
     "@types/react":
       optional: true
   checksum: a9f796549aef16dc7aaae4afc65fb0deaf920004f00c957c21fa1f09fe0a7587c3e1fbeffb239b961ca64d7727beadd434b62e530a9e44d59a909e4c95f0f1ce
+  languageName: node
+  linkType: hard
+
+"@mui/material@npm:^5.11.10":
+  version: 5.11.10
+  resolution: "@mui/material@npm:5.11.10"
+  dependencies:
+    "@babel/runtime": ^7.20.13
+    "@mui/base": 5.0.0-alpha.118
+    "@mui/core-downloads-tracker": ^5.11.9
+    "@mui/system": ^5.11.9
+    "@mui/types": ^7.2.3
+    "@mui/utils": ^5.11.9
+    "@types/react-transition-group": ^4.4.5
+    clsx: ^1.2.1
+    csstype: ^3.1.1
+    prop-types: ^15.8.1
+    react-is: ^18.2.0
+    react-transition-group: ^4.4.5
+  peerDependencies:
+    "@emotion/react": ^11.5.0
+    "@emotion/styled": ^11.3.0
+    "@types/react": ^17.0.0 || ^18.0.0
+    react: ^17.0.0 || ^18.0.0
+    react-dom: ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    "@emotion/react":
+      optional: true
+    "@emotion/styled":
+      optional: true
+    "@types/react":
+      optional: true
+  checksum: 7d0ee8b7bc8a39146464a9a3ccc18766aff55914e7d801590b401f79c36e98b3b17aacd069e2620166024dd1020e67ad3a38da0d72e6aa0283d760a488c79501
   languageName: node
   linkType: hard
 
@@ -7948,7 +7981,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "admin-web@workspace:services/admin-web"
   dependencies:
-    "@mui/material": ^5.11.9
+    "@mui/material": ^5.11.10
     "@testing-library/dom": ^8.20.0
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^13.4.0
@@ -25752,7 +25785,7 @@ __metadata:
     "@fortawesome/free-regular-svg-icons": ^6.3.0
     "@fortawesome/free-solid-svg-icons": ^6.3.0
     "@fortawesome/react-fontawesome": ^0.2.0
-    "@mui/material": ^5.11.9
+    "@mui/material": ^5.11.10
     "@types/bs58": ^4.0.1
     "@types/d3": ^7.4.0
     "@types/debug": ^4.1.7
