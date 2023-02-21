@@ -1,5 +1,4 @@
 import * as fs from "fs";
-import path from "path";
 import { fp } from "@liexp/core/fp";
 import {
   getColorByEventType,
@@ -460,12 +459,9 @@ export const createNetworkGraph =
 
             return eventGraph;
           }),
-          TE.chainIOEitherK((graph) => {
-            return fp.IOE.tryCatch(() => {
-              fs.writeFileSync(filePath, JSON.stringify(graph));
-              return graph;
-            }, toControllerError);
-          })
+          TE.chainFirst((graph) =>
+            ctx.fs.writeObject(filePath, JSON.stringify(graph))
+          )
         );
       })
     );

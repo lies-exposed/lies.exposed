@@ -10,9 +10,13 @@ import type * as puppeteer from "puppeteer-core";
 import { fetchAndSave } from "../link.flow";
 import { type EventV2Entity } from "@entities/Event.v2.entity";
 import { type LinkEntity } from "@entities/Link.entity";
-import { type UserEntity } from '@entities/User.entity';
+import { type UserEntity } from "@entities/User.entity";
 import { type ControllerError, toControllerError } from "@io/ControllerError";
 import { type RouteContext } from "@routes/route.types";
+import { sequenceS } from "fp-ts/lib/Apply";
+import { GetNERProvider } from "@liexp/shared/providers/ner/ner.provider";
+import { ActorEntity } from "@entities/Actor.entity";
+import { GroupEntity } from "@entities/Group.entity";
 
 const extractEventFromProviderLink =
   (ctx: RouteContext) =>
@@ -152,20 +156,74 @@ const extractByProvider =
     host: string,
     l: LinkEntity
   ): TE.TaskEither<ControllerError, O.Option<EventV2Entity>> => {
+    const filePath = ctx.fs.resolve(`temp/urls/${l.id}.txt`);
+
+    const cacheExists = ctx.fs.olderThan(filePath);
+
     return pipe(
-      TE.tryCatch(async () => {
-        await p.goto(l.url, {
-          waitUntil: "networkidle0",
-        });
-        return p;
-      }, toControllerError),
-      TE.chain((p) => {
+      cacheExists,
+      TE.chain((exists) => {
+        if (!exists) {
+          ctx.logger.debug.log("URL %s not cached, loading it...", filePath);
+          return pipe(
+            TE.tryCatch(async () => {
+              await p.goto(l.url, {
+                waitUntil: "networkidle0",
+              });
+              return await p.$eval("body", (b) => b.innerText);
+            }, toControllerError),
+            TE.chainFirst((text) => ctx.fs.writeObject(filePath, text))
+          );
+        }
+        return pipe(ctx.fs.getObject(filePath), TE.mapLeft(toControllerError));
+      }),
+      TE.chain((text) => {
+        const nerTask = pipe(
+          sequenceS(TE.ApplicativeSeq)({
+            actors: ctx.db.find(ActorEntity, { take: 100 }),
+            groups: ctx.db.find(GroupEntity, { take: 100 }),
+          }),
+          TE.chain(({ actors, groups }) => {
+            return pipe(
+              GetNERProvider(ctx).process(text, [
+                {
+                  name: "actor",
+                  patterns: actors.flatMap((a) => {
+                    return [
+                      a.fullName,
+                      a.fullName.split(" ").reverse().join(" "),
+                    ];
+                  }),
+                },
+                {
+                  name: "group",
+                  patterns: groups.flatMap((g) => {
+                    return [g.name, g.name.split(" ").reverse().join(" ")];
+                  }),
+                },
+              ]),
+              TE.map((details) => ({
+                actors: details
+                  .filter((d) => d.type === "actor")
+                  .map((d) => actors.find((a) => a.fullName === d.value))
+                  .filter((a): a is ActorEntity => a !== undefined),
+                groups: details
+                  .filter((d) => d.type === "group")
+                  .map((d) => groups.find((a) => a.name === d.value))
+                  .filter((a): a is GroupEntity => a !== undefined),
+              }))
+            );
+          })
+        );
+
         return pipe(
-          extractEventFromProviderLink(ctx)(p, host, l),
-          ctx.logger.debug.logInTaskEither("extracted event %O"),
-          TE.map((metadataOpt) =>
+          sequenceS(TE.ApplicativePar)({
+            ner: nerTask,
+            provider: extractEventFromProviderLink(ctx)(p, host, l),
+          }),
+          TE.map(({ ner, provider }) =>
             pipe(
-              metadataOpt,
+              provider,
               O.map((m) =>
                 getSuggestions(
                   m,
@@ -184,7 +242,7 @@ const extractByProvider =
                     groups: [],
                     createdAt: new Date(),
                     updatedAt: new Date(),
-                    deletedAt: undefined
+                    deletedAt: undefined,
                   }),
                   O.none
                 )
@@ -202,8 +260,8 @@ const extractByProvider =
                 links: [l],
                 keywords: [],
                 media: [],
-                actors: [],
-                groups: [],
+                actors: ner.actors,
+                groups: ner.groups,
                 createdAt: new Date(),
                 updatedAt: new Date(),
                 deletedAt: null,

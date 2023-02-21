@@ -44,7 +44,7 @@
       "path": "../../packages/@liexp/core"
     }
   ],
-  "include": ["./src", "./scripts", "./test"],
+  "include": ["./bin", "./src", "./scripts", "./test"],
   "exclude": ["**/build", "**/lib"],
   "ts-node": {
     "transpileOnly": true,

@@ -7,7 +7,7 @@ import { type DatabaseClient } from "../providers/orm";
 import { type PuppeteerProvider } from "../providers/puppeteer.provider";
 import { type SpaceClient } from "../providers/space";
 import { type TGBotProvider } from "../providers/tg/tg.provider";
-import { FSClient } from '@providers/fs/fs.provider';
+import { FSClient } from '../providers/fs/fs.provider';
 
 export interface ServerContext {
   db: DatabaseClient;
