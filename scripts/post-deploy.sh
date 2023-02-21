@@ -44,6 +44,7 @@ mkdir -p ./services/api/temp
 mkdir -p ./services/api/temp/tg/messages
 yarn build
 yarn migration:run
+DOTENV_CONFIG_PATH=../../.env yarn upsert-nlp-entities
 cd ../../;
 
 # reload services
