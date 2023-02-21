@@ -1,6 +1,7 @@
 import { type Actor, type Group, type Keyword } from "@liexp/shared/io/http";
 import { ACTORS } from "@liexp/shared/io/http/Actor";
 import { type SearchEvent } from "@liexp/shared/io/http/Events";
+import subYears from 'date-fns/subYears';
 import * as React from "react";
 import { ActorPageContent } from "../components/ActorPageContent";
 import { ActorHierarchyEdgeBundlingGraph } from "../components/Graph/ActorHierarchyEdgeBundlingGraph";
@@ -12,7 +13,6 @@ import { EventNetworkGraphBox } from "../containers/graphs/EventNetworkGraphBox"
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
 import { useGroupsQuery } from "../state/queries/groups.queries";
 import { SplitPageTemplate } from "./SplitPageTemplate";
-import subYears from 'date-fns/subYears';
 
 export interface ActorTemplateProps {
   actor: Actor.Actor;
