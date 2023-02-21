@@ -26,10 +26,8 @@ import {
   type NetworkType,
 } from "@liexp/shared/io/http/Network";
 import { type EventNetworkDatum } from "@liexp/shared/io/http/Network/networks";
-import { distanceFromNow } from "@liexp/shared/utils/date";
 import { GetEncodeUtils } from "@liexp/shared/utils/encode.utils";
 import { walkPaginatedRequest } from "@liexp/shared/utils/fp.utils";
-import { differenceInHours } from "date-fns";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
@@ -332,58 +330,13 @@ export const createNetworkGraph =
     });
 
     const networkId = uniqueId.hash({ ids, relations });
-    const filePath = path.resolve(
-      process.cwd(),
-      `temp/networks/${type}/${networkId}.json`
-    );
+    const filePath = ctx.fs.resolve(`temp/networks/${type}/${networkId}.json`);
 
     return pipe(
-      TE.fromIOEither(
-        fp.IOE.tryCatch(() => {
-          const filePathDir = path.dirname(filePath);
-          const tempFolderExists = fs.existsSync(filePathDir);
-          if (!tempFolderExists) {
-            ctx.logger.debug.log(
-              "Folder %s does not exist, creating...",
-              filePathDir
-            );
-            fs.mkdirSync(filePathDir, { recursive: true });
-          }
-
-          const statsExists = fs.existsSync(filePath);
-          ctx.logger.debug.log(
-            "Network file path %s exists? %s",
-            path.relative(process.cwd(), filePath),
-            statsExists
-          );
-          if (statsExists) {
-            const { mtime } = fs.statSync(filePath);
-            const hoursDelta = differenceInHours(new Date(), mtime);
-
-            ctx.logger.debug.log(
-              "Last network file update %s (%d h)",
-              distanceFromNow(mtime),
-              hoursDelta
-            );
-
-            return hoursDelta < 6;
-          }
-
-          return false;
-        }, toControllerError)
-      ),
+      ctx.fs.olderThan(filePath),
       TE.chain((statsExist) => {
         if (statsExist) {
-          return TE.fromIOEither(
-            fp.IOE.tryCatch(() => {
-              ctx.logger.debug.log(
-                "Reading content from %s",
-                path.relative(process.cwd(), filePath)
-              );
-              const content = fs.readFileSync(filePath, "utf-8");
-              return JSON.parse(content);
-            }, toControllerError)
-          );
+          return pipe(ctx.fs.getObject(filePath), TE.map(JSON.parse));
         }
 
         ctx.logger.debug.log("Creating graph for %s => %s", type, ids);

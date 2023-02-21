@@ -59,6 +59,7 @@ import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller.ts";
 import { MakeUserRoutes } from "@routes/users/User.routes";
 import { getDataSource } from "@utils/data-source";
 import { GetWriteJSON } from "@utils/json.utils";
+import { GetFSClient } from '@liexp/shared/providers/fs/fs.provider';
 
 // var whitelist = ["http://localhost:8002"]
 const corsOptions: cors.CorsOptions = {
@@ -104,6 +105,7 @@ export const makeContext = (
           TE.mapLeft(toControllerError)
         ),
         s3: TE.right(s3),
+        fs: TE.right(GetFSClient()),
         jwt: TE.right(
           GetJWTClient({ secret: env.JWT_SECRET, logger: serverLogger })
         ),
