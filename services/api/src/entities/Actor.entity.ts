@@ -1,3 +1,4 @@
+import { type UUID } from 'io-ts-types/lib/UUID';
 import {
   Column,
   CreateDateColumn,
@@ -14,7 +15,7 @@ import { GroupMemberEntity } from "./GroupMember.entity";
 @Entity("actor")
 export class ActorEntity {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  id: UUID;
 
   @Column({ type: "varchar" })
   fullName: string;

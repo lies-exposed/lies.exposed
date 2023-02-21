@@ -23,6 +23,7 @@ export const GetMetadata = Endpoint({
     data: t.strict({
       metadata: t.any,
       link: t.union([Link, t.undefined]),
+      relations: t.any,
     }),
   }),
 });

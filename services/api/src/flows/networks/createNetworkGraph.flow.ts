@@ -1,10 +1,8 @@
-import * as fs from "fs";
-import path from "path";
 import { fp } from "@liexp/core/fp";
 import {
   getColorByEventType,
   getEventsMetadata,
-  takeEventRelations,
+  takeEventRelations
 } from "@liexp/shared/helpers/event/event";
 import { getTitleForSearchEvent } from "@liexp/shared/helpers/event/getTitle.helper";
 import { toSearchEvent } from "@liexp/shared/helpers/event/search-event";
@@ -12,7 +10,7 @@ import {
   type Actor,
   type Group,
   type Keyword,
-  type Media,
+  type Media
 } from "@liexp/shared/io/http";
 import { ACTORS } from "@liexp/shared/io/http/Actor";
 import { type SearchEvent } from "@liexp/shared/io/http/Events";
@@ -23,13 +21,11 @@ import {
   type GetNetworkQuery,
   type NetworkGraphOutput,
   type NetworkGroupBy,
-  type NetworkType,
+  type NetworkType
 } from "@liexp/shared/io/http/Network";
 import { type EventNetworkDatum } from "@liexp/shared/io/http/Network/networks";
-import { distanceFromNow } from "@liexp/shared/utils/date";
 import { GetEncodeUtils } from "@liexp/shared/utils/encode.utils";
 import { walkPaginatedRequest } from "@liexp/shared/utils/fp.utils";
-import { differenceInHours } from "date-fns";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
@@ -37,7 +33,7 @@ import { sequenceS } from "fp-ts/lib/Apply";
 import { pipe } from "fp-ts/lib/function";
 import * as S from "fp-ts/string";
 import { type UUID } from "io-ts-types/lib/UUID";
-import { toControllerError, type ControllerError } from "@io/ControllerError";
+import { type ControllerError } from "@io/ControllerError";
 import { toActorIO } from "@routes/actors/actor.io";
 import { toEventV2IO } from "@routes/events/eventV2.io";
 import { fetchRelations } from "@routes/events/queries/fetchEventRelations.utils";
@@ -332,58 +328,13 @@ export const createNetworkGraph =
     });
 
     const networkId = uniqueId.hash({ ids, relations });
-    const filePath = path.resolve(
-      process.cwd(),
-      `temp/networks/${type}/${networkId}.json`
-    );
+    const filePath = ctx.fs.resolve(`temp/networks/${type}/${networkId}.json`);
 
     return pipe(
-      TE.fromIOEither(
-        fp.IOE.tryCatch(() => {
-          const filePathDir = path.dirname(filePath);
-          const tempFolderExists = fs.existsSync(filePathDir);
-          if (!tempFolderExists) {
-            ctx.logger.debug.log(
-              "Folder %s does not exist, creating...",
-              filePathDir
-            );
-            fs.mkdirSync(filePathDir, { recursive: true });
-          }
-
-          const statsExists = fs.existsSync(filePath);
-          ctx.logger.debug.log(
-            "Network file path %s exists? %s",
-            path.relative(process.cwd(), filePath),
-            statsExists
-          );
-          if (statsExists) {
-            const { mtime } = fs.statSync(filePath);
-            const hoursDelta = differenceInHours(new Date(), mtime);
-
-            ctx.logger.debug.log(
-              "Last network file update %s (%d h)",
-              distanceFromNow(mtime),
-              hoursDelta
-            );
-
-            return hoursDelta < 6;
-          }
-
-          return false;
-        }, toControllerError)
-      ),
+      ctx.fs.olderThan(filePath),
       TE.chain((statsExist) => {
         if (statsExist) {
-          return TE.fromIOEither(
-            fp.IOE.tryCatch(() => {
-              ctx.logger.debug.log(
-                "Reading content from %s",
-                path.relative(process.cwd(), filePath)
-              );
-              const content = fs.readFileSync(filePath, "utf-8");
-              return JSON.parse(content);
-            }, toControllerError)
-          );
+          return pipe(ctx.fs.getObject(filePath), TE.map(JSON.parse));
         }
 
         ctx.logger.debug.log("Creating graph for %s => %s", type, ids);
@@ -507,12 +458,9 @@ export const createNetworkGraph =
 
             return eventGraph;
           }),
-          TE.chainIOEitherK((graph) => {
-            return fp.IOE.tryCatch(() => {
-              fs.writeFileSync(filePath, JSON.stringify(graph));
-              return graph;
-            }, toControllerError);
-          })
+          TE.chainFirst((graph) =>
+            ctx.fs.writeObject(filePath, JSON.stringify(graph))
+          )
         );
       })
     );

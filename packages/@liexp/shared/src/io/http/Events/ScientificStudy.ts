@@ -10,7 +10,7 @@ export const ScientificStudyPayload = t.strict(
   {
     title: t.string,
     url: URL,
-    image: t.union([t.string, t.undefined]),
+    image: t.union([UUID, t.undefined]),
     authors: t.array(UUID),
     publisher: t.union([UUID, t.undefined]),
   },

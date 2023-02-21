@@ -2,6 +2,7 @@ import * as path from "path";
 import * as logger from "@liexp/core/logger";
 import { MakeURLMetadata } from "@liexp/shared/providers/URLMetadata.provider";
 import { GetFFMPEGProvider } from "@liexp/shared/providers/ffmpeg.provider";
+import { GetFSClient } from '@liexp/shared/providers/fs/fs.provider';
 import { HTTP } from "@liexp/shared/providers/http/http.provider";
 import { GetJWTClient } from "@liexp/shared/providers/jwt/JWTClient";
 import { GetTypeORMClient } from "@liexp/shared/providers/orm";
@@ -104,6 +105,7 @@ export const makeContext = (
           TE.mapLeft(toControllerError)
         ),
         s3: TE.right(s3),
+        fs: TE.right(GetFSClient()),
         jwt: TE.right(
           GetJWTClient({ secret: env.JWT_SECRET, logger: serverLogger })
         ),

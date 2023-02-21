@@ -6,9 +6,14 @@ import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { type Metadata } from "page-metadata-parser";
-import { Equal } from 'typeorm';
+import { Equal } from "typeorm";
 import { LinkEntity } from "@entities/Link.entity";
-import { type ControllerError, ServerError } from "@io/ControllerError";
+import { extractRelationsFromURL } from "@flows/events/extractFromURL.flow";
+import {
+  type ControllerError,
+  ServerError,
+  toControllerError,
+} from "@io/ControllerError";
 import { toLinkIO } from "@routes/links/link.io";
 import { type RouteContext } from "@routes/route.types";
 
@@ -44,6 +49,14 @@ export const MakeGetMetadataRoute = (r: Router, ctx: RouteContext): void => {
               O.getOrElse(() =>
                 TE.right<ControllerError, Link.Link | undefined>(undefined)
               )
+            ),
+            relations: pipe(
+              link,
+              O.map((l) => l.url),
+              O.getOrElse(() => url),
+              (url) => ctx.puppeteer.getBrowserFirstPage(url, {}),
+              TE.mapLeft(toControllerError),
+              TE.chain((p) => extractRelationsFromURL(ctx)(p, url))
             ),
           });
 

@@ -18,6 +18,7 @@
     "typeRoots": [
       "node_modules/@types",
       "../../node_modules/@types",
+      "../../packages/@liexp/shared/typings",
       "typings"
     ],
     "baseUrl": "./src",

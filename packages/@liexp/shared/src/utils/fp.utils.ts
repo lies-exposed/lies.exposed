@@ -10,10 +10,12 @@ export const traverseArrayOfE = <A, E, B>(
   fn: (a: A) => E.Either<E, B>
 ): E.Either<E, B[]> => pipe(results, A.traverse(E.Applicative)(fn));
 
+type ReqInput = { skip: number; amount: number }
+
 export const walkPaginatedRequest =
   ({ logger }: { logger: Logger }) =>
   <A, E, D>(
-    apiReqFn: (i: any) => TE.TaskEither<E, A>,
+    apiReqFn: (i: ReqInput) => TE.TaskEither<E, A>,
     getTotal: (r: A) => number,
     getData: (r: A) => D[],
     skip: number,

@@ -1,17 +1,24 @@
 import { getSuggestions } from "@liexp/shared/helpers/event-suggestion";
 import { type URL as URLT } from "@liexp/shared/io/http/Common";
+import { GetNERProvider } from "@liexp/shared/providers/ner/ner.provider";
+import { GetEncodeUtils } from "@liexp/shared/utils/encode.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { parse } from "date-fns";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
+import { sequenceS } from "fp-ts/lib/Apply";
 import { type Metadata } from "page-metadata-parser";
 import type * as puppeteer from "puppeteer-core";
+import { In } from "typeorm";
 import { fetchAndSave } from "../link.flow";
+import { ActorEntity } from "@entities/Actor.entity";
 import { type EventV2Entity } from "@entities/Event.v2.entity";
+import { GroupEntity } from "@entities/Group.entity";
+import { KeywordEntity } from "@entities/Keyword.entity";
 import { type LinkEntity } from "@entities/Link.entity";
-import { type UserEntity } from '@entities/User.entity';
-import { type ControllerError, toControllerError } from "@io/ControllerError";
+import { type UserEntity } from "@entities/User.entity";
+import { toControllerError, type ControllerError } from "@io/ControllerError";
 import { type RouteContext } from "@routes/route.types";
 
 const extractEventFromProviderLink =
@@ -145,6 +152,121 @@ const extractEventFromProviderLink =
     }, toControllerError);
   };
 
+export const extractRelationsFromURL =
+  (ctx: RouteContext) =>
+  (
+    p: puppeteer.Page,
+    url: string
+  ): TE.TaskEither<
+    ControllerError,
+    { actors: ActorEntity[]; groups: GroupEntity[]; keywords: KeywordEntity[] }
+  > => {
+    const id = GetEncodeUtils<string>((url) => ({ url })).hash(url);
+    const filePath = ctx.fs.resolve(`temp/urls/${id}.txt`);
+
+    const cacheExists = ctx.fs.olderThan(filePath);
+
+    return pipe(
+      cacheExists,
+      TE.chain((exists) => {
+        if (!exists) {
+          ctx.logger.debug.log("URL %s not cached, loading it...", filePath);
+          return pipe(
+            TE.tryCatch(async () => {
+              await p.goto(url, {
+                waitUntil: "networkidle0",
+              });
+              return await p.$eval("body", (b) => b.innerText);
+            }, toControllerError),
+            TE.chainFirst((text) => ctx.fs.writeObject(filePath, text))
+          );
+        }
+        return pipe(ctx.fs.getObject(filePath), TE.mapLeft(toControllerError));
+      }),
+      TE.chain((text) => {
+        const nerProvider = GetNERProvider(ctx);
+
+        return pipe(
+          sequenceS(TE.ApplicativeSeq)({
+            entities: pipe(
+              ctx.fs.getObject(ctx.fs.resolve(nerProvider.entitiesFile)),
+              TE.map(JSON.parse)
+            ),
+          }),
+          TE.chain(({ entities }) => {
+            return pipe(
+              nerProvider.process(text, entities),
+              TE.chain((details) =>
+                sequenceS(TE.ApplicativePar)({
+                  actors: pipe(
+                    details
+                      .filter((d) => d.type === "actor")
+                      .reduce<string[]>(
+                        (acc, a) =>
+                          acc.includes(a.value) ? acc : acc.concat(a.value),
+                        []
+                      ),
+                    O.fromPredicate((ll) => ll.length > 0),
+                    O.map((names) =>
+                      ctx.db.find(ActorEntity, {
+                        where: {
+                          fullName: In(names),
+                        },
+                      })
+                    ),
+                    O.getOrElse(() =>
+                      TE.right<ControllerError, ActorEntity[]>([])
+                    )
+                  ),
+                  groups: pipe(
+                    details
+                      .filter((d) => d.type === "group")
+                      .reduce<string[]>(
+                        (acc, a) =>
+                          acc.includes(a.value) ? acc : acc.concat(a.value),
+                        []
+                      ),
+                    O.fromPredicate((l) => l.length > 0),
+                    O.map((names) =>
+                      ctx.db.find(GroupEntity, {
+                        where: {
+                          name: In(names),
+                        },
+                      })
+                    ),
+                    O.getOrElse(() =>
+                      TE.right<ControllerError, GroupEntity[]>([])
+                    )
+                  ),
+                  keywords: pipe(
+                    details
+                      .filter((d) => d.type === "keyword")
+                      .reduce<string[]>(
+                        (acc, a) =>
+                          acc.includes(a.value) ? acc : acc.concat(a.value),
+                        []
+                      ),
+                    O.fromPredicate((l) => l.length > 0),
+                    O.map((names) =>
+                      ctx.db.find(KeywordEntity, {
+                        where: {
+                          tag: In(names),
+                        },
+                      })
+                    ),
+                    O.getOrElse(() =>
+                      TE.right<ControllerError, KeywordEntity[]>([])
+                    )
+                  ),
+                })
+              )
+            );
+          })
+        );
+      })
+    );
+  };
+
 const extractByProvider =
   (ctx: RouteContext) =>
   (
@@ -153,65 +275,64 @@ const extractByProvider =
     l: LinkEntity
   ): TE.TaskEither<ControllerError, O.Option<EventV2Entity>> => {
     return pipe(
-      TE.tryCatch(async () => {
-        await p.goto(l.url, {
-          waitUntil: "networkidle0",
-        });
-        return p;
-      }, toControllerError),
-      TE.chain((p) => {
-        return pipe(
-          extractEventFromProviderLink(ctx)(p, host, l),
-          ctx.logger.debug.logInTaskEither("extracted event %O"),
-          TE.map((metadataOpt) =>
-            pipe(
-              metadataOpt,
-              O.map((m) =>
-                getSuggestions(
-                  m,
-                  O.some({
-                    id: l.id,
-                    title: l.title,
-                    description: l.description,
-                    publishDate: l.publishDate ?? undefined,
-                    provider: l.provider as any,
-                    creator: l.creator?.id,
-                    url: l.url,
-                    image: undefined,
-                    keywords: [],
-                    events: [],
-                    actors: [],
-                    groups: [],
-                    createdAt: new Date(),
-                    updatedAt: new Date(),
-                    deletedAt: undefined
-                  }),
-                  O.none
-                )
-              ),
-              O.chain((suggestions) =>
-                O.fromNullable(
-                  suggestions.find((s) => s.event.type === "ScientificStudy")
-                )
-              ),
-              O.map((s) => ({
-                ...s.event,
-                id: uuid() as any,
-                excerpt: s.event.excerpt as any,
-                body: s.event.body as any,
-                links: [l],
+      sequenceS(TE.ApplicativePar)({
+        relations: extractRelationsFromURL(ctx)(p, l.url),
+        provider: extractEventFromProviderLink(ctx)(p, host, l),
+      }),
+      TE.map(({ relations, provider }) =>
+        pipe(
+          provider,
+          O.map((m) =>
+            getSuggestions(
+              m,
+              O.some({
+                id: l.id,
+                title: l.title,
+                description: l.description,
+                publishDate: l.publishDate ?? undefined,
+                provider: l.provider as any,
+                creator: l.creator?.id,
+                url: l.url,
+                image: undefined,
                 keywords: [],
-                media: [],
+                events: [],
                 actors: [],
                 groups: [],
                 createdAt: new Date(),
                 updatedAt: new Date(),
-                deletedAt: null,
-              }))
+                deletedAt: undefined,
+              }),
+              O.none,
+              {
+                actors: relations.actors.map((a) => a.id),
+                groups: relations.groups.map((a) => a.id),
+                keywords: [],
+                groupsMembers: [],
+                media: [],
+              }
             )
-          )
-        );
-      })
+          ),
+          O.chain((suggestions) =>
+            O.fromNullable(
+              suggestions.find((s) => s.event.type === "ScientificStudy")
+            )
+          ),
+          O.map((s) => ({
+            ...s.event,
+            id: uuid() as any,
+            excerpt: s.event.excerpt as any,
+            body: s.event.body as any,
+            links: [l],
+            keywords: [],
+            media: [],
+            actors: relations.actors,
+            groups: relations.groups,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            deletedAt: null,
+          }))
+        )
+      )
     );
   };
 

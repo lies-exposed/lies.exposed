@@ -1,1 +1,2 @@
 db/dump/*.sql
+config/nlp/*.json

@@ -2755,6 +2755,7 @@ __metadata:
     typeorm: ^0.3.12
     typescript: ^4.9.5
     uuid: ^9.0.0
+    wink-nlp-utils: ^2.1.0
   peerDependencies:
     "@react-page/editor": ^5.2.0
     "@react-page/plugins-slate": ^5.2.0
@@ -2763,6 +2764,7 @@ __metadata:
     react: ^18
     react-admin: ^4
     react-dom: ^18
+    wink-nlp: ^1
   languageName: unknown
   linkType: soft
 
@@ -8345,6 +8347,9 @@ __metadata:
     typeorm-uml: ^1.6.5
     typescript: ^4.9.5
     uuid: ^9.0.0
+    wink-eng-lite-web-model: ^1.4.3
+    wink-nlp: ^1.13.0
+    wink-nlp-utils: ^2.1.0
   languageName: unknown
   linkType: soft
 
@@ -12180,7 +12185,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"emoji-regex@npm:^9.2.2":
+"emoji-regex@npm:^9.0.0, emoji-regex@npm:^9.2.2":
   version: 9.2.2
   resolution: "emoji-regex@npm:9.2.2"
   checksum: 8487182da74aabd810ac6d6f1994111dfc0e331b01271ae01ec1eb0ad7b5ecc2bbbbd2f053c05cb55a1ac30449527d819bbfbf0e3de1023db308cbcb47f86601
@@ -26199,6 +26204,76 @@ __metadata:
   version: 2.0.0
   resolution: "wildcard@npm:2.0.0"
   checksum: 1f4fe4c03dfc492777c60f795bbba597ac78794f1b650d68f398fbee9adb765367c516ebd4220889b6a81e9626e7228bbe0d66237abb311573c2ee1f4902a5ad
+  languageName: node
+  linkType: hard
+
+"wink-distance@npm:^2.0.1":
+  version: 2.0.2
+  resolution: "wink-distance@npm:2.0.2"
+  dependencies:
+    wink-helpers: ^2.0.0
+    wink-jaro-distance: ^2.0.0
+  checksum: 23892f14b24d06f5e4be6e39acd342fed1f43dcab78ab82c8c3af5584623c199b1166c48758845b6e7073f65c1a24e9a46d975be4d5ba7e8a02de7c7d7495224
+  languageName: node
+  linkType: hard
+
+"wink-eng-lite-web-model@npm:^1.4.3":
+  version: 1.4.3
+  resolution: "wink-eng-lite-web-model@npm:1.4.3"
+  peerDependencies:
+    wink-nlp: ">1.8.1"
+  checksum: a9166e65893c5446b5783f5b2f43e2ce0ae8cc1815a30966b2e96f1cce86d1cbad41cb54baab790f8a7160aa30e80a594944b7fe1c92661a892c82022de1cee4
+  languageName: node
+  linkType: hard
+
+"wink-helpers@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "wink-helpers@npm:2.0.0"
+  checksum: 28369d160d6582549689671944958bbe17c7998649b2bf4ffba5e644c67851accb058ca6d4020057f244a04f951fe54ed55c0cb4534ba8daf617aa9fa78d3188
+  languageName: node
+  linkType: hard
+
+"wink-jaro-distance@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "wink-jaro-distance@npm:2.0.0"
+  checksum: 61a3f3c9615f2b0a5a48688e183230fc4f03504b1b6f0b25be439e3c498c1df9ac9907640a1833c7ae5bdcb55a90610ca7f20d41e867ee2e8e22ba93a40a79bd
+  languageName: node
+  linkType: hard
+
+"wink-nlp-utils@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "wink-nlp-utils@npm:2.1.0"
+  dependencies:
+    wink-distance: ^2.0.1
+    wink-eng-lite-web-model: ^1.4.3
+    wink-helpers: ^2.0.0
+    wink-nlp: ^1.12.0
+    wink-porter2-stemmer: ^2.0.1
+    wink-tokenizer: ^5.2.3
+  checksum: 84d3b5eb7e943915a0352eb3acf5e0fcee65e1a051c77424db8824277b2200a27bf5c96baa03d5ba0409d211186d4671b061302055ea50b2ff7ca3708f005a1c
+  languageName: node
+  linkType: hard
+
+"wink-nlp@npm:^1.12.0, wink-nlp@npm:^1.13.0":
+  version: 1.13.0
+  resolution: "wink-nlp@npm:1.13.0"
+  checksum: 85b920cbbabfb5ef3bb6bd24a0fa92067a9382c4fbba8272da4c77ef187c5a4778b0faa9e16f60493bae6f65cc72347b256255c2434e411bf3fa49937fcdd83c
+  languageName: node
+  linkType: hard
+
+"wink-porter2-stemmer@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "wink-porter2-stemmer@npm:2.0.1"
+  checksum: 65b71040f5ba361d24f09f1d07146293033ab3dd2ef12b486b6d5671c579038ccd47b9bf265b9f2a40959c85bf9277b0ec52475b13cd08732f3754a7648c0ea8
+  languageName: node
+  linkType: hard
+
+"wink-tokenizer@npm:^5.2.3":
+  version: 5.3.0
+  resolution: "wink-tokenizer@npm:5.3.0"
+  dependencies:
+    emoji-regex: ^9.0.0
+  checksum: fb53926e9766fca6b7f393174b0e213d7db43102a51c1f430ca6b84e9488d7ee36d20b06fa9ce3e76dcdb7d44ceaed398d4d45b9745c9d3266336e4a8a3770a6
   languageName: node
   linkType: hard
 

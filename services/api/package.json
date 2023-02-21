@@ -26,10 +26,11 @@
     "migration:run": "typeorm migration:run -d ./ormconfig.js",
     "migration:show": "typeorm migration:show -d ./ormconfig.js",
     "migration:revert": "typeorm migration:revert -d ./ormconfig.js",
-    "create-event-stats": "DOTENV_CONFIG_PATH=../../.env yarn ts:node ./bin/create-event-stats.ts",
-    "parse-tg-message": "DOTENV_CONFIG_PATH=../../.env yarn ts:node ./bin/parse-tg-message.ts",
-    "clean-tg-messages": "DOTENV_CONFIG_PATH=../../.env yarn ts:node ./bin/clean-tg-messages.ts",
-    "extract-events": "DOTENV_CONFIG_PATH=../../.env yarn ts:node ./bin/extract-events.ts"
+    "create-event-stats": "yarn ts:node ./bin/create-event-stats.ts",
+    "parse-tg-message": "yarn ts:node ./bin/parse-tg-message.ts",
+    "clean-tg-messages": "yarn ts:node ./bin/clean-tg-messages.ts",
+    "extract-events": "yarn ts:node ./bin/extract-events.ts",
+    "upsert-nlp-entities": "yarn ts:node ./bin/upsert-nlp-entities.ts"
   },
   "dependencies": {
     "@databases/escape-identifier": "^1.0.3",
@@ -63,7 +64,10 @@
     "ts-endpoint-express": "^2.0.0",
     "ts-shared": "2.0.0-alpha.6",
     "typeorm": "^0.3.12",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "wink-eng-lite-web-model": "^1.4.3",
+    "wink-nlp": "^1.13.0",
+    "wink-nlp-utils": "^2.1.0"
   },
   "devDependencies": {
     "@side/jest-runtime": "^1.1.0",

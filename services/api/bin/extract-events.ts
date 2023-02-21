@@ -1,49 +1,52 @@
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import {
-  DataPayload,
   DataPayloadLink,
   extractFromURL
 } from "@flows/events/extractFromURL.flow";
+import { getOneAdminOrFail } from '@flows/users/getOneUserOrFail.flow';
 import { ControllerError, toControllerError } from "@io/ControllerError";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import dotenv from "dotenv";
 import * as A from "fp-ts/Array";
 import { pipe } from "fp-ts/function";
+import { sequenceS } from "fp-ts/lib/Apply";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
-import * as fs from "fs";
-import * as path from "path";
-import { findByURL } from '../src/queries/events/scientificStudy.query';
+import { findByURL } from "../src/queries/events/scientificStudy.query";
 import { makeContext } from "../src/server";
 
+dotenv.config();
+
 const run = async () => {
-  const [, , configFile] = process.argv;
+  const [, , url] = process.argv;
 
-  const json: DataPayload = pipe(
-    fs.readFileSync(path.resolve(process.cwd(), configFile), "utf-8"),
-    JSON.parse
-  );
-
-  dotenv.config();
+  if (!url || url === "") {
+    throw new Error("Missing url to fetch");
+  }
 
   const ctx = await throwTE(
     makeContext({ ...process.env, TG_BOT_POLLING: "false" })
   );
 
   const result = await pipe(
-    ctx.puppeteer.getBrowser({
-      headless: false,
+    sequenceS(TE.ApplicativePar)({
+      user: getOneAdminOrFail(ctx),
+      browser: pipe(
+        ctx.puppeteer.getBrowser({
+          headless: false,
+        }),
+        TE.mapLeft(toControllerError)
+      ),
     }),
-    TE.mapLeft(toControllerError),
-    TE.chainTaskK((b) => {
+    TE.chainTaskK(({ browser: b, user }) => {
       return pipe(
         TE.tryCatch(() => b.pages().then((pp) => pp[0]), toControllerError),
         TE.chain((p) => {
           return pipe(
-            json.links,
+            [{ url: url as any, type: "link" }],
             A.traverse(TE.ApplicativeSeq)((l) =>
               pipe(
-                extractFromURL(ctx)(p, l),
+                extractFromURL(ctx)(p, user, l),
                 TE.chain(
                   (
                     ev
@@ -51,7 +54,7 @@ const run = async () => {
                     ControllerError,
                     [O.Option<DataPayloadLink>, O.Option<EventV2Entity>]
                   > => {
-                    if (ev._tag === "None") {
+                    if (O.isNone(ev)) {
                       return TE.right([O.some(l), O.none]);
                     }
                     return pipe(
