@@ -1,9 +1,8 @@
-import * as fs from "fs";
 import { fp } from "@liexp/core/fp";
 import {
   getColorByEventType,
   getEventsMetadata,
-  takeEventRelations,
+  takeEventRelations
 } from "@liexp/shared/helpers/event/event";
 import { getTitleForSearchEvent } from "@liexp/shared/helpers/event/getTitle.helper";
 import { toSearchEvent } from "@liexp/shared/helpers/event/search-event";
@@ -11,7 +10,7 @@ import {
   type Actor,
   type Group,
   type Keyword,
-  type Media,
+  type Media
 } from "@liexp/shared/io/http";
 import { ACTORS } from "@liexp/shared/io/http/Actor";
 import { type SearchEvent } from "@liexp/shared/io/http/Events";
@@ -22,7 +21,7 @@ import {
   type GetNetworkQuery,
   type NetworkGraphOutput,
   type NetworkGroupBy,
-  type NetworkType,
+  type NetworkType
 } from "@liexp/shared/io/http/Network";
 import { type EventNetworkDatum } from "@liexp/shared/io/http/Network/networks";
 import { GetEncodeUtils } from "@liexp/shared/utils/encode.utils";
@@ -34,7 +33,7 @@ import { sequenceS } from "fp-ts/lib/Apply";
 import { pipe } from "fp-ts/lib/function";
 import * as S from "fp-ts/string";
 import { type UUID } from "io-ts-types/lib/UUID";
-import { toControllerError, type ControllerError } from "@io/ControllerError";
+import { type ControllerError } from "@io/ControllerError";
 import { toActorIO } from "@routes/actors/actor.io";
 import { toEventV2IO } from "@routes/events/eventV2.io";
 import { fetchRelations } from "@routes/events/queries/fetchEventRelations.utils";

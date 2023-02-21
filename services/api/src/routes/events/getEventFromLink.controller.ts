@@ -139,7 +139,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                   payload: {
                     title: suggestedTitle,
                     url: metadata.url as any,
-                    image: metadata.image ?? undefined,
+                    image: undefined,
                     publisher: undefined,
                     authors: [],
                   },

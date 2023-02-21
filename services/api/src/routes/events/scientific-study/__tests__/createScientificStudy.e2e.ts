@@ -63,6 +63,7 @@ describe("Create Scientific Study", () => {
     });
 
     appTest.mocks.puppeteer.page.goto.mockResolvedValueOnce(undefined);
+
     // evaluate title
     appTest.mocks.puppeteer.page.$eval.mockResolvedValueOnce(title);
     // evaluate dropdown click
@@ -81,6 +82,8 @@ describe("Create Scientific Study", () => {
         evaluate: jest.fn().mockResolvedValue(description),
       },
     ]);
+
+    appTest.mocks.puppeteer.page.$eval.mockResolvedValueOnce("page content");
 
     const response = await appTest.req
       .post(`/v1/scientific-studies`)

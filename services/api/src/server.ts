@@ -2,6 +2,7 @@ import * as path from "path";
 import * as logger from "@liexp/core/logger";
 import { MakeURLMetadata } from "@liexp/shared/providers/URLMetadata.provider";
 import { GetFFMPEGProvider } from "@liexp/shared/providers/ffmpeg.provider";
+import { GetFSClient } from '@liexp/shared/providers/fs/fs.provider';
 import { HTTP } from "@liexp/shared/providers/http/http.provider";
 import { GetJWTClient } from "@liexp/shared/providers/jwt/JWTClient";
 import { GetTypeORMClient } from "@liexp/shared/providers/orm";
@@ -59,7 +60,6 @@ import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller.ts";
 import { MakeUserRoutes } from "@routes/users/User.routes";
 import { getDataSource } from "@utils/data-source";
 import { GetWriteJSON } from "@utils/json.utils";
-import { GetFSClient } from '@liexp/shared/providers/fs/fs.provider';
 
 // var whitelist = ["http://localhost:8002"]
 const corsOptions: cors.CorsOptions = {

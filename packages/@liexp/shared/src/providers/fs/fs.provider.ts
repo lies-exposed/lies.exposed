@@ -1,12 +1,12 @@
-import { fp } from "@liexp/core/fp";
-import * as logger from "@liexp/core/logger";
-import { distanceFromNow } from "../../utils/date";
-import differenceInHours from "date-fns/differenceInHours";
-import { pipe } from "fp-ts/function";
-import * as TE from "fp-ts/TaskEither";
 import fs from "fs";
 import path from "path";
+import { fp } from "@liexp/core/fp";
+import * as logger from "@liexp/core/logger";
+import differenceInHours from "date-fns/differenceInHours";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { IOError } from "ts-io-error";
+import { distanceFromNow } from "../../utils/date";
 
 const fsLogger = logger.GetLogger("fs");
 
@@ -103,7 +103,7 @@ export const GetFSClient = (): FSClient => {
     olderThan,
     writeObject: (filePath, data) => {
       fsLogger.debug.log("Writing at %s: %d chars", filePath, data.length);
-      return pipe(TE.fromIO(() => fs.writeFileSync(filePath, data, "utf-8")));
+      return pipe(TE.fromIO(() => { fs.writeFileSync(filePath, data, "utf-8"); }));
     },
     getObject: (filePath) => {
       fsLogger.debug.log("Getting object from path %s", filePath);
@@ -113,7 +113,7 @@ export const GetFSClient = (): FSClient => {
     },
     deleteObject: (filePath) => {
       fsLogger.debug.log("Deleting object at path %s", filePath);
-      return pipe(TE.fromIO(() => fs.rmSync(filePath)));
+      return pipe(TE.fromIO(() => { fs.rmSync(filePath); }));
     },
   };
 };

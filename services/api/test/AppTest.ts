@@ -1,6 +1,7 @@
 import { toControllerError } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
 import { GetLogger } from "@liexp/core/logger";
+import { GetFSClient } from "@liexp/shared/providers/fs/fs.provider";
 import { HTTP } from "@liexp/shared/providers/http/http.provider";
 import { GetJWTClient } from "@liexp/shared/providers/jwt/JWTClient";
 import { GetTypeORMClient } from "@liexp/shared/providers/orm";
@@ -78,6 +79,7 @@ export const initAppTest = async (): Promise<AppTest> => {
       s3: MakeSpaceClient({
         client: awsMock as any,
       }),
+      fs: GetFSClient(),
       urlMetadata: {
         fetchHTML: (url: string, opts: any) => {
           return TE.tryCatch(
@@ -109,4 +111,3 @@ export const initAppTest = async (): Promise<AppTest> => {
     throwTE
   );
 };
-

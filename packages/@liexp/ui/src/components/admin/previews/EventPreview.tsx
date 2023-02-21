@@ -4,14 +4,18 @@ import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { LoadingIndicator, useEditContext } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { EventTemplateUI } from "../../../templates/EventTemplate";
 import { ECOTheme } from "../../../theme";
-import { EventPageContent } from "../../EventPageContent";
 import { HelmetProvider } from "../../SEO";
 import { ValidationErrorsLayout } from "../../ValidationErrorsLayout";
 import { ThemeProvider } from "../../mui";
 
-const EventPreview: React.FC = () => {
-  const { record } = useEditContext();
+interface EventPreviewProps {
+  event?: any;
+}
+
+const EventPreview: React.FC<EventPreviewProps> = ({ event }) => {
+  const record = event ?? useEditContext().record;
 
   const qc = React.useMemo(() => new QueryClient(), []);
 
@@ -41,8 +45,10 @@ const EventPreview: React.FC = () => {
       <HelmetProvider>
         <ThemeProvider theme={ECOTheme}>
           <QueryClientProvider client={qc}>
-            <EventPageContent
+            <EventTemplateUI
               event={p}
+              tab={0}
+              onTabChange={() => {}}
               onActorClick={() => undefined}
               onGroupClick={() => undefined}
               onKeywordClick={() => undefined}

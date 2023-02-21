@@ -76,6 +76,11 @@ jobs:
           DOTENV_CONFIG_PATH: ../../.env
         run: yarn api migration:run
 
+      - name: Configure NLP
+        env:
+          DOTENV_CONFIG_PATH: ../../.env
+        run: yarn api upsert-nlp-entities
+
       - name: Run tests
         env:
           DEBUG: "-@liexp*"

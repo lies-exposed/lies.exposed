@@ -111,7 +111,8 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
               suggestions: getSuggestions(
                 data.metadata,
                 O.fromNullable(data.link),
-                O.none
+                O.none,
+                data.relations
               ),
               events: [],
             });

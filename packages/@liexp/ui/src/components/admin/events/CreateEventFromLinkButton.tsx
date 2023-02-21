@@ -6,6 +6,7 @@ import * as React from "react";
 import { Button, useDataProvider } from "react-admin";
 import { useNavigate } from "react-router";
 import { Box, MenuItem, Select } from "../../mui";
+import EventPreview from "../previews/EventPreview";
 
 export const CreateEventFromLinkButton: React.FC = () => {
   const record = useRecordContext();
@@ -15,10 +16,36 @@ export const CreateEventFromLinkButton: React.FC = () => {
   const [type, setType] = React.useState<string>(
     io.http.Events.EventType.types[1].value
   );
+  const [suggestion, setSuggestion] = React.useState<any>(undefined);
 
   if (record?.events?.legnth > 0) {
     return <Box />;
   }
+
+  const getSuggestionFromAPI = React.useCallback(async () => {
+    if (suggestion) {
+      return suggestion;
+    }
+
+    return apiProvider
+      .get("open-graph/metadata", { url: record.url, type: "Link" })
+      .then(async ({ data: { metadata: m, relations } }: any) => {
+        const suggestions = getSuggestions(
+          m,
+          O.some(record as any),
+          O.fromNullable(record.thumbnail),
+          {
+            actors: relations.actors.map((a: any) => a.id),
+            groups: relations.groups.map((a: any) => a.id),
+            keywords: relations.keywords.map((k: any) => k.id),
+            groupsMembers: [],
+            media: [],
+          }
+        );
+
+        return suggestions.find((t) => t.event.type === type);
+      });
+  }, [record]);
 
   return (
     <Box>
@@ -36,17 +63,24 @@ export const CreateEventFromLinkButton: React.FC = () => {
         ))}
       </Select>
       <Button
+        label="Preview Event"
+        onClick={() => {
+          if (suggestion) {
+            setSuggestion(undefined);
+          }
+          setTimeout(() => {
+            void getSuggestionFromAPI().then(setSuggestion);
+          }, 0);
+        }}
+      />
+      <Button
         label="Create Event"
         variant="contained"
         onClick={() => {
-          void apiProvider
-            .get("open-graph/metadata", { url: record.url, type: "Link" })
-            .then(async ({ data: { metadata: m } }: any) => {
-              const suggestion = getSuggestions(m, O.some(record as any), O.none).find(
-                (t) => t.event.type === type
-              );
+          void getSuggestionFromAPI().then(async (suggestion: any) => {
+            if (suggestion?.event) {
+              const { newLinks, ...event } = suggestion.event ;
 
-              const { newLinks, ...event } = suggestion?.event as any;
               const { data: e } = await apiProvider.create(`/events`, {
                 data: {
                   ...event,
@@ -54,9 +88,22 @@ export const CreateEventFromLinkButton: React.FC = () => {
                 },
               });
               navigate(`/events/${e.id}`);
-            });
+            }
+          });
         }}
       />
+      {suggestion ? (
+        <Box>
+          <EventPreview
+            event={{
+              ...suggestion.event,
+              date: suggestion.event.date.toISOString(),
+              createdAt: suggestion.event.createdAt.toISOString(),
+              updatedAt: suggestion.event.updatedAt.toISOString(),
+            }}
+          />
+        </Box>
+      ) : null}
     </Box>
   );
 };

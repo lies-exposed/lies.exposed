@@ -48,7 +48,7 @@ export const Get = Endpoint({
   getPath: ({ id }) => `/groups/${id}`,
   Input: {
     Query: undefined,
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
   },
   Output: SingleGroupOutput,
 });
@@ -58,7 +58,7 @@ export const Edit = Endpoint({
   getPath: ({ id }) => `/groups/${id}`,
   Input: {
     Query: undefined,
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
     Body: Group.EditGroupBody,
   },
   Output: SingleGroupOutput,
@@ -69,7 +69,7 @@ export const Delete = Endpoint({
   getPath: ({ id }) => `/groups/${id}`,
   Input: {
     Query: undefined,
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
   },
   Output: SingleGroupOutput,
 });

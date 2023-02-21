@@ -1,14 +1,17 @@
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
+import { type UUID } from "io-ts-types/lib/UUID";
 import { type Metadata } from "page-metadata-parser";
 import { http } from "../io";
 import { createExcerptValue } from "../slate";
 import { uuid } from "../utils/uuid";
+import { type EventRelationIds } from "./event/event";
 
 export const getSuggestions = (
   m: Metadata,
   link: O.Option<http.Link.Link>,
-  media: O.Option<http.Media.Media>
+  media: O.Option<http.Media.Media>,
+  relations: EventRelationIds
 ): http.EventSuggestion.CreateEventSuggestion[] => {
   const urlDate = m.date ? new Date(m.date) : new Date();
 
@@ -27,6 +30,12 @@ export const getSuggestions = (
     ? createExcerptValue(m.description)
     : undefined;
 
+  const suggestedMedia = pipe(
+    link,
+    O.chainNullableK((l) => l.image),
+    O.alt<any>(() => media)
+  );
+
   const suggestedEventLinks = pipe(
     link,
     O.map((l) => [l.id]),
@@ -44,9 +53,13 @@ export const getSuggestions = (
     draft: true,
     date: urlDate,
     newLinks: suggestedEventLinks,
-    media: [],
+    media: pipe(
+      suggestedMedia,
+      O.map((m) => [m.id]),
+      O.getOrElse((): UUID[] => [])
+    ),
     links: [],
-    keywords: [],
+    keywords: relations.keywords,
     createdAt: new Date(),
     updatedAt: new Date(),
     deletedAt: undefined,
@@ -62,10 +75,10 @@ export const getSuggestions = (
           title: suggestedTitle,
           website: m.url,
           media: pipe(
-            media,
+            suggestedMedia,
             O.map((m) => m.id),
             O.toNullable
-          ) as any,
+          ) ,
           authors: {
             actors: [],
             groups: [],
@@ -100,7 +113,11 @@ export const getSuggestions = (
         payload: {
           title: suggestedTitle,
           url: m.url as any,
-          image: m.image ?? undefined,
+          image: pipe(
+            suggestedMedia,
+            O.map((m) => m.id),
+            O.toUndefined
+          ),
           publisher: undefined,
           authors: [],
         },
@@ -124,9 +141,9 @@ export const getSuggestions = (
         type: http.Events.Uncategorized.UNCATEGORIZED.value,
         payload: {
           title: suggestedTitle,
-          actors: [],
-          groups: [],
-          groupsMembers: [],
+          actors: relations.actors,
+          groups: relations.groups,
+          groupsMembers: relations.groupsMembers,
           endDate: undefined as any,
           location: undefined as any,
         },

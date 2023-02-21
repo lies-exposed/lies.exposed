@@ -23,7 +23,14 @@ export const CreateEventFromMediaButton: React.FC = () => {
         description: record.description,
       } as any,
       O.none,
-      O.some(record as any)
+      O.some(record as any),
+      {
+        actors: [],
+        groups: [],
+        groupsMembers: [],
+        media: [],
+        keywords: []
+      } 
     ).find((t) => t.event.type === type);
 
     const { newLinks, ...event } = suggestion?.event as any;

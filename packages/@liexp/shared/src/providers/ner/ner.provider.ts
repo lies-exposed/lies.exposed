@@ -1,12 +1,13 @@
-import { Logger } from "@liexp/core/logger";
-import { pipe } from "fp-ts/lib/function";
+import { type Logger } from "@liexp/core/logger";
 import * as TE from "fp-ts/lib/TaskEither";
-import { IOError } from "ts-io-error";
+import { pipe } from "fp-ts/lib/function";
+import { type IOError } from "ts-io-error";
 import model from "wink-eng-lite-web-model";
-import winkNLP, { CustomEntityExample, Detail } from "wink-nlp";
+import winkNLP, { type CustomEntityExample, type Detail } from "wink-nlp";
 import NLPUtils from "wink-nlp-utils";
 
 interface NERProvider {
+  entitiesFile: string;
   process: (
     text: string,
     patterns: CustomEntityExample[]
@@ -15,6 +16,7 @@ interface NERProvider {
 
 export const GetNERProvider = (ctx: { logger: Logger }): NERProvider => {
   return {
+    entitiesFile: `config/nlp/entities.json`,
     process: (text, patterns) => {
       ctx.logger.debug.log("Looking for %O", patterns);
       return pipe(
@@ -41,12 +43,12 @@ export const GetNERProvider = (ctx: { logger: Logger }): NERProvider => {
 
             const entities: any[] = doc.customEntities().out(nlp.its.detail);
 
-            const uniqueEntities: Detail[] = entities.reduce((acc, n) => {
+            const uniqueEntities: Detail[] = entities.reduce<any[]>((acc, n) => {
               if (acc.includes(n)) {
                 return acc;
               }
               return acc.concat(n);
-            }, [] as any[]);
+            }, []);
 
             if (uniqueEntities.length > 0) {
               ctx.logger.debug.log("Found entities %O", uniqueEntities);
