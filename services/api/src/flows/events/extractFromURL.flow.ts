@@ -1,5 +1,6 @@
 import { getSuggestions } from "@liexp/shared/helpers/event-suggestion";
 import { type URL as URLT } from "@liexp/shared/io/http/Common";
+import { type ImageType } from "@liexp/shared/io/http/Media";
 import { GetNERProvider } from "@liexp/shared/providers/ner/ner.provider";
 import { GetEncodeUtils } from "@liexp/shared/utils/encode.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
@@ -293,7 +294,13 @@ const extractByProvider =
                 provider: l.provider as any,
                 creator: l.creator?.id,
                 url: l.url,
-                image: undefined,
+                image: l.image
+                  ? {
+                      ...l.image,
+                      thumbnail: l.image.thumbnail ?? undefined,
+                      type: l.image as any as ImageType,
+                    }
+                  : undefined,
                 keywords: [],
                 events: [],
                 actors: [],

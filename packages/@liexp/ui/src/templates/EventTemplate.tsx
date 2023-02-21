@@ -2,6 +2,7 @@ import { getEventCommonProps } from "@liexp/shared/helpers/event";
 import { type http } from "@liexp/shared/io";
 import { getTextContentsCapped, isValidValue } from "@liexp/shared/slate";
 import { formatAnyDateToShort } from "@liexp/shared/utils/date";
+import subYears from "date-fns/subYears";
 import * as React from "react";
 import { EventPageContent } from "../components/EventPageContent";
 import { GroupMembersList } from "../components/GroupMembersBox";
@@ -231,7 +232,10 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                 <Box style={{ height: "600px" }}>
                   <EventNetworkGraphBox
                     type="events"
-                    query={{ ids: [event.id] }}
+                    query={{
+                      ids: [event.id],
+                      startDate: subYears(new Date(), 1).toISOString(),
+                    }}
                   />
                 </Box>
 

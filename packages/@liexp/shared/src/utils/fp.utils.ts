@@ -10,7 +10,7 @@ export const traverseArrayOfE = <A, E, B>(
   fn: (a: A) => E.Either<E, B>
 ): E.Either<E, B[]> => pipe(results, A.traverse(E.Applicative)(fn));
 
-type ReqInput = { skip: number; amount: number }
+interface ReqInput { skip: number; amount: number }
 
 export const walkPaginatedRequest =
   ({ logger }: { logger: Logger }) =>
