@@ -5,11 +5,10 @@ import { formatAnyDateToShort } from "@liexp/shared/utils/date";
 import subYears from "date-fns/subYears";
 import * as React from "react";
 import { EventPageContent } from "../components/EventPageContent";
+import { EventRelations } from "../components/events/EventRelations";
 import { GroupMembersList } from "../components/GroupMembersBox";
 import { KeywordsBox } from "../components/KeywordsBox";
 import { LinksBox } from "../components/LinksBox";
-import SEO from "../components/SEO";
-import { EventRelations } from "../components/events/EventRelations";
 import { ActorList } from "../components/lists/ActorList";
 import GroupList from "../components/lists/GroupList";
 import {
@@ -18,6 +17,7 @@ import {
   Typography,
   useMediaQuery as useMuiMediaQuery,
 } from "../components/mui";
+import SEO from "../components/SEO";
 import { EventNetworkGraphBox } from "../containers/graphs/EventNetworkGraphBox";
 import { styled, useTheme } from "../theme";
 import { SplitPageTemplate } from "./SplitPageTemplate";
@@ -162,48 +162,58 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                       >
                         {title}
                       </Typography>
-                      <Box style={{ display: "flex", flexDirection: "row" }}>
-                        <KeywordsBox
-                          ids={event.keywords}
-                          onItemClick={onKeywordClick}
+                      {event.keywords.length > 0 ? (
+                        <Box style={{ display: "flex", flexDirection: "row" }}>
+                          <KeywordsBox
+                            ids={event.keywords}
+                            onItemClick={onKeywordClick}
+                            style={{
+                              display: "flex",
+                              flexGrow: 1,
+                              flexWrap: "wrap",
+                            }}
+                          />
+                        </Box>
+                      ) : null}
+                    </Grid>
+                    {groups.length > 0 ? (
+                      <Grid item sm={3} md={12} lg={12}>
+                        <GroupList
+                          groups={groups.map((g) => ({ ...g, selected: true }))}
                           style={{
                             display: "flex",
-                            flexGrow: 1,
-                            flexWrap: "wrap",
+                            flexDirection: isDownSM ? "row" : "row-reverse",
                           }}
+                          onItemClick={onGroupClick}
                         />
-                      </Box>
-                    </Grid>
-                    <Grid item sm={12} md={12} lg={12}>
-                      <GroupList
-                        groups={groups.map((g) => ({ ...g, selected: true }))}
-                        style={{
-                          display: "flex",
-                          flexDirection: isDownSM ? "row" : "row-reverse",
-                        }}
-                        onItemClick={onGroupClick}
-                      />
-
-                      <ActorList
-                        actors={actors.map((a) => ({ ...a, selected: true }))}
-                        style={{
-                          display: "flex",
-                          flexWrap: "wrap",
-                          flexDirection: isDownSM ? "row" : "row-reverse",
-                          maxWidth: "100%",
-                        }}
-                        onActorClick={onActorClick}
-                      />
-
-                      <GroupMembersList
-                        groupsMembers={groupsMembers}
-                        style={{
-                          display: "flex",
-                          flexDirection: isDownSM ? "row" : "row-reverse",
-                        }}
-                        onItemClick={onGroupMemberClick}
-                      />
-                    </Grid>
+                      </Grid>
+                    ) : null}
+                    {actors.length > 0 ? (
+                      <Grid item sm={3} md={12} lg={12}>
+                        <ActorList
+                          actors={actors.map((a) => ({ ...a, selected: true }))}
+                          style={{
+                            display: "flex",
+                            flexWrap: "wrap",
+                            flexDirection: isDownSM ? "row" : "row-reverse",
+                            maxWidth: "100%",
+                          }}
+                          onActorClick={onActorClick}
+                        />
+                      </Grid>
+                    ) : null}
+                    {groupsMembers.length > 0 ? (
+                      <Grid item sm={3} md={12} lg={12}>
+                        <GroupMembersList
+                          groupsMembers={groupsMembers}
+                          style={{
+                            display: "flex",
+                            flexDirection: isDownSM ? "row" : "row-reverse",
+                          }}
+                          onItemClick={onGroupMemberClick}
+                        />
+                      </Grid>
+                    ) : null}
                   </Grid>
                 }
                 onTabChange={onTabChange}
