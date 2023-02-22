@@ -59,6 +59,7 @@ const GetLocalSpaceClient: Reader<LocalSpaceClientCtx, SpaceClient> = ({
         })
       );
     },
+    uploadMultipart: () => TE.right({}),
     getSignedUrl: (operation, params) => {
       logger.debug.log("getSignedURL with operation %s", operation);
       return TE.right(

@@ -28,16 +28,16 @@ services:
       - db-data:/var/lib/postgresql/data
 
   space:
-    image: minio/minio
+    image: minio/minio:latest
     command: server --console-address ":9001" /data
     ports:
       - "9007:9000"
       - "9001:9001"
     environment:
-      MINIO_ROOT_USER: space-access-key-id
-      MINIO_ROOT_PASSWORD: space-access-key-secret-id
+      MINIO_ROOT_USER: $SPACE_ACCESS_KEY_ID
+      MINIO_ROOT_PASSWORD: $SPACE_ACCESS_KEY_SECRET
     volumes:
-      - ./services/data/buckets:/data
+      - space-data:/data
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 30s
@@ -120,23 +120,6 @@ services:
       - api
       - space
 
-  # storybook:
-  #   container_name: liexp-storybook
-  #   build:
-  #     context: .
-  #     target: build
-  #     dockerfile: web.Dockerfile
-  #   ports:
-  #     - "6006:6006"
-  #   volumes_from:
-  #     - web
-  #   volumes:
-  #     - ./packages/@liexp:/app/packages/@liexp:delegated
-  #     - ./services/storybook:/app/services/storybook:delegated
-  #   working_dir: /app/services/storybook
-  #   command: yarn start
-  #   tty: false
-
 volumes:
   db-data: {}
   db-test-data: {}
@@ -144,4 +127,4 @@ volumes:
   api-node_modules: {}
   web-node_modules: {}
   admin-web-node_modules: {}
-  space-data:
+  space-data: {}

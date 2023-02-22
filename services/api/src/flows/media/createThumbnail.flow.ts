@@ -163,7 +163,11 @@ export const createThumbnail =
   (
     media: Pick<Media.Media, "id" | "location" | "type">
   ): TE.TaskEither<ControllerError, string> => {
-    ctx.logger.debug.log("Extracting thumbnail from url %s", media.location);
+    ctx.logger.debug.log(
+      "Extracting thumbnail from url %s with type %s",
+      media.location,
+      media.type
+    );
 
     if (Media.PDFType.is(media.type)) {
       return pipe(
