@@ -6,14 +6,14 @@ import {
   Quote,
   ScientificStudy,
   Transaction,
-  Uncategorized
+  Uncategorized,
 } from "@liexp/shared/io/http/Events";
 import { GROUPS } from "@liexp/shared/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
 import {
   type GetNetworkQuery,
   type NetworkGroupBy,
-  type NetworkType
+  type NetworkType,
 } from "@liexp/shared/io/http/Network";
 import { formatDate } from "@liexp/shared/utils/date";
 import { ParentSize } from "@visx/responsive";
@@ -24,12 +24,12 @@ import { type serializedType } from "ts-io-error/lib/Codec";
 import { DateRangePicker } from "../../components/Common/DateRangePicker";
 import {
   EventsNetworkGraph,
-  type EventsNetworkGraphProps
+  type EventsNetworkGraphProps,
 } from "../../components/Graph/EventsNetworkGraph";
 import QueriesRenderer from "../../components/QueriesRenderer";
 import {
   allFiltersEnabled,
-  EventTypeFilters
+  EventTypeFilters,
 } from "../../components/events/EventTypeFilters";
 import { Box, Grid, MenuItem, Select } from "../../components/mui";
 import { useNetworkGraphQuery } from "../../state/queries/DiscreteQueries";
@@ -74,9 +74,8 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
     >
       {showFilter ? (
         <Box style={{ margin: 20, display: "flex", flexDirection: "row" }}>
-          <Grid container>
-            <Grid item sm={6} md={4}></Grid>
-            <Grid item sm={4} md={6}>
+          <Grid container spacing={2} style={{ alignItems: "center" }}>
+            <Grid item xs={12} sm={8} md={8}>
               <DateRangePicker
                 from={startDate}
                 to={endDate}
@@ -85,7 +84,7 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
                 }}
               />
             </Grid>
-            <Grid item sm={12} md={2}>
+            <Grid item xs={12} sm={4} md={4}>
               <Select
                 label={"Relation"}
                 value={relations.map((id) => id)}
@@ -206,9 +205,8 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
                   scientificStudies: inRangeEvents.filter((e) =>
                     ScientificStudy.SCIENTIFIC_STUDY.is(e.type)
                   ).length,
-                  patents: inRangeEvents.filter((e) =>
-                    Patent.PATENT.is(e.type)
-                  ).length,
+                  patents: inRangeEvents.filter((e) => Patent.PATENT.is(e.type))
+                    .length,
                   quotes: inRangeEvents.filter((e) => Quote.QUOTE.is(e.type))
                     .length,
                 }}

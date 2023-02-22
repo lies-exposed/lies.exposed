@@ -13,7 +13,7 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
     marginTop: 0,
   },
   [`& .${classes.dateInput}`]: {
-    marginBottom: theme.spacing(2),
+    // marginBottom: theme.spacing(2),
   },
 }));
 
