@@ -1,10 +1,19 @@
 import { ACTORS } from "@liexp/shared/io/http/Actor";
+import {
+  Death,
+  Documentary,
+  Patent,
+  Quote,
+  ScientificStudy,
+  Transaction,
+  Uncategorized
+} from "@liexp/shared/io/http/Events";
 import { GROUPS } from "@liexp/shared/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
 import {
   type GetNetworkQuery,
   type NetworkGroupBy,
-  type NetworkType,
+  type NetworkType
 } from "@liexp/shared/io/http/Network";
 import { formatDate } from "@liexp/shared/utils/date";
 import { ParentSize } from "@visx/responsive";
@@ -15,12 +24,12 @@ import { type serializedType } from "ts-io-error/lib/Codec";
 import { DateRangePicker } from "../../components/Common/DateRangePicker";
 import {
   EventsNetworkGraph,
-  type EventsNetworkGraphProps,
+  type EventsNetworkGraphProps
 } from "../../components/Graph/EventsNetworkGraph";
 import QueriesRenderer from "../../components/QueriesRenderer";
 import {
   allFiltersEnabled,
-  EventTypeFilters,
+  EventTypeFilters
 } from "../../components/events/EventTypeFilters";
 import { Box, Grid, MenuItem, Select } from "../../components/mui";
 import { useNetworkGraphQuery } from "../../state/queries/DiscreteQueries";
@@ -66,23 +75,7 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
       {showFilter ? (
         <Box style={{ margin: 20, display: "flex", flexDirection: "row" }}>
           <Grid container>
-            <Grid item sm={6} md={4}>
-              <EventTypeFilters
-                filters={filters}
-                totals={{
-                  uncategorized: 0,
-                  transactions: 0,
-                  deaths: 0,
-                  documentaries: 0,
-                  scientificStudies: 0,
-                  patents: 0,
-                  quotes: 0,
-                }}
-                onChange={(filters) => {
-                  setFilters(filters);
-                }}
-              />
-            </Grid>
+            <Grid item sm={6} md={4}></Grid>
             <Grid item sm={4} md={6}>
               <DateRangePicker
                 from={startDate}
@@ -147,7 +140,7 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
         }) => {
           const endDateD = parseISO(endDate);
           const startDateD = parseISO(startDate);
-          const filteredEvents = events.filter((e) => {
+          const inRangeEvents = events.filter((e) => {
             const date = parseISO(e.date);
             const min = differenceInDays(date, startDateD);
             const max = differenceInDays(endDateD, date);
@@ -155,6 +148,13 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
             // console.log({ min, max });
 
             return min >= 0 && max >= 0 && isTypeIncluded;
+          });
+
+          const filteredEvents = inRangeEvents.filter((e) => {
+            const isTypeIncluded: boolean = (filters as any)[e.type];
+            // console.log({ min, max });
+
+            return isTypeIncluded;
           });
 
           const eventIds = filteredEvents.map((e) => e.id);
@@ -188,26 +188,55 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
             .concat(relationLinks);
 
           return (
-            <ParentSize
-              debounceTime={1000}
-              style={{ height: "100%", width: "100%" }}
-            >
-              {({ width, height }) => {
-                return (
-                  <EventsNetworkGraph
-                    {...props}
-                    events={[]}
-                    actors={[]}
-                    groups={[]}
-                    keywords={[]}
-                    graph={{ nodes: [...nodes], links: [...links] }}
-                    width={width}
-                    height={height}
-                    scale="all"
-                  />
-                );
-              }}
-            </ParentSize>
+            <Box>
+              <EventTypeFilters
+                filters={filters}
+                totals={{
+                  uncategorized: inRangeEvents.filter((e) =>
+                    Uncategorized.UNCATEGORIZED.is(e.type)
+                  ).length,
+                  transactions: inRangeEvents.filter((e) =>
+                    Transaction.TRANSACTION.is(e.type)
+                  ).length,
+                  deaths: inRangeEvents.filter((e) => Death.DEATH.is(e.type))
+                    .length,
+                  documentaries: inRangeEvents.filter((e) =>
+                    Documentary.DOCUMENTARY.is(e.type)
+                  ).length,
+                  scientificStudies: inRangeEvents.filter((e) =>
+                    ScientificStudy.SCIENTIFIC_STUDY.is(e.type)
+                  ).length,
+                  patents: inRangeEvents.filter((e) =>
+                    Patent.PATENT.is(e.type)
+                  ).length,
+                  quotes: inRangeEvents.filter((e) => Quote.QUOTE.is(e.type))
+                    .length,
+                }}
+                onChange={(filters) => {
+                  setFilters(filters);
+                }}
+              />
+              <ParentSize
+                debounceTime={1000}
+                style={{ height: 600, width: "100%" }}
+              >
+                {({ width, height }) => {
+                  return (
+                    <EventsNetworkGraph
+                      {...props}
+                      events={[]}
+                      actors={[]}
+                      groups={[]}
+                      keywords={[]}
+                      graph={{ nodes: [...nodes], links: [...links] }}
+                      width={width}
+                      height={height}
+                      scale="all"
+                    />
+                  );
+                }}
+              </ParentSize>
+            </Box>
           );
         }}
       />

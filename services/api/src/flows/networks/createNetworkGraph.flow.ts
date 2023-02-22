@@ -2,7 +2,7 @@ import { fp } from "@liexp/core/fp";
 import {
   getColorByEventType,
   getEventsMetadata,
-  takeEventRelations
+  takeEventRelations,
 } from "@liexp/shared/helpers/event/event";
 import { getTitleForSearchEvent } from "@liexp/shared/helpers/event/getTitle.helper";
 import { toSearchEvent } from "@liexp/shared/helpers/event/search-event";
@@ -10,7 +10,7 @@ import {
   type Actor,
   type Group,
   type Keyword,
-  type Media
+  type Media,
 } from "@liexp/shared/io/http";
 import { ACTORS } from "@liexp/shared/io/http/Actor";
 import { type SearchEvent } from "@liexp/shared/io/http/Events";
@@ -21,7 +21,7 @@ import {
   type GetNetworkQuery,
   type NetworkGraphOutput,
   type NetworkGroupBy,
-  type NetworkType
+  type NetworkType,
 } from "@liexp/shared/io/http/Network";
 import { type EventNetworkDatum } from "@liexp/shared/io/http/Network/networks";
 import { GetEncodeUtils } from "@liexp/shared/utils/encode.utils";
@@ -168,7 +168,10 @@ export const getEventGraph = (
         selected: true,
         date: e.date,
         groupBy: [],
-        actors: [],
+        actors: pipe(
+          nonEmptyEventActors,
+          O.getOrElse((): any[] => [])
+        ),
         groups: [],
         label: eventTitle,
       };
