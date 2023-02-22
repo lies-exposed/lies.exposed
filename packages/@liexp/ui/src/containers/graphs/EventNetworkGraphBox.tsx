@@ -1,4 +1,13 @@
 import { ACTORS } from "@liexp/shared/io/http/Actor";
+import {
+  Death,
+  Documentary,
+  Patent,
+  Quote,
+  ScientificStudy,
+  Transaction,
+  Uncategorized,
+} from "@liexp/shared/io/http/Events";
 import { GROUPS } from "@liexp/shared/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
 import {
@@ -18,7 +27,11 @@ import {
   type EventsNetworkGraphProps,
 } from "../../components/Graph/EventsNetworkGraph";
 import QueriesRenderer from "../../components/QueriesRenderer";
-import { Box, MenuItem, Select } from "../../components/mui";
+import {
+  allFiltersEnabled,
+  EventTypeFilters,
+} from "../../components/events/EventTypeFilters";
+import { Box, Grid, MenuItem, Select } from "../../components/mui";
 import { useNetworkGraphQuery } from "../../state/queries/DiscreteQueries";
 import { type UseListQueryFn } from "../../state/queries/type";
 
@@ -42,6 +55,7 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
   showFilter = true,
   ...props
 }) => {
+  const [filters, setFilters] = React.useState(allFiltersEnabled);
   const [relations, setRelation] = React.useState<NetworkGroupBy[]>(_relations);
 
   const [[startDate, endDate], setDateRange] = React.useState<[string, string]>(
@@ -60,37 +74,44 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
     >
       {showFilter ? (
         <Box style={{ margin: 20, display: "flex", flexDirection: "row" }}>
-          <DateRangePicker
-            from={startDate}
-            to={endDate}
-            onDateRangeChange={([from, to]) => {
-              setDateRange([from ?? startDate, to ?? endDate]);
-            }}
-          />
-
-          <Select
-            label={"Relation"}
-            value={relations.map((id) => id)}
-            placeholder="Select.."
-            size="small"
-            multiple
-            onChange={(e) => {
-              setRelation((relations) => {
-                const idx = relations.findIndex((v) => v === e.target.value);
-                if (idx >= 0) {
-                  return relations.splice(idx, 1);
-                }
-                // return relations.concat(...(e.target.value as any[]));
-                return typeof e.target.value === "string"
-                  ? [e.target.value as any]
-                  : e.target.value;
-              });
-            }}
-          >
-            <MenuItem value={ACTORS.value}>{ACTORS.value}</MenuItem>
-            <MenuItem value={KEYWORDS.value}>{KEYWORDS.value}</MenuItem>
-            <MenuItem value={GROUPS.value}>{GROUPS.value}</MenuItem>
-          </Select>
+          <Grid container spacing={2} style={{ alignItems: "center" }}>
+            <Grid item xs={12} sm={8} md={8}>
+              <DateRangePicker
+                from={startDate}
+                to={endDate}
+                onDateRangeChange={([from, to]) => {
+                  setDateRange([from ?? startDate, to ?? endDate]);
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4} md={4}>
+              <Select
+                label={"Relation"}
+                value={relations.map((id) => id)}
+                placeholder="Select.."
+                size="small"
+                multiple
+                onChange={(e) => {
+                  setRelation((relations) => {
+                    const idx = relations.findIndex(
+                      (v) => v === e.target.value
+                    );
+                    if (idx >= 0) {
+                      return relations.splice(idx, 1);
+                    }
+                    // return relations.concat(...(e.target.value as any[]));
+                    return typeof e.target.value === "string"
+                      ? [e.target.value as any]
+                      : e.target.value;
+                  });
+                }}
+              >
+                <MenuItem value={ACTORS.value}>{ACTORS.value}</MenuItem>
+                <MenuItem value={KEYWORDS.value}>{KEYWORDS.value}</MenuItem>
+                <MenuItem value={GROUPS.value}>{GROUPS.value}</MenuItem>
+              </Select>
+            </Grid>
+          </Grid>
         </Box>
       ) : null}
 
@@ -118,14 +139,21 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
         }) => {
           const endDateD = parseISO(endDate);
           const startDateD = parseISO(startDate);
-          const filteredEvents = events.filter((e) => {
+          const inRangeEvents = events.filter((e) => {
             const date = parseISO(e.date);
             const min = differenceInDays(date, startDateD);
             const max = differenceInDays(endDateD, date);
-
+            const isTypeIncluded: boolean = (filters as any)[e.type];
             // console.log({ min, max });
 
-            return min >= 0 && max >= 0;
+            return min >= 0 && max >= 0 && isTypeIncluded;
+          });
+
+          const filteredEvents = inRangeEvents.filter((e) => {
+            const isTypeIncluded: boolean = (filters as any)[e.type];
+            // console.log({ min, max });
+
+            return isTypeIncluded;
           });
 
           const eventIds = filteredEvents.map((e) => e.id);
@@ -159,26 +187,54 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
             .concat(relationLinks);
 
           return (
-            <ParentSize
-              debounceTime={1000}
-              style={{ height: "100%", width: "100%" }}
-            >
-              {({ width, height }) => {
-                return (
-                  <EventsNetworkGraph
-                    {...props}
-                    events={[]}
-                    actors={[]}
-                    groups={[]}
-                    keywords={[]}
-                    graph={{ nodes: [...nodes], links: [...links] }}
-                    width={width}
-                    height={height}
-                    scale="all"
-                  />
-                );
-              }}
-            </ParentSize>
+            <Box>
+              <EventTypeFilters
+                filters={filters}
+                totals={{
+                  uncategorized: inRangeEvents.filter((e) =>
+                    Uncategorized.UNCATEGORIZED.is(e.type)
+                  ).length,
+                  transactions: inRangeEvents.filter((e) =>
+                    Transaction.TRANSACTION.is(e.type)
+                  ).length,
+                  deaths: inRangeEvents.filter((e) => Death.DEATH.is(e.type))
+                    .length,
+                  documentaries: inRangeEvents.filter((e) =>
+                    Documentary.DOCUMENTARY.is(e.type)
+                  ).length,
+                  scientificStudies: inRangeEvents.filter((e) =>
+                    ScientificStudy.SCIENTIFIC_STUDY.is(e.type)
+                  ).length,
+                  patents: inRangeEvents.filter((e) => Patent.PATENT.is(e.type))
+                    .length,
+                  quotes: inRangeEvents.filter((e) => Quote.QUOTE.is(e.type))
+                    .length,
+                }}
+                onChange={(filters) => {
+                  setFilters(filters);
+                }}
+              />
+              <ParentSize
+                debounceTime={1000}
+                style={{ height: 600, width: "100%" }}
+              >
+                {({ width, height }) => {
+                  return (
+                    <EventsNetworkGraph
+                      {...props}
+                      events={[]}
+                      actors={[]}
+                      groups={[]}
+                      keywords={[]}
+                      graph={{ nodes: [...nodes], links: [...links] }}
+                      width={width}
+                      height={height}
+                      scale="all"
+                    />
+                  );
+                }}
+              </ParentSize>
+            </Box>
           );
         }}
       />

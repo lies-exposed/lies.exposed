@@ -3,6 +3,7 @@
 @font-face {
   font-family: "Lora";
   src: url("./assets/fonts/Lora-Bold.eot"),
+    url("./assets/fonts/Lora-Bold.eot") format("embedded-opentype"),
     url("./assets/fonts/Lora-Bold.woff") format("woff"),
     url("./assets/fonts/Lora-Bold.ttf") format("truetype"),
     url("./assets/fonts/Lora-Bold.svg") format("svg");

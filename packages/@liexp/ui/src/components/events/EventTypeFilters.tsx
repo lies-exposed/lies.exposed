@@ -1,3 +1,4 @@
+import { fp } from "@liexp/core/fp";
 import {
   Death,
   Documentary,
@@ -6,9 +7,11 @@ import {
   ScientificStudy,
   Transaction,
   Uncategorized,
+  Quote,
 } from "@liexp/shared/io/http/Events";
 import { type EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import { clsx } from "clsx";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { styled } from "../../theme";
 import { EventIcon } from "../Common/Icons";
@@ -55,17 +58,79 @@ const eventIconProps = {
   },
 };
 
+export type EventTypeMap = { [K in EventType]: boolean };
+
 export interface EventTypeFiltersProps {
-  filters: { [K in EventType]: boolean };
+  filters: Partial<EventTypeMap>;
   totals: EventTotals;
-  onChange: (f: EventType) => void;
+  onChange: (f: EventTypeMap, t: EventType) => void;
 }
 
+export const allFiltersEnabled: EventTypeMap = {
+  [Death.DEATH.value]: true,
+  [Uncategorized.UNCATEGORIZED.value]: true,
+  [ScientificStudy.SCIENTIFIC_STUDY.value]: true,
+  [Patent.PATENT.value]: true,
+  [Documentary.DOCUMENTARY.value]: true,
+  [Transaction.TRANSACTION.value]: true,
+  [Quote.QUOTE.value]: true,
+};
 export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
-  filters,
+  filters: _filters,
   totals,
   onChange,
 }) => {
+  const filters = React.useMemo(
+    () => ({
+      ...allFiltersEnabled,
+      ..._filters,
+    }),
+    [_filters]
+  );
+
+  const handleFilterChange = React.useCallback(
+    (filterK: EventType) => {
+      const allEnabled = pipe(
+        filters,
+        fp.R.reduce(fp.S.Ord)(true, (acc, b) => acc && b)
+      );
+
+      const allDisabled = pipe(
+        filters,
+        fp.R.reduce(fp.S.Ord)(true, (acc, b) => acc && !b)
+      );
+
+      const ff: EventTypeMap = allEnabled
+        ? {
+            [Documentary.DOCUMENTARY.value]: false,
+            [Patent.PATENT.value]: false,
+            [Transaction.TRANSACTION.value]: false,
+            [Uncategorized.UNCATEGORIZED.value]: false,
+            [Death.DEATH.value]: false,
+            [ScientificStudy.SCIENTIFIC_STUDY.value]: false,
+            [Quote.QUOTE.value]: false,
+            [filterK]: true,
+          }
+        : allDisabled
+        ? {
+            [Documentary.DOCUMENTARY.value]: true,
+            [Patent.PATENT.value]: true,
+            [Transaction.TRANSACTION.value]: true,
+            [Uncategorized.UNCATEGORIZED.value]: true,
+            [Death.DEATH.value]: true,
+            [ScientificStudy.SCIENTIFIC_STUDY.value]: true,
+            [Quote.QUOTE.value]: true,
+          }
+        : {
+            ...filters,
+            [filterK]: !filters[filterK],
+          };
+
+      onChange(ff, filterK);
+    },
+    [onChange]
+  );
+
   return (
     <StyledBox className={classes.root}>
       <IconButton
@@ -74,12 +139,14 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
         })}
         color="primary"
         onClick={() => {
-          onChange(Uncategorized.UNCATEGORIZED.value);
+          handleFilterChange(Uncategorized.UNCATEGORIZED.value);
         }}
         size="large"
       >
         <EventIcon type="Uncategorized" {...eventIconProps} />
-        <Typography className={classes.typeTotal} variant="caption">{totals.uncategorized}</Typography>
+        <Typography className={classes.typeTotal} variant="caption">
+          {totals.uncategorized}
+        </Typography>
       </IconButton>
       <IconButton
         color="primary"
@@ -87,12 +154,14 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
           [classes.iconButtonSelected]: filters.Death,
         })}
         onClick={() => {
-          onChange(Death.DEATH.value);
+          handleFilterChange(Death.DEATH.value);
         }}
         size="large"
       >
         <EventIcon type="Death" {...eventIconProps} />
-        <Typography variant="caption" className={classes.typeTotal}>{totals.deaths}</Typography>
+        <Typography variant="caption" className={classes.typeTotal}>
+          {totals.deaths}
+        </Typography>
       </IconButton>
       <IconButton
         color="primary"
@@ -100,12 +169,14 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
           [classes.iconButtonSelected]: filters.ScientificStudy,
         })}
         onClick={() => {
-          onChange(ScientificStudy.SCIENTIFIC_STUDY.value);
+          handleFilterChange(ScientificStudy.SCIENTIFIC_STUDY.value);
         }}
         size="large"
       >
         <EventIcon type="ScientificStudy" {...eventIconProps} />
-        <Typography variant="caption" className={classes.typeTotal}>{totals.scientificStudies}</Typography>
+        <Typography variant="caption" className={classes.typeTotal}>
+          {totals.scientificStudies}
+        </Typography>
       </IconButton>
       <IconButton
         color="primary"
@@ -113,12 +184,14 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
           [classes.iconButtonSelected]: filters.Documentary,
         })}
         onClick={() => {
-          onChange(Documentary.DOCUMENTARY.value);
+          handleFilterChange(Documentary.DOCUMENTARY.value);
         }}
         size="large"
       >
         <EventIcon type={Documentary.DOCUMENTARY.value} {...eventIconProps} />
-        <Typography variant="caption" className={classes.typeTotal}>{totals.documentaries}</Typography>
+        <Typography variant="caption" className={classes.typeTotal}>
+          {totals.documentaries}
+        </Typography>
       </IconButton>
       <IconButton
         color="primary"
@@ -126,12 +199,14 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
           [classes.iconButtonSelected]: filters.Patent,
         })}
         onClick={() => {
-          onChange(Patent.PATENT.value);
+          handleFilterChange(Patent.PATENT.value);
         }}
         size="large"
       >
         <EventIcon type="Patent" {...eventIconProps} />
-        <Typography variant="caption" className={classes.typeTotal}>{totals.patents}</Typography>
+        <Typography variant="caption" className={classes.typeTotal}>
+          {totals.patents}
+        </Typography>
       </IconButton>
       <IconButton
         color="primary"
@@ -139,12 +214,14 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
           [classes.iconButtonSelected]: filters.Transaction,
         })}
         onClick={() => {
-          onChange(Transaction.TRANSACTION.value);
+          handleFilterChange(Transaction.TRANSACTION.value);
         }}
         size="large"
       >
         <EventIcon type="Transaction" {...eventIconProps} />
-        <Typography variant="caption" className={classes.typeTotal}>{totals.transactions}</Typography>
+        <Typography variant="caption" className={classes.typeTotal}>
+          {totals.transactions}
+        </Typography>
       </IconButton>
     </StyledBox>
   );

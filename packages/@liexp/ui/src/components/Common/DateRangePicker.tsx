@@ -13,7 +13,7 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
     marginTop: 0,
   },
   [`& .${classes.dateInput}`]: {
-    marginBottom: theme.spacing(2),
+    // marginBottom: theme.spacing(2),
   },
 }));
 
@@ -32,7 +32,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   const [[start, end], setDateRange] = React.useState([from, to]);
   return (
     <StyledGrid container spacing={2}>
-      <Grid item md={2} sm={3} xs={6}>
+      <Grid item md={6} sm={6} xs={6}>
         <DatePicker
           className={classes.dateInput}
           size="small"
@@ -55,7 +55,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
           {...props}
         />
       </Grid>
-      <Grid item md={2} sm={3} xs={6}>
+      <Grid item md={6} sm={6} xs={6}>
         <DatePicker
           className={classes.dateInput}
           size="small"

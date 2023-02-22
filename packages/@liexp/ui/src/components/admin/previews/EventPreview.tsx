@@ -57,6 +57,7 @@ const EventPreview: React.FC<EventPreviewProps> = ({ event }) => {
               onDateClick={() => undefined}
               onAreaClick={() => undefined}
               onMediaClick={() => undefined}
+              onEventClick={() => undefined}
             />
           </QueryClientProvider>
         </ThemeProvider>
