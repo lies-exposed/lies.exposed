@@ -2,13 +2,13 @@ import fs from "fs";
 import path from "path";
 import {
   getPlatform,
-  type VideoPlatformMatch
+  type VideoPlatformMatch,
 } from "@liexp/shared/helpers/media";
 import { Media } from "@liexp/shared/io/http";
 import { toPuppeteerError } from "@liexp/shared/providers/puppeteer.provider";
 import {
   getMediaKey,
-  getMediaKeyFromLocation
+  getMediaKeyFromLocation,
 } from "@liexp/shared/utils/media.utils";
 import axios from "axios";
 import * as Canvas from "canvas";
@@ -20,7 +20,8 @@ import * as pdfJS from "pdfjs-dist/legacy/build/pdf";
 import { type Page } from "puppeteer-core";
 import {
   ServerError,
-  toControllerError, type ControllerError
+  toControllerError,
+  type ControllerError,
 } from "@io/ControllerError";
 import { type RouteContext } from "@routes/route.types";
 
@@ -45,7 +46,7 @@ export const createFromRemote =
         ctx.logger.debug.log("Key %s (%s) for location %s", key, id, location);
 
         return ctx.s3.upload({
-          Key: getMediaKey(id, `${id}-thumb`, "image/jpg"),
+          Key: getMediaKey("media", id, `${id}-thumb`, "image/jpg"),
           Body: stream.data,
           ACL: "public-read",
           Bucket: ctx.env.SPACE_BUCKET,
@@ -284,14 +285,19 @@ export const createThumbnail =
             // read file from temp path
             TE.chain(() => {
               const url = media.location.split("/");
-              const thumbnailName = url[url.length - 1].replace(
-                ".mp4",
-                "-thumbnail.png"
+              const thumbnailName = url[url.length - 1]
+                .replace(".mp4", "")
+                .concat("-thumbnail");
+
+              ctx.logger.debug.log("Thumbnail file name %s", thumbnailName);
+              const key = getMediaKey(
+                "media",
+                media.id,
+                thumbnailName,
+                "image/png"
               );
 
-              const key = `public/media/${
-                url[url.length - 2]
-              }/${thumbnailName}`;
+              ctx.logger.debug.log("Thumbnail key %s", key);
 
               return ctx.s3.upload({
                 Key: key,

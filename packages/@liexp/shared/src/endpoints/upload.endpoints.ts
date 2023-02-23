@@ -1,20 +1,29 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
+import { ACTORS } from "../io/http/Actor";
+import { GROUPS } from "../io/http/Group";
 import { ValidContentType } from "../io/http/Media";
+
+export const UploadResource = t.union(
+  [
+    ACTORS,
+    GROUPS,
+    t.literal("articles"),
+    t.literal("media"),
+    t.literal("projects"),
+    t.literal("areas"),
+  ],
+  "UploadResource"
+);
+
+export type UploadResource = t.TypeOf<typeof UploadResource>;
 
 export const GetSignedURL = Endpoint({
   Method: "POST",
   getPath: () => `/uploads/getSignedURL`,
   Input: {
     Body: t.strict({
-      resource: t.union([
-        t.literal("actors"),
-        t.literal("articles"),
-        t.literal("groups"),
-        t.literal("media"),
-        t.literal("projects"),
-        t.literal("areas"),
-      ]),
+      resource: UploadResource,
       resourceId: t.string,
       ContentType: ValidContentType,
     }),

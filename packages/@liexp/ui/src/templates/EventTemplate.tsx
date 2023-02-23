@@ -5,10 +5,11 @@ import { formatAnyDateToShort } from "@liexp/shared/utils/date";
 import subYears from "date-fns/subYears";
 import * as React from "react";
 import { EventPageContent } from "../components/EventPageContent";
-import { EventRelations } from "../components/events/EventRelations";
 import { GroupMembersList } from "../components/GroupMembersBox";
 import { KeywordsBox } from "../components/KeywordsBox";
 import { LinksBox } from "../components/LinksBox";
+import SEO from "../components/SEO";
+import { EventRelations } from "../components/events/EventRelations";
 import { ActorList } from "../components/lists/ActorList";
 import GroupList from "../components/lists/GroupList";
 import {
@@ -17,7 +18,6 @@ import {
   Typography,
   useMediaQuery as useMuiMediaQuery,
 } from "../components/mui";
-import SEO from "../components/SEO";
 import { EventNetworkGraphBox } from "../containers/graphs/EventNetworkGraphBox";
 import { styled, useTheme } from "../theme";
 import { SplitPageTemplate } from "./SplitPageTemplate";

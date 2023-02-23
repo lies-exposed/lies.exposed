@@ -1,5 +1,6 @@
 import { fp } from "@liexp/core/fp";
 import { pipe } from "fp-ts/lib/function";
+import { type UploadResource } from '../endpoints/upload.endpoints';
 
 import * as Media from "../io/http/Media";
 
@@ -34,6 +35,7 @@ export const getMediaKeyFromLocation = (u: string): string => {
   return id;
 };
 
-export const getMediaKey = (id: string, fileName: string, contentType: Media.ValidContentType): string => {
-  return `public/media/${id}/${fileName}.${fileExtFromContentType(contentType)}`;
+export const getMediaKey = (resource: UploadResource, id: string, fileName: string, contentType: Media.ValidContentType): string => {
+  return `public/${resource}/${id}/${fileName}.${fileExtFromContentType(contentType)}`;
 }
+

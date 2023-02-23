@@ -17,7 +17,7 @@ export const createAndUpload =
     ctx.logger.debug.log("Create media and upload %s", location);
 
     const mediaId = uuid() as any;
-    const mediaKey = getMediaKey(mediaId, mediaId, location.type);
+    const mediaKey = getMediaKey('media', mediaId, mediaId, location.type);
     return pipe(
       ctx.s3.upload({
         Bucket: ctx.env.SPACE_BUCKET,
