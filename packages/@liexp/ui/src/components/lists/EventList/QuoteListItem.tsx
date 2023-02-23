@@ -1,6 +1,6 @@
 import { type Actor, type Events, type Keyword } from "@liexp/shared/io/http";
 import { QUOTE } from "@liexp/shared/io/http/Events/Quote";
-import { getTextContentsCapped } from "@liexp/shared/slate";
+import { getTextContents } from "@liexp/shared/slate";
 import * as React from "react";
 import { styled } from "../../../theme";
 import { Avatar } from "../../Common/Avatar";
@@ -71,7 +71,7 @@ export const QuoteListItem: React.FC<QuoteListItemProps> = ({
         >
           <Grid item md={6} sm={6} xs={12} style={{ padding: 10 }}>
             <Typography style={{ display: "flex" }} variant="subtitle1">
-              {getTextContentsCapped(item.excerpt as any, 300)}
+              {getTextContents(item.excerpt as any)}
             </Typography>
             <Typography variant="caption" fontStyle="italic">
               {item.payload.details}

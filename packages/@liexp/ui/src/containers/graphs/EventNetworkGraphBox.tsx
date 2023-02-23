@@ -188,32 +188,36 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
 
           return (
             <Box>
-              <EventTypeFilters
-                filters={filters}
-                totals={{
-                  uncategorized: inRangeEvents.filter((e) =>
-                    Uncategorized.UNCATEGORIZED.is(e.type)
-                  ).length,
-                  transactions: inRangeEvents.filter((e) =>
-                    Transaction.TRANSACTION.is(e.type)
-                  ).length,
-                  deaths: inRangeEvents.filter((e) => Death.DEATH.is(e.type))
-                    .length,
-                  documentaries: inRangeEvents.filter((e) =>
-                    Documentary.DOCUMENTARY.is(e.type)
-                  ).length,
-                  scientificStudies: inRangeEvents.filter((e) =>
-                    ScientificStudy.SCIENTIFIC_STUDY.is(e.type)
-                  ).length,
-                  patents: inRangeEvents.filter((e) => Patent.PATENT.is(e.type))
-                    .length,
-                  quotes: inRangeEvents.filter((e) => Quote.QUOTE.is(e.type))
-                    .length,
-                }}
-                onChange={(filters) => {
-                  setFilters(filters);
-                }}
-              />
+              {showFilter ? (
+                <EventTypeFilters
+                  filters={filters}
+                  totals={{
+                    uncategorized: inRangeEvents.filter((e) =>
+                      Uncategorized.UNCATEGORIZED.is(e.type)
+                    ).length,
+                    transactions: inRangeEvents.filter((e) =>
+                      Transaction.TRANSACTION.is(e.type)
+                    ).length,
+                    deaths: inRangeEvents.filter((e) => Death.DEATH.is(e.type))
+                      .length,
+                    documentaries: inRangeEvents.filter((e) =>
+                      Documentary.DOCUMENTARY.is(e.type)
+                    ).length,
+                    scientificStudies: inRangeEvents.filter((e) =>
+                      ScientificStudy.SCIENTIFIC_STUDY.is(e.type)
+                    ).length,
+                    patents: inRangeEvents.filter((e) =>
+                      Patent.PATENT.is(e.type)
+                    ).length,
+                    quotes: inRangeEvents.filter((e) => Quote.QUOTE.is(e.type))
+                      .length,
+                  }}
+                  onChange={(filters) => {
+                    setFilters(filters);
+                  }}
+                />
+              ) : null}
+
               <ParentSize
                 debounceTime={1000}
                 style={{ height: 600, width: "100%" }}
