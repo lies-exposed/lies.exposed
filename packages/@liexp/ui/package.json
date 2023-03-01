@@ -85,7 +85,7 @@
     "react-query": "^3.39.3",
     "react-share": "^4.4.1",
     "react-slick": "^0.29.0",
-    "react-spring": "^9.7.0",
+    "react-spring": "^9.7.1",
     "react-toc": "^3.1.0",
     "react-virtualized": "^9.22.3",
     "throttle-debounce": "^5.0.0",
