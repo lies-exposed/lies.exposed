@@ -5,90 +5,50 @@ on:
     branches:
       - release/alpha
 
+env:
+  API_IMAGE_TAG: ghcr.io/lies-exposed/liexp-api:alpha-latest
+  WEB_IMAGE_NAME: ghcr.io/lies-exposed/liexp-web:alpha-latest
+
 jobs:
   deploy-alpha:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [16.x]
 
     # if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: "16"
           cache: "yarn"
           cache-dependency-path: yarn.lock
 
-      - name: Install modules
-        # if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: yarn
+      - name: Log in to registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR_IO_TOKEN }}
 
-      - name: Build packages
-        run: yarn packages:build
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-      # - name: API Deploy
-      #   env:
-      #     SSH_HOST: ${{ secrets.SSH_HOST }}
-      #     SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
-      #     SSH_KEY: ${{ secrets.SSH_KEY }}
-      #     REF: origin/release/alpha
-      #   run: yarn pm2 deploy ecosystem.config.js alpha
+      - name: Build API image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./api.Dockerfile
+          push: true
+          tags: ${{ env.API_IMAGE_TAG }}
 
-
-      # - name: Build Packages
-      #   run: yarn packages:build
-
-      # - name: Build Storybook
-      #   run: yarn workspace storybook build
-
-      # - name: Upload Storybook to DO Space
-      #   env:
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.ALPHA_ACCESS_KEY_ID }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.ALPHA_SECRET_ACCESS_KEY }}
-      #   run: |
-      #     aws s3 sync ./services/storybook/build s3://econnessione-alpha/storybook \
-      #       --follow-symlinks \
-      #       --delete \
-      #       --endpoint https://fra1.digitaloceanspaces.com/ \
-      #       --acl public-read \
-      #       --region fra1
-
-      # - name: Build Admin Web
-      #   run: yarn workspace admin-web build
-      #   env:
-      #     NODE_ENV: production
-      #     PUBLIC_URL: https://alpha.lies.exposed/admin/
-      #     API_URL: https://alpha.api.lies.exposed/v1
-
-      - name: Build Web
-        env:
-          NODE_ENV: production
-          PUBLIC_URL: https://alpha.lies.exposed/web/
-          API_URL: https://alpha.api.lies.exposed/v1
-          ADMIN_URL: https://alpha.lies.exposed/admin
-        run: yarn web build:app-server
-
-
-      # - name: Upload Web build to DO Space
-      #   env:
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.ALPHA_ACCESS_KEY_ID }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.ALPHA_SECRET_ACCESS_KEY }}
-      #   run: |
-      #     aws s3 sync ./services/web/build s3://econnessione-alpha/web \
-      #       --follow-symlinks \
-      #       --delete \
-      #       --endpoint https://fra1.digitaloceanspaces.com/ \
-      #       --acl public-read \
-      #       --region fra1
-
-      # - name: Install doctl
-      #   uses: digitalocean/action-doctl@v2
-      #   with:
-      #     token: ${{ secrets.ALPHA_DO_ACCESS_TOKEN }}
-
-      # - name: Flush CDN
-      #   run: doctl compute cdn flush fbe4de1b-1ca5-46fd-bd75-c57d56b0e0b8
+      - name: Build API image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./web.Dockerfile
+          push: true
+          tags: ${{ env.WEB_IMAGE_TAG }}
