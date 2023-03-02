@@ -14,7 +14,7 @@ const UploadFileData = t.strict({ key: t.string, file: t.any });
 
 export const MakeUploadFileRoute = (r: Router, ctx: RouteContext): void => {
   r.put(
-    "/v1/uploads/:key",
+    "/uploads/:key",
     // uploads.single('media'),
     bodyParser.urlencoded({
       extended: false,

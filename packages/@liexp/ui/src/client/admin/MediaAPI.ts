@@ -1,11 +1,12 @@
 import * as qs from "querystring";
-import { type MediaType } from "@liexp/shared/io/http/Media";
+import { MP4Type, type MediaType } from "@liexp/shared/io/http/Media";
 import axios from "axios";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { type DataProvider } from "react-admin";
+import { apiProvider } from "../api";
 
 export interface RawMedia {
   location: {
@@ -19,7 +20,9 @@ export const convertFileToBase64 = (file: File): TE.TaskEither<Error, string> =>
     () =>
       new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = () => { resolve(reader.result as string); };
+        reader.onload = () => {
+          resolve(reader.result as string);
+        };
         reader.onerror = reject;
 
         reader.readAsDataURL(file);
@@ -57,7 +60,32 @@ export const uploadFile =
     f: File,
     type: MediaType
   ): TE.TaskEither<Error, { type: MediaType; location: string }> => {
-    return pipe(
+    const videoTask = pipe(
+      TE.tryCatch(() => {
+        const formData = new FormData();
+        formData.append("resource", resource);
+        formData.append("media", f);
+        return apiProvider
+          .request({
+            method: 'PUT',
+            url: `/uploads-multipart/${resourceId}`,
+            data: formData,
+            timeout: 600 * 1000,
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((response) => {
+
+            return {
+              type,
+              location: response.data.data.location,
+            };
+          });
+      }, E.toError)
+    );
+
+    const othersTask = pipe(
       getSignedUrl(client)(resource, resourceId, type),
       TE.chain((url) => {
         const [location, search] = url.data.url.split("?");
@@ -83,6 +111,11 @@ export const uploadFile =
         );
       })
     );
+
+    if (MP4Type.is(type)) {
+      return videoTask;
+    }
+    return othersTask;
   };
 
 export const uploadImages =

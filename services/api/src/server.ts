@@ -56,7 +56,7 @@ import { MakeProjectRoutes } from "@routes/projects/project.routes";
 import { type RouteContext } from "@routes/route.types";
 import { MakeStatsRoutes } from "@routes/stats/stats.routes";
 import { MakeUploadsRoutes } from "@routes/uploads/upload.routes";
-import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller.ts";
+import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller";
 import { MakeUserRoutes } from "@routes/users/User.routes";
 import { getDataSource } from "@utils/data-source";
 import { GetWriteJSON } from "@utils/json.utils";
@@ -178,8 +178,9 @@ export const makeApp = (ctx: RouteContext): express.Express => {
       ],
     })
   );
-  const mediaPath = path.resolve(__dirname, "../data");
-  app.use(express.static(mediaPath));
+
+  // const mediaPath = path.resolve(__dirname, "../data");
+  // app.use(express.static(mediaPath));
 
   const router = express.Router();
 

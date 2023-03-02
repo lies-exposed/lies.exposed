@@ -51,18 +51,18 @@ export const authProvider: AuthProvider = {
   },
   checkError: (e: AxiosError) => {
     // console.log("check error", e);
+    const errorData = new Error(JSON.stringify(e?.response?.data));
     if (e?.response?.status === 401) {
-      return Promise.reject(new Error(JSON.stringify(e.response.data)));
+      return Promise.reject(errorData);
     }
-
-    return Promise.resolve();
+    return Promise.reject(errorData);
   },
   getPermissions: async () => {
     const user = localStorage.getItem("user");
     return await pipe(
       user,
       O.fromNullable,
-      O.chainNullableK((u) => JSON.parse(u).permissions),
+      O.chainNullableK((u) => JSON.parse(u)?.permissions),
       E.fromOption(() => new Error("User is missing")),
       TE.fromEither,
       throwTE
