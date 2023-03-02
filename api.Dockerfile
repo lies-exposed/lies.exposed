@@ -61,6 +61,13 @@ COPY --from=build /app/services/api/build /app/services/api/build
 # 	giflib
 
 # see https://github.com/Automattic/node-canvas/issues/866
+RUN apk add --no-cache \
+      chromium \
+      nss \
+      freetype \
+      harfbuzz \
+      ca-certificates \
+      ttf-freefont
 RUN apk add --no-cache libc6-compat
 RUN apk add --no-cache \
     build-base \
