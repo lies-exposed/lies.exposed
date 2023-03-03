@@ -2,18 +2,18 @@ import { fp } from "@liexp/core/fp";
 import { walkPaginatedRequest } from "@liexp/shared/utils/fp.utils";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import dotenv from "dotenv";
-import { pipe } from "fp-ts/function";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
-import { fetchKeywords } from "../src/queries/keywords/fetchKeywords.query";
+import { pipe } from "fp-ts/function";
 import { fetchActors } from "../src/queries/actors/fetchActors.query";
 import { fetchGroups } from "../src/queries/groups/fetchGroups.query";
+import { fetchKeywords } from "../src/queries/keywords/fetchKeywords.query";
 import { makeContext } from "../src/server";
 
 dotenv.config();
 
-const makePatterns = (s: string): string[] => {
+const makePatterns = (s) => {
   const chunks = s.split(" ");
   const chunkAbove3 = chunks.filter((c) => c.length > 2);
 
@@ -30,7 +30,7 @@ const makePatterns = (s: string): string[] => {
   );
 };
 
-const run = async (): Promise<void> => {
+const run = async () => {
   const ctx = await throwTE(
     makeContext({ ...process.env, TG_BOT_POLLING: "false" })
   );
@@ -40,8 +40,8 @@ const run = async (): Promise<void> => {
       actors: walkPaginatedRequest(ctx)(
         ({ skip, amount }) =>
           fetchActors(ctx)({
-            _start: O.some(skip as any),
-            _end: O.some(amount as any),
+            _start: O.some(skip),
+            _end: O.some(amount),
           }),
         ({ total }) => total,
         ({ results }) => results,
@@ -51,8 +51,8 @@ const run = async (): Promise<void> => {
       groups: walkPaginatedRequest(ctx)(
         ({ skip, amount }) =>
           fetchGroups(ctx)({
-            _start: O.some(skip as any),
-            _end: O.some(amount as any),
+            _start: O.some(skip),
+            _end: O.some(amount),
           }),
         ([, t]) => t,
         ([rr]) => rr,
@@ -62,8 +62,8 @@ const run = async (): Promise<void> => {
       keywords: walkPaginatedRequest(ctx)(
         ({ skip, amount }) =>
           fetchKeywords(ctx)({
-            _start: O.some(skip as any),
-            _end: O.some(amount as any),
+            _start: O.some(skip),
+            _end: O.some(amount),
           }),
         ([, t]) => t,
         ([rr]) => rr,

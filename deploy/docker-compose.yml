@@ -1,48 +1,33 @@
 version: "3"
 
 services:
-  # nginx:
-  #   image: nginx:1.15-alpine
-  #   restart: unless-stopped
-  #   volumes:
-  #     - ./data/nginx:/etc/nginx/conf.d
-  #     - ./data/certbot/conf:/etc/letsencrypt
-  #     - ./data/certbot/www:/var/www/certbot
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-  #   command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
-
-  # certbot:
-  #   image: certbot/certbot
-  #   restart: unless-stopped
-  #   volumes:
-  #     - ./data/certbot/conf:/etc/letsencrypt
-  #     - ./data/certbot/www:/var/www/certbot
-  #   entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
   api:
-    image: liexp-api:alpha
+    image: ghcr.io/lies-exposed/liexp-api:alpha-latest
     container_name: liexp-api
+    user: $API_UID:$API_GID
     env_file:
-      - ../.env.alpha
+      # - ../.env.alpha
+      - .env.api
     ports:
       - "4010:4010"
-    # expose:
-    #   - "25060"
     volumes:
-      - ../services/api/certs:/app/services/api/certs
+      # - ../services/api/certs/:/app/services/api/certs/:ro
+      - ./certs/:/app/services/api/certs/:ro
+      - ./temp/:/app/services/api/temp/:rw
     working_dir: /app/services/api
     command: yarn start
     restart: always
 
   web:
-    image: liexp-web:alpha
+    image: ghcr.io/lies-exposed/liexp-web:alpha-latest
     container_name: liexp-web
     env_file:
-      - ../services/web/.env.development
+      # - ../services/web/.env
+      - .env.web
     environment:
       API_URL: http://api:4010/v1
+      ADMIN_URL: https://alpha.lies.exposed/admin
     ports:
       - "4020:4020"
     links:

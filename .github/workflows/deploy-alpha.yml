@@ -7,7 +7,7 @@ on:
 
 env:
   API_IMAGE_TAG: ghcr.io/lies-exposed/liexp-api:alpha-latest
-  WEB_IMAGE_NAME: ghcr.io/lies-exposed/liexp-web:alpha-latest
+  WEB_IMAGE_TAG: ghcr.io/lies-exposed/liexp-web:alpha-latest
 
 jobs:
   deploy-alpha:
@@ -31,7 +31,7 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
-          username: ${{ github.repository_owner }}
+          username: ${{ secrets.GHCR_IO_USERNAME }}
           password: ${{ secrets.GHCR_IO_TOKEN }}
 
       - name: Set up Docker Buildx
@@ -45,7 +45,7 @@ jobs:
           push: true
           tags: ${{ env.API_IMAGE_TAG }}
 
-      - name: Build API image
+      - name: Build WEB image
         uses: docker/build-push-action@v4
         with:
           context: .

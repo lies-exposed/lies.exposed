@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+set -e -x
+
+username=$1
+export SSH_DOMAIN=alpha.lies.exposed
+
+scp -r ./deploy/nginx $SSH_DOMAIN:/root/
+scp ./deploy/gh-token.txt $SSH_DOMAIN:docker-app/gh-token.txt
+scp .env.alpha $SSH_DOMAIN:docker-app/.env.api
+scp ./services/web/.env.alpha $SSH_DOMAIN:docker-app/.env.web
+scp ./deploy/docker-compose.yml $SSH_DOMAIN:docker-app/docker-compose.yml
+scp -r ./services/api/certs/ $SSH_DOMAIN:docker-app/certs/
+
+ssh $SSH_DOMAIN "bash -s $username" << "EOF"
+    set -x -e
+    u=$1
+    cd ~/docker-app/
+    cat ./gh-token.txt | docker login ghcr.io -u $u --password-stdin
+    rm ./gh-token.txt
+
+    mkdir -p ./temp/networks/keywords
+    mkdir -p ./temp/networks/actors
+    mkdir -p ./temp/networks/groups
+    mkdir -p ./temp/networks/events
+    mkdir -p ./temp/tg/messages
+
+    chown -R pptruser:pptruser ./temp
+    docker-compose pull
+    export API_UID=$(id pptruser -u)
+    export API_GID=$(id pptruser -g)
+    docker-compose up --build --force-recreate -d
+    docker system prune -f
+    docker compose run --name api-migration api yarn migration:run > migration.txt
+    docker compose run --rm api yarn upsert-nlp-entities
+EOF
+

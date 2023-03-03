@@ -30,7 +30,7 @@
     "parse-tg-message": "yarn ts:node ./bin/parse-tg-message.ts",
     "clean-tg-messages": "yarn ts:node ./bin/clean-tg-messages.ts",
     "extract-events": "yarn ts:node ./bin/extract-events.ts",
-    "upsert-nlp-entities": "yarn ts:node ./bin/upsert-nlp-entities.ts"
+    "upsert-nlp-entities": "node ./bin/upsert-nlp-entities.js"
   },
   "dependencies": {
     "@databases/escape-identifier": "^1.0.3",

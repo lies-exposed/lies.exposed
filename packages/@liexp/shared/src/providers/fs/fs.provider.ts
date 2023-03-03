@@ -51,7 +51,7 @@ export interface FSClient {
 }
 
 export const GetFSClient = (): FSClient => {
-  const objectExists: FSClient["objectExists"] = (filePath, cacheH = 6) => {
+  const objectExists: FSClient["objectExists"] = (filePath) => {
     return TE.fromIOEither(
       fp.IOE.tryCatch(() => {
         const filePathDir = path.dirname(filePath);

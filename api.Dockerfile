@@ -61,6 +61,14 @@ COPY --from=build /app/services/api/build /app/services/api/build
 # 	giflib
 
 # see https://github.com/Automattic/node-canvas/issues/866
+RUN apk add --no-cache \
+      chromium \
+      nss \
+      freetype \
+      harfbuzz \
+      ca-certificates \
+      ttf-freefont
+
 RUN apk add --no-cache libc6-compat
 RUN apk add --no-cache \
     build-base \
@@ -70,7 +78,14 @@ RUN apk add --no-cache \
 	pango-dev \
 	giflib-dev
 
+RUN addgroup -S pptruser && adduser -S -G pptruser pptruser \
+    && mkdir -p /home/pptruser/Downloads /app \
+    && chown -R pptruser:pptruser /home/pptruser \
+    && chown -R pptruser:pptruser /app
 
 RUN yarn workspaces focus -A --production
+
+# Run everything after as non-privileged user.
+USER pptruser
 
 CMD ["yarn", "api", "start"]
