@@ -22,7 +22,7 @@ import {
   SearchIcon, Typography
 } from "../mui";
 import { EventsAppBarMinimized } from "./EventsAppBarMinimized";
-import SearchEventInput, { type SearchOption } from "./inputs/SearchEventInput";
+import SearchEventInput, { type SearchFilter } from "./inputs/SearchEventInput";
 
 const PREFIX = "EventsAppBar";
 
@@ -117,32 +117,6 @@ const StyledToolbar = styled(Box)(({ theme }) => ({
   },
 }));
 
-const serializeOption = (
-  options: SearchOption[]
-): {
-  title: string | undefined;
-  groups: Group.Group[];
-  actors: Actor.Actor[];
-  keywords: Keyword.Keyword[];
-} => {
-  return options.reduce(
-    (acc, o) => {
-      return {
-        title: acc.title ?? (o.type === "Search" ? o.item : undefined),
-        groups: acc.groups.concat(o.type === "Group" ? [o.item] : []),
-        actors: acc.actors.concat(o.type === "Actor" ? [o.item] : []),
-        keywords: acc.keywords.concat(o.type === "Keyword" ? [o.item] : []),
-      };
-    },
-    {
-      title: undefined as any as string,
-      groups: [] as Group.Group[],
-      actors: [] as Actor.Actor[],
-      keywords: [] as Keyword.Keyword[],
-    }
-  );
-};
-
 interface EventsToolbarProps {
   query: SearchEventsQueryInputNoPagination;
   hash: string;
@@ -173,8 +147,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
 
   const [isExpanded, setIsExpanded] = React.useState(false);
 
-  const handleSearchChange = (options: SearchOption[]): void => {
-    const queryUpdate = serializeOption(options);
+  const handleSearchChange = (queryUpdate: SearchFilter): void => {
 
     onQueryChange({
       ...query,

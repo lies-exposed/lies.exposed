@@ -1,62 +1,46 @@
-import { MainContent } from "@liexp/ui/components/MainContent";
-import { PageContent } from "@liexp/ui/components/PageContent";
-import { Box, Container, TextField } from "@liexp/ui/components/mui";
-import { MediaBox } from "@liexp/ui/containers/MediaBox";
+import {
+  type SearchFilter
+} from "@liexp/ui/components/events/inputs/SearchEventInput";
+import MediaSearchTemplate from "@liexp/ui/templates/MediaSearchTemplate";
 import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 
 const MediaPage: React.FC<RouteComponentProps> = (props) => {
   const navigateTo = useNavigateToResource();
-  const [q, setQ] = React.useState("");
+  const [{ keywords, title }, setQ] = React.useState<SearchFilter>({
+    keywords: [],
+    title: "",
+    actors: [],
+    groups: [],
+  });
 
   const queryParams = {
-    pagination: { page: 1, perPage: 40 },
-    sort: { field: "id", order: "ASC" },
     filter: {
-      description: q === "" ? undefined : q,
+      title: title === "" ? undefined : title,
+      keywords,
+      _sort: "createdAt",
+      _order: "DESC" as const,
+      groups: [],
+      actors: []
     },
   };
 
-  return (
-    <Box
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        height: "100%",
-      }}
-    >
-      <MainContent
-        style={{ display: "flex", flexShrink: 0, flexDirection: "column" }}
-      >
-        <Box
-          style={{
-            width: "100%",
-            marginBottom: 20,
-          }}
-        >
-          <PageContent path="media" />
-          <TextField
-            value={q}
-            placeholder="Search..."
-            fullWidth
-            onChange={(c) => {
-              setQ(c.target.value);
-            }}
-          />
-        </Box>
-      </MainContent>
+  const handleQueryChange = (q: SearchFilter): void => {
+    setQ({
+      ...q,
+      keywords: keywords.concat(q.keywords ?? []),
+    });
+  };
 
-      <Container style={{ display: "flex" }}>
-        <MediaBox
-          filter={queryParams.filter}
-          onClick={(a) => {
-            navigateTo.media({ id: a.id });
-          }}
-        />
-      </Container>
-    </Box>
+  return (
+    <MediaSearchTemplate
+      filter={queryParams.filter}
+      onFilterChange={handleQueryChange}
+      onMediaClick={(a) => {
+        navigateTo.media({ id: a.id });
+      }}
+    />
   );
 };
 
