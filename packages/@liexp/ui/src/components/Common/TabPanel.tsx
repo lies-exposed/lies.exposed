@@ -18,7 +18,7 @@ export const TabPanel: React.FC<any> = (props) => {
 
 export function a11yProps(index: number): any {
   return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
+    id: `tab-${index}`,
+    "aria-controls": `tabpanel-${index}`,
   };
 }

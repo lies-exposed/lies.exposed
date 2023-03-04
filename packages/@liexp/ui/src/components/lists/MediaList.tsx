@@ -1,5 +1,6 @@
 import type * as io from "@liexp/shared/io/http";
 import Masonry from "@mui/lab/Masonry";
+import { ParentSize } from "@visx/responsive";
 import { clsx } from "clsx";
 import * as React from "react";
 import { styled } from "../../theme";
@@ -24,7 +25,7 @@ const StyledBox = styled(Box)({
     width: "100%",
     maxWidth: 300,
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     "&:hover": {
       [`& .${classes.description}`]: {
         opacity: 1,
@@ -102,18 +103,31 @@ export const MediaListItem: React.ForwardRefRenderFunction<
 
 export const MediaListItemRef = React.forwardRef(MediaListItem);
 
+const MEDIA_MIN_HEIGHT = 100;
 export const MediaListItemCell: React.FC<
   MediaListItemProps & { width: number }
 > = ({ item, onClick, style, hideDescription, width }) => {
-  let height = 100;
-  if (typeof window !== "undefined") {
-    const img = new Image();
-    if (item.thumbnail) {
-      img.src = item.thumbnail;
+  const [h, setHeight] = React.useState(MEDIA_MIN_HEIGHT);
+
+  React.useEffect(() => {
+    if (width === 0) {
+      return;
     }
 
-    height = (img.height * 300) / img.width;
-  }
+    if (typeof window !== "undefined") {
+      const img = new Image();
+
+      img.onload = () => {
+        const newHeight = (img.height * width) / img.width;
+        setHeight(newHeight);
+      };
+
+      img.onerror = () => {};
+      if (item.thumbnail) {
+        img.src = item.thumbnail;
+      }
+    }
+  }, [width]);
 
   return (
     <MediaListItemRef
@@ -122,7 +136,7 @@ export const MediaListItemCell: React.FC<
       style={{
         ...style,
         width,
-        height: height < 50 ? 50 : height,
+        height: h < MEDIA_MIN_HEIGHT ? MEDIA_MIN_HEIGHT : h,
       }}
       onClick={onClick}
     />
@@ -146,6 +160,7 @@ const listClasses = {
 
 const StyledMasonry = styled(Masonry)(() => ({
   [`&.${listClasses.root}`]: {
+    width: "100%",
     paddingRight: 0,
     paddingLeft: 0,
   },
@@ -166,8 +181,6 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
     },
     ref
   ) => {
-    const columnWidth = 300;
-
     // const getColumnCount = (w: number): number =>
     //   Math.floor(w / (columnWidth + gutterSize));
 
@@ -183,28 +196,34 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
     // }, [media.map((m) => m.id)]);
 
     return (
-      <StyledMasonry
-        {...props}
-        className={clsx(listClasses.root, className)}
-        style={style}
-        columns={4}
-        spacing={1}
-        defaultColumns={4}
-        defaultHeight={600}
-      >
-        {media.map((m) => {
+      <ParentSize style={{ width: "100%", minHeight: 600 }}>
+        {({ height, width }) => {
           return (
-            <MediaListItemCell
+            <StyledMasonry
               {...props}
-              key={m.id}
-              item={m}
-              onClick={onItemClick}
-              hideDescription={hideDescription}
-              width={columnWidth}
-            />
+              className={clsx(listClasses.root, className)}
+              style={style}
+              columns={4}
+              spacing={1}
+              defaultColumns={4}
+              defaultHeight={height}
+            >
+              {media.map((m) => {
+                return (
+                  <MediaListItemCell
+                    {...props}
+                    key={m.id}
+                    item={m}
+                    onClick={onItemClick}
+                    hideDescription={hideDescription}
+                    width={Math.floor(width / 4)}
+                  />
+                );
+              })}
+            </StyledMasonry>
           );
-        })}
-      </StyledMasonry>
+        }}
+      </ParentSize>
     );
   }
 );
