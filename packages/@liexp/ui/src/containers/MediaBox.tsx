@@ -40,7 +40,13 @@ export const MediaBox: React.FC<MediaBoxProps> = ({
       render={({ media: { total, data: media } }) => {
         return (
           <Box style={{ height: "100%", width: "100%" }}>
-            <Box style={{ display: "flex", flexGrow: 1, width: "100%" }}>
+            <Box
+              style={{
+                display: "flex",
+                height: "100%",
+                width: "100%",
+              }}
+            >
               <MediaList
                 media={media.map((m) => ({ ...m, selected: true }))}
                 onItemClick={onClick}

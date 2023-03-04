@@ -40,8 +40,34 @@ interface SearchInputProps
     "renderInput" | "options"
   > {
   query: SearchEventsQueryInputNoPagination;
-  onQueryChange: (items: SearchOption[]) => void;
+  onQueryChange: (items: SearchFilter) => void;
 }
+
+export interface SearchFilter {
+  title: string | undefined;
+  groups: Group.Group[];
+  actors: Actor.Actor[];
+  keywords: Keyword.Keyword[];
+}
+
+const serializeOption = (options: SearchOption[]): SearchFilter => {
+  return options.reduce<SearchFilter>(
+    (acc, o) => {
+      return {
+        title: acc.title ?? (o.type === "Search" ? o.item : undefined),
+        groups: acc.groups.concat(o.type === "Group" ? [o.item] : []),
+        actors: acc.actors.concat(o.type === "Actor" ? [o.item] : []),
+        keywords: acc.keywords.concat(o.type === "Keyword" ? [o.item] : []),
+      };
+    },
+    {
+      title: undefined,
+      groups: [],
+      actors: [],
+      keywords: [],
+    }
+  );
+};
 
 const SearchEventInput: React.FC<SearchInputProps> = ({
   query,
@@ -208,7 +234,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
             return vv;
           });
           setSearchOptions([]);
-          onQueryChange(values);
+          onQueryChange(serializeOption(values));
         }
       }}
       onKeyDown={(e) => {
