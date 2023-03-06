@@ -55,10 +55,12 @@ jobs:
           cache: "yarn"
           cache-dependency-path: yarn.lock
 
-      # - uses: actions/cache@v2
-      #   with:
-      #     path: "**/node_modules"
-      #     key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - uses: actions/cache@v3
+        with:
+          path: |
+            packages/**/lib
+            services/api/build
+          key: api-build
 
       - name: Install modules
         run: yarn
