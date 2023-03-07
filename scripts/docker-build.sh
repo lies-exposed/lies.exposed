@@ -1,13 +1,21 @@
 #!/usr/bin/env bash
 
-API_IMAGE=ghcr.io/lies-exposed/liexp-api:alpha-latest
-WEB_IMAGE=ghcr.io/lies-exposed/liexp-web:alpha-latest
+BASE_IMAGE=liexp-base
+API_IMAGE=liexp-api
+WEB_IMAGE=liexp-web
 
+(exec ./scripts/docker-login.sh "$1")
 
-cat ./deploy/gh-token.txt | docker login ghcr.io -u $1 --password-stdin
+docker build . --force-rm --pull --file base.Dockerfile \
+    --tag $BASE_IMAGE:alpha-latest \
+    --tag ghcr.io/lies-exposed/$BASE_IMAGE:alpha-latest
 
-docker build . --force-rm --pull --file api.Dockerfile --target production --tag $API_IMAGE
-docker build . --force-rm --pull --file web.Dockerfile --target production --tag $WEB_IMAGE
+docker build . --force-rm --pull --file api.Dockerfile \
+    --target production \
+    --tag $API_IMAGE:alpha-latest \
+    --tag ghcr.io/lies-exposed/$API_IMAGE:alpha-latest
 
-docker image push $API_IMAGE
-docker image push $WEB_IMAGE
+docker build . --force-rm --pull --file web.Dockerfile \
+    --target production \
+    --tag $WEB_IMAGE:alpha-latest \
+    --tag ghcr.io/lies-exposed/$WEB_IMAGE:alpha-latest
