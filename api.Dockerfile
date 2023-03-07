@@ -1,18 +1,10 @@
-FROM node:16-alpine as build
+FROM ghcr.io/lies-exposed/liexp-base:alpha-latest as build
 
 WORKDIR /app
 
-RUN apk add --no-cache libc6-compat
-# see https://github.com/Automattic/node-canvas/issues/866
-RUN apk add --no-cache \
-    build-base \
-	g++ \
-	cairo-dev \
-	jpeg-dev \
-	pango-dev \
-	giflib-dev
-
 COPY .yarn/ .yarn/
+RUN --mount=type=cache,target=/app/.yarn/cache
+
 COPY package.json .
 COPY yarn.lock .
 COPY .yarnrc.yml .
@@ -27,7 +19,7 @@ RUN yarn install
 
 RUN yarn api build
 
-FROM node:16-alpine as production
+FROM ghcr.io/lies-exposed/liexp-base:alpha-latest as production
 
 WORKDIR /app
 
@@ -37,7 +29,7 @@ COPY .yarn /app/.yarn
 COPY services/api/package.json /app/services/api/package.json
 
 # yarn cache
-COPY --from=build /app/.yarn /app/.yarn
+# COPY --from=build /app/.yarn /app/.yarn
 
 # packages
 COPY --from=build /app/packages/@liexp/core/lib /app/packages/@liexp/core/lib
@@ -52,38 +44,9 @@ COPY --from=build /app/services/api/ormconfig.js /app/services/api/ormconfig.js
 COPY --from=build /app/services/api/bin /app/services/api/bin
 COPY --from=build /app/services/api/build /app/services/api/build
 
-# RUN apk add --no-cache \
-# 	build-base \
-# 	g++ \
-#     cairo \
-# 	jpeg \
-# 	pango \
-# 	giflib
+RUN yarn workspaces focus api --production
 
-# see https://github.com/Automattic/node-canvas/issues/866
-RUN apk add --no-cache \
-      chromium \
-      nss \
-      freetype \
-      harfbuzz \
-      ca-certificates \
-      ttf-freefont
-
-RUN apk add --no-cache libc6-compat
-RUN apk add --no-cache \
-    build-base \
-	g++ \
-	cairo-dev \
-	jpeg-dev \
-	pango-dev \
-	giflib-dev
-
-RUN addgroup -S pptruser && adduser -S -G pptruser pptruser \
-    && mkdir -p /home/pptruser/Downloads /app \
-    && chown -R pptruser:pptruser /home/pptruser \
-    && chown -R pptruser:pptruser /app
-
-RUN yarn workspaces focus -A --production
+RUN rm -rf /app/.yarn/cache /app/node_modules/.cache /app/services/api/node_modules/.cache
 
 # Run everything after as non-privileged user.
 USER pptruser
