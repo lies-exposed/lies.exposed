@@ -120,17 +120,20 @@ const EventListItemBase = <E extends any>({
         O.fromPredicate((arr) => arr.length > 0),
         O.map((media) => (
           // eslint-disable-next-line react/jsx-key
-          <MediaSlider
-            data={media}
+          <Box
             style={{
               width: "100%",
               height: 400,
               marginBottom: 30,
             }}
-            itemStyle={{ height: 400, maxWidth: 600 }}
-            onLoad={onLoad}
-            enableDescription={true}
-          />
+          >
+            <MediaSlider
+              data={media}
+              itemStyle={{ height: 400, maxWidth: 600 }}
+              onLoad={onLoad}
+              enableDescription={true}
+            />
+          </Box>
         )),
         O.toNullable
       )}

@@ -29,24 +29,31 @@ const classes = {
 const StyledBox = styled(Box)(({ theme }) => ({
   [`&.${classes.root}`]: {
     display: "flex",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     width: "100%",
   },
   [`& .${classes.iconButton}`]: {
-    marginRight: -15,
+    marginRight: -18,
     opacity: 0.5,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
     [`& .${classes.typeTotal}`]: {
-      display: "none",
+      marginTop: 10,
+      display: "flex",
     },
   },
   [`& .${classes.iconButtonSelected}`]: {
     opacity: 1,
   },
-  [`&:hover .${classes.iconButton}`]: {
-    marginRight: 10,
-    [`& .${classes.typeTotal}`]: {
-      display: "block",
-    },
-  },
+  // [`&:hover .${classes.iconButton}`]: {
+  //   // marginRight: 5,
+  //   [`& .${classes.typeTotal}`]: {
+  //     display: "flex",
+  //   },
+  // },
 }));
 
 const eventIconProps = {
@@ -138,7 +145,8 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
           [classes.iconButtonSelected]: filters.Uncategorized,
         })}
         color="primary"
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault();
           handleFilterChange(Uncategorized.UNCATEGORIZED.value);
         }}
         size="large"
@@ -153,7 +161,8 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
         className={clsx(classes.iconButton, {
           [classes.iconButtonSelected]: filters.Death,
         })}
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault();
           handleFilterChange(Death.DEATH.value);
         }}
         size="large"
@@ -168,7 +177,8 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
         className={clsx(classes.iconButton, {
           [classes.iconButtonSelected]: filters.ScientificStudy,
         })}
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault();
           handleFilterChange(ScientificStudy.SCIENTIFIC_STUDY.value);
         }}
         size="large"
@@ -183,7 +193,8 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
         className={clsx(classes.iconButton, {
           [classes.iconButtonSelected]: filters.Documentary,
         })}
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault();
           handleFilterChange(Documentary.DOCUMENTARY.value);
         }}
         size="large"
@@ -198,7 +209,8 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
         className={clsx(classes.iconButton, {
           [classes.iconButtonSelected]: filters.Patent,
         })}
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault();
           handleFilterChange(Patent.PATENT.value);
         }}
         size="large"
@@ -213,7 +225,8 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
         className={clsx(classes.iconButton, {
           [classes.iconButtonSelected]: filters.Transaction,
         })}
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault();
           handleFilterChange(Transaction.TRANSACTION.value);
         }}
         size="large"
