@@ -9,6 +9,8 @@ services:
     env_file:
       # - ../.env.alpha
       - .env.api
+    environment:
+      - DEBUG=@liexp*
     ports:
       - "4010:4010"
     volumes:
