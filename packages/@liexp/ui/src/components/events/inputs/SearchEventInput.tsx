@@ -152,6 +152,8 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
     [search]
   );
 
+  const loading = search === "" || search.length < 3;
+
   return (
     <Autocomplete
       {...props}
@@ -237,6 +239,24 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
           onQueryChange(serializeOption(values));
         }
       }}
+      loading={loading}
+      loadingText={
+        <div>
+          <Typography variant="subtitle1">Start typing:</Typography>
+          <Box>
+            <Typography display="block">
+              <b>#</b> for keywords
+            </Typography>
+
+            <Typography display="block">
+              <b>a@</b> for actors
+            </Typography>
+            <Typography display="block">
+              <b>g@</b> for groups
+            </Typography>
+          </Box>
+        </div>
+      }
       onKeyDown={(e) => {
         if (e.key === "Enter") {
           // onQueryChange([{

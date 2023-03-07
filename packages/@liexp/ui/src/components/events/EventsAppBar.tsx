@@ -2,12 +2,12 @@ import {
   type Actor,
   type Group,
   type GroupMember,
-  type Keyword
+  type Keyword,
 } from "@liexp/shared/io/http";
 import * as React from "react";
 import {
   searchEventsQuery,
-  type SearchEventsQueryInputNoPagination
+  type SearchEventsQueryInputNoPagination,
 } from "../../state/queries/SearchEventsQuery";
 import { styled, useTheme } from "../../theme";
 import { DateRangePicker } from "../Common/DateRangePicker";
@@ -19,7 +19,8 @@ import {
   alpha,
   Box,
   Grid,
-  SearchIcon, Typography
+  SearchIcon,
+  Typography,
 } from "../mui";
 import { EventsAppBarMinimized } from "./EventsAppBarMinimized";
 import SearchEventInput, { type SearchFilter } from "./inputs/SearchEventInput";
@@ -119,6 +120,7 @@ const StyledToolbar = styled(Box)(({ theme }) => ({
 
 interface EventsToolbarProps {
   query: SearchEventsQueryInputNoPagination;
+  defaultExpanded?: boolean;
   hash: string;
   actors: Actor.Actor[];
   groups: Group.Group[];
@@ -137,6 +139,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
   keywords,
   onQueryChange,
   onQueryClear,
+  defaultExpanded = false,
 }) => {
   const theme = useTheme();
 
@@ -145,10 +148,9 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
     query.endDate,
   ]);
 
-  const [isExpanded, setIsExpanded] = React.useState(false);
+  const [isExpanded, setIsExpanded] = React.useState(defaultExpanded);
 
   const handleSearchChange = (queryUpdate: SearchFilter): void => {
-
     onQueryChange({
       ...query,
       ...queryUpdate,
@@ -212,9 +214,9 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
         ) : null;
 
         const expanded = (
-          <Box>
-            <Grid container className={classes.expandedBox}>
-              <Grid item md={8} sm={6} xs={12}>
+          <Box style={{ width: "100%", display: "flex" }}>
+            <Grid container spacing={2} className={classes.expandedBox}>
+              <Grid item md={12} sm={12} xs={12}>
                 {searchBox}
                 {searchTermBox}
               </Grid>
@@ -242,19 +244,23 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
         return (
           <StyledToolbar
             style={{
-              // position: 'relative',
-              // top: theme.mixins.toolbar.height,
               width: "100%",
-              background: theme.palette.common.white,
             }}
           >
             <Accordion
               expanded={isExpanded}
-              onChange={() => {
-                setIsExpanded(!isExpanded);
+              onChange={(e) => {
+                if (!e.isDefaultPrevented()) {
+                  setIsExpanded(!isExpanded);
+                }
               }}
               variant={undefined}
-              style={{ width: "100%", border: 'none', boxShadow: 'none' }}
+              style={{
+                width: "100%",
+                border: "none",
+                boxShadow: "none",
+                background: "transparent",
+              }}
             >
               <AccordionSummary>
                 <EventsAppBarMinimized

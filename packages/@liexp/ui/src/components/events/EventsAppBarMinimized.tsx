@@ -3,15 +3,17 @@ import {
   type Actor,
   type Group,
   type GroupMember,
-  type Keyword
+  type Keyword,
 } from "@liexp/shared/io/http";
 import {
   Death,
-  Documentary, Patent,
+  Documentary,
+  Patent,
   Quote,
   ScientificStudy,
   Transaction,
-  Uncategorized, type EventType
+  Uncategorized,
+  type EventType,
 } from "@liexp/shared/io/http/Events";
 import { DEATH } from "@liexp/shared/io/http/Events/Death";
 import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
@@ -33,7 +35,11 @@ import GroupList from "../lists/GroupList";
 import { GroupsMembersList } from "../lists/GroupMemberList";
 import KeywordList from "../lists/KeywordList";
 import { Box, Grid, IconButton, Typography } from "../mui";
-import { allFiltersEnabled, EventTypeFilters, type EventTypeMap } from "./EventTypeFilters";
+import {
+  allFiltersEnabled,
+  EventTypeFilters,
+  type EventTypeMap,
+} from "./EventTypeFilters";
 
 const PREFIX = "events-app-bar-minimized";
 const classes = {
@@ -164,6 +170,7 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
     <Box
       style={{
         display: "flex",
+        width: '100%',
         flexGrow: 1,
         justifyContent: "flex-end",
       }}
@@ -284,9 +291,11 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
     <StyledGrid className={clsx(classes.root, className)}>
       <Grid
         item
+        sm={12}
+        md={12}
         style={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: "column",
           alignItems: "baseline",
         }}
       >
@@ -301,11 +310,12 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
       {actors.length > 0 || groups.length > 0 || keywords.length > 0 ? (
         <Grid
           item
+          sm={12}
           style={{
             display: "flex",
-            alignItems: "center",
             justifyContent: "flex-end",
             flexWrap: "wrap",
+            flexDirection: 'column',
             flexGrow: 1,
             flexShrink: 0,
           }}
