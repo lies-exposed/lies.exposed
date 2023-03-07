@@ -4,6 +4,7 @@ import {
   ReferenceArrayInput,
   type ReferenceArrayInputProps,
 } from "react-admin";
+import { ActorChip } from "../../actors/ActorChip";
 
 const ReferenceArrayActorInput: React.FC<
   Omit<ReferenceArrayInputProps, "children"> & { source: string }
@@ -14,7 +15,7 @@ const ReferenceArrayActorInput: React.FC<
         fullWidth
         size="small"
         source="id"
-        optionText="fullName"
+        optionText={(a) => <ActorChip actor={a} displayFullName />}
         filterToQuery={(fullName: string) => ({ fullName })}
       />
     </ReferenceArrayInput>
