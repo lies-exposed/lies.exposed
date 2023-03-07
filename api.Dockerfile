@@ -44,7 +44,7 @@ COPY --from=build /app/services/api/ormconfig.js /app/services/api/ormconfig.js
 COPY --from=build /app/services/api/bin /app/services/api/bin
 COPY --from=build /app/services/api/build /app/services/api/build
 
-RUN yarn workspaces focus api --production
+RUN yarn workspaces focus -A --production
 
 RUN rm -rf /app/.yarn/cache /app/node_modules/.cache /app/services/api/node_modules/.cache
 
