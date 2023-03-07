@@ -59,7 +59,7 @@
     "nodemon": "^2.0.21",
     "page-metadata-parser": "^1.1.4",
     "pdfjs-dist": "^3.4.120",
-    "pg": "^8.9.0",
+    "pg": "^8.10.0",
     "puppeteer-core": "^19.7.2",
     "ts-endpoint-express": "^2.0.0",
     "ts-shared": "2.0.0-alpha.6",
