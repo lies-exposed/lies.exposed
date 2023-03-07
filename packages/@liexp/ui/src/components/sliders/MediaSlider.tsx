@@ -33,7 +33,6 @@ export interface MediaSliderProps extends Omit<SliderProps, "slides"> {
   enableDescription?: boolean;
   onClick?: (e: Media.Media) => void;
   onLoad?: () => void;
-  style?: React.CSSProperties;
   itemStyle?: React.CSSProperties;
   itemClassName?: string;
 }
@@ -42,7 +41,6 @@ export const MediaSlider: React.FC<MediaSliderProps> = ({
   data,
   itemStyle,
   onClick,
-  style,
   onLoad,
   enableDescription,
   className,
