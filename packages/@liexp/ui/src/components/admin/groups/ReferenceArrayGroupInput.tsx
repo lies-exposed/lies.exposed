@@ -2,8 +2,9 @@ import React from "react";
 import {
   AutocompleteArrayInput,
   ReferenceArrayInput,
-  type ReferenceArrayInputProps,
+  type ReferenceArrayInputProps
 } from "react-admin";
+import { GroupChip } from "../../groups/GroupChip";
 
 const ReferenceArrayGroupInput: React.FC<
   Omit<ReferenceArrayInputProps, "children"> & { source: string }
@@ -12,7 +13,7 @@ const ReferenceArrayGroupInput: React.FC<
     <ReferenceArrayInput {...props} reference="groups">
       <AutocompleteArrayInput
         source="id"
-        optionText="name"
+        optionText={(g) => <GroupChip group={g} />}
         filterToQuery={(name: any) => ({ name })}
         fullWidth
         size="small"
