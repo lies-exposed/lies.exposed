@@ -95,12 +95,8 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
               />
               <LinksListBox
                 filter={{ keywords: [keyword.id] }}
-                onClick={() => {}}
-                layout={{
-                  sm: 6,
-                  md: 6,
-                  lg: 6,
-                }}
+                onItemClick={() => {}}
+                column={2}
               />
               <Box style={{ height: 600 }}>
                 <EventNetworkGraphBox
