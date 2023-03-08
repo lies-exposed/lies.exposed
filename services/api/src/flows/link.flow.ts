@@ -74,10 +74,7 @@ export const fetchAsLink =
           ),
           TE.map((image) => ({
             ...m,
-            image: pipe(
-              image,
-              fp.O.toNullable
-            ),
+            image: pipe(image, fp.O.toNullable),
           }))
         )
       ),
@@ -93,7 +90,7 @@ export const fetchAsLink =
         const link = new LinkEntity();
         link.id = uuid() as any;
         link.title = meta.title;
-        link.url = meta.url as any;
+        link.url = url as any;
         link.description = meta.description;
         link.publishDate = publishDate;
         link.image = meta.image;
