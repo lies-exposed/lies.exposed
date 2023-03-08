@@ -1,6 +1,6 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
-import { ListOutput, Output, UUID } from "../io/http/Common";
+import { ListOutput, Output, URL, UUID } from "../io/http/Common";
 import * as Link from "../io/http/Link";
 import { ResourceEndpoints } from "./types";
 
@@ -43,6 +43,17 @@ export const CreateMany = Endpoint({
   Output: ManyLinkOutput,
 });
 
+export const Submit = Endpoint({
+  Method: "POST",
+  getPath: () => `/links/submit`,
+  Input: {
+    Body: t.strict({
+      url: URL,
+    }),
+  },
+  Output: OneLinkOutput,
+});
+
 export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/links/${id}`,
@@ -79,5 +90,6 @@ export const links = ResourceEndpoints({
   Delete,
   Custom: {
     CreateMany,
+    Submit
   },
 });
