@@ -105,11 +105,11 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
         }
 
         return getTitle(n, {
-          actors: [],
-          groups: [],
+          actors: n.actors,
+          groups: n.groups,
           groupsMembers: [],
-          keywords: [],
-          media: [],
+          keywords: n.keywords,
+          media: n.media,
         });
       }}
       nodeRadius={(n) => 14}
