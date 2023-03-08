@@ -75,7 +75,7 @@ const GroupList: React.FC<GroupListProps> = ({
   return (
     <List
       {...props}
-      style={style}
+      style={{ display: "flex", flexWrap: "wrap", ...style }}
       data={groups}
       filter={(_) => true}
       onItemClick={onGroupClick}
