@@ -73,7 +73,7 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
           />
         </TabPanel>
         <TabPanel index={1} value={tab}>
-          <LinksBox filter={{ ids: m.links }} onClick={() => {}} />
+          <LinksBox filter={{ ids: m.links }} onItemClick={() => {}} />
         </TabPanel>
       </Box>
     </Box>

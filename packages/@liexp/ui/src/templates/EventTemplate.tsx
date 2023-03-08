@@ -7,7 +7,7 @@ import * as React from "react";
 import { EventPageContent } from "../components/EventPageContent";
 import { GroupMembersList } from "../components/GroupMembersBox";
 import { KeywordsBox } from "../components/KeywordsBox";
-import { LinksBox } from "../components/LinksBox";
+import { LinksListBox } from "../components/LinksBox";
 import SEO from "../components/SEO";
 import { EventRelations } from "../components/events/EventRelations";
 import { ActorList } from "../components/lists/ActorList";
@@ -16,7 +16,7 @@ import {
   Box,
   Grid,
   Typography,
-  useMediaQuery as useMuiMediaQuery,
+  useMediaQuery as useMuiMediaQuery
 } from "../components/mui";
 import { EventNetworkGraphBox } from "../containers/graphs/EventNetworkGraphBox";
 import { styled, useTheme } from "../theme";
@@ -225,7 +225,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                     label: "Network",
                   },
                   {
-                    label: "Links",
+                    label: `Links (${event.links.length})` ,
                   },
                 ]}
                 resource={{ name: "events", item: event }}
@@ -251,11 +251,11 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                   />
                 </Box>
 
-                <LinksBox
+                <LinksListBox
                   filter={{ ids: event.links }}
                   defaultExpanded={true}
-                  layout="list"
-                  onClick={() => {}}
+                  column={2}
+                  onItemClick={() => {}}
                 />
               </SplitPageTemplate>
             </Box>

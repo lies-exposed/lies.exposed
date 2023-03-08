@@ -162,7 +162,7 @@ const EventListItemBase = <E extends any>({
                 onClose={() => {
                   onRowInvalidate(event);
                 }}
-                onClick={() => {}}
+                onItemClick={() => {}}
               />
             </Grid>
           )
