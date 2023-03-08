@@ -201,7 +201,7 @@ export const LinkEdit: React.FC = () => {
           <UpdateMetadataButton />
         </Toolbar>
       }
-      preview={<LinkPreview />}
+      preview={<LinkPreview record={record} />}
       transform={transformLink}
     >
       <TabbedForm>

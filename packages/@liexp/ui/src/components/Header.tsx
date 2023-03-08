@@ -4,6 +4,7 @@ import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { styled } from "../theme";
 import DonateButton from "./Common/Button/DonateButton";
+import SuggestLinkButton from "./Common/Button/SuggestLinkButton";
 import { TelegramIcon } from "./Common/Icons";
 import GithubButton from "./GithubButton";
 import {
@@ -44,7 +45,7 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
   },
   [`& .${classes.logo}`]: {
     padding: 10,
-    height: 64
+    height: 64,
   },
   [`& .${classes.title}`]: {
     margin: 0,
@@ -75,8 +76,9 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
     textTransform: "none",
     cursor: "pointer",
     "&.selected": {
-      color: theme.palette.secondary.main,
-      backgroundColor: theme.palette.common.white,
+      color: theme.palette.common.white,
+      borderRadius: "0",
+      borderBottom: `2px solid ${theme.palette.secondary.main}`,
     },
   },
   [`& .${classes.menuItemLink}`]: {
@@ -229,15 +231,20 @@ const Header: React.FC<HeaderProps> = ({
         <Box className={classes.menuLeft}>
           <GithubButton className={classes.menuItem} {...github} />
           <Link
+            className={classes.menuItem}
             href={telegram.href}
             target="_blank"
             style={{ display: "flex" }}
           >
             <TelegramIcon size="1x" className={classes.menuItem} />
           </Link>
+          <Box style={{ display: "flex", marginLeft: 10 }}>
+            <DonateButton className={classes.menuItem} />
+          </Box>
         </Box>
 
-        <DonateButton className={classes.menuItem} />
+        <SuggestLinkButton className={classes.menuItem} color={"white"} />
+
         {menu.map((m) => {
           return (
             <HeaderMenuItem

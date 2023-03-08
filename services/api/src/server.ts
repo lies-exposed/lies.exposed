@@ -168,6 +168,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     jwt({ secret: ctx.env.JWT_SECRET, algorithms: ["HS256"] }).unless({
       path: [
+        { url: "/v1/links/submit", method: "POST" },
         { url: "/v1/users/login", method: "POST" },
         { url: "/v1/users/signup", method: "POST" },
         { url: /\/v1\/*/, method: "GET" },
