@@ -45,7 +45,7 @@ const KeywordList: React.FC<KeywordListProps> = ({
       filter={(_) => true}
       onItemClick={onItemClick}
       getKey={(t) => t.id}
-      style={{ display: "flex", ...style }}
+      style={{ display: "flex", flexWrap: 'wrap', ...style }}
       ListItem={(p) => <KeywordListItem {...p} onClick={onItemClick} />}
     />
   );
