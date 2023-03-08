@@ -36,7 +36,7 @@
     "@react-page/plugins-spacer": "^5.4.3",
     "@react-page/plugins-video": "^5.4.3",
     "@react-page/react-admin": "^5.4.3",
-    "@visx/axis": "^3.0.1",
+    "@visx/axis": "^3.1.0",
     "@visx/chord": "^3.0.0",
     "@visx/clip-path": "^3.0.0",
     "@visx/event": "^3.0.1",
