@@ -84,6 +84,10 @@ export const ActorList = <D extends React.ElementType<any> = "ul">({
   return (
     <List
       {...props}
+      style={{
+        ...props.style,
+        flexWrap: 'wrap',
+      }}
       data={actors}
       getKey={(a) => a.id}
       filter={(a) => true}
