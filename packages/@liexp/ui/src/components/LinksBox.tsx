@@ -1,4 +1,3 @@
-import { type http } from "@liexp/shared/io";
 // import { formatDate } from "@liexp/shared/utils/date";
 import { type GetListLinkQuery } from "@liexp/shared/io/http/Link";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMoreOutlined";
@@ -6,68 +5,65 @@ import LinkIcon from "@mui/icons-material/LinkOutlined";
 import * as React from "react";
 import { type serializedType } from "ts-io-error/lib/Codec";
 import { useLinksQuery } from "../state/queries/link.queries";
-import LinkCard from "./Cards/LinkCard";
 import QueriesRenderer from "./QueriesRenderer";
+import { LinksList, type LinksListProps } from "./lists/LinkList";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Box,
-  Grid,
-  Typography
+  Box, Typography
 } from "./mui";
 
-interface LinksListProps {
-  layout?: "list" | { md: number; sm: number; lg: number };
-  links: http.Link.Link[];
-  onClick: (l: http.Link.Link) => void;
-}
+// interface LinksListProps {
+//   layout?: "list" | { md: number; sm: number; lg: number };
+//   links: http.Link.Link[];
+//   onClick: (l: http.Link.Link) => void;
+// }
 
-export const LinksList: React.FC<LinksListProps> = ({
-  layout = "list",
-  links,
-  onClick,
-}) => {
-  const gridProps =
-    layout === "list"
-      ? {
-          md: 12,
-          lg: 12,
-          sm: 12,
-          xs: 12,
-        }
-      : layout;
-  return (
-    <Grid
-      container
-      spacing={2}
-      style={{
-        maxHeight: "100%",
-        display: "flex",
-        alignItems: "center",
-      }}
-    >
-      {links.map((l, i) => (
-        <Grid
-          {...gridProps}
-          key={l.id}
-          item
-          style={{
-            display: "flex",
-          }}
-        >
-          <LinkCard link={{ ...l, selected: false }} onClick={onClick} />
-        </Grid>
-      ))}
-    </Grid>
-  );
-};
+// export const LinksList: React.FC<LinksListProps> = ({
+//   layout = "list",
+//   links,
+//   onClick,
+// }) => {
+//   const gridProps =
+//     layout === "list"
+//       ? {
+//           md: 12,
+//           lg: 12,
+//           sm: 12,
+//           xs: 12,
+//         }
+//       : layout;
+//   return (
+//     <Grid
+//       container
+//       spacing={2}
+//       style={{
+//         maxHeight: "100%",
+//         display: "flex",
+//         alignItems: "center",
+//       }}
+//     >
+//       {links.map((l, i) => (
+//         <Grid
+//           {...gridProps}
+//           key={l.id}
+//           item
+//           style={{
+//             display: "flex",
+//           }}
+//         >
+//           <LinkCard link={{ ...l, selected: false }} onClick={onClick} />
+//         </Grid>
+//       ))}
+//     </Grid>
+//   );
+// };
 
 interface LinksBoxProps extends Omit<LinksListProps, "links"> {
   filter: Partial<serializedType<typeof GetListLinkQuery>>;
   defaultExpanded?: boolean;
   style?: React.CSSProperties;
-  onClick: (l: http.Link.Link) => void;
   onOpen?: () => void;
   onClose?: () => void;
 }
@@ -77,8 +73,8 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
   defaultExpanded = false,
   onOpen,
   onClose,
-  onClick,
-  layout,
+  onItemClick,
+  column,
   style,
 }) => {
   const [expanded, setExpanded] = React.useState(defaultExpanded);
@@ -143,7 +139,11 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
                 maxHeight: "100%",
               }}
             >
-              <LinksList layout={layout} links={links} onClick={onClick} />
+              <LinksList
+                column={column}
+                links={links.map((l) => ({ ...l, selected: true }))}
+                onItemClick={onItemClick}
+              />
             </AccordionDetails>
           </Accordion>
         );
@@ -154,8 +154,8 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
 
 export const LinksListBox: React.FC<LinksBoxProps> = ({
   filter,
-  onClick,
-  layout,
+  onItemClick,
+  column,
 }) => {
   const perPage = filter?.ids?.length ?? 20;
 
@@ -171,7 +171,13 @@ export const LinksListBox: React.FC<LinksBoxProps> = ({
         ),
       }}
       render={({ links: { data: links } }) => {
-        return <LinksList layout={layout} links={links} onClick={onClick} />;
+        return (
+          <LinksList
+            column={column}
+            links={links.map((l) => ({ ...l, selected: true }))}
+            onItemClick={onItemClick}
+          />
+        );
       }}
     />
   );
