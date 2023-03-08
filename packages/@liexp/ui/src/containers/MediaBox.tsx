@@ -43,7 +43,6 @@ export const MediaBox: React.FC<MediaBoxProps> = ({
             <Box
               style={{
                 display: "flex",
-                height: "100%",
                 width: "100%",
               }}
             >
