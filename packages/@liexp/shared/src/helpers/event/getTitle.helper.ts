@@ -19,6 +19,7 @@ export const getTitle = (
     }
     case http.Events.Death.DEATH.value: {
       const victimName =
+        (e.payload.victim as any).fullName ??
         relations.actors.find((a) => a.id === e.payload.victim)?.fullName ??
         "unknown";
       return `Death of ${victimName}`;
