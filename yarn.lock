@@ -2697,7 +2697,7 @@ __metadata:
     speed-measure-webpack-plugin: ^1.5.0
     style-loader: ^3.3.1
     ts-loader: ^9.4.2
-    tsconfig-paths-webpack-plugin: ^4.0.0
+    tsconfig-paths-webpack-plugin: ^4.0.1
     typescript: ^4.9.5
     url-loader: ^4.1.1
     webpack: ^5.76.0
@@ -16781,7 +16781,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"json5@npm:^2.1.2, json5@npm:^2.2.1, json5@npm:^2.2.3":
+"json5@npm:^2.1.2, json5@npm:^2.2.1, json5@npm:^2.2.2, json5@npm:^2.2.3":
   version: 2.2.3
   resolution: "json5@npm:2.2.3"
   bin:
@@ -24835,14 +24835,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsconfig-paths-webpack-plugin@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "tsconfig-paths-webpack-plugin@npm:4.0.0"
+"tsconfig-paths-webpack-plugin@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "tsconfig-paths-webpack-plugin@npm:4.0.1"
   dependencies:
     chalk: ^4.1.0
     enhanced-resolve: ^5.7.0
-    tsconfig-paths: ^4.0.0
-  checksum: 7ff7d63c1153e6dd30ce660b006495ae5cb5cbb78b30bb59b3cb627567325d4af52c7a69dda8aec7b94d576f5385581a69307472992954c40fe6949564155397
+    tsconfig-paths: ^4.1.2
+  checksum: a09e765c4939379fa060f78bbc906d0a7be541b9b49d3ad4744e99a2e87f28aa30d549a549196159bc5a50f420fdb1391b8eed360f47ee8ce40e15dcb800b5aa
   languageName: node
   linkType: hard
 
@@ -24858,14 +24858,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsconfig-paths@npm:^4.0.0":
-  version: 4.1.0
-  resolution: "tsconfig-paths@npm:4.1.0"
+"tsconfig-paths@npm:^4.1.2":
+  version: 4.1.2
+  resolution: "tsconfig-paths@npm:4.1.2"
   dependencies:
-    json5: ^2.2.1
+    json5: ^2.2.2
     minimist: ^1.2.6
     strip-bom: ^3.0.0
-  checksum: e4b101f81b2abd95499d8145e0aa73144e857c2c359191058486cef101b7accae22a69114e5d5814a13d5ab3b0bae70dd0c85bcdb7e829bbe1bfda5c9067c9b1
+  checksum: 3d9151ecea139594e25618717de15769ab9f38f8e6d510ac16e592b23e7f7105ea13cec5694c3de7e132c98277b775e18edd1651964164ee6d75737c408494cc
   languageName: node
   linkType: hard
 
@@ -25901,7 +25901,7 @@ __metadata:
     topojson-server: 3.0.1
     ts-node: ^10.9.1
     ts-node-dev: ^2.0.0
-    tsconfig-paths-webpack-plugin: ^4.0.0
+    tsconfig-paths-webpack-plugin: ^4.0.1
     typescript: ^4.9.5
     uuid: ^9.0.0
     webpack: ^5.76.0
