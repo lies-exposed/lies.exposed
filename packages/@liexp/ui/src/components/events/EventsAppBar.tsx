@@ -22,7 +22,10 @@ import {
   SearchIcon,
   Typography,
 } from "../mui";
-import { EventsAppBarMinimized } from "./EventsAppBarMinimized";
+import {
+  EventsAppBarMinimized,
+  EventsAppBarMinimizedProps,
+} from "./EventsAppBarMinimized";
 import SearchEventInput, { type SearchFilter } from "./inputs/SearchEventInput";
 
 const PREFIX = "EventsAppBar";
@@ -118,8 +121,7 @@ const StyledToolbar = styled(Box)(({ theme }) => ({
   },
 }));
 
-interface EventsToolbarProps {
-  query: SearchEventsQueryInputNoPagination;
+interface EventsToolbarProps extends Omit<EventsAppBarMinimizedProps, 'totals' | 'open'> {
   defaultExpanded?: boolean;
   hash: string;
   actors: Actor.Actor[];
@@ -138,8 +140,8 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
   groupsMembers,
   keywords,
   onQueryChange,
-  onQueryClear,
   defaultExpanded = false,
+  ...props
 }) => {
   const theme = useTheme();
 
@@ -252,8 +254,8 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
           <StyledToolbar
             style={{
               width: "100%",
-              display: 'flex',
-              flexShrink: 0
+              display: "flex",
+              flexShrink: 0,
             }}
           >
             <Accordion
@@ -273,6 +275,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
             >
               <AccordionSummary>
                 <EventsAppBarMinimized
+                  {...props}
                   open={isExpanded}
                   query={query}
                   actors={actors.filter((a) => query.actors?.includes(a.id))}
@@ -285,7 +288,6 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   )}
                   totals={totals}
                   onQueryChange={onQueryChange}
-                  onQueryClear={onQueryClear}
                 />
               </AccordionSummary>
               <AccordionDetails>{expanded}</AccordionDetails>
