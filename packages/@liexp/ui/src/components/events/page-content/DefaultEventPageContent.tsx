@@ -1,11 +1,10 @@
-import {
-  type Media
-} from "@liexp/shared/io/http";
+import { type Media } from "@liexp/shared/io/http";
 import { type Event } from "@liexp/shared/io/http/Events";
 import { isValidValue } from "@liexp/shared/slate";
 import * as React from "react";
 import { useTheme } from "../../../theme";
 import Editor from "../../Common/Editor";
+import { MediaList } from "../../lists/MediaList";
 import { Box, Grid } from "../../mui";
 import { MediaSlider } from "../../sliders/MediaSlider";
 
@@ -13,14 +12,11 @@ interface DefaultEventPageContentProps {
   event: Event;
   media: Media.Media[];
   onMediaClick: (m: Media.Media) => void;
+  mediaLayout?: "slider" | "masonry";
 }
 export const DefaultEventPageContent: React.FC<
   DefaultEventPageContentProps
-> = ({
-  event,
-  media,
-  onMediaClick,
-}) => {
+> = ({ event, media, onMediaClick, mediaLayout = "slider" }) => {
   const theme = useTheme();
 
   return (
@@ -36,15 +32,24 @@ export const DefaultEventPageContent: React.FC<
         }}
       >
         {media.length > 0 ? (
-          <MediaSlider
-            data={media}
-            onClick={onMediaClick}
-            itemStyle={{
-              maxWidth: 800,
-              maxHeight: 400,
-              margin: "auto",
-            }}
-          />
+          mediaLayout === "masonry" ? (
+            <MediaList
+              media={media.map((m) => ({ ...m, selected: true }))}
+              columns={2}
+              onItemClick={onMediaClick}
+              hideDescription={true}
+            />
+          ) : mediaLayout === "slider" ? (
+            <MediaSlider
+              data={media}
+              onClick={onMediaClick}
+              itemStyle={{
+                maxWidth: 800,
+                maxHeight: 400,
+                margin: "auto",
+              }}
+            />
+          ) : null
         ) : null}
       </Grid>
       <Grid item>
