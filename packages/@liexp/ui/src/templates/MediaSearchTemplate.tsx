@@ -36,12 +36,17 @@ const MediaSearchTemplate: React.FC<MediaSearchTemplateProps> = ({
         flexDirection: "row",
         justifyContent: "center",
         height: "100%",
-        flexWrap: 'wrap'
+        flexWrap: "wrap",
       }}
     >
-      <Box style={{ display: "flex", width: '100%', flexShrink: 0 }}>
+      <Box style={{ display: "flex", width: "100%", flexShrink: 0 }}>
         <MainContent
-          style={{ display: "flex", width: '100%', flexShrink: 0, flexDirection: "column" }}
+          style={{
+            display: "flex",
+            width: "100%",
+            flexShrink: 0,
+            flexDirection: "column",
+          }}
         >
           <Box
             style={{
@@ -62,7 +67,12 @@ const MediaSearchTemplate: React.FC<MediaSearchTemplateProps> = ({
       </Box>
 
       <Container style={{ display: "flex" }}>
-        <MediaBox filter={filter} onClick={onMediaClick} perPage={perPage} />
+        <MediaBox
+          filter={filter}
+          onClick={onMediaClick}
+          perPage={perPage}
+          hideDescription
+        />
       </Container>
     </Box>
   );

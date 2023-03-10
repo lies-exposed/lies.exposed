@@ -42,6 +42,7 @@ const StyledBox = styled(Box)(() => ({
 export interface MediaElementProps {
   media: Media.Media;
   className?: string;
+  itemClassName?: string;
   style?: React.CSSProperties;
   onLoad?: () => void;
   enableDescription?: boolean;
@@ -50,6 +51,7 @@ export interface MediaElementProps {
 const MediaElement: React.FC<MediaElementProps> = ({
   media,
   className,
+  itemClassName,
   style,
   enableDescription = false,
   ...props
@@ -60,7 +62,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
         return (
           <IframeMediaElement
             {...props}
-            className={clsx(classes.item, className)}
+            className={clsx(classes.item, itemClassName)}
             media={{ ...media, type: "iframe/video" }}
           />
         );
@@ -68,7 +70,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
         return (
           <PDFMediaElement
             {...props}
-            className={clsx(classes.item, className)}
+            className={clsx(classes.item, itemClassName)}
             media={{ ...media, type: "application/pdf" }}
           />
         );
@@ -77,7 +79,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
         return (
           <Video
             {...props}
-            className={clsx(classes.item, className)}
+            className={clsx(classes.item, itemClassName)}
             thumbnail={media.thumbnail}
             src={media.location}
             type={"video/mp4"}
@@ -92,7 +94,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
       case Media.MediaType.types[3].value: {
         return (
           <AudioMediaElement
-            className={clsx(classes.item, className)}
+            className={clsx(classes.item, itemClassName)}
             media={media as any}
           />
         );
@@ -102,7 +104,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
         return (
           <ExpandableImageElement
             {...props}
-            className={clsx(classes.item, className)}
+            className={clsx(classes.item, itemClassName)}
             media={media as any}
           />
         );
@@ -110,7 +112,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
   }, [media]);
 
   return (
-    <StyledBox className={classes.root}>
+    <StyledBox className={clsx(classes.root, className)} style={style}>
       {mediaElement}
       {enableDescription ? (
         <Box className={classes.description}>

@@ -11,12 +11,15 @@ export interface MediaBoxProps {
   filter: Partial<serializedType<typeof Endpoints.Media.List.Input.Query>>;
   onClick: (e: Media.Media) => void;
   perPage?: number;
+  hideDescription?: boolean;
+
 }
 
 export const MediaBox: React.FC<MediaBoxProps> = ({
   filter,
   onClick,
   perPage = 100,
+  hideDescription
 }) => {
   const [page, setPage] = React.useState(1);
   const handlePageChange = (p: number): void => {
@@ -49,6 +52,7 @@ export const MediaBox: React.FC<MediaBoxProps> = ({
               <MediaList
                 media={media.map((m) => ({ ...m, selected: true }))}
                 onItemClick={onClick}
+                hideDescription={hideDescription}
               />
             </Box>
 

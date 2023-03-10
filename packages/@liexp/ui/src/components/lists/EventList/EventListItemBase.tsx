@@ -11,6 +11,7 @@ import { LinksBox } from "../../LinksBox";
 import { Box, Grid, Link, Typography } from "../../mui";
 import { MediaSlider } from "../../sliders/MediaSlider";
 import KeywordList from "../KeywordList";
+import { MediaList } from '../MediaList';
 
 const PREFIX = "EventListItemBase";
 
@@ -56,6 +57,7 @@ interface EventListItemBaseProps<E> {
   onKeywordClick?: (k: http.Keyword.Keyword) => void;
   onRowInvalidate: (e: E) => void;
   onLoad?: () => void;
+  mediaLayout?: 'slider' | 'masonry'
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
@@ -71,6 +73,7 @@ const EventListItemBase = <E extends any>({
   onKeywordClick,
   onRowInvalidate,
   onLoad,
+  mediaLayout = 'slider'
 }: EventListItemBaseProps<E>): JSX.Element => {
   React.useEffect(() => {
     if (media.length === 0) {
@@ -127,12 +130,14 @@ const EventListItemBase = <E extends any>({
               marginBottom: 30,
             }}
           >
-            <MediaSlider
+            {mediaLayout === 'masonry' ? 
+            <MediaList media={media.map(m => ({ ...m, selected: true }))}  onItemClick={() => {}} />
+            : <MediaSlider
               data={media}
               itemStyle={{ height: 400, maxWidth: 600 }}
               onLoad={onLoad}
               enableDescription={true}
-            />
+            /> }
           </Box>
         )),
         O.toNullable

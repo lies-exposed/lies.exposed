@@ -5,8 +5,8 @@ import { clsx } from "clsx";
 import * as React from "react";
 import { styled } from "../../theme";
 import { type ListItemProps } from "../Common/List";
-import { defaultImage } from "../SEO";
-import { Box, Typography } from "../mui";
+import MediaElement from "../Media/MediaElement";
+import { Box } from "../mui";
 
 export interface Media extends io.Media.Media {
   selected: boolean;
@@ -43,6 +43,7 @@ const StyledBox = styled(Box)({
   },
   [`& .${classes.media}`]: {
     maxWidth: "100%",
+    width: '100%',
     height: "100%",
     objectFit: "contain",
   },
@@ -77,25 +78,11 @@ export const MediaListItem: React.ForwardRefRenderFunction<
         }}
         onClick={() => onClick?.(item)}
       >
-        <img
+        <MediaElement
           className={classes.media}
-          src={item.thumbnail ?? defaultImage}
-          title={item.description}
-          loading="lazy"
+          media={item}
+          enableDescription={!hideDescription}
         />
-
-        {!hideDescription ? (
-          <Box className={classes.description}>
-            <Typography
-              gutterBottom
-              variant="body2"
-              component="p"
-              color="white"
-            >
-              {item.description.substring(0, 100).concat("...")}
-            </Typography>
-          </Box>
-        ) : null}
       </Box>
     </StyledBox>
   );
@@ -151,6 +138,7 @@ export interface MediaListProps {
   style?: React.CSSProperties;
   itemStyle?: React.CSSProperties;
   gutterSize?: number;
+  columns?: number
 }
 
 const LIST_PREFIX = "media-list";
@@ -177,23 +165,11 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
       onItemClick,
       itemStyle,
       gutterSize = 20,
+      columns = 4,
       ...props
     },
     ref
   ) => {
-    // const getColumnCount = (w: number): number =>
-    //   Math.floor(w / (columnWidth + gutterSize));
-
-    // const [columnCount, setColumnCount] = React.useState(
-    //   getColumnCount(width > 0 ? width : 1000)
-    // );
-
-    // React.useEffect(() => {
-    //   setTimeout(() => {
-    //     resetCellPositioner();
-    //     masonryRef.current?.recomputeCellPositions();
-    //   }, 1000);
-    // }, [media.map((m) => m.id)]);
 
     return (
       <ParentSize style={{ width: "100%", minHeight: 600 }}>
@@ -203,9 +179,9 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
               {...props}
               className={clsx(listClasses.root, className)}
               style={style}
-              columns={4}
+              columns={columns}
               spacing={1}
-              defaultColumns={4}
+              defaultColumns={columns}
               defaultHeight={height}
             >
               {media.map((m) => {
@@ -216,7 +192,7 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
                     item={m}
                     onClick={onItemClick}
                     hideDescription={hideDescription}
-                    width={Math.floor(width / 4)}
+                    width={Math.floor(width / columns)}
                   />
                 );
               })}

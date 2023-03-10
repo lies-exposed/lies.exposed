@@ -52,6 +52,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
               event={event}
               media={media}
               onMediaClick={onMediaClick}
+              mediaLayout="masonry"
             />
           );
 
