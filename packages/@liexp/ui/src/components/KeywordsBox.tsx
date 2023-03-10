@@ -11,11 +11,13 @@ import { Box, type BoxProps, Typography } from "./mui";
 interface KeywordsBoxProps extends BoxProps {
   ids: string[];
   onItemClick: (k: Keyword.Keyword) => void;
+  listStyle?: React.CSSProperties
 }
 
 export const KeywordsBox: React.FC<KeywordsBoxProps> = ({
   ids,
   onItemClick,
+  listStyle,
   ...props
 }) => {
   return (
@@ -44,6 +46,7 @@ export const KeywordsBox: React.FC<KeywordsBoxProps> = ({
                   <KeywordList
                     keywords={keywords.map((a) => ({ ...a, selected: true }))}
                     onItemClick={onItemClick}
+                    style={listStyle}
                   />
                 );
               }}
