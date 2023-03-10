@@ -1,5 +1,6 @@
 import { http } from "@liexp/shared/io";
 import { createExcerptValue } from "@liexp/shared/slate";
+import { generateRandomColor } from "@liexp/shared/utils/colors";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { uploadImages } from "@liexp/ui/client/admin/MediaAPI";
@@ -13,7 +14,8 @@ import ReferenceManyEventField from "@liexp/ui/components/admin/events/Reference
 import { SearchLinksButton } from "@liexp/ui/components/admin/links/SearchLinksButton";
 import { MediaField } from "@liexp/ui/components/admin/media/MediaField";
 import ActorPreview from "@liexp/ui/components/admin/previews/ActorPreview";
-import * as O from 'fp-ts/Option';
+import { Grid } from "@liexp/ui/components/mui";
+import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
@@ -41,7 +43,7 @@ import {
   TextField,
   TextInput,
   useDataProvider,
-  useRecordContext
+  useRecordContext,
 } from "react-admin";
 
 const actorFilters = [
@@ -206,14 +208,27 @@ export const ActorCreate: React.FC<CreateProps> = (props) => {
       transform={(a) => transformActor(dataProvider)(uuid(), a)}
     >
       <SimpleForm>
-        <ColorInput source="color" />
-        <TextInput source="username" />
-        <TextInput source="fullName" />
-        <ImageInput source="avatar">
-          <ImageField />
-        </ImageInput>
-        <ReactPageInput source="excerpt" onlyText={true} />
-        <ReactPageInput source="body" />
+        <Grid container spacing={2}>
+          <Grid
+            item
+            md={6}
+            sm={12}
+            style={{ display: "flex", flexDirection: "column" }}
+          >
+            <ColorInput source="color" defaultValue={generateRandomColor()} />
+            <TextInput source="fullName" />
+            <TextInput source="username" />
+          </Grid>
+          <Grid item md={6} sm={12}>
+            <ImageInput source="avatar">
+              <ImageField />
+            </ImageInput>
+          </Grid>
+          <Grid item md={12}>
+            <ReactPageInput source="excerpt" onlyText={true} />
+            <ReactPageInput source="body" />
+          </Grid>
+        </Grid>
       </SimpleForm>
     </Create>
   );

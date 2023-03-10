@@ -75,7 +75,7 @@ export const MediaSlider: React.FC<MediaSliderProps> = ({
             <MediaElement
               key={m.id}
               media={m}
-              className={clsx(classes.item, itemClassName)}
+              itemClassName={clsx(classes.item, itemClassName)}
               onLoad={i === 0 ? onLoad : undefined}
               enableDescription={enableDescription}
             />

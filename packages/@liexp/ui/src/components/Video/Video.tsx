@@ -1,4 +1,5 @@
 import { type MP4Type } from "@liexp/shared/io/http/Media";
+import { clsx } from "clsx";
 import * as React from "react";
 import { styled } from "../../theme";
 import { VideoCover } from "../Media/VideoCover";
@@ -12,7 +13,7 @@ const classes = {
 const Root = styled("div")(() => ({
   [`&.${classes.wrapper}`]: {
     display: "flex",
-    flexDirection: 'column',
+    flexDirection: "column",
     width: "100%",
     maxWidth: 800,
     minHeight: 300,
@@ -33,6 +34,7 @@ interface VideoProps {
 }
 
 export const Video: React.FC<VideoProps> = ({
+  className,
   thumbnail,
   src,
   type,
@@ -47,9 +49,11 @@ export const Video: React.FC<VideoProps> = ({
 
   return (
     <Root
-      className={classes.wrapper}
+      className={clsx(classes.wrapper, className)}
       style={style}
-      onClick={() => { setLoaded(true); }}
+      onClick={() => {
+        setLoaded(true);
+      }}
     >
       {loaded ? (
         <video
