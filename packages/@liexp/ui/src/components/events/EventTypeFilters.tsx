@@ -15,7 +15,7 @@ import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { styled } from "../../theme";
 import { EventIcon } from "../Common/Icons";
-import { Box, IconButton, Typography } from "../mui";
+import { Box, Grid, IconButton, Typography } from "../mui";
 
 const PREFIX = "event-type-filters";
 
@@ -29,16 +29,17 @@ const classes = {
 const StyledBox = styled(Box)(({ theme }) => ({
   [`&.${classes.root}`]: {
     display: "flex",
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    width: '100%',
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
   [`& .${classes.iconButton}`]: {
     marginRight: -18,
     opacity: 0.5,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
     [`& .${classes.typeTotal}`]: {
       marginTop: 10,
       display: "flex",
@@ -139,102 +140,119 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
 
   return (
     <StyledBox className={classes.root}>
-      <IconButton
-        className={clsx(classes.iconButton, {
-          [classes.iconButtonSelected]: filters.Uncategorized,
-        })}
-        color="primary"
-        onClick={(e) => {
-          e.preventDefault();
-          handleFilterChange(Uncategorized.UNCATEGORIZED.value);
-        }}
-        size="large"
-      >
-        <EventIcon type="Uncategorized" {...eventIconProps} />
-        <Typography className={classes.typeTotal} variant="caption">
-          {totals.uncategorized}
-        </Typography>
-      </IconButton>
-      <IconButton
-        color="primary"
-        className={clsx(classes.iconButton, {
-          [classes.iconButtonSelected]: filters.Death,
-        })}
-        onClick={(e) => {
-          e.preventDefault();
-          handleFilterChange(Death.DEATH.value);
-        }}
-        size="large"
-      >
-        <EventIcon type="Death" {...eventIconProps} />
-        <Typography variant="caption" className={classes.typeTotal}>
-          {totals.deaths}
-        </Typography>
-      </IconButton>
-      <IconButton
-        color="primary"
-        className={clsx(classes.iconButton, {
-          [classes.iconButtonSelected]: filters.ScientificStudy,
-        })}
-        onClick={(e) => {
-          e.preventDefault();
-          handleFilterChange(ScientificStudy.SCIENTIFIC_STUDY.value);
-        }}
-        size="large"
-      >
-        <EventIcon type="ScientificStudy" {...eventIconProps} />
-        <Typography variant="caption" className={classes.typeTotal}>
-          {totals.scientificStudies}
-        </Typography>
-      </IconButton>
-      <IconButton
-        color="primary"
-        className={clsx(classes.iconButton, {
-          [classes.iconButtonSelected]: filters.Documentary,
-        })}
-        onClick={(e) => {
-          e.preventDefault();
-          handleFilterChange(Documentary.DOCUMENTARY.value);
-        }}
-        size="large"
-      >
-        <EventIcon type={Documentary.DOCUMENTARY.value} {...eventIconProps} />
-        <Typography variant="caption" className={classes.typeTotal}>
-          {totals.documentaries}
-        </Typography>
-      </IconButton>
-      <IconButton
-        color="primary"
-        className={clsx(classes.iconButton, {
-          [classes.iconButtonSelected]: filters.Patent,
-        })}
-        onClick={(e) => {
-          e.preventDefault();
-          handleFilterChange(Patent.PATENT.value);
-        }}
-        size="large"
-      >
-        <EventIcon type="Patent" {...eventIconProps} />
-        <Typography variant="caption" className={classes.typeTotal}>
-          {totals.patents}
-        </Typography>
-      </IconButton>
-      <IconButton
-        color="primary"
-        className={clsx(classes.iconButton, {
-          [classes.iconButtonSelected]: filters.Transaction,
-        })}
-        onClick={(e) => {
-          e.preventDefault();
-          handleFilterChange(Transaction.TRANSACTION.value);
-        }}
-        size="large"
-      >
-        <EventIcon type="Transaction" {...eventIconProps} />
-        <Typography variant="caption" className={classes.typeTotal}>
-          {totals.transactions}
-        </Typography>
-      </IconButton>
+      <Grid container style={{ width: '100%'}}>
+        <Grid item md={2}>
+          <IconButton
+            className={clsx(classes.iconButton, {
+              [classes.iconButtonSelected]: filters.Uncategorized,
+            })}
+            color="primary"
+            onClick={(e) => {
+              e.preventDefault();
+              handleFilterChange(Uncategorized.UNCATEGORIZED.value);
+            }}
+            size="large"
+          >
+            <EventIcon type="Uncategorized" {...eventIconProps} />
+            <Typography className={classes.typeTotal} variant="caption">
+              {totals.uncategorized}
+            </Typography>
+          </IconButton>
+        </Grid>
+        <Grid item md={2}>
+          <IconButton
+            color="primary"
+            className={clsx(classes.iconButton, {
+              [classes.iconButtonSelected]: filters.Death,
+            })}
+            onClick={(e) => {
+              e.preventDefault();
+              handleFilterChange(Death.DEATH.value);
+            }}
+            size="large"
+          >
+            <EventIcon type="Death" {...eventIconProps} />
+            <Typography variant="caption" className={classes.typeTotal}>
+              {totals.deaths}
+            </Typography>
+          </IconButton>
+        </Grid>
+        <Grid item md={2}>
+          <IconButton
+            color="primary"
+            className={clsx(classes.iconButton, {
+              [classes.iconButtonSelected]: filters.ScientificStudy,
+            })}
+            onClick={(e) => {
+              e.preventDefault();
+              handleFilterChange(ScientificStudy.SCIENTIFIC_STUDY.value);
+            }}
+            size="large"
+          >
+            <EventIcon type="ScientificStudy" {...eventIconProps} />
+            <Typography variant="caption" className={classes.typeTotal}>
+              {totals.scientificStudies}
+            </Typography>
+          </IconButton>
+        </Grid>
+        <Grid item md={2}>
+          <IconButton
+            color="primary"
+            className={clsx(classes.iconButton, {
+              [classes.iconButtonSelected]: filters.Documentary,
+            })}
+            onClick={(e) => {
+              e.preventDefault();
+              handleFilterChange(Documentary.DOCUMENTARY.value);
+            }}
+            size="large"
+          >
+            <EventIcon
+              type={Documentary.DOCUMENTARY.value}
+              {...eventIconProps}
+            />
+            <Typography variant="caption" className={classes.typeTotal}>
+              {totals.documentaries}
+            </Typography>
+          </IconButton>
+        </Grid>
+        <Grid item md={2}>
+          <IconButton
+            color="primary"
+            className={clsx(classes.iconButton, {
+              [classes.iconButtonSelected]: filters.Patent,
+            })}
+            onClick={(e) => {
+              e.preventDefault();
+              handleFilterChange(Patent.PATENT.value);
+            }}
+            size="large"
+          >
+            <EventIcon type="Patent" {...eventIconProps} />
+            <Typography variant="caption" className={classes.typeTotal}>
+              {totals.patents}
+            </Typography>
+          </IconButton>
+        </Grid>
+        <Grid item md={2}>
+          <IconButton
+            color="primary"
+            className={clsx(classes.iconButton, {
+              [classes.iconButtonSelected]: filters.Transaction,
+            })}
+            onClick={(e) => {
+              e.preventDefault();
+              handleFilterChange(Transaction.TRANSACTION.value);
+            }}
+            size="large"
+          >
+            <EventIcon type="Transaction" {...eventIconProps} />
+            <Typography variant="caption" className={classes.typeTotal}>
+              {totals.transactions}
+            </Typography>
+          </IconButton>
+        </Grid>
+      </Grid>
     </StyledBox>
   );
 };

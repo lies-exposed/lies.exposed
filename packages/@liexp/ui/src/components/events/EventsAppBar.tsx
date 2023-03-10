@@ -1,9 +1,13 @@
+import { getTotal } from "@liexp/shared/helpers/event";
 import {
   type Actor,
   type Group,
   type GroupMember,
   type Keyword,
 } from "@liexp/shared/io/http";
+import ArrowDownIcon from "@mui/icons-material/ArrowDownward";
+import ArrowUpIcon from "@mui/icons-material/ArrowUpward";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import * as React from "react";
 import {
   searchEventsQuery,
@@ -21,10 +25,12 @@ import {
   Grid,
   SearchIcon,
   Typography,
+  IconButton,
 } from "../mui";
 import {
   EventsAppBarMinimized,
-  EventsAppBarMinimizedProps,
+  type EventsAppBarMinimizedProps,
+  searchEventQueryToEventTypeFilters,
 } from "./EventsAppBarMinimized";
 import SearchEventInput, { type SearchFilter } from "./inputs/SearchEventInput";
 
@@ -121,7 +127,8 @@ const StyledToolbar = styled(Box)(({ theme }) => ({
   },
 }));
 
-interface EventsToolbarProps extends Omit<EventsAppBarMinimizedProps, 'totals' | 'open'> {
+interface EventsToolbarProps
+  extends Omit<EventsAppBarMinimizedProps, "totals" | "open"> {
   defaultExpanded?: boolean;
   hash: string;
   actors: Actor.Actor[];
@@ -141,6 +148,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
   keywords,
   onQueryChange,
   defaultExpanded = false,
+  onQueryClear,
   ...props
 }) => {
   const theme = useTheme();
@@ -175,6 +183,71 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
         }),
       }}
       render={({ searchEvents: { totals } }) => {
+        const filters = searchEventQueryToEventTypeFilters(query);
+        const totalEvents = getTotal(totals, {
+          transactions: filters.Transaction,
+          documentaries: filters.Documentary,
+          uncategorized: filters.Uncategorized,
+          patents: filters.Patent,
+          scientificStudies: filters.ScientificStudy,
+          deaths: filters.Death,
+          quotes: filters.Quote,
+        });
+
+        const clearButton =
+          actors.length > 0 || groups.length > 0 || keywords.length > 0 ? (
+            <IconButton
+              style={{
+                padding: 0,
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+                onQueryClear();
+              }}
+              size="large"
+            >
+              <HighlightOffIcon />
+            </IconButton>
+          ) : null;
+
+        const eventTotal = (
+          <Box
+            style={{
+              display: "flex",
+              width: "100%",
+              flexGrow: 1,
+              justifyContent: "flex-end",
+            }}
+          >
+            <Typography
+              display="inline"
+              variant="h5"
+              color="secondary"
+              style={{
+                margin: "auto",
+                marginRight: 0,
+              }}
+            >
+              {totalEvents}
+            </Typography>
+            <IconButton
+              style={{
+                padding: 20,
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+                onQueryChange({
+                  ...query,
+                  _order: query._order === "DESC" ? "ASC" : "DESC",
+                });
+              }}
+              size="large"
+            >
+              {query._order === "DESC" ? <ArrowUpIcon /> : <ArrowDownIcon />}
+            </IconButton>
+          </Box>
+        );
+
         const searchBox = (
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -258,40 +331,69 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
               flexShrink: 0,
             }}
           >
-            <Accordion
-              expanded={isExpanded}
-              onChange={(e) => {
-                if (!e.isDefaultPrevented()) {
-                  setIsExpanded(!isExpanded);
-                }
-              }}
-              variant={undefined}
-              style={{
-                width: "100%",
-                border: "none",
-                boxShadow: "none",
-                background: "transparent",
-              }}
-            >
-              <AccordionSummary>
-                <EventsAppBarMinimized
-                  {...props}
-                  open={isExpanded}
-                  query={query}
-                  actors={actors.filter((a) => query.actors?.includes(a.id))}
-                  groups={groups.filter((g) => query.groups?.includes(g.id))}
-                  groupsMembers={groupsMembers.filter((gm) =>
-                    query.groupsMembers?.includes(gm.id)
-                  )}
-                  keywords={keywords.filter((k) =>
-                    query.keywords?.includes(k.id)
-                  )}
-                  totals={totals}
-                  onQueryChange={onQueryChange}
-                />
-              </AccordionSummary>
-              <AccordionDetails>{expanded}</AccordionDetails>
-            </Accordion>
+            <Grid container>
+              <Grid item md={10}>
+                <Accordion
+                  expanded={isExpanded}
+                  onChange={(e) => {
+                    if (!e.isDefaultPrevented()) {
+                      setIsExpanded(!isExpanded);
+                    }
+                  }}
+                  variant={undefined}
+                  style={{
+                    width: "100%",
+                    border: "none",
+                    boxShadow: "none",
+                    background: "transparent",
+                  }}
+                >
+                  <AccordionSummary>
+                    <EventsAppBarMinimized
+                      {...props}
+                      open={isExpanded}
+                      query={query}
+                      actors={actors.filter((a) =>
+                        query.actors?.includes(a.id)
+                      )}
+                      groups={groups.filter((g) =>
+                        query.groups?.includes(g.id)
+                      )}
+                      groupsMembers={groupsMembers.filter((gm) =>
+                        query.groupsMembers?.includes(gm.id)
+                      )}
+                      keywords={keywords.filter((k) =>
+                        query.keywords?.includes(k.id)
+                      )}
+                      totals={totals}
+                      onQueryChange={onQueryChange}
+                    />
+                  </AccordionSummary>
+                  <AccordionDetails>{expanded}</AccordionDetails>
+                </Accordion>
+              </Grid>
+              <Grid
+                item
+                md={2}
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flexShrink: 0,
+                  alignItems: "baseline",
+                }}
+              >
+                <Box
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    marginRight: 20,
+                  }}
+                >
+                  {clearButton}
+                </Box>
+                {eventTotal}
+              </Grid>
+            </Grid>
           </StyledToolbar>
         );
       }}
