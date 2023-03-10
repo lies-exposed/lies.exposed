@@ -1,5 +1,6 @@
 import { type Media } from "@liexp/shared/io/http";
 import { type Event } from "@liexp/shared/io/http/Events";
+import { MP3Type, OGGType } from "@liexp/shared/io/http/Media";
 import { isValidValue } from "@liexp/shared/slate";
 import * as React from "react";
 import { useTheme } from "../../../theme";
@@ -43,11 +44,11 @@ export const DefaultEventPageContent: React.FC<
             <MediaSlider
               data={media}
               onClick={onMediaClick}
-              itemStyle={{
+              itemStyle={(m) => ({
                 maxWidth: 800,
-                maxHeight: 400,
+                maxHeight: MP3Type.is(m.type) || OGGType.is(m.type) ? 100 : 400,
                 margin: "auto",
-              }}
+              })}
             />
           ) : null
         ) : null}

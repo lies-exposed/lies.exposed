@@ -52,7 +52,7 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
     display: "flex",
     width: "100%",
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "baseline",
     flexWrap: "wrap",
     [theme.breakpoints.down("sm")]: {
       flexDirection: "row",
@@ -80,6 +80,11 @@ interface EventsAppBarMinimizedProps {
   onQueryChange: (e: SearchEventsQueryInputNoPagination) => void;
   onQueryClear: () => void;
   open: boolean;
+  layout?: {
+    eventTypes: number;
+    dateRangeBox: number;
+    relations: number;
+  };
 }
 
 export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
@@ -94,7 +99,14 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
   onQueryClear,
   totals,
   current,
+  layout: _layout,
 }) => {
+  const layout: typeof _layout = {
+    eventTypes: 3,
+    dateRangeBox: 4,
+    relations: 4,
+    ..._layout,
+  };
   const filters = React.useMemo(() => {
     if (!query.type) {
       return allFiltersEnabled;
@@ -170,7 +182,7 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
     <Box
       style={{
         display: "flex",
-        width: '100%',
+        width: "100%",
         flexGrow: 1,
         justifyContent: "flex-end",
       }}
@@ -292,38 +304,77 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
       <Grid
         item
         sm={12}
-        md={12}
+        md={layout.eventTypes}
         style={{
           display: "flex",
-          flexDirection: "column",
-          alignItems: "baseline",
+          flexDirection: "row",
+          flexWrap: "wrap",
         }}
       >
-        {dateRangeBox}
         <EventTypeFilters
           filters={filters}
           totals={totals}
           onChange={handleFilterChange}
         />
       </Grid>
+      <Grid
+        item
+        sm={12}
+        md={layout.dateRangeBox}
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          alignItems: "baseline",
+        }}
+      >
+        {dateRangeBox}
+      </Grid>
 
-      {actors.length > 0 || groups.length > 0 || keywords.length > 0 ? (
+      {keywords.length > 0 ? (
         <Grid
           item
           sm={12}
+          md={layout.relations}
           style={{
             display: "flex",
-            justifyContent: "flex-end",
             flexWrap: "wrap",
-            flexDirection: 'column',
-            flexGrow: 1,
+            flexDirection: "row",
             flexShrink: 0,
           }}
         >
           {keywordList}
-          {actorsList}
+        </Grid>
+      ) : null}
+      {groups.length > 0 ? (
+        <Grid
+          item
+          sm={12}
+          md={layout.relations}
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            flexDirection: "row",
+            flexShrink: 0,
+          }}
+        >
           {groupsList}
           {groupsMembersList}
+        </Grid>
+      ) : null}
+      {actors.length > 0 ? (
+        <Grid
+          item
+          sm={12}
+          md={layout.relations}
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            flexDirection: "row",
+            flexShrink: 0,
+          }}
+        >
+          {actorsList}
         </Grid>
       ) : null}
       <Grid

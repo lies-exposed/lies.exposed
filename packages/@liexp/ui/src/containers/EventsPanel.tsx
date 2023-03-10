@@ -2,7 +2,7 @@ import {
   type Actor,
   type Group,
   type GroupMember,
-  type Keyword
+  type Keyword,
 } from "@liexp/shared/io/http";
 import { type EventType, type SearchEvent } from "@liexp/shared/io/http/Events";
 import * as React from "react";
@@ -49,7 +49,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
   [`& .${classes.drawer}`]: {
     width: drawerWidth,
-    height: '100%',
+    height: "100%",
     flexShrink: 0,
   },
 
@@ -224,11 +224,18 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
         justifyContent="center"
         style={{
           height: "100%",
-          flexDirection: 'column',
-          flexWrap: 'nowrap'
+          flexDirection: "column",
+          flexWrap: "nowrap",
         }}
       >
-        <Grid container justifyContent="center">
+        <Grid
+          container
+          justifyContent="center"
+          style={{
+            display: "flex",
+            flexShrink: 0,
+          }}
+        >
           <EventsAppBar
             hash={hash}
             query={{ ...query, hash }}
@@ -243,8 +250,8 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
           />
         </Grid>
 
-        <Grid item lg={12} xs={12} style={{ height: "100%" }}>
-         <EventsTimeline
+        <Grid item lg={12} xs={12} style={{ display: "flex", flexGrow: 1 }}>
+          <EventsTimeline
             hash={hash}
             queryParams={query}
             onClick={handleEventClick}

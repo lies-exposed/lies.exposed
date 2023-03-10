@@ -172,7 +172,7 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
   ) => {
 
     return (
-      <ParentSize style={{ width: "100%", minHeight: 600 }}>
+      <ParentSize style={{ width: "100%", minHeight: 50 }}>
         {({ height, width }) => {
           return (
             <StyledMasonry

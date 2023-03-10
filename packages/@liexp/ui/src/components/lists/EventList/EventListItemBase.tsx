@@ -1,5 +1,6 @@
 import type * as http from "@liexp/shared/io/http";
 import { type EventType } from "@liexp/shared/io/http/Events";
+import { MP3Type, OGGType } from "@liexp/shared/io/http/Media";
 import { getTextContentsCapped, isValidValue } from "@liexp/shared/slate";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
@@ -11,7 +12,7 @@ import { LinksBox } from "../../LinksBox";
 import { Box, Grid, Link, Typography } from "../../mui";
 import { MediaSlider } from "../../sliders/MediaSlider";
 import KeywordList from "../KeywordList";
-import { MediaList } from '../MediaList';
+import { MediaList } from "../MediaList";
 
 const PREFIX = "EventListItemBase";
 
@@ -57,7 +58,7 @@ interface EventListItemBaseProps<E> {
   onKeywordClick?: (k: http.Keyword.Keyword) => void;
   onRowInvalidate: (e: E) => void;
   onLoad?: () => void;
-  mediaLayout?: 'slider' | 'masonry'
+  mediaLayout?: "slider" | "masonry";
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
@@ -73,7 +74,7 @@ const EventListItemBase = <E extends any>({
   onKeywordClick,
   onRowInvalidate,
   onLoad,
-  mediaLayout = 'slider'
+  mediaLayout = "slider",
 }: EventListItemBaseProps<E>): JSX.Element => {
   React.useEffect(() => {
     if (media.length === 0) {
@@ -126,18 +127,27 @@ const EventListItemBase = <E extends any>({
           <Box
             style={{
               width: "100%",
-              height: 400,
+              maxHeight: 400,
               marginBottom: 30,
             }}
           >
-            {mediaLayout === 'masonry' ? 
-            <MediaList media={media.map(m => ({ ...m, selected: true }))}  onItemClick={() => {}} />
-            : <MediaSlider
-              data={media}
-              itemStyle={{ height: 400, maxWidth: 600 }}
-              onLoad={onLoad}
-              enableDescription={true}
-            /> }
+            {mediaLayout === "masonry" ? (
+              <MediaList
+                media={media.map((m) => ({ ...m, selected: true }))}
+                onItemClick={() => {}}
+              />
+            ) : (
+              <MediaSlider
+                data={media}
+                itemStyle={(m) => ({
+                  maxHeight: 400,
+                  height: MP3Type.is(m.type) || OGGType.is(m.type) ? 100 : 300,
+                  maxWidth: 600,
+                })}
+                onLoad={onLoad}
+                enableDescription={true}
+              />
+            )}
           </Box>
         )),
         O.toNullable

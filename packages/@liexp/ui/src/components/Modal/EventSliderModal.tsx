@@ -1,6 +1,6 @@
 import { type EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import RunIcon from "@mui/icons-material/PlayCircleOutline";
-import {clsx} from "clsx";
+import { clsx } from "clsx";
 import * as React from "react";
 import {
   searchEventsQuery,
@@ -141,13 +141,7 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
 
   // console.log({ start });
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        background: theme.palette.background.paper,
-      }}
-    >
+    <div>
       <Box
         style={{
           position: "fixed",
