@@ -68,7 +68,7 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
   },
 }));
 
-interface EventsAppBarMinimizedProps {
+export interface EventsAppBarMinimizedProps {
   className?: string;
   query: SearchEventsQueryInputNoPagination;
   current?: number;
@@ -379,7 +379,12 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
       ) : null}
       <Grid
         item
-        style={{ display: "flex", flexDirection: "row", flexShrink: 0 }}
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          flexShrink: 0,
+          alignItems: "baseline",
+        }}
       >
         <Box
           style={{

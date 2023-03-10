@@ -1,10 +1,15 @@
 import { type Area } from "@liexp/shared/io/http";
 import { EventType } from "@liexp/shared/io/http/Events";
 import { type SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
+import { Feature } from "ol";
 import * as React from "react";
+import { geoJSONFormat } from "../utils/map.utils";
 import { AreaPageContent } from "../components/AreaPageContent";
-import { Box } from "../components/mui";
+import { Box, Container, Typography } from "../components/mui";
 import { EventsPanel } from "../containers/EventsPanel";
+import { SplitPageTemplate } from "./SplitPageTemplate";
+import Map from "../components/Map";
+import { AutoSizer } from "react-virtualized";
 
 export interface AreaTemplateProps {
   area: Area.Area;
@@ -20,40 +25,86 @@ export const AreaTemplateUI: React.FC<AreaTemplateProps> = ({
   onTabChange,
   onEventClick,
 }) => {
+  const { features } = React.useMemo(() => {
+    if (area) {
+      const features = [area].map(({ geometry, ...datum }) => {
+        const geom = geoJSONFormat.readGeometry(geometry);
+        const feature = new Feature(geom);
+        feature.setProperties(datum);
+        return feature;
+      });
+      // const totalArea = calculateAreaInSQM([area]);
+      return { features };
+    }
+    return { features: [] };
+  }, []);
+
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      height="100%"
-      style={{ paddingTop: 20 }}
-    >
-      <AreaPageContent area={area} onGroupClick={() => {}} />
-      <EventsPanel
-        slide={false}
-        keywords={[]}
-        actors={[]}
-        groups={[]}
-        groupsMembers={[]}
-        query={{
-          hash: `area-${area.id}`,
-          startDate: undefined,
-          endDate: new Date().toDateString(),
-          actors: [],
-          groups: [],
-          groupsMembers: [],
-          media: [],
-          keywords: [],
-          locations: [area.id],
-          type: EventType.types.map((t) => t.value),
-          _sort: "createdAt",
-          _order: "DESC",
-        }}
-        tab={0}
-        onQueryChange={(q, tab) => {
-          // navigateToResource.area({ id: actor.id }, { tab });
-        }}
-        onEventClick={(e) => {}}
-      />
-    </Box>
+    <Container>
+      <SplitPageTemplate
+        tab={tab}
+        onTabChange={onTabChange}
+        aside={
+          <AutoSizer style={{ width: "100%", height: "100%" }}>
+            {({ width }) => {
+              return (
+                <Box>
+                  <Typography variant="h3">{area.label}</Typography>
+                  <Map
+                    id={`area-${area.id}`}
+                    width={width}
+                    height={200}
+                    features={features}
+                    center={[9.18951, 45.46427]}
+                    zoom={12}
+                    onMapClick={() => {}}
+                    controls={{
+                      zoom: false,
+                    }}
+                  />
+                </Box>
+              );
+            }}
+          </AutoSizer>
+        }
+        resource={{ name: "areas", item: area }}
+        tabs={[
+          {
+            label: "General",
+          },
+          {
+            label: "Events",
+          },
+        ]}
+      >
+        <AreaPageContent area={area} onGroupClick={() => {}} />
+        <EventsPanel
+          slide={false}
+          keywords={[]}
+          actors={[]}
+          groups={[]}
+          groupsMembers={[]}
+          query={{
+            hash: `area-${area.id}`,
+            startDate: undefined,
+            endDate: new Date().toDateString(),
+            actors: [],
+            groups: [],
+            groupsMembers: [],
+            media: [],
+            keywords: [],
+            locations: [area.id],
+            type: EventType.types.map((t) => t.value),
+            _sort: "createdAt",
+            _order: "DESC",
+          }}
+          tab={0}
+          onQueryChange={(q, tab) => {
+            // navigateToResource.area({ id: actor.id }, { tab });
+          }}
+          onEventClick={(e) => {}}
+        />
+      </SplitPageTemplate>
+    </Container>
   );
 };
