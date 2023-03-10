@@ -214,7 +214,14 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
         ) : null;
 
         const expanded = (
-          <Box style={{ width: "100%", display: "flex" }}>
+          <Box
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+            }}
+          >
             <Grid container spacing={2} className={classes.expandedBox}>
               <Grid item md={12} sm={12} xs={12}>
                 {searchBox}
@@ -245,6 +252,8 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
           <StyledToolbar
             style={{
               width: "100%",
+              display: 'flex',
+              flexShrink: 0
             }}
           >
             <Accordion

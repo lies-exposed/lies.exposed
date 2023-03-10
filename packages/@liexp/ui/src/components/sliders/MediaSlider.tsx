@@ -18,22 +18,21 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
       margin: "auto",
       width: "100%",
       maxWidth: 600,
-      height: 400,
+      maxHeight: 400,
       display: "block",
       objectFit: "contain",
       [theme.breakpoints.down("md")]: {
-        height: 300,
+        maxHeight: 300,
       },
     },
   },
-  
 }));
 export interface MediaSliderProps extends Omit<SliderProps, "slides"> {
   data: Media.Media[];
   enableDescription?: boolean;
   onClick?: (e: Media.Media) => void;
   onLoad?: () => void;
-  itemStyle?: React.CSSProperties;
+  itemStyle?: (m: Media.Media) => React.CSSProperties;
   itemClassName?: string;
 }
 
@@ -78,6 +77,7 @@ export const MediaSlider: React.FC<MediaSliderProps> = ({
               itemClassName={clsx(classes.item, itemClassName)}
               onLoad={i === 0 ? onLoad : undefined}
               enableDescription={enableDescription}
+              itemStyle={itemStyle?.(m)}
             />
           </div>
         ))}

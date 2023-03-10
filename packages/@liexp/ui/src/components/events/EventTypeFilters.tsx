@@ -31,7 +31,6 @@ const StyledBox = styled(Box)(({ theme }) => ({
     display: "flex",
     flexDirection: 'row',
     flexWrap: 'wrap',
-    width: "100%",
   },
   [`& .${classes.iconButton}`]: {
     marginRight: -18,

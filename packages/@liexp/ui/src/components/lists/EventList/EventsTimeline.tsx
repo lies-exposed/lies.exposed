@@ -7,7 +7,12 @@ import {
 } from "@liexp/shared/io/http/Events";
 import { type EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import * as React from "react";
-import { AutoSizer, type Index, type IndexRange, InfiniteLoader } from "react-virtualized";
+import {
+  AutoSizer,
+  type Index,
+  type IndexRange,
+  InfiniteLoader,
+} from "react-virtualized";
 import {
   type SearchEventQueryInput,
   searchEventsInfiniteQuery,
@@ -118,8 +123,6 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
         flexGrow: 1,
         flexShrink: 0,
         flexBasis: "auto",
-        height: "100%",
-        minHeight: 600,
       }}
     >
       <InfiniteLoader
