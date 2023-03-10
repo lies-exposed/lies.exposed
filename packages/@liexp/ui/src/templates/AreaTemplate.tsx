@@ -3,13 +3,13 @@ import { EventType } from "@liexp/shared/io/http/Events";
 import { type SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
 import { Feature } from "ol";
 import * as React from "react";
-import { geoJSONFormat } from "../utils/map.utils";
+import { AutoSizer } from "react-virtualized";
 import { AreaPageContent } from "../components/AreaPageContent";
+import Map from "../components/Map";
 import { Box, Container, Typography } from "../components/mui";
 import { EventsPanel } from "../containers/EventsPanel";
+import { geoJSONFormat } from "../utils/map.utils";
 import { SplitPageTemplate } from "./SplitPageTemplate";
-import Map from "../components/Map";
-import { AutoSizer } from "react-virtualized";
 
 export interface AreaTemplateProps {
   area: Area.Area;

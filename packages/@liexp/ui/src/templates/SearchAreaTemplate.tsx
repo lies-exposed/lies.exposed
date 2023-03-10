@@ -1,11 +1,11 @@
-import { Area } from "@liexp/shared/io/http";
+import { type Area } from "@liexp/shared/io/http";
 import * as React from "react";
 import { AutoSizer } from "react-virtualized";
 import AreasMap from "../components/AreasMap";
-import { AreaList } from "../components/lists/AreaList";
-import { Box, Container, Grid } from "../components/mui";
 import { PageContent } from "../components/PageContent";
 import QueriesRenderer from "../components/QueriesRenderer";
+import { AreaList } from "../components/lists/AreaList";
+import { Box, Container, Grid } from "../components/mui";
 import { useAreasQuery } from "../state/queries/area.queries";
 import { useTheme } from "../theme";
 

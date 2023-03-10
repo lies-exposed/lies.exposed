@@ -217,8 +217,11 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                     onQueryChange={(u) => {
                       onQueryChange(u, tab);
                     }}
-                    onQueryClear={() => {
-                      onQueryClear();
+                    onQueryClear={onQueryClear}
+                    layout={{
+                      eventTypes: 12,
+                      dateRangeBox: 12,
+                      relations: 12
                     }}
                   />
                 }

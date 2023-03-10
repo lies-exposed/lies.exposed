@@ -1,4 +1,4 @@
-import { getTotal } from "@liexp/shared/helpers/event";
+
 import {
   type Actor,
   type Group,
@@ -23,9 +23,6 @@ import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
 import { type EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import { TRANSACTION } from "@liexp/shared/io/http/Events/Transaction";
 import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
-import ArrowDownIcon from "@mui/icons-material/ArrowDownward";
-import ArrowUpIcon from "@mui/icons-material/ArrowUpward";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { clsx } from "clsx";
 import * as React from "react";
 import { type SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery";
@@ -34,10 +31,11 @@ import { ActorList } from "../lists/ActorList";
 import GroupList from "../lists/GroupList";
 import { GroupsMembersList } from "../lists/GroupMemberList";
 import KeywordList from "../lists/KeywordList";
-import { Box, Grid, IconButton, Typography } from "../mui";
+import { Box, Grid, Typography } from "../mui";
 import {
   allFiltersEnabled,
   EventTypeFilters,
+  type EventTypeFiltersProps,
   type EventTypeMap,
 } from "./EventTypeFilters";
 
@@ -68,6 +66,28 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
   },
 }));
 
+export const searchEventQueryToEventTypeFilters = (
+  query: SearchEventsQueryInputNoPagination
+): Required<EventTypeFiltersProps["filters"]> => {
+  return {
+    [Death.DEATH.value]: !!query.type?.includes(Death.DEATH.value),
+    [Uncategorized.UNCATEGORIZED.value]: !!query.type?.includes(
+      Uncategorized.UNCATEGORIZED.value
+    ),
+    [ScientificStudy.SCIENTIFIC_STUDY.value]: !!query.type?.includes(
+      ScientificStudy.SCIENTIFIC_STUDY.value
+    ),
+    [Patent.PATENT.value]: !!query.type?.includes(Patent.PATENT.value),
+    [Documentary.DOCUMENTARY.value]: !!query.type?.includes(
+      Documentary.DOCUMENTARY.value
+    ),
+    [Transaction.TRANSACTION.value]: !!query.type?.includes(
+      Transaction.TRANSACTION.value
+    ),
+    [Quote.QUOTE.value]: !!query.type?.includes(Quote.QUOTE.value),
+  };
+};
+
 export interface EventsAppBarMinimizedProps {
   className?: string;
   query: SearchEventsQueryInputNoPagination;
@@ -78,7 +98,6 @@ export interface EventsAppBarMinimizedProps {
   keywords: Keyword.Keyword[];
   groupsMembers: GroupMember.GroupMember[];
   onQueryChange: (e: SearchEventsQueryInputNoPagination) => void;
-  onQueryClear: () => void;
   open: boolean;
   layout?: {
     eventTypes: number;
@@ -96,9 +115,7 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
   keywords,
   groupsMembers,
   onQueryChange,
-  onQueryClear,
   totals,
-  current,
   layout: _layout,
 }) => {
   const layout: typeof _layout = {
@@ -107,38 +124,13 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
     relations: 4,
     ..._layout,
   };
+
   const filters = React.useMemo(() => {
     if (!query.type) {
       return allFiltersEnabled;
     }
-    return {
-      [Death.DEATH.value]: !!query.type?.includes(Death.DEATH.value),
-      [Uncategorized.UNCATEGORIZED.value]: !!query.type?.includes(
-        Uncategorized.UNCATEGORIZED.value
-      ),
-      [ScientificStudy.SCIENTIFIC_STUDY.value]: !!query.type?.includes(
-        ScientificStudy.SCIENTIFIC_STUDY.value
-      ),
-      [Patent.PATENT.value]: !!query.type?.includes(Patent.PATENT.value),
-      [Documentary.DOCUMENTARY.value]: !!query.type?.includes(
-        Documentary.DOCUMENTARY.value
-      ),
-      [Transaction.TRANSACTION.value]: !!query.type?.includes(
-        Transaction.TRANSACTION.value
-      ),
-      [Quote.QUOTE.value]: !!query.type?.includes(Quote.QUOTE.value),
-    };
+    return searchEventQueryToEventTypeFilters(query);
   }, [query.type]);
-
-  const totalEvents = getTotal(totals, {
-    transactions: filters.Transaction,
-    documentaries: filters.Documentary,
-    uncategorized: filters.Uncategorized,
-    patents: filters.Patent,
-    scientificStudies: filters.ScientificStudy,
-    deaths: filters.Death,
-    quotes: filters.Quote,
-  });
 
   const handleFilterChange = React.useCallback(
     (ff: EventTypeMap, filterK: EventType) => {
@@ -160,60 +152,6 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
       });
     },
     [query]
-  );
-
-  const clearButton =
-    actors.length > 0 || groups.length > 0 || keywords.length > 0 ? (
-      <IconButton
-        style={{
-          padding: 0,
-        }}
-        onClick={(e) => {
-          e.stopPropagation();
-          onQueryClear();
-        }}
-        size="large"
-      >
-        <HighlightOffIcon />
-      </IconButton>
-    ) : null;
-
-  const eventTotal = (
-    <Box
-      style={{
-        display: "flex",
-        width: "100%",
-        flexGrow: 1,
-        justifyContent: "flex-end",
-      }}
-    >
-      <Typography
-        display="inline"
-        variant="h5"
-        color="secondary"
-        style={{
-          margin: "auto",
-          marginRight: 0,
-        }}
-      >
-        {current ? `${current}/${totalEvents}` : totalEvents}
-      </Typography>
-      <IconButton
-        style={{
-          padding: 20,
-        }}
-        onClick={(e) => {
-          e.stopPropagation();
-          onQueryChange({
-            ...query,
-            _order: query._order === "DESC" ? "ASC" : "DESC",
-          });
-        }}
-        size="large"
-      >
-        {query._order === "DESC" ? <ArrowUpIcon /> : <ArrowDownIcon />}
-      </IconButton>
-    </Box>
   );
 
   const dateRangeBox =
@@ -325,7 +263,6 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
           display: "flex",
           flexDirection: "row",
           flexWrap: "wrap",
-          alignItems: "baseline",
         }}
       >
         {dateRangeBox}
@@ -377,26 +314,6 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
           {actorsList}
         </Grid>
       ) : null}
-      <Grid
-        item
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          flexShrink: 0,
-          alignItems: "baseline",
-        }}
-      >
-        <Box
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            marginRight: 20,
-          }}
-        >
-          {clearButton}
-        </Box>
-        {eventTotal}
-      </Grid>
     </StyledGrid>
   );
 };

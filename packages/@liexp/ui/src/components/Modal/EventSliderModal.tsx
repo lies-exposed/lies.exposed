@@ -217,7 +217,6 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
                     open={false}
                     totals={totals}
                     onQueryChange={onQueryChange}
-                    onQueryClear={onQueryClear}
                     actors={rest.actors.filter((a) =>
                       query.actors?.includes(a.id)
                     )}

@@ -1,5 +1,5 @@
 import SearchAreaTemplate, {
-  SearchAreaTemplateProps,
+  type SearchAreaTemplateProps,
 } from "@liexp/ui/templates/SearchAreaTemplate";
 import { type Meta, type Story } from "@storybook/react/types-6-0";
 import * as React from "react";
