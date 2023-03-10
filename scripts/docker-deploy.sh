@@ -11,6 +11,7 @@ scp .env.alpha $SSH_DOMAIN:docker-app/.env.api
 scp ./services/web/.env.alpha $SSH_DOMAIN:docker-app/.env.web
 scp ./deploy/docker-compose.yml $SSH_DOMAIN:docker-app/docker-compose.yml
 scp -r ./services/api/certs/ $SSH_DOMAIN:docker-app/certs/
+scp -r ./services/api/config/ $SSH_DOMAIN:docker-app/config/
 
 ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     set -x -e
