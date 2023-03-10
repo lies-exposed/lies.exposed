@@ -43,7 +43,7 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
   const [loaded, setLoaded] = React.useState(false);
 
   return (
-    <Root className={clsx(classes.root, className)}>
+    <Root className={clsx(classes.root, className)} style={style}>
       {loaded ? (
         <iframe
           className={classes.iframe}
@@ -51,7 +51,6 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
           src={media.location}
           ref={ref}
           loading="lazy"
-          style={style}
           allowFullScreen={true}
           onError={(e) => {
             // console.log('on error', e)

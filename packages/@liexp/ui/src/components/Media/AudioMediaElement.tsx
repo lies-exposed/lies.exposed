@@ -43,7 +43,7 @@ const AudioMediaElement: React.FC<AudioMediaElementProps> = ({
   const ref = React.createRef<ReactAudioPlayer>();
 
   return (
-    <Root className={classes.root} style={style}>
+    <Root className={classes.root}>
       <Box style={{ display: "flex", width: "100%" }}>
         <ParentSize style={{ width: "100%", minHeight: 60, maxHeight: 200 }}>
           {({ height, width }) => (

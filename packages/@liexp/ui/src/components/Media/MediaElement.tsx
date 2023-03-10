@@ -25,8 +25,6 @@ const StyledBox = styled(Box)(() => ({
   [`& .${classes.item}`]: {
     width: "100%",
     height: "100%",
-    maxWidth: 800,
-    maxHeight: 400,
     margin: "auto",
   },
   [`& .${classes.description}`]: {
@@ -44,6 +42,7 @@ export interface MediaElementProps {
   className?: string;
   itemClassName?: string;
   style?: React.CSSProperties;
+  itemStyle?: React.CSSProperties;
   onLoad?: () => void;
   enableDescription?: boolean;
 }
@@ -53,6 +52,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
   className,
   itemClassName,
   style,
+  itemStyle,
   enableDescription = false,
   ...props
 }) => {
@@ -62,6 +62,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
         return (
           <IframeMediaElement
             {...props}
+            style={itemStyle}
             className={clsx(classes.item, itemClassName)}
             media={{ ...media, type: "iframe/video" }}
           />
@@ -70,6 +71,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
         return (
           <PDFMediaElement
             {...props}
+            style={itemStyle}
             className={clsx(classes.item, itemClassName)}
             media={{ ...media, type: "application/pdf" }}
           />
@@ -79,6 +81,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
         return (
           <Video
             {...props}
+            style={itemStyle}
             className={clsx(classes.item, itemClassName)}
             thumbnail={media.thumbnail}
             src={media.location}
@@ -94,6 +97,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
       case Media.MediaType.types[3].value: {
         return (
           <AudioMediaElement
+            style={itemStyle}
             className={clsx(classes.item, itemClassName)}
             media={media as any}
           />
@@ -104,6 +108,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
         return (
           <ExpandableImageElement
             {...props}
+            style={itemStyle}
             className={clsx(classes.item, itemClassName)}
             media={media as any}
           />
