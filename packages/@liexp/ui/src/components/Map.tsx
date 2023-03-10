@@ -140,7 +140,7 @@ const Map = <G extends Geometry>({
         mapDiv.innerHTML = "";
       }
     };
-  });
+  }, [width, height, features]);
 
   return <div id={mapId} style={{ width, height }} />;
 };

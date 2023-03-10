@@ -247,6 +247,11 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
             onQueryClear={() => {
               onQueryChange({ hash }, 0);
             }}
+            layout={{
+              eventTypes: 5,
+              dateRangeBox: 5,
+              relations: 3,
+            }}
           />
         </Grid>
 
