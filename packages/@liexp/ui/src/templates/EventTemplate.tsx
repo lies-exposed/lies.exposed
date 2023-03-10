@@ -16,7 +16,7 @@ import {
   Box,
   Grid,
   Typography,
-  useMediaQuery as useMuiMediaQuery
+  useMediaQuery as useMuiMediaQuery,
 } from "../components/mui";
 import { EventNetworkGraphBox } from "../containers/graphs/EventNetworkGraphBox";
 import { styled, useTheme } from "../theme";
@@ -167,10 +167,11 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                           <KeywordsBox
                             ids={event.keywords}
                             onItemClick={onKeywordClick}
-                            style={{
+                            listStyle={{
                               display: "flex",
                               flexGrow: 1,
                               flexWrap: "wrap",
+                              justifyContent: "flex-end",
                             }}
                           />
                         </Box>
@@ -225,7 +226,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                     label: "Network",
                   },
                   {
-                    label: `Links (${event.links.length})` ,
+                    label: `Links (${event.links.length})`,
                   },
                 ]}
                 resource={{ name: "events", item: event }}
