@@ -2700,7 +2700,7 @@ __metadata:
     tsconfig-paths-webpack-plugin: ^4.0.1
     typescript: ^4.9.5
     url-loader: ^4.1.1
-    webpack: ^5.76.0
+    webpack: ^5.76.1
     webpack-bundle-analyzer: ^4.8.0
     webpack-dev-server: ^4.11.1
     webpack-node-externals: ^3.0.0
@@ -8031,7 +8031,7 @@ __metadata:
     typescript: ^4.9.5
     uuid: ^9.0.0
     web-vitals: ^2.1.4
-    webpack: ^5.76.0
+    webpack: ^5.76.1
     webpack-bundle-analyzer: ^4.8.0
     webpack-cli: ^5.0.1
   languageName: unknown
@@ -17154,7 +17154,7 @@ __metadata:
     terser: ^5.16.6
     ts-jest: ^29.0.5
     typescript: ^4.9.5
-    webpack: ^5.76.0
+    webpack: ^5.76.1
   languageName: unknown
   linkType: soft
 
@@ -21963,8 +21963,8 @@ __metadata:
   linkType: hard
 
 "readable-stream@npm:^2.0.0, readable-stream@npm:^2.0.1, readable-stream@npm:^2.0.2, readable-stream@npm:^2.0.5, readable-stream@npm:^2.2.2, readable-stream@npm:^2.3.5":
-  version: 2.3.7
-  resolution: "readable-stream@npm:2.3.7"
+  version: 2.3.8
+  resolution: "readable-stream@npm:2.3.8"
   dependencies:
     core-util-is: ~1.0.0
     inherits: ~2.0.3
@@ -21973,7 +21973,7 @@ __metadata:
     safe-buffer: ~5.1.1
     string_decoder: ~1.1.1
     util-deprecate: ~1.0.1
-  checksum: e4920cf7549a60f8aaf694d483a0e61b2a878b969d224f89b3bc788b8d920075132c4b55a7494ee944c7b6a9a0eada28a7f6220d80b0312ece70bbf08eeca755
+  checksum: 65645467038704f0c8aaf026a72fbb588a9e2ef7a75cd57a01702ee9db1c4a1e4b03aaad36861a6a0926546a74d174149c8c207527963e0c2d3eee2f37678a42
   languageName: node
   linkType: hard
 
@@ -23761,7 +23761,7 @@ __metadata:
     react-dom: ^18.2.0
     react-spring: ^9.7.1
     typescript: ^4.9.5
-    webpack: ^5.76.0
+    webpack: ^5.76.1
   languageName: unknown
   linkType: soft
 
@@ -24336,8 +24336,8 @@ __metadata:
   linkType: hard
 
 "terser@npm:>=5.16.0":
-  version: 5.16.0
-  resolution: "terser@npm:5.16.0"
+  version: 5.16.6
+  resolution: "terser@npm:5.16.6"
   dependencies:
     "@jridgewell/source-map": ^0.3.2
     acorn: ^8.5.0
@@ -24345,7 +24345,7 @@ __metadata:
     source-map-support: ~0.5.20
   bin:
     terser: bin/terser
-  checksum: d035672bd28bd40ff80d83bea6bc6c85bddf41c18060e49c8b36a3aa45a0a6b4a59c6a56bdf52f9d3350587684d664f8ca26656c6084abeb951b85edf34e47ae
+  checksum: f763a7bcc7b98cb2bfc41434f7b92bfe8a701a12c92ea6049377736c8e6de328240d654a20dfe15ce170fd783491b9873fad9f4cd8fee4f6c6fb8ca407859dee
   languageName: node
   linkType: hard
 
@@ -25904,7 +25904,7 @@ __metadata:
     tsconfig-paths-webpack-plugin: ^4.0.1
     typescript: ^4.9.5
     uuid: ^9.0.0
-    webpack: ^5.76.0
+    webpack: ^5.76.1
     webpack-bundle-analyzer: ^4.8.0
     webpack-cli: ^5.0.1
     webpack-dev-server: ^4.11.1
@@ -26143,9 +26143,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5":
-  version: 5.74.0
-  resolution: "webpack@npm:5.74.0"
+"webpack@npm:>=5.76.1":
+  version: 5.76.1
+  resolution: "webpack@npm:5.76.1"
   dependencies:
     "@types/eslint-scope": ^3.7.3
     "@types/estree": ^0.0.51
@@ -26176,7 +26176,7 @@ __metadata:
       optional: true
   bin:
     webpack: bin/webpack.js
-  checksum: 320c41369a75051b19e18c63f408b3dcc481852e992f83d311771c5ec0f05f2946385e8ebef62030cf3587f0a3d2f12779ffdb191569a966847289ba7313f946
+  checksum: b01fe0bc2dbca0e10d290ddb0bf81e807a031de48028176e2b21afd696b4d3f25ab9accdad888ef4a1f7c7f4d41f13d5bf2395b7653fdf3e5e3dafa54e56dab2
   languageName: node
   linkType: hard
 

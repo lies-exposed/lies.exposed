@@ -68,7 +68,7 @@
     "terser": "^5.16.6",
     "ts-jest": "^29.0.5",
     "typescript": "^4.9.5",
-    "webpack": "^5.76.0"
+    "webpack": "^5.76.1"
   },
   "packageManager": "yarn@3.4.1",
   "resolutions": {
@@ -77,6 +77,6 @@
     "react-dnd": "^15",
     "react-dnd-html5-backend": "^15",
     "terser": ">=5.16.0",
-    "webpack": "^5"
+    "webpack": ">=5.76.1"
   }
 }
