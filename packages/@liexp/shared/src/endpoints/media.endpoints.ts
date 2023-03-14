@@ -20,13 +20,15 @@ export const List = Endpoint({
       {
         ...GetListQuery.props,
         type: optionFromNullable(t.union([t.array(MediaType), t.string])),
-        events: optionFromNullable(t.array(t.string)),
-        ids: optionFromNullable(t.array(t.string)),
+        events: optionFromNullable(t.array(UUID)),
+        ids: optionFromNullable(t.array(UUID)),
         description: optionFromNullable(t.string),
         emptyEvents: optionFromNullable(BooleanFromString),
         deletedOnly: optionFromNullable(BooleanFromString),
         creator: optionFromNullable(UUID),
-        keywords: optionFromNullable(t.array(UUID))
+        keywords: optionFromNullable(t.array(UUID)),
+        actors: optionFromNullable(t.array(UUID)),
+        groups: optionFromNullable(t.array(UUID))
       },
       "MediaListQuery"
     ),

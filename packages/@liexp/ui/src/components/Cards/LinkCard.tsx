@@ -49,8 +49,8 @@ const LinkCard: React.FC<LinkCardProps> = ({ link, onClick }) => {
         loading="lazy"
         style={{
           height: 300,
-          width: "100%",
           display: "flex",
+          flexBasis: '40%',
           flexGrow: 0,
           flexShrink: 1,
         }}

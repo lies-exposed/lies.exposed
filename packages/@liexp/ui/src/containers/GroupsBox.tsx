@@ -3,10 +3,10 @@ import * as NEA from "fp-ts/NonEmptyArray";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
+import QueriesRenderer from "../components/QueriesRenderer";
+import GroupList from "../components/lists/GroupList";
+import { Box } from "../components/mui";
 import { useGroupsQuery } from "../state/queries/groups.queries";
-import QueriesRenderer from "./QueriesRenderer";
-import GroupList from "./lists/GroupList";
-import { Box, Typography } from "./mui";
 
 interface GroupsBoxProps {
   ids: string[];
@@ -26,7 +26,7 @@ export const GroupsBox: React.FC<GroupsBoxProps> = ({
         ids,
         NEA.fromArray,
         O.fold(
-          () => <Typography>-</Typography>,
+          () => null,
           (ids) => (
             <QueriesRenderer
               queries={{

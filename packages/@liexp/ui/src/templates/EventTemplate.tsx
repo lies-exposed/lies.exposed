@@ -252,12 +252,19 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                   />
                 </Box>
 
-                <LinksListBox
-                  filter={{ ids: event.links }}
-                  defaultExpanded={true}
-                  column={2}
-                  onItemClick={() => {}}
-                />
+                <Box
+                  style={{
+                    display: "flex",
+                    height: "100%",
+                  }}
+                >
+                  <LinksListBox
+                    filter={{ ids: event.links }}
+                    defaultExpanded={true}
+                    column={2}
+                    onItemClick={() => {}}
+                  />
+                </Box>
               </SplitPageTemplate>
             </Box>
           );

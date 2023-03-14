@@ -9,7 +9,7 @@ type ActorsBoxProps<D extends React.ElementType<any> = "ul"> = Omit<
   ActorListProps<D>,
   "actors" | "onActorClick"
 > & {
-  params: GetListParams;
+  params: Partial<GetListParams>;
   displayFullName?: boolean;
   style?: React.CSSProperties;
   itemStyle?: React.CSSProperties;
