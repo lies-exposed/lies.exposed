@@ -1,5 +1,5 @@
 import { getShareMedia, getTitle } from "@liexp/shared/helpers/event";
-import { type Keyword } from '@liexp/shared/io/http';
+import { type Keyword } from "@liexp/shared/io/http";
 import { MediaType } from "@liexp/shared/io/http/Media";
 import { type ShareMessageBody } from "@liexp/shared/io/http/ShareMessage";
 import { getTextContents } from "@liexp/shared/slate";
@@ -248,6 +248,7 @@ export const MediaTGPostButton: React.FC<
   Omit<TGPostButtonProps, "onLoadSharePayloadClick">
 > = () => {
   const record = useRecordContext();
+  const apiProvider = useDataProvider();
 
   if (!record) {
     return <CircularProgress />;
@@ -258,9 +259,19 @@ export const MediaTGPostButton: React.FC<
       onLoadSharePayloadClick={async () => {
         const url = `${process.env.WEB_URL}/media/${record.id}`;
 
+        const keywords: Keyword.Keyword[] =
+          record.keywords.length > 0
+            ? await apiProvider
+                .getList("keywords", {
+                  filter: { ids: record.keywords },
+                  pagination: { perPage: record.keywords.length, page: 1 },
+                  sort: { order: "ASC", field: "createdAt" },
+                })
+                .then((data) => data.data)
+            : await Promise.resolve([]);
         return {
           title: record.description,
-          keywords: record.keywords,
+          keywords,
           media: record.thumbnail,
           date: record.createdAt,
           content: record.description,
