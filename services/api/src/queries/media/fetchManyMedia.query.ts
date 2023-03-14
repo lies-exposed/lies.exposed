@@ -56,7 +56,7 @@ export const fetchManyMedia =
       (q) => {
         let hasWhere = false;
         if (fp.O.isSome(description)) {
-          q.where("lower(media.description) LIKE :description", {
+          q.where("lower(media.description) LIKE lower(:description)", {
             description: `%${description.value.toLowerCase()}%`,
           });
           hasWhere = true;

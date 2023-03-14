@@ -1,11 +1,14 @@
 import { type Media } from "@liexp/shared/io/http";
 import * as React from "react";
+import { KeywordsBox } from "../components/KeywordsBox";
 import { MainContent } from "../components/MainContent";
 import { PageContent } from "../components/PageContent";
 import SearchEventInput, {
   type SearchFilter,
 } from "../components/events/inputs/SearchEventInput";
 import { Box, Container } from "../components/mui";
+import ActorsBox from "../containers/ActorsBox";
+import { GroupsBox } from "../containers/GroupsBox";
 import { MediaBox } from "../containers/MediaBox";
 
 export interface MediaSearchTemplateProps {
@@ -61,6 +64,33 @@ const MediaSearchTemplate: React.FC<MediaSearchTemplateProps> = ({
                 ...filter,
               }}
               onQueryChange={onFilterChange}
+            />
+            <KeywordsBox
+              ids={filter.keywords}
+              onItemClick={(k) => {
+                onFilterChange({
+                  ..._filter,
+                  keywords: _filter.keywords.filter((kk) => kk.id !== k.id),
+                });
+              }}
+            />
+            <ActorsBox
+              params={{ filter: { ids: filter.actors } }}
+              onItemClick={(a) => {
+                onFilterChange({
+                  ..._filter,
+                  actors: _filter.actors.filter((kk) => kk.id !== a.id),
+                });
+              }}
+            />
+            <GroupsBox
+              ids={filter.groups}
+              onItemClick={(g) => {
+                onFilterChange({
+                  ..._filter,
+                  groups: _filter.groups.filter((kk) => kk.id !== g.id),
+                });
+              }}
             />
           </Box>
         </MainContent>

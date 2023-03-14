@@ -7,7 +7,7 @@ import {
 import { type Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { type UUID } from "io-ts-types";
+import { type UUID } from "io-ts-types/lib/UUID";
 import { createEventNetworkGraph } from "@flows/networks/createEventNetworkGraph.flow";
 import { createNetworkGraph } from "@flows/networks/createNetworkGraph.flow";
 import { type ControllerError } from "@io/ControllerError";

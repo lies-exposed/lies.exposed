@@ -12,7 +12,7 @@ import { routes } from "./routes";
 
 const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
   // eslint-disable-next-line no-console
-  console.error('error', error);
+  console.error("error", error);
   return (
     <>
       <div>{error.name}</div>
@@ -30,17 +30,17 @@ export const App: React.FC = () => {
     <div style={{ height: "100%", display: "flex" }}>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <SEO title="lies exposed" urlPath={location.pathname} />
+        <AppHeader />
         <Grid container style={{ minHeight: "100%", width: "100%" }}>
-          <AppHeader />
-
           <Grid
+            item
             style={{
               width: "100%",
               // minHeight: `calc(100% - ${
               //   theme.mixins.toolbar.height ?? 64
               // }px - 100px)`,
-              minHeight: '100%',
-              marginTop: theme.mixins.toolbar.height ?? 64,
+              minHeight: "100%",
+              marginTop: theme.mixins.toolbar.height ?? 64 + 16,
               // marginBottom: 100,
             }}
           >
@@ -60,7 +60,7 @@ export const App: React.FC = () => {
           </Grid>
           <Grid item xs={12}>
             <Footer
-            logoSrc={logo192}
+              logoSrc={logo192}
               style={{
                 paddingLeft:
                   location.pathname === "/events" && !isDownSM ? 240 : 0,

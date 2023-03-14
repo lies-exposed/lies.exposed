@@ -22,8 +22,6 @@ export const LinksList: React.FC<LinksListProps> = ({
       spacing={2}
       style={{
         maxHeight: "100%",
-        display: "flex",
-        alignItems: "center",
       }}
     >
       {links.map((l, i) => (

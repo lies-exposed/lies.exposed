@@ -6,7 +6,7 @@ import * as React from "react";
 import { useKeywordsQuery } from "../state/queries/keywords.queries";
 import QueriesRenderer from "./QueriesRenderer";
 import KeywordList from "./lists/KeywordList";
-import { Box, type BoxProps, Typography } from "./mui";
+import { Box, type BoxProps } from "./mui";
 
 interface KeywordsBoxProps extends BoxProps {
   ids: string[];
@@ -26,7 +26,7 @@ export const KeywordsBox: React.FC<KeywordsBoxProps> = ({
         ids,
         NEA.fromArray,
         O.fold(
-          () => <Typography display="inline">-</Typography>,
+          () => null,
           (ids) => (
             <QueriesRenderer
               queries={{
