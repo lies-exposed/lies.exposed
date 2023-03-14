@@ -66,7 +66,7 @@ export const MediaList: React.FC<ListProps> = (props) => {
     return <LoadingPage />;
   }
 
-  const isAdmin = checkIsAdmin(permissions);
+  const isAdmin = checkIsAdmin(permissions || []);
 
   const filter = !isAdmin && identity?.id ? { creator: identity?.id } : {};
 

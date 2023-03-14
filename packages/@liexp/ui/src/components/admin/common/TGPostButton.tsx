@@ -1,4 +1,5 @@
 import { getShareMedia, getTitle } from "@liexp/shared/helpers/event";
+import { MediaType } from "@liexp/shared/io/http/Media";
 import { getTextContents } from "@liexp/shared/slate";
 import { formatDate, parseISO } from "@liexp/shared/utils/date";
 import * as React from "react";
@@ -6,7 +7,7 @@ import {
   type FieldProps,
   type Identifier,
   useDataProvider,
-  useRecordContext
+  useRecordContext,
 } from "react-admin";
 import {
   Box,
@@ -14,8 +15,10 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle, Input, Link,
-  Typography
+  DialogTitle,
+  Input,
+  Link,
+  Typography,
 } from "../../mui";
 
 interface TGPostButtonProps extends FieldProps {
@@ -69,24 +72,54 @@ export const TGPostButton: React.FC<TGPostButtonProps> = () => {
               }
             })
             .then(async (event) => {
-              if (event.type === "Death") {
+              if (event.type === "Quote") {
+                const { data: actor } = await apiProvider.getOne("actors", {
+                  id: event.payload.actor,
+                });
+
+                return {
+                  event: {
+                    ...event,
+                    payload: {
+                      ...event.payload,
+                      actor: actor.fullName,
+                    },
+                    media: [
+                      {
+                        type: MediaType.types[0].value,
+                        thumbnail: actor.avatar,
+                      },
+                    ],
+                  },
+                  actors: [actor],
+                };
+              } else if (event.type === "Death") {
                 const { data: actor } = await apiProvider.getOne("actors", {
                   id: event.payload.victim,
                 });
                 return {
-                  ...event,
-                  payload: {
-                    ...event.payload,
-                    victim: actor.fullName,
+                  event: {
+                    ...event,
+                    payload: {
+                      ...event.payload,
+                      victim: actor.fullName,
+                    },
+                    media: [
+                      {
+                        type: MediaType.types[0].value,
+                        thumbnail: actor.avatar,
+                      },
+                    ],
                   },
+                  actors: [actor],
                 };
               }
-              return event;
+              return { event, actors: [] };
             })
-            .then((event) => {
+            .then(({ event, actors }) => {
               // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
               const title = getTitle(event as any, {
-                actors: [],
+                actors,
                 groups: [],
                 groupsMembers: [],
                 keywords: [],
