@@ -34,6 +34,7 @@ import {
 import { ENV } from "@io/ENV";
 import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.routes";
 import { MakeActorRoutes } from "@routes/actors/actors.routes";
+import { MakeAdminRoutes } from '@routes/admins/admin.routes';
 import { MakeAreasRoutes } from "@routes/areas/Areas.routes";
 import { MakeArticlesRoutes } from "@routes/articles/articles.route";
 import { MakeDeathEventsRoutes } from "@routes/events/deaths/death.routes";
@@ -240,6 +241,9 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   // uploads
   MakeUploadsRoutes(router, ctx);
+
+  // admins
+  MakeAdminRoutes(router, ctx);
 
   const tgLogger = ctx.logger.extend("tg-bot");
 

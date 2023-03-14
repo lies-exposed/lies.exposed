@@ -5,7 +5,8 @@ import { pipe } from "fp-ts/function";
 import { ServerError } from "@io/ControllerError";
 import { type Route } from "@routes/route.types";
 
-export const PostEventToPlatformRoute: Route = (r, ctx) => {
+export const PostSharePayloadToPlatformRoute: Route = (r, ctx) => {
+
   const writeText = (body: ShareMessageBody): string => {
     const title = `<a href="${body.url}"><b>${body.title}</b></a>`;
     const date = `<a href="${ctx.env.WEB_URL}/events?startDate=${body.date}">${body.date}</a>`;
@@ -18,7 +19,7 @@ export const PostEventToPlatformRoute: Route = (r, ctx) => {
   };
 
   AddEndpoint(r)(
-    Endpoints.Event.Custom.PostToPlatform,
+    Endpoints.Admin.Custom.PostToPlatform,
     ({ params: { id }, body }) => {
       return pipe(
         writeText(body),

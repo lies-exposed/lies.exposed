@@ -40,6 +40,7 @@ import {
 import { uploadFile } from "../../client/admin/MediaAPI";
 import { Box, Button, Grid, Typography } from "../mui";
 import { EditForm } from "./common/EditForm";
+import { MediaTGPostButton } from "./common/TGPostButton";
 import { CreateEventFromMediaButton } from "./events/CreateEventFromMediaButton";
 import ReferenceArrayEventInput from "./events/ReferenceArrayEventInput";
 import ReferenceArrayKeywordInput from "./keywords/ReferenceArrayKeywordInput";
@@ -327,6 +328,11 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
       transform={transformMedia(apiProvider)}
       redirect={false}
       preview={<MediaPreview />}
+      actions={
+        <Box>
+          <MediaTGPostButton />
+        </Box>
+      }
     >
       <TabbedForm toolbar={<MediaEditToolbar />}>
         <FormTab label="general">

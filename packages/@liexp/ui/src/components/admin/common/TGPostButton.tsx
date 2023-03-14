@@ -1,7 +1,10 @@
 import { getShareMedia, getTitle } from "@liexp/shared/helpers/event";
+import { type Keyword } from '@liexp/shared/io/http';
 import { MediaType } from "@liexp/shared/io/http/Media";
+import { type ShareMessageBody } from "@liexp/shared/io/http/ShareMessage";
 import { getTextContents } from "@liexp/shared/slate";
 import { formatDate, parseISO } from "@liexp/shared/utils/date";
+import { type UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
 import {
   type FieldProps,
@@ -12,6 +15,7 @@ import {
 import {
   Box,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -20,10 +24,6 @@ import {
   Link,
   Typography,
 } from "../../mui";
-
-interface TGPostButtonProps extends FieldProps {
-  id?: Identifier;
-}
 
 const emptySharePayload = {
   title: undefined,
@@ -34,12 +34,18 @@ const emptySharePayload = {
   keywords: [],
 };
 
-export const TGPostButton: React.FC<TGPostButtonProps> = () => {
+interface TGPostButtonProps extends FieldProps {
+  id?: Identifier;
+  onLoadSharePayloadClick: () => Promise<ShareMessageBody>;
+}
+
+export const TGPostButton: React.FC<TGPostButtonProps> = ({
+  onLoadSharePayloadClick,
+}) => {
   const record = useRecordContext();
   const apiProvider = useDataProvider();
-  const [sharePayload, setSharePayload] = React.useState<any | undefined>(
-    emptySharePayload
-  );
+  const [sharePayload, setSharePayload] =
+    React.useState<Partial<ShareMessageBody>>(emptySharePayload);
 
   return (
     <Box style={{ display: "flex", marginRight: 10 }}>
@@ -48,102 +54,9 @@ export const TGPostButton: React.FC<TGPostButtonProps> = () => {
         variant="contained"
         size="small"
         onClick={() => {
-          void apiProvider
-            .getOne(`events`, { id: record?.id })
-            .then(async ({ data: event }) => {
-              if (event.media.length === 0) {
-                return event;
-              } else {
-                const { data: media } = await apiProvider.getMany("media", {
-                  ids: event.media,
-                });
-                return { ...event, media };
-              }
-            })
-            .then(async (event) => {
-              if (event.keywords.length === 0) {
-                return event;
-              } else {
-                const { data: keywords } = await apiProvider.getMany(
-                  "keywords",
-                  { ids: event.keywords }
-                );
-                return { ...event, keywords };
-              }
-            })
-            .then(async (event) => {
-              if (event.type === "Quote") {
-                const { data: actor } = await apiProvider.getOne("actors", {
-                  id: event.payload.actor,
-                });
-
-                return {
-                  event: {
-                    ...event,
-                    payload: {
-                      ...event.payload,
-                      actor: actor.fullName,
-                    },
-                    media: [
-                      {
-                        type: MediaType.types[0].value,
-                        thumbnail: actor.avatar,
-                      },
-                    ],
-                  },
-                  actors: [actor],
-                };
-              } else if (event.type === "Death") {
-                const { data: actor } = await apiProvider.getOne("actors", {
-                  id: event.payload.victim,
-                });
-                return {
-                  event: {
-                    ...event,
-                    payload: {
-                      ...event.payload,
-                      victim: actor.fullName,
-                    },
-                    media: [
-                      {
-                        type: MediaType.types[0].value,
-                        thumbnail: actor.avatar,
-                      },
-                    ],
-                  },
-                  actors: [actor],
-                };
-              }
-              return { event, actors: [] };
-            })
-            .then(({ event, actors }) => {
-              // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-              const title = getTitle(event as any, {
-                actors,
-                groups: [],
-                groupsMembers: [],
-                keywords: [],
-                media: [],
-              });
-
-              const date = formatDate(parseISO(event.date));
-              const media = getShareMedia(
-                event.media,
-                `${process.env.WEB_URL}/liexp-logo-1200x630.png`
-              );
-              const content = getTextContents(event.excerpt)[0];
-              const url = `${process.env.WEB_URL}/events/${record?.id}`;
-              const keywords = event.keywords;
-
-              setSharePayload({
-                title,
-                date,
-                media,
-                content,
-                url,
-                keywords,
-              });
-            });
+          void onLoadSharePayloadClick().then((result) => {
+            setSharePayload(result);
+          });
         }}
       >
         Post on TG
@@ -181,7 +94,7 @@ export const TGPostButton: React.FC<TGPostButtonProps> = () => {
                 </Box>
               </Typography>
               <>
-                {sharePayload.keywords.map((k: any) => (
+                {(sharePayload?.keywords ?? []).map((k: any) => (
                   <a
                     key={k.id}
                     href={`${process.env.WEB_URL}/events?keywords[]=${k.id}`}
@@ -207,7 +120,7 @@ export const TGPostButton: React.FC<TGPostButtonProps> = () => {
           <Button
             onClick={() => {
               void apiProvider
-                .create(`/events/${record?.id}/share`, {
+                .create(`/admins/share/${record?.id}`, {
                   data: sharePayload,
                 })
                 .then((result) => {
@@ -220,5 +133,140 @@ export const TGPostButton: React.FC<TGPostButtonProps> = () => {
         </DialogActions>
       </Dialog>
     </Box>
+  );
+};
+
+export const EventTGPostButton: React.FC<
+  Omit<TGPostButtonProps, "onLoadSharePayloadClick"> & { id: UUID }
+> = ({ id }) => {
+  const apiProvider = useDataProvider();
+
+  return (
+    <TGPostButton
+      onLoadSharePayloadClick={async () => {
+        return await apiProvider
+          .getOne(`events`, { id })
+          .then(async ({ data: event }) => {
+            if (event.media.length === 0) {
+              return event;
+            } else {
+              const { data: media } = await apiProvider.getMany("media", {
+                ids: event.media,
+              });
+              return { ...event, media };
+            }
+          })
+          .then(async (event) => {
+            if (event.keywords.length === 0) {
+              return event;
+            } else {
+              const { data: keywords } = await apiProvider.getMany("keywords", {
+                ids: event.keywords,
+              });
+              return { ...event, keywords };
+            }
+          })
+          .then(async (event) => {
+            if (event.type === "Quote") {
+              const { data: actor } = await apiProvider.getOne("actors", {
+                id: event.payload.actor,
+              });
+
+              return {
+                event: {
+                  ...event,
+                  payload: {
+                    ...event.payload,
+                    actor: actor.fullName,
+                  },
+                  media: [
+                    {
+                      type: MediaType.types[0].value,
+                      thumbnail: actor.avatar,
+                    },
+                  ],
+                },
+                actors: [actor],
+              };
+            } else if (event.type === "Death") {
+              const { data: actor } = await apiProvider.getOne("actors", {
+                id: event.payload.victim,
+              });
+              return {
+                event: {
+                  ...event,
+                  payload: {
+                    ...event.payload,
+                    victim: actor.fullName,
+                  },
+                  media: [
+                    {
+                      type: MediaType.types[0].value,
+                      thumbnail: actor.avatar,
+                    },
+                  ],
+                },
+                actors: [actor],
+              };
+            }
+            return { event, actors: [] };
+          })
+          .then(({ event, actors }) => {
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+            const title = getTitle(event as any, {
+              actors,
+              groups: [],
+              groupsMembers: [],
+              keywords: [],
+              media: [],
+            });
+
+            const date = formatDate(parseISO(event.date));
+            const media = getShareMedia(
+              event.media,
+              `${process.env.WEB_URL}/liexp-logo-1200x630.png`
+            );
+            const content: string = getTextContents(event.excerpt)[0];
+            const url = `${process.env.WEB_URL}/events/${id}`;
+            const keywords: Keyword.Keyword[] = event.keywords;
+
+            return {
+              title,
+              date,
+              media,
+              content,
+              url,
+              keywords,
+            };
+          });
+      }}
+    />
+  );
+};
+
+export const MediaTGPostButton: React.FC<
+  Omit<TGPostButtonProps, "onLoadSharePayloadClick">
+> = () => {
+  const record = useRecordContext();
+
+  if (!record) {
+    return <CircularProgress />;
+  }
+
+  return (
+    <TGPostButton
+      onLoadSharePayloadClick={async () => {
+        const url = `${process.env.WEB_URL}/media/${record.id}`;
+
+        return {
+          title: record.description,
+          keywords: record.keywords,
+          media: record.thumbnail,
+          date: record.createdAt,
+          content: record.description,
+          url,
+        };
+      }}
+    />
   );
 };
