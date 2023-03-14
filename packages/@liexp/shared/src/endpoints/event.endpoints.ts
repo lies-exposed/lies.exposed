@@ -5,9 +5,8 @@ import { Endpoint } from "ts-endpoint";
 import * as http from "../io/http";
 import {
   EventTotals,
-  GetSearchEventsQuery,
+  GetSearchEventsQuery
 } from "../io/http/Events/SearchEventsQuery";
-import { ShareMessageBody } from "../io/http/ShareMessage";
 import { ResourceEndpoints } from "./types";
 
 const SingleEventOutput = http.Common.Output(http.Events.Event, "Event");
@@ -59,16 +58,6 @@ export const CreateFromLink = Endpoint({
     }),
   },
   Output: SingleEventOutput,
-});
-
-export const PostToPlatform = Endpoint({
-  Method: "POST",
-  getPath: ({ id }) => `/events/${id}/share`,
-  Input: {
-    Params: t.type({ id: UUID }),
-    Body: ShareMessageBody,
-  },
-  Output: t.any,
 });
 
 export const CreateSuggestion = Endpoint({
@@ -229,7 +218,6 @@ const events = ResourceEndpoints({
     EditSuggestion,
     DeleteSuggestion,
     CreateFromSuggestion,
-    PostToPlatform,
     GetFromLink,
     GetSuggestions,
     GetSuggestion,

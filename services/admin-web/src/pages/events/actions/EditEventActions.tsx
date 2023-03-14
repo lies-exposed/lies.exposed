@@ -1,8 +1,10 @@
 import { getEventsMetadata } from "@liexp/shared/helpers/event/event";
 import { getTitle } from "@liexp/shared/helpers/event/getTitle.helper";
 import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
-import { TGPostButton } from "@liexp/ui/components/admin/common/TGPostButton";
-import { UpdateMetadataButton } from '@liexp/ui/components/admin/common/UpdateMetadataButton';
+import {
+  EventTGPostButton
+} from "@liexp/ui/components/admin/common/TGPostButton";
+import { UpdateMetadataButton } from "@liexp/ui/components/admin/common/UpdateMetadataButton";
 import { WebPreviewButton } from "@liexp/ui/components/admin/common/WebPreviewButton";
 import { SearchLinksButton } from "@liexp/ui/components/admin/links/SearchLinksButton";
 import { Box } from "@liexp/ui/components/mui";
@@ -14,7 +16,7 @@ export const EventEditActions: React.FC = () => {
   const { title, date, type } = React.useMemo(() => {
     if (record) {
       const relations = getEventsMetadata(record);
-      const title  = getTitle(record, relations);
+      const title = getTitle(record, relations);
       return { title, date: record.date, type: record.type };
     }
     return {
@@ -31,7 +33,7 @@ export const EventEditActions: React.FC = () => {
   return (
     <Box style={{ display: "flex", flexDirection: "row", margin: 10 }}>
       <WebPreviewButton resource="events" source="id" />
-      <TGPostButton id={record?.id} />
+      <EventTGPostButton id={record?.id} />
       <SearchLinksButton query={title} date={date} />
       <UpdateMetadataButton type={type} />
     </Box>

@@ -7,14 +7,15 @@ import * as ProjectImage from "./ProjectImage.endpoints";
 import * as Stats from "./Stats.endpoints";
 import * as User from "./User.endpoints";
 import * as Actor from "./actor.endpoints";
+import * as Admins from "./admin.endpoints";
 import * as Area from "./area.endpoints";
 import * as Article from "./article.endpoints";
 import * as Event from "./event.endpoints";
 import * as DeathEvent from "./events/death.endpoints";
-import * as DocumentaryEvent from './events/documentary.endpoints';
+import * as DocumentaryEvent from "./events/documentary.endpoints";
 import * as PatentEvent from "./events/patent.endpoints";
-import * as QuoteEvent from './events/quote.endpoints';
-import * as Transaction from './events/transactions.endpoints';
+import * as QuoteEvent from "./events/quote.endpoints";
+import * as Transaction from "./events/transactions.endpoints";
 import * as Graph from "./graph.endpoints";
 import * as Group from "./group.endpoints";
 import * as Keyword from "./keyword.endpoints";
@@ -26,6 +27,7 @@ import * as ScientificStudy from "./scientificStudy.endpoint";
 import * as Uploads from "./upload.endpoints";
 
 const Endpoints = {
+  Admin: Admins.admin,
   Actor: Actor.actors,
   Area: Area.areas,
   Article: Article.articles,
