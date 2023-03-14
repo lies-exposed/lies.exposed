@@ -15,7 +15,12 @@ export const getTitle = (
       return e.payload.title;
     case http.Events.Quote.QUOTE.value: {
       const byActor = relations.actors[0] ?? { fullName: "Unknown" };
-      return `${byActor.fullName} - ${e.payload.details}`;
+      return `${byActor.fullName} - `.concat(
+        e.payload.details
+          ? `${e.payload.details}`
+          : e.payload.quote?.split(" ").slice(0, 10).join(" ").concat("...") ??
+              ""
+      );
     }
     case http.Events.Death.DEATH.value: {
       const victimName =

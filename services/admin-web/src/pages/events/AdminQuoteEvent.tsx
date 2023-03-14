@@ -11,6 +11,7 @@ import { EventGeneralTab } from "@liexp/ui/components/admin/tabs/EventGeneralTab
 import { QuoteEditFormTab } from "@liexp/ui/components/admin/tabs/QuoteEditFormTab";
 import { ReferenceLinkTab } from "@liexp/ui/components/admin/tabs/ReferenceLinkTab";
 import { transformEvent } from "@liexp/ui/components/admin/transform.utils";
+import { Grid } from "@liexp/ui/components/mui";
 import * as React from "react";
 import {
   BooleanInput,
@@ -28,7 +29,7 @@ import {
   TextField,
   TextInput,
   useDataProvider,
-  useRecordContext
+  useRecordContext,
 } from "react-admin";
 import { EventEditActions } from "./actions/EditEventActions";
 
@@ -105,18 +106,25 @@ export const QuoteCreate: React.FC<CreateProps> = () => {
       }
     >
       <SimpleForm>
-        <BooleanInput source="draft" defaultValue={false} />
-        <ReferenceActorInput source="payload.actor" />
-        <DateInput source="date" />
-        <ReactPageInput source="excerpt" onlyText />
-        <TextInput source="payload.details" />
-
-        <ReferenceArrayKeywordInput
-          source="keywords"
-          defaultValue={[]}
-          showAdd
-        />
-        <ReferenceArrayLinkInput source="links" defaultValue={[]} />
+        <Grid container spacing={2}>
+          <Grid item md={6}>
+            <BooleanInput source="draft" defaultValue={false} />
+            <ReferenceActorInput source="payload.actor" />
+            <DateInput source="date" />
+          </Grid>
+          <Grid item md={6}>
+            <ReferenceArrayKeywordInput
+              source="keywords"
+              defaultValue={[]}
+              showAdd
+            />
+          </Grid>
+          <Grid item md={12}>
+            <ReactPageInput source="excerpt" onlyText />
+            <TextInput source="payload.details" />
+            <ReferenceArrayLinkInput source="links" defaultValue={[]} />
+          </Grid>
+        </Grid>
       </SimpleForm>
     </Create>
   );

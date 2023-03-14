@@ -12,7 +12,6 @@ const ReferenceArrayLinkInput: React.FC<
     <ReferenceArrayInput {...props} label="Links" reference="links">
       <AutocompleteArrayInput
         source="id"
-        label="title"
         optionText="title"
         translateChoice={false}
         fullWidth
