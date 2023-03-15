@@ -1,11 +1,11 @@
 import fs from "fs";
 import path from "path";
-import { type EventRelationIds } from "@liexp/shared/helpers/event/event";
 import {
   getNewRelationIds,
   type SearchEventsQueryCache,
   updateCache,
 } from "@liexp/shared/helpers/event/search-event";
+import { type EventRelationIds } from "@liexp/shared/helpers/event/types";
 import {
   createHierarchicalEdgeBundling,
   type HierarchicalEdgeBundlingProps,

@@ -8,17 +8,11 @@ import { pipe } from "fp-ts/function";
 import * as N from "fp-ts/number";
 import * as S from "fp-ts/string";
 import { UUID } from "io-ts-types/lib/UUID";
-import {
-  type Actor,
-  type Common,
-  Events,
-  type Group,
-  type GroupMember,
-  type Keyword,
-  type Media,
-  type Project,
-} from "../../io/http";
+import { Events, type Actor, type Common, type Group } from "../../io/http";
 import { type SearchEvent } from "../../io/http/Events/SearchEvent";
+import { getTextContents } from "../../slate";
+import { type EventCommonProps } from "./getCommonProps.helper";
+import { type EventRelationIds, type EventRelations } from "./types";
 
 type EventsByYearMap = Map<number, Map<number, Events.Event[]>>;
 
@@ -91,59 +85,6 @@ export const eventsDataToNavigatorItems = (
   );
 };
 
-export const filterMetadataForActor =
-  (actor: Actor.Actor) =>
-  (metadata: Events.Event): boolean => {
-    // const byActor = isByActor(actor);
-
-    switch (metadata.type) {
-      // case Events.ProjectTransaction.PROJECT_TRANSACTION: {
-      //   return (
-      //     metadata.transaction.by.type === "Actor" &&
-      //     byActor(metadata.transaction.by)
-      //   );
-      // }
-      // case Events.ProjectImpact.type.props.type.value: {
-      //   return (
-      //     metadata.approvedBy.some(byActor) ?? metadata.executedBy.some(byActor)
-      //   );
-      // }
-      // case "Condemned":
-      // case "Arrest": {
-      //   return byActor(metadata.who);
-      // }
-      // case Events.Protest.PROTEST.value: {
-      //   return metadata.organizers.some(byActor);
-      // }
-      default:
-        return false;
-    }
-  };
-
-export const filterMetadataFroProject =
-  (project: Project.Project) =>
-  (metadata: Events.Event): boolean => {
-    switch (metadata.type) {
-      // case "ProjectTransaction":
-      //   return metadata.project.id === project.id;
-      // case "ProjectImpact":
-      //   return metadata.project === project.id;
-      // case Events.Protest.PROTEST.value: {
-      //   return (
-      //     metadata.for.type === "Project" &&
-      //     metadata.for.project.id === project.id
-      //   );
-      // }
-      // case "Arrest": {
-      //   return metadata.for.some(
-      //     (f) => f.type === "Project" && f.project.id === project.id
-      //   );
-      // }
-      default:
-        return false;
-    }
-  };
-
 export const ordEventDate = Ord.ord.contramap(
   Ord.ordDate,
   (e: { date: Date }) => e.date
@@ -209,68 +150,6 @@ export const eventsInDateRange =
       }
     );
   };
-
-export const extractEventsMetadata =
-  (
-    opts:
-      | { type: "Project"; elem: Project.Project }
-      | { type: "Actor"; elem: Actor.Actor }
-  ) =>
-  (events: Events.Event[]): Events.EventListMap => {
-    const init: Map<string, Events.Event[]> = Map.empty;
-    const results = pipe(
-      events,
-      A.filter((e) => {
-        switch (opts.type) {
-          case "Actor": {
-            return filterMetadataForActor(opts.elem)(e);
-          }
-          case "Project":
-          default: {
-            return filterMetadataFroProject(opts.elem)(e);
-          }
-        }
-      }),
-      A.reduce(init, (acc, m) => {
-        return pipe(
-          Map.lookup(Eq.eqString)(m.type, acc),
-          O.getOrElse((): Events.Event[] => []),
-          (storedMeta) =>
-            Map.insertAt(Eq.eqString)(m.type, storedMeta.concat(m))(acc)
-        );
-      }),
-      Map.toArray(Ord.ordString),
-      A.reduce(
-        {
-          PublicAnnouncement: [],
-          ProjectTransaction: [],
-          ProjectImpact: [],
-          Protest: [],
-          StudyPublished: [],
-          Arrest: [],
-          Death: [],
-          Condemned: [],
-          Uncategorized: [],
-          Transaction: [],
-        },
-        (acc, [index, m]) => ({
-          ...acc,
-          [index]: m,
-        })
-      )
-    );
-
-    return results;
-  };
-
-export interface EventRelationIds {
-  actors: UUID[];
-  groups: UUID[];
-  groupsMembers: UUID[];
-  keywords: UUID[];
-  media: UUID[];
-  // links: string[]
-}
 
 export const getRelationIds = (e: Events.Event): EventRelationIds => {
   const commonIds = {
@@ -390,15 +269,7 @@ export const takeEventRelations = (ev: Events.Event[]): EventRelationIds => {
   );
 };
 
-export interface EventRelations {
-  actors: Actor.Actor[];
-  groups: Group.Group[];
-  groupsMembers: GroupMember.GroupMember[];
-  keywords: Keyword.Keyword[];
-  media: Media.Media[];
-}
-
-export const getEventsMetadata = (e: SearchEvent): EventRelations => {
+export const getEventMetadata = (e: SearchEvent): EventRelations => {
   const commonIds = {
     media: e.media,
     keywords: e.keywords,
@@ -473,6 +344,139 @@ export const getEventsMetadata = (e: SearchEvent): EventRelations => {
         actors: e.payload.actors,
         groups: e.payload.groups,
         groupsMembers: e.payload.groupsMembers,
+      };
+    }
+  }
+};
+
+export const transform = (
+  e: Events.Event,
+  type: Events.EventType,
+  props: EventCommonProps &
+    EventRelationIds & {
+      links: UUID[];
+    }
+): Events.Event => {
+  switch (type) {
+    case Events.Death.DEATH.value: {
+      return {
+        ...e,
+        type: Events.Death.DEATH.value,
+        payload: {
+          victim: props.actors.at(0) as any,
+          location: undefined,
+        },
+      };
+    }
+    case Events.Transaction.TRANSACTION.value: {
+      const from: any =
+        props.actors.length > 0
+          ? {
+              type: "Actor",
+              id: props.actors.at(0) as any,
+            }
+          : {
+              type: "Group",
+              id: props.groups.at(0) as any,
+            };
+      const to: any =
+        props.actors.length > 0
+          ? {
+              type: "Actor",
+              id: props.actors.at(0) as any,
+            }
+          : {
+              type: "Group",
+              id: props.groups.at(0) as any,
+            };
+
+      return {
+        ...e,
+        type: Events.Transaction.TRANSACTION.value,
+        payload: {
+          currency: "USD",
+          total: 0,
+          title: props.title,
+          from,
+          to,
+        },
+      };
+    }
+    case Events.Patent.PATENT.value: {
+      return {
+        ...e,
+        type: Events.Patent.PATENT.value,
+        payload: {
+          title: props.title as any,
+          source: props.url as any,
+          owners: {
+            groups: props.groups,
+            actors: props.actors,
+          },
+        },
+      };
+    }
+
+    case Events.Documentary.DOCUMENTARY.value: {
+      return {
+        ...e,
+        type: Events.Documentary.DOCUMENTARY.value,
+        payload: {
+          title: props.title,
+          website: props.url as any,
+          media: props.media.at(0) as any,
+          authors: {
+            actors: props.actors,
+            groups: props.groups,
+          },
+          subjects: {
+            actors: props.actors,
+            groups: props.groups,
+          },
+        },
+      };
+    }
+
+    case Events.ScientificStudy.SCIENTIFIC_STUDY.value: {
+      return {
+        ...e,
+        type: Events.ScientificStudy.SCIENTIFIC_STUDY.value,
+        payload: {
+          title: props.title,
+          image: props.media.at(0),
+          url: props.url ?? (props.links.at(0) as any),
+          authors: props.actors,
+          publisher: props.groups.at(0) as any,
+        },
+      };
+    }
+
+    case Events.Quote.QUOTE.value: {
+      return {
+        ...e,
+        type: Events.Quote.QUOTE.value,
+        payload: {
+          quote: e.excerpt
+            ? getTextContents(e.excerpt as any).join("\n")
+            : undefined,
+          actor: props.actors.at(0) as any,
+          details: undefined,
+        },
+      };
+    }
+
+    default: {
+      return {
+        ...e,
+        type: Events.Uncategorized.UNCATEGORIZED.value,
+        payload: {
+          title: props.title,
+          location: props.location,
+          endDate: props.date?.at(1),
+          actors: props.actors,
+          groups: props.groups,
+          groupsMembers: props.groupsMembers,
+        },
       };
     }
   }

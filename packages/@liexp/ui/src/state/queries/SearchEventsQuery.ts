@@ -1,11 +1,11 @@
 import { GetLogger } from "@liexp/core/logger";
 import { type ListEventOutput } from "@liexp/shared/endpoints/event.endpoints";
-import { type EventRelationIds } from "@liexp/shared/helpers/event/event";
 import {
   getNewRelationIds,
   updateCache,
   type SearchEventsQueryCache,
 } from "@liexp/shared/helpers/event/search-event";
+import { type EventRelationIds } from "@liexp/shared/helpers/event/types";
 import {
   type Actor,
   type Events,
@@ -83,7 +83,7 @@ export const clearSearchEventsQueryCache = (): void => {
 //   );
 // };
 
-const fetchRelations = ({
+export const fetchRelations = ({
   actors,
   groups,
   groupsMembers,
