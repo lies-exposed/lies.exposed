@@ -1,5 +1,5 @@
 import { type Router } from "express";
-import { PostSharePayloadToPlatformRoute } from "../admins/postEventToPlatform.controller";
+import { PostSharePayloadToPlatformRoute } from "../admins/sharePostToPlatform.controller";
 import { CreateEventRoute } from "./createEvent.controller";
 import { DeleteEventRoute } from "./deleteEvent.controller";
 import { DeleteEventSuggestionRoute } from "./deleteEventSuggestion.controller";

@@ -55,7 +55,9 @@ export const authProvider: AuthProvider = {
     if (e?.response?.status === 401) {
       return Promise.reject(errorData);
     }
-    return Promise.reject(errorData);
+    // eslint-disable-next-line no-console
+    console.error(e);
+    return Promise.resolve();
   },
   getPermissions: async () => {
     const user = localStorage.getItem("user");
