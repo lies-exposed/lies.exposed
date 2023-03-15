@@ -27,9 +27,7 @@ const EditEventButton: React.FC<EditEventButtonProps> = ({ admin, id }) => {
           const permissions = await authProvider.getPermissions({});
           setIsAdmin(checkIsAdmin(permissions ?? []));
         },
-        (e) => {
-          // eslint-disable-next-line no-console
-          console.error(e);
+        () => {
           setIsAdmin(null);
         }
       );

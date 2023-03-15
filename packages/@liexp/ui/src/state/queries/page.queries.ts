@@ -6,7 +6,10 @@ import { useQuery } from "react-query";
 import { foldTE, Queries } from "../../providers/DataProvider";
 import { type UseQueryFn } from "./type";
 
-export const getPageContentByPathQueryKey = (p: any): any[] => ["pages", p];
+export const getPageContentByPathQueryKey = (p: { path: string }): any[] => [
+  "pages",
+  p,
+];
 
 export const fetchPageContentByPath = async ({
   queryKey,

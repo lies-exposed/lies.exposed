@@ -10,16 +10,18 @@ import { useMediaQuery } from "../state/queries/media.queries";
 export interface MediaBoxProps {
   filter: Partial<serializedType<typeof Endpoints.Media.List.Input.Query>>;
   onClick: (e: Media.Media) => void;
+  limit?: number;
   perPage?: number;
   hideDescription?: boolean;
-
+  disableZoom?: boolean;
 }
 
 export const MediaBox: React.FC<MediaBoxProps> = ({
   filter,
+  limit,
   onClick,
   perPage = 100,
-  hideDescription
+  ...props
 }) => {
   const [page, setPage] = React.useState(1);
   const handlePageChange = (p: number): void => {
@@ -33,8 +35,8 @@ export const MediaBox: React.FC<MediaBoxProps> = ({
           {
             filter,
             pagination: {
-              perPage,
-              page,
+              perPage: limit || perPage,
+              page: limit ? 1 : page,
             },
           },
           false
@@ -50,29 +52,31 @@ export const MediaBox: React.FC<MediaBoxProps> = ({
               }}
             >
               <MediaList
+                {...props}
                 media={media.map((m) => ({ ...m, selected: true }))}
                 onItemClick={onClick}
-                hideDescription={hideDescription}
               />
             </Box>
 
-            <Box
-              style={{
-                display: "flex",
-                flexShrink: 0,
-                justifyContent: "center",
-                margin: 20,
-              }}
-            >
-              <Pagination
-                color="primary"
-                count={Math.floor(total / perPage)}
-                page={page}
-                onChange={(ev, page) => {
-                  handlePageChange(page);
+            {!limit ? (
+              <Box
+                style={{
+                  display: "flex",
+                  flexShrink: 0,
+                  justifyContent: "center",
+                  margin: 20,
                 }}
-              />
-            </Box>
+              >
+                <Pagination
+                  color="primary"
+                  count={Math.floor(total / perPage)}
+                  page={page}
+                  onChange={(ev, page) => {
+                    handlePageChange(page);
+                  }}
+                />
+              </Box>
+            ) : null}
           </Box>
         );
       }}

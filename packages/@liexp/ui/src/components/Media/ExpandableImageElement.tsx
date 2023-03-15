@@ -81,6 +81,7 @@ interface ExpandableImageElementProps {
   media: Omit<Media.Media, "type"> & { type: Media.ImageType };
   style?: React.CSSProperties;
   onLoad?: () => void;
+  disableZoom?: boolean;
 }
 
 const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
@@ -88,6 +89,7 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
   className,
   style,
   onLoad,
+  disableZoom = false,
 }) => {
   const [open, setOpen] = React.useState(false);
 
@@ -106,70 +108,73 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
         onLoad={onLoad}
         loading="lazy"
       />
+      {!disableZoom ? (
+        <IconButton
+          className={boxClasses.expandIcon}
+          aria-label="expand"
+          onClick={(e) => {
+            setOpen(true);
+          }}
+          size="large"
+        >
+          <OpenInFull />
+        </IconButton>
+      ) : null}
 
-      <IconButton
-        className={boxClasses.expandIcon}
-        aria-label="expand"
-        onClick={(e) => {
-          setOpen(true);
-        }}
-        size="large"
-      >
-        <OpenInFull />
-      </IconButton>
-
-      <StyledModal
-        className={modalClasses.root}
-        open={open}
-        onClose={() => {
-          setOpen(false);
-        }}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <div className={modalClasses.modalContainer}>
-          <div className={modalClasses.paper}>
-            <Box
-              display={"flex"}
-              flexDirection="column"
-              style={{ position: "relative", height: "100%" }}
-            >
-              <Box className={modalClasses.closeIcon}>
-                <CloseOutlined
-                  onClick={() => {
-                    setOpen(false);
-                  }}
-                />
-              </Box>
-
+      {!disableZoom ? (
+        <StyledModal
+          className={modalClasses.root}
+          open={open}
+          onClose={() => {
+            setOpen(false);
+          }}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <div className={modalClasses.modalContainer}>
+            <div className={modalClasses.paper}>
               <Box
-                id="alert-dialog-description"
                 display={"flex"}
-                width="100%"
-                height="100%"
-                style={{
-                  alignItems: "center",
-                  flexDirection: "column",
-                }}
+                flexDirection="column"
+                style={{ position: "relative", height: "100%" }}
               >
-                <img
-                  className={modalClasses.image}
-                  src={media.location}
-                  loading="lazy"
-                  role="img"
-                />
-                <Typography
-                  id="alert-dialog-title"
-                  variant="subtitle2"
-                  className={modalClasses.expandedDescription}
+                <Box className={modalClasses.closeIcon}>
+                  <CloseOutlined
+                    onClick={() => {
+                      setOpen(false);
+                    }}
+                  />
+                </Box>
+
+                <Box
+                  id="alert-dialog-description"
+                  display={"flex"}
+                  width="100%"
+                  height="100%"
+                  style={{
+                    alignItems: "center",
+                    flexDirection: "column",
+                  }}
                 >
-                  {media.description}
-                </Typography>
+                  <img
+                    className={modalClasses.image}
+                    src={media.location}
+                    loading="lazy"
+                    role="img"
+                  />
+                  <Typography
+                    id="alert-dialog-title"
+                    variant="subtitle2"
+                    className={modalClasses.expandedDescription}
+                  >
+                    {media.description}
+                  </Typography>
+                </Box>
               </Box>
-            </Box>
+            </div>
           </div>
-        </div>
-      </StyledModal>
+        </StyledModal>
+      ) : null}
     </StyledBox>
   );
 };

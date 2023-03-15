@@ -1,14 +1,10 @@
-import { GROUPS } from "@liexp/shared/io/http/Group";
-import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
 import KeywordsDistributionGraph from "@liexp/ui/components/Graph/KeywordDistributionGraph";
 import { PageContent } from "@liexp/ui/components/PageContent";
 import SEO from "@liexp/ui/components/SEO";
-import { Grid } from "@liexp/ui/components/mui";
+import { Box, Grid, Typography } from "@liexp/ui/components/mui";
 import EventsBox from "@liexp/ui/containers/EventsBox";
-import { ActorEventNetworkGraphBox } from "@liexp/ui/containers/graphs/ActorEventNetworkGraphBox";
-import { GroupEventNetworkGraphBox } from "@liexp/ui/containers/graphs/GroupEventNetworkGraphBox";
+import { MediaBox } from "@liexp/ui/containers/MediaBox";
 import { type RouteComponentProps } from "@reach/router";
-import subYears from "date-fns/subYears";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 
@@ -29,78 +25,37 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
             navigateTo.keywords({ id: k.id });
           }}
         />
-        <Grid container>
-          <Grid item md={6}>
-            <ActorEventNetworkGraphBox
-              params={{
-                sort: { field: "updatedAt", order: "DESC" },
-                pagination: {
-                  perPage: 1,
-                  page: 2,
-                },
-              }}
-              type={KEYWORDS.value}
-              query={{
-                startDate: subYears(new Date(), 2).toISOString(),
-                relations: [GROUPS.value],
-              }}
-              showFilter={false}
-              onEventClick={(e) => {
-                navigateTo.events({ id: e.id });
-              }}
-              onActorClick={(e) => {
-                navigateTo.actors({ id: e.id });
-              }}
-              onGroupClick={(e) => {
-                navigateTo.groups({ id: e.id });
-              }}
-              onKeywordClick={(e) => {
-                navigateTo.keywords({ id: e.id });
-              }}
-            />
+        <Box style={{ marginBottom: 150 }}>
+          <EventsBox
+            title="Last updated events"
+            query={{
+              _sort: "updatedAt",
+              _order: "DESC",
+              _start: 0,
+              _end: 6,
+            }}
+            onEventClick={(e) => {
+              navigateTo.events({ id: e.id });
+            }}
+          />
+        </Box>
+
+        <Grid container style={{ marginBottom: 150 }}>
+          <Grid item xs={12}>
+            <Typography variant="h5">Last Created Media</Typography>
           </Grid>
-          <Grid item md={6}>
-            <GroupEventNetworkGraphBox
-              params={{
-                sort: { field: "updatedAt", order: "DESC" },
-                pagination: {
-                  perPage: 1,
-                  page: 2,
-                },
-              }}
-              type={KEYWORDS.value}
-              query={{
-                startDate: subYears(new Date(), 2).toISOString(),
-                relations: [GROUPS.value],
-              }}
-              showFilter={false}
-              onEventClick={(e) => {
-                navigateTo.events({ id: e.id });
-              }}
-              onActorClick={(e) => {
-                navigateTo.actors({ id: e.id });
-              }}
-              onGroupClick={(e) => {
-                navigateTo.groups({ id: e.id });
-              }}
-              onKeywordClick={(e) => {
-                navigateTo.keywords({ id: e.id });
+          <Grid item md={12}>
+            <MediaBox
+              hideDescription
+              disableZoom
+              filter={{ _sort: "createdAt", _order: "DESC" }}
+              limit={20}
+              onClick={(m) => {
+                navigateTo.media({ id: m.id });
               }}
             />
           </Grid>
         </Grid>
-        <EventsBox
-          title="Last updated events"
-          query={{
-            _sort: "updatedAt",
-            _order: "DESC",
-            _start: 0,
-            _end: 6,
-          }}
-          onEventClick={(e) => {
-            navigateTo.events({ id: e.id });
-          }}
-        />
       </Grid>
     </Grid>
   );

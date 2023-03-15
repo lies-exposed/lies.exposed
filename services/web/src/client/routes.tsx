@@ -6,40 +6,55 @@ import {
   fetchGroupsMembers,
   fetchStats,
   getGroupsMembersQueryKey,
-  getStatsQueryKey
+  getStatsQueryKey,
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import {
   fetchSearchEvents,
   fetchSearchEventsInfinite,
   getSearchEventsInfiniteQueryKey,
-  getSearchEventsQueryKey
+  getSearchEventsQueryKey,
 } from "@liexp/ui/state/queries/SearchEventsQuery";
 import {
   fetchActor,
   fetchActors,
   getActorQueryKey,
-  getActorsQueryKey
+  getActorsQueryKey,
 } from "@liexp/ui/state/queries/actor.queries";
-import { fetchArea, fetchAreas, getAreaQueryKey } from "@liexp/ui/state/queries/area.queries";
-import { fetchArticles, getArticleQueryKey } from "@liexp/ui/state/queries/article.queries";
+import {
+  fetchArea,
+  fetchAreas,
+  getAreaQueryKey,
+} from "@liexp/ui/state/queries/area.queries";
+import {
+  fetchArticles,
+  getArticleQueryKey,
+} from "@liexp/ui/state/queries/article.queries";
 import { fetchEvent } from "@liexp/ui/state/queries/event.queries";
 import { fetchGithubRepo } from "@liexp/ui/state/queries/github";
 import {
   fetchGroup,
   fetchGroups,
-  getGroupsQueryKey
+  getGroupsQueryKey,
 } from "@liexp/ui/state/queries/groups.queries";
-import { fetchKeywords, fetchKeywordsDistribution, getKeywordsDistributionQueryKey, getKeywordsQueryKey } from '@liexp/ui/state/queries/keywords.queries';
-import { fetchLinks, getLinkQueryKey } from "@liexp/ui/state/queries/link.queries";
+import {
+  fetchKeywords,
+  fetchKeywordsDistribution,
+  getKeywordsDistributionQueryKey,
+  getKeywordsQueryKey,
+} from "@liexp/ui/state/queries/keywords.queries";
+import {
+  fetchLinks,
+  getLinkQueryKey,
+} from "@liexp/ui/state/queries/link.queries";
 import {
   fetchMedia,
   fetchSingleMedia,
   getMediaQueryKey,
-  getMediaQueryListKey
+  getMediaQueryListKey,
 } from "@liexp/ui/state/queries/media.queries";
 import {
   fetchPageContentByPath,
-  getPageContentByPathQueryKey
+  getPageContentByPathQueryKey,
 } from "@liexp/ui/state/queries/page.queries";
 import { hashToQuery } from "@liexp/ui/utils/history.utils";
 import { UUID } from "io-ts-types/lib/UUID";
@@ -114,7 +129,7 @@ export const routes = [
     queries: async () => [
       ...commonQueries,
       {
-        queryKey: getPageContentByPathQueryKey("groups"),
+        queryKey: getPageContentByPathQueryKey({ path: "groups" }),
         queryFn: fetchPageContentByPath,
       },
       {
@@ -173,7 +188,7 @@ export const routes = [
     queries: async () => [
       ...commonQueries,
       {
-        queryKey: getPageContentByPathQueryKey("actors"),
+        queryKey: getPageContentByPathQueryKey({ path: "actors" }),
         queryFn: fetchPageContentByPath,
       },
       {
@@ -434,7 +449,7 @@ export const routes = [
     queries: async () => [
       ...commonQueries,
       {
-        queryKey: getPageContentByPathQueryKey("areas"),
+        queryKey: getPageContentByPathQueryKey({ path: "areas" }),
         queryFn: fetchPageContentByPath,
       },
       {
@@ -544,7 +559,7 @@ export const routes = [
       return [
         ...commonQueries,
         {
-          queryKey: getPageContentByPathQueryKey("stories"),
+          queryKey: getPageContentByPathQueryKey({ path: "stories" }),
           queryFn: fetchPageContentByPath,
         },
         {
@@ -590,7 +605,7 @@ export const routes = [
     queries: async () => [
       ...commonQueries,
       {
-        queryKey: getPageContentByPathQueryKey("index"),
+        queryKey: getPageContentByPathQueryKey({ path: "index" }),
         queryFn: fetchPageContentByPath,
       },
       {
@@ -609,6 +624,22 @@ export const routes = [
           _end: 6,
         }),
         queryFn: fetchSearchEvents,
+      },
+      {
+        queryKey: getMediaQueryListKey(
+          {
+            pagination: {
+              perPage: 20,
+              page: 1,
+            },
+            sort: {
+              field: "createdAt",
+              order: "DESC",
+            },
+          },
+          false
+        ),
+        queryFn: fetchMedia,
       },
     ],
   },

@@ -45,6 +45,7 @@ export interface MediaElementProps {
   itemStyle?: React.CSSProperties;
   onLoad?: () => void;
   enableDescription?: boolean;
+  disableZoom?: boolean;
 }
 
 const MediaElement: React.FC<MediaElementProps> = ({
@@ -97,6 +98,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
       case Media.MediaType.types[3].value: {
         return (
           <AudioMediaElement
+            {...props}
             style={itemStyle}
             className={clsx(classes.item, itemClassName)}
             media={media as any}
