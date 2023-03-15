@@ -105,7 +105,7 @@ export interface SplitPageTemplateProps {
   tab: number;
   onTabChange: (t: number) => void;
   aside:
-         | React.ReactNode
+    | React.ReactNode
     | {
         name: string;
         avatar?: string;
@@ -160,7 +160,7 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
     );
   }, [_tabs, tab]);
 
-  const asideNode = React.useMemo((): React.ReactNode[] => {
+  const asideNode = React.useMemo((): React.ReactNode => {
     if ((aside as any).name) {
       const as: any = aside;
       return [
@@ -175,6 +175,7 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
                 size="xlarge"
                 src={src}
                 fit="cover"
+                style={{ marginBottom: 50 }}
               />
             )
           )
@@ -186,7 +187,7 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
         </Box>,
       ];
     }
-    return [aside] as any[] as React.ReactNode[];
+    return aside as any as React.ReactNode;
   }, [aside]);
 
   return (

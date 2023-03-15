@@ -79,6 +79,7 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
       foldTE
     );
 
+    // eslint-disable-next-line no-console
     console.log(Events.Event.decode(plainEvent));
 
     await apiProvider

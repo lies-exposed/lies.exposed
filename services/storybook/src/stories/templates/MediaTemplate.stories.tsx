@@ -2,7 +2,7 @@ import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { useMediaQuery } from "@liexp/ui/state/queries/media.queries";
 import {
   MediaTemplateUI,
-  type MediaTemplateUIProps
+  type MediaTemplateUIProps,
 } from "@liexp/ui/templates/MediaTemplateUI";
 import { type Meta, type Story } from "@storybook/react/types-6-0";
 import * as React from "react";
@@ -15,7 +15,7 @@ const meta: Meta = {
 export default meta;
 
 const Template: Story<MediaTemplateUIProps> = (props) => {
-  
+  const [tab, setTab] = React.useState(0);
 
   return (
     <QueriesRenderer
@@ -31,8 +31,9 @@ const Template: Story<MediaTemplateUIProps> = (props) => {
         return (
           <MediaTemplateUI
             {...props}
+            tab={tab}
+            onTabChange={setTab}
             media={data[0]}
-            
           />
         );
       }}

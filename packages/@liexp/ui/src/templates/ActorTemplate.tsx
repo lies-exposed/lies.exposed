@@ -1,7 +1,7 @@
 import { type Actor, type Group, type Keyword } from "@liexp/shared/io/http";
 import { ACTORS } from "@liexp/shared/io/http/Actor";
 import { type SearchEvent } from "@liexp/shared/io/http/Events";
-import subYears from 'date-fns/subYears';
+import subYears from "date-fns/subYears";
 import * as React from "react";
 import { ActorPageContent } from "../components/ActorPageContent";
 import { ActorHierarchyEdgeBundlingGraph } from "../components/Graph/ActorHierarchyEdgeBundlingGraph";
@@ -48,7 +48,8 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
             sort: { field: "createdAt", order: "DESC" },
             filter: { members: [actor.id] },
           },
-          false
+          false,
+          `actor-${actor.id}`
         ),
       }}
       render={({ groups: { data: groups } }) => {
@@ -90,7 +91,7 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                 item: actor,
               }}
             >
-              <Box style={{ display: 'flex' }}>
+              <Box style={{ display: "flex" }}>
                 <ActorPageContent
                   actor={actor}
                   groups={groups}
@@ -118,7 +119,7 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                   type={ACTORS.value}
                   query={{
                     ids: [actor.id],
-                    startDate: subYears(new Date(), 2).toISOString()
+                    startDate: subYears(new Date(), 2).toISOString(),
                   }}
                   selectedActorIds={[actor.id]}
                   onActorClick={onActorClick}
@@ -129,7 +130,7 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
               </Box>
               <ActorHierarchyEdgeBundlingGraph
                 actor={actor.id}
-                width={600}
+                width={500}
                 onNodeClick={(n) => {}}
                 onLinkClick={(ll) => {}}
               />

@@ -123,7 +123,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
         flexGrow: 1,
         flexShrink: 0,
         flexBasis: "auto",
-        height: '100%'
+        height: "100%",
       }}
     >
       <InfiniteLoader
@@ -133,7 +133,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
         minimumBatchSize={20}
       >
         {({ onRowsRendered, registerChild }) => (
-          <AutoSizer>
+          <AutoSizer style={{ height: "100%" }}>
             {({ width, height }) => {
               return (
                 <EventsTimelineList

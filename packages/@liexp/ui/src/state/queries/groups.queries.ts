@@ -7,11 +7,12 @@ import { fetchQuery } from "./common";
 import { type FetchQuery, type UseListQueryFn } from "./type";
 
 export const getGroupsQueryKey = (
+  suffix: string,
   p: Partial<GetListParams>,
   discrete: boolean
 ): [string, GetListParams, boolean] => {
   return [
-    "groups",
+    `groups-${suffix}`,
     {
       filter: p.filter ? p.filter : {},
       pagination: {
@@ -35,9 +36,10 @@ export const fetchGroups: FetchQuery<typeof Queries.Group.getList> = fetchQuery(
 
 export const useGroupsQuery: UseListQueryFn<Group.Group> = (
   params,
-  discrete
+  discrete,
+  suffix = "",
 ) => {
-  return useQuery(getGroupsQueryKey(params, discrete), fetchGroups);
+  return useQuery(getGroupsQueryKey(suffix, params, discrete), fetchGroups);
 };
 
 export const fetchGroup = async ({ queryKey }: any): Promise<Group.Group> => {

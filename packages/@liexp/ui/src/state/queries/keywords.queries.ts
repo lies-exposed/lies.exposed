@@ -10,11 +10,12 @@ export const fetchKeywords: FetchQuery<typeof Queries.Keyword.getList> =
   fetchQuery(Queries.Keyword.getList);
 
 export const getKeywordsQueryKey = (
+  suffix: string,
   p: Partial<GetListParams>,
   discrete: boolean
 ): [string, GetListParams, boolean] => {
   return [
-    "keywords",
+    `keywords-${suffix}`,
     {
       filter: p.filter ? p.filter : {},
       pagination: {
@@ -34,9 +35,10 @@ export const getKeywordsQueryKey = (
 
 export const useKeywordsQuery: UseListQueryFn<Keyword.Keyword> = (
   params,
-  discrete
+  discrete,
+  suffix = ""
 ) => {
-  return useQuery(getKeywordsQueryKey(params, discrete), fetchKeywords);
+  return useQuery(getKeywordsQueryKey(suffix, params, discrete), fetchKeywords);
 };
 
 export const useKeywordQuery = (
