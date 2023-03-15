@@ -1,4 +1,4 @@
-import { getEventsMetadata } from "@liexp/shared/helpers/event/event";
+import { getEventMetadata } from "@liexp/shared/helpers/event/event";
 import { type Actor, type Group, type GroupMember } from "@liexp/shared/io/http";
 import { type SearchEvent } from "@liexp/shared/io/http/Events";
 import * as React from "react";
@@ -64,7 +64,7 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
   onGroupMemberClick,
   ...props
 }) => {
-  const { actors, groups, groupsMembers } = getEventsMetadata(e);
+  const { actors, groups, groupsMembers } = getEventMetadata(e);
 
   const content = React.useMemo(() => {
     if (

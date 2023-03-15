@@ -143,7 +143,7 @@ export const EventList: React.FC = () => (
     <Datagrid
       rowStyle={(record) => {
         return {
-          backgroundColor: record.deletedAt ? alpha("#FF0000", 20) : undefined,
+          backgroundColor: record.deletedAt ? alpha("#FF0000", 0.6) : undefined,
         };
       }}
       rowClick={(_props, _id, record) => {

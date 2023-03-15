@@ -1,4 +1,4 @@
-import { getEventsMetadata } from "@liexp/shared/helpers/event/event";
+import { getEventMetadata } from "@liexp/shared/helpers/event/event";
 import { Events } from "@liexp/shared/io/http";
 import { type SearchEvent } from "@liexp/shared/io/http/Events";
 import { formatDate } from "@liexp/shared/utils/date";
@@ -34,7 +34,7 @@ const EventCard: React.FC<EventCardProps> = ({
   onEventClick,
   ...props
 }) => {
-  const { actors, groups, media, keywords } = getEventsMetadata(event);
+  const { actors, groups, media, keywords } = getEventMetadata(event);
   const title =
     event.type === Events.Death.DEATH.value
       ? `Death ${event.payload.victim?.fullName}`

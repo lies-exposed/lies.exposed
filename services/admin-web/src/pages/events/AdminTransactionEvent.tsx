@@ -71,7 +71,7 @@ export const TransactionList: React.FC<ListProps> = (props) => (
 export const TransactionTitle: React.FC<{
   record: Events.Transaction.Transaction;
 }> = ({ record }) => {
-  return <span>Transaction: {record.payload.total}</span>;
+  return <span>Transaction: {record?.payload?.total}</span>;
 };
 
 export const TransactionEditFormTab: React.FC<FormTabProps> = (props) => (

@@ -11,7 +11,8 @@ import {
   type Media,
 } from "../../io/http";
 import { type EventTotals } from "../../io/http/Events/SearchEventsQuery";
-import { type EventRelationIds, getRelationIds } from "./event";
+import { getRelationIds } from "./event";
+import { type EventRelationIds } from "./types";
 
 export interface SearchEventsQueryCache {
   events: Events.SearchEvent.SearchEvent[];
