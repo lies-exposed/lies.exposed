@@ -7209,7 +7209,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^5.0.0, @typescript-eslint/parser@npm:^5.55.0":
+"@typescript-eslint/parser@npm:^5.43.0, @typescript-eslint/parser@npm:^5.55.0":
   version: 5.55.0
   resolution: "@typescript-eslint/parser@npm:5.55.0"
   dependencies:
@@ -7994,7 +7994,7 @@ __metadata:
     debug: ^4.3.4
     eslint: ^8.36.0
     eslint-config-prettier: ^8.7.0
-    eslint-config-standard-with-typescript: ^34.0.0
+    eslint-config-standard-with-typescript: ^34.0.1
     eslint-import-resolver-typescript: ^3.5.3
     eslint-plugin-import: ^2.27.5
     eslint-plugin-n: ^15.6.1
@@ -12568,20 +12568,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-standard-with-typescript@npm:^34.0.0":
-  version: 34.0.0
-  resolution: "eslint-config-standard-with-typescript@npm:34.0.0"
+"eslint-config-standard-with-typescript@npm:^34.0.1":
+  version: 34.0.1
+  resolution: "eslint-config-standard-with-typescript@npm:34.0.1"
   dependencies:
-    "@typescript-eslint/parser": ^5.0.0
+    "@typescript-eslint/parser": ^5.43.0
     eslint-config-standard: 17.0.0
   peerDependencies:
-    "@typescript-eslint/eslint-plugin": ^5.0.0
+    "@typescript-eslint/eslint-plugin": ^5.43.0
     eslint: ^8.0.1
     eslint-plugin-import: ^2.25.2
     eslint-plugin-n: ^15.0.0
     eslint-plugin-promise: ^6.0.0
     typescript: "*"
-  checksum: d81fd7de4d6f65cad189d7f93d34a7289505b05bd77044edb81c78c1cc94b7e546fe6a8ab5fd5e88ff3db2ebef01569c56dd5b43d77797a7c5ae50062beae2b1
+  checksum: 9deb397a639caaf578692d232d3418641ed65186289152dc744a49b3b19db2fafc7b50eb463e91991452c1d942bf6a3fa796c01e73d55e36565f225b3aff3b81
   languageName: node
   linkType: hard
 
@@ -17155,7 +17155,7 @@ __metadata:
     "@typescript-eslint/parser": ^5.55.0
     eslint: ^8.36.0
     eslint-config-prettier: ^8.7.0
-    eslint-config-standard-with-typescript: ^34.0.0
+    eslint-config-standard-with-typescript: ^34.0.1
     eslint-import-resolver-typescript: ^3.5.3
     eslint-plugin-import: ^2.27.5
     eslint-plugin-n: ^15.6.1
@@ -25936,7 +25936,7 @@ __metadata:
     dotenv: ^16.0.3
     eslint: ^8.36.0
     eslint-config-prettier: ^8.7.0
-    eslint-config-standard-with-typescript: ^34.0.0
+    eslint-config-standard-with-typescript: ^34.0.1
     eslint-import-resolver-typescript: ^3.5.3
     eslint-plugin-import: ^2.27.5
     eslint-plugin-n: ^15.6.1
