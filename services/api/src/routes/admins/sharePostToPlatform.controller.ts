@@ -11,9 +11,24 @@ export const PostSharePayloadToPlatformRoute: Route = (r, ctx) => {
     const title = `<a href="${body.url}"><b>${body.title}</b></a>`;
     const date = `<a href="${ctx.env.WEB_URL}/events?startDate=${body.date}">${body.date}</a>`;
     const keywords = `${body.keywords.map((k) => `#${k.tag}`).join(" ")}`;
-    const footer = `Follow ${ctx.env.TG_BOT_CHAT}\nSubmit a link to ${ctx.env.TG_BOT_USERNAME}`;
+    const footer = `Submit a link to ${ctx.env.TG_BOT_USERNAME}`;
+    const publicChannels = [
+      `${ctx.env.TG_BOT_CHAT}`,
+      `<a href="${ctx.env.WEB_URL}">lies.exposed (alpha)</a>`,
+    ];
 
-    return [title, date, "\n", body.content, "\n", keywords, footer].join("\n");
+    return [
+      title,
+      date,
+      "\n",
+      body.content,
+      "\n",
+      keywords,
+      footer,
+      "Follow us",
+      "\n",
+      publicChannels.join(" | "),
+    ].join("\n");
   };
 
   AddEndpoint(r)(
