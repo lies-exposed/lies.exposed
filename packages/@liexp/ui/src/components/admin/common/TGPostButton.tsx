@@ -1,5 +1,5 @@
 import { getShareMedia, getTitle } from "@liexp/shared/helpers/event";
-import { type Keyword } from "@liexp/shared/io/http";
+import { type Media, type Keyword } from "@liexp/shared/io/http";
 import { MediaType } from "@liexp/shared/io/http/Media";
 import { type ShareMessageBody } from "@liexp/shared/io/http/ShareMessage";
 import { getTextContents } from "@liexp/shared/slate";
@@ -7,11 +7,12 @@ import { formatDate, parseISO } from "@liexp/shared/utils/date";
 import { type UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
 import {
-  type FieldProps,
-  type Identifier,
   useDataProvider,
   useRecordContext,
+  type FieldProps,
+  type Identifier,
 } from "react-admin";
+import { MediaList } from "../../lists/MediaList";
 import {
   Box,
   Button,
@@ -20,8 +21,10 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControlLabel,
   Input,
   Link,
+  Switch,
   Typography,
 } from "../../mui";
 
@@ -34,9 +37,14 @@ const emptySharePayload = {
   keywords: [],
 };
 
+interface OnLoadSharePayloadClickOpts {
+  multipleMedia: boolean;
+}
 interface TGPostButtonProps extends FieldProps {
   id?: Identifier;
-  onLoadSharePayloadClick: () => Promise<ShareMessageBody>;
+  onLoadSharePayloadClick: (
+    opts: OnLoadSharePayloadClickOpts
+  ) => Promise<Omit<ShareMessageBody, "media"> & { media: Media.Media[] }>;
 }
 
 export const TGPostButton: React.FC<TGPostButtonProps> = ({
@@ -44,8 +52,11 @@ export const TGPostButton: React.FC<TGPostButtonProps> = ({
 }) => {
   const record = useRecordContext();
   const apiProvider = useDataProvider();
-  const [sharePayload, setSharePayload] =
-    React.useState<Partial<ShareMessageBody>>(emptySharePayload);
+  const [{ payload, media, multipleMedia }, setState] = React.useState<{
+    payload: Partial<ShareMessageBody>;
+    multipleMedia: boolean;
+    media: Media.Media[];
+  }>({ payload: emptySharePayload, multipleMedia: false, media: [] });
 
   return (
     <Box style={{ display: "flex", marginRight: 10 }}>
@@ -54,47 +65,100 @@ export const TGPostButton: React.FC<TGPostButtonProps> = ({
         variant="contained"
         size="small"
         onClick={() => {
-          void onLoadSharePayloadClick().then((result) => {
-            setSharePayload(result);
+          void onLoadSharePayloadClick({ multipleMedia }).then((result) => {
+            setState((s) => ({
+              ...s,
+              media: result.media,
+              payload: {
+                ...result,
+                media: getShareMedia(
+                  result.media,
+                  `${process.env.WEB_URL}/liexp-logo-1200x630.png`,
+                  multipleMedia
+                ),
+              },
+            }));
           });
         }}
       >
         Post on TG
       </Button>
-      <Dialog open={!!sharePayload.title}>
+      <Dialog open={!!payload.title}>
         <DialogTitle>Post on Telegram</DialogTitle>
+
         <DialogContent>
-          {sharePayload?.date ? (
+          <Box>
+            <FormControlLabel
+              control={
+                <Switch
+                  inputProps={{
+                    "aria-label": "Group media",
+                  }}
+                  value={multipleMedia}
+                  onChange={() => {
+                    setState((s) => ({
+                      ...s,
+                      multipleMedia: !multipleMedia,
+                      payload: {
+                        ...s.payload,
+                        media: getShareMedia(
+                          s.media,
+                          `${process.env.WEB_URL}/liexp-logo-1200x630.png`,
+                          !multipleMedia
+                        ),
+                      },
+                    }));
+                  }}
+                />
+              }
+              label={multipleMedia ? "Media group" : "Single media"}
+            />
+          </Box>
+          {payload?.date ? (
             <Box style={{ width: "100%" }}>
               <Typography>
-                <Link href={sharePayload.url}>{sharePayload.title}</Link>
+                <Link href={payload.url}>{payload.title}</Link>
               </Typography>
               <br />
-              <img src={sharePayload.media} style={{ width: "100%" }} />
+
+              {multipleMedia ? (
+                <MediaList
+                  style={{ width: "100%" }}
+                  columns={media.length > 3 ? 3 : media.length}
+                  hideDescription
+                  media={media.map((m) => ({ ...m, selected: true }))}
+                  onItemClick={() => {}}
+                />
+              ) : (
+                <img src={media[0].thumbnail} style={{ width: "100%" }} />
+              )}
               <Typography>
                 <Link
-                  href={`${process.env.WEB_URL}/events?startDate=${sharePayload.date}`}
+                  href={`${process.env.WEB_URL}/events?startDate=${payload.date}`}
                 >
-                  {sharePayload.date}
+                  {payload.date}
                 </Link>
                 <Box>
                   <Input
                     fullWidth
                     multiline
                     name="content"
-                    defaultValue={sharePayload.content ?? ""}
-                    value={sharePayload.content ?? ""}
+                    defaultValue={payload.content ?? ""}
+                    value={payload.content ?? ""}
                     onChange={(e) => {
-                      setSharePayload({
-                        ...sharePayload,
-                        content: e.target.value,
-                      });
+                      setState((s) => ({
+                        ...s,
+                        payload: {
+                          ...payload,
+                          content: e.target.value,
+                        },
+                      }));
                     }}
                   />
                 </Box>
               </Typography>
               <>
-                {(sharePayload?.keywords ?? []).map((k: any) => (
+                {(payload?.keywords ?? []).map((k: any) => (
                   <a
                     key={k.id}
                     href={`${process.env.WEB_URL}/events?keywords[]=${k.id}`}
@@ -112,7 +176,7 @@ export const TGPostButton: React.FC<TGPostButtonProps> = ({
         <DialogActions>
           <Button
             onClick={() => {
-              setSharePayload(emptySharePayload);
+              setState((s) => ({ ...s, payload: emptySharePayload }));
             }}
           >
             Clear
@@ -121,10 +185,14 @@ export const TGPostButton: React.FC<TGPostButtonProps> = ({
             onClick={() => {
               void apiProvider
                 .create(`/admins/share/${record?.id}`, {
-                  data: sharePayload,
+                  data: payload,
                 })
                 .then((result) => {
-                  setSharePayload(emptySharePayload);
+                  setState({
+                    multipleMedia: false,
+                    payload: emptySharePayload,
+                    media: [],
+                  });
                 });
             }}
           >
@@ -143,7 +211,7 @@ export const EventTGPostButton: React.FC<
 
   return (
     <TGPostButton
-      onLoadSharePayloadClick={async () => {
+      onLoadSharePayloadClick={async ({ multipleMedia }) => {
         return await apiProvider
           .getOne(`events`, { id })
           .then(async ({ data: event }) => {
@@ -222,10 +290,7 @@ export const EventTGPostButton: React.FC<
             });
 
             const date = formatDate(parseISO(event.date));
-            const media = getShareMedia(
-              event.media,
-              `${process.env.WEB_URL}/liexp-logo-1200x630.png`
-            );
+
             const content: string = getTextContents(event.excerpt)[0];
             const url = `${process.env.WEB_URL}/events/${id}`;
             const keywords: Keyword.Keyword[] = event.keywords;
@@ -233,7 +298,7 @@ export const EventTGPostButton: React.FC<
             return {
               title,
               date,
-              media,
+              media: event.media,
               content,
               url,
               keywords,
