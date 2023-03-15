@@ -43,7 +43,7 @@ const StyledBox = styled(Box)({
   },
   [`& .${classes.media}`]: {
     maxWidth: "100%",
-    width: '100%',
+    width: "100%",
     height: "100%",
     objectFit: "contain",
   },
@@ -61,12 +61,13 @@ const StyledBox = styled(Box)({
 interface MediaListItemProps extends ListItemProps<Media> {
   style?: React.CSSProperties;
   hideDescription?: boolean;
+  disableZoom?: boolean;
 }
 
 export const MediaListItem: React.ForwardRefRenderFunction<
   any,
   MediaListItemProps
-> = ({ style, onClick, item, hideDescription }, ref) => {
+> = ({ style, onClick, item, hideDescription, disableZoom }, ref) => {
   return (
     <StyledBox className={clsx(classes.root)} style={style} ref={ref}>
       <Box
@@ -82,6 +83,7 @@ export const MediaListItem: React.ForwardRefRenderFunction<
           className={classes.media}
           media={item}
           enableDescription={!hideDescription}
+          disableZoom={disableZoom}
         />
       </Box>
     </StyledBox>
@@ -93,7 +95,7 @@ export const MediaListItemRef = React.forwardRef(MediaListItem);
 const MEDIA_MIN_HEIGHT = 100;
 export const MediaListItemCell: React.FC<
   MediaListItemProps & { width: number }
-> = ({ item, onClick, style, hideDescription, width }) => {
+> = ({ item, onClick, style, index, width, ...props }) => {
   const [h, setHeight] = React.useState(MEDIA_MIN_HEIGHT);
 
   React.useEffect(() => {
@@ -118,8 +120,8 @@ export const MediaListItemCell: React.FC<
 
   return (
     <MediaListItemRef
+      {...props}
       item={item}
-      hideDescription={hideDescription}
       style={{
         ...style,
         width,
@@ -134,11 +136,12 @@ export interface MediaListProps {
   className?: string;
   media: Media[];
   hideDescription?: boolean;
+  disableZoom?: boolean;
   onItemClick: (item: Media) => void;
   style?: React.CSSProperties;
   itemStyle?: React.CSSProperties;
   gutterSize?: number;
-  columns?: number
+  columns?: number;
 }
 
 const LIST_PREFIX = "media-list";
@@ -161,7 +164,6 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
       className,
       media,
       style,
-      hideDescription,
       onItemClick,
       itemStyle,
       gutterSize = 20,
@@ -170,13 +172,11 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
     },
     ref
   ) => {
-
     return (
       <ParentSize style={{ width: "100%", minHeight: 50 }}>
         {({ height, width }) => {
           return (
             <StyledMasonry
-              {...props}
               className={clsx(listClasses.root, className)}
               style={style}
               columns={columns}
@@ -191,7 +191,6 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
                     key={m.id}
                     item={m}
                     onClick={onItemClick}
-                    hideDescription={hideDescription}
                     width={Math.floor(width / columns)}
                   />
                 );
