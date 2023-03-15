@@ -11,6 +11,7 @@ export interface TGBotProvider {
   post: (text: string) => TE.TaskEither<Error, any>;
   postPhoto: (image: string, caption: string) => TE.TaskEither<Error, any>;
   postMediaGroup: (
+    text: string,
     media: readonly TelegramBot.InputMedia[]
   ) => TE.TaskEither<Error, TelegramBot.Message>;
   onMessage: (
@@ -90,8 +91,18 @@ export const TGBotProvider = (
         })
       );
     },
-    postMediaGroup(media) {
-      return liftTGTE(() => bot.sendMediaGroup(opts.chat, media));
+    postMediaGroup(caption, media) {
+      return pipe(
+        liftTGTE(() => bot.sendMediaGroup(opts.chat, media)),
+        TE.chainFirst((m) =>
+          liftTGTE(() =>
+            bot.editMessageText(caption, {
+              message_id: m.message_id,
+              parse_mode: "HTML",
+            })
+          )
+        )
+      );
     },
     onMessage: (f) => {
       bot.on("message", f);

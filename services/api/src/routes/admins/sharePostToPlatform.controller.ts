@@ -41,7 +41,7 @@ export const PostSharePayloadToPlatformRoute: Route = (r, ctx) => {
         TE.chain((text) =>
           t.string.is(body.media)
             ? ctx.tg.postPhoto(body.media, text)
-            : ctx.tg.postMediaGroup(body.media)
+            : ctx.tg.postMediaGroup(text, body.media)
         ),
         TE.mapLeft((e) => ServerError([e.message])),
         TE.map((data) => ({
