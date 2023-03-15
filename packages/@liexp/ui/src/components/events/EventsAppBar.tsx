@@ -177,7 +177,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
       queries={{
         searchEvents: searchEventsQuery({
           ...query,
-          hash,
+          hash: `${hash}-totals`,
           _start: 0,
           _end: 0,
         }),

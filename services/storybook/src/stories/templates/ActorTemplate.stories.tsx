@@ -26,7 +26,7 @@ const Template: Story<ActorTemplateProps> = (props) => {
         actor: useActorsQuery(
           {
             pagination: { perPage: 10, page: 1 },
-            filter: { ids: ["ee898fbe-3880-4de2-a34f-47b40fce9872"] },
+            filter: { ids: ["1bde0d49-03a1-411d-9f18-2e70a722532b"] },
           },
           false
         ),

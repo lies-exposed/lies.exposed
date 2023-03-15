@@ -8,7 +8,8 @@ export type FetchQuery<FN extends (...args: any[]) => Promise<any>> = (
 
 export type UseListQueryFn<T> = (
   params: Partial<GetListParams>,
-  discrete: boolean
+  discrete: boolean,
+  suffix?: string
 ) => UseQueryResult<{ data: T[]; total: number }, APIError>;
 
 export type UseQueryFn<P, T> = (params: P) => UseQueryResult<T, APIError>;

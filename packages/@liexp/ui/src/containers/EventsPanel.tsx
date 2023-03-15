@@ -4,7 +4,7 @@ import {
   type GroupMember,
   type Keyword,
 } from "@liexp/shared/io/http";
-import { type EventType, type SearchEvent } from "@liexp/shared/io/http/Events";
+import { EventType, type SearchEvent } from "@liexp/shared/io/http/Events";
 import * as React from "react";
 import EventSliderModal from "../components/Modal/EventSliderModal";
 import QueriesRenderer from "../components/QueriesRenderer";
@@ -143,7 +143,7 @@ interface EventsPanelProps {
 export const EventsPanel: React.FC<EventsPanelProps> = ({
   tab,
   slide,
-  query: { hash, ...query },
+  query: { hash, ..._query },
   actors,
   groups,
   groupsMembers,
@@ -151,6 +151,10 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   onQueryChange,
   onEventClick,
 }) => {
+  const query = {
+    type: EventType.types.map((t) => t.value),
+    ..._query,
+  };
   const handleUpdateEventsSearch = React.useCallback(
     (update: Partial<SearchEventsQueryInputNoPagination>): void => {
       onQueryChange({ ...query, ...update, hash }, tab);
@@ -219,6 +223,23 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
         height: "100%",
       }}
     >
+      <EventsAppBar
+        hash={hash}
+        query={{ ...query, hash }}
+        actors={actors}
+        groups={groups}
+        groupsMembers={groupsMembers}
+        keywords={keywords}
+        onQueryChange={handleUpdateEventsSearch}
+        onQueryClear={() => {
+          onQueryChange({ hash }, 0);
+        }}
+        layout={{
+          eventTypes: 5,
+          dateRangeBox: 5,
+          relations: 3,
+        }}
+      />
       <Grid
         container
         justifyContent="center"
@@ -228,35 +249,24 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
           flexWrap: "nowrap",
         }}
       >
-        <Grid
-          container
+        {/* <Grid
+          item
+          md={12}
           justifyContent="center"
           style={{
             display: "flex",
             flexShrink: 0,
           }}
-        >
-          <EventsAppBar
-            hash={hash}
-            query={{ ...query, hash }}
-            actors={actors}
-            groups={groups}
-            groupsMembers={groupsMembers}
-            keywords={keywords}
-            onQueryChange={handleUpdateEventsSearch}
-            onQueryClear={() => {
-              onQueryChange({ hash }, 0);
-            }}
-            layout={{
-              eventTypes: 5,
-              dateRangeBox: 5,
-              relations: 3,
-            }}
-          />
-        </Grid>
+        ></Grid> */}
 
-        <Grid item lg={12} xs={12} style={{ display: "flex", flexGrow: 1 }}>
+        <Grid
+          item
+          lg={12}
+          xs={12}
+          style={{ display: "flex", height: '100%', flexGrow: 1 }}
+        >
           <EventsTimeline
+            style={{ height: "100%" }}
             hash={hash}
             queryParams={query}
             onClick={handleEventClick}
@@ -312,7 +322,8 @@ export const EventsPanelBox: React.FC<EventsPanelBoxProps> = ({
             sort: { field: "createdAt", order: "DESC" },
             filter: { ids: query.groups },
           },
-          true
+          true,
+          `events-groups-${query.hash}`
         ),
         actors: useActorsQuery(
           {
@@ -320,7 +331,8 @@ export const EventsPanelBox: React.FC<EventsPanelBoxProps> = ({
             sort: { field: "createdAt", order: "DESC" },
             filter: { ids: query.actors },
           },
-          true
+          true,
+          `events-actors-${query.hash}`
         ),
         keywords: useKeywordsQuery(
           {
@@ -328,7 +340,8 @@ export const EventsPanelBox: React.FC<EventsPanelBoxProps> = ({
             sort: { field: "createdAt", order: "DESC" },
             filter: { ids: query.keywords },
           },
-          true
+          true,
+          `events-keywords-${query.hash}`
         ),
       }}
       render={({
