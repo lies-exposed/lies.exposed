@@ -35,7 +35,7 @@ export const MediaBox: React.FC<MediaBoxProps> = ({
           {
             filter,
             pagination: {
-              perPage: limit || perPage,
+              perPage: limit ?? perPage,
               page: limit ? 1 : page,
             },
           },

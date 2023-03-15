@@ -134,6 +134,7 @@ export const routes = [
       },
       {
         queryKey: getGroupsQueryKey(
+          `groups`,
           {
             pagination: { page: 1, perPage: 20 },
             sort: { field: "id", order: "ASC" },
@@ -163,6 +164,7 @@ export const routes = [
       },
       {
         queryKey: getGroupsQueryKey(
+          `actor-${actorId}`,
           {
             pagination: { perPage: 20, page: 1 },
             sort: { field: "createdAt", order: "DESC" },
@@ -192,7 +194,7 @@ export const routes = [
         queryFn: fetchPageContentByPath,
       },
       {
-        queryKey: getActorsQueryKey(queryParams, false),
+        queryKey: getActorsQueryKey(`actors`, queryParams, false),
         queryFn: fetchActors,
       },
     ],
@@ -222,6 +224,7 @@ export const routes = [
         },
         {
           queryKey: getActorsQueryKey(
+            `event-actors`,
             {
               filter: {
                 ids: actors,
@@ -279,6 +282,7 @@ export const routes = [
         },
         {
           queryKey: getKeywordsQueryKey(
+            `event-keywords`,
             {
               pagination: { page: 1, perPage: keywords.length },
               filter: {
@@ -351,6 +355,7 @@ export const routes = [
         },
         {
           queryKey: getActorsQueryKey(
+            `events-actors`,
             {
               pagination: { page: 1, perPage: q.actors.length },
               filter: { ids: q.actors },
@@ -361,6 +366,7 @@ export const routes = [
         },
         {
           queryKey: getGroupsQueryKey(
+            `events-groups`,
             {
               pagination: { page: 1, perPage: q.groups.length },
               filter: { ids: q.groups },
@@ -381,6 +387,7 @@ export const routes = [
         },
         {
           queryKey: getKeywordsQueryKey(
+            `events-keywords`,
             {
               pagination: { page: 1, perPage: q.keywords.length },
               sort: { field: "updatedAt", order: "DESC" },
@@ -535,6 +542,7 @@ export const routes = [
         },
         {
           queryKey: getKeywordsQueryKey(
+            `story-${story.path}`,
             {
               pagination: {
                 perPage: story.keywords.length,
