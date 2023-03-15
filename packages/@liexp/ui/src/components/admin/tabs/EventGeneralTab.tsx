@@ -1,7 +1,8 @@
 import * as React from "react";
-import { BooleanInput, DateField, DateInput, TextField } from "react-admin";
+import { BooleanInput, DateField, DateInput } from "react-admin";
 import { Box, Grid } from "../../mui";
 import ReactPageInput from "../ReactPageInput";
+import { EventTypeInput } from '../common/inputs/EventTypeInput';
 import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput";
 
 export const EventGeneralTab: React.FC<React.PropsWithChildren> = ({
@@ -17,7 +18,7 @@ export const EventGeneralTab: React.FC<React.PropsWithChildren> = ({
           flexDirection: "column",
         }}
       >
-        <TextField source="type" />
+        <EventTypeInput source="type" />
         <BooleanInput source="draft" />
       </Grid>
       <Grid item {...{ md: 2, lg: 2 }}>

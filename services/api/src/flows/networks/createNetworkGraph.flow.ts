@@ -1,7 +1,7 @@
 import { fp } from "@liexp/core/fp";
 import {
   getColorByEventType,
-  getEventsMetadata,
+  getEventMetadata,
   takeEventRelations,
 } from "@liexp/shared/helpers/event/event";
 import { getTitleForSearchEvent } from "@liexp/shared/helpers/event/getTitle.helper";
@@ -129,7 +129,7 @@ export const getEventGraph = (
         groups: eventGroups,
         keywords: eventKeywords,
         media: eventMedia,
-      } = getEventsMetadata(e);
+      } = getEventMetadata(e);
 
       const eventTitle = getTitleForSearchEvent(e);
 

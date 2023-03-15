@@ -1,6 +1,6 @@
 import * as http from "../../io/http";
 import { type SearchEvent } from "../../io/http/Events";
-import { type EventRelations } from "./event";
+import { type EventRelations } from "./types";
 
 export const getTitle = (
   e: http.Events.Event,

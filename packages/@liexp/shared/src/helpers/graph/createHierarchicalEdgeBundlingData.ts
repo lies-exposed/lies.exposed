@@ -9,7 +9,7 @@ import { pipe } from "fp-ts/function";
 import * as S from "fp-ts/string";
 import { type Actor, type Events, type Group, type Keyword, Stats } from "../../io/http";
 import { type UUID } from "../../io/http/Common";
-import { getEventsMetadata } from "../event/event";
+import { getEventMetadata } from "../event/event";
 
 const logger = GetLogger("hierarchy-edge-bundling");
 
@@ -69,7 +69,7 @@ export const createHierarchicalEdgeBundling = ({
         actors: eventActors,
         groups: eventGroups,
         keywords: eventKeywords,
-      } = getEventsMetadata(e);
+      } = getEventMetadata(e);
 
       logger.debug.log("event %O", e);
       logger.debug.log("relations %O", {

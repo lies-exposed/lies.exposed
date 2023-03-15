@@ -1,13 +1,10 @@
-import { Events } from "@liexp/shared/io/http";
 import * as React from "react";
 import {
   Datagrid,
-  DateInput,
-  type EditProps,
-  type RaRecord,
-  ReferenceArrayField,
+  DateInput, ReferenceArrayField,
   TextField,
-  TextInput,
+  TextInput, type EditProps,
+  type RaRecord
 } from "react-admin";
 import { Box, Grid } from "../../mui";
 import ReferenceArrayActorInput from "../actors/ReferenceArrayActorInput";
@@ -32,12 +29,6 @@ export const UncategorizedEventEditTab: React.FC<
           <Grid container>
             <Grid item md={6}>
               <Box>
-                <TextInput
-                  source={source("type")}
-                  defaultValue={Events.Uncategorized.UNCATEGORIZED.value}
-                  hidden={true}
-                />
-
                 <DateInput source={source("payload.endDate")} />
               </Box>
             </Grid>

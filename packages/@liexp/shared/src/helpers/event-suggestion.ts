@@ -5,7 +5,7 @@ import { type Metadata } from "page-metadata-parser";
 import { http } from "../io";
 import { createExcerptValue } from "../slate";
 import { uuid } from "../utils/uuid";
-import { type EventRelationIds } from "./event/event";
+import { type EventRelationIds } from "./event/types";
 
 export const getSuggestions = (
   m: Metadata,

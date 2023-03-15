@@ -1,7 +1,7 @@
 import { getTitleForSearchEvent } from "@liexp/shared/helpers/event";
 import {
   eqByUUID,
-  getEventsMetadata,
+  getEventMetadata,
   ordEventDate
 } from "@liexp/shared/helpers/event/event";
 import {
@@ -567,7 +567,7 @@ export function createEventNetworkGraphProps({
           actors: eventActors,
           groups: eventGroups,
           keywords: eventKeywords,
-        } = getEventsMetadata(e);
+        } = getEventMetadata(e);
 
         const eventTitle = getTitleForSearchEvent(e);
 
