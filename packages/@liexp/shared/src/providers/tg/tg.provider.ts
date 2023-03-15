@@ -10,6 +10,9 @@ export interface TGBotProvider {
   ) => TE.TaskEither<Error, TelegramBot.Message>;
   post: (text: string) => TE.TaskEither<Error, any>;
   postPhoto: (image: string, caption: string) => TE.TaskEither<Error, any>;
+  postMediaGroup: (
+    media: readonly TelegramBot.InputMedia[]
+  ) => TE.TaskEither<Error, TelegramBot.Message>;
   onMessage: (
     f: (message: TelegramBot.Message, metadata: TelegramBot.Metadata) => void
   ) => void;
@@ -72,32 +75,29 @@ export const TGBotProvider = (
       );
     },
     post: (text) => {
-      return TE.tryCatch(
-        () =>
-          bot.sendMessage(opts.chat, text, {
-            parse_mode: "HTML",
-            disable_web_page_preview: false,
-          }),
-        toTGError
+      return liftTGTE(() =>
+        bot.sendMessage(opts.chat, text, {
+          parse_mode: "HTML",
+          disable_web_page_preview: false,
+        })
       );
     },
     postPhoto: (image, caption) => {
-      return TE.tryCatch(
-        () =>
-          bot.sendPhoto(opts.chat, image, {
-            caption,
-            parse_mode: "HTML",
-          }),
-        toTGError
+      return liftTGTE(() =>
+        bot.sendPhoto(opts.chat, image, {
+          caption,
+          parse_mode: "HTML",
+        })
       );
     },
-    onMessage: (
-      f: (message: TelegramBot.Message, metadata: TelegramBot.Metadata) => void
-    ) => {
+    postMediaGroup(media) {
+      return liftTGTE(() => bot.sendMediaGroup(opts.chat, media));
+    },
+    onMessage: (f) => {
       bot.on("message", f);
     },
-    stopPolling: (opts: TelegramBot.StopPollingOptions) => {
-      return TE.tryCatch(() => bot.stopPolling(opts), toTGError);
+    stopPolling: (opts) => {
+      return liftTGTE(() => bot.stopPolling(opts));
     },
   };
 };
