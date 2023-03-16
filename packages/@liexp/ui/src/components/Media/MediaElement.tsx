@@ -46,6 +46,7 @@ export interface MediaElementProps {
   onLoad?: () => void;
   enableDescription?: boolean;
   disableZoom?: boolean;
+  onClick?: () => void
 }
 
 const MediaElement: React.FC<MediaElementProps> = ({

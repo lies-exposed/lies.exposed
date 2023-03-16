@@ -2,23 +2,23 @@ import { fp } from "@liexp/core/fp";
 import { getEventCommonProps } from "@liexp/shared/helpers/event";
 import { getRelationIds, transform } from "@liexp/shared/helpers/event/event";
 import { Events } from "@liexp/shared/io/http";
-import {
-  toAPIError
-} from "@liexp/shared/providers/http/http.provider";
+import { toAPIError } from "@liexp/shared/providers/http/http.provider";
 import { sequenceS } from "fp-ts/lib/Apply";
 import { pipe } from "fp-ts/lib/function";
 import { get } from "lodash";
 import * as React from "react";
 import {
-  Button, useDataProvider,
+  Button,
+  useDataProvider,
   useRecordContext,
-  useRefresh, type FieldProps
+  useRefresh,
+  type FieldProps,
 } from "react-admin";
 import { foldTE } from "../../../../providers/DataProvider";
 import { fetchRelations } from "../../../../state/queries/SearchEventsQuery";
 import {
   fetchLinks,
-  getLinkQueryKey
+  getLinkQueryKey,
 } from "../../../../state/queries/link.queries";
 import { Box, MenuItem, Select, type SelectChangeEvent } from "../../../mui";
 
@@ -72,7 +72,7 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
           transform(event, type, {
             ...common,
             ...getRelationIds(event),
-            links: relations.links.data.map(l => l.url as any),
+            links: relations.links.data.map((l) => l.url as any),
           })
         )
       ),
@@ -111,7 +111,9 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
       <Button
         label="Transform"
         disabled={value === type}
-        onClick={doTransform}
+        onClick={() => {
+          void doTransform();
+        }}
       />
     </Box>
   );

@@ -52,4 +52,9 @@ MediaListExample.args = {
   onItemClick: () => {},
 };
 
-export { MediaListExample as MediaList };
+const HideDescription = Template.bind({});
+HideDescription.args = {
+  hideDescription: true,
+};
+
+export { MediaListExample as MediaList, HideDescription };
