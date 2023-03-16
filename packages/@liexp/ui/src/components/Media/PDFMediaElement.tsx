@@ -38,6 +38,7 @@ interface PDFMediaElementProps {
   media: Omit<Media.Media, "type"> & { type: Media.PDFType };
   style?: React.CSSProperties;
   onLoad?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
 const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
@@ -45,6 +46,7 @@ const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
   className,
   onLoad,
   style,
+  onClick,
   ...props
 }) => {
   const [open, setOpen] = React.useState(false);
@@ -57,22 +59,25 @@ const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
       justifyContent="center"
       style={style}
       onLoad={onLoad}
+      onClick={onClick}
     >
       {media.thumbnail ? (
         <img className={className} src={media.thumbnail} />
       ) : null}
-      <Button
-        variant="contained"
-        style={{
-          position: "absolute",
-        }}
-        onClick={() => {
-          setOpen(true);
-        }}
-        color="primary"
-      >
-        Open PDF
-      </Button>
+      {!onClick ? (
+        <Button
+          variant="contained"
+          style={{
+            position: "absolute",
+          }}
+          onClick={() => {
+            setOpen(true);
+          }}
+          color="primary"
+        >
+          Open PDF
+        </Button>
+      ) : null}
 
       <Modal
         open={open}

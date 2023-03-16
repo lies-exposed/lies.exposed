@@ -44,7 +44,7 @@ const StyledBox = styled(Box)({
   [`& .${classes.media}`]: {
     maxWidth: "100%",
     width: "100%",
-    height: "100%",
+    // height: "100%",
     objectFit: "contain",
   },
   [`& .${classes.description}`]: {
@@ -84,6 +84,7 @@ export const MediaListItem: React.ForwardRefRenderFunction<
           media={item}
           enableDescription={!hideDescription}
           disableZoom={disableZoom}
+          onClick={onClick ? () => { onClick(item); } : undefined}
         />
       </Box>
     </StyledBox>
@@ -168,7 +169,8 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
       itemStyle,
       gutterSize = 20,
       columns = 4,
-      ...props
+      hideDescription = true,
+      disableZoom = true,
     },
     ref
   ) => {
@@ -187,11 +189,12 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
               {media.map((m) => {
                 return (
                   <MediaListItemCell
-                    {...props}
                     key={m.id}
                     item={m}
                     onClick={onItemClick}
                     width={Math.floor(width / columns)}
+                    hideDescription={hideDescription}
+                    disableZoom={disableZoom}
                   />
                 );
               })}

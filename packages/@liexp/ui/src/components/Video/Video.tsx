@@ -31,6 +31,7 @@ interface VideoProps {
   loop: boolean;
   style?: React.CSSProperties;
   onLoad?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
 export const Video: React.FC<VideoProps> = ({
@@ -44,6 +45,7 @@ export const Video: React.FC<VideoProps> = ({
   muted,
   style,
   onLoad,
+  onClick,
 }) => {
   const [loaded, setLoaded] = React.useState(!(thumbnail !== undefined));
 
@@ -74,7 +76,11 @@ export const Video: React.FC<VideoProps> = ({
           thumbnail={thumbnail}
           onClick={(e) => {
             e.stopPropagation();
-            setLoaded(true);
+            if (onClick) {
+              onClick(e);
+            } else {
+              setLoaded(true);
+            }
           }}
           style={{
             width: "100%",
