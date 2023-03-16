@@ -12,13 +12,12 @@ export const MakeSignedUrlRoute = (r: Router, ctx: RouteContext): void => {
     GetSignedURL,
     ({ body: { resource, resourceId, ContentType } }) => {
       return pipe(
-        ctx.s3.getSignedUrl("putObject", {
+        ctx.s3.getSignedUrl({
           Bucket: ctx.env.SPACE_BUCKET,
           Key: `public/${resource}/${resourceId}/${uuid()}.${fileExtFromContentType(
             ContentType
           )}`,
-          ContentType,
-          ACL: "public-read",
+          ResponseContentType: ContentType,
         }),
         TE.map((url) => ({
           body: {

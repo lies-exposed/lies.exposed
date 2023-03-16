@@ -32,7 +32,7 @@ describe("LocalSpaceClient", () => {
       },
     });
 
-    const result = await localSpaceClient.getSignedUrl("putObject", {
+    const result = await localSpaceClient.getSignedUrl({
       Key,
       Bucket: "not-relevant",
     })();
