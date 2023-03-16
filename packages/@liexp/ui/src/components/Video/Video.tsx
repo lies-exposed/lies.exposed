@@ -47,7 +47,7 @@ export const Video: React.FC<VideoProps> = ({
   onLoad,
   onClick,
 }) => {
-  const [loaded, setLoaded] = React.useState(!(thumbnail !== undefined));
+  const [loaded, setLoaded] = React.useState(false);
 
   return (
     <Root
