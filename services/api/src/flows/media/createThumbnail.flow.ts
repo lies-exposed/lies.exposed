@@ -2,13 +2,13 @@ import fs from "fs";
 import path from "path";
 import {
   getPlatform,
-  type VideoPlatformMatch,
+  type VideoPlatformMatch
 } from "@liexp/shared/helpers/media";
 import { Media } from "@liexp/shared/io/http";
 import { toPuppeteerError } from "@liexp/shared/providers/puppeteer.provider";
 import {
   getMediaKey,
-  getMediaKeyFromLocation,
+  getMediaKeyFromLocation
 } from "@liexp/shared/utils/media.utils";
 import axios from "axios";
 import * as Canvas from "canvas";
@@ -16,12 +16,13 @@ import { sequenceS } from "fp-ts/Apply";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
+import * as t from "io-ts";
 import * as pdfJS from "pdfjs-dist/legacy/build/pdf";
 import { type Page } from "puppeteer-core";
 import {
   ServerError,
   toControllerError,
-  type ControllerError,
+  type ControllerError
 } from "@io/ControllerError";
 import { type RouteContext } from "@routes/route.types";
 
@@ -53,7 +54,8 @@ export const createFromRemote =
           ContentType: contentType,
         });
       }),
-      TE.map((r) => r.Location)
+      TE.map((r) => r.Location),
+      TE.filterOrElse(t.string.is, () => toControllerError(new Error()))
     );
   };
 
@@ -225,7 +227,8 @@ export const createThumbnail =
             ACL: "public-read",
           });
         }),
-        TE.map((s) => s.Location)
+        TE.map((s) => s.Location),
+        TE.filterOrElse(t.string.is, () => toControllerError(new Error()))
       );
     }
 
@@ -311,7 +314,7 @@ export const createThumbnail =
                 ACL: "public-read",
               });
             }),
-            TE.map((thumb) => thumb.Location),
+            TE.map(r => r.Location),
             TE.chainFirst(() =>
               TE.tryCatch(() => {
                 fs.rmSync(tempThumbnail);

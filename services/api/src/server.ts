@@ -2,7 +2,7 @@ import * as path from "path";
 import * as logger from "@liexp/core/logger";
 import { MakeURLMetadata } from "@liexp/shared/providers/URLMetadata.provider";
 import { GetFFMPEGProvider } from "@liexp/shared/providers/ffmpeg.provider";
-import { GetFSClient } from '@liexp/shared/providers/fs/fs.provider';
+import { GetFSClient } from "@liexp/shared/providers/fs/fs.provider";
 import { HTTP } from "@liexp/shared/providers/http/http.provider";
 import { GetJWTClient } from "@liexp/shared/providers/jwt/JWTClient";
 import { GetTypeORMClient } from "@liexp/shared/providers/orm";
@@ -10,7 +10,6 @@ import { GetPuppeteerProvider } from "@liexp/shared/providers/puppeteer.provider
 import { S3Client } from "@liexp/shared/providers/space";
 import { TGBotProvider } from "@liexp/shared/providers/tg/tg.provider";
 import { throwTE } from "@liexp/shared/utils/task.utils";
-import * as AWS from "aws-sdk";
 import axios from "axios";
 import cors from "cors";
 import express from "express";
@@ -27,14 +26,13 @@ import puppeteer from "puppeteer-core";
 import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
 import { upsertPinnedMessage } from "@flows/tg/upsertPinnedMessage.flow";
 import {
-  type ControllerError,
   DecodeError,
-  toControllerError,
+  toControllerError, type ControllerError
 } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
 import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.routes";
 import { MakeActorRoutes } from "@routes/actors/actors.routes";
-import { MakeAdminRoutes } from '@routes/admins/admin.routes';
+import { MakeAdminRoutes } from "@routes/admins/admin.routes";
 import { MakeAreasRoutes } from "@routes/areas/Areas.routes";
 import { MakeArticlesRoutes } from "@routes/articles/articles.route";
 import { MakeDeathEventsRoutes } from "@routes/events/deaths/death.routes";
@@ -79,26 +77,24 @@ export const makeContext = (
       const s3 =
         env.NODE_ENV === "development" || env.NODE_ENV === "test"
           ? S3Client.GetS3Client({
-              endpoint: new AWS.Endpoint(env.DEV_DATA_HOST),
+              endpoint: env.DEV_DATA_HOST,
               credentials: {
                 accessKeyId: env.SPACE_ACCESS_KEY_ID,
                 secretAccessKey: env.SPACE_ACCESS_KEY_SECRET,
               },
-              sslEnabled: false,
-              s3ForcePathStyle: true,
-              signatureVersion: "v4",
+              tls: true,
+              forcePathStyle: true,
             })
           : S3Client.GetS3Client({
-              endpoint: new AWS.Endpoint(
-                `${env.SPACE_REGION}.digitaloceanspaces.com`
-              ),
+              endpoint: `https://${env.SPACE_REGION}.digitaloceanspaces.com`,
               region: env.SPACE_REGION,
               credentials: {
                 accessKeyId: env.SPACE_ACCESS_KEY_ID,
                 secretAccessKey: env.SPACE_ACCESS_KEY_SECRET,
               },
-              signatureVersion: "v4",
+              tls: true,
             });
+
       return sequenceS(TE.ApplicativePar)({
         logger: TE.right(serverLogger),
         db: pipe(

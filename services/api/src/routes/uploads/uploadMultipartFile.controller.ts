@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { Readable } from "stream";
-import { UploadResource } from '@liexp/shared/endpoints/upload.endpoints';
+import { UploadResource } from "@liexp/shared/endpoints/upload.endpoints";
 import { getMediaKey } from "@liexp/shared/utils/media.utils";
 import { type Router } from "express";
 import * as T from "fp-ts/Task";
@@ -52,20 +51,19 @@ export const MakeUploadMultipartFileRoute = (
           ),
         }),
         TE.chain(({ body, file }) =>
-          ctx.s3.uploadMultipart(
-            {
-              Bucket: ctx.env.SPACE_BUCKET,
-              Key: getMediaKey(
-                body.resource,
-                body.key,
-                body.key,
-                file.mimetype as any
-              ),
-              ACL: 'public-read',
-            },
-            Readable.from(file.buffer)
-          )
+          ctx.s3.upload({
+            Bucket: ctx.env.SPACE_BUCKET,
+            Key: getMediaKey(
+              body.resource,
+              body.key,
+              body.key,
+              file.mimetype as any
+            ),
+            ACL: "public-read",
+            Body: file.buffer,
+          })
         ),
+        ctx.logger.debug.logInTaskEither(`Upload results %O`),
         TE.map((data) => ({
           body: {
             data,

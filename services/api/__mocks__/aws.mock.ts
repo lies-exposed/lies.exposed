@@ -1,10 +1,12 @@
-export const uploadPromise = jest.fn().mockResolvedValue(undefined);
-export const getObjectPromise = jest.fn().mockResolvedValue(undefined);
+jest.mock("@aws-sdk/client-s3");
 
-export const awsMock = {
-  getObject: jest.fn().mockResolvedValue(undefined),
-  upload: () => ({ promise: uploadPromise }),
-  createBucket: jest.fn().mockResolvedValue(undefined),
-  deleteObject: () => ({ promise: getObjectPromise }),
-  getSignedUrlPromise: jest.fn().mockRejectedValueOnce(undefined),
+const awsMock = {
+  config: {
+    requestHandler: { handle: jest.fn(), destroy: jest.fn(),  },
+    endpointProvider: () => ({ url: process.env.WEB_URL as any, }),
+    apiVersion: "v3",
+  } as any,
+  send: jest.fn().mockResolvedValue(undefined),
 };
+
+export { awsMock };
