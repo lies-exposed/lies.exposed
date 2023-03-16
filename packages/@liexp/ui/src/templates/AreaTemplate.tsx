@@ -6,7 +6,7 @@ import * as React from "react";
 import { AutoSizer } from "react-virtualized";
 import { AreaPageContent } from "../components/AreaPageContent";
 import Map from "../components/Map";
-import { Box, Container, Typography } from "../components/mui";
+import { Box, Typography } from "../components/mui";
 import { EventsPanel } from "../containers/EventsPanel";
 import { geoJSONFormat } from "../utils/map.utils";
 import { SplitPageTemplate } from "./SplitPageTemplate";
@@ -40,71 +40,76 @@ export const AreaTemplateUI: React.FC<AreaTemplateProps> = ({
   }, []);
 
   return (
-    <Container>
-      <SplitPageTemplate
-        tab={tab}
-        onTabChange={onTabChange}
-        aside={
-          <AutoSizer style={{ width: "100%", height: "100%" }}>
-            {({ width }) => {
-              return (
-                <Box>
-                  <Typography variant="h3">{area.label}</Typography>
-                  <Map
-                    id={`area-${area.id}`}
-                    width={width}
-                    height={200}
-                    features={features}
-                    center={[9.18951, 45.46427]}
-                    zoom={12}
-                    onMapClick={() => {}}
-                    controls={{
-                      zoom: false,
-                    }}
-                  />
-                </Box>
-              );
-            }}
-          </AutoSizer>
-        }
-        resource={{ name: "areas", item: area }}
-        tabs={[
-          {
-            label: "General",
-          },
-          {
-            label: "Events",
-          },
-        ]}
-      >
-        <AreaPageContent area={area} onGroupClick={() => {}} />
-        <EventsPanel
-          slide={false}
-          keywords={[]}
-          actors={[]}
-          groups={[]}
-          groupsMembers={[]}
-          query={{
-            hash: `area-${area.id}`,
-            startDate: undefined,
-            endDate: new Date().toDateString(),
-            actors: [],
-            groups: [],
-            groupsMembers: [],
-            media: [],
-            keywords: [],
-            locations: [area.id],
-            type: EventType.types.map((t) => t.value),
-            _sort: "createdAt",
-            _order: "DESC",
+    <SplitPageTemplate
+      tab={tab}
+      onTabChange={onTabChange}
+      aside={
+        <AutoSizer style={{ width: "100%", height: "100%" }}>
+          {({ width }) => {
+            return (
+              <Box
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                  textAlign: "right",
+                }}
+              >
+                <Typography variant="h3">{area.label}</Typography>
+                <Map
+                  id={`area-${area.id}`}
+                  width={width - width * 0.1}
+                  height={200}
+                  features={features}
+                  center={[9.18951, 45.46427]}
+                  zoom={12}
+                  onMapClick={() => {}}
+                  controls={{
+                    zoom: false,
+                  }}
+                />
+              </Box>
+            );
           }}
-          tab={0}
-          onQueryChange={(q, tab) => {
-            // navigateToResource.area({ id: actor.id }, { tab });
-          }}
-          onEventClick={(e) => {}}
-        />
-      </SplitPageTemplate>
-    </Container>
+        </AutoSizer>
+      }
+      resource={{ name: "areas", item: area }}
+      tabs={[
+        {
+          label: "General",
+        },
+        {
+          label: "Events",
+        },
+      ]}
+    >
+      <AreaPageContent area={area} onGroupClick={() => {}} />
+      <EventsPanel
+        slide={false}
+        keywords={[]}
+        actors={[]}
+        groups={[]}
+        groupsMembers={[]}
+        query={{
+          hash: `area-${area.id}`,
+          startDate: undefined,
+          endDate: new Date().toDateString(),
+          actors: [],
+          groups: [],
+          groupsMembers: [],
+          media: [],
+          keywords: [],
+          locations: [area.id],
+          type: EventType.types.map((t) => t.value),
+          _sort: "createdAt",
+          _order: "DESC",
+        }}
+        tab={0}
+        onQueryChange={(q, tab) => {
+          // navigateToResource.area({ id: actor.id }, { tab });
+        }}
+        onEventClick={(e) => {}}
+      />
+    </SplitPageTemplate>
   );
 };

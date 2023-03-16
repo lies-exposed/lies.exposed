@@ -1,4 +1,3 @@
-import { MainContent } from "@liexp/ui/components/MainContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
 import { Box } from "@liexp/ui/components/mui";
@@ -7,12 +6,11 @@ import { AreaTemplateUI } from "@liexp/ui/templates/AreaTemplate";
 import { useRouteQuery } from "@liexp/ui/utils/history.utils";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
-// import { useNavigateToResource } from "../utils/location.utils";
 
 const AreaTemplate: React.FC<{ areaId: string }> = ({ areaId }) => {
-  // const params = useParams();
   const navigateToResource = useNavigateToResource();
-  const { tab } = useRouteQuery({ tab: 0 });
+  const { tab: _tab = "0" } = useRouteQuery();
+  const tab = parseInt(_tab, 10);
 
   return (
     <QueriesRenderer
@@ -21,23 +19,21 @@ const AreaTemplate: React.FC<{ areaId: string }> = ({ areaId }) => {
       }}
       render={({ area }) => {
         return (
-          <Box>
-            <MainContent>
-              <SEO
-                title={area.label}
-                // image={area.avatar ?? ""}
-                urlPath={`areas/${area.id}`}
-              />
-              <AreaTemplateUI
-                area={area}
-                tab={tab}
-                onTabChange={(t) => {
-                  navigateToResource.areas({ id: area.id }, { tab: t });
-                }}
-                onAreaClick={() => {}}
-                onEventClick={() => {}}
-              />
-            </MainContent>
+          <Box style={{ width: "100%", height: "100%" }}>
+            <SEO
+              title={area.label}
+              // image={area.avatar ?? ""}
+              urlPath={`areas/${area.id}`}
+            />
+            <AreaTemplateUI
+              area={area}
+              tab={tab}
+              onTabChange={(t) => {
+                navigateToResource.areas({ id: area.id }, { tab: t });
+              }}
+              onAreaClick={() => {}}
+              onEventClick={() => {}}
+            />
           </Box>
         );
       }}
