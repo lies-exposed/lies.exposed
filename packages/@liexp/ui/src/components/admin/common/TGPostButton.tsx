@@ -337,7 +337,7 @@ export const MediaTGPostButton: React.FC<
         return {
           title: record.description,
           keywords,
-          media: record.thumbnail,
+          media: [record as any],
           date: record.createdAt,
           content: record.description,
           url,
