@@ -6,7 +6,7 @@ import { useTheme } from "../theme";
 import { EventRelations } from "./events/EventRelations";
 import { DefaultEventPageContent } from "./events/page-content/DefaultEventPageContent";
 import { QuoteEventPageContent } from "./events/page-content/QuoteEventPageContent";
-import { Box, Container, Grid, Link } from "./mui";
+import { Box, Grid, Link } from "./mui";
 
 export interface EventPageContentProps {
   event: http.Events.Event;
@@ -58,7 +58,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
 
         return (
           <Box className="event-page-content">
-            <Container>
+            
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <Grid container alignItems="flex-start">
@@ -89,7 +89,6 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                   </Grid>
                 </Grid>
               </Grid>
-            </Container>
           </Box>
         );
       }}
