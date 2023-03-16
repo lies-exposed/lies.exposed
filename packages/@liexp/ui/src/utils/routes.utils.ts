@@ -1,6 +1,6 @@
 import { type WindowLocation } from "@reach/router";
 import * as E from "fp-ts/Either";
-import { eqString } from "fp-ts/Eq";
+import * as S from "fp-ts/string";
 import * as R from "fp-ts/Record";
 import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
@@ -18,7 +18,7 @@ const queryStringOpts: querystring.ParseOptions = {
 const stripInvalid = (query: Record<string, any>): querystring.ParsedQuery => {
   return R.record.filter(query, (r) => {
     const isUndefined = t.undefined.is(r);
-    const isEmptyString = typeof r === "string" && eqString.equals(r, "");
+    const isEmptyString = typeof r === "string" && S.Eq.equals(r, "");
     return !isUndefined && !isEmptyString;
   });
 };

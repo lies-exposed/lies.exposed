@@ -1,5 +1,20 @@
+import {
+  type CompleteMultipartUploadCommandOutput,
+  CreateBucketCommand,
+  DeleteObjectCommand,
+  GetObjectCommand,
+  type CreateBucketCommandInput,
+  type CreateBucketCommandOutput,
+  type DeleteObjectCommandInput,
+  type DeleteObjectCommandOutput,
+  type GetObjectCommandInput,
+  type GetObjectCommandOutput,
+  type PutObjectCommandInput,
+  type S3Client,
+} from "@aws-sdk/client-s3";
+import { Upload } from "@aws-sdk/lib-storage";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import * as logger from "@liexp/core/logger";
-import type * as AWS from "aws-sdk";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { IOError } from "ts-io-error";
@@ -36,38 +51,26 @@ export const toError = (e: unknown): SpaceError => {
 
 export interface SpaceClient {
   createBucket: (
-    params: AWS.S3.Types.CreateBucketRequest
-  ) => TE.TaskEither<SpaceError, AWS.S3.CreateBucketOutput>;
+    params: CreateBucketCommandInput
+  ) => TE.TaskEither<SpaceError, CreateBucketCommandOutput>;
   getObject: (
-    params: AWS.S3.Types.GetObjectRequest
-  ) => TE.TaskEither<SpaceError, AWS.S3.GetObjectOutput>;
+    params: GetObjectCommandInput
+  ) => TE.TaskEither<SpaceError, GetObjectCommandOutput>;
+  // upload: (
+  //   params: PutObjectCommandInput
+  // ) => TE.TaskEither<SpaceError, PutObjectCommandOutput>;
   upload: (
-    params: AWS.S3.Types.PutObjectRequest,
-    opts?: AWS.S3.ManagedUpload.ManagedUploadOptions
-  ) => TE.TaskEither<SpaceError, AWS.S3.ManagedUpload.SendData>;
-  uploadMultipart: (
-    params: AWS.S3.Types.CreateMultipartUploadRequest,
-    stream: NodeJS.ReadableStream
-  ) => TE.TaskEither<SpaceError, AWS.S3.Types.CreateMultipartUploadOutput>;
+    params: PutObjectCommandInput
+  ) => TE.TaskEither<SpaceError, CompleteMultipartUploadCommandOutput & { Location: string }>;
   getSignedUrl: (
-    operation: "putObject",
-    params: AWS.S3.Types.PutObjectRequest
+    params: GetObjectCommandInput
   ) => TE.TaskEither<SpaceError, string>;
   deleteObject: (
-    params: AWS.S3.Types.DeleteObjectRequest
-  ) => TE.TaskEither<SpaceError, AWS.S3.DeleteObjectOutput>;
+    params: DeleteObjectCommandInput
+  ) => TE.TaskEither<SpaceError, DeleteObjectCommandOutput>;
 }
 
-export interface SpaceClientImpl {
-  getObject: AWS.S3["getObject"];
-  upload: AWS.S3["upload"];
-  createBucket: AWS.S3["createBucket"];
-  deleteObject: AWS.S3["deleteObject"];
-  getSignedUrlPromise: AWS.S3["getSignedUrlPromise"];
-  createMultipartUpload: AWS.S3["createMultipartUpload"];
-  completeMultipartUpload: AWS.S3["completeMultipartUpload"];
-  uploadPart: AWS.S3["uploadPart"];
-}
+export type SpaceClientImpl = S3Client;
 
 export interface MakeSpaceClientConfig {
   client: SpaceClientImpl;
@@ -75,135 +78,80 @@ export interface MakeSpaceClientConfig {
 
 export const MakeSpaceClient = (config: MakeSpaceClientConfig): SpaceClient => {
   return {
-    createBucket: (params: AWS.S3.Types.CreateBucketRequest) => {
-      return TE.tryCatch(
-        () => config.client.createBucket(params).promise(),
-        toError
-      );
+    createBucket: (input: CreateBucketCommandInput) => {
+      const params = new CreateBucketCommand(input);
+      return TE.tryCatch(() => config.client.send(params), toError);
     },
-    getSignedUrl: (operation, params) => {
+    getSignedUrl: (input) => {
       s3Logger.debug.log(
         "GetSignedUrl object from bucket %s with params %O",
-        operation,
-        params
+        input.Bucket,
+        input
       );
+      const params = new GetObjectCommand(input);
       return pipe(
-        TE.tryCatch(
-          () => config.client.getSignedUrlPromise(operation, params),
-          toError
-        ),
+        TE.tryCatch(() => getSignedUrl(config.client, params), toError),
         s3Logger.debug.logInTaskEither(`Get signed url %O`)
       );
     },
-    upload: (
-      params: AWS.S3.Types.PutObjectRequest,
-      opts?: AWS.S3.ManagedUpload.ManagedUploadOptions
-    ) => {
-      s3Logger.debug.log(
-        "Uploading file in bucket %s at path %s",
-        params.Bucket,
-        params.Key
-      );
+    // upload: (input: PutObjectCommandInput) => {
+    //   s3Logger.debug.log(
+    //     "Uploading file in bucket %s at path %s",
+    //     input.Bucket,
+    //     input.Key
+    //   );
+    //   const params = new PutObjectCommand(input);
+    //   return pipe(
+    //     TE.tryCatch(() => config.client.send(params), toError),
+    //     TE.map((result) => result)
+    //   );
+    // },
+    upload(input) {
       return pipe(
-        TE.tryCatch(
-          () => config.client.upload(params, opts).promise(),
-          toError
-        ),
-        TE.map((result) => result)
-      );
-    },
-    uploadMultipart(params, stream) {
-      return pipe(
-        TE.tryCatch(() => {
-          return config.client.createMultipartUpload(params).promise();
+        TE.tryCatch(async () => {
+          const parallelUploads3 = new Upload({
+            client: config.client,
+            params: { ...input },
+            queueSize: 4, // optional concurrency configuration
+            partSize: 1024 * 1024 * 5, // optional size of each part, in bytes, at least 5MB
+            leavePartsOnError: false, // optional manually handle dropped parts
+          });
+
+          return await parallelUploads3.done();
         }, toError),
-        TE.map((r) => r.UploadId),
         TE.filterOrElse(
-          (id): id is string => id !== undefined,
-          () => toError(new Error("Upload ID is missing"))
+          (
+            r: any
+          ): r is Omit<CompleteMultipartUploadCommandOutput, "Location"> & {
+            Location: string;
+          } => r.Location !== undefined,
+          () => toError(new Error(`Location is missing.`))
         ),
-        TE.chain((id) => {
-          const CHUNK_SIZE = 5000;
-
-          return TE.tryCatch(() => {
-            return new Promise<{ Parts: any[]; UploadId: string }>(
-              (resolve, reject) => {
-                let n = 0;
-                const uploadPartResults: any[] = [];
-                stream.on("data", (data) => {
-                  s3Logger.debug.log('Chunk %d', n);
-                  s3Logger.debug.log('Data %O', data);
-                  void config.client
-                    .uploadPart(
-                      {
-                        Key: params.Key,
-                        Bucket: params.Bucket,
-                        Body: data,
-                        UploadId: id,
-                        PartNumber: n,
-                      },
-                    )
-                    .promise()
-                    .then((rr) => {
-                      uploadPartResults.push({
-                        PartNumber: n,
-                        ETag: rr.ETag,
-                      });
-                      n++;
-                      stream.read(CHUNK_SIZE);
-                    });
-                });
-                stream.on("error", reject);
-                stream.on("end", () => {
-                  resolve({
-                    Parts: uploadPartResults,
-                    UploadId: id,
-                  });
-                });
-
-                stream.read(CHUNK_SIZE);
-              }
-            );
-          }, toError);
-        }),
-        TE.chain(({ Parts, UploadId }) => {
-          return TE.tryCatch(() => {
-            return config.client
-              .completeMultipartUpload({
-                Key: params.Key,
-                Bucket: params.Bucket,
-                MultipartUpload: {
-                  Parts,
-                },
-                UploadId,
-              })
-              .promise();
-          }, toError);
-        })
+        TE.map((l: any) => ({
+          ...l,
+          Location: l.Location ? `https://${l.Location}` : undefined,
+        }))
       );
     },
-    getObject: (params: AWS.S3.Types.GetObjectRequest) => {
+    getObject: (input: GetObjectCommandInput) => {
       s3Logger.debug.log(
         "Getting object from bucket %s at path %s",
-        params.Bucket,
-        params.Key
+        input.Bucket,
+        input.Key
       );
-      return TE.tryCatch(
-        () => config.client.getObject(params).promise(),
-        toError
-      );
+
+      const params = new GetObjectCommand(input);
+      return TE.tryCatch(() => config.client.send(params), toError);
     },
 
-    deleteObject: (params: AWS.S3.Types.DeleteObjectRequest) => {
+    deleteObject: (input) => {
       s3Logger.debug.log(
         "Deleting object from bucket %s at path %s",
-        params.Bucket,
-        params.Key
+        input.Bucket,
+        input.Key
       );
-      return TE.tryCatch(
-        () => config.client.deleteObject(params).promise(),
-        toError
-      );
+      const params = new DeleteObjectCommand(input);
+      return TE.tryCatch(() => config.client.send(params), toError);
     },
   };
 };

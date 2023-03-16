@@ -17,7 +17,7 @@ import type TelegramBot from "node-telegram-bot-api";
 import { Equal } from "typeorm";
 import puppeteerMocks from "../../../../__mocks__/puppeteer.mock";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
-import { saveUser, type UserTest } from '../../../../test/user.utils';
+import { saveUser, type UserTest } from "../../../../test/user.utils";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { LinkEntity } from "@entities/Link.entity";
 import { MediaEntity } from "@entities/Media.entity";
@@ -45,7 +45,6 @@ describe("Create From TG Message", () => {
     }
 
     admin = await saveUser(Test, [AdminCreate.value]);
-
   });
 
   afterAll(async () => {
@@ -170,7 +169,7 @@ describe("Create From TG Message", () => {
       );
 
       // mock s3 upload
-      Test.mocks.s3.upload().promise.mockImplementationOnce(() =>
+      Test.mocks.s3.send.mockImplementationOnce(() =>
         Promise.resolve({
           Key: fc.sample(fc.string(), 1)[0],
           Location: fc.sample(fc.webUrl(), 1)[0],
@@ -514,7 +513,7 @@ describe("Create From TG Message", () => {
           photos.length + videos.length
         );
         Test.mocks.tg.bot.downloadFile.mockReset();
-        Test.mocks.s3.upload().promise.mockReset();
+        Test.mocks.s3.send.mockReset();
 
         // // create the media
 
@@ -533,7 +532,7 @@ describe("Create From TG Message", () => {
           );
 
           // mock s3 upload
-          Test.mocks.s3.upload().promise.mockImplementationOnce(() =>
+          Test.mocks.s3.send.mockImplementationOnce(() =>
             Promise.resolve({
               Key: fc.sample(fc.string(), 1)[0],
               Location: fc.sample(fc.webUrl(), 1)[0],
@@ -556,9 +555,8 @@ describe("Create From TG Message", () => {
             .mockImplementationOnce(() => Promise.resolve(tempFileLocation));
 
           // mock s3 upload
-          Test.mocks.s3
-            .upload()
-            .promise.mockImplementationOnce((args) => {
+          Test.mocks.s3.send
+            .mockImplementationOnce((args) => {
               Test.ctx.logger.debug.log("Upload %O", args);
               return Promise.resolve({
                 Key: fc.sample(fc.string(), 1)[0],

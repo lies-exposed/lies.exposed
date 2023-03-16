@@ -1,4 +1,4 @@
-import * as qs from "querystring";
+import * as qs from "query-string";
 import { MP4Type, type MediaType } from "@liexp/shared/io/http/Media";
 import axios from "axios";
 import * as A from "fp-ts/Array";
@@ -79,7 +79,7 @@ export const uploadFile =
 
             return {
               type,
-              location: response.data.data.location,
+              location: response.data.Location,
             };
           });
       }, E.toError)
