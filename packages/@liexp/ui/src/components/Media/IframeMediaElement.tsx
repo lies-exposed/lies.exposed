@@ -30,6 +30,7 @@ interface IframeMediaElementProps {
   className?: string;
   style?: React.CSSProperties;
   onLoad?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
 const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
@@ -37,6 +38,7 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
   onLoad,
   style,
   className,
+  onClick,
   ...props
 }) => {
   const ref = React.useRef<HTMLIFrameElement | null>(null);
@@ -67,7 +69,11 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
           thumbnail={media.thumbnail}
           onClick={(e) => {
             e.stopPropagation();
-            setLoaded(true);
+            if (onClick) {
+              onClick(e);
+            } else {
+              setLoaded(true);
+            }
           }}
           onLoad={onLoad}
         />

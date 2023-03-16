@@ -49,7 +49,7 @@ const StyledModal = styled(Modal)(({ theme }) => ({
   },
   [`& .${modalClasses.image}`]: {
     width: "100%",
-    height: "auto",
+    height: "100%",
     maxHeight: 800,
     objectFit: "cover",
     margin: "auto",
@@ -63,7 +63,7 @@ const StyledModal = styled(Modal)(({ theme }) => ({
 const StyledBox = styled(Box)(({ theme }) => ({
   [`& .${boxClasses.image}`]: {
     width: "auto",
-    height: "auto",
+    height: "100%",
     maxWidth: "100%",
     maxHeight: 800,
     objectFit: "cover",
