@@ -127,11 +127,7 @@ export const MakeSpaceClient = (config: MakeSpaceClientConfig): SpaceClient => {
             Location: string;
           } => r.Location !== undefined,
           () => toError(new Error(`Location is missing.`))
-        ),
-        TE.map((l: any) => ({
-          ...l,
-          Location: l.Location ? `https://${l.Location}` : undefined,
-        }))
+        )
       );
     },
     getObject: (input: GetObjectCommandInput) => {
