@@ -1,4 +1,3 @@
-import * as qs from "query-string";
 import { MP4Type, type MediaType } from "@liexp/shared/io/http/Media";
 import axios from "axios";
 import * as A from "fp-ts/Array";
@@ -88,9 +87,7 @@ export const uploadFile =
     const othersTask = pipe(
       getSignedUrl(client)(resource, resourceId, type),
       TE.chain((url) => {
-        const [location, search] = url.data.url.split("?");
-
-        const headers = qs.parse(search);
+        const [location,] = url.data.url.split("?");
 
         return pipe(
           TE.tryCatch(
@@ -98,11 +95,11 @@ export const uploadFile =
               axios.put(url.data.url, f, {
                 timeout: 600 * 1000,
                 headers: {
-                  "Content-Type": "multipart/form-data",
+                  "Content-Type": f.type,
                   "Access-Control-Allow-Origin": "*",
                   "x-amz-acl": "public-read",
                   "Access-Control-Max-Age": "600",
-                  ...headers,
+                  // ...headers,
                 },
               }),
             E.toError

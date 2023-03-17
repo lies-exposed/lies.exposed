@@ -1,8 +1,8 @@
 import { type WindowLocation } from "@reach/router";
 import * as E from "fp-ts/Either";
-import * as S from "fp-ts/string";
 import * as R from "fp-ts/Record";
 import { pipe } from "fp-ts/function";
+import * as S from "fp-ts/string";
 import * as t from "io-ts";
 import * as querystring from "query-string";
 
