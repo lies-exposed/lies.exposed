@@ -11,10 +11,14 @@ export const PostSharePayloadToPlatformRoute: Route = (r, ctx) => {
     const title = `<a href="${body.url}"><b>${body.title}</b></a>`;
     const date = `<a href="${ctx.env.WEB_URL}/events?startDate=${body.date}">${body.date}</a>`;
     const keywords = `${body.keywords.map((k) => `#${k.tag}`).join(" ")}`;
-    const footer = `Submit a link to ${ctx.env.TG_BOT_USERNAME}`;
+    const submitLink = `Submit a link to ${ctx.env.TG_BOT_USERNAME}`;
     const publicChannels = [
       `${ctx.env.TG_BOT_CHAT}`,
-      `<a href="${ctx.env.WEB_URL}">lies.exposed (alpha)</a>`,
+      `<a href="${ctx.env.WEB_URL}">alpha.lies.exposed</a>`,
+    ];
+    const footer = [
+      submitLink,
+      "Follow us ".concat(publicChannels.join(" | ")),
     ];
 
     return [
@@ -24,10 +28,8 @@ export const PostSharePayloadToPlatformRoute: Route = (r, ctx) => {
       body.content,
       "\n",
       keywords,
-      footer,
-      "Follow us",
       "\n",
-      publicChannels.join(" | "),
+      ...footer,
     ].join("\n");
   };
 

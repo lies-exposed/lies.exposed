@@ -334,11 +334,14 @@ export const MediaTGPostButton: React.FC<
                 })
                 .then((data) => data.data)
             : await Promise.resolve([]);
+
+        const date = formatDate(parseISO(record.createdAt));
+
         return {
           title: record.description,
           keywords,
           media: [record as any],
-          date: record.createdAt,
+          date,
           content: record.description,
           url,
         };
