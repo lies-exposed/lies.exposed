@@ -92,14 +92,13 @@ export const TGBotProvider = (
       );
     },
     postMediaGroup(caption, media) {
+      logger.debug.log("Post media group %O", media);
       return pipe(
-        liftTGTE(() => bot.sendMediaGroup(opts.chat, media)),
-        TE.chainFirst((m) =>
-          liftTGTE(() =>
-            bot.editMessageText(caption, {
-              message_id: m.message_id,
-              parse_mode: "HTML",
-            })
+        liftTGTE(() =>
+          bot.sendMediaGroup(
+            opts.chat,
+            media.map((m) => ({ ...m, caption, parse_mode: "HTML" })),
+            { disable_notification: true }
           )
         )
       );
