@@ -17,7 +17,7 @@ export const MakeSignedUrlRoute = (r: Router, ctx: RouteContext): void => {
           Key: `public/${resource}/${resourceId}/${uuid()}.${fileExtFromContentType(
             ContentType
           )}`,
-          ResponseContentType: ContentType,
+          ContentType,
         }),
         TE.map((url) => ({
           body: {
