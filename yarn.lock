@@ -3945,7 +3945,7 @@ __metadata:
     "@react-page/react-admin": ^5.4.3
     "@types/bs58": ^4.0.1
     "@types/fluent-ffmpeg": ^2.1.21
-    "@types/jest": ^29.4.2
+    "@types/jest": ^29.5.0
     "@types/jsonwebtoken": ^9.0.1
     "@types/node-telegram-bot-api": ^0.61.3
     "@types/prettier": ^2.7.2
@@ -4041,7 +4041,7 @@ __metadata:
     "@types/d3": ^7.4.0
     "@types/d3-sankey": ^0.12.1
     "@types/eslint": ^8.21.2
-    "@types/jest": ^29.4.2
+    "@types/jest": ^29.5.0
     "@types/ol": ^7.0.0
     "@types/prettier": ^2.7.2
     "@types/reach__router": ^1.3.11
@@ -7714,13 +7714,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:*, @types/jest@npm:^29.4.2":
-  version: 29.4.2
-  resolution: "@types/jest@npm:29.4.2"
+"@types/jest@npm:*, @types/jest@npm:^29.5.0":
+  version: 29.5.0
+  resolution: "@types/jest@npm:29.5.0"
   dependencies:
     expect: ^29.0.0
     pretty-format: ^29.0.0
-  checksum: 83ec002d289c49c9693c619363e6db036db95426fcfa5e8e18b8291b721702bb8b3f711499f15a1d75c8fd92dc4184a24dfcc16a7b4fcde88c3c4f898240b58a
+  checksum: cd877e5c56d299cceb8bfdcbb1a77723c706750dd3c3bc47403bc3599b8faff590a3b009c68bb5b11bf7a8c77d1fb01de5e124329b4a08e65f1cdda28b0ecdb8
   languageName: node
   linkType: hard
 
@@ -9184,7 +9184,7 @@ __metadata:
     "@testing-library/react": ^13.4.0
     "@testing-library/user-event": ^14.4.3
     "@types/debug": ^4.1.7
-    "@types/jest": ^29.4.2
+    "@types/jest": ^29.5.0
     "@types/lodash": ^4.14.191
     "@types/node": ^16.18.16
     "@types/prettier": ^2.7.2
@@ -9526,7 +9526,7 @@ __metadata:
     "@types/express": ^4.17.17
     "@types/express-jwt": ^7.4.2
     "@types/fluent-ffmpeg": ^2.1.21
-    "@types/jest": ^29.4.2
+    "@types/jest": ^29.5.0
     "@types/jsonwebtoken": ^9.0.1
     "@types/module-alias": ^2.0.1
     "@types/multer": ^1.4.7
@@ -19240,18 +19240,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mini-css-extract-plugin@npm:*":
-  version: 2.7.3
-  resolution: "mini-css-extract-plugin@npm:2.7.3"
-  dependencies:
-    schema-utils: ^4.0.0
-  peerDependencies:
-    webpack: ^5.0.0
-  checksum: 9f3a25c1298280d40e56552e5cfd7f84fea25ddd8530bd8ecfd6b08caffe59a1c55c020f1f3c8beb7c04f5e92ce71ed43a52a72deed5570c686316348f13b6f4
-  languageName: node
-  linkType: hard
-
-"mini-css-extract-plugin@npm:^2.7.5":
+"mini-css-extract-plugin@npm:*, mini-css-extract-plugin@npm:^2.7.5":
   version: 2.7.5
   resolution: "mini-css-extract-plugin@npm:2.7.5"
   dependencies:
