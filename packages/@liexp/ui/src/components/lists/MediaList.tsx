@@ -23,7 +23,6 @@ const classes = {
 const StyledBox = styled(Box)({
   [`&.${classes.root}`]: {
     width: "100%",
-    maxWidth: 300,
     display: "flex",
     flexDirection: "column",
     "&:hover": {
