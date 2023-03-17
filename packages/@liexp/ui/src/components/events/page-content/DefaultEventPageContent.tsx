@@ -36,8 +36,11 @@ export const DefaultEventPageContent: React.FC<
           mediaLayout === "masonry" ? (
             <MediaList
               media={media.map((m) => ({ ...m, selected: true }))}
-              columns={2}
+              columns={media.length > 3 ? 3 : media.length}
               onItemClick={onMediaClick}
+              itemStyle={{
+                maxWidth: 800
+              }}
               hideDescription={true}
             />
           ) : mediaLayout === "slider" ? (
