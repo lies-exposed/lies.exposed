@@ -11,6 +11,7 @@ import {
   type GetObjectCommandOutput,
   type PutObjectCommandInput,
   type S3Client,
+  PutObjectCommand
 } from "@aws-sdk/client-s3";
 import { Upload } from "@aws-sdk/lib-storage";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
@@ -63,7 +64,7 @@ export interface SpaceClient {
     params: PutObjectCommandInput
   ) => TE.TaskEither<SpaceError, CompleteMultipartUploadCommandOutput & { Location: string }>;
   getSignedUrl: (
-    params: GetObjectCommandInput
+    params: PutObjectCommandInput
   ) => TE.TaskEither<SpaceError, string>;
   deleteObject: (
     params: DeleteObjectCommandInput
@@ -88,7 +89,7 @@ export const MakeSpaceClient = (config: MakeSpaceClientConfig): SpaceClient => {
         input.Bucket,
         input
       );
-      const params = new GetObjectCommand(input);
+      const params = new PutObjectCommand({...input });
       return pipe(
         TE.tryCatch(() => getSignedUrl(config.client, params), toError),
         s3Logger.debug.logInTaskEither(`Get signed url %O`)
