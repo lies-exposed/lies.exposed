@@ -17166,7 +17166,7 @@ __metadata:
     is-ci: ^3.0.1
     jest: ^29.5.0
     lint-staged: ^13.2.0
-    pm2: ^5.2.2
+    pm2: ^5.3.0
     prettier: ^2.8.4
     terser: ^5.16.6
     ts-jest: ^29.0.5
@@ -19894,9 +19894,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pm2@npm:^5.2.2":
-  version: 5.2.2
-  resolution: "pm2@npm:5.2.2"
+"pm2@npm:^5.3.0":
+  version: 5.3.0
+  resolution: "pm2@npm:5.3.0"
   dependencies:
     "@pm2/agent": ~2.0.0
     "@pm2/io": ~5.0.0
@@ -19936,7 +19936,7 @@ __metadata:
     pm2-dev: bin/pm2-dev
     pm2-docker: bin/pm2-docker
     pm2-runtime: bin/pm2-runtime
-  checksum: 091213dc7fc220b814e91dea35525f6b37f3d27081345be82b42873c605055f339bec67287ab70a3d41c62fe2d3edbd58722f4b2c4aa5a3d5479d5e4900b0057
+  checksum: ca1a655ab11b8aa8f7c10098578e7f0ed508fb19fae02694c5478f4167a75cb150eb2c305d734b7420696b70193bb765ffbbca498d2ce427f85ae9d25ef19842
   languageName: node
   linkType: hard
 
