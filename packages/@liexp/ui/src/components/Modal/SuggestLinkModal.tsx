@@ -56,7 +56,11 @@ export const SuggestLinkModal: React.FC<SuggestLinkModalProps> = ({
     <StyledModal
       className={classes.modal}
       open={open ?? false}
-      onClose={onClose}
+      onClose={() => {
+        setLink(undefined);
+        setUrl("");
+        onClose();
+      }}
     >
       <Box className={classes.paper}>
         <Box className={classes.closeIconBox}>
