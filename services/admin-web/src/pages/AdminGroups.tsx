@@ -144,7 +144,7 @@ const transformGroup =
         ...data,
         excerpt: data.excerpt ?? undefined,
         avatar: locations[0].location,
-        startDate: data.startDate.includes("T")
+        startDate: data.startDate?.includes("T")
           ? data.startDate
           : parseDate(data.startDate).toISOString(),
           endDate: data.endDate.includes("T")
