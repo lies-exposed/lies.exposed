@@ -1,12 +1,17 @@
 import { fp } from "@liexp/core/fp";
+import { ACTORS } from "@liexp/shared/io/http/Actor";
 import { type SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
+import { GROUPS } from "@liexp/shared/io/http/Group";
+import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
+import { formatDate } from "@liexp/shared/utils/date";
+import { subMonths } from "date-fns";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import QueriesRenderer from "../components/QueriesRenderer";
 import SEO from "../components/SEO";
-import EventsAppBar from "../components/events/EventsAppBar";
 import EventsTimeline from "../components/lists/EventList/EventsTimeline";
 import { Box, Grid } from "../components/mui";
+import EventsAppBarBox from "../containers/EventsAppBarBox";
 import { EventNetworkGraphBox } from "../containers/graphs/EventNetworkGraphBox";
 import { useGroupMembersQuery } from "../state/queries/DiscreteQueries";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
@@ -195,6 +200,19 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
           filterGroupsMembers,
           filterKeywords,
         }) => {
+          const selectedKeywordIds = pipe(
+            fp.NEA.fromArray(filterKeywords.data.map((d) => d.id)),
+            fp.O.toUndefined
+          );
+          const selectedActorIds = pipe(
+            fp.NEA.fromArray(filterActors.data.map((a) => a.id)),
+            fp.O.toUndefined
+          );
+          const selectedGroupIds = pipe(
+            fp.NEA.fromArray(filterGroups.data.map((a) => a.id)),
+            fp.O.toUndefined
+          );
+
           return (
             <Box
               className={classes.root}
@@ -206,22 +224,34 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
             >
               <SplitPageTemplate
                 aside={
-                  <EventsAppBar
+                  <EventsAppBarBox
                     hash={hash}
                     defaultExpanded={true}
                     query={{ ...params, slide, hash }}
-                    actors={filterActors.data}
-                    groups={filterGroups.data}
-                    groupsMembers={filterGroupsMembers.data}
-                    keywords={filterKeywords.data}
+                    actors={filterActors.data.map((i) => ({
+                      ...i,
+                      selected: true,
+                    }))}
+                    groups={filterGroups.data.map((i) => ({
+                      ...i,
+                      selected: true,
+                    }))}
+                    groupsMembers={filterGroupsMembers.data.map((i) => ({
+                      ...i,
+                      selected: true,
+                    }))}
+                    keywords={filterKeywords.data.map((i) => ({
+                      ...i,
+                      selected: true,
+                    }))}
                     onQueryChange={(u) => {
                       onQueryChange(u, tab);
                     }}
                     onQueryClear={onQueryClear}
                     layout={{
                       eventTypes: 12,
-                      dateRangeBox: 12,
-                      relations: 12
+                      dateRangeBox: { columns: 12, variant: "picker" },
+                      relations: 12,
                     }}
                   />
                 }
@@ -287,22 +317,21 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                 />
                 <Box style={{ height: 600 }}>
                   <EventNetworkGraphBox
+                    relations={[KEYWORDS.value, GROUPS.value, ACTORS.value]}
                     query={{
-                      keywords: pipe(
-                        fp.NEA.fromArray(filterKeywords.data.map((d) => d.id)),
-                        fp.O.toUndefined
-                      ),
-                      actors: pipe(
-                        fp.NEA.fromArray(filterActors.data.map((a) => a.id)),
-                        fp.O.toUndefined
-                      ),
-                      groups: pipe(
-                        fp.NEA.fromArray(filterGroups.data.map((a) => a.id)),
-                        fp.O.toUndefined
-                      ),
-                      startDate: params.startDate,
-                      endDate: params.endDate,
+                      ...params,
+                      ids: undefined,
+                      keywords: selectedKeywordIds,
+                      actors: selectedActorIds,
+                      groups: selectedGroupIds,
+                      startDate:
+                        params.startDate ??
+                        formatDate(subMonths(new Date(), 1)),
+                      endDate: params.endDate ?? formatDate(new Date()),
                     }}
+                    selectedKeywordIds={selectedKeywordIds}
+                    selectedActorIds={selectedActorIds}
+                    selectedGroupIds={selectedGroupIds}
                     type="events"
                     onEventClick={onEventClick}
                     onActorClick={(a) => {

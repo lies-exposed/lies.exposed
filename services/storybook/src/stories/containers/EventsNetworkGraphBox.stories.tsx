@@ -1,16 +1,17 @@
 import { ACTORS } from "@liexp/shared/io/http/Actor";
 import { GROUPS } from "@liexp/shared/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
+import { formatDate } from "@liexp/shared/utils/date";
 import { AutocompleteActorInput } from "@liexp/ui/components/Input/AutocompleteActorInput";
 import { AutocompleteGroupInput } from "@liexp/ui/components/Input/AutocompleteGroupInput";
 import { AutocompleteKeywordInput } from "@liexp/ui/components/Input/AutocompleteKeywordInput";
 import { Box } from "@liexp/ui/components/mui";
 import {
   EventNetworkGraphBox,
-  type EventNetworkGraphBoxProps
+  type EventNetworkGraphBoxProps,
 } from "@liexp/ui/containers/graphs/EventNetworkGraphBox";
 import { type Meta, type Story } from "@storybook/react/types-6-0";
-import { subWeeks } from 'date-fns';
+import { subWeeks } from "date-fns";
 import * as React from "react";
 
 const meta: Meta = {
@@ -32,7 +33,9 @@ const Template: Story<EventNetworkGraphBoxProps> = ({
   query: { ids, ...query },
   ...props
 }) => {
-  const [items, setItem] = React.useState<any>(ids ? ids.map(id => ({ id })) : []);
+  const [items, setItem] = React.useState<any>(
+    ids ? ids.map((id) => ({ id })) : []
+  );
 
   const inputProps = {
     style: { width: "100%" },
@@ -68,7 +71,6 @@ const Template: Story<EventNetworkGraphBoxProps> = ({
           <EventNetworkGraphBox
             {...props}
             query={{
-              startDate: subWeeks(new Date(), 10).toISOString(),
               ...query,
               ids,
             }}
@@ -81,11 +83,17 @@ const Template: Story<EventNetworkGraphBoxProps> = ({
 
 const EventsByActors = Template.bind({});
 
+const commonQuery = {
+  startDate: formatDate(subWeeks(new Date(), 10)),
+  endDate: formatDate(new Date()),
+};
+
 EventsByActors.args = {
   count: 20,
   type: ACTORS.value,
+  relations: [ACTORS.value],
   query: {
-    relations: [ACTORS.value],
+    ...commonQuery,
     ids: ["4163db78-67ca-4243-80fe-05ff920e70e1"],
   },
   // selectedActorIds: ["1bde0d49-03a1-411d-9f18-2e70a722532b"],
@@ -96,8 +104,9 @@ const EventsByKeywords = Template.bind({});
 EventsByKeywords.args = {
   count: 10,
   type: KEYWORDS.value,
+  relations: [GROUPS.value],
   query: {
-    relations: [GROUPS.value],
+    ...commonQuery,
     ids: ["fe502631-ef4e-4dfc-a1ff-c2cd04f3ff6d"],
   },
 };
@@ -107,8 +116,9 @@ const EventsByGroups = Template.bind({});
 EventsByGroups.args = {
   count: 10,
   type: GROUPS.value,
+  relations: [GROUPS.value],
   query: {
-    relations: [GROUPS.value],
+    ...commonQuery,
     ids: ["3879feae-a4f8-4f12-ad8d-3f199050afcd"],
   },
 };
@@ -116,8 +126,8 @@ EventsByGroups.args = {
 const EventsTimelineNetwork = Template.bind({});
 EventsTimelineNetwork.args = {
   type: "events",
+  relations: [GROUPS.value],
   query: {
-    relations: [GROUPS.value],
     startDate: subWeeks(new Date(), 5).toISOString(),
     endDate: new Date().toISOString(),
   },
@@ -126,8 +136,9 @@ EventsTimelineNetwork.args = {
 const OneEventNetwork = Template.bind({});
 OneEventNetwork.args = {
   type: "events",
+  relations: [GROUPS.value],
   query: {
-    relations: [GROUPS.value],
+    ...commonQuery,
     ids: ["c82575ea-120e-467b-8d75-cbf7e49d721a"],
   },
 };

@@ -1,6 +1,7 @@
 import { type Actor, type Group, type Keyword } from "@liexp/shared/io/http";
 import { ACTORS } from "@liexp/shared/io/http/Actor";
-import { type SearchEvent } from "@liexp/shared/io/http/Events";
+import { EventType, type SearchEvent } from "@liexp/shared/io/http/Events";
+import { formatDate } from "@liexp/shared/utils/date";
 import subYears from "date-fns/subYears";
 import * as React from "react";
 import { ActorPageContent } from "../components/ActorPageContent";
@@ -9,7 +10,7 @@ import QueriesRenderer from "../components/QueriesRenderer";
 import SEO from "../components/SEO";
 import { Box } from "../components/mui";
 import { EventsPanelBox } from "../containers/EventsPanel";
-import { EventNetworkGraphBox } from "../containers/graphs/EventNetworkGraphBox";
+import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventNetworkGraphBox";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
 import { useGroupsQuery } from "../state/queries/groups.queries";
 import { SplitPageTemplate } from "./SplitPageTemplate";
@@ -115,17 +116,20 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
               />
 
               <Box style={{ height: 600 }}>
-                <EventNetworkGraphBox
+                <EventNetworkGraphBoxWithFilters
                   type={ACTORS.value}
                   query={{
                     ids: [actor.id],
-                    startDate: subYears(new Date(), 2).toISOString(),
+                    type: EventType.types.map((t) => t.value),
+                    startDate: formatDate(subYears(new Date(), 2)),
+                    endDate: formatDate(new Date()),
                   }}
                   selectedActorIds={[actor.id]}
                   onActorClick={onActorClick}
                   onGroupClick={onGroupClick}
                   onKeywordClick={onKeywordClick}
                   onEventClick={onEventClick}
+                  onQueryChange={() => {}}
                 />
               </Box>
               <ActorHierarchyEdgeBundlingGraph

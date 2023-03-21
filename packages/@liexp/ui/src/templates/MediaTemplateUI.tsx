@@ -28,7 +28,7 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
       resource={{ name: "media", item: m }}
       aside={
         <Box>
-          <MediaElement media={m} itemStyle={{ maxHeight: 200 }} disableZoom />
+          <MediaElement media={m} itemStyle={{ maxHeight: 200, minHeight: 200, width: '100%' }} disableZoom />
           <Typography>{m.type}</Typography>
           <KeywordsBox ids={m.keywords} onItemClick={onKeywordClick} />
         </Box>
@@ -52,7 +52,7 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
           media={m}
           enableDescription={false}
           style={{ marginBottom: 80 }}
-          itemStyle={{ maxHeight: 400 }}
+          itemStyle={{ maxHeight: 400, minHeight: 300 }}
         />
         <Typography style={{ marginBottom: 20 }}>{m.description}</Typography>
       </Box>

@@ -1,9 +1,8 @@
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
+import { useEventsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import {
-  useEventsQuery
-} from "@liexp/ui/state/queries/DiscreteQueries";
-import {
-  EventTemplateUI, type EventTemplateProps
+  EventTemplateUI,
+  type EventTemplateProps,
 } from "@liexp/ui/templates/EventTemplate";
 import { type Meta, type Story } from "@storybook/react/types-6-0";
 import * as React from "react";
@@ -15,13 +14,16 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<EventTemplateProps> = (props) => {
-  const [tab, setTab] = React.useState(0);
+const Template: Story<EventTemplateProps & { defaultTab: number }> = ({
+  defaultTab,
+  ...props
+}) => {
+  const [tab, setTab] = React.useState(defaultTab);
 
   return (
     <QueriesRenderer
       queries={{
-        area: useEventsQuery(
+        events: useEventsQuery(
           {
             pagination: { perPage: 10, page: 1 },
             filter: {},
@@ -29,7 +31,7 @@ const Template: Story<EventTemplateProps> = (props) => {
           false
         ),
       }}
-      render={({ area: { data } }) => {
+      render={({ events: { data } }) => {
         return (
           <EventTemplateUI
             {...props}
@@ -45,6 +47,8 @@ const Template: Story<EventTemplateProps> = (props) => {
 
 const EventTemplateDefault = Template.bind({});
 
-EventTemplateDefault.args = {};
+EventTemplateDefault.args = {
+  defaultTab: 1,
+};
 
 export { EventTemplateDefault };

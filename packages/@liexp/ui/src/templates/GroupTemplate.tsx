@@ -1,5 +1,6 @@
-import { type Actor, Group, Keyword } from "@liexp/shared/io/http";
+import { Group, Keyword, type Actor } from "@liexp/shared/io/http";
 import { type SearchEvent } from "@liexp/shared/io/http/Events";
+import { formatDate } from '@liexp/shared/utils/date';
 import subYears from 'date-fns/subYears';
 import * as React from "react";
 import { GroupHierarchyEdgeBundlingGraph } from "../components/Graph/GroupHierarchyEdgeBundlingGraph";
@@ -8,7 +9,7 @@ import QueriesRenderer from "../components/QueriesRenderer";
 import SEO from "../components/SEO";
 import { Box } from "../components/mui";
 import { EventsPanelBox } from "../containers/EventsPanel";
-import { EventNetworkGraphBox } from "../containers/graphs/EventNetworkGraphBox";
+import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventNetworkGraphBox";
 import { useGroupMembersQuery } from "../state/queries/DiscreteQueries";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
 import { SplitPageTemplate } from "./SplitPageTemplate";
@@ -110,11 +111,12 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                 onEventClick={onEventClick}
               />
               <Box style={{ height: 600 }}>
-                <EventNetworkGraphBox
+                <EventNetworkGraphBoxWithFilters
                   type={Group.GROUPS.value}
                   query={{
                     ids: [group.id],
-                    startDate: subYears(new Date(), 2).toISOString()
+                    startDate: formatDate(subYears(new Date(), 2)),
+                    endDate: formatDate(new Date())
                   }}
                   relations={[
                     Keyword.KEYWORDS.value
@@ -123,6 +125,7 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                   onGroupClick={onGroupClick}
                   onKeywordClick={onKeywordClick}
                   onEventClick={onEventClick}
+                  onQueryChange={() => {}}
                 />
               </Box>
               <GroupHierarchyEdgeBundlingGraph

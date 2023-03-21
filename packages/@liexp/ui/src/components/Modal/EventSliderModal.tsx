@@ -8,7 +8,7 @@ import {
 } from "../../state/queries/SearchEventsQuery";
 import { styled, useTheme } from "../../theme";
 import QueriesRenderer from "../QueriesRenderer";
-import { EventsAppBarMinimized } from "../events/EventsAppBarMinimized";
+import { EventsAppBarMinimized, searchEventQueryToEventTypeFilters } from "../events/EventsAppBarMinimized";
 import { Box, CloseIcon, IconButton, Modal } from "../mui";
 import { EventSlider, type EventSliderProps } from "../sliders/EventSlider";
 
@@ -213,22 +213,27 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
                   <EventsAppBarMinimized
                     className={classes.eventsAppBar}
                     query={query}
+                    filters={searchEventQueryToEventTypeFilters(query)}
                     current={appBarCurrent}
                     open={false}
                     totals={totals}
                     onQueryChange={onQueryChange}
-                    actors={rest.actors.filter((a) =>
-                      query.actors?.includes(a.id)
-                    )}
-                    groups={rest.groups.filter((g) =>
-                      query.groups?.includes(g.id)
-                    )}
-                    groupsMembers={rest.groupsMembers.filter((gm) =>
-                      query.groupsMembers?.includes(gm.id)
-                    )}
-                    keywords={rest.keywords.filter((k) =>
-                      query.keywords?.includes(k.id)
-                    )}
+                    actors={rest.actors.map((a) => ({
+                      ...a,
+                      selected: query.actors?.includes(a.id) ?? false,
+                    }))}
+                    groups={rest.groups.map((g) => ({
+                      ...g,
+                      selected: query.groups?.includes(g.id) ?? false,
+                    }))}
+                    groupsMembers={rest.groupsMembers.map((gm) => ({
+                      ...gm,
+                      selected: query.groupsMembers?.includes(gm.id) ?? false,
+                    }))}
+                    keywords={rest.keywords.map((k) => ({
+                      ...k,
+                      selected: query.keywords?.includes(k.id) ?? false,
+                    }))}
                   />
                 </Box>
               );

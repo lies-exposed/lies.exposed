@@ -2,13 +2,14 @@ import {
   type Actor,
   type Group,
   type Keyword,
-  type Media
+  type Media,
 } from "@liexp/shared/io/http";
-import { ACTORS } from '@liexp/shared/io/http/Actor';
+import { ACTORS } from "@liexp/shared/io/http/Actor";
 import { type SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
 import { GROUPS } from "@liexp/shared/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
-import subYears from 'date-fns/subYears';
+import { formatDate } from "@liexp/shared/utils/date";
+import subYears from "date-fns/subYears";
 import * as React from "react";
 import { LinksListBox } from "../components/LinksBox";
 import QueriesRenderer from "../components/QueriesRenderer";
@@ -16,7 +17,7 @@ import SEO from "../components/SEO";
 import { Box } from "../components/mui";
 import { EventsPanelBox } from "../containers/EventsPanel";
 import { MediaBox } from "../containers/MediaBox";
-import { EventNetworkGraphBox } from "../containers/graphs/EventNetworkGraphBox";
+import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventNetworkGraphBox";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
 import { useKeywordQuery } from "../state/queries/keywords.queries";
 import { SplitPageTemplate } from "./SplitPageTemplate";
@@ -99,17 +100,19 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
                 column={2}
               />
               <Box style={{ height: 600 }}>
-                <EventNetworkGraphBox
+                <EventNetworkGraphBoxWithFilters
                   type={KEYWORDS.value}
                   query={{
                     ids: [keyword.id],
-                    startDate: subYears(new Date(), 2).toISOString()
+                    startDate: formatDate(subYears(new Date(), 2)),
+                    endDate: formatDate(new Date()),
                   }}
                   relations={[GROUPS.value, ACTORS.value]}
                   onKeywordClick={onKeywordClick}
                   onEventClick={onEventClick}
                   onActorClick={onActorClick}
                   onGroupClick={onGroupClick}
+                  onQueryChange={() => {}}
                 />
               </Box>
             </SplitPageTemplate>

@@ -24,10 +24,12 @@ const StyledBox = styled(Box)(({ theme }) => ({
   },
 
   [`& .${classes.paper}`]: {
+    position: 'relative',
     width: "80%",
     minHeight: 400,
     maxHeight: "90%",
     height: "100%",
+    margin: 'auto',
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(2),
   },
@@ -57,13 +59,16 @@ const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
       display="flex"
       alignItems="center"
       justifyContent="center"
-      style={style}
+      className={className}
       onLoad={onLoad}
       onClick={onClick}
+      style={{
+        ...style,
+        background: media.thumbnail ? `url(${media.thumbnail})` : undefined,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+      }}
     >
-      {media.thumbnail ? (
-        <img className={className} src={media.thumbnail} />
-      ) : null}
       {!onClick ? (
         <Button
           variant="contained"

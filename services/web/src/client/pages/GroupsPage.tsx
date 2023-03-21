@@ -1,4 +1,6 @@
+import { EventType } from '@liexp/shared/io/http/Events';
 import { GROUPS } from "@liexp/shared/io/http/Group";
+import { formatDate } from '@liexp/shared/utils/date';
 import { AutocompleteGroupInput } from "@liexp/ui/components/Input/AutocompleteGroupInput";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import { PageContent } from "@liexp/ui/components/PageContent";
@@ -67,9 +69,10 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
                   }}
                   type={GROUPS.value}
                   query={{
-                    startDate: subYears(new Date(), 2).toISOString(),
+                    type: EventType.types.map(t => t.value),
+                    startDate: formatDate( subYears(new Date(), 2)),
+                    endDate: formatDate(new Date())
                   }}
-                  showFilter={false}
                 />
               </Grid>
             </Grid>

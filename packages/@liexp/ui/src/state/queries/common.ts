@@ -12,7 +12,7 @@ export const fetchQuery =
     const params = queryKey[1];
     const discrete = queryKey[2];
     if (discrete) {
-      if (R.isEmpty(params.filter) || params.filter.ids?.length === 0) {
+      if (R.isEmpty(params.filter) || !params.filter.ids || params.filter.ids.length === 0) {
         return await emptyQuery();
       }
     }
