@@ -31,7 +31,7 @@ export const MakeListAreaRoute = (r: Router, ctx: RouteContext): void => {
               .leftJoinAndSelect("area.media", "media"),
             (q) => {
               if (O.isSome(search)) {
-                return q.where("area.label LIKE :search", {
+                return q.where("lower(unaccent(area.label)) LIKE lower(:search)", {
                   search: `%${search.value}%`,
                 });
               }
