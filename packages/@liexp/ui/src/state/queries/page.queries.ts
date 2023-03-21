@@ -28,7 +28,7 @@ export const fetchPageContentByPath = async ({
           },
           sort: { field: "createdAt", order: "DESC" },
         }),
-      (e) => e as any as APIError
+      (e) => e  as APIError
     ),
     fp.TE.map((pages) => fp.A.head(pages.data)),
     fp.TE.chain(

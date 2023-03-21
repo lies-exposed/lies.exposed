@@ -3,24 +3,25 @@ import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { Avatar, type AvatarSize } from "../Common/Avatar";
+import { ExpandableList } from '../Common/ExpandableList';
 import { List, type ListItemProps } from "../Common/List";
 import { Box, Typography } from "../mui";
 
-export interface Group extends Group.Group {
+export interface GroupItem extends Group.Group {
   selected: boolean;
 }
 
 interface GroupListProps {
   className?: string;
-  groups: Group[];
-  onItemClick: (actor: Group) => void;
+  groups: GroupItem[];
+  onItemClick: (actor: GroupItem) => void;
   avatarSize?: AvatarSize;
   displayName?: boolean;
   style?: React.CSSProperties;
 }
 
 export const GroupListItem: React.FC<
-  ListItemProps<Group> & {
+  ListItemProps<GroupItem> & {
     avatarSize?: AvatarSize;
     displayName?: boolean;
     style?: React.CSSProperties;
@@ -32,8 +33,14 @@ export const GroupListItem: React.FC<
       display="flex"
       alignItems="center"
       margin={0}
-      style={{ cursor: "pointer", ...style }}
-      onClick={() => onClick?.(item)}
+      style={{ cursor: "pointer", ...style, opacity: item.selected ? 1 : 0.2 }}
+      onClick={(e) => {
+        if (onClick) {
+          e.preventDefault();
+          e.stopPropagation();
+          onClick(item);
+        }
+      }}
     >
       {pipe(
         O.fromNullable(item.avatar),
@@ -86,3 +93,27 @@ const GroupList: React.FC<GroupListProps> = ({
 };
 
 export default GroupList;
+
+export const ExpandableGroupList: React.FC<
+  GroupListProps & { limit?: number }
+> = ({
+  groups,
+  onItemClick: onGroupClick,
+  style,
+  avatarSize,
+  limit = 10,
+  ...props
+}) => {
+  return (
+    <ExpandableList
+      {...props}
+      limit={limit}
+      style={{ display: "flex", flexWrap: "wrap", ...style }}
+      data={groups}
+      filter={(g) => g.selected}
+      onItemClick={onGroupClick}
+      getKey={(g) => g.id}
+      ListItem={(p) => <GroupListItem {...{ ...p, ...props, avatarSize }} />}
+    />
+  );
+};

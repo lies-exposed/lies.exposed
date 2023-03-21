@@ -1,4 +1,5 @@
 import { ACTORS } from "@liexp/shared/io/http/Actor";
+import { formatDate } from "@liexp/shared/utils/date";
 import { AutocompleteActorInput } from "@liexp/ui/components/Input/AutocompleteActorInput";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import { PageContent } from "@liexp/ui/components/PageContent";
@@ -68,11 +69,11 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
                       },
                     }}
                     type={ACTORS.value}
+                    relations={[ACTORS.value]}
                     query={{
-                      relations: [ACTORS.value],
-                      startDate: subYears(new Date(), 2).toISOString(),
+                      startDate: formatDate(subYears(new Date(), 2)),
+                      endDate: formatDate(new Date())
                     }}
-                    showFilter={false}
                     onEventClick={(e) => {
                       navigateTo.events({ id: e.id }, { tab: 0 });
                     }}
@@ -96,13 +97,13 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
                       },
                     }}
                     type={ACTORS.value}
+                    relations={[ACTORS.value]}
                     query={{
-                      relations: [ACTORS.value],
-                      startDate: subYears(new Date(), 2).toISOString(),
+                      startDate: formatDate(subYears(new Date(), 2)),
+                      endDate: formatDate(new Date())
                     }}
-                    showFilter={false}
                     onEventClick={(e) => {
-                      navigateTo.events({ id: e.id } , { tab: 0 });
+                      navigateTo.events({ id: e.id }, { tab: 0 });
                     }}
                     onActorClick={(e) => {
                       navigateTo.actors({ id: e.id }, { tab: 0 });

@@ -1,4 +1,5 @@
 import { EventType } from "@liexp/shared/io/http/Events";
+import { formatDate } from "@liexp/shared/utils/date";
 import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/state/queries/SearchEventsQuery";
 import ExploreTemplate, {
   type ExploreTemplateProps,
@@ -18,7 +19,7 @@ const Template: Story<ExploreTemplateProps> = (props) => {
     React.useState<SearchEventsQueryInputNoPagination>({
       hash: `query-${Math.random() * 100}`,
       startDate: undefined,
-      endDate: new Date().toDateString(),
+      endDate: formatDate(new Date()),
       actors: [],
       groups: [],
       groupsMembers: [],

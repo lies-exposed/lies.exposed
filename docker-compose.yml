@@ -82,7 +82,7 @@ services:
       dockerfile: web.Dockerfile
     container_name: liexp-web
     env_file:
-      - ./services/web/.env.development
+      - ./services/web/.env
     ports:
       - "4020:4020"
     volumes:
@@ -105,7 +105,7 @@ services:
       dockerfile: adminWeb.Dockerfile
     container_name: liexp-admin-web
     env_file:
-      - ./services/admin-web/.env.development
+      - ./services/admin-web/.env
     ports:
       - "4001:4001"
     volumes:

@@ -13,7 +13,7 @@ export interface EventPageContentProps {
   onDateClick: (d: Date) => void;
   onActorClick: (a: http.Actor.Actor) => void;
   onGroupClick: (a: http.Group.Group) => void;
-  onMediaClick: (m: http.Media.Media) => void;
+  onMediaClick?: (m: http.Media.Media) => void;
   onLinkClick: (a: http.Link.Link) => void;
   onKeywordClick: (a: http.Keyword.Keyword) => void;
   onAreaClick: (a: http.Area.Area) => void;
@@ -58,7 +58,6 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
 
         return (
           <Box className="event-page-content">
-            
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <Grid container alignItems="flex-start">

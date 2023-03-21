@@ -224,7 +224,11 @@ export const toSearchEvent = (
         ...e,
         payload: {
           ...e.payload,
-          victim: actors[0],
+          victim:
+            actors.find((a) => a.id === e.payload.victim) ??
+            ({
+              id: e.payload.victim,
+            } as any),
         },
         media,
         keywords,
@@ -280,7 +284,7 @@ export const toSearchEvent = (
         keywords,
       };
     }
-    case Events.EventType.types[5].value: {
+    case Events.Transaction.TRANSACTION.value: {
       const from =
         e.payload.from.type === "Group"
           ? groups.find((g) => g.id === e.payload.from.id)

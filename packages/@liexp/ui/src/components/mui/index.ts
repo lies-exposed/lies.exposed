@@ -3,8 +3,8 @@ import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import CloseIcon from "@mui/icons-material/Close";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import PlayCircleOutline from '@mui/icons-material/PlayCircleOutline';
-import SearchIcon from '@mui/icons-material/SearchOutlined';
+import PlayCircleOutline from "@mui/icons-material/PlayCircleOutline";
+import SearchIcon from "@mui/icons-material/SearchOutlined";
 import TreeItem from "@mui/lab/TreeItem";
 import TreeView from "@mui/lab/TreeView";
 import { Pagination } from "@mui/material";
@@ -14,7 +14,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AppBar from "@mui/material/AppBar";
 import Autocomplete, {
   type AutocompleteInputChangeReason,
-  type AutocompleteProps
+  type AutocompleteProps,
 } from "@mui/material/Autocomplete";
 import Box, { type BoxProps } from "@mui/material/Box";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
@@ -36,7 +36,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
-import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControlLabel from "@mui/material/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup";
 import Grid from "@mui/material/Grid";
 import Grow from "@mui/material/Grow";
@@ -55,8 +55,10 @@ import Modal, { type ModalProps } from "@mui/material/Modal";
 import Paper from "@mui/material/Paper";
 import Popper from "@mui/material/Popper";
 import Select, { type SelectChangeEvent } from "@mui/material/Select";
+import Slider from "@mui/material/Slider";
+import Stack from "@mui/material/Stack";
 import StyledEngineProvider from "@mui/material/StyledEngineProvider";
-import Switch from '@mui/material/Switch';
+import Switch from "@mui/material/Switch";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import TextField, { type TextFieldProps } from "@mui/material/TextField";
@@ -67,6 +69,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { alpha } from "@mui/system/colorManipulator";
 
 export {
+  Slider,
+  Stack,
   SearchIcon,
   Accordion,
   AccordionDetails,
@@ -106,7 +110,8 @@ export {
   MenuItem,
   MenuList,
   useMediaQuery,
-  Modal, type ModalProps,
+  Modal,
+  type ModalProps,
   Tab,
   Tabs,
   StyledEngineProvider,
@@ -138,5 +143,5 @@ export {
   PlayCircleOutline,
   CloseIcon,
   Switch,
-  Pagination
+  Pagination,
 };

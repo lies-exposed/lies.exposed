@@ -329,9 +329,7 @@ export const createEventNetworkGraph =
   (ctx: RouteContext) =>
   (
     id: UUID,
-    {
-      relations: relation,
-    }: GetNetworkQuery
+    { relations: relation }: GetNetworkQuery
   ): TE.TaskEither<ControllerError, NetworkGraphOutput> => {
     const filePath = path.resolve(
       process.cwd(),
@@ -367,7 +365,7 @@ export const createEventNetworkGraph =
               hoursDelta
             );
 
-            // return hoursDelta < 6;
+            return hoursDelta < 6;
           }
 
           return false;
@@ -497,10 +495,17 @@ export const createEventNetworkGraph =
                         toEventV2IO({ ...ev, links: [] })
                       )
                     ),
-                    fp.TE.map((aa): [string, NetworkGraphOutput] => [
+                    fp.TE.map((ee): [string, NetworkGraphOutput] => [
                       k,
                       pipe(
-                        aa,
+                        ee,
+                        // (ee) => {
+                        //   ctx.logger.debug.log(
+                        //     `Deaths events %O`,
+                        //     ee.filter((e) => e.type === "Death")
+                        //   );
+                        //   return ee;
+                        // },
                         fp.A.map((e) =>
                           toSearchEvent(e, {
                             events: [],
@@ -511,6 +516,13 @@ export const createEventNetworkGraph =
                             groupsMembers: new Map(),
                           })
                         ),
+                        // (events) => {
+                        //   ctx.logger.debug.log(
+                        //     "Deaths %O",
+                        //     events.filter((e) => e.type === "Death")
+                        //   );
+                        //   return events;
+                        // },
                         (events) =>
                           getEventGraph(ctx)({
                             events,

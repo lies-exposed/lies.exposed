@@ -29,11 +29,11 @@ export const CreateEventFromMediaButton: React.FC = () => {
         groups: [],
         groupsMembers: [],
         media: [],
-        keywords: []
-      } 
+        keywords: [],
+      }
     ).find((t) => t.event.type === type);
 
-    const { newLinks, ...event } = suggestion?.event as any;
+    const { newLinks, ...event }: any = suggestion?.event;
     const { data: e } = await apiProvider.create(`/events`, {
       data: event,
     });

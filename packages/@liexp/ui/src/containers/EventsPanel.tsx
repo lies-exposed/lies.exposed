@@ -8,7 +8,6 @@ import { EventType, type SearchEvent } from "@liexp/shared/io/http/Events";
 import * as React from "react";
 import EventSliderModal from "../components/Modal/EventSliderModal";
 import QueriesRenderer from "../components/QueriesRenderer";
-import EventsAppBar from "../components/events/EventsAppBar";
 import EventsTimeline from "../components/lists/EventList/EventsTimeline";
 import { Box, Grid } from "../components/mui";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
@@ -16,6 +15,7 @@ import { useActorsQuery } from "../state/queries/actor.queries";
 import { useGroupsQuery } from "../state/queries/groups.queries";
 import { useKeywordsQuery } from "../state/queries/keywords.queries";
 import { styled } from "../theme";
+import EventsAppBarBox from "./EventsAppBarBox";
 
 const PREFIX = "EventsPanel";
 
@@ -223,20 +223,20 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
         height: "100%",
       }}
     >
-      <EventsAppBar
+      <EventsAppBarBox
         hash={hash}
         query={{ ...query, hash }}
-        actors={actors}
-        groups={groups}
+        actors={actors.map((a) => ({ ...a, selected: true }))}
+        groups={groups.map((g) => ({ ...g, selected: true }))}
         groupsMembers={groupsMembers}
-        keywords={keywords}
+        keywords={keywords.map((k) => ({ ...k, selected: true }))}
         onQueryChange={handleUpdateEventsSearch}
         onQueryClear={() => {
           onQueryChange({ hash }, 0);
         }}
         layout={{
           eventTypes: 5,
-          dateRangeBox: 5,
+          dateRangeBox: { columns: 5, variant: "picker" },
           relations: 3,
         }}
       />
@@ -263,7 +263,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
           item
           lg={12}
           xs={12}
-          style={{ display: "flex", height: '100%', flexGrow: 1 }}
+          style={{ display: "flex", height: "100%", flexGrow: 1 }}
         >
           <EventsTimeline
             style={{ height: "100%" }}

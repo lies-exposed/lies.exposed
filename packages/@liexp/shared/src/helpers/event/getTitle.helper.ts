@@ -24,8 +24,9 @@ export const getTitle = (
     }
     case http.Events.Death.DEATH.value: {
       const victimName =
-        (e.payload.victim as any).fullName ??
-        relations.actors.find((a) => a.id === e.payload.victim)?.fullName ??
+        (e.payload?.victim as any)?.fullName ??
+        (relations?.actors ?? []).find((a) => a.id === e.payload.victim)
+          ?.fullName ??
         "unknown";
       return `Death of ${victimName}`;
     }
@@ -37,7 +38,7 @@ export const getTitleForSearchEvent = (e: SearchEvent.SearchEvent): string => {
     case http.Events.Quote.QUOTE.value:
       return `Quote by ${e.payload.actor?.fullName}`;
     case http.Events.Death.DEATH.value:
-      return `Death of ${e.payload.victim?.fullName}`;
+      return `Death of ${e.payload?.victim?.fullName}`;
     case http.Events.Documentary.DOCUMENTARY.value:
     case http.Events.Patent.PATENT.value:
     case http.Events.ScientificStudy.SCIENTIFIC_STUDY.value:

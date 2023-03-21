@@ -3,14 +3,15 @@ import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { Avatar, type AvatarSize } from "../Common/Avatar";
+import { ExpandableList } from "../Common/ExpandableList";
 import { List, type ListItemProps, type ListProps } from "../Common/List";
 import { Box, Typography } from "../mui";
 
-export interface Actor extends io.Actor.Actor {
+export interface ActorItem extends io.Actor.Actor {
   selected: boolean;
 }
 
-export interface ActorListItemProps extends ListItemProps<Actor> {
+export interface ActorListItemProps extends ListItemProps<ActorItem> {
   avatarSize?: AvatarSize;
   displayFullName?: boolean;
   style?: React.CSSProperties;
@@ -29,8 +30,14 @@ export const ActorListItem: React.FC<ActorListItemProps> = ({
       display="flex"
       alignItems="center"
       margin={0}
-      style={{ cursor: "pointer", ...style }}
-      onClick={() => onClick?.(item)}
+      style={{ cursor: "pointer", ...style, opacity: item.selected ? 1 : 0.2 }}
+      onClick={(e) => {
+        if (onClick) {
+          e.preventDefault();
+          e.stopPropagation();
+          onClick(item);
+        }
+      }}
     >
       {pipe(
         O.fromNullable(item.avatar),
@@ -61,12 +68,12 @@ export const ActorListItem: React.FC<ActorListItemProps> = ({
 };
 
 export type ActorListProps<D extends React.ElementType<any> = "ul"> = Omit<
-  ListProps<Actor, D>,
+  ListProps<ActorItem, D>,
   "data" | "getKey" | "ListItem" | "filter"
 > & {
   className?: string;
-  actors: Actor[];
-  onActorClick: (actor: Actor) => void;
+  actors: ActorItem[];
+  onActorClick: (actor: ActorItem) => void;
   avatarSize?: AvatarSize;
   displayFullName?: boolean;
   style?: React.CSSProperties;
@@ -86,11 +93,45 @@ export const ActorList = <D extends React.ElementType<any> = "ul">({
       {...props}
       style={{
         ...props.style,
-        flexWrap: 'wrap',
+        flexWrap: "wrap",
       }}
       data={actors}
       getKey={(a) => a.id}
       filter={(a) => true}
+      onItemClick={onActorClick}
+      ListItem={(p) => (
+        <ActorListItem
+          avatarSize={avatarSize}
+          displayFullName={displayFullName}
+          style={itemStyle}
+          {...p}
+        />
+      )}
+    />
+  );
+};
+
+export const ExpandableActorList = <D extends React.ElementType<any> = "ul">({
+  actors,
+  onActorClick,
+  avatarSize,
+  itemStyle,
+  displayFullName,
+  limit = 10,
+  style,
+  ...props
+}: ActorListProps<D> & { limit?: number }): JSX.Element => {
+  return (
+    <ExpandableList
+      {...props}
+      limit={limit}
+      style={{
+        ...style,
+        flexWrap: "wrap",
+      }}
+      data={actors}
+      getKey={(a) => a.id}
+      filter={(a) => a.selected}
       onItemClick={onActorClick}
       ListItem={(p) => (
         <ActorListItem

@@ -1,7 +1,6 @@
 import { type http } from "@liexp/shared/io";
 import { formatDate, parseISO } from "@liexp/shared/utils/date";
 import LinkIcon from "@mui/icons-material/LinkOutlined";
-import ShareIcon from "@mui/icons-material/ShareOutlined";
 import * as React from "react";
 import {
   Box,
@@ -39,7 +38,7 @@ const LinkCard: React.FC<LinkCardProps> = ({ link, onClick }) => {
         width: "100%",
         flexDirection: "row",
         height: "100%",
-        maxHeight: 300,
+        maxHeight: 200,
       }}
       onClick={() => { onClick(link); }}
     >
@@ -80,16 +79,13 @@ const LinkCard: React.FC<LinkCardProps> = ({ link, onClick }) => {
         </CardContent>
         <CardActions disableSpacing>
           <IconButton
-            aria-label="add to favorites"
+            aria-label="Open link in a new tab"
             onClick={() => {
               window.open(link.url, "_blank");
             }}
-            size="large"
+            size="small"
           >
             <LinkIcon />
-          </IconButton>
-          <IconButton aria-label="share" size="large">
-            <ShareIcon />
           </IconButton>
         </CardActions>
       </Box>
