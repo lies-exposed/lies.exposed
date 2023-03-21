@@ -43,7 +43,7 @@ export const fetchActors =
           });
         }
         if (O.isSome(fullName)) {
-          return q.andWhere("lower(actors.fullName) LIKE :fullName", {
+          return q.andWhere("lower(unaccent(actors.fullName)) LIKE :fullName", {
             fullName: `%${fullName.value}%`,
           });
         }

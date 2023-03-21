@@ -44,7 +44,7 @@ import {
   type DataProvider,
   type EditProps,
   type RaRecord,
-  type SelectInputProps
+  type SelectInputProps,
 } from "react-admin";
 
 const RESOURCE = "groups";
@@ -147,7 +147,7 @@ const transformGroup =
         startDate: data.startDate?.includes("T")
           ? data.startDate
           : parseDate(data.startDate).toISOString(),
-          endDate: data.endDate.includes("T")
+        endDate: data.endDate.includes("T")
           ? data.endDate
           : parseDate(data.endDate).toISOString(),
         members,
@@ -201,19 +201,25 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           <ReactPageInput label="body" source="body" />
         </FormTab>
         <FormTab label="Members">
-          <ArrayInput source="newMembers" defaultValue={[]}>
-            <SimpleFormIterator>
+          <ArrayInput source="newMembers" defaultValue={[]} fullWidth>
+            <SimpleFormIterator fullWidth>
               <ReferenceActorInput source="actor" />
               <DateInput source="startDate" />
               <DateInput source="endDate" />
             </SimpleFormIterator>
           </ArrayInput>
 
-          <ReferenceManyField reference="groups-members" target="group">
+          <ReferenceManyField
+            reference="groups-members"
+            target="group"
+            fullWidth
+          >
             <Datagrid rowClick="edit">
               <TextField source="id" />
-              <TextField source="actor.username" />
+              <AvatarField source="actor.avatar" />
+              <TextField source="actor.fullName" />
               <DateField source="startDate" />
+              <DateField source="endDate" />
             </Datagrid>
           </ReferenceManyField>
         </FormTab>

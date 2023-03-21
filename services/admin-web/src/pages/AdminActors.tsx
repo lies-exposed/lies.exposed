@@ -11,6 +11,7 @@ import { WebPreviewButton } from "@liexp/ui/components/admin/common/WebPreviewBu
 import { ColorInput } from "@liexp/ui/components/admin/common/inputs/ColorInput";
 import { CreateEventButton } from "@liexp/ui/components/admin/events/CreateEventButton";
 import ReferenceManyEventField from "@liexp/ui/components/admin/events/ReferenceManyEventField";
+import ReferenceGroupInput from "@liexp/ui/components/admin/groups/ReferenceGroupInput";
 import { SearchLinksButton } from "@liexp/ui/components/admin/links/SearchLinksButton";
 import { MediaField } from "@liexp/ui/components/admin/media/MediaField";
 import ActorPreview from "@liexp/ui/components/admin/previews/ActorPreview";
@@ -20,30 +21,18 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
 import {
-  ArrayInput,
-  AutocompleteInput,
-  Create,
-  type CreateProps,
-  Datagrid,
-  type DataProvider,
-  DateField,
-  DateInput,
-  type EditProps,
-  FormTab,
+  ArrayInput, Create, Datagrid, DateField,
+  DateInput, FormTab,
   FunctionField,
   ImageField,
   ImageInput,
-  List,
-  type RaRecord,
-  ReferenceArrayField,
-  ReferenceInput,
-  SimpleForm,
+  List, ReferenceArrayField, SimpleForm,
   SimpleFormIterator,
   TabbedForm,
   TextField,
   TextInput,
   useDataProvider,
-  useRecordContext,
+  useRecordContext, type CreateProps, type DataProvider, type EditProps, type RaRecord
 } from "react-admin";
 
 const actorFilters = [
@@ -152,9 +141,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
         <FormTab label="Groups">
           <ArrayInput source="newMemberIn" defaultValue={[]}>
             <SimpleFormIterator>
-              <ReferenceInput source="group" reference="groups">
-                <AutocompleteInput optionText="name" />
-              </ReferenceInput>
+              <ReferenceGroupInput source="group" />
               <DateInput source="startDate" />
               <DateInput source="endDate" />
               <ReactPageInput onlyText={true} source="body" />

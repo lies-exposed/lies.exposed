@@ -42,7 +42,7 @@ export const fetchGroups =
       (q) => {
         if (O.isSome(name)) {
           logger.debug.log("Where name is %s", name.value);
-          return q.andWhere("lower(group.name) LIKE :name", {
+          return q.andWhere("lower(unaccent(group.name)) LIKE lower(:name)", {
             name: `%${name.value}%`,
           });
         }
