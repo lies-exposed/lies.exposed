@@ -1,9 +1,24 @@
 import { formatDistanceToNow, format, parseISO, parse } from "date-fns";
 
-export const formatDate = (date: Date): string => format(date, "yyyy-MM-dd");
+/**
+ * Format a date to pattern `yyyy-MM-dd`
+ * @param date 
+ * @returns 
+ */
+export const formatDate = (date: Date | string): string => {
+  if (typeof date === "string") {
+    return date;
+  }
+  return format(date, "yyyy-MM-dd");
+};
 export const parseDate = (d: string): Date =>
   parse(d, "yyyy-MM-dd", new Date());
 
+/**
+ * Format a date with pattern `MMM do yyyy`
+ * @param date
+ * @returns
+ */
 export const formatDateToShort = (date: Date): string =>
   format(date, "MMM do yyyy");
 

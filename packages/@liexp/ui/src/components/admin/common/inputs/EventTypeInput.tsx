@@ -72,7 +72,7 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
           transform(event, type, {
             ...common,
             ...getRelationIds(event),
-            links: relations.links.data.map((l) => l.url as any),
+            links: relations.links.data.map((l) => l.id),
           })
         )
       ),

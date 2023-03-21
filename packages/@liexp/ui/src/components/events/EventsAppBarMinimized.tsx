@@ -1,10 +1,4 @@
-
-import {
-  type Actor,
-  type Group,
-  type GroupMember,
-  type Keyword,
-} from "@liexp/shared/io/http";
+import { type GroupMember } from "@liexp/shared/io/http";
 import {
   Death,
   Documentary,
@@ -27,13 +21,12 @@ import { clsx } from "clsx";
 import * as React from "react";
 import { type SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery";
 import { styled } from "../../theme";
-import { ActorList } from "../lists/ActorList";
-import GroupList from "../lists/GroupList";
+import { type ActorItem, ExpandableActorList } from "../lists/ActorList";
+import { ExpandableGroupList, type GroupItem } from "../lists/GroupList";
 import { GroupsMembersList } from "../lists/GroupMemberList";
-import KeywordList from "../lists/KeywordList";
+import { ExpandableKeywordList, type KeywordItem } from "../lists/KeywordList";
 import { Box, Grid, Typography } from "../mui";
 import {
-  allFiltersEnabled,
   EventTypeFilters,
   type EventTypeFiltersProps,
   type EventTypeMap,
@@ -50,7 +43,7 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
     display: "flex",
     width: "100%",
     flexDirection: "row",
-    alignItems: "baseline",
+    alignItems: "flex-start",
     flexWrap: "wrap",
     [theme.breakpoints.down("sm")]: {
       flexDirection: "row",
@@ -92,24 +85,26 @@ export interface EventsAppBarMinimizedProps {
   className?: string;
   query: SearchEventsQueryInputNoPagination;
   current?: number;
+  filters: EventTypeFiltersProps["filters"];
   totals: EventTotals;
-  actors: Actor.Actor[];
-  groups: Group.Group[];
-  keywords: Keyword.Keyword[];
+  actors: ActorItem[];
+  groups: GroupItem[];
+  keywords: KeywordItem[];
   groupsMembers: GroupMember.GroupMember[];
   onQueryChange: (e: SearchEventsQueryInputNoPagination) => void;
   open: boolean;
-  layout?: {
+  layout?: Partial<{
     eventTypes: number;
-    dateRangeBox: number;
+    dateRangeBox: { columns: number; variant: "slider" | "picker" };
     relations: number;
-  };
+  }>;
 }
 
 export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
   className,
   open: isExpanded,
   query,
+  filters,
   actors,
   groups,
   keywords,
@@ -118,19 +113,16 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
   totals,
   layout: _layout,
 }) => {
-  const layout: typeof _layout = {
-    eventTypes: 3,
-    dateRangeBox: 4,
+  const layout: Required<EventsAppBarMinimizedProps["layout"]> = {
+    eventTypes: 6,
+    dateRangeBox: {
+      columns: 6,
+      variant: "slider",
+      ..._layout?.dateRangeBox,
+    },
     relations: 4,
     ..._layout,
   };
-
-  const filters = React.useMemo(() => {
-    if (!query.type) {
-      return allFiltersEnabled;
-    }
-    return searchEventQueryToEventTypeFilters(query);
-  }, [query.type]);
 
   const handleFilterChange = React.useCallback(
     (ff: EventTypeMap, filterK: EventType) => {
@@ -154,6 +146,16 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
     [query]
   );
 
+  const handleQueryChange = (q: any): void => {
+    onQueryChange({
+      ...query,
+      actors: actors.filter((a) => a.selected).map((a) => a.id),
+      groups: groups.filter((g) => g.selected).map((a) => a.id),
+      keywords: keywords.filter((k) => k.selected).map((a) => a.id),
+      ...q,
+    });
+  };
+
   const dateRangeBox =
     query.startDate ?? query.endDate ? (
       <Box className={classes.dateRangeBox}>
@@ -171,33 +173,47 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
     ) : null;
 
   const actorsList = (
-    <ActorList
+    <ExpandableActorList
       style={{
         display: "flex",
         flexDirection: "row",
       }}
-      actors={actors.map((a) => ({ ...a, selected: true }))}
-      onActorClick={(gms) => {
-        onQueryChange({
-          actors: query.actors?.filter((g) => g !== gms.id),
-          ...query,
+      actors={actors.sort(
+        (a, b) => (b.selected ? 1 : 0) - (a.selected ? 1 : 0)
+      )}
+      onActorClick={(k) => {
+        handleQueryChange({
+          actors: actors
+            .map((g) => ({
+              ...g,
+              selected: g.id === k.id ? !k.selected : g.selected,
+            }))
+            .filter((s) => s.selected)
+            .map((a) => a.id),
         });
       }}
     />
   );
 
   const groupsList = (
-    <GroupList
+    <ExpandableGroupList
       style={{
         display: "flex",
         flexDirection: "row",
       }}
-      groups={groups.map((g) => ({ ...g, selected: true }))}
-      onItemClick={(g) => {
+      groups={groups.sort(
+        (a, b) => (b.selected ? 1 : 0) - (a.selected ? 1 : 0)
+      )}
+      onItemClick={(k) => {
         if (isExpanded) {
-          onQueryChange({
-            ...query,
-            groups: query.groups?.filter((gg) => gg !== g.id),
+          handleQueryChange({
+            groups: groups
+              .map((g) => ({
+                ...g,
+                selected: g.id === k.id ? !k.selected : g.selected,
+              }))
+              .filter((s) => s.selected)
+              .map((a) => a.id),
           });
         }
       }}
@@ -205,18 +221,24 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
   );
 
   const keywordList = (
-    <KeywordList
+    <ExpandableKeywordList
       style={{
         display: "flex",
         flexDirection: "row",
       }}
-      keywords={keywords.map((k) => ({ ...k, selected: true }))}
+      keywords={keywords.sort(
+        (a, b) => (b.selected ? 1 : 0) - (a.selected ? 1 : 0)
+      )}
       onItemClick={(k) => {
         if (isExpanded) {
-          onQueryChange({
-            ...query,
-
-            keywords: query.keywords?.filter((kk) => kk !== k.id),
+          handleQueryChange({
+            keywords: keywords
+              .map((g) => ({
+                ...g,
+                selected: g.id === k.id ? !k.selected : g.selected,
+              }))
+              .filter((s) => s.selected)
+              .map((a) => a.id),
           });
         }
       }}
@@ -255,18 +277,21 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
           onChange={handleFilterChange}
         />
       </Grid>
-      <Grid
-        item
-        sm={12}
-        md={layout.dateRangeBox}
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-        }}
-      >
-        {dateRangeBox}
-      </Grid>
+
+      {dateRangeBox ? (
+        <Grid
+          item
+          sm={12}
+          md={layout.dateRangeBox.columns}
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+          }}
+        >
+          {dateRangeBox}
+        </Grid>
+      ) : null}
 
       {keywords.length > 0 ? (
         <Grid

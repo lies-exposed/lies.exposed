@@ -12,7 +12,7 @@ import { MediaSlider } from "../../sliders/MediaSlider";
 interface DefaultEventPageContentProps {
   event: Event;
   media: Media.Media[];
-  onMediaClick: (m: Media.Media) => void;
+  onMediaClick?: (m: Media.Media) => void;
   mediaLayout?: "slider" | "masonry";
 }
 export const DefaultEventPageContent: React.FC<

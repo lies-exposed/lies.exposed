@@ -1,7 +1,8 @@
 import { getEventCommonProps } from "@liexp/shared/helpers/event";
 import { type http } from "@liexp/shared/io";
+import { EventType } from "@liexp/shared/io/http/Events";
 import { getTextContentsCapped, isValidValue } from "@liexp/shared/slate";
-import { formatAnyDateToShort } from "@liexp/shared/utils/date";
+import { formatAnyDateToShort, formatDate } from "@liexp/shared/utils/date";
 import subYears from "date-fns/subYears";
 import * as React from "react";
 import { EventPageContent } from "../components/EventPageContent";
@@ -18,7 +19,7 @@ import {
   Typography,
   useMediaQuery as useMuiMediaQuery,
 } from "../components/mui";
-import { EventNetworkGraphBox } from "../containers/graphs/EventNetworkGraphBox";
+import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventNetworkGraphBox";
 import { styled, useTheme } from "../theme";
 import { SplitPageTemplate } from "./SplitPageTemplate";
 
@@ -68,12 +69,10 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
   const isDownSM = useMuiMediaQuery(theme.breakpoints.down("md"));
   const { date } = event;
 
-  //   const relationIds = getRelationIds(event);
-
   return (
     <StyledBox className={classes.root}>
       <EventRelations event={event}>
-        {({ actors, groups, groupsMembers, media, areas }) => {
+        {({ actors, groups, groupsMembers, media }) => {
           const { title } = getEventCommonProps(event, {
             actors,
             groups: [],
@@ -233,22 +232,30 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
               >
                 <EventPageContent
                   event={event}
-                  onDateClick={(d) => {}}
-                  onGroupClick={(g) => {}}
-                  onKeywordClick={(k) => {}}
-                  onActorClick={(a) => {}}
+                  onDateClick={onDateClick}
+                  onGroupClick={onGroupClick}
+                  onKeywordClick={onKeywordClick}
+                  onActorClick={onActorClick}
                   onGroupMemberClick={(g) => {}}
                   onLinkClick={() => {}}
                   onAreaClick={(a) => {}}
-                  onMediaClick={(m) => {}}
                 />
                 <Box style={{ height: "600px" }}>
-                  <EventNetworkGraphBox
+                  <EventNetworkGraphBoxWithFilters
                     type="events"
+                    onActorClick={onActorClick}
+                    onEventClick={onEventClick}
+                    onGroupClick={onGroupClick}
+                    selectedActorIds={[]}
+                    selectedGroupIds={[]}
+                    selectedKeywordIds={[]}
                     query={{
                       ids: [event.id],
-                      startDate: subYears(new Date(), 1).toISOString(),
+                      type: EventType.types.map((t) => t.value),
+                      startDate: formatDate(subYears(new Date(), 1)),
+                      endDate: formatDate(new Date()),
                     }}
+                    onQueryChange={() => {}}
                   />
                 </Box>
 
@@ -256,6 +263,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                   style={{
                     display: "flex",
                     height: "100%",
+                    width: "100%",
                   }}
                 >
                   <LinksListBox

@@ -1,21 +1,14 @@
 import { getTotal } from "@liexp/shared/helpers/event";
-import {
-  type Actor,
-  type Group,
-  type GroupMember,
-  type Keyword,
-} from "@liexp/shared/io/http";
+import { type SearchEvent } from "@liexp/shared/io/http/Events";
+import { type EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import ArrowDownIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpIcon from "@mui/icons-material/ArrowUpward";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import { subYears } from "date-fns";
 import * as React from "react";
-import {
-  searchEventsQuery,
-  type SearchEventsQueryInputNoPagination,
-} from "../../state/queries/SearchEventsQuery";
+import { type SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery";
 import { styled, useTheme } from "../../theme";
-import { DateRangePicker } from "../Common/DateRangePicker";
-import QueriesRenderer from "../QueriesRenderer";
+import { DateRangePicker, DateRangeSlider } from "../Common/DateRangePicker";
 import {
   Accordion,
   AccordionDetails,
@@ -23,14 +16,14 @@ import {
   alpha,
   Box,
   Grid,
-  SearchIcon,
-  Typography,
   IconButton,
+  SearchIcon,
+  Typography
 } from "../mui";
 import {
   EventsAppBarMinimized,
-  type EventsAppBarMinimizedProps,
   searchEventQueryToEventTypeFilters,
+  type EventsAppBarMinimizedProps
 } from "./EventsAppBarMinimized";
 import SearchEventInput, { type SearchFilter } from "./inputs/SearchEventInput";
 
@@ -127,21 +120,19 @@ const StyledToolbar = styled(Box)(({ theme }) => ({
   },
 }));
 
-interface EventsToolbarProps
-  extends Omit<EventsAppBarMinimizedProps, "totals" | "open"> {
+export interface EventsAppBarProps
+  extends Omit<EventsAppBarMinimizedProps, "filters" | "totals" | "open"> {
   defaultExpanded?: boolean;
-  hash: string;
-  actors: Actor.Actor[];
-  groups: Group.Group[];
-  groupsMembers: GroupMember.GroupMember[];
-  keywords: Keyword.Keyword[];
+  events: SearchEvent.SearchEvent[];
+  dateRange?: [Date, Date];
   onQueryChange: (e: SearchEventsQueryInputNoPagination) => void;
   onQueryClear: () => void;
+  totals: EventTotals;
 }
 
-const EventsAppBar: React.FC<EventsToolbarProps> = ({
+const EventsAppBar: React.FC<EventsAppBarProps> = ({
   query,
-  hash,
+  dateRange: _dateRange,
   actors,
   groups,
   groupsMembers,
@@ -149,14 +140,13 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
   onQueryChange,
   defaultExpanded = false,
   onQueryClear,
+  totals,
+  events,
   ...props
 }) => {
   const theme = useTheme();
 
-  const [currentDateRange, setCurrentDateRange] = React.useState([
-    query.startDate,
-    query.endDate,
-  ]);
+  const currentDateRange = [query.startDate, query.endDate];
 
   const [isExpanded, setIsExpanded] = React.useState(defaultExpanded);
 
@@ -172,232 +162,228 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
     });
   };
 
-  return (
-    <QueriesRenderer
-      queries={{
-        searchEvents: searchEventsQuery({
-          ...query,
-          hash: `${hash}-totals`,
-          _start: 0,
-          _end: 0,
-        }),
+  const filters = searchEventQueryToEventTypeFilters(query);
+
+  const totalEvents = getTotal(totals, {
+    transactions: filters.Transaction,
+    documentaries: filters.Documentary,
+    uncategorized: filters.Uncategorized,
+    patents: filters.Patent,
+    scientificStudies: filters.ScientificStudy,
+    deaths: filters.Death,
+    quotes: filters.Quote,
+  });
+
+  const dateRange = _dateRange ?? [subYears(new Date(), 1), new Date()];
+
+  const clearButton =
+    actors.length > 0 || groups.length > 0 || keywords.length > 0 ? (
+      <IconButton
+        style={{
+          padding: 0,
+        }}
+        onClick={(e) => {
+          e.stopPropagation();
+          onQueryClear();
+        }}
+        size="large"
+      >
+        <HighlightOffIcon />
+      </IconButton>
+    ) : null;
+
+  const eventTotal = (
+    <Box
+      style={{
+        display: "flex",
+        width: "100%",
+        flexGrow: 1,
+        justifyContent: "flex-end",
       }}
-      render={({ searchEvents: { totals } }) => {
-        const filters = searchEventQueryToEventTypeFilters(query);
-        const totalEvents = getTotal(totals, {
-          transactions: filters.Transaction,
-          documentaries: filters.Documentary,
-          uncategorized: filters.Uncategorized,
-          patents: filters.Patent,
-          scientificStudies: filters.ScientificStudy,
-          deaths: filters.Death,
-          quotes: filters.Quote,
-        });
+    >
+      <Typography
+        display="inline"
+        variant="h5"
+        color="secondary"
+        style={{
+          margin: "auto",
+          marginRight: 0,
+        }}
+      >
+        {totalEvents}
+      </Typography>
+      <IconButton
+        style={{
+          padding: 20,
+        }}
+        onClick={(e) => {
+          e.stopPropagation();
+          onQueryChange({
+            ...query,
+            _order: query._order === "DESC" ? "ASC" : "DESC",
+          });
+        }}
+        size="large"
+      >
+        {query._order === "DESC" ? <ArrowUpIcon /> : <ArrowDownIcon />}
+      </IconButton>
+    </Box>
+  );
 
-        const clearButton =
-          actors.length > 0 || groups.length > 0 || keywords.length > 0 ? (
-            <IconButton
-              style={{
-                padding: 0,
-              }}
-              onClick={(e) => {
-                e.stopPropagation();
-                onQueryClear();
-              }}
-              size="large"
-            >
-              <HighlightOffIcon />
-            </IconButton>
-          ) : null;
+  const searchBox = (
+    <div className={classes.search}>
+      <div className={classes.searchIcon}>
+        <SearchIcon />
+      </div>
+      <SearchEventInput
+        classes={{
+          root: classes.inputRoot,
+          input: classes.inputInput,
+        }}
+        query={query}
+        onQueryChange={handleSearchChange}
+      />
+    </div>
+  );
 
-        const eventTotal = (
-          <Box
-            style={{
-              display: "flex",
-              width: "100%",
-              flexGrow: 1,
-              justifyContent: "flex-end",
-            }}
-          >
-            <Typography
-              display="inline"
-              variant="h5"
-              color="secondary"
-              style={{
-                margin: "auto",
-                marginRight: 0,
-              }}
-            >
-              {totalEvents}
-            </Typography>
-            <IconButton
-              style={{
-                padding: 20,
-              }}
-              onClick={(e) => {
-                e.stopPropagation();
+  const searchTermBox = query.title ? (
+    <Box
+      style={{
+        display: "flex",
+        alignItems: "center",
+        marginRight: theme.spacing(2),
+      }}
+    >
+      <Typography
+        onClick={() => {
+          if (isExpanded) {
+            onQueryChange({
+              ...query,
+              title: undefined,
+            });
+          }
+        }}
+        variant="subtitle1"
+      >
+        {query.title}
+      </Typography>
+    </Box>
+  ) : null;
+
+  const expanded = (
+    <Box
+      style={{
+        width: "100%",
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "wrap",
+      }}
+    >
+      <Grid container spacing={2} className={classes.expandedBox}>
+        <Grid item md={12} sm={12} xs={12}>
+          {searchBox}
+          {searchTermBox}
+        </Grid>
+        <Grid item xs={12} sm={12} md={12} lg={12}>
+          {props.layout?.dateRangeBox?.variant === "slider" ? (
+            <DateRangeSlider
+              minDate={dateRange[0]}
+              maxDate={dateRange[1]}
+              from={currentDateRange[0]}
+              to={currentDateRange[1]}
+              onDateRangeChange={([from, to]) => {
                 onQueryChange({
                   ...query,
-                  _order: query._order === "DESC" ? "ASC" : "DESC",
+                  startDate: from,
+                  endDate: to,
                 });
               }}
-              size="large"
-            >
-              {query._order === "DESC" ? <ArrowUpIcon /> : <ArrowDownIcon />}
-            </IconButton>
-          </Box>
-        );
-
-        const searchBox = (
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <SearchEventInput
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              query={query}
-              onQueryChange={handleSearchChange}
             />
-          </div>
-        );
-
-        const searchTermBox = query.title ? (
-          <Box
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginRight: theme.spacing(2),
-            }}
-          >
-            <Typography
-              onClick={() => {
-                if (isExpanded) {
-                  onQueryChange({
-                    ...query,
-                    title: undefined,
-                  });
-                }
+          ) : (
+            <DateRangePicker
+              minDate={dateRange[0]}
+              maxDate={dateRange[1]}
+              from={currentDateRange[0]}
+              to={currentDateRange[1]}
+              onDateRangeChange={([from, to]) => {
+                onQueryChange({
+                  ...query,
+                  startDate: from,
+                  endDate: to,
+                });
               }}
-              variant="subtitle1"
-            >
-              {query.title}
-            </Typography>
-          </Box>
-        ) : null;
+            />
+          )}
+        </Grid>
+      </Grid>
+    </Box>
+  );
 
-        const expanded = (
+  return (
+    <StyledToolbar
+      style={{
+        width: "100%",
+        display: "flex",
+        flexShrink: 0,
+      }}
+    >
+      <Grid container>
+        <Grid item md={10}>
+          <Accordion
+            expanded={isExpanded}
+            onChange={(e) => {
+              if (!e.isDefaultPrevented()) {
+                setIsExpanded(!isExpanded);
+              }
+            }}
+            variant={undefined}
+            style={{
+              width: "100%",
+              border: "none",
+              boxShadow: "none",
+              background: "transparent",
+            }}
+          >
+            <AccordionSummary>
+              <EventsAppBarMinimized
+                {...props}
+                filters={filters}
+                open={isExpanded}
+                query={query}
+                actors={actors}
+                groups={groups}
+                groupsMembers={groupsMembers}
+                keywords={keywords}
+                totals={totals}
+                onQueryChange={onQueryChange}
+              />
+            </AccordionSummary>
+            <AccordionDetails>{expanded}</AccordionDetails>
+          </Accordion>
+        </Grid>
+        <Grid
+          item
+          md={2}
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            flexShrink: 0,
+            alignItems: "baseline",
+          }}
+        >
           <Box
             style={{
-              width: "100%",
               display: "flex",
-              flexDirection: "row",
-              flexWrap: "wrap",
+              justifyContent: "flex-end",
+              marginRight: 20,
             }}
           >
-            <Grid container spacing={2} className={classes.expandedBox}>
-              <Grid item md={12} sm={12} xs={12}>
-                {searchBox}
-                {searchTermBox}
-              </Grid>
-              <Grid item xs={12} sm={12} md={12} lg={12}>
-                <DateRangePicker
-                  from={currentDateRange[0]}
-                  to={currentDateRange[1]}
-                  onDateRangeChange={([from, to]) => {
-                    setCurrentDateRange([from, to]);
-                  }}
-                  onBlur={(e) => {
-                    onQueryChange({
-                      ...query,
-                      startDate:
-                        e.target.value === "" ? undefined : e.target.value,
-                      endDate: currentDateRange[1],
-                    });
-                  }}
-                />
-              </Grid>
-            </Grid>
+            {clearButton}
           </Box>
-        );
-
-        return (
-          <StyledToolbar
-            style={{
-              width: "100%",
-              display: "flex",
-              flexShrink: 0,
-            }}
-          >
-            <Grid container>
-              <Grid item md={10}>
-                <Accordion
-                  expanded={isExpanded}
-                  onChange={(e) => {
-                    if (!e.isDefaultPrevented()) {
-                      setIsExpanded(!isExpanded);
-                    }
-                  }}
-                  variant={undefined}
-                  style={{
-                    width: "100%",
-                    border: "none",
-                    boxShadow: "none",
-                    background: "transparent",
-                  }}
-                >
-                  <AccordionSummary>
-                    <EventsAppBarMinimized
-                      {...props}
-                      open={isExpanded}
-                      query={query}
-                      actors={actors.filter((a) =>
-                        query.actors?.includes(a.id)
-                      )}
-                      groups={groups.filter((g) =>
-                        query.groups?.includes(g.id)
-                      )}
-                      groupsMembers={groupsMembers.filter((gm) =>
-                        query.groupsMembers?.includes(gm.id)
-                      )}
-                      keywords={keywords.filter((k) =>
-                        query.keywords?.includes(k.id)
-                      )}
-                      totals={totals}
-                      onQueryChange={onQueryChange}
-                    />
-                  </AccordionSummary>
-                  <AccordionDetails>{expanded}</AccordionDetails>
-                </Accordion>
-              </Grid>
-              <Grid
-                item
-                md={2}
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexShrink: 0,
-                  alignItems: "baseline",
-                }}
-              >
-                <Box
-                  style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    marginRight: 20,
-                  }}
-                >
-                  {clearButton}
-                </Box>
-                {eventTotal}
-              </Grid>
-            </Grid>
-          </StyledToolbar>
-        );
-      }}
-    />
+          {eventTotal}
+        </Grid>
+      </Grid>
+    </StyledToolbar>
   );
 };
 export default EventsAppBar;

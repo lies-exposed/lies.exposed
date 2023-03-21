@@ -3,7 +3,7 @@ const path = require("path");
 const fs = require("fs");
 const { webServe } = require("./ecosystem.config");
 
-const DOTENV_CONFIG_PATH = process.env.DOTENV_CONFIG_PATH ?? '.env';
+const DOTENV_CONFIG_PATH = process.env.DOTENV_CONFIG_PATH ?? ".env";
 
 const apiEnv = dotenv.parse(
   fs.readFileSync(path.resolve(__dirname, DOTENV_CONFIG_PATH), "utf-8")
@@ -15,7 +15,14 @@ const webEnv = dotenv.parse(
     "utf-8"
   )
 );
-/** {} */
+
+const adminEnv = dotenv.parse(
+  fs.readFileSync(
+    path.resolve(__dirname, "./services/admin-web/", DOTENV_CONFIG_PATH),
+    "utf-8"
+  )
+);
+
 module.exports = {
   apps: [
     {
@@ -59,12 +66,7 @@ module.exports = {
       cwd: path.resolve(__dirname, "./services/admin-web"),
       script: "yarn start",
       watch: false,
-      env: dotenv.parse(
-        fs.readFileSync(
-          path.resolve(__dirname, "./services/admin-web/.env.development"),
-          "utf-8"
-        )
-      ),
+      env: adminEnv,
     },
   ],
 };

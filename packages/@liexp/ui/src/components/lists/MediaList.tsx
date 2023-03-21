@@ -137,7 +137,7 @@ export interface MediaListProps {
   media: Media[];
   hideDescription?: boolean;
   disableZoom?: boolean;
-  onItemClick: (item: Media) => void;
+  onItemClick?: (item: Media) => void;
   style?: React.CSSProperties;
   itemStyle?: React.CSSProperties;
   gutterSize?: number;

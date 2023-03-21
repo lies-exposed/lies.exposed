@@ -1,5 +1,6 @@
 import { EventType } from "@liexp/shared/io/http/Events";
 import { type GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
+import { formatDate } from '@liexp/shared/utils/date';
 import {
   clearSearchEventsQueryCache,
   type SearchEventQueryInput,
@@ -45,7 +46,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
   const params: Omit<SearchEventQueryInput, "_start" | "_end"> = {
     hash,
     startDate: query.startDate,
-    endDate: query.endDate,
+    endDate: query.endDate ?? formatDate(new Date()),
     actors: query.actors ?? [],
     groups: query.groups ?? [],
     groupsMembers: query.groupsMembers ?? [],
