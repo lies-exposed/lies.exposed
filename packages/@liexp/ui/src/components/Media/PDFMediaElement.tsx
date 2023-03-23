@@ -1,5 +1,6 @@
 import { type Media } from "@liexp/shared/io/http";
 import { CloseOutlined } from "@mui/icons-material";
+import {clsx} from "clsx";
 import * as React from "react";
 import { styled } from "../../theme";
 import { Box, Button, Modal, Typography } from "../mui";
@@ -7,11 +8,13 @@ import { Box, Button, Modal, Typography } from "../mui";
 const PREFIX = "PDFMediaElement";
 
 const classes = {
+  root: `${PREFIX}-root`,
   modalContainer: `${PREFIX}-modalContainer`,
   paper: `${PREFIX}-paper`,
 };
 
 const StyledBox = styled(Box)(({ theme }) => ({
+  [`&.${classes.root}`]: {},
   [`& .${classes.modalContainer}`]: {
     position: "absolute",
     top: 0,
@@ -21,15 +24,17 @@ const StyledBox = styled(Box)(({ theme }) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    background: "red",
+    minHeight: 300,
   },
 
   [`& .${classes.paper}`]: {
-    position: 'relative',
+    position: "relative",
     width: "80%",
     minHeight: 400,
     maxHeight: "90%",
     height: "100%",
-    margin: 'auto',
+    margin: "auto",
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(2),
   },
@@ -59,14 +64,14 @@ const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
       display="flex"
       alignItems="center"
       justifyContent="center"
-      className={className}
+      className={clsx(classes.root, className)}
       onLoad={onLoad}
       onClick={onClick}
       style={{
         ...style,
         background: media.thumbnail ? `url(${media.thumbnail})` : undefined,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
       }}
     >
       {!onClick ? (

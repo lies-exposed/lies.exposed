@@ -14,7 +14,7 @@ export const getTitle = (
     case http.Events.Uncategorized.UNCATEGORIZED.value:
       return e.payload.title;
     case http.Events.Quote.QUOTE.value: {
-      const byActor = relations.actors[0] ?? { fullName: "Unknown" };
+      const byActor = relations?.actors?.[0] ?? { fullName: "Unknown" };
       return `${byActor.fullName} - `.concat(
         e.payload.details
           ? `${e.payload.details}`
