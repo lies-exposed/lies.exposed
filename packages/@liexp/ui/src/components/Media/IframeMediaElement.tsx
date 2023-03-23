@@ -20,6 +20,7 @@ const Root = styled("div")(() => ({
     width: "100%",
   },
   [`& .${classes.cover}`]: {
+    position: 'absolute',
     height: "100%",
     width: "100%",
   },
