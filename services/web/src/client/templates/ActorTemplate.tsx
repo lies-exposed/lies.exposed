@@ -20,7 +20,7 @@ const ActorPage: React.FC<{ actorId: string }> = ({ actorId }) => {
       }}
       render={({ actor }) => {
         return (
-          <Box>
+          <Box style={{ height: "100%" }}>
             <SEO
               title={actor.fullName}
               image={actor.avatar ?? ""}

@@ -30,8 +30,10 @@ const classes = {
 };
 
 const StyledBox = styled(Box)(({ theme }) => ({
-  [`.${classes.root}`]: {},
-  [`.${classes.title}`]: {
+  [`&.${classes.root}`]: {
+    height: "100%",
+  },
+  [`& .${classes.title}`]: {
     textAlign: "right",
     [theme.breakpoints.down("md")]: {
       textAlign: "left",
@@ -89,7 +91,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
             `${process.env.PUBLIC_URL}/liexp-logo.png`;
 
           return (
-            <Box>
+            <Box style={{ height: "100%" }}>
               <SEO
                 title={title}
                 description={message}
@@ -240,7 +242,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                   onLinkClick={() => {}}
                   onAreaClick={(a) => {}}
                 />
-                <Box style={{ height: "600px" }}>
+                <Box style={{ height: "100%" }}>
                   <EventNetworkGraphBoxWithFilters
                     type="events"
                     onActorClick={onActorClick}
