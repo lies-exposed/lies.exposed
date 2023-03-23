@@ -37,6 +37,7 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
   onKeywordClick,
   onEventClick,
 }) => {
+
   return (
     <QueriesRenderer
       queries={{

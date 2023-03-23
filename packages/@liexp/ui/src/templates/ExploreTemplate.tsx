@@ -148,6 +148,12 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
     ...p,
   };
 
+  const [relations, setRelations] = React.useState([
+    KEYWORDS.value,
+    GROUPS.value,
+    ACTORS.value,
+  ]);
+
   return (
     <StyledGrid container justifyContent="center" style={{ height: "100%" }}>
       <SEO
@@ -315,9 +321,10 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                     );
                   }}
                 />
-                <Box style={{ height: 600 }}>
+                <Box style={{ height: "100%" }}>
                   <EventNetworkGraphBox
-                    relations={[KEYWORDS.value, GROUPS.value, ACTORS.value]}
+                    relations={relations}
+                    onRelationsChange={setRelations}
                     query={{
                       ...params,
                       ids: undefined,
