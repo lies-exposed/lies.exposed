@@ -50,7 +50,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
             style={{ display: "flex", flexDirection: "row" }}
             actors={groupsMembers.map((g) => ({
               ...g.actor,
-              selected: false,
+              selected: true,
             }))}
             onActorClick={onMemberClick}
             avatarSize="small"

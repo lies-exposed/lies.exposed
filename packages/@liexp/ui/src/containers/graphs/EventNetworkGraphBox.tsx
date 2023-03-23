@@ -29,7 +29,12 @@ import {
 } from "../../components/Graph/EventsNetworkGraph";
 import QueriesRenderer from "../../components/QueriesRenderer";
 import EventsAppBar from "../../components/events/EventsAppBar";
-import { Box, Checkbox, FormControlLabel } from "../../components/mui";
+import {
+  Box,
+  Checkbox,
+  FormControlLabel,
+  Typography,
+} from "../../components/mui";
 import { useNetworkGraphQuery } from "../../state/queries/DiscreteQueries";
 import { type SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery";
 import { type UseListQueryFn } from "../../state/queries/type";
@@ -55,6 +60,13 @@ export interface EventNetworkGraphBoxProps
 const EventNetworkGraphBoxWrapper: React.FC<
   EventNetworkGraphBoxProps & {
     hash: string;
+    filters?: (
+      opts: Omit<EventsNetworkGraphProps, "width" | "height"> & {
+        minDate: Date;
+        maxDate: Date;
+        totals: EventTotals;
+      }
+    ) => React.ReactNode | null;
     children: (
       opts: EventsNetworkGraphProps & {
         minDate: Date;
@@ -86,35 +98,6 @@ const EventNetworkGraphBoxWrapper: React.FC<
   };
   return (
     <Box style={{ height: "100%" }}>
-      <Box>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={relations.includes(ACTORS.value)}
-              onChange={handleRelationChange(ACTORS.value)}
-            />
-          }
-          label={"Actors"}
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={relations.includes(GROUPS.value)}
-              onChange={handleRelationChange(GROUPS.value)}
-            />
-          }
-          label={"Groups"}
-        />
-        <FormControlLabel
-          label={"Keywords"}
-          control={
-            <Checkbox
-              checked={relations.includes(KEYWORDS.value)}
-              onChange={handleRelationChange(KEYWORDS.value)}
-            />
-          }
-        />
-      </Box>
       <QueriesRenderer
         queries={{
           graph: useNetworkGraphQuery(
@@ -316,28 +299,98 @@ const EventNetworkGraphBoxWrapper: React.FC<
             }
           );
 
+          const innerProps = {
+            events: filteredEvents,
+
+            actors,
+            groups,
+            keywords,
+            graph: { nodes: [...nodes], links: [...links] },
+            totals,
+            minDate: parseISO(minDate),
+            maxDate: parseISO(maxDate),
+          };
+
           return (
-            <Box style={{ height: "100%" }}>
-              <ParentSize
-                debounceTime={1000}
-                style={{ height: "100%", width: "100%" }}
-              >
-                {({ width, height }) => {
-                  return props.children({
-                    ...props,
-                    events: filteredEvents,
-                    width,
-                    height,
-                    actors,
-                    groups,
-                    keywords,
-                    graph: { nodes: [...nodes], links: [...links] },
-                    totals,
-                    minDate: parseISO(minDate),
-                    maxDate: parseISO(maxDate),
-                  });
+            <Box
+              style={{
+                height: "100%",
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              {props.filters ? (
+                <Box
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    flexShrink: 1,
+                    height: '30%'
+
+                  }}
+                >
+                  {props.filters({ ...innerProps })}
+                </Box>
+              ) : null}
+
+              <Box
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  height: props.filters ? "70%" : "100%",
+                  // flexGrow: 1
                 }}
-              </ParentSize>
+              >
+                <ParentSize
+                  debounceTime={1000}
+                  enableDebounceLeadingCall={false}
+                >
+                  {({ width, height }) => {
+                    return props.children({
+                      ...props,
+                      ...innerProps,
+                      width,
+                      height,
+                    });
+                  }}
+                </ParentSize>
+                <Box
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    padding: 16,
+                  }}
+                >
+                  <FormControlLabel
+                    label={<Typography variant="caption">Actors</Typography>}
+                    control={
+                      <Checkbox
+                        checked={relations.includes(ACTORS.value)}
+                        onChange={handleRelationChange(ACTORS.value)}
+                      />
+                    }
+                  />
+                  <FormControlLabel
+                    label={<Typography variant="caption">Groups</Typography>}
+                    control={
+                      <Checkbox
+                        checked={relations.includes(GROUPS.value)}
+                        onChange={handleRelationChange(GROUPS.value)}
+                      />
+                    }
+                  />
+                  <FormControlLabel
+                    label={<Typography variant="caption">Keywords</Typography>}
+                    control={
+                      <Checkbox
+                        checked={relations.includes(KEYWORDS.value)}
+                        onChange={handleRelationChange(KEYWORDS.value)}
+                      />
+                    }
+                  />
+                </Box>
+              </Box>
             </Box>
           );
         }}
@@ -354,8 +407,13 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
   return (
     <Box style={{ width: "100%", height: "100%" }}>
       <EventNetworkGraphBoxWrapper {...props} query={{ ...query }} hash={hash}>
-        {({ ...otherProps }) => {
-          return <EventsNetworkGraph {...otherProps} />;
+        {({ width, height, ...otherProps }) => {
+          // console.log({ width, height });
+
+          // return <div style={{ width, height: 600, background: "red" }} />;
+          return (
+            <EventsNetworkGraph width={width} height={height} {...otherProps} />
+          );
         }}
       </EventNetworkGraphBoxWrapper>
     </Box>
@@ -380,7 +438,6 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
   onQueryChange,
   ...props
 }) => {
-
   const [state, setState] = React.useState<{
     startDate: string;
     endDate: string;
@@ -400,6 +457,7 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
   return (
     <Box
       style={{
+        display: "flex",
         height: "100%",
         width: "100%",
       }}
@@ -417,6 +475,66 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
         selectedActorIds={state.selectedActorIds}
         selectedGroupIds={state.selectedGroupIds}
         selectedKeywordIds={state.selectedKeywordIds}
+        filters={({
+          actors,
+          events,
+          totals,
+          groups,
+          keywords,
+          minDate,
+          maxDate,
+        }) => {
+          return (
+            <EventsAppBar
+              layout={{ dateRangeBox: { columns: 12, variant: "slider" } }}
+              events={events}
+              totals={totals}
+              query={{
+                hash: "",
+                ...query,
+                type: state.type,
+                actors: state.selectedActorIds,
+                startDate: state.startDate,
+                endDate: state.endDate,
+              }}
+              dateRange={[minDate, maxDate]}
+              keywords={keywords.map((k) => ({
+                ...k,
+                selected: state.selectedKeywordIds.includes(k.id),
+              }))}
+              actors={actors.map((a) => ({
+                ...a,
+                selected: state.selectedActorIds.includes(a.id),
+              }))}
+              groups={groups.map((g) => ({
+                ...g,
+                selected: state.selectedGroupIds.includes(g.id),
+              }))}
+              groupsMembers={[]}
+              onQueryChange={(q) => {
+                setState((s) => ({
+                  ...s,
+                  type: q.type,
+                  startDate: q.startDate ?? state.startDate,
+                  endDate: q.endDate ?? state.endDate,
+                  selectedActorIds: q.actors ?? [],
+                  selectedGroupIds: q.groups ?? [],
+                  selectedKeywordIds: q.keywords ?? [],
+                }));
+              }}
+              onQueryClear={() => {
+                setState({
+                  type: undefined,
+                  startDate: query.startDate,
+                  endDate: query.endDate,
+                  selectedActorIds: props.selectedActorIds ?? [],
+                  selectedGroupIds: props.selectedGroupIds ?? [],
+                  selectedKeywordIds: props.selectedKeywordIds ?? [],
+                });
+              }}
+            />
+          );
+        }}
       >
         {({
           actors,
@@ -426,70 +544,25 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
           events,
           minDate,
           maxDate,
+          width,
+          height,
           ...otherProps
         }) => {
+          // console.log({ width, height });
+          // return <div style={{ width, height, background: "red" }} />;
           return (
-            <Box style={{ width: "100%", height: "100%" }}>
-              <EventsAppBar
-                layout={{ dateRangeBox: { columns: 12, variant: "slider" } }}
-                events={events}
-                totals={totals}
-                query={{
-                  hash: "",
-                  ...query,
-                  type: state.type,
-                  actors: state.selectedActorIds,
-                  startDate: state.startDate,
-                  endDate: state.endDate,
-                }}
-                dateRange={[minDate, maxDate]}
-                keywords={keywords.map((k) => ({
-                  ...k,
-                  selected: state.selectedKeywordIds.includes(k.id),
-                }))}
-                actors={actors.map((a) => ({
-                  ...a,
-                  selected: state.selectedActorIds.includes(a.id),
-                }))}
-                groups={groups.map((g) => ({
-                  ...g,
-                  selected: state.selectedGroupIds.includes(g.id),
-                }))}
-                groupsMembers={[]}
-                onQueryChange={(q) => {
-                  setState((s) => ({
-                    ...s,
-                    type: q.type,
-                    startDate: q.startDate ?? state.startDate,
-                    endDate: q.endDate ?? state.endDate,
-                    selectedActorIds: q.actors ?? [],
-                    selectedGroupIds: q.groups ?? [],
-                    selectedKeywordIds: q.keywords ?? [],
-                  }));
-                }}
-                onQueryClear={() => {
-                  setState({
-                    type: undefined,
-                    startDate: query.startDate,
-                    endDate: query.endDate,
-                    selectedActorIds: props.selectedActorIds ?? [],
-                    selectedGroupIds: props.selectedGroupIds ?? [],
-                    selectedKeywordIds: props.selectedKeywordIds ?? [],
-                  });
-                }}
-              />
-
-              <EventsNetworkGraph
-                {...otherProps}
-                events={events}
-                selectedActorIds={state.selectedActorIds}
-                selectedGroupIds={state.selectedGroupIds}
-                selectedKeywordIds={state.selectedKeywordIds}
-                actors={actors}
-                groups={groups}
-                keywords={keywords}
-              />
-            </Box>
+            <EventsNetworkGraph
+              {...otherProps}
+              width={width}
+              height={height}
+              events={events}
+              selectedActorIds={state.selectedActorIds}
+              selectedGroupIds={state.selectedGroupIds}
+              selectedKeywordIds={state.selectedKeywordIds}
+              actors={actors}
+              groups={groups}
+              keywords={keywords}
+            />
           );
         }}
       </EventNetworkGraphBoxWrapper>
@@ -514,12 +587,10 @@ export const EventsNetworkGraphBoxWithQuery: React.FC<
       }}
       render={({ items: { data } }) => {
         return (
-          <Box style={{ height: 600 }}>
-            <EventNetworkGraphBox
-              {...props}
-              query={{ ...query, ids: [data[0].id] }}
-            />
-          </Box>
+          <EventNetworkGraphBox
+            {...props}
+            query={{ ...query, ids: [data[0].id] }}
+          />
         );
       }}
     />
