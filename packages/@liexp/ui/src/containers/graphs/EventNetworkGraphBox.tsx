@@ -29,7 +29,7 @@ import {
 } from "../../components/Graph/EventsNetworkGraph";
 import QueriesRenderer from "../../components/QueriesRenderer";
 import EventsAppBar from "../../components/events/EventsAppBar";
-import { Box, MenuItem, Select } from "../../components/mui";
+import { Box, Checkbox, FormControlLabel } from "../../components/mui";
 import { useNetworkGraphQuery } from "../../state/queries/DiscreteQueries";
 import { type SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery";
 import { type UseListQueryFn } from "../../state/queries/type";
@@ -49,6 +49,7 @@ export interface EventNetworkGraphBoxProps
     startDate: string;
     endDate: string;
   };
+  onRelationsChange?: (relations: NetworkGroupBy[]) => void;
 }
 
 const EventNetworkGraphBoxWrapper: React.FC<
@@ -69,239 +70,279 @@ const EventNetworkGraphBoxWrapper: React.FC<
   selectedActorIds,
   selectedGroupIds,
   selectedKeywordIds,
-  relations = [KEYWORDS.value],
+  relations: _relations = [KEYWORDS.value],
+  onRelationsChange,
   ...props
 }) => {
   const startDate = parseDate(query.startDate);
   const endDate = parseDate(query.endDate);
 
+  const [relations, setRelations] = onRelationsChange
+    ? [_relations, onRelationsChange]
+    : React.useState(_relations);
+
+  const handleRelationChange = (r: NetworkGroupBy) => (_: any, c: boolean) => {
+    setRelations(!c ? relations.filter((rr) => rr !== r) : relations.concat(r));
+  };
   return (
-    <QueriesRenderer
-      queries={{
-        graph: useNetworkGraphQuery(
-          { type },
-          {
-            ...query,
-            relations,
-            actors: pipe(
-              query.actors,
-              fp.O.fromPredicate(
-                (ids): ids is string[] => (ids?.length ?? 0) > 0
-              ),
-              fp.O.chain(fp.NEA.fromArray),
-              fp.O.toNullable
-            ),
-            groups: pipe(
-              query.groups,
-              fp.O.fromPredicate(
-                (ids): ids is string[] => (ids?.length ?? 0) > 0
-              ),
-              fp.O.chain(fp.NEA.fromArray),
-              fp.O.toNullable
-            ),
-            keywords: pipe(
-              query.keywords,
-              fp.O.fromPredicate(
-                (ids): ids is string[] => (ids?.length ?? 0) > 0
-              ),
-              fp.O.chain(fp.NEA.fromArray),
-              fp.O.toNullable
-            ),
-            ids: pipe(
-              ids,
-              fp.O.fromPredicate(
-                (ids): ids is string[] => (ids?.length ?? 0) > 0
-              ),
-              fp.O.chain(fp.NEA.fromArray),
-              fp.O.toNullable
-            ),
+    <Box style={{ height: "100%" }}>
+      <Box>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={relations.includes(ACTORS.value)}
+              onChange={handleRelationChange(ACTORS.value)}
+            />
           }
-        ),
-      }}
-      render={({
-        graph: {
-          eventLinks,
-          actorLinks,
-          groupLinks,
-          keywordLinks,
-          selectedLinks,
-          events,
-          actors,
-          groups,
-          keywords,
-        },
-      }) => {
-        const minDate = events.at(events.length - 1).date;
-        const maxDate = events.at(0).date;
-
-        const filteredEvents = events.filter((e) => {
-          const date = parseISO(e.date);
-          const min = differenceInDays(date, startDate);
-
-          if (min < 0) {
-            // console.log(`Days to start date ${startDate}`, min);
-            return false;
+          label={"Actors"}
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={relations.includes(GROUPS.value)}
+              onChange={handleRelationChange(GROUPS.value)}
+            />
           }
-
-          const max = differenceInDays(endDate, date);
-
-          if (max < 0) {
-            // console.log(`Days to endDate date ${endDate}`, max);
-            return false;
+          label={"Groups"}
+        />
+        <FormControlLabel
+          label={"Keywords"}
+          control={
+            <Checkbox
+              checked={relations.includes(KEYWORDS.value)}
+              onChange={handleRelationChange(KEYWORDS.value)}
+            />
           }
-
-          // console.log("e", e);
-          const eventRelations = getRelationIds(e);
-          // console.log("event relations", eventRelations);
-          if (selectedActorIds && selectedActorIds.length > 0) {
-            // console.log("filter per actors", eventRelations.actors);
-            const hasActor = eventRelations.actors.some((a: any) =>
-              (selectedActorIds ?? []).includes(a)
-            );
-            if (!hasActor) {
-              // console.log("no actors found", selectedActorIds);
-              return false;
+        />
+      </Box>
+      <QueriesRenderer
+        queries={{
+          graph: useNetworkGraphQuery(
+            { type },
+            {
+              ...query,
+              relations,
+              actors: pipe(
+                query.actors,
+                fp.O.fromPredicate(
+                  (ids): ids is string[] => (ids?.length ?? 0) > 0
+                ),
+                fp.O.chain(fp.NEA.fromArray),
+                fp.O.toNullable
+              ),
+              groups: pipe(
+                query.groups,
+                fp.O.fromPredicate(
+                  (ids): ids is string[] => (ids?.length ?? 0) > 0
+                ),
+                fp.O.chain(fp.NEA.fromArray),
+                fp.O.toNullable
+              ),
+              keywords: pipe(
+                query.keywords,
+                fp.O.fromPredicate(
+                  (ids): ids is string[] => (ids?.length ?? 0) > 0
+                ),
+                fp.O.chain(fp.NEA.fromArray),
+                fp.O.toNullable
+              ),
+              ids: pipe(
+                ids,
+                fp.O.fromPredicate(
+                  (ids): ids is string[] => (ids?.length ?? 0) > 0
+                ),
+                fp.O.chain(fp.NEA.fromArray),
+                fp.O.toNullable
+              ),
             }
-          }
-
-          if (selectedGroupIds && selectedGroupIds.length > 0) {
-            // console.log("filter per groups", selectedGroupIds);
-            const hasGroup = eventRelations.groups.some((a: any) =>
-              (selectedGroupIds ?? []).includes(a.id)
-            );
-            if (!hasGroup) {
-              // console.log("no groups found", selectedGroupIds);
-              return false;
-            }
-          }
-
-          if (selectedKeywordIds && selectedKeywordIds.length > 0) {
-            // console.log("filter per keywords", selectedKeywordIds);
-            // console.log("event keywords", eventRelations.keywords);
-            const hasKeyword = eventRelations.keywords.some((a: any) =>
-              (selectedKeywordIds ?? []).includes(a.id)
-            );
-            if (!hasKeyword) {
-              // console.log("no keywords found", query.keywords);
-              return false;
-            }
-          }
-
-          // console.log("query type", queryType);
-          const isTypeIncluded: boolean = pipe(
-            queryType,
-            fp.O.fromNullable,
-            fp.O.chain((et) =>
-              t.string.is(et) ? fp.O.some(et === e.type) : fp.O.none
-            ),
-            fp.O.alt(() =>
-              t.array(t.string).is(queryType)
-                ? fp.O.some(queryType.includes(e.type))
-                : fp.O.none
-            ),
-            fp.O.getOrElse(() => true)
-          );
-
-          // console.log("is type included", isTypeIncluded);
-
-          if (!isTypeIncluded) {
-            return false;
-          }
-
-          return true;
-        });
-
-        // console.log(filteredEvents);
-
-        const eventIds = filteredEvents.map((e) => e.id);
-
-        // console.log("event ids", eventIds);
-
-        const relationLinks = selectedLinks
-          .concat(actorLinks)
-          .concat(groupLinks)
-          .concat(keywordLinks)
-          .filter(
-            (l) => eventIds.includes(l.target) || eventIds.includes(l.source)
-          );
-
-        // console.log(relationLinks);
-
-        const relationNodes = actors
-          .map((a): any => ({ ...a, type: ACTORS.value }))
-          .concat(groups.map((g) => ({ ...g, type: GROUPS.value })))
-          .concat(keywords.map((k) => ({ ...k, type: KEYWORDS.value })))
-          .filter(
-            (r) =>
-              // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-              relationLinks.some(
-                (l) => r.id === l.target || r.id === l.source
-              ) || ids?.includes(r.id)
-          );
-
-        const nodes = filteredEvents.concat(relationNodes);
-
-        const links = eventLinks
-          .filter(
-            (l) => eventIds.includes(l.target) && eventIds.includes(l.source)
-          )
-          .concat(relationLinks);
-
-        // console.log({ nodes, links });
-
-        const totals = events.reduce(
-          (acc, e) => {
-            // console.log(e.type);
-            return {
-              uncategorized:
-                acc.uncategorized + (UNCATEGORIZED.is(e.type) ? 1 : 0),
-              scientificStudies:
-                acc.scientificStudies + (SCIENTIFIC_STUDY.is(e.type) ? 1 : 0),
-              transactions: acc.transactions + (TRANSACTION.is(e.type) ? 1 : 0),
-              patents: acc.patents + (PATENT.is(e.type) ? 1 : 0),
-              deaths: acc.deaths + (DEATH.is(e.type) ? 1 : 0),
-              documentaries:
-                acc.documentaries + (DOCUMENTARY.is(e.type) ? 1 : 0),
-              quotes: acc.quotes + (QUOTE.is(e.type) ? 1 : 0),
-            };
+          ),
+        }}
+        render={({
+          graph: {
+            eventLinks,
+            actorLinks,
+            groupLinks,
+            keywordLinks,
+            selectedLinks,
+            events,
+            actors,
+            groups,
+            keywords,
           },
-          {
-            uncategorized: 0,
-            transactions: 0,
-            patents: 0,
-            deaths: 0,
-            documentaries: 0,
-            quotes: 0,
-            scientificStudies: 0,
-          }
-        );
+        }) => {
+          const minDate = events.at(events.length - 1).date;
+          const maxDate = events.at(0).date;
 
-        return (
-          <Box>
-            <ParentSize
-              debounceTime={1000}
-              style={{ height: 600, width: "100%" }}
-            >
-              {({ width, height }) => {
-                return props.children({
-                  ...props,
-                  events: filteredEvents,
-                  width,
-                  height,
-                  actors,
-                  groups,
-                  keywords,
-                  graph: { nodes: [...nodes], links: [...links] },
-                  totals,
-                  minDate: parseISO(minDate),
-                  maxDate: parseISO(maxDate),
-                });
-              }}
-            </ParentSize>
-          </Box>
-        );
-      }}
-    />
+          const filteredEvents = events.filter((e) => {
+            const date = parseISO(e.date);
+            const min = differenceInDays(date, startDate);
+
+            if (min < 0) {
+              // console.log(`Days to start date ${startDate}`, min);
+              return false;
+            }
+
+            const max = differenceInDays(endDate, date);
+
+            if (max < 0) {
+              // console.log(`Days to endDate date ${endDate}`, max);
+              return false;
+            }
+
+            // console.log("e", e);
+            const eventRelations = getRelationIds(e);
+            // console.log("event relations", eventRelations);
+            if (selectedActorIds && selectedActorIds.length > 0) {
+              // console.log("filter per actors", eventRelations.actors);
+              const hasActor = eventRelations.actors.some((a: any) =>
+                (selectedActorIds ?? []).includes(a)
+              );
+              if (!hasActor) {
+                // console.log("no actors found", selectedActorIds);
+                return false;
+              }
+            }
+
+            if (selectedGroupIds && selectedGroupIds.length > 0) {
+              // console.log("filter per groups", selectedGroupIds);
+              const hasGroup = eventRelations.groups.some((a: any) =>
+                (selectedGroupIds ?? []).includes(a.id)
+              );
+              if (!hasGroup) {
+                // console.log("no groups found", selectedGroupIds);
+                return false;
+              }
+            }
+
+            if (selectedKeywordIds && selectedKeywordIds.length > 0) {
+              // console.log("filter per keywords", selectedKeywordIds);
+              // console.log("event keywords", eventRelations.keywords);
+              const hasKeyword = eventRelations.keywords.some((a: any) =>
+                (selectedKeywordIds ?? []).includes(a.id)
+              );
+              if (!hasKeyword) {
+                // console.log("no keywords found", query.keywords);
+                return false;
+              }
+            }
+
+            // console.log("query type", queryType);
+            const isTypeIncluded: boolean = pipe(
+              queryType,
+              fp.O.fromNullable,
+              fp.O.chain((et) =>
+                t.string.is(et) ? fp.O.some(et === e.type) : fp.O.none
+              ),
+              fp.O.alt(() =>
+                t.array(t.string).is(queryType)
+                  ? fp.O.some(queryType.includes(e.type))
+                  : fp.O.none
+              ),
+              fp.O.getOrElse(() => true)
+            );
+
+            // console.log("is type included", isTypeIncluded);
+
+            if (!isTypeIncluded) {
+              return false;
+            }
+
+            return true;
+          });
+
+          // console.log(filteredEvents);
+
+          const eventIds = filteredEvents.map((e) => e.id);
+
+          // console.log("event ids", eventIds);
+
+          const relationLinks = selectedLinks
+            .concat(actorLinks)
+            .concat(groupLinks)
+            .concat(keywordLinks)
+            .filter(
+              (l) => eventIds.includes(l.target) || eventIds.includes(l.source)
+            );
+
+          // console.log(relationLinks);
+
+          const relationNodes = actors
+            .map((a): any => ({ ...a, type: ACTORS.value }))
+            .concat(groups.map((g) => ({ ...g, type: GROUPS.value })))
+            .concat(keywords.map((k) => ({ ...k, type: KEYWORDS.value })))
+            .filter(
+              (r) =>
+                // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+                relationLinks.some(
+                  (l) => r.id === l.target || r.id === l.source
+                ) || ids?.includes(r.id)
+            );
+
+          const nodes = filteredEvents.concat(relationNodes);
+
+          const links = eventLinks
+            .filter(
+              (l) => eventIds.includes(l.target) && eventIds.includes(l.source)
+            )
+            .concat(relationLinks);
+
+          // console.log({ nodes, links });
+
+          const totals = events.reduce(
+            (acc, e) => {
+              // console.log(e.type);
+              return {
+                uncategorized:
+                  acc.uncategorized + (UNCATEGORIZED.is(e.type) ? 1 : 0),
+                scientificStudies:
+                  acc.scientificStudies + (SCIENTIFIC_STUDY.is(e.type) ? 1 : 0),
+                transactions:
+                  acc.transactions + (TRANSACTION.is(e.type) ? 1 : 0),
+                patents: acc.patents + (PATENT.is(e.type) ? 1 : 0),
+                deaths: acc.deaths + (DEATH.is(e.type) ? 1 : 0),
+                documentaries:
+                  acc.documentaries + (DOCUMENTARY.is(e.type) ? 1 : 0),
+                quotes: acc.quotes + (QUOTE.is(e.type) ? 1 : 0),
+              };
+            },
+            {
+              uncategorized: 0,
+              transactions: 0,
+              patents: 0,
+              deaths: 0,
+              documentaries: 0,
+              quotes: 0,
+              scientificStudies: 0,
+            }
+          );
+
+          return (
+            <Box style={{ height: "100%" }}>
+              <ParentSize
+                debounceTime={1000}
+                style={{ height: "100%", width: "100%" }}
+              >
+                {({ width, height }) => {
+                  return props.children({
+                    ...props,
+                    events: filteredEvents,
+                    width,
+                    height,
+                    actors,
+                    groups,
+                    keywords,
+                    graph: { nodes: [...nodes], links: [...links] },
+                    totals,
+                    minDate: parseISO(minDate),
+                    maxDate: parseISO(maxDate),
+                  });
+                }}
+              </ParentSize>
+            </Box>
+          );
+        }}
+      />
+    </Box>
   );
 };
 
@@ -311,7 +352,7 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
 }) => {
   const hash = `event-network-graph-box`;
   return (
-    <Box style={{ width: "100%" }}>
+    <Box style={{ width: "100%", height: "100%" }}>
       <EventNetworkGraphBoxWrapper {...props} query={{ ...query }} hash={hash}>
         {({ ...otherProps }) => {
           return <EventsNetworkGraph {...otherProps} />;
@@ -322,7 +363,9 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
 };
 
 interface EventNetworkGraphBoxWithFiltersProps
-  extends EventNetworkGraphBoxProps {
+  extends Omit<EventNetworkGraphBoxProps, "relations" | "onRelationsChange"> {
+  relations?: NetworkGroupBy[];
+  onRelationsChange?: (relations: NetworkGroupBy[]) => void;
   showFilter?: boolean;
   onQueryChange: (q: SearchEventsQueryInputNoPagination) => void;
 }
@@ -331,18 +374,17 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
   EventNetworkGraphBoxWithFiltersProps
 > = ({
   count = 50,
-  relations: _relations = [KEYWORDS.value],
   query,
   type,
   showFilter = true,
   onQueryChange,
   ...props
 }) => {
+
   const [state, setState] = React.useState<{
     startDate: string;
     endDate: string;
     type: string[] | string | undefined;
-    relations: NetworkGroupBy[];
     selectedActorIds: string[];
     selectedGroupIds: string[];
     selectedKeywordIds: string[];
@@ -350,7 +392,6 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
     startDate: query.startDate,
     type: query.type ?? EventType.types.map((t) => t.value),
     endDate: query.endDate,
-    relations: _relations,
     selectedActorIds: props.selectedActorIds ?? [],
     selectedGroupIds: props.selectedGroupIds ?? [],
     selectedKeywordIds: props.selectedKeywordIds ?? [],
@@ -373,7 +414,6 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
           endDate: state.endDate,
         }}
         type={type}
-        relations={state.relations}
         selectedActorIds={state.selectedActorIds}
         selectedGroupIds={state.selectedGroupIds}
         selectedKeywordIds={state.selectedKeywordIds}
@@ -389,7 +429,7 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
           ...otherProps
         }) => {
           return (
-            <Box style={{ width: "100%" }}>
+            <Box style={{ width: "100%", height: "100%" }}>
               <EventsAppBar
                 layout={{ dateRangeBox: { columns: 12, variant: "slider" } }}
                 events={events}
@@ -430,7 +470,6 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
                 onQueryClear={() => {
                   setState({
                     type: undefined,
-                    relations: _relations,
                     startDate: query.startDate,
                     endDate: query.endDate,
                     selectedActorIds: props.selectedActorIds ?? [],
@@ -440,37 +479,6 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
                 }}
               />
 
-              <Box>
-                <Select
-                  label={"Relation"}
-                  value={state.relations.map((id) => id)}
-                  placeholder="Select.."
-                  size="small"
-                  multiple
-                  onChange={(e) => {
-                    setState(({ relations, ...s }) => {
-                      const idx = relations.findIndex(
-                        (v) => v === e.target.value
-                      );
-                      if (idx >= 0) {
-                        return { ...s, relations: relations.splice(idx, 1) };
-                      }
-                      // return relations.concat(...(e.target.value as any[]));
-                      return {
-                        ...s,
-                        relations:
-                          typeof e.target.value === "string"
-                            ? [e.target.value as any]
-                            : e.target.value,
-                      };
-                    });
-                  }}
-                >
-                  <MenuItem value={ACTORS.value}>{ACTORS.value}</MenuItem>
-                  <MenuItem value={KEYWORDS.value}>{KEYWORDS.value}</MenuItem>
-                  <MenuItem value={GROUPS.value}>{GROUPS.value}</MenuItem>
-                </Select>
-              </Box>
               <EventsNetworkGraph
                 {...otherProps}
                 events={events}
