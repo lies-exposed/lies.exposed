@@ -31,7 +31,7 @@ export const App: React.FC = () => {
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <SEO title="lies exposed" urlPath={location.pathname} />
         <AppHeader />
-        <Grid container style={{ minHeight: "100%", width: "100%" }}>
+        <Grid container style={{ minHeight: "100%", height: "100%", width: "100%" }}>
           <Grid
             item
             style={{
@@ -40,8 +40,8 @@ export const App: React.FC = () => {
               //   theme.mixins.toolbar.height ?? 64
               // }px - 100px)`,
               minHeight: "100%",
+              // height: "100%",
               marginTop: theme.mixins.toolbar.height ?? 64 + 16,
-              // marginBottom: 100,
             }}
           >
             <Routes>

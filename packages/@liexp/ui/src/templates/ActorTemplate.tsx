@@ -115,7 +115,7 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                 onEventClick={onEventClick}
               />
 
-              <Box style={{ height: 600 }}>
+              <Box style={{ height: "100%" }}>
                 <EventNetworkGraphBoxWithFilters
                   type={ACTORS.value}
                   query={{
@@ -124,7 +124,7 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                     startDate: formatDate(subYears(new Date(), 2)),
                     endDate: formatDate(new Date()),
                   }}
-                  selectedActorIds={[actor.id]}
+                  selectedActorIds={[]}
                   onActorClick={onActorClick}
                   onGroupClick={onGroupClick}
                   onKeywordClick={onKeywordClick}

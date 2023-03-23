@@ -111,7 +111,7 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                 onQueryChange={onQueryChange}
                 onEventClick={onEventClick}
               />
-              <Box style={{ height: 600 }}>
+              <Box style={{ height: "100%" }}>
                 <EventNetworkGraphBoxWithFilters
                   type={Group.GROUPS.value}
                   query={{

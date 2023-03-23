@@ -31,6 +31,8 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   from,
   to,
   onDateRangeChange,
+  minDate,
+  maxDate,
   ...props
 }) => {
   const [[start, end], setDateRange] = React.useState([from, to]);
