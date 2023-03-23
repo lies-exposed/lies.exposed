@@ -4072,9 +4072,9 @@ __metadata:
     "@visx/shape": ^3.0.0
     "@visx/text": ^3.0.0
     "@visx/threshold": ^3.0.0
-    "@visx/tooltip": ^3.0.0
+    "@visx/tooltip": ^3.1.2
     "@visx/wordcloud": ^3.0.0
-    "@visx/zoom": ^3.0.1
+    "@visx/zoom": ^3.1.1
     axios: ^1.3.4
     chroma-js: ^2.4.2
     clsx: ^1.2.1
@@ -8823,9 +8823,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@visx/tooltip@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@visx/tooltip@npm:3.0.0"
+"@visx/tooltip@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "@visx/tooltip@npm:3.1.2"
   dependencies:
     "@types/react": "*"
     "@visx/bounds": 3.0.0
@@ -8835,7 +8835,7 @@ __metadata:
   peerDependencies:
     react: ^16.8.0-0 || ^17.0.0-0 || ^18.0.0-0
     react-dom: ^16.8.0-0 || ^17.0.0-0 || ^18.0.0-0
-  checksum: f3d9b62905424c8c3bd10f2fcbf6947da9adc7fff9a22aa961ce1c4523db4f0297b066a2fe27eeae7f4e45f0a4f7049067b6da71c6566a3991cb6fc53f6f8eb4
+  checksum: 4c2127068f22766e984ed3ed1452dcece919bacb0297b17ba862a6815bb7f04c4fc462a100d3934e0cb56a9c7962b82f7c4184748ef4b2dbef3b4b0d5b717fdd
   languageName: node
   linkType: hard
 
@@ -8852,9 +8852,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@visx/zoom@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "@visx/zoom@npm:3.0.1"
+"@visx/zoom@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "@visx/zoom@npm:3.1.1"
   dependencies:
     "@types/react": "*"
     "@use-gesture/react": ^10.0.0-beta.22
@@ -8862,7 +8862,7 @@ __metadata:
     prop-types: ^15.6.2
   peerDependencies:
     react: ^16.0.0-0 || ^17.0.0-0 || ^18.0.0-0
-  checksum: 19278fd0741851c6ea4db8baf8d52406c61aebf4a9f3534bc1f3f0e95bac9415a1e9765e8ed4055eeb2c587af1cace5ce7240295b69e2d9e01b181175df6275e
+  checksum: 9a7f5709b336beab446b877f4e104045e135d4bf556d6a05687c1743315d96a8e9e9f9bbb634f1942bff67e33e4c2755b71ad6654968ddd3ff23ae5b1f1c0b09
   languageName: node
   linkType: hard
 
@@ -27027,7 +27027,7 @@ __metadata:
     "@visx/legend": ^3.0.0
     "@visx/network": ^3.0.0
     "@visx/responsive": ^3.0.0
-    "@visx/tooltip": ^3.0.0
+    "@visx/tooltip": ^3.1.2
     axios: ^1.3.4
     bs58: ^5.0.0
     clsx: ^1.2.1
