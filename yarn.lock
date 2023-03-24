@@ -3948,7 +3948,7 @@ __metadata:
     "@types/fluent-ffmpeg": ^2.1.21
     "@types/jest": ^29.5.0
     "@types/jsonwebtoken": ^9.0.1
-    "@types/node-telegram-bot-api": ^0.61.4
+    "@types/node-telegram-bot-api": ^0.61.5
     "@types/prettier": ^2.7.2
     "@types/qs": ^6.9.7
     "@types/react": ^18.0.28
@@ -7841,13 +7841,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node-telegram-bot-api@npm:^0.61.4":
-  version: 0.61.4
-  resolution: "@types/node-telegram-bot-api@npm:0.61.4"
+"@types/node-telegram-bot-api@npm:^0.61.5":
+  version: 0.61.5
+  resolution: "@types/node-telegram-bot-api@npm:0.61.5"
   dependencies:
     "@types/node": "*"
     "@types/request": "*"
-  checksum: ca9e88e561f45f018fe4f57ad4e0a8e5eccdad309642d9a242d2e6c37322c50efe88ae042c957216d9282c372da8ff9dbe486d47e252c187a400a1388db98165
+    eventemitter3: ">=3.0.0"
+  checksum: 73aa539d0de1d8859d133a2b59ed7c89403eb88cb75ba230769a57524e2643f7d6919aae43a7b855b98d54c71f35e9a34b3e2d7f0f4d1a9cd054038abaa6bf86
   languageName: node
   linkType: hard
 
@@ -7865,10 +7866,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^14.0.10 || ^16.0.0, @types/node@npm:^14.14.20 || ^16.0.0, @types/node@npm:^16.18.18":
-  version: 16.18.18
-  resolution: "@types/node@npm:16.18.18"
-  checksum: 021936e4fcd5cb038cd5d2d26328c7c0bf501d15793e48a12501129cf8770cbbe9a6936fcb64eeb10a102ff273c2606b75c1635a5834abd786014c98c112aaee
+"@types/node@npm:^14.0.10 || ^16.0.0, @types/node@npm:^14.14.20 || ^16.0.0, @types/node@npm:^16.18.19":
+  version: 16.18.19
+  resolution: "@types/node@npm:16.18.19"
+  checksum: 83d7b5927d467776e1be906a3174180c4d7937fd4b8a21dded787fd148b6fe6bb5dfa4cbcf5976c489697205bf8101aebfde89e96793ca32b19873c9c770dcd0
   languageName: node
   linkType: hard
 
@@ -9187,7 +9188,7 @@ __metadata:
     "@types/debug": ^4.1.7
     "@types/jest": ^29.5.0
     "@types/lodash": ^4.14.191
-    "@types/node": ^16.18.18
+    "@types/node": ^16.18.19
     "@types/prettier": ^2.7.2
     "@types/react": ^18.0.28
     "@types/react-dom": ^18.0.11
@@ -9531,9 +9532,9 @@ __metadata:
     "@types/jsonwebtoken": ^9.0.1
     "@types/module-alias": ^2.0.1
     "@types/multer": ^1.4.7
-    "@types/node": ^16.18.18
+    "@types/node": ^16.18.19
     "@types/node-cron": ^3.0.7
-    "@types/node-telegram-bot-api": ^0.61.4
+    "@types/node-telegram-bot-api": ^0.61.5
     "@types/pg": ^8.6.6
     "@types/supertest": ^2.0.12
     "@types/uuid": ^9.0.1
@@ -14164,6 +14165,13 @@ __metadata:
   version: 0.4.14
   resolution: "eventemitter2@npm:0.4.14"
   checksum: 214603a32aba5f49c0d7a68202a0d5e01e89b3c872c7c32172e80b513aaa06ee74d54de212705483a01c03dda7b396874b3576cbe9bc96d92bae0912dad89eb2
+  languageName: node
+  linkType: hard
+
+"eventemitter3@npm:>=3.0.0":
+  version: 5.0.0
+  resolution: "eventemitter3@npm:5.0.0"
+  checksum: b974bafbab860e0a5bbb21add4c4e82f9d5691c583c03f2e4c5d44a2d6c4556d79223621bdcfc6c8e14366a4af9df6b5ea9d6caf65fbffc80b66f3e1dceacbc9
   languageName: node
   linkType: hard
 
@@ -27007,7 +27015,7 @@ __metadata:
     "@types/debug": ^4.1.7
     "@types/express": ^4.17.17
     "@types/mime": ^1.3.2
-    "@types/node": ^16.18.18
+    "@types/node": ^16.18.19
     "@types/ol": ^7.0.0
     "@types/react": ^18.0.28
     "@types/react-calendar-heatmap": ^1.6.3
