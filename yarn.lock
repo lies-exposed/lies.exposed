@@ -3909,7 +3909,7 @@ __metadata:
     io-ts: ^2.2.20
     io-ts-types: ^0.5.19
     mini-css-extract-plugin: ^2.7.5
-    prettier: ^2.8.6
+    prettier: ^2.8.7
     react-refresh: ^0.14.0
     react-refresh-typescript: ^2.0.8
     sass: ^1.60.0
@@ -3970,7 +3970,7 @@ __metadata:
     jsonwebtoken: ^9.0.0
     node-telegram-bot-api: ^0.61.0
     page-metadata-parser: ^1.1.4
-    prettier: ^2.8.6
+    prettier: ^2.8.7
     puppeteer-core: ^19.7.5
     puppeteer-extra: ^3.3.6
     puppeteer-extra-plugin-stealth: ^2.11.2
@@ -4005,7 +4005,7 @@ __metadata:
     fp-ts: ^2.13.1
     io-ts: ^2.2.20
     io-ts-types: ^0.5.19
-    prettier: ^2.8.6
+    prettier: ^2.8.7
     typescript: ^4.9.5
   peerDependencies:
     debug: ^4.3.1
@@ -4092,7 +4092,7 @@ __metadata:
     jest: ^29.5.0
     lodash: ^4.17.21
     ol: ^7.3.0
-    prettier: ^2.8.6
+    prettier: ^2.8.7
     query-string: ^7.1.3
     ra-input-rich-text: ^4.9.0
     react: ^18.2.0
@@ -9212,7 +9212,7 @@ __metadata:
     jest: ^29.5.0
     mini-create-react-context: ^0.4.1
     page-metadata-parser: ^1.1.4
-    prettier: ^2.8.6
+    prettier: ^2.8.7
     ra-core: ^4.9.0
     ra-i18n-polyglot: ^4.9.0
     ra-input-rich-text: ^4.9.0
@@ -9567,7 +9567,7 @@ __metadata:
     page-metadata-parser: ^1.1.4
     pdfjs-dist: ^3.4.120
     pg: ^8.10.0
-    prettier: ^2.8.6
+    prettier: ^2.8.7
     puppeteer-core: ^19.7.5
     puppeteer-extra: ^3.3.6
     puppeteer-extra-plugin-stealth: ^2.11.2
@@ -18320,7 +18320,7 @@ __metadata:
     jest: ^29.5.0
     lint-staged: ^13.2.0
     pm2: ^5.3.0
-    prettier: ^2.8.6
+    prettier: ^2.8.7
     terser: ^5.16.6
     ts-jest: ^29.0.5
     typescript: ^4.9.5
@@ -21624,12 +21624,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.8.6":
-  version: 2.8.6
-  resolution: "prettier@npm:2.8.6"
+"prettier@npm:^2.8.7":
+  version: 2.8.7
+  resolution: "prettier@npm:2.8.7"
   bin:
     prettier: bin-prettier.js
-  checksum: 8ac94fa67aec0e65743ea15ebf954ef2f1e52638abd129dc04e8b49e8bb3224c0233c98df6b5c98efd31bd2a43866590486559438ee4ead09dc81be389068572
+  checksum: fdc8f2616f099f5f0d685907f4449a70595a0fc1d081a88919604375989e0d5e9168d6121d8cc6861f21990b31665828e00472544d785d5940ea08a17660c3a6
   languageName: node
   linkType: hard
 
@@ -24956,7 +24956,7 @@ __metadata:
     "@storybook/theming": ^6.5.16
     "@types/prettier": ^2.7.2
     d3: ^7.8.2
-    prettier: ^2.8.6
+    prettier: ^2.8.7
     react: ^18.2.0
     react-dom: ^18.2.0
     react-spring: ^9.7.1
@@ -27060,7 +27060,7 @@ __metadata:
     module-alias: ^2.2.2
     nodemon: ^2.0.22
     ol: ^7.3.0
-    prettier: ^2.8.6
+    prettier: ^2.8.7
     prop-types: ^15.8.1
     query-string: ^7.1.3
     react: ^18.2.0
