@@ -3971,7 +3971,7 @@ __metadata:
     node-telegram-bot-api: ^0.61.0
     page-metadata-parser: ^1.1.4
     prettier: ^2.8.7
-    puppeteer-core: ^19.7.5
+    puppeteer-core: ^19.8.0
     puppeteer-extra: ^3.3.6
     puppeteer-extra-plugin-stealth: ^2.11.2
     query-string: ^7.1.3
@@ -9568,7 +9568,7 @@ __metadata:
     pdfjs-dist: ^3.4.120
     pg: ^8.10.0
     prettier: ^2.8.7
-    puppeteer-core: ^19.7.5
+    puppeteer-core: ^19.8.0
     puppeteer-extra: ^3.3.6
     puppeteer-extra-plugin-stealth: ^2.11.2
     supertest: ^6.3.3
@@ -13043,10 +13043,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"devtools-protocol@npm:0.0.1094867":
-  version: 0.0.1094867
-  resolution: "devtools-protocol@npm:0.0.1094867"
-  checksum: 3e4cc4646a84d3b9bb0cbe570819564ed1e65182e950e60c02eac36db2fe9a08be4a2693c7a9f0e1636da8ac81406b238e7a047c9dd1a20c876dcbc6df549b75
+"devtools-protocol@npm:0.0.1107588":
+  version: 0.0.1107588
+  resolution: "devtools-protocol@npm:0.0.1107588"
+  checksum: 9064fd643f39ae0adabb8f425b746899ff24371d89a5047d38752653259e6afcb6bcb2d9759ff727eb5885cfc0f9ba8eb384850a2af00694135622e88080e3e5
   languageName: node
   linkType: hard
 
@@ -15491,18 +15491,6 @@ __metadata:
     minimatch: ^5.0.1
     once: ^1.3.0
   checksum: 92fbea3221a7d12075f26f0227abac435de868dd0736a17170663783296d0dd8d3d532a5672b4488a439bf5d7fb85cdd07c11185d6cd39184f0385cbdfb86a47
-  languageName: node
-  linkType: hard
-
-"glob@npm:^9.2.0":
-  version: 9.2.1
-  resolution: "glob@npm:9.2.1"
-  dependencies:
-    fs.realpath: ^1.0.0
-    minimatch: ^7.4.1
-    minipass: ^4.2.4
-    path-scurry: ^1.6.1
-  checksum: ef9b1c32491e6b532bdd0d2abcc3c9f48e83446609e11285869156982fc5a756dfbaa6f59f797712343bd1e22500ac15708692806633653fde4ef67c85e2aab7
   languageName: node
   linkType: hard
 
@@ -18756,13 +18744,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lru-cache@npm:^7.14.1":
-  version: 7.18.3
-  resolution: "lru-cache@npm:7.18.3"
-  checksum: e550d772384709deea3f141af34b6d4fa392e2e418c1498c078de0ee63670f1f46f5eee746e8ef7e69e1c895af0d4224e62ee33e66a543a14763b0f2e74c1356
-  languageName: node
-  linkType: hard
-
 "lz-string@npm:^1.4.4":
   version: 1.4.4
   resolution: "lz-string@npm:1.4.4"
@@ -19285,15 +19266,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^7.4.1":
-  version: 7.4.2
-  resolution: "minimatch@npm:7.4.2"
-  dependencies:
-    brace-expansion: ^2.0.1
-  checksum: 9e341b04e69d5ab03e4206dcb61c8a158e3b8709628bf5e1a4eaa9f3b72c0ba925e24ad959b1f6ce6835caa5a927131d5087fae6836b69e7d99d7d5e63ef0bd8
-  languageName: node
-  linkType: hard
-
 "minimist-options@npm:4.1.0":
   version: 4.1.0
   resolution: "minimist-options@npm:4.1.0"
@@ -19369,13 +19341,6 @@ __metadata:
   dependencies:
     yallist: ^4.0.0
   checksum: 57a04041413a3531a65062452cb5175f93383ef245d6f4a2961d34386eb9aa8ac11ac7f16f791f5e8bbaf1dfb1ef01596870c88e8822215db57aa591a5bb0a77
-  languageName: node
-  linkType: hard
-
-"minipass@npm:^4.0.2, minipass@npm:^4.2.4":
-  version: 4.2.5
-  resolution: "minipass@npm:4.2.5"
-  checksum: 4f9c19af23a5d4a9e7156feefc9110634b178a8cff8f8271af16ec5ebf7e221725a97429952c856f5b17b30c2065ebd24c81722d90c93d2122611d75b952b48f
   languageName: node
   linkType: hard
 
@@ -20693,16 +20658,6 @@ __metadata:
   version: 1.0.7
   resolution: "path-parse@npm:1.0.7"
   checksum: 49abf3d81115642938a8700ec580da6e830dde670be21893c62f4e10bd7dd4c3742ddc603fe24f898cba7eb0c6bc1777f8d9ac14185d34540c6d4d80cd9cae8a
-  languageName: node
-  linkType: hard
-
-"path-scurry@npm:^1.6.1":
-  version: 1.6.1
-  resolution: "path-scurry@npm:1.6.1"
-  dependencies:
-    lru-cache: ^7.14.1
-    minipass: ^4.0.2
-  checksum: 7ba57e823cb7bb879669a4e5e05a283cde1bb9e81b6d806b2609f8d8026d0aef08f4b655b17fc86b21c9c32807851bba95ca715db5ab0605fb13c7a3e9172e42
   languageName: node
   linkType: hard
 
@@ -22077,27 +22032,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"puppeteer-core@npm:^19.7.5":
-  version: 19.7.5
-  resolution: "puppeteer-core@npm:19.7.5"
+"puppeteer-core@npm:^19.8.0":
+  version: 19.8.0
+  resolution: "puppeteer-core@npm:19.8.0"
   dependencies:
     chromium-bidi: 0.4.5
     cross-fetch: 3.1.5
     debug: 4.3.4
-    devtools-protocol: 0.0.1094867
+    devtools-protocol: 0.0.1107588
     extract-zip: 2.0.1
     https-proxy-agent: 5.0.1
     proxy-from-env: 1.1.0
-    rimraf: 4.4.0
     tar-fs: 2.1.1
     unbzip2-stream: 1.4.3
-    ws: 8.12.1
+    ws: 8.13.0
   peerDependencies:
     typescript: ">= 4.7.4"
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 5861fbc264a16369689a647ca2e70f6afb7e25913c2e242272f660e0f6cb690b0c1dc123f869a0cb5206460236f794b1a0ed53aea843c65121ef1d02f0dad4ce
+  checksum: a696ae2f8c3a8d0ca25141d22e2a49221d99a27e539d5776dbe153d1f8c00f04686a2cee6df43c3a20eb1b41f4077c339babf59e39fff26d8f34d08d726f1c96
   languageName: node
   linkType: hard
 
@@ -23792,17 +23746,6 @@ __metadata:
   bin:
     rimraf: bin.js
   checksum: 87f4164e396f0171b0a3386cc1877a817f572148ee13a7e113b238e48e8a9f2f31d009a92ec38a591ff1567d9662c6b67fd8818a2dbbaed74bc26a87a2a4a9a0
-  languageName: node
-  linkType: hard
-
-"rimraf@npm:4.4.0":
-  version: 4.4.0
-  resolution: "rimraf@npm:4.4.0"
-  dependencies:
-    glob: ^9.2.0
-  bin:
-    rimraf: dist/cjs/src/bin.js
-  checksum: 0cedaf9d138589d1bb0ab851f05804c6d30827aa66563472b04ab76245f83537e23e7b94f1f79ea6c368c0d84a18fcde6a756fca3a44c967e08792671b3a0a6e
   languageName: node
   linkType: hard
 
@@ -27599,9 +27542,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:8.12.1":
-  version: 8.12.1
-  resolution: "ws@npm:8.12.1"
+"ws@npm:8.13.0, ws@npm:^8.13.0, ws@npm:^8.2.3":
+  version: 8.13.0
+  resolution: "ws@npm:8.13.0"
   peerDependencies:
     bufferutil: ^4.0.1
     utf-8-validate: ">=5.0.2"
@@ -27610,7 +27553,7 @@ __metadata:
       optional: true
     utf-8-validate:
       optional: true
-  checksum: 97301c1c4d838fc81bd413f370f75c12aabe44527b31323b761eab3043a9ecb7e32ffd668548382c9a6a5ad3a1c3a9249608e8338e6b939f2f9540f1e21970b5
+  checksum: 53e991bbf928faf5dc6efac9b8eb9ab6497c69feeb94f963d648b7a3530a720b19ec2e0ec037344257e05a4f35bd9ad04d9de6f289615ffb133282031b18c61c
   languageName: node
   linkType: hard
 
@@ -27626,21 +27569,6 @@ __metadata:
     utf-8-validate:
       optional: true
   checksum: 5c1f669a166fb57560b4e07f201375137fa31d9186afde78b1508926345ce546332f109081574ddc4e38cc474c5406b5fc71c18d71eb75f6e2d2245576976cba
-  languageName: node
-  linkType: hard
-
-"ws@npm:^8.13.0, ws@npm:^8.2.3":
-  version: 8.13.0
-  resolution: "ws@npm:8.13.0"
-  peerDependencies:
-    bufferutil: ^4.0.1
-    utf-8-validate: ">=5.0.2"
-  peerDependenciesMeta:
-    bufferutil:
-      optional: true
-    utf-8-validate:
-      optional: true
-  checksum: 53e991bbf928faf5dc6efac9b8eb9ab6497c69feeb94f963d648b7a3530a720b19ec2e0ec037344257e05a4f35bd9ad04d9de6f289615ffb133282031b18c61c
   languageName: node
   linkType: hard
 
