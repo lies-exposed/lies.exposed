@@ -36,7 +36,7 @@
     "jsonwebtoken": "^9.0.0",
     "node-telegram-bot-api": "^0.61.0",
     "page-metadata-parser": "^1.1.4",
-    "puppeteer-core": "^19.7.5",
+    "puppeteer-core": "^19.8.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "query-string": "^7.1.3",
