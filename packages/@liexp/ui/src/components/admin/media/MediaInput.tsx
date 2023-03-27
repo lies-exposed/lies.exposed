@@ -42,6 +42,8 @@ export const MediaInput: React.FC<MediaInputProps> = ({
           const mediaType = formData[sourceLocation]?.rawFile?.type;
 
           if (formData._type === "fromFile") {
+            const mediaSrc = formData[sourceLocation]?.src;
+
             return (
               <Box>
                 <FileInput
@@ -49,7 +51,14 @@ export const MediaInput: React.FC<MediaInputProps> = ({
                   source={sourceLocation}
                   accept={types.map((a) => `.${a.split("/")[1]}`).join(",")}
                 >
-                  <MediaField source={sourceLocation} type={sourceType} />
+                  <MediaField
+                    source={sourceLocation}
+                    type={sourceType}
+                    record={{
+                      ...formData,
+                      [sourceLocation]: mediaSrc,
+                    }}
+                  />
                 </FileInput>
               </Box>
             );

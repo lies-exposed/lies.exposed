@@ -11,7 +11,9 @@ import { Typography } from "../../mui";
 export const matchMediaSuggestions = (
   filterValue: string,
   choice: Media
-): boolean => choice?.description?.includes(filterValue);
+): boolean => {
+  return choice?.description?.toLowerCase().includes(filterValue.toLowerCase());
+};
 
 export const MediaAutocompleteOptionText: React.FC = () => {
   const record = useRecordContext();
