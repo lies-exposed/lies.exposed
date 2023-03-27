@@ -147,9 +147,11 @@ const transformGroup =
         startDate: data.startDate?.includes("T")
           ? data.startDate
           : parseDate(data.startDate).toISOString(),
-        endDate: data.endDate.includes("T")
-          ? data.endDate
-          : parseDate(data.endDate).toISOString(),
+        endDate: data.endDate
+          ? data.endDate.includes("T")
+            ? data.endDate
+            : parseDate(data.endDate).toISOString()
+          : undefined,
         members,
       })),
       throwTE
