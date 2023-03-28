@@ -1,6 +1,6 @@
-import { EventType } from '@liexp/shared/io/http/Events';
+import { EventType } from "@liexp/shared/io/http/Events";
 import { GROUPS } from "@liexp/shared/io/http/Group";
-import { formatDate } from '@liexp/shared/utils/date';
+import { formatDate } from "@liexp/shared/utils/date";
 import { AutocompleteGroupInput } from "@liexp/ui/components/Input/AutocompleteGroupInput";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import { PageContent } from "@liexp/ui/components/PageContent";
@@ -49,7 +49,7 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
               }}
               groups={groups.data.map((a) => ({
                 ...a,
-                selected: false,
+                selected: true,
               }))}
               onItemClick={(g) => {
                 navigateTo.groups({
@@ -57,9 +57,10 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
                 });
               }}
             />
-            <Grid container>
-              <Grid item md={6}>
+            <Grid container style={{ height: 600 }}>
+              <Grid item md={6} style={{ height: "100%" }}>
                 <GroupEventNetworkGraphBox
+                  showRelations={false}
                   params={{
                     sort: { field: "updatedAt", order: "DESC" },
                     pagination: {
@@ -69,9 +70,9 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
                   }}
                   type={GROUPS.value}
                   query={{
-                    type: EventType.types.map(t => t.value),
-                    startDate: formatDate( subYears(new Date(), 2)),
-                    endDate: formatDate(new Date())
+                    type: EventType.types.map((t) => t.value),
+                    startDate: formatDate(subYears(new Date(), 2)),
+                    endDate: formatDate(new Date()),
                   }}
                 />
               </Grid>
