@@ -13,7 +13,7 @@ import { ColorInput } from "@liexp/ui/components/admin/common/inputs/ColorInput"
 import ReferenceManyEventField from "@liexp/ui/components/admin/events/ReferenceManyEventField";
 import { MediaField } from "@liexp/ui/components/admin/media/MediaField";
 import GroupPreview from "@liexp/ui/components/admin/previews/GroupPreview";
-import { Typography } from "@liexp/ui/components/mui";
+import { Box, Typography } from "@liexp/ui/components/mui";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
@@ -24,6 +24,7 @@ import {
   Datagrid,
   DateField,
   DateInput,
+  FormDataConsumer,
   FormTab,
   FunctionField,
   ImageField,
@@ -124,6 +125,10 @@ export const GroupList: React.FC = () => (
 const transformGroup =
   (apiProvider: DataProvider) =>
   (data: RaRecord): RaRecord | Promise<RaRecord> => {
+    if (data._from === "url") {
+      return data;
+    }
+
     const uploadAvatar = data.avatar?.rawFile
       ? uploadImages(apiProvider)("groups", data.id as string, [
           { file: data.avatar.rawFile, type: data.avatar.rawFile.type },
@@ -242,17 +247,34 @@ export const GroupCreate: React.FC<CreateProps> = (props) => {
       transform={(g) => transformGroup(dataProvider)({ ...g, id: uuid() })}
     >
       <SimpleForm>
-        <ColorInput source="color" />
-        <DateInput source="startDate" />
-        <DateInput source="endDate" />
-        <TextInput source="name" />
-        <GroupKindInput source="kind" />
-        <GroupMemberArrayInput source="members" />
-        <ImageInput source="avatar">
-          <ImageField src="src" />
-        </ImageInput>
-        <ReactPageInput source="excerpt" onlyText />
-        <ReactPageInput source="body" />
+        <SelectInput
+          source="_from"
+          choices={["url", "plain"].map((id) => ({ id, name: id }))}
+          defaultValue="plain"
+        />
+        <FormDataConsumer>
+          {({ formData }) => {
+            if (formData._from === "url") {
+              return <TextInput source="url" />;
+            }
+
+            return (
+              <Box>
+                <ColorInput source="color" />
+                <DateInput source="startDate" />
+                <DateInput source="endDate" />
+                <TextInput source="name" />
+                <GroupKindInput source="kind" />
+                <GroupMemberArrayInput source="members" />
+                <ImageInput source="avatar">
+                  <ImageField src="src" />
+                </ImageInput>
+                <ReactPageInput source="excerpt" onlyText />
+                <ReactPageInput source="body" />
+              </Box>
+            );
+          }}
+        </FormDataConsumer>
       </SimpleForm>
     </Create>
   );
