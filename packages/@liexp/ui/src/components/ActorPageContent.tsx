@@ -41,7 +41,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
       >
         <Box style={{ display: "flex" }}>
           <GroupList
-            groups={groups.map((g) => ({ ...g, selected: false }))}
+            groups={groups.map((g) => ({ ...g, selected: true }))}
             onItemClick={onGroupClick}
             style={{
               display: "flex",
