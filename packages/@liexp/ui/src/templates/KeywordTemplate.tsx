@@ -99,7 +99,7 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
                 onItemClick={() => {}}
                 column={2}
               />
-              <Box style={{ height: 600 }}>
+              <Box style={{ height: "100%" }}>
                 <EventNetworkGraphBoxWithFilters
                   type={KEYWORDS.value}
                   query={{
