@@ -23,6 +23,23 @@ export const GetListActorQuery = t.type(
 );
 export type GetListActorQuery = t.TypeOf<typeof GetListActorQuery>;
 
+
+
+export const AddActorBody = t.strict(
+  {
+    username: t.string,
+    fullName: t.string,
+    color: t.string,
+    body: t.UnknownRecord,
+    excerpt: t.UnknownRecord,
+    avatar: t.union([t.undefined, t.string]),
+  },
+  "AddActorBody"
+)
+
+export type AddActorBody = t.TypeOf<typeof AddActorBody>
+
+
 export const Actor = t.strict(
   {
     ...BaseProps.type.props,

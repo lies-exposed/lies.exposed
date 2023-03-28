@@ -21,18 +21,30 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
 import {
-  ArrayInput, Create, Datagrid, DateField,
-  DateInput, FormTab,
+  ArrayInput,
+  Create,
+  Datagrid,
+  DateField,
+  DateInput,
+  FormDataConsumer,
+  FormTab,
   FunctionField,
   ImageField,
   ImageInput,
-  List, ReferenceArrayField, SimpleForm,
+  List,
+  ReferenceArrayField,
+  SelectInput,
+  SimpleForm,
   SimpleFormIterator,
   TabbedForm,
   TextField,
   TextInput,
   useDataProvider,
-  useRecordContext, type CreateProps, type DataProvider, type EditProps, type RaRecord
+  useRecordContext,
+  type CreateProps,
+  type DataProvider,
+  type EditProps,
+  type RaRecord,
 } from "react-admin";
 
 const actorFilters = [
@@ -65,6 +77,9 @@ export const ActorList: React.FC = () => (
 const transformActor =
   (dataProvider: DataProvider<string>) =>
   async (id: string, data: RaRecord): Promise<RaRecord> => {
+    if (data._from === 'url') {
+      return data;
+    }
     const imagesTask = data.avatar?.rawFile
       ? uploadImages(dataProvider)("actors", id, [
           { file: data.avatar.rawFile, type: data.avatar.rawFile.type },
@@ -195,27 +210,45 @@ export const ActorCreate: React.FC<CreateProps> = (props) => {
       transform={(a) => transformActor(dataProvider)(uuid(), a)}
     >
       <SimpleForm>
-        <Grid container spacing={2}>
-          <Grid
-            item
-            md={6}
-            sm={12}
-            style={{ display: "flex", flexDirection: "column" }}
-          >
-            <ColorInput source="color" defaultValue={generateRandomColor()} />
-            <TextInput source="fullName" />
-            <TextInput source="username" />
-          </Grid>
-          <Grid item md={6} sm={12}>
-            <ImageInput source="avatar">
-              <ImageField />
-            </ImageInput>
-          </Grid>
-          <Grid item md={12}>
-            <ReactPageInput source="excerpt" onlyText={true} />
-            <ReactPageInput source="body" />
-          </Grid>
-        </Grid>
+        <SelectInput
+          source="_from"
+          choices={["url", "plain"].map((id) => ({ id, name: id }))}
+          defaultValue="plain"
+        />
+        <FormDataConsumer>
+          {({ formData }) => {
+            if (formData._from === "url") {
+              return <TextInput source="url" />;
+            }
+
+            return (
+              <Grid container spacing={2}>
+                <Grid
+                  item
+                  md={6}
+                  sm={12}
+                  style={{ display: "flex", flexDirection: "column" }}
+                >
+                  <ColorInput
+                    source="color"
+                    defaultValue={generateRandomColor()}
+                  />
+                  <TextInput source="fullName" />
+                  <TextInput source="username" />
+                </Grid>
+                <Grid item md={6} sm={12}>
+                  <ImageInput source="avatar">
+                    <ImageField />
+                  </ImageInput>
+                </Grid>
+                <Grid item md={12}>
+                  <ReactPageInput source="excerpt" onlyText={true} />
+                  <ReactPageInput source="body" />
+                </Grid>
+              </Grid>
+            );
+          }}
+        </FormDataConsumer>
       </SimpleForm>
     </Create>
   );
