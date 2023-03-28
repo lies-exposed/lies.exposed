@@ -343,10 +343,7 @@ const EventNetworkGraphBoxWrapper: React.FC<
                   // flexGrow: 1
                 }}
               >
-                <ParentSize
-                  debounceTime={1000}
-                  enableDebounceLeadingCall={false}
-                >
+                <ParentSize debounceTime={1000}>
                   {({ width, height }) => {
                     return props.children({
                       ...props,
