@@ -61,6 +61,7 @@ export const Edit = Endpoint({
       username: optionFromNullable(t.string),
       fullName: optionFromNullable(t.string),
       color: optionFromNullable(t.string),
+      excerpt: optionFromNullable(t.UnknownRecord),
       body: optionFromNullable(t.UnknownRecord),
       avatar: optionFromNullable(t.string),
       memberIn: optionFromNullable(

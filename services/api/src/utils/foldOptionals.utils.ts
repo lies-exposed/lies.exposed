@@ -8,16 +8,14 @@ type OptionalsToUndefined<T extends Record<string, O.Option<any>>> = {
 
 export const foldOptionals = <T extends Record<string, O.Option<any>>>(
   obj: T
-): Record<string, any> =>
+): { [K in keyof T]: T[K] extends O.Option<infer A> ? A : never } =>
   pipe(
     obj,
     R.filter(O.isSome),
     R.map((v) => v.value)
-  );
+  ) as any;
 
-export const optionalsToUndefined = <
-  T extends Record<string, O.Option<any>>
->(
+export const optionalsToUndefined = <T extends Record<string, O.Option<any>>>(
   obj: T
 ): OptionalsToUndefined<T> =>
   pipe(obj, R.map(O.toUndefined)) as OptionalsToUndefined<T>;
