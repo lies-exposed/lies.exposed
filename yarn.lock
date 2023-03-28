@@ -9581,8 +9581,8 @@ __metadata:
     typeorm-uml: ^1.6.5
     typescript: ^4.9.5
     uuid: ^9.0.0
-    wink-eng-lite-web-model: ^1.4.3
-    wink-nlp: ^1.13.0
+    wink-eng-lite-web-model: ^1.5.0
+    wink-nlp: ^1.13.1
     wink-nlp-utils: ^2.1.0
   languageName: unknown
   linkType: soft
@@ -27401,12 +27401,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wink-eng-lite-web-model@npm:^1.4.3":
-  version: 1.4.3
-  resolution: "wink-eng-lite-web-model@npm:1.4.3"
+"wink-eng-lite-web-model@npm:^1.4.3, wink-eng-lite-web-model@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "wink-eng-lite-web-model@npm:1.5.0"
   peerDependencies:
     wink-nlp: ">1.8.1"
-  checksum: a9166e65893c5446b5783f5b2f43e2ce0ae8cc1815a30966b2e96f1cce86d1cbad41cb54baab790f8a7160aa30e80a594944b7fe1c92661a892c82022de1cee4
+  checksum: a28dfa13f775c32e77136cf85df6b2d475cc53cc223e8734c4d11d0008b98e1104a667776d1ad0c067c3ab16dbefb0d364fcae97ce7a5db2e9e3901ddc23a579
   languageName: node
   linkType: hard
 
@@ -27438,10 +27438,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wink-nlp@npm:^1.12.0, wink-nlp@npm:^1.13.0":
-  version: 1.13.0
-  resolution: "wink-nlp@npm:1.13.0"
-  checksum: 85b920cbbabfb5ef3bb6bd24a0fa92067a9382c4fbba8272da4c77ef187c5a4778b0faa9e16f60493bae6f65cc72347b256255c2434e411bf3fa49937fcdd83c
+"wink-nlp@npm:^1.12.0, wink-nlp@npm:^1.13.1":
+  version: 1.13.1
+  resolution: "wink-nlp@npm:1.13.1"
+  checksum: 4e54ba21c0169e6f3a71bd5f5aabe4524d076df97d926253d565cae06144f985c1fa3364102041017080aed638da286b81bf6e9f601bea5cab8939501c2ae41a
   languageName: node
   linkType: hard
 
