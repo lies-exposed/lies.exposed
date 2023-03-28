@@ -47,6 +47,7 @@ export interface EventNetworkGraphBoxProps
   count?: number;
   type: NetworkType;
   relations?: NetworkGroupBy[];
+  showRelations?: boolean;
   query: Omit<
     SearchEventsQueryInputNoPagination,
     "hash" | "startDate" | "endDate"
@@ -84,6 +85,7 @@ const EventNetworkGraphBoxWrapper: React.FC<
   selectedKeywordIds,
   relations: _relations = [KEYWORDS.value],
   onRelationsChange,
+  showRelations = true,
   ...props
 }) => {
   const startDate = parseDate(query.startDate);
@@ -326,8 +328,7 @@ const EventNetworkGraphBoxWrapper: React.FC<
                     display: "flex",
                     width: "100%",
                     flexShrink: 1,
-                    height: '30%'
-
+                    height: "30%",
                   }}
                 >
                   {props.filters({ ...innerProps })}
@@ -355,41 +356,45 @@ const EventNetworkGraphBoxWrapper: React.FC<
                     });
                   }}
                 </ParentSize>
-                <Box
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    padding: 16,
-                  }}
-                >
-                  <FormControlLabel
-                    label={<Typography variant="caption">Actors</Typography>}
-                    control={
-                      <Checkbox
-                        checked={relations.includes(ACTORS.value)}
-                        onChange={handleRelationChange(ACTORS.value)}
-                      />
-                    }
-                  />
-                  <FormControlLabel
-                    label={<Typography variant="caption">Groups</Typography>}
-                    control={
-                      <Checkbox
-                        checked={relations.includes(GROUPS.value)}
-                        onChange={handleRelationChange(GROUPS.value)}
-                      />
-                    }
-                  />
-                  <FormControlLabel
-                    label={<Typography variant="caption">Keywords</Typography>}
-                    control={
-                      <Checkbox
-                        checked={relations.includes(KEYWORDS.value)}
-                        onChange={handleRelationChange(KEYWORDS.value)}
-                      />
-                    }
-                  />
-                </Box>
+                {showRelations ? (
+                  <Box
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      padding: 16,
+                    }}
+                  >
+                    <FormControlLabel
+                      label={<Typography variant="caption">Actors</Typography>}
+                      control={
+                        <Checkbox
+                          checked={relations.includes(ACTORS.value)}
+                          onChange={handleRelationChange(ACTORS.value)}
+                        />
+                      }
+                    />
+                    <FormControlLabel
+                      label={<Typography variant="caption">Groups</Typography>}
+                      control={
+                        <Checkbox
+                          checked={relations.includes(GROUPS.value)}
+                          onChange={handleRelationChange(GROUPS.value)}
+                        />
+                      }
+                    />
+                    <FormControlLabel
+                      label={
+                        <Typography variant="caption">Keywords</Typography>
+                      }
+                      control={
+                        <Checkbox
+                          checked={relations.includes(KEYWORDS.value)}
+                          onChange={handleRelationChange(KEYWORDS.value)}
+                        />
+                      }
+                    />
+                  </Box>
+                ) : null}
               </Box>
             </Box>
           );
