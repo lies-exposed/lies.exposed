@@ -1,7 +1,7 @@
 import * as t from "io-ts";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
-import { UUID } from "../io/http/Common";
+import { URL, UUID } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import * as Group from "../io/http/Group";
 import { GetListQuery } from "../io/http/Query";
@@ -32,13 +32,12 @@ export const List = Endpoint({
   Output: ListGroupOutput,
 });
 
-
 export const Create = Endpoint({
   Method: "POST",
   getPath: () => "/groups",
   Input: {
     Query: undefined,
-    Body: Group.CreateGroupBody,
+    Body: t.union([t.type({ url: URL }), Group.CreateGroupBody]),
   },
   Output: SingleGroupOutput,
 });

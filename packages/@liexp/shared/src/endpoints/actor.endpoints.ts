@@ -4,7 +4,7 @@ import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import { Actor } from "../io/http";
-import { UUID } from "../io/http/Common";
+import { URL, UUID } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import { ResourceEndpoints } from "./types";
 
@@ -37,17 +37,7 @@ export const Create = Endpoint({
   getPath: () => "/actors",
   Input: {
     Query: undefined,
-    Body: t.strict(
-      {
-        username: t.string,
-        fullName: t.string,
-        color: t.string,
-        body: t.UnknownRecord,
-        excerpt: t.UnknownRecord,
-        avatar: t.union([t.undefined, t.string]),
-      },
-      "AddActorBody"
-    ),
+    Body: t.union([t.type({ url: URL }), Actor.AddActorBody]),
   },
   Output: SingleActorOutput,
 });
