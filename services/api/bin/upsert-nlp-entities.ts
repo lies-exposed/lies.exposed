@@ -13,7 +13,7 @@ import { makeContext } from "../src/server";
 
 dotenv.config();
 
-const makePatterns = (s) => {
+const makePatterns = (s: string) => {
   const chunks = s.split(" ");
   const chunkAbove3 = chunks.filter((c) => c.length > 2);
 
@@ -40,8 +40,8 @@ const run = async () => {
       actors: walkPaginatedRequest(ctx)(
         ({ skip, amount }) =>
           fetchActors(ctx)({
-            _start: O.some(skip),
-            _end: O.some(amount),
+            _start: O.some(skip as any),
+            _end: O.some(amount as any),
           }),
         ({ total }) => total,
         ({ results }) => results,
@@ -51,8 +51,8 @@ const run = async () => {
       groups: walkPaginatedRequest(ctx)(
         ({ skip, amount }) =>
           fetchGroups(ctx)({
-            _start: O.some(skip),
-            _end: O.some(amount),
+            _start: O.some(skip as any),
+            _end: O.some(amount as any),
           }),
         ([, t]) => t,
         ([rr]) => rr,
@@ -62,8 +62,8 @@ const run = async () => {
       keywords: walkPaginatedRequest(ctx)(
         ({ skip, amount }) =>
           fetchKeywords(ctx)({
-            _start: O.some(skip),
-            _end: O.some(amount),
+            _start: O.some(skip as any),
+            _end: O.some(amount as any),
           }),
         ([, t]) => t,
         ([rr]) => rr,

@@ -8,5 +8,6 @@ export const tgProviderMock = {
   onMessage: jest.fn(),
   post: jest.fn(),
   postPhoto: jest.fn(),
+  postMediaGroup: jest.fn(),
   upsertPinnedMessage: jest.fn()
 };
