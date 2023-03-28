@@ -72,8 +72,8 @@
   },
   "packageManager": "yarn@3.4.1",
   "resolutions": {
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "^18.0.30",
+    "@types/react-dom": "^18.0.11",
     "react-dnd": "^15",
     "react-dnd-html5-backend": "^15",
     "terser": "^5.16.0",
