@@ -18,7 +18,7 @@
     "@aws-sdk/s3-request-presigner": "^3.296.0",
     "@databases/escape-identifier": "^1.0.3",
     "@databases/sql": "^3.3.0",
-    "@mui/material": "^5.11.14",
+    "@mui/material": "^5.11.15",
     "@react-page/editor": "^5.4.3",
     "@react-page/plugins-slate": "^5.4.3",
     "@react-page/react-admin": "^5.4.3",
