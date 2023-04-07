@@ -45,7 +45,7 @@
     "mini-css-extract-plugin": "^2.7.5",
     "prettier": "^2.8.7",
     "react-refresh": "^0.14.0",
-    "react-refresh-typescript": "^2.0.8",
+    "react-refresh-typescript": "^2.0.9",
     "sass": "^1.60.0",
     "speed-measure-webpack-plugin": "^1.5.0",
     "style-loader": "^3.3.2",
