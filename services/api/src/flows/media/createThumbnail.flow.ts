@@ -197,7 +197,7 @@ export const createThumbnail =
                   ? [outputScale, 0, 0, outputScale, 0, 0]
                   : undefined;
 
-              const renderContext = {
+              const renderContext: any = {
                 canvasContext: context,
                 transform,
                 viewport,
