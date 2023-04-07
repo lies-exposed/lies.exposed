@@ -16,16 +16,18 @@
     "lib": ["dom", "esnext"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "typeRoots": ["node_modules/@types", "./typings"],
+    "typeRoots": [
+      "node_modules/@types",
+      "../../node_modules/@types",
+      "./typings"
+    ],
     "baseUrl": "./src",
     "rootDir": "./src",
     "moduleResolution": "node",
     "isolatedModules": true,
     "paths": {
       "@liexp/core/*": ["../../../packages/@liexp/core/src/*"],
-      "@liexp/shared/*": [
-        "../../../packages/@liexp/shared/src/*"
-      ],
+      "@liexp/shared/*": ["../../../packages/@liexp/shared/src/*"],
       "@liexp/ui/*": ["../../../packages/@liexp/ui/src/*"],
       "@liexp/test/*": ["../../../packages/@liexp/test/src/*"]
     }
@@ -44,6 +46,6 @@
       "path": "../../packages/@liexp/test"
     }
   ],
-  "include": ["./src"],
-  "exclude": ["node_modules", "public", ".storybook", ".cache"]
+  "include": [".storybook", "./src"],
+  "exclude": ["node_modules", "public", ".cache"]
 }
