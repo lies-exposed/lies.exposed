@@ -44,7 +44,7 @@
     "ts-endpoint": "^2.0.0",
     "ts-endpoint-express": "^2.0.0",
     "ts-io-error": "^2.0.0",
-    "typeorm": "^0.3.12",
+    "typeorm": "^0.3.14",
     "uuid": "^9.0.0",
     "wink-nlp-utils": "^2.1.0"
   },
