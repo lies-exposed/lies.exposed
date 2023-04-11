@@ -25,11 +25,18 @@ export NODE_ENV=production
 yarn packages:build
 
 # admin web
-# mkdir -p "/var/www/html/${HOST}/admin"
 cd ./services/admin-web;
 yarn build:app
 cd ../../;
 cp -r /root/node/app/current/services/admin-web/build/* "/var/www/html/${HOST}/admin/"
+
+# build storybook
+cd ./services/storybook;
+yarn build
+cd ../../;
+cp -r /root/node/app/current/services/storybook/build/* "/var/www/html/${HOST}/storybook/"
+
+
 sudo chown -R www-data:www-data "/var/www/html/${HOST}"
 
 # web

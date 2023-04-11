@@ -124,4 +124,5 @@ const config: StorybookConfig & {
   }),
   ...webpackConfig,
 };
+
 export default config;
