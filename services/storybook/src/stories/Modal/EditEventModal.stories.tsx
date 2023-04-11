@@ -4,7 +4,6 @@ import {
   EventSuggestionEdit,
 } from "@liexp/shared/io/http/User";
 import EditEventButton from "@liexp/ui/components/Common/Button/EditEventButton";
-import { MainContent } from "@liexp/ui/components/MainContent";
 import {
   EditEventModal,
   type EditEventModalProps,
