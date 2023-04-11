@@ -8,7 +8,10 @@ import {
 } from "../../state/queries/SearchEventsQuery";
 import { styled, useTheme } from "../../theme";
 import QueriesRenderer from "../QueriesRenderer";
-import { EventsAppBarMinimized, searchEventQueryToEventTypeFilters } from "../events/EventsAppBarMinimized";
+import {
+  EventsAppBarMinimized,
+  searchEventQueryToEventTypeFilters,
+} from "../events/EventsAppBarMinimized";
 import { Box, CloseIcon, IconButton, Modal } from "../mui";
 import { EventSlider, type EventSliderProps } from "../sliders/EventSlider";
 
@@ -48,9 +51,9 @@ const StyledModal = styled(Modal)(({ theme }) => ({
     flexGrow: 1,
   },
   [`& .${classes.eventsSlider}`]: {
-    flexShrink: 1,
-    flexGrow: 1,
-    overflow: "auto",
+    flexShrink: 0,
+    flexGrow: 0,
+    // overflow: "auto",
   },
   [`& .${classes.eventsAppBar}`]: {
     flexShrink: 0,
@@ -203,6 +206,7 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
                       events={eventsChunk}
                       totals={totals}
                       slider={{
+                        dots: false,
                         beforeChange: (c, n) => {
                           handleBeforeSlide(n, totals);
                         },
