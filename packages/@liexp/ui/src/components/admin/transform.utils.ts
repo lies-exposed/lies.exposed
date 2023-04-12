@@ -1,10 +1,10 @@
-import * as http from "@liexp/shared/io/http";
-import { DEATH } from "@liexp/shared/io/http/Events/Death";
-import { QUOTE } from "@liexp/shared/io/http/Events/Quote";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
-import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
-import { getTextContents } from "@liexp/shared/slate";
-import { throwTE } from "@liexp/shared/utils/task.utils";
+import * as http from "@liexp/shared/lib/io/http";
+import { DEATH } from "@liexp/shared/lib/io/http/Events/Death";
+import { QUOTE } from "@liexp/shared/lib/io/http/Events/Quote";
+import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/ScientificStudy";
+import { UNCATEGORIZED } from "@liexp/shared/lib/io/http/Events/Uncategorized";
+import { getTextContents } from "@liexp/shared/lib/slate";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as A from "fp-ts/Array";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

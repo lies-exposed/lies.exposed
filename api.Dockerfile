@@ -36,6 +36,9 @@ COPY --from=build /app/packages/@liexp/core/lib /app/packages/@liexp/core/lib
 COPY --from=build /app/packages/@liexp/core/package.json /app/packages/@liexp/core/package.json
 COPY --from=build /app/packages/@liexp/shared/lib /app/packages/@liexp/shared/lib
 COPY --from=build /app/packages/@liexp/shared/package.json /app/packages/@liexp/shared/package.json
+COPY --from=build /app/packages/@liexp/test/lib /app/packages/@liexp/test/lib
+COPY --from=build /app/packages/@liexp/test/package.json /app/packages/@liexp/test/package.json
+COPY --from=build /app/packages/@liexp/ui/lib /app/packages/@liexp/ui/lib
 COPY --from=build /app/packages/@liexp/ui/package.json /app/packages/@liexp/ui/package.json
 
 # API service

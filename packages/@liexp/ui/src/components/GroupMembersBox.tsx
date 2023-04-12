@@ -1,4 +1,4 @@
-import { type GroupMember } from "@liexp/shared/io/http";
+import { type GroupMember } from "@liexp/shared/lib/io/http";
 import * as React from "react";
 import { useGroupMembersQuery } from "../state/queries/DiscreteQueries";
 import QueriesRenderer from "./QueriesRenderer";

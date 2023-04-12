@@ -1,4 +1,4 @@
-import { ByActor, ByGroup } from "@liexp/shared/io/http/Common";
+import { ByActor, ByGroup } from "@liexp/shared/lib/io/http/Common";
 import _ from "lodash";
 import React from "react";
 import { FormDataConsumer, type ReferenceInputProps, SelectInput } from "react-admin";

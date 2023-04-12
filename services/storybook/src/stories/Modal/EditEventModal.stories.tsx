@@ -1,15 +1,15 @@
-import { getTitle } from "@liexp/shared/helpers/event";
+import { getTitle } from "@liexp/shared/lib/helpers/event";
 import {
   EventSuggestionCreate,
   EventSuggestionEdit,
-} from "@liexp/shared/io/http/User";
-import EditEventButton from "@liexp/ui/components/Common/Button/EditEventButton";
+} from "@liexp/shared/lib/io/http/User";
+import EditEventButton from "@liexp/ui/lib/components/Common/Button/EditEventButton";
 import {
   EditEventModal,
   type EditEventModalProps,
-} from "@liexp/ui/components/Modal/EditEventModal";
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
+} from "@liexp/ui/lib/components/Modal/EditEventModal";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import { searchEventsQuery } from "@liexp/ui/lib/state/queries/SearchEventsQuery";
 import { Button } from "@mui/material";
 import { Box } from "@mui/system";
 import { type Meta, type StoryFn } from "@storybook/react";

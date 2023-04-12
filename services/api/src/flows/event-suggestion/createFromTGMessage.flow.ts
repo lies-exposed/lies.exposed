@@ -1,13 +1,13 @@
 import * as fs from "fs";
 import path from "path";
-import { isExcludedURL } from "@liexp/shared/helpers/link.helper";
+import { isExcludedURL } from "@liexp/shared/lib/helpers/link.helper";
 import {
   getPlatform,
   type VideoPlatformMatch,
-} from "@liexp/shared/helpers/media";
-import { type URL } from "@liexp/shared/io/http/Common";
-import { MediaType } from "@liexp/shared/io/http/Media";
-import { uuid } from "@liexp/shared/utils/uuid";
+} from "@liexp/shared/lib/helpers/media";
+import { type URL } from "@liexp/shared/lib/io/http/Common";
+import { MediaType } from "@liexp/shared/lib/io/http/Media";
+import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";

@@ -1,6 +1,6 @@
-import { LinkArb } from "@liexp/shared/tests";
+import { LinkArb } from "@liexp/shared/lib/tests";
 import { fc } from "@liexp/test";
-import LinkCard, { type LinkCardProps } from "@liexp/ui/components/Cards/LinkCard";
+import LinkCard, { type LinkCardProps } from "@liexp/ui/lib/components/Cards/LinkCard";
 import { type Meta, type StoryFn as Story } from "@storybook/react";
 import * as React from 'react';
 

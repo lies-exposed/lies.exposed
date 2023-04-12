@@ -1,5 +1,5 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { Transaction } from "@liexp/shared/io/http/Events";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { Transaction } from "@liexp/shared/lib/io/http/Events";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from 'typeorm';

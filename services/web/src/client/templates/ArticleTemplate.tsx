@@ -1,8 +1,8 @@
-import { ArticlePageContent } from "@liexp/ui/components/ArticlePageContent";
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import SEO from "@liexp/ui/components/SEO";
-import ArticlesBox from "@liexp/ui/containers/ArticlesBox";
-import { useArticleByPathQuery } from "@liexp/ui/state/queries/article.queries";
+import { ArticlePageContent } from "@liexp/ui/lib/components/ArticlePageContent";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import SEO from "@liexp/ui/lib/components/SEO";
+import ArticlesBox from "@liexp/ui/lib/containers/ArticlesBox";
+import { useArticleByPathQuery } from "@liexp/ui/lib/state/queries/article.queries";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
 import * as React from "react";

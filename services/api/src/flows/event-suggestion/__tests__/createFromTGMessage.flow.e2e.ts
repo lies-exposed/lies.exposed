@@ -1,16 +1,16 @@
 import * as fs from "fs";
 import path from "path";
-import { getPlatformEmbedURL } from "@liexp/shared/helpers/media";
-import { AdminCreate } from "@liexp/shared/io/http/User";
-import { createExcerptValue } from "@liexp/shared/slate";
-import { HumanReadableStringArb } from "@liexp/shared/tests/arbitrary/HumanReadableString.arbitrary";
-import { URLArb } from "@liexp/shared/tests/arbitrary/URL.arbitrary";
+import { getPlatformEmbedURL } from "@liexp/shared/lib/helpers/media";
+import { AdminCreate } from "@liexp/shared/lib/io/http/User";
+import { createExcerptValue } from "@liexp/shared/lib/slate";
+import { HumanReadableStringArb } from "@liexp/shared/lib/tests/arbitrary/HumanReadableString.arbitrary";
+import { URLArb } from "@liexp/shared/lib/tests/arbitrary/URL.arbitrary";
 import {
   TGMessageArb,
   TGPhotoArb,
-} from "@liexp/shared/tests/arbitrary/common/TGMessage.arb";
-import { throwTE } from "@liexp/shared/utils/task.utils";
-import { uuid } from "@liexp/shared/utils/uuid";
+} from "@liexp/shared/lib/tests/arbitrary/common/TGMessage.arb";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { fc } from "@liexp/test";
 import { pipe } from "fp-ts/function";
 import type TelegramBot from "node-telegram-bot-api";

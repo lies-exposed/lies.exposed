@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import * as fs from "fs";
 import * as path from "path";
-import { GetLogger } from "@liexp/core/logger";
-import { GetCSVUtil } from "@liexp/shared/utils/csv.utils";
-import { distanceFromNow } from "@liexp/shared/utils/date";
+import { GetLogger } from "@liexp/core/lib/logger";
+import { GetCSVUtil } from "@liexp/shared/lib/utils/csv.utils";
+import { distanceFromNow } from "@liexp/shared/lib/utils/date";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
 import * as TE from "fp-ts/TaskEither";

@@ -7,30 +7,30 @@ import "@react-page/plugins-slate/lib/index.css";
 import "@react-page/plugins-spacer/lib/index.css";
 import "@react-page/plugins-video/lib/index.css";
 
-import { authProvider, apiProvider } from "@liexp/ui/client/api";
-import { Admin, Login, Resource } from "@liexp/ui/components/admin";
+import { authProvider, apiProvider } from "@liexp/ui/lib/client/api";
+import { Admin, Login, Resource } from "@liexp/ui/lib/components/admin";
 import {
   ArticleCreate,
   ArticleEdit,
   ArticleList,
-} from "@liexp/ui/components/admin/AdminArticles";
+} from "@liexp/ui/lib/components/admin/AdminArticles";
 import {
   LinkCreate,
   LinkEdit,
   LinkList,
-} from "@liexp/ui/components/admin/AdminLinks";
+} from "@liexp/ui/lib/components/admin/AdminLinks";
 import {
   MediaCreate,
   MediaEdit,
   MediaList,
-} from "@liexp/ui/components/admin/AdminMedia";
+} from "@liexp/ui/lib/components/admin/AdminMedia";
 import {
   EventSuggestionEdit,
   EventSuggestionList,
-} from "@liexp/ui/components/admin/events/suggestions/AdminEventSuggestion";
-import { SignIn } from "@liexp/ui/components/admin/user/SignIn";
-import englishMessages from "@liexp/ui/i18n/en-US";
-import { themeOptions } from "@liexp/ui/theme";
+} from "@liexp/ui/lib/components/admin/events/suggestions/AdminEventSuggestion";
+import { SignIn } from "@liexp/ui/lib/components/admin/user/SignIn";
+import englishMessages from "@liexp/ui/lib/i18n/en-US";
+import { themeOptions } from "@liexp/ui/lib/theme";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import * as React from "react";
 

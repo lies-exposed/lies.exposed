@@ -1,4 +1,4 @@
-import { type Media } from "@liexp/shared/io/http";
+import { type Media } from "@liexp/shared/lib/io/http";
 import * as React from "react";
 import { KeywordsBox } from "../components/KeywordsBox";
 import { MainContent } from "../components/MainContent";

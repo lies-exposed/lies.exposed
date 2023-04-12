@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Logger } from "@liexp/core/logger";
-import { VaccineDatum } from "@liexp/shared/io/http/covid/VaccineDatum";
-import { groupBy } from "@liexp/shared/utils/array.utils";
+import { Logger } from "@liexp/core/lib/logger";
+import { VaccineDatum } from "@liexp/shared/lib/io/http/covid/VaccineDatum";
+import { groupBy } from "@liexp/shared/lib/utils/array.utils";
 import * as A from "fp-ts/Array";
 import * as D from "fp-ts/Date";
 import * as Eq from "fp-ts/Eq";

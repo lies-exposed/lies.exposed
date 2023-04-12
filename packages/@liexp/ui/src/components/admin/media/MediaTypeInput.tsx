@@ -1,4 +1,4 @@
-import { MediaType } from "@liexp/shared/io/http/Media";
+import { MediaType } from "@liexp/shared/lib/io/http/Media";
 import { SelectInput, type SelectInputProps } from "ra-ui-materialui";
 import * as React from "react";
 

@@ -1,4 +1,4 @@
-import { type URL } from "@liexp/shared/io/http/Common";
+import { type URL } from "@liexp/shared/lib/io/http/Common";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

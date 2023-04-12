@@ -1,9 +1,9 @@
 // https://www.postgresql.org/docs/12/functions-json.html
 
-import { QUOTE } from "@liexp/shared/io/http/Events/Quote";
-import { type EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
-import { type DBError } from "@liexp/shared/providers/orm/Database";
-import { walkPaginatedRequest } from "@liexp/shared/utils/fp.utils";
+import { QUOTE } from "@liexp/shared/lib/io/http/Events/Quote";
+import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
+import { type DBError } from "@liexp/shared/lib/providers/orm/Database";
+import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";

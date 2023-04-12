@@ -1,4 +1,4 @@
-import { uuid } from "@liexp/shared/utils/uuid";
+import { uuid } from "@liexp/shared/lib/utils/uuid";
 import get from "lodash/get";
 import has from "lodash/has";
 import Feature from "ol/Feature";

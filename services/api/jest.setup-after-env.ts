@@ -1,5 +1,5 @@
 // import { GetAppTest } from "./test/AppTest";
-// import { throwTE } from "@liexp/shared/utils/task.utils";
+// import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 
 process.env.NODE_ENV = "test";
 process.env.DEBUG = "@liexp*";

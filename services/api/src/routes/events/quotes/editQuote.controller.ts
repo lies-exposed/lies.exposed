@@ -1,5 +1,5 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { QUOTE } from "@liexp/shared/io/http/Events/Quote";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { QUOTE } from "@liexp/shared/lib/io/http/Events/Quote";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { UUID } from "io-ts-types/lib/UUID";

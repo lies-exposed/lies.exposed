@@ -1,4 +1,4 @@
-import { fp } from "@liexp/core/fp";
+import { fp } from "@liexp/core/lib/fp";
 import { fc } from "@liexp/test";
 import { getPlatform } from "../media";
 

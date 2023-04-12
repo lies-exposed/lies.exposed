@@ -1,4 +1,4 @@
-import { propsOmit } from "@liexp/core/io/utils";
+import { propsOmit } from "@liexp/core/lib/io/utils";
 import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";

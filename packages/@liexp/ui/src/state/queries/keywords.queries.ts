@@ -1,5 +1,5 @@
-import { type Keyword } from "@liexp/shared/io/http";
-import { type APIError } from "@liexp/shared/providers/http/http.provider";
+import { type Keyword } from "@liexp/shared/lib/io/http";
+import { type APIError } from "@liexp/shared/lib/providers/http/http.provider";
 import type { GetListParams, GetOneParams } from "react-admin";
 import { useQuery, type UseQueryResult } from "react-query";
 import { Queries } from "../../providers/DataProvider";

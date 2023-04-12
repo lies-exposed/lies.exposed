@@ -1,4 +1,4 @@
-import { type NetworkType } from "@liexp/shared/io/http/Network";
+import { type NetworkType } from "@liexp/shared/lib/io/http/Network";
 import * as React from "react";
 import { type GetListParams } from "react-admin";
 import { useActorsQuery } from "../../state/queries/actor.queries";

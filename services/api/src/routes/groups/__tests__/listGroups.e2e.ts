@@ -1,6 +1,6 @@
-import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
-import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
-import { throwTE } from "@liexp/shared/utils/task.utils";
+import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary";
+import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
 import * as A from "fp-ts/Array";
 import { pipe } from "fp-ts/function";

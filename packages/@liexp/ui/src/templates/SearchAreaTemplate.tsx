@@ -1,4 +1,4 @@
-import { type Area } from "@liexp/shared/io/http";
+import { type Area } from "@liexp/shared/lib/io/http";
 import * as React from "react";
 import { AutoSizer } from "react-virtualized";
 import AreasMap from "../components/AreasMap";

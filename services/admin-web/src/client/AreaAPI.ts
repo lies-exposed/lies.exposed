@@ -1,6 +1,6 @@
-import { type Area } from "@liexp/shared/io/http/Area";
-import { throwTE } from "@liexp/shared/utils/task.utils";
-import type * as http from "@liexp/ui/http";
+import { type Area } from "@liexp/shared/lib/io/http/Area";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import type * as http from "@liexp/ui/lib/http";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

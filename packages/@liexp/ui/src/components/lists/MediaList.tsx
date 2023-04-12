@@ -1,4 +1,4 @@
-import type * as io from "@liexp/shared/io/http";
+import type * as io from "@liexp/shared/lib/io/http";
 import Masonry from "@mui/lab/Masonry";
 import { ParentSize } from "@visx/responsive";
 import { clsx } from "clsx";

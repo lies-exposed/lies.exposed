@@ -1,4 +1,4 @@
-import Header, { type HeaderProps } from "@liexp/ui/components/Header";
+import Header, { type HeaderProps } from "@liexp/ui/lib/components/Header";
 import { type Meta, type StoryFn as Story } from "@storybook/react";
 import * as React from "react";
 

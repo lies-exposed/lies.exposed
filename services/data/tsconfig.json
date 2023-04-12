@@ -15,13 +15,6 @@
     "skipLibCheck": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
-    "paths": {
-      "@liexp/core/*": ["../../../packages/@liexp/core/src/*"],
-      "@liexp/shared/*": [
-        "../../../packages/@liexp/shared/src/*"
-      ],
-      "@liexp/ui/*": ["../../../packages/@liexp/ui/src/*"]
-    }
   },
   "references": [
     {

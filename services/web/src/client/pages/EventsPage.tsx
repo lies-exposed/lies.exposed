@@ -1,17 +1,17 @@
-import { EventType } from "@liexp/shared/io/http/Events";
-import { type GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
-import { formatDate } from '@liexp/shared/utils/date';
+import { EventType } from "@liexp/shared/lib/io/http/Events";
+import { type GetSearchEventsQueryInput } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
+import { formatDate } from '@liexp/shared/lib/utils/date';
 import {
   clearSearchEventsQueryCache,
   type SearchEventQueryInput,
   type SearchEventsQueryInputNoPagination
-} from "@liexp/ui/state/queries/SearchEventsQuery";
-import ExploreTemplate from "@liexp/ui/templates/ExploreTemplate";
+} from "@liexp/ui/lib/state/queries/SearchEventsQuery";
+import ExploreTemplate from "@liexp/ui/lib/templates/ExploreTemplate";
 import {
   queryToHash,
   useQueryFromHash,
   useRouteQuery
-} from "@liexp/ui/utils/history.utils";
+} from "@liexp/ui/lib/utils/history.utils";
 import * as React from "react";
 import { queryClient } from "../state/queries";
 import {

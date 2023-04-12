@@ -1,4 +1,4 @@
-import { type Actor } from "@liexp/shared/io/http/Actor";
+import { type Actor } from "@liexp/shared/lib/io/http/Actor";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";

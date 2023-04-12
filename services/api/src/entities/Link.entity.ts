@@ -1,4 +1,4 @@
-import { type URL } from "@liexp/shared/io/http/Common";
+import { type URL } from "@liexp/shared/lib/io/http/Common";
 import { type UUID } from "io-ts-types/lib/UUID";
 import {
   Column,

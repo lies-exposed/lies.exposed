@@ -1,5 +1,5 @@
-import { getTitle } from "@liexp/shared/helpers/event";
-import { type Events } from "@liexp/shared/io/http";
+import { getTitle } from "@liexp/shared/lib/helpers/event";
+import { type Events } from "@liexp/shared/lib/io/http";
 import * as React from "react";
 import {
   useEventsQuery

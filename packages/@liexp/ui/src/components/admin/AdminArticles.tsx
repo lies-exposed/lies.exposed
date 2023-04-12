@@ -1,5 +1,5 @@
-import { throwTE } from "@liexp/shared/utils/task.utils";
-import { checkIsAdmin } from "@liexp/shared/utils/user.utils";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as React from "react";

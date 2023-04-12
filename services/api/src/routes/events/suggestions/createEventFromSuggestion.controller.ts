@@ -1,6 +1,6 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { EventSuggestion } from "@liexp/shared/io/http";
-import { uuid } from "@liexp/shared/utils/uuid";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { EventSuggestion } from "@liexp/shared/lib/io/http";
+import { uuid } from "@liexp/shared/lib/utils/uuid";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

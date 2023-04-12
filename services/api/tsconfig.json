@@ -27,10 +27,7 @@
       "@entities/*": ["entities/*"],
       "@flows/*": ["flows/*"],
       "@routes/*": ["routes/*"],
-      "@utils/*": ["utils/*"],
-      "@liexp/core/*": ["../../../packages/@liexp/core/src/*"],
-      "@liexp/shared/*": ["../../../packages/@liexp/shared/src/*"],
-      "@liexp/test/*": ["../../../packages/@liexp/test/src/*"]
+      "@utils/*": ["utils/*"]
     }
   },
   "references": [

@@ -1,4 +1,4 @@
-import { type Events } from "@liexp/shared/io/http";
+import { type Events } from "@liexp/shared/lib/io/http";
 import type { GetOneParams } from "react-admin";
 import { useQuery } from "react-query";
 import { Queries } from "../../providers/DataProvider";

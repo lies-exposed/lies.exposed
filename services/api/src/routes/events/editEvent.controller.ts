@@ -1,5 +1,5 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { AdminEdit } from '@liexp/shared/io/http/User';
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { AdminEdit } from '@liexp/shared/lib/io/http/User';
 import { type Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

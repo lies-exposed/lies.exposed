@@ -255,7 +255,10 @@ const getConfig = <A extends Record<string, t.Mixed>>(
             opts.tsConfigFile ?? path.resolve(opts.cwd, "tsconfig.json"),
         }),
       ],
-      modules: ["node_modules", path.resolve(opts.cwd)],
+      modules: [
+        "node_modules",
+        //  path.resolve(opts.cwd)
+      ],
     },
     plugins: plugins as any,
   };

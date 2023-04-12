@@ -1,9 +1,9 @@
-import { getTitleForSearchEvent } from "@liexp/shared/helpers/event";
+import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event";
 import {
   eqByUUID,
   getEventMetadata,
   ordEventDate
-} from "@liexp/shared/helpers/event/event";
+} from "@liexp/shared/lib/helpers/event/event";
 import {
   type Actor,
   type Common,
@@ -12,9 +12,9 @@ import {
   type Keyword,
   type Page,
   type Topic
-} from "@liexp/shared/io/http";
-import { type UUID } from "@liexp/shared/io/http/Common/UUID";
-import { type SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
+} from "@liexp/shared/lib/io/http";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvent";
 import { LegendItem, LegendLabel, LegendOrdinal } from "@visx/legend";
 import { type Link } from "@visx/network/lib/types";
 import ParentSize from "@visx/responsive/lib/components/ParentSize";

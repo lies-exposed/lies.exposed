@@ -1,6 +1,6 @@
-import { fp } from "@liexp/core/fp";
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { type DBError } from "@liexp/shared/providers/orm";
+import { fp } from "@liexp/core/lib/fp";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { type DBError } from "@liexp/shared/lib/providers/orm";
 import { type Router } from "express";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";

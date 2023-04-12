@@ -1,0 +1,21 @@
+name: "Build packages"
+description: "Build ./packages/* when no cache is hit"
+
+inputs:
+  hash:
+    required: true
+    description: The suffix used to create the cache key
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/cache@v3
+      id: packages-build
+      with:
+        path: packages/**/lib
+        key: linux-packages-${{ inputs.hash }}
+
+    - name: Build Packages
+      if: steps.packages-build.outputs.cache-hit != 'true'
+      run: yarn packages:build
+      shell: bash

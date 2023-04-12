@@ -1,9 +1,9 @@
-import { getShareMedia, getTitle } from "@liexp/shared/helpers/event";
-import { type Media, type Keyword } from "@liexp/shared/io/http";
-import { MediaType } from "@liexp/shared/io/http/Media";
-import { type ShareMessageBody } from "@liexp/shared/io/http/ShareMessage";
-import { getTextContents } from "@liexp/shared/slate";
-import { formatDate, parseISO } from "@liexp/shared/utils/date";
+import { getShareMedia, getTitle } from "@liexp/shared/lib/helpers/event";
+import { type Media, type Keyword } from "@liexp/shared/lib/io/http";
+import { MediaType } from "@liexp/shared/lib/io/http/Media";
+import { type ShareMessageBody } from "@liexp/shared/lib/io/http/ShareMessage";
+import { getTextContents } from "@liexp/shared/lib/slate";
+import { formatDate, parseISO } from "@liexp/shared/lib/utils/date";
 import { type UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
 import {

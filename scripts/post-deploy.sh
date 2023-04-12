@@ -36,8 +36,9 @@ yarn build-sb
 cd ../../;
 cp -r /root/node/app/current/services/storybook/build/* "/var/www/html/${HOST}/storybook/"
 
-
 sudo chown -R www-data:www-data "/var/www/html/${HOST}"
+
+cp /root/node/app/current/deploy/nginx/alpha.lies.exposed.conf /etc/nginx/sites-enabled/alpha.lies.exposed
 
 # web
 # cd ./services/web;

@@ -1,4 +1,4 @@
-import { Endpoints, AddEndpoint } from "@liexp/shared/endpoints";
+import { Endpoints, AddEndpoint } from "@liexp/shared/lib/endpoints";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";

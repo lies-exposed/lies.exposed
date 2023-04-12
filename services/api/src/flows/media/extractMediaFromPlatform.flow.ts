@@ -1,9 +1,9 @@
 import {
   getPlatformEmbedURL,
   type VideoPlatformMatch,
-} from "@liexp/shared/helpers/media";
-import { type URL } from "@liexp/shared/io/http/Common";
-import { IframeVideoType } from "@liexp/shared/io/http/Media";
+} from "@liexp/shared/lib/helpers/media";
+import { type URL } from "@liexp/shared/lib/io/http/Common";
+import { IframeVideoType } from "@liexp/shared/lib/io/http/Media";
 import * as TE from "fp-ts/TaskEither";
 import { sequenceS } from "fp-ts/lib/Apply";
 import { pipe } from "fp-ts/lib/function";

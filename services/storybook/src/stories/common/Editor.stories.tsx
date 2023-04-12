@@ -1,4 +1,4 @@
-import Editor from "@liexp/ui/components/Common/Editor";
+import Editor from "@liexp/ui/lib/components/Common/Editor";
 import { type Meta, type Story } from "@storybook/react";
 import * as React from "react";
 

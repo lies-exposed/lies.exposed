@@ -1,5 +1,5 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { sanitizeURL } from "@liexp/shared/utils/url.utils";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils";
 import { type Router } from "express";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";

@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import * as path from "path";
-import { GetLogger } from "@liexp/core/logger";
-import { WHOCovid19GlobalData } from "@liexp/shared/io/http/covid/COVIDDailyDatum";
-import { GetCSVUtil } from "@liexp/shared/utils/csv.utils";
-import { distanceFromNow } from "@liexp/shared/utils/date";
+import { GetLogger } from "@liexp/core/lib/logger";
+import { WHOCovid19GlobalData } from "@liexp/shared/lib/io/http/covid/COVIDDailyDatum";
+import { GetCSVUtil } from "@liexp/shared/lib/utils/csv.utils";
+import { distanceFromNow } from "@liexp/shared/lib/utils/date";
 import * as A from "fp-ts/Array";
 import * as D from "fp-ts/Date";
 import * as Eq from "fp-ts/Eq";

@@ -1,8 +1,8 @@
-import { getTitle } from "@liexp/shared/helpers/event";
-import * as io from "@liexp/shared/io";
-import { EventSuggestionStatus } from "@liexp/shared/io/http/EventSuggestion";
-import { Documentary, Patent } from "@liexp/shared/io/http/Events";
-import { checkIsAdmin } from "@liexp/shared/utils/user.utils";
+import { getTitle } from "@liexp/shared/lib/helpers/event";
+import * as io from "@liexp/shared/lib/io";
+import { EventSuggestionStatus } from "@liexp/shared/lib/io/http/EventSuggestion";
+import { Documentary, Patent } from "@liexp/shared/lib/io/http/Events";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
 import * as React from "react";
 import {
   BooleanInput,

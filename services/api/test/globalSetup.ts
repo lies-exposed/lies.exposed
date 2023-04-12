@@ -2,8 +2,8 @@
 import moduleAlias from "module-alias";
 import * as path from "path";
 moduleAlias(path.resolve(__dirname, "../package.json"));
-import * as logger from "@liexp/core/logger";
-import { throwTE } from "@liexp/shared/utils/task.utils";
+import * as logger from "@liexp/core/lib/logger";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as dotenv from "dotenv";
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";

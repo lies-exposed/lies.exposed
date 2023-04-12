@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import * as path from "path";
-import { sleep } from "@liexp/shared/utils/promise.utils";
+import { sleep } from "@liexp/shared/lib/utils/promise.utils";
 import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

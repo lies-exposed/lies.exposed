@@ -1,8 +1,8 @@
-import { type URL } from "@liexp/shared/io/http/Common";
-import { type CreateGroupBody } from "@liexp/shared/io/http/Group";
-import { toPuppeteerError } from "@liexp/shared/providers/puppeteer.provider";
-import { createExcerptValue } from "@liexp/shared/slate";
-import { generateRandomColor } from "@liexp/shared/utils/colors";
+import { type URL } from "@liexp/shared/lib/io/http/Common";
+import { type CreateGroupBody } from "@liexp/shared/lib/io/http/Group";
+import { toPuppeteerError } from "@liexp/shared/lib/providers/puppeteer.provider";
+import { createExcerptValue } from "@liexp/shared/lib/slate";
+import { generateRandomColor } from "@liexp/shared/lib/utils/colors";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { toControllerError, type ControllerError } from "@io/ControllerError";

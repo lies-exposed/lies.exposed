@@ -29,6 +29,9 @@
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@liexp/core": "0.1.0",
+    "@liexp/shared": "0.1.0",
+    "@liexp/ui": "0.1.0",
     "@mui/material": "^5.12.0",
     "@visx/axis": "^3.1.0",
     "@visx/gradient": "^3.0.0",
@@ -133,10 +136,5 @@
     "**/*.+(ts|tsx|js|jsx|json|css)": [
       "prettier --write"
     ]
-  },
-  "_moduleAliases": {
-    "@liexp/core": "../../packages/@liexp/core/lib",
-    "@liexp/shared": "../../packages/@liexp/shared/lib",
-    "@liexp/ui": "../../packages/@liexp/ui/lib"
   }
 }

@@ -1,7 +1,7 @@
 import { UserEntity } from "@entities/User.entity";
-import { UserPermission } from "@liexp/shared/io/http/User";
-import { throwTE } from "@liexp/shared/utils/task.utils";
-import { uuid } from "@liexp/shared/utils/uuid";
+import { UserPermission } from "@liexp/shared/lib/io/http/User";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { hash } from "@utils/password.utils";
 import { fc } from "@liexp/test";
 import { AppTest } from "./AppTest";

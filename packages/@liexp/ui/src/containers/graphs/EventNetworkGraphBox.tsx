@@ -1,22 +1,22 @@
-import { fp } from "@liexp/core/fp";
-import { getRelationIds } from "@liexp/shared/helpers/event/event";
-import { ACTORS } from "@liexp/shared/io/http/Actor";
-import { EventType } from "@liexp/shared/io/http/Events";
-import { DEATH } from "@liexp/shared/io/http/Events/Death";
-import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
-import { PATENT } from "@liexp/shared/io/http/Events/Patent";
-import { QUOTE } from "@liexp/shared/io/http/Events/Quote";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
-import { type EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
-import { TRANSACTION } from "@liexp/shared/io/http/Events/Transaction";
-import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
-import { GROUPS } from "@liexp/shared/io/http/Group";
-import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
+import { fp } from "@liexp/core/lib/fp";
+import { getRelationIds } from "@liexp/shared/lib/helpers/event/event";
+import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
+import { EventType } from "@liexp/shared/lib/io/http/Events";
+import { DEATH } from "@liexp/shared/lib/io/http/Events/Death";
+import { DOCUMENTARY } from "@liexp/shared/lib/io/http/Events/Documentary";
+import { PATENT } from "@liexp/shared/lib/io/http/Events/Patent";
+import { QUOTE } from "@liexp/shared/lib/io/http/Events/Quote";
+import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/ScientificStudy";
+import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
+import { TRANSACTION } from "@liexp/shared/lib/io/http/Events/Transaction";
+import { UNCATEGORIZED } from "@liexp/shared/lib/io/http/Events/Uncategorized";
+import { GROUPS } from "@liexp/shared/lib/io/http/Group";
+import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
 import {
   type NetworkGroupBy,
   type NetworkType,
-} from "@liexp/shared/io/http/Network";
-import { parseDate } from "@liexp/shared/utils/date";
+} from "@liexp/shared/lib/io/http/Network";
+import { parseDate } from "@liexp/shared/lib/utils/date";
 import { ParentSize } from "@visx/responsive";
 import { differenceInDays, parseISO } from "date-fns";
 import { pipe } from "fp-ts/lib/function";

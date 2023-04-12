@@ -1,6 +1,6 @@
-import { type Media } from "@liexp/shared/io/http";
-import { getMediaKey } from "@liexp/shared/utils/media.utils";
-import { uuid } from "@liexp/shared/utils/uuid";
+import { type Media } from "@liexp/shared/lib/io/http";
+import { getMediaKey } from "@liexp/shared/lib/utils/media.utils";
+import { uuid } from "@liexp/shared/lib/utils/uuid";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { createThumbnail } from "./createThumbnail.flow";

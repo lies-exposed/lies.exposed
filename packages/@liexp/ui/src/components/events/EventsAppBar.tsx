@@ -1,6 +1,6 @@
-import { getTotal } from "@liexp/shared/helpers/event";
-import { type SearchEvent } from "@liexp/shared/io/http/Events";
-import { type EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
+import { getTotal } from "@liexp/shared/lib/helpers/event";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
+import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
 import ArrowDownIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpIcon from "@mui/icons-material/ArrowUpward";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";

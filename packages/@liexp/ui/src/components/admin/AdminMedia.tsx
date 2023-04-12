@@ -1,8 +1,8 @@
-import { parseURL } from "@liexp/shared/helpers/media";
-import { ImageType } from "@liexp/shared/io/http/Media";
-import { throwTE } from "@liexp/shared/utils/task.utils";
-import { checkIsAdmin } from "@liexp/shared/utils/user.utils";
-import { uuid } from "@liexp/shared/utils/uuid";
+import { parseURL } from "@liexp/shared/lib/helpers/media";
+import { ImageType } from "@liexp/shared/lib/io/http/Media";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
+import { uuid } from "@liexp/shared/lib/utils/uuid";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as React from "react";

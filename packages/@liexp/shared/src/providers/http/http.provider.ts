@@ -1,4 +1,4 @@
-import { GetLogger } from "@liexp/core/logger";
+import { GetLogger } from "@liexp/core/lib/logger";
 import axios, { type AxiosRequestConfig, type AxiosResponse } from "axios";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";

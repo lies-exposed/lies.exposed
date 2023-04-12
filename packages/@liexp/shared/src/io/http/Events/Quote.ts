@@ -1,4 +1,4 @@
-import { propsOmit } from "@liexp/core/io/utils";
+import { propsOmit } from "@liexp/core/lib/io/utils";
 import * as t from "io-ts";
 import { UUID } from "io-ts-types/UUID";
 import { optionFromNullable } from "io-ts-types/optionFromNullable";

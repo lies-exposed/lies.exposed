@@ -1,4 +1,4 @@
-import { type Media } from "@liexp/shared/io/http";
+import { type Media } from "@liexp/shared/lib/io/http";
 import { CloseOutlined } from "@mui/icons-material";
 import {clsx} from "clsx";
 import * as React from "react";

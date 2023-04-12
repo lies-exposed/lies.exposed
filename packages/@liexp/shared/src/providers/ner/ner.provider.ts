@@ -1,4 +1,4 @@
-import { type Logger } from "@liexp/core/logger";
+import { type Logger } from "@liexp/core/lib/logger";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { type IOError } from "ts-io-error";

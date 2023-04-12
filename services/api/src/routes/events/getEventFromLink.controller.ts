@@ -1,7 +1,7 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { Events, EventSuggestion } from "@liexp/shared/io/http";
-import { createExcerptValue } from "@liexp/shared/slate";
-import { uuid } from "@liexp/shared/utils/uuid";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { Events, EventSuggestion } from "@liexp/shared/lib/io/http";
+import { createExcerptValue } from "@liexp/shared/lib/slate";
+import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { addWeeks, subWeeks } from "date-fns";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";

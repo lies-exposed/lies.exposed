@@ -1,6 +1,6 @@
 import * as fs from "fs";
-import { GetLogger } from "@liexp/core/logger";
-import { APIRESTClient } from "@liexp/ui/http";
+import { GetLogger } from "@liexp/core/lib/logger";
+import { APIRESTClient } from "@liexp/ui/lib/http";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 

@@ -1,6 +1,6 @@
-import { DEATH } from "@liexp/shared/io/http/Events/Death";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
-import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
+import { DEATH } from "@liexp/shared/lib/io/http/Events/Death";
+import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/ScientificStudy";
+import { UNCATEGORIZED } from "@liexp/shared/lib/io/http/Events/Uncategorized";
 import { DeathEventEntity } from "@entities/archive/DeathEvent.entity";
 import { EventEntity } from "@entities/archive/Event.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";

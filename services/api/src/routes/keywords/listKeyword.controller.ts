@@ -1,5 +1,5 @@
-import { fp } from "@liexp/core/fp";
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
+import { fp } from "@liexp/core/lib/fp";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
 import { type Router } from "express";
 import { pipe } from "fp-ts/function";
 import { fetchKeywords } from "../../queries/keywords/fetchKeywords.query";

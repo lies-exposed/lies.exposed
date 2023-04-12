@@ -1,4 +1,4 @@
-import { type Actor } from "@liexp/shared/io/http/Actor";
+import { type Actor } from "@liexp/shared/lib/io/http/Actor";
 import * as React from "react";
 import { type GetListParams } from "react-admin";
 import QueriesRenderer from "../components/QueriesRenderer";

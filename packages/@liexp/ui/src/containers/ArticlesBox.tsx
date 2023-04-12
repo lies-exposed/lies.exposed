@@ -1,4 +1,4 @@
-import { type Article } from "@liexp/shared/io/http/Article";
+import { type Article } from "@liexp/shared/lib/io/http/Article";
 import * as React from "react";
 import { type GetListParams } from "react-admin";
 import QueriesRenderer from "../components/QueriesRenderer";

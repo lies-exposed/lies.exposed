@@ -4,23 +4,23 @@ import {
   getNewRelationIds,
   type SearchEventsQueryCache,
   updateCache,
-} from "@liexp/shared/helpers/event/search-event";
-import { type EventRelationIds } from "@liexp/shared/helpers/event/types";
+} from "@liexp/shared/lib/helpers/event/search-event";
+import { type EventRelationIds } from "@liexp/shared/lib/helpers/event/types";
 import {
   createHierarchicalEdgeBundling,
   type HierarchicalEdgeBundlingProps,
-} from "@liexp/shared/helpers/graph/createHierarchicalEdgeBundlingData";
+} from "@liexp/shared/lib/helpers/graph/createHierarchicalEdgeBundlingData";
 import {
   type Actor,
   type Group,
   type GroupMember,
   type Keyword,
   type Media,
-} from "@liexp/shared/io/http";
-import { EventType } from "@liexp/shared/io/http/Events";
-import { StatsType } from "@liexp/shared/io/http/Stats";
-import { type DBError } from "@liexp/shared/providers/orm";
-import { walkPaginatedRequest } from "@liexp/shared/utils/fp.utils";
+} from "@liexp/shared/lib/io/http";
+import { EventType } from "@liexp/shared/lib/io/http/Events";
+import { StatsType } from "@liexp/shared/lib/io/http/Stats";
+import { type DBError } from "@liexp/shared/lib/providers/orm";
+import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";

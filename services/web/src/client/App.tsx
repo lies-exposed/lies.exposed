@@ -1,9 +1,9 @@
-import "@liexp/ui/components/Common/Icons/library";
-import { FullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
-import { Footer } from "@liexp/ui/components/Footer";
-import SEO from "@liexp/ui/components/SEO";
-import { Grid, useMediaQuery } from "@liexp/ui/components/mui";
-import { useTheme } from "@liexp/ui/theme";
+import "@liexp/ui/lib/components/Common/Icons/library";
+import { FullSizeLoader } from "@liexp/ui/lib/components/Common/FullSizeLoader";
+import { Footer } from "@liexp/ui/lib/components/Footer";
+import SEO from "@liexp/ui/lib/components/SEO";
+import { Grid, useMediaQuery } from "@liexp/ui/lib/components/mui";
+import { useTheme } from "@liexp/ui/lib/theme";
 import * as React from "react";
 import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 import { Route, Routes, useLocation } from "react-router";

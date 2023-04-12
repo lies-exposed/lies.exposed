@@ -1,5 +1,5 @@
-import { type Media } from "@liexp/shared/io/http";
-import { type APIError } from "@liexp/shared/providers/http/http.provider";
+import { type Media } from "@liexp/shared/lib/io/http";
+import { type APIError } from "@liexp/shared/lib/providers/http/http.provider";
 import type { GetListParams } from "react-admin";
 import {
   useInfiniteQuery,

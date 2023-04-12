@@ -1,15 +1,15 @@
 import {
   GroupPageContent,
   type GroupPageContentProps,
-} from "@liexp/ui/components/GroupPageContent";
-import { MainContent } from "@liexp/ui/components/MainContent";
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
+} from "@liexp/ui/lib/components/GroupPageContent";
+import { MainContent } from "@liexp/ui/lib/components/MainContent";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import {
   useGroupMembersQuery,
-} from "@liexp/ui/state/queries/DiscreteQueries";
+} from "@liexp/ui/lib/state/queries/DiscreteQueries";
 import {
   useGroupsQuery,
-} from "@liexp/ui/state/queries/groups.queries";
+} from "@liexp/ui/lib/state/queries/groups.queries";
 import { type Meta, type Story } from "@storybook/react";
 import * as React from "react";
 

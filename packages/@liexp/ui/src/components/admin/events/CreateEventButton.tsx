@@ -1,5 +1,5 @@
-import * as io from "@liexp/shared/io";
-import { type CreateEventBody } from "@liexp/shared/io/http/Events";
+import * as io from "@liexp/shared/lib/io";
+import { type CreateEventBody } from "@liexp/shared/lib/io/http/Events";
 import * as React from "react";
 import {
   Button,

@@ -1,5 +1,5 @@
-import { UUID } from "@liexp/shared/io/http/Common/UUID";
-import * as Query from "@liexp/shared/io/http/Query";
+import { UUID } from "@liexp/shared/lib/io/http/Common/UUID";
+import * as Query from "@liexp/shared/lib/io/http/Query";
 import * as O from "fp-ts/Option";
 import * as R from "fp-ts/Record";
 import { pipe } from "fp-ts/function";

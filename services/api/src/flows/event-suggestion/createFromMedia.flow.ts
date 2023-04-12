@@ -1,4 +1,4 @@
-import { createExcerptValue } from "@liexp/shared/slate";
+import { createExcerptValue } from "@liexp/shared/lib/slate";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";

@@ -1,8 +1,8 @@
-import { type Group } from "@liexp/shared/io/http/Group";
-import { MediaType } from "@liexp/shared/io/http/Media";
-import { throwTE } from "@liexp/shared/utils/task.utils";
-import { uploadImages } from "@liexp/ui/client/admin/MediaAPI";
-import { type APIRESTClient } from "@liexp/ui/http";
+import { type Group } from "@liexp/shared/lib/io/http/Group";
+import { MediaType } from "@liexp/shared/lib/io/http/Media";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI";
+import { type APIRESTClient } from "@liexp/ui/lib/http";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

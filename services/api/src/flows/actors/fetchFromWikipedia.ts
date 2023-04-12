@@ -1,8 +1,8 @@
-import { type AddActorBody } from "@liexp/shared/io/http/Actor";
-import { type URL } from "@liexp/shared/io/http/Common";
-import { toPuppeteerError } from "@liexp/shared/providers/puppeteer.provider";
-import { createExcerptValue } from "@liexp/shared/slate";
-import { generateRandomColor } from "@liexp/shared/utils/colors";
+import { type AddActorBody } from "@liexp/shared/lib/io/http/Actor";
+import { type URL } from "@liexp/shared/lib/io/http/Common";
+import { toPuppeteerError } from "@liexp/shared/lib/providers/puppeteer.provider";
+import { createExcerptValue } from "@liexp/shared/lib/slate";
+import { generateRandomColor } from "@liexp/shared/lib/utils/colors";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import snakeCase from "lodash/snakeCase";

@@ -1,4 +1,4 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
 import { type Router } from "express";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";

@@ -1,4 +1,4 @@
-import { getEventMetadata } from "@liexp/shared/helpers/event/event";
+import { getEventMetadata } from "@liexp/shared/lib/helpers/event/event";
 import * as React from "react";
 import {
   EventsSankeyGraph,

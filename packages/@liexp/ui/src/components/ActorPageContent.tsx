@@ -1,4 +1,4 @@
-import { type Actor, type Group } from "@liexp/shared/io/http";
+import { type Actor, type Group } from "@liexp/shared/lib/io/http";
 import * as React from "react";
 import ActorsBox from "../containers/ActorsBox";
 import { DeathBox } from "../containers/DeathBox";

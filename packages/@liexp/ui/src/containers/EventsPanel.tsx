@@ -3,8 +3,8 @@ import {
   type Group,
   type GroupMember,
   type Keyword,
-} from "@liexp/shared/io/http";
-import { EventType, type SearchEvent } from "@liexp/shared/io/http/Events";
+} from "@liexp/shared/lib/io/http";
+import { EventType, type SearchEvent } from "@liexp/shared/lib/io/http/Events";
 import * as React from "react";
 import EventSliderModal from "../components/Modal/EventSliderModal";
 import QueriesRenderer from "../components/QueriesRenderer";

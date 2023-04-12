@@ -1,4 +1,4 @@
-import { type Project } from "@liexp/shared/io/http";
+import { type Project } from "@liexp/shared/lib/io/http";
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";

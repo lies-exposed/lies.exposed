@@ -1,5 +1,5 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { DOCUMENTARY } from "@liexp/shared/lib/io/http/Events/Documentary";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";

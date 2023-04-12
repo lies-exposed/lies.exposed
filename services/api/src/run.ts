@@ -1,5 +1,5 @@
 /* eslint-disable import/order, import/first */
-import * as logger from "@liexp/core/logger";
+import * as logger from "@liexp/core/lib/logger";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { failure } from "io-ts/lib/PathReporter";

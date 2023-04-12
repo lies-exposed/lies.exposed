@@ -5,7 +5,7 @@ import {
 } from "@flows/events/extractFromURL.flow";
 import { getOneAdminOrFail } from '@flows/users/getOneUserOrFail.flow';
 import { ControllerError, toControllerError } from "@io/ControllerError";
-import { throwTE } from "@liexp/shared/utils/task.utils";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import dotenv from "dotenv";
 import * as A from "fp-ts/Array";
 import { pipe } from "fp-ts/function";

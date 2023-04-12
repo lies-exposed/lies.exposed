@@ -1,5 +1,5 @@
-import * as http from "@liexp/shared/io/http";
-import { type DBError } from "@liexp/shared/providers/orm";
+import * as http from "@liexp/shared/lib/io/http";
+import { type DBError } from "@liexp/shared/lib/providers/orm";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

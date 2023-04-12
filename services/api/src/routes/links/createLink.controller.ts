@@ -1,7 +1,7 @@
-import { fp } from "@liexp/core/fp";
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { EventSuggestionRead } from "@liexp/shared/io/http/User";
-import { sanitizeURL } from "@liexp/shared/utils/url.utils";
+import { fp } from "@liexp/core/lib/fp";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { EventSuggestionRead } from "@liexp/shared/lib/io/http/User";
+import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils";
 import { type Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

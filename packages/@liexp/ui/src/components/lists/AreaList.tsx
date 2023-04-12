@@ -1,5 +1,5 @@
-import type * as io from "@liexp/shared/io/http";
-import  { getTextContentsCapped } from "@liexp/shared/slate";
+import type * as io from "@liexp/shared/lib/io/http";
+import  { getTextContentsCapped } from "@liexp/shared/lib/slate";
 import * as React from "react";
 import { useMediaQuery } from "../../state/queries/media.queries";
 import { styled } from "../../theme";

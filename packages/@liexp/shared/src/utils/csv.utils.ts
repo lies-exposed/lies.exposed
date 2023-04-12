@@ -1,4 +1,4 @@
-import { type Logger } from "@liexp/core/logger";
+import { type Logger } from "@liexp/core/lib/logger";
 import * as csv from "fast-csv";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";

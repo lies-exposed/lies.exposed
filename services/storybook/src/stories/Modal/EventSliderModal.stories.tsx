@@ -1,7 +1,7 @@
-import { MainContent } from "@liexp/ui/components/MainContent";
+import { MainContent } from "@liexp/ui/lib/components/MainContent";
 import EventSliderModal, {
   type EventSliderModalProps,
-} from "@liexp/ui/components/Modal/EventSliderModal";
+} from "@liexp/ui/lib/components/Modal/EventSliderModal";
 import { type Meta, type StoryFn as Story } from "@storybook/react";
 import * as React from "react";
 

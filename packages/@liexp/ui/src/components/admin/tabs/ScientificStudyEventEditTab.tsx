@@ -1,4 +1,4 @@
-import { ScientificStudy } from '@liexp/shared/io/http/Events';
+import { ScientificStudy } from '@liexp/shared/lib/io/http/Events';
 import * as React from "react";
 import {
   type EditProps, type RaRecord, TextInput
