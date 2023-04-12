@@ -56,7 +56,7 @@
     "@types/node-telegram-bot-api": "^0.61.6",
     "@types/prettier": "^2.7.2",
     "@types/qs": "^6.9.7",
-    "@types/react": "^18.0.34",
+    "@types/react": "^18.0.35",
     "@types/react-dom": "^18.0.11",
     "@types/throttle-debounce": "^5.0.0",
     "@types/uuid": "^9.0.1",
