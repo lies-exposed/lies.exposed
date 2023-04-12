@@ -32,7 +32,7 @@ cp -r /root/node/app/current/services/admin-web/build/* "/var/www/html/${HOST}/a
 
 # build storybook
 cd ./services/storybook;
-yarn build
+yarn build-sb
 cd ../../;
 cp -r /root/node/app/current/services/storybook/build/* "/var/www/html/${HOST}/storybook/"
 
