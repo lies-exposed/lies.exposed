@@ -1,4 +1,4 @@
-import { type Area } from "@liexp/shared/io/http";
+import { type Area } from "@liexp/shared/lib/io/http";
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
 import Feature  from "ol/Feature";
 import * as React from "react";

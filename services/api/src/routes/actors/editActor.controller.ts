@@ -1,5 +1,5 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { UUID } from "@liexp/shared/io/http/Common";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { UUID } from "@liexp/shared/lib/io/http/Common";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";

@@ -1,9 +1,9 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
 import {
   CreateScientificStudyBody,
   type CreateScientificStudyPlainBody,
-} from "@liexp/shared/io/http/Events/ScientificStudy";
-import { AdminCreate } from "@liexp/shared/io/http/User";
+} from "@liexp/shared/lib/io/http/Events/ScientificStudy";
+import { AdminCreate } from "@liexp/shared/lib/io/http/User";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { UUID } from "io-ts-types/lib/UUID";

@@ -1,7 +1,7 @@
-import { type http } from "@liexp/shared/io";
-import { type APIError } from "@liexp/shared/providers/http/http.provider";
-import { api } from "@liexp/ui/client/api";
-import { foldTE } from "@liexp/ui/providers/DataProvider";
+import { type http } from "@liexp/shared/lib/io";
+import { type APIError } from "@liexp/shared/lib/providers/http/http.provider";
+import { api } from "@liexp/ui/lib/client/api";
+import { foldTE } from "@liexp/ui/lib/providers/DataProvider";
 import * as TE from 'fp-ts/TaskEither';
 import { pipe } from "fp-ts/function";
 import { useMutation, type UseMutationResult } from "react-query";

@@ -1,4 +1,4 @@
-import { type Actor } from "@liexp/shared/io/http";
+import { type Actor } from "@liexp/shared/lib/io/http";
 import RecentActorsIcon from "@mui/icons-material/RecentActors";
 import MediaIcon from "@mui/icons-material/VideoFileOutlined";
 import type { CellPluginComponentProps, DataTType } from "@react-page/editor";

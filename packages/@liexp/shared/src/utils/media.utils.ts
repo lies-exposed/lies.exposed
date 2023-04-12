@@ -1,4 +1,4 @@
-import { fp } from "@liexp/core/fp";
+import { fp } from "@liexp/core/lib/fp";
 import { pipe } from "fp-ts/lib/function";
 import { type UploadResource } from '../endpoints/upload.endpoints';
 

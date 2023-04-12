@@ -1,31 +1,31 @@
 import * as fs from "fs";
 import path from "path";
-import { fp } from "@liexp/core/fp";
+import { fp } from "@liexp/core/lib/fp";
 import {
   getColorByEventType,
   getEventMetadata,
   getRelationIds,
-} from "@liexp/shared/helpers/event/event";
-import { getTitleForSearchEvent } from "@liexp/shared/helpers/event/getTitle.helper";
-import { toSearchEvent } from "@liexp/shared/helpers/event/search-event";
+} from "@liexp/shared/lib/helpers/event/event";
+import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/getTitle.helper";
+import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
 import {
   type Actor,
   type Group,
   type Keyword,
   type Media,
-} from "@liexp/shared/io/http";
-import { ACTORS } from "@liexp/shared/io/http/Actor";
-import { type SearchEvent } from "@liexp/shared/io/http/Events";
-import { GROUPS } from "@liexp/shared/io/http/Group";
-import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
+} from "@liexp/shared/lib/io/http";
+import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
+import { GROUPS } from "@liexp/shared/lib/io/http/Group";
+import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
 import {
   type NetworkGraphOutput,
   type GetNetworkQuery,
   type NetworkGroupBy,
   type NetworkType,
-} from "@liexp/shared/io/http/Network";
-import { type EventNetworkDatum } from "@liexp/shared/io/http/Network/networks";
-import { distanceFromNow } from "@liexp/shared/utils/date";
+} from "@liexp/shared/lib/io/http/Network";
+import { type EventNetworkDatum } from "@liexp/shared/lib/io/http/Network/networks";
+import { distanceFromNow } from "@liexp/shared/lib/utils/date";
 import { differenceInHours } from "date-fns";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";

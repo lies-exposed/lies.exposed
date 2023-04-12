@@ -1,62 +1,62 @@
-import { getRelationIds } from "@liexp/shared/helpers/event/event";
-import { EventType } from "@liexp/shared/io/http/Events";
-import { StatsType } from "@liexp/shared/io/http/Stats";
-import { articleByPath } from "@liexp/ui/providers/DataProvider";
+import { getRelationIds } from "@liexp/shared/lib/helpers/event/event";
+import { EventType } from "@liexp/shared/lib/io/http/Events";
+import { StatsType } from "@liexp/shared/lib/io/http/Stats";
+import { articleByPath } from "@liexp/ui/lib/providers/DataProvider";
 import {
   fetchGroupsMembers,
   fetchStats,
   getGroupsMembersQueryKey,
   getStatsQueryKey,
-} from "@liexp/ui/state/queries/DiscreteQueries";
+} from "@liexp/ui/lib/state/queries/DiscreteQueries";
 import {
   fetchSearchEvents,
   fetchSearchEventsInfinite,
   getSearchEventsInfiniteQueryKey,
   getSearchEventsQueryKey,
-} from "@liexp/ui/state/queries/SearchEventsQuery";
+} from "@liexp/ui/lib/state/queries/SearchEventsQuery";
 import {
   fetchActor,
   fetchActors,
   getActorQueryKey,
   getActorsQueryKey,
-} from "@liexp/ui/state/queries/actor.queries";
+} from "@liexp/ui/lib/state/queries/actor.queries";
 import {
   fetchArea,
   fetchAreas,
   getAreaQueryKey,
-} from "@liexp/ui/state/queries/area.queries";
+} from "@liexp/ui/lib/state/queries/area.queries";
 import {
   fetchArticles,
   getArticleQueryKey,
-} from "@liexp/ui/state/queries/article.queries";
-import { fetchEvent } from "@liexp/ui/state/queries/event.queries";
-import { fetchGithubRepo } from "@liexp/ui/state/queries/github";
+} from "@liexp/ui/lib/state/queries/article.queries";
+import { fetchEvent } from "@liexp/ui/lib/state/queries/event.queries";
+import { fetchGithubRepo } from "@liexp/ui/lib/state/queries/github";
 import {
   fetchGroup,
   fetchGroups,
   getGroupsQueryKey,
-} from "@liexp/ui/state/queries/groups.queries";
+} from "@liexp/ui/lib/state/queries/groups.queries";
 import {
   fetchKeywords,
   fetchKeywordsDistribution,
   getKeywordsDistributionQueryKey,
   getKeywordsQueryKey,
-} from "@liexp/ui/state/queries/keywords.queries";
+} from "@liexp/ui/lib/state/queries/keywords.queries";
 import {
   fetchLinks,
   getLinkQueryKey,
-} from "@liexp/ui/state/queries/link.queries";
+} from "@liexp/ui/lib/state/queries/link.queries";
 import {
   fetchMedia,
   fetchSingleMedia,
   getMediaQueryKey,
   getMediaQueryListKey,
-} from "@liexp/ui/state/queries/media.queries";
+} from "@liexp/ui/lib/state/queries/media.queries";
 import {
   fetchPageContentByPath,
   getPageContentByPathQueryKey,
-} from "@liexp/ui/state/queries/page.queries";
-import { hashToQuery } from "@liexp/ui/utils/history.utils";
+} from "@liexp/ui/lib/state/queries/page.queries";
+import { hashToQuery } from "@liexp/ui/lib/utils/history.utils";
 import { UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
 import { useParams } from "react-router-dom";

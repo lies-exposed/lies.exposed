@@ -1,4 +1,4 @@
-import { User } from "@liexp/shared/io/http";
+import { User } from "@liexp/shared/lib/io/http";
 import * as E from "fp-ts/lib/Either";
 import * as IOE from "fp-ts/lib/IOEither";
 import { pipe } from "fp-ts/lib/function";

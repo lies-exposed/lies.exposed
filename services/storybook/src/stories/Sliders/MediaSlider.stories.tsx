@@ -1,10 +1,10 @@
-import { MainContent } from "@liexp/ui/components/MainContent";
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
+import { MainContent } from "@liexp/ui/lib/components/MainContent";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import {
   MediaSlider,
   type MediaSliderProps,
-} from "@liexp/ui/components/sliders/MediaSlider";
-import { useMediaQuery } from "@liexp/ui/state/queries/media.queries";
+} from "@liexp/ui/lib/components/sliders/MediaSlider";
+import { useMediaQuery } from "@liexp/ui/lib/state/queries/media.queries";
 import { type Meta, type Story } from "@storybook/react";
 import * as React from "react";
 

@@ -1,7 +1,7 @@
-import { type Actor, type Events, type Keyword } from "@liexp/shared/io/http";
-import { ByActor, ByGroup } from "@liexp/shared/io/http/Common";
-import { TRANSACTION } from "@liexp/shared/io/http/Events/Transaction";
-import { getTextContentsCapped, isValidValue } from "@liexp/shared/slate";
+import { type Actor, type Events, type Keyword } from "@liexp/shared/lib/io/http";
+import { ByActor, ByGroup } from "@liexp/shared/lib/io/http/Common";
+import { TRANSACTION } from "@liexp/shared/lib/io/http/Events/Transaction";
+import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import * as React from "react";
 import { styled } from "../../../theme";

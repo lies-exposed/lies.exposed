@@ -1,7 +1,7 @@
-import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
-import { UncategorizedArb } from "@liexp/shared/tests";
-import { KeywordArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
-import { throwTE } from "@liexp/shared/utils/task.utils";
+import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
+import { UncategorizedArb } from "@liexp/shared/lib/tests";
+import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as tests from "@liexp/test";
 import { addDays } from "date-fns";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";

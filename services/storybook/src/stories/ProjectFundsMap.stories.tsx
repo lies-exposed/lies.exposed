@@ -1,8 +1,8 @@
-import { firstGoodProject } from "@liexp/shared/mock-data/projects";
+import { firstGoodProject } from "@liexp/shared/lib/mock-data/projects";
 import {
   ProjectAreasMap,
   type ProjectAreasMapProps,
-} from "@liexp/ui/components/Graph/ProjectAreasMap";
+} from "@liexp/ui/lib/components/Graph/ProjectAreasMap";
 import { type Meta, type StoryFn as Story } from "@storybook/react";
 import * as React from "react";
 

@@ -1,5 +1,5 @@
-// import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-// import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
+// import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+// import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/ScientificStudy";
 // import * as O from "fp-ts/Option";
 // import * as TE from "fp-ts/TaskEither";
 // import { pipe } from "fp-ts/function";

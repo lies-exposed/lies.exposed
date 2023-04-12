@@ -1,4 +1,4 @@
-import type * as io from "@liexp/shared/io";
+import type * as io from "@liexp/shared/lib/io";
 import * as E from "fp-ts/Either";
 import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter";

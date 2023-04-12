@@ -1,11 +1,11 @@
-import { GetLogger } from "@liexp/core/logger";
-import { type ListEventOutput } from "@liexp/shared/endpoints/event.endpoints";
+import { GetLogger } from "@liexp/core/lib/logger";
+import { type ListEventOutput } from "@liexp/shared/lib/endpoints/event.endpoints";
 import {
   getNewRelationIds,
   updateCache,
   type SearchEventsQueryCache,
-} from "@liexp/shared/helpers/event/search-event";
-import { type EventRelationIds } from "@liexp/shared/helpers/event/types";
+} from "@liexp/shared/lib/helpers/event/search-event";
+import { type EventRelationIds } from "@liexp/shared/lib/helpers/event/types";
 import {
   type Actor,
   type Events,
@@ -13,9 +13,9 @@ import {
   type GroupMember,
   type Keyword,
   type Media,
-} from "@liexp/shared/io/http";
-import { type EventTotals, type GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
-import { type APIError } from "@liexp/shared/providers/http/http.provider";
+} from "@liexp/shared/lib/io/http";
+import { type EventTotals, type GetSearchEventsQueryInput } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
+import { type APIError } from "@liexp/shared/lib/providers/http/http.provider";
 import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

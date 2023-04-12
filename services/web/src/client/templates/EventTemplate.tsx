@@ -1,7 +1,7 @@
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { useEventQuery } from "@liexp/ui/state/queries/event.queries";
-import { EventTemplateUI } from "@liexp/ui/templates/EventTemplate";
-import { useRouteQuery } from "@liexp/ui/utils/history.utils";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import { useEventQuery } from "@liexp/ui/lib/state/queries/event.queries";
+import { EventTemplateUI } from "@liexp/ui/lib/templates/EventTemplate";
+import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 

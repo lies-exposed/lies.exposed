@@ -3,8 +3,8 @@ import {
   GroupArb,
   GroupMemberArb,
   UncategorizedArb,
-} from "@liexp/shared/tests";
-import { throwTE } from "@liexp/shared/utils/task.utils";
+} from "@liexp/shared/lib/tests";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";

@@ -1,4 +1,4 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { type Route } from "../route.types";

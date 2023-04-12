@@ -1,9 +1,9 @@
-import { fp } from "@liexp/core/fp";
-import * as http from "@liexp/shared/io/http";
-import { type CreateLink } from "@liexp/shared/io/http/Link";
-import { type URLMetadataClient } from "@liexp/shared/providers/URLMetadata.provider";
-import { type DBError } from "@liexp/shared/providers/orm";
-import { uuid } from "@liexp/shared/utils/uuid";
+import { fp } from "@liexp/core/lib/fp";
+import * as http from "@liexp/shared/lib/io/http";
+import { type CreateLink } from "@liexp/shared/lib/io/http/Link";
+import { type URLMetadataClient } from "@liexp/shared/lib/providers/URLMetadata.provider";
+import { type DBError } from "@liexp/shared/lib/providers/orm";
+import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";

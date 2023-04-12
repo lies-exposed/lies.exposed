@@ -1,12 +1,12 @@
-import { getRelationIds } from "@liexp/shared/helpers/event/event";
+import { getRelationIds } from "@liexp/shared/lib/helpers/event/event";
 import {
   type Actor,
   type Area,
   type Group,
   type GroupMember,
-} from "@liexp/shared/io/http";
-import { type Event } from "@liexp/shared/io/http/Events";
-import { type Media } from "@liexp/shared/io/http/Media";
+} from "@liexp/shared/lib/io/http";
+import { type Event } from "@liexp/shared/lib/io/http/Events";
+import { type Media } from "@liexp/shared/lib/io/http/Media";
 import { UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
 import { useGroupMembersQuery } from "../../state/queries/DiscreteQueries";

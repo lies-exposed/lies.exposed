@@ -1,7 +1,7 @@
-import KeywordsDistributionGraph from "@liexp/ui/components/Graph/KeywordDistributionGraph";
-import { AutocompleteKeywordInput } from "@liexp/ui/components/Input/AutocompleteKeywordInput";
-import { MainContent } from "@liexp/ui/components/MainContent";
-import { Box } from "@liexp/ui/components/mui";
+import KeywordsDistributionGraph from "@liexp/ui/lib/components/Graph/KeywordDistributionGraph";
+import { AutocompleteKeywordInput } from "@liexp/ui/lib/components/Input/AutocompleteKeywordInput";
+import { MainContent } from "@liexp/ui/lib/components/MainContent";
+import { Box } from "@liexp/ui/lib/components/mui";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 

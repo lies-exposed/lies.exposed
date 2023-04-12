@@ -1,11 +1,11 @@
-import { EventType } from "@liexp/shared/io/http/Events";
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/state/queries/SearchEventsQuery";
-import { useKeywordsQuery } from "@liexp/ui/state/queries/keywords.queries";
+import { EventType } from "@liexp/shared/lib/io/http/Events";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/queries/SearchEventsQuery";
+import { useKeywordsQuery } from "@liexp/ui/lib/state/queries/keywords.queries";
 import {
   KeywordTemplate,
   type KeywordTemplateProps
-} from "@liexp/ui/templates/KeywordTemplate";
+} from "@liexp/ui/lib/templates/KeywordTemplate";
 import { type Meta, type StoryFn as Story } from "@storybook/react";
 import * as React from "react";
 

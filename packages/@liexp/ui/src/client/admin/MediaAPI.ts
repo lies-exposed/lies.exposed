@@ -1,4 +1,4 @@
-import { MP4Type, type MediaType } from "@liexp/shared/io/http/Media";
+import { MP4Type, type MediaType } from "@liexp/shared/lib/io/http/Media";
 import axios from "axios";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";

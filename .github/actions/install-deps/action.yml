@@ -1,0 +1,27 @@
+name: Install Deps
+
+inputs:
+  hash:
+    required: true
+    description: "The hash obtain from  hashFiles('**/yarn.lock')"
+
+runs:
+  using: "composite"
+  steps:
+
+    - uses: actions/setup-node@v3
+      with:
+        node-version: "16"
+        cache: "yarn"
+        cache-dependency-path: yarn.lock
+
+    - uses: actions/cache@v3
+      id: workspace-deps
+      with:
+        path: "**/node_modules"
+        key: linux-modules-${{ inputs.hash }}
+
+    - name: Install workspace deps
+      if: steps.workspace-deps.outputs.cache-hit != 'true'
+      run: yarn
+      shell: bash

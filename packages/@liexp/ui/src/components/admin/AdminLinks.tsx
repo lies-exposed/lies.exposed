@@ -1,6 +1,6 @@
-import * as io from "@liexp/shared/io";
-import { ImageType } from "@liexp/shared/io/http/Media";
-import { checkIsAdmin } from "@liexp/shared/utils/user.utils";
+import * as io from "@liexp/shared/lib/io";
+import { ImageType } from "@liexp/shared/lib/io/http/Media";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
 import * as React from "react";
 import {
   // AutocompleteArrayInput,

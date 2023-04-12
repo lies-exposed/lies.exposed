@@ -1,5 +1,5 @@
-import { type Project } from "@liexp/shared/io/http/Project";
-import { throwTE } from "@liexp/shared/utils/task.utils";
+import { type Project } from "@liexp/shared/lib/io/http/Project";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";

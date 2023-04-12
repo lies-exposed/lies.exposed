@@ -1,4 +1,4 @@
-import { type MP4Type } from "@liexp/shared/io/http/Media";
+import { type MP4Type } from "@liexp/shared/lib/io/http/Media";
 import { clsx } from "clsx";
 import * as React from "react";
 import { styled } from "../../theme";

@@ -1,4 +1,4 @@
-import { MediaType } from "@liexp/shared/io/http/Media";
+import { MediaType } from "@liexp/shared/lib/io/http/Media";
 import { type UUID } from "io-ts-types/lib/UUID";
 import {
   Column,

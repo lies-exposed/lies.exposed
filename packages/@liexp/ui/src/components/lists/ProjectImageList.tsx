@@ -1,4 +1,4 @@
-import type * as io from "@liexp/shared/io/http";
+import type * as io from "@liexp/shared/lib/io/http";
 import * as React from "react";
 import { Grid, Typography } from "../mui";
 

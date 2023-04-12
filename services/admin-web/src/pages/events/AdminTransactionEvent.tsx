@@ -1,13 +1,13 @@
-import type * as Events from "@liexp/shared/io/http/Events";
-import { uuid } from "@liexp/shared/utils/uuid";
-import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import ReferenceActorInput from "@liexp/ui/components/admin/actors/ReferenceActorInput";
-import ReferenceAreaInput from "@liexp/ui/components/admin/common/ReferenceAreaInput";
-import { ReferenceBySubjectField } from "@liexp/ui/components/admin/common/ReferenceBySubjectField";
-import ReferenceBySubjectInput from "@liexp/ui/components/admin/common/ReferenceBySubjectInput";
-import ReferenceArrayKeywordInput from "@liexp/ui/components/admin/keywords/ReferenceArrayKeywordInput";
-import ReferenceArrayLinkInput from "@liexp/ui/components/admin/links/ReferenceArrayLinkInput";
-import { transformEvent } from "@liexp/ui/components/admin/transform.utils";
+import type * as Events from "@liexp/shared/lib/io/http/Events";
+import { uuid } from "@liexp/shared/lib/utils/uuid";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
+import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput";
+import ReferenceAreaInput from "@liexp/ui/lib/components/admin/common/ReferenceAreaInput";
+import { ReferenceBySubjectField } from "@liexp/ui/lib/components/admin/common/ReferenceBySubjectField";
+import ReferenceBySubjectInput from "@liexp/ui/lib/components/admin/common/ReferenceBySubjectInput";
+import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
+import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
+import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
 import * as React from "react";
 import {
   BooleanField,

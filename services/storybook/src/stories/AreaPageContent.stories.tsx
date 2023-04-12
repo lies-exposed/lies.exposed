@@ -1,11 +1,11 @@
-import { firstArea } from "@liexp/shared/mock-data/areas";
+import { firstArea } from "@liexp/shared/lib/mock-data/areas";
 import {
   AreaPageContent,
   type AreaPageContentProps,
-} from "@liexp/ui/components/AreaPageContent";
-import { MainContent } from "@liexp/ui/components/MainContent";
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { useActorsQuery } from "@liexp/ui/state/queries/actor.queries";
+} from "@liexp/ui/lib/components/AreaPageContent";
+import { MainContent } from "@liexp/ui/lib/components/MainContent";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import { useActorsQuery } from "@liexp/ui/lib/state/queries/actor.queries";
 import { type Meta, type Story } from "@storybook/react";
 import * as React from "react";
 

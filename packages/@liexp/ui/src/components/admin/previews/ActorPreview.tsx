@@ -1,4 +1,4 @@
-import { http } from "@liexp/shared/io";
+import { http } from "@liexp/shared/lib/io";
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
 import * as React from "react";

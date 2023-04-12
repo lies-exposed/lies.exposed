@@ -1,7 +1,7 @@
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { useGroupQuery } from "@liexp/ui/state/queries/groups.queries";
-import { GroupTemplate } from "@liexp/ui/templates/GroupTemplate";
-import { useRouteQuery } from "@liexp/ui/utils/history.utils";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import { useGroupQuery } from "@liexp/ui/lib/state/queries/groups.queries";
+import { GroupTemplate } from "@liexp/ui/lib/templates/GroupTemplate";
+import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 

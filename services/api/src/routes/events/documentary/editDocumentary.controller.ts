@@ -1,5 +1,5 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { Documentary } from "@liexp/shared/io/http/Events";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { Documentary } from "@liexp/shared/lib/io/http/Events";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

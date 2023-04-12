@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { checkIsAdmin } from "@liexp/shared/utils/user.utils";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
 import { type UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
 import { authProvider } from "../../../client/api";

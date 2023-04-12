@@ -1,10 +1,10 @@
-import { toSearchEvent } from "@liexp/shared/helpers/event/search-event";
-import { type http } from "@liexp/shared/io";
-import { type SearchEvent } from "@liexp/shared/io/http/Events";
-import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
-import { type NetworkType } from "@liexp/shared/io/http/Network";
-import { UncategorizedArb } from "@liexp/shared/tests";
-import { KeywordArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
+import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
+import { type http } from "@liexp/shared/lib/io";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
+import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
+import { type NetworkType } from "@liexp/shared/lib/io/http/Network";
+import { UncategorizedArb } from "@liexp/shared/lib/tests";
+import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary";
 import { fc } from "@liexp/test";
 import { pipe } from "fp-ts/lib/function";
 import {

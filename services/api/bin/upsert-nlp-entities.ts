@@ -1,6 +1,6 @@
-import { fp } from "@liexp/core/fp";
-import { walkPaginatedRequest } from "@liexp/shared/utils/fp.utils";
-import { throwTE } from "@liexp/shared/utils/task.utils";
+import { fp } from "@liexp/core/lib/fp";
+import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import dotenv from "dotenv";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as O from "fp-ts/Option";

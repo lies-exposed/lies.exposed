@@ -2,7 +2,7 @@ import {
   type UserPermission,
   UserStatus,
   UserStatusPending,
-} from "@liexp/shared/io/http/User";
+} from "@liexp/shared/lib/io/http/User";
 import { type UUID } from "io-ts-types/lib/UUID";
 import {
   Column,

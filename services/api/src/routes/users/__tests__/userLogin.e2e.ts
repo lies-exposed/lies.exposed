@@ -1,5 +1,5 @@
-import { throwTE } from "@liexp/shared/utils/task.utils";
-import { uuid } from "@liexp/shared/utils/uuid";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { fc } from "@liexp/test";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

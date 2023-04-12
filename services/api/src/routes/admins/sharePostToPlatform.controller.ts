@@ -1,5 +1,5 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { type ShareMessageBody } from "@liexp/shared/io/http/ShareMessage";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { type ShareMessageBody } from "@liexp/shared/lib/io/http/ShareMessage";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as t from "io-ts";

@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { type ResourcesNames } from "@liexp/shared/io/http";
-import { checkIsAdmin } from "@liexp/shared/utils/user.utils";
+import { type ResourcesNames } from "@liexp/shared/lib/io/http";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
 import * as React from "react";
 import { authProvider } from "../../../client/api";
 import { getAdminLink, getProfileLink } from "../../../utils/links.utils";

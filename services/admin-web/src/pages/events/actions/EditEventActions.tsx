@@ -1,13 +1,13 @@
-import { getEventMetadata } from "@liexp/shared/helpers/event/event";
-import { getTitle } from "@liexp/shared/helpers/event/getTitle.helper";
-import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
+import { getEventMetadata } from "@liexp/shared/lib/helpers/event/event";
+import { getTitle } from "@liexp/shared/lib/helpers/event/getTitle.helper";
+import { UNCATEGORIZED } from "@liexp/shared/lib/io/http/Events/Uncategorized";
 import {
   EventTGPostButton
-} from "@liexp/ui/components/admin/common/TGPostButton";
-import { UpdateMetadataButton } from "@liexp/ui/components/admin/common/UpdateMetadataButton";
-import { WebPreviewButton } from "@liexp/ui/components/admin/common/WebPreviewButton";
-import { SearchLinksButton } from "@liexp/ui/components/admin/links/SearchLinksButton";
-import { Box } from "@liexp/ui/components/mui";
+} from "@liexp/ui/lib/components/admin/common/TGPostButton";
+import { UpdateMetadataButton } from "@liexp/ui/lib/components/admin/common/UpdateMetadataButton";
+import { WebPreviewButton } from "@liexp/ui/lib/components/admin/common/WebPreviewButton";
+import { SearchLinksButton } from "@liexp/ui/lib/components/admin/links/SearchLinksButton";
+import { Box } from "@liexp/ui/lib/components/mui";
 import * as React from "react";
 import { LoadingIndicator, useRecordContext } from "react-admin";
 

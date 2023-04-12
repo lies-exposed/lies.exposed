@@ -27,25 +27,9 @@
     "moduleResolution": "node",
     "isolatedModules": true,
     "paths": {
-      "@client/*": ["./client/*"],
-      "@liexp/core/*": ["../../../packages/@liexp/core/src/*"],
-      "@liexp/shared/*": [
-        "../../../packages/@liexp/shared/src/*"
-      ],
-      "@liexp/ui/*": ["../../../packages/@liexp/ui/src/*"]
+      "@client/*": ["./client/*"]
     }
   },
   "include": ["./src", "./typings"],
-  "references": [
-    {
-      "path": "../../packages/@liexp/ui"
-    },
-    {
-      "path": "../../packages/@liexp/shared"
-    },
-    {
-      "path": "../../packages/@liexp/core"
-    }
-  ],
   "exclude": ["node_modules", "build"]
 }

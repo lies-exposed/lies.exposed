@@ -3,13 +3,13 @@ import path from "path";
 import {
   getPlatform,
   type VideoPlatformMatch
-} from "@liexp/shared/helpers/media";
-import { Media } from "@liexp/shared/io/http";
-import { toPuppeteerError } from "@liexp/shared/providers/puppeteer.provider";
+} from "@liexp/shared/lib/helpers/media";
+import { Media } from "@liexp/shared/lib/io/http";
+import { toPuppeteerError } from "@liexp/shared/lib/providers/puppeteer.provider";
 import {
   getMediaKey,
   getMediaKeyFromLocation
-} from "@liexp/shared/utils/media.utils";
+} from "@liexp/shared/lib/utils/media.utils";
 import axios from "axios";
 import * as Canvas from "canvas";
 import { sequenceS } from "fp-ts/Apply";

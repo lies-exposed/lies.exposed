@@ -4,10 +4,10 @@ import {
   type Group,
   type Keyword,
   type Media,
-} from "@liexp/shared/io/http";
-import { type EventType } from "@liexp/shared/io/http/Events";
-import { getTextContentsCapped, isValidValue } from "@liexp/shared/slate";
-import { formatDateToShort } from "@liexp/shared/utils/date";
+} from "@liexp/shared/lib/io/http";
+import { type EventType } from "@liexp/shared/lib/io/http/Events";
+import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate";
+import { formatDateToShort } from "@liexp/shared/lib/utils/date";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";

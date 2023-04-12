@@ -1,4 +1,4 @@
-import { GetLogger } from "@liexp/core/logger";
+import { GetLogger } from "@liexp/core/lib/logger";
 import type ffmpeg from "fluent-ffmpeg";
 import * as TE from "fp-ts/TaskEither";
 

@@ -1,5 +1,5 @@
 import * as path from "path";
-import { APIRESTClient } from "@liexp/ui/http";
+import { APIRESTClient } from "@liexp/ui/lib/http";
 import { DownloadTask } from "../utils/download.utils";
 
 const DISTRIBUTION_PATH = path.resolve(

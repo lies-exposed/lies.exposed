@@ -1,5 +1,5 @@
-import { toColor } from "@liexp/shared/io/http/Common";
-import { ColorInput } from "@liexp/ui/components/admin/common/inputs/ColorInput";
+import { toColor } from "@liexp/shared/lib/io/http/Common";
+import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
 import * as React from "react";
 import {
   Create,

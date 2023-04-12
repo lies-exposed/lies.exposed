@@ -27,10 +27,7 @@
     "tsBuildInfoFile": "build/.tsbuildinfo",
     "baseUrl": "./src",
     "paths": {
-      "@containers/*": ["./client/containers/*"],
-      "@liexp/core/*": ["../../../packages/@liexp/core/src/*"],
-      "@liexp/shared/*": ["../../../packages/@liexp/shared/src/*"],
-      "@liexp/ui/*": ["../../../packages/@liexp/ui/src/*"]
+      "@containers/*": ["./client/containers/*"]
     }
   },
   "include": ["./src", "./typings"],

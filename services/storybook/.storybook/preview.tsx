@@ -1,7 +1,7 @@
 import { config, dom } from "@fortawesome/fontawesome-svg-core";
-import { HelmetProvider } from "@liexp/ui/components/SEO";
-import { ECOTheme } from "@liexp/ui/theme";
-import "@liexp/ui/theme/main.css";
+import { HelmetProvider } from "@liexp/ui/lib/components/SEO";
+import { ECOTheme } from "@liexp/ui/lib/theme";
+import "@liexp/ui/assets/main.css";
 import { ThemeProvider } from "@mui/material";
 import { Preview } from "@storybook/react";
 import * as React from "react";

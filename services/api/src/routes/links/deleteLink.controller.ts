@@ -1,5 +1,5 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { checkIsAdmin } from "@liexp/shared/utils/user.utils";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
 import { type Router } from "express";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";

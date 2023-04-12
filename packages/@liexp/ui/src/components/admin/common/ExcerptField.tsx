@@ -1,4 +1,4 @@
-import { getTextContentsCapped } from "@liexp/shared/slate";
+import { getTextContentsCapped } from "@liexp/shared/lib/slate";
 import * as R from "fp-ts/Record";
 import * as React from "react";
 import { FunctionField, type FieldProps } from "react-admin";

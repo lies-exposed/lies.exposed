@@ -1,5 +1,5 @@
-import { AddEndpoint, UserLogin } from "@liexp/shared/endpoints";
-import { UserStatusApproved } from '@liexp/shared/io/http/User';
+import { AddEndpoint, UserLogin } from "@liexp/shared/lib/endpoints";
+import { UserStatusApproved } from '@liexp/shared/lib/io/http/User';
 import { type Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

@@ -1,7 +1,7 @@
-import { ACTORS } from "@liexp/shared/io/http/Actor";
-import { EventType } from "@liexp/shared/io/http/Events";
-import { GROUPS } from "@liexp/shared/io/http/Group";
-import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
+import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
+import { EventType } from "@liexp/shared/lib/io/http/Events";
+import { GROUPS } from "@liexp/shared/lib/io/http/Group";
+import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
 import * as d3 from "d3";
 import { debounce } from "lodash";
 import * as React from "react";

@@ -1,10 +1,10 @@
-import { firstArticle } from "@liexp/shared/mock-data/articles";
+import { firstArticle } from "@liexp/shared/lib/mock-data/articles";
 import {
   ArticlePageContent,
   type ArticlePageContentProps,
-} from "@liexp/ui/components/ArticlePageContent";
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { useArticlesQuery } from "@liexp/ui/state/queries/article.queries";
+} from "@liexp/ui/lib/components/ArticlePageContent";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import { useArticlesQuery } from "@liexp/ui/lib/state/queries/article.queries";
 import { type Meta, type Story } from "@storybook/react";
 import * as React from "react";
 

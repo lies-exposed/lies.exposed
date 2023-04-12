@@ -4,7 +4,7 @@ import {
   type Group,
   type GroupMember,
   type Keyword,
-} from "@liexp/shared/io/http";
+} from "@liexp/shared/lib/io/http";
 import * as React from "react";
 import { DeathListItem } from "./DeathListItem";
 import { DocumentaryListItem } from "./DocumentaryListItem";

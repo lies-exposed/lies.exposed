@@ -1,9 +1,9 @@
 import {
   KeywordPageContent,
   type KeywordPageContentProps,
-} from "@liexp/ui/components/KeywordPageContent";
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { useKeywordsQuery } from "@liexp/ui/state/queries/keywords.queries";
+} from "@liexp/ui/lib/components/KeywordPageContent";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import { useKeywordsQuery } from "@liexp/ui/lib/state/queries/keywords.queries";
 import { Box } from "@mui/material";
 import { type Meta, type StoryFn as Story } from "@storybook/react";
 import * as React from "react";

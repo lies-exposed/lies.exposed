@@ -1,4 +1,4 @@
-import type * as logger from "@liexp/core/logger";
+import type * as logger from "@liexp/core/lib/logger";
 import { type URLMetadataClient } from "../providers/URLMetadata.provider";
 import { type FFMPEGProvider } from "../providers/ffmpeg.provider";
 import { type FSClient } from '../providers/fs/fs.provider';

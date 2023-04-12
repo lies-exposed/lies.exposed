@@ -1,4 +1,4 @@
-import { getMediaKeyFromLocation } from "@liexp/shared/utils/media.utils";
+import { getMediaKeyFromLocation } from "@liexp/shared/lib/utils/media.utils";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { sequenceS } from "fp-ts/lib/Apply";

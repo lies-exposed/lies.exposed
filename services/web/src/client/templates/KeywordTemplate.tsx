@@ -1,5 +1,5 @@
-import { KeywordTemplate } from "@liexp/ui/templates/KeywordTemplate";
-import { useRouteQuery } from "@liexp/ui/utils/history.utils";
+import { KeywordTemplate } from "@liexp/ui/lib/templates/KeywordTemplate";
+import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 

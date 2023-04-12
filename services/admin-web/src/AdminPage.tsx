@@ -1,24 +1,24 @@
-import { apiProvider, authProvider } from "@liexp/ui/client/api";
+import { apiProvider, authProvider } from "@liexp/ui/lib/client/api";
 import {
   ArticleCreate,
   ArticleEdit,
   ArticleList,
-} from "@liexp/ui/components/admin/AdminArticles";
+} from "@liexp/ui/lib/components/admin/AdminArticles";
 import {
   LinkCreate,
   LinkEdit,
   LinkList,
-} from "@liexp/ui/components/admin/AdminLinks";
+} from "@liexp/ui/lib/components/admin/AdminLinks";
 import {
   MediaCreate,
   MediaEdit,
   MediaList,
-} from "@liexp/ui/components/admin/AdminMedia";
+} from "@liexp/ui/lib/components/admin/AdminMedia";
 import {
   EventSuggestionEdit,
   EventSuggestionList,
-} from "@liexp/ui/components/admin/events/suggestions/AdminEventSuggestion";
-import { i18nProvider} from "@liexp/ui/i18n/i18n.provider";
+} from "@liexp/ui/lib/components/admin/events/suggestions/AdminEventSuggestion";
+import { i18nProvider} from "@liexp/ui/lib/i18n/i18n.provider";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import EventIcon from "@mui/icons-material/Event";
 import GroupIcon from "@mui/icons-material/Group";

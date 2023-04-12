@@ -1,4 +1,4 @@
-import { GetLogger } from "@liexp/core/logger";
+import { GetLogger } from "@liexp/core/lib/logger";
 
 const webLogger = GetLogger("web");
 

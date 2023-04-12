@@ -1,9 +1,9 @@
-import KeywordsDistributionGraph from "@liexp/ui/components/Graph/KeywordDistributionGraph";
-import { PageContent } from "@liexp/ui/components/PageContent";
-import SEO from "@liexp/ui/components/SEO";
-import { Box, Grid, Typography } from "@liexp/ui/components/mui";
-import EventsBox from "@liexp/ui/containers/EventsBox";
-import { MediaBox } from "@liexp/ui/containers/MediaBox";
+import KeywordsDistributionGraph from "@liexp/ui/lib/components/Graph/KeywordDistributionGraph";
+import { PageContent } from "@liexp/ui/lib/components/PageContent";
+import SEO from "@liexp/ui/lib/components/SEO";
+import { Box, Grid, Typography } from "@liexp/ui/lib/components/mui";
+import EventsBox from "@liexp/ui/lib/containers/EventsBox";
+import { MediaBox } from "@liexp/ui/lib/containers/MediaBox";
 import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";

@@ -1,6 +1,6 @@
-import { getEventCommonProps } from "@liexp/shared/helpers/event";
-import type * as http from "@liexp/shared/io/http";
-import { Quote } from "@liexp/shared/io/http/Events";
+import { getEventCommonProps } from "@liexp/shared/lib/helpers/event";
+import type * as http from "@liexp/shared/lib/io/http";
+import { Quote } from "@liexp/shared/lib/io/http/Events";
 import * as React from "react";
 import { useTheme } from "../theme";
 import { EventRelations } from "./events/EventRelations";

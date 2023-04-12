@@ -1,5 +1,5 @@
-import { GetLogger } from "@liexp/core/logger";
-import { VaccineDatum } from "@liexp/shared/io/http/covid/VaccineDatum";
+import { GetLogger } from "@liexp/core/lib/logger";
+import { VaccineDatum } from "@liexp/shared/lib/io/http/covid/VaccineDatum";
 import { subDays } from "date-fns";
 import { computeTotals, ReportReducer } from "../utils/parse.utils";
 import { VaccineEntry } from "vaccines/types";

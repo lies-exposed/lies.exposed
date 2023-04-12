@@ -1,6 +1,6 @@
 import { execSync } from "child_process";
 import * as path from "path";
-import * as logger from "@liexp/core/logger";
+import * as logger from "@liexp/core/lib/logger";
 import * as E from "fp-ts/Either";
 import type * as T from "fp-ts/Task";
 import * as TE from "fp-ts/TaskEither";

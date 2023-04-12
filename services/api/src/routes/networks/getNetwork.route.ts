@@ -1,9 +1,9 @@
-import { fp } from "@liexp/core/fp";
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
+import { fp } from "@liexp/core/lib/fp";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
 import {
   type NetworkGraphOutput,
   type NetworkType,
-} from "@liexp/shared/io/http/Network";
+} from "@liexp/shared/lib/io/http/Network";
 import { type Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

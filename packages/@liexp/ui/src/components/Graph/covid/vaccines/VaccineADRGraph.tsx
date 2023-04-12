@@ -10,9 +10,9 @@ import {
   TwoMonthsToTwoYears,
   VaccineDatum,
   ZeroToOneMonth,
-} from "@liexp/shared/io/http/covid/VaccineDatum";
-import { type VaccineDistributionDatum } from "@liexp/shared/io/http/covid/VaccineDistributionDatum";
-import { formatDate } from "@liexp/shared/utils/date";
+} from "@liexp/shared/lib/io/http/covid/VaccineDatum";
+import { type VaccineDistributionDatum } from "@liexp/shared/lib/io/http/covid/VaccineDistributionDatum";
+import { formatDate } from "@liexp/shared/lib/utils/date";
 import { AxisBottom, AxisLeft, AxisRight } from "@visx/axis";
 import { curveLinear } from "@visx/curve";
 import { localPoint } from "@visx/event";

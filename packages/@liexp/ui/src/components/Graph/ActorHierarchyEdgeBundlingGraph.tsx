@@ -1,4 +1,4 @@
-import { StatsType } from "@liexp/shared/io/http/Stats";
+import { StatsType } from "@liexp/shared/lib/io/http/Stats";
 import * as React from "react";
 import { useStatsQuery } from "../../state/queries/DiscreteQueries";
 import { HierarchicalEdgeBundling, type HierarchicalEdgeBundlingOnClickProps } from "../Common/Graph/HierarchicalEdgeBundling";

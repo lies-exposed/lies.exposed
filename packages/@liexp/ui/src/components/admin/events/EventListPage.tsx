@@ -1,8 +1,8 @@
-import * as io from "@liexp/shared/io";
-import { Events } from "@liexp/shared/io/http";
-import { DEATH } from "@liexp/shared/io/http/Events/Death";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
-import { getTextContentsCapped } from "@liexp/shared/slate";
+import * as io from "@liexp/shared/lib/io";
+import { Events } from "@liexp/shared/lib/io/http";
+import { DEATH } from "@liexp/shared/lib/io/http/Events/Death";
+import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/ScientificStudy";
+import { getTextContentsCapped } from "@liexp/shared/lib/slate";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import * as R from "fp-ts/Record";
 import * as React from "react";

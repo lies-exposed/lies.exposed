@@ -1,4 +1,4 @@
-import { type Media } from "@liexp/shared/io/http";
+import { type Media } from "@liexp/shared/lib/io/http";
 import { ParentSize } from "@visx/responsive";
 import { clsx } from "clsx";
 import * as React from "react";

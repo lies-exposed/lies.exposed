@@ -1,13 +1,13 @@
 import {
   ActorPageContent,
   type ActorPageContentProps,
-} from "@liexp/ui/components/ActorPageContent";
-import { MainContent } from "@liexp/ui/components/MainContent";
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
+} from "@liexp/ui/lib/components/ActorPageContent";
+import { MainContent } from "@liexp/ui/lib/components/MainContent";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import {
   useActorQuery,
-} from "@liexp/ui/state/queries/actor.queries";
-import { useGroupsQuery } from "@liexp/ui/state/queries/groups.queries";
+} from "@liexp/ui/lib/state/queries/actor.queries";
+import { useGroupsQuery } from "@liexp/ui/lib/state/queries/groups.queries";
 import { type Meta, type Story } from "@storybook/react";
 import * as React from "react";
 

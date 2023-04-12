@@ -1,4 +1,4 @@
-import { GetLogger, Logger } from "@liexp/core/logger";
+import { GetLogger, Logger } from "@liexp/core/lib/logger";
 import {
   AgeGroup,
   EighteenToSixtyFourYears,
@@ -12,12 +12,12 @@ import {
   TwelveToSixteenYears,
   TwoMonthsToTwoYears,
   ZeroToOneMonth
-} from "@liexp/shared/io/http/covid/VaccineDatum";
+} from "@liexp/shared/lib/io/http/covid/VaccineDatum";
 import {
   GetPuppeteerProvider,
   PuppeteerError,
   toPuppeteerError
-} from "@liexp/shared/providers/puppeteer.provider";
+} from "@liexp/shared/lib/providers/puppeteer.provider";
 import { differenceInDays } from "date-fns";
 import * as A from "fp-ts/Array";
 import { pipe } from "fp-ts/function";

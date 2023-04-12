@@ -4,6 +4,11 @@
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "license": "MIT",
   "main": "lib/index.js",
+  "types": "lib/*/*.d.ts",
+  "files": [
+    "lib",
+    "assets"
+  ],
   "private": true,
   "scripts": {
     "clean": "rm -rf lib",
@@ -20,6 +25,8 @@
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@liexp/core": "0.1.0",
+    "@liexp/shared": "0.1.0",
     "@mui/icons-material": "^5.11.16",
     "@mui/lab": "5.0.0-alpha.126",
     "@mui/material": "^5.12.0",

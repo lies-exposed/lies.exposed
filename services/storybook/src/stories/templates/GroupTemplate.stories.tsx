@@ -1,10 +1,10 @@
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/state/queries/SearchEventsQuery";
-import { useGroupsQuery } from "@liexp/ui/state/queries/groups.queries";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/queries/SearchEventsQuery";
+import { useGroupsQuery } from "@liexp/ui/lib/state/queries/groups.queries";
 import {
   GroupTemplate,
   type GroupTemplateProps,
-} from "@liexp/ui/templates/GroupTemplate";
+} from "@liexp/ui/lib/templates/GroupTemplate";
 import { type Meta, type StoryFn as Story } from "@storybook/react";
 import * as React from "react";
 

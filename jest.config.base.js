@@ -13,12 +13,6 @@ module.exports = {
     ],
   },
   moduleDirectories: ["node_modules"],
-  moduleNameMapper: {
-    "^@liexp/core/(.*)$": "<rootDir>/../../packages/@liexp/core/lib/$1",
-    "^@liexp/shared/(.*)$": "<rootDir>/../../packages/@liexp/shared/lib/$1",
-    "^@liexp/ui/(.*)$": "<rootDir>/../../packages/@liexp/ui/lib/$1",
-    "^@liexp/test/(.*)$": "<rootDir>/../../packages/@liexp/test/lib/$1",
-  },
   transform: {
     ...tsjPresets.defaults.transform,
   },

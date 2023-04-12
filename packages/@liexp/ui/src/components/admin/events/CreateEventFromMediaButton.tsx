@@ -1,5 +1,5 @@
-import { getSuggestions } from "@liexp/shared/helpers/event-suggestion";
-import * as io from "@liexp/shared/io";
+import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion";
+import * as io from "@liexp/shared/lib/io";
 import * as O from "fp-ts/Option";
 import { useRecordContext } from "ra-core";
 import * as React from "react";

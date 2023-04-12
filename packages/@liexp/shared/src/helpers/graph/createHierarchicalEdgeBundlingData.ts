@@ -1,4 +1,4 @@
-import { GetLogger } from "@liexp/core/logger";
+import { GetLogger } from "@liexp/core/lib/logger";
 import type { Graph } from "@visx/network/lib/types";
 import * as A from "fp-ts/Array";
 import * as Eq from "fp-ts/Eq";

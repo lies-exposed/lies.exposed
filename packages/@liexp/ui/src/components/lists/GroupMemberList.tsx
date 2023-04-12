@@ -1,4 +1,4 @@
-import type * as io from "@liexp/shared/io/http";
+import type * as io from "@liexp/shared/lib/io/http";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
 import * as React from "react";

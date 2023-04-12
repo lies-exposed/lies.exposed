@@ -1,4 +1,4 @@
-import * as io from "@liexp/shared/io";
+import * as io from "@liexp/shared/lib/io";
 import { type UUID } from 'io-ts-types/lib/UUID';
 import {
   Column,

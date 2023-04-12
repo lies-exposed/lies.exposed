@@ -1,6 +1,6 @@
-import { getEventMetadata } from "@liexp/shared/helpers/event/event";
-import { type Actor, type Group, type GroupMember } from "@liexp/shared/io/http";
-import { type SearchEvent } from "@liexp/shared/io/http/Events";
+import { getEventMetadata } from "@liexp/shared/lib/helpers/event/event";
+import { type Actor, type Group, type GroupMember } from "@liexp/shared/lib/io/http";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
 import * as React from "react";
 import { styled } from "../../../theme";
 import { Box, type BoxProps } from "../../mui";

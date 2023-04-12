@@ -1,11 +1,11 @@
-import { Events } from "@liexp/shared/io/http";
-import { actors } from "@liexp/shared/mock-data/actors";
-import { events } from "@liexp/shared/mock-data/events";
-import { groups } from "@liexp/shared/mock-data/groups";
+import { Events } from "@liexp/shared/lib/io/http";
+import { actors } from "@liexp/shared/lib/mock-data/actors";
+import { events } from "@liexp/shared/lib/mock-data/events";
+import { groups } from "@liexp/shared/lib/mock-data/groups";
 import {
   EventsSankeyGraph,
   type EventsSankeyGraphProps,
-} from "@liexp/ui/components/Graph/EventsSankeyGraph";
+} from "@liexp/ui/lib/components/Graph/EventsSankeyGraph";
 import { type Meta, type StoryFn as Story } from "@storybook/react";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";

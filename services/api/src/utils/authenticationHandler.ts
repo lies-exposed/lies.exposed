@@ -1,4 +1,4 @@
-import type * as logger from "@liexp/core/logger";
+import type * as logger from "@liexp/core/lib/logger";
 import {
   AdminCreate,
   AdminDelete,
@@ -9,8 +9,8 @@ import {
   EventSuggestionRead,
   type User,
   type UserPermission
-} from "@liexp/shared/io/http/User";
-import { type JWTClient, JWTError } from "@liexp/shared/providers/jwt/JWTClient";
+} from "@liexp/shared/lib/io/http/User";
+import { type JWTClient, JWTError } from "@liexp/shared/lib/providers/jwt/JWTClient";
 import type * as express from "express";
 import * as IOE from "fp-ts/IOEither";
 import { pipe } from "fp-ts/function";

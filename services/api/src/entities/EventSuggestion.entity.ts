@@ -1,4 +1,4 @@
-import * as http from "@liexp/shared/io/http";
+import * as http from "@liexp/shared/lib/io/http";
 import {
   Column,
   CreateDateColumn,

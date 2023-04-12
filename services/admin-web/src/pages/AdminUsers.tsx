@@ -6,9 +6,9 @@ import {
   EventSuggestionCreate,
   EventSuggestionEdit,
   EventSuggestionRead, UserStatus
-} from "@liexp/shared/io/http/User";
-import { AvatarField } from "@liexp/ui/components/admin/common/AvatarField";
-import { MediaField } from "@liexp/ui/components/admin/media/MediaField";
+} from "@liexp/shared/lib/io/http/User";
+import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
+import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField";
 import * as React from "react";
 import {
   AutocompleteArrayInput,
