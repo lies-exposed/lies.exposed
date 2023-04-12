@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import path from "path";
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
 import * as IOE from "fp-ts/IOEither";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

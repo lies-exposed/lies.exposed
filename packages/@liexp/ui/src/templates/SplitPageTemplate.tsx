@@ -1,5 +1,5 @@
-import { fp } from "@liexp/core/fp";
-import { type ResourcesNames } from "@liexp/shared/io/http";
+import { fp } from "@liexp/core/lib/fp";
+import { type ResourcesNames } from "@liexp/shared/lib/io/http";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { Avatar } from "../components/Common/Avatar";

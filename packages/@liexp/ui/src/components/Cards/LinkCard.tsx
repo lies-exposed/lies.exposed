@@ -1,5 +1,5 @@
-import { type http } from "@liexp/shared/io";
-import { formatDate, parseISO } from "@liexp/shared/utils/date";
+import { type http } from "@liexp/shared/lib/io";
+import { formatDate, parseISO } from "@liexp/shared/lib/utils/date";
 import LinkIcon from "@mui/icons-material/LinkOutlined";
 import * as React from "react";
 import {

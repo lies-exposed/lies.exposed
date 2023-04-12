@@ -1,4 +1,4 @@
-import  { getTextContentsCapped, isValidValue } from "@liexp/shared/slate";
+import  { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate";
 import * as React from "react";
 import { usePageContentByPathQuery } from "../state/queries/page.queries";
 import Editor from "./Common/Editor";

@@ -1,6 +1,6 @@
-import { type Area } from "@liexp/shared/io/http";
-import { EventType } from "@liexp/shared/io/http/Events";
-import { type SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
+import { type Area } from "@liexp/shared/lib/io/http";
+import { EventType } from "@liexp/shared/lib/io/http/Events";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvent";
 import { Feature } from "ol";
 import * as React from "react";
 import { AutoSizer } from "react-virtualized";

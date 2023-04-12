@@ -4,8 +4,8 @@ import {
   Patent,
   ScientificStudy,
   Uncategorized,
-} from "@liexp/shared/io/http/Events";
-import { type EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
+} from "@liexp/shared/lib/io/http/Events";
+import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
 import * as React from "react";
 import {
   AutoSizer,

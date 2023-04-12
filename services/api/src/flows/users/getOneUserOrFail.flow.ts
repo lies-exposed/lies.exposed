@@ -2,7 +2,7 @@ import {
   AdminCreate,
   AdminDelete,
   AdminEdit,
-} from "@liexp/shared/io/http/User";
+} from "@liexp/shared/lib/io/http/User";
 import type * as TE from 'fp-ts/TaskEither';
 import { UserEntity } from "@entities/User.entity";
 import { type ControllerError } from '@io/ControllerError';

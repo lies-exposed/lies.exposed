@@ -1,9 +1,9 @@
-import { isValidValue } from "@liexp/shared/slate";
-import Editor from "@liexp/ui/components/Common/Editor";
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import SEO from "@liexp/ui/components/SEO";
-import { Box, Container } from "@liexp/ui/components/mui";
-import { usePageContentByPathQuery } from "@liexp/ui/state/queries/page.queries";
+import { isValidValue } from "@liexp/shared/lib/slate";
+import Editor from "@liexp/ui/lib/components/Common/Editor";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import SEO from "@liexp/ui/lib/components/SEO";
+import { Box, Container } from "@liexp/ui/lib/components/mui";
+import { usePageContentByPathQuery } from "@liexp/ui/lib/state/queries/page.queries";
 import * as React from "react";
 import NotFoundPage from "../pages/404";
 

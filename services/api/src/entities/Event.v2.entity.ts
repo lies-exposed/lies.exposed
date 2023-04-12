@@ -1,5 +1,5 @@
-import * as http from "@liexp/shared/io/http";
-import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
+import * as http from "@liexp/shared/lib/io/http";
+import { UNCATEGORIZED } from "@liexp/shared/lib/io/http/Events/Uncategorized";
 import { type UUID } from 'io-ts-types/lib/UUID';
 import {
   Column,

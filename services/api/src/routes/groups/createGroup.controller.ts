@@ -1,5 +1,5 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { CreateGroupBody } from "@liexp/shared/io/http/Group";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { CreateGroupBody } from "@liexp/shared/lib/io/http/Group";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

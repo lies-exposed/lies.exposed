@@ -1,8 +1,8 @@
-import { MainContent } from "@liexp/ui/components/MainContent";
-import { ProjectPageContent } from "@liexp/ui/components/ProjectPageContent";
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import SEO from "@liexp/ui/components/SEO";
-import { useProjectQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import { MainContent } from "@liexp/ui/lib/components/MainContent";
+import { ProjectPageContent } from "@liexp/ui/lib/components/ProjectPageContent";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import SEO from "@liexp/ui/lib/components/SEO";
+import { useProjectQuery } from "@liexp/ui/lib/state/queries/DiscreteQueries";
 import { type RouteComponentProps } from "@reach/router";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";

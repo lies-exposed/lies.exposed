@@ -1,7 +1,7 @@
 // import { EOL } from "os";
 import { escapePostgresIdentifier } from "@databases/escape-identifier";
 import { type FormatConfig, type SQLQuery } from "@databases/sql";
-import * as logger from "@liexp/core/logger";
+import * as logger from "@liexp/core/lib/logger";
 import * as O from "fp-ts/Option";
 import type * as Reader from "fp-ts/Reader";
 import * as TE from "fp-ts/TaskEither";

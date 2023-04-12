@@ -1,5 +1,5 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { type Link } from "@liexp/shared/io/http";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { type Link } from "@liexp/shared/lib/io/http";
 import { type Router } from "express";
 import { sequenceS } from "fp-ts/Apply";
 import * as O from "fp-ts/Option";

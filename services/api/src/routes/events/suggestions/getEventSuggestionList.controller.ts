@@ -1,6 +1,6 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { type EventSuggestion } from "@liexp/shared/io/http";
-import { EventSuggestionRead, type User } from "@liexp/shared/io/http/User";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { type EventSuggestion } from "@liexp/shared/lib/io/http";
+import { EventSuggestionRead, type User } from "@liexp/shared/lib/io/http/User";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";

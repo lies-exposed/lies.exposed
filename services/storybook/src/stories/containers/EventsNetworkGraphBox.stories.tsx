@@ -1,16 +1,16 @@
-import { ACTORS } from "@liexp/shared/io/http/Actor";
-import { GROUPS } from "@liexp/shared/io/http/Group";
-import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
-import { formatDate } from "@liexp/shared/utils/date";
-import { AutocompleteActorInput } from "@liexp/ui/components/Input/AutocompleteActorInput";
-import { AutocompleteGroupInput } from "@liexp/ui/components/Input/AutocompleteGroupInput";
-import { AutocompleteKeywordInput } from "@liexp/ui/components/Input/AutocompleteKeywordInput";
-import { Box } from "@liexp/ui/components/mui";
+import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
+import { GROUPS } from "@liexp/shared/lib/io/http/Group";
+import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
+import { formatDate } from "@liexp/shared/lib/utils/date";
+import { AutocompleteActorInput } from "@liexp/ui/lib/components/Input/AutocompleteActorInput";
+import { AutocompleteGroupInput } from "@liexp/ui/lib/components/Input/AutocompleteGroupInput";
+import { AutocompleteKeywordInput } from "@liexp/ui/lib/components/Input/AutocompleteKeywordInput";
+import { Box } from "@liexp/ui/lib/components/mui";
 import {
   EventNetworkGraphBox,
   type EventNetworkGraphBoxProps,
-} from "@liexp/ui/containers/graphs/EventNetworkGraphBox";
-import { type Meta, type Story } from "@storybook/react";
+} from "@liexp/ui/lib/containers/graphs/EventNetworkGraphBox";
+import { type Meta, type StoryFn } from "@storybook/react";
 import { subWeeks } from 'date-fns';
 import * as React from "react";
 
@@ -29,12 +29,12 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<EventNetworkGraphBoxProps> = ({
+const Template: StoryFn<EventNetworkGraphBoxProps> = ({
   query: { ids, ...query },
   ...props
 }) => {
   const [items, setItem] = React.useState<any>(
-    ids ? ids.map((id) => ({ id })) : []
+    ids ? ids.map((id: string) => ({ id })) : []
   );
 
   const inputProps = {

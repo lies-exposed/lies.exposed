@@ -1,6 +1,6 @@
-import { http } from "@liexp/shared/io";
-import { Polygon } from "@liexp/shared/io/http/Common/Geometry";
-import { uuid } from "@liexp/shared/utils/uuid";
+import { http } from "@liexp/shared/lib/io";
+import { Polygon } from "@liexp/shared/lib/io/http/Common/Geometry";
+import { uuid } from "@liexp/shared/lib/utils/uuid";
 import _ from "lodash";
 import Map from "ol/Map";
 import View from "ol/View";

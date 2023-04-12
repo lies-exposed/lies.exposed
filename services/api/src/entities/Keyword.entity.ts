@@ -1,4 +1,4 @@
-import { type Tag, type Color } from "@liexp/shared/io/http/Common";
+import { type Tag, type Color } from "@liexp/shared/lib/io/http/Common";
 import {
   Column,
   CreateDateColumn,

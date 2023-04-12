@@ -1,11 +1,11 @@
-import { Quote } from "@liexp/shared/io/http/Events";
+import { Quote } from "@liexp/shared/lib/io/http/Events";
 import {
   EventPageContent,
   type EventPageContentProps,
-} from "@liexp/ui/components/EventPageContent";
-import { MainContent } from "@liexp/ui/components/MainContent";
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { useEventsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+} from "@liexp/ui/lib/components/EventPageContent";
+import { MainContent } from "@liexp/ui/lib/components/MainContent";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import { useEventsQuery } from "@liexp/ui/lib/state/queries/DiscreteQueries";
 import { type Meta, type StoryFn as Story } from "@storybook/react";
 import * as React from "react";
 

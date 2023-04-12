@@ -1,4 +1,4 @@
-import { type Keyword } from "@liexp/shared/io/http";
+import { type Keyword } from "@liexp/shared/lib/io/http";
 import * as NEA from "fp-ts/NonEmptyArray";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";

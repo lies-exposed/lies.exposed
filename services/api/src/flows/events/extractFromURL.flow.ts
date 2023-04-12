@@ -1,9 +1,9 @@
-import { getSuggestions } from "@liexp/shared/helpers/event-suggestion";
-import { type URL as URLT } from "@liexp/shared/io/http/Common";
-import { type ImageType } from "@liexp/shared/io/http/Media";
-import { GetNERProvider } from "@liexp/shared/providers/ner/ner.provider";
-import { GetEncodeUtils } from "@liexp/shared/utils/encode.utils";
-import { uuid } from "@liexp/shared/utils/uuid";
+import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion";
+import { type URL as URLT } from "@liexp/shared/lib/io/http/Common";
+import { type ImageType } from "@liexp/shared/lib/io/http/Media";
+import { GetNERProvider } from "@liexp/shared/lib/providers/ner/ner.provider";
+import { GetEncodeUtils } from "@liexp/shared/lib/utils/encode.utils";
+import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { parse } from "date-fns";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";

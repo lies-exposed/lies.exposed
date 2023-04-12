@@ -1,4 +1,4 @@
-import { type GroupMember } from "@liexp/shared/io/http";
+import { type GroupMember } from "@liexp/shared/lib/io/http";
 import {
   Death,
   Documentary,
@@ -8,15 +8,15 @@ import {
   Transaction,
   Uncategorized,
   type EventType,
-} from "@liexp/shared/io/http/Events";
-import { DEATH } from "@liexp/shared/io/http/Events/Death";
-import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
-import { PATENT } from "@liexp/shared/io/http/Events/Patent";
-import { QUOTE } from "@liexp/shared/io/http/Events/Quote";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
-import { type EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
-import { TRANSACTION } from "@liexp/shared/io/http/Events/Transaction";
-import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
+} from "@liexp/shared/lib/io/http/Events";
+import { DEATH } from "@liexp/shared/lib/io/http/Events/Death";
+import { DOCUMENTARY } from "@liexp/shared/lib/io/http/Events/Documentary";
+import { PATENT } from "@liexp/shared/lib/io/http/Events/Patent";
+import { QUOTE } from "@liexp/shared/lib/io/http/Events/Quote";
+import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/ScientificStudy";
+import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
+import { TRANSACTION } from "@liexp/shared/lib/io/http/Events/Transaction";
+import { UNCATEGORIZED } from "@liexp/shared/lib/io/http/Events/Uncategorized";
 import { clsx } from "clsx";
 import * as React from "react";
 import { type SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery";

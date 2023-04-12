@@ -1,8 +1,8 @@
-import { getEventCommonProps } from "@liexp/shared/helpers/event";
-import { type http } from "@liexp/shared/io";
-import { EventType } from "@liexp/shared/io/http/Events";
-import { getTextContentsCapped, isValidValue } from "@liexp/shared/slate";
-import { formatAnyDateToShort, formatDate } from "@liexp/shared/utils/date";
+import { getEventCommonProps } from "@liexp/shared/lib/helpers/event";
+import { type http } from "@liexp/shared/lib/io";
+import { EventType } from "@liexp/shared/lib/io/http/Events";
+import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate";
+import { formatAnyDateToShort, formatDate } from "@liexp/shared/lib/utils/date";
 import subYears from "date-fns/subYears";
 import * as React from "react";
 import { EventPageContent } from "../components/EventPageContent";

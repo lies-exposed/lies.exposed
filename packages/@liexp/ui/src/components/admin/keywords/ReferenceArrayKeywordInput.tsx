@@ -1,4 +1,4 @@
-import { generateRandomColor } from "@liexp/shared/utils/colors";
+import { generateRandomColor } from "@liexp/shared/lib/utils/colors";
 import React from "react";
 import {
   AutocompleteArrayInput,

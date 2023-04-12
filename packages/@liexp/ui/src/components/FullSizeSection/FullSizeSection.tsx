@@ -1,4 +1,4 @@
-import { isServer } from "@liexp/shared/utils/isServer";
+import { isServer } from "@liexp/shared/lib/utils/isServer";
 import * as React from "react";
 import { throttle } from "throttle-debounce";
 import { MainContent } from "../MainContent";

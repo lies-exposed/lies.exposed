@@ -1,5 +1,5 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { AddActorBody } from "@liexp/shared/io/http/Actor";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { AddActorBody } from "@liexp/shared/lib/io/http/Actor";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

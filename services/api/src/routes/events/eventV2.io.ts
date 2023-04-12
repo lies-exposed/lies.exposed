@@ -1,4 +1,4 @@
-import * as io from "@liexp/shared/io";
+import * as io from "@liexp/shared/lib/io";
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
 import { type EventV2Entity } from "@entities/Event.v2.entity";

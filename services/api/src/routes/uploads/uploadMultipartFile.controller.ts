@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { UploadResource } from "@liexp/shared/endpoints/upload.endpoints";
-import { getMediaKey } from "@liexp/shared/utils/media.utils";
+import { UploadResource } from "@liexp/shared/lib/endpoints/upload.endpoints";
+import { getMediaKey } from "@liexp/shared/lib/utils/media.utils";
 import { type Router } from "express";
 import * as T from "fp-ts/Task";
 import * as TE from "fp-ts/TaskEither";

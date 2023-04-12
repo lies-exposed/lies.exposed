@@ -1,4 +1,4 @@
-import { type Actor, type Group, type Keyword } from "@liexp/shared/io/http";
+import { type Actor, type Group, type Keyword } from "@liexp/shared/lib/io/http";
 import * as React from "react";
 import { type SearchEventsQueryInputNoPagination } from "../../../state/queries/SearchEventsQuery";
 import { fetchActors } from "../../../state/queries/actor.queries";

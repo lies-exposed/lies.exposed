@@ -3,7 +3,7 @@
 import {
   type HierarchicalEdgeBundlingDatum,
   type HierarchicalEdgeBundlingProps as BaseHierarchicalEdgeBundlingProps,
-} from "@liexp/shared/helpers/graph/createHierarchicalEdgeBundlingData";
+} from "@liexp/shared/lib/helpers/graph/createHierarchicalEdgeBundlingData";
 import { type HierarchyPointNode } from "@visx/hierarchy/lib/types";
 import * as d3 from "d3";
 import * as O from "fp-ts/Option";

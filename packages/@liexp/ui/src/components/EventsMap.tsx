@@ -1,4 +1,4 @@
-import { Events } from "@liexp/shared/io/http";
+import { Events } from "@liexp/shared/lib/io/http";
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";

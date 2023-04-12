@@ -11,7 +11,6 @@ const paths = pathsToModuleNameMapper(compilerOptions.paths, {
 
 const moduleNameMapper = {
   ...paths,
-  ...jestBaseConfig.moduleNameMapper,
   "^@react-page/editor": "<rootDir>/__mocks__/react-page-editor.mock.ts",
   "^@react-page/plugins-slate":
     "<rootDir>/__mocks__/react-page-plugin-slate.mock.ts",

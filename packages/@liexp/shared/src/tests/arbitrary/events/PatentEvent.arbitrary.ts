@@ -1,4 +1,4 @@
-import { propsOmit } from "@liexp/core/io/utils";
+import { propsOmit } from "@liexp/core/lib/io/utils";
 import { fc, getArbitrary } from "@liexp/test";
 import * as t from "io-ts";
 import * as Events from "../../../io/http/Events";

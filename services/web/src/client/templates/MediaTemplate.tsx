@@ -1,9 +1,9 @@
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import SEO from "@liexp/ui/components/SEO";
-import { Box } from "@liexp/ui/components/mui";
-import { useGetMediaQuery } from "@liexp/ui/state/queries/media.queries";
-import { MediaTemplateUI } from "@liexp/ui/templates/MediaTemplateUI";
-import { useRouteQuery } from "@liexp/ui/utils/history.utils";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import SEO from "@liexp/ui/lib/components/SEO";
+import { Box } from "@liexp/ui/lib/components/mui";
+import { useGetMediaQuery } from "@liexp/ui/lib/state/queries/media.queries";
+import { MediaTemplateUI } from "@liexp/ui/lib/templates/MediaTemplateUI";
+import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 

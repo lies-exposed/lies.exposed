@@ -1,6 +1,6 @@
-import { type Actor, type Events, type Keyword } from "@liexp/shared/io/http";
-import { QUOTE } from "@liexp/shared/io/http/Events/Quote";
-import { getTextContents } from "@liexp/shared/slate";
+import { type Actor, type Events, type Keyword } from "@liexp/shared/lib/io/http";
+import { QUOTE } from "@liexp/shared/lib/io/http/Events/Quote";
+import { getTextContents } from "@liexp/shared/lib/slate";
 import * as React from "react";
 import { styled } from "../../../theme";
 import { Avatar } from "../../Common/Avatar";

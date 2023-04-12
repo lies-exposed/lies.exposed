@@ -1,5 +1,5 @@
-import { fp } from "@liexp/core/fp";
-import { type Logger } from "@liexp/core/logger";
+import { fp } from "@liexp/core/lib/fp";
+import { type Logger } from "@liexp/core/lib/logger";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import type * as TE from "fp-ts/TaskEither";

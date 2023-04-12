@@ -3,14 +3,14 @@ import {
   GroupArb,
   MediaArb,
   UncategorizedArb,
-} from "@liexp/shared/tests";
-import { KeywordArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
+} from "@liexp/shared/lib/tests";
+import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary";
 import { fc } from "@liexp/test";
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import EventsTimelineList, {
   type EventsTimelineListProps,
-} from "@liexp/ui/components/lists/EventList/EventsTimelineList";
-import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
+} from "@liexp/ui/lib/components/lists/EventList/EventsTimelineList";
+import { searchEventsQuery } from "@liexp/ui/lib/state/queries/SearchEventsQuery";
 import { type Meta, type StoryFn as Story } from "@storybook/react";
 import * as React from "react";
 import { AutoSizer } from "react-virtualized";

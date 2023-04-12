@@ -1,5 +1,5 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { AdminDelete } from '@liexp/shared/io/http/User';
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { AdminDelete } from '@liexp/shared/lib/io/http/User';
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { EventV2Entity } from "@entities/Event.v2.entity";

@@ -1,8 +1,8 @@
-import { fp } from "@liexp/core/fp";
-import { getEventCommonProps } from "@liexp/shared/helpers/event";
-import { getRelationIds, transform } from "@liexp/shared/helpers/event/event";
-import { Events } from "@liexp/shared/io/http";
-import { toAPIError } from "@liexp/shared/providers/http/http.provider";
+import { fp } from "@liexp/core/lib/fp";
+import { getEventCommonProps } from "@liexp/shared/lib/helpers/event";
+import { getRelationIds, transform } from "@liexp/shared/lib/helpers/event/event";
+import { Events } from "@liexp/shared/lib/io/http";
+import { toAPIError } from "@liexp/shared/lib/providers/http/http.provider";
 import { sequenceS } from "fp-ts/lib/Apply";
 import { pipe } from "fp-ts/lib/function";
 import { get } from "lodash";

@@ -1,7 +1,7 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { toPuppeteerError } from "@liexp/shared/providers/puppeteer.provider";
-import { defaultSites } from "@liexp/shared/scrapers/defaultSites";
-import { searchWithGoogle } from "@liexp/shared/scrapers/searchLinksWithGoogle";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { toPuppeteerError } from "@liexp/shared/lib/providers/puppeteer.provider";
+import { defaultSites } from "@liexp/shared/lib/scrapers/defaultSites";
+import { searchWithGoogle } from "@liexp/shared/lib/scrapers/searchLinksWithGoogle";
 import { type Router } from "express";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";

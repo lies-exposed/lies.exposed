@@ -1,9 +1,9 @@
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { useEventsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import { useEventsQuery } from "@liexp/ui/lib/state/queries/DiscreteQueries";
 import {
   EventTemplateUI,
   type EventTemplateProps,
-} from "@liexp/ui/templates/EventTemplate";
+} from "@liexp/ui/lib/templates/EventTemplate";
 import { type Meta, type Story } from "@storybook/react";
 import * as React from "react";
 

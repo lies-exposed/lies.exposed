@@ -1,5 +1,5 @@
-import { fp } from "@liexp/core/fp";
-import { type http } from "@liexp/shared/io";
+import { fp } from "@liexp/core/lib/fp";
+import { type http } from "@liexp/shared/lib/io";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import { MediaEntity } from "@entities/Media.entity";

@@ -1,4 +1,4 @@
-import { type SearchEvent } from "@liexp/shared/io/http/Events";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
 import * as A from "fp-ts/Array";
 import * as React from "react";
 import EventCard from "../components/Cards/Events/EventCard";

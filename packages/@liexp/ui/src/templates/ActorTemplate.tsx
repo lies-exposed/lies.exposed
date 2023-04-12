@@ -1,7 +1,7 @@
-import { type Actor, type Group, type Keyword } from "@liexp/shared/io/http";
-import { ACTORS } from "@liexp/shared/io/http/Actor";
-import { EventType, type SearchEvent } from "@liexp/shared/io/http/Events";
-import { formatDate } from "@liexp/shared/utils/date";
+import { type Actor, type Group, type Keyword } from "@liexp/shared/lib/io/http";
+import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
+import { EventType, type SearchEvent } from "@liexp/shared/lib/io/http/Events";
+import { formatDate } from "@liexp/shared/lib/utils/date";
 import subYears from "date-fns/subYears";
 import * as React from "react";
 import { ActorPageContent } from "../components/ActorPageContent";

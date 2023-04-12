@@ -1,4 +1,4 @@
-import * as io from "@liexp/shared/io";
+import * as io from "@liexp/shared/lib/io";
 import React from "react";
 import {
   BooleanField,

@@ -1,7 +1,7 @@
 import {
   KeywordHierarchyEdgeBundlingGraph,
   type KeywordHierarchyEdgeBundlingGraphProps
-} from "@liexp/ui/components/Graph/KeywordHierarchyEdgeBundlingGraph";
+} from "@liexp/ui/lib/components/Graph/KeywordHierarchyEdgeBundlingGraph";
 import { Box } from '@mui/material';
 import { type Meta, type StoryFn as Story } from "@storybook/react";
 import * as React from 'react';

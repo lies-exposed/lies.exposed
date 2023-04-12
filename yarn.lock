@@ -3917,7 +3917,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@liexp/core@workspace:packages/@liexp/core":
+"@liexp/core@0.1.0, @liexp/core@workspace:packages/@liexp/core":
   version: 0.0.0-use.local
   resolution: "@liexp/core@workspace:packages/@liexp/core"
   dependencies:
@@ -3972,7 +3972,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@liexp/shared@workspace:packages/@liexp/shared":
+"@liexp/shared@0.1.0, @liexp/shared@workspace:packages/@liexp/shared":
   version: 0.0.0-use.local
   resolution: "@liexp/shared@workspace:packages/@liexp/shared"
   dependencies:
@@ -3981,6 +3981,8 @@ __metadata:
     "@aws-sdk/s3-request-presigner": ^3.296.0
     "@databases/escape-identifier": ^1.0.3
     "@databases/sql": ^3.3.0
+    "@liexp/core": 0.1.0
+    "@liexp/test": 0.1.0
     "@mui/material": ^5.12.0
     "@react-page/editor": ^5.4.3
     "@react-page/plugins-slate": ^5.4.3
@@ -4037,10 +4039,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@liexp/test@workspace:packages/@liexp/test":
+"@liexp/test@0.1.0, @liexp/test@workspace:packages/@liexp/test":
   version: 0.0.0-use.local
   resolution: "@liexp/test@workspace:packages/@liexp/test"
   dependencies:
+    "@liexp/core": 0.1.0
     fast-check: ^2.25.0
     fast-check-io-ts: ^0.5.0
     fp-ts: ^2.13.1
@@ -4053,7 +4056,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@liexp/ui@workspace:packages/@liexp/ui":
+"@liexp/ui@0.1.0, @liexp/ui@workspace:packages/@liexp/ui":
   version: 0.0.0-use.local
   resolution: "@liexp/ui@workspace:packages/@liexp/ui"
   dependencies:
@@ -4063,6 +4066,8 @@ __metadata:
     "@fortawesome/free-brands-svg-icons": ^6.4.0
     "@fortawesome/free-solid-svg-icons": ^6.4.0
     "@fortawesome/react-fontawesome": ^0.2.0
+    "@liexp/core": 0.1.0
+    "@liexp/shared": 0.1.0
     "@mui/icons-material": ^5.11.16
     "@mui/lab": 5.0.0-alpha.126
     "@mui/material": ^5.12.0
@@ -9195,6 +9200,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "admin-web@workspace:services/admin-web"
   dependencies:
+    "@liexp/core": 0.1.0
+    "@liexp/shared": 0.1.0
+    "@liexp/ui": 0.1.0
     "@mui/material": ^5.12.0
     "@testing-library/dom": ^8.20.0
     "@testing-library/jest-dom": ^5.16.5
@@ -9480,6 +9488,10 @@ __metadata:
     "@aws-sdk/s3-request-presigner": ^3.296.0
     "@databases/escape-identifier": ^1.0.3
     "@databases/pg": ^5.4.1
+    "@liexp/core": 0.1.0
+    "@liexp/shared": 0.1.0
+    "@liexp/test": 0.1.0
+    "@liexp/ui": 0.1.0
     "@side/jest-runtime": ^1.1.0
     "@swc/core": ^1.3.49
     "@swc/jest": ^0.2.24
@@ -25120,6 +25132,9 @@ __metadata:
     "@fortawesome/free-regular-svg-icons": ^6.4.0
     "@fortawesome/free-solid-svg-icons": ^6.4.0
     "@fortawesome/react-fontawesome": ^0.2.0
+    "@liexp/core": 0.1.0
+    "@liexp/shared": 0.1.0
+    "@liexp/ui": 0.1.0
     "@mui/material": ^5.12.0
     "@types/bs58": ^4.0.1
     "@types/d3": ^7.4.0

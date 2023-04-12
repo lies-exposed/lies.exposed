@@ -1,9 +1,9 @@
-import { fp } from "@liexp/core/fp";
-import { ACTORS } from "@liexp/shared/io/http/Actor";
-import { type SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
-import { GROUPS } from "@liexp/shared/io/http/Group";
-import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
-import { formatDate } from "@liexp/shared/utils/date";
+import { fp } from "@liexp/core/lib/fp";
+import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvent";
+import { GROUPS } from "@liexp/shared/lib/io/http/Group";
+import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
+import { formatDate } from "@liexp/shared/lib/utils/date";
 import { subMonths } from "date-fns";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";

@@ -19,11 +19,7 @@
       "../shared/typings",
       "./typings"
     ],
-    "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
-    "paths": {
-      "@liexp/core/*": ["../../core/src/*"],
-      "@liexp/shared/*": ["../../shared/src/*"]
-    }
+    "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo"
   },
   "references": [
     {

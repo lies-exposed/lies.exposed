@@ -1,7 +1,7 @@
-import { type Article } from "@liexp/shared/io/http";
-import { type Keyword } from "@liexp/shared/io/http/Keyword";
-import { isValidValue } from "@liexp/shared/slate";
-import { formatDate } from "@liexp/shared/utils/date";
+import { type Article } from "@liexp/shared/lib/io/http";
+import { type Keyword } from "@liexp/shared/lib/io/http/Keyword";
+import { isValidValue } from "@liexp/shared/lib/slate";
+import { formatDate } from "@liexp/shared/lib/utils/date";
 import { parseISO } from "date-fns";
 import * as t from "io-ts";
 import * as React from "react";

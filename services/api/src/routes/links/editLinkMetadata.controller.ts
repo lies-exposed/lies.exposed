@@ -1,6 +1,6 @@
-import { AddEndpoint } from "@liexp/shared/endpoints";
-import { UpdateMetadata } from "@liexp/shared/endpoints/link.endpoints";
-import { uuid } from "@liexp/shared/utils/uuid";
+import { AddEndpoint } from "@liexp/shared/lib/endpoints";
+import { UpdateMetadata } from "@liexp/shared/lib/endpoints/link.endpoints";
+import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { type Router } from "express";
 import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";

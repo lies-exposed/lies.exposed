@@ -1,4 +1,4 @@
-import { type Article } from "@liexp/shared/io/http";
+import { type Article } from "@liexp/shared/lib/io/http";
 import type { GetListParams } from "react-admin";
 import { useQuery } from "react-query";
 import { articleByPath, Queries } from "../../providers/DataProvider";

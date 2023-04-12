@@ -1,10 +1,10 @@
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import {
   useAreasQuery
-} from "@liexp/ui/state/queries/area.queries";
+} from "@liexp/ui/lib/state/queries/area.queries";
 import {
   type AreaTemplateProps, AreaTemplateUI
-} from "@liexp/ui/templates/AreaTemplate";
+} from "@liexp/ui/lib/templates/AreaTemplate";
 import { type Meta, type StoryFn as Story } from "@storybook/react";
 import * as React from "react";
 

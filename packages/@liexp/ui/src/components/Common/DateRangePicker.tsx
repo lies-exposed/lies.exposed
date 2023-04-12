@@ -1,4 +1,4 @@
-import { formatDate } from "@liexp/shared/utils/date";
+import { formatDate } from "@liexp/shared/lib/utils/date";
 import { addDays, differenceInDays, parseISO, subYears } from "date-fns";
 import * as React from "react";
 import { styled } from "../../theme";

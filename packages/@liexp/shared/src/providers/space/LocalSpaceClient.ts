@@ -1,4 +1,4 @@
-import type * as logger from "@liexp/core/logger";
+import type * as logger from "@liexp/core/lib/logger";
 import { type AxiosInstance, type AxiosResponse } from "axios";
 import { type Reader } from "fp-ts/Reader";
 import * as TE from "fp-ts/TaskEither";

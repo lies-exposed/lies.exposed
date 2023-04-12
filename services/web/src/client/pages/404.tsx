@@ -1,5 +1,5 @@
-import { MainContent } from "@liexp/ui/components/MainContent";
-import SEO from "@liexp/ui/components/SEO";
+import { MainContent } from "@liexp/ui/lib/components/MainContent";
+import SEO from "@liexp/ui/lib/components/SEO";
 import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
 import { useLocation } from "react-router-dom";

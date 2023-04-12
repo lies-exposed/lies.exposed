@@ -1,9 +1,9 @@
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import {
   MediaList,
   type MediaListProps,
-} from "@liexp/ui/components/lists/MediaList";
-import { useMediaQuery } from "@liexp/ui/state/queries/media.queries";
+} from "@liexp/ui/lib/components/lists/MediaList";
+import { useMediaQuery } from "@liexp/ui/lib/state/queries/media.queries";
 import { type Meta, type Story } from "@storybook/react";
 import * as React from "react";
 

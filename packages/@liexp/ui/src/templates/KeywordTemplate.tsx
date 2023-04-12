@@ -3,12 +3,12 @@ import {
   type Group,
   type Keyword,
   type Media,
-} from "@liexp/shared/io/http";
-import { ACTORS } from "@liexp/shared/io/http/Actor";
-import { type SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
-import { GROUPS } from "@liexp/shared/io/http/Group";
-import { KEYWORDS } from "@liexp/shared/io/http/Keyword";
-import { formatDate } from "@liexp/shared/utils/date";
+} from "@liexp/shared/lib/io/http";
+import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvent";
+import { GROUPS } from "@liexp/shared/lib/io/http/Group";
+import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
+import { formatDate } from "@liexp/shared/lib/utils/date";
 import subYears from "date-fns/subYears";
 import * as React from "react";
 import { LinksListBox } from "../components/LinksBox";

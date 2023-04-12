@@ -1,4 +1,4 @@
-import { PageDeleteMany, AddEndpoint } from "@liexp/shared/endpoints";
+import { PageDeleteMany, AddEndpoint } from "@liexp/shared/lib/endpoints";
 import { type Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

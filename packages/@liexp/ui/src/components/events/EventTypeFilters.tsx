@@ -1,4 +1,4 @@
-import { fp } from "@liexp/core/fp";
+import { fp } from "@liexp/core/lib/fp";
 import {
   Death,
   Documentary,
@@ -8,8 +8,8 @@ import {
   Transaction,
   Uncategorized,
   Quote,
-} from "@liexp/shared/io/http/Events";
-import { type EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
+} from "@liexp/shared/lib/io/http/Events";
+import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
 import { clsx } from "clsx";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";

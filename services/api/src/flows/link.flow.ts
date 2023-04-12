@@ -1,6 +1,6 @@
-import { fp } from "@liexp/core/fp";
-import { type URL } from "@liexp/shared/io/http/Common";
-import { uuid } from "@liexp/shared/utils/uuid";
+import { fp } from "@liexp/core/lib/fp";
+import { type URL } from "@liexp/shared/lib/io/http/Common";
+import { uuid } from "@liexp/shared/lib/utils/uuid";
 import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";

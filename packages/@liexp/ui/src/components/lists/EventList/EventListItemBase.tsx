@@ -1,7 +1,7 @@
-import type * as http from "@liexp/shared/io/http";
-import { type EventType } from "@liexp/shared/io/http/Events";
-import { MP3Type, OGGType } from "@liexp/shared/io/http/Media";
-import { getTextContentsCapped, isValidValue } from "@liexp/shared/slate";
+import type * as http from "@liexp/shared/lib/io/http";
+import { type EventType } from "@liexp/shared/lib/io/http/Events";
+import { MP3Type, OGGType } from "@liexp/shared/lib/io/http/Media";
+import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";

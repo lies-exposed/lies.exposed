@@ -1,5 +1,5 @@
-import { throwTE } from "@liexp/shared/utils/task.utils";
-import { uuid } from "@liexp/shared/utils/uuid";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { fc } from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
 import { UserEntity } from "@entities/User.entity";

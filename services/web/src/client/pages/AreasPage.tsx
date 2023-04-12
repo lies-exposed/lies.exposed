@@ -1,4 +1,4 @@
-import SearchAreaTemplate from "@liexp/ui/templates/SearchAreaTemplate";
+import SearchAreaTemplate from "@liexp/ui/lib/templates/SearchAreaTemplate";
 import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";

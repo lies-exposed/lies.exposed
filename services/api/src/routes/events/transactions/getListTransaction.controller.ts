@@ -1,5 +1,5 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { TRANSACTION } from "@liexp/shared/io/http/Events/Transaction";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { TRANSACTION } from "@liexp/shared/lib/io/http/Events/Transaction";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";

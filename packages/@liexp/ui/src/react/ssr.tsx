@@ -3,7 +3,7 @@ import { Writable } from "node:stream";
 import * as path from "path";
 import { CacheProvider } from "@emotion/react";
 import { dom } from "@fortawesome/fontawesome-svg-core";
-import { GetLogger } from "@liexp/core/logger";
+import { GetLogger } from "@liexp/core/lib/logger";
 import * as express from "express";
 import * as React from "react";
 import * as ReactDOMServer from "react-dom/server";

@@ -1,7 +1,7 @@
-import { AddEndpoint, Graph } from "@liexp/shared/endpoints";
-// import { VaccineDatum } from "@liexp/shared/io/http/covid/VaccineDatum";
-// import { VaccineDistributionDatum } from "@liexp/shared/io/http/covid/VaccineDistributionDatum";
-import { GetCSVUtil } from "@liexp/shared/utils/csv.utils";
+import { AddEndpoint, Graph } from "@liexp/shared/lib/endpoints";
+// import { VaccineDatum } from "@liexp/shared/lib/io/http/covid/VaccineDatum";
+// import { VaccineDistributionDatum } from "@liexp/shared/lib/io/http/covid/VaccineDistributionDatum";
+import { GetCSVUtil } from "@liexp/shared/lib/utils/csv.utils";
 import { type Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

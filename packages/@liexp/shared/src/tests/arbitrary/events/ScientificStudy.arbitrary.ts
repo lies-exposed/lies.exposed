@@ -1,4 +1,4 @@
-import { propsOmit } from "@liexp/core/io/utils";
+import { propsOmit } from "@liexp/core/lib/io/utils";
 import * as tests from "@liexp/test";
 import * as t from "io-ts";
 import * as http from "../../../io/http";

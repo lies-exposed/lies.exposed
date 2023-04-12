@@ -1,33 +1,33 @@
-import * as io from "@liexp/shared/io";
-import { http } from "@liexp/shared/io";
-import { Events } from "@liexp/shared/io/http";
+import * as io from "@liexp/shared/lib/io";
+import { http } from "@liexp/shared/lib/io";
+import { Events } from "@liexp/shared/lib/io/http";
 import {
   Death,
   Documentary,
   EventType,
   Quote,
   ScientificStudy,
-} from "@liexp/shared/io/http/Events";
-import { getTextContentsCapped } from "@liexp/shared/slate";
-import { LinkIcon } from '@liexp/ui/components/Common/Icons';
-import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
-import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import ReferenceArrayActorInput from "@liexp/ui/components/admin/actors/ReferenceArrayActorInput";
-import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
-import ReferenceArrayGroupMemberInput from "@liexp/ui/components/admin/common/ReferenceArrayGroupMemberInput";
-import ReferenceArrayGroupInput from "@liexp/ui/components/admin/groups/ReferenceArrayGroupInput";
-import ReferenceArrayKeywordInput from "@liexp/ui/components/admin/keywords/ReferenceArrayKeywordInput";
-import { ImportMediaButton } from "@liexp/ui/components/admin/media/ImportMediaButton";
-import EventPreview from "@liexp/ui/components/admin/previews/EventPreview";
-import { DeathEventEditFormTab } from "@liexp/ui/components/admin/tabs/DeathEventEditFormTab";
-import { DocumentaryEditFormTab } from "@liexp/ui/components/admin/tabs/DocumentaryEditFormTab";
-import { EventGeneralTab } from "@liexp/ui/components/admin/tabs/EventGeneralTab";
-import { QuoteEditFormTab } from "@liexp/ui/components/admin/tabs/QuoteEditFormTab";
-import { ReferenceLinkTab } from "@liexp/ui/components/admin/tabs/ReferenceLinkTab";
-import { ReferenceMediaTab } from "@liexp/ui/components/admin/tabs/ReferenceMediaTab";
-import { ScientificStudyEventEditTab } from "@liexp/ui/components/admin/tabs/ScientificStudyEventEditTab";
-import { UncategorizedEventEditTab } from "@liexp/ui/components/admin/tabs/UncategorizedEventEditTab";
-import { transformEvent } from "@liexp/ui/components/admin/transform.utils";
+} from "@liexp/shared/lib/io/http/Events";
+import { getTextContentsCapped } from "@liexp/shared/lib/slate";
+import { LinkIcon } from '@liexp/ui/lib/components/Common/Icons';
+import { EventIcon } from "@liexp/ui/lib/components/Common/Icons/EventIcon";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
+import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
+import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
+import ReferenceArrayGroupMemberInput from "@liexp/ui/lib/components/admin/common/ReferenceArrayGroupMemberInput";
+import ReferenceArrayGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput";
+import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
+import { ImportMediaButton } from "@liexp/ui/lib/components/admin/media/ImportMediaButton";
+import EventPreview from "@liexp/ui/lib/components/admin/previews/EventPreview";
+import { DeathEventEditFormTab } from "@liexp/ui/lib/components/admin/tabs/DeathEventEditFormTab";
+import { DocumentaryEditFormTab } from "@liexp/ui/lib/components/admin/tabs/DocumentaryEditFormTab";
+import { EventGeneralTab } from "@liexp/ui/lib/components/admin/tabs/EventGeneralTab";
+import { QuoteEditFormTab } from "@liexp/ui/lib/components/admin/tabs/QuoteEditFormTab";
+import { ReferenceLinkTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceLinkTab";
+import { ReferenceMediaTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceMediaTab";
+import { ScientificStudyEventEditTab } from "@liexp/ui/lib/components/admin/tabs/ScientificStudyEventEditTab";
+import { UncategorizedEventEditTab } from "@liexp/ui/lib/components/admin/tabs/UncategorizedEventEditTab";
+import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
 import {
   alpha,
   Box,
@@ -35,7 +35,7 @@ import {
   CardContent,
   PlayCircleOutline,
   Typography,
-} from "@liexp/ui/components/mui";
+} from "@liexp/ui/lib/components/mui";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import * as R from "fp-ts/Record";
 import * as React from "react";

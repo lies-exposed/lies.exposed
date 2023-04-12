@@ -1,7 +1,7 @@
-import { type Media } from "@liexp/shared/io/http";
-import { type Event } from "@liexp/shared/io/http/Events";
-import { MP3Type, OGGType } from "@liexp/shared/io/http/Media";
-import { isValidValue } from "@liexp/shared/slate";
+import { type Media } from "@liexp/shared/lib/io/http";
+import { type Event } from "@liexp/shared/lib/io/http/Events";
+import { MP3Type, OGGType } from "@liexp/shared/lib/io/http/Media";
+import { isValidValue } from "@liexp/shared/lib/slate";
 import * as React from "react";
 import { useTheme } from "../../../theme";
 import Editor from "../../Common/Editor";

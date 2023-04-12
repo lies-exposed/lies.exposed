@@ -4,7 +4,7 @@ import {
   type GroupMember,
   type Keyword,
   Events,
-} from "@liexp/shared/io/http";
+} from "@liexp/shared/lib/io/http";
 import * as React from "react";
 import { Box, Grid } from "../../mui";
 

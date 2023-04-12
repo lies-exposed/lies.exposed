@@ -1,6 +1,6 @@
-import { Group, Keyword, type Actor } from "@liexp/shared/io/http";
-import { type SearchEvent } from "@liexp/shared/io/http/Events";
-import { formatDate } from "@liexp/shared/utils/date";
+import { Group, Keyword, type Actor } from "@liexp/shared/lib/io/http";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
+import { formatDate } from "@liexp/shared/lib/utils/date";
 import subYears from "date-fns/subYears";
 import * as React from "react";
 import { GroupHierarchyEdgeBundlingGraph } from "../components/Graph/GroupHierarchyEdgeBundlingGraph";

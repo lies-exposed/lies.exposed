@@ -1,6 +1,6 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { UserStatusApproved } from '@liexp/shared/io/http/User';
-import { uuid } from "@liexp/shared/utils/uuid";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { UserStatusApproved } from '@liexp/shared/lib/io/http/User';
+import { uuid } from "@liexp/shared/lib/utils/uuid";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { toUserIO } from "./user.io";

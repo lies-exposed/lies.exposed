@@ -1,7 +1,7 @@
-import { getEventMetadata } from "@liexp/shared/helpers/event/event";
-import { Events } from "@liexp/shared/io/http";
-import { type SearchEvent } from "@liexp/shared/io/http/Events";
-import { formatDate } from "@liexp/shared/utils/date";
+import { getEventMetadata } from "@liexp/shared/lib/helpers/event/event";
+import { Events } from "@liexp/shared/lib/io/http";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
+import { formatDate } from "@liexp/shared/lib/utils/date";
 import { parseISO } from "date-fns";
 import * as React from "react";
 import Editor from "../../Common/Editor";

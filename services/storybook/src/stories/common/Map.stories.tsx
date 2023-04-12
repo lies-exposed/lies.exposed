@@ -1,7 +1,7 @@
-import { MainContent } from "@liexp/ui/components/MainContent";
-import Map, { type MapProps } from "@liexp/ui/components/Map";
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { useActorsQuery } from "@liexp/ui/state/queries/actor.queries";
+import { MainContent } from "@liexp/ui/lib/components/MainContent";
+import Map, { type MapProps } from "@liexp/ui/lib/components/Map";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import { useActorsQuery } from "@liexp/ui/lib/state/queries/actor.queries";
 import { type Meta, type Story } from "@storybook/react";
 import * as React from "react";
 

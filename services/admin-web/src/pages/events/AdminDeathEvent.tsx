@@ -1,20 +1,20 @@
-import { type http } from "@liexp/shared/io";
-import { uuid } from "@liexp/shared/utils/uuid";
-import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import ReferenceArrayActorInput from "@liexp/ui/components/admin/actors/ReferenceArrayActorInput";
-import { AvatarField } from "@liexp/ui/components/admin/common/AvatarField";
-import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
-import ExcerptField from "@liexp/ui/components/admin/common/ExcerptField";
-import ReferenceArrayKeywordInput from "@liexp/ui/components/admin/keywords/ReferenceArrayKeywordInput";
-import ReferenceArrayLinkInput from "@liexp/ui/components/admin/links/ReferenceArrayLinkInput";
-import { ImportMediaButton } from "@liexp/ui/components/admin/media/ImportMediaButton";
-import { MediaArrayInput } from "@liexp/ui/components/admin/media/MediaArrayInput";
-import { ReferenceMediaDataGrid } from "@liexp/ui/components/admin/media/ReferenceMediaDataGrid";
-import EventPreview from "@liexp/ui/components/admin/previews/EventPreview";
-import { DeathEventEditFormTab } from "@liexp/ui/components/admin/tabs/DeathEventEditFormTab";
-import { EventGeneralTab } from "@liexp/ui/components/admin/tabs/EventGeneralTab";
-import { ReferenceLinkTab } from "@liexp/ui/components/admin/tabs/ReferenceLinkTab";
-import { transformEvent } from "@liexp/ui/components/admin/transform.utils";
+import { type http } from "@liexp/shared/lib/io";
+import { uuid } from "@liexp/shared/lib/utils/uuid";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
+import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
+import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
+import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
+import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField";
+import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
+import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
+import { ImportMediaButton } from "@liexp/ui/lib/components/admin/media/ImportMediaButton";
+import { MediaArrayInput } from "@liexp/ui/lib/components/admin/media/MediaArrayInput";
+import { ReferenceMediaDataGrid } from "@liexp/ui/lib/components/admin/media/ReferenceMediaDataGrid";
+import EventPreview from "@liexp/ui/lib/components/admin/previews/EventPreview";
+import { DeathEventEditFormTab } from "@liexp/ui/lib/components/admin/tabs/DeathEventEditFormTab";
+import { EventGeneralTab } from "@liexp/ui/lib/components/admin/tabs/EventGeneralTab";
+import { ReferenceLinkTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceLinkTab";
+import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
 import * as React from "react";
 import {
   AutocompleteInput,

@@ -1,5 +1,5 @@
-import { API } from "@liexp/shared/providers/http/api.provider";
-import { throwTE } from "@liexp/shared/utils/task.utils";
+import { API } from "@liexp/shared/lib/providers/http/api.provider";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { type AxiosError } from "axios";
 import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";

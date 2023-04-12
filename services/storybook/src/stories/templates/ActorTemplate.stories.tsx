@@ -1,10 +1,10 @@
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/state/queries/SearchEventsQuery";
-import { useActorsQuery } from "@liexp/ui/state/queries/actor.queries";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/queries/SearchEventsQuery";
+import { useActorsQuery } from "@liexp/ui/lib/state/queries/actor.queries";
 import {
   ActorTemplate,
   type ActorTemplateProps,
-} from "@liexp/ui/templates/ActorTemplate";
+} from "@liexp/ui/lib/templates/ActorTemplate";
 import { type Meta, type StoryFn as Story } from "@storybook/react";
 import * as React from "react";
 

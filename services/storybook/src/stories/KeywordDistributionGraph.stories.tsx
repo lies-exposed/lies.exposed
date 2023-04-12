@@ -1,6 +1,6 @@
 import KeywordDistributionGraph, {
   type KeywordsDistributionGraphProps,
-} from "@liexp/ui/components/Graph/KeywordDistributionGraph";
+} from "@liexp/ui/lib/components/Graph/KeywordDistributionGraph";
 import { type Meta, type StoryFn as Story } from "@storybook/react";
 import React from "react";
 

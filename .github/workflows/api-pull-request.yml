@@ -49,21 +49,22 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v3
+      - uses: ./.github/actions/install-deps
         with:
-          node-version: "16"
-          cache: "yarn"
-          cache-dependency-path: yarn.lock
+          hash: ${{ hashFiles('**/yarn.lock') }}
 
       - uses: actions/cache@v3
         with:
           path: |
-            packages/**/lib
             services/api/build
           key: api-build
 
       - name: Install modules
         run: yarn
+
+      - uses: ./.github/actions/build-packages
+        with:
+          hash: ${{ github.sha }}
 
       - name: Lint code
         run: yarn api lint
@@ -105,6 +106,3 @@ jobs:
           file: ./api.Dockerfile
           push: false
           tag: $API_IMAGE_NAME
-
-
-

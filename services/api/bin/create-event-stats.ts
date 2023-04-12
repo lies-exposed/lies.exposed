@@ -1,5 +1,5 @@
 import { createStatsByEntityType } from "@flows/stats/createStatsByEntityType.flow";
-import { throwTE } from "@liexp/shared/utils/task.utils";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import dotenv from "dotenv";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import { makeContext } from "../src/server";

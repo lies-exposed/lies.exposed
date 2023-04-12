@@ -1,7 +1,7 @@
-import { AddEndpoint } from "@liexp/shared/endpoints";
-import { GetSignedURL } from "@liexp/shared/endpoints/upload.endpoints";
-import { fileExtFromContentType } from "@liexp/shared/utils/media.utils";
-import { uuid } from "@liexp/shared/utils/uuid";
+import { AddEndpoint } from "@liexp/shared/lib/endpoints";
+import { GetSignedURL } from "@liexp/shared/lib/endpoints/upload.endpoints";
+import { fileExtFromContentType } from "@liexp/shared/lib/utils/media.utils";
+import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { type Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

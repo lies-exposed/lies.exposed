@@ -2,13 +2,13 @@ import {
   type Events,
   type GroupMember,
   type Project,
-} from "@liexp/shared/io/http";
+} from "@liexp/shared/lib/io/http";
 import {
   type NetworkGraphOutput,
   type GetNetworkParams,
   type GetNetworkQuery,
-} from "@liexp/shared/io/http/Network";
-import { type APIError } from "@liexp/shared/providers/http/http.provider";
+} from "@liexp/shared/lib/io/http/Network";
+import { type APIError } from "@liexp/shared/lib/providers/http/http.provider";
 import type * as t from "io-ts";
 import type { GetListParams, GetOneParams } from "react-admin";
 import { useQuery, type UseQueryResult } from "react-query";

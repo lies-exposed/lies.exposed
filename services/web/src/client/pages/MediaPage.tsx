@@ -1,7 +1,7 @@
 import {
   type SearchFilter
-} from "@liexp/ui/components/events/inputs/SearchEventInput";
-import MediaSearchTemplate from "@liexp/ui/templates/MediaSearchTemplate";
+} from "@liexp/ui/lib/components/events/inputs/SearchEventInput";
+import MediaSearchTemplate from "@liexp/ui/lib/templates/MediaSearchTemplate";
 import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";

@@ -15,10 +15,7 @@
       "../../../node_modules/@types",
       "node_modules/@types",
       "typings"
-    ],
-    "paths": {
-      "@liexp/core/*": ["../core/src/*"]
-    }
+    ]
   },
   "include": ["./src"],
   "exclude": ["node_modules", "lib"],

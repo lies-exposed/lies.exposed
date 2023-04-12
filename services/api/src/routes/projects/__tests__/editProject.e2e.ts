@@ -1,6 +1,6 @@
-import { http } from "@liexp/shared/io";
-import { MediaArb, ProjectArb, AreaArb } from "@liexp/shared/tests";
-import { throwTE } from "@liexp/shared/utils/task.utils";
+import { http } from "@liexp/shared/lib/io";
+import { MediaArb, ProjectArb, AreaArb } from "@liexp/shared/lib/tests";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
 import { pipe } from "fp-ts/function";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";

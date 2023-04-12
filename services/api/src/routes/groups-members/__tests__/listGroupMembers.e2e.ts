@@ -1,6 +1,6 @@
-import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
-import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
-import { throwTE } from "@liexp/shared/utils/task.utils";
+import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary";
+import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as tests from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";

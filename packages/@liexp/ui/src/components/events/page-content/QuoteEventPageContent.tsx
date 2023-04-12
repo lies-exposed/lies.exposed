@@ -1,6 +1,6 @@
-import { type Actor } from "@liexp/shared/io/http";
-import { type Quote } from "@liexp/shared/io/http/Events";
-import { getTextContents } from "@liexp/shared/slate";
+import { type Actor } from "@liexp/shared/lib/io/http";
+import { type Quote } from "@liexp/shared/lib/io/http/Events";
+import { getTextContents } from "@liexp/shared/lib/slate";
 import * as React from "react";
 import { Avatar } from "../../Common/Avatar";
 import { Box, Grid, Typography } from "../../mui";

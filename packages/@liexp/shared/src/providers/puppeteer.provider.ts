@@ -1,6 +1,6 @@
 /* eslint-disable import/default */
 import * as fs from "fs";
-import * as logger from "@liexp/core/logger";
+import * as logger from "@liexp/core/lib/logger";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

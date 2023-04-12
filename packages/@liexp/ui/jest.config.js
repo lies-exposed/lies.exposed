@@ -1,17 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const jestBaseConfig = require("../../../jest.config.base");
-const { pathsToModuleNameMapper } = require("ts-jest");
-
-const { compilerOptions } = require("./tsconfig");
-
-const paths = pathsToModuleNameMapper(compilerOptions.paths, {
-  prefix: "<rootDir>/src/",
-});
-
-const moduleNameMapper = {
-  ...jestBaseConfig.moduleNameMapper,
-  ...paths,
-};
 
 module.exports = {
   ...jestBaseConfig,
@@ -29,6 +17,5 @@ module.exports = {
   coveragePathIgnorePatterns: jestBaseConfig.coveragePathIgnorePatterns.concat([
     "/src/theme",
   ]),
-  moduleNameMapper,
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
 };

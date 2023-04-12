@@ -1,5 +1,5 @@
-import { JWTError } from "@liexp/shared/providers/jwt/JWTClient";
-import { DBError } from "@liexp/shared/providers/orm";
+import { JWTError } from "@liexp/shared/lib/providers/jwt/JWTClient";
+import { DBError } from "@liexp/shared/lib/providers/orm";
 import * as t from "io-ts";
 
 export const APIStatusCode = t.union(

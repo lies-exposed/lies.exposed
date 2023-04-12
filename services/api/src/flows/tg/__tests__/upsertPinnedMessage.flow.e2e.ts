@@ -1,6 +1,6 @@
-import { ActorArb, UncategorizedArb } from "@liexp/shared/tests";
-import { KeywordArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
-import { throwTE } from "@liexp/shared/utils/task.utils";
+import { ActorArb, UncategorizedArb } from "@liexp/shared/lib/tests";
+import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
 import * as E from "fp-ts/Either";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
