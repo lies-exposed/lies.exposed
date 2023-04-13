@@ -18,7 +18,7 @@ import { foldTE } from "../../../../providers/DataProvider";
 import { fetchRelations } from "../../../../state/queries/SearchEventsQuery";
 import {
   fetchLinks,
-  getLinkQueryKey,
+  getLinksQueryKey,
 } from "../../../../state/queries/link.queries";
 import { Box, MenuItem, Select, type SelectChangeEvent } from "../../../mui";
 
@@ -46,7 +46,7 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
           fp.TE.tryCatch(
             () =>
               fetchLinks({
-                queryKey: getLinkQueryKey(
+                queryKey: getLinksQueryKey(
                   {
                     filter: {
                       ids: event.links,
