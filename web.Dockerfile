@@ -23,9 +23,8 @@ RUN yarn
 RUN yarn packages:build
 
 RUN export NODE_ENV=${NODE_ENV}
-COPY $DOTENV_CONFIG_PATH ./services/web/.env
 
-RUN export DOTENV_CONFIG_PATH=.env
+RUN export DOTENV_CONFIG_PATH=${DOTENV_CONFIG_PATH}
 
 RUN yarn web build:app-server
 

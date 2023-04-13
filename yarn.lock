@@ -4014,7 +4014,7 @@ __metadata:
     node-telegram-bot-api: ^0.61.0
     page-metadata-parser: ^1.1.4
     prettier: ^2.8.7
-    puppeteer-core: ^19.8.0
+    puppeteer-core: ^19.9.0
     puppeteer-extra: ^3.3.6
     puppeteer-extra-plugin-stealth: ^2.11.2
     query-string: ^7.1.3
@@ -4801,6 +4801,29 @@ __metadata:
   version: 2.11.7
   resolution: "@popperjs/core@npm:2.11.7"
   checksum: 5b6553747899683452a1d28898c1b39173a4efd780e74360bfcda8eb42f1c5e819602769c81a10920fc68c881d07fb40429604517d499567eac079cfa6470f19
+  languageName: node
+  linkType: hard
+
+"@puppeteer/browsers@npm:0.4.1":
+  version: 0.4.1
+  resolution: "@puppeteer/browsers@npm:0.4.1"
+  dependencies:
+    debug: 4.3.4
+    extract-zip: 2.0.1
+    https-proxy-agent: 5.0.1
+    progress: 2.0.3
+    proxy-from-env: 1.1.0
+    tar-fs: 2.1.1
+    unbzip2-stream: 1.4.3
+    yargs: 17.7.1
+  peerDependencies:
+    typescript: ">= 4.7.4"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  bin:
+    browsers: lib/cjs/main-cli.js
+  checksum: bd72815d0aaac66651ef775e2816703daaaceef0d94b39b5a6baf3d9f9c2242866f3e0691e9aae6409cdffd1d96f3e7e00bddb8f0c0b5b2b427e9298bcc3c8a2
   languageName: node
   linkType: hard
 
@@ -9544,7 +9567,7 @@ __metadata:
     pdfjs-dist: ^3.5.141
     pg: ^8.10.0
     prettier: ^2.8.7
-    puppeteer-core: ^19.8.0
+    puppeteer-core: ^19.9.0
     puppeteer-extra: ^3.3.6
     puppeteer-extra-plugin-stealth: ^2.11.2
     supertest: ^6.3.3
@@ -10852,14 +10875,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chromium-bidi@npm:0.4.5":
-  version: 0.4.5
-  resolution: "chromium-bidi@npm:0.4.5"
+"chromium-bidi@npm:0.4.6":
+  version: 0.4.6
+  resolution: "chromium-bidi@npm:0.4.6"
   dependencies:
     mitt: 3.0.0
   peerDependencies:
     devtools-protocol: "*"
-  checksum: 82935d25faad4c4718ba699df884e2719911bfbf99b5eaf42eceb92b1b91f5c251d087641ebb5a93f4bc82a679a6aaaa310d2f8b201443df81ed160cb9e1bee7
+  checksum: 1d6365896bca4592ddd95233a784e4743d2c8c692d065327a416a09acddc3d05e300c360b859d7049f91924be326d801e6fe9860ace4541325b25f4ec6b94b97
   languageName: node
   linkType: hard
 
@@ -20354,7 +20377,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"progress@npm:^2.0.1":
+"progress@npm:2.0.3, progress@npm:^2.0.1":
   version: 2.0.3
   resolution: "progress@npm:2.0.3"
   checksum: f67403fe7b34912148d9252cb7481266a354bd99ce82c835f79070643bb3c6583d10dbcfda4d41e04bbc1d8437e9af0fb1e1f2135727878f5308682a579429b7
@@ -20703,11 +20726,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"puppeteer-core@npm:^19.8.0":
-  version: 19.8.0
-  resolution: "puppeteer-core@npm:19.8.0"
+"puppeteer-core@npm:^19.9.0":
+  version: 19.9.0
+  resolution: "puppeteer-core@npm:19.9.0"
   dependencies:
-    chromium-bidi: 0.4.5
+    "@puppeteer/browsers": 0.4.1
+    chromium-bidi: 0.4.6
     cross-fetch: 3.1.5
     debug: 4.3.4
     devtools-protocol: 0.0.1107588
@@ -20722,7 +20746,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: a696ae2f8c3a8d0ca25141d22e2a49221d99a27e539d5776dbe153d1f8c00f04686a2cee6df43c3a20eb1b41f4077c339babf59e39fff26d8f34d08d726f1c96
+  checksum: 4e76523c91856f9d4977183cb19e9917fa38103f235872e8fabfa904c8842561c5a62a15e6c07d4d90a6c65683cc4e045d2c0e9c6c466cb1091b9a8fba71b124
   languageName: node
   linkType: hard
 
@@ -25816,6 +25840,21 @@ __metadata:
   version: 21.1.1
   resolution: "yargs-parser@npm:21.1.1"
   checksum: ed2d96a616a9e3e1cc7d204c62ecc61f7aaab633dcbfab2c6df50f7f87b393993fe6640d017759fe112d0cb1e0119f2b4150a87305cc873fd90831c6a58ccf1c
+  languageName: node
+  linkType: hard
+
+"yargs@npm:17.7.1":
+  version: 17.7.1
+  resolution: "yargs@npm:17.7.1"
+  dependencies:
+    cliui: ^8.0.1
+    escalade: ^3.1.1
+    get-caller-file: ^2.0.5
+    require-directory: ^2.1.1
+    string-width: ^4.2.3
+    y18n: ^5.0.5
+    yargs-parser: ^21.1.1
+  checksum: 3d8a43c336a4942bc68080768664aca85c7bd406f018bad362fd255c41c8f4e650277f42fd65d543fce99e084124ddafee7bbfc1a5c6a8fda4cec78609dcf8d4
   languageName: node
   linkType: hard
 
