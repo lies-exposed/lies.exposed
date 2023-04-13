@@ -76,7 +76,7 @@ const MediaSearchTemplate: React.FC<MediaSearchTemplateProps> = ({
             />
             <ActorsBox
               params={{ filter: { ids: filter.actors } }}
-              onItemClick={(a) => {
+              onItemClick={(a: any) => {
                 onFilterChange({
                   ..._filter,
                   actors: _filter.actors.filter((kk) => kk.id !== a.id),
@@ -84,7 +84,7 @@ const MediaSearchTemplate: React.FC<MediaSearchTemplateProps> = ({
               }}
             />
             <GroupsBox
-              ids={filter.groups}
+              params={{ filter: { ids: filter.groups } }}
               onItemClick={(g) => {
                 onFilterChange({
                   ..._filter,

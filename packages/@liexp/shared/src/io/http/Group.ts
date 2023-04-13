@@ -7,6 +7,7 @@ import {
 import { optionFromNullable } from "io-ts-types/optionFromNullable";
 import { BaseProps } from "./Common/BaseProps";
 import { Color } from "./Common/Color";
+import { ListOutput, Output } from "./Common/Output";
 import { GetListQuery } from "./Query";
 
 export const GROUPS = t.literal("groups");
@@ -121,3 +122,8 @@ export const Group = t.strict(
 );
 
 export type Group = t.TypeOf<typeof Group>;
+
+export const GroupOutput = Output(Group, "Group");
+export type GroupOutput = Output<Group>;
+export const GroupListOutput = ListOutput(Group, "ListGroup");
+export type GroupListOutput = ListOutput<Group>;

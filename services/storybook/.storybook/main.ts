@@ -13,7 +13,6 @@ const webpackConfig: Pick<StorybookConfig, "webpackFinal" | "webpack"> = {
     return config;
   },
   webpackFinal: (config, { configType }) => {
-    console.log(config);
 
     if (!config.output) {
       config.output = {};

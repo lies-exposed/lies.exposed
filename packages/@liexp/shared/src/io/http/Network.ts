@@ -10,7 +10,7 @@ import { Keyword, KEYWORDS } from "./Keyword";
 import { Media } from "./Media";
 
 export const NetworkType = t.union(
-  [KEYWORDS, ACTORS, GROUPS, t.literal("events")],
+  [KEYWORDS, ACTORS, GROUPS, t.literal("events"), t.literal('hierarchy')],
   "NetworkType"
 );
 export type NetworkType = t.TypeOf<typeof NetworkType>;
@@ -40,6 +40,7 @@ export type GetNetworkQuery = t.TypeOf<typeof GetNetworkQuery>;
 export const GetNetworkParams = t.type(
   {
     type: NetworkType,
+    id: UUID
   },
   "GetNetworkParams"
 );

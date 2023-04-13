@@ -4,9 +4,7 @@ import { StatsType } from "@liexp/shared/lib/io/http/Stats";
 import { articleByPath } from "@liexp/ui/lib/providers/DataProvider";
 import {
   fetchGroupsMembers,
-  fetchStats,
   getGroupsMembersQueryKey,
-  getStatsQueryKey,
 } from "@liexp/ui/lib/state/queries/DiscreteQueries";
 import {
   fetchSearchEvents,
@@ -60,6 +58,10 @@ import {
   fetchPageContentByPath,
   getPageContentByPathQueryKey,
 } from "@liexp/ui/lib/state/queries/page.queries";
+import {
+  fetchStats,
+  getStatsQueryKey,
+} from "@liexp/ui/lib/state/queries/stats.queries";
 import { hashToQuery } from "@liexp/ui/lib/utils/history.utils";
 import { UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";

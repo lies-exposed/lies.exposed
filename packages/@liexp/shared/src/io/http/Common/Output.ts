@@ -1,5 +1,9 @@
 import * as t from "io-ts";
 
+export interface Output<T> {
+  data: T;
+}
+
 export const Output = <T extends t.Any>(
   data: T,
   name: string
@@ -22,3 +26,8 @@ export const ListOutput = <T extends t.Any>(
     },
     name
   );
+
+export interface ListOutput<T> {
+  data: T[];
+  total: number;
+}

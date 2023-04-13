@@ -2,10 +2,11 @@ import * as t from "io-ts";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { UUID, Tag, BaseProps } from "./Common";
 import { Color } from "./Common/Color";
+import { ListOutput, Output } from "./Common/Output";
 import { GetListQuery } from "./Query";
 
-export const KEYWORDS = t.literal('keywords');
-export type KEYWORDS = t.TypeOf<typeof KEYWORDS>
+export const KEYWORDS = t.literal("keywords");
+export type KEYWORDS = t.TypeOf<typeof KEYWORDS>;
 
 export const GetKeywordListQuery = t.type(
   {
@@ -38,3 +39,8 @@ export const Keyword = t.strict(
   "Keyword"
 );
 export type Keyword = t.TypeOf<typeof Keyword>;
+
+export const SingleKeywordOutput = Output(Keyword, "Keyword");
+export type SingleKeywordOutput = Output<Keyword>;
+export const ListKeywordOutput = ListOutput(Keyword, "Keywords");
+export type ListKeywordOutput = ListOutput<Keyword>;

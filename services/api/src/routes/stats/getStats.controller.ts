@@ -5,7 +5,7 @@ import * as IOE from "fp-ts/IOEither";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { type Route } from "../route.types";
-import { createStatsByEntityType } from "@flows/stats/createStatsByEntityType.flow";
+import { createStats } from '@flows/stats/createStats.flow';
 import { toControllerError } from "@io/ControllerError";
 
 export const MakeGetStatsRoute: Route = (r, ctx) => {
@@ -37,7 +37,7 @@ export const MakeGetStatsRoute: Route = (r, ctx) => {
             }, toControllerError)
           );
         }
-        return createStatsByEntityType(ctx)(type, id);
+        return createStats(ctx)(type, id);
       }),
       TE.map((data) => ({
         body: {

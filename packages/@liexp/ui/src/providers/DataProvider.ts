@@ -5,7 +5,7 @@ import { type ResourceEndpoints } from "@liexp/shared/lib/endpoints/types";
 import * as io from "@liexp/shared/lib/io/index";
 import {
   type APIError,
-  toAPIError
+  toAPIError,
 } from "@liexp/shared/lib/providers/http/http.provider";
 import axios from "axios";
 import * as A from "fp-ts/Array";
@@ -19,14 +19,14 @@ import type {
   GetListParams,
   GetListResult,
   GetOneParams,
-  GetOneResult
+  GetOneResult,
 } from "react-admin";
 import {
   type EndpointInstance,
   type InferEndpointParams,
   type MinimalEndpoint,
   type MinimalEndpointInstance,
-  type TypeOfEndpointInstance
+  type TypeOfEndpointInstance,
 } from "ts-endpoint";
 import { type serializedType } from "ts-io-error/lib/Codec";
 import { APIRESTClient } from "../http";
@@ -116,7 +116,7 @@ export const pageContentByPath = ({
   );
 
 interface Query<G, L, CC> {
-  get: (params: GetOneParams) => Promise<G>;
+  get: <P extends GetOneParams>(params: P) => Promise<G>;
   getList: (params: GetListParams) => Promise<L>;
   Custom: CC extends Record<string, MinimalEndpointInstance>
     ? {
@@ -184,8 +184,8 @@ const toQueries = <
   CC
 > => {
   return {
-    get: (
-      params: GetOneParams
+    get: <P extends GetOneParams>(
+      params: P
     ): Promise<
       InferEndpointParams<G>["output"] extends t.ExactType<infer T>
         ? t.TypeOf<T>["data"]

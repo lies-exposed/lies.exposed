@@ -1,4 +1,8 @@
-import { type Actor, type Group, type Keyword } from "@liexp/shared/lib/io/http";
+import {
+  type Actor,
+  type Group,
+  type Keyword,
+} from "@liexp/shared/lib/io/http";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
 import { EventType, type SearchEvent } from "@liexp/shared/lib/io/http/Events";
 import { formatDate } from "@liexp/shared/lib/utils/date";
@@ -8,8 +12,9 @@ import { ActorPageContent } from "../components/ActorPageContent";
 import { ActorHierarchyEdgeBundlingGraph } from "../components/Graph/ActorHierarchyEdgeBundlingGraph";
 import QueriesRenderer from "../components/QueriesRenderer";
 import SEO from "../components/SEO";
-import { Box } from "../components/mui";
+import { Box, Grid } from "../components/mui";
 import { EventsPanelBox } from "../containers/EventsPanel";
+import { StatsPanelBox } from "../containers/StatsPanelBox";
 import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventNetworkGraphBox";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
 import { useGroupsQuery } from "../state/queries/groups.queries";
@@ -93,12 +98,25 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
               }}
             >
               <Box style={{ display: "flex" }}>
-                <ActorPageContent
-                  actor={actor}
-                  groups={groups}
-                  onGroupClick={onGroupClick}
-                  onActorClick={onActorClick}
-                />
+                <Grid container>
+                  <Grid item md={6}>
+                    <ActorPageContent
+                      actor={actor}
+                      groups={groups}
+                      onGroupClick={onGroupClick}
+                      onActorClick={onActorClick}
+                    />
+                  </Grid>
+                  <Grid item md={6}>
+                    <StatsPanelBox
+                      type="actors"
+                      id={actor.id}
+                      onKeywordClick={onKeywordClick}
+                      onGroupClick={onGroupClick}
+                      onActorClick={onActorClick}
+                    />
+                  </Grid>
+                </Grid>
               </Box>
 
               <EventsPanelBox

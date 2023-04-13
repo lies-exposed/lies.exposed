@@ -1,12 +1,10 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
-import { ListOutput, Output } from "../io/http/Common/Output";
+
 import { GetListQuery } from "../io/http/Query";
-import { StatsType } from "../io/http/Stats";
+import * as Stats from "../io/http/Stats";
 import { ResourceEndpoints } from "./types";
 
-const SingleOutput = Output(t.any, "Stats");
-const OutputList = ListOutput(t.any, "StatsList");
 
 export const List = Endpoint({
   Method: "GET",
@@ -14,11 +12,11 @@ export const List = Endpoint({
   Input: {
     Query: t.type({
       ...GetListQuery.props,
-      type: StatsType,
+      type: Stats.StatsType,
       id: t.string,
-    }),
+    }, 'GetStatsListQuery'),
   },
-  Output: OutputList,
+  Output: Stats.OutputList,
 });
 
 export const Create = Endpoint({
@@ -28,7 +26,7 @@ export const Create = Endpoint({
     Query: undefined,
     Body: t.unknown,
   },
-  Output: SingleOutput,
+  Output: Stats.SingleOutput,
 });
 
 export const Get = Endpoint({
@@ -37,11 +35,11 @@ export const Get = Endpoint({
   Input: {
     Query: undefined,
     Params: t.type({
-      type: StatsType,
+      type: Stats.StatsType,
       id: t.string,
     }),
   },
-  Output: SingleOutput,
+  Output: Stats.SingleOutput,
 });
 
 export const Edit = Endpoint({
@@ -52,7 +50,7 @@ export const Edit = Endpoint({
     Params: t.type({ id: t.string }),
     Body: t.unknown,
   },
-  Output: SingleOutput,
+  Output: Stats.SingleOutput,
 });
 
 export const Delete = Endpoint({
@@ -62,7 +60,7 @@ export const Delete = Endpoint({
     Query: undefined,
     Params: t.type({ id: t.string }),
   },
-  Output: SingleOutput,
+  Output: Stats.SingleOutput,
 });
 
 export const stats = ResourceEndpoints({
