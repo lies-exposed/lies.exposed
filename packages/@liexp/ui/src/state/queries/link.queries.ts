@@ -1,11 +1,23 @@
 import { type Link } from "@liexp/shared/lib/io/http";
 import type { GetListParams } from "react-admin";
-import { useQuery } from "react-query";
+import { type UseQueryResult, useQuery } from "react-query";
 import { Queries } from "../../providers/DataProvider";
 import { fetchQuery } from "./common";
 import { type FetchQuery, type UseListQueryFn } from "./type";
 
-export const getLinkQueryKey = (
+export const defaultGetLinksQueryParams = {
+  sort: {
+    field: "createdAt",
+    order: "DESC",
+  },
+  pagination: {
+    perPage: 20,
+    page: 1,
+  },
+  filter: {},
+};
+
+export const getLinksQueryKey = (
   p: Partial<GetListParams>,
   discrete: boolean
 ): [string, GetListParams, boolean] => {
@@ -14,13 +26,11 @@ export const getLinkQueryKey = (
     {
       filter: p.filter ? p.filter : {},
       pagination: {
-        perPage: 20,
-        page: 1,
+        ...defaultGetLinksQueryParams.pagination,
         ...p.pagination,
       },
       sort: {
-        field: "createdAt",
-        order: "DESC",
+        ...defaultGetLinksQueryParams.sort,
         ...p.sort,
       },
     },
@@ -32,5 +42,15 @@ export const fetchLinks: FetchQuery<typeof Queries.Link.getList> = fetchQuery(
 );
 
 export const useLinksQuery: UseListQueryFn<Link.Link> = (params, discrete) => {
-  return useQuery(getLinkQueryKey(params, discrete), fetchLinks);
+  return useQuery(getLinksQueryKey(params, discrete), fetchLinks);
 };
+
+export const getLinkQueryKey = (id: string): any[] => ["link", { id }];
+export const fetchSingleLink = fetchQuery(Queries.Link.get);
+
+export const useGetLinkQuery = (
+  id: string
+): UseQueryResult<Link.Link, any> => {
+  return useQuery(getLinkQueryKey(id), fetchSingleLink);
+};
+

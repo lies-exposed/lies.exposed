@@ -15,6 +15,7 @@ import {
   getSearchEventsQueryKey,
 } from "@liexp/ui/lib/state/queries/SearchEventsQuery";
 import {
+  defaultGetActorsQueryParams,
   fetchActor,
   fetchActors,
   getActorQueryKey,
@@ -43,8 +44,11 @@ import {
   getKeywordsQueryKey,
 } from "@liexp/ui/lib/state/queries/keywords.queries";
 import {
+  defaultGetLinksQueryParams,
   fetchLinks,
+  fetchSingleLink,
   getLinkQueryKey,
+  getLinksQueryKey,
 } from "@liexp/ui/lib/state/queries/link.queries";
 import {
   fetchMedia,
@@ -62,11 +66,12 @@ import * as React from "react";
 import { useParams } from "react-router-dom";
 import IndexPage from "./pages";
 import NotFoundPage from "./pages/404";
-import ActorsPage, { queryParams } from "./pages/ActorsPage";
+const ActorsPage = React.lazy(() => import("./pages/ActorsPage"));
 const AreasPage = React.lazy(() => import("./pages/AreasPage"));
 const BlogPage = React.lazy(() => import("./pages/BlogPage"));
 const EventsPage = React.lazy(() => import("./pages/EventsPage"));
 const GroupsPage = React.lazy(() => import("./pages/GroupsPage"));
+const LinksPage = React.lazy(() => import("./pages/LinksPage"));
 const KeywordsPage = React.lazy(() => import("./pages/KeywordsPage"));
 const MediaPage = React.lazy(() => import("./pages/MediaPage"));
 const ProfilePage = React.lazy(() => import("./pages/ProfilePage"));
@@ -78,7 +83,7 @@ const EventTemplate = React.lazy(() => import("./templates/EventTemplate"));
 const GroupTemplate = React.lazy(() => import("./templates/GroupTemplate"));
 const KeywordTemplate = React.lazy(() => import("./templates/KeywordTemplate"));
 const MediaTemplate = React.lazy(() => import("./templates/MediaTemplate"));
-
+const LinkTemplate = React.lazy(() => import("./templates/LinkTemplate"));
 const PageTemplate = React.lazy(() => import("./templates/PageTemplate"));
 
 const githubQuery = {
@@ -87,6 +92,36 @@ const githubQuery = {
 } as any;
 
 const commonQueries = [githubQuery];
+
+const linkRoute = {
+  path: "/links/:linkId",
+  route: () => {
+    const params = useParams<{ linkId: string }>();
+    if (params.linkId) {
+      return <LinkTemplate linkId={params.linkId} />;
+    }
+    return <NotFoundPage />;
+  },
+  queries: async ({ linkId }: any) => [
+    ...commonQueries,
+    {
+      queryKey: getLinkQueryKey(linkId),
+      queryFn: fetchSingleLink,
+    },
+  ],
+};
+
+const linksRoute = {
+  path: "/links",
+  route: () => <LinksPage />,
+  queries: async () => [
+    ...commonQueries,
+    {
+      queryKey: getLinksQueryKey(defaultGetLinksQueryParams, false),
+      queryFn: fetchLinks,
+    },
+  ],
+};
 
 export const routes = [
   // group page
@@ -194,7 +229,11 @@ export const routes = [
         queryFn: fetchPageContentByPath,
       },
       {
-        queryKey: getActorsQueryKey(`actors`, queryParams, false),
+        queryKey: getActorsQueryKey(
+          `actors`,
+          defaultGetActorsQueryParams,
+          false
+        ),
         queryFn: fetchActors,
       },
     ],
@@ -253,7 +292,7 @@ export const routes = [
           queryFn: fetchMedia,
         },
         {
-          queryKey: getLinkQueryKey(
+          queryKey: getLinksQueryKey(
             {
               pagination: {
                 perPage: event.links.length,
@@ -404,6 +443,7 @@ export const routes = [
       ];
     },
   },
+  // keywords
   {
     path: "/keywords/:keywordId",
     route: () => {
@@ -433,6 +473,7 @@ export const routes = [
     route: () => <KeywordsPage />,
     queries: async () => [...commonQueries],
   },
+  // areas
   {
     path: "/areas/:areaId",
     route: () => {
@@ -470,6 +511,7 @@ export const routes = [
       },
     ],
   },
+  // media
   {
     path: "/media/:mediaId",
     route: () => {
@@ -507,6 +549,10 @@ export const routes = [
       },
     ],
   },
+  // links
+  linkRoute,
+  linksRoute,
+  // stories
   {
     path: "/stories/:storyPath",
     route: () => {
@@ -584,6 +630,7 @@ export const routes = [
       ];
     },
   },
+  // profile
   {
     path: "/profile*",
     route: () => <ProfilePage />,

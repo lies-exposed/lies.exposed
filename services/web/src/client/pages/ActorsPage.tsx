@@ -6,18 +6,12 @@ import { PageContent } from "@liexp/ui/lib/components/PageContent";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import { ActorList } from "@liexp/ui/lib/components/lists/ActorList";
 import { ActorEventNetworkGraphBox } from "@liexp/ui/lib/containers/graphs/ActorEventNetworkGraphBox";
-import { useActorsQuery } from "@liexp/ui/lib/state/queries/actor.queries";
+import { defaultGetActorsQueryParams, useActorsQuery } from "@liexp/ui/lib/state/queries/actor.queries";
 import { Grid } from "@mui/material";
 import { type RouteComponentProps } from "@reach/router";
 import { subYears } from "date-fns";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
-
-export const queryParams = {
-  pagination: { page: 1, perPage: 40 },
-  sort: { field: "id", order: "ASC" },
-  filter: {},
-};
 
 const ActorsPage: React.FC<RouteComponentProps> = (props) => {
   const navigateTo = useNavigateToResource();
@@ -25,7 +19,7 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
   return (
     <QueriesRenderer
       queries={{
-        actors: useActorsQuery(queryParams, false),
+        actors: useActorsQuery(defaultGetActorsQueryParams, false),
       }}
       render={({ actors: { data: actors } }) => {
         return (

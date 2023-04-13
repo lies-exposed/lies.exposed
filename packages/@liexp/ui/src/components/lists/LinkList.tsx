@@ -6,12 +6,14 @@ export interface LinksListProps {
   links: Link[];
   onItemClick: (l: Link) => void;
   column?: 1 | 2 | 3;
+  style?: React.CSSProperties;
 }
 
 export const LinksList: React.FC<LinksListProps> = ({
   links,
   onItemClick,
   column = 3,
+  style = {},
 }) => {
   const md = 12 / column;
   const sm = 12 / column;
@@ -22,6 +24,7 @@ export const LinksList: React.FC<LinksListProps> = ({
       spacing={2}
       style={{
         maxHeight: "100%",
+        ...style,
       }}
     >
       {links.map((l, i) => (
