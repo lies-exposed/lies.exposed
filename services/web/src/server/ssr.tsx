@@ -33,6 +33,6 @@ const run = (): void => {
   );
 };
 
-D.enable(process.env.DEBUG ?? "@liexp:info");
+D.enable(process.env.DEBUG ?? "@liexp:*:error");
 
 run();

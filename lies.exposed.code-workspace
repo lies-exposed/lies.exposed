@@ -66,6 +66,7 @@
       "liexp",
       "Uncategorized",
       "xlarge"
-    ]
+    ],
+    "easynpm.packageManager": "yarn"
   }
 }

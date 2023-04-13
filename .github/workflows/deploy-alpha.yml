@@ -45,11 +45,10 @@ jobs:
           push: true
           tags: ${{ env.API_IMAGE_TAG }}
 
-      - name: Update .env file for WEB
-        run:  cp ./services/web/.env.alpha ./services/web/.env
-
       - name: Build WEB image
         uses: docker/build-push-action@v4
+        environment:
+          DOTENV_CONFIG_PATH: .env.alpha
         with:
           context: .
           file: ./web.Dockerfile

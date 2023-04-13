@@ -15,7 +15,7 @@ import "@liexp/ui/assets/main.css";
 
 config.autoAddCss = false;
 
-debug.enable("*");
+debug.enable(process.env.DEBUG ?? "@liexp:*:error");
 
 // watch for font awesome icons
 dom.watch();

@@ -2,8 +2,26 @@ import { type StorybookConfig } from "@storybook/react-webpack5";
 import path from "path";
 import TSConfigPathsWebpackPlugin from "tsconfig-paths-webpack-plugin";
 
-const webpackConfig: Pick<StorybookConfig, "webpackFinal"> = {
-  webpackFinal: (config) => {
+const webpackConfig: Pick<StorybookConfig, "webpackFinal" | "webpack"> = {
+  webpack: (config, { configType }) => {
+    if (!config.output) {
+      config.output = {};
+    }
+    if (configType === "PRODUCTION") {
+      config.output.publicPath = "storybook";
+    }
+    return config;
+  },
+  webpackFinal: (config, { configType }) => {
+    console.log(config);
+
+    if (!config.output) {
+      config.output = {};
+    }
+    if (configType === "PRODUCTION") {
+      config.output.publicPath = "storybook";
+    }
+
     // add rules for css
     config.module?.rules?.push({
       test: /\.scss$/,
@@ -87,6 +105,13 @@ const webpackConfig: Pick<StorybookConfig, "webpackFinal"> = {
 const config: StorybookConfig & {
   env: any;
 } = {
+  // previewHead: (head, { configType }) => {
+  //   console.log(head);
+  //   if (configType === "PRODUCTION") {
+  //     return `<base href="/storybook/" /> ${head.replace} `;
+  //   }
+  //   return head;
+  // },
   addons: [
     "@storybook/addon-links",
     "@storybook/addon-essentials",

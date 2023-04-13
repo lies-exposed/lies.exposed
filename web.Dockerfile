@@ -23,7 +23,9 @@ RUN yarn
 RUN yarn packages:build
 
 RUN export NODE_ENV=${NODE_ENV}
-RUN export DOTENV_CONFIG_PATH=${DOTENV_CONFIG_PATH}
+COPY $DOTENV_CONFIG_PATH ./services/web/.env
+
+RUN export DOTENV_CONFIG_PATH=.env
 
 RUN yarn web build:app-server
 
@@ -47,9 +49,9 @@ COPY --from=build /app/packages/@liexp/test/lib /app/packages/@liexp/test/lib
 COPY --from=build /app/packages/@liexp/ui/package.json /app/packages/@liexp/ui/package.json
 COPY --from=build /app/packages/@liexp/ui/lib /app/packages/@liexp/ui/lib
 
-
 COPY --from=build /app/services/web/build /app/services/web/build
 COPY --from=build /app/services/web/package.json /app/services/web/package.json
+COPY --from=build /app/services/web/.env /app/services/web/.env
 
 RUN rm -rf /app/services/web/node_modules \
     rm -rf /app/node_modules
