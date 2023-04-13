@@ -48,6 +48,7 @@ interface NavigationHooks {
   groups: NavigateToResource;
   keywords: NavigateToResource;
   media: NavigateToResource;
+  links: NavigateToResource;
   stories: (f: { path?: string }, search?: any) => void;
 }
 
@@ -69,11 +70,10 @@ export function useNavigateToResource(): NavigationHooks {
           }
           case "media":
           case "areas":
-          case "articles":
           case "events":
           case "actors":
           case "keywords":
-          case "projects":
+          case "links":
           case "groups": {
             const id = f.id ? `/${f.id}` : "";
             n.navigateTo(`/${resourceName}${id}`, search);
@@ -94,6 +94,7 @@ export function useNavigateToResource(): NavigationHooks {
       areas: navigateToResource("areas"),
       media: navigateToResource("media"),
       stories: navigateToResource("stories"),
+      links: navigateToResource("links"),
     };
   }, [n.pathname, n.search]);
 }

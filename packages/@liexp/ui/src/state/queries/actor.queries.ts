@@ -6,6 +6,13 @@ import { Queries } from "../../providers/DataProvider";
 import { fetchQuery } from "./common";
 import { type FetchQuery, type UseListQueryFn } from "./type";
 
+
+export const defaultGetActorsQueryParams = {
+  pagination: { page: 1, perPage: 40 },
+  sort: { field: "id", order: "ASC" },
+  filter: {},
+};
+
 export const getActorsQueryKey = (
   suffix: string,
   p: Partial<GetListParams>,

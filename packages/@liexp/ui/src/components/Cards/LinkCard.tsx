@@ -23,7 +23,7 @@ export interface LinkCardProps {
 }
 
 const LinkCard: React.FC<LinkCardProps> = ({ link, onClick }) => {
-  const title = link.title?.substring(0, 20).concat("...");
+  const title = link.title ?? "untitled";
   const publishDate = link.publishDate
     ? typeof link.publishDate === "string"
       ? parseISO(link.publishDate)
@@ -36,24 +36,29 @@ const LinkCard: React.FC<LinkCardProps> = ({ link, onClick }) => {
       style={{
         display: "flex",
         width: "100%",
-        flexDirection: "row",
+        flexDirection: "column",
         height: "100%",
-        maxHeight: 200,
+        // maxHeight: 200,
       }}
-      onClick={() => { onClick(link); }}
+      onClick={() => {
+        onClick(link);
+      }}
     >
-      <CardMedia
-        component="img"
-        image={link.image?.thumbnail}
-        loading="lazy"
-        style={{
-          height: 300,
-          display: "flex",
-          flexBasis: '40%',
-          flexGrow: 0,
-          flexShrink: 1,
-        }}
-      />
+      {link.image ? (
+        <CardMedia
+          component="img"
+          image={link.image?.thumbnail}
+          loading="lazy"
+          style={{
+            height: 200,
+            display: "flex",
+            // flexBasis: "40%",
+            flexGrow: 0,
+            flexShrink: 1,
+          }}
+        />
+      ) : null}
+
       <Box
         style={{
           display: "flex",
