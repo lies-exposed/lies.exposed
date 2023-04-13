@@ -27,6 +27,7 @@ import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import Checkbox from "@mui/material/Checkbox";
+import Chip, { type ChipProps } from '@mui/material/Chip'
 import CircularProgress from "@mui/material/CircularProgress";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Container from "@mui/material/Container";
@@ -133,6 +134,8 @@ export {
   ListItem,
   ListItemText,
   ListSubheader,
+  Chip,
+  type ChipProps,
   FormControl,
   FormControlLabel,
   Select,

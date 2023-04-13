@@ -143,7 +143,6 @@ export const updateCache = (
     update.events.data,
     A.map((e) =>
       toSearchEvent(e, {
-        events: s.events,
         actors,
         groups,
         groupsMembers,
@@ -167,7 +166,7 @@ export const updateCache = (
 
 export const toSearchEvent = (
   e: Events.Event,
-  s: SearchEventsQueryCache
+  s: Omit<SearchEventsQueryCache, "events">
 ): Events.SearchEvent.SearchEvent => {
   const {
     actors: actorIds,

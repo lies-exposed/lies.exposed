@@ -1,6 +1,6 @@
 import { StatsType } from "@liexp/shared/lib/io/http/Stats";
 import * as React from "react";
-import { useStatsQuery } from "../../state/queries/DiscreteQueries";
+import { useHierarchyNetworkGraphQuery } from "../../state/queries/network.queries";
 import {
   HierarchicalEdgeBundling,
   type HierarchicalEdgeBundlingOnClickProps,
@@ -19,16 +19,19 @@ export const GroupHierarchyEdgeBundlingGraph: React.FC<
   return (
     <QueriesRenderer
       queries={{
-        graph: useStatsQuery({
-          id: group,
-          type: StatsType.types[2].value,
-        }),
+        graph: useHierarchyNetworkGraphQuery(
+          {
+            id: group as any,
+            type: StatsType.types[2].value,
+          },
+          {}
+        ),
       }}
       render={({ graph }) => {
         return (
           <HierarchicalEdgeBundling
             {...props}
-            graph={graph}
+            graph={{ nodes: [], links: [] }}
             hideLabels={true}
           />
         );

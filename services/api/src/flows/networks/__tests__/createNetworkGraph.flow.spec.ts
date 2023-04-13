@@ -51,7 +51,6 @@ const searchEventSample = (n: number, o: any): SearchEvent.SearchEvent[] =>
         groups: new Map(),
         keywords: new Map(),
         media: new Map(),
-        events: [],
         groupsMembers: new Map(),
       })
     );

@@ -24,11 +24,28 @@
     "baseUrl": "./src",
     "rootDir": "./src",
     "moduleResolution": "node",
-    "isolatedModules": true
+    "isolatedModules": true,
+    "paths": {
+      "@liexp/core/*": ["../../../packages/@liexp/core/src/*"],
+      "@liexp/shared/*": ["../../../packages/@liexp/shared/src/*"],
+      "@liexp/test/*": ["../../../packages/@liexp/test/src/*"],
+      "@liexp/ui/*": ["../../../packages/@liexp/ui/src/*"]
+    }
   },
   "include": [".storybook", "./src"],
   "exclude": ["node_modules", "public", ".cache"],
-  "references": [{
-    "path": "../../packages/@liexp/ui"
-  }]
+  "references": [
+    {
+      "path": "../../packages/@liexp/core"
+    },
+    {
+      "path": "../../packages/@liexp/shared"
+    },
+    {
+      "path": "../../packages/@liexp/test"
+    },
+    {
+      "path": "../../packages/@liexp/ui"
+    }
+  ]
 }
