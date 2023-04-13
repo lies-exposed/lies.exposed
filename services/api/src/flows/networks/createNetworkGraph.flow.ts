@@ -436,7 +436,6 @@ export const createNetworkGraph =
               _events,
               fp.A.map((aa) =>
                 toSearchEvent(aa, {
-                  events: [],
                   actors: new Map(actors.map((a) => [a.id, a])),
                   groups: new Map(groups.map((g) => [g.id, g])),
                   keywords: new Map(keywords.map((k) => [k.id, k])),

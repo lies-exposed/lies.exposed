@@ -2,13 +2,9 @@ import * as t from "io-ts";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { URL, UUID } from "../io/http/Common";
-import { ListOutput, Output } from "../io/http/Common/Output";
 import * as Group from "../io/http/Group";
 import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
-
-const SingleGroupOutput = Output(Group.Group, "Group");
-const ListGroupOutput = ListOutput(Group.Group, "ListGroup");
 
 export const List = Endpoint({
   Method: "GET",
@@ -29,7 +25,7 @@ export const List = Endpoint({
       members: optionFromNullable(t.array(t.string)),
     }),
   },
-  Output: ListGroupOutput,
+  Output: Group.GroupListOutput,
 });
 
 export const Create = Endpoint({
@@ -39,7 +35,7 @@ export const Create = Endpoint({
     Query: undefined,
     Body: t.union([t.type({ url: URL }), Group.CreateGroupBody]),
   },
-  Output: SingleGroupOutput,
+  Output: Group.GroupOutput,
 });
 
 export const Get = Endpoint({
@@ -49,7 +45,7 @@ export const Get = Endpoint({
     Query: undefined,
     Params: t.type({ id: UUID }),
   },
-  Output: SingleGroupOutput,
+  Output: Group.GroupOutput,
 });
 
 export const Edit = Endpoint({
@@ -60,7 +56,7 @@ export const Edit = Endpoint({
     Params: t.type({ id: UUID }),
     Body: Group.EditGroupBody,
   },
-  Output: SingleGroupOutput,
+  Output: Group.GroupOutput,
 });
 
 export const Delete = Endpoint({
@@ -70,7 +66,7 @@ export const Delete = Endpoint({
     Query: undefined,
     Params: t.type({ id: UUID }),
   },
-  Output: SingleGroupOutput,
+  Output: Group.GroupOutput,
 });
 
 export const groups = ResourceEndpoints({

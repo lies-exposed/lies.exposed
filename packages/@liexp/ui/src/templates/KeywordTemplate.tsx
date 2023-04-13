@@ -14,9 +14,10 @@ import * as React from "react";
 import { LinksListBox } from "../components/LinksBox";
 import QueriesRenderer from "../components/QueriesRenderer";
 import SEO from "../components/SEO";
-import { Box } from "../components/mui";
+import { Box, Grid } from "../components/mui";
 import { EventsPanelBox } from "../containers/EventsPanel";
 import { MediaBox } from "../containers/MediaBox";
+import { StatsPanelBox } from "../containers/StatsPanelBox";
 import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventNetworkGraphBox";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
 import { useKeywordQuery } from "../state/queries/keywords.queries";
@@ -67,6 +68,7 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
               onTabChange={onTabChange}
               aside={{ name: `#${keyword.tag}` }}
               tabs={[
+                { label: "General" },
                 { label: "Events" },
                 { label: "Media" },
                 { label: "Links" },
@@ -77,6 +79,20 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
                 item: keyword,
               }}
             >
+              <Box>
+                <Grid container>
+                  <Grid item md={6} />
+                  <Grid item md={6}>
+                    <StatsPanelBox
+                      type="keywords"
+                      id={keywordId}
+                      onActorClick={onActorClick}
+                      onGroupClick={onGroupClick}
+                      onKeywordClick={onKeywordClick}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
               <EventsPanelBox
                 tab={tab}
                 slide={false}

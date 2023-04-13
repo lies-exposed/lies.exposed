@@ -7,8 +7,9 @@ import { GroupHierarchyEdgeBundlingGraph } from "../components/Graph/GroupHierar
 import { GroupPageContent } from "../components/GroupPageContent";
 import QueriesRenderer from "../components/QueriesRenderer";
 import SEO from "../components/SEO";
-import { Box } from "../components/mui";
+import { Box, Grid } from "../components/mui";
 import { EventsPanelBox } from "../containers/EventsPanel";
+import { StatsPanelBox } from "../containers/StatsPanelBox";
 import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventNetworkGraphBox";
 import { useGroupMembersQuery } from "../state/queries/DiscreteQueries";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
@@ -88,15 +89,29 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                 item: group,
               }}
             >
-              <GroupPageContent
-                group={group}
-                groupsMembers={groupsMembers.data}
-                funds={[]}
-                projects={[]}
-                onMemberClick={onActorClick}
-                onGroupClick={onGroupClick}
-                ownedGroups={[]}
-              />
+              <Grid container>
+                <Grid item md={6}>
+                  <GroupPageContent
+                    group={group}
+                    groupsMembers={groupsMembers.data}
+                    funds={[]}
+                    projects={[]}
+                    onMemberClick={onActorClick}
+                    onGroupClick={onGroupClick}
+                    ownedGroups={[]}
+                  />
+                </Grid>
+                <Grid item md={6}>
+                  <StatsPanelBox
+                    type="groups"
+                    id={group.id}
+                    onActorClick={onActorClick}
+                    onGroupClick={onGroupClick}
+                    onKeywordClick={onKeywordClick}
+                  />
+                </Grid>
+              </Grid>
+
               <EventsPanelBox
                 slide={false}
                 query={{

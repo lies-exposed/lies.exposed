@@ -2,6 +2,7 @@ import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Actor } from "./Actor";
+import { ListOutput, Output } from "./Common";
 import { BaseProps } from "./Common/BaseProps";
 import { Group } from "./Group";
 
@@ -33,3 +34,8 @@ export const GroupMember = t.strict(
 );
 
 export type GroupMember = t.TypeOf<typeof GroupMember>;
+
+export const SingleGroupMemberOutput = Output(GroupMember, "GroupMember");
+export type SingleGroupMemberOutput = Output<GroupMember>;
+export const ListGroupMemberOutput = ListOutput(GroupMember, "ListGroupMember");
+export type ListGroupMemberOutput = ListOutput<GroupMember>;

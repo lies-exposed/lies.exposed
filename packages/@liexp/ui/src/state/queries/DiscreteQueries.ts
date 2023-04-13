@@ -3,19 +3,13 @@ import {
   type GroupMember,
   type Project,
 } from "@liexp/shared/lib/io/http";
-import {
-  type NetworkGraphOutput,
-  type GetNetworkParams,
-  type GetNetworkQuery,
-} from "@liexp/shared/lib/io/http/Network";
 import { type APIError } from "@liexp/shared/lib/providers/http/http.provider";
 import type * as t from "io-ts";
 import type { GetListParams, GetOneParams } from "react-admin";
 import { useQuery, type UseQueryResult } from "react-query";
-import { type serializedType } from "ts-io-error/lib/Codec";
-import { jsonData, Queries } from "../../providers/DataProvider";
+import { Queries, jsonData } from "../../providers/DataProvider";
 import { fetchQuery } from "./common";
-import { type FetchQuery, type UseListQueryFn, type UseQueryFn } from "./type";
+import { type FetchQuery, type UseListQueryFn } from "./type";
 
 export const getEventsQueryKey = (
   p: Partial<GetListParams>,
@@ -50,21 +44,6 @@ export const useEventsQuery: UseListQueryFn<Events.Event> = (
 ) => {
   return useQuery(getEventsQueryKey(params, discrete), fetchEvents);
 };
-
-// export const fetchActorsDiscreteQuery = async ({
-//   queryKey,
-// }: any): Promise<Actor.Actor[]> => {
-//   const params = queryKey[1];
-//   return R.isEmpty(params.filter) || params.filter.ids?.length === 0
-//     ? await emptyQuery()
-//     : await Queries.Actor.getList(params);
-// };
-
-// export const useActorsDiscreteQuery = (
-//   params: Partial<GetListParams>
-// ): UseQueryResult<{ data: Actor.Actor[]; total: number }, APIError> => {
-//   return useQuery(getActorsQueryKey(params, true), fetchActorsDiscreteQuery);
-// };
 
 export const getGroupsMembersQueryKey = (
   p: Partial<GetListParams>,
@@ -127,80 +106,4 @@ export const useGraphQuery = (id: string): UseQueryResult<any, APIError> => {
   return useQuery(["graph", id], async () => {
     return await Queries.Graph.get({ id });
   });
-};
-
-export const getStatsQueryKey = (
-  p: Partial<GetListParams>,
-  discrete: boolean
-): [string, GetListParams, boolean] => {
-  return [
-    "stats",
-    {
-      filter: p.filter ?? {},
-      pagination: {
-        perPage: 20,
-        page: 1,
-        ...p.pagination,
-      },
-      sort: {
-        field: "createdAt",
-        order: "DESC",
-        ...p.sort,
-      },
-    },
-    discrete,
-  ];
-};
-
-export const fetchStats = async (params: any): Promise<any> => {
-  return await fetchQuery(Queries.Stats.getList)(params).then(
-    (results) => results.data[0]
-  );
-};
-
-export const useStatsQuery: UseQueryFn<
-  {
-    id: string;
-    type: string;
-  },
-  any
-> = (params) => {
-  return useQuery(
-    getStatsQueryKey(
-      {
-        filter: params,
-      },
-      false
-    ),
-    fetchStats
-  );
-};
-
-export const fetchNetworkGraph: FetchQuery<any> = fetchQuery(
-  Queries.Networks.get
-);
-
-export const useNetworkGraphQuery = (
-  params: GetNetworkParams,
-  query: Partial<serializedType<typeof GetNetworkQuery>>
-): UseQueryResult<NetworkGraphOutput, APIError> => {
-  return useQuery(
-    [
-      `network-${params.type}${query.ids ? `-${query.ids.join('-')}` : ""}`,
-      {
-        ...params,
-        pagination: {
-          perPage: 1,
-          page: 1,
-        },
-        sort: {
-          order: "DESC",
-          field: "date",
-        },
-        ...query,
-        emptyRelations: query.emptyRelations ?? undefined,
-      },
-    ],
-    fetchNetworkGraph
-  );
 };

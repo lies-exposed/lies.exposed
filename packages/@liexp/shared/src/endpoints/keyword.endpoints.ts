@@ -1,11 +1,7 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
-import { Keyword } from "../io/http";
-import { ListOutput, Output } from "../io/http/Common/Output";
+import * as Keyword  from "../io/http/Keyword";
 import { ResourceEndpoints } from "./types";
-
-const SingleKeywordOutput = Output(Keyword.Keyword, "Keyword");
-const ListKeywordOutput = ListOutput(Keyword.Keyword, "Keywords");
 
 export const List = Endpoint({
   Method: "GET",
@@ -13,7 +9,7 @@ export const List = Endpoint({
   Input: {
     Query: Keyword.GetKeywordListQuery,
   },
-  Output: ListKeywordOutput,
+  Output: Keyword.ListKeywordOutput,
 });
 
 export const Get = Endpoint({
@@ -22,7 +18,7 @@ export const Get = Endpoint({
   Input: {
     Params: t.type({ id: t.string }),
   },
-  Output: SingleKeywordOutput,
+  Output: Keyword.SingleKeywordOutput,
 });
 
 export const Create = Endpoint({
@@ -31,7 +27,7 @@ export const Create = Endpoint({
   Input: {
     Body: Keyword.CreateKeyword,
   },
-  Output: SingleKeywordOutput,
+  Output: Keyword.SingleKeywordOutput,
 });
 
 export const Edit = Endpoint({
@@ -41,7 +37,7 @@ export const Edit = Endpoint({
     Params: t.type({ id: t.string }),
     Body: Keyword.CreateKeyword,
   },
-  Output: SingleKeywordOutput,
+  Output: Keyword.SingleKeywordOutput,
 });
 
 export const Delete = Endpoint({
@@ -50,7 +46,7 @@ export const Delete = Endpoint({
   Input: {
     Params: t.type({ id: t.string }),
   },
-  Output: SingleKeywordOutput,
+  Output: Keyword.SingleKeywordOutput,
 });
 
 export const Distribution = Endpoint({

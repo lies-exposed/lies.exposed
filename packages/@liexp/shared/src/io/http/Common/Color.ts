@@ -8,6 +8,3 @@ export const Color = t.brand(
 );
 
 export type Color = t.TypeOf<typeof Color>;
-
-export const toColor = (s: string): Color =>
-  (s.startsWith("#") ? s.replace("#", "") : s) as any as Color;

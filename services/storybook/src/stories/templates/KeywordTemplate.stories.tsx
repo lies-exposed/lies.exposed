@@ -4,14 +4,15 @@ import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/que
 import { useKeywordsQuery } from "@liexp/ui/lib/state/queries/keywords.queries";
 import {
   KeywordTemplate,
-  type KeywordTemplateProps
+  type KeywordTemplateProps,
 } from "@liexp/ui/lib/templates/KeywordTemplate";
 import { type Meta, type StoryFn as Story } from "@storybook/react";
 import * as React from "react";
 
-const meta: Meta = {
+const meta: Meta<KeywordTemplateProps> = {
   title: "Templates/Keyword/Page",
   component: KeywordTemplate,
+  args: {},
 };
 
 export default meta;

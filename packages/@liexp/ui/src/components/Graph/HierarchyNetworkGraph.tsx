@@ -14,9 +14,9 @@ import { ForcedNetworkGraph } from "../Common/Graph/ForcedNetworkGraph";
 import { type NetworkScale } from "../Common/Graph/Network/Network";
 import { EventTypeColor } from "../Common/Icons";
 
-export type EventsNetworkGraphPropsGroupBy = "group" | "actor" | "keyword";
+export type HierarchyNetworkGraphPropsGroupBy = "group" | "actor" | "keyword";
 
-export interface EventsNetworkGraphProps {
+export interface HierarchyNetworkGraphProps {
   events: SearchEvent[];
   actors: Actor.Actor[];
   groups: Group.Group[];
@@ -25,9 +25,9 @@ export interface EventsNetworkGraphProps {
     nodes: EventNetworkDatum[];
     links: any[];
   };
-  selectedActorIds?: string[];
-  selectedGroupIds?: string[];
-  selectedKeywordIds?: string[];
+  selectedActorIds?: string[]
+  selectedGroupIds?: string[]
+  selectedKeywordIds?: string[]
   scale?: NetworkScale;
   onEventClick?: (e: SearchEvent) => void;
   onActorClick?: (a: Actor.Actor) => void;
@@ -37,7 +37,7 @@ export interface EventsNetworkGraphProps {
   width: number;
 }
 
-export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
+export const HierarchyNetworkGraph: React.FC<HierarchyNetworkGraphProps> = ({
   width,
   height,
   onActorClick,
@@ -46,6 +46,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
   onKeywordClick,
   ...props
 }) => {
+  // console.log('hierarchy graph', props.graph);
   // const [groupBy] = React.useState(props.groupBy);
 
   const colors = React.useMemo(
@@ -62,7 +63,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
 
   return (
     <ForcedNetworkGraph
-      id={`events-network`}
+      id={`hierarchy-network`}
       width={width}
       height={height}
       nodes={props.graph.nodes}

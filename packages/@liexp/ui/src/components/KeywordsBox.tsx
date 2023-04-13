@@ -3,15 +3,43 @@ import * as NEA from "fp-ts/NonEmptyArray";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
+import { type GetListParams } from 'react-admin';
 import { useKeywordsQuery } from "../state/queries/keywords.queries";
 import QueriesRenderer from "./QueriesRenderer";
 import KeywordList from "./lists/KeywordList";
 import { Box, type BoxProps } from "./mui";
 
+interface KeywordsBoxWrapperProps {
+  params: Partial<GetListParams>;
+  children: (data: Keyword.ListKeywordOutput) => JSX.Element;
+}
+
+export const KeywordsBoxWrapper: React.FC<KeywordsBoxWrapperProps> = ({
+  params,
+  children,
+}) => {
+  return (
+    <QueriesRenderer
+      queries={{
+        keywords: useKeywordsQuery(
+          {
+            ...params,
+          },
+          true
+        ),
+      }}
+      render={({ keywords }) => {
+        // eslint-disable-next-line react/jsx-key
+        return children(keywords);
+      }}
+    />
+  );
+};
+
 interface KeywordsBoxProps extends BoxProps {
   ids: string[];
   onItemClick: (k: Keyword.Keyword) => void;
-  listStyle?: React.CSSProperties
+  listStyle?: React.CSSProperties;
 }
 
 export const KeywordsBox: React.FC<KeywordsBoxProps> = ({
@@ -28,19 +56,15 @@ export const KeywordsBox: React.FC<KeywordsBoxProps> = ({
         O.fold(
           () => null,
           (ids) => (
-            <QueriesRenderer
-              queries={{
-                keywords: useKeywordsQuery(
-                  {
-                    pagination: { page: 1, perPage: ids.length },
-                    filter: {
-                      ids,
-                    },
-                  },
-                  true
-                ),
+            <KeywordsBoxWrapper
+              params={{
+                pagination: { page: 1, perPage: ids.length },
+                filter: {
+                  ids,
+                },
               }}
-              render={({ keywords: { data: keywords } }) => {
+            >
+              {({ data: keywords }) => {
                 // eslint-disable-next-line react/jsx-key
                 return (
                   <KeywordList
@@ -50,7 +74,7 @@ export const KeywordsBox: React.FC<KeywordsBoxProps> = ({
                   />
                 );
               }}
-            />
+            </KeywordsBoxWrapper>
           )
         )
       )}

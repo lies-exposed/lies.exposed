@@ -4,19 +4,9 @@ import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import * as http from "../io/http";
-import { ListOutput, Output } from "../io/http/Common/Output";
 import { CreateGroupMember } from "../io/http/GroupMember";
 import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
-
-const SingleGroupMemberOutput = Output(
-  http.GroupMember.GroupMember,
-  "GroupMember"
-);
-const ListGroupMemberOutput = ListOutput(
-  http.GroupMember.GroupMember,
-  "ListGroupMember"
-);
 
 export const List = Endpoint({
   Method: "GET",
@@ -29,7 +19,7 @@ export const List = Endpoint({
       ids: optionFromNullable(t.array(t.string)),
     }),
   },
-  Output: ListGroupMemberOutput,
+  Output: http.GroupMember.ListGroupMemberOutput,
 });
 
 export const Create = Endpoint({
@@ -39,7 +29,7 @@ export const Create = Endpoint({
     Query: undefined,
     Body: CreateGroupMember,
   },
-  Output: SingleGroupMemberOutput,
+  Output: http.GroupMember.SingleGroupMemberOutput,
 });
 
 export const Get = Endpoint({
@@ -48,7 +38,7 @@ export const Get = Endpoint({
   Input: {
     Params: t.type({ id: t.string }),
   },
-  Output: SingleGroupMemberOutput,
+  Output: http.GroupMember.SingleGroupMemberOutput,
 });
 
 export const Edit = Endpoint({
@@ -64,7 +54,7 @@ export const Edit = Endpoint({
       body: optionFromNullable(t.UnknownRecord),
     }),
   },
-  Output: SingleGroupMemberOutput,
+  Output: http.GroupMember.SingleGroupMemberOutput,
 });
 
 export const Delete = Endpoint({
@@ -73,7 +63,7 @@ export const Delete = Endpoint({
   Input: {
     Params: t.type({ id: t.string }),
   },
-  Output: SingleGroupMemberOutput,
+  Output: http.GroupMember.SingleGroupMemberOutput,
 });
 
 export const groupsMembers = ResourceEndpoints({
