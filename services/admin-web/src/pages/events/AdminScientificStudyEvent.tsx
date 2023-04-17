@@ -8,8 +8,8 @@ import URLMetadataInput from "@liexp/ui/lib/components/admin/common/URLMetadataI
 import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceGroupInput";
 import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
-import { MediaArrayInput } from "@liexp/ui/lib/components/admin/media/MediaArrayInput";
 import { ReferenceMediaDataGrid } from "@liexp/ui/lib/components/admin/media/ReferenceMediaDataGrid";
+import { MediaArrayInput } from "@liexp/ui/lib/components/admin/media/input/MediaArrayInput";
 import EventPreview from "@liexp/ui/lib/components/admin/previews/EventPreview";
 import { EventGeneralTab } from "@liexp/ui/lib/components/admin/tabs/EventGeneralTab";
 import { ReferenceLinkTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceLinkTab";

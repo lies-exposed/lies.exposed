@@ -1,8 +1,8 @@
 import * as React from "react";
 import { type FieldProps } from "react-admin";
 import { Box } from "../../mui";
-import { MediaArrayInput } from "../media/MediaArrayInput";
 import { ReferenceMediaDataGrid } from "../media/ReferenceMediaDataGrid";
+import { MediaArrayInput } from "../media/input/MediaArrayInput";
 
 export const ReferenceMediaTab: React.FC<FieldProps> = (props) => {
   const newMediaSource =

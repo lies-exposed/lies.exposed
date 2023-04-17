@@ -6,7 +6,7 @@ import {
   type ReferenceInputProps,
   useRecordContext,
 } from "react-admin";
-import { Typography } from "../../mui";
+import { Typography } from "../../../mui";
 
 export const matchMediaSuggestions = (
   filterValue: string,

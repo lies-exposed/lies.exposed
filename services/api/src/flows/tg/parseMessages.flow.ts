@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import { fp } from "@liexp/core/src/fp";
+import { fp } from "@liexp/core/lib/fp";
 import { pipe } from "fp-ts/lib/function";
 import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
 import { toControllerError } from "@io/ControllerError";

@@ -20,14 +20,14 @@ import {
   LinkList,
 } from "@liexp/ui/lib/components/admin/AdminLinks";
 import {
-  MediaCreate,
-  MediaEdit,
-  MediaList,
-} from "@liexp/ui/lib/components/admin/AdminMedia";
-import {
   EventSuggestionEdit,
   EventSuggestionList,
 } from "@liexp/ui/lib/components/admin/events/suggestions/AdminEventSuggestion";
+import {
+  MediaCreate,
+  MediaEdit,
+  MediaList,
+} from "@liexp/ui/lib/components/admin/media";
 import { SignIn } from "@liexp/ui/lib/components/admin/user/SignIn";
 import englishMessages from "@liexp/ui/lib/i18n/en-US";
 import { themeOptions } from "@liexp/ui/lib/theme";

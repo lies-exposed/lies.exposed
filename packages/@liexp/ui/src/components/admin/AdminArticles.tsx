@@ -35,7 +35,7 @@ import {Grid} from '../mui'
 import ReactPageInput from "./ReactPageInput";
 import { EditForm } from "./common/EditForm";
 import ReferenceArrayKeywordInput from "./keywords/ReferenceArrayKeywordInput";
-import ReferenceMediaInput from "./media/ReferenceMediaInput";
+import ReferenceMediaInput from "./media/input/ReferenceMediaInput";
 import ArticlePreview from "./previews/ArticlePreview";
 import ReferenceUserInput from "./user/ReferenceUserInput";
 
