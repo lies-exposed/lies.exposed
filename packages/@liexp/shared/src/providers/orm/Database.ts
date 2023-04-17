@@ -16,7 +16,7 @@ import {
   type EntityTarget,
   type FindManyOptions,
   type FindOneOptions,
-  type ObjectID,
+  type ObjectId,
   type ObjectLiteral,
   type SaveOptions,
   type UpdateResult,
@@ -33,8 +33,8 @@ type Criteria =
   | number[]
   | Date
   | Date[]
-  | ObjectID
-  | ObjectID[];
+  | ObjectId
+  | ObjectId[];
 
 interface DatabaseClient {
   manager: EntityManager;
