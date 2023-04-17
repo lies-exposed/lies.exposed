@@ -1,10 +1,12 @@
+import { parseURL } from "@liexp/shared/lib/helpers/media";
 import { MP4Type, type MediaType } from "@liexp/shared/lib/io/http/Media";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import axios from "axios";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { type DataProvider } from "react-admin";
+import { type RaRecord, type DataProvider } from "react-admin";
 import { apiProvider } from "../api";
 
 export interface RawMedia {
@@ -66,7 +68,7 @@ export const uploadFile =
         formData.append("media", f);
         return apiProvider
           .request({
-            method: 'PUT',
+            method: "PUT",
             url: `/uploads-multipart/${resourceId}`,
             data: formData,
             timeout: 600 * 1000,
@@ -75,7 +77,6 @@ export const uploadFile =
             },
           })
           .then((response) => {
-
             return {
               type,
               location: response.data.Location,
@@ -87,7 +88,7 @@ export const uploadFile =
     const othersTask = pipe(
       getSignedUrl(client)(resource, resourceId, type),
       TE.chain((url) => {
-        const [location,] = url.data.url.split("?");
+        const [location] = url.data.url.split("?");
 
         return pipe(
           TE.tryCatch(
@@ -127,5 +128,40 @@ export const uploadImages =
         uploadFile(client)(resource, resourceId, file.file, file.type)
       ),
       A.sequence(TE.ApplicativeSeq)
+    );
+  };
+
+export const transformMedia =
+  (apiProvider: DataProvider<string>) =>
+  async (data: RaRecord): Promise<RaRecord> => {
+    const mediaTask =
+      data._type === "fromFile" && data.location.rawFile
+        ? uploadFile(apiProvider)(
+            "media",
+            data.id.toString(),
+            data.location.rawFile,
+            data.location.rawFile.type
+          )
+        : data._type === "fromURL" && data.url
+        ? TE.fromEither(parseURL(data.url))
+        : TE.right({ type: data.type, location: data.location });
+
+    const events = (data.events ?? []).concat(data.newEvents ?? []);
+    const links = (data.links ?? []).concat(
+      (data.newLinks ?? []).flatMap((l: any) => l.ids)
+    );
+    const keywords = (data.keywords ?? []).concat(data.newKeywords ?? []);
+
+    return await pipe(
+      mediaTask,
+      TE.map((media) => ({
+        ...data,
+        id: data.id.toString(),
+        ...media,
+        events,
+        links,
+        keywords,
+      })),
+      throwTE
     );
   };

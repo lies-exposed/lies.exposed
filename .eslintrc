@@ -41,7 +41,12 @@
     "no-restricted-imports": [
       "error",
       {
-        "patterns": ["moment"]
+        "patterns": [
+          "moment",
+          "@liexp/core/src",
+          "@liexp/shared/src",
+          "@liexp/ui/src"
+        ]
       }
     ],
     "no-console": "error",

@@ -1,33 +1,42 @@
 import { MediaType } from "@liexp/shared/lib/io/http/Media";
+import { get } from "lodash";
 import * as React from "react";
 import {
   FileInput,
   FormDataConsumer,
-  type InputProps,
   SelectInput,
   TextInput,
+  type InputProps,
 } from "react-admin";
-import { Box } from "../../mui";
-import { MediaField } from "./MediaField";
+import { Box } from "../../../mui";
+import { MediaField } from "../MediaField";
 
 interface MediaInputProps extends Omit<InputProps, "source"> {
   sourceType: string;
   sourceLocation: string;
+  type?: "fromURL" | "fromFile";
   supportedTypes?: MediaType[];
+  source?: string;
+  style?: React.CSSProperties;
 }
 
 export const MediaInput: React.FC<MediaInputProps> = ({
   sourceType,
   sourceLocation,
+  type: _type = 'fromFile',
   supportedTypes,
+  source,
+  style,
   ...props
 }) => {
+
   const types = supportedTypes ?? MediaType.types.map((a) => a.value);
 
+  // console.log({ type, sourceType, sourceLocation });
   return (
-    <Box>
+    <Box style={style}>
       <SelectInput
-        source="_type"
+        source={_type}
         defaultValue={"fromURL"}
         choices={[
           { name: "fromURL", id: "fromURL" },
@@ -41,8 +50,8 @@ export const MediaInput: React.FC<MediaInputProps> = ({
         {({ formData, scopedFormData, getSource, ...rest }) => {
           const mediaType = formData[sourceLocation]?.rawFile?.type;
 
-          if (formData._type === "fromFile") {
-            const mediaSrc = formData[sourceLocation]?.src;
+          if (get(formData, getSource?.(_type) ?? _type) === "fromFile") {
+            const mediaSrc = get(formData, sourceLocation)?.src;
 
             return (
               <Box>

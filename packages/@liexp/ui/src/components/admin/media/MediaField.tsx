@@ -31,7 +31,7 @@ export const MediaField: React.FC<MediaFieldProps> = ({
     record?.rawFile?.type ??
     sourceType ??
     type ??
-    (src.includes(".png")
+    (src?.includes(".png")
       ? MediaType.types[2].value
       : record?.type ?? MediaType.types[0].value);
 

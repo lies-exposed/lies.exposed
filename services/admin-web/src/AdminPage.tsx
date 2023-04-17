@@ -10,15 +10,16 @@ import {
   LinkList,
 } from "@liexp/ui/lib/components/admin/AdminLinks";
 import {
-  MediaCreate,
-  MediaEdit,
-  MediaList,
-} from "@liexp/ui/lib/components/admin/AdminMedia";
-import {
   EventSuggestionEdit,
   EventSuggestionList,
 } from "@liexp/ui/lib/components/admin/events/suggestions/AdminEventSuggestion";
-import { i18nProvider} from "@liexp/ui/lib/i18n/i18n.provider";
+import {
+  MediaCreate,
+  MediaCreateMany,
+  MediaEdit,
+  MediaList,
+} from "@liexp/ui/lib/components/admin/media";
+import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import EventIcon from "@mui/icons-material/Event";
 import GroupIcon from "@mui/icons-material/Group";
@@ -29,6 +30,7 @@ import PostAddIcon from "@mui/icons-material/PostAdd";
 import RecentActorsIcon from "@mui/icons-material/RecentActors";
 import * as React from "react";
 import { Admin, Login, Resource } from "react-admin";
+import { Route } from "react-router-dom";
 import "./index.css";
 import { ActorCreate, ActorEdit, ActorList } from "./pages/AdminActors";
 import { AreaCreate, AreaEdit, AreaList } from "./pages/AdminAreas";
@@ -107,7 +109,9 @@ const AdminPage: React.FC = () => {
         edit={MediaEdit}
         create={MediaCreate}
         icon={PermMediaIcon}
-      />
+      >
+        <Route path="multiple" element={<MediaCreateMany />} />
+      </Resource>
 
       <Resource
         name="links"

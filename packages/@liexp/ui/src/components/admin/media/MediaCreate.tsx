@@ -1,0 +1,40 @@
+import { uuid } from "@liexp/shared/lib/utils/uuid";
+import * as React from "react";
+import {
+  Create,
+  SimpleForm,
+  TextInput,
+  required,
+  useDataProvider,
+  type CreateProps
+} from "react-admin";
+import { Link } from "react-router-dom";
+import { transformMedia } from "../../../client/admin/MediaAPI";
+import { MediaInput } from "./input/MediaInput";
+
+export const MediaCreate: React.FC<CreateProps> = (props) => {
+  const apiProvider = useDataProvider();
+
+  return (
+    <Create
+      title="Create a Media"
+      {...props}
+      transform={(r: any) => transformMedia(apiProvider)({ ...r, id: uuid() })}
+      actions={
+        <div>
+          <Link to="/media/multiple">Multiple upload</Link>
+        </div>
+      }
+    >
+      <SimpleForm>
+        <MediaInput sourceLocation="location" sourceType="type" />
+        <TextInput
+          source="description"
+          multiline
+          fullWidth
+          validate={[required()]}
+        />
+      </SimpleForm>
+    </Create>
+  );
+};
