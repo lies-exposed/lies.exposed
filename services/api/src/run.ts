@@ -1,7 +1,7 @@
 /* eslint-disable import/order, import/first */
 import { upsertPinnedMessage } from "@flows/tg/upsertPinnedMessage.flow";
 import * as logger from "@liexp/core/lib/logger";
-import { throwTE } from "@liexp/shared/src/utils/task.utils";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { failure } from "io-ts/lib/PathReporter";

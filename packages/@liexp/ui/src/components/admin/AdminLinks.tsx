@@ -42,7 +42,7 @@ import ReferenceGroupInput from "./groups/ReferenceGroupInput";
 import ReferenceArrayKeywordInput from "./keywords/ReferenceArrayKeywordInput";
 import { SearchLinksButton } from "./links/SearchLinksButton";
 import { MediaField } from "./media/MediaField";
-import ReferenceMediaInput from "./media/ReferenceMediaInput";
+import ReferenceMediaInput from "./media/input/ReferenceMediaInput";
 import LinkPreview from "./previews/LinkPreview";
 import ReferenceUserInput from "./user/ReferenceUserInput";
 

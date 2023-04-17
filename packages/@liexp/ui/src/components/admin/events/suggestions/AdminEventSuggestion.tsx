@@ -36,7 +36,7 @@ import { Box, Grid, Typography } from "../../../mui";
 import { EditForm } from "../../common/EditForm";
 import { EventSuggestionStatusInput } from "../../common/inputs/EventSuggestionStatusInput";
 import { EventSuggestionTypeInput } from "../../common/inputs/EventSuggestionTypeInput";
-import { ImportMediaButton } from "../../media/ImportMediaButton";
+import { ImportMediaButton } from "../../media/button/ImportMediaButton";
 import { EventSuggestionPreview } from "../../previews/EventSuggestionPreview";
 import { DeathEventEditFormTab } from "../../tabs/DeathEventEditFormTab";
 import { DocumentaryEditFormTab } from "../../tabs/DocumentaryEditFormTab";

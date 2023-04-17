@@ -8,7 +8,14 @@
     "no-restricted-imports": [
       "error",
       {
-        "patterns": ["@mui/material", "@mui/*/*/*", "!@mui/core/test-utils/*"]
+        "patterns": [
+          "@mui/material",
+          "@mui/*/*/*",
+          "!@mui/core/test-utils/*",
+          "@liexp/core/src",
+          "@liexp/shared/src",
+          "@liexp/ui/src"
+        ]
       }
     ],
     "react/prop-types": ["off"],

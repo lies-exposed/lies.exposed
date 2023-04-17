@@ -8,7 +8,7 @@ import {
 import {
   matchMediaSuggestions,
   MediaAutocompleteOptionText,
-} from "../media/ReferenceMediaInput";
+} from "./ReferenceMediaInput";
 
 const ReferenceArrayMediaInput: React.FC<
   Omit<ReferenceArrayInputProps, "children"> & {

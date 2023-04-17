@@ -7,7 +7,7 @@ import {
   SimpleFormIterator,
   TextInput,
 } from "react-admin";
-import { Box } from "../../mui";
+import { Box } from "../../../mui";
 import { MediaInput } from "./MediaInput";
 import ReferenceMediaInput from "./ReferenceMediaInput";
 

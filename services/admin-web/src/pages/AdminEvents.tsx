@@ -17,7 +17,7 @@ import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
 import ReferenceArrayGroupMemberInput from "@liexp/ui/lib/components/admin/common/ReferenceArrayGroupMemberInput";
 import ReferenceArrayGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput";
 import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
-import { ImportMediaButton } from "@liexp/ui/lib/components/admin/media/ImportMediaButton";
+import { ImportMediaButton } from "@liexp/ui/lib/components/admin/media/button/ImportMediaButton";
 import EventPreview from "@liexp/ui/lib/components/admin/previews/EventPreview";
 import { DeathEventEditFormTab } from "@liexp/ui/lib/components/admin/tabs/DeathEventEditFormTab";
 import { DocumentaryEditFormTab } from "@liexp/ui/lib/components/admin/tabs/DocumentaryEditFormTab";
