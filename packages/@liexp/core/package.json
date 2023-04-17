@@ -41,7 +41,7 @@
     "filemanager-webpack-plugin": "^8.0.0",
     "fork-ts-checker-webpack-plugin": "^8.0.0",
     "html-replace-webpack-plugin": "^2.6.0",
-    "html-webpack-plugin": "^5.5.0",
+    "html-webpack-plugin": "^5.5.1",
     "mini-css-extract-plugin": "^2.7.5",
     "prettier": "^2.8.7",
     "react-refresh": "^0.14.0",
