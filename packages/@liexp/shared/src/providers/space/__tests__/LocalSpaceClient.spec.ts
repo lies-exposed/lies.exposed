@@ -1,8 +1,8 @@
 import * as logger from "@liexp/core/lib/logger";
 import * as E from "fp-ts/Either";
-jest.mock('axios');
 // eslint-disable-next-line no-restricted-imports
 import { GetLocalSpaceClient } from "../LocalSpaceClient";
+jest.mock('axios');
 
 const baseURL = "http://localhost:4010";
 
