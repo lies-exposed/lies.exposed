@@ -6,3 +6,4 @@ updates:
       interval: "weekly"
     target-branch: daily
     open-pull-requests-limit: 10
+    versioning-strategy: lockfile-only
