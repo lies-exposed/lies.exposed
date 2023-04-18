@@ -561,11 +561,11 @@ __metadata:
   linkType: hard
 
 "@aws-sdk/lib-storage@npm:^3.312.0":
-  version: 3.312.0
-  resolution: "@aws-sdk/lib-storage@npm:3.312.0"
+  version: 3.315.0
+  resolution: "@aws-sdk/lib-storage@npm:3.315.0"
   dependencies:
     "@aws-sdk/middleware-endpoint": 3.310.0
-    "@aws-sdk/smithy-client": 3.310.0
+    "@aws-sdk/smithy-client": 3.315.0
     buffer: 5.6.0
     events: 3.3.0
     stream-browserify: 3.0.0
@@ -573,7 +573,7 @@ __metadata:
   peerDependencies:
     "@aws-sdk/abort-controller": ^3.0.0
     "@aws-sdk/client-s3": ^3.0.0
-  checksum: ce09963885a749e6347ffe8d2ea94e2572629f31041f7859f71d98436ff863822862c13c2c465af5a11aacc3193d0c599f19d455b8251ebcbe95fc44eba1cd0e
+  checksum: c3aed8f993922731169ca1f5e85f83ac62f67e86b1ded5e4a2dc5e722bf2481fc56c81932cbe6c94a5f2d94da28e635f16cd61d76b2cb3373c06899165dbfc36
   languageName: node
   linkType: hard
 
@@ -924,6 +924,17 @@ __metadata:
     "@aws-sdk/types": 3.310.0
     tslib: ^2.5.0
   checksum: a97b88e6ae3066abf136fe3d59ead258d459c4f37f69e6170a902d85194cb2d798519771b945880072776bbf0e77bfc18e15768dcbafc402f0f255d80bca0ba6
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/smithy-client@npm:3.315.0":
+  version: 3.315.0
+  resolution: "@aws-sdk/smithy-client@npm:3.315.0"
+  dependencies:
+    "@aws-sdk/middleware-stack": 3.310.0
+    "@aws-sdk/types": 3.310.0
+    tslib: ^2.5.0
+  checksum: 2367627dc39960d51fa978f2e4a55fc95dc064f4f31146a9e53e9b1bcaa4c0cb4611fbf56c351eb8cbece88200fb898e654860e55727c31c42baceccb7a9f771
   languageName: node
   linkType: hard
 
