@@ -4121,7 +4121,7 @@ __metadata:
     react-slick: ^0.29.0
     react-spring: ^9.7.1
     react-toc: ^3.1.0
-    react-virtualized: ^9.22.4
+    react-virtualized: ^9.22.5
     throttle-debounce: ^5.0.0
     topojson-client: ^3.1.0
     ts-endpoint: ^2.0.0
@@ -21686,9 +21686,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-virtualized@npm:^9.22.4":
-  version: 9.22.4
-  resolution: "react-virtualized@npm:9.22.4"
+"react-virtualized@npm:^9.22.5":
+  version: 9.22.5
+  resolution: "react-virtualized@npm:9.22.5"
   dependencies:
     "@babel/runtime": ^7.7.2
     clsx: ^1.0.4
@@ -21699,7 +21699,7 @@ __metadata:
   peerDependencies:
     react: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0
     react-dom: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0
-  checksum: 0f3e9d0778c33ccb1a2a45a1697746ef92adc78f2006d7563b20c67a7cc972aa81edb0e7d32ef17a52ae921be4c7649fe5919699bf378f12745b679c15e88146
+  checksum: 01f5ed8d8db7c831d592172946c2b61fcb409bf6cbc84500468f12d6cf9b7e60453e332fac02dd608480d23cb14421f7f17716393e623e83bb10a7763fad9e2c
   languageName: node
   linkType: hard
 
