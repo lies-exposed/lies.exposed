@@ -8,7 +8,7 @@ on:
       - master
     paths:
       - ".github/workflows/**"
-      - "packages/**"
+      - "packages/@liexp/**/src/**"
       - "services/storybook/**"
 
 jobs:

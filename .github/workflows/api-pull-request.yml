@@ -8,7 +8,7 @@ on:
       - master
     paths:
       - ".github/workflows/**"
-      - "packages/**"
+      - "packages/@liexp/**/src/**"
       - "services/api/**"
 
 env:
@@ -70,9 +70,7 @@ jobs:
         run: yarn api lint
 
       - name: Build API
-        run: |
-          yarn packages:build
-          yarn api build
+        run: yarn api build
 
       - name: Run migrations
         env:

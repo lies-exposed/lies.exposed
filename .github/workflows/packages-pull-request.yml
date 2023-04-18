@@ -1,0 +1,41 @@
+name: API - Pull Request
+
+on:
+  pull_request:
+    branches:
+      - daily
+      - release/alpha
+      - master
+    paths:
+      - ".github/workflows/**"
+      - "packages/**"
+
+jobs:
+  pull_request:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ./.github/actions/install-deps
+        with:
+          hash: ${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install modules
+        run: yarn
+
+      - uses: ./.github/actions/build-packages
+        with:
+          hash: ${{ github.sha }}
+
+      - name: Lint code
+        run: |
+          yarn core lint
+          yarn shared lint
+          yarn test lint
+          yarn ui lint
+
+      - name: Run tests
+        env:
+          DEBUG: "-@liexp*"
+        run: yarn shared jest --ci --runInBand
