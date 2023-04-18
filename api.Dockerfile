@@ -12,7 +12,7 @@ COPY tsconfig.json .
 COPY packages/@liexp/core ./packages/@liexp/core
 COPY packages/@liexp/test ./packages/@liexp/test
 COPY packages/@liexp/shared ./packages/@liexp/shared
-COPY packages/@liexp/ui ./packages/@liexp/ui
+# COPY packages/@liexp/ui ./packages/@liexp/ui
 COPY services/api ./services/api
 
 RUN yarn install
@@ -38,8 +38,8 @@ COPY --from=build /app/packages/@liexp/shared/lib /app/packages/@liexp/shared/li
 COPY --from=build /app/packages/@liexp/shared/package.json /app/packages/@liexp/shared/package.json
 COPY --from=build /app/packages/@liexp/test/lib /app/packages/@liexp/test/lib
 COPY --from=build /app/packages/@liexp/test/package.json /app/packages/@liexp/test/package.json
-COPY --from=build /app/packages/@liexp/ui/lib /app/packages/@liexp/ui/lib
-COPY --from=build /app/packages/@liexp/ui/package.json /app/packages/@liexp/ui/package.json
+# COPY --from=build /app/packages/@liexp/ui/lib /app/packages/@liexp/ui/lib
+# COPY --from=build /app/packages/@liexp/ui/package.json /app/packages/@liexp/ui/package.json
 
 # API service
 COPY --from=build /app/services/api/package.json /app/services/api/package.json
