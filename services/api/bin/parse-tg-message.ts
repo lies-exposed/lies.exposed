@@ -9,7 +9,7 @@ import { makeContext } from "../src/server";
 import { parseTGMessageFlow } from "@flows/tg/parseMessages.flow";
 
 dotenv.config({
-  path: path.resolve(process.cwd(), process.env.DOTENV_CONFIG ?? "../../.env"),
+  path: path.resolve(process.cwd(), process.env.DOTENV_CONFIG_PATH ?? "../../.env"),
 });
 
 /**

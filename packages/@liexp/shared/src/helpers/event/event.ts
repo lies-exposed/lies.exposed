@@ -408,7 +408,7 @@ export const transform = (
         type: Events.Patent.PATENT.value,
         payload: {
           title: props.title as any,
-          source: props.url as any ?? process.env.WEB_URL,
+          source: (props.url as any) ?? process.env.WEB_URL,
           owners: {
             groups: props.groups,
             actors: props.actors,

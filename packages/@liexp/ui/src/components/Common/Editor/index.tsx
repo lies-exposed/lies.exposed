@@ -1,4 +1,3 @@
-// import { customSlate } from "@liexp/shared/lib/slate";
 import { getLiexpSlate } from "@liexp/shared/lib/slate";
 import RPEditor, { type EditorProps, type Value } from "@react-page/editor";
 import background from "@react-page/plugins-background";
