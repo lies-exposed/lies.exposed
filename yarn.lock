@@ -5522,7 +5522,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-viewport@npm:7.0.5, @storybook/addon-viewport@npm:^7.0.5":
+"@storybook/addon-viewport@npm:7.0.5":
   version: 7.0.5
   resolution: "@storybook/addon-viewport@npm:7.0.5"
   dependencies:
@@ -5544,6 +5544,31 @@ __metadata:
     react-dom:
       optional: true
   checksum: 7ffd2a81bd921f687ccb73455d09b437a0a7dc543b42a9d50235c3196044d91c629d8d6eac0deaca33d9db62a970fade2aa7ca9037242741176aeb43a8286096
+  languageName: node
+  linkType: hard
+
+"@storybook/addon-viewport@npm:^7.0.5":
+  version: 7.0.6
+  resolution: "@storybook/addon-viewport@npm:7.0.6"
+  dependencies:
+    "@storybook/client-logger": 7.0.6
+    "@storybook/components": 7.0.6
+    "@storybook/core-events": 7.0.6
+    "@storybook/global": ^5.0.0
+    "@storybook/manager-api": 7.0.6
+    "@storybook/preview-api": 7.0.6
+    "@storybook/theming": 7.0.6
+    memoizerific: ^1.11.3
+    prop-types: ^15.7.2
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    react:
+      optional: true
+    react-dom:
+      optional: true
+  checksum: 3264e90f7964dbdb4c8ff36558fcfb085fa112d55a873506ab3e59923518486444339dcc878e917b25e0a9f4eaea105ce99667412597e6e342b679fab75dae8a
   languageName: node
   linkType: hard
 
@@ -5864,6 +5889,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/components@npm:7.0.6":
+  version: 7.0.6
+  resolution: "@storybook/components@npm:7.0.6"
+  dependencies:
+    "@storybook/client-logger": 7.0.6
+    "@storybook/csf": ^0.1.0
+    "@storybook/global": ^5.0.0
+    "@storybook/theming": 7.0.6
+    "@storybook/types": 7.0.6
+    memoizerific: ^1.11.3
+    use-resize-observer: ^9.1.0
+    util-deprecate: ^1.0.2
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 499b0c0b0ac6da267061658beccc0437e00dc3e149fe6aa4e101945e1f52b9d450f1de5430ece53ba548f4d4f034dd69dbc9f60472cef0999c4475e00af982ef
+  languageName: node
+  linkType: hard
+
 "@storybook/core-client@npm:7.0.5":
   version: 7.0.5
   resolution: "@storybook/core-client@npm:7.0.5"
@@ -6131,6 +6175,32 @@ __metadata:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   checksum: 50b2a660b792fa2847398a8e85f5b190e8ea47527efe7c088a13e22281234ed19a2063da1be0f5398f32050552ca878301a3aa63ffafe99667b5ca6d047ee9b8
+  languageName: node
+  linkType: hard
+
+"@storybook/manager-api@npm:7.0.6":
+  version: 7.0.6
+  resolution: "@storybook/manager-api@npm:7.0.6"
+  dependencies:
+    "@storybook/channels": 7.0.6
+    "@storybook/client-logger": 7.0.6
+    "@storybook/core-events": 7.0.6
+    "@storybook/csf": ^0.1.0
+    "@storybook/global": ^5.0.0
+    "@storybook/router": 7.0.6
+    "@storybook/theming": 7.0.6
+    "@storybook/types": 7.0.6
+    dequal: ^2.0.2
+    lodash: ^4.17.21
+    memoizerific: ^1.11.3
+    semver: ^7.3.7
+    store2: ^2.14.2
+    telejson: ^7.0.3
+    ts-dedent: ^2.0.0
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 7a32122effb75778983414ea7f6f1e1e8d47be1691a75697dde6fa3020c9f20e17b487ab358c7be6e218f03aba7736d0cfa1c63db0e6662794769a98d59a8c2e
   languageName: node
   linkType: hard
 
@@ -6408,6 +6478,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/router@npm:7.0.6":
+  version: 7.0.6
+  resolution: "@storybook/router@npm:7.0.6"
+  dependencies:
+    "@storybook/client-logger": 7.0.6
+    memoizerific: ^1.11.3
+    qs: ^6.10.0
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 05249e964ff4d84ba4f3a14fd2390c23c0dfb0e340feb0ae3eaf799e21e3b2c509fc005d1299de8f13348a96af4ee598112cb7c366b0c307e3fcbac64ed8c15b
+  languageName: node
+  linkType: hard
+
 "@storybook/store@npm:7.0.5":
   version: 7.0.5
   resolution: "@storybook/store@npm:7.0.5"
@@ -6450,7 +6534,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/theming@npm:^7.0.5":
+"@storybook/theming@npm:7.0.6, @storybook/theming@npm:^7.0.5":
   version: 7.0.6
   resolution: "@storybook/theming@npm:7.0.6"
   dependencies:
