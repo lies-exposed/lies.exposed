@@ -1,5 +1,7 @@
 /* eslint-disable import/order, import/first */
+import { upsertPinnedMessage } from "@flows/tg/upsertPinnedMessage.flow";
 import * as logger from "@liexp/core/lib/logger";
+import { throwTE } from "@liexp/shared/src/utils/task.utils";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { failure } from "io-ts/lib/PathReporter";
@@ -92,7 +94,18 @@ const run = (): Promise<void> => {
             serverLogger.error.log("An error occured %O", e);
           });
 
-          return Promise.resolve(undefined);
+          return pipe(
+            upsertPinnedMessage(ctx)(20),
+            TE.fold(
+              (e) => () => {
+                serverLogger.error.log("Couldn't upsert pinned message %O", e);
+                return Promise.resolve(undefined);
+              },
+              (a) => () => Promise.resolve(undefined)
+            ),
+            TE.fromTask,
+            throwTE
+          );
         }
     )
   )();

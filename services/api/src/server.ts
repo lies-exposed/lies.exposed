@@ -20,11 +20,9 @@ import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { PathReporter } from "io-ts/lib/PathReporter";
-import type TelegramBot from "node-telegram-bot-api";
 import metadataParser from "page-metadata-parser";
 import puppeteer from "puppeteer-core";
 import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
-import { upsertPinnedMessage } from "@flows/tg/upsertPinnedMessage.flow";
 import {
   DecodeError,
   toControllerError, type ControllerError
@@ -74,6 +72,7 @@ export const makeContext = (
     E.mapLeft((e) => DecodeError(`Failed to decode process env`, e)),
     TE.fromEither,
     TE.chain((env) => {
+
       const s3 =
         env.NODE_ENV === "development" || env.NODE_ENV === "test"
           ? S3Client.GetS3Client({
@@ -136,20 +135,7 @@ export const makeContext = (
       ...e,
       name: e.name,
       status: 500,
-    })),
-    TE.chainFirst((ctx) =>
-      pipe(
-        upsertPinnedMessage(ctx)(20),
-        TE.fold(
-          (e) =>
-            (): Promise<
-              E.Either<ControllerError, Error | TelegramBot.Message>
-            > =>
-              Promise.resolve(E.right(e)),
-          (a) => () => Promise.resolve(E.right(a))
-        )
-      )
-    )
+    }))
   );
 };
 

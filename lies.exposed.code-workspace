@@ -62,6 +62,11 @@
       "./services/admin-web"
     ],
     "jest.autoRun": "off",
+    "jest.disabledWorkspaceFolders": [
+      "📦 @liexp/test",
+      "storybook",
+      "data",
+    ],
     "cSpell.words": [
       "liexp",
       "Uncategorized",
