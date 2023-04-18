@@ -1,0 +1,34 @@
+import * as fs from "fs";
+import { fp } from "@liexp/core/src/fp";
+import { pipe } from "fp-ts/lib/function";
+import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
+import { toControllerError } from "@io/ControllerError";
+import { type RouteContext } from "@routes/route.types";
+
+export const parseTGMessageFlow =
+  (ctx: RouteContext) => (filePath: string, deleteFile?: boolean) => {
+    return pipe(
+      fp.TE.fromIOEither(
+        fp.IOE.tryCatch(
+          () => fs.readFileSync(filePath, "utf-8"),
+          toControllerError
+        )
+      ),
+      fp.TE.chain((message) =>
+        createFromTGMessage(ctx)(JSON.parse(message), {
+          type: "text",
+        })
+      ),
+      fp.TE.chainFirst(() => {
+        if (deleteFile) {
+          return fp.TE.fromIOEither(
+            fp.IOE.tryCatch(() => {
+              ctx.logger.debug.log("Deleting file %s...", filePath);
+              fs.rmSync(filePath);
+            }, toControllerError)
+          );
+        }
+        return fp.TE.right(undefined);
+      })
+    );
+  };
