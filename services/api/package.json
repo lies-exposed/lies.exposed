@@ -33,7 +33,7 @@
     "upsert-nlp-entities": "yarn ts:node ./bin/upsert-nlp-entities.ts"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.312.0",
+    "@aws-sdk/client-s3": "^3.315.0",
     "@aws-sdk/lib-storage": "^3.312.0",
     "@aws-sdk/s3-request-presigner": "^3.312.0",
     "@databases/escape-identifier": "^1.0.3",
