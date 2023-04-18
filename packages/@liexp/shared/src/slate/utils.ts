@@ -1,8 +1,8 @@
+import { type Value } from '@react-page/editor/lib/core/types';
 import {
   createValue,
-  getTextContents as defaultGetTextContents,
-  type Value
-} from "@react-page/editor";
+} from "@react-page/editor/lib/core/utils/createValue";
+import { getTextContents as defaultGetTextContents } from "@react-page/editor/lib/core/utils/getTextContents";
 import { getLiexpSlate } from "./plugins/customSlate";
 
 export const getTextContents = (v: Value): string[] => {
