@@ -2,4 +2,4 @@
 
 set -ex
 
-rsync -P -a alpha.lies.exposed:~/node/app/current/services/api/temp/tg/messages/ ./services/api/temp/tg/messages
+rsync -P -a alpha.lies.exposed:~/docker-app/temp/tg/messages/ ./temp/tg/messages

@@ -5,7 +5,7 @@ import {
   getPlatform,
   type VideoPlatformMatch,
 } from "@liexp/shared/lib/helpers/media";
-import { type URL } from "@liexp/shared/lib/io/http/Common";
+import { URL } from "@liexp/shared/lib/io/http/Common";
 import { MediaType } from "@liexp/shared/lib/io/http/Media";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { sequenceS } from "fp-ts/Apply";
@@ -23,11 +23,11 @@ import { MediaEntity } from "@entities/Media.entity";
 import { type UserEntity } from "@entities/User.entity";
 import { fetchAndSave } from "@flows/link.flow";
 import { extractMediaFromPlatform } from "@flows/media/extractMediaFromPlatform.flow";
-import { getOneAdminOrFail } from '@flows/users/getOneUserOrFail.flow';
+import { getOneAdminOrFail } from "@flows/users/getOneUserOrFail.flow";
 import {
-  type ControllerError,
   ServerError,
   toControllerError,
+  type ControllerError,
 } from "@io/ControllerError";
 import { type RouteContext } from "@routes/route.types";
 
@@ -153,7 +153,7 @@ const takeURLFromMessageEntity =
   (text?: string) =>
   (acc: URL[], e: TelegramBot.MessageEntity): URL[] => {
     if (e.type === "url" && text) {
-      return acc.concat(text.slice(e.offset, e.length) as any);
+      return acc.concat(text.substring(e.offset, e.offset + e.length) as any);
     }
     if (e.type === "text_link") {
       return acc.concat(e.url as any);
@@ -172,6 +172,7 @@ export const createFromTGMessage =
       message,
       metadata
     );
+
     // check url exists and is linked to an event
     //  - if found return the event
     // fetch url metadata and create hashtags when given
@@ -218,12 +219,12 @@ export const createFromTGMessage =
       O.fromPredicate((u) => u.length > 0)
     );
 
+    ctx.logger.info.log("URL %O", urls);
+
     const platformMediaURLs = pipe(
       videoURLS,
       O.fromPredicate((v) => v.length > 0)
     );
-
-    ctx.logger.info.log("URL %O", urls);
 
     ctx.logger.info.log("Message photo%O", message.photo);
     const photo = pipe(
@@ -274,6 +275,7 @@ export const createFromTGMessage =
     ): TE.TaskEither<ControllerError, LinkEntity[]> =>
       pipe(
         urls,
+        O.map((urls) => urls.filter((u) => E.isRight(URL.decode(u)))),
         O.getOrElse((): URL[] => []),
         A.map((url) => {
           return pipe(
