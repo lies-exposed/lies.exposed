@@ -27,7 +27,7 @@ export const getSuggestions = (
   );
 
   const suggestedExcerpt = m.description
-    ? createExcerptValue(m.description)
+    ? createExcerptValue(m.description)  
     : undefined;
 
   const suggestedMedia = pipe(
@@ -78,7 +78,7 @@ export const getSuggestions = (
             suggestedMedia,
             O.map((m) => m.id),
             O.toNullable
-          ) ,
+          ),
           authors: {
             actors: [],
             groups: [],
