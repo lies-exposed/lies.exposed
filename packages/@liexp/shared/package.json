@@ -24,7 +24,7 @@
     "@databases/sql": "^3.3.0",
     "@liexp/core": "0.1.0",
     "@liexp/test": "0.1.0",
-    "@mui/material": "^5.12.0",
+    "@mui/material": "^5.12.1",
     "@react-page/editor": "^5.4.3",
     "@react-page/plugins-slate": "^5.4.3",
     "@react-page/react-admin": "^5.4.3",
