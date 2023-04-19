@@ -13,6 +13,7 @@ import { pipe } from "fp-ts/function";
 import * as React from "react";
 import {
   ArrayInput,
+  Button,
   FileField,
   FileInput,
   Form,
@@ -20,16 +21,23 @@ import {
   TextInput,
   required,
   useDataProvider,
-  type DataProvider,
-  type RaRecord,
   useRedirect,
-  Button,
+  type DataProvider,
+  type RaRecord
 } from "react-admin";
 import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
 import { uploadFile } from "../../../client/admin/MediaAPI";
 import { styled } from "../../../theme";
-import { Box, Card } from "../../mui";
+import {
+  Box,
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  ContentSaveIcon,
+  alpha,
+} from "../../mui";
 
 const transformMedia =
   (apiProvider: DataProvider<string>) =>
@@ -71,13 +79,21 @@ const PREFIX = "create-media-form";
 const classes = {
   root: `${PREFIX}-root`,
   formIterator: `${PREFIX}-form-iterator`,
+  dropArea: `${PREFIX}-drop-area`,
 };
 
-const StyledBox = styled(Box)(() => ({
+const StyledBox = styled(Box)(({ theme }) => ({
   [`&.${classes.root}`]: {},
   [` .${classes.formIterator} ul li section`]: {
     display: "flex",
     flexDirection: "row",
+  },
+  [` .${classes.dropArea}`]: {
+    width: "100%",
+    minHeight: "50%",
+    padding: theme.spacing(3),
+    textAlign: "center",
+    background: alpha(theme.palette.secondary.light, 0.4),
   },
 }));
 
@@ -158,27 +174,39 @@ export const MediaCreateMany: React.FC<any> = (props) => {
 
   return (
     <StyledBox className={classes.root} {...getRootProps({})}>
-      <Card>
-        <Form record={getValues()} onSubmit={onSubmit}>
-          <ArrayInput source="files">
-            <SimpleFormIterator className={classes.formIterator}>
-              <FileInput source="location">
-                <FileField source="src" title="title" />
-              </FileInput>
-              <TextInput
-                source="description"
-                multiline
-                fullWidth
-                validate={[required()]}
-              />
-            </SimpleFormIterator>
-          </ArrayInput>
-          <Button type="submit" disabled={isSubmitting} label="Save" />
-        </Form>
-      </Card>
-      <div style={{ padding: 40 }} {...getRootProps({})}>
-        <p>{isDragActive ? "Drop files here" : "Drag and drop files here"}</p>
-      </div>
+      <Form record={getValues()} onSubmit={onSubmit}>
+        <div {...getRootProps({ className: classes.dropArea })}>
+          <p>{isDragActive ? "Drop files here" : "Drag and drop files here"}</p>
+        </div>
+        <Card>
+          <CardContent>
+            <ArrayInput source="files">
+              <SimpleFormIterator className={classes.formIterator}>
+                <FileInput source="location">
+                  <FileField source="src" title="title" />
+                </FileInput>
+                <TextInput
+                  source="description"
+                  multiline
+                  fullWidth
+                  validate={[required()]}
+                />
+              </SimpleFormIterator>
+            </ArrayInput>
+          </CardContent>
+          <CardActionArea>
+            <CardActions>
+              <Box>
+                <Button
+                  startIcon={<ContentSaveIcon />}
+                  disabled={isSubmitting}
+                  label="Save"
+                />
+              </Box>
+            </CardActions>
+          </CardActionArea>
+        </Card>
+      </Form>
     </StyledBox>
   );
 };
