@@ -6,9 +6,9 @@ import {
   TextInput,
   required,
   useDataProvider,
-  type CreateProps
+  type CreateProps,
+  Link,
 } from "react-admin";
-import { Link } from "react-router-dom";
 import { transformMedia } from "../../../client/admin/MediaAPI";
 import { MediaInput } from "./input/MediaInput";
 

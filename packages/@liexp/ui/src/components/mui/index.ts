@@ -4,6 +4,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import CloseIcon from "@mui/icons-material/Close";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PlayCircleOutline from "@mui/icons-material/PlayCircleOutline";
+import ContentSaveIcon from '@mui/icons-material/SaveAlt'
 import SearchIcon from "@mui/icons-material/SearchOutlined";
 import TreeItem from "@mui/lab/TreeItem";
 import TreeView from "@mui/lab/TreeView";
@@ -72,6 +73,7 @@ export {
   Slider,
   Stack,
   SearchIcon,
+  ContentSaveIcon,
   Accordion,
   AccordionDetails,
   AccordionSummary,
