@@ -33,9 +33,9 @@
     "upsert-nlp-entities": "yarn ts:node ./bin/upsert-nlp-entities.ts"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.312.0",
-    "@aws-sdk/lib-storage": "^3.312.0",
-    "@aws-sdk/s3-request-presigner": "^3.312.0",
+    "@aws-sdk/client-s3": "^3.315.0",
+    "@aws-sdk/lib-storage": "^3.315.0",
+    "@aws-sdk/s3-request-presigner": "^3.315.0",
     "@databases/escape-identifier": "^1.0.3",
     "@databases/pg": "^5.4.1",
     "@liexp/core": "0.1.0",
@@ -91,7 +91,7 @@
     "@types/fluent-ffmpeg": "^2.1.21",
     "@types/jest": "^29.5.0",
     "@types/jsonwebtoken": "^9.0.1",
-    "@types/lodash": "^4.14.192",
+    "@types/lodash": "^4.14.194",
     "@types/module-alias": "^2.0.1",
     "@types/multer": "^1.4.7",
     "@types/node": "^16.18.23",
