@@ -19,6 +19,12 @@ services:
       - ./temp/:/app/services/api/temp/:rw
       - ./config/:/app/services/api/config/:rw
     working_dir: /app/services/api
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4010/v1/healthcheck"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
     command: yarn start
     restart: always
 

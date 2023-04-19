@@ -15,23 +15,64 @@ env:
   API_IMAGE_NAME: liexp-api
 
 jobs:
-  pull_request:
+  install:
     runs-on: ubuntu-latest
-    services:
-      pg-db:
-        image: postgres:14
-        env:
-          POSTGRES_USER: liexp
-          POSTGRES_PASSWORD: liexp-password
-          POSTGRES_DB: liexp
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 8432:5432
+    steps:
+      - uses: actions/checkout@v3
 
+      - uses: ./.github/actions/install-deps
+        with:
+          hash: ${{ hashFiles('**/yarn.lock') }}
+
+  build-packages:
+    runs-on: ubuntu-latest
+    needs: [install]
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ./.github/actions/install-deps
+        with:
+          hash: ${{ hashFiles('**/yarn.lock') }}
+
+      - uses: ./.github/actions/build-packages
+        with:
+          hash: ${{ github.sha }}
+
+  lint:
+    runs-on: ubuntu-latest
+    needs: [install, build-packages]
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ./.github/actions/install-deps
+        with:
+          hash: ${{ hashFiles('**/yarn.lock') }}
+
+      - uses: ./.github/actions/build-packages
+        with:
+          hash: ${{ github.sha }}
+
+      - name: Lint code
+        run: yarn api lint
+
+  build:
+    needs: [install, build-packages, lint]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ./.github/actions/install-deps
+        with:
+          hash: ${{ hashFiles('**/yarn.lock') }}
+
+      - uses: ./.github/actions/build-api
+        with:
+          hash: ${{ github.sha }}
+
+  test:
+    runs-on: ubuntu-latest
+    needs: [install, build-packages, lint]
+    services:
       pg-db-test:
         image: postgres:14
         env:
@@ -53,39 +94,38 @@ jobs:
         with:
           hash: ${{ hashFiles('**/yarn.lock') }}
 
-      - uses: actions/cache@v3
-        with:
-          path: |
-            services/api/build
-          key: api-build
-
-      - name: Install modules
-        run: yarn
-
       - uses: ./.github/actions/build-packages
         with:
           hash: ${{ github.sha }}
 
-      - name: Lint code
-        run: yarn api lint
-
-      - name: Build API
-        run: yarn api build
+      - uses: ./.github/actions/build-api
+        with:
+          hash: ${{ github.sha }}
 
       - name: Run migrations
         env:
-          DOTENV_CONFIG_PATH: ../../.env
+          DOTENV_CONFIG_PATH: ../../.env.test
         run: yarn api migration:run
 
-      - name: Configure NLP
+      - name: Upser NLP Entities
         env:
-          DOTENV_CONFIG_PATH: ../../.env
+          DOTENV_CONFIG_PATH: ../../.env.test
         run: yarn api upsert-nlp-entities
 
       - name: Run tests
         env:
           DEBUG: "-@liexp*"
         run: yarn api jest --ci --runInBand --forceExit --logHeapUsage
+
+  docker_build:
+    needs: [install, build-packages, lint]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ./.github/actions/install-deps
+        with:
+          hash: ${{ hashFiles('**/yarn.lock') }}
 
       - name: Log in to registry
         uses: docker/login-action@v2
