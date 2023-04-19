@@ -63,6 +63,4 @@ jobs:
         run: yarn storybook build
 
       - name: Build Storybook
-        env:
-          NODE_ENV: development
         run: yarn storybook build-sb
