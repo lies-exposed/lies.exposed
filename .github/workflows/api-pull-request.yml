@@ -115,7 +115,7 @@ jobs:
       - name: Run tests
         env:
           DEBUG: "-@liexp*"
-        run: yarn api jest --ci --runInBand --forceExit --logHeapUsage
+        run: yarn api jest --ci --runInBand --logHeapUsage
 
   docker_build:
     needs: [install, build-packages, lint]

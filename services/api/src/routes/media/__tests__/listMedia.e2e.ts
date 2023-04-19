@@ -48,6 +48,8 @@ describe("List Media", () => {
         media.map((a) => a.id)
       )
     );
+
+    await Test.utils.e2eAfterAll();
   });
 
   test("Should list media", async () => {

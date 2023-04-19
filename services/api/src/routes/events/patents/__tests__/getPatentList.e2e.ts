@@ -27,6 +27,7 @@ describe("Get Patent List", () => {
         eventsData.map((e) => e.id)
       )
     );
+    await appTest.utils.e2eAfterAll();
   });
 
   test("Should return the patent list", async () => {

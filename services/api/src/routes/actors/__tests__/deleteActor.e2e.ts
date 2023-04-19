@@ -10,7 +10,7 @@ describe("Delete Actor", () => {
     Test = GetAppTest();
 
     user = await saveUser(Test, ["admin:create"]);
-    const {authorization} = await loginUser(Test)(user);
+    const { authorization } = await loginUser(Test)(user);
     authorizationToken = authorization;
 
     actor = (
@@ -31,6 +31,8 @@ describe("Delete Actor", () => {
 
   afterAll(async () => {
     await throwTE(Test.ctx.db.delete(ActorEntity, [actor.id]));
+
+    await Test.utils.e2eAfterAll();
   });
 
   test("Should return a 401", async () => {

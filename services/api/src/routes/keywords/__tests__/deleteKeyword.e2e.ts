@@ -26,7 +26,7 @@ describe("Delete Keyword", () => {
 
   afterAll(async () => {
     await throwTE(Test.ctx.db.delete(KeywordEntity, [keyword.id]));
-    await throwTE(Test.ctx.db.close());
+    await Test.utils.e2eAfterAll();
   });
 
   test("Should return a 401", async () => {

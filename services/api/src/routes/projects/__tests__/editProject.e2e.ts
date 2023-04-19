@@ -49,6 +49,7 @@ describe("Edit Project ", () => {
         users.map((u) => u.id)
       )
     );
+    await appTest.utils.e2eAfterAll();
   });
 
   test("Should return a 200", async () => {

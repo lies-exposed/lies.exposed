@@ -7,13 +7,19 @@ import { LinkArb } from "@liexp/shared/lib/tests/arbitrary/Link.arbitrary";
 import { MediaArb } from "@liexp/shared/lib/tests/arbitrary/Media.arbitrary";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
-import { type AppTest, GetAppTest } from "../../../../test/AppTest";
-import { saveUser, loginUser, type UserTest } from "../../../../test/user.utils";
+import { GetAppTest, type AppTest } from "../../../../test/AppTest";
+import {
+  loginUser,
+  saveUser,
+  type UserTest,
+} from "../../../../test/user.utils";
 import { ActorEntity } from "@entities/Actor.entity";
 import { AreaEntity } from "@entities/Area.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
+import { LinkEntity } from "@entities/Link.entity";
+import { MediaEntity } from '@entities/Media.entity';
 
 describe("Edit Event", () => {
   let appTest: AppTest;
@@ -50,6 +56,8 @@ describe("Edit Event", () => {
     links: [],
     keywords: [],
   }));
+  let links: any[];
+  let media: any[];
 
   beforeAll(async () => {
     appTest = GetAppTest();
@@ -88,7 +96,9 @@ describe("Edit Event", () => {
     await throwTE(appTest.ctx.db.delete(GroupMemberEntity, [groupMember.id]));
     await throwTE(appTest.ctx.db.delete(ActorEntity, [actor.id]));
     await throwTE(appTest.ctx.db.delete(GroupEntity, [group.id]));
-    await throwTE(appTest.ctx.db.close());
+    await throwTE(appTest.ctx.db.delete(LinkEntity, links));
+    await throwTE(appTest.ctx.db.delete(MediaEntity, media));
+    await appTest.utils.e2eAfterAll();
   });
 
   test("Should receive an error when supporter tries to edit an event", async () => {
@@ -150,7 +160,7 @@ describe("Edit Event", () => {
   });
 
   test("Should add media to the event", async () => {
-    const media = fc
+    const mediaData = fc
       .sample(MediaArb, 2)
       .map(({ id, createdAt, updatedAt, ...image }) => image);
 
@@ -161,7 +171,7 @@ describe("Edit Event", () => {
         title: "Second edit",
       },
       date: new Date().toISOString(),
-      media,
+      media: mediaData,
     };
 
     const response = await appTest.req
@@ -189,6 +199,7 @@ describe("Edit Event", () => {
     });
 
     event = body;
+    media = body.media;
   });
 
   test("Should edit event links", async () => {
@@ -198,7 +209,7 @@ describe("Edit Event", () => {
       keywords: [],
     });
 
-    const links = fc
+    const linksData = fc
       .sample(LinkArb, 5)
       .map(({ provider, keywords, ...linkProps }) => ({
         ...linkProps,
@@ -212,7 +223,7 @@ describe("Edit Event", () => {
         title: "Event with links",
       },
       date: new Date().toISOString(),
-      links,
+      links: linksData,
     };
     const response = await appTest.req
       .put(`/v1/events/${event.id}`)
@@ -234,6 +245,7 @@ describe("Edit Event", () => {
     expect(body.links).toHaveLength(5);
 
     event = body;
+    links = body.links;
   });
 
   test("Should edit event actors", async () => {

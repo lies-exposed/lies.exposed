@@ -7,7 +7,7 @@ import { fc } from "@liexp/test";
 import * as A from "fp-ts/Array";
 import { pipe } from "fp-ts/function";
 import jwt from "jsonwebtoken";
-import { type AppTest, GetAppTest } from "../../../../test/AppTest";
+import { GetAppTest, type AppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
@@ -31,6 +31,8 @@ describe("Search Events", () => {
     links: [],
     keywords: [],
   }));
+
+  let events: any[];
 
   beforeAll(async () => {
     appTest = GetAppTest();
@@ -91,7 +93,7 @@ describe("Search Events", () => {
       }))
     );
 
-    const events: any[] = [
+    events = [
       ...groupMemberEvents,
       ...firstActorEvents,
       ...secondActorEvents,
@@ -106,6 +108,26 @@ describe("Search Events", () => {
       { id: "1" },
       appTest.ctx.env.JWT_SECRET
     )}`;
+  });
+
+  afterAll(async () => {
+    await throwTE(
+      appTest.ctx.db.delete(
+        EventV2Entity,
+        events.map((e) => e.id)
+      )
+    );
+    await throwTE(appTest.ctx.db.delete(GroupMemberEntity, [groupMember.id]));
+    await throwTE(
+      appTest.ctx.db.delete(ActorEntity, [firstActor.id, secondActor.id])
+    );
+    await throwTE(
+      appTest.ctx.db.delete(
+        GroupEntity,
+        groups.map((g) => g.id)
+      )
+    );
+    await appTest.utils.e2eAfterAll();
   });
 
   describe("Search by actors", () => {
@@ -184,23 +206,5 @@ describe("Search Events", () => {
     expect(response.status).toEqual(200);
 
     expect(totals.uncategorized).toBeLessThanOrEqual(totalEvents);
-  });
-
-  afterAll(async () => {
-    await throwTE(
-      appTest.ctx.db.delete(
-        EventV2Entity,
-        eventsData.map((e) => e.id)
-      )
-    );
-    await throwTE(appTest.ctx.db.delete(GroupMemberEntity, [groupMember.id]));
-    await throwTE(appTest.ctx.db.delete(ActorEntity, [firstActor.id]));
-    await throwTE(
-      appTest.ctx.db.delete(
-        GroupEntity,
-        groups.map((g) => g.id)
-      )
-    );
-    await throwTE(appTest.ctx.db.close());
   });
 });

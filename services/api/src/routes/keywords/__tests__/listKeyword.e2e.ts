@@ -36,6 +36,7 @@ describe("List Keywords", () => {
         keywords.map((a) => a.id)
       )
     );
+    await Test.utils.e2eAfterAll();
   });
 
   test("Should list keywords", async () => {

@@ -27,6 +27,8 @@ describe("Create Media", () => {
     // );
 
     await throwTE(Test.ctx.db.delete(MediaEntity, mediaIds));
+
+    await Test.utils.e2eAfterAll();
   });
 
   test("Should create a media", async () => {

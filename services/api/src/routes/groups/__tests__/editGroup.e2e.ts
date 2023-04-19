@@ -45,6 +45,7 @@ describe("Edit Group", () => {
         users.map((u) => u.id)
       )
     );
+    await appTest.utils.e2eAfterAll();
   });
 
   test("Should receive a 401 error", async () => {
