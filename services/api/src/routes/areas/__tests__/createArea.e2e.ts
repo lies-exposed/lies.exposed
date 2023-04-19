@@ -13,6 +13,10 @@ describe("Create Area", () => {
     authorizationToken = authorization;
   });
 
+  afterAll(async () => {
+    await Test.utils.e2eAfterAll();
+  });
+
   test("Should return a 401", async () => {
     const user = await saveUser(Test, ["admin:read"]);
     const { authorization } = await loginUser(Test)(user);

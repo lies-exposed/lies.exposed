@@ -1,15 +1,22 @@
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as tests from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
 import { loginUser, saveUser } from "../../../../test/user.utils";
+import { ActorEntity } from "@entities/Actor.entity";
 
 describe("Create Actor", () => {
-  let Test: AppTest, authorizationToken: string, user;
+  let Test: AppTest, authorizationToken: string, user, actor: any;
 
   beforeAll(async () => {
     Test = GetAppTest();
     user = await saveUser(Test, []);
     const { authorization } = await loginUser(Test)(user);
     authorizationToken = authorization;
+  });
+
+  afterAll(async () => {
+    await throwTE(Test.ctx.db.delete(ActorEntity, actor.id));
+    await Test.utils.e2eAfterAll();
   });
 
   test("Should return a 401 when Authorization header is not present", async () => {
@@ -72,5 +79,7 @@ describe("Create Actor", () => {
       });
 
     expect(response.status).toEqual(201);
+
+    actor = response.body.data;
   });
 });

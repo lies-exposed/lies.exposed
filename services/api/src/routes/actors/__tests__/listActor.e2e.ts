@@ -7,6 +7,7 @@ import { ActorEntity } from "@entities/Actor.entity";
 
 describe("List Actor", () => {
   let Test: AppTest, authorizationToken: string, actors: http.Actor.Actor[];
+
   beforeAll(async () => {
     Test = GetAppTest();
     authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
@@ -15,14 +16,16 @@ describe("List Actor", () => {
 
     actors = tests.fc.sample(ActorArb, 100);
 
-    await Test.ctx.db.save(
-      ActorEntity,
-      actors.map((a) => ({
-        ...a,
-        memberIn: [],
-        death: undefined,
-      }))
-    )();
+    await throwTE(
+      Test.ctx.db.save(
+        ActorEntity,
+        actors.map((a) => ({
+          ...a,
+          memberIn: [],
+          death: undefined,
+        }))
+      )
+    );
   });
 
   afterAll(async () => {
@@ -32,6 +35,8 @@ describe("List Actor", () => {
         actors.map((a) => a.id)
       )
     );
+
+    await Test.utils.e2eAfterAll();
   });
 
   test("Should return actors", async () => {
@@ -41,5 +46,6 @@ describe("List Actor", () => {
 
     expect(response.status).toEqual(200);
     expect(response.body.data).toHaveLength(20);
+    expect(response.body.total).toBe(100);
   });
 });

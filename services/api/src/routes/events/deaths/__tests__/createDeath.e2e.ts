@@ -10,7 +10,7 @@ import { UserEntity } from "@entities/User.entity";
 
 describe("Create Death Event", () => {
   let appTest: AppTest;
-    const users: any[] = [];
+  const users: any[] = [];
   const [actor] = fc.sample(ActorArb, 1);
 
   let deathEvent: EventV2Entity;
@@ -18,6 +18,18 @@ describe("Create Death Event", () => {
   beforeAll(async () => {
     appTest = GetAppTest();
     await throwTE(appTest.ctx.db.save(ActorEntity, [actor] as any[]));
+  });
+
+  afterAll(async () => {
+    await throwTE(appTest.ctx.db.delete(EventV2Entity, [deathEvent.id]));
+    await throwTE(appTest.ctx.db.delete(ActorEntity, [actor.id]));
+    await throwTE(
+      appTest.ctx.db.delete(
+        UserEntity,
+        users.map((u) => u.id)
+      )
+    );
+    await appTest.utils.e2eAfterAll();
   });
 
   test("Should create a death event", async () => {
@@ -63,14 +75,5 @@ describe("Create Death Event", () => {
   test.todo("Should create an event with actors");
   test.todo("Should create an event with group members");
 
-  afterAll(async () => {
-    await throwTE(appTest.ctx.db.delete(EventV2Entity, [deathEvent.id]));
-    await throwTE(appTest.ctx.db.delete(ActorEntity, [actor.id]));
-    await throwTE(
-      appTest.ctx.db.delete(
-        UserEntity,
-        users.map((u) => u.id)
-      )
-    );
-  });
+  
 });

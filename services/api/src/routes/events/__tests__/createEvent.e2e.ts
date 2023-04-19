@@ -9,7 +9,7 @@ import * as A from "fp-ts/Array";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { In } from "typeorm";
-import { type AppTest, GetAppTest } from "../../../../test/AppTest";
+import { GetAppTest, type AppTest } from "../../../../test/AppTest";
 import { loginUser, saveUser } from "../../../../test/user.utils";
 import { ActorEntity } from "@entities/Actor.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
@@ -38,6 +38,38 @@ describe("Create Event", () => {
     authorizationToken = authorization;
     await throwTE(appTest.ctx.db.save(ActorEntity, actors as any[]));
     await throwTE(appTest.ctx.db.save(KeywordEntity, keywords));
+  });
+
+  afterAll(async () => {
+    const evKeywords = await pipe(
+      appTest.ctx.db.find(EventV2Entity, {
+        loadRelationIds: {
+          relations: ["keywords"],
+        },
+        where: {
+          id: In(eventIds),
+        },
+      }),
+      TE.map((events) =>
+        events.reduce<string[]>(
+          (acc, e) => acc.concat(e.keywords as any[] as string[]),
+          []
+        )
+      ),
+      throwTE
+    );
+
+    await throwTE(appTest.ctx.db.delete(EventV2Entity, eventIds));
+    await throwTE(appTest.ctx.db.delete(ActorEntity, actorIds));
+    if (evKeywords.length) {
+      await throwTE(
+        appTest.ctx.db.delete(KeywordEntity, [
+          ...evKeywords,
+          ...keywords.map((k) => k.id),
+        ])
+      );
+    }
+    await appTest.utils.e2eAfterAll();
   });
 
   test("Should create an event", async () => {
@@ -126,36 +158,5 @@ describe("Create Event", () => {
     expect(decodedBody._tag).toEqual("Right");
     event = response.body.data;
     eventIds.push(event.id);
-  });
-
-  afterAll(async () => {
-    const keywords = await pipe(
-      appTest.ctx.db.find(EventV2Entity, {
-        loadRelationIds: {
-          relations: ["keywords"],
-        },
-        where: {
-          id: In(eventIds),
-        },
-      }),
-      TE.map((events) =>
-        events.reduce<string[]>(
-          (acc, e) => acc.concat(e.keywords as any[] as string[]),
-          []
-        )
-      ),
-      throwTE
-    );
-
-    await throwTE(appTest.ctx.db.delete(EventV2Entity, eventIds));
-    await throwTE(
-      appTest.ctx.db.delete(
-        ActorEntity,
-        actors.map((a) => a.id)
-      )
-    );
-    if (keywords.length) {
-      await throwTE(appTest.ctx.db.delete(KeywordEntity, keywords));
-    }
   });
 });

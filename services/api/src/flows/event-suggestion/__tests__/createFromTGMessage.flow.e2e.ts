@@ -49,6 +49,7 @@ describe("Create From TG Message", () => {
 
   afterAll(async () => {
     await throwTE(Test.ctx.db.delete(UserEntity, [admin.id]));
+    await Test.utils.e2eAfterAll();
     fs.rmSync(tempDir, { recursive: true });
   });
 
@@ -99,6 +100,7 @@ describe("Create From TG Message", () => {
         videos: [],
       });
 
+      await throwTE(Test.ctx.db.delete(LinkEntity, [expectedLink.id]));
       await throwTE(Test.ctx.db.delete(EventSuggestionEntity, [result.id]));
     });
 

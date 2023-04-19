@@ -7,11 +7,13 @@ import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary";
 import { HumanReadableStringArb } from "@liexp/shared/lib/tests/arbitrary/HumanReadableString.arbitrary";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
+import { In } from "typeorm";
 import { type AppTest, GetAppTest } from "../../../../../test/AppTest";
 import { loginUser, saveUser } from "../../../../../test/user.utils";
 import { ActorEntity } from "@entities/Actor.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
+import { LinkEntity } from "@entities/Link.entity";
 
 describe("Create Scientific Study", () => {
   let appTest: AppTest;
@@ -40,9 +42,28 @@ describe("Create Scientific Study", () => {
   });
 
   afterAll(async () => {
+    const ev: any[] = await throwTE(
+      appTest.ctx.db.find(EventV2Entity, {
+        where: { id: In(scientificStudyIds) },
+      })
+    );
     await throwTE(appTest.ctx.db.delete(EventV2Entity, scientificStudyIds));
     await throwTE(appTest.ctx.db.delete(ActorEntity, [actor.id]));
     await throwTE(appTest.ctx.db.delete(GroupEntity, [group.id]));
+    const ll = await throwTE(
+      appTest.ctx.db.find(LinkEntity, {
+        where: {
+          url: In(ev.map((e) => e.payload.url)),
+        },
+      })
+    );
+    await throwTE(
+      appTest.ctx.db.delete(
+        LinkEntity,
+        ll.map((l) => l.id)
+      )
+    );
+    await appTest.utils.e2eAfterAll();
   });
 
   test("Should create a scientific study from url", async () => {

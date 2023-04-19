@@ -23,6 +23,7 @@ describe("Create Keyword", () => {
 
   afterAll(async () => {
     await throwTE(Test.ctx.db.delete(KeywordEntity, keyword.id));
+    await Test.utils.e2eAfterAll();
   });
 
   test("Should return a 401 when no Authorization header is present", async () => {

@@ -6,5 +6,5 @@ moduleAlias(path.resolve(__dirname, "../package.json"));
 
 
 export default async (): Promise<void> => {
-  return Promise.resolve()
+  await Promise.resolve()
 };

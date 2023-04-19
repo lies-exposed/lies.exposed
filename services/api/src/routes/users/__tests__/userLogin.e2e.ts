@@ -32,6 +32,10 @@ describe("User login", () => {
     );
   });
 
+  afterAll(async () => {
+    await Test.utils.e2eAfterAll();
+  });
+
   test("Should give an error for user not yet 'Approved'", async () => {
     const response = await Test.req.post("/v1/users/login").send({
       username,
@@ -55,7 +59,6 @@ describe("User login", () => {
   });
 
   test("Should return the access token", async () => {
-
     const response = await Test.req.post("/v1/users/login").send({
       username,
       password: "my-real-secure-password",

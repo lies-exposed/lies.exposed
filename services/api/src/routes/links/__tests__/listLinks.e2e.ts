@@ -2,9 +2,11 @@ import { type http } from "@liexp/shared/lib/io";
 import { LinkArb, UncategorizedArb } from "@liexp/shared/lib/tests";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as tests from "@liexp/test";
+import { In } from "typeorm";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { LinkEntity } from "@entities/Link.entity";
+import { MediaEntity } from "@entities/Media.entity";
 
 describe("List Links", () => {
   let Test: AppTest, authorizationToken: string, links: http.Link.Link[];
@@ -26,13 +28,24 @@ describe("List Links", () => {
   });
 
   afterAll(async () => {
-    await throwTE(
-      Test.ctx.db.delete(
-        LinkEntity,
-        links.map((a) => a.id)
-      )
+    const ll = await throwTE(
+      Test.ctx.db.find(LinkEntity, {
+        where: {
+          id: In(links.map((l) => l.id)),
+        },
+        loadRelationIds: { relations: ["image"] },
+      })
     );
-    await throwTE(Test.ctx.db.close());
+    await Promise.all(
+      ll.map(async (l) => {
+        await throwTE(Test.ctx.db.delete(LinkEntity, [l.id]));
+        if (l.image) {
+          await throwTE(Test.ctx.db.delete(MediaEntity, [l.image as any]));
+        }
+      })
+    );
+
+    await Test.utils.e2eAfterAll();
   });
 
   test("Should return links", async () => {

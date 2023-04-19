@@ -25,7 +25,7 @@ describe("GET User Me", () => {
           passwordHash: adminPassword,
           email: adminUsername,
           permissions: ["admin:read"],
-          status: 'Approved',
+          status: "Approved",
           firstName: fc.sample(fc.string())[0],
           lastName: fc.sample(fc.string())[0],
         },
@@ -34,7 +34,7 @@ describe("GET User Me", () => {
           username: supporterUsername,
           passwordHash: supporterPassword,
           email: supporterUsername,
-          status: 'Approved',
+          status: "Approved",
           firstName: fc.sample(fc.string())[0],
           lastName: fc.sample(fc.string())[0],
         },
@@ -44,6 +44,8 @@ describe("GET User Me", () => {
 
   afterAll(async () => {
     await throwTE(Test.ctx.db.delete(UserEntity, [adminId, supporterId]));
+
+    await Test.utils.e2eAfterAll();
   });
 
   test("Should return 401 when no authorization token is given", async () => {

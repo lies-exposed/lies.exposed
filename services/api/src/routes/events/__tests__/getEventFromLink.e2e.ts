@@ -85,7 +85,6 @@ describe("Get event from link", () => {
         groups.map((g) => g.id)
       )
     );
-    await throwTE(appTest.ctx.db.close());
   });
 
   test.skip("Return events sorted by score", async () => {
