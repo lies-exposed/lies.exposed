@@ -18,6 +18,7 @@ import * as QuoteEvent from "./events/quote.endpoints";
 import * as Transaction from "./events/transactions.endpoints";
 import * as Graph from "./graph.endpoints";
 import * as Group from "./group.endpoints";
+import * as Healthcheck from "./healthcheck.endpoints";
 import * as Keyword from "./keyword.endpoints";
 import * as Link from "./link.endpoints";
 import * as Media from "./media.endpoints";
@@ -27,16 +28,23 @@ import * as ScientificStudy from "./scientificStudy.endpoint";
 import * as Uploads from "./upload.endpoints";
 
 const Endpoints = {
+  // admin
   Admin: Admins.admin,
+  // user
+  User: User.users,
+  // data resources
   Actor: Actor.actors,
   Area: Area.areas,
-  Article: Article.articles,
-  Graph: Graph.graphs,
   Group: Group.groups,
   GroupMember: GroupMember.groupsMembers,
   Media: Media.media,
   Keyword: Keyword.keywords,
   Link: Link.links,
+
+  // stories
+  Article: Article.articles,
+  Graph: Graph.graphs,
+
   // events
   Event: Event.events,
   DeathEvent: DeathEvent.deaths,
@@ -52,8 +60,8 @@ const Endpoints = {
   ProjectImage: ProjectImage.projectImages,
   Stats: Stats.stats,
   Networks: Networks.networks,
+  Healthcheck: Healthcheck.healthcheck
   // Uploads: Uploads.uploads,
-  User: User.users,
 };
 
 type Endpoints = typeof Endpoints;
