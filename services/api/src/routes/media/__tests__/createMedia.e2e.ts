@@ -4,6 +4,7 @@ import * as tests from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
 import { loginUser, saveUser } from "../../../../test/user.utils";
 import { MediaEntity } from "@entities/Media.entity";
+import { UserEntity } from "@entities/User.entity";
 
 describe("Create Media", () => {
   let Test: AppTest, authorizationToken: string;
@@ -27,6 +28,12 @@ describe("Create Media", () => {
     // );
 
     await throwTE(Test.ctx.db.delete(MediaEntity, mediaIds));
+    await throwTE(
+      Test.ctx.db.delete(
+        UserEntity,
+        users.map((u) => u.id)
+      )
+    );
 
     await Test.utils.e2eAfterAll();
   });
