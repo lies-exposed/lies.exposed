@@ -143,4 +143,4 @@ jobs:
           context: .
           file: ./api.Dockerfile
           push: false
-          tag: $API_IMAGE_NAME
+          tags: ${{ env.API_IMAGE_NAME }}
