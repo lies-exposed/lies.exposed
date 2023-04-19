@@ -8,7 +8,6 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { IOError } from "ts-io-error";
 import {
-  type Connection,
   type DataSource,
   type DeepPartial,
   type DeleteResult,
@@ -86,7 +85,7 @@ interface DatabaseClient {
 }
 
 interface GetDatabaseClientCtx {
-  connection: Connection;
+  connection: DataSource;
   logger: logger.Logger;
 }
 
@@ -175,11 +174,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       );
     },
     find: (entity, options) => {
-      ctx.logger.debug.log(
-        `find %s with options %O`,
-        entity,
-        options
-      );
+      ctx.logger.debug.log(`find %s with options %O`, entity, options);
       return TE.tryCatch(
         () => ctx.connection.manager.find(entity, options),
         handleError()
@@ -274,7 +269,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
         TE.chain(TE.fromEither)
       );
     },
-    close: () => TE.tryCatch(() => ctx.connection.close(), handleError()),
+    close: () => TE.tryCatch(() => ctx.connection.destroy(), handleError()),
   };
 };
 
@@ -295,7 +290,6 @@ const MakeDatabaseClient: MakeDatabaseClient =
     const getConnection = (
       dataSource: DataSource
     ): TE.TaskEither<DBError, DataSource> => {
-
       if (dataSource.isInitialized) {
         logger.debug.log(
           "The connection is already present in connection manager..."

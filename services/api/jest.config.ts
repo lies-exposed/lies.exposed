@@ -44,6 +44,7 @@ const config: Config = {
   setupFilesAfterEnv: ["<rootDir>/jest.setup-after-env.ts"],
   globalSetup: "<rootDir>/test/globalSetup.ts",
   globalTeardown: "<rootDir>/test/globalTeardown.ts",
+  workerIdleMemoryLimit: 1000
 };
 
 export default config;

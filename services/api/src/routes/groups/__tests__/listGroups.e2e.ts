@@ -64,6 +64,7 @@ describe("List Groups", () => {
         groups.map((g) => g.id)
       )
     );
+    await appTest.utils.e2eAfterAll();
   });
 
   test("Should return all groups", async () => {

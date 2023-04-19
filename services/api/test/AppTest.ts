@@ -1,5 +1,3 @@
-import { toControllerError } from "@io/ControllerError";
-import { ENV } from "@io/ENV";
 import { GetLogger } from "@liexp/core/lib/logger";
 import { GetFSClient } from "@liexp/shared/lib/providers/fs/fs.provider";
 import { HTTP } from "@liexp/shared/lib/providers/http/http.provider";
@@ -8,25 +6,39 @@ import { GetTypeORMClient } from "@liexp/shared/lib/providers/orm";
 import { GetPuppeteerProvider } from "@liexp/shared/lib/providers/puppeteer.provider";
 import { MakeSpaceClient } from "@liexp/shared/lib/providers/space/SpaceClient";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { getDataSource } from "@utils/data-source";
 import D from "debug";
 import { sequenceS } from "fp-ts/Apply";
-import { pipe } from "fp-ts/function";
 import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import supertest from "supertest";
-import { DataSource } from "typeorm";
-import { RouteContext } from "../src/routes/route.types";
-import { makeApp } from "../src/server";
+import {
+  type EntityTarget,
+  type DataSource,
+  type ObjectLiteral,
+} from "typeorm";
 import { awsMock } from "../__mocks__/aws.mock";
 import puppeteerMocks from "../__mocks__/puppeteer.mock";
 import { tgProviderMock } from "../__mocks__/tg.mock";
-import { mocks, AppMocks } from "./mocks";
+import { type RouteContext } from "../src/routes/route.types";
+import { makeApp } from "../src/server";
+import { type AppMocks, mocks } from "./mocks";
+import { ActorEntity } from "@entities/Actor.entity";
+import { EventV2Entity } from "@entities/Event.v2.entity";
+import { GroupEntity } from "@entities/Group.entity";
+import { KeywordEntity } from "@entities/Keyword.entity";
+import { LinkEntity } from "@entities/Link.entity";
+import { MediaEntity } from "@entities/Media.entity";
+import { toControllerError } from "@io/ControllerError";
+import { ENV } from "@io/ENV";
+import { getDataSource } from "@utils/data-source";
 
 export interface AppTest {
   ctx: RouteContext;
   mocks: AppMocks;
   req: supertest.SuperTest<supertest.Test>;
-  utils: {};
+  utils: {
+    e2eAfterAll: () => Promise<boolean>;
+  };
 }
 
 export const GetAppTest = (): AppTest => {
@@ -99,7 +111,41 @@ export const initAppTest = async (): Promise<AppTest> => {
     TE.map((ctx) => ({
       ctx,
       mocks,
-      utils: {},
+      utils: {
+        e2eAfterAll: () => {
+          const liftFind = <E extends ObjectLiteral>(
+            e: EntityTarget<E>
+          ): TE.TaskEither<Error, boolean> =>
+            pipe(
+              ctx.db.findAndCount(e, {}),
+              TE.filterOrElse(
+                ([ents, count]) => count === 0,
+                ([ents, count]) =>
+                  new Error(`Entity ${(e as any).name} contains ${count}`)
+              ),
+              TE.map(([ents, count]) => true)
+            );
+
+          return pipe(
+            sequenceS(TE.ApplicativePar)({
+              link: liftFind(LinkEntity),
+              media: liftFind(MediaEntity),
+              keyword: liftFind(KeywordEntity),
+              actor: liftFind(ActorEntity),
+              group: liftFind(GroupEntity),
+              event: liftFind(EventV2Entity),
+            }),
+            TE.map(({ media, actor }) => media && actor),
+            // TE.chainFirst(() => TE.mapLeft((e) => e)(ctx.db.close())),
+            TE.chainFirst(() => {
+              return TE.fromIO(() => {
+                global.gc?.();
+              });
+            }),
+            throwTE
+          );
+        },
+      },
       req: supertest(makeApp(ctx)),
     })),
     TE.map((appTest) => {

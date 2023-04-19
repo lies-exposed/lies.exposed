@@ -57,6 +57,7 @@ describe("List Group Member", () => {
         actors.map((a) => a.id)
       )
     );
+    await Test.utils.e2eAfterAll();
   });
 
   test("Should return group member by given search", async () => {

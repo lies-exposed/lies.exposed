@@ -55,6 +55,7 @@ describe("Create Group Member", () => {
         actors.map((a) => a.id)
       )
     );
+    await Test.utils.e2eAfterAll();
   });
 
   test("Should return a 401", async () => {

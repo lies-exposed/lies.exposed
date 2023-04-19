@@ -4,7 +4,7 @@ import { fc } from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../../test/AppTest";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 
-describe("Get Patent List", () => {
+describe("Get Transaction List", () => {
   let appTest: AppTest;
   const eventsData = fc.sample(PatentEventArb, 100).map((e) => ({
     ...e,

@@ -25,7 +25,7 @@ describe("User List", () => {
           passwordHash: adminPassword,
           email: adminUsername,
           permissions: ["admin:read"],
-          status: 'Approved',
+          status: "Approved",
           firstName: fc.sample(fc.string())[0],
           lastName: fc.sample(fc.string())[0],
         },
@@ -34,12 +34,16 @@ describe("User List", () => {
           username: supporterUsername,
           passwordHash: supporterPassword,
           email: supporterUsername,
-          status: 'Approved',
+          status: "Approved",
           firstName: fc.sample(fc.string())[0],
           lastName: fc.sample(fc.string())[0],
         },
       ])
     );
+  });
+
+  afterAll(async () => {
+    await Test.utils.e2eAfterAll();
   });
 
   test("Should return 200", async () => {
