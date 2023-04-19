@@ -25,7 +25,8 @@ import puppeteer from "puppeteer-core";
 import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
 import {
   DecodeError,
-  toControllerError, type ControllerError
+  toControllerError,
+  type ControllerError,
 } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
 import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.routes";
@@ -43,6 +44,7 @@ import { MakeTransactionEventsRoutes } from "@routes/events/transactions/transac
 import { MakeGraphsRoute } from "@routes/graphs/getGraph.controller";
 import { MakeGroupRoutes } from "@routes/groups/groups.route";
 import { MakeGroupMemberRoutes } from "@routes/groups-members/GroupMember.route";
+import { MakeHealthcheckRoutes } from "@routes/healthcheck/healthcheck.routes";
 import { MakeKeywordRoutes } from "@routes/keywords/keywords.routes";
 import { MakeLinkRoutes } from "@routes/links/LinkRoute.route";
 import { MakeMediaRoutes } from "@routes/media/media.routes";
@@ -72,7 +74,6 @@ export const makeContext = (
     E.mapLeft((e) => DecodeError(`Failed to decode process env`, e)),
     TE.fromEither,
     TE.chain((env) => {
-
       const s3 =
         env.NODE_ENV === "development" || env.NODE_ENV === "test"
           ? S3Client.GetS3Client({
@@ -167,6 +168,9 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   // app.use(express.static(mediaPath));
 
   const router = express.Router();
+
+  // healthcheck
+  MakeHealthcheckRoutes(router, ctx);
 
   // users
   MakeUserRoutes(router, ctx);

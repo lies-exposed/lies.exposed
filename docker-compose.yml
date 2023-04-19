@@ -1,7 +1,6 @@
 version: "3.7"
 
 services:
-
   db-test:
     image: postgres:14
     ports:
@@ -58,6 +57,7 @@ services:
       DEBUG: "@liexp*"
       DB_HOST: db
       DB_PORT: 5432
+      API_PORT: 4010
       DEV_DATA_HOST: http://localhost:9007
     depends_on:
       - db
@@ -70,6 +70,12 @@ services:
     tty: true
     stdin_open: true
     working_dir: /app/services/api
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4010/v1/healthcheck"]
+      interval: 10s
+      timeout: 20s
+      retries: 10
+      start_period: 15s
     command: yarn develop --delay 80ms
     restart: always
     mem_limit: 1024mb

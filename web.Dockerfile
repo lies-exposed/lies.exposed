@@ -18,6 +18,8 @@ COPY packages/@liexp/ui ./packages/@liexp/ui
 
 COPY services/web ./services/web
 
+RUN yarn config set --home enableTelemetry false
+
 RUN yarn
 
 RUN yarn packages:build
@@ -54,6 +56,8 @@ COPY --from=build /app/services/web/.env /app/services/web/.env
 
 RUN rm -rf /app/services/web/node_modules \
     rm -rf /app/node_modules
+
+RUN yarn config set --home enableTelemetry false
 
 RUN yarn workspaces focus web --production
 

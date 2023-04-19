@@ -27,10 +27,10 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     mkdir -p ./temp/tg/messages
 
     chown -R pptruser:pptruser ./temp
-    docker-compose pull
+    docker compose pull
     export API_UID=$(id pptruser -u)
     export API_GID=$(id pptruser -g)
-    docker-compose up --build --force-recreate -d
+    docker compose up --build --force-recreate -d --wait
     docker system prune -f
     docker compose run --name api-migration api yarn migration:run > migration.txt
     docker compose run --rm api yarn upsert-nlp-entities
