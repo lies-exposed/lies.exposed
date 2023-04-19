@@ -83,4 +83,4 @@ jobs:
           context: .
           file: ./web.Dockerfile
           push: false
-          tag: $WEB_IMAGE_NAME
+          tags: $WEB_IMAGE_NAME
