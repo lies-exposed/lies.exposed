@@ -98,6 +98,7 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
   },
   [`.${classes.tabPanel}`]: {
     height: "100%",
+    maxHeight: '100%'
   },
 }));
 

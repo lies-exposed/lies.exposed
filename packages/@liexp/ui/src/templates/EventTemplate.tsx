@@ -232,16 +232,19 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                 ]}
                 resource={{ name: "events", item: event }}
               >
-                <EventPageContent
-                  event={event}
-                  onDateClick={onDateClick}
-                  onGroupClick={onGroupClick}
-                  onKeywordClick={onKeywordClick}
-                  onActorClick={onActorClick}
-                  onGroupMemberClick={(g) => {}}
-                  onLinkClick={() => {}}
-                  onAreaClick={(a) => {}}
-                />
+                <Grid item lg={8} md={8} sm={12} style={{ height: "100%" }}>
+                  <EventPageContent
+                    event={event}
+                    onDateClick={onDateClick}
+                    onGroupClick={onGroupClick}
+                    onKeywordClick={onKeywordClick}
+                    onActorClick={onActorClick}
+                    onGroupMemberClick={(g) => {}}
+                    onLinkClick={() => {}}
+                    onAreaClick={(a) => {}}
+                  />
+                </Grid>
+
                 <Box style={{ height: "100%" }}>
                   <EventNetworkGraphBoxWithFilters
                     type="events"

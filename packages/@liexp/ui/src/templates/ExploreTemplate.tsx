@@ -321,7 +321,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                     );
                   }}
                 />
-                <Box style={{ height: "100%" }}>
+                <Box style={{ maxHeight: "100%" }}>
                   <EventNetworkGraphBox
                     relations={relations}
                     onRelationsChange={setRelations}
