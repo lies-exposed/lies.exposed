@@ -9,6 +9,7 @@ import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
 import { WebPreviewButton } from "@liexp/ui/lib/components/admin/common/WebPreviewButton";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
+import { LexicalInput } from "@liexp/ui/lib/components/admin/common/inputs/LexicalInput";
 import { CreateEventButton } from "@liexp/ui/lib/components/admin/events/CreateEventButton";
 import ReferenceManyEventField from "@liexp/ui/lib/components/admin/events/ReferenceManyEventField";
 import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceGroupInput";
@@ -77,7 +78,7 @@ export const ActorList: React.FC = () => (
 const transformActor =
   (dataProvider: DataProvider<string>) =>
   async (id: string, data: RaRecord): Promise<RaRecord> => {
-    if (data._from === 'url') {
+    if (data._from === "url") {
       return data;
     }
     const imagesTask = data.avatar?.rawFile
@@ -150,6 +151,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
         </FormTab>
 
         <FormTab label="Content">
+          <LexicalInput source="bodyV2" />
           <ReactPageInput source="body" />
         </FormTab>
 

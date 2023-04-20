@@ -1,4 +1,3 @@
-
 import "reflect-metadata";
 import * as fs from "fs";
 import * as path from "path";
@@ -17,10 +16,10 @@ import { PageEntity } from "@entities/Page.entity";
 import { ProjectEntity } from "@entities/Project.entity";
 import { ProjectImageEntity } from "@entities/ProjectImage.entity";
 import { UserEntity } from "@entities/User.entity";
-import { DeathEventEntity } from "@entities/archive/DeathEvent.entity";
-import { EventEntity } from "@entities/archive/Event.entity";
-import { MediaV1Entity } from "@entities/archive/Media.v1.entity";
-import { ScientificStudyEntity } from "@entities/archive/ScientificStudy.entity";
+// import { DeathEventEntity } from "@entities/archive/DeathEvent.entity";
+// import { EventEntity } from "@entities/archive/Event.entity";
+// import { MediaV1Entity } from "@entities/archive/Media.v1.entity";
+// import { ScientificStudyEntity } from "@entities/archive/ScientificStudy.entity";
 import { type ENV } from "@io/ENV";
 
 export const getDataSource = (
@@ -44,15 +43,15 @@ export const getDataSource = (
     database: env.DB_DATABASE,
     port: env.DB_PORT,
     entities: [
-      ...(includeOldEntities
-        ? [
-            // old
-            EventEntity,
-            DeathEventEntity,
-            ScientificStudyEntity,
-            MediaV1Entity,
-          ]
-        : []),
+      // ...(includeOldEntities
+      //   ? [
+      //       // old
+      //       EventEntity,
+      //       DeathEventEntity,
+      //       ScientificStudyEntity,
+      //       MediaV1Entity,
+      //     ]
+      //   : []),
 
       // current
       PageEntity,
@@ -70,7 +69,10 @@ export const getDataSource = (
       UserEntity,
       EventSuggestionEntity,
     ],
+    logging: ["migration", "log"],
     synchronize: env.NODE_ENV === "test",
+    migrationsRun: env.NODE_ENV === "test",
+    poolSize: 5,
     ssl,
     migrations: [`${process.cwd()}/build/migrations/*.js`],
   });

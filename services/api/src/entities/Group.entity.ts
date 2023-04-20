@@ -46,6 +46,9 @@ export class GroupEntity {
   @Column({ type: "json", nullable: true })
   body: Record<string, unknown> | null;
 
+  @Column({ type: "json", nullable: true })
+  bodyV2: Record<string, unknown> | null;
+
   @OneToMany(() => GroupMemberEntity, (member) => member.group, {
     nullable: true,
     cascade: true,

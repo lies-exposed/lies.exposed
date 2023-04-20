@@ -47,6 +47,9 @@ export class ActorEntity {
   @Column({ type: "json", nullable: true })
   body: Record<string, unknown> | null;
 
+  @Column({ type: "json", nullable: true })
+  bodyV2: Record<string, unknown> | null;
+
   @CreateDateColumn()
   createdAt: Date;
 

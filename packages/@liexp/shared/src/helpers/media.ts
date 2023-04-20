@@ -172,7 +172,6 @@ export const getPlatform = (
 
   const peertubeEmbedMatch = url.match(peertubeEmbedVideoRegExp);
 
-
   if (
     typeof peertubeEmbedMatch?.[1] === "string" &&
     typeof peertubeEmbedMatch?.[2] === "string"
@@ -225,9 +224,11 @@ export const parsePlatformURL = (url: URL): E.Either<Error, URL> => {
   );
 };
 
-export const parseURL = (
-  url: string
-): E.Either<Error, { type: MediaType; location: string }> => {
+export interface ParseURLResult {
+  type: MediaType;
+  location: string;
+}
+export const parseURL = (url: string): E.Either<Error, ParseURLResult> => {
   if (url.includes(".jpg") ?? url.includes(".jpeg")) {
     return E.right({
       type: MediaType.types[1].value,

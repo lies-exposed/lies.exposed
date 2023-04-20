@@ -4,7 +4,7 @@
     "outDir": "build",
     "module": "esnext",
     "moduleResolution": "node",
-    "target": "es5",
+    "target": "ESNext",
     "jsx": "react",
     "noEmit": false,
     "allowJs": true,

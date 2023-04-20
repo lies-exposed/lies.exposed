@@ -59,10 +59,10 @@ export class UserEntity {
   @OneToMany(() => LinkEntity, (l) => l.creator)
   links: LinkEntity[];
 
-  @OneToMany(() => MediaEntity, (m) => m.creator)
+  @OneToMany(() => MediaEntity, (m) => m.creator, { cascade: false })
   media: MediaEntity[];
 
-  @OneToMany(() => ArticleEntity, (a) => a.creator)
+  @OneToMany(() => ArticleEntity, (a) => a.creator, { cascade: false })
   articles: ArticleEntity[];
 
   @CreateDateColumn()

@@ -4,7 +4,7 @@
     "outDir": "build",
     "module": "esnext",
     "moduleResolution": "node",
-    "target": "es6",
+    "target": "esnext",
     "jsx": "react",
     "noEmit": false,
     "allowJs": true,
@@ -37,7 +37,7 @@
     "require": ["tsconfig-paths/register"],
     "transpileOnly": true,
     "compilerOptions": {
-      "module": "CommonJS",
+      "module": "NodeNext",
       "moduleResolution": "node",
       "esModuleInterop": true
     }

@@ -1,26 +1,12 @@
 import { clsx } from "clsx";
-import * as O from "fp-ts/Option";
-import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { styled } from "../theme";
 import DonateButton from "./Common/Button/DonateButton";
 import SuggestLinkButton from "./Common/Button/SuggestLinkButton";
+import { DropDown, DropDownItem } from "./Common/DropDown";
 import { TelegramIcon } from "./Common/Icons";
 import GithubButton from "./GithubButton";
-import {
-  AppBar,
-  Box,
-  Button,
-  ClickAwayListener,
-  Grow,
-  Link,
-  MenuItem,
-  MenuList,
-  Paper,
-  Popper,
-  Toolbar,
-  Typography,
-} from "./mui";
+import { AppBar, Box, Button, Link, Toolbar, Typography } from "./mui";
 
 const PREFIX = "Header";
 
@@ -99,7 +85,7 @@ interface View {
 }
 
 export interface HeaderMenuItem extends View {
-  label: React.ReactNode;
+  label: React.ReactElement | React.ReactNode;
   subItems: Array<Omit<HeaderMenuItem, "subItems">>;
 }
 
@@ -166,55 +152,6 @@ const Header: React.FC<HeaderProps> = ({
     },
   };
 
-  const [open, setOpen] = React.useState(false);
-  const [anchorRef, setAnchorRef] =
-    React.useState<React.RefObject<HTMLButtonElement> | null>(
-      React.useRef<HTMLButtonElement>(null)
-    );
-  const [selectedMenuItem, setSelectedMenuItem] =
-    React.useState<HeaderMenuItem | null>(null);
-
-  const handleToggle = (
-    ref: React.RefObject<HTMLButtonElement> | null,
-    m: HeaderMenuItem
-  ): void => {
-    if (m.subItems.length > 0) {
-      setOpen((prevOpen) => !prevOpen);
-      setAnchorRef(ref);
-      setSelectedMenuItem(m);
-    } else {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      onMenuItemClick(m);
-    }
-  };
-
-  const handleClose = (event: React.MouseEvent | React.TouchEvent): void => {
-    if (anchorRef?.current?.contains(event.target as HTMLElement)) {
-      return;
-    }
-
-    setOpen(false);
-  };
-
-  function handleListKeyDown(
-    event: React.KeyboardEvent<HTMLUListElement>
-  ): void {
-    if (event.key === "Tab") {
-      event.preventDefault();
-      setOpen(false);
-    }
-  }
-
-  // return focus to the button when we transitioned from !open -> open
-  const prevOpen = React.useRef(open);
-  React.useEffect((): void => {
-    if (prevOpen.current && !open && anchorRef) {
-      anchorRef.current?.focus();
-    }
-
-    prevOpen.current = open;
-  }, [open]);
-
   return (
     <StyledAppBar className={classes.appBar} position="fixed">
       <Toolbar>
@@ -247,73 +184,31 @@ const Header: React.FC<HeaderProps> = ({
 
         {menu.map((m) => {
           return (
-            <HeaderMenuItem
-              key={m.view}
-              item={m}
-              className={classes.menuItem}
-              currentView={pathname}
-              open={open}
-              onClick={handleToggle}
-            />
-          );
-        })}
-
-        {pipe(
-          O.fromNullable(selectedMenuItem),
-          O.map((m): JSX.Element | null => (
-            // eslint-disable-next-line react/jsx-key
-            <Popper
-              open={open}
-              anchorEl={anchorRef?.current}
-              role={undefined}
-              transition
-              disablePortal
-            >
-              {({ TransitionProps, placement }) => (
-                <Grow
-                  {...TransitionProps}
-                  style={{
-                    transformOrigin:
-                      placement === "bottom" ? "center top" : "center bottom",
-                  }}
-                >
-                  <Paper>
-                    <ClickAwayListener
-                      onClickAway={(e) => {
-                        handleClose(e as any);
+            <DropDown key={m.view} className={classes.menuItem} label={m.label as any}>
+              {({ onClose }) => (
+                <>
+                  {m.subItems.map((i) => (
+                    <DropDownItem
+                      key={i.view}
+                      onClick={(e) => {
+                        onClose(e);
+                        onMenuItemClick({ subItems: [], ...i });
                       }}
                     >
-                      <MenuList
-                        autoFocusItem={open}
-                        id={`menu-list-${m.view}`}
-                        onKeyDown={handleListKeyDown}
+                      <Typography
+                        key={i.view}
+                        variant="h6"
+                        className={classes.menuItemLink}
                       >
-                        {m.subItems.map((item) => (
-                          <MenuItem
-                            key={item.view}
-                            className={classes.menuItem}
-                            onClick={(e) => {
-                              handleClose(e as any);
-                              onMenuItemClick({ subItems: [], ...item });
-                            }}
-                          >
-                            <Typography
-                              variant="h6"
-                              className={classes.menuItemLink}
-                            >
-                              {item.label}
-                            </Typography>
-                          </MenuItem>
-                        ))}
-                      </MenuList>
-                    </ClickAwayListener>
-                  </Paper>
-                </Grow>
+                        {i.label}
+                      </Typography>
+                    </DropDownItem>
+                  ))}
+                </>
               )}
-            </Popper>
-          )),
-          O.toNullable
-        )}
+            </DropDown>
+          );
+        })}
       </Toolbar>
     </StyledAppBar>
   );

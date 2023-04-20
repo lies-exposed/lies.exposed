@@ -51,6 +51,7 @@ export const Actor = t.strict(
     death: t.union([t.undefined, t.string]),
     excerpt: t.union([t.UnknownRecord, t.null]),
     body: t.union([t.UnknownRecord, t.null]),
+    bodyV2: t.union([t.UnknownRecord, t.null, t.undefined]),
   },
   "Actor"
 );

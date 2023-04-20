@@ -30,6 +30,12 @@
     "cheerio": "^1.0.0-rc.12",
     "date-fns": "^2.30.0",
     "domino": "^2.1.6",
+<<<<<<< HEAD
+=======
+    "escape-html": "^1.0.3",
+    "fast-csv": "^4.3.6",
+    "fluent-ffmpeg": "^2.1.2",
+>>>>>>> 82120fd3 (feat(ui): lexical editor in new entities property 'bodyV2')
     "fp-ts": "^2.13.1",
     "io-ts": "^2.2.20",
     "io-ts-types": "^0.5.19",
@@ -43,6 +49,7 @@
   },
   "devDependencies": {
     "@types/bs58": "^4.0.1",
+    "@types/escape-html": "^1",
     "@types/fluent-ffmpeg": "^2.1.21",
     "@types/jest": "^29.5.1",
     "@types/jsonwebtoken": "^9.0.2",

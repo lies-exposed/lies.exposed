@@ -6,6 +6,7 @@ module.exports = {
       {
         targets: {
           chrome: 100,
+          node: "current"
         },
       },
     ],
