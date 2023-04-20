@@ -8,7 +8,6 @@ import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { styled } from "../../../theme";
 import { EventIcon } from "../../Common/Icons";
-import { LinksBox } from "../../LinksBox";
 import { Box, Grid, Link, Typography } from "../../mui";
 import { MediaSlider } from "../../sliders/MediaSlider";
 import KeywordList from "../KeywordList";
@@ -162,27 +161,6 @@ const EventListItemBase = <E extends any>({
           </Typography>
         </Box>
       ) : null}
-      {pipe(
-        links,
-        O.fromPredicate(A.isNonEmpty),
-        O.fold(
-          () => null,
-          (ll) => (
-            <Grid item lg={12} md={12} sm={12} xs={12}>
-              <LinksBox
-                filter={{ ids: ll }}
-                onOpen={() => {
-                  onRowInvalidate(event);
-                }}
-                onClose={() => {
-                  onRowInvalidate(event);
-                }}
-                onItemClick={() => {}}
-              />
-            </Grid>
-          )
-        )
-      )}
     </StyledGrid>
   );
 };
