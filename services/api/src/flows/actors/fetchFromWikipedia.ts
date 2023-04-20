@@ -16,19 +16,34 @@ export const fetchFromWikipedia =
       ctx.puppeteer.getBrowserFirstPage(url, {}),
       TE.chain((page) => {
         return TE.tryCatch(async () => {
-          const fullName = await page.$eval(
-            "#mw-content-text .mw-parser-output p:nth-of-type(2) b",
-            (el) => el.innerText
+          const lastParagraph = await page.$(
+            "#mw-content-text .mw-parser-output p:nth-of-type(2) b"
           );
+          let fullName: string;
+          if (lastParagraph) {
+            fullName = await page.$eval(
+              "#mw-content-text .mw-parser-output p:nth-of-type(2) b",
+              (el) => el.innerText
+            );
+          } else {
+            fullName = await page.$eval(
+              "#mw-content-text .mw-parser-output p:nth-of-type(1) b",
+              (el) => el?.innerText
+            );
+          }
           const excerpt = await page.$eval(
             "#mw-content-text .mw-parser-output p:nth-of-type(2)",
-            (el) => el.innerText
+            (el) => el?.innerText
           );
 
-          const avatar = await page.$eval(
-            ".infobox-image > a > img",
-            (el) => el.src
-          );
+          const avatarNode = await page.$(".infobox-image > a > img");
+          let avatar: string | undefined;
+          if (avatarNode) {
+            avatar = await page.$eval(
+              ".infobox-image > a > img",
+              (el) => el?.src
+            );
+          }
 
           const actor = {
             fullName,
