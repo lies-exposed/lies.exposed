@@ -143,7 +143,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
           build: mode === "development",
           configFile:
             opts.tsConfigFile ?? path.resolve(opts.cwd, "tsconfig.json"),
-          mode: mode === "development" ? "write-references" : "readonly",
+          mode: "readonly",
         },
       })
     );
@@ -214,7 +214,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
               loader: "ts-loader",
               options: {
                 context: opts.cwd,
-                projectReferences: mode === "development",
+                projectReferences: false,
                 transpileOnly: true,
                 configFile:
                   opts.tsConfigFile ?? path.resolve(opts.cwd, "tsconfig.json"),
