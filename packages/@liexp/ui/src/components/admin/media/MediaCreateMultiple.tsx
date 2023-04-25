@@ -23,7 +23,7 @@ import {
   useDataProvider,
   useRedirect,
   type DataProvider,
-  type RaRecord
+  type RaRecord,
 } from "react-admin";
 import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
@@ -201,6 +201,9 @@ export const MediaCreateMany: React.FC<any> = (props) => {
                   startIcon={<ContentSaveIcon />}
                   disabled={isSubmitting}
                   label="Save"
+                  onClick={() => {
+                    void onSubmit(getValues());
+                  }}
                 />
               </Box>
             </CardActions>
