@@ -1,6 +1,7 @@
 import { JWTError } from "@liexp/shared/lib/providers/jwt/JWTClient";
 import { DBError } from "@liexp/shared/lib/providers/orm";
 import * as t from "io-ts";
+import { failure } from "io-ts/lib/PathReporter";
 
 export const APIStatusCode = t.union(
   [
@@ -74,7 +75,7 @@ export const DecodeError = (
     message,
     details: {
       kind: "DecodingError",
-      errors,
+      errors: failure(errors),
     },
   };
 };

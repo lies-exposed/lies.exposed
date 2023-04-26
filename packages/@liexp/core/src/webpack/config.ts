@@ -15,6 +15,7 @@ import ReactRefreshTypescript from "react-refresh-typescript";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import * as webpack from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+import { loadENV } from "../env/utils";
 import { GetLogger } from "../logger";
 // const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 
@@ -48,6 +49,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
   const mode: webpack.Configuration["mode"] =
     (process.env.NODE_ENV as webpack.Configuration["mode"]) ??
     ("development" as const);
+
   const DOTENV_CONFIG_PATH = path.resolve(
     opts.envFileDir,
     process.env.DOTENV_CONFIG_PATH ?? ".env"
@@ -55,7 +57,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
 
   webpackLogger.debug.log(`DOTENV_CONFIG_PATH %s`, DOTENV_CONFIG_PATH);
 
-  require("dotenv").config({ path: DOTENV_CONFIG_PATH });
+  loadENV(opts.envFileDir);
 
   // webpackLogger.debug.log('process.env after dotenv %O', process.env)
 
