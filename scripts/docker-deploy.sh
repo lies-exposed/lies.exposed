@@ -34,5 +34,6 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     docker system prune -f
     docker compose run --name api-migration api yarn migration:run > migration.txt
     docker compose run --rm api yarn upsert-nlp-entities
+    docker compose run --rm api yarn upsert-tg-pinned-message
 EOF
 

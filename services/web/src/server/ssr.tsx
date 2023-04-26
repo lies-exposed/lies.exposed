@@ -1,15 +1,14 @@
 import path from "path";
+import {loadENV} from '@liexp/core/lib/env/utils'
 import { GetLogger } from "@liexp/core/lib/logger";
 import { getServer } from "@liexp/ui/lib/react/ssr";
 import D from "debug";
-import dotenv from "dotenv";
 import express from "express";
 
 const webSrvLog = GetLogger("web");
 
-dotenv.config({
-  path: path.resolve(process.cwd(), process.env.DOTENV_CONFIG_PATH ?? ".env"),
-});
+loadENV()
+
 
 const run = (): void => {
   void Promise.all([import("../client/App"), import("../client/routes")]).then(

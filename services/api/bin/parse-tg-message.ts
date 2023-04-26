@@ -1,16 +1,12 @@
-import * as fs from "fs";
-import * as path from "path";
+import { parseTGMessageFlow } from "@flows/tg/parseMessages.flow";
 import { fp } from "@liexp/core/src/fp";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { loadENV, parseENV } from "@utils/env.utils";
 import D from "debug";
-import dotenv from "dotenv";
 import { pipe } from "fp-ts/lib/function";
+import * as fs from "fs";
+import * as path from "path";
 import { makeContext } from "../src/server";
-import { parseTGMessageFlow } from "@flows/tg/parseMessages.flow";
-
-dotenv.config({
-  path: path.resolve(process.cwd(), process.env.DOTENV_CONFIG_PATH ?? "../../.env"),
-});
 
 /**
  * Usage ts-node ./bin/parse-tg-message $messageN $delete?
@@ -21,6 +17,8 @@ dotenv.config({
  * @returns void
  */
 const run = async (): Promise<any> => {
+  loadENV();
+
   const [, , tgNumber, _deleteFile] = process.argv;
 
   const messagesFolder = path.resolve(__dirname, `../temp/tg/messages`);
@@ -37,8 +35,11 @@ const run = async (): Promise<any> => {
   }
   const deleteFile = _deleteFile === "true";
 
-  const ctx = await throwTE(
-    makeContext({ ...process.env, TG_BOT_POLLING: "false" })
+  const ctx = await pipe(
+    parseENV(process.env),
+    fp.TE.fromEither,
+    fp.TE.chain((env) => makeContext({ ...env, TG_BOT_POLLING: false })),
+    throwTE
   );
 
   D.enable(ctx.env.DEBUG);

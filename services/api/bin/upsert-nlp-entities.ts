@@ -1,19 +1,18 @@
+import { loadENV } from "@liexp/core/lib/env/utils";
 import { fp } from "@liexp/core/lib/fp";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import dotenv from "dotenv";
-import { sequenceS } from "fp-ts/lib/Apply";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
+import { sequenceS } from "fp-ts/lib/Apply";
 import { fetchActors } from "../src/queries/actors/fetchActors.query";
 import { fetchGroups } from "../src/queries/groups/fetchGroups.query";
 import { fetchKeywords } from "../src/queries/keywords/fetchKeywords.query";
 import { makeContext } from "../src/server";
+import { parseENV } from "@utils/env.utils";
 
-dotenv.config();
-
-const makePatterns = (s: string) => {
+const makePatterns = (s: string): string[] => {
   const chunks = s.split(" ");
   const chunkAbove3 = chunks.filter((c) => c.length > 2);
 
@@ -30,9 +29,13 @@ const makePatterns = (s: string) => {
   );
 };
 
-const run = async () => {
-  const ctx = await throwTE(
-    makeContext({ ...process.env, TG_BOT_POLLING: "false" })
+const run = async (): Promise<any> => {
+  loadENV(process.cwd(), process.env.DOTENV_CONFIG_PATH ?? "../../.env");
+  const ctx = await pipe(
+    parseENV({ ...process.env, TG_BOT_POLLING: "false" }),
+    fp.TE.fromEither,
+    fp.TE.chain(makeContext),
+    throwTE
   );
 
   const result = await pipe(
