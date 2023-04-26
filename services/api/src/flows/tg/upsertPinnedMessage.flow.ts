@@ -35,8 +35,8 @@ ${keywords.map((k) => `#${k.tag} (${k.eventCount})`).join("\n")}
 export const upsertPinnedMessage =
   (ctx: RouteContext) =>
   (limit: number): TE.TaskEither<ControllerError, TelegramBot.Message> => {
-    
 
+    ctx.logger.info.log('Fetch resources totals...');
     return pipe(
       sequenceS(TE.ApplicativePar)({
         keywords: ctx.db.execQuery(() =>
@@ -84,6 +84,7 @@ export const upsertPinnedMessage =
           // actorLimit: limit,
         })
       ),
+      ctx.logger.info.logInTaskEither('Updated Pinned message'),
       TE.chain((message) => ctx.tg.upsertPinnedMessage(message)),
       TE.mapLeft(toControllerError)
     );

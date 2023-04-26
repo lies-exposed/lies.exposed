@@ -1,18 +1,16 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 require("module-alias")(process.cwd());
-const path = require("path");
 const { getDataSource } = require("./build/utils/data-source");
 const { ENV } = require("./build/io/ENV");
 const { PathReporter } = require("io-ts/lib/PathReporter");
+const { loadENV } = require("@liexp/core/lib/env/utils");
 
-require("dotenv").config({
-  path: path.resolve(
-    process.cwd(),
-    process.env.DOTENV_CONFIG_PATH !== undefined
-      ? process.env.DOTENV_CONFIG_PATH
-      : "../../.env"
-  ),
-});
+loadENV(
+  process.cwd(),
+  process.env.DOTENV_CONFIG_PATH !== undefined
+    ? process.env.DOTENV_CONFIG_PATH
+    : "../../.env"
+);
 
 const decodedEnv = ENV.decode(process.env);
 
@@ -22,10 +20,10 @@ if (decodedEnv._tag === "Left") {
 }
 const env = decodedEnv.right;
 
-const dataSource = getDataSource(env, true)
+const dataSource = getDataSource(env, true);
 
-dataSource.initialize()
+dataSource.initialize();
 
 module.exports = {
-  default: dataSource
+  default: dataSource,
 };

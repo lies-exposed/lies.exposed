@@ -24,11 +24,10 @@ import metadataParser from "page-metadata-parser";
 import puppeteer from "puppeteer-core";
 import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
 import {
-  DecodeError,
   toControllerError,
-  type ControllerError,
+  type ControllerError
 } from "@io/ControllerError";
-import { ENV } from "@io/ENV";
+import { type ENV } from "@io/ENV";
 import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.routes";
 import { MakeActorRoutes } from "@routes/actors/actors.routes";
 import { MakeAdminRoutes } from "@routes/admins/admin.routes";
@@ -66,71 +65,67 @@ const corsOptions: cors.CorsOptions = {
 };
 
 export const makeContext = (
-  processENV: unknown
+  env: ENV
 ): TE.TaskEither<ControllerError, RouteContext> => {
   const serverLogger = logger.GetLogger("server");
-  return pipe(
-    ENV.decode(processENV),
-    E.mapLeft((e) => DecodeError(`Failed to decode process env`, e)),
-    TE.fromEither,
-    TE.chain((env) => {
-      const s3 =
-        env.NODE_ENV === "development" || env.NODE_ENV === "test"
-          ? S3Client.GetS3Client({
-              endpoint: env.DEV_DATA_HOST,
-              credentials: {
-                accessKeyId: env.SPACE_ACCESS_KEY_ID,
-                secretAccessKey: env.SPACE_ACCESS_KEY_SECRET,
-              },
-              tls: true,
-              forcePathStyle: true,
-            })
-          : S3Client.GetS3Client({
-              endpoint: `https://${env.SPACE_REGION}.digitaloceanspaces.com`,
-              region: env.SPACE_REGION,
-              credentials: {
-                accessKeyId: env.SPACE_ACCESS_KEY_ID,
-                secretAccessKey: env.SPACE_ACCESS_KEY_SECRET,
-              },
-              tls: true,
-            });
 
-      return sequenceS(TE.ApplicativePar)({
-        logger: TE.right(serverLogger),
-        db: pipe(
-          GetTypeORMClient(getDataSource(env, false)),
-          TE.mapLeft(toControllerError)
-        ),
-        s3: TE.right(s3),
-        fs: TE.right(GetFSClient()),
-        jwt: TE.right(
-          GetJWTClient({ secret: env.JWT_SECRET, logger: serverLogger })
-        ),
-        urlMetadata: TE.right(
-          MakeURLMetadata({
-            client: axios,
-            parser: {
-              getMetadata: metadataParser.getMetadata,
-            },
-          })
-        ),
-        env: TE.right(env),
-        tg: TE.right(
-          TGBotProvider(serverLogger, {
-            token: env.TG_BOT_TOKEN,
-            chat: env.TG_BOT_CHAT,
-            polling: env.TG_BOT_POLLING,
-          })
-        ),
-        puppeteer: TE.right(
-          GetPuppeteerProvider(puppeteer as any, {
-            headless: true,
-            args: ["--no-sandbox"],
-          })
-        ),
-        ffmpeg: TE.right(GetFFMPEGProvider(ffmpeg)),
-        http: TE.right(HTTP({})),
-      });
+  const s3 =
+    env.NODE_ENV === "development" || env.NODE_ENV === "test"
+      ? S3Client.GetS3Client({
+          endpoint: env.DEV_DATA_HOST,
+          credentials: {
+            accessKeyId: env.SPACE_ACCESS_KEY_ID,
+            secretAccessKey: env.SPACE_ACCESS_KEY_SECRET,
+          },
+          tls: true,
+          forcePathStyle: true,
+        })
+      : S3Client.GetS3Client({
+          endpoint: `https://${env.SPACE_REGION}.digitaloceanspaces.com`,
+          region: env.SPACE_REGION,
+          credentials: {
+            accessKeyId: env.SPACE_ACCESS_KEY_ID,
+            secretAccessKey: env.SPACE_ACCESS_KEY_SECRET,
+          },
+          tls: true,
+        });
+
+  return pipe(
+    sequenceS(TE.ApplicativePar)({
+      logger: TE.right(serverLogger),
+      db: pipe(
+        GetTypeORMClient(getDataSource(env, false)),
+        TE.mapLeft(toControllerError)
+      ),
+      s3: TE.right(s3),
+      fs: TE.right(GetFSClient()),
+      jwt: TE.right(
+        GetJWTClient({ secret: env.JWT_SECRET, logger: serverLogger })
+      ),
+      urlMetadata: TE.right(
+        MakeURLMetadata({
+          client: axios,
+          parser: {
+            getMetadata: metadataParser.getMetadata,
+          },
+        })
+      ),
+      env: TE.right(env),
+      tg: TE.right(
+        TGBotProvider(serverLogger, {
+          token: env.TG_BOT_TOKEN,
+          chat: env.TG_BOT_CHAT,
+          polling: env.TG_BOT_POLLING,
+        })
+      ),
+      puppeteer: TE.right(
+        GetPuppeteerProvider(puppeteer as any, {
+          headless: true,
+          args: ["--no-sandbox"],
+        })
+      ),
+      ffmpeg: TE.right(GetFFMPEGProvider(ffmpeg)),
+      http: TE.right(HTTP({})),
     }),
     TE.mapLeft((e) => ({
       ...e,
