@@ -51,9 +51,9 @@
   },
   "devDependencies": {
     "@mui/material": "^5.12.1",
-    "@react-page/editor": "^5.4.3",
-    "@react-page/plugins-slate": "^5.4.3",
-    "@react-page/react-admin": "^5.4.3",
+    "@react-page/editor": "^5.4.4",
+    "@react-page/plugins-slate": "^5.4.4",
+    "@react-page/react-admin": "^5.4.4",
     "@types/bs58": "^4.0.1",
     "@types/fluent-ffmpeg": "^2.1.21",
     "@types/jest": "^29.5.1",
