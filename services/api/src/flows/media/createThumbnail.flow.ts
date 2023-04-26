@@ -2,13 +2,13 @@ import fs from "fs";
 import path from "path";
 import {
   getPlatform,
-  type VideoPlatformMatch
+  type VideoPlatformMatch,
 } from "@liexp/shared/lib/helpers/media";
 import { Media } from "@liexp/shared/lib/io/http";
 import { toPuppeteerError } from "@liexp/shared/lib/providers/puppeteer.provider";
 import {
   getMediaKey,
-  getMediaKeyFromLocation
+  getMediaKeyFromLocation,
 } from "@liexp/shared/lib/utils/media.utils";
 import axios from "axios";
 import * as Canvas from "canvas";
@@ -22,7 +22,7 @@ import { type Page } from "puppeteer-core";
 import {
   ServerError,
   toControllerError,
-  type ControllerError
+  type ControllerError,
 } from "@io/ControllerError";
 import { type RouteContext } from "@routes/route.types";
 
@@ -174,7 +174,10 @@ export const createThumbnail =
     if (Media.PDFType.is(media.type)) {
       return pipe(
         TE.tryCatch(async () => {
-          const pdf = await pdfJS.getDocument(media.location).promise;
+          const pdfStream = await axios.get(media.location, {
+            responseType: "blob",
+          });
+          const pdf = await pdfJS.getDocument(pdfStream).promise;
           const page = await pdf.getPage(1);
           return page;
         }, toControllerError),
@@ -314,7 +317,7 @@ export const createThumbnail =
                 ACL: "public-read",
               });
             }),
-            TE.map(r => r.Location),
+            TE.map((r) => r.Location),
             TE.chainFirst(() =>
               TE.tryCatch(() => {
                 fs.rmSync(tempThumbnail);
