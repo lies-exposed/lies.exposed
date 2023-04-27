@@ -9,21 +9,25 @@ import * as React from "react";
 import { type SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery";
 import { styled, useTheme } from "../../theme";
 import { DateRangePicker, DateRangeSlider } from "../Common/DateRangePicker";
+import { ExpandableActorList } from "../lists/ActorList";
+import { ExpandableGroupList } from "../lists/GroupList";
+import { GroupsMembersList } from "../lists/GroupMemberList";
+import { ExpandableKeywordList } from "../lists/KeywordList";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  alpha,
   Box,
   Grid,
   IconButton,
   SearchIcon,
-  Typography
+  Typography,
+  alpha,
 } from "../mui";
 import {
   EventsAppBarMinimized,
   searchEventQueryToEventTypeFilters,
-  type EventsAppBarMinimizedProps
+  type EventsAppBarMinimizedProps,
 } from "./EventsAppBarMinimized";
 import SearchEventInput, { type SearchFilter } from "./inputs/SearchEventInput";
 
@@ -112,11 +116,7 @@ const StyledToolbar = styled(Box)(({ theme }) => ({
     },
   },
   [`& .${classes.expandedBox}`]: {
-    display: "flex",
-    flexDirection: "row",
-    [theme.breakpoints.down("md")]: {
-      flexDirection: "column",
-    },
+    padding: 0,
   },
 }));
 
@@ -150,14 +150,18 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
 
   const [isExpanded, setIsExpanded] = React.useState(defaultExpanded);
 
-  const handleSearchChange = (queryUpdate: SearchFilter): void => {
+  const handleQueryChange = (queryUpdate: Partial<SearchFilter>): void => {
     onQueryChange({
       ...query,
       ...queryUpdate,
-      groups: (query.groups ?? []).concat(queryUpdate.groups.map((g) => g.id)),
-      actors: (query.actors ?? []).concat(queryUpdate.actors.map((g) => g.id)),
+      groups: (query.groups ?? []).concat(
+        (queryUpdate?.groups ?? []).map((g) => g.id)
+      ),
+      actors: (query.actors ?? []).concat(
+        (queryUpdate?.actors ?? []).map((g) => g.id)
+      ),
       keywords: (query.keywords ?? []).concat(
-        queryUpdate.keywords.map((g) => g.id)
+        (queryUpdate?.keywords ?? []).map((g) => g.id)
       ),
     });
   };
@@ -241,7 +245,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
           input: classes.inputInput,
         }}
         query={query}
-        onQueryChange={handleSearchChange}
+        onQueryChange={handleQueryChange}
       />
     </div>
   );
@@ -270,6 +274,101 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
     </Box>
   ) : null;
 
+  const actorsList = (
+    <ExpandableActorList
+      style={{
+        display: "flex",
+        flexDirection: "row",
+      }}
+      actors={actors.sort(
+        (a, b) => (b.selected ? 1 : 0) - (a.selected ? 1 : 0)
+      )}
+      onActorClick={(k) => {
+        handleQueryChange({
+          actors: actors
+            .map((g) => ({
+              ...g,
+              selected: g.id === k.id ? !k.selected : g.selected,
+            }))
+            .filter((s) => s.selected),
+        });
+      }}
+    />
+  );
+
+  const groupsList = (
+    <ExpandableGroupList
+      style={{
+        display: "flex",
+        flexDirection: "row",
+      }}
+      groups={groups.sort(
+        (a, b) => (b.selected ? 1 : 0) - (a.selected ? 1 : 0)
+      )}
+      onItemClick={(k) => {
+        if (isExpanded) {
+          handleQueryChange({
+            groups: groups
+              .map((g) => ({
+                ...g,
+                selected: g.id === k.id ? !k.selected : g.selected,
+              }))
+              .filter((s) => s.selected),
+          });
+        }
+      }}
+    />
+  );
+
+  const keywordList = (
+    <ExpandableKeywordList
+      style={{
+        display: "flex",
+        flexDirection: "row",
+      }}
+      keywords={keywords.sort(
+        (a, b) => (b.selected ? 1 : 0) - (a.selected ? 1 : 0)
+      )}
+      onItemClick={(k) => {
+        if (isExpanded) {
+          handleQueryChange({
+            keywords: keywords
+              .map((g) => ({
+                ...g,
+                selected: g.id === k.id ? !k.selected : g.selected,
+              }))
+              .filter((s) => s.selected),
+          });
+        }
+      }}
+    />
+  );
+
+  const groupsMembersList = (
+    <GroupsMembersList
+      groupsMembers={groupsMembers.map((g) => ({ ...g, selected: true }))}
+      onItemClick={(gm) => {
+        if (isExpanded) {
+          onQueryChange({
+            ...query,
+            groupsMembers: query.groupsMembers?.filter((g) => gm.id !== g),
+          });
+        }
+      }}
+    />
+  );
+
+  const layout: Required<EventsAppBarMinimizedProps["layout"]> = {
+    eventTypes: 4,
+    dateRangeBox: {
+      columns: 4,
+      variant: "slider",
+      ...props.layout?.dateRangeBox,
+    },
+    relations: 4,
+    ...props.layout,
+  };
+
   const expanded = (
     <Box
       style={{
@@ -277,9 +376,59 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
         display: "flex",
         flexDirection: "row",
         flexWrap: "wrap",
+        background: "white",
+        position: "absolute",
+        zIndex: 9999,
       }}
     >
-      <Grid container spacing={2} className={classes.expandedBox}>
+      <Grid container spacing={2}>
+        {keywords.length > 0 ? (
+          <Grid
+            item
+            sm={12}
+            md={layout.relations}
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              flexDirection: "row",
+              flexShrink: 0,
+            }}
+          >
+            {keywordList}
+          </Grid>
+        ) : null}
+        {groups.length > 0 ? (
+          <Grid
+            item
+            sm={12}
+            md={layout.relations}
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              flexDirection: "row",
+              flexShrink: 0,
+            }}
+          >
+            {groupsList}
+            {groupsMembersList}
+          </Grid>
+        ) : null}
+        {actors.length > 0 ? (
+          <Grid
+            item
+            sm={12}
+            md={layout.relations}
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              flexDirection: "row",
+              flexShrink: 0,
+            }}
+          >
+            {actorsList}
+          </Grid>
+        ) : null}
+
         <Grid item md={12} sm={12} xs={12}>
           {searchBox}
           {searchTermBox}
@@ -328,7 +477,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
       }}
     >
       <Grid container>
-        <Grid item md={10}>
+        <Grid item md={10} sm={10}>
           <Accordion
             expanded={isExpanded}
             onChange={(e) => {
@@ -358,12 +507,15 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
                 onQueryChange={onQueryChange}
               />
             </AccordionSummary>
-            <AccordionDetails>{expanded}</AccordionDetails>
+            <AccordionDetails className={classes.expandedBox}>
+              {expanded}
+            </AccordionDetails>
           </Accordion>
         </Grid>
         <Grid
           item
           md={2}
+          sm={2}
           style={{
             display: "flex",
             flexDirection: "row",

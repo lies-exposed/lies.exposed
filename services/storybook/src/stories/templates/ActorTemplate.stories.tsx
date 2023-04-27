@@ -17,7 +17,7 @@ const meta: Meta = {
 export default meta;
 
 const Template: Story<ActorTemplateProps> = (props) => {
-  const [tab, setTab] = React.useState(0);
+  const [tab, setTab] = React.useState(props.tab ?? 0);
   const [q, setQ] = React.useState<SearchEventsQueryInputNoPagination>({
     hash: `query-${Math.random() * 100}`,
   });
@@ -54,6 +54,8 @@ const Template: Story<ActorTemplateProps> = (props) => {
 
 const ActorTemplateDefault = Template.bind({});
 
-ActorTemplateDefault.args = {};
+ActorTemplateDefault.args = {
+  tab: 2,
+};
 
 export { ActorTemplateDefault };
