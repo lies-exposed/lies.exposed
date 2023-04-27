@@ -1,6 +1,9 @@
 import { fp } from "@liexp/core/lib/fp";
 import { getEventCommonProps } from "@liexp/shared/lib/helpers/event";
-import { getRelationIds, transform } from "@liexp/shared/lib/helpers/event/event";
+import {
+  getRelationIds,
+  transform,
+} from "@liexp/shared/lib/helpers/event/event";
 import { Events } from "@liexp/shared/lib/io/http";
 import { toAPIError } from "@liexp/shared/lib/providers/http/http.provider";
 import { sequenceS } from "fp-ts/lib/Apply";
@@ -96,6 +99,7 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
   return (
     <Box>
       <Select
+        size="small"
         label="Transform in"
         placeholder="Select type"
         onChange={handleTransform}
