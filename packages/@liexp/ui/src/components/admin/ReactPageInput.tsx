@@ -3,7 +3,12 @@ import { createExcerptValue, isValidValue } from "@liexp/shared/lib/slate";
 import Editor, { type EditorProps } from "@react-page/editor";
 import get from "lodash/get";
 import * as React from "react";
-import { type InputProps, Labeled, useInput, useRecordContext } from "react-admin";
+import {
+  type InputProps,
+  Labeled,
+  useInput,
+  useRecordContext,
+} from "react-admin";
 import { cellPlugins, minimalCellPlugins } from "../Common/Editor";
 import JSONInput from "../Common/JSON/JSONInput";
 import { Box, FormControlLabel, Paper, Switch } from "../mui";
@@ -43,6 +48,7 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
           <FormControlLabel
             control={
               <Switch
+                size="small"
                 defaultChecked={!showJSONEditor}
                 onChange={(ev, c) => {
                   setShowJSONEditor(!c);

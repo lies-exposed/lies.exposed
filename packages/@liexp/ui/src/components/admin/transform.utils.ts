@@ -27,7 +27,6 @@ export const transformLinks = (links: any[]): any[] => {
 };
 
 export const transformMedia = (newMedia: any[]): any[] => {
-
   return newMedia.reduce((acc, m) => {
     if (m.fromURL) {
       return acc.concat({
@@ -104,7 +103,9 @@ export const transformEvent =
     const links = (data.links ?? []).concat(newLinks);
 
     const newMedia = transformMedia(data.newMedia ?? []);
-    const media: any[] = (data.media ?? []).concat(newMedia);
+    const media: any[] = (data.media ?? [])
+      .concat(newMedia)
+      .concat(...(data.newMediaRef ?? []));
 
     const { rawMedia, otherMedia } = media.reduce<{
       rawMedia: RawMedia[];

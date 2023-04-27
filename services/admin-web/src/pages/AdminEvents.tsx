@@ -9,7 +9,7 @@ import {
   ScientificStudy,
 } from "@liexp/shared/lib/io/http/Events";
 import { getTextContentsCapped } from "@liexp/shared/lib/slate";
-import { LinkIcon } from '@liexp/ui/lib/components/Common/Icons';
+import { LinkIcon } from "@liexp/ui/lib/components/Common/Icons";
 import { EventIcon } from "@liexp/ui/lib/components/Common/Icons/EventIcon";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
@@ -117,10 +117,10 @@ export const EventList: React.FC = () => (
         <CardContent>
           <SavedQueriesList />
           <FilterLiveSearch source="title" />
-          <FilterList label="Media" icon={<PlayCircleOutline  />}>
+          <FilterList label="Media" icon={<PlayCircleOutline />}>
             <FilterListItem label="Empty Media" value={{ emptyMedia: true }} />
           </FilterList>
-          <FilterList label="Links" icon={<LinkIcon  />}>
+          <FilterList label="Links" icon={<LinkIcon />}>
             <FilterListItem label="Empty Links" value={{ emptyLinks: true }} />
           </FilterList>
           <FilterList label="Type" icon={<EventIcon type="Uncategorized" />}>
@@ -165,6 +165,9 @@ export const EventList: React.FC = () => (
           return `/documentaries/${record.id}`;
         }
 
+        if (record.type === http.Events.Transaction.TRANSACTION.value) {
+          return `/transactions/${record.id}`;
+        }
 
         return `/events/${record.id}`;
       }}
@@ -287,10 +290,12 @@ export const EditTitle: React.FC = () => {
   return <span>No record</span>;
 };
 
-export const EventEdit: React.FC = () => {
+export const EventEdit: React.FC = (props) => {
   const dataProvider = useDataProvider();
+
   return (
     <EditForm
+      {...props}
       title={<EditTitle />}
       redirect={false}
       actions={<EventEditActions />}
@@ -325,7 +330,10 @@ export const EventEdit: React.FC = () => {
 
         <FormTab label="Media">
           <ImportMediaButton />
-          <ReferenceMediaTab source="media" fullWidth />
+          <ReferenceMediaTab
+            source="media"
+            fullWidth
+          />
         </FormTab>
         <FormTab label="Links">
           <ReferenceLinkTab source="links" />

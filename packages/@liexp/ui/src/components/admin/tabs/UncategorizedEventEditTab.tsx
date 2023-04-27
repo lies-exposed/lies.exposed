@@ -1,10 +1,12 @@
 import * as React from "react";
 import {
   Datagrid,
-  DateInput, ReferenceArrayField,
+  DateInput,
+  ReferenceArrayField,
   TextField,
-  TextInput, type EditProps,
-  type RaRecord
+  TextInput,
+  type EditProps,
+  type RaRecord,
 } from "react-admin";
 import { Box, Grid } from "../../mui";
 import ReferenceArrayActorInput from "../actors/ReferenceArrayActorInput";
@@ -23,17 +25,17 @@ export const UncategorizedEventEditTab: React.FC<
     <Box>
       <Grid container spacing={2}>
         <Grid item md={12}>
-          <TextInput source={source("payload.title")} fullWidth />
+          <TextInput size="small" source={source("payload.title")} fullWidth />
         </Grid>
         <Grid item md={12}>
           <Grid container>
             <Grid item md={6}>
               <Box>
-                <DateInput source={source("payload.endDate")} />
+                <DateInput size="small" source={source("payload.endDate")} />
               </Box>
             </Grid>
             <Grid item md={6}>
-              <ReferenceAreaInput source="payload.location" />
+              <ReferenceAreaInput size="small" source="payload.location" />
             </Grid>
           </Grid>
         </Grid>

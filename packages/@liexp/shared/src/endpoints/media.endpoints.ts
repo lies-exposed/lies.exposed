@@ -22,6 +22,7 @@ export const List = Endpoint({
         type: optionFromNullable(t.union([t.array(MediaType), t.string])),
         events: optionFromNullable(t.array(UUID)),
         ids: optionFromNullable(t.array(UUID)),
+        exclude: optionFromNullable(t.array(UUID)),
         description: optionFromNullable(t.string),
         emptyEvents: optionFromNullable(BooleanFromString),
         deletedOnly: optionFromNullable(BooleanFromString),
