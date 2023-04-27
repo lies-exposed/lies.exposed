@@ -26,6 +26,8 @@ const StyledBox = styled(Box)(() => ({
     width: "100%",
     height: "100%",
     margin: "auto",
+    maxWidth: "100%",
+    objectFit: "contain",
   },
   [`& .${classes.description}`]: {
     position: "absolute",
@@ -60,7 +62,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
 }) => {
   const mediaElement = React.useMemo(() => {
     switch (media.type) {
-      case Media.MediaType.types[7].value:
+      case Media.IframeVideoType.value:
         return (
           <IframeMediaElement
             {...props}

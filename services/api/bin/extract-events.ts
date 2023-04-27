@@ -1,31 +1,37 @@
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import {
-  DataPayloadLink,
-  extractFromURL
-} from "@flows/events/extractFromURL.flow";
-import { getOneAdminOrFail } from '@flows/users/getOneUserOrFail.flow';
-import { ControllerError, toControllerError } from "@io/ControllerError";
+import { loadENV } from "@liexp/core/lib/env/utils";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import dotenv from "dotenv";
 import * as A from "fp-ts/Array";
-import { pipe } from "fp-ts/function";
-import { sequenceS } from "fp-ts/lib/Apply";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
+import { sequenceS } from "fp-ts/lib/Apply";
 import { findByURL } from "../src/queries/events/scientificStudy.query";
 import { makeContext } from "../src/server";
+import { EventV2Entity } from "@entities/Event.v2.entity";
+import {
+  type DataPayloadLink,
+  extractFromURL,
+} from "@flows/events/extractFromURL.flow";
+import { getOneAdminOrFail } from "@flows/users/getOneUserOrFail.flow";
+import { type ControllerError, toControllerError } from "@io/ControllerError";
+import { parseENV } from "@utils/env.utils";
 
 dotenv.config();
 
-const run = async () => {
+const run = async (): Promise<void> => {
   const [, , url] = process.argv;
 
   if (!url || url === "") {
     throw new Error("Missing url to fetch");
   }
+  loadENV(process.cwd(), process.env.DOTENV_CONFIG_PATH ?? "../../.env");
 
-  const ctx = await throwTE(
-    makeContext({ ...process.env, TG_BOT_POLLING: "false" })
+  const ctx = await pipe(
+    parseENV({ ...process.env, TG_BOT_POLLING: "false" }),
+    TE.fromEither,
+    TE.chain(makeContext),
+    throwTE
   );
 
   const result = await pipe(
@@ -79,7 +85,7 @@ const run = async () => {
             TE.map((ev) => {
               return ev.reduce(
                 (acc, [l, e]) => {
-                  let newAcc = {
+                  const newAcc = {
                     ...acc,
                   };
                   if (O.isSome(l)) {
@@ -123,4 +129,5 @@ const run = async () => {
   ctx.logger.info.log("Output: %O", result);
 };
 
+// eslint-disable-next-line no-console
 run().catch(console.error);
