@@ -4,8 +4,8 @@ import { Endpoints } from "@liexp/shared/lib/endpoints";
 import { type ResourceEndpoints } from "@liexp/shared/lib/endpoints/types";
 import * as io from "@liexp/shared/lib/io/index";
 import {
-  type APIError,
   toAPIError,
+  type APIError,
 } from "@liexp/shared/lib/providers/http/http.provider";
 import axios from "axios";
 import * as A from "fp-ts/Array";
@@ -15,12 +15,7 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import type * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter";
-import type {
-  GetListParams,
-  GetListResult,
-  GetOneParams,
-  GetOneResult,
-} from "react-admin";
+import type { GetListParams, GetListResult, GetOneResult } from "react-admin";
 import {
   type EndpointInstance,
   type InferEndpointParams,
@@ -116,8 +111,25 @@ export const pageContentByPath = ({
   );
 
 interface Query<G, L, CC> {
-  get: <P extends GetOneParams>(params: P) => Promise<G>;
-  getList: (params: GetListParams) => Promise<L>;
+  get: (
+    params: InferEndpointParams<G>["params"] extends t.ExactType<infer T>
+      ? t.TypeOf<T>
+      : InferEndpointParams<G>["params"] extends undefined
+      ? undefined
+      : serializedType<InferEndpointParams<G>["params"]>,
+    query?: serializedType<InferEndpointParams<G>["query"]>
+  ) => Promise<
+    InferEndpointParams<G>["output"] extends t.ExactType<infer T>
+      ? t.TypeOf<T>["data"]
+      : never
+  >;
+  getList: (
+    params: GetListParams
+  ) => Promise<
+    InferEndpointParams<L>["output"] extends t.ExactType<infer T>
+      ? t.TypeOf<T>
+      : never
+  >;
   Custom: CC extends Record<string, MinimalEndpointInstance>
     ? {
         [K in keyof CC]: (
@@ -143,21 +155,13 @@ interface Query<G, L, CC> {
 type Queries = {
   [K in keyof Endpoints]: Endpoints[K] extends ResourceEndpoints<
     EndpointInstance<infer G>,
-    infer L,
+    EndpointInstance<infer L>,
     any,
     any,
     any,
     infer CC
   >
-    ? Query<
-        InferEndpointParams<G>["output"] extends t.ExactType<infer T>
-          ? t.TypeOf<T>["data"]
-          : never,
-        InferEndpointParams<L>["output"] extends t.ExactType<infer T>
-          ? t.TypeOf<T>
-          : never,
-        CC
-      >
+    ? Query<G, L, CC>
     : never;
 };
 
@@ -174,23 +178,9 @@ const toQueries = <
     MinimalEndpointInstance,
     CC
   >
-): Query<
-  InferEndpointParams<G>["output"] extends t.ExactType<infer T>
-    ? t.TypeOf<T>["data"]
-    : never,
-  InferEndpointParams<L>["output"] extends t.ExactType<infer T>
-    ? t.TypeOf<T>
-    : never,
-  CC
-> => {
+): Query<G, L, CC> => {
   return {
-    get: <P extends GetOneParams>(
-      params: P
-    ): Promise<
-      InferEndpointParams<G>["output"] extends t.ExactType<infer T>
-        ? t.TypeOf<T>["data"]
-        : never
-    > =>
+    get: (params, query) =>
       pipe(
         liftFetch(
           () =>
@@ -198,7 +188,7 @@ const toQueries = <
               serializedType<InferEndpointParams<G>["output"]> & {
                 id: string;
               }
-            >(e.Get.getPath(params), params),
+            >(e.Get.getPath(params), { ...(params ?? {}), ...(query ?? {}) }),
           e.Get.Output.decode
         ),
         TE.map((r) => r.data),

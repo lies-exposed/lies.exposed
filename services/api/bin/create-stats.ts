@@ -1,6 +1,6 @@
 import { createStats } from "@flows/stats/createStats.flow";
 import { fp } from "@liexp/core/lib/fp";
-import { throwTE } from "@liexp/shared/src/utils/task.utils";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import dotenv from "dotenv";
 import { pipe } from "fp-ts/lib/function";
 import { PathReporter } from "io-ts/lib/PathReporter";

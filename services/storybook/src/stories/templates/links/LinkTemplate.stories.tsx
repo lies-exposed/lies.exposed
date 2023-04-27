@@ -1,12 +1,12 @@
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import {
+  defaultGetLinksQueryParams,
+  useLinksQuery,
+} from "@liexp/ui/lib/state/queries/link.queries";
 import {
   LinkTemplateUI,
   type LinkTemplateUIProps,
 } from "@liexp/ui/lib/templates/links/LinkTemplateUI";
-import QueriesRenderer from "@liexp/ui/src/components/QueriesRenderer";
-import {
-  defaultGetLinksQueryParams,
-  useLinksQuery,
-} from "@liexp/ui/src/state/queries/link.queries";
 import { type StoryFn, type Meta } from "@storybook/react";
 import * as React from 'react';
 

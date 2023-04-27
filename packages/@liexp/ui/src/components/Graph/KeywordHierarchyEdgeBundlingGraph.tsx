@@ -20,10 +20,11 @@ export const KeywordHierarchyEdgeBundlingGraph: React.FC<
       queries={{
         graph: useHierarchyNetworkGraphQuery(
           {
-            id: keyword as any,
             type: "keywords",
           },
-          {}
+          {
+            ids: [keyword],
+          }
         ),
       }}
       render={({ graph }) => {

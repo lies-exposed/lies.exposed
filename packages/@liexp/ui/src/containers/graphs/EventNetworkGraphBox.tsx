@@ -103,7 +103,7 @@ const EventNetworkGraphBoxWrapper: React.FC<
       <QueriesRenderer
         queries={{
           graph: useNetworkGraphQuery(
-            { type, id: ids?.[0] as any },
+            { type },
             {
               ...query,
               relations,
@@ -591,7 +591,7 @@ export const EventsNetworkGraphBoxWithQuery: React.FC<
         return (
           <EventNetworkGraphBox
             {...props}
-            query={{ ...query, ids: [data[0].id] }}
+            query={{ ...query, ids: [data[0].id], id: data[0].id }}
           />
         );
       }}

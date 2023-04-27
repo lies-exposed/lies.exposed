@@ -1,3 +1,4 @@
+import { type GraphId } from '@liexp/shared/lib/endpoints/graph.endpoints';
 import {
   type Events,
   type GroupMember,
@@ -102,8 +103,8 @@ export const useJSONDataQuery = <A>(
   });
 };
 
-export const useGraphQuery = (id: string): UseQueryResult<any, APIError> => {
+export const useGraphQuery = (id: GraphId): UseQueryResult<any, APIError> => {
   return useQuery(["graph", id], async () => {
-    return await Queries.Graph.get({ id });
+    return await Queries.Graph.get(undefined, { id });
   });
 };

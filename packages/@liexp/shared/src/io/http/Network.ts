@@ -40,7 +40,7 @@ export type GetNetworkQuery = t.TypeOf<typeof GetNetworkQuery>;
 export const GetNetworkParams = t.type(
   {
     type: NetworkType,
-    id: UUID
+    // id: UUID
   },
   "GetNetworkParams"
 );

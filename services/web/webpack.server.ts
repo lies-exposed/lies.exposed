@@ -2,8 +2,8 @@ import path from "path";
 import {
   defineEnv,
   getConfig,
-} from "@liexp/core/src/webpack/config";
-import { webOptimization } from "@liexp/core/src/webpack/web.config";
+} from "@liexp/core/lib/webpack/config";
+import { webOptimization } from "@liexp/core/lib/webpack/web.config";
 
 const SrvEnv = defineEnv((t) => ({
   NODE_ENV: t.string,
