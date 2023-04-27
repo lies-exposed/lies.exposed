@@ -1,10 +1,10 @@
 import path from "path";
 import webpack from "webpack";
-import { defineEnv } from "@liexp/core/src/webpack/config";
+import { defineEnv } from "@liexp/core/lib/webpack/config";
 import {
   getWebConfig,
   HtmlReplaceWebpackPlugin,
-} from "@liexp/core/src/webpack/web.config";
+} from "@liexp/core/lib/webpack/web.config";
 
 const AppEnv = defineEnv((t) => ({
   NODE_ENV: t.string,

@@ -30,15 +30,14 @@ export const MakeGetNetworkRoute = (r: Router, ctx: RouteContext): void => {
         }
       }
 
-      return createNetworkGraph(ctx)(
-        type,
-        pipe(
-          query.ids,
-          fp.O.getOrElse((): UUID[] => [])
-        ),
-        query
+      const ids = pipe(
+        query.ids,
+        fp.O.getOrElse((): UUID[] => [])
       );
+
+      return createNetworkGraph(ctx)(type, ids, query);
     };
+
     return pipe(
       getCreateNetworkT(type),
       TE.map((data) => ({

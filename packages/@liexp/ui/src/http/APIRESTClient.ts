@@ -96,7 +96,7 @@ export const APIRESTClient = ({
     request: <T>(config: AxiosRequestConfig<T>) =>
       liftClientRequest(() => client.request<T>(config))(),
     get: (url, params) =>
-      liftClientRequest(() => client.get(url, { params }))(),
+      liftClientRequest(() => client.get(url, { params,  }))(),
     put: (url, data) => liftClientRequest<any>(() => client.put(url, data))(),
     getOne: (resource, params) =>
       liftClientRequest<RA.GetOneResult<any>>(() =>

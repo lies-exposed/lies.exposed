@@ -40,9 +40,9 @@ export const useNetworkGraphQuery = (
 };
 
 export const fetchHierarchyNetworkGraph: FetchQuery<any> = fetchQuery(
-  (p: GetNetworkParams) =>
-    Queries.Networks.get({ ...p, type: "hierarchy" })
+  (p: GetNetworkParams) =>  Queries.Networks.get({ ...p, type: "hierarchy" })
 );
+
 export const useHierarchyNetworkGraphQuery = (
   params: GetNetworkParams,
   query: Partial<serializedType<typeof GetNetworkQuery>>

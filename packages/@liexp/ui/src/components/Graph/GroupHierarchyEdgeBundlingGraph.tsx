@@ -21,10 +21,11 @@ export const GroupHierarchyEdgeBundlingGraph: React.FC<
       queries={{
         graph: useHierarchyNetworkGraphQuery(
           {
-            id: group as any,
             type: StatsType.types[2].value,
           },
-          {}
+          {
+            ids: [group],
+          }
         ),
       }}
       render={({ graph }) => {
