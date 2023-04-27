@@ -59,6 +59,7 @@ export const GetListMediaQuery = t.type(
     type: optionFromNullable(t.union([t.array(MediaType), t.string])),
     events: optionFromNullable(t.array(t.string)),
     ids: optionFromNullable(t.array(t.string)),
+    exclude: optionFromNullable(t.array(UUID)),
     description: optionFromNullable(t.string),
     emptyEvents: optionFromNullable(BooleanFromString),
     deletedOnly: optionFromNullable(BooleanFromString),

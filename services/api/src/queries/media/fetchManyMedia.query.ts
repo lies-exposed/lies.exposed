@@ -9,6 +9,7 @@ import { addOrder, getORMOptions } from "@utils/orm.utils";
 const defaultQuery: http.Media.GetListMediaQuery = {
   type: fp.O.none,
   ids: fp.O.none,
+  exclude: fp.O.none,
   creator: fp.O.none,
   description: fp.O.none,
   events: fp.O.none,
@@ -32,6 +33,7 @@ export const fetchManyMedia =
       events,
       emptyEvents,
       deletedOnly,
+      exclude,
       ...ormQuery
     } = q;
 
@@ -58,6 +60,13 @@ export const fetchManyMedia =
         if (fp.O.isSome(description)) {
           q.where("lower(media.description) LIKE lower(:description)", {
             description: `%${description.value.toLowerCase()}%`,
+          });
+          hasWhere = true;
+        }
+
+        if (fp.O.isSome(exclude)) {
+          q.where("media.id NOT IN(:...ids)", {
+            ids: exclude.value,
           });
           hasWhere = true;
         }

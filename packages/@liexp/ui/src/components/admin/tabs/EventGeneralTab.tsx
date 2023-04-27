@@ -19,7 +19,7 @@ export const EventGeneralTab: React.FC<React.PropsWithChildren> = ({
         }}
       >
         <EventTypeInput source="type" />
-        <BooleanInput source="draft" />
+        <BooleanInput size="small" source="draft" />
       </Grid>
       <Grid item {...{ md: 2, lg: 2 }}>
         <DateInput source="date" />

@@ -30,7 +30,11 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
           ),
           fp.O.map((q) =>
             pipe(
-              searchEventV2Query(ctx)({ ...query, type: fp.O.none }),
+              searchEventV2Query(ctx)({
+                ...query,
+                exclude: fp.O.none,
+                type: fp.O.none,
+              }),
               fp.TE.map((r) => r.results.map((r) => r.id))
             )
           )
