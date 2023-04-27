@@ -1,3 +1,4 @@
+import { type GraphId } from "@liexp/shared/lib/endpoints/graph.endpoints";
 import { LinearGradient } from "@visx/gradient";
 import { ParentSize } from "@visx/responsive";
 import * as t from "io-ts";
@@ -92,10 +93,10 @@ export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = (props) => {
   const { showPoints, showGrid = true, style } = props;
 
   const [{ toggleData }, setToggleData] = React.useState(initialState);
-  const id =
+  const id: GraphId =
     toggleData === "last-2000-years"
-      ? "co2_ppm_earth_data"
-      : "ghg-concentrations_800k-hundred-years-aggregated";
+      ? "climate-change/forecast.csv"
+      : "climate-change/history-of-climate-summits.csv";
 
   return (
     <QueriesRenderer
