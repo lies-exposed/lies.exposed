@@ -1,4 +1,4 @@
-import { PlusOne } from "@mui/icons-material";
+import { AddCircle } from "@mui/icons-material";
 import * as React from "react";
 import { styled } from "../../theme";
 import { Accordion, AccordionDetails, AccordionSummary, Button } from "../mui";
@@ -62,7 +62,7 @@ export const ExpandableList = <
         {hasMore ? (
           <Button
             size="small"
-            startIcon={<PlusOne />}
+            startIcon={<AddCircle />}
             onClick={() => {
               setOpen(!open);
             }}

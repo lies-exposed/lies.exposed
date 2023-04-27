@@ -141,7 +141,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
   return (
     <StyledBox className={classes.root}>
       <Grid container style={{ width: '100%'}}>
-        <Grid item md={2}>
+        <Grid item  sm={2} md={2}>
           <IconButton
             className={clsx(classes.iconButton, {
               [classes.iconButtonSelected]: filters.Uncategorized,
@@ -159,7 +159,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             </Typography>
           </IconButton>
         </Grid>
-        <Grid item md={2}>
+        <Grid item  sm={2} md={2}>
           <IconButton
             color="primary"
             className={clsx(classes.iconButton, {
@@ -177,7 +177,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             </Typography>
           </IconButton>
         </Grid>
-        <Grid item md={2}>
+        <Grid item sm={2} md={2}>
           <IconButton
             color="primary"
             className={clsx(classes.iconButton, {
@@ -195,7 +195,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             </Typography>
           </IconButton>
         </Grid>
-        <Grid item md={2}>
+        <Grid item sm={2} md={2}>
           <IconButton
             color="primary"
             className={clsx(classes.iconButton, {
@@ -216,7 +216,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             </Typography>
           </IconButton>
         </Grid>
-        <Grid item md={2}>
+        <Grid item sm={2} md={2}>
           <IconButton
             color="primary"
             className={clsx(classes.iconButton, {
@@ -234,7 +234,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             </Typography>
           </IconButton>
         </Grid>
-        <Grid item md={2}>
+        <Grid item sm={2} md={2}>
           <IconButton
             color="primary"
             className={clsx(classes.iconButton, {
