@@ -26,26 +26,21 @@ const GroupPage: React.FC<{ groupId: string }> = ({ groupId }) => {
               navigateTo.groups({ id: groupId }, { ...q, tab });
             }}
             onEventClick={(e) => {
-              navigateTo.events({ id: e.id });
+              navigateTo.events({ id: e.id }, { tab: 0 });
             }}
             onKeywordClick={(k) => {
-              navigateTo.groups({ id: group.id }, {
-                ...query,
-                keywords: [k.id],
-                tab: "1"
-              });
+              navigateTo.keywords(
+                { id: k.id },
+                {
+                  tab: 0,
+                }
+              );
             }}
             onActorClick={(a) => {
-              navigateTo.groups(
-                { id: group.id },
-                { ...query, actors: [a.id], tab: "1" }
-              );
+              navigateTo.actors({ id: a.id }, { tab: 0 });
             }}
             onGroupClick={(g) => {
-              navigateTo.groups(
-                { id: group.id },
-                { ...query, groups: [g.id], tab: "1" }
-              );
+              navigateTo.groups({ id: g.id }, { ...query, tab: 0 });
             }}
           />
         );
