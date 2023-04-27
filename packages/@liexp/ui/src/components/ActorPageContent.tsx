@@ -4,7 +4,7 @@ import ActorsBox from "../containers/ActorsBox";
 import { DeathBox } from "../containers/DeathBox";
 import { LazyEditor as Editor } from "./Common/Editor";
 import GroupList from "./lists/GroupList";
-import { Box, Grid } from "./mui";
+import { Box, Grid, Typography } from "./mui";
 
 export interface ActorPageContentProps {
   actor: Actor.Actor;
@@ -28,28 +28,31 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
         ) : null}
         {actor.body ? <Editor value={actor.body as any} readOnly /> : null}
       </Grid>
-      <Grid
-        item
-        md={3}
-        sm={4}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-          justifyContent: "center",
-        }}
-      >
-        <Box style={{ display: "flex" }}>
-          <GroupList
-            groups={groups.map((g) => ({ ...g, selected: true }))}
-            onItemClick={onGroupClick}
-            style={{
-              display: "flex",
-              flexDirection: "row",
-            }}
-          />
-        </Box>
-      </Grid>
+      {groups.length > 0 ? (
+        <Grid
+          item
+          md={6}
+          sm={6}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            justifyContent: "center",
+          }}
+        >
+          <Box>
+            <Typography variant="h6">Member Of</Typography>
+            <GroupList
+              groups={groups.map((g) => ({ ...g, selected: true }))}
+              onItemClick={onGroupClick}
+              style={{
+                display: "flex",
+                flexDirection: "row",
+              }}
+            />
+          </Box>
+        </Grid>
+      ) : null}
 
       {groups.length > 0 && (
         <Grid item md={6} sm={6} xs={12}>
