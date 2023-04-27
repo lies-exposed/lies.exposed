@@ -147,7 +147,9 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                   onGroupClick={onGroupClick}
                   onKeywordClick={onKeywordClick}
                   onEventClick={onEventClick}
-                  onQueryChange={() => {}}
+                  onQueryChange={(q) => {
+                    onQueryChange(q, tab);
+                  }}
                 />
               </Box>
               <ActorHierarchyEdgeBundlingGraph

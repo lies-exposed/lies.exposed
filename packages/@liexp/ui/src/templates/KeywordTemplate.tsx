@@ -115,22 +115,21 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
                 onItemClick={() => {}}
                 column={2}
               />
-              <Box style={{ height: "100%" }}>
-                <EventNetworkGraphBoxWithFilters
-                  type={KEYWORDS.value}
-                  query={{
-                    ids: [keyword.id],
-                    startDate: formatDate(subYears(new Date(), 2)),
-                    endDate: formatDate(new Date()),
-                  }}
-                  relations={[GROUPS.value, ACTORS.value]}
-                  onKeywordClick={onKeywordClick}
-                  onEventClick={onEventClick}
-                  onActorClick={onActorClick}
-                  onGroupClick={onGroupClick}
-                  onQueryChange={() => {}}
-                />
-              </Box>
+
+              <EventNetworkGraphBoxWithFilters
+                type={KEYWORDS.value}
+                query={{
+                  ids: [keyword.id],
+                  startDate: formatDate(subYears(new Date(), 2)),
+                  endDate: formatDate(new Date()),
+                }}
+                relations={[GROUPS.value, ACTORS.value]}
+                onKeywordClick={onKeywordClick}
+                onEventClick={onEventClick}
+                onActorClick={onActorClick}
+                onGroupClick={onGroupClick}
+                onQueryChange={() => {}}
+              />
             </SplitPageTemplate>
           </Box>
         );
