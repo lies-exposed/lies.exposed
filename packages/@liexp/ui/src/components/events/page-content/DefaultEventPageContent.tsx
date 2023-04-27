@@ -3,8 +3,10 @@ import { type Event } from "@liexp/shared/lib/io/http/Events";
 import { MP3Type, OGGType } from "@liexp/shared/lib/io/http/Media";
 import { isValidValue } from "@liexp/shared/lib/slate";
 import * as React from "react";
+import { useModal } from "../../../hooks/useModal";
 import { useTheme } from "../../../theme";
 import Editor from "../../Common/Editor";
+import { MediaModalContent } from "../../Modal/MediaSliderModal";
 import { MediaList } from "../../lists/MediaList";
 import { Box, Grid } from "../../mui";
 import { MediaSlider } from "../../sliders/MediaSlider";
@@ -19,6 +21,19 @@ export const DefaultEventPageContent: React.FC<
   DefaultEventPageContentProps
 > = ({ event, media, onMediaClick, mediaLayout = "slider" }) => {
   const theme = useTheme();
+  const [modal, showModal] = useModal();
+
+  const handleMediaClick = React.useCallback(
+    (m: Media.Media) => {
+      showModal("media", () => (
+        <MediaModalContent
+          data={media}
+          initialSlide={media.findIndex((_) => _.id === m.id)}
+        />
+      ));
+    },
+    [modal, onMediaClick]
+  );
 
   return (
     <Grid container>
@@ -37,16 +52,16 @@ export const DefaultEventPageContent: React.FC<
             <MediaList
               media={media.map((m) => ({ ...m, selected: true }))}
               columns={media.length > 3 ? 3 : media.length}
-              onItemClick={onMediaClick}
+              onItemClick={handleMediaClick}
               itemStyle={{
-                maxWidth: 800
+                maxWidth: 800,
               }}
               hideDescription={true}
             />
           ) : mediaLayout === "slider" ? (
             <MediaSlider
               data={media}
-              onClick={onMediaClick}
+              onClick={handleMediaClick}
               itemStyle={(m) => ({
                 maxWidth: 800,
                 maxHeight: MP3Type.is(m.type) || OGGType.is(m.type) ? 100 : 400,
@@ -55,6 +70,7 @@ export const DefaultEventPageContent: React.FC<
             />
           ) : null
         ) : null}
+        {modal}
       </Grid>
       <Grid item>
         {isValidValue(event.excerpt) ? (

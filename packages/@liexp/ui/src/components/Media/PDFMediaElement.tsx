@@ -24,7 +24,6 @@ const StyledBox = styled(Box)(({ theme }) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    background: "red",
     minHeight: 300,
   },
 

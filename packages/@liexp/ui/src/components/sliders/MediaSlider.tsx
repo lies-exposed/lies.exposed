@@ -14,6 +14,7 @@ const classes = {
 const StyledSlider = styled(Slider)(({ theme }) => ({
   [`&.${classes.root}`]: {
     width: "100%",
+    backround: 'red',
     [`& .${classes.item}`]: {
       margin: "auto",
       width: "100%",
@@ -29,6 +30,7 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
 }));
 export interface MediaSliderProps extends Omit<SliderProps, "slides"> {
   data: Media.Media[];
+  disableZoom?: boolean;
   enableDescription?: boolean;
   onClick?: (e: Media.Media) => void;
   onLoad?: () => void;
@@ -41,6 +43,7 @@ export const MediaSlider: React.FC<MediaSliderProps> = ({
   itemStyle,
   onClick,
   onLoad,
+  disableZoom,
   enableDescription,
   className,
   itemClassName,
@@ -77,6 +80,7 @@ export const MediaSlider: React.FC<MediaSliderProps> = ({
               itemClassName={clsx(classes.item, itemClassName)}
               onLoad={i === 0 ? onLoad : undefined}
               enableDescription={enableDescription}
+              disableZoom={disableZoom}
               itemStyle={itemStyle?.(m)}
             />
           </div>
