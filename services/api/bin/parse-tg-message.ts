@@ -1,12 +1,13 @@
-import { parseTGMessageFlow } from "@flows/tg/parseMessages.flow";
-import { fp } from "@liexp/core/src/fp";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { loadENV, parseENV } from "@utils/env.utils";
-import D from "debug";
-import { pipe } from "fp-ts/lib/function";
 import * as fs from "fs";
 import * as path from "path";
+import { loadENV } from "@liexp/core/lib/env/utils";
+import { fp } from "@liexp/core/lib/fp";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import D from "debug";
+import { pipe } from "fp-ts/lib/function";
 import { makeContext } from "../src/server";
+import { parseTGMessageFlow } from "@flows/tg/parseMessages.flow";
+import { parseENV } from "@utils/env.utils";
 
 /**
  * Usage ts-node ./bin/parse-tg-message $messageN $delete?
@@ -17,7 +18,7 @@ import { makeContext } from "../src/server";
  * @returns void
  */
 const run = async (): Promise<any> => {
-  loadENV();
+  loadENV(process.cwd(), process.env.DOTENV_CONFIG_PATH ?? "../../.env");
 
   const [, , tgNumber, _deleteFile] = process.argv;
 

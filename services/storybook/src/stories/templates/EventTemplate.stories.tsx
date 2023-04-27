@@ -4,7 +4,7 @@ import {
   EventTemplateUI,
   type EventTemplateProps,
 } from "@liexp/ui/lib/templates/EventTemplate";
-import { type Meta, type Story } from "@storybook/react";
+import { type StoryFn, type Meta } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
@@ -14,7 +14,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<EventTemplateProps & { defaultTab: number }> = ({
+const Template: StoryFn<EventTemplateProps & { defaultTab: number }> = ({
   defaultTab,
   ...props
 }) => {
@@ -48,7 +48,7 @@ const Template: Story<EventTemplateProps & { defaultTab: number }> = ({
 const EventTemplateDefault = Template.bind({});
 
 EventTemplateDefault.args = {
-  defaultTab: 1,
+  defaultTab: 0,
 };
 
 export { EventTemplateDefault };

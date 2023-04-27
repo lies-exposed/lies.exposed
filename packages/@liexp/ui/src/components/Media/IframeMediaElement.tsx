@@ -13,16 +13,22 @@ const classes = {
 };
 
 const Root = styled("div")(() => ({
-  [`&.${classes.root}`]: {},
+  [`&.${classes.root}`]: {
+    minHeight: 200,
+    objectFit: "contain",
+  },
   [`& .${classes.iframe}`]: {
     display: "flex",
     height: "100%",
     width: "100%",
   },
   [`& .${classes.cover}`]: {
-    position: 'absolute',
+    display: "flex",
     height: "100%",
     width: "100%",
+    maxWidth: 800,
+    position: 'absolute',
+    margin: 'auto',
   },
 }));
 
