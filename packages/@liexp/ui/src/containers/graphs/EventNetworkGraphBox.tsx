@@ -154,8 +154,9 @@ const EventNetworkGraphBoxWrapper: React.FC<
           keywords,
         },
       }) => {
-        const minDate = events.at(events.length - 1).date;
-        const maxDate = events.at(0).date;
+        const minDate =
+          events.length > 0 ? events.at(events.length - 1).date : new Date();
+        const maxDate = events.length > 0 ? events.at(0).date : new Date();
 
         const filteredEvents = events.filter((e) => {
           const date = parseISO(e.date);
