@@ -21,10 +21,10 @@ import { clsx } from "clsx";
 import * as React from "react";
 import { type SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery";
 import { styled } from "../../theme";
-import { type ActorItem, ExpandableActorList } from "../lists/ActorList";
-import { ExpandableGroupList, type GroupItem } from "../lists/GroupList";
+import { type ActorItem, ActorList } from "../lists/ActorList";
+import GroupList, { type GroupItem } from "../lists/GroupList";
 import { GroupsMembersList } from "../lists/GroupMemberList";
-import { ExpandableKeywordList, type KeywordItem } from "../lists/KeywordList";
+import KeywordList, { type KeywordItem } from "../lists/KeywordList";
 import { Box, Grid, Typography } from "../mui";
 import {
   EventTypeFilters,
@@ -43,10 +43,10 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
     display: "flex",
     width: "100%",
     flexDirection: "row",
-    alignItems: "flex-start",
+    alignItems: "center",
     flexWrap: "wrap",
     [theme.breakpoints.down("sm")]: {
-      flexDirection: "row",
+      flexDirection: "column",
     },
   },
   [`& .${classes.dateRangeBox}`]: {
@@ -111,18 +111,20 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
   groupsMembers,
   onQueryChange,
   totals,
-  layout: _layout,
+  layout,
 }) => {
-  const layout: Required<EventsAppBarMinimizedProps["layout"]> = {
-    eventTypes: 6,
-    dateRangeBox: {
-      columns: 6,
-      variant: "slider",
-      ..._layout?.dateRangeBox,
-    },
-    relations: 4,
-    ..._layout,
-  };
+  const selectedGroups = React.useMemo(
+    () => groups.filter((b) => b.selected),
+    [groups]
+  );
+  const selectedActors = React.useMemo(
+    () => actors.filter((b) => b.selected),
+    [actors]
+  );
+  const selectedKeywords = React.useMemo(
+    () => keywords.filter((b) => b.selected),
+    [keywords]
+  );
 
   const handleFilterChange = React.useCallback(
     (ff: EventTypeMap, filterK: EventType) => {
@@ -146,15 +148,18 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
     [query]
   );
 
-  const handleQueryChange = (q: any): void => {
-    onQueryChange({
-      ...query,
-      actors: actors.filter((a) => a.selected).map((a) => a.id),
-      groups: groups.filter((g) => g.selected).map((a) => a.id),
-      keywords: keywords.filter((k) => k.selected).map((a) => a.id),
-      ...q,
-    });
-  };
+  const handleQueryChange = React.useCallback(
+    (q: any): void => {
+      onQueryChange({
+        ...query,
+        actors: actors.filter((a) => a.selected).map((a) => a.id),
+        groups: groups.filter((g) => g.selected).map((a) => a.id),
+        keywords: keywords.filter((k) => k.selected).map((a) => a.id),
+        ...q,
+      });
+    },
+    [query]
+  );
 
   const dateRangeBox =
     query.startDate ?? query.endDate ? (
@@ -173,14 +178,12 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
     ) : null;
 
   const actorsList = (
-    <ExpandableActorList
+    <ActorList
       style={{
         display: "flex",
         flexDirection: "row",
       }}
-      actors={actors.sort(
-        (a, b) => (b.selected ? 1 : 0) - (a.selected ? 1 : 0)
-      )}
+      actors={selectedActors}
       onActorClick={(k) => {
         handleQueryChange({
           actors: actors
@@ -196,14 +199,12 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
   );
 
   const groupsList = (
-    <ExpandableGroupList
+    <GroupList
       style={{
         display: "flex",
         flexDirection: "row",
       }}
-      groups={groups.sort(
-        (a, b) => (b.selected ? 1 : 0) - (a.selected ? 1 : 0)
-      )}
+      groups={selectedGroups}
       onItemClick={(k) => {
         if (isExpanded) {
           handleQueryChange({
@@ -221,24 +222,22 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
   );
 
   const keywordList = (
-    <ExpandableKeywordList
+    <KeywordList
       style={{
         display: "flex",
         flexDirection: "row",
       }}
-      keywords={keywords.sort(
-        (a, b) => (b.selected ? 1 : 0) - (a.selected ? 1 : 0)
-      )}
+      keywords={selectedKeywords}
       onItemClick={(k) => {
         if (isExpanded) {
           handleQueryChange({
             keywords: keywords
-              .map((g) => ({
-                ...g,
-                selected: g.id === k.id ? !k.selected : g.selected,
+              .map((kk) => ({
+                ...kk,
+                selected: kk.id === k.id ? !k.selected : kk.selected,
               }))
-              .filter((s) => s.selected)
-              .map((a) => a.id),
+              .filter((k) => k.selected)
+              .map((k) => k.id),
           });
         }
       }}
@@ -260,15 +259,16 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
   );
 
   return (
-    <StyledGrid className={clsx(classes.root, className)}>
+    <StyledGrid className={clsx(classes.root, className)} container>
       <Grid
         item
-        sm={12}
-        md={layout.eventTypes}
+        sm={8}
+        md={layout?.eventTypes}
         style={{
           display: "flex",
           flexDirection: "row",
           flexWrap: "wrap",
+          width: "100%",
         }}
       >
         <EventTypeFilters
@@ -281,8 +281,8 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
       {dateRangeBox ? (
         <Grid
           item
-          sm={12}
-          md={layout.dateRangeBox.columns}
+          sm={4}
+          md={layout?.dateRangeBox?.columns}
           style={{
             display: "flex",
             flexDirection: "row",
@@ -293,11 +293,11 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
         </Grid>
       ) : null}
 
-      {keywords.length > 0 ? (
+      {selectedKeywords.length > 0 ? (
         <Grid
           item
           sm={12}
-          md={layout.relations}
+          md={layout?.relations}
           style={{
             display: "flex",
             flexWrap: "wrap",
@@ -308,11 +308,11 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
           {keywordList}
         </Grid>
       ) : null}
-      {groups.length > 0 ? (
+      {selectedGroups.length > 0 ? (
         <Grid
           item
           sm={12}
-          md={layout.relations}
+          md={layout?.relations}
           style={{
             display: "flex",
             flexWrap: "wrap",
@@ -324,11 +324,11 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
           {groupsMembersList}
         </Grid>
       ) : null}
-      {actors.length > 0 ? (
+      {selectedActors.length > 0 ? (
         <Grid
           item
           sm={12}
-          md={layout.relations}
+          md={layout?.relations}
           style={{
             display: "flex",
             flexWrap: "wrap",

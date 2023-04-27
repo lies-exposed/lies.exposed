@@ -133,25 +133,22 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                 onEventClick={onEventClick}
               />
 
-              <Box style={{ height: "100%" }}>
-                <EventNetworkGraphBoxWithFilters
-                  type={ACTORS.value}
-                  query={{
-                    ids: [actor.id],
-                    type: EventType.types.map((t) => t.value),
-                    startDate: formatDate(subYears(new Date(), 2)),
-                    endDate: formatDate(new Date()),
-                  }}
-                  selectedActorIds={[]}
-                  onActorClick={onActorClick}
-                  onGroupClick={onGroupClick}
-                  onKeywordClick={onKeywordClick}
-                  onEventClick={onEventClick}
-                  onQueryChange={(q) => {
-                    onQueryChange(q, tab);
-                  }}
-                />
-              </Box>
+              <EventNetworkGraphBoxWithFilters
+                type={ACTORS.value}
+                query={{
+                  ids: [actor.id],
+                  type: EventType.types.map((t) => t.value),
+                  startDate: formatDate(subYears(new Date(), 2)),
+                  endDate: formatDate(new Date()),
+                }}
+                selectedActorIds={[]}
+                onActorClick={onActorClick}
+                onGroupClick={onGroupClick}
+                onKeywordClick={onKeywordClick}
+                onEventClick={onEventClick}
+                onQueryChange={() => {}}
+              />
+
               <ActorHierarchyEdgeBundlingGraph
                 actor={actor.id}
                 width={500}
