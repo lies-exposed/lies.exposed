@@ -19,11 +19,9 @@ const KeywordPage: React.FC<{ keywordId: string }> = ({ keywordId }) => {
       }}
       onKeywordClick={(k) => {
         navigateTo.keywords(
-          { id: keywordId },
+          { id: k.id },
           {
-            ...query,
-            tab: "0",
-            keywords: [k.id],
+            tab: 1,
           }
         );
       }}
@@ -36,8 +34,8 @@ const KeywordPage: React.FC<{ keywordId: string }> = ({ keywordId }) => {
       onActorClick={(m) => {
         navigateTo.actors({ id: m.id }, { tab: 0 });
       }}
-      onGroupClick={(m) => {
-        navigateTo.groups({ id: m.id } , { tab: 0 });
+      onGroupClick={(g) => {
+        navigateTo.groups({ id: g.id }, { tab: 0 });
       }}
       onQueryChange={(q) => {
         navigateTo.keywords({ id: keywordId }, { ...q, tab });
