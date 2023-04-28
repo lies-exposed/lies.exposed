@@ -5,20 +5,31 @@ import { createExcerptValue } from "@liexp/shared/lib/slate";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-import { type TEFlow } from '@flows/flow.types';
+import { type TEFlow } from "@flows/flow.types";
 import { toControllerError } from "@io/ControllerError";
 
 export const fetchFromWikipedia: TEFlow<[URL], CreateGroupBody> =
-  (ctx) =>
-  (url) => {
+  (ctx) => (url) => {
     return pipe(
       ctx.puppeteer.getBrowserFirstPage(url, {}),
       TE.chain((page) => {
         return TE.tryCatch(async () => {
-          const fullName = await page.$eval(
-            "#mw-content-text .mw-parser-output p:nth-of-type(2) b",
-            (el) => el.innerText
+          const lastParagraph = await page.$(
+            "#mw-content-text .mw-parser-output p:nth-of-type(2) b"
           );
+          let name;
+          if (lastParagraph) {
+            name = await page.$eval(
+              "#mw-content-text .mw-parser-output p:nth-of-type(2) b",
+              (el) => el.innerText
+            );
+          } else {
+            name = await page.$eval(
+              "#mw-content-text .mw-parser-output p:nth-of-type(1) b",
+              (el) => el?.innerText
+            );
+          }
+
           const excerpt = await page.$eval(
             "#mw-content-text .mw-parser-output p:nth-of-type(2)",
             (el) => el.innerText
@@ -30,7 +41,7 @@ export const fetchFromWikipedia: TEFlow<[URL], CreateGroupBody> =
           );
 
           const group = {
-            name: fullName,
+            name: name,
             kind: "Public" as const,
             startDate: new Date(),
             endDate: undefined,
