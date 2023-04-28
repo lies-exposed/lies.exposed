@@ -69,7 +69,11 @@ export const SuggestLinkModal: React.FC<SuggestLinkModalProps> = ({
             color="secondary"
             size="small"
             style={{ margin: 0 }}
-            onClick={onClose}
+            onClick={() => {
+              setUrl("");
+              setLink(undefined);
+              onClose();
+            }}
           >
             <CloseIcon fontSize="small" />
           </IconButton>
