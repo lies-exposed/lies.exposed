@@ -1,6 +1,6 @@
 import { type Media } from "@liexp/shared/lib/io/http";
 import { CloseOutlined } from "@mui/icons-material";
-import {clsx} from "clsx";
+import { clsx } from "clsx";
 import * as React from "react";
 import { styled } from "../../theme";
 import { Box, Button, Modal, Typography } from "../mui";
@@ -14,7 +14,9 @@ const classes = {
 };
 
 const StyledBox = styled(Box)(({ theme }) => ({
-  [`&.${classes.root}`]: {},
+  [`&.${classes.root}`]: {
+    display: "flex !important",
+  },
   [`& .${classes.modalContainer}`]: {
     position: "absolute",
     top: 0,
@@ -76,9 +78,6 @@ const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
       {!onClick ? (
         <Button
           variant="contained"
-          style={{
-            position: "absolute",
-          }}
           onClick={() => {
             setOpen(true);
           }}
