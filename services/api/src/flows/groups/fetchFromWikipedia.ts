@@ -41,7 +41,7 @@ export const fetchFromWikipedia: TEFlow<[URL], CreateGroupBody> =
           );
 
           const group = {
-            name: name,
+            name,
             kind: "Public" as const,
             startDate: new Date(),
             endDate: undefined,
