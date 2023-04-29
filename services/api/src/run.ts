@@ -5,9 +5,14 @@ import { pipe } from "fp-ts/function";
 import { failure } from "io-ts/lib/PathReporter";
 import { makeApp, makeContext } from "./server";
 import { parseENV } from "@utils/env.utils";
+import { loadENV } from "@liexp/core/lib/env/utils";
 
 const run = (): Promise<void> => {
   const serverLogger = logger.GetLogger("api");
+
+  if (process.env.NODE_ENV === "development") {
+    loadENV(process.cwd(), "../../.env.local");
+  }
 
   return pipe(
     parseENV(process.env),

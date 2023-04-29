@@ -1,4 +1,6 @@
 import * as t from "io-ts";
+import { Actor } from './Actor';
+import { Group } from './Group';
 import { Keyword } from "./Keyword";
 
 export const ShareMessageBodyMultipleMedia = t.array(
@@ -23,10 +25,12 @@ export type SharePlatform = t.TypeOf<typeof SharePlatform>;
 export const ShareMessageBody = t.strict(
   {
     title: t.string,
+    url: t.string,
     date: t.string,
     content: t.string,
     media: t.union([t.string, ShareMessageBodyMultipleMedia]),
-    url: t.string,
+    actors: t.array(Actor),
+    groups: t.array(Group),
     keywords: t.array(Keyword),
     platforms: t.record(SharePlatform, t.boolean)
   },

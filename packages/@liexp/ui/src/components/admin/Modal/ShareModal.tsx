@@ -1,11 +1,14 @@
+import { getShareMedia } from "@liexp/shared/lib/helpers/event";
 import { type Media } from "@liexp/shared/lib/io/http";
 import {
   type ShareMessageBody,
   type SharePlatform,
 } from "@liexp/shared/lib/io/http/ShareMessage";
-import { getShareMedia } from "@liexp/shared/src/helpers/event";
 import * as React from "react";
 import { type Identifier, useDataProvider } from "react-admin";
+import { ActorList } from "../../lists/ActorList";
+import GroupList from "../../lists/GroupList";
+import KeywordList from "../../lists/KeywordList";
 import { MediaList } from "../../lists/MediaList";
 import {
   Box,
@@ -84,7 +87,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
         });
         onClose?.();
       });
-  }, [onPost, payload, media, multipleMedia]);
+  }, [onPost, onClose, payload, media, multipleMedia]);
 
   return (
     <Dialog open={open}>
@@ -160,7 +163,6 @@ export const ShareModal: React.FC<ShareModalProps> = ({
             fullWidth
             multiline
             name="content"
-            defaultValue={payload.content ?? ""}
             value={payload.content ?? ""}
             onChange={(e) => {
               setState((s) => ({
@@ -175,17 +177,33 @@ export const ShareModal: React.FC<ShareModalProps> = ({
         </Box>
 
         <Box style={{ display: "flex", flexWrap: "wrap" }}>
-          {(payload?.keywords ?? []).map((k: any) => (
-            <a
-              key={k.id}
-              href={`${process.env.WEB_URL}/events?keywords[]=${k.id}`}
-              style={{ marginRight: 10 }}
-              target="_blank"
-              rel="noreferrer"
-            >
-              #{k.tag}
-            </a>
-          ))}
+          <ActorList
+            actors={(payload?.actors ?? []).map((a) => ({
+              ...a,
+              selected: true,
+            }))}
+            onActorClick={() => {}}
+          />
+        </Box>
+
+        <Box style={{ display: "flex", flexWrap: "wrap" }}>
+          <GroupList
+            groups={(payload?.groups ?? []).map((g) => ({
+              ...g,
+              selected: true,
+            }))}
+            onItemClick={() => {}}
+          />
+        </Box>
+
+        <Box style={{ display: "flex", flexWrap: "wrap", padding: 16 }}>
+          <KeywordList
+            keywords={(payload.keywords ?? []).map((k) => ({
+              ...k,
+              selected: true,
+            }))}
+            onItemClick={() => {}}
+          />
         </Box>
 
         <Box>
