@@ -1,8 +1,4 @@
 import { type http } from "@liexp/shared/lib/io";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
-import PagePreview from "@liexp/ui/lib/components/admin/previews/PagePreview";
-import * as React from "react";
 import {
   Create,
   type CreateProps,
@@ -18,7 +14,11 @@ import {
   TextField,
   TextInput,
   useRecordContext,
-} from "react-admin";
+} from "@liexp/ui/lib/components/admin";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
+import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
+import PagePreview from "@liexp/ui/lib/components/admin/previews/PagePreview";
+import * as React from "react";
 
 export const PageList: React.FC<ListProps> = (props) => (
   <List {...props}>

@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
@@ -12,10 +13,10 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { AreaEntity } from "./Area.entity";
-import { ArticleEntity } from "./Article.entity";
 import { EventV2Entity } from "./Event.v2.entity";
 import { KeywordEntity } from "./Keyword.entity";
 import { LinkEntity } from "./Link.entity";
+import { StoryEntity } from "./Story.entity";
 import { UserEntity } from "./User.entity";
 
 @Entity("image")
@@ -39,7 +40,11 @@ export class MediaEntity {
   })
   type: MediaType;
 
-  @ManyToOne(() => UserEntity, (u) => u.media, { cascade: false, nullable: true })
+  @ManyToOne(() => UserEntity, (u) => u.media, {
+    cascade: false,
+    nullable: true,
+  })
+  @JoinTable()
   creator: UserEntity | null;
 
   @ManyToMany(() => EventV2Entity, (e) => e.media, { cascade: false })
@@ -51,8 +56,11 @@ export class MediaEntity {
   @ManyToMany(() => AreaEntity, (a) => a.media, { cascade: false })
   areas: AreaEntity[];
 
-  @OneToMany(() => ArticleEntity, (a) => a.featuredImage, { cascade: false })
-  articles: ArticleEntity[];
+  @OneToMany(() => StoryEntity, (a) => a.featuredImage, { cascade: false })
+  featuredIn: StoryEntity[];
+
+  @ManyToMany(() => StoryEntity, (a) => a.media, { cascade: false })
+  stories: StoryEntity[];
 
   @ManyToMany(() => KeywordEntity, (a) => a.media, { cascade: false })
   keywords: KeywordEntity[];

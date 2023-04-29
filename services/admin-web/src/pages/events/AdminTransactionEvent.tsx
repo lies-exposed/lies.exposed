@@ -1,14 +1,5 @@
 import type * as Events from "@liexp/shared/lib/io/http/Events";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput";
-import ReferenceAreaInput from "@liexp/ui/lib/components/admin/common/ReferenceAreaInput";
-import { ReferenceBySubjectField } from "@liexp/ui/lib/components/admin/common/ReferenceBySubjectField";
-import ReferenceBySubjectInput from "@liexp/ui/lib/components/admin/common/ReferenceBySubjectInput";
-import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
-import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
-import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
-import * as React from "react";
 import {
   BooleanField,
   BooleanInput,
@@ -31,7 +22,16 @@ import {
   TextField,
   TextInput,
   useDataProvider,
-} from "react-admin";
+} from "@liexp/ui/lib/components/admin";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
+import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput";
+import ReferenceAreaInput from "@liexp/ui/lib/components/admin/common/ReferenceAreaInput";
+import { ReferenceBySubjectField } from "@liexp/ui/lib/components/admin/common/ReferenceBySubjectField";
+import ReferenceBySubjectInput from "@liexp/ui/lib/components/admin/common/ReferenceBySubjectInput";
+import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
+import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
+import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
+import * as React from "react";
 import { EventEditActions } from "./actions/EditEventActions";
 
 const transactionEventsFilter = [

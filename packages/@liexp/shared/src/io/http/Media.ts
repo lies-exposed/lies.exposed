@@ -1,9 +1,9 @@
 import * as t from "io-ts";
-import { BooleanFromString } from 'io-ts-types/lib/BooleanFromString';
+import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable';
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { UUID } from "./Common/UUID";
-import { GetListQuery } from './Query';
+import { GetListQuery } from "./Query";
 
 const JpgType = t.literal("image/jpg");
 const JpegType = t.literal("image/jpeg");
@@ -48,10 +48,9 @@ export const ValidContentType = t.union([
   MediaType.types[3],
   MediaType.types[4],
   MediaType.types[5],
-  MediaType.types[6]
+  MediaType.types[6],
 ]);
 export type ValidContentType = t.TypeOf<typeof ValidContentType>;
-
 
 export const GetListMediaQuery = t.type(
   {
@@ -69,7 +68,7 @@ export const GetListMediaQuery = t.type(
   },
   "MediaListQuery"
 );
-export type GetListMediaQuery = t.TypeOf<typeof GetListMediaQuery>
+export type GetListMediaQuery = t.TypeOf<typeof GetListMediaQuery>;
 
 export const CreateMedia = t.strict(
   {
@@ -94,6 +93,7 @@ export const Media = t.strict(
     events: t.array(UUID),
     links: t.array(UUID),
     keywords: t.array(UUID),
+    featuredIn: t.array(UUID),
     createdAt: DateFromISOString,
     updatedAt: DateFromISOString,
     deletedAt: t.union([DateFromISOString, t.undefined]),

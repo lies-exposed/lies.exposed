@@ -1,10 +1,11 @@
-import { type UUID } from 'io-ts-types/lib/UUID';
+import { type UUID } from "io-ts-types/lib/UUID";
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
   Index,
+  JoinTable,
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -12,6 +13,7 @@ import {
 } from "typeorm";
 import { EventV2Entity } from "./Event.v2.entity";
 import { GroupMemberEntity } from "./GroupMember.entity";
+import { StoryEntity } from "./Story.entity";
 
 @Entity("actor")
 export class ActorEntity {
@@ -38,7 +40,7 @@ export class ActorEntity {
   })
   memberIn: GroupMemberEntity[];
 
-  @ManyToMany(() => EventV2Entity, e => e.actors, { cascade: false })
+  @ManyToMany(() => EventV2Entity, (e) => e.actors, { cascade: false })
   events: EventV2Entity[];
 
   @Column({ type: "json", nullable: true })
@@ -46,6 +48,12 @@ export class ActorEntity {
 
   @Column({ type: "json", nullable: true })
   body: Record<string, unknown> | null;
+
+  @ManyToMany(() => StoryEntity, (k) => k.actors, {
+    cascade: false,
+  })
+  @JoinTable()
+  stories: StoryEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

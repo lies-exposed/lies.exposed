@@ -6,10 +6,10 @@ export const getAdminLink = <K extends io.http.ResourcesNames>(
   f: { id: string }
 ): string => {
   switch (key) {
-    case "articles":
+    case "stories":
     case "projects":
     case "events":
-    case "topics":
+    case "keywords":
     case "actors":
     case "media":
     case "groups": {
@@ -25,6 +25,8 @@ export const getProfileLink = (
   f: { id: string }
 ): string => {
   switch (key) {
+    case "stories":
+      return `/stories/${f.id}/edit`;
     case "media":
     case "events/suggestions": {
       return `/profile/${key}/${f.id}?type=Update`;
@@ -40,10 +42,10 @@ export const navigateTo = async <K extends io.http.ResourcesNames>(
   f: { path?: string; id: string }
 ): Promise<void> => {
   switch (resourceName) {
-    case `articles`:
+    case `stories`:
     case "events":
     case "actors":
-    case "topics":
+    case "keywords":
     case "projects":
     case "groups": {
       await nav(`/${resourceName}/${f.id}`);

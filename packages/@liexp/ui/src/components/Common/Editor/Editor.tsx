@@ -1,14 +1,18 @@
 import { fp } from "@liexp/core/lib/fp";
 import { getTextContents } from "@liexp/shared/lib/slate";
 import RPEditor, {
+  type Cell,
   type EditorProps,
+  type I18nField,
   type Row,
   type Value,
 } from "@react-page/editor";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
-import { ComponentsPickerPopover } from "./ComponentPickerPopover";
+// import { ComponentsPickerPopover } from "./ComponentPickerPopover";
 import { cellPlugins } from "./cellPlugins";
+
+type I18nEnField = I18nField<Record<string, any>>;
 
 const Editor: React.FC<Omit<EditorProps, "cellPlugins">> = ({
   value,
@@ -18,19 +22,55 @@ const Editor: React.FC<Omit<EditorProps, "cellPlugins">> = ({
   const [open, setOpen] = React.useState(false);
 
   const handleChange = (v: Value): void => {
-    const lastChar = getTextContents({
-      ...v,
-      rows: pipe(
+    const lastChar = pipe(
+      pipe(
         v.rows,
         fp.A.last,
-        fp.O.map((r): Row[] => [r]),
+        fp.O.map((r): Row[] => {
+          const cells = pipe(
+            r.cells,
+            fp.A.last,
+            fp.O.map((c: Cell) => [
+              {
+                ...c,
+                dataI18n: c.dataI18n?.en?.slate
+                  ? {
+                      en: pipe(
+                        c.dataI18n.en.slate as any[],
+                        fp.A.last,
+                        fp.O.map((c) => ({
+                          slate: [{ ...c, children: [c.children[0]] }],
+                        })),
+                        fp.O.getOrElse((): I18nEnField => ({ slate: [] }))
+                      ),
+                    }
+                  : c.dataI18n,
+              },
+            ]),
+            fp.O.getOrElse((): Row["cells"] => [])
+          );
+
+          return [{ ...r, cells }];
+        }),
         fp.O.getOrElse((): Row[] => [])
       ),
-    });
+      (rows) =>
+        getTextContents({
+          ...v,
+          rows,
+        })
+    );
+
+    // console.log({ lastChar });
 
     if (lastChar === "/") {
-      setOpen(true);
+      if (!open) {
+        setOpen(true);
+      }
     } else {
+      if (open) {
+        setOpen(false);
+      }
       onChange?.(v);
     }
   };
@@ -41,12 +81,12 @@ const Editor: React.FC<Omit<EditorProps, "cellPlugins">> = ({
       onChange={handleChange}
       {...props}
     >
-      <ComponentsPickerPopover
+      {/* <ComponentsPickerPopover
         open={open}
         onClose={() => {
           setOpen(false);
         }}
-      />
+      /> */}
     </RPEditor>
   );
 };

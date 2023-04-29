@@ -14,7 +14,9 @@
           "@mui/material",
           "@mui/material/*/*",
           "!@mui/material/test-utils/*",
-          "!@mui/material/styles"
+          "!@mui/material/styles",
+          "@liexp/core/src",
+          "@liexp/shared/src"
         ]
       }
     ]

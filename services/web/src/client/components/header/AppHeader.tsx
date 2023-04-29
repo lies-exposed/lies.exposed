@@ -12,6 +12,12 @@ const projectMenuItem: HeaderMenuItem = {
   subItems: [],
 };
 
+const storiesMenuItem: HeaderMenuItem = {
+  view: "/stories",
+  label: "Stories",
+  subItems: [],
+};
+
 const dataMenuItem: HeaderMenuItem = {
   view: "index",
   label: "Data",
@@ -65,8 +71,8 @@ const profileMenuItem: HeaderMenuItem = {
       label: "Event Suggestions",
     },
     {
-      view: "/profile/articles",
-      label: "Articles",
+      view: "/profile/stories",
+      label: "Stories",
     },
     {
       view: "/logout",
@@ -86,7 +92,7 @@ const AppHeader: React.FC = () => {
     <Header
       logoSrc={logo192}
       pathname={pathname}
-      menu={[projectMenuItem, dataMenuItem, userMenuItem]}
+      menu={[projectMenuItem, storiesMenuItem, dataMenuItem, userMenuItem]}
       onTitleClick={() => {
         navigateToResource.index({});
       }}

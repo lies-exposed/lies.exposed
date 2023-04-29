@@ -7,9 +7,6 @@ import {
   EventSuggestionEdit,
   EventSuggestionRead, UserStatus
 } from "@liexp/shared/lib/io/http/User";
-import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
-import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField";
-import * as React from "react";
 import {
   AutocompleteArrayInput,
   Create,
@@ -26,7 +23,10 @@ import {
   TextField,
   TextInput,
   useRecordContext
-} from "react-admin";
+} from "@liexp/ui/lib/components/admin";
+import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
+import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField";
+import * as React from "react";
 
 export const UserList: React.FC<ListProps> = (props) => (
   <List {...props} resource="users">

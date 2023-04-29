@@ -1,21 +1,5 @@
 import { type http } from "@liexp/shared/lib/io";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
-import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
-import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
-import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField";
-import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
-import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
-import { ReferenceMediaDataGrid } from "@liexp/ui/lib/components/admin/media/ReferenceMediaDataGrid";
-import { ImportMediaButton } from "@liexp/ui/lib/components/admin/media/button/ImportMediaButton";
-import { MediaArrayInput } from "@liexp/ui/lib/components/admin/media/input/MediaArrayInput";
-import EventPreview from "@liexp/ui/lib/components/admin/previews/EventPreview";
-import { DeathEventEditFormTab } from "@liexp/ui/lib/components/admin/tabs/DeathEventEditFormTab";
-import { EventGeneralTab } from "@liexp/ui/lib/components/admin/tabs/EventGeneralTab";
-import { ReferenceLinkTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceLinkTab";
-import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
-import * as React from "react";
 import {
   AutocompleteInput,
   BooleanField,
@@ -34,7 +18,23 @@ import {
   TabbedForm,
   useDataProvider,
   useRecordContext,
-} from "react-admin";
+} from "@liexp/ui/lib/components/admin";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
+import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
+import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
+import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
+import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField";
+import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
+import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
+import { ReferenceMediaDataGrid } from "@liexp/ui/lib/components/admin/media/ReferenceMediaDataGrid";
+import { ImportMediaButton } from "@liexp/ui/lib/components/admin/media/button/ImportMediaButton";
+import { MediaArrayInput } from "@liexp/ui/lib/components/admin/media/input/MediaArrayInput";
+import EventPreview from "@liexp/ui/lib/components/admin/previews/EventPreview";
+import { DeathEventEditFormTab } from "@liexp/ui/lib/components/admin/tabs/DeathEventEditFormTab";
+import { EventGeneralTab } from "@liexp/ui/lib/components/admin/tabs/EventGeneralTab";
+import { ReferenceLinkTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceLinkTab";
+import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
+import * as React from "react";
 import { EventEditActions } from "./actions/EditEventActions";
 
 const deathEventsFilter = [

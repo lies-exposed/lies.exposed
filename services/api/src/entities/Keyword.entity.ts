@@ -10,10 +10,10 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { ArticleEntity } from './Article.entity';
 import { EventV2Entity } from "./Event.v2.entity";
 import { LinkEntity } from "./Link.entity";
 import { MediaEntity } from './Media.entity';
+import { StoryEntity } from './Story.entity';
 
 @Entity("keyword")
 @Index(["tag"], { unique: true })
@@ -34,9 +34,9 @@ export class KeywordEntity {
   @JoinTable()
   links: LinkEntity[];
 
-  @ManyToMany(() => ArticleEntity, (e) => e.keywords, { cascade: false })
+  @ManyToMany(() => StoryEntity, (e) => e.keywords, { cascade: false })
   @JoinTable()
-  articles: ArticleEntity[];
+  stories: StoryEntity[];
 
   @ManyToMany(() => MediaEntity, (e) => e.keywords, { cascade: false })
   @JoinTable()

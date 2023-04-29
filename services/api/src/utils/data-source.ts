@@ -5,7 +5,6 @@ import * as path from "path";
 import { DataSource } from "typeorm";
 import { ActorEntity } from "@entities/Actor.entity";
 import { AreaEntity } from "@entities/Area.entity";
-import { ArticleEntity } from "@entities/Article.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { GroupEntity } from "@entities/Group.entity";
@@ -16,6 +15,7 @@ import { MediaEntity } from "@entities/Media.entity";
 import { PageEntity } from "@entities/Page.entity";
 import { ProjectEntity } from "@entities/Project.entity";
 import { ProjectImageEntity } from "@entities/ProjectImage.entity";
+import { StoryEntity } from "@entities/Story.entity";
 import { UserEntity } from "@entities/User.entity";
 import { DeathEventEntity } from "@entities/archive/DeathEvent.entity";
 import { EventEntity } from "@entities/archive/Event.entity";
@@ -59,7 +59,7 @@ export const getDataSource = (
       ActorEntity,
       GroupEntity,
       GroupMemberEntity,
-      ArticleEntity,
+      StoryEntity,
       ProjectEntity,
       ProjectImageEntity,
       AreaEntity,

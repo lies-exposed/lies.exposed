@@ -9,7 +9,6 @@ import * as User from "./User.endpoints";
 import * as Actor from "./actor.endpoints";
 import * as Admins from "./admin.endpoints";
 import * as Area from "./area.endpoints";
-import * as Article from "./article.endpoints";
 import * as Event from "./event.endpoints";
 import * as DeathEvent from "./events/death.endpoints";
 import * as DocumentaryEvent from "./events/documentary.endpoints";
@@ -25,6 +24,7 @@ import * as Media from "./media.endpoints";
 import * as Page from "./page.endpoints";
 import * as Project from "./project.endpoints";
 import * as ScientificStudy from "./scientificStudy.endpoint";
+import * as Story from "./story.endpoints";
 import * as Uploads from "./upload.endpoints";
 
 const Endpoints = {
@@ -42,7 +42,7 @@ const Endpoints = {
   Link: Link.links,
 
   // stories
-  Article: Article.articles,
+  Story: Story.stories,
   Graph: Graph.graphs,
 
   // events

@@ -260,15 +260,15 @@ export const jsonData =
       foldTE
     );
 
-export const articleByPath = ({
+export const fetchStoryByPath = ({
   path,
 }: {
   path: string;
-}): Promise<io.http.Article.Article> =>
+}): Promise<io.http.Story.Story> =>
   pipe(
     liftFetch(
-      () => dataProvider.get("articles", { path }),
-      io.http.Common.ListOutput(io.http.Article.Article, "Articles").decode
+      () => dataProvider.get("stories", { path }),
+      io.http.Common.ListOutput(io.http.Story.Story, "Stories").decode
     ),
     TE.map((pages) => pages.data[0]),
     foldTE

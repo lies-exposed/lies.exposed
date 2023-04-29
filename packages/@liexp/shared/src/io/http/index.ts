@@ -2,7 +2,6 @@
 import * as t from "io-ts";
 import * as Actor from "./Actor";
 import * as Area from "./Area";
-import * as Article from "./Article";
 import * as Common from "./Common";
 import * as Error from "./Error";
 import * as EventSuggestion from './EventSuggestion'
@@ -18,6 +17,7 @@ import * as Project from "./Project";
 import * as ProjectImage from "./ProjectImage";
 import * as Query from "./Query";
 import * as Stats from './Stats';
+import * as Story from "./Story";
 import * as Topic from "./Topic";
 import * as User from "./User";
 import * as Video from "./Video";
@@ -29,10 +29,11 @@ export const ResourcesNames = t.keyof(
     keywords: null,
     actors: null,
     groups: null,
-    articles: null,
+    stories: null,
     areas: null,
     projects: null,
     media: null,
+    profile: null,
     'events/suggestions': null
   },
   "ResourcesNames"
@@ -43,7 +44,7 @@ export type ResourcesNames = t.TypeOf<typeof ResourcesNames>;
 export {
   Actor,
   Area,
-  Article,
+  Story,
   Common,
   Link,
   Error,

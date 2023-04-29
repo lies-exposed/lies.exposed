@@ -14,7 +14,8 @@
           "!@mui/core/test-utils/*",
           "@liexp/core/src",
           "@liexp/shared/src",
-          "@liexp/ui/src"
+          "@liexp/ui/src",
+          "react-admin"
         ]
       }
     ],

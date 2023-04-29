@@ -45,6 +45,6 @@ webConfig.plugins?.push(
   ]) as any
 );
 
-webConfig.devtool = undefined;
+// webConfig.devtool = undefined;
 
 export default webConfig;

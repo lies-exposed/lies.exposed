@@ -9,6 +9,7 @@ export interface ActorChipProps {
   actor: Actor;
   avatarSize?: AvatarSize;
   displayFullName?: boolean;
+  displayAvatar?: boolean;
   className?: string;
   style?: React.CSSProperties;
   avatarStyle?: React.CSSProperties;
@@ -20,6 +21,7 @@ export const ActorChip: React.FC<ActorChipProps> = ({
   actor,
   avatarSize,
   displayFullName = false,
+  displayAvatar = true,
   onClick,
   style,
   avatarStyle,
@@ -36,10 +38,12 @@ export const ActorChip: React.FC<ActorChipProps> = ({
         margin: 0,
         ...style,
       }}
-      onClick={() => { onClick?.(actor); }}
+      onClick={() => {
+        onClick?.(actor);
+      }}
     >
       {pipe(
-        O.fromNullable(actor.avatar),
+        O.fromNullable(displayAvatar ? actor.avatar : null),
         O.map((src) => (
           <Avatar
             key={actor.id}

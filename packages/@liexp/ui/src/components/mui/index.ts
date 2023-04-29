@@ -59,7 +59,6 @@ import MenuList from "@mui/material/MenuList";
 import Modal, { type ModalProps } from "@mui/material/Modal";
 import Pagination from "@mui/material/Pagination";
 import Paper from "@mui/material/Paper";
-import Popover, { type PopoverProps } from "@mui/material/Popover";
 import Popper from "@mui/material/Popper";
 import Select, { type SelectChangeEvent } from "@mui/material/Select";
 import Slider from "@mui/material/Slider";
@@ -160,7 +159,5 @@ export {
   Checkbox,
   Switch,
   Pagination,
-  Popover,
-  type PopoverProps,
 };
 

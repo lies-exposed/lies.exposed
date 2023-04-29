@@ -1,6 +1,6 @@
 import * as http from "@liexp/shared/lib/io/http";
 import { UNCATEGORIZED } from "@liexp/shared/lib/io/http/Events/Uncategorized";
-import { type UUID } from 'io-ts-types/lib/UUID';
+import { type UUID } from "io-ts-types/lib/UUID";
 import {
   Column,
   CreateDateColumn,
@@ -10,13 +10,14 @@ import {
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from "typeorm";
-import { type ActorEntity } from './Actor.entity';
-import { type GroupEntity } from './Group.entity';
+import { type ActorEntity } from "./Actor.entity";
+import { type GroupEntity } from "./Group.entity";
 import { KeywordEntity } from "./Keyword.entity";
 import { LinkEntity } from "./Link.entity";
 import { MediaEntity } from "./Media.entity";
+import { StoryEntity } from "./Story.entity";
 
 @Entity("event_v2")
 export class EventV2Entity {
@@ -69,6 +70,11 @@ export class EventV2Entity {
 
   actors: ActorEntity[];
   groups: GroupEntity[];
+
+  @ManyToMany(() => StoryEntity, (k) => k.events, {
+    cascade: false,
+  })
+  stories: StoryEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

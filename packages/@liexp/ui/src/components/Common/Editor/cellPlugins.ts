@@ -6,13 +6,20 @@ import image from "@react-page/plugins-image";
 // import slate from "@react-page/plugins-slate";
 import spacer from "@react-page/plugins-spacer";
 import video from "@react-page/plugins-video";
+import { componentPickerPopoverPlugin } from "./plugins/ComponentPickerPopoverPlugin";
+import { actorInlinePlugin } from "./plugins/actor/ActorInline.plugin";
 import eventsBlock from "./plugins/event/eventBlock.plugin";
 import gridCellPlugin from "./plugins/gridCellPlugin";
+import { groupInlinePlugin } from "./plugins/group/GroupInline.plugin";
+import { keywordInlinePlugin } from "./plugins/keyword/KeywordInline.plugin";
 import mediaBlock from "./plugins/media/mediaBlock";
 
 export const minimalCellPlugins = [
   getLiexpSlate({
-    // actorInlinePlugin,
+    actorInlinePlugin,
+    groupInlinePlugin,
+    keywordInlinePlugin,
+    componentPickerPopoverPlugin,
   }),
 ] as any[];
 
