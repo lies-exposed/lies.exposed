@@ -11,10 +11,34 @@ const writeText: Flow<[ShareMessageBody], string> = (ctx) => (body) => {
   const title = `<a href="${body.url}"><b>${body.title}</b></a>`;
   const date = `<a href="${ctx.env.WEB_URL}/events?startDate=${body.date}">${body.date}</a>`;
   const keywords = `${body.keywords.map((k) => `#${k.tag}`).join(" ")}`;
+  const actors =
+    body.actors.length > 0
+      ? [
+          "Actors:",
+          `${body.actors
+            .map(
+              (a) =>
+                `<a href="${ctx.env.WEB_URL}/actors/${a.id}">${a.fullName}</a>`
+            )
+            .join("\n")}`,
+        ]
+      : [];
+  const groups =
+    body.groups.length > 0
+      ? [
+          "Groups: \n",
+          `${body.groups
+            .map(
+              (g) => `<a href="${ctx.env.WEB_URL}/groups/${g.id}">${g.name}</a>`
+            )
+            .join("\n")}`,
+        ]
+      : [];
   const submitLink = `Submit a link to ${ctx.env.TG_BOT_USERNAME}`;
   const publicChannels = [
     `${ctx.env.TG_BOT_CHAT}`,
     `<a href="${ctx.env.WEB_URL}">alpha.lies.exposed</a>`,
+    `<a href="https://github.com/lies-exposed/lies.exposed">GitHub</a>`,
   ];
   const footer = [submitLink, "Follow us ".concat(publicChannels.join(" | "))];
 
@@ -23,6 +47,9 @@ const writeText: Flow<[ShareMessageBody], string> = (ctx) => (body) => {
     date,
     "\n",
     body.content,
+    "\n",
+    ...actors,
+    ...groups,
     "\n",
     keywords,
     "\n",
@@ -34,13 +61,14 @@ export const postToTG: TEFlow<[UUID, ShareMessageBody], EventV2Entity> =
   (ctx) => (id, body) => {
     return pipe(
       writeText(ctx)(body),
+      ctx.logger.info.logInPipe(`Posting ${id} with caption %s`),
       TE.right,
-      ctx.logger.info.logInTaskEither(`Posting ${id} with caption %s`),
-      TE.chain((text) =>
-        t.string.is(body.media)
+      TE.chain((text) => {
+        ctx.logger.debug.log("Upload media %O", body.media);
+        return t.string.is(body.media)
           ? ctx.tg.postPhoto(body.media, text)
-          : ctx.tg.postMediaGroup(text, body.media)
-      ),
+          : ctx.tg.postMediaGroup(text, body.media);
+      }),
       TE.mapLeft((e) => ServerError([e.message]))
     );
   };
