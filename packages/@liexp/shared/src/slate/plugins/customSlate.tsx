@@ -1,10 +1,20 @@
+import { fp } from "@liexp/core/lib/fp";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
+import { type Cell } from "@react-page/editor";
 import slate, { type SlateCellPlugin } from "@react-page/plugins-slate";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
+import { StoryUtils } from "../../utils/story.utils";
 
+export const H1_TYPE = "HEADINGS/HEADING-ONE";
+export const H2_TYPE = "HEADINGS/HEADING-TWO";
+export const H3_TYPE = "HEADINGS/HEADING-THREE";
+export const H4_TYPE = "HEADINGS/HEADING-FOUR";
+export const H5_TYPE = "HEADINGS/HEADING-FIVE";
+export const H6_TYPE = "HEADINGS/HEADING-SIX";
 export const PARAGRAPH_TYPE = "PARAGRAPH/PARAGRAPH";
 export const PARAGRAPH_PRE_TYPE = "PARAGRAPH/PRE";
 export const EMPHASIZE_EM_TYPE = "EMPHASIZE/EM";
@@ -12,10 +22,24 @@ export const EMPHASIZE_STRONG_TYPE = "EMPHASIZE/STRONG";
 export const EMPHASIZE_U_TYPE = "EMPHASIZE/U";
 export const BLOCKQUOTE_TYPE = "BLOCKQUOTE/BLOCKQUOTE";
 
+export const LIEXP_SLATE_PLIUGIN_ID = "eco-slate-plugin";
+
+const getHeaderId = (children: React.ReactNode): string | undefined => {
+  return pipe(
+    fp.E.tryCatch(() => {
+      const c: any = children ?? {};
+      // console.log(c?.props, );
+      return StoryUtils.convertTitleToId(c.props.children[0].text);
+    }, fp.E.toError),
+    fp.O.fromEither,
+    fp.O.toUndefined
+  );
+};
+
 export const getLiexpSlate = (custom: any): SlateCellPlugin<any> => {
   return slate((def) => ({
     ...def,
-    id: "eco-slate-plugin",
+    id: LIEXP_SLATE_PLIUGIN_ID,
     title: "@liexp Slate plugin",
     description: "Slate plugin with components used in @liexp.",
     plugins: {
@@ -23,8 +47,13 @@ export const getLiexpSlate = (custom: any): SlateCellPlugin<any> => {
       headings: {
         h1: def.plugins.headings.h1((h1Def) => ({
           ...h1Def, // spread it, so that the new config contains all defaults
-          Component: ({ style, children }) => (
-            <Typography variant="h1" style={style}>
+          Component: ({ style, children, attributes }) => (
+            <Typography
+              id={getHeaderId(children)}
+              variant="h1"
+              style={style}
+              {...attributes}
+            >
               {children}
             </Typography>
           ),
@@ -32,7 +61,7 @@ export const getLiexpSlate = (custom: any): SlateCellPlugin<any> => {
         h2: def.plugins.headings.h2((h2Def) => ({
           ...h2Def, // spread it, so that the new config contains all defaults
           Component: ({ style, children }) => (
-            <Typography variant="h2" style={style}>
+            <Typography id={getHeaderId(children)} variant="h2" style={style}>
               {children}
             </Typography>
           ),
@@ -40,7 +69,7 @@ export const getLiexpSlate = (custom: any): SlateCellPlugin<any> => {
         h3: def.plugins.headings.h3((h3Def) => ({
           ...h3Def, // spread it, so that the new config contains all defaults
           Component: ({ style, children }) => (
-            <Typography variant="h3" style={style}>
+            <Typography id={getHeaderId(children)} variant="h3" style={style}>
               {children}
             </Typography>
           ),
@@ -48,7 +77,7 @@ export const getLiexpSlate = (custom: any): SlateCellPlugin<any> => {
         h4: def.plugins.headings.h4((h4Def) => ({
           ...h4Def, // spread it, so that the new config contains all defaults
           Component: ({ style, children }) => (
-            <Typography variant="h4" style={style}>
+            <Typography id={getHeaderId(children)} variant="h4" style={style}>
               {children}
             </Typography>
           ),
@@ -56,7 +85,7 @@ export const getLiexpSlate = (custom: any): SlateCellPlugin<any> => {
         h5: def.plugins.headings.h5((h5Def) => ({
           ...h5Def, // spread it, so that the new config contains all defaults
           Component: ({ style, children }) => (
-            <Typography variant="h5" style={style}>
+            <Typography id={getHeaderId(children)} variant="h5" style={style}>
               {children}
             </Typography>
           ),
@@ -64,7 +93,7 @@ export const getLiexpSlate = (custom: any): SlateCellPlugin<any> => {
         h6: def.plugins.headings.h6((h6Def) => ({
           ...h6Def, // spread it, so that the new config contains all defaults
           Component: ({ style, children }) => (
-            <Typography variant="h6" style={style}>
+            <Typography id={getHeaderId(children)} variant="h6" style={style}>
               {children}
             </Typography>
           ),
@@ -78,7 +107,7 @@ export const getLiexpSlate = (custom: any): SlateCellPlugin<any> => {
             <Typography
               className={className}
               variant="body1"
-              style={{ ...style, display: 'inline-block', marginBottom: 20 }}
+              style={{ ...style, display: "inline-block", marginBottom: 20 }}
             >
               {children}
             </Typography>
@@ -122,3 +151,7 @@ export const getLiexpSlate = (custom: any): SlateCellPlugin<any> => {
 };
 
 // export const liexpSlate = getLiexpSlate({});
+
+export const isSlatePlugin = (c: Cell): boolean => {
+  return c.plugin?.id === LIEXP_SLATE_PLIUGIN_ID;
+};

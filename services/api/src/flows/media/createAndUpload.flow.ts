@@ -37,6 +37,7 @@ export const createAndUpload: TEFlow<[Media.CreateMedia, any], MediaEntity> =
             ...location,
             events: [],
             links: [],
+            featuredIn: [],
             id: mediaId,
             location: upload.Location,
             thumbnail: thumb,

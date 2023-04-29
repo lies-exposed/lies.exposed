@@ -1,31 +1,8 @@
 import * as React from "react";
-import { Popover, type PopoverProps } from "../components/mui";
-import { styled } from "../theme";
-
-const PREFIX = "popover";
-
-const classes = {
-  root: `${PREFIX}-root`,
-  paper: `${PREFIX}-paper`,
-};
-
-const StyledPopover = styled(Popover)(({ theme }) => ({
-  [`&.${classes.root}`]: {
-    minWidth: 100,
-    minHeight: 60,
-  },
-  [`& .${classes.paper}`]: {
-    // display: "flex",
-    // flexDirection: "column",
-    // height: "100%",
-    // margin: theme.spacing(2),
-    // padding: theme.spacing(2),
-    // backgroundColor: theme.palette.common.white,
-  },
-}));
+import { Popover, type PopoverProps } from '../components/Common/Popover';
 
 export const usePopover = (
-  props: Omit<PopoverProps, "open">
+  props: Partial<Omit<PopoverProps, "open">>
 ): [
   React.ReactElement | null,
   (title: string, getContent: (onClose: () => void) => JSX.Element) => void
@@ -51,16 +28,15 @@ export const usePopover = (
     }
 
     return (
-      <StyledPopover
+      <Popover
         {...props}
-        className={classes.root}
         open={open}
         onClose={onClose}
         title={title}
         disablePortal={true}
       >
         {content}
-      </StyledPopover>
+      </Popover>
     );
   }, [popoverState, onClose]);
 

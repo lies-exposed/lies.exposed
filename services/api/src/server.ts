@@ -33,7 +33,6 @@ import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.route
 import { MakeActorRoutes } from "@routes/actors/actors.routes";
 import { MakeAdminRoutes } from "@routes/admins/admin.routes";
 import { MakeAreasRoutes } from "@routes/areas/Areas.routes";
-import { MakeArticlesRoutes } from "@routes/articles/articles.route";
 import { MakeDeathEventsRoutes } from "@routes/events/deaths/death.routes";
 import { MakeDocumentaryReleaseRoutes } from "@routes/events/documentary/documentary.routes";
 import { MakeEventRoutes } from "@routes/events/event.routes";
@@ -54,6 +53,7 @@ import { MakePageRoutes } from "@routes/pages/pages.route";
 import { MakeProjectRoutes } from "@routes/projects/project.routes";
 import { type RouteContext } from "@routes/route.types";
 import { MakeStatsRoutes } from "@routes/stats/stats.routes";
+import { MakeStoriesRoutes } from "@routes/stories/stories.route";
 import { MakeUploadsRoutes } from "@routes/uploads/upload.routes";
 import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller";
 import { MakeUserRoutes } from "@routes/users/User.routes";
@@ -219,8 +219,8 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   // project images
   MakeProjectImageRoutes(router, ctx);
 
-  // articles
-  MakeArticlesRoutes(router, ctx);
+  // stories
+  MakeStoriesRoutes(router, ctx);
 
   // media
   MakeMediaRoutes(router, ctx);

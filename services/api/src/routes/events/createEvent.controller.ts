@@ -14,7 +14,7 @@ export const CreateEventRoute: Route = (r, ctx) => {
     ({ body }) => {
       return pipe(
         createEventQuery(ctx)(body),
-        ctx.logger.info.logInTaskEither("Create data %O"),
+        ctx.logger.debug.logInTaskEither("Create data %O"),
         TE.chain((data) => ctx.db.save(EventV2Entity, [data])),
         TE.chain(([event]) =>
           ctx.db.findOneOrFail(EventV2Entity, {

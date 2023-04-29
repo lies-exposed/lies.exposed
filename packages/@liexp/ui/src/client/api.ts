@@ -5,7 +5,7 @@ import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-import { type AuthProvider } from "react-admin";
+import { type AuthProvider } from "../components/admin";
 import * as http from "../http";
 
 export const api = API({

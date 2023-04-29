@@ -1,7 +1,7 @@
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/event";
 import { EventType } from "@liexp/shared/lib/io/http/Events";
 import { StatsType } from "@liexp/shared/lib/io/http/Stats";
-import { articleByPath } from "@liexp/ui/lib/providers/DataProvider";
+import { fetchStoryByPath } from "@liexp/ui/lib/providers/DataProvider";
 import {
   fetchGroupsMembers,
   getGroupsMembersQueryKey,
@@ -25,8 +25,8 @@ import {
   getAreaQueryKey,
 } from "@liexp/ui/lib/state/queries/area.queries";
 import {
-  fetchArticles,
-  getArticleQueryKey,
+  fetchStories,
+  getStoryQueryKey,
 } from "@liexp/ui/lib/state/queries/article.queries";
 import { fetchEvent } from "@liexp/ui/lib/state/queries/event.queries";
 import { fetchGithubRepo } from "@liexp/ui/lib/state/queries/github";
@@ -68,9 +68,14 @@ import * as React from "react";
 import { useParams } from "react-router-dom";
 import IndexPage from "./pages";
 import NotFoundPage from "./pages/404";
+
+// lazy route components
 const ActorsPage = React.lazy(() => import("./pages/ActorsPage"));
 const AreasPage = React.lazy(() => import("./pages/AreasPage"));
-const BlogPage = React.lazy(() => import("./pages/BlogPage"));
+const CreateStoryPage = React.lazy(
+  () => import("./pages/stories/CreateStoryPage")
+);
+const BlogPage = React.lazy(() => import("./pages/stories/StorySearchPage"));
 const EventsPage = React.lazy(() => import("./pages/EventsPage"));
 const GroupsPage = React.lazy(() => import("./pages/GroupsPage"));
 const LinksPage = React.lazy(() => import("./pages/LinksPage"));
@@ -78,7 +83,7 @@ const KeywordsPage = React.lazy(() => import("./pages/KeywordsPage"));
 const MediaPage = React.lazy(() => import("./pages/MediaPage"));
 const ProfilePage = React.lazy(() => import("./pages/profile/ProfilePage"));
 const LogoutPage = React.lazy(() => import("./pages/Logout"));
-const ArticleTemplate = React.lazy(() => import("./templates/ArticleTemplate"));
+const StoryTemplate = React.lazy(() => import("./templates/StoryTemplate"));
 const ActorTemplate = React.lazy(() => import("./templates/ActorTemplate"));
 const AreaTemplate = React.lazy(() => import("./templates/AreaTemplate"));
 const EventTemplate = React.lazy(() => import("./templates/EventTemplate"));
@@ -87,6 +92,7 @@ const KeywordTemplate = React.lazy(() => import("./templates/KeywordTemplate"));
 const MediaTemplate = React.lazy(() => import("./templates/MediaTemplate"));
 const LinkTemplate = React.lazy(() => import("./templates/LinkTemplate"));
 const PageTemplate = React.lazy(() => import("./templates/PageTemplate"));
+const EditStoryPage = React.lazy(() => import("./pages/stories/EditStoryPage"));
 
 const githubQuery = {
   queryKey: ["github", { user: "lies-exposed", repo: "lies.exposed" }],
@@ -556,24 +562,46 @@ export const routes = [
   linksRoute,
   // stories
   {
+    path: "/stories/create/",
+    route: () => {
+      return <CreateStoryPage />;
+    },
+    queries: async ({ storyPath }: any) => {
+      return [...commonQueries];
+    },
+  },
+  {
+    path: "/stories/:storyId/edit",
+    route: () => {
+      const params = useParams<{ storyId: string }>();
+      if (params.storyId) {
+        return <EditStoryPage storyId={params.storyId} />;
+      }
+      return <NotFoundPage />;
+    },
+    queries: async ({ storyId }: any) => {
+      return [...commonQueries];
+    },
+  },
+  {
     path: "/stories/:storyPath",
     route: () => {
       const params = useParams<{ storyPath: string }>();
       if (params.storyPath) {
-        return <ArticleTemplate storyPath={params.storyPath} />;
+        return <StoryTemplate storyPath={params.storyPath} />;
       }
       return <NotFoundPage />;
     },
     queries: async ({ storyPath }: any) => {
-      const story = await articleByPath({ path: storyPath });
+      const story = await fetchStoryByPath({ path: storyPath });
       return [
         ...commonQueries,
         {
-          queryKey: getArticleQueryKey({ filter: { path: storyPath } }, false),
+          queryKey: getStoryQueryKey({ filter: { path: storyPath } }, false),
           queryFn: async () => story,
         },
         {
-          queryKey: getArticleQueryKey(
+          queryKey: getStoryQueryKey(
             {
               pagination: {
                 perPage: 3,
@@ -586,7 +614,7 @@ export const routes = [
             },
             false
           ),
-          queryFn: fetchArticles,
+          queryFn: fetchStories,
         },
         {
           queryKey: getKeywordsQueryKey(
@@ -619,7 +647,7 @@ export const routes = [
           queryFn: fetchPageContentByPath,
         },
         {
-          queryKey: getArticleQueryKey(
+          queryKey: getStoryQueryKey(
             {
               pagination: { page: 1, perPage: 20 },
               sort: { field: "id", order: "DESC" },
@@ -627,7 +655,7 @@ export const routes = [
             },
             false
           ),
-          queryFn: fetchArticles,
+          queryFn: fetchStories,
         },
       ];
     },

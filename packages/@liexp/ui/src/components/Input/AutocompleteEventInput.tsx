@@ -1,15 +1,14 @@
 import { getTitle } from "@liexp/shared/lib/helpers/event";
 import { type Events } from "@liexp/shared/lib/io/http";
 import * as React from "react";
-import {
-  useEventsQuery
-} from "../../state/queries/DiscreteQueries";
+import { useEventsQuery } from "../../state/queries/DiscreteQueries";
 import EventCard from "../Cards/Events/EventCard";
 import { EventCardGrid } from "../Cards/Events/EventCardGrid";
 import { AutocompleteInput } from "./AutocompleteInput";
 
 interface AutocompleteEventInputProps {
   className?: string;
+  discrete?: boolean;
   selectedItems: Events.Event[];
   onChange: (items: Events.Event[]) => void;
 }
@@ -17,6 +16,7 @@ interface AutocompleteEventInputProps {
 export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
   selectedItems,
   onChange,
+  discrete = true,
   ...props
 }) => {
   return (
@@ -35,11 +35,13 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
       }
       searchToFilter={(title) => ({ title })}
       selectedItems={selectedItems}
-      query={(p) => useEventsQuery(p, true)}
+      query={(p) => useEventsQuery(p, discrete)}
       renderTags={(items) => (
         <EventCardGrid
           events={items as any[]}
-          onItemClick={(a) => { onChange(items.filter((i) => i.id !== a.id)); }}
+          onItemClick={(a) => {
+            onChange(items.filter((i) => i.id !== a.id));
+          }}
         />
       )}
       renderOption={(props, item, state) => (

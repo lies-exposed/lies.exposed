@@ -38,20 +38,24 @@ const createMediaBlockPlugin = (
   return {
     controls: {
       type: "custom",
-      Component: (props) => {
+      Component: ({ remove, ...props }) => {
         const selectedItems = props.data?.mediaId ?? [];
         return (
           <Box style={{ height: 200 }}>
             <AutocompleteMediaInput
               {...props}
+              discrete={false}
               selectedItems={selectedItems}
-              onChange={(items) => { props.onChange({ mediaId: items }); }}
+              onChange={(items) => {
+                props.onChange({ mediaId: items });
+              }}
             />
           </Box>
         );
       },
     },
-    Renderer: ({ children, ...props }) => {
+    Renderer: ({ children, remove, ...props }) => {
+      // console.log(props);
       const ids = props.data?.mediaId?.map((v) => v.id) ?? [];
       if (ids.length > 0) {
         return (

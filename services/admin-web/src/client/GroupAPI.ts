@@ -2,16 +2,16 @@ import { type Group } from "@liexp/shared/lib/io/http/Group";
 import { MediaType } from "@liexp/shared/lib/io/http/Media";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI";
-import { type APIRESTClient } from "@liexp/ui/lib/http";
-import * as E from "fp-ts/Either";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
 import {
   type CreateParams,
   type CreateResult,
   type UpdateParams,
   type UpdateResult,
-} from "react-admin";
+} from "@liexp/ui/lib/components/admin";
+import { type APIRESTClient } from "@liexp/ui/lib/http";
+import * as E from "fp-ts/Either";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 
 export const createGroup =
   (client: APIRESTClient) =>

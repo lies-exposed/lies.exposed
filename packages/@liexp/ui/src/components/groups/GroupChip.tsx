@@ -8,7 +8,7 @@ import { Typography } from "../mui";
 export interface GroupChipProps {
   group: Group;
   avatarSize?: AvatarSize;
-  displayFullName?: boolean;
+  displayName?: boolean;
   className?: string;
   style?: React.CSSProperties;
   avatarStyle?: React.CSSProperties;
@@ -19,7 +19,7 @@ export interface GroupChipProps {
 export const GroupChip: React.FC<GroupChipProps> = ({
   group,
   avatarSize,
-  displayFullName = false,
+  displayName: displayFullName = false,
   onClick,
   style,
   avatarStyle,

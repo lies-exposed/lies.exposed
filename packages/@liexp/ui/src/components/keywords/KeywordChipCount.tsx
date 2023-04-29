@@ -2,7 +2,7 @@ import { type Keyword } from "@liexp/shared/lib/io/http";
 import { toColorHash } from "@liexp/shared/lib/utils/colors";
 import * as React from "react";
 import { ChipCount, type ChipCountProps } from "../Common/ChipCount";
-import { Typography } from "../mui";
+import { KeywordChip } from "./KeywordChip";
 
 interface KeywordChipCountProps
   extends Omit<ChipCountProps, "label" | "avatar" | "color"> {
@@ -17,12 +17,7 @@ export const KeywordChipCount: React.FC<KeywordChipCountProps> = ({
   return (
     <ChipCount
       {...props}
-      avatar={
-        <Typography
-          variant="subtitle2"
-          style={{ color: hashColor, paddingRight: 5 }}
-        >{`#${keyword.tag}`}</Typography>
-      }
+      avatar={<KeywordChip keyword={keyword} />}
       color={hashColor}
     />
   );

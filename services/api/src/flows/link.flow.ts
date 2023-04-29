@@ -60,8 +60,9 @@ export const fetchAsLink: TEFlow<
                       events: [],
                       areas: [],
                       links: [],
-                      articles: [],
+                      stories: [],
                       keywords: [],
+                      featuredIn: [],
                       deletedAt: null,
                     })
                   )

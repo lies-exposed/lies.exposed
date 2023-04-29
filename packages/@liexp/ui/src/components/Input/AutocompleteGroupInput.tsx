@@ -6,6 +6,7 @@ import { AutocompleteInput } from "./AutocompleteInput";
 
 interface AutocompleteGroupInputProps {
   className?: string;
+  discrete?: boolean;
   selectedItems: Group.Group[];
   onChange: (item: Group.Group[]) => void;
 }
@@ -13,6 +14,7 @@ interface AutocompleteGroupInputProps {
 export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
   selectedItems,
   onChange,
+  discrete = true,
   ...props
 }) => {
   return (
@@ -21,7 +23,7 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
       getValue={(a) => (typeof a === "string" ? a : a.name)}
       searchToFilter={(name) => ({ name })}
       selectedItems={selectedItems}
-      query={p => useGroupsQuery(p, true)}
+      query={p => useGroupsQuery(p, discrete)}
       renderTags={(items) => (
         <GroupList
           groups={items.map((i) => ({
@@ -37,7 +39,7 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
           displayName
           item={{
             ...item,
-            selected: selectedItems.some((i) => i.id === item.id),
+            selected: true,
           }}
           onClick={() => {
             onChange(selectedItems.filter((i) => i.id !== item.id).concat(item))
