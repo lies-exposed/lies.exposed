@@ -1,4 +1,3 @@
-import { IGPlatform, TGPlatform } from "@liexp/shared/lib/io/http/ShareMessage";
 import { apiProvider, authProvider } from "@liexp/ui/lib/client/api";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import {
@@ -12,7 +11,6 @@ import * as React from "react";
 import {
   AdminContext,
   RecordContextProvider,
-  DataProviderContext,
 } from "react-admin";
 
 const meta: Meta = {

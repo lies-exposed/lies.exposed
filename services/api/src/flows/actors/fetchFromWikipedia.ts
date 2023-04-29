@@ -15,21 +15,17 @@ export const fetchFromWikipedia: TEFlow<[URL], AddActorBody> =
       ctx.puppeteer.getBrowserFirstPage(url, {}),
       TE.chain((page) => {
         return TE.tryCatch(async () => {
-          const lastParagraph = await page.$(
-            "#mw-content-text .mw-parser-output p:nth-of-type(2) b"
+          const fullNameEl = await page.$(
+            "#mw-content-text .mw-parser-output p:not(.mw-empty-elt) b"
           );
-          let fullName: string;
-          if (lastParagraph) {
+          let fullName: string = "";
+          if (fullNameEl) {
             fullName = await page.$eval(
-              "#mw-content-text .mw-parser-output p:nth-of-type(2) b",
+              "#mw-content-text .mw-parser-output p:not(.mw-empty-elt) b",
               (el) => el.innerText
             );
-          } else {
-            fullName = await page.$eval(
-              "#mw-content-text .mw-parser-output p:nth-of-type(1) b",
-              (el) => el?.innerText
-            );
           }
+
           const excerpt = await page.$eval(
             "#mw-content-text .mw-parser-output p:nth-of-type(2)",
             (el) => el?.innerText
