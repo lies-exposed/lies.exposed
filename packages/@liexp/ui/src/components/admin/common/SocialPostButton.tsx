@@ -1,9 +1,17 @@
+import { fp } from "@liexp/core/lib/fp";
 import { getShareMedia, getTitle } from "@liexp/shared/lib/helpers/event";
+import {
+  getEventMetadata,
+  getRelationIds,
+} from "@liexp/shared/lib/helpers/event/event";
+import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
 import { type Keyword, type Media } from "@liexp/shared/lib/io/http";
-import { MediaType } from "@liexp/shared/lib/io/http/Media";
+import { type Event } from "@liexp/shared/lib/io/http/Events";
 import { type ShareMessageBody } from "@liexp/shared/lib/io/http/ShareMessage";
-import { getTextContents } from "@liexp/shared/lib/slate";
+import { getTextContents, isValidValue } from "@liexp/shared/lib/slate";
 import { formatDate, parseISO } from "@liexp/shared/lib/utils/date";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { pipe } from "fp-ts/lib/function";
 import { type UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
 import {
@@ -12,17 +20,9 @@ import {
   type FieldProps,
   type Identifier,
 } from "react-admin";
+import { fetchRelations } from "../../../state/queries/SearchEventsQuery";
 import { Box, Button, CircularProgress } from "../../mui";
 import { ShareModal, emptySharePayload } from "../Modal/ShareModal";
-
-// const emptySharePayload: Partial<ShareMessageBody> = {
-//   title: undefined,
-//   date: undefined,
-//   media: undefined,
-//   content: undefined,
-//   url: undefined,
-//   keywords: [],
-// };
 
 interface OnLoadSharePayloadClickOpts {
   multipleMedia: boolean;
@@ -100,95 +100,78 @@ export const EventSocialPostButton: React.FC<
     <SocialPostButton
       onLoadSharePayloadClick={async ({ multipleMedia }) => {
         return await apiProvider
-          .getOne(`events`, { id })
+          .getOne<Event>(`events`, { id })
           .then(async ({ data: event }) => {
-            if (event.media.length === 0) {
-              return event;
-            } else {
-              const { data: media } = await apiProvider.getMany("media", {
-                ids: event.media,
-              });
-              return { ...event, media };
-            }
-          })
-          .then(async (event) => {
-            if (event.keywords.length === 0) {
-              return event;
-            } else {
-              const { data: keywords } = await apiProvider.getMany("keywords", {
-                ids: event.keywords,
-              });
-              return { ...event, keywords };
-            }
-          })
-          .then(async (event) => {
-            if (event.type === "Quote") {
-              const { data: actor } = await apiProvider.getOne("actors", {
-                id: event.payload.actor,
-              });
+            const relationIds = getRelationIds(event);
+            const relations = await pipe(
+              fetchRelations(relationIds),
+              fp.TE.map(
+                ({ actors, groups, keywords, media, groupsMembers }) => ({
+                  actors: actors.data,
+                  keywords: keywords.data,
+                  groups: groups.data,
+                  media: media.data,
+                  groupsMembers: groupsMembers.data,
+                })
+              ),
+              throwTE
+            );
 
-              return {
-                event: {
-                  ...event,
-                  payload: {
-                    ...event.payload,
-                    actor: actor.fullName,
-                  },
-                  media: [
-                    {
-                      type: MediaType.types[0].value,
-                      thumbnail: actor.avatar,
-                    },
-                  ],
-                },
-                actors: [actor],
-              };
-            } else if (event.type === "Death") {
-              const { data: actor } = await apiProvider.getOne("actors", {
-                id: event.payload.victim,
-              });
-              return {
-                event: {
-                  ...event,
-                  payload: {
-                    ...event.payload,
-                    victim: actor.fullName,
-                  },
-                  media: [
-                    {
-                      type: MediaType.types[0].value,
-                      thumbnail: actor.avatar,
-                    },
-                  ],
-                },
-                actors: [actor],
-              };
-            }
-            return { event, actors: [] };
-          })
-          .then(({ event, actors }) => {
-            // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-            const title = getTitle(event as any, {
-              actors,
-              groups: [],
-              groupsMembers: [],
-              keywords: [],
-              media: [],
+            const title = getTitle(event, relations);
+
+            const searchEvent = toSearchEvent(event, {
+              actors: new Map(relations.actors.map((a) => [a.id, a])),
+              groups: new Map(relations.groups.map((a) => [a.id, a])),
+              media: new Map(relations.media.map((a) => [a.id, a])),
+              keywords: new Map(relations.keywords.map((a) => [a.id, a])),
+              groupsMembers: new Map(
+                relations.groupsMembers.map((a) => [a.id, a])
+              ),
             });
 
-            const date = formatDate(parseISO(event.date));
+            if (searchEvent.type === "Quote") {
+              const { actor } = searchEvent.payload;
+              return {
+                event: {
+                  ...searchEvent,
+                },
+                actors: [actor],
+                groups: relations.groups,
+                media: relations.media,
+                title,
+              };
+            }
 
-            const content: string = getTextContents(event.excerpt)[0];
+            const { media, actors, groups } = getEventMetadata(searchEvent);
+            return {
+              event: {
+                ...event,
+                ...searchEvent,
+                media,
+              },
+              media,
+              actors,
+              groups,
+              title,
+            };
+          })
+          .then(({ event, actors, groups, media, title }) => {
+            const { date, excerpt, keywords } = event;
+
+            const content: string = isValidValue(excerpt)
+              ? getTextContents(excerpt)
+              : "";
             const url = `${process.env.WEB_URL}/events/${id}`;
-            const keywords: Keyword.Keyword[] = event.keywords;
 
             return {
               title,
-              date,
-              media: event.media,
+              date: formatDate(parseISO(date as any)),
+              media,
               content,
               url,
               keywords,
+              actors,
+              groups,
               platforms: { TG: true, IG: false },
             };
           });
@@ -231,6 +214,8 @@ export const MediaTGPostButton: React.FC<
           media: [record as any],
           date,
           content: record.description,
+          actors: [],
+          groups: [],
           url,
           platforms: { TG: true, IG: false },
         };

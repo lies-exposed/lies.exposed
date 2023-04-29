@@ -9,7 +9,8 @@ import { type Route } from "@routes/route.types";
 export const PostSharePayloadToPlatformRoute: Route = (r, ctx) => {
   AddEndpoint(r)(
     Endpoints.Admin.Custom.PostToPlatform,
-    ({ params: { id, type }, body: { platforms, ...body } }) => {
+    ({ params: { id }, body: { platforms, ...body } }) => {
+
       return pipe(
         sequenceS(TE.ApplicativePar)({
           ig: platforms.IG
