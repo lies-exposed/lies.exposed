@@ -1,5 +1,5 @@
+import { type Link } from "@liexp/shared/lib/io/http";
 import { type Media } from "@liexp/shared/lib/io/http/Media";
-import { type Link } from "@liexp/shared/src/io/http";
 import get from "lodash/get";
 import React from "react";
 import {

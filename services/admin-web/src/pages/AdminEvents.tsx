@@ -11,6 +11,27 @@ import {
 import { getTextContentsCapped } from "@liexp/shared/lib/slate";
 import { LinkIcon } from "@liexp/ui/lib/components/Common/Icons";
 import { EventIcon } from "@liexp/ui/lib/components/Common/Icons/EventIcon";
+import {
+  BooleanField,
+  BooleanInput,
+  Datagrid,
+  DateField,
+  DateInput,
+  FilterList,
+  FilterListItem,
+  FilterLiveSearch,
+  FormDataConsumer,
+  FormTab,
+  FunctionField,
+  List,
+  type RaRecord as Record,
+  ReferenceField,
+  SavedQueriesList,
+  TabbedForm,
+  TextField,
+  useDataProvider,
+  useRecordContext,
+} from "@liexp/ui/lib/components/admin";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
@@ -39,27 +60,6 @@ import {
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import * as R from "fp-ts/Record";
 import * as React from "react";
-import {
-  BooleanField,
-  BooleanInput,
-  Datagrid,
-  DateField,
-  DateInput,
-  FilterList,
-  FilterListItem,
-  FilterLiveSearch,
-  FormDataConsumer,
-  FormTab,
-  FunctionField,
-  List,
-  type RaRecord as Record,
-  ReferenceField,
-  SavedQueriesList,
-  TabbedForm,
-  TextField,
-  useDataProvider,
-  useRecordContext,
-} from "react-admin";
 import { DeathEventTitle } from "./events/AdminDeathEvent";
 import { DocumentaryReleaseTitle } from "./events/AdminDocumentaryEvent";
 import { PatentEventTitle } from "./events/AdminPatentEvent";

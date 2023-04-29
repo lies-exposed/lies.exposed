@@ -1,22 +1,5 @@
 import * as ScientificStudy from "@liexp/shared/lib/io/http/Events/ScientificStudy";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
-import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
-import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
-import URLMetadataInput from "@liexp/ui/lib/components/admin/common/URLMetadataInput";
-import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceGroupInput";
-import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
-import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
-import { ReferenceMediaDataGrid } from "@liexp/ui/lib/components/admin/media/ReferenceMediaDataGrid";
-import { MediaArrayInput } from "@liexp/ui/lib/components/admin/media/input/MediaArrayInput";
-import EventPreview from "@liexp/ui/lib/components/admin/previews/EventPreview";
-import { EventGeneralTab } from "@liexp/ui/lib/components/admin/tabs/EventGeneralTab";
-import { ReferenceLinkTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceLinkTab";
-import { ScientificStudyEventEditTab } from "@liexp/ui/lib/components/admin/tabs/ScientificStudyEventEditTab";
-import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
-import { Box } from "@liexp/ui/lib/components/mui";
-import * as React from "react";
 import {
   BooleanField,
   BooleanInput,
@@ -36,7 +19,24 @@ import {
   TextInput,
   useDataProvider,
   useRecordContext,
-} from "react-admin";
+} from "@liexp/ui/lib/components/admin";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
+import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
+import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
+import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
+import URLMetadataInput from "@liexp/ui/lib/components/admin/common/URLMetadataInput";
+import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceGroupInput";
+import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
+import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
+import { ReferenceMediaDataGrid } from "@liexp/ui/lib/components/admin/media/ReferenceMediaDataGrid";
+import { MediaArrayInput } from "@liexp/ui/lib/components/admin/media/input/MediaArrayInput";
+import EventPreview from "@liexp/ui/lib/components/admin/previews/EventPreview";
+import { EventGeneralTab } from "@liexp/ui/lib/components/admin/tabs/EventGeneralTab";
+import { ReferenceLinkTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceLinkTab";
+import { ScientificStudyEventEditTab } from "@liexp/ui/lib/components/admin/tabs/ScientificStudyEventEditTab";
+import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
+import { Box } from "@liexp/ui/lib/components/mui";
+import * as React from "react";
 import { EventEditActions } from "./actions/EditEventActions";
 
 const listFilter = [

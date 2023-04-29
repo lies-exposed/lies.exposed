@@ -1,24 +1,25 @@
 import { apiProvider, authProvider } from "@liexp/ui/lib/client/api";
-import {
-  ArticleCreate,
-  ArticleEdit,
-  ArticleList,
-} from "@liexp/ui/lib/components/admin/AdminArticles";
-import {
-  LinkCreate,
-  LinkEdit,
-  LinkList,
-} from "@liexp/ui/lib/components/admin/AdminLinks";
+import { Admin, Login, Resource } from "@liexp/ui/lib/components/admin";
 import {
   EventSuggestionEdit,
   EventSuggestionList,
 } from "@liexp/ui/lib/components/admin/events/suggestions/AdminEventSuggestion";
+import {
+  LinkCreate,
+  LinkEdit,
+  LinkList,
+} from "@liexp/ui/lib/components/admin/links/AdminLinks";
 import {
   MediaCreate,
   MediaCreateMany,
   MediaEdit,
   MediaList,
 } from "@liexp/ui/lib/components/admin/media";
+import {
+  StoryCreate,
+  StoryEdit,
+  StoryList,
+} from "@liexp/ui/lib/components/admin/stories/AdminStories";
 import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import EventIcon from "@mui/icons-material/Event";
@@ -29,7 +30,6 @@ import PermMediaIcon from "@mui/icons-material/PermMedia";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import RecentActorsIcon from "@mui/icons-material/RecentActors";
 import * as React from "react";
-import { Admin, Login, Resource } from "react-admin";
 import { Route } from "react-router-dom";
 import "./index.css";
 import { ActorCreate, ActorEdit, ActorList } from "./pages/AdminActors";
@@ -96,10 +96,10 @@ const AdminPage: React.FC = () => {
       />
 
       <Resource
-        name="articles"
-        list={ArticleList}
-        edit={ArticleEdit}
-        create={ArticleCreate}
+        name="stories"
+        list={StoryList}
+        edit={StoryEdit}
+        create={StoryCreate}
         icon={AssignmentIcon}
       />
 

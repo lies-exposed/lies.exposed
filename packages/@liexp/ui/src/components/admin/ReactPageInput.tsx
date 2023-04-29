@@ -4,12 +4,13 @@ import { type EditorProps } from "@react-page/editor";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { Labeled, useInput, type InputProps } from "react-admin";
-import  Editor from "../Common/Editor/Editor";
+import Editor from "../Common/Editor/Editor";
 import { cellPlugins, minimalCellPlugins } from "../Common/Editor/cellPlugins";
 import JSONInput from "../Common/JSON/JSONInput";
 import { Box, Button, FormControlLabel, Paper, Switch } from "../mui";
 
 export type RaReactPageInputProps = {
+  className?: string;
   label?: string;
   source: string;
   style?: React.CSSProperties;
@@ -20,6 +21,7 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
   source,
   style,
   onChange: _onChange,
+  className,
   ...editorProps
 }) => {
   const {
@@ -51,9 +53,16 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
   };
 
   return (
-    <Labeled label={label} source={source} fullWidth>
+    <Labeled
+      className={className}
+      label={label}
+      source={source}
+      fullWidth
+      component="div"
+    >
       <>
         <FormControlLabel
+          style={{ marginBottom: 10, marginTop: 10 }}
           control={
             <Switch
               size="small"
@@ -70,8 +79,6 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
           style={{
             overflow: "visible",
             padding: 16,
-            marginRight: 64,
-
             ...style,
           }}
         >
@@ -102,10 +109,9 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
   );
 };
 
-const ReactPageInput: React.FC<InputProps & { onlyText?: boolean }> = ({
-  onlyText = false,
-  ...props
-}) => {
+const ReactPageInput: React.FC<
+  InputProps & { className?: string; onlyText?: boolean }
+> = ({ onlyText = false, ...props }) => {
   return (
     <RaReactPageInput
       {...props}

@@ -20,8 +20,8 @@ export const FullSizeViewport: React.FC<
 > = (props) => {
   const { id, backgroundColor, backgroundImage, children } = props;
   const [{ width, height }, setPageSize] = React.useState({
-    height: isServer ? 800 : window.innerHeight,
-    width: isServer ? "100%" : window.innerWidth,
+    height: isServer() ? 800 : window.innerHeight,
+    width: isServer() ? "100%" : window.innerWidth,
   });
 
   function updatePageSize(): void {

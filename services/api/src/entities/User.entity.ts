@@ -14,10 +14,10 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { ArticleEntity } from "./Article.entity";
 import { EventSuggestionEntity } from "./EventSuggestion.entity";
 import { LinkEntity } from "./Link.entity";
 import { MediaEntity } from "./Media.entity";
+import { StoryEntity } from "./Story.entity";
 
 @Entity("user")
 export class UserEntity {
@@ -62,8 +62,8 @@ export class UserEntity {
   @OneToMany(() => MediaEntity, (m) => m.creator)
   media: MediaEntity[];
 
-  @OneToMany(() => ArticleEntity, (a) => a.creator)
-  articles: ArticleEntity[];
+  @OneToMany(() => StoryEntity, (a) => a.creator)
+  stories: StoryEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

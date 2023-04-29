@@ -1,30 +1,31 @@
-import { authProvider, apiProvider } from "@liexp/ui/lib/client/api";
+import "@liexp/ui/assets/react-page.css";
+import { apiProvider, authProvider } from "@liexp/ui/lib/client/api";
+import { FAIcon } from "@liexp/ui/lib/components/Common/Icons/FAIcon";
 import { Admin, Login, Resource } from "@liexp/ui/lib/components/admin";
-import {
-  ArticleCreate,
-  ArticleEdit,
-  ArticleList,
-} from "@liexp/ui/lib/components/admin/AdminArticles";
-import {
-  LinkCreate,
-  LinkEdit,
-  LinkList,
-} from "@liexp/ui/lib/components/admin/AdminLinks";
 import {
   EventSuggestionEdit,
   EventSuggestionList,
 } from "@liexp/ui/lib/components/admin/events/suggestions/AdminEventSuggestion";
 import {
+  LinkCreate,
+  LinkEdit,
+  LinkList,
+} from "@liexp/ui/lib/components/admin/links/AdminLinks";
+import {
   MediaCreate,
   MediaEdit,
   MediaList,
 } from "@liexp/ui/lib/components/admin/media";
+import {
+  StoryCreate,
+  StoryEdit,
+  StoryList,
+} from "@liexp/ui/lib/components/admin/stories/AdminStories";
 import { SignIn } from "@liexp/ui/lib/components/admin/user/SignIn";
 import englishMessages from "@liexp/ui/lib/i18n/en-US";
 import { themeOptions } from "@liexp/ui/lib/theme";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import * as React from "react";
-import "@liexp/ui/assets/react-page.css";
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
 
@@ -65,10 +66,11 @@ const ProfilePage: React.FC = () => {
         // icon={PostAddIcon}
       />
       <Resource
-        name="articles"
-        list={ArticleList}
-        edit={ArticleEdit}
-        create={ArticleCreate}
+        name="stories"
+        list={StoryList}
+        edit={StoryEdit}
+        create={StoryCreate}
+        icon={() => <FAIcon icon="quote-left" />}
       />
     </Admin>
   );

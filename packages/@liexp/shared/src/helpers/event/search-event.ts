@@ -166,7 +166,7 @@ export const updateCache = (
 
 export const toSearchEvent = (
   e: Events.Event,
-  s: Omit<SearchEventsQueryCache, "events">
+  s: Partial<Omit<SearchEventsQueryCache, "events">>
 ): Events.SearchEvent.SearchEvent => {
   const {
     actors: actorIds,
@@ -178,31 +178,31 @@ export const toSearchEvent = (
 
   const actors = pipe(
     actorIds,
-    A.map((a) => pipe(s.actors, M.lookup(S.Eq)(a))),
+    A.map((a) => pipe(s.actors ?? new Map(), M.lookup(S.Eq)(a))),
     A.compact
   );
 
   const groups = pipe(
     groupIds,
-    A.map((a) => pipe(s.groups, M.lookup(S.Eq)(a))),
+    A.map((a) => pipe(s.groups ?? new Map(), M.lookup(S.Eq)(a))),
     A.compact
   );
 
   const groupsMembers = pipe(
     groupsMembersIds,
-    A.map((a) => pipe(s.groupsMembers, M.lookup(S.Eq)(a))),
+    A.map((a) => pipe(s.groupsMembers ?? new Map(), M.lookup(S.Eq)(a))),
     A.compact
   );
 
   const media = pipe(
     mediaIds,
-    A.map((a) => pipe(s.media, M.lookup(S.Eq)(a))),
+    A.map((a) => pipe(s.media ?? new Map(), M.lookup(S.Eq)(a))),
     A.compact
   );
 
   const keywords = pipe(
     keywordIds,
-    A.map((a) => pipe(s.keywords, M.lookup(S.Eq)(a))),
+    A.map((a) => pipe(s.keywords ?? new Map(), M.lookup(S.Eq)(a))),
     A.compact
   );
 
@@ -298,8 +298,8 @@ export const toSearchEvent = (
         ...e,
         payload: {
           ...e.payload,
-          from: { ...e.payload.from, id: from as any },
-          to: { ...e.payload.to, id: to as any },
+          from: { ...e.payload.from, id: from  },
+          to: { ...e.payload.to, id: to  },
         },
         media,
         keywords,

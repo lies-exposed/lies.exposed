@@ -348,7 +348,7 @@ export const createFromTGMessage: TEFlow<
         )
       )
     ),
-    TE.map(({ videos, platformMedia, ...others }) => ({
+    TE.map(({ videos, platformMedia,  ...others }) => ({
       ...others,
       videos: [...videos, ...platformMedia],
     })),

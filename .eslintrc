@@ -43,6 +43,7 @@
       {
         "patterns": [
           "moment",
+          "react-admin",
           "@liexp/core/src",
           "@liexp/shared/src",
           "@liexp/ui/src"

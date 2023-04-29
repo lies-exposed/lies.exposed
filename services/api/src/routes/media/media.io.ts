@@ -14,10 +14,11 @@ export const toImageIO = (
       links: media.links ?? [],
       events: media.events ?? [],
       keywords: media.keywords ?? [],
+      featuredIn: media.featuredIn ?? [],
       thumbnail: media.thumbnail ?? undefined,
       createdAt: media.createdAt.toISOString(),
       updatedAt: media.updatedAt.toISOString(),
-      deletedAt: media.deletedAt?.toISOString() ?? undefined
+      deletedAt: media.deletedAt?.toISOString() ?? undefined,
     }),
     E.mapLeft((e) => DecodeError(`Failed to decode media (${media.id})`, e))
   );

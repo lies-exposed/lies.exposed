@@ -6,20 +6,21 @@ import { AutocompleteInput } from "./AutocompleteInput";
 
 interface AutocompleteKeywordInputProps {
   className?: string;
+  discrete?: boolean;
   selectedItems: Keyword.Keyword[];
   onChange: (item: Keyword.Keyword[]) => void;
 }
 
 export const AutocompleteKeywordInput: React.FC<
   AutocompleteKeywordInputProps
-> = ({ selectedItems, onChange, ...props }) => {
+> = ({ discrete = true, selectedItems, onChange, ...props }) => {
   return (
     <AutocompleteInput<Keyword.Keyword>
       placeholder="Keyword..."
       searchToFilter={(search) => ({ search })}
       selectedItems={selectedItems}
       getValue={(k) => (typeof k === "string" ? k : k.tag)}
-      query={p=> useKeywordsQuery(p, true)}
+      query={p=> useKeywordsQuery(p, discrete)}
       renderTags={(items) => (
         <KeywordList
           style={{
@@ -38,7 +39,7 @@ export const AutocompleteKeywordInput: React.FC<
             key={item.id}
             item={{
               ...item,
-              selected: selectedItems.some((i) => i.id === item.id),
+              selected: true,
             }}
             onClick={() => { onChange([item]); }}
           />

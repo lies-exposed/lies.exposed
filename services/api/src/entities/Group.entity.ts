@@ -5,11 +5,14 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { GroupMemberEntity } from "./GroupMember.entity";
+import { StoryEntity } from "./Story.entity";
 
 @Entity("group")
 export class GroupEntity {
@@ -51,6 +54,12 @@ export class GroupEntity {
     cascade: true,
   })
   members: GroupMemberEntity[];
+
+  @ManyToMany(() => StoryEntity, (k) => k.groups, {
+    cascade: false,
+  })
+  @JoinTable()
+  stories: StoryEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

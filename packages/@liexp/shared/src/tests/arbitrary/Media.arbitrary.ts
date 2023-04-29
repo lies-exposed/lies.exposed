@@ -9,11 +9,12 @@ const mediaProps = propsOmit(http.Media.Media, [
   "thumbnail",
   "createdAt",
   "updatedAt",
-  'deletedAt',
+  "deletedAt",
   "creator",
   "links",
   "events",
   "keywords",
+  "featuredIn",
 ]);
 
 export const placeKitten = (): string => {
@@ -23,20 +24,28 @@ export const placeKitten = (): string => {
 
 export const MediaArb: tests.fc.Arbitrary<http.Media.Media> = tests
   .getArbitrary(t.strict(mediaProps))
-  .map((i) => {
-    return {
-      ...i,
-      events: [],
-      links: [],
-      keywords: [],
-      type: "image/png",
-      // creator: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
-      creator: undefined,
-      location: tests.fc.sample(tests.fc.webUrl(), 1)[0],
-      thumbnail: tests.fc.sample(tests.fc.webUrl(), 1)[0],
-      id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      deletedAt: undefined
-    };
-  });
+  .chain((props) =>
+    tests.fc
+      .record({
+        location: tests.fc.webUrl({ size: "large" }),
+        thumbnail: tests.fc.webUrl({ size: "large" }),
+      })
+      .map(({ location, thumbnail }) => {
+        return {
+          ...props,
+          events: [],
+          links: [],
+          keywords: [],
+          featuredIn: [],
+          type: "image/png",
+          // creator: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
+          creator: undefined,
+          location,
+          thumbnail,
+          id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          deletedAt: undefined,
+        };
+      })
+  );

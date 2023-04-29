@@ -61,10 +61,13 @@
     "eslint.workingDirectories": [
       "./packages/@liexp/core",
       "./packages/@liexp/shared",
+      "./packages/@liexp/backend",
+      "./packages/@liexp/ui",
       "./services/api",
       "./services/web",
       "./services/admin-web"
     ],
+    "eslint.codeActionsOnSave.mode": "all",
     "jest.autoRun": "off",
     "jest.disabledWorkspaceFolders": ["📦 @liexp/test", "storybook", "data"],
     "cSpell.words": ["healthcheck", "liexp", "Uncategorized", "xlarge"],

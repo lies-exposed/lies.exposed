@@ -8,7 +8,7 @@ export const UploadResource = t.union(
   [
     ACTORS,
     GROUPS,
-    t.literal("articles"),
+    t.literal("stories"),
     t.literal("media"),
     t.literal("projects"),
     t.literal("areas"),

@@ -1,18 +1,5 @@
 import type * as Events from "@liexp/shared/lib/io/http/Events";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput";
-import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
-import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField";
-import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
-import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
-import EventPreview from "@liexp/ui/lib/components/admin/previews/EventPreview";
-import { EventGeneralTab } from "@liexp/ui/lib/components/admin/tabs/EventGeneralTab";
-import { QuoteEditFormTab } from "@liexp/ui/lib/components/admin/tabs/QuoteEditFormTab";
-import { ReferenceLinkTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceLinkTab";
-import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
-import { Grid } from "@liexp/ui/lib/components/mui";
-import * as React from "react";
 import {
   BooleanInput,
   Create,
@@ -30,7 +17,20 @@ import {
   TextInput,
   useDataProvider,
   useRecordContext,
-} from "react-admin";
+} from "@liexp/ui/lib/components/admin";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
+import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput";
+import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
+import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField";
+import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
+import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
+import EventPreview from "@liexp/ui/lib/components/admin/previews/EventPreview";
+import { EventGeneralTab } from "@liexp/ui/lib/components/admin/tabs/EventGeneralTab";
+import { QuoteEditFormTab } from "@liexp/ui/lib/components/admin/tabs/QuoteEditFormTab";
+import { ReferenceLinkTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceLinkTab";
+import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
+import { Grid } from "@liexp/ui/lib/components/mui";
+import * as React from "react";
 import { EventEditActions } from "./actions/EditEventActions";
 
 const quotesFilter = [

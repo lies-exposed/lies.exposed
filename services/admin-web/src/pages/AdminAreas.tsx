@@ -2,16 +2,6 @@ import { http } from "@liexp/shared/lib/io";
 import { AreaPageContent } from "@liexp/ui/lib/components/AreaPageContent";
 import { HelmetProvider } from "@liexp/ui/lib/components/SEO";
 import { ValidationErrorsLayout } from "@liexp/ui/lib/components/ValidationErrorsLayout";
-import { MapInput } from "@liexp/ui/lib/components/admin/MapInput";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceArrayEventInput from "@liexp/ui/lib/components/admin/events/ReferenceArrayEventInput";
-import { ReferenceMediaTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceMediaTab";
-import { transformMedia } from "@liexp/ui/lib/components/admin/transform.utils";
-import { ECOTheme } from "@liexp/ui/lib/theme";
-import { ThemeProvider } from "@mui/system";
-import * as E from "fp-ts/Either";
-import { pipe } from "fp-ts/function";
-import * as React from "react";
 import {
   Create,
   type CreateProps,
@@ -30,7 +20,17 @@ import {
   TextField,
   TextInput,
   useRecordContext,
-} from "react-admin";
+} from "@liexp/ui/lib/components/admin";
+import { MapInput } from "@liexp/ui/lib/components/admin/MapInput";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
+import ReferenceArrayEventInput from "@liexp/ui/lib/components/admin/events/ReferenceArrayEventInput";
+import { ReferenceMediaTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceMediaTab";
+import { transformMedia } from "@liexp/ui/lib/components/admin/transform.utils";
+import { ECOTheme } from "@liexp/ui/lib/theme";
+import { ThemeProvider } from "@mui/system";
+import * as E from "fp-ts/Either";
+import { pipe } from "fp-ts/function";
+import * as React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 const RESOURCE = "areas";
