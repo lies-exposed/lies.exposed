@@ -26,7 +26,7 @@ const writeText: Flow<[ShareMessageBody], string> = (ctx) => (body) => {
   const groups =
     body.groups.length > 0
       ? [
-          "Groups: \n",
+          "Groups:",
           `${body.groups
             .map(
               (g) => `<a href="${ctx.env.WEB_URL}/groups/${g.id}">${g.name}</a>`
@@ -49,6 +49,7 @@ const writeText: Flow<[ShareMessageBody], string> = (ctx) => (body) => {
     body.content,
     "\n",
     ...actors,
+    "\n",
     ...groups,
     "\n",
     keywords,
