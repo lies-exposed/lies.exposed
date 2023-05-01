@@ -51,7 +51,7 @@
     "wink-nlp-utils": "^2.1.0"
   },
   "devDependencies": {
-    "@mui/material": "^5.12.1",
+    "@mui/material": "^5.12.2",
     "@react-page/editor": "^5.4.4",
     "@react-page/plugins-slate": "^5.4.4",
     "@react-page/react-admin": "^5.4.4",
