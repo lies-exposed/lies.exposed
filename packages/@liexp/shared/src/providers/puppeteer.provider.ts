@@ -292,7 +292,7 @@ export const $safeEvalOrUndefined =
  * @param p puppeteer page object
  * @returns The first evaluated result from given selectors
  */
-export const $evalManyOrThrow =
+export const $evalManyOrUndefined =
   (p: puppeteer.Page) =>
   async <
     Selector extends string,
@@ -304,19 +304,15 @@ export const $evalManyOrThrow =
   >(
     sel: Selector[],
     onEval: Func
-  ): Promise<string> => {
+  ): Promise<string | undefined> => {
     let ret: string | undefined;
     const evall = $safeEvalOrUndefined(p);
-    await Promise.all(
-      sel.map(async (s) => {
-        if (!ret) {
-          ret = await evall(s, onEval as any);
-        }
-        return ret;
-      })
-    );
-    if (!ret) {
-      throw new Error(`Can't eval selectors: ${JSON.stringify(sel)}`);
+    for (const s of sel) {
+      if (ret) {
+        break;
+      }
+      ret = await evall(s, onEval as any);
     }
+
     return ret;
   };
