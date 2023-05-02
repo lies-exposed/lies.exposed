@@ -23,7 +23,14 @@ export const MakeCreateArticleRoute: Route = (r, ctx) => {
             featuredImage: featuredImage ? { id: featuredImage } : null,
           },
         ]),
-        TE.map((articles) => articles[0]),
+        TE.chain(([article]) =>
+          ctx.db.findOneOrFail(ArticleEntity, {
+            where: { id: article.id },
+            loadRelationIds: {
+              relations: ["keywords"],
+            },
+          })
+        ),
         TE.chainEitherK(toArticleIO),
         TE.map((data) => ({
           body: {

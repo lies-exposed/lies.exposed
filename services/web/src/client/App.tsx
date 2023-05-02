@@ -9,6 +9,7 @@ import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 import { Route, Routes, useLocation } from "react-router";
 import AppHeader, { logo192 } from "./components/header/AppHeader";
 import { routes } from "./routes";
+import '@liexp/ui/assets/main.css';
 
 const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
   // eslint-disable-next-line no-console

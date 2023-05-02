@@ -1,7 +1,7 @@
 import  { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate";
 import * as React from "react";
 import { usePageContentByPathQuery } from "../state/queries/page.queries";
-import Editor from "./Common/Editor";
+import { LazyEditor as Editor } from "./Common/Editor";
 import QueriesRenderer from "./QueriesRenderer";
 import SEO from "./SEO";
 

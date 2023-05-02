@@ -5,7 +5,7 @@ import { isValidValue } from "@liexp/shared/lib/slate";
 import * as React from "react";
 import { useModal } from "../../../hooks/useModal";
 import { useTheme } from "../../../theme";
-import Editor from "../../Common/Editor";
+import { LazyEditor as Editor } from "../../Common/Editor";
 import { MediaModalContent } from "../../Modal/MediaSliderModal";
 import { MediaList } from "../../lists/MediaList";
 import { Box, Grid } from "../../mui";

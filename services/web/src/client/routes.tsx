@@ -76,7 +76,7 @@ const GroupsPage = React.lazy(() => import("./pages/GroupsPage"));
 const LinksPage = React.lazy(() => import("./pages/LinksPage"));
 const KeywordsPage = React.lazy(() => import("./pages/KeywordsPage"));
 const MediaPage = React.lazy(() => import("./pages/MediaPage"));
-const ProfilePage = React.lazy(() => import("./pages/ProfilePage"));
+const ProfilePage = React.lazy(() => import("./pages/profile/ProfilePage"));
 const LogoutPage = React.lazy(() => import("./pages/Logout"));
 const ArticleTemplate = React.lazy(() => import("./templates/ArticleTemplate"));
 const ActorTemplate = React.lazy(() => import("./templates/ActorTemplate"));

@@ -8,10 +8,9 @@ import debug from "debug";
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { Hydrate, QueryClientProvider } from "react-query";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 import { App } from "./App";
 import { queryClient } from "./state/queries";
-import "@liexp/ui/assets/main.css";
 
 config.autoAddCss = false;
 
@@ -33,8 +32,10 @@ function Main(): JSX.Element {
 
   const dehydratedState = (window as any).__REACT_QUERY_STATE__;
 
+  const Router =
+    process.env.NODE_ENV === "development" ? HashRouter : BrowserRouter;
   return (
-    <BrowserRouter>
+    <Router>
       <HelmetProvider>
         <CacheProvider value={cache}>
           <ThemeProvider theme={ECOTheme}>
@@ -47,7 +48,7 @@ function Main(): JSX.Element {
           </ThemeProvider>
         </CacheProvider>
       </HelmetProvider>
-    </BrowserRouter>
+    </Router>
   );
 }
 

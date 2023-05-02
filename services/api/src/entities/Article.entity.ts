@@ -29,6 +29,7 @@ export class ArticleEntity {
   date: Date | null;
 
   @ManyToOne(() => MediaEntity, (v) => v.articles, {
+    eager: true,
     cascade: false,
     nullable: true,
   })

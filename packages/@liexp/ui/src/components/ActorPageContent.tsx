@@ -2,7 +2,7 @@ import { type Actor, type Group } from "@liexp/shared/lib/io/http";
 import * as React from "react";
 import ActorsBox from "../containers/ActorsBox";
 import { DeathBox } from "../containers/DeathBox";
-import Editor from "./Common/Editor";
+import { LazyEditor as Editor } from "./Common/Editor";
 import GroupList from "./lists/GroupList";
 import { Box, Grid } from "./mui";
 
