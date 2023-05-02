@@ -4,9 +4,9 @@ import * as R from "fp-ts/Record";
 import { pipe } from "fp-ts/function";
 import * as S from "fp-ts/string";
 import * as t from "io-ts";
-import * as querystring from "query-string";
+import qs from "query-string";
 
-const queryStringOpts: querystring.ParseOptions = {
+const queryStringOpts: qs.ParseOptions = {
   arrayFormat: "comma",
 };
 
@@ -15,7 +15,7 @@ const queryStringOpts: querystring.ParseOptions = {
  *
  * @param query parsed query
  */
-const stripInvalid = (query: Record<string, any>): querystring.ParsedQuery => {
+const stripInvalid = (query: Record<string, any>): qs.ParsedQuery => {
   return R.record.filter(query, (r) => {
     const isUndefined = t.undefined.is(r);
     const isEmptyString = typeof r === "string" && S.Eq.equals(r, "");
@@ -48,7 +48,7 @@ export const parseSearch = <R extends keyof Routes>(
   const search =
     l !== undefined
       ? stripInvalid(
-          querystring.parse(l.search.replace("?", ""), queryStringOpts)
+          qs.parse(l.search.replace("?", ""), queryStringOpts)
         )
       : {};
 
@@ -82,7 +82,7 @@ export const updateSearch =
       E.map(stripInvalid),
       E.map(
         (search) =>
-          `/${route}?${querystring.stringify(search, queryStringOpts)}`
+          `/${route}?${qs.stringify(search, queryStringOpts)}`
       )
     );
   };

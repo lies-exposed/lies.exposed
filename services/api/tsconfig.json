@@ -47,6 +47,7 @@
     "transpileOnly": true,
     "require": ["tsconfig-paths/register", "dotenv/config"],
     "logError": true,
+    "esm": true,
     "compilerOptions": {
       "module": "CommonJS"
     },
