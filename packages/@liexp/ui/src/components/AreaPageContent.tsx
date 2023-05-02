@@ -1,7 +1,7 @@
 import { type Area, type Group } from "@liexp/shared/lib/io/http";
 import * as React from "react";
 import MediaSliderBox from "../containers/MediaSliderBox";
-import Editor from "./Common/Editor/index";
+import { LazyEditor as Editor } from "./Common/Editor/index";
 import { Box, Grid } from "./mui";
 
 export interface AreaPageContentProps {

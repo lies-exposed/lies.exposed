@@ -1,7 +1,6 @@
 const dotenv = require("dotenv");
 const path = require("path");
 const fs = require("fs");
-const { webServe } = require("./ecosystem.config");
 
 const DOTENV_CONFIG_PATH = process.env.DOTENV_CONFIG_PATH ?? ".env";
 
@@ -24,7 +23,7 @@ const adminEnv = dotenv.parse(
 );
 
 const apiDevelop = {
-  name: "api-develop",
+  name: "api-dev",
   namespace: "liexp",
   cwd: path.resolve(__dirname, "./services/api"),
   script: "yarn develop",
@@ -42,30 +41,17 @@ const apiDevelop = {
 module.exports = {
   apps: [
     {
-      name: "web-app-watch",
+      name: "web-dev",
       namespace: "liexp",
       cwd: path.resolve(__dirname, "./services/web"),
-      script: "yarn watch:app",
+      script: "yarn dev",
       watch_delay: 3000,
       watch: false,
-      env: webEnv,
-    },
-    {
-      name: "web-server-watch",
-      namespace: "liexp",
-      cwd: path.resolve(__dirname, "./services/web"),
-      script: "yarn watch:server",
-      watch_delay: 3000,
-      watch: false,
-      env: webEnv,
-    },
-    {
-      ...webServe,
       env: webEnv,
     },
     apiDevelop,
     {
-      name: "admin",
+      name: "admin-dev",
       namespace: "liexp",
       cwd: path.resolve(__dirname, "./services/admin-web"),
       script: "yarn start",

@@ -1,12 +1,3 @@
-import "@react-page/editor/lib/index.css";
-import "@react-page/plugins-background/lib/index.css";
-import "@react-page/plugins-divider/lib/index.css";
-import "@react-page/plugins-html5-video/lib/index.css";
-import "@react-page/plugins-image/lib/index.css";
-import "@react-page/plugins-slate/lib/index.css";
-import "@react-page/plugins-spacer/lib/index.css";
-import "@react-page/plugins-video/lib/index.css";
-
 import { authProvider, apiProvider } from "@liexp/ui/lib/client/api";
 import { Admin, Login, Resource } from "@liexp/ui/lib/components/admin";
 import {
@@ -33,6 +24,7 @@ import englishMessages from "@liexp/ui/lib/i18n/en-US";
 import { themeOptions } from "@liexp/ui/lib/theme";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import * as React from "react";
+import "@liexp/ui/assets/react-page.css";
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
 

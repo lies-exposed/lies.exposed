@@ -1,5 +1,4 @@
 import path from "path";
-import webpack from "webpack";
 import { defineEnv } from "@liexp/core/lib/webpack/config";
 import {
   getWebConfig,
@@ -15,14 +14,14 @@ const AppEnv = defineEnv((t) => ({
 }));
 
 const port =
-  process.env.PORT !== undefined ? parseInt(process.env.PORT, 10) : 4000;
+  process.env.PORT !== undefined ? parseInt(process.env.PORT, 10) : 4020;
 
-const webConfig: webpack.Configuration = getWebConfig({
+const webConfig = getWebConfig({
   cwd: __dirname,
   env: AppEnv,
   envFileDir: __dirname,
   port,
-  devServer: false,
+  devServer: true,
   hot: false,
   target: "web",
   entry: {
@@ -45,5 +44,7 @@ webConfig.plugins?.push(
     },
   ]) as any
 );
+
+webConfig.devtool = undefined;
 
 export default webConfig;

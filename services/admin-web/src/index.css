@@ -1,12 +1,2 @@
-@import "~ol/ol.css";
-@import "~@react-page/editor/lib/index.css";
-@import "~@react-page/plugins-background/lib/index.css";
-@import "~@react-page/plugins-divider/lib/index.css";
-@import "~@react-page/plugins-html5-video/lib/index.css";
-@import "~@react-page/plugins-image/lib/index.css";
-@import "~@react-page/plugins-slate/lib/index.css";
-@import "~@react-page/plugins-spacer/lib/index.css";
-@import "~@react-page/plugins-video/lib/index.css";
-@import "~slick-carousel/slick/slick.css";
-@import "~slick-carousel/slick/slick-theme.css";
-@import "~react-virtualized/styles.css";
+@import "~@liexp/ui/assets/main.css";
+@import "~@liexp/ui/assets/react-page.css";

@@ -4,7 +4,7 @@ import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
 import { formatDate } from "@liexp/shared/lib/utils/date";
 import { parseISO } from "date-fns";
 import * as React from "react";
-import Editor from "../../Common/Editor";
+import { LazyEditor as Editor } from "../../Common/Editor";
 import { EventIcon } from "../../Common/Icons";
 import { ActorList } from "../../lists/ActorList";
 import GroupsList from "../../lists/GroupList";

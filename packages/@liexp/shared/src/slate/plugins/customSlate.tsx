@@ -2,6 +2,13 @@ import { List, ListItem, ListItemText, Typography } from "@mui/material";
 import slate, { type SlateCellPlugin } from "@react-page/plugins-slate";
 import * as React from "react";
 
+export const PARAGRAPH_TYPE = "PARAGRAPH/PARAGRAPH";
+export const PARAGRAPH_PRE_TYPE = "PARAGRAPH/PRE";
+export const EMPHASIZE_EM_TYPE = "EMPHASIZE/EM";
+export const EMPHASIZE_STRONG_TYPE = 'EMPHASIZE/STRONG'
+export const EMPHASIZE_U_TYPE = 'EMPHASIZE/U'
+export const BLOCKQUOTE_TYPE = "BLOCKQUOTE/BLOCKQUOTE"
+
 export const getLiexpSlate = (custom: any): SlateCellPlugin<any> => {
   return slate((def) => ({
     ...def,

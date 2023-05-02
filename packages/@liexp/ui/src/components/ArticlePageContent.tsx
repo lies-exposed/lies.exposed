@@ -7,7 +7,7 @@ import * as t from "io-ts";
 import * as React from "react";
 import { useTheme } from "../theme";
 import EditButton from "./Common/Button/EditButton";
-import Editor from "./Common/Editor";
+import { LazyEditor as Editor } from "./Common/Editor";
 import { KeywordsBox } from "./KeywordsBox";
 import { MainContent } from "./MainContent";
 import { alpha, Grid, Typography } from "./mui";

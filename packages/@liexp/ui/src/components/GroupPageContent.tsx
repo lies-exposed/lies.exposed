@@ -3,7 +3,7 @@ import { type GroupMember } from "@liexp/shared/lib/io/http/GroupMember";
 import { isValidValue } from "@liexp/shared/lib/slate";
 import * as React from "react";
 import { useTheme } from "../theme";
-import Editor from "./Common/Editor/index";
+import { LazyEditor as Editor } from "./Common/Editor/index";
 import { ActorList } from "./lists/ActorList";
 import GroupList from "./lists/GroupList";
 import { Grid, Typography } from "./mui";
