@@ -1,7 +1,7 @@
 import { type URL } from "@liexp/shared/lib/io/http/Common";
 import { type CreateGroupBody } from "@liexp/shared/lib/io/http/Group";
 import {
-  $evalManyOrThrow,
+  $evalManyOrUndefined,
   toPuppeteerError,
 } from "@liexp/shared/lib/providers/puppeteer.provider";
 import { createExcerptValue } from "@liexp/shared/lib/slate";
@@ -17,21 +17,26 @@ export const fetchFromWikipedia: TEFlow<[URL], CreateGroupBody> =
       ctx.puppeteer.getBrowserFirstPage(url, {}),
       TE.chain((page) => {
         return TE.tryCatch(async () => {
-          const evalSels = $evalManyOrThrow(page);
+          const evalSels = $evalManyOrUndefined(page);
           const groupName = await evalSels(
             [
+              "#mw-content-text .mw-parser-output p:not(.mw-empty-elt) b",
               "#mw-content-text .mw-parser-output p:nth-of-type(2) b",
               "#mw-content-text .mw-parser-output p:nth-of-type(1) b",
             ],
             (el) => el?.innerText
           );
 
+          if (!groupName) {
+            throw new Error('No group name found!');
+          }
+
           const excerpt = await page.$eval(
             "#mw-content-text .mw-parser-output p:nth-of-type(2)",
             (el) => el.innerText
           );
 
-          const avatar = await evalSels(
+          const avatar: any = await evalSels(
             [".infobox-image > a > img", ".thumb.tright a.image > img"],
             (el) => el.src
           );
