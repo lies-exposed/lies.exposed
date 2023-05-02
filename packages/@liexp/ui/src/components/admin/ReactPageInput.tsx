@@ -1,23 +1,20 @@
-/* gist.github.com/phanngoc/473229c74d0119704d9c603b1251782a */
+import { fp } from "@liexp/core/lib/fp";
 import { createExcerptValue, isValidValue } from "@liexp/shared/lib/slate";
-import Editor, { type EditorProps } from "@react-page/editor";
-import get from "lodash/get";
+import { type EditorProps } from "@react-page/editor";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
-import {
-  type InputProps,
-  Labeled,
-  useInput,
-  useRecordContext,
-} from "react-admin";
-import { cellPlugins, minimalCellPlugins } from "../Common/Editor";
+import { Labeled, useInput, type InputProps } from "react-admin";
+import { LazyEditor as Editor } from "../Common/Editor";
+import { cellPlugins, minimalCellPlugins } from "../Common/Editor/cellPlugins";
 import JSONInput from "../Common/JSON/JSONInput";
-import { Box, FormControlLabel, Paper, Switch } from "../mui";
+import { Box, Button, FormControlLabel, Paper, Switch } from "../mui";
 
 export type RaReactPageInputProps = {
   label?: string;
   source: string;
   style?: React.CSSProperties;
 } & EditorProps;
+
 const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
   label = "Content",
   source,
@@ -25,44 +22,49 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
   onChange: _onChange,
   ...editorProps
 }) => {
-  const record = useRecordContext();
-
   const {
     field: { value, onChange },
-  } = useInput({ source, defaultValue: get(record, source) });
+  } = useInput({
+    source,
+    defaultValue: createExcerptValue(""),
+  });
+
+  const isValidJSON = React.useMemo(() => {
+    if (value === "") {
+      return false;
+    }
+
+    return pipe(fp.Json.parse(value), fp.E.isRight);
+  }, [value]);
 
   const isValueValid = React.useMemo(
-    () =>
-      value === null || isValidValue(value) || JSON.stringify(value) === "{}",
-    [value]
+    () => value === "" || isValidValue(value) || isValidJSON,
+    [value, isValidJSON]
   );
 
-  const [showJSONEditor, setShowJSONEditor] = React.useState(!isValueValid);
+  const [showJSONEditor, setShowJSONEditor] = React.useState(false);
+
+  const handleClear = (): void => {
+    const value = createExcerptValue("");
+    onChange(value);
+    setShowJSONEditor(false);
+  };
 
   return (
-    <Labeled
-      label={
-        <Box style={{ display: "flex" }}>
-          <Box style={{ display: "flex", flexGrow: 1 }}>{label}</Box>
-
-          <FormControlLabel
-            control={
-              <Switch
-                size="small"
-                defaultChecked={!showJSONEditor}
-                onChange={(ev, c) => {
-                  setShowJSONEditor(!c);
-                }}
-              />
-            }
-            label={!showJSONEditor ? "RichEditor" : "JSON"}
-          />
-        </Box>
-      }
-      source={source}
-      fullWidth
-    >
+    <Labeled label={label} source={source} fullWidth>
       <>
+        <FormControlLabel
+          control={
+            <Switch
+              size="small"
+              value={!showJSONEditor}
+              onChange={(ev, c) => {
+                setShowJSONEditor(!c);
+              }}
+            />
+          }
+          label={!showJSONEditor ? "RichEditor" : "JSON"}
+        />
         <Paper
           elevation={5}
           style={{
@@ -73,28 +75,26 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
             ...style,
           }}
         >
-          {isValueValid ? (
-            showJSONEditor ? (
-              <JSONInput
-                source={source}
-                onClear={() => {
-                  const value = createExcerptValue("");
-                  onChange(value);
-                  setShowJSONEditor(false);
-                }}
-              />
-            ) : (
-              <Editor value={value} {...editorProps} onChange={onChange} />
-            )
-          ) : (
+          {!showJSONEditor && isValueValid ? (
+            <Editor value={value} onChange={onChange} {...editorProps} />
+          ) : showJSONEditor && isValidJSON ? (
             <JSONInput
               source={source}
               onClear={() => {
-                const value = createExcerptValue("");
-                onChange(value);
-                setShowJSONEditor(false);
+                handleClear();
               }}
             />
+          ) : (
+            <Box>
+              <pre>{value}</pre>
+              <Button
+                onClick={() => {
+                  handleClear();
+                }}
+              >
+                Clear
+              </Button>
+            </Box>
           )}
         </Paper>
       </>

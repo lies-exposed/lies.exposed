@@ -1,4 +1,4 @@
-import Editor from "@liexp/ui/lib/components/Common/Editor";
+import { LazyEditor as Editor } from "@liexp/ui/lib/components/Common/Editor";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

@@ -25,6 +25,8 @@ export type ActorInlineControlType = React.ComponentType<
   CellPluginComponentProps<ActorInlineState>
 >;
 
+export const ACTOR_INLINE = 'liexp/actor/inline'
+
 const actorInlinePlugin: any =
   pluginFactories.createComponentPlugin<ActorInlineState>({
     Component: ({ displayFullName, actor, style, className, ...props }) => {
@@ -120,7 +122,7 @@ const actorInlinePlugin: any =
     },
     addHoverButton: true,
     addToolbarButton: true,
-    type: "ActorInline",
+    type: ACTOR_INLINE,
     object: "inline",
     isVoid: true,
     icon: <RecentActorsIcon />,

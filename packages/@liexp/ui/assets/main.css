@@ -4,19 +4,10 @@
 @import "~react-virtualized/styles.css";
 @import '~@fortawesome/fontawesome-svg-core/styles.css';
 @import "./font.css";
-@import "~@react-page/editor/lib/index.css";
-@import "~@react-page/plugins-background/lib/index.css";
-@import "~@react-page/plugins-divider/lib/index.css";
-@import "~@react-page/plugins-html5-video/lib/index.css";
-@import "~@react-page/plugins-image/lib/index.css";
-@import "~@react-page/plugins-slate/lib/index.css";
-@import "~@react-page/plugins-spacer/lib/index.css";
-@import "~@react-page/plugins-video/lib/index.css";
-
 
 html,
 body,
-body > div {
+body > #root {
   height: 100%;
   width: 100%;
   margin: 0;

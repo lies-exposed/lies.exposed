@@ -1,5 +1,5 @@
 import { isValidValue } from "@liexp/shared/lib/slate";
-import Editor from "@liexp/ui/lib/components/Common/Editor";
+import { LazyEditor as Editor } from "@liexp/ui/lib/components/Common/Editor";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import SEO from "@liexp/ui/lib/components/SEO";
 import { Box, Container } from "@liexp/ui/lib/components/mui";

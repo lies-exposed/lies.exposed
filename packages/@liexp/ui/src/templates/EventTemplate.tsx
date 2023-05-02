@@ -5,6 +5,7 @@ import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate";
 import { formatAnyDateToShort, formatDate } from "@liexp/shared/lib/utils/date";
 import subYears from "date-fns/subYears";
 import * as React from "react";
+import AreasMap from "../components/AreasMap";
 import { EventPageContent } from "../components/EventPageContent";
 import { GroupMembersList } from "../components/GroupMembersBox";
 import { KeywordsBox } from "../components/KeywordsBox";
@@ -74,7 +75,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
   return (
     <StyledBox className={classes.root}>
       <EventRelations event={event}>
-        {({ actors, groups, groupsMembers, media }) => {
+        {({ actors, groups, groupsMembers, media, areas }) => {
           const { title } = getEventCommonProps(event, {
             actors,
             groups: [],
@@ -202,6 +203,25 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                           }}
                           onActorClick={onActorClick}
                         />
+                      </Grid>
+                    ) : null}
+                    {areas.length > 0 ? (
+                      <Grid
+                        item
+                        sm={3}
+                        md={12}
+                        lg={12}
+                        style={{ width: "100%" }}
+                      >
+                        <Box
+                          style={{ width: "100%", height: "100%", padding: 16 }}
+                        >
+                          <AreasMap
+                            areas={areas}
+                            height={200}
+                            onMapClick={() => {}}
+                          />
+                        </Box>
                       </Grid>
                     ) : null}
                     {groupsMembers.length > 0 ? (

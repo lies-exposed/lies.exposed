@@ -29,6 +29,7 @@ import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import Checkbox from "@mui/material/Checkbox";
+import Chip, { type ChipProps } from "@mui/material/Chip";
 import CircularProgress from "@mui/material/CircularProgress";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Container from "@mui/material/Container";
@@ -57,6 +58,7 @@ import MenuItem, { type MenuItemProps } from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import Modal, { type ModalProps } from "@mui/material/Modal";
 import Paper from "@mui/material/Paper";
+import Popover, { type PopoverProps } from "@mui/material/Popover";
 import Popper from "@mui/material/Popper";
 import Select, { type SelectChangeEvent } from "@mui/material/Select";
 import Slider from "@mui/material/Slider";
@@ -84,6 +86,7 @@ export {
   PlayCircleOutline,
   CloseIcon,
   // components
+  Chip, type ChipProps,
   Divider,
   Slider,
   Stack,
@@ -155,4 +158,6 @@ export {
   Checkbox,
   Switch,
   Pagination,
+  Popover,
+  type PopoverProps,
 };
