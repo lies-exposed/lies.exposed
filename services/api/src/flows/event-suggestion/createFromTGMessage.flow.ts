@@ -7,6 +7,7 @@ import {
 } from "@liexp/shared/lib/helpers/media";
 import { URL } from "@liexp/shared/lib/io/http/Common";
 import { MediaType } from "@liexp/shared/lib/io/http/Media";
+import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
@@ -202,7 +203,7 @@ export const createFromTGMessage: TEFlow<
   ctx.logger.info.log("URL video entity %O", videoURLS);
 
   const urls = pipe(
-    urlEntity,
+    urlEntity.map(sanitizeURL),
     O.fromPredicate((u) => u.length > 0)
   );
 

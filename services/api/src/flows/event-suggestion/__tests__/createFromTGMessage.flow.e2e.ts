@@ -10,6 +10,7 @@ import {
   TGPhotoArb,
 } from "@liexp/shared/lib/tests/arbitrary/common/TGMessage.arb";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { fc } from "@liexp/test";
 import { pipe } from "fp-ts/function";
@@ -91,7 +92,9 @@ describe("Create From TG Message", () => {
       ) as any[];
 
       const expectedLink = await throwTE(
-        Test.ctx.db.findOneOrFail(LinkEntity, { where: { url } })
+        Test.ctx.db.findOneOrFail(LinkEntity, {
+          where: { url: sanitizeURL(url) },
+        })
       );
 
       expect(result).toMatchObject({
@@ -108,7 +111,7 @@ describe("Create From TG Message", () => {
       const url = fc.sample(URLArb, 1)[0];
       const description = fc.sample(HumanReadableStringArb(), 1)[0];
       let link = {
-        url,
+        url: sanitizeURL(url),
         description,
         id: uuid(),
       };
@@ -169,6 +172,9 @@ describe("Create From TG Message", () => {
       Test.mocks.tg.bot.downloadFile.mockImplementationOnce(() =>
         Promise.resolve(tempFileLocation)
       );
+
+      // mock puppeteer goto
+      Test.mocks.puppeteer.page.goto.mockReset().mockResolvedValueOnce({});
 
       // mock s3 upload
       Test.mocks.s3.send.mockImplementationOnce(() =>
