@@ -257,3 +257,66 @@ export const GetPuppeteerProvider = (
     getPageText,
   };
 };
+
+/**
+ * Check the element exists before evaluating callback
+ *
+ * @param p puppeteer page object
+ * @returns value returned from `onEval` when sel is present, or undefined
+ */
+export const $safeEvalOrUndefined =
+  (p: puppeteer.Page) =>
+  async <
+    Selector extends string,
+    Params extends unknown[],
+    Func extends puppeteer.EvaluateFuncWith<
+      puppeteer.NodeFor<Selector>,
+      Params
+    > = puppeteer.EvaluateFuncWith<puppeteer.NodeFor<Selector>, Params>
+  >(
+    sel: Selector,
+    onEval: Func
+  ): Promise<string | undefined> => {
+    let ret: any;
+    const el = await p.$(sel);
+    if (el) {
+      ret = await p.$eval(sel, onEval as any);
+    }
+    return ret;
+  };
+
+/**
+ * Get the first valid result of element evaluation from an array of selectors.
+ * It throws when no value is returned by $safeEvalOrUndefined loop.
+ *
+ * @param p puppeteer page object
+ * @returns The first evaluated result from given selectors
+ */
+export const $evalManyOrThrow =
+  (p: puppeteer.Page) =>
+  async <
+    Selector extends string,
+    Params extends unknown[],
+    Func extends puppeteer.EvaluateFuncWith<
+      puppeteer.NodeFor<Selector>,
+      Params
+    > = puppeteer.EvaluateFuncWith<puppeteer.NodeFor<Selector>, Params>
+  >(
+    sel: Selector[],
+    onEval: Func
+  ): Promise<string> => {
+    let ret: string | undefined;
+    const evall = $safeEvalOrUndefined(p);
+    await Promise.all(
+      sel.map(async (s) => {
+        if (!ret) {
+          ret = await evall(s, onEval as any);
+        }
+        return ret;
+      })
+    );
+    if (!ret) {
+      throw new Error(`Can't eval selectors: ${JSON.stringify(sel)}`);
+    }
+    return ret;
+  };

@@ -13,7 +13,7 @@ import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorIn
 import ReferenceManyEventField from "@liexp/ui/lib/components/admin/events/ReferenceManyEventField";
 import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField";
 import GroupPreview from "@liexp/ui/lib/components/admin/previews/GroupPreview";
-import { Box, Typography } from "@liexp/ui/lib/components/mui";
+import { Box, Grid, Typography } from "@liexp/ui/lib/components/mui";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
@@ -84,7 +84,6 @@ const groupFilters = [
     source="members"
     reference="actors"
     alwaysOn
-    size="small"
     filterToQuery={(ids: string[]) => ({
       members: ids,
     })}
@@ -94,6 +93,7 @@ const groupFilters = [
       optionText={(r: any) => {
         return r?.fullName !== undefined ? `${r.fullName}` : "No actor";
       }}
+      size="small"
     />
   </ReferenceArrayInput>,
 ];
@@ -189,14 +189,27 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
     >
       <TabbedForm>
         <FormTab label="Generals">
-          <TextInput source="name" />
-          <ColorInput source="color" />
-          <DateInput source="startDate" />
-          <DateInput source="endDate" />
-          <GroupKindInput source="kind" />
+          <Grid container spacing={2}>
+            <Grid item md={6}>
+              <Box style={{ display: "flex", flexDirection: "column" }}>
+                <TextInput source="name" />
+                <ColorInput source="color" />
+                <Box style={{ display: "flex", flexDirection: "column" }}>
+                  <DateInput source="startDate" />
+                  <DateInput source="endDate" />
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item md={6}>
+              <GroupKindInput source="kind" />
+              <MediaField source="avatar" type="image/jpeg" />
+              <Box style={{ display: "flex", flexDirection: "column" }}>
+                <DateField source="updatedAt" showTime={true} />
+                <DateField source="createdAt" showTime={true} />
+              </Box>
+            </Grid>
+          </Grid>
           <ReactPageInput label="excerpt" source="excerpt" />
-          <DateField source="updatedAt" showTime={true} />
-          <DateField source="createdAt" showTime={true} />
         </FormTab>
         <FormTab label="Avatar">
           <MediaField source="avatar" type="image/jpeg" />
