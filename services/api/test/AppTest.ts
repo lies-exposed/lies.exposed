@@ -17,9 +17,10 @@ import {
   type ObjectLiteral,
 } from "typeorm";
 import { awsMock } from "../__mocks__/aws.mock";
-import { igProviderMock } from '../__mocks__/ig.mock';
+import { igProviderMock } from "../__mocks__/ig.mock";
 import puppeteerMocks from "../__mocks__/puppeteer.mock";
 import { tgProviderMock } from "../__mocks__/tg.mock";
+import { wikipediaProviderMock } from "../__mocks__/wikipedia.mock";
 import { type RouteContext } from "../src/routes/route.types";
 import { makeApp } from "../src/server";
 import { type AppMocks, mocks } from "./mocks";
@@ -94,6 +95,7 @@ export const initAppTest = async (): Promise<AppTest> => {
       }),
       ig: igProviderMock,
       fs: GetFSClient(),
+      wp: wikipediaProviderMock,
       urlMetadata: {
         fetchHTML: (url: string, opts: any) => {
           return TE.tryCatch(

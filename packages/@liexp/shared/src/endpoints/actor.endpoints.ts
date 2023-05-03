@@ -4,7 +4,7 @@ import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import { Actor } from "../io/http";
-import { URL, UUID } from "../io/http/Common";
+import { UUID } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import { ResourceEndpoints } from "./types";
 
@@ -37,7 +37,7 @@ export const Create = Endpoint({
   getPath: () => "/actors",
   Input: {
     Query: undefined,
-    Body: t.union([t.type({ url: URL }), Actor.AddActorBody]),
+    Body: t.union([t.type({ search: t.string }), Actor.AddActorBody]),
   },
   Output: SingleActorOutput,
 });

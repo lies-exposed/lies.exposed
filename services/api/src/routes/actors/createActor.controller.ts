@@ -7,7 +7,7 @@ import { Equal } from "typeorm";
 import { ActorEntity } from "../../entities/Actor.entity";
 import { type Route } from "../route.types";
 import { toActorIO } from "./actor.io";
-import { fetchFromWikipedia } from "@flows/actors/fetchFromWikipedia";
+import { fetchActorFromWikipedia } from "@flows/actors/fetchActorFromWikipedia";
 import { ServerError } from "@io/ControllerError";
 import { authenticationHandler } from "@utils/authenticationHandler";
 
@@ -20,7 +20,7 @@ export const MakeCreateActorRoute: Route = (r, ctx) => {
       return pipe(
         AddActorBody.is(body)
           ? TE.right(body)
-          : fetchFromWikipedia(ctx)(body.url),
+          : fetchActorFromWikipedia(ctx)(body.search),
         TE.chain((b) =>
           pipe(
             ctx.db.findOne(ActorEntity, { where: { username: b.username } }),
