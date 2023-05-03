@@ -1,7 +1,7 @@
 import * as t from "io-ts";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
-import { URL, UUID } from "../io/http/Common";
+import { UUID } from "../io/http/Common";
 import * as Group from "../io/http/Group";
 import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
@@ -33,7 +33,7 @@ export const Create = Endpoint({
   getPath: () => "/groups",
   Input: {
     Query: undefined,
-    Body: t.union([t.type({ url: URL }), Group.CreateGroupBody]),
+    Body: t.union([t.type({ search: t.string }), Group.CreateGroupBody]),
   },
   Output: Group.GroupOutput,
 });

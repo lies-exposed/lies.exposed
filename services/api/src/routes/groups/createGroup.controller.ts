@@ -7,7 +7,7 @@ import { Equal } from "typeorm";
 import { GroupEntity } from "../../entities/Group.entity";
 import { type Route } from "../route.types";
 import { toGroupIO } from "./group.io";
-import { fetchFromWikipedia } from "@flows/groups/fetchFromWikipedia";
+import { fetchGroupFromWikipedia } from "@flows/groups/fetchGroupFromWikipedia";
 import { authenticationHandler } from "@utils/authenticationHandler";
 
 export const MakeCreateGroupRoute: Route = (r, ctx) => {
@@ -17,7 +17,7 @@ export const MakeCreateGroupRoute: Route = (r, ctx) => {
       return pipe(
         CreateGroupBody.is(body)
           ? TE.right(body)
-          : fetchFromWikipedia(ctx)(body.url),
+          : fetchGroupFromWikipedia(ctx)(body.search),
         TE.chain(({ color, ...b }) =>
           ctx.db.save(GroupEntity, [
             {

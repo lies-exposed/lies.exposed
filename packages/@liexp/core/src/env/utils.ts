@@ -6,5 +6,6 @@ export const loadENV = (root?: string, p?: string): void => {
   p = p ?? process.env.DOTENV_CONFIG_PATH ?? ".env";
   dotenv.config({
     path: path.resolve(root, p),
+    override: true
   });
 };

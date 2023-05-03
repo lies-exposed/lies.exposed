@@ -1,14 +1,15 @@
 import type * as logger from "@liexp/core/lib/logger";
 import { type URLMetadataClient } from "../providers/URLMetadata.provider";
 import { type FFMPEGProvider } from "../providers/ffmpeg.provider";
-import { type FSClient } from '../providers/fs/fs.provider';
-import { type HTTP } from '../providers/http/http.provider';
-import { type IGProvider } from '../providers/ig/ig.provider';
+import { type FSClient } from "../providers/fs/fs.provider";
+import { type HTTP } from "../providers/http/http.provider";
+import { type IGProvider } from "../providers/ig/ig.provider";
 import { type JWTClient } from "../providers/jwt/JWTClient";
 import { type DatabaseClient } from "../providers/orm";
 import { type PuppeteerProvider } from "../providers/puppeteer.provider";
 import { type SpaceClient } from "../providers/space";
 import { type TGBotProvider } from "../providers/tg/tg.provider";
+import { type WikipediaProvider } from "../providers/wikipedia/wikipedia.provider";
 
 export interface ServerContext {
   db: DatabaseClient;
@@ -20,6 +21,8 @@ export interface ServerContext {
   tg: TGBotProvider;
   ffmpeg: FFMPEGProvider;
   http: HTTP;
-  fs: FSClient
+  fs: FSClient;
   ig: IGProvider;
+  /** Wikipedia Provider */
+  wp: WikipediaProvider;
 }
