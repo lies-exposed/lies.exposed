@@ -49,7 +49,7 @@ COPY --from=build /app/packages/@liexp/ui/package.json /app/packages/@liexp/ui/p
 
 # API service
 COPY --from=build /app/services/api/package.json /app/services/api/package.json
-COPY --from=build /app/services/api/ormconfig.js /app/services/api/ormconfig.js
+COPY --from=build /app/services/api/ormconfig.ts /app/services/api/ormconfig.ts
 COPY --from=build /app/services/api/bin /app/services/api/bin
 COPY --from=build /app/services/api/build /app/services/api/build
 

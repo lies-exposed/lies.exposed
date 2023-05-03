@@ -77,6 +77,7 @@
     "react-dnd": "^15",
     "react-dnd-html5-backend": "^15",
     "terser": "^5.17.1",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "node-telegram-bot-api": "^0.61.0"
   }
 }

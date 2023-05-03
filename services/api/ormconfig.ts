@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-require("module-alias")(process.cwd());
-const { getDataSource } = require("./build/utils/data-source");
-const { ENV } = require("./build/io/ENV");
-const { PathReporter } = require("io-ts/lib/PathReporter");
-const { loadENV } = require("@liexp/core/lib/env/utils");
+// require("module-alias")(process.cwd());
+import { getDataSource } from "./src/utils/data-source";
+import { ENV } from "./src/io/ENV";
+import { PathReporter } from "io-ts/lib/PathReporter";
+import { loadENV } from "@liexp/core/lib/env/utils";
 
 loadENV(
   process.cwd(),
@@ -24,6 +24,4 @@ const dataSource = getDataSource(env, true);
 
 dataSource.initialize();
 
-module.exports = {
-  default: dataSource,
-};
+export default dataSource;
