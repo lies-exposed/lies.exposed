@@ -4033,7 +4033,7 @@ __metadata:
   resolution: "@liexp/test@workspace:packages/@liexp/test"
   dependencies:
     "@liexp/core": 0.1.0
-    fast-check: ^2.25.0
+    fast-check: ^3.8.1
     fast-check-io-ts: ^0.5.0
     fp-ts: ^2.13.1
     io-ts: ^2.2.20
@@ -14195,12 +14195,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-check@npm:^2.25.0":
-  version: 2.25.0
-  resolution: "fast-check@npm:2.25.0"
+"fast-check@npm:^3.8.1":
+  version: 3.8.1
+  resolution: "fast-check@npm:3.8.1"
   dependencies:
-    pure-rand: ^5.0.1
-  checksum: 77def3e214155618301c0f5a5e3b56da133b5d45896c631efece9de0428aa737cd6a660d085a52d8fff29a627d1d6065be1ec70d93385167fc25f10b3bb3c160
+    pure-rand: ^6.0.0
+  checksum: be75fad548b71b3096a0564c0d1b04bc7702e06a9ebed62b635541a53b35eaa1af66a9c7ed262384732bb4b169785f436345579ec03fa6f28a9f3dbfbbfb599a
   languageName: node
   linkType: hard
 
@@ -21027,13 +21027,6 @@ __metadata:
   version: 1.3.0
   resolution: "pure-color@npm:1.3.0"
   checksum: 646d8bed6e6eab89affdd5e2c11f607a85b631a7fb03c061dfa658eb4dc4806881a15feed2ac5fd8c0bad8c00c632c640d5b1cb8b9a972e6e947393a1329371b
-  languageName: node
-  linkType: hard
-
-"pure-rand@npm:^5.0.1":
-  version: 5.0.1
-  resolution: "pure-rand@npm:5.0.1"
-  checksum: 2b05a6d80163308583a013fab8d7f7f2958a6f77895680c99d8c3ea1f3e49ac273716a59cb1777cfc370540df53e6dc017e46c70a869da81fe490b2e6703d77d
   languageName: node
   linkType: hard
 
