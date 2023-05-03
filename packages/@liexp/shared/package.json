@@ -27,7 +27,7 @@
     "axios": "^1.4.0",
     "bs58": "^5.0.0",
     "cheerio": "^1.0.0-rc.12",
-    "date-fns": "^2.29.3",
+    "date-fns": "^2.30.0",
     "domino": "^2.1.6",
     "fast-csv": "^4.3.6",
     "fluent-ffmpeg": "^2.1.2",
