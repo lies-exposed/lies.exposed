@@ -7,7 +7,7 @@ import { Equal } from "typeorm";
 import { ActorEntity } from "../../entities/Actor.entity";
 import { type Route } from "../route.types";
 import { toActorIO } from "./actor.io";
-import { fetchActorFromWikipedia } from "@flows/actors/fetchActorFromWikipedia";
+import { searchActorAndCreateFromWikipedia } from "@flows/actors/fetchActorFromWikipedia";
 import { ServerError } from "@io/ControllerError";
 import { authenticationHandler } from "@utils/authenticationHandler";
 
@@ -19,16 +19,17 @@ export const MakeCreateActorRoute: Route = (r, ctx) => {
 
       return pipe(
         AddActorBody.is(body)
-          ? TE.right(body)
-          : fetchActorFromWikipedia(ctx)(body.search),
-        TE.chain((b) =>
-          pipe(
-            ctx.db.findOne(ActorEntity, { where: { username: b.username } }),
-            TE.filterOrElse(O.isNone, () => ServerError()),
-            TE.chain(() => ctx.db.save(ActorEntity, [b]))
-          )
-        ),
-        TE.chain(([actor]) =>
+          ? pipe(
+              ctx.db.findOne(ActorEntity, {
+                where: { username: body.username },
+              }),
+              TE.filterOrElse(O.isNone, () => ServerError()),
+              TE.chain(() => ctx.db.save(ActorEntity, [body])),
+              TE.map(([actor]) => actor)
+            )
+          : searchActorAndCreateFromWikipedia(ctx)(body.search),
+
+        TE.chain((actor) =>
           ctx.db.findOneOrFail(ActorEntity, {
             where: { id: Equal(actor.id) },
           })

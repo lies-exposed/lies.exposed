@@ -25,6 +25,7 @@
     "@liexp/core": "0.1.0",
     "@liexp/test": "0.1.0",
     "axios": "^1.4.0",
+    "bot-brother": "^2.1.5",
     "bs58": "^5.0.0",
     "cheerio": "^1.0.0-rc.12",
     "date-fns": "^2.30.0",
