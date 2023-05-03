@@ -193,6 +193,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
             <Grid item md={6}>
               <Box style={{ display: "flex", flexDirection: "column" }}>
                 <TextInput source="name" />
+                <TextInput source="username" />
                 <ColorInput source="color" />
                 <Box style={{ display: "flex", flexDirection: "column" }}>
                   <DateInput source="startDate" />
@@ -277,6 +278,7 @@ export const GroupCreate: React.FC<CreateProps> = (props) => {
                 <DateInput source="startDate" />
                 <DateInput source="endDate" />
                 <TextInput source="name" />
+                <TextInput source="username" />
                 <GroupKindInput source="kind" />
                 <GroupMemberArrayInput source="members" />
                 <ImageInput source="avatar">

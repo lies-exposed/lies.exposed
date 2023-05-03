@@ -69,6 +69,11 @@ export const makeContext = (
 ): TE.TaskEither<ControllerError, RouteContext> => {
   const serverLogger = logger.GetLogger("server");
 
+  const db = pipe(
+    GetTypeORMClient(getDataSource(env, false)),
+    TE.mapLeft(toControllerError)
+  );
+
   const s3 =
     env.NODE_ENV === "development" || env.NODE_ENV === "test"
       ? S3Client.GetS3Client({
@@ -95,33 +100,38 @@ export const makeContext = (
     client: wk,
   });
 
+  const fsClient = GetFSClient();
+
+  const jwtClient = GetJWTClient({
+    secret: env.JWT_SECRET,
+    logger: serverLogger,
+  });
+
+  const urlMetadataClient = MakeURLMetadata({
+    client: axios,
+    parser: {
+      getMetadata: metadataParser.getMetadata,
+    },
+  });
   return pipe(
     sequenceS(TE.ApplicativePar)({
       logger: TE.right(serverLogger),
-      db: pipe(
-        GetTypeORMClient(getDataSource(env, false)),
-        TE.mapLeft(toControllerError)
-      ),
+      db,
       s3: TE.right(s3),
-      fs: TE.right(GetFSClient()),
-      jwt: TE.right(
-        GetJWTClient({ secret: env.JWT_SECRET, logger: serverLogger })
-      ),
-      urlMetadata: TE.right(
-        MakeURLMetadata({
-          client: axios,
-          parser: {
-            getMetadata: metadataParser.getMetadata,
-          },
-        })
-      ),
+      fs: TE.right(fsClient),
+      jwt: TE.right(jwtClient),
+      urlMetadata: TE.right(urlMetadataClient),
       env: TE.right(env),
-      tg: TE.right(
-        TGBotProvider(serverLogger, {
-          token: env.TG_BOT_TOKEN,
-          chat: env.TG_BOT_CHAT,
-          polling: env.TG_BOT_POLLING,
-        })
+      tg: pipe(
+        TGBotProvider(
+          { logger: serverLogger },
+          {
+            token: env.TG_BOT_TOKEN,
+            chat: env.TG_BOT_CHAT,
+            polling: env.TG_BOT_POLLING,
+          }
+        ),
+        TE.right
       ),
       puppeteer: TE.right(
         GetPuppeteerProvider(puppeteer as any, {
@@ -241,6 +251,10 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   const tgLogger = ctx.logger.extend("tg-bot");
 
   ctx.tg.onMessage((msg, metadata) => {
+    if (msg.text?.startsWith("/")) {
+      ctx.logger.debug.log("Command message %s, skipping...", msg.text);
+      return;
+    }
     void pipe(
       sequenceS(TE.ApplicativePar)({
         storeMsg: GetWriteJSON(ctx.logger)(
@@ -269,7 +283,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
       throwTE
     )
       .then((message) =>
-        ctx.tg.bot.sendMessage(msg.chat.id, message, {
+        ctx.tg.bot.api.sendMessage(msg.chat.id, message, {
           reply_to_message_id: msg.message_id,
         })
       )

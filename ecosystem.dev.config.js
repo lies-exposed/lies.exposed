@@ -23,6 +23,22 @@ const adminEnv = dotenv.parse(
   )
 );
 
+const apiDevelop = {
+  name: "api-develop",
+  namespace: "liexp",
+  cwd: path.resolve(__dirname, "./services/api"),
+  script: "yarn develop",
+  watch: [
+    path.resolve(__dirname, "./packages/@liexp/core/lib"),
+    path.resolve(__dirname, "./packages/@liexp/shared/lib"),
+    path.resolve(__dirname, "./packages/@liexp/ui/lib"),
+    path.resolve(__dirname, "./services/api/src"),
+  ],
+  watch_delay: 2000,
+  ignore_watch: [path.resolve(__dirname, "./services/api/build")],
+  env: apiEnv,
+};
+
 module.exports = {
   apps: [
     {
@@ -47,19 +63,7 @@ module.exports = {
       ...webServe,
       env: webEnv,
     },
-    {
-      name: "api-develop",
-      namespace: "liexp",
-      cwd: path.resolve(__dirname, "./services/api"),
-      script: "yarn develop",
-      watch: [path.resolve(__dirname, "./services/api/src")],
-      watch_delay: 2000,
-      ignore_watch: [
-        path.resolve(__dirname, "./services/api/node_modules"),
-        path.resolve(__dirname, "./services/api/build"),
-      ],
-      env: apiEnv,
-    },
+    apiDevelop,
     {
       name: "admin",
       namespace: "liexp",

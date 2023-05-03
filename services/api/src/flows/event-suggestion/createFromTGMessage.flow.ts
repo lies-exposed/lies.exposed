@@ -67,7 +67,7 @@ const parseVideo: TEFlow<[string, TelegramBot.Video], MediaEntity[]> =
           pipe(
             TE.tryCatch(() => {
               ctx.logger.debug.log("Download file from TG %s", id);
-              return ctx.tg.bot.downloadFile(id, tempFolder);
+              return ctx.tg.bot.api.downloadFile(id, tempFolder);
             }, toControllerError),
             TE.chain((f) =>
               ctx.s3.upload({
@@ -85,7 +85,7 @@ const parseVideo: TEFlow<[string, TelegramBot.Video], MediaEntity[]> =
     return pipe(
       sequenceS(TE.ApplicativePar)({
         video: TE.tryCatch(
-          () => ctx.tg.bot.downloadFile(video.file_id, tempFolder),
+          () => ctx.tg.bot.api.downloadFile(video.file_id, tempFolder),
           toControllerError
         ),
         thumb: thumbTask,
@@ -117,7 +117,7 @@ const parsePhoto: TEFlow<[string, TelegramBot.PhotoSize[]], MediaEntity[]> =
 
         return pipe(
           TE.tryCatch(
-            () => ctx.tg.bot.downloadFile(p.file_id, tempFolder),
+            () => ctx.tg.bot.api.downloadFile(p.file_id, tempFolder),
             toControllerError
           ),
           TE.chain((f) => {

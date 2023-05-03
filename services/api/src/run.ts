@@ -6,6 +6,10 @@ import { failure } from "io-ts/lib/PathReporter";
 import { makeApp, makeContext } from "./server";
 import { parseENV } from "@utils/env.utils";
 import { loadENV } from "@liexp/core/lib/env/utils";
+import { actorCommand } from "./providers/tg/actor.command";
+import { groupCommand } from "./providers/tg/group.command";
+import { helpCommand } from "./providers/tg/help.command";
+import { startCommand } from './providers/tg/start.command';
 
 const run = (): Promise<void> => {
   const serverLogger = logger.GetLogger("api");
@@ -44,6 +48,15 @@ const run = (): Promise<void> => {
       },
       ({ ctx, app }) =>
         () => {
+          // bind /start command to tg bot
+          startCommand(ctx);
+          // bind /help command to tg bot
+          helpCommand(ctx);
+          // bind /actor command to tg bot
+          actorCommand(ctx);
+          // bind /group command to tg bot
+          groupCommand(ctx);
+
           // const downloadVaccineDataTask = Cron.schedule(
           //   ctx.env.DOWNLOAD_VACCINE_DATA_CRON,
           //   () => {
@@ -75,6 +88,7 @@ const run = (): Promise<void> => {
             // eslint-disable-next-line no-console
             serverLogger.debug.log("closing server...");
             server.close();
+
             void ctx.tg
               .stopPolling({})()
               // eslint-disable-next-line no-console
