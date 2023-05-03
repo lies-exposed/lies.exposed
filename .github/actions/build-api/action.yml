@@ -10,12 +10,12 @@ runs:
   using: "composite"
   steps:
     - uses: actions/cache@v3
-      id: packages-build
+      id: api-build
       with:
         path: services/api/build
         key: linux-api-build-${{ inputs.hash }}
 
     - name: Build API
-      if: steps.packages-build.outputs.cache-hit != 'true'
+      if: steps.api-build.outputs.cache-hit != 'true'
       run: yarn api build
       shell: bash

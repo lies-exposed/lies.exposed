@@ -31,7 +31,8 @@
     "upsert-tg-pinned-message": "yarn ts:node ./bin/upsert-tg-pinned-message.ts",
     "extract-events": "yarn ts:node ./bin/extract-events.ts",
     "upsert-nlp-entities": "yarn ts:node ./bin/upsert-nlp-entities.ts",
-    "share-post-message": "yarn ts:node ./bin/share-post-message.ts"
+    "share-post-message": "yarn ts:node ./bin/share-post-message.ts",
+    "create-from-wikipedia": "yarn ts:node ./bin/create-from-wikipedia.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.315.0",
@@ -75,6 +76,7 @@
     "ts-shared": "2.0.0-alpha.6",
     "typeorm": "^0.3.15",
     "uuid": "^9.0.0",
+    "wikipedia": "^2.0.0",
     "wink-eng-lite-web-model": "^1.5.0",
     "wink-nlp": "^1.13.1",
     "wink-nlp-utils": "^2.1.0"

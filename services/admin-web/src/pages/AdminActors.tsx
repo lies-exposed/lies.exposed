@@ -212,13 +212,13 @@ export const ActorCreate: React.FC<CreateProps> = (props) => {
       <SimpleForm>
         <SelectInput
           source="_from"
-          choices={["url", "plain"].map((id) => ({ id, name: id }))}
+          choices={["wikipedia", "plain"].map((id) => ({ id, name: id }))}
           defaultValue="plain"
         />
         <FormDataConsumer>
           {({ formData }) => {
-            if (formData._from === "url") {
-              return <TextInput source="url" />;
+            if (formData._from === "wikipedia") {
+              return <TextInput source="search" />;
             }
 
             return (

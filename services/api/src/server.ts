@@ -10,6 +10,7 @@ import { GetTypeORMClient } from "@liexp/shared/lib/providers/orm";
 import { GetPuppeteerProvider } from "@liexp/shared/lib/providers/puppeteer.provider";
 import { S3Client } from "@liexp/shared/lib/providers/space";
 import { TGBotProvider } from "@liexp/shared/lib/providers/tg/tg.provider";
+import { WikipediaProvider } from "@liexp/shared/lib/providers/wikipedia/wikipedia.provider";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import axios from "axios";
 import cors from "cors";
@@ -23,6 +24,7 @@ import { pipe } from "fp-ts/function";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import metadataParser from "page-metadata-parser";
 import puppeteer from "puppeteer-core";
+import wk from "wikipedia";
 import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
 import { toControllerError, type ControllerError } from "@io/ControllerError";
 import { type ENV } from "@io/ENV";
@@ -88,6 +90,11 @@ export const makeContext = (
           tls: true,
         });
 
+  const wpProvider = WikipediaProvider({
+    logger: logger.GetLogger("mw"),
+    client: wk,
+  });
+
   return pipe(
     sequenceS(TE.ApplicativePar)({
       logger: TE.right(serverLogger),
@@ -124,6 +131,7 @@ export const makeContext = (
       ),
       ffmpeg: TE.right(GetFFMPEGProvider(ffmpeg)),
       http: TE.right(HTTP({})),
+      wp: TE.right(wpProvider),
       ig: TE.right(
         IGProvider({
           logger: logger.GetLogger("ig"),
@@ -243,9 +251,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
           metadata
         ),
       }),
-      throwTE
-    ).then(
-      ({ eventSuggestion, storeMsg }) => {
+      TE.map(({ eventSuggestion, storeMsg }) => {
         tgLogger.info.log("Success %O", eventSuggestion);
         const message = [
           "Thanks for your contribution! 🫶",
@@ -258,14 +264,18 @@ export const makeApp = (ctx: RouteContext): express.Express => {
           `Photos: ${eventSuggestion.photos.length}`,
           `Videos: ${eventSuggestion.videos.length}`,
         ];
-        void ctx.tg.bot.sendMessage(msg.chat.id, message.join("\n"), {
+        return message.join("\n");
+      }),
+      throwTE
+    )
+      .then((message) =>
+        ctx.tg.bot.sendMessage(msg.chat.id, message, {
           reply_to_message_id: msg.message_id,
-        });
-      },
-      (e) => {
+        })
+      )
+      .catch((e) => {
         tgLogger.error.log("Error %O", e);
-      }
-    );
+      });
   });
 
   app.use("/v1", router);

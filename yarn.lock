@@ -3961,10 +3961,6 @@ __metadata:
     "@databases/sql": ^3.3.0
     "@liexp/core": 0.1.0
     "@liexp/test": 0.1.0
-    "@mui/material": ^5.12.2
-    "@react-page/editor": ^5.4.4
-    "@react-page/plugins-slate": ^5.4.4
-    "@react-page/react-admin": ^5.4.4
     "@types/bs58": ^4.0.1
     "@types/fluent-ffmpeg": ^2.1.21
     "@types/jest": ^29.5.1
@@ -4005,6 +4001,8 @@ __metadata:
     typeorm: ^0.3.15
     typescript: ^4.9.5
     uuid: ^9.0.0
+    wikipedia: ^2.0.0
+    wink-nlp: ^1.13.1
     wink-nlp-utils: ^2.1.0
   peerDependencies:
     "@react-page/editor": ^5.2.0
@@ -4012,10 +4010,21 @@ __metadata:
     "@react-page/react-admin": ^5.2.0
     "@visx/network": ^3.0.0
     express: ^4.17.1
+    fast-csv: ^4.3.6
+    fluent-ffmpeg: ^2.1.2
+    instagram-private-api: ^1.45.3
+    node-telegram-bot-api: ^0.61.0
+    page-metadata-parser: ^1.1.4
+    puppeteer-core: ^19.11.1
+    puppeteer-extra: ^3.3.6
+    puppeteer-extra-plugin-stealth: ^2.11.2
     react: ^18
     react-admin: ^4
     react-dom: ^18
+    typeorm: ^0.3.15
+    wikipedia: ^2.0.0
     wink-nlp: ^1
+    wink-nlp-utils: ^2.1.0
   languageName: unknown
   linkType: soft
 
@@ -9341,6 +9350,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.59.2
     "@typescript-eslint/parser": ^5.59.2
     debug: ^4.3.4
+    dotenv: ^16.0.3
     eslint: ^8.39.0
     eslint-config-prettier: ^8.8.0
     eslint-config-standard-with-typescript: ^34.0.1
@@ -9681,6 +9691,7 @@ __metadata:
     typeorm-uml: ^1.6.5
     typescript: ^4.9.5
     uuid: ^9.0.0
+    wikipedia: ^2.0.0
     wink-eng-lite-web-model: ^1.5.0
     wink-nlp: ^1.13.1
     wink-nlp-utils: ^2.1.0
@@ -10786,6 +10797,13 @@ __metadata:
     map-obj: ^4.0.0
     quick-lru: ^4.0.1
   checksum: 43c9af1adf840471e54c68ab3e5fe8a62719a6b7dbf4e2e86886b7b0ff96112c945736342b837bd2529ec9d1c7d1934e5653318478d98e0cf22c475c04658e2a
+  languageName: node
+  linkType: hard
+
+"camelcase@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "camelcase@npm:4.1.0"
+  checksum: 9683356daf9b64fae4b30c91f8ceb1f34f22746e03d1804efdbe738357d38b47f206cdd71efcf2ed72018b2e88eeb8ec3f79adb09c02f1253a4b6d5d405ff2ae
   languageName: node
   linkType: hard
 
@@ -13045,17 +13063,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:^16.0.0, dotenv@npm:^16.0.3":
+"dotenv@npm:^16.0.3":
   version: 16.0.3
   resolution: "dotenv@npm:16.0.3"
   checksum: afcf03f373d7a6d62c7e9afea6328e62851d627a4e73f2e12d0a8deae1cd375892004f3021883f8aec85932cd2834b091f568ced92b4774625b321db83b827f8
-  languageName: node
-  linkType: hard
-
-"dotenv@npm:^8.2.0":
-  version: 8.6.0
-  resolution: "dotenv@npm:8.6.0"
-  checksum: 38e902c80b0666ab59e9310a3d24ed237029a7ce34d976796349765ac96b8d769f6df19090f1f471b77a25ca391971efde8a1ea63bb83111bd8bec8e5cc9b2cd
   languageName: node
   linkType: hard
 
@@ -15967,6 +15978,15 @@ __metadata:
     once: ^1.3.0
     wrappy: 1
   checksum: f4f76aa072ce19fae87ce1ef7d221e709afb59d445e05d47fba710e85470923a75de35bfae47da6de1b18afc3ce83d70facf44cfb0aff89f0a3f45c0a0244dfd
+  languageName: node
+  linkType: hard
+
+"infobox-parser@npm:^3.6.2":
+  version: 3.6.2
+  resolution: "infobox-parser@npm:3.6.2"
+  dependencies:
+    camelcase: ^4.1.0
+  checksum: a09ab6d338631590f7d0ade0b7d3d179507ada170aa81f9b404b9df8fb2c780d95e8a79b027267381594bb575d3d69f39f1d9a8af0c5f6213d5b671877380d2f
   languageName: node
   linkType: hard
 
@@ -18953,6 +18973,13 @@ __metadata:
   version: 1.0.1
   resolution: "node-fetch-native@npm:1.0.1"
   checksum: 828b891344401fc84ce589cce39bf1760fe335c67e7607c4452ab47187f8afe73f86e220c0d215441e9e3ac1e4e27969167b8fa75269acad4362051bc0ee478e
+  languageName: node
+  linkType: hard
+
+"node-fetch@npm:2.6.1":
+  version: 2.6.1
+  resolution: "node-fetch@npm:2.6.1"
+  checksum: 91075bedd57879117e310fbcc36983ad5d699e522edb1ebcdc4ee5294c982843982652925c3532729fdc86b2d64a8a827797a745f332040d91823c8752ee4d7c
   languageName: node
   linkType: hard
 
@@ -25848,6 +25875,16 @@ __metadata:
   dependencies:
     string-width: ^4.0.0
   checksum: 03db6c9d0af9329c37d74378ff1d91972b12553c7d72a6f4e8525fe61563fa7adb0b9d6e8d546b7e059688712ea874edd5ded475999abdeedf708de9849310e0
+  languageName: node
+  linkType: hard
+
+"wikipedia@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "wikipedia@npm:2.0.0"
+  dependencies:
+    infobox-parser: ^3.6.2
+    node-fetch: 2.6.1
+  checksum: f51489612563f4028cf020ee502c01caf2606b527ac5471bb352fe02f1ed7cd43ac6717020c7e0dd97d8331966ef353b9949ddcb3c3f2ab22c5fa380afd5b303
   languageName: node
   linkType: hard
 
