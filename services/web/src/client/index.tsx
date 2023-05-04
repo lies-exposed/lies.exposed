@@ -55,8 +55,12 @@ function Main(): JSX.Element {
 const container: any = document.getElementById("root");
 const root = ReactDOM.createRoot(container);
 
+/**
+ * here we use a React.Fragment cause
+ * React.StrictMode messes with @react-page/editor drawer
+ */
 root.render(
-  <React.StrictMode>
+  <React.Fragment>
     <Main />
-  </React.StrictMode>
+  </React.Fragment>
 );
