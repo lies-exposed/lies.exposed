@@ -1,4 +1,5 @@
 /* eslint-disable no-restricted-imports */
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import CloseIcon from "@mui/icons-material/Close";
@@ -10,7 +11,6 @@ import SearchIcon from "@mui/icons-material/SearchOutlined";
 import UndoIcon from "@mui/icons-material/Undo";
 import TreeItem from "@mui/lab/TreeItem";
 import TreeView from "@mui/lab/TreeView";
-import { Pagination } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -57,6 +57,7 @@ import ListSubheader from "@mui/material/ListSubheader";
 import MenuItem, { type MenuItemProps } from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import Modal, { type ModalProps } from "@mui/material/Modal";
+import Pagination from "@mui/material/Pagination";
 import Paper from "@mui/material/Paper";
 import Popover, { type PopoverProps } from "@mui/material/Popover";
 import Popper from "@mui/material/Popper";
@@ -75,8 +76,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { alpha } from "@mui/system/colorManipulator";
 
 export {
-  // icons
   UndoIcon,
+  AddCircleIcon,
   RedoIcon,
   SearchIcon,
   ContentSaveIcon,
@@ -86,7 +87,8 @@ export {
   PlayCircleOutline,
   CloseIcon,
   // components
-  Chip, type ChipProps,
+  Chip,
+  type ChipProps,
   Divider,
   Slider,
   Stack,
@@ -161,3 +163,4 @@ export {
   Popover,
   type PopoverProps,
 };
+

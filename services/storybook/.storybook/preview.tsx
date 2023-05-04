@@ -2,7 +2,7 @@ import { config, dom } from "@fortawesome/fontawesome-svg-core";
 import { HelmetProvider } from "@liexp/ui/lib/components/SEO";
 import { ECOTheme } from "@liexp/ui/lib/theme";
 import "@liexp/ui/assets/main.css";
-import { ThemeProvider } from "@mui/material";
+import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import { Preview } from "@storybook/react";
 import * as React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
