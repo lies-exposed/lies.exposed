@@ -34,7 +34,7 @@ const Root = styled("footer")(({ theme }) => ({
   [`& .${classes.title}`]: {
     color: theme.palette.common.white,
     fontSize: 18,
-    marginBottom: 0
+    marginBottom: 0,
     // fontWeight: theme.typography.fontWeightBold?.valueOf(),
   },
 
@@ -62,7 +62,7 @@ export const Footer: React.FC<{
 
   const {
     site: {
-      siteMetadata: { title, github, telegram },
+      siteMetadata: { title, github, telegram, storybook, docs },
     },
   } = {
     site: {
@@ -70,6 +70,8 @@ export const Footer: React.FC<{
         title: "lies.exposed",
         github: { link: "https://github.com/lies.exposed/lies-exposed" },
         telegram: { link: "https://t.me/lies_exposed" },
+        storybook: { link: "/storybook" },
+        docs: { label: "Docs", link: "/docs" },
       },
     },
   };
@@ -87,7 +89,7 @@ export const Footer: React.FC<{
     >
       <Container>
         <Grid container>
-          <Grid item sm={4}>
+          <Grid item sm={4} md={4}>
             <Box
               style={{
                 display: "flex",
@@ -98,10 +100,7 @@ export const Footer: React.FC<{
               {logoSrc ? (
                 <img style={{ height: 64, padding: 10 }} src={logoSrc} />
               ) : null}
-              <Typography
-                className={classes.title}
-                variant="h6"
-              >
+              <Typography className={classes.title} variant="h6">
                 {title}
               </Typography>
             </Box>
@@ -127,8 +126,61 @@ export const Footer: React.FC<{
             </Box>
           </Grid>
 
-          <Grid item sm={4}></Grid>
-          <Grid className={classes.rightColumn} item sm={4}>
+          <Grid item md={4} sm={0} />
+          <Grid className={classes.rightColumn} item sm={4} md={2}>
+            <Typography
+              variant="h6"
+              style={{
+                textTransform: "uppercase",
+                color: "white",
+                fontWeight: 600,
+                fontSize: 14,
+              }}
+            >
+              Developers
+            </Typography>
+            <MenuList title="Developers" disablePadding={true}>
+              <MenuItem disableGutters={true}>
+                <Link
+                  className={classes.link}
+                  href={storybook.link}
+                  target="_blank"
+                >
+                  <GithubIcon style={{ color: "white" }} />{" "}
+                  <Typography
+                    className={classes.linkText}
+                    variant="subtitle1"
+                    display="inline"
+                    style={{
+                      color: theme.palette.common.white,
+                    }}
+                  >
+                    Storybook
+                  </Typography>
+                </Link>
+              </MenuItem>
+              <MenuItem disableGutters={true}>
+                <Link
+                  className={classes.link}
+                  href={telegram.link}
+                  target="_blank"
+                >
+                  <TelegramIcon size="1x" color={theme.palette.common.white} />{" "}
+                  <Typography
+                    className={classes.linkText}
+                    variant="subtitle1"
+                    display="inline"
+                    style={{
+                      color: theme.palette.common.white,
+                    }}
+                  >
+                    Telegram
+                  </Typography>
+                </Link>
+              </MenuItem>
+            </MenuList>
+          </Grid>
+          <Grid className={classes.rightColumn} item sm={4} md={2}>
             <Typography
               variant="h6"
               style={{
@@ -161,11 +213,7 @@ export const Footer: React.FC<{
                 </Link>
               </MenuItem>
               <MenuItem disableGutters={true}>
-                <Link
-                  className={classes.link}
-                  href={telegram.link}
-                  target="_blank"
-                >
+                <Link className={classes.link} href={docs.link} target="_blank">
                   <TelegramIcon size="1x" color={theme.palette.common.white} />{" "}
                   <Typography
                     className={classes.linkText}
@@ -175,7 +223,7 @@ export const Footer: React.FC<{
                       color: theme.palette.common.white,
                     }}
                   >
-                    Telegram
+                    {docs.label}
                   </Typography>
                 </Link>
               </MenuItem>
