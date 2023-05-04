@@ -7,3 +7,10 @@ updates:
     target-branch: daily
     open-pull-requests-limit: 10
     versioning-strategy: increase
+    ignore:
+      - dependency-name: "@types/*"
+        versions: ["*"]
+      - dependency-name: "fast-check"
+        versions: ["3.*"]
+      - dependency-name: "query-string"
+        versions: ["8.*"]
