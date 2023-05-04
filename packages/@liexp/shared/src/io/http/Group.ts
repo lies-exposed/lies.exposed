@@ -57,6 +57,7 @@ export type GetGroupListQuery = t.TypeOf<typeof GetGroupListQuery>;
 export const CreateGroupBody = t.strict(
   {
     name: t.string,
+    username: t.string,
     color: t.string,
     kind: GroupKind,
     avatar: t.string,
@@ -108,6 +109,7 @@ export const Group = t.strict(
   {
     ...BaseProps.type.props,
     name: t.string,
+    username: t.union([t.string, t.undefined]),
     kind: GroupKind,
     color: Color,
     startDate: t.union([DateFromISOString, t.undefined]),

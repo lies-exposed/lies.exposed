@@ -1,7 +1,5 @@
-import { loadENV } from "@liexp/core/lib/env/utils";
 import { fp } from "@liexp/core/lib/fp";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
@@ -9,8 +7,7 @@ import { sequenceS } from "fp-ts/lib/Apply";
 import { fetchActors } from "../src/queries/actors/fetchActors.query";
 import { fetchGroups } from "../src/queries/groups/fetchGroups.query";
 import { fetchKeywords } from "../src/queries/keywords/fetchKeywords.query";
-import { makeContext } from "../src/server";
-import { parseENV } from "@utils/env.utils";
+import { startContext, stopContext } from "./start-ctx";
 
 const makePatterns = (s: string): string[] => {
   const chunks = s.split(" ");
@@ -30,13 +27,7 @@ const makePatterns = (s: string): string[] => {
 };
 
 const run = async (): Promise<any> => {
-  loadENV(process.cwd(), process.env.DOTENV_CONFIG_PATH ?? "../../.env");
-  const ctx = await pipe(
-    parseENV({ ...process.env, TG_BOT_POLLING: "false" }),
-    fp.TE.fromEither,
-    fp.TE.chain(makeContext),
-    throwTE
-  );
+  const ctx = await startContext();
 
   const result = await pipe(
     sequenceS(TE.ApplicativePar)({
@@ -74,7 +65,7 @@ const run = async (): Promise<any> => {
         50
       ),
     }),
-    TE.chainTaskK(({ actors, groups, keywords }) => {
+    TE.chain(({ actors, groups, keywords }) => {
       const nplConfig = ctx.fs.resolve(`config/nlp/entities.json`);
       const entities = [
         {
@@ -93,11 +84,13 @@ const run = async (): Promise<any> => {
       return pipe(
         ctx.fs.writeObject(nplConfig, JSON.stringify(entities, null, 4))
       );
-    })
+    }),
   )();
 
   ctx.logger.info.log("Output: %O", result);
+
+  await stopContext(ctx);
 };
 
 // eslint-disable-next-line no-console
-run().catch(console.error);
+void run().catch(console.error);

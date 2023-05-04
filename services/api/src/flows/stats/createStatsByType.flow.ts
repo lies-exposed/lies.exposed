@@ -255,6 +255,7 @@ export const createStatsByType: TEFlow<
                         g.id as string,
                         {
                           ...g,
+                          username: g.username ?? undefined,
                           color: g.color as any,
                           subGroups: [],
                           startDate: g.startDate ?? undefined,

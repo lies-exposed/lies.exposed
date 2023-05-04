@@ -1,32 +1,28 @@
 import { fp } from "@liexp/core/lib/fp";
+import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor";
 import { type AddActorBody } from "@liexp/shared/lib/io/http/Actor";
 import { createExcerptValue } from "@liexp/shared/lib/slate";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-import snakeCase from "lodash/snakeCase";
+import { Equal } from "typeorm";
+import { ActorEntity } from "@entities/Actor.entity";
 import { type TEFlow } from "@flows/flow.types";
 import { fetchFromWikipedia } from "@flows/wikipedia/fetchFromWikipedia";
+import { NotFoundError, toControllerError } from "@io/ControllerError";
 
 export const fetchActorFromWikipedia: TEFlow<[string], AddActorBody> =
-  (ctx) => (search) => {
+  (ctx) => (pageId) => {
     return pipe(
-      fetchFromWikipedia(ctx)(search),
+      fetchFromWikipedia(ctx)(pageId),
       TE.map(({ page, avatar, intro }) => {
+        ctx.logger.debug.log("Actor fetched from wikipedia %s", page.title);
         const username = pipe(
           page.fullurl.split("/"),
           fp.A.last,
-          fp.O.map((n) => snakeCase(n.replaceAll("_", " "))),
-          fp.O.getOrElse(() => snakeCase(search))
+          fp.O.map(getUsernameFromDisplayName),
+          fp.O.getOrElse(() => getUsernameFromDisplayName(pageId))
         );
-
-        // const avatar = pipe(
-        //   p.media.filter((i) => i.type === "image"),
-        //   fp.A.head,
-        //   fp.O.chainNullableK((r) => r.srcset?.[0]?.src),
-        //   fp.O.map((url) => `https:${url}`),
-        //   fp.O.toUndefined
-        // );
 
         const excerpt = createExcerptValue(intro);
         return {
@@ -38,5 +34,34 @@ export const fetchActorFromWikipedia: TEFlow<[string], AddActorBody> =
           body: {},
         };
       })
+    );
+  };
+
+export const searchActorAndCreateFromWikipedia: TEFlow<[string], ActorEntity> =
+  (ctx) => (search) => {
+    return pipe(
+      ctx.db.findOne(ActorEntity, {
+        where: {
+          username: Equal(getUsernameFromDisplayName(search)),
+        },
+      }),
+      ctx.logger.debug.logInTaskEither(`Actor %O`),
+      TE.chain((actor) =>
+        fp.O.isSome(actor)
+          ? TE.right(actor.value)
+          : pipe(
+              ctx.wp.search(search),
+              TE.mapLeft(toControllerError),
+              TE.filterOrElse(
+                (r) => !!r.results[0],
+                () => NotFoundError(`Actor ${search} on wikipedia`)
+              ),
+              TE.chain((p) =>
+                fetchActorFromWikipedia(ctx)(p.results[0].pageid)
+              ),
+              TE.chain((a) => ctx.db.save(ActorEntity, [a])),
+              TE.map((r) => r[0])
+            )
+      )
     );
   };

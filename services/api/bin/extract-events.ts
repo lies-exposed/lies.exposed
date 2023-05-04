@@ -1,23 +1,18 @@
-import { loadENV } from "@liexp/core/lib/env/utils";
+import { EventV2Entity } from "@entities/Event.v2.entity";
+import {
+  extractFromURL,
+  type DataPayloadLink,
+} from "@flows/events/extractFromURL.flow";
+import { getOneAdminOrFail } from "@flows/users/getOneUserOrFail.flow";
+import { toControllerError, type ControllerError } from "@io/ControllerError";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import dotenv from "dotenv";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { sequenceS } from "fp-ts/lib/Apply";
 import { findByURL } from "../src/queries/events/scientificStudy.query";
-import { makeContext } from "../src/server";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import {
-  type DataPayloadLink,
-  extractFromURL,
-} from "@flows/events/extractFromURL.flow";
-import { getOneAdminOrFail } from "@flows/users/getOneUserOrFail.flow";
-import { type ControllerError, toControllerError } from "@io/ControllerError";
-import { parseENV } from "@utils/env.utils";
-
-dotenv.config();
+import { startContext, stopContext } from "./start-ctx";
 
 const run = async (): Promise<void> => {
   const [, , url] = process.argv;
@@ -25,14 +20,8 @@ const run = async (): Promise<void> => {
   if (!url || url === "") {
     throw new Error("Missing url to fetch");
   }
-  loadENV(process.cwd(), process.env.DOTENV_CONFIG_PATH ?? "../../.env");
 
-  const ctx = await pipe(
-    parseENV({ ...process.env, TG_BOT_POLLING: "false" }),
-    TE.fromEither,
-    TE.chain(makeContext),
-    throwTE
-  );
+  const ctx = await startContext();
 
   const result = await pipe(
     sequenceS(TE.ApplicativePar)({
@@ -123,11 +112,14 @@ const run = async (): Promise<void> => {
           }
         )
       );
-    })
-  )();
+    }),
+    throwTE
+  );
 
   ctx.logger.info.log("Output: %O", result);
+
+  await stopContext(ctx);
 };
 
 // eslint-disable-next-line no-console
-run().catch(console.error);
+run().then(console.log).catch(console.error);

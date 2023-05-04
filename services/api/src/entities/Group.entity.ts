@@ -1,5 +1,5 @@
 import * as io from "@liexp/shared/lib/io";
-import { type UUID } from 'io-ts-types/lib/UUID';
+import { type UUID } from "io-ts-types/lib/UUID";
 import {
   Column,
   CreateDateColumn,
@@ -18,6 +18,9 @@ export class GroupEntity {
 
   @Column({ type: "varchar" })
   name: string;
+
+  @Column({ type: "varchar", nullable: true })
+  username: string | null;
 
   @Column({ type: "varchar", length: 6 })
   color: string;
