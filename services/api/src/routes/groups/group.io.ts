@@ -11,6 +11,7 @@ export const toGroupIO = (
   return pipe(
     io.http.Group.Group.decode({
       ...group,
+      username: group.username ?? undefined,
       startDate: group.startDate?.toISOString() ?? undefined,
       endDate: group.endDate?.toISOString() ?? undefined,
       color: toColor(group.color),

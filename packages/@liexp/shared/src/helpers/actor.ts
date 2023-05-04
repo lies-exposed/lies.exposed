@@ -1,4 +1,5 @@
 import * as S from "fp-ts/string";
+import kebabCase from "lodash/kebabCase";
 import { type Actor, type Common, type Group } from "../io/http";
 
 export const getActors =
@@ -19,3 +20,7 @@ export const isByGroup =
   (group: Group.Group) =>
   (by: Common.BySubject): boolean =>
     by.type === "Group" && by.id === group.id;
+
+export const getUsernameFromDisplayName = (fullName: string): string => {
+  return kebabCase(fullName.replaceAll("_", " "));
+};

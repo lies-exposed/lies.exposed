@@ -12,10 +12,9 @@ interface LoadedPage {
 }
 
 export const fetchFromWikipedia: TEFlow<[string], LoadedPage> =
-  (ctx) => (search) => {
+  (ctx) => (pageId) => {
     return pipe(
-      ctx.wp.search(search),
-      TE.chain((r) => ctx.wp.parse(r.results[0].pageid)),
+      ctx.wp.parse(pageId),
       TE.mapLeft(toControllerError),
       TE.chain((p) => {
         return TE.tryCatch(async () => {
@@ -38,5 +37,14 @@ export const fetchFromWikipedia: TEFlow<[string], LoadedPage> =
           };
         }, toControllerError);
       })
+    );
+  };
+
+export const searchAndParseFromWikipedia: TEFlow<[string], LoadedPage> =
+  (ctx) => (search) => {
+    return pipe(
+      ctx.wp.search(search),
+      TE.mapLeft(toControllerError),
+      TE.chain((p) => fetchFromWikipedia(ctx)(p.results[0].pageid))
     );
   };

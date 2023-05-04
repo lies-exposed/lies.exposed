@@ -1,13 +1,12 @@
-import * as fs from "fs";
-import * as path from "path";
+import { parseTGMessageFlow } from "@flows/tg/parseMessages.flow";
 import { loadENV } from "@liexp/core/lib/env/utils";
 import { fp } from "@liexp/core/lib/fp";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import D from "debug";
 import { pipe } from "fp-ts/lib/function";
-import { makeContext } from "../src/server";
-import { parseTGMessageFlow } from "@flows/tg/parseMessages.flow";
-import { parseENV } from "@utils/env.utils";
+import * as fs from "fs";
+import * as path from "path";
+import { startContext, stopContext } from "./start-ctx";
 
 /**
  * Usage ts-node ./bin/parse-tg-message $messageN $delete?
@@ -36,12 +35,7 @@ const run = async (): Promise<any> => {
   }
   const deleteFile = _deleteFile === "true";
 
-  const ctx = await pipe(
-    parseENV(process.env),
-    fp.TE.fromEither,
-    fp.TE.chain((env) => makeContext({ ...env, TG_BOT_POLLING: false })),
-    throwTE
-  );
+  const ctx = await startContext();
 
   D.enable(ctx.env.DEBUG);
 
@@ -52,7 +46,7 @@ const run = async (): Promise<any> => {
     throwTE
   );
 
-  await throwTE(ctx.db.close());
+  await stopContext(ctx);
 
   return result;
 };

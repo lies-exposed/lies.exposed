@@ -344,9 +344,7 @@ export const createFromTGMessage: TEFlow<
               platformMedia: byPlatformMediaTask(page, creator),
               hashtags: TE.right(hashtags),
             }),
-          (page) => {
-            return TE.tryCatch(() => page.browser().close(), toControllerError);
-          }
+          (page) => TE.tryCatch(() => page.browser().close(), toControllerError)
         )
       )
     ),

@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  Index,
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -15,12 +16,14 @@ import { GroupMemberEntity } from "./GroupMember.entity";
 @Entity("actor")
 export class ActorEntity {
   @PrimaryGeneratedColumn("uuid")
+  @Index()
   id: UUID;
 
   @Column({ type: "varchar" })
   fullName: string;
 
   @Column({ type: "varchar", unique: true })
+  @Index()
   username: string;
 
   @Column({ type: "varchar", nullable: true })
