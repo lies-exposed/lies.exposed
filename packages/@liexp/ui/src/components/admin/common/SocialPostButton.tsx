@@ -10,7 +10,11 @@ import { type Event } from "@liexp/shared/lib/io/http/Events";
 import { type ShareMessageBody } from "@liexp/shared/lib/io/http/ShareMessage";
 import { getTextContents, isValidValue } from "@liexp/shared/lib/slate";
 import { formatDate, parseISO } from "@liexp/shared/lib/utils/date";
+import {
+  contentTypeFromFileExt
+} from "@liexp/shared/lib/utils/media.utils";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { pipe } from "fp-ts/lib/function";
 import { type UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
@@ -137,7 +141,21 @@ export const EventSocialPostButton: React.FC<
                 },
                 actors: [actor],
                 groups: relations.groups,
-                media: relations.media,
+                media: actor.avatar
+                  ? pipe(
+                      actor.avatar.split("."),
+                      fp.A.last,
+                      fp.O.map((ext) => [
+                        {
+                          id: uuid(),
+                          location: actor.avatar,
+                          thumbnail: actor.avatar,
+                          type: contentTypeFromFileExt(ext),
+                        },
+                      ]),
+                      fp.O.getOrElse((): any[] => [])
+                    )
+                  : relations.media,
                 title,
               };
             }

@@ -1,8 +1,28 @@
 import { fp } from "@liexp/core/lib/fp";
 import { pipe } from "fp-ts/lib/function";
-import { type UploadResource } from '../endpoints/upload.endpoints';
+import { type UploadResource } from "../endpoints/upload.endpoints";
 
 import * as Media from "../io/http/Media";
+
+export const contentTypeFromFileExt = (c: string): Media.ValidContentType => {
+  switch (c) {
+    case "pdf":
+      return Media.MediaType.types[6].value;
+    case "mp4":
+      return Media.MediaType.types[5].value;
+    case "ogg":
+      return Media.MediaType.types[4].value;
+    case "mp3":
+      return Media.MediaType.types[3].value;
+    case "png":
+      return Media.MediaType.types[2].value;
+    case "jpeg":
+      return Media.MediaType.types[1].value;
+    case "jpg":
+    default:
+      return Media.MediaType.types[0].value;
+  }
+};
 
 export const fileExtFromContentType = (c: Media.ValidContentType): string => {
   switch (c) {
@@ -35,7 +55,13 @@ export const getMediaKeyFromLocation = (u: string): string => {
   return id;
 };
 
-export const getMediaKey = (resource: UploadResource, id: string, fileName: string, contentType: Media.ValidContentType): string => {
-  return `public/${resource}/${id}/${fileName}.${fileExtFromContentType(contentType)}`;
-}
-
+export const getMediaKey = (
+  resource: UploadResource,
+  id: string,
+  fileName: string,
+  contentType: Media.ValidContentType
+): string => {
+  return `public/${resource}/${id}/${fileName}.${fileExtFromContentType(
+    contentType
+  )}`;
+};
