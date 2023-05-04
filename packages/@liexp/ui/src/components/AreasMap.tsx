@@ -1,7 +1,7 @@
 import { type Area } from "@liexp/shared/lib/io/http";
-import ParentSize from "@visx/responsive/lib/components/ParentSize";
-import Feature  from "ol/Feature";
+import Feature from "ol/Feature";
 import * as React from "react";
+import { AutoSizer } from "react-virtualized";
 import { geoJSONFormat } from "../utils/map.utils";
 import Map, { type MapProps } from "./Map";
 
@@ -28,52 +28,38 @@ const AreasMap: React.FC<AreasMapProps> = (props) => {
     return feature;
   });
 
-  // const totalArea = areas.reduce((acc: number, a: any) => {
-  //   const polygon = new Polygon(a.geometry.coordinates);
-  //   const area = getArea(polygon, {
-  //     projection: "EPSG:4326",
-  //   });
-  //   return acc + area;
-  // }, 0);
-
   return (
-    <>
-      <ParentSize style={{ height }}>
-        {({ width, height }) => {
-          return (
-            <div
-              style={{
-                marginLeft: "auto",
-                marginRight: "auto",
-                marginTop: 20,
-                marginBottom: 20,
+    <AutoSizer style={{ width: "100%", height }}>
+      {({ width, height }) => {
+
+        return (
+          <div
+            style={{
+              marginLeft: "auto",
+              marginRight: "auto",
+              marginTop: 20,
+              marginBottom: 20,
+            }}
+          >
+            <Map
+              id="areas"
+              width={width}
+              height={height - 40}
+              features={features}
+              center={center}
+              zoom={zoom}
+              onMapClick={(features) => {
+                onMapClick(features);
               }}
-            >
-              <Map
-                id="areas"
-                width={width}
-                height={height - 40}
-                features={features}
-                center={center}
-                zoom={zoom}
-                onMapClick={(features) => {
-                  onMapClick(features);
-                }}
-                interactions={{
-                  doubleClickZoom: true,
-                  dragPan: true,
-                }}
-              />
-            </div>
-          );
-        }}
-      </ParentSize>
-      {/* <div style={{ textAlign: "center", margin: 40 }}>
-        <Typography variant="h3" style={{ fontWeight: 700 }}>
-          {totalArea.toFixed(2)}m<sup>2</sup>
-        </Typography>
-      </div> */}
-    </>
+              interactions={{
+                doubleClickZoom: true,
+                dragPan: true,
+              }}
+            />
+          </div>
+        );
+      }}
+    </AutoSizer>
   );
 };
 
