@@ -28,16 +28,7 @@ export const LinksList: React.FC<LinksListProps> = ({
       }}
     >
       {links.map((l, i) => (
-        <Grid
-          key={l.id}
-          item
-          md={md}
-          sm={sm}
-          xs={6}
-          style={{
-            display: "flex",
-          }}
-        >
+        <Grid key={l.id} item md={md} sm={sm} xs={6}>
           <LinkCard link={l} onClick={onItemClick} />
         </Grid>
       ))}
