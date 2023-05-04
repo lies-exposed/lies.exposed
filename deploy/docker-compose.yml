@@ -18,6 +18,7 @@ services:
       - ./certs/:/app/services/api/certs/:ro
       - ./temp/:/app/services/api/temp/:rw
       - ./config/:/app/services/api/config/:rw
+      - bot-brother-storage:/app/node_modules/bot-brother/__storage
     working_dir: /app/services/api
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:4010/v1/healthcheck"]
@@ -44,3 +45,6 @@ services:
     working_dir: /app/services/web
     command: yarn serve
     restart: always
+
+volumes:
+  bot-brother-storage: {}
