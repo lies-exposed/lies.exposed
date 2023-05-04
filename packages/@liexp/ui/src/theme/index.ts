@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-imports */
-import { darken, lighten } from "@mui/material";
 import { createTheme, useTheme, type ThemeOptions } from "@mui/material/styles";
 import { createStyled } from "@mui/system";
+import { darken, lighten } from "@mui/system/colorManipulator";
 
 const primaryFontFamily = "Signika";
 const secondaryFontFamily = "Lora";

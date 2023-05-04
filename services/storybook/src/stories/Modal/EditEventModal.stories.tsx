@@ -9,9 +9,8 @@ import {
   type EditEventModalProps,
 } from "@liexp/ui/lib/components/Modal/EditEventModal";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import { Button, Box } from "@liexp/ui/lib/components/mui";
 import { searchEventsQuery } from "@liexp/ui/lib/state/queries/SearchEventsQuery";
-import { Button } from "@mui/material";
-import { Box } from "@mui/system";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

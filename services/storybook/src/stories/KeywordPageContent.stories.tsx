@@ -3,8 +3,8 @@ import {
   type KeywordPageContentProps,
 } from "@liexp/ui/lib/components/KeywordPageContent";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import { Box } from "@liexp/ui/lib/components/mui";
 import { useKeywordsQuery } from "@liexp/ui/lib/state/queries/keywords.queries";
-import { Box } from "@mui/material";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

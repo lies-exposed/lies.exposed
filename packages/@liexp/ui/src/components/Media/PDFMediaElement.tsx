@@ -1,9 +1,8 @@
 import { type Media } from "@liexp/shared/lib/io/http";
-import { CloseOutlined } from "@mui/icons-material";
 import { clsx } from "clsx";
 import * as React from "react";
 import { styled } from "../../theme";
-import { Box, Button, Modal, Typography } from "../mui";
+import { Box, Button, Modal, Typography, CloseIcon } from "../mui";
 
 const PREFIX = "PDFMediaElement";
 
@@ -103,7 +102,7 @@ const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
               style={{ position: "relative", height: "100%" }}
             >
               <Box display="inline">
-                <CloseOutlined
+                <CloseIcon
                   onClick={() => {
                     setOpen(false);
                   }}
