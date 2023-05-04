@@ -26,6 +26,7 @@ export const GroupArb: tests.fc.Arbitrary<http.Group.Group> = tests
     ...p,
     id: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
     name: tests.fc.sample(HumanReadableStringArb(), 1)[0],
+    username: tests.fc.sample(HumanReadableStringArb({ joinChar: "-" }), 1)[0],
     color: tests.fc.sample(ColorArb, 1)[0],
     members: [],
     excerpt: {},

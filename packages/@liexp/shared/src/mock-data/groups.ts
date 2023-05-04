@@ -9,6 +9,7 @@ const now = new Date();
 export const firstSubGroup: Group.Group = {
   id: uuid() as any,
   name: "First Good SubGroup",
+  username: 'first-good-subgroup',
   kind: "Public",
   avatar: avatars.groups[0],
   startDate: undefined,
@@ -25,6 +26,7 @@ export const firstSubGroup: Group.Group = {
 export const goodGroup: Group.Group = {
   id: uuid() as any,
   name: "Good Group",
+  username: 'good-bgroup',
   kind: "Public",
   avatar: avatars.groups[1],
   startDate: undefined,
@@ -41,6 +43,7 @@ export const goodGroup: Group.Group = {
 export const badGroup: Group.Group = {
   id: uuid() as any,
   name: "Bad Group",
+  username: 'bad-group',
   kind: "Private",
   avatar: avatars.groups[2],
   startDate: undefined,
@@ -57,6 +60,7 @@ export const badGroup: Group.Group = {
 export const secondBadGroup: Group.Group = {
   id: uuid() as any,
   name: "Bad Group - The 2nd",
+  username: 'bad-group-the-2nd',
   kind: "Private",
   avatar: avatars.groups[3],
   startDate: undefined,

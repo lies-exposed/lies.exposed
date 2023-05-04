@@ -1,4 +1,4 @@
-import { loadENV } from "@liexp/core/lib/env/utils";
+import { ActorEntity } from "@entities/Actor.entity";
 import { fp } from "@liexp/core/lib/fp";
 import { createExcerptValue } from "@liexp/shared/lib/slate";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors";
@@ -7,9 +7,7 @@ import D from "debug";
 import { pipe } from "fp-ts/lib/function";
 import snakeCase from "lodash/snakeCase";
 import prompts from "prompts";
-import { makeContext } from "../src/server";
-import { ActorEntity } from "@entities/Actor.entity";
-import { parseENV } from "@utils/env.utils";
+import { startContext, stopContext } from './start-ctx';
 
 /**
  * Usage ts-node ./bin/create-from-wikipedia $search
@@ -19,20 +17,13 @@ import { parseENV } from "@utils/env.utils";
  * @returns void
  */
 const run = async (): Promise<any> => {
-  loadENV(process.cwd(), process.env.DOTENV_CONFIG_PATH ?? "../../.env");
-
   const [, , search] = process.argv;
 
   if (!search) {
     throw new Error('Missing "search" param');
   }
 
-  const ctx = await pipe(
-    parseENV(process.env),
-    fp.TE.fromEither,
-    fp.TE.chain((env) => makeContext({ ...env, TG_BOT_POLLING: false })),
-    throwTE
-  );
+  const ctx = await startContext();
 
   D.enable(ctx.env.DEBUG);
 
@@ -48,10 +39,13 @@ const run = async (): Promise<any> => {
     message: "Select correct page",
     type: "select",
     name: "page",
-    choices: result.map((r) => ({ title: r.title, value: r.pageid })),
+    choices: result.map((r) => ({ title: r.title, value: r.title })),
   });
 
-  const page = await pipe(ctx.wp.parse(choice.page), throwTE);
+  const page = await pipe(
+    ctx.wp.parse(choice.page),
+    throwTE
+  );
 
   ctx.logger.debug.log("Page %O", page);
 
@@ -91,8 +85,7 @@ const run = async (): Promise<any> => {
 
   ctx.logger.debug.log("Created actor %O", actor);
 
-  await throwTE(ctx.db.close());
-  process.exit(0);
+  await stopContext(ctx);
 };
 
 // eslint-disable-next-line no-console

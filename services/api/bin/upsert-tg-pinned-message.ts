@@ -1,22 +1,19 @@
-import { loadENV } from "@liexp/core/lib/env/utils";
+import { upsertPinnedMessage } from "@flows/tg/upsertPinnedMessage.flow";
 import { fp } from "@liexp/core/lib/fp";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { pipe } from "fp-ts/lib/function";
-import { makeContext } from "../src/server";
-import { upsertPinnedMessage } from "@flows/tg/upsertPinnedMessage.flow";
-import { parseENV } from "@utils/env.utils";
+import { startContext, stopContext } from "./start-ctx";
 
 const run = async (): Promise<void> => {
-  loadENV();
+  const ctx = await startContext();
   await pipe(
-    parseENV(process.env),
-    fp.TE.fromEither,
-    fp.TE.chain((env) => makeContext({ ...env, TG_BOT_POLLING: false })),
-    fp.TE.chainFirst((ctx) => upsertPinnedMessage(ctx)(20)),
-    fp.TE.chain((ctx) => ctx.db.close()),
+    upsertPinnedMessage(ctx)(20),
+    fp.TE.chainFirst(() => ctx.db.close()),
     throwTE
-  // eslint-disable-next-line no-console
+    // eslint-disable-next-line no-console
   ).then(console.log);
+
+  await stopContext(ctx);
 };
 
 // eslint-disable-next-line no-console
