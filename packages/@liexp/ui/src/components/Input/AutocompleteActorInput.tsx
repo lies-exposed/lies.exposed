@@ -8,11 +8,13 @@ interface AutocompleteActorInputProps {
   className?: string;
   selectedItems: Actor.Actor[];
   onChange: (items: Actor.Actor[]) => void;
+  discrete?: boolean;
 }
 
 export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
   selectedItems,
   onChange,
+  discrete = true,
   ...props
 }) => {
   return (
@@ -21,14 +23,16 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
       getValue={(a) => (typeof a === "string" ? a : a.fullName)}
       searchToFilter={(fullName) => ({ fullName })}
       selectedItems={selectedItems}
-      query={p => useActorsQuery(p, true)}
+      query={(p) => useActorsQuery(p, discrete)}
       renderTags={(items) => (
         <ActorList
           actors={items.map((i) => ({
             ...i,
             selected: true,
           }))}
-          onActorClick={(a) => { onChange(items.filter((i) => i.id !== a.id)); }}
+          onActorClick={(a) => {
+            onChange(items.filter((i) => i.id !== a.id));
+          }}
         />
       )}
       renderOption={(props, item, state) => (
@@ -37,10 +41,12 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
           displayFullName={true}
           item={{
             ...item,
-            selected: false,
+            selected: true,
           }}
           onClick={() => {
-            onChange(selectedItems.filter((i) => i.id !== item.id).concat(item))
+            onChange(
+              selectedItems.filter((i) => i.id !== item.id).concat(item)
+            );
           }}
         />
       )}
