@@ -1,7 +1,7 @@
 import { type Media } from "@liexp/shared/lib/io/http";
 import * as React from "react";
 import { useMediaQuery } from "../../state/queries/media.queries";
-import { MediaList, MediaListItem } from "../lists/MediaList";
+import { MediaList, MediaListItemRef } from "../lists/MediaList";
 import { Grid, Typography } from "../mui";
 import { AutocompleteInput } from "./AutocompleteInput";
 
@@ -9,27 +9,29 @@ export interface AutocompleteMediaInputProps {
   className?: string;
   selectedItems: Media.Media[];
   onChange: (items: Media.Media[]) => void;
+  discrete?: boolean
 }
 
 export const AutocompleteMediaInput: React.FC<AutocompleteMediaInputProps> = ({
   selectedItems,
   onChange,
+  discrete = true,
   ...props
 }) => {
   return (
     <AutocompleteInput<Media.Media>
       placeholder="Media description..."
-      getValue={(a) => (typeof a === "string" ? a : a.description)}
+      getValue={(a) => (typeof a === "string" ? a : a?.description)}
       searchToFilter={(description) => ({ description })}
       selectedItems={selectedItems}
-      query={(p) => useMediaQuery(p, true)}
+      query={(p) => useMediaQuery(p, discrete)}
       renderTags={(items) => (
         <MediaList
           media={items.map((i) => ({
             ...i,
             selected: true,
           }))}
-          style={{ flexWrap: "wrap", flexDirection: "row" }}
+          style={{ flexWrap: "wrap", flexDirection: "column" }}
           hideDescription={false}
           itemStyle={{ height: 50, maxWidth: 100 }}
           onItemClick={(a: any) => {
@@ -40,7 +42,7 @@ export const AutocompleteMediaInput: React.FC<AutocompleteMediaInputProps> = ({
       renderOption={(props, item, state) => (
         <Grid container>
           <Grid item md={3}>
-            <MediaListItem
+            <MediaListItemRef
               key={item.id}
               item={{
                 ...item,

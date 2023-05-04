@@ -34,6 +34,7 @@ export const AutocompleteInput = <T extends { id: string }>({
   onItemsChange,
   ...props
 }: AutocompleteInputProps<T>): React.ReactElement => {
+
   const selectedIds = selectedItems.map((s) => s.id);
   const [value, setValue] = React.useState<string>("");
   // const setValueThrottled = throttle(300, setValue, true);
@@ -53,6 +54,7 @@ export const AutocompleteInput = <T extends { id: string }>({
     };
   }, [value]);
 
+  
   // queries
 
   const handleValueChange = React.useCallback(
