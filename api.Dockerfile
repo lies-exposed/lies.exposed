@@ -33,6 +33,7 @@ COPY package.json /app/package.json
 COPY .yarnrc.yml /app/.yarnrc.yml
 COPY .yarn /app/.yarn
 COPY services/api/package.json /app/services/api/package.json
+COPY services/api/tsconfig.json /app/services/api/tsconfig.json
 
 # yarn cache
 # COPY --from=build /app/.yarn /app/.yarn
@@ -61,6 +62,7 @@ RUN rm -rf /app/.yarn/cache /app/node_modules/.cache /app/services/api/node_modu
 
 RUN mkdir /app/node_modules/bot-brother/__storage/
 RUN chown -R pptruser:pptruser /app/node_modules/bot-brother/__storage/
+
 # Run everything after as non-privileged user.
 USER pptruser
 
