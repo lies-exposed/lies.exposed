@@ -4,7 +4,7 @@ import { type EditorProps } from "@react-page/editor";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { Labeled, useInput, type InputProps } from "react-admin";
-import { LazyEditor as Editor } from "../Common/Editor";
+import  Editor from "../Common/Editor/Editor";
 import { cellPlugins, minimalCellPlugins } from "../Common/Editor/cellPlugins";
 import JSONInput from "../Common/JSON/JSONInput";
 import { Box, Button, FormControlLabel, Paper, Switch } from "../mui";
