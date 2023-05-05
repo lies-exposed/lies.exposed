@@ -63,7 +63,7 @@ RUN yarn workspaces focus -A --production
 RUN rm -rf /app/.yarn/cache /app/node_modules/.cache /app/services/api/node_modules/.cache
 
 RUN mkdir /app/node_modules/bot-brother/__storage/
-RUN chown -R pptruser:pptruser /app/node_modules/bot-brother/__storage/
+# RUN chown -R pptruser:pptruser /app/node_modules/bot-brother/__storage/
 
 # Run everything after as non-privileged user.
 USER pptruser

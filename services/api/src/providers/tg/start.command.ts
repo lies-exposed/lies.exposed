@@ -9,10 +9,6 @@ export const startCommand = ({
   env,
   ...rest
 }: RouteContext): BotBrotherCtx => {
-  // tg.bot.api.setMyCommands([{
-  //   command: 'actor',
-  //   description: 'Create new actor'
-  // }])
 
   tg.bot.command("start").invoke((ctx) => {
     return ctx.sendMessage(
