@@ -1,16 +1,16 @@
-import List  from "@mui/material/List";
-import ListItem  from "@mui/material/ListItem";
-import ListItemText  from "@mui/material/ListItemText";
-import Typography  from "@mui/material/Typography";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import Typography from "@mui/material/Typography";
 import slate, { type SlateCellPlugin } from "@react-page/plugins-slate";
 import * as React from "react";
 
 export const PARAGRAPH_TYPE = "PARAGRAPH/PARAGRAPH";
 export const PARAGRAPH_PRE_TYPE = "PARAGRAPH/PRE";
 export const EMPHASIZE_EM_TYPE = "EMPHASIZE/EM";
-export const EMPHASIZE_STRONG_TYPE = 'EMPHASIZE/STRONG'
-export const EMPHASIZE_U_TYPE = 'EMPHASIZE/U'
-export const BLOCKQUOTE_TYPE = "BLOCKQUOTE/BLOCKQUOTE"
+export const EMPHASIZE_STRONG_TYPE = "EMPHASIZE/STRONG";
+export const EMPHASIZE_U_TYPE = "EMPHASIZE/U";
+export const BLOCKQUOTE_TYPE = "BLOCKQUOTE/BLOCKQUOTE";
 
 export const getLiexpSlate = (custom: any): SlateCellPlugin<any> => {
   return slate((def) => ({
@@ -75,7 +75,11 @@ export const getLiexpSlate = (custom: any): SlateCellPlugin<any> => {
         paragraph: def.plugins.paragraphs.paragraph((pDef) => ({
           ...pDef, // spread it, so that the new config contains all defaults
           Component: ({ className, style, children }) => (
-            <Typography className={className} variant="body1" style={style}>
+            <Typography
+              className={className}
+              variant="body1"
+              style={{ ...style, display: 'inline-block', marginBottom: 20 }}
+            >
               {children}
             </Typography>
           ),
