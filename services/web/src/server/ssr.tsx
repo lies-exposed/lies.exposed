@@ -1,5 +1,5 @@
 import path from "path";
-import {loadENV} from '@liexp/core/lib/env/utils'
+import { loadENV } from "@liexp/core/lib/env/utils";
 import { GetLogger } from "@liexp/core/lib/logger";
 import { getServer } from "@liexp/ui/lib/react/ssr";
 import D from "debug";
@@ -7,8 +7,7 @@ import express from "express";
 
 const webSrvLog = GetLogger("web");
 
-loadENV()
-
+loadENV();
 
 const run = (): void => {
   void Promise.all([import("../client/App"), import("../client/routes")]).then(
@@ -25,9 +24,9 @@ const run = (): void => {
 
       webSrvLog.debug.log("port", process.env.PUBLIC_URL);
 
-      app.listen(process.env.PORT, () =>
-        { webSrvLog.debug.log("app listening on port %s", process.env.PORT); }
-      );
+      app.listen(process.env.PORT, () => {
+        webSrvLog.debug.log("app listening on port %s", process.env.PORT);
+      });
     }
   );
 };

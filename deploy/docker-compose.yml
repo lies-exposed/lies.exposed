@@ -7,12 +7,13 @@ services:
     container_name: liexp-api
     user: $API_UID:$API_GID
     env_file:
-      # - ../.env.alpha
       - .env.api
     environment:
       - DEBUG=@liexp*
     ports:
       - "4010:4010"
+    expose:
+      - "4010"
     volumes:
       # - ../services/api/certs/:/app/services/api/certs/:ro
       - ./certs/:/app/services/api/certs/:ro
@@ -36,6 +37,7 @@ services:
       # - ../services/web/.env
       - .env.web
     environment:
+      DEBUG: "@liexp:*"
       API_URL: http://api:4010/v1
       ADMIN_URL: https://alpha.lies.exposed/admin
     ports:
@@ -45,3 +47,9 @@ services:
     working_dir: /app/services/web
     command: yarn serve
     restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4020/"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 30s

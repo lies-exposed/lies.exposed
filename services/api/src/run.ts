@@ -15,7 +15,7 @@ const run = (): Promise<void> => {
   const serverLogger = logger.GetLogger("api");
 
   if (process.env.NODE_ENV === "development") {
-    loadENV(process.cwd(), "../../.env.local");
+    loadENV(process.cwd(), "../../.env.local", true);
   }
 
   return pipe(
