@@ -3,7 +3,7 @@ import { fp } from "@liexp/core/lib/fp";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { parseENV } from "@utils/env.utils";
 import { pipe } from "fp-ts/function";
-import { makeContext } from "../src/server";
+import { makeContext } from "../build/server";
 import { RouteContext } from "@routes/route.types";
 import D from "debug";
 

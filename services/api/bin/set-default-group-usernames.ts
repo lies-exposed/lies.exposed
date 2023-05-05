@@ -1,11 +1,15 @@
-import { fp } from "@liexp/core/lib/fp";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
-import { pipe } from "fp-ts/lib/function";
-import { fetchGroups } from "queries/groups/fetchGroups.query";
-import { startContext } from "./start-ctx";
-import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor";
+/* eslint-disable @typescript-eslint/no-var-requires */
+require("module-alias")(process.cwd());
+
+// other imports
 import { GroupEntity } from "@entities/Group.entity";
+import { fp } from "@liexp/core/lib/fp";
+import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor";
+import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { pipe } from "fp-ts/lib/function";
+import { fetchGroups } from "../build/queries/groups/fetchGroups.query";
+import { startContext, stopContext } from "./start-ctx";
 
 const run = async (): Promise<void> => {
   const ctx = await startContext();
@@ -36,6 +40,7 @@ const run = async (): Promise<void> => {
     throwTE
     // eslint-disable-next-line no-console
   );
+  await stopContext(ctx);
 };
 
 // eslint-disable-next-line no-console

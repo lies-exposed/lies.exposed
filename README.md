@@ -23,9 +23,8 @@ Packages contains all the common code used in `services`.
 
 - [@liexp/core](./packages/@liexp/core/README.md) contains all the core modules
 - [@liexp/shared](./packages/@liexp/shared./README.md) contains domain specific definitions for `models` and `endpoints`
-
+- [@liexp/test](./packages/@liexp/test/README.md) contains some test utils
 - [@liexp/ui](./packages/@liexp/ui/README.md) contains all `ui` components
-
 
 ### Services
 
@@ -33,7 +32,6 @@ The `services` are the deployable projects:
 
 - [admin-web](./services/admin-web/README.md)
 - [api](./services/api/README.md)
-- [data](./services/data/README.md) (only in development)
 - [storybook](./services/storybook/README.md)
 - [web](./services/web/README.md)
 
@@ -65,10 +63,16 @@ docker-compose up api web admin-web data # starts api, web, admin-web and data s
 yarn build
 ```
 
-### Storybook
+### Run with docker
 
-`Storybook` is available to develop new components:
+Build the images first with
 
 ```sh
-yarn storybook start
+# build `base`, `api` and `web` image
+./scripts/docker-build.sh
+```
+
+```sh
+# start docker compose for `deploy/docker-compose.yml`
+./scripts/docker-deploy-test.sh
 ```

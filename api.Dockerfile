@@ -35,6 +35,7 @@ COPY .yarn /app/.yarn
 COPY services/api/package.json /app/services/api/package.json
 COPY tsconfig.json /app/tsconfig.json
 COPY services/api/tsconfig.json /app/services/api/tsconfig.json
+COPY services/api/tsconfig.build.json /app/services/api/tsconfig.build.json
 
 # yarn cache
 # COPY --from=build /app/.yarn /app/.yarn

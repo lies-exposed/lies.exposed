@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-// require("module-alias")(process.cwd());
-import { getDataSource } from "./src/utils/data-source";
-import { ENV } from "./src/io/ENV";
+require("module-alias")(process.cwd());
+import { getDataSource } from "./build/utils/data-source";
+import { ENV } from "./build/io/ENV";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import { loadENV } from "@liexp/core/lib/env/utils";
+import D from 'debug';
 
 loadENV(
   process.cwd(),
@@ -11,6 +12,8 @@ loadENV(
     ? process.env.DOTENV_CONFIG_PATH
     : "../../.env"
 );
+
+D.enable(process.env.DEBUG ?? "@liexp:*");
 
 const decodedEnv = ENV.decode(process.env);
 

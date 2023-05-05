@@ -12,11 +12,15 @@
       "../../packages/@liexp/shared/typings",
       "../../node_modules/@types"
     ],
-    "declaration": false,
+    "declaration": true,
     "skipLibCheck": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization": false
   },
   "include": ["./src"],
-  "exclude": ["**/__tests__/**", "*/__mocks__/**", "./test/**"]
+  "exclude": ["**/__tests__/**", "*/__mocks__/**", "./test/**"],
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true,
+  }
 }

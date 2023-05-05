@@ -1,12 +1,16 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+require("module-alias")(process.cwd());
+
+// other imports
 import { fp } from "@liexp/core/lib/fp";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { sequenceS } from "fp-ts/lib/Apply";
-import { fetchActors } from "../src/queries/actors/fetchActors.query";
-import { fetchGroups } from "../src/queries/groups/fetchGroups.query";
-import { fetchKeywords } from "../src/queries/keywords/fetchKeywords.query";
+import { fetchActors } from "../build/queries/actors/fetchActors.query";
+import { fetchGroups } from "../build/queries/groups/fetchGroups.query";
+import { fetchKeywords } from "../build/queries/keywords/fetchKeywords.query";
 import { startContext, stopContext } from "./start-ctx";
 
 const makePatterns = (s: string): string[] => {
@@ -84,7 +88,7 @@ const run = async (): Promise<any> => {
       return pipe(
         ctx.fs.writeObject(nplConfig, JSON.stringify(entities, null, 4))
       );
-    }),
+    })
   )();
 
   ctx.logger.info.log("Output: %O", result);
