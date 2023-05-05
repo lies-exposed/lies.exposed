@@ -15,7 +15,7 @@ import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/Reference
 import { SearchLinksButton } from "@liexp/ui/lib/components/admin/links/SearchLinksButton";
 import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField";
 import ActorPreview from "@liexp/ui/lib/components/admin/previews/ActorPreview";
-import { Grid } from "@liexp/ui/lib/components/mui";
+import { Box, Grid } from "@liexp/ui/lib/components/mui";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
@@ -58,16 +58,38 @@ const actorFilters = [
 ];
 
 export const ActorList: React.FC = () => (
-  <List resource="actors" filters={actorFilters} perPage={50}>
+  <List
+    resource="actors"
+    filters={actorFilters}
+    perPage={50}
+    sort={{ field: "createdAt", order: "DESC" }}
+  >
     <Datagrid
       rowClick="edit"
       rowStyle={(r) => ({
         borderLeft: `5px solid #${r.color}`,
       })}
     >
-      <TextField source="fullName" />
-      <TextField source="username" />
-      <AvatarField source="avatar" />
+      <FunctionField
+        source="username"
+        render={(r) => {
+          return (
+            <Box style={{ display: "flex" }}>
+              <AvatarField source="avatar" />
+              <Box
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  marginLeft: 16,
+                }}
+              >
+                <TextField source="fullName" />
+                <TextField source="username" />
+              </Box>
+            </Box>
+          );
+        }}
+      />
       <FunctionField label="Groups" render={(r) => r.memberIn.length} />
       <DateField source="updatedAt" showTime={true} />
     </Datagrid>
@@ -77,7 +99,7 @@ export const ActorList: React.FC = () => (
 const transformActor =
   (dataProvider: DataProvider<string>) =>
   async (id: string, data: RaRecord): Promise<RaRecord> => {
-    if (data._from === 'url') {
+    if (data._from === "url") {
       return data;
     }
     const imagesTask = data.avatar?.rawFile

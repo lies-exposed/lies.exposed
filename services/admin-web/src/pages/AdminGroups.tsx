@@ -106,8 +106,26 @@ export const GroupList: React.FC = () => (
         borderLeft: `5px solid #${r.color}`,
       })}
     >
-      <AvatarField source="avatar" fullWidth={false} />
-      <TextField source="name" />
+      <FunctionField
+        source="username"
+        render={(r) => {
+          return (
+            <Box style={{ display: "flex" }}>
+              <AvatarField source="avatar" />
+              <Box
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  marginLeft: 16,
+                }}
+              >
+                <TextField source="name" />
+                <TextField source="username" />
+              </Box>
+            </Box>
+          );
+        }}
+      />
       <FunctionField
         source="members"
         render={(r) => {

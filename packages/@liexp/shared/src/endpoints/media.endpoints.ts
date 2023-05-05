@@ -1,12 +1,10 @@
 import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { UUID } from "io-ts-types/lib/UUID";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { Media } from "../io/http";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import { MediaType } from "../io/http/Media";
-import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
 
 const SingleMediaOutput = Output(Media.Media, "Media");
@@ -16,23 +14,7 @@ export const List = Endpoint({
   Method: "GET",
   getPath: () => "/media",
   Input: {
-    Query: t.type(
-      {
-        ...GetListQuery.props,
-        type: optionFromNullable(t.union([t.array(MediaType), t.string])),
-        events: optionFromNullable(t.array(UUID)),
-        ids: optionFromNullable(t.array(UUID)),
-        exclude: optionFromNullable(t.array(UUID)),
-        description: optionFromNullable(t.string),
-        emptyEvents: optionFromNullable(BooleanFromString),
-        deletedOnly: optionFromNullable(BooleanFromString),
-        creator: optionFromNullable(UUID),
-        keywords: optionFromNullable(t.array(UUID)),
-        actors: optionFromNullable(t.array(UUID)),
-        groups: optionFromNullable(t.array(UUID))
-      },
-      "MediaListQuery"
-    ),
+    Query: Media.GetListMediaQuery,
   },
   Output: ListMediaOutput,
 });
