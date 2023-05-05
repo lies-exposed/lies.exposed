@@ -15,6 +15,7 @@ const defaultQuery: http.Media.GetListMediaQuery = {
   events: fp.O.none,
   keywords: fp.O.none,
   emptyEvents: fp.O.none,
+  emptyLinks: fp.O.none,
   deletedOnly: fp.O.none,
   _sort: fp.O.some("updatedAt"),
   _order: fp.O.some("DESC"),
@@ -34,6 +35,7 @@ export const fetchManyMedia: TEFlow<
     keywords,
     events,
     emptyEvents,
+    emptyLinks,
     deletedOnly,
     exclude,
     ...ormQuery
@@ -114,6 +116,12 @@ export const fetchManyMedia: TEFlow<
           where("events.id IS NULL");
           hasWhere = true;
         }
+      }
+
+      if (fp.O.isSome(emptyLinks) && emptyLinks.value) {
+        const where = hasWhere ? q.andWhere.bind(q) : q.where.bind(q);
+        where("links.id IS NULL");
+        hasWhere = true;
       }
 
       const includeDeleted = pipe(
