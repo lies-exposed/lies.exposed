@@ -3899,7 +3899,7 @@ __metadata:
     "@types/mime": ^1.3.2
     "@types/mini-css-extract-plugin": ^2.5.1
     "@types/prettier": ^2.7.2
-    "@types/react": ^18.2.4
+    "@types/react": ^18.2.5
     "@types/webpack-bundle-analyzer": ^4.6.0
     "@types/webpack-node-externals": ^3.0.0
     copy-webpack-plugin: ^11.0.0
@@ -3958,7 +3958,7 @@ __metadata:
     "@types/node-telegram-bot-api": ^0.61.6
     "@types/prettier": ^2.7.2
     "@types/qs": ^6.9.7
-    "@types/react": ^18.2.4
+    "@types/react": ^18.2.5
     "@types/react-dom": ^18.2.3
     "@types/throttle-debounce": ^5.0.0
     "@types/uuid": ^9.0.1
@@ -4072,7 +4072,7 @@ __metadata:
     "@types/ol": ^7.0.0
     "@types/prettier": ^2.7.2
     "@types/reach__router": ^1.3.11
-    "@types/react": ^18.2.4
+    "@types/react": ^18.2.5
     "@types/react-helmet": ^6.1.6
     "@types/react-slick": ^0.23.10
     "@types/react-virtualized": ^9.21.21
@@ -5193,13 +5193,6 @@ __metadata:
   dependencies:
     type-fest: ^2.0.0
   checksum: 1e8a06c8098d119ff66b38873ecc7349d7bab517a4e0331dfd864fe661ba2220fa34de436cb09a04d805aac4c519f3cd6fc4df89ecc54984500e942afbe5eef2
-  languageName: node
-  linkType: hard
-
-"@remix-run/router@npm:1.6.0":
-  version: 1.6.0
-  resolution: "@remix-run/router@npm:1.6.0"
-  checksum: 9f08f20500b2fc9d689c06c3c25504baf2ece861a9f4d0c49ba043ef4040a96b85c15a57a1c11377e64bf78b727ce8fb58b300345642efb05a75d49e4b638344
   languageName: node
   linkType: hard
 
@@ -9283,7 +9276,7 @@ __metadata:
     "@types/lodash": ^4.14.194
     "@types/node": ^16.18.25
     "@types/prettier": ^2.7.2
-    "@types/react": ^18.2.4
+    "@types/react": ^18.2.5
     "@types/react-dom": ^18.2.3
     "@types/webpack-bundle-analyzer": ^4.6.0
     "@typescript-eslint/eslint-plugin": ^5.59.2
@@ -14965,14 +14958,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fp-ts@npm:^2.0.0":
-  version: 2.13.1
-  resolution: "fp-ts@npm:2.13.1"
-  checksum: 618e0028aca9ff1d52b86f438499ccab149825bdab14c678d22c3e2ccbf9d36fd1f26d463bf0ae1e63f5cd79dd54c8218af2cca0daeea68b039307b751ae9563
-  languageName: node
-  linkType: hard
-
-"fp-ts@npm:^2.14.0":
+"fp-ts@npm:^2.0.0, fp-ts@npm:^2.14.0":
   version: 2.14.0
   resolution: "fp-ts@npm:2.14.0"
   checksum: 39928f45fead3a62640480e48bb8c082ce6368d68ea7a338d4953cb5c2edc738a1465ffecf7850aa9561c25e0d730beabeb850e4c12ad91aac25f8303874be20
@@ -22071,20 +22057,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^6.1.0":
-  version: 6.11.0
-  resolution: "react-router-dom@npm:6.11.0"
-  dependencies:
-    "@remix-run/router": 1.6.0
-    react-router: 6.11.0
-  peerDependencies:
-    react: ">=16.8"
-    react-dom: ">=16.8"
-  checksum: 85c9e302de8f5730bd63fc1f0f712ca0645b7ec843828f43b60712b0a38105d101c7412487eeb35cc25d940cc026e8832e6492eba9772d26779e2856f18e7923
-  languageName: node
-  linkType: hard
-
-"react-router-dom@npm:^6.11.1":
+"react-router-dom@npm:^6.1.0, react-router-dom@npm:^6.11.1":
   version: 6.11.1
   resolution: "react-router-dom@npm:6.11.1"
   dependencies:
@@ -22097,18 +22070,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router@npm:6.11.0, react-router@npm:^6.1.0":
-  version: 6.11.0
-  resolution: "react-router@npm:6.11.0"
-  dependencies:
-    "@remix-run/router": 1.6.0
-  peerDependencies:
-    react: ">=16.8"
-  checksum: c27d64b074da711d59a94d7b64fe82360da8a49077a5e8326c27e9fb48a7650080f73b5ba3b94d0b11f2d7e315255fabc3bad818cd26d1cec3a52220ad9d64cd
-  languageName: node
-  linkType: hard
-
-"react-router@npm:6.11.1":
+"react-router@npm:6.11.1, react-router@npm:^6.1.0":
   version: 6.11.1
   resolution: "react-router@npm:6.11.1"
   dependencies:
@@ -25938,7 +25900,7 @@ __metadata:
     "@types/mime": ^1.3.2
     "@types/node": ^16.18.25
     "@types/ol": ^7.0.0
-    "@types/react": ^18.2.4
+    "@types/react": ^18.2.5
     "@types/react-calendar-heatmap": ^1.6.3
     "@types/react-dom": ^18.2.3
     "@types/react-helmet": ^6.1.6
