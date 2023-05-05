@@ -21,6 +21,7 @@ const writeText: Flow<[ShareMessageBody], string> = (ctx) => (body) => {
                 `<a href="${ctx.env.WEB_URL}/actors/${a.id}">${a.fullName}</a>`
             )
             .join("\n")}`,
+          "\n",
         ]
       : [];
   const groups =
@@ -32,6 +33,7 @@ const writeText: Flow<[ShareMessageBody], string> = (ctx) => (body) => {
               (g) => `<a href="${ctx.env.WEB_URL}/groups/${g.id}">${g.name}</a>`
             )
             .join("\n")}`,
+          "\n",
         ]
       : [];
   const submitLink = `Submit a link to ${ctx.env.TG_BOT_USERNAME}`;
@@ -49,9 +51,7 @@ const writeText: Flow<[ShareMessageBody], string> = (ctx) => (body) => {
     body.content,
     "\n",
     ...actors,
-    "\n",
     ...groups,
-    "\n",
     keywords,
     "\n",
     ...footer,
