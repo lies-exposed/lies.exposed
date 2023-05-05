@@ -10,6 +10,7 @@ import { type RouteContext } from "@routes/route.types";
 export const MakeGetMediaRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Media.Get, ({ params: { id } }, req) => {
     ctx.logger.debug.log("User decoded %O", req.user);
+
     return pipe(
       ctx.db.findOneOrFail(MediaEntity, {
         where: { id: Equal(id) },

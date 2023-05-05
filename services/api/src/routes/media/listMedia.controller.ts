@@ -22,12 +22,7 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
       fp.O.alt(() =>
         pipe(
           query,
-          fp.O.fromPredicate(
-            (q) =>
-              fp.O.isSome(q.keywords) ||
-              fp.O.isSome(q.groups) ||
-              fp.O.isSome(q.actors)
-          ),
+          fp.O.fromPredicate((q) => fp.O.isSome(q.keywords)),
           fp.O.map((q) =>
             pipe(
               searchEventV2Query(ctx)({
