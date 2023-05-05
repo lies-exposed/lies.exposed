@@ -7,20 +7,20 @@ import { useActorsQuery } from "../state/queries/actor.queries";
 
 interface ActorsBoxWrapperProps {
   params: Partial<GetListParams>;
+  discrete?: boolean;
+  prefix?: string;
   children: (r: { data: Actor[]; total: number }) => JSX.Element;
 }
 
 export const ActorsBoxWrapper: React.FC<ActorsBoxWrapperProps> = ({
   params,
+  discrete = true,
+  prefix = "actors-wrapper",
   children,
 }) => {
-  if (!params.filter.ids || params.filter.ids.length === 0) {
-    return null;
-  }
-
   return (
     <QueriesRenderer
-      queries={{ actors: useActorsQuery(params, true) }}
+      queries={{ actors: useActorsQuery(params, discrete, prefix) }}
       render={({ actors }) => children(actors)}
     />
   );
@@ -30,7 +30,7 @@ type ActorsBoxProps<D extends React.ElementType<any> = "ul"> = Omit<
   ActorListProps<D>,
   "actors" | "onActorClick"
 > &
-  Omit<ActorsBoxWrapperProps, 'children'>
+  Omit<ActorsBoxWrapperProps, "children">;
 
 const ActorsBox = <D extends React.ElementType<any> = "ul">({
   params,
@@ -38,14 +38,12 @@ const ActorsBox = <D extends React.ElementType<any> = "ul">({
   style,
   itemStyle,
   onItemClick,
+  discrete,
+  prefix,
   ...props
-}: ActorsBoxProps<D>): JSX.Element | null => {
-  if (!params.filter.ids || params.filter.ids.length === 0) {
-    return null;
-  }
-
+}: ActorsBoxProps<D>): JSX.Element => {
   return (
-    <ActorsBoxWrapper params={params}>
+    <ActorsBoxWrapper params={params} discrete={discrete} prefix={prefix}>
       {({ data: actors }) => (
         <ActorList
           {...props}

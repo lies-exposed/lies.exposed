@@ -86,7 +86,7 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
             />
           ) : (
             <Box>
-              <pre>{value}</pre>
+              <pre>{JSON.stringify(value)}</pre>
               <Button
                 onClick={() => {
                   handleClear();

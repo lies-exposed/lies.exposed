@@ -7,11 +7,15 @@ import { useGroupsQuery } from "../state/queries/groups.queries";
 
 interface GroupsBoxWrapperProps {
   params: any;
+  discrete?: boolean;
+  prefix?: string;
   children: (data: Group.GroupListOutput) => JSX.Element;
 }
 
 export const GroupsBoxWrapper: React.FC<GroupsBoxWrapperProps> = ({
   params,
+  discrete = true,
+  prefix = "group-box-wrapper",
   children,
 }) => {
   return (
@@ -21,7 +25,8 @@ export const GroupsBoxWrapper: React.FC<GroupsBoxWrapperProps> = ({
           {
             ...params,
           },
-          true
+          discrete,
+          prefix
         ),
       }}
       render={({ groups }) => {
@@ -41,15 +46,20 @@ export const GroupsBox: React.FC<GroupsBoxProps> = ({
   params,
   style,
   onItemClick,
+  discrete,
+  prefix,
+  ...props
 }) => {
   return (
     <Box>
       <GroupsBoxWrapper
         params={{
-          pagination: { page: 1, perPage: params?.filter?.ids?.length ?? 0 },
+          pagination: { page: 1, perPage: params?.filter?.ids?.length ?? 20 },
           sort: { field: "createdAt", order: "DESC" },
           ...params,
         }}
+        discrete={discrete}
+        prefix={prefix}
       >
         {({ data: groups }) => (
           <GroupList
