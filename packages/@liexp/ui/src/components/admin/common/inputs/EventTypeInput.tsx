@@ -5,7 +5,7 @@ import {
   transform,
 } from "@liexp/shared/lib/helpers/event/event";
 import { Events } from "@liexp/shared/lib/io/http";
-import { toAPIError } from "@liexp/shared/lib/providers/http/http.provider";
+import { toAPIError } from "@liexp/shared/lib/io/http/Error/APIError";
 import { sequenceS } from "fp-ts/lib/Apply";
 import { pipe } from "fp-ts/lib/function";
 import { get } from "lodash";

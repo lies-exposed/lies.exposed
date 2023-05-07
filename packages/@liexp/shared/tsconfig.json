@@ -16,13 +16,13 @@
     "typeRoots": [
       "node_modules/@types",
       "../../../node_modules/@types",
+      "../backend/typings",
       "./typings"
     ],
     "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
     "paths": {
       "@helpers/*": ["./helpers/*"],
       "@io/*": ["./io/*"],
-      "@mock-data/*": ["./mock-data/*"],
       "@providers/*": ["./providers/*"],
       "@utils/*": ["./utils/*"]
     }

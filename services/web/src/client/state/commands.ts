@@ -1,5 +1,5 @@
 import { type http } from "@liexp/shared/lib/io";
-import { type APIError } from "@liexp/shared/lib/providers/http/http.provider";
+import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
 import { api } from "@liexp/ui/lib/client/api";
 import { foldTE } from "@liexp/ui/lib/providers/DataProvider";
 import * as TE from 'fp-ts/TaskEither';

@@ -9,6 +9,7 @@
     "typeRoots": [
       "./typings",
       "node_modules/@types",
+      "../../packages/@liexp/backend/typings",
       "../../packages/@liexp/shared/typings",
       "../../node_modules/@types"
     ],

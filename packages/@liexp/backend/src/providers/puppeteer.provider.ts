@@ -1,13 +1,13 @@
 /* eslint-disable import/default */
 import * as fs from "fs";
 import * as logger from "@liexp/core/lib/logger";
+import type * as error from "@liexp/shared/lib/io/http/Error";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import type * as puppeteer from "puppeteer-core";
 import { addExtra, type VanillaPuppeteer } from "puppeteer-extra";
 import puppeteerStealth from "puppeteer-extra-plugin-stealth";
-import type * as error from "../io/http/Error";
 
 const puppeteerLogger = logger.GetLogger("puppeteer");
 

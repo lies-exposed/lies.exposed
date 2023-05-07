@@ -23,7 +23,7 @@ export interface TGBotProvider {
   ) => TE.TaskEither<Error, void>;
 }
 
-interface TGBotProviderOpts {
+export interface TGBotProviderOpts {
   token: string;
   chat: string;
   polling: boolean;
@@ -37,7 +37,7 @@ const liftTGTE = <A>(p: () => Promise<A>): TE.TaskEither<Error, A> => {
   return TE.tryCatch(p, toTGError);
 };
 
-interface TGBotProviderCtx {
+export interface TGBotProviderCtx {
   logger: Logger;
 }
 

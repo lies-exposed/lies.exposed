@@ -1,16 +1,16 @@
 import * as path from "path";
+import { MakeURLMetadata } from "@liexp/backend/lib/providers/URLMetadata.provider";
+import { GetFFMPEGProvider } from "@liexp/backend/lib/providers/ffmpeg.provider";
+import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider";
+import { IGProvider } from "@liexp/backend/lib/providers/ig/ig.provider";
+import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider";
+import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm";
+import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider";
+import { S3Client } from "@liexp/backend/lib/providers/space";
+import { TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider";
+import { WikipediaProvider } from "@liexp/backend/lib/providers/wikipedia/wikipedia.provider";
 import * as logger from "@liexp/core/lib/logger";
-import { MakeURLMetadata } from "@liexp/shared/lib/providers/URLMetadata.provider";
-import { GetFFMPEGProvider } from "@liexp/shared/lib/providers/ffmpeg.provider";
-import { GetFSClient } from "@liexp/shared/lib/providers/fs/fs.provider";
 import { HTTP } from "@liexp/shared/lib/providers/http/http.provider";
-import { IGProvider } from "@liexp/shared/lib/providers/ig/ig.provider";
-import { GetJWTClient } from "@liexp/shared/lib/providers/jwt/JWTClient";
-import { GetTypeORMClient } from "@liexp/shared/lib/providers/orm";
-import { GetPuppeteerProvider } from "@liexp/shared/lib/providers/puppeteer.provider";
-import { S3Client } from "@liexp/shared/lib/providers/space";
-import { TGBotProvider } from "@liexp/shared/lib/providers/tg/tg.provider";
-import { WikipediaProvider } from "@liexp/shared/lib/providers/wikipedia/wikipedia.provider";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import axios from "axios";
 import cors from "cors";
@@ -103,7 +103,7 @@ export const makeContext = (
 
   const fsClient = GetFSClient();
 
-  const jwtClient = GetJWTClient({
+  const jwtClient = GetJWTProvider({
     secret: env.JWT_SECRET,
     logger: serverLogger,
   });

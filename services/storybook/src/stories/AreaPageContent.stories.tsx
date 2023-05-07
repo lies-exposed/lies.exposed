@@ -1,4 +1,3 @@
-import { firstArea } from "@liexp/shared/lib/mock-data/areas";
 import {
   AreaPageContent,
   type AreaPageContentProps,
@@ -48,11 +47,8 @@ const Template: StoryFn<AreaPageContentProps> = (props) => {
 
 const AreaPageContentExample = Template.bind({});
 
-const args: AreaPageContentProps = {
-  area: firstArea,
+AreaPageContentExample.args = {
   onGroupClick: () => {},
 };
-
-AreaPageContentExample.args = args;
 
 export { AreaPageContentExample };
