@@ -1,7 +1,5 @@
-import { fc } from "@liexp/test";
 import * as E from "fp-ts/Either";
 import * as t from "io-ts";
-import { TagArb } from "../../../../tests/arbitrary/Keyword.arbitrary";
 import { Tag } from "../Tag";
 
 describe.skip("Tag codec", () => {
@@ -10,7 +8,11 @@ describe.skip("Tag codec", () => {
 
     expect(E.isRight(t.array(Tag).decode(tags))).toBe(true);
 
-    const fastCheckTest = fc.sample(TagArb(), 100);
+    const fastCheckTest = [
+      "tag",
+      "tag1",
+      "another",
+    ];
 
     expect(E.isRight(t.array(Tag).decode(fastCheckTest))).toBe(true);
   });

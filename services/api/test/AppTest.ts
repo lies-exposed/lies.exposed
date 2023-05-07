@@ -1,10 +1,10 @@
 import { GetLogger } from "@liexp/core/lib/logger";
-import { GetFSClient } from "@liexp/shared/lib/providers/fs/fs.provider";
+import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider";
 import { HTTP } from "@liexp/shared/lib/providers/http/http.provider";
-import { GetJWTClient } from "@liexp/shared/lib/providers/jwt/JWTClient";
-import { GetTypeORMClient } from "@liexp/shared/lib/providers/orm";
-import { GetPuppeteerProvider } from "@liexp/shared/lib/providers/puppeteer.provider";
-import { MakeSpaceClient } from "@liexp/shared/lib/providers/space/SpaceClient";
+import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider";
+import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm";
+import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider";
+import { MakeSpaceClient } from "@liexp/backend/lib/providers/space/SpaceClient";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import D from "debug";
 import { sequenceS } from "fp-ts/Apply";
@@ -82,7 +82,7 @@ export const initAppTest = async (): Promise<AppTest> => {
       env,
       db,
       logger,
-      jwt: GetJWTClient({ secret: env.JWT_SECRET, logger }),
+      jwt: GetJWTProvider({ secret: env.JWT_SECRET, logger }),
       ffmpeg: {
         runCommand: () => {
           return TE.right("");

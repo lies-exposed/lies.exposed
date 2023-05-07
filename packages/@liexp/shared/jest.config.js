@@ -28,7 +28,6 @@ module.exports = {
   coveragePathIgnorePatterns: jestBaseConfig.coveragePathIgnorePatterns.concat([
     "/src/endpoints/",
     "/src/io/",
-    "/src/mock-data/",
     "/src/tests/",
   ]),
   modulePaths: [compilerOptions.baseUrl], // <-- This will be set to 'baseUrl' value

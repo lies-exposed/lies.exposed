@@ -1,5 +1,5 @@
+import { type OnLoginErrorFn } from "@liexp/backend/lib/providers/ig/ig.provider";
 import { type ShareMessageBody } from "@liexp/shared/lib/io/http/ShareMessage";
-import { type OnLoginErrorFn } from "@liexp/shared/lib/providers/ig/ig.provider";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { type EventV2Entity } from "@entities/Event.v2.entity";

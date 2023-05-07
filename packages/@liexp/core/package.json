@@ -60,7 +60,6 @@
   },
   "peerDependencies": {
     "debug": "^4.3.1",
-    "pg": "^8.5.1",
     "query-string": "^7.0.0",
     "uuid": "^8.3.2"
   },

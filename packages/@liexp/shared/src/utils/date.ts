@@ -1,9 +1,15 @@
-import { formatDistanceToNow, format, parseISO, parse } from "date-fns";
+import {
+  differenceInHours,
+  formatDistanceToNow,
+  format,
+  parseISO,
+  parse,
+} from "date-fns";
 
 /**
  * Format a date to pattern `yyyy-MM-dd`
- * @param date 
- * @returns 
+ * @param date
+ * @returns
  */
 export const formatDate = (date: Date | string): string => {
   if (typeof date === "string") {
@@ -34,4 +40,4 @@ export const formatAnyDateToShort = (date: any): string => {
 
 export const distanceFromNow = formatDistanceToNow;
 
-export { parseISO, parse };
+export { parseISO, parse, differenceInHours, formatDistanceToNow };

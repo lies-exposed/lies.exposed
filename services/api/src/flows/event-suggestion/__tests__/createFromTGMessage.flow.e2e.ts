@@ -5,10 +5,6 @@ import { AdminCreate } from "@liexp/shared/lib/io/http/User";
 import { createExcerptValue } from "@liexp/shared/lib/slate";
 import { HumanReadableStringArb } from "@liexp/shared/lib/tests/arbitrary/HumanReadableString.arbitrary";
 import { URLArb } from "@liexp/shared/lib/tests/arbitrary/URL.arbitrary";
-import {
-  TGMessageArb,
-  TGPhotoArb,
-} from "@liexp/shared/lib/tests/arbitrary/common/TGMessage.arb";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
@@ -18,6 +14,10 @@ import type TelegramBot from "node-telegram-bot-api";
 import { Equal } from "typeorm";
 import puppeteerMocks from "../../../../__mocks__/puppeteer.mock";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
+import {
+  TGMessageArb,
+  TGPhotoArb,
+} from "../../../../test/arbitraries/TGMessage.arb";
 import { saveUser, type UserTest } from "../../../../test/user.utils";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { LinkEntity } from "@entities/Link.entity";

@@ -1,4 +1,3 @@
-import { firstArticle } from "@liexp/shared/lib/mock-data/articles";
 import {
   ArticlePageContent,
   type ArticlePageContentProps,

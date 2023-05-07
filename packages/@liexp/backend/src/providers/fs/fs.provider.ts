@@ -2,11 +2,10 @@ import fs from "fs";
 import path from "path";
 import { fp } from "@liexp/core/lib/fp";
 import * as logger from "@liexp/core/lib/logger";
-import differenceInHours from "date-fns/differenceInHours";
+import { distanceFromNow, differenceInHours } from "@liexp/shared/lib/utils/date";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { IOError } from "ts-io-error";
-import { distanceFromNow } from "../../utils/date";
 
 const fsLogger = logger.GetLogger("fs");
 

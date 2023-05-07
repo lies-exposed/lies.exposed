@@ -1,6 +1,6 @@
 import { fp } from "@liexp/core/lib/fp";
 import { type Page } from "@liexp/shared/lib/io/http";
-import { type APIError } from "@liexp/shared/lib/providers/http/http.provider";
+import { type APIError } from '@liexp/shared/lib/io/http/Error/APIError';
 import { pipe } from "fp-ts/lib/function";
 import { useQuery } from "react-query";
 import { foldTE, Queries } from "../../providers/DataProvider";

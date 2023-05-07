@@ -1,4 +1,4 @@
-import { type APIError } from "@liexp/shared/lib/providers/http/http.provider";
+import { type APIError } from '@liexp/shared/lib/io/http/Error/APIError';
 import * as React from "react";
 import { Box, Card, CardContent, CardHeader, Grid, Typography } from "../mui";
 

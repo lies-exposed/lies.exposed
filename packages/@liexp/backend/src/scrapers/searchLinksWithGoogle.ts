@@ -48,7 +48,7 @@ export const searchWithGoogle =
             });
 
             ctx.logger.debug.log("Modal found! Reject all cookies...");
-            await page.waitForTimeout(1000);
+            await page.waitForSelector('div[aria-modal="true"] button');
             // refuse cookie
             await page.$$eval('div[aria-modal="true"] button', (els) => {
               const closeButton = els[2] as any;

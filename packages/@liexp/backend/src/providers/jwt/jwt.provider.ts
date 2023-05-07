@@ -1,11 +1,11 @@
 import type * as logger from "@liexp/core/lib/logger";
+import { User } from "@liexp/shared/lib/io/http/User";
+import { fromValidationErrors } from "@liexp/shared/lib/providers/http/http.provider";
 import * as IO from "fp-ts/IO";
 import * as IOE from "fp-ts/IOEither";
 import { pipe } from "fp-ts/function";
 import * as jwt from "jsonwebtoken";
 import { IOError } from "ts-io-error";
-import { User } from "../../io/http/User";
-import { fromValidationErrors } from "../http/http.provider";
 
 export class JWTError extends IOError {}
 
@@ -39,17 +39,18 @@ export const toError =
     };
   };
 
-export interface JWTClient {
+export interface JWTProvider {
   signUser: (user: User) => IO.IO<string>;
   verifyUser: (string: string) => IOE.IOEither<JWTError, User>;
 }
 
-interface JWTClientContext {
+
+export interface JWTClientContext {
   secret: string;
   logger: logger.Logger;
 }
 
-export const GetJWTClient = (ctx: JWTClientContext): JWTClient => {
+export const GetJWTProvider = (ctx: JWTClientContext): JWTProvider => {
   return {
     signUser: (user: User) => {
       ctx.logger.debug.log("Signing payload %O", user);

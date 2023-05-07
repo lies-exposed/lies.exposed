@@ -8,9 +8,9 @@ import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { sequenceS } from "fp-ts/lib/Apply";
-import { fetchActors } from "../build/queries/actors/fetchActors.query";
-import { fetchGroups } from "../build/queries/groups/fetchGroups.query";
-import { fetchKeywords } from "../build/queries/keywords/fetchKeywords.query";
+import { fetchActors } from "@queries/actors/fetchActors.query";
+import { fetchGroups } from "@queries/groups/fetchGroups.query";
+import { fetchKeywords } from "@queries/keywords/fetchKeywords.query";
 import { startContext, stopContext } from "./start-ctx";
 
 const makePatterns = (s: string): string[] => {

@@ -1,4 +1,4 @@
-import { type APIError } from "@liexp/shared/lib/providers/http/http.provider";
+import { type APIError } from '@liexp/shared/lib/io/http/Error/APIError';
 import { type GetListParams } from "ra-core";
 import * as React from "react";
 import { type UseQueryResult } from "react-query";
