@@ -12,6 +12,7 @@ import { createEventQuery } from "../queries/createEvent.query";
 import { ActorEntity } from "@entities/Actor.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
+import { LinkEntity } from "@entities/Link.entity";
 import { type ControllerError } from "@io/ControllerError";
 
 export const MakeCreatePatentEventRoute: Route = (r, ctx) => {
@@ -22,18 +23,19 @@ export const MakeCreatePatentEventRoute: Route = (r, ctx) => {
         links,
         keywords,
         media,
-        payload: { owners, ...payload },
+        payload: { owners, source, ...payload },
         ...body
       },
     }) => {
       ctx.logger.debug.log(
         "Create patent from url %s with owners %O and props %O",
-        payload.source,
+        source,
         owners,
         body
       );
 
       const fetchOwnersTask = sequenceS(TE.ApplicativePar)({
+        link: ctx.db.findOneOrFail(LinkEntity, { where: { id: source } }),
         actors: pipe(
           owners.actors,
           O.fromPredicate((arr) => arr.length > 0),
@@ -58,12 +60,13 @@ export const MakeCreatePatentEventRoute: Route = (r, ctx) => {
 
       return pipe(
         fetchOwnersTask,
-        TE.chain(({ actors, groups }) =>
+        TE.chain(({ actors, groups, link }) =>
           createEventQuery(ctx)({
             type: PATENT.value,
             ...body,
             payload: {
               ...payload,
+              source: link.id,
               owners: {
                 actors: actors.map((a) => a.id as UUID),
                 groups: groups.map((g) => g.id as UUID),
@@ -77,7 +80,7 @@ export const MakeCreatePatentEventRoute: Route = (r, ctx) => {
         TE.chain((data) => ctx.db.save(EventV2Entity, [data])),
         TE.chain(([event]) =>
           ctx.db.findOneOrFail(EventV2Entity, {
-            where: { id: Equal( event.id) },
+            where: { id: Equal(event.id) },
             loadRelationIds: true,
           })
         ),

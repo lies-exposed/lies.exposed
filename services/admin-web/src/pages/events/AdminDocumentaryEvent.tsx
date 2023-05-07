@@ -7,6 +7,7 @@ import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField";
 import ReferenceArrayGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput";
 import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
+import ReferenceLinkInput from '@liexp/ui/lib/components/admin/links/ReferenceLinkInput';
 import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField";
 import ReferenceArrayMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceArrayMediaInput";
 import EventPreview from "@liexp/ui/lib/components/admin/previews/EventPreview";
@@ -18,13 +19,11 @@ import * as React from "react";
 import {
   BooleanInput,
   Create,
-  type CreateProps,
   Datagrid,
   DateField,
   DateInput,
   FormTab,
   List,
-  type ListProps,
   ReferenceField,
   SimpleForm,
   TabbedForm,
@@ -32,6 +31,8 @@ import {
   TextInput,
   useDataProvider,
   useRecordContext,
+  type CreateProps,
+  type ListProps,
 } from "react-admin";
 import { EventEditActions } from "./actions/EditEventActions";
 
@@ -116,7 +117,7 @@ export const DocumentaryCreate: React.FC<CreateProps> = () => {
       <SimpleForm>
         <BooleanInput source="draft" defaultValue={false} />
         <TextInput fullWidth source="payload.title" />
-        <TextInput type="url" fullWidth source="payload.website" />
+        <ReferenceLinkInput type="url" fullWidth source="payload.website" />
         <DateInput source="date" />
         <ReferenceArrayMediaInput
           allowedTypes={["video/mp4", "iframe/video"]}

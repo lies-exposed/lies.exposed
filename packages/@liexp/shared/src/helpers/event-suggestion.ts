@@ -27,7 +27,7 @@ export const getSuggestions = (
   );
 
   const suggestedExcerpt = m.description
-    ? createExcerptValue(m.description)  
+    ? createExcerptValue(m.description)
     : undefined;
 
   const suggestedMedia = pipe(
@@ -66,6 +66,45 @@ export const getSuggestions = (
   };
 
   const suggestions: http.EventSuggestion.CreateEventSuggestion[] = [
+    ...pipe(
+      link,
+      O.map((l) => [
+        {
+          type: http.EventSuggestion.EventSuggestionType.types[0].value,
+          event: {
+            ...commonSuggestion,
+            type: http.Events.Patent.PATENT.value,
+            payload: {
+              title: suggestedTitle,
+              source: l.id,
+              owners: {
+                actors: [],
+                groups: [],
+              } as any,
+            },
+          },
+        },
+        {
+          type: http.EventSuggestion.EventSuggestionType.types[0].value,
+          event: {
+            ...commonSuggestion,
+            type: http.Events.ScientificStudy.SCIENTIFIC_STUDY.value,
+            payload: {
+              title: suggestedTitle,
+              url: l.id,
+              image: pipe(
+                suggestedMedia,
+                O.map((m) => m.id),
+                O.toUndefined
+              ),
+              publisher: undefined,
+              authors: [],
+            },
+          },
+        },
+      ]),
+      O.getOrElse((): http.EventSuggestion.CreateEventSuggestion[] => [])
+    ),
     {
       type: http.EventSuggestion.EventSuggestionType.types[0].value,
       event: {
@@ -73,7 +112,11 @@ export const getSuggestions = (
         type: http.Events.Documentary.DOCUMENTARY.value,
         payload: {
           title: suggestedTitle,
-          website: m.url,
+          website: pipe(
+            link,
+            O.map((l) => l.id),
+            O.toUndefined
+          ),
           media: pipe(
             suggestedMedia,
             O.map((m) => m.id),
@@ -90,50 +133,17 @@ export const getSuggestions = (
         },
       },
     },
-    {
-      type: http.EventSuggestion.EventSuggestionType.types[0].value,
-      event: {
-        ...commonSuggestion,
-        type: http.Events.Patent.PATENT.value,
-        payload: {
-          title: suggestedTitle,
-          source: m.url as any,
-          owners: {
-            actors: [],
-            groups: [],
-          } as any,
-        },
-      },
-    },
-    {
-      type: http.EventSuggestion.EventSuggestionType.types[0].value,
-      event: {
-        ...commonSuggestion,
-        type: http.Events.ScientificStudy.SCIENTIFIC_STUDY.value,
-        payload: {
-          title: suggestedTitle,
-          url: m.url as any,
-          image: pipe(
-            suggestedMedia,
-            O.map((m) => m.id),
-            O.toUndefined
-          ),
-          publisher: undefined,
-          authors: [],
-        },
-      },
-    },
-    {
-      type: http.EventSuggestion.EventSuggestionType.types[0].value,
-      event: {
-        ...commonSuggestion,
-        type: http.Events.Death.DEATH.value,
-        payload: {
-          victim: uuid() as any,
-          location: undefined as any,
-        },
-      },
-    },
+    // {
+    //   type: http.EventSuggestion.EventSuggestionType.types[0].value,
+    //   event: {
+    //     ...commonSuggestion,
+    //     type: http.Events.Death.DEATH.value,
+    //     payload: {
+    //       victim: uuid() as any,
+    //       location: undefined as any,
+    //     },
+    //   },
+    // },
     {
       type: http.EventSuggestion.EventSuggestionType.types[0].value,
       event: {

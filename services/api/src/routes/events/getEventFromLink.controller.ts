@@ -10,7 +10,7 @@ import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { type Metadata } from "page-metadata-parser";
-import { Equal } from 'typeorm';
+import { Equal } from "typeorm";
 import { toEventV2IO } from "./eventV2.io";
 import { searchEventV2Query } from "./queries/searchEventsV2.query";
 import { LinkEntity } from "@entities/Link.entity";
@@ -96,55 +96,61 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
             };
 
             const suggestions: EventSuggestion.CreateEventSuggestion[] = [
-              {
-                type: EventSuggestion.EventSuggestionType.types[0].value,
-                event: {
-                  ...commonSuggestion,
-                  type: Events.Documentary.DOCUMENTARY.value,
-                  payload: {
-                    title: suggestedTitle,
-                    website: metadata.url,
-                    media: uuid() as any,
-                    authors: {
-                      actors: [],
-                      groups: [],
+              ...pipe(
+                link,
+                O.map((l) => [
+                  {
+                    type: EventSuggestion.EventSuggestionType.types[0].value,
+                    event: {
+                      ...commonSuggestion,
+                      type: Events.Documentary.DOCUMENTARY.value,
+                      payload: {
+                        title: suggestedTitle,
+                        website: l.id,
+                        media: uuid() as any,
+                        authors: {
+                          actors: [],
+                          groups: [],
+                        },
+                        subjects: {
+                          actors: [],
+                          groups: [],
+                        },
+                      },
                     },
-                    subjects: {
-                      actors: [],
-                      groups: [],
+                  },
+                  {
+                    type: EventSuggestion.EventSuggestionType.types[0].value,
+                    event: {
+                      ...commonSuggestion,
+                      type: Events.Patent.PATENT.value,
+                      payload: {
+                        title: suggestedTitle,
+                        source: l.id,
+                        owners: {
+                          actors: [],
+                          groups: [],
+                        } as any,
+                      },
                     },
                   },
-                },
-              },
-              {
-                type: EventSuggestion.EventSuggestionType.types[0].value,
-                event: {
-                  ...commonSuggestion,
-                  type: Events.Patent.PATENT.value,
-                  payload: {
-                    title: suggestedTitle,
-                    source: metadata.url as any,
-                    owners: {
-                      actors: [],
-                      groups: [],
-                    } as any,
+                  {
+                    type: EventSuggestion.EventSuggestionType.types[0].value,
+                    event: {
+                      ...commonSuggestion,
+                      type: Events.ScientificStudy.SCIENTIFIC_STUDY.value,
+                      payload: {
+                        title: suggestedTitle,
+                        url: l.id,
+                        image: undefined,
+                        publisher: undefined,
+                        authors: [],
+                      },
+                    },
                   },
-                },
-              },
-              {
-                type: EventSuggestion.EventSuggestionType.types[0].value,
-                event: {
-                  ...commonSuggestion,
-                  type: Events.ScientificStudy.SCIENTIFIC_STUDY.value,
-                  payload: {
-                    title: suggestedTitle,
-                    url: metadata.url as any,
-                    image: undefined,
-                    publisher: undefined,
-                    authors: [],
-                  },
-                },
-              },
+                ]),
+                O.getOrElse((): EventSuggestion.CreateEventSuggestion[] => [])
+              ),
               {
                 type: EventSuggestion.EventSuggestionType.types[0].value,
                 event: {

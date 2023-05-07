@@ -10,7 +10,7 @@ import D from "debug";
 export const startContext = async (env?: any): Promise<RouteContext> => {
   loadENV(process.cwd(), process.env.DOTENV_CONFIG_PATH ?? "../../.env");
   if (process.env.NODE_ENV === "development") {
-    loadENV(process.cwd(), "../../.env.local");
+    loadENV(process.cwd(), "../../.env.local", true);
   }
 
   D.enable(process.env.DEBUG ?? "@liexp:*:error");
