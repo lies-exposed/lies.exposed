@@ -1,5 +1,5 @@
-import { JWTError } from "@liexp/shared/lib/providers/jwt/JWTClient";
-import { DBError } from "@liexp/shared/lib/providers/orm";
+import { JWTError } from "@liexp/backend/lib/providers/jwt/jwt.provider";
+import { DBError } from "@liexp/backend/lib/providers/orm";
 import * as t from "io-ts";
 import { failure } from "io-ts/lib/PathReporter";
 

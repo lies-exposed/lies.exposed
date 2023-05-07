@@ -1,7 +1,7 @@
+import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider";
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion";
 import { type URL as URLT } from "@liexp/shared/lib/io/http/Common";
 import { type ImageType } from "@liexp/shared/lib/io/http/Media";
-import { GetNERProvider } from "@liexp/shared/lib/providers/ner/ner.provider";
 import { GetEncodeUtils } from "@liexp/shared/lib/utils/encode.utils";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { parse } from "date-fns";

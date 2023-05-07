@@ -1,0 +1,34 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "lib": ["DOM", "ESNext"],
+    "jsx": "react",
+    "noEmit": false,
+    "composite": true,
+    "incremental": true,
+    "declaration": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "outDir": "./lib",
+    "baseUrl": "./src",
+    "rootDir": "./src",
+    "typeRoots": [
+      "node_modules/@types",
+      "../../../node_modules/@types",
+      "../shared/typings",
+      "./typings"
+    ],
+    "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../core"
+    },
+    {
+      "path": "../shared"
+    }
+  ],
+  "include": ["./src", "./typings", "src/**/*.json"],
+  "exclude": ["node_modules", "lib"]
+}

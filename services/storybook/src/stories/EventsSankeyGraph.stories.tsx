@@ -1,7 +1,4 @@
 import { Events } from "@liexp/shared/lib/io/http";
-import { actors } from "@liexp/shared/lib/mock-data/actors";
-import { events } from "@liexp/shared/lib/mock-data/events";
-import { groups } from "@liexp/shared/lib/mock-data/groups";
 import {
   EventsSankeyGraph,
   type EventsSankeyGraphProps,
@@ -20,7 +17,7 @@ const meta: Meta = {
 export default meta;
 
 const uncategorizedEvents: Events.Uncategorized.Uncategorized[] = pipe(
-  events,
+  [],
   A.filter(Events.Uncategorized.Uncategorized.is),
   A.mapWithIndex((index, e) => ({
     ...e,
@@ -28,8 +25,8 @@ const uncategorizedEvents: Events.Uncategorized.Uncategorized[] = pipe(
     body: {},
     tableOfContents: O.some({ items: [] }),
     timeToRead: O.some(1),
-    actors: actors.map((a) => a.id),
-    groups: groups.map((g) => g.id),
+    actors: [],
+    groups: [],
   }))
 );
 
@@ -51,10 +48,10 @@ const args: EventsSankeyGraphProps = {
   scalePoint: O.none,
   events: uncategorizedEvents as any[],
   includeEmptyRelations: false,
-  actors,
-  groups,
+  actors: [],
+  groups: [],
   keywords: [],
-  selectedActorIds: actors.map((a) => a.id),
+  selectedActorIds: [],
   selectedGroupIds: [],
   selectedKeywordIds: [],
   onEventClick: () => {},

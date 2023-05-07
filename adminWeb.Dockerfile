@@ -16,7 +16,7 @@ COPY services/admin-web ./services/admin-web
 
 RUN yarn
 
-RUN yarn packages:build
+RUN yarn admin-web build
 
 RUN NODE_ENV=production yarn admin-web build:app
 

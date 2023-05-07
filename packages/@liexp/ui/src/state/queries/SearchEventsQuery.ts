@@ -14,8 +14,8 @@ import {
   type Keyword,
   type Media,
 } from "@liexp/shared/lib/io/http";
+import { type APIError } from '@liexp/shared/lib/io/http/Error/APIError';
 import { type EventTotals, type GetSearchEventsQueryInput } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
-import { type APIError } from "@liexp/shared/lib/providers/http/http.provider";
 import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

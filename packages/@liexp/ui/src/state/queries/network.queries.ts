@@ -1,9 +1,9 @@
+import { type APIError } from '@liexp/shared/lib/io/http/Error/APIError';
 import {
   type GetNetworkParams,
   type GetNetworkQuery,
   type NetworkGraphOutput,
 } from "@liexp/shared/lib/io/http/Network";
-import { type APIError } from "@liexp/shared/lib/providers/http/http.provider";
 import { useQuery, type UseQueryResult } from "react-query";
 import { type serializedType } from "ts-io-error/lib/Codec";
 import { Queries } from "../../providers/DataProvider";

@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { type DBError } from "@liexp/backend/lib/providers/orm";
 import { fp } from "@liexp/core/lib/fp";
 import { getEventMetadata } from "@liexp/shared/lib/helpers/event/event";
 import {
@@ -10,7 +11,6 @@ import {
 import { type EventRelationIds } from "@liexp/shared/lib/helpers/event/types";
 import { type GroupMember, type Media } from "@liexp/shared/lib/io/http";
 import { EventType, type SearchEvent } from "@liexp/shared/lib/io/http/Events";
-import { type DBError } from "@liexp/shared/lib/providers/orm";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";

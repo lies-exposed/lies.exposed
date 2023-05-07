@@ -10,6 +10,7 @@
     "typeRoots": [
       "./typings",
       "node_modules/@types",
+      "../../packages/@liexp/backend/typings",
       "../../packages/@liexp/shared/typings",
       "../../node_modules/@types"
     ],
@@ -26,6 +27,7 @@
       "@io/*": ["io/*"],
       "@entities/*": ["entities/*"],
       "@flows/*": ["flows/*"],
+      "@queries/*": ["queries/*"],
       "@routes/*": ["routes/*"],
       "@utils/*": ["utils/*"]
     }
@@ -36,6 +38,9 @@
     },
     {
       "path": "../../packages/@liexp/shared"
+    },
+    {
+      "path": "../../packages/@liexp/backend"
     },
     {
       "path": "../../packages/@liexp/core"

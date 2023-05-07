@@ -1,4 +1,3 @@
-import { firstGoodProject } from "@liexp/shared/lib/mock-data/projects";
 import {
   ProjectAreasMap,
   type ProjectAreasMapProps,
@@ -19,10 +18,6 @@ const Template: StoryFn<ProjectAreasMapProps> = (props) => {
 
 const ProjectAreasMapExample = Template.bind({});
 
-const args: ProjectAreasMapProps = {
-  project: firstGoodProject,
-};
-
-ProjectAreasMapExample.args = args;
+ProjectAreasMapExample.args = {};
 
 export { ProjectAreasMapExample };

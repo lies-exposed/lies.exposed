@@ -17,7 +17,7 @@ import {
   GetPuppeteerProvider,
   PuppeteerError,
   toPuppeteerError
-} from "@liexp/shared/lib/providers/puppeteer.provider";
+} from "@liexp/backend/lib/providers/puppeteer.provider";
 import { differenceInDays } from "date-fns";
 import * as A from "fp-ts/Array";
 import { pipe } from "fp-ts/function";

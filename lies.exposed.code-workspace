@@ -9,12 +9,16 @@
       "path": "packages/@liexp/core"
     },
     {
+      "name": "📦 @liexp/test",
+      "path": "packages/@liexp/test"
+    },
+    {
       "name": "📦 @liexp/shared",
       "path": "packages/@liexp/shared"
     },
     {
-      "name": "📦 @liexp/test",
-      "path": "packages/@liexp/test"
+      "name": "📦 @liexp/backend",
+      "path": "packages/@liexp/backend"
     },
     {
       "name": "📦 @liexp/ui",
@@ -52,7 +56,7 @@
       "**/bower_components": true,
       "**/*.code-search": true,
       "build/**": true,
-      "lib/**": true,
+      "lib/**": true
     },
     "eslint.workingDirectories": [
       "./packages/@liexp/core",
@@ -62,17 +66,8 @@
       "./services/admin-web"
     ],
     "jest.autoRun": "off",
-    "jest.disabledWorkspaceFolders": [
-      "📦 @liexp/test",
-      "storybook",
-      "data",
-    ],
-    "cSpell.words": [
-      "healthcheck",
-      "liexp",
-      "Uncategorized",
-      "xlarge"
-    ],
+    "jest.disabledWorkspaceFolders": ["📦 @liexp/test", "storybook", "data"],
+    "cSpell.words": ["healthcheck", "liexp", "Uncategorized", "xlarge"],
     "easynpm.packageManager": "yarn"
   }
 }

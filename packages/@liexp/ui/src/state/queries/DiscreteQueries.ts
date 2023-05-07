@@ -4,7 +4,7 @@ import {
   type GroupMember,
   type Project,
 } from "@liexp/shared/lib/io/http";
-import { type APIError } from "@liexp/shared/lib/providers/http/http.provider";
+import { type APIError } from '@liexp/shared/lib/io/http/Error/APIError';
 import type * as t from "io-ts";
 import type { GetListParams, GetOneParams } from "react-admin";
 import { useQuery, type UseQueryResult } from "react-query";

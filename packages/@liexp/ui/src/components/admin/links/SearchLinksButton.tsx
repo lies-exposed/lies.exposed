@@ -1,5 +1,5 @@
-import { defaultSites } from "@liexp/shared/lib/scrapers/defaultSites";
 import { formatDate, parseISO } from "@liexp/shared/lib/utils/date";
+import { defaultSites } from "@liexp/shared/lib/utils/defaultSites";
 import * as React from "react";
 import { Button, useDataProvider, useRefresh } from "react-admin";
 import { type Link } from "../../Cards/LinkCard";

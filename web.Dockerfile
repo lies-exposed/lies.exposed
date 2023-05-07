@@ -22,7 +22,7 @@ RUN yarn config set --home enableTelemetry false
 
 RUN yarn
 
-RUN yarn packages:build
+RUN yarn web build
 
 RUN export NODE_ENV=${NODE_ENV}
 

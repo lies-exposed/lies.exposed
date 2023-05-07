@@ -8,7 +8,7 @@ import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { pipe } from "fp-ts/lib/function";
-import { fetchGroups } from "../build/queries/groups/fetchGroups.query";
+import { fetchGroups } from "@queries/groups/fetchGroups.query";
 import { startContext, stopContext } from "./start-ctx";
 
 const run = async (): Promise<void> => {

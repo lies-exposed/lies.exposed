@@ -7,7 +7,8 @@ import { pipe } from "fp-ts/function";
 import { type MinimalEndpointInstance, type TypeOfEndpointInstance } from "ts-endpoint";
 import { Endpoints } from "../../endpoints";
 import { type ResourceEndpoints } from "../../endpoints/types";
-import { type APIError, HTTP, liftFetch } from "./http.provider";
+import { type APIError } from '../../io/http/Error/APIError';
+import { HTTP, liftFetch } from "./http.provider";
 
 const apiLogger = GetLogger("API");
 

@@ -1,10 +1,10 @@
 import type * as logger from "@liexp/core/lib/logger";
+import { type HTTP } from "@liexp/shared/lib/providers/http/http.provider";
 import { type URLMetadataClient } from "../providers/URLMetadata.provider";
 import { type FFMPEGProvider } from "../providers/ffmpeg.provider";
 import { type FSClient } from "../providers/fs/fs.provider";
-import { type HTTP } from "../providers/http/http.provider";
 import { type IGProvider } from "../providers/ig/ig.provider";
-import { type JWTClient } from "../providers/jwt/JWTClient";
+import { type JWTProvider } from "../providers/jwt/jwt.provider";
 import { type DatabaseClient } from "../providers/orm";
 import { type PuppeteerProvider } from "../providers/puppeteer.provider";
 import { type SpaceClient } from "../providers/space";
@@ -15,7 +15,7 @@ export interface ServerContext {
   db: DatabaseClient;
   s3: SpaceClient.SpaceClient;
   logger: logger.Logger;
-  jwt: JWTClient;
+  jwt: JWTProvider;
   urlMetadata: URLMetadataClient;
   puppeteer: PuppeteerProvider;
   tg: TGBotProvider;

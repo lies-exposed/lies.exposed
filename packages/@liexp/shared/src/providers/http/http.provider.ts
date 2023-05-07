@@ -5,17 +5,13 @@ import * as TE from "fp-ts/TaskEither";
 import { flow, pipe } from "fp-ts/function";
 import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter";
-import { type MinimalEndpointInstance, type TypeOfEndpointInstance } from "ts-endpoint";
+import {
+  type MinimalEndpointInstance,
+  type TypeOfEndpointInstance,
+} from "ts-endpoint";
+import { APIError } from "../../io/http/Error/APIError";
 
 const apiLogger = GetLogger("http");
-
-export class APIError extends Error {
-  details: string[];
-  constructor(message: string, details: string[]) {
-    super(message);
-    this.details = details;
-  }
-}
 
 export const toAPIError = (e: unknown): APIError => {
   // eslint-disable-next-line

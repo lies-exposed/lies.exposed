@@ -1,3 +1,4 @@
+import { type JWTProvider, JWTError } from "@liexp/backend/lib/providers/jwt/jwt.provider";
 import type * as logger from "@liexp/core/lib/logger";
 import {
   AdminCreate,
@@ -10,7 +11,6 @@ import {
   type User,
   type UserPermission
 } from "@liexp/shared/lib/io/http/User";
-import { type JWTClient, JWTError } from "@liexp/shared/lib/providers/jwt/JWTClient";
 import type * as express from "express";
 import * as IOE from "fp-ts/IOEither";
 import { pipe } from "fp-ts/function";
@@ -27,7 +27,7 @@ const HeadersWithAuthorization = t.strict(
 
 interface AuthenticationContext {
   logger: logger.Logger;
-  jwt: JWTClient;
+  jwt: JWTProvider;
 }
 
 export const decodeUserFromRequest =
