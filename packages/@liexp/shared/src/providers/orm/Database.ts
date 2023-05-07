@@ -290,6 +290,11 @@ const MakeDatabaseClient: MakeDatabaseClient =
     const getConnection = (
       dataSource: DataSource
     ): TE.TaskEither<DBError, DataSource> => {
+      logger.debug.log(
+        "Connecting to database (%s)...",
+        dataSource.driver.database
+      );
+
       if (dataSource.isInitialized) {
         logger.debug.log(
           "The connection is already present in connection manager..."
