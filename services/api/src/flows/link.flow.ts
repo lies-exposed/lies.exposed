@@ -1,5 +1,6 @@
 import { fp } from "@liexp/core/lib/fp";
 import { type URL } from "@liexp/shared/lib/io/http/Common";
+import { sanitizeURL } from '@liexp/shared/lib/utils/url.utils';
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";
@@ -107,8 +108,9 @@ export const fetchAsLink: TEFlow<
 export const fetchAndSave: TEFlow<[UserEntity, URL], LinkEntity> =
   (ctx) => (u, url) => {
     ctx.logger.debug.log("Searching link with url %s", url);
+    const sanitizedURL = sanitizeURL(url);
     return pipe(
-      ctx.db.findOne(LinkEntity, { where: { url: Equal(url) } }),
+      ctx.db.findOne(LinkEntity, { where: { url: Equal(sanitizedURL) } }),
       TE.chain((optLink) => {
         if (O.isSome(optLink)) {
           ctx.logger.debug.log("Link found! %s", optLink.value.id);
@@ -117,7 +119,7 @@ export const fetchAndSave: TEFlow<[UserEntity, URL], LinkEntity> =
 
         ctx.logger.debug.log("Link not found, fetching...");
         return pipe(
-          fetchAsLink(ctx)(u, url, undefined),
+          fetchAsLink(ctx)(u, sanitizedURL, undefined),
           TE.chain((l) => ctx.db.save(LinkEntity, [l])),
           TE.map((ll) => ll[0])
         );

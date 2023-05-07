@@ -19,7 +19,7 @@ export const DocumentaryPayload = t.strict(
   {
     title: t.string,
     media: UUID,
-    website: t.union([t.string, t.undefined]),
+    website: t.union([UUID, t.undefined]),
     authors: t.strict({
       actors: t.array(UUID),
       groups: t.array(UUID),
