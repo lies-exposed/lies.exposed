@@ -9,7 +9,8 @@ import { loadENV } from "@liexp/core/lib/env/utils";
 import { actorCommand } from "./providers/tg/actor.command";
 import { groupCommand } from "./providers/tg/group.command";
 import { helpCommand } from "./providers/tg/help.command";
-import { startCommand } from './providers/tg/start.command';
+import { startCommand } from "./providers/tg/start.command";
+// import D from "debug";
 
 const run = (): Promise<void> => {
   const serverLogger = logger.GetLogger("api");

@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rm -rf build",
     "start": "node bin/run.js",
-    "develop": "DOTENV_CONFIG_PATH=../../.env ts-node src/run.ts",
+    "develop": "ts-node src/run.ts",
     "develop:alpha": "DOTENV_CONFIG_PATH=../../.env.alpha ts-node-dev src/run.ts",
     "build": "tsc -b ./tsconfig.build.json",
     "watch": "tsc -b ./tsconfig.build.json --watch",
