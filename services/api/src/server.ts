@@ -58,6 +58,7 @@ import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller";
 import { MakeUserRoutes } from "@routes/users/User.routes";
 import { getDataSource } from "@utils/data-source";
 import { GetWriteJSON } from "@utils/json.utils";
+import { unless } from "express-unless";
 
 // var whitelist = ["http://localhost:8002"]
 const corsOptions: cors.CorsOptions = {
@@ -164,7 +165,14 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   // uploads
   MakeUploadFileRoute(app, ctx);
 
-  app.use(express.json({ limit: 1024 * 1000 }));
+  const jsonMiddleware: any = express.json({ limit: 1024 * 1000 });
+  jsonMiddleware.unless = unless;
+  app.use(
+    jsonMiddleware.unless({
+      path: [{ url: /\/v1\/uploads-multipart\/*/, method: "PUT" }],
+    })
+  );
+
   app.use(
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     jwt({ secret: ctx.env.JWT_SECRET, algorithms: ["HS256"] }).unless({
