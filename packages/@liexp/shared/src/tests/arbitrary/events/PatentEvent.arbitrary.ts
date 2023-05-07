@@ -3,7 +3,6 @@ import { fc, getArbitrary } from "@liexp/test";
 import * as t from "io-ts";
 import * as Events from "../../../io/http/Events";
 import { DateArb } from "../Date.arbitrary";
-import { URLArb } from "../URL.arbitrary";
 
 export const PatentEventArb = getArbitrary(
   t.strict(
@@ -36,6 +35,6 @@ export const PatentEventArb = getArbitrary(
   payload: {
     title: fc.sample(fc.string(), 1)[0],
     owners: { groups: [], actors: [] },
-    source: fc.sample(URLArb, 1)[0],
+    source: fc.sample(fc.uuid(), 1)[0],
   },
 }));

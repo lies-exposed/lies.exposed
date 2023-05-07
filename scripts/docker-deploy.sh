@@ -35,8 +35,9 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     docker compose up --build --force-recreate -d --wait
     docker system prune -f
     docker compose run --name api-migration api yarn migration:run > migration.txt
-    docker compose run --rm api yarn upsert-nlp-entities
+    docker compose run --rm api yarn ts:node:build ./bin/upsert-nlp-entities.ts
     docker compose run --rm api yarn upsert-tg-pinned-message
-    docker compose run --rm api yarn set-default-group-usernames
+    # docker compose run --rm api yarn set-default-group-usernames
+    docker compose run --rm api yarn ts:node:build ./bin/update-event-payload-url-refs.ts
 EOF
 

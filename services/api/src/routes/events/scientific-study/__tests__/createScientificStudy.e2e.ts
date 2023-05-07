@@ -2,14 +2,17 @@ import { http } from "@liexp/shared/lib/io";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/ScientificStudy";
 import { AdminCreate } from "@liexp/shared/lib/io/http/User";
 import { createExcerptValue } from "@liexp/shared/lib/slate";
+import { LinkArb } from "@liexp/shared/lib/tests";
 import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary";
 import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary";
 import { HumanReadableStringArb } from "@liexp/shared/lib/tests/arbitrary/HumanReadableString.arbitrary";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils";
 import { fc } from "@liexp/test";
+import { pipe } from "fp-ts/lib/function";
 import { In } from "typeorm";
-import { type AppTest, GetAppTest } from "../../../../../test/AppTest";
-import { loginUser, saveUser } from "../../../../../test/user.utils";
+import { GetAppTest, type AppTest } from "../../../../../test/AppTest";
+import { type UserTest, loginUser, saveUser } from "../../../../../test/user.utils";
 import { ActorEntity } from "@entities/Actor.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
@@ -17,6 +20,7 @@ import { LinkEntity } from "@entities/Link.entity";
 
 describe("Create Scientific Study", () => {
   let appTest: AppTest;
+  let admin: UserTest;
   let authorizationToken: string;
   const scientificStudyIds: any[] = [];
   const [actor] = fc.sample(ActorArb, 1);
@@ -34,7 +38,7 @@ describe("Create Scientific Study", () => {
       appTest.ctx.db.save(GroupEntity, [{ ...group, members: [] }])
     );
 
-    const admin = await saveUser(appTest, [AdminCreate.value]);
+    admin = await saveUser(appTest, [AdminCreate.value]);
 
     authorizationToken = await loginUser(appTest)(admin).then(
       ({ authorization }) => authorization
@@ -53,7 +57,7 @@ describe("Create Scientific Study", () => {
     const ll = await throwTE(
       appTest.ctx.db.find(LinkEntity, {
         where: {
-          url: In(ev.map((e) => e.payload.url)),
+          id: In(ev.map((e) => e.payload.url)),
         },
       })
     );
@@ -114,18 +118,36 @@ describe("Create Scientific Study", () => {
     const body = response.body.data;
     expect(response.status).toEqual(201);
 
+    const link = await pipe(
+      appTest.ctx.db.findOneOrFail(LinkEntity, {
+        where: { url: sanitizeURL(scientificStudyData.url) },
+      }),
+      throwTE
+    );
+
     expect(body.type).toBe(SCIENTIFIC_STUDY.value);
     expect(body.date).toBeDefined();
-    expect(body.payload.url).toEqual(url);
+    expect(body.payload.url).toEqual(link.id);
     expect(body.payload.title).toEqual(title);
 
     scientificStudyIds.push(body.id);
   });
 
   test("Should create a scientific study from plain object", async () => {
-    const [url] = fc
-      .sample(fc.nat(), 1)
-      .map((id) => `https://www.sciencedirect.com/article/${id}` as any);
+    const [link] = await pipe(
+      fc.sample(LinkArb, 1)[0],
+      (l) =>
+        appTest.ctx.db.save(LinkEntity, [
+          {
+            ...l,
+            image: undefined,
+            creator: { id: admin.id },
+            events: [],
+            keywords: [],
+          },
+        ]),
+      throwTE
+    );
 
     const title = fc.sample(HumanReadableStringArb(), 1)[0];
     const [excerpt] = fc
@@ -141,7 +163,7 @@ describe("Create Scientific Study", () => {
         body: undefined,
         payload: {
           title,
-          url,
+          url: link.id,
           authors: [],
           publisher: undefined,
           image: undefined,
@@ -162,7 +184,7 @@ describe("Create Scientific Study", () => {
     expect(body.type).toBe(SCIENTIFIC_STUDY.value);
     expect(body.date).toBeDefined();
     expect(body.excerpt).toEqual(excerpt);
-    expect(body.payload.url).toEqual(url);
+    expect(body.payload.url).toEqual(link.id);
     expect(body.payload.title).toEqual(title);
 
     scientificStudyIds.push(body.id);

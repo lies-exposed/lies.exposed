@@ -9,7 +9,7 @@ export type SCIENTIFIC_STUDY = t.TypeOf<typeof SCIENTIFIC_STUDY>;
 export const ScientificStudyPayload = t.strict(
   {
     title: t.string,
-    url: URL,
+    url: UUID,
     image: t.union([UUID, t.string, t.undefined]),
     authors: t.array(UUID),
     publisher: t.union([UUID, t.undefined]),
