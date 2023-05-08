@@ -36,7 +36,7 @@
     "@storybook/addon-interactions": "^7.0.8",
     "@storybook/addon-links": "^7.0.8",
     "@storybook/addon-viewport": "^7.0.8",
-    "@storybook/react": "^7.0.8",
+    "@storybook/react": "^7.0.9",
     "@storybook/react-webpack5": "^7.0.8",
     "@storybook/theming": "^7.0.8",
     "@svgr/webpack": "^7.0.0",
