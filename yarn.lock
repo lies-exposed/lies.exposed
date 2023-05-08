@@ -560,9 +560,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/lib-storage@npm:^3.326.0":
-  version: 3.326.0
-  resolution: "@aws-sdk/lib-storage@npm:3.326.0"
+"@aws-sdk/lib-storage@npm:^3.328.0":
+  version: 3.328.0
+  resolution: "@aws-sdk/lib-storage@npm:3.328.0"
   dependencies:
     "@aws-sdk/middleware-endpoint": 3.325.0
     "@aws-sdk/smithy-client": 3.325.0
@@ -573,7 +573,7 @@ __metadata:
   peerDependencies:
     "@aws-sdk/abort-controller": ^3.0.0
     "@aws-sdk/client-s3": ^3.0.0
-  checksum: d26228af1926a5eb1cc281c56bffa5f5c454b4647a82adf94bf002ac32ffeb8584f5e3465af40b42444ca51d991a0d802ae641b20de99811048a51eb69df10ea
+  checksum: 82bc406d328e891fb8e370c6c95131413e662d0e88872d1d6a2e8c47e6286ee13bccfae19c4f2a5f70c2a98ffdf4c1bab4500c018402d263a94a4097468906cf
   languageName: node
   linkType: hard
 
@@ -3945,7 +3945,7 @@ __metadata:
   resolution: "@liexp/shared@workspace:packages/@liexp/shared"
   dependencies:
     "@aws-sdk/client-s3": ^3.326.0
-    "@aws-sdk/lib-storage": ^3.326.0
+    "@aws-sdk/lib-storage": ^3.328.0
     "@aws-sdk/s3-request-presigner": ^3.326.0
     "@databases/escape-identifier": ^1.0.3
     "@databases/sql": ^3.3.0
@@ -9562,7 +9562,7 @@ __metadata:
   resolution: "api@workspace:services/api"
   dependencies:
     "@aws-sdk/client-s3": ^3.326.0
-    "@aws-sdk/lib-storage": ^3.326.0
+    "@aws-sdk/lib-storage": ^3.328.0
     "@aws-sdk/s3-request-presigner": ^3.326.0
     "@databases/escape-identifier": ^1.0.3
     "@databases/pg": ^5.4.1
