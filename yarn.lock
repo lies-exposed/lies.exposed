@@ -852,9 +852,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/s3-request-presigner@npm:^3.326.0":
-  version: 3.326.0
-  resolution: "@aws-sdk/s3-request-presigner@npm:3.326.0"
+"@aws-sdk/s3-request-presigner@npm:^3.328.0":
+  version: 3.328.0
+  resolution: "@aws-sdk/s3-request-presigner@npm:3.328.0"
   dependencies:
     "@aws-sdk/middleware-endpoint": 3.325.0
     "@aws-sdk/protocol-http": 3.310.0
@@ -863,7 +863,7 @@ __metadata:
     "@aws-sdk/types": 3.310.0
     "@aws-sdk/util-format-url": 3.310.0
     tslib: ^2.5.0
-  checksum: bab18d92a10c552e9ed86bf70fcf3f4656cb6e91929ea16f3b35587966bbbed3a76eb44e7d670a003a3fed802d6f77f832950c733e8c20a26531144134c95b3c
+  checksum: efd65f40723221070cda188556b65277270d588c743c572cf08da79874f3cdf1276e474c1ef3f5eaaaae8d65638c0fa31a244d35fc58a546ce809afb88403504
   languageName: node
   linkType: hard
 
@@ -3946,7 +3946,7 @@ __metadata:
   dependencies:
     "@aws-sdk/client-s3": ^3.326.0
     "@aws-sdk/lib-storage": ^3.326.0
-    "@aws-sdk/s3-request-presigner": ^3.326.0
+    "@aws-sdk/s3-request-presigner": ^3.328.0
     "@databases/escape-identifier": ^1.0.3
     "@databases/sql": ^3.3.0
     "@liexp/core": 0.1.0
@@ -9563,7 +9563,7 @@ __metadata:
   dependencies:
     "@aws-sdk/client-s3": ^3.326.0
     "@aws-sdk/lib-storage": ^3.326.0
-    "@aws-sdk/s3-request-presigner": ^3.326.0
+    "@aws-sdk/s3-request-presigner": ^3.328.0
     "@databases/escape-identifier": ^1.0.3
     "@databases/pg": ^5.4.1
     "@liexp/core": 0.1.0
