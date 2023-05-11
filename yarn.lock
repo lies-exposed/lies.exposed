@@ -3956,7 +3956,7 @@ __metadata:
     "@types/mime": ^1.3.2
     "@types/mini-css-extract-plugin": ^2.5.1
     "@types/prettier": ^2.7.2
-    "@types/react": ^18.2.5
+    "@types/react": ^18.2.6
     "@types/webpack-bundle-analyzer": ^4.6.0
     "@types/webpack-node-externals": ^3.0.0
     copy-webpack-plugin: ^11.0.0
@@ -4010,8 +4010,8 @@ __metadata:
     "@types/bs58": ^4.0.1
     "@types/jest": ^29.5.1
     "@types/prettier": ^2.7.2
-    "@types/react": ^18.2.5
-    "@types/react-dom": ^18.2.3
+    "@types/react": ^18.2.6
+    "@types/react-dom": ^18.2.4
     "@types/throttle-debounce": ^5.0.0
     "@types/uuid": ^9.0.1
     "@visx/network": ^3.0.0
@@ -4101,7 +4101,7 @@ __metadata:
     "@types/ol": ^7.0.0
     "@types/prettier": ^2.7.2
     "@types/reach__router": ^1.3.11
-    "@types/react": ^18.2.5
+    "@types/react": ^18.2.6
     "@types/react-helmet": ^6.1.6
     "@types/react-slick": ^0.23.10
     "@types/react-virtualized": ^9.21.21
@@ -7970,10 +7970,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^16.0.0, @types/node@npm:^16.18.25":
+"@types/node@npm:^16.0.0":
   version: 16.18.25
   resolution: "@types/node@npm:16.18.25"
   checksum: 181760ad6b54fcc498dfeb249e98bbf0be51d7c35e92e760e1a82004fa42b86e8c33a8f8dd7743b5ef872bda0753d9e6a5b8e3f0aed63e9eb79b4e65760c1fbe
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^16.18.28":
+  version: 16.18.28
+  resolution: "@types/node@npm:16.18.28"
+  checksum: b70ce5195cbda1df195e09a5e1633232b96a3be19765e52448cdf2295053c34eece54d46e6529caf826d249cf2ea917d20fc2bd947b57631bbbe1d8efbb64db9
   languageName: node
   linkType: hard
 
@@ -9303,10 +9310,10 @@ __metadata:
     "@types/debug": ^4.1.7
     "@types/jest": ^29.5.1
     "@types/lodash": ^4.14.194
-    "@types/node": ^16.18.25
+    "@types/node": ^16.18.28
     "@types/prettier": ^2.7.2
-    "@types/react": ^18.2.5
-    "@types/react-dom": ^18.2.3
+    "@types/react": ^18.2.6
+    "@types/react-dom": ^18.2.4
     "@types/webpack-bundle-analyzer": ^4.6.0
     "@typescript-eslint/eslint-plugin": ^5.59.5
     "@typescript-eslint/parser": ^5.59.5
@@ -9614,7 +9621,7 @@ __metadata:
     "@types/lodash": ^4.14.194
     "@types/module-alias": ^2.0.1
     "@types/multer": ^1.4.7
-    "@types/node": ^16.18.25
+    "@types/node": ^16.18.28
     "@types/node-cron": ^3.0.7
     "@types/node-telegram-bot-api": ^0.61.6
     "@types/pg": ^8.6.6
@@ -25930,11 +25937,11 @@ __metadata:
     "@types/debug": ^4.1.7
     "@types/express": ^4.17.17
     "@types/mime": ^1.3.2
-    "@types/node": ^16.18.25
+    "@types/node": ^16.18.28
     "@types/ol": ^7.0.0
-    "@types/react": ^18.2.5
+    "@types/react": ^18.2.6
     "@types/react-calendar-heatmap": ^1.6.3
-    "@types/react-dom": ^18.2.3
+    "@types/react-dom": ^18.2.4
     "@types/react-helmet": ^6.1.6
     "@types/react-router-dom": ^5.3.3
     "@types/react-slick": ^0.23.10
