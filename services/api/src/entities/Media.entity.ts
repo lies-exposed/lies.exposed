@@ -48,7 +48,7 @@ export class MediaEntity {
   @OneToMany(() => LinkEntity, (e) => e.image, { cascade: false })
   links: LinkEntity[];
 
-  @ManyToMany(() => AreaEntity, (a) => a.media)
+  @ManyToMany(() => AreaEntity, (a) => a.media, { cascade: false })
   areas: AreaEntity[];
 
   @OneToMany(() => ArticleEntity, (a) => a.featuredImage, { cascade: false })
