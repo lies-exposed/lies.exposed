@@ -17,7 +17,7 @@
     "test:spec": "jest spec",
     "ts:node:paths": "ts-node -r dotenv/config -r tsconfig-paths/register",
     "ts:node:build": "TS_DEBUG=true TS_NODE_PROJECT=tsconfig.build.json ts-node --cwdMode",
-    "db:dump": "yarn ts:node ./src/scripts/database.dump.ts",
+    "db:dump": "yarn ts:node:paths ./src/scripts/database.dump.ts",
     "db:dump:alpha": "DOTENV_CONFIG_PATH=../../.env.alpha yarn db:dump -p alpha",
     "db:diagram": "ts-node -r tsconfig-paths/register -T ./node_modules/.bin/typeorm-uml ormconfig.js -D LR -d ./data/media/docs/diagrams/typeorm-uml.png",
     "typeorm": "TS_NODE_PROJECT=tsconfig.build.json node --require ts-node/register ../../node_modules/typeorm/cli.js",
