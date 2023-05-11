@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+require("module-alias")(process.cwd());
+
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { fetchAndSave } from "@flows/link.flow";
 import { getOneAdminOrFail } from "@flows/users/getOneUserOrFail.flow";
