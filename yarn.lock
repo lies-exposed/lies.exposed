@@ -560,12 +560,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/lib-storage@npm:^3.326.0":
-  version: 3.326.0
-  resolution: "@aws-sdk/lib-storage@npm:3.326.0"
+"@aws-sdk/lib-storage@npm:^3.331.0":
+  version: 3.331.0
+  resolution: "@aws-sdk/lib-storage@npm:3.331.0"
   dependencies:
-    "@aws-sdk/middleware-endpoint": 3.325.0
-    "@aws-sdk/smithy-client": 3.325.0
+    "@aws-sdk/middleware-endpoint": 3.329.0
+    "@aws-sdk/smithy-client": 3.329.0
     buffer: 5.6.0
     events: 3.3.0
     stream-browserify: 3.0.0
@@ -573,7 +573,7 @@ __metadata:
   peerDependencies:
     "@aws-sdk/abort-controller": ^3.0.0
     "@aws-sdk/client-s3": ^3.0.0
-  checksum: d26228af1926a5eb1cc281c56bffa5f5c454b4647a82adf94bf002ac32ffeb8584f5e3465af40b42444ca51d991a0d802ae641b20de99811048a51eb69df10ea
+  checksum: ee45fd6215fa6ca62fbf931a31695fcc97d1bc74a3b654745cbe1dd42d9ebdaa6aa70595d7428ffc9dbabee4f0eff114ba235770194b60974973bd3107462b0e
   languageName: node
   linkType: hard
 
@@ -622,6 +622,19 @@ __metadata:
     "@aws-sdk/util-middleware": 3.310.0
     tslib: ^2.5.0
   checksum: 1cda5c7e9a2fe1e26623e8c69c221937c6b36511ca4a1d5d7a93fdbf3130e6e30c3116509684dcc58d05bfb18272ce10b863979f37af1f67388d2f6c426dcf3e
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/middleware-endpoint@npm:3.329.0":
+  version: 3.329.0
+  resolution: "@aws-sdk/middleware-endpoint@npm:3.329.0"
+  dependencies:
+    "@aws-sdk/middleware-serde": 3.329.0
+    "@aws-sdk/types": 3.329.0
+    "@aws-sdk/url-parser": 3.329.0
+    "@aws-sdk/util-middleware": 3.329.0
+    tslib: ^2.5.0
+  checksum: ed662d778a4ab7b05ee4fba607d6b72e798ee969752fabe2141546a184a71f2daf206a2b8300fa68de0339ebc2646fb8fdf9bf22ebf9cf68495518465c1f1bcc
   languageName: node
   linkType: hard
 
@@ -741,6 +754,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-sdk/middleware-serde@npm:3.329.0":
+  version: 3.329.0
+  resolution: "@aws-sdk/middleware-serde@npm:3.329.0"
+  dependencies:
+    "@aws-sdk/types": 3.329.0
+    tslib: ^2.5.0
+  checksum: 29b72c582f6c783396e6e7a5a9bd6416ceebb18a15b55187267cdb3e2a6f18e2395d2aafdbeedeedce8c014b0d7fbd40d151accc1e409fe8741cee346b0c9ce1
+  languageName: node
+  linkType: hard
+
 "@aws-sdk/middleware-signing@npm:3.325.0":
   version: 3.325.0
   resolution: "@aws-sdk/middleware-signing@npm:3.325.0"
@@ -771,6 +794,15 @@ __metadata:
   dependencies:
     tslib: ^2.5.0
   checksum: 182864eab3859bc677d7ba1ba2c76b46bfe39adb13fcc833fa0579e33ead94ecd76474ce2a12c0bae2bf434090a30a848541d320c232066dc524ebfccb9dd2f9
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/middleware-stack@npm:3.329.0":
+  version: 3.329.0
+  resolution: "@aws-sdk/middleware-stack@npm:3.329.0"
+  dependencies:
+    tslib: ^2.5.0
+  checksum: 34b2ac02f8bd21a6803064de8059a866aa776c8a7962d40e11d072801291b9f5e78daac5adf91931ca1d19b11e2e972467c6b9679bf7c049b5f63ce50eb214d9
   languageName: node
   linkType: hard
 
@@ -852,6 +884,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-sdk/querystring-parser@npm:3.329.0":
+  version: 3.329.0
+  resolution: "@aws-sdk/querystring-parser@npm:3.329.0"
+  dependencies:
+    "@aws-sdk/types": 3.329.0
+    tslib: ^2.5.0
+  checksum: eebb633db0bf9d9a3854ab2f83526468b430f57fb8b5cd2c737683facf717d96876acb4a837e17235458e728ebf375a26321ea6dd4dc07f5eb9eaa6e4efad1b5
+  languageName: node
+  linkType: hard
+
 "@aws-sdk/s3-request-presigner@npm:^3.326.0":
   version: 3.326.0
   resolution: "@aws-sdk/s3-request-presigner@npm:3.326.0"
@@ -927,6 +969,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-sdk/smithy-client@npm:3.329.0":
+  version: 3.329.0
+  resolution: "@aws-sdk/smithy-client@npm:3.329.0"
+  dependencies:
+    "@aws-sdk/middleware-stack": 3.329.0
+    "@aws-sdk/types": 3.329.0
+    tslib: ^2.5.0
+  checksum: 4235822be0165c44f780a704da01581c8f8476c6a11e2b421d6fa003a30e9ab3bb37c02289b5678194f6d89304b1a576a1fc79b646ac0c58b482f70ea24a4b16
+  languageName: node
+  linkType: hard
+
 "@aws-sdk/token-providers@npm:3.326.0":
   version: 3.326.0
   resolution: "@aws-sdk/token-providers@npm:3.326.0"
@@ -949,6 +1002,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-sdk/types@npm:3.329.0":
+  version: 3.329.0
+  resolution: "@aws-sdk/types@npm:3.329.0"
+  dependencies:
+    tslib: ^2.5.0
+  checksum: 2bbcd8e6ba2f813dc220c60e7ac0fa0d0990d49f88030fd8235479586716016c8f9d7aeaf1f4c1a64694275f33690bd1dd4ed46e127983201061e063da73f426
+  languageName: node
+  linkType: hard
+
 "@aws-sdk/url-parser@npm:3.310.0":
   version: 3.310.0
   resolution: "@aws-sdk/url-parser@npm:3.310.0"
@@ -957,6 +1019,17 @@ __metadata:
     "@aws-sdk/types": 3.310.0
     tslib: ^2.5.0
   checksum: a9f5bec1cfa38cf2d244df1f6d7aad0f8e880a285d148678652ba14a3fb03fc0847defdc80a7e3ffb197d91e33d8cfb43325ee39f53c43c40ceb7fbd34f38fda
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/url-parser@npm:3.329.0":
+  version: 3.329.0
+  resolution: "@aws-sdk/url-parser@npm:3.329.0"
+  dependencies:
+    "@aws-sdk/querystring-parser": 3.329.0
+    "@aws-sdk/types": 3.329.0
+    tslib: ^2.5.0
+  checksum: d5640fb2c21ebca56904641204bd51bb14b9d7cc1ae76860ce2e7d51cf5c1e76b09eefb98678d67651de2773a7137509017f22a93c8f2e7451666e10100072ec
   languageName: node
   linkType: hard
 
@@ -1087,6 +1160,15 @@ __metadata:
   dependencies:
     tslib: ^2.5.0
   checksum: 3c25a83361ce95dd3f66170d67fb39911a3f5bc21627ffaccef1880ad8c3602b6351f5c51e9c0bfef5b4037e5c66b9eadb291a9441db644811cf5640c35c587b
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/util-middleware@npm:3.329.0":
+  version: 3.329.0
+  resolution: "@aws-sdk/util-middleware@npm:3.329.0"
+  dependencies:
+    tslib: ^2.5.0
+  checksum: 23bc1ab195d31871edb2a7c9b3772911e881a39d70dfacedcf6e0308cbe95ec0ccb09f5f41f52458bff621d8e44dd3a4c94336da213d6d8074ffa0c0e334fad2
   languageName: node
   linkType: hard
 
@@ -3997,7 +4079,7 @@ __metadata:
   resolution: "@liexp/shared@workspace:packages/@liexp/shared"
   dependencies:
     "@aws-sdk/client-s3": ^3.326.0
-    "@aws-sdk/lib-storage": ^3.326.0
+    "@aws-sdk/lib-storage": ^3.331.0
     "@aws-sdk/s3-request-presigner": ^3.326.0
     "@databases/escape-identifier": ^1.0.3
     "@databases/sql": ^3.3.0
@@ -9586,7 +9668,7 @@ __metadata:
   resolution: "api@workspace:services/api"
   dependencies:
     "@aws-sdk/client-s3": ^3.326.0
-    "@aws-sdk/lib-storage": ^3.326.0
+    "@aws-sdk/lib-storage": ^3.331.0
     "@aws-sdk/s3-request-presigner": ^3.326.0
     "@databases/escape-identifier": ^1.0.3
     "@databases/pg": ^5.4.1
