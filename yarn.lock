@@ -3989,7 +3989,7 @@ __metadata:
     ts-endpoint-express: ^2.0.0
     ts-io-error: ^2.0.0
     ts-jest: ^29.1.0
-    typeorm: ^0.3.15
+    typeorm: ^0.3.16
     typescript: ^4.9.5
     uuid: ^9.0.0
     wikipedia: ^2.0.0
@@ -9634,7 +9634,7 @@ __metadata:
     ts-node-dev: ^2.0.0
     ts-shared: 2.0.0-alpha.6
     tsconfig-paths: ^4.2.0
-    typeorm: ^0.3.15
+    typeorm: ^0.3.16
     typeorm-uml: ^1.6.5
     typescript: ^4.9.5
     uuid: ^9.0.0
@@ -12559,7 +12559,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^2.19.0, date-fns@npm:^2.30.0":
+"date-fns@npm:^2.19.0, date-fns@npm:^2.29.3, date-fns@npm:^2.30.0":
   version: 2.30.0
   resolution: "date-fns@npm:2.30.0"
   dependencies:
@@ -25199,15 +25199,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typeorm@npm:^0.3.15":
-  version: 0.3.15
-  resolution: "typeorm@npm:0.3.15"
+"typeorm@npm:^0.3.16":
+  version: 0.3.16
+  resolution: "typeorm@npm:0.3.16"
   dependencies:
     "@sqltools/formatter": ^1.2.5
     app-root-path: ^3.1.0
     buffer: ^6.0.3
     chalk: ^4.1.2
     cli-highlight: ^2.1.11
+    date-fns: ^2.29.3
     debug: ^4.3.4
     dotenv: ^16.0.3
     glob: ^8.1.0
@@ -25274,7 +25275,7 @@ __metadata:
     typeorm: cli.js
     typeorm-ts-node-commonjs: cli-ts-node-commonjs.js
     typeorm-ts-node-esm: cli-ts-node-esm.js
-  checksum: 91038765ac3472ede5a979454c6e5c9b9d93527d5e61426c6c434e5f37c3561230fe9517fad93b8309fcf5cdd57648521b86791ecf9f6cbbb7872bfba74cf4f8
+  checksum: d889f6b4392367c38d9748fabaab1a75d21d78e7aa62088d53847958f2308b672acf8ab3e0bcf26c880fa52fac54be9a78ca43c99f19c4fe604fab458dc04c17
   languageName: node
   linkType: hard
 
