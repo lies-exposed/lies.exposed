@@ -14,6 +14,7 @@ describe("List Group Member", () => {
     ...a,
     death: undefined,
     memberIn: [],
+    family: null,
   }));
   const groups = tests.fc.sample(GroupArb, 1).map((g) => ({
     ...g,

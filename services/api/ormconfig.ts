@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 require("module-alias")(process.cwd());
+
 import { getDataSource } from "./build/utils/data-source";
 import { ENV } from "./build/io/ENV";
 import { PathReporter } from "io-ts/lib/PathReporter";

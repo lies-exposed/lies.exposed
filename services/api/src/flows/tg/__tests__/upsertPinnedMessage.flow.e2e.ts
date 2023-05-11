@@ -47,6 +47,7 @@ describe("Upsert Pinned Message Flow", () => {
         actors.map((a) => ({
           ...a,
           memberIn: [],
+          family: null,
           events: events.map((e) => e.id) as any[],
         })),
       ),

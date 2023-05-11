@@ -34,6 +34,7 @@ export const fetchActorFromWikipedia: TEFlow<[string], AddActorBody> =
           body: {},
           bornOn: undefined,
           diedOn: undefined,
+          family: undefined,
         };
       }),
     );
@@ -67,6 +68,7 @@ export const searchActorAndCreateFromWikipedia: TEFlow<[string], ActorEntity> =
                     ...a,
                     bornOn: a.bornOn?.toISOString(),
                     diedOn: a.diedOn?.toISOString(),
+                    family: null
                   },
                 ]),
               ),

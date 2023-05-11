@@ -8,9 +8,11 @@ import {
   JoinTable,
   ManyToMany,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { ActorFamily } from "./ActorUnion.entity";
 import { EventV2Entity } from "./Event.v2.entity";
 import { GroupMemberEntity } from "./GroupMember.entity";
 import { StoryEntity } from "./Story.entity";
@@ -30,6 +32,12 @@ export class ActorEntity {
 
   @Column({ type: "varchar", nullable: true })
   avatar: string | null;
+
+  @Column({ type: "date", nullable: true })
+  bornDate: Date;
+
+  @Column({ type: "date", nullable: true })
+  deathDate: Date | null;
 
   @Column({ type: "varchar", nullable: false })
   color: string;
@@ -51,6 +59,9 @@ export class ActorEntity {
     onDelete: "NO ACTION",
   })
   events: EventV2Entity[];
+
+  @OneToOne(() => ActorFamily, (a) => a.subject, { nullable: true, cascade: false })
+  family: ActorFamily | null;
 
   @Column({ type: "json", nullable: true })
   excerpt: Record<string, unknown> | null;

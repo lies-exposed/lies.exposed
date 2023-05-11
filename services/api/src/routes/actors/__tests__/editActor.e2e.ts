@@ -16,6 +16,7 @@ describe("Edit Actor", () => {
     ...a,
     death: undefined,
     memberIn: [] as any[],
+    family: null
   }))[0];
 
   beforeAll(async () => {

@@ -12,6 +12,7 @@ export const toActorIO = (
   return pipe(
     io.http.Actor.Actor.decode({
       ...a,
+      family: a.family ?? null,
       color: toColor(a.color),
       avatar: a.avatar ? ensureHTTPS(a.avatar) : undefined,
       memberIn: a.memberIn ? a.memberIn : [],

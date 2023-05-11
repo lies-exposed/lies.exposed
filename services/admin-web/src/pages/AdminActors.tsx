@@ -6,6 +6,9 @@ import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
 import { ActorDataGrid } from "@liexp/ui/lib/components/admin/actors/ActorDataGrid";
+import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput";
+import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
+import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
 import { CreateEventButton } from "@liexp/ui/lib/components/admin/events/CreateEventButton";
@@ -129,15 +132,26 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
     >
       <TabbedForm>
         <FormTab label="generals">
-          <MediaField source="avatar" type="image/jpeg" controls={false} />
-          <ColorInput source="color" />
-          <TextInput source="username" />
-          <TextInput source="fullName" />
-          <DateInput source="bornOn" />
-          <DateInput source="diedOn" />
           <ReactPageInput source="excerpt" onlyText={true} />
           <DateField source="createdAt" />
           <DateField source="updatedAt" />
+          <Grid container>
+            <Grid item md={6}>
+              <MediaField source="avatar" type="image/jpeg" controls={false} />
+              <ColorInput source="color" />
+              <TextInput source="username" />
+              <TextInput source="fullName" />
+            </Grid>
+            <Grid item md={6}>
+              <DateInput type="date" source="bornOn" />
+              <DateField source="diedOn" />
+            </Grid>
+            <Grid item md={12}>
+              <ReactPageInput source="excerpt" onlyText={true} />
+              <DateField source="createdAt" />
+              <DateField source="updatedAt" />
+            </Grid>
+          </Grid>
         </FormTab>
         <FormTab label="Avatar">
           <ImageInput source="avatar">
@@ -147,6 +161,16 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
 
         <FormTab label="Content">
           <ReactPageInput source="body" />
+        </FormTab>
+
+        <FormTab label="Family">
+          <ArrayInput source="family" fullWidth>
+            <SimpleFormIterator>
+              <ReferenceActorInput source="partner" />
+              <DateInput source="when" />
+              <ReferenceArrayActorInput source="children" />
+            </SimpleFormIterator>
+          </ArrayInput>
         </FormTab>
 
         <FormTab label="Groups">

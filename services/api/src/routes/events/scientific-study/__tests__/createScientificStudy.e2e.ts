@@ -35,7 +35,7 @@ describe("Create Scientific Study", () => {
 
     await throwTE(
       appTest.ctx.db.save(ActorEntity, [
-        { ...actor, diedOn: undefined, bornOn: undefined, memberIn: [] },
+        { ...actor, diedOn: undefined, bornOn: undefined, family: null, memberIn: [] },
       ]),
     );
     await throwTE(
@@ -148,6 +148,7 @@ describe("Create Scientific Study", () => {
             creator: { id: admin.id },
             events: [],
             keywords: [],
+            socialPosts: []
           },
         ]),
       throwTE,

@@ -25,8 +25,9 @@ describe("List Actor", () => {
           bornOn: undefined,
           diedOn: undefined,
           death: undefined,
-        })),
-      ),
+          family: null
+        }))
+      )
     );
   });
 

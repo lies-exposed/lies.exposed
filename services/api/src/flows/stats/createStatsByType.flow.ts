@@ -290,6 +290,7 @@ export const createStatsByType: TEFlow<
                           death: "",
                           bornOn: (a.bornOn as any) ?? undefined,
                           diedOn: (a.diedOn as any) ?? undefined,
+                          family: undefined,
                           color: a.color as any,
                           avatar: a.avatar ?? undefined,
                           memberIn: [],

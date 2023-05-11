@@ -3,6 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { DataSource } from "typeorm";
 import { ActorEntity } from "@entities/Actor.entity";
+import { ActorFamily } from '@entities/ActorUnion.entity';
 import { AreaEntity } from "@entities/Area.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
@@ -57,6 +58,7 @@ export const getDataSource = (
       // current
       PageEntity,
       ActorEntity,
+      ActorFamily,
       GroupEntity,
       GroupMemberEntity,
       StoryEntity,

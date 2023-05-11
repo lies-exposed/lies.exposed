@@ -106,6 +106,7 @@ export const actorCommand = ({
                           ...actorData,
                           bornOn: actorData.bornOn as any,
                           diedOn: actorData.diedOn as any,
+                          family: null,
                         },
                       ]);
                     }),

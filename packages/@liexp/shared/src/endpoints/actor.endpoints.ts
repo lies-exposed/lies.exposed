@@ -83,11 +83,23 @@ export const Delete = Endpoint({
   Output: SingleActorOutput,
 });
 
+export const UpsertActorsFamilyTree = Endpoint({
+  Method: "PUT",
+  getPath: ({ id }) => `/actors/${id}/family-tree`,
+  Input: {
+    Params: t.type({ id: UUID }),
+    Body: Actor.UpsertActorsFamilyTreeBody,
+  },
+  Output: t.any,
+});
+
 export const actors = ResourceEndpoints({
   Get,
   List,
   Edit,
   Create,
   Delete,
-  Custom: {},
+  Custom: {
+    UpsertActorsFamilyTree,
+  },
 });

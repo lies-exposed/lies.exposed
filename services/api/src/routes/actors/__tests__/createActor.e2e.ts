@@ -1,3 +1,5 @@
+import { type Actor } from "@liexp/shared/lib/io/http";
+import { ActorArb } from "@liexp/shared/lib/tests";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as tests from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
@@ -5,7 +7,8 @@ import { loginUser, saveUser } from "../../../../test/user.utils";
 import { ActorEntity } from "@entities/Actor.entity";
 
 describe("Create Actor", () => {
-  let Test: AppTest, authorizationToken: string, user, actor: any;
+  let Test: AppTest, authorizationToken: string, user;
+  const actorIds: string[] = [];
 
   beforeAll(async () => {
     Test = await GetAppTest();
@@ -15,7 +18,7 @@ describe("Create Actor", () => {
   });
 
   afterAll(async () => {
-    await throwTE(Test.ctx.db.delete(ActorEntity, actor.id));
+    await throwTE(Test.ctx.db.delete(ActorEntity, actorIds));
     await Test.utils.e2eAfterAll();
   });
 
@@ -80,6 +83,40 @@ describe("Create Actor", () => {
 
     expect(response.status).toEqual(201);
 
-    actor = response.body.data;
+    actorIds.push(response.body.data.id);
+  });
+
+  test("Should create 2 parent actors and their 3 children ", async () => {
+    const actorsData = tests.fc
+      .sample(ActorArb, 5)
+      .map((a) => ({ ...a, memberIn: [] }));
+
+    const createActorReq = (d: any) =>
+      Test.req
+        .post("/v1/actors")
+        .set("Authorization", authorizationToken)
+        .send(d)
+        .then((r) => r.body.data);
+
+    const actors: Actor.Actor[] = await Promise.all(
+      actorsData.map(createActorReq)
+    );
+
+    const family = {
+      subject: actors[0].id,
+      partner: actors[1].id,
+      when: new Date(),
+      children: [actors[2].id, actors[3].id, actors[4].id],
+    };
+
+    const actorFamilyTree = await Test.req
+      .put(`/v1/actors/${actors[1].id}/family-tree`)
+      .set("Authorization", authorizationToken)
+      .send({ ...actors[1], family })
+      .then((r) => r.body.data);
+
+    Test.ctx.logger.debug.log(`Family tree %O`, actorFamilyTree);
+
+    actorIds.push(...actors.map((a) => a.id));
   });
 });
