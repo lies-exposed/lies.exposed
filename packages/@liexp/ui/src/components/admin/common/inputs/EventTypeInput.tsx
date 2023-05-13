@@ -71,16 +71,23 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
         links,
       })),
       fp.TE.map((relations) =>
-        pipe(getEventCommonProps(event, relations), (common) =>
-          transform(event, type, {
-            ...common,
-            ...getRelationIds(event),
-            links: relations.links.data.map((l) => l.id),
-          })
+        pipe(
+          getEventCommonProps(event, relations),
+          (common) =>
+            transform(event, type, {
+              ...common,
+              ...getRelationIds(event),
+              links: relations.links.data.map((l) => l.id),
+            }),
+          fp.O.toUndefined
         )
       ),
       foldTE
     );
+
+    if (!plainEvent) {
+      throw new Error("No event matched");
+    }
 
     // eslint-disable-next-line no-console
     console.log(Events.Event.decode(plainEvent));

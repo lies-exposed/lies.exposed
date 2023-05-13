@@ -5,10 +5,12 @@ import * as Map from "fp-ts/Map";
 import * as O from "fp-ts/Option";
 import * as Ord from "fp-ts/Ord";
 import { pipe } from "fp-ts/function";
+import { sequenceS } from "fp-ts/lib/Apply";
 import * as N from "fp-ts/number";
 import * as S from "fp-ts/string";
 import { UUID } from "io-ts-types/lib/UUID";
 import { Events, type Actor, type Common, type Group } from "../../io/http";
+import { type BySubject } from "../../io/http/Common";
 import { type SearchEvent } from "../../io/http/Events/SearchEvent";
 import { getTextContents } from "../../slate";
 import { type EventCommonProps } from "./getCommonProps.helper";
@@ -356,117 +358,151 @@ export const transform = (
     EventRelationIds & {
       links: UUID[];
     }
-): Events.Event => {
+): O.Option<Events.Event> => {
   switch (type) {
     case Events.Death.DEATH.value: {
-      return {
-        ...e,
-        type: Events.Death.DEATH.value,
-        payload: {
-          victim: props.actors.at(0) as any,
-          location: undefined,
-        },
-      };
+      return pipe(
+        props.actors.at(0),
+        O.fromNullable,
+        O.map((v) => ({
+          ...e,
+          type: Events.Death.DEATH.value,
+          payload: {
+            victim: v,
+            location: undefined,
+          },
+        }))
+      );
     }
     case Events.Transaction.TRANSACTION.value: {
-      const from: any =
-        props.actors.length > 0
-          ? {
-              type: "Actor",
-              id: props.actors.at(0) as any,
-            }
-          : {
-              type: "Group",
-              id: props.groups.at(0) as any,
-            };
-      const to: any =
-        props.actors.length > 0
-          ? {
-              type: "Actor",
-              id: props.actors.at(0) as any,
-            }
-          : {
-              type: "Group",
-              id: props.groups.at(0) as any,
-            };
+      const from = pipe(
+        props.actors,
+        A.head,
+        O.map((id): BySubject => ({ type: "Actor", id })),
+        O.alt(() =>
+          pipe(
+            props.groups,
+            A.head,
+            O.map((id): BySubject => ({ type: "Group", id }))
+          )
+        )
+      );
 
-      return {
-        ...e,
-        type: Events.Transaction.TRANSACTION.value,
-        payload: {
-          currency: "USD",
-          total: 0,
-          title: props.title,
-          from,
+      const to = pipe(
+        props.actors,
+        A.takeLeft(2),
+        A.head,
+        O.map((id): BySubject => ({ type: "Actor" as const, id })),
+        O.alt(() =>
+          pipe(
+            props.groups,
+            A.takeLeft(2),
+            A.head,
+            O.map((id): BySubject => ({ type: "Group" as const, id }))
+          )
+        )
+      );
+
+      return pipe(
+        sequenceS(O.Applicative)({
           to,
-        },
-      };
+          from,
+        }),
+        O.map(({ to, from }) => ({
+          ...e,
+          type: Events.Transaction.TRANSACTION.value,
+          payload: {
+            currency: "USD",
+            total: 0,
+            title: props.title,
+            from,
+            to,
+          },
+        }))
+      );
     }
     case Events.Patent.PATENT.value: {
-      return {
-        ...e,
-        type: Events.Patent.PATENT.value,
-        payload: {
-          title: props.title as any,
-          source: (props.url as any) ?? process.env.WEB_URL,
-          owners: {
-            groups: props.groups,
-            actors: props.actors,
+      return pipe(
+        props.url,
+        O.fromNullable,
+        O.chainNullableK((url) => props.links.at(0)),
+        O.map((source) => ({
+          ...e,
+          type: Events.Patent.PATENT.value,
+          payload: {
+            title: props.title,
+            source,
+            owners: {
+              groups: props.groups,
+              actors: props.actors,
+            },
           },
-        },
-      };
+        }))
+      );
     }
 
     case Events.Documentary.DOCUMENTARY.value: {
-      return {
-        ...e,
-        type: Events.Documentary.DOCUMENTARY.value,
-        payload: {
-          title: props.title,
-          website: props.url as any,
-          media: props.media.at(0) as any,
-          authors: {
-            actors: props.actors,
-            groups: props.groups,
+      return pipe(
+        sequenceS(O.Applicative)({
+          media: pipe(props.media, A.head),
+          website: pipe(props.links, A.head),
+        }),
+        O.map(({ media, website }) => ({
+          ...e,
+          type: Events.Documentary.DOCUMENTARY.value,
+          payload: {
+            title: props.title,
+            website,
+            media,
+            authors: {
+              actors: props.actors,
+              groups: props.groups,
+            },
+            subjects: {
+              actors: props.actors,
+              groups: props.groups,
+            },
           },
-          subjects: {
-            actors: props.actors,
-            groups: props.groups,
-          },
-        },
-      };
+        }))
+      );
     }
 
     case Events.ScientificStudy.SCIENTIFIC_STUDY.value: {
-      return {
-        ...e,
-        type: Events.ScientificStudy.SCIENTIFIC_STUDY.value,
-        payload: {
-          title: props.title,
-          image: props.media.at(0),
-          url: props.url ?? (props.links.at(0) as any),
-          authors: props.actors,
-          publisher: props.groups.at(0) as any,
-        },
-      };
+      return pipe(
+        props.links,
+        A.head,
+        O.map((url) => ({
+          ...e,
+          type: Events.ScientificStudy.SCIENTIFIC_STUDY.value,
+          payload: {
+            title: props.title,
+            image: props.media.at(0),
+            url,
+            authors: props.actors,
+            publisher: props.groups.at(0) as any,
+          },
+        }))
+      );
     }
 
     case Events.Quote.QUOTE.value: {
-      return {
-        ...e,
-        type: Events.Quote.QUOTE.value,
-        payload: {
-          quote: e.excerpt
-            ? getTextContents(e.excerpt as any)
-            : undefined,
-          actor: props.actors.at(0) as any,
-          details: undefined,
-        },
-      };
+      return pipe(
+        props.actors,
+        A.head,
+        O.map((actor) => ({
+          ...e,
+          type: Events.Quote.QUOTE.value,
+          payload: {
+            quote: e.excerpt ? getTextContents(e.excerpt as any) : undefined,
+            actor,
+            details: undefined,
+          },
+        }))
+      );
     }
 
     default: {
-      return {
+      return O.some({
         ...e,
         type: Events.Uncategorized.UNCATEGORIZED.value,
         payload: {
@@ -477,7 +513,7 @@ export const transform = (
           groups: props.groups,
           groupsMembers: props.groupsMembers,
         },
-      };
+      });
     }
   }
 };

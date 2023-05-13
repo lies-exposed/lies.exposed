@@ -103,6 +103,7 @@ export const EventList: React.FC = () => (
     }}
     filters={eventsFilter}
     perPage={20}
+    sort={{ field: "createdAt", order: "DESC" }}
     aside={
       <Card
         sx={{
@@ -330,10 +331,7 @@ export const EventEdit: React.FC = (props) => {
 
         <FormTab label="Media">
           <ImportMediaButton />
-          <ReferenceMediaTab
-            source="media"
-            fullWidth
-          />
+          <ReferenceMediaTab source="media" fullWidth />
         </FormTab>
         <FormTab label="Links">
           <ReferenceLinkTab source="links" />
