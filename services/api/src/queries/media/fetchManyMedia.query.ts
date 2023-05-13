@@ -149,9 +149,6 @@ export const fetchManyMedia: TEFlow<
       );
       return q.skip(findOptions.skip).take(findOptions.take);
     },
-    (q) => {
-      ctx.logger.debug.log("SQL %s", q.getSql());
-      return ctx.db.execQuery(() => q.getManyAndCount());
-    }
+    (q) =>  ctx.db.execQuery(() => q.getManyAndCount())
   );
 };
