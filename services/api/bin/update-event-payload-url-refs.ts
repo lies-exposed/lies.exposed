@@ -31,13 +31,16 @@ const run = async (): Promise<any> => {
             .where(
               new Brackets((qq) => {
                 qq.where(
-                  `(event.type = 'ScientificStudy' AND "event"."payload"::jsonb ->> 'url' like 'http%')`
+                  `(event.type = 'ScientificStudy' AND TRIM("event"."payload"::jsonb ->> 'url') like 'http%')`
                 )
                   .orWhere(
-                    ` (event.type = 'Patent' AND "event"."payload"::jsonb ->> 'source' like 'http%')`
+                    ` (event.type = 'Patent' AND TRIM("event"."payload"::jsonb ->> 'source') like 'http%')`
                   )
                   .orWhere(
-                    ` (event.type = 'Documentary' AND "event"."payload"::jsonb ->> 'website' like 'http%')`
+                    ` (event.type = 'Documentary' AND TRIM("event"."payload"::jsonb ->> 'website') like 'http%')`
+                  )
+                  .orWhere(
+                    ` (event.type = 'Documentary' AND TRIM("event"."payload"::jsonb ->> 'website') = '')`
                   );
               })
             )
@@ -68,8 +71,14 @@ const run = async (): Promise<any> => {
               }
             },
             fp.TE.fromIO,
-            fp.TE.chain((url) => fetchAndSave(ctx)(creator, url)),
+            fp.TE.chain((url) =>
+              url ? fetchAndSave(ctx)(creator, url) : fp.TE.right(undefined)
+            ),
             fp.TE.map((l) => {
+              if (!l) {
+                return { ...e, payload: { ...e.payload, website: undefined } };
+              }
+
               switch (e.type) {
                 case "Documentary": {
                   return { ...e, payload: { ...e.payload, website: l.id } };
