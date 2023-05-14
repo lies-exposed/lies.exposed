@@ -41,7 +41,7 @@ const ProfilePage: React.FC = () => {
           <SignIn redirectTo={"/profile"} />
         </Login>
       }
-      theme={themeOptions}
+      theme={themeOptions as any}
       requireAuth
       basename="/profile"
     >
