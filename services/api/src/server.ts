@@ -280,7 +280,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
           "\n",
           `Links: ${
             eventSuggestion.link
-              ? eventSuggestion.link.map((l) => `${l.url}\n`)
+              ? eventSuggestion.link.map((l) => `${ctx.env.WEB_URL}/links/${l.id}\n`)
               : ""
           }`,
           `Photos: ${eventSuggestion.photos.length}`,
