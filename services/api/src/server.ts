@@ -280,11 +280,25 @@ export const makeApp = (ctx: RouteContext): express.Express => {
           "\n",
           `Links: ${
             eventSuggestion.link
-              ? eventSuggestion.link.map((l) => `${l.url}\n`)
+              ? eventSuggestion.link.map(
+                  (l) => `${ctx.env.WEB_URL}/links/${l.id}\n`
+                )
               : ""
           }`,
-          `Photos: ${eventSuggestion.photos.length}`,
-          `Videos: ${eventSuggestion.videos.length}`,
+          `Photos: ${
+            eventSuggestion.photos.length > 0
+              ? eventSuggestion.photos.map(
+                  (m) => `${ctx.env.WEB_URL}/media/${m.id}\n`
+                )
+              : ""
+          }`,
+          `Videos: ${
+            eventSuggestion.videos.length > 0
+              ? eventSuggestion.videos.map(
+                  (m) => `${ctx.env.WEB_URL}/media/${m.id}\n`
+                )
+              : ""
+          }`,
         ];
         return message.join("\n");
       }),
