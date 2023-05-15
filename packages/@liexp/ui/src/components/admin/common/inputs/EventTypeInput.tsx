@@ -14,7 +14,7 @@ import {
   Button,
   useDataProvider,
   useRecordContext,
-  useRefresh,
+  useRedirect,
   type FieldProps,
 } from "react-admin";
 import { foldTE } from "../../../../providers/DataProvider";
@@ -27,7 +27,7 @@ import { Box, MenuItem, Select, type SelectChangeEvent } from "../../../mui";
 
 export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
   const record = useRecordContext();
-  const refresh = useRefresh();
+  const redirect = useRedirect();
   const apiProvider = useDataProvider();
   const value = get(record, source ?? "type");
   const [type, setType] = React.useState(
@@ -98,8 +98,40 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
         data: plainEvent,
         previousData: record,
       })
-      .then(() => {
-        refresh();
+      .then((e) => {
+        const event: Events.Event = e.data;
+        let resource;
+        switch (event.type) {
+          case "ScientificStudy": {
+            resource = "scientific-studies";
+            break;
+          }
+          case "Death": {
+            resource = "deaths";
+            break;
+          }
+          case "Documentary": {
+            resource = "documentaries";
+            break;
+          }
+          case "Patent": {
+            resource = "patents";
+            break;
+          }
+          case "Transaction": {
+            resource = "transactions";
+            break;
+          }
+          case "Quote": {
+            resource = "quotes";
+            break;
+          }
+          default: {
+            resource = "events";
+          }
+        }
+
+        redirect("edit", resource, event.id);
       });
   };
 
