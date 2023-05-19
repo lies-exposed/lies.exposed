@@ -31,6 +31,7 @@ export const toStoryIO = ({
             keywords: [],
             events: [],
             links: [],
+            featuredIn: [],
           }
         : undefined,
       date: story.date?.toISOString() ?? new Date().toISOString(),
