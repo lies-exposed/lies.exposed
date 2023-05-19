@@ -7,7 +7,7 @@ import {
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from "typeorm";
 import { ActorEntity } from "./Actor.entity";
 import { EventV2Entity } from './Event.v2.entity';
@@ -27,7 +27,7 @@ export class StoryEntity {
   @Column({ type: "boolean", default: true })
   draft: boolean;
 
-  @Column({ type: "varchar" })
+  @Column({ type: "varchar", unique: true, nullable: false })
   path: string;
 
   @Column({ type: "timestamptz", nullable: true })
