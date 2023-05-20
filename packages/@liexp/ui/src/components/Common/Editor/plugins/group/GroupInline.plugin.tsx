@@ -1,4 +1,5 @@
 import { type Group } from "@liexp/shared/lib/io/http";
+import { GROUP_INLINE } from '@liexp/shared/lib/slate/plugins/customSlate';
 import GroupIcon from "@mui/icons-material/GroupOutlined";
 import type { CellPluginComponentProps, DataTType } from "@react-page/editor";
 import { pluginFactories } from "@react-page/plugins-slate";
@@ -31,97 +32,105 @@ export type GroupInlineControlType = React.ComponentType<
   CellPluginComponentProps<GroupInlineState>
 >;
 
-export const GROUP_INLINE = "liexp/group/inline";
 
-const GroupInlinePopover: React.FC<{
-  open: boolean;
-  data: Omit<GroupInlineState, "group"> & { group?: Group.Group };
+
+export const GroupInlineControlContent: React.FC<{
+  data: Partial<GroupInlineState>;
   onAdd: (d: GroupInlineState) => void;
   onRemove: () => void;
-  onClose: () => void;
-  popover?: PopoverProps;
-}> = ({ open, data, onAdd, onRemove, onClose, popover, ...props }) => {
-  const [s, setS] = React.useState<GroupInlineState>(data as any);
+}> = ({ data, onAdd, onRemove }) => {
+  const [s, setS] = React.useState<GroupInlineState>({
+    group: data.group as any,
+    displayAvatar: !!data.displayAvatar,
+    displayFullName: !!data.displayFullName,
+  });
+
   const selectedItems = React.useMemo(
     () => ([] as any[]).concat(s?.group ? [s.group] : []),
     [s.group]
   );
 
   return (
-    <Popover {...popover} open={open} onClose={onClose}>
-      <Box style={{ height: "100%", background: "white" }}>
-        <Grid container spacing={2}>
-          <Grid item sm={6}>
-            <AutocompleteGroupInput
-              discrete={false}
-              selectedItems={selectedItems}
-              onChange={(items) => {
-                const newGroup = items[items.length - 1];
+    <Box
+      style={{
+        height: "100%",
+        width: "100%",
+        padding: 8,
+        boxSizing: "border-box",
+      }}
+    >
+      <Grid container spacing={2}>
+        <Grid item sm={12}>
+          <AutocompleteGroupInput
+            discrete={false}
+            selectedItems={selectedItems}
+            onChange={(items) => {
+              const newGroup = items[items.length - 1];
 
-                setS((s) => ({
-                  ...s,
-                  group: newGroup,
-                }));
-              }}
-            />
-          </Grid>
-
-          <Grid item sm={6}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  color="info"
-                  disabled={false}
-                  size="small"
-                  checked={s.displayAvatar}
-                  onChange={(v, c) => {
-                    setS({
-                      ...s,
-                      displayAvatar: c,
-                    });
-                  }}
-                />
-              }
-              label="Display Avatar?"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  color="info"
-                  disabled={false}
-                  size="small"
-                  checked={s.displayFullName}
-                  onChange={(v, c) => {
-                    setS({
-                      ...s,
-                      displayFullName: c,
-                    });
-                  }}
-                />
-              }
-              label="Display full name?"
-            />
-          </Grid>
-          <Grid item sm={12}>
-            <Button
-              variant="contained"
-              onClick={() => {
-                onAdd(s);
-              }}
-            >
-              Add
-            </Button>
-            <Button
-              onClick={() => {
-                onRemove();
-              }}
-            >
-              Remove
-            </Button>
-          </Grid>
+              setS((s) => ({
+                ...s,
+                group: newGroup,
+              }));
+            }}
+          />
         </Grid>
-      </Box>
-    </Popover>
+
+        <Grid item sm={12}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                color="info"
+                disabled={false}
+                size="small"
+                checked={s.displayAvatar}
+                onChange={(v, c) => {
+                  setS({
+                    ...s,
+                    displayAvatar: c,
+                  });
+                }}
+              />
+            }
+            label="Display Avatar?"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                color="info"
+                disabled={false}
+                size="small"
+                checked={s.displayFullName}
+                onChange={(v, c) => {
+                  setS({
+                    ...s,
+                    displayFullName: c,
+                  });
+                }}
+              />
+            }
+            label="Display full name?"
+          />
+        </Grid>
+        <Grid item sm={12}>
+          <Button
+            variant="contained"
+            disabled={!s.group}
+            onClick={() => {
+              onAdd(s);
+            }}
+          >
+            Add
+          </Button>
+          <Button
+            onClick={() => {
+              onRemove();
+            }}
+          >
+            Remove
+          </Button>
+        </Grid>
+      </Grid>
+    </Box>
   );
 };
 
@@ -133,28 +142,28 @@ export const GroupInlineControl: React.FC<
   }
 
   return (
-    <GroupInlinePopover
-      {...props}
-      data={{
-        group: undefined,
-        displayAvatar: true,
-        displayFullName: true,
-        ...data,
-      }}
-      popover={popover}
+    <Popover
+      {...popover}
       open={open}
-      onAdd={(d) => {
-        add({ data: d });
+      onClose={() => {
         close();
       }}
-      onRemove={() => {
-        if (data) {
-          remove();
-        }
-        close()
-      }}
-      onClose={close}
-    />
+    >
+      <GroupInlineControlContent
+        {...props}
+        data={{ ...data }}
+        onAdd={(d) => {
+          add({ data: d });
+          close();
+        }}
+        onRemove={() => {
+          if (data) {
+            remove();
+          }
+          close();
+        }}
+      />
+    </Popover>
   );
 };
 
@@ -209,5 +218,5 @@ const groupInlinePlugin =
     label: "Group",
   });
 
-  export const GroupInlinePluginIcon = GroupIcon;
+export const GroupInlinePluginIcon = GroupIcon;
 export { groupInlinePlugin };

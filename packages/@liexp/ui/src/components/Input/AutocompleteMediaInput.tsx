@@ -9,7 +9,7 @@ export interface AutocompleteMediaInputProps {
   className?: string;
   selectedItems: Media.Media[];
   onChange: (items: Media.Media[]) => void;
-  discrete?: boolean
+  discrete?: boolean;
 }
 
 export const AutocompleteMediaInput: React.FC<AutocompleteMediaInputProps> = ({
@@ -32,8 +32,8 @@ export const AutocompleteMediaInput: React.FC<AutocompleteMediaInputProps> = ({
             selected: true,
           }))}
           style={{ flexWrap: "wrap", flexDirection: "column" }}
-          hideDescription={false}
-          itemStyle={{ height: 50, maxWidth: 100 }}
+          hideDescription={true}
+          itemStyle={{ height: 50, maxWidth: 80 }}
           onItemClick={(a: any) => {
             onChange(items.filter((i) => i.id !== a.id));
           }}

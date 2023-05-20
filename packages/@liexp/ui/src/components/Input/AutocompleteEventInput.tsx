@@ -1,4 +1,5 @@
 import { getTitle } from "@liexp/shared/lib/helpers/event";
+import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
 import { type Events } from "@liexp/shared/lib/io/http";
 import * as React from "react";
 import { useEventsQuery } from "../../state/queries/DiscreteQueries";
@@ -38,7 +39,7 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
       query={(p) => useEventsQuery(p, discrete)}
       renderTags={(items) => (
         <EventCardGrid
-          events={items as any[]}
+          events={items.map((e) => toSearchEvent(e, {}))}
           onItemClick={(a) => {
             onChange(items.filter((i) => i.id !== a.id));
           }}
@@ -48,9 +49,7 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
         <EventCard
           key={item.id}
           showRelations={false}
-          event={{
-            ...(item as any),
-          }}
+          event={{ ...toSearchEvent(item, {}) }}
           onEventClick={() => {
             onChange(
               selectedItems.filter((i) => i.id !== item.id).concat(item)

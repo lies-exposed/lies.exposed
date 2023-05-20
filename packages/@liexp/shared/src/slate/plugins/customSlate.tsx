@@ -22,7 +22,13 @@ export const EMPHASIZE_STRONG_TYPE = "EMPHASIZE/STRONG";
 export const EMPHASIZE_U_TYPE = "EMPHASIZE/U";
 export const BLOCKQUOTE_TYPE = "BLOCKQUOTE/BLOCKQUOTE";
 
-export const LIEXP_SLATE_PLIUGIN_ID = "eco-slate-plugin";
+export const LIEXP_SLATE_PLUGIN_ID = "eco-slate-plugin";
+export const ACTOR_INLINE = "liexp/actor/inline";
+export const GROUP_INLINE = "liexp/group/inline";
+export const KEYWORD_INLINE = "liexp/keyword/inline";
+export const MEDIA_BLOCK_PLUGIN = "liexp/editor/plugins/mediaBlock";
+export const EVENT_BLOCK_PLUGIN_ID = "liexp/editor/plugins/EventBlock";
+export const COMPONENT_PICKER_POPOVER = "liexp/plugin/component-picker-popover";
 
 const getHeaderId = (children: React.ReactNode): string | undefined => {
   return pipe(
@@ -39,7 +45,7 @@ const getHeaderId = (children: React.ReactNode): string | undefined => {
 export const getLiexpSlate = (custom: any): SlateCellPlugin<any> => {
   return slate((def) => ({
     ...def,
-    id: LIEXP_SLATE_PLIUGIN_ID,
+    id: LIEXP_SLATE_PLUGIN_ID,
     title: "@liexp Slate plugin",
     description: "Slate plugin with components used in @liexp.",
     plugins: {
@@ -153,5 +159,5 @@ export const getLiexpSlate = (custom: any): SlateCellPlugin<any> => {
 // export const liexpSlate = getLiexpSlate({});
 
 export const isSlatePlugin = (c: Cell): boolean => {
-  return c.plugin?.id === LIEXP_SLATE_PLIUGIN_ID;
+  return c.plugin?.id === LIEXP_SLATE_PLUGIN_ID;
 };
