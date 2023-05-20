@@ -21631,7 +21631,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-admin@npm:^4.10.1, react-admin@npm:^4.10.3":
+"react-admin@npm:^4.10.3":
   version: 4.10.3
   resolution: "react-admin@npm:4.10.3"
   dependencies:
@@ -25993,7 +25993,7 @@ __metadata:
     ra-input-rich-text: ^4.10.3
     ra-ui-materialui: ^4.10.3
     react: ^18.2.0
-    react-admin: ^4.10.1
+    react-admin: ^4.10.3
     react-dom: ^18.2.0
     react-error-boundary: ^4.0.4
     react-helmet: ^6.1.0

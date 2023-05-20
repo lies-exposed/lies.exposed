@@ -1,17 +1,25 @@
-import { type Actor } from "@liexp/shared/lib/io/http";
-import RecentActorsIcon from "@mui/icons-material/RecentActors";
+import ComponentPickerIcon from "@mui/icons-material/ManageSearchOutlined";
 import {
   type CellPluginComponentProps,
-  type DataTType
+  type DataTType,
 } from "@react-page/editor";
 import { pluginFactories } from "@react-page/plugins-slate";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { ComponentsPickerPopover } from "../ComponentPickerPopover";
+import {
+  ComponentsPickerPopover,
+  type PickablePlugin,
+} from "../ComponentPickerPopover";
+import { ACTOR_INLINE, ActorInlineRenderer } from "./actor/ActorInline.plugin";
+import { GROUP_INLINE, GroupInlineRenderer } from "./group/GroupInline.plugin";
+import {
+  KEYWORD_INLINE,
+  KeywordInlineRenderer,
+} from "./keyword/KeywordInline.plugin";
 
 export interface ComponentsPickerPopoverState extends DataTType {
-  struct: Actor.Actor;
+  plugin: PickablePlugin;
 }
 
 export interface ActorInlineSettings {
@@ -19,7 +27,7 @@ export interface ActorInlineSettings {
 }
 
 export const defaultSettings: ActorInlineSettings = {
-  icon: <RecentActorsIcon />,
+  icon: <ComponentPickerIcon />,
 };
 
 export type ActorInlineControlType = React.ComponentType<
@@ -28,45 +36,37 @@ export type ActorInlineControlType = React.ComponentType<
 
 export const COMPONENT_PICKER_POPOVER = "liexp/plugin/component-picker-popover";
 
+const ANCHOR_ID = "component-picker-popover-anchor";
 const componentPickerPopoverPlugin =
   pluginFactories.createComponentPlugin<ComponentsPickerPopoverState>({
-    Component: ({
-      struct,
-      style,
-      className,
-      useSelected,
-      useFocused,
-      getTextContents,
-      children,
-      readOnly,
-      ...props
-    }) => {
-      // console.log("component", { ...props });
-
-      // const isSelected = useSelected();
-      const isFocused = useFocused();
-
-      // console.log({ isFocused, isSelected });
-      if (!readOnly) {
-        return <span>{children}</span>;
+    Component: ({ plugin, ...props }) => {
+      if (plugin) {
+        switch (plugin.type) {
+          case ACTOR_INLINE: {
+            return <ActorInlineRenderer {...props} {...plugin.data} />;
+          }
+          case GROUP_INLINE: {
+            return <GroupInlineRenderer {...props} {...plugin.data} />;
+          }
+          case KEYWORD_INLINE: {
+            return <KeywordInlineRenderer {...props} {...plugin.data} />;
+          }
+          default: {
+            // eslint-disable-next-line no-console
+            console.log({ ...props, plugin });
+            return <span>Unknown plugin </span>;
+          }
+        }
       }
 
-      if (struct && !isFocused) {
-        return <span>Struct exits</span>;
-      }
-
-      // console.log({ ...props, displayAvatar, className });
-      return <span />;
+      return <span id={ANCHOR_ID}>No plugin to display</span>;
     },
     controls: {
       type: "custom",
-      Component: ({ add, remove, close, data, ...props }) => {
+      Component: ({ data, add, close, open, ...props }) => {
         // console.log("control", { data, ...props });
-        if (!data) {
-          return null;
-        }
 
-        let container = document.getElementById("#component-picker-popover");
+        let container = document.getElementById("component-picker-popover");
         if (!container) {
           container = document.createElement("div");
           container.id = "component-picker-popover";
@@ -74,17 +74,23 @@ const componentPickerPopoverPlugin =
         }
 
         const root = ReactDOM.createRoot(container);
+        const anchorEl = document.getElementById(ANCHOR_ID)
+
         root.render(
           <QueryClientProvider client={new QueryClient()}>
             <ComponentsPickerPopover
-              open={true}
-              disablePortal={true}
+              plugin={{ data, open, ...props, add: () => {}, close: () => {} }}
+              open={open}
+              disablePortal={false}
+              anchorEl={anchorEl}
               onClose={() => {
+                close();
                 root.unmount();
               }}
               onSelect={(c) => {
-                // eslint-disable-next-line no-console
-                console.log("selected", c);
+                // console.log("selected", c);
+                add({ data: { plugin: c } });
+                close();
               }}
             />
           </QueryClientProvider>
@@ -98,18 +104,9 @@ const componentPickerPopoverPlugin =
     type: COMPONENT_PICKER_POPOVER,
     object: "inline",
     isVoid: true,
-    icon: <RecentActorsIcon />,
+    icon: <ComponentPickerIcon />,
     label: "Component Picker",
-    // hotKey: "/",
-    onKeyDown(e, editor, next) {
-      // console.log('on key down');
-    },
-    customAdd(editor) {
-      // console.log("custom add", editor);
-    },
-    customRemove(edit) {
-      // console.log("custom remove");
-    },
+    hotKey: "/",
   });
 
 export { componentPickerPopoverPlugin };

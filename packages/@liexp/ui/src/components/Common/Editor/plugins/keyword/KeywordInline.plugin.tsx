@@ -2,15 +2,20 @@ import { type Keyword } from "@liexp/shared/lib/io/http";
 import RecentKeywordsIcon from "@mui/icons-material/TagOutlined";
 import type { CellPluginComponentProps, DataTType } from "@react-page/editor";
 import { pluginFactories } from "@react-page/plugins-slate";
+import {
+  type SlateComponentPluginDefinition,
+  type SlatePluginControls,
+} from "@react-page/plugins-slate/lib/types/slatePluginDefinitions";
 import React from "react";
 import { AutocompleteKeywordInput } from "../../../../Input/AutocompleteKeywordInput";
 import { KeywordChip } from "../../../../keywords/KeywordChip";
 import { Box, Button, Grid } from "../../../../mui";
+import { FullSizeLoader } from "../../../FullSizeLoader";
+import { Popover, type PopoverProps } from "../../../Popover";
 
 export interface KeywordInlineState extends DataTType {
   keyword: Keyword.Keyword;
-  displayAvatar: boolean;
-  displayFullName: boolean;
+  colorize: boolean;
 }
 
 export interface KeywordInlineSettings {
@@ -27,79 +32,118 @@ export type KeywordInlineControlType = React.ComponentType<
 
 export const KEYWORD_INLINE = "liexp/keyword/inline";
 
+const KeywordInlineControlPopover: React.FC<{
+  open: boolean;
+  data: Partial<KeywordInlineState>;
+  onAdd: (d: KeywordInlineState) => void;
+  onRemove: () => void;
+  onClose: () => void;
+  popover?: PopoverProps;
+}> = ({ open, data, onAdd, onRemove, onClose, popover }) => {
+  const [s, setS] = React.useState<KeywordInlineState>({
+    keyword: data.keyword as any,
+    colorize: !!data.colorize,
+  });
+
+  const selectedItems = React.useMemo(
+    () => ([] as any[]).concat(s.keyword ? [s.keyword] : []),
+    [s.keyword]
+  );
+
+  return (
+    <Popover {...popover} open={open} onClose={onClose}>
+      <Box style={{ height: "100%", background: "white" }}>
+        <Grid container spacing={2}>
+          <Grid item sm={6}>
+            <AutocompleteKeywordInput
+              discrete={false}
+              selectedItems={selectedItems}
+              onChange={(items) => {
+                const newKeyword = items[items.length - 1];
+
+                setS({
+                  ...s,
+                  keyword: newKeyword,
+                });
+              }}
+            />
+          </Grid>
+
+          <Grid item sm={12}>
+            <Button
+              variant="contained"
+              onClick={() => {
+                onAdd(s);
+                onClose();
+              }}
+            >
+              Insert
+            </Button>
+            <Button
+              onClick={() => {
+                onRemove();
+                onClose();
+              }}
+            >
+              Remove
+            </Button>
+          </Grid>
+        </Grid>
+      </Box>
+    </Popover>
+  );
+};
+export const KeywordInlineControl: React.FC<
+  SlatePluginControls<KeywordInlineState>
+> = ({ isActive, data, close, add, remove, open, ...props }) => {
+  if (!open) {
+    return <FullSizeLoader />;
+  }
+  return (
+    <KeywordInlineControlPopover
+      {...props}
+      open={open}
+      data={{
+        keyword: undefined,
+        colorize: true,
+        ...data,
+      }}
+      onAdd={(data) => {
+        add({ data });
+      }}
+      onClose={close}
+      onRemove={() => {
+        if (data) {
+          remove();
+        }
+      }}
+    />
+  );
+};
+
+export const KeywordInlineRenderer: SlateComponentPluginDefinition<KeywordInlineState>["Component"] =
+  ({
+    displayFullName,
+    displayAvatar,
+    keyword,
+    useFocused,
+    useSelected,
+    getTextContents,
+    ...props
+  }) => {
+    // console.log({ ...props, displayAvatar, className });
+    if (keyword) {
+      return <KeywordChip {...props} keyword={keyword} onClick={() => {}} />;
+    }
+    return <span>Select a keyword...</span>;
+  };
+
 const keywordInlinePlugin =
   pluginFactories.createComponentPlugin<KeywordInlineState>({
-    Component: ({
-      displayFullName,
-      displayAvatar,
-      keyword,
-      useFocused,
-      useSelected,
-      getTextContents,
-      ...props
-    }) => {
-      // console.log({ ...props, displayAvatar, className });
-      if (keyword) {
-        return <KeywordChip {...props} keyword={keyword} onClick={() => {}} />;
-      }
-      return <span>Select a keyword...</span>;
-    },
+    Component: KeywordInlineRenderer,
     controls: {
       type: "custom",
-      Component: ({ add, remove, close, ...props }) => {
-        // console.log(props);
-
-        const [s, setS] = React.useState<KeywordInlineState>({
-          keyword: undefined as any,
-          displayAvatar: props.data?.displayAvatar ?? false,
-          displayFullName: false,
-        });
-
-        const selectedItems = ([] as any[])
-          .concat(s.keyword ? [s.keyword] : [])
-          .concat(props.data?.keyword ? [props.data.keyword] : []);
-
-        return (
-          <Box style={{ height: 200, background: "white" }}>
-            <Grid container spacing={2}>
-              <Grid item sm={6}>
-                <AutocompleteKeywordInput
-                  discrete={false}
-                  selectedItems={selectedItems}
-                  onChange={(items) => {
-                    const newKeyword = items[items.length - 1];
-
-                    setS({
-                      ...s,
-                      displayFullName: !!props.data?.displayFullName,
-                      keyword: newKeyword,
-                    });
-                  }}
-                />
-              </Grid>
-
-              <Grid item sm={12}>
-                <Button
-                  onClick={() => {
-                    add({
-                      data: s,
-                    });
-                  }}
-                >
-                  Insert Keyword
-                </Button>
-                <Button
-                  onClick={() => {
-                    remove();
-                  }}
-                >
-                  Remove Keyword
-                </Button>
-              </Grid>
-            </Grid>
-          </Box>
-        );
-      },
+      Component: KeywordInlineControl,
     },
     addHoverButton: true,
     addToolbarButton: true,
@@ -109,5 +153,7 @@ const keywordInlinePlugin =
     icon: <RecentKeywordsIcon />,
     label: "Keyword",
   });
+
+export const KeywordInlinePluginIcon = RecentKeywordsIcon;
 
 export { keywordInlinePlugin };
