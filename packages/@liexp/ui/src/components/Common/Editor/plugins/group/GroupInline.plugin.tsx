@@ -1,11 +1,17 @@
 import { type Group } from "@liexp/shared/lib/io/http";
-import RecentGroupsIcon from "@mui/icons-material/RecentActors";
+import GroupIcon from "@mui/icons-material/GroupOutlined";
 import type { CellPluginComponentProps, DataTType } from "@react-page/editor";
 import { pluginFactories } from "@react-page/plugins-slate";
+import {
+  type SlateComponentPluginDefinition,
+  type SlatePluginControls,
+} from "@react-page/plugins-slate/lib/types/slatePluginDefinitions";
 import React from "react";
 import { AutocompleteGroupInput } from "../../../../Input/AutocompleteGroupInput";
 import { GroupChip } from "../../../../groups/GroupChip";
 import { Box, Button, Checkbox, FormControlLabel, Grid } from "../../../../mui";
+import { FullSizeLoader } from "../../../FullSizeLoader";
+import { Popover, type PopoverProps } from "../../../Popover";
 
 export interface GroupInlineState extends DataTType {
   group: Group.Group;
@@ -18,7 +24,7 @@ export interface GroupInlineSettings {
 }
 
 export const defaultSettings: GroupInlineSettings = {
-  icon: <RecentGroupsIcon />,
+  icon: <GroupIcon />,
 };
 
 export type GroupInlineControlType = React.ComponentType<
@@ -27,137 +33,181 @@ export type GroupInlineControlType = React.ComponentType<
 
 export const GROUP_INLINE = "liexp/group/inline";
 
-const groupInlinePlugin =
-  pluginFactories.createComponentPlugin<GroupInlineState>({
-    Component: ({
-      displayFullName,
-      displayAvatar,
-      group,
-      style,
-      className,
-      getTextContents,
-      ...props
-    }) => {
-      // console.log({ ...props, displayAvatar, className });
-      if (group) {
-        return (
-          <GroupChip
-            className={className}
-            style={{ ...style, display: "inline-block" }}
-            displayName={displayFullName}
-            // displayAvatar={displayAvatar}
-            group={group}
-            avatarStyle={{
-              display: "inline-block",
-              verticalAlign: "middle",
-            }}
-            onClick={() => {}}
-          />
-        );
-      }
-      return <span>Select a group...</span>;
-    },
-    controls: {
-      type: "custom",
-      Component: ({ add, remove, close, ...props }) => {
-        // console.log(props);
+const GroupInlinePopover: React.FC<{
+  open: boolean;
+  data: Omit<GroupInlineState, "group"> & { group?: Group.Group };
+  onAdd: (d: GroupInlineState) => void;
+  onRemove: () => void;
+  onClose: () => void;
+  popover?: PopoverProps;
+}> = ({ open, data, onAdd, onRemove, onClose, popover, ...props }) => {
+  const [s, setS] = React.useState<GroupInlineState>(data as any);
+  const selectedItems = React.useMemo(
+    () => ([] as any[]).concat(s?.group ? [s.group] : []),
+    [s.group]
+  );
 
-        const [s, setS] = React.useState<GroupInlineState>({
-          group: undefined as any,
-          displayAvatar: props.data?.displayAvatar ?? false,
-          displayFullName: false,
-        });
+  return (
+    <Popover {...popover} open={open} onClose={onClose}>
+      <Box style={{ height: "100%", background: "white" }}>
+        <Grid container spacing={2}>
+          <Grid item sm={6}>
+            <AutocompleteGroupInput
+              discrete={false}
+              selectedItems={selectedItems}
+              onChange={(items) => {
+                const newGroup = items[items.length - 1];
 
-        const selectedItems = ([] as any[])
-          .concat(s.group ? [s.group] : [])
-          .concat(props.data?.group ? [props.data.group] : []);
+                setS((s) => ({
+                  ...s,
+                  group: newGroup,
+                }));
+              }}
+            />
+          </Grid>
 
-        return (
-          <Box style={{ height: 200, background: "white" }}>
-            <Grid container spacing={2}>
-              <Grid item sm={6}>
-                <AutocompleteGroupInput
-                  discrete={false}
-                  selectedItems={selectedItems}
-                  onChange={(items) => {
-                    const newGroup = items[items.length - 1];
-
+          <Grid item sm={6}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  color="info"
+                  disabled={false}
+                  size="small"
+                  checked={s.displayAvatar}
+                  onChange={(v, c) => {
                     setS({
                       ...s,
-                      displayFullName: !!props.data?.displayFullName,
-                      group: newGroup,
+                      displayAvatar: c,
                     });
                   }}
                 />
-              </Grid>
+              }
+              label="Display Avatar?"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  color="info"
+                  disabled={false}
+                  size="small"
+                  checked={s.displayFullName}
+                  onChange={(v, c) => {
+                    setS({
+                      ...s,
+                      displayFullName: c,
+                    });
+                  }}
+                />
+              }
+              label="Display full name?"
+            />
+          </Grid>
+          <Grid item sm={12}>
+            <Button
+              variant="contained"
+              onClick={() => {
+                onAdd(s);
+              }}
+            >
+              Add
+            </Button>
+            <Button
+              onClick={() => {
+                onRemove();
+              }}
+            >
+              Remove
+            </Button>
+          </Grid>
+        </Grid>
+      </Box>
+    </Popover>
+  );
+};
 
-              <Grid item sm={6}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      color="info"
-                      disabled={false}
-                      size="small"
-                      value={s.displayAvatar}
-                      onChange={(v, c) => {
-                        setS((s) => ({
-                          ...s,
-                          displayAvatar: c,
-                        }));
-                      }}
-                    />
-                  }
-                  label="Display Avatar?"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      color="info"
-                      disabled={false}
-                      size="small"
-                      value={props.data?.displayFullName ?? s.displayFullName}
-                      onChange={(v, c) => {
-                        setS({
-                          ...s,
-                          group: selectedItems[0],
-                          displayFullName: c,
-                        });
-                      }}
-                    />
-                  }
-                  label="Display full name?"
-                />
-              </Grid>
-              <Grid item sm={12}>
-                <Button
-                  onClick={() => {
-                    add({
-                      data: s,
-                    });
-                  }}
-                >
-                  Insert actor
-                </Button>
-                <Button
-                  onClick={() => {
-                    remove();
-                  }}
-                >
-                  Remove actor
-                </Button>
-              </Grid>
-            </Grid>
-          </Box>
-        );
-      },
+export const GroupInlineControl: React.FC<
+  SlatePluginControls<GroupInlineState> & { popover?: PopoverProps }
+> = ({ add, remove, close, isActive, data, open, popover, ...props }) => {
+  if (!open) {
+    return <FullSizeLoader />;
+  }
+
+  return (
+    <GroupInlinePopover
+      {...props}
+      data={{
+        group: undefined,
+        displayAvatar: true,
+        displayFullName: true,
+        ...data,
+      }}
+      popover={popover}
+      open={open}
+      onAdd={(d) => {
+        add({ data: d });
+        close();
+      }}
+      onRemove={() => {
+        if (data) {
+          remove();
+        }
+        close()
+      }}
+      onClose={close}
+    />
+  );
+};
+
+export const GroupInlineRenderer: SlateComponentPluginDefinition<GroupInlineState>["Component"] =
+  ({
+    displayFullName,
+    displayAvatar,
+    group,
+    style,
+    className,
+    getTextContents,
+    ...props
+  }) => {
+    // console.log("group inline", {
+    //   ...props,
+    //   group,
+    //   displayAvatar,
+    //   className,
+    // });
+    if (group) {
+      return (
+        <GroupChip
+          className={className}
+          style={{ ...style, display: "inline-block" }}
+          displayName={displayFullName}
+          // displayAvatar={displayAvatar}
+          group={group}
+          avatarStyle={{
+            display: "inline-block",
+            verticalAlign: "middle",
+          }}
+          onClick={() => {}}
+        />
+      );
+    }
+    return <span>Select a group...</span>;
+  };
+
+const groupInlinePlugin =
+  pluginFactories.createComponentPlugin<GroupInlineState>({
+    Component: GroupInlineRenderer,
+    controls: {
+      type: "custom",
+      Component: GroupInlineControl,
     },
     addHoverButton: true,
     addToolbarButton: true,
     type: GROUP_INLINE,
     object: "inline",
     isVoid: true,
-    icon: <RecentGroupsIcon />,
+    icon: <GroupIcon />,
     label: "Group",
   });
 
-export { groupInlinePlugin  };
+  export const GroupInlinePluginIcon = GroupIcon;
+export { groupInlinePlugin };

@@ -1,13 +1,28 @@
-// import { useInsertNew } from "@react-page/editor";
+import { type SlatePluginControls } from "@react-page/plugins-slate/lib/types/slatePluginDefinitions";
 import * as React from "react";
-import { AutocompleteActorInput } from "../../Input/AutocompleteActorInput";
-import { Box, List, ListItem, Typography } from "../../mui";
+import { List, ListItem, Typography } from "../../mui";
 import { Popover, type PopoverProps } from "../Popover";
-import { ACTOR_INLINE } from "./plugins/actor/ActorInline.plugin";
+import {
+  ACTOR_INLINE,
+  ActorInlineControl,
+  ActorInlinePluginIcon,
+} from "./plugins/actor/ActorInline.plugin";
+import {
+  GROUP_INLINE,
+  GroupInlineControl,
+  GroupInlinePluginIcon,
+} from "./plugins/group/GroupInline.plugin";
+import {
+  KEYWORD_INLINE,
+  KeywordInlineControl,
+  KeywordInlinePluginIcon,
+} from "./plugins/keyword/KeywordInline.plugin";
 
-interface Plugin {
+export interface PickablePlugin {
+  icon: JSX.Element;
   name: string;
   type: string;
+  data?: any;
 }
 
 const PLUGINS = [
@@ -16,85 +31,69 @@ const PLUGINS = [
   // { name: "underline", type: EMPHASIZE_U_TYPE },
   // { name: "italic", type: EMPHASIZE_EM_TYPE },
   // { name: "bold", type: EMPHASIZE_STRONG_TYPE },
-  { name: "actor", type: ACTOR_INLINE },
+  { name: "Actor", type: ACTOR_INLINE, icon: ActorInlinePluginIcon },
+  { name: "Group", type: GROUP_INLINE, icon: GroupInlinePluginIcon },
+  { name: "Keyword", type: KEYWORD_INLINE, icon: KeywordInlinePluginIcon },
 ];
+
 export const ComponentsPickerPopover: React.FC<
   Omit<PopoverProps, "onClose" | "onSelect"> & {
-    onSelect: (p: Plugin & { data: any }) => void;
+    onSelect: (p: PickablePlugin) => void;
     onClose: () => void;
+  } & {
+    plugin: SlatePluginControls<any>;
   }
-> = ({ onClose, open = false, onSelect, ...props }) => {
-  // const insert = useInsertNew();
-  const anchorElRef = React.createRef<HTMLElement>();
+> = ({ onClose, open = false, onSelect, plugin, ...props }) => {
   const [selectedPlugin, setSelectedPlugin] = React.useState<
-    Plugin | undefined
+    PickablePlugin | undefined
   >(undefined);
 
   const handleClick = (p: any): void => {
-    // eslint-disable-next-line no-console
-    console.log("handle click", p);
     setSelectedPlugin(p);
   };
 
-  const autocomplete = React.useMemo(() => {
+  const Autocomplete = React.useMemo(() => {
+    const commonProps = {
+      popover: { ...props, open },
+      add: (data: any) => {
+        onSelect({ ...PLUGINS[0], ...selectedPlugin, ...data });
+        onClose();
+      },
+      close: () => {
+        onClose();
+      },
+    };
     switch (selectedPlugin?.type) {
       case ACTOR_INLINE: {
-        return (
-          <AutocompleteActorInput
-            selectedItems={[]}
-            discrete={false}
-            onChange={(d) => {
-              if (d[0]) {
-                const plugin = { ...selectedPlugin, data: d[0] };
-                // eslint-disable-next-line no-console
-                console.log({ plugin });
-                // insert(plugin);
-                // onSelect({ ...selectedPlugin, data: d[0] });
-              }
-            }}
-          />
-        );
+        return <ActorInlineControl {...plugin} {...commonProps} />;
+      }
+      case GROUP_INLINE: {
+        return <GroupInlineControl {...plugin} {...commonProps} />;
+      }
+      default: {
+        return <KeywordInlineControl {...plugin} {...commonProps} />;
       }
     }
-    return <div>Autocomplete</div>;
   }, [selectedPlugin]);
 
-  return (
-    <Box
-      style={{
-        position: !props.disablePortal ? "fixed" : "relative",
-        display: !props.disablePortal ? "inline" : "block",
-        background: "red",
-        width: !props.disablePortal ? 100 : 0,
-        height: !props.disablePortal ? 100 : 0,
-      }}
-      ref={anchorElRef}
-    >
-      <Popover
-        {...props}
-        open={open}
-        // anchorEl={anchorElRef.current}
-        onClose={() => {
-          onClose();
-        }}
-      >
-        {!selectedPlugin ? (
-          <List>
-            {PLUGINS.map((p) => (
-              <ListItem
-                key={p.type}
-                onClick={() => {
-                  handleClick(p);
-                }}
-              >
-                <Typography variant="subtitle2">{p.name}</Typography>
-              </ListItem>
-            ))}
-          </List>
-        ) : (
-          autocomplete
-        )}
-      </Popover>
-    </Box>
+  return !selectedPlugin ? (
+    <Popover {...props} disablePortal={true} open={open} onClose={onClose}>
+      <List>
+        {PLUGINS.map((p) => (
+          <ListItem
+            key={p.type}
+            style={{ marginTop: 5 }}
+            onClick={() => {
+              handleClick(p);
+            }}
+          >
+            <p.icon style={{ marginRight: 10 }} />
+            <Typography variant="subtitle2">{p.name}</Typography>
+          </ListItem>
+        ))}
+      </List>
+    </Popover>
+  ) : (
+    Autocomplete
   );
 };

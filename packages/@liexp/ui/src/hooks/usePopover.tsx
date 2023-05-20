@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Popover, type PopoverProps } from '../components/Common/Popover';
+import { Popover, type PopoverProps } from "../components/Common/Popover";
 
 export const usePopover = (
   props: Partial<Omit<PopoverProps, "open">>
@@ -29,11 +29,11 @@ export const usePopover = (
 
     return (
       <Popover
+        disablePortal={true}
         {...props}
         open={open}
         onClose={onClose}
         title={title}
-        disablePortal={true}
       >
         {content}
       </Popover>

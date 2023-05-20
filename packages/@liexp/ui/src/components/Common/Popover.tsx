@@ -16,9 +16,9 @@ const classes = {
 const StyledPopover = styled(MUIPopover)(({ theme }) => ({
   [`&.${classes.root}`]: {
     [`> .${classes.paper}`]: {
-      minWidth: 200,
-      minHeight: 100,
-      width: 200,
+      minWidth: 300,
+      minHeight: 200,
+      width: 300,
       height: 200,
       // display: "flex",
       // flexDirection: "column",
@@ -38,6 +38,14 @@ export interface PopoverProps extends MUIPopoverProps {
 export const Popover: React.FC<PopoverProps> = ({ children, ...props }) => {
   return (
     <StyledPopover
+      anchorPosition={{
+        top: 0,
+        left: 0,
+      }}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "left",
+      }}
       {...props}
       classes={{ paper: classes.paper, root: classes.root }}
     >
