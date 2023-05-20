@@ -106,7 +106,7 @@ export const LinkDatagrid: React.FC<DatagridProps> = (props) => {
 
       <FunctionField
         label="resources.links.fields.events_length"
-        render={(r: any | undefined) => (r ? r.events.length : "-")}
+        render={(r: any | undefined) => (r?.events?.length ?? "-")}
       />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />

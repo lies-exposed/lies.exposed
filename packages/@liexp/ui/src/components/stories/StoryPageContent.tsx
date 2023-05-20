@@ -1,8 +1,8 @@
 import {
   type Actor,
-  type Story,
   type Group,
   type Keyword,
+  type Story,
 } from "@liexp/shared/lib/io/http";
 import { isValidValue } from "@liexp/shared/lib/slate";
 import { formatDate } from "@liexp/shared/lib/utils/date";
@@ -15,7 +15,6 @@ import { LazyEditor as Editor } from "../Common/Editor";
 import { EventTimelinePlugin } from "../Common/Editor/plugins/renderer/EventTimelinePlugin";
 import { InlineRelationsPlugin } from "../Common/Editor/plugins/renderer/InlineRelationsBoxPlugin";
 import { TOCPlugin } from "../Common/Editor/plugins/renderer/TOCPlugin";
-import { KeywordsBox } from "../KeywordsBox";
 import { MainContent } from "../MainContent";
 import { Grid, Typography, alpha } from "../mui";
 
@@ -27,7 +26,16 @@ export interface StoryPageContentProps {
 }
 
 export const StoryPageContent: React.FC<StoryPageContentProps> = ({
-  story: { featuredImage, ...story },
+  story: {
+    featuredImage,
+    actors,
+    groups,
+    media,
+    keywords,
+    events,
+    links,
+    ...story
+  },
   onActorClick,
   onGroupClick,
   onKeywordClick,
@@ -64,7 +72,6 @@ export const StoryPageContent: React.FC<StoryPageContentProps> = ({
           <Typography variant="h1" style={{ fontSize: "3rem" }}>
             {story.title}
           </Typography>
-          <KeywordsBox ids={story.keywords} onItemClick={onKeywordClick} />
         </MainContent>
       </Grid>
       <Grid container>
@@ -98,19 +105,17 @@ export const StoryPageContent: React.FC<StoryPageContentProps> = ({
               </Typography>
             </div>
 
-            {isValidValue(body) ? (
-              <Editor readOnly value={body} />
-            ) : null}
+            {isValidValue(body) ? <Editor readOnly value={body} /> : null}
           </MainContent>
         </Grid>
         <Grid item md={3}>
           <InlineRelationsPlugin
-            value={body}
+            relations={{ actors, groups, keywords, media, links, events }}
             onActorClick={onActorClick}
             onGroupClick={onGroupClick}
             onKeywordClick={onKeywordClick}
           />
-          <EventTimelinePlugin value={story.body2 as any} />
+          <EventTimelinePlugin events={events} />
         </Grid>
       </Grid>
     </Grid>

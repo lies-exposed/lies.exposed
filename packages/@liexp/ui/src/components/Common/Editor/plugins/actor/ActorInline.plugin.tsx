@@ -1,4 +1,5 @@
 import { type Actor } from "@liexp/shared/lib/io/http";
+import { ACTOR_INLINE } from '@liexp/shared/lib/slate/plugins/customSlate';
 import RecentActorsIcon from "@mui/icons-material/RecentActors";
 import type { CellPluginComponentProps, DataTType } from "@react-page/editor";
 import { pluginFactories } from "@react-page/plugins-slate";
@@ -31,16 +32,11 @@ export type ActorInlineControlType = React.ComponentType<
   CellPluginComponentProps<ActorInlineState>
 >;
 
-export const ACTOR_INLINE = "liexp/actor/inline";
-
-const ActorInlineControlPopover: React.FC<{
-  open: boolean;
+export const ActorInlineControlContent: React.FC<{
   data: Partial<ActorInlineState>;
   onAdd: (d: ActorInlineState) => void;
   onRemove: () => void;
-  onClose: () => void;
-  popover?: PopoverProps;
-}> = ({ data, open, onAdd, onRemove, onClose, popover }) => {
+}> = ({ data, onAdd, onRemove }) => {
   const [s, setS] = React.useState<ActorInlineState>({
     actor: data.actor as any,
     displayAvatar: !!data?.displayAvatar,
@@ -53,81 +49,86 @@ const ActorInlineControlPopover: React.FC<{
   );
 
   return (
-    <Popover {...popover} open={open} onClose={onClose}>
-      <Box style={{ height: "100%", background: "white" }}>
-        <Grid container spacing={2}>
-          <Grid item sm={6}>
-            <AutocompleteActorInput
-              discrete={false}
-              selectedItems={selectedItems}
-              onChange={(items) => {
-                const newActor = items[items.length - 1];
+    <Box
+      style={{
+        height: "100%",
+        width: "100%",
+        padding: 8,
+        boxSizing: "border-box",
+      }}
+    >
+      <Grid container spacing={2}>
+        <Grid item sm={12} style={{ width: "100%" }}>
+          <AutocompleteActorInput
+            discrete={false}
+            selectedItems={selectedItems}
+            onChange={(items) => {
+              const newActor = items[items.length - 1];
 
-                setS({
-                  ...s,
-                  actor: newActor,
-                });
-              }}
-            />
-          </Grid>
-
-          <Grid item sm={6}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  color="info"
-                  disabled={false}
-                  size="small"
-                  value={s.displayAvatar}
-                  onChange={(v, c) => {
-                    setS((s) => ({
-                      ...s,
-                      displayAvatar: c,
-                    }));
-                  }}
-                />
-              }
-              label="Display Avatar?"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  color="info"
-                  disabled={false}
-                  size="small"
-                  checked={s.displayFullName}
-                  onChange={(v, c) => {
-                    setS({
-                      ...s,
-                      displayFullName: c,
-                    });
-                  }}
-                />
-              }
-              label="Display full name?"
-            />
-          </Grid>
-          <Grid item sm={12}>
-            <Button
-              onClick={() => {
-                onAdd(s);
-                onClose();
-              }}
-            >
-              Insert
-            </Button>
-            <Button
-              onClick={() => {
-                onRemove();
-                onClose();
-              }}
-            >
-              Remove
-            </Button>
-          </Grid>
+              setS({
+                ...s,
+                actor: newActor,
+              });
+            }}
+          />
         </Grid>
-      </Box>
-    </Popover>
+
+        <Grid item sm={12}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                color="info"
+                disabled={false}
+                size="small"
+                value={s.displayAvatar}
+                onChange={(v, c) => {
+                  setS((s) => ({
+                    ...s,
+                    displayAvatar: c,
+                  }));
+                }}
+              />
+            }
+            label="Display Avatar?"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                color="info"
+                disabled={false}
+                size="small"
+                checked={s.displayFullName}
+                onChange={(v, c) => {
+                  setS({
+                    ...s,
+                    displayFullName: c,
+                  });
+                }}
+              />
+            }
+            label="Display full name?"
+          />
+        </Grid>
+        <Grid item sm={12}>
+          <Button
+            variant="contained"
+            disabled={!s.actor}
+            onClick={() => {
+              onAdd(s);
+            }}
+          >
+            Insert
+          </Button>
+          <Button
+            onClick={() => {
+              onRemove();
+            }}
+          >
+            Remove
+          </Button>
+        </Grid>
+      </Grid>
+    </Box>
   );
 };
 
@@ -139,28 +140,30 @@ export const ActorInlineControl: React.FC<
   }
 
   return (
-    <ActorInlineControlPopover
-      {...props}
+    <Popover
+      {...popover}
       open={open}
-      data={{
-        actor: undefined,
-        displayAvatar: true,
-        displayFullName: true,
-        ...data,
-      }}
-      popover={popover}
-      onAdd={(d) => {
-        add({ data: d });
+      onClose={() => {
         close();
       }}
-      onClose={close}
-      onRemove={() => {
-        if (data) {
-          remove();
-        }
-        close();
-      }}
-    />
+    >
+      <ActorInlineControlContent
+        {...props}
+        data={{
+          ...data,
+        }}
+        onAdd={(d) => {
+          add({ data: d });
+          close();
+        }}
+        onRemove={() => {
+          if (data) {
+            remove();
+          }
+          close();
+        }}
+      />
+    </Popover>
   );
 };
 

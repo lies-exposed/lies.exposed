@@ -52,6 +52,10 @@ export const CreateStory = Endpoint({
         creator: optionFromNullable(UUID),
         body2: t.unknown,
         keywords: t.array(UUID),
+        actors: t.array(UUID),
+        groups: t.array(UUID),
+        events: t.array(UUID),
+        media: t.array(UUID)
       },
       "CreateStoryBody"
     ),

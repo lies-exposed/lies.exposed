@@ -39,7 +39,7 @@ const EventCard: React.FC<EventCardProps> = ({
     event.type === Events.Death.DEATH.value
       ? `Death ${event.payload.victim?.fullName}`
       : event.type === Events.Quote.QUOTE.value
-      ? `Quote by ${event.payload.actor.fullName}`
+      ? `Quote by ${event.payload.actor?.fullName}`
       : event.payload.title;
 
   const image =
@@ -51,7 +51,12 @@ const EventCard: React.FC<EventCardProps> = ({
     typeof event.date === "string" ? parseISO(event.date as any) : event.date;
 
   return (
-    <Card onClick={() => { onEventClick(event); }} {...props}>
+    <Card
+      onClick={() => {
+        onEventClick(event);
+      }}
+      {...props}
+    >
       <CardActionArea>
         <CardMedia component="img" image={image} style={{ height: 200 }} />
         <CardHeader
