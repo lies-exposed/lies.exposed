@@ -1,4 +1,5 @@
 import { type Keyword } from "@liexp/shared/lib/io/http";
+import { KEYWORD_INLINE } from '@liexp/shared/lib/slate/plugins/customSlate';
 import RecentKeywordsIcon from "@mui/icons-material/TagOutlined";
 import type { CellPluginComponentProps, DataTType } from "@react-page/editor";
 import { pluginFactories } from "@react-page/plugins-slate";
@@ -11,7 +12,7 @@ import { AutocompleteKeywordInput } from "../../../../Input/AutocompleteKeywordI
 import { KeywordChip } from "../../../../keywords/KeywordChip";
 import { Box, Button, Grid } from "../../../../mui";
 import { FullSizeLoader } from "../../../FullSizeLoader";
-import { Popover, type PopoverProps } from "../../../Popover";
+import { Popover } from "../../../Popover";
 
 export interface KeywordInlineState extends DataTType {
   keyword: Keyword.Keyword;
@@ -30,16 +31,11 @@ export type KeywordInlineControlType = React.ComponentType<
   CellPluginComponentProps<KeywordInlineState>
 >;
 
-export const KEYWORD_INLINE = "liexp/keyword/inline";
-
-const KeywordInlineControlPopover: React.FC<{
-  open: boolean;
+export const KeywordInlineControlContent: React.FC<{
   data: Partial<KeywordInlineState>;
   onAdd: (d: KeywordInlineState) => void;
   onRemove: () => void;
-  onClose: () => void;
-  popover?: PopoverProps;
-}> = ({ open, data, onAdd, onRemove, onClose, popover }) => {
+}> = ({ data, onAdd, onRemove }) => {
   const [s, setS] = React.useState<KeywordInlineState>({
     keyword: data.keyword as any,
     colorize: !!data.colorize,
@@ -51,46 +47,50 @@ const KeywordInlineControlPopover: React.FC<{
   );
 
   return (
-    <Popover {...popover} open={open} onClose={onClose}>
-      <Box style={{ height: "100%", background: "white" }}>
-        <Grid container spacing={2}>
-          <Grid item sm={6}>
-            <AutocompleteKeywordInput
-              discrete={false}
-              selectedItems={selectedItems}
-              onChange={(items) => {
-                const newKeyword = items[items.length - 1];
+    <Box
+      style={{
+        height: "100%",
+        width: "100%",
+        padding: 8,
+        boxSizing: "border-box",
+      }}
+    >
+      <Grid container spacing={2}>
+        <Grid item sm={12}>
+          <AutocompleteKeywordInput
+            discrete={false}
+            selectedItems={selectedItems}
+            onChange={(items) => {
+              const newKeyword = items[items.length - 1];
 
-                setS({
-                  ...s,
-                  keyword: newKeyword,
-                });
-              }}
-            />
-          </Grid>
-
-          <Grid item sm={12}>
-            <Button
-              variant="contained"
-              onClick={() => {
-                onAdd(s);
-                onClose();
-              }}
-            >
-              Insert
-            </Button>
-            <Button
-              onClick={() => {
-                onRemove();
-                onClose();
-              }}
-            >
-              Remove
-            </Button>
-          </Grid>
+              setS({
+                ...s,
+                keyword: newKeyword,
+              });
+            }}
+          />
         </Grid>
-      </Box>
-    </Popover>
+
+        <Grid item sm={12}>
+          <Button
+            variant="contained"
+            disabled={!s.keyword}
+            onClick={() => {
+              onAdd(s);
+            }}
+          >
+            Insert
+          </Button>
+          <Button
+            onClick={() => {
+              onRemove();
+            }}
+          >
+            Remove
+          </Button>
+        </Grid>
+      </Grid>
+    </Box>
   );
 };
 export const KeywordInlineControl: React.FC<
@@ -100,24 +100,30 @@ export const KeywordInlineControl: React.FC<
     return <FullSizeLoader />;
   }
   return (
-    <KeywordInlineControlPopover
+    <Popover
       {...props}
       open={open}
-      data={{
-        keyword: undefined,
-        colorize: true,
-        ...data,
+      onClose={() => {
+        close();
       }}
-      onAdd={(data) => {
-        add({ data });
-      }}
-      onClose={close}
-      onRemove={() => {
-        if (data) {
-          remove();
-        }
-      }}
-    />
+    >
+      <KeywordInlineControlContent
+        {...props}
+        data={{
+          keyword: undefined,
+          colorize: true,
+          ...data,
+        }}
+        onAdd={(data) => {
+          add({ data });
+        }}
+        onRemove={() => {
+          if (data) {
+            remove();
+          }
+        }}
+      />
+    </Popover>
   );
 };
 
@@ -126,9 +132,12 @@ export const KeywordInlineRenderer: SlateComponentPluginDefinition<KeywordInline
     displayFullName,
     displayAvatar,
     keyword,
+    colorize,
     useFocused,
     useSelected,
     getTextContents,
+    childNodes,
+    children,
     ...props
   }) => {
     // console.log({ ...props, displayAvatar, className });

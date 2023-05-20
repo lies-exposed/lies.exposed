@@ -10,7 +10,10 @@ import { authenticationHandler } from "@utils/authenticationHandler";
 export const MakeCreateStoryRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(ctx, ["event-suggestion:create"]))(
     Endpoints.Story.Create,
-    ({ body: { body2, keywords, ...body } }, r) => {
+    (
+      { body: { body2, actors, groups, media, events, keywords, ...body } },
+      r
+    ) => {
       const featuredImage = pipe(body.featuredImage, O.toNullable);
       return pipe(
         ctx.db.save(StoryEntity, [
@@ -20,6 +23,10 @@ export const MakeCreateStoryRoute: Route = (r, ctx) => {
             body2: body2 as any,
             creator: { id: r.user?.id },
             keywords: keywords.map((k) => ({ id: k })),
+            actors: actors.map((k) => ({ id: k })),
+            groups: groups.map((k) => ({ id: k })),
+            media: media.map((m) => ({ id: m })),
+            events: events.map((e) => ({ id: e })),
             featuredImage: featuredImage ? { id: featuredImage } : null,
           },
         ]),

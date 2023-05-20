@@ -1,9 +1,12 @@
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
 import { type Event } from "@liexp/shared/lib/io/http/Events";
+import { EVENT_BLOCK_PLUGIN_ID } from '@liexp/shared/lib/slate/plugins/customSlate';
 import MediaIcon from "@mui/icons-material/VideoFileOutlined";
 import type {
   CellPlugin,
   CellPluginComponentProps,
+  CellPluginCustomControlsComonent,
+  CellPluginRenderer,
   DataTType,
   ImageUploadType,
 } from "@react-page/editor";
@@ -12,10 +15,10 @@ import React from "react";
 import EventsBox from "../../../../../containers/EventsBox";
 import { AutocompleteEventInput } from "../../../../Input/AutocompleteEventInput";
 import EventList from "../../../../lists/EventList/EventList";
-import { Box } from "../../../../mui";
+import { Box, Button, Grid } from "../../../../mui";
 
 export interface EventBlockState extends DataTType {
-  event: Event[];
+  events: Event[];
 }
 
 export interface EventBlockSettings {
@@ -33,9 +36,100 @@ export type ImageControlType = React.ComponentType<
   }
 >;
 
-export const EVENT_BLOCK_PLUGIN_ID = "liexp/editor/plugins/EventBlock";
+export const EventBlockPluginRenderer: CellPluginRenderer<EventBlockState> = ({
+  children,
+  isEditMode,
+  isPreviewMode,
+  ...props
+}) => {
+  const events = props.data?.events ?? [];
+  if (events.length > 0) {
+    return (
+      <Box style={{ maxWidth: 1200, flexGrow: 0 }}>
+        {isEditMode ? (
+          <EventList
+            events={events.map((e) =>
+              toSearchEvent(
+                {
+                  ...e,
+                  date:
+                    typeof e.date === "object"
+                      ? e.date
+                      : parseISO(e.date as any),
+                },
+                {}
+              )
+            )}
+            onClick={() => {}}
+            onActorClick={() => {}}
+            onGroupClick={() => {}}
+            onGroupMemberClick={() => {}}
+            onKeywordClick={() => {}}
+            onRowInvalidate={() => {}}
+          />
+        ) : (
+          <EventsBox
+            title=""
+            query={{
+              ids: events.map((v) => v.id),
+            }}
+            onEventClick={() => {}}
+          />
+        )}
+      </Box>
+    );
+  }
 
-const createPlugin = (
+  return <div>Select an event...</div>;
+};
+
+export const EventBlockPluginControl: CellPluginCustomControlsComonent<
+  EventBlockState
+> = ({ data, onChange, remove, ...props }) => {
+  const [s, setS] = React.useState<EventBlockState>({
+    events: data.events ?? [],
+  });
+
+  const selectedItems = React.useMemo(() => s.events, [s.events]);
+
+  return (
+    <Box style={{ height: 200 }}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <AutocompleteEventInput
+            discrete={false}
+            selectedItems={selectedItems}
+            onChange={(items) => {
+              if (items.length > 0) {
+                setS({ events: items });
+              }
+            }}
+          />
+        </Grid>
+        <Grid item sm={12}>
+          <Button
+            variant="contained"
+            disabled={s.events.length < 1}
+            onClick={() => {
+              onChange(s);
+            }}
+          >
+            Add
+          </Button>
+          <Button
+            onClick={() => {
+              remove?.();
+            }}
+          >
+            Remove
+          </Button>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+};
+
+const eventBlockPlugin = (
   settings?: EventBlockSettings
 ): CellPlugin<EventBlockState> => {
   const mergedSettings = { ...defaultSettings, ...settings };
@@ -43,63 +137,9 @@ const createPlugin = (
   return {
     controls: {
       type: "custom",
-      Component: (props) => {
-        // console.log(props);
-        const selectedItems = props.data?.event ?? [];
-        return (
-          <Box style={{ height: 200 }}>
-            <AutocompleteEventInput
-              discrete={false}
-              selectedItems={selectedItems}
-              onChange={(items) => {
-                props.onChange({ event: items });
-              }}
-            />
-          </Box>
-        );
-      },
+      Component: EventBlockPluginControl,
     },
-    Renderer: ({ children, isEditMode, isPreviewMode, ...props }) => {
-      const events = props.data?.event ?? [];
-      if (events.length > 0) {
-        return (
-          <Box style={{ maxWidth: 1200, flexGrow: 0 }}>
-            {isEditMode ? (
-              <EventList
-                events={events.map((e) =>
-                  toSearchEvent(
-                    {
-                      ...e,
-                      date:
-                        typeof e.date === "object"
-                          ? e.date
-                          : parseISO(e.date as any),
-                    },
-                    {}
-                  )
-                )}
-                onClick={() => {}}
-                onActorClick={() => {}}
-                onGroupClick={() => {}}
-                onGroupMemberClick={() => {}}
-                onKeywordClick={() => {}}
-                onRowInvalidate={() => {}}
-              />
-            ) : (
-              <EventsBox
-                title=""
-                query={{
-                  ids: events.map((v) => v.id),
-                }}
-                onEventClick={() => {}}
-              />
-            )}
-          </Box>
-        );
-      }
-
-      return <div>Select an event...</div>;
-    },
+    Renderer: EventBlockPluginRenderer,
     id: EVENT_BLOCK_PLUGIN_ID,
     version: 1,
     icon: mergedSettings.icon,
@@ -108,4 +148,6 @@ const createPlugin = (
     description: "Display events carousel",
   };
 };
-export default createPlugin;
+
+export const EventBlockPluginIcon = MediaIcon;
+export default eventBlockPlugin;

@@ -1,9 +1,25 @@
-import { type Value } from '@react-page/editor/lib/core/types';
+import { fp } from "@liexp/core/lib/fp";
 import {
-  createValue,
-} from "@react-page/editor/lib/core/utils/createValue";
+  type Row,
+  type Cell,
+  type Value,
+} from "@react-page/editor/lib/core/types";
+import { createValue } from "@react-page/editor/lib/core/utils/createValue";
 import { getTextContents as defaultGetTextContents } from "@react-page/editor/lib/core/utils/getTextContents";
-import { getLiexpSlate } from "./plugins/customSlate";
+import { type SlateComponentPluginDefinition } from "@react-page/plugins-slate/lib/types/slatePluginDefinitions";
+import { type Option } from "fp-ts/lib/Option";
+import { pipe } from "fp-ts/lib/function";
+import {
+  getLiexpSlate,
+  PARAGRAPH_TYPE,
+  isSlatePlugin,
+  KEYWORD_INLINE,
+  GROUP_INLINE,
+  ACTOR_INLINE,
+  COMPONENT_PICKER_POPOVER,
+  EVENT_BLOCK_PLUGIN_ID,
+  MEDIA_BLOCK_PLUGIN,
+} from "./plugins/customSlate";
 
 export const getTextContents = (v: Value, j?: string): string => {
   return defaultGetTextContents(v, {
@@ -56,5 +72,177 @@ export const createExcerptValue = (text: string): Value => {
       lang: "en",
       cellPlugins: [slate],
     }
+  );
+};
+
+const deserializeRow =
+  <T>(f: (c: Cell) => Option<T[]>) =>
+  (r: Row): T[] => {
+    const cells = pipe(r.cells, fp.A.map(f));
+    return pipe(cells, fp.A.compact, fp.A.flatten);
+  };
+
+export function transform<T>(
+  v: { rows: Row[] },
+  f: (c: Cell) => Option<T[]>
+): T[] | null {
+  if (v.rows.length === 0) {
+    return null;
+  }
+
+  return pipe(v.rows, fp.A.map(deserializeRow(f)), fp.A.flatten);
+}
+
+interface InlineRelation {
+  id: string;
+  type: "actor" | "group" | "keyword" | "event" | "media";
+}
+
+const deserializePlugin = (
+  p: SlateComponentPluginDefinition<any>
+): Option<InlineRelation[]> => {
+  // console.log(p.type, p);
+  switch (p.type) {
+    case ACTOR_INLINE: {
+      const actor = (p as any).data?.actor ?? null;
+      // console.log(actor);
+
+      return pipe(
+        actor,
+        fp.O.fromNullable,
+        fp.O.map((a) => [{ id: a.id, type: "actor" }])
+      );
+    }
+    case GROUP_INLINE: {
+      const group = (p as any).data?.group ?? null;
+      // console.log(group);
+
+      return pipe(
+        group,
+        fp.O.fromNullable,
+        fp.O.map((a) => [{ id: a.id, type: "group" }])
+      );
+    }
+    case KEYWORD_INLINE: {
+      const keyword = (p as any).data?.keyword ?? null;
+      // console.log(keyword);
+
+      return pipe(
+        keyword,
+        fp.O.fromNullable,
+        fp.O.map((a) => [{ id: a.id, type: "keyword" }])
+      );
+    }
+    case EVENT_BLOCK_PLUGIN_ID: {
+      const events: any[] = (p as any).data?.events ?? [];
+      return pipe(
+        events,
+        fp.O.fromPredicate((arr) => arr.length > 0),
+        fp.O.map(fp.A.map((ev) => ({ id: ev.id, type: "event" })))
+      );
+    }
+    case MEDIA_BLOCK_PLUGIN: {
+      const media: any[] = (p as any).data?.media ?? [];
+      return pipe(
+        media,
+        fp.O.fromPredicate((arr) => arr.length > 0),
+        fp.O.map(fp.A.map((m) => ({ id: m.id, type: "media" })))
+      );
+    }
+    case PARAGRAPH_TYPE: {
+      const children: any[] = (p as any).children ?? [];
+      const relations = pipe(
+        children.map(deserializePlugin),
+        fp.A.compact,
+        fp.A.flatten,
+        fp.O.fromPredicate((v) => v.length > 0)
+      );
+
+      return relations;
+    }
+    case COMPONENT_PICKER_POPOVER: {
+      return pipe(
+        (p as any).data?.plugin,
+        fp.O.fromNullable,
+        fp.O.chain(deserializePlugin)
+      );
+    }
+    default:
+      // eslint-disable-next-line no-console
+      // console.log(p);
+      return fp.O.none;
+  }
+};
+
+const deserializeCell = (c: Cell): Option<InlineRelation[]> => {
+  if (c.dataI18n?.en?.slate && isSlatePlugin(c)) {
+    const plugins: Array<SlateComponentPluginDefinition<any>> = c.dataI18n.en
+      .slate as any;
+
+    return pipe(
+      plugins.map((p) =>
+        pipe(
+          deserializePlugin(p),
+          fp.O.getOrElse((): InlineRelation[] => [])
+        )
+      ),
+      // fp.A.traverse(fp.O.Applicative)((e) => {
+      //  const plug = deserializePlugin(e)
+      //  console.log('plug', plug);
+      //  return plug;
+      // }),
+      // (relations) => {
+      //   console.log({ relations });
+      //   return relations;
+      // },
+      fp.A.flatten,
+      fp.O.fromPredicate((arr) => arr.length > 0)
+    );
+  }
+
+  return pipe(
+    transform({ rows: c.rows ?? [] }, deserializeCell),
+    fp.O.fromNullable
+  );
+};
+
+export interface InlineRelations {
+  actors: string[];
+  groups: string[];
+  keywords: string[];
+  media: string[];
+  events: string[];
+  links: string[];
+}
+
+export const relationsTransformer = (value: Value): InlineRelations => {
+  const relations: InlineRelations = {
+    actors: [],
+    groups: [],
+    keywords: [],
+    media: [],
+    events: [],
+    links: [],
+  };
+  return pipe(
+    transform(value, deserializeCell),
+    fp.O.fromNullable,
+    fp.O.map(
+      fp.A.reduce(relations, (acc, r) => {
+        if (r.type === "group" && !acc.groups.includes(r.id)) {
+          acc.groups.push(r.id);
+        } else if (r.type === "actor" && !acc.actors.includes(r.id)) {
+          acc.actors.push(r.id);
+        } else if (r.type === "keyword" && !acc.keywords.includes(r.id)) {
+          acc.keywords.push(r.id);
+        } else if (r.type === "media" && !acc.media.includes(r.id)) {
+          acc.media.push(r.id);
+        } else if (r.type === "event" && !acc.events.includes(r.id)) {
+          acc.events.push(r.id);
+        }
+        return acc;
+      })
+    ),
+    fp.O.getOrElse(() => relations)
   );
 };

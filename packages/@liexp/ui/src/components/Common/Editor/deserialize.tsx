@@ -1,7 +1,3 @@
-import { fp } from "@liexp/core/lib/fp";
-import { type Cell, type Row, type Value } from "@react-page/editor";
-import { type Option } from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/function";
 import { jsx } from "slate-hyperscript";
 
 const deserialize = (el: ChildNode | null): any => {
@@ -63,17 +59,3 @@ export const deserializeFromString = (html?: string): any => {
   return result;
 };
 
-export function transform<T>(
-  v: Value,
-  f: (c: Cell) => Option<T[]>
-): T[] | null {
-  const deserializeRow = (r: Row): T[] => {
-    return pipe(r.cells, fp.A.map(f), fp.A.compact, fp.A.flatten);
-  };
-
-  if (v.rows.length === 0) {
-    return null;
-  }
-
-  return pipe(v.rows, fp.A.map(deserializeRow), fp.A.flatten);
-}

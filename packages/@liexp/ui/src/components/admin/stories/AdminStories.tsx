@@ -1,3 +1,4 @@
+import { relationsTransformer } from "@liexp/shared/lib/slate/utils";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
 import * as TE from "fp-ts/TaskEither";
@@ -32,7 +33,6 @@ import {
   type RaRecord,
 } from "react-admin";
 import { uploadImages } from "../../../client/admin/MediaAPI";
-import { relationsTransformer } from "../../Common/Editor/plugins/renderer/InlineRelationsBoxPlugin";
 import { Box, Grid } from "../../mui";
 import ReactPageInput from "../ReactPageInput";
 import { EditForm } from "../common/EditForm";
@@ -102,8 +102,8 @@ const transformStory =
         throwTE
       );
     }
-    const { actors, groups, keywords } = relationsTransformer(data.body2);
-    return { ...data, groups, actors, keywords };
+    const relations = relationsTransformer(data.body2);
+    return { ...data, ...relations };
   };
 
 export const StoryEdit: React.FC<EditProps> = (props) => {
