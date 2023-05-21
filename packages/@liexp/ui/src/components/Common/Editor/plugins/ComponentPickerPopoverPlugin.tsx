@@ -4,6 +4,7 @@ import {
   EVENT_BLOCK_PLUGIN_ID,
   GROUP_INLINE,
   KEYWORD_INLINE,
+  LINK_INLINE,
   MEDIA_BLOCK_PLUGIN,
 } from "@liexp/shared/lib/slate/plugins/customSlate";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
@@ -29,6 +30,7 @@ import { EventBlockPluginRenderer } from "./event/eventBlock.plugin";
 import { GroupInlineRenderer } from "./group/GroupInline.plugin";
 import { KeywordInlineRenderer } from "./keyword/KeywordInline.plugin";
 import { MediaBlockPluginRenderer } from "./media/mediaBlock";
+import { LinkInlineRenderer } from "./links/LinkInline.plugin";
 
 export const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
   // eslint-disable-next-line no-console
@@ -156,6 +158,13 @@ export const ComponentPickerPopoverRenderer: SlateComponentPluginDefinition<Comp
           case KEYWORD_INLINE: {
             return (
               <KeywordInlineRenderer
+                {...{ ...props, useSelected, ...plugin.data }}
+              />
+            );
+          }
+          case LINK_INLINE: {
+            return (
+              <LinkInlineRenderer
                 {...{ ...props, useSelected, ...plugin.data }}
               />
             );

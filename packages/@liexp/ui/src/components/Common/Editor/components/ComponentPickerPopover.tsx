@@ -3,6 +3,7 @@ import {
   EVENT_BLOCK_PLUGIN_ID,
   GROUP_INLINE,
   KEYWORD_INLINE,
+  LINK_INLINE,
   MEDIA_BLOCK_PLUGIN,
 } from "@liexp/shared/lib/slate/plugins/customSlate";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
@@ -33,6 +34,7 @@ import {
   KeywordInlinePluginIcon,
   type KeywordInlineState,
 } from "../plugins/keyword/KeywordInline.plugin";
+import { LinkInlineControlContent, type LinkInlineState } from "../plugins/links/LinkInline.plugin";
 import {
   MediaBlockPluginControl,
   MediaBlockPluginIcon,
@@ -62,6 +64,9 @@ export type PickablePlugin = {
   | {
       type: typeof EVENT_BLOCK_PLUGIN_ID;
       data?: EventBlockState;
+    } | {
+      type: typeof LINK_INLINE;
+      data?: LinkInlineState
     }
 ) &
   DataTType;
@@ -121,6 +126,9 @@ export const ComponentsPickerPopover: React.FC<
       }
       case GROUP_INLINE: {
         return <GroupInlineControlContent {...plugin} {...commonProps} />;
+      }
+      case LINK_INLINE: {
+        return <LinkInlineControlContent {...plugin} {...commonProps} />;
       }
       case MEDIA_BLOCK_PLUGIN: {
         const data: MediaBlockState = {

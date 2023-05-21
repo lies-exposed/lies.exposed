@@ -12,6 +12,7 @@ import eventsBlock from "./plugins/event/eventBlock.plugin";
 import gridCellPlugin from "./plugins/gridCellPlugin";
 import { groupInlinePlugin } from "./plugins/group/GroupInline.plugin";
 import { keywordInlinePlugin } from "./plugins/keyword/KeywordInline.plugin";
+import { linkInlinePlugin } from './plugins/links/LinkInline.plugin';
 import mediaBlock from "./plugins/media/mediaBlock";
 
 export const minimalCellPlugins = [
@@ -19,6 +20,7 @@ export const minimalCellPlugins = [
     actorInlinePlugin,
     groupInlinePlugin,
     keywordInlinePlugin,
+    linkInlinePlugin,
     componentPickerPopoverPlugin,
   }),
 ] as any[];

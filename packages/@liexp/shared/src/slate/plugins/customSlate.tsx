@@ -23,6 +23,7 @@ export const EMPHASIZE_U_TYPE = "EMPHASIZE/U";
 export const BLOCKQUOTE_TYPE = "BLOCKQUOTE/BLOCKQUOTE";
 
 export const LIEXP_SLATE_PLUGIN_ID = "eco-slate-plugin";
+export const LINK_INLINE = 'liexp/link/inline'
 export const ACTOR_INLINE = "liexp/actor/inline";
 export const GROUP_INLINE = "liexp/group/inline";
 export const KEYWORD_INLINE = "liexp/keyword/inline";
