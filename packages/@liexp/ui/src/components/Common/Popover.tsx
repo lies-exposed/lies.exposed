@@ -15,7 +15,7 @@ const classes = {
 
 const StyledPopover = styled(MUIPopover)(({ theme }) => ({
   [`&.${classes.root}`]: {
-    position: "absolute",
+    position: "fixed",
     zIndex: 9999,
     [`> .${classes.paper}`]: {
       minWidth: 300,

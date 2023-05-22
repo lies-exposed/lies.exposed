@@ -1,5 +1,5 @@
 import { type Keyword } from "@liexp/shared/lib/io/http";
-import { KEYWORD_INLINE } from '@liexp/shared/lib/slate/plugins/customSlate';
+import { KEYWORD_INLINE } from "@liexp/shared/lib/slate/plugins/customSlate";
 import RecentKeywordsIcon from "@mui/icons-material/TagOutlined";
 import type { CellPluginComponentProps, DataTType } from "@react-page/editor";
 import { pluginFactories } from "@react-page/plugins-slate";
@@ -128,21 +128,23 @@ export const KeywordInlineControl: React.FC<
 };
 
 export const KeywordInlineRenderer: SlateComponentPluginDefinition<KeywordInlineState>["Component"] =
-  ({
-    displayFullName,
-    displayAvatar,
-    keyword,
-    colorize,
-    useFocused,
-    useSelected,
-    getTextContents,
-    childNodes,
-    children,
-    ...props
-  }) => {
-    // console.log({ ...props, displayAvatar, className });
+  (props) => {
+    console.log("keyword", props);
+    const {
+      displayFullName,
+      displayAvatar,
+      keyword,
+      colorize,
+      useFocused,
+      useSelected,
+      getTextContents,
+      childNodes,
+      children,
+      readOnly,
+      ...otherProps
+    } = props;
     if (keyword) {
-      return <KeywordChip {...props} keyword={keyword} onClick={() => {}} />;
+      return <KeywordChip {...otherProps} keyword={keyword} />;
     }
     return <span>Select a keyword...</span>;
   };

@@ -117,7 +117,12 @@ export const ComponentPickerPopoverControlAnchor: React.FC<{
       <span
         id={ANCHOR_ID}
         ref={ref}
-        style={{ width: 10, height: 10, background: "green", display: "block" }}
+        style={{
+          width: 1,
+          height: 1,
+          background: "green",
+          display: "inline",
+        }}
       />
     );
   }, []);
@@ -207,14 +212,14 @@ export const ComponentPickerPopoverRenderer: SlateComponentPluginDefinition<Comp
       return null;
     }, [plugin]);
 
+    const addAnchor = !readOnly || isSelected || !plugin;
+
     return (
       <span>
-        {(!readOnly && !plugin) || !plugin || isSelected ? (
-          <ComponentPickerPopoverControlAnchor />
-        ) : null}
         <React.Suspense fallback={<CircularProgress />}>
           {pluginRenderer}
         </React.Suspense>
+        {addAnchor ? <ComponentPickerPopoverControlAnchor /> : null}
       </span>
     );
   };
