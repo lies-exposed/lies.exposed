@@ -41,7 +41,7 @@ export const Popover: React.FC<PopoverProps> = ({ children, ...props }) => {
   return (
     <StyledPopover
       anchorOrigin={{
-        vertical: "top",
+        vertical: "bottom",
         horizontal: "left",
       }}
       // transformOrigin={{

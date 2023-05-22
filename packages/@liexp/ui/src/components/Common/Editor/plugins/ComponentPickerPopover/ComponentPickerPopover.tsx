@@ -1,87 +1,36 @@
 import {
   ACTOR_INLINE,
-  EVENT_BLOCK_PLUGIN_ID,
+  EVENT_BLOCK_PLUGIN,
   GROUP_INLINE,
-  KEYWORD_INLINE,
   LINK_INLINE,
-  MEDIA_BLOCK_PLUGIN,
+  MEDIA_BLOCK_PLUGIN
 } from "@liexp/shared/lib/slate/plugins/customSlate";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 // eslint-disable-next-line no-restricted-imports
-import { type OverridableComponent } from "@mui/material/OverridableComponent";
-import { type DataTType } from "@react-page/editor";
 import { type SlatePluginControls } from "@react-page/plugins-slate/lib/types/slatePluginDefinitions";
 import * as React from "react";
-import { List, ListItem, Typography } from "../../../mui";
-import { Popover, type PopoverProps } from "../../Popover";
+import { List, ListItem, Typography } from "../../../../mui";
+import { Popover, type PopoverProps } from "../../../Popover";
 import {
-  ActorInlineControlContent,
-  ActorInlinePluginIcon,
-  type ActorInlineState,
-} from "../plugins/actor/ActorInline.plugin";
+  ActorInlineControlContent
+} from "../actor/ActorInline.plugin";
 import {
-  EventBlockPluginControl,
-  EventBlockPluginIcon,
-  type EventBlockState,
-} from "../plugins/event/eventBlock.plugin";
+  EventBlockPluginControl
+} from "../event/eventBlock.plugin";
 import {
-  GroupInlineControlContent,
-  GroupInlinePluginIcon,
-  type GroupInlineState,
-} from "../plugins/group/GroupInline.plugin";
+  GroupInlineControlContent
+} from "../group/GroupInline.plugin";
 import {
-  KeywordInlineControlContent,
-  KeywordInlinePluginIcon,
-  type KeywordInlineState,
-} from "../plugins/keyword/KeywordInline.plugin";
-import { LinkInlineControlContent, type LinkInlineState } from "../plugins/links/LinkInline.plugin";
+  KeywordInlineControlContent
+} from "../keyword/KeywordInline.plugin";
+import { LinkInlineControlContent } from "../links/LinkInline.plugin";
 import {
   MediaBlockPluginControl,
-  MediaBlockPluginIcon,
-  type MediaBlockState,
-} from "../plugins/media/mediaBlock";
+  type MediaBlockState
+} from "../media/mediaBlock";
+import { PLUGINS } from './constants';
+import { type PickablePlugin } from './types';
 
-export type PickablePlugin = {
-  icon: OverridableComponent<any>;
-  name: string;
-} & (
-  | {
-      type: typeof ACTOR_INLINE;
-      data?: ActorInlineState;
-    }
-  | {
-      type: typeof GROUP_INLINE;
-      data?: GroupInlineState;
-    }
-  | {
-      type: typeof KEYWORD_INLINE;
-      data?: KeywordInlineState;
-    }
-  | {
-      type: typeof MEDIA_BLOCK_PLUGIN;
-      data?: MediaBlockState;
-    }
-  | {
-      type: typeof EVENT_BLOCK_PLUGIN_ID;
-      data?: EventBlockState;
-    } | {
-      type: typeof LINK_INLINE;
-      data?: LinkInlineState
-    }
-) &
-  DataTType;
-
-const PLUGINS = [
-  { name: "Actor", type: ACTOR_INLINE, icon: ActorInlinePluginIcon },
-  { name: "Group", type: GROUP_INLINE, icon: GroupInlinePluginIcon },
-  { name: "Keyword", type: KEYWORD_INLINE, icon: KeywordInlinePluginIcon },
-  {
-    name: "Media",
-    type: MEDIA_BLOCK_PLUGIN,
-    icon: MediaBlockPluginIcon,
-  },
-  { name: "Event", type: EVENT_BLOCK_PLUGIN_ID, icon: EventBlockPluginIcon },
-];
 
 export const ComponentsPickerPopover: React.FC<
   Omit<PopoverProps, "onClose" | "onSelect"> & {
@@ -91,6 +40,7 @@ export const ComponentsPickerPopover: React.FC<
     plugin: SlatePluginControls<PickablePlugin>;
   }
 > = ({ onClose, open = false, onSelect, plugin, ...props }) => {
+
   const [selectedPlugin, setSelectedPlugin] = React.useState<
     PickablePlugin | undefined
   >(plugin.data);
@@ -101,8 +51,7 @@ export const ComponentsPickerPopover: React.FC<
 
   const pluginControl = React.useMemo(() => {
     const commonProps = {
-      // popover: { ...props, open },
-      data: plugin.data ?? {},
+      data: plugin.data?.data ?? {},
       onAdd: (data: any) => {
         if (selectedPlugin) {
           onSelect({
@@ -133,7 +82,7 @@ export const ComponentsPickerPopover: React.FC<
       case MEDIA_BLOCK_PLUGIN: {
         const data: MediaBlockState = {
           media: [],
-          ...selectedPlugin.data,
+          ...commonProps.data,
         };
         return (
           <MediaBlockPluginControl
@@ -150,7 +99,7 @@ export const ComponentsPickerPopover: React.FC<
           />
         );
       }
-      case EVENT_BLOCK_PLUGIN_ID:
+      case EVENT_BLOCK_PLUGIN:
         return (
           <EventBlockPluginControl
             {...(plugin as any)}

@@ -1,5 +1,5 @@
 import { type Actor } from "@liexp/shared/lib/io/http";
-import { ACTOR_INLINE } from '@liexp/shared/lib/slate/plugins/customSlate';
+import { ACTOR_INLINE } from "@liexp/shared/lib/slate/plugins/customSlate";
 import RecentActorsIcon from "@mui/icons-material/RecentActors";
 import type { CellPluginComponentProps, DataTType } from "@react-page/editor";
 import { pluginFactories } from "@react-page/plugins-slate";
@@ -13,6 +13,10 @@ import { ActorChip } from "../../../../actors/ActorChip";
 import { Box, Button, Checkbox, FormControlLabel, Grid } from "../../../../mui";
 import { FullSizeLoader } from "../../../FullSizeLoader";
 import { Popover, type PopoverProps } from "../../../Popover";
+import {
+  ComponentPickerPopoverControlAnchorWrapper,
+  ComponentPickerPopoverRendererAnchorWrapper,
+} from "../ComponentPickerPopover/ComponentPickerPopoverPluginControlAnchor";
 
 export interface ActorInlineState extends DataTType {
   actor: Actor.Actor;
@@ -140,30 +144,35 @@ export const ActorInlineControl: React.FC<
   }
 
   return (
-    <Popover
-      {...popover}
-      open={open}
-      onClose={() => {
-        close();
-      }}
-    >
-      <ActorInlineControlContent
-        {...props}
-        data={{
-          ...data,
-        }}
-        onAdd={(d) => {
-          add({ data: d });
-          close();
-        }}
-        onRemove={() => {
-          if (data) {
-            remove();
-          }
-          close();
-        }}
-      />
-    </Popover>
+    <ComponentPickerPopoverControlAnchorWrapper>
+      {(anchorEl) => (
+        <Popover
+          {...popover}
+          anchorEl={anchorEl}
+          open={open}
+          onClose={() => {
+            close();
+          }}
+        >
+          <ActorInlineControlContent
+            {...props}
+            data={{
+              ...data,
+            }}
+            onAdd={(d) => {
+              add({ data: d });
+              close();
+            }}
+            onRemove={() => {
+              if (data) {
+                remove();
+              }
+              close();
+            }}
+          />
+        </Popover>
+      )}
+    </ComponentPickerPopoverControlAnchorWrapper>
   );
 };
 
@@ -177,11 +186,17 @@ export const ActorInlineRenderer: SlateComponentPluginDefinition<ActorInlineStat
     useSelected,
     useFocused,
     getTextContents,
+    readOnly,
     ...props
   }) => {
-    // console.log({ ...props, displayAvatar, className });
-    if (actor) {
-      return (
+    const isSelected = useSelected();
+
+    return (
+      <ComponentPickerPopoverRendererAnchorWrapper
+        hasData={!!actor}
+        isSelected={isSelected}
+        readOnly={readOnly as boolean}
+      >
         <ActorChip
           className={className}
           style={{ ...style, display: "inline-block" }}
@@ -194,9 +209,8 @@ export const ActorInlineRenderer: SlateComponentPluginDefinition<ActorInlineStat
           }}
           onClick={() => {}}
         />
-      );
-    }
-    return <span>Select an actor...</span>;
+      </ComponentPickerPopoverRendererAnchorWrapper>
+    );
   };
 
 const actorInlinePlugin =
