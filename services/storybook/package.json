@@ -42,7 +42,7 @@
     "@storybook/react": "^7.0.12",
     "@storybook/react-webpack5": "^7.0.12",
     "@storybook/theming": "^7.0.12",
-    "@svgr/webpack": "^7.0.0",
+    "@svgr/webpack": "^8.0.1",
     "@types/babel__preset-env": "^7.9.2",
     "@types/eslint": "^8.40.0",
     "@types/prettier": "^2.7.2",
