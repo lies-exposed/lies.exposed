@@ -1,5 +1,5 @@
 import { type Media } from "@liexp/shared/lib/io/http";
-import { MEDIA_BLOCK_PLUGIN } from '@liexp/shared/lib/slate/plugins/customSlate';
+import { MEDIA_BLOCK_PLUGIN } from "@liexp/shared/lib/slate/plugins/customSlate";
 import MediaIcon from "@mui/icons-material/VideoFileOutlined";
 import type {
   CellPlugin,
@@ -10,9 +10,9 @@ import type {
   ImageUploadType,
 } from "@react-page/editor";
 import React from "react";
-import MediaSliderBox from "../../../../../containers/MediaSliderBox";
 import { AutocompleteMediaInput } from "../../../../Input/AutocompleteMediaInput";
 import { Box, Button, Grid } from "../../../../mui";
+import { MediaSlider } from "../../../../sliders/MediaSlider";
 
 export interface MediaBlockState extends DataTType {
   media: Media.Media[];
@@ -38,21 +38,12 @@ export const MediaBlockPluginRenderer: CellPluginRenderer<MediaBlockState> = ({
   remove,
   ...props
 }) => {
-  const ids = props.data?.media?.map((v) => v.id) ?? [];
+  const media = props.data?.media ?? [];
 
-  if (ids.length > 0) {
+  if (media.length > 0) {
     return (
       <Box style={{ maxWidth: 1200, flexGrow: 0 }}>
-        <MediaSliderBox
-          enableDescription={true}
-          query={{
-            filter: {
-              ids,
-            },
-            pagination: { perPage: ids.length, page: 1 },
-            sort: { field: "createdAt", order: "DESC" },
-          }}
-        />
+        <MediaSlider enableDescription={true} data={media} />
       </Box>
     );
   }

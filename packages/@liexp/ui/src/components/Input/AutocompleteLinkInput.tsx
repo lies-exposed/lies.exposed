@@ -8,6 +8,7 @@ import { AutocompleteInput } from "./AutocompleteInput";
 
 export interface AutocompleteLinkInputProps {
   className?: string;
+  discrete?: boolean
   selectedItems: Link.Link[];
   onChange: (items: Link.Link[]) => void;
 }
@@ -15,6 +16,7 @@ export interface AutocompleteLinkInputProps {
 export const AutocompleteLinkInput: React.FC<AutocompleteLinkInputProps> = ({
   selectedItems,
   onChange,
+  discrete =true,
   ...props
 }) => {
   return (
@@ -25,7 +27,7 @@ export const AutocompleteLinkInput: React.FC<AutocompleteLinkInputProps> = ({
       }
       searchToFilter={(description) => ({ description })}
       selectedItems={selectedItems}
-      query={(p) => useLinksQuery(p, true)}
+      query={(p) => useLinksQuery(p, discrete)}
       renderTags={(items) => (
         <LinksList
           links={items.map((i) => ({

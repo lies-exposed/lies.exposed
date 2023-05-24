@@ -1,5 +1,5 @@
 import { type Group } from "@liexp/shared/lib/io/http";
-import { GROUP_INLINE } from '@liexp/shared/lib/slate/plugins/customSlate';
+import { GROUP_INLINE } from "@liexp/shared/lib/slate/plugins/customSlate";
 import GroupIcon from "@mui/icons-material/GroupOutlined";
 import type { CellPluginComponentProps, DataTType } from "@react-page/editor";
 import { pluginFactories } from "@react-page/plugins-slate";
@@ -13,6 +13,10 @@ import { GroupChip } from "../../../../groups/GroupChip";
 import { Box, Button, Checkbox, FormControlLabel, Grid } from "../../../../mui";
 import { FullSizeLoader } from "../../../FullSizeLoader";
 import { Popover, type PopoverProps } from "../../../Popover";
+import {
+  ComponentPickerPopoverControlAnchorWrapper,
+  ComponentPickerPopoverRendererAnchorWrapper,
+} from "../ComponentPickerPopover/ComponentPickerPopoverPluginControlAnchor";
 
 export interface GroupInlineState extends DataTType {
   group: Group.Group;
@@ -31,8 +35,6 @@ export const defaultSettings: GroupInlineSettings = {
 export type GroupInlineControlType = React.ComponentType<
   CellPluginComponentProps<GroupInlineState>
 >;
-
-
 
 export const GroupInlineControlContent: React.FC<{
   data: Partial<GroupInlineState>;
@@ -142,28 +144,33 @@ export const GroupInlineControl: React.FC<
   }
 
   return (
-    <Popover
-      {...popover}
-      open={open}
-      onClose={() => {
-        close();
-      }}
-    >
-      <GroupInlineControlContent
-        {...props}
-        data={{ ...data }}
-        onAdd={(d) => {
-          add({ data: d });
-          close();
-        }}
-        onRemove={() => {
-          if (data) {
-            remove();
-          }
-          close();
-        }}
-      />
-    </Popover>
+    <ComponentPickerPopoverControlAnchorWrapper>
+      {(anchorEl) => (
+        <Popover
+          {...popover}
+          anchorEl={anchorEl}
+          open={open}
+          onClose={() => {
+            close();
+          }}
+        >
+          <GroupInlineControlContent
+            {...props}
+            data={{ ...data }}
+            onAdd={(d) => {
+              add({ data: d });
+              close();
+            }}
+            onRemove={() => {
+              if (data) {
+                remove();
+              }
+              close();
+            }}
+          />
+        </Popover>
+      )}
+    </ComponentPickerPopoverControlAnchorWrapper>
   );
 };
 
@@ -175,6 +182,8 @@ export const GroupInlineRenderer: SlateComponentPluginDefinition<GroupInlineStat
     style,
     className,
     getTextContents,
+    useSelected,
+    readOnly,
     ...props
   }) => {
     // console.log("group inline", {
@@ -183,8 +192,13 @@ export const GroupInlineRenderer: SlateComponentPluginDefinition<GroupInlineStat
     //   displayAvatar,
     //   className,
     // });
-    if (group) {
-      return (
+
+    return (
+      <ComponentPickerPopoverRendererAnchorWrapper
+        readOnly={readOnly as any}
+        hasData={!!group}
+        isSelected={useSelected()}
+      >
         <GroupChip
           className={className}
           style={{ ...style, display: "inline-block" }}
@@ -197,9 +211,8 @@ export const GroupInlineRenderer: SlateComponentPluginDefinition<GroupInlineStat
           }}
           onClick={() => {}}
         />
-      );
-    }
-    return <span>Select a group...</span>;
+      </ComponentPickerPopoverRendererAnchorWrapper>
+    );
   };
 
 const groupInlinePlugin =

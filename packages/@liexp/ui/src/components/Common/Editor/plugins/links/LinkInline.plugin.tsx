@@ -1,6 +1,6 @@
-import { type Actor } from "@liexp/shared/lib/io/http";
-import { ACTOR_INLINE } from "@liexp/shared/lib/slate/plugins/customSlate";
-import RecentActorsIcon from "@mui/icons-material/RecentActors";
+import { type Link } from "@liexp/shared/lib/io/http";
+import { LINK_INLINE } from '@liexp/shared/lib/slate/plugins/customSlate';
+import RecentLinksIcon from "@mui/icons-material/LinkOutlined";
 import type { CellPluginComponentProps, DataTType } from "@react-page/editor";
 import { pluginFactories } from "@react-page/plugins-slate";
 import {
@@ -8,40 +8,35 @@ import {
   type SlatePluginControls,
 } from "@react-page/plugins-slate/lib/types/slatePluginDefinitions";
 import React from "react";
-import { AutocompleteActorInput } from "../../../../Input/AutocompleteActorInput";
-import { ActorChip } from "../../../../actors/ActorChip";
+import { AutocompleteLinkInput } from "../../../../Input/AutocompleteLinkInput";
 import { Box, Button, Checkbox, FormControlLabel, Grid } from "../../../../mui";
 import { FullSizeLoader } from "../../../FullSizeLoader";
 import { Popover, type PopoverProps } from "../../../Popover";
-import {
-  ComponentPickerPopoverControlAnchorWrapper,
-  ComponentPickerPopoverRendererAnchorWrapper,
-} from "../ComponentPickerPopover/ComponentPickerPopoverPluginControlAnchor";
 
-export interface ActorInlineState extends DataTType {
-  actor: Actor.Actor;
+export interface LinkInlineState extends DataTType {
+  actor: Link.Link;
   displayAvatar: boolean;
   displayFullName: boolean;
 }
 
-export interface ActorInlineSettings {
+export interface LinkInlineSettings {
   icon?: React.ReactNode;
 }
 
-export const defaultSettings: ActorInlineSettings = {
-  icon: <RecentActorsIcon />,
+export const defaultSettings: LinkInlineSettings = {
+  icon: <RecentLinksIcon />,
 };
 
-export type ActorInlineControlType = React.ComponentType<
-  CellPluginComponentProps<ActorInlineState>
+export type LinkInlineControlType = React.ComponentType<
+  CellPluginComponentProps<LinkInlineState>
 >;
 
-export const ActorInlineControlContent: React.FC<{
-  data: Partial<ActorInlineState>;
-  onAdd: (d: ActorInlineState) => void;
+export const LinkInlineControlContent: React.FC<{
+  data: Partial<LinkInlineState>;
+  onAdd: (d: LinkInlineState) => void;
   onRemove: () => void;
 }> = ({ data, onAdd, onRemove }) => {
-  const [s, setS] = React.useState<ActorInlineState>({
+  const [s, setS] = React.useState<LinkInlineState>({
     actor: data.actor as any,
     displayAvatar: !!data?.displayAvatar,
     displayFullName: !!data?.displayFullName,
@@ -63,15 +58,15 @@ export const ActorInlineControlContent: React.FC<{
     >
       <Grid container spacing={2}>
         <Grid item sm={12} style={{ width: "100%" }}>
-          <AutocompleteActorInput
+          <AutocompleteLinkInput
             discrete={false}
             selectedItems={selectedItems}
             onChange={(items) => {
-              const newActor = items[items.length - 1];
+              const newLink = items[items.length - 1];
 
               setS({
                 ...s,
-                actor: newActor,
+                actor: newLink,
               });
             }}
           />
@@ -136,47 +131,42 @@ export const ActorInlineControlContent: React.FC<{
   );
 };
 
-export const ActorInlineControl: React.FC<
-  SlatePluginControls<ActorInlineState> & { popover?: PopoverProps }
+export const LinkInlineControl: React.FC<
+  SlatePluginControls<LinkInlineState> & { popover?: PopoverProps }
 > = ({ isActive, add, remove, close, data, open, popover, ...props }) => {
   if (!open) {
     return <FullSizeLoader />;
   }
 
   return (
-    <ComponentPickerPopoverControlAnchorWrapper>
-      {(anchorEl) => (
-        <Popover
-          {...popover}
-          anchorEl={anchorEl}
-          open={open}
-          onClose={() => {
-            close();
-          }}
-        >
-          <ActorInlineControlContent
-            {...props}
-            data={{
-              ...data,
-            }}
-            onAdd={(d) => {
-              add({ data: d });
-              close();
-            }}
-            onRemove={() => {
-              if (data) {
-                remove();
-              }
-              close();
-            }}
-          />
-        </Popover>
-      )}
-    </ComponentPickerPopoverControlAnchorWrapper>
+    <Popover
+      {...popover}
+      open={open}
+      onClose={() => {
+        close();
+      }}
+    >
+      <LinkInlineControlContent
+        {...props}
+        data={{
+          ...data,
+        }}
+        onAdd={(d) => {
+          add({ data: d });
+          close();
+        }}
+        onRemove={() => {
+          if (data) {
+            remove();
+          }
+          close();
+        }}
+      />
+    </Popover>
   );
 };
 
-export const ActorInlineRenderer: SlateComponentPluginDefinition<ActorInlineState>["Component"] =
+export const LinkInlineRenderer: SlateComponentPluginDefinition<LinkInlineState>["Component"] =
   ({
     displayFullName,
     displayAvatar,
@@ -186,48 +176,39 @@ export const ActorInlineRenderer: SlateComponentPluginDefinition<ActorInlineStat
     useSelected,
     useFocused,
     getTextContents,
-    readOnly,
-    ...props
+    children,
+     ...props
   }) => {
-    const isSelected = useSelected();
-
-    return (
-      <ComponentPickerPopoverRendererAnchorWrapper
-        hasData={!!actor}
-        isSelected={isSelected}
-        readOnly={readOnly as boolean}
-      >
-        <ActorChip
+    // console.log({ ...props, displayAvatar, className });
+    if (actor) {
+      return (
+        <a
           className={className}
           style={{ ...style, display: "inline-block" }}
-          displayFullName={displayFullName}
-          displayAvatar={displayAvatar}
-          actor={actor}
-          avatarStyle={{
-            display: "inline-block",
-            verticalAlign: "middle",
-          }}
           onClick={() => {}}
-        />
-      </ComponentPickerPopoverRendererAnchorWrapper>
-    );
+        >
+          {children}
+        </a>
+      );
+    }
+    return <span>Select an actor...</span>;
   };
 
-const actorInlinePlugin =
-  pluginFactories.createComponentPlugin<ActorInlineState>({
-    Component: ActorInlineRenderer,
+const linkInlinePlugin =
+  pluginFactories.createComponentPlugin<LinkInlineState>({
+    Component: LinkInlineRenderer,
     controls: {
       type: "custom",
-      Component: ActorInlineControl,
+      Component: LinkInlineControl,
     },
     addHoverButton: true,
     addToolbarButton: true,
-    type: ACTOR_INLINE,
+    type: LINK_INLINE,
     object: "inline",
     isVoid: true,
-    icon: <RecentActorsIcon />,
-    label: "Actor",
+    icon: <RecentLinksIcon />,
+    label: "Link",
   });
 
-export const ActorInlinePluginIcon = RecentActorsIcon;
-export { actorInlinePlugin };
+export const LinkInlinePluginIcon = RecentLinksIcon;
+export { linkInlinePlugin };
