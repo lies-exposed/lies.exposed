@@ -109,7 +109,7 @@
     "@types/chroma-js": "^2.4.0",
     "@types/d3": "^7.4.0",
     "@types/d3-sankey": "^0.12.1",
-    "@types/eslint": "^8.37.0",
+    "@types/eslint": "^8.40.0",
     "@types/jest": "^29.5.1",
     "@types/ol": "^7.0.0",
     "@types/prettier": "^2.7.2",

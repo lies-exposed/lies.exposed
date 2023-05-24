@@ -44,7 +44,7 @@
     "@storybook/theming": "^7.0.12",
     "@svgr/webpack": "^7.0.0",
     "@types/babel__preset-env": "^7.9.2",
-    "@types/eslint": "^8.37.0",
+    "@types/eslint": "^8.40.0",
     "@types/prettier": "^2.7.2",
     "eslint": "^8.41.0",
     "prettier": "^2.8.8",
