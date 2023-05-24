@@ -16,8 +16,8 @@ import {
   KEYWORD_INLINE,
   GROUP_INLINE,
   ACTOR_INLINE,
-  COMPONENT_PICKER_POPOVER,
-  EVENT_BLOCK_PLUGIN_ID,
+  COMPONENT_PICKER_POPOVER_PLUGIN,
+  EVENT_BLOCK_PLUGIN,
   MEDIA_BLOCK_PLUGIN,
 } from "./plugins/customSlate";
 
@@ -133,7 +133,7 @@ const deserializePlugin = (
         fp.O.map((a) => [{ id: a.id, type: "keyword" }])
       );
     }
-    case EVENT_BLOCK_PLUGIN_ID: {
+    case EVENT_BLOCK_PLUGIN: {
       const events: any[] = (p as any).data?.events ?? [];
       return pipe(
         events,
@@ -160,7 +160,7 @@ const deserializePlugin = (
 
       return relations;
     }
-    case COMPONENT_PICKER_POPOVER: {
+    case COMPONENT_PICKER_POPOVER_PLUGIN: {
       return pipe(
         (p as any).data?.plugin,
         fp.O.fromNullable,

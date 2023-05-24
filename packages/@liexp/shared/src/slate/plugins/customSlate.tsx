@@ -23,12 +23,13 @@ export const EMPHASIZE_U_TYPE = "EMPHASIZE/U";
 export const BLOCKQUOTE_TYPE = "BLOCKQUOTE/BLOCKQUOTE";
 
 export const LIEXP_SLATE_PLUGIN_ID = "eco-slate-plugin";
+export const LINK_INLINE = 'liexp/link/inline'
 export const ACTOR_INLINE = "liexp/actor/inline";
 export const GROUP_INLINE = "liexp/group/inline";
 export const KEYWORD_INLINE = "liexp/keyword/inline";
 export const MEDIA_BLOCK_PLUGIN = "liexp/editor/plugins/mediaBlock";
-export const EVENT_BLOCK_PLUGIN_ID = "liexp/editor/plugins/EventBlock";
-export const COMPONENT_PICKER_POPOVER = "liexp/plugin/component-picker-popover";
+export const EVENT_BLOCK_PLUGIN = "liexp/editor/plugins/EventBlock";
+export const COMPONENT_PICKER_POPOVER_PLUGIN = "liexp/plugin/component-picker-popover";
 
 const getHeaderId = (children: React.ReactNode): string | undefined => {
   return pipe(

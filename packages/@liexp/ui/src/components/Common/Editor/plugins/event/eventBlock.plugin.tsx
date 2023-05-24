@@ -1,6 +1,6 @@
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
 import { type Event } from "@liexp/shared/lib/io/http/Events";
-import { EVENT_BLOCK_PLUGIN_ID } from '@liexp/shared/lib/slate/plugins/customSlate';
+import { EVENT_BLOCK_PLUGIN } from '@liexp/shared/lib/slate/plugins/customSlate';
 import MediaIcon from "@mui/icons-material/VideoFileOutlined";
 import type {
   CellPlugin,
@@ -140,7 +140,7 @@ const eventBlockPlugin = (
       Component: EventBlockPluginControl,
     },
     Renderer: EventBlockPluginRenderer,
-    id: EVENT_BLOCK_PLUGIN_ID,
+    id: EVENT_BLOCK_PLUGIN,
     version: 1,
     icon: mergedSettings.icon,
     title: "Event Block",

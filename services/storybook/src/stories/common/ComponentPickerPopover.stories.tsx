@@ -1,9 +1,8 @@
 import {
   ComponentPickerPopoverControl,
-  ComponentPickerPopoverControlAnchor,
   ComponentPickerPopoverRenderer,
-  type ComponentsPickerPopoverState,
-} from "@liexp/ui/lib/components/Common/Editor/plugins/ComponentPickerPopoverPlugin";
+  type ComponentPickerPopoverState
+} from "@liexp/ui/lib/components/Common/Editor/plugins/ComponentPickerPopover";
 import { CircularProgress } from "@liexp/ui/lib/components/mui";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
@@ -20,7 +19,7 @@ const Template: StoryFn<any> = (props) => {
   const ref = React.createRef<HTMLElement>();
 
   const [{ plugin, load }, setData] =
-    React.useState<ComponentsPickerPopoverState>({
+    React.useState<ComponentPickerPopoverState>({
       plugin: undefined,
       load: false,
     } as any);
@@ -57,11 +56,6 @@ const Template: StoryFn<any> = (props) => {
       >
         Content
       </ComponentPickerPopoverRenderer>
-      <ComponentPickerPopoverControlAnchor
-        onLoad={() => {
-          setData({ plugin: undefined as any, load: true });
-        }}
-      />
       {control}
     </div>
   );

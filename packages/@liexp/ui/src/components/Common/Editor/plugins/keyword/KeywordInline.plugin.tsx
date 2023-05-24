@@ -1,5 +1,5 @@
 import { type Keyword } from "@liexp/shared/lib/io/http";
-import { KEYWORD_INLINE } from '@liexp/shared/lib/slate/plugins/customSlate';
+import { KEYWORD_INLINE } from "@liexp/shared/lib/slate/plugins/customSlate";
 import RecentKeywordsIcon from "@mui/icons-material/TagOutlined";
 import type { CellPluginComponentProps, DataTType } from "@react-page/editor";
 import { pluginFactories } from "@react-page/plugins-slate";
@@ -13,6 +13,10 @@ import { KeywordChip } from "../../../../keywords/KeywordChip";
 import { Box, Button, Grid } from "../../../../mui";
 import { FullSizeLoader } from "../../../FullSizeLoader";
 import { Popover } from "../../../Popover";
+import {
+  ComponentPickerPopoverControlAnchorWrapper,
+  ComponentPickerPopoverRendererAnchorWrapper,
+} from "../ComponentPickerPopover/ComponentPickerPopoverPluginControlAnchor";
 
 export interface KeywordInlineState extends DataTType {
   keyword: Keyword.Keyword;
@@ -95,56 +99,80 @@ export const KeywordInlineControlContent: React.FC<{
 };
 export const KeywordInlineControl: React.FC<
   SlatePluginControls<KeywordInlineState>
-> = ({ isActive, data, close, add, remove, open, ...props }) => {
+> = ({
+  isActive,
+  data,
+  close,
+  add,
+  remove,
+  open,
+  shouldInsertWithText,
+  pluginConfig,
+  ...props
+}) => {
   if (!open) {
     return <FullSizeLoader />;
   }
   return (
-    <Popover
-      {...props}
-      open={open}
-      onClose={() => {
-        close();
-      }}
-    >
-      <KeywordInlineControlContent
-        {...props}
-        data={{
-          keyword: undefined,
-          colorize: true,
-          ...data,
-        }}
-        onAdd={(data) => {
-          add({ data });
-        }}
-        onRemove={() => {
-          if (data) {
-            remove();
-          }
-        }}
-      />
-    </Popover>
+    <ComponentPickerPopoverControlAnchorWrapper>
+      {(anchorEl) => (
+        <Popover
+          {...props}
+          anchorEl={anchorEl}
+          open={open}
+          onClose={() => {
+            close();
+          }}
+        >
+          <KeywordInlineControlContent
+            {...props}
+            data={{
+              keyword: undefined,
+              colorize: true,
+              ...data,
+            }}
+            onAdd={(data) => {
+              add({ data });
+            }}
+            onRemove={() => {
+              if (data) {
+                remove();
+              }
+            }}
+          />
+        </Popover>
+      )}
+    </ComponentPickerPopoverControlAnchorWrapper>
   );
 };
 
 export const KeywordInlineRenderer: SlateComponentPluginDefinition<KeywordInlineState>["Component"] =
-  ({
-    displayFullName,
-    displayAvatar,
-    keyword,
-    colorize,
-    useFocused,
-    useSelected,
-    getTextContents,
-    childNodes,
-    children,
-    ...props
-  }) => {
-    // console.log({ ...props, displayAvatar, className });
-    if (keyword) {
-      return <KeywordChip {...props} keyword={keyword} onClick={() => {}} />;
-    }
-    return <span>Select a keyword...</span>;
+  (props) => {
+    const {
+      displayFullName,
+      displayAvatar,
+      keyword,
+      colorize,
+      useFocused,
+      useSelected,
+      getTextContents,
+      childNodes,
+      children,
+      readOnly,
+      pluginConfig,
+      shouldInsertWithText,
+      ...otherProps
+    } = props;
+
+    return (
+      <ComponentPickerPopoverRendererAnchorWrapper
+        readOnly={readOnly as boolean}
+        isSelected={useSelected()}
+        hasData={!!keyword}
+      >
+        <KeywordChip {...otherProps} keyword={keyword} />
+      </ComponentPickerPopoverRendererAnchorWrapper>
+    );
   };
 
 const keywordInlinePlugin =
