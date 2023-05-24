@@ -65,8 +65,16 @@ jobs:
           key: web-build
 
       - name: Type Check Web
-        run: yarn web tsc -b
+        run: yarn web build
 
+      - name: Build Web App
+        run: yarn web build:app-server
+
+  docker-build:
+    if: ${{ github.ref_name == 'daily' }}
+    runs-on: [ubuntu-latest]
+    needs: [build]
+    steps:
       - name: Log in to registry
         uses: docker/login-action@v2
         with:
