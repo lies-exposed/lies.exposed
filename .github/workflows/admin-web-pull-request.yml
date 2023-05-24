@@ -78,6 +78,7 @@ jobs:
         run: yarn admin-web build:app
 
   docker_build:
+    if: ${{ github.ref_name == 'daily' }}
     runs-on: ubuntu-latest
     needs: [install, build-packages, lint, build]
 
