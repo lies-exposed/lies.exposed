@@ -28,7 +28,7 @@ const run = async (): Promise<void> => {
       user: getOneAdminOrFail(ctx),
       browser: pipe(
         ctx.puppeteer.getBrowser({
-          headless: false,
+          headless: 'new',
         }),
         TE.mapLeft(toControllerError)
       ),

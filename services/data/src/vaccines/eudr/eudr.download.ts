@@ -369,9 +369,7 @@ export const runDownload = (): TE.TaskEither<Error, void> => {
   }
 
   return pipe(
-    pupClient.getBrowser('about:blank', {
-      headless: true,
-      args: ["--no-sandbox"],
+    pupClient.getBrowserFirstPage('about:blank', {
     }),
     TE.chain((pup) => {
       const processManufacturerData = GetManufacturerDataProcess(log, pup, {

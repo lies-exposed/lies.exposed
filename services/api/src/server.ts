@@ -134,12 +134,7 @@ export const makeContext = (
         ),
         TE.right
       ),
-      puppeteer: TE.right(
-        GetPuppeteerProvider(puppeteer as any, {
-          headless: true,
-          args: ["--no-sandbox"],
-        })
-      ),
+      puppeteer: TE.right(GetPuppeteerProvider(puppeteer, {})),
       ffmpeg: TE.right(GetFFMPEGProvider(ffmpeg)),
       http: TE.right(HTTP({})),
       wp: TE.right(wpProvider),

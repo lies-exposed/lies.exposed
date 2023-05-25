@@ -104,12 +104,12 @@ jobs:
 
       - name: Run migrations
         env:
-          DOTENV_CONFIG_PATH: ../../.env.test
+          DOTENV_CONFIG_PATH: .env.test
         run: yarn api migration:run
 
       - name: Upsert NLP Entities
         env:
-          DOTENV_CONFIG_PATH: ../../.env.test
+          DOTENV_CONFIG_PATH: .env.test
         run: yarn api upsert-nlp-entities
 
       - name: Run tests

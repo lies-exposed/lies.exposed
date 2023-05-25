@@ -88,7 +88,7 @@ export const initAppTest = async (): Promise<AppTest> => {
           return TE.right("");
         },
       },
-      puppeteer: GetPuppeteerProvider(puppeteerMocks, { headless: false }),
+      puppeteer: GetPuppeteerProvider(puppeteerMocks, { headless: 'new' }),
       tg: tgProviderMock,
       s3: MakeSpaceClient({
         client: awsMock as any,

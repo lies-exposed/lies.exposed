@@ -141,7 +141,7 @@ export const GetPuppeteerProvider = (
   // let _pup: puppeteer.Browser;
 
   const launch = (
-    launchOpts: BrowserLaunchOpts
+    opts: BrowserLaunchOpts
   ): TE.TaskEither<PuppeteerError, puppeteer.Browser> => {
     return pipe(
       getChromePath(),
@@ -153,8 +153,10 @@ export const GetPuppeteerProvider = (
 
           const options = {
             executablePath,
-            ...(defaultOpts as any),
-            ...launchOpts,
+            headless: "new",
+            args: ["--no-sandbox"],
+            ...defaultOpts,
+            ...opts,
           };
 
           const b = await (pup.launch(options) as any);
@@ -171,13 +173,13 @@ export const GetPuppeteerProvider = (
   };
 
   const execute = (
-    launchOpts: BrowserLaunchOpts,
+    opts: BrowserLaunchOpts,
     te: (
       b: puppeteer.Browser
     ) => TE.TaskEither<PuppeteerError, puppeteer.Browser>
   ): TE.TaskEither<PuppeteerError, void> => {
     return pipe(
-      launch(launchOpts),
+      launch(opts),
       TE.chain((b) => te(b)),
       TE.chain((b) => TE.tryCatch(() => b.close(), toPuppeteerError))
     );
@@ -186,7 +188,7 @@ export const GetPuppeteerProvider = (
   const getBrowser = (
     opts: BrowserLaunchOpts
   ): TE.TaskEither<PuppeteerError, puppeteer.Browser> => {
-    return launch({ ...defaultOpts, ...opts });
+    return launch(opts);
   };
 
   const download = (url: string): TE.TaskEither<PuppeteerError, void> => {
