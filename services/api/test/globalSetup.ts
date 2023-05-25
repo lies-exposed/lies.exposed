@@ -10,6 +10,7 @@ import { pipe } from "fp-ts/function";
 import * as TE from "fp-ts/TaskEither";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import { TestENV } from "./TestENV";
+import { loadENV } from '@liexp/core/lib/env/utils';
 
 export default async (): Promise<void> => {
   try {
@@ -17,12 +18,14 @@ export default async (): Promise<void> => {
 
     const dotenvConfigPath = path.resolve(
       process.env.DOTENV_CONFIG_PATH ??
-        path.join(__dirname, "/../../../.env.test")
+        path.join(__dirname, "./../.env.test")
     );
 
     dotenv.config({ path: dotenvConfigPath });
 
     moduleLogger.debug.log("Process env %O", process.env);
+
+    loadENV(process.cwd(), dotenvConfigPath, true)
 
     return await pipe(
       TestENV.decode(process.env),

@@ -10,6 +10,7 @@ import { toControllerError } from "@io/ControllerError";
 
 export const parseTGMessageFlow: TEFlow<[string, boolean], EventResult> =
   (ctx) => (filePath, deleteFile) => {
+    ctx.logger.debug.log("Parsing file %s", filePath)
     return pipe(
       fp.TE.fromIOEither(
         fp.IOE.tryCatch(

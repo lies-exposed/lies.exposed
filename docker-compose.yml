@@ -51,7 +51,7 @@ services:
       dockerfile: api.Dockerfile
     container_name: liexp-api
     env_file:
-      - .env
+      - ./services/api/.env
       # - .env.alpha
     environment:
       DEBUG: "@liexp*"

@@ -30,9 +30,7 @@ export const SearchEventsFromProviderRoute = (
         TE.mapLeft(toPuppeteerError),
         TE.chain((user) =>
           pipe(
-            ctx.puppeteer.getBrowser({
-              headless: true,
-            }),
+            ctx.puppeteer.getBrowser({}),
             TE.map((browser) => ({ browser, user }))
           )
         ),

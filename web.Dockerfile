@@ -46,11 +46,10 @@ COPY --from=build /app/services/web/build /app/services/web/build
 COPY --from=build /app/services/web/package.json /app/services/web/package.json
 COPY --from=build /app/services/web/.env /app/services/web/.env
 
-RUN rm -rf /app/services/web/node_modules && \
-    rm -rf /app/node_modules && \
-    yarn config set --home enableTelemetry false && \
-    yarn workspaces focus web --production && \
-    rm -rf /app/.yarn/cache /app/node_modules/.cache /app/services/api/node_modules/.cache
+RUN rm -rf /app/services/web/node_modules \
+    rm -rf /app/node_modules
+
+RUN yarn config set --home enableTelemetry false && yarn workspaces focus web --production && rm -rf /app/.yarn/cache /app/node_modules/.cache /app/services/api/node_modules/.cache
 
 WORKDIR /app/services/web
 

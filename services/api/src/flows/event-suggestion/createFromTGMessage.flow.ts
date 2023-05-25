@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import path from "path";
+import { fp } from "@liexp/core/lib/fp";
 import { isExcludedURL } from "@liexp/shared/lib/helpers/link.helper";
 import {
   getPlatform,
@@ -26,11 +27,7 @@ import { type TEFlow } from "@flows/flow.types";
 import { fetchAndSave } from "@flows/link.flow";
 import { extractMediaFromPlatform } from "@flows/media/extractMediaFromPlatform.flow";
 import { getOneAdminOrFail } from "@flows/users/getOneUserOrFail.flow";
-import {
-  ServerError,
-  toControllerError,
-  type ControllerError,
-} from "@io/ControllerError";
+import { toControllerError, type ControllerError } from "@io/ControllerError";
 
 export interface EventResult {
   link: LinkEntity[];
@@ -41,17 +38,38 @@ export interface EventResult {
 
 const parsePlatformMedia: TEFlow<
   [URL, VideoPlatformMatch, puppeteer.Page, UserEntity],
-  MediaEntity
+  MediaEntity[]
 > = (ctx) => (url, m, page, creator) => {
   ctx.logger.debug.log("Parse platform media %O (%s)", m, url);
   return pipe(
     extractMediaFromPlatform(ctx)(url, m, page),
     TE.chain((media) => {
-      return ctx.db.save(MediaEntity, [
-        { ...media, creator: { id: creator.id } },
-      ]);
-    }),
-    TE.map((d) => d[0])
+      return pipe(
+        media.location,
+        O.fromNullable,
+        O.map((location) =>
+          ctx.db.findOne(MediaEntity, { where: { location } })
+        ),
+        O.fold(
+          () => {
+            return ctx.db.save(MediaEntity, [
+              { ...media, creator: { id: creator.id } },
+            ]);
+          },
+          (te) => {
+            return pipe(
+              te,
+              TE.map((record) => {
+                if (O.isSome(record)) {
+                  return [record.value];
+                }
+                return [];
+              })
+            );
+          }
+        )
+      );
+    })
   );
 };
 
@@ -175,29 +193,28 @@ export const createFromTGMessage: TEFlow<
       takeURLFromMessageEntity(message.caption),
       []
     ),
-  ].reduce(
-    (acc, url) => {
-      const platformURL = getPlatform(url);
-      if (E.isRight(platformURL)) {
-        return {
-          ...acc,
-          video: acc.video.concat({ ...platformURL.right, url }),
-        };
-      }
+  ]
+    .filter((u) => !isExcludedURL(u))
+    .reduce(
+      (acc, url) => {
+        const platformURL = getPlatform(url);
+        if (E.isRight(platformURL)) {
+          return {
+            ...acc,
+            video: acc.video.concat({ ...platformURL.right, url }),
+          };
+        }
 
-      if (!isExcludedURL(url)) {
         return {
           ...acc,
           url: acc.url.concat(url),
         };
+      },
+      {
+        url: [] as URL[],
+        video: [] as Array<VideoPlatformMatch & { url: URL }>,
       }
-      return acc;
-    },
-    {
-      url: [] as URL[],
-      video: [] as Array<VideoPlatformMatch & { url: URL }>,
-    }
-  );
+    );
 
   ctx.logger.info.log("URL entity %O", urlEntity);
   ctx.logger.info.log("URL video entity %O", videoURLS);
@@ -238,14 +255,12 @@ export const createFromTGMessage: TEFlow<
         if (O.isNone(video)) {
           ctx.logger.info.log("No video given");
 
-          return TE.left(
-            ServerError([
-              "No url given",
-              "No platform url given",
-              "No photo given",
-              "No video given",
-            ])
-          );
+          return TE.right({
+            link: [],
+            videos: [],
+            photos: [],
+            hashtags: [],
+          });
         }
       }
     }
@@ -263,7 +278,14 @@ export const createFromTGMessage: TEFlow<
   ): TE.TaskEither<ControllerError, LinkEntity[]> =>
     pipe(
       urls,
-      O.map((urls) => urls.filter((u) => E.isRight(URL.decode(u)))),
+      O.map((urls) =>
+        urls.filter((u) => {
+          const isURL = E.isRight(URL.decode(u));
+          const isAllowed = !isExcludedURL(u);
+
+          return isURL && isAllowed;
+        })
+      ),
       O.getOrElse((): URL[] => []),
       A.map((url) => {
         return pipe(
@@ -273,8 +295,9 @@ export const createFromTGMessage: TEFlow<
             },
           }),
           TE.chain((link) => {
-            ctx.logger.info.log("Link %O", link);
+
             if (O.isSome(link)) {
+              ctx.logger.info.log("Link found %s", link.value.id);
               return TE.right(link.value);
             }
 
@@ -307,7 +330,21 @@ export const createFromTGMessage: TEFlow<
     ),
     ctx.logger.debug.logInPipe("Photo to parse %O"),
     TE.right,
-    TE.chain((pp) => parsePhoto(ctx)(message.caption ?? "", pp.unique))
+    TE.chain((pp) =>
+      pipe(
+        parsePhoto(ctx)(message.caption ?? "", pp.unique),
+        TE.fold(
+          (e) => {
+            ctx.logger.warn.log(
+              `Failed to do download file ${pp.unique}: %O`,
+              e
+            );
+            return fp.T.of(E.right([]));
+          },
+          (mm) => fp.T.of(fp.E.right(mm))
+        )
+      )
+    )
   );
 
   ctx.logger.debug.log("Video to parse %O", video);
@@ -322,18 +359,18 @@ export const createFromTGMessage: TEFlow<
     return pipe(
       videoURLS,
       A.map(({ url, ...m }) => parsePlatformMedia(ctx)(url, m, p, creator)),
-      A.sequence(TE.ApplicativeSeq)
+      A.sequence(TE.ApplicativeSeq),
+      TE.map(A.flatten)
     );
   };
+
   return pipe(
     getOneAdminOrFail(ctx),
     TE.chain((creator) =>
       pipe(
         TE.bracket(
           pipe(
-            ctx.puppeteer.getBrowserFirstPage("about:blank", {
-              headless: true,
-            }),
+            ctx.puppeteer.getBrowserFirstPage("about:blank", {}),
             TE.mapLeft(toControllerError)
           ),
           (page) =>
@@ -348,11 +385,10 @@ export const createFromTGMessage: TEFlow<
         )
       )
     ),
-    TE.map(({ videos, platformMedia,  ...others }) => ({
+    TE.map(({ videos, platformMedia, ...others }) => ({
       ...others,
       videos: [...videos, ...platformMedia],
     })),
-
     TE.mapLeft((e) => {
       ctx.logger.error.log("Error %O", e);
       return e;

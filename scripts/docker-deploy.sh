@@ -40,5 +40,6 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     # docker compose run --rm api yarn set-default-group-usernames
     docker compose run --rm api yarn ts:node:build ./bin/update-event-payload-url-refs.ts
     docker compose run --rm api yarn ts:node:build ./bin/add-event-default-links.ts
+    docker compose run --rm api yarn parse-ts-message all true
 EOF
 
