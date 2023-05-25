@@ -82,8 +82,8 @@ export const extractMediaFromPlatform: TEFlow<
   ctx.logger.debug.log("Extracting media from %s (%O)", url, m);
   return pipe(
     sequenceS(TE.ApplicativeSeq)({
-      description: extractDescriptionFromPlatform(m, page),
       location: extractEmbedFromPlatform(url, m, page),
+      description: extractDescriptionFromPlatform(m, page),
       thumbnail: pipe(
         extractThumbnail(m, page),
         TE.mapLeft(toControllerError),

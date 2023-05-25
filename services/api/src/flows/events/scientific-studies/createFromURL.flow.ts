@@ -21,7 +21,7 @@ export const createEventFromURL: TEFlow<[UserEntity, URL], EventV2Entity> =
       TE.chain((existingEvent) => {
         if (O.isNone(existingEvent)) {
           return pipe(
-            ctx.puppeteer.getBrowser({ headless: true }),
+            ctx.puppeteer.getBrowser({}),
             TE.mapLeft(toControllerError),
             TE.chain((b) =>
               pipe(

@@ -1,15 +1,15 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-require("module-alias")(process.cwd());
+// /* eslint-disable @typescript-eslint/no-var-requires */
+// require("module-alias")(process.cwd());
 
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { LinkEntity } from "@entities/Link.entity";
-import { getOneAdminOrFail } from "@flows/users/getOneUserOrFail.flow";
 import { fp } from "@liexp/core/lib/fp";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { sequenceS } from "fp-ts/lib/Apply";
 import { pipe } from "fp-ts/lib/function";
 import { Brackets } from "typeorm";
 import { startContext, stopContext } from "./start-ctx";
+import { EventV2Entity } from "@entities/Event.v2.entity";
+import { LinkEntity } from "@entities/Link.entity";
+import { getOneAdminOrFail } from "@flows/users/getOneUserOrFail.flow";
 
 /**
  * Usage ts-node ./bin/create-from-wikipedia $search

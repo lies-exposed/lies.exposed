@@ -116,7 +116,7 @@ export const extractThumbnail = (
           });
         }
         case "rumble": {
-          const selector = "#player video[poster]";
+          const selector = "#videoPlayer video[poster]";
           await page.waitForSelector(selector);
 
           const videoPosterSrc = await page.$eval(selector, (el) => {

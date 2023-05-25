@@ -19,6 +19,7 @@ export interface Logger {
   info: FPTSLogger;
   test: FPTSLogger;
   error: FPTSLogger;
+  warn: FPTSLogger;
   extend: GetLogger;
 }
 
@@ -28,6 +29,7 @@ export const GetLogger = (name: string): Logger => {
   const logger = baseLogger.extend(name);
   const debug = logger.extend("debug");
   const info = logger.extend(name).extend("info");
+  const warn = logger.extend(name).extend("warn");
   const error = logger.extend(name).extend("error");
   const test = logger.extend(name).extend("test");
 
@@ -63,31 +65,19 @@ export const GetLogger = (name: string): Logger => {
         })
       );
 
+  const makeLogger = (log: debug.Debugger): FPTSLogger => ({
+    log,
+    logInPipe: logInPipe(log),
+    logInTask: logInTask(log),
+    logInTaskEither: logInTaskEither(log),
+  });
+
   return {
     extend: GetLogger,
-    debug: {
-      log: debug,
-      logInPipe: logInPipe(debug),
-      logInTask: logInTask(debug),
-      logInTaskEither: logInTaskEither(debug),
-    },
-    info: {
-      log: info,
-      logInPipe: logInPipe(info),
-      logInTask: logInTask(info),
-      logInTaskEither: logInTaskEither(info),
-    },
-    error: {
-      log: error,
-      logInPipe: logInPipe(error),
-      logInTask: logInTask(error),
-      logInTaskEither: logInTaskEither(error),
-    },
-    test: {
-      log: test,
-      logInPipe: logInPipe(test),
-      logInTask: logInTask(test),
-      logInTaskEither: logInTaskEither(test),
-    },
+    debug: makeLogger(debug),
+    info: makeLogger(info),
+    warn: makeLogger(warn),
+    error: makeLogger(error),
+    test: makeLogger(test),
   };
 };

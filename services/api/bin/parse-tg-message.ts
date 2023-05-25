@@ -1,12 +1,12 @@
-import { parseTGMessageFlow } from "@flows/tg/parseMessages.flow";
-import { loadENV } from "@liexp/core/lib/env/utils";
-import { fp } from "@liexp/core/lib/fp";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import D from "debug";
-import { pipe } from "fp-ts/lib/function";
 import * as fs from "fs";
 import * as path from "path";
+import { loadENV } from "@liexp/core/lib/env/utils";
+import { fp } from "@liexp/core/lib/fp";
+import { separateTE, throwTE } from "@liexp/shared/lib/utils/task.utils";
+import D from "debug";
+import { pipe } from "fp-ts/lib/function";
 import { startContext, stopContext } from "./start-ctx";
+import { parseTGMessageFlow } from "@flows/tg/parseMessages.flow";
 
 /**
  * Usage ts-node ./bin/parse-tg-message $messageN $delete?
@@ -23,26 +23,46 @@ const run = async (): Promise<any> => {
 
   const messagesFolder = path.resolve(__dirname, `../temp/tg/messages`);
 
-  const tgN =
+  const messageFile =
     tgNumber === "latest"
-      ? pipe(fs.readdirSync(messagesFolder), fp.A.last, fp.O.toUndefined)
-      : `${parseInt(tgNumber, 10)}.json`;
+      ? pipe(
+          fs.readdirSync(messagesFolder),
+          fp.A.last,
+          fp.O.map((latest) => [latest]),
+          fp.O.getOrElse((): string[] => [])
+        )
+      : tgNumber === "all"
+      ? fs.readdirSync(messagesFolder)
+      : [`${parseInt(tgNumber, 10)}.json`];
 
-  if (!tgN) {
+  if (!messageFile) {
     // eslint-disable-next-line no-console
     console.log("No file found to parse.");
     return;
   }
+
   const deleteFile = _deleteFile === "true";
 
   const ctx = await startContext();
 
   D.enable(ctx.env.DEBUG);
 
-  const messageFile = path.resolve(messagesFolder, tgN);
+  ctx.logger.info.log("Reading message %d", messageFile.length);
+  const parseTGMessage = parseTGMessageFlow(ctx);
 
   const result = await pipe(
-    parseTGMessageFlow(ctx)(messageFile, deleteFile),
+    messageFile.map((f) =>
+      parseTGMessage(path.resolve(messagesFolder, f), deleteFile)
+    ),
+    separateTE,
+    fp.T.map(({ left, right }) => {
+      left.forEach((l) => {
+        ctx.logger.error.log(`Message failed %O`, l);
+      });
+
+      return right;
+    }),
+    fp.TE.fromTask,
     throwTE
   );
 

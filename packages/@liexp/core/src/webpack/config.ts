@@ -57,7 +57,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
 
   webpackLogger.debug.log(`DOTENV_CONFIG_PATH %s`, DOTENV_CONFIG_PATH);
 
-  loadENV(opts.envFileDir);
+  loadENV(opts.envFileDir, DOTENV_CONFIG_PATH, true);
 
   // webpackLogger.debug.log('process.env after dotenv %O', process.env)
 
@@ -66,7 +66,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
   const BUILD_ENV = t.strict(
     {
       NODE_ENV,
-      BUNDLE_TARGET: t.union([t.literal("firefox"), t.literal("chrome")]),
+      // BUNDLE_TARGET: t.union([t.literal("firefox"), t.literal("chrome")]),
       BUNDLE_STATS: BooleanFromString,
     },
     "processENV"
@@ -94,8 +94,9 @@ const getConfig = <A extends Record<string, t.Mixed>>(
 
   const appEnv = pipe(process.env, opts.env.decode, (validation) => {
     if (validation._tag === "Left") {
-      webpackLogger.error.log(
-        `Validation error for build end: %O`,
+      // eslint-disable-next-line
+      console.error(
+        `Validation error for app env: %O`,
         PathReporter.report(validation).join("\n")
       );
       throw new Error(`${opts.env.name} decoding failed.`);

@@ -51,7 +51,7 @@ export const MakeExtractScientificStudyFromURLRoute: Route = (r, ctx) => {
         }),
         TE.chain(({ event, user }) => {
           return pipe(
-            ctx.puppeteer.getBrowser({ headless: false }),
+            ctx.puppeteer.getBrowser({ }),
             TE.mapLeft(toControllerError),
             TE.chain((b) =>
               pipe(
