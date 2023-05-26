@@ -2,15 +2,18 @@ import * as React from "react";
 import {
   Datagrid,
   DateField,
-  type FieldProps,
   ReferenceArrayField,
   TextField,
   useRecordContext,
+  type ReferenceFieldProps,
+  type RaRecord,
 } from "react-admin";
 import { Box } from "../../mui";
 import ReferenceArrayGroupInput from "../groups/ReferenceArrayGroupInput";
 
-export const ReferenceGroupsTab: React.FC<FieldProps> = (props) => {
+export const ReferenceGroupsTab: React.FC<
+  ReferenceFieldProps<RaRecord<string>>
+> = (props) => {
   const record = useRecordContext();
   const newSource =
     props.source?.split(".").slice(0, -1).concat("newGroups").join(".") ??

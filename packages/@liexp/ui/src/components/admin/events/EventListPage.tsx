@@ -14,11 +14,11 @@ import {
   DateInput,
   FunctionField,
   List,
-  type RaRecord as Record,
   ReferenceField,
   SelectInput,
   TextField,
   TextInput,
+  type RaRecord,
 } from "react-admin";
 import { EventIcon } from "../../Common/Icons/EventIcon";
 import { Box, Typography } from "../../mui";
@@ -125,10 +125,10 @@ export const EventListPage: React.FC = () => {
           source="media"
           render={(r: any) => r.media?.length ?? 0}
         />
-        <FunctionField
+        <FunctionField<RaRecord<string>>
           label="actors"
           source="payload"
-          render={(r: Record | undefined) => {
+          render={(r) => {
             if (r?.type === Events.Uncategorized.UNCATEGORIZED.value) {
               return r.payload.actors.length;
             }
@@ -141,10 +141,10 @@ export const EventListPage: React.FC = () => {
           }}
         />
 
-        <FunctionField
+        <FunctionField<RaRecord<string>>
           label="groups"
           source="payload"
-          render={(r: Record | undefined) => {
+          render={(r) => {
             if (r?.type === "Uncategorized") {
               return r.payload.groups.length;
             }
@@ -156,10 +156,10 @@ export const EventListPage: React.FC = () => {
             return 0;
           }}
         />
-        <FunctionField
+        <FunctionField<RaRecord<string>>
           label="groupsMembers"
           source="payload"
-          render={(r: Record | undefined) => {
+          render={(r) => {
             if (r?.type === "Uncategorized") {
               return r.payload.groupsMembers.length;
             }
@@ -171,18 +171,18 @@ export const EventListPage: React.FC = () => {
             return 1;
           }}
         />
-        <FunctionField
+        <FunctionField<RaRecord<string>>
           label="Location"
           source="payload.location.coordinates"
-          render={(r: Record | undefined) =>
+          render={(r) =>
             r?.location?.coordinates ? <PinDropIcon /> : "-"
           }
         />
 
         <DateField source="date" />
-        <FunctionField
+        <FunctionField<RaRecord<string>>
           label="Dates"
-          render={(r: Record | undefined) => {
+          render={(r) => {
             return (
               <Box>
                 <DateField source="updatedAt" />

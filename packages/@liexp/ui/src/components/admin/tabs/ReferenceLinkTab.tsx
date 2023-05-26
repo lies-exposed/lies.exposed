@@ -2,15 +2,18 @@ import * as React from "react";
 import {
   Datagrid,
   DateField,
-  type FieldProps,
+  type RaRecord,
   ReferenceArrayField,
+  type ReferenceFieldProps,
   TextField,
 } from "react-admin";
 import { Box } from "../../mui";
 import { LinkArrayInput } from "../links/LinkArrayInput";
 import { MediaField } from "../media/MediaField";
 
-export const ReferenceLinkTab: React.FC<FieldProps> = (props) => {
+export const ReferenceLinkTab: React.FC<
+  Omit<ReferenceFieldProps<RaRecord<string>>, 'reference'>
+> = (props) => {
   const newLinksSource =
     props.source?.split(".").slice(0, -1).concat("newLinks").join(".") ??
     "newLinks";

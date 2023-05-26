@@ -3,11 +3,11 @@ import React from "react";
 import {
   BooleanField,
   Datagrid,
-  FunctionField, ReferenceManyField, type ReferenceManyFieldProps
+  FunctionField, type RaRecord, ReferenceManyField, type ReferenceManyFieldProps
 } from "react-admin";
 
 const ReferenceManyEventField: React.FC<
-  Omit<ReferenceManyFieldProps, 'reference'| "children"> & { source: string }
+  Omit<ReferenceManyFieldProps<RaRecord<string>>, 'reference'| "children"> & { source: string }
 > = (props) => (
   <ReferenceManyField
     {...props}

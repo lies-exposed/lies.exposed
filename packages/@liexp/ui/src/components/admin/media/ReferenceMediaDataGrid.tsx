@@ -4,15 +4,17 @@ import {
   ReferenceArrayField,
   type ReferenceArrayFieldProps,
   TextField,
+  type RaRecord,
 } from "react-admin";
 import { MediaField } from "./MediaField";
 
 export const ReferenceMediaDataGrid: React.FC<
-  Omit<ReferenceArrayFieldProps, "children" | "reference">
+  Omit<ReferenceArrayFieldProps<RaRecord<string>>, "children" | "reference">
 > = (props) => {
   return (
-    <ReferenceArrayField
+    <ReferenceArrayField<RaRecord<string>>
       {...props}
+      source={props.source ?? "media"}
       reference="media"
       sortBy="updatedAt"
       sortByOrder="DESC"
