@@ -93,7 +93,7 @@ export const Media = t.strict(
     events: t.array(UUID),
     links: t.array(UUID),
     keywords: t.array(UUID),
-    featuredIn: t.array(UUID),
+    featuredIn: t.union([t.array(UUID), t.undefined]),
     createdAt: DateFromISOString,
     updatedAt: DateFromISOString,
     deletedAt: t.union([DateFromISOString, t.undefined]),
