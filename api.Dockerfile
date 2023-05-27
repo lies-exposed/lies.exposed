@@ -16,14 +16,7 @@ COPY packages/@liexp/backend ./packages/@liexp/backend
 COPY packages/@liexp/ui ./packages/@liexp/ui
 COPY services/api ./services/api
 
-RUN yarn config set --home enableTelemetry false
-
-RUN yarn install
-
-
-# RUN yarn set version latest
-
-RUN yarn api build
+RUN yarn config set --home enableTelemetry false && yarn install && yarn api build
 
 FROM ghcr.io/lies-exposed/liexp-base:alpha-latest as production
 
@@ -58,14 +51,9 @@ COPY --from=build /app/services/api/ormconfig.ts /app/services/api/ormconfig.ts
 COPY --from=build /app/services/api/bin /app/services/api/bin
 COPY --from=build /app/services/api/build /app/services/api/build
 
-RUN yarn config set --home enableTelemetry false
-
-RUN yarn workspaces focus -A --production
-
-RUN rm -rf /app/.yarn/cache /app/node_modules/.cache /app/services/api/node_modules/.cache
+RUN yarn config set --home enableTelemetry false && yarn workspaces focus -A --production && rm -rf /app/.yarn/cache /app/node_modules/.cache /app/services/api/node_modules/.cache
 
 RUN mkdir /app/node_modules/bot-brother/__storage/
-# RUN chown -R pptruser:pptruser /app/node_modules/bot-brother/__storage/
 
 # Run everything after as non-privileged user.
 USER pptruser
