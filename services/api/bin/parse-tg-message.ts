@@ -1,3 +1,7 @@
+/* eslint-disable import/first */
+/* eslint-disable @typescript-eslint/no-var-requires */
+require("module-alias")(process.cwd());
+
 import * as fs from "fs";
 import * as path from "path";
 import { loadENV } from "@liexp/core/lib/env/utils";

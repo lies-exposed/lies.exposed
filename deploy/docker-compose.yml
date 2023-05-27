@@ -29,6 +29,11 @@ services:
       start_period: 30s
     command: yarn start
     restart: always
+    logging:
+      driver: "json-file"
+      options:
+          max-file: 5
+          max-size: 10m
 
   web:
     image: ghcr.io/lies-exposed/liexp-web:alpha-latest
@@ -47,9 +52,8 @@ services:
     working_dir: /app/services/web
     command: yarn serve
     restart: always
-    # healthcheck:
-    #   test: ["CMD", "curl", "-f", "http://localhost:4020/"]
-    #   interval: 10s
-    #   timeout: 10s
-    #   retries: 10
-    #   start_period: 30s
+    logging:
+      driver: "json-file"
+      options:
+          max-file: 5
+          max-size: 10m
