@@ -5,7 +5,7 @@ import {
   EventSocialPostButton,
   type SocialPostButtonProps,
 } from "@liexp/ui/lib/components/admin/common/SocialPostButton";
-import { useEventsQuery } from "@liexp/ui/lib/state/queries/DiscreteQueries";
+import { useEventsQuery } from "@liexp/ui/lib/state/queries/event.queries";
 import { type StoryFn, type Meta } from "@storybook/react";
 import * as React from "react";
 import {

@@ -2,7 +2,6 @@ import { fp } from "@liexp/core/lib/fp";
 import {
   getColorByEventType,
   getEventMetadata,
-  takeEventRelations,
 } from "@liexp/shared/lib/helpers/event/event";
 import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/getTitle.helper";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
@@ -25,22 +24,14 @@ import {
 } from "@liexp/shared/lib/io/http/Network";
 import { type EventNetworkDatum } from "@liexp/shared/lib/io/http/Network/networks";
 import { GetEncodeUtils } from "@liexp/shared/lib/utils/encode.utils";
-import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
-import { sequenceS } from "fp-ts/lib/Apply";
 import { pipe } from "fp-ts/lib/function";
 import * as S from "fp-ts/string";
 import { type UUID } from "io-ts-types/lib/UUID";
+import { fetchEventsWithRelations } from "@flows/events/fetchWithRelations.flow";
 import { type TEFlow } from "@flows/flow.types";
-import { toActorIO } from "@routes/actors/actor.io";
-import { toEventV2IO } from "@routes/events/eventV2.io";
-import { fetchRelations } from "@routes/events/queries/fetchEventRelations.utils";
-import { searchEventV2Query } from "@routes/events/queries/searchEventsV2.query";
-import { toGroupIO } from "@routes/groups/group.io";
-import { toKeywordIO } from "@routes/keywords/keyword.io";
-import { toImageIO } from "@routes/media/media.io";
 
 const uniqueId = GetEncodeUtils<
   {
@@ -330,137 +321,53 @@ export const createNetworkGraph: TEFlow<
     const networkId = uniqueId.hash({ ids, relations });
     const filePath = ctx.fs.resolve(`temp/networks/${type}/${networkId}.json`);
 
-    return pipe(
-      ctx.fs.olderThan(filePath),
-      TE.chain((statsExist) => {
-        if (statsExist) {
-          return pipe(ctx.fs.getObject(filePath), TE.map(JSON.parse));
-        }
+    ctx.logger.debug.log("Creating graph for %s => %s", type, ids);
 
-        ctx.logger.debug.log("Creating graph for %s => %s", type, ids);
-
-        return pipe(
-          walkPaginatedRequest(ctx)(
-            ({ skip, amount }) =>
-              searchEventV2Query(ctx)({
-                ids: pipe(
-                  ids,
-                  O.fromPredicate((tt) => tt.length > 0 && type === "events")
-                ),
-                actors: type === ACTORS.value ? O.some(ids) : O.none,
-                groups: type === GROUPS.value ? O.some(ids) : O.none,
-                keywords: type === KEYWORDS.value ? O.some(ids) : O.none,
-                startDate: O.none,
-                endDate: O.none,
-                skip,
-                take: amount,
-                order: { date: "DESC" },
-              }),
-            (r) => r.total,
-            (r) => r.results,
-            0,
-            50
-          ),
-          TE.chain((results) => {
-            ctx.logger.debug.log("Events found %d", results.length);
-
-            return pipe(
-              results,
-              fp.A.traverse(fp.E.Applicative)(toEventV2IO),
-              fp.TE.fromEither,
-              fp.TE.map((events) => ({
-                ...takeEventRelations(events),
-                events,
-              })),
-              fp.TE.chain(({ events, ...relations }) =>
-                pipe(
-                  fetchRelations(ctx)({
-                    keywords: pipe(
-                      relations.keywords,
-                      O.fromPredicate((a) => a.length > 0)
-                    ),
-                    actors: pipe(
-                      relations.actors,
-                      O.fromPredicate((a) => a.length > 0)
-                    ),
-                    groups: pipe(
-                      relations.groups,
-                      O.fromPredicate((g) => g.length > 0)
-                    ),
-                    groupsMembers: O.some(relations.groupsMembers),
-                    links: O.none,
-                    media: pipe(
-                      relations.media,
-                      O.fromPredicate((m) => m.length > 0)
-                    ),
-                  }),
-                  TE.map((relations) => ({ ...relations, events }))
-                )
-              ),
-              TE.chain(({ events, ...relations }) =>
-                sequenceS(TE.ApplicativePar)({
-                  events: fp.TE.right(events),
-                  actors: pipe(
-                    relations.actors,
-                    fp.A.traverse(fp.E.Applicative)(toActorIO),
-                    fp.TE.fromEither
-                  ),
-                  groups: pipe(
-                    relations.groups,
-                    fp.A.traverse(fp.E.Applicative)((g) =>
-                      toGroupIO({ ...g, members: [] })
-                    ),
-                    fp.TE.fromEither
-                  ),
-                  keywords: pipe(
-                    relations.keywords,
-                    fp.A.traverse(fp.E.Applicative)(toKeywordIO),
-                    fp.TE.fromEither
-                  ),
-                  media: pipe(
-                    relations.media,
-                    fp.A.traverse(fp.E.Applicative)((m) =>
-                      toImageIO({ ...m, links: [], keywords: [], events: [] })
-                    ),
-                    fp.TE.fromEither
-                  ),
-                })
-              )
-            );
-          }),
-          TE.map(({ events: _events, actors, groups, keywords, media }) => {
-            const events = pipe(
-              _events,
-              fp.A.map((aa) =>
-                toSearchEvent(aa, {
-                  actors: new Map(actors.map((a) => [a.id, a])),
-                  groups: new Map(groups.map((g) => [g.id, g])),
-                  keywords: new Map(keywords.map((k) => [k.id, k])),
-                  media: new Map(media.map((m) => [m.id, m])),
-                  groupsMembers: new Map(),
-                })
-              )
-            );
-
-            const eventGraph = getEventGraph(type, ids, {
-              events,
-              actors,
-              groups,
-              keywords,
-              media,
-              relations,
-              emptyRelations: pipe(
-                emptyRelations,
-                O.getOrElse(() => true)
-              ),
-            });
-
-            return eventGraph;
-          }),
-          TE.chainFirst((graph) =>
-            ctx.fs.writeObject(filePath, JSON.stringify(graph))
+    const nonEmptyIds = pipe(ids, fp.NEA.fromArray);
+    const createNetworkGraphTask = pipe(
+      fetchEventsWithRelations(ctx)(type, ids[0], {
+        ids: nonEmptyIds,
+        actors: type === ACTORS.value ? nonEmptyIds : O.none,
+        groups: type === GROUPS.value ? nonEmptyIds : O.none,
+        keywords: type === KEYWORDS.value ? nonEmptyIds : O.none,
+        startDate: O.none,
+        endDate: O.none,
+        relations: O.some(relations),
+        emptyRelations: O.none,
+      }),
+      TE.map(({ events: _events, actors, groups, keywords, media }) => {
+        const events = pipe(
+          _events,
+          fp.A.map((aa) =>
+            toSearchEvent(aa, {
+              actors: new Map(actors.map((a) => [a.id, a])),
+              groups: new Map(groups.map((g) => [g.id, g])),
+              keywords: new Map(keywords.map((k) => [k.id, k])),
+              media: new Map(media.map((m) => [m.id, m])),
+              groupsMembers: new Map(),
+            })
           )
         );
-      })
+
+        const eventGraph = getEventGraph(type, ids, {
+          events,
+          actors,
+          groups,
+          keywords,
+          media,
+          relations,
+          emptyRelations: pipe(
+            emptyRelations,
+            O.getOrElse(() => true)
+          ),
+        });
+
+        return eventGraph;
+      }),
+      TE.chainFirst((graph) =>
+        ctx.fs.writeObject(filePath, JSON.stringify(graph))
+      )
     );
+
+    return pipe(createNetworkGraphTask, ctx.fs.getOlderThanOr(filePath));
   };

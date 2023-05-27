@@ -1,9 +1,9 @@
-import { type GraphId } from "@liexp/shared/lib/endpoints/graph.endpoints";
+import { type GraphId } from "@liexp/shared/lib/io/http/Graph";
 import { LinearGradient } from "@visx/gradient";
 import { ParentSize } from "@visx/responsive";
 import * as t from "io-ts";
 import * as React from "react";
-import { useGraphQuery } from "../../state/queries/DiscreteQueries";
+import { useGraphQuery } from "../../state/queries/graph.queries";
 import { AxisGraph } from "../Common/Graph/AxisGraph";
 import QueriesRenderer from "../QueriesRenderer";
 import { Checkbox } from "../mui";

@@ -21,7 +21,7 @@ export const usePopover = (
     setPopoverState((m) => ({ ...m, open: false }));
   }, []);
 
-  const modal = React.useMemo(() => {
+  const popover = React.useMemo(() => {
     const { title, content, open } = popoverState;
     if (!open || content === null) {
       return null;
@@ -50,5 +50,5 @@ export const usePopover = (
       content: getContent(onClose),
     });
   };
-  return [modal, showPopover];
+  return [popover, showPopover];
 };

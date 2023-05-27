@@ -255,6 +255,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                     }}
                     onQueryClear={onQueryClear}
                     layout={{
+                      searchBox: 10,
                       eventTypes: 12,
                       dateRangeBox: { columns: 12, variant: "picker" },
                       relations: 12,

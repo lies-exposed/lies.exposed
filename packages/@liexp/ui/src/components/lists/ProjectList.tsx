@@ -35,7 +35,7 @@ export const ProjectListItem: React.FC<ListItemProps<Project>> = ({
         width: "100%",
         minHeight: 300,
       }}
-      onClick={() => onClick?.(item)}
+      onClick={(e) => onClick?.(item, e)}
     >
       <CardHeader
         title={item.name}

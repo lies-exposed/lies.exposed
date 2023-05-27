@@ -40,7 +40,7 @@ import { MakePatentEventsRoutes } from "@routes/events/patents/patent.routes";
 import { MakeQuoteRoutes } from "@routes/events/quotes/quote.routes";
 import { MakeScientificStudyRoutes } from "@routes/events/scientific-study/ScientificStudyRoute.route";
 import { MakeTransactionEventsRoutes } from "@routes/events/transactions/transaction.routes";
-import { MakeGraphsRoute } from "@routes/graphs/getGraph.controller";
+import { MakeGraphsRoutes } from '@routes/graphs/graphs.routes';
 import { MakeGroupRoutes } from "@routes/groups/groups.route";
 import { MakeGroupMemberRoutes } from "@routes/groups-members/GroupMember.route";
 import { MakeHealthcheckRoutes } from "@routes/healthcheck/healthcheck.routes";
@@ -234,7 +234,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   MakeKeywordRoutes(router, ctx);
 
   // graphs data
-  MakeGraphsRoute(router, ctx);
+  MakeGraphsRoutes(router, ctx);
 
   // open graphs
   MakeOpenGraphRoutes(router, ctx);

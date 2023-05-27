@@ -2,7 +2,10 @@ import fs from "fs";
 import path from "path";
 import { fp } from "@liexp/core/lib/fp";
 import * as logger from "@liexp/core/lib/logger";
-import { distanceFromNow, differenceInHours } from "@liexp/shared/lib/utils/date";
+import {
+  distanceFromNow,
+  differenceInHours,
+} from "@liexp/shared/lib/utils/date";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { IOError } from "ts-io-error";
@@ -47,6 +50,10 @@ export interface FSClient {
   getObject: (filePath: string) => TE.TaskEither<FSError, string>;
   writeObject: (filePath: string, data: string) => TE.TaskEither<FSError, void>;
   deleteObject: (filePath: string) => TE.TaskEither<FSError, void>;
+  getOlderThanOr: (
+    filePath: string,
+    time?: number
+  ) => <E, A>(te: TE.TaskEither<E, A>) => TE.TaskEither<FSError, A>;
 }
 
 export const GetFSClient = (): FSClient => {
@@ -74,7 +81,7 @@ export const GetFSClient = (): FSClient => {
     );
   };
 
-  const olderThan: FSClient["olderThan"] = (filePath, cacheH = 6) => {
+  const olderThan: FSClient["olderThan"] = (filePath, hours = 6) => {
     return pipe(
       objectExists(filePath),
       TE.map((statsExists) => {
@@ -88,10 +95,24 @@ export const GetFSClient = (): FSClient => {
             hoursDelta
           );
 
-          return hoursDelta < cacheH;
+          return hoursDelta < hours;
         }
 
         return false;
+      })
+    );
+  };
+
+  const getObject: FSClient["getObject"] = (filePath) => {
+    fsLogger.debug.log("Getting object from path %s", filePath);
+    return pipe(TE.fromIO(() => fs.readFileSync(filePath, "utf-8")));
+  };
+
+  const writeObject: FSClient["writeObject"] = (filePath, data) => {
+    fsLogger.debug.log("Writing at %s: %d chars", filePath, data.length);
+    return pipe(
+      TE.fromIO(() => {
+        fs.writeFileSync(filePath, data, "utf-8");
       })
     );
   };
@@ -100,19 +121,32 @@ export const GetFSClient = (): FSClient => {
     resolve: (p) => path.resolve(process.cwd(), p),
     objectExists,
     olderThan,
-    writeObject: (filePath, data) => {
-      fsLogger.debug.log("Writing at %s: %d chars", filePath, data.length);
-      return pipe(TE.fromIO(() => { fs.writeFileSync(filePath, data, "utf-8"); }));
-    },
-    getObject: (filePath) => {
-      fsLogger.debug.log("Getting object from path %s", filePath);
-      return pipe(
-        TE.fromIO(() => fs.readFileSync(filePath, "utf-8")),
-      );
-    },
+    writeObject,
+    getObject,
     deleteObject: (filePath) => {
       fsLogger.debug.log("Deleting object at path %s", filePath);
-      return pipe(TE.fromIO(() => { fs.rmSync(filePath); }));
+      return pipe(
+        TE.fromIO(() => {
+          fs.rmSync(filePath);
+        })
+      );
+    },
+    getOlderThanOr: (fileName, hours) => (te) => {
+      return pipe(
+        olderThan(fileName, hours),
+        fp.TE.chain((exists) => {
+          if (exists) {
+            return pipe(getObject(fileName), fp.TE.map(JSON.parse));
+          }
+          return pipe(
+            te,
+            fp.TE.mapLeft(toFSError),
+            fp.TE.chainFirst((graph) =>
+              writeObject(fileName, JSON.stringify(graph))
+            )
+          );
+        })
+      );
     },
   };
 };

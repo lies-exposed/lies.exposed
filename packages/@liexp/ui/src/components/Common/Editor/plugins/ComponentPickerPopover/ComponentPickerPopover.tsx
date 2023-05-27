@@ -3,7 +3,7 @@ import {
   EVENT_BLOCK_PLUGIN,
   GROUP_INLINE,
   LINK_INLINE,
-  MEDIA_BLOCK_PLUGIN
+  MEDIA_BLOCK_PLUGIN,
 } from "@liexp/shared/lib/slate/plugins/customSlate";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 // eslint-disable-next-line no-restricted-imports
@@ -11,26 +11,17 @@ import { type SlatePluginControls } from "@react-page/plugins-slate/lib/types/sl
 import * as React from "react";
 import { List, ListItem, Typography } from "../../../../mui";
 import { Popover, type PopoverProps } from "../../../Popover";
-import {
-  ActorInlineControlContent
-} from "../actor/ActorInline.plugin";
-import {
-  EventBlockPluginControl
-} from "../event/eventBlock.plugin";
-import {
-  GroupInlineControlContent
-} from "../group/GroupInline.plugin";
-import {
-  KeywordInlineControlContent
-} from "../keyword/KeywordInline.plugin";
+import { ActorInlineControlContent } from "../actor/ActorInline.plugin";
+import { EventBlockPluginControl } from "../event/eventBlock.plugin";
+import { GroupInlineControlContent } from "../group/GroupInline.plugin";
+import { KeywordInlineControlContent } from "../keyword/KeywordInline.plugin";
 import { LinkInlineControlContent } from "../links/LinkInline.plugin";
 import {
   MediaBlockPluginControl,
-  type MediaBlockState
+  type MediaBlockState,
 } from "../media/mediaBlock";
-import { PLUGINS } from './constants';
-import { type PickablePlugin } from './types';
-
+import { PLUGINS } from "./constants";
+import { type PickablePlugin } from "./types";
 
 export const ComponentsPickerPopover: React.FC<
   Omit<PopoverProps, "onClose" | "onSelect"> & {
@@ -40,7 +31,6 @@ export const ComponentsPickerPopover: React.FC<
     plugin: SlatePluginControls<PickablePlugin>;
   }
 > = ({ onClose, open = false, onSelect, plugin, ...props }) => {
-
   const [selectedPlugin, setSelectedPlugin] = React.useState<
     PickablePlugin | undefined
   >(plugin.data);
@@ -50,6 +40,10 @@ export const ComponentsPickerPopover: React.FC<
   };
 
   const pluginControl = React.useMemo(() => {
+    if (!plugin) {
+      return null;
+    }
+
     const commonProps = {
       data: plugin.data?.data ?? {},
       onAdd: (data: any) => {

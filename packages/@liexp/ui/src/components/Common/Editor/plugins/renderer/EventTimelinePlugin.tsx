@@ -2,7 +2,7 @@ import { getEventCommonProps } from "@liexp/shared/lib/helpers/event";
 import { type Event } from "@liexp/shared/lib/io/http/Events";
 import { formatDate } from "@liexp/shared/lib/utils/date";
 import * as React from "react";
-import { useEventsQuery } from "../../../../../state/queries/DiscreteQueries";
+import { useEventsQuery } from "../../../../../state/queries/event.queries";
 import { styled } from "../../../../../theme";
 import QueriesRenderer from "../../../../QueriesRenderer";
 import {
