@@ -16,7 +16,8 @@ export const fetchNetworkGraph: FetchQuery<any> = fetchQuery(
 
 export const useNetworkGraphQuery = (
   params: GetNetworkParams,
-  query: Partial<serializedType<typeof GetNetworkQuery>>
+  query: Partial<serializedType<typeof GetNetworkQuery>>,
+  discrete: boolean | undefined = true
 ): UseQueryResult<NetworkGraphOutput, APIError> => {
   return useQuery(
     [
@@ -34,6 +35,7 @@ export const useNetworkGraphQuery = (
         ...query,
         emptyRelations: query.emptyRelations ?? undefined,
       },
+      discrete
     ],
     fetchNetworkGraph
   );

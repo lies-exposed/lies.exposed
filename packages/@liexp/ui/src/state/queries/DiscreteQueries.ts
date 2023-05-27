@@ -1,8 +1,6 @@
-import { type GraphId } from '@liexp/shared/lib/endpoints/graph.endpoints';
 import {
-  type Events,
   type GroupMember,
-  type Project,
+  type Project
 } from "@liexp/shared/lib/io/http";
 import { type APIError } from '@liexp/shared/lib/io/http/Error/APIError';
 import type * as t from "io-ts";
@@ -10,41 +8,7 @@ import type { GetListParams, GetOneParams } from "react-admin";
 import { useQuery, type UseQueryResult } from "react-query";
 import { Queries, jsonData } from "../../providers/DataProvider";
 import { fetchQuery } from "./common";
-import { type FetchQuery, type UseListQueryFn } from "./type";
-
-export const getEventsQueryKey = (
-  p: Partial<GetListParams>,
-  discrete: boolean
-): [string, GetListParams, boolean] => {
-  return [
-    "events",
-    {
-      filter: p.filter ?? {},
-      pagination: {
-        perPage: 20,
-        page: 1,
-        ...p.pagination,
-      },
-      sort: {
-        order: "DESC",
-        field: "date",
-        ...p.sort,
-      },
-    },
-    discrete,
-  ];
-};
-
-export const fetchEvents: (a: any) => Promise<any> = fetchQuery(
-  Queries.Event.getList
-);
-
-export const useEventsQuery: UseListQueryFn<Events.Event> = (
-  params,
-  discrete
-) => {
-  return useQuery(getEventsQueryKey(params, discrete), fetchEvents);
-};
+import { type FetchQuery } from "./type";
 
 export const getGroupsMembersQueryKey = (
   p: Partial<GetListParams>,
@@ -103,8 +67,3 @@ export const useJSONDataQuery = <A>(
   });
 };
 
-export const useGraphQuery = (id: GraphId): UseQueryResult<any, APIError> => {
-  return useQuery(["graph", id], async () => {
-    return await Queries.Graph.get(undefined, { id });
-  });
-};

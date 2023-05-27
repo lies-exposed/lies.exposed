@@ -19,6 +19,14 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
   return (
     <MainContent>
       <PageContent path="groups" />
+      <AutocompleteGroupInput
+        selectedItems={[]}
+        onChange={(gg) => {
+          navigateTo.groups({
+            id: gg[0].id,
+          });
+        }}
+      />
       <QueriesRenderer
         queries={{
           groups: useGroupsQuery(
@@ -32,14 +40,6 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
         }}
         render={({ groups }) => (
           <>
-            <AutocompleteGroupInput
-              selectedItems={[]}
-              onChange={(gg) => {
-                navigateTo.groups({
-                  id: gg[0].id,
-                });
-              }}
-            />
             <Typography variant="subtitle1">{groups.total}</Typography>
             <GroupList
               style={{

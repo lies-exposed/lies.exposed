@@ -1,6 +1,8 @@
 import {
   differenceInHours,
+  differenceInDays,
   formatDistanceToNow,
+  subYears,
   format,
   parseISO,
   parse,
@@ -40,4 +42,11 @@ export const formatAnyDateToShort = (date: any): string => {
 
 export const distanceFromNow = formatDistanceToNow;
 
-export { parseISO, parse, differenceInHours, formatDistanceToNow };
+export {
+  parseISO,
+  parse,
+  differenceInHours,
+  differenceInDays,
+  formatDistanceToNow,
+  subYears
+};

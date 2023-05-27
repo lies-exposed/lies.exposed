@@ -3,7 +3,7 @@ import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { Avatar, type AvatarSize } from "../Common/Avatar";
-import { ExpandableList } from '../Common/ExpandableList';
+import { ExpandableList } from "../Common/ExpandableList";
 import { List, type ListItemProps } from "../Common/List";
 import { Box, Typography } from "../mui";
 
@@ -14,7 +14,7 @@ export interface GroupItem extends Group.Group {
 interface GroupListProps {
   className?: string;
   groups: GroupItem[];
-  onItemClick: (actor: GroupItem) => void;
+  onItemClick: (group: GroupItem, e: any) => void;
   avatarSize?: AvatarSize;
   displayName?: boolean;
   style?: React.CSSProperties;
@@ -38,7 +38,7 @@ export const GroupListItem: React.FC<
         if (onClick) {
           e.preventDefault();
           e.stopPropagation();
-          onClick(item);
+          onClick(item, e);
         }
       }}
     >
@@ -59,15 +59,14 @@ export const GroupListItem: React.FC<
       {displayName ? (
         <Typography variant="caption"> {item.name}</Typography>
       ) : null}
-      <Box display="flex">
-        <div
-          style={{
-            width: "100%",
-            height: 3,
-            backgroundColor: item.selected ? item.color : "white",
-          }}
-        />
-      </Box>
+      <Box
+        display="flex"
+        style={{
+          width: "100%",
+          height: 3,
+          backgroundColor: item.selected ? item.color : "white",
+        }}
+      />
     </Box>
   );
 };
@@ -77,6 +76,7 @@ const GroupList: React.FC<GroupListProps> = ({
   onItemClick: onGroupClick,
   style,
   avatarSize,
+  displayName,
   ...props
 }) => {
   return (
@@ -87,7 +87,7 @@ const GroupList: React.FC<GroupListProps> = ({
       filter={(_) => true}
       onItemClick={onGroupClick}
       getKey={(g) => g.id}
-      ListItem={(p) => <GroupListItem {...{ ...p, ...props, avatarSize }} />}
+      ListItem={(p) => <GroupListItem {...{ ...p, ...props, avatarSize, displayName }} />}
     />
   );
 };
@@ -101,6 +101,7 @@ export const ExpandableGroupList: React.FC<
   onItemClick: onGroupClick,
   style,
   avatarSize,
+  displayName,
   limit = 10,
   ...props
 }) => {
@@ -113,7 +114,7 @@ export const ExpandableGroupList: React.FC<
       filter={(g) => g.selected}
       onItemClick={onGroupClick}
       getKey={(g) => g.id}
-      ListItem={(p) => <GroupListItem {...{ ...p, ...props, avatarSize }} />}
+      ListItem={(p) => <GroupListItem {...{ ...p, ...props, avatarSize, displayName }} />}
     />
   );
 };

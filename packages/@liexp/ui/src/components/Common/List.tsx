@@ -3,7 +3,7 @@ import { List as MUIList, type ListProps as MUIListProps } from "../mui";
 export interface ListItemProps<A> {
   item: A;
   index?: number;
-  onClick?: (a: A) => void;
+  onClick?: (a: A, e: any) => void;
 }
 
 export type ListProps<
@@ -16,7 +16,7 @@ export type ListProps<
     getKey: (a: A) => string;
     ListItem: React.FC<ListItemProps<A>>;
     filter: (a: A) => boolean;
-    onItemClick?: (a: A) => void;
+    onItemClick?: (a: A, e: any) => void;
     style?: React.CSSProperties;
   }
 >;

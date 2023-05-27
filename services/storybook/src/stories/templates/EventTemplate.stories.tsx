@@ -1,5 +1,5 @@
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
-import { useEventsQuery } from "@liexp/ui/lib/state/queries/DiscreteQueries";
+import { useEventsQuery } from "@liexp/ui/lib/state/queries/event.queries";
 import {
   EventTemplateUI,
   type EventTemplateProps,

@@ -2,7 +2,7 @@ import { getTitle } from "@liexp/shared/lib/helpers/event";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
 import { type Events } from "@liexp/shared/lib/io/http";
 import * as React from "react";
-import { useEventsQuery } from "../../state/queries/DiscreteQueries";
+import { useEventsQuery } from "../../state/queries/event.queries";
 import EventCard from "../Cards/Events/EventCard";
 import { EventCardGrid } from "../Cards/Events/EventCardGrid";
 import { AutocompleteInput } from "./AutocompleteInput";

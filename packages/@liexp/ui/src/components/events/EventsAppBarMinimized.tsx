@@ -1,4 +1,4 @@
-import { type GroupMember } from "@liexp/shared/lib/io/http";
+import { type Actor, type Group, type Keyword, type GroupMember } from "@liexp/shared/lib/io/http";
 import {
   Death,
   Documentary,
@@ -21,10 +21,10 @@ import { clsx } from "clsx";
 import * as React from "react";
 import { type SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery";
 import { styled } from "../../theme";
-import { type ActorItem, ActorList } from "../lists/ActorList";
-import GroupList, { type GroupItem } from "../lists/GroupList";
+import { ActorList } from "../lists/ActorList";
+import GroupList from "../lists/GroupList";
 import { GroupsMembersList } from "../lists/GroupMemberList";
-import KeywordList, { type KeywordItem } from "../lists/KeywordList";
+import KeywordList from "../lists/KeywordList";
 import { Box, Grid, Typography } from "../mui";
 import {
   EventTypeFilters,
@@ -87,13 +87,14 @@ export interface EventsAppBarMinimizedProps {
   current?: number;
   filters: EventTypeFiltersProps["filters"];
   totals: EventTotals;
-  actors: ActorItem[];
-  groups: GroupItem[];
-  keywords: KeywordItem[];
+  actors: Actor.Actor[];
+  groups: Group.Group[];
+  keywords: Keyword.Keyword[];
   groupsMembers: GroupMember.GroupMember[];
   onQueryChange: (e: SearchEventsQueryInputNoPagination) => void;
   open: boolean;
   layout?: Partial<{
+    searchBox: number
     eventTypes: number;
     dateRangeBox: { columns: number; variant: "slider" | "picker" };
     relations: number;
@@ -114,15 +115,15 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
   layout,
 }) => {
   const selectedGroups = React.useMemo(
-    () => groups.filter((b) => b.selected),
+    () => groups,
     [groups]
   );
   const selectedActors = React.useMemo(
-    () => actors.filter((b) => b.selected),
+    () => actors,
     [actors]
   );
   const selectedKeywords = React.useMemo(
-    () => keywords.filter((b) => b.selected),
+    () => keywords,
     [keywords]
   );
 
@@ -152,9 +153,9 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
     (q: any): void => {
       onQueryChange({
         ...query,
-        actors: actors.filter((a) => a.selected).map((a) => a.id),
-        groups: groups.filter((g) => g.selected).map((a) => a.id),
-        keywords: keywords.filter((k) => k.selected).map((a) => a.id),
+        actors: actors.map((a) => a.id),
+        groups: groups.map((a) => a.id),
+        keywords: keywords.map((a) => a.id),
         ...q,
       });
     },
@@ -183,15 +184,15 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
         display: "flex",
         flexDirection: "row",
       }}
-      actors={selectedActors}
+      actors={[]}
       onActorClick={(k) => {
         handleQueryChange({
           actors: actors
-            .map((g) => ({
-              ...g,
-              selected: g.id === k.id ? !k.selected : g.selected,
-            }))
-            .filter((s) => s.selected)
+            // .map((g) => ({
+            //   ...g,
+            //   selected: g.id === k.id ? !k.selected : g.selected,
+            // }))
+            // .filter((s) => s.selected)
             .map((a) => a.id),
         });
       }}
@@ -204,16 +205,16 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
         display: "flex",
         flexDirection: "row",
       }}
-      groups={selectedGroups}
+      groups={[]}
       onItemClick={(k) => {
         if (isExpanded) {
           handleQueryChange({
             groups: groups
-              .map((g) => ({
-                ...g,
-                selected: g.id === k.id ? !k.selected : g.selected,
-              }))
-              .filter((s) => s.selected)
+              // .map((g) => ({
+              //   ...g,
+              //   selected: g.id === k.id ? !k.selected : g.selected,
+              // }))
+              // .filter((s) => s.selected)
               .map((a) => a.id),
           });
         }
@@ -227,16 +228,16 @@ export const EventsAppBarMinimized: React.FC<EventsAppBarMinimizedProps> = ({
         display: "flex",
         flexDirection: "row",
       }}
-      keywords={selectedKeywords}
+      keywords={[]}
       onItemClick={(k) => {
         if (isExpanded) {
           handleQueryChange({
             keywords: keywords
-              .map((kk) => ({
-                ...kk,
-                selected: kk.id === k.id ? !k.selected : kk.selected,
-              }))
-              .filter((k) => k.selected)
+              // .map((kk) => ({
+              //   ...kk,
+              //   selected: kk.id === k.id ? !k.selected : kk.selected,
+              // }))
+              // .filter((k) => k.selected)
               .map((k) => k.id),
           });
         }

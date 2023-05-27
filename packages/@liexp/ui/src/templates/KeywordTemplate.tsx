@@ -19,6 +19,7 @@ import { EventsPanelBox } from "../containers/EventsPanel";
 import { MediaBox } from "../containers/MediaBox";
 import { StatsPanelBox } from "../containers/StatsPanelBox";
 import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventNetworkGraphBox";
+import { EventsFlowGraphBox } from '../containers/graphs/EventsFlowGraphBox';
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
 import { useKeywordQuery } from "../state/queries/keywords.queries";
 import { SplitPageTemplate } from "./SplitPageTemplate";
@@ -73,6 +74,7 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
                 { label: "Media" },
                 { label: "Links" },
                 { label: "Networks" },
+                { label: 'Flow' }
               ]}
               resource={{
                 name: KEYWORDS.value,
@@ -130,6 +132,8 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
                 onGroupClick={onGroupClick}
                 onQueryChange={() => {}}
               />
+
+              <EventsFlowGraphBox type="keywords" id={keyword.id} query={{}} />
             </SplitPageTemplate>
           </Box>
         );

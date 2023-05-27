@@ -11,6 +11,7 @@ import { Box, Grid } from "../components/mui";
 import { EventsPanelBox } from "../containers/EventsPanel";
 import { StatsPanelBox } from "../containers/StatsPanelBox";
 import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventNetworkGraphBox";
+import { EventsFlowGraphBox } from '../containers/graphs/EventsFlowGraphBox';
 import { useGroupMembersQuery } from "../state/queries/DiscreteQueries";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
 import { SplitPageTemplate } from "./SplitPageTemplate";
@@ -140,6 +141,8 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                 onEventClick={onEventClick}
                 onQueryChange={() => {}}
               />
+
+              <EventsFlowGraphBox type="groups" id={group.id} query={{}} />
 
               <GroupHierarchyEdgeBundlingGraph
                 group={group.id}

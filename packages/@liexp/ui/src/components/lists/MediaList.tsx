@@ -76,14 +76,14 @@ export const MediaListItem: React.ForwardRefRenderFunction<
           display: "flex",
           flexDirection: "column",
         }}
-        onClick={() => onClick?.(item)}
+        onClick={(e) => onClick?.(item, e)}
       >
         <MediaElement
           className={classes.media}
           media={item}
           enableDescription={!hideDescription}
           disableZoom={disableZoom}
-          onClick={onClick ? () => { onClick(item); } : undefined}
+          onClick={onClick ? (e: any) => { onClick(item, e); } : undefined}
         />
       </Box>
     </StyledBox>
