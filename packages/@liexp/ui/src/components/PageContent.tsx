@@ -1,7 +1,8 @@
-import  { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate";
+import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate";
 import * as React from "react";
 import { usePageContentByPathQuery } from "../state/queries/page.queries";
 import { LazyEditor as Editor } from "./Common/Editor";
+import { TOCPlugin } from "./Common/Editor/plugins/renderer/TOCPlugin";
 import QueriesRenderer from "./QueriesRenderer";
 import SEO from "./SEO";
 
@@ -14,7 +15,6 @@ export const PageContent: React.FC<PageContentProps> = ({ path }) => {
     <QueriesRenderer
       queries={{ pageContent: usePageContentByPathQuery({ path }) }}
       render={({ pageContent: { title, path, excerpt, body2 } }) => {
-
         return (
           <div className="page-content" style={{ marginBottom: 100 }}>
             <SEO
@@ -27,6 +27,9 @@ export const PageContent: React.FC<PageContentProps> = ({ path }) => {
               urlPath={path}
             />
             {isValidValue(body2) ? <Editor value={body2} readOnly /> : null}
+            {isValidValue(body2) ? (
+              <TOCPlugin value={body2} />
+            ) : null}
           </div>
         );
       }}
