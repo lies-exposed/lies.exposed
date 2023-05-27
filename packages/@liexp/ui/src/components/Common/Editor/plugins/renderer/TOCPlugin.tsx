@@ -79,7 +79,6 @@ const serializeToTypography = (
     fp.O.fromNullable,
     fp.O.getOrElse((): SerializedHeader[] => []),
     fp.A.map((h) => {
-
       let component = <Typography variant="h1">{h.text}</Typography>;
       switch (h.type) {
         case H2_TYPE: {
@@ -123,43 +122,60 @@ const StyledBox = styled(Box)(({ theme }) => ({
     },
     " .MuiTypography-h1": {
       fontSize: theme.spacing(2.8),
-      marginBottom: theme.spacing(1)
+      marginBottom: theme.spacing(1),
     },
     " .MuiTypography-h2": {
       fontSize: theme.spacing(2.4),
       paddingLeft: theme.spacing(0.8),
-      marginBottom: theme.spacing(1)
+      marginBottom: theme.spacing(1),
     },
     " .MuiTypography-h3": {
       fontSize: theme.spacing(2),
       paddingLeft: theme.spacing(1.2),
-      marginBottom: theme.spacing(1)
+      marginBottom: theme.spacing(1),
     },
     " .MuiTypography-h4": {
       fontSize: theme.spacing(1.6),
       paddingLeft: theme.spacing(1.6),
-      marginBottom: theme.spacing(1)
+      marginBottom: theme.spacing(1),
     },
     " .MuiTypography-h5": {
       fontSize: theme.spacing(1.2),
       paddingLeft: theme.spacing(2),
-      marginBottom: theme.spacing(1)
+      marginBottom: theme.spacing(1),
     },
     " .MuiTypography-h6": {
       fontSize: theme.spacing(0.8),
       paddingLeft: theme.spacing(2.4),
-      marginBottom: theme.spacing(1)
+      marginBottom: theme.spacing(1),
     },
   },
 }));
 
 interface TOCRendererProps {
   value: Value;
-  onClick: (key: string) => void;
+  onClick?: (key: string) => void;
 }
 
-export const TOCRenderer: React.FC<TOCRendererProps> = ({ value, onClick }) => {
+export const TOCRenderer: React.FC<TOCRendererProps> = ({
+  value,
+  onClick: _onClick,
+}) => {
   const v = React.useMemo(() => pipe(serializeToTypography(value)), [value]);
+
+  const onClick = React.useCallback(
+    (key: string) => {
+      if (_onClick) {
+        _onClick(key);
+      } else {
+        const header = document.getElementById(key);
+        if (header) {
+          header.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    },
+    [_onClick]
+  );
 
   return v ? (
     <List>
@@ -180,6 +196,7 @@ export const TOCRenderer: React.FC<TOCRendererProps> = ({ value, onClick }) => {
 };
 
 export const TOCPlugin: React.FC<TOCRendererProps> = ({ value, onClick }) => {
+
   return (
     <StyledBox className={classes.root}>
       <TOCRenderer value={value} onClick={onClick} />
