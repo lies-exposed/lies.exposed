@@ -23,7 +23,7 @@ export const GroupMemberListItem: React.FC<
       alignItems="center"
       margin={0}
       style={{ cursor: "pointer" }}
-      onClick={() => onClick?.(item)}
+      onClick={(e) => onClick?.(item, e)}
     >
       {pipe(
         O.fromNullable(item.actor.avatar),

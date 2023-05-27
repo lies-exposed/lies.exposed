@@ -11,7 +11,7 @@ export interface KeywordItem extends Keyword.Keyword {
 interface KeywordListProps {
   style?: React.CSSProperties;
   keywords: KeywordItem[];
-  onItemClick: (t: KeywordItem) => void;
+  onItemClick: (t: KeywordItem, e: any) => void;
 }
 
 export const KeywordListItem: React.FC<ListItemProps<KeywordItem>> = ({
@@ -34,7 +34,7 @@ export const KeywordListItem: React.FC<ListItemProps<KeywordItem>> = ({
       if (onClick) {
         e.preventDefault();
         e.stopPropagation();
-        onClick(t);
+        onClick(t, e);
       }
     }}
   >

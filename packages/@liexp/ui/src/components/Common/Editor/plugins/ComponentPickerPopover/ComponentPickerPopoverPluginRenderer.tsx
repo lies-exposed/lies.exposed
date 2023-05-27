@@ -26,7 +26,7 @@ export const ComponentPickerPopoverRenderer: SlateComponentPluginDefinition<Comp
     const isSelected = useSelected();
 
     const pluginRenderer = React.useMemo(() => {
-      if (plugin.data) {
+      if (plugin?.data) {
         switch (plugin.type) {
           case ACTOR_INLINE: {
             return (
@@ -92,7 +92,7 @@ export const ComponentPickerPopoverRenderer: SlateComponentPluginDefinition<Comp
         }
       }
       return null;
-    }, [plugin.data, plugin.type]);
+    }, [plugin?.data, plugin?.type]);
 
     return (
       <span>

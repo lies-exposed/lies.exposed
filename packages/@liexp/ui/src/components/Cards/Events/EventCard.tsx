@@ -24,12 +24,14 @@ const defaultImage = "/liexp-logo-1200x630.png";
 
 interface EventCardProps extends CardProps {
   event: SearchEvent.SearchEvent;
+  showMedia?: boolean;
   showRelations: boolean;
   onEventClick: (e: SearchEvent.SearchEvent) => void;
 }
 
 const EventCard: React.FC<EventCardProps> = ({
   event,
+  showMedia = true,
   showRelations,
   onEventClick,
   ...props
@@ -58,7 +60,9 @@ const EventCard: React.FC<EventCardProps> = ({
       {...props}
     >
       <CardActionArea>
-        <CardMedia component="img" image={image} style={{ height: 200 }} />
+        {showMedia ? (
+          <CardMedia component="img" image={image} style={{ height: 200 }} />
+        ) : null}
         <CardHeader
           avatar={<EventIcon size="2x" type={event.type} />}
           title={title}
@@ -100,14 +104,16 @@ const EventCard: React.FC<EventCardProps> = ({
                 groups={groups.map((g) => ({ ...g, selected: true }))}
                 onItemClick={() => undefined}
               />
+              <KeywordList
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                }}
+                keywords={keywords.map((k) => ({ ...k, selected: true }))}
+                onItemClick={() => undefined}
+              />
             </Box>
           ) : null}
-          <Box>
-            <KeywordList
-              keywords={keywords.map((k) => ({ ...k, selected: true }))}
-              onItemClick={() => undefined}
-            />
-          </Box>
         </CardContent>
       </CardActionArea>
       <CardActions disableSpacing></CardActions>

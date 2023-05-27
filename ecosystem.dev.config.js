@@ -5,7 +5,10 @@ const fs = require("fs");
 const DOTENV_CONFIG_PATH = process.env.DOTENV_CONFIG_PATH ?? ".env";
 
 const apiEnv = dotenv.parse(
-  fs.readFileSync(path.resolve(__dirname, "./services/api/", DOTENV_CONFIG_PATH), "utf-8")
+  fs.readFileSync(
+    path.resolve(__dirname, "./services/api/", DOTENV_CONFIG_PATH),
+    "utf-8"
+  )
 );
 
 const webEnv = dotenv.parse(
@@ -30,7 +33,6 @@ const apiDevelop = {
   watch: [
     path.resolve(__dirname, "./packages/@liexp/core/lib"),
     path.resolve(__dirname, "./packages/@liexp/shared/lib"),
-    path.resolve(__dirname, "./packages/@liexp/ui/lib"),
     path.resolve(__dirname, "./services/api/src"),
   ],
   watch_delay: 2000,

@@ -21,7 +21,7 @@ export const ProjectTransactionListItem: React.FC<
     <div
       key={item.event.project}
       style={{ display: "inline-block", margin: 5, cursor: "pointer" }}
-      onClick={() => onClick?.(item)}
+      onClick={(e) => onClick?.(item, e)}
     >
       {/* {transactionBy.type === "Actor"
         ? pipe(

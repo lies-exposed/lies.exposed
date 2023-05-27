@@ -35,7 +35,7 @@ export const ActorListItem: React.FC<ActorListItemProps> = ({
         if (onClick) {
           e.preventDefault();
           e.stopPropagation();
-          onClick(item);
+          onClick(item, e);
         }
       }}
     >
@@ -73,7 +73,7 @@ export type ActorListProps<D extends React.ElementType<any> = "ul"> = Omit<
 > & {
   className?: string;
   actors: ActorItem[];
-  onActorClick: (actor: ActorItem) => void;
+  onActorClick: (actor: ActorItem, e: any) => void;
   avatarSize?: AvatarSize;
   displayFullName?: boolean;
   style?: React.CSSProperties;

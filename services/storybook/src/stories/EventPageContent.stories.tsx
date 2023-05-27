@@ -5,7 +5,7 @@ import {
 } from "@liexp/ui/lib/components/EventPageContent";
 import { MainContent } from "@liexp/ui/lib/components/MainContent";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
-import { useEventsQuery } from "@liexp/ui/lib/state/queries/DiscreteQueries";
+import { useEventsQuery } from "@liexp/ui/lib/state/queries/event.queries";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

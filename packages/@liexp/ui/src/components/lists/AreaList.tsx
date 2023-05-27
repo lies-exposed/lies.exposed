@@ -58,7 +58,7 @@ export const AreaListItem: React.FC<
       alignItems="center"
       margin={0}
       style={{ cursor: "pointer", flexDirection: "column", ...style }}
-      onClick={() => onClick?.(item)}
+      onClick={(e) => onClick?.(item, e)}
     >
       <Card className={classes.root}>
         <CardActionArea>

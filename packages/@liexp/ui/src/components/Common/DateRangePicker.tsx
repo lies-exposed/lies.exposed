@@ -1,5 +1,8 @@
-import { formatDate } from "@liexp/shared/lib/utils/date";
-import { addDays, differenceInDays, parseISO, subYears } from "date-fns";
+import {
+  formatAnyDateToShort,
+  parseDate,
+} from "@liexp/shared/lib/utils/date";
+import { addDays, differenceInDays, subYears } from "date-fns";
 import * as React from "react";
 import { styled } from "../../theme";
 import { Slider, Stack, Typography, Grid } from "../mui";
@@ -20,11 +23,11 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
 }));
 
 type DateRangePickerProps = DatePickerProps & {
-  from?: string;
-  to?: string;
+  from?: Date;
+  to?: Date;
   maxDate?: Date;
   minDate?: Date;
-  onDateRangeChange: (d: [string | undefined, string | undefined]) => void;
+  onDateRangeChange: (d: [Date | undefined, Date | undefined]) => void;
 };
 
 export const DateRangePicker: React.FC<DateRangePickerProps> = ({
@@ -50,7 +53,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
           }}
           onChange={(e) => {
             setDateRange([
-              e.target.value === "" ? undefined : e.target.value,
+              e.target.value === "" ? undefined : parseDate(e.target.value),
               end,
             ]);
           }}
@@ -73,7 +76,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
           onChange={(e) => {
             setDateRange([
               start,
-              e.target.value === "" ? undefined : e.target.value,
+              e.target.value === "" ? undefined : parseDate(e.target.value),
             ]);
           }}
           onBlur={() => {
@@ -99,16 +102,17 @@ export const DateRangeSlider: React.FC<DateRangePickerProps> = ({
   const fromIndex = 0;
   const toIndex = differenceInDays(toDate, fromDate);
 
-  const [[start, end], setDateRange] = React.useState([from, to]);
+  const [[start, end], setDateRange] = React.useState([
+    from ?? fromDate,
+    to ?? toDate,
+  ]);
 
-  const endDate = end ? parseISO(end) : toDate;
-  const startDate = start ? parseISO(start) : fromDate;
-  const startIndex = differenceInDays(startDate, fromDate);
-  const endIndex = differenceInDays(endDate, fromDate);
+  const startIndex = differenceInDays(start, fromDate);
+  const endIndex = differenceInDays(end, fromDate);
 
   return (
     <Stack spacing={2} direction="row" alignItems="center">
-      <Typography>{start}</Typography>
+      <Typography>{formatAnyDateToShort(start)}</Typography>
       <Slider
         value={[startIndex, endIndex]}
         min={fromIndex}
@@ -116,22 +120,22 @@ export const DateRangeSlider: React.FC<DateRangePickerProps> = ({
         onChange={(_, dates) => {
           if (Array.isArray(dates)) {
             setDateRange([
-              formatDate(addDays(fromDate, dates[0])),
-              formatDate(addDays(fromDate, dates[1])),
+              addDays(fromDate, dates[0]),
+              addDays(fromDate, dates[1]),
             ]);
           }
         }}
         onChangeCommitted={(_, dates) => {
           if (Array.isArray(dates)) {
-            const dateRange: [string, string] = [
-              formatDate(addDays(fromDate, dates[0])),
-              formatDate(addDays(fromDate, dates[1])),
+            const dateRange: [Date, Date] = [
+              addDays(fromDate, dates[0]),
+              addDays(fromDate, dates[1]),
             ];
             onDateRangeChange(dateRange);
           }
         }}
       />
-      <Typography>{end}</Typography>
+      <Typography>{formatAnyDateToShort(end)}</Typography>
     </Stack>
   );
 };

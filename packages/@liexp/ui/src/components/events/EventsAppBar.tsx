@@ -4,28 +4,18 @@ import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQ
 import ArrowDownIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpIcon from "@mui/icons-material/ArrowUpward";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import { subYears } from "date-fns";
+import { parseISO, subYears } from "date-fns";
 import * as React from "react";
+import { usePopover } from "../../hooks/usePopover";
 import { type SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery";
 import { styled, useTheme } from "../../theme";
 import { DateRangePicker, DateRangeSlider } from "../Common/DateRangePicker";
-import { ExpandableActorList } from "../lists/ActorList";
-import { ExpandableGroupList } from "../lists/GroupList";
+import { ActorList } from "../lists/ActorList";
+import GroupList from "../lists/GroupList";
 import { GroupsMembersList } from "../lists/GroupMemberList";
-import { ExpandableKeywordList } from "../lists/KeywordList";
+import KeywordList from "../lists/KeywordList";
+import { Box, Grid, IconButton, SearchIcon, Typography, alpha } from "../mui";
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  Grid,
-  IconButton,
-  SearchIcon,
-  Typography,
-  alpha,
-} from "../mui";
-import {
-  EventsAppBarMinimized,
   searchEventQueryToEventTypeFilters,
   type EventsAppBarMinimizedProps,
 } from "./EventsAppBarMinimized";
@@ -46,7 +36,7 @@ const classes = {
   expandedBox: `${PREFIX}-expanded-box`,
 };
 
-const StyledToolbar = styled(Box)(({ theme }) => ({
+const StyledBox = styled(Box)(({ theme }) => ({
   [`& .${classes.filterBox}`]: {
     display: "flex",
     alignItems: "center",
@@ -146,39 +136,87 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
 }) => {
   const theme = useTheme();
 
-  const currentDateRange = [query.startDate, query.endDate];
+  const currentDateRange = [
+    query.startDate ? parseISO(query.startDate) : undefined,
+    query.endDate ? parseISO(query.endDate) : undefined,
+  ];
 
-  const [isExpanded, setIsExpanded] = React.useState(defaultExpanded);
+  const actorPopoverRef = React.createRef<HTMLDivElement>();
+  const [actorPopover, showPopover] = usePopover({
+    ref: () => actorPopoverRef.current,
+  });
 
   const handleQueryChange = (queryUpdate: Partial<SearchFilter>): void => {
     onQueryChange({
       ...query,
       ...queryUpdate,
-      groups: (query.groups ?? []).concat(
-        (queryUpdate?.groups ?? []).map((g) => g.id)
-      ),
-      actors: (query.actors ?? []).concat(
-        (queryUpdate?.actors ?? []).map((g) => g.id)
-      ),
-      keywords: (query.keywords ?? []).concat(
-        (queryUpdate?.keywords ?? []).map((g) => g.id)
-      ),
+      groups: queryUpdate?.groups?.map((g) => g.id) ?? query.groups,
+      actors: queryUpdate?.actors?.map((g) => g.id) ?? query.actors,
+      keywords: queryUpdate?.keywords?.map((g) => g.id) ?? query.keywords,
     });
   };
 
-  const filters = searchEventQueryToEventTypeFilters(query);
+  const filters = React.useMemo(() => {
+    const events = searchEventQueryToEventTypeFilters(query);
+
+    return {
+      events,
+      actors: actors.reduce(
+        (acc, a) =>
+          query.actors?.includes(a.id)
+            ? {
+                ...acc,
+                selected: acc.selected.concat({ ...a, selected: true }),
+              }
+            : {
+                ...acc,
+                unselected: acc.unselected.concat({ ...a, selected: false }),
+              },
+        { selected: [] as any[], unselected: [] as any[] }
+      ),
+      groups: groups.reduce(
+        (acc, a) =>
+          query.groups?.includes(a.id)
+            ? {
+                ...acc,
+                selected: acc.selected.concat({ ...a, selected: true }),
+              }
+            : {
+                ...acc,
+                unselected: acc.unselected.concat({ ...a, selected: false }),
+              },
+        { selected: [] as any[], unselected: [] as any[] }
+      ),
+      keywords: keywords.reduce(
+        (acc, a) =>
+          query.keywords?.includes(a.id)
+            ? {
+                ...acc,
+                selected: acc.selected.concat({ ...a, selected: true }),
+              }
+            : {
+                ...acc,
+                unselected: acc.unselected.concat({ ...a, selected: false }),
+              },
+        { selected: [] as any[], unselected: [] as any[] }
+      ),
+    };
+  }, [query, actors, groups, keywords, groupsMembers]);
 
   const totalEvents = getTotal(totals, {
-    transactions: filters.Transaction,
-    documentaries: filters.Documentary,
-    uncategorized: filters.Uncategorized,
-    patents: filters.Patent,
-    scientificStudies: filters.ScientificStudy,
-    deaths: filters.Death,
-    quotes: filters.Quote,
+    transactions: filters.events.Transaction,
+    documentaries: filters.events.Documentary,
+    uncategorized: filters.events.Uncategorized,
+    patents: filters.events.Patent,
+    scientificStudies: filters.events.ScientificStudy,
+    deaths: filters.events.Death,
+    quotes: filters.events.Quote,
   });
 
-  const dateRange = _dateRange ?? [subYears(new Date(), 1), new Date()];
+  const dateRange = _dateRange ?? [
+    query.startDate ? parseISO(query.startDate) : subYears(new Date(), 1),
+    query.endDate ? parseISO(query.endDate) : new Date(),
+  ];
 
   const clearButton =
     actors.length > 0 || groups.length > 0 || keywords.length > 0 ? (
@@ -260,12 +298,10 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
     >
       <Typography
         onClick={() => {
-          if (isExpanded) {
-            onQueryChange({
-              ...query,
-              title: undefined,
-            });
-          }
+          onQueryChange({
+            ...query,
+            title: undefined,
+          });
         }}
         variant="subtitle1"
       >
@@ -274,243 +310,256 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
     </Box>
   ) : null;
 
+  const handleActorClick = (): void => {
+    showPopover("Filter actors", (onClose) => (
+      <ActorList
+        actors={filters.actors.unselected.map((a) => ({
+          ...a,
+          selected: true,
+        }))}
+        displayFullName
+        onActorClick={(a) => {
+          handleQueryChange({
+            actors: filters.actors.selected.concat(a),
+          });
+          onClose();
+        }}
+      />
+    ));
+  };
   const actorsList = (
-    <ExpandableActorList
+    <ActorList
       style={{
         display: "flex",
         flexDirection: "row",
       }}
-      actors={actors.sort(
-        (a, b) => (b.selected ? 1 : 0) - (a.selected ? 1 : 0)
-      )}
-      onActorClick={(k) => {
+      actors={filters.actors.selected}
+      onActorClick={(a, e) => {
+        e.stopPropagation();
         handleQueryChange({
-          actors: actors
-            .map((g) => ({
-              ...g,
-              selected: g.id === k.id ? !k.selected : g.selected,
-            }))
-            .filter((s) => s.selected),
-        });
+          actors: filters.actors.selected.filter(aa => aa.id !== a.id)
+        })
       }}
     />
   );
 
-  const groupsList = (
-    <ExpandableGroupList
-      style={{
-        display: "flex",
-        flexDirection: "row",
-      }}
-      groups={groups.sort(
-        (a, b) => (b.selected ? 1 : 0) - (a.selected ? 1 : 0)
-      )}
-      onItemClick={(k) => {
-        if (isExpanded) {
-          handleQueryChange({
-            groups: groups
-              .map((g) => ({
-                ...g,
-                selected: g.id === k.id ? !k.selected : g.selected,
-              }))
-              .filter((s) => s.selected),
-          });
-        }
-      }}
-    />
-  );
+  const handleGroupClick = (): void => {
+    showPopover("Filter groups", (onClose) => {
+      return (
+        <GroupList
+          groups={filters.groups.unselected.map((g) => ({
+            ...g,
+            selected: true,
+          }))}
+          displayName
+          onItemClick={(k) => {
+            handleQueryChange({
+              groups: filters.groups.selected.concat(k),
+            });
+            onClose();
+          }}
+        />
+      );
+    });
+  };
 
-  const keywordList = (
-    <ExpandableKeywordList
-      style={{
-        display: "flex",
-        flexDirection: "row",
-      }}
-      keywords={keywords.sort(
-        (a, b) => (b.selected ? 1 : 0) - (a.selected ? 1 : 0)
-      )}
-      onItemClick={(k) => {
-        if (isExpanded) {
-          handleQueryChange({
-            keywords: keywords
-              .map((g) => ({
-                ...g,
-                selected: g.id === k.id ? !k.selected : g.selected,
-              }))
-              .filter((s) => s.selected),
-          });
-        }
-      }}
-    />
-  );
+  const handleKeywordClick = (): void => {
+    showPopover("Filter keywords", (onClose) => {
+      return (
+        <KeywordList
+          keywords={filters.keywords.unselected.map((g) => ({
+            ...g,
+            selected: true,
+          }))}
+          onItemClick={(k) => {
+            handleQueryChange({
+              keywords: filters.keywords.selected.concat(k),
+            });
+            onClose();
+          }}
+        />
+      );
+    });
+  };
 
   const groupsMembersList = (
     <GroupsMembersList
       groupsMembers={groupsMembers.map((g) => ({ ...g, selected: true }))}
       onItemClick={(gm) => {
-        if (isExpanded) {
-          onQueryChange({
-            ...query,
-            groupsMembers: query.groupsMembers?.filter((g) => gm.id !== g),
-          });
-        }
+        onQueryChange({
+          ...query,
+          groupsMembers: query.groupsMembers?.filter((g) => gm.id !== g),
+        });
       }}
     />
   );
 
   const layout: Required<EventsAppBarMinimizedProps["layout"]> = {
+    searchBox: 3,
     eventTypes: 4,
     dateRangeBox: {
       columns: 4,
       variant: "slider",
       ...props.layout?.dateRangeBox,
     },
-    relations: 4,
+    relations: 3,
     ...props.layout,
   };
 
-  const expanded = (
-    <Box
-      style={{
-        width: "100%",
-        display: "flex",
-        flexDirection: "row",
-        flexWrap: "wrap",
-        background: "white",
-        position: "absolute",
-        zIndex: 9999,
-      }}
-    >
-      <Grid container spacing={2}>
-        {keywords.length > 0 ? (
-          <Grid
-            item
-            sm={12}
-            md={layout.relations}
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              flexDirection: "row",
-              flexShrink: 0,
-            }}
-          >
-            {keywordList}
-          </Grid>
-        ) : null}
-        {groups.length > 0 ? (
-          <Grid
-            item
-            sm={12}
-            md={layout.relations}
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              flexDirection: "row",
-              flexShrink: 0,
-            }}
-          >
-            {groupsList}
-            {groupsMembersList}
-          </Grid>
-        ) : null}
-        {actors.length > 0 ? (
-          <Grid
-            item
-            sm={12}
-            md={layout.relations}
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              flexDirection: "row",
-              flexShrink: 0,
-            }}
-          >
-            {actorsList}
-          </Grid>
-        ) : null}
-
-        <Grid item md={12} sm={12} xs={12}>
-          {searchBox}
-          {searchTermBox}
-        </Grid>
-        <Grid item xs={12} sm={12} md={12} lg={12}>
-          {props.layout?.dateRangeBox?.variant === "slider" ? (
-            <DateRangeSlider
-              minDate={dateRange[0]}
-              maxDate={dateRange[1]}
-              from={currentDateRange[0]}
-              to={currentDateRange[1]}
-              onDateRangeChange={([from, to]) => {
-                onQueryChange({
-                  ...query,
-                  startDate: from,
-                  endDate: to,
-                });
-              }}
-            />
-          ) : (
-            <DateRangePicker
-              minDate={dateRange[0]}
-              maxDate={dateRange[1]}
-              from={currentDateRange[0]}
-              to={currentDateRange[1]}
-              onDateRangeChange={([from, to]) => {
-                onQueryChange({
-                  ...query,
-                  startDate: from,
-                  endDate: to,
-                });
-              }}
-            />
-          )}
-        </Grid>
-      </Grid>
-    </Box>
-  );
-
   return (
-    <StyledToolbar
+    <StyledBox
       style={{
         width: "100%",
         display: "flex",
         flexShrink: 0,
       }}
     >
-      <Grid container>
+      <Grid container spacing={2}>
         <Grid item md={10} sm={10}>
-          <Accordion
-            expanded={isExpanded}
-            onChange={(e) => {
-              if (!e.isDefaultPrevented()) {
-                setIsExpanded(!isExpanded);
-              }
-            }}
-            variant={undefined}
+          <Box
             style={{
               width: "100%",
-              border: "none",
-              boxShadow: "none",
-              background: "transparent",
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              background: "white",
             }}
           >
-            <AccordionSummary>
-              <EventsAppBarMinimized
-                {...props}
-                filters={filters}
-                open={isExpanded}
-                query={query}
-                actors={actors}
-                groups={groups}
-                groupsMembers={groupsMembers}
-                keywords={keywords}
-                totals={totals}
-                onQueryChange={onQueryChange}
-              />
-            </AccordionSummary>
-            <AccordionDetails className={classes.expandedBox}>
-              {expanded}
-            </AccordionDetails>
-          </Accordion>
+            <Grid container spacing={2}>
+              <Grid item md={layout.searchBox} sm={12} xs={12}>
+                {searchBox}
+                {searchTermBox}
+              </Grid>
+              <Grid
+                item
+                sm={12}
+                md={layout.relations}
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  flexDirection: "row",
+                  flexShrink: 0,
+                }}
+                onClick={handleKeywordClick}
+              >
+                {filters.keywords.selected.length === 0 ? (
+                  <Typography>Select a keyword</Typography>
+                ) : null}
+                <KeywordList
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  keywords={filters.keywords.selected}
+                  onItemClick={(k, e) => {
+                    e.stopPropagation();
+                    handleQueryChange({
+                      keywords: filters.keywords.selected.filter(
+                        (g) => k.id !== g.id
+                      ),
+                    });
+                  }}
+                />
+              </Grid>
+
+              <Grid
+                item
+                sm={12}
+                md={layout.relations}
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  flexDirection: "row",
+                  flexShrink: 0,
+                }}
+                onClick={() => {
+                  handleGroupClick();
+                }}
+              >
+                {filters.groups.selected.length === 0 ? (
+                  <Typography>Select a group</Typography>
+                ) : (
+                  <GroupList
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                    groups={filters.groups.selected}
+                    onItemClick={(k, e) => {
+                      e.stopPropagation();
+                      const groups = filters.groups.selected.filter(
+                        (g) => k.id !== g.id
+                      );
+
+                      handleQueryChange({
+                        groups,
+                      });
+                    }}
+                  />
+                )}
+                {groupsMembersList}
+              </Grid>
+
+              <Grid
+                item
+                sm={12}
+                md={layout.relations}
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  flexDirection: "row",
+                  flexShrink: 0,
+                }}
+                ref={actorPopoverRef}
+                onClick={() => {
+                  handleActorClick();
+                }}
+              >
+                {filters.actors.selected.length === 0 ? (
+                  <Typography>Select an actor</Typography>
+                ) : null}
+                {actorsList}
+              </Grid>
+              {actorPopover}
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                md={props.layout?.dateRangeBox?.columns ?? 12}
+                lg={props.layout?.dateRangeBox?.columns ?? 12}
+              >
+                {props.layout?.dateRangeBox?.variant === "slider" ? (
+                  <DateRangeSlider
+                    minDate={dateRange[0]}
+                    maxDate={dateRange[1]}
+                    from={currentDateRange[0]}
+                    to={currentDateRange[1]}
+                    onDateRangeChange={([from, to]) => {
+                      onQueryChange({
+                        ...query,
+                        startDate: from?.toISOString(),
+                        endDate: to?.toISOString(),
+                      });
+                    }}
+                  />
+                ) : (
+                  <DateRangePicker
+                    minDate={dateRange[0]}
+                    maxDate={dateRange[1]}
+                    from={currentDateRange[0]}
+                    to={currentDateRange[1]}
+                    onDateRangeChange={([from, to]) => {
+                      onQueryChange({
+                        ...query,
+                        startDate: from?.toISOString(),
+                        endDate: to?.toISOString(),
+                      });
+                    }}
+                  />
+                )}
+              </Grid>
+            </Grid>
+          </Box>
         </Grid>
         <Grid
           item
@@ -535,7 +584,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
           {eventTotal}
         </Grid>
       </Grid>
-    </StyledToolbar>
+    </StyledBox>
   );
 };
 export default EventsAppBar;
