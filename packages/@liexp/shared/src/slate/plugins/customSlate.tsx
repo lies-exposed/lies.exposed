@@ -151,6 +151,17 @@ export const getLiexpSlate = (custom: any): SlateCellPlugin<any> => {
           ),
         })),
       },
+      code: {
+        ...def.plugins.code,
+        mark: def.plugins.code?.mark((codeDef) => ({
+          ...codeDef, // spread it, so that the new config contains all defaults
+          Component: ({ style, children }) => (
+            <code style={{ ...style, background: "#eee", color: "#17B9B6" }}>
+              {children}
+            </code>
+          ),
+        })),
+      },
       custom,
     },
 
