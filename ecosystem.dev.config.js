@@ -5,7 +5,7 @@ const fs = require("fs");
 const DOTENV_CONFIG_PATH = process.env.DOTENV_CONFIG_PATH ?? ".env";
 
 const apiEnv = dotenv.parse(
-  fs.readFileSync(path.resolve(__dirname, DOTENV_CONFIG_PATH), "utf-8")
+  fs.readFileSync(path.resolve(__dirname, "./services/api/", DOTENV_CONFIG_PATH), "utf-8")
 );
 
 const webEnv = dotenv.parse(
