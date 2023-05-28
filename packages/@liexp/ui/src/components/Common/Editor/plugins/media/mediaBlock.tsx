@@ -11,11 +11,20 @@ import type {
 } from "@react-page/editor";
 import React from "react";
 import { AutocompleteMediaInput } from "../../../../Input/AutocompleteMediaInput";
-import { Box, Button, Grid } from "../../../../mui";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  Input,
+} from "../../../../mui";
 import { MediaSlider } from "../../../../sliders/MediaSlider";
 
 export interface MediaBlockState extends DataTType {
   media: Media.Media[];
+  height: number;
+  enableDescription: boolean;
 }
 
 export interface MediaBlockSettings {
@@ -39,11 +48,17 @@ export const MediaBlockPluginRenderer: CellPluginRenderer<MediaBlockState> = ({
   ...props
 }) => {
   const media = props.data?.media ?? [];
+  const height = props.data.height ?? 200;
+  const enableDescription = props.data.enableDescription ?? false;
 
   if (media.length > 0) {
     return (
       <Box style={{ maxWidth: 1200, flexGrow: 0 }}>
-        <MediaSlider enableDescription={true} data={media} />
+        <MediaSlider
+          enableDescription={enableDescription}
+          data={media}
+          itemStyle={() => ({ height })}
+        />
       </Box>
     );
   }
@@ -56,6 +71,8 @@ export const MediaBlockPluginControl: CellPluginCustomControlsComonent<
 > = ({ remove, data, ...props }) => {
   const [s, setS] = React.useState<MediaBlockState>({
     media: data.media ?? [],
+    height: 200,
+    enableDescription: false,
   });
 
   const selectedItems = React.useMemo(
@@ -80,6 +97,34 @@ export const MediaBlockPluginControl: CellPluginCustomControlsComonent<
             onChange={(items) => {
               setS({ ...s, media: items });
             }}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <Input
+            value={s.height}
+            onChange={(e) => {
+              setS({ ...s, height: +e.currentTarget.value });
+            }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                color="info"
+                disabled={false}
+                size="small"
+                checked={s.enableDescription}
+                onChange={(v, c) => {
+                  setS({
+                    ...s,
+                    enableDescription: c,
+                  });
+                }}
+              />
+            }
+            label="Display full name?"
           />
         </Grid>
 
