@@ -33,16 +33,15 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     chown -R pptruser:pptruser ./bot-brother-storage
     export API_UID=$(id pptruser -u)
     export API_GID=$(id pptruser -g)
-    # docker compose pull
-    # docker compose up --build --force-recreate -d --wait
+    docker compose pull
+    docker compose up --build --force-recreate -d --wait
     docker system prune -f
     docker builder prune -f --all
     # docker compose run --name api-migration api yarn migration:run > migration.txt
-    docker compose run --rm api yarn ts:node:build ./bin/upsert-nlp-entities.ts
-    docker compose run --rm api yarn upsert-tg-pinned-message
-    # docker compose run --rm api yarn set-default-group-usernames
-    docker compose run --rm api yarn ts:node:build ./bin/update-event-payload-url-refs.ts
-    docker compose run --rm api yarn ts:node:build ./bin/add-event-default-links.ts
-    docker compose run --rm api yarn parse-tg-message all true
+    docker compose run -d --rm --name upsert-nlp-entities api yarn ts:node:build ./bin/upsert-nlp-entities.ts
+    docker compose run -d --rm --name upsert-tg-pinned-message api yarn upsert-tg-pinned-message
+    docker compose run -d --rm --name parse-all-tg-messages api yarn parse-tg-message all true
+    # list top 5 bigger files
+    find -type f -exec du -Sh {} + | sort -rh | head -n 5
 EOF
 
