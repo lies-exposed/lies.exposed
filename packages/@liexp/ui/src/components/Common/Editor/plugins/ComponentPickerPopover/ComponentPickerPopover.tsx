@@ -82,6 +82,8 @@ export const ComponentsPickerPopover: React.FC<
       case MEDIA_BLOCK_PLUGIN: {
         const data: MediaBlockState = {
           media: [],
+          height: 200,
+          enableDescription: false,
           ...commonProps.data,
         };
         return (
