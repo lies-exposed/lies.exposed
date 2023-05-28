@@ -258,6 +258,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
       ctx.logger.debug.log("Command message %s, skipping...", msg.text);
       return;
     }
+
     void pipe(
       sequenceS(TE.ApplicativePar)({
         storeMsg: GetWriteJSON(ctx.logger)(

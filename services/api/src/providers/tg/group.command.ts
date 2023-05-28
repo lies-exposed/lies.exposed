@@ -1,5 +1,6 @@
 import { fp } from "@liexp/core/lib/fp";
 import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor";
+import { URL } from '@liexp/shared/lib/io/http/Common';
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { type BotBrotherCtx } from "bot-brother";
 import { pipe } from "fp-ts/lib/function";
@@ -32,7 +33,7 @@ export const groupCommand = ({
       );
       if (group) {
         await ctx.sendMessage(getSuccessMessage(group, env.WEB_URL), {
-          parse_mode: 'HTML'
+          parse_mode: "HTML",
         });
         return;
       }
@@ -53,6 +54,9 @@ export const groupCommand = ({
       await ctx.sendMessage(`Looking for ${ctx.search} on Wikipedia...`);
     })
     .answer(async (ctx) => {
+      if (URL.is(ctx.answer)) {
+        return;
+      }
       logger.debug.log("User pick %O", ctx.answer);
       const pageId = ctx.answer;
       ctx.hideKeyboard();
@@ -72,5 +76,6 @@ export const groupCommand = ({
         parse_mode: "HTML",
       });
     });
+
   return tg.bot;
 };
