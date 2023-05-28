@@ -52,6 +52,7 @@ const deserializeCell = (c: Cell): Option<SerializedHeader[]> => {
             return fp.O.none;
         }
       }),
+      fp.A.filter(fp.O.isSome),
       fp.A.sequence(fp.O.Applicative)
     );
   }
