@@ -2,7 +2,7 @@
 @import "~slick-carousel/slick/slick-theme.css";
 @import "~ol/ol.css";
 @import "~react-virtualized/styles.css";
-@import '~@fortawesome/fontawesome-svg-core/styles.css';
+@import "~@fortawesome/fontawesome-svg-core/styles.css";
 @import "./font.css";
 
 html,
@@ -13,13 +13,8 @@ body > #root {
   margin: 0;
 }
 
-.footnotes ol li {
-  font-size: 12px;
-}
-
 p,
 a {
-  font-size: 12px;
   display: inline;
 }
 
