@@ -5,7 +5,7 @@ yarn
 
 scp ./services/web/.env.alpha "${SSH_HOST}":envs/web/.env
 scp ./services/admin-web/.env.alpha "${SSH_HOST}":envs/admin/.env
-scp .env.alpha "${SSH_HOST}":envs/.env
+scp ./services/api/.env.alpha "${SSH_HOST}":.env
 
 # build packages
 

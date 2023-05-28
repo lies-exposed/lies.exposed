@@ -7,7 +7,7 @@ HOST=$1
 set -ex
 
 # build setup
-cp ~/envs/.env ./.env
+# cp ~/envs/.env ./.env
 cp ~/envs/admin/.env ./services/admin-web/.env
 # cp ~/envs/web/.env ./services/web/.env
 # cp -r ~/certs/dev-certificate.crt ./services/api/certs/alpha-db-ca-certificate.crt

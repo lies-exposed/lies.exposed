@@ -3,7 +3,7 @@
 set -e -x
 
 export SSH_DOMAIN=alpha.api.lies.exposed
-scp .env.alpha $SSH_DOMAIN:.env
+scp ./services/api/.env.alpha $SSH_DOMAIN:.env
 scp -r ./deploy/nginx $SSH_DOMAIN:/root/
 
 ssh $SSH_DOMAIN << "EOF"
