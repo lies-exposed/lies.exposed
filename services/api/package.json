@@ -70,7 +70,7 @@
     "node-telegram-bot-api": "^0.61.0",
     "nodemon": "^2.0.22",
     "page-metadata-parser": "^1.1.4",
-    "pdfjs-dist": "^3.6.172",
+    "pdfjs-dist": "^3.7.107",
     "pg": "^8.11.0",
     "puppeteer-core": "^19.11.1",
     "puppeteer-extra": "^3.3.6",
