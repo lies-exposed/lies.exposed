@@ -83,7 +83,7 @@
     "ra-core": "^4.11.0",
     "ra-i18n-polyglot": "^4.11.0",
     "ra-input-rich-text": "^4.11.0",
-    "ra-ui-materialui": "^4.11.0",
+    "ra-ui-materialui": "^4.11.1",
     "react": "^18.2.0",
     "react-admin": "^4.11.0",
     "react-audio-player": "^0.17.0",
