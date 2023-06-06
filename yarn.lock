@@ -4295,7 +4295,7 @@ __metadata:
     puppeteer-extra-plugin-stealth: ^2.11.2
     ts-io-error: ^2.0.0
     typeorm: ^0.3.16
-    typescript: ^4.9.5
+    typescript: ^5.1.3
   peerDependencies:
     "@react-page/editor": ^5.2.0
     "@react-page/plugins-slate": ^5.2.0
@@ -4366,7 +4366,7 @@ __metadata:
     style-loader: ^3.3.3
     ts-loader: ^9.4.3
     tsconfig-paths-webpack-plugin: ^4.0.1
-    typescript: ^4.9.5
+    typescript: ^5.1.3
     url-loader: ^4.1.1
     webpack: ^5.85.1
     webpack-bundle-analyzer: ^4.9.0
@@ -4416,7 +4416,7 @@ __metadata:
     ts-endpoint-express: ^2.0.0
     ts-io-error: ^2.0.0
     ts-jest: ^29.1.0
-    typescript: ^4.9.5
+    typescript: ^5.1.3
     uuid: ^9.0.0
   peerDependencies:
     "@react-page/editor": ^5.2.0
@@ -4442,7 +4442,7 @@ __metadata:
     io-ts: ^2.2.20
     io-ts-types: ^0.5.19
     prettier: ^2.8.8
-    typescript: ^4.9.5
+    typescript: ^5.1.3
   peerDependencies:
     debug: ^4.3.1
   languageName: unknown
@@ -4481,7 +4481,6 @@ __metadata:
     "@types/d3-sankey": ^0.12.1
     "@types/eslint": ^8.40.0
     "@types/jest": ^29.5.2
-    "@types/ol": ^7.0.0
     "@types/prettier": ^2.7.3
     "@types/reach__router": ^1.3.11
     "@types/react": ^18.2.7
@@ -4556,7 +4555,7 @@ __metadata:
     ts-endpoint: ^2.0.0
     ts-io-error: ^2.0.0
     ts-jest: ^29.1.0
-    typescript: ^4.9.5
+    typescript: ^5.1.3
     waveform-data: ^4.3.0
   languageName: unknown
   linkType: soft
@@ -7901,15 +7900,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express-jwt@npm:^7.4.2":
-  version: 7.4.2
-  resolution: "@types/express-jwt@npm:7.4.2"
-  dependencies:
-    express-jwt: "*"
-  checksum: 78f4272aa93facb22fddf307b72fe16029b99b8087fad3a09ee8b1316c91646fb1bab0e5abb999e9023a74a1f179fc66bc13b4a9ac6042d233161dc6e20c9fdc
-  languageName: node
-  linkType: hard
-
 "@types/express-serve-static-core@npm:*, @types/express-serve-static-core@npm:^4.17.33":
   version: 4.17.33
   resolution: "@types/express-serve-static-core@npm:4.17.33"
@@ -8237,15 +8227,6 @@ __metadata:
   version: 1.3.2
   resolution: "@types/object.pick@npm:1.3.2"
   checksum: 71053ec6849142e934a1f2232e004f103e26a7df4782a83e83d976c74f1804c3ac29ed96223a6eef7b08f36ee019d1675f0d752fd79c9f444a080646d438c87d
-  languageName: node
-  linkType: hard
-
-"@types/ol@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "@types/ol@npm:7.0.0"
-  dependencies:
-    ol: "*"
-  checksum: b6fb074aa6ae636024ec116b4853bc0330971f049463ad49ed3cd9069ee968d3a2890afe72d61e1d0a0df9a301df310a8ade22e75e99c3189918c29d0e4b6f99
   languageName: node
   linkType: hard
 
@@ -9578,7 +9559,7 @@ __metadata:
     slick-carousel: ^1.8.1
     ts-jest: ^29.1.0
     ts-node: ^10.9.1
-    typescript: ^4.9.5
+    typescript: ^5.1.3
     uuid: ^9.0.0
     web-vitals: ^2.1.4
     webpack: ^5.85.1
@@ -9842,7 +9823,6 @@ __metadata:
     "@types/debug": ^4.1.8
     "@types/eslint": ^8.40.0
     "@types/express": ^4.17.17
-    "@types/express-jwt": ^7.4.2
     "@types/fluent-ffmpeg": ^2.1.21
     "@types/jest": ^29.5.2
     "@types/jsonwebtoken": ^9.0.2
@@ -9902,7 +9882,7 @@ __metadata:
     tsconfig-paths: ^4.2.0
     typeorm: ^0.3.16
     typeorm-uml: ^1.6.5
-    typescript: ^4.9.5
+    typescript: ^5.1.3
     uuid: ^9.0.0
     wikipedia: ^2.1.0
     wink-eng-lite-web-model: ^1.5.0
@@ -14540,7 +14520,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-jwt@npm:*, express-jwt@npm:^8.4.1":
+"express-jwt@npm:^8.4.1":
   version: 8.4.1
   resolution: "express-jwt@npm:8.4.1"
   dependencies:
@@ -18288,7 +18268,7 @@ __metadata:
     prettier: ^2.8.8
     terser: ^5.17.7
     ts-jest: ^29.1.0
-    typescript: ^4.9.5
+    typescript: ^5.1.3
     webpack: ^5.85.1
   languageName: unknown
   linkType: soft
@@ -19943,7 +19923,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ol@npm:*, ol@npm:^7.3.0, ol@npm:^7.4.0":
+"ol@npm:^7.3.0, ol@npm:^7.4.0":
   version: 7.4.0
   resolution: "ol@npm:7.4.0"
   dependencies:
@@ -24370,7 +24350,7 @@ __metadata:
     react-dom: ^18.2.0
     react-spring: ^9.7.1
     storybook: ^7.0.18
-    typescript: ^4.9.5
+    typescript: ^5.1.3
     webpack: ^5.85.1
   languageName: unknown
   linkType: soft
@@ -25698,43 +25678,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.6.4 || ^5.0.0":
-  version: 5.0.4
-  resolution: "typescript@npm:5.0.4"
+"typescript@npm:^4.6.4 || ^5.0.0, typescript@npm:^5.1.3":
+  version: 5.1.3
+  resolution: "typescript@npm:5.1.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 82b94da3f4604a8946da585f7d6c3025fff8410779e5bde2855ab130d05e4fd08938b9e593b6ebed165bda6ad9292b230984f10952cf82f0a0ca07bbeaa08172
+  checksum: d9d51862d98efa46534f2800a1071a613751b1585dc78884807d0c179bcd93d6e9d4012a508e276742f5f33c480adefc52ffcafaf9e0e00ab641a14cde9a31c7
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.9.5":
-  version: 4.9.5
-  resolution: "typescript@npm:4.9.5"
+"typescript@patch:typescript@^4.6.4 || ^5.0.0#~builtin<compat/typescript>, typescript@patch:typescript@^5.1.3#~builtin<compat/typescript>":
+  version: 5.1.3
+  resolution: "typescript@patch:typescript@npm%3A5.1.3#~builtin<compat/typescript>::version=5.1.3&hash=1f5320"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: ee000bc26848147ad423b581bd250075662a354d84f0e06eb76d3b892328d8d4440b7487b5a83e851b12b255f55d71835b008a66cbf8f255a11e4400159237db
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@^4.6.4 || ^5.0.0#~builtin<compat/typescript>":
-  version: 5.0.4
-  resolution: "typescript@patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=1f5320"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 6a1fe9a77bb9c5176ead919cc4a1499ee63e46b4e05bf667079f11bf3a8f7887f135aa72460a4c3b016e6e6bb65a822cb8689a6d86cbfe92d22cc9f501f09213
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@^4.9.5#~builtin<compat/typescript>":
-  version: 4.9.5
-  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: ab417a2f398380c90a6cf5a5f74badd17866adf57f1165617d6a551f059c3ba0a3e4da0d147b3ac5681db9ac76a303c5876394b13b3de75fdd5b1eaa06181c9d
+  checksum: 32a25b2e128a4616f999d4ee502aabb1525d5647bc8955e6edf05d7fbc53af8aa98252e2f6ba80bcedfc0260c982b885f3c09cfac8bb65d2924f3133ad1e1e62
   languageName: node
   linkType: hard
 
@@ -26321,7 +26281,6 @@ __metadata:
     "@types/express": ^4.17.17
     "@types/mime": ^1.3.2
     "@types/node": ^16.18.34
-    "@types/ol": ^7.0.0
     "@types/react": ^18.2.7
     "@types/react-calendar-heatmap": ^1.6.3
     "@types/react-dom": ^18.2.4
@@ -26391,7 +26350,7 @@ __metadata:
     ts-node: ^10.9.1
     ts-node-dev: ^2.0.0
     tsconfig-paths-webpack-plugin: ^4.0.1
-    typescript: ^4.9.5
+    typescript: ^5.1.3
     uuid: ^9.0.0
     webpack: ^5.85.1
     webpack-bundle-analyzer: ^4.9.0
