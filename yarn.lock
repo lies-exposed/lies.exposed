@@ -4368,8 +4368,8 @@ __metadata:
     tsconfig-paths-webpack-plugin: ^4.0.1
     typescript: ^4.9.5
     url-loader: ^4.1.1
-    webpack: ^5.85.0
-    webpack-bundle-analyzer: ^4.8.0
+    webpack: ^5.85.1
+    webpack-bundle-analyzer: ^4.9.0
     webpack-dev-server: ^4.15.0
     webpack-node-externals: ^3.0.0
   peerDependencies:
@@ -9581,8 +9581,8 @@ __metadata:
     typescript: ^4.9.5
     uuid: ^9.0.0
     web-vitals: ^2.1.4
-    webpack: ^5.85.0
-    webpack-bundle-analyzer: ^4.8.0
+    webpack: ^5.85.1
+    webpack-bundle-analyzer: ^4.9.0
     webpack-cli: ^5.1.3
   languageName: unknown
   linkType: soft
@@ -18289,7 +18289,7 @@ __metadata:
     terser: ^5.17.7
     ts-jest: ^29.1.0
     typescript: ^4.9.5
-    webpack: ^5.85.0
+    webpack: ^5.85.1
   languageName: unknown
   linkType: soft
 
@@ -24378,7 +24378,7 @@ __metadata:
     react-spring: ^9.7.1
     storybook: ^7.0.18
     typescript: ^4.9.5
-    webpack: ^5.85.0
+    webpack: ^5.85.1
   languageName: unknown
   linkType: soft
 
@@ -26400,8 +26400,8 @@ __metadata:
     tsconfig-paths-webpack-plugin: ^4.0.1
     typescript: ^4.9.5
     uuid: ^9.0.0
-    webpack: ^5.85.0
-    webpack-bundle-analyzer: ^4.8.0
+    webpack: ^5.85.1
+    webpack-bundle-analyzer: ^4.9.0
     webpack-cli: ^5.1.3
     webpack-dev-server: ^4.15.0
     webpack-node-externals: ^3.0.0
@@ -26416,9 +26416,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack-bundle-analyzer@npm:^4.8.0":
-  version: 4.8.0
-  resolution: "webpack-bundle-analyzer@npm:4.8.0"
+"webpack-bundle-analyzer@npm:^4.9.0":
+  version: 4.9.0
+  resolution: "webpack-bundle-analyzer@npm:4.9.0"
   dependencies:
     "@discoveryjs/json-ext": 0.5.7
     acorn: ^8.0.4
@@ -26432,7 +26432,7 @@ __metadata:
     ws: ^7.3.1
   bin:
     webpack-bundle-analyzer: lib/bin/analyzer.js
-  checksum: acd86f68abb2bcb1a240043c6e2d8e53079499363afed94b96c0ec1abcc4fca2b7a7cbeeb5e13027d02a993c6ea8153194c69e7697faf47528bdaff1e2ce297e
+  checksum: e439aea4e88e18bfdc16eb69782c1bb17b2e581905a5cfa8d34058dc6677f6e202f896189268e58b49fa14ae12f5ef4c25cdca9f98f3de7e6699ac62def2f0af
   languageName: node
   linkType: hard
 
@@ -26573,9 +26573,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack@npm:5, webpack@npm:^5, webpack@npm:^5.85.0":
-  version: 5.85.0
-  resolution: "webpack@npm:5.85.0"
+"webpack@npm:5, webpack@npm:^5, webpack@npm:^5.85.1":
+  version: 5.85.1
+  resolution: "webpack@npm:5.85.1"
   dependencies:
     "@types/eslint-scope": ^3.7.3
     "@types/estree": ^1.0.0
@@ -26606,7 +26606,7 @@ __metadata:
       optional: true
   bin:
     webpack: bin/webpack.js
-  checksum: b013be9fbc7f6810d1f229f570c70710ddbc7290f817411acffe4214b2b6c783a041ab1f2005d9e1109f4ab21c136f0f8d8c067a5fb64f20a82dcbc1ee0d3f42
+  checksum: 6fa659ef5e53211e6eeaed1987ac415ddd219584414b2d5ca0d528f0c7dd49be5363a9840e1def33efe1b3305ef3ad3c91f803bd87e41d2771b125340caa4df7
   languageName: node
   linkType: hard
 
