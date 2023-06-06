@@ -1,4 +1,4 @@
-FROM ghcr.io/lies-exposed/liexp-base:alpha-latest as build
+FROM ghcr.io/lies-exposed/liexp-base:18-latest as build
 
 WORKDIR /app
 
@@ -18,7 +18,7 @@ COPY services/api ./services/api
 
 RUN yarn config set --home enableTelemetry false && yarn install && yarn api build
 
-FROM ghcr.io/lies-exposed/liexp-base:alpha-latest as production
+FROM ghcr.io/lies-exposed/liexp-base:18-latest as production
 
 WORKDIR /app
 
