@@ -6,13 +6,13 @@
     "baseUrl": "./src",
     "jsx": "react",
     "rootDir": "./",
+    "lib": ["DOM"],
     "tsBuildInfoFile": "build/.tsbuildinfo",
     "typeRoots": [
+      "../../node_modules/@types",
       "./typings",
-      "node_modules/@types",
       "../../packages/@liexp/backend/typings",
-      "../../packages/@liexp/shared/typings",
-      "../../node_modules/@types"
+      "../../packages/@liexp/shared/typings"
     ],
     "target": "esnext",
     "module": "NodeNext",

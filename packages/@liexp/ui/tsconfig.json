@@ -14,8 +14,6 @@
     "baseUrl": "./src",
     "rootDir": "./src",
     "typeRoots": [
-      "node_modules/@types",
-      "../../../node_modules/@types",
       "../shared/typings",
       "./typings"
     ],

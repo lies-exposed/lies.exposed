@@ -14,8 +14,6 @@
     "baseUrl": "./src",
     "rootDir": "./src",
     "typeRoots": [
-      "node_modules/@types",
-      "../../../node_modules/@types",
       "../shared/typings",
       "./typings"
     ],
@@ -29,6 +27,6 @@
       "path": "../shared"
     }
   ],
-  "include": ["./src", "./typings", "src/**/*.json"],
+  "include": ["./src", "./src/**/*.json"],
   "exclude": ["node_modules", "lib"]
 }

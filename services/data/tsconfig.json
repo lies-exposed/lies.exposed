@@ -8,8 +8,6 @@
     "tsBuildInfoFile": "build/.tsbuildinfo",
     "typeRoots": [
       "./src/typings",
-      "node_modules/@types",
-      "../../node_modules/@types"
     ],
     "declaration": false,
     "skipLibCheck": true,
