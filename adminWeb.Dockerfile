@@ -1,4 +1,4 @@
-FROM node:16-slim as build
+FROM node:18-slim as build
 
 WORKDIR /app
 
@@ -20,7 +20,7 @@ RUN yarn admin-web build
 
 RUN NODE_ENV=production yarn admin-web build:app
 
-FROM node:16-slim as production
+FROM node:18-slim as production
 
 WORKDIR /app
 

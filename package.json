@@ -43,7 +43,7 @@
   "engines": {
     "yarn": ">= 3",
     "npm": "please use yarn >= 3",
-    "node": ">= 16"
+    "node": ">= 18"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.5",
