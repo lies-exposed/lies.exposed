@@ -9904,7 +9904,7 @@ __metadata:
     typeorm-uml: ^1.6.5
     typescript: ^4.9.5
     uuid: ^9.0.0
-    wikipedia: ^2.0.0
+    wikipedia: ^2.1.0
     wink-eng-lite-web-model: ^1.5.0
     wink-nlp: ^1.14.0
     wink-nlp-utils: ^2.1.0
@@ -19558,13 +19558,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:2.6.1":
-  version: 2.6.1
-  resolution: "node-fetch@npm:2.6.1"
-  checksum: 91075bedd57879117e310fbcc36983ad5d699e522edb1ebcdc4ee5294c982843982652925c3532729fdc86b2d64a8a827797a745f332040d91823c8752ee4d7c
-  languageName: node
-  linkType: hard
-
 "node-fetch@npm:2.6.7, node-fetch@npm:^2.6.1, node-fetch@npm:^2.6.7":
   version: 2.6.7
   resolution: "node-fetch@npm:2.6.7"
@@ -26717,13 +26710,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wikipedia@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "wikipedia@npm:2.0.0"
+"wikipedia@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "wikipedia@npm:2.1.0"
   dependencies:
+    axios: ^1.4.0
     infobox-parser: ^3.6.2
-    node-fetch: 2.6.1
-  checksum: f51489612563f4028cf020ee502c01caf2606b527ac5471bb352fe02f1ed7cd43ac6717020c7e0dd97d8331966ef353b9949ddcb3c3f2ab22c5fa380afd5b303
+  checksum: a14680e1b6146ac0b4bd8cdedc94169a00c3694156d281ae98e98851cc94b34d0564ae62916ddec9e648fef4b486cb2f31a8fa34b204d7b9ad33ddb970bcc01a
   languageName: node
   linkType: hard
 
