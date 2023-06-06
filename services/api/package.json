@@ -82,7 +82,7 @@
     "typeorm": "^0.3.16",
     "typescript": "^4.9.5",
     "uuid": "^9.0.0",
-    "wikipedia": "^2.0.0",
+    "wikipedia": "^2.1.0",
     "wink-eng-lite-web-model": "^1.5.0",
     "wink-nlp": "^1.14.0",
     "wink-nlp-utils": "^2.1.0"
