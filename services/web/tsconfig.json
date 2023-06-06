@@ -17,8 +17,6 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "typeRoots": [
-      "../../node_modules/@types",
-      "node_modules/@types",
       "../../packages/@liexp/shared/typings",
       "../../packages/@liexp/ui/typings",
       "typings"

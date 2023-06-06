@@ -14,7 +14,6 @@
     "baseUrl": "./src",
     "rootDir": "./src",
     "typeRoots": [
-      "node_modules/@types",
       "../../../node_modules/@types",
       "../backend/typings",
       "./typings"
@@ -35,6 +34,6 @@
       "path": "../test"
     }
   ],
-  "include": ["./src", "./typings", "src/**/*.json"],
+  "include": ["./src", "./src/**/*.json"],
   "exclude": ["node_modules", "lib"]
 }

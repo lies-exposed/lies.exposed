@@ -1,21 +1,20 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "noEmit": true,
+    "composite": false,
     "typeRoots": [
-      "./typings",
-      "node_modules/@types",
-      "../../../node_modules/@types"
+      "./typings"
     ],
-    "declaration": false,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false
   },
   "include": ["./src"],
   "exclude": [
     "node_modules",
-    "lib"
+    "lib",
+    "./src/**/*.spec.ts"
   ]
 }

@@ -6,9 +6,6 @@
     "noEmit": true,
     "allowJs": true,
     "module": "commonjs",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
     "declaration": false,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
