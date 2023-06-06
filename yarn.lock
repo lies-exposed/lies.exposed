@@ -8292,10 +8292,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^16.0.0, @types/node@npm:^16.18.34":
+"@types/node@npm:^16.0.0":
   version: 16.18.34
   resolution: "@types/node@npm:16.18.34"
   checksum: 35c0ffe09687578d002ceb7e706d0ba450546aeb3d2716f28691f2af0063bd274dbde0f741d087ea217f2a8db413eb700d22dfb4f08a67986ff801423bd7be8d
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^16.18.34":
+  version: 16.18.35
+  resolution: "@types/node@npm:16.18.35"
+  checksum: 68e3015eb24f009d2b5a7ad959d1e1090016847248f22242c520b75a2780eb19e2d212e775e68022ed474fac00bcc8edaebcd02712f1dfee542efa23e2a4027e
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^18.16.16":
+  version: 18.16.16
+  resolution: "@types/node@npm:18.16.16"
+  checksum: 0efad726dd1e0bef71c392c708fc5d78c5b39c46b0ac5186fee74de4ccb1b2e847b3fa468da67d62812f56569da721b15bf31bdc795e6c69b56c73a45079ed2d
   languageName: node
   linkType: hard
 
@@ -8324,6 +8338,15 @@ __metadata:
   version: 1.3.2
   resolution: "@types/object.pick@npm:1.3.2"
   checksum: 71053ec6849142e934a1f2232e004f103e26a7df4782a83e83d976c74f1804c3ac29ed96223a6eef7b08f36ee019d1675f0d752fd79c9f444a080646d438c87d
+  languageName: node
+  linkType: hard
+
+"@types/ol@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@types/ol@npm:7.0.0"
+  dependencies:
+    ol: "*"
+  checksum: b6fb074aa6ae636024ec116b4853bc0330971f049463ad49ed3cd9069ee968d3a2890afe72d61e1d0a0df9a301df310a8ade22e75e99c3189918c29d0e4b6f99
   languageName: node
   linkType: hard
 
@@ -9616,7 +9639,7 @@ __metadata:
     "@types/debug": ^4.1.8
     "@types/jest": ^29.5.2
     "@types/lodash": ^4.14.195
-    "@types/node": ^16.18.34
+    "@types/node": ^18.16.16
     "@types/prettier": ^2.7.3
     "@types/react": ^18.2.9
     "@types/react-dom": ^18.2.4
@@ -9926,7 +9949,7 @@ __metadata:
     "@types/lodash": ^4.14.195
     "@types/module-alias": ^2.0.1
     "@types/multer": ^1.4.7
-    "@types/node": ^16.18.34
+    "@types/node": ^18.16.16
     "@types/node-cron": ^3.0.7
     "@types/node-telegram-bot-api": ^0.61.6
     "@types/pg": ^8.10.2
@@ -20027,7 +20050,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ol@npm:^7.3.0, ol@npm:^7.4.0":
+"ol@npm:*, ol@npm:^7.3.0, ol@npm:^7.4.0":
   version: 7.4.0
   resolution: "ol@npm:7.4.0"
   dependencies:
@@ -26412,6 +26435,7 @@ __metadata:
     "@types/express": ^4.17.17
     "@types/mime": ^1.3.2
     "@types/node": ^16.18.34
+    "@types/ol": ^7.0.0
     "@types/react": ^18.2.9
     "@types/react-calendar-heatmap": ^1.6.3
     "@types/react-dom": ^18.2.4

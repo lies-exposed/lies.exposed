@@ -1,4 +1,4 @@
-FROM node:16-alpine as build
+FROM node:18-alpine as build
 
 ARG NODE_ENV=production
 ARG DOTENV_CONFIG_PATH=.env
@@ -24,7 +24,7 @@ RUN export DOTENV_CONFIG_PATH=${DOTENV_CONFIG_PATH}
 
 RUN yarn && yarn web build && yarn web build:app-server
 
-FROM node:16-slim as production
+FROM node:18-slim as production
 
 WORKDIR /app
 
