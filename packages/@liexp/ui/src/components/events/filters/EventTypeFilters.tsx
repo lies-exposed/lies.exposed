@@ -13,9 +13,9 @@ import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQ
 import { clsx } from "clsx";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
-import { styled } from "../../theme";
-import { EventIcon } from "../Common/Icons";
-import { Box, Grid, IconButton, Typography } from "../mui";
+import { styled } from "../../../theme";
+import { EventIcon } from "../../Common/Icons";
+import { Box, Grid, IconButton, Typography } from "../../mui";
 
 const PREFIX = "event-type-filters";
 

@@ -1,5 +1,6 @@
 import { type Group } from "@liexp/shared/lib/io/http";
 import * as React from "react";
+import { useQuery } from 'react-query';
 import { useGroupsQuery } from "../../state/queries/groups.queries";
 import GroupList, { GroupListItem } from "../lists/GroupList";
 import { AutocompleteInput } from "./AutocompleteInput";
@@ -8,6 +9,7 @@ interface AutocompleteGroupInputProps {
   className?: string;
   discrete?: boolean;
   selectedItems: Group.Group[];
+  options?: Group.Group[]
   onChange: (item: Group.Group[]) => void;
 }
 
@@ -15,6 +17,7 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
   selectedItems,
   onChange,
   discrete = true,
+  options,
   ...props
 }) => {
   return (
@@ -23,7 +26,9 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
       getValue={(a) => (typeof a === "string" ? a : a.name)}
       searchToFilter={(name) => ({ name })}
       selectedItems={selectedItems}
-      query={p => useGroupsQuery(p, discrete)}
+      query={p => options
+        ? useQuery(["actor-options"], () => Promise.resolve({ data: options }))
+        : useGroupsQuery(p, discrete)}
       renderTags={(items) => (
         <GroupList
           groups={items.map((i) => ({
