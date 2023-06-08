@@ -2,7 +2,7 @@ import * as React from "react";
 import QueriesRenderer from "../components/QueriesRenderer";
 import EventsAppBar, {
   type EventsAppBarProps
-} from "../components/events/EventsAppBar";
+} from "../components/events/filters/EventsAppBar";
 import { searchEventsQuery } from "../state/queries/SearchEventsQuery";
 
 interface EventsAppBarBoxProps extends Omit<EventsAppBarProps, 'events' | 'totals'> {

@@ -33,7 +33,9 @@ const EventNode: React.FC<NodeProps<Events.SearchEvent.SearchEvent>> = ({
           <Handle type="target" position={Position.Left} />
         ) : null}
         {!selected ? (
-          <EventIcon type={data.type} />
+          <EventIcon type={data.type} style={{
+            opacity: (data as any).selected ? 1 : 0.5
+          }} />
         ) : (
           <EventCard
             event={data}
@@ -153,10 +155,9 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
 }) => {
   const { nodes, edges } = React.useMemo(() => {
     const actorNodes = graph.actors
-      .filter((a) => filters.actors.includes(a.id))
       .map((a, i) => ({
         id: a.id,
-        data: { ...a, selected: true },
+        data: { ...a, selected: filters.actors.includes(a.id) },
         type: Actor.Actor.name,
         position: {
           x: -100,
@@ -165,10 +166,9 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
       }));
 
     const groupNodes = graph.groups
-      .filter((g) => filters.groups.includes(g.id))
       .map((a, i) => ({
         id: a.id,
-        data: { ...a, selected: true },
+        data: { ...a, selected: filters.groups.includes(a.id) },
         type: Group.Group.name,
         position: {
           x: -200,
@@ -176,35 +176,34 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
         },
       }));
 
-    const eventNodes = graph.events
-      .filter((e) =>
-        fp.Ord.between(fp.Ord.ordDate)(filters.minDate, filters.maxDate)(
-          parseISO(e.date)
-        )
-      )
-      .map((e, i) => ({
-        id: e.id,
-        data: e,
-        type: Events.Event.name,
-        position: {
-          x: 100 + i * 50,
-          y:
-            e.type === Events.Uncategorized.UNCATEGORIZED.value
-              ? 10
-              : e.type === Events.ScientificStudy.SCIENTIFIC_STUDY.value
-              ? 20
-              : e.type === Events.Patent.PATENT.value
-              ? 30
-              : e.type === Events.Death.DEATH.value
-              ? 40
-              : e.type === Events.Documentary.DOCUMENTARY.value
-              ? 50
-              : 60,
-        },
-      }));
+    const eventNodes = graph.events.map((e, i) => ({
+      id: e.id,
+      data: {
+        ...e,
+        selected: fp.Ord.between(fp.Ord.ordDate)(
+          filters.minDate,
+          filters.maxDate
+        )(parseISO(e.date)),
+      },
+      type: Events.Event.name,
+      position: {
+        x: 100 + i * 50,
+        y:
+          e.type === Events.Uncategorized.UNCATEGORIZED.value
+            ? 10
+            : e.type === Events.ScientificStudy.SCIENTIFIC_STUDY.value
+            ? 20
+            : e.type === Events.Patent.PATENT.value
+            ? 30
+            : e.type === Events.Death.DEATH.value
+            ? 40
+            : e.type === Events.Documentary.DOCUMENTARY.value
+            ? 50
+            : 60,
+      },
+    }));
 
     const keywordNodes = graph.keywords
-      .filter((k) => filters.keywords.includes(k.id))
       .map((k, i) => ({
         id: k.id,
         position: {
@@ -216,7 +215,7 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
           ),
           y: (i % 2 === 0 ? i : -i) * 20,
         },
-        data: { ...k, selected: true },
+        data: { ...k, selected: filters.keywords.includes(k.id) },
         type: Keyword.Keyword.name,
       }));
 
@@ -227,9 +226,13 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
       ...keywordNodes,
     ];
 
+    const nodeIds = nodes.map((n) => n.id);
+
     const actorEdges = graph.actorLinks
-      .filter((l) =>
-        filters.actors.some((id) => l.source === id || l.target === id)
+      .filter(
+        (l) =>
+          nodeIds.find((id) => l.source === id) &&
+          nodeIds.find((id) => l.target === id)
       )
       .map(({ color, ...l }) => ({
         ...l,
@@ -238,8 +241,10 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
       }));
 
     const groupEdges = graph.groupLinks
-      .filter((l) =>
-        filters.groups.some((id) => l.source === id || l.target === id)
+      .filter(
+        (l) =>
+          nodeIds.find((id) => l.source === id) &&
+          nodeIds.find((id) => l.target === id)
       )
       .map(({ color, ...l }) => ({
         ...l,
@@ -247,8 +252,10 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
       }));
 
     const keywordEdges = graph.keywordLinks
-      .filter((l) =>
-        filters.keywords.some((id) => l.source === id || l.target === id)
+      .filter(
+        (l) =>
+          nodeIds.find((id) => l.source === id) &&
+          nodeIds.find((id) => l.target === id)
       )
       .map(({ color, ...l }) => ({
         ...l,

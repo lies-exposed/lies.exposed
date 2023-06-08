@@ -18,7 +18,9 @@ const meta: Meta = {
 export default meta;
 
 const Template: StoryFn<EventsFlowGraphBoxProps> = ({ type, id, ...props }) => {
-  const [item, setActor] = React.useState<any | undefined>({ id });
+  const [item, setActor] = React.useState<any | undefined>(
+    id ? { id } : undefined
+  );
 
   const AutocompleteItemInput = React.useMemo(() => {
     switch (type) {

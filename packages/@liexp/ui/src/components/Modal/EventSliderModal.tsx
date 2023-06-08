@@ -8,10 +8,7 @@ import {
 } from "../../state/queries/SearchEventsQuery";
 import { styled, useTheme } from "../../theme";
 import QueriesRenderer from "../QueriesRenderer";
-import {
-  EventsAppBarMinimized,
-  searchEventQueryToEventTypeFilters,
-} from "../events/EventsAppBarMinimized";
+import EventsAppBar from '../events/filters/EventsAppBar';
 import { Box, CloseIcon, IconButton, Modal } from "../mui";
 import { EventSlider, type EventSliderProps } from "../sliders/EventSlider";
 
@@ -214,14 +211,14 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
                     />
                   </Box>
 
-                  <EventsAppBarMinimized
+                  <EventsAppBar
                     className={classes.eventsAppBar}
                     query={query}
-                    filters={searchEventQueryToEventTypeFilters(query)}
                     current={appBarCurrent}
-                    open={false}
                     totals={totals}
                     onQueryChange={onQueryChange}
+                    onQueryClear={() => {}}
+                    events={events}
                     actors={rest.actors.map((a) => ({
                       ...a,
                       selected: query.actors?.includes(a.id) ?? false,

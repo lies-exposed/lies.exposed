@@ -29,7 +29,7 @@ import {
   type EventsNetworkGraphProps,
 } from "../../components/Graph/EventsNetworkGraph";
 import QueriesRenderer from "../../components/QueriesRenderer";
-import EventsAppBar from "../../components/events/EventsAppBar";
+import EventsAppBar from "../../components/events/filters/EventsAppBar";
 import {
   Box,
   Checkbox,
