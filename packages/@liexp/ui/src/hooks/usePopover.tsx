@@ -5,13 +5,19 @@ export const usePopover = (
   props: Partial<Omit<PopoverProps, "open">>
 ): [
   React.ReactElement | null,
-  (title: string, getContent: (onClose: () => void) => JSX.Element) => void
+  (
+    title: string,
+    el: HTMLElement,
+    getContent: (onClose: () => void) => JSX.Element
+  ) => void
 ] => {
   const [popoverState, setPopoverState] = React.useState<{
+    el: HTMLElement | null;
     title?: string;
     open: boolean;
     content: React.ReactElement | null;
   }>({
+    el: null,
     title: undefined,
     open: false,
     content: null,
@@ -31,6 +37,7 @@ export const usePopover = (
       <Popover
         disablePortal={true}
         {...props}
+        anchorEl={popoverState.el}
         open={open}
         onClose={onClose}
         title={title}
@@ -42,9 +49,11 @@ export const usePopover = (
 
   const showPopover = (
     title: string,
+    el: HTMLElement,
     getContent: (onClose: () => void) => JSX.Element
   ): void => {
     setPopoverState({
+      el,
       title,
       open: true,
       content: getContent(onClose),

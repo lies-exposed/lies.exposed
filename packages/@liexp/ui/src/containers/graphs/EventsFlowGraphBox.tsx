@@ -8,7 +8,7 @@ import { type Node } from "reactflow";
 import { type serializedType } from "ts-io-error/lib/Codec";
 import { EventsFlowGraph } from "../../components/Graph/EventsFlowGraph";
 import QueriesRenderer from "../../components/QueriesRenderer";
-import EventsAppBar from "../../components/events/EventsAppBar";
+import EventsAppBar from "../../components/events/filters/EventsAppBar";
 import { Box } from "../../components/mui";
 import { useFlowGraphQuery } from "../../state/queries/graph.queries";
 
@@ -131,7 +131,7 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
               onQueryClear={() => {}}
               layout={{
                 dateRangeBox: {
-                  columns: 6,
+                  columns: 12,
                   variant: "slider",
                 },
               }}

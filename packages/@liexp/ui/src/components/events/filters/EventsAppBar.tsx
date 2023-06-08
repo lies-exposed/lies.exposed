@@ -1,4 +1,10 @@
 import { getTotal } from "@liexp/shared/lib/helpers/event";
+import {
+  type Actor,
+  type Group,
+  type Keyword,
+  type GroupMember,
+} from "@liexp/shared/lib/io/http";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
 import ArrowDownIcon from "@mui/icons-material/ArrowDownward";
@@ -6,20 +12,29 @@ import ArrowUpIcon from "@mui/icons-material/ArrowUpward";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { parseISO, subYears } from "date-fns";
 import * as React from "react";
-import { usePopover } from "../../hooks/usePopover";
-import { type SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery";
-import { styled, useTheme } from "../../theme";
-import { DateRangePicker, DateRangeSlider } from "../Common/DateRangePicker";
-import { ActorList } from "../lists/ActorList";
-import GroupList from "../lists/GroupList";
-import { GroupsMembersList } from "../lists/GroupMemberList";
-import KeywordList from "../lists/KeywordList";
-import { Box, Grid, IconButton, SearchIcon, Typography, alpha } from "../mui";
+import { usePopover } from "../../../hooks/usePopover";
+import { type SearchEventsQueryInputNoPagination } from "../../../state/queries/SearchEventsQuery";
+import { styled, useTheme } from "../../../theme";
+import { DateRangePicker, DateRangeSlider } from "../../Common/DateRangePicker";
+import { AutocompleteActorInput } from "../../Input/AutocompleteActorInput";
+import { AutocompleteGroupInput } from "../../Input/AutocompleteGroupInput";
+import { AutocompleteKeywordInput } from "../../Input/AutocompleteKeywordInput";
+import { ActorList } from "../../lists/ActorList";
+import GroupList from "../../lists/GroupList";
+import { GroupsMembersList } from "../../lists/GroupMemberList";
+import KeywordList from "../../lists/KeywordList";
 import {
-  searchEventQueryToEventTypeFilters,
-  type EventsAppBarMinimizedProps,
-} from "./EventsAppBarMinimized";
-import SearchEventInput, { type SearchFilter } from "./inputs/SearchEventInput";
+  Box,
+  Grid,
+  IconButton,
+  SearchIcon,
+  Typography,
+  alpha,
+} from "../../mui";
+import SearchEventInput, {
+  type SearchFilter,
+} from "../inputs/SearchEventInput";
+import { searchEventQueryToEventTypeFilters } from "./EventsAppBarMinimized";
 
 const PREFIX = "EventsAppBar";
 
@@ -110,8 +125,20 @@ const StyledBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-export interface EventsAppBarProps
-  extends Omit<EventsAppBarMinimizedProps, "filters" | "totals" | "open"> {
+export interface EventsAppBarProps {
+  className?: string;
+  query: SearchEventsQueryInputNoPagination;
+  current?: number;
+  actors: Actor.Actor[];
+  groups: Group.Group[];
+  keywords: Keyword.Keyword[];
+  groupsMembers: GroupMember.GroupMember[];
+  layout?: Partial<{
+    searchBox: number;
+    eventTypes: number;
+    dateRangeBox: { columns: number; variant: "slider" | "picker" };
+    relations: number;
+  }>;
   defaultExpanded?: boolean;
   events: SearchEvent.SearchEvent[];
   dateRange?: [Date, Date];
@@ -142,8 +169,8 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
   ];
 
   const actorPopoverRef = React.createRef<HTMLDivElement>();
-  const [actorPopover, showPopover] = usePopover({
-    ref: () => actorPopoverRef.current,
+  const [filterPopover, showPopover] = usePopover({
+    disablePortal: false,
   });
 
   const handleQueryChange = (queryUpdate: Partial<SearchFilter>): void => {
@@ -283,7 +310,13 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
           input: classes.inputInput,
         }}
         query={query}
-        onQueryChange={handleQueryChange}
+        onQueryChange={(u) =>
+          { handleQueryChange({
+            actors: actors.concat(u.actors),
+            groups: groups.concat(u.groups),
+            keywords: keywords.concat(u.keywords),
+          }); }
+        }
       />
     </div>
   );
@@ -310,22 +343,32 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
     </Box>
   ) : null;
 
-  const handleActorClick = (): void => {
-    showPopover("Filter actors", (onClose) => (
-      <ActorList
-        actors={filters.actors.unselected.map((a) => ({
-          ...a,
-          selected: true,
-        }))}
-        displayFullName
-        onActorClick={(a) => {
-          handleQueryChange({
-            actors: filters.actors.selected.concat(a),
-          });
-          onClose();
-        }}
-      />
-    ));
+  const handleActorClick = (e: any): void => {
+    showPopover("Filter actors", e.currentTarget, (onClose) => {
+      return (
+        <AutocompleteActorInput
+          selectedItems={filters.actors.selected.map((a) => ({
+            ...a,
+            selected: true,
+          }))}
+          discrete={false}
+          options={
+            filters.actors.unselected.length > 0
+              ? filters.actors.unselected.map((a) => ({
+                  ...a,
+                  selected: true,
+                }))
+              : undefined
+          }
+          onChange={(a) => {
+            handleQueryChange({
+              actors: a,
+            });
+            onClose();
+          }}
+        />
+      );
+    });
   };
   const actorsList = (
     <ActorList
@@ -337,24 +380,32 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
       onActorClick={(a, e) => {
         e.stopPropagation();
         handleQueryChange({
-          actors: filters.actors.selected.filter(aa => aa.id !== a.id)
-        })
+          actors: filters.actors.selected.filter((aa) => aa.id !== a.id),
+        });
       }}
     />
   );
 
-  const handleGroupClick = (): void => {
-    showPopover("Filter groups", (onClose) => {
+  const handleGroupClick = (e: any): void => {
+    showPopover("Filter groups", e.currentTarget, (onClose) => {
       return (
-        <GroupList
-          groups={filters.groups.unselected.map((g) => ({
+        <AutocompleteGroupInput
+          selectedItems={filters.groups.selected.map((g) => ({
             ...g,
             selected: true,
           }))}
-          displayName
-          onItemClick={(k) => {
+          discrete={false}
+          options={
+            filters.groups.unselected.length > 0
+              ? filters.groups.unselected.map((a) => ({
+                  ...a,
+                  selected: true,
+                }))
+              : undefined
+          }
+          onChange={(k) => {
             handleQueryChange({
-              groups: filters.groups.selected.concat(k),
+              groups: k,
             });
             onClose();
           }}
@@ -363,17 +414,26 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
     });
   };
 
-  const handleKeywordClick = (): void => {
-    showPopover("Filter keywords", (onClose) => {
+  const handleKeywordClick = (e: any): void => {
+    showPopover("Filter keywords", e.currentTarget, (onClose) => {
       return (
-        <KeywordList
-          keywords={filters.keywords.unselected.map((g) => ({
+        <AutocompleteKeywordInput
+          selectedItems={filters.keywords.selected.map((g) => ({
             ...g,
             selected: true,
           }))}
-          onItemClick={(k) => {
+          discrete={false}
+          options={
+            filters.keywords.unselected.length > 0
+              ? filters.keywords.unselected.map((a) => ({
+                  ...a,
+                  selected: true,
+                }))
+              : undefined
+          }
+          onChange={(k) => {
             handleQueryChange({
-              keywords: filters.keywords.selected.concat(k),
+              keywords: k,
             });
             onClose();
           }}
@@ -394,11 +454,11 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
     />
   );
 
-  const layout: Required<EventsAppBarMinimizedProps["layout"]> = {
+  const layout: Required<EventsAppBarProps["layout"]> = {
     searchBox: 3,
     eventTypes: 4,
     dateRangeBox: {
-      columns: 4,
+      columns: 12,
       variant: "slider",
       ...props.layout?.dateRangeBox,
     },
@@ -472,9 +532,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
                   flexDirection: "row",
                   flexShrink: 0,
                 }}
-                onClick={() => {
-                  handleGroupClick();
-                }}
+                onClick={handleGroupClick}
               >
                 {filters.groups.selected.length === 0 ? (
                   <Typography>Select a group</Typography>
@@ -511,16 +569,14 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
                   flexShrink: 0,
                 }}
                 ref={actorPopoverRef}
-                onClick={() => {
-                  handleActorClick();
-                }}
+                onClick={handleActorClick}
               >
                 {filters.actors.selected.length === 0 ? (
                   <Typography>Select an actor</Typography>
                 ) : null}
                 {actorsList}
               </Grid>
-              {actorPopover}
+              {filterPopover}
               <Grid
                 item
                 xs={12}

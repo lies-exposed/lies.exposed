@@ -12,7 +12,7 @@ interface SearchableItem {
 export interface AutocompleteInputProps<T extends SearchableItem>
   extends Omit<
     AutocompleteProps<T, boolean, boolean, boolean>,
-    "renderInput" | "options"
+    "renderInput" | "options" | 'onChange'
   > {
   query: (
     params: GetListParams
@@ -54,7 +54,6 @@ export const AutocompleteInput = <T extends { id: string }>({
     };
   }, [value]);
 
-  
   // queries
 
   const handleValueChange = React.useCallback(

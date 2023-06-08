@@ -1,5 +1,6 @@
 import { type Actor } from "@liexp/shared/lib/io/http";
 import * as React from "react";
+import { useQuery } from 'react-query';
 import { useActorsQuery } from "../../state/queries/actor.queries";
 import { ActorList, ActorListItem } from "../lists/ActorList";
 import { AutocompleteInput } from "./AutocompleteInput";
@@ -7,6 +8,7 @@ import { AutocompleteInput } from "./AutocompleteInput";
 interface AutocompleteActorInputProps {
   className?: string;
   selectedItems: Actor.Actor[];
+  options?: Actor.Actor[];
   onChange: (items: Actor.Actor[]) => void;
   discrete?: boolean;
 }
@@ -15,6 +17,7 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
   selectedItems,
   onChange,
   discrete = true,
+  options,
   ...props
 }) => {
   return (
@@ -24,7 +27,11 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
       getValue={(a) => (typeof a === "string" ? a : a.fullName)}
       searchToFilter={(fullName) => ({ fullName })}
       selectedItems={selectedItems}
-      query={(p) => useActorsQuery(p, discrete)}
+      query={(p) =>
+        options
+          ? useQuery(["actor-options"], () => Promise.resolve({ data: options }))
+          : useActorsQuery(p, discrete)
+      }
       renderTags={(items) => (
         <ActorList
           actors={items.map((i) => ({
@@ -40,6 +47,7 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
         <ActorListItem
           key={item.id}
           displayFullName={true}
+          style={{ display: 'flex', }}
           item={{
             ...item,
             selected: true,
