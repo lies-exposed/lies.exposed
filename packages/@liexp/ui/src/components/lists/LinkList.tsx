@@ -22,8 +22,10 @@ export const LinksList: React.FC<LinksListProps> = ({
     <Grid
       container
       spacing={2}
+      display={"flex"}
       style={{
         maxHeight: "100%",
+        flexDirection: 'column',
         ...style,
       }}
     >

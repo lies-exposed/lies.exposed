@@ -28,14 +28,17 @@ const EventNode: React.FC<NodeProps<Events.SearchEvent.SearchEvent>> = ({
 }) => {
   return (
     <React.Suspense>
-      <div style={{ maxWidth: 200, zIndex: selected ? 1000 : 0 }}>
+      <div style={{ maxWidth: 300, zIndex: selected ? 1000 : 0 }}>
         {targetPosition ? (
-          <Handle type="target" position={Position.Left} />
+          <Handle type="target" position={Position.Bottom} />
         ) : null}
         {!selected ? (
-          <EventIcon type={data.type} style={{
-            opacity: (data as any).selected ? 1 : 0.5
-          }} />
+          <EventIcon
+            type={data.type}
+            style={{
+              opacity: (data as any).selected ? 1 : 0.5,
+            }}
+          />
         ) : (
           <EventCard
             event={data}
@@ -45,7 +48,7 @@ const EventNode: React.FC<NodeProps<Events.SearchEvent.SearchEvent>> = ({
           />
         )}
         {sourcePosition ? (
-          <Handle type="source" position={Position.Right} />
+          <Handle type="source" position={Position.Top} />
         ) : null}
       </div>
     </React.Suspense>
@@ -56,7 +59,7 @@ const ActorNode: React.FC<NodeProps> = ({ data }) => {
   return (
     <div style={{ maxWidth: 200 }}>
       <ActorListItem item={data} displayFullName={false} />
-      <Handle type="source" position={Position.Right} />
+      <Handle type="source" position={Position.Bottom} />
     </div>
   );
 };
@@ -71,6 +74,7 @@ const ActorLink: React.FC<EdgeProps> = ({
   targetPosition,
   style = {},
   markerEnd,
+  markerStart,
   data,
 }) => {
   const [edgePath] = getBezierPath({
@@ -82,12 +86,13 @@ const ActorLink: React.FC<EdgeProps> = ({
     targetPosition,
   });
   return (
-    <>
+    <div key={id}>
       <BaseEdge
         id={id}
         path={edgePath}
         markerEnd={markerEnd}
-        style={{ ...style, stroke: data.color }}
+        markerStart={markerStart}
+        style={{ ...style }}
       />
       {/* <EdgeLabelRenderer>
          <div
@@ -107,7 +112,7 @@ const ActorLink: React.FC<EdgeProps> = ({
           </button>
         </div>
       </EdgeLabelRenderer> */}
-    </>
+    </div>
   );
 };
 
@@ -115,7 +120,7 @@ const GroupNode: React.FC<NodeProps> = ({ data }) => {
   return (
     <React.Suspense>
       <div style={{ maxWidth: 200 }}>
-        <Handle type="source" position={Position.Right} />
+        <Handle type="source" position={Position.Bottom} />
         <GroupListItem item={data} displayName={false} />
         {/* <Handle type="target" position={Position.Left} /> */}
       </div>
@@ -127,10 +132,7 @@ const KeywordNode: React.FC<NodeProps> = ({ yPos, data }) => {
   return (
     <React.Suspense>
       <div style={{ maxWidth: 200 }}>
-        <Handle
-          type="source"
-          position={yPos < 0 ? Position.Bottom : Position.Top}
-        />
+        <Handle type="source" position={Position.Bottom} />
         <KeywordListItem item={data} />
       </div>
     </React.Suspense>
@@ -154,70 +156,72 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
   ...props
 }) => {
   const { nodes, edges } = React.useMemo(() => {
-    const actorNodes = graph.actors
-      .map((a, i) => ({
-        id: a.id,
-        data: { ...a, selected: filters.actors.includes(a.id) },
-        type: Actor.Actor.name,
-        position: {
-          x: -100,
-          y: (i % 2 === 0 ? -i : i) * 40,
-        },
-      }));
-
-    const groupNodes = graph.groups
-      .map((a, i) => ({
-        id: a.id,
-        data: { ...a, selected: filters.groups.includes(a.id) },
-        type: Group.Group.name,
-        position: {
-          x: -200,
-          y: (i % 2 === 0 ? -i : i) * 20,
-        },
-      }));
-
-    const eventNodes = graph.events.map((e, i) => ({
-      id: e.id,
-      data: {
-        ...e,
-        selected: fp.Ord.between(fp.Ord.ordDate)(
-          filters.minDate,
-          filters.maxDate
-        )(parseISO(e.date)),
-      },
-      type: Events.Event.name,
+    const keywordNodes = graph.keywords.map((k, i) => ({
+      id: k.id,
       position: {
-        x: 100 + i * 50,
-        y:
-          e.type === Events.Uncategorized.UNCATEGORIZED.value
-            ? 10
-            : e.type === Events.ScientificStudy.SCIENTIFIC_STUDY.value
-            ? 20
-            : e.type === Events.Patent.PATENT.value
-            ? 30
-            : e.type === Events.Death.DEATH.value
-            ? 40
-            : e.type === Events.Documentary.DOCUMENTARY.value
-            ? 50
-            : 60,
+        y: pipe(
+          // eventNodes.findIndex(
+          //   (e) => !!e.data.keywords.find((kk: string) => k.id === kk)
+          // ),
+          0
+          // (ii) => 50 + (ii < 1 ? 0 : ii * 50)
+        ),
+        x: (i % 2 === 0 ? i : -i) * 20,
+      },
+      data: { ...k, selected: filters.keywords.includes(k.id) },
+      type: Keyword.Keyword.name,
+    }));
+
+    const actorNodes = graph.actors.map((a, i) => ({
+      id: a.id,
+      data: { ...a, selected: filters.actors.includes(a.id) },
+      type: Actor.Actor.name,
+      position: {
+        y: 100,
+        x: (i % 2 === 0 ? -i : i) * 40,
       },
     }));
 
-    const keywordNodes = graph.keywords
-      .map((k, i) => ({
-        id: k.id,
-        position: {
-          x: pipe(
-            eventNodes.findIndex(
-              (e) => !!e.data.keywords.find((kk: string) => k.id === kk)
-            ),
-            (ii) => 50 + (ii < 1 ? 0 : ii * 50)
-          ),
-          y: (i % 2 === 0 ? i : -i) * 20,
+    const groupNodes = graph.groups.map((a, i) => ({
+      id: a.id,
+      data: { ...a, selected: filters.groups.includes(a.id) },
+      type: Group.Group.name,
+      position: {
+        y: 200,
+        x: (i % 2 === 0 ? -i : i) * 20,
+      },
+    }));
+
+    const eventNodes = pipe(
+      graph.events,
+      fp.A.reverse,
+      fp.A.mapWithIndex((i, e) => ({
+        id: e.id,
+        data: {
+          ...e,
+          selected: fp.Ord.between(fp.Ord.ordDate)(
+            filters.minDate,
+            filters.maxDate
+          )(parseISO(e.date)),
         },
-        data: { ...k, selected: filters.keywords.includes(k.id) },
-        type: Keyword.Keyword.name,
-      }));
+        type: Events.Event.name,
+        position: {
+          y: 300 + i * 50,
+          x:
+            e.type === Events.Uncategorized.UNCATEGORIZED.value
+              ? 10
+              : e.type === Events.ScientificStudy.SCIENTIFIC_STUDY.value
+              ? 20
+              : e.type === Events.Patent.PATENT.value
+              ? 30
+              : e.type === Events.Death.DEATH.value
+              ? 40
+              : e.type === Events.Documentary.DOCUMENTARY.value
+              ? 50
+              : 60,
+        },
+      }))
+    );
 
     const nodes = [
       ...eventNodes,
@@ -226,7 +230,7 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
       ...keywordNodes,
     ];
 
-    const nodeIds = nodes.map((n) => n.id);
+    const nodeIds = nodes.filter((n) => n.data.selected).map((n) => n.id);
 
     const actorEdges = graph.actorLinks
       .filter(
@@ -237,7 +241,7 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
       .map(({ color, ...l }) => ({
         ...l,
         data: { color: toColor(color) },
-        type: Actor.Actor.name,
+        // type: Actor.Actor.name,
       }));
 
     const groupEdges = graph.groupLinks

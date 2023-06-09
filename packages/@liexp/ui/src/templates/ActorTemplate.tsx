@@ -16,7 +16,7 @@ import { Box, Grid } from "../components/mui";
 import { EventsPanelBox } from "../containers/EventsPanel";
 import { StatsPanelBox } from "../containers/StatsPanelBox";
 import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventNetworkGraphBox";
-import { EventsFlowGraphBox } from '../containers/graphs/EventsFlowGraphBox';
+import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
 import { useGroupsQuery } from "../state/queries/groups.queries";
 import { SplitPageTemplate } from "./SplitPageTemplate";
@@ -84,13 +84,13 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                   label: "General",
                 },
                 {
+                  label: "Flow",
+                },
+                {
                   label: "Events",
                 },
                 {
                   label: "Networks",
-                },
-                {
-                  label: "Flow",
                 },
                 {
                   label: "Hierarchy",
@@ -128,6 +128,7 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                   </Grid>
                 </Grid>
               </Box>
+              <EventsFlowGraphBox type="actors" id={actor.id} query={{}} />
 
               <EventsPanelBox
                 slide={false}
@@ -158,8 +159,6 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                 onEventClick={onEventClick}
                 onQueryChange={() => {}}
               />
-
-              <EventsFlowGraphBox type="actors" id={actor.id} query={{}} />
             </SplitPageTemplate>
           </Box>
         );
