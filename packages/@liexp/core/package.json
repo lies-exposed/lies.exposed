@@ -41,7 +41,7 @@
     "filemanager-webpack-plugin": "^8.0.0",
     "fork-ts-checker-webpack-plugin": "^8.0.0",
     "html-replace-webpack-plugin": "^2.6.0",
-    "html-webpack-plugin": "^5.5.1",
+    "html-webpack-plugin": "^5.5.2",
     "mini-css-extract-plugin": "^2.7.6",
     "prettier": "^2.8.8",
     "react-refresh": "^0.14.0",
@@ -55,7 +55,7 @@
     "url-loader": "^4.1.1",
     "webpack": "^5.86.0",
     "webpack-bundle-analyzer": "^4.9.0",
-    "webpack-dev-server": "^4.15.0",
+    "webpack-dev-server": "^4.15.1",
     "webpack-node-externals": "^3.0.0"
   },
   "peerDependencies": {
