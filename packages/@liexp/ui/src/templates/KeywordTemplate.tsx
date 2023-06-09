@@ -19,7 +19,7 @@ import { EventsPanelBox } from "../containers/EventsPanel";
 import { MediaBox } from "../containers/MediaBox";
 import { StatsPanelBox } from "../containers/StatsPanelBox";
 import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventNetworkGraphBox";
-import { EventsFlowGraphBox } from '../containers/graphs/EventsFlowGraphBox';
+import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
 import { useKeywordQuery } from "../state/queries/keywords.queries";
 import { SplitPageTemplate } from "./SplitPageTemplate";
@@ -70,21 +70,21 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
               aside={{ name: `#${keyword.tag}` }}
               tabs={[
                 { label: "General" },
+                { label: "Flow" },
                 { label: "Events" },
                 { label: "Media" },
                 { label: "Links" },
                 { label: "Networks" },
-                { label: 'Flow' }
               ]}
               resource={{
                 name: KEYWORDS.value,
                 item: keyword,
               }}
             >
-              <Box>
-                <Grid container>
-                  <Grid item md={6} />
-                  <Grid item md={6}>
+              <Box style={{ height: "100%" }}>
+                <Grid container style={{ height: "100%" }}>
+                  <Grid item md={8}></Grid>
+                  <Grid item md={4}>
                     <StatsPanelBox
                       type="keywords"
                       id={keywordId}
@@ -95,6 +95,9 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
                   </Grid>
                 </Grid>
               </Box>
+
+              <EventsFlowGraphBox type="keywords" id={keyword.id} query={{}} />
+
               <EventsPanelBox
                 tab={tab}
                 slide={false}
@@ -132,8 +135,6 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
                 onGroupClick={onGroupClick}
                 onQueryChange={() => {}}
               />
-
-              <EventsFlowGraphBox type="keywords" id={keyword.id} query={{}} />
             </SplitPageTemplate>
           </Box>
         );

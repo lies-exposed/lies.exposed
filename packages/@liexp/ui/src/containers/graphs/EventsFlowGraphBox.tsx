@@ -101,7 +101,12 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
       }}
       render={({ graph: { data: graph } }) => {
         return (
-          <Box style={{ display: "block", height: "100%", width: "100%" }}>
+          <Box
+            height={"100%"}
+            display="flex"
+            flexDirection={"column"}
+            width={"100%"}
+          >
             <EventsAppBar
               query={query}
               events={graph.events}

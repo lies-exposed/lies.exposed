@@ -11,7 +11,7 @@ import { Box, Grid } from "../components/mui";
 import { EventsPanelBox } from "../containers/EventsPanel";
 import { StatsPanelBox } from "../containers/StatsPanelBox";
 import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventNetworkGraphBox";
-import { EventsFlowGraphBox } from '../containers/graphs/EventsFlowGraphBox';
+import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox";
 import { useGroupMembersQuery } from "../state/queries/DiscreteQueries";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
 import { SplitPageTemplate } from "./SplitPageTemplate";
@@ -76,6 +76,9 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                   label: "General",
                 },
                 {
+                  label: 'Flow',
+                },
+                {
                   label: "Events",
                 },
                 {
@@ -90,8 +93,13 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                 item: group,
               }}
             >
-              <Grid container>
-                <Grid item md={6}>
+              <Grid
+                container
+                style={{
+                  height: "100%",
+                }}
+              >
+                <Grid item md={8}>
                   <GroupPageContent
                     group={group}
                     groupsMembers={groupsMembers.data}
@@ -102,7 +110,8 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                     ownedGroups={[]}
                   />
                 </Grid>
-                <Grid item md={6}>
+
+                <Grid item md={4}>
                   <StatsPanelBox
                     type="groups"
                     id={group.id}
@@ -112,6 +121,8 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                   />
                 </Grid>
               </Grid>
+
+              <EventsFlowGraphBox type="groups" id={group.id} query={{}} />
 
               <EventsPanelBox
                 slide={false}
@@ -141,8 +152,6 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                 onEventClick={onEventClick}
                 onQueryChange={() => {}}
               />
-
-              <EventsFlowGraphBox type="groups" id={group.id} query={{}} />
 
               <GroupHierarchyEdgeBundlingGraph
                 group={group.id}
