@@ -104,7 +104,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
     return validation.right;
   });
 
-  const plugins = [
+  const plugins: any[] = [
     new webpack.ProgressPlugin({
       entries: true,
       percentBy: "entries",
