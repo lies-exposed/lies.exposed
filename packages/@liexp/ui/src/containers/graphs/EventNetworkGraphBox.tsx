@@ -2,14 +2,7 @@ import { fp } from "@liexp/core/lib/fp";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/event";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
 import { EventType } from "@liexp/shared/lib/io/http/Events";
-import { DEATH } from "@liexp/shared/lib/io/http/Events/Death";
-import { DOCUMENTARY } from "@liexp/shared/lib/io/http/Events/Documentary";
-import { PATENT } from "@liexp/shared/lib/io/http/Events/Patent";
-import { QUOTE } from "@liexp/shared/lib/io/http/Events/Quote";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/ScientificStudy";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
-import { TRANSACTION } from "@liexp/shared/lib/io/http/Events/Transaction";
-import { UNCATEGORIZED } from "@liexp/shared/lib/io/http/Events/Uncategorized";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
 import {
@@ -49,6 +42,9 @@ export interface EventNetworkGraphBoxProps
   type: NetworkType;
   relations?: NetworkGroupBy[];
   showRelations?: boolean;
+  selectedActorIds?: string[];
+  selectedGroupIds?: string[];
+  selectedKeywordIds?: string[];
   query: Omit<
     SearchEventsQueryInputNoPagination,
     "hash" | "startDate" | "endDate"
@@ -73,9 +69,9 @@ export const EventNetworkGraphBoxWrapper = <T extends any>({
   count = 50,
   query: { ids, type: queryType, ...query },
   type,
-  selectedActorIds,
-  selectedGroupIds,
-  selectedKeywordIds,
+  // selectedActorIds,
+  // selectedGroupIds,
+  // selectedKeywordIds,
   relations: _relations = [KEYWORDS.value],
   onRelationsChange,
   showRelations = true,
@@ -133,11 +129,11 @@ export const EventNetworkGraphBoxWrapper = <T extends any>({
       }}
       render={({ graph }) => {
         const innerProps = transform(graph, {
-          query: { ids, type: queryType, ...query },
+          query: { ids, type: EventType.types.map((t) => t.value), ...query },
           type,
-          selectedActorIds,
-          selectedGroupIds,
-          selectedKeywordIds,
+          selectedActorIds: query.actors,
+          selectedGroupIds: query.groups,
+          selectedKeywordIds: query.keywords,
         });
 
         return (
@@ -231,8 +227,8 @@ const transformNetworkOutput = (
     selectedActorIds,
     selectedGroupIds,
     selectedKeywordIds,
-    type: queryType,
-    query: { ids, ...query },
+    type,
+    query: { ids, type: queryType, ...query },
     ...props
   }: EventNetworkGraphBoxProps
 ): Omit<EventsNetworkGraphProps, "width" | "height"> & {
@@ -254,6 +250,7 @@ const transformNetworkOutput = (
     groups,
     keywords,
   } = graph;
+
   const minDate =
     events.length > 0 ? events.at(events.length - 1).date : new Date();
   const maxDate = events.length > 0 ? events.at(0).date : new Date();
@@ -261,7 +258,6 @@ const transformNetworkOutput = (
   const filteredEvents = events.filter((e) => {
     const date = parseISO(e.date);
     const min = differenceInDays(date, startDate);
-
     if (min < 0) {
       // console.log(`Days to start date ${startDate}`, min);
       return false;
@@ -366,33 +362,6 @@ const transformNetworkOutput = (
     .filter((l) => eventIds.includes(l.target) && eventIds.includes(l.source))
     .concat(relationLinks);
 
-  // console.log({ nodes, links });
-
-  const totals = events.reduce(
-    (acc, e) => {
-      // console.log(e.type);
-      return {
-        uncategorized: acc.uncategorized + (UNCATEGORIZED.is(e.type) ? 1 : 0),
-        scientificStudies:
-          acc.scientificStudies + (SCIENTIFIC_STUDY.is(e.type) ? 1 : 0),
-        transactions: acc.transactions + (TRANSACTION.is(e.type) ? 1 : 0),
-        patents: acc.patents + (PATENT.is(e.type) ? 1 : 0),
-        deaths: acc.deaths + (DEATH.is(e.type) ? 1 : 0),
-        documentaries: acc.documentaries + (DOCUMENTARY.is(e.type) ? 1 : 0),
-        quotes: acc.quotes + (QUOTE.is(e.type) ? 1 : 0),
-      };
-    },
-    {
-      uncategorized: 0,
-      transactions: 0,
-      patents: 0,
-      deaths: 0,
-      documentaries: 0,
-      quotes: 0,
-      scientificStudies: 0,
-    }
-  );
-
   return {
     ...props,
     events: filteredEvents,
@@ -400,10 +369,9 @@ const transformNetworkOutput = (
     groups,
     keywords,
     graph: { nodes: [...nodes], links: [...links] },
-    totals,
     minDate: parseISO(minDate),
     maxDate: parseISO(maxDate),
-    selectedActorIds,
+    totals: graph.totals,
   };
 };
 
@@ -570,17 +538,13 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
           height,
           ...otherProps
         }) => {
-          // console.log({ width, height });
-          // return <div style={{ width, height, background: "red" }} />;
+          // console.log({ width, height, events, actors, groups });
           return (
             <EventsNetworkGraph
               {...otherProps}
               width={width}
               height={height}
               events={events}
-              selectedActorIds={state.selectedActorIds}
-              selectedGroupIds={state.selectedGroupIds}
-              selectedKeywordIds={state.selectedKeywordIds}
               actors={actors}
               groups={groups}
               keywords={keywords}

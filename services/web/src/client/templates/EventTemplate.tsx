@@ -1,3 +1,4 @@
+import { EventType } from "@liexp/shared/lib/io/http/Events";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import { useEventQuery } from "@liexp/ui/lib/state/queries/event.queries";
 import { EventTemplateUI } from "@liexp/ui/lib/templates/EventTemplate";
@@ -7,8 +8,14 @@ import { useNavigateToResource } from "../utils/location.utils";
 
 const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
   const navigateTo = useNavigateToResource();
-  const { tab: _tab = "0" } = useRouteQuery();
+  const { tab: _tab = "0", ...query } = useRouteQuery();
   const tab = parseInt(_tab, 10);
+  const filters = {
+    actors: query.actors ?? [],
+    groups: query.groups ?? [],
+    keywords: query.keywords ?? [],
+    eventType: query.eventType ?? EventType.types.map((v) => v.value),
+  };
 
   return (
     <QueriesRenderer
@@ -19,6 +26,7 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
       render={({ event }) => {
         return (
           <EventTemplateUI
+            filters={filters}
             event={event}
             tab={tab}
             onTabChange={(tab) => {

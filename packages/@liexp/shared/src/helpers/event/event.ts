@@ -517,3 +517,24 @@ export const transform = (
     }
   }
 };
+
+export const getTotals = (
+  acc: Events.SearchEvent.SearchEventsQuery.EventTotals,
+  e: Events.Event | Events.SearchEvent.SearchEvent
+): Events.SearchEvent.SearchEventsQuery.EventTotals => {
+  return {
+    uncategorized:
+      acc.uncategorized +
+      (Events.Uncategorized.UNCATEGORIZED.is(e.type) ? 1 : 0),
+    scientificStudies:
+      acc.scientificStudies +
+      (Events.ScientificStudy.SCIENTIFIC_STUDY.is(e.type) ? 1 : 0),
+    transactions:
+      acc.transactions + (Events.Transaction.TRANSACTION.is(e.type) ? 1 : 0),
+    patents: acc.patents + (Events.Patent.PATENT.is(e.type) ? 1 : 0),
+    deaths: acc.deaths + (Events.Death.DEATH.is(e.type) ? 1 : 0),
+    documentaries:
+      acc.documentaries + (Events.Documentary.DOCUMENTARY.is(e.type) ? 1 : 0),
+    quotes: acc.quotes + (Events.Quote.QUOTE.is(e.type) ? 1 : 0),
+  };
+};

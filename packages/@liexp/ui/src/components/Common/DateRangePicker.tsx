@@ -97,8 +97,8 @@ export const DateRangeSlider: React.FC<DateRangePickerProps> = ({
   maxDate,
   onDateRangeChange,
 }) => {
-  const fromDate = minDate ?? subYears(new Date(), 10);
-  const toDate = maxDate ?? new Date();
+  const fromDate = minDate ?? from ?? subYears(new Date(), 10);
+  const toDate = maxDate ?? to ?? new Date();
   const fromIndex = 0;
   const toIndex = differenceInDays(toDate, fromDate);
 

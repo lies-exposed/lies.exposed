@@ -1,7 +1,10 @@
 import path from "path";
 import { fp } from "@liexp/core/lib/fp";
 import { type Logger } from "@liexp/core/lib/logger";
-import { getRelationIds } from "@liexp/shared/lib/helpers/event/event";
+import {
+  getRelationIds,
+  getTotals,
+} from "@liexp/shared/lib/helpers/event/event";
 import {
   type Actor,
   type Events,
@@ -101,6 +104,15 @@ export const getFlowGraph =
       actorLinks: new Map<string, any[]>(),
       groupLinks: new Map<string, any[]>(),
       keywordLinks: new Map<string, any[]>(),
+      totals: {
+        uncategorized: 0,
+        documentaries: 0,
+        scientificStudies: 0,
+        quotes: 0,
+        patents: 0,
+        transactions: 0,
+        deaths: 0
+      },
     };
 
     const graph = pipe(
@@ -130,6 +142,7 @@ export const getFlowGraph =
           groupLinks,
           actorLinks,
           keywordLinks,
+          totals: getTotals(acc.totals, n),
         };
       })
     );
@@ -169,6 +182,7 @@ export const getFlowGraph =
       keywordLinks,
       actorLinks,
       groupLinks,
+      totals: graph.totals
     };
   };
 
