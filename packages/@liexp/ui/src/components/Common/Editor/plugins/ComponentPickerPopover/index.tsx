@@ -37,7 +37,7 @@ const componentPickerPopoverPlugin =
     isVoid: true,
     icon: <ComponentPickerIcon />,
     label: "Component Picker",
-    hotKey: "/",
+    hotKey: "ctrl+/",
   });
 
 export {

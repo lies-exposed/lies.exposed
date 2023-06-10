@@ -16,14 +16,14 @@ import { GroupInlineRenderer } from "../group/GroupInline.plugin";
 import { KeywordInlineRenderer } from "../keyword/KeywordInline.plugin";
 import { LinkInlineRenderer } from "../links/LinkInline.plugin";
 import { MediaBlockPluginRenderer } from "../media/mediaBlock";
-import {
-  ComponentPickerPopoverRendererAnchorWrapper,
-} from "./ComponentPickerPopoverPluginControlAnchor";
+import { ComponentPickerPopoverRendererAnchorWrapper } from "./ComponentPickerPopoverPluginControlAnchor";
 import { type ComponentPickerPopoverState } from "./types";
 
 export const ComponentPickerPopoverRenderer: SlateComponentPluginDefinition<ComponentPickerPopoverState>["Component"] =
-  ({ plugin, readOnly, useSelected, ...props }) => {
-    const isSelected = useSelected();
+  ({ plugin, ...props }) => {
+    const isSelected = props.useSelected();
+    const isFocused = props.useFocused();
+    const readOnly = props.readOnly === true;
 
     const pluginRenderer = React.useMemo(() => {
       if (plugin?.data) {
@@ -31,29 +31,27 @@ export const ComponentPickerPopoverRenderer: SlateComponentPluginDefinition<Comp
           case ACTOR_INLINE: {
             return (
               <ActorInlineRenderer
-                {...{ ...props, useSelected, ...plugin.data }}
+                {...{ ...props, readOnly, ...plugin.data }}
               />
             );
           }
           case GROUP_INLINE: {
             return (
               <GroupInlineRenderer
-                {...{ ...props, useSelected, ...plugin.data }}
+                {...{ ...props, readOnly, ...plugin.data }}
               />
             );
           }
           case KEYWORD_INLINE: {
             return (
               <KeywordInlineRenderer
-                {...{ ...props, useSelected, ...plugin.data }}
+                {...{ ...props, readOnly, ...plugin.data }}
               />
             );
           }
           case LINK_INLINE: {
             return (
-              <LinkInlineRenderer
-                {...{ ...props, useSelected, ...plugin.data }}
-              />
+              <LinkInlineRenderer {...{ ...props, readOnly, ...plugin.data }} />
             );
           }
           case EVENT_BLOCK_PLUGIN: {
@@ -91,20 +89,22 @@ export const ComponentPickerPopoverRenderer: SlateComponentPluginDefinition<Comp
           }
         }
       }
-      return null;
-    }, [plugin?.data, plugin?.type]);
+
+      return (
+        <ComponentPickerPopoverRendererAnchorWrapper
+          name={`component-plugin-${JSON.stringify(plugin?.data ?? {})}`}
+          readOnly={readOnly}
+          isSelected={isSelected}
+          hasData={!!plugin}
+        />
+      );
+    }, [plugin?.data, plugin?.type, isSelected, isFocused, readOnly]);
 
     return (
       <span>
-        <ComponentPickerPopoverRendererAnchorWrapper
-          readOnly={readOnly as boolean}
-          isSelected={isSelected}
-          hasData={!!plugin}
-        >
-          <React.Suspense fallback={<CircularProgress />}>
-            {pluginRenderer}
-          </React.Suspense>
-        </ComponentPickerPopoverRendererAnchorWrapper>
+        <React.Suspense fallback={<CircularProgress />}>
+          {pluginRenderer}
+        </React.Suspense>
       </span>
     );
   };

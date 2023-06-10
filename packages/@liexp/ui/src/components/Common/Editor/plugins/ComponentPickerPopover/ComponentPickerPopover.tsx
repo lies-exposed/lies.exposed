@@ -119,21 +119,23 @@ export const ComponentsPickerPopover: React.FC<
     <Popover {...props} open={open} onClose={onClose}>
       {!selectedPlugin ? (
         <List>
-          {PLUGINS.map((p) => (
-            <ListItem
-              key={p.type}
-              style={{ marginTop: 5, cursor: "pointer" }}
-              onClick={() => {
-                handleClick(p);
-              }}
-            >
-              <p.icon style={{ marginRight: 10 }} />
-              <Typography variant="subtitle2">{p.name}</Typography>
-            </ListItem>
-          ))}
+          {PLUGINS.map((p) => {
+            return (
+              <ListItem
+                key={p.type}
+                style={{ marginTop: 5, cursor: "pointer" }}
+                onClick={() => {
+                  handleClick(p);
+                }}
+              >
+                {p.icon ? <p.icon style={{ marginRight: 10 }} /> : undefined}
+                <Typography variant="subtitle2">{p.name}</Typography>
+              </ListItem>
+            );
+          })}
         </List>
       ) : (
-        pluginControl
+        pluginControl ?? <div />
       )}
     </Popover>
   );

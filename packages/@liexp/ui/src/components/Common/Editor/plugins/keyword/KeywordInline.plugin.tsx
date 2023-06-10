@@ -114,7 +114,7 @@ export const KeywordInlineControl: React.FC<
     return <FullSizeLoader />;
   }
   return (
-    <ComponentPickerPopoverControlAnchorWrapper>
+    <ComponentPickerPopoverControlAnchorWrapper active={isActive}>
       {(anchorEl) => (
         <Popover
           {...props}
@@ -166,6 +166,7 @@ export const KeywordInlineRenderer: SlateComponentPluginDefinition<KeywordInline
 
     return (
       <ComponentPickerPopoverRendererAnchorWrapper
+        name={`keywords-${keyword?.id}`}
         readOnly={readOnly as boolean}
         isSelected={useSelected()}
         hasData={!!keyword}
