@@ -1,6 +1,7 @@
 import * as t from "io-ts";
 import { ACTORS } from "./Actor";
 import { UUID } from "./Common";
+import { EVENTS } from './Events';
 import { GROUPS } from "./Group";
 import { KEYWORDS } from "./Keyword";
 import { NetworkGraphOutput } from "./Network";
@@ -93,7 +94,7 @@ export const GraphData = t.union(
 export type GraphId = t.TypeOf<typeof GraphId>;
 
 export const FlowGraphType = t.union(
-  [KEYWORDS, ACTORS, GROUPS],
+  [KEYWORDS, ACTORS, GROUPS, EVENTS],
   "FlowGraphType"
 );
 export type FlowGraphType = t.TypeOf<typeof FlowGraphType>;

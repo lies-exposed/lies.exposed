@@ -1,4 +1,5 @@
 import { http } from "@liexp/shared/lib/io";
+import { Events } from '@liexp/shared/lib/io/http';
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
@@ -48,6 +49,12 @@ const EventPreview: React.FC<EventPreviewProps> = ({ event }) => {
             <EventTemplateUI
               event={p}
               tab={0}
+              filters={{
+                actors: [],
+                groups: [],
+                keywords: [],
+                eventType: Events.EventType.types.map(t => t.value),
+              }}
               onTabChange={() => {}}
               onActorClick={() => undefined}
               onGroupClick={() => undefined}

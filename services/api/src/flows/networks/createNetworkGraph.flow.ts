@@ -2,6 +2,7 @@ import { fp } from "@liexp/core/lib/fp";
 import {
   getColorByEventType,
   getEventMetadata,
+  getTotals,
 } from "@liexp/shared/lib/helpers/event/event";
 import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/getTitle.helper";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
@@ -13,6 +14,7 @@ import {
 } from "@liexp/shared/lib/io/http";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
+import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
 import { ValidContentType } from "@liexp/shared/lib/io/http/Media";
@@ -229,6 +231,7 @@ export const getEventGraph = (
         groupLinks,
         keywordLinks,
         selectedLinks: [...acc.selectedLinks, ...selectedLinks],
+        totals: getTotals(acc.totals, e),
       };
     }),
     ({ eventNodes, actorLinks, groupLinks, keywordLinks, ...r }) => {
@@ -282,6 +285,7 @@ interface Result {
   actorLinks: Map<string, NetworkLink[]>;
   groupLinks: Map<string, NetworkLink[]>;
   keywordLinks: Map<string, NetworkLink[]>;
+  totals: EventTotals;
 }
 
 const initialResult: Result = {
@@ -291,6 +295,15 @@ const initialResult: Result = {
   actorLinks: new Map(),
   groupLinks: new Map(),
   keywordLinks: new Map(),
+  totals: {
+    uncategorized: 0,
+    documentaries: 0,
+    scientificStudies: 0,
+    quotes: 0,
+    patents: 0,
+    transactions: 0,
+    deaths: 0,
+  },
 };
 
 export interface Graph {

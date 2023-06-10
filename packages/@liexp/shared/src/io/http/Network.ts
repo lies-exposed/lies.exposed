@@ -5,12 +5,14 @@ import { UUID } from "io-ts-types/UUID";
 import { nonEmptyArray } from "io-ts-types/nonEmptyArray";
 import { optionFromNullable } from "io-ts-types/optionFromNullable";
 import { Actor, ACTORS } from "./Actor";
+import { EVENTS } from "./Events";
+import { EventTotals } from "./Events/SearchEventsQuery";
 import { Group, GROUPS } from "./Group";
 import { Keyword, KEYWORDS } from "./Keyword";
 import { Media } from "./Media";
 
 export const NetworkType = t.union(
-  [KEYWORDS, ACTORS, GROUPS, t.literal("events"), t.literal('hierarchy')],
+  [KEYWORDS, ACTORS, GROUPS, EVENTS, t.literal("hierarchy")],
   "NetworkType"
 );
 export type NetworkType = t.TypeOf<typeof NetworkType>;
@@ -60,6 +62,7 @@ export const NetworkGraphOutput = t.strict(
     keywordLinks: t.array(t.any),
     startDate: DateFromISOString,
     endDate: DateFromISOString,
+    totals: EventTotals,
   },
   "NetworkGraphOutput"
 );

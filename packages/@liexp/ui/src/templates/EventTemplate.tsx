@@ -21,6 +21,7 @@ import {
   useMediaQuery as useMuiMediaQuery,
 } from "../components/mui";
 import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventNetworkGraphBox";
+import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox";
 import { styled, useTheme } from "../theme";
 import { SplitPageTemplate } from "./SplitPageTemplate";
 
@@ -45,6 +46,12 @@ const StyledBox = styled(Box)(({ theme }) => ({
 export interface EventTemplateProps {
   event: http.Events.Event;
   tab: number;
+  filters: {
+    actors: string[];
+    groups: string[];
+    keywords: string[];
+    eventType: EventType[];
+  };
   onTabChange: (t: number) => void;
   onDateClick: (d: Date) => void;
   onActorClick: (a: http.Actor.Actor) => void;
@@ -67,6 +74,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
   onGroupMemberClick,
   onKeywordClick,
   onEventClick,
+  filters,
 }) => {
   const theme = useTheme();
   const isDownSM = useMuiMediaQuery(theme.breakpoints.down("md"));
@@ -244,6 +252,9 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                     label: "General",
                   },
                   {
+                    label: "Flow",
+                  },
+                  {
                     label: "Network",
                   },
                   {
@@ -265,15 +276,17 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                   />
                 </Grid>
 
+                <EventsFlowGraphBox type="events" id={event.id} query={{}} />
+
                 <Box style={{ height: "100%" }}>
                   <EventNetworkGraphBoxWithFilters
                     type="events"
                     onActorClick={onActorClick}
                     onEventClick={onEventClick}
                     onGroupClick={onGroupClick}
-                    selectedActorIds={[]}
-                    selectedGroupIds={[]}
-                    selectedKeywordIds={[]}
+                    selectedActorIds={filters.actors}
+                    selectedGroupIds={filters.groups}
+                    selectedKeywordIds={filters.keywords}
                     query={{
                       ids: [event.id],
                       type: EventType.types.map((t) => t.value),

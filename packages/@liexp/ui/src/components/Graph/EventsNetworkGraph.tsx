@@ -25,9 +25,6 @@ export interface EventsNetworkGraphProps {
     nodes: EventNetworkDatum[];
     links: any[];
   };
-  selectedActorIds?: string[];
-  selectedGroupIds?: string[];
-  selectedKeywordIds?: string[];
   scale?: NetworkScale;
   onEventClick?: (e: SearchEvent) => void;
   onActorClick?: (a: Actor.Actor) => void;

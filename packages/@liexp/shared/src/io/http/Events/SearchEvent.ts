@@ -8,6 +8,7 @@ import type * as Documentary from "./Documentary";
 import type * as Patent from "./Patent";
 import type * as Quote from "./Quote";
 import type * as ScientificStudy from "./ScientificStudy";
+import * as SearchEventsQuery from "./SearchEventsQuery";
 import type * as Transaction from "./Transaction";
 import type * as Uncategorized from "./Uncategorized";
 
@@ -95,7 +96,7 @@ export interface SearchTransactionEvent
   extends Omit<Transaction.Transaction, "payload" | "media" | "keywords"> {
   payload: Omit<Transaction.TransactionPayload, "from" | "to"> & {
     from:
-          | {
+      | {
           type: "Group";
           id: Group.Group;
         }
@@ -104,7 +105,7 @@ export interface SearchTransactionEvent
           id: Actor.Actor;
         };
     to:
-        | {
+      | {
           type: "Group";
           id: Group.Group;
         }
@@ -117,7 +118,9 @@ export interface SearchTransactionEvent
   keywords: Keyword.Keyword[];
 }
 
-export type SearchEvent =
+
+
+type SearchEvent =
   | SearchDeathEvent
   | SearchScientificStudyEvent
   | SearchUncategorizedEvent
@@ -125,3 +128,5 @@ export type SearchEvent =
   | SearchDocumentaryEvent
   | SearchTransactionEvent
   | SearchQuoteEvent;
+
+export { SearchEventsQuery, type SearchEvent };

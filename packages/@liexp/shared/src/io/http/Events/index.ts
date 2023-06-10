@@ -106,6 +106,10 @@ export const Event = t.union(
 
 export type Event = t.TypeOf<typeof Event>;
 
+
+const EVENTS = t.literal("events")
+type EVENTS = t.TypeOf<typeof EVENTS>
+
 export {
   Protest,
   Fined,
@@ -120,4 +124,5 @@ export {
   Transaction,
   Quote,
   SearchEvent,
+  EVENTS
 };

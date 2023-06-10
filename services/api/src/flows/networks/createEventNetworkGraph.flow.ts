@@ -5,6 +5,7 @@ import {
   getColorByEventType,
   getEventMetadata,
   getRelationIds,
+  getTotals,
 } from "@liexp/shared/lib/helpers/event/event";
 import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/getTitle.helper";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
@@ -16,6 +17,7 @@ import {
 } from "@liexp/shared/lib/io/http";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
+import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
 import {
@@ -222,6 +224,7 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
           groupLinks,
           keywordLinks,
           selectedLinks: acc.selectedLinks,
+          totals: getTotals(acc.totals, e),
         };
       }),
       ({ eventNodes, ...r }) => {
@@ -273,6 +276,15 @@ const initialOutput: NetworkGraphOutput = {
   selectedLinks: [],
   startDate: new Date(),
   endDate: new Date(),
+  totals: {
+    uncategorized: 0,
+    documentaries: 0,
+    scientificStudies: 0,
+    quotes: 0,
+    patents: 0,
+    transactions: 0,
+    deaths: 0,
+  },
 };
 
 const monoidOutput: Monoid<NetworkGraphOutput> = {
@@ -311,6 +323,7 @@ interface Result {
   actorLinks: NetworkLink[];
   groupLinks: NetworkLink[];
   keywordLinks: NetworkLink[];
+  totals: EventTotals;
 }
 
 const initialResult: Result = {
@@ -320,6 +333,15 @@ const initialResult: Result = {
   actorLinks: [],
   groupLinks: [],
   keywordLinks: [],
+  totals: {
+    uncategorized: 0,
+    documentaries: 0,
+    scientificStudies: 0,
+    quotes: 0,
+    patents: 0,
+    transactions: 0,
+    deaths: 0,
+  },
 };
 
 export const createEventNetworkGraph: TEFlow<
