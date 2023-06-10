@@ -1,18 +1,19 @@
 import { fp } from "@liexp/core/lib/fp";
 import { takeEventRelations } from "@liexp/shared/lib/helpers/event/event";
 import {
-    type Keyword,
-    type Media,
-    type Actor,
-    type Events,
-    type Group,
+  type Keyword,
+  type Media,
+  type Actor,
+  type Events,
+  type Group,
 } from "@liexp/shared/lib/io/http";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
+import { EVENTS } from '@liexp/shared/lib/io/http/Events';
 import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
 import {
-    type GetNetworkQuery,
-    type NetworkType,
+  type GetNetworkQuery,
+  type NetworkType,
 } from "@liexp/shared/lib/io/http/Network";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
 import * as O from "fp-ts/Option";
@@ -45,7 +46,7 @@ export const fetchEventsWithRelations: TEFlow<
       walkPaginatedRequest(ctx)(
         ({ skip, amount }) =>
           searchEventV2Query(ctx)({
-            ids: O.none,
+            ids: type === EVENTS.value ? O.some([id]) : O.none,
             actors: type === ACTORS.value ? O.some([id]) : O.none,
             groups: type === GROUPS.value ? O.some([id]) : O.none,
             keywords: type === KEYWORDS.value ? O.some([id]) : O.none,

@@ -115,15 +115,7 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
               keywords={graph.keywords}
               groupsMembers={[]}
               dateRange={[graph.startDate, graph.endDate]}
-              totals={{
-                uncategorized: 0,
-                documentaries: 0,
-                deaths: 0,
-                scientificStudies: 0,
-                patents: 0,
-                transactions: 0,
-                quotes: 0,
-              }}
+              totals={graph.totals}
               onQueryChange={({ actors, groups, keywords, ...q }) => {
                 setState((s) => ({
                   ...s,
