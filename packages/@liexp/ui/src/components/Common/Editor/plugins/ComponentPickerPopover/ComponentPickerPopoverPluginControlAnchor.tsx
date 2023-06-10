@@ -36,10 +36,11 @@ export const useAnchorListener = (): [boolean, boolean, HTMLElement | null] => {
   return [loading, found, anchorNode];
 };
 
-export const useAnchorClick = (): [boolean] => {
+export const useAnchorClick = (click?: boolean): [boolean] => {
   const [, found, anchorNode] = useAnchorListener();
+
   React.useEffect(() => {
-    if (anchorNode) {
+    if (anchorNode && click) {
       anchorNode.click();
     }
   }, [found]);
@@ -47,32 +48,35 @@ export const useAnchorClick = (): [boolean] => {
 };
 
 export const ComponentPickerPopoverControlAnchorWrapper: React.FC<{
+  active: boolean;
   children: (anchorNode: HTMLElement, props: any) => React.ReactNode;
-}> = ({ children, ...props }) => {
+}> = ({ children, active, ...props }) => {
   const [, anchorFound, anchorNode] = useAnchorListener();
-
   const childs = React.useMemo(() => {
-    if (!anchorFound) {
+    if (!active || !anchorFound) {
       return null;
     }
 
     return <span>{anchorNode ? children(anchorNode, props) : null}</span>;
-  }, [anchorFound]);
+  }, [active, anchorFound, anchorNode]);
 
   return childs;
 };
 
 export const ComponentPickerPopoverRendererAnchorWrapper: React.FC<
   React.PropsWithChildren<{
+    name: string;
     isSelected: boolean;
     readOnly: boolean;
     hasData: boolean;
   }>
-> = ({ isSelected, readOnly, hasData, children }) => {
+> = ({ name, isSelected, readOnly = true, hasData, children }) => {
   const ref = React.createRef<HTMLElement>();
 
+  useAnchorClick(isSelected && !readOnly);
+
   const anchorEl = React.useMemo(() => {
-    if (!hasData || !readOnly || isSelected) {
+    if (!readOnly && isSelected) {
       return (
         <span
           id={ANCHOR_ID}

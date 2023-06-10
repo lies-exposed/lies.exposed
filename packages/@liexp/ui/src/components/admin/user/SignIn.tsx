@@ -3,7 +3,7 @@ import * as React from "react";
 import { useRedirect } from "react-admin";
 import { authProvider } from "../../../client/api";
 import { dataProvider } from "../../../providers/DataProvider";
-import { Box, Button, Link, TextField } from "../../mui";
+import { Box, Button, Link, TextField, Typography } from "../../mui";
 
 interface SignInProps {
   redirectTo?: string;
@@ -42,6 +42,7 @@ export const SignIn: React.FC<SignInProps> = ({ redirectTo = "" }) => {
       style={{
         display: "flex",
         flexDirection: "column",
+        alignItems: "center",
         padding: 20,
       }}
     >
@@ -123,6 +124,7 @@ export const SignIn: React.FC<SignInProps> = ({ redirectTo = "" }) => {
         />
       )}
       <Button
+        style={{ display: "flex", width: "100%", marginBottom: 30 }}
         variant="contained"
         onClick={() => {
           if (type === "signup") {
@@ -146,7 +148,7 @@ export const SignIn: React.FC<SignInProps> = ({ redirectTo = "" }) => {
           }));
         }}
       >
-        signup
+        <Typography>signup</Typography>
       </Link>
     </Box>
   );

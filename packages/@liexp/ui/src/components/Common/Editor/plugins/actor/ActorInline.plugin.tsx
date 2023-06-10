@@ -1,6 +1,6 @@
 import { type Actor } from "@liexp/shared/lib/io/http";
 import { ACTOR_INLINE } from "@liexp/shared/lib/slate/plugins/customSlate";
-import RecentActorsIcon from "@mui/icons-material/RecentActors";
+import RecentActors from "@mui/icons-material/RecentActors";
 import type { CellPluginComponentProps, DataTType } from "@react-page/editor";
 import { pluginFactories } from "@react-page/plugins-slate";
 import {
@@ -11,7 +11,6 @@ import React from "react";
 import { AutocompleteActorInput } from "../../../../Input/AutocompleteActorInput";
 import { ActorChip } from "../../../../actors/ActorChip";
 import { Box, Button, Checkbox, FormControlLabel, Grid } from "../../../../mui";
-import { FullSizeLoader } from "../../../FullSizeLoader";
 import { Popover, type PopoverProps } from "../../../Popover";
 import {
   ComponentPickerPopoverControlAnchorWrapper,
@@ -29,7 +28,7 @@ export interface ActorInlineSettings {
 }
 
 export const defaultSettings: ActorInlineSettings = {
-  icon: <RecentActorsIcon />,
+  icon: <RecentActors />,
 };
 
 export type ActorInlineControlType = React.ComponentType<
@@ -139,12 +138,8 @@ export const ActorInlineControlContent: React.FC<{
 export const ActorInlineControl: React.FC<
   SlatePluginControls<ActorInlineState> & { popover?: PopoverProps }
 > = ({ isActive, add, remove, close, data, open, popover, ...props }) => {
-  if (!open) {
-    return <FullSizeLoader />;
-  }
-
   return (
-    <ComponentPickerPopoverControlAnchorWrapper>
+    <ComponentPickerPopoverControlAnchorWrapper active={isActive && open}>
       {(anchorEl) => (
         <Popover
           {...popover}
@@ -193,6 +188,7 @@ export const ActorInlineRenderer: SlateComponentPluginDefinition<ActorInlineStat
 
     return (
       <ComponentPickerPopoverRendererAnchorWrapper
+        name={`actor-${actor?.id}`}
         hasData={!!actor}
         isSelected={isSelected}
         readOnly={readOnly as boolean}
@@ -225,9 +221,9 @@ const actorInlinePlugin =
     type: ACTOR_INLINE,
     object: "inline",
     isVoid: true,
-    icon: <RecentActorsIcon />,
+    icon: <RecentActors />,
     label: "Actor",
   });
 
-export const ActorInlinePluginIcon = RecentActorsIcon;
+export const ActorInlinePluginIcon = RecentActors;
 export { actorInlinePlugin };

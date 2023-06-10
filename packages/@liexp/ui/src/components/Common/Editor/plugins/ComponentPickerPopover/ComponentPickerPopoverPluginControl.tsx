@@ -20,14 +20,12 @@ export const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
 export const ComponentPickerPopoverControl: React.FC<
   SlatePluginControls<ComponentPickerPopoverState>
 > = ({ data, add, close, open, isActive, ...props }) => {
-  const showPicker = open && isActive;
-
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <React.Suspense>
-        <ComponentPickerPopoverControlAnchorWrapper>
-          {(anchorEl) =>
-            showPicker ? (
+    <ComponentPickerPopoverControlAnchorWrapper active={open && isActive}>
+      {(anchorEl) => {
+        return (
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <React.Suspense>
               <ComponentsPickerPopover
                 plugin={
                   {
@@ -40,7 +38,7 @@ export const ComponentPickerPopoverControl: React.FC<
                     close: () => {},
                   } as any
                 }
-                open={open}
+                open={true}
                 anchorEl={anchorEl}
                 anchorPosition={{ top: 25, left: 0 }}
                 anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
@@ -52,10 +50,10 @@ export const ComponentPickerPopoverControl: React.FC<
                   close();
                 }}
               />
-            ) : null
-          }
-        </ComponentPickerPopoverControlAnchorWrapper>
-      </React.Suspense>
-    </ErrorBoundary>
+            </React.Suspense>
+          </ErrorBoundary>
+        );
+      }}
+    </ComponentPickerPopoverControlAnchorWrapper>
   );
 };

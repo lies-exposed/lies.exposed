@@ -11,7 +11,6 @@ import React from "react";
 import { AutocompleteGroupInput } from "../../../../Input/AutocompleteGroupInput";
 import { GroupChip } from "../../../../groups/GroupChip";
 import { Box, Button, Checkbox, FormControlLabel, Grid } from "../../../../mui";
-import { FullSizeLoader } from "../../../FullSizeLoader";
 import { Popover, type PopoverProps } from "../../../Popover";
 import {
   ComponentPickerPopoverControlAnchorWrapper,
@@ -139,12 +138,8 @@ export const GroupInlineControlContent: React.FC<{
 export const GroupInlineControl: React.FC<
   SlatePluginControls<GroupInlineState> & { popover?: PopoverProps }
 > = ({ add, remove, close, isActive, data, open, popover, ...props }) => {
-  if (!open) {
-    return <FullSizeLoader />;
-  }
-
   return (
-    <ComponentPickerPopoverControlAnchorWrapper>
+    <ComponentPickerPopoverControlAnchorWrapper active={isActive && open}>
       {(anchorEl) => (
         <Popover
           {...popover}
@@ -195,6 +190,7 @@ export const GroupInlineRenderer: SlateComponentPluginDefinition<GroupInlineStat
 
     return (
       <ComponentPickerPopoverRendererAnchorWrapper
+        name={`group-${group?.id}`}
         readOnly={readOnly as any}
         hasData={!!group}
         isSelected={useSelected()}
