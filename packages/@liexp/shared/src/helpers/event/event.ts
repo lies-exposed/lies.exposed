@@ -164,7 +164,7 @@ export const getRelationIds = (e: Events.Event): EventRelationIds => {
     case Events.Quote.QUOTE.value: {
       return {
         ...commonIds,
-        actors: [e.payload.actor],
+        actors: e.payload.actor ? [e.payload.actor] : [],
         groups: [],
         groupsMembers: [],
       };
@@ -334,7 +334,7 @@ export const getEventMetadata = (e: SearchEvent): EventRelations => {
     case Events.Quote.QUOTE.value: {
       return {
         ...commonIds,
-        actors: [e.payload.actor],
+        actors: e.payload.actor ? [e.payload.actor] : [],
         groups: [],
         groupsMembers: [],
       };
