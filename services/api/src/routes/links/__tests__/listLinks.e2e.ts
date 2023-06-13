@@ -11,7 +11,7 @@ import { MediaEntity } from "@entities/Media.entity";
 describe("List Links", () => {
   let Test: AppTest, authorizationToken: string, links: http.Link.Link[];
   beforeAll(async () => {
-    Test = GetAppTest();
+    Test = await GetAppTest();
     authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
       id: "1",
     } as any)()}`;

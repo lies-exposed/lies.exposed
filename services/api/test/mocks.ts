@@ -6,14 +6,14 @@ export interface AppMocks {
   tg: typeof tgProviderMock;
   s3: typeof awsMock;
   urlMetadata: {
-    fetchHTML: jest.Mock<any, any>;
-    fetchMetadata: jest.Mock<any, any>;
+    fetchHTML: vi.Mock<any, any>;
+    fetchMetadata: vi.Mock<any, any>;
   };
   puppeteer: typeof puppeteerMock;
 }
 
-export const fetchHTML = jest.fn();
-export const fetchMetadata = jest.fn();
+export const fetchHTML = vi.fn();
+export const fetchMetadata = vi.fn();
 
 export const mocks: AppMocks = {
   tg: tgProviderMock,

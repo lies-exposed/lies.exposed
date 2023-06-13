@@ -12,8 +12,8 @@ import {
 } from "typeorm";
 import { EventV2Entity } from "./Event.v2.entity";
 import { LinkEntity } from "./Link.entity";
-import { MediaEntity } from './Media.entity';
-import { StoryEntity } from './Story.entity';
+import { MediaEntity } from "./Media.entity";
+import { StoryEntity } from "./Story.entity";
 
 @Entity("keyword")
 @Index(["tag"], { unique: true })
@@ -51,8 +51,7 @@ export class KeywordEntity {
   @DeleteDateColumn()
   deletedAt: Date | null;
 
-  eventCount: number
+  eventCount: number;
 
-  linkCount: number
-
+  linkCount: number;
 }

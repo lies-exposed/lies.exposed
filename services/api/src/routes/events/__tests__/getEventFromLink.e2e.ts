@@ -41,7 +41,7 @@ describe("Get event from link", () => {
   // totalEvents: number;
 
   beforeAll(async () => {
-    appTest = GetAppTest();
+    appTest = await GetAppTest();
 
     await throwTE(
       appTest.ctx.db.save(ActorEntity, [firstActor, secondActor] as any[])

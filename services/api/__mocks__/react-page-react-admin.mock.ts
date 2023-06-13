@@ -1,3 +1,3 @@
-const createValue = jest.fn().mockImplementation(() => ({ id: "fake-id" }));
+const createValue = vi.fn().mockImplementation(() => ({ id: "fake-id" }));
 
 export { createValue };

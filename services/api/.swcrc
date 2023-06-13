@@ -1,4 +1,9 @@
 {
+  "$schema": "https://json.schemastore.org/swcrc",
+  "sourceMaps": true,
+  "module": {
+    "type": "commonjs"
+  },
   "jsc": {
     "parser": {
       "syntax": "typescript",
@@ -6,6 +11,12 @@
       "decorators": true,
       "dynamicImport": true
     },
+    "target": "es2021",
+    "transform": {
+      "decoratorMetadata": true,
+      "legacyDecorator": true
+    },
+    "keepClassNames": true,
     "baseUrl": "./src",
     "paths": {
       "@io/*": ["io/*"],
@@ -14,5 +25,6 @@
       "@routes/*": ["routes/*"],
       "@utils/*": ["utils/*"]
     }
-  }
+  },
+  "minify": false
 }

@@ -68,8 +68,6 @@
       "./services/admin-web"
     ],
     "eslint.codeActionsOnSave.mode": "all",
-    "jest.autoRun": "off",
-    "jest.disabledWorkspaceFolders": ["📦 @liexp/test", "storybook", "data"],
     "cSpell.words": ["healthcheck", "liexp", "Uncategorized", "xlarge"],
     "easynpm.packageManager": "yarn"
   }

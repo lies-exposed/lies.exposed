@@ -2,7 +2,7 @@ import * as logger from "@liexp/core/lib/logger";
 import * as E from "fp-ts/Either";
 // eslint-disable-next-line no-restricted-imports
 import { GetLocalSpaceClient } from "../LocalSpaceClient";
-jest.mock('axios');
+vi.mock('axios');
 
 const baseURL = "http://localhost:4010";
 
@@ -10,9 +10,9 @@ const axiosMock = {
   defaults: {
     baseURL,
   },
-  getUri: jest.fn(),
-  get: jest.fn(),
-  post: jest.fn(),
+  getUri: vi.fn(),
+  get: vi.fn(),
+  post: vi.fn(),
 };
 
 describe("LocalSpaceClient", () => {

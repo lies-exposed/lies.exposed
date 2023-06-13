@@ -31,7 +31,7 @@ describe("Create Event", () => {
   let actorIds: string[] = [];
 
   beforeAll(async () => {
-    appTest = GetAppTest();
+    appTest = await GetAppTest();
     const user = await saveUser(appTest, ["admin:create"]);
     users.push(user);
     const { authorization } = await loginUser(appTest)(user);

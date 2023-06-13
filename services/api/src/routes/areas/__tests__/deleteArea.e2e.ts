@@ -8,7 +8,7 @@ import { AreaEntity } from "@entities/Area.entity";
 describe("Delete Area", () => {
   let Test: AppTest, areas: http.Area.Area[], authorizationToken: string;
   beforeAll(async () => {
-    Test = GetAppTest();
+    Test = await GetAppTest();
 
     authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
       id: "1",

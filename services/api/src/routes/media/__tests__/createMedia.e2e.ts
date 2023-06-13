@@ -12,7 +12,7 @@ describe("Create Media", () => {
   const users: any[] = [];
 
   beforeAll(async () => {
-    Test = GetAppTest();
+    Test = await GetAppTest();
     const user = await saveUser(Test, ["admin:create"]);
     users.push(user);
     const { authorization } = await loginUser(Test)(user);
@@ -41,8 +41,9 @@ describe("Create Media", () => {
   test("Should create a media", async () => {
     const [media] = tests.fc
       .sample(MediaArb, 100)
-      .map(({ createdAt, updatedAt, id, ...m }) => ({
+      .map(({ createdAt, updatedAt, id, ...m }, i) => ({
         ...m,
+        location: `${m.location}?${i}`,
         creator: undefined,
       }));
 

@@ -20,7 +20,7 @@ describe("Edit Group", () => {
   }));
 
   beforeAll(async () => {
-    appTest = GetAppTest();
+    appTest = await GetAppTest();
     const user = await saveUser(appTest, ["admin:create"]);
     users.push(user);
     await throwTE(appTest.ctx.db.save(ActorEntity, actors as any[]));

@@ -8,7 +8,7 @@ describe("Create Actor", () => {
   let Test: AppTest, authorizationToken: string, user, actor: any;
 
   beforeAll(async () => {
-    Test = GetAppTest();
+    Test = await GetAppTest();
     user = await saveUser(Test, []);
     const { authorization } = await loginUser(Test)(user);
     authorizationToken = authorization;

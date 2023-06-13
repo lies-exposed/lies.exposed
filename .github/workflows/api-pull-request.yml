@@ -115,7 +115,9 @@ jobs:
       - name: Run tests
         env:
           DEBUG: "-@liexp*"
-        run: yarn api jest --ci --runInBand --logHeapUsage
+        run: |
+          yarn api test
+          yarn api test:e2e
 
   docker_build:
     if: ${{ github.base_ref == 'release/alpha' }}

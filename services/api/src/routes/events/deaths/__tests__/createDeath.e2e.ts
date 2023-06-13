@@ -16,7 +16,7 @@ describe("Create Death Event", () => {
   let deathEvent: EventV2Entity;
 
   beforeAll(async () => {
-    appTest = GetAppTest();
+    appTest = await GetAppTest();
     await throwTE(appTest.ctx.db.save(ActorEntity, [actor] as any[]));
   });
 
