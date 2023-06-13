@@ -1,5 +1,5 @@
 export const igProviderMock = {
     ig: {} as any,
-    postPhoto: jest.fn(),
-    login: jest.fn()
+    postPhoto: vi.fn(),
+    login: vi.fn()
 }

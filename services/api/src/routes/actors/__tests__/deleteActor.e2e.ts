@@ -7,7 +7,7 @@ import { ActorEntity } from "@entities/Actor.entity";
 describe("Delete Actor", () => {
   let Test: AppTest, user: any, authorizationToken: string, actor: any;
   beforeAll(async () => {
-    Test = GetAppTest();
+    Test = await GetAppTest();
 
     user = await saveUser(Test, ["admin:create"]);
     const { authorization } = await loginUser(Test)(user);

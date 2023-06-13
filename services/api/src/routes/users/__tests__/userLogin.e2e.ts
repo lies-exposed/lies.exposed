@@ -12,7 +12,7 @@ describe("User login", () => {
   const userId = uuid();
   const username = `${userId}@lies.exposed`;
   beforeAll(async () => {
-    Test = GetAppTest();
+    Test = await GetAppTest();
     user = await pipe(
       hash("my-real-secure-password"),
       TE.chain((password) =>

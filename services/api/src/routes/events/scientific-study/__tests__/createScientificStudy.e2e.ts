@@ -27,7 +27,7 @@ describe("Create Scientific Study", () => {
   const [group] = fc.sample(GroupArb, 1);
 
   beforeAll(async () => {
-    appTest = GetAppTest();
+    appTest = await GetAppTest();
 
     await throwTE(
       appTest.ctx.db.save(ActorEntity, [
@@ -104,7 +104,7 @@ describe("Create Scientific Study", () => {
     );
     appTest.mocks.puppeteer.page.$x.mockResolvedValueOnce([
       {
-        evaluate: jest.fn().mockResolvedValue(description),
+        evaluate: vi.fn().mockResolvedValue(description),
       },
     ]);
 

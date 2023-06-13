@@ -13,7 +13,7 @@ describe("GET User Me", () => {
   const supporterUsername = `${supporterId}-supporter@lies.exposed`;
 
   beforeAll(async () => {
-    Test = GetAppTest();
+    Test = await GetAppTest();
     const adminPassword = await throwTE(hash("admin-password"));
     const supporterPassword = await throwTE(hash("supporter-password"));
 

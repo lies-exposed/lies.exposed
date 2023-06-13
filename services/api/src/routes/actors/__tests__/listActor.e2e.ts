@@ -9,7 +9,7 @@ describe("List Actor", () => {
   let Test: AppTest, authorizationToken: string, actors: http.Actor.Actor[];
 
   beforeAll(async () => {
-    Test = GetAppTest();
+    Test = await GetAppTest();
     authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
       id: "1",
     } as any)()}`;

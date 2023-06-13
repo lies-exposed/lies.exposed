@@ -40,7 +40,7 @@ describe("Create From TG Message", () => {
   let admin: UserTest;
 
   beforeAll(async () => {
-    Test = GetAppTest();
+    Test = await GetAppTest();
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }

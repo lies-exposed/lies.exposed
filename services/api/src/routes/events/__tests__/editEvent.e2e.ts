@@ -60,7 +60,7 @@ describe("Edit Event", () => {
   let media: any[];
 
   beforeAll(async () => {
-    appTest = GetAppTest();
+    appTest = await GetAppTest();
 
     await throwTE(appTest.ctx.db.save(AreaEntity, [{ ...area, media: [] }]));
     await throwTE(appTest.ctx.db.save(ActorEntity, [actor] as any[]));

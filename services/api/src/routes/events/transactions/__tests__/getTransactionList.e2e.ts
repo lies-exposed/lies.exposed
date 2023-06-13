@@ -15,7 +15,7 @@ describe("Get Transaction List", () => {
   }));
 
   beforeAll(async () => {
-    appTest = GetAppTest();
+    appTest = await GetAppTest();
 
     await throwTE(appTest.ctx.db.save(EventV2Entity, eventsData as any[]));
   });

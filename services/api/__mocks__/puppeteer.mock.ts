@@ -1,24 +1,24 @@
 /* eslint-disable import/first */
-jest.mock("puppeteer-extra");
+vi.mocked("puppeteer-extra");
 import puppeteer, { PuppeteerExtra } from "puppeteer-extra";
 
-const puppeteerMock = puppeteer as jest.Mocked<PuppeteerExtra>;
+const puppeteerMock = { use : vi.fn(), launch: vi.fn() } as vi.Mocked<PuppeteerExtra>;
 
 export const pageMock = {
-  on: jest.fn(),
-  goto: jest.fn().mockRejectedValue(new Error("goto not implemented")),
-  click: jest.fn().mockRejectedValue(new Error("click: Not implemented")),
-  waitForSelector: jest
+  on: vi.fn(),
+  goto: vi.fn().mockRejectedValue(new Error("goto not implemented")),
+  click: vi.fn().mockRejectedValue(new Error("click: Not implemented")),
+  waitForSelector: vi
     .fn()
     .mockRejectedValue(new Error(`waitForSelector: Not implemented`)),
-  $: jest.fn().mockRejectedValue(new Error(`$: Not implemented`)),
-  $eval: jest.fn().mockRejectedValue(new Error(`$eval: Not implemented`)),
-  $x: jest.fn().mockRejectedValue(new Error(`$x: Not implemented`)),
-  evaluate: jest.fn().mockRejectedValue(new Error(`evaluate: Not implemented`)),
-  evaluateHandle: jest
+  $: vi.fn().mockRejectedValue(new Error(`$: Not implemented`)),
+  $eval: vi.fn().mockRejectedValue(new Error(`$eval: Not implemented`)),
+  $x: vi.fn().mockRejectedValue(new Error(`$x: Not implemented`)),
+  evaluate: vi.fn().mockRejectedValue(new Error(`evaluate: Not implemented`)),
+  evaluateHandle: vi
     .fn()
     .mockRejectedValue(new Error(`evaluateHandle: Not implemented`)),
-  waitForTimeout: jest.fn().mockImplementation((ms) => {
+  waitForTimeout: vi.fn().mockImplementation((ms) => {
     return new Promise((resolve) => {
       setTimeout(resolve, ms / 10);
     });
@@ -27,9 +27,9 @@ export const pageMock = {
 };
 
 export const browserMock = {
-  on: jest.fn(),
-  pages: jest.fn().mockResolvedValue([pageMock] as any),
-  close: jest.fn().mockResolvedValue(undefined),
+  on: vi.fn(),
+  pages: vi.fn().mockResolvedValue([pageMock] as any),
+  close: vi.fn().mockResolvedValue(undefined),
 };
 
 puppeteerMock.use.mockImplementation((fn) => puppeteerMock);

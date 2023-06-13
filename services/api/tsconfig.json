@@ -8,6 +8,7 @@
     "rootDir": "./",
     "lib": ["DOM"],
     "tsBuildInfoFile": "build/.tsbuildinfo",
+    "types": ["vitest/globals"],
     "typeRoots": [
       "../../node_modules/@types",
       "./typings",

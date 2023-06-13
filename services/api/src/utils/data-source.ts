@@ -1,4 +1,3 @@
-
 import "reflect-metadata";
 import * as fs from "fs";
 import * as path from "path";
@@ -72,6 +71,9 @@ export const getDataSource = (
     ],
     synchronize: env.NODE_ENV === "test",
     ssl,
-    migrations: [`${process.cwd()}/build/migrations/*.js`],
+    migrations:
+      env.NODE_ENV === "test"
+        ? undefined
+        : [`${process.cwd()}/build/migrations/*.js`],
   });
 };

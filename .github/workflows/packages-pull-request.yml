@@ -38,4 +38,4 @@ jobs:
       - name: Run tests
         env:
           DEBUG: "-@liexp*"
-        run: yarn shared jest --ci --runInBand
+        run: yarn shared test

@@ -1,5 +1,5 @@
 export const wikipediaProviderMock = {
   bot: {} as any,
-  search: jest.fn(),
-  parse: jest.fn(),
+  search: vi.fn(),
+  parse: vi.fn(),
 };

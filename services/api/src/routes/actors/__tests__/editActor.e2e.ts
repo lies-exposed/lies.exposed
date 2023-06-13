@@ -19,7 +19,7 @@ describe("Edit Actor", () => {
   }))[0];
 
   beforeAll(async () => {
-    Test = GetAppTest();
+    Test = await GetAppTest();
     user = await saveUser(Test, ["admin:create"]);
     const { authorization } = await loginUser(Test)(user);
     authorizationToken = authorization;

@@ -1,3 +1,4 @@
+import path from "path";
 import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider";
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion";
 import { type URL as URLT } from "@liexp/shared/lib/io/http/Common";
@@ -179,7 +180,9 @@ export const extractRelationsFromURL: TEFlow<
       return pipe(
         sequenceS(TE.ApplicativeSeq)({
           entities: pipe(
-            ctx.fs.getObject(ctx.fs.resolve(nerProvider.entitiesFile)),
+            ctx.fs.getObject(
+              path.resolve(__dirname, "../../../", nerProvider.entitiesFile)
+            ),
             TE.map(JSON.parse)
           ),
         }),

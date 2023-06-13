@@ -12,7 +12,7 @@ describe("List Media", () => {
     media: http.Media.Media[],
     event: http.Events.Event;
   beforeAll(async () => {
-    Test = GetAppTest();
+    Test = await GetAppTest();
     authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
       id: "1",
     } as any)()}`;
