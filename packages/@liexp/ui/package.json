@@ -14,7 +14,7 @@
     "clean": "rm -rf lib",
     "build": "tsc -b",
     "watch": "tsc -b -w",
-    "test": "jest",
+    "test": "vitest",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\""
   },
@@ -110,7 +110,6 @@
     "@types/d3": "^7.4.0",
     "@types/d3-sankey": "^0.12.1",
     "@types/eslint": "^8.40.2",
-    "@types/jest": "^29.5.2",
     "@types/prettier": "^2.7.3",
     "@types/reach__router": "^1.3.11",
     "@types/react": "^18.2.12",
@@ -122,10 +121,8 @@
     "@types/topojson-specification": "^1.0.2",
     "eslint": "^8.42.0",
     "eslint-plugin-import": "^2.27.5",
-    "jest": "^29.5.0",
     "prettier": "^2.8.8",
     "reactflow": "^11.7.2",
-    "ts-jest": "^29.1.0",
     "typescript": "^5.1.3"
   },
   "lint-staged": {

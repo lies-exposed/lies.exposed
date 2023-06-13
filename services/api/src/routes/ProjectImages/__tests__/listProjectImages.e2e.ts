@@ -18,7 +18,7 @@ describe("List Project Images", () => {
   let authorizationToken: string;
 
   beforeAll(async () => {
-    appTest = GetAppTest();
+    appTest = await GetAppTest();
 
     await throwTE(appTest.ctx.db.save(MediaEntity, media as any[]));
     projects = await throwTE(

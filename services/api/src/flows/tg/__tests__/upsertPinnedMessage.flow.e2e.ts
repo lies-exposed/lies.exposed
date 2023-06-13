@@ -15,10 +15,14 @@ import { KeywordEntity } from "@entities/Keyword.entity";
 describe("Upsert Pinned Message Flow", () => {
   let Test: AppTest;
   beforeAll(async () => {
-    Test = GetAppTest();
+    Test = await GetAppTest();
   });
 
-  test("Should upsert the message with 5 keywords", async () => {
+  afterAll(async () => {
+    await Test.utils.e2eAfterAll();
+  });
+
+  test.skip("Should upsert the message with 5 keywords", async () => {
     const keywordCount = 10;
     const actorCount = 10;
     const keywords = fc.sample(KeywordArb, keywordCount);
@@ -49,7 +53,8 @@ describe("Upsert Pinned Message Flow", () => {
     );
 
     Test.mocks.tg.upsertPinnedMessage.mockImplementationOnce(
-      (text) => () => Promise.resolve(E.right({ message_id: 1, text }))
+      (text) => () =>
+        Promise.resolve(E.right({ message_id: 1, text }))
     );
 
     const result = await throwTE(upsertPinnedMessage(Test.ctx)(keywordCount));

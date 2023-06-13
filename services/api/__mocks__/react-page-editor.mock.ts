@@ -1,4 +1,4 @@
-const createValue = jest
+const createValue = vi
   .fn()
   .mockImplementation(() => ({ id: "fake-id", rows: [] }));
 

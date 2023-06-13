@@ -6,7 +6,7 @@ import { loginUser, saveUser } from "../../../../test/user.utils";
 describe("Create Area", () => {
   let Test: AppTest, user: any, authorizationToken: string;
   beforeAll(async () => {
-    Test = GetAppTest();
+    Test = await GetAppTest();
 
     user = await saveUser(Test, ["admin:create"]);
     const { authorization } = await loginUser(Test)(user);

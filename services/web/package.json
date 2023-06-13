@@ -13,7 +13,7 @@
     "build:server": "webpack -c webpack.server.ts",
     "build:app-server": "yarn build:app && yarn build:server",
     "serve": "nodemon ./build/server/ssr.js",
-    "test": "jest",
+    "test": "vitest",
     "build": "tsc -b",
     "watch": "tsc -b --watch",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src/",

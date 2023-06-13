@@ -9,7 +9,7 @@ import { KeywordEntity } from "@entities/Keyword.entity";
 describe("Delete Keyword", () => {
   let Test: AppTest, keyword: any, user: any, authorizationToken: string;
   beforeAll(async () => {
-    Test = GetAppTest();
+    Test = await GetAppTest();
     user = await saveUser(Test, ["admin:create"]);
     const { authorization } = await loginUser(Test)(user);
     authorizationToken = authorization;

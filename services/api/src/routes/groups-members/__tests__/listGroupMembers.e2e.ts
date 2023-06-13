@@ -28,7 +28,7 @@ describe("List Group Member", () => {
   }));
 
   beforeAll(async () => {
-    Test = GetAppTest();
+    Test = await GetAppTest();
 
     authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
       id: "1",

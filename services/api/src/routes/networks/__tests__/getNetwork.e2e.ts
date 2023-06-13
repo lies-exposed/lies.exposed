@@ -12,7 +12,7 @@ describe("Get Network", () => {
   let Test: AppTest, authorizationToken: string, events: any[], keywords: any[];
 
   beforeAll(async () => {
-    Test = GetAppTest();
+    Test = await GetAppTest();
     authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
       id: "1",
     } as any)()}`;

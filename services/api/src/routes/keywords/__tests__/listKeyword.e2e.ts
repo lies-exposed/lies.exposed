@@ -10,7 +10,7 @@ describe("List Keywords", () => {
     authorizationToken: string,
     keywords: http.Keyword.Keyword[];
   beforeAll(async () => {
-    Test = GetAppTest();
+    Test = await GetAppTest();
     authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
       id: "1",
     } as any)()}`;

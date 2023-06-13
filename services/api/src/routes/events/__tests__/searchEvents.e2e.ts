@@ -35,7 +35,7 @@ describe("Search Events", () => {
   let events: any[];
 
   beforeAll(async () => {
-    appTest = GetAppTest();
+    appTest = await GetAppTest();
 
     await throwTE(
       appTest.ctx.db.save(ActorEntity, [firstActor, secondActor] as any[])

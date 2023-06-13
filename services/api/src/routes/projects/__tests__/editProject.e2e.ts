@@ -17,7 +17,7 @@ describe("Edit Project ", () => {
   let area: AreaEntity;
 
   beforeAll(async () => {
-    appTest = GetAppTest();
+    appTest = await GetAppTest();
     const user = await saveUser(appTest, ["admin:edit"]);
     users.push(user);
     const { authorization } = await loginUser(appTest)(user);

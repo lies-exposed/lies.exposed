@@ -16,7 +16,7 @@ describe("Create Group Member", () => {
     let groups: GroupEntity[];
     const groupsMembers: GroupMemberEntity[] = [];
   beforeAll(async () => {
-    Test = GetAppTest();
+    Test = await GetAppTest();
     const user = await saveUser(Test, ["admin:create"]);
     users.push(user);
     const { authorization } = await loginUser(Test)(user);
