@@ -1,11 +1,6 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-yarn clean
-yarn build
-yarn lint
-docker compose up -d db-test
-sleep 10
+yarn clean && yarn build && yarn lint
+docker compose up -d --remove-orphans db-test
 yarn api jest --runInBand --bail --logHeapUsage
-docker compose stop db-test
-docker compose rm --volumes -f db-test
