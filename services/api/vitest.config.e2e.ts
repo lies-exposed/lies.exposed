@@ -3,13 +3,13 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
-    name: 'api-e2e',
+    name: "api-e2e",
     root: __dirname,
     globals: true,
     include: ["src/**/*.e2e.ts"],
-    setupFiles: ["./test.setup.ts"],
+    setupFiles: [`${__dirname}/test/testSetup.ts`],
     globalSetup: `${__dirname}/test/globalSetup.ts`,
-    exclude: ["**/build/**", "**/src/migrations/**", "src/scripts"],
+    exclude: ["**/build/**", "**/src/migrations/**", "**/src/scripts"],
     alias: {
       "@react-page/editor": "__mocks__/react-page-editor.mock.ts",
       "@react-page/plugins-slate": "__mocks__/react-page-plugin-slate.mock.ts",
@@ -17,7 +17,7 @@ export default defineConfig({
     },
     threads: false,
     singleThread: true,
-    watch: false
+    watch: false,
   },
   plugins: [
     // This is required to build the test files with SWC
@@ -26,6 +26,5 @@ export default defineConfig({
       module: { type: "es6" },
     }),
   ],
-  // esbuild: false,
   root: __dirname,
 });
