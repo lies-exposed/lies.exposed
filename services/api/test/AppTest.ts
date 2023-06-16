@@ -39,36 +39,31 @@ export interface AppTest {
   };
 }
 
-let appTest: AppTest, dataSource: DataSource;
-
-export const GetAppTest = async (): Promise<AppTest> => {
-  if (!appTest || !dataSource) {
-    await initAppTest();
-  }
-  return appTest;
+const g = global as any as {
+  appTest: AppTest;
+  dataSource: DataSource;
 };
 
-// const setDataSource = (d: DataSource): void => {
-//   (global as any).dataSource = d;
-// };
+export const GetAppTest = async (): Promise<AppTest> => {
+  if (!g.appTest) {
+    g.appTest = await initAppTest();
+  }
+  return g.appTest;
+};
 
 export const initAppTest = async (): Promise<AppTest> => {
-  D.enable(process.env.DEBUG ?? "*");
-
-  // const dataSource = (global as any).dataSource;
-  // if (!dataSource) {
-  //   setDataSource(getDataSource(process.env as any, false));
-  // }
+  D.enable(process.env.DEBUG ?? "-");
 
   const logger = GetLogger("test");
 
-  if (!dataSource) {
-    dataSource = getDataSource(process.env as any, false);
-  }
+  // if (!g.dataSource) {
+  //   const dataSource = getDataSource(process.env as any, false);
+  //   g.dataSource = await dataSource.initialize();
+  // }
 
   return await pipe(
     sequenceS(TE.ApplicativePar)({
-      db: GetTypeORMClient(dataSource),
+      db: GetTypeORMClient(getDataSource(process.env as any, false)),
       env: pipe(
         ENV.decode(process.env),
         TE.fromEither,
@@ -137,12 +132,6 @@ export const initAppTest = async (): Promise<AppTest> => {
               event: liftFind(EventV2Entity),
             }),
             TE.map(({ media, actor }) => media && actor),
-            // TE.chainFirst(() => TE.mapLeft((e) => e)(ctx.db.close())),
-            // TE.chainFirst(() => {
-            //   return TE.fromIO(() => {
-            //     global.gc?.();
-            //   });
-            // }),
             throwTE
           );
         },
@@ -150,9 +139,7 @@ export const initAppTest = async (): Promise<AppTest> => {
       req: supertest(makeApp(ctx)),
     })),
     TE.map((app) => {
-      appTest = app;
-      // (global as any).dataSource = dataSource;
-      return appTest;
+      return app;
     }),
     throwTE
   );

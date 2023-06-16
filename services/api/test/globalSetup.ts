@@ -1,4 +1,3 @@
-import * as path from "path";
 import { loadENV } from "@liexp/core/lib/env/utils";
 import * as logger from "@liexp/core/lib/logger";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
@@ -7,9 +6,10 @@ import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { PathReporter } from "io-ts/lib/PathReporter";
+import * as path from "path";
 import { TestENV } from "./TestENV";
 
-export default async (): Promise<void> => {
+export default async (): Promise<() => void> => {
   try {
     const moduleLogger = logger.GetLogger("tests").extend("teardown");
 
@@ -21,9 +21,9 @@ export default async (): Promise<void> => {
 
     moduleLogger.debug.log("Process env %O", process.env);
 
-    loadENV(process.cwd(), dotenvConfigPath, true);
+    loadENV(__dirname, dotenvConfigPath, true);
 
-    return await pipe(
+    await pipe(
       TestENV.decode(process.env),
       E.mapLeft((errs) => {
         const err = new Error();
@@ -31,23 +31,14 @@ export default async (): Promise<void> => {
         return err as any;
       }),
       TE.fromEither,
-      TE.chain((env) => {
-        // if (env.npm_lifecycle_event.indexOf("spec") > 0) {
-        //   return TE.right(undefined);
-        // }
-
-        return pipe(
-          TE.tryCatch(() => Promise.resolve(), E.toError),
-          TE.orElse(TE.throwError),
-          TE.map((appTest) => {
-            // console.log('app test')
-            (globalThis as any).appTest = appTest;
-            return appTest;
-          })
-        );
+      TE.map((env) => {
+        console.log(env);
       }),
-      (te) => throwTE<any, any>(te)
+      throwTE
     );
+    return () => {
+      console.log("global teardown");
+    };
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error(e);
