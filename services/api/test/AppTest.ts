@@ -20,7 +20,7 @@ import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import supertest from "supertest";
-import { type EntityTarget, type ObjectLiteral } from "typeorm";
+import { DataSource, type EntityTarget, type ObjectLiteral } from "typeorm";
 import { awsMock } from "../__mocks__/aws.mock";
 import { igProviderMock } from "../__mocks__/ig.mock";
 import puppeteerMocks from "../__mocks__/puppeteer.mock";
@@ -39,10 +39,10 @@ export interface AppTest {
   };
 }
 
-let appTest: AppTest;
+let appTest: AppTest, dataSource: DataSource;
 
 export const GetAppTest = async (): Promise<AppTest> => {
-  if (!appTest) {
+  if (!appTest || !dataSource) {
     await initAppTest();
   }
   return appTest;
@@ -62,9 +62,13 @@ export const initAppTest = async (): Promise<AppTest> => {
 
   const logger = GetLogger("test");
 
+  if (!dataSource) {
+    dataSource = getDataSource(process.env as any, false);
+  }
+
   return await pipe(
     sequenceS(TE.ApplicativePar)({
-      db: GetTypeORMClient(getDataSource(process.env as any, false)),
+      db: GetTypeORMClient(dataSource),
       env: pipe(
         ENV.decode(process.env),
         TE.fromEither,
