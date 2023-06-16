@@ -938,21 +938,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/types@npm:3.347.0":
+"@aws-sdk/types@npm:3.347.0, @aws-sdk/types@npm:^3.222.0":
   version: 3.347.0
   resolution: "@aws-sdk/types@npm:3.347.0"
   dependencies:
     tslib: ^2.5.0
   checksum: 799b053d3651f1754e2925b671fe890047d0ff1af69d22b6826d8e74edefcd558c7c7a911d48eaf5930032bcf291dbdbb6dd2d2f0c596bbe52100941aa349221
-  languageName: node
-  linkType: hard
-
-"@aws-sdk/types@npm:^3.222.0":
-  version: 3.342.0
-  resolution: "@aws-sdk/types@npm:3.342.0"
-  dependencies:
-    tslib: ^2.5.0
-  checksum: c9ec0873304548696deb604fcc4fcdacb726c9e03a65cdb4e9d8643a24ddf83ea32aa9d85b801406670526ca210131d5a8842d3674c73757c03ca5329ed2d13a
   languageName: node
   linkType: hard
 
@@ -9417,7 +9408,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.59.11
     "@typescript-eslint/parser": ^5.59.11
     debug: ^4.3.4
-    dotenv: ^16.1.4
+    dotenv: ^16.2.0
     eslint: ^8.42.0
     eslint-config-prettier: ^8.8.0
     eslint-config-standard-with-typescript: ^35.0.0
@@ -13317,10 +13308,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:^16.1.3":
-  version: 16.1.3
-  resolution: "dotenv@npm:16.1.3"
-  checksum: 8f73bae720161cf365b679de162fe79a05f5b7a21d0d2b8bf9fb0601a2ed30f7e9dc49fa8b752d93206e4b7d427eccea2f383a1622cd5da4a1824f43bf8f780b
+"dotenv@npm:^16.2.0":
+  version: 16.2.0
+  resolution: "dotenv@npm:16.2.0"
+  checksum: 07ff2c3bccf3f0a7bd5e991f53cc97d8d093748154f2f74d7c2c7fdf669728234670a116b37dc38458951e61ab28ed8a92050d91461a8992117aa7605c688b1d
   languageName: node
   linkType: hard
 
@@ -26011,7 +26002,7 @@ __metadata:
     clsx: ^1.2.1
     d3: ^7.8.5
     debug: ^4.3.4
-    dotenv: ^16.1.4
+    dotenv: ^16.2.0
     eslint: ^8.42.0
     eslint-config-prettier: ^8.8.0
     eslint-config-standard-with-typescript: ^35.0.0
