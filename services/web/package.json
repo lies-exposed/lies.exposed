@@ -71,7 +71,7 @@
     "react-slick": "^0.29.0",
     "react-spring": "^9.7.1",
     "react-toc": "^3.1.0",
-    "reactflow": "^11.7.2",
+    "reactflow": "^11.7.3",
     "slick-carousel": "^1.8.1",
     "throttle-debounce": "^5.0.0",
     "topojson-client": "3.1.0",
