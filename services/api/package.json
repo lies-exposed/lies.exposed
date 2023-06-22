@@ -107,7 +107,7 @@
     "@types/supertest": "^2.0.12",
     "@types/uuid": "^9.0.2",
     "@vitest/coverage-c8": "^0.32.2",
-    "eslint": "^8.42.0",
+    "eslint": "^8.43.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-import-resolver-typescript": "^3.5.5",
     "eslint-plugin-import": "^2.27.5",

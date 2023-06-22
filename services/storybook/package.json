@@ -46,7 +46,7 @@
     "@types/babel__preset-env": "^7.9.2",
     "@types/eslint": "^8.40.2",
     "@types/prettier": "^2.7.3",
-    "eslint": "^8.42.0",
+    "eslint": "^8.43.0",
     "prettier": "^2.8.8",
     "typescript": "^5.1.3",
     "webpack": "^5.87.0"
