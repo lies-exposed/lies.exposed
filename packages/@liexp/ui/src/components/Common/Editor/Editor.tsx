@@ -9,7 +9,6 @@ import RPEditor, {
 } from "@react-page/editor";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
-// import { ComponentsPickerPopover } from "./ComponentPickerPopover";
 import { cellPlugins } from "./cellPlugins";
 
 type I18nEnField = I18nField<Record<string, any>>;

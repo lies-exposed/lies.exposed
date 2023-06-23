@@ -12,7 +12,6 @@ import {
   DateInput,
   FormDataConsumer,
   FormTab,
-  FunctionField,
   ImageField,
   ImageInput,
   List,
@@ -28,10 +27,10 @@ import {
   type CreateProps,
   type DataProvider,
   type EditProps,
-  type RaRecord,
+  type RaRecord
 } from "@liexp/ui/lib/components/admin";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
+import { ActorDataGrid } from "@liexp/ui/lib/components/admin/actors/ActorDataGrid";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
 import { WebPreviewButton } from "@liexp/ui/lib/components/admin/common/WebPreviewButton";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
@@ -41,7 +40,7 @@ import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/Reference
 import { SearchLinksButton } from "@liexp/ui/lib/components/admin/links/SearchLinksButton";
 import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField";
 import ActorPreview from "@liexp/ui/lib/components/admin/previews/ActorPreview";
-import { Box, Grid } from "@liexp/ui/lib/components/mui";
+import { Grid } from "@liexp/ui/lib/components/mui";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
@@ -64,35 +63,7 @@ export const ActorList: React.FC = () => (
     perPage={50}
     sort={{ field: "createdAt", order: "DESC" }}
   >
-    <Datagrid
-      rowClick="edit"
-      rowStyle={(r) => ({
-        borderLeft: `5px solid #${r.color}`,
-      })}
-    >
-      <FunctionField
-        source="username"
-        render={(r) => {
-          return (
-            <Box style={{ display: "flex" }}>
-              <AvatarField source="avatar" />
-              <Box
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  marginLeft: 16,
-                }}
-              >
-                <TextField source="fullName" />
-                <TextField source="username" />
-              </Box>
-            </Box>
-          );
-        }}
-      />
-      <FunctionField label="Groups" render={(r) => r.memberIn.length} />
-      <DateField source="updatedAt" showTime={true} />
-    </Datagrid>
+    <ActorDataGrid />
   </List>
 );
 
