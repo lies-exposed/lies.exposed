@@ -1,5 +1,6 @@
 import {
   formatAnyDateToShort,
+  formatDate,
   parseDate,
 } from "@liexp/shared/lib/utils/date";
 import { addDays, differenceInDays, subYears } from "date-fns";
@@ -45,7 +46,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
         <DatePicker
           className={classes.dateInput}
           size="small"
-          value={start}
+          value={start ? formatDate(start) : ""}
           variant="standard"
           datatype="date"
           InputLabelProps={{
@@ -68,7 +69,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
         <DatePicker
           className={classes.dateInput}
           size="small"
-          value={end}
+          value={end ? formatDate(end) : ""}
           variant="standard"
           InputLabelProps={{
             disabled: true,
