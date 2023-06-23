@@ -30,12 +30,8 @@ const StyledBox = styled(Box)(() => ({
     objectFit: "contain",
   },
   [`& .${classes.description}`]: {
-    position: "absolute",
     backgroundColor: "black",
     padding: 10,
-    bottom: 0,
-    right: 0,
-    left: 0,
   },
 })) as typeof Box;
 
@@ -123,7 +119,8 @@ const MediaElement: React.FC<MediaElementProps> = ({
 
   return (
     <StyledBox className={clsx(classes.root, className)} style={style}>
-      {mediaElement}
+      <Box style={{ position: "relative" }}>{mediaElement}</Box>
+
       {enableDescription ? (
         <Box className={classes.description}>
           <Typography gutterBottom variant="body2" component="p" color="white">

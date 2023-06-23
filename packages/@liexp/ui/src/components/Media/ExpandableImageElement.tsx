@@ -13,8 +13,11 @@ const modalClasses = {
 };
 
 const StyledModalContent = styled(Box)(({ theme }) => ({
+  [`& .${modalClasses.root}`]: {
+    position: "absolute",
+  },
   [`& .${modalClasses.image}`]: {
-    width: "100%",
+    width: "auto",
     height: "100%",
     maxHeight: 800,
     objectFit: "cover",
@@ -38,7 +41,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   [`& .${boxClasses.image}`]: {
     width: "auto",
     height: "100%",
-    maxWidth: "100%",
+    maxWidth: 2000,
     maxHeight: 800,
     objectFit: "cover",
     margin: "auto",
@@ -65,7 +68,7 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
   onLoad,
   disableZoom = false,
 }) => {
-  const [modal, showModal] = useModal();
+  const [modal, showModal] = useModal({ disablePortal: false });
 
   const handleZoomClick = React.useCallback(() => {
     showModal(media.description, (onClose) => (
