@@ -2,8 +2,8 @@ import { getTotal } from "@liexp/shared/lib/helpers/event";
 import {
   type Actor,
   type Group,
-  type Keyword,
   type GroupMember,
+  type Keyword,
 } from "@liexp/shared/lib/io/http";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
@@ -163,10 +163,13 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
 }) => {
   const theme = useTheme();
 
-  const currentDateRange = [
-    query.startDate ? parseISO(query.startDate) : undefined,
-    query.endDate ? parseISO(query.endDate) : undefined,
-  ];
+  const startDate = query.startDate
+    ? parseISO(query.startDate)
+    : subYears(new Date(), 1);
+  const endDate = query.endDate ? parseISO(query.endDate) : new Date();
+  const dateRange = _dateRange ?? [startDate, endDate];
+
+  const currentDateRange = [startDate, endDate];
 
   const actorPopoverRef = React.createRef<HTMLDivElement>();
   const [filterPopover, showPopover] = usePopover({
@@ -240,11 +243,6 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
     quotes: filters.events.Quote,
   });
 
-  const dateRange = _dateRange ?? [
-    query.startDate ? parseISO(query.startDate) : subYears(new Date(), 1),
-    query.endDate ? parseISO(query.endDate) : new Date(),
-  ];
-
   const clearButton =
     actors.length > 0 || groups.length > 0 || keywords.length > 0 ? (
       <IconButton
@@ -310,13 +308,13 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
           input: classes.inputInput,
         }}
         query={query}
-        onQueryChange={(u) =>
-          { handleQueryChange({
+        onQueryChange={(u) => {
+          handleQueryChange({
             actors: actors.concat(u.actors),
             groups: groups.concat(u.groups),
             keywords: keywords.concat(u.keywords),
-          }); }
-        }
+          });
+        }}
       />
     </div>
   );
