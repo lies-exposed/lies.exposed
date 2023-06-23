@@ -1,5 +1,4 @@
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
-import * as A from "fp-ts/Array";
 import * as React from "react";
 import EventCard from "../components/Cards/Events/EventCard";
 import QueriesRenderer from "../components/QueriesRenderer";
@@ -33,6 +32,8 @@ const EventsBox: React.FC<EventsBoxProps> = ({
         }),
       }}
       render={({ events }) => {
+        const gridSize =
+          12 / (events.events.length < 3 ? events.events.length : 3);
         return (
           <Grid
             container
@@ -44,28 +45,23 @@ const EventsBox: React.FC<EventsBoxProps> = ({
                 <Typography variant="h5">{title}</Typography>
               </Grid>
             ) : null}
-            {A.chunksOf(3)(events.events).map((ev) => {
-              return (
-                <Grid item container spacing={2} key={`events-chunk-container${ev[0].id}`}>
-                  {ev.map((e) => (
-                    <Grid
-                      key={e.id}
-                      item
-                      sm={4}
-                      xs={12}
-                      style={{ height: "100%" }}
-                    >
-                      <EventCard
-                        event={e}
-                        showRelations={true}
-                        style={{ height: "100%" }}
-                        onEventClick={onEventClick}
-                      />
-                    </Grid>
-                  ))}
-                </Grid>
-              );
-            })}
+
+            {events.events.map((e) => (
+              <Grid
+                key={e.id}
+                item
+                sm={gridSize}
+                xs={12}
+                style={{ height: "100%" }}
+              >
+                <EventCard
+                  event={e}
+                  showRelations={true}
+                  style={{ height: "100%" }}
+                  onEventClick={onEventClick}
+                />
+              </Grid>
+            ))}
           </Grid>
         );
       }}

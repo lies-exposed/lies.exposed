@@ -71,8 +71,8 @@ export const MediaBlockPluginControl: CellPluginCustomControlsComonent<
 > = ({ remove, data, ...props }) => {
   const [s, setS] = React.useState<MediaBlockState>({
     media: data.media ?? [],
-    height: 200,
-    enableDescription: false,
+    height: data.height ?? 200,
+    enableDescription: data.enableDescription ?? false,
   });
 
   const selectedItems = React.useMemo(
@@ -124,7 +124,7 @@ export const MediaBlockPluginControl: CellPluginCustomControlsComonent<
                 }}
               />
             }
-            label="Display full name?"
+            label="Enable description?"
           />
         </Grid>
 
