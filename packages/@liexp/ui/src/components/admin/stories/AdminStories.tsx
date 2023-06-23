@@ -30,7 +30,7 @@ import {
   type DataProvider,
   type EditProps,
   type ListProps,
-  type RaRecord,
+  type RaRecord
 } from "react-admin";
 import { uploadImages } from "../../../client/admin/MediaAPI";
 import { Box, Grid } from "../../mui";
@@ -102,7 +102,9 @@ const transformStory =
         throwTE
       );
     }
+
     const relations = relationsTransformer(data.body2);
+
     return { ...data, ...relations };
   };
 

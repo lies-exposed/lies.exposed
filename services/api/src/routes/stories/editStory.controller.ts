@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { relationsTransformer } from '@liexp/shared/lib/slate/utils';
+import { relationsTransformer } from "@liexp/shared/lib/slate/utils";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
@@ -31,7 +31,9 @@ export const MakeEditStoryRoute: Route = (r, ctx) => {
     ) => {
       const relations = relationsTransformer(body2 as any);
       return pipe(
-        ctx.db.findOneOrFail(StoryEntity, { where: { id: Equal(id) } }),
+        ctx.db.findOneOrFail(StoryEntity, {
+          where: { id: Equal(id), creator: Equal(creator) },
+        }),
         TE.chain((e) => {
           const featuredImageId = pipe(
             featuredImage,
@@ -61,7 +63,7 @@ export const MakeEditStoryRoute: Route = (r, ctx) => {
             where: { id: Equal(id) },
             relations: ["featuredImage"],
             loadRelationIds: {
-              relations: ["creator", "keywords"],
+              relations: ["creator", "actors", "groups", "keywords"],
             },
           })
         ),

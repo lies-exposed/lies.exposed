@@ -13,7 +13,6 @@ import {
   DateInput,
   FormDataConsumer,
   FormTab,
-  FunctionField,
   ImageField,
   ImageInput,
   List,
@@ -32,7 +31,7 @@ import {
   type DataProvider,
   type EditProps,
   type RaRecord,
-  type SelectInputProps,
+  type SelectInputProps
 } from "@liexp/ui/lib/components/admin";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
 import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput";
@@ -41,6 +40,7 @@ import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
 import { WebPreviewButton } from "@liexp/ui/lib/components/admin/common/WebPreviewButton";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
 import ReferenceManyEventField from "@liexp/ui/lib/components/admin/events/ReferenceManyEventField";
+import { GroupDataGrid } from "@liexp/ui/lib/components/admin/groups/GroupDataGrid";
 import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField";
 import GroupPreview from "@liexp/ui/lib/components/admin/previews/GroupPreview";
 import { Box, Grid, Typography } from "@liexp/ui/lib/components/mui";
@@ -100,43 +100,7 @@ const groupFilters = [
 
 export const GroupList: React.FC = () => (
   <List resource={RESOURCE} perPage={50} filters={groupFilters}>
-    <Datagrid
-      rowClick="edit"
-      rowStyle={(r) => ({
-        borderLeft: `5px solid #${r.color}`,
-      })}
-    >
-      <FunctionField
-        source="username"
-        render={(r) => {
-          return (
-            <Box style={{ display: "flex" }}>
-              <AvatarField source="avatar" />
-              <Box
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  marginLeft: 16,
-                }}
-              >
-                <TextField source="name" />
-                <TextField source="username" />
-              </Box>
-            </Box>
-          );
-        }}
-      />
-      <FunctionField
-        source="members"
-        render={(r) => {
-          return r.members?.length ?? 0;
-        }}
-      />
-      <DateField source="startDate" />
-      <DateField source="endDate" />
-      <DateField source="updatedAt" />
-      <DateField source="createdAt" />
-    </Datagrid>
+    <GroupDataGrid />
   </List>
 );
 

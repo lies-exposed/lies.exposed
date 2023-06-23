@@ -149,17 +149,6 @@ const deserializePlugin = (
         fp.O.map(fp.A.map((m) => ({ id: m.id, type: "media" })))
       );
     }
-    case PARAGRAPH_TYPE: {
-      const children: any[] = (p as any).children ?? [];
-      const relations = pipe(
-        children.map(deserializePlugin),
-        fp.A.compact,
-        fp.A.flatten,
-        fp.O.fromPredicate((v) => v.length > 0)
-      );
-
-      return relations;
-    }
     case COMPONENT_PICKER_POPOVER_PLUGIN: {
       return pipe(
         (p as any).data?.plugin,
@@ -167,10 +156,20 @@ const deserializePlugin = (
         fp.O.chain(deserializePlugin)
       );
     }
+
+    case PARAGRAPH_TYPE:
     default:
-      // eslint-disable-next-line no-console
-      // console.log(p);
-      return fp.O.none;
+      {
+        const children: any[] = (p as any).children ?? [];
+        const relations = pipe(
+          children.map(deserializePlugin),
+          fp.A.compact,
+          fp.A.flatten,
+          fp.O.fromPredicate((v) => v.length > 0)
+        );
+
+        return relations;
+      }
   }
 };
 
@@ -224,6 +223,7 @@ export const relationsTransformer = (value: Value): InlineRelations => {
     events: [],
     links: [],
   };
+
   return pipe(
     transform(value, deserializeCell),
     fp.O.fromNullable,
