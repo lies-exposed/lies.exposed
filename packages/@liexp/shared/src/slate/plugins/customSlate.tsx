@@ -151,6 +151,26 @@ export const getLiexpSlate = (custom: any): SlateCellPlugin<any> => {
           ),
         })),
       },
+      quotes: {
+        blockquote: def.plugins.quotes.blockQuote((blockQuoteDef) => ({
+          ...blockQuoteDef,
+          Component: ({ className, style, children }) => (
+            <blockquote
+              className={className}
+              style={{
+                borderLeft: 3,
+                borderLeftColor: "red",
+                borderLeftStyle: "solid",
+                padding: 20,
+                marginLeft: 0,
+                ...style,
+              }}
+            >
+              {children}
+            </blockquote>
+          ),
+        })),
+      },
       code: {
         ...def.plugins.code,
         mark: def.plugins.code?.mark((codeDef) => ({
