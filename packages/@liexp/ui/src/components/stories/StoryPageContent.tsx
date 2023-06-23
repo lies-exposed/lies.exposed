@@ -45,7 +45,7 @@ export const StoryPageContent: React.FC<StoryPageContentProps> = ({
   const body = story.body2 as any;
 
   return (
-    <Grid container>
+    <Grid container style={{ marginBottom: 100 }}>
       <Grid
         item
         md={12}

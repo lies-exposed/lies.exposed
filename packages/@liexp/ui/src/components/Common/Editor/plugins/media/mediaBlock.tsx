@@ -53,9 +53,10 @@ export const MediaBlockPluginRenderer: CellPluginRenderer<MediaBlockState> = ({
 
   if (media.length > 0) {
     return (
-      <Box style={{ maxWidth: 1200, flexGrow: 0 }}>
+      <Box style={{ width: "100%", flexGrow: 0 }}>
         <MediaSlider
           enableDescription={enableDescription}
+          disableZoom={false}
           data={media}
           itemStyle={() => ({ height })}
         />

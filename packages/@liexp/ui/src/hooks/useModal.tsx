@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Modal } from "../components/Common/Modal";
-import { Box, IconButton, CloseIcon } from "../components/mui";
+import { Box, IconButton, CloseIcon, ModalProps } from "../components/mui";
 import { styled } from "../theme";
 
 const PREFIX = "modal";
@@ -38,7 +38,9 @@ const StyledModal = styled(Modal)(({ theme }) => ({
   },
 }));
 
-export const useModal = (): [
+export const useModal = (
+  props?: Partial<ModalProps>
+): [
   React.ReactElement | null,
   (title: string, getContent: (onClose: () => void) => JSX.Element) => void
 ] => {
@@ -64,11 +66,11 @@ export const useModal = (): [
 
     return (
       <StyledModal
+        {...props}
         className={classes.modal}
         open={open}
         onClose={onClose}
         title={title}
-        disablePortal={true}
       >
         <Box className={classes.content}>
           <Box className={classes.closeIconBox}>
