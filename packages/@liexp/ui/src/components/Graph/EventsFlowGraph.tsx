@@ -20,6 +20,19 @@ import { ActorListItem } from "../lists/ActorList";
 import { GroupListItem } from "../lists/GroupList";
 import { KeywordListItem } from "../lists/KeywordList";
 
+const nodePosition = (
+  i: number,
+  chunk: number,
+  offset: { x: number; y: number }
+): { x: number; y: number } => {
+  const x = (i % chunk) * 40 + offset.x;
+  const y = -(Math.floor(i / 10) * 50) + offset.y;
+  return {
+    x,
+    y,
+  };
+};
+
 const EventNode: React.FC<NodeProps<Events.SearchEvent.SearchEvent>> = ({
   data,
   targetPosition,
@@ -40,11 +53,7 @@ const EventNode: React.FC<NodeProps<Events.SearchEvent.SearchEvent>> = ({
             }}
           />
         ) : (
-          <EventCard
-            event={data}
-            showMedia={true}
-            showRelations={false}
-          />
+          <EventCard event={data} showMedia={true} showRelations={false} />
         )}
         {sourcePosition ? (
           <Handle type="source" position={Position.Top} />
@@ -149,6 +158,8 @@ interface EventFlowGraphProps extends FlowGraphProps {
   };
 }
 
+const nodeLineChunk = 10;
+
 export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
   graph,
   filters,
@@ -157,16 +168,10 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
   const { nodes, edges } = React.useMemo(() => {
     const keywordNodes = graph.keywords.map((k, i) => ({
       id: k.id,
-      position: {
-        y: pipe(
-          // eventNodes.findIndex(
-          //   (e) => !!e.data.keywords.find((kk: string) => k.id === kk)
-          // ),
-          0
-          // (ii) => 50 + (ii < 1 ? 0 : ii * 50)
-        ),
-        x: (i % 2 === 0 ? i : -i) * 20,
-      },
+      position: nodePosition(i, nodeLineChunk, {
+        x: -600,
+        y: 0,
+      }),
       data: { ...k, selected: filters.keywords.includes(k.id) },
       type: Keyword.Keyword.name,
     }));
@@ -175,20 +180,20 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
       id: a.id,
       data: { ...a, selected: filters.actors.includes(a.id) },
       type: Actor.Actor.name,
-      position: {
-        y: 100,
-        x: (i % 2 === 0 ? -i : i) * 40,
-      },
+      position: nodePosition(i, nodeLineChunk, {
+        x: -100,
+        y: 0,
+      }),
     }));
 
     const groupNodes = graph.groups.map((a, i) => ({
       id: a.id,
       data: { ...a, selected: filters.groups.includes(a.id) },
       type: Group.Group.name,
-      position: {
-        y: 200,
-        x: (i % 2 === 0 ? -i : i) * 20,
-      },
+      position: nodePosition(i, nodeLineChunk, {
+        x: (graph.actors.length / nodeLineChunk > 1 ? nodeLineChunk * 40 : graph.actors.length) + 50,
+        y: 0,
+      }),
     }));
 
     const eventNodes = pipe(
@@ -205,7 +210,7 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
         },
         type: Events.Event.name,
         position: {
-          y: 300 + i * 50,
+          y: 200 + i * 50,
           x:
             e.type === Events.Uncategorized.UNCATEGORIZED.value
               ? -50
@@ -217,7 +222,7 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
               ? 25
               : e.type === Events.Documentary.DOCUMENTARY.value
               ? 50
-              :75,
+              : 75,
         },
       }))
     );
