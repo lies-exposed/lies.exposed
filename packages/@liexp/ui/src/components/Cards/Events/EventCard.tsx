@@ -13,7 +13,6 @@ import {
   Box,
   Card,
   CardActionArea,
-  CardActions,
   CardContent,
   CardHeader,
   CardMedia,
@@ -52,14 +51,13 @@ const EventCard: React.FC<EventCardProps> = ({
   const date =
     typeof event.date === "string" ? parseISO(event.date as any) : event.date;
 
-    const handleClick = onEventClick ? () =>{
-      onEventClick(event)
-    } : undefined
+  const handleClick = onEventClick
+    ? () => {
+        onEventClick(event);
+      }
+    : undefined;
   return (
-    <Card
-      onClick={handleClick}
-      {...props}
-    >
+    <Card onClick={handleClick} {...props}>
       <CardActionArea>
         {showMedia ? (
           <CardMedia component="img" image={image} style={{ height: 200 }} />
@@ -78,7 +76,9 @@ const EventCard: React.FC<EventCardProps> = ({
                 overflow: "hidden",
               }}
             >
-              <Editor value={event.excerpt as any} readOnly />
+              <React.Suspense>
+                <Editor value={event.excerpt as any} readOnly />
+              </React.Suspense>
             </Box>
           ) : null}
 
@@ -117,7 +117,7 @@ const EventCard: React.FC<EventCardProps> = ({
           ) : null}
         </CardContent>
       </CardActionArea>
-      <CardActions disableSpacing></CardActions>
+      {/* <CardActions disableSpacing></CardActions> */}
     </Card>
   );
 };

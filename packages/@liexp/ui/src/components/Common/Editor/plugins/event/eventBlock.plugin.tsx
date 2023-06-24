@@ -1,6 +1,6 @@
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
 import { type Event } from "@liexp/shared/lib/io/http/Events";
-import { EVENT_BLOCK_PLUGIN } from '@liexp/shared/lib/slate/plugins/customSlate';
+import { EVENT_BLOCK_PLUGIN } from "@liexp/shared/lib/slate/plugins/customSlate";
 import MediaIcon from "@mui/icons-material/VideoFileOutlined";
 import type {
   CellPlugin,
@@ -12,7 +12,7 @@ import type {
 } from "@react-page/editor";
 import { parseISO } from "date-fns";
 import React from "react";
-import EventsBox from "../../../../../containers/EventsBox";
+import { EventCardGrid } from "../../../../Cards/Events/EventCardGrid";
 import { AutocompleteEventInput } from "../../../../Input/AutocompleteEventInput";
 import EventList from "../../../../lists/EventList/EventList";
 import { Box, Button, Grid } from "../../../../mui";
@@ -68,12 +68,18 @@ export const EventBlockPluginRenderer: CellPluginRenderer<EventBlockState> = ({
             onRowInvalidate={() => {}}
           />
         ) : (
-          <EventsBox
-            title=""
-            query={{
-              ids: events.map((v) => v.id),
-            }}
-            onEventClick={() => {}}
+          <EventCardGrid
+            events={events.map((e) =>
+              toSearchEvent(e, {
+                keywords: new Map(),
+                groups: new Map(),
+                actors: new Map(),
+                media: new Map(),
+                links: new Map(),
+                groupsMembers: new Map(),
+              })
+            )}
+            onItemClick={() => {}}
           />
         )}
       </Box>
