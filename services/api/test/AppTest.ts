@@ -1,4 +1,3 @@
-import { getDataSource } from "@utils/data-source";
 import { ActorEntity } from "@entities/Actor.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
@@ -15,6 +14,7 @@ import { MakeSpaceClient } from "@liexp/backend/lib/providers/space/SpaceClient"
 import { GetLogger } from "@liexp/core/lib/logger";
 import { HTTP } from "@liexp/shared/lib/providers/http/http.provider";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { getDataSource } from "@utils/data-source";
 import D from "debug";
 import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
@@ -113,13 +113,16 @@ export const initAppTest = async (): Promise<AppTest> => {
             e: EntityTarget<E>
           ): TE.TaskEither<Error, boolean> =>
             pipe(
-              ctx.db.findAndCount(e, {}),
-              TE.filterOrElse(
-                ([ents, count]) => count === 0,
-                ([ents, count]) =>
-                  new Error(`Entity ${(e as any).name} contains ${count}`)
+              ctx.db.find(e, { take: 100 }),
+              TE.chain((els) =>
+                els.length > 0
+                  ? ctx.db.delete(
+                      e,
+                      els.map((e) => e.id)
+                    )
+                  : TE.right({ affected: 0, raw: {} })
               ),
-              TE.map(([ents, count]) => count === 0)
+              TE.map((r) => (r.affected ?? 0) >= 0)
             );
 
           return pipe(
