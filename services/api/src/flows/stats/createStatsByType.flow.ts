@@ -8,8 +8,7 @@ import {
   toSearchEvent,
   type SearchEventsQueryCache,
 } from "@liexp/shared/lib/helpers/event/search-event";
-import { type EventRelationIds } from "@liexp/shared/lib/helpers/event/types";
-import { type GroupMember, type Media } from "@liexp/shared/lib/io/http";
+import { type Events, type GroupMember, type Media } from "@liexp/shared/lib/io/http";
 import { EventType, type SearchEvent } from "@liexp/shared/lib/io/http/Events";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
 import { sequenceS } from "fp-ts/Apply";
@@ -96,7 +95,7 @@ export const createStatsByType: TEFlow<
     media,
     keywords,
   }: // links,
-  EventRelationIds): TE.TaskEither<
+  Events.EventRelationIds): TE.TaskEither<
     DBError,
     {
       actors: ActorEntity[];
@@ -158,7 +157,8 @@ export const createStatsByType: TEFlow<
     groupsMembers: new Map(),
     media: new Map(),
     keywords: new Map(),
-    // links: new Map(),
+    links: new Map(),
+    areas: new Map()
   };
 
   const searchEventsQueryCache: SearchEventsQueryCache =

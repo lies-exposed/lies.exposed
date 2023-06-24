@@ -6,7 +6,6 @@ import {
   updateCache,
   type SearchEventsQueryCache,
 } from "@liexp/shared/lib/helpers/event/search-event";
-import { type EventRelationIds } from "@liexp/shared/lib/helpers/event/types";
 import {
   createHierarchicalEdgeBundling,
   type HierarchicalEdgeBundlingProps,
@@ -17,6 +16,7 @@ import {
   type GroupMember,
   type Keyword,
   type Media,
+  type Events
 } from "@liexp/shared/lib/io/http";
 import { EventType } from "@liexp/shared/lib/io/http/Events";
 import { StatsType } from "@liexp/shared/lib/io/http/Stats";
@@ -59,7 +59,7 @@ export const createStatsByEntityType: TEFlow<
     media,
     keywords,
   }: // links,
-  EventRelationIds): TE.TaskEither<
+  Events.EventRelationIds): TE.TaskEither<
     DBError,
     {
       actors: ActorEntity[];
@@ -121,7 +121,8 @@ export const createStatsByEntityType: TEFlow<
     groupsMembers: new Map(),
     media: new Map(),
     keywords: new Map(),
-    // links: new Map(),
+    links: new Map(),
+    areas: new Map()
   };
 
   let searchEventsQueryCache: SearchEventsQueryCache =
@@ -230,7 +231,8 @@ export const createStatsByEntityType: TEFlow<
                   A.sequence(E.Applicative),
                   E.getOrElse((): Keyword.Keyword[] => [])
                 ),
-                // links: links.data
+                links: [],
+                areas: []
               });
 
               return searchEventsQueryCache;

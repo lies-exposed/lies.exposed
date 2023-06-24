@@ -66,7 +66,8 @@ const Template: StoryFn<EditEventModalProps> = ({ ...props }) => {
             >
               Pick another event
             </Button>
-            Open {getTitle(e, relations)}: <EditEventButton id={e.id} />
+            Open {getTitle(e, { ...relations, areas: [] })}:{" "}
+            <EditEventButton id={e.id} />
           </Box>
         );
       }}

@@ -5,8 +5,8 @@ import {
   updateCache,
   type SearchEventsQueryCache,
 } from "@liexp/shared/lib/helpers/event/search-event";
-import { type EventRelationIds } from "@liexp/shared/lib/helpers/event/types";
 import {
+  type Link,
   type Actor,
   type Events,
   type Group,
@@ -14,8 +14,11 @@ import {
   type Keyword,
   type Media,
 } from "@liexp/shared/lib/io/http";
-import { type APIError } from '@liexp/shared/lib/io/http/Error/APIError';
-import { type EventTotals, type GetSearchEventsQueryInput } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
+import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
+import {
+  type EventTotals,
+  type GetSearchEventsQueryInput,
+} from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
 import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
@@ -42,7 +45,7 @@ export interface SearchEventQueryResult {
   groupsMembers: GroupMember.GroupMember[];
   media: Media.Media[];
   keywords: Keyword.Keyword[];
-  // links: Link.Link[];
+  links: Link.Link[];
   totals: EventTotals;
   total: number;
 }
@@ -54,7 +57,8 @@ const initialSearchEventsQueryCache: SearchEventsQueryCache = {
   groupsMembers: new Map(),
   media: new Map(),
   keywords: new Map(),
-  // links: new Map(),
+  links: new Map(),
+  areas: new Map(),
 };
 
 let searchEventsQueryCache: SearchEventsQueryCache =
@@ -89,8 +93,8 @@ export const fetchRelations = ({
   groupsMembers,
   media,
   keywords,
-}: // links,
-EventRelationIds): TE.TaskEither<
+  links,
+}: Events.EventRelationIds): TE.TaskEither<
   APIError,
   {
     actors: { data: Actor.Actor[] };
@@ -98,7 +102,7 @@ EventRelationIds): TE.TaskEither<
     groupsMembers: { data: GroupMember.GroupMember[] };
     keywords: { data: Keyword.Keyword[] };
     media: { data: Media.Media[] };
-    // links: { data: Link.Link[] };
+    links: { data: Link.Link[] };
   }
 > => {
   return sequenceS(TE.ApplicativePar)({
@@ -144,14 +148,14 @@ EventRelationIds): TE.TaskEither<
               ids: keywords,
             } as any,
           }),
-    // links:
-    //   links.length === 0
-    //     ? TE.right({ data: [] })
-    //     : api.Link.List({
-    //         Query: {
-    //           ids: links,
-    //         } as any,
-    //       }),
+    links:
+      links.length === 0
+        ? TE.right({ data: [] })
+        : api.Link.List({
+            Query: {
+              ids: links,
+            } as any,
+          }),
   });
 };
 
@@ -198,28 +202,31 @@ const searchEventsQ =
           getNewRelationIds(data, searchEventsQueryCache),
           TE.right,
           TE.chain(fetchRelations),
-          TE.map(({ actors, groups, groupsMembers, media, keywords }) => {
-            searchEventsQueryCache = updateCache(searchEventsQueryCache, {
-              events: { data, ...response },
-              actors: actors.data,
-              groups: groups.data,
-              groupsMembers: groupsMembers.data,
-              media: media.data,
-              keywords: keywords.data,
-              // links: links.data,
-            });
+          TE.map(
+            ({ actors, groups, groupsMembers, media, keywords, links }) => {
+              searchEventsQueryCache = updateCache(searchEventsQueryCache, {
+                events: { data, ...response },
+                actors: actors.data,
+                groups: groups.data,
+                groupsMembers: groupsMembers.data,
+                media: media.data,
+                keywords: keywords.data,
+                links: links.data,
+                areas: [],
+              });
 
-            return {
-              ...response,
-              actors: actors.data,
-              groups: groups.data,
-              groupsMembers: groupsMembers.data,
-              media: media.data,
-              keywords: keywords.data,
-              // links: links.data,
-              events: searchEventsQueryCache.events,
-            };
-          })
+              return {
+                ...response,
+                actors: actors.data,
+                groups: groups.data,
+                groupsMembers: groupsMembers.data,
+                media: media.data,
+                keywords: keywords.data,
+                links: links.data,
+                events: searchEventsQueryCache.events,
+              };
+            }
+          )
         );
       })
     );
@@ -310,19 +317,22 @@ export const getEventsFromLinkQuery = ({
           getNewRelationIds(data, searchEventsQueryCache),
           TE.right,
           TE.chain(fetchRelations),
-          TE.map(({ actors, groups, groupsMembers, media, keywords }) => {
-            searchEventsQueryCache = updateCache(searchEventsQueryCache, {
-              events: { data, total, totals },
-              actors: actors.data,
-              groups: groups.data,
-              groupsMembers: groupsMembers.data,
-              media: media.data,
-              keywords: keywords.data,
-              // links: links.data
-            });
+          TE.map(
+            ({ actors, groups, groupsMembers, media, keywords, links }) => {
+              searchEventsQueryCache = updateCache(searchEventsQueryCache, {
+                events: { data, total, totals },
+                actors: actors.data,
+                groups: groups.data,
+                groupsMembers: groupsMembers.data,
+                media: media.data,
+                keywords: keywords.data,
+                links: links.data,
+                areas: [],
+              });
 
-            return searchEventsQueryCache.events;
-          })
+              return searchEventsQueryCache.events;
+            }
+          )
         );
       }),
       foldTE

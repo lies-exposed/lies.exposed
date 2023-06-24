@@ -30,6 +30,7 @@ export const CreateEventFromMediaButton: React.FC = () => {
         groupsMembers: [],
         media: [],
         keywords: [],
+        links: []
       }
     ).find((t) => t.event.type === type);
 

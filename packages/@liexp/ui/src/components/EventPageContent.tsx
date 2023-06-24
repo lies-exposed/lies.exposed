@@ -3,13 +3,13 @@ import type * as http from "@liexp/shared/lib/io/http";
 import { Quote } from "@liexp/shared/lib/io/http/Events";
 import * as React from "react";
 import { useTheme } from "../theme";
-import { EventRelations } from "./events/EventRelations";
 import { DefaultEventPageContent } from "./events/page-content/DefaultEventPageContent";
 import { QuoteEventPageContent } from "./events/page-content/QuoteEventPageContent";
 import { Box, Grid, Link } from "./mui";
 
 export interface EventPageContentProps {
   event: http.Events.Event;
+  relations: http.Events.EventRelations;
   onDateClick: (d: Date) => void;
   onActorClick: (a: http.Actor.Actor) => void;
   onGroupClick: (a: http.Group.Group) => void;
@@ -22,6 +22,7 @@ export interface EventPageContentProps {
 
 export const EventPageContent: React.FC<EventPageContentProps> = ({
   event,
+  relations,
   onDateClick,
   onActorClick,
   onGroupClick,
@@ -33,64 +34,52 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
 }) => {
   const theme = useTheme();
 
+  const { url } = getEventCommonProps(event, relations);
+
+  const eventPageContent =
+    event.type === Quote.QUOTE.value ? (
+      <QuoteEventPageContent event={event} actor={relations.actors[0]} />
+    ) : (
+      <DefaultEventPageContent
+        event={event}
+        media={relations.media}
+        onMediaClick={onMediaClick}
+        mediaLayout="masonry"
+      />
+    );
+
   return (
-    <EventRelations event={event}>
-      {({ actors, groups, groupsMembers, media, areas }) => {
-        const { url } = getEventCommonProps(event, {
-          actors,
-          groups: [],
-          groupsMembers: [],
-          keywords: [],
-          media: [],
-        });
+    <Box className="event-page-content">
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Grid container alignItems="flex-start">
+            <Grid
+              item
+              md={10}
+              sm={12}
+              style={{
+                alignItems: "flex-start",
+                marginBottom: theme.spacing(2),
+              }}
+            >
+              <Box style={{ marginBottom: theme.spacing(3) }}>
+                {url ? <Link href={url}>{url}</Link> : null}
 
-        const eventPageContent =
-          event.type === Quote.QUOTE.value ? (
-            <QuoteEventPageContent event={event} actor={actors[0]} />
-          ) : (
-            <DefaultEventPageContent
-              event={event}
-              media={media}
-              onMediaClick={onMediaClick}
-              mediaLayout="masonry"
-            />
-          );
-
-        return (
-          <Box className="event-page-content">
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Grid container alignItems="flex-start">
-                    <Grid
-                      item
-                      md={10}
-                      sm={12}
-                      style={{
-                        alignItems: "flex-start",
-                        marginBottom: theme.spacing(2),
-                      }}
-                    >
-                      <Box style={{ marginBottom: theme.spacing(3) }}>
-                        {url ? <Link href={url}>{url}</Link> : null}
-
-                        <Box
-                          onClick={() => {
-                            onAreaClick(areas[0]);
-                          }}
-                        >
-                          {areas.length === 1 ? (
-                            <span>{areas[0].label}</span>
-                          ) : null}
-                        </Box>
-                      </Box>
-                      {eventPageContent}
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-          </Box>
-        );
-      }}
-    </EventRelations>
+                <Box
+                  onClick={() => {
+                    onAreaClick(relations.areas[0]);
+                  }}
+                >
+                  {relations.areas.length === 1 ? (
+                    <span>{relations.areas[0].label}</span>
+                  ) : null}
+                </Box>
+              </Box>
+              {eventPageContent}
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Box>
   );
 };

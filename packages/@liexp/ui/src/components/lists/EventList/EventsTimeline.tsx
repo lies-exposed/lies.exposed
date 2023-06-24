@@ -54,6 +54,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
             groupsMembers: acc.groupsMembers.concat(p.groupsMembers),
             media: acc.media.concat(p.media),
             keywords: acc.keywords.concat(p.keywords),
+            links: acc.links.concat(p.links),
             total: p.total,
             totals: p.totals,
           }),
@@ -65,6 +66,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
             groupsMembers: [] as any[],
             media: [] as any[],
             keywords: [] as any[],
+            links: [] as any[],
             total: 0,
             totals: {} as any as EventTotals,
           }

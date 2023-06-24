@@ -1,4 +1,12 @@
 import * as t from "io-ts";
+import { type Actor } from "../Actor";
+import { type Area } from '../Area';
+import { type UUID } from "../Common";
+import { type Group } from "../Group";
+import { type GroupMember } from "../GroupMember";
+import { type Keyword } from "../Keyword";
+import { type Link } from "../Link";
+import { type Media } from "../Media";
 import * as Arrest from "./Arrest";
 import * as Condemned from "./Condemned";
 import * as Death from "./Death";
@@ -41,7 +49,7 @@ export const CreateEventBody = t.union(
     Uncategorized.CreateEventBody,
     Documentary.CreateDocumentaryBody,
     Transaction.CreateTransactionBody,
-    Quote.CreateQuoteBody
+    Quote.CreateQuoteBody,
   ],
   "CreateEventBody"
 );
@@ -56,7 +64,7 @@ export const EditEventBody = t.union(
     Uncategorized.EditEventBody,
     Documentary.EditDocumentaryBody,
     Transaction.EditTransactionBody,
-    Quote.EditQuoteBody
+    Quote.EditQuoteBody,
   ],
   "EditEventBody"
 );
@@ -99,16 +107,34 @@ export const Event = t.union(
     Patent.Patent,
     Documentary.Documentary,
     Transaction.Transaction,
-    Quote.Quote
+    Quote.Quote,
   ],
   "EventV2"
 );
 
 export type Event = t.TypeOf<typeof Event>;
 
+const EVENTS = t.literal("events");
+type EVENTS = t.TypeOf<typeof EVENTS>;
 
-const EVENTS = t.literal("events")
-type EVENTS = t.TypeOf<typeof EVENTS>
+interface EventRelationIds {
+  actors: UUID[];
+  groups: UUID[];
+  groupsMembers: UUID[];
+  keywords: UUID[];
+  media: UUID[];
+  links: UUID[];
+}
+
+interface EventRelations {
+  actors: Actor[];
+  groups: Group[];
+  groupsMembers: GroupMember[];
+  keywords: Keyword[];
+  media: Media[];
+  links: Link[];
+  areas: Area[]
+}
 
 export {
   Protest,
@@ -124,5 +150,7 @@ export {
   Transaction,
   Quote,
   SearchEvent,
-  EVENTS
+  EVENTS,
+  type EventRelationIds,
+  type EventRelations,
 };

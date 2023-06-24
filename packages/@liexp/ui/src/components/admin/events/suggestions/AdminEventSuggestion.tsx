@@ -108,6 +108,8 @@ export const EventSuggestionList: React.FC<ListProps> = (props) => {
                       groups: [],
                       actors: [],
                       groupsMembers: [],
+                      links: [],
+                      areas: []
                     })}
                   </Typography>
                 ) : (

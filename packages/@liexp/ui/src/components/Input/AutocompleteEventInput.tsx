@@ -32,6 +32,8 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
               keywords: [],
               groupsMembers: [],
               media: [],
+              links: [],
+              areas: []
             })
       }
       searchToFilter={(title) => ({ title })}

@@ -53,7 +53,7 @@ interface EventListItemBaseProps<E> {
   excerpt: any;
   keywords: http.Keyword.Keyword[];
   media: http.Media.Media[];
-  links: string[];
+  links: http.Link.Link[];
   onKeywordClick?: (k: http.Keyword.Keyword) => void;
   onRowInvalidate: (e: E) => void;
   onLoad?: () => void;

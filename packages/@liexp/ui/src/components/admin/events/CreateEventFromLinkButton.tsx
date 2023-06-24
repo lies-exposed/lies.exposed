@@ -38,6 +38,7 @@ export const CreateEventFromLinkButton: React.FC = () => {
             actors: relations.actors.map((a: any) => a.id),
             groups: relations.groups.map((a: any) => a.id),
             keywords: relations.keywords.map((k: any) => k.id),
+            links: relations.links.map((k: any) => k.id),
             groupsMembers: [],
             media: [],
           }
@@ -79,7 +80,7 @@ export const CreateEventFromLinkButton: React.FC = () => {
         onClick={() => {
           void getSuggestionFromAPI().then(async (suggestion: any) => {
             if (suggestion?.event) {
-              const { newLinks, ...event } = suggestion.event ;
+              const { newLinks, ...event } = suggestion.event;
 
               const { data: e } = await apiProvider.create(`/events`, {
                 data: {
