@@ -14,7 +14,6 @@ import { type BySubject } from "../../io/http/Common";
 import { type SearchEvent } from "../../io/http/Events/SearchEvent";
 import { getTextContents } from "../../slate";
 import { type EventCommonProps } from "./getCommonProps.helper";
-import { type EventRelationIds, type EventRelations } from "./types";
 
 type EventsByYearMap = Map<number, Map<number, Events.Event[]>>;
 
@@ -153,11 +152,12 @@ export const eventsInDateRange =
     );
   };
 
-export const getRelationIds = (e: Events.Event): EventRelationIds => {
+export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
   const commonIds = {
     media: e.media,
     keywords: e.keywords,
     links: e.links,
+    areas: []
   };
 
   switch (e.type) {
@@ -215,6 +215,7 @@ export const getRelationIds = (e: Events.Event): EventRelationIds => {
         ].filter((a) => a !== undefined),
         groupsMembers: [],
         media: [e.payload.media, ...commonIds.media],
+        
       };
     }
 
@@ -238,10 +239,10 @@ export const getRelationIds = (e: Events.Event): EventRelationIds => {
   }
 };
 
-export const takeEventRelations = (ev: Events.Event[]): EventRelationIds => {
+export const takeEventRelations = (ev: Events.Event[]): Events.EventRelationIds => {
   return pipe(
     ev.reduce(
-      (acc: EventRelationIds, e) => {
+      (acc: Events.EventRelationIds, e) => {
         const { actors, keywords, groups, groupsMembers, media } =
           getRelationIds(e);
         return {
@@ -271,11 +272,12 @@ export const takeEventRelations = (ev: Events.Event[]): EventRelationIds => {
   );
 };
 
-export const getEventMetadata = (e: SearchEvent): EventRelations => {
+export const getEventMetadata = (e: SearchEvent): Events.EventRelations => {
   const commonIds = {
     media: e.media,
     keywords: e.keywords,
     links: e.links,
+    areas: []
   };
 
   switch (e.type) {
@@ -355,7 +357,7 @@ export const transform = (
   e: Events.Event,
   type: Events.EventType,
   props: EventCommonProps &
-    EventRelationIds & {
+    Events.EventRelationIds & {
       links: UUID[];
     }
 ): O.Option<Events.Event> => {
@@ -426,7 +428,7 @@ export const transform = (
         props.url,
         O.fromNullable,
         O.chainNullableK((url) => props.links.at(0)),
-        O.map((source) => ({
+        O.map((source: any) => ({
           ...e,
           type: Events.Patent.PATENT.value,
           payload: {

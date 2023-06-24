@@ -1,5 +1,6 @@
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/event";
 import {
+  type Link,
   type Actor,
   type Area,
   type Group,
@@ -12,8 +13,9 @@ import * as React from "react";
 import { useGroupMembersQuery } from "../../state/queries/DiscreteQueries";
 import { useActorsQuery } from "../../state/queries/actor.queries";
 import { useAreasQuery } from "../../state/queries/area.queries";
-import { useGroupsQuery } from '../../state/queries/groups.queries';
-import { useMediaQuery } from '../../state/queries/media.queries';
+import { useGroupsQuery } from "../../state/queries/groups.queries";
+import { useLinksQuery } from "../../state/queries/link.queries";
+import { useMediaQuery } from "../../state/queries/media.queries";
 import QueriesRenderer from "../QueriesRenderer";
 
 export const EventRelations: React.FC<{
@@ -23,11 +25,12 @@ export const EventRelations: React.FC<{
     groups: Group.Group[];
     media: Media[];
     areas: Area.Area[];
+    links: Link.Link[];
     event: Event;
     groupsMembers: GroupMember.GroupMember[];
   }) => JSX.Element;
 }> = ({ event, children }) => {
-  const { actors, groups, media, groupsMembers } = getRelationIds(event);
+  const { actors, groups, media, links, groupsMembers } = getRelationIds(event);
   return (
     <QueriesRenderer
       queries={{
@@ -75,6 +78,20 @@ export const EventRelations: React.FC<{
           },
           true
         ),
+        links: useLinksQuery(
+          {
+            filter: { ids: links },
+            pagination: {
+              perPage: links.length,
+              page: 1,
+            },
+            sort: {
+              field: "createdAt",
+              order: "DESC",
+            },
+          },
+          true
+        ),
         areas: useAreasQuery(
           {
             filter: UUID.is((event.payload as any).location)
@@ -94,8 +111,17 @@ export const EventRelations: React.FC<{
         media: { data: media },
         areas: { data: areas },
         groupsMembers: { data: groupsMembers },
+        links: { data: links },
       }) => {
-        return children({ actors, media, event, groups, areas, groupsMembers });
+        return children({
+          actors,
+          media,
+          event,
+          groups,
+          areas,
+          groupsMembers,
+          links,
+        });
       }}
     />
   );

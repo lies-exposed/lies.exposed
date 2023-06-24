@@ -110,12 +110,14 @@ export const EventSocialPostButton: React.FC<
             const relations = await pipe(
               fetchRelations(relationIds),
               fp.TE.map(
-                ({ actors, groups, keywords, media, groupsMembers }) => ({
+                ({ actors, groups, keywords, media, groupsMembers, links }) => ({
                   actors: actors.data,
                   keywords: keywords.data,
                   groups: groups.data,
                   media: media.data,
                   groupsMembers: groupsMembers.data,
+                  links: links.data,
+                  areas: []
                 })
               ),
               throwTE

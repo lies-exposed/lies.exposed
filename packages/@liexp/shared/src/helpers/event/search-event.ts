@@ -9,10 +9,12 @@ import {
   type GroupMember,
   type Keyword,
   type Media,
+  type Link,
+  type Area,
 } from "../../io/http";
 import { type EventTotals } from "../../io/http/Events/SearchEventsQuery";
 import { getRelationIds } from "./event";
-import { type EventRelationIds } from "./types";
+import { type http } from '@io/index';
 
 export interface SearchEventsQueryCache {
   events: Events.SearchEvent.SearchEvent[];
@@ -21,13 +23,14 @@ export interface SearchEventsQueryCache {
   groupsMembers: Map<string, GroupMember.GroupMember>;
   media: Map<string, Media.Media>;
   keywords: Map<string, Keyword.Keyword>;
-  // links: Map<string, Link.Link>;
+  links: Map<string, Link.Link>;
+  areas: Map<string, Area.Area>;
 }
 
 export const getNewRelationIds = (
   events: Events.Event[],
   s: SearchEventsQueryCache
-): EventRelationIds => {
+): Events.EventRelationIds => {
   // get relation ids from cache;
 
   const actorIds = pipe(s.actors, M.keys(S.Ord));
@@ -35,21 +38,21 @@ export const getNewRelationIds = (
   const groupsMemberIds = pipe(s.groupsMembers, M.keys(S.Ord));
   const mediaIds = pipe(s.media, M.keys(S.Ord));
   const keywordIds = pipe(s.keywords, M.keys(S.Ord));
-  // const linkIds = pipe(s.links, M.keys(S.Ord));
+  const linkIds = pipe(s.links, M.keys(S.Ord));
 
-  const init: EventRelationIds = {
+  const init: Events.EventRelationIds = {
     actors: [],
     groups: [],
     groupsMembers: [],
     media: [],
     keywords: [],
-    // links: [],
+    links: [],
   };
 
   return pipe(
     events,
     A.reduce(init, (acc, e) => {
-      const { actors, groups, groupsMembers, media, keywords } =
+      const { actors, groups, groupsMembers, media, keywords, links } =
         getRelationIds(e);
 
       const newActors = actors.filter(
@@ -69,9 +72,9 @@ export const getNewRelationIds = (
         (k) => ![...keywordIds, ...acc.keywords].includes(k)
       );
 
-      // const newLinkIds = links.filter(
-      //   (k) => ![...linkIds, ...acc.links].includes(k)
-      // );
+      const newLinkIds = links.filter(
+        (k) => ![...linkIds, ...acc.links].includes(k)
+      );
 
       return {
         actors: acc.actors.concat(newActors),
@@ -79,7 +82,7 @@ export const getNewRelationIds = (
         groupsMembers: acc.groupsMembers.concat(newGroupsMembers),
         media: acc.media.concat(newMediaIds),
         keywords: acc.keywords.concat(newKeywordIds),
-        // links: acc.links.concat(newLinkIds),
+        links: acc.links.concat(newLinkIds),
       };
     })
   );
@@ -87,14 +90,8 @@ export const getNewRelationIds = (
 
 export const updateCache = (
   s: SearchEventsQueryCache,
-  update: {
+  update: http.Events.EventRelations & {
     events: { data: Events.Event[]; total: number; totals: EventTotals };
-    actors: Actor.Actor[];
-    groups: Group.Group[];
-    groupsMembers: GroupMember.GroupMember[];
-    media: Media.Media[];
-    keywords: Keyword.Keyword[];
-    // links: Link.Link[];
   }
 ): SearchEventsQueryCache => {
   const actors = pipe(
@@ -132,12 +129,12 @@ export const updateCache = (
     })
   );
 
-  // const links = pipe(
-  //   update.links,
-  //   A.reduce(s.links, (accActors, a) => {
-  //     return M.upsertAt(S.Eq)(a.id, a)(accActors);
-  //   })
-  // );
+  const links = pipe(
+    update.links,
+    A.reduce(s.links, (accActors, a) => {
+      return M.upsertAt(S.Eq)(a.id, a)(accActors);
+    })
+  );
 
   const newEvents = pipe(
     update.events.data,
@@ -148,10 +145,12 @@ export const updateCache = (
         groupsMembers,
         media,
         keywords,
-        // links,
+        links,
       })
     )
   );
+
+  const areas = new Map()
 
   return {
     events: newEvents,
@@ -160,7 +159,8 @@ export const updateCache = (
     groupsMembers,
     media,
     keywords,
-    // links,
+    links,
+    areas,
   };
 };
 
@@ -174,6 +174,7 @@ export const toSearchEvent = (
     groupsMembers: groupsMembersIds,
     media: mediaIds,
     keywords: keywordIds,
+    links: linkIds,
   } = getRelationIds(e);
 
   const actors = pipe(
@@ -206,6 +207,12 @@ export const toSearchEvent = (
     A.compact
   );
 
+  const links = pipe(
+    linkIds,
+    A.map((a) => pipe(s.links ?? new Map(), M.lookup(S.Eq)(a))),
+    A.compact
+  );
+
   switch (e.type) {
     case Events.Quote.QUOTE.value: {
       return {
@@ -216,6 +223,7 @@ export const toSearchEvent = (
         },
         media,
         keywords,
+        links,
       };
     }
     case Events.Death.DEATH.value: {
@@ -231,6 +239,7 @@ export const toSearchEvent = (
         },
         media,
         keywords,
+        links,
       };
     }
     case Events.EventType.types[2].value: {
@@ -243,6 +252,7 @@ export const toSearchEvent = (
         },
         media,
         keywords,
+        links,
       };
     }
     case Events.EventType.types[3].value: {
@@ -254,14 +264,16 @@ export const toSearchEvent = (
         },
         media,
         keywords,
+        links,
       };
     }
-    case Events.EventType.types[4].value: {
+    case Events.Documentary.DOCUMENTARY.value: {
       return {
         ...e,
         payload: {
           ...e.payload,
           media: media.find((m) => m.id === e.payload.media) ?? media[0],
+          website: links.find((l) => l.id === e.payload.website) ?? links[0],
           authors: {
             actors: actors.filter((a) =>
               e.payload.authors.actors.includes(a.id)
@@ -281,6 +293,7 @@ export const toSearchEvent = (
         },
         media,
         keywords,
+        links,
       };
     }
     case Events.Transaction.TRANSACTION.value: {
@@ -298,11 +311,12 @@ export const toSearchEvent = (
         ...e,
         payload: {
           ...e.payload,
-          from: { ...e.payload.from, id: from  },
-          to: { ...e.payload.to, id: to  },
+          from: { ...e.payload.from, id: from },
+          to: { ...e.payload.to, id: to },
         },
         media,
         keywords,
+        links,
       };
     }
     default: {
@@ -316,6 +330,7 @@ export const toSearchEvent = (
         },
         media,
         keywords,
+        links,
       };
     }
   }

@@ -36,6 +36,8 @@ const EventsTimeline: React.FC<{ events: Event[] }> = ({ events }) => {
           groupsMembers: [],
           keywords: [],
           media: [],
+          links: [],
+          areas: []
         });
         return (
           <ListItem key={e.id}>

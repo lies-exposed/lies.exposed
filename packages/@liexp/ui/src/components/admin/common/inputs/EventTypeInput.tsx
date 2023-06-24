@@ -5,8 +5,6 @@ import {
   transform,
 } from "@liexp/shared/lib/helpers/event/event";
 import { Events } from "@liexp/shared/lib/io/http";
-import { toAPIError } from "@liexp/shared/lib/io/http/Error/APIError";
-import { sequenceS } from "fp-ts/lib/Apply";
 import { pipe } from "fp-ts/lib/function";
 import { get } from "lodash";
 import * as React from "react";
@@ -19,10 +17,6 @@ import {
 } from "react-admin";
 import { foldTE } from "../../../../providers/DataProvider";
 import { fetchRelations } from "../../../../state/queries/SearchEventsQuery";
-import {
-  fetchLinks,
-  getLinksQueryKey,
-} from "../../../../state/queries/link.queries";
 import { Box, MenuItem, Select, type SelectChangeEvent } from "../../../mui";
 
 export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
@@ -43,32 +37,15 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
     });
 
     const plainEvent = await pipe(
-      sequenceS(fp.TE.ApplicativePar)({
-        relations: fetchRelations(getRelationIds(event)),
-        links: pipe(
-          fp.TE.tryCatch(
-            () =>
-              fetchLinks({
-                queryKey: getLinksQueryKey(
-                  {
-                    filter: {
-                      ids: event.links,
-                    },
-                  },
-                  true
-                ),
-              }),
-            toAPIError
-          )
-        ),
-      }),
-      fp.TE.map(({ relations, links }) => ({
+      fetchRelations(getRelationIds(event)),
+      fp.TE.map((relations) => ({
         actors: relations.actors.data,
         media: relations.media.data,
         groups: relations.groups.data,
         groupsMembers: relations.groupsMembers.data,
         keywords: relations.keywords.data,
-        links,
+        links: relations.links.data,
+        areas: []
       })),
       fp.TE.map((relations) =>
         pipe(
@@ -77,7 +54,6 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
             transform(event, type, {
               ...common,
               ...getRelationIds(event),
-              links: relations.links.data.map((l) => l.id),
             }),
           fp.O.toUndefined
         )

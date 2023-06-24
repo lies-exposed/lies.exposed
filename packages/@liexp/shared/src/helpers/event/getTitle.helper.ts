@@ -1,10 +1,8 @@
 import * as http from "../../io/http";
-import { type SearchEvent } from "../../io/http/Events";
-import { type EventRelations } from "./types";
 
 export const getTitle = (
   e: http.Events.Event,
-  relations: EventRelations
+  relations: http.Events.EventRelations
 ): string => {
   switch (e.type) {
     case http.Events.Documentary.DOCUMENTARY.value:
@@ -33,7 +31,7 @@ export const getTitle = (
   }
 };
 
-export const getTitleForSearchEvent = (e: SearchEvent.SearchEvent): string => {
+export const getTitleForSearchEvent = (e: http.Events.SearchEvent.SearchEvent): string => {
   switch (e.type) {
     case http.Events.Quote.QUOTE.value:
       return `Quote by ${e.payload.actor?.fullName}`;

@@ -306,6 +306,7 @@ const extractByProvider: TEFlow<
               keywords: [],
               groupsMembers: [],
               media: [],
+              links: [],
             }
           )
         ),

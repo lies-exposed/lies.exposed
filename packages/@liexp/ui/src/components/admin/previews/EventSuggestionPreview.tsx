@@ -39,6 +39,16 @@ export const EventSuggestionPreview: React.FC = () => {
                 media: [],
                 keywords: [],
                 links: [],
+                areas: [],
+              }}
+              relations={{
+                media: [],
+                links: [],
+                actors: [],
+                groups: [],
+                keywords: [],
+                groupsMembers: [],
+                areas: []
               }}
               onDateClick={() => undefined}
               onAreaClick={() => undefined}

@@ -102,6 +102,8 @@ export const HierarchyNetworkGraph: React.FC<HierarchyNetworkGraphProps> = ({
           groupsMembers: [],
           keywords: n.keywords,
           media: n.media,
+          links: n.links ?? [],
+          areas: []
         });
       }}
       nodeRadius={(n) => 14}

@@ -5,13 +5,12 @@ import { type Metadata } from "page-metadata-parser";
 import { http } from "../io";
 import { createExcerptValue } from "../slate";
 import { uuid } from "../utils/uuid";
-import { type EventRelationIds } from "./event/types";
 
 export const getSuggestions = (
   m: Metadata,
   link: O.Option<http.Link.Link>,
   media: O.Option<http.Media.Media>,
-  relations: EventRelationIds
+  relations: http.Events.EventRelationIds
 ): http.EventSuggestion.CreateEventSuggestion[] => {
   const urlDate = m.date ? new Date(m.date) : new Date();
 

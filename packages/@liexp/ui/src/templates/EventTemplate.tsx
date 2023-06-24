@@ -83,13 +83,16 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
   return (
     <StyledBox className={classes.root}>
       <EventRelations event={event}>
-        {({ actors, groups, groupsMembers, media, areas }) => {
+        {({ actors, groups, groupsMembers, media, links, areas }) => {
+
           const { title } = getEventCommonProps(event, {
             actors,
-            groups: [],
+            groups,
             groupsMembers: [],
             keywords: [],
-            media: [],
+            media,
+            links,
+            areas
           });
           const message = isValidValue(event.excerpt)
             ? getTextContentsCapped(event.excerpt, 230)
@@ -266,6 +269,15 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                 <Grid item lg={8} md={8} sm={12} style={{ height: "100%" }}>
                   <EventPageContent
                     event={event}
+                    relations={{
+                      media,
+                      links,
+                      actors,
+                      groups,
+                      groupsMembers,
+                      keywords: [],
+                      areas,
+                    }}
                     onDateClick={onDateClick}
                     onGroupClick={onGroupClick}
                     onKeywordClick={onKeywordClick}

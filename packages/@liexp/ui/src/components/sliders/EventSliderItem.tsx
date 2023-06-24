@@ -1,10 +1,4 @@
-import {
-  type Actor,
-  Events,
-  type Group,
-  type Keyword,
-  type Media,
-} from "@liexp/shared/lib/io/http";
+import * as http from "@liexp/shared/lib/io/http";
 import { type EventType } from "@liexp/shared/lib/io/http/Events";
 import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate";
 import { formatDateToShort } from "@liexp/shared/lib/utils/date";
@@ -41,11 +35,11 @@ export interface EventSliderItemBaseProps
   date: Date;
   excerpt: any;
   url?: string;
-  actors: Actor.Actor[];
-  groups: Group.Group[];
-  keywords: Keyword.Keyword[];
-  media: Media.Media[];
-  links: string[];
+  actors: http.Actor.Actor[];
+  groups: http.Group.Group[];
+  keywords: http.Keyword.Keyword[];
+  media: http.Media.Media[];
+  links: http.Link.Link[];
 }
 
 const EVENT_SLIDER_ITEM_BASE_PREFIX = "event-slider-item-base";
@@ -220,7 +214,7 @@ export const EventSliderItemBase: React.FC<EventSliderItemBaseProps> = ({
           (ll) => (
             <Grid item lg={12} md={12} sm={12} xs={12}>
               <LinksBox
-                filter={{ ids: ll}}
+                filter={{ ids: ll.map((l) => l.id) }}
                 column={1}
                 onOpen={() => {}}
                 onClose={() => {}}
@@ -242,7 +236,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
   ...props
 }) => {
   switch (e.type) {
-    case Events.Quote.QUOTE.value: {
+    case http.Events.Quote.QUOTE.value: {
       return (
         <EventSliderItemBase
           {...props}
@@ -250,10 +244,11 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
           title="Quote"
           actors={[e.payload.actor]}
           groups={[]}
+          links={[]}
         />
       );
     }
-    case Events.Transaction.TRANSACTION.value: {
+    case http.Events.Transaction.TRANSACTION.value: {
       const actors = e.payload.from.type === "Actor" ? [e.payload.from.id] : [];
       const groups = e.payload.from.type === "Group" ? [e.payload.from.id] : [];
       return (
@@ -271,7 +266,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
         />
       );
     }
-    case Events.Documentary.DOCUMENTARY.value: {
+    case http.Events.Documentary.DOCUMENTARY.value: {
       return (
         <EventSliderItemBase
           {...props}
@@ -287,7 +282,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
         />
       );
     }
-    case Events.Death.DEATH.value: {
+    case http.Events.Death.DEATH.value: {
       return (
         <EventSliderItemBase
           {...props}
@@ -303,7 +298,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
         />
       );
     }
-    case Events.ScientificStudy.SCIENTIFIC_STUDY.value: {
+    case http.Events.ScientificStudy.SCIENTIFIC_STUDY.value: {
       return (
         <EventSliderItemBase
           {...props}
@@ -319,7 +314,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
         />
       );
     }
-    case Events.Patent.PATENT.value: {
+    case http.Events.Patent.PATENT.value: {
       return (
         <EventSliderItemBase
           {...props}

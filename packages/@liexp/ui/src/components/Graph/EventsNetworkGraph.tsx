@@ -98,6 +98,8 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
           groupsMembers: [],
           keywords: n.keywords,
           media: n.media,
+          links: n.links ?? [],
+          areas: n.areas ?? []
         });
       }}
       nodeRadius={(n) => 14}
