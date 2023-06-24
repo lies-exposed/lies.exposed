@@ -4,10 +4,13 @@ import * as A from "fp-ts/Array";
 import * as R from "fp-ts/Record";
 import type * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { type MinimalEndpointInstance, type TypeOfEndpointInstance } from "ts-endpoint";
+import {
+  type MinimalEndpointInstance,
+  type TypeOfEndpointInstance,
+} from "ts-endpoint";
 import { Endpoints } from "../../endpoints";
 import { type ResourceEndpoints } from "../../endpoints/types";
-import { type APIError } from '../../io/http/Error/APIError';
+import { type APIError } from "../../io/http/Error/APIError";
 import { HTTP, liftFetch } from "./http.provider";
 
 const apiLogger = GetLogger("API");
@@ -46,25 +49,29 @@ const API = (c: AxiosRequestConfig): API => {
   const toTERequest = <E extends MinimalEndpointInstance>(
     e: E
   ): TERequest<E> => {
-    return (b: TypeOfEndpointInstance<E>["Input"]) =>
-      liftFetch<TypeOfEndpointInstance<E>["Output"]>(() => {
-        const url = e.getPath(b?.Params);
-        apiLogger.debug.log("%s %s %O", e.Method, url, b);
+    return (b: TypeOfEndpointInstance<E>["Input"]) => {
+      const url = e.getPath(b?.Params);
+      return pipe(
+        liftFetch<TypeOfEndpointInstance<E>["Output"]>(() => {
+          apiLogger.debug.log("%s %s req: %O", e.Method, url, b);
 
-        return client.request<
-          TypeOfEndpointInstance<E>["Input"],
-          AxiosResponse<TypeOfEndpointInstance<E>["Output"]>
-        >({
-          method: e.Method,
-          url,
-          params: b?.Query,
-          data: b?.Body,
-          responseType: "json",
-          headers: {
-            Accept: "application/json",
-          },
-        });
-      }, e.Output.decode);
+          return client.request<
+            TypeOfEndpointInstance<E>["Input"],
+            AxiosResponse<TypeOfEndpointInstance<E>["Output"]>
+          >({
+            method: e.Method,
+            url,
+            params: b?.Query,
+            data: b?.Body,
+            responseType: "json",
+            headers: {
+              Accept: "application/json",
+            },
+          });
+        }, e.Output.decode),
+        apiLogger.debug.logInTaskEither(`${e.Method} ${url} res: %O`)
+      );
+    };
   };
 
   const apiImpl = pipe(
