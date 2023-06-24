@@ -34,6 +34,12 @@ export class ActorEntity {
   @Column({ type: "varchar", nullable: false })
   color: string;
 
+  @Column({ type: 'date', nullable: true })
+  bornOn: string | null
+
+  @Column({ type: 'date', nullable: true })
+  diedOn: string | null
+
   @OneToMany(() => GroupMemberEntity, (member) => member.actor, {
     nullable: true,
     cascade: true,

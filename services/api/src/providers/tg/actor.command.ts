@@ -75,7 +75,13 @@ export const actorCommand = ({
       );
 
       const actor = await pipe(
-        db.save(ActorEntity, [actorData]),
+        db.save(ActorEntity, [
+          {
+            ...actorData,
+            bornOn: actorData.bornOn as any,
+            diedOn: actorData.diedOn as any,
+          },
+        ]),
         fp.TE.map((r) => r[0]),
         throwTE
       );

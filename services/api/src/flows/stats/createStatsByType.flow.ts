@@ -8,7 +8,11 @@ import {
   toSearchEvent,
   type SearchEventsQueryCache,
 } from "@liexp/shared/lib/helpers/event/search-event";
-import { type Events, type GroupMember, type Media } from "@liexp/shared/lib/io/http";
+import {
+  type Events,
+  type GroupMember,
+  type Media,
+} from "@liexp/shared/lib/io/http";
 import { EventType, type SearchEvent } from "@liexp/shared/lib/io/http/Events";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
 import { sequenceS } from "fp-ts/Apply";
@@ -158,7 +162,7 @@ export const createStatsByType: TEFlow<
     media: new Map(),
     keywords: new Map(),
     links: new Map(),
-    areas: new Map()
+    areas: new Map(),
   };
 
   const searchEventsQueryCache: SearchEventsQueryCache =
@@ -271,6 +275,8 @@ export const createStatsByType: TEFlow<
                         {
                           ...a,
                           death: "",
+                          bornOn: a.bornOn as any ?? undefined,
+                          diedOn: a.diedOn as any ?? undefined,
                           color: a.color as any,
                           avatar: a.avatar ?? undefined,
                           memberIn: [],

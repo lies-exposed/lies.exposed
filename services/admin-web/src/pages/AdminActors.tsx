@@ -27,7 +27,7 @@ import {
   type CreateProps,
   type DataProvider,
   type EditProps,
-  type RaRecord
+  type RaRecord,
 } from "@liexp/ui/lib/components/admin";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
 import { ActorDataGrid } from "@liexp/ui/lib/components/admin/actors/ActorDataGrid";
@@ -132,6 +132,8 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
           <ColorInput source="color" />
           <TextInput source="username" />
           <TextInput source="fullName" />
+          <DateInput source="bornOn" />
+          <DateInput source="diedOn" />
           <ReactPageInput source="excerpt" onlyText={true} />
           <DateField source="createdAt" />
           <DateField source="updatedAt" />
@@ -228,6 +230,8 @@ export const ActorCreate: React.FC<CreateProps> = (props) => {
                   />
                   <TextInput source="fullName" />
                   <TextInput source="username" />
+                  <DateInput source="bornOn" />
+                  <DateInput source="diedOn" />
                 </Grid>
                 <Grid item md={6} sm={12}>
                   <ImageInput source="avatar">

@@ -32,6 +32,8 @@ export const fetchActorFromWikipedia: TEFlow<[string], AddActorBody> =
           excerpt,
           color: generateRandomColor(),
           body: {},
+          bornOn: undefined,
+          diedOn: undefined,
         };
       })
     );
@@ -59,7 +61,15 @@ export const searchActorAndCreateFromWikipedia: TEFlow<[string], ActorEntity> =
               TE.chain((p) =>
                 fetchActorFromWikipedia(ctx)(p.results[0].pageid)
               ),
-              TE.chain((a) => ctx.db.save(ActorEntity, [a])),
+              TE.chain((a) =>
+                ctx.db.save(ActorEntity, [
+                  {
+                    ...a,
+                    bornOn: a.bornOn?.toISOString(),
+                    diedOn: a.diedOn?.toISOString(),
+                  },
+                ])
+              ),
               TE.map((r) => r[0])
             )
       )
