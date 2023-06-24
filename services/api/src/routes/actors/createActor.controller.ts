@@ -24,7 +24,15 @@ export const MakeCreateActorRoute: Route = (r, ctx) => {
                 where: { username: body.username },
               }),
               TE.filterOrElse(O.isNone, () => ServerError()),
-              TE.chain(() => ctx.db.save(ActorEntity, [body])),
+              TE.chain(() =>
+                ctx.db.save(ActorEntity, [
+                  {
+                    ...body,
+                    bornOn: body.bornOn?.toISOString(),
+                    diedOn: body.diedOn?.toISOString(),
+                  },
+                ])
+              ),
               TE.map(([actor]) => actor)
             )
           : searchActorAndCreateFromWikipedia(ctx)(body.search),
