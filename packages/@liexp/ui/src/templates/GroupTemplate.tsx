@@ -76,7 +76,7 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                   label: "General",
                 },
                 {
-                  label: 'Flow',
+                  label: "Flow",
                 },
                 {
                   label: "Events",
@@ -122,7 +122,12 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                 </Grid>
               </Grid>
 
-              <EventsFlowGraphBox type="groups" id={group.id} query={{}} />
+              <EventsFlowGraphBox
+                type="groups"
+                id={group.id}
+                query={{}}
+                onEventClick={onEventClick}
+              />
 
               <EventsPanelBox
                 slide={false}

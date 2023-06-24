@@ -276,7 +276,12 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                   />
                 </Grid>
 
-                <EventsFlowGraphBox type="events" id={event.id} query={{}} />
+                <EventsFlowGraphBox
+                  type="events"
+                  id={event.id}
+                  query={{}}
+                  onEventClick={onEventClick}
+                />
 
                 <Box style={{ height: "100%" }}>
                   <EventNetworkGraphBoxWithFilters

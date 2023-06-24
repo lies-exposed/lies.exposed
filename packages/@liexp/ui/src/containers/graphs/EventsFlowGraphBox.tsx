@@ -1,4 +1,5 @@
-import { Actor, Keyword, Group } from "@liexp/shared/lib/io/http";
+import { Actor, Group, Keyword } from "@liexp/shared/lib/io/http";
+import { type SearchEvent } from '@liexp/shared/lib/io/http/Events';
 import { type FlowGraphType } from "@liexp/shared/lib/io/http/Graph";
 import { type GetNetworkQuery } from "@liexp/shared/lib/io/http/Network";
 import { parseISO, subYears } from "date-fns";
@@ -16,12 +17,14 @@ export interface EventsFlowGraphBoxProps {
   id: UUID;
   type: FlowGraphType;
   query: Partial<serializedType<typeof GetNetworkQuery>>;
+  onEventClick: (e: SearchEvent.SearchEvent ) => void;
 }
 
 export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
   query: _query,
   type,
   id,
+  onEventClick
 }) => {
   const [state, setState] = React.useState<{
     startDate: string;
@@ -89,6 +92,10 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
           ...state,
           selectedKeywordIds: keywordIds,
         });
+        break;
+      }
+      case 'EventV2': {
+        onEventClick(n.data);
         break;
       }
     }

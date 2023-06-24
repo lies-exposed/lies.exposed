@@ -96,7 +96,12 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
                 </Grid>
               </Box>
 
-              <EventsFlowGraphBox type="keywords" id={keyword.id} query={{}} />
+              <EventsFlowGraphBox
+                type="keywords"
+                id={keyword.id}
+                query={{}}
+                onEventClick={onEventClick}
+              />
 
               <EventsPanelBox
                 tab={tab}
