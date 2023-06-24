@@ -26,7 +26,7 @@ interface EventCardProps extends CardProps {
   event: SearchEvent.SearchEvent;
   showMedia?: boolean;
   showRelations: boolean;
-  onEventClick: (e: SearchEvent.SearchEvent) => void;
+  onEventClick?: (e: SearchEvent.SearchEvent) => void;
 }
 
 const EventCard: React.FC<EventCardProps> = ({
@@ -52,11 +52,12 @@ const EventCard: React.FC<EventCardProps> = ({
   const date =
     typeof event.date === "string" ? parseISO(event.date as any) : event.date;
 
+    const handleClick = onEventClick ? () =>{
+      onEventClick(event)
+    } : undefined
   return (
     <Card
-      onClick={() => {
-        onEventClick(event);
-      }}
+      onClick={handleClick}
       {...props}
     >
       <CardActionArea>

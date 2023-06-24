@@ -44,7 +44,6 @@ const EventNode: React.FC<NodeProps<Events.SearchEvent.SearchEvent>> = ({
             event={data}
             showMedia={true}
             showRelations={false}
-            onEventClick={() => {}}
           />
         )}
         {sourcePosition ? (
@@ -209,16 +208,16 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
           y: 300 + i * 50,
           x:
             e.type === Events.Uncategorized.UNCATEGORIZED.value
-              ? 10
+              ? -50
               : e.type === Events.ScientificStudy.SCIENTIFIC_STUDY.value
-              ? 20
+              ? -25
               : e.type === Events.Patent.PATENT.value
-              ? 30
+              ? 0
               : e.type === Events.Death.DEATH.value
-              ? 40
+              ? 25
               : e.type === Events.Documentary.DOCUMENTARY.value
               ? 50
-              : 60,
+              :75,
         },
       }))
     );

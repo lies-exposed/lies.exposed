@@ -128,7 +128,12 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                   </Grid>
                 </Grid>
               </Box>
-              <EventsFlowGraphBox type="actors" id={actor.id} query={{}} />
+              <EventsFlowGraphBox
+                type="actors"
+                id={actor.id}
+                query={{}}
+                onEventClick={onEventClick}
+              />
 
               <EventsPanelBox
                 slide={false}

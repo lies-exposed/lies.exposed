@@ -51,6 +51,7 @@ const Template: StoryFn<EventsFlowGraphBoxProps> = ({ type, id, ...props }) => {
             startDate: subYears(new Date(), 5).toISOString(),
             endDate: new Date().toISOString(),
           }}
+          onEventClick={() => {}}
         />
       ) : null}
     </Box>
