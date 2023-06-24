@@ -16,6 +16,8 @@ export const toActorIO = (
       memberIn: a.memberIn ? a.memberIn : [],
       createdAt: a.createdAt.toISOString(),
       updatedAt: a.updatedAt.toISOString(),
+      bornOn: a.bornOn ?? undefined,
+      diedOn: a.diedOn ?? undefined,
     }),
     E.mapLeft((e) => DecodeError(`Failed to decode actor (${a.id})`, e))
   );

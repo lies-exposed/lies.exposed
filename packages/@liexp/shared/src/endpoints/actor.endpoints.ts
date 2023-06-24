@@ -54,6 +54,8 @@ export const Edit = Endpoint({
       excerpt: optionFromNullable(t.UnknownRecord),
       body: optionFromNullable(t.UnknownRecord),
       avatar: optionFromNullable(t.string),
+      bornOn: optionFromNullable(DateFromISOString),
+      diedOn: optionFromNullable(DateFromISOString),
       memberIn: optionFromNullable(
         t.array(
           t.union([

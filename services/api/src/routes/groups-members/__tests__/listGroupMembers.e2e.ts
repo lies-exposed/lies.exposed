@@ -33,9 +33,9 @@ describe("List Group Member", () => {
     authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
       id: "1",
     } as any)()}`;
-    await throwTE(Test.ctx.db.save(ActorEntity, actors));
+    await throwTE(Test.ctx.db.save(ActorEntity, actors as any[]));
     await throwTE(Test.ctx.db.save(GroupEntity, groups));
-    await throwTE(Test.ctx.db.save(GroupMemberEntity, groupsMembers));
+    await throwTE(Test.ctx.db.save(GroupMemberEntity, groupsMembers as any[]));
   });
 
   afterAll(async () => {
@@ -83,6 +83,8 @@ describe("List Group Member", () => {
           avatar: actorAvatar,
           createdAt: actorCreatedAt,
           updatedAt: actorUAT,
+          bornOn: actorBornOn,
+          diedOn: actorDiedOn,
           death,
           deletedAt: aDeletedAt,
           ...expectedActor
@@ -90,7 +92,7 @@ describe("List Group Member", () => {
         group: {
           avatar: groupAvatar,
           createdAt: groupCreatedAt,
-          updatedAt: groupUDate,
+          updatedAt: groupUpdatedAt,
           subGroups,
           deletedAt,
           ...expectedGroup
@@ -101,7 +103,11 @@ describe("List Group Member", () => {
       expect(d).toMatchObject({
         ...expectedResult,
         startDate: expectedResult.startDate.toISOString(),
-        actor: expectedActor,
+        actor: {
+          ...expectedActor,
+          // diedOn: actorDiedOn ?? undefined,
+          bornOn: new Date(actorBornOn).toISOString() ?? undefined,
+        },
         group: {
           ...expectedGroup,
           startDate: expectedGroup.startDate?.toISOString(),

@@ -14,9 +14,11 @@ import { foldOptionals } from "@utils/foldOptionals.utils";
 export const MakeEditActorRoute: Route = (r, { db, logger, jwt }) => {
   AddEndpoint(r, authenticationHandler({ logger, jwt }, ["admin:create"]))(
     Endpoints.Actor.Edit,
-    ({ params: { id }, body: { memberIn, ...body } }) => {
+    ({ params: { id }, body: { memberIn, bornOn, diedOn, ...body } }) => {
       const updateData = {
         ...foldOptionals({ ...body }),
+        bornOn: O.toUndefined(bornOn) as any,
+        diedOn: O.toUndefined(diedOn) as any,
         memberIn: pipe(
           memberIn,
           O.map(

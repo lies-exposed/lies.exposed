@@ -1,4 +1,5 @@
 import * as t from "io-ts";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { BaseProps } from "./Common/BaseProps";
 import { Color } from "./Common/Color";
@@ -23,8 +24,6 @@ export const GetListActorQuery = t.type(
 );
 export type GetListActorQuery = t.TypeOf<typeof GetListActorQuery>;
 
-
-
 export const AddActorBody = t.strict(
   {
     username: t.string,
@@ -33,12 +32,13 @@ export const AddActorBody = t.strict(
     body: t.UnknownRecord,
     excerpt: t.UnknownRecord,
     avatar: t.union([t.undefined, t.string]),
+    bornOn: t.union([DateFromISOString, t.undefined]),
+    diedOn: t.union([DateFromISOString, t.undefined]),
   },
   "AddActorBody"
-)
+);
 
-export type AddActorBody = t.TypeOf<typeof AddActorBody>
-
+export type AddActorBody = t.TypeOf<typeof AddActorBody>;
 
 export const Actor = t.strict(
   {
@@ -51,6 +51,8 @@ export const Actor = t.strict(
     death: t.union([t.undefined, t.string]),
     excerpt: t.union([t.UnknownRecord, t.null]),
     body: t.union([t.UnknownRecord, t.null]),
+    bornOn: t.union([DateFromISOString, t.undefined]),
+    diedOn: t.union([DateFromISOString, t.undefined]),
   },
   "Actor"
 );
