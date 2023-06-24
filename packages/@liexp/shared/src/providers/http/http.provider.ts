@@ -52,7 +52,6 @@ export const liftFetch = <B>(
         TE.fromEither
       );
     }),
-    apiLogger.debug.logInTaskEither("%O")
   );
 };
 
