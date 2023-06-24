@@ -10,11 +10,16 @@ interface EventCardGridProps {
   onItemClick: (e: Events.SearchEvent.SearchEvent) => void;
 }
 
-export const EventCardGrid: React.FC<EventCardGridProps> = (props) => {
+export const EventCardGrid: React.FC<EventCardGridProps> = ({
+  events,
+  ...props
+}) => {
+  const gridSize = 12 / (events.length < 3 ? events.length : 3);
+
   return (
     <Grid container spacing={2}>
       {pipe(
-        props.events,
+        events,
         A.chunksOf(3),
         A.map((ev) => {
           return (
@@ -25,7 +30,14 @@ export const EventCardGrid: React.FC<EventCardGridProps> = (props) => {
               key={`events-chunk-container${ev[0].id}`}
             >
               {ev.map((e) => (
-                <Grid key={e.id} item sm={4} xs={12} style={{ height: "100%" }}>
+                <Grid
+                  key={e.id}
+                  item
+                  md={gridSize}
+                  sm={6}
+                  xs={12}
+                  style={{ height: "100%" }}
+                >
                   <EventCard
                     event={e}
                     showRelations={true}

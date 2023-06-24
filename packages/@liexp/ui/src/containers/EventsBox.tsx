@@ -1,11 +1,11 @@
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
 import * as React from "react";
-import EventCard from "../components/Cards/Events/EventCard";
+import { EventCardGrid } from "../components/Cards/Events/EventCardGrid";
 import QueriesRenderer from "../components/QueriesRenderer";
 import { Grid, Typography } from "../components/mui";
 import {
-  type SearchEventQueryInput,
   searchEventsQuery,
+  type SearchEventQueryInput,
 } from "../state/queries/SearchEventsQuery";
 import { useTheme } from "../theme";
 
@@ -32,8 +32,7 @@ const EventsBox: React.FC<EventsBoxProps> = ({
         }),
       }}
       render={({ events }) => {
-        const gridSize =
-          12 / (events.events.length < 3 ? events.events.length : 3);
+
         return (
           <Grid
             container
@@ -46,22 +45,7 @@ const EventsBox: React.FC<EventsBoxProps> = ({
               </Grid>
             ) : null}
 
-            {events.events.map((e) => (
-              <Grid
-                key={e.id}
-                item
-                sm={gridSize}
-                xs={12}
-                style={{ height: "100%" }}
-              >
-                <EventCard
-                  event={e}
-                  showRelations={true}
-                  style={{ height: "100%" }}
-                  onEventClick={onEventClick}
-                />
-              </Grid>
-            ))}
+            <EventCardGrid events={events.events} onItemClick={onEventClick} />
           </Grid>
         );
       }}
