@@ -62,11 +62,11 @@ export const uploadFile =
     type: MediaType
   ): TE.TaskEither<Error, { type: MediaType; location: string }> => {
     const videoTask = pipe(
-      TE.tryCatch(() => {
+      TE.tryCatch(async () => {
         const formData = new FormData();
         formData.append("resource", resource);
         formData.append("media", f);
-        return apiProvider
+        return await apiProvider
           .request({
             method: "PUT",
             url: `/uploads-multipart/${resourceId}`,

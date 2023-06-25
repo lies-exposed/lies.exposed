@@ -11,13 +11,15 @@ import {
   type GetObjectCommandOutput,
   type PutObjectCommandInput,
   type S3Client,
-  PutObjectCommand
+  PutObjectCommand,
 } from "@aws-sdk/client-s3";
 import { Upload } from "@aws-sdk/lib-storage";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { type Endpoint } from "@aws-sdk/types";
 import * as logger from "@liexp/core/lib/logger";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
+import * as qs from "query-string";
 import { IOError } from "ts-io-error";
 
 const s3Logger = logger.GetLogger("space");
@@ -51,6 +53,10 @@ export const toError = (e: unknown): SpaceError => {
 };
 
 export interface SpaceClient {
+  getEndpoint: (
+    bucket: string,
+    s?: string
+  ) => TE.TaskEither<SpaceError, string>;
   createBucket: (
     params: CreateBucketCommandInput
   ) => TE.TaskEither<SpaceError, CreateBucketCommandOutput>;
@@ -62,7 +68,10 @@ export interface SpaceClient {
   // ) => TE.TaskEither<SpaceError, PutObjectCommandOutput>;
   upload: (
     params: PutObjectCommandInput
-  ) => TE.TaskEither<SpaceError, CompleteMultipartUploadCommandOutput & { Location: string }>;
+  ) => TE.TaskEither<
+    SpaceError,
+    CompleteMultipartUploadCommandOutput & { Location: string }
+  >;
   getSignedUrl: (
     params: PutObjectCommandInput
   ) => TE.TaskEither<SpaceError, string>;
@@ -77,11 +86,39 @@ export interface MakeSpaceClientConfig {
   client: SpaceClientImpl;
 }
 
-export const MakeSpaceClient = (config: MakeSpaceClientConfig): SpaceClient => {
+export const MakeSpaceClient = ({
+  client,
+}: MakeSpaceClientConfig): SpaceClient => {
   return {
+    getEndpoint: (bucket, path) => {
+      return pipe(
+        TE.tryCatch(
+          () =>
+            client.config.endpoint
+              ? client.config.endpoint()
+              : Promise.resolve(undefined),
+          toError
+        ),
+        TE.filterOrElse(
+          (e): e is Endpoint => !!e,
+          () => toError(new Error("Can't get endpoint"))
+        ),
+        TE.map((e) => {
+          let endpointURL = `${e.protocol}//${bucket}.${e.hostname}${e.path}`;
+          if (path) {
+            endpointURL += path;
+          }
+
+          if (e.query) {
+            endpointURL += `?${qs.stringify(e.query)}`;
+          }
+          return endpointURL;
+        })
+      );
+    },
     createBucket: (input: CreateBucketCommandInput) => {
       const params = new CreateBucketCommand(input);
-      return TE.tryCatch(() => config.client.send(params), toError);
+      return TE.tryCatch(() => client.send(params), toError);
     },
     getSignedUrl: (input) => {
       s3Logger.debug.log(
@@ -89,9 +126,9 @@ export const MakeSpaceClient = (config: MakeSpaceClientConfig): SpaceClient => {
         input.Bucket,
         input
       );
-      const params = new PutObjectCommand({...input });
+      const params = new PutObjectCommand({ ...input });
       return pipe(
-        TE.tryCatch(() => getSignedUrl(config.client, params), toError),
+        TE.tryCatch(() => getSignedUrl(client, params), toError),
         s3Logger.debug.logInTaskEither(`Get signed url %O`)
       );
     },
@@ -99,7 +136,7 @@ export const MakeSpaceClient = (config: MakeSpaceClientConfig): SpaceClient => {
       return pipe(
         TE.tryCatch(async () => {
           const parallelUploads3 = new Upload({
-            client: config.client,
+            client,
             params: { ...input },
             queueSize: 4, // optional concurrency configuration
             partSize: 1024 * 1024 * 5, // optional size of each part, in bytes, at least 5MB
@@ -126,7 +163,7 @@ export const MakeSpaceClient = (config: MakeSpaceClientConfig): SpaceClient => {
       );
 
       const params = new GetObjectCommand(input);
-      return TE.tryCatch(() => config.client.send(params), toError);
+      return TE.tryCatch(() => client.send(params), toError);
     },
 
     deleteObject: (input) => {
@@ -136,7 +173,7 @@ export const MakeSpaceClient = (config: MakeSpaceClientConfig): SpaceClient => {
         input.Key
       );
       const params = new DeleteObjectCommand(input);
-      return TE.tryCatch(() => config.client.send(params), toError);
+      return TE.tryCatch(() => client.send(params), toError);
     },
   };
 };

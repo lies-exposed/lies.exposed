@@ -84,6 +84,7 @@ export const makeContext = (
             secretAccessKey: env.SPACE_ACCESS_KEY_SECRET,
           },
           tls: true,
+          forcePathStyle: true
         })
       : S3Client.GetS3Client({
           endpoint: `https://${env.SPACE_REGION}.digitaloceanspaces.com`,

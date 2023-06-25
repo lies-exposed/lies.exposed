@@ -68,11 +68,11 @@ export const MakeUploadMultipartFileRoute = (
           body: {
             data,
           },
-          statusCode: 200,
+          statusCode: 201,
         })),
         TE.fold(
           (e) => T.of(res.status(500).send(e)),
-          ({ body, statusCode }) => T.of(res.status(statusCode).send(body))
+          ({ statusCode, body }) => T.of(res.status(statusCode).send(body))
         )
       )();
     }

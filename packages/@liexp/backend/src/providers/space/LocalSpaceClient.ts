@@ -17,6 +17,7 @@ const GetLocalSpaceClient: Reader<LocalSpaceClientCtx, SpaceClient> = ({
   const logger = serverLogger.extend("local-space-client");
 
   return {
+    getEndpoint: () => TE.right(__dirname),
     getObject: (params) => {
       return pipe(
         TE.tryCatch(() => {
