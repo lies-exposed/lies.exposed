@@ -20,8 +20,8 @@ import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import supertest from "supertest";
-import { DataSource, type EntityTarget, type ObjectLiteral } from "typeorm";
-import { awsMock } from "../__mocks__/aws.mock";
+import { type DataSource, type EntityTarget, type ObjectLiteral } from "typeorm";
+import { s3Mock } from "../__mocks__/s3.mock";
 import { igProviderMock } from "../__mocks__/ig.mock";
 import puppeteerMocks from "../__mocks__/puppeteer.mock";
 import { tgProviderMock } from "../__mocks__/tg.mock";
@@ -82,9 +82,7 @@ export const initAppTest = async (): Promise<AppTest> => {
       },
       puppeteer: GetPuppeteerProvider(puppeteerMocks, { headless: "new" }),
       tg: tgProviderMock,
-      s3: MakeSpaceClient({
-        client: awsMock as any,
-      }),
+      s3: MakeSpaceClient(s3Mock as any),
       ig: igProviderMock,
       fs: GetFSClient(),
       wp: wikipediaProviderMock,

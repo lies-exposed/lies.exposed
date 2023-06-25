@@ -1,13 +1,26 @@
 import viteTsconfigPaths from "vite-tsconfig-paths";
 import { defineConfig } from "vitest/config";
+import * as path from 'path'
 
 export default defineConfig({
   test: {
     root: __dirname,
     globals: true,
     include: [__dirname + "/src/**/*.spec.ts"],
-    watch: false
+    watch: false,
+    coverage: {
+      exclude: [`**/lib`],
+      statements: 80,
+      functions: 80
+    },
+    alias: {
+      "@liexp/core/lib": path.resolve(
+        __dirname,
+        "../core/src"
+      ),
+    }
   },
+
   plugins: [viteTsconfigPaths()],
   root: __dirname,
 });
