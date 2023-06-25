@@ -33,8 +33,8 @@ services:
       - "9007:9000"
       - "9001:9001"
     environment:
-      MINIO_ROOT_USER: $SPACE_ACCESS_KEY_ID
-      MINIO_ROOT_PASSWORD: $SPACE_ACCESS_KEY_SECRET
+      MINIO_ROOT_USER: space-access-key-id
+      MINIO_ROOT_PASSWORD: space-access-key-secret-id
     volumes:
       - space-data:/data
     healthcheck:

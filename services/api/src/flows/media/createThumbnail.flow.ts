@@ -232,13 +232,12 @@ export const createThumbnail: TEFlow<
 
   if (Media.MP4Type.is(media.type)) {
     return pipe(
-      TE.tryCatch(
-        () =>
-          axios.get(media.location, {
-            responseType: "stream",
-          }),
-        toControllerError
-      ),
+      TE.tryCatch(() => {
+        ctx.logger.debug.log("Getting mp4 from %s", media.location);
+        return axios.get(media.location, {
+          responseType: "stream",
+        });
+      }, toControllerError),
       TE.chain((stream) => {
         const tempFolder = path.resolve(process.cwd(), "temp");
 

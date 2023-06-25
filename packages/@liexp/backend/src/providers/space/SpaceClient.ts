@@ -95,18 +95,6 @@ export const MakeSpaceClient = (config: MakeSpaceClientConfig): SpaceClient => {
         s3Logger.debug.logInTaskEither(`Get signed url %O`)
       );
     },
-    // upload: (input: PutObjectCommandInput) => {
-    //   s3Logger.debug.log(
-    //     "Uploading file in bucket %s at path %s",
-    //     input.Bucket,
-    //     input.Key
-    //   );
-    //   const params = new PutObjectCommand(input);
-    //   return pipe(
-    //     TE.tryCatch(() => config.client.send(params), toError),
-    //     TE.map((result) => result)
-    //   );
-    // },
     upload(input) {
       return pipe(
         TE.tryCatch(async () => {
