@@ -14,7 +14,7 @@ export default async (): Promise<() => void> => {
     const moduleLogger = logger.GetLogger("tests").extend("teardown");
 
     const dotenvConfigPath = path.resolve(
-      process.env.DOTENV_CONFIG_PATH ?? path.join(__dirname, "./../.env.test")
+      process.env.DOTENV_CONFIG_PATH ?? path.join(__dirname, "../.env.test")
     );
 
     dotenv.config({ path: dotenvConfigPath });
@@ -31,12 +31,10 @@ export default async (): Promise<() => void> => {
         return err as any;
       }),
       TE.fromEither,
-      TE.map((env) => {
-        console.log(env);
-      }),
       throwTE
     );
     return () => {
+      // eslint-disable-next-line no-console
       console.log("global teardown");
     };
   } catch (e) {

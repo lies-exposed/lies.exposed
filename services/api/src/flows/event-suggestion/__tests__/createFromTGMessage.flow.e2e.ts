@@ -177,7 +177,7 @@ describe("Create From TG Message", () => {
       Test.mocks.puppeteer.page.goto.mockReset().mockResolvedValueOnce({});
 
       // mock s3 upload
-      Test.mocks.s3.send.mockImplementationOnce(() =>
+      Test.mocks.s3.client.send.mockImplementationOnce(() =>
         Promise.resolve({
           Key: fc.sample(fc.string(), 1)[0],
           Location: fc.sample(fc.webUrl(), 1)[0],
@@ -522,7 +522,7 @@ describe("Create From TG Message", () => {
           photos.length + videos.length
         );
         Test.mocks.tg.bot.api.downloadFile.mockReset();
-        Test.mocks.s3.send.mockReset();
+        Test.mocks.s3.client.send.mockReset();
 
         // // create the media
 
@@ -541,7 +541,7 @@ describe("Create From TG Message", () => {
           );
 
           // mock s3 upload
-          Test.mocks.s3.send.mockImplementationOnce(() =>
+          Test.mocks.s3.client.send.mockImplementationOnce(() =>
             Promise.resolve({
               Key: fc.sample(fc.string(), 1)[0],
               Location: fc.sample(fc.webUrl(), 1)[0],
@@ -564,7 +564,7 @@ describe("Create From TG Message", () => {
             .mockImplementationOnce(() => Promise.resolve(tempFileLocation));
 
           // mock s3 upload
-          Test.mocks.s3.send
+          Test.mocks.s3.client.send
             .mockImplementationOnce((args) => {
               Test.ctx.logger.debug.log("Upload %O", args);
               return Promise.resolve({

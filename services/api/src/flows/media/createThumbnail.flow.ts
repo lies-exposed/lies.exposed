@@ -215,7 +215,7 @@ export const createThumbnail: TEFlow<
           "-thumbnail.png"
         );
 
-        const key = `public/media/${url[url.length - 2]}/${thumbnailName}`;
+        const key = getMediaKey("media", url[url.length -2], thumbnailName, "image/png");
 
         return ctx.s3.upload({
           Key: key,
