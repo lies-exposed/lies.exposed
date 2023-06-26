@@ -24,7 +24,7 @@
       "path": "../core"
     },
     {
-      "path": "../shared"
+      "path": "../shared/tsconfig.build.json"
     }
   ],
   "include": ["./src", "./typings", "./src/**/*.json"],

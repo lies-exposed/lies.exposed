@@ -157,7 +157,7 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
     media: e.media,
     keywords: e.keywords,
     links: e.links,
-    areas: []
+    areas: [],
   };
 
   switch (e.type) {
@@ -215,13 +215,13 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
         ].filter((a) => a !== undefined),
         groupsMembers: [],
         media: [e.payload.media, ...commonIds.media],
-        
       };
     }
 
     case Events.ScientificStudy.SCIENTIFIC_STUDY.value: {
       return {
         ...commonIds,
+        links: commonIds.links.concat(e.payload.url),
         actors: e.payload.authors,
         groups: e.payload.publisher ? [e.payload.publisher] : [],
         groupsMembers: [],
@@ -239,11 +239,13 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
   }
 };
 
-export const takeEventRelations = (ev: Events.Event[]): Events.EventRelationIds => {
+export const takeEventRelations = (
+  ev: Events.Event[]
+): Events.EventRelationIds => {
   return pipe(
     ev.reduce(
       (acc: Events.EventRelationIds, e) => {
-        const { actors, keywords, groups, groupsMembers, media } =
+        const { actors, keywords, groups, groupsMembers, media, links } =
           getRelationIds(e);
         return {
           keywords: acc.keywords.concat(
@@ -257,7 +259,7 @@ export const takeEventRelations = (ev: Events.Event[]): Events.EventRelationIds 
           ),
           groupsMembers: acc.groupsMembers.concat(groupsMembers),
           media: acc.media.concat(media),
-          links: [],
+          links: acc.links.concat(links),
         };
       },
       {
@@ -277,7 +279,7 @@ export const getEventMetadata = (e: SearchEvent): Events.EventRelations => {
     media: e.media,
     keywords: e.keywords,
     links: e.links,
-    areas: []
+    areas: [],
   };
 
   switch (e.type) {

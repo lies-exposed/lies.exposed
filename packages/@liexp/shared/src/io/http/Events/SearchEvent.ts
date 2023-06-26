@@ -46,8 +46,9 @@ export interface SearchScientificStudyEvent
   > {
   payload: Omit<
     ScientificStudy.ScientificStudy["payload"],
-    "authors" | "publisher"
+    "authors" | "publisher" | 'url'
   > & {
+    url: Link.Link
     authors: Actor.Actor[];
     publisher: Group.Group;
   };
@@ -58,7 +59,8 @@ export interface SearchScientificStudyEvent
 
 export interface SearchPatentEvent
   extends Omit<Patent.Patent, "payload" | "media" | "keywords" | 'links'> {
-  payload: Omit<Patent.Patent["payload"], "owners"> & {
+  payload: Omit<Patent.Patent["payload"], 'source' | "owners"> & {
+    source: Link.Link
     owners: {
       actors: Actor.Actor[];
       groups: Group.Group[];
