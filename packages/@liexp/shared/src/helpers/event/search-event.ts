@@ -3,18 +3,17 @@ import * as M from "fp-ts/Map";
 import { pipe } from "fp-ts/function";
 import * as S from "fp-ts/string";
 import {
-  type Actor,
   Events,
+  type Actor,
+  type Area,
   type Group,
   type GroupMember,
   type Keyword,
-  type Media,
   type Link,
-  type Area,
+  type Media,
 } from "../../io/http";
 import { type EventTotals } from "../../io/http/Events/SearchEventsQuery";
 import { getRelationIds } from "./event";
-import { type http } from '@io/index';
 
 export interface SearchEventsQueryCache {
   events: Events.SearchEvent.SearchEvent[];
@@ -90,7 +89,7 @@ export const getNewRelationIds = (
 
 export const updateCache = (
   s: SearchEventsQueryCache,
-  update: http.Events.EventRelations & {
+  update: Events.EventRelations & {
     events: { data: Events.Event[]; total: number; totals: EventTotals };
   }
 ): SearchEventsQueryCache => {
@@ -150,7 +149,7 @@ export const updateCache = (
     )
   );
 
-  const areas = new Map()
+  const areas = new Map();
 
   return {
     events: newEvents,
@@ -242,11 +241,12 @@ export const toSearchEvent = (
         links,
       };
     }
-    case Events.EventType.types[2].value: {
+    case Events.ScientificStudy.SCIENTIFIC_STUDY.value: {
       return {
         ...e,
         payload: {
           ...e.payload,
+          url: links.find((l) => l.id === e.payload.url) ?? links[0],
           authors: actors,
           publisher: groups[0],
         },
@@ -255,11 +255,12 @@ export const toSearchEvent = (
         links,
       };
     }
-    case Events.EventType.types[3].value: {
+    case Events.Patent.PATENT.value: {
       return {
         ...e,
         payload: {
           ...e.payload,
+          source: links.find((l) => l.id === e.payload.source) ?? links[0],
           owners: { actors, groups },
         },
         media,

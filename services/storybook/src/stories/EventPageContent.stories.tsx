@@ -1,3 +1,4 @@
+import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
 import { Quote } from "@liexp/shared/lib/io/http/Events";
 import {
   EventPageContent,
@@ -42,7 +43,10 @@ const Template: StoryFn<{ type: string } & EventPageContentProps> = ({
       render={({ events }) => {
         return (
           <MainContent>
-            <EventPageContent {...props} event={events.data[0]} />
+            <EventPageContent
+              {...props}
+              event={toSearchEvent(events.data[0], {})}
+            />
           </MainContent>
         );
       }}

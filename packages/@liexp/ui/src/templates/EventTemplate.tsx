@@ -1,4 +1,5 @@
 import { getEventCommonProps } from "@liexp/shared/lib/helpers/event";
+import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
 import { type http } from "@liexp/shared/lib/io";
 import { EventType } from "@liexp/shared/lib/io/http/Events";
 import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate";
@@ -84,6 +85,13 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
     <StyledBox className={classes.root}>
       <EventRelations event={event}>
         {({ actors, groups, groupsMembers, media, links, areas }) => {
+          const searchEvent = toSearchEvent(event, {
+            actors: new Map(actors.map((a) => [a.id, a])),
+            groups: new Map(groups.map((a) => [a.id, a])),
+            media: new Map(media.map((a) => [a.id, a])),
+            links: new Map(links.map((a) => [a.id, a])),
+            areas: new Map(areas.map((a) => [a.id, a])),
+          });
 
           const { title } = getEventCommonProps(event, {
             actors,
@@ -92,7 +100,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
             keywords: [],
             media,
             links,
-            areas
+            areas,
           });
           const message = isValidValue(event.excerpt)
             ? getTextContentsCapped(event.excerpt, 230)
@@ -268,7 +276,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
               >
                 <Grid item lg={8} md={8} sm={12} style={{ height: "100%" }}>
                   <EventPageContent
-                    event={event}
+                    event={searchEvent}
                     relations={{
                       media,
                       links,

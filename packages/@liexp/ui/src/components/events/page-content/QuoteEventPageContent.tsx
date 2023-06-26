@@ -1,18 +1,15 @@
-import { type Actor } from "@liexp/shared/lib/io/http";
-import { type Quote } from "@liexp/shared/lib/io/http/Events";
+import { type Events } from "@liexp/shared/lib/io/http";
 import { getTextContents } from "@liexp/shared/lib/slate";
 import * as React from "react";
 import { Avatar } from "../../Common/Avatar";
 import { Box, Grid, Typography } from "../../mui";
 
 interface QuoteEventPageContentProps {
-  event: Quote.Quote;
-  actor: Actor.Actor;
+  event: Events.SearchEvent.SearchQuoteEvent;
 }
 
 export const QuoteEventPageContent: React.FC<QuoteEventPageContentProps> = ({
   event: item,
-  actor,
 }) => {
   return (
     <Grid
@@ -35,7 +32,9 @@ export const QuoteEventPageContent: React.FC<QuoteEventPageContentProps> = ({
             textAlign: "right",
           }}
         >
-          <Typography variant="subtitle2">{actor.fullName}</Typography>
+          <Typography variant="subtitle2">
+            {item.payload.actor.fullName}
+          </Typography>
         </Box>
       </Grid>
       <Grid
@@ -48,7 +47,7 @@ export const QuoteEventPageContent: React.FC<QuoteEventPageContentProps> = ({
           justifyContent: "center",
         }}
       >
-        <Avatar src={actor.avatar} size="xlarge" />
+        <Avatar src={item.payload.actor.avatar} size="xlarge" />
       </Grid>
     </Grid>
   );

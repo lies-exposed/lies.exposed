@@ -31,7 +31,7 @@ export const ScientificStudyListItem: React.FC<
           event={item}
           type={Events.ScientificStudy.SCIENTIFIC_STUDY.value}
           title={item.payload.title}
-          url={item.payload.url}
+          link={item.payload.url}
           excerpt={item.excerpt}
           keywords={item.keywords}
           media={item.media}

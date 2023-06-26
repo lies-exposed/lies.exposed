@@ -1,5 +1,4 @@
-import { type Media } from "@liexp/shared/lib/io/http";
-import { type Event } from "@liexp/shared/lib/io/http/Events";
+import { type Events, type Media } from "@liexp/shared/lib/io/http";
 import { MP3Type, OGGType } from "@liexp/shared/lib/io/http/Media";
 import { isValidValue } from "@liexp/shared/lib/slate";
 import * as React from "react";
@@ -12,7 +11,7 @@ import { Box, Grid } from "../../mui";
 import { MediaSlider } from "../../sliders/MediaSlider";
 
 interface DefaultEventPageContentProps {
-  event: Event;
+  event: Events.SearchEvent.SearchEvent;
   media: Media.Media[];
   onMediaClick?: (m: Media.Media) => void;
   mediaLayout?: "slider" | "masonry";

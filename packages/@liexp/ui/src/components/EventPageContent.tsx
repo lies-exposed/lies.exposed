@@ -1,5 +1,4 @@
-import { getEventCommonProps } from "@liexp/shared/lib/helpers/event";
-import type * as http from "@liexp/shared/lib/io/http";
+import * as http from "@liexp/shared/lib/io/http";
 import { Quote } from "@liexp/shared/lib/io/http/Events";
 import * as React from "react";
 import { useTheme } from "../theme";
@@ -8,7 +7,7 @@ import { QuoteEventPageContent } from "./events/page-content/QuoteEventPageConte
 import { Box, Grid, Link } from "./mui";
 
 export interface EventPageContentProps {
-  event: http.Events.Event;
+  event: http.Events.SearchEvent.SearchEvent;
   relations: http.Events.EventRelations;
   onDateClick: (d: Date) => void;
   onActorClick: (a: http.Actor.Actor) => void;
@@ -34,11 +33,19 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
 }) => {
   const theme = useTheme();
 
-  const { url } = getEventCommonProps(event, relations);
+  // const { url } = getEventCommonProps(event, relations);
+  const link =
+    event.type === http.Events.Documentary.DOCUMENTARY.value
+      ? event.payload.website
+      : event.type === http.Events.ScientificStudy.SCIENTIFIC_STUDY.value
+      ? event.payload.url
+      : event.type === http.Events.Patent.PATENT.value
+      ? event.payload.source
+      : undefined;
 
   const eventPageContent =
     event.type === Quote.QUOTE.value ? (
-      <QuoteEventPageContent event={event} actor={relations.actors[0]} />
+      <QuoteEventPageContent event={event} />
     ) : (
       <DefaultEventPageContent
         event={event}
@@ -63,7 +70,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
               }}
             >
               <Box style={{ marginBottom: theme.spacing(3) }}>
-                {url ? <Link href={url}>{url}</Link> : null}
+                {link ? <Link href={link.url}>{link.title}</Link> : null}
 
                 <Box
                   onClick={() => {

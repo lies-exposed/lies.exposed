@@ -49,7 +49,7 @@ interface EventListItemBaseProps<E> {
   event: E;
   title: string;
   type: EventType;
-  url?: string;
+  link?: http.Link.Link;
   excerpt: any;
   keywords: http.Keyword.Keyword[];
   media: http.Media.Media[];
@@ -64,7 +64,7 @@ interface EventListItemBaseProps<E> {
 const EventListItemBase = <E extends any>({
   event,
   title,
-  url,
+  link,
   type,
   excerpt,
   keywords,
@@ -108,13 +108,13 @@ const EventListItemBase = <E extends any>({
         )
       )}
 
-      {url ? (
+      {link ? (
         <Link
-          href={url}
+          href={link.url}
           target="_blank"
           style={{ display: "flex", marginBottom: 20 }}
         >
-          {url}
+          {link.title}
         </Link>
       ) : null}
 
