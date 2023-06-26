@@ -56,7 +56,7 @@ export const actorCommand = ({
       await ctx.sendMessage(`Looking for ${ctx.search} on Wikipedia...`);
     })
     .answer(async (ctx) => {
-      if (URL.is(ctx.answer)) {
+      if (!ctx.answer || URL.is(ctx.answer)) {
         return;
       }
       logger.debug.log("User pick %O", ctx.answer);
