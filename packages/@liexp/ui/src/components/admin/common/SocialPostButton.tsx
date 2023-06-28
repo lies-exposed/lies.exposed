@@ -10,9 +10,7 @@ import { type Event } from "@liexp/shared/lib/io/http/Events";
 import { type ShareMessageBody } from "@liexp/shared/lib/io/http/ShareMessage";
 import { getTextContents, isValidValue } from "@liexp/shared/lib/slate";
 import { formatDate, parseISO } from "@liexp/shared/lib/utils/date";
-import {
-  contentTypeFromFileExt
-} from "@liexp/shared/lib/utils/media.utils";
+import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { pipe } from "fp-ts/lib/function";
@@ -110,14 +108,21 @@ export const EventSocialPostButton: React.FC<
             const relations = await pipe(
               fetchRelations(relationIds),
               fp.TE.map(
-                ({ actors, groups, keywords, media, groupsMembers, links }) => ({
+                ({
+                  actors,
+                  groups,
+                  keywords,
+                  media,
+                  groupsMembers,
+                  links,
+                }) => ({
                   actors: actors.data,
                   keywords: keywords.data,
                   groups: groups.data,
                   media: media.data,
                   groupsMembers: groupsMembers.data,
                   links: links.data,
-                  areas: []
+                  areas: [],
                 })
               ),
               throwTE
@@ -232,6 +237,57 @@ export const MediaTGPostButton: React.FC<
           title: record.description,
           keywords,
           media: [record as any],
+          date,
+          content: record.description,
+          actors: [],
+          groups: [],
+          url,
+          platforms: { TG: true, IG: false },
+        };
+      }}
+    />
+  );
+};
+
+export const LinkTGPostButton: React.FC<
+  Omit<SocialPostButtonProps, "onLoadSharePayloadClick">
+> = () => {
+  const record = useRecordContext();
+  const apiProvider = useDataProvider();
+
+  if (!record) {
+    return <CircularProgress />;
+  }
+
+  return (
+    <SocialPostButton
+      onLoadSharePayloadClick={async () => {
+        const url = `${process.env.WEB_URL}/links/${record.id}`;
+
+        const media: Media.Media[] =
+          typeof record.image === "string"
+            ? await apiProvider
+                .getOne("media", { id: record.image })
+                .then((data) => data.data)
+            : await Promise.resolve([record.image]);
+
+        const keywords: Keyword.Keyword[] =
+          record.keywords.length > 0
+            ? await apiProvider
+                .getList("keywords", {
+                  filter: { ids: record.keywords },
+                  pagination: { perPage: record.keywords.length, page: 1 },
+                  sort: { order: "ASC", field: "createdAt" },
+                })
+                .then((data) => data.data)
+            : await Promise.resolve([]);
+
+        const date = formatDate(parseISO(record.createdAt));
+
+        return {
+          title: record.description,
+          keywords,
+          media,
           date,
           content: record.description,
           actors: [],
