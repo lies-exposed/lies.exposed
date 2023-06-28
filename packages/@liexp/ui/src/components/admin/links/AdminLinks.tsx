@@ -36,6 +36,7 @@ import {
 import { Box, Grid, Toolbar } from "../../mui";
 import { DangerZoneField } from "../common/DangerZoneField";
 import { EditForm } from "../common/EditForm";
+import { LinkTGPostButton } from '../common/SocialPostButton';
 import URLMetadataInput from "../common/URLMetadataInput";
 import { CreateEventFromLinkButton } from "../events/CreateEventFromLinkButton";
 import ReferenceArrayEventInput from "../events/ReferenceArrayEventInput";
@@ -106,7 +107,7 @@ export const LinkDatagrid: React.FC<DatagridProps> = (props) => {
 
       <FunctionField
         label="resources.links.fields.events_length"
-        render={(r: any | undefined) => (r?.events?.length ?? "-")}
+        render={(r: any | undefined) => r?.events?.length ?? "-"}
       />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />
@@ -215,6 +216,7 @@ export const LinkEdit: React.FC = () => {
       actions={
         <Toolbar>
           <UpdateMetadataButton />
+          <LinkTGPostButton />
         </Toolbar>
       }
       preview={<LinkPreview record={record} />}
