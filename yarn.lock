@@ -4142,7 +4142,7 @@ __metadata:
     tsconfig-paths-webpack-plugin: ^4.0.1
     typescript: ^5.1.5
     url-loader: ^4.1.1
-    webpack: ^5.88.0
+    webpack: ^5.88.1
     webpack-bundle-analyzer: ^4.9.0
     webpack-dev-server: ^4.15.1
     webpack-node-externals: ^3.0.0
@@ -9461,7 +9461,7 @@ __metadata:
     typescript: ^5.1.5
     uuid: ^9.0.0
     web-vitals: ^2.1.4
-    webpack: ^5.88.0
+    webpack: ^5.88.1
     webpack-bundle-analyzer: ^4.9.0
     webpack-cli: ^5.1.4
   languageName: unknown
@@ -17698,7 +17698,7 @@ __metadata:
     terser: ^5.18.2
     typescript: ^5.1.5
     vitest: ^0.32.2
-    webpack: ^5.88.0
+    webpack: ^5.88.1
   languageName: unknown
   linkType: soft
 
@@ -23876,7 +23876,7 @@ __metadata:
     reactflow: ^11.7.4
     storybook: ^7.0.24
     typescript: ^5.1.5
-    webpack: ^5.88.0
+    webpack: ^5.88.1
   languageName: unknown
   linkType: soft
 
@@ -26062,7 +26062,7 @@ __metadata:
     tsconfig-paths-webpack-plugin: ^4.0.1
     typescript: ^5.1.5
     uuid: ^9.0.0
-    webpack: ^5.88.0
+    webpack: ^5.88.1
     webpack-bundle-analyzer: ^4.9.0
     webpack-cli: ^5.1.4
     webpack-dev-server: ^4.15.1
@@ -26235,9 +26235,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack@npm:5, webpack@npm:^5, webpack@npm:^5.88.0":
-  version: 5.88.0
-  resolution: "webpack@npm:5.88.0"
+"webpack@npm:5, webpack@npm:^5, webpack@npm:^5.88.1":
+  version: 5.88.1
+  resolution: "webpack@npm:5.88.1"
   dependencies:
     "@types/eslint-scope": ^3.7.3
     "@types/estree": ^1.0.0
@@ -26268,7 +26268,7 @@ __metadata:
       optional: true
   bin:
     webpack: bin/webpack.js
-  checksum: 9fd1568b34ec2e99ba97c8509a15ab2576ec80c396e7015551ec814b24cfc11de173acba3e114dafe95f1a6d460781b09d6201e6a1fb15110e1d01a09f61a283
+  checksum: 726e7e05ab2e7c142609a673dd6aa1a711ed97f349418a2a393d650c5ddad172d191257f60e1e37f6b2a77261571c202aabd5ce9240791a686774f0801cf5ec2
   languageName: node
   linkType: hard
 

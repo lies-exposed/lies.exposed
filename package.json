@@ -67,7 +67,7 @@
     "terser": "^5.18.2",
     "typescript": "^5.1.5",
     "vitest": "^0.32.2",
-    "webpack": "^5.88.0"
+    "webpack": "^5.88.1"
   },
   "packageManager": "yarn@3.4.1",
   "resolutions": {
