@@ -1,13 +1,14 @@
-import { postToIG } from "@flows/events/postToIG.flow";
+/* eslint-disable import/no-named-as-default */
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { pipe } from "fp-ts/lib/function";
 import prompts from "prompts";
 import { startContext, stopContext } from "./start-ctx";
+import { postToIG } from "@flows/events/postToIG.flow";
 
 const run = async (): Promise<any> => {
   const ctx = await startContext();
 
-  return pipe(
+  await pipe(
     postToIG(ctx)(
       {
         title: "Dummy test",
