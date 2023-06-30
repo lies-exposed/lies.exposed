@@ -5,6 +5,9 @@ import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { UUID } from "./Common/UUID";
 import { GetListQuery } from "./Query";
 
+export const MEDIA = t.literal("media");
+export type MEDIA = t.TypeOf<typeof MEDIA>;
+
 const JpgType = t.literal("image/jpg");
 const JpegType = t.literal("image/jpeg");
 const PngType = t.literal("image/png");

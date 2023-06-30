@@ -14,6 +14,7 @@ import { MediaEntity } from "@entities/Media.entity";
 import { PageEntity } from "@entities/Page.entity";
 import { ProjectEntity } from "@entities/Project.entity";
 import { ProjectImageEntity } from "@entities/ProjectImage.entity";
+import { SocialPostEntity } from "@entities/SocialPost.entity";
 import { StoryEntity } from "@entities/Story.entity";
 import { UserEntity } from "@entities/User.entity";
 import { DeathEventEntity } from "@entities/archive/DeathEvent.entity";
@@ -68,6 +69,7 @@ export const getDataSource = (
       KeywordEntity,
       UserEntity,
       EventSuggestionEntity,
+      SocialPostEntity,
     ],
     synchronize: env.NODE_ENV === "test",
     ssl,

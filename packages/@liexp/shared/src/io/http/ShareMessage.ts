@@ -1,7 +1,9 @@
 import * as t from "io-ts";
-import { Actor } from './Actor';
-import { Group } from './Group';
-import { Keyword } from "./Keyword";
+import { ACTORS, Actor } from "./Actor";
+import { EVENTS } from "./Events";
+import { GROUPS, Group } from "./Group";
+import { KEYWORDS, Keyword } from "./Keyword";
+import { MEDIA } from "./Media";
 
 export const ShareMessageBodyMultipleMedia = t.array(
   t.type({
@@ -22,6 +24,14 @@ export type TGPlatform = t.TypeOf<typeof TGPlatform>;
 export const SharePlatform = t.union([IGPlatform, TGPlatform], "SharePlatform");
 export type SharePlatform = t.TypeOf<typeof SharePlatform>;
 
+export const ShareMessageResourceType = t.union(
+  [ACTORS, GROUPS, KEYWORDS, MEDIA, EVENTS],
+  "ShareMessageResourceType"
+);
+export type ShareMessageResourceType = t.TypeOf<
+  typeof ShareMessageResourceType
+>;
+
 export const ShareMessageBody = t.strict(
   {
     title: t.string,
@@ -32,7 +42,8 @@ export const ShareMessageBody = t.strict(
     actors: t.array(Actor),
     groups: t.array(Group),
     keywords: t.array(Keyword),
-    platforms: t.record(SharePlatform, t.boolean)
+    platforms: t.record(SharePlatform, t.boolean),
+    schedule: t.union([t.number, t.undefined]),
   },
   "ShareMessageBody"
 );

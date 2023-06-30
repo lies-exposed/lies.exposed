@@ -1,16 +1,17 @@
 /* eslint-disable import/order, import/first */
+import { loadENV } from "@liexp/core/lib/env/utils";
 import * as logger from "@liexp/core/lib/logger";
+import { parseENV } from "@utils/env.utils";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { failure } from "io-ts/lib/PathReporter";
-import { makeApp, makeContext } from "./server";
-import { parseENV } from "@utils/env.utils";
-import { loadENV } from "@liexp/core/lib/env/utils";
+import { postOnSocialJob } from "./jobs/socialPostScheduler.job";
 import { actorCommand } from "./providers/tg/actor.command";
 import { groupCommand } from "./providers/tg/group.command";
 import { helpCommand } from "./providers/tg/help.command";
 import { startCommand } from "./providers/tg/start.command";
-// import D from "debug";
+import { makeApp, makeContext } from "./server";
+
 
 const run = (): Promise<void> => {
   const serverLogger = logger.GetLogger("api");
@@ -58,6 +59,8 @@ const run = (): Promise<void> => {
           // bind /group command to tg bot
           groupCommand(ctx);
 
+          const postOnSocialTask = postOnSocialJob(ctx);
+          postOnSocialTask.start()
           // const downloadVaccineDataTask = Cron.schedule(
           //   ctx.env.DOWNLOAD_VACCINE_DATA_CRON,
           //   () => {
@@ -82,10 +85,12 @@ const run = (): Promise<void> => {
 
           process.on("SIGINT", () => {
             // eslint-disable-next-line no-console
-            serverLogger.debug.log(
-              "Removing vaccine data download cron task..."
-            );
+            // serverLogger.debug.log(
+            //   "Removing vaccine data download cron task..."
+            // );
             // downloadVaccineDataTask.stop();
+            serverLogger.debug.log(`Removing "post on social" cron task...`);
+            postOnSocialTask.stop();
             // eslint-disable-next-line no-console
             serverLogger.debug.log("closing server...");
             server.close();
