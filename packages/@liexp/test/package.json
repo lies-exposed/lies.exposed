@@ -21,7 +21,7 @@
     "fast-check": "^2.25.0",
     "fast-check-io-ts": "^0.5.0",
     "prettier": "^2.8.8",
-    "typescript": "^5.1.5"
+    "typescript": "^5.1.6"
   },
   "peerDependencies": {
     "debug": "^4.3.1"
