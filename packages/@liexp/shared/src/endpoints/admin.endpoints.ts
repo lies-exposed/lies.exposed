@@ -1,8 +1,7 @@
 import * as t from "io-ts";
 import { UUID } from "io-ts-types/lib/UUID";
 import { Endpoint } from "ts-endpoint";
-import { NetworkType } from '../io/http/Network';
-import { ShareMessageBody } from "../io/http/ShareMessage";
+import { ShareMessageBody, ShareMessageResourceType } from "../io/http/ShareMessage";
 import { ResourceEndpoints } from "./types";
 
 export const List = Endpoint({
@@ -24,7 +23,7 @@ export const PostToPlatform = Endpoint({
   Method: "POST",
   getPath: ({ type, id }) => `/admins/share/${type}/${id}`,
   Input: {
-    Params: t.type({ id: UUID, type: NetworkType }),
+    Params: t.type({ id: UUID, type: ShareMessageResourceType }),
     Body: ShareMessageBody,
   },
   Output: t.any,

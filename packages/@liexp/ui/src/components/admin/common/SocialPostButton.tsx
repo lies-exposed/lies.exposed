@@ -33,7 +33,11 @@ export interface SocialPostButtonProps extends FieldProps {
   id?: Identifier;
   onLoadSharePayloadClick: (
     opts: OnLoadSharePayloadClickOpts
-  ) => Promise<Omit<ShareMessageBody, "media"> & { media: Media.Media[] }>;
+  ) => Promise<
+    Omit<ShareMessageBody, "media"> & {
+      media: Media.Media[];
+    }
+  >;
 }
 
 export const SocialPostButton: React.FC<SocialPostButtonProps> = ({
@@ -97,6 +101,7 @@ export const EventSocialPostButton: React.FC<
   Omit<SocialPostButtonProps, "onLoadSharePayloadClick"> & { id: UUID }
 > = ({ id }) => {
   const apiProvider = useDataProvider();
+  const record = useRecordContext();
 
   return (
     <SocialPostButton
@@ -198,6 +203,7 @@ export const EventSocialPostButton: React.FC<
               actors,
               groups,
               platforms: { TG: true, IG: false },
+              schedule: record.schedule,
             };
           });
       }}
@@ -243,6 +249,7 @@ export const MediaTGPostButton: React.FC<
           groups: [],
           url,
           platforms: { TG: true, IG: false },
+          schedule: record.schedule
         };
       }}
     />
@@ -294,6 +301,7 @@ export const LinkTGPostButton: React.FC<
           groups: [],
           url,
           platforms: { TG: true, IG: false },
+          schedule: record.schedule
         };
       }}
     />

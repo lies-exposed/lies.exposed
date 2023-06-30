@@ -259,6 +259,25 @@ export const ShareModal: React.FC<ShareModalProps> = ({
             label={"Telegram"}
           />
         </Box>
+        <Box>
+          <Input
+            fullWidth
+            multiline
+            name="schedule"
+            value={payload.schedule ?? ""}
+            onChange={(e) => {
+              if (e.target.value !== "") {
+                setState((s) => ({
+                  ...s,
+                  payload: {
+                    ...payload,
+                    schedule: parseInt(e.target.value, 10),
+                  },
+                }));
+              }
+            }}
+          />
+        </Box>
       </DialogContent>
       <DialogActions>
         <Button
