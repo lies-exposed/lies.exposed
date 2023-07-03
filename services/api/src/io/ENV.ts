@@ -17,6 +17,7 @@ const ENV = t.intersection(
       [
         t.strict({
           NODE_ENV: t.union([DEVELOPMENT, TEST]),
+          DOWNLOAD_VACCINE_DATA_CRON: t.string,
           DEV_DATA_HOST: t.string,
         }),
         t.strict({
@@ -32,7 +33,6 @@ const ENV = t.intersection(
         API_HOST: t.string,
         DEFAULT_PAGE_SIZE: NumberFromString,
         JWT_SECRET: t.string,
-        DOWNLOAD_VACCINE_DATA_CRON: t.string,
         WEB_URL: t.string,
       },
       "API_ENV"
