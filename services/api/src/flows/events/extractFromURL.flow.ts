@@ -150,7 +150,12 @@ const extractEventFromProviderLink: TEFlow<
 
 export const extractRelationsFromURL: TEFlow<
   [puppeteer.Page, string],
-  { actors: ActorEntity[]; groups: GroupEntity[]; keywords: KeywordEntity[] }
+  {
+    actors: ActorEntity[];
+    groups: GroupEntity[];
+    keywords: KeywordEntity[];
+    links: LinkEntity[];
+  }
 > = (ctx) => (p, url) => {
   const id = GetEncodeUtils<string>((url) => ({ url })).hash(url);
   const filePath = ctx.fs.resolve(`temp/urls/${id}.txt`);
@@ -251,6 +256,7 @@ export const extractRelationsFromURL: TEFlow<
                     TE.right<ControllerError, KeywordEntity[]>([])
                   )
                 ),
+                links: TE.right([]),
               })
             )
           );
