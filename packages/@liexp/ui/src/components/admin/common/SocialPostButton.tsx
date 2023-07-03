@@ -285,7 +285,7 @@ export const LinkTGPostButton: React.FC<
         const date = formatDate(parseISO(record.createdAt));
 
         return {
-          title: record.description,
+          title: record.title,
           keywords,
           media,
           date,
