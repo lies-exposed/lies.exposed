@@ -13,7 +13,7 @@ const ReferenceArrayGroupInput: React.FC<
     <ReferenceArrayInput {...props} reference="groups">
       <AutocompleteArrayInput
         source="id"
-        optionText={(g) => <GroupChip group={g} />}
+        optionText={(g) => <GroupChip group={g} displayName />}
         filterToQuery={(name: any) => ({ name })}
         fullWidth
         size="small"
