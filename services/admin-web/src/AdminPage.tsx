@@ -42,6 +42,7 @@ import {
 } from "./pages/AdminGroupMember";
 import { GroupCreate, GroupEdit, GroupList } from "./pages/AdminGroups";
 import { KeywordCreate, KeywordEdit, KeywordList } from "./pages/AdminKeyword";
+import { SocialPostEdit, SocialPostList } from "./pages/AdminSocialPost";
 import { UserCreate, UserEdit, UserList } from "./pages/AdminUsers";
 import { PageCreate, PageEdit, PageList } from "./pages/Pages";
 import {
@@ -213,6 +214,8 @@ const AdminPage: React.FC = () => {
         edit={KeywordEdit}
         create={KeywordCreate}
       />
+
+      <Resource name={"social-posts"} list={SocialPostList} edit={SocialPostEdit} />
       <Resource
         name="users"
         list={UserList}

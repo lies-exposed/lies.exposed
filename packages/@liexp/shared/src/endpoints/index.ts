@@ -24,6 +24,7 @@ import * as Media from "./media.endpoints";
 import * as Page from "./page.endpoints";
 import * as Project from "./project.endpoints";
 import * as ScientificStudy from "./scientificStudy.endpoint";
+import * as SocialPosts from './socialPost.endpoints'
 import * as Story from "./story.endpoints";
 import * as Uploads from "./upload.endpoints";
 
@@ -60,8 +61,9 @@ const Endpoints = {
   ProjectImage: ProjectImage.projectImages,
   Stats: Stats.stats,
   Networks: Networks.networks,
-  Healthcheck: Healthcheck.healthcheck
+  Healthcheck: Healthcheck.healthcheck,
   // Uploads: Uploads.uploads,
+  SocialPosts: SocialPosts.socialPosts
 };
 
 type Endpoints = typeof Endpoints;
