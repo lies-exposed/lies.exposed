@@ -1,16 +1,15 @@
 import { fp } from "@liexp/core/lib/fp";
-import { takeEventRelations } from "@liexp/shared/lib/helpers/event/event";
 import {
-  type Keyword,
-  type Media,
+  getRelationIds,
+  takeEventRelations,
+} from "@liexp/shared/lib/helpers/event/event";
+import {
   type Actor,
   type Events,
   type Group,
+  type Keyword,
+  type Media,
 } from "@liexp/shared/lib/io/http";
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
-import { EVENTS } from '@liexp/shared/lib/io/http/Events';
-import { GROUPS } from "@liexp/shared/lib/io/http/Group";
-import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
 import {
   type GetNetworkQuery,
   type NetworkType,
@@ -21,6 +20,8 @@ import * as TE from "fp-ts/TaskEither";
 import { sequenceS } from "fp-ts/lib/Apply";
 import { pipe } from "fp-ts/lib/function";
 import { type UUID } from "io-ts-types/lib/UUID";
+import { Equal } from "typeorm";
+import { EventV2Entity } from "@entities/Event.v2.entity";
 import { type TEFlow } from "@flows/flow.types";
 import { toActorIO } from "@routes/actors/actor.io";
 import { toEventV2IO } from "@routes/events/eventV2.io";
@@ -43,23 +44,43 @@ export const fetchEventsWithRelations: TEFlow<
   (ctx) =>
   (type, id, { ids, relations }) => {
     return pipe(
-      walkPaginatedRequest(ctx)(
-        ({ skip, amount }) =>
-          searchEventV2Query(ctx)({
-            ids: type === EVENTS.value ? O.some([id]) : O.none,
-            actors: type === ACTORS.value ? O.some([id]) : O.none,
-            groups: type === GROUPS.value ? O.some([id]) : O.none,
-            keywords: type === KEYWORDS.value ? O.some([id]) : O.none,
-            startDate: O.none,
-            endDate: O.none,
-            skip,
-            take: amount,
-            order: { date: "DESC" },
-          }),
-        (r) => r.total,
-        (r) => r.results,
-        0,
-        50
+      ctx.db.findOneOrFail(EventV2Entity, {
+        where: {
+          id: Equal(id),
+        },
+        loadRelationIds: { relations: ["keywords", 'links', "media"] },
+      }),
+      TE.chainEitherK(toEventV2IO),
+      TE.map(getRelationIds),
+      TE.chain(({ actors, groups, keywords, media }) =>
+        walkPaginatedRequest(ctx)(
+          ({ skip, amount }) =>
+            searchEventV2Query(ctx)({
+              ids: O.none,
+              actors: pipe(
+                actors,
+                O.fromPredicate((a) => a.length > 0)
+              ),
+              groups: pipe(
+                groups,
+                O.fromPredicate((a) => a.length > 0)
+              ),
+              // keywords: pipe(
+              //   keywords,
+              //   O.fromPredicate((a) => a.length > 0)
+              // ),
+              keywords: O.none,
+              startDate: O.none,
+              endDate: O.none,
+              skip,
+              take: amount,
+              order: { date: "DESC" },
+            }),
+          (r) => r.total,
+          (r) => r.results,
+          0,
+          50
+        )
       ),
       TE.chain((results) => {
         ctx.logger.debug.log("Events found %d", results.length);

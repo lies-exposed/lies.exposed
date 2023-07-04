@@ -194,6 +194,7 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
                     width={Math.floor(width / columns)}
                     hideDescription={hideDescription}
                     disableZoom={disableZoom}
+                    style={itemStyle}
                   />
                 );
               })}

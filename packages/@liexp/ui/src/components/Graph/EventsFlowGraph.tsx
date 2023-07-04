@@ -191,7 +191,12 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
       data: { ...a, selected: filters.groups.includes(a.id) },
       type: Group.Group.name,
       position: nodePosition(i, nodeLineChunk, {
-        x: (graph.actors.length / nodeLineChunk > 1 ? nodeLineChunk * 40 : graph.actors.length) + 50,
+        x:
+          (graph.actors.length / nodeLineChunk > 1
+            ? nodeLineChunk
+            : graph.actors.length) *
+            40 +
+          50,
         y: 0,
       }),
     }));
