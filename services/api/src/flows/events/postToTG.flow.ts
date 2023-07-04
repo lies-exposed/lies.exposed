@@ -1,4 +1,4 @@
-import { type ShareMessageBody } from "@liexp/shared/lib/io/http/ShareMessage";
+import { type SocialPost } from "@liexp/shared/lib/io/http/SocialPost";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
@@ -7,7 +7,7 @@ import { type EventV2Entity } from "@entities/Event.v2.entity";
 import { type Flow, type TEFlow } from "@flows/flow.types";
 import { ServerError } from "@io/ControllerError";
 
-const writeText: Flow<[ShareMessageBody], string> = (ctx) => (body) => {
+const writeText: Flow<[SocialPost], string> = (ctx) => (body) => {
   const title = `<a href="${body.url}"><b>${body.title}</b></a>`;
   const date = `<a href="${ctx.env.WEB_URL}/events?startDate=${body.date}">${body.date}</a>`;
   const keywords = `${body.keywords.map((k) => `#${k.tag}`).join(" ")}`;
@@ -58,7 +58,7 @@ const writeText: Flow<[ShareMessageBody], string> = (ctx) => (body) => {
   ].join("\n");
 };
 
-export const postToTG: TEFlow<[UUID, ShareMessageBody], EventV2Entity> =
+export const postToTG: TEFlow<[UUID, SocialPost], EventV2Entity> =
   (ctx) => (id, body) => {
     return pipe(
       writeText(ctx)(body),

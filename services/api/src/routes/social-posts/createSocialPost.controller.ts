@@ -12,9 +12,9 @@ import { postToIG } from "@flows/events/postToIG.flow";
 import { postToTG } from "@flows/events/postToTG.flow";
 import { type Route } from "@routes/route.types";
 
-export const PostSharePayloadToPlatformRoute: Route = (r, ctx) => {
+export const MakeCreateSocialPostRoute: Route = (r, ctx) => {
   AddEndpoint(r)(
-    Endpoints.Admin.Custom.PostToPlatform,
+    Endpoints.SocialPosts.Create,
     ({ params: { id, type }, body: { platforms, ...body } }) => {
       const saveInDb = t.number.is(body.schedule)
         ? pipe(

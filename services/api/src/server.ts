@@ -31,7 +31,6 @@ import { toControllerError, type ControllerError } from "@io/ControllerError";
 import { type ENV } from "@io/ENV";
 import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.routes";
 import { MakeActorRoutes } from "@routes/actors/actors.routes";
-import { MakeAdminRoutes } from "@routes/admins/admin.routes";
 import { MakeAreasRoutes } from "@routes/areas/Areas.routes";
 import { MakeDeathEventsRoutes } from "@routes/events/deaths/death.routes";
 import { MakeDocumentaryReleaseRoutes } from "@routes/events/documentary/documentary.routes";
@@ -52,6 +51,7 @@ import { MakeOpenGraphRoutes } from "@routes/open-graph/openGraph.routes";
 import { MakePageRoutes } from "@routes/pages/pages.route";
 import { MakeProjectRoutes } from "@routes/projects/project.routes";
 import { type RouteContext } from "@routes/route.types";
+import { MakeSocialPostRoutes } from "@routes/social-posts/socialPost.routes";
 import { MakeStatsRoutes } from "@routes/stats/stats.routes";
 import { MakeStoriesRoutes } from "@routes/stories/stories.route";
 import { MakeUploadsRoutes } from "@routes/uploads/upload.routes";
@@ -248,8 +248,9 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   // uploads
   MakeUploadsRoutes(router, ctx);
 
-  // admins
-  MakeAdminRoutes(router, ctx);
+  // admin
+  // social posts
+  MakeSocialPostRoutes(router, ctx);
 
   const tgLogger = ctx.logger.extend("tg-bot");
 

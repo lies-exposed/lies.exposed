@@ -21,8 +21,8 @@ export type IGPlatform = t.TypeOf<typeof IGPlatform>;
 export const TGPlatform = t.literal("TG");
 export type TGPlatform = t.TypeOf<typeof TGPlatform>;
 
-export const SharePlatform = t.union([IGPlatform, TGPlatform], "SharePlatform");
-export type SharePlatform = t.TypeOf<typeof SharePlatform>;
+export const SocialPlatform = t.union([IGPlatform, TGPlatform], "SharePlatform");
+export type SocialPlatform = t.TypeOf<typeof SocialPlatform>;
 
 export const ShareMessageResourceType = t.union(
   [ACTORS, GROUPS, KEYWORDS, MEDIA, EVENTS],
@@ -32,7 +32,7 @@ export type ShareMessageResourceType = t.TypeOf<
   typeof ShareMessageResourceType
 >;
 
-export const ShareMessageBody = t.strict(
+export const SocialPost = t.strict(
   {
     title: t.string,
     url: t.string,
@@ -42,9 +42,9 @@ export const ShareMessageBody = t.strict(
     actors: t.array(Actor),
     groups: t.array(Group),
     keywords: t.array(Keyword),
-    platforms: t.record(SharePlatform, t.boolean),
+    platforms: t.record(SocialPlatform, t.boolean),
     schedule: t.union([t.number, t.undefined]),
   },
   "ShareMessageBody"
 );
-export type ShareMessageBody = t.TypeOf<typeof ShareMessageBody>;
+export type SocialPost = t.TypeOf<typeof SocialPost>;
