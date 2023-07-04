@@ -54,6 +54,7 @@ export const DefaultEventPageContent: React.FC<
               onItemClick={handleMediaClick}
               itemStyle={{
                 maxWidth: 800,
+                minHeight: 500,
               }}
               hideDescription={true}
             />
@@ -63,7 +64,7 @@ export const DefaultEventPageContent: React.FC<
               onClick={handleMediaClick}
               itemStyle={(m) => ({
                 maxWidth: 800,
-                maxHeight: MP3Type.is(m.type) || OGGType.is(m.type) ? 100 : 400,
+                minHeight: MP3Type.is(m.type) || OGGType.is(m.type) ? 100 : 400,
                 margin: "auto",
               })}
             />

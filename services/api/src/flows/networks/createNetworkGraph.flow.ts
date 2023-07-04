@@ -239,8 +239,8 @@ export const getEventGraph = (
         eventNodes,
         A.foldMap({
           empty: {
-            startDate: new Date(),
-            endDate: new Date(),
+            startDate: eventNodes[0].date,
+            endDate: eventNodes[eventNodes.length - 1].date,
           },
           concat: (x, y) => ({
             startDate: new Date(
@@ -349,6 +349,12 @@ export const createNetworkGraph: TEFlow<
         emptyRelations: O.none,
       }),
       TE.map(({ events: _events, actors, groups, keywords, media }) => {
+        ctx.logger.debug.log(
+          `Fetch actors (%d), groups (%d), keywords (%d)`,
+          actors.length,
+          groups.length,
+          keywords.length
+        );
         const events = pipe(
           _events,
           fp.A.map((aa) =>
