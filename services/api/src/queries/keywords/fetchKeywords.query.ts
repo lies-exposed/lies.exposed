@@ -40,7 +40,7 @@ export const fetchKeywords =
           });
         }
         if (O.isSome(search)) {
-          return q.where("keyword.tag LIKE :search", {
+          return q.where("lower(keyword.tag) LIKE lower(:search)", {
             search: `%${search.value}%`,
           });
         }
