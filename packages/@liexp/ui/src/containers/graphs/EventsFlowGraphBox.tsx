@@ -1,8 +1,7 @@
 import { Actor, Group, Keyword } from "@liexp/shared/lib/io/http";
-import { type SearchEvent } from '@liexp/shared/lib/io/http/Events';
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
 import { type FlowGraphType } from "@liexp/shared/lib/io/http/Graph";
 import { type GetNetworkQuery } from "@liexp/shared/lib/io/http/Network";
-import { parseISO, subYears } from "date-fns";
 import { type UUID } from "io-ts-types/lib/UUID";
 import React from "react";
 import { type Node } from "reactflow";
@@ -17,28 +16,28 @@ export interface EventsFlowGraphBoxProps {
   id: UUID;
   type: FlowGraphType;
   query: Partial<serializedType<typeof GetNetworkQuery>>;
-  onEventClick: (e: SearchEvent.SearchEvent ) => void;
+  onEventClick: (e: SearchEvent.SearchEvent) => void;
 }
 
 export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
   query: _query,
   type,
   id,
-  onEventClick
+  onEventClick,
 }) => {
   const [state, setState] = React.useState<{
-    startDate: string;
-    endDate: string;
+    startDate: string | undefined;
+    endDate: string | undefined;
     ids: string[];
     type: string[] | string | undefined;
     selectedActorIds: string[];
     selectedGroupIds: string[];
     selectedKeywordIds: string[];
   }>({
-    startDate: _query.startDate ?? subYears(new Date(), 5).toISOString(),
+    startDate: _query.startDate ?? undefined,
+    endDate: _query.endDate ?? undefined,
     type,
     ids: _query.ids ?? [],
-    endDate: _query.endDate ?? new Date().toISOString(),
     selectedActorIds: _query.actors ?? [],
     selectedGroupIds: _query.groups ?? [],
     selectedKeywordIds: _query.keywords ?? [],
@@ -94,7 +93,7 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
         });
         break;
       }
-      case 'EventV2': {
+      case "EventV2": {
         onEventClick(n.data);
         break;
       }
@@ -146,8 +145,8 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
                 actors: state.selectedActorIds,
                 groups: state.selectedGroupIds,
                 keywords: state.selectedKeywordIds,
-                minDate: parseISO(state.startDate),
-                maxDate: parseISO(state.endDate),
+                minDate: graph.startDate,
+                maxDate: graph.endDate,
               }}
               onNodeClick={onNodeClick}
             />
