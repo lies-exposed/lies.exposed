@@ -4,6 +4,7 @@ import {
   ReferenceInput,
   type ReferenceInputProps,
 } from "react-admin";
+import { GroupChip } from '../../groups/GroupChip';
 
 const ReferenceGroupInput: React.FC<
   Omit<ReferenceInputProps, "children"> & { source: string }
@@ -12,8 +13,8 @@ const ReferenceGroupInput: React.FC<
     <ReferenceInput {...props} reference="groups">
       <AutocompleteInput
         size="small"
-        optionText="name"
         filterToQuery={(name) => ({ name })}
+        optionText={(g) => <GroupChip group={g} displayName />}
       />
     </ReferenceInput>
   );
