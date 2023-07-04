@@ -1,5 +1,5 @@
 import { type OnLoginErrorFn } from "@liexp/backend/lib/providers/ig/ig.provider";
-import { type ShareMessageBody } from "@liexp/shared/lib/io/http/ShareMessage";
+import { type SocialPost } from "@liexp/shared/lib/io/http/SocialPost";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { type EventV2Entity } from "@entities/Event.v2.entity";
@@ -7,7 +7,7 @@ import { type TEFlow } from "@flows/flow.types";
 import { ServerError } from "@io/ControllerError";
 
 export const postToIG: TEFlow<
-  [ShareMessageBody, OnLoginErrorFn],
+  [SocialPost, OnLoginErrorFn],
   EventV2Entity
 > = (ctx) => (body, onError) => {
   ctx.logger.debug.log(
@@ -15,7 +15,7 @@ export const postToIG: TEFlow<
     body,
     ctx.env.IG_USERNAME
   );
-  const writeText = (body: ShareMessageBody): string => {
+  const writeText = (body: SocialPost): string => {
     const keywords = `${body.keywords.map((k) => `#${k.tag}`).join(" ")}`;
 
     return [body.title, body.date, "\n", body.content, "\n", keywords].join(

@@ -1,8 +1,8 @@
 import * as http from "../../io/http";
 import {
-  type ShareMessageBody,
+  type SocialPost,
   type ShareMessageBodyMultipleMedia,
-} from "../../io/http/ShareMessage";
+} from "../../io/http/SocialPost";
 
 export const getShareSingleMedia = (
   media: http.Media.Media[],
@@ -47,7 +47,7 @@ export const getShareMedia = (
   media: http.Media.Media[],
   defaultImage: string,
   multiple: boolean
-): ShareMessageBody["media"] => {
+): SocialPost["media"] => {
   if (multiple) {
     return getShareMultipleMedia(media, defaultImage);
   }

@@ -7,7 +7,7 @@ import {
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
 import { type Keyword, type Media } from "@liexp/shared/lib/io/http";
 import { type Event } from "@liexp/shared/lib/io/http/Events";
-import { type ShareMessageBody } from "@liexp/shared/lib/io/http/ShareMessage";
+import { type SocialPost } from "@liexp/shared/lib/io/http/SocialPost";
 import { getTextContents, isValidValue } from "@liexp/shared/lib/slate";
 import { formatDate, parseISO } from "@liexp/shared/lib/utils/date";
 import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils";
@@ -34,7 +34,7 @@ export interface SocialPostButtonProps extends FieldProps {
   onLoadSharePayloadClick: (
     opts: OnLoadSharePayloadClickOpts
   ) => Promise<
-    Omit<ShareMessageBody, "media"> & {
+    Omit<SocialPost, "media"> & {
       media: Media.Media[];
     }
   >;
@@ -46,7 +46,7 @@ export const SocialPostButton: React.FC<SocialPostButtonProps> = ({
   const record = useRecordContext();
 
   const [{ payload, media, multipleMedia }, setState] = React.useState<{
-    payload: ShareMessageBody | undefined;
+    payload: SocialPost | undefined;
     multipleMedia: boolean;
     media: Media.Media[];
   }>({ payload: emptySharePayload, multipleMedia: false, media: [] });
