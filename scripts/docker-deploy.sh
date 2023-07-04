@@ -37,7 +37,7 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     docker compose up --build --force-recreate -d --wait
     docker system prune -f
     docker builder prune -f --all
-    # docker compose run --name api-migration api yarn migration:run > migration.txt
+    docker compose run --name api-migration api yarn migration:run > migration.txt
     docker compose run -d --rm --name upsert-nlp-entities api yarn ts:node:build ./bin/upsert-nlp-entities.ts
     docker compose run -d --rm --name upsert-tg-pinned-message api yarn upsert-tg-pinned-message
     docker compose run -d --rm --name parse-all-tg-messages api yarn parse-tg-message all true

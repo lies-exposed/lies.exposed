@@ -23,7 +23,7 @@ export const PostSharePayloadToPlatformRoute: Route = (r, ctx) => {
                 entity: id,
                 type,
                 content: body,
-                status: SocialPostStatus.types[1].value,
+                status: SocialPostStatus.types[0].value,
                 scheduledAt: addHours(new Date(), body.schedule ?? 0),
               },
             ])
@@ -31,7 +31,7 @@ export const PostSharePayloadToPlatformRoute: Route = (r, ctx) => {
         : pipe(
             TE.right({
               ...body,
-              status: SocialPostStatus.types[0].value,
+              status: SocialPostStatus.types[1].value,
             } as any),
             TE.chain((p) =>
               pipe(
