@@ -221,7 +221,7 @@ export const createStatsByEntityType: TEFlow<
                 ),
                 media: pipe(
                   media,
-                  A.map(toImageIO),
+                  A.map(m => toImageIO(m, ctx.env.SPACE_ENDPOINT)),
                   A.sequence(E.Applicative),
                   E.getOrElse((): Media.Media[] => [])
                 ),

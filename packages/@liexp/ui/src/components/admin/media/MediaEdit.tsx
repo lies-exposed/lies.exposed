@@ -1,6 +1,4 @@
-import {
-  ImageType
-} from "@liexp/shared/lib/io/http/Media";
+import { ImageType } from "@liexp/shared/lib/io/http/Media";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
 import * as React from "react";
 import {
@@ -20,9 +18,9 @@ import {
   useRecordContext,
   useRefresh,
   type EditProps,
-  type FieldProps
+  type FieldProps,
 } from "react-admin";
-import { transformMedia } from '../../../client/admin/MediaAPI';
+import { transformMedia } from "../../../client/admin/MediaAPI";
 import { Box, Button, Grid } from "../../mui";
 import { EditForm } from "../common/EditForm";
 import { MediaTGPostButton } from "../common/SocialPostButton";
@@ -61,6 +59,37 @@ const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
   );
 };
 
+const TransferButton: React.FC<FieldProps & { target?: "thumbnail" }> = ({
+  target,
+  ...props
+}) => {
+  const refresh = useRefresh();
+  const record = useRecordContext(props);
+  const apiProvider = useDataProvider();
+  return (
+    <Button
+      onClick={() => {
+        const params: any = {};
+        if (target === "thumbnail") {
+          params.transferThumbnail = true;
+        } else {
+          params.transfer = true;
+        }
+        void apiProvider
+          .put(`media/${record.id}`, {
+            ...record,
+            ...params,
+          })
+          .then(() => {
+            refresh();
+          });
+      }}
+    >
+      Transfer
+    </Button>
+  );
+};
+
 export const ThumbnailEditField: React.FC<FieldProps> = (props) => {
   const [loaded, setLoaded] = React.useState(false);
 
@@ -76,6 +105,7 @@ export const ThumbnailEditField: React.FC<FieldProps> = (props) => {
             <MediaField {...props} source="thumbnail" type="image/jpg" />
           </Box>
           <GenerateThumbnailButton {...props} />
+          <TransferButton target="thumbnail" />
         </Box>
       ) : (
         <Box style={{ display: "flex", flexDirection: "column" }}>
@@ -158,6 +188,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
             <Grid item md={6}>
               <MediaField source="location" />
               <MediaInput sourceLocation="location" sourceType="type" />
+              <TransferButton {...props} />
             </Grid>
             <Grid item md={6}>
               {isAdmin && <ReferenceUserInput source="creator" />}

@@ -49,7 +49,9 @@ export const MakeCreateMediaRoute = (r: Router, ctx: RouteContext): void => {
             )
           )
         ),
-        TE.chain((media) => TE.fromEither(toImageIO(media))),
+        TE.chain((media) =>
+          TE.fromEither(toImageIO(media, ctx.env.SPACE_ENDPOINT))
+        ),
         TE.map((data) => ({
           body: {
             data,

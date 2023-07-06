@@ -141,7 +141,7 @@ export const fetchEventsWithRelations: TEFlow<
               media: pipe(
                 relations.media,
                 fp.A.traverse(fp.E.Applicative)((m) =>
-                  toImageIO({ ...m, links: [], keywords: [], events: [] })
+                  toImageIO({ ...m, links: [], keywords: [], events: [] }, ctx.env.SPACE_ENDPOINT)
                 ),
                 fp.TE.fromEither
               ),

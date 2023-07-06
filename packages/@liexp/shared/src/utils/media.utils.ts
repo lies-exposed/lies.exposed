@@ -1,7 +1,6 @@
 import { fp } from "@liexp/core/lib/fp";
 import { pipe } from "fp-ts/lib/function";
 import { type UploadResource } from "../endpoints/upload.endpoints";
-
 import * as Media from "../io/http/Media";
 
 export const contentTypeFromFileExt = (c: string): Media.ValidContentType => {
@@ -65,3 +64,8 @@ export const getMediaKey = (
     contentType
   )}`;
 };
+
+export const getMediaThumbKey = (
+  id: string,
+  contentType: Media.ValidContentType
+): string => getMediaKey("media", id, `${id}-thumb`, contentType);

@@ -39,7 +39,7 @@ import { MakePatentEventsRoutes } from "@routes/events/patents/patent.routes";
 import { MakeQuoteRoutes } from "@routes/events/quotes/quote.routes";
 import { MakeScientificStudyRoutes } from "@routes/events/scientific-study/ScientificStudyRoute.route";
 import { MakeTransactionEventsRoutes } from "@routes/events/transactions/transaction.routes";
-import { MakeGraphsRoutes } from '@routes/graphs/graphs.routes';
+import { MakeGraphsRoutes } from "@routes/graphs/graphs.routes";
 import { MakeGroupRoutes } from "@routes/groups/groups.route";
 import { MakeGroupMemberRoutes } from "@routes/groups-members/GroupMember.route";
 import { MakeHealthcheckRoutes } from "@routes/healthcheck/healthcheck.routes";
@@ -84,11 +84,11 @@ export const makeContext = (
             secretAccessKey: env.SPACE_ACCESS_KEY_SECRET,
           },
           tls: true,
-          forcePathStyle: true
+          forcePathStyle: true,
         })
       : S3Client.GetS3Client({
-          endpoint: `https://${env.SPACE_REGION}.digitaloceanspaces.com`,
-          region: env.SPACE_REGION,
+          endpoint: `https://${env.SPACE_ENDPOINT}`,
+          region: env.SPACE_ENDPOINT,
           credentials: {
             accessKeyId: env.SPACE_ACCESS_KEY_ID,
             secretAccessKey: env.SPACE_ACCESS_KEY_SECRET,

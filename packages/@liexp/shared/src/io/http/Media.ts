@@ -41,7 +41,6 @@ export const MediaType = t.union(
 export type MediaType = t.TypeOf<typeof MediaType>;
 
 export const ImageType = t.union([JpgType, JpegType, PngType], "ImageType");
-
 export type ImageType = t.TypeOf<typeof ImageType>;
 
 export const ValidContentType = t.union([
@@ -104,3 +103,11 @@ export const Media = t.strict(
   "Media"
 );
 export type Media = t.TypeOf<typeof Media>;
+
+export type ImageMedia = Omit<Media, "type"> & { type: ImageType };
+
+export const AdminMedia = t.intersection(
+  [Media, t.strict({ transferable: t.boolean })],
+  "AdminMedia"
+);
+export type AdminMedia = t.TypeOf<typeof AdminMedia>;

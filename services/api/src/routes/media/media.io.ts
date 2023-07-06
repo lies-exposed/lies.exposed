@@ -5,10 +5,11 @@ import { type MediaEntity } from "@entities/Media.entity";
 import { type ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toImageIO = (
-  media: MediaEntity
+  media: MediaEntity,
+  spaceEndpoint: string
 ): E.Either<ControllerError, io.http.Media.Media> => {
   return pipe(
-    io.http.Media.Media.decode({
+    io.http.Media.AdminMedia.decode({
       ...media,
       creator: media.creator ?? undefined,
       links: media.links ?? [],
@@ -16,6 +17,7 @@ export const toImageIO = (
       keywords: media.keywords ?? [],
       featuredIn: media.featuredIn ?? [],
       thumbnail: media.thumbnail ?? undefined,
+      transferable: !media.location.includes(spaceEndpoint),
       createdAt: media.createdAt.toISOString(),
       updatedAt: media.updatedAt.toISOString(),
       deletedAt: media.deletedAt?.toISOString() ?? undefined,
