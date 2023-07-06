@@ -286,7 +286,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
     }
 
     void dataProvider
-      .create(`/admins/share/${type}/${id}`, {
+      .create(`/social-posts/${type}/${id}`, {
         data: payload,
       })
       .then((result) => {
