@@ -1,12 +1,17 @@
+import path from "path";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { ImageType } from "@liexp/shared/lib/io/http/Media";
+import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils";
 import { type Router } from "express";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
+import { sequenceS } from "fp-ts/lib/Apply";
 import { Equal } from "typeorm";
 import { toImageIO } from "./media.io";
 import { MediaEntity } from "@entities/Media.entity";
 import { createThumbnail } from "@flows/media/createThumbnail.flow";
+import { transferFromExternalProvider } from "@flows/media/transferFromExternalProvider.flow";
 import { type RouteContext } from "@routes/route.types";
 
 export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
@@ -16,13 +21,26 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
       params: { id },
       body: {
         overrideThumbnail: _overrideThumbnail,
+        transfer: _transfer,
+        transferThumbnail: _transferThumbnail,
         thumbnail,
+        location,
         creator,
         ...body
       },
     }) => {
       const overrideThumbnail = pipe(
         _overrideThumbnail,
+        O.filter((o) => !!o)
+      );
+
+      const transfer = pipe(
+        _transfer,
+        O.filter((o) => !!o)
+      );
+
+      const transferThumbnail = pipe(
+        _transferThumbnail,
         O.filter((o) => !!o)
       );
 
@@ -35,19 +53,40 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
         }),
         TE.chain((m) =>
           pipe(
-            O.isSome(overrideThumbnail)
-              ? createThumbnail(ctx)({
-                  ...m,
-                  ...body,
-                  id,
-                })
-              : TE.right(O.toNullable(thumbnail)),
-            TE.map((thumbnail) => ({
+            sequenceS(TE.ApplicativeSeq)({
+              thumbnail: O.isSome(overrideThumbnail)
+                ? createThumbnail(ctx)({
+                    ...m,
+                    ...body,
+                    id,
+                  })
+                : O.isSome(transferThumbnail) && m.thumbnail
+                ? transferFromExternalProvider(ctx)(
+                    m.id,
+                    m.thumbnail,
+                    `${m.id}-thumb`,
+                    contentTypeFromFileExt(path.extname(m.thumbnail)) as any
+                  )
+                : TE.right(O.toNullable(thumbnail)),
+              location:
+                O.isSome(transfer) && ImageType.is(m.type)
+                  ? transferFromExternalProvider(ctx)(
+                      m.id,
+                      m.location,
+                      m.id,
+                      m.type
+                    )
+                  : TE.right(location),
+            }),
+            ctx.logger.debug.logInTaskEither(`Updates %O`),
+            TE.map(({ thumbnail, location }) => ({
               ...m,
+              ...body,
               creator: O.isSome(creator)
                 ? { id: creator.value }
                 : { id: m.creator as any },
               thumbnail,
+              location,
             }))
           )
         ),
@@ -55,7 +94,6 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
           ctx.db.save(MediaEntity, [
             {
               ...image,
-              ...body,
               keywords: body.keywords.map((id) => ({ id })),
               links: body.links.map((id) => ({ id })),
               events: body.events.map((id) => ({
@@ -65,15 +103,18 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
             },
           ])
         ),
-        TE.chain((results) =>
+        TE.chain(([media]) =>
           TE.fromEither(
-            toImageIO({
-              ...results[0],
-              creator: results[0].creator?.id as any,
-              keywords: results[0].keywords.map((k) => k.id) as any[],
-              links: results[0].links.map((l) => l.id) as any[],
-              events: results[0].events.map((e) => e.id) as any[],
-            })
+            toImageIO(
+              {
+                ...media,
+                creator: media.creator?.id as any,
+                keywords: media.keywords.map((k) => k.id) as any[],
+                links: media.links.map((l) => l.id) as any[],
+                events: media.events.map((e) => e.id) as any[],
+              },
+              ctx.env.SPACE_ENDPOINT
+            )
           )
         ),
         TE.map((data) => ({

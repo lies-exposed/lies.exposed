@@ -19,7 +19,7 @@ export const MakeGetMediaRoute = (r: Router, ctx: RouteContext): void => {
         },
         withDeleted: true,
       }),
-      TE.chainEitherK(toImageIO),
+      TE.chainEitherK((m) => toImageIO(m, ctx.env.SPACE_ENDPOINT)),
       TE.map((data) => ({
         body: {
           data,

@@ -431,7 +431,7 @@ export const createEventNetworkGraph: TEFlow<
                 links: [],
                 keywords: [],
                 events: [],
-              })
+              }, ctx.env.SPACE_ENDPOINT)
             ),
             fp.TE.fromEither
           ),

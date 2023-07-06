@@ -9,6 +9,7 @@ import { Media } from "@liexp/shared/lib/io/http";
 import {
   getMediaKey,
   getMediaKeyFromLocation,
+  getMediaThumbKey,
 } from "@liexp/shared/lib/utils/media.utils";
 import axios from "axios";
 import * as Canvas from "canvas";
@@ -46,7 +47,7 @@ export const createFromRemote: TEFlow<
         ctx.logger.debug.log("Key %s (%s) for location %s", key, id, location);
 
         return ctx.s3.upload({
-          Key: getMediaKey("media", id, `${id}-thumb`, "image/jpg"),
+          Key: getMediaThumbKey(id, "image/jpg"),
           Body: stream.data,
           ACL: "public-read",
           Bucket: ctx.env.SPACE_BUCKET,

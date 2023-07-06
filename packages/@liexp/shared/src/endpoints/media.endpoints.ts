@@ -62,6 +62,8 @@ export const Edit = Endpoint({
       keywords: t.array(UUID),
       creator: optionFromNullable(UUID),
       overrideThumbnail: optionFromNullable(t.boolean),
+      transfer: optionFromNullable(t.boolean),
+      transferThumbnail: optionFromNullable(t.boolean)
     }),
   },
   Output: SingleMediaOutput,

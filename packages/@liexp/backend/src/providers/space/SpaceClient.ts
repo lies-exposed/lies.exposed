@@ -104,7 +104,11 @@ export const MakeSpaceClient = ({
           () => toError(new Error("Can't get endpoint"))
         ),
         TE.map((e) => {
-          let endpointURL = `${e.protocol}//${bucket}.${e.hostname}${e.path}`;
+          let endpointURL = `${e.protocol}//${bucket}.${e.hostname}`;
+          if (e.port) {
+            endpointURL += `:${e.port}`;
+          }
+          endpointURL += `${e.path}`;
           if (path) {
             endpointURL += path;
           }
