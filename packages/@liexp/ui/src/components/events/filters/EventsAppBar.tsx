@@ -486,13 +486,13 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
   const layout: Required<EventsAppBarProps["layout"]> = {
     searchBox: 3,
     eventTypes: 4,
+    relations: 3,
+    ...props.layout,
     dateRangeBox: {
       columns: 12,
       variant: "slider",
       ...props.layout?.dateRangeBox,
     },
-    relations: 3,
-    ...props.layout,
   };
 
   return (
@@ -609,7 +609,8 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
               <Grid
                 item
                 sm={8}
-                md={layout?.eventTypes}
+                md={layout.eventTypes}
+                lg={layout.eventTypes}
                 style={{
                   display: "flex",
                   flexDirection: "row",

@@ -133,8 +133,9 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
               }}
               onQueryClear={() => {}}
               layout={{
+                eventTypes: 4,
                 dateRangeBox: {
-                  columns: 12,
+                  columns: 8,
                   variant: "slider",
                 },
               }}

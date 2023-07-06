@@ -235,8 +235,8 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
           onQueryChange({ hash }, 0);
         }}
         layout={{
-          eventTypes: 5,
-          dateRangeBox: { columns: 5, variant: "picker" },
+          eventTypes: 4,
+          dateRangeBox: { columns: 8, variant: "slider" },
           relations: 3,
         }}
       />
@@ -352,6 +352,7 @@ export const EventsPanelBox: React.FC<EventsPanelBoxProps> = ({
         return (
           <EventsPanel
             {...props}
+
             query={query}
             actors={actors}
             groups={groups}

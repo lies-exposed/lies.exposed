@@ -81,16 +81,16 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
               }}
               tabs={[
                 {
-                  label: "General",
+                  label: "Events",
                 },
                 {
                   label: "Flow",
                 },
                 {
-                  label: "Events",
+                  label: "Networks",
                 },
                 {
-                  label: "Networks",
+                  label: "General",
                 },
                 {
                   label: "Hierarchy",
@@ -102,6 +102,27 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
               }}
             >
               <Box style={{ display: "flex" }}>
+                <EventsPanelBox
+                  slide={false}
+                  query={{
+                    ...query,
+                    hash: `actor-${actor.id}`,
+                    actors: query.actors
+                      ? [...query.actors, actor.id]
+                      : [actor.id],
+                  }}
+                  tab={0}
+                  onQueryChange={onQueryChange}
+                  onEventClick={onEventClick}
+                />
+
+                <EventsFlowGraphBox
+                  type="actors"
+                  id={actor.id}
+                  query={{}}
+                  onEventClick={onEventClick}
+                />
+
                 <Grid container>
                   <Grid item md={6}>
                     <ActorPageContent
@@ -128,26 +149,6 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                   </Grid>
                 </Grid>
               </Box>
-              <EventsFlowGraphBox
-                type="actors"
-                id={actor.id}
-                query={{}}
-                onEventClick={onEventClick}
-              />
-
-              <EventsPanelBox
-                slide={false}
-                query={{
-                  ...query,
-                  hash: `actor-${actor.id}`,
-                  actors: query.actors
-                    ? [...query.actors, actor.id]
-                    : [actor.id],
-                }}
-                tab={0}
-                onQueryChange={onQueryChange}
-                onEventClick={onEventClick}
-              />
 
               <EventNetworkGraphBoxWithFilters
                 type={ACTORS.value}
