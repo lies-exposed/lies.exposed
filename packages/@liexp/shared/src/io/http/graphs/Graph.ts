@@ -1,15 +1,9 @@
 import * as t from "io-ts";
-import { ACTORS } from "./Actor";
-import { UUID } from "./Common";
-import { EVENTS } from './Events';
-import { GROUPS } from "./Group";
-import { KEYWORDS } from "./Keyword";
-import { NetworkGraphOutput } from "./Network";
-import { Forecast } from "./climate-change/Forecast";
-import { SummitEvent } from "./climate-change/SummitEvent";
-import { WHOCovid19GlobalData } from "./covid/COVIDDailyDatum";
-import { VaccineDatum } from "./covid/VaccineDatum";
-import { VaccineDistributionDatum } from "./covid/VaccineDistributionDatum";
+import { Forecast } from "../climate-change/Forecast";
+import { SummitEvent } from "../climate-change/SummitEvent";
+import { WHOCovid19GlobalData } from "../covid/COVIDDailyDatum";
+import { VaccineDatum } from "../covid/VaccineDatum";
+import { VaccineDistributionDatum } from "../covid/VaccineDistributionDatum";
 
 export const Covid19EUDR = t.union([
   t.literal("covid19/vaccines/eudr/eudrvigilance.csv"),
@@ -93,26 +87,3 @@ export const GraphData = t.union(
 
 export type GraphId = t.TypeOf<typeof GraphId>;
 
-export const FlowGraphType = t.union(
-  [KEYWORDS, ACTORS, GROUPS, EVENTS],
-  "FlowGraphType"
-);
-export type FlowGraphType = t.TypeOf<typeof FlowGraphType>;
-
-export const GetGraphByTypeParams = t.type(
-  {
-    id: UUID,
-    type: FlowGraphType,
-  },
-  "GetGraphByTypeParams"
-);
-export type GetGraphByTypeParams = t.TypeOf<typeof GetGraphByTypeParams>;
-
-export const FlowGraphOutput = t.strict(
-  {
-    ...NetworkGraphOutput.type.props,
-  },
-  "FlowGraphData"
-);
-
-export type FlowGraphOutput = t.TypeOf<typeof FlowGraphOutput>;

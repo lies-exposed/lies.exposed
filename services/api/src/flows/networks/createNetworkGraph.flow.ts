@@ -142,7 +142,7 @@ export const getEventGraph = (
 
       const featuredImage = pipe(
         eventMedia,
-        fp.A.filter((m) => ValidContentType.is(m.type)),
+        fp.A.filter((m) => m && ValidContentType.is(m.type)),
         fp.O.fromPredicate((mm) => mm.length > 0),
         fp.O.map((mm) => mm[0].location),
         fp.O.toUndefined
@@ -338,7 +338,7 @@ export const createNetworkGraph: TEFlow<
 
     const nonEmptyIds = pipe(ids, fp.NEA.fromArray);
     const createNetworkGraphTask = pipe(
-      fetchEventsWithRelations(ctx)(type, ids[0], {
+      fetchEventsWithRelations(ctx)(type, ids, {
         ids: nonEmptyIds,
         actors: type === ACTORS.value ? nonEmptyIds : O.none,
         groups: type === GROUPS.value ? nonEmptyIds : O.none,

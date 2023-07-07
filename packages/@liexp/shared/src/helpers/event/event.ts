@@ -6,6 +6,7 @@ import * as O from "fp-ts/Option";
 import * as Ord from "fp-ts/Ord";
 import { pipe } from "fp-ts/function";
 import { sequenceS } from "fp-ts/lib/Apply";
+import { type Monoid } from "fp-ts/lib/Monoid";
 import * as N from "fp-ts/number";
 import * as S from "fp-ts/string";
 import { UUID } from "io-ts-types/lib/UUID";
@@ -14,6 +15,7 @@ import { type BySubject } from "../../io/http/Common";
 import { type SearchEvent } from "../../io/http/Events/SearchEvent";
 import { getTextContents } from "../../slate";
 import { type EventCommonProps } from "./getCommonProps.helper";
+import { type EventRelationIds } from "@io/http/Events";
 
 type EventsByYearMap = Map<number, Map<number, Events.Event[]>>;
 
@@ -239,37 +241,32 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
   }
 };
 
+const eventRelationIdsMonoid: Monoid<EventRelationIds> = {
+  empty: {
+    keywords: [],
+    actors: [],
+    groups: [],
+    groupsMembers: [],
+    media: [],
+    links: [],
+  },
+  concat: (x, y) => ({
+    ...x,
+    keywords: x.keywords.concat(
+      y.keywords.filter((a) => !x.keywords.includes(a))
+    ),
+    actors: x.actors.concat(y.actors.filter((a) => !x.actors.includes(a))),
+    groups: x.groups.concat(y.groups.filter((a) => !x.groups.includes(a))),
+  }),
+};
+
 export const takeEventRelations = (
   ev: Events.Event[]
 ): Events.EventRelationIds => {
   return pipe(
     ev.reduce(
-      (acc: Events.EventRelationIds, e) => {
-        const { actors, keywords, groups, groupsMembers, media, links } =
-          getRelationIds(e);
-        return {
-          keywords: acc.keywords.concat(
-            keywords.filter((k) => !acc.keywords.includes(k))
-          ),
-          actors: acc.actors.concat(
-            actors.filter((a) => !acc.actors.includes(a))
-          ),
-          groups: acc.groups.concat(
-            groups.filter((g) => !acc.groups.includes(g))
-          ),
-          groupsMembers: acc.groupsMembers.concat(groupsMembers),
-          media: acc.media.concat(media),
-          links: acc.links.concat(links),
-        };
-      },
-      {
-        keywords: [],
-        groups: [],
-        actors: [],
-        groupsMembers: [],
-        media: [],
-        links: [],
-      }
+      (acc, e) => eventRelationIdsMonoid.concat(acc, getRelationIds(e)),
+      eventRelationIdsMonoid.empty
     )
   );
 };

@@ -6,7 +6,7 @@ import {
 } from "../io/http/User";
 
 export const checkIsAdmin = (pp: User.UserPermission[]): boolean => {
-  return [AdminDelete.value, AdminEdit.value, AdminCreate.value].some((p) =>
+  return pp && [AdminDelete.value, AdminEdit.value, AdminCreate.value].some((p) =>
     pp.includes(p)
   );
 };
