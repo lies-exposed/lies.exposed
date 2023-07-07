@@ -43,6 +43,7 @@ const ENV = t.intersection(
         // SPACES
         SPACE_BUCKET: t.string,
         SPACE_ENDPOINT: t.string,
+        SPACE_REGION: t.string,
         SPACE_ACCESS_KEY_ID: t.string,
         SPACE_ACCESS_KEY_SECRET: t.string,
       },

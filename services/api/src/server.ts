@@ -87,8 +87,8 @@ export const makeContext = (
           forcePathStyle: true,
         })
       : S3Client.GetS3Client({
-          endpoint: `https://${env.SPACE_ENDPOINT}`,
-          region: env.SPACE_ENDPOINT,
+          endpoint: `https://${env.SPACE_REGION}.${env.SPACE_ENDPOINT}`,
+          region: env.SPACE_REGION,
           credentials: {
             accessKeyId: env.SPACE_ACCESS_KEY_ID,
             secretAccessKey: env.SPACE_ACCESS_KEY_SECRET,
