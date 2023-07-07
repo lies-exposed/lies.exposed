@@ -5,8 +5,9 @@ import { pipe } from "fp-ts/function";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as t from "io-ts";
 import {
+  PUBLISHED,
   SocialPostEntity,
-  SocialPostStatus,
+  TO_PUBLISH,
 } from "@entities/SocialPost.entity";
 import { postToIG } from "@flows/events/postToIG.flow";
 import { postToTG } from "@flows/events/postToTG.flow";
@@ -23,16 +24,18 @@ export const MakeCreateSocialPostRoute: Route = (r, ctx) => {
                 entity: id,
                 type,
                 content: body,
-                status: SocialPostStatus.types[0].value,
+                status: TO_PUBLISH.value,
                 scheduledAt: addHours(new Date(), body.schedule ?? 0),
               },
             ])
           )
         : pipe(
             TE.right({
-              ...body,
-              status: SocialPostStatus.types[1].value,
-            } as any),
+              content: {
+                ...body,
+              },
+              status: PUBLISHED.value,
+            }),
             TE.chain((p) =>
               pipe(
                 sequenceS(TE.ApplicativePar)({
