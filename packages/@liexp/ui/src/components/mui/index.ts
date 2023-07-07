@@ -70,6 +70,7 @@ import Tabs from "@mui/material/Tabs";
 import TextField, { type TextFieldProps } from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
 import Typography, { type TypographyProps } from "@mui/material/Typography";
+import { amber } from "@mui/material/colors";
 import { ThemeProvider } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { alpha } from "@mui/system/colorManipulator";
@@ -159,5 +160,7 @@ export {
   Checkbox,
   Switch,
   Pagination,
+  // colors
+  amber
 };
 

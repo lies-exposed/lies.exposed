@@ -1,6 +1,6 @@
 import { fp } from "@liexp/core/lib/fp";
 import { Actor, Events, Group, Keyword } from "@liexp/shared/lib/io/http";
-import { type FlowGraphOutput } from "@liexp/shared/lib/io/http/Graph";
+import { type FlowGraphOutput } from "@liexp/shared/lib/io/http/graphs/FlowGraph";
 import { toColor } from "@liexp/shared/lib/utils/colors";
 import { parseISO } from "date-fns";
 import { pipe } from "fp-ts/lib/function";

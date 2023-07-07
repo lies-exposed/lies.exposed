@@ -1,4 +1,4 @@
-import { type GraphId } from "@liexp/shared/lib/io/http/Graph";
+import { type GraphId } from "@liexp/shared/lib/io/http/graphs/Graph";
 import { LinearGradient } from "@visx/gradient";
 import { ParentSize } from "@visx/responsive";
 import * as t from "io-ts";

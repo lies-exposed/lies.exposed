@@ -1,7 +1,7 @@
 import { Actor, Group, Keyword } from "@liexp/shared/lib/io/http";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
-import { type FlowGraphType } from "@liexp/shared/lib/io/http/Graph";
 import { type GetNetworkQuery } from "@liexp/shared/lib/io/http/Network";
+import { type FlowGraphType } from "@liexp/shared/lib/io/http/graphs/FlowGraph";
 import { type UUID } from "io-ts-types/lib/UUID";
 import React from "react";
 import { type Node } from "reactflow";

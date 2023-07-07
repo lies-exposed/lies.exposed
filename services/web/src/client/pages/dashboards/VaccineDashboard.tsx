@@ -1,11 +1,11 @@
+import { type VaccineDistributionDatum } from "@liexp/shared/lib/io/http/covid/VaccineDistributionDatum";
 import {
   Covid19ADRs,
   Covid19EUDR,
   Covid19VAERS,
   Covid19WorldVaccineDistribution,
   CovidWHOWorldData,
-} from "@liexp/shared/lib/io/http/Graph";
-import { type VaccineDistributionDatum } from "@liexp/shared/lib/io/http/covid/VaccineDistributionDatum";
+} from "@liexp/shared/lib/io/http/graphs/Graph";
 import { StatAccordion } from "@liexp/ui/lib/components/Common/StatAccordion";
 // import { VaccineEffectivenessIndicators } from "@liexp/ui/lib/components/Graph/covid/vaccines/VaccineEffectivenessIndicators";
 import { a11yProps, TabPanel } from "@liexp/ui/lib/components/Common/TabPanel";

@@ -1,8 +1,9 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
-import { FlowGraphOutput, GetGraphByTypeParams, GraphData, GraphId } from "../io/http/Graph";
 import { GetNetworkQuery } from '../io/http/Network';
 import { GetListQuery } from "../io/http/Query";
+import { FlowGraphOutput, GetFlowGraphParams } from '../io/http/graphs/FlowGraph';
+import { GraphData, GraphId } from "../io/http/graphs/Graph";
 import { ResourceEndpoints } from "./types";
 
 export const GetGraph = Endpoint({
@@ -18,7 +19,7 @@ export const GetFlowGraph = Endpoint({
   Method: "GET",
   getPath: ({ id, type }) => `/graphs/flows/${type}/${id}`,
   Input: {
-    Params: GetGraphByTypeParams,
+    Params: GetFlowGraphParams,
     Query: GetNetworkQuery
   },
   Output: t.strict({ data: FlowGraphOutput }),

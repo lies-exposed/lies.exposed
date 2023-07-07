@@ -11,9 +11,9 @@ import {
   TextInput,
   useGetIdentity,
   usePermissions,
-  type ListProps
+  type ListProps,
 } from "react-admin";
-import { Box, Typography } from "../../mui";
+import { Box, Typography, amber } from "../../mui";
 import { MediaField } from "./MediaField";
 import { MediaTypeInput } from "./input/MediaTypeInput";
 
@@ -51,7 +51,12 @@ export const MediaList: React.FC<ListProps> = (props) => {
       }}
       perPage={20}
     >
-      <Datagrid rowClick="edit">
+      <Datagrid
+        rowClick="edit"
+        rowStyle={(r) => ({
+          background: r.transferable ? amber[500] : "transparent",
+        })}
+      >
         <MediaField type="image/jpeg" source="thumbnail" />
         <FunctionField
           label="events"

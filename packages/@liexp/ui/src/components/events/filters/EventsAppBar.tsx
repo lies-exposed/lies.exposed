@@ -313,6 +313,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
             actors: actors.concat(u.actors),
             groups: groups.concat(u.groups),
             keywords: keywords.concat(u.keywords),
+            title: u.title,
           });
         }}
       />

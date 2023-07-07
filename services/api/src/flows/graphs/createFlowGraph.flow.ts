@@ -4,6 +4,7 @@ import { type Logger } from "@liexp/core/lib/logger";
 import {
   getRelationIds,
   getTotals,
+  takeEventRelations,
 } from "@liexp/shared/lib/helpers/event/event";
 import {
   type Actor,
@@ -12,17 +13,19 @@ import {
   type Keyword,
   type Media,
 } from "@liexp/shared/lib/io/http";
+import { type GetNetworkQuery } from "@liexp/shared/lib/io/http/Network";
 import {
   type FlowGraphOutput,
   type FlowGraphType,
-} from "@liexp/shared/lib/io/http/Graph";
-import { type GetNetworkQuery } from "@liexp/shared/lib/io/http/Network";
+} from "@liexp/shared/lib/io/http/graphs/FlowGraph";
 import { toColor } from "@liexp/shared/lib/utils/colors";
 import { differenceInDays, subYears } from "@liexp/shared/lib/utils/date";
 import { pipe } from "fp-ts/lib/function";
 import { type UUID } from "io-ts-types/lib/UUID";
-import { fetchEventsWithRelations } from "@flows/events/fetchWithRelations.flow";
+import { fetchEventsByRelation } from "@flows/events/fetchByRelations.flow";
+import { fetchEventsRelations } from "@flows/events/fetchEventRelations.flow";
 import { type TEFlow } from "@flows/flow.types";
+import { toEventV2IO } from "@routes/events/eventV2.io";
 
 const ordByDate = pipe(
   fp.N.Ord,
@@ -111,7 +114,7 @@ export const getFlowGraph =
         quotes: 0,
         patents: 0,
         transactions: 0,
-        deaths: 0
+        deaths: 0,
       },
     };
 
@@ -182,24 +185,35 @@ export const getFlowGraph =
       keywordLinks,
       actorLinks,
       groupLinks,
-      totals: graph.totals
+      totals: graph.totals,
     };
   };
 
 export const createFlowGraph: TEFlow<
   [UUID, FlowGraphType, GetNetworkQuery],
   FlowGraphOutput
-> = (ctx) => (id, type, query) => {
-  ctx.logger.debug.log(`Flow graph for %s (%s) %O`, type, id, query);
-  const filePath = path.resolve(
-    process.cwd(),
-    `temp/graphs/flows/${type}/${id}.json`
-  );
+> =
+  (ctx) =>
+  (id, type, { relations, emptyRelations, ...query }) => {
+    ctx.logger.debug.log(`Flow graph for %s (%s) %O`, type, id, query);
+    const filePath = path.resolve(
+      process.cwd(),
+      `temp/graphs/flows/${type}/${id}.json`
+    );
 
-  const createFlowGraphTask = pipe(
-    fetchEventsWithRelations(ctx)(type, id, query),
-    fp.TE.map(getFlowGraph(ctx.logger))
-  );
+    const createFlowGraphTask = pipe(
+      fetchEventsByRelation(ctx)(type, [id], {
+        ...query,
+        relations,
+        emptyRelations,
+      }),
+      fp.TE.chainEitherK(({ results }) =>
+        pipe(results.map(toEventV2IO), fp.A.sequence(fp.E.Applicative))
+      ),
+      fp.TE.map(takeEventRelations),
+      fp.TE.chain(fetchEventsRelations(ctx)),
+      fp.TE.map(getFlowGraph(ctx.logger))
+    );
 
-  return pipe(createFlowGraphTask, ctx.fs.getOlderThanOr(filePath, 6));
-};
+    return pipe(createFlowGraphTask, ctx.fs.getOlderThanOr(filePath, 6));
+  };
