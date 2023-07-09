@@ -470,9 +470,9 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
           return (
             <EventsAppBar
               layout={{
-                eventTypes: 6,
-                dateRangeBox: { columns: 4, variant: "slider" },
-                relations: 4,
+                eventTypes: 4,
+                dateRangeBox: { columns: 8, variant: "slider" },
+                relations: 3,
               }}
               events={events}
               totals={totals}
