@@ -2,6 +2,8 @@ import {
   Datagrid,
   DateField,
   Edit,
+  FunctionField,
+  Link,
   List,
   SimpleForm,
   TextField,
@@ -22,6 +24,14 @@ export const SocialPostList: React.FC = () => (
   <List resource={RESOURCE} perPage={50} filters={socialPostFilters}>
     <Datagrid rowClick="edit">
       <TextField source="type" />
+      <FunctionField
+        onClick={(e) => {
+          e.preventDefault();
+        }}
+        render={(r) => {
+          return <Link to={`/${r.type}/${r.entity}`}>{r.content?.title}</Link>;
+        }}
+      />
       <TextField source="status" />
       <DateField showTime source="scheduledAt" />
       <DateField source="createdAt" />
