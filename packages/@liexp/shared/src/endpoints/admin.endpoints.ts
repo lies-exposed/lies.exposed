@@ -1,7 +1,6 @@
 import * as t from "io-ts";
 import { UUID } from "io-ts-types/lib/UUID";
 import { Endpoint } from "ts-endpoint";
-import { SocialPost, ShareMessageResourceType } from "../io/http/SocialPost";
 import { ResourceEndpoints } from "./types";
 
 export const List = Endpoint({
@@ -19,15 +18,15 @@ export const Create = Endpoint({
   Output: t.unknown,
 });
 
-export const PostToPlatform = Endpoint({
-  Method: "POST",
-  getPath: ({ type, id }) => `/admins/share/${type}/${id}`,
-  Input: {
-    Params: t.type({ id: UUID, type: ShareMessageResourceType }),
-    Body: SocialPost,
-  },
-  Output: t.any,
-});
+// export const PostToPlatform = Endpoint({
+//   Method: "POST",
+//   getPath: ({ type, id }) => `/admins/share/${type}/${id}`,
+//   Input: {
+//     Params: t.type({ id: UUID, type: SocialPostResourceType }),
+//     Body: SocialPost,
+//   },
+//   Output: t.any,
+// });
 
 export const Get = Endpoint({
   Method: "GET",
@@ -64,7 +63,7 @@ const admin = ResourceEndpoints({
   Edit,
   Delete,
   Custom: {
-    PostToPlatform,
+    // PostToPlatform,
   },
 });
 
