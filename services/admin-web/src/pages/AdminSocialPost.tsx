@@ -1,3 +1,4 @@
+import { PUBLISHED, TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost";
 import {
   Datagrid,
   DateField,
@@ -5,6 +6,7 @@ import {
   FunctionField,
   Link,
   List,
+  SelectInput,
   SimpleForm,
   TextField,
   useRecordContext,
@@ -18,7 +20,15 @@ import * as React from "react";
 
 const RESOURCE = "social-posts";
 
-const socialPostFilters = [];
+const socialPostFilters = [
+  <SelectInput
+    key="status"
+    choices={[PUBLISHED, TO_PUBLISH].map((t) => ({
+      name: t.value,
+      value: t.value,
+    }))}
+  />,
+];
 
 export const SocialPostList: React.FC = () => (
   <List resource={RESOURCE} perPage={50} filters={socialPostFilters}>

@@ -1,14 +1,11 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { PUBLISHED, TO_PUBLISH } from '@liexp/shared/lib/io/http/SocialPost';
 import addHours from "date-fns/addHours";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as t from "io-ts";
-import {
-  PUBLISHED,
-  SocialPostEntity,
-  TO_PUBLISH,
-} from "@entities/SocialPost.entity";
+import { SocialPostEntity } from "@entities/SocialPost.entity";
 import { postToIG } from "@flows/events/postToIG.flow";
 import { postToTG } from "@flows/events/postToTG.flow";
 import { type Route } from "@routes/route.types";
