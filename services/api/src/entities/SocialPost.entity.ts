@@ -1,4 +1,4 @@
-import * as t from "io-ts";
+import { SocialPostStatus } from '@liexp/shared/lib/io/http/SocialPost';
 import { type UUID } from "io-ts-types/lib/UUID";
 import {
   Column,
@@ -9,14 +9,6 @@ import {
   UpdateDateColumn
 } from "typeorm";
 
-export const TO_PUBLISH = t.literal("TO_PUBLISH");
-export const PUBLISHED = t.literal("PUBLISHED");
-export const SocialPostStatus = t.union(
-  [TO_PUBLISH, PUBLISHED],
-  "SocialPostStatus"
-);
-
-export type SocialPostStatus = t.TypeOf<typeof SocialPostStatus>;
 
 @Entity("social_post")
 export class SocialPostEntity {

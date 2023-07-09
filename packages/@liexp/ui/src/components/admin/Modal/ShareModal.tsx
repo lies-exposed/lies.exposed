@@ -1,8 +1,8 @@
 import { getShareMedia } from "@liexp/shared/lib/helpers/event";
 import { type Media } from "@liexp/shared/lib/io/http";
 import {
+  type CreateSocialPost,
   type SocialPlatform,
-  type SocialPost,
 } from "@liexp/shared/lib/io/http/SocialPost";
 import * as React from "react";
 import { useDataProvider, type Identifier } from "react-admin";
@@ -30,13 +30,13 @@ interface ShareModalProps {
   open: boolean;
   platforms?: SocialPlatform[];
   multipleMedia?: boolean;
-  onPost?: (b: SocialPost) => void;
+  onPost?: (b: CreateSocialPost) => void;
   onClose?: () => void;
-  payload?: Partial<SocialPost>;
+  payload?: Partial<CreateSocialPost>;
   media: Media.Media[];
 }
 
-export const emptySharePayload: SocialPost = {
+export const emptySharePayload: CreateSocialPost = {
   title: undefined,
   date: undefined,
   media: [],
@@ -44,14 +44,15 @@ export const emptySharePayload: SocialPost = {
   url: undefined,
   keywords: [],
   platforms: { IG: true, TG: true },
+  schedule: undefined,
 } as any;
 
 interface ShareModalContentProps {
-  post: SocialPost;
+  post: CreateSocialPost;
   multipleMedia: boolean;
   media: Media.Media[];
   onChange: (p: {
-    payload: SocialPost;
+    payload: CreateSocialPost;
     multipleMedia: boolean;
     media: Media.Media[];
   }) => void;
@@ -270,7 +271,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
   const dataProvider = useDataProvider();
 
   const [{ payload, multipleMedia, media }, setState] = React.useState<{
-    payload: SocialPost;
+    payload: CreateSocialPost;
     media: Media.Media[];
     multipleMedia: boolean;
   }>({
