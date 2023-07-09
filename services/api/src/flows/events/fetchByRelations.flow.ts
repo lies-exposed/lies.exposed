@@ -1,10 +1,11 @@
 import { fp } from "@liexp/core/lib/fp";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
+import { EVENTS } from "@liexp/shared/lib/io/http/Events";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
 import {
-    type GetNetworkQuery,
-    type NetworkType,
+  type GetNetworkQuery,
+  type NetworkType,
 } from "@liexp/shared/lib/io/http/Network";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
@@ -13,8 +14,8 @@ import { type UUID } from "io-ts-types/lib/UUID";
 import { type TEFlow } from "@flows/flow.types";
 import { toControllerError } from "@io/ControllerError";
 import {
-    type SearchEventOutput,
-    searchEventV2Query,
+  searchEventV2Query,
+  type SearchEventOutput,
 } from "@routes/events/queries/searchEventsV2.query";
 
 export const fetchEventsByRelation: TEFlow<
@@ -30,6 +31,7 @@ export const fetchEventsByRelation: TEFlow<
       TE.fromOption(() => toControllerError(new Error("ids can't be empty"))),
       TE.chain((ids) =>
         searchEventV2Query(ctx)({
+          ids: type === EVENTS.value ? O.some(ids) : O.none,
           actors:
             type === ACTORS.value
               ? pipe(
