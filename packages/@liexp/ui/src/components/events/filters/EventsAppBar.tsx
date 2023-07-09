@@ -5,8 +5,15 @@ import {
   type GroupMember,
   type Keyword,
 } from "@liexp/shared/lib/io/http";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
+import { type EventType, type SearchEvent } from "@liexp/shared/lib/io/http/Events";
+import { DEATH } from '@liexp/shared/lib/io/http/Events/Death';
+import { DOCUMENTARY } from '@liexp/shared/lib/io/http/Events/Documentary';
+import { PATENT } from '@liexp/shared/lib/io/http/Events/Patent';
+import { QUOTE } from '@liexp/shared/lib/io/http/Events/Quote';
+import { SCIENTIFIC_STUDY } from '@liexp/shared/lib/io/http/Events/ScientificStudy';
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
+import { TRANSACTION } from '@liexp/shared/lib/io/http/Events/Transaction';
+import { UNCATEGORIZED } from '@liexp/shared/lib/io/http/Events/Uncategorized';
 import ArrowDownIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpIcon from "@mui/icons-material/ArrowUpward";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
@@ -34,6 +41,7 @@ import {
 import SearchEventInput, {
   type SearchFilter,
 } from "../inputs/SearchEventInput";
+import { EventTypeFilters, type EventTypeMap } from './EventTypeFilters';
 import { searchEventQueryToEventTypeFilters } from "./EventsAppBarMinimized";
 
 const PREFIX = "EventsAppBar";
@@ -175,6 +183,28 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
   const [filterPopover, showPopover] = usePopover({
     disablePortal: false,
   });
+
+    const handleFilterChange = React.useCallback(
+    (ff: EventTypeMap, filterK: EventType) => {
+      const type = [
+        [ff.Uncategorized, UNCATEGORIZED.value],
+        [ff.Death, DEATH.value],
+        [ff.Documentary, DOCUMENTARY.value],
+        [ff.Patent, PATENT.value],
+        [ff.ScientificStudy, SCIENTIFIC_STUDY.value],
+        [ff.Transaction, TRANSACTION.value],
+        [ff.Quote, QUOTE.value],
+      ]
+        .map(([enabled, key]: any[]) => (enabled ? key : undefined))
+        .filter((a) => a !== undefined);
+
+      onQueryChange({
+        ...query,
+        type,
+      });
+    },
+    [query]
+  );
 
   const handleQueryChange = (queryUpdate: Partial<SearchFilter>): void => {
     onQueryChange({
@@ -578,12 +608,29 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
               {filterPopover}
               <Grid
                 item
+                sm={8}
+                md={layout?.eventTypes}
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                  width: "100%",
+                }}
+              >
+                <EventTypeFilters
+                  filters={filters.events}
+                  totals={totals}
+                  onChange={handleFilterChange}
+                />
+              </Grid>
+              <Grid
+                item
                 xs={12}
                 sm={12}
-                md={props.layout?.dateRangeBox?.columns ?? 12}
-                lg={props.layout?.dateRangeBox?.columns ?? 12}
+                md={layout.dateRangeBox?.columns ?? 12}
+                lg={layout.dateRangeBox?.columns ?? 12}
               >
-                {props.layout?.dateRangeBox?.variant === "slider" ? (
+                {layout.dateRangeBox?.variant === "slider" ? (
                   <DateRangeSlider
                     minDate={dateRange[0]}
                     maxDate={dateRange[1]}

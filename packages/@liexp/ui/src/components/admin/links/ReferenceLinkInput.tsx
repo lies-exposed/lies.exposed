@@ -53,7 +53,7 @@ const ReferenceLinkInput: React.FC<
           optionText={<LinkAutocompleteOptionText />}
           matchSuggestion={matchLinkSuggestions}
           inputText={(r) => r.description}
-          filterToQuery={(description) => ({ description })}
+          filterToQuery={(q) => ({ q })}
         />
       </ReferenceInput>
       <Button
