@@ -1,7 +1,7 @@
 import * as http from "../../io/http";
 import {
   type SocialPost,
-  type ShareMessageBodyMultipleMedia,
+  type SocialPostBodyMultipleMedia,
 } from "../../io/http/SocialPost";
 
 export const getShareSingleMedia = (
@@ -27,8 +27,8 @@ export const getShareSingleMedia = (
 export const getShareMultipleMedia = (
   media: http.Media.Media[],
   defaultImage: string
-): ShareMessageBodyMultipleMedia => {
-  const cover = media.reduce<ShareMessageBodyMultipleMedia>((acc, m) => {
+): SocialPostBodyMultipleMedia => {
+  const cover = media.reduce<SocialPostBodyMultipleMedia>((acc, m) => {
     if (http.Media.IframeVideoType.is(m.type)) {
       return acc.concat([{ type: "photo", media: m.thumbnail as any }]);
     } else if (http.Media.MP4Type.is(m.type)) {

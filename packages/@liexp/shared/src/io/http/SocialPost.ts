@@ -6,15 +6,15 @@ import { GROUPS, Group } from "./Group";
 import { KEYWORDS, Keyword } from "./Keyword";
 import { MEDIA } from "./Media";
 
-export const ShareMessageBodyMultipleMedia = t.array(
+export const SocialPostBodyMultipleMedia = t.array(
   t.type({
     type: t.union([t.literal("photo"), t.literal("video")]),
     media: t.string,
   }),
-  "ShareMessageBodyMultipleMedia"
+  "SocialPostBodyMultipleMedia"
 );
-export type ShareMessageBodyMultipleMedia = t.TypeOf<
-  typeof ShareMessageBodyMultipleMedia
+export type SocialPostBodyMultipleMedia = t.TypeOf<
+  typeof SocialPostBodyMultipleMedia
 >;
 export const IGPlatform = t.literal("IG");
 export type IGPlatform = t.TypeOf<typeof IGPlatform>;
@@ -28,12 +28,12 @@ export const SocialPlatform = t.union(
 );
 export type SocialPlatform = t.TypeOf<typeof SocialPlatform>;
 
-export const ShareMessageResourceType = t.union(
+export const SocialPostResourceType = t.union(
   [ACTORS, GROUPS, KEYWORDS, MEDIA, EVENTS],
-  "ShareMessageResourceType"
+  "SocialPostResourceType"
 );
-export type ShareMessageResourceType = t.TypeOf<
-  typeof ShareMessageResourceType
+export type SocialPostResourceType = t.TypeOf<
+  typeof SocialPostResourceType
 >;
 
 export const TO_PUBLISH = t.literal("TO_PUBLISH");
@@ -53,14 +53,14 @@ export const CreateSocialPost = t.strict(
     url: t.string,
     date: t.string,
     content: t.string,
-    media: t.union([t.string, ShareMessageBodyMultipleMedia]),
+    media: t.union([t.string, SocialPostBodyMultipleMedia]),
     actors: t.array(Actor),
     groups: t.array(Group),
     keywords: t.array(Keyword),
     platforms: t.record(SocialPlatform, t.boolean),
     schedule: t.union([t.number, t.undefined]),
   },
-  "ShareMessageBody"
+  "CreateSocialPost"
 );
 export type CreateSocialPost = t.TypeOf<typeof CreateSocialPost>;
 
