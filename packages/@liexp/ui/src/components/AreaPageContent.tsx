@@ -15,6 +15,11 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({ area }) => {
       <Grid item md={12}>
         <>
           <MediaSliderBox
+            itemStyle={(i) => ({
+              display: "block",
+              height: '100%',
+              width: '100%'
+            })}
             query={{
               filter: { ids: area.media },
               pagination: {
