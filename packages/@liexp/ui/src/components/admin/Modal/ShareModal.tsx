@@ -234,24 +234,49 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
         />
       </Box>
       <Box>
-        <Input
-          fullWidth
-          multiline
-          name="schedule"
-          value={payload.schedule ?? ""}
-          onChange={(e) => {
-            if (e.target.value !== "") {
-              setState({
-                multipleMedia,
-                media,
-                payload: {
-                  ...payload,
-                  schedule: parseInt(e.target.value, 10),
-                },
-              });
-            }
-          }}
+        <FormControlLabel
+          control={
+            <Switch
+              size="small"
+              inputProps={{
+                "aria-label": "Post on Telegram",
+              }}
+              value={payload.schedule !== undefined}
+              checked={payload.schedule !== undefined}
+              onChange={() => {
+                setState({
+                  multipleMedia,
+                  media,
+                  payload: {
+                    ...payload,
+                    schedule: payload.schedule ? undefined : 0,
+                  },
+                });
+              }}
+            />
+          }
+          label={"Schedule (+ hours from now)"}
         />
+        {payload.schedule !== undefined ? (
+          <Input
+            fullWidth
+            multiline
+            name="schedule"
+            value={payload.schedule ?? ""}
+            onChange={(e) => {
+              if (e.target.value !== "") {
+                setState({
+                  multipleMedia,
+                  media,
+                  payload: {
+                    ...payload,
+                    schedule: parseInt(e.target.value, 10),
+                  },
+                });
+              }
+            }}
+          />
+        ) : null}
       </Box>
     </Box>
   );
@@ -266,7 +291,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
   payload: _payload,
   media: _media = [],
   onClose,
-  onPost
+  onPost,
 }) => {
   const dataProvider = useDataProvider();
 
