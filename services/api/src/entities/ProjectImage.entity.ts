@@ -24,7 +24,7 @@ export class ProjectImageEntity {
   kind: http.ProjectImage.Kind;
 
   @ManyToOne(() => MediaEntity, (a) => a.id, {
-    cascade: true,
+    cascade: ["insert"],
     nullable: false,
   })
   @JoinColumn()

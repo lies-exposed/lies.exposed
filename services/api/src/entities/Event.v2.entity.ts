@@ -48,21 +48,21 @@ export class EventV2Entity {
   payload: http.Events.Event["payload"];
 
   @ManyToMany(() => LinkEntity, (a) => a.events, {
-    cascade: true,
+    cascade: ["insert"],
     nullable: true,
   })
   @JoinTable()
   links: LinkEntity[];
 
   @ManyToMany(() => MediaEntity, (a) => a.events, {
-    cascade: true,
+    cascade: ["insert"],
     nullable: true,
   })
   @JoinTable()
   media: MediaEntity[];
 
   @ManyToMany(() => KeywordEntity, (a) => a.events, {
-    cascade: true,
+    cascade: ['insert'],
     nullable: true,
   })
   @JoinTable()
@@ -73,6 +73,7 @@ export class EventV2Entity {
 
   @ManyToMany(() => StoryEntity, (k) => k.events, {
     cascade: false,
+    onDelete: "NO ACTION",
   })
   stories: StoryEntity[];
 

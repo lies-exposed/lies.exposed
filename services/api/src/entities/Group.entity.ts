@@ -50,8 +50,8 @@ export class GroupEntity {
   body: Record<string, unknown> | null;
 
   @OneToMany(() => GroupMemberEntity, (member) => member.group, {
+    cascade: ["insert"],
     nullable: true,
-    cascade: true,
   })
   members: GroupMemberEntity[];
 
