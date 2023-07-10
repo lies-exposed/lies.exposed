@@ -37,7 +37,7 @@ export class GroupMemberEntity {
 
   @ManyToOne(() => ActorEntity, (a) => a.id, {
     nullable: false,
-    cascade: false,
+    cascade: false
   })
   actor: ActorEntity;
 

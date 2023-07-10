@@ -32,10 +32,12 @@ export class ProjectEntity {
   @Column({ type: "varchar", nullable: false })
   body: string;
 
-  @OneToMany(() => ProjectImageEntity, (a) => a.project, { cascade: true })
+  @OneToMany(() => ProjectImageEntity, (a) => a.project, {
+    cascade: ["insert"],
+  })
   media: ProjectImageEntity[];
 
-  @ManyToMany(() => AreaEntity, { cascade: true })
+  @ManyToMany(() => AreaEntity, { cascade: ["insert"] })
   @JoinTable()
   areas: AreaEntity[];
 
