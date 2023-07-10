@@ -101,6 +101,7 @@ export const ThumbnailEditField: React.FC<FieldProps> = (props) => {
             onClick={() => {
               setLoaded(true);
             }}
+            style={{ margin: 20 }}
           >
             <MediaField {...props} source="thumbnail" type="image/jpg" />
           </Box>

@@ -13,9 +13,13 @@ export const getShareSingleMedia = (
       if (http.Media.IframeVideoType.is(m.type)) {
         return m.thumbnail;
       } else if (http.Media.MP4Type.is(m.type)) {
-        return m.thumbnail;
+        return m.location;
       } else if (http.Media.ImageType.is(m.type)) {
         return m.thumbnail;
+      } else if (http.Media.PDFType.is(m.type)) {
+        return m.location;
+      } else if (http.Media.MP3Type.is(m.type)) {
+        return m.location;
       }
     }
     return cover;
@@ -29,15 +33,11 @@ export const getShareMultipleMedia = (
   defaultImage: string
 ): SocialPostBodyMultipleMedia => {
   const cover = media.reduce<SocialPostBodyMultipleMedia>((acc, m) => {
-    if (http.Media.IframeVideoType.is(m.type)) {
-      return acc.concat([{ type: "photo", media: m.thumbnail as any }]);
-    } else if (http.Media.MP4Type.is(m.type)) {
+    if (http.Media.MP4Type.is(m.type)) {
       return acc.concat([{ type: "video", media: m.location }]);
-    } else if (http.Media.ImageType.is(m.type)) {
+    } else {
       return acc.concat([{ type: "photo", media: m.thumbnail ?? m.location }]);
     }
-
-    return acc;
   }, []);
 
   return cover.length > 0 ? cover : [{ type: "photo", media: defaultImage }];
