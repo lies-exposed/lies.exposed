@@ -87,10 +87,10 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                   label: "Flow",
                 },
                 {
-                  label: "Networks",
+                  label: "General",
                 },
                 {
-                  label: "General",
+                  label: "Networks",
                 },
                 {
                   label: "Hierarchy",
@@ -101,28 +101,28 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                 item: actor,
               }}
             >
+              <EventsPanelBox
+                slide={false}
+                query={{
+                  ...query,
+                  hash: `actor-${actor.id}`,
+                  actors: query.actors
+                    ? [...query.actors, actor.id]
+                    : [actor.id],
+                }}
+                tab={0}
+                onQueryChange={onQueryChange}
+                onEventClick={onEventClick}
+              />
+
+              <EventsFlowGraphBox
+                type="actors"
+                id={actor.id}
+                query={{}}
+                onEventClick={onEventClick}
+              />
+
               <Box style={{ display: "flex" }}>
-                <EventsPanelBox
-                  slide={false}
-                  query={{
-                    ...query,
-                    hash: `actor-${actor.id}`,
-                    actors: query.actors
-                      ? [...query.actors, actor.id]
-                      : [actor.id],
-                  }}
-                  tab={0}
-                  onQueryChange={onQueryChange}
-                  onEventClick={onEventClick}
-                />
-
-                <EventsFlowGraphBox
-                  type="actors"
-                  id={actor.id}
-                  query={{}}
-                  onEventClick={onEventClick}
-                />
-
                 <Grid container>
                   <Grid item md={6}>
                     <ActorPageContent
