@@ -25,6 +25,7 @@ export type VideoPlatformMatch =
   | {
       platform: Rumble;
       id: string;
+      type: "embed" | "page";
     }
   | {
       platform: Peertube;
@@ -61,9 +62,10 @@ const bitchuteVideoRegExp =
 const odyseeVideoRegExp =
   /http(?:s?):\/\/(?:www\.)?odysee\.com\/\$\/(download|embed)\/([^/]+)\/([^/]+)$/;
 
-const rumbleVideoRegExp =
+const rumbleEmbedVideoRegExp =
   /http(?:s?):\/\/(?:www\.)?rumble\.com\/embed\/([\w\-_]*)\/?([\w?=]*)/;
-const rumbleVideoRegExp2 = /http(?:s?):\/\/(?:www\.)?rumble\.com\/([\w\-_]*)/;
+const rumblePageVideoRegExp =
+  /http(?:s?):\/\/(?:www\.)?rumble\.com\/([\w\-_]*)/;
 
 const dailyMotionRegExp =
   /http(?:s?):\/\/(?:www\.)?dailymotion\.com\/embed\/video\/([\w\-_]*)/;
@@ -78,8 +80,8 @@ const peertubeEmbedVideoRegExp =
 
 const supportedPlatformsRegExp = [
   odyseeVideoRegExp,
-  rumbleVideoRegExp,
-  rumbleVideoRegExp2,
+  rumbleEmbedVideoRegExp,
+  rumblePageVideoRegExp,
   peertubeVideoRegExp,
   dailyMotionRegExp,
   dailyMotionRegExp2,
@@ -118,7 +120,7 @@ export const getPlatform = (
   }
 
   // rumble
-  const rumbleMatch = url.match(rumbleVideoRegExp);
+  const rumbleMatch = url.match(rumbleEmbedVideoRegExp);
   if (
     t.string.is(rumbleMatch?.[1]) &&
     t.string.is(rumbleMatch?.[2]) &&
@@ -127,14 +129,16 @@ export const getPlatform = (
     return E.right({
       platform: "rumble",
       id: rumbleMatch[1],
+      type: "embed",
     });
   }
 
-  const rumbleMatch2 = url.match(rumbleVideoRegExp2);
-  if (rumbleMatch2) {
+  const rumblePageMatch = url.match(rumblePageVideoRegExp);
+  if (rumblePageMatch) {
     return E.right({
       platform: "rumble",
-      id: rumbleMatch2[1],
+      id: rumblePageMatch[1],
+      type: "page",
     });
   }
 
@@ -171,7 +175,6 @@ export const getPlatform = (
   }
 
   const peertubeEmbedMatch = url.match(peertubeEmbedVideoRegExp);
-
 
   if (
     typeof peertubeEmbedMatch?.[1] === "string" &&
