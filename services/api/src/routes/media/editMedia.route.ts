@@ -1,7 +1,4 @@
-import path from "path";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { ImageType } from "@liexp/shared/lib/io/http/Media";
-import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils";
 import { type Router } from "express";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
@@ -65,18 +62,17 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
                     m.id,
                     m.thumbnail,
                     `${m.id}-thumb`,
-                    contentTypeFromFileExt(path.extname(m.thumbnail)) as any
+                    m.type
                   )
                 : TE.right(O.toNullable(thumbnail)),
-              location:
-                O.isSome(transfer) && ImageType.is(m.type)
-                  ? transferFromExternalProvider(ctx)(
-                      m.id,
-                      m.location,
-                      m.id,
-                      m.type
-                    )
-                  : TE.right(location),
+              location: O.isSome(transfer)
+                ? transferFromExternalProvider(ctx)(
+                    m.id,
+                    m.location,
+                    m.id,
+                    m.type
+                  )
+                : TE.right(location),
             }),
             ctx.logger.debug.logInTaskEither(`Updates %O`),
             TE.map(({ thumbnail, location }) => ({
