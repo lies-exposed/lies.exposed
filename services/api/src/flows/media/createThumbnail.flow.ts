@@ -117,7 +117,12 @@ export const extractThumbnail = (
           });
         }
         case "rumble": {
-          const selector = "#videoPlayer video[poster]";
+          let selector;
+          if (match.type === "embed") {
+            selector = ".player-Rumble-cls video[poster]";
+          } else {
+            selector = "#videoPlayer video[poster]";
+          }
           await page.waitForSelector(selector);
 
           const videoPosterSrc = await page.$eval(selector, (el) => {
@@ -216,7 +221,12 @@ export const createThumbnail: TEFlow<
           "-thumbnail.png"
         );
 
-        const key = getMediaKey("media", url[url.length -2], thumbnailName, "image/png");
+        const key = getMediaKey(
+          "media",
+          url[url.length - 2],
+          thumbnailName,
+          "image/png"
+        );
 
         return ctx.s3.upload({
           Key: key,
