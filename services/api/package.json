@@ -36,9 +36,9 @@
     "set-default-group-usernames": "yarn ts:node:build ./bin/set-default-group-usernames.ts"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.359.0",
-    "@aws-sdk/lib-storage": "^3.359.0",
-    "@aws-sdk/s3-request-presigner": "^3.359.0",
+    "@aws-sdk/client-s3": "^3.367.0",
+    "@aws-sdk/lib-storage": "^3.367.0",
+    "@aws-sdk/s3-request-presigner": "^3.367.0",
     "@databases/escape-identifier": "^1.0.3",
     "@databases/pg": "^5.4.1",
     "@liexp/backend": "0.1.0",
