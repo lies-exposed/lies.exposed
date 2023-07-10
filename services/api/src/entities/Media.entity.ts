@@ -47,22 +47,34 @@ export class MediaEntity {
   @JoinTable()
   creator: UserEntity | null;
 
-  @ManyToMany(() => EventV2Entity, (e) => e.media, { cascade: false })
+  @ManyToMany(() => EventV2Entity, (e) => e.media, {
+    cascade: false,
+  })
   events: EventV2Entity[];
 
-  @OneToMany(() => LinkEntity, (e) => e.image, { cascade: false })
+  @OneToMany(() => LinkEntity, (e) => e.image, {
+    cascade: false,
+  })
   links: LinkEntity[];
 
-  @ManyToMany(() => AreaEntity, (a) => a.media, { cascade: false })
+  @ManyToMany(() => AreaEntity, (a) => a.media, {
+    cascade: false,
+  })
   areas: AreaEntity[];
 
-  @OneToMany(() => StoryEntity, (a) => a.featuredImage, { cascade: false })
+  @OneToMany(() => StoryEntity, (a) => a.featuredImage, {
+    cascade: false,
+  })
   featuredIn: StoryEntity[];
 
-  @ManyToMany(() => StoryEntity, (a) => a.media, { cascade: false })
+  @ManyToMany(() => StoryEntity, (a) => a.media, {
+    cascade: false,
+  })
   stories: StoryEntity[];
 
-  @ManyToMany(() => KeywordEntity, (a) => a.media, { cascade: false })
+  @ManyToMany(() => KeywordEntity, (a) => a.media, {
+    cascade: false,
+  })
   keywords: KeywordEntity[];
 
   @CreateDateColumn()

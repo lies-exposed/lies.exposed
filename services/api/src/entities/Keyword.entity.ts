@@ -38,7 +38,9 @@ export class KeywordEntity {
   @JoinTable()
   stories: StoryEntity[];
 
-  @ManyToMany(() => MediaEntity, (e) => e.keywords, { cascade: false })
+  @ManyToMany(() => MediaEntity, (e) => e.keywords, {
+    cascade: false,
+  })
   @JoinTable()
   media: MediaEntity[];
 

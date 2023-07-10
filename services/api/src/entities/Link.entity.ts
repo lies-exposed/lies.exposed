@@ -32,7 +32,10 @@ export class LinkEntity {
   @Column({ type: "varchar", nullable: true })
   description: string;
 
-  @ManyToOne(() => MediaEntity, { nullable: true, cascade: true })
+  @ManyToOne(() => MediaEntity, {
+    cascade: ["insert"],
+    nullable: true,
+  })
   @JoinColumn()
   image: MediaEntity | null;
 
@@ -48,10 +51,14 @@ export class LinkEntity {
   })
   creator: UserEntity | null;
 
-  @ManyToMany(() => EventV2Entity, (e) => e.links, { cascade: false })
+  @ManyToMany(() => EventV2Entity, (e) => e.links, {
+    cascade: false,
+  })
   events: EventV2Entity[];
 
-  @ManyToMany(() => KeywordEntity, (e) => e.links, { cascade: false })
+  @ManyToMany(() => KeywordEntity, (e) => e.links, {
+    cascade: false,
+  })
   keywords: KeywordEntity[];
 
   @CreateDateColumn()

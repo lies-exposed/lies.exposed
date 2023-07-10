@@ -31,13 +31,13 @@ export class DeathEventEntity {
   location: { type: "Point"; coordinates: [number, number] } | null;
 
   @OneToMany(() => LinkEntity, (a) => [], {
-    cascade: true,
+    cascade: ["insert"],
     nullable: true,
   })
   news: LinkEntity[];
 
   @ManyToMany(() => MediaV1Entity, (a) => a.events, {
-    cascade: true,
+    cascade: ["insert"],
     nullable: true,
   })
   @JoinTable()

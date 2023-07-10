@@ -62,21 +62,21 @@ export class EventEntity {
   groupsMembers: GroupMemberEntity[];
 
   @ManyToMany(() => LinkEntity, (a) => a.events, {
-    cascade: true,
+    cascade: ["insert"],
     nullable: true,
   })
   @JoinTable()
   links: LinkEntity[];
 
   @ManyToMany(() => MediaV1Entity, (a) => a.events, {
-    cascade: true,
+    cascade: ["insert"],
     nullable: true,
   })
   @JoinTable()
   media: MediaV1Entity[];
 
   @ManyToMany(() => KeywordEntity, (a) => a.events, {
-    cascade: true,
+    cascade: ["insert"],
     nullable: true,
   })
   @JoinTable()
