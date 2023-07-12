@@ -19,6 +19,7 @@ import {
   useRefresh,
   type EditProps,
   type FieldProps,
+  FormDataConsumer,
 } from "react-admin";
 import { transformMedia } from "../../../client/admin/MediaAPI";
 import { Box, Button, Grid } from "../../mui";
@@ -95,42 +96,47 @@ export const ThumbnailEditField: React.FC<FieldProps> = (props) => {
 
   return (
     <Box style={{ display: "flex" }}>
-      {!loaded ? (
-        <Box style={{ display: "flex", flexDirection: "column" }}>
-          <Box
-            onClick={() => {
-              setLoaded(true);
-            }}
-            style={{ margin: 20 }}
-          >
-            <MediaField {...props} source="thumbnail" type="image/jpg" />
-          </Box>
-          <GenerateThumbnailButton {...props} />
-          <TransferButton target="thumbnail" />
-        </Box>
-      ) : (
-        <Box style={{ display: "flex", flexDirection: "column" }}>
-          <TextInput
-            {...props}
-            label="thumbnail"
-            source="thumbnail"
-            type={"url"}
-          />
-          <MediaInput
-            {...props}
-            label="Location"
-            sourceLocation="thumbnail"
-            sourceType={ImageType.types[0].value}
-          />
-          <Button
-            onClick={() => {
-              setLoaded(false);
-            }}
-          >
-            Preview
-          </Button>
-        </Box>
-      )}
+      <FormDataConsumer>
+        {() => {
+          return !loaded ? (
+            <Box style={{ display: "flex", flexDirection: "column" }}>
+              <Box
+                onClick={(e) => {
+                  setLoaded(true);
+                  e.stopPropagation();
+                }}
+                style={{ margin: 20 }}
+              >
+                <MediaField {...props} source="thumbnail" type="image/jpg" />
+              </Box>
+              <GenerateThumbnailButton {...props} />
+              <TransferButton target="thumbnail" />
+            </Box>
+          ) : (
+            <Box style={{ display: "flex", flexDirection: "column" }}>
+              <TextInput
+                {...props}
+                label="thumbnail"
+                source="thumbnail"
+                type={"url"}
+              />
+              <MediaInput
+                {...props}
+                label="Location"
+                sourceLocation="thumbnail"
+                sourceType={ImageType.types[0].value}
+              />
+              <Button
+                onClick={() => {
+                  setLoaded(false);
+                }}
+              >
+                Preview
+              </Button>
+            </Box>
+          );
+        }}
+      </FormDataConsumer>
     </Box>
   );
 };
