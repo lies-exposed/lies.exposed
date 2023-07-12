@@ -3,7 +3,7 @@ import { type CreateGroupBody } from "@liexp/shared/lib/io/http/Group";
 import { createExcerptValue } from "@liexp/shared/lib/slate";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors";
 import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import { type TEFlow } from "@flows/flow.types";
 import { fetchFromWikipedia } from "@flows/wikipedia/fetchFromWikipedia";
 import { NotFoundError, toControllerError } from "@io/ControllerError";

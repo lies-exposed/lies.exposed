@@ -1,6 +1,6 @@
 import { type Logger } from "@liexp/core/lib/logger";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { type IOError } from "ts-io-error";
 import model from "wink-eng-lite-web-model";
 import winkNLP, { type CustomEntityExample, type Detail } from "wink-nlp";

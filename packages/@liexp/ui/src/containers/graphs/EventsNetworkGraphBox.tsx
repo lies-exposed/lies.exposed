@@ -10,11 +10,11 @@ import {
   type NetworkGroupBy,
   type NetworkType,
 } from "@liexp/shared/lib/io/http/Network";
-import { parseDate } from "@liexp/shared/lib/utils/date";
 import { ParentSize } from "@visx/responsive";
 import { differenceInDays, parseISO } from "date-fns";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
+import { type UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
 import { type GetListParams } from "react-admin";
 import {
@@ -65,13 +65,13 @@ interface EventNetworkGraphBoxWrapperProps<T extends any>
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
-export const EventNetworkGraphBoxWrapper = <T extends any>({
+export const EventsNetworkGraphBoxWrapper = <T extends any>({
   count = 50,
   query: { ids, eventType, ...query },
   type,
-  // selectedActorIds,
-  // selectedGroupIds,
-  // selectedKeywordIds,
+  selectedActorIds,
+  selectedGroupIds,
+  selectedKeywordIds,
   relations: _relations = [KEYWORDS.value],
   onRelationsChange,
   showRelations = true,
@@ -129,11 +129,15 @@ export const EventNetworkGraphBoxWrapper = <T extends any>({
       }}
       render={({ graph }) => {
         const innerProps = transform(graph, {
-          query: { ids, eventType: EventType.types.map((t) => t.value), ...query },
+          query: {
+            ...query,
+            ids,
+            eventType,
+          },
           type,
-          selectedActorIds: query.actors,
-          selectedGroupIds: query.groups,
-          selectedKeywordIds: query.keywords,
+          selectedActorIds,
+          selectedGroupIds,
+          selectedKeywordIds,
         });
 
         return (
@@ -223,22 +227,26 @@ export const EventNetworkGraphBoxWrapper = <T extends any>({
 
 const transformNetworkOutput = (
   graph: NetworkGraphOutput,
-  {
-    selectedActorIds,
-    selectedGroupIds,
-    selectedKeywordIds,
-    type,
-    query: { ids, eventType, ...query },
-    ...props
-  }: EventNetworkGraphBoxProps,
+  props: EventNetworkGraphBoxProps,
 ): Omit<EventsNetworkGraphProps, "width" | "height"> & {
   minDate: Date;
   maxDate: Date;
   totals: EventTotals;
 } => {
-  const startDate = parseDate(query.startDate);
-  const endDate = parseDate(query.endDate);
+  // console.log("transform network output", props);
+  const {
+    selectedActorIds,
+    selectedGroupIds,
+    selectedKeywordIds,
+    type,
+    query: { ids, eventType, ...query },
+    ...otherProps
+  } = props;
 
+  const startDate = parseISO(query.startDate);
+  const endDate = parseISO(query.endDate);
+
+  // console.log({ startDate, endDate });
   const {
     eventLinks,
     actorLinks,
@@ -255,81 +263,103 @@ const transformNetworkOutput = (
     events.length > 0 ? events.at(events.length - 1).date : new Date();
   const maxDate = events.length > 0 ? events.at(0).date : new Date();
 
-  const filteredEvents = events.filter((e) => {
-    const date = parseISO(e.date);
-    const min = differenceInDays(date, startDate);
-    if (min < 0) {
-      // console.log(`Days to start date ${startDate}`, min);
-      return false;
-    }
-
-    const max = differenceInDays(endDate, date);
-
-    if (max < 0) {
-      // console.log(`Days to endDate date ${endDate}`, max);
-      return false;
-    }
-
-    // console.log("e", e);
-    const eventRelations = getRelationIds(e);
-    // console.log("event relations", eventRelations);
-    if (selectedActorIds && selectedActorIds.length > 0) {
-      // console.log("filter per actors", eventRelations.actors);
-      const hasActor = eventRelations.actors.some((a: any) =>
-        (selectedActorIds ?? []).includes(a),
-      );
-      if (!hasActor) {
-        // console.log("no actors found", selectedActorIds);
-        return false;
+  // console.log({ minDate, maxDate });
+  const filteredEvents = events
+    .map((e) => {
+      const date = parseISO(e.date);
+      const min = differenceInDays(date, startDate);
+      if (min < 0) {
+        // console.log(`Days to start date ${startDate}`, min);
+        return fp.E.left(
+          `${e.id} date ${e.date} is less than min date ${startDate}`,
+        );
       }
-    }
 
-    if (selectedGroupIds && selectedGroupIds.length > 0) {
-      // console.log("filter per groups", selectedGroupIds);
-      const hasGroup = eventRelations.groups.some((a: any) =>
-        (selectedGroupIds ?? []).includes(a.id),
-      );
-      if (!hasGroup) {
-        // console.log("no groups found", selectedGroupIds);
-        return false;
+      const max = differenceInDays(endDate, date);
+
+      if (max < 0) {
+        // console.log(`Days to endDate date ${endDate}`, max);
+        return fp.E.left(
+          `${e.id} date ${e.date} is greater than max date ${endDate}`,
+        );
       }
-    }
 
-    if (selectedKeywordIds && selectedKeywordIds.length > 0) {
-      // console.log("filter per keywords", selectedKeywordIds);
-      // console.log("event keywords", eventRelations.keywords);
-      const hasKeyword = eventRelations.keywords.some((a: any) =>
-        (selectedKeywordIds ?? []).includes(a.id),
-      );
-      if (!hasKeyword) {
-        // console.log("no keywords found", query.keywords);
-        return false;
+      // console.log("e", e);
+      const eventRelations = getRelationIds(e);
+      // console.log("event relations", eventRelations);
+      if (selectedActorIds && selectedActorIds.length > 0) {
+        // console.log("filter per actors", eventRelations.actors);
+        const hasActor = eventRelations.actors.some((a: any) =>
+          (selectedActorIds ?? []).includes(a),
+        );
+        if (!hasActor) {
+          // console.log("no actors found", selectedActorIds);
+          return fp.E.left(
+            `${e.id} has no actors ${selectedActorIds} in ${eventRelations.actors}`,
+          );
+        }
       }
-    }
 
-    // console.log("query type", queryType);
-    const isTypeIncluded: boolean = pipe(
-      eventType,
-      fp.O.fromNullable,
-      fp.O.chain((et) =>
-        EventType.is(et) ? fp.O.some(et === e.type) : fp.O.none,
-      ),
-      fp.O.alt(() =>
-        t.array(EventType).is(eventType)
-          ? fp.O.some(eventType.includes(e.type))
-          : fp.O.none,
-      ),
-      fp.O.getOrElse(() => true),
-    );
+      if (selectedGroupIds && selectedGroupIds.length > 0) {
+        // console.log("filter per groups", selectedGroupIds);
+        const hasGroup = eventRelations.groups.some((a) =>
+          (selectedGroupIds ?? []).includes(a),
+        );
+        if (!hasGroup) {
+          // console.log("no groups found", selectedGroupIds);
+          return fp.E.left(
+            `${e.id} has no groups ${selectedGroupIds} in ${eventRelations.groups}`,
+          );
+        }
+      }
 
-    // console.log("is type included", isTypeIncluded);
+      if (selectedKeywordIds && selectedKeywordIds.length > 0) {
+        const eventKeywordIds = eventRelations.keywords.map(
+          (a: any): UUID => a.id,
+        );
+        const hasKeyword = eventKeywordIds.some((a) =>
+          (selectedKeywordIds ?? []).includes(a),
+        );
 
-    if (!isTypeIncluded) {
-      return false;
-    }
+        if (!hasKeyword) {
+          return fp.E.left(
+            `${
+              e.id
+            } has no keywords ${selectedKeywordIds} in ${eventKeywordIds.join(
+              ", ",
+            )}`,
+          );
+        }
+      }
 
-    return true;
-  });
+      // console.log("query type", queryType);
+      const isTypeIncluded: boolean = pipe(
+        eventType,
+        fp.O.fromNullable,
+        fp.O.chain((et) =>
+          EventType.is(et) ? fp.O.some(et === e.type) : fp.O.none,
+        ),
+        fp.O.alt(() =>
+          t.array(EventType).is(eventType)
+            ? fp.O.some(eventType.includes(e.type))
+            : fp.O.none,
+        ),
+        fp.O.getOrElse(() => true),
+      );
+
+      if (!isTypeIncluded) {
+        return fp.E.left(`${e.id} type ${e.type} not included in ${eventType}`);
+      }
+
+      return fp.E.right(e);
+    })
+    .flatMap((res) => {
+      if (fp.E.isLeft(res)) {
+        // console.log(`Not included:`, res.left);
+        return [];
+      }
+      return [res.right];
+    });
 
   // console.log(filteredEvents);
 
@@ -363,7 +393,7 @@ const transformNetworkOutput = (
     .concat(relationLinks);
 
   return {
-    ...props,
+    ...otherProps,
     events: filteredEvents,
     actors,
     groups,
@@ -375,7 +405,7 @@ const transformNetworkOutput = (
   };
 };
 
-export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
+export const EventsNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
   query,
   ...props
 }) => {
@@ -383,21 +413,21 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
 
   return (
     <Box style={{ width: "100%", height: "100%" }}>
-      <EventNetworkGraphBoxWrapper
+      <EventsNetworkGraphBoxWrapper
         {...props}
         query={{ ...query }}
         transform={transformNetworkOutput}
         hash={hash}
       >
         {({ width, height, ...otherProps }: EventsNetworkGraphProps) => {
-          // console.log({ width, height });
+          // console.log("events network props", { ...otherProps });
 
           // return <div style={{ width, height: 600, background: "red" }} />;
           return (
             <EventsNetworkGraph width={width} height={height} {...otherProps} />
           );
         }}
-      </EventNetworkGraphBoxWrapper>
+      </EventsNetworkGraphBoxWrapper>
     </Box>
   );
 };
@@ -420,21 +450,17 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
   onQueryChange,
   ...props
 }) => {
-  const [state, setState] = React.useState<{
-    startDate: string;
-    endDate: string;
-    eventType: EventType[] | EventType | undefined;
-    selectedActorIds: string[];
-    selectedGroupIds: string[];
-    selectedKeywordIds: string[];
-  }>({
-    startDate: query.startDate,
-    eventType: query.eventType ?? EventType.types.map((t) => t.value),
-    endDate: query.endDate,
-    selectedActorIds: props.selectedActorIds ?? [],
-    selectedGroupIds: props.selectedGroupIds ?? [],
-    selectedKeywordIds: props.selectedKeywordIds ?? [],
-  });
+  const state = React.useMemo(
+    () => ({
+      startDate: query.startDate,
+      eventType: query.eventType ?? EventType.types.map((t) => t.value),
+      endDate: query.endDate,
+      selectedActorIds: props.selectedActorIds ?? [],
+      selectedGroupIds: props.selectedGroupIds ?? [],
+      selectedKeywordIds: props.selectedKeywordIds ?? [],
+    }),
+    [query],
+  );
 
   return (
     <Box
@@ -444,7 +470,7 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
         width: "100%",
       }}
     >
-      <EventNetworkGraphBoxWrapper
+      <EventsNetworkGraphBoxWrapper
         {...props}
         hash={"event-network-graph-box-wrapper"}
         query={{
@@ -479,9 +505,6 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
               query={{
                 hash: "",
                 ...query,
-                actors: state.selectedActorIds,
-                groups: state.selectedGroupIds,
-                keywords: state.selectedKeywordIds,
                 eventType: state.eventType,
                 startDate: state.startDate,
                 endDate: state.endDate,
@@ -501,25 +524,17 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
               }))}
               groupsMembers={[]}
               onQueryChange={(q) => {
-                setState((s) => ({
-                  ...s,
-                  ...q,
-                  eventType: q.eventType,
-                  startDate: q.startDate ?? state.startDate,
-                  endDate: q.endDate ?? state.endDate,
-                  selectedActorIds: q.actors ?? [],
-                  selectedGroupIds: q.groups ?? [],
-                  selectedKeywordIds: q.keywords ?? [],
-                }));
+                onQueryChange(q);
               }}
               onQueryClear={() => {
-                setState({
+                onQueryChange({
                   eventType: undefined,
                   startDate: query.startDate,
                   endDate: query.endDate,
-                  selectedActorIds: props.selectedActorIds ?? [],
-                  selectedGroupIds: props.selectedGroupIds ?? [],
-                  selectedKeywordIds: props.selectedKeywordIds ?? [],
+                  actors: [],
+                  groups: [],
+                  keywords: [],
+                  hash: ""
                 });
               }}
             />
@@ -538,7 +553,7 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
           height,
           ...otherProps
         }) => {
-          // console.log({ width, height, events, actors, groups });
+          // console.log("events network graph props", { ...otherProps });
           return (
             <EventsNetworkGraph
               {...otherProps}
@@ -551,7 +566,7 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
             />
           );
         }}
-      </EventNetworkGraphBoxWrapper>
+      </EventsNetworkGraphBoxWrapper>
     </Box>
   );
 };
@@ -573,7 +588,7 @@ export const EventsNetworkGraphBoxWithQuery: React.FC<
       }}
       render={({ items: { data } }) => {
         return (
-          <EventNetworkGraphBox
+          <EventsNetworkGraphBox
             {...props}
             query={{ ...query, ids: [data[0].id], id: data[0].id }}
           />

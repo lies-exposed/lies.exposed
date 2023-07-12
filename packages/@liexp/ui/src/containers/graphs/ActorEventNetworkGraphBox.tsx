@@ -5,7 +5,7 @@ import { useActorsQuery } from "../../state/queries/actor.queries";
 import {
   EventsNetworkGraphBoxWithQuery,
   type EventNetworkGraphBoxProps,
-} from "./EventNetworkGraphBox";
+} from "./EventsNetworkGraphBox";
 
 export interface ActorEventNetworkGraphBoxProps
   extends Omit<EventNetworkGraphBoxProps, "id"> {

@@ -3,7 +3,7 @@ import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor";
 import { URL } from "@liexp/shared/lib/io/http/Common";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { type BotBrotherCtx } from "bot-brother";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import { GroupEntity } from "@entities/Group.entity";
 import { fetchGroupFromWikipedia } from "@flows/groups/fetchGroupFromWikipedia";
 import { type RouteContext } from "@routes/route.types";

@@ -1,6 +1,6 @@
 import { fp } from "@liexp/core/lib/fp";
-import { type Either } from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/function";
+import { type Either } from "fp-ts/Either";
+import { pipe } from "fp-ts/function";
 import { DecodeError, type ControllerError } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
 

@@ -1,5 +1,4 @@
 import { fp } from "@liexp/core/lib/fp";
-import { takeEventRelations } from "@liexp/shared/lib/helpers/event/event";
 import {
   type Actor,
   type Events,
@@ -11,10 +10,12 @@ import {
   type GetNetworkQuery,
   type NetworkType,
 } from "@liexp/shared/lib/io/http/Network";
+import { parseISO } from "@liexp/shared/lib/utils/date";
+import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
 import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import { flow, pipe } from "fp-ts/function";
 import { type UUID } from "io-ts-types/lib/UUID";
-import { fetchEventsRelations } from "./fetchEventRelations.flow";
+import { fetchEventsRelations } from "./fetchEventsRelations.flow";
 import { type TEFlow } from "@flows/flow.types";
 import { toEventV2IO } from "@routes/events/eventV2.io";
 import { searchEventV2Query } from "@routes/events/queries/searchEventsV2.query";
@@ -30,21 +31,36 @@ export const fetchEventsWithRelations: TEFlow<
   }
 > =
   (ctx) =>
-  (type, ids, { actors, groups, keywords }) => {
+  (type, ids, { actors, groups, keywords, startDate, endDate }) => {
+    ctx.logger.debug.log(`Fetch all events with %O`, {
+      actors,
+      groups,
+      keywords,
+      startDate,
+      endDate,
+    });
     return pipe(
-      searchEventV2Query(ctx)({
-        actors,
-        groups,
-        keywords,
-        ids: fp.O.none,
-        startDate: fp.O.none,
-        endDate: fp.O.none,
-        order: { date: "DESC" },
-      }),
-      TE.chainEitherK(({ results }) =>
-        pipe(results.map(toEventV2IO), fp.A.sequence(fp.E.Applicative)),
+      walkPaginatedRequest(ctx)(
+        ({ skip, amount }) =>
+          searchEventV2Query(ctx)({
+            ids: fp.O.none,
+            actors,
+            groups,
+            keywords,
+            startDate: pipe(startDate, fp.O.map(parseISO)),
+            endDate: pipe(endDate, fp.O.map(parseISO)),
+            skip,
+            take: amount,
+            order: { date: "DESC" },
+          }),
+        (r) => r.total,
+        (r) => r.results,
+        0,
+        100,
       ),
-      TE.map(takeEventRelations),
-      TE.chain((events) => fetchEventsRelations(ctx)(events)),
+      TE.chainEitherK(
+        flow(fp.A.map(toEventV2IO), fp.A.sequence(fp.E.Applicative)),
+      ),
+      TE.chain(fetchEventsRelations(ctx)),
     );
   };

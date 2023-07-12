@@ -1,7 +1,7 @@
 import { fp } from "@liexp/core/lib/fp";
 import * as T from "fp-ts/Task";
 import type * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 
 export const throwTE = async <E, A>(te: TE.TaskEither<E, A>): Promise<A> => {
   return await te().then((rr) => {

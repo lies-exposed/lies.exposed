@@ -13,7 +13,7 @@ import { formatDate, parseISO } from "@liexp/shared/lib/utils/date";
 import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import { type UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
 import {

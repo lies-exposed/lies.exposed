@@ -28,12 +28,12 @@ interface CreateHierarchicalEdgeBundlingData {
 }
 
 interface LinkMapKeys {
-  source: UUID;
-  target: UUID;
+  source: string;
+  target: string;
 }
 
 export interface HierarchicalEdgeBundlingDatum {
-  id: UUID;
+  id: string;
   label: string;
   avatar?: string;
   color?: string;
@@ -43,8 +43,8 @@ export interface HierarchicalEdgeBundlingDatum {
 }
 
 interface Link {
-  source: UUID;
-  target: UUID;
+  source: string;
+  target: string;
   value: number;
 }
 
@@ -54,7 +54,7 @@ export interface HierarchicalEdgeBundlingProps {
   graph: Graph<Link, HierarchicalEdgeBundlingDatum>;
 }
 
-const eqLinkKeys = Eq.eq.contramap(
+const eqLinkKeys = Eq.Contravariant.contramap(
   S.Eq,
   (kk: LinkMapKeys) => `${kk.source}-${kk.target}`,
 );

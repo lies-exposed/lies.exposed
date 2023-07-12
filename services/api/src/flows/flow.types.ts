@@ -1,4 +1,4 @@
-import type * as TE from "fp-ts/lib/TaskEither";
+import type * as TE from "fp-ts/TaskEither";
 import { type ControllerError } from "@io/ControllerError";
 import { type RouteContext } from "@routes/route.types";
 

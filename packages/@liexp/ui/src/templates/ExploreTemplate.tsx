@@ -5,14 +5,14 @@ import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
 import { formatDate } from "@liexp/shared/lib/utils/date";
 import { subMonths } from "date-fns";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import QueriesRenderer from "../components/QueriesRenderer";
 import SEO from "../components/SEO";
 import EventsTimeline from "../components/lists/EventList/EventsTimeline";
 import { Box, Grid } from "../components/mui";
 import EventsAppBarBox from "../containers/EventsAppBarBox";
-import { EventNetworkGraphBox } from "../containers/graphs/EventNetworkGraphBox";
+import { EventsNetworkGraphBox } from "../containers/graphs/EventsNetworkGraphBox";
 import { useGroupMembersQuery } from "../state/queries/DiscreteQueries";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
 import { useActorsQuery } from "../state/queries/actor.queries";
@@ -325,7 +325,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                   }}
                 />
                 <Box style={{ maxHeight: "100%", height: "100%" }}>
-                  <EventNetworkGraphBox
+                  <EventsNetworkGraphBox
                     relations={relations}
                     onRelationsChange={setRelations}
                     query={{

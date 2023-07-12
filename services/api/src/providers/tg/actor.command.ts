@@ -2,7 +2,7 @@ import { fp } from "@liexp/core/lib/fp";
 import { URL } from "@liexp/shared/lib/io/http/Common";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { type BotBrotherCtx } from "bot-brother";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import kebabCase from "lodash/kebabCase";
 import { ActorEntity } from "@entities/Actor.entity";
 import { fetchActorFromWikipedia } from "@flows/actors/fetchActorFromWikipedia";

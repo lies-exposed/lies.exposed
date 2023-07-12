@@ -1,10 +1,7 @@
+import { fp, pipe } from "@liexp/core/lib/fp";
 import { API } from "@liexp/shared/lib/providers/http/api.provider";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { type AxiosError } from "axios";
-import * as E from "fp-ts/lib/Either";
-import * as O from "fp-ts/lib/Option";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
 import { type AuthProvider } from "../components/admin";
 import * as http from "../http";
 
@@ -63,10 +60,10 @@ export const authProvider: AuthProvider = {
     const user = localStorage.getItem("user");
     return await pipe(
       user,
-      O.fromNullable,
-      O.chainNullableK((u) => JSON.parse(u)?.permissions),
-      E.fromOption(() => new Error("User is missing")),
-      TE.fromEither,
+      fp.O.fromNullable,
+      fp.O.chainNullableK((u) => JSON.parse(u)?.permissions),
+      fp.E.fromOption(() => new Error("User is missing")),
+      fp.TE.fromEither,
       throwTE,
     );
   },

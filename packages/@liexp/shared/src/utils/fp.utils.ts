@@ -3,7 +3,7 @@ import { type Logger } from "@liexp/core/lib/logger";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import type * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 
 export const traverseArrayOfE = <A, E, B>(
   results: A[],

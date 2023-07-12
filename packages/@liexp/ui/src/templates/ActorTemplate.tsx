@@ -4,7 +4,7 @@ import {
   type Keyword,
 } from "@liexp/shared/lib/io/http";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
-import { EventType, type SearchEvent } from "@liexp/shared/lib/io/http/Events";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
 import { formatDate } from "@liexp/shared/lib/utils/date";
 import subYears from "date-fns/subYears";
 import * as React from "react";
@@ -15,8 +15,8 @@ import SEO from "../components/SEO";
 import { Box, Grid } from "../components/mui";
 import { EventsPanelBox } from "../containers/EventsPanel";
 import { StatsPanelBox } from "../containers/StatsPanelBox";
-import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventNetworkGraphBox";
 import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox";
+import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventsNetworkGraphBox";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
 import { useGroupsQuery } from "../state/queries/groups.queries";
 import { SplitPageTemplate } from "./SplitPageTemplate";
@@ -153,17 +153,24 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
               <EventNetworkGraphBoxWithFilters
                 type={ACTORS.value}
                 query={{
+                  ...query,
                   ids: [actor.id],
-                  eventType: EventType.types.map((t) => t.value),
                   startDate: formatDate(subYears(new Date(), 2)),
                   endDate: formatDate(new Date()),
                 }}
-                selectedActorIds={[]}
                 onActorClick={onActorClick}
                 onGroupClick={onGroupClick}
                 onKeywordClick={onKeywordClick}
                 onEventClick={onEventClick}
-                onQueryChange={() => {}}
+                onQueryChange={(q) => {
+                  onQueryChange(
+                    {
+                      ...q,
+                      actors: [actor.id].concat(q.actors ?? [] as any[]),
+                    },
+                    tab,
+                  );
+                }}
               />
             </SplitPageTemplate>
           </Box>

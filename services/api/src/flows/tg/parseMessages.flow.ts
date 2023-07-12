@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import { fp } from "@liexp/core/lib/fp";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import {
   type EventResult,
   createFromTGMessage,

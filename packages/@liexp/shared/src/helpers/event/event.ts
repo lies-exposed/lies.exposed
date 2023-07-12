@@ -1,12 +1,12 @@
 import { format, subWeeks } from "date-fns";
+import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
 import * as Eq from "fp-ts/Eq";
 import * as Map from "fp-ts/Map";
+import { type Monoid } from "fp-ts/Monoid";
 import * as O from "fp-ts/Option";
 import * as Ord from "fp-ts/Ord";
 import { pipe } from "fp-ts/function";
-import { sequenceS } from "fp-ts/lib/Apply";
-import { type Monoid } from "fp-ts/lib/Monoid";
 import * as N from "fp-ts/number";
 import * as S from "fp-ts/string";
 import { UUID } from "io-ts-types/lib/UUID";

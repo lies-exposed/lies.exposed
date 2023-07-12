@@ -1,6 +1,6 @@
 // https://www.postgresql.org/docs/12/functions-json.html
 
-import { type DBError } from "@liexp/backend/lib/providers/orm/Database";
+import { type DBError } from "@liexp/backend/lib/providers/orm";
 import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
@@ -20,7 +20,7 @@ type WhereT = "AND" | "OR";
 
 const getWhere = (
   q: SelectQueryBuilder<EventV2Entity>,
-  whereT?: WhereT,
+  whereT?: WhereT
 ): typeof q.where | typeof q.andWhere | typeof q.orWhere => {
   return whereT === "AND"
     ? q.andWhere.bind(q)
@@ -32,7 +32,7 @@ const getWhere = (
 export const whereActorInArray = (
   q: SelectQueryBuilder<EventV2Entity>,
   actors: string[],
-  whereT?: WhereT,
+  whereT?: WhereT
 ): SelectQueryBuilder<EventV2Entity> => {
   const where = getWhere(q, whereT);
   where(
@@ -42,54 +42,54 @@ export const whereActorInArray = (
           qqb
             .where(" event.type = 'Uncategorized' ")
             .andWhere(
-              `"event"."payload"::jsonb -> 'actors' ?| ARRAY[:...actors] `,
+              `"event"."payload"::jsonb -> 'actors' ?| ARRAY[:...actors] `
             );
-        }),
+        })
       )
         .orWhere(
           new Brackets((qb) => {
             qb.where(" event.type = 'Death' ").andWhere(
-              ` "event"."payload"::jsonb -> 'victim' ?| ARRAY[:...actors] `,
+              ` "event"."payload"::jsonb -> 'victim' ?| ARRAY[:...actors] `
             );
-          }),
+          })
         )
         .orWhere(
           new Brackets((qb) => {
             qb.where(" event.type = 'Documentary' ").andWhere(
-              `( "event"."payload"::jsonb -> 'subjects' -> 'actors' ?| ARRAY[:...actors] OR "event"."payload"::jsonb -> 'authors' -> 'actors' ?| ARRAY[:...actors] )`,
+              `( "event"."payload"::jsonb -> 'subjects' -> 'actors' ?| ARRAY[:...actors] OR "event"."payload"::jsonb -> 'authors' -> 'actors' ?| ARRAY[:...actors] )`
             );
-          }),
+          })
         )
         .orWhere(
           new Brackets((qb) => {
             qb.where(" event.type = 'ScientificStudy' ").andWhere(
-              ` "event"."payload"::jsonb -> 'authors' ?| ARRAY[:...actors] `,
+              ` "event"."payload"::jsonb -> 'authors' ?| ARRAY[:...actors] `
             );
-          }),
+          })
         )
         .orWhere(
           new Brackets((qb) => {
             qb.where(" event.type = 'Patent' ").andWhere(
-              ` "event"."payload"::jsonb -> 'owners' -> 'actors' ?| ARRAY[:...actors] `,
+              ` "event"."payload"::jsonb -> 'owners' -> 'actors' ?| ARRAY[:...actors] `
             );
-          }),
+          })
         )
         .orWhere(
           new Brackets((qb) => {
             qb.where(" event.type = 'Transaction' ").andWhere(
               `( ("event"."payload"::jsonb -> 'from' ->> 'type' = 'Actor' AND "event"."payload"::jsonb -> 'from' -> 'id' ?| ARRAY[:...actors]) OR ` +
-                ` ("event"."payload"::jsonb -> 'to' ->> 'type' = 'Actor' AND "event"."payload"::jsonb -> 'to' -> 'id' ?| ARRAY[:...actors]) )`,
+                ` ("event"."payload"::jsonb -> 'to' ->> 'type' = 'Actor' AND "event"."payload"::jsonb -> 'to' -> 'id' ?| ARRAY[:...actors]) )`
             );
-          }),
+          })
         )
         .orWhere(
           new Brackets((qb) => {
             qb.where(` event.type = '${EventTypes.QUOTE.value}' `).andWhere(
-              ` ("event"."payload"::jsonb -> 'actor' ?| ARRAY[:...actors]) `,
+              ` ("event"."payload"::jsonb -> 'actor' ?| ARRAY[:...actors]) `
             );
-          }),
+          })
         );
-    }),
+    })
   );
   q.setParameter("actors", actors);
   return q;
@@ -98,32 +98,32 @@ export const whereActorInArray = (
 export const whereGroupInArray = (
   q: SelectQueryBuilder<EventV2Entity>,
   groups: string[],
-  whereT?: WhereT,
+  whereT?: WhereT
 ): SelectQueryBuilder<EventV2Entity> => {
   const where = getWhere(q, whereT);
   where(
     new Brackets((qq) => {
       qq.where(
-        ` (event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groups' ?| ARRAY[:...groups]) `,
+        ` (event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groups' ?| ARRAY[:...groups]) `
       )
         .orWhere(
-          ` (event.type = 'ScientificStudy' AND "event"."payload"::jsonb -> 'publisher' ?| ARRAY[:...groups])`,
+          ` (event.type = 'ScientificStudy' AND "event"."payload"::jsonb -> 'publisher' ?| ARRAY[:...groups])`
         )
         .orWhere(
-          `(event.type = 'Documentary' AND ( "event"."payload"::jsonb -> 'subjects' -> 'groups' ?| ARRAY[:...groups] OR "event"."payload"::jsonb -> 'authors' -> 'groups' ?| ARRAY[:...groups] ) )`,
+          `(event.type = 'Documentary' AND ( "event"."payload"::jsonb -> 'subjects' -> 'groups' ?| ARRAY[:...groups] OR "event"."payload"::jsonb -> 'authors' -> 'groups' ?| ARRAY[:...groups] ) )`
         )
         .orWhere(
-          ` (event.type = 'Patent' AND "event"."payload"::jsonb -> 'owners' -> 'groups' ?| ARRAY[:...groups])`,
+          ` (event.type = 'Patent' AND "event"."payload"::jsonb -> 'owners' -> 'groups' ?| ARRAY[:...groups])`
         )
         .orWhere(
           new Brackets((qb) => {
             qb.where(" event.type = 'Transaction' ").andWhere(
               `( ("event"."payload"::jsonb -> 'from' ->> 'type' = 'Group' AND "event"."payload"::jsonb -> 'from' -> 'id' ?| ARRAY[:...groups]) OR ` +
-                ` ("event"."payload"::jsonb -> 'to' ->> 'type' = 'Group' AND "event"."payload"::jsonb -> 'to' -> 'id' ?| ARRAY[:...groups]) )`,
+                ` ("event"."payload"::jsonb -> 'to' ->> 'type' = 'Group' AND "event"."payload"::jsonb -> 'to' -> 'id' ?| ARRAY[:...groups]) )`
             );
-          }),
+          })
         );
-    }),
+    })
   );
 
   return q.setParameter("groups", groups);
@@ -185,7 +185,7 @@ export interface SearchEventOutput {
 export const searchEventV2Query =
   ({ db, logger }: RouteContext) =>
   (
-    query: Partial<SearchEventQuery>,
+    query: Partial<SearchEventQuery>
   ): TE.TaskEither<DBError, SearchEventOutput> => {
     const opts = {
       ...searchQueryDefaults,
@@ -224,12 +224,12 @@ export const searchEventV2Query =
                 actor: { id: In(actors.value) },
               },
             }),
-            TE.map(A.map((gm) => gm.id)),
+            TE.map(A.map((gm) => gm.id))
           )
         : TE.right<DBError, string[]>([]),
       TE.map((gm) =>
-        O.isSome(_groupsMembers) ? gm.concat(..._groupsMembers.value) : gm,
-      ),
+        O.isSome(_groupsMembers) ? gm.concat(..._groupsMembers.value) : gm
+      )
     );
 
     return pipe(
@@ -251,7 +251,7 @@ export const searchEventV2Query =
             order,
             skip,
             take,
-          },
+          }
         );
 
         const searchV2Query = pipe(
@@ -310,7 +310,7 @@ export const searchEventV2Query =
                 ) > 0.001`,
                 {
                   q: tsQueryTitle,
-                },
+                }
               );
 
               hasWhere = true;
@@ -343,7 +343,7 @@ export const searchEventV2Query =
                   whereActorInArray(
                     q,
                     actors.value,
-                    hasWhere ? "AND" : undefined,
+                    hasWhere ? "AND" : undefined
                   );
                   hasWhere = true;
                   hasWhereActor = true;
@@ -363,19 +363,19 @@ export const searchEventV2Query =
                     `( event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groupsMembers' ?| ARRAY[:...groupsMembers] )`,
                     {
                       groupsMembers,
-                    },
+                    }
                   );
                 }
-              }),
+              })
             );
 
             if (O.isSome(locations)) {
               q.andWhere(
                 new Brackets((locationQb) => {
                   locationQb.where(
-                    ` (event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'location' ?| ARRAY[:...locations]) `,
+                    ` (event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'location' ?| ARRAY[:...locations]) `
                   );
-                }),
+                })
               );
 
               q.setParameter("locations", locations.value);
@@ -450,7 +450,7 @@ export const searchEventV2Query =
 
             const documentariesCount = q
               .clone()
-              .andWhere(` event.type::text = '${EventTypes.DOCUMENTARY.value}' `);
+              .andWhere(" event.type::text = 'Documentary' ");
 
             // logger.debug.log(
             //   `Documentary count query %O`,
@@ -459,7 +459,7 @@ export const searchEventV2Query =
 
             const transactionsCount = q
               .clone()
-              .andWhere(`event.type = '${EventTypes.TRANSACTION.value}'`);
+              .andWhere("event.type = 'Transaction'");
 
             // logger.debug.log(
             //   `Transaction count query %O`,
@@ -491,7 +491,7 @@ export const searchEventV2Query =
               transactionsCount,
               quotesCount,
             };
-          },
+          }
         );
 
         return sequenceS(TE.ApplicativePar)({
@@ -514,18 +514,18 @@ export const searchEventV2Query =
             return results.entities;
           }),
           uncategorized: db.execQuery(() =>
-            searchV2Query.uncategorizedCount.getCount(),
+            searchV2Query.uncategorizedCount.getCount()
           ),
           deaths: db.execQuery(() => searchV2Query.deathsCount.getCount()),
           scientificStudies: db.execQuery(() =>
-            searchV2Query.scientificStudiesCount.getCount(),
+            searchV2Query.scientificStudiesCount.getCount()
           ),
           patents: db.execQuery(() => searchV2Query.patentCount.getCount()),
           documentaries: db.execQuery(() =>
-            searchV2Query.documentariesCount.getCount(),
+            searchV2Query.documentariesCount.getCount()
           ),
           transactions: db.execQuery(() =>
-            searchV2Query.transactionsCount.getCount(),
+            searchV2Query.transactionsCount.getCount()
           ),
           quotes: db.execQuery(() => searchV2Query.quotesCount.getCount()),
         });
@@ -541,14 +541,14 @@ export const searchEventV2Query =
           totals.uncategorized +
           totals.transactions +
           totals.quotes,
-      })),
+      }))
     );
   };
 
 export const infiniteSearchEventQuery =
   (ctx: RouteContext) =>
   (
-    query: Partial<SearchEventQuery>,
+    query: Partial<SearchEventQuery>
   ): TE.TaskEither<ControllerError, SearchEventOutput["results"]> => {
     ctx.logger.debug.log("Infinite search event query %O", query);
     return walkPaginatedRequest(ctx)(
@@ -557,6 +557,6 @@ export const infiniteSearchEventQuery =
       (r) => r.total,
       (r) => r.results,
       0,
-      50,
+      50
     );
   };

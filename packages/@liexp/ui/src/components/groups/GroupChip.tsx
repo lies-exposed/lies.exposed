@@ -1,6 +1,5 @@
+import { fp, pipe } from '@liexp/core/lib/fp';
 import { type Group } from "@liexp/shared/lib/io/http/Group";
-import * as O from "fp-ts/Option";
-import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { Avatar, type AvatarSize } from "../Common/Avatar";
 import { Typography } from "../mui";
@@ -41,8 +40,8 @@ export const GroupChip: React.FC<GroupChipProps> = ({
       }}
     >
       {pipe(
-        O.fromNullable(group.avatar),
-        O.map((src) => (
+        fp.O.fromNullable(group.avatar),
+        fp.O.map((src) => (
           <Avatar
             key={group.id}
             src={src}
@@ -50,7 +49,7 @@ export const GroupChip: React.FC<GroupChipProps> = ({
             style={{ margin: 5, ...avatarStyle }}
           />
         )),
-        O.toNullable,
+        fp.O.toNullable,
       )}
       {displayFullName ? (
         <Typography variant="caption" style={displayNameStyle}>

@@ -1,7 +1,7 @@
 import * as io from "@liexp/shared/lib/io";
+import { sequenceS } from "fp-ts/Apply";
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
-import { sequenceS } from "fp-ts/lib/Apply";
 import { type GroupMemberEntity } from "../../entities/GroupMember.entity";
 import { DecodeError, type ControllerError } from "@io/ControllerError";
 import { toActorIO } from "@routes/actors/actor.io";

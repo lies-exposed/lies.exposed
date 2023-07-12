@@ -4,7 +4,7 @@ import { type AddActorBody } from "@liexp/shared/lib/io/http/Actor";
 import { createExcerptValue } from "@liexp/shared/lib/slate";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors";
 import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { ActorEntity } from "@entities/Actor.entity";
 import { type TEFlow } from "@flows/flow.types";

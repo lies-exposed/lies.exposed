@@ -7,7 +7,7 @@ import RPEditor, {
   type Row,
   type Value,
 } from "@react-page/editor";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { cellPlugins } from "./cellPlugins";
 

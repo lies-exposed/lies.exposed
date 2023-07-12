@@ -1,7 +1,7 @@
 import { getMediaKeyFromLocation } from "@liexp/shared/lib/utils/media.utils";
+import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { sequenceS } from "fp-ts/lib/Apply";
 import { type MediaEntity } from "@entities/Media.entity";
 import { type TEFlow } from "@flows/flow.types";
 

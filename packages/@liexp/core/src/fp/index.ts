@@ -9,6 +9,7 @@ import * as Ord from "fp-ts/Ord";
 import * as R from "fp-ts/Record";
 import * as T from "fp-ts/Task";
 import * as TE from "fp-ts/TaskEither";
+import { pipe, flow } from "fp-ts/function";
 import * as N from "fp-ts/number";
 import * as S from "fp-ts/string";
 
@@ -28,4 +29,4 @@ export const fp = {
   Json,
 };
 
-export { TE };
+export { pipe, flow };
