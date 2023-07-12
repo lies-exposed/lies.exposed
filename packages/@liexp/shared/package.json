@@ -49,7 +49,7 @@
     "@types/react-dom": "^18.2.6",
     "@types/throttle-debounce": "^5.0.0",
     "@types/uuid": "^9.0.2",
-    "@visx/network": "^3.0.0",
+    "@visx/network": "^3.3.0",
     "fast-csv": "^4.3.6",
     "typescript": "^5.1.6"
   },
