@@ -6,6 +6,7 @@ import {
   type VideoPlatformMatch,
 } from "@liexp/shared/lib/helpers/media";
 import { Media } from "@liexp/shared/lib/io/http";
+import { ImageType } from "@liexp/shared/lib/io/http/Media";
 import {
   getMediaKey,
   getMediaKeyFromLocation,
@@ -19,6 +20,7 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
 import * as pdfJS from "pdfjs-dist/legacy/build/pdf";
+import { type RenderParameters } from 'pdfjs-dist/types/src/display/api';
 import { type Page } from "puppeteer-core";
 import { type TEFlow } from "@flows/flow.types";
 import {
@@ -179,9 +181,13 @@ export const createThumbnail: TEFlow<
     return pipe(
       TE.tryCatch(async () => {
         const pdfStream = await axios.get(media.location, {
-          responseType: "blob",
+          responseType: "arraybuffer",
         });
-        const pdf = await pdfJS.getDocument(pdfStream).promise;
+
+        const pdf = await pdfJS.getDocument({
+          data: new Uint16Array(pdfStream.data),
+        }).promise;
+
         const page = await pdf.getPage(1);
         return page;
       }, toControllerError),
@@ -193,45 +199,45 @@ export const createThumbnail: TEFlow<
 
             const outputScale = 1;
 
-            const canvas = Canvas.createCanvas(viewport.width, viewport.height);
+            const canvas = Canvas.createCanvas(
+              viewport.width,
+              viewport.height,
+            );
             const context = canvas.getContext("2d");
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
 
             const transform =
               outputScale !== 1
                 ? [outputScale, 0, 0, outputScale, 0, 0]
                 : undefined;
 
-            const renderContext: any = {
-              canvasContext: context,
+            const renderContext: RenderParameters = {
+              canvasContext: context as any,
               transform,
               viewport,
             };
             await page.render(renderContext).promise;
-            return canvas.toBuffer();
+            return canvas.toBuffer(ImageType.types[2].value);
           }, toControllerError),
 
           TE.chainFirst(() => TE.fromIO(() => page.cleanup()))
         );
       }),
-
       TE.chain((screenshotPath) => {
-        const url = media.location.split("/");
-        const thumbnailName = url[url.length - 1].replace(
-          ".pdf",
-          "-thumbnail.png"
-        );
+        const thumbnailName = `${media.id}-thumbnail`;
 
         const key = getMediaKey(
           "media",
-          url[url.length - 2],
+          media.id,
           thumbnailName,
-          "image/png"
+          ImageType.types[2].value
         );
 
         return ctx.s3.upload({
           Key: key,
           Body: screenshotPath,
-          ContentType: "image/png",
+          ContentType: ImageType.types[2].value,
           Bucket: ctx.env.SPACE_BUCKET,
           ACL: "public-read",
         });
