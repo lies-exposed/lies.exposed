@@ -10,11 +10,11 @@ import {
   type NetworkGroupBy,
   type NetworkType,
 } from "@liexp/shared/lib/io/http/Network";
-import { parseDate } from "@liexp/shared/lib/utils/date";
 import { ParentSize } from "@visx/responsive";
 import { differenceInDays, parseISO } from "date-fns";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
+import { type UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
 import { type GetListParams } from "react-admin";
 import {
@@ -69,15 +69,16 @@ export const EventNetworkGraphBoxWrapper = <T extends any>({
   count = 50,
   query: { ids, eventType, ...query },
   type,
-  // selectedActorIds,
-  // selectedGroupIds,
-  // selectedKeywordIds,
+  selectedActorIds,
+  selectedGroupIds,
+  selectedKeywordIds,
   relations: _relations = [KEYWORDS.value],
   onRelationsChange,
   showRelations = true,
   transform,
   ...props
 }: EventNetworkGraphBoxWrapperProps<T>): JSX.Element => {
+  console.log({ ...query });
   const [relations, setRelations] = onRelationsChange
     ? [_relations, onRelationsChange]
     : React.useState(_relations);
@@ -131,9 +132,9 @@ export const EventNetworkGraphBoxWrapper = <T extends any>({
         const innerProps = transform(graph, {
           query: { ids, eventType: EventType.types.map((t) => t.value), ...query },
           type,
-          selectedActorIds: query.actors,
-          selectedGroupIds: query.groups,
-          selectedKeywordIds: query.keywords,
+          selectedActorIds,
+          selectedGroupIds,
+          selectedKeywordIds,
         });
 
         return (
@@ -223,22 +224,26 @@ export const EventNetworkGraphBoxWrapper = <T extends any>({
 
 const transformNetworkOutput = (
   graph: NetworkGraphOutput,
-  {
-    selectedActorIds,
-    selectedGroupIds,
-    selectedKeywordIds,
-    type,
-    query: { ids, eventType, ...query },
-    ...props
-  }: EventNetworkGraphBoxProps,
+  props: EventNetworkGraphBoxProps
 ): Omit<EventsNetworkGraphProps, "width" | "height"> & {
   minDate: Date;
   maxDate: Date;
   totals: EventTotals;
 } => {
-  const startDate = parseDate(query.startDate);
-  const endDate = parseDate(query.endDate);
+  console.log("transform network output", props);
+  const {
+    selectedActorIds,
+    selectedGroupIds,
+    selectedKeywordIds,
+    type,
+    query: { ids, eventType, ...query },
+    ...otherProps
+  } = props;
+  console.log(query);
+  const startDate = parseISO(query.startDate);
+  const endDate = parseISO(query.endDate);
 
+  console.log({ startDate, endDate });
   const {
     eventLinks,
     actorLinks,
@@ -255,59 +260,77 @@ const transformNetworkOutput = (
     events.length > 0 ? events.at(events.length - 1).date : new Date();
   const maxDate = events.length > 0 ? events.at(0).date : new Date();
 
-  const filteredEvents = events.filter((e) => {
-    const date = parseISO(e.date);
-    const min = differenceInDays(date, startDate);
-    if (min < 0) {
-      // console.log(`Days to start date ${startDate}`, min);
-      return false;
-    }
-
-    const max = differenceInDays(endDate, date);
-
-    if (max < 0) {
-      // console.log(`Days to endDate date ${endDate}`, max);
-      return false;
-    }
-
-    // console.log("e", e);
-    const eventRelations = getRelationIds(e);
-    // console.log("event relations", eventRelations);
-    if (selectedActorIds && selectedActorIds.length > 0) {
-      // console.log("filter per actors", eventRelations.actors);
-      const hasActor = eventRelations.actors.some((a: any) =>
-        (selectedActorIds ?? []).includes(a),
-      );
-      if (!hasActor) {
-        // console.log("no actors found", selectedActorIds);
-        return false;
+  console.log({ minDate, maxDate });
+  const filteredEvents = events
+    .map((e) => {
+      const date = parseISO(e.date);
+      const min = differenceInDays(date, startDate);
+      if (min < 0) {
+        // console.log(`Days to start date ${startDate}`, min);
+        return fp.E.left(
+          `${e.id} date ${e.date} is less than min date ${startDate}`
+        );
       }
-    }
 
-    if (selectedGroupIds && selectedGroupIds.length > 0) {
-      // console.log("filter per groups", selectedGroupIds);
-      const hasGroup = eventRelations.groups.some((a: any) =>
-        (selectedGroupIds ?? []).includes(a.id),
-      );
-      if (!hasGroup) {
-        // console.log("no groups found", selectedGroupIds);
-        return false;
+      const max = differenceInDays(endDate, date);
+
+      if (max < 0) {
+        // console.log(`Days to endDate date ${endDate}`, max);
+        return fp.E.left(
+          `${e.id} date ${e.date} is greater than max date ${endDate}`
+        );
       }
-    }
 
-    if (selectedKeywordIds && selectedKeywordIds.length > 0) {
-      // console.log("filter per keywords", selectedKeywordIds);
-      // console.log("event keywords", eventRelations.keywords);
-      const hasKeyword = eventRelations.keywords.some((a: any) =>
-        (selectedKeywordIds ?? []).includes(a.id),
-      );
-      if (!hasKeyword) {
-        // console.log("no keywords found", query.keywords);
-        return false;
+      // console.log("e", e);
+      const eventRelations = getRelationIds(e);
+      // console.log("event relations", eventRelations);
+      if (selectedActorIds && selectedActorIds.length > 0) {
+        // console.log("filter per actors", eventRelations.actors);
+        const hasActor = eventRelations.actors.some((a: any) =>
+          (selectedActorIds ?? []).includes(a)
+        );
+        if (!hasActor) {
+          // console.log("no actors found", selectedActorIds);
+          return fp.E.left(
+            `${e.id} has no actors ${selectedActorIds} in ${eventRelations.actors}`
+          );
+        }
       }
-    }
 
-    // console.log("query type", queryType);
+    
+      if (selectedGroupIds && selectedGroupIds.length > 0) {
+        // console.log("filter per groups", selectedGroupIds);
+        const hasGroup = eventRelations.groups.some((a) =>
+          (selectedGroupIds ?? []).includes(a)
+        );
+        if (!hasGroup) {
+          // console.log("no groups found", selectedGroupIds);
+          return fp.E.left(
+            `${e.id} has no groups ${selectedGroupIds} in ${eventRelations.groups}`
+          );
+        }
+      }
+
+      if (selectedKeywordIds && selectedKeywordIds.length > 0) {
+        const eventKeywordIds = eventRelations.keywords.map(
+          (a: any): UUID => a.id
+        );
+        const hasKeyword = eventKeywordIds.some((a) =>
+          (selectedKeywordIds ?? []).includes(a)
+        );
+
+        if (!hasKeyword) {
+          return fp.E.left(
+            `${
+              e.id
+            } has no keywords ${selectedKeywordIds} in ${eventKeywordIds.join(
+              ", "
+            )}`
+          );
+        }
+      }
+
+      // console.log("query type", queryType);
     const isTypeIncluded: boolean = pipe(
       eventType,
       fp.O.fromNullable,
@@ -322,14 +345,19 @@ const transformNetworkOutput = (
       fp.O.getOrElse(() => true),
     );
 
-    // console.log("is type included", isTypeIncluded);
+      if (!isTypeIncluded) {
+        return fp.E.left(`${e.id} type ${e.type} not included in ${eventType}`);
+      }
 
-    if (!isTypeIncluded) {
-      return false;
-    }
-
-    return true;
-  });
+      return fp.E.right(e);
+    })
+    .flatMap((res) => {
+      if (fp.E.isLeft(res)) {
+        console.log(res.left);
+        return [];
+      }
+      return [res.right];
+    });
 
   // console.log(filteredEvents);
 
@@ -363,7 +391,7 @@ const transformNetworkOutput = (
     .concat(relationLinks);
 
   return {
-    ...props,
+    ...otherProps,
     events: filteredEvents,
     actors,
     groups,
@@ -390,7 +418,7 @@ export const EventNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
         hash={hash}
       >
         {({ width, height, ...otherProps }: EventsNetworkGraphProps) => {
-          // console.log({ width, height });
+          console.log({ ...otherProps });
 
           // return <div style={{ width, height: 600, background: "red" }} />;
           return (

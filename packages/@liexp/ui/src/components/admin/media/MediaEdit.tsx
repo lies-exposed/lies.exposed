@@ -94,6 +94,7 @@ const TransferButton: React.FC<FieldProps & { target?: "thumbnail" }> = ({
 export const ThumbnailEditField: React.FC<FieldProps> = (props) => {
   const [loaded, setLoaded] = React.useState(false);
 
+  console.log({ loaded });
   return (
     <Box style={{ display: "flex" }}>
       <FormDataConsumer>

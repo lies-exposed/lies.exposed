@@ -44,7 +44,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
   onKeywordClick,
   ...props
 }) => {
-  // console.log('events network graph', props.graph)
+  console.log('events network graph', props.graph)
   // const [groupBy] = React.useState(props.groupBy);
 
   const colors = React.useMemo(
@@ -86,7 +86,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
       linkStrength={(l) => l.value}
       linkStroke={(l) => l.fill}
       nodeTitle={(n) => {
-        // console.log('node title', n);
+        console.log('node title', n);
         if (n.type === KEYWORDS.value) {
           return n.tag;
         } else if (n.type === GROUPS.value) {

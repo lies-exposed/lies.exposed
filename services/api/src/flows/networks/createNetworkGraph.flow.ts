@@ -115,7 +115,7 @@ export const getEventGraph = (
     events,
     A.reduceWithIndex(initialResult, (index, acc, e) => {
       // get topic from relative directory
-
+      // console.log('event', e)
       const {
         actors: eventActors,
         groups: eventGroups,
@@ -144,27 +144,24 @@ export const getEventGraph = (
         eventMedia,
         fp.A.filter((m) => m && ValidContentType.is(m.type)),
         fp.O.fromPredicate((mm) => mm.length > 0),
-        fp.O.map((mm) => mm[0].location),
+        fp.O.map((mm) => mm[0].thumbnail),
         fp.O.toUndefined,
       );
 
+      const { excerpt, body, body2, ...payload} = e.payload as any
       const eventDatum: EventNetworkDatum = {
         ...e,
         links: [],
-        excerpt: {},
-        body: {},
-        payload: e.payload as any,
+        payload,
         deletedAt: undefined,
         image: featuredImage,
         title: eventTitle,
         selected: true,
         date: e.date,
         groupBy: [],
-        actors: pipe(
-          nonEmptyEventActors,
-          O.getOrElse((): any[] => []),
-        ),
-        groups: [],
+        actors: eventActors,
+        groups: eventGroups,
+        keywords: eventKeywords,
         label: eventTitle,
       };
 
@@ -255,6 +252,7 @@ export const getEventGraph = (
           endDate: f.date,
         })),
       );
+
 
       return {
         ...r,
