@@ -50,7 +50,7 @@
     "speed-measure-webpack-plugin": "^1.5.0",
     "style-loader": "^3.3.3",
     "ts-loader": "^9.4.4",
-    "tsconfig-paths-webpack-plugin": "^4.0.1",
+    "tsconfig-paths-webpack-plugin": "^4.1.0",
     "typescript": "^5.1.6",
     "url-loader": "^4.1.1",
     "webpack": "^5.88.1",
