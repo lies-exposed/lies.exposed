@@ -1,6 +1,6 @@
 import { fp } from "@liexp/core/lib/fp";
 import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import { type Page } from "wikipedia";
 import { type TEFlow } from "@flows/flow.types";
 import { toControllerError } from "@io/ControllerError";

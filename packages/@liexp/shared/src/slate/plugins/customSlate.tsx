@@ -5,7 +5,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 import { type Cell } from "@react-page/editor";
 import slate, { type SlateCellPlugin } from "@react-page/plugins-slate";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { StoryUtils } from "../../utils/story.utils";
 

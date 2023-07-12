@@ -7,8 +7,8 @@ import {
 import { createValue } from "@react-page/editor/lib/core/utils/createValue";
 import { getTextContents as defaultGetTextContents } from "@react-page/editor/lib/core/utils/getTextContents";
 import { type SlateComponentPluginDefinition } from "@react-page/plugins-slate/lib/types/slatePluginDefinitions";
-import { type Option } from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/function";
+import { type Option } from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
 import {
   getLiexpSlate,
   PARAGRAPH_TYPE,

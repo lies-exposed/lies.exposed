@@ -4,9 +4,9 @@ import {
 } from "@liexp/shared/lib/helpers/media";
 import { type URL } from "@liexp/shared/lib/io/http/Common";
 import { IframeVideoType } from "@liexp/shared/lib/io/http/Media";
+import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
-import { sequenceS } from "fp-ts/lib/Apply";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import type * as puppeteer from "puppeteer-core";
 import { extractThumbnail } from "./createThumbnail.flow";
 import { type MediaEntity } from "@entities/Media.entity";

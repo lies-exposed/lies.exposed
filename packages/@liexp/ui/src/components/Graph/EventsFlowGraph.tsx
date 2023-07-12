@@ -3,7 +3,7 @@ import { Actor, Events, Group, Keyword } from "@liexp/shared/lib/io/http";
 import { type FlowGraphOutput } from "@liexp/shared/lib/io/http/graphs/FlowGraph";
 import { toColor } from "@liexp/shared/lib/utils/colors";
 import { parseISO } from "date-fns";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import React from "react";
 import {
   BaseEdge,
@@ -247,9 +247,10 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
           nodeIds.find((id) => l.source === id) &&
           nodeIds.find((id) => l.target === id),
       )
-      .map(({ color, ...l }) => ({
+      .map(({ fill, ...l }) => ({
         ...l,
-        data: { color: toColor(color) },
+        id: l.source + l.target,
+        data: { color: toColor(fill) },
         // type: Actor.Actor.name,
       }));
 
@@ -259,9 +260,10 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
           nodeIds.find((id) => l.source === id) &&
           nodeIds.find((id) => l.target === id),
       )
-      .map(({ color, ...l }) => ({
+      .map(({ fill, ...l }) => ({
         ...l,
-        data: { color: toColor(color) },
+        id: l.source + l.target,
+        data: { color: toColor(fill) },
       }));
 
     const keywordEdges = graph.keywordLinks
@@ -270,9 +272,10 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
           nodeIds.find((id) => l.source === id) &&
           nodeIds.find((id) => l.target === id),
       )
-      .map(({ color, ...l }) => ({
+      .map(({ fill, ...l }) => ({
         ...l,
-        data: { color: toColor(color) },
+        id: l.source + l.target,
+        data: { color: toColor(fill) },
       }));
 
     const edges = [...actorEdges, ...groupEdges, ...keywordEdges];

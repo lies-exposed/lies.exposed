@@ -5,7 +5,7 @@ import { useGroupsQuery } from "../../state/queries/groups.queries";
 import {
   EventsNetworkGraphBoxWithQuery,
   type EventNetworkGraphBoxProps,
-} from "./EventNetworkGraphBox";
+} from "./EventsNetworkGraphBox";
 
 export interface GroupEventNetworkGraphBoxProps
   extends Omit<EventNetworkGraphBoxProps, "id"> {

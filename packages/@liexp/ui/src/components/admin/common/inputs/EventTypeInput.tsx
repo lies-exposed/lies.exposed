@@ -5,7 +5,7 @@ import {
   transform,
 } from "@liexp/shared/lib/helpers/event/event";
 import { Events } from "@liexp/shared/lib/io/http";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import { get } from "lodash";
 import * as React from "react";
 import {

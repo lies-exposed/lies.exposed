@@ -9,7 +9,7 @@ import { HumanReadableStringArb } from "@liexp/shared/lib/tests/arbitrary/HumanR
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils";
 import { fc } from "@liexp/test";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import { In } from "typeorm";
 import { GetAppTest, type AppTest } from "../../../../../test/AppTest";
 import {

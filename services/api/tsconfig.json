@@ -13,7 +13,7 @@
       "../../node_modules/@types",
       "../../node_modules/vitest",
       "../../packages/@liexp/backend/typings",
-      "../../packages/@liexp/shared/typings",
+      "../../packages/@liexp/shared/typings"
     ],
     "target": "esnext",
     "module": "NodeNext",

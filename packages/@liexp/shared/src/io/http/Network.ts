@@ -48,6 +48,19 @@ export const GetNetworkParams = t.type(
 );
 export type GetNetworkParams = t.TypeOf<typeof GetNetworkParams>;
 
+export const NetworkLink = t.type(
+  {
+    source: t.string,
+    target: t.string,
+    fill: t.string,
+    value: t.number,
+    stroke: t.string,
+    sourceType: NetworkType,
+  },
+  "NetworkLink",
+);
+export type NetworkLink = t.TypeOf<typeof NetworkLink>;
+
 export const NetworkGraphOutput = t.strict(
   {
     events: t.array(t.any),
@@ -55,11 +68,11 @@ export const NetworkGraphOutput = t.strict(
     groups: t.array(Group),
     keywords: t.array(Keyword),
     media: t.array(Media),
-    eventLinks: t.array(t.any),
-    selectedLinks: t.array(t.any),
-    actorLinks: t.array(t.any),
-    groupLinks: t.array(t.any),
-    keywordLinks: t.array(t.any),
+    eventLinks: t.array(NetworkLink),
+    selectedLinks: t.array(NetworkLink),
+    actorLinks: t.array(NetworkLink),
+    groupLinks: t.array(NetworkLink),
+    keywordLinks: t.array(NetworkLink),
     startDate: DateFromISOString,
     endDate: DateFromISOString,
     totals: EventTotals,

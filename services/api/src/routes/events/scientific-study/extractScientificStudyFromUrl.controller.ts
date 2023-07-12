@@ -5,10 +5,10 @@ import {
   AdminDelete,
   AdminEdit,
 } from "@liexp/shared/lib/io/http/User";
+import { sequenceS } from "fp-ts/Apply";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { sequenceS } from "fp-ts/lib/Apply";
 import { Equal } from "typeorm";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { UserEntity } from "@entities/User.entity";

@@ -21,8 +21,8 @@ import {
   Typography,
   useMediaQuery as useMuiMediaQuery,
 } from "../components/mui";
-import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventNetworkGraphBox";
 import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox";
+import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventsNetworkGraphBox";
 import { styled, useTheme } from "../theme";
 import { SplitPageTemplate } from "./SplitPageTemplate";
 

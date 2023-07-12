@@ -1,9 +1,9 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
 import { type Router } from "express";
+import { sequenceS } from "fp-ts/Apply";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { sequenceS } from "fp-ts/lib/Apply";
 import { Equal } from "typeorm";
 import { toImageIO } from "./media.io";
 import { MediaEntity } from "@entities/Media.entity";

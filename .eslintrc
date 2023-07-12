@@ -4,10 +4,12 @@
     "standard-with-typescript",
     "plugin:import/typescript",
     "plugin:import/recommended",
-    "prettier"
+    "prettier",
+    "plugin:fp-ts/recommended",
+    "plugin:fp-ts/recommended-requiring-type-checking"
   ],
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "fp-ts"],
   "parserOptions": {
     "project": [
       "./tsconfig.test.json",
@@ -27,6 +29,7 @@
     }
   },
   "rules": {
+    "fp-ts/no-lib-imports": "error",
     "import/default": "off",
     "import/no-named-as-default-member": "off",
     "import/order": [

@@ -1,11 +1,10 @@
-import { fp } from "@liexp/core/lib/fp";
+import { fp, pipe } from "@liexp/core/lib/fp";
 import {
   type EventType,
   EventTypes,
 } from "@liexp/shared/lib/io/http/Events/EventType";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
 import { clsx } from "clsx";
-import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { styled } from "../../../theme";
 import { EventIcon } from "../../Common/Icons";

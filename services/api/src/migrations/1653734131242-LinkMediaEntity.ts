@@ -22,7 +22,6 @@ export class LinkMediaEntity1653734131242 implements MigrationInterface {
       links
         .filter((l: any) => l.image !== null)
         .map(async (l: any) => {
-          console.log("link", { id: l.id, image: l.image });
           const image = l.image ? (l.image as any as string) : "";
           const media = await queryRunner.manager.getRepository("image").save({
             id: uuid(),

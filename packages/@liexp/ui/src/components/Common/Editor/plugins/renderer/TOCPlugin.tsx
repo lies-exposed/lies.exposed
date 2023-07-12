@@ -11,8 +11,8 @@ import {
 import { StoryUtils } from "@liexp/shared/lib/utils/story.utils";
 import { type Cell, type Row, type Value } from "@react-page/editor";
 import { type SlateComponentPluginDefinition } from "@react-page/plugins-slate/lib/types/slatePluginDefinitions";
-import { type Option } from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/function";
+import { type Option } from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { styled } from "../../../../../theme";
 import { Box, List, ListItem, Typography } from "../../../../mui";

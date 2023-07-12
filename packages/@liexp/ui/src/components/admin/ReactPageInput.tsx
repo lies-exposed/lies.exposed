@@ -1,7 +1,7 @@
 import { fp } from "@liexp/core/lib/fp";
 import { createExcerptValue, isValidValue } from "@liexp/shared/lib/slate";
 import { type EditorProps } from "@react-page/editor";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { Labeled, useInput, type InputProps } from "react-admin";
 import Editor from "../Common/Editor/Editor";

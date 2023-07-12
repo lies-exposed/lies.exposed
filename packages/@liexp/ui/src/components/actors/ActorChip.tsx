@@ -1,6 +1,6 @@
 import { type Actor } from "@liexp/shared/lib/io/http/Actor";
 import * as O from "fp-ts/Option";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { Avatar, type AvatarSize } from "../Common/Avatar";
 import { Typography } from "../mui";

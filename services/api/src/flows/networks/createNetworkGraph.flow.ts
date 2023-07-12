@@ -19,6 +19,7 @@ import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
 import { ValidContentType } from "@liexp/shared/lib/io/http/Media";
 import {
+  type NetworkLink,
   type GetNetworkQuery,
   type NetworkGraphOutput,
   type NetworkGroupBy,
@@ -29,7 +30,7 @@ import { GetEncodeUtils } from "@liexp/shared/lib/utils/encode.utils";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import * as S from "fp-ts/string";
 import { type UUID } from "io-ts-types/lib/UUID";
 import { fetchEventsWithRelations } from "@flows/events/fetchWithRelations.flow";
@@ -37,22 +38,35 @@ import { type TEFlow } from "@flows/flow.types";
 
 const uniqueId = GetEncodeUtils<
   {
-    ids: UUID[];
-    relations: NetworkType[];
+    ids: string[];
+    relations: string[];
+    actors: string[];
+    groups: string[];
+    keywords: string[];
   },
-  { ids: string; relations: string }
->(({ ids, relations }) => ({
+  {
+    ids: string;
+    relations: string;
+    actors: string;
+    groups: string;
+    keywords: string;
+  }
+>(({ ids, relations, actors, groups, keywords }) => ({
   ids: ids.join(","),
   relations: relations.join("-"),
+  actors: actors.join("-"),
+  groups: groups.join("-"),
+  keywords: keywords.join("-"),
 }));
 
-export interface NetworkLink {
-  source: UUID;
-  target: UUID;
-  fill: string;
-  value: number;
-  stroke: string;
-  sourceType: NetworkType;
+function cleanItemsFromSlateFields<T extends Actor.Actor | Group.Group>(
+  actors: T[],
+): T[] {
+  return actors.map(({ body, excerpt, ...a }: any) => ({
+    ...a,
+    excerpt: {},
+    body: {},
+  }));
 }
 
 type ItemType = Group.Group | Keyword.Keyword | Actor.Actor;
@@ -115,7 +129,7 @@ export const getEventGraph = (
     events,
     A.reduceWithIndex(initialResult, (index, acc, e) => {
       // get topic from relative directory
-
+      // console.log('event', e)
       const {
         actors: eventActors,
         groups: eventGroups,
@@ -144,15 +158,16 @@ export const getEventGraph = (
         eventMedia,
         fp.A.filter((m) => m && ValidContentType.is(m.type)),
         fp.O.fromPredicate((mm) => mm.length > 0),
-        fp.O.map((mm) => mm[0].location),
+        fp.O.map((mm) => mm[0].thumbnail),
         fp.O.toUndefined,
       );
 
+      const { body, excerpt, ...cleanEvent } = e;
       const eventDatum: EventNetworkDatum = {
-        ...e,
-        links: [],
+        ...cleanEvent,
         excerpt: {},
         body: {},
+        links: [],
         payload: e.payload as any,
         deletedAt: undefined,
         image: featuredImage,
@@ -160,11 +175,9 @@ export const getEventGraph = (
         selected: true,
         date: e.date,
         groupBy: [],
-        actors: pipe(
-          nonEmptyEventActors,
-          O.getOrElse((): any[] => []),
-        ),
-        groups: [],
+        actors: cleanItemsFromSlateFields(eventActors),
+        groups: cleanItemsFromSlateFields(eventGroups),
+        keywords: eventKeywords,
         label: eventTitle,
       };
 
@@ -319,7 +332,15 @@ export const createNetworkGraph: TEFlow<
   (
     type,
     ids,
-    { relations: _relations, emptyRelations, startDate, endDate },
+    {
+      relations: _relations,
+      emptyRelations,
+      actors,
+      groups,
+      keywords,
+      startDate,
+      endDate,
+    },
   ) => {
     const relations = pipe(
       _relations,
@@ -329,26 +350,79 @@ export const createNetworkGraph: TEFlow<
     ctx.logger.debug.log("Getting network for %O", {
       type,
       ids,
+      actors,
+      groups,
+      keywords,
+      startDate,
+      endDate,
     });
 
-    const networkId = uniqueId.hash({ ids, relations });
+    const keywordIds = pipe(
+      keywords,
+      O.fold(
+        () => [],
+        (): UUID[] => [],
+      ),
+    );
+
+    const networkId = uniqueId.hash({
+      ids,
+      relations,
+      actors: pipe(
+        actors,
+        O.fold(
+          () => [],
+          (): UUID[] => [],
+        ),
+      ),
+      groups: pipe(
+        groups,
+        O.fold(
+          () => [],
+          (): UUID[] => [],
+        ),
+      ),
+      keywords: keywordIds,
+    });
+
     const filePath = ctx.fs.resolve(`temp/networks/${type}/${networkId}.json`);
 
     ctx.logger.debug.log("Creating graph for %s => %s", type, ids);
 
-    const nonEmptyIds = pipe(ids, fp.NEA.fromArray);
     const createNetworkGraphTask = pipe(
       fetchEventsWithRelations(ctx)(type, ids, {
-        ids: nonEmptyIds,
-        actors: type === ACTORS.value ? nonEmptyIds : O.none,
-        groups: type === GROUPS.value ? nonEmptyIds : O.none,
-        keywords: type === KEYWORDS.value ? nonEmptyIds : O.none,
+        ids: O.none,
+        actors:
+          type === ACTORS.value
+            ? pipe(
+                actors,
+                fp.O.map(fp.NEA.concat(ids)),
+                fp.O.alt(() => fp.NEA.fromArray(ids)),
+              )
+            : actors,
+        groups:
+          type === GROUPS.value
+            ? pipe(
+                groups,
+                fp.O.map(fp.NEA.concat(ids)),
+                fp.O.alt(() => fp.NEA.fromArray(ids)),
+              )
+            : groups,
+        keywords:
+          type === KEYWORDS.value
+            ? pipe(
+                keywords,
+                fp.O.map(fp.NEA.concat(ids)),
+                fp.O.alt(() => fp.NEA.fromArray(ids)),
+              )
+            : keywords,
         startDate: O.none,
         endDate: O.none,
         relations: O.some(relations),
         emptyRelations: O.none,
       }),
       TE.map(({ events: _events, actors, groups, keywords, media }) => {
+        ctx.logger.debug.log(`Total events fetched %d`, _events.length);
         ctx.logger.debug.log(
           `Fetch actors (%d), groups (%d), keywords (%d)`,
           actors.length,
@@ -359,8 +433,12 @@ export const createNetworkGraph: TEFlow<
           _events,
           fp.A.map((aa) =>
             toSearchEvent(aa, {
-              actors: new Map(actors.map((a) => [a.id, a])),
-              groups: new Map(groups.map((g) => [g.id, g])),
+              actors: new Map(
+                cleanItemsFromSlateFields(actors).map((a) => [a.id, a]),
+              ),
+              groups: new Map(
+                cleanItemsFromSlateFields(groups).map((g) => [g.id, g]),
+              ),
               keywords: new Map(keywords.map((k) => [k.id, k])),
               media: new Map(media.map((m) => [m.id, m])),
               groupsMembers: new Map(),
@@ -370,8 +448,8 @@ export const createNetworkGraph: TEFlow<
 
         const eventGraph = getEventGraph(type, ids, {
           events,
-          actors,
-          groups,
+          actors: cleanItemsFromSlateFields(actors),
+          groups: cleanItemsFromSlateFields(groups),
           keywords,
           media,
           relations,

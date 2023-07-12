@@ -1,11 +1,11 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils";
 import { type Router } from "express";
+import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { sequenceS } from "fp-ts/lib/Apply";
 import { In } from "typeorm";
 import { toLinkIO } from "./link.io";
 import { LinkEntity } from "@entities/Link.entity";

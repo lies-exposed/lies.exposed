@@ -21,18 +21,18 @@ import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQ
 import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
 import {
+  type NetworkLink,
   type GetNetworkQuery,
   type NetworkGraphOutput,
-  type NetworkGroupBy,
-  type NetworkType,
+  type NetworkGroupBy
 } from "@liexp/shared/lib/io/http/Network";
 import { type EventNetworkDatum } from "@liexp/shared/lib/io/http/Network/networks";
+import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
+import { type Monoid } from "fp-ts/Monoid";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
-import { sequenceS } from "fp-ts/lib/Apply";
-import { type Monoid } from "fp-ts/lib/Monoid";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import { type UUID } from "io-ts-types/lib/UUID";
 import { Equal } from "typeorm";
 import { EventV2Entity } from "@entities/Event.v2.entity";
@@ -45,15 +45,6 @@ import { infiniteSearchEventQuery } from "@routes/events/queries/searchEventsV2.
 import { toGroupIO } from "@routes/groups/group.io";
 import { toKeywordIO } from "@routes/keywords/keyword.io";
 import { toImageIO } from "@routes/media/media.io";
-
-interface NetworkLink {
-  source: UUID;
-  target: UUID;
-  fill: string;
-  value: number;
-  stroke: string;
-  sourceType: NetworkType;
-}
 
 interface GetEventGraphOpts {
   events: SearchEvent.SearchEvent[];
@@ -203,6 +194,7 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
             {
               source: sourceEv.id,
               target: e.id,
+
               sourceType: "events",
               stroke: getColorByEventType({
                 type: sourceEv.type,
@@ -512,17 +504,17 @@ export const createEventNetworkGraph: TEFlow<
                   if (key === ACTORS.value) {
                     update.actorLinks = [
                       {
-                        source: k,
+                        source: k + "",
                         sourceType: key,
-                        target: event.id,
+                        target: event.id + "",
                         fill: color,
                         stroke: color,
                         value: 0,
                       },
                       {
-                        source: tuples[1].events?.[0]?.id,
+                        source: tuples[1].events?.[0]?.id + "",
                         sourceType: "events",
-                        target: k,
+                        target: k + "",
                         fill: color,
                         stroke: color,
                         value: 0,
@@ -533,9 +525,9 @@ export const createEventNetworkGraph: TEFlow<
                   if (key === GROUPS.value) {
                     update.groupLinks = [
                       {
-                        source: k,
+                        source: k.toString(),
                         sourceType: key,
-                        target: event.id,
+                        target: event.id.toString(),
                         fill: color,
                         stroke: color,
                         value: 0,
@@ -543,7 +535,7 @@ export const createEventNetworkGraph: TEFlow<
                       {
                         source: tuples[1].events?.[0]?.id,
                         sourceType: "events",
-                        target: k,
+                        target: k.toString(),
                         fill: color,
                         stroke: color,
                         value: 0,
@@ -554,9 +546,9 @@ export const createEventNetworkGraph: TEFlow<
                   if (key === KEYWORDS.value) {
                     update.keywordLinks = [
                       {
-                        source: k,
+                        source: k.toString(),
                         sourceType: key,
-                        target: event.id,
+                        target: event.id.toString(),
                         fill: color,
                         stroke: color,
                         value: 0,
@@ -564,7 +556,7 @@ export const createEventNetworkGraph: TEFlow<
                       {
                         source: tuples[1].events?.[0]?.id,
                         sourceType: "events",
-                        target: k,
+                        target: k.toString(),
                         fill: color,
                         stroke: color,
                         value: 0,

@@ -7,16 +7,16 @@ import { AutocompleteGroupInput } from "@liexp/ui/lib/components/Input/Autocompl
 import { AutocompleteKeywordInput } from "@liexp/ui/lib/components/Input/AutocompleteKeywordInput";
 import { Box } from "@liexp/ui/lib/components/mui";
 import {
-  EventNetworkGraphBox,
+  EventsNetworkGraphBox,
   type EventNetworkGraphBoxProps,
-} from "@liexp/ui/lib/containers/graphs/EventNetworkGraphBox";
+} from "@liexp/ui/lib/containers/graphs/EventsNetworkGraphBox";
 import { type Meta, type StoryFn } from "@storybook/react";
 import { subWeeks } from "date-fns";
 import * as React from "react";
 
 const meta: Meta = {
   title: "Containers/Graphs/EventNetworkGraphBox",
-  component: EventNetworkGraphBox,
+  component: EventsNetworkGraphBox,
   argTypes: {
     groupBy: {
       control: {
@@ -68,7 +68,7 @@ const Template: StoryFn<EventNetworkGraphBoxProps> = ({
           <Box style={{ display: "flex" }}>{input}</Box>
         </Box>
         <Box style={{ display: "flex", flexGrow: 1, maxHeight: 600 }}>
-          <EventNetworkGraphBox
+          <EventsNetworkGraphBox
             {...props}
             query={{
               ...query,

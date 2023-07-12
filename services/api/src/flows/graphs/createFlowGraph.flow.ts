@@ -4,7 +4,6 @@ import { type Logger } from "@liexp/core/lib/logger";
 import {
   getRelationIds,
   getTotals,
-  takeEventRelations,
 } from "@liexp/shared/lib/helpers/event/event";
 import {
   type Actor,
@@ -20,10 +19,10 @@ import {
 } from "@liexp/shared/lib/io/http/graphs/FlowGraph";
 import { toColor } from "@liexp/shared/lib/utils/colors";
 import { differenceInDays, subYears } from "@liexp/shared/lib/utils/date";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import { type UUID } from "io-ts-types/lib/UUID";
 import { fetchEventsByRelation } from "@flows/events/fetchByRelations.flow";
-import { fetchEventsRelations } from "@flows/events/fetchEventRelations.flow";
+import { fetchEventsRelations } from "@flows/events/fetchEventsRelations.flow";
 import { type TEFlow } from "@flows/flow.types";
 import { toEventV2IO } from "@routes/events/eventV2.io";
 
@@ -212,7 +211,6 @@ export const createFlowGraph: TEFlow<
       fp.TE.chainEitherK(({ results }) =>
         pipe(results.map(toEventV2IO), fp.A.sequence(fp.E.Applicative)),
       ),
-      fp.TE.map(takeEventRelations),
       fp.TE.chain(fetchEventsRelations(ctx)),
       fp.TE.map(getFlowGraph(ctx.logger)),
     );

@@ -1,6 +1,6 @@
 import { fp } from "@liexp/core/lib/fp";
 import { type ResourcesNames } from "@liexp/shared/lib/io/http";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { Avatar } from "../components/Common/Avatar";
 import EditButton from "../components/Common/Button/EditButton";

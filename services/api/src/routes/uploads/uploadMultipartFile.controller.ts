@@ -2,10 +2,10 @@
 import { UploadResource } from "@liexp/shared/lib/endpoints/upload.endpoints";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils";
 import { type Router } from "express";
+import { sequenceS } from "fp-ts/Apply";
 import * as T from "fp-ts/Task";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { sequenceS } from "fp-ts/lib/Apply";
 import * as t from "io-ts";
 import multer, { memoryStorage } from "multer";
 import { DecodeError, toControllerError } from "@io/ControllerError";

@@ -1,7 +1,7 @@
 import { fp } from "@liexp/core/lib/fp";
 import { TO_PUBLISH, PUBLISHED } from "@liexp/shared/lib/io/http/SocialPost";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import Cron from "node-cron";
 import { LessThanOrEqual } from "typeorm";
 import { SocialPostEntity } from "@entities/SocialPost.entity";
