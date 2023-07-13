@@ -16,7 +16,7 @@ import { HTTP, liftFetch } from "./http.provider";
 const apiLogger = GetLogger("API");
 
 export type TERequest<E extends MinimalEndpointInstance> = (
-  input: TypeOfEndpointInstance<E>["Input"]
+  input: TypeOfEndpointInstance<E>["Input"],
 ) => TE.TaskEither<APIError, TypeOfEndpointInstance<E>["Output"]>;
 
 type API = {
@@ -47,7 +47,7 @@ const API = (c: AxiosRequestConfig): API => {
   const http = HTTP(c);
 
   const toTERequest = <E extends MinimalEndpointInstance>(
-    e: E
+    e: E,
   ): TERequest<E> => {
     return (b: TypeOfEndpointInstance<E>["Input"]) => {
       const url = e.getPath(b?.Params);
@@ -69,7 +69,7 @@ const API = (c: AxiosRequestConfig): API => {
             },
           });
         }, e.Output.decode),
-        apiLogger.debug.logInTaskEither(`${e.Method} ${url} res: %O`)
+        apiLogger.debug.logInTaskEither(`${e.Method} ${url} res: %O`),
       );
     };
   };
@@ -87,7 +87,7 @@ const API = (c: AxiosRequestConfig): API => {
           MinimalEndpointInstance,
           // eslint-disable-next-line @typescript-eslint/ban-types
           {}
-        >
+        >,
       ],
       API
       // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
@@ -100,11 +100,11 @@ const API = (c: AxiosRequestConfig): API => {
           ...ends,
           Custom: pipe(
             Custom,
-            R.map((ee: MinimalEndpointInstance) => toTERequest(ee))
+            R.map((ee: MinimalEndpointInstance) => toTERequest(ee)),
           ),
-        })
+        }),
       ),
-    }))
+    })),
   );
 
   return {

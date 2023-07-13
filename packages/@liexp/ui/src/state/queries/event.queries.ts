@@ -2,7 +2,7 @@ import { type Events } from "@liexp/shared/lib/io/http";
 import type { GetListParams, GetOneParams } from "react-admin";
 import { useQuery } from "react-query";
 import { Queries } from "../../providers/DataProvider";
-import { fetchQuery } from './common';
+import { fetchQuery } from "./common";
 import { type UseListQueryFn, type UseQueryFn } from "./type";
 
 export const getEventQueryKey = (p: GetOneParams): [string, GetOneParams] => [
@@ -16,14 +16,14 @@ export const fetchEvent = async ({ queryKey }: any): Promise<Events.Event> =>
   await Queries.Event.get(queryKey[1]);
 
 export const useEventQuery: UseQueryFn<GetOneParams, Events.Event> = (
-  params
+  params,
 ) => {
   return useQuery(getEventQueryKey(params), fetchEvent);
 };
 
 export const getEventsQueryKey = (
   p: Partial<GetListParams>,
-  discrete: boolean
+  discrete: boolean,
 ): [string, GetListParams, boolean] => {
   return [
     "events",
@@ -45,12 +45,12 @@ export const getEventsQueryKey = (
 };
 
 export const fetchEvents: (a: any) => Promise<any> = fetchQuery(
-  Queries.Event.getList
+  Queries.Event.getList,
 );
 
 export const useEventsQuery: UseListQueryFn<Events.Event> = (
   params,
-  discrete
+  discrete,
 ) => {
   return useQuery(getEventsQueryKey(params, discrete), fetchEvents);
 };

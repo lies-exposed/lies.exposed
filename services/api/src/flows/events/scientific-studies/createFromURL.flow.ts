@@ -9,10 +9,7 @@ import { extractFromURL } from "../extractFromURL.flow";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { type UserEntity } from "@entities/User.entity";
 import { type TEFlow } from "@flows/flow.types";
-import {
-  ServerError,
-  toControllerError
-} from "@io/ControllerError";
+import { ServerError, toControllerError } from "@io/ControllerError";
 
 export const createEventFromURL: TEFlow<[UserEntity, URL], EventV2Entity> =
   (ctx) => (user, url) => {
@@ -27,18 +24,18 @@ export const createEventFromURL: TEFlow<[UserEntity, URL], EventV2Entity> =
               pipe(
                 TE.tryCatch(
                   () => b.pages().then((p) => p[0]),
-                  toControllerError
+                  toControllerError,
                 ),
                 TE.chain((p) =>
                   extractFromURL(ctx)(p, user, {
                     type: SCIENTIFIC_STUDY.value,
                     url,
-                  })
+                  }),
                 ),
                 TE.chainFirst(() => {
                   return TE.tryCatch(() => b.close(), toControllerError);
-                })
-              )
+                }),
+              ),
             ),
             TE.chain((meta) => {
               if (O.isSome(meta)) {
@@ -52,11 +49,11 @@ export const createEventFromURL: TEFlow<[UserEntity, URL], EventV2Entity> =
                 loadRelationIds: {
                   relations: ["media", "links", "keywords"],
                 },
-              })
-            )
+              }),
+            ),
           );
         }
         return TE.right(existingEvent.value);
-      })
+      }),
     );
   };

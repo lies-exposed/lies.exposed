@@ -39,14 +39,14 @@ export const CreateEventBodyArb = ({
       location: undefined as any,
       endDate: fc.sample(
         fc.oneof(fc.constant(undefined), DateArb),
-        1
+        1,
       )[0] as any,
     },
     media: fc.sample(
       fc.record({
         location: URLArb,
         description: fc.string(),
-      })
+      }),
     ) as any,
     links: fc.sample(
       linksIds
@@ -55,12 +55,12 @@ export const CreateEventBodyArb = ({
               url: URLArb,
               publishDate: DateArb,
             }),
-            fc.uuidV(4)
+            fc.uuidV(4),
           )
         : fc.record({
             url: URLArb,
             publishDate: DateArb,
-          })
+          }),
     ) as any,
     keywords: fc.sample(
       keywordIds
@@ -68,7 +68,7 @@ export const CreateEventBodyArb = ({
         : fc.record({
             tag: TagArb(),
           }),
-      5
+      5,
     ) as any,
     date: fc.sample(DateArb, 1)[0],
   }));

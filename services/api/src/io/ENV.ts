@@ -24,7 +24,7 @@ const ENV = t.intersection(
           NODE_ENV: PRODUCTION,
         }),
       ],
-      "NODE_ENV"
+      "NODE_ENV",
     ),
     t.strict(
       {
@@ -36,7 +36,7 @@ const ENV = t.intersection(
         SOCIAL_POSTING_CRON: t.string,
         WEB_URL: t.string,
       },
-      "API_ENV"
+      "API_ENV",
     ),
     t.strict(
       {
@@ -47,7 +47,7 @@ const ENV = t.intersection(
         SPACE_ACCESS_KEY_ID: t.string,
         SPACE_ACCESS_KEY_SECRET: t.string,
       },
-      "SPACE_ENV"
+      "SPACE_ENV",
     ),
     t.intersection(
       [
@@ -59,7 +59,7 @@ const ENV = t.intersection(
             DB_PORT: NumberFromString,
             DB_DATABASE: t.string,
           },
-          "DB_BASE_ENV"
+          "DB_BASE_ENV",
         ),
         t.union([
           t.strict({
@@ -71,7 +71,7 @@ const ENV = t.intersection(
           }),
         ]),
       ],
-      "DB_ENV"
+      "DB_ENV",
     ),
     t.strict(
       {
@@ -82,10 +82,10 @@ const ENV = t.intersection(
         IG_USERNAME: t.string,
         IG_PASSWORD: t.string,
       },
-      "TG_BOT_ENV"
+      "TG_BOT_ENV",
     ),
   ],
-  "ENV"
+  "ENV",
 );
 
 type ENV = t.TypeOf<typeof ENV>;

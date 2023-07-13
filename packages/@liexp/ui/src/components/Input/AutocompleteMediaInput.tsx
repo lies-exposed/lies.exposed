@@ -52,7 +52,7 @@ export const AutocompleteMediaInput: React.FC<AutocompleteMediaInputProps> = ({
               hideDescription={true}
               onClick={() => {
                 onChange(
-                  selectedItems.filter((i) => i.id !== item.id).concat(item)
+                  selectedItems.filter((i) => i.id !== item.id).concat(item),
                 );
               }}
             />

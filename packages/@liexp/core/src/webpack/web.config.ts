@@ -81,7 +81,7 @@ export const webOptimization: webpack.Configuration["optimization"] = {
 };
 
 export const getWebConfig = <A extends Record<string, t.Mixed>>(
-  opts: GetConfigParams<A>
+  opts: GetConfigParams<A>,
 ): webpack.Configuration => {
   const config = getConfig(opts);
 
@@ -95,14 +95,14 @@ export const getWebConfig = <A extends Record<string, t.Mixed>>(
           },
         },
       ],
-    })
+    }),
   );
   config.plugins?.push(
     new HtmlWebpackPlugin({
       template: path.resolve(opts.cwd, "public/index.html"),
       inject: true,
       showErrors: true,
-    })
+    }),
   );
 
   config.plugins?.push(
@@ -111,7 +111,7 @@ export const getWebConfig = <A extends Record<string, t.Mixed>>(
         pattern: "%PUBLIC_URL%",
         replacement: process.env.PUBLIC_URL ?? "/",
       },
-    ]) as any
+    ]) as any,
   );
 
   config.resolve = {

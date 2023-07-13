@@ -20,7 +20,9 @@ const meta: Meta = {
 };
 export default meta;
 
-const Template: StoryFn<AxisGraphProps<any>> = (args) => <AxisGraph {...args} />;
+const Template: StoryFn<AxisGraphProps<any>> = (args) => (
+  <AxisGraph {...args} />
+);
 
 export const AxisGraphExample = Template.bind({});
 AxisGraphExample.args = {

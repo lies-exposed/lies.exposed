@@ -16,7 +16,7 @@ import {
 const getLink = (
   k: any,
   r: NetworkType,
-  ev: SearchEvent.SearchEvent[]
+  ev: SearchEvent.SearchEvent[],
 ): NetworkLink[] => {
   return ev.map((e) => ({
     stroke: `#${k.color}`,
@@ -52,7 +52,7 @@ const searchEventSample = (n: number, o: any): SearchEvent.SearchEvent[] =>
         keywords: new Map(),
         media: new Map(),
         groupsMembers: new Map(),
-      })
+      }),
     );
 
 describe.skip("Create Network Graph", () => {
@@ -68,13 +68,13 @@ describe.skip("Create Network Graph", () => {
       const links = pipe(
         keywords,
         getRelationLinks("keywords", ev[0])(linksAcc),
-        getRelationLinks("keywords", ev[1])
+        getRelationLinks("keywords", ev[1]),
       )(keywords);
 
       const expectedLinks = new Map();
       expectedLinks.set(
         keywords[0].id,
-        getLink(keywords[0], KEYWORDS.value, ev)
+        getLink(keywords[0], KEYWORDS.value, ev),
       );
       expect(links).toMatchObject(expectedLinks);
     });
@@ -88,13 +88,13 @@ describe.skip("Create Network Graph", () => {
       const links = pipe(
         keywords,
         getRelationLinks("keywords", ev[0])(linksAcc),
-        getRelationLinks("keywords", ev[1])
+        getRelationLinks("keywords", ev[1]),
       )(keywords);
 
       const expectedLinks = new Map();
       expectedLinks.set(
         keywords[0].id,
-        getLink(keywords[0], KEYWORDS.value, ev)
+        getLink(keywords[0], KEYWORDS.value, ev),
       );
       expectedLinks.set(keywords[1].id, []);
       expect(links).toMatchObject(expectedLinks);
@@ -138,7 +138,7 @@ describe.skip("Create Network Graph", () => {
         events.map((e) => ({
           source: e.id,
           target: keywords[0].id,
-        }))
+        })),
       );
 
       expect(graph).toMatchObject({
@@ -186,7 +186,7 @@ describe.skip("Create Network Graph", () => {
         events.map((e) => ({
           source: e.id,
           target: keywords[0].id,
-        }))
+        })),
       );
 
       expect(graph).toMatchObject({

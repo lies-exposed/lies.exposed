@@ -1,13 +1,19 @@
 import { get } from "lodash";
 import * as React from "react";
-import { type RaRecord, type ReferenceFieldProps, useRecordContext } from "react-admin";
+import {
+  type RaRecord,
+  type ReferenceFieldProps,
+  useRecordContext,
+} from "react-admin";
 import { Box } from "../../mui";
 import { ReferenceMediaDataGrid } from "../media/ReferenceMediaDataGrid";
 import { MediaArrayInput } from "../media/input/MediaArrayInput";
 import ReferenceArrayMediaInput from "../media/input/ReferenceArrayMediaInput";
 
 export const ReferenceMediaTab: React.FC<
-  Omit<ReferenceFieldProps<RaRecord<string>>, 'reference'> & { exclude?: string[] }
+  Omit<ReferenceFieldProps<RaRecord<string>>, "reference"> & {
+    exclude?: string[];
+  }
 > = ({ source, exclude, ...props }) => {
   const record = useRecordContext();
   const currentMedia = get(record, source ?? "media");

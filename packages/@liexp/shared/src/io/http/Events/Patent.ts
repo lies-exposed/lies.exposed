@@ -12,7 +12,7 @@ export const PatentListQuery = t.strict(
     minDate: optionFromNullable(DateFromISOString),
     maxDate: optionFromNullable(DateFromISOString),
   },
-  "PatentListQuery"
+  "PatentListQuery",
 );
 export type PatentListQuery = t.TypeOf<typeof PatentListQuery>;
 
@@ -28,7 +28,7 @@ export const PatentPayload = t.strict(
     }),
     source: UUID,
   },
-  "PatentPayload"
+  "PatentPayload",
 );
 export type PatentPayload = t.TypeOf<typeof PatentPayload>;
 
@@ -38,7 +38,7 @@ export const Patent = t.strict(
     type: PATENT,
     payload: PatentPayload,
   },
-  PATENT.value
+  PATENT.value,
 );
 export type Patent = t.TypeOf<typeof Patent>;
 
@@ -55,7 +55,7 @@ export const CreatePatentBody = t.strict(
       source: UUID,
     }),
   },
-  "CreatePatentBody"
+  "CreatePatentBody",
 );
 
 export type CreatePatentBody = t.TypeOf<typeof CreatePatentBody>;

@@ -18,7 +18,7 @@ export const MakeSubmitLinkRoute = (r: Router, ctx: RouteContext): void => {
       TE.map((data) => ({
         body: { data },
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

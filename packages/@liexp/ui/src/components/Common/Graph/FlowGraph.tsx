@@ -7,7 +7,7 @@ import {
   MiniMap,
   type DefaultEdgeOptions,
   type FitViewOptions,
-  type ReactFlowProps
+  type ReactFlowProps,
 } from "reactflow";
 
 import "reactflow/dist/style.css";

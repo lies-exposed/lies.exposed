@@ -67,6 +67,6 @@ library.add(
     faAlignJustify,
     faUser,
     faUserFriends,
-    faFileImage
-  ] as any[])
+    faFileImage,
+  ] as any[]),
 );

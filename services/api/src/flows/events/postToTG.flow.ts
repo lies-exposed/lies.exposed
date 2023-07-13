@@ -18,7 +18,7 @@ const writeText: Flow<[CreateSocialPost], string> = (ctx) => (body) => {
           `${body.actors
             .map(
               (a) =>
-                `<a href="${ctx.env.WEB_URL}/actors/${a.id}">${a.fullName}</a>`
+                `<a href="${ctx.env.WEB_URL}/actors/${a.id}">${a.fullName}</a>`,
             )
             .join("\n")}`,
           "\n",
@@ -30,7 +30,8 @@ const writeText: Flow<[CreateSocialPost], string> = (ctx) => (body) => {
           "Groups:",
           `${body.groups
             .map(
-              (g) => `<a href="${ctx.env.WEB_URL}/groups/${g.id}">${g.name}</a>`
+              (g) =>
+                `<a href="${ctx.env.WEB_URL}/groups/${g.id}">${g.name}</a>`,
             )
             .join("\n")}`,
           "\n",
@@ -70,6 +71,6 @@ export const postToTG: TEFlow<[UUID, CreateSocialPost], EventV2Entity> =
           ? ctx.tg.postPhoto(body.media, text)
           : ctx.tg.postMediaGroup(text, body.media);
       }),
-      TE.mapLeft((e) => ServerError([e.message]))
+      TE.mapLeft((e) => ServerError([e.message])),
     );
   };

@@ -3,14 +3,14 @@ import { MakeCreateScientificStudyRoute } from "./createScientificStudy.controll
 // import { MakeCreateScientificStudyFromURLRoute } from "./createScientificStudyFromUrl.controller";
 import { MakeDeleteScientificStudyRoute } from "./deleteScientificStudy.controller";
 import { MakeEditScientificStudyRoute } from "./editScientificStudy.controller";
-import { MakeExtractScientificStudyFromURLRoute } from './extractScientificStudyFromUrl.controller';
+import { MakeExtractScientificStudyFromURLRoute } from "./extractScientificStudyFromUrl.controller";
 import { MakeGetScientificStudyRoute } from "./getScientificStudy.controller";
 import { MakeListScientificStudyRoute } from "./listScientificStudy.controller";
 import { type RouteContext } from "@routes/route.types";
 
 export const MakeScientificStudyRoutes = (
   router: Router,
-  ctx: RouteContext
+  ctx: RouteContext,
 ): void => {
   MakeExtractScientificStudyFromURLRoute(router, ctx);
   // MakeCreateScientificStudyFromURLRoute(router, ctx);

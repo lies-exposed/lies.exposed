@@ -1,6 +1,9 @@
 import { type Area } from "@liexp/shared/lib/io/http/Area";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { type UpdateParams, type UpdateResult } from "@liexp/ui/lib/components/admin";
+import {
+  type UpdateParams,
+  type UpdateResult,
+} from "@liexp/ui/lib/components/admin";
 import type * as http from "@liexp/ui/lib/http";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
@@ -19,6 +22,6 @@ export const editArea =
 
     return pipe(
       TE.tryCatch(() => client.update<Area>(resource, updateParams), E.toError),
-      throwTE
+      throwTE,
     );
   };

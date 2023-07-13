@@ -22,7 +22,7 @@ export const MakeDeleteQuoteRoute: Route = (r, { db, logger }) => {
           data,
         },
         statusCode: 201,
-      }))
+      })),
     );
   });
 };

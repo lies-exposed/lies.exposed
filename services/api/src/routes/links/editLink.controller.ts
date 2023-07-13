@@ -10,7 +10,7 @@ import { type RouteContext } from "../route.types";
 import { toLinkIO } from "./link.io";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { LinkEntity } from "@entities/Link.entity";
-import { UserEntity } from '@entities/User.entity';
+import { UserEntity } from "@entities/User.entity";
 import { fetchAsLink } from "@flows/link.flow";
 import { authenticationHandler } from "@utils/authenticationHandler";
 import { ensureUserExists } from "@utils/user.utils";
@@ -23,7 +23,7 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
         params: { id },
         body: { events, url, overrideThumbnail, image, creator, ...body },
       },
-      req
+      req,
     ) => {
       ctx.logger.debug.log("Update link with dat %O", { events, url, ...body });
 
@@ -41,7 +41,7 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
             creator: pipe(
               creator,
               O.map((id) => ({ id })),
-              O.toNullable
+              O.toNullable,
             ),
           };
           ctx.logger.debug.log("Update link data %O", linkUpdate);
@@ -49,7 +49,7 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
           user.id = u.id;
           return { linkUpdate, user };
         }),
-        TE.chain(({linkUpdate, user }) =>
+        TE.chain(({ linkUpdate, user }) =>
           pipe(
             ctx.db.findOneOrFail(LinkEntity, {
               where: { id: Equal(id) },
@@ -72,7 +72,7 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
                               thumbnail: ll.image.thumbnail ?? undefined,
                             }
                           : null,
-                      }))
+                      })),
                     );
                   }
 
@@ -81,7 +81,7 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
                     ...linkUpdate,
                   });
                 }),
-                O.getOrElse(() => TE.right({ ...l, ...linkUpdate }))
+                O.getOrElse(() => TE.right({ ...l, ...linkUpdate })),
               );
             }),
             TE.chain((l) => ctx.db.save(LinkEntity, [l])),
@@ -102,26 +102,26 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
                           .map((l) => ({ id: l }))
                           .concat({ id: link.id } as any),
                       };
-                    })
-                  )
-                )
-              )
+                    }),
+                  ),
+                ),
+              ),
             ),
             TE.chain(() =>
               ctx.db.findOneOrFail(LinkEntity, {
                 where: { id: Equal(id) },
                 relations: ["image"],
                 loadRelationIds: { relations: ["events", "keywords"] },
-              })
-            )
-          )
+              }),
+            ),
+          ),
         ),
         TE.chainEitherK(toLinkIO),
         TE.map((data) => ({
           body: { data },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

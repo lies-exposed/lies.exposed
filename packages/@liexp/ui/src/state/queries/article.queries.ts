@@ -7,7 +7,7 @@ import { type UseListQueryFn, type UseQueryFn } from "./type";
 
 export const getStoryQueryKey = (
   p: Partial<GetListParams>,
-  discrete: boolean
+  discrete: boolean,
 ): [string, GetListParams, boolean] => {
   return [
     "stories",
@@ -32,15 +32,14 @@ export const fetchStories = fetchQuery(Queries.Story.getList);
 
 export const useStoriesQuery: UseListQueryFn<Story.Story> = (
   params,
-  discrete
+  discrete,
 ) => {
   return useQuery(getStoryQueryKey(params, discrete), fetchStories);
 };
 
-export const useStoryByPathQuery: UseQueryFn<
-  { path: string },
-  Story.Story
-> = ({ path }) =>
+export const useStoryByPathQuery: UseQueryFn<{ path: string }, Story.Story> = ({
+  path,
+}) =>
   useQuery(getStoryQueryKey({ filter: { path } }, false), async () => {
     return await fetchStoryByPath({ path });
   });

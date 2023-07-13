@@ -38,12 +38,12 @@ describe("Search Events", () => {
     appTest = await GetAppTest();
 
     await throwTE(
-      appTest.ctx.db.save(ActorEntity, [firstActor, secondActor] as any[])
+      appTest.ctx.db.save(ActorEntity, [firstActor, secondActor] as any[]),
     );
 
     await throwTE(appTest.ctx.db.save(GroupEntity, groups as any[]));
     await throwTE(
-      appTest.ctx.db.save(GroupMemberEntity, [groupMember] as any[])
+      appTest.ctx.db.save(GroupMemberEntity, [groupMember] as any[]),
     );
     const groupMemberEvents = pipe(
       eventsData,
@@ -54,7 +54,7 @@ describe("Search Events", () => {
           ...e.payload,
           groupsMembers: [groupMember.id],
         },
-      }))
+      })),
     );
     const firstActorEvents = pipe(
       eventsData,
@@ -66,7 +66,7 @@ describe("Search Events", () => {
           ...e.payload,
           actors: [firstActor.id],
         },
-      }))
+      })),
     );
     const secondActorEvents = pipe(
       eventsData,
@@ -78,7 +78,7 @@ describe("Search Events", () => {
           ...e.payload,
           actors: [secondActor.id],
         },
-      }))
+      })),
     );
     const groupEvents = pipe(
       eventsData,
@@ -90,7 +90,7 @@ describe("Search Events", () => {
           ...e.payload,
           groups: [groups[0].id],
         },
-      }))
+      })),
     );
 
     events = [
@@ -106,7 +106,7 @@ describe("Search Events", () => {
 
     authorizationToken = `Bearer ${jwt.sign(
       { id: "1" },
-      appTest.ctx.env.JWT_SECRET
+      appTest.ctx.env.JWT_SECRET,
     )}`;
   });
 
@@ -114,18 +114,18 @@ describe("Search Events", () => {
     await throwTE(
       appTest.ctx.db.delete(
         EventV2Entity,
-        events.map((e) => e.id)
-      )
+        events.map((e) => e.id),
+      ),
     );
     await throwTE(appTest.ctx.db.delete(GroupMemberEntity, [groupMember.id]));
     await throwTE(
-      appTest.ctx.db.delete(ActorEntity, [firstActor.id, secondActor.id])
+      appTest.ctx.db.delete(ActorEntity, [firstActor.id, secondActor.id]),
     );
     await throwTE(
       appTest.ctx.db.delete(
         GroupEntity,
-        groups.map((g) => g.id)
-      )
+        groups.map((g) => g.id),
+      ),
     );
     await appTest.utils.e2eAfterAll();
   });

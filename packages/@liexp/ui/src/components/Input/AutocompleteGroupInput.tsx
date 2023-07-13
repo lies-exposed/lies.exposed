@@ -1,6 +1,6 @@
 import { type Group } from "@liexp/shared/lib/io/http";
 import * as React from "react";
-import { useQuery } from 'react-query';
+import { useQuery } from "react-query";
 import { useGroupsQuery } from "../../state/queries/groups.queries";
 import GroupList, { GroupListItem } from "../lists/GroupList";
 import { AutocompleteInput } from "./AutocompleteInput";
@@ -9,7 +9,7 @@ interface AutocompleteGroupInputProps {
   className?: string;
   discrete?: boolean;
   selectedItems: Group.Group[];
-  options?: Group.Group[]
+  options?: Group.Group[];
   onChange: (item: Group.Group[]) => void;
 }
 
@@ -26,16 +26,22 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
       getValue={(a) => (typeof a === "string" ? a : a.name)}
       searchToFilter={(name) => ({ name })}
       selectedItems={selectedItems}
-      query={p => options
-        ? useQuery(["actor-options"], () => Promise.resolve({ data: options }))
-        : useGroupsQuery(p, discrete)}
+      query={(p) =>
+        options
+          ? useQuery(["actor-options"], () =>
+              Promise.resolve({ data: options }),
+            )
+          : useGroupsQuery(p, discrete)
+      }
       renderTags={(items) => (
         <GroupList
           groups={items.map((i) => ({
             ...i,
             selected: true,
           }))}
-          onItemClick={(g) => { onChange(items.filter((i) => i.id !== g.id)); }}
+          onItemClick={(g) => {
+            onChange(items.filter((i) => i.id !== g.id));
+          }}
         />
       )}
       renderOption={(props, item, state) => (
@@ -47,7 +53,9 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
             selected: true,
           }}
           onClick={() => {
-            onChange(selectedItems.filter((i) => i.id !== item.id).concat(item))
+            onChange(
+              selectedItems.filter((i) => i.id !== item.id).concat(item),
+            );
           }}
         />
       )}

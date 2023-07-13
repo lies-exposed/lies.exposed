@@ -20,7 +20,7 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
 import * as pdfJS from "pdfjs-dist/legacy/build/pdf";
-import { type RenderParameters } from 'pdfjs-dist/types/src/display/api';
+import { type RenderParameters } from "pdfjs-dist/types/src/display/api";
 import { type Page } from "puppeteer-core";
 import { type TEFlow } from "@flows/flow.types";
 import {
@@ -41,7 +41,7 @@ export const createFromRemote: TEFlow<
           axios.get(location, {
             responseType: "stream",
           }),
-        toControllerError
+        toControllerError,
       ),
       TE.chain((stream) => {
         const key = getMediaKeyFromLocation(location);
@@ -57,13 +57,13 @@ export const createFromRemote: TEFlow<
         });
       }),
       TE.map((r) => r.Location),
-      TE.filterOrElse(t.string.is, () => toControllerError(new Error()))
+      TE.filterOrElse(t.string.is, () => toControllerError(new Error())),
     );
   };
 
 export const extractThumbnail = (
   match: VideoPlatformMatch,
-  page: Page
+  page: Page,
 ): TE.TaskEither<Error, string> => {
   const toError = (m: VideoPlatformMatch): Error => {
     return new Error(`Can't find cover for platform '${m.platform}'`);
@@ -163,7 +163,7 @@ export const extractThumbnail = (
         return TE.left(toError(match));
       }
       return TE.right(thumb);
-    })
+    }),
   );
 };
 
@@ -174,7 +174,7 @@ export const createThumbnail: TEFlow<
   ctx.logger.debug.log(
     "Extracting thumbnail from url %s with type %s",
     media.location,
-    media.type
+    media.type,
   );
 
   if (Media.PDFType.is(media.type)) {
@@ -199,10 +199,7 @@ export const createThumbnail: TEFlow<
 
             const outputScale = 1;
 
-            const canvas = Canvas.createCanvas(
-              viewport.width,
-              viewport.height,
-            );
+            const canvas = Canvas.createCanvas(viewport.width, viewport.height);
             const context = canvas.getContext("2d");
             canvas.height = viewport.height;
             canvas.width = viewport.width;
@@ -221,7 +218,7 @@ export const createThumbnail: TEFlow<
             return canvas.toBuffer(ImageType.types[2].value);
           }, toControllerError),
 
-          TE.chainFirst(() => TE.fromIO(() => page.cleanup()))
+          TE.chainFirst(() => TE.fromIO(() => page.cleanup())),
         );
       }),
       TE.chain((screenshotPath) => {
@@ -231,7 +228,7 @@ export const createThumbnail: TEFlow<
           "media",
           media.id,
           thumbnailName,
-          ImageType.types[2].value
+          ImageType.types[2].value,
         );
 
         return ctx.s3.upload({
@@ -243,7 +240,7 @@ export const createThumbnail: TEFlow<
         });
       }),
       TE.map((s) => s.Location),
-      TE.filterOrElse(t.string.is, () => toControllerError(new Error()))
+      TE.filterOrElse(t.string.is, () => toControllerError(new Error())),
     );
   }
 
@@ -315,7 +312,7 @@ export const createThumbnail: TEFlow<
               "media",
               media.id,
               thumbnailName,
-              "image/png"
+              "image/png",
             );
 
             ctx.logger.debug.log("Thumbnail key %s", key);
@@ -334,10 +331,10 @@ export const createThumbnail: TEFlow<
               fs.rmSync(tempThumbnail);
               fs.rmSync(tempVideoFilePath);
               return Promise.resolve();
-            }, toControllerError)
-          )
+            }, toControllerError),
+          ),
         );
-      })
+      }),
     );
   }
 
@@ -356,12 +353,12 @@ export const createThumbnail: TEFlow<
             return page;
           }, toPuppeteerError);
         }),
-        TE.mapLeft((e) => ServerError(e as any))
+        TE.mapLeft((e) => ServerError(e as any)),
       ),
       match: pipe(
         getPlatform(media.location),
         E.mapLeft((e) => ServerError(e as any)),
-        TE.fromEither
+        TE.fromEither,
       ),
     }),
     TE.chain(({ html, match }) => {
@@ -372,10 +369,10 @@ export const createThumbnail: TEFlow<
         TE.chainFirst(() =>
           TE.tryCatch(
             () => html.browser().close(),
-            (e) => ServerError(e as any)
-          )
-        )
+            (e) => ServerError(e as any),
+          ),
+        ),
       );
-    })
+    }),
   );
 };

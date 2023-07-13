@@ -47,7 +47,7 @@ export const KeywordInlineControlContent: React.FC<{
 
   const selectedItems = React.useMemo(
     () => ([] as any[]).concat(s.keyword ? [s.keyword] : []),
-    [s.keyword]
+    [s.keyword],
   );
 
   return (

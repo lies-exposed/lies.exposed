@@ -41,7 +41,7 @@ export const Create = Endpoint({
         keywords: t.array(UUID),
         events: t.array(UUID),
       },
-      "CreateImageBody"
+      "CreateImageBody",
     ),
   },
   Output: SingleMediaOutput,
@@ -63,7 +63,7 @@ export const Edit = Endpoint({
       creator: optionFromNullable(UUID),
       overrideThumbnail: optionFromNullable(t.boolean),
       transfer: optionFromNullable(t.boolean),
-      transferThumbnail: optionFromNullable(t.boolean)
+      transferThumbnail: optionFromNullable(t.boolean),
     }),
   },
   Output: SingleMediaOutput,

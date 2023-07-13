@@ -15,7 +15,7 @@ import { type ControllerError, toControllerError } from "@io/ControllerError";
 
 export const extractDescriptionFromPlatform = (
   m: VideoPlatformMatch,
-  page: puppeteer.Page
+  page: puppeteer.Page,
 ): TE.TaskEither<ControllerError, string | undefined> => {
   return pipe(
     TE.tryCatch(async () => {
@@ -43,14 +43,14 @@ export const extractDescriptionFromPlatform = (
         }
       }
     }, toControllerError),
-    TE.orElseW((e) => TE.right(""))
+    TE.orElseW((e) => TE.right("")),
   );
 };
 
 export const extractEmbedFromPlatform = (
   url: URL,
   m: VideoPlatformMatch,
-  page: puppeteer.Page
+  page: puppeteer.Page,
 ): TE.TaskEither<ControllerError, string> => {
   return pipe(
     TE.tryCatch(async () => {
@@ -71,7 +71,7 @@ export const extractEmbedFromPlatform = (
           return getPlatformEmbedURL(m, url);
       }
     }, toControllerError),
-    TE.orElse(() => TE.right(url))
+    TE.orElse(() => TE.right(url)),
   );
 };
 
@@ -89,10 +89,10 @@ export const extractMediaFromPlatform: TEFlow<
         TE.mapLeft(toControllerError),
         TE.orElse(
           (): TE.TaskEither<ControllerError, string | undefined> =>
-            TE.right(undefined)
-        )
+            TE.right(undefined),
+        ),
       ),
       type: TE.right(IframeVideoType.value),
-    })
+    }),
   );
 };

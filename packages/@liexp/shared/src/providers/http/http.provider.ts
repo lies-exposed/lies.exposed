@@ -30,12 +30,12 @@ export const toAPIError = (e: unknown): APIError => {
 export const fromValidationErrors = flow(
   E.mapLeft((e: t.Errors): APIError => {
     return new APIError("Validation failed.", PathReporter.report(E.left(e)));
-  })
+  }),
 );
 
 export const liftFetch = <B>(
   lp: () => Promise<AxiosResponse<B>>,
-  decode: <A>(a: A) => E.Either<t.Errors, B>
+  decode: <A>(a: A) => E.Either<t.Errors, B>,
 ): TE.TaskEither<APIError, B> => {
   return pipe(
     TE.tryCatch(lp, toAPIError),
@@ -46,33 +46,33 @@ export const liftFetch = <B>(
         E.mapLeft((e): APIError => {
           return new APIError(
             "Validation failed.",
-            PathReporter.report(E.left(e))
+            PathReporter.report(E.left(e)),
           );
         }),
-        TE.fromEither
+        TE.fromEither,
       );
     }),
   );
 };
 
 export type TERequest<E extends MinimalEndpointInstance> = (
-  input: TypeOfEndpointInstance<E>["Input"]
+  input: TypeOfEndpointInstance<E>["Input"],
 ) => TE.TaskEither<APIError, TypeOfEndpointInstance<E>["Output"]>;
 
 interface HTTP {
   get: <T>(
     url: string,
-    config?: AxiosRequestConfig<any>
+    config?: AxiosRequestConfig<any>,
   ) => TE.TaskEither<Error, T>;
   post: <T, R>(
     url: string,
     data?: T,
-    config?: AxiosRequestConfig<T>
+    config?: AxiosRequestConfig<T>,
   ) => TE.TaskEither<Error, R>;
   put: <T, R>(
     url: string,
     data?: T,
-    config?: AxiosRequestConfig<T>
+    config?: AxiosRequestConfig<T>,
   ) => TE.TaskEither<Error, R>;
 }
 
@@ -81,21 +81,21 @@ const HTTP = (c: AxiosRequestConfig): HTTP => {
 
   const get = <T>(
     url: string,
-    config?: AxiosRequestConfig<any>
+    config?: AxiosRequestConfig<any>,
   ): TE.TaskEither<Error, T> =>
     liftFetch(() => client.get(url, config), t.any.decode);
 
   const post = <T, R>(
     url: string,
     data?: T,
-    config?: AxiosRequestConfig<T>
+    config?: AxiosRequestConfig<T>,
   ): TE.TaskEither<Error, R> =>
     liftFetch(() => client.post(url, data, config), t.any.decode);
 
   const put = <T, R>(
     url: string,
     data?: T,
-    config?: AxiosRequestConfig<T>
+    config?: AxiosRequestConfig<T>,
   ): TE.TaskEither<Error, R> =>
     liftFetch(() => client.put(url, data, config), t.any.decode);
 

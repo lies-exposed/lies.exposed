@@ -11,7 +11,7 @@ export const SortQuery = t.type(
     _sort: optionFromNullable(t.string),
     _order: optionFromNullable(SortOrder),
   },
-  "SortQuery"
+  "SortQuery",
 );
 
 export type SortQuery = t.TypeOf<typeof SortQuery>;

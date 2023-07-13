@@ -8,7 +8,7 @@ import { AutocompleteInput } from "./AutocompleteInput";
 
 export interface AutocompleteLinkInputProps {
   className?: string;
-  discrete?: boolean
+  discrete?: boolean;
   selectedItems: Link.Link[];
   onChange: (items: Link.Link[]) => void;
 }
@@ -16,7 +16,7 @@ export interface AutocompleteLinkInputProps {
 export const AutocompleteLinkInput: React.FC<AutocompleteLinkInputProps> = ({
   selectedItems,
   onChange,
-  discrete =true,
+  discrete = true,
   ...props
 }) => {
   return (
@@ -51,7 +51,7 @@ export const AutocompleteLinkInput: React.FC<AutocompleteLinkInputProps> = ({
               }}
               onClick={() => {
                 onChange(
-                  selectedItems.filter((i) => i.id !== item.id).concat(item)
+                  selectedItems.filter((i) => i.id !== item.id).concat(item),
                 );
               }}
             />

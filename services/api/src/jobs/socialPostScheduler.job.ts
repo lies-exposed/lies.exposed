@@ -29,13 +29,13 @@ export const postOnSocialJob = (ctx: RouteContext): Cron.ScheduledTask =>
               fp.TE.chain((r) =>
                 ctx.db.save(SocialPostEntity, [
                   { ...p, status: PUBLISHED.value, result: r },
-                ])
-              )
-            )
+                ]),
+              ),
+            ),
           ),
-          fp.A.sequence(fp.TE.ApplicativePar)
-        )
+          fp.A.sequence(fp.TE.ApplicativePar),
+        ),
       ),
-      throwTE
+      throwTE,
     );
   });

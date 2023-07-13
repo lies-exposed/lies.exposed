@@ -7,9 +7,7 @@ import { Equal } from "typeorm";
 import { GroupEntity } from "../../entities/Group.entity";
 import { type Route } from "../route.types";
 import { toGroupIO } from "./group.io";
-import {
-  searchGroupAndCreateFromWikipedia,
-} from "@flows/groups/fetchGroupFromWikipedia";
+import { searchGroupAndCreateFromWikipedia } from "@flows/groups/fetchGroupFromWikipedia";
 import { authenticationHandler } from "@utils/authenticationHandler";
 
 export const MakeCreateGroupRoute: Route = (r, ctx) => {
@@ -31,12 +29,12 @@ export const MakeCreateGroupRoute: Route = (r, ctx) => {
                 endDate: O.toNullable(m.endDate),
               })),
             },
-          ])
+          ]),
         ),
         TE.chain(([group]) =>
           ctx.db.findOneOrFail(GroupEntity, {
             where: { id: Equal(group.id) },
-          })
+          }),
         ),
         TE.chainEitherK(toGroupIO),
         TE.map((data) => ({
@@ -44,8 +42,8 @@ export const MakeCreateGroupRoute: Route = (r, ctx) => {
             data,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

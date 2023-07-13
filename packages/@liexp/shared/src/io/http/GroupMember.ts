@@ -14,7 +14,7 @@ export const CreateGroupMember = t.strict(
     endDate: optionFromNullable(DateFromISOString),
     body: t.UnknownRecord,
   },
-  "CreateGroupMember"
+  "CreateGroupMember",
 );
 export type CreateGroupMember = t.TypeOf<typeof CreateGroupMember>;
 
@@ -30,7 +30,7 @@ export const GroupMember = t.strict(
     createdAt: t.string,
     updatedAt: t.string,
   },
-  "GroupMember"
+  "GroupMember",
 );
 
 export type GroupMember = t.TypeOf<typeof GroupMember>;

@@ -14,7 +14,7 @@ import { Box, Typography } from "../../mui";
 
 export const matchLinkSuggestions = (
   filterValue: string,
-  choice: Media
+  choice: Media,
 ): boolean => {
   return choice?.description?.toLowerCase().includes(filterValue.toLowerCase());
 };

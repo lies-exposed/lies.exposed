@@ -11,7 +11,7 @@ import { ProjectImageEntity } from "@entities/ProjectImage.entity";
 
 export const MakeListProjectImageRoute = (
   r: Router,
-  ctx: RouteContext
+  ctx: RouteContext,
 ): void => {
   AddEndpoint(r)(Endpoints.ProjectImage.List, () => {
     return pipe(
@@ -20,7 +20,7 @@ export const MakeListProjectImageRoute = (
           ctx.db.find(ProjectImageEntity, {
             relations: ["image", "project"],
           }),
-          TE.chainEitherK(A.traverse(E.either)(toProjectImageIO))
+          TE.chainEitherK(A.traverse(E.either)(toProjectImageIO)),
         ),
         count: ctx.db.count(ProjectImageEntity),
       }),
@@ -30,7 +30,7 @@ export const MakeListProjectImageRoute = (
           total: count,
         } as any,
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

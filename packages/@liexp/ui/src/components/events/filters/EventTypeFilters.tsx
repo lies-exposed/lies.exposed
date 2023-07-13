@@ -29,7 +29,7 @@ const classes = {
 const StyledBox = styled(Box)(({ theme }) => ({
   [`&.${classes.root}`]: {
     display: "flex",
-    width: '100%',
+    width: "100%",
     flexDirection: "row",
     flexWrap: "wrap",
   },
@@ -92,19 +92,19 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
       ...allFiltersEnabled,
       ..._filters,
     }),
-    [_filters]
+    [_filters],
   );
 
   const handleFilterChange = React.useCallback(
     (filterK: EventType) => {
       const allEnabled = pipe(
         filters,
-        fp.R.reduce(fp.S.Ord)(true, (acc, b) => acc && b)
+        fp.R.reduce(fp.S.Ord)(true, (acc, b) => acc && b),
       );
 
       const allDisabled = pipe(
         filters,
-        fp.R.reduce(fp.S.Ord)(true, (acc, b) => acc && !b)
+        fp.R.reduce(fp.S.Ord)(true, (acc, b) => acc && !b),
       );
 
       const ff: EventTypeMap = allEnabled
@@ -135,13 +135,13 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
 
       onChange(ff, filterK);
     },
-    [onChange]
+    [onChange],
   );
 
   return (
     <StyledBox className={classes.root}>
-      <Grid container style={{ width: '100%'}}>
-        <Grid item  sm={2} md={2}>
+      <Grid container style={{ width: "100%" }}>
+        <Grid item sm={2} md={2}>
           <IconButton
             className={clsx(classes.iconButton, {
               [classes.iconButtonSelected]: filters.Uncategorized,
@@ -159,7 +159,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             </Typography>
           </IconButton>
         </Grid>
-        <Grid item  sm={2} md={2}>
+        <Grid item sm={2} md={2}>
           <IconButton
             color="primary"
             className={clsx(classes.iconButton, {

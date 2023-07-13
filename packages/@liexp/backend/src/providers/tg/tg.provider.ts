@@ -7,19 +7,19 @@ import type TelegramBot from "node-telegram-bot-api";
 export interface TGBotProvider {
   bot: BotBrotherCtx;
   upsertPinnedMessage: (
-    text: string
+    text: string,
   ) => TE.TaskEither<Error, TelegramBot.Message>;
   post: (text: string) => TE.TaskEither<Error, any>;
   postPhoto: (image: string, caption: string) => TE.TaskEither<Error, any>;
   postMediaGroup: (
     text: string,
-    media: readonly TelegramBot.InputMedia[]
+    media: readonly TelegramBot.InputMedia[],
   ) => TE.TaskEither<Error, TelegramBot.Message>;
   onMessage: (
-    f: (message: TelegramBot.Message, metadata: TelegramBot.Metadata) => void
+    f: (message: TelegramBot.Message, metadata: TelegramBot.Metadata) => void,
   ) => void;
   stopPolling: (
-    opts?: TelegramBot.StopPollingOptions
+    opts?: TelegramBot.StopPollingOptions,
   ) => TE.TaskEither<Error, void>;
 }
 
@@ -43,7 +43,7 @@ export interface TGBotProviderCtx {
 
 export const TGBotProvider = (
   { logger }: TGBotProviderCtx,
-  opts: TGBotProviderOpts
+  opts: TGBotProviderOpts,
 ): TGBotProvider => {
   logger.debug.log("tg bot provider %O", opts);
   const bot = BotBrother({
@@ -63,8 +63,8 @@ export const TGBotProvider = (
             return pipe(
               liftTGTE(() => bot.api.sendMessage(opts.chat, text, {})),
               TE.chainFirst((m) =>
-                liftTGTE(() => bot.api.pinChatMessage(opts.chat, m.message_id))
-              )
+                liftTGTE(() => bot.api.pinChatMessage(opts.chat, m.message_id)),
+              ),
             );
           } else {
             const te =
@@ -74,14 +74,14 @@ export const TGBotProvider = (
                     bot.api.editMessageText(text, {
                       message_id: message.message_id,
                       chat_id: opts.chat,
-                    })
+                    }),
                   );
             return pipe(
               te,
-              TE.map(() => message)
+              TE.map(() => message),
             );
           }
-        })
+        }),
       );
     },
     post: (text) => {
@@ -89,7 +89,7 @@ export const TGBotProvider = (
         bot.api.sendMessage(opts.chat, text, {
           parse_mode: "HTML",
           disable_web_page_preview: false,
-        })
+        }),
       );
     },
     postPhoto: (image, caption) => {
@@ -97,7 +97,7 @@ export const TGBotProvider = (
         bot.api.sendPhoto(opts.chat, image, {
           caption,
           parse_mode: "HTML",
-        })
+        }),
       );
     },
     postMediaGroup(caption, media) {
@@ -107,9 +107,9 @@ export const TGBotProvider = (
           bot.api.sendMediaGroup(
             opts.chat,
             media.map((m) => ({ ...m, caption, parse_mode: "HTML" })),
-            { disable_notification: true }
-          )
-        )
+            { disable_notification: true },
+          ),
+        ),
       );
     },
     onMessage: (f) => {
@@ -117,7 +117,7 @@ export const TGBotProvider = (
     },
     stopPolling: (opts) => {
       return liftTGTE(
-        () => bot.api?.stopPolling(opts) ?? Promise.resolve(undefined)
+        () => bot.api?.stopPolling(opts) ?? Promise.resolve(undefined),
       );
     },
   };

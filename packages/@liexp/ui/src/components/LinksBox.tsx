@@ -11,7 +11,8 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Box, Typography
+  Box,
+  Typography,
 } from "./mui";
 
 // interface LinksListProps {
@@ -88,7 +89,7 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
             pagination: { page: 1, perPage },
             filter: expanded ? filter : {},
           },
-          true
+          true,
         ),
       }}
       render={({ links: { data: links } }) => {
@@ -167,7 +168,7 @@ export const LinksListBox: React.FC<LinksBoxProps> = ({
             pagination: { page: 1, perPage },
             filter,
           },
-          true
+          true,
         ),
       }}
       render={({ links: { data: links } }) => {

@@ -20,7 +20,7 @@ const PagePreview: React.FC = () => {
       http.Page.Page.decode({
         ...(record ?? {}),
       }),
-    [record]
+    [record],
   );
 
   if (!record) {
@@ -37,7 +37,7 @@ const PagePreview: React.FC = () => {
           </QueryClientProvider>
         </ThemeProvider>
       </HelmetProvider>
-    ))
+    )),
   );
 };
 

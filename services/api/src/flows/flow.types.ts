@@ -7,7 +7,7 @@ import { type RouteContext } from "@routes/route.types";
  * synchronous result
  */
 export type Flow<Args extends any[], R> = (
-  ctx: RouteContext
+  ctx: RouteContext,
 ) => (...args: Args) => R;
 
 /**
@@ -16,5 +16,5 @@ export type Flow<Args extends any[], R> = (
  *
  */
 export type TEFlow<Args extends any[], R> = (
-  ctx: RouteContext
+  ctx: RouteContext,
 ) => (...args: Args) => TE.TaskEither<ControllerError, R>;

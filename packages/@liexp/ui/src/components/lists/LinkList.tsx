@@ -25,7 +25,7 @@ export const LinksList: React.FC<LinksListProps> = ({
       display={"flex"}
       style={{
         maxHeight: "100%",
-        flexDirection: 'column',
+        flexDirection: "column",
         ...style,
       }}
     >

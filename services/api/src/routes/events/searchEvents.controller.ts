@@ -46,17 +46,17 @@ export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {
         ...queryRest,
         _sort: pipe(
           queryRest._sort,
-          O.alt(() => O.some("date"))
+          O.alt(() => O.some("date")),
         ),
       },
-      ctx.env.DEFAULT_PAGE_SIZE
+      ctx.env.DEFAULT_PAGE_SIZE,
     );
 
     const type = pipe(
       _type,
       O.map((tp) => {
         return t.array(t.string).is(tp) ? tp : [tp];
-      })
+      }),
     );
 
     ctx.logger.debug.log("find options %O", findOptions);
@@ -89,8 +89,8 @@ export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {
           A.map((e) => toEventV2IO(e)),
           A.sequence(E.Applicative),
           E.map((data) => ({ data, totals })),
-          TE.fromEither
-        )
+          TE.fromEither,
+        ),
       ),
       TE.map(({ data, totals }) => ({
         body: {
@@ -105,7 +105,7 @@ export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {
           totals,
         },
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

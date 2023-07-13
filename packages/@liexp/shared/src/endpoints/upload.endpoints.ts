@@ -13,7 +13,7 @@ export const UploadResource = t.union(
     t.literal("projects"),
     t.literal("areas"),
   ],
-  "UploadResource"
+  "UploadResource",
 );
 
 export type UploadResource = t.TypeOf<typeof UploadResource>;

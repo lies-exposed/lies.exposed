@@ -42,7 +42,7 @@ export const searchEventSuggestion: TEFlow<
             `"eventSuggestion"."payload"::jsonb -> 'event' -> 'links' ?| ARRAY[:...links]`,
             {
               links: filter.links.value,
-            }
+            },
           );
         }
 
@@ -51,7 +51,7 @@ export const searchEventSuggestion: TEFlow<
             `"eventSuggestion"."payload"::jsonb -> 'event' -> 'links' @> ANY(ARRAY[:...links]::jsonb[])`,
             {
               links: filter.newLinks.value,
-            }
+            },
           );
         }
 
@@ -66,11 +66,11 @@ export const searchEventSuggestion: TEFlow<
         addOrder(filter.order, q, "eventSuggestion");
         // ctx.logger.debug.log("Query %O", q.getQueryAndParameters());
         return q.skip(skip).take(take);
-      }
+      },
     );
 
     return pipe(
       ctx.db.execQuery(() => query.getManyAndCount()),
-      TE.map(([data, total]) => ({ data, total }))
+      TE.map(([data, total]) => ({ data, total })),
     );
   };

@@ -66,8 +66,8 @@ export const Edit = Endpoint({
               startDate: DateFromISOString,
               endDate: optionFromNullable(DateFromISOString),
             }),
-          ])
-        )
+          ]),
+        ),
       ),
     }),
   },

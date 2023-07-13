@@ -1,4 +1,8 @@
-import { PDFType, ImageType, type MediaType } from "@liexp/shared/lib/io/http/Media";
+import {
+  PDFType,
+  ImageType,
+  type MediaType,
+} from "@liexp/shared/lib/io/http/Media";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils";
 import axios from "axios";
 import * as TE from "fp-ts/TaskEither";
@@ -22,13 +26,13 @@ export const transferFromExternalProvider: TEFlow<
     mediaId,
     url,
     fileName,
-    mimeType
+    mimeType,
   ): TE.TaskEither<ControllerError, string> => {
     return pipe(
       mimeType,
       TE.fromPredicate(
         (t): t is TransferableMediaType => ImageType.is(t) || PDFType.is(t),
-        () => ServerError()
+        () => ServerError(),
       ),
       TE.chain((mType) =>
         pipe(
@@ -37,7 +41,7 @@ export const transferFromExternalProvider: TEFlow<
               axios.get(url, {
                 responseType: "stream",
               }),
-            toControllerError
+            toControllerError,
           ),
           TE.chain((stream) => {
             return ctx.s3.upload({
@@ -47,10 +51,10 @@ export const transferFromExternalProvider: TEFlow<
               Bucket: ctx.env.SPACE_BUCKET,
               ContentType: mimeType,
             });
-          })
-        )
+          }),
+        ),
       ),
       TE.map((r) => r.Location),
-      TE.filterOrElse(t.string.is, () => toControllerError(new Error()))
+      TE.filterOrElse(t.string.is, () => toControllerError(new Error())),
     );
   };

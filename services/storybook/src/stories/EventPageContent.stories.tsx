@@ -37,7 +37,7 @@ const Template: StoryFn<{ type: string } & EventPageContentProps> = ({
               order: "DESC",
             },
           },
-          false
+          false,
         ),
       }}
       render={({ events }) => {

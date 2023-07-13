@@ -1,7 +1,7 @@
 import {
   ComponentPickerPopoverControl,
   ComponentPickerPopoverRenderer,
-  type ComponentPickerPopoverState
+  type ComponentPickerPopoverState,
 } from "@liexp/ui/lib/components/Common/Editor/plugins/ComponentPickerPopover";
 import { CircularProgress } from "@liexp/ui/lib/components/mui";
 import { type Meta, type StoryFn } from "@storybook/react";
@@ -35,7 +35,7 @@ const Template: StoryFn<any> = (props) => {
           close={() => {}}
           add={({ data }) => {
             setData(
-              data ? { ...data, load } : { load, plugin: undefined as any }
+              data ? { ...data, load } : { load, plugin: undefined as any },
             );
           }}
         />

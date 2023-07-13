@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { PUBLISHED, TO_PUBLISH } from '@liexp/shared/lib/io/http/SocialPost';
+import { PUBLISHED, TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost";
 import addHours from "date-fns/addHours";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
@@ -24,7 +24,7 @@ export const MakeCreateSocialPostRoute: Route = (r, ctx) => {
                 status: TO_PUBLISH.value,
                 scheduledAt: addHours(new Date(), body.schedule ?? 0),
               },
-            ])
+            ]),
           )
         : pipe(
             TE.right({
@@ -38,7 +38,7 @@ export const MakeCreateSocialPostRoute: Route = (r, ctx) => {
                 sequenceS(TE.ApplicativePar)({
                   ig: platforms.IG
                     ? postToIG(ctx)({ ...p.content, platforms }, () =>
-                        Promise.reject(new Error("Not implemented"))
+                        Promise.reject(new Error("Not implemented")),
                       )
                     : TE.right(undefined),
                   tg: platforms.TG
@@ -46,7 +46,7 @@ export const MakeCreateSocialPostRoute: Route = (r, ctx) => {
                     : TE.right(undefined),
                 }),
                 ctx.logger.info.logInTaskEither(
-                  `Posting ${id} with caption %O`
+                  `Posting ${id} with caption %O`,
                 ),
                 TE.chain((result) =>
                   ctx.db.save(SocialPostEntity, [
@@ -56,10 +56,10 @@ export const MakeCreateSocialPostRoute: Route = (r, ctx) => {
                       type,
                       result,
                     },
-                  ])
-                )
-              )
-            )
+                  ]),
+                ),
+              ),
+            ),
           );
 
       return pipe(
@@ -69,8 +69,8 @@ export const MakeCreateSocialPostRoute: Route = (r, ctx) => {
             data,
           },
           statusCode: 201,
-        }))
+        })),
       );
-    }
+    },
   );
 };

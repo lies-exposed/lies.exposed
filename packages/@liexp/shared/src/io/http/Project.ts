@@ -20,7 +20,7 @@ export const Project = t.strict(
     endDate: t.union([DateFromISOString, t.undefined]),
     body: t.string,
   },
-  "Project"
+  "Project",
 );
 
 export type Project = t.TypeOf<typeof Project>;

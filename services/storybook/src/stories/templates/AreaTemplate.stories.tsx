@@ -1,9 +1,8 @@
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import { useAreasQuery } from "@liexp/ui/lib/state/queries/area.queries";
 import {
-  useAreasQuery
-} from "@liexp/ui/lib/state/queries/area.queries";
-import {
-  type AreaTemplateProps, AreaTemplateUI
+  type AreaTemplateProps,
+  AreaTemplateUI,
 } from "@liexp/ui/lib/templates/AreaTemplate";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
@@ -26,7 +25,7 @@ const Template: StoryFn<AreaTemplateProps> = (props) => {
             pagination: { perPage: 10, page: 1 },
             filter: {},
           },
-          false
+          false,
         ),
       }}
       render={({ area: { data } }) => {

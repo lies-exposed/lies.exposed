@@ -4,7 +4,7 @@ import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { type RouteContext } from "../route.types";
-import { SocialPostEntity } from '@entities/SocialPost.entity';
+import { SocialPostEntity } from "@entities/SocialPost.entity";
 import { getORMOptions } from "@utils/orm.utils";
 
 export const MakeListSocialPostRoute = (r: Router, ctx: RouteContext): void => {
@@ -32,7 +32,7 @@ export const MakeListSocialPostRoute = (r: Router, ctx: RouteContext): void => {
           total,
         },
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

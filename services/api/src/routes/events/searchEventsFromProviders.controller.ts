@@ -17,7 +17,7 @@ import { type RouteContext } from "@routes/route.types";
 
 export const SearchEventsFromProviderRoute = (
   r: Router,
-  ctx: RouteContext
+  ctx: RouteContext,
 ): void => {
   AddEndpoint(r)(
     Endpoints.Event.Custom.SearchEventsFromProvider,
@@ -31,8 +31,8 @@ export const SearchEventsFromProviderRoute = (
         TE.chain((user) =>
           pipe(
             ctx.puppeteer.getBrowser({}),
-            TE.map((browser) => ({ browser, user }))
-          )
+            TE.map((browser) => ({ browser, user })),
+          ),
         ),
         TE.mapLeft(toControllerError),
         TE.chain(({ browser, user }) =>
@@ -50,17 +50,17 @@ export const SearchEventsFromProviderRoute = (
                 TE.chain((ll) => {
                   return pipe(
                     ll.map((l: any) => fetchAsLink(ctx)(user, l, undefined)),
-                    A.sequence(TE.ApplicativePar)
+                    A.sequence(TE.ApplicativePar),
                   );
-                })
+                }),
               );
             }),
             A.sequence(TE.ApplicativeSeq),
             TE.chainFirst(() => {
               return TE.tryCatch(() => browser.close(), toControllerError);
-            })
-          )
-        )
+            }),
+          ),
+        ),
       );
 
       ctx.logger.debug.log("Search tasks %O", tasks);
@@ -75,7 +75,7 @@ export const SearchEventsFromProviderRoute = (
             (data) => ({
               data,
               total: data.length,
-            })
+            }),
           );
         }),
         TE.map(({ data, total }) => ({
@@ -84,8 +84,8 @@ export const SearchEventsFromProviderRoute = (
             total,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

@@ -5,7 +5,7 @@ import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { optionFromUndefined } from "../Common/optionFromUndefined";
 import { URL, UUID } from "./Common";
 import { CreateMedia } from "./Media";
-import { GetListQuery } from './Query';
+import { GetListQuery } from "./Query";
 
 export const GetListLinkQuery = t.type(
   {
@@ -19,7 +19,7 @@ export const GetListLinkQuery = t.type(
     emptyEvents: optionFromNullable(BooleanFromString),
     onlyDeleted: optionFromNullable(BooleanFromString),
   },
-  "GetListLinkQuery"
+  "GetListLinkQuery",
 );
 export type GetListLinkQuery = t.TypeOf<typeof GetListLinkQuery>;
 
@@ -30,7 +30,7 @@ export const CreateLink = t.strict(
     description: t.union([t.string, t.undefined]),
     events: t.array(UUID),
   },
-  "CreateLink"
+  "CreateLink",
 );
 export type CreateLink = t.TypeOf<typeof CreateLink>;
 
@@ -39,7 +39,7 @@ const LinkMedia = t.strict(
     id: UUID,
     ...CreateMedia.type.props,
   },
-  "LinkMedia"
+  "LinkMedia",
 );
 type LinkMedia = t.TypeOf<typeof LinkMedia>;
 
@@ -55,7 +55,7 @@ export const EditLink = t.strict(
     image: t.union([LinkMedia, UUID, t.undefined], "LinkImage"),
     overrideThumbnail: optionFromUndefined(t.boolean),
   },
-  "EditLinkBody"
+  "EditLinkBody",
 );
 
 export type EditLink = t.TypeOf<typeof EditLink>;
@@ -79,7 +79,7 @@ export const Link = t.strict(
     updatedAt: DateFromISOString,
     deletedAt: t.union([DateFromISOString, t.undefined]),
   },
-  "Link"
+  "Link",
 );
 
 export type Link = t.TypeOf<typeof Link>;

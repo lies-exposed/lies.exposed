@@ -17,7 +17,7 @@ export const GetEventRoute = (r: Router, ctx: RouteContext): void => {
         .where("event.id = :eventId", { eventId: id }),
       (q) => {
         return ctx.db.execQuery(() => q.getOneOrFail());
-      }
+      },
     );
 
     return pipe(
@@ -28,7 +28,7 @@ export const GetEventRoute = (r: Router, ctx: RouteContext): void => {
           data,
         },
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

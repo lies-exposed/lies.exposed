@@ -58,4 +58,3 @@ export const deserializeFromString = (html?: string): any => {
 
   return result;
 };
-

@@ -31,9 +31,7 @@ interface OnLoadSharePayloadClickOpts {
 }
 export interface SocialPostButtonProps extends FieldProps {
   id?: Identifier;
-  onLoadSharePayloadClick: (
-    opts: OnLoadSharePayloadClickOpts
-  ) => Promise<
+  onLoadSharePayloadClick: (opts: OnLoadSharePayloadClickOpts) => Promise<
     Omit<CreateSocialPost, "media"> & {
       media: Media.Media[];
     }
@@ -67,7 +65,7 @@ export const SocialPostButton: React.FC<SocialPostButtonProps> = ({
                 media: getShareMedia(
                   result.media,
                   `${process.env.WEB_URL}/liexp-logo-1200x630.png`,
-                  multipleMedia
+                  multipleMedia,
                 ),
               },
             }));
@@ -128,9 +126,9 @@ export const EventSocialPostButton: React.FC<
                   groupsMembers: groupsMembers.data,
                   links: links.data,
                   areas: [],
-                })
+                }),
               ),
-              throwTE
+              throwTE,
             );
 
             const title = getTitle(event, relations);
@@ -141,7 +139,7 @@ export const EventSocialPostButton: React.FC<
               media: new Map(relations.media.map((a) => [a.id, a])),
               keywords: new Map(relations.keywords.map((a) => [a.id, a])),
               groupsMembers: new Map(
-                relations.groupsMembers.map((a) => [a.id, a])
+                relations.groupsMembers.map((a) => [a.id, a]),
               ),
             });
 
@@ -165,7 +163,7 @@ export const EventSocialPostButton: React.FC<
                           type: contentTypeFromFileExt(ext),
                         },
                       ]),
-                      fp.O.getOrElse((): any[] => [])
+                      fp.O.getOrElse((): any[] => []),
                     )
                   : relations.media,
                 title,
@@ -249,7 +247,7 @@ export const MediaTGPostButton: React.FC<
           groups: [],
           url,
           platforms: { TG: true, IG: false },
-          schedule: record.schedule
+          schedule: record.schedule,
         };
       }}
     />
@@ -301,7 +299,7 @@ export const LinkTGPostButton: React.FC<
           groups: [],
           url,
           platforms: { TG: true, IG: false },
-          schedule: record.schedule
+          schedule: record.schedule,
         };
       }}
     />

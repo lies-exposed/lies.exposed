@@ -6,7 +6,7 @@ import { type EventEntity } from "@entities/archive/Event.entity";
 import { type ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toEventIO = (
-  event: EventEntity
+  event: EventEntity,
 ): E.Either<ControllerError, io.http.Events.Event> => {
   return pipe(
     io.http.Events.Event.decode({
@@ -20,7 +20,7 @@ export const toEventIO = (
           : {
               ...m,
               thumbnail: m.thumbnail ?? undefined,
-            }
+            },
       ),
       startDate: event.startDate.toISOString(),
       endDate: event.endDate ? event.endDate.toISOString() : undefined,
@@ -29,6 +29,6 @@ export const toEventIO = (
       updatedAt: event.updatedAt.toISOString(),
       deletedAt: event.deletedAt?.toISOString(),
     }),
-    E.mapLeft((e) => DecodeError(`Failed to decode event (${event.id})`, e))
+    E.mapLeft((e) => DecodeError(`Failed to decode event (${event.id})`, e)),
   );
 };

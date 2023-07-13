@@ -25,7 +25,7 @@ export const AutocompleteKeywordInput: React.FC<
       query={(p) =>
         options
           ? useQuery(["keyword-options"], () =>
-              Promise.resolve({ data: options })
+              Promise.resolve({ data: options }),
             )
           : useKeywordsQuery(p, discrete)
       }
@@ -52,7 +52,9 @@ export const AutocompleteKeywordInput: React.FC<
               selected: true,
             }}
             onClick={() => {
-              onChange(selectedItems.filter((i) => i.id !== item.id).concat(item))
+              onChange(
+                selectedItems.filter((i) => i.id !== item.id).concat(item),
+              );
             }}
           />
         );

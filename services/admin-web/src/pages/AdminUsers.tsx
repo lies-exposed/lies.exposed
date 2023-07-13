@@ -5,7 +5,8 @@ import {
   AdminRead,
   EventSuggestionCreate,
   EventSuggestionEdit,
-  EventSuggestionRead, UserStatus
+  EventSuggestionRead,
+  UserStatus,
 } from "@liexp/shared/lib/io/http/User";
 import {
   AutocompleteArrayInput,
@@ -17,12 +18,13 @@ import {
   type EditProps,
   FormTab,
   List,
-  type ListProps, SelectInput,
+  type ListProps,
+  SelectInput,
   SimpleForm,
   TabbedForm,
   TextField,
   TextInput,
-  useRecordContext
+  useRecordContext,
 } from "@liexp/ui/lib/components/admin";
 import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
 import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField";

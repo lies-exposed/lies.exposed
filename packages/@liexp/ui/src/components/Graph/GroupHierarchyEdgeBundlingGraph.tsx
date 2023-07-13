@@ -25,7 +25,7 @@ export const GroupHierarchyEdgeBundlingGraph: React.FC<
           },
           {
             ids: [group],
-          }
+          },
         ),
       }}
       render={({ graph }) => {

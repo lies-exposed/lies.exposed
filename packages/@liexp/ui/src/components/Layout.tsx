@@ -8,7 +8,11 @@ interface LayoutProps {
   header: HeaderProps;
 }
 
-export const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({ style, header, children }) => {
+export const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
+  style,
+  header,
+  children,
+}) => {
   return (
     <Grid
       container

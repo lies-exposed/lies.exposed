@@ -122,8 +122,8 @@ const CalendarHeatmapComponent: React.FC<
                     date: e.date,
                     stroke: O.some("#c33bff"),
                   };
-                }
-              )
+                },
+              ),
             );
             return result;
           });
@@ -166,7 +166,7 @@ const CalendarHeatmapComponent: React.FC<
             <svg width={width} height={height}>
               <rect x={0} y={0} width={width} height={height} fill={bg} />
               <Group top={margin.top} left={margin.left}>
-                <HeatmapCircle<typeof data[0], BinDatum>
+                <HeatmapCircle<(typeof data)[0], BinDatum>
                   data={data}
                   xScale={(n) => xScale(n) ?? 0}
                   yScale={(n) => yScale(n) ?? 0}
@@ -230,18 +230,18 @@ const CalendarHeatmapComponent: React.FC<
                     () => null,
                     (e) => {
                       return <p>{e.payload.title}</p>;
-                    }
-                  )
+                    },
+                  ),
                 )}
               </TooltipWithBounds>
             ) : null}
           </React.Fragment>
         );
-      }
-    )
+      },
+    ),
   );
 };
 
 export const CalendarHeatmap = withTooltip<CalendarHeatmapProps, TooltipData>(
-  CalendarHeatmapComponent
+  CalendarHeatmapComponent,
 );

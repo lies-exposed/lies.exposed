@@ -27,7 +27,7 @@ const StoriesBox = ({
           <StoryList
             {...props}
             style={style}
-            itemStyle={{...itemStyle }}
+            itemStyle={{ ...itemStyle }}
             stories={stories}
             onClick={onItemClick}
           />

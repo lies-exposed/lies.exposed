@@ -28,8 +28,8 @@ export const createAndUpload: TEFlow<[Media.CreateMedia, any], MediaEntity> =
             id: mediaId,
             location: upload.Location,
           }),
-          TE.map((thumb) => ({ thumb, upload }))
-        )
+          TE.map((thumb) => ({ thumb, upload })),
+        ),
       ),
       TE.chain(({ upload, thumb }) =>
         ctx.db.save(MediaEntity, [
@@ -42,8 +42,8 @@ export const createAndUpload: TEFlow<[Media.CreateMedia, any], MediaEntity> =
             location: upload.Location,
             thumbnail: thumb,
           },
-        ])
+        ]),
       ),
-      TE.map((m) => m[0])
+      TE.map((m) => m[0]),
     );
   };

@@ -17,7 +17,7 @@ const StoryPreview: React.FC = () => {
 
   const result = React.useMemo(
     () => pipe(http.Story.Story.decode({ ...record, links: [] })),
-    [record]
+    [record],
   );
 
   if (!record) {
@@ -39,7 +39,7 @@ const StoryPreview: React.FC = () => {
           </QueryClientProvider>
         </ThemeProvider>
       </HelmetProvider>
-    ))
+    )),
   );
 };
 

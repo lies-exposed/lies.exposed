@@ -97,7 +97,12 @@ const SankeyNode: React.FC<any> = ({
   const iconD = width - nodePadding;
 
   return (
-    <g key={id} x={x0} y={y0} onClick={() => onClick({ ...props, payload, id })}>
+    <g
+      key={id}
+      x={x0}
+      y={y0}
+      onClick={() => onClick({ ...props, payload, id })}
+    >
       <rect
         x={x0}
         y={y0}

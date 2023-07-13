@@ -21,7 +21,7 @@ export const transformLinks = (links: any[]): any[] => {
       }
       return acc.concat(l.ids);
     },
-    []
+    [],
   );
 };
 
@@ -42,7 +42,7 @@ export const transformMedia = (newMedia: any[]): any[] => {
 };
 
 export const transformDeath = (
-  data: any
+  data: any,
 ): http.Events.CreateEventBody & { id: http.Common.UUID } => {
   return {
     ...data,
@@ -55,7 +55,7 @@ export const transformDeath = (
 };
 
 export const transformUncategorized = (
-  data: any
+  data: any,
 ): http.Events.CreateEventBody & { id: http.Common.UUID } => {
   return {
     ...data,
@@ -70,7 +70,7 @@ export const transformUncategorized = (
 };
 
 export const transformScientificStudy = (
-  data: any
+  data: any,
 ): http.Events.CreateEventBody & { id: http.Common.UUID } => {
   return {
     ...data,
@@ -84,7 +84,7 @@ export const transformScientificStudy = (
 
 export const transformEvent = async (
   id: string,
-  data: RaRecord
+  data: RaRecord,
 ): Promise<RaRecord> => {
   const newLinks = transformLinks(data.newLinks ?? []);
   const links = (data.links ?? []).concat(newLinks);
@@ -111,7 +111,7 @@ export const transformEvent = async (
     {
       rawMedia: [],
       otherMedia: [],
-    }
+    },
   );
 
   // console.log({ rawMedia, otherMedia });
@@ -123,9 +123,9 @@ export const transformEvent = async (
           "media",
           id,
           r.location.rawFile,
-          r.location.rawFile.type as any
-        )
-      )
+          r.location.rawFile.type as any,
+        ),
+      ),
     ),
     TE.map((urls) =>
       pipe(
@@ -138,12 +138,12 @@ export const transformEvent = async (
             ? location.location
             : undefined,
         })),
-        A.concat(otherMedia)
-      )
+        A.concat(otherMedia),
+      ),
     ),
     TE.map((media) =>
-      Array.isArray(data.media) ? data.media.concat(media) : media
-    )
+      Array.isArray(data.media) ? data.media.concat(media) : media,
+    ),
   );
 
   const event =
@@ -163,6 +163,6 @@ export const transformEvent = async (
       media,
       links,
     })),
-    throwTE
+    throwTE,
   );
 };

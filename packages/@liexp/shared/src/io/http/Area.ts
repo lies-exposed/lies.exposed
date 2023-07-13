@@ -1,6 +1,6 @@
 import * as t from "io-ts";
 import { BaseProps } from "./Common/BaseProps";
-import { Geometry } from './Common/Geometry';
+import { Geometry } from "./Common/Geometry";
 import { UUID } from "./Common/UUID";
 
 export const Area = t.strict(
@@ -11,7 +11,7 @@ export const Area = t.strict(
     geometry: Geometry,
     media: t.array(UUID),
   },
-  "Area"
+  "Area",
 );
 
 export type Area = t.TypeOf<typeof Area>;

@@ -23,8 +23,8 @@ describe("List Actor", () => {
           ...a,
           memberIn: [],
           death: undefined,
-        }))
-      )
+        })),
+      ),
     );
   });
 
@@ -32,8 +32,8 @@ describe("List Actor", () => {
     await throwTE(
       Test.ctx.db.delete(
         ActorEntity,
-        actors.map((a) => a.id)
-      )
+        actors.map((a) => a.id),
+      ),
     );
 
     await Test.utils.e2eAfterAll();

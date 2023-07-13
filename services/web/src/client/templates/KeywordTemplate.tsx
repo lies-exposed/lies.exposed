@@ -22,7 +22,7 @@ const KeywordPage: React.FC<{ keywordId: string }> = ({ keywordId }) => {
           { id: k.id },
           {
             tab: 1,
-          }
+          },
         );
       }}
       onEventClick={(e) => {

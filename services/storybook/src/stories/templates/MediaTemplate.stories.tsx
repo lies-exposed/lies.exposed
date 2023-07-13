@@ -24,7 +24,7 @@ const Template: StoryFn<MediaTemplateUIProps> = (props) => {
           {
             pagination: { perPage: 1, page: 1 },
           },
-          false
+          false,
         ),
       }}
       render={({ media: { data } }) => {

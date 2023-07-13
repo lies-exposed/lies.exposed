@@ -5,7 +5,7 @@ import { Endpoint } from "ts-endpoint";
 import * as http from "../io/http";
 import {
   EventTotals,
-  GetSearchEventsQuery
+  GetSearchEventsQuery,
 } from "../io/http/Events/SearchEventsQuery";
 import { ResourceEndpoints } from "./types";
 
@@ -20,14 +20,14 @@ export const ListEventOutput = t.strict(
             score: t.number,
           }),
         ],
-        "EventWithScore"
+        "EventWithScore",
       ),
-      "Data"
+      "Data",
     ),
     total: t.number,
     totals: EventTotals,
   },
-  "Events"
+  "Events",
 );
 export type ListEventOutput = t.TypeOf<typeof ListEventOutput>;
 
@@ -70,7 +70,7 @@ export const CreateSuggestion = Endpoint({
     {
       data: t.any,
     },
-    "CreateSuggestionOutput"
+    "CreateSuggestionOutput",
   ),
 });
 
@@ -85,7 +85,7 @@ export const EditSuggestion = Endpoint({
     {
       data: t.any,
     },
-    "CreateSuggestionOutput"
+    "CreateSuggestionOutput",
   ),
 });
 
@@ -99,7 +99,7 @@ export const DeleteSuggestion = Endpoint({
     {
       data: t.any,
     },
-    "DeleteSuggestionOutput"
+    "DeleteSuggestionOutput",
   ),
 });
 
@@ -137,7 +137,7 @@ export const GetFromLink = Endpoint({
         suggestions: t.array(http.EventSuggestion.CreateEventSuggestion),
       }),
     ],
-    "GetEventsFromLinkOutput"
+    "GetEventsFromLinkOutput",
   ),
 });
 
@@ -147,7 +147,7 @@ export const GetSuggestion = Endpoint({
   Input: { Params: t.type({ id: UUID }) },
   Output: http.Common.ListOutput(
     http.EventSuggestion.EventSuggestion,
-    "EventSuggestionListOutput"
+    "EventSuggestionListOutput",
   ),
 });
 
@@ -165,7 +165,7 @@ export const GetSuggestions = Endpoint({
   },
   Output: http.Common.ListOutput(
     http.EventSuggestion.EventSuggestion,
-    "EventSuggestionListOutput"
+    "EventSuggestionListOutput",
   ),
 });
 
@@ -183,7 +183,7 @@ export const SearchEventsFromProvider = Endpoint({
   },
   Output: http.Common.ListOutput(
     http.EventSuggestion.EventSuggestion,
-    "EventSuggestionListOutput"
+    "EventSuggestionListOutput",
   ),
 });
 

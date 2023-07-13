@@ -29,7 +29,7 @@ const Template: StoryFn<GroupTemplateProps> = (props) => {
             pagination: { perPage: 10, page: 1 },
             filter: { name: "food" },
           },
-          false
+          false,
         ),
       }}
       render={({ groups: { data } }) => {
@@ -39,7 +39,9 @@ const Template: StoryFn<GroupTemplateProps> = (props) => {
             group={data[0]}
             tab={tab}
             query={q}
-            onQueryChange={(q) => { setQ(q); }}
+            onQueryChange={(q) => {
+              setQ(q);
+            }}
             onTabChange={setTab}
           />
         );

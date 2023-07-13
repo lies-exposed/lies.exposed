@@ -8,7 +8,7 @@ import { type RouteContext } from "@routes/route.types";
 
 export const MakeGroupMemberRoutes = (
   router: Router,
-  ctx: RouteContext
+  ctx: RouteContext,
 ): void => {
   MakeCreateGroupMemberRoute(router, ctx);
   MakeEditGroupMemberRoute(router, ctx);

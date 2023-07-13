@@ -11,7 +11,7 @@ import {
   type EventNetworkGraphBoxProps,
 } from "@liexp/ui/lib/containers/graphs/EventNetworkGraphBox";
 import { type Meta, type StoryFn } from "@storybook/react";
-import { subWeeks } from 'date-fns';
+import { subWeeks } from "date-fns";
 import * as React from "react";
 
 const meta: Meta = {
@@ -34,7 +34,7 @@ const Template: StoryFn<EventNetworkGraphBoxProps> = ({
   ...props
 }) => {
   const [items, setItem] = React.useState<any>(
-    ids ? ids.map((id: string) => ({ id })) : []
+    ids ? ids.map((id: string) => ({ id })) : [],
   );
 
   const inputProps = {

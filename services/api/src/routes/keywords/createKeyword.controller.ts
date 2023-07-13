@@ -18,14 +18,14 @@ export const MakeCreateKeywordRoute: Route = (r, { db, logger, jwt }) => {
       return pipe(
         db.findOne(KeywordEntity, { where: { tag: Equal(body.tag) } }),
         TE.filterOrElse(O.isNone, () =>
-          ServerError([`Keyword ${body.tag} already exists.`])
+          ServerError([`Keyword ${body.tag} already exists.`]),
         ),
         TE.chain(() => db.save(KeywordEntity, [body])),
         TE.chain(([keyword]) =>
           db.findOneOrFail(KeywordEntity, {
             where: { id: keyword.id },
             loadRelationIds: true,
-          })
+          }),
         ),
         TE.chainEitherK(toKeywordIO),
         TE.map((page) => ({
@@ -33,8 +33,8 @@ export const MakeCreateKeywordRoute: Route = (r, { db, logger, jwt }) => {
             data: page,
           },
           statusCode: 201,
-        }))
+        })),
       );
-    }
+    },
   );
 };

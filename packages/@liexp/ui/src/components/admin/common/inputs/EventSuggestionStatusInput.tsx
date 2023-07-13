@@ -3,7 +3,7 @@ import * as React from "react";
 import { SelectInput, type SelectInputProps } from "react-admin";
 
 export const EventSuggestionStatusInput: React.FC<SelectInputProps> = (
-  props
+  props,
 ) => {
   return (
     <SelectInput

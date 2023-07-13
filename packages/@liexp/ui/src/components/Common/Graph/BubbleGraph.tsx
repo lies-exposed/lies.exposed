@@ -7,7 +7,7 @@ interface BubbleGraphProps<D extends PackDatum> {
   height: number;
   data: D[];
   onClick?: (d: D) => void;
-  variant: 'text' | 'circle'
+  variant: "text" | "circle";
 }
 
 export const BubbleGraph = <D extends PackDatum>({
@@ -17,7 +17,7 @@ export const BubbleGraph = <D extends PackDatum>({
   ...props
 }: BubbleGraphProps<D>): JSX.Element => {
   const pack = hierarchy<D>({ children: [{ children: data }] } as any).sum(
-    (n) => n.count
+    (n) => n.count,
   );
 
   return <Pack width={width} height={height} pack={pack} {...props} />;

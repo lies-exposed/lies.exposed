@@ -1,6 +1,6 @@
 import { fp } from "@liexp/core/lib/fp";
 import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor";
-import { URL } from '@liexp/shared/lib/io/http/Common';
+import { URL } from "@liexp/shared/lib/io/http/Common";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { type BotBrotherCtx } from "bot-brother";
 import { pipe } from "fp-ts/lib/function";
@@ -29,7 +29,7 @@ export const groupCommand = ({
       const group = await pipe(
         db.findOne(GroupEntity, { where: { username } }),
         fp.TE.map(fp.O.toNullable),
-        throwTE
+        throwTE,
       );
       if (group) {
         await ctx.sendMessage(getSuccessMessage(group, env.WEB_URL), {
@@ -42,13 +42,13 @@ export const groupCommand = ({
         fp.TE.map((q) =>
           q.results.slice(0, 5).map((s) => ({
             [s.title]: { value: s.pageid },
-          }))
+          })),
         ),
         fp.TE.map((options) => {
           ctx.keyboard([options]);
           return undefined;
         }),
-        throwTE
+        throwTE,
       );
 
       await ctx.sendMessage(`Looking for ${ctx.search} on Wikipedia...`);
@@ -62,14 +62,14 @@ export const groupCommand = ({
       ctx.hideKeyboard();
       const groupData = await pipe(
         fetchGroupFromWikipedia({ logger, wp, tg, db, env, ...tgContext })(
-          pageId
+          pageId,
         ),
-        throwTE
+        throwTE,
       );
 
       const [group] = await pipe(
         db.save(GroupEntity, [{ ...groupData, members: [] }]),
-        throwTE
+        throwTE,
       );
 
       return await ctx.sendMessage(getSuccessMessage(group, env.WEB_URL), {

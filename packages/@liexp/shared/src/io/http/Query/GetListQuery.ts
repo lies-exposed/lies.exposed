@@ -7,7 +7,7 @@ export const GetListQuery = t.type(
     ...SortQuery.props,
     ...PaginationQuery.props,
   },
-  "GetListQuery"
+  "GetListQuery",
 );
 
 export type GetListQuery = t.TypeOf<typeof GetListQuery>;

@@ -25,7 +25,7 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
   const apiProvider = useDataProvider();
   const value = get(record, source ?? "type");
   const [type, setType] = React.useState(
-    value ?? Events.Uncategorized.UNCATEGORIZED.value
+    value ?? Events.Uncategorized.UNCATEGORIZED.value,
   );
   const handleTransform = (e: SelectChangeEvent): void => {
     setType(e.target.value);
@@ -45,7 +45,7 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
         groupsMembers: relations.groupsMembers.data,
         keywords: relations.keywords.data,
         links: relations.links.data,
-        areas: []
+        areas: [],
       })),
       fp.TE.map((relations) =>
         pipe(
@@ -55,10 +55,10 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
               ...common,
               ...getRelationIds(event),
             }),
-          fp.O.toUndefined
-        )
+          fp.O.toUndefined,
+        ),
       ),
-      foldTE
+      foldTE,
     );
 
     if (!plainEvent) {

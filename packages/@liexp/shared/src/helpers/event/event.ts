@@ -21,7 +21,7 @@ type EventsByYearMap = Map<number, Map<number, Events.Event[]>>;
 
 export const eqByUUID = pipe(
   S.Eq,
-  Eq.contramap((f: Common.BaseProps) => f.id)
+  Eq.contramap((f: Common.BaseProps) => f.id),
 );
 
 interface NavigationItem {
@@ -31,7 +31,7 @@ interface NavigationItem {
 }
 
 export const eventsDataToNavigatorItems = (
-  events: Events.Event[]
+  events: Events.Event[],
 ): NavigationItem[] => {
   const initial: EventsByYearMap = Map.empty;
 
@@ -51,12 +51,12 @@ export const eventsDataToNavigatorItems = (
               () => Map.upsertAt(N.Eq)(month, [e])(monthMap),
               ([monthKey, eventsInMonth]) => {
                 return Map.upsertAt(N.Eq)(monthKey, eventsInMonth.concat(e))(
-                  monthMap
+                  monthMap,
                 );
-              }
-            )
-          )
-      )
+              },
+            ),
+          ),
+      ),
     );
 
     return Map.upsertAt(N.Eq)(year, value)(acc);
@@ -84,13 +84,13 @@ export const eventsDataToNavigatorItems = (
         subNav: months,
       });
     },
-    initialData
+    initialData,
   );
 };
 
 export const ordEventDate = Ord.ord.contramap(
   Ord.ordDate,
-  (e: { date: Date }) => e.date
+  (e: { date: Date }) => e.date,
 );
 
 const colorMap: Record<Events.Event["type"], string> = {
@@ -126,10 +126,10 @@ export const eventsInDateRange =
           O.alt(() =>
             pipe(
               A.last(orderedEvents),
-              O.map((e) => e.date)
-            )
+              O.map((e) => e.date),
+            ),
           ),
-          O.getOrElse(() => subWeeks(new Date(), 1))
+          O.getOrElse(() => subWeeks(new Date(), 1)),
         );
 
         const maxDate = pipe(
@@ -137,10 +137,10 @@ export const eventsInDateRange =
           O.alt(() =>
             pipe(
               A.head(orderedEvents),
-              O.map((e) => e.date)
-            )
+              O.map((e) => e.date),
+            ),
           ),
-          O.getOrElse(() => new Date())
+          O.getOrElse(() => new Date()),
         );
 
         return { events: orderedEvents, minDate, maxDate };
@@ -148,9 +148,9 @@ export const eventsInDateRange =
       ({ events, minDate, maxDate }) => {
         return pipe(
           events,
-          A.filter((e) => Ord.between(Ord.ordDate)(minDate, maxDate)(e.date))
+          A.filter((e) => Ord.between(Ord.ordDate)(minDate, maxDate)(e.date)),
         );
-      }
+      },
     );
   };
 
@@ -253,7 +253,7 @@ const eventRelationIdsMonoid: Monoid<EventRelationIds> = {
   concat: (x, y) => ({
     ...x,
     keywords: x.keywords.concat(
-      y.keywords.filter((a) => !x.keywords.includes(a))
+      y.keywords.filter((a) => !x.keywords.includes(a)),
     ),
     actors: x.actors.concat(y.actors.filter((a) => !x.actors.includes(a))),
     groups: x.groups.concat(y.groups.filter((a) => !x.groups.includes(a))),
@@ -261,13 +261,13 @@ const eventRelationIdsMonoid: Monoid<EventRelationIds> = {
 };
 
 export const takeEventRelations = (
-  ev: Events.Event[]
+  ev: Events.Event[],
 ): Events.EventRelationIds => {
   return pipe(
     ev.reduce(
       (acc, e) => eventRelationIdsMonoid.concat(acc, getRelationIds(e)),
-      eventRelationIdsMonoid.empty
-    )
+      eventRelationIdsMonoid.empty,
+    ),
   );
 };
 
@@ -358,7 +358,7 @@ export const transform = (
   props: EventCommonProps &
     Events.EventRelationIds & {
       links: UUID[];
-    }
+    },
 ): O.Option<Events.Event> => {
   switch (type) {
     case Events.Death.DEATH.value: {
@@ -372,7 +372,7 @@ export const transform = (
             victim: v,
             location: undefined,
           },
-        }))
+        })),
       );
     }
     case Events.Transaction.TRANSACTION.value: {
@@ -384,9 +384,9 @@ export const transform = (
           pipe(
             props.groups,
             A.head,
-            O.map((id): BySubject => ({ type: "Group", id }))
-          )
-        )
+            O.map((id): BySubject => ({ type: "Group", id })),
+          ),
+        ),
       );
 
       const to = pipe(
@@ -399,9 +399,9 @@ export const transform = (
             props.groups,
             A.takeLeft(2),
             A.head,
-            O.map((id): BySubject => ({ type: "Group" as const, id }))
-          )
-        )
+            O.map((id): BySubject => ({ type: "Group" as const, id })),
+          ),
+        ),
       );
 
       return pipe(
@@ -419,7 +419,7 @@ export const transform = (
             from,
             to,
           },
-        }))
+        })),
       );
     }
     case Events.Patent.PATENT.value: {
@@ -438,7 +438,7 @@ export const transform = (
               actors: props.actors,
             },
           },
-        }))
+        })),
       );
     }
 
@@ -464,7 +464,7 @@ export const transform = (
               groups: props.groups,
             },
           },
-        }))
+        })),
       );
     }
 
@@ -482,7 +482,7 @@ export const transform = (
             authors: props.actors,
             publisher: props.groups.at(0) as any,
           },
-        }))
+        })),
       );
     }
 
@@ -498,7 +498,7 @@ export const transform = (
             actor,
             details: undefined,
           },
-        }))
+        })),
       );
     }
 
@@ -521,7 +521,7 @@ export const transform = (
 
 export const getTotals = (
   acc: Events.SearchEvent.SearchEventsQuery.EventTotals,
-  e: Events.Event | Events.SearchEvent.SearchEvent
+  e: Events.Event | Events.SearchEvent.SearchEvent,
 ): Events.SearchEvent.SearchEventsQuery.EventTotals => {
   return {
     uncategorized:

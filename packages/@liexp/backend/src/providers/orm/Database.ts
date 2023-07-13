@@ -42,44 +42,44 @@ interface DatabaseClient {
   execQuery: <T>(q: () => Promise<T>) => TE.TaskEither<DBError, T>;
   findOne: <Entity extends ObjectLiteral>(
     entityClass: EntityTarget<Entity>,
-    options: FindOneOptions<Entity>
+    options: FindOneOptions<Entity>,
   ) => TE.TaskEither<DBError, O.Option<Entity>>;
   findOneOrFail: <Entity extends ObjectLiteral>(
     entityClass: EntityTarget<Entity>,
-    options: FindOneOptions<Entity>
+    options: FindOneOptions<Entity>,
   ) => TE.TaskEither<DBError, Entity>;
   find: <Entity extends ObjectLiteral>(
     entityClass: EntityTarget<Entity>,
-    options?: FindManyOptions<Entity>
+    options?: FindManyOptions<Entity>,
   ) => TE.TaskEither<DBError, Entity[]>;
   findAndCount: <Entity extends ObjectLiteral>(
     entityClass: EntityTarget<Entity>,
-    options?: FindManyOptions<Entity>
+    options?: FindManyOptions<Entity>,
   ) => TE.TaskEither<DBError, [Entity[], number]>;
   count: <Entity extends ObjectLiteral>(
     entityClass: EntityTarget<Entity>,
-    options?: FindOneOptions<Entity>
+    options?: FindOneOptions<Entity>,
   ) => TE.TaskEither<DBError, number>;
   save: <Entity, T extends DeepPartial<Entity>>(
     entityClass: EntityTarget<Entity>,
     data: T[],
-    opts?: SaveOptions
+    opts?: SaveOptions,
   ) => TE.TaskEither<DBError, Entity[]>;
   update: <Entity extends ObjectLiteral>(
     target: EntityTarget<Entity>,
     criteria: Criteria,
-    partialEntity: QueryDeepPartialEntity<Entity>
+    partialEntity: QueryDeepPartialEntity<Entity>,
   ) => TE.TaskEither<DBError, UpdateResult>;
   delete: <Entity extends ObjectLiteral>(
     target: EntityTarget<Entity>,
-    criteria: Criteria
+    criteria: Criteria,
   ) => TE.TaskEither<DBError, DeleteResult>;
   softDelete: <Entity extends ObjectLiteral>(
     target: EntityTarget<Entity>,
-    criteria: Criteria
+    criteria: Criteria,
   ) => TE.TaskEither<DBError, DeleteResult>;
   transaction: <T>(
-    te: (em: DatabaseClient) => TE.TaskEither<DBError, T>
+    te: (em: DatabaseClient) => TE.TaskEither<DBError, T>,
   ) => TE.TaskEither<DBError, T>;
   close: () => TE.TaskEither<DBError, void>;
 }
@@ -132,7 +132,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
     ctx.logger.debug.log(
       `SQL Formatted %s with params %O`,
       format.text,
-      format.values
+      format.values,
     );
     return format;
   };
@@ -149,7 +149,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
     execSQL: (sql) => {
       const query = formatQuery(sql);
       return execQuery(() =>
-        ctx.connection.manager.query(query.text, query.values)
+        ctx.connection.manager.query(query.text, query.values),
       );
     },
     findOne: (entity, options) => {
@@ -157,51 +157,51 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       return pipe(
         TE.tryCatch(
           () => ctx.connection.manager.findOne(entity, options),
-          handleError()
+          handleError(),
         ),
-        TE.map(O.fromNullable)
+        TE.map(O.fromNullable),
       );
     },
     findOneOrFail: (entity, options) => {
       ctx.logger.debug.log(
         `findOneOrFail %s with options %O`,
         entity.valueOf().constructor.name,
-        options
+        options,
       );
       return TE.tryCatch(
         () => ctx.connection.manager.findOneOrFail(entity, options),
-        handleError({ status: 404 })
+        handleError({ status: 404 }),
       );
     },
     find: (entity, options) => {
       ctx.logger.debug.log(`find %s with options %O`, entity, options);
       return TE.tryCatch(
         () => ctx.connection.manager.find(entity, options),
-        handleError()
+        handleError(),
       );
     },
     findAndCount: (entity, options) => {
       ctx.logger.debug.log(
         `find and count %s with options %O`,
         entity,
-        options
+        options,
       );
       return TE.tryCatch(
         () => ctx.connection.manager.findAndCount(entity, options),
-        handleError()
+        handleError(),
       );
     },
     count: (entity, options) => {
       ctx.logger.debug.log(`count %s with options %O`, entity, options);
       return TE.tryCatch(
         () => ctx.connection.manager.count(entity, options),
-        handleError()
+        handleError(),
       );
     },
     save: <E, T extends DeepPartial<E>>(
       entity: EntityTarget<E>,
       data: T[],
-      options?: SaveOptions
+      options?: SaveOptions,
     ) => {
       // ctx.logger.debug.log(
       //   `save entity %s with data %O with data %O options %O`,
@@ -214,7 +214,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
           ctx.connection.manager.save(entity, data, options) as any as Promise<
             E[]
           >,
-        handleError()
+        handleError(),
       );
     },
     update: (entity, criteria, data) => {
@@ -222,37 +222,37 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
         `update entity %s by criteria %O with data %O`,
         entity.valueOf().constructor.name,
         criteria,
-        data
+        data,
       );
       return TE.tryCatch(
         () => ctx.connection.manager.update(entity, criteria, data),
-        handleError()
+        handleError(),
       );
     },
     delete: (entity, criteria) => {
       ctx.logger.debug.log(
         `delete entity %s by criteria %O`,
         entity.valueOf().constructor.name,
-        criteria
+        criteria,
       );
       return TE.tryCatch(
         () => ctx.connection.manager.delete(entity, criteria),
-        handleError()
+        handleError(),
       );
     },
     softDelete: (entity, criteria) => {
       ctx.logger.debug.log(
         `delete (soft) entity %s by criteria %O`,
         entity.valueOf().constructor.name,
-        criteria
+        criteria,
       );
       return TE.tryCatch(
         () => ctx.connection.manager.softDelete(entity, criteria),
-        handleError()
+        handleError(),
       );
     },
     transaction: <T>(
-      task: (db: DatabaseClient) => TE.TaskEither<DBError, T>
+      task: (db: DatabaseClient) => TE.TaskEither<DBError, T>,
     ) => {
       return pipe(
         TE.tryCatch(
@@ -264,9 +264,9 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
               });
               return task(transactionClient)();
             }),
-          handleError()
+          handleError(),
         ),
-        TE.chain(TE.fromEither)
+        TE.chain(TE.fromEither),
       );
     },
     close: () => TE.tryCatch(() => ctx.connection.destroy(), handleError()),
@@ -281,30 +281,30 @@ interface MakeDatabaseClientCtx {
 }
 
 type MakeDatabaseClient = (
-  ctx: MakeDatabaseClientCtx
+  ctx: MakeDatabaseClientCtx,
 ) => (ctx: DataSource) => TE.TaskEither<DBError, DatabaseClient>;
 
 const MakeDatabaseClient: MakeDatabaseClient =
   ({ connectionName, logger }) =>
   (ctx) => {
     const getConnection = (
-      dataSource: DataSource
+      dataSource: DataSource,
     ): TE.TaskEither<DBError, DataSource> => {
       logger.debug.log(
         "Connecting to database (%s)...",
-        dataSource.driver.database
+        dataSource.driver.database,
       );
 
       if (dataSource.isInitialized) {
         logger.debug.log(
-          "The connection is already present in connection manager..."
+          "The connection is already present in connection manager...",
         );
         const conn = dataSource;
 
         return TE.tryCatch(
           () =>
             conn.isInitialized ? Promise.resolve(conn) : conn.initialize(),
-          toError(logger)()
+          toError(logger)(),
         );
       }
 
@@ -317,7 +317,7 @@ const MakeDatabaseClient: MakeDatabaseClient =
       getConnection(ctx),
       TE.map((connection) => {
         return GetDatabaseClient({ connection, logger });
-      })
+      }),
     );
   };
 

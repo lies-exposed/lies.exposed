@@ -6,7 +6,7 @@ import { type GroupEntity } from "../../entities/Group.entity";
 import { type ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toGroupIO = (
-  group: GroupEntity
+  group: GroupEntity,
 ): E.Either<ControllerError, io.http.Group.Group> => {
   return pipe(
     io.http.Group.Group.decode({
@@ -21,6 +21,6 @@ export const toGroupIO = (
       createdAt: group.createdAt.toISOString(),
       updatedAt: group.updatedAt.toISOString(),
     }),
-    E.mapLeft((e) => DecodeError(`Failed to decode group (${group.id})`, e))
+    E.mapLeft((e) => DecodeError(`Failed to decode group (${group.id})`, e)),
   );
 };

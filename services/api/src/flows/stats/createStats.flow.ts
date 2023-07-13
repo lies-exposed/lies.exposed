@@ -23,11 +23,11 @@ export const createStats: TEFlow<
         if (!tempFolderExists) {
           ctx.logger.debug.log(
             "Folder %s does not exist, creating...",
-            filePathDir
+            filePathDir,
           );
           fs.mkdirSync(filePathDir, { recursive: true });
         }
-      }, toControllerError)
+      }, toControllerError),
     ),
     TE.chain(() => {
       return createStatsByType(ctx)(id, type);
@@ -37,6 +37,6 @@ export const createStats: TEFlow<
         fs.writeFileSync(filePath, JSON.stringify(stats));
         return stats;
       }, toControllerError);
-    })
+    }),
   );
 };

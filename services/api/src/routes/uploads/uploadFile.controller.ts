@@ -34,14 +34,14 @@ export const MakeUploadFileRoute = (r: Router, ctx: RouteContext): void => {
         UploadFileData.decode({ key, file }),
         TE.fromEither,
         TE.mapLeft((e) =>
-          DecodeError(`Failed to decode upload file data (${key})`, e)
+          DecodeError(`Failed to decode upload file data (${key})`, e),
         ),
         TE.chain(({ key, file }) =>
           ctx.s3.upload({
             Bucket: ctx.env.SPACE_BUCKET,
             Key: `public/${key}`,
             Body: file,
-          })
+          }),
         ),
         TE.map((data) => ({
           body: {
@@ -51,9 +51,9 @@ export const MakeUploadFileRoute = (r: Router, ctx: RouteContext): void => {
         })),
         TE.fold(
           (e) => T.of(res.status(500).send(e)),
-          ({ body, statusCode }) => T.of(res.status(statusCode).send(body))
-        )
+          ({ body, statusCode }) => T.of(res.status(statusCode).send(body)),
+        ),
       )();
-    }
+    },
   );
 };

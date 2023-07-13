@@ -20,7 +20,7 @@ export const MakeListProjectRoute = (r: Router, ctx: RouteContext): void => {
             ...findOptions,
             relations: ["media", "areas"],
           }),
-          TE.chainEitherK(A.traverse(E.either)(toProjectIO))
+          TE.chainEitherK(A.traverse(E.either)(toProjectIO)),
         ),
         count: ctx.db.count(ProjectEntity),
       }),
@@ -30,7 +30,7 @@ export const MakeListProjectRoute = (r: Router, ctx: RouteContext): void => {
           total: count,
         } as any,
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

@@ -1,10 +1,14 @@
 import { AddEndpoint, UserLogin } from "@liexp/shared/lib/endpoints";
-import { UserStatusApproved } from '@liexp/shared/lib/io/http/User';
+import { UserStatusApproved } from "@liexp/shared/lib/io/http/User";
 import { type Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { UserEntity } from "@entities/User.entity";
-import { BadRequestError, NotFoundError, ServerError } from "@io/ControllerError";
+import {
+  BadRequestError,
+  NotFoundError,
+  ServerError,
+} from "@io/ControllerError";
 import { type RouteContext } from "@routes/route.types";
 import * as passwordUtils from "@utils/password.utils";
 
@@ -17,7 +21,10 @@ export const MakeUserLoginRoute = (r: Router, ctx: RouteContext): void => {
       }),
       TE.mapLeft(() => NotFoundError("User")),
       ctx.logger.debug.logInTaskEither("User %O"),
-      TE.filterOrElse(e => e.status === UserStatusApproved.value, () => ServerError(["User not approved"])),
+      TE.filterOrElse(
+        (e) => e.status === UserStatusApproved.value,
+        () => ServerError(["User not approved"]),
+      ),
       TE.chainFirst((user) =>
         pipe(
           passwordUtils.verify(password, user.passwordHash),
@@ -26,8 +33,8 @@ export const MakeUserLoginRoute = (r: Router, ctx: RouteContext): void => {
               return TE.left(BadRequestError("Password is wrong"));
             }
             return TE.right(isEqual);
-          })
-        )
+          }),
+        ),
       ),
       TE.chain(({ passwordHash, ...user }) =>
         TE.fromIO(
@@ -35,13 +42,13 @@ export const MakeUserLoginRoute = (r: Router, ctx: RouteContext): void => {
             ...user,
             createdAt: user.createdAt.toISOString(),
             updatedAt: user.updatedAt.toISOString(),
-          })
-        )
+          }),
+        ),
       ),
       TE.map((token) => ({
         body: { data: { token } },
         statusCode: 201,
-      }))
+      })),
     );
   });
 };

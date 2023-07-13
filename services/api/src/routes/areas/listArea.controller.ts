@@ -19,7 +19,7 @@ export const MakeListAreaRoute = (r: Router, ctx: RouteContext): void => {
     ({ query: { q: search, ids, ...query } }) => {
       const findOptions = getORMOptions(
         { ...query },
-        ctx.env.DEFAULT_PAGE_SIZE
+        ctx.env.DEFAULT_PAGE_SIZE,
       );
 
       const findT = pipe(
@@ -31,9 +31,12 @@ export const MakeListAreaRoute = (r: Router, ctx: RouteContext): void => {
               .leftJoinAndSelect("area.media", "media"),
             (q) => {
               if (O.isSome(search)) {
-                return q.where("lower(unaccent(area.label)) LIKE lower(:search)", {
-                  search: `%${search.value}%`,
-                });
+                return q.where(
+                  "lower(unaccent(area.label)) LIKE lower(:search)",
+                  {
+                    search: `%${search.value}%`,
+                  },
+                );
               }
 
               if (O.isSome(ids)) {
@@ -50,7 +53,7 @@ export const MakeListAreaRoute = (r: Router, ctx: RouteContext): void => {
                   R.reduceWithIndex({}, (k, acc, v) => ({
                     ...acc,
                     [`area.${k}`]: v,
-                  }))
+                  })),
                 );
                 return q.orderBy(order);
               }
@@ -69,7 +72,7 @@ export const MakeListAreaRoute = (r: Router, ctx: RouteContext): void => {
           );
         }, toControllerError),
         TE.fromIOEither,
-        TE.chain((q) => ctx.db.execQuery(() => q.getManyAndCount()))
+        TE.chain((q) => ctx.db.execQuery(() => q.getManyAndCount())),
       );
 
       return pipe(
@@ -78,10 +81,10 @@ export const MakeListAreaRoute = (r: Router, ctx: RouteContext): void => {
           return pipe(
             areas,
             A.traverse(E.Applicative)((a) =>
-              toAreaIO({ ...a, media: a.media.map((m) => m.id) as any[] })
+              toAreaIO({ ...a, media: a.media.map((m) => m.id) as any[] }),
             ),
             TE.fromEither,
-            TE.map((data) => ({ total, data }))
+            TE.map((data) => ({ total, data })),
           );
         }),
         TE.map(({ data, total }) => ({
@@ -90,8 +93,8 @@ export const MakeListAreaRoute = (r: Router, ctx: RouteContext): void => {
             total,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

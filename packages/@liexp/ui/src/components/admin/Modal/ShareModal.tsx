@@ -118,7 +118,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
                     media: getShareMedia(
                       media,
                       `${process.env.WEB_URL}/liexp-logo-1200x630.png`,
-                      !multipleMedia
+                      !multipleMedia,
                     ),
                   },
                 });

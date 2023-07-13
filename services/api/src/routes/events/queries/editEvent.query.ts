@@ -22,7 +22,7 @@ export const editEventQuery =
     return pipe(
       fetchRelationIds(ctx)(input),
       TE.chain((commonData) => {
-        ctx.logger.debug.log('event relations %O', commonData);
+        ctx.logger.debug.log("event relations %O", commonData);
         // const oldMedia = storedEvent.media ?? [];
         // const media = commonData.media.concat(
         //   oldMedia.filter((l) => !commonData.media.find((ll) => ll.id === l.id))
@@ -47,12 +47,12 @@ export const editEventQuery =
 
         switch (input.type) {
           case http.Events.Quote.QUOTE.value: {
-            const { excerpt, body, payload, date , draft } = input;
+            const { excerpt, body, payload, date, draft } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
               body,
               date,
-              draft
+              draft,
             });
             const event: EditEventEntity = {
               ...storedEvent,
@@ -67,12 +67,12 @@ export const editEventQuery =
             return TE.right(event);
           }
           case http.Events.Transaction.TRANSACTION.value: {
-            const { excerpt, body, payload, date , draft } = input;
+            const { excerpt, body, payload, date, draft } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
               body,
               date,
-              draft
+              draft,
             });
             const event: EditEventEntity = {
               ...storedEvent,
@@ -92,7 +92,7 @@ export const editEventQuery =
               excerpt,
               body,
               date,
-              draft
+              draft,
             });
             const event: EditEventEntity = {
               ...storedEvent,
@@ -112,7 +112,7 @@ export const editEventQuery =
               excerpt,
               body,
               date,
-              draft
+              draft,
             });
             const event: EditEventEntity = {
               ...storedEvent,
@@ -132,7 +132,7 @@ export const editEventQuery =
               excerpt,
               body,
               date,
-              draft
+              draft,
             });
             const event: EditEventEntity = {
               ...storedEvent,
@@ -191,10 +191,10 @@ export const editEventQuery =
                 ...commonData,
                 type,
                 payload: p,
-              }))
+              })),
             );
           }
         }
-      })
+      }),
     );
   };

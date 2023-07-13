@@ -1,6 +1,6 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
 import * as http from "@liexp/shared/lib/io/http";
-import { UserStatusPending } from '@liexp/shared/lib/io/http/User';
+import { UserStatusPending } from "@liexp/shared/lib/io/http/User";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
@@ -28,14 +28,14 @@ export const MakeSignUpUserRoute: Route = (r, ctx) => {
               status: UserStatusPending.value,
               passwordHash: pw,
             },
-          ])
+          ]),
         ),
         TE.chainEitherK(([user]) => toUserIO(user)),
         TE.map((data) => ({
           body: { data },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

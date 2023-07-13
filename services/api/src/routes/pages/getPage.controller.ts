@@ -18,7 +18,7 @@ export const MakeGetPageRoute: Route = (r, ctx) => {
           data,
         },
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

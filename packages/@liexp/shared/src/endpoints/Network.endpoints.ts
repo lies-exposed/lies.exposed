@@ -1,8 +1,12 @@
 import * as t from "io-ts";
-import { UUID } from 'io-ts-types/UUID';
+import { UUID } from "io-ts-types/UUID";
 import { Endpoint } from "ts-endpoint";
 import { ListOutput, Output } from "../io/http/Common/Output";
-import { GetNetworkParams, GetNetworkQuery, NetworkGraphOutput } from '../io/http/Network';
+import {
+  GetNetworkParams,
+  GetNetworkQuery,
+  NetworkGraphOutput,
+} from "../io/http/Network";
 import { GetListQuery } from "../io/http/Query";
 import { StatsType } from "../io/http/Stats";
 import { ResourceEndpoints } from "./types";

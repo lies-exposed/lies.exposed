@@ -39,7 +39,7 @@ export const CreateAreaBody = t.strict(
     geometry: Geometry,
     body: t.UnknownRecord,
   },
-  "CreateAreaBody"
+  "CreateAreaBody",
 );
 
 const Create = Endpoint({
@@ -60,7 +60,7 @@ export const EditAreaBody = t.strict(
     media: t.array(UUID),
     events: t.array(UUID),
   },
-  "EditAreaBody"
+  "EditAreaBody",
 );
 
 export const Edit = Endpoint({

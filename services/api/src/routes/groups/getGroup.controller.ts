@@ -2,7 +2,7 @@ import { Endpoints, AddEndpoint } from "@liexp/shared/lib/endpoints";
 import { type Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { Equal } from 'typeorm';
+import { Equal } from "typeorm";
 import { GroupEntity } from "../../entities/Group.entity";
 import { type RouteContext } from "../route.types";
 import { toGroupIO } from "./group.io";
@@ -22,7 +22,7 @@ export const MakeGetGroupRoute = (r: Router, ctx: RouteContext): void => {
           data,
         },
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

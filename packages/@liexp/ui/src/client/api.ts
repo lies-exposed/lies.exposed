@@ -30,7 +30,7 @@ export const authProvider: AuthProvider = {
       "users/login",
       {
         data: { username, password },
-      }
+      },
     );
 
     localStorage.setItem("auth", response.data.token);
@@ -67,7 +67,7 @@ export const authProvider: AuthProvider = {
       O.chainNullableK((u) => JSON.parse(u)?.permissions),
       E.fromOption(() => new Error("User is missing")),
       TE.fromEither,
-      throwTE
+      throwTE,
     );
   },
   getIdentity: async () => {

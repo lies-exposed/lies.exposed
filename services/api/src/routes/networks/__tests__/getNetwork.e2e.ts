@@ -22,15 +22,15 @@ describe("Get Network", () => {
     await throwTE(
       Test.ctx.db.delete(
         EventV2Entity,
-        events.map((e) => e.id)
-      )
+        events.map((e) => e.id),
+      ),
     );
 
     await throwTE(
       Test.ctx.db.delete(
         KeywordEntity,
-        keywords.map((e) => e.id)
-      )
+        keywords.map((e) => e.id),
+      ),
     );
   });
 

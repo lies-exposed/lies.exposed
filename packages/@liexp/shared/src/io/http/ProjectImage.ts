@@ -17,7 +17,7 @@ export const ProjectImage = t.strict(
     description: t.string,
     projectId: t.string,
   },
-  "ProjectImage"
+  "ProjectImage",
 );
 
 export type ProjectImage = t.TypeOf<typeof ProjectImage>;

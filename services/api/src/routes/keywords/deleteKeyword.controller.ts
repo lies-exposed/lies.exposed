@@ -9,7 +9,7 @@ import { authenticationHandler } from "@utils/authenticationHandler";
 
 export const MakeDeleteKeywordRoute: Route = (
   r,
-  { s3, db, env, logger, jwt }
+  { s3, db, env, logger, jwt },
 ) => {
   AddEndpoint(r, authenticationHandler({ logger, jwt }, ["admin:delete"]))(
     Endpoints.Keyword.Delete,
@@ -22,7 +22,7 @@ export const MakeDeleteKeywordRoute: Route = (
         TE.chainFirst(() =>
           sequenceS(TE.ApplicativeSeq)({
             actor: db.softDelete(KeywordEntity, id),
-          })
+          }),
         ),
         TE.chainEitherK(toKeywordIO),
         TE.map((page) => ({
@@ -30,8 +30,8 @@ export const MakeDeleteKeywordRoute: Route = (
             data: page,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

@@ -1,5 +1,9 @@
 import { getTitle } from "@liexp/shared/lib/helpers/event/getTitle.helper";
-import { type Actor, type Group, type Keyword } from "@liexp/shared/lib/io/http";
+import {
+  type Actor,
+  type Group,
+  type Keyword,
+} from "@liexp/shared/lib/io/http";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
 import { DEATH } from "@liexp/shared/lib/io/http/Events/Death";
 import { DOCUMENTARY } from "@liexp/shared/lib/io/http/Events/Documentary";
@@ -54,7 +58,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
       EventTypeColor.Patent,
       "#a3a3a3",
     ],
-    []
+    [],
   );
 
   return (
@@ -99,7 +103,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
           keywords: n.keywords,
           media: n.media,
           links: n.links ?? [],
-          areas: n.areas ?? []
+          areas: n.areas ?? [],
         });
       }}
       nodeRadius={(n) => 14}

@@ -2,9 +2,7 @@ import { EventSuggestionType } from "@liexp/shared/lib/io/http/EventSuggestion";
 import * as React from "react";
 import { SelectInput, type SelectInputProps } from "react-admin";
 
-export const EventSuggestionTypeInput: React.FC<SelectInputProps> = (
-  props
-) => {
+export const EventSuggestionTypeInput: React.FC<SelectInputProps> = (props) => {
   return (
     <SelectInput
       source="type"

@@ -1,5 +1,9 @@
 import MediaIcon from "@mui/icons-material/VideoFileOutlined";
-import type { CellPlugin, CellPluginComponentProps, DataTType } from "@react-page/editor";
+import type {
+  CellPlugin,
+  CellPluginComponentProps,
+  DataTType,
+} from "@react-page/editor";
 import React from "react";
 import ActorsBox from "../../../../../containers/ActorsBox";
 import { AutocompleteActorInput } from "../../../../Input/AutocompleteActorInput";
@@ -22,7 +26,7 @@ export type ActorInlineControlType = React.ComponentType<
 >;
 
 const createPlugin = (
-  settings?: ActorInlineSettings
+  settings?: ActorInlineSettings,
 ): CellPlugin<ActorInlineState> => {
   const mergedSettings = { ...defaultSettings, ...settings };
 

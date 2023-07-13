@@ -4,7 +4,7 @@ import {
   FormDataConsumer,
   SimpleFormIterator,
   TextInput,
-  type ArrayInputProps
+  type ArrayInputProps,
 } from "react-admin";
 import { Box } from "../../../mui";
 import { MediaInput } from "./MediaInput";

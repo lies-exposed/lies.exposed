@@ -18,13 +18,13 @@ export const MakeListKeywordRoute = (r: Router, ctx: RouteContext): void => {
           fp.TE.map((results) => ({
             total,
             data: results,
-          }))
-        )
+          })),
+        ),
       ),
       fp.TE.map((body) => ({
         body,
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

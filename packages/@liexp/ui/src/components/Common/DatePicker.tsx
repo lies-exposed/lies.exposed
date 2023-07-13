@@ -3,7 +3,10 @@ import { TextField, type TextFieldProps } from "../mui";
 
 export type DatePickerProps = TextFieldProps;
 
-const DatePicker: React.FC<DatePickerProps> = ({ InputLabelProps, ...props}) => {
+const DatePicker: React.FC<DatePickerProps> = ({
+  InputLabelProps,
+  ...props
+}) => {
   return (
     <TextField
       {...props}

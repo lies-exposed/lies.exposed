@@ -22,7 +22,7 @@ const run = (): T.Task<void> => {
       // eslint-disable-next-line
       log.error.log(
         "process.env decode failed %O",
-        PathReporter.report(E.left(e))
+        PathReporter.report(E.left(e)),
       );
       return E.left(new Error("process.env decode failed"));
     }),
@@ -48,25 +48,25 @@ const run = (): T.Task<void> => {
       };
       const pgDumpArgsString = Object.entries(pgDumpArgs).reduce(
         (acc, [k, v]) => acc.concat(`${k}=${v} `),
-        ""
+        "",
       );
       return pipe(
         E.tryCatch(() => {
           const cmd = `pg_dump "${pgDumpArgsString.trim()}" -v -O --file ${path.resolve(
             outputDir,
-            `${prefix}_${new Date().toISOString()}.sql`
+            `${prefix}_${new Date().toISOString()}.sql`,
           )}`;
 
           log.debug.log("Running command \n%s\n", cmd);
           execSync(cmd);
         }, E.toError),
-        TE.fromEither
+        TE.fromEither,
       );
     }),
     TE.fold(
       (e) => () => Promise.reject(e),
-      () => () => Promise.resolve()
-    )
+      () => () => Promise.resolve(),
+    ),
   );
 };
 

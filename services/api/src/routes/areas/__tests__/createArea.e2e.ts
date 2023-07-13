@@ -28,7 +28,7 @@ describe("Create Area", () => {
         avatar: tests.fc.sample(MediaArb, 1)[0],
         color: "ffffff",
         fullName: `${tests.fc.sample(
-          tests.fc.string({ minLength: 3 })
+          tests.fc.string({ minLength: 3 }),
         )} ${tests.fc.sample(tests.fc.string({ minLength: 3 }))}`,
         excerpt: { content: tests.fc.string() },
         body: { content: tests.fc.string() },

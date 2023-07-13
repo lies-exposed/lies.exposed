@@ -172,14 +172,14 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
               pagination: { page: 1, perPage: params.actors?.length ?? 0 },
               filter: { ids: params.actors },
             },
-            true
+            true,
           ),
           filterGroups: useGroupsQuery(
             {
               pagination: { page: 1, perPage: params.groups?.length ?? 0 },
               filter: { ids: params.groups },
             },
-            true
+            true,
           ),
           filterGroupsMembers: useGroupMembersQuery(
             {
@@ -189,7 +189,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
               },
               filter: { ids: params.groupsMembers },
             },
-            true
+            true,
           ),
           filterKeywords: useKeywordsQuery(
             {
@@ -197,7 +197,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
               sort: { field: "updatedAt", order: "DESC" },
               filter: { ids: params.keywords },
             },
-            true
+            true,
           ),
         }}
         render={({
@@ -208,15 +208,15 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
         }) => {
           const selectedKeywordIds = pipe(
             fp.NEA.fromArray(filterKeywords.data.map((d) => d.id)),
-            fp.O.toUndefined
+            fp.O.toUndefined,
           );
           const selectedActorIds = pipe(
             fp.NEA.fromArray(filterActors.data.map((a) => a.id)),
-            fp.O.toUndefined
+            fp.O.toUndefined,
           );
           const selectedGroupIds = pipe(
             fp.NEA.fromArray(filterGroups.data.map((a) => a.id)),
-            fp.O.toUndefined
+            fp.O.toUndefined,
           );
 
           return (
@@ -269,7 +269,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                       slide,
                       hash,
                     },
-                    tab
+                    tab,
                   );
                 }}
                 tab={tab}
@@ -295,7 +295,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                         slide,
                         actors: (params.actors ?? []).concat([actor.id]),
                       },
-                      tab
+                      tab,
                     );
                   }}
                   onGroupClick={(group) => {
@@ -306,7 +306,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                         slide,
                         groups: (params.groups ?? []).concat([group.id]),
                       },
-                      tab
+                      tab,
                     );
                   }}
                   onGroupMemberClick={() => {}}
@@ -318,7 +318,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                         slide,
                         keywords: (params.keywords ?? []).concat([keyword.id]),
                       },
-                      tab
+                      tab,
                     );
                   }}
                 />
@@ -350,7 +350,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                           hash,
                           actors: [a.id],
                         },
-                        tab
+                        tab,
                       );
                     }}
                     onKeywordClick={(k) => {
@@ -361,7 +361,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                           hash,
                           keywords: [k.id],
                         },
-                        tab
+                        tab,
                       );
                     }}
                     onGroupClick={(k) => {
@@ -374,7 +374,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                             ? params.groups.concat(k.id)
                             : [k.id],
                         },
-                        tab
+                        tab,
                       );
                     }}
                   />

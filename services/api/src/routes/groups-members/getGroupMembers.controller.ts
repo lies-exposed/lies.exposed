@@ -12,19 +12,19 @@ import { getORMOptions } from "@utils/orm.utils";
 
 export const MakeListGroupMemberRoute = (
   r: Router,
-  ctx: RouteContext
+  ctx: RouteContext,
 ): void => {
   AddEndpoint(r)(
     Endpoints.GroupMember.List,
     ({ query: { search, ...query } }) => {
       const findOptions = getORMOptions(
         { ...query },
-        ctx.env.DEFAULT_PAGE_SIZE
+        ctx.env.DEFAULT_PAGE_SIZE,
       );
 
       ctx.logger.debug.log(
         `Get groups members with find Options %O`,
-        findOptions
+        findOptions,
       );
 
       const listGroupsMembersTE = pipe(
@@ -40,7 +40,7 @@ export const MakeListGroupMemberRoute = (
               "group.id = :groupId",
               {
                 groupId: query.group.value,
-              }
+              },
             );
           }
           return q.innerJoinAndSelect("groupsMembers.group", "group");
@@ -66,9 +66,9 @@ export const MakeListGroupMemberRoute = (
           //   q.getParameters()
           // );
           return ctx.db.execQuery(() =>
-            q.skip(findOptions.skip).take(findOptions.take).getManyAndCount()
+            q.skip(findOptions.skip).take(findOptions.take).getManyAndCount(),
           );
-        }
+        },
       );
 
       return pipe(
@@ -77,8 +77,8 @@ export const MakeListGroupMemberRoute = (
           pipe(
             results,
             A.traverse(E.Applicative)(toGroupMemberIO),
-            E.map((data) => ({ data, count }))
-          )
+            E.map((data) => ({ data, count })),
+          ),
         ),
         TE.map(({ data, count }) => ({
           body: {
@@ -86,8 +86,8 @@ export const MakeListGroupMemberRoute = (
             total: count,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

@@ -8,7 +8,7 @@ import {
 } from "../../state/queries/SearchEventsQuery";
 import { styled, useTheme } from "../../theme";
 import QueriesRenderer from "../QueriesRenderer";
-import EventsAppBar from '../events/filters/EventsAppBar';
+import EventsAppBar from "../events/filters/EventsAppBar";
 import { Box, CloseIcon, IconButton, Modal } from "../mui";
 import { EventSlider, type EventSliderProps } from "../sliders/EventSlider";
 
@@ -125,7 +125,7 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
         setBounds({ current: nextSlide, start });
       }
     },
-    [start, current, query, hash]
+    [start, current, query, hash],
   );
 
   const handleQueryChange = React.useCallback(
@@ -136,7 +136,7 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
         slide,
       });
     },
-    [query, hash]
+    [query, hash],
   );
 
   // console.log({ start });

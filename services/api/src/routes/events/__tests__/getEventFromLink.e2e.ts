@@ -44,11 +44,11 @@ describe("Get event from link", () => {
     appTest = await GetAppTest();
 
     await throwTE(
-      appTest.ctx.db.save(ActorEntity, [firstActor, secondActor] as any[])
+      appTest.ctx.db.save(ActorEntity, [firstActor, secondActor] as any[]),
     );
     await throwTE(appTest.ctx.db.save(GroupEntity, groups as any[]));
     await throwTE(
-      appTest.ctx.db.save(GroupMemberEntity, groupsMembers as any[])
+      appTest.ctx.db.save(GroupMemberEntity, groupsMembers as any[]),
     );
 
     const events = [...eventsData];
@@ -69,21 +69,21 @@ describe("Get event from link", () => {
     await throwTE(
       appTest.ctx.db.delete(
         EventV2Entity,
-        eventsData.map((e) => e.id)
-      )
+        eventsData.map((e) => e.id),
+      ),
     );
     await throwTE(
       appTest.ctx.db.delete(
         GroupMemberEntity,
-        groupsMembers.map((d) => d.id)
-      )
+        groupsMembers.map((d) => d.id),
+      ),
     );
     await throwTE(appTest.ctx.db.delete(ActorEntity, [firstActor.id]));
     await throwTE(
       appTest.ctx.db.delete(
         GroupEntity,
-        groups.map((g) => g.id)
-      )
+        groups.map((g) => g.id),
+      ),
     );
   });
 

@@ -48,7 +48,7 @@ export const EventCardGrid: React.FC<EventCardGridProps> = ({
               ))}
             </Grid>
           );
-        })
+        }),
       )}
     </Grid>
   );

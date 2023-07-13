@@ -2,7 +2,7 @@ import * as React from "react";
 import { ReferenceArrayField } from "react-admin";
 import { Box } from "../../mui";
 import { ActorDataGrid } from "../actors/ActorDataGrid";
-import { GroupDataGrid } from '../groups/GroupDataGrid';
+import { GroupDataGrid } from "../groups/GroupDataGrid";
 import { LinkDatagrid } from "../links/AdminLinks";
 
 export const StoryRelationsBox: React.FC = () => {

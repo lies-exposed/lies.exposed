@@ -31,7 +31,7 @@ export const DefaultEventPageContent: React.FC<
         />
       ));
     },
-    [modal, onMediaClick]
+    [modal, onMediaClick],
   );
 
   return (

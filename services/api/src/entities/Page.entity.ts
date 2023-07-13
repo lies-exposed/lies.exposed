@@ -12,7 +12,6 @@ import {
 @Entity("page")
 @Index(["path"], { unique: true })
 export class PageEntity {
-
   @PrimaryGeneratedColumn("uuid")
   id: UUID;
 
@@ -22,7 +21,7 @@ export class PageEntity {
   @Column({ type: "varchar", unique: true })
   path: string;
 
-  @Column({ type: 'json', nullable: true })
+  @Column({ type: "json", nullable: true })
   excerpt: Record<string, unknown> | null;
 
   @Column({ type: "varchar", nullable: true })

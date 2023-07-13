@@ -10,9 +10,9 @@ export const JSONFromString = new t.Type<unknown, string, unknown>(
     const result = pipe(
       t.string.decode(s),
       E.chain(Json.parse),
-      E.fold(() => t.failure(s, c), t.success)
+      E.fold(() => t.failure(s, c), t.success),
     );
     return result;
   },
-  JSON.stringify
+  JSON.stringify,
 );

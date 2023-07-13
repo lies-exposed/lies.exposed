@@ -11,19 +11,19 @@ export const Page = t.strict(
     excerpt: t.union([t.UnknownRecord, t.null]),
     body2: t.union([t.UnknownRecord, t.null]),
   },
-  "Page"
+  "Page",
 );
 export type Page = t.TypeOf<typeof Page>;
 
 export const CreatePage = t.strict(
   propsOmit(Page, ["id", "createdAt", "updatedAt"]),
-  "CreatePage"
+  "CreatePage",
 );
 export type CreatePage = t.TypeOf<typeof CreatePage>;
 
 export const EditPage = t.strict(
   propsOmit(Page, ["id", "body", "createdAt", "updatedAt"]),
-  "EditPage"
+  "EditPage",
 );
 
 export type EditPage = t.TypeOf<typeof EditPage>;

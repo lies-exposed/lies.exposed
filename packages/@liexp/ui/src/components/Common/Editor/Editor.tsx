@@ -40,24 +40,24 @@ const Editor: React.FC<Omit<EditorProps, "cellPlugins">> = ({
                         fp.O.map((c) => ({
                           slate: [{ ...c, children: [c.children[0]] }],
                         })),
-                        fp.O.getOrElse((): I18nEnField => ({ slate: [] }))
+                        fp.O.getOrElse((): I18nEnField => ({ slate: [] })),
                       ),
                     }
                   : c.dataI18n,
               },
             ]),
-            fp.O.getOrElse((): Row["cells"] => [])
+            fp.O.getOrElse((): Row["cells"] => []),
           );
 
           return [{ ...r, cells }];
         }),
-        fp.O.getOrElse((): Row[] => [])
+        fp.O.getOrElse((): Row[] => []),
       ),
       (rows) =>
         getTextContents({
           ...v,
           rows,
-        })
+        }),
     );
 
     // console.log({ lastChar });

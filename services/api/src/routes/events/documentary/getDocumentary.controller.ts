@@ -20,7 +20,7 @@ export const MakeGetDocumentaryEventRoute: Route = (r, ctx) => {
       TE.map((data) => ({
         body: { data },
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

@@ -5,5 +5,5 @@ import {
 import * as React from "react";
 
 export const GithubIcon: React.FC<Omit<FontAwesomeIconProps, "icon">> = (
-  props
+  props,
 ) => <FontAwesomeIcon {...props} icon={["fab", "github"]} />;

@@ -16,7 +16,7 @@ export const GetWriteJSON =
         log.debug.log(`Writing data at %s`, outputPath);
         fs.writeFileSync(outputPath, JSON.stringify(results, null, 2));
         log.debug.log(`Data written!`);
-      }, E.toError)
+      }, E.toError),
     );
   };
 
@@ -24,14 +24,14 @@ export const GetReadJSON =
   (log: Logger) =>
   <A, O = A, I = unknown>(
     readPath: string,
-    decoder: t.Type<A, O, I>
+    decoder: t.Type<A, O, I>,
   ): TE.TaskEither<Error, A> => {
     return pipe(
       TE.fromIOEither(
         IOE.tryCatch(() => {
           log.debug.log(`Reading data from %s`, readPath);
           return fs.readFileSync(readPath, "utf-8");
-        }, E.toError)
+        }, E.toError),
       ),
       TE.chainEitherK((string) => {
         return pipe(
@@ -43,10 +43,10 @@ export const GetReadJSON =
                 // eslint-disable-next-line no-console
                 console.error(PathReporter.report(E.left(e)));
                 return new Error();
-              })
-            )
-          )
+              }),
+            ),
+          ),
         );
-      })
+      }),
     );
   };

@@ -7,6 +7,6 @@ import { ENV } from "@io/ENV";
 export const parseENV = (env: unknown): Either<ControllerError, ENV> => {
   return pipe(
     ENV.decode(env),
-    fp.E.mapLeft((e) => DecodeError(`Failed to decode process env`, e))
+    fp.E.mapLeft((e) => DecodeError(`Failed to decode process env`, e)),
   );
 };

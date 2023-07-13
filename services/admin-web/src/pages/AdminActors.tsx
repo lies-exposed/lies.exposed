@@ -87,7 +87,7 @@ const transformActor =
         id,
         avatar: avatar.location,
       })),
-      throwTE
+      throwTE,
     );
   };
 
@@ -121,7 +121,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
             newMemberIn.map((m: any) => ({
               ...m,
               endDate: m.endDate !== "" ? m.endDate : undefined,
-            }))
+            })),
           ),
         })
       }

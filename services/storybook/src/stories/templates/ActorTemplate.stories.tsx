@@ -30,7 +30,7 @@ const Template: StoryFn<ActorTemplateProps> = (props) => {
               pagination: { perPage: 10, page: 1 },
               filter: { ids: ["1bde0d49-03a1-411d-9f18-2e70a722532b"] },
             },
-            false
+            false,
           ),
         }}
         render={({ actor: { data } }) => {

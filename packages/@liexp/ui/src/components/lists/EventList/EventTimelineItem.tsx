@@ -115,7 +115,7 @@ export interface EventTimelineItemProps extends EventListItemProps {
 const EventTimelineItem = React.forwardRef<any, EventTimelineItemProps>(
   (
     { event: e, isLast, style, onKeywordClick, onRowInvalidate, ...props },
-    ref
+    ref,
   ) => {
     return (
       <Root
@@ -159,7 +159,7 @@ const EventTimelineItem = React.forwardRef<any, EventTimelineItemProps>(
         </TimelineItem>
       </Root>
     );
-  }
+  },
 );
 
 export default EventTimelineItem;

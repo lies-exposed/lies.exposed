@@ -15,7 +15,7 @@ export type GROUPS = t.TypeOf<typeof GROUPS>;
 
 export const GroupKind = t.union(
   [t.literal("Public"), t.literal("Private")],
-  "GroupKind"
+  "GroupKind",
 );
 export type GroupKind = t.TypeOf<typeof GroupKind>;
 
@@ -44,13 +44,13 @@ export const GetGroupListQuery = t.type(
         t.literal("name"),
         t.literal("createdAt"),
         t.literal("updatedAt"),
-      ])
+      ]),
     ),
     name: optionFromNullable(t.string),
     ids: optionFromNullable(t.array(UUID)),
     members: optionFromNullable(t.array(t.string)),
   },
-  "GetGroupListQuery"
+  "GetGroupListQuery",
 );
 export type GetGroupListQuery = t.TypeOf<typeof GetGroupListQuery>;
 
@@ -73,11 +73,11 @@ export const CreateGroupBody = t.strict(
           startDate: DateFromISOString,
           endDate: optionFromNullable(DateFromISOString),
         },
-        "CreateGroupMember"
-      )
+        "CreateGroupMember",
+      ),
     ),
   },
-  "CreateGroupBody"
+  "CreateGroupBody",
 );
 
 export type CreateGroupBody = t.TypeOf<typeof CreateGroupBody>;
@@ -95,12 +95,12 @@ export const EditGroupBody = t.strict(
             startDate: DateFromISOString,
             endDate: optionFromNullable(DateFromISOString),
           },
-          "CreateGroupMember"
+          "CreateGroupMember",
         ),
-      ])
+      ]),
     ),
   },
-  "EditGroupBody"
+  "EditGroupBody",
 );
 
 export type EditGroupBody = t.TypeOf<typeof EditGroupBody>;
@@ -120,7 +120,7 @@ export const Group = t.strict(
     excerpt: t.union([t.UnknownRecord, t.null]),
     body: t.union([t.UnknownRecord, t.null]),
   },
-  "Group"
+  "Group",
 );
 
 export type Group = t.TypeOf<typeof Group>;

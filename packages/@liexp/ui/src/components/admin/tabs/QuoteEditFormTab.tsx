@@ -4,7 +4,7 @@ import { Box } from "../../mui";
 import ReferenceActorInput from "../actors/ReferenceActorInput";
 
 export const QuoteEditFormTab: React.FC<EditProps & { record?: any }> = (
-  props
+  props,
 ) => (
   <Box>
     <ReferenceActorInput source="payload.actor" />

@@ -11,7 +11,7 @@ export const DocumentaryListQuery = t.strict(
   {
     ...propsOmit(GetSearchEventsQuery, ["type"]),
   },
-  "DocumentaryListQuery"
+  "DocumentaryListQuery",
 );
 export type DocumentaryListQuery = t.TypeOf<typeof DocumentaryListQuery>;
 
@@ -29,7 +29,7 @@ export const DocumentaryPayload = t.strict(
       groups: t.array(UUID),
     }),
   },
-  "DocumentaryPayload"
+  "DocumentaryPayload",
 );
 export type DocumentaryPayload = t.TypeOf<typeof DocumentaryPayload>;
 
@@ -39,7 +39,7 @@ export const CreateDocumentaryBody = t.strict(
     type: DOCUMENTARY,
     payload: DocumentaryPayload,
   },
-  "CreateDocumentaryBody"
+  "CreateDocumentaryBody",
 );
 
 export type CreateDocumentaryBody = t.TypeOf<typeof CreateDocumentaryBody>;
@@ -50,7 +50,7 @@ export const EditDocumentaryBody = t.strict(
     type: DOCUMENTARY,
     payload: DocumentaryPayload,
   },
-  "EditDocumentaryBody"
+  "EditDocumentaryBody",
 );
 
 export type EditDocumentaryBody = t.TypeOf<typeof EditDocumentaryBody>;
@@ -61,6 +61,6 @@ export const Documentary = t.strict(
     type: DOCUMENTARY,
     payload: DocumentaryPayload,
   },
-  "DocumentaryEvent"
+  "DocumentaryEvent",
 );
 export type Documentary = t.TypeOf<typeof Documentary>;

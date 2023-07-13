@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useTheme} from '../../theme'
+import { useTheme } from "../../theme";
 import { Breadcrumbs, Link, Typography } from "../mui";
 
 interface BreadCrumbProps {
@@ -60,7 +60,7 @@ export const BreadCrumb: React.FC<BreadCrumbProps> = ({ view, segments }) => {
               ],
             };
           },
-          { children: [], currentPath: "index.html?path=" }
+          { children: [], currentPath: "index.html?path=" },
         ).children
       }
     </Breadcrumbs>

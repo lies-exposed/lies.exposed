@@ -4,7 +4,7 @@ import path from "path";
 
 const makeAliases = (
   baseURL: string,
-  paths: Record<string, string[]>
+  paths: Record<string, string[]>,
 ): Record<string, string> => {
   const fromPaths = Object.keys(paths).reduce((aliases, key) => {
     const targets = paths[key];

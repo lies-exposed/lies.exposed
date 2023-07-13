@@ -9,8 +9,8 @@ export const sanitizeURL = (url: URL): URL => {
     qs.parse(query),
     R.filterWithIndex(
       (index) =>
-        !["utm_", "fbclid"].some((c) => index.toLowerCase().startsWith(c))
-    )
+        !["utm_", "fbclid"].some((c) => index.toLowerCase().startsWith(c)),
+    ),
   );
 
   if (!R.isEmpty(cleanQuery)) {

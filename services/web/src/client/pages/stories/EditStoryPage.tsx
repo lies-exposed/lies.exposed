@@ -35,7 +35,6 @@ const StyledContainer = styled(Container)(({ theme }) => ({
 }));
 
 const EditStoryPageContent: React.FC<{ id?: string }> = ({ id }) => {
-
   const [update, { isLoading: isSubmitting }] = useUpdate();
   const navigate = useNavigate();
   const onSubmit = async (data: any): Promise<void> => {
@@ -46,7 +45,7 @@ const EditStoryPageContent: React.FC<{ id?: string }> = ({ id }) => {
         onSuccess: (d) => {
           navigate(`/stories/${d.path}`);
         },
-      }
+      },
     );
   };
   return (

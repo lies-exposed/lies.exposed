@@ -15,7 +15,7 @@ export const MakeSignedUrlRoute = (r: Router, ctx: RouteContext): void => {
         ctx.s3.getSignedUrl({
           Bucket: ctx.env.SPACE_BUCKET,
           Key: `public/${resource}/${resourceId}/${uuid()}.${fileExtFromContentType(
-            ContentType
+            ContentType,
           )}`,
           ContentType,
         }),
@@ -24,8 +24,8 @@ export const MakeSignedUrlRoute = (r: Router, ctx: RouteContext): void => {
             data: { id: resourceId, url },
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

@@ -31,16 +31,16 @@ export const MakeCreateActorRoute: Route = (r, ctx) => {
                     bornOn: body.bornOn?.toISOString(),
                     diedOn: body.diedOn?.toISOString(),
                   },
-                ])
+                ]),
               ),
-              TE.map(([actor]) => actor)
+              TE.map(([actor]) => actor),
             )
           : searchActorAndCreateFromWikipedia(ctx)(body.search),
 
         TE.chain((actor) =>
           ctx.db.findOneOrFail(ActorEntity, {
             where: { id: Equal(actor.id) },
-          })
+          }),
         ),
         TE.chainEitherK(toActorIO),
         TE.map((page) => ({
@@ -48,8 +48,8 @@ export const MakeCreateActorRoute: Route = (r, ctx) => {
             data: page,
           },
           statusCode: 201,
-        }))
+        })),
       );
-    }
+    },
   );
 };

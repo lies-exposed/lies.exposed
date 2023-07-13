@@ -26,7 +26,7 @@ export type GroupInlineControlType = React.ComponentType<
 >;
 
 const createPlugin = (
-  settings?: GroupInlineSettings
+  settings?: GroupInlineSettings,
 ): CellPlugin<GroupInlineState> => {
   const mergedSettings = { ...defaultSettings, ...settings };
 

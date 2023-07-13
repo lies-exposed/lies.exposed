@@ -30,7 +30,7 @@ describe("List Media", () => {
     await throwTE(
       Test.ctx.db.save(EventV2Entity, [
         { ...event, links: [], media: [{ id: media[0].id }], keywords: [] },
-      ])
+      ]),
     );
   });
 
@@ -38,15 +38,15 @@ describe("List Media", () => {
     await throwTE(
       Test.ctx.db.delete(
         EventV2Entity,
-        [event].map((e) => e.id)
-      )
+        [event].map((e) => e.id),
+      ),
     );
 
     await throwTE(
       Test.ctx.db.delete(
         MediaEntity,
-        media.map((a) => a.id)
-      )
+        media.map((a) => a.id),
+      ),
     );
 
     await Test.utils.e2eAfterAll();

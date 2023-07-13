@@ -1,6 +1,6 @@
 import { type Router } from "express";
 import { MakeCreateQuoteRoute } from "./createQuote.controller";
-import { MakeDeleteQuoteRoute } from './deleteQuote.controller';
+import { MakeDeleteQuoteRoute } from "./deleteQuote.controller";
 import { MakeEditQuoteRoute } from "./editQuote.controller";
 import { MakeGetQuoteRoute } from "./getQuotes.controller";
 import { MakeGetListQuoteRoute } from "./listQuotes.controller";

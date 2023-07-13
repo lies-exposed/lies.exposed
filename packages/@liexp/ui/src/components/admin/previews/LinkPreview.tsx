@@ -20,7 +20,7 @@ const LinkPreview: React.FC<{ record: any }> = ({ record }) => {
       http.Link.Link.decode({
         ...(record ?? {}),
       }),
-    [record]
+    [record],
   );
 
   if (!record) {
@@ -37,7 +37,7 @@ const LinkPreview: React.FC<{ record: any }> = ({ record }) => {
           </ThemeProvider>
         </QueryClientProvider>
       </HelmetProvider>
-    ))
+    )),
   );
 };
 

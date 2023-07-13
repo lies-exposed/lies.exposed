@@ -11,7 +11,11 @@ import withTooltip, {
 import * as A from "fp-ts/Array";
 import * as React from "react";
 import NetworkLink, { type NetworkLinkProps } from "./NetworkLink";
-import { NetworkNode, type NetworkNodeDatum, type NetworkPointNode } from "./NetworkNode";
+import {
+  NetworkNode,
+  type NetworkNodeDatum,
+  type NetworkPointNode,
+} from "./NetworkNode";
 
 const backgroundColor = "transparent";
 
@@ -27,7 +31,7 @@ export type NetworkGraphType<L, N extends NetworkNodeDatum> = GraphType<L, N>;
 
 export interface NetworkBaseProps<
   L extends NetworkLinkProps<N>,
-  N extends NetworkNodeDatum
+  N extends NetworkNodeDatum,
 > {
   width: number;
   height: number;
@@ -43,11 +47,11 @@ export interface NetworkBaseProps<
 
 export type NetworkProps<
   L extends NetworkLinkProps<N>,
-  N extends NetworkNodeDatum
+  N extends NetworkNodeDatum,
 > = NetworkBaseProps<L, N> & WithTooltipProvidedProps<N>;
 
 const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
-  props: NetworkProps<L, N>
+  props: NetworkProps<L, N>,
 ): JSX.Element => {
   const handleMouseOver = (event: any, datum: any): void => {
     const coords = localPoint(event.target.ownerSVGElement, event);
@@ -185,6 +189,6 @@ const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
 };
 
 export default <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
-  props: NetworkBaseProps<L, N>
+  props: NetworkBaseProps<L, N>,
 ): React.ReactElement<NetworkBaseProps<L, N>> | null =>
   withTooltip<NetworkBaseProps<L, N>, N>(Network)(props);

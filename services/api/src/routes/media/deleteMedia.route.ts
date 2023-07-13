@@ -23,26 +23,23 @@ export const MakeDeleteMediaRoute = (r: Router, ctx: RouteContext): void => {
               pImages.length > 0
                 ? ctx.db.softDelete(
                     ProjectImageEntity,
-                    pImages.map((p) => p.id)
+                    pImages.map((p) => p.id),
                   )
-                : TE.right(undefined)
-            )
+                : TE.right(undefined),
+            ),
           ),
-          space:
-            m.deletedAt 
-              ? deleteFromSpace(ctx)(m)
-              : TE.right(undefined),
+          space: m.deletedAt ? deleteFromSpace(ctx)(m) : TE.right(undefined),
           media: m.deletedAt
             ? ctx.db.delete(MediaEntity, id)
             : ctx.db.softDelete(MediaEntity, id),
-        })
+        }),
       ),
       TE.map(() => ({
         body: {
           data: true,
         },
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

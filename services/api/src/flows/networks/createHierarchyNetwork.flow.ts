@@ -16,7 +16,7 @@ import {
   type GroupMember,
   type Keyword,
   type Media,
-  type Events
+  type Events,
 } from "@liexp/shared/lib/io/http";
 import { EventType } from "@liexp/shared/lib/io/http/Events";
 import { StatsType } from "@liexp/shared/lib/io/http/Stats";
@@ -122,7 +122,7 @@ export const createStatsByEntityType: TEFlow<
     media: new Map(),
     keywords: new Map(),
     links: new Map(),
-    areas: new Map()
+    areas: new Map(),
   };
 
   let searchEventsQueryCache: SearchEventsQueryCache =
@@ -136,11 +136,11 @@ export const createStatsByEntityType: TEFlow<
         if (!tempFolderExists) {
           ctx.logger.debug.log(
             "Folder %s does not exist, creating...",
-            filePathDir
+            filePathDir,
           );
           fs.mkdirSync(filePathDir, { recursive: true });
         }
-      }, toControllerError)
+      }, toControllerError),
     ),
     TE.chain(() =>
       walkPaginatedRequest(ctx)(
@@ -171,8 +171,8 @@ export const createStatsByEntityType: TEFlow<
         (r) => r.total,
         (r) => r.results,
         0,
-        50
-      )
+        50,
+      ),
     ),
     TE.chain((results) =>
       pipe(
@@ -205,41 +205,41 @@ export const createStatsByEntityType: TEFlow<
                   actors,
                   A.map((a) => toActorIO(a)),
                   A.sequence(E.Applicative),
-                  E.getOrElse((): Actor.Actor[] => [])
+                  E.getOrElse((): Actor.Actor[] => []),
                 ),
                 groups: pipe(
                   groups,
                   A.map((a) => toGroupIO(a)),
                   A.sequence(E.Applicative),
-                  E.getOrElse((): Group.Group[] => [])
+                  E.getOrElse((): Group.Group[] => []),
                 ),
                 groupsMembers: pipe(
                   groupsMembers,
                   A.map(toGroupMemberIO),
                   A.sequence(E.Applicative),
-                  E.getOrElse((): GroupMember.GroupMember[] => [])
+                  E.getOrElse((): GroupMember.GroupMember[] => []),
                 ),
                 media: pipe(
                   media,
-                  A.map(m => toImageIO(m, ctx.env.SPACE_ENDPOINT)),
+                  A.map((m) => toImageIO(m, ctx.env.SPACE_ENDPOINT)),
                   A.sequence(E.Applicative),
-                  E.getOrElse((): Media.Media[] => [])
+                  E.getOrElse((): Media.Media[] => []),
                 ),
                 keywords: pipe(
                   keywords,
                   A.map(toKeywordIO),
                   A.sequence(E.Applicative),
-                  E.getOrElse((): Keyword.Keyword[] => [])
+                  E.getOrElse((): Keyword.Keyword[] => []),
                 ),
                 links: [],
-                areas: []
+                areas: [],
               });
 
               return searchEventsQueryCache;
-            })
+            }),
           );
-        })
-      )
+        }),
+      ),
     ),
     TE.map(({ events, actors, groups }) => {
       return createHierarchicalEdgeBundling({
@@ -255,6 +255,6 @@ export const createStatsByEntityType: TEFlow<
         fs.writeFileSync(filePath, JSON.stringify(graph));
         return graph;
       }, toControllerError);
-    })
+    }),
   );
 };

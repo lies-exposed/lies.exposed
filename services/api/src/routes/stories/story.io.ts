@@ -38,6 +38,6 @@ export const toStoryIO = ({
       createdAt: story.createdAt.toISOString(),
       updatedAt: story.updatedAt.toISOString(),
     }),
-    E.mapLeft((e) => DecodeError(`Failed to decode "Story" (${story.id})`, e))
+    E.mapLeft((e) => DecodeError(`Failed to decode "Story" (${story.id})`, e)),
   );
 };

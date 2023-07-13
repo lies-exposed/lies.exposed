@@ -19,7 +19,7 @@ export const MakeGetSocialPostRoute = (r: Router, ctx: RouteContext): void => {
           data,
         },
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

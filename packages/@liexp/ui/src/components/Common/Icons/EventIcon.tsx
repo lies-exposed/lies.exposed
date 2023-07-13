@@ -1,7 +1,7 @@
 import { type IconName } from "@fortawesome/fontawesome-svg-core";
 import {
   FontAwesomeIcon,
-  type FontAwesomeIconProps
+  type FontAwesomeIconProps,
 } from "@fortawesome/react-fontawesome";
 import {
   Death,
@@ -11,7 +11,7 @@ import {
   Quote,
   ScientificStudy,
   Transaction,
-  Uncategorized
+  Uncategorized,
 } from "@liexp/shared/lib/io/http/Events";
 import * as React from "react";
 import { styled } from "../../../theme";

@@ -28,7 +28,7 @@ const Template: StoryFn<EventTemplateProps & { defaultTab: number }> = ({
             pagination: { perPage: 10, page: 1 },
             filter: {},
           },
-          false
+          false,
         ),
       }}
       render={({ events: { data } }) => {

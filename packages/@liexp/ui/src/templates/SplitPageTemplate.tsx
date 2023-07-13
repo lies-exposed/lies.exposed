@@ -98,7 +98,7 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
   },
   [`.${classes.tabPanel}`]: {
     height: "100%",
-    maxHeight: '100%'
+    maxHeight: "100%",
   },
 }));
 
@@ -143,7 +143,7 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
       (acc, t, i) => {
         return {
           tabs: acc.tabs.concat(
-            <Tab key={t.label} label={t.label} {...a11yProps(i)} />
+            <Tab key={t.label} label={t.label} {...a11yProps(i)} />,
           ),
           tabsContent: acc.tabsContent.concat(
             <TabPanel
@@ -153,11 +153,11 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
               value={tab}
             >
               {children[i]}
-            </TabPanel>
+            </TabPanel>,
           ),
         };
       },
-      { tabs: [] as React.ReactNode[], tabsContent: [] as React.ReactNode[] }
+      { tabs: [] as React.ReactNode[], tabsContent: [] as React.ReactNode[] },
     );
   }, [_tabs, tab]);
 
@@ -178,8 +178,8 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
                 fit="cover"
                 style={{ marginBottom: 50 }}
               />
-            )
-          )
+            ),
+          ),
         ),
         <Box key="aside-name" className={classes.name}>
           <Typography component="h1" variant="h4">

@@ -110,7 +110,7 @@ const HeaderMenuItem: React.FC<{
   currentView: string;
   onClick: (
     ref: React.RefObject<HTMLButtonElement> | null,
-    i: HeaderMenuItem
+    i: HeaderMenuItem,
   ) => void;
 }> = ({ item: m, className, open, currentView, onClick }) => {
   const buttonRef =
@@ -169,14 +169,14 @@ const Header: React.FC<HeaderProps> = ({
   const [open, setOpen] = React.useState(false);
   const [anchorRef, setAnchorRef] =
     React.useState<React.RefObject<HTMLButtonElement> | null>(
-      React.useRef<HTMLButtonElement>(null)
+      React.useRef<HTMLButtonElement>(null),
     );
   const [selectedMenuItem, setSelectedMenuItem] =
     React.useState<HeaderMenuItem | null>(null);
 
   const handleToggle = (
     ref: React.RefObject<HTMLButtonElement> | null,
-    m: HeaderMenuItem
+    m: HeaderMenuItem,
   ): void => {
     if (m.subItems.length > 0) {
       setOpen((prevOpen) => !prevOpen);
@@ -197,7 +197,7 @@ const Header: React.FC<HeaderProps> = ({
   };
 
   function handleListKeyDown(
-    event: React.KeyboardEvent<HTMLUListElement>
+    event: React.KeyboardEvent<HTMLUListElement>,
   ): void {
     if (event.key === "Tab") {
       event.preventDefault();
@@ -312,7 +312,7 @@ const Header: React.FC<HeaderProps> = ({
               )}
             </Popper>
           )),
-          O.toNullable
+          O.toNullable,
         )}
       </Toolbar>
     </StyledAppBar>

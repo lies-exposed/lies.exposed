@@ -5,7 +5,7 @@ import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
 import Feature from "ol/Feature";
 import * as React from "react";
-import { useEventsQuery } from '../state/queries/event.queries';
+import { useEventsQuery } from "../state/queries/event.queries";
 import { geoJSONFormat } from "../utils/map.utils";
 import Map from "./Map";
 import QueriesRenderer from "./QueriesRenderer";
@@ -29,8 +29,8 @@ const EventsMapComponent: React.FC<EventsMapComponentProps> = ({
     A.filterMap((e) =>
       e.payload.location
         ? O.some({ ...e, geometry: e.payload.location })
-        : O.none
-    )
+        : O.none,
+    ),
   );
 
   const deathsData = pipe(
@@ -39,8 +39,8 @@ const EventsMapComponent: React.FC<EventsMapComponentProps> = ({
     A.filterMap((e) =>
       e.payload.location
         ? O.some({ ...e, geometry: e.payload.location })
-        : O.none
-    )
+        : O.none,
+    ),
   );
 
   const features = data.map(({ geometry, ...datum }) => {
@@ -103,22 +103,25 @@ const EventsMap: React.FC<EventsMapProps> = (props) => {
   return (
     <QueriesRenderer
       queries={{
-        events: useEventsQuery({
-          pagination: { page: 1, perPage: 100 },
-          sort: { field: "startDate", order: "DESC" },
-          filter: {
-            title: pipe(title ?? O.none, O.toUndefined),
-            startDate:
-              startDate?._tag === "Some"
-                ? startDate.value.toISOString()
-                : undefined,
-            endDate:
-              endDate?._tag === "Some"
-                ? endDate.value.toISOString()
-                : undefined,
-            ...filters,
+        events: useEventsQuery(
+          {
+            pagination: { page: 1, perPage: 100 },
+            sort: { field: "startDate", order: "DESC" },
+            filter: {
+              title: pipe(title ?? O.none, O.toUndefined),
+              startDate:
+                startDate?._tag === "Some"
+                  ? startDate.value.toISOString()
+                  : undefined,
+              endDate:
+                endDate?._tag === "Some"
+                  ? endDate.value.toISOString()
+                  : undefined,
+              ...filters,
+            },
           },
-        }, false),
+          false,
+        ),
       }}
       render={({ events }) => {
         return <EventsMapComponent {...rest} events={events.data} />;

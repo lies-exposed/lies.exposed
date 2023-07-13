@@ -30,7 +30,8 @@ const GithubButton: React.FC<GithubButtonProps> = ({
               style={{
                 color: "white",
               }}
-              size="large">
+              size="large"
+            >
               <GithubIcon style={{ color: "white", marginRight: 10 }} />
               <Typography variant="subtitle1" display="inline">
                 {github.stargazers_count}

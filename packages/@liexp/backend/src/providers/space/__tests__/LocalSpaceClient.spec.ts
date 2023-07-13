@@ -2,7 +2,7 @@ import * as logger from "@liexp/core/lib/logger";
 import * as E from "fp-ts/Either";
 // eslint-disable-next-line no-restricted-imports
 import { GetLocalSpaceClient } from "../LocalSpaceClient";
-vi.mock('axios');
+vi.mock("axios");
 
 const baseURL = "http://localhost:4010";
 
@@ -61,7 +61,7 @@ describe("LocalSpaceClient", () => {
     expect(E.isRight(result)).toBe(true);
     expect((result as any).right).toEqual({
       Location: "",
-      $metadata: {}
+      $metadata: {},
     });
   });
 });

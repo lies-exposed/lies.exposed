@@ -23,7 +23,7 @@ export const TagArb = (): fc.Arbitrary<string> => {
       const v = new fc.NextValue(
         firstWord.concat(secondWord),
         undefined,
-        undefined
+        undefined,
       );
       return v;
     },

@@ -3,12 +3,7 @@ import { formatDate } from "@liexp/shared/lib/utils/date";
 import { parseISO } from "date-fns";
 import * as t from "io-ts";
 import * as React from "react";
-import {
-  Card,
-  CardActionArea,
-  CardHeader,
-  CardMedia
-} from "../mui";
+import { Card, CardActionArea, CardHeader, CardMedia } from "../mui";
 
 interface StoryCardProps {
   article: Story;
@@ -22,7 +17,12 @@ export const StoryCard: React.FC<StoryCardProps> = ({
   onClick,
 }) => {
   return (
-    <Card style={style} onClick={() => { onClick(a); }}>
+    <Card
+      style={style}
+      onClick={() => {
+        onClick(a);
+      }}
+    >
       <CardHeader
         title={
           <span
@@ -39,7 +39,7 @@ export const StoryCard: React.FC<StoryCardProps> = ({
         subheader={
           <p style={{ fontSize: 11 }}>
             {formatDate(
-              t.string.is(a.createdAt) ? parseISO(a.createdAt) : a.createdAt
+              t.string.is(a.createdAt) ? parseISO(a.createdAt) : a.createdAt,
             )}
           </p>
         }

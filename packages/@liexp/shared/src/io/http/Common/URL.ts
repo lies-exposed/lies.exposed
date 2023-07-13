@@ -18,10 +18,10 @@ export const URL = t.brand(
       IOE.mapLeft((e) => false),
       IOE.fold(
         (e) => () => e,
-        (r) => () => r
-      )
+        (r) => () => r,
+      ),
     )(),
-  "URL"
+  "URL",
 );
 
 export type URL = t.TypeOf<typeof URL>;

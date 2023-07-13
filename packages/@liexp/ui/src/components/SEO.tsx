@@ -1,5 +1,5 @@
 import React from "react";
-import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 export const defaultImage = `${process.env.PUBLIC_URL}/liexp-logo-1200x630.png`;
 
@@ -30,7 +30,6 @@ const SEO: React.FC<SEOProps> = ({
   image = defaultImage,
   urlPath,
 }) => {
-
   const { site }: QueryResults = {
     site: {
       siteMetadata: {
@@ -109,4 +108,4 @@ SEO.defaultProps = {
 
 export default SEO;
 
-export { Helmet, HelmetProvider }
+export { Helmet, HelmetProvider };

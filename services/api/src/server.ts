@@ -66,13 +66,13 @@ const corsOptions: cors.CorsOptions = {
 };
 
 export const makeContext = (
-  env: ENV
+  env: ENV,
 ): TE.TaskEither<ControllerError, RouteContext> => {
   const serverLogger = logger.GetLogger("server");
 
   const db = pipe(
     GetTypeORMClient(getDataSource(env, false)),
-    TE.mapLeft(toControllerError)
+    TE.mapLeft(toControllerError),
   );
 
   const s3 =
@@ -130,9 +130,9 @@ export const makeContext = (
             token: env.TG_BOT_TOKEN,
             chat: env.TG_BOT_CHAT,
             polling: env.TG_BOT_POLLING,
-          }
+          },
         ),
-        TE.right
+        TE.right,
       ),
       puppeteer: TE.right(GetPuppeteerProvider(puppeteer, {})),
       ffmpeg: TE.right(GetFFMPEGProvider(ffmpeg)),
@@ -142,14 +142,14 @@ export const makeContext = (
         IGProvider({
           logger: logger.GetLogger("ig"),
           credentials: { username: env.IG_USERNAME, password: env.IG_PASSWORD },
-        })
+        }),
       ),
     }),
     TE.mapLeft((e) => ({
       ...e,
       name: e.name,
       status: 500,
-    }))
+    })),
   );
 };
 
@@ -165,7 +165,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   app.use(
     jsonMiddleware.unless({
       path: [{ url: /\/v1\/uploads-multipart\/*/, method: "PUT" }],
-    })
+    }),
   );
 
   app.use(
@@ -181,7 +181,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
         { url: /\/v1\/events\/suggestions*\//, method: "PUT" },
         { url: /\/media\/*/ },
       ],
-    })
+    }),
   );
 
   // const mediaPath = path.resolve(__dirname, "../data");
@@ -263,11 +263,14 @@ export const makeApp = (ctx: RouteContext): express.Express => {
     void pipe(
       sequenceS(TE.ApplicativePar)({
         storeMsg: GetWriteJSON(ctx.logger)(
-          path.resolve(process.cwd(), `temp/tg/messages/${msg.message_id}.json`)
+          path.resolve(
+            process.cwd(),
+            `temp/tg/messages/${msg.message_id}.json`,
+          ),
         )(msg),
         eventSuggestion: createFromTGMessage({ ...ctx, logger: tgLogger })(
           msg,
-          metadata
+          metadata,
         ),
       }),
       TE.map(({ eventSuggestion, storeMsg }) => {
@@ -278,33 +281,33 @@ export const makeApp = (ctx: RouteContext): express.Express => {
           `Links: ${
             eventSuggestion.link
               ? eventSuggestion.link.map(
-                  (l) => `${ctx.env.WEB_URL}/links/${l.id}\n`
+                  (l) => `${ctx.env.WEB_URL}/links/${l.id}\n`,
                 )
               : ""
           }`,
           `Photos: ${
             eventSuggestion.photos.length > 0
               ? eventSuggestion.photos.map(
-                  (m) => `${ctx.env.WEB_URL}/media/${m.id}\n`
+                  (m) => `${ctx.env.WEB_URL}/media/${m.id}\n`,
                 )
               : ""
           }`,
           `Videos: ${
             eventSuggestion.videos.length > 0
               ? eventSuggestion.videos.map(
-                  (m) => `${ctx.env.WEB_URL}/media/${m.id}\n`
+                  (m) => `${ctx.env.WEB_URL}/media/${m.id}\n`,
                 )
               : ""
           }`,
         ];
         return message.join("\n");
       }),
-      throwTE
+      throwTE,
     )
       .then((message) =>
         ctx.tg.bot.api.sendMessage(msg.chat.id, message, {
           reply_to_message_id: msg.message_id,
-        })
+        }),
       )
       .catch((e) => {
         tgLogger.error.log("Error %O", e);
@@ -320,7 +323,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
         "An error occurred during %s %s %O",
         req.method,
         req.url,
-        err
+        err,
       );
       if (err) {
         if (err.name === "UnauthorizedError") {
@@ -373,7 +376,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
         `An error occurred during %s %s: %O`,
         req.method,
         req.url,
-        JSON.stringify(err, null, 2)
+        JSON.stringify(err, null, 2),
       );
       return res.status(500).send(err);
     }

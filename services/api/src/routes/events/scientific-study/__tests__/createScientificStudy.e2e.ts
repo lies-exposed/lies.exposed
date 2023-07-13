@@ -12,7 +12,11 @@ import { fc } from "@liexp/test";
 import { pipe } from "fp-ts/lib/function";
 import { In } from "typeorm";
 import { GetAppTest, type AppTest } from "../../../../../test/AppTest";
-import { type UserTest, loginUser, saveUser } from "../../../../../test/user.utils";
+import {
+  type UserTest,
+  loginUser,
+  saveUser,
+} from "../../../../../test/user.utils";
 import { ActorEntity } from "@entities/Actor.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
@@ -32,16 +36,16 @@ describe("Create Scientific Study", () => {
     await throwTE(
       appTest.ctx.db.save(ActorEntity, [
         { ...actor, death: undefined, memberIn: [] },
-      ])
+      ]),
     );
     await throwTE(
-      appTest.ctx.db.save(GroupEntity, [{ ...group, members: [] }])
+      appTest.ctx.db.save(GroupEntity, [{ ...group, members: [] }]),
     );
 
     admin = await saveUser(appTest, [AdminCreate.value]);
 
     authorizationToken = await loginUser(appTest)(admin).then(
-      ({ authorization }) => authorization
+      ({ authorization }) => authorization,
     );
   });
 
@@ -49,7 +53,7 @@ describe("Create Scientific Study", () => {
     const ev: any[] = await throwTE(
       appTest.ctx.db.find(EventV2Entity, {
         where: { id: In(scientificStudyIds) },
-      })
+      }),
     );
     await throwTE(appTest.ctx.db.delete(EventV2Entity, scientificStudyIds));
     await throwTE(appTest.ctx.db.delete(ActorEntity, [actor.id]));
@@ -59,13 +63,13 @@ describe("Create Scientific Study", () => {
         where: {
           id: In(ev.map((e) => e.payload.url)),
         },
-      })
+      }),
     );
     await throwTE(
       appTest.ctx.db.delete(
         LinkEntity,
-        ll.map((l) => l.id)
-      )
+        ll.map((l) => l.id),
+      ),
     );
     await appTest.utils.e2eAfterAll();
   });
@@ -100,7 +104,7 @@ describe("Create Scientific Study", () => {
     ]);
     // wait for
     appTest.mocks.puppeteer.page.waitForSelector.mockResolvedValueOnce(
-      undefined
+      undefined,
     );
     appTest.mocks.puppeteer.page.$x.mockResolvedValueOnce([
       {
@@ -122,7 +126,7 @@ describe("Create Scientific Study", () => {
       appTest.ctx.db.findOneOrFail(LinkEntity, {
         where: { url: sanitizeURL(scientificStudyData.url) },
       }),
-      throwTE
+      throwTE,
     );
 
     expect(body.type).toBe(SCIENTIFIC_STUDY.value);
@@ -146,7 +150,7 @@ describe("Create Scientific Study", () => {
             keywords: [],
           },
         ]),
-      throwTE
+      throwTE,
     );
 
     const title = fc.sample(HumanReadableStringArb(), 1)[0];

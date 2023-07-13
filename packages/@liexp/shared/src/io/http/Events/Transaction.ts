@@ -11,7 +11,7 @@ export const TransactionListQuery = t.strict(
   {
     ...propsOmit(GetSearchEventsQuery, ["type"]),
   },
-  "TransactionListQuery"
+  "TransactionListQuery",
 );
 export type TransactionListQuery = t.TypeOf<typeof TransactionListQuery>;
 
@@ -23,7 +23,7 @@ export const TransactionPayload = t.strict(
     from: BySubject,
     to: BySubject,
   },
-  "TransactionPayload"
+  "TransactionPayload",
 );
 export type TransactionPayload = t.TypeOf<typeof TransactionPayload>;
 
@@ -33,7 +33,7 @@ export const CreateTransactionBody = t.strict(
     type: TRANSACTION,
     payload: TransactionPayload,
   },
-  "CreateTransactionBody"
+  "CreateTransactionBody",
 );
 
 export type CreateTransactionBody = t.TypeOf<typeof CreateTransactionBody>;
@@ -44,7 +44,7 @@ export const EditTransactionBody = t.strict(
     type: TRANSACTION,
     payload: TransactionPayload,
   },
-  "EditTransactionBody"
+  "EditTransactionBody",
 );
 
 export type EditTransactionBody = t.TypeOf<typeof EditTransactionBody>;
@@ -55,6 +55,6 @@ export const Transaction = t.strict(
     type: TRANSACTION,
     payload: TransactionPayload,
   },
-  "TransactionEvent"
+  "TransactionEvent",
 );
 export type Transaction = t.TypeOf<typeof Transaction>;

@@ -17,21 +17,21 @@ export const MakeUserListRoute = (r: Router, ctx: RouteContext): void => {
     ({ query: { ids: id, ...query } }) => {
       const findOptions = getORMOptions(
         { ...query, id },
-        ctx.env.DEFAULT_PAGE_SIZE
+        ctx.env.DEFAULT_PAGE_SIZE,
       );
       return pipe(
         sequenceS(TE.ApplicativePar)({
           data: pipe(
             ctx.db.find(UserEntity, { ...findOptions }),
-            TE.chainEitherK(A.traverse(E.Applicative)(toUserIO))
+            TE.chainEitherK(A.traverse(E.Applicative)(toUserIO)),
           ),
           total: ctx.db.count(UserEntity),
         }),
         TE.map(({ data, total }) => ({
           body: { data, total },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

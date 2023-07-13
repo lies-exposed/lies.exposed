@@ -121,7 +121,7 @@ const getReportX: Accessor<VaccineDatum, Date> = (d) => {
 
 const MakeGetReportY: (
   ageGroup: AgeGroup | undefined,
-  adrReportFactor: number
+  adrReportFactor: number,
 ) => Accessor<VaccineDatum, number> = (ageGroup, adrReportFactor) => (d) => {
   return getValueForAgeGroup(d, ageGroup) * adrReportFactor;
 };
@@ -149,7 +149,7 @@ const europeVaccineDistributionSecondDoseLineId =
   "europe-vaccine-distribution-second-dose-line";
 
 const getDatumTableData = (
-  v: VaccineDatum
+  v: VaccineDatum,
 ): Array<[string, string, number]> => {
   return [
     v.total_death_0_1_month,
@@ -279,7 +279,7 @@ const VaccineADRGraphComponent = withTooltip<
 
   const getReportY = React.useMemo(
     () => MakeGetReportY(ageGroup, adrReportFactor),
-    [ageGroup, adrReportFactor]
+    [ageGroup, adrReportFactor],
   );
 
   const currentTotalVaccinations =
@@ -308,7 +308,9 @@ const VaccineADRGraphComponent = withTooltip<
 
   const handleTooltip = React.useCallback(
     (
-      event: React.TouchEvent<SVGRectElement> | React.MouseEvent<SVGRectElement>
+      event:
+        | React.TouchEvent<SVGRectElement>
+        | React.MouseEvent<SVGRectElement>,
     ) => {
       const { x } = localPoint(event) ?? { x: 0 };
       const x0 = xScale.invert(x);
@@ -331,7 +333,7 @@ const VaccineADRGraphComponent = withTooltip<
         }
       }
     },
-    [showTooltip, yLeftScale, xScale]
+    [showTooltip, yLeftScale, xScale],
   );
 
   return (
@@ -427,8 +429,12 @@ const VaccineADRGraphComponent = withTooltip<
             rx={0}
             onMouseEnter={handleTooltip}
             onMouseMove={handleTooltip}
-            onMouseLeave={() => { hideTooltip(); }}
-            onMouseOut={() => { hideTooltip(); }}
+            onMouseLeave={() => {
+              hideTooltip();
+            }}
+            onMouseOut={() => {
+              hideTooltip();
+            }}
           />
         </svg>
         {tooltipOpen && tooltipData ? (
@@ -477,24 +483,24 @@ export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
       setADRReportRate(
         typeof event.target.value === "string"
           ? parseInt(event.target.value, 10)
-          : event.target.value
+          : event.target.value,
       );
     },
-    []
+    [],
   );
 
   const handleManufacturerChange = React.useCallback(
     (event: SelectChangeEvent<string>): void => {
       setManufacturer(event.target.value);
     },
-    []
+    [],
   );
 
   const handlePatientAgeGroupChange = React.useCallback(
     (e: SelectChangeEvent<string>): void => {
       setAgeGroup(e.target.value);
     },
-    []
+    [],
   );
 
   return (
@@ -503,7 +509,7 @@ export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
         queries={{
           data: useJSONDataQuery(
             t.strict({ data: t.array(VaccineDatum) }).decode,
-            id
+            id,
           ),
         }}
         render={({ data: { data } }) => {

@@ -42,7 +42,7 @@ const Template: StoryFn<KeywordTemplateProps> = (props) => {
             pagination: { perPage: 10, page: 1 },
             filter: { search: "graphene" },
           },
-          false
+          false,
         ),
       }}
       render={({ keyword: { data: keywords } }) => {

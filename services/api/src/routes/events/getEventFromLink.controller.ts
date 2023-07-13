@@ -59,10 +59,10 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
               O.alt(() =>
                 pipe(
                   link,
-                  O.map((l) => l.title)
-                )
+                  O.map((l) => l.title),
+                ),
               ),
-              O.getOrElse(() => "")
+              O.getOrElse(() => ""),
             );
 
             const suggestedExcerpt = metadata.description
@@ -77,7 +77,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                   url: metadata.url,
                   publishDate: urlDate.toISOString(),
                 },
-              ])
+              ]),
             );
 
             const commonSuggestion = {
@@ -149,7 +149,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                     },
                   },
                 ]),
-                O.getOrElse((): EventSuggestion.CreateEventSuggestion[] => [])
+                O.getOrElse((): EventSuggestion.CreateEventSuggestion[] => []),
               ),
               {
                 type: EventSuggestion.EventSuggestionType.types[0].value,
@@ -194,7 +194,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                 exclude: O.none,
                 links: pipe(
                   link,
-                  O.map((l) => [l.id])
+                  O.map((l) => [l.id]),
                 ),
                 ids: O.none,
                 draft: O.none,
@@ -210,17 +210,17 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                   A.map(toEventV2IO),
                   A.sequence(E.Applicative),
                   E.map((data) => ({ data, suggestions, ...rest })),
-                  TE.fromEither
-                )
-              )
+                  TE.fromEither,
+                ),
+              ),
             );
-          })
+          }),
         );
       }),
       TE.map((body) => ({
         body,
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

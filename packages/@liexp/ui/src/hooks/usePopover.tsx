@@ -2,14 +2,14 @@ import * as React from "react";
 import { Popover, type PopoverProps } from "../components/Common/Popover";
 
 export const usePopover = (
-  props: Partial<Omit<PopoverProps, "open">>
+  props: Partial<Omit<PopoverProps, "open">>,
 ): [
   React.ReactElement | null,
   (
     title: string,
     el: HTMLElement,
-    getContent: (onClose: () => void) => JSX.Element
-  ) => void
+    getContent: (onClose: () => void) => JSX.Element,
+  ) => void,
 ] => {
   const [popoverState, setPopoverState] = React.useState<{
     el: HTMLElement | null;
@@ -50,7 +50,7 @@ export const usePopover = (
   const showPopover = (
     title: string,
     el: HTMLElement,
-    getContent: (onClose: () => void) => JSX.Element
+    getContent: (onClose: () => void) => JSX.Element,
   ): void => {
     setPopoverState({
       el,

@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { UUID } from 'io-ts-types/UUID';
+import { UUID } from "io-ts-types/UUID";
 import { optionFromNullable } from "io-ts-types/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { Page } from "../io/http";

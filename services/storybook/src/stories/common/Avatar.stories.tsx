@@ -1,4 +1,7 @@
-import { Avatar, type AvatarProps } from "@liexp/ui/lib/components/Common/Avatar";
+import {
+  Avatar,
+  type AvatarProps,
+} from "@liexp/ui/lib/components/Common/Avatar";
 import { MainContent } from "@liexp/ui/lib/components/MainContent";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import { useActorsQuery } from "@liexp/ui/lib/state/queries/actor.queries";

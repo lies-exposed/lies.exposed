@@ -117,7 +117,7 @@ export class VaccineEffectivenessIndicators extends React.PureComponent {
               <div>
                 RRR:{" "}
                 {(100 - (data.infected / severeData[0].infected) * 100).toFixed(
-                  2
+                  2,
                 )}
                 %
               </div>

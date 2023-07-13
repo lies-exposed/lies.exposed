@@ -17,14 +17,14 @@ export const createGroup =
   (client: APIRESTClient) =>
   (
     resource: string,
-    params: CreateParams<any>
+    params: CreateParams<any>,
   ): Promise<CreateResult<Group>> => {
     const { avatar, ...data } = params.data;
 
     return pipe(
       TE.tryCatch(
         () => client.create<Group>(resource, { ...params, data: { ...data } }),
-        E.toError
+        E.toError,
       ),
       TE.chain((result) => {
         const avatarTask =
@@ -45,12 +45,12 @@ export const createGroup =
                     avatar: location,
                   },
                 }),
-              E.toError
-            )
-          )
+              E.toError,
+            ),
+          ),
         );
       }),
-      throwTE
+      throwTE,
     );
   };
 
@@ -58,7 +58,7 @@ export const editGroup =
   (client: APIRESTClient) =>
   (
     resource: string,
-    params: UpdateParams<Group>
+    params: UpdateParams<Group>,
   ): Promise<UpdateResult<Group>> => {
     const { avatar, ...data } = params.data;
 
@@ -82,9 +82,9 @@ export const editGroup =
                 avatar: location,
               },
             }),
-          E.toError
-        )
+          E.toError,
+        ),
       ),
-      throwTE
+      throwTE,
     );
   };

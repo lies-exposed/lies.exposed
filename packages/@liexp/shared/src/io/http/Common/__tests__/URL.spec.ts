@@ -4,7 +4,7 @@ import { URL } from "../URL";
 describe("URL codec", () => {
   const expectAll = (urls: string[]): void => {
     urls.forEach((u) => {
-      expect(URL.decode(u)).toMatchObject({ _tag: 'Right', });
+      expect(URL.decode(u)).toMatchObject({ _tag: "Right" });
     });
   };
 

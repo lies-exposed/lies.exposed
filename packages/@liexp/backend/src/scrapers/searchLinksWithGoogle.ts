@@ -33,7 +33,7 @@ export const searchWithGoogle =
     pageTotal: number,
     q: string,
     date: string | undefined,
-    keywords: string[]
+    keywords: string[],
   ): TE.TaskEither<PuppeteerError, string[]> => {
     return pipe(
       TE.tryCatch(async () => {
@@ -62,14 +62,14 @@ export const searchWithGoogle =
         // walk page
         const walkPage = async (
           p: number,
-          links: string[]
+          links: string[],
         ): Promise<string[]> => {
           ctx.logger.debug.log("Walk page %d: %O", p, links);
 
           await page.waitForSelector(`a[href^="https://${site}"]`);
           const pageLinks = await page.$$eval(
             `a[href^="https://${site}"]`,
-            (el) => el.map((l) => l.getAttribute("href") as any as string)
+            (el) => el.map((l) => l.getAttribute("href") as any as string),
           );
 
           const ll = pipe(links.concat(pageLinks), A.uniq(S.Eq));
@@ -79,7 +79,7 @@ export const searchWithGoogle =
               "Page (%d/%d), returning collected links %O",
               p,
               pageTotal,
-              ll
+              ll,
             );
             return ll;
           }
@@ -133,6 +133,6 @@ export const searchWithGoogle =
         const links = await walkPage(1, []);
 
         return links;
-      }, toPuppeteerError)
+      }, toPuppeteerError),
     );
   };

@@ -22,7 +22,7 @@ export const infiniteListCache: Record<string, Record<number, any>> = {};
 
 export const getFromCache = <T extends t.Any, M>(
   cacheKey: string,
-  p: number
+  p: number,
 ): TE.TaskEither<APIError, (t.TypeOf<T> & { metadata: M }) | undefined> =>
   TE.fromIO<(t.TypeOf<T> & { metadata: M }) | undefined, APIError>(() => {
     const cache = infiniteListCache[cacheKey]?.[p];
@@ -33,13 +33,13 @@ export const getFromCache = <T extends t.Any, M>(
 export const buildFromCache = <T extends t.Any, M>(
   cacheKey: string,
   page: number,
-  empty: M
+  empty: M,
 ): TE.TaskEither<APIError, t.TypeOf<T> & { metadata: M }> => {
   return TE.fromIO<t.TypeOf<T> & { metadata: M }, APIError>(() => {
     stateLogger.debug.log(
       "[%s] Build data from cache until page %d",
       cacheKey,
-      page
+      page,
     );
     const storedResponse = pipe(
       infiniteListCache[cacheKey] ?? {},
@@ -56,9 +56,9 @@ export const buildFromCache = <T extends t.Any, M>(
             }
             return acc;
           },
-          { data: [], totals: {}, metadata: empty }
+          { data: [], totals: {}, metadata: empty },
         );
-      }
+      },
     );
     stateLogger.debug.log(`[%s] Stored data %O`, cacheKey, storedResponse);
     return storedResponse;

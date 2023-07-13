@@ -1,23 +1,19 @@
 import * as React from "react";
 import ReactTOC from "react-toc";
-import { styled } from '../../theme';
+import { styled } from "../../theme";
 
-const PREFIX = 'TOC';
+const PREFIX = "TOC";
 
 const classes = {
-  root: `${PREFIX}-root`
+  root: `${PREFIX}-root`,
 };
 
-const StyledReactTOC = styled(ReactTOC)((
-  {
-    theme
-  }
-) => ({
+const StyledReactTOC = styled(ReactTOC)(({ theme }) => ({
   [`&.${classes.root}`]: {
     margin: "10px 0",
     padding: 0,
     fontFamily: theme.typography.h1.fontFamily,
-  }
+  },
 }));
 
 interface TOCProps {
@@ -30,6 +26,5 @@ interface TOCProps {
   customMatchers?: any;
 }
 export const TOC: React.FC<TOCProps> = (props) => {
-
   return <StyledReactTOC className={classes.root} {...props} />;
 };

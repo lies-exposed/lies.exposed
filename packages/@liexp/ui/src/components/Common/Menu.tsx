@@ -19,7 +19,11 @@ interface MenuProps {
 const Menu: React.FC<MenuProps> = (props) => {
   const [open, setOpen] = React.useState(false);
   return (
-    <ul onClick={() => { setOpen(!open); }}>
+    <ul
+      onClick={() => {
+        setOpen(!open);
+      }}
+    >
       {props.sections.map(({ label, items }, i) => (
         <>
           {label !== undefined ? <p className="menu-label">{label}</p> : null}

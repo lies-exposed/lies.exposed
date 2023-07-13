@@ -1,12 +1,15 @@
-import { type APIError } from '@liexp/shared/lib/io/http/Error/APIError';
+import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
 import * as React from "react";
-import { type QueryObserverSuccessResult, type UseQueryResult } from "react-query";
+import {
+  type QueryObserverSuccessResult,
+  type UseQueryResult,
+} from "react-query";
 import { ErrorBox } from "./Common/ErrorBox";
 import { FullSizeLoader } from "./Common/FullSizeLoader";
 import { Loader } from "./Common/Loader";
 
 interface QueriesRendererProps<
-  Q extends Record<string, UseQueryResult<any, APIError>>
+  Q extends Record<string, UseQueryResult<any, APIError>>,
 > {
   loader?: "fullsize" | "default";
   queries: Q;
@@ -20,7 +23,7 @@ interface QueriesRendererProps<
 }
 
 const QueriesRenderer = <
-  Q extends Record<string, UseQueryResult<any, APIError>>
+  Q extends Record<string, UseQueryResult<any, APIError>>,
 >({
   queries,
   loader = "default",
@@ -56,7 +59,7 @@ const QueriesRenderer = <
       isError: false,
       errors: initialErrors,
       data: {},
-    }
+    },
   );
 
   // console.log("query render", { isLoading, data });

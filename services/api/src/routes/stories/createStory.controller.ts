@@ -12,7 +12,7 @@ export const MakeCreateStoryRoute: Route = (r, ctx) => {
     Endpoints.Story.Create,
     (
       { body: { body2, actors, groups, media, events, keywords, ...body } },
-      r
+      r,
     ) => {
       const featuredImage = pipe(body.featuredImage, O.toNullable);
       return pipe(
@@ -37,7 +37,7 @@ export const MakeCreateStoryRoute: Route = (r, ctx) => {
             loadRelationIds: {
               relations: ["keywords"],
             },
-          })
+          }),
         ),
         TE.chainEitherK(toStoryIO),
         TE.map((data) => ({
@@ -45,8 +45,8 @@ export const MakeCreateStoryRoute: Route = (r, ctx) => {
             data,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

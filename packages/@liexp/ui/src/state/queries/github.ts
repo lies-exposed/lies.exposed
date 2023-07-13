@@ -1,4 +1,4 @@
-import { type APIError } from '@liexp/shared/lib/io/http/Error/APIError';
+import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
 import { useQuery, type UseQueryResult } from "react-query";
 import { foldTE } from "../../providers/DataProvider";
 import { api } from "../api";
@@ -11,8 +11,8 @@ export const fetchGithubRepo = ({ queryKey }: any): Promise<any> => {
   }
   return foldTE(
     api.get(
-      `https://api.github.com/repos/${queryKey[1].user}/${queryKey[1].repo}`
-    )
+      `https://api.github.com/repos/${queryKey[1].user}/${queryKey[1].repo}`,
+    ),
   );
 };
 

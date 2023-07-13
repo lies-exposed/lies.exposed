@@ -8,7 +8,7 @@ import { type RouteContext } from "@routes/route.types";
 
 export const MakeDeathEventsRoutes = (
   router: Router,
-  ctx: RouteContext
+  ctx: RouteContext,
 ): void => {
   MakeCreateDeathEventRoute(router, ctx);
   MakeEditDeathEventRoute(router, ctx);

@@ -36,7 +36,9 @@ export const GroupChip: React.FC<GroupChipProps> = ({
         margin: 0,
         ...style,
       }}
-      onClick={() => { onClick?.(group); }}
+      onClick={() => {
+        onClick?.(group);
+      }}
     >
       {pipe(
         O.fromNullable(group.avatar),
@@ -48,7 +50,7 @@ export const GroupChip: React.FC<GroupChipProps> = ({
             style={{ margin: 5, ...avatarStyle }}
           />
         )),
-        O.toNullable
+        O.toNullable,
       )}
       {displayFullName ? (
         <Typography variant="caption" style={displayNameStyle}>

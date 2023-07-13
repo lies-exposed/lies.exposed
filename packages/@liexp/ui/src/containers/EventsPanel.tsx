@@ -159,7 +159,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
     (update: Partial<SearchEventsQueryInputNoPagination>): void => {
       onQueryChange({ ...query, ...update, hash }, tab);
     },
-    [hash, tab, query, slide]
+    [hash, tab, query, slide],
   );
 
   const handleEventClick = React.useCallback((e: SearchEvent.SearchEvent) => {
@@ -176,7 +176,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
         actors,
       });
     },
-    [query]
+    [query],
   );
 
   const onGroupsChange = React.useCallback(
@@ -190,7 +190,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
         groups,
       });
     },
-    [query]
+    [query],
   );
 
   const onGroupMembersChange = React.useCallback(
@@ -199,7 +199,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
         groupsMembers,
       });
     },
-    [query]
+    [query],
   );
 
   const onKeywordsChange = React.useCallback(
@@ -212,7 +212,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
         keywords,
       });
     },
-    [query]
+    [query],
   );
 
   return (
@@ -276,7 +276,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
               onGroupMembersChange(
                 gmgg.includes(gm.id)
                   ? gmgg.filter((aa) => gm.id !== aa)
-                  : gmgg.concat(gm.id)
+                  : gmgg.concat(gm.id),
               );
             }}
             onActorClick={onActorsChange}
@@ -323,7 +323,7 @@ export const EventsPanelBox: React.FC<EventsPanelBoxProps> = ({
             filter: { ids: query.groups },
           },
           true,
-          `events-groups-${query.hash}`
+          `events-groups-${query.hash}`,
         ),
         actors: useActorsQuery(
           {
@@ -332,7 +332,7 @@ export const EventsPanelBox: React.FC<EventsPanelBoxProps> = ({
             filter: { ids: query.actors },
           },
           true,
-          `events-actors-${query.hash}`
+          `events-actors-${query.hash}`,
         ),
         keywords: useKeywordsQuery(
           {
@@ -341,7 +341,7 @@ export const EventsPanelBox: React.FC<EventsPanelBoxProps> = ({
             filter: { ids: query.keywords },
           },
           true,
-          `events-keywords-${query.hash}`
+          `events-keywords-${query.hash}`,
         ),
       }}
       render={({
@@ -352,7 +352,6 @@ export const EventsPanelBox: React.FC<EventsPanelBoxProps> = ({
         return (
           <EventsPanel
             {...props}
-
             query={query}
             actors={actors}
             groups={groups}

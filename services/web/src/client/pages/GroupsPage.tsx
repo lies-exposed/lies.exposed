@@ -35,7 +35,7 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
               sort: { field: "id", order: "ASC" },
               filter: {},
             },
-            false
+            false,
           ),
         }}
         render={({ groups }) => (

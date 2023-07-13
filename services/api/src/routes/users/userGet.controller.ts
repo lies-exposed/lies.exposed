@@ -18,8 +18,8 @@ export const MakeUserGetRoute = (r: Router, ctx: RouteContext): void => {
         TE.map((user) => ({
           body: { data: user },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

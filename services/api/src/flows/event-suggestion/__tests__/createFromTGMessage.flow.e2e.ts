@@ -81,20 +81,20 @@ describe("Create From TG Message", () => {
               },
             ],
           },
-          {}
+          {},
         ),
-        throwTE
+        throwTE,
       );
 
       const { id, ...expectedExcerpt } = createExcerptValue(description);
       expectedExcerpt.rows = expectedExcerpt.rows.map(
-        ({ id, ...r }) => r
+        ({ id, ...r }) => r,
       ) as any[];
 
       const expectedLink = await throwTE(
         Test.ctx.db.findOneOrFail(LinkEntity, {
           where: { url: sanitizeURL(url) },
-        })
+        }),
       );
 
       expect(result).toMatchObject({
@@ -135,8 +135,8 @@ describe("Create From TG Message", () => {
               },
             ],
           },
-          {}
-        )
+          {},
+        ),
       );
 
       await throwTE(Test.ctx.db.delete(LinkEntity, [link.id]));
@@ -164,13 +164,13 @@ describe("Create From TG Message", () => {
 
       const tempFileLocation = path.resolve(
         tempDir,
-        `${message.message_id}.png`
+        `${message.message_id}.png`,
       );
       fs.writeFileSync(tempFileLocation, new Uint8Array(10));
 
       // mock tg download
       Test.mocks.tg.bot.api.downloadFile.mockImplementationOnce(() =>
-        Promise.resolve(tempFileLocation)
+        Promise.resolve(tempFileLocation),
       );
 
       // mock puppeteer goto
@@ -181,28 +181,25 @@ describe("Create From TG Message", () => {
         Promise.resolve({
           Key: fc.sample(fc.string(), 1)[0],
           Location: fc.sample(fc.webUrl(), 1)[0],
-        })
+        }),
       );
 
       const result = await throwTE(createFromTGMessage(Test.ctx)(message, {}));
 
       const { id, ...expectedExcerpt } = createExcerptValue(message.caption);
       expectedExcerpt.rows = expectedExcerpt.rows.map(
-        ({ id, ...r }) => r
+        ({ id, ...r }) => r,
       ) as any[];
 
       const { creator, areas, keywords, stories, ...media } = await throwTE(
         Test.ctx.db.findOneOrFail(MediaEntity, {
           where: { description: Equal(message.caption) },
-        })
+        }),
       );
 
       if (result.link.length > 0) {
         await throwTE(
-          Test.ctx.db.delete(
-            LinkEntity,
-            result.link?.map((l) => l.id)
-          )
+          Test.ctx.db.delete(LinkEntity, result.link?.map((l) => l.id)),
         );
       }
 
@@ -210,7 +207,7 @@ describe("Create From TG Message", () => {
         Test.ctx.db.delete(MediaEntity, [
           ...result.photos.map((m) => m.id),
           ...result.videos.map((m) => m.id),
-        ])
+        ]),
       );
 
       Test.ctx.logger.debug.log("Result %O", result);
@@ -252,7 +249,7 @@ describe("Create From TG Message", () => {
                   platform: "youtube",
                   id: ytURLChunks[ytURLChunks?.length - 1],
                 },
-                m.caption_entities?.[1].url as any
+                m.caption_entities?.[1].url as any,
               ),
             },
           ];
@@ -293,7 +290,7 @@ describe("Create From TG Message", () => {
                   platform: "youtube",
                   id: ytURLChunks[ytURLChunks?.length - 1],
                 },
-                m.caption_entities?.[1].url as any
+                m.caption_entities?.[1].url as any,
               ),
             },
           ];
@@ -309,7 +306,7 @@ describe("Create From TG Message", () => {
             {
               url: m.caption?.slice(
                 m.caption_entities?.[0].offset,
-                m.caption_entities?.[0].length
+                m.caption_entities?.[0].length,
               ),
             },
           ];
@@ -345,7 +342,7 @@ describe("Create From TG Message", () => {
                   platform: "youtube",
                   id: ytURLChunks[ytURLChunks?.length - 1],
                 },
-                m.caption_entities?.[1].url as any
+                m.caption_entities?.[1].url as any,
               ),
             },
           ];
@@ -396,7 +393,7 @@ describe("Create From TG Message", () => {
             {
               url: m.caption?.slice(
                 m.caption_entities?.[0].offset,
-                m.caption_entities?.[0].length
+                m.caption_entities?.[0].length,
               ),
             },
           ];
@@ -480,7 +477,7 @@ describe("Create From TG Message", () => {
             {
               url: m.text?.slice(
                 m.entities?.[1].offset,
-                m.entities?.[1].length
+                m.entities?.[1].length,
               ),
             },
           ];
@@ -496,9 +493,9 @@ describe("Create From TG Message", () => {
         const message = pipe(
           fs.readFileSync(
             path.resolve(__dirname, `../../../../temp/tg/messages/${c.n}.json`),
-            "utf-8"
+            "utf-8",
           ),
-          JSON.parse
+          JSON.parse,
         );
 
         Test.ctx.logger.debug.log("Message %O", message);
@@ -519,7 +516,7 @@ describe("Create From TG Message", () => {
 
         Test.ctx.logger.debug.log(
           "Photos and videos %d",
-          photos.length + videos.length
+          photos.length + videos.length,
         );
         Test.mocks.tg.bot.api.downloadFile.mockReset();
         Test.mocks.s3.client.send.mockReset();
@@ -530,14 +527,14 @@ describe("Create From TG Message", () => {
           Test.ctx.logger.debug.log("Mock photo upload %O", p);
           const tempFileLocation = path.resolve(
             tempDir,
-            `${message.message_id}.png`
+            `${message.message_id}.png`,
           );
 
           fs.writeFileSync(tempFileLocation, new Uint8Array(10));
 
           // mock tg download
           Test.mocks.tg.bot.api.downloadFile.mockImplementationOnce(() =>
-            Promise.resolve(tempFileLocation)
+            Promise.resolve(tempFileLocation),
           );
 
           // mock s3 upload
@@ -545,7 +542,7 @@ describe("Create From TG Message", () => {
             Promise.resolve({
               Key: fc.sample(fc.string(), 1)[0],
               Location: fc.sample(fc.webUrl(), 1)[0],
-            })
+            }),
           );
         });
 
@@ -553,7 +550,7 @@ describe("Create From TG Message", () => {
           Test.ctx.logger.debug.log("Mock video upload %O", p);
           const tempFileLocation = path.resolve(
             tempDir,
-            `${message.message_id}.png`
+            `${message.message_id}.png`,
           );
 
           fs.writeFileSync(tempFileLocation, new Uint8Array(10));
@@ -573,7 +570,7 @@ describe("Create From TG Message", () => {
                   fc
                     .string({ minLength: 10, maxLength: 12 })
                     .map((id) => `https://youtube.com/watch?v=${id}`),
-                  1
+                  1,
                 )[0],
               });
             })
@@ -584,21 +581,21 @@ describe("Create From TG Message", () => {
                   fc
                     .string({ minLength: 10, maxLength: 12 })
                     .map((id) => `https://youtube.com/watch?v=${id}`),
-                  1
+                  1,
                 )[0],
-              })
+              }),
             );
         });
 
         const result = await throwTE(
-          createFromTGMessage(Test.ctx)(message, {})
+          createFromTGMessage(Test.ctx)(message, {}),
         );
 
         expect(result.link).toMatchObject(
           urls.map((url) => ({
             ...url,
             description: url.description ?? null,
-          }))
+          })),
         );
         expect(result.photos).toMatchObject(photos);
         expect(result.videos).toMatchObject([...videos, ...platformVideos]);
@@ -607,8 +604,8 @@ describe("Create From TG Message", () => {
           await throwTE(
             Test.ctx.db.delete(
               LinkEntity,
-              result.link.map((p) => p.id)
-            )
+              result.link.map((p) => p.id),
+            ),
           );
         }
 
@@ -617,10 +614,10 @@ describe("Create From TG Message", () => {
             Test.ctx.db.delete(MediaEntity, [
               ...result.photos.map((p) => p.id),
               ...result.videos.map((v) => v.id),
-            ])
+            ]),
           );
         }
-      }
+      },
     );
   });
 });

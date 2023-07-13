@@ -20,17 +20,17 @@ export const MakeListGroupRoute = (r: Router, ctx: RouteContext): void => {
               toGroupIO({
                 ...g,
                 members: g.members.map((d) => d.id) as any,
-              })
+              }),
             ),
             TE.fromEither,
-            TE.map((data) => ({ total, data }))
-          )
-        )
+            TE.map((data) => ({ total, data })),
+          ),
+        ),
       ),
       TE.map((body) => ({
         body,
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

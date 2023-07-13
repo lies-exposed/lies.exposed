@@ -1,5 +1,5 @@
 import { type Link } from "@liexp/shared/lib/io/http";
-import { LINK_INLINE } from '@liexp/shared/lib/slate/plugins/customSlate';
+import { LINK_INLINE } from "@liexp/shared/lib/slate/plugins/customSlate";
 import RecentLinksIcon from "@mui/icons-material/LinkOutlined";
 import type { CellPluginComponentProps, DataTType } from "@react-page/editor";
 import { pluginFactories } from "@react-page/plugins-slate";
@@ -44,7 +44,7 @@ export const LinkInlineControlContent: React.FC<{
 
   const selectedItems = React.useMemo(
     () => ([] as any[]).concat(s.actor ? [s.actor] : []),
-    [s.actor]
+    [s.actor],
   );
 
   return (
@@ -177,7 +177,7 @@ export const LinkInlineRenderer: SlateComponentPluginDefinition<LinkInlineState>
     useFocused,
     getTextContents,
     children,
-     ...props
+    ...props
   }) => {
     // console.log({ ...props, displayAvatar, className });
     if (actor) {
@@ -194,8 +194,8 @@ export const LinkInlineRenderer: SlateComponentPluginDefinition<LinkInlineState>
     return <span>Select an actor...</span>;
   };
 
-const linkInlinePlugin =
-  pluginFactories.createComponentPlugin<LinkInlineState>({
+const linkInlinePlugin = pluginFactories.createComponentPlugin<LinkInlineState>(
+  {
     Component: LinkInlineRenderer,
     controls: {
       type: "custom",
@@ -208,7 +208,8 @@ const linkInlinePlugin =
     isVoid: true,
     icon: <RecentLinksIcon />,
     label: "Link",
-  });
+  },
+);
 
 export const LinkInlinePluginIcon = RecentLinksIcon;
 export { linkInlinePlugin };

@@ -33,7 +33,7 @@ const GroupPage: React.FC<{ groupId: string }> = ({ groupId }) => {
                 { id: k.id },
                 {
                   tab: 0,
-                }
+                },
               );
             }}
             onActorClick={(a) => {

@@ -13,7 +13,7 @@ export const WHOCovid19GlobalData = t.strict(
     New_deaths: NumberFromString,
     Cumulative_deaths: NumberFromString,
   },
-  "WHOCovid19GlobalData"
+  "WHOCovid19GlobalData",
 );
 
 export type WHOCovid19GlobalData = t.TypeOf<typeof WHOCovid19GlobalData>;

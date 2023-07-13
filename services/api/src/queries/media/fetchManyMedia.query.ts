@@ -45,7 +45,7 @@ export const fetchManyMedia: TEFlow<
 
   const type = pipe(
     _type,
-    fp.O.map((tp) => (t.array(t.string).is(tp) ? tp : [tp]))
+    fp.O.map((tp) => (t.array(t.string).is(tp) ? tp : [tp])),
   );
 
   return pipe(
@@ -126,7 +126,7 @@ export const fetchManyMedia: TEFlow<
 
       const includeDeleted = pipe(
         deletedOnly,
-        fp.O.getOrElse(() => false)
+        fp.O.getOrElse(() => false),
       );
       if (includeDeleted) {
         q.where("media.deletedAt IS NOT NULL").withDeleted();
@@ -145,10 +145,10 @@ export const fetchManyMedia: TEFlow<
       ctx.logger.debug.log(
         "Skip %d, take %d",
         findOptions.skip,
-        findOptions.take
+        findOptions.take,
       );
       return q.skip(findOptions.skip).take(findOptions.take);
     },
-    (q) =>  ctx.db.execQuery(() => q.getManyAndCount())
+    (q) => ctx.db.execQuery(() => q.getManyAndCount()),
   );
 };

@@ -39,8 +39,8 @@ export const CreateEventFromSuggestionRoute: Route = (r, ctx) => {
                   id,
                   status: "COMPLETED",
                 },
-              ])
-            )
+              ]),
+            ),
           );
         }),
         TE.map(([data]) => ({
@@ -48,8 +48,8 @@ export const CreateEventFromSuggestionRoute: Route = (r, ctx) => {
             data,
           },
           statusCode: 201,
-        }))
+        })),
       );
-    }
+    },
   );
 };

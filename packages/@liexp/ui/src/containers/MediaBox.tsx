@@ -39,7 +39,7 @@ export const MediaBox: React.FC<MediaBoxProps> = ({
               page: limit ? 1 : page,
             },
           },
-          false
+          false,
         ),
       }}
       render={({ media: { total, data: media } }) => {

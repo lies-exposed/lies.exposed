@@ -29,7 +29,7 @@ import { toEventV2IO } from "@routes/events/eventV2.io";
 
 const ordByDate = pipe(
   fp.N.Ord,
-  fp.Ord.contramap((n: Events.Event) => differenceInDays(n.date, new Date()))
+  fp.Ord.contramap((n: Events.Event) => differenceInDays(n.date, new Date())),
 );
 
 const updateMap = (m: Map<string, any[]>) => (ids: any[], eId: string) => {
@@ -48,9 +48,9 @@ const updateMap = (m: Map<string, any[]>) => (ids: any[], eId: string) => {
                 source: l.target,
                 color: toColor(a.color),
                 target: eId,
-              })
-            )
-          )
+              }),
+            ),
+          ),
         ),
         fp.O.getOrElse(() => [
           {
@@ -60,10 +60,12 @@ const updateMap = (m: Map<string, any[]>) => (ids: any[], eId: string) => {
             target: eId,
           },
         ]),
-        (links): [string, any[]] => [a.id, links]
-      )
+        (links): [string, any[]] => [a.id, links],
+      ),
     ),
-    fp.A.reduce(m, (acc, [k, ll]) => pipe(acc, fp.Map.upsertAt(fp.S.Eq)(k, ll)))
+    fp.A.reduce(m, (acc, [k, ll]) =>
+      pipe(acc, fp.Map.upsertAt(fp.S.Eq)(k, ll)),
+    ),
   );
 };
 
@@ -92,15 +94,15 @@ export const getFlowGraph =
           arr,
           fp.A.head,
           fp.O.map((ev) => ev.date),
-          fp.O.getOrElse(() => subYears(new Date(), 1))
+          fp.O.getOrElse(() => subYears(new Date(), 1)),
         ),
         endDate: pipe(
           arr,
           fp.A.last,
           fp.O.map((ev) => ev.date),
-          fp.O.getOrElse(() => new Date())
+          fp.O.getOrElse(() => new Date()),
         ),
-      })
+      }),
     );
 
     const initialResult = {
@@ -129,16 +131,16 @@ export const getFlowGraph =
 
         const actorLinks = updateMap(acc.actorLinks)(
           actors.filter((a) => eventActors.includes(a.id)),
-          n.id
+          n.id,
         );
         const groupLinks = updateMap(acc.groupLinks)(
           groups.filter((g) => eventGroups.includes(g.id)),
-          n.id
+          n.id,
         );
 
         const keywordLinks = updateMap(acc.keywordLinks)(
           keywords.filter((g) => eventKeywords.includes(g.id)),
-          n.id
+          n.id,
         );
 
         return {
@@ -147,7 +149,7 @@ export const getFlowGraph =
           keywordLinks,
           totals: getTotals(acc.totals, n),
         };
-      })
+      }),
     );
 
     l.debug.log("Actor links %O", graph.actorLinks);
@@ -155,7 +157,7 @@ export const getFlowGraph =
     const actorLinks = pipe(
       fp.Map.toArray(fp.S.Ord)(graph.actorLinks),
       fp.A.map(([k, links]) => links),
-      fp.A.flatten
+      fp.A.flatten,
     );
 
     l.debug.log("Actor links %O", actorLinks);
@@ -163,13 +165,13 @@ export const getFlowGraph =
     const groupLinks = pipe(
       fp.Map.toArray(fp.S.Ord)(graph.groupLinks),
       fp.A.map(([k, links]) => links),
-      fp.A.flatten
+      fp.A.flatten,
     );
 
     const keywordLinks = pipe(
       fp.Map.toArray(fp.S.Ord)(graph.keywordLinks),
       fp.A.map(([k, links]) => links),
-      fp.A.flatten
+      fp.A.flatten,
     );
 
     return {
@@ -198,7 +200,7 @@ export const createFlowGraph: TEFlow<
     ctx.logger.debug.log(`Flow graph for %s (%s) %O`, type, id, query);
     const filePath = path.resolve(
       process.cwd(),
-      `temp/graphs/flows/${type}/${id}.json`
+      `temp/graphs/flows/${type}/${id}.json`,
     );
 
     const createFlowGraphTask = pipe(
@@ -208,11 +210,11 @@ export const createFlowGraph: TEFlow<
         emptyRelations,
       }),
       fp.TE.chainEitherK(({ results }) =>
-        pipe(results.map(toEventV2IO), fp.A.sequence(fp.E.Applicative))
+        pipe(results.map(toEventV2IO), fp.A.sequence(fp.E.Applicative)),
       ),
       fp.TE.map(takeEventRelations),
       fp.TE.chain(fetchEventsRelations(ctx)),
-      fp.TE.map(getFlowGraph(ctx.logger))
+      fp.TE.map(getFlowGraph(ctx.logger)),
     );
 
     return pipe(createFlowGraphTask, ctx.fs.getOlderThanOr(filePath, 6));

@@ -1,7 +1,11 @@
 import { ByActor, ByGroup } from "@liexp/shared/lib/io/http/Common";
 import _ from "lodash";
 import React from "react";
-import { FormDataConsumer, type ReferenceInputProps, SelectInput } from "react-admin";
+import {
+  FormDataConsumer,
+  type ReferenceInputProps,
+  SelectInput,
+} from "react-admin";
 import { Box } from "../../mui";
 import ReferenceActorInput from "../actors/ReferenceActorInput";
 import ReferenceGroupInput from "../groups/ReferenceGroupInput";

@@ -20,7 +20,7 @@ const AreaPreview: React.FC = () => {
       http.Area.Area.decode({
         ...(record ?? {}),
       }),
-    [record]
+    [record],
   );
 
   if (!record) {
@@ -39,7 +39,7 @@ const AreaPreview: React.FC = () => {
           </QueryClientProvider>
         </ThemeProvider>
       </HelmetProvider>
-    ))
+    )),
   );
 };
 

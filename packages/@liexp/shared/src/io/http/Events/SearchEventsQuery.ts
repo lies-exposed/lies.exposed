@@ -30,7 +30,7 @@ export const GetSearchEventsQuery = t.strict(
     emptyMedia: optionFromUndefined(BooleanFromString),
     emptyLinks: optionFromUndefined(BooleanFromString),
   },
-  "GetEventsQueryFilter"
+  "GetEventsQueryFilter",
 );
 
 export type GetSearchEventsQuery = t.TypeOf<typeof GetSearchEventsQuery>;
@@ -44,9 +44,9 @@ export const EventTotals = t.strict(
     patents: t.number,
     documentaries: t.number,
     transactions: t.number,
-    quotes: t.number
+    quotes: t.number,
   },
-  "EventTotals"
+  "EventTotals",
 );
 
 export type EventTotals = t.TypeOf<typeof EventTotals>;

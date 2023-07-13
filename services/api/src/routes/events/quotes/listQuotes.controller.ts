@@ -68,14 +68,14 @@ export const MakeGetListQuoteRoute: Route = (r, ctx) => {
             results,
             A.traverse(E.Applicative)(toEventV2IO),
             TE.fromEither,
-            TE.map((data) => ({ data, total: quotes }))
-          )
+            TE.map((data) => ({ data, total: quotes })),
+          ),
         ),
         TE.map((body) => ({
           body,
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

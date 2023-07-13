@@ -3,7 +3,7 @@ import { SelectInput, type SelectInputProps } from "ra-ui-materialui";
 import * as React from "react";
 
 export const MediaTypeInput: React.FC<Omit<SelectInputProps, "choices">> = (
-  props
+  props,
 ) => {
   return (
     <SelectInput

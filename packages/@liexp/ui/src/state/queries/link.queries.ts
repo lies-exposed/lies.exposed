@@ -19,7 +19,7 @@ export const defaultGetLinksQueryParams = {
 
 export const getLinksQueryKey = (
   p: Partial<GetListParams>,
-  discrete: boolean
+  discrete: boolean,
 ): [string, GetListParams, boolean] => {
   return [
     "links",
@@ -38,7 +38,7 @@ export const getLinksQueryKey = (
   ];
 };
 export const fetchLinks: FetchQuery<typeof Queries.Link.getList> = fetchQuery(
-  Queries.Link.getList
+  Queries.Link.getList,
 );
 
 export const useLinksQuery: UseListQueryFn<Link.Link> = (params, discrete) => {
@@ -48,9 +48,6 @@ export const useLinksQuery: UseListQueryFn<Link.Link> = (params, discrete) => {
 export const getLinkQueryKey = (id: string): any[] => ["link", { id }];
 export const fetchSingleLink = fetchQuery(Queries.Link.get);
 
-export const useGetLinkQuery = (
-  id: string
-): UseQueryResult<Link.Link, any> => {
+export const useGetLinkQuery = (id: string): UseQueryResult<Link.Link, any> => {
   return useQuery(getLinkQueryKey(id), fetchSingleLink);
 };
-

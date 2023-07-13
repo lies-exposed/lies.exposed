@@ -14,7 +14,7 @@ const classes = {
 const StyledSlider = styled(Slider)(({ theme }) => ({
   [`&.${classes.root}`]: {
     width: "100%",
-    backround: 'red',
+    backround: "red",
     [`& .${classes.item}`]: {
       margin: "auto",
       width: "100%",

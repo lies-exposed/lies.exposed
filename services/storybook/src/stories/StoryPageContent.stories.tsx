@@ -28,7 +28,7 @@ const Template: StoryFn<StoryPageContentProps> = (props) => {
             sort: { field: "date", order: "DESC" },
             filter: { draft: true },
           },
-          false
+          false,
         ),
       }}
       render={({ article }) => {

@@ -12,7 +12,7 @@ import { LinkArrayInput } from "../links/LinkArrayInput";
 import { MediaField } from "../media/MediaField";
 
 export const ReferenceLinkTab: React.FC<
-  Omit<ReferenceFieldProps<RaRecord<string>>, 'reference'>
+  Omit<ReferenceFieldProps<RaRecord<string>>, "reference">
 > = (props) => {
   const newLinksSource =
     props.source?.split(".").slice(0, -1).concat("newLinks").join(".") ??

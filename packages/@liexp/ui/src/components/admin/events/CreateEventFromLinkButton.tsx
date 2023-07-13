@@ -14,7 +14,7 @@ export const CreateEventFromLinkButton: React.FC = () => {
   const apiProvider = useDataProvider();
 
   const [type, setType] = React.useState<string>(
-    io.http.Events.EventType.types[1].value
+    io.http.Events.EventType.types[1].value,
   );
   const [suggestion, setSuggestion] = React.useState<any>(undefined);
 
@@ -41,7 +41,7 @@ export const CreateEventFromLinkButton: React.FC = () => {
             links: relations.links.map((k: any) => k.id),
             groupsMembers: [],
             media: [],
-          }
+          },
         );
 
         return suggestions.find((t) => t.event.type === type);

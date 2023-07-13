@@ -1,5 +1,5 @@
 import { type Actor } from "@liexp/shared/lib/io/http";
-import { type APIError } from '@liexp/shared/lib/io/http/Error/APIError';
+import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
 import type { GetListParams, GetOneParams } from "react-admin";
 import { useQuery, type UseQueryResult } from "react-query";
 import { Queries } from "../../providers/DataProvider";
@@ -15,7 +15,7 @@ export const defaultGetActorsQueryParams = {
 export const getActorsQueryKey = (
   suffix: string,
   p: Partial<GetListParams>,
-  discrete: boolean
+  discrete: boolean,
 ): [string, GetListParams, boolean] => {
   return [
     `actors-${suffix}`,
@@ -37,13 +37,13 @@ export const getActorsQueryKey = (
 };
 
 export const fetchActors: FetchQuery<typeof Queries.Actor.getList> = fetchQuery(
-  Queries.Actor.getList
+  Queries.Actor.getList,
 );
 
 export const useActorsQuery: UseListQueryFn<Actor.Actor> = (
   params,
   discrete,
-  suffix = ""
+  suffix = "",
 ) => {
   return useQuery(getActorsQueryKey(suffix, params, discrete), fetchActors);
 };
@@ -56,7 +56,7 @@ export const fetchActor = async ({ queryKey }: any): Promise<Actor.Actor> =>
   await Queries.Actor.get({ id: queryKey[1].id });
 
 export const useActorQuery = (
-  params: GetOneParams
+  params: GetOneParams,
 ): UseQueryResult<Actor.Actor, APIError> => {
   return useQuery(getActorQueryKey(params), fetchActor);
 };

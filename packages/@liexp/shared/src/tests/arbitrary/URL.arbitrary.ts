@@ -8,12 +8,12 @@ export const URLArb = fc
     extension: fc.oneof(
       fc.constant("com"),
       fc.constant("org"),
-      fc.constant("it")
+      fc.constant("it"),
     ),
     segments: HumanReadableStringArb({ joinChar: "/" }),
     query: fc.webQueryParameters(),
   })
   .map(
     ({ protocol, domain, extension, segments, query }) =>
-      `${protocol}://${domain.toLocaleLowerCase()}.${extension}/${segments}?${query}` as any
+      `${protocol}://${domain.toLocaleLowerCase()}.${extension}/${segments}?${query}` as any,
   );

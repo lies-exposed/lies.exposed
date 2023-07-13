@@ -8,11 +8,11 @@ import { ResourceEndpoints } from "../types";
 
 const SingleDocumentaryOutput = Output(
   Events.Documentary.Documentary,
-  "Documentary"
+  "Documentary",
 );
 const ListDocumentariesOutput = ListOutput(
   Events.Documentary.Documentary,
-  "Documentaries"
+  "Documentaries",
 );
 
 export const List = Endpoint({
@@ -40,7 +40,7 @@ export const Create = Endpoint({
     Query: undefined,
     Body: t.strict(
       propsOmit(Events.Documentary.CreateDocumentaryBody, ["type"]),
-      "CreateDocumentaryReleaseBody"
+      "CreateDocumentaryReleaseBody",
     ),
   },
   Output: SingleDocumentaryOutput,
@@ -53,7 +53,7 @@ export const Edit = Endpoint({
     Params: t.type({ id: UUID }),
     Body: t.strict(
       propsOmit(Events.Documentary.EditDocumentaryBody, ["type"]),
-      "EditDocumentaryReleaseBody"
+      "EditDocumentaryReleaseBody",
     ),
   },
   Output: SingleDocumentaryOutput,

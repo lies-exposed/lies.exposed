@@ -42,9 +42,9 @@ export const fetchEventsWithRelations: TEFlow<
         order: { date: "DESC" },
       }),
       TE.chainEitherK(({ results }) =>
-        pipe(results.map(toEventV2IO), fp.A.sequence(fp.E.Applicative))
+        pipe(results.map(toEventV2IO), fp.A.sequence(fp.E.Applicative)),
       ),
       TE.map(takeEventRelations),
-      TE.chain((events) => fetchEventsRelations(ctx)(events))
+      TE.chain((events) => fetchEventsRelations(ctx)(events)),
     );
   };

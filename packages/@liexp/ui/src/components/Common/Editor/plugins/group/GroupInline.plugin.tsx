@@ -48,7 +48,7 @@ export const GroupInlineControlContent: React.FC<{
 
   const selectedItems = React.useMemo(
     () => ([] as any[]).concat(s?.group ? [s.group] : []),
-    [s.group]
+    [s.group],
   );
 
   return (

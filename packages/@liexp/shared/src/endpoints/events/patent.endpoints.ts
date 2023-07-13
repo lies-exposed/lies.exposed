@@ -1,6 +1,6 @@
 import { propsOmit } from "@liexp/core/lib/io/utils";
 import * as t from "io-ts";
-import { UUID } from 'io-ts-types/UUID';
+import { UUID } from "io-ts-types/UUID";
 import { Endpoint } from "ts-endpoint";
 import { Events } from "../../io/http";
 import { ListOutput, Output } from "../../io/http/Common/Output";
@@ -34,7 +34,7 @@ export const Create = Endpoint({
     Query: undefined,
     Body: t.strict(
       propsOmit(Events.Patent.CreatePatentBody, ["type"]),
-      "CreateDeathBody"
+      "CreateDeathBody",
     ),
   },
   Output: SinglePatentOutput,
@@ -47,7 +47,7 @@ export const Edit = Endpoint({
     Params: t.type({ id: UUID }),
     Body: t.strict(
       propsOmit(Events.Patent.EditPatentBody, ["type"]),
-      "EditPatentBody"
+      "EditPatentBody",
     ),
   },
   Output: SinglePatentOutput,

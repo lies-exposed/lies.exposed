@@ -33,7 +33,7 @@ describe("List Groups", () => {
         group: g,
         startDate: new Date(),
         body: `${g.name} => ${actors[0].fullName}`,
-      }))
+      })),
     );
 
     await throwTE(appTest.ctx.db.save(GroupMemberEntity, groupMembers));
@@ -41,7 +41,7 @@ describe("List Groups", () => {
 
     authorizationToken = `Bearer ${jwt.sign(
       { id: "1" },
-      appTest.ctx.env.JWT_SECRET
+      appTest.ctx.env.JWT_SECRET,
     )}`;
   });
 
@@ -49,20 +49,20 @@ describe("List Groups", () => {
     await throwTE(
       appTest.ctx.db.delete(
         GroupMemberEntity,
-        groupMembers.map((g) => g.id)
-      )
+        groupMembers.map((g) => g.id),
+      ),
     );
     await throwTE(
       appTest.ctx.db.delete(
         ActorEntity,
-        actors.map((a) => a.id)
-      )
+        actors.map((a) => a.id),
+      ),
     );
     await throwTE(
       appTest.ctx.db.delete(
         GroupEntity,
-        groups.map((g) => g.id)
-      )
+        groups.map((g) => g.id),
+      ),
     );
     await appTest.utils.e2eAfterAll();
   });

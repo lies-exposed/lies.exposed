@@ -5,15 +5,18 @@ import {
   type GroupMember,
   type Keyword,
 } from "@liexp/shared/lib/io/http";
-import { type EventType, type SearchEvent } from "@liexp/shared/lib/io/http/Events";
-import { DEATH } from '@liexp/shared/lib/io/http/Events/Death';
-import { DOCUMENTARY } from '@liexp/shared/lib/io/http/Events/Documentary';
-import { PATENT } from '@liexp/shared/lib/io/http/Events/Patent';
-import { QUOTE } from '@liexp/shared/lib/io/http/Events/Quote';
-import { SCIENTIFIC_STUDY } from '@liexp/shared/lib/io/http/Events/ScientificStudy';
+import {
+  type EventType,
+  type SearchEvent,
+} from "@liexp/shared/lib/io/http/Events";
+import { DEATH } from "@liexp/shared/lib/io/http/Events/Death";
+import { DOCUMENTARY } from "@liexp/shared/lib/io/http/Events/Documentary";
+import { PATENT } from "@liexp/shared/lib/io/http/Events/Patent";
+import { QUOTE } from "@liexp/shared/lib/io/http/Events/Quote";
+import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/ScientificStudy";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
-import { TRANSACTION } from '@liexp/shared/lib/io/http/Events/Transaction';
-import { UNCATEGORIZED } from '@liexp/shared/lib/io/http/Events/Uncategorized';
+import { TRANSACTION } from "@liexp/shared/lib/io/http/Events/Transaction";
+import { UNCATEGORIZED } from "@liexp/shared/lib/io/http/Events/Uncategorized";
 import ArrowDownIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpIcon from "@mui/icons-material/ArrowUpward";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
@@ -41,7 +44,7 @@ import {
 import SearchEventInput, {
   type SearchFilter,
 } from "../inputs/SearchEventInput";
-import { EventTypeFilters, type EventTypeMap } from './EventTypeFilters';
+import { EventTypeFilters, type EventTypeMap } from "./EventTypeFilters";
 import { searchEventQueryToEventTypeFilters } from "./EventsAppBarMinimized";
 
 const PREFIX = "EventsAppBar";
@@ -184,7 +187,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
     disablePortal: false,
   });
 
-    const handleFilterChange = React.useCallback(
+  const handleFilterChange = React.useCallback(
     (ff: EventTypeMap, filterK: EventType) => {
       const type = [
         [ff.Uncategorized, UNCATEGORIZED.value],
@@ -203,7 +206,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
         type,
       });
     },
-    [query]
+    [query],
   );
 
   const handleQueryChange = (queryUpdate: Partial<SearchFilter>): void => {
@@ -232,7 +235,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
                 ...acc,
                 unselected: acc.unselected.concat({ ...a, selected: false }),
               },
-        { selected: [] as any[], unselected: [] as any[] }
+        { selected: [] as any[], unselected: [] as any[] },
       ),
       groups: groups.reduce(
         (acc, a) =>
@@ -245,7 +248,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
                 ...acc,
                 unselected: acc.unselected.concat({ ...a, selected: false }),
               },
-        { selected: [] as any[], unselected: [] as any[] }
+        { selected: [] as any[], unselected: [] as any[] },
       ),
       keywords: keywords.reduce(
         (acc, a) =>
@@ -258,7 +261,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
                 ...acc,
                 unselected: acc.unselected.concat({ ...a, selected: false }),
               },
-        { selected: [] as any[], unselected: [] as any[] }
+        { selected: [] as any[], unselected: [] as any[] },
       ),
     };
   }, [query, actors, groups, keywords, groupsMembers]);
@@ -544,7 +547,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
                     e.stopPropagation();
                     handleQueryChange({
                       keywords: filters.keywords.selected.filter(
-                        (g) => k.id !== g.id
+                        (g) => k.id !== g.id,
                       ),
                     });
                   }}
@@ -575,7 +578,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
                     onItemClick={(k, e) => {
                       e.stopPropagation();
                       const groups = filters.groups.selected.filter(
-                        (g) => k.id !== g.id
+                        (g) => k.id !== g.id,
                       );
 
                       handleQueryChange({
