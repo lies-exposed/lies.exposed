@@ -19,7 +19,7 @@ export const MakeGetQuoteRoute: Route = (r, ctx) => {
       TE.map((data) => ({
         body: { data },
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

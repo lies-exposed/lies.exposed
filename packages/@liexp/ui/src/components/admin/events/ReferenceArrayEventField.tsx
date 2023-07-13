@@ -3,11 +3,13 @@ import React from "react";
 import {
   BooleanField,
   Datagrid,
-  FunctionField, ReferenceArrayField, type ReferenceArrayFieldProps,
+  FunctionField,
+  ReferenceArrayField,
+  type ReferenceArrayFieldProps,
 } from "react-admin";
 
 const ReferenceArrayEventField: React.FC<
-  Omit<ReferenceArrayFieldProps, 'reference'| "children"> & { source: string }
+  Omit<ReferenceArrayFieldProps, "reference" | "children"> & { source: string }
 > = (props) => (
   <ReferenceArrayField
     {...props}
@@ -24,7 +26,8 @@ const ReferenceArrayEventField: React.FC<
             default:
               return `${r.type}: ${r.payload.title}`;
           }
-        } } />
+        }}
+      />
     </Datagrid>
   </ReferenceArrayField>
 );

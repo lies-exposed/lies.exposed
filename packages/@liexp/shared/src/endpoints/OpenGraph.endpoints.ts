@@ -58,7 +58,7 @@ export const Create = Endpoint({
         description: t.string,
         // events: t.array(t.string),
       },
-      "CreateImageBody"
+      "CreateImageBody",
     ),
   },
   Output: SingleMediaOutput,

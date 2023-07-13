@@ -14,15 +14,15 @@ export interface FAIconProps extends FontAwesomeIconProps {
     | "align-left"
     | "align-right"
     | "align-center"
-    | 'align-justify'
+    | "align-justify"
     | "text-height"
     | "italic"
     | "underline"
     | "code"
     | "link"
-    | 'user'
-    | 'user-friends'
-    | 'file-image';
+    | "user"
+    | "user-friends"
+    | "file-image";
 }
 
 export const FAIcon: React.FC<FAIconProps> = ({ icon, ...props }) => {

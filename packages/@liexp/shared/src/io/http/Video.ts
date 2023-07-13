@@ -5,7 +5,7 @@ export const VideoFileNode = t.interface(
     publicURL: t.string,
     extension: t.string,
   },
-  "VideoFileNode"
+  "VideoFileNode",
 );
 
 export type VideoFileNode = t.TypeOf<typeof VideoFileNode>;

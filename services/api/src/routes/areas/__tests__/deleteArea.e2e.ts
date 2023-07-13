@@ -21,8 +21,8 @@ describe("Delete Area", () => {
         areas.map((a) => ({
           ...a,
           media: [],
-        }))
-      )
+        })),
+      ),
     );
   });
 

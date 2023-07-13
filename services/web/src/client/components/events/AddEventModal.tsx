@@ -26,7 +26,7 @@ interface EventSuggestionsListProps {
   suggestions: http.EventSuggestion.CreateEventSuggestion[];
   selected?: http.EventSuggestion.CreateEventSuggestion & { id: string };
   onSelect: (
-    e: http.EventSuggestion.CreateEventSuggestion & { id: string }
+    e: http.EventSuggestion.CreateEventSuggestion & { id: string },
   ) => void;
 }
 
@@ -37,7 +37,7 @@ const EventSuggestionsList: React.FC<EventSuggestionsListProps> = ({
 }) => {
   const cachedSuggestions = React.useMemo(
     () => suggestions.map((s) => ({ ...s, id: uuid() })),
-    [suggestions.length]
+    [suggestions.length],
   );
 
   return (
@@ -112,12 +112,12 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
                 data.metadata,
                 O.fromNullable(data.link),
                 O.none,
-                data.relations
+                data.relations,
               ),
               events: [],
             });
           },
-        }
+        },
       );
     }
   };

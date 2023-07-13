@@ -52,7 +52,7 @@ const { totalWealth, totalPeople } = wealthDistributionData.reduce(
     totalPeople: totalPeople + d.number,
     totalWealth: totalWealth + d.wealth,
   }),
-  { totalPeople: 0, totalWealth: 0 }
+  { totalPeople: 0, totalWealth: 0 },
 );
 
 const getWealthPercentage = (share: number): number =>
@@ -62,7 +62,7 @@ const getPeoplePercentage = (share: number): number =>
   (share * 100) / totalPeople;
 
 export const WealthDistributionGraph: React.FC<WealthDistributionGraphProps> = (
-  props
+  props,
 ) => {
   const [toggle, setToggle] = React.useState(false);
   return (
@@ -86,7 +86,9 @@ export const WealthDistributionGraph: React.FC<WealthDistributionGraphProps> = (
                 ).toFixed(2),
                 color: d.color,
               }))}
-              onClick={() => { setToggle(!toggle); }}
+              onClick={() => {
+                setToggle(!toggle);
+              }}
             />
 
             {/* <BubbleGraph
@@ -112,7 +114,7 @@ export const WealthDistributionGraph: React.FC<WealthDistributionGraphProps> = (
             title: "Population Percentage",
             scale: scaleOrdinal(
               wealthDistributionData.map((d) => d.label),
-              wealthDistributionData.map((d) => `${d.color}`)
+              wealthDistributionData.map((d) => `${d.color}`),
             ),
             shape: "circle",
           },

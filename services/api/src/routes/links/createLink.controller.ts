@@ -50,19 +50,19 @@ export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
                       keywords: [],
                       creator: { id: u.id },
                     },
-                  ])
+                  ]),
                 ),
-                TE.map(([data]) => data)
+                TE.map(([data]) => data),
               );
-            })
-          )
+            }),
+          ),
         ),
         TE.chainEitherK(toLinkIO),
         TE.map((data) => ({
           body: { data },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

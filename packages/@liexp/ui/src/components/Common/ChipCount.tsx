@@ -26,7 +26,7 @@ const StyledChip = styled(Box)<{ _color: string }>(
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(1),
     },
-  })
+  }),
 );
 
 export interface ChipCountProps extends Omit<BoxProps, "color"> {

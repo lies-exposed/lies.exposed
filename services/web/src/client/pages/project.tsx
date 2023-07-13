@@ -17,8 +17,8 @@ export default class ProjectPage extends React.PureComponent<RouteComponentProps
             O.chain((t) => O.fromNullable(t.items)),
             O.fold(
               () => <div />,
-              (items) => <TableOfContents items={items} />
-            )
+              (items) => <TableOfContents items={items} />,
+            ),
           )}
         >
           <PageContent path="project" />

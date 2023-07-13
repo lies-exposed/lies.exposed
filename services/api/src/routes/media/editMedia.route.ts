@@ -28,17 +28,17 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
     }) => {
       const overrideThumbnail = pipe(
         _overrideThumbnail,
-        O.filter((o) => !!o)
+        O.filter((o) => !!o),
       );
 
       const transfer = pipe(
         _transfer,
-        O.filter((o) => !!o)
+        O.filter((o) => !!o),
       );
 
       const transferThumbnail = pipe(
         _transferThumbnail,
-        O.filter((o) => !!o)
+        O.filter((o) => !!o),
       );
 
       return pipe(
@@ -62,7 +62,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
                     m.id,
                     m.thumbnail,
                     `${m.id}-thumb`,
-                    m.type
+                    m.type,
                   )
                 : TE.right(O.toNullable(thumbnail)),
               location: O.isSome(transfer)
@@ -70,7 +70,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
                     m.id,
                     m.location,
                     m.id,
-                    m.type
+                    m.type,
                   )
                 : TE.right(location),
             }),
@@ -83,8 +83,8 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
                 : { id: m.creator as any },
               thumbnail,
               location,
-            }))
-          )
+            })),
+          ),
         ),
         TE.chain((image) =>
           ctx.db.save(MediaEntity, [
@@ -97,7 +97,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
               })),
               id,
             },
-          ])
+          ]),
         ),
         TE.chain(([media]) =>
           TE.fromEither(
@@ -109,17 +109,17 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
                 links: media.links.map((l) => l.id) as any[],
                 events: media.events.map((e) => e.id) as any[],
               },
-              ctx.env.SPACE_ENDPOINT
-            )
-          )
+              ctx.env.SPACE_ENDPOINT,
+            ),
+          ),
         ),
         TE.map((data) => ({
           body: {
             data,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

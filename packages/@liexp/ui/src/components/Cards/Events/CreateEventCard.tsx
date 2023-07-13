@@ -12,7 +12,7 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
-  type CardProps
+  type CardProps,
 } from "../../mui";
 
 interface EventCardProps extends Omit<CardProps, "onClick"> {
@@ -33,7 +33,11 @@ const CreateEventCard: React.FC<EventCardProps> = ({
   const image = "";
 
   return (
-    <Box onClick={() => { onClick(event); }}>
+    <Box
+      onClick={() => {
+        onClick(event);
+      }}
+    >
       <Card {...props}>
         <CardMedia component="img" image={image} />
         <CardHeader

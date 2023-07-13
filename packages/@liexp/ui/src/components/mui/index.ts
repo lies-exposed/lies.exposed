@@ -161,6 +161,5 @@ export {
   Switch,
   Pagination,
   // colors
-  amber
+  amber,
 };
-

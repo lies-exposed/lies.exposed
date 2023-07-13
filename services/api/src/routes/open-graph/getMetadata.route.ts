@@ -47,8 +47,8 @@ export const MakeGetMetadataRoute = (r: Router, ctx: RouteContext): void => {
               O.map(toLinkIO),
               O.map(TE.fromEither),
               O.getOrElse(() =>
-                TE.right<ControllerError, Link.Link | undefined>(undefined)
-              )
+                TE.right<ControllerError, Link.Link | undefined>(undefined),
+              ),
             ),
             relations: pipe(
               link,
@@ -56,7 +56,7 @@ export const MakeGetMetadataRoute = (r: Router, ctx: RouteContext): void => {
               O.getOrElse(() => url),
               (url) => ctx.puppeteer.getBrowserFirstPage(url, {}),
               TE.mapLeft(toControllerError),
-              TE.chain((p) => extractRelationsFromURL(ctx)(p, url))
+              TE.chain((p) => extractRelationsFromURL(ctx)(p, url)),
             ),
           });
 
@@ -67,8 +67,8 @@ export const MakeGetMetadataRoute = (r: Router, ctx: RouteContext): void => {
             data,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

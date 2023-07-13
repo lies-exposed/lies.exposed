@@ -3,7 +3,7 @@ import { type NavigateFn } from "@reach/router";
 
 export const getAdminLink = <K extends io.http.ResourcesNames>(
   key: K,
-  f: { id: string }
+  f: { id: string },
 ): string => {
   switch (key) {
     case "stories":
@@ -22,7 +22,7 @@ export const getAdminLink = <K extends io.http.ResourcesNames>(
 
 export const getProfileLink = (
   key: io.http.ResourcesNames,
-  f: { id: string }
+  f: { id: string },
 ): string => {
   switch (key) {
     case "stories":
@@ -39,7 +39,7 @@ export const getProfileLink = (
 export const navigateTo = async <K extends io.http.ResourcesNames>(
   nav: NavigateFn,
   resourceName: K,
-  f: { path?: string; id: string }
+  f: { path?: string; id: string },
 ): Promise<void> => {
   switch (resourceName) {
     case `stories`:
@@ -63,7 +63,7 @@ export const navigateTo = async <K extends io.http.ResourcesNames>(
 export const navigateToProfile = async (
   nav: NavigateFn,
   resourceName: io.http.ResourcesNames,
-  f: { id: string }
+  f: { id: string },
 ): Promise<void> => {
   switch (resourceName) {
     case "events/suggestions": {

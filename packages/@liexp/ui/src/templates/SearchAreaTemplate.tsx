@@ -24,7 +24,7 @@ const SearchAreaTemplate: React.FC<SearchAreaTemplateProps> = ({
           {
             filter: null,
           },
-          false
+          false,
         ),
       }}
       render={({ areas: { data: areas } }) => {

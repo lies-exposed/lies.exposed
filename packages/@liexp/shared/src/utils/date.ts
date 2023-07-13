@@ -48,5 +48,5 @@ export {
   differenceInHours,
   differenceInDays,
   formatDistanceToNow,
-  subYears
+  subYears,
 };

@@ -16,7 +16,7 @@ export const MakeGetLinksRoute = (r: Router, ctx: RouteContext): void => {
       decodeUserFromRequest(ctx)(req, [])(),
       O.fromEither,
       O.map((u) => checkIsAdmin(u.permissions)),
-      O.getOrElse(() => false)
+      O.getOrElse(() => false),
     );
     return pipe(
       ctx.db.findOneOrFail(LinkEntity, {
@@ -29,7 +29,7 @@ export const MakeGetLinksRoute = (r: Router, ctx: RouteContext): void => {
       TE.map((data) => ({
         body: { data },
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

@@ -18,7 +18,7 @@ export const ProjectImpact = t.strict(
     media: t.array(t.string),
     impact: Impact,
   },
-  PROJECT_IMPACT
+  PROJECT_IMPACT,
 );
 
 export type ProjectImpact = t.TypeOf<typeof ProjectImpact>;

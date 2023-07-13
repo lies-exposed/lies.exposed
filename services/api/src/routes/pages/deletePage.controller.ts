@@ -23,8 +23,8 @@ export const MakeDeletePageRoute = (r: Router, ctx: RouteContext): void => {
             data: page,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

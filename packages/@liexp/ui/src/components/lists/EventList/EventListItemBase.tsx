@@ -104,8 +104,8 @@ const EventListItemBase = <E extends any>({
               keywords={kk.map((k) => ({ ...k, selected: true }))}
               onItemClick={(k) => onKeywordClick?.(k)}
             />
-          )
-        )
+          ),
+        ),
       )}
 
       {link ? (
@@ -149,7 +149,7 @@ const EventListItemBase = <E extends any>({
             )}
           </Box>
         )),
-        O.toNullable
+        O.toNullable,
       )}
       {isValidValue(excerpt) ? (
         <Box>

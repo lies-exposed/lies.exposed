@@ -18,7 +18,7 @@ export const TreeEvent: t.Type<TreeEvent> = t.recursion("TreeEvent", () =>
     name: t.string,
     date,
     children: t.array(TreeEvent),
-  })
+  }),
 );
 
 const peach = "#fd9b93";
@@ -125,7 +125,7 @@ const TreeProps = t.interface(
       bottom: t.number,
     }),
   },
-  "TreeProps"
+  "TreeProps",
 );
 
 type TreeProps = t.TypeOf<typeof TreeProps>;

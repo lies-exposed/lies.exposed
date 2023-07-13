@@ -22,7 +22,7 @@ export const transformLinks = (links: any[]): any[] => {
       }
       return acc.concat(l.ids);
     },
-    []
+    [],
   );
 };
 
@@ -44,7 +44,7 @@ export const transformMedia = (newMedia: any[]): any[] => {
 };
 
 export const transformDeath = (
-  data: any
+  data: any,
 ): http.Events.CreateEventBody & { id: http.Common.UUID } => {
   return {
     ...data,
@@ -57,7 +57,7 @@ export const transformDeath = (
 };
 
 export const transformUncategorized = (
-  data: any
+  data: any,
 ): http.Events.CreateEventBody & { id: http.Common.UUID } => {
   return {
     ...data,
@@ -72,7 +72,7 @@ export const transformUncategorized = (
 };
 
 export const transformScientificStudy = (
-  data: any
+  data: any,
 ): http.Events.CreateEventBody & { id: http.Common.UUID } => {
   return {
     ...data,
@@ -85,7 +85,7 @@ export const transformScientificStudy = (
 };
 
 export const transformQuote = (
-  data: any
+  data: any,
 ): http.Events.Quote.CreateQuoteBody & { id: http.Common.UUID } => {
   return {
     ...data,
@@ -126,7 +126,7 @@ export const transformEvent =
       {
         rawMedia: [],
         otherMedia: [],
-      }
+      },
     );
 
     // console.log({ rawMedia, otherMedia });
@@ -137,8 +137,8 @@ export const transformEvent =
           "media",
           id,
           r.location.rawFile,
-          r.location.rawFile.type as any
-        )
+          r.location.rawFile.type as any,
+        ),
       ),
       A.sequence(TE.ApplicativePar),
       TE.map((urls) =>
@@ -152,12 +152,12 @@ export const transformEvent =
               ? location.location
               : undefined,
           })),
-          A.concat(otherMedia)
-        )
+          A.concat(otherMedia),
+        ),
       ),
       TE.map((media) =>
-        Array.isArray(data.media) ? data.media.concat(media) : media
-      )
+        Array.isArray(data.media) ? data.media.concat(media) : media,
+      ),
     );
 
     const event =
@@ -179,6 +179,6 @@ export const transformEvent =
         media,
         links,
       })),
-      throwTE
+      throwTE,
     );
   };

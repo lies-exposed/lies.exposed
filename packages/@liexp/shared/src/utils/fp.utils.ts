@@ -7,10 +7,13 @@ import { pipe } from "fp-ts/lib/function";
 
 export const traverseArrayOfE = <A, E, B>(
   results: A[],
-  fn: (a: A) => E.Either<E, B>
+  fn: (a: A) => E.Either<E, B>,
 ): E.Either<E, B[]> => pipe(results, A.traverse(E.Applicative)(fn));
 
-interface ReqInput { skip: number; amount: number }
+interface ReqInput {
+  skip: number;
+  amount: number;
+}
 
 export const walkPaginatedRequest =
   ({ logger }: { logger: Logger }) =>
@@ -19,14 +22,14 @@ export const walkPaginatedRequest =
     getTotal: (r: A) => number,
     getData: (r: A) => D[],
     skip: number,
-    amount: number
+    amount: number,
   ): TE.TaskEither<E, D[]> => {
     const result: D[] = [];
 
     const loop = (
       skip: number,
       amount: number,
-      result: D[]
+      result: D[],
     ): TE.TaskEither<E, D[]> => {
       logger.debug.log("Walking paginated requests: %d => %d", skip, amount);
 
@@ -35,7 +38,7 @@ export const walkPaginatedRequest =
         fp.TE.mapLeft((e) => ({
           ...e,
           message: `Failed with skip(${skip}) and amount(${amount}): ${JSON.stringify(
-            e
+            e,
           )}`,
         })),
         fp.TE.chain((r) => {
@@ -49,10 +52,10 @@ export const walkPaginatedRequest =
           }
           logger.debug.log(
             "All elements collected, returning... %d",
-            data.length
+            data.length,
           );
           return fp.TE.right(result.concat(data));
-        })
+        }),
       );
     };
 

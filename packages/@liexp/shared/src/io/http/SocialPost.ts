@@ -11,7 +11,7 @@ export const SocialPostBodyMultipleMedia = t.array(
     type: t.union([t.literal("photo"), t.literal("video")]),
     media: t.string,
   }),
-  "SocialPostBodyMultipleMedia"
+  "SocialPostBodyMultipleMedia",
 );
 export type SocialPostBodyMultipleMedia = t.TypeOf<
   typeof SocialPostBodyMultipleMedia
@@ -24,17 +24,15 @@ export type TGPlatform = t.TypeOf<typeof TGPlatform>;
 
 export const SocialPlatform = t.union(
   [IGPlatform, TGPlatform],
-  "SharePlatform"
+  "SharePlatform",
 );
 export type SocialPlatform = t.TypeOf<typeof SocialPlatform>;
 
 export const SocialPostResourceType = t.union(
   [ACTORS, GROUPS, KEYWORDS, MEDIA, EVENTS],
-  "SocialPostResourceType"
+  "SocialPostResourceType",
 );
-export type SocialPostResourceType = t.TypeOf<
-  typeof SocialPostResourceType
->;
+export type SocialPostResourceType = t.TypeOf<typeof SocialPostResourceType>;
 
 export const TO_PUBLISH = t.literal("TO_PUBLISH");
 export type TO_PUBLISH = t.TypeOf<typeof TO_PUBLISH>;
@@ -42,7 +40,7 @@ export const PUBLISHED = t.literal("PUBLISHED");
 export type PUBLISHED = t.TypeOf<typeof PUBLISHED>;
 export const SocialPostStatus = t.union(
   [TO_PUBLISH, PUBLISHED],
-  "SocialPostStatus"
+  "SocialPostStatus",
 );
 
 export type SocialPostStatus = t.TypeOf<typeof SocialPostStatus>;
@@ -60,7 +58,7 @@ export const CreateSocialPost = t.strict(
     platforms: t.record(SocialPlatform, t.boolean),
     schedule: t.union([t.number, t.undefined]),
   },
-  "CreateSocialPost"
+  "CreateSocialPost",
 );
 export type CreateSocialPost = t.TypeOf<typeof CreateSocialPost>;
 
@@ -70,6 +68,6 @@ export const SocialPost = t.strict(
     status: SocialPostStatus,
     scheduledAt: DateFromISOString,
   },
-  "ShareMessageBody"
+  "ShareMessageBody",
 );
 export type SocialPost = t.TypeOf<typeof SocialPost>;

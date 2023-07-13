@@ -100,7 +100,7 @@ export const StoryPageContent: React.FC<StoryPageContentProps> = ({
                 {formatDate(
                   t.string.is(story.createdAt)
                     ? parseISO(story.createdAt)
-                    : story.createdAt
+                    : story.createdAt,
                 )}
               </Typography>
             </div>

@@ -48,7 +48,7 @@ export const EventSuggestionPreview: React.FC = () => {
                 groups: [],
                 keywords: [],
                 groupsMembers: [],
-                areas: []
+                areas: [],
               }}
               onDateClick={() => undefined}
               onAreaClick={() => undefined}
@@ -62,6 +62,6 @@ export const EventSuggestionPreview: React.FC = () => {
           </QueryClientProvider>
         </ThemeProvider>
       </HelmetProvider>
-    ))
+    )),
   );
 };

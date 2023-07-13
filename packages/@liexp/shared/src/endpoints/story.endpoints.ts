@@ -17,7 +17,7 @@ const ListStoryQuery = t.type(
     path: optionFromNullable(t.string),
     creator: optionFromNullable(UUID),
   },
-  "ListStoryQuery"
+  "ListStoryQuery",
 );
 
 export const ListStory = Endpoint({
@@ -55,9 +55,9 @@ export const CreateStory = Endpoint({
         actors: t.array(UUID),
         groups: t.array(UUID),
         events: t.array(UUID),
-        media: t.array(UUID)
+        media: t.array(UUID),
       },
-      "CreateStoryBody"
+      "CreateStoryBody",
     ),
   },
   Output: Output(Story.Story, "Story"),

@@ -2,7 +2,7 @@ import { Endpoints, AddEndpoint } from "@liexp/shared/lib/endpoints";
 import { type Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { Equal } from 'typeorm';
+import { Equal } from "typeorm";
 import { type RouteContext } from "../route.types";
 import { toProjectIO } from "./project.io";
 import { ProjectEntity } from "@entities/Project.entity";
@@ -11,7 +11,7 @@ export const MakeGetProjectRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Project.Get, ({ params: { id } }) => {
     return pipe(
       ctx.db.findOneOrFail(ProjectEntity, {
-        where: { id: Equal(id)},
+        where: { id: Equal(id) },
         relations: ["media", "areas"],
         // loadRelationIds: true,
       }),
@@ -21,7 +21,7 @@ export const MakeGetProjectRoute = (r: Router, ctx: RouteContext): void => {
           data,
         },
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

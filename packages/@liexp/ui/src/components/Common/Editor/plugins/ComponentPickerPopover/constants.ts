@@ -1,19 +1,15 @@
-import { ACTOR_INLINE, EVENT_BLOCK_PLUGIN, GROUP_INLINE, KEYWORD_INLINE, MEDIA_BLOCK_PLUGIN } from '@liexp/shared/lib/slate/plugins/customSlate';
 import {
-    ActorInlinePluginIcon
-} from "../actor/ActorInline.plugin";
-import {
-    EventBlockPluginIcon
-} from "../event/eventBlock.plugin";
-import {
-    GroupInlinePluginIcon
-} from "../group/GroupInline.plugin";
-import {
-    KeywordInlinePluginIcon
-} from "../keyword/KeywordInline.plugin";
-import {
-    MediaBlockPluginIcon
-} from "../media/mediaBlock";
+  ACTOR_INLINE,
+  EVENT_BLOCK_PLUGIN,
+  GROUP_INLINE,
+  KEYWORD_INLINE,
+  MEDIA_BLOCK_PLUGIN,
+} from "@liexp/shared/lib/slate/plugins/customSlate";
+import { ActorInlinePluginIcon } from "../actor/ActorInline.plugin";
+import { EventBlockPluginIcon } from "../event/eventBlock.plugin";
+import { GroupInlinePluginIcon } from "../group/GroupInline.plugin";
+import { KeywordInlinePluginIcon } from "../keyword/KeywordInline.plugin";
+import { MediaBlockPluginIcon } from "../media/mediaBlock";
 
 export const ANCHOR_ID = "component-picker-popover-anchor";
 

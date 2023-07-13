@@ -3,8 +3,7 @@ import { LinkVertical } from "@visx/shape";
 import * as React from "react";
 import { type NetworkNodeDatum } from "./NetworkNode";
 
-export interface NetworkLinkProps<N extends NetworkNodeDatum>
-  extends Link<N> {
+export interface NetworkLinkProps<N extends NetworkNodeDatum> extends Link<N> {
   stroke: string;
 }
 

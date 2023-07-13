@@ -37,8 +37,8 @@ export const ProjectAreasMap: React.FC<ProjectAreasMapProps> = (props) => {
                   onMapClick={() => {}}
                 />
               );
-            }
-          )
+            },
+          ),
         );
       }}
     </ParentSize>

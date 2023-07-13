@@ -5,12 +5,10 @@ import {
   Quote,
   ScientificStudy,
   Transaction,
-  Uncategorized
+  Uncategorized,
 } from "@liexp/shared/lib/io/http/Events";
 import { type SearchEventsQueryInputNoPagination } from "../../../state/queries/SearchEventsQuery";
-import {
-  type EventTypeFiltersProps
-} from "./EventTypeFilters";
+import { type EventTypeFiltersProps } from "./EventTypeFilters";
 
 // const PREFIX = "events-app-bar-minimized";
 // const classes = {
@@ -40,22 +38,22 @@ import {
 // }));
 
 export const searchEventQueryToEventTypeFilters = (
-  query: SearchEventsQueryInputNoPagination
+  query: SearchEventsQueryInputNoPagination,
 ): Required<EventTypeFiltersProps["filters"]> => {
   return {
     [Death.DEATH.value]: !!query.type?.includes(Death.DEATH.value),
     [Uncategorized.UNCATEGORIZED.value]: !!query.type?.includes(
-      Uncategorized.UNCATEGORIZED.value
+      Uncategorized.UNCATEGORIZED.value,
     ),
     [ScientificStudy.SCIENTIFIC_STUDY.value]: !!query.type?.includes(
-      ScientificStudy.SCIENTIFIC_STUDY.value
+      ScientificStudy.SCIENTIFIC_STUDY.value,
     ),
     [Patent.PATENT.value]: !!query.type?.includes(Patent.PATENT.value),
     [Documentary.DOCUMENTARY.value]: !!query.type?.includes(
-      Documentary.DOCUMENTARY.value
+      Documentary.DOCUMENTARY.value,
     ),
     [Transaction.TRANSACTION.value]: !!query.type?.includes(
-      Transaction.TRANSACTION.value
+      Transaction.TRANSACTION.value,
     ),
     [Quote.QUOTE.value]: !!query.type?.includes(Quote.QUOTE.value),
   };

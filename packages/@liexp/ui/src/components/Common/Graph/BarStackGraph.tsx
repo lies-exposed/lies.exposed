@@ -142,7 +142,7 @@ export const BarStackGraph = <D, K extends StackKey>({
                       }}
                     />
                   );
-                })
+                }),
               )
             }
           </BarStack>

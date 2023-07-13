@@ -78,7 +78,7 @@ export const MediaBlockPluginControl: CellPluginCustomControlsComonent<
 
   const selectedItems = React.useMemo(
     () => ([] as any[]).concat(s.media ? s.media : []),
-    [s.media]
+    [s.media],
   );
 
   return (
@@ -153,7 +153,7 @@ export const MediaBlockPluginControl: CellPluginCustomControlsComonent<
 };
 
 const createMediaBlockPlugin = (
-  settings?: MediaBlockSettings
+  settings?: MediaBlockSettings,
 ): CellPlugin<MediaBlockState> => {
   const mergedSettings = { ...mediaBlockDefaultSettings, ...settings };
 

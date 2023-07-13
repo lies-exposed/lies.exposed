@@ -109,7 +109,7 @@ export const EventSuggestionList: React.FC<ListProps> = (props) => {
                       actors: [],
                       groupsMembers: [],
                       links: [],
-                      areas: []
+                      areas: [],
                     })}
                   </Typography>
                 ) : (
@@ -186,7 +186,7 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
       transform={async ({ id, ...r }) => {
         const updatedEvent = await transformEvent(dataProvider)(
           id,
-          r.payload.event
+          r.payload.event,
         );
 
         return { id, ...r.payload, event: updatedEvent };
@@ -311,7 +311,7 @@ export const EventSuggestionCreate: React.FC<CreateProps & { event: any }> = ({
       transform={async ({ id, ...r }: any) => {
         const updatedEvent = await transformEvent(dataProvider)(
           id,
-          r.payload.event
+          r.payload.event,
         );
 
         return { id, ...r.payload, event: updatedEvent };

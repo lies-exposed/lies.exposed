@@ -1,4 +1,8 @@
-import { type Actor, type Events, type Keyword } from "@liexp/shared/lib/io/http";
+import {
+  type Actor,
+  type Events,
+  type Keyword,
+} from "@liexp/shared/lib/io/http";
 import { ByActor, ByGroup } from "@liexp/shared/lib/io/http/Common";
 import { TRANSACTION } from "@liexp/shared/lib/io/http/Events/Transaction";
 import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate";
@@ -27,7 +31,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 const getSubject = (
-  subject: Events.SearchEvent.SearchTransactionEvent["payload"]["from"]
+  subject: Events.SearchEvent.SearchTransactionEvent["payload"]["from"],
 ): JSX.Element => {
   if (subject.type === ByActor.type.props.type.value) {
     return (

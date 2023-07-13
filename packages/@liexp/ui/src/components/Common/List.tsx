@@ -8,7 +8,7 @@ export interface ListItemProps<A> {
 
 export type ListProps<
   A,
-  D extends React.ElementType<any> = "ul"
+  D extends React.ElementType<any> = "ul",
 > = MUIListProps<
   D,
   {

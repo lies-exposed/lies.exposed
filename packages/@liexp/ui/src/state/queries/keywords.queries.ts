@@ -1,5 +1,5 @@
 import { type Keyword } from "@liexp/shared/lib/io/http";
-import { type APIError } from '@liexp/shared/lib/io/http/Error/APIError';
+import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
 import type { GetListParams, GetOneParams } from "react-admin";
 import { useQuery, type UseQueryResult } from "react-query";
 import { Queries } from "../../providers/DataProvider";
@@ -12,7 +12,7 @@ export const fetchKeywords: FetchQuery<typeof Queries.Keyword.getList> =
 export const getKeywordsQueryKey = (
   suffix: string,
   p: Partial<GetListParams>,
-  discrete: boolean
+  discrete: boolean,
 ): [string, GetListParams, boolean] => {
   return [
     `keywords-${suffix}`,
@@ -36,13 +36,13 @@ export const getKeywordsQueryKey = (
 export const useKeywordsQuery: UseListQueryFn<Keyword.Keyword> = (
   params,
   discrete,
-  suffix = ""
+  suffix = "",
 ) => {
   return useQuery(getKeywordsQueryKey(suffix, params, discrete), fetchKeywords);
 };
 
 export const useKeywordQuery = (
-  params: GetOneParams
+  params: GetOneParams,
 ): UseQueryResult<Keyword.Keyword, APIError> => {
   return useQuery(["keywords", params], async () => {
     return await Queries.Keyword.get(params);
@@ -65,6 +65,6 @@ export const useKeywordsDistributionQuery: UseQueryFn<
 > = (params) => {
   return useQuery(
     getKeywordsDistributionQueryKey(params),
-    fetchKeywordsDistribution
+    fetchKeywordsDistribution,
   );
 };

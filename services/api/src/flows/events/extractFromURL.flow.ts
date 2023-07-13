@@ -37,8 +37,9 @@ const extractEventFromProviderLink: TEFlow<
         const date = await p
           .waitForSelector(".AuthorGroups")
           .then(async (d) => {
-            const datesLabel = await p.$eval(".AuthorGroups", (el) =>
-              el.nextElementSibling?.textContent?.split(", ")
+            const datesLabel = await p.$eval(
+              ".AuthorGroups",
+              (el) => el.nextElementSibling?.textContent?.split(", "),
             );
 
             ctx.logger.debug.log("Extract date from %s", datesLabel);
@@ -63,7 +64,7 @@ const extractEventFromProviderLink: TEFlow<
 
         // get "Results" element next element sibling
         const contentText = await contentTitle?.evaluate(
-          (el) => el.nextSibling?.textContent
+          (el) => el.nextSibling?.textContent,
         );
 
         return O.some({
@@ -80,7 +81,7 @@ const extractEventFromProviderLink: TEFlow<
       }
       case "pubmed.ncbi.nlm.nih.gov": {
         const title = await p.$eval("h1", (el) =>
-          el.innerHTML.replace(/\n/g, "").trim()
+          el.innerHTML.replace(/\n/g, "").trim(),
         );
 
         const date = await p
@@ -98,7 +99,7 @@ const extractEventFromProviderLink: TEFlow<
 
         // get "Results" element next element sibling
         const contentText = await contentTitle.evaluate(
-          (el) => el.nextSibling?.textContent
+          (el) => el.nextSibling?.textContent,
         );
 
         return O.some({
@@ -126,7 +127,7 @@ const extractEventFromProviderLink: TEFlow<
 
         // get "Results" element next element sibling
         const contentText = await contentTitle.evaluate(
-          (el) => el.nextSibling?.textContent
+          (el) => el.nextSibling?.textContent,
         );
 
         return O.some({
@@ -174,7 +175,7 @@ export const extractRelationsFromURL: TEFlow<
             });
             return await p.$eval("body", (b) => b.innerText);
           }, toControllerError),
-          TE.chainFirst((text) => ctx.fs.writeObject(filePath, text))
+          TE.chainFirst((text) => ctx.fs.writeObject(filePath, text)),
         );
       }
       return pipe(ctx.fs.getObject(filePath), TE.mapLeft(toControllerError));
@@ -186,9 +187,9 @@ export const extractRelationsFromURL: TEFlow<
         sequenceS(TE.ApplicativeSeq)({
           entities: pipe(
             ctx.fs.getObject(
-              path.resolve(__dirname, "../../../", nerProvider.entitiesFile)
+              path.resolve(__dirname, "../../../", nerProvider.entitiesFile),
             ),
-            TE.map(JSON.parse)
+            TE.map(JSON.parse),
           ),
         }),
         TE.chain(({ entities }) => {
@@ -202,7 +203,7 @@ export const extractRelationsFromURL: TEFlow<
                     .reduce<string[]>(
                       (acc, a) =>
                         acc.includes(a.value) ? acc : acc.concat(a.value),
-                      []
+                      [],
                     ),
                   O.fromPredicate((ll) => ll.length > 0),
                   O.map((names) =>
@@ -210,11 +211,11 @@ export const extractRelationsFromURL: TEFlow<
                       where: {
                         fullName: In(names),
                       },
-                    })
+                    }),
                   ),
                   O.getOrElse(() =>
-                    TE.right<ControllerError, ActorEntity[]>([])
-                  )
+                    TE.right<ControllerError, ActorEntity[]>([]),
+                  ),
                 ),
                 groups: pipe(
                   details
@@ -222,7 +223,7 @@ export const extractRelationsFromURL: TEFlow<
                     .reduce<string[]>(
                       (acc, a) =>
                         acc.includes(a.value) ? acc : acc.concat(a.value),
-                      []
+                      [],
                     ),
                   O.fromPredicate((l) => l.length > 0),
                   O.map((names) =>
@@ -230,11 +231,11 @@ export const extractRelationsFromURL: TEFlow<
                       where: {
                         name: In(names),
                       },
-                    })
+                    }),
                   ),
                   O.getOrElse(() =>
-                    TE.right<ControllerError, GroupEntity[]>([])
-                  )
+                    TE.right<ControllerError, GroupEntity[]>([]),
+                  ),
                 ),
                 keywords: pipe(
                   details
@@ -242,7 +243,7 @@ export const extractRelationsFromURL: TEFlow<
                     .reduce<string[]>(
                       (acc, a) =>
                         acc.includes(a.value) ? acc : acc.concat(a.value),
-                      []
+                      [],
                     ),
                   O.fromPredicate((l) => l.length > 0),
                   O.map((names) =>
@@ -250,19 +251,19 @@ export const extractRelationsFromURL: TEFlow<
                       where: {
                         tag: In(names),
                       },
-                    })
+                    }),
                   ),
                   O.getOrElse(() =>
-                    TE.right<ControllerError, KeywordEntity[]>([])
-                  )
+                    TE.right<ControllerError, KeywordEntity[]>([]),
+                  ),
                 ),
                 links: TE.right([]),
-              })
-            )
+              }),
+            ),
           );
-        })
+        }),
       );
-    })
+    }),
   );
 };
 
@@ -313,13 +314,13 @@ const extractByProvider: TEFlow<
               groupsMembers: [],
               media: [],
               links: [],
-            }
-          )
+            },
+          ),
         ),
         O.chain((suggestions) =>
           O.fromNullable(
-            suggestions.find((s) => s.event.type === "ScientificStudy")
-          )
+            suggestions.find((s) => s.event.type === "ScientificStudy"),
+          ),
         ),
         O.map((s) => ({
           ...s.event,
@@ -336,9 +337,9 @@ const extractByProvider: TEFlow<
           createdAt: new Date(),
           updatedAt: new Date(),
           deletedAt: null,
-        }))
-      )
-    )
+        })),
+      ),
+    ),
   );
 };
 
@@ -362,6 +363,6 @@ export const extractFromURL: TEFlow<
 
   return pipe(
     fetchAndSave(ctx)(user, l.url),
-    TE.chain((le) => extractByProvider(ctx)(p, host, le))
+    TE.chain((le) => extractByProvider(ctx)(p, host, le)),
   );
 };

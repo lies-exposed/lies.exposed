@@ -1,13 +1,20 @@
-import { type ACTOR_INLINE, type EVENT_BLOCK_PLUGIN, type GROUP_INLINE, type KEYWORD_INLINE, type LINK_INLINE, type MEDIA_BLOCK_PLUGIN } from '@liexp/shared/lib/slate/plugins/customSlate';
+import {
+  type ACTOR_INLINE,
+  type EVENT_BLOCK_PLUGIN,
+  type GROUP_INLINE,
+  type KEYWORD_INLINE,
+  type LINK_INLINE,
+  type MEDIA_BLOCK_PLUGIN,
+} from "@liexp/shared/lib/slate/plugins/customSlate";
 // eslint-disable-next-line no-restricted-imports
-import { type OverridableComponent } from '@mui/material/OverridableComponent';
+import { type OverridableComponent } from "@mui/material/OverridableComponent";
 import { type DataTType } from "@react-page/editor";
-import { type ActorInlineState } from '../actor/ActorInline.plugin';
-import { type EventBlockState } from '../event/eventBlock.plugin';
-import { type GroupInlineState } from '../group/GroupInline.plugin';
-import { type KeywordInlineState } from '../keyword/KeywordInline.plugin';
-import { type LinkInlineState } from '../links/LinkInline.plugin';
-import { type MediaBlockState } from '../media/mediaBlock';
+import { type ActorInlineState } from "../actor/ActorInline.plugin";
+import { type EventBlockState } from "../event/eventBlock.plugin";
+import { type GroupInlineState } from "../group/GroupInline.plugin";
+import { type KeywordInlineState } from "../keyword/KeywordInline.plugin";
+import { type LinkInlineState } from "../links/LinkInline.plugin";
+import { type MediaBlockState } from "../media/mediaBlock";
 
 export type PickablePlugin = {
   icon: OverridableComponent<any>;

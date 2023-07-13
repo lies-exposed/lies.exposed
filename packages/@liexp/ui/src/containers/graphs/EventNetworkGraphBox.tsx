@@ -85,10 +85,10 @@ export const EventNetworkGraphBoxWrapper = <T extends any>({
   const handleRelationChange = React.useCallback(
     (r: NetworkGroupBy) => (_: any, c: boolean) => {
       setRelations(
-        !c ? relations.filter((rr) => rr !== r) : relations.concat(r)
+        !c ? relations.filter((rr) => rr !== r) : relations.concat(r),
       );
     },
-    [relations]
+    [relations],
   );
 
   return (
@@ -103,28 +103,28 @@ export const EventNetworkGraphBoxWrapper = <T extends any>({
               query.actors,
               fp.O.fromPredicate(t.array(t.string).is),
               fp.O.chain(fp.NEA.fromArray),
-              fp.O.toNullable
+              fp.O.toNullable,
             ),
             groups: pipe(
               query.groups,
               fp.O.fromPredicate(t.array(t.string).is),
               fp.O.chain(fp.NEA.fromArray),
-              fp.O.toNullable
+              fp.O.toNullable,
             ),
             keywords: pipe(
               query.keywords,
               fp.O.fromPredicate(t.array(t.string).is),
               fp.O.chain(fp.NEA.fromArray),
-              fp.O.toNullable
+              fp.O.toNullable,
             ),
             ids: pipe(
               ids,
               fp.O.fromPredicate(t.array(t.string).is),
               fp.O.chain(fp.NEA.fromArray),
-              fp.O.toNullable
+              fp.O.toNullable,
             ),
           },
-          false
+          false,
         ),
       }}
       render={({ graph }) => {
@@ -230,7 +230,7 @@ const transformNetworkOutput = (
     type,
     query: { ids, type: queryType, ...query },
     ...props
-  }: EventNetworkGraphBoxProps
+  }: EventNetworkGraphBoxProps,
 ): Omit<EventsNetworkGraphProps, "width" | "height"> & {
   minDate: Date;
   maxDate: Date;
@@ -276,7 +276,7 @@ const transformNetworkOutput = (
     if (selectedActorIds && selectedActorIds.length > 0) {
       // console.log("filter per actors", eventRelations.actors);
       const hasActor = eventRelations.actors.some((a: any) =>
-        (selectedActorIds ?? []).includes(a)
+        (selectedActorIds ?? []).includes(a),
       );
       if (!hasActor) {
         // console.log("no actors found", selectedActorIds);
@@ -287,7 +287,7 @@ const transformNetworkOutput = (
     if (selectedGroupIds && selectedGroupIds.length > 0) {
       // console.log("filter per groups", selectedGroupIds);
       const hasGroup = eventRelations.groups.some((a: any) =>
-        (selectedGroupIds ?? []).includes(a.id)
+        (selectedGroupIds ?? []).includes(a.id),
       );
       if (!hasGroup) {
         // console.log("no groups found", selectedGroupIds);
@@ -299,7 +299,7 @@ const transformNetworkOutput = (
       // console.log("filter per keywords", selectedKeywordIds);
       // console.log("event keywords", eventRelations.keywords);
       const hasKeyword = eventRelations.keywords.some((a: any) =>
-        (selectedKeywordIds ?? []).includes(a.id)
+        (selectedKeywordIds ?? []).includes(a.id),
       );
       if (!hasKeyword) {
         // console.log("no keywords found", query.keywords);
@@ -312,14 +312,14 @@ const transformNetworkOutput = (
       queryType,
       fp.O.fromNullable,
       fp.O.chain((et) =>
-        t.string.is(et) ? fp.O.some(et === e.type) : fp.O.none
+        t.string.is(et) ? fp.O.some(et === e.type) : fp.O.none,
       ),
       fp.O.alt(() =>
         t.array(t.string).is(queryType)
           ? fp.O.some(queryType.includes(e.type))
-          : fp.O.none
+          : fp.O.none,
       ),
-      fp.O.getOrElse(() => true)
+      fp.O.getOrElse(() => true),
     );
 
     // console.log("is type included", isTypeIncluded);
@@ -353,7 +353,7 @@ const transformNetworkOutput = (
       (r) =>
         // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         relationLinks.some((l) => r.id === l.target || r.id === l.source) ||
-        ids?.includes(r.id)
+        ids?.includes(r.id),
     );
 
   const nodes = filteredEvents.concat(relationNodes);

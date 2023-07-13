@@ -35,7 +35,7 @@
     "@types/uuid": "^9.0.2",
     "bot-brother": "^2.1.5",
     "date-fns": "^2.30.0",
-    "prettier": "^2.8.8",
+    "prettier": "^3.0.0",
     "puppeteer-core": "^19.11.1",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",

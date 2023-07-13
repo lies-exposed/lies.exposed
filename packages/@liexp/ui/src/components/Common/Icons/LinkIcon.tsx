@@ -5,5 +5,5 @@ import {
 import * as React from "react";
 
 export const LinkIcon: React.FC<Omit<FontAwesomeIconProps, "icon">> = (
-  props
+  props,
 ) => <FontAwesomeIcon {...props} icon={"link"} style={{ cursor: "pointer" }} />;

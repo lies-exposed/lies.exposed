@@ -18,8 +18,8 @@ export const EditEventBody = t.strict(
             thumbnail: t.union([t.string, t.undefined]),
             type: MediaType,
           }),
-        ])
-      )
+        ]),
+      ),
     ),
     links: optionFromUndefined(t.array(t.union([UUID, CreateLink]))),
     location: optionFromUndefined(UUID),
@@ -32,7 +32,7 @@ export const EditEventBody = t.strict(
     body: optionFromUndefined(t.UnknownRecord),
     excerpt: optionFromUndefined(t.UnknownRecord),
   },
-  "EditEventPayload"
+  "EditEventPayload",
 );
 
 export type EditEventBody = t.TypeOf<typeof EditEventBody>;

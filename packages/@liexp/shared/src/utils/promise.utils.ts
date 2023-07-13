@@ -7,6 +7,6 @@ export const sleep = (amount: number): TE.TaskEither<Error, void> => {
         setTimeout(() => {
           resolve();
         }, amount);
-      })
+      }),
   );
 };

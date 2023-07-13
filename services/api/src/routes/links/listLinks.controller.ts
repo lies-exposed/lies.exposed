@@ -28,11 +28,11 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
           ...query
         },
       },
-      req
+      req,
     ) => {
       const findOptions = getORMOptions(
         { ...query },
-        ctx.env.DEFAULT_PAGE_SIZE
+        ctx.env.DEFAULT_PAGE_SIZE,
       );
 
       ctx.logger.debug.log(`find Options %O`, {
@@ -58,7 +58,7 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
                   "lower(link.title) LIKE :q OR lower(link.description) LIKE :q",
                   {
                     q: `%${search.value.toLowerCase()}%`,
-                  }
+                  },
                 );
               }
 
@@ -122,9 +122,9 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
                 .skip(findOptions.skip)
                 .take(findOptions.take)
                 .getManyAndCount();
-            }
+            },
           ),
-        toControllerError
+        toControllerError,
       );
 
       return pipe(
@@ -138,14 +138,14 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
               keywords: r.keywords.map((e) => e.id) as any[],
             })),
             A.traverse(E.Applicative)(toLinkIO),
-            E.map((data) => ({ data, total }))
-          )
+            E.map((data) => ({ data, total })),
+          ),
         ),
         TE.map((body) => ({
           body,
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

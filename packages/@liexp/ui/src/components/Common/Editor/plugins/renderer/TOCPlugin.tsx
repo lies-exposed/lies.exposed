@@ -53,7 +53,7 @@ const deserializeCell = (c: Cell): Option<SerializedHeader[]> => {
         }
       }),
       fp.A.filter(fp.O.isSome),
-      fp.A.sequence(fp.O.Applicative)
+      fp.A.sequence(fp.O.Applicative),
     );
   }
 
@@ -73,7 +73,7 @@ const extractHeaders = (v: { rows: Row[] }): SerializedHeader[] | null => {
 };
 
 const serializeToTypography = (
-  value: Value
+  value: Value,
 ): Array<[string, React.ReactNode]> => {
   return pipe(
     extractHeaders(value),
@@ -104,7 +104,7 @@ const serializeToTypography = (
         }
       }
       return [StoryUtils.convertTitleToId(h.text), component];
-    })
+    }),
   );
 };
 
@@ -175,7 +175,7 @@ export const TOCRenderer: React.FC<TOCRendererProps> = ({
         }
       }
     },
-    [_onClick]
+    [_onClick],
   );
 
   return v ? (
@@ -197,7 +197,6 @@ export const TOCRenderer: React.FC<TOCRendererProps> = ({
 };
 
 export const TOCPlugin: React.FC<TOCRendererProps> = ({ value, onClick }) => {
-
   return (
     <StyledBox className={classes.root}>
       <TOCRenderer value={value} onClick={onClick} />

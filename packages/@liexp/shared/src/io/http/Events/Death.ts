@@ -16,7 +16,7 @@ export const DeathListQuery = t.strict(
     minDate: optionFromNullable(DateFromISOString),
     maxDate: optionFromNullable(DateFromISOString),
   },
-  "DeathListQuery"
+  "DeathListQuery",
 );
 export type DeathListQuery = t.TypeOf<typeof DeathListQuery>;
 
@@ -29,7 +29,7 @@ export const CreateDeathBody = t.strict(
       location: optionFromNullable(UUID),
     }),
   },
-  "CreateDeathBody"
+  "CreateDeathBody",
 );
 
 export type CreateDeathBody = t.TypeOf<typeof CreateDeathBody>;
@@ -43,7 +43,7 @@ export const EditDeathBody = t.strict(
       location: optionFromNullable(UUID),
     }),
   },
-  "CreateDeathBody"
+  "CreateDeathBody",
 );
 
 export type EditDeathBody = t.TypeOf<typeof EditDeathBody>;
@@ -53,7 +53,7 @@ export const DeathPayload = t.strict(
     victim: UUID,
     location: t.union([UUID, t.undefined]),
   },
-  "DeathV2"
+  "DeathV2",
 );
 export type DeathPayload = t.TypeOf<typeof DeathPayload>;
 
@@ -63,6 +63,6 @@ export const Death = t.strict(
     type: DEATH,
     payload: DeathPayload,
   },
-  "DeathEvent"
+  "DeathEvent",
 );
 export type Death = t.TypeOf<typeof Death>;

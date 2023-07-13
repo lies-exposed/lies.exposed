@@ -25,7 +25,7 @@ export const fetchFromWikipedia: TEFlow<[string], LoadedPage> =
             fp.A.head,
             fp.O.chainNullableK((r) => r.srcset?.[0]?.src),
             fp.O.map((url) => `https:${url}`),
-            fp.O.toUndefined
+            fp.O.toUndefined,
           );
 
           const intro = await p.intro();
@@ -36,7 +36,7 @@ export const fetchFromWikipedia: TEFlow<[string], LoadedPage> =
             intro,
           };
         }, toControllerError);
-      })
+      }),
     );
   };
 
@@ -45,6 +45,6 @@ export const searchAndParseFromWikipedia: TEFlow<[string], LoadedPage> =
     return pipe(
       ctx.wp.search(search),
       TE.mapLeft(toControllerError),
-      TE.chain((p) => fetchFromWikipedia(ctx)(p.results[0].pageid))
+      TE.chain((p) => fetchFromWikipedia(ctx)(p.results[0].pageid)),
     );
   };

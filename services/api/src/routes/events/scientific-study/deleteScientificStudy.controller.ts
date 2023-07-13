@@ -13,7 +13,7 @@ export const MakeDeleteScientificStudyRoute: Route = (r, { db }) => {
           data: true,
         },
         statusCode: 201,
-      }))
+      })),
     );
   });
 };

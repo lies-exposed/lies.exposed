@@ -19,7 +19,7 @@ export const MakeCreateAreaRoute: Route = (r, { db, logger, jwt }) => {
           db.findOneOrFail(AreaEntity, {
             where: { id: Equal(actor.id) },
             loadRelationIds: true,
-          })
+          }),
         ),
         TE.chainEitherK(toAreaIO),
         TE.map((page) => ({
@@ -27,8 +27,8 @@ export const MakeCreateAreaRoute: Route = (r, { db, logger, jwt }) => {
             data: page,
           },
           statusCode: 201,
-        }))
+        })),
       );
-    }
+    },
   );
 };

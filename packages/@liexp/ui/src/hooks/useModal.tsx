@@ -39,10 +39,10 @@ const StyledModal = styled(Modal)(({ theme }) => ({
 }));
 
 export const useModal = (
-  props?: Partial<ModalProps>
+  props?: Partial<ModalProps>,
 ): [
   React.ReactElement | null,
-  (title: string, getContent: (onClose: () => void) => JSX.Element) => void
+  (title: string, getContent: (onClose: () => void) => JSX.Element) => void,
 ] => {
   const [modalState, setModalState] = React.useState<{
     title?: string;
@@ -94,7 +94,7 @@ export const useModal = (
 
   const showModal = (
     title: string,
-    getContent: (onClose: () => void) => JSX.Element
+    getContent: (onClose: () => void) => JSX.Element,
   ): void => {
     setModalState({
       title,

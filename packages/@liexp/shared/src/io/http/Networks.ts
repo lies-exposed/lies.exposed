@@ -10,12 +10,12 @@ export const NetworkPageFrontmatter = t.type(
     slug: t.string,
     cover: optionFromNullable(t.string),
   },
-  "NetworkPageContentFileNodeFrontmatter"
+  "NetworkPageContentFileNodeFrontmatter",
 );
 
 export const NetworkPageMD = markdownRemark(
   NetworkPageFrontmatter,
-  "NetworkPageMD"
+  "NetworkPageMD",
 );
 
 export type NetworkPageMD = t.TypeOf<typeof NetworkPageMD>;

@@ -26,14 +26,14 @@ export const MakeEditDocumentaryEventRoute: Route = (r, ctx) => {
             media: O.some([payload.media]),
             keywords,
             links,
-          })
+          }),
         ),
         TE.chain((event) => ctx.db.save(EventV2Entity, [event])),
         TE.chain(([event]) =>
           ctx.db.findOneOrFail(EventV2Entity, {
             where: { id: Equal(event.id) },
             loadRelationIds: true,
-          })
+          }),
         ),
         TE.chainEitherK(toEventV2IO),
         TE.map((data) => ({
@@ -41,8 +41,8 @@ export const MakeEditDocumentaryEventRoute: Route = (r, ctx) => {
             data,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

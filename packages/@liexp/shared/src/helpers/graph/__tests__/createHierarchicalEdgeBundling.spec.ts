@@ -63,7 +63,7 @@ describe("Create Hierarchy Edge Bundling", () => {
 
       expect(graph.nodes.length).toBe(2);
       expect(
-        graph.nodes.sort((a, b) => a.label.localeCompare(b.label))
+        graph.nodes.sort((a, b) => a.label.localeCompare(b.label)),
       ).toMatchObject(
         [
           {
@@ -78,7 +78,7 @@ describe("Create Hierarchy Edge Bundling", () => {
           },
         ]
           .sort((a, b) => a.label.localeCompare(b.label))
-          .map((k) => ({ id: k.id, label: k.label }))
+          .map((k) => ({ id: k.id, label: k.label })),
       );
 
       expect(graph.links.length).toBe(2);
@@ -118,13 +118,13 @@ describe("Create Hierarchy Edge Bundling", () => {
       });
 
       expect(graph.nodes.length).toBe(5);
-      
+
       expect(
-        graph.nodes.sort((a, b) => a.label.localeCompare(b.label))
+        graph.nodes.sort((a, b) => a.label.localeCompare(b.label)),
       ).toMatchObject(
         [keywords[0], keywords[2], keywords[4], keywords[6], keywords[8]]
           .sort((a, b) => a.tag.localeCompare(b.tag))
-          .map((k) => ({ id: k.id, label: k.tag }))
+          .map((k) => ({ id: k.id, label: k.tag })),
       );
 
       expect(graph.links.length).toBe(8);

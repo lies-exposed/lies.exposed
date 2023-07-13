@@ -24,8 +24,8 @@ describe("List Keywords", () => {
           ...a,
           memberIn: [],
           death: undefined,
-        }))
-      )
+        })),
+      ),
     );
   });
 
@@ -33,8 +33,8 @@ describe("List Keywords", () => {
     await throwTE(
       Test.ctx.db.delete(
         KeywordEntity,
-        keywords.map((a) => a.id)
-      )
+        keywords.map((a) => a.id),
+      ),
     );
     await Test.utils.e2eAfterAll();
   });

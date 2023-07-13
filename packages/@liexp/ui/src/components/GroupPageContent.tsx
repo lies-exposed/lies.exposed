@@ -1,4 +1,8 @@
-import { type Actor, type Group, type Project } from "@liexp/shared/lib/io/http";
+import {
+  type Actor,
+  type Group,
+  type Project,
+} from "@liexp/shared/lib/io/http";
 import { type GroupMember } from "@liexp/shared/lib/io/http/GroupMember";
 import { isValidValue } from "@liexp/shared/lib/slate";
 import * as React from "react";

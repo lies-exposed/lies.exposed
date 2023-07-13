@@ -29,7 +29,7 @@ const EditEventButton: React.FC<EditEventButtonProps> = ({ admin, id }) => {
         },
         () => {
           setIsAdmin(null);
-        }
+        },
       );
     }
   }, []);

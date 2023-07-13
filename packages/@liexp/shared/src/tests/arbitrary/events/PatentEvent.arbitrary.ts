@@ -18,8 +18,8 @@ export const PatentEventArb = getArbitrary(
       "createdAt",
       "updatedAt",
       "deletedAt",
-    ])
-  )
+    ]),
+  ),
 ).map((p) => ({
   ...p,
   id: fc.sample(fc.uuid(), 1)[0],

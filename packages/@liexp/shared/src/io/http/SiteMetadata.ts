@@ -9,16 +9,16 @@ export const SiteMetadata = t.strict(
         repo: t.string,
         link: t.string,
       },
-      "GithubMetadata"
+      "GithubMetadata",
     ),
     slack: t.interface(
       {
         team: t.string,
       },
-      "SlackMetadata"
+      "SlackMetadata",
     ),
   },
-  "SiteMetadata"
+  "SiteMetadata",
 );
 
 export type SiteMetadata = t.TypeOf<typeof SiteMetadata>;

@@ -5,5 +5,5 @@ import {
 import * as React from "react";
 
 export const TelegramIcon: React.FC<Omit<FontAwesomeIconProps, "icon">> = (
-  props
+  props,
 ) => <FontAwesomeIcon {...props} icon={["fab", "telegram"]} />;

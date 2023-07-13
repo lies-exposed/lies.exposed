@@ -3,9 +3,10 @@ import { pipe } from "fp-ts/function";
 import qs from "query-string";
 import React from "react";
 import {
-  type Location, type NavigateFunction,
+  type Location,
+  type NavigateFunction,
   useLocation,
-  useNavigate
+  useNavigate,
 } from "react-router";
 
 const toBase64 = (data: string): string => {
@@ -20,7 +21,7 @@ const parseQuery = (s: string): qs.ParsedQuery =>
   qs.parse(s.replace("?", ""), { arrayFormat: "bracket" });
 
 export const stringifyQuery = (
-  search: Record<string, string | string[]>
+  search: Record<string, string | string[]>,
 ): string => qs.stringify(search, { arrayFormat: "bracket" });
 
 export function useRouteQuery(def?: any): any {
@@ -36,7 +37,7 @@ export const queryToHash = (q: any): string => {
 export const hashToQuery = (h: string | undefined): any => {
   return pipe(
     h !== undefined && h !== "" ? fromBase64(fromBase64(h)) : "{}",
-    JSON.parse
+    JSON.parse,
   );
 };
 

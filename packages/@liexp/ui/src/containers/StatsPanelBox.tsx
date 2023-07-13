@@ -50,7 +50,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
     display: "flex",
     alignItems: "flex-start",
     padding: theme.spacing(2),
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
     [`> *`]: {
       marginRight: theme.spacing(1),
     },
@@ -131,7 +131,9 @@ export const StatsPanelBox: React.FC<StatsPanelProps> = ({
                             key={id}
                             actor={actor}
                             count={count}
-                            onClick={() => { onActorClick(actor); }}
+                            onClick={() => {
+                              onActorClick(actor);
+                            }}
                           />
                         ) : null;
                       })}
@@ -157,7 +159,9 @@ export const StatsPanelBox: React.FC<StatsPanelProps> = ({
                             key={id}
                             count={count}
                             group={group}
-                            onClick={() => { onGroupClick(group); }}
+                            onClick={() => {
+                              onGroupClick(group);
+                            }}
                           />
                         ) : null;
                       })}
@@ -183,7 +187,9 @@ export const StatsPanelBox: React.FC<StatsPanelProps> = ({
                             key={id}
                             count={count}
                             keyword={keyword}
-                            onClick={() => { onKeywordClick(keyword); }}
+                            onClick={() => {
+                              onKeywordClick(keyword);
+                            }}
                           />
                         ) : null;
                       })}

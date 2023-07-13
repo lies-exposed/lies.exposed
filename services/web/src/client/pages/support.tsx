@@ -11,7 +11,7 @@ const SupportPage: React.FunctionComponent = () => (
       onMenuItemClick: () => undefined,
     }}
   >
-    <SEO title="Home" image="" urlPath='/support' />
+    <SEO title="Home" image="" urlPath="/support" />
     <div>
       <div>
         <p>In sviluppo</p>

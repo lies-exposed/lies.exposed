@@ -9,7 +9,7 @@ export const BaseProps = t.strict(
     createdAt: DateFromISOString,
     updatedAt: DateFromISOString,
   },
-  "BaseProps"
+  "BaseProps",
 );
 
 export type BaseProps = t.TypeOf<typeof BaseProps>;

@@ -1,11 +1,12 @@
-import type * as http from '@liexp/shared/lib/io/http';
+import type * as http from "@liexp/shared/lib/io/http";
 import {
   Create,
   type CreateProps,
   Datagrid,
   DateField,
   DateInput,
-  Edit, FormTab,
+  Edit,
+  FormTab,
   List,
   type ListProps,
   type RaRecord,
@@ -13,7 +14,8 @@ import {
   ReferenceManyField,
   SimpleForm,
   TabbedForm,
-  TextField, useRecordContext
+  TextField,
+  useRecordContext,
 } from "@liexp/ui/lib/components/admin";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
 import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput";
@@ -55,7 +57,9 @@ export const GroupMemberList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-const EditTitle: React.FC<{ record?: http.GroupMember.GroupMember }> = ({ record }) => {
+const EditTitle: React.FC<{ record?: http.GroupMember.GroupMember }> = ({
+  record,
+}) => {
   return <span>Actor {record?.actor.fullName}</span>;
 };
 

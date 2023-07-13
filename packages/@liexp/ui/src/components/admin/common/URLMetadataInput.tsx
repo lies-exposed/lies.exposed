@@ -34,7 +34,7 @@ const URLMetadataInput: React.FC<URLMetadataInputProps> = ({
           setMetadata(result.data);
         });
     },
-    [value]
+    [value],
   );
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> =

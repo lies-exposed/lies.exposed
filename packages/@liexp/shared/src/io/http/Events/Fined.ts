@@ -15,7 +15,7 @@ export const Fined = t.strict(
     from: nonEmptyArray(BySubject),
     date: DateFromISOString,
   },
-  FINED_FRONTMATTER.value
+  FINED_FRONTMATTER.value,
 );
 
 export type Fined = t.TypeOf<typeof Fined>;

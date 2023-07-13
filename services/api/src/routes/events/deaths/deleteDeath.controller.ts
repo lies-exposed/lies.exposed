@@ -19,7 +19,7 @@ export const MakeDeleteDeathEventRoute: Route = (r, { db }) => {
           data,
         },
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

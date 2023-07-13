@@ -20,14 +20,14 @@ export const MakeUserEditRoute: Route = (r, ctx) => {
               ...u,
               ...userData,
             },
-          ])
+          ]),
         ),
         TE.chainEitherK(([user]) => toUserIO(user)),
         TE.map((data) => ({
           body: { data },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

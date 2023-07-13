@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { AdminEdit } from '@liexp/shared/lib/io/http/User';
+import { AdminEdit } from "@liexp/shared/lib/io/http/User";
 import { type Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
@@ -24,7 +24,7 @@ export const EditEventRoute = (r: Router, ctx: RouteContext): void => {
         TE.chain((event) => editEventQuery(ctx)(event, body)),
         ctx.logger.debug.logInTaskEither(`Update data %O`),
         TE.chain((updateData) =>
-          ctx.db.save(EventV2Entity, [{ id, ...updateData }])
+          ctx.db.save(EventV2Entity, [{ id, ...updateData }]),
         ),
         TE.chain(() =>
           ctx.db.findOneOrFail(EventV2Entity, {
@@ -32,14 +32,14 @@ export const EditEventRoute = (r: Router, ctx: RouteContext): void => {
             loadRelationIds: {
               relations: ["media", "links", "keywords"],
             },
-          })
+          }),
         ),
         TE.chainEitherK(toEventV2IO),
         TE.map((event) => ({
           body: { data: event },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

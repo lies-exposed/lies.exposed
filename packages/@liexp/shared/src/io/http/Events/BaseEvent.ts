@@ -15,7 +15,7 @@ const SlateValue = t.partial(
     rows: t.array(t.any),
     version: t.number,
   },
-  "SlateValue"
+  "SlateValue",
 );
 
 export const CreateEventCommon = t.strict(
@@ -28,7 +28,7 @@ export const CreateEventCommon = t.strict(
     links: t.array(t.union([UUID, CreateEventLink])),
     keywords: t.array(UUID),
   },
-  "CreateEventCommon"
+  "CreateEventCommon",
 );
 export type CreateEventCommon = t.TypeOf<typeof CreateEventCommon>;
 
@@ -42,7 +42,7 @@ export const EditEventCommon = t.strict(
     media: optionFromUndefined(t.array(t.union([UUID, CreateMedia]))),
     links: optionFromUndefined(t.array(t.union([UUID, CreateEventLink]))),
   },
-  "EditEventCommon"
+  "EditEventCommon",
 );
 export type EditEventCommon = t.TypeOf<typeof EditEventCommon>;
 
@@ -56,6 +56,6 @@ export const EventCommon = t.strict(
     updatedAt: DateFromISOString,
     deletedAt: t.union([DateFromISOString, t.undefined], "deletedAt"),
   },
-  "EventCommon"
+  "EventCommon",
 );
 export type EventCommon = t.TypeOf<typeof EventCommon>;

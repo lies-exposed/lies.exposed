@@ -17,7 +17,7 @@ export const MakeEditKeywordsRoute: Route = (r, { db, logger, jwt }) => {
           db.findOneOrFail(KeywordEntity, {
             where: { id },
             loadRelationIds: true,
-          })
+          }),
         ),
         TE.chainEitherK(toKeywordIO),
         TE.map((actor) => ({
@@ -25,8 +25,8 @@ export const MakeEditKeywordsRoute: Route = (r, { db, logger, jwt }) => {
             data: actor,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

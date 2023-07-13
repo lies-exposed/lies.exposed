@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { UserStatusApproved } from '@liexp/shared/lib/io/http/User';
+import { UserStatusApproved } from "@liexp/shared/lib/io/http/User";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
@@ -24,14 +24,14 @@ export const MakeUserCreateRoute: Route = (r, ctx) => {
               status: UserStatusApproved.value,
               passwordHash: pw,
             },
-          ])
+          ]),
         ),
         TE.chainEitherK(([user]) => toUserIO(user)),
         TE.map((data) => ({
           body: { data },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

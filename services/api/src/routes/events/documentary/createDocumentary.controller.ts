@@ -44,7 +44,7 @@ export const MakeCreateDocumentaryReleaseRoute: Route = (r, { db, logger }) => {
             loadRelationIds: {
               relations: ["media", "links", "keywords"],
             },
-          })
+          }),
         ),
         TE.chainEitherK(toEventV2IO),
         TE.map((data) => ({
@@ -52,8 +52,8 @@ export const MakeCreateDocumentaryReleaseRoute: Route = (r, { db, logger }) => {
             data,
           },
           statusCode: 201,
-        }))
+        })),
       );
-    }
+    },
   );
 };

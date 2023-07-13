@@ -3,7 +3,7 @@ import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { editEventQuery } from "../queries/editEvent.query";
-import { toEventSuggestion } from "./eventSuggestion.io"
+import { toEventSuggestion } from "./eventSuggestion.io";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { type Route } from "@routes/route.types";
 
@@ -49,9 +49,9 @@ export const EditEventSuggestionRoute: Route = (r, ctx) => {
                   id,
                   status: "PENDING",
                 },
-              ])
-            )
-          )
+              ]),
+            ),
+          ),
         ),
         TE.chainEitherK(([d]) => toEventSuggestion(d)),
         TE.map((data) => ({
@@ -59,8 +59,8 @@ export const EditEventSuggestionRoute: Route = (r, ctx) => {
             data,
           },
           statusCode: 201,
-        }))
+        })),
       );
-    }
+    },
   );
 };

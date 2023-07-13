@@ -7,7 +7,7 @@ import {
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from "typeorm";
 import { ActorEntity } from "../Actor.entity";
 import { GroupEntity } from "../Group.entity";

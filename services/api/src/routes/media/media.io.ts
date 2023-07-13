@@ -6,7 +6,7 @@ import { type ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toImageIO = (
   media: MediaEntity,
-  spaceEndpoint: string
+  spaceEndpoint: string,
 ): E.Either<ControllerError, io.http.Media.Media> => {
   return pipe(
     io.http.Media.AdminMedia.decode({
@@ -22,6 +22,6 @@ export const toImageIO = (
       updatedAt: media.updatedAt.toISOString(),
       deletedAt: media.deletedAt?.toISOString() ?? undefined,
     }),
-    E.mapLeft((e) => DecodeError(`Failed to decode media (${media.id})`, e))
+    E.mapLeft((e) => DecodeError(`Failed to decode media (${media.id})`, e)),
   );
 };

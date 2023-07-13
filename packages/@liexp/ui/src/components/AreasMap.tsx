@@ -31,7 +31,6 @@ const AreasMap: React.FC<AreasMapProps> = (props) => {
   return (
     <AutoSizer style={{ width: "100%", height }}>
       {({ width, height }) => {
-
         return (
           <div
             style={{

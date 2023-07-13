@@ -62,8 +62,8 @@ const StoryTemplate: React.FC<{ storyPath: string }> = ({ storyPath }) => {
             </>
           )}
         />
-      )
-    )
+      ),
+    ),
   );
 };
 

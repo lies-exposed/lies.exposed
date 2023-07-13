@@ -36,7 +36,7 @@ export const MediaType = t.union(
     PDFType,
     IframeVideoType,
   ],
-  "MediaType"
+  "MediaType",
 );
 export type MediaType = t.TypeOf<typeof MediaType>;
 
@@ -68,7 +68,7 @@ export const GetListMediaQuery = t.type(
     creator: optionFromNullable(UUID),
     keywords: optionFromNullable(t.array(UUID)),
   },
-  "MediaListQuery"
+  "MediaListQuery",
 );
 export type GetListMediaQuery = t.TypeOf<typeof GetListMediaQuery>;
 
@@ -79,7 +79,7 @@ export const CreateMedia = t.strict(
     thumbnail: t.union([t.string, t.undefined]),
     type: ValidContentType,
   },
-  "CreateMedia"
+  "CreateMedia",
 );
 
 export type CreateMedia = t.TypeOf<typeof CreateMedia>;
@@ -100,7 +100,7 @@ export const Media = t.strict(
     updatedAt: DateFromISOString,
     deletedAt: t.union([DateFromISOString, t.undefined]),
   },
-  "Media"
+  "Media",
 );
 export type Media = t.TypeOf<typeof Media>;
 
@@ -108,6 +108,6 @@ export type ImageMedia = Omit<Media, "type"> & { type: ImageType };
 
 export const AdminMedia = t.intersection(
   [Media, t.strict({ transferable: t.boolean })],
-  "AdminMedia"
+  "AdminMedia",
 );
 export type AdminMedia = t.TypeOf<typeof AdminMedia>;

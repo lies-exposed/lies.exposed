@@ -1,6 +1,6 @@
 import { fp } from "@liexp/core/lib/fp";
 import { type Page } from "@liexp/shared/lib/io/http";
-import { type APIError } from '@liexp/shared/lib/io/http/Error/APIError';
+import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
 import { pipe } from "fp-ts/lib/function";
 import { useQuery } from "react-query";
 import { foldTE, Queries } from "../../providers/DataProvider";
@@ -28,7 +28,7 @@ export const fetchPageContentByPath = async ({
           },
           sort: { field: "createdAt", order: "DESC" },
         }),
-      (e) => e  as APIError
+      (e) => e as APIError,
     ),
     fp.TE.map((pages) => fp.A.head(pages.data)),
     fp.TE.chain(
@@ -37,10 +37,10 @@ export const fetchPageContentByPath = async ({
           name: `APIError`,
           message: `Page ${path} is missing`,
           details: [],
-        })
-      )
+        }),
+      ),
     ),
-    foldTE
+    foldTE,
   );
 };
 

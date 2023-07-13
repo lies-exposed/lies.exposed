@@ -12,7 +12,7 @@ export const TopicFrontmatter = t.strict(
     slug: t.string,
     color: Color,
   },
-  TOPIC_FRONTMATTER.value
+  TOPIC_FRONTMATTER.value,
 );
 export type TopicFrontmatter = t.TypeOf<typeof TopicFrontmatter>;
 
@@ -27,7 +27,7 @@ export const TopicData = t.intersection(
       selected: t.boolean,
     }),
   ],
-  "TopicData"
+  "TopicData",
 );
 
 export type TopicData = t.TypeOf<typeof TopicData>;
@@ -38,7 +38,7 @@ export const TopicPoint = t.interface(
     y: t.number,
     data: TopicData,
   },
-  "TopicPoint"
+  "TopicPoint",
 );
 
 export type TopicPoint = t.TypeOf<typeof TopicPoint>;

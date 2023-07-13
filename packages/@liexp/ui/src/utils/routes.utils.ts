@@ -33,22 +33,22 @@ export const Routes = t.type(
         startDate: t.union([t.undefined, t.string]),
         endDate: t.union([t.undefined, t.string]),
       },
-      "EventsRoute"
+      "EventsRoute",
     ),
   },
-  "Routes"
+  "Routes",
 );
 
 export type Routes = t.TypeOf<typeof Routes>;
 
 export const parseSearch = <R extends keyof Routes>(
   l: WindowLocation | undefined,
-  route: R
+  route: R,
 ): E.Either<t.Errors, Routes[R]> => {
   const search =
     l !== undefined
       ? stripInvalid(
-          querystring.parse(l.search.replace("?", ""), queryStringOpts)
+          querystring.parse(l.search.replace("?", ""), queryStringOpts),
         )
       : {};
 
@@ -74,7 +74,7 @@ export const updateSearch =
   <R extends keyof Routes>(route: R) =>
   (
     l: WindowLocation | undefined,
-    update: Partial<Routes[R]>
+    update: Partial<Routes[R]>,
   ): E.Either<t.Errors, string> => {
     return pipe(
       parseSearch(l, route),
@@ -82,7 +82,7 @@ export const updateSearch =
       E.map(stripInvalid),
       E.map(
         (search) =>
-          `/${route}?${querystring.stringify(search, queryStringOpts)}`
-      )
+          `/${route}?${querystring.stringify(search, queryStringOpts)}`,
+      ),
     );
   };

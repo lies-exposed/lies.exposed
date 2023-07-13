@@ -55,14 +55,14 @@ const HierarchyNetworkGraphBoxWrapper: React.FC<
         minDate: Date;
         maxDate: Date;
         totals: EventTotals;
-      }
+      },
     ) => React.ReactNode | null;
     children: (
       opts: HierarchyNetworkGraphProps & {
         minDate: Date;
         maxDate: Date;
         totals: EventTotals;
-      }
+      },
     ) => React.ReactNode;
   }
 > = ({

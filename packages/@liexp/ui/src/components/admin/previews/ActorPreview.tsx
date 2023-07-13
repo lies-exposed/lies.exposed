@@ -20,7 +20,7 @@ const ActorPreview: React.FC = () => {
       http.Actor.Actor.decode({
         ...(record ?? {}),
       }),
-    [record]
+    [record],
   );
 
   if (!record) {
@@ -47,7 +47,7 @@ const ActorPreview: React.FC = () => {
           </ThemeProvider>
         </QueryClientProvider>
       </HelmetProvider>
-    ))
+    )),
   );
 };
 

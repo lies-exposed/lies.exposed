@@ -13,7 +13,7 @@ import { Box, MenuItem, Select } from "../../mui";
 interface CreateEventButtonProps {
   transform: (
     t: io.http.Events.EventType,
-    record: RaRecord
+    record: RaRecord,
   ) => Promise<CreateEventBody>;
 }
 
@@ -25,7 +25,7 @@ export const CreateEventButton: React.FC<CreateEventButtonProps> = ({
   const apiProvider = useDataProvider();
 
   const [type, setType] = React.useState<io.http.Events.EventType>(
-    io.http.Events.EventType.types[1].value
+    io.http.Events.EventType.types[1].value,
   );
 
   return (

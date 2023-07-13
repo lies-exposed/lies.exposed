@@ -28,7 +28,7 @@ export const MakeCreateManyLinkRoute = (r: Router, ctx: RouteContext): void => {
               const c = new UserEntity();
               c.id = u.id;
               return c;
-            })
+            }),
           ),
           links: ctx.db.find(LinkEntity, {
             where: {
@@ -47,15 +47,15 @@ export const MakeCreateManyLinkRoute = (r: Router, ctx: RouteContext): void => {
               }
               return TE.right(u);
             }),
-            A.sequence(TE.ApplicativeSeq)
+            A.sequence(TE.ApplicativeSeq),
           );
         }),
         TE.chainEitherK(A.traverse(E.Applicative)(toLinkIO)),
         TE.map((data) => ({
           body: { data },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

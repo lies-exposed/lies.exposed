@@ -28,7 +28,7 @@ const KeywordsDistributionGraphComponent: React.FC<
         (d): KeywordDatum => ({
           ...d,
           text: d.tag,
-        })
+        }),
       );
 
     const wordSizes = words.map((w) => w.events);
@@ -76,7 +76,9 @@ const KeywordsDistributionGraphComponent: React.FC<
                   fontFamily={w.font}
                   fontWeight={600}
                   style={{ cursor: "pointer" }}
-                  onClick={() => { onClick(w); }}
+                  onClick={() => {
+                    onClick(w);
+                  }}
                 >
                   {w.text}
                 </Text>

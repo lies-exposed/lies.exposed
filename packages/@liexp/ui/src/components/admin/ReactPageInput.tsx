@@ -41,7 +41,7 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
 
   const isValueValid = React.useMemo(
     () => value === "" || isValidValue(value) || isValidJSON,
-    [value, isValidJSON]
+    [value, isValidJSON],
   );
 
   const [showJSONEditor, setShowJSONEditor] = React.useState(false);

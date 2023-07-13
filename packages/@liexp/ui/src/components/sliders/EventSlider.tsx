@@ -1,6 +1,6 @@
 import { type Events } from "@liexp/shared/lib/io/http";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
-import {clsx} from "clsx";
+import { clsx } from "clsx";
 import * as React from "react";
 import { styled } from "../../theme";
 import { Slider, type SliderProps } from "../Common/Slider/Slider";

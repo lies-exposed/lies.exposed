@@ -17,8 +17,8 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({ area }) => {
           <MediaSliderBox
             itemStyle={(i) => ({
               display: "block",
-              height: '100%',
-              width: '100%'
+              height: "100%",
+              width: "100%",
             })}
             query={{
               filter: { ids: area.media },

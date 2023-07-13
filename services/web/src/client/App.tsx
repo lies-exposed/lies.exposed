@@ -9,7 +9,7 @@ import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 import { Route, Routes, useLocation } from "react-router";
 import AppHeader, { logo192 } from "./components/header/AppHeader";
 import { routes } from "./routes";
-import '@liexp/ui/assets/main.css';
+import "@liexp/ui/assets/main.css";
 
 const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
   // eslint-disable-next-line no-console
@@ -32,7 +32,10 @@ export const App: React.FC = () => {
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <SEO title="lies exposed" urlPath={location.pathname} />
         <AppHeader />
-        <Grid container style={{ minHeight: "100%", height: "100%", width: "100%" }}>
+        <Grid
+          container
+          style={{ minHeight: "100%", height: "100%", width: "100%" }}
+        >
           <Grid
             item
             style={{

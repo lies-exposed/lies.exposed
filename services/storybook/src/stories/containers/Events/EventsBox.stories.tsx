@@ -1,8 +1,8 @@
 import EventsBox, {
-  type EventsBoxProps
+  type EventsBoxProps,
 } from "@liexp/ui/lib/containers/EventsBox";
 import { type Meta, type StoryFn } from "@storybook/react";
-import * as React from 'react';
+import * as React from "react";
 
 const meta: Meta = {
   title: "Containers/Events/EventsBox",

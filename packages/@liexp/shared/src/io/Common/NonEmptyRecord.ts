@@ -28,15 +28,15 @@ export interface NonEmptyRecordC<P extends t.Props>
 export const NonEmptyRecord = t.brand(
   t.record(t.string, t.unknown),
   (s): s is NonEmptyRecord<Record<string, t.UnknownC>> => !R.isEmpty(s),
-  "NonEmptyRecord"
+  "NonEmptyRecord",
 );
 
 export const nonEmptyRecordFromType = <P extends t.Props>(
   rec: P,
-  name?: string
+  name?: string,
 ): NonEmptyRecordC<P> =>
   t.brand(
     t.exact(t.partial(rec), name),
     (s): s is NonEmptyRecord<P> => !R.isEmpty(s),
-    `NonEmptyRecord`
+    `NonEmptyRecord`,
   );

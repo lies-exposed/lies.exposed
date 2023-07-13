@@ -9,7 +9,9 @@ import { type RenderedRows } from "react-virtualized/dist/commonjs/List";
 import { type SearchEventQueryResult } from "../../../state/queries/SearchEventsQuery";
 import { styled } from "../../../theme";
 import { type EventListItemProps } from "./EventListItem";
-import EventTimelineItem, { type EventTimelineItemProps } from "./EventTimelineItem";
+import EventTimelineItem, {
+  type EventTimelineItemProps,
+} from "./EventTimelineItem";
 
 const PREFIX = "EventsTimeline";
 

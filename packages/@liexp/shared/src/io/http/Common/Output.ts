@@ -6,25 +6,25 @@ export interface Output<T> {
 
 export const Output = <T extends t.Any>(
   data: T,
-  name: string
+  name: string,
 ): t.ExactType<t.TypeC<{ data: T }>> =>
   t.strict(
     {
       data,
     },
-    name
+    name,
   );
 
 export const ListOutput = <T extends t.Any>(
   data: T,
-  name: string
+  name: string,
 ): t.ExactType<t.TypeC<{ data: t.ArrayC<T>; total: t.NumberC }>> =>
   t.strict(
     {
       data: t.array(data),
       total: t.number,
     },
-    name
+    name,
   );
 
 export interface ListOutput<T> {

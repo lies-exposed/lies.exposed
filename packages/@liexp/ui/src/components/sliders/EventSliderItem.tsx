@@ -136,8 +136,8 @@ export const EventSliderItemBase: React.FC<EventSliderItemBaseProps> = ({
                   onKeywordClick?.(k);
                 }}
               />
-            )
-          )
+            ),
+          ),
         )}
 
         {url ? (
@@ -167,7 +167,7 @@ export const EventSliderItemBase: React.FC<EventSliderItemBaseProps> = ({
               />
             </Grid>
           )),
-          O.toNullable
+          O.toNullable,
         )}
         {isValidValue(excerpt) ? (
           <Grid item sm={12} md={4} lg={4}>
@@ -221,8 +221,8 @@ export const EventSliderItemBase: React.FC<EventSliderItemBaseProps> = ({
                 onItemClick={() => {}}
               />
             </Grid>
-          )
-        )
+          ),
+        ),
       )}
     </StyledGrid>
   );

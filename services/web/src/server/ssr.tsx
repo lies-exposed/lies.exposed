@@ -19,7 +19,7 @@ const run = (): void => {
         {
           NODE_ENV: (process.env.NODE_ENV as any) ?? "development",
         },
-        routes
+        routes,
       );
 
       webSrvLog.debug.log("port", process.env.PUBLIC_URL);
@@ -27,7 +27,7 @@ const run = (): void => {
       app.listen(process.env.PORT, () => {
         webSrvLog.debug.log("app listening on port %s", process.env.PORT);
       });
-    }
+    },
   );
 };
 

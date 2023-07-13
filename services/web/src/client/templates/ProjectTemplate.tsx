@@ -44,8 +44,8 @@ export default class ProjectTemplate extends React.PureComponent<
               </Container>
             )}
           />
-        )
-      )
+        ),
+      ),
     );
   }
 }

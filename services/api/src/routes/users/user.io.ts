@@ -8,13 +8,12 @@ export const toUserIO = ({
   passwordHash,
   ...user
 }: UserEntity): E.Either<ControllerError, io.http.User.User> => {
-
   return pipe(
     io.http.User.User.decode({
       ...user,
       createdAt: user.createdAt.toISOString(),
       updatedAt: user.updatedAt.toISOString(),
     }),
-    E.mapLeft((e) => DecodeError(`Failed to decode user (${user.id})`, e))
+    E.mapLeft((e) => DecodeError(`Failed to decode user (${user.id})`, e)),
   );
 };

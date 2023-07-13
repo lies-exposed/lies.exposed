@@ -60,7 +60,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
                 // eslint-disable-next-line react/jsx-key
                 <label>Data di fine {formatDate(date)}</label>
               )),
-              O.toNullable
+              O.toNullable,
             )}
           </div>
         </div>
@@ -78,7 +78,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
                 dots={true}
               />
             )),
-            O.getOrElse(() => <div>No media!</div>)
+            O.getOrElse(() => <div>No media!</div>),
           )}
         </Grid>
         <Grid>

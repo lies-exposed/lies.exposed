@@ -8,7 +8,7 @@ import ReferenceLinkInput from "../links/ReferenceLinkInput";
 import ReferenceMediaInput from "../media/input/ReferenceMediaInput";
 
 export const DocumentaryEditFormTab: React.FC<EditProps & { record?: any }> = (
-  props
+  props,
 ) => (
   <Box>
     <TextInput fullWidth source="payload.title" />

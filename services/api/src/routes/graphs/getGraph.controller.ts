@@ -18,7 +18,7 @@ export const MakeGetGraphsRoute = (r: Router, ctx: RouteContext): void => {
           return pipe(
             // eslint-disable-next-line @typescript-eslint/no-base-to-string
             csvUtil.parseString(content.Body.toString(), t.any),
-            TE.mapLeft(() => ServerError())
+            TE.mapLeft(() => ServerError()),
           );
         }
         return TE.left(NotFoundError("graph"));
@@ -28,7 +28,7 @@ export const MakeGetGraphsRoute = (r: Router, ctx: RouteContext): void => {
           data,
         },
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

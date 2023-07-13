@@ -8,7 +8,7 @@ interface ReferenceBySubjectFieldProps extends FieldProps {
 }
 
 export const ReferenceBySubjectField: React.FC<ReferenceBySubjectFieldProps> = (
-  props
+  props,
 ) => {
   const record = useRecordContext(props);
   const src = get(record, `${props.source}.type`);

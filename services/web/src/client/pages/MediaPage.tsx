@@ -1,6 +1,4 @@
-import {
-  type SearchFilter
-} from "@liexp/ui/lib/components/events/inputs/SearchEventInput";
+import { type SearchFilter } from "@liexp/ui/lib/components/events/inputs/SearchEventInput";
 import MediaSearchTemplate from "@liexp/ui/lib/templates/MediaSearchTemplate";
 import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
@@ -22,7 +20,7 @@ const MediaPage: React.FC<RouteComponentProps> = (props) => {
       _sort: "createdAt",
       _order: "DESC" as const,
       groups: [],
-      actors: []
+      actors: [],
     },
   };
 

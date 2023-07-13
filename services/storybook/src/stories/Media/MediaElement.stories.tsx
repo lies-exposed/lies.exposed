@@ -24,7 +24,7 @@ const Template: StoryFn<MediaElementProps & { type: MediaType }> = ({
       queries={{
         actor: useMediaQuery(
           { filter: { type }, pagination: { perPage: 1, page: 1 } },
-          false
+          false,
         ),
       }}
       render={({ actor }) => {

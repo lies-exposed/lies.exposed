@@ -1,10 +1,14 @@
 import { StatsType } from "@liexp/shared/lib/io/http/Stats";
 import * as React from "react";
 import { useStatsQuery } from "../../state/queries/stats.queries";
-import { HierarchicalEdgeBundling, type HierarchicalEdgeBundlingOnClickProps } from "../Common/Graph/HierarchicalEdgeBundling";
+import {
+  HierarchicalEdgeBundling,
+  type HierarchicalEdgeBundlingOnClickProps,
+} from "../Common/Graph/HierarchicalEdgeBundling";
 import QueriesRenderer from "../QueriesRenderer";
 
-export interface ActorHierarchyEdgeBundlingGraphProps extends HierarchicalEdgeBundlingOnClickProps {
+export interface ActorHierarchyEdgeBundlingGraphProps
+  extends HierarchicalEdgeBundlingOnClickProps {
   actor: string;
   width: number;
 }
@@ -24,7 +28,7 @@ export const ActorHierarchyEdgeBundlingGraph: React.FC<
         return (
           <HierarchicalEdgeBundling
             {...props}
-            graph={{ nodes: [], links: []}}
+            graph={{ nodes: [], links: [] }}
             hideLabels={true}
           />
         );

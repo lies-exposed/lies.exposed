@@ -1,4 +1,4 @@
-import {type FeatureLike} from "ol/Feature";
+import { type FeatureLike } from "ol/Feature";
 import type Feature from "ol/Feature";
 import OlMap from "ol/Map";
 import * as OlControl from "ol/control";

@@ -48,7 +48,7 @@ export const getMediaKeyFromLocation = (u: string): string => {
     fp.A.last,
     fp.O.alt(() => fp.O.some(u)),
     fp.O.map((file) => file.split(".")[0]),
-    fp.O.getOrElse(() => u)
+    fp.O.getOrElse(() => u),
   );
 
   return id;
@@ -58,14 +58,14 @@ export const getMediaKey = (
   resource: UploadResource,
   id: string,
   fileName: string,
-  contentType: Media.ValidContentType
+  contentType: Media.ValidContentType,
 ): string => {
   return `public/${resource}/${id}/${fileName}.${fileExtFromContentType(
-    contentType
+    contentType,
   )}`;
 };
 
 export const getMediaThumbKey = (
   id: string,
-  contentType: Media.ValidContentType
+  contentType: Media.ValidContentType,
 ): string => getMediaKey("media", id, `${id}-thumb`, contentType);

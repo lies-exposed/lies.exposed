@@ -8,7 +8,7 @@ import { ECOTheme } from "../../../theme";
 import { HelmetProvider } from "../../SEO";
 import { ValidationErrorsLayout } from "../../ValidationErrorsLayout";
 import { ThemeProvider } from "../../mui";
-import { MediaSlider } from '../../sliders/MediaSlider';
+import { MediaSlider } from "../../sliders/MediaSlider";
 
 const MediaPreview: React.FC = () => {
   const { record } = useEditContext();
@@ -20,7 +20,7 @@ const MediaPreview: React.FC = () => {
       http.Media.Media.decode({
         ...(record ?? {}),
       }),
-    [record]
+    [record],
   );
 
   if (!record) {
@@ -37,7 +37,7 @@ const MediaPreview: React.FC = () => {
           </ThemeProvider>
         </QueryClientProvider>
       </HelmetProvider>
-    ))
+    )),
   );
 };
 

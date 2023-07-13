@@ -7,7 +7,7 @@ import { URLArb } from "../URL.arbitrary";
 
 const createScientificStudyProps = propsOmit(
   http.Events.ScientificStudy.CreateScientificStudyBody.types[0],
-  ["excerpt", "body", "date", "draft", "payload", "media", "links", "keywords"]
+  ["excerpt", "body", "date", "draft", "payload", "media", "links", "keywords"],
 );
 
 export const CreateScientificStudyArb: tests.fc.Arbitrary<http.Events.ScientificStudy.CreateScientificStudyBody> =
@@ -43,7 +43,7 @@ const scientificStudyProps = propsOmit(
     "createdAt",
     "updatedAt",
     "deletedAt",
-  ]
+  ],
 );
 
 export const ScientificStudyArb: tests.fc.Arbitrary<http.Events.ScientificStudy.ScientificStudy> =
@@ -66,11 +66,11 @@ export const ScientificStudyArb: tests.fc.Arbitrary<http.Events.ScientificStudy.
     keywords: [],
     createdAt: tests.fc.sample(
       tests.fc.date({ min: MIN_DATE, max: MAX_DATE }),
-      1
+      1,
     )[0],
     updatedAt: tests.fc.sample(
       tests.fc.date({ min: MIN_DATE, max: MAX_DATE }),
-      1
+      1,
     )[0],
     deletedAt: undefined,
   }));

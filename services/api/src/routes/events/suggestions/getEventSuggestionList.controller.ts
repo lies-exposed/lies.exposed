@@ -27,7 +27,7 @@ export const GetEventSuggestionListRoute: Route = (r, ctx) => {
           creator: _creator,
         },
       },
-      { user }
+      { user },
     ) => {
       const u: User = user as any;
       const ordering = foldOptionals({
@@ -41,8 +41,8 @@ export const GetEventSuggestionListRoute: Route = (r, ctx) => {
           O.map((s) => [s]),
           O.alt(
             (): O.Option<EventSuggestion.EventSuggestionStatus[]> =>
-              O.some(["PENDING", "COMPLETED"])
-          )
+              O.some(["PENDING", "COMPLETED"]),
+          ),
         );
 
       ctx.logger.debug.log("_Creator %O", _creator);
@@ -51,8 +51,8 @@ export const GetEventSuggestionListRoute: Route = (r, ctx) => {
         O.alt(() =>
           [EventSuggestionRead.value].some((p) => u.permissions.includes(p))
             ? O.some(u.id)
-            : O.none
-        )
+            : O.none,
+        ),
       );
 
       ctx.logger.debug.log("Creator %O", creator);
@@ -73,11 +73,11 @@ export const GetEventSuggestionListRoute: Route = (r, ctx) => {
           pipe(
             data,
             A.map((d) =>
-              toEventSuggestion({ ...d, creator: d.creator?.id as any })
+              toEventSuggestion({ ...d, creator: d.creator?.id as any }),
             ),
             A.sequence(E.Applicative),
-            E.map((data) => ({ data, total }))
-          )
+            E.map((data) => ({ data, total })),
+          ),
         ),
         TE.map(({ data, total }) => ({
           body: {
@@ -85,8 +85,8 @@ export const GetEventSuggestionListRoute: Route = (r, ctx) => {
             total,
           },
           statusCode: 201,
-        }))
+        })),
       );
-    }
+    },
   );
 };

@@ -19,7 +19,7 @@ import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { LinkEntity } from "@entities/Link.entity";
-import { MediaEntity } from '@entities/Media.entity';
+import { MediaEntity } from "@entities/Media.entity";
 
 describe("Edit Event", () => {
   let appTest: AppTest;
@@ -66,10 +66,10 @@ describe("Edit Event", () => {
     await throwTE(appTest.ctx.db.save(ActorEntity, [actor] as any[]));
     await throwTE(appTest.ctx.db.save(GroupEntity, [group] as any[]));
     await throwTE(
-      appTest.ctx.db.save(GroupMemberEntity, [groupMember] as any[])
+      appTest.ctx.db.save(GroupMemberEntity, [groupMember] as any[]),
     );
     const result = await throwTE(
-      appTest.ctx.db.save(EventV2Entity, [event] as any[])
+      appTest.ctx.db.save(EventV2Entity, [event] as any[]),
     );
 
     delete (result[0] as any).deletedAt;
@@ -83,11 +83,11 @@ describe("Edit Event", () => {
     supporterUser = await saveUser(appTest, []);
 
     adminAuthToken = await loginUser(appTest)(adminUser).then(
-      ({ authorization }) => authorization
+      ({ authorization }) => authorization,
     );
 
     supporterAuthToken = await loginUser(appTest)(supporterUser).then(
-      ({ authorization }) => authorization
+      ({ authorization }) => authorization,
     );
   });
 
@@ -142,7 +142,7 @@ describe("Edit Event", () => {
     expect(response.status).toEqual(200);
 
     expect(
-      http.Events.Uncategorized.Uncategorized.decode(response.body.data)._tag
+      http.Events.Uncategorized.Uncategorized.decode(response.body.data)._tag,
     ).toEqual("Right");
 
     expect(body).toMatchObject({
@@ -183,7 +183,7 @@ describe("Edit Event", () => {
     const body = response.body.data;
 
     expect(
-      http.Events.Uncategorized.Uncategorized.decode(response.body.data)._tag
+      http.Events.Uncategorized.Uncategorized.decode(response.body.data)._tag,
     ).toEqual("Right");
 
     // expect media with length 2

@@ -21,15 +21,13 @@ export const PageContent: React.FC<PageContentProps> = ({ path }) => {
               title={title}
               description={getTextContentsCapped(
                 (excerpt as any) ?? undefined,
-                200
+                200,
               )}
               image={`${process.env.PUBLIC_URL}/liexp-logo.png`}
               urlPath={path}
             />
             {isValidValue(body2) ? <Editor value={body2} readOnly /> : null}
-            {isValidValue(body2) ? (
-              <TOCPlugin value={body2} />
-            ) : null}
+            {isValidValue(body2) ? <TOCPlugin value={body2} /> : null}
           </div>
         );
       }}

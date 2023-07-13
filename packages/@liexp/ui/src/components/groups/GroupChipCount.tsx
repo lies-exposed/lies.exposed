@@ -4,7 +4,8 @@ import * as React from "react";
 import { Avatar } from "../Common/Avatar";
 import { ChipCount, type ChipCountProps } from "../Common/ChipCount";
 
-interface GroupChipCountProps extends Omit<ChipCountProps, "label" | "avatar" | 'color'> {
+interface GroupChipCountProps
+  extends Omit<ChipCountProps, "label" | "avatar" | "color"> {
   group: Group.Group;
 }
 

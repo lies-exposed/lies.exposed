@@ -94,7 +94,7 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
           eventActors,
           O.fromPredicate((aa) => (emptyRelations ? true : aa.length > 0)),
           O.map((aa) =>
-            allActors.filter((a) => aa.some((aa) => aa.id === a.id))
+            allActors.filter((a) => aa.some((aa) => aa.id === a.id)),
           ),
           O.filter(A.isNonEmpty),
           O.map((aa) =>
@@ -110,17 +110,17 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
                 //   value: 0,
                 // },
               ]),
-              A.reduce(acc.actorLinks, (acc, i) => acc.concat(i))
-            )
+              A.reduce(acc.actorLinks, (acc, i) => acc.concat(i)),
+            ),
           ),
-          O.getOrElse((): NetworkLink[] => acc.actorLinks)
+          O.getOrElse((): NetworkLink[] => acc.actorLinks),
         );
 
         const groupLinks = pipe(
           eventGroups,
           O.fromPredicate((gg) => (emptyRelations ? true : gg.length > 0)),
           O.map((gg) =>
-            allGroups.filter((a) => gg.some((aa) => aa.id === a.id))
+            allGroups.filter((a) => gg.some((aa) => aa.id === a.id)),
           ),
           O.filter(A.isNonEmpty),
           O.map((aa) =>
@@ -136,17 +136,17 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
                 //   value: 0,
                 // },
               ]),
-              A.reduce(acc.groupLinks, (acc, i) => acc.concat(i))
-            )
+              A.reduce(acc.groupLinks, (acc, i) => acc.concat(i)),
+            ),
           ),
-          O.getOrElse((): NetworkLink[] => acc.groupLinks)
+          O.getOrElse((): NetworkLink[] => acc.groupLinks),
         );
 
         const keywordLinks = pipe(
           eventKeywords,
           O.fromPredicate((gg) => (emptyRelations ? true : gg.length > 0)),
           O.map((gg) =>
-            allKeywords.filter((a) => gg.some((aa) => aa.id === a.id))
+            allKeywords.filter((a) => gg.some((aa) => aa.id === a.id)),
           ),
           O.filter(A.isNonEmpty),
           O.map((aa) =>
@@ -162,10 +162,10 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
                 //   value: 0,
                 // },
               ]),
-              A.reduce(acc.keywordLinks, (acc, i) => acc.concat(i))
-            )
+              A.reduce(acc.keywordLinks, (acc, i) => acc.concat(i)),
+            ),
           ),
-          O.getOrElse((): NetworkLink[] => acc.keywordLinks)
+          O.getOrElse((): NetworkLink[] => acc.keywordLinks),
         );
 
         // console.log({ filteredEventActors, filteredEventGroups });
@@ -175,7 +175,7 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
           fp.A.map((m) => m?.thumbnail),
           fp.A.filter((m) => m !== undefined),
           fp.A.head,
-          fp.O.toUndefined
+          fp.O.toUndefined,
         );
         const eventNodes: EventNetworkDatum[] = [
           {
@@ -237,16 +237,16 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
             },
             concat: (x, y) => ({
               startDate: new Date(
-                Math.min(x.startDate.getTime(), y.startDate.getTime())
+                Math.min(x.startDate.getTime(), y.startDate.getTime()),
               ),
               endDate: new Date(
-                Math.max(x.endDate.getTime(), y.endDate.getTime())
+                Math.max(x.endDate.getTime(), y.endDate.getTime()),
               ),
             }),
           })((f) => ({
             startDate: f.date,
             endDate: f.date,
-          }))
+          })),
         );
 
         return {
@@ -259,7 +259,7 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
           groups: allGroups,
           keywords: allKeywords,
         };
-      }
+      },
     );
   };
 
@@ -292,16 +292,16 @@ const monoidOutput: Monoid<NetworkGraphOutput> = {
   concat: (x, y) => ({
     ...x,
     keywords: x.keywords.concat(
-      y.keywords.filter((a) => !x.keywords.some((aa) => aa.id === a.id))
+      y.keywords.filter((a) => !x.keywords.some((aa) => aa.id === a.id)),
     ),
     actors: x.actors.concat(
-      y.actors.filter((a) => !x.actors.some((aa) => aa.id === a.id))
+      y.actors.filter((a) => !x.actors.some((aa) => aa.id === a.id)),
     ),
     groups: x.groups.concat(
-      y.groups.filter((a) => !x.groups.some((aa) => aa.id === a.id))
+      y.groups.filter((a) => !x.groups.some((aa) => aa.id === a.id)),
     ),
     events: x.events.concat(
-      y.events.filter((e) => !x.events.some((ee) => ee.id === e.id))
+      y.events.filter((e) => !x.events.some((ee) => ee.id === e.id)),
     ),
     selectedLinks: x.selectedLinks.concat(y.selectedLinks),
     actorLinks: x.actorLinks.concat(y.actorLinks),
@@ -352,7 +352,7 @@ export const createEventNetworkGraph: TEFlow<
   (id, { relations: relation }) => {
     const filePath = path.resolve(
       process.cwd(),
-      `temp/networks/events/${id}.json`
+      `temp/networks/events/${id}.json`,
     );
 
     const createEventNetworkGraphTask = pipe(
@@ -383,24 +383,24 @@ export const createEventNetworkGraph: TEFlow<
           fetchRelations(ctx)({
             keywords: pipe(
               keywords,
-              O.fromPredicate((a) => a.length > 0)
+              O.fromPredicate((a) => a.length > 0),
             ),
             actors: pipe(
               actors,
-              O.fromPredicate((a) => a.length > 0)
+              O.fromPredicate((a) => a.length > 0),
             ),
             groups: pipe(
               groups,
-              O.fromPredicate((g) => g.length > 0)
+              O.fromPredicate((g) => g.length > 0),
             ),
             groupsMembers: O.some(groupsMembers),
             links: O.none,
             media: pipe(
               media,
-              O.fromPredicate((m) => m.length > 0)
+              O.fromPredicate((m) => m.length > 0),
             ),
           }),
-          TE.map((r) => ({ event, ...r }))
+          TE.map((r) => ({ event, ...r })),
         );
       }),
       TE.chain(({ event, ...relations }) =>
@@ -409,33 +409,36 @@ export const createEventNetworkGraph: TEFlow<
           actors: pipe(
             relations.actors,
             fp.A.traverse(fp.E.Applicative)(toActorIO),
-            fp.TE.fromEither
+            fp.TE.fromEither,
           ),
           groups: pipe(
             relations.groups,
             fp.A.traverse(fp.E.Applicative)((g) =>
-              toGroupIO({ ...g, members: [] })
+              toGroupIO({ ...g, members: [] }),
             ),
-            fp.TE.fromEither
+            fp.TE.fromEither,
           ),
           keywords: pipe(
             relations.keywords,
             fp.A.traverse(fp.E.Applicative)(toKeywordIO),
-            fp.TE.fromEither
+            fp.TE.fromEither,
           ),
           media: pipe(
             relations.media,
             fp.A.traverse(fp.E.Applicative)((m) =>
-              toImageIO({
-                ...m,
-                links: [],
-                keywords: [],
-                events: [],
-              }, ctx.env.SPACE_ENDPOINT)
+              toImageIO(
+                {
+                  ...m,
+                  links: [],
+                  keywords: [],
+                  events: [],
+                },
+                ctx.env.SPACE_ENDPOINT,
+              ),
             ),
-            fp.TE.fromEither
+            fp.TE.fromEither,
           ),
-        })
+        }),
       ),
       TE.chain(({ event, actors, groups, keywords, media }) => {
         ctx.logger.debug.log(`Actors %d`, actors.length);
@@ -445,7 +448,7 @@ export const createEventNetworkGraph: TEFlow<
 
         const getGraph = (
           ids: UUID[],
-          key: "keywords" | "actors" | "groups"
+          key: "keywords" | "actors" | "groups",
         ): TE.TaskEither<ControllerError, NetworkGraphOutput> =>
           pipe(
             ids,
@@ -458,8 +461,8 @@ export const createEventNetworkGraph: TEFlow<
                 }),
                 fp.TE.chainEitherK(
                   fp.A.traverse(fp.E.Applicative)((ev) =>
-                    toEventV2IO({ ...ev, links: [] })
-                  )
+                    toEventV2IO({ ...ev, links: [] }),
+                  ),
                 ),
                 fp.TE.map((ee): [string, NetworkGraphOutput] => [
                   k,
@@ -479,7 +482,7 @@ export const createEventNetworkGraph: TEFlow<
                         keywords: new Map(keywords.map((k) => [k.id, k])),
                         media: new Map(media.map((m) => [m.id, m])),
                         groupsMembers: new Map(),
-                      })
+                      }),
                     ),
                     // (events) => {
                     //   ctx.logger.debug.log(
@@ -497,7 +500,7 @@ export const createEventNetworkGraph: TEFlow<
                         media,
                         relation: key,
                         emptyRelations: false,
-                      })
+                      }),
                   ),
                 ]),
                 fp.TE.map((tuples) => {
@@ -573,8 +576,8 @@ export const createEventNetworkGraph: TEFlow<
                     ...tuples[1],
                     ...update,
                   };
-                })
-              )
+                }),
+              ),
             ),
             TE.map(reduceResultToOutput(ctx)),
             TE.map((output) => ({
@@ -583,27 +586,27 @@ export const createEventNetworkGraph: TEFlow<
               groups,
               keywords,
               events: [event].concat(output.events),
-            }))
+            })),
           );
 
         return pipe(
           sequenceS(TE.ApplicativePar)({
             keywords: getGraph(
               keywords.map((k) => k.id),
-              KEYWORDS.value
+              KEYWORDS.value,
             ),
             actors: getGraph(
               actors.map((a) => a.id),
-              ACTORS.value
+              ACTORS.value,
             ),
             groups: getGraph(
               groups.map((g) => g.id),
-              GROUPS.value
+              GROUPS.value,
             ),
           }),
           TE.map(({ keywords, groups, actors }) =>
-            reduceResultToOutput(ctx)([keywords, groups, actors])
-          )
+            reduceResultToOutput(ctx)([keywords, groups, actors]),
+          ),
         );
       }),
       TE.chainIOEitherK((graph) => {
@@ -611,11 +614,11 @@ export const createEventNetworkGraph: TEFlow<
           fs.writeFileSync(filePath, JSON.stringify(graph));
           return graph;
         }, toControllerError);
-      })
+      }),
     );
 
     return pipe(
       createEventNetworkGraphTask,
-      ctx.fs.getOlderThanOr(filePath, 6)
+      ctx.fs.getOlderThanOr(filePath, 6),
     );
   };

@@ -55,14 +55,14 @@ export const MakeGetListDeathEventRoute: Route = (r, ctx) => {
             results,
             A.traverse(E.Applicative)(toEventV2IO),
             TE.fromEither,
-            TE.map((data) => ({ data, total: deaths }))
-          )
+            TE.map((data) => ({ data, total: deaths })),
+          ),
         ),
         TE.map((body) => ({
           body,
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

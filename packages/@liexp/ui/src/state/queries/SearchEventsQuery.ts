@@ -225,15 +225,15 @@ const searchEventsQ =
                 links: links.data,
                 events: searchEventsQueryCache.events,
               };
-            }
-          )
+            },
+          ),
         );
-      })
+      }),
     );
   };
 
 export const getSearchEventsQueryKey = (
-  p: Partial<SearchEventQueryInput>
+  p: Partial<SearchEventQueryInput>,
 ): [string, any] => {
   return ["events-search", { _start: 0, _end: 20, ...p }];
 };
@@ -245,7 +245,7 @@ export const fetchSearchEvents = async ({
   return await pipe(searchEventsQ(api.Event.List)(params), foldTE);
 };
 export const searchEventsQuery = (
-  input: SearchEventQueryInput
+  input: SearchEventQueryInput,
 ): UseQueryResult<SearchEventQueryResult, APIError> => {
   return useQuery(getSearchEventsQueryKey(input), fetchSearchEvents, {
     refetchOnWindowFocus: false,
@@ -254,7 +254,7 @@ export const searchEventsQuery = (
 };
 
 export const getSearchEventsInfiniteQueryKey = (
-  input: any
+  input: any,
 ): [string, SearchEventQueryInput] => {
   return ["events-search-infinite", input];
 };
@@ -270,12 +270,12 @@ export const fetchSearchEventsInfinite = async ({
       _start: pageParam?.startIndex ?? 0,
       _end: pageParam?.stopIndex ?? 20,
     }),
-    foldTE
+    foldTE,
   );
 };
 
 export const searchEventsInfiniteQuery = (
-  input: Partial<SearchEventQueryInput>
+  input: Partial<SearchEventQueryInput>,
 ): UseInfiniteQueryResult<SearchEventQueryResult, APIError> => {
   return useInfiniteQuery(
     getSearchEventsInfiniteQueryKey(input),
@@ -294,7 +294,7 @@ export const searchEventsInfiniteQuery = (
 
         return { startIndex: loadedEvents, stopIndex: loadedEvents + 20 };
       },
-    }
+    },
   );
 };
 
@@ -331,11 +331,11 @@ export const getEventsFromLinkQuery = ({
               });
 
               return searchEventsQueryCache.events;
-            }
-          )
+            },
+          ),
         );
       }),
-      foldTE
+      foldTE,
     );
   });
 };

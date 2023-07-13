@@ -30,7 +30,7 @@ export const findEventByLinkOrCreateSuggestion: TEFlow<
         ctx.logger.debug.log(
           "Looking for existing events with url %s (%s)",
           optLink.value.url,
-          optLink.value.id
+          optLink.value.id,
         );
 
         return pipe(
@@ -57,7 +57,7 @@ export const findEventByLinkOrCreateSuggestion: TEFlow<
           TE.map((r) => r.results[0]),
           TE.chain(
             (
-              event
+              event,
             ): TE.TaskEither<
               ControllerError,
               EventV2Entity | EventSuggestionEntity
@@ -81,14 +81,14 @@ export const findEventByLinkOrCreateSuggestion: TEFlow<
                   if (data.length === 0) {
                     return createEventSuggestionFromLink(ctx)(
                       optLink.value,
-                      []
+                      [],
                     );
                   }
                   return TE.right(data[0]);
-                })
+                }),
               );
-            }
-          )
+            },
+          ),
         );
       }
 
@@ -119,23 +119,23 @@ export const findEventByLinkOrCreateSuggestion: TEFlow<
                           where: {
                             tag: Equal(hh[0]),
                           },
-                        })
-                      )
+                        }),
+                      ),
                     )
                   : TE.right([]);
 
                 return pipe(
                   upsertHashtagsT,
                   TE.chain((hashtags) =>
-                    createEventSuggestionFromLink(ctx)(l, hashtags)
-                  )
+                    createEventSuggestionFromLink(ctx)(l, hashtags),
+                  ),
                 );
-              })
+              }),
             );
           }
           return TE.right(optEventSuggestion.value);
-        })
+        }),
       );
-    })
+    }),
   );
 };

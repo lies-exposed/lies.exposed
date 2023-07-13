@@ -115,13 +115,13 @@ describe("Edit Actor", () => {
       expect(response.body.data.memberIn).toHaveLength(20);
 
       await throwTE(
-        Test.ctx.db.delete(GroupMemberEntity, response.body.data.memberIn)
+        Test.ctx.db.delete(GroupMemberEntity, response.body.data.memberIn),
       );
       await throwTE(
         Test.ctx.db.delete(GroupEntity, [
           ...groups.map((g) => g.id),
           ...otherGroups.map((g) => g.id),
-        ])
+        ]),
       );
     });
   });

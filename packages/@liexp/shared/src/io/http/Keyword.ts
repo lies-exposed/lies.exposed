@@ -15,7 +15,7 @@ export const GetKeywordListQuery = t.type(
     events: optionFromNullable(t.array(t.string)),
     search: optionFromNullable(t.string),
   },
-  "GetKeywordListQuery"
+  "GetKeywordListQuery",
 );
 
 export type GetKeywordListQuery = t.TypeOf<typeof GetKeywordListQuery>;
@@ -25,7 +25,7 @@ export const CreateKeyword = t.strict(
     tag: Tag,
     color: t.union([Color, t.undefined]),
   },
-  "CreateKeyword"
+  "CreateKeyword",
 );
 export type CreateKeyword = t.TypeOf<typeof CreateKeyword>;
 
@@ -36,7 +36,7 @@ export const Keyword = t.strict(
     color: Color,
     id: UUID,
   },
-  "Keyword"
+  "Keyword",
 );
 export type Keyword = t.TypeOf<typeof Keyword>;
 

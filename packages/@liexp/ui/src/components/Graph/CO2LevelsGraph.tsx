@@ -64,7 +64,7 @@ const CO2LevelDatum = t.type(
     value: t.number,
     year: t.number,
   },
-  "CO2LEvelDatum"
+  "CO2LEvelDatum",
 );
 
 type CO2LevelDatum = t.TypeOf<typeof CO2LevelDatum>;

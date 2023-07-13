@@ -54,7 +54,7 @@ export const GroupListItem: React.FC<
             variant="circular"
           />
         )),
-        O.toNullable
+        O.toNullable,
       )}
       {displayName ? (
         <Typography variant="caption"> {item.name}</Typography>
@@ -87,7 +87,9 @@ const GroupList: React.FC<GroupListProps> = ({
       filter={(_) => true}
       onItemClick={onGroupClick}
       getKey={(g) => g.id}
-      ListItem={(p) => <GroupListItem {...{ ...p, ...props, avatarSize, displayName }} />}
+      ListItem={(p) => (
+        <GroupListItem {...{ ...p, ...props, avatarSize, displayName }} />
+      )}
     />
   );
 };
@@ -114,7 +116,9 @@ export const ExpandableGroupList: React.FC<
       filter={(g) => g.selected}
       onItemClick={onGroupClick}
       getKey={(g) => g.id}
-      ListItem={(p) => <GroupListItem {...{ ...p, ...props, avatarSize, displayName }} />}
+      ListItem={(p) => (
+        <GroupListItem {...{ ...p, ...props, avatarSize, displayName }} />
+      )}
     />
   );
 };

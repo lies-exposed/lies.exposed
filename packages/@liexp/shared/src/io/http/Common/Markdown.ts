@@ -17,8 +17,8 @@ export const TOCItem: t.Type<TOCItem> = t.recursion("TOCItem", () =>
       title: t.string,
       items: t.union([t.undefined, t.array(TOCItem)]),
     },
-    "TOCItem"
-  )
+    "TOCItem",
+  ),
 );
 
 type MdxC<F extends t.Mixed> = t.ExactC<
@@ -39,7 +39,7 @@ type MdxC<F extends t.Mixed> = t.ExactC<
 
 export const markdownRemark = <F extends t.Mixed>(
   f: F,
-  name: string
+  name: string,
 ): MdxC<F> =>
   t.strict(
     {
@@ -48,10 +48,10 @@ export const markdownRemark = <F extends t.Mixed>(
       tableOfContents: optionFromNullable(
         t.type({
           items: t.union([t.undefined, t.array(TOCItem)]),
-        })
+        }),
       ),
       timeToRead: optionFromNullable(t.number),
       body: t.string,
     },
-    name
+    name,
   );

@@ -23,7 +23,7 @@ import { KeywordListItem } from "../lists/KeywordList";
 const nodePosition = (
   i: number,
   chunk: number,
-  offset: { x: number; y: number }
+  offset: { x: number; y: number },
 ): { x: number; y: number } => {
   const x = (i % chunk) * 40 + offset.x;
   const y = -(Math.floor(i / 10) * 50) + offset.y;
@@ -210,7 +210,7 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
           ...e,
           selected: fp.Ord.between(fp.Ord.ordDate)(
             filters.minDate,
-            filters.maxDate
+            filters.maxDate,
           )(parseISO(e.date)),
         },
         type: Events.Event.name,
@@ -229,7 +229,7 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
               ? 50
               : 75,
         },
-      }))
+      })),
     );
 
     const nodes = [
@@ -245,7 +245,7 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
       .filter(
         (l) =>
           nodeIds.find((id) => l.source === id) &&
-          nodeIds.find((id) => l.target === id)
+          nodeIds.find((id) => l.target === id),
       )
       .map(({ color, ...l }) => ({
         ...l,
@@ -257,7 +257,7 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
       .filter(
         (l) =>
           nodeIds.find((id) => l.source === id) &&
-          nodeIds.find((id) => l.target === id)
+          nodeIds.find((id) => l.target === id),
       )
       .map(({ color, ...l }) => ({
         ...l,
@@ -268,7 +268,7 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
       .filter(
         (l) =>
           nodeIds.find((id) => l.source === id) &&
-          nodeIds.find((id) => l.target === id)
+          nodeIds.find((id) => l.target === id),
       )
       .map(({ color, ...l }) => ({
         ...l,
@@ -291,7 +291,7 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
         [Actor.Actor.name]: ActorLink,
       },
     }),
-    []
+    [],
   );
 
   return (

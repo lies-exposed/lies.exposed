@@ -4,11 +4,11 @@ import QueriesRenderer from "../components/QueriesRenderer";
 import { Box } from "../components/mui";
 import {
   MediaSlider,
-  type MediaSliderProps
+  type MediaSliderProps,
 } from "../components/sliders/MediaSlider";
 import { useMediaQuery } from "../state/queries/media.queries";
 
-export interface MediaSliderBoxProps extends Omit<MediaSliderProps, 'data'> {
+export interface MediaSliderBoxProps extends Omit<MediaSliderProps, "data"> {
   query: GetListParams;
 }
 

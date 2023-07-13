@@ -215,7 +215,11 @@ const AdminPage: React.FC = () => {
         create={KeywordCreate}
       />
 
-      <Resource name={"social-posts"} list={SocialPostList} edit={SocialPostEdit} />
+      <Resource
+        name={"social-posts"}
+        list={SocialPostList}
+        edit={SocialPostEdit}
+      />
       <Resource
         name="users"
         list={UserList}

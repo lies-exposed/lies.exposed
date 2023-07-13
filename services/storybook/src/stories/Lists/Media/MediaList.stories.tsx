@@ -29,7 +29,7 @@ const Template: StoryFn<MediaListProps> = (props) => {
                 page: 1,
               },
             },
-            false
+            false,
           ),
         }}
         render={({ media }) => {

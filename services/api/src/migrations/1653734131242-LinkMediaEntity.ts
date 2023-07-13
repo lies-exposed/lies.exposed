@@ -6,28 +6,25 @@ export class LinkMediaEntity1653734131242 implements MigrationInterface {
   name = "LinkMediaEntity1653734131242";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-
     const links = await queryRunner.manager.query('SELECT * FROM "link"');
 
     // image links
     await queryRunner.query(
-      `ALTER TABLE "link" RENAME COLUMN "image" TO "imageId"`
+      `ALTER TABLE "link" RENAME COLUMN "image" TO "imageId"`,
     );
     await queryRunner.query(`ALTER TABLE "link" DROP COLUMN "imageId"`);
     await queryRunner.query(`ALTER TABLE "link" ADD "imageId" uuid`);
     await queryRunner.query(
-      `ALTER TABLE "link" ADD CONSTRAINT "FK_1add2b8ab1cd5bf6f62f0ef8627" FOREIGN KEY ("imageId") REFERENCES "image"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      `ALTER TABLE "link" ADD CONSTRAINT "FK_1add2b8ab1cd5bf6f62f0ef8627" FOREIGN KEY ("imageId") REFERENCES "image"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
     );
 
     await Promise.all(
       links
-      .filter((l:any) => l.image !== null)
-      .map(async (l: any) => {
-        console.log("link", { id: l.id, image: l.image });
-        const image = l.image ? (l.image as any as string) : "";
-        const media = await queryRunner.manager
-          .getRepository("image")
-          .save({
+        .filter((l: any) => l.image !== null)
+        .map(async (l: any) => {
+          console.log("link", { id: l.id, image: l.image });
+          const image = l.image ? (l.image as any as string) : "";
+          const media = await queryRunner.manager.getRepository("image").save({
             id: uuid(),
             type: "image/jpeg",
             description: l.description ?? "",
@@ -39,10 +36,10 @@ export class LinkMediaEntity1653734131242 implements MigrationInterface {
             deletedAt: null,
           });
 
-        await queryRunner.manager.save(LinkEntity, [
-          { ...l, image: media as any },
-        ]);
-      })
+          await queryRunner.manager.save(LinkEntity, [
+            { ...l, image: media as any },
+          ]);
+        }),
     );
   }
 
@@ -52,32 +49,35 @@ export class LinkMediaEntity1653734131242 implements MigrationInterface {
     });
 
     await queryRunner.query(
-      `ALTER TABLE "event_links_link" DROP CONSTRAINT "FK_f4b9fff131b55febfe8e5ee8642"`
+      `ALTER TABLE "event_links_link" DROP CONSTRAINT "FK_f4b9fff131b55febfe8e5ee8642"`,
     );
     await queryRunner.query(
-      `ALTER TABLE "event_links_link" DROP CONSTRAINT "FK_678c2a6ff3b2873f6b122c7eaac"`
+      `ALTER TABLE "event_links_link" DROP CONSTRAINT "FK_678c2a6ff3b2873f6b122c7eaac"`,
     );
     await queryRunner.query(
-      `ALTER TABLE "link" DROP CONSTRAINT "FK_1add2b8ab1cd5bf6f62f0ef8627"`
+      `ALTER TABLE "link" DROP CONSTRAINT "FK_1add2b8ab1cd5bf6f62f0ef8627"`,
     );
     await queryRunner.query(`ALTER TABLE "link" DROP COLUMN "imageId"`);
     await queryRunner.query(
-      `ALTER TABLE "link" ADD "imageId" character varying`
+      `ALTER TABLE "link" ADD "imageId" character varying`,
     );
     await queryRunner.query(
-      `DROP INDEX "public"."IDX_f4b9fff131b55febfe8e5ee864"`
+      `DROP INDEX "public"."IDX_f4b9fff131b55febfe8e5ee864"`,
     );
     await queryRunner.query(
-      `DROP INDEX "public"."IDX_678c2a6ff3b2873f6b122c7eaa"`
+      `DROP INDEX "public"."IDX_678c2a6ff3b2873f6b122c7eaa"`,
     );
     await queryRunner.query(`DROP TABLE "event_links_link"`);
     await queryRunner.query(
-      `ALTER TABLE "link" RENAME COLUMN "imageId" TO "image"`
+      `ALTER TABLE "link" RENAME COLUMN "imageId" TO "image"`,
     );
 
     await Promise.all([
       links.map(async (l) => {
-        await queryRunner.manager.query(`UPDATE "link" SET "image" = $1 WHERE "id" IN ($2)`, [l.image?.location, l.id]);
+        await queryRunner.manager.query(
+          `UPDATE "link" SET "image" = $1 WHERE "id" IN ($2)`,
+          [l.image?.location, l.id],
+        );
       }),
     ]);
   }

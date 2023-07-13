@@ -21,13 +21,13 @@ export function hash(password: string): TE.TaskEither<ControllerError, string> {
           resolve(salt + ":" + derivedKey.toString("hex"));
         });
       }),
-    toError
+    toError,
   );
 }
 
 export function verify(
   password: string,
-  hash: string
+  hash: string,
 ): TE.TaskEither<ControllerError, boolean> {
   return TE.tryCatch(
     () =>
@@ -38,6 +38,6 @@ export function verify(
           resolve(key === derivedKey.toString("hex"));
         });
       }),
-    toError
+    toError,
   );
 }

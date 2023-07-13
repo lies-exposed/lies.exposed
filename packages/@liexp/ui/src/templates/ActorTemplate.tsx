@@ -56,7 +56,7 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
             filter: { members: [actor.id] },
           },
           false,
-          `actor-${actor.id}`
+          `actor-${actor.id}`,
         ),
       }}
       render={({ groups: { data: groups } }) => {

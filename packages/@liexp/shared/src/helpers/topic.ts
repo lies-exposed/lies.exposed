@@ -6,7 +6,7 @@ import { type Topic } from "../io/http";
 
 export const getTopics = (
   topicUUIDs: string[],
-  allTopics: Topic.TopicFrontmatter[]
+  allTopics: Topic.TopicFrontmatter[],
 ): Topic.TopicFrontmatter[] => {
   const topicOption = (t: string): O.Option<Topic.TopicFrontmatter> =>
     O.fromNullable(allTopics.find((_) => S.Eq.equals(t, _.slug)));

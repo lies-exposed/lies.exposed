@@ -26,7 +26,7 @@ import { type RouteContext } from "@routes/route.types";
 export const fetchLinksT =
   (urlMetadata: URLMetadataClient) =>
   (
-    links: Array<http.Common.UUID | CreateLink>
+    links: Array<http.Common.UUID | CreateLink>,
   ): TE.TaskEither<DBError, Array<DeepPartial<LinkEntity>>> => {
     return pipe(
       links,
@@ -43,7 +43,7 @@ export const fetchLinksT =
             ...acc,
             newLinks: acc.newLinks.concat(l),
           };
-        }
+        },
       ),
       ({ newLinks, uuids }) => {
         return pipe(
@@ -66,30 +66,30 @@ export const fetchLinksT =
                     keywords: [],
                     events: [],
                     id: uuid(),
-                  }))
-                )
+                  })),
+                ),
               ),
-              TE.sequenceSeqArray
+              TE.sequenceSeqArray,
             ),
 
             linkUUIDs: pipe(
               uuids,
               A.map((id): DeepPartial<LinkEntity> => ({ id })),
-              TE.right
+              TE.right,
             ),
           }),
           TE.map(({ linkWithMetadata, linkUUIDs }) =>
-            linkUUIDs.concat(linkWithMetadata)
-          )
+            linkUUIDs.concat(linkWithMetadata),
+          ),
         );
-      }
+      },
     );
   };
 
 export const fetchRelationIds =
   ({ urlMetadata, logger }: RouteContext) =>
   (
-    input: Pick<http.Events.EditEventBody, "links" | "keywords" | "media">
+    input: Pick<http.Events.EditEventBody, "links" | "keywords" | "media">,
   ): TE.TaskEither<
     DBError,
     {
@@ -105,7 +105,7 @@ export const fetchRelationIds =
       links: pipe(
         input.links,
         O.getOrElse((): any[] => []),
-        fetchLinksT(urlMetadata)
+        fetchLinksT(urlMetadata),
       ),
       media: pipe(
         input.media,
@@ -116,15 +116,15 @@ export const fetchRelationIds =
             : {
                 id: uuid(),
                 ...i,
-              }
+              },
         ),
-        TE.right
+        TE.right,
       ),
       keywords: pipe(
         input.keywords,
         O.getOrElse((): UUID[] => []),
         A.map((k) => ({ id: k })),
-        TE.right
+        TE.right,
       ),
     });
   };
@@ -137,7 +137,7 @@ export const fetchRelations =
       groups: O.Option<UUID[]>;
       media: O.Option<UUID[]>;
       groupsMembers: O.Option<UUID[]>;
-    }
+    },
   ): TE.TaskEither<
     DBError,
     {
@@ -159,10 +159,10 @@ export const fetchRelations =
               ids: input.actors,
               _end: pipe(
                 input.actors,
-                fp.O.map((a) => a.length as any)
+                fp.O.map((a) => a.length as any),
               ),
             }),
-            fp.TE.map((r) => r.results)
+            fp.TE.map((r) => r.results),
           )
         : TE.right([]),
       groups: O.isSome(input.groups)
@@ -171,10 +171,10 @@ export const fetchRelations =
               ids: input.groups,
               _end: pipe(
                 input.groups,
-                fp.O.map((a) => a.length as any)
+                fp.O.map((a) => a.length as any),
               ),
             }),
-            fp.TE.map(([results]) => results)
+            fp.TE.map(([results]) => results),
           )
         : TE.right([]),
       keywords: O.isSome(input.keywords)
@@ -183,10 +183,10 @@ export const fetchRelations =
               ids: input.keywords,
               _end: pipe(
                 input.keywords,
-                fp.O.map((a) => a.length as any)
+                fp.O.map((a) => a.length as any),
               ),
             }),
-            fp.TE.map(([results]) => results)
+            fp.TE.map(([results]) => results),
           )
         : TE.right([]),
       media: O.isSome(input.media)
@@ -195,10 +195,10 @@ export const fetchRelations =
               ids: input.media,
               _end: pipe(
                 input.media,
-                fp.O.map((m) => m.length as any)
+                fp.O.map((m) => m.length as any),
               ),
             }),
-            fp.TE.map(([results]) => results)
+            fp.TE.map(([results]) => results),
           )
         : TE.right([]),
     });

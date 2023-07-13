@@ -20,8 +20,8 @@ export class DeathBox extends React.PureComponent<{
               return <div>Died on {formatDate(death.date)}</div>;
             }}
           />
-        )
-      )
+        ),
+      ),
     );
   }
 }

@@ -8,7 +8,7 @@ import { NetworkGraphOutput } from "../Network";
 
 export const FlowGraphType = t.union(
   [KEYWORDS, ACTORS, GROUPS, EVENTS],
-  "FlowGraphType"
+  "FlowGraphType",
 );
 export type FlowGraphType = t.TypeOf<typeof FlowGraphType>;
 
@@ -17,7 +17,7 @@ export const GetFlowGraphParams = t.type(
     id: UUID,
     type: FlowGraphType,
   },
-  "GetFlowGraphParams"
+  "GetFlowGraphParams",
 );
 export type GetFlowGraphParams = t.TypeOf<typeof GetFlowGraphParams>;
 
@@ -25,7 +25,7 @@ export const FlowGraphOutput = t.strict(
   {
     ...NetworkGraphOutput.type.props,
   },
-  "FlowGraphData"
+  "FlowGraphData",
 );
 
 export type FlowGraphOutput = t.TypeOf<typeof FlowGraphOutput>;

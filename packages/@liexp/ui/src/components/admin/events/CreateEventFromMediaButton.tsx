@@ -13,7 +13,7 @@ export const CreateEventFromMediaButton: React.FC = () => {
   const apiProvider = useDataProvider();
 
   const [type, setType] = React.useState<string>(
-    io.http.Events.EventType.types[1].value
+    io.http.Events.EventType.types[1].value,
   );
 
   const handleSubmit = async (): Promise<void> => {
@@ -30,8 +30,8 @@ export const CreateEventFromMediaButton: React.FC = () => {
         groupsMembers: [],
         media: [],
         keywords: [],
-        links: []
-      }
+        links: [],
+      },
     ).find((t) => t.event.type === type);
 
     const { newLinks, ...event }: any = suggestion?.event;

@@ -31,7 +31,7 @@ describe("Upload file", () => {
   test("Should receive an error when upload unaccepted media", async () => {
     const error = new Error("can't upload");
     Test.mocks.s3.client.send.mockImplementationOnce(() =>
-      Promise.reject(error)
+      Promise.reject(error),
     );
 
     const response = await Test.req
@@ -58,7 +58,7 @@ describe("Upload file", () => {
     };
 
     Test.mocks.s3.client.send.mockImplementationOnce(() =>
-      Promise.resolve(uploadedObject)
+      Promise.resolve(uploadedObject),
     );
 
     const response = await Test.req
@@ -76,8 +76,8 @@ describe("Upload file", () => {
     const expectedLocation = await throwTE(
       Test.ctx.s3.getEndpoint(
         Test.ctx.env.SPACE_BUCKET,
-        getMediaKey("media", "file-key", "file-key", "image/jpeg")
-      )
+        getMediaKey("media", "file-key", "file-key", "image/jpeg"),
+      ),
     );
 
     expect(response.body.data).toMatchObject({

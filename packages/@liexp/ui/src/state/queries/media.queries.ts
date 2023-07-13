@@ -1,5 +1,5 @@
 import { type Media } from "@liexp/shared/lib/io/http";
-import { type APIError } from '@liexp/shared/lib/io/http/Error/APIError';
+import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
 import type { GetListParams } from "react-admin";
 import {
   useInfiniteQuery,
@@ -13,7 +13,7 @@ import { type UseListQueryFn } from "./type";
 
 export const getMediaQueryListKey = (
   p: Partial<GetListParams>,
-  discrete: boolean
+  discrete: boolean,
 ): [string, GetListParams, boolean] => {
   return [
     "media",
@@ -38,7 +38,7 @@ export const fetchMedia = fetchQuery(Queries.Media.getList);
 
 export const useMediaQuery: UseListQueryFn<Media.Media> = (
   params,
-  discrete
+  discrete,
 ) => {
   return useQuery(getMediaQueryListKey(params, discrete), fetchMedia);
 };
@@ -47,13 +47,13 @@ export const getMediaQueryKey = (id: string): any[] => ["media", { id }];
 export const fetchSingleMedia = fetchQuery(Queries.Media.get);
 
 export const useGetMediaQuery = (
-  id: string
+  id: string,
 ): UseQueryResult<Media.Media, any> => {
   return useQuery(getMediaQueryKey(id), fetchSingleMedia);
 };
 
 export const useMediaInfiniteQuery = (
-  input: Partial<GetListParams>
+  input: Partial<GetListParams>,
 ): UseInfiniteQueryResult<{ data: Media.Media[]; total: number }, APIError> => {
   return useInfiniteQuery(
     getMediaQueryListKey(input, false),
@@ -86,6 +86,6 @@ export const useMediaInfiniteQuery = (
 
         return { startIndex: loadedEvents, stopIndex: loadedEvents + 20 };
       },
-    }
+    },
   );
 };

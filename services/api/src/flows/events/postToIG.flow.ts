@@ -13,13 +13,13 @@ export const postToIG: TEFlow<
   ctx.logger.debug.log(
     "Posting %O on IG account %s",
     body,
-    ctx.env.IG_USERNAME
+    ctx.env.IG_USERNAME,
   );
   const writeText = (body: CreateSocialPost): string => {
     const keywords = `${body.keywords.map((k) => `#${k.tag}`).join(" ")}`;
 
     return [body.title, body.date, "\n", body.content, "\n", keywords].join(
-      "\n"
+      "\n",
     );
   };
 
@@ -28,6 +28,6 @@ export const postToIG: TEFlow<
     TE.right,
     TE.chainFirst(() => ctx.ig.login(onError)),
     TE.chain((text) => ctx.ig.postPhoto(Buffer.from([]), text)),
-    TE.mapLeft((e) => ServerError([e.message]))
+    TE.mapLeft((e) => ServerError([e.message])),
   );
 };

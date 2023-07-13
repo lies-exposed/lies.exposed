@@ -1,7 +1,10 @@
 import { GradientPinkBlue } from "@visx/gradient";
 import { Group } from "@visx/group";
 import { scaleOrdinal } from "@visx/scale";
-import Pie, { type PieArcDatum, type ProvidedProps } from "@visx/shape/lib/shapes/Pie";
+import Pie, {
+  type PieArcDatum,
+  type ProvidedProps,
+} from "@visx/shape/lib/shapes/Pie";
 import * as React from "react";
 import { animated, to, useTransition } from "react-spring";
 
@@ -72,14 +75,14 @@ export const PieChartGraph = <S extends any>({
               {...pie}
               animate={animate}
               getLabel={(arc) => getLabel(arc.data)}
-              onClickDatum={({ data }) =>
-                { animate &&
-                setSelectedSlice(
-                  selectedSlice !== null && selectedSlice === getKey(data)
-                    ? null
-                    : getKey(data)
-                ); }
-              }
+              onClickDatum={({ data }) => {
+                animate &&
+                  setSelectedSlice(
+                    selectedSlice !== null && selectedSlice === getKey(data)
+                      ? null
+                      : getKey(data),
+                  );
+              }}
               getColor={(arc) => getSliceColor(getKey(arc.data))}
             />
           )}
@@ -164,11 +167,15 @@ function AnimatedPie<Datum>({
                   ...item,
                   startAngle,
                   endAngle,
-                })
+                }),
               )}
               fill={getColor(item)}
-              onClick={() => { onClickDatum(item); }}
-              onTouchStart={() => { onClickDatum(item); }}
+              onClick={() => {
+                onClickDatum(item);
+              }}
+              onTouchStart={() => {
+                onClickDatum(item);
+              }}
             />
             {hasSpaceForLabel && (
               <animated.g style={{ opacity: (item as any).opacity }}>

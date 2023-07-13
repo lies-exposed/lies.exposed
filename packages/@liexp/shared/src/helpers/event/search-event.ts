@@ -28,7 +28,7 @@ export interface SearchEventsQueryCache {
 
 export const getNewRelationIds = (
   events: Events.Event[],
-  s: SearchEventsQueryCache
+  s: SearchEventsQueryCache,
 ): Events.EventRelationIds => {
   // get relation ids from cache;
 
@@ -55,24 +55,24 @@ export const getNewRelationIds = (
         getRelationIds(e);
 
       const newActors = actors.filter(
-        (a) => ![...actorIds, ...acc.actors].includes(a)
+        (a) => ![...actorIds, ...acc.actors].includes(a),
       );
 
       const newGroups = groups.filter(
-        (a) => ![...groupIds, ...acc.groups].includes(a)
+        (a) => ![...groupIds, ...acc.groups].includes(a),
       );
       const newGroupsMembers = groupsMembers.filter(
-        (g) => ![...groupsMemberIds, ...acc.groupsMembers].includes(g)
+        (g) => ![...groupsMemberIds, ...acc.groupsMembers].includes(g),
       );
       const newMediaIds = media.filter(
-        (m) => ![...acc.media, ...mediaIds].includes(m)
+        (m) => ![...acc.media, ...mediaIds].includes(m),
       );
       const newKeywordIds = keywords.filter(
-        (k) => ![...keywordIds, ...acc.keywords].includes(k)
+        (k) => ![...keywordIds, ...acc.keywords].includes(k),
       );
 
       const newLinkIds = links.filter(
-        (k) => ![...linkIds, ...acc.links].includes(k)
+        (k) => ![...linkIds, ...acc.links].includes(k),
       );
 
       return {
@@ -83,7 +83,7 @@ export const getNewRelationIds = (
         keywords: acc.keywords.concat(newKeywordIds),
         links: acc.links.concat(newLinkIds),
       };
-    })
+    }),
   );
 };
 
@@ -91,48 +91,48 @@ export const updateCache = (
   s: SearchEventsQueryCache,
   update: Events.EventRelations & {
     events: { data: Events.Event[]; total: number; totals: EventTotals };
-  }
+  },
 ): SearchEventsQueryCache => {
   const actors = pipe(
     update.actors,
     A.reduce(s.actors, (accActors, a) => {
       return M.upsertAt(S.Eq)(a.id, a)(accActors);
-    })
+    }),
   );
 
   const groups = pipe(
     update.groups,
     A.reduce(s.groups, (accGroups, a) => {
       return M.upsertAt(S.Eq)(a.id, a)(accGroups);
-    })
+    }),
   );
 
   const groupsMembers = pipe(
     update.groupsMembers,
     A.reduce(s.groupsMembers, (accGroupsMembers, gm) => {
       return M.upsertAt(S.Eq)(gm.id, gm)(accGroupsMembers);
-    })
+    }),
   );
 
   const media = pipe(
     update.media,
     A.reduce(s.media, (accMedia, a) => {
       return M.upsertAt(S.Eq)(a.id, a)(accMedia);
-    })
+    }),
   );
 
   const keywords = pipe(
     update.keywords,
     A.reduce(s.keywords, (accActors, a) => {
       return M.upsertAt(S.Eq)(a.id, a)(accActors);
-    })
+    }),
   );
 
   const links = pipe(
     update.links,
     A.reduce(s.links, (accActors, a) => {
       return M.upsertAt(S.Eq)(a.id, a)(accActors);
-    })
+    }),
   );
 
   const newEvents = pipe(
@@ -145,8 +145,8 @@ export const updateCache = (
         media,
         keywords,
         links,
-      })
-    )
+      }),
+    ),
   );
 
   const areas = new Map();
@@ -165,7 +165,7 @@ export const updateCache = (
 
 export const toSearchEvent = (
   e: Events.Event,
-  s: Partial<Omit<SearchEventsQueryCache, "events">>
+  s: Partial<Omit<SearchEventsQueryCache, "events">>,
 ): Events.SearchEvent.SearchEvent => {
   const {
     actors: actorIds,
@@ -179,37 +179,37 @@ export const toSearchEvent = (
   const actors = pipe(
     actorIds,
     A.map((a) => pipe(s.actors ?? new Map(), M.lookup(S.Eq)(a))),
-    A.compact
+    A.compact,
   );
 
   const groups = pipe(
     groupIds,
     A.map((a) => pipe(s.groups ?? new Map(), M.lookup(S.Eq)(a))),
-    A.compact
+    A.compact,
   );
 
   const groupsMembers = pipe(
     groupsMembersIds,
     A.map((a) => pipe(s.groupsMembers ?? new Map(), M.lookup(S.Eq)(a))),
-    A.compact
+    A.compact,
   );
 
   const media = pipe(
     mediaIds,
     A.map((a) => pipe(s.media ?? new Map(), M.lookup(S.Eq)(a))),
-    A.compact
+    A.compact,
   );
 
   const keywords = pipe(
     keywordIds,
     A.map((a) => pipe(s.keywords ?? new Map(), M.lookup(S.Eq)(a))),
-    A.compact
+    A.compact,
   );
 
   const links = pipe(
     linkIds,
     A.map((a) => pipe(s.links ?? new Map(), M.lookup(S.Eq)(a))),
-    A.compact
+    A.compact,
   );
 
   switch (e.type) {
@@ -277,18 +277,18 @@ export const toSearchEvent = (
           website: links.find((l) => l.id === e.payload.website) ?? links[0],
           authors: {
             actors: actors.filter((a) =>
-              e.payload.authors.actors.includes(a.id)
+              e.payload.authors.actors.includes(a.id),
             ),
             groups: groups.filter((g) =>
-              e.payload.authors.groups.includes(g.id)
+              e.payload.authors.groups.includes(g.id),
             ),
           },
           subjects: {
             actors: actors.filter((a) =>
-              e.payload.subjects.actors.includes(a.id)
+              e.payload.subjects.actors.includes(a.id),
             ),
             groups: groups.filter((g) =>
-              e.payload.subjects.groups.includes(g.id)
+              e.payload.subjects.groups.includes(g.id),
             ),
           },
         },

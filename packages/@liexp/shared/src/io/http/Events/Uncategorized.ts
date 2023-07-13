@@ -20,7 +20,7 @@ export const CreateEventBody = t.strict(
       endDate: optionFromUndefined(DateFromISOString),
     }),
   },
-  "CreateEventBody"
+  "CreateEventBody",
 );
 
 export type CreateEventBody = t.TypeOf<typeof CreateEventBody>;
@@ -38,7 +38,7 @@ export const EditEventBody = t.strict(
       endDate: optionFromUndefined(DateFromISOString),
     }),
   },
-  "EditEventPayload"
+  "EditEventPayload",
 );
 
 export type EditEventBody = t.TypeOf<typeof EditEventBody>;
@@ -52,7 +52,7 @@ export const UncategorizedV2Payload = t.strict(
     groups: t.array(UUID),
     groupsMembers: t.array(UUID),
   },
-  "UncategorizedV2Payload"
+  "UncategorizedV2Payload",
 );
 
 export type UncategorizedV2Payload = t.TypeOf<typeof UncategorizedV2Payload>;
@@ -63,7 +63,7 @@ export const Uncategorized = t.strict(
     type: UNCATEGORIZED,
     payload: UncategorizedV2Payload,
   },
-  "UncategorizedEventV2"
+  "UncategorizedEventV2",
 );
 
 export type Uncategorized = t.TypeOf<typeof Uncategorized>;

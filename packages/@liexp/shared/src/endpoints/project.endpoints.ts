@@ -17,7 +17,7 @@ const GetProjectListQuery = t.partial(
   {
     ...GetListQuery.props,
   },
-  "GetProjectListQuery"
+  "GetProjectListQuery",
 );
 
 export const List = Endpoint({
@@ -37,7 +37,7 @@ const CreateBody = t.strict({
       kind: ProjectImage.Kind,
       description: t.string,
       location: t.string,
-    })
+    }),
   ),
   areas: t.array(CreateAreaBody),
   startDate: DateFromISOString,
@@ -74,8 +74,8 @@ const EditBody = nonEmptyRecordFromType({
         kind: ProjectImage.Kind,
         description: t.string,
         location: t.string,
-      })
-    )
+      }),
+    ),
   ),
   startDate: optionFromNullable(DateFromISOString),
   endDate: optionFromNullable(DateFromISOString),

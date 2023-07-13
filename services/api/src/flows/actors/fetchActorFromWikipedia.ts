@@ -21,7 +21,7 @@ export const fetchActorFromWikipedia: TEFlow<[string], AddActorBody> =
           page.fullurl.split("/"),
           fp.A.last,
           fp.O.map(getUsernameFromDisplayName),
-          fp.O.getOrElse(() => getUsernameFromDisplayName(pageId))
+          fp.O.getOrElse(() => getUsernameFromDisplayName(pageId)),
         );
 
         const excerpt = createExcerptValue(intro);
@@ -35,7 +35,7 @@ export const fetchActorFromWikipedia: TEFlow<[string], AddActorBody> =
           bornOn: undefined,
           diedOn: undefined,
         };
-      })
+      }),
     );
   };
 
@@ -56,10 +56,10 @@ export const searchActorAndCreateFromWikipedia: TEFlow<[string], ActorEntity> =
               TE.mapLeft(toControllerError),
               TE.filterOrElse(
                 (r) => !!r.results[0],
-                () => NotFoundError(`Actor ${search} on wikipedia`)
+                () => NotFoundError(`Actor ${search} on wikipedia`),
               ),
               TE.chain((p) =>
-                fetchActorFromWikipedia(ctx)(p.results[0].pageid)
+                fetchActorFromWikipedia(ctx)(p.results[0].pageid),
               ),
               TE.chain((a) =>
                 ctx.db.save(ActorEntity, [
@@ -68,10 +68,10 @@ export const searchActorAndCreateFromWikipedia: TEFlow<[string], ActorEntity> =
                     bornOn: a.bornOn?.toISOString(),
                     diedOn: a.diedOn?.toISOString(),
                   },
-                ])
+                ]),
               ),
-              TE.map((r) => r[0])
-            )
-      )
+              TE.map((r) => r[0]),
+            ),
+      ),
     );
   };

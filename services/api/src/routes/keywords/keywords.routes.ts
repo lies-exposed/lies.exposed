@@ -3,7 +3,7 @@ import { MakeCreateKeywordRoute } from "./createKeyword.controller";
 import { MakeDeleteKeywordRoute } from "./deleteKeyword.controller";
 import { MakeEditKeywordsRoute } from "./editKeyword.controller";
 import { MakeGetKeywordRoute } from "./getKeyword.controller";
-import { MakeKeywordsDistributionRoute } from './keywordsDistribution.controller';
+import { MakeKeywordsDistributionRoute } from "./keywordsDistribution.controller";
 import { MakeListKeywordRoute } from "./listKeyword.controller";
 import { type RouteContext } from "@routes/route.types";
 

@@ -18,9 +18,9 @@ export const EditStoryBody = t.strict(
     groups: t.array(UUID),
     actors: t.array(UUID),
     events: t.array(UUID),
-    media: t.array(UUID)
+    media: t.array(UUID),
   },
-  "EditStoryBody"
+  "EditStoryBody",
 );
 export type EditStoryBody = t.TypeOf<typeof EditStoryBody>;
 
@@ -42,7 +42,7 @@ export const Story = t.strict(
     groups: t.array(t.string),
     events: t.array(t.string),
   },
-  "Story"
+  "Story",
 );
 
 export type Story = t.TypeOf<typeof Story>;

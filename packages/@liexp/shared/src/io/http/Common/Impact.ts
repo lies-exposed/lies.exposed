@@ -8,7 +8,7 @@ const LandUsed = t.strict(
     area: t.number,
     unit: LandUseUnit,
   },
-  "LandUsed"
+  "LandUsed",
 );
 const EmissionUnit = t.union([t.literal("t"), t.literal("gt")], "EmissionUnit");
 
@@ -18,7 +18,7 @@ const CO2Emitted = t.strict(
     amount: t.number,
     unit: EmissionUnit,
   },
-  "CO2Emitted"
+  "CO2Emitted",
 );
 const BIODIVERSITY_LOSS = t.literal("BiodiversityLoss");
 
@@ -28,11 +28,11 @@ export const BiodiversityLoss = t.strict(
     specie: t.string,
     deaths: t.number,
   },
-  BIODIVERSITY_LOSS.value
+  BIODIVERSITY_LOSS.value,
 );
 
 export const Impact = t.union(
   [LandUsed, CO2Emitted, BiodiversityLoss],
-  "Impact"
+  "Impact",
 );
 export type Impact = t.TypeOf<typeof Impact>;

@@ -7,7 +7,13 @@ import * as O from "fp-ts/Option";
 import * as Ord from "fp-ts/Ord";
 import { pipe } from "fp-ts/function";
 import * as S from "fp-ts/string";
-import { type Actor, type Events, type Group, type Keyword, Stats } from "../../io/http";
+import {
+  type Actor,
+  type Events,
+  type Group,
+  type Keyword,
+  Stats,
+} from "../../io/http";
 import { type UUID } from "../../io/http/Common";
 import { getEventMetadata } from "../event/event";
 
@@ -50,7 +56,7 @@ export interface HierarchicalEdgeBundlingProps {
 
 const eqLinkKeys = Eq.eq.contramap(
   S.Eq,
-  (kk: LinkMapKeys) => `${kk.source}-${kk.target}`
+  (kk: LinkMapKeys) => `${kk.source}-${kk.target}`,
 );
 
 export const createHierarchicalEdgeBundling = ({
@@ -88,7 +94,7 @@ export const createHierarchicalEdgeBundling = ({
         eventRelation,
         A.reduce(acc, (acc1, g) => {
           const otherRelations: Array<{ id: UUID }> = eventRelation.filter(
-            (_) => _.id !== g.id
+            (_) => _.id !== g.id,
           );
 
           return pipe(
@@ -104,8 +110,8 @@ export const createHierarchicalEdgeBundling = ({
                     color: g.color,
                     group: g.id,
                     targets: [],
-                  })
-                )
+                  }),
+                ),
               );
             }),
             O.map((n) => ({
@@ -131,22 +137,22 @@ export const createHierarchicalEdgeBundling = ({
                         const value = pipe(
                           Map.lookup(eqLinkKeys)(linkKey, linksMap),
                           O.map((value) => value + 1),
-                          O.getOrElse(() => 1)
+                          O.getOrElse(() => 1),
                         );
 
                         return Map.upsertAt(eqLinkKeys)(linkKey, value)(
-                          linksMap
+                          linksMap,
                         );
-                      })
+                      }),
                     ),
                     nodes,
                   };
                 }),
-                O.getOrElse(() => ({ links: acc1.links, nodes: acc1.nodes }))
+                O.getOrElse(() => ({ links: acc1.links, nodes: acc1.nodes })),
               );
-            }
+            },
           );
-        })
+        }),
       );
       return result;
     }),
@@ -157,10 +163,10 @@ export const createHierarchicalEdgeBundling = ({
         Map.toArray(
           Ord.ord.contramap(
             S.Ord,
-            (kk: LinkMapKeys) => `${kk.source}-${kk.target}`
-          )
+            (kk: LinkMapKeys) => `${kk.source}-${kk.target}`,
+          ),
         ),
-        A.map(([kk, value]) => ({ ...kk, value }))
+        A.map(([kk, value]) => ({ ...kk, value })),
       );
 
       logger.debug.log("Result nodes %O", nodes);
@@ -173,6 +179,6 @@ export const createHierarchicalEdgeBundling = ({
           links,
         },
       };
-    }
+    },
   );
 };

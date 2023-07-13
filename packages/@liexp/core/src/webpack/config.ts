@@ -25,7 +25,7 @@ const DEVELOPMENT = t.literal("development");
 const PRODUCTION = t.literal("production");
 const NODE_ENV = t.union(
   [DEVELOPMENT, t.literal("test"), PRODUCTION],
-  "NODE_ENV"
+  "NODE_ENV",
 );
 
 export interface GetConfigParams<A extends Record<string, t.Mixed>> {
@@ -42,7 +42,7 @@ export interface GetConfigParams<A extends Record<string, t.Mixed>> {
 }
 
 const getConfig = <A extends Record<string, t.Mixed>>(
-  opts: GetConfigParams<A>
+  opts: GetConfigParams<A>,
 ): webpack.Configuration => {
   webpackLogger.debug.log("Getting config for options %O", opts);
   // webpackLogger.debug.log("Initial process.env %O", process.env);
@@ -52,7 +52,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
 
   const DOTENV_CONFIG_PATH = path.resolve(
     opts.envFileDir,
-    process.env.DOTENV_CONFIG_PATH ?? ".env"
+    process.env.DOTENV_CONFIG_PATH ?? ".env",
   );
 
   webpackLogger.debug.log(`DOTENV_CONFIG_PATH %s`, DOTENV_CONFIG_PATH);
@@ -69,7 +69,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       // BUNDLE_TARGET: t.union([t.literal("firefox"), t.literal("chrome")]),
       BUNDLE_STATS: BooleanFromString,
     },
-    "processENV"
+    "processENV",
   );
 
   const buildENV = pipe(
@@ -84,12 +84,12 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       if (validation._tag === "Left") {
         webpackLogger.error.log(
           `Validation error for build end: %O`,
-          PathReporter.report(validation).join("\n")
+          PathReporter.report(validation).join("\n"),
         );
         throw new Error("process.env decoding failed.");
       }
       return validation.right;
-    }
+    },
   );
 
   const appEnv = pipe(process.env, opts.env.decode, (validation) => {
@@ -97,7 +97,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       // eslint-disable-next-line
       console.error(
         `Validation error for app env: %O`,
-        PathReporter.report(validation).join("\n")
+        PathReporter.report(validation).join("\n"),
       );
       throw new Error(`${opts.env.name} decoding failed.`);
     }
@@ -122,13 +122,13 @@ const getConfig = <A extends Record<string, t.Mixed>>(
         (key, acc, v) => ({
           ...acc,
           [`process.env.${key}`]: JSON.stringify(v),
-        })
-      )
+        }),
+      ),
     );
 
     webpackLogger.debug.log(
       "Process env for define plugin %O",
-      stringifiedAppEnv
+      stringifiedAppEnv,
     );
 
     plugins.push(new webpack.DefinePlugin(stringifiedAppEnv));
@@ -136,7 +136,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       new DotenvWebpackPlugin({
         path: DOTENV_CONFIG_PATH,
         silent: true,
-      })
+      }),
     );
 
     plugins.push(
@@ -148,7 +148,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
             opts.tsConfigFile ?? path.resolve(opts.cwd, "tsconfig.json"),
           mode: "readonly",
         },
-      })
+      }),
     );
   }
 
@@ -161,7 +161,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       new BundleAnalyzerPlugin({
         generateStatsFile: true,
         analyzerMode: "json",
-      })
+      }),
     );
   }
 
@@ -292,7 +292,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
 };
 
 const defineEnv = <P extends t.Props>(
-  fn: (io: typeof t) => P
+  fn: (io: typeof t) => P,
 ): t.ExactC<t.TypeC<P>> => {
   return t.strict<P>(fn(t), "AppEnv");
 };

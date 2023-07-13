@@ -22,13 +22,13 @@ export const MakeCreateTransactionEventRoute: Route = (r, ctx) => {
           payload.from.type === "Actor" ? ActorEntity : GroupEntity,
           {
             where: { id: Equal(payload.from.id) },
-          }
+          },
         ),
         to: ctx.db.findOneOrFail(
           payload.to.type === "Actor" ? ActorEntity : GroupEntity,
           {
             where: { id: Equal(payload.to.id) },
-          }
+          },
         ),
       });
 
@@ -52,14 +52,14 @@ export const MakeCreateTransactionEventRoute: Route = (r, ctx) => {
             media,
             links,
             keywords,
-          })
+          }),
         ),
         TE.chain((data) => ctx.db.save(EventV2Entity, [data])),
         TE.chain(([event]) =>
           ctx.db.findOneOrFail(EventV2Entity, {
             where: { id: Equal(event.id) },
             loadRelationIds: true,
-          })
+          }),
         ),
         TE.chainEitherK(toEventV2IO),
         TE.map((data) => ({
@@ -67,8 +67,8 @@ export const MakeCreateTransactionEventRoute: Route = (r, ctx) => {
             data,
           },
           statusCode: 201,
-        }))
+        })),
       );
-    }
+    },
   );
 };

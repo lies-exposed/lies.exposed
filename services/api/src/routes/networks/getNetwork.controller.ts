@@ -16,7 +16,7 @@ import { type RouteContext } from "@routes/route.types";
 export const MakeGetNetworkRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Networks.Get, ({ params: { type }, query }) => {
     const getCreateNetworkT = (
-      type: NetworkType
+      type: NetworkType,
     ): TE.TaskEither<ControllerError, NetworkGraphOutput> => {
       switch (type) {
         case "events": {
@@ -32,7 +32,7 @@ export const MakeGetNetworkRoute = (r: Router, ctx: RouteContext): void => {
 
       const ids = pipe(
         query.ids,
-        fp.O.getOrElse((): UUID[] => [])
+        fp.O.getOrElse((): UUID[] => []),
       );
 
       return createNetworkGraph(ctx)(type, ids, query);
@@ -45,7 +45,7 @@ export const MakeGetNetworkRoute = (r: Router, ctx: RouteContext): void => {
           data,
         },
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

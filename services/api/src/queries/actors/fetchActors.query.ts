@@ -22,7 +22,7 @@ const defaultQuery: http.Actor.GetListActorQuery = {
 export const fetchActors =
   ({ db, env, logger }: RouteContext) =>
   (
-    query: Partial<http.Actor.GetListActorQuery>
+    query: Partial<http.Actor.GetListActorQuery>,
   ): TE.TaskEither<DBError, { total: number; results: ActorEntity[] }> => {
     const q = { ...defaultQuery, ...query };
 
@@ -56,18 +56,16 @@ export const fetchActors =
             R.reduceWithIndex(S.Ord)({}, (k, acc, v) => ({
               ...acc,
               [`actors.${k}`]: v,
-            }))
+            })),
           );
           return q.orderBy(order);
         }
         return q;
       },
       (q) => {
-        return q
-          .skip(findOptions.skip)
-          .take(findOptions.take);
+        return q.skip(findOptions.skip).take(findOptions.take);
       },
       (q) => db.execQuery(() => q.getManyAndCount()),
-      TE.map(([results, total]) => ({ total, results }))
+      TE.map(([results, total]) => ({ total, results })),
     );
   };

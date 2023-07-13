@@ -38,16 +38,16 @@ export const MakeDeleteLinkRoute = (r: Router, ctx: RouteContext): void => {
                     return ctx.db.delete(LinkEntity, id);
                   }
                   return ctx.db.softDelete(LinkEntity, id);
-                }
-              )
-            )
-          )
+                },
+              ),
+            ),
+          ),
         ),
         TE.map((data) => ({
           body: { data },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

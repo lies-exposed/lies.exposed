@@ -1,16 +1,16 @@
-import { type Actor } from '../Actor';
-import { type SearchEvent } from '../Events/SearchEvent';
-import { type Group } from '../Group';
-import { type Keyword } from '../Keyword';
+import { type Actor } from "../Actor";
+import { type SearchEvent } from "../Events/SearchEvent";
+import { type Group } from "../Group";
+import { type Keyword } from "../Keyword";
 
 export interface NetworkNodeDatum {
-    // x: number;
-    // y: number;
-    id: string;
-    label: string;
-    // innerColor: string;
-    // outerColor: string;
-  }
+  // x: number;
+  // y: number;
+  id: string;
+  label: string;
+  // innerColor: string;
+  // outerColor: string;
+}
 
 export type GroupByItem = Actor | Group | Keyword;
 

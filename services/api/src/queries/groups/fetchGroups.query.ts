@@ -21,7 +21,7 @@ const defaultQuery: http.Group.GetGroupListQuery = {
 export const fetchGroups =
   ({ db, env, logger }: RouteContext) =>
   (
-    query: Partial<http.Group.GetGroupListQuery>
+    query: Partial<http.Group.GetGroupListQuery>,
   ): TE.TaskEither<DBError, [GroupEntity[], number]> => {
     const q = { ...defaultQuery, ...query };
 
@@ -29,7 +29,7 @@ export const fetchGroups =
 
     const findOptions = getORMOptions(
       { ...otherQuery, id: ids },
-      env.DEFAULT_PAGE_SIZE
+      env.DEFAULT_PAGE_SIZE,
     );
 
     logger.debug.log(`Find Options %O`, findOptions);
@@ -73,6 +73,6 @@ export const fetchGroups =
         logger.debug.log(`SQL query %O`, qq.getQueryAndParameters());
 
         return db.execQuery(() => qq.getManyAndCount());
-      }
+      },
     );
   };

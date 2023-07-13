@@ -69,7 +69,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
             links: [] as any[],
             total: 0,
             totals: {} as any as EventTotals,
-          }
+          },
         )
       : undefined;
 
@@ -92,7 +92,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
           ? searchEvents?.totals.documentaries ?? 0
           : 0,
       ].reduce((acc, tot) => acc + tot, 0),
-    [searchEvents?.totals ?? {}]
+    [searchEvents?.totals ?? {}],
   );
 
   const isRowLoaded = (params: Index): boolean => {

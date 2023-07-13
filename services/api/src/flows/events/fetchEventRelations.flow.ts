@@ -1,11 +1,11 @@
 import { fp } from "@liexp/core/lib/fp";
 import { takeEventRelations } from "@liexp/shared/lib/helpers/event/event";
 import {
-    type Actor,
-    type Events,
-    type Group,
-    type Keyword,
-    type Media,
+  type Actor,
+  type Events,
+  type Group,
+  type Keyword,
+  type Media,
 } from "@liexp/shared/lib/io/http";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
 import * as O from "fp-ts/Option";
@@ -57,7 +57,7 @@ export const fetchEventsRelations: TEFlow<
         (r) => r.total,
         (r) => r.results,
         0,
-        100
+        100,
       ),
       TE.chain((results) => {
         ctx.logger.debug.log("Events found %d", results.length);
@@ -75,25 +75,25 @@ export const fetchEventsRelations: TEFlow<
               fetchRelations(ctx)({
                 keywords: pipe(
                   relations.keywords,
-                  O.fromPredicate(fp.A.isNonEmpty)
+                  O.fromPredicate(fp.A.isNonEmpty),
                 ),
                 actors: pipe(
                   relations.actors,
-                  O.fromPredicate(fp.A.isNonEmpty)
+                  O.fromPredicate(fp.A.isNonEmpty),
                 ),
                 groups: pipe(
                   relations.groups,
-                  O.fromPredicate(fp.A.isNonEmpty)
+                  O.fromPredicate(fp.A.isNonEmpty),
                 ),
                 groupsMembers: O.some(relations.groupsMembers),
                 links: O.none,
                 media: pipe(
                   relations.media,
-                  O.fromPredicate((m) => m.length > 0)
+                  O.fromPredicate((m) => m.length > 0),
                 ),
               }),
-              TE.map((relations) => ({ ...relations, events }))
-            )
+              TE.map((relations) => ({ ...relations, events })),
+            ),
           ),
           TE.chain(({ events, ...relations }) =>
             sequenceS(TE.ApplicativePar)({
@@ -101,33 +101,33 @@ export const fetchEventsRelations: TEFlow<
               actors: pipe(
                 relations.actors,
                 fp.A.traverse(fp.E.Applicative)(toActorIO),
-                fp.TE.fromEither
+                fp.TE.fromEither,
               ),
               groups: pipe(
                 relations.groups,
                 fp.A.traverse(fp.E.Applicative)((g) =>
-                  toGroupIO({ ...g, members: [] })
+                  toGroupIO({ ...g, members: [] }),
                 ),
-                fp.TE.fromEither
+                fp.TE.fromEither,
               ),
               keywords: pipe(
                 relations.keywords,
                 fp.A.traverse(fp.E.Applicative)(toKeywordIO),
-                fp.TE.fromEither
+                fp.TE.fromEither,
               ),
               media: pipe(
                 relations.media,
                 fp.A.traverse(fp.E.Applicative)((m) =>
                   toImageIO(
                     { ...m, links: [], keywords: [], events: [] },
-                    ctx.env.SPACE_ENDPOINT
-                  )
+                    ctx.env.SPACE_ENDPOINT,
+                  ),
                 ),
-                fp.TE.fromEither
+                fp.TE.fromEither,
               ),
-            })
-          )
+            }),
+          ),
         );
-      })
+      }),
     );
   };

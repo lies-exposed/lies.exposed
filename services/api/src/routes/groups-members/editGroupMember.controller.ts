@@ -11,7 +11,7 @@ import { foldOptionals } from "@utils/foldOptionals.utils";
 
 export const MakeEditGroupMemberRoute = (
   r: Router,
-  ctx: RouteContext
+  ctx: RouteContext,
 ): void => {
   AddEndpoint(r, authenticationHandler(ctx, ["admin:edit"]))(
     Endpoints.GroupMember.Edit,
@@ -25,7 +25,7 @@ export const MakeEditGroupMemberRoute = (
           ctx.db.findOneOrFail(GroupMemberEntity, {
             where: { id: Equal(id) },
             relations: ["actor", "group"],
-          })
+          }),
         ),
         TE.chainEitherK(toGroupMemberIO),
         TE.map((data) => ({
@@ -33,8 +33,8 @@ export const MakeEditGroupMemberRoute = (
             data,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

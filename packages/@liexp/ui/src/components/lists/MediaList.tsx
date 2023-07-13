@@ -83,7 +83,13 @@ export const MediaListItem: React.ForwardRefRenderFunction<
           media={item}
           enableDescription={!hideDescription}
           disableZoom={disableZoom}
-          onClick={onClick ? (e: any) => { onClick(item, e); } : undefined}
+          onClick={
+            onClick
+              ? (e: any) => {
+                  onClick(item, e);
+                }
+              : undefined
+          }
         />
       </Box>
     </StyledBox>
@@ -171,7 +177,7 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
       hideDescription = true,
       disableZoom = true,
     },
-    ref
+    ref,
   ) => {
     return (
       <ParentSize style={{ width: "100%", minHeight: 50 }}>
@@ -203,5 +209,5 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
         }}
       </ParentSize>
     );
-  }
+  },
 );

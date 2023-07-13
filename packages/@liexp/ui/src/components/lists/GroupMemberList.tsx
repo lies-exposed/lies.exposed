@@ -35,7 +35,7 @@ export const GroupMemberListItem: React.FC<
             style={{ margin: 5 }}
           />
         )),
-        O.toNullable
+        O.toNullable,
       )}
       {pipe(
         O.fromNullable(item.group.avatar),
@@ -52,7 +52,7 @@ export const GroupMemberListItem: React.FC<
             }}
           />
         )),
-        O.toNullable
+        O.toNullable,
       )}
       {displayFullName ? (
         <Typography variant="caption"> {item.actor.fullName}</Typography>

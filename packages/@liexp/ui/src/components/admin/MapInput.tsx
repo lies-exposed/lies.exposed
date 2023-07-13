@@ -25,7 +25,7 @@ const getDefaultFormat = (): GeoJSON => new GeoJSON(formatOptions);
 
 const getDefaultMap = (
   target: HTMLDivElement,
-  featuresLayer: VectorLayer<VectorSource<any>>
+  featuresLayer: VectorLayer<VectorSource<any>>,
 ): Map => {
   return new Map({
     target,
@@ -59,10 +59,10 @@ const MapInput: React.FC<MapInputProps> = ({
       const target = mapContainer.current;
       if (target) {
         const featuresSource = new VectorSource(
-          features ? { features, wrapX: false } : { wrapX: true }
+          features ? { features, wrapX: false } : { wrapX: true },
         );
         const featuresLayer = new VectorLayer(
-          features ? { source: featuresSource } : {}
+          features ? { source: featuresSource } : {},
         );
 
         const map = getDefaultMap(target, featuresLayer);
@@ -85,7 +85,7 @@ const MapInput: React.FC<MapInputProps> = ({
           const geometry = opts.feature.getGeometry();
           if (geometry) {
             const geom = JSON.parse(
-              format.writeGeometry(geometry, writeOptions)
+              format.writeGeometry(geometry, writeOptions),
             );
             onChange?.(geom);
           }
@@ -112,7 +112,13 @@ const MapInput: React.FC<MapInputProps> = ({
         style={{ height: 300, width: 600 }}
       />
       <div style={{ marginTop: 20 }}>
-        <Button label="reset" variant="outlined" onClick={() => { onReset(); }} />
+        <Button
+          label="reset"
+          variant="outlined"
+          onClick={() => {
+            onReset();
+          }}
+        />
       </div>
     </>
   );

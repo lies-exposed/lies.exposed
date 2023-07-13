@@ -42,23 +42,23 @@ export const MakeCreateMediaRoute = (r: Router, ctx: RouteContext): void => {
                   pipe(
                     createThumbnail(ctx)(media),
                     TE.map((thumbnail) => ({ ...media, thumbnail })),
-                    TE.chainFirst((m) => ctx.db.save(MediaEntity, [m]))
-                  )
-                )
-              )
-            )
-          )
+                    TE.chainFirst((m) => ctx.db.save(MediaEntity, [m])),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ),
         TE.chain((media) =>
-          TE.fromEither(toImageIO(media, ctx.env.SPACE_ENDPOINT))
+          TE.fromEither(toImageIO(media, ctx.env.SPACE_ENDPOINT)),
         ),
         TE.map((data) => ({
           body: {
             data,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

@@ -5,7 +5,7 @@ import { type EventV2Entity } from "@entities/Event.v2.entity";
 import { type ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toEventV2IO = (
-  event: EventV2Entity
+  event: EventV2Entity,
 ): E.Either<ControllerError, io.http.Events.Event> => {
   return pipe(
     io.http.Events.Event.decode({
@@ -17,6 +17,6 @@ export const toEventV2IO = (
       updatedAt: event.updatedAt.toISOString(),
       deletedAt: event.deletedAt?.toISOString() ?? undefined,
     }),
-    E.mapLeft((e) => DecodeError(`Failed to decode event (${event.id})`, e))
+    E.mapLeft((e) => DecodeError(`Failed to decode event (${event.id})`, e)),
   );
 };

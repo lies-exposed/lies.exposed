@@ -42,20 +42,20 @@ describe("List Group Member", () => {
     await throwTE(
       Test.ctx.db.delete(
         GroupMemberEntity,
-        groupsMembers.map((g) => g.id)
-      )
+        groupsMembers.map((g) => g.id),
+      ),
     );
     await throwTE(
       Test.ctx.db.delete(
         GroupEntity,
-        groups.map((g) => g.id)
-      )
+        groups.map((g) => g.id),
+      ),
     );
     await throwTE(
       Test.ctx.db.delete(
         ActorEntity,
-        actors.map((a) => a.id)
-      )
+        actors.map((a) => a.id),
+      ),
     );
     await Test.utils.e2eAfterAll();
   });
@@ -68,7 +68,7 @@ describe("List Group Member", () => {
       .query({ search });
 
     const expectedResults = groupsMembers.filter((g) =>
-      g.actor.fullName.includes(search)
+      g.actor.fullName.includes(search),
     );
 
     expect(response.status).toEqual(200);

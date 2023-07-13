@@ -48,7 +48,7 @@ const parsePlatformMedia: TEFlow<
         media.location,
         O.fromNullable,
         O.map((location) =>
-          ctx.db.findOne(MediaEntity, { where: { location } })
+          ctx.db.findOne(MediaEntity, { where: { location } }),
         ),
         O.fold(
           () => {
@@ -64,12 +64,12 @@ const parsePlatformMedia: TEFlow<
                   return [record.value];
                 }
                 return [];
-              })
+              }),
             );
-          }
-        )
+          },
+        ),
       );
-    })
+    }),
   );
 };
 
@@ -92,19 +92,19 @@ const parseVideo: TEFlow<[string, TelegramBot.Video], MediaEntity[]> =
                 Bucket: ctx.env.SPACE_BUCKET,
                 Key: `public/media/${uuid()}`,
                 Body: fs.readFileSync(f),
-              })
+              }),
             ),
             TE.mapLeft(toControllerError),
-            TE.map((r) => r.Location)
-          )
-      )
+            TE.map((r) => r.Location),
+          ),
+      ),
     );
 
     return pipe(
       sequenceS(TE.ApplicativePar)({
         video: TE.tryCatch(
           () => ctx.tg.bot.api.downloadFile(video.file_id, tempFolder),
-          toControllerError
+          toControllerError,
         ),
         thumb: thumbTask,
       }),
@@ -118,10 +118,10 @@ const parseVideo: TEFlow<[string, TelegramBot.Video], MediaEntity[]> =
             description,
             thumbnail: thumb,
           },
-          fs.readFileSync(video)
+          fs.readFileSync(video),
         );
       }),
-      TE.map((m) => [m])
+      TE.map((m) => [m]),
     );
   };
 
@@ -136,7 +136,7 @@ const parsePhoto: TEFlow<[string, TelegramBot.PhotoSize[]], MediaEntity[]> =
         return pipe(
           TE.tryCatch(
             () => ctx.tg.bot.api.downloadFile(p.file_id, tempFolder),
-            toControllerError
+            toControllerError,
           ),
           TE.chain((f) => {
             ctx.logger.debug.log("File downloaded %O", f);
@@ -148,12 +148,12 @@ const parsePhoto: TEFlow<[string, TelegramBot.PhotoSize[]], MediaEntity[]> =
                 description,
                 thumbnail: undefined,
               },
-              fs.readFileSync(f)
+              fs.readFileSync(f),
             );
-          })
+          }),
         );
       }),
-      A.sequence(TE.ApplicativeSeq)
+      A.sequence(TE.ApplicativeSeq),
     );
   };
 
@@ -176,7 +176,7 @@ export const createFromTGMessage: TEFlow<
   ctx.logger.info.log(
     "Received message %O with metadata %O",
     message,
-    metadata
+    metadata,
   );
 
   // check url exists and is linked to an event
@@ -187,11 +187,11 @@ export const createFromTGMessage: TEFlow<
   const { url: urlEntity, video: videoURLS } = [
     ...(message.entities ?? []).reduce(
       takeURLFromMessageEntity(message.text),
-      []
+      [],
     ),
     ...(message.caption_entities ?? []).reduce(
       takeURLFromMessageEntity(message.caption),
-      []
+      [],
     ),
   ]
     .filter((u) => !isExcludedURL(u))
@@ -213,7 +213,7 @@ export const createFromTGMessage: TEFlow<
       {
         url: [] as URL[],
         video: [] as Array<VideoPlatformMatch & { url: URL }>,
-      }
+      },
     );
 
   ctx.logger.info.log("URL entity %O", urlEntity);
@@ -221,27 +221,27 @@ export const createFromTGMessage: TEFlow<
 
   const urls = pipe(
     urlEntity.map(sanitizeURL),
-    O.fromPredicate((u) => u.length > 0)
+    O.fromPredicate((u) => u.length > 0),
   );
 
   ctx.logger.info.log("URL %O", urls);
 
   const platformMediaURLs = pipe(
     videoURLS,
-    O.fromPredicate((v) => v.length > 0)
+    O.fromPredicate((v) => v.length > 0),
   );
 
   ctx.logger.info.log("Message photo%O", message.photo);
   const photo = pipe(
     message.photo,
-    O.fromPredicate((p) => (p?.length ?? 0) > 0)
+    O.fromPredicate((p) => (p?.length ?? 0) > 0),
   );
 
   ctx.logger.info.log("Photo %O", photo);
 
   const video = pipe(
     O.fromNullable(message.video),
-    O.filter((v) => (v.file_size ?? 0) < 20 * 1000)
+    O.filter((v) => (v.file_size ?? 0) < 20 * 1000),
   );
 
   ctx.logger.info.log("Video %O", video);
@@ -274,7 +274,7 @@ export const createFromTGMessage: TEFlow<
   ctx.logger.info.log("Hashtags %O", hashtags);
 
   const byURLTask = (
-    user: UserEntity
+    user: UserEntity,
   ): TE.TaskEither<ControllerError, LinkEntity[]> =>
     pipe(
       urls,
@@ -284,7 +284,7 @@ export const createFromTGMessage: TEFlow<
           const isAllowed = !isExcludedURL(u);
 
           return isURL && isAllowed;
-        })
+        }),
       ),
       O.getOrElse((): URL[] => []),
       A.map((url) => {
@@ -295,7 +295,6 @@ export const createFromTGMessage: TEFlow<
             },
           }),
           TE.chain((link) => {
-
             if (O.isSome(link)) {
               ctx.logger.info.log("Link found %s", link.value.id);
               return TE.right(link.value);
@@ -303,12 +302,12 @@ export const createFromTGMessage: TEFlow<
 
             return pipe(
               fetchAndSave(ctx)(user, url),
-              TE.mapLeft(toControllerError)
+              TE.mapLeft(toControllerError),
             );
-          })
+          }),
         );
       }),
-      A.sequence(TE.ApplicativeSeq)
+      A.sequence(TE.ApplicativeSeq),
     );
 
   const byPhotoTask = pipe(
@@ -326,7 +325,7 @@ export const createFromTGMessage: TEFlow<
 
         return acc;
       },
-      { unique: [] as TelegramBot.PhotoSize[], ids: [] as string[] }
+      { unique: [] as TelegramBot.PhotoSize[], ids: [] as string[] },
     ),
     ctx.logger.debug.logInPipe("Photo to parse %O"),
     TE.right,
@@ -337,14 +336,14 @@ export const createFromTGMessage: TEFlow<
           (e) => {
             ctx.logger.warn.log(
               `Failed to do download file ${pp.unique}: %O`,
-              e
+              e,
             );
             return fp.T.of(E.right([]));
           },
-          (mm) => fp.T.of(fp.E.right(mm))
-        )
-      )
-    )
+          (mm) => fp.T.of(fp.E.right(mm)),
+        ),
+      ),
+    ),
   );
 
   ctx.logger.debug.log("Video to parse %O", video);
@@ -354,13 +353,13 @@ export const createFromTGMessage: TEFlow<
 
   const byPlatformMediaTask = (
     p: puppeteer.Page,
-    creator: UserEntity
+    creator: UserEntity,
   ): TE.TaskEither<ControllerError, MediaEntity[]> => {
     return pipe(
       videoURLS,
       A.map(({ url, ...m }) => parsePlatformMedia(ctx)(url, m, p, creator)),
       A.sequence(TE.ApplicativeSeq),
-      TE.map(A.flatten)
+      TE.map(A.flatten),
     );
   };
 
@@ -371,7 +370,7 @@ export const createFromTGMessage: TEFlow<
         TE.bracket(
           pipe(
             ctx.puppeteer.getBrowserFirstPage("about:blank", {}),
-            TE.mapLeft(toControllerError)
+            TE.mapLeft(toControllerError),
           ),
           (page) =>
             sequenceS(TE.ApplicativePar)({
@@ -381,9 +380,10 @@ export const createFromTGMessage: TEFlow<
               platformMedia: byPlatformMediaTask(page, creator),
               hashtags: TE.right(hashtags),
             }),
-          (page) => TE.tryCatch(() => page.browser().close(), toControllerError)
-        )
-      )
+          (page) =>
+            TE.tryCatch(() => page.browser().close(), toControllerError),
+        ),
+      ),
     ),
     TE.map(({ videos, platformMedia, ...others }) => ({
       ...others,
@@ -392,6 +392,6 @@ export const createFromTGMessage: TEFlow<
     TE.mapLeft((e) => {
       ctx.logger.error.log("Error %O", e);
       return e;
-    })
+    }),
   );
 };

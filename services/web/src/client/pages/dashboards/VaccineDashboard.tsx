@@ -67,19 +67,19 @@ const colorDomain = [
 
 const byEqDate = pipe(
   D.Ord,
-  Ord.contramap<Date, VaccineDistributionDatum>((d) => d.date)
+  Ord.contramap<Date, VaccineDistributionDatum>((d) => d.date),
 );
 
 const getColorByRange = (
   amount: number,
   range: [number, number],
-  reverse?: boolean
+  reverse?: boolean,
 ): string => {
   const delta = (range[1] - range[0]) / 30;
 
   const domain = A.range(0, 30).reduce(
     (acc, v) => acc.concat(v * delta),
-    [] as number[]
+    [] as number[],
   );
 
   const colorScaleV2 = scaleOrdinal({
@@ -114,11 +114,11 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
       queries={{
         whoData: useJSONDataQuery(
           t.strict({ data: CovidWHOWorldData.types[1] }).decode,
-          CovidWHOWorldData.types[0].value
+          CovidWHOWorldData.types[0].value,
         ),
         distribution: useJSONDataQuery(
           t.strict({ data: Covid19WorldVaccineDistribution.types[1] }).decode,
-          Covid19WorldVaccineDistribution.types[0].value
+          Covid19WorldVaccineDistribution.types[0].value,
         ),
       }}
       render={({
@@ -150,10 +150,10 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
                         last.total_vaccinations + e.total_vaccinations,
                     },
                   ])(acc);
-                })
+                }),
               );
-            }
-          )
+            },
+          ),
         );
 
         const covid2020TotalDeaths = pipe(
@@ -161,8 +161,8 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
           A.findLast((w) => isBefore(w.Date_reported, LAST_DAY_2020)),
           O.fold(
             () => 0,
-            (d) => d.Cumulative_deaths
-          )
+            (d) => d.Cumulative_deaths,
+          ),
         );
 
         const covid2021TotalDeaths = pipe(
@@ -170,12 +170,12 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
           A.findLast(
             (w) =>
               isAfter(w.Date_reported, LAST_DAY_2020) &&
-              isBefore(w.Date_reported, LAST_DAY_2021)
+              isBefore(w.Date_reported, LAST_DAY_2021),
           ),
           O.fold(
             () => 0,
-            (d) => d.Cumulative_deaths - covid2020TotalDeaths
-          )
+            (d) => d.Cumulative_deaths - covid2020TotalDeaths,
+          ),
         );
         // eslint-disable-next-line
 
@@ -213,7 +213,7 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
                         color: getColorByRange(
                           covid2020TotalDeaths,
                           [0, 2e5],
-                          true
+                          true,
                         ),
                       },
                     }}
@@ -228,7 +228,7 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
                         color: getColorByRange(
                           deathRate2020,
                           [0.02, 0.5],
-                          true
+                          true,
                         ),
                       },
                     }}
@@ -274,7 +274,7 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
                 <Tabs
                   value={adrTab}
                   onChange={(e, v) => {
-                   navigateTo.navigateTo("/dashboard/covid19-vaccines", {
+                    navigateTo.navigateTo("/dashboard/covid19-vaccines", {
                       adrTab: v,
                     });
                   }}
@@ -293,7 +293,7 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
                   <VaccineADRGraph
                     id={Covid19VAERS.types[0].value}
                     distribution={distribution.filter(
-                      (d) => d.iso_code === "USA"
+                      (d) => d.iso_code === "USA",
                     )}
                   />
                 </TabPanel>
@@ -301,7 +301,7 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
                   <VaccineADRGraph
                     id={Covid19EUDR.types[0].value}
                     distribution={distribution.filter(
-                      (d) => d.iso_code === "OWID_EUR"
+                      (d) => d.iso_code === "OWID_EUR",
                     )}
                   />
                 </TabPanel>

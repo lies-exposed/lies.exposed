@@ -57,8 +57,8 @@ export const EventBlockPluginRenderer: CellPluginRenderer<EventBlockState> = ({
                       ? e.date
                       : parseISO(e.date as any),
                 },
-                {}
-              )
+                {},
+              ),
             )}
             onClick={() => {}}
             onActorClick={() => {}}
@@ -77,7 +77,7 @@ export const EventBlockPluginRenderer: CellPluginRenderer<EventBlockState> = ({
                 media: new Map(),
                 links: new Map(),
                 groupsMembers: new Map(),
-              })
+              }),
             )}
             onItemClick={() => {}}
           />
@@ -136,7 +136,7 @@ export const EventBlockPluginControl: CellPluginCustomControlsComonent<
 };
 
 const eventBlockPlugin = (
-  settings?: EventBlockSettings
+  settings?: EventBlockSettings,
 ): CellPlugin<EventBlockState> => {
   const mergedSettings = { ...defaultSettings, ...settings };
 

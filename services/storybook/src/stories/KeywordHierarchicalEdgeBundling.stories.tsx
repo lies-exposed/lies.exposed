@@ -1,10 +1,10 @@
 import {
   KeywordHierarchyEdgeBundlingGraph,
-  type KeywordHierarchyEdgeBundlingGraphProps
+  type KeywordHierarchyEdgeBundlingGraphProps,
 } from "@liexp/ui/lib/components/Graph/KeywordHierarchyEdgeBundlingGraph";
-import { Box } from '@mui/material';
+import { Box } from "@mui/material";
 import { type Meta, type StoryFn } from "@storybook/react";
-import * as React from 'react';
+import * as React from "react";
 
 const meta: Meta = {
   title: "Components/Graph/HierarchicalEdgeBundling",
@@ -27,7 +27,7 @@ const Template: StoryFn<KeywordHierarchyEdgeBundlingGraphProps> = (args) => (
 );
 
 export const KeywordHierarchyEdgeBundlingExampleActorsRelations = Template.bind(
-  {}
+  {},
 );
 KeywordHierarchyEdgeBundlingExampleActorsRelations.args = {
   keyword: "fe502631-ef4e-4dfc-a1ff-c2cd04f3ff6d",

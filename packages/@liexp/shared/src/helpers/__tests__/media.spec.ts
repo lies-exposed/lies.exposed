@@ -8,13 +8,13 @@ describe("@helpers/media", () => {
       const ids = fc.sample(fc.uuid(), 100);
       const urls = ids.map(
         (id, i) =>
-          `https://dailymotion.com/${i % 2 === 0 ? "embed/" : ""}video/${id}`
+          `https://dailymotion.com/${i % 2 === 0 ? "embed/" : ""}video/${id}`,
       );
 
       expect(
-        fp.A.sequence(fp.E.Applicative)(urls.map(getPlatform))
+        fp.A.sequence(fp.E.Applicative)(urls.map(getPlatform)),
       ).toMatchObject(
-        fp.E.right(ids.map((id) => ({ platform: "dailymotion", id })))
+        fp.E.right(ids.map((id) => ({ platform: "dailymotion", id }))),
       );
     });
   });

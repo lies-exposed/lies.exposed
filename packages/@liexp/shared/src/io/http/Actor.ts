@@ -20,7 +20,7 @@ export const GetListActorQuery = t.type(
     ...GetListQuery.props,
     ...GetListActorQueryFilter.props,
   },
-  "GetListActorQuery"
+  "GetListActorQuery",
 );
 export type GetListActorQuery = t.TypeOf<typeof GetListActorQuery>;
 
@@ -35,7 +35,7 @@ export const AddActorBody = t.strict(
     bornOn: t.union([DateFromISOString, t.undefined]),
     diedOn: t.union([DateFromISOString, t.undefined]),
   },
-  "AddActorBody"
+  "AddActorBody",
 );
 
 export type AddActorBody = t.TypeOf<typeof AddActorBody>;
@@ -54,7 +54,7 @@ export const Actor = t.strict(
     bornOn: t.union([DateFromISOString, t.undefined]),
     diedOn: t.union([DateFromISOString, t.undefined]),
   },
-  "Actor"
+  "Actor",
 );
 
 export type Actor = t.TypeOf<typeof Actor>;

@@ -7,7 +7,7 @@ export const ForProject = t.strict(
     type: t.literal("Project"),
     project: Project,
   },
-  "ForProject"
+  "ForProject",
 );
 
 export const ForGroup = t.strict(
@@ -15,7 +15,7 @@ export const ForGroup = t.strict(
     type: t.literal("Group"),
     group: Group,
   },
-  "ForGroup"
+  "ForGroup",
 );
 
 export const For = t.union([ForProject, ForGroup], "For");

@@ -5,7 +5,7 @@ import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { MarkdownRenderer } from "../../Common/MarkdownRenderer";
 import { Grid } from "../../mui";
-import { MediaSlider } from '../../sliders/MediaSlider';
+import { MediaSlider } from "../../sliders/MediaSlider";
 
 interface ProtestListItemProps {
   item: Events.Protest.ProtestMD;
@@ -17,7 +17,7 @@ export const ProtestListItem: React.FC<ProtestListItemProps> = ({ item }) => {
       key={item.frontmatter.id}
       id={item.frontmatter.id}
       style={{
-        width: '100%'
+        width: "100%",
       }}
     >
       <div>
@@ -27,13 +27,10 @@ export const ProtestListItem: React.FC<ProtestListItemProps> = ({ item }) => {
             O.map((media) => (
               // eslint-disable-next-line react/jsx-key
               <Grid item>
-                <MediaSlider
-                  key="home-slider"
-                  data={media}
-                />
+                <MediaSlider key="home-slider" data={media} />
               </Grid>
             )),
-            O.toNullable
+            O.toNullable,
           )}
           <Grid item>
             <Grid>

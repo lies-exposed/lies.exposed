@@ -15,8 +15,8 @@ export const DeleteEventSuggestionRoute: Route = (r, ctx) => {
             data: data.affected ? data.affected > 0 : false,
           },
           statusCode: 201,
-        }))
+        })),
       );
-    }
+    },
   );
 };

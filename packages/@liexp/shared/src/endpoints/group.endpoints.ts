@@ -18,7 +18,7 @@ export const List = Endpoint({
           t.literal("name"),
           t.literal("createdAt"),
           t.literal("updatedAt"),
-        ])
+        ]),
       ),
       name: optionFromNullable(t.string),
       ids: optionFromNullable(t.array(UUID)),

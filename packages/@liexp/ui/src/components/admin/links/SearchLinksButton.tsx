@@ -30,7 +30,7 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
   const [open, setOpen] = React.useState(false);
   const [q, setQ] = React.useState(query ?? "");
   const [date, setDate] = React.useState(
-    _date ? formatDate(parseISO(_date)) : new Date().toLocaleDateString()
+    _date ? formatDate(parseISO(_date)) : new Date().toLocaleDateString(),
   );
   const [p, setP] = React.useState(1);
   const [providers, setProviders] = React.useState(Object.keys(defaultSites));
@@ -39,7 +39,7 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
 
   const selectedLinks = React.useMemo(
     () => links.filter((l) => l.selected),
-    [links]
+    [links],
   );
 
   const handleSearch = (): void => {
@@ -60,7 +60,7 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
             selected: false,
             events: [],
             publishDate: ll.publishDate ? parseISO(ll.publishDate) : new Date(),
-          }))
+          })),
         );
       });
   };
@@ -78,7 +78,7 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
       });
       setLinks(ll);
     },
-    [links]
+    [links],
   );
 
   const handleCreate = React.useCallback((): void => {
@@ -121,7 +121,9 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
               id="q"
               type="text"
               value={q}
-              onChange={(e) => { setQ(e.target.value); }}
+              onChange={(e) => {
+                setQ(e.target.value);
+              }}
             />
             <TextField
               label="Query"
@@ -129,7 +131,9 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
               type="date"
               name="date"
               value={date}
-              onChange={(e) => { setDate(e.target.value); }}
+              onChange={(e) => {
+                setDate(e.target.value);
+              }}
             />
 
             <TextField
@@ -137,14 +141,18 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
               id="p"
               type="number"
               value={p}
-              onChange={(e) => { setP(+e.target.value); }}
+              onChange={(e) => {
+                setP(+e.target.value);
+              }}
             />
 
             <TextField
               id="keywords"
               label="keywords"
               value={keywords}
-              onChange={(e) => { setKeywords(e.target.value); }}
+              onChange={(e) => {
+                setKeywords(e.target.value);
+              }}
             />
           </FormGroup>
 
@@ -174,10 +182,25 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
           <LinkEntityList links={links} onItemClick={handleLinkClick} />
         </DialogContent>
         <DialogActions>
-          <Button label="Cancel" onClick={() => { setOpen(false); }} />
-          <Button label="Search" onClick={() => { handleSearch(); }} />
+          <Button
+            label="Cancel"
+            onClick={() => {
+              setOpen(false);
+            }}
+          />
+          <Button
+            label="Search"
+            onClick={() => {
+              handleSearch();
+            }}
+          />
           {links.length > 0 ? (
-            <Button label="Create" onClick={() => { handleCreate(); }} />
+            <Button
+              label="Create"
+              onClick={() => {
+                handleCreate();
+              }}
+            />
           ) : null}
         </DialogActions>
       </Dialog>

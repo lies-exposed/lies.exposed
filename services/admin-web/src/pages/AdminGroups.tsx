@@ -31,7 +31,7 @@ import {
   type DataProvider,
   type EditProps,
   type RaRecord,
-  type SelectInputProps
+  type SelectInputProps,
 } from "@liexp/ui/lib/components/admin";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
 import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput";
@@ -63,7 +63,7 @@ const GroupKindInput: React.FC<SelectInputProps> = (props) => {
 };
 
 const GroupMemberArrayInput: React.FC<Omit<ArrayInputProps, "children">> = (
-  props
+  props,
 ) => {
   return (
     <ArrayInput {...props}>
@@ -141,7 +141,7 @@ const transformGroup =
           : undefined,
         members,
       })),
-      throwTE
+      throwTE,
     );
   };
 

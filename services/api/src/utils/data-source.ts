@@ -25,7 +25,7 @@ import { type ENV } from "@io/ENV";
 
 export const getDataSource = (
   env: ENV,
-  includeOldEntities: boolean
+  includeOldEntities: boolean,
 ): DataSource => {
   const ssl =
     env.DB_SSL_MODE === "require"

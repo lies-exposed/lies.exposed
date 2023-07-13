@@ -23,7 +23,7 @@ describe("List Links", () => {
     }));
 
     links = await throwTE<any, any>(
-      Test.ctx.db.save(LinkEntity, links as any[])
+      Test.ctx.db.save(LinkEntity, links as any[]),
     );
   });
 
@@ -34,7 +34,7 @@ describe("List Links", () => {
           id: In(links.map((l) => l.id)),
         },
         loadRelationIds: { relations: ["image"] },
-      })
+      }),
     );
     await Promise.all(
       ll.map(async (l) => {
@@ -42,7 +42,7 @@ describe("List Links", () => {
         if (l.image) {
           await throwTE(Test.ctx.db.delete(MediaEntity, [l.image as any]));
         }
-      })
+      }),
     );
 
     await Test.utils.e2eAfterAll();
@@ -79,8 +79,8 @@ describe("List Links", () => {
       await throwTE(
         Test.ctx.db.delete(
           EventV2Entity,
-          events.map((e) => e.id)
-        )
+          events.map((e) => e.id),
+        ),
       );
 
       const data = response.body.data;
@@ -109,8 +109,8 @@ describe("List Links", () => {
       await throwTE(
         Test.ctx.db.delete(
           EventV2Entity,
-          events.map((e) => e.id)
-        )
+          events.map((e) => e.id),
+        ),
       );
 
       const data = response.body.data;

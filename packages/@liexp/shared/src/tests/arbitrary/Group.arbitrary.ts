@@ -19,8 +19,8 @@ export const GroupArb: tests.fc.Arbitrary<http.Group.Group> = tests
         "endDate",
         "createdAt",
         "updatedAt",
-      ])
-    )
+      ]),
+    ),
   )
   .map((p) => ({
     ...p,

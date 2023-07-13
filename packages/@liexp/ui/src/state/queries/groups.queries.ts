@@ -1,5 +1,5 @@
 import { type Group } from "@liexp/shared/lib/io/http";
-import { type APIError } from '@liexp/shared/lib/io/http/Error/APIError';
+import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
 import type { GetListParams, GetOneParams } from "react-admin";
 import { useQuery, type UseQueryResult } from "react-query";
 import { Queries } from "../../providers/DataProvider";
@@ -9,7 +9,7 @@ import { type FetchQuery, type UseListQueryFn } from "./type";
 export const getGroupsQueryKey = (
   suffix: string,
   p: Partial<GetListParams>,
-  discrete: boolean
+  discrete: boolean,
 ): [string, GetListParams, boolean] => {
   return [
     `groups-${suffix}`,
@@ -31,7 +31,7 @@ export const getGroupsQueryKey = (
 };
 
 export const fetchGroups: FetchQuery<typeof Queries.Group.getList> = fetchQuery(
-  Queries.Group.getList
+  Queries.Group.getList,
 );
 
 export const useGroupsQuery: UseListQueryFn<Group.Group> = (
@@ -47,7 +47,7 @@ export const fetchGroup = async ({ queryKey }: any): Promise<Group.Group> => {
 };
 
 export const useGroupQuery = (
-  params: GetOneParams
+  params: GetOneParams,
 ): UseQueryResult<Group.Group, APIError> => {
   return useQuery(["groups", params], fetchGroup);
 };

@@ -1,7 +1,7 @@
 import { type Media } from "@liexp/shared/lib/io/http";
 import {
   AutocompleteMediaInput,
-  type AutocompleteMediaInputProps
+  type AutocompleteMediaInputProps,
 } from "@liexp/ui/lib/components/Input/AutocompleteMediaInput";
 import { MainContent } from "@liexp/ui/lib/components/MainContent";
 import { type Meta, type StoryFn } from "@storybook/react";

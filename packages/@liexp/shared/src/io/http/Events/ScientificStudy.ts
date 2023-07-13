@@ -14,7 +14,7 @@ export const ScientificStudyPayload = t.strict(
     authors: t.array(UUID),
     publisher: t.union([UUID, t.undefined]),
   },
-  "ScientificStudyPayload"
+  "ScientificStudyPayload",
 );
 
 export type ScientificStudyPayload = t.TypeOf<typeof ScientificStudyPayload>;
@@ -25,7 +25,7 @@ export const CreateScientificStudyPlainBody = t.strict(
     type: SCIENTIFIC_STUDY,
     payload: ScientificStudyPayload,
   },
-  "CreateScientificStudyPlainBody"
+  "CreateScientificStudyPlainBody",
 );
 export type CreateScientificStudyPlainBody = t.TypeOf<
   typeof CreateScientificStudyPlainBody
@@ -33,7 +33,7 @@ export type CreateScientificStudyPlainBody = t.TypeOf<
 
 export const CreateScientificStudyBody = t.union(
   [CreateScientificStudyPlainBody, t.strict({ url: URL })],
-  "CreateScientificStudyBody"
+  "CreateScientificStudyBody",
 );
 
 export type CreateScientificStudyBody = t.TypeOf<
@@ -46,7 +46,7 @@ export const EditScientificStudyBody = t.strict(
     type: SCIENTIFIC_STUDY,
     payload: ScientificStudyPayload,
   },
-  "EditScientificStudyBody"
+  "EditScientificStudyBody",
 );
 
 export type EditScientificStudyBody = t.TypeOf<typeof EditScientificStudyBody>;
@@ -57,7 +57,7 @@ export const ScientificStudy = t.strict(
     type: SCIENTIFIC_STUDY,
     payload: ScientificStudyPayload,
   },
-  "ScientificStudy"
+  "ScientificStudy",
 );
 
 export type ScientificStudy = t.TypeOf<typeof ScientificStudy>;

@@ -32,7 +32,7 @@ export interface GeoCustomProps<P extends GeoJSON.GeoJsonProperties> {
 
 const world = topojson.feature(
   worldTopologyTyped,
-  worldTopologyTyped.objects.units
+  worldTopologyTyped.objects.units,
 );
 
 const color = scaleQuantize({
@@ -161,13 +161,17 @@ const GeoCustom: any = <P extends GeoPermissibleObjects>({
             >
               <button
                 className="btn btn-zoom"
-                onClick={() => { zoom.scale({ scaleX: 1.2, scaleY: 1.2 }); }}
+                onClick={() => {
+                  zoom.scale({ scaleX: 1.2, scaleY: 1.2 });
+                }}
               >
                 +
               </button>
               <button
                 className="btn btn-zoom btn-bottom"
-                onClick={() => { zoom.scale({ scaleX: 0.8, scaleY: 0.8 }); }}
+                onClick={() => {
+                  zoom.scale({ scaleX: 0.8, scaleY: 0.8 });
+                }}
               >
                 -
               </button>
