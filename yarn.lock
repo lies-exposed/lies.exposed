@@ -3784,7 +3784,7 @@ __metadata:
     "@types/bs58": ^4.0.1
     "@types/prettier": ^2.7.3
     "@types/react": ^18.2.14
-    "@types/react-dom": ^18.2.6
+    "@types/react-dom": ^18.2.7
     "@types/throttle-debounce": ^5.0.0
     "@types/uuid": ^9.0.2
     "@visx/network": ^3.3.0
@@ -8218,12 +8218,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^18.0.11":
-  version: 18.0.11
-  resolution: "@types/react-dom@npm:18.0.11"
+"@types/react-dom@npm:*, @types/react-dom@npm:^18.0.0, @types/react-dom@npm:^18.2.7":
+  version: 18.2.7
+  resolution: "@types/react-dom@npm:18.2.7"
   dependencies:
     "@types/react": "*"
-  checksum: 579691e4d5ec09688087568037c35edf8cfb1ab3e07f6c60029280733ee7b5c06d66df6fcc90786702c93ac8cb13bc7ff16c79ddfc75d082938fbaa36e1cdbf4
+  checksum: e02ea908289a7ad26053308248d2b87f6aeafd73d0e2de2a3d435947bcea0422599016ffd1c3e38ff36c42f5e1c87c7417f05b0a157e48649e4a02f21727d54f
   languageName: node
   linkType: hard
 
@@ -8306,14 +8306,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^18.0.30":
-  version: 18.0.30
-  resolution: "@types/react@npm:18.0.30"
+"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^18.2.14":
+  version: 18.2.14
+  resolution: "@types/react@npm:18.2.14"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: 3ca13fd10a1ee92826e37cd8c2fe563bff65d4bdb3ff53f632bc46c8fba2e94e24247b4b77ce957677a54e592299782e1235f7a3dfcfea327cb3213ddc98e968
+  checksum: a6a5e8cc78f486b9020d1ad009aa6c56943c68c7c6376e0f8399e9cbcd950b7b8f5d73f00200f5379f5e58d31d57d8aed24357f301d8e86108cd438ce6c8b3dd
   languageName: node
   linkType: hard
 
@@ -9505,7 +9505,7 @@ __metadata:
     "@types/node": ^18.16.19
     "@types/prettier": ^2.7.3
     "@types/react": ^18.2.14
-    "@types/react-dom": ^18.2.6
+    "@types/react-dom": ^18.2.7
     "@types/webpack-bundle-analyzer": ^4.6.0
     "@typescript-eslint/eslint-plugin": ^5
     "@typescript-eslint/parser": ^5
@@ -26024,7 +26024,7 @@ __metadata:
     "@types/ol": ^7.0.0
     "@types/react": ^18.2.14
     "@types/react-calendar-heatmap": ^1.6.3
-    "@types/react-dom": ^18.2.6
+    "@types/react-dom": ^18.2.7
     "@types/react-helmet": ^6.1.6
     "@types/react-router-dom": ^5.3.3
     "@types/react-slick": ^0.23.10
