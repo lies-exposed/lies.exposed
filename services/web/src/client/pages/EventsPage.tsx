@@ -1,22 +1,22 @@
 import { EventType } from "@liexp/shared/lib/io/http/Events";
 import { type GetSearchEventsQueryInput } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
-import { formatDate } from '@liexp/shared/lib/utils/date';
+import { formatDate } from "@liexp/shared/lib/utils/date";
 import {
   clearSearchEventsQueryCache,
   type SearchEventQueryInput,
-  type SearchEventsQueryInputNoPagination
+  type SearchEventsQueryInputNoPagination,
 } from "@liexp/ui/lib/state/queries/SearchEventsQuery";
 import ExploreTemplate from "@liexp/ui/lib/templates/ExploreTemplate";
 import {
   queryToHash,
   useQueryFromHash,
-  useRouteQuery
+  useRouteQuery,
 } from "@liexp/ui/lib/utils/history.utils";
 import * as React from "react";
 import { queryClient } from "../state/queries";
 import {
   useNavigateToResource,
-  type EventsView
+  type EventsView,
 } from "../utils/location.utils";
 
 const useEventsPageQuery = (): GetSearchEventsQueryInput & {
@@ -61,13 +61,13 @@ const EventsPage: React.FC<EventsPageProps> = () => {
 
   const slide = React.useMemo(
     () => parseInt(query.slide ?? "0", 10) === 1,
-    [query]
+    [query],
   );
 
   const handleUpdateEventsSearch = React.useCallback(
     (
       { slide, ...update }: SearchEventsQueryInputNoPagination,
-      tab: number
+      tab: number,
     ): void => {
       clearSearchEventsQueryCache();
       void queryClient.invalidateQueries("events-search-infinite").then(() => {
@@ -77,11 +77,11 @@ const EventsPage: React.FC<EventsPageProps> = () => {
             hash: queryToHash({ ...params, ...update }),
             tab,
             slide: slide ? 1 : 0,
-          }
+          },
         );
       });
     },
-    [hash, tab, params, slide]
+    [hash, tab, params, slide],
   );
 
   return (

@@ -15,7 +15,7 @@ const UploadFileData = t.strict({ key: t.string, resource: UploadResource });
 
 export const MakeUploadMultipartFileRoute = (
   r: Router,
-  ctx: RouteContext
+  ctx: RouteContext,
 ): void => {
   const uploads = multer({
     storage: memoryStorage(),
@@ -39,15 +39,15 @@ export const MakeUploadMultipartFileRoute = (
             req.file,
             TE.fromPredicate(
               (f): f is Express.Multer.File => f !== undefined,
-              () => toControllerError(new Error("No file given"))
-            )
+              () => toControllerError(new Error("No file given")),
+            ),
           ),
           body: pipe(
             UploadFileData.decode({ key, resource }),
             TE.fromEither,
             TE.mapLeft((e) =>
-              DecodeError(`Failed to decode upload file data (${key})`, e)
-            )
+              DecodeError(`Failed to decode upload file data (${key})`, e),
+            ),
           ),
         }),
         TE.chain(({ body, file }) =>
@@ -57,11 +57,11 @@ export const MakeUploadMultipartFileRoute = (
               body.resource,
               body.key,
               body.key,
-              file.mimetype as any
+              file.mimetype as any,
             ),
             ACL: "public-read",
             Body: file.buffer,
-          })
+          }),
         ),
         ctx.logger.debug.logInTaskEither(`Upload results %O`),
         TE.map((data) => ({
@@ -72,9 +72,9 @@ export const MakeUploadMultipartFileRoute = (
         })),
         TE.fold(
           (e) => T.of(res.status(500).send(e)),
-          ({ statusCode, body }) => T.of(res.status(statusCode).send(body))
-        )
+          ({ statusCode, body }) => T.of(res.status(statusCode).send(body)),
+        ),
       )();
-    }
+    },
   );
 };

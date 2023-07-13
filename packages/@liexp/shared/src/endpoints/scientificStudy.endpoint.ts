@@ -7,9 +7,9 @@ import { UUID } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import {
   CreateScientificStudyBody,
-  ScientificStudy
+  ScientificStudy,
 } from "../io/http/Events/ScientificStudy";
-import { GetSearchEventsQuery } from '../io/http/Events/SearchEventsQuery';
+import { GetSearchEventsQuery } from "../io/http/Events/SearchEventsQuery";
 import { ResourceEndpoints } from "./types";
 
 const SingleStudyOutput = Output(ScientificStudy, "Death");
@@ -76,7 +76,7 @@ export const Edit = Endpoint({
     Params: t.type({ id: UUID }),
     Body: t.strict(
       propsOmit(CreateScientificStudyBody.types[0], ["type"]),
-      "CreateScientificStudyBody"
+      "CreateScientificStudyBody",
     ),
   },
   Output: SingleStudyOutput,

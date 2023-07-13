@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { UUID } from 'io-ts-types/UUID';
+import { UUID } from "io-ts-types/UUID";
 import { Endpoint } from "ts-endpoint";
 import { ResourceEndpoints } from "./types";
 
@@ -46,7 +46,6 @@ export const DeleteHealthcheck = Endpoint({
   },
   Output: t.unknown,
 });
-
 
 export const healthcheck = ResourceEndpoints({
   Create: CreateHealthcheck,

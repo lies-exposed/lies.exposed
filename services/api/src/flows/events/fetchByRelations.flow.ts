@@ -39,10 +39,10 @@ export const fetchEventsByRelation: TEFlow<
                     pipe(
                       actors,
                       fp.O.map((kk): UUID[] => kk),
-                      fp.O.getOrElse((): UUID[] => [])
-                    )
+                      fp.O.getOrElse((): UUID[] => []),
+                    ),
                   ),
-                  fp.O.some
+                  fp.O.some,
                 )
               : O.none,
           groups:
@@ -52,10 +52,10 @@ export const fetchEventsByRelation: TEFlow<
                     pipe(
                       groups,
                       fp.O.map((kk): UUID[] => kk),
-                      fp.O.getOrElse((): UUID[] => [])
-                    )
+                      fp.O.getOrElse((): UUID[] => []),
+                    ),
                   ),
-                  fp.O.some
+                  fp.O.some,
                 )
               : O.none,
           keywords:
@@ -65,13 +65,13 @@ export const fetchEventsByRelation: TEFlow<
                     pipe(
                       keywords,
                       fp.O.map((kk): UUID[] => kk),
-                      fp.O.getOrElse((): UUID[] => [])
-                    )
+                      fp.O.getOrElse((): UUID[] => []),
+                    ),
                   ),
-                  fp.O.some
+                  fp.O.some,
                 )
               : O.none,
-        })
-      )
+        }),
+      ),
     );
   };

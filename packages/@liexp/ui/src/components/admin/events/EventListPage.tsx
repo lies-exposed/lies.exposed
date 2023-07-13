@@ -174,9 +174,7 @@ export const EventListPage: React.FC = () => {
         <FunctionField<RaRecord<string>>
           label="Location"
           source="payload.location.coordinates"
-          render={(r) =>
-            r?.location?.coordinates ? <PinDropIcon /> : "-"
-          }
+          render={(r) => (r?.location?.coordinates ? <PinDropIcon /> : "-")}
         />
 
         <DateField source="date" />

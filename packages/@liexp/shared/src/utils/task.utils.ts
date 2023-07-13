@@ -13,12 +13,12 @@ export const throwTE = async <E, A>(te: TE.TaskEither<E, A>): Promise<A> => {
 };
 
 /**
- * 
- * @param tasks 
- * @returns 
+ *
+ * @param tasks
+ * @returns
  */
 export const separateTE = <E, A>(
-  tasks: Array<TE.TaskEither<E, A>>
+  tasks: Array<TE.TaskEither<E, A>>,
 ): T.Task<{ left: E[]; right: A[] }> => {
   return pipe(
     tasks,
@@ -27,10 +27,10 @@ export const separateTE = <E, A>(
         te,
         fp.TE.fold(
           (e) => fp.T.of(fp.E.left(e)),
-          (a) => fp.T.of(fp.E.right(a))
-        )
-      )
+          (a) => fp.T.of(fp.E.right(a)),
+        ),
+      ),
     ),
-    fp.T.map(fp.A.separate)
+    fp.T.map(fp.A.separate),
   );
 };

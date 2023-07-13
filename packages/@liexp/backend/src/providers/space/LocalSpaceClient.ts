@@ -25,7 +25,7 @@ const GetLocalSpaceClient: Reader<LocalSpaceClientCtx, SpaceClient> = ({
           return client.get<unknown, AxiosResponse<Body>>(params.Key ?? "");
         }, toError),
         TE.chain((content) => TE.tryCatch(() => content.data.text(), toError)),
-        TE.map((content) => ({ Body: content as any, $metadata: {} }))
+        TE.map((content) => ({ Body: content as any, $metadata: {} })),
       );
     },
     deleteObject: (params) => {
@@ -37,7 +37,7 @@ const GetLocalSpaceClient: Reader<LocalSpaceClientCtx, SpaceClient> = ({
       return TE.right(
         `${client.defaults.baseURL?.replace("data", "localhost")}/public/${
           params.Key
-        }?Content-Type=multipart/form-data;boundary=---test-boundary`
+        }?Content-Type=multipart/form-data;boundary=---test-boundary`,
       );
     },
     createBucket: (params) => {

@@ -31,7 +31,7 @@ const Template: StoryFn<AreaPageContentProps> = (props) => {
               order: "DESC",
             },
           },
-          false
+          false,
         ),
       }}
       render={({ actors }) => {

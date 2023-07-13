@@ -48,13 +48,12 @@ describe("Upsert Pinned Message Flow", () => {
           ...a,
           memberIn: [],
           events: events.map((e) => e.id) as any[],
-        }))
-      )
+        })),
+      ),
     );
 
     Test.mocks.tg.upsertPinnedMessage.mockImplementationOnce(
-      (text) => () =>
-        Promise.resolve(E.right({ message_id: 1, text }))
+      (text) => () => Promise.resolve(E.right({ message_id: 1, text })),
     );
 
     const result = await throwTE(upsertPinnedMessage(Test.ctx)(keywordCount));
@@ -62,22 +61,22 @@ describe("Upsert Pinned Message Flow", () => {
     await throwTE(
       Test.ctx.db.delete(
         EventV2Entity,
-        events.map((e) => e.id)
-      )
+        events.map((e) => e.id),
+      ),
     );
 
     await throwTE(
       Test.ctx.db.delete(
         KeywordEntity,
-        keywords.map((k) => k.id)
-      )
+        keywords.map((k) => k.id),
+      ),
     );
 
     await throwTE(
       Test.ctx.db.delete(
         ActorEntity,
-        actors.map((a) => a.id)
-      )
+        actors.map((a) => a.id),
+      ),
     );
 
     expect(result).toMatchObject({

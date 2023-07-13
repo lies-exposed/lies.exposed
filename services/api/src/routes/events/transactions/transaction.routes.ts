@@ -7,7 +7,7 @@ import { type RouteContext } from "@routes/route.types";
 
 export const MakeTransactionEventsRoutes = (
   router: Router,
-  ctx: RouteContext
+  ctx: RouteContext,
 ): void => {
   MakeGetTransactionEventRoute(router, ctx);
   MakeGetListTransactionEventRoute(router, ctx);

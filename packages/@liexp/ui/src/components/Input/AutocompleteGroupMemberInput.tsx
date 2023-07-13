@@ -24,14 +24,16 @@ export const AutocompleteGroupMemberInput: React.FC<
       getValue={(k) =>
         typeof k === "string" ? k : `${k.group.name} - ${k.actor.fullName}`
       }
-      query={p => useGroupMembersQuery(p, true)}
+      query={(p) => useGroupMembersQuery(p, true)}
       renderTags={(items) => (
         <GroupsMembersList
           groupsMembers={items.map((i) => ({
             ...i,
             selected: true,
           }))}
-          onItemClick={(k) => { onItemClick(items.filter((i) => i.id !== k.id)); }}
+          onItemClick={(k) => {
+            onItemClick(items.filter((i) => i.id !== k.id));
+          }}
         />
       )}
       renderOption={(props, item, state) => (

@@ -1,4 +1,4 @@
-import { SocialPostStatus } from '@liexp/shared/lib/io/http/SocialPost';
+import { SocialPostStatus } from "@liexp/shared/lib/io/http/SocialPost";
 import { type UUID } from "io-ts-types/lib/UUID";
 import {
   Column,
@@ -6,9 +6,8 @@ import {
   DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from "typeorm";
-
 
 @Entity("social_post")
 export class SocialPostEntity {

@@ -8,7 +8,7 @@ import { toActorIO } from "@routes/actors/actor.io";
 import { toGroupIO } from "@routes/groups/group.io";
 
 export const toGroupMemberIO = (
-  groupMember: GroupMemberEntity
+  groupMember: GroupMemberEntity,
 ): E.Either<ControllerError, io.http.GroupMember.GroupMember> => {
   return pipe(
     sequenceS(E.Applicative)({
@@ -27,9 +27,9 @@ export const toGroupMemberIO = (
           updatedAt: groupMember.updatedAt.toISOString(),
         }),
         E.mapLeft((e) =>
-          DecodeError(`Failed to decode group member (${groupMember.id})`, e)
-        )
-      )
-    )
+          DecodeError(`Failed to decode group member (${groupMember.id})`, e),
+        ),
+      ),
+    ),
   );
 };

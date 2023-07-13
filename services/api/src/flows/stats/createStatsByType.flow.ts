@@ -46,7 +46,7 @@ interface StatsCache {
 
 const updateMap = (
   c: Map<string, number>,
-  arr: Array<{ id: string }>
+  arr: Array<{ id: string }>,
 ): Map<string, number> => {
   return pipe(
     arr,
@@ -57,9 +57,9 @@ const updateMap = (
         fp.O.getOrElse(() => 0),
         (count) => {
           return fp.Map.upsertAt(fp.S.Eq)(a.id, count + 1)(acc);
-        }
+        },
       );
-    })
+    }),
   );
 };
 
@@ -176,11 +176,11 @@ export const createStatsByType: TEFlow<
         if (!tempFolderExists) {
           ctx.logger.debug.log(
             "Folder %s does not exist, creating...",
-            filePathDir
+            filePathDir,
           );
           fs.mkdirSync(filePathDir, { recursive: true });
         }
-      }, toControllerError)
+      }, toControllerError),
     ),
     TE.chain(() =>
       walkPaginatedRequest(ctx)(
@@ -211,8 +211,8 @@ export const createStatsByType: TEFlow<
         (r) => r.total,
         (r) => r.results,
         0,
-        50
-      )
+        50,
+      ),
     ),
     TE.chain((results) =>
       pipe(
@@ -252,7 +252,7 @@ export const createStatsByType: TEFlow<
                           links: [],
                           media: [],
                         },
-                      ])
+                      ]),
                     ),
                     groups: new Map(
                       groups.map((g) => [
@@ -267,7 +267,7 @@ export const createStatsByType: TEFlow<
                           avatar: g.avatar ?? undefined,
                           members: [],
                         },
-                      ])
+                      ]),
                     ),
                     actors: new Map(
                       actors.map((a) => [
@@ -275,25 +275,25 @@ export const createStatsByType: TEFlow<
                         {
                           ...a,
                           death: "",
-                          bornOn: a.bornOn as any ?? undefined,
-                          diedOn: a.diedOn as any ?? undefined,
+                          bornOn: (a.bornOn as any) ?? undefined,
+                          diedOn: (a.diedOn as any) ?? undefined,
                           color: a.color as any,
                           avatar: a.avatar ?? undefined,
                           memberIn: [],
                         },
-                      ])
+                      ]),
                     ),
                   });
 
                   return updateCache(acc, searchEvent);
-                })
+                }),
               );
 
               return result;
-            })
+            }),
           );
-        })
-      )
+        }),
+      ),
     ),
     TE.map((stats) => {
       return {
@@ -315,6 +315,6 @@ export const createStatsByType: TEFlow<
         fs.writeFileSync(filePath, JSON.stringify(stats));
         return stats;
       }, toControllerError);
-    })
+    }),
   );
 };

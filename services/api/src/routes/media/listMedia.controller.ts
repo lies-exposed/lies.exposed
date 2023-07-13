@@ -30,12 +30,12 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
                 exclude: fp.O.none,
                 type: fp.O.none,
               }),
-              fp.TE.map((r) => r.results.map((r) => r.id))
-            )
-          )
-        )
+              fp.TE.map((r) => r.results.map((r) => r.id)),
+            ),
+          ),
+        ),
       ),
-      fp.O.getOrElse(() => fp.TE.right<DBError, UUID[]>([]))
+      fp.O.getOrElse(() => fp.TE.right<DBError, UUID[]>([])),
     );
 
     return pipe(
@@ -44,7 +44,7 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
         fetchManyMedia(ctx)({
           ...query,
           events: pipe(events, fp.O.fromPredicate(fp.A.isNonEmpty)),
-        })
+        }),
       ),
       TE.chain(([data, total]) =>
         pipe(
@@ -55,18 +55,20 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
             events: d.events.map((e) => e.id) as any[],
             keywords: d.keywords.map((e) => e.id) as any[],
           })),
-          A.traverse(E.Applicative)(m => toImageIO(m, ctx.env.SPACE_ENDPOINT)),
+          A.traverse(E.Applicative)((m) =>
+            toImageIO(m, ctx.env.SPACE_ENDPOINT),
+          ),
           TE.fromEither,
           TE.map((results) => ({
             total,
             data: results,
-          }))
-        )
+          })),
+        ),
       ),
       TE.map((body) => ({
         body,
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

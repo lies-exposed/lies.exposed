@@ -48,7 +48,7 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
               group: group.id,
             },
           },
-          false
+          false,
         ),
       }}
       render={({ groupsMembers }) => {

@@ -4,7 +4,7 @@ import { type RouteContext } from "@routes/route.types";
 
 export const MakeProjectImageRoutes = (
   router: Router,
-  ctx: RouteContext
+  ctx: RouteContext,
 ): void => {
   MakeListProjectImageRoute(router, ctx);
 };

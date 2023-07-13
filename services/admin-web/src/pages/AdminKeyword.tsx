@@ -4,28 +4,23 @@ import {
   type CreateProps,
   Datagrid,
   DateField,
-  Edit, List,
-  type ListProps, SimpleForm,
+  Edit,
+  List,
+  type ListProps,
+  SimpleForm,
   TextField,
   TextInput,
-  useRecordContext
+  useRecordContext,
 } from "@liexp/ui/lib/components/admin";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
 import * as React from "react";
 
 const RESOURCE = "keywords";
 
-const keywordsFilter = [
-  <TextInput key="search" source="search" alwaysOn />
-];
+const keywordsFilter = [<TextInput key="search" source="search" alwaysOn />];
 
 export const KeywordList: React.FC<ListProps> = (props) => (
-  <List
-    {...props}
-    resource={RESOURCE}
-    filters={keywordsFilter}
-    perPage={20}
-  >
+  <List {...props} resource={RESOURCE} filters={keywordsFilter} perPage={20}>
     <Datagrid
       rowClick="edit"
       rowStyle={(r) => ({

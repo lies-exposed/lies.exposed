@@ -171,7 +171,7 @@ const EventsFilterSummary: React.FC<
                   startDate,
                   endDate,
                   groupsMembers: query.groupsMembers?.filter(
-                    (aId) => aId !== gm.id
+                    (aId) => aId !== gm.id,
                   ),
                 });
               }}

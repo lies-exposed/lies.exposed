@@ -1,6 +1,6 @@
 import { propsOmit } from "@liexp/core/lib/io/utils";
 import * as t from "io-ts";
-import { UUID } from 'io-ts-types/UUID';
+import { UUID } from "io-ts-types/UUID";
 import { Endpoint } from "ts-endpoint";
 import { Events } from "../../io/http";
 import { ListOutput, Output } from "../../io/http/Common/Output";
@@ -8,11 +8,11 @@ import { ResourceEndpoints } from "../types";
 
 const SingleTransactionOutput = Output(
   Events.Transaction.Transaction,
-  "Transactions"
+  "Transactions",
 );
 const ListTransactionOutput = ListOutput(
   Events.Transaction.Transaction,
-  "Transactions"
+  "Transactions",
 );
 
 export const List = Endpoint({
@@ -39,10 +39,8 @@ export const Create = Endpoint({
   Input: {
     Query: undefined,
     Body: t.strict(
-      propsOmit(Events.Transaction.CreateTransactionBody, [
-        "type",
-      ]),
-      "CreateTransactionBody"
+      propsOmit(Events.Transaction.CreateTransactionBody, ["type"]),
+      "CreateTransactionBody",
     ),
   },
   Output: SingleTransactionOutput,
@@ -55,7 +53,7 @@ export const Edit = Endpoint({
     Params: t.type({ id: UUID }),
     Body: t.strict(
       propsOmit(Events.Transaction.EditTransactionBody, ["type"]),
-      "EditTransactionBody"
+      "EditTransactionBody",
     ),
   },
   Output: SingleTransactionOutput,

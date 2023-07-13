@@ -56,17 +56,17 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
               actors: acc.actors.concat(
                 actors
                   .filter((a) => !acc.actors.some((aa) => aa === a.id))
-                  .map((a) => a.id)
+                  .map((a) => a.id),
               ),
               groups: acc.groups.concat(
                 groups
                   .filter((a) => !acc.groups.some((aa) => aa === a.id))
-                  .map((a) => a.id)
+                  .map((a) => a.id),
               ),
               groupsMembers: acc.groupsMembers.concat(
                 groupsMembers
                   .filter((a) => !acc.groupsMembers.some((aa) => aa === a.id))
-                  .map((a) => a.id)
+                  .map((a) => a.id),
               ),
             };
           },
@@ -74,7 +74,7 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
             actors: [] as any[],
             groups: [] as any[],
             groupsMembers: [] as any[],
-          }
+          },
         );
 
         // console.log("relation ids", relationIds);
@@ -93,13 +93,13 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
                   {
                     filter: { ids: relationIds.actors },
                   },
-                  true
+                  true,
                 ),
                 groups: useGroupsQuery(
                   {
                     filter: { ids: relationIds.groups },
                   },
-                  true
+                  true,
                 ),
               }}
               render={({ actors: { data: actors } }) => {

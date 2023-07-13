@@ -1,4 +1,4 @@
-import { type APIError } from '@liexp/shared/lib/io/http/Error/APIError';
+import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
 import { type GetListParams } from "ra-core";
 import * as React from "react";
 import { type UseQueryResult } from "react-query";
@@ -12,10 +12,10 @@ interface SearchableItem {
 export interface AutocompleteInputProps<T extends SearchableItem>
   extends Omit<
     AutocompleteProps<T, boolean, boolean, boolean>,
-    "renderInput" | "options" | 'onChange'
+    "renderInput" | "options" | "onChange"
   > {
   query: (
-    params: GetListParams
+    params: GetListParams,
   ) => UseQueryResult<{ data: T[]; total: number }, APIError>;
   searchToFilter: (t: string) => Record<string, string>;
   getValue: (v: T | string) => string;
@@ -34,7 +34,6 @@ export const AutocompleteInput = <T extends { id: string }>({
   onItemsChange,
   ...props
 }: AutocompleteInputProps<T>): React.ReactElement => {
-
   const selectedIds = selectedItems.map((s) => s.id);
   const [value, setValue] = React.useState<string>("");
   // const setValueThrottled = throttle(300, setValue, true);
@@ -60,7 +59,7 @@ export const AutocompleteInput = <T extends { id: string }>({
     (v: string) => {
       setValue(v);
     },
-    [value]
+    [value],
   );
 
   const items = query(itemQueryParams);
@@ -77,7 +76,7 @@ export const AutocompleteInput = <T extends { id: string }>({
       inputValue={value}
       value={(items.data?.data ?? []).filter((i) => selectedIds.includes(i.id))}
       options={(items.data?.data ?? []).filter(
-        (i) => !selectedIds.includes(i.id)
+        (i) => !selectedIds.includes(i.id),
       )}
       onChange={(e, v) => {
         if (Array.isArray(v)) {

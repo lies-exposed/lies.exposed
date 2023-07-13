@@ -38,7 +38,7 @@ describe("GET User Me", () => {
           firstName: fc.sample(fc.string())[0],
           lastName: fc.sample(fc.string())[0],
         },
-      ])
+      ]),
     );
   });
 

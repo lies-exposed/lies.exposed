@@ -32,7 +32,6 @@ const EventsBox: React.FC<EventsBoxProps> = ({
         }),
       }}
       render={({ events }) => {
-
         return (
           <Grid
             container

@@ -148,7 +148,7 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
       link.attr(
         "stroke-width",
         (typeof linkStrokeWidth !== "function" ? linkStrokeWidth : 3) /
-          Math.sqrt(transform.k)
+          Math.sqrt(transform.k),
       );
 
       text.style("font-size", 12 / Math.sqrt(transform.k));
@@ -159,7 +159,7 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
 
       actorOrGroupNode.attr(
         "stroke-width",
-        nodeStrokeWidth / Math.sqrt(transform.k)
+        nodeStrokeWidth / Math.sqrt(transform.k),
       );
 
       eventNodeImage
@@ -196,8 +196,8 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
         .selectAll("text")
         .data(
           nodes.filter((n) =>
-            EventType.types.flatMap((t) => t.value).includes(n.type)
-          )
+            EventType.types.flatMap((t) => t.value).includes(n.type),
+          ),
         )
         .join("text")
         .attr("class", "title")
@@ -207,7 +207,7 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
         .style("stroke", "#000")
         .style("display", "none")
         .text(({ index: i, type }) =>
-          type === KEYWORDS.value ? `#${T[i]}` : T[i]
+          type === KEYWORDS.value ? `#${T[i]}` : T[i],
         );
     }
 
@@ -266,7 +266,7 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
       .style("color", (d) => (EventTypeColor as any)[d[0]]);
 
     const actorOrGroupNode = nodeG.filter((n) =>
-      [ACTORS.value, GROUPS.value].includes(n.type)
+      [ACTORS.value, GROUPS.value].includes(n.type),
     );
 
     actorOrGroupNode
@@ -292,7 +292,7 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
       .attr("xlink:href", (d) => d.avatar);
 
     const eventNodeNode = nodeG.filter(
-      (n) => ![ACTORS.value, GROUPS.value, KEYWORDS.value].includes(n.type)
+      (n) => ![ACTORS.value, GROUPS.value, KEYWORDS.value].includes(n.type),
     );
 
     // eventNodeNode
@@ -364,8 +364,8 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
             return n.text(`#${d.tag}`);
           },
           300,
-          { leading: true }
-        )
+          { leading: true },
+        ),
       )
       .on(
         "mouseout",
@@ -376,8 +376,8 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
             return n.text(`#`);
           },
           300,
-          { leading: true }
-        )
+          { leading: true },
+        ),
       );
 
     node

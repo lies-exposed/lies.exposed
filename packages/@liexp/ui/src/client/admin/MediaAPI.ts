@@ -28,7 +28,7 @@ export const convertFileToBase64 = (file: File): TE.TaskEither<Error, string> =>
 
         reader.readAsDataURL(file);
       }),
-    E.toError
+    E.toError,
   );
 
 const getSignedUrl =
@@ -36,7 +36,7 @@ const getSignedUrl =
   (
     resource: string,
     resourceId: string,
-    ContentType: MediaType
+    ContentType: MediaType,
   ): TE.TaskEither<Error, { data: { url: string } }> => {
     return pipe(
       TE.tryCatch(
@@ -48,8 +48,8 @@ const getSignedUrl =
               ContentType,
             },
           }),
-        E.toError
-      )
+        E.toError,
+      ),
     );
   };
 
@@ -59,7 +59,7 @@ export const uploadFile =
     resource: string,
     resourceId: string,
     f: File,
-    type: MediaType
+    type: MediaType,
   ): TE.TaskEither<Error, { type: MediaType; location: string }> => {
     const videoTask = pipe(
       TE.tryCatch(async () => {
@@ -82,7 +82,7 @@ export const uploadFile =
               location: response.data.Location,
             };
           });
-      }, E.toError)
+      }, E.toError),
     );
 
     const othersTask = pipe(
@@ -103,11 +103,11 @@ export const uploadFile =
                   // ...headers,
                 },
               }),
-            E.toError
+            E.toError,
           ),
-          TE.map(() => ({ type, location }))
+          TE.map(() => ({ type, location })),
         );
-      })
+      }),
     );
 
     if (MP4Type.is(type)) {
@@ -121,13 +121,13 @@ export const uploadImages =
   (
     resource: string,
     resourceId: string,
-    media: Array<{ type: MediaType; file: File }>
+    media: Array<{ type: MediaType; file: File }>,
   ): TE.TaskEither<Error, Array<{ type: MediaType; location: string }>> => {
     return pipe(
       media.map((file) =>
-        uploadFile(client)(resource, resourceId, file.file, file.type)
+        uploadFile(client)(resource, resourceId, file.file, file.type),
       ),
-      A.sequence(TE.ApplicativeSeq)
+      A.sequence(TE.ApplicativeSeq),
     );
   };
 
@@ -140,7 +140,7 @@ export const transformMedia =
             "media",
             data.id.toString(),
             data.location.rawFile,
-            data.location.rawFile.type
+            data.location.rawFile.type,
           )
         : data._type === "fromURL" && data.url
         ? TE.fromEither(parseURL(data.url))
@@ -148,7 +148,7 @@ export const transformMedia =
 
     const events = (data.events ?? []).concat(data.newEvents ?? []);
     const links = (data.links ?? []).concat(
-      (data.newLinks ?? []).flatMap((l: any) => l.ids)
+      (data.newLinks ?? []).flatMap((l: any) => l.ids),
     );
     const keywords = (data.keywords ?? []).concat(data.newKeywords ?? []);
 
@@ -162,6 +162,6 @@ export const transformMedia =
         links,
         keywords,
       })),
-      throwTE
+      throwTE,
     );
   };

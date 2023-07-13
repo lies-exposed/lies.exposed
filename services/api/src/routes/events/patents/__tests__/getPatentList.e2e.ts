@@ -24,8 +24,8 @@ describe("Get Patent List", () => {
     await throwTE(
       appTest.ctx.db.delete(
         EventV2Entity,
-        eventsData.map((e) => e.id)
-      )
+        eventsData.map((e) => e.id),
+      ),
     );
     await appTest.utils.e2eAfterAll();
   });

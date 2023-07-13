@@ -17,10 +17,10 @@ export const Tag = t.brand(
       IOE.mapLeft((e) => false),
       IOE.fold(
         (e) => () => e,
-        (r) => () => r
-      )
+        (r) => () => r,
+      ),
     )(),
-  "Tag"
+  "Tag",
 );
 
 export type Tag = t.TypeOf<typeof Tag>;

@@ -14,7 +14,7 @@ export const PublicAnnouncement = t.strict(
     // for: For,
     date: DateFromISOString,
   },
-  "PublicAnnouncement"
+  "PublicAnnouncement",
 );
 
 export type PublicAnnouncement = t.TypeOf<typeof PublicAnnouncement>;

@@ -30,11 +30,11 @@ const isEventsQueryEmpty = (v: Omit<EventsView, "view">): boolean => {
 };
 
 export function useQueryHash(
-  query: Omit<EventsView, "view">
+  query: Omit<EventsView, "view">,
 ): string | undefined {
   return React.useMemo(
     () => (!isEventsQueryEmpty(query) ? queryToHash(query) : undefined),
-    [query]
+    [query],
   );
 }
 

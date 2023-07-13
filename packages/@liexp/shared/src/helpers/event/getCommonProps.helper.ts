@@ -11,7 +11,7 @@ export interface EventCommonProps {
 
 export const getEventCommonProps = (
   e: http.Events.Event,
-  relations: http.Events.EventRelations
+  relations: http.Events.EventRelations,
 ): EventCommonProps => {
   const title = getTitle(e, relations);
   switch (e.type) {

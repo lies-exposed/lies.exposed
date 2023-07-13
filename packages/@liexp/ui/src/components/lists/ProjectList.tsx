@@ -55,7 +55,7 @@ export const ProjectListItem: React.FC<ListItemProps<Project>> = ({
               title={image.description}
             />
           )),
-          O.toNullable
+          O.toNullable,
         )}
 
         <CardContent>{item.body}</CardContent>

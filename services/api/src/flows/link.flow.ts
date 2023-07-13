@@ -1,6 +1,6 @@
 import { fp } from "@liexp/core/lib/fp";
 import { type URL } from "@liexp/shared/lib/io/http/Common";
-import { sanitizeURL } from '@liexp/shared/lib/utils/url.utils';
+import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";
@@ -23,13 +23,13 @@ export const fetchAsLink: TEFlow<
   (creator, url, defaults): TE.TaskEither<ControllerError, LinkEntity> => {
     return pipe(
       ctx.urlMetadata.fetchMetadata(url, {}, (e) =>
-        ServerError([`Error fetching metadata from url ${url}`])
+        ServerError([`Error fetching metadata from url ${url}`]),
       ),
       TE.orElse((e) =>
         TE.right<ControllerError, Partial<Metadata>>({
           keywords: [],
           url: url as string,
-        })
+        }),
       ),
       TE.map((m) => ({
         ...m,
@@ -64,20 +64,20 @@ export const fetchAsLink: TEFlow<
                       keywords: [],
                       featuredIn: [],
                       deletedAt: null,
-                    })
-                  )
-                )
-              )
-            )
+                    }),
+                  ),
+                ),
+              ),
+            ),
           ),
           fp.O.getOrElse(() =>
-            TE.right<ControllerError, O.Option<MediaEntity>>(O.none)
+            TE.right<ControllerError, O.Option<MediaEntity>>(O.none),
           ),
           TE.map((image) => ({
             ...m,
             image: pipe(image, fp.O.toNullable),
-          }))
-        )
+          })),
+        ),
       ),
       TE.map((meta): LinkEntity => {
         ctx.logger.debug.log("Creating link %O", meta);
@@ -99,7 +99,7 @@ export const fetchAsLink: TEFlow<
         link.updatedAt = new Date();
 
         return link;
-      })
+      }),
     );
   };
 
@@ -122,8 +122,8 @@ export const fetchAndSave: TEFlow<[UserEntity, URL], LinkEntity> =
         return pipe(
           fetchAsLink(ctx)(u, sanitizedURL, undefined),
           TE.chain((l) => ctx.db.save(LinkEntity, [l])),
-          TE.map((ll) => ll[0])
+          TE.map((ll) => ll[0]),
         );
-      })
+      }),
     );
   };

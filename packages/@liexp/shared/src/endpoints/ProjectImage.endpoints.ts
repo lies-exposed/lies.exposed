@@ -7,7 +7,7 @@ import { ResourceEndpoints } from "./types";
 
 const ListProjectImageOutput = ListOutput(
   http.ProjectImage.ProjectImage,
-  "ListProjectImage"
+  "ListProjectImage",
 );
 
 export const Create = Endpoint({

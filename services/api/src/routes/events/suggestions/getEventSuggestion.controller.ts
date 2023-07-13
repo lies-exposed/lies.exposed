@@ -1,7 +1,7 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { toEventSuggestion } from './eventSuggestion.io';
+import { toEventSuggestion } from "./eventSuggestion.io";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { type Route } from "@routes/route.types";
 
@@ -15,7 +15,7 @@ export const GetEventSuggestionRoute: Route = (r, ctx) => {
           data,
         },
         statusCode: 201,
-      }))
+      })),
     );
   });
 };

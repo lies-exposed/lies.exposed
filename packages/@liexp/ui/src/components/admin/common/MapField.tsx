@@ -18,7 +18,7 @@ const getDefaultFormat = (): GeoJSON => new GeoJSON(formatOptions);
 
 const getDefaultMap = (
   target: HTMLDivElement,
-  featuresLayer: VectorLayer<VectorSource<any>>
+  featuresLayer: VectorLayer<VectorSource<any>>,
 ): Map => {
   return new Map({
     target,

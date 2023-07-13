@@ -3,7 +3,12 @@ import { UUID } from "io-ts-types/lib/UUID";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { GetListQuery } from "../io/http/Query";
-import { EditUserBody, SignUpUserBody, User, UserPermission } from "../io/http/User";
+import {
+  EditUserBody,
+  SignUpUserBody,
+  User,
+  UserPermission,
+} from "../io/http/User";
 import { ResourceEndpoints } from "./types";
 
 export const UserLogin = Endpoint({
@@ -24,7 +29,7 @@ export const UserCreate = Endpoint({
         ...SignUpUserBody.type.props,
         permissions: t.array(UserPermission),
       },
-      "UserCreateBody"
+      "UserCreateBody",
     ),
   },
   Output: t.strict({

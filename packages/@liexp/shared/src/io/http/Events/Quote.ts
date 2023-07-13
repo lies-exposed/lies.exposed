@@ -13,7 +13,7 @@ export const QuoteListQuery = t.strict(
     ...propsOmit(GetSearchEventsQuery, ["type"]),
     actor: optionFromNullable(t.array(UUID)),
   },
-  "QuoteListQuery"
+  "QuoteListQuery",
 );
 export type QuoteListQuery = t.TypeOf<typeof QuoteListQuery>;
 
@@ -23,7 +23,7 @@ export const QuotePayload = t.strict(
     quote: t.union([t.string, t.undefined]),
     details: t.union([t.string, t.undefined]),
   },
-  "QuotePayload"
+  "QuotePayload",
 );
 export type QuotePayload = t.TypeOf<typeof QuotePayload>;
 
@@ -33,7 +33,7 @@ export const CreateQuoteBody = t.strict(
     type: QUOTE,
     payload: QuotePayload,
   },
-  "CreateQuoteBody"
+  "CreateQuoteBody",
 );
 export type CreateQuoteBody = t.TypeOf<typeof CreateQuoteBody>;
 
@@ -43,7 +43,7 @@ export const EditQuoteBody = t.strict(
     type: QUOTE,
     payload: QuotePayload,
   },
-  "EditQuoteBody"
+  "EditQuoteBody",
 );
 
 export type EditQuoteBody = t.TypeOf<typeof EditQuoteBody>;
@@ -54,7 +54,7 @@ export const Quote = t.strict(
     type: QUOTE,
     payload: QuotePayload,
   },
-  "Quote"
+  "Quote",
 );
 
 export type Quote = t.TypeOf<typeof Quote>;

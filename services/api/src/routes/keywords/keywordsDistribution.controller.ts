@@ -10,14 +10,14 @@ import { getORMOptions } from "@utils/orm.utils";
 
 export const MakeKeywordsDistributionRoute = (
   r: Router,
-  ctx: RouteContext
+  ctx: RouteContext,
 ): void => {
   AddEndpoint(r)(
     Endpoints.Keyword.Custom.Distribution,
     ({ query: { ids, events, search, ...query } }) => {
       const findOptions = getORMOptions(
         { ...query },
-        ctx.env.DEFAULT_PAGE_SIZE
+        ctx.env.DEFAULT_PAGE_SIZE,
       );
 
       ctx.logger.debug.log(`Find Options %O`, { ...findOptions, events });
@@ -46,14 +46,12 @@ export const MakeKeywordsDistributionRoute = (
           return q;
         },
         (q) => {
-          return q
-            .skip(findOptions.skip)
-            .take(findOptions.take)
-            // .orderBy("count("keyword"."events")", "DESC");
+          return q.skip(findOptions.skip).take(findOptions.take);
+          // .orderBy("count("keyword"."events")", "DESC");
         },
         (q) => {
           return ctx.db.execQuery(() => q.getManyAndCount());
-        }
+        },
       );
 
       return pipe(
@@ -66,15 +64,15 @@ export const MakeKeywordsDistributionRoute = (
                 ...d,
                 color: d.color ?? "000000",
                 events: d.events.length,
-              }))
+              })),
             ),
             // A.traverse(E.either)(toKeywordIO),
             // TE.fromEither,
             TE.map((results) => ({
               total,
               data: results,
-            }))
-          )
+            })),
+          ),
         ),
         TE.map(({ data, total }) => ({
           body: {
@@ -82,8 +80,8 @@ export const MakeKeywordsDistributionRoute = (
             total,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

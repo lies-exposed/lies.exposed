@@ -1,7 +1,7 @@
 import KeywordsDistributionGraph from "@liexp/ui/lib/components/Graph/KeywordDistributionGraph";
 import { PageContent } from "@liexp/ui/lib/components/PageContent";
 import SEO from "@liexp/ui/lib/components/SEO";
-import { type ActorItem } from '@liexp/ui/lib/components/lists/ActorList';
+import { type ActorItem } from "@liexp/ui/lib/components/lists/ActorList";
 import { Box, Grid, Typography } from "@liexp/ui/lib/components/mui";
 import ActorsBox from "@liexp/ui/lib/containers/ActorsBox";
 import EventsBox from "@liexp/ui/lib/containers/EventsBox";

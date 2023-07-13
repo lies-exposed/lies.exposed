@@ -31,8 +31,8 @@ describe("Create Media", () => {
     await throwTE(
       Test.ctx.db.delete(
         UserEntity,
-        users.map((u) => u.id)
-      )
+        users.map((u) => u.id),
+      ),
     );
 
     await Test.utils.e2eAfterAll();

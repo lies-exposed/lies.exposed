@@ -1,9 +1,8 @@
 import { type EventTotals } from "../../io/http/Events/SearchEventsQuery";
 
-
 export const getTotal = (
   totals: EventTotals,
-  filters: { [K in keyof EventTotals]: boolean }
+  filters: { [K in keyof EventTotals]: boolean },
 ): number => {
   return (
     (filters.deaths ? totals.deaths : 0) +

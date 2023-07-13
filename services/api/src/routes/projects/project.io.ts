@@ -5,7 +5,7 @@ import { type ProjectEntity } from "@entities/Project.entity";
 import { type ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toProjectIO = (
-  project: ProjectEntity
+  project: ProjectEntity,
 ): E.Either<ControllerError, io.http.Project.Project> => {
   return pipe(
     io.http.Project.Project.decode({
@@ -30,6 +30,8 @@ export const toProjectIO = (
       createdAt: project.createdAt.toISOString(),
       updatedAt: project.updatedAt.toISOString(),
     }),
-    E.mapLeft((e) => DecodeError(`Failed to decode project (${project.id})`, e))
+    E.mapLeft((e) =>
+      DecodeError(`Failed to decode project (${project.id})`, e),
+    ),
   );
 };

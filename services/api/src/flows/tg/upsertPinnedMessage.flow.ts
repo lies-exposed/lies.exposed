@@ -50,7 +50,7 @@ export const upsertPinnedMessage: TEFlow<[number], TelegramBot.Message> =
             }, "count")
             .orderBy('"count"', "DESC")
             .limit(limit)
-            .getMany()
+            .getMany(),
         ),
         // actors: ctx.db.execQuery(() =>
         //   ctx.db.manager
@@ -80,10 +80,10 @@ export const upsertPinnedMessage: TEFlow<[number], TelegramBot.Message> =
           keywordLimit: limit,
           // actors: actors.filter((k) => k.eventCount > 5),
           // actorLimit: limit,
-        })
+        }),
       ),
       ctx.logger.info.logInTaskEither("Updated Pinned message"),
       TE.chain((message) => ctx.tg.upsertPinnedMessage(message)),
-      TE.mapLeft(toControllerError)
+      TE.mapLeft(toControllerError),
     );
   };

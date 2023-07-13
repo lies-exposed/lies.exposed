@@ -1,4 +1,4 @@
-import { type APIError } from '@liexp/shared/lib/io/http/Error/APIError';
+import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
 import {
   type GetNetworkParams,
   type GetNetworkQuery,
@@ -11,13 +11,13 @@ import { fetchQuery } from "./common";
 import { type FetchQuery } from "./type";
 
 export const fetchNetworkGraph: FetchQuery<any> = fetchQuery(
-  Queries.Networks.get
+  Queries.Networks.get,
 );
 
 export const useNetworkGraphQuery = (
   params: GetNetworkParams,
   query: Partial<serializedType<typeof GetNetworkQuery>>,
-  discrete: boolean | undefined = true
+  discrete: boolean | undefined = true,
 ): UseQueryResult<NetworkGraphOutput, APIError> => {
   return useQuery(
     [
@@ -35,19 +35,19 @@ export const useNetworkGraphQuery = (
         ...query,
         emptyRelations: query.emptyRelations ?? undefined,
       },
-      discrete
+      discrete,
     ],
-    fetchNetworkGraph
+    fetchNetworkGraph,
   );
 };
 
 export const fetchHierarchyNetworkGraph: FetchQuery<any> = fetchQuery(
-  (p: GetNetworkParams) =>  Queries.Networks.get({ ...p, type: "hierarchy" })
+  (p: GetNetworkParams) => Queries.Networks.get({ ...p, type: "hierarchy" }),
 );
 
 export const useHierarchyNetworkGraphQuery = (
   params: GetNetworkParams,
-  query: Partial<serializedType<typeof GetNetworkQuery>>
+  query: Partial<serializedType<typeof GetNetworkQuery>>,
 ): UseQueryResult<NetworkGraphOutput, APIError> => {
   return useQuery(
     [
@@ -66,6 +66,6 @@ export const useHierarchyNetworkGraphQuery = (
         emptyRelations: query.emptyRelations ?? undefined,
       },
     ],
-    fetchHierarchyNetworkGraph
+    fetchHierarchyNetworkGraph,
   );
 };

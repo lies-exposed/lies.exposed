@@ -104,58 +104,58 @@ export const ScientificStudyEdit: React.FC = () => {
 };
 
 export const ScientificStudyCreate: React.FC<CreateProps> = (props) => {
-  const dataProvider = useDataProvider()
+  const dataProvider = useDataProvider();
   return (
-  <Create
-    title="Create a Scientific Study"
-    {...props}
-    transform={(r) =>
-      transformEvent(dataProvider)(uuid(), {
-        ...r,
-        type: ScientificStudy.SCIENTIFIC_STUDY.value,
-      })
-    }
-  >
-    <SimpleForm>
-      <BooleanInput source="plain" />
-      <FormDataConsumer>
-        {({ formData }) => {
-          if (formData.plain) {
-            return (
-              <Box>
-                <BooleanInput source="draft" defaultValue={false} />
-
-                <DateInput source="date" />
-                <TextInput source="payload.title" />
-                <TextInput source="payload.url" />
-                <ReactPageInput source="excerpt" onlyText />
-                <ReactPageInput source="body" />
-                <ReferenceArrayActorInput
-                  source="payload.authors"
-                  initialValue={[]}
-                />
-
-                <ReferenceGroupInput source="payload.publisher" alwaysOn />
-
-                <ReferenceArrayKeywordInput
-                  source="keywords"
-                  defaultValue={[]}
-                  showAdd={false}
-                />
-                <ReferenceArrayLinkInput source="links" defaultValue={[]} />
-                <MediaArrayInput source="newMedia" defaultValue={[]} />
-              </Box>
-            );
-          }
-          return (
-            <URLMetadataInput
-              source="url"
-              type={ScientificStudy.SCIENTIFIC_STUDY.value}
-            />
-          );
-        }}
-      </FormDataConsumer>
-    </SimpleForm>
-  </Create>
-);
+    <Create
+      title="Create a Scientific Study"
+      {...props}
+      transform={(r) =>
+        transformEvent(dataProvider)(uuid(), {
+          ...r,
+          type: ScientificStudy.SCIENTIFIC_STUDY.value,
+        })
       }
+    >
+      <SimpleForm>
+        <BooleanInput source="plain" />
+        <FormDataConsumer>
+          {({ formData }) => {
+            if (formData.plain) {
+              return (
+                <Box>
+                  <BooleanInput source="draft" defaultValue={false} />
+
+                  <DateInput source="date" />
+                  <TextInput source="payload.title" />
+                  <TextInput source="payload.url" />
+                  <ReactPageInput source="excerpt" onlyText />
+                  <ReactPageInput source="body" />
+                  <ReferenceArrayActorInput
+                    source="payload.authors"
+                    initialValue={[]}
+                  />
+
+                  <ReferenceGroupInput source="payload.publisher" alwaysOn />
+
+                  <ReferenceArrayKeywordInput
+                    source="keywords"
+                    defaultValue={[]}
+                    showAdd={false}
+                  />
+                  <ReferenceArrayLinkInput source="links" defaultValue={[]} />
+                  <MediaArrayInput source="newMedia" defaultValue={[]} />
+                </Box>
+              );
+            }
+            return (
+              <URLMetadataInput
+                source="url"
+                type={ScientificStudy.SCIENTIFIC_STUDY.value}
+              />
+            );
+          }}
+        </FormDataConsumer>
+      </SimpleForm>
+    </Create>
+  );
+};

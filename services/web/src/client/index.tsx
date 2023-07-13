@@ -62,5 +62,5 @@ const root = ReactDOM.createRoot(container);
 root.render(
   <React.Fragment>
     <Main />
-  </React.Fragment>
+  </React.Fragment>,
 );

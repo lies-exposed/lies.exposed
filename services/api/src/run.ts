@@ -12,7 +12,6 @@ import { helpCommand } from "./providers/tg/help.command";
 import { startCommand } from "./providers/tg/start.command";
 import { makeApp, makeContext } from "./server";
 
-
 const run = (): Promise<void> => {
   const serverLogger = logger.GetLogger("api");
 
@@ -38,7 +37,7 @@ const run = (): Promise<void> => {
           "%s\n %O \n\n %O",
           err.name,
           err.message,
-          parsedError
+          parsedError,
         );
         return () =>
           // eslint-disable-next-line prefer-promise-reject-errors
@@ -60,7 +59,7 @@ const run = (): Promise<void> => {
           groupCommand(ctx);
 
           const postOnSocialTask = postOnSocialJob(ctx);
-          postOnSocialTask.start()
+          postOnSocialTask.start();
           // const downloadVaccineDataTask = Cron.schedule(
           //   ctx.env.DOWNLOAD_VACCINE_DATA_CRON,
           //   () => {
@@ -105,9 +104,9 @@ const run = (): Promise<void> => {
                 (e) => {
                   serverLogger.error.log(
                     `TG Bot error during polling stop %O`,
-                    e
+                    e,
                   );
-                }
+                },
               );
             void ctx.db
               .close()()
@@ -121,8 +120,8 @@ const run = (): Promise<void> => {
           });
 
           return Promise.resolve(undefined);
-        }
-    )
+        },
+    ),
   )();
 };
 

@@ -1,6 +1,6 @@
 import { type Actor } from "@liexp/shared/lib/io/http";
 import * as React from "react";
-import { useQuery } from 'react-query';
+import { useQuery } from "react-query";
 import { useActorsQuery } from "../../state/queries/actor.queries";
 import { ActorList, ActorListItem } from "../lists/ActorList";
 import { AutocompleteInput } from "./AutocompleteInput";
@@ -29,7 +29,9 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
       selectedItems={selectedItems}
       query={(p) =>
         options
-          ? useQuery(["actor-options"], () => Promise.resolve({ data: options }))
+          ? useQuery(["actor-options"], () =>
+              Promise.resolve({ data: options }),
+            )
           : useActorsQuery(p, discrete)
       }
       renderTags={(items) => (
@@ -47,14 +49,14 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
         <ActorListItem
           key={item.id}
           displayFullName={true}
-          style={{ display: 'flex', }}
+          style={{ display: "flex" }}
           item={{
             ...item,
             selected: true,
           }}
           onClick={() => {
             onChange(
-              selectedItems.filter((i) => i.id !== item.id).concat(item)
+              selectedItems.filter((i) => i.id !== item.id).concat(item),
             );
           }}
         />

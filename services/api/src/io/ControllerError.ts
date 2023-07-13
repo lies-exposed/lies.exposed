@@ -12,7 +12,7 @@ export const APIStatusCode = t.union(
     t.literal(404),
     t.literal(500),
   ],
-  "StatusCode"
+  "StatusCode",
 );
 
 export type APIStatusCode = t.TypeOf<typeof APIStatusCode>;
@@ -67,7 +67,7 @@ export const NotAuthorizedError = (): ControllerError => {
 
 export const DecodeError = (
   message: string,
-  errors: t.Errors
+  errors: t.Errors,
 ): ControllerError => {
   return {
     name: "APIError: Decode Error",

@@ -15,10 +15,10 @@ const NumberFromEmptyString = new t.Type(
         }
         const n = +s;
         return isNaN(n) || s.trim() === "" ? t.failure(u, c) : t.success(n);
-      })
+      }),
     );
   },
-  String
+  String,
 );
 
 export const VaccineDistributionDatum = t.strict(
@@ -38,7 +38,7 @@ export const VaccineDistributionDatum = t.strict(
     total_boosters_per_hundred: NumberFromEmptyString,
     daily_vaccinations_per_million: NumberFromEmptyString,
   },
-  "VaccineDistributionDatum"
+  "VaccineDistributionDatum",
 );
 
 export type VaccineDistributionDatum = t.TypeOf<

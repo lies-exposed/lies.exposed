@@ -29,7 +29,7 @@ export const actorCommand = ({
       const actor = await pipe(
         db.findOne(ActorEntity, { where: { username } }),
         fp.TE.map(fp.O.toNullable),
-        throwTE
+        throwTE,
       );
 
       if (actor) {
@@ -44,13 +44,13 @@ export const actorCommand = ({
         fp.TE.map((q) =>
           q.results.slice(0, 5).map((s) => ({
             [s.title]: { value: s.pageid },
-          }))
+          })),
         ),
         fp.TE.map((options) => {
           ctx.keyboard([options]);
           return undefined;
         }),
-        throwTE
+        throwTE,
       );
 
       await ctx.sendMessage(`Looking for ${ctx.search} on Wikipedia...`);
@@ -71,7 +71,7 @@ export const actorCommand = ({
           env,
           ...rest,
         })(pageId),
-        throwTE
+        throwTE,
       );
 
       const actor = await pipe(
@@ -83,7 +83,7 @@ export const actorCommand = ({
           },
         ]),
         fp.TE.map((r) => r[0]),
-        throwTE
+        throwTE,
       );
 
       await ctx.sendMessage(getSuccessMessage(actor, env.WEB_URL), {

@@ -15,7 +15,6 @@ import {
 } from "../../../../mui";
 import { EventIcon } from "../../../Icons";
 
-
 const PREFIX = `event-timeline-plugin`;
 
 const classes = {
@@ -37,7 +36,7 @@ const EventsTimeline: React.FC<{ events: Event[] }> = ({ events }) => {
           keywords: [],
           media: [],
           links: [],
-          areas: []
+          areas: [],
         });
         return (
           <ListItem key={e.id}>

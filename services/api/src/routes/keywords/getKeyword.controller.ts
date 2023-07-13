@@ -19,7 +19,7 @@ export const MakeGetKeywordRoute = (r: Router, ctx: RouteContext): void => {
           data: actor,
         },
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

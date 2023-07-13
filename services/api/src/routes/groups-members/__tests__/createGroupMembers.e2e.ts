@@ -10,11 +10,11 @@ import { GroupMemberEntity } from "@entities/GroupMember.entity";
 
 describe("Create Group Member", () => {
   let Test: AppTest;
-    const users: any[] = [];
-    let authorizationToken: string;
-    let actors: ActorEntity[];
-    let groups: GroupEntity[];
-    const groupsMembers: GroupMemberEntity[] = [];
+  const users: any[] = [];
+  let authorizationToken: string;
+  let actors: ActorEntity[];
+  let groups: GroupEntity[];
+  const groupsMembers: GroupMemberEntity[] = [];
   beforeAll(async () => {
     Test = await GetAppTest();
     const user = await saveUser(Test, ["admin:create"]);
@@ -40,20 +40,20 @@ describe("Create Group Member", () => {
     await throwTE(
       Test.ctx.db.delete(
         GroupMemberEntity,
-        groupsMembers.map((g) => g.id)
-      )
+        groupsMembers.map((g) => g.id),
+      ),
     );
     await throwTE(
       Test.ctx.db.delete(
         GroupEntity,
-        groups.map((g) => g.id)
-      )
+        groups.map((g) => g.id),
+      ),
     );
     await throwTE(
       Test.ctx.db.delete(
         ActorEntity,
-        actors.map((a) => a.id)
-      )
+        actors.map((a) => a.id),
+      ),
     );
     await Test.utils.e2eAfterAll();
   });

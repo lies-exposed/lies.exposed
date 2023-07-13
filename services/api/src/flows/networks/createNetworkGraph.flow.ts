@@ -80,12 +80,12 @@ export const getRelationLinks =
           fp.Map.lookup(fp.S.Eq)(relation.id),
           fp.O.fold(
             () => eventLinks,
-            (ll) => ll.concat(eventLinks)
-          )
+            (ll) => ll.concat(eventLinks),
+          ),
         );
 
         return pipe(acc1, fp.Map.upsertAt(S.Eq)(relation.id, links));
-      })
+      }),
     );
   };
 
@@ -109,7 +109,7 @@ export const getEventGraph = (
     keywords: allKeywords,
     media: allMedia,
     relations,
-  }: GetEventGraphOpts
+  }: GetEventGraphOpts,
 ): NetworkGraphOutput => {
   return pipe(
     events,
@@ -127,17 +127,17 @@ export const getEventGraph = (
 
       const nonEmptyEventActors = pipe(
         allActors.filter((a) => eventActors.some((aa) => aa.id === a.id)),
-        O.fromPredicate(A.isNonEmpty)
+        O.fromPredicate(A.isNonEmpty),
       );
 
       const nonEmptyEventGroups = pipe(
         allGroups.filter((a) => eventGroups.some((aa) => aa.id === a.id)),
-        O.fromPredicate(A.isNonEmpty)
+        O.fromPredicate(A.isNonEmpty),
       );
 
       const nonEmptyEventKeywords = pipe(
         allKeywords.filter((a) => eventKeywords.some((aa) => aa.id === a.id)),
-        O.fromPredicate(A.isNonEmpty)
+        O.fromPredicate(A.isNonEmpty),
       );
 
       const featuredImage = pipe(
@@ -145,7 +145,7 @@ export const getEventGraph = (
         fp.A.filter((m) => m && ValidContentType.is(m.type)),
         fp.O.fromPredicate((mm) => mm.length > 0),
         fp.O.map((mm) => mm[0].location),
-        fp.O.toUndefined
+        fp.O.toUndefined,
       );
 
       const eventDatum: EventNetworkDatum = {
@@ -162,7 +162,7 @@ export const getEventGraph = (
         groupBy: [],
         actors: pipe(
           nonEmptyEventActors,
-          O.getOrElse((): any[] => [])
+          O.getOrElse((): any[] => []),
         ),
         groups: [],
         label: eventTitle,
@@ -172,7 +172,7 @@ export const getEventGraph = (
       const actorLinks = pipe(
         relations.includes(ACTORS.value) ? nonEmptyEventActors : O.none,
         O.getOrElse((): Actor.Actor[] => []),
-        getRelationLinks(ACTORS.value, e)(acc.actorLinks)
+        getRelationLinks(ACTORS.value, e)(acc.actorLinks),
       );
 
       // console.log("actor links", actorLinks);
@@ -180,13 +180,13 @@ export const getEventGraph = (
       const groupLinks = pipe(
         relations.includes(GROUPS.value) ? nonEmptyEventGroups : O.none,
         O.getOrElse((): Group.Group[] => []),
-        getRelationLinks(GROUPS.value, e)(acc.groupLinks)
+        getRelationLinks(GROUPS.value, e)(acc.groupLinks),
       );
 
       const keywordLinks = pipe(
         relations.includes(KEYWORDS.value) ? nonEmptyEventKeywords : O.none,
         O.getOrElse((): Keyword.Keyword[] => []),
-        getRelationLinks(KEYWORDS.value, e)(acc.keywordLinks)
+        getRelationLinks(KEYWORDS.value, e)(acc.keywordLinks),
       );
 
       const evLinks: NetworkLink[] =
@@ -244,28 +244,28 @@ export const getEventGraph = (
           },
           concat: (x, y) => ({
             startDate: new Date(
-              Math.min(x.startDate.getTime(), y.startDate.getTime())
+              Math.min(x.startDate.getTime(), y.startDate.getTime()),
             ),
             endDate: new Date(
-              Math.max(x.endDate.getTime(), y.endDate.getTime())
+              Math.max(x.endDate.getTime(), y.endDate.getTime()),
             ),
           }),
         })((f) => ({
           startDate: f.date,
           endDate: f.date,
-        }))
+        })),
       );
 
       return {
         ...r,
         actorLinks: fp.Map.toArray(S.Ord)(actorLinks).flatMap(
-          ([_k, links]) => links
+          ([_k, links]) => links,
         ),
         groupLinks: fp.Map.toArray(S.Ord)(groupLinks).flatMap(
-          ([_k, links]) => links
+          ([_k, links]) => links,
         ),
         keywordLinks: fp.Map.toArray(S.Ord)(keywordLinks).flatMap(
-          ([_k, links]) => links
+          ([_k, links]) => links,
         ),
         events: eventNodes,
         actors: allActors,
@@ -274,7 +274,7 @@ export const getEventGraph = (
         ...dateRange,
         media: [],
       };
-    }
+    },
   );
 };
 
@@ -319,11 +319,11 @@ export const createNetworkGraph: TEFlow<
   (
     type,
     ids,
-    { relations: _relations, emptyRelations, startDate, endDate }
+    { relations: _relations, emptyRelations, startDate, endDate },
   ) => {
     const relations = pipe(
       _relations,
-      O.getOrElse((): NetworkGroupBy[] => [])
+      O.getOrElse((): NetworkGroupBy[] => []),
     );
 
     ctx.logger.debug.log("Getting network for %O", {
@@ -353,7 +353,7 @@ export const createNetworkGraph: TEFlow<
           `Fetch actors (%d), groups (%d), keywords (%d)`,
           actors.length,
           groups.length,
-          keywords.length
+          keywords.length,
         );
         const events = pipe(
           _events,
@@ -364,8 +364,8 @@ export const createNetworkGraph: TEFlow<
               keywords: new Map(keywords.map((k) => [k.id, k])),
               media: new Map(media.map((m) => [m.id, m])),
               groupsMembers: new Map(),
-            })
-          )
+            }),
+          ),
         );
 
         const eventGraph = getEventGraph(type, ids, {
@@ -377,15 +377,15 @@ export const createNetworkGraph: TEFlow<
           relations,
           emptyRelations: pipe(
             emptyRelations,
-            O.getOrElse(() => true)
+            O.getOrElse(() => true),
           ),
         });
 
         return eventGraph;
       }),
       TE.chainFirst((graph) =>
-        ctx.fs.writeObject(filePath, JSON.stringify(graph))
-      )
+        ctx.fs.writeObject(filePath, JSON.stringify(graph)),
+      ),
     );
 
     return pipe(createNetworkGraphTask, ctx.fs.getOlderThanOr(filePath));

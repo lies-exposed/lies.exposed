@@ -36,7 +36,7 @@ describe("Edit Project ", () => {
           areas: [area],
         },
       ]),
-      throwTE
+      throwTE,
     );
   });
 
@@ -46,8 +46,8 @@ describe("Edit Project ", () => {
     await throwTE(
       appTest.ctx.db.delete(
         UserEntity,
-        users.map((u) => u.id)
-      )
+        users.map((u) => u.id),
+      ),
     );
     await appTest.utils.e2eAfterAll();
   });
@@ -64,7 +64,7 @@ describe("Edit Project ", () => {
     expect(response.status).toEqual(200);
 
     expect(http.Project.Project.decode(response.body.data)._tag).toEqual(
-      "Right"
+      "Right",
     );
 
     const { updatedAt, ...receivedBody } = response.body.data;
@@ -119,7 +119,7 @@ describe("Edit Project ", () => {
     });
 
     expect(response.body.data.media.length).toEqual(
-      project.media.length + updateData.media.length
+      project.media.length + updateData.media.length,
     );
   });
 });

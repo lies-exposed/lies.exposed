@@ -11,7 +11,7 @@ export const Condemned = t.strict(
     who: BySubject,
     date: DateFromISOString,
   },
-  "Condemned"
+  "Condemned",
 );
 
 export type Condemned = t.TypeOf<typeof Condemned>;

@@ -24,7 +24,7 @@ export const WaveformThumbnail: React.FC<WaveformThumbnailProps> = ({
   const SVG_ID = `waveform-${id}`;
   const theme = useTheme();
   const [waveform, setWaveformData] = React.useState<WaveformData | undefined>(
-    undefined
+    undefined,
   );
 
   React.useEffect(() => {
@@ -49,7 +49,9 @@ export const WaveformThumbnail: React.FC<WaveformThumbnailProps> = ({
           });
         });
       })
-      .then((d) => { setWaveformData(d); })
+      .then((d) => {
+        setWaveformData(d);
+      })
       .catch((e) => {
         // eslint-disable-next-line no-console
         console.error(`Error while fetching ${location}`, e);

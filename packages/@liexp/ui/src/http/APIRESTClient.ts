@@ -11,54 +11,54 @@ export interface APIRESTClient {
   put: (url: string, data?: any) => Promise<AxiosResponse<any>>;
   getList: <R extends RA.RaRecord>(
     resource: string,
-    params: RA.GetListParams
+    params: RA.GetListParams,
   ) => Promise<RA.GetListResult<R>>;
   getOne: <R extends RA.RaRecord>(
     resource: string,
-    params: RA.GetOneParams
+    params: RA.GetOneParams,
   ) => Promise<RA.GetOneResult<R>>;
   getMany: <R extends RA.RaRecord>(
     resource: string,
-    params: RA.GetManyParams
+    params: RA.GetManyParams,
   ) => Promise<RA.GetManyResult<R>>;
   getManyReference: <R extends RA.RaRecord>(
     resource: string,
-    params: RA.GetManyReferenceParams
+    params: RA.GetManyReferenceParams,
   ) => Promise<RA.GetManyReferenceResult<R>>;
   update: <R extends RA.RaRecord>(
     resource: string,
-    params: RA.UpdateParams
+    params: RA.UpdateParams,
   ) => Promise<RA.UpdateResult<R>>;
   updateMany: (
     resource: string,
-    params: RA.UpdateManyParams
+    params: RA.UpdateManyParams,
   ) => Promise<RA.UpdateManyResult>;
   create: <R extends Omit<RA.RaRecord, "id">>(
     resource: string,
-    params: RA.CreateParams
+    params: RA.CreateParams,
   ) => Promise<RA.CreateResult<R & { id: string }>>;
   delete: <R extends RA.RaRecord>(
     resource: string,
-    params: RA.DeleteParams
+    params: RA.DeleteParams,
   ) => Promise<RA.DeleteResult<R>>;
   deleteMany: (
     resource: string,
-    params: RA.DeleteManyParams
+    params: RA.DeleteManyParams,
   ) => Promise<RA.DeleteManyResult>;
 }
 
 const liftClientRequest = <T>(
-  promiseL: () => Promise<AxiosResponse<T>>
+  promiseL: () => Promise<AxiosResponse<T>>,
 ): Task.Task<T> => {
   return pipe(
     TE.tryCatch(promiseL, E.toError),
     TE.map((r) => r.data),
-    TE.fold((e) => () => Promise.reject(e), Task.of)
+    TE.fold((e) => () => Promise.reject(e), Task.of),
   );
 };
 
 const formatParams = <P extends RA.GetListParams | RA.GetManyReferenceParams>(
-  params: P
+  params: P,
 ): RA.GetListParams => {
   return {
     _sort: params.sort.field,
@@ -96,22 +96,22 @@ export const APIRESTClient = ({
     request: <T>(config: AxiosRequestConfig<T>) =>
       liftClientRequest(() => client.request<T>(config))(),
     get: (url, params) =>
-      liftClientRequest(() => client.get(url, { params,  }))(),
+      liftClientRequest(() => client.get(url, { params }))(),
     put: (url, data) => liftClientRequest<any>(() => client.put(url, data))(),
     getOne: (resource, params) =>
       liftClientRequest<RA.GetOneResult<any>>(() =>
-        client.get(`${resource}/${params.id}`, { params })
+        client.get(`${resource}/${params.id}`, { params }),
       )(),
     getList: (resource, params) => {
       return liftClientRequest<RA.GetListResult<any>>(() =>
         client.get(resource, {
           params: formatParams(params),
-        })
+        }),
       )();
     },
     getMany: (resource, params) => {
       return liftClientRequest<RA.GetManyResult<any>>(() =>
-        client.get(`${resource}`, { params })
+        client.get(`${resource}`, { params }),
       )();
     },
     getManyReference: (resource, params) => {
@@ -123,17 +123,17 @@ export const APIRESTClient = ({
         },
       });
       return liftClientRequest<RA.GetManyReferenceResult<any>>(() =>
-        client.get(`${resource}`, { params: formattedParams })
+        client.get(`${resource}`, { params: formattedParams }),
       )();
     },
     create: (resource, params) => {
       return liftClientRequest<RA.CreateResult>(() =>
-        client.post(`${resource}`, params.data)
+        client.post(`${resource}`, params.data),
       )();
     },
     update: (resource, params) => {
       return liftClientRequest<RA.UpdateResult>(() =>
-        client.put(`${resource}/${params.id}`, params.data)
+        client.put(`${resource}/${params.id}`, params.data),
       )();
     },
     updateMany: (resource, params) => client.put(`${resource}`, { params }),

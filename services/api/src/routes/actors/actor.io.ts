@@ -6,7 +6,7 @@ import { type ActorEntity } from "../../entities/Actor.entity";
 import { type ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toActorIO = (
-  a: ActorEntity
+  a: ActorEntity,
 ): E.Either<ControllerError, io.http.Actor.Actor> => {
   return pipe(
     io.http.Actor.Actor.decode({
@@ -19,6 +19,6 @@ export const toActorIO = (
       bornOn: a.bornOn ?? undefined,
       diedOn: a.diedOn ?? undefined,
     }),
-    E.mapLeft((e) => DecodeError(`Failed to decode actor (${a.id})`, e))
+    E.mapLeft((e) => DecodeError(`Failed to decode actor (${a.id})`, e)),
   );
 };

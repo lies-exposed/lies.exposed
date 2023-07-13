@@ -42,7 +42,7 @@ export const EventRelations: React.FC<{
               page: 1,
             },
           },
-          true
+          true,
         ),
         groups: useGroupsQuery(
           {
@@ -52,7 +52,7 @@ export const EventRelations: React.FC<{
               page: 1,
             },
           },
-          true
+          true,
         ),
         groupsMembers: useGroupMembersQuery(
           {
@@ -62,7 +62,7 @@ export const EventRelations: React.FC<{
               page: 1,
             },
           },
-          true
+          true,
         ),
         media: useMediaQuery(
           {
@@ -76,7 +76,7 @@ export const EventRelations: React.FC<{
               order: "DESC",
             },
           },
-          true
+          true,
         ),
         links: useLinksQuery(
           {
@@ -90,7 +90,7 @@ export const EventRelations: React.FC<{
               order: "DESC",
             },
           },
-          true
+          true,
         ),
         areas: useAreasQuery(
           {
@@ -102,7 +102,7 @@ export const EventRelations: React.FC<{
               page: 1,
             },
           },
-          true
+          true,
         ),
       }}
       render={({

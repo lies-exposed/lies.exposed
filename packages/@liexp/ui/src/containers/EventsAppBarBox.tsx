@@ -1,11 +1,12 @@
 import * as React from "react";
 import QueriesRenderer from "../components/QueriesRenderer";
 import EventsAppBar, {
-  type EventsAppBarProps
+  type EventsAppBarProps,
 } from "../components/events/filters/EventsAppBar";
 import { searchEventsQuery } from "../state/queries/SearchEventsQuery";
 
-interface EventsAppBarBoxProps extends Omit<EventsAppBarProps, 'events' | 'totals'> {
+interface EventsAppBarBoxProps
+  extends Omit<EventsAppBarProps, "events" | "totals"> {
   hash: string;
 }
 
@@ -27,7 +28,14 @@ const EventsAppBarBox: React.FC<EventsAppBarBoxProps> = ({
         }),
       }}
       render={({ searchEvents: { totals, events } }) => {
-        return <EventsAppBar {...props} query={query} events={events} totals={totals} />;
+        return (
+          <EventsAppBar
+            {...props}
+            query={query}
+            events={events}
+            totals={totals}
+          />
+        );
       }}
     />
   );

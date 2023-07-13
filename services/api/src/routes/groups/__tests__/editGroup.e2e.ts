@@ -35,15 +35,15 @@ describe("Edit Group", () => {
     await throwTE(
       appTest.ctx.db.delete(
         ActorEntity,
-        actors.map((a) => a.id)
-      )
+        actors.map((a) => a.id),
+      ),
     );
     await throwTE(appTest.ctx.db.delete(GroupEntity, [group.id]));
     await throwTE(
       appTest.ctx.db.delete(
         UserEntity,
-        users.map((u) => u.id)
-      )
+        users.map((u) => u.id),
+      ),
     );
     await appTest.utils.e2eAfterAll();
   });

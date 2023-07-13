@@ -88,7 +88,7 @@ const supportedPlatformsRegExp = [
 ];
 
 export const getPlatform = (
-  url: string
+  url: string,
 ): E.Either<Error, VideoPlatformMatch> => {
   // youtube
   const ytVideoMatch = url.match(ytVideoRegExp);
@@ -193,7 +193,7 @@ export const getPlatform = (
 
 export const getPlatformEmbedURL = (
   match: VideoPlatformMatch,
-  url: URL
+  url: URL,
 ): URL => {
   switch (match.platform) {
     case "bitchute": {
@@ -224,12 +224,12 @@ export const getPlatformEmbedURL = (
 export const parsePlatformURL = (url: URL): E.Either<Error, URL> => {
   return pipe(
     getPlatform(url),
-    E.map((match) => getPlatformEmbedURL(match, url))
+    E.map((match) => getPlatformEmbedURL(match, url)),
   );
 };
 
 export const parseURL = (
-  url: string
+  url: string,
 ): E.Either<Error, { type: MediaType; location: string }> => {
   if (url.includes(".jpg") ?? url.includes(".jpeg")) {
     return E.right({
@@ -267,7 +267,7 @@ export const parseURL = (
       E.map((location) => ({
         type: MediaType.types[7].value,
         location,
-      }))
+      })),
     );
   }
 

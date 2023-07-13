@@ -1,5 +1,9 @@
 import { getTitle } from "@liexp/shared/lib/helpers/event/getTitle.helper";
-import { type Actor, type Group, type Keyword } from "@liexp/shared/lib/io/http";
+import {
+  type Actor,
+  type Group,
+  type Keyword,
+} from "@liexp/shared/lib/io/http";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
 import { DEATH } from "@liexp/shared/lib/io/http/Events/Death";
 import { DOCUMENTARY } from "@liexp/shared/lib/io/http/Events/Documentary";
@@ -25,9 +29,9 @@ export interface HierarchyNetworkGraphProps {
     nodes: EventNetworkDatum[];
     links: any[];
   };
-  selectedActorIds?: string[]
-  selectedGroupIds?: string[]
-  selectedKeywordIds?: string[]
+  selectedActorIds?: string[];
+  selectedGroupIds?: string[];
+  selectedKeywordIds?: string[];
   scale?: NetworkScale;
   onEventClick?: (e: SearchEvent) => void;
   onActorClick?: (a: Actor.Actor) => void;
@@ -58,7 +62,7 @@ export const HierarchyNetworkGraph: React.FC<HierarchyNetworkGraphProps> = ({
       EventTypeColor.Patent,
       "#a3a3a3",
     ],
-    []
+    [],
   );
 
   return (
@@ -103,7 +107,7 @@ export const HierarchyNetworkGraph: React.FC<HierarchyNetworkGraphProps> = ({
           keywords: n.keywords,
           media: n.media,
           links: n.links ?? [],
-          areas: []
+          areas: [],
         });
       }}
       nodeRadius={(n) => 14}

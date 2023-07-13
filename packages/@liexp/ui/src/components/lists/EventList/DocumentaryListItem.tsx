@@ -18,16 +18,15 @@ export const DocumentaryListItem: React.FC<DocumentaryListItemProps> = ({
   onActorClick,
   onKeywordClick,
   onRowInvalidate,
-  onLoad
+  onLoad,
 }) => {
-
   return (
     <Box
       key={item.id}
       id={item.id}
       style={{
         width: "100%",
-        display: 'flex'
+        display: "flex",
       }}
       onClick={() => onClick?.(item)}
     >

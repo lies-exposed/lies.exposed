@@ -1,4 +1,4 @@
-import { defaultGetLinksQueryParams } from '@liexp/ui/lib/state/queries/link.queries';
+import { defaultGetLinksQueryParams } from "@liexp/ui/lib/state/queries/link.queries";
 import { LinksPageTemplate } from "@liexp/ui/lib/templates/links/LinksPageTemplate";
 import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";

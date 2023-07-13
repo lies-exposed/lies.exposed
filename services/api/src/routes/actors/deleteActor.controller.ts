@@ -10,7 +10,7 @@ import { authenticationHandler } from "@utils/authenticationHandler";
 
 export const MakeDeleteActorRoute: Route = (
   r,
-  { s3, db, env, logger, jwt }
+  { s3, db, env, logger, jwt },
 ) => {
   AddEndpoint(r, authenticationHandler({ logger, jwt }, ["admin:delete"]))(
     Endpoints.Actor.Delete,
@@ -29,7 +29,7 @@ export const MakeDeleteActorRoute: Route = (
             //   TE.mapLeft((e) => ServerError())
             // ),
             actor: db.softDelete(ActorEntity, id),
-          })
+          }),
         ),
         TE.chainEitherK(toActorIO),
         TE.map((page) => ({
@@ -37,8 +37,8 @@ export const MakeDeleteActorRoute: Route = (
             data: page,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

@@ -55,7 +55,7 @@ export const TableOfContents: React.FC<Items> = ({ items }) => {
         /> */}
       </div>
     )),
-    O.toNullable
+    O.toNullable,
   );
 };
 

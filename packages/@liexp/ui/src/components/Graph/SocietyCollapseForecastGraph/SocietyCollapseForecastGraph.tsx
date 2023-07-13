@@ -81,7 +81,7 @@ export const SocietyCollapseForecastGraph = withTooltip<
           range: [0, maxY],
           domain: [180, -20],
         }),
-      [maxY]
+      [maxY],
     );
 
     const yearScale = React.useMemo(
@@ -91,7 +91,7 @@ export const SocietyCollapseForecastGraph = withTooltip<
           domain: yearDomain,
           nice: true,
         }),
-      [maxX]
+      [maxX],
     );
 
     const backgroundId = `background-new-id`;
@@ -100,7 +100,7 @@ export const SocietyCollapseForecastGraph = withTooltip<
       (
         event:
           | React.TouchEvent<SVGRectElement>
-          | React.MouseEvent<SVGRectElement>
+          | React.MouseEvent<SVGRectElement>,
       ) => {
         const { x, y } = localPoint(event) ?? { x: 0, y: 0 };
         const x0 = yearScale.invert(x);
@@ -117,9 +117,9 @@ export const SocietyCollapseForecastGraph = withTooltip<
                 ...d,
                 lowerY: Math.round(gtCO2Scale(gt.low) ?? 0),
                 higherY: Math.round(gtCO2Scale(gt.high) ?? 0),
-              }))
-            )
-          )
+              })),
+            ),
+          ),
         )[0];
 
         showTooltip({
@@ -128,7 +128,7 @@ export const SocietyCollapseForecastGraph = withTooltip<
           tooltipTop: tooltipData?.higherY ?? 0,
         });
       },
-      [showTooltip, yearScale, gtCO2Scale]
+      [showTooltip, yearScale, gtCO2Scale],
     );
 
     return (
@@ -147,7 +147,9 @@ export const SocietyCollapseForecastGraph = withTooltip<
             onTouchStart={handleTooltip}
             onTouchMove={handleTooltip}
             onMouseMove={handleTooltip}
-            onMouseLeave={() => { hideTooltip(); }}
+            onMouseLeave={() => {
+              hideTooltip();
+            }}
           />
 
           <LinearGradient id={backgroundId} from="#c30ff7" to="#fff" />
@@ -378,7 +380,7 @@ export const SocietyCollapseForecastGraph = withTooltip<
           })}
       </div>
     );
-  }
+  },
 );
 
 export class SocietyCollapseForecastGraphContainer extends React.PureComponent {
@@ -388,12 +390,12 @@ export class SocietyCollapseForecastGraphContainer extends React.PureComponent {
         queries={{
           data: useJSONDataQuery(
             t.strict({ data: t.array(ClimateChangeForecast.types[1]) }).decode,
-            "climate-change/forecast.csv"
+            "climate-change/forecast.csv",
           ),
           events: useJSONDataQuery(
             t.strict({ data: t.array(ClimateChangeHistoryOfSummits.types[1]) })
               .decode,
-            "climate-change/history-of-climate-summits.csv"
+            "climate-change/history-of-climate-summits.csv",
           ),
         }}
         render={({ events, data }) => {
@@ -421,7 +423,7 @@ export class SocietyCollapseForecastGraphContainer extends React.PureComponent {
             </ParentSize>
           );
         }}
-      />
+      />,
     );
   }
 }

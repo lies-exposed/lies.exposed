@@ -24,10 +24,10 @@ import {
   SimpleFormIterator,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "@liexp/ui/lib/components/admin";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceAreaInput from '@liexp/ui/lib/components/admin/common/ReferenceAreaInput';
+import ReferenceAreaInput from "@liexp/ui/lib/components/admin/common/ReferenceAreaInput";
 import RichTextInput from "@liexp/ui/lib/components/admin/common/RichTextInput";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
 import * as E from "fp-ts/Either";
@@ -122,10 +122,10 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
                     Condemned: [],
                     PublicAnnouncement: [],
                     Uncategorized: [],
-                    Transaction: []
+                    Transaction: [],
                   }}
                 />
-              ))
+              )),
             );
           }}
         </FormDataConsumer>

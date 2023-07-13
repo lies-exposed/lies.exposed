@@ -1,6 +1,12 @@
 import * as React from "react";
 import { styled } from "../../theme";
-import { Accordion, AccordionDetails, AccordionSummary, Button, AddCircleIcon } from "../mui";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Button,
+  AddCircleIcon,
+} from "../mui";
 import { List, type ListProps } from "./List";
 
 const PREFIX = "expandable-list";
@@ -22,14 +28,11 @@ const StyledAccordion = styled(Accordion)(() => ({
 
 export type ExpandableListProps<
   A,
-  D extends React.ElementType<any> = "ul"
+  D extends React.ElementType<any> = "ul",
 > = ListProps<A, D> & { limit: number };
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
-export const ExpandableList = <
-  A,
-  D extends React.ElementType<any> = "ul"
->({
+export const ExpandableList = <A, D extends React.ElementType<any> = "ul">({
   data,
   limit,
   getKey,

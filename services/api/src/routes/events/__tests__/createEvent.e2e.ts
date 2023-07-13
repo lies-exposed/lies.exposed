@@ -53,10 +53,10 @@ describe("Create Event", () => {
       TE.map((events) =>
         events.reduce<string[]>(
           (acc, e) => acc.concat(e.keywords as any[] as string[]),
-          []
-        )
+          [],
+        ),
       ),
-      throwTE
+      throwTE,
     );
 
     await throwTE(appTest.ctx.db.delete(EventV2Entity, eventIds));
@@ -66,7 +66,7 @@ describe("Create Event", () => {
         appTest.ctx.db.delete(KeywordEntity, [
           ...evKeywords,
           ...keywords.map((k) => k.id),
-        ])
+        ]),
       );
     }
     await appTest.utils.e2eAfterAll();
@@ -78,7 +78,7 @@ describe("Create Event", () => {
       keywords: pipe(
         keywords,
         A.takeLeft(3),
-        A.map((k) => k.id)
+        A.map((k) => k.id),
       ),
       media: [],
       actors: [],

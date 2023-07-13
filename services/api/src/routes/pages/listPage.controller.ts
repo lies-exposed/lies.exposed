@@ -26,8 +26,8 @@ export const MakeListPageRoute = (r: Router, ctx: RouteContext): void => {
           A.map(toPageIO),
           A.sequence(E.Applicative),
           TE.fromEither,
-          TE.map((data) => ({ total, data }))
-        )
+          TE.map((data) => ({ total, data })),
+        ),
       ),
       TE.map(({ data, total }) => ({
         body: {
@@ -35,7 +35,7 @@ export const MakeListPageRoute = (r: Router, ctx: RouteContext): void => {
           total,
         },
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

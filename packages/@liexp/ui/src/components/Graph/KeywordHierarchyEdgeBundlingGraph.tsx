@@ -24,7 +24,7 @@ export const KeywordHierarchyEdgeBundlingGraph: React.FC<
           },
           {
             ids: [keyword],
-          }
+          },
         ),
       }}
       render={({ graph }) => {

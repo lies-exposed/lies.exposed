@@ -37,9 +37,9 @@ export const MakeEditActorRoute: Route = (r, { db, logger, jwt }) => {
                 actor: { id },
                 group: { id: m.group },
               };
-            })
+            }),
           ),
-          O.getOrElse((): any[] => [])
+          O.getOrElse((): any[] => []),
         ),
       };
 
@@ -47,7 +47,7 @@ export const MakeEditActorRoute: Route = (r, { db, logger, jwt }) => {
       return pipe(
         db.findOneOrFail(ActorEntity, { where: { id: Equal(id) } }),
         TE.chain((actor) =>
-          db.save(ActorEntity, [{ ...actor, id, ...updateData }])
+          db.save(ActorEntity, [{ ...actor, id, ...updateData }]),
         ),
         TE.chain(() =>
           db.findOneOrFail(ActorEntity, {
@@ -55,7 +55,7 @@ export const MakeEditActorRoute: Route = (r, { db, logger, jwt }) => {
             loadRelationIds: {
               relations: ["memberIn"],
             },
-          })
+          }),
         ),
         TE.chainEitherK(toActorIO),
         TE.map((actor) => ({
@@ -63,8 +63,8 @@ export const MakeEditActorRoute: Route = (r, { db, logger, jwt }) => {
             data: actor,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

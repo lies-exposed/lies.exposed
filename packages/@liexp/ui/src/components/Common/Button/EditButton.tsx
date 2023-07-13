@@ -30,7 +30,7 @@ const EditButton: React.FC<EditButtonProps> = ({
         },
         (e) => {
           setIsAdmin(null);
-        }
+        },
       );
     }
   }, []);

@@ -7,14 +7,17 @@ const AreasMapBox: React.FC<AreasMapProps> = (props) => {
   return (
     <QueriesRenderer
       queries={{
-        areas: useAreasQuery({
-          pagination: { perPage: 20, page: 1 },
-          filter: null,
-          sort: {
-            field: "id",
-            order: "DESC",
+        areas: useAreasQuery(
+          {
+            pagination: { perPage: 20, page: 1 },
+            filter: null,
+            sort: {
+              field: "id",
+              order: "DESC",
+            },
           },
-        }, false),
+          false,
+        ),
       }}
       render={({ areas }) => {
         return <AreasMap {...props} areas={areas.data} />;

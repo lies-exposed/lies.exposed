@@ -7,7 +7,7 @@ import { type FetchQuery, type UseListQueryFn, type UseQueryFn } from "./type";
 
 export const getAreaQueryKey = (
   p: Partial<GetListParams>,
-  discrete: boolean
+  discrete: boolean,
 ): [string, GetListParams, boolean] => {
   return [
     "areas",
@@ -28,7 +28,7 @@ export const getAreaQueryKey = (
   ];
 };
 export const fetchAreas: FetchQuery<typeof Queries.Area.getList> = fetchQuery(
-  Queries.Area.getList
+  Queries.Area.getList,
 );
 
 export const useAreasQuery: UseListQueryFn<Area.Area> = (params, discrete) => {

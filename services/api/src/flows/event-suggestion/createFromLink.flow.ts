@@ -38,6 +38,6 @@ export const createEventSuggestionFromLink: TEFlow<
         },
       },
     ]),
-    TE.map((ll) => ll[0])
+    TE.map((ll) => ll[0]),
   );
 };

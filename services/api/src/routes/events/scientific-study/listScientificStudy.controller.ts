@@ -11,7 +11,7 @@ import { getORMOptions } from "@utils/orm.utils";
 
 export const MakeListScientificStudyRoute: Route = (
   r,
-  { db, logger, env, ...ctx }
+  { db, logger, env, ...ctx },
 ) => {
   AddEndpoint(r)(
     Endpoints.ScientificStudy.List,
@@ -40,7 +40,7 @@ export const MakeListScientificStudyRoute: Route = (
           type: O.some([SCIENTIFIC_STUDY.value]),
           groups: pipe(
             provider,
-            O.map((p) => [p])
+            O.map((p) => [p]),
           ),
           actors: O.none,
           groupsMembers: O.none,
@@ -62,10 +62,10 @@ export const MakeListScientificStudyRoute: Route = (
         TE.chain(({ results, totals: { scientificStudies } }) =>
           pipe(
             A.sequence(TE.ApplicativeSeq)(
-              results.map((r) => TE.fromEither(toEventV2IO(r)))
+              results.map((r) => TE.fromEither(toEventV2IO(r))),
             ),
-            TE.map((data) => ({ data, total: scientificStudies }))
-          )
+            TE.map((data) => ({ data, total: scientificStudies })),
+          ),
         ),
         TE.map(({ data, total }) => ({
           body: {
@@ -73,8 +73,8 @@ export const MakeListScientificStudyRoute: Route = (
             total,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

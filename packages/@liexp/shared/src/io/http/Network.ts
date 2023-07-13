@@ -13,13 +13,13 @@ import { Media } from "./Media";
 
 export const NetworkType = t.union(
   [KEYWORDS, ACTORS, GROUPS, EVENTS, t.literal("hierarchy")],
-  "NetworkType"
+  "NetworkType",
 );
 export type NetworkType = t.TypeOf<typeof NetworkType>;
 
 export const NetworkGroupBy = t.union(
   [KEYWORDS, ACTORS, GROUPS],
-  "NetworkGroupBy"
+  "NetworkGroupBy",
 );
 export type NetworkGroupBy = t.TypeOf<typeof NetworkGroupBy>;
 
@@ -34,7 +34,7 @@ export const GetNetworkQuery = t.type(
     groups: optionFromNullable(nonEmptyArray(UUID)),
     actors: optionFromNullable(nonEmptyArray(UUID)),
   },
-  "GetNetworkQuery"
+  "GetNetworkQuery",
 );
 
 export type GetNetworkQuery = t.TypeOf<typeof GetNetworkQuery>;
@@ -44,7 +44,7 @@ export const GetNetworkParams = t.type(
     type: NetworkType,
     // id: UUID
   },
-  "GetNetworkParams"
+  "GetNetworkParams",
 );
 export type GetNetworkParams = t.TypeOf<typeof GetNetworkParams>;
 
@@ -64,7 +64,7 @@ export const NetworkGraphOutput = t.strict(
     endDate: DateFromISOString,
     totals: EventTotals,
   },
-  "NetworkGraphOutput"
+  "NetworkGraphOutput",
 );
 
 export type NetworkGraphOutput = t.TypeOf<typeof NetworkGraphOutput>;

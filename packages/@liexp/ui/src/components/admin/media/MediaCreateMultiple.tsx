@@ -48,7 +48,7 @@ const transformMedia =
             "media",
             data.id.toString(),
             data.location.rawFile,
-            data.location.rawFile.type
+            data.location.rawFile.type,
           )
         : data._type === "fromURL" && data.url
         ? TE.fromEither(parseURL(data.url))
@@ -56,7 +56,7 @@ const transformMedia =
 
     const events = (data.events ?? []).concat(data.newEvents ?? []);
     const links = (data.links ?? []).concat(
-      (data.newLinks ?? []).flatMap((l: any) => l.ids)
+      (data.newLinks ?? []).flatMap((l: any) => l.ids),
     );
     const keywords = (data.keywords ?? []).concat(data.newKeywords ?? []);
 
@@ -70,7 +70,7 @@ const transformMedia =
         links,
         keywords,
       })),
-      throwTE
+      throwTE,
     );
   };
 
@@ -141,7 +141,7 @@ export const MediaCreateMany: React.FC<any> = (props) => {
     const [first, ...rest] = files;
     if (first) {
       const media = await transformMedia(apiProvider)(first).then((m) =>
-        apiProvider.create("media", { data: m }).then((r) => r.data)
+        apiProvider.create("media", { data: m }).then((r) => r.data),
       );
 
       const record = getValues();
@@ -168,7 +168,7 @@ export const MediaCreateMany: React.FC<any> = (props) => {
     setIsSubmitting(false);
 
     redirect(
-      `/media?filter=${JSON.stringify({ ids: media.map((m) => m.id) })}`
+      `/media?filter=${JSON.stringify({ ids: media.map((m) => m.id) })}`,
     );
   };
 

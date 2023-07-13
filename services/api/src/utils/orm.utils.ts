@@ -36,22 +36,22 @@ const getOrderQuery = (s: Query.SortQuery): Partial<ORMOrder> => {
         return {
           order: {
             [key]: O.getOrElse(
-              (): Query.SortOrder => Query.SortOrderDESC.value
+              (): Query.SortOrder => Query.SortOrderDESC.value,
             )(s._order),
           },
         };
-      }
-    )
+      },
+    ),
   );
 };
 
 const getSkipAndTakeOptions = (
   pagination: Query.PaginationQuery,
-  defaultPageSize: number
+  defaultPageSize: number,
 ): ORMPagination => {
   const take = pipe(
     pagination._end,
-    O.getOrElse(() => defaultPageSize)
+    O.getOrElse(() => defaultPageSize),
   );
   return pipe(
     pagination._start,
@@ -59,7 +59,7 @@ const getSkipAndTakeOptions = (
     O.map((p) => {
       return { skip: p, take };
     }),
-    O.getOrElse(() => ({ skip: 0, take }))
+    O.getOrElse(() => ({ skip: 0, take })),
   );
 };
 
@@ -89,14 +89,14 @@ const getWhereOption = (_f: Query.FilterQuery): Partial<ORMFilter> => {
       return {
         where: filters,
       };
-    }
+    },
   );
 };
 
 export const addOrder = <T extends ObjectLiteral>(
   order: ORMOrder["order"],
   q: SelectQueryBuilder<T>,
-  prefix?: string
+  prefix?: string,
 ): SelectQueryBuilder<T> => {
   return pipe(
     order,
@@ -104,7 +104,7 @@ export const addOrder = <T extends ObjectLiteral>(
       const orderKey = prefix ? `${prefix}.${key}` : key;
       q.addOrderBy(orderKey, value);
     }),
-    () => q
+    () => q,
   );
 };
 
@@ -118,7 +118,7 @@ export const getORMOptions = (
     _order,
     ...filter
   }: Query.GetListQuery & Query.FilterQuery,
-  defaultPageSize: number
+  defaultPageSize: number,
 ): ORMOptions => ({
   ...getSkipAndTakeOptions({ _start, _end }, defaultPageSize),
   ...getOrderQuery({ _sort, _order }),

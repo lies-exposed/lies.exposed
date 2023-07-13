@@ -1,7 +1,7 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { Equal } from 'typeorm';
+import { Equal } from "typeorm";
 import { type Route } from "../../route.types";
 import { toEventV2IO } from "../eventV2.io";
 import { ActorEntity } from "@entities/Actor.entity";
@@ -20,14 +20,14 @@ export const MakeCreateDeathEventRoute: Route = (r, { db }) => {
         TE.chain((victim) =>
           db.save(EventV2Entity, [
             { ...body, payload: { ...data, victim: victim.id }, type: "Death" },
-          ])
+          ]),
         ),
 
         TE.chain(([event]) =>
           db.findOneOrFail(EventV2Entity, {
-            where: { id: Equal( event.id) },
+            where: { id: Equal(event.id) },
             loadRelationIds: true,
-          })
+          }),
         ),
         TE.chainEitherK(toEventV2IO),
         TE.map((data) => ({
@@ -35,8 +35,8 @@ export const MakeCreateDeathEventRoute: Route = (r, { db }) => {
             data,
           },
           statusCode: 201,
-        }))
+        })),
       );
-    }
+    },
   );
 };

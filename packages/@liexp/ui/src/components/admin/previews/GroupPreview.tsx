@@ -20,7 +20,7 @@ const GroupPreview: React.FC = () => {
       http.Group.Group.decode({
         ...(record ?? {}),
       }),
-    [record]
+    [record],
   );
 
   const [tab, setTab] = React.useState(0);
@@ -49,7 +49,7 @@ const GroupPreview: React.FC = () => {
           </ThemeProvider>
         </QueryClientProvider>
       </HelmetProvider>
-    ))
+    )),
   );
 };
 

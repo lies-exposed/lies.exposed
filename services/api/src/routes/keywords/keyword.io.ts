@@ -6,7 +6,7 @@ import { type KeywordEntity } from "../../entities/Keyword.entity";
 import { type ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toKeywordIO = (
-  keyword: KeywordEntity
+  keyword: KeywordEntity,
 ): E.Either<ControllerError, io.http.Keyword.Keyword> => {
   return pipe(
     io.http.Keyword.Keyword.decode({
@@ -15,6 +15,8 @@ export const toKeywordIO = (
       createdAt: keyword.createdAt.toISOString(),
       updatedAt: keyword.updatedAt.toISOString(),
     }),
-    E.mapLeft((e) => DecodeError(`Failed to decode keyword (${keyword.id})`, e))
+    E.mapLeft((e) =>
+      DecodeError(`Failed to decode keyword (${keyword.id})`, e),
+    ),
   );
 };

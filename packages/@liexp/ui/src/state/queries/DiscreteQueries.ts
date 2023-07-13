@@ -1,8 +1,5 @@
-import {
-  type GroupMember,
-  type Project
-} from "@liexp/shared/lib/io/http";
-import { type APIError } from '@liexp/shared/lib/io/http/Error/APIError';
+import { type GroupMember, type Project } from "@liexp/shared/lib/io/http";
+import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
 import type * as t from "io-ts";
 import type { GetListParams, GetOneParams } from "react-admin";
 import { useQuery, type UseQueryResult } from "react-query";
@@ -12,7 +9,7 @@ import { type FetchQuery } from "./type";
 
 export const getGroupsMembersQueryKey = (
   p: Partial<GetListParams>,
-  discrete: boolean
+  discrete: boolean,
 ): [string, GetListParams, boolean] => {
   return [
     "groups-members",
@@ -39,19 +36,19 @@ export const fetchGroupsMembers: FetchQuery<
 
 export const useGroupMembersQuery = (
   params: Partial<GetListParams>,
-  discrete: boolean
+  discrete: boolean,
 ): UseQueryResult<
   { data: GroupMember.GroupMember[]; total: number },
   APIError
 > => {
   return useQuery(
     getGroupsMembersQueryKey(params, discrete),
-    fetchGroupsMembers
+    fetchGroupsMembers,
   );
 };
 
 export const useProjectQuery = (
-  params: GetOneParams
+  params: GetOneParams,
 ): UseQueryResult<Project.Project, any> => {
   return useQuery(["project", params.id], async () => {
     return await Queries.Project.get(params);
@@ -60,10 +57,9 @@ export const useProjectQuery = (
 
 export const useJSONDataQuery = <A>(
   c: t.Decode<unknown, { data: A }>,
-  id: string
+  id: string,
 ): UseQueryResult<{ data: A }, APIError> => {
   return useQuery(["json", id], async () => {
     return await jsonData(c)({ id });
   });
 };
-

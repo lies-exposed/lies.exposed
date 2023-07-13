@@ -6,7 +6,7 @@ export const Point = t.strict(
     type: t.literal("Point"),
     coordinates: Position,
   },
-  "Point"
+  "Point",
 );
 
 export type Point = t.TypeOf<typeof Point>;

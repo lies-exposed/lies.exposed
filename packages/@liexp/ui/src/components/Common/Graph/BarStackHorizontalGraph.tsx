@@ -142,7 +142,7 @@ export const BarStackHorizontalGraph = <D, K extends StackKey>({
                       }}
                     />
                   );
-                })
+                }),
               )
             }
           </BarStackHorizontal>

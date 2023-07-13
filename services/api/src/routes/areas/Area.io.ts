@@ -5,7 +5,7 @@ import { type AreaEntity } from "../../entities/Area.entity";
 import { type ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toAreaIO = (
-  a: AreaEntity
+  a: AreaEntity,
 ): E.Either<ControllerError, io.http.Area.Area> => {
   return pipe(
     io.http.Area.Area.decode({
@@ -15,6 +15,6 @@ export const toAreaIO = (
       createdAt: a.createdAt.toISOString(),
       updatedAt: a.updatedAt.toISOString(),
     }),
-    E.mapLeft((e) => DecodeError(`Failed to decode area (${a.id})`, e))
+    E.mapLeft((e) => DecodeError(`Failed to decode area (${a.id})`, e)),
   );
 };

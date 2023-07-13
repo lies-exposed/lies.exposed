@@ -2,7 +2,7 @@ import React from "react";
 import {
   AutocompleteArrayInput,
   ReferenceArrayInput,
-  type ReferenceArrayInputProps
+  type ReferenceArrayInputProps,
 } from "react-admin";
 import { GroupChip } from "../../groups/GroupChip";
 

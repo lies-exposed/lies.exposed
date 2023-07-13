@@ -30,15 +30,15 @@ export const MakeCreateProjectRoute: Route = (r, { db, logger, jwt }) => {
                 },
                 kind: i.kind,
                 project,
-              }))
+              })),
             ),
-          })
+          }),
         ),
         TE.chain(({ project: page }) =>
           db.findOneOrFail(ProjectEntity, {
             where: { id: Equal(page.id) },
             loadRelationIds: true,
-          })
+          }),
         ),
         TE.map((page) => ({
           body: {
@@ -53,8 +53,8 @@ export const MakeCreateProjectRoute: Route = (r, { db, logger, jwt }) => {
             },
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

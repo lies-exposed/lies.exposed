@@ -73,8 +73,8 @@ const createScientificStudyFromPlainObject =
           loadRelationIds: {
             relations: ["media", "links", "keywords"],
           },
-        })
-      )
+        }),
+      ),
     );
   };
 
@@ -91,7 +91,7 @@ export const MakeCreateScientificStudyRoute: Route = (r, ctx) => {
               user.id = u.id;
               return user;
             }),
-            TE.chain((u) => createEventFromURL(ctx)(u, body.url))
+            TE.chain((u) => createEventFromURL(ctx)(u, body.url)),
           )
         : createScientificStudyFromPlainObject(ctx)(body);
 
@@ -103,8 +103,8 @@ export const MakeCreateScientificStudyRoute: Route = (r, ctx) => {
             data,
           },
           statusCode: 201,
-        }))
+        })),
       );
-    }
+    },
   );
 };

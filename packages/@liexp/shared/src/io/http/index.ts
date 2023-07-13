@@ -4,7 +4,7 @@ import * as Actor from "./Actor";
 import * as Area from "./Area";
 import * as Common from "./Common";
 import * as Error from "./Error";
-import * as EventSuggestion from './EventSuggestion'
+import * as EventSuggestion from "./EventSuggestion";
 import * as Events from "./Events";
 import * as Group from "./Group";
 import * as GroupMember from "./GroupMember";
@@ -16,7 +16,7 @@ import * as Page from "./Page";
 import * as Project from "./Project";
 import * as ProjectImage from "./ProjectImage";
 import * as Query from "./Query";
-import * as Stats from './Stats';
+import * as Stats from "./Stats";
 import * as Story from "./Story";
 import * as Topic from "./Topic";
 import * as User from "./User";
@@ -34,9 +34,9 @@ export const ResourcesNames = t.keyof(
     projects: null,
     media: null,
     profile: null,
-    'events/suggestions': null
+    "events/suggestions": null,
   },
-  "ResourcesNames"
+  "ResourcesNames",
 );
 
 export type ResourcesNames = t.TypeOf<typeof ResourcesNames>;
@@ -62,5 +62,5 @@ export {
   Stats,
   Network,
   Topic,
-  EventSuggestion
+  EventSuggestion,
 };

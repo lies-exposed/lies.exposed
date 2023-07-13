@@ -26,8 +26,8 @@ describe("Create Death Event", () => {
     await throwTE(
       appTest.ctx.db.delete(
         UserEntity,
-        users.map((u) => u.id)
-      )
+        users.map((u) => u.id),
+      ),
     );
     await appTest.utils.e2eAfterAll();
   });
@@ -74,6 +74,4 @@ describe("Create Death Event", () => {
   test.todo("Should create an event with groups");
   test.todo("Should create an event with actors");
   test.todo("Should create an event with group members");
-
-  
 });

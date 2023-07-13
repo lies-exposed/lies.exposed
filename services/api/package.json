@@ -110,7 +110,7 @@
     "eslint-config-prettier": "^8.8.0",
     "eslint-import-resolver-typescript": "^3.5.5",
     "eslint-plugin-import": "^2.27.5",
-    "prettier": "^2.8.8",
+    "prettier": "^3.0.0",
     "prompts": "^2.4.2",
     "supertest": "^6.3.3",
     "ts-node-dev": "^2.0.0",

@@ -22,7 +22,7 @@ export const Forecast = t.strict(
     temp_high: NumberFromString,
     temp_low: NumberFromString,
   },
-  "Forecast"
+  "Forecast",
 );
 
 export type Forecast = t.TypeOf<typeof Forecast>;

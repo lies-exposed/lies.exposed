@@ -42,6 +42,6 @@ export const createEventSuggestionFromMedia: TEFlow<
         },
       },
     ]),
-    TE.map((ll) => ll[0])
+    TE.map((ll) => ll[0]),
   );
 };

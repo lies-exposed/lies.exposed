@@ -31,7 +31,7 @@ const byEqualDate = pipe(
   S.Eq,
   Eq.contramap((e: Events.SearchEvent.SearchEvent): string => {
     return distanceFromNow(e.date);
-  })
+  }),
 );
 
 export interface EventListProps extends Omit<EventListItemProps, "event"> {
@@ -98,7 +98,7 @@ const renderHeaderRow: React.FC<{
           renderRow({
             data: { ...data, events },
             index: i,
-          })
+          }),
         )}
       </StyledList>
     </div>
@@ -123,7 +123,7 @@ const EventList: React.FC<EventListProps> = ({
             classes,
             ...props,
           },
-        })
+        }),
       )}
     </List>
   );

@@ -2,7 +2,7 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
 import { Transaction } from "@liexp/shared/lib/io/http/Events";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { Equal } from 'typeorm';
+import { Equal } from "typeorm";
 import { type Route } from "../../route.types";
 import { toEventV2IO } from "../eventV2.io";
 import { editEventQuery } from "../queries/editEvent.query";
@@ -25,14 +25,14 @@ export const MakeEditTransactionEventRoute: Route = (r, ctx) => {
             media,
             keywords,
             links,
-          })
+          }),
         ),
         TE.chain((event) => ctx.db.save(EventV2Entity, [event])),
         TE.chain(([event]) =>
           ctx.db.findOneOrFail(EventV2Entity, {
-            where: { id: Equal( event.id) },
+            where: { id: Equal(event.id) },
             loadRelationIds: true,
-          })
+          }),
         ),
         TE.chainEitherK(toEventV2IO),
         TE.map((data) => ({
@@ -40,8 +40,8 @@ export const MakeEditTransactionEventRoute: Route = (r, ctx) => {
             data,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

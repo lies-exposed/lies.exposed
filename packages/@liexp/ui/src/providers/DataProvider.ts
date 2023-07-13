@@ -2,7 +2,10 @@
 
 import { Endpoints } from "@liexp/shared/lib/endpoints";
 import { type ResourceEndpoints } from "@liexp/shared/lib/endpoints/types";
-import { toAPIError, type APIError } from '@liexp/shared/lib/io/http/Error/APIError';
+import {
+  toAPIError,
+  type APIError,
+} from "@liexp/shared/lib/io/http/Error/APIError";
 import * as io from "@liexp/shared/lib/io/index";
 import axios from "axios";
 import * as A from "fp-ts/Array";
@@ -49,7 +52,7 @@ export const dataProvider = APIRESTClient({
 
 const liftFetch = <B extends { data: any }>(
   lp: () => Promise<GetOneResult<any>> | Promise<GetListResult<any>>,
-  decode: <A>(a: A) => E.Either<t.Errors, B>
+  decode: <A>(a: A) => E.Either<t.Errors, B>,
 ): TE.TaskEither<APIError, B> => {
   return pipe(
     TE.tryCatch(lp, toError),
@@ -61,11 +64,11 @@ const liftFetch = <B extends { data: any }>(
             name: `APIError`,
             message: `Validation Failed for codec`,
             details: PathReporter.report(E.left(e)),
-          })
+          }),
         ),
-        TE.fromEither
+        TE.fromEither,
       );
-    })
+    }),
   );
 };
 
@@ -74,8 +77,8 @@ export const foldTE = <E, A>(te: TE.TaskEither<E, A>): Promise<A> => {
     te,
     TE.fold(
       (e) => () => Promise.reject(e),
-      (r) => () => Promise.resolve(r)
-    )
+      (r) => () => Promise.resolve(r),
+    ),
   )();
 };
 
@@ -92,7 +95,7 @@ export const pageContentByPath = ({
           pagination: { page: 1, perPage: 20 },
           sort: { field: "id", order: "DESC" },
         }),
-      Endpoints.Page.List.Output.decode
+      Endpoints.Page.List.Output.decode,
     ),
     TE.map((pages) => A.head(pages.data)),
     TE.chain(
@@ -101,10 +104,10 @@ export const pageContentByPath = ({
           name: `APIError`,
           message: `Page ${path} is missing`,
           details: [],
-        })
-      )
+        }),
+      ),
     ),
-    foldTE
+    foldTE,
   );
 
 interface Query<G, L, CC> {
@@ -114,14 +117,14 @@ interface Query<G, L, CC> {
       : InferEndpointParams<G>["params"] extends undefined
       ? undefined
       : serializedType<InferEndpointParams<G>["params"]>,
-    query?: serializedType<InferEndpointParams<G>["query"]>
+    query?: serializedType<InferEndpointParams<G>["query"]>,
   ) => Promise<
     InferEndpointParams<G>["output"] extends t.ExactType<infer T>
       ? t.TypeOf<T>["data"]
       : never
   >;
   getList: (
-    params: GetListParams
+    params: GetListParams,
   ) => Promise<
     InferEndpointParams<L>["output"] extends t.ExactType<infer T>
       ? t.TypeOf<T>
@@ -143,7 +146,7 @@ interface Query<G, L, CC> {
               ? {}
               : {
                   Body: serializedType<InferEndpointParams<CC[K]>["body"]>;
-                })
+                }),
         ) => Promise<TypeOfEndpointInstance<CC[K]>["Output"]>;
       }
     : never;
@@ -165,7 +168,7 @@ type Queries = {
 const toQueries = <
   G extends MinimalEndpoint,
   L extends MinimalEndpoint,
-  CC extends Record<string, MinimalEndpointInstance>
+  CC extends Record<string, MinimalEndpointInstance>,
 >(
   e: ResourceEndpoints<
     EndpointInstance<G>,
@@ -174,7 +177,7 @@ const toQueries = <
     MinimalEndpointInstance,
     MinimalEndpointInstance,
     CC
-  >
+  >,
 ): Query<G, L, CC> => {
   return {
     get: (params, query) =>
@@ -186,13 +189,13 @@ const toQueries = <
                 id: string;
               }
             >(e.Get.getPath(params), { ...(params ?? {}), ...(query ?? {}) }),
-          e.Get.Output.decode
+          e.Get.Output.decode,
         ),
         TE.map((r) => r.data),
-        foldTE
+        foldTE,
       ),
     getList: (
-      params: GetListParams
+      params: GetListParams,
     ): Promise<
       InferEndpointParams<L>["output"] extends t.ExactType<infer T>
         ? t.TypeOf<T>
@@ -204,15 +207,15 @@ const toQueries = <
             dataProvider.getList<{
               id: string;
             }>(e.List.getPath(), params),
-          e.List.Output.decode
+          e.List.Output.decode,
         ),
-        foldTE
+        foldTE,
       ),
     Custom: pipe(
       e.Custom as any,
       R.map((ee: MinimalEndpointInstance) => {
         const fetch = (
-          params: TypeOfEndpointInstance<typeof ee>["Input"]
+          params: TypeOfEndpointInstance<typeof ee>["Input"],
         ): TE.TaskEither<APIError, any> =>
           liftFetch(
             () =>
@@ -227,14 +230,14 @@ const toQueries = <
                   ...(params as any).Headers,
                 },
               }),
-            ee.Output.decode
+            ee.Output.decode,
           );
 
         return (
-          params: TypeOfEndpointInstance<typeof ee>["Input"]
+          params: TypeOfEndpointInstance<typeof ee>["Input"],
         ): Promise<TypeOfEndpointInstance<typeof ee>["Output"]> =>
           pipe(fetch(params), foldTE);
-      })
+      }),
     ) as any,
   };
 };
@@ -245,7 +248,7 @@ const Queries: Queries = pipe(
   A.reduce({}, (q, [k, e]) => ({
     ...q,
     [k]: toQueries(e as any),
-  }))
+  })),
 ) as Queries;
 
 const jsonClient = axios.create({
@@ -257,7 +260,7 @@ export const jsonData =
   ({ id }: { id: string }): Promise<{ data: A }> =>
     pipe(
       liftFetch(() => jsonClient.get(id), decode),
-      foldTE
+      foldTE,
     );
 
 export const fetchStoryByPath = ({
@@ -268,10 +271,10 @@ export const fetchStoryByPath = ({
   pipe(
     liftFetch(
       () => dataProvider.get("stories", { path }),
-      io.http.Common.ListOutput(io.http.Story.Story, "Stories").decode
+      io.http.Common.ListOutput(io.http.Story.Story, "Stories").decode,
     ),
     TE.map((pages) => pages.data[0]),
-    foldTE
+    foldTE,
   );
 
 export { Queries, Endpoints };

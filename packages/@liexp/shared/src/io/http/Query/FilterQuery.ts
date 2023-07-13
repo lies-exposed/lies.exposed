@@ -12,8 +12,8 @@ export const FilterQuery = t.record(
       t.array(t.string),
       DateFromISOString,
       BigIntFromString,
-    ])
+    ]),
   ),
-  "FilterQuery"
+  "FilterQuery",
 );
 export type FilterQuery = t.TypeOf<typeof FilterQuery>;

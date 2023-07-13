@@ -30,7 +30,7 @@ export const getTextContents = (v: Value, j?: string): string => {
 
 export const getTextContentsCapped = (
   v: Value | undefined,
-  end: number
+  end: number,
 ): string => {
   if (v) {
     const contents = getTextContents(v).substring(0, end);
@@ -71,7 +71,7 @@ export const createExcerptValue = (text: string): Value => {
     {
       lang: "en",
       cellPlugins: [slate],
-    }
+    },
   );
 };
 
@@ -84,7 +84,7 @@ const deserializeRow =
 
 export function transform<T>(
   v: { rows: Row[] },
-  f: (c: Cell) => Option<T[]>
+  f: (c: Cell) => Option<T[]>,
 ): T[] | null {
   if (v.rows.length === 0) {
     return null;
@@ -99,7 +99,7 @@ interface InlineRelation {
 }
 
 const deserializePlugin = (
-  p: SlateComponentPluginDefinition<any>
+  p: SlateComponentPluginDefinition<any>,
 ): Option<InlineRelation[]> => {
   // console.log(p.type, p);
   switch (p.type) {
@@ -110,7 +110,7 @@ const deserializePlugin = (
       return pipe(
         actor,
         fp.O.fromNullable,
-        fp.O.map((a) => [{ id: a.id, type: "actor" }])
+        fp.O.map((a) => [{ id: a.id, type: "actor" }]),
       );
     }
     case GROUP_INLINE: {
@@ -120,7 +120,7 @@ const deserializePlugin = (
       return pipe(
         group,
         fp.O.fromNullable,
-        fp.O.map((a) => [{ id: a.id, type: "group" }])
+        fp.O.map((a) => [{ id: a.id, type: "group" }]),
       );
     }
     case KEYWORD_INLINE: {
@@ -130,7 +130,7 @@ const deserializePlugin = (
       return pipe(
         keyword,
         fp.O.fromNullable,
-        fp.O.map((a) => [{ id: a.id, type: "keyword" }])
+        fp.O.map((a) => [{ id: a.id, type: "keyword" }]),
       );
     }
     case EVENT_BLOCK_PLUGIN: {
@@ -138,7 +138,7 @@ const deserializePlugin = (
       return pipe(
         events,
         fp.O.fromPredicate((arr) => arr.length > 0),
-        fp.O.map(fp.A.map((ev) => ({ id: ev.id, type: "event" })))
+        fp.O.map(fp.A.map((ev) => ({ id: ev.id, type: "event" }))),
       );
     }
     case MEDIA_BLOCK_PLUGIN: {
@@ -146,30 +146,29 @@ const deserializePlugin = (
       return pipe(
         media,
         fp.O.fromPredicate((arr) => arr.length > 0),
-        fp.O.map(fp.A.map((m) => ({ id: m.id, type: "media" })))
+        fp.O.map(fp.A.map((m) => ({ id: m.id, type: "media" }))),
       );
     }
     case COMPONENT_PICKER_POPOVER_PLUGIN: {
       return pipe(
         (p as any).data?.plugin,
         fp.O.fromNullable,
-        fp.O.chain(deserializePlugin)
+        fp.O.chain(deserializePlugin),
       );
     }
 
     case PARAGRAPH_TYPE:
-    default:
-      {
-        const children: any[] = (p as any).children ?? [];
-        const relations = pipe(
-          children.map(deserializePlugin),
-          fp.A.compact,
-          fp.A.flatten,
-          fp.O.fromPredicate((v) => v.length > 0)
-        );
+    default: {
+      const children: any[] = (p as any).children ?? [];
+      const relations = pipe(
+        children.map(deserializePlugin),
+        fp.A.compact,
+        fp.A.flatten,
+        fp.O.fromPredicate((v) => v.length > 0),
+      );
 
-        return relations;
-      }
+      return relations;
+    }
   }
 };
 
@@ -182,8 +181,8 @@ const deserializeCell = (c: Cell): Option<InlineRelation[]> => {
       plugins.map((p) =>
         pipe(
           deserializePlugin(p),
-          fp.O.getOrElse((): InlineRelation[] => [])
-        )
+          fp.O.getOrElse((): InlineRelation[] => []),
+        ),
       ),
       // fp.A.traverse(fp.O.Applicative)((e) => {
       //  const plug = deserializePlugin(e)
@@ -195,13 +194,13 @@ const deserializeCell = (c: Cell): Option<InlineRelation[]> => {
       //   return relations;
       // },
       fp.A.flatten,
-      fp.O.fromPredicate((arr) => arr.length > 0)
+      fp.O.fromPredicate((arr) => arr.length > 0),
     );
   }
 
   return pipe(
     transform({ rows: c.rows ?? [] }, deserializeCell),
-    fp.O.fromNullable
+    fp.O.fromNullable,
   );
 };
 
@@ -241,8 +240,8 @@ export const relationsTransformer = (value: Value): InlineRelations => {
           acc.events.push(r.id);
         }
         return acc;
-      })
+      }),
     ),
-    fp.O.getOrElse(() => relations)
+    fp.O.getOrElse(() => relations),
   );
 };

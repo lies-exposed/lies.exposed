@@ -30,7 +30,7 @@ describe("List Project Images", () => {
             media: a.media.map((m) => ({ id: m })),
           })),
         },
-      ])
+      ]),
     );
 
     projectImages = await throwTE(
@@ -40,13 +40,13 @@ describe("List Project Images", () => {
           image: i,
           kind: http.ProjectImage.THEORY_KIND.value,
           project: projects[0],
-        })) as any[]
-      )
+        })) as any[],
+      ),
     );
 
     authorizationToken = `Bearer ${jwt.sign(
       { id: "1" },
-      appTest.ctx.env.JWT_SECRET
+      appTest.ctx.env.JWT_SECRET,
     )}`;
   });
 
@@ -54,24 +54,23 @@ describe("List Project Images", () => {
     await throwTE(
       appTest.ctx.db.delete(
         ProjectImageEntity,
-        projectImages.map((pd) => pd.id)
-      )
+        projectImages.map((pd) => pd.id),
+      ),
     );
 
     await throwTE(
       appTest.ctx.db.delete(
         ProjectEntity,
-        projects.map((p) => p.id)
-      )
+        projects.map((p) => p.id),
+      ),
     );
 
     await throwTE(
       appTest.ctx.db.delete(
         MediaEntity,
-        media.map((m) => m.id)
-      )
+        media.map((m) => m.id),
+      ),
     );
-
   });
 
   test("Should return a 200", async () => {
@@ -82,7 +81,7 @@ describe("List Project Images", () => {
     expect(response.status).toEqual(200);
 
     expect(
-      t.array(http.ProjectImage.ProjectImage).decode(response.body.data)._tag
+      t.array(http.ProjectImage.ProjectImage).decode(response.body.data)._tag,
     ).toEqual("Right");
   });
 });

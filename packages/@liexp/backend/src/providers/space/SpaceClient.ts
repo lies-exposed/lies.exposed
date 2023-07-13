@@ -55,28 +55,28 @@ export const toError = (e: unknown): SpaceError => {
 export interface SpaceClient {
   getEndpoint: (
     bucket: string,
-    s?: string
+    s?: string,
   ) => TE.TaskEither<SpaceError, string>;
   createBucket: (
-    params: CreateBucketCommandInput
+    params: CreateBucketCommandInput,
   ) => TE.TaskEither<SpaceError, CreateBucketCommandOutput>;
   getObject: (
-    params: GetObjectCommandInput
+    params: GetObjectCommandInput,
   ) => TE.TaskEither<SpaceError, GetObjectCommandOutput>;
   // upload: (
   //   params: PutObjectCommandInput
   // ) => TE.TaskEither<SpaceError, PutObjectCommandOutput>;
   upload: (
-    params: PutObjectCommandInput
+    params: PutObjectCommandInput,
   ) => TE.TaskEither<
     SpaceError,
     CompleteMultipartUploadCommandOutput & { Location: string }
   >;
   getSignedUrl: (
-    params: PutObjectCommandInput
+    params: PutObjectCommandInput,
   ) => TE.TaskEither<SpaceError, string>;
   deleteObject: (
-    params: DeleteObjectCommandInput
+    params: DeleteObjectCommandInput,
   ) => TE.TaskEither<SpaceError, DeleteObjectCommandOutput>;
 }
 
@@ -97,11 +97,11 @@ export const MakeSpaceClient = ({
             client.config.endpoint
               ? client.config.endpoint()
               : Promise.resolve(undefined),
-          toError
+          toError,
         ),
         TE.filterOrElse(
           (e): e is Endpoint => !!e,
-          () => toError(new Error("Can't get endpoint"))
+          () => toError(new Error("Can't get endpoint")),
         ),
         TE.map((e) => {
           let endpointURL = `${e.protocol}//${bucket}.${e.hostname}`;
@@ -117,7 +117,7 @@ export const MakeSpaceClient = ({
             endpointURL += `?${qs.stringify(e.query)}`;
           }
           return endpointURL;
-        })
+        }),
       );
     },
     createBucket: (input: CreateBucketCommandInput) => {
@@ -128,12 +128,12 @@ export const MakeSpaceClient = ({
       s3Logger.debug.log(
         "GetSignedUrl object from bucket %s with params %O",
         input.Bucket,
-        input
+        input,
       );
       const params = new PutObjectCommand({ ...input });
       return pipe(
         TE.tryCatch(() => getSignedUrl(client, params), toError),
-        s3Logger.debug.logInTaskEither(`Get signed url %O`)
+        s3Logger.debug.logInTaskEither(`Get signed url %O`),
       );
     },
     upload(input) {
@@ -151,19 +151,19 @@ export const MakeSpaceClient = ({
         }, toError),
         TE.filterOrElse(
           (
-            r: any
+            r: any,
           ): r is Omit<CompleteMultipartUploadCommandOutput, "Location"> & {
             Location: string;
           } => r.Location !== undefined,
-          () => toError(new Error(`Location is missing.`))
-        )
+          () => toError(new Error(`Location is missing.`)),
+        ),
       );
     },
     getObject: (input: GetObjectCommandInput) => {
       s3Logger.debug.log(
         "Getting object from bucket %s at path %s",
         input.Bucket,
-        input.Key
+        input.Key,
       );
 
       const params = new GetObjectCommand(input);
@@ -174,7 +174,7 @@ export const MakeSpaceClient = ({
       s3Logger.debug.log(
         "Deleting object from bucket %s at path %s",
         input.Bucket,
-        input.Key
+        input.Key,
       );
       const params = new DeleteObjectCommand(input);
       return TE.tryCatch(() => client.send(params), toError);

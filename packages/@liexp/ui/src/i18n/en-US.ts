@@ -43,7 +43,7 @@ export default {
       },
       actions: {
         update_metadata: "Update URL Metadata",
-        override_thumbnail: 'Override Thumbnail'
+        override_thumbnail: "Override Thumbnail",
       },
     },
   },

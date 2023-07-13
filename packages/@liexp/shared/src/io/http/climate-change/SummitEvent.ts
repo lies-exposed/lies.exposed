@@ -6,7 +6,7 @@ export const SummitEvent = t.strict(
     year: NumberFromString,
     label: t.string,
   },
-  "SummitEvent"
+  "SummitEvent",
 );
 
 export type SummitEvent = t.TypeOf<typeof SummitEvent>;

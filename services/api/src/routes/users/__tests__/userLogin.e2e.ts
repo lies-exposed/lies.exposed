@@ -25,10 +25,10 @@ describe("User login", () => {
             firstName: fc.sample(fc.string())[0],
             lastName: fc.sample(fc.string())[0],
           },
-        ])
+        ]),
       ),
       TE.map(([user]) => user),
-      throwTE
+      throwTE,
     );
   });
 
@@ -47,7 +47,7 @@ describe("User login", () => {
 
   test("Should return bad request", async () => {
     await throwTE(
-      Test.ctx.db.save(UserEntity, [{ ...user, status: "Approved" }])
+      Test.ctx.db.save(UserEntity, [{ ...user, status: "Approved" }]),
     );
 
     const response = await Test.req.post("/v1/users/login").send({

@@ -3,7 +3,7 @@ import * as NEA from "fp-ts/NonEmptyArray";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
-import { type GetListParams } from 'react-admin';
+import { type GetListParams } from "react-admin";
 import { useKeywordsQuery } from "../state/queries/keywords.queries";
 import QueriesRenderer from "./QueriesRenderer";
 import KeywordList from "./lists/KeywordList";
@@ -25,7 +25,7 @@ export const KeywordsBoxWrapper: React.FC<KeywordsBoxWrapperProps> = ({
           {
             ...params,
           },
-          true
+          true,
         ),
       }}
       render={({ keywords }) => {
@@ -75,8 +75,8 @@ export const KeywordsBox: React.FC<KeywordsBoxProps> = ({
                 );
               }}
             </KeywordsBoxWrapper>
-          )
-        )
+          ),
+        ),
       )}
     </Box>
   );

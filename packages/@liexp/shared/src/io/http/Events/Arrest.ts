@@ -13,7 +13,7 @@ export const Arrest = t.strict(
     for: t.array(For),
     date: DateFromISOString,
   },
-  "Arrest"
+  "Arrest",
 );
 
 export type Arrest = t.TypeOf<typeof Arrest>;

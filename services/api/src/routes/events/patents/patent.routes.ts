@@ -7,7 +7,7 @@ import { type RouteContext } from "@routes/route.types";
 
 export const MakePatentEventsRoutes = (
   router: Router,
-  ctx: RouteContext
+  ctx: RouteContext,
 ): void => {
   MakeGetPatentEventRoute(router, ctx);
   MakeGetListPatentEventRoute(router, ctx);

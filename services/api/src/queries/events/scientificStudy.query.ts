@@ -20,8 +20,8 @@ export const findByURL =
           .loadAllRelationIds({
             relations: ["media", "keywords", "links"],
           })
-          .getOne()
+          .getOne(),
       ),
-      TE.map((r) => O.fromNullable(r))
+      TE.map((r) => O.fromNullable(r)),
     );
   };

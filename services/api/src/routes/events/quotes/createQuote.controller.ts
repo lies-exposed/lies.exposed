@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { QUOTE } from '@liexp/shared/lib/io/http/Events/Quote';
+import { QUOTE } from "@liexp/shared/lib/io/http/Events/Quote";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { UUID } from "io-ts-types/lib/UUID";
@@ -44,7 +44,7 @@ export const MakeCreateQuoteRoute: Route = (r, { db, logger }) => {
             loadRelationIds: {
               relations: ["media", "links", "keywords"],
             },
-          })
+          }),
         ),
         TE.chainEitherK(toEventV2IO),
         TE.map((data) => ({
@@ -52,8 +52,8 @@ export const MakeCreateQuoteRoute: Route = (r, { db, logger }) => {
             data,
           },
           statusCode: 201,
-        }))
+        })),
       );
-    }
+    },
   );
 };

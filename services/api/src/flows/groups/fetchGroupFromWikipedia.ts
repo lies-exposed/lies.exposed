@@ -27,7 +27,7 @@ export const fetchGroupFromWikipedia: TEFlow<[string], CreateGroupBody> =
         };
 
         return group;
-      })
+      }),
     );
   };
 
@@ -40,8 +40,8 @@ export const searchGroupAndCreateFromWikipedia: TEFlow<
     TE.mapLeft(toControllerError),
     TE.filterOrElse(
       (r) => r.results[0],
-      () => NotFoundError(`Group ${search} on wikipedia`)
+      () => NotFoundError(`Group ${search} on wikipedia`),
     ),
-    TE.chain((p) => fetchGroupFromWikipedia(ctx)(p.results[0].pageid))
+    TE.chain((p) => fetchGroupFromWikipedia(ctx)(p.results[0].pageid)),
   );
 };

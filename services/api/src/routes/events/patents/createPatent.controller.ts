@@ -31,7 +31,7 @@ export const MakeCreatePatentEventRoute: Route = (r, ctx) => {
         "Create patent from url %s with owners %O and props %O",
         source,
         owners,
-        body
+        body,
       );
 
       const fetchOwnersTask = sequenceS(TE.ApplicativePar)({
@@ -42,9 +42,9 @@ export const MakeCreatePatentEventRoute: Route = (r, ctx) => {
           O.map((gg) =>
             ctx.db.find(ActorEntity, {
               where: { id: In(gg) },
-            })
+            }),
           ),
-          O.getOrElse(() => TE.right<ControllerError, ActorEntity[]>([]))
+          O.getOrElse(() => TE.right<ControllerError, ActorEntity[]>([])),
         ),
         groups: pipe(
           owners.groups,
@@ -52,9 +52,9 @@ export const MakeCreatePatentEventRoute: Route = (r, ctx) => {
           O.map((gg) =>
             ctx.db.find(GroupEntity, {
               where: { id: In(gg) },
-            })
+            }),
           ),
-          O.getOrElse(() => TE.right<ControllerError, GroupEntity[]>([]))
+          O.getOrElse(() => TE.right<ControllerError, GroupEntity[]>([])),
         ),
       });
 
@@ -75,14 +75,14 @@ export const MakeCreatePatentEventRoute: Route = (r, ctx) => {
             media,
             links,
             keywords,
-          })
+          }),
         ),
         TE.chain((data) => ctx.db.save(EventV2Entity, [data])),
         TE.chain(([event]) =>
           ctx.db.findOneOrFail(EventV2Entity, {
             where: { id: Equal(event.id) },
             loadRelationIds: true,
-          })
+          }),
         ),
         TE.chainEitherK(toEventV2IO),
         TE.map((data) => ({
@@ -90,8 +90,8 @@ export const MakeCreatePatentEventRoute: Route = (r, ctx) => {
             data,
           },
           statusCode: 201,
-        }))
+        })),
       );
-    }
+    },
   );
 };

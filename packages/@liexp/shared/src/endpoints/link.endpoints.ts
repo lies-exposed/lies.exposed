@@ -90,6 +90,6 @@ export const links = ResourceEndpoints({
   Delete,
   Custom: {
     CreateMany,
-    Submit
+    Submit,
   },
 });

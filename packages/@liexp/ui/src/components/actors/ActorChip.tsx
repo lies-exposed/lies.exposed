@@ -52,7 +52,7 @@ export const ActorChip: React.FC<ActorChipProps> = ({
             style={{ margin: 5, ...avatarStyle }}
           />
         )),
-        O.toNullable
+        O.toNullable,
       )}
       {displayFullName ? (
         <Typography variant="caption" style={displayNameStyle}>

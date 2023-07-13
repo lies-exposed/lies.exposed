@@ -33,7 +33,7 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
               groupsMembers: [],
               media: [],
               links: [],
-              areas: []
+              areas: [],
             })
       }
       searchToFilter={(title) => ({ title })}
@@ -54,7 +54,7 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
           event={{ ...toSearchEvent(item, {}) }}
           onEventClick={() => {
             onChange(
-              selectedItems.filter((i) => i.id !== item.id).concat(item)
+              selectedItems.filter((i) => i.id !== item.id).concat(item),
             );
           }}
         />

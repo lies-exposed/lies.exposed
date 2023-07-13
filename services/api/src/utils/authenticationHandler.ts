@@ -1,4 +1,7 @@
-import { type JWTProvider, JWTError } from "@liexp/backend/lib/providers/jwt/jwt.provider";
+import {
+  type JWTProvider,
+  JWTError,
+} from "@liexp/backend/lib/providers/jwt/jwt.provider";
 import type * as logger from "@liexp/core/lib/logger";
 import {
   AdminCreate,
@@ -9,7 +12,7 @@ import {
   EventSuggestionEdit,
   EventSuggestionRead,
   type User,
-  type UserPermission
+  type UserPermission,
 } from "@liexp/shared/lib/io/http/User";
 import type * as express from "express";
 import * as IOE from "fp-ts/IOEither";
@@ -22,7 +25,7 @@ const HeadersWithAuthorization = t.strict(
   {
     authorization: t.string,
   },
-  "HeadersWithAuthorization"
+  "HeadersWithAuthorization",
 );
 
 interface AuthenticationContext {
@@ -34,7 +37,7 @@ export const decodeUserFromRequest =
   ({ logger, jwt }: AuthenticationContext) =>
   (
     req: Express.Request,
-    routePerms: UserPermission[]
+    routePerms: UserPermission[],
   ): IOE.IOEither<JWTError, User> => {
     const headerKeys = Object.keys(req.headers);
     logger.debug.log(`Checking headers %O for authorization`, headerKeys);
@@ -42,7 +45,7 @@ export const decodeUserFromRequest =
 
     logger.debug.log(
       "Decoded headers errors %O",
-      PathReporter.report(decodedHeaders)
+      PathReporter.report(decodedHeaders),
     );
 
     return pipe(
@@ -100,14 +103,14 @@ export const decodeUserFromRequest =
               `Token permissions: [${p.permissions.join(", ")}]`,
               `Route permissions: [${routePerms.join(", ")}]`,
             ],
-          })
-      )
+          }),
+      ),
     );
   };
 
 export const authenticationHandler: (
   ctx: AuthenticationContext,
-  routePerms: UserPermission[]
+  routePerms: UserPermission[],
 ) => express.RequestHandler = (ctx, routePerms) => (req, _res, next) => {
   pipe(
     decodeUserFromRequest(ctx)(req, routePerms),
@@ -119,7 +122,7 @@ export const authenticationHandler: (
         ctx.logger.debug.log("Calling next handler with user %s", user.id);
         req.user = user;
         next();
-      }
-    )
+      },
+    ),
   )();
 };

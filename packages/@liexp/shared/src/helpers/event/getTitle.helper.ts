@@ -2,7 +2,7 @@ import * as http from "../../io/http";
 
 export const getTitle = (
   e: http.Events.Event,
-  relations: http.Events.EventRelations
+  relations: http.Events.EventRelations,
 ): string => {
   switch (e.type) {
     case http.Events.Documentary.DOCUMENTARY.value:
@@ -17,7 +17,7 @@ export const getTitle = (
         e.payload.details
           ? `${e.payload.details}`
           : e.payload.quote?.split(" ").slice(0, 10).join(" ").concat("...") ??
-              ""
+              "",
       );
     }
     case http.Events.Death.DEATH.value: {
@@ -31,7 +31,9 @@ export const getTitle = (
   }
 };
 
-export const getTitleForSearchEvent = (e: http.Events.SearchEvent.SearchEvent): string => {
+export const getTitleForSearchEvent = (
+  e: http.Events.SearchEvent.SearchEvent,
+): string => {
   switch (e.type) {
     case http.Events.Quote.QUOTE.value:
       return `Quote by ${e.payload.actor?.fullName}`;

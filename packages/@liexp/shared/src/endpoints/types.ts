@@ -6,7 +6,7 @@ export interface ResourceEndpoints<
   C extends MinimalEndpointInstance,
   E extends MinimalEndpointInstance,
   D extends MinimalEndpointInstance,
-  CC extends Record<string, MinimalEndpointInstance>
+  CC extends Record<string, MinimalEndpointInstance>,
 > {
   Get: G;
   List: L;
@@ -24,7 +24,7 @@ export const ResourceEndpoints = <
   C extends MinimalEndpointInstance,
   E extends MinimalEndpointInstance,
   D extends MinimalEndpointInstance,
-  CC extends Record<string, MinimalEndpointInstance>
+  CC extends Record<string, MinimalEndpointInstance>,
 >(endpoints: {
   Get: G;
   List: L;

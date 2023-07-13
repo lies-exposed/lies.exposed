@@ -27,7 +27,7 @@ const uncategorizedEvents: Events.Uncategorized.Uncategorized[] = pipe(
     timeToRead: O.some(1),
     actors: [],
     groups: [],
-  }))
+  })),
 );
 
 const Template: StoryFn<EventsSankeyGraphProps> = (props) => {

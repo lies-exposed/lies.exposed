@@ -48,7 +48,7 @@ export const ActorInlineControlContent: React.FC<{
 
   const selectedItems = React.useMemo(
     () => ([] as any[]).concat(s.actor ? [s.actor] : []),
-    [s.actor]
+    [s.actor],
   );
 
   return (

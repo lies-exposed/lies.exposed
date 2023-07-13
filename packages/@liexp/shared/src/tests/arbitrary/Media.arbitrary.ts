@@ -47,5 +47,5 @@ export const MediaArb: tests.fc.Arbitrary<http.Media.Media> = tests
           updatedAt: new Date(),
           deletedAt: undefined,
         };
-      })
+      }),
   );

@@ -6,7 +6,7 @@ interface VideoCoverProps {
   onClick: React.MouseEventHandler<HTMLDivElement>;
   style?: React.CSSProperties;
   onLoad?: () => void;
-  className?: string
+  className?: string;
 }
 
 export const VideoCover: React.FC<VideoCoverProps> = ({
@@ -22,7 +22,7 @@ export const VideoCover: React.FC<VideoCoverProps> = ({
 
   return (
     <div
-    className={className}
+      className={className}
       onClick={onClick}
       style={{
         ...style,
@@ -32,7 +32,7 @@ export const VideoCover: React.FC<VideoCoverProps> = ({
         background: `url(${thumbnail}) no-repeat center center`,
         backgroundSize: "cover",
         cursor: "pointer",
-        height: '100%'
+        height: "100%",
       }}
     >
       <PlayCircleOutline style={{ color: "white" }} fontSize="large" />

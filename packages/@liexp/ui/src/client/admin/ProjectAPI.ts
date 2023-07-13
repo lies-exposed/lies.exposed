@@ -5,7 +5,11 @@ import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { type CreateParams, type CreateResult, type UpdateParams } from "react-admin";
+import {
+  type CreateParams,
+  type CreateResult,
+  type UpdateParams,
+} from "react-admin";
 import type * as http from "../../http";
 import { uploadImages } from "./MediaAPI";
 
@@ -28,8 +32,8 @@ export const editProject =
           resource,
           params.id.toString(),
           newImages.map(
-            (i: { location: { rawFile: File } }) => i.location.rawFile
-          )
+            (i: { location: { rawFile: File } }) => i.location.rawFile,
+          ),
         ),
       }),
       TE.chain(({ newImageFiles, uploadLocations }) => {
@@ -40,7 +44,7 @@ export const editProject =
             description,
             kind,
             location: u,
-          })
+          }),
         );
 
         const updateParams = {
@@ -58,10 +62,10 @@ export const editProject =
         };
         return TE.tryCatch(
           () => client.update<any>(resource, updateParams),
-          E.toError
+          E.toError,
         );
       }),
-      throwTE
+      throwTE,
     );
   };
 
@@ -84,8 +88,8 @@ export const createProject =
     return pipe(
       TE.tryCatch(
         () => client.create<Project>(resource, createParams),
-        E.toError
+        E.toError,
       ),
-      throwTE
+      throwTE,
     );
   };

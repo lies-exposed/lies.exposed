@@ -19,7 +19,7 @@ export const MakeListStoryRoute: Route = (r, { env, db, logger }) => {
       const draft = pipe(
         _draft,
         O.map((d) => ({ draft: d })),
-        O.getOrElse(() => ({}))
+        O.getOrElse(() => ({})),
       );
 
       const exclude = pipe(
@@ -27,7 +27,7 @@ export const MakeListStoryRoute: Route = (r, { env, db, logger }) => {
         O.map((e) => ({
           id: Not(In(e)),
         })),
-        O.getOrElse(() => ({}))
+        O.getOrElse(() => ({})),
       );
       return pipe(
         sequenceS(TE.ApplicativeSeq)({
@@ -52,7 +52,7 @@ export const MakeListStoryRoute: Route = (r, { env, db, logger }) => {
                 ],
               },
             }),
-            TE.chainEitherK(A.traverse(E.Applicative)(toStoryIO))
+            TE.chainEitherK(A.traverse(E.Applicative)(toStoryIO)),
           ),
           total: db.count(StoryEntity),
         }),
@@ -62,8 +62,8 @@ export const MakeListStoryRoute: Route = (r, { env, db, logger }) => {
             total,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

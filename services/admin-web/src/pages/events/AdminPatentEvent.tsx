@@ -26,7 +26,7 @@ import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
 import ReferenceArrayGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput";
 import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
-import ReferenceLinkInput from '@liexp/ui/lib/components/admin/links/ReferenceLinkInput';
+import ReferenceLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceLinkInput";
 import { ReferenceMediaDataGrid } from "@liexp/ui/lib/components/admin/media/ReferenceMediaDataGrid";
 import { MediaArrayInput } from "@liexp/ui/lib/components/admin/media/input/MediaArrayInput";
 import EventPreview from "@liexp/ui/lib/components/admin/previews/EventPreview";
@@ -61,7 +61,7 @@ export const PatentList: React.FC<ListProps> = (props) => (
     <Datagrid rowClick="edit">
       <BooleanField source="draft" />
       <TextField source="payload.title" />
-      <ReferenceField source="payload.source" reference='links'>
+      <ReferenceField source="payload.source" reference="links">
         <UrlField source="title" />
       </ReferenceField>
 

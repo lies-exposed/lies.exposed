@@ -21,7 +21,7 @@ const defaultQuery: http.Keyword.GetKeywordListQuery = {
 export const fetchKeywords =
   ({ db, env, logger }: RouteContext) =>
   (
-    query: Partial<http.Keyword.GetKeywordListQuery>
+    query: Partial<http.Keyword.GetKeywordListQuery>,
   ): TE.TaskEither<DBError, [KeywordEntity[], number]> => {
     const q = { ...defaultQuery, ...query };
 
@@ -59,6 +59,6 @@ export const fetchKeywords =
       },
       (q) => {
         return db.execQuery(() => q.getManyAndCount());
-      }
+      },
     );
   };

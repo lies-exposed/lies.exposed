@@ -6,7 +6,7 @@ import {
 
 export const getShareSingleMedia = (
   media: http.Media.Media[],
-  defaultImage: string
+  defaultImage: string,
 ): string => {
   const cover = media.reduce<string | undefined>((cover, m) => {
     if (!cover) {
@@ -30,7 +30,7 @@ export const getShareSingleMedia = (
 
 export const getShareMultipleMedia = (
   media: http.Media.Media[],
-  defaultImage: string
+  defaultImage: string,
 ): SocialPostBodyMultipleMedia => {
   const cover = media.reduce<SocialPostBodyMultipleMedia>((acc, m) => {
     if (http.Media.MP4Type.is(m.type)) {
@@ -46,7 +46,7 @@ export const getShareMultipleMedia = (
 export const getShareMedia = (
   media: http.Media.Media[],
   defaultImage: string,
-  multiple: boolean
+  multiple: boolean,
 ): SocialPost["media"] => {
   if (multiple) {
     return getShareMultipleMedia(media, defaultImage);

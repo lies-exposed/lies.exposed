@@ -76,14 +76,14 @@ export const MakeGetListDocumentaryEventRoute: Route = (r, ctx) => {
             })),
             A.traverse(E.Applicative)(toEventV2IO),
             TE.fromEither,
-            TE.map((data) => ({ data, total: documentaries }))
-          )
+            TE.map((data) => ({ data, total: documentaries })),
+          ),
         ),
         TE.map((body) => ({
           body,
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

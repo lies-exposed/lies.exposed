@@ -35,11 +35,11 @@ export const getServer = (
     route: React.FC;
     queries: (
       params: any,
-      query: any
+      query: any,
     ) => Promise<
       Array<{ queryKey: string[]; queryFn: (params: any) => Promise<any> }>
     >;
-  }>
+  }>,
   // webpackConfig: webpack.Configuration
 ): express.Express => {
   const indexFile = path.resolve(publicDir, "./index.html");
@@ -51,7 +51,7 @@ export const getServer = (
   const requestHandler = (
     req: express.Request,
     res: express.Response,
-    next: () => void
+    next: () => void,
   ): void => {
     const helmetContext = {
       helmet: undefined,
@@ -69,7 +69,7 @@ export const getServer = (
     void Promise.all(
       routes
         .filter((r) => r.path === req.route.path)
-        .map((r) => r.queries(req.params, req.query))
+        .map((r) => r.queries(req.params, req.query)),
     )
       .then((queries) => {
         const routeQueries = queries.flatMap((r) => r);
@@ -77,7 +77,7 @@ export const getServer = (
           routeQueries.map((r) => {
             ssrLog.debug.log("Prefetch query %O", r.queryKey);
             return queryClient.prefetchQuery(r.queryKey, r.queryFn);
-          })
+          }),
         );
       })
       .then(() => {
@@ -119,22 +119,22 @@ export const getServer = (
                 .replace("<body>", `<body ${h.bodyAttributes.toString()}>`)
                 .replace(
                   '<style id="font-awesome-css"></style>',
-                  `<style type="text/css">${fontawesomeCss}</style>`
+                  `<style type="text/css">${fontawesomeCss}</style>`,
                 )
                 // .replace('<style id="css-server-side"></style>', emotionCss.css)
                 .concat('<div id="root">')
-                .concat(body)
+                .concat(body),
             );
 
             res.end(
               `</div>
                 <script>
                   window.__REACT_QUERY_STATE__ = ${JSON.stringify(
-                    dehydratedState
+                    dehydratedState,
                   )};
                 </script>
               </body>
-            </html>`
+            </html>`,
             );
           },
         });
@@ -184,7 +184,7 @@ export const getServer = (
 
               pipe(resStream);
             },
-          }
+          },
         );
 
         // const stream = pipe(renderStylesToNodeStream());
@@ -218,7 +218,7 @@ export const getServer = (
   app.use(
     express.static(publicDir, {
       index: false,
-    })
+    }),
   );
 
   routes.forEach((r) => {

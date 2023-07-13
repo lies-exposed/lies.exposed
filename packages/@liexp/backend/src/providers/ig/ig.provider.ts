@@ -9,13 +9,13 @@ import {
 
 export type OnLoginErrorFn = (
   r: AccountRepositoryLoginErrorResponse,
-  error: IgLoginTwoFactorRequiredError
+  error: IgLoginTwoFactorRequiredError,
 ) => Promise<{ code: string }>;
 
 export interface IGProvider {
   ig: IgApiClient;
   login: (
-    onError: OnLoginErrorFn
+    onError: OnLoginErrorFn,
   ) => TE.TaskEither<Error, AccountRepositoryLoginResponseLogged_in_user>;
   postPhoto: (image: Buffer, caption: string) => TE.TaskEither<Error, any>;
 }
@@ -45,7 +45,7 @@ export const IGProvider = (opts: IGProviderOpts): IGProvider => {
   ig.state.generateDevice(opts.credentials.username);
 
   const login = (
-    onError: OnLoginErrorFn
+    onError: OnLoginErrorFn,
   ): TE.TaskEither<Error, AccountRepositoryLoginResponseLogged_in_user> => {
     return liftTE(async () => {
       if (loggedInUser) {
@@ -104,7 +104,7 @@ export const IGProvider = (opts: IGProviderOpts): IGProvider => {
             file: image,
             caption,
           }),
-        toIGError
+        toIGError,
       );
     },
   };

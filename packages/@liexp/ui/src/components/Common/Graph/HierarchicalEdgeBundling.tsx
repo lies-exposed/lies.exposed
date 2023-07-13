@@ -16,7 +16,7 @@ type HierarchyLinkedNode<N> = N & {
 };
 
 function bilink(
-  root: HierarchyLinkedNode<d3.HierarchyNode<HierarchicalEdgeBundlingDatum>>
+  root: HierarchyLinkedNode<d3.HierarchyNode<HierarchicalEdgeBundlingDatum>>,
 ): HierarchyLinkedNode<d3.HierarchyNode<HierarchicalEdgeBundlingDatum>> {
   const map = new Map<
     string,
@@ -57,8 +57,8 @@ export interface HierarchicalEdgeBundlingOnClickProps {
   onLinkClick: (
     l: [
       HierarchyLinkedNode<HierarchyPointNode<any>>,
-      HierarchyLinkedNode<HierarchyPointNode<any>>
-    ]
+      HierarchyLinkedNode<HierarchyPointNode<any>>,
+    ],
   ) => void;
 }
 
@@ -95,7 +95,7 @@ export function HierarchicalEdgeBundling({
           id: node.group.toString(),
           children: [] as HierarchicalEdgeBundlingDatum[],
         })),
-        (g) => ({ ...g, children: [...g.children, node], targets: [] })
+        (g) => ({ ...g, children: [...g.children, node], targets: [] }),
       );
       nodeMap.set(node.group, group);
     }
@@ -114,7 +114,8 @@ export function HierarchicalEdgeBundling({
       .hierarchy<HierarchicalEdgeBundlingDatum>(data as any)
       .sort(
         (a, b) =>
-          d3.ascending(a.height, b.height) ?? d3.ascending(a.data.id, b.data.id)
+          d3.ascending(a.height, b.height) ??
+          d3.ascending(a.data.id, b.data.id),
       );
 
     const root = tree(bilink(hierarchy as any)) as HierarchyLinkedNode<
@@ -131,7 +132,7 @@ export function HierarchicalEdgeBundling({
       _: any,
       d: HierarchyLinkedNode<
         d3.HierarchyPointNode<HierarchicalEdgeBundlingDatum>
-      >
+      >,
     ): void {
       link.style("mix-blend-mode", null);
 
@@ -164,7 +165,7 @@ export function HierarchicalEdgeBundling({
       _: any,
       d: HierarchyLinkedNode<
         d3.HierarchyPointNode<HierarchicalEdgeBundlingDatum>
-      >
+      >,
     ): void {
       link.style("mix-blend-mode", "multiply");
 
@@ -192,7 +193,7 @@ export function HierarchicalEdgeBundling({
         .join("g")
         .attr(
           "transform",
-          (d) => `rotate(${(d.x * 180) / Math.PI - 90}) translate(${d.y},0)`
+          (d) => `rotate(${(d.x * 180) / Math.PI - 90}) translate(${d.y},0)`,
         )
         .append("text")
         .attr("dy", "0.31em")
@@ -205,14 +206,16 @@ export function HierarchicalEdgeBundling({
         })
         .on("mouseover", hovered)
         .on("mouseout", outed)
-        .on("click", (_, d) => { onNodeClick(d); })
+        .on("click", (_, d) => {
+          onNodeClick(d);
+        })
         .call((text) =>
           text
             .append("title")
             .text(
               (d) =>
-                `${d.data.id} ${d.outgoing.length} outgoing ${d.incoming.length} incoming`
-            )
+                `${d.data.id} ${d.outgoing.length} outgoing ${d.incoming.length} incoming`,
+            ),
         );
     }
 
@@ -235,7 +238,7 @@ export function HierarchicalEdgeBundling({
       .join("g")
       .attr(
         "transform",
-        (d) => `rotate(${(d.x * 180) / Math.PI - 90}) translate(${d.y},0)`
+        (d) => `rotate(${(d.x * 180) / Math.PI - 90}) translate(${d.y},0)`,
       )
       .append("image")
       .attr("xlink:href", (d) => d.data.avatar ?? "")
@@ -248,7 +251,9 @@ export function HierarchicalEdgeBundling({
       avatars
         .on("mouseover", hovered)
         .on("mouseout", outed)
-        .on("click", (_, d) => { onNodeClick(d); });
+        .on("click", (_, d) => {
+          onNodeClick(d);
+        });
     }
 
     const link = svg
@@ -267,7 +272,6 @@ export function HierarchicalEdgeBundling({
       .on("click", (_, d) => {
         onLinkClick(d);
       });
-
   }, [graph.nodes.length]);
 
   return <svg ref={svgRef} />;

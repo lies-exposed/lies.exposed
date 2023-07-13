@@ -27,7 +27,7 @@ export const MakeEditStoryRoute: Route = (r, ctx) => {
           ...body
         },
       },
-      r
+      r,
     ) => {
       const relations = relationsTransformer(body2 as any);
       return pipe(
@@ -38,7 +38,7 @@ export const MakeEditStoryRoute: Route = (r, ctx) => {
           const featuredImageId = pipe(
             featuredImage,
             O.map((f) => f.id),
-            O.getOrElse(() => e.featuredImage as any)
+            O.getOrElse(() => e.featuredImage as any),
           );
 
           ctx.logger.debug.log("Featured image %O", featuredImageId);
@@ -65,7 +65,7 @@ export const MakeEditStoryRoute: Route = (r, ctx) => {
             loadRelationIds: {
               relations: ["creator", "actors", "groups", "keywords"],
             },
-          })
+          }),
         ),
         TE.chainEitherK(toStoryIO),
         TE.map((data) => ({
@@ -73,8 +73,8 @@ export const MakeEditStoryRoute: Route = (r, ctx) => {
             data,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

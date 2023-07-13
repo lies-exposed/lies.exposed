@@ -7,11 +7,11 @@ import { type ControllerError, NotAuthorizedError } from "@io/ControllerError";
 import { type RouteContext } from "@routes/route.types";
 
 export const ensureUserExists = (
-  u?: Express.User
+  u?: Express.User,
 ): E.Either<ControllerError, User.User> => {
   return pipe(
     User.User.decode(u),
-    E.mapLeft((e) => NotAuthorizedError())
+    E.mapLeft((e) => NotAuthorizedError()),
   );
 };
 
@@ -20,6 +20,6 @@ export const getUser = (ctx: RouteContext) => (req: Express.Request) =>
     decodeUserFromRequest(ctx)(req, []),
     IOE.fold(
       () => () => null,
-      (u) => () => u
-    )
+      (u) => () => u,
+    ),
   )();

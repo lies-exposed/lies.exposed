@@ -42,7 +42,10 @@ export class LinkEntity {
   @Column({ type: "varchar", nullable: true })
   provider: string;
 
-  @ManyToOne(() => UserEntity, (u) => u.links, { nullable: true, cascade: false })
+  @ManyToOne(() => UserEntity, (u) => u.links, {
+    nullable: true,
+    cascade: false,
+  })
   creator: UserEntity | null;
 
   @ManyToMany(() => EventV2Entity, (e) => e.links, { cascade: false })

@@ -36,7 +36,7 @@ import {
 import { Box, Grid, Toolbar } from "../../mui";
 import { DangerZoneField } from "../common/DangerZoneField";
 import { EditForm } from "../common/EditForm";
-import { LinkTGPostButton } from '../common/SocialPostButton';
+import { LinkTGPostButton } from "../common/SocialPostButton";
 import URLMetadataInput from "../common/URLMetadataInput";
 import { CreateEventFromLinkButton } from "../events/CreateEventFromLinkButton";
 import ReferenceArrayEventInput from "../events/ReferenceArrayEventInput";
@@ -173,7 +173,7 @@ const OverrideThumbnail: React.FC = () => {
             transformLink({
               ...record,
               overrideThumbnail: true,
-            })
+            }),
           )
           .then(() => {
             refresh();

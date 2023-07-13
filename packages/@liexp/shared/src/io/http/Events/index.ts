@@ -1,6 +1,6 @@
 import * as t from "io-ts";
 import { type Actor } from "../Actor";
-import { type Area } from '../Area';
+import { type Area } from "../Area";
 import { type UUID } from "../Common";
 import { type Group } from "../Group";
 import { type GroupMember } from "../GroupMember";
@@ -51,7 +51,7 @@ export const CreateEventBody = t.union(
     Transaction.CreateTransactionBody,
     Quote.CreateQuoteBody,
   ],
-  "CreateEventBody"
+  "CreateEventBody",
 );
 
 export type CreateEventBody = t.TypeOf<typeof CreateEventBody>;
@@ -66,7 +66,7 @@ export const EditEventBody = t.union(
     Transaction.EditTransactionBody,
     Quote.EditQuoteBody,
   ],
-  "EditEventBody"
+  "EditEventBody",
 );
 
 export type EditEventBody = t.TypeOf<typeof EditEventBody>;
@@ -80,7 +80,7 @@ export const EventPayload = t.union(
     Documentary.DocumentaryPayload,
     Transaction.TransactionPayload,
   ],
-  "EventPayload"
+  "EventPayload",
 );
 
 export type EventPayload = t.TypeOf<typeof EventPayload>;
@@ -95,7 +95,7 @@ export const EventType = t.union(
     Transaction.TRANSACTION,
     Quote.QUOTE,
   ],
-  "EventType"
+  "EventType",
 );
 export type EventType = t.TypeOf<typeof EventType>;
 
@@ -109,7 +109,7 @@ export const Event = t.union(
     Transaction.Transaction,
     Quote.Quote,
   ],
-  "EventV2"
+  "EventV2",
 );
 
 export type Event = t.TypeOf<typeof Event>;
@@ -133,7 +133,7 @@ interface EventRelations {
   keywords: Keyword[];
   media: Media[];
   links: Link[];
-  areas: Area[]
+  areas: Area[];
 }
 
 export {

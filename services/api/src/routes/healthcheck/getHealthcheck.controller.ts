@@ -13,7 +13,7 @@ export const MakeGetHealthcheckRoute = (r: Router, ctx: RouteContext): void => {
           data,
         },
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

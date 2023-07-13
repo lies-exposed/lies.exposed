@@ -4,7 +4,7 @@ import { type RouteContext } from "@routes/route.types";
 
 export const MakeOpenGraphRoutes = (
   router: Router,
-  ctx: RouteContext
+  ctx: RouteContext,
 ): void => {
   MakeGetMetadataRoute(router, ctx);
 };

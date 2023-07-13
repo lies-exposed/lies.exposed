@@ -3,9 +3,10 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
-  Entity, ManyToMany,
+  Entity,
+  ManyToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from "typeorm";
 import { EventEntity } from "./Event.entity";
 

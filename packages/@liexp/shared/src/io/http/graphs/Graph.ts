@@ -66,7 +66,7 @@ export const GraphId = t.union(
     ClimateChangeHistoryOfSummits.types[0],
     ClimateChangeForecast.types[0],
   ],
-  "GraphId"
+  "GraphId",
 );
 
 export const GraphData = t.union(
@@ -82,8 +82,7 @@ export const GraphData = t.union(
     ClimateChangeHistoryOfSummits.types[1],
     ClimateChangeForecast.types[1],
   ],
-  "GraphData"
+  "GraphData",
 );
 
 export type GraphId = t.TypeOf<typeof GraphId>;
-

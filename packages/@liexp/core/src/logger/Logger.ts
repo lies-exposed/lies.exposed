@@ -10,7 +10,7 @@ export interface FPTSLogger {
   logInPipe: (message: string) => <I>(value: I) => I;
   logInTask: (message: string) => <I>(t: T.Task<I>) => T.Task<I>;
   logInTaskEither: (
-    message: string
+    message: string,
   ) => <E, A>(t: TE.TaskEither<E, A>) => TE.TaskEither<E, A>;
 }
 
@@ -46,7 +46,7 @@ export const GetLogger = (name: string): Logger => {
         T.map((result) => {
           d(message, result);
           return result;
-        })
+        }),
       );
 
   const logInTaskEither =
@@ -62,7 +62,7 @@ export const GetLogger = (name: string): Logger => {
         TE.map((result) => {
           d(message, result);
           return result;
-        })
+        }),
       );
 
   const makeLogger = (log: debug.Debugger): FPTSLogger => ({

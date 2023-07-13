@@ -25,8 +25,8 @@ export const MakeEditProjectRoute = (r: Router, ctx: RouteContext): void => {
                 id: uuid(),
                 ...a,
               };
-            })
-          )
+            }),
+          ),
         ),
         media: pipe(
           body.media,
@@ -41,8 +41,8 @@ export const MakeEditProjectRoute = (r: Router, ctx: RouteContext): void => {
                 },
                 project: { id },
               };
-            })
-          )
+            }),
+          ),
         ),
       });
 
@@ -58,7 +58,7 @@ export const MakeEditProjectRoute = (r: Router, ctx: RouteContext): void => {
           ctx.db.findOneOrFail(ProjectEntity, {
             where: { id: Equal(id) },
             relations: ["media", "areas"],
-          })
+          }),
         ),
         TE.chain((p) => TE.fromEither(toProjectIO(p))),
         TE.map((project) => ({
@@ -66,8 +66,8 @@ export const MakeEditProjectRoute = (r: Router, ctx: RouteContext): void => {
             data: project,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

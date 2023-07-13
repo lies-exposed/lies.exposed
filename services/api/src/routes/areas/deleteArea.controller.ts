@@ -1,7 +1,7 @@
 import { Endpoints, AddEndpoint } from "@liexp/shared/lib/endpoints";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { Equal } from 'typeorm';
+import { Equal } from "typeorm";
 import { type Route } from "../route.types";
 import { toAreaIO } from "./Area.io";
 import { AreaEntity } from "@entities/Area.entity";
@@ -19,7 +19,7 @@ export const MakeDeleteAreaRoute: Route = (r, { s3, db, env }) => {
           data: page,
         },
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

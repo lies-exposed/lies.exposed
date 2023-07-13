@@ -21,8 +21,8 @@ export const MakeAddPageRoute = (r: Router, ctx: RouteContext): void => {
             data,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

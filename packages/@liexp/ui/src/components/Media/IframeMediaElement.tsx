@@ -28,10 +28,10 @@ const Root = styled("div")(() => ({
     width: "100%",
     maxWidth: 800,
     minHeight: 300,
-    position: 'absolute',
-    margin: 'auto',
+    position: "absolute",
+    margin: "auto",
     left: 0,
-    right: 0
+    right: 0,
   },
 }));
 

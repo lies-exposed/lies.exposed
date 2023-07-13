@@ -5,13 +5,13 @@ export class migrations1672943801379 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `ALTER TABLE "link" ADD CONSTRAINT "UQ_8dece3c96270b99f144d26e4a7a" UNIQUE ("url")`
+      `ALTER TABLE "link" ADD CONSTRAINT "UQ_8dece3c96270b99f144d26e4a7a" UNIQUE ("url")`,
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `ALTER TABLE "link" DROP CONSTRAINT "UQ_8dece3c96270b99f144d26e4a7a"`
+      `ALTER TABLE "link" DROP CONSTRAINT "UQ_8dece3c96270b99f144d26e4a7a"`,
     );
   }
 }

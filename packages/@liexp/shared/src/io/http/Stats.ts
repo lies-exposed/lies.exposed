@@ -14,7 +14,7 @@ export const Stats = t.strict(
     groups: t.record(UUID, t.number),
     keywords: t.record(UUID, t.number),
   },
-  "Stats"
+  "Stats",
 );
 export type Stats = t.TypeOf<typeof Stats>;
 

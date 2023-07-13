@@ -16,16 +16,16 @@ export interface CSVUtil {
   parseString: <A, O = A, I = unknown>(
     content: string,
     decoder: t.Type<A, O, I>,
-    mapper?: (a: I) => A
+    mapper?: (a: I) => A,
   ) => TE.TaskEither<Error, A[]>;
   parseFile: <A, O = A, I = unknown>(
     location: string,
     parseOptions: csv.ParserOptionsArgs,
-    opts: ParseFileOpts<A, O, I>
+    opts: ParseFileOpts<A, O, I>,
   ) => TE.TaskEither<Error, A[]>;
   writeToPath: <T extends csv.FormatterRow>(
     outputPath: string,
-    results: T[]
+    results: T[],
   ) => TE.TaskEither<Error, void>;
 }
 
@@ -37,7 +37,7 @@ export const GetCSVUtil = ({ log }: CSVUtilOptions): CSVUtil => {
   const parseFile = <A, O = A, I = unknown>(
     location: string,
     parseOptions: csv.ParserOptionsArgs,
-    opts: ParseFileOpts<A, O, I>
+    opts: ParseFileOpts<A, O, I>,
   ): TE.TaskEither<Error, A[]> => {
     const data: A[] = [];
     return TE.tryCatch(() => {
@@ -47,12 +47,13 @@ export const GetCSVUtil = ({ log }: CSVUtilOptions): CSVUtil => {
           .parseFile(location, parseOptions)
           .on("data", (item) => {
             const decoded = opts.decoder.decode(
-              opts.mapper ? opts.mapper(item) : item
+              opts.mapper ? opts.mapper(item) : item,
             );
 
             if (E.isLeft(decoded)) {
               log.debug.log("Decode failed %O", PathReporter.report(decoded));
-              reject(decoded.left); return;
+              reject(decoded.left);
+              return;
             }
 
             data.push(decoded.right);
@@ -68,7 +69,7 @@ export const GetCSVUtil = ({ log }: CSVUtilOptions): CSVUtil => {
   const parseString = <A, O = A, I = unknown>(
     content: string,
     decoder: t.Type<A, O, I>,
-    mapper?: (v: I) => A
+    mapper?: (v: I) => A,
   ): TE.TaskEither<Error, A[]> => {
     return pipe(
       TE.tryCatch(() => {
@@ -92,7 +93,7 @@ export const GetCSVUtil = ({ log }: CSVUtilOptions): CSVUtil => {
         const r = pipe(
           results,
           A.map((v) => decoder.decode(mapper ? mapper(v) : v)),
-          A.sequence(E.Applicative)
+          A.sequence(E.Applicative),
         );
 
         return r as E.Either<t.ValidationError[], any>;
@@ -101,13 +102,13 @@ export const GetCSVUtil = ({ log }: CSVUtilOptions): CSVUtil => {
         // eslint-disable-next-line
         console.log(PathReporter.report(E.left(errs)));
         return new Error();
-      })
+      }),
     );
   };
 
   const writeToPath = <T extends csv.FormatterRow>(
     outputPath: string,
-    results: T[]
+    results: T[],
   ): TE.TaskEither<Error, void> => {
     return TE.tryCatch(async () => {
       log.debug.log("Write results (%d) in %s", results.length, outputPath);

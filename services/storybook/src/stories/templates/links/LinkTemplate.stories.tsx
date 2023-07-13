@@ -8,7 +8,7 @@ import {
   type LinkTemplateUIProps,
 } from "@liexp/ui/lib/templates/links/LinkTemplateUI";
 import { type StoryFn, type Meta } from "@storybook/react";
-import * as React from 'react';
+import * as React from "react";
 
 const meta: Meta<LinkTemplateUIProps> = {
   title: "Templates/Links/Page",
@@ -34,12 +34,12 @@ const Template: StoryFn<LinkTemplateUIProps> = (props) => {
               perPage: 3,
             },
           },
-          false
+          false,
         ),
       }}
       render={({
         links: {
-          data: [,,link],
+          data: [, , link],
         },
       }) => {
         return (

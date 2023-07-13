@@ -42,7 +42,7 @@ const Template: StoryFn<EditEventModalProps> = ({ ...props }) => {
       "user",
       JSON.stringify({
         permissions: [EventSuggestionCreate.value, EventSuggestionEdit.value],
-      })
+      }),
     );
   }, []);
 

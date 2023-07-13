@@ -9,7 +9,7 @@ export interface OptionFromUndefinedC<C extends t.Mixed>
 
 export const optionFromUndefined = <C extends t.Mixed>(
   codec: C,
-  name?: string
+  name?: string,
 ): OptionFromUndefinedC<C> => {
   if (name === undefined) {
     name = "Option<" + codec.name + ">";
@@ -24,6 +24,6 @@ export const optionFromUndefined = <C extends t.Mixed>(
     },
     function (a) {
       return O.toUndefined(pipe(a, O.map(codec.encode)));
-    }
+    },
   );
 };

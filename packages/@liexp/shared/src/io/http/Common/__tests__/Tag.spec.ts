@@ -8,11 +8,7 @@ describe.skip("Tag codec", () => {
 
     expect(E.isRight(t.array(Tag).decode(tags))).toBe(true);
 
-    const fastCheckTest = [
-      "tag",
-      "tag1",
-      "another",
-    ];
+    const fastCheckTest = ["tag", "tag1", "another"];
 
     expect(E.isRight(t.array(Tag).decode(fastCheckTest))).toBe(true);
   });

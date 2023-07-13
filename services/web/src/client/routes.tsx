@@ -73,7 +73,7 @@ import NotFoundPage from "./pages/404";
 const ActorsPage = React.lazy(() => import("./pages/ActorsPage"));
 const AreasPage = React.lazy(() => import("./pages/AreasPage"));
 const CreateStoryPage = React.lazy(
-  () => import("./pages/stories/CreateStoryPage")
+  () => import("./pages/stories/CreateStoryPage"),
 );
 const BlogPage = React.lazy(() => import("./pages/stories/StorySearchPage"));
 const EventsPage = React.lazy(() => import("./pages/EventsPage"));
@@ -155,7 +155,7 @@ export const routes = [
               group: groupId,
             },
           },
-          false
+          false,
         ),
         queryFn: fetchGroupsMembers,
       },
@@ -183,7 +183,7 @@ export const routes = [
             sort: { field: "id", order: "ASC" },
             filter: {},
           },
-          false
+          false,
         ),
         queryFn: fetchGroups,
       },
@@ -213,7 +213,7 @@ export const routes = [
             sort: { field: "createdAt", order: "DESC" },
             filter: { members: [actorId] },
           },
-          false
+          false,
         ),
         queryFn: fetchGroups,
       },
@@ -240,7 +240,7 @@ export const routes = [
         queryKey: getActorsQueryKey(
           `actors`,
           defaultGetActorsQueryParams,
-          false
+          false,
         ),
         queryFn: fetchActors,
       },
@@ -281,7 +281,7 @@ export const routes = [
                 page: 1,
               },
             },
-            true
+            true,
           ),
           queryFn: fetchActors,
         },
@@ -295,7 +295,7 @@ export const routes = [
               },
               filter: { ids: media },
             },
-            true
+            true,
           ),
           queryFn: fetchMedia,
         },
@@ -308,7 +308,7 @@ export const routes = [
               },
               filter: event.links.length > 0 ? { ids: event.links } : {},
             },
-            true
+            true,
           ),
           queryFn: fetchLinks,
         },
@@ -323,7 +323,7 @@ export const routes = [
                 page: 1,
               },
             },
-            true
+            true,
           ),
           queryFn: fetchAreas,
         },
@@ -336,7 +336,7 @@ export const routes = [
                 ids: keywords,
               },
             },
-            true
+            true,
           ),
           queryFn: fetchKeywords,
         },
@@ -407,7 +407,7 @@ export const routes = [
               pagination: { page: 1, perPage: q.actors.length },
               filter: { ids: q.actors },
             },
-            true
+            true,
           ),
           queryFn: fetchActors,
         },
@@ -418,7 +418,7 @@ export const routes = [
               pagination: { page: 1, perPage: q.groups.length },
               filter: { ids: q.groups },
             },
-            true
+            true,
           ),
           queryFn: fetchGroups,
         },
@@ -428,7 +428,7 @@ export const routes = [
               pagination: { page: 1, perPage: q.groupsMembers.length },
               filter: { ids: q.groupsMembers },
             },
-            true
+            true,
           ),
           queryFn: fetchGroupsMembers,
         },
@@ -440,7 +440,7 @@ export const routes = [
               sort: { field: "updatedAt", order: "DESC" },
               filter: { ids: q.keywords },
             },
-            true
+            true,
           ),
           queryFn: fetchKeywords,
         },
@@ -469,7 +469,7 @@ export const routes = [
             {
               filter: { id: params.keywordId, type: StatsType.types[0].value },
             },
-            true
+            true,
           ),
           queryFn: fetchStats,
         },
@@ -513,7 +513,7 @@ export const routes = [
           {
             filter: null,
           },
-          true
+          true,
         ),
         queryFn: fetchAreas,
       },
@@ -551,7 +551,7 @@ export const routes = [
           {
             filter: null,
           },
-          false
+          false,
         ),
         queryFn: fetchMedia,
       },
@@ -612,7 +612,7 @@ export const routes = [
                 exclude: [story.id],
               },
             },
-            false
+            false,
           ),
           queryFn: fetchStories,
         },
@@ -629,7 +629,7 @@ export const routes = [
                 ids: story.keywords,
               },
             },
-            false
+            false,
           ),
           queryFn: fetchKeywords,
         },
@@ -653,7 +653,7 @@ export const routes = [
               sort: { field: "id", order: "DESC" },
               filter: { draft: false, exclude: [] },
             },
-            false
+            false,
           ),
           queryFn: fetchStories,
         },
@@ -722,7 +722,7 @@ export const routes = [
               order: "DESC",
             },
           },
-          false
+          false,
         ),
         queryFn: fetchMedia,
       },

@@ -49,7 +49,7 @@ export const ActorListItem: React.FC<ActorListItemProps> = ({
             style={{ margin: 5 }}
           />
         )),
-        O.toNullable
+        O.toNullable,
       )}
       {displayFullName ? (
         <Typography variant="caption"> {item.fullName}</Typography>

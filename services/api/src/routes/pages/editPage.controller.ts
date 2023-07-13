@@ -22,7 +22,7 @@ export const MakeEditPageRoute = (r: Router, ctx: RouteContext): void => {
           },
         ]),
         TE.chain(() =>
-          ctx.db.findOne(PageEntity, { where: { id: Equal(id) } })
+          ctx.db.findOne(PageEntity, { where: { id: Equal(id) } }),
         ),
         TE.chain(TE.fromOption(() => NotFoundError("Page"))),
         TE.chainEitherK(toPageIO),
@@ -31,8 +31,8 @@ export const MakeEditPageRoute = (r: Router, ctx: RouteContext): void => {
             data,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

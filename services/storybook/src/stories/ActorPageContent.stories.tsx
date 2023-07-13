@@ -4,9 +4,7 @@ import {
 } from "@liexp/ui/lib/components/ActorPageContent";
 import { MainContent } from "@liexp/ui/lib/components/MainContent";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
-import {
-  useActorQuery,
-} from "@liexp/ui/lib/state/queries/actor.queries";
+import { useActorQuery } from "@liexp/ui/lib/state/queries/actor.queries";
 import { useGroupsQuery } from "@liexp/ui/lib/state/queries/groups.queries";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
@@ -31,7 +29,7 @@ const Template: StoryFn<
             sort: { field: "createdAt", order: "DESC" },
             filter: { members: [id] },
           },
-          false
+          false,
         ),
       }}
       render={({ actor, groups }) => {

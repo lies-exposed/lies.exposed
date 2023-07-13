@@ -22,7 +22,7 @@ export const CreateEventRoute: Route = (r, ctx) => {
             loadRelationIds: {
               relations: ["media", "links", "keywords"],
             },
-          })
+          }),
         ),
         TE.chain((event) => TE.fromEither(toEventV2IO(event))),
         TE.map((data) => ({
@@ -30,8 +30,8 @@ export const CreateEventRoute: Route = (r, ctx) => {
             data,
           },
           statusCode: 201,
-        }))
+        })),
       );
-    }
+    },
   );
 };

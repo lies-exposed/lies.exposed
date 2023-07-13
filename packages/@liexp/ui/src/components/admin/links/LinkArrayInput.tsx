@@ -25,7 +25,11 @@ export const LinkArrayInput: React.FC<
               return (
                 <Box>
                   <TextInput source={getSrc("url")} fullWidth />
-                  <TextInput source={getSrc("description")} multiline fullWidth />
+                  <TextInput
+                    source={getSrc("description")}
+                    multiline
+                    fullWidth
+                  />
                   <DateInput source={getSrc("publishDate")} />
                 </Box>
               );

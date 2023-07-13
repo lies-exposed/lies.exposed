@@ -21,15 +21,14 @@ const JSONInput: React.FC<JSONInputProps> = ({
     field: { value, onChange },
   } = useInput({ source });
 
-  const JSONView =
-    React.useMemo((): React.ComponentType<any> => {
-      if (typeof window !== "undefined") {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        return require("react-json-view").default;
-      }
-      // eslint-disable-next-line react/display-name
-      return () => <div />;
-    }, [typeof window !== "undefined"]);
+  const JSONView = React.useMemo((): React.ComponentType<any> => {
+    if (typeof window !== "undefined") {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      return require("react-json-view").default;
+    }
+    // eslint-disable-next-line react/display-name
+    return () => <div />;
+  }, [typeof window !== "undefined"]);
 
   const [json, setJSON] = React.useState(value);
 
@@ -50,7 +49,12 @@ const JSONInput: React.FC<JSONInputProps> = ({
         />
 
         <Button label="Clear" onClick={() => onClear?.()} />
-        <Button label="Save" onClick={() => { onChange(json); }} />
+        <Button
+          label="Save"
+          onClick={() => {
+            onChange(json);
+          }}
+        />
       </>
     </Labeled>
   );

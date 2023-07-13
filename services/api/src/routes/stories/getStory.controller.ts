@@ -28,7 +28,7 @@ export const MakeGetStoryRoute: Route = (r, ctx) => {
           data,
         },
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

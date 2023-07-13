@@ -40,7 +40,7 @@ const getHeaderId = (children: React.ReactNode): string | undefined => {
       return StoryUtils.convertTitleToId(c.props.children[0].text);
     }, fp.E.toError),
     fp.O.fromEither,
-    fp.O.toUndefined
+    fp.O.toUndefined,
   );
 };
 

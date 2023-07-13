@@ -108,20 +108,20 @@ type BrowserLaunchOpts = puppeteer.LaunchOptions &
 
 export interface PuppeteerProvider {
   getBrowser: (
-    opts: BrowserLaunchOpts
+    opts: BrowserLaunchOpts,
   ) => TE.TaskEither<PuppeteerError, puppeteer.Browser>;
   goToPage: (
-    url: string
+    url: string,
   ) => (
-    page: puppeteer.Page
+    page: puppeteer.Page,
   ) => TE.TaskEither<PuppeteerError, puppeteer.HTTPResponse>;
   download: (url: string) => TE.TaskEither<PuppeteerError, any>;
   getBrowserFirstPage: (
     url: string,
-    opts: BrowserLaunchOpts
+    opts: BrowserLaunchOpts,
   ) => TE.TaskEither<PuppeteerError, puppeteer.Page>;
   getPageText: (
-    r: puppeteer.HTTPResponse
+    r: puppeteer.HTTPResponse,
   ) => TE.TaskEither<error.CoreError, string>;
 }
 
@@ -129,19 +129,19 @@ export interface PuppeteerProvider {
 // const closePage = (p: puppeteer.Page) => TE.tryCatch(() => p.close(), toPuppeteerError);
 
 export type GetPuppeteerProvider = (
-  browser: puppeteer.Browser
+  browser: puppeteer.Browser,
 ) => PuppeteerProvider;
 
 export const GetPuppeteerProvider = (
   pup: VanillaPuppeteer,
-  defaultOpts: BrowserLaunchOpts
+  defaultOpts: BrowserLaunchOpts,
 ): PuppeteerProvider => {
   puppeteerLogger.debug.log(`PuppeteerClient with options %O`, defaultOpts);
 
   // let _pup: puppeteer.Browser;
 
   const launch = (
-    opts: BrowserLaunchOpts
+    opts: BrowserLaunchOpts,
   ): TE.TaskEither<PuppeteerError, puppeteer.Browser> => {
     return pipe(
       getChromePath(),
@@ -168,25 +168,25 @@ export const GetPuppeteerProvider = (
           puppeteerLogger.debug.log("browser disconnected", e);
         });
         return b;
-      })
+      }),
     );
   };
 
   const execute = (
     opts: BrowserLaunchOpts,
     te: (
-      b: puppeteer.Browser
-    ) => TE.TaskEither<PuppeteerError, puppeteer.Browser>
+      b: puppeteer.Browser,
+    ) => TE.TaskEither<PuppeteerError, puppeteer.Browser>,
   ): TE.TaskEither<PuppeteerError, void> => {
     return pipe(
       launch(opts),
       TE.chain((b) => te(b)),
-      TE.chain((b) => TE.tryCatch(() => b.close(), toPuppeteerError))
+      TE.chain((b) => TE.tryCatch(() => b.close(), toPuppeteerError)),
     );
   };
 
   const getBrowser = (
-    opts: BrowserLaunchOpts
+    opts: BrowserLaunchOpts,
   ): TE.TaskEither<PuppeteerError, puppeteer.Browser> => {
     return launch(opts);
   };
@@ -204,7 +204,7 @@ export const GetPuppeteerProvider = (
 
   const getBrowserFirstPage = (
     url: string,
-    opts: BrowserLaunchOpts
+    opts: BrowserLaunchOpts,
   ): TE.TaskEither<PuppeteerError, puppeteer.Page> => {
     return pipe(
       launch(opts),
@@ -215,7 +215,7 @@ export const GetPuppeteerProvider = (
           await p.goto(url);
           return p;
         }, toPuppeteerError);
-      })
+      }),
     );
   };
 
@@ -232,18 +232,18 @@ export const GetPuppeteerProvider = (
           return TE.left(
             makePuppeteerError(
               "MissingPuppeteerResponseError",
-              `Puppeteer page response is null for ${url}`
-            )
+              `Puppeteer page response is null for ${url}`,
+            ),
           );
         }
 
         return TE.right(response);
-      })
+      }),
     );
   };
 
   const getPageText = (
-    response: puppeteer.HTTPResponse
+    response: puppeteer.HTTPResponse,
   ): TE.TaskEither<PuppeteerError, string> => {
     return TE.tryCatch(() => {
       puppeteerLogger.debug.log("getting page text for %s...", response.url());
@@ -274,10 +274,10 @@ export const $safeEvalOrUndefined =
     Func extends puppeteer.EvaluateFuncWith<
       puppeteer.NodeFor<Selector>,
       Params
-    > = puppeteer.EvaluateFuncWith<puppeteer.NodeFor<Selector>, Params>
+    > = puppeteer.EvaluateFuncWith<puppeteer.NodeFor<Selector>, Params>,
   >(
     sel: Selector,
-    onEval: Func
+    onEval: Func,
   ): Promise<string | undefined> => {
     let ret: any;
     const el = await p.$(sel);
@@ -302,10 +302,10 @@ export const $evalManyOrUndefined =
     Func extends puppeteer.EvaluateFuncWith<
       puppeteer.NodeFor<Selector>,
       Params
-    > = puppeteer.EvaluateFuncWith<puppeteer.NodeFor<Selector>, Params>
+    > = puppeteer.EvaluateFuncWith<puppeteer.NodeFor<Selector>, Params>,
   >(
     sel: Selector[],
-    onEval: Func
+    onEval: Func,
   ): Promise<string | undefined> => {
     let ret: string | undefined;
     const evall = $safeEvalOrUndefined(p);

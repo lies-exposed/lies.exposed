@@ -8,11 +8,9 @@ interface ContentWithSidebarProps {
   defaultOpen?: boolean;
 }
 
-export const ContentWithSidebar: React.FC<React.PropsWithChildren<ContentWithSidebarProps>> = ({
-  sidebar,
-  defaultOpen = false,
-  children,
-}) => {
+export const ContentWithSidebar: React.FC<
+  React.PropsWithChildren<ContentWithSidebarProps>
+> = ({ sidebar, defaultOpen = false, children }) => {
   const [showSidebar, toggleSidebar] = React.useState(defaultOpen);
 
   return (
@@ -21,18 +19,24 @@ export const ContentWithSidebar: React.FC<React.PropsWithChildren<ContentWithSid
       className="content-with-sidebar"
       alignContent="center"
       style={{
-        flexDirection: 'row'
+        flexDirection: "row",
       }}
     >
       <Grid item lg={showSidebar ? 3 : false} md={showSidebar ? 3 : false}>
         {showSidebar ? (
           <Box>
             {sidebar}
-            <ExpandMoreIcon onClick={() => { toggleSidebar(!showSidebar); }} />
+            <ExpandMoreIcon
+              onClick={() => {
+                toggleSidebar(!showSidebar);
+              }}
+            />
           </Box>
         ) : (
           <div
-            onClick={() => { toggleSidebar(!showSidebar); }}
+            onClick={() => {
+              toggleSidebar(!showSidebar);
+            }}
             style={{ position: "absolute" }}
           >
             <ChevronRightIcon />

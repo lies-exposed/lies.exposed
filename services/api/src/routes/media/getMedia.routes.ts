@@ -25,7 +25,7 @@ export const MakeGetMediaRoute = (r: Router, ctx: RouteContext): void => {
           data,
         },
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

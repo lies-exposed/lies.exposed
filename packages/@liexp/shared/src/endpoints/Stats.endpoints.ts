@@ -5,16 +5,18 @@ import { GetListQuery } from "../io/http/Query";
 import * as Stats from "../io/http/Stats";
 import { ResourceEndpoints } from "./types";
 
-
 export const List = Endpoint({
   Method: "GET",
   getPath: () => "/stats",
   Input: {
-    Query: t.type({
-      ...GetListQuery.props,
-      type: Stats.StatsType,
-      id: t.string,
-    }, 'GetStatsListQuery'),
+    Query: t.type(
+      {
+        ...GetListQuery.props,
+        type: Stats.StatsType,
+        id: t.string,
+      },
+      "GetStatsListQuery",
+    ),
   },
   Output: Stats.OutputList,
 });

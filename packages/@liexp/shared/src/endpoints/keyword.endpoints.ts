@@ -1,6 +1,6 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
-import * as Keyword  from "../io/http/Keyword";
+import * as Keyword from "../io/http/Keyword";
 import { ResourceEndpoints } from "./types";
 
 export const List = Endpoint({
@@ -57,10 +57,9 @@ export const Distribution = Endpoint({
   },
   Output: t.strict({
     data: t.any,
-    total: t.number
+    total: t.number,
   }),
 });
-
 
 export const keywords = ResourceEndpoints({
   Get,
@@ -69,6 +68,6 @@ export const keywords = ResourceEndpoints({
   Create,
   Delete,
   Custom: {
-    Distribution
+    Distribution,
   },
 });

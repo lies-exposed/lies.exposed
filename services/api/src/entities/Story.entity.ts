@@ -7,10 +7,10 @@ import {
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from "typeorm";
 import { ActorEntity } from "./Actor.entity";
-import { EventV2Entity } from './Event.v2.entity';
+import { EventV2Entity } from "./Event.v2.entity";
 import { GroupEntity } from "./Group.entity";
 import { KeywordEntity } from "./Keyword.entity";
 import { MediaEntity } from "./Media.entity";

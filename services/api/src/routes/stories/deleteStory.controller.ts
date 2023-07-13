@@ -20,8 +20,8 @@ export const MakeDeleteStoryRoute: Route = (r, ctx) => {
             data,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

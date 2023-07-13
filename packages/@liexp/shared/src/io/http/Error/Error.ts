@@ -7,7 +7,7 @@ export const CoreError = t.strict(
     status: t.number,
     details: t.union([t.undefined, t.array(t.string)]),
   },
-  "CoreError"
+  "CoreError",
 );
 
 export type CoreError = t.TypeOf<typeof CoreError>;

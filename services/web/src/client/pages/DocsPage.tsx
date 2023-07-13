@@ -16,8 +16,8 @@ class DocsPage extends React.PureComponent<RouteComponentProps> {
           O.chainNullableK((t) => t.items),
           O.fold(
             () => <div />,
-            (items) => <TableOfContents items={items} />
-          )
+            (items) => <TableOfContents items={items} />,
+          ),
         )}
       >
         <MainContent>

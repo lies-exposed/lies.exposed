@@ -6,7 +6,7 @@ import { type EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { type ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toEventSuggestion = (
-  event: EventSuggestionEntity
+  event: EventSuggestionEntity,
 ): E.Either<
   ControllerError,
   { id: string; payload: io.http.EventSuggestion.EventSuggestion }
@@ -36,7 +36,7 @@ export const toEventSuggestion = (
     {
       links: [],
       newLinks: [],
-    }
+    },
   );
 
   const eventEncoded = {
@@ -64,7 +64,7 @@ export const toEventSuggestion = (
       payload,
     })),
     E.mapLeft((e) =>
-      DecodeError(`Failed to decode Event Suggestion (${event.id})`, e)
-    )
+      DecodeError(`Failed to decode Event Suggestion (${event.id})`, e),
+    ),
   );
 };

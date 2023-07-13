@@ -12,7 +12,6 @@ const meta: Meta = {
 export default meta;
 
 const Template: StoryFn<SearchAreaTemplateProps> = (props) => {
-
   return <SearchAreaTemplate {...props} />;
 };
 

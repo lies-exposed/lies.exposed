@@ -26,7 +26,7 @@ export const GroupsBoxWrapper: React.FC<GroupsBoxWrapperProps> = ({
             ...params,
           },
           discrete,
-          prefix
+          prefix,
         ),
       }}
       render={({ groups }) => {

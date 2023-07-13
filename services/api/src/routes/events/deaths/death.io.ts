@@ -5,7 +5,7 @@ import { type DeathEventViewEntity } from "@entities/events/DeathEvent.entity";
 import { type ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toDeathIO = (
-  event: DeathEventViewEntity
+  event: DeathEventViewEntity,
 ): E.Either<ControllerError, io.http.Events.Death.Death> => {
   return pipe(
     io.http.Events.Death.Death.decode({
@@ -20,7 +20,7 @@ export const toDeathIO = (
       updatedAt: event.updatedAt.toISOString(),
     }),
     E.mapLeft((e) =>
-      DecodeError(`Failed to decode death event (${event.id})`, e)
-    )
+      DecodeError(`Failed to decode death event (${event.id})`, e),
+    ),
   );
 };

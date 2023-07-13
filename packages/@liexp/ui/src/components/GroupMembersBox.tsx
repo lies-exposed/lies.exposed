@@ -48,7 +48,7 @@ export const GroupMembersBox: React.FC<GroupMembersBoxProps> = ({
                 ids,
               },
             },
-            false
+            false,
           ),
         }}
         render={({ groupsMembers: { data: groupsMembers } }) => {

@@ -1,4 +1,8 @@
-import { type Actor, type Group, type Keyword } from "@liexp/shared/lib/io/http";
+import {
+  type Actor,
+  type Group,
+  type Keyword,
+} from "@liexp/shared/lib/io/http";
 import * as React from "react";
 import { type SearchEventsQueryInputNoPagination } from "../../../state/queries/SearchEventsQuery";
 import { fetchActors } from "../../../state/queries/actor.queries";
@@ -65,7 +69,7 @@ const serializeOption = (options: SearchOption[]): SearchFilter => {
       groups: [],
       actors: [],
       keywords: [],
-    }
+    },
   );
 };
 
@@ -81,7 +85,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
     (
       e: React.ChangeEvent<any>,
       value: string,
-      reason: AutocompleteInputChangeReason
+      reason: AutocompleteInputChangeReason,
     ): void => {
       const q = value;
 
@@ -135,7 +139,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
           ],
         }).then((groups) => {
           setSearchOptions(
-            groups.data.map((g) => ({ type: "Group", item: g }))
+            groups.data.map((g) => ({ type: "Group", item: g })),
           );
         });
       } else {
@@ -149,7 +153,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
 
       setSearch(q);
     },
-    [search]
+    [search],
   );
 
   const loading = search === "" || search.length < 3;

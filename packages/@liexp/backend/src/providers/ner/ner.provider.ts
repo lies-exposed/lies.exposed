@@ -10,7 +10,7 @@ interface NERProvider {
   entitiesFile: string;
   process: (
     text: string,
-    patterns: CustomEntityExample[]
+    patterns: CustomEntityExample[],
   ) => TE.TaskEither<IOError, Detail[]>;
 }
 
@@ -34,7 +34,7 @@ export const GetNERProvider = (ctx: { logger: Logger }): NERProvider => {
               NLPUtils.string.removePunctuations,
               NLPUtils.string.removeExtraSpaces,
               NLPUtils.string.retainAlphaNums,
-              NLPUtils.string.sentences
+              NLPUtils.string.sentences,
             );
             const s = sentences.join(" ");
 
@@ -43,12 +43,15 @@ export const GetNERProvider = (ctx: { logger: Logger }): NERProvider => {
 
             const entities: any[] = doc.customEntities().out(nlp.its.detail);
 
-            const uniqueEntities: Detail[] = entities.reduce<any[]>((acc, n) => {
-              if (acc.includes(n)) {
-                return acc;
-              }
-              return acc.concat(n);
-            }, []);
+            const uniqueEntities: Detail[] = entities.reduce<any[]>(
+              (acc, n) => {
+                if (acc.includes(n)) {
+                  return acc;
+                }
+                return acc.concat(n);
+              },
+              [],
+            );
 
             if (uniqueEntities.length > 0) {
               ctx.logger.debug.log("Found entities %O", uniqueEntities);
@@ -65,8 +68,8 @@ export const GetNERProvider = (ctx: { logger: Logger }): NERProvider => {
 
             return entities;
           },
-          (e: any) => e
-        )
+          (e: any) => e,
+        ),
       );
     },
   };

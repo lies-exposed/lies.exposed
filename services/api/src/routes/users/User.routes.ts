@@ -1,7 +1,7 @@
 import { type Router } from "express";
 import { MakeUserCreateRoute } from "./userCreate.controller";
-import { MakeUserEditRoute } from './userEdit.controller';
-import { MakeUserGetRoute } from './userGet.controller';
+import { MakeUserEditRoute } from "./userEdit.controller";
+import { MakeUserGetRoute } from "./userGet.controller";
 import { MakeUserListRoute } from "./userList.controller";
 import { MakeUserLoginRoute } from "./userLogin.controller";
 import { MakeUserGetMeRoute } from "./userMe.controller";

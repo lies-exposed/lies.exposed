@@ -14,7 +14,7 @@ const ReferenceArrayMediaInput: React.FC<
   Omit<ReferenceArrayInputProps, "children"> & {
     source: string;
     allowedTypes?: MediaType[];
-    exclude?: string[]
+    exclude?: string[];
   }
 > = ({ allowedTypes, exclude = [], ...props }) => {
   return (

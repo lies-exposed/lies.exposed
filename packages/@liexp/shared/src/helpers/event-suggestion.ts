@@ -10,7 +10,7 @@ export const getSuggestions = (
   m: Metadata,
   link: O.Option<http.Link.Link>,
   media: O.Option<http.Media.Media>,
-  relations: http.Events.EventRelationIds
+  relations: http.Events.EventRelationIds,
 ): http.EventSuggestion.CreateEventSuggestion[] => {
   const urlDate = m.date ? new Date(m.date) : new Date();
 
@@ -19,10 +19,10 @@ export const getSuggestions = (
     O.alt(() =>
       pipe(
         link,
-        O.map((l) => l.title ?? "")
-      )
+        O.map((l) => l.title ?? ""),
+      ),
     ),
-    O.getOrElse(() => m.title)
+    O.getOrElse(() => m.title),
   );
 
   const suggestedExcerpt = m.description
@@ -32,7 +32,7 @@ export const getSuggestions = (
   const suggestedMedia = pipe(
     link,
     O.chainNullableK((l) => l.image),
-    O.alt<any>(() => media)
+    O.alt<any>(() => media),
   );
 
   const suggestedEventLinks = pipe(
@@ -43,7 +43,7 @@ export const getSuggestions = (
         url: m.url,
         publishDate: urlDate.toISOString(),
       },
-    ])
+    ]),
   );
   const commonSuggestion = {
     id: uuid() as any,
@@ -55,7 +55,7 @@ export const getSuggestions = (
     media: pipe(
       suggestedMedia,
       O.map((m) => [m.id]),
-      O.getOrElse((): UUID[] => [])
+      O.getOrElse((): UUID[] => []),
     ),
     links: [],
     keywords: relations.keywords,
@@ -94,7 +94,7 @@ export const getSuggestions = (
               image: pipe(
                 suggestedMedia,
                 O.map((m) => m.id),
-                O.toUndefined
+                O.toUndefined,
               ),
               publisher: undefined,
               authors: [],
@@ -102,7 +102,7 @@ export const getSuggestions = (
           },
         },
       ]),
-      O.getOrElse((): http.EventSuggestion.CreateEventSuggestion[] => [])
+      O.getOrElse((): http.EventSuggestion.CreateEventSuggestion[] => []),
     ),
     {
       type: http.EventSuggestion.EventSuggestionType.types[0].value,
@@ -114,12 +114,12 @@ export const getSuggestions = (
           website: pipe(
             link,
             O.map((l) => l.id),
-            O.toUndefined
+            O.toUndefined,
           ),
           media: pipe(
             suggestedMedia,
             O.map((m) => m.id),
-            O.toNullable
+            O.toNullable,
           ),
           authors: {
             actors: [],

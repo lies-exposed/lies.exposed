@@ -24,7 +24,7 @@ export const MakeGetActorRoute = (r: Router, ctx: RouteContext): void => {
           where: {
             payload: Raw(
               (alias) => `${alias} ::jsonb -> 'actors' ?| ARRAY[:...actors]`,
-              { actors: [id] }
+              { actors: [id] },
             ),
           },
         }),
@@ -34,7 +34,7 @@ export const MakeGetActorRoute = (r: Router, ctx: RouteContext): void => {
         ctx.logger.debug.log("Actor events %O", events);
         return pipe(
           toActorIO({ ...actor, events: events.map((e) => e.id) as any }),
-          TE.fromEither
+          TE.fromEither,
         );
       }),
       TE.map((actor) => ({
@@ -42,7 +42,7 @@ export const MakeGetActorRoute = (r: Router, ctx: RouteContext): void => {
           data: actor,
         },
         statusCode: 200,
-      }))
+      })),
     );
   });
 };

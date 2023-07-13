@@ -8,10 +8,7 @@ import {
 import { useEventsQuery } from "@liexp/ui/lib/state/queries/event.queries";
 import { type StoryFn, type Meta } from "@storybook/react";
 import * as React from "react";
-import {
-  AdminContext,
-  RecordContextProvider,
-} from "react-admin";
+import { AdminContext, RecordContextProvider } from "react-admin";
 
 const meta: Meta = {
   title: "Admin/Components/Buttons/SocialPostButton",
@@ -28,7 +25,7 @@ const Template: StoryFn<SocialPostButtonProps> = (props) => {
         queries={{
           events: useEventsQuery(
             { pagination: { perPage: 1, page: 1 } },
-            false
+            false,
           ),
         }}
         render={({ events: { data: events } }) => {

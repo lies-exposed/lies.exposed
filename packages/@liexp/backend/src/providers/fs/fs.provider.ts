@@ -45,14 +45,14 @@ export interface FSClient {
   objectExists: (filePath: string) => TE.TaskEither<FSError, boolean>;
   olderThan: (
     filePath: string,
-    cacheH?: number
+    cacheH?: number,
   ) => TE.TaskEither<FSError, boolean>;
   getObject: (filePath: string) => TE.TaskEither<FSError, string>;
   writeObject: (filePath: string, data: string) => TE.TaskEither<FSError, void>;
   deleteObject: (filePath: string) => TE.TaskEither<FSError, void>;
   getOlderThanOr: (
     filePath: string,
-    time?: number
+    time?: number,
   ) => <E, A>(te: TE.TaskEither<E, A>) => TE.TaskEither<FSError, A>;
 }
 
@@ -65,7 +65,7 @@ export const GetFSClient = (): FSClient => {
         if (!tempFolderExists) {
           fsLogger.debug.log(
             "Folder %s does not exist, creating...",
-            filePathDir
+            filePathDir,
           );
           fs.mkdirSync(filePathDir, { recursive: true });
         }
@@ -74,10 +74,10 @@ export const GetFSClient = (): FSClient => {
         fsLogger.debug.log(
           "Network file path %s exists? %s",
           path.relative(process.cwd(), filePath),
-          statsExists
+          statsExists,
         );
         return statsExists;
-      }, toFSError)
+      }, toFSError),
     );
   };
 
@@ -92,14 +92,14 @@ export const GetFSClient = (): FSClient => {
           fsLogger.debug.log(
             "Last network file update %s (%d h)",
             distanceFromNow(mtime),
-            hoursDelta
+            hoursDelta,
           );
 
           return hoursDelta < hours;
         }
 
         return false;
-      })
+      }),
     );
   };
 
@@ -113,7 +113,7 @@ export const GetFSClient = (): FSClient => {
     return pipe(
       TE.fromIO(() => {
         fs.writeFileSync(filePath, data, "utf-8");
-      })
+      }),
     );
   };
 
@@ -128,7 +128,7 @@ export const GetFSClient = (): FSClient => {
       return pipe(
         TE.fromIO(() => {
           fs.rmSync(filePath);
-        })
+        }),
       );
     },
     getOlderThanOr: (fileName, hours) => (te) => {
@@ -142,10 +142,10 @@ export const GetFSClient = (): FSClient => {
             te,
             fp.TE.mapLeft(toFSError),
             fp.TE.chainFirst((graph) =>
-              writeObject(fileName, JSON.stringify(graph))
-            )
+              writeObject(fileName, JSON.stringify(graph)),
+            ),
           );
-        })
+        }),
       );
     },
   };

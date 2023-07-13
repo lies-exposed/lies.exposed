@@ -6,7 +6,7 @@ import { type LinkEntity } from "@entities/Link.entity";
 import { type ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toLinkIO = (
-  link: LinkEntity
+  link: LinkEntity,
 ): E.Either<ControllerError, io.http.Link.Link> => {
   return pipe(
     io.http.Link.Link.decode({
@@ -28,6 +28,6 @@ export const toLinkIO = (
       updatedAt: link.updatedAt.toISOString(),
       deletedAt: link.deletedAt?.toISOString(),
     }),
-    E.mapLeft((e) => DecodeError(`Failed to decode link (${link.id})`, e))
+    E.mapLeft((e) => DecodeError(`Failed to decode link (${link.id})`, e)),
   );
 };

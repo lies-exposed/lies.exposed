@@ -5,15 +5,12 @@ import {
   CreateBase,
   ResourceContextProvider,
   SimpleForm,
-  TextInput
+  TextInput,
 } from "@liexp/ui/lib/components/admin";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
 import ReferenceMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceMediaInput";
 import { StoryRelationsBox } from "@liexp/ui/lib/components/admin/stories/StoryRelations";
-import {
-  Box,
-  Container
-} from "@liexp/ui/lib/components/mui";
+import { Box, Container } from "@liexp/ui/lib/components/mui";
 import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider";
 import { styled, themeOptions } from "@liexp/ui/lib/theme";
 import { type RouteComponentProps } from "@reach/router";

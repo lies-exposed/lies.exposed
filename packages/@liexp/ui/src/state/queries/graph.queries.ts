@@ -3,7 +3,7 @@ import {
   type FlowGraphOutput,
   type GetFlowGraphParams,
 } from "@liexp/shared/lib/io/http/graphs/FlowGraph";
-import { type GraphId } from '@liexp/shared/lib/io/http/graphs/Graph';
+import { type GraphId } from "@liexp/shared/lib/io/http/graphs/Graph";
 import { useQuery, type UseQueryResult } from "react-query";
 import { Queries } from "../../providers/DataProvider";
 
@@ -15,7 +15,7 @@ export const useGraphQuery = (id: GraphId): UseQueryResult<any, APIError> => {
 
 export const useFlowGraphQuery = (
   params: GetFlowGraphParams,
-  query: any
+  query: any,
 ): UseQueryResult<{ data: FlowGraphOutput }, APIError> => {
   return useQuery(["flow-graphs", params.type, params.id], async () => {
     return await Queries.Graph.Custom.GetGraphByType({

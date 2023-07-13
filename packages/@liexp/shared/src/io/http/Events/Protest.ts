@@ -18,7 +18,7 @@ export const Protest = t.strict(
     media: optionFromNullable(nonEmptyArray(Media)),
     date: DateFromISOString,
   },
-  PROTEST.value
+  PROTEST.value,
 );
 export type Protest = t.TypeOf<typeof Protest>;
 

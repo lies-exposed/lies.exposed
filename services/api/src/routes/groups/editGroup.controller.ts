@@ -37,7 +37,7 @@ export const MakeEditGroupRoute = (r: Router, ctx: RouteContext): void => {
       return pipe(
         ctx.db.findOneOrFail(GroupEntity, { where: { id: Equal(id) } }),
         TE.chain((group) =>
-          ctx.db.save(GroupEntity, [{ ...group, ...groupUpdate, id }])
+          ctx.db.save(GroupEntity, [{ ...group, ...groupUpdate, id }]),
         ),
         TE.chain(() =>
           ctx.db.findOneOrFail(GroupEntity, {
@@ -45,7 +45,7 @@ export const MakeEditGroupRoute = (r: Router, ctx: RouteContext): void => {
             loadRelationIds: {
               relations: ["members"],
             },
-          })
+          }),
         ),
         // ctx.logger.debug.logInTaskEither("Updated group %O"),
         TE.chainEitherK(toGroupIO),
@@ -54,8 +54,8 @@ export const MakeEditGroupRoute = (r: Router, ctx: RouteContext): void => {
             data,
           },
           statusCode: 200,
-        }))
+        })),
       );
-    }
+    },
   );
 };

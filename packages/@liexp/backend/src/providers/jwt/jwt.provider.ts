@@ -44,7 +44,6 @@ export interface JWTProvider {
   verifyUser: (string: string) => IOE.IOEither<JWTError, User>;
 }
 
-
 export interface JWTClientContext {
   secret: string;
   logger: logger.Logger;
@@ -57,19 +56,16 @@ export const GetJWTProvider = (ctx: JWTClientContext): JWTProvider => {
       return IO.of(jwt.sign(JSON.stringify(user), ctx.secret));
     },
     verifyUser: (token: string) => {
-      const tk = token.replace('Bearer ', '');
+      const tk = token.replace("Bearer ", "");
       ctx.logger.debug.log("Verifying token %s", tk);
       return pipe(
-        IOE.tryCatch(
-          () => jwt.verify(tk, ctx.secret),
-          toError(ctx.logger)({})
-        ), 
+        IOE.tryCatch(() => jwt.verify(tk, ctx.secret), toError(ctx.logger)({})),
         IOE.chain((result) =>
           pipe(
             IOE.fromEither(fromValidationErrors(User.decode(result))),
-            IOE.mapLeft(toError(ctx.logger)({}))
-          )
-        )
+            IOE.mapLeft(toError(ctx.logger)({})),
+          ),
+        ),
       );
     },
   };

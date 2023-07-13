@@ -10,7 +10,7 @@ import { Typography } from "../../../mui";
 
 export const matchMediaSuggestions = (
   filterValue: string,
-  choice: Media
+  choice: Media,
 ): boolean => {
   return choice?.description?.toLowerCase().includes(filterValue.toLowerCase());
 };
