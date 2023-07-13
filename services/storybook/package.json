@@ -21,7 +21,7 @@
     "d3": "^7.8.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-spring": "^9.7.1",
+    "react-spring": "^9.7.2",
     "reactflow": "^11.7.4",
     "storybook": "^7.0.27"
   },
