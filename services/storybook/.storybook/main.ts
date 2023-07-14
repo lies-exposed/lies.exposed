@@ -8,18 +8,18 @@ const webpackConfig: Pick<StorybookConfig, "webpackFinal" | "webpack"> = {
       config.output = {};
     }
     if (configType === "PRODUCTION") {
-      config.output.publicPath = "storybook";
+      // config.output.publicPath = "storybook";
     }
     return config;
   },
   webpackFinal: (config, { configType }) => {
+    // if (!config.output) {
+    //   config.output = {};
+    // }
 
-    if (!config.output) {
-      config.output = {};
-    }
-    if (configType === "PRODUCTION") {
-      config.output.publicPath = "storybook";
-    }
+    // if (configType === "PRODUCTION") {
+    //   config.output.publicPath = "storybook";
+    // }
 
     // add rules for css
     config.module?.rules?.push({
@@ -27,11 +27,6 @@ const webpackConfig: Pick<StorybookConfig, "webpackFinal" | "webpack"> = {
       use: ["style-loader", "css-loader", "sass-loader"],
       include: path.resolve(__dirname, "../"),
     });
-
-    const coreBaseUrl = path.resolve(
-      process.cwd(),
-      "../../packages/@liexp/core/tsconfig.json"
-    );
 
     // config.resolve?.modules?.push(
     //   path.resolve(process.cwd(), "../../packages/@liexp/ui")
@@ -60,30 +55,35 @@ const webpackConfig: Pick<StorybookConfig, "webpackFinal" | "webpack"> = {
     if (!config.resolve.plugins) {
       config.resolve.plugins = [];
     }
+    const coreBaseUrl = path.resolve(
+      process.cwd(),
+      "../../packages/@liexp/core/tsconfig.json",
+    );
+
     config.resolve.plugins.push(
       new TSConfigPathsWebpackPlugin({
         configFile: coreBaseUrl,
-      })
+      }),
     );
     const sharedBaseUrl = path.resolve(
       process.cwd(),
-      "../../packages/@liexp/shared/tsconfig.json"
+      "../../packages/@liexp/shared/tsconfig.json",
     );
 
     // console.log(sharedBaseUrl);
     config.resolve.plugins.push(
       new TSConfigPathsWebpackPlugin({
         configFile: sharedBaseUrl,
-      })
+      }),
     );
     const uiConfigFile = path.resolve(
       process.cwd(),
-      "../../packages/@liexp/ui/tsconfig.json"
+      "../../packages/@liexp/ui/tsconfig.json",
     );
     config.resolve.plugins.push(
       new TSConfigPathsWebpackPlugin({
         configFile: uiConfigFile,
-      })
+      }),
     );
     config.resolve.plugins.push(new TSConfigPathsWebpackPlugin());
 
@@ -142,10 +142,16 @@ const config: StorybookConfig & {
         prop.parent ? !/node_modules/.test(prop.parent.fileName) : true,
     },
   },
-  env: (config) => ({
-    ...config,
-    API_URL: "http://localhost:4010/v1",
-  }),
+  env: (config, { configType }) => {
+    const API_URL =
+      configType === "PRODUCTION"
+        ? "https://alpha.api.lies.exposed/v1"
+        : "http://localhost:4010/v1";
+    return {
+      ...config,
+      API_URL,
+    };
+  },
   ...webpackConfig,
 };
 
