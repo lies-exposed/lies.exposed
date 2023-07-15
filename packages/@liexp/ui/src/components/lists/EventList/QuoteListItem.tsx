@@ -3,7 +3,7 @@ import {
   type Events,
   type Keyword,
 } from "@liexp/shared/lib/io/http";
-import { QUOTE } from "@liexp/shared/lib/io/http/Events/Quote";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
 import { getTextContents } from "@liexp/shared/lib/slate";
 import * as React from "react";
 import { styled } from "../../../theme";
@@ -59,7 +59,7 @@ export const QuoteListItem: React.FC<QuoteListItemProps> = ({
         <Grid item xs={12} style={{ display: "flex", flexDirection: "row" }}>
           <EventIcon
             className={classes.eventIcon}
-            type={QUOTE.value}
+            type={EventTypes.QUOTE.value}
             size="2x"
           />
         </Grid>

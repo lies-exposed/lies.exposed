@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { PATENT } from "@liexp/shared/lib/io/http/Events/Patent";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
 import { sequenceS } from "fp-ts/Apply";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
@@ -62,7 +62,7 @@ export const MakeCreatePatentEventRoute: Route = (r, ctx) => {
         fetchOwnersTask,
         TE.chain(({ actors, groups, link }) =>
           createEventQuery(ctx)({
-            type: PATENT.value,
+            type: EventTypes.PATENT.value,
             ...body,
             payload: {
               ...payload,

@@ -25,7 +25,7 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
   const apiProvider = useDataProvider();
   const value = get(record, source ?? "type");
   const [type, setType] = React.useState(
-    value ?? Events.Uncategorized.UNCATEGORIZED.value,
+    value ?? Events.EventTypes.UNCATEGORIZED.value,
   );
   const handleTransform = (e: SelectChangeEvent): void => {
     setType(e.target.value);

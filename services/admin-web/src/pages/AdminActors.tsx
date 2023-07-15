@@ -171,7 +171,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
           <ReferenceManyEventField source="id" target="actors[]" />
           <CreateEventButton
             transform={async (t, r: any) => {
-              if (t === http.Events.Death.DEATH.value) {
+              if (t === http.Events.EventTypes.DEATH.value) {
                 return {
                   draft: true,
                   type: t,

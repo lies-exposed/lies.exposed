@@ -4,7 +4,7 @@ import {
   type Keyword,
 } from "@liexp/shared/lib/io/http";
 import { ByActor, ByGroup } from "@liexp/shared/lib/io/http/Common";
-import { TRANSACTION } from "@liexp/shared/lib/io/http/Events/Transaction";
+import { TRANSACTION } from "@liexp/shared/lib/io/http/Events/EventType";
 import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import * as React from "react";

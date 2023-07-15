@@ -4,11 +4,12 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { UUID } from "io-ts-types/lib/UUID";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
+import { PATENT } from './EventType';
 import { GetSearchEventsQuery } from "./SearchEventsQuery";
 
 export const PatentListQuery = t.strict(
   {
-    ...propsOmit(GetSearchEventsQuery, ["type"]),
+    ...propsOmit(GetSearchEventsQuery, ["eventType"]),
     minDate: optionFromNullable(DateFromISOString),
     maxDate: optionFromNullable(DateFromISOString),
   },
@@ -16,8 +17,7 @@ export const PatentListQuery = t.strict(
 );
 export type PatentListQuery = t.TypeOf<typeof PatentListQuery>;
 
-export const PATENT = t.literal("Patent");
-export type PATENT = t.TypeOf<typeof PATENT>;
+
 
 export const PatentPayload = t.strict(
   {

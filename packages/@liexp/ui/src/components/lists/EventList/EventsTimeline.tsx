@@ -1,10 +1,6 @@
 import {
-  Death,
-  Documentary,
-  Patent,
-  ScientificStudy,
-  Uncategorized,
-} from "@liexp/shared/lib/io/http/Events";
+  EventTypes
+} from "@liexp/shared/lib/io/http/Events/EventType";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
 import * as React from "react";
 import {
@@ -76,19 +72,19 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   const totalEvents = React.useMemo(
     () =>
       [
-        queryParams.type?.includes(Death.DEATH.value)
+        queryParams.eventType?.includes(EventTypes.DEATH.value)
           ? searchEvents?.totals.deaths ?? 0
           : 0,
-        queryParams.type?.includes(Uncategorized.UNCATEGORIZED.value)
+        queryParams.eventType?.includes(EventTypes.UNCATEGORIZED.value)
           ? searchEvents?.totals.uncategorized ?? 0
           : 0,
-        queryParams.type?.includes(ScientificStudy.SCIENTIFIC_STUDY.value)
+        queryParams.eventType?.includes(EventTypes.SCIENTIFIC_STUDY.value)
           ? searchEvents?.totals.scientificStudies ?? 0
           : 0,
-        queryParams.type?.includes(Patent.PATENT.value)
+        queryParams.eventType?.includes(EventTypes.PATENT.value)
           ? searchEvents?.totals.patents ?? 0
           : 0,
-        queryParams.type?.includes(Documentary.DOCUMENTARY.value)
+        queryParams.eventType?.includes(EventTypes.DOCUMENTARY.value)
           ? searchEvents?.totals.documentaries ?? 0
           : 0,
       ].reduce((acc, tot) => acc + tot, 0),

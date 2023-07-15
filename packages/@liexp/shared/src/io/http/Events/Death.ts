@@ -4,14 +4,13 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { UUID } from "io-ts-types/lib/UUID";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
+import { DEATH } from './EventType';
 import { GetSearchEventsQuery } from "./SearchEventsQuery";
 
-export const DEATH = t.literal("Death");
-export type DEATH = t.TypeOf<typeof DEATH>;
 
 export const DeathListQuery = t.strict(
   {
-    ...propsOmit(GetSearchEventsQuery, ["type"]),
+    ...propsOmit(GetSearchEventsQuery, ["eventType"]),
     victim: optionFromNullable(t.array(UUID)),
     minDate: optionFromNullable(DateFromISOString),
     maxDate: optionFromNullable(DateFromISOString),

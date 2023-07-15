@@ -11,6 +11,7 @@ import * as Arrest from "./Arrest";
 import * as Condemned from "./Condemned";
 import * as Death from "./Death";
 import * as Documentary from "./Documentary";
+import { EventType, EventTypes } from "./EventType";
 import * as Fined from "./Fined";
 import * as Patent from "./Patent";
 import * as Protest from "./Protest";
@@ -85,20 +86,6 @@ export const EventPayload = t.union(
 
 export type EventPayload = t.TypeOf<typeof EventPayload>;
 
-export const EventType = t.union(
-  [
-    Death.DEATH,
-    Uncategorized.UNCATEGORIZED,
-    ScientificStudy.SCIENTIFIC_STUDY,
-    Patent.PATENT,
-    Documentary.DOCUMENTARY,
-    Transaction.TRANSACTION,
-    Quote.QUOTE,
-  ],
-  "EventType",
-);
-export type EventType = t.TypeOf<typeof EventType>;
-
 export const Event = t.union(
   [
     Death.Death,
@@ -137,6 +124,8 @@ interface EventRelations {
 }
 
 export {
+  EventType,
+  EventTypes,
   Protest,
   Fined,
   Condemned,

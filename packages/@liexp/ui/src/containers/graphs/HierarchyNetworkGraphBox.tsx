@@ -68,7 +68,7 @@ const HierarchyNetworkGraphBoxWrapper: React.FC<
 > = ({
   count = 50,
   id,
-  query: { ids, type: queryType, ...query },
+  query: { ids, eventType: queryType, ...query },
   type,
   selectedActorIds,
   selectedGroupIds,
@@ -404,13 +404,13 @@ export const HierarchyNetworkGraphBoxWithFilters: React.FC<
   const [state, setState] = React.useState<{
     startDate: string;
     endDate: string;
-    type: string[] | string | undefined;
+    type: EventType[] | EventType | undefined;
     selectedActorIds: string[];
     selectedGroupIds: string[];
     selectedKeywordIds: string[];
   }>({
     startDate: query.startDate,
-    type: query.type ?? EventType.types.map((t) => t.value),
+    type: query.eventType ?? EventType.types.map((t) => t.value),
     endDate: query.endDate,
     selectedActorIds: props.selectedActorIds ?? [],
     selectedGroupIds: props.selectedGroupIds ?? [],
@@ -430,7 +430,7 @@ export const HierarchyNetworkGraphBoxWithFilters: React.FC<
         hash={"event-network-graph-box-wrapper"}
         query={{
           ...query,
-          type: state.type,
+          eventType: state.type,
           startDate: state.startDate,
           endDate: state.endDate,
         }}
@@ -455,7 +455,7 @@ export const HierarchyNetworkGraphBoxWithFilters: React.FC<
               query={{
                 hash: "",
                 ...query,
-                type: state.type,
+                eventType: state.type,
                 actors: state.selectedActorIds,
                 startDate: state.startDate,
                 endDate: state.endDate,
@@ -477,7 +477,7 @@ export const HierarchyNetworkGraphBoxWithFilters: React.FC<
               onQueryChange={(q) => {
                 setState((s) => ({
                   ...s,
-                  type: q.type,
+                  type: q.eventType,
                   startDate: q.startDate ?? state.startDate,
                   endDate: q.endDate ?? state.endDate,
                   selectedActorIds: q.actors ?? [],

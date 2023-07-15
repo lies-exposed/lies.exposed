@@ -9,14 +9,8 @@ import {
   type EventType,
   type SearchEvent,
 } from "@liexp/shared/lib/io/http/Events";
-import { DEATH } from "@liexp/shared/lib/io/http/Events/Death";
-import { DOCUMENTARY } from "@liexp/shared/lib/io/http/Events/Documentary";
-import { PATENT } from "@liexp/shared/lib/io/http/Events/Patent";
-import { QUOTE } from "@liexp/shared/lib/io/http/Events/Quote";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/ScientificStudy";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
-import { TRANSACTION } from "@liexp/shared/lib/io/http/Events/Transaction";
-import { UNCATEGORIZED } from "@liexp/shared/lib/io/http/Events/Uncategorized";
 import ArrowDownIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpIcon from "@mui/icons-material/ArrowUpward";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
@@ -190,20 +184,20 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
   const handleFilterChange = React.useCallback(
     (ff: EventTypeMap, filterK: EventType) => {
       const type = [
-        [ff.Uncategorized, UNCATEGORIZED.value],
-        [ff.Death, DEATH.value],
-        [ff.Documentary, DOCUMENTARY.value],
-        [ff.Patent, PATENT.value],
-        [ff.ScientificStudy, SCIENTIFIC_STUDY.value],
-        [ff.Transaction, TRANSACTION.value],
-        [ff.Quote, QUOTE.value],
+        [ff.Uncategorized, EventTypes.UNCATEGORIZED.value],
+        [ff.Death, EventTypes.DEATH.value],
+        [ff.Documentary, EventTypes.DOCUMENTARY.value],
+        [ff.Patent, EventTypes.PATENT.value],
+        [ff.ScientificStudy, EventTypes.SCIENTIFIC_STUDY.value],
+        [ff.Transaction, EventTypes.TRANSACTION.value],
+        [ff.Quote, EventTypes.QUOTE.value],
       ]
         .map(([enabled, key]: any[]) => (enabled ? key : undefined))
         .filter((a) => a !== undefined);
 
       onQueryChange({
         ...query,
-        type,
+        eventType: type,
       });
     },
     [query],

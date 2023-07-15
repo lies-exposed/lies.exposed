@@ -38,7 +38,7 @@ describe("Create Death Event", () => {
     const { authorization } = await loginUser(appTest)(user);
 
     const deathData = {
-      type: http.Events.Death.DEATH.value,
+      type: http.Events.EventTypes.DEATH.value,
       payload: {
         victim: actor.id,
         body: {},
@@ -60,7 +60,7 @@ describe("Create Death Event", () => {
     expect(response.status).toEqual(201);
 
     expect(body).toMatchObject({
-      type: http.Events.Death.DEATH.value,
+      type: http.Events.EventTypes.DEATH.value,
       date: deathData.date,
       payload: {
         victim: actor.id,

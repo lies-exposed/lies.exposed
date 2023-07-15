@@ -1,7 +1,6 @@
 import * as io from "@liexp/shared/lib/io";
 import { Events } from "@liexp/shared/lib/io/http";
-import { DEATH } from "@liexp/shared/lib/io/http/Events/Death";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/ScientificStudy";
+import { DEATH, SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType";
 import { getTextContentsCapped } from "@liexp/shared/lib/slate";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import * as R from "fp-ts/Record";
@@ -96,8 +95,8 @@ export const EventListPage: React.FC = () => {
                   {r.type}
                 </Typography>{" "}
                 {[
-                  io.http.Events.Uncategorized.UNCATEGORIZED.value,
-                  io.http.Events.ScientificStudy.SCIENTIFIC_STUDY.value,
+                  io.http.Events.EventTypes.UNCATEGORIZED.value,
+                  io.http.Events.EventTypes.SCIENTIFIC_STUDY.value,
                 ].includes(r.type) ? (
                   <Typography>{r.payload.title}</Typography>
                 ) : (
@@ -129,11 +128,11 @@ export const EventListPage: React.FC = () => {
           label="actors"
           source="payload"
           render={(r) => {
-            if (r?.type === Events.Uncategorized.UNCATEGORIZED.value) {
+            if (r?.type === Events.EventTypes.UNCATEGORIZED.value) {
               return r.payload.actors.length;
             }
 
-            if (r?.type === Events.ScientificStudy.SCIENTIFIC_STUDY.value) {
+            if (r?.type === Events.EventTypes.SCIENTIFIC_STUDY.value) {
               return r.payload.authors.length;
             }
 

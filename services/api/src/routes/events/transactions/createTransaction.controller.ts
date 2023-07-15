@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { TRANSACTION } from "@liexp/shared/lib/io/http/Events/Transaction";
+import { TRANSACTION } from "@liexp/shared/lib/io/http/Events/EventType";
 import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

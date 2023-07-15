@@ -1,8 +1,5 @@
 import * as http from "@liexp/shared/lib/io/http";
-import { DEATH } from "@liexp/shared/lib/io/http/Events/Death";
-import { QUOTE } from "@liexp/shared/lib/io/http/Events/Quote";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/ScientificStudy";
-import { UNCATEGORIZED } from "@liexp/shared/lib/io/http/Events/Uncategorized";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
 import { getTextContents } from "@liexp/shared/lib/slate";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as A from "fp-ts/Array";
@@ -161,13 +158,13 @@ export const transformEvent =
     );
 
     const event =
-      data.type === UNCATEGORIZED.value
+      data.type === EventTypes.UNCATEGORIZED.value
         ? transformUncategorized(data)
-        : data.type === DEATH.value
+        : data.type === EventTypes.DEATH.value
         ? transformDeath(data)
-        : data.type === SCIENTIFIC_STUDY.value
+        : data.type === EventTypes.SCIENTIFIC_STUDY.value
         ? transformScientificStudy(data)
-        : data.type === QUOTE.value
+        : data.type === EventTypes.QUOTE.value
         ? transformQuote(data)
         : data;
 

@@ -154,7 +154,7 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                 type={ACTORS.value}
                 query={{
                   ids: [actor.id],
-                  type: EventType.types.map((t) => t.value),
+                  eventType: EventType.types.map((t) => t.value),
                   startDate: formatDate(subYears(new Date(), 2)),
                   endDate: formatDate(new Date()),
                 }}

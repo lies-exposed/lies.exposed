@@ -1,5 +1,5 @@
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
-import { Quote } from "@liexp/shared/lib/io/http/Events";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
 import {
   EventPageContent,
   type EventPageContentProps,
@@ -62,7 +62,7 @@ DefaultEventPageContent.args = {
 
 const QuoteEventPageContent = Template.bind({});
 QuoteEventPageContent.args = {
-  type: Quote.QUOTE.value,
+  type: EventTypes.QUOTE.value,
 };
 
 export { DefaultEventPageContent, QuoteEventPageContent };

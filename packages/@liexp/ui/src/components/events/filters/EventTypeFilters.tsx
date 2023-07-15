@@ -1,14 +1,8 @@
 import { fp } from "@liexp/core/lib/fp";
 import {
-  Death,
-  Documentary,
   type EventType,
-  Patent,
-  ScientificStudy,
-  Transaction,
-  Uncategorized,
-  Quote,
-} from "@liexp/shared/lib/io/http/Events";
+  EventTypes,
+} from "@liexp/shared/lib/io/http/Events/EventType";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
 import { clsx } from "clsx";
 import { pipe } from "fp-ts/lib/function";
@@ -74,13 +68,13 @@ export interface EventTypeFiltersProps {
 }
 
 export const allFiltersEnabled: EventTypeMap = {
-  [Death.DEATH.value]: true,
-  [Uncategorized.UNCATEGORIZED.value]: true,
-  [ScientificStudy.SCIENTIFIC_STUDY.value]: true,
-  [Patent.PATENT.value]: true,
-  [Documentary.DOCUMENTARY.value]: true,
-  [Transaction.TRANSACTION.value]: true,
-  [Quote.QUOTE.value]: true,
+  [EventTypes.DEATH.value]: true,
+  [EventTypes.UNCATEGORIZED.value]: true,
+  [EventTypes.SCIENTIFIC_STUDY.value]: true,
+  [EventTypes.PATENT.value]: true,
+  [EventTypes.DOCUMENTARY.value]: true,
+  [EventTypes.TRANSACTION.value]: true,
+  [EventTypes.QUOTE.value]: true,
 };
 export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
   filters: _filters,
@@ -109,24 +103,24 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
 
       const ff: EventTypeMap = allEnabled
         ? {
-            [Documentary.DOCUMENTARY.value]: false,
-            [Patent.PATENT.value]: false,
-            [Transaction.TRANSACTION.value]: false,
-            [Uncategorized.UNCATEGORIZED.value]: false,
-            [Death.DEATH.value]: false,
-            [ScientificStudy.SCIENTIFIC_STUDY.value]: false,
-            [Quote.QUOTE.value]: false,
+            [EventTypes.DOCUMENTARY.value]: false,
+            [EventTypes.PATENT.value]: false,
+            [EventTypes.TRANSACTION.value]: false,
+            [EventTypes.UNCATEGORIZED.value]: false,
+            [EventTypes.DEATH.value]: false,
+            [EventTypes.SCIENTIFIC_STUDY.value]: false,
+            [EventTypes.QUOTE.value]: false,
             [filterK]: true,
           }
         : allDisabled
         ? {
-            [Documentary.DOCUMENTARY.value]: true,
-            [Patent.PATENT.value]: true,
-            [Transaction.TRANSACTION.value]: true,
-            [Uncategorized.UNCATEGORIZED.value]: true,
-            [Death.DEATH.value]: true,
-            [ScientificStudy.SCIENTIFIC_STUDY.value]: true,
-            [Quote.QUOTE.value]: true,
+            [EventTypes.DOCUMENTARY.value]: true,
+            [EventTypes.PATENT.value]: true,
+            [EventTypes.TRANSACTION.value]: true,
+            [EventTypes.UNCATEGORIZED.value]: true,
+            [EventTypes.DEATH.value]: true,
+            [EventTypes.SCIENTIFIC_STUDY.value]: true,
+            [EventTypes.QUOTE.value]: true,
           }
         : {
             ...filters,
@@ -149,7 +143,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             color="primary"
             onClick={(e) => {
               e.preventDefault();
-              handleFilterChange(Uncategorized.UNCATEGORIZED.value);
+              handleFilterChange(EventTypes.UNCATEGORIZED.value);
             }}
             size="large"
           >
@@ -167,7 +161,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             })}
             onClick={(e) => {
               e.preventDefault();
-              handleFilterChange(Death.DEATH.value);
+              handleFilterChange(EventTypes.DEATH.value);
             }}
             size="large"
           >
@@ -185,7 +179,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             })}
             onClick={(e) => {
               e.preventDefault();
-              handleFilterChange(ScientificStudy.SCIENTIFIC_STUDY.value);
+              handleFilterChange(EventTypes.SCIENTIFIC_STUDY.value);
             }}
             size="large"
           >
@@ -203,14 +197,11 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             })}
             onClick={(e) => {
               e.preventDefault();
-              handleFilterChange(Documentary.DOCUMENTARY.value);
+              handleFilterChange(EventTypes.DOCUMENTARY.value);
             }}
             size="large"
           >
-            <EventIcon
-              type={Documentary.DOCUMENTARY.value}
-              {...eventIconProps}
-            />
+            <EventIcon type={EventTypes.DOCUMENTARY.value} {...eventIconProps} />
             <Typography variant="caption" className={classes.typeTotal}>
               {totals.documentaries}
             </Typography>
@@ -224,7 +215,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             })}
             onClick={(e) => {
               e.preventDefault();
-              handleFilterChange(Patent.PATENT.value);
+              handleFilterChange(EventTypes.PATENT.value);
             }}
             size="large"
           >
@@ -242,7 +233,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             })}
             onClick={(e) => {
               e.preventDefault();
-              handleFilterChange(Transaction.TRANSACTION.value);
+              handleFilterChange(EventTypes.TRANSACTION.value);
             }}
             size="large"
           >

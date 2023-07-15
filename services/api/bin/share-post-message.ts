@@ -20,6 +20,7 @@ const run = async (): Promise<any> => {
         actors: [],
         groups: [],
         platforms: { IG: true, TG: true },
+        schedule: undefined
       },
       async (body) => {
         // eslint-disable-next-line @typescript-eslint/naming-convention

@@ -263,7 +263,7 @@ export const LinkEdit: React.FC = () => {
                 render={(r: any) => {
                   if (r) {
                     switch (r.type) {
-                      case io.http.Events.Death.DEATH.value:
+                      case io.http.Events.EventTypes.DEATH.value:
                         return `${r.type}: ${r.payload.victim}`;
                       default:
                         return `${r.type}: ${r.payload.title}`;

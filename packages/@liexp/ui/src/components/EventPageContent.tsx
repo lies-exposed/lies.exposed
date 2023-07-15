@@ -1,5 +1,5 @@
 import * as http from "@liexp/shared/lib/io/http";
-import { Quote } from "@liexp/shared/lib/io/http/Events";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events";
 import * as React from "react";
 import { useTheme } from "../theme";
 import { DefaultEventPageContent } from "./events/page-content/DefaultEventPageContent";
@@ -35,16 +35,16 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
 
   // const { url } = getEventCommonProps(event, relations);
   const link =
-    event.type === http.Events.Documentary.DOCUMENTARY.value
+    event.type === http.Events.EventTypes.DOCUMENTARY.value
       ? event.payload.website
-      : event.type === http.Events.ScientificStudy.SCIENTIFIC_STUDY.value
+      : event.type === http.Events.EventTypes.SCIENTIFIC_STUDY.value
       ? event.payload.url
-      : event.type === http.Events.Patent.PATENT.value
+      : event.type === http.Events.EventTypes.PATENT.value
       ? event.payload.source
       : undefined;
 
   const eventPageContent =
-    event.type === Quote.QUOTE.value ? (
+    event.type === EventTypes.QUOTE.value ? (
       <QuoteEventPageContent event={event} />
     ) : (
       <DefaultEventPageContent

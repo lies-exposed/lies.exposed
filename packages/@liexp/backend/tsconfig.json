@@ -13,10 +13,7 @@
     "outDir": "./lib",
     "baseUrl": "./src",
     "rootDir": "./src",
-    "typeRoots": [
-      "../shared/typings",
-      "./typings"
-    ],
+    "typeRoots": ["../shared/typings", "./typings"],
     "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo"
   },
   "references": [
@@ -27,6 +24,10 @@
       "path": "../shared"
     }
   ],
-  "include": ["./src", "./src/**/*.json"],
+  "include": [
+    "../../../node_modules/vitest/globals.d.ts",
+    "./src",
+    "./src/**/*.json"
+  ],
   "exclude": ["node_modules", "lib"]
 }

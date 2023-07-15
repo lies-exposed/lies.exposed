@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { QUOTE } from "@liexp/shared/lib/io/http/Events/Quote";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";
@@ -47,7 +47,7 @@ export const MakeGetListQuoteRoute: Route = (r, ctx) => {
           draft,
           locations,
           exclude,
-          type: O.some([QUOTE.value]),
+          type: O.some([EventTypes.QUOTE.value]),
           startDate,
           endDate,
           actors: O.none,

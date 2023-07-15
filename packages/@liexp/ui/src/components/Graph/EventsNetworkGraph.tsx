@@ -5,10 +5,7 @@ import {
   type Keyword,
 } from "@liexp/shared/lib/io/http";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
-import { DEATH } from "@liexp/shared/lib/io/http/Events/Death";
-import { DOCUMENTARY } from "@liexp/shared/lib/io/http/Events/Documentary";
-import { PATENT } from "@liexp/shared/lib/io/http/Events/Patent";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/ScientificStudy";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvent";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
@@ -47,6 +44,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
   onKeywordClick,
   ...props
 }) => {
+  // console.log('events network graph', props.graph)
   // const [groupBy] = React.useState(props.groupBy);
 
   const colors = React.useMemo(
@@ -88,6 +86,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
       linkStrength={(l) => l.value}
       linkStroke={(l) => l.fill}
       nodeTitle={(n) => {
+        // console.log('node title', n);
         if (n.type === KEYWORDS.value) {
           return n.tag;
         } else if (n.type === GROUPS.value) {
@@ -130,19 +129,19 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
           return 2;
         }
 
-        if (DEATH.is(n.type)) {
+        if (EventTypes.DEATH.is(n.type)) {
           return 3;
         }
 
-        if (DOCUMENTARY.is(n.type)) {
+        if (EventTypes.DOCUMENTARY.is(n.type)) {
           return 3;
         }
 
-        if (SCIENTIFIC_STUDY.is(n.type)) {
+        if (EventTypes.SCIENTIFIC_STUDY.is(n.type)) {
           return 3;
         }
 
-        if (PATENT.is(n.type)) {
+        if (EventTypes.PATENT.is(n.type)) {
           return 3;
         }
 

@@ -46,7 +46,7 @@ export const editEventQuery =
         // };
 
         switch (input.type) {
-          case http.Events.Quote.QUOTE.value: {
+          case http.Events.EventTypes.QUOTE.value: {
             const { excerpt, body, payload, date, draft } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
@@ -66,7 +66,7 @@ export const editEventQuery =
             };
             return TE.right(event);
           }
-          case http.Events.Transaction.TRANSACTION.value: {
+          case http.Events.EventTypes.TRANSACTION.value: {
             const { excerpt, body, payload, date, draft } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
@@ -86,7 +86,7 @@ export const editEventQuery =
             };
             return TE.right(event);
           }
-          case http.Events.Documentary.DOCUMENTARY.value: {
+          case http.Events.EventTypes.DOCUMENTARY.value: {
             const { excerpt, body, payload, date, draft } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
@@ -106,7 +106,7 @@ export const editEventQuery =
             };
             return TE.right(event);
           }
-          case http.Events.Patent.PATENT.value: {
+          case http.Events.EventTypes.PATENT.value: {
             const { excerpt, body, payload, date, draft } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
@@ -126,7 +126,7 @@ export const editEventQuery =
             };
             return TE.right(event);
           }
-          case http.Events.Death.DEATH.value: {
+          case http.Events.EventTypes.DEATH.value: {
             const { excerpt, body, payload, draft, date } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
@@ -147,7 +147,7 @@ export const editEventQuery =
             };
             return TE.right(event);
           }
-          case http.Events.ScientificStudy.SCIENTIFIC_STUDY.value: {
+          case http.Events.EventTypes.SCIENTIFIC_STUDY.value: {
             const { type, date, draft, excerpt, body, payload } = input;
             const baseProps = optionalsToUndefined({
               date,
@@ -166,7 +166,7 @@ export const editEventQuery =
               ...commonData,
             });
           }
-          case http.Events.Uncategorized.UNCATEGORIZED.value:
+          case http.Events.EventTypes.UNCATEGORIZED.value:
           default: {
             const { type, excerpt, draft, date, body, payload } = input;
 

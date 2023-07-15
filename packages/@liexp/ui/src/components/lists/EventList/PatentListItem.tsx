@@ -32,7 +32,7 @@ const PatentListItem: React.FC<PatentListItemProps> = ({
       <EventListItemBase
         {...props}
         event={item}
-        type={Events.Patent.PATENT.value}
+        type={Events.EventTypes.PATENT.value}
         title={item.payload.title}
         link={item.payload.source}
         excerpt={item.excerpt}

@@ -1,13 +1,14 @@
-import { s3Mock } from "../__mocks__/s3.mock";
+import { type Mock, vi } from "vitest";
 import puppeteerMock from "../__mocks__/puppeteer.mock";
+import { s3Mock } from "../__mocks__/s3.mock";
 import { tgProviderMock } from "../__mocks__/tg.mock";
 
 export interface AppMocks {
   tg: typeof tgProviderMock;
   s3: typeof s3Mock;
   urlMetadata: {
-    fetchHTML: vi.Mock<any, any>;
-    fetchMetadata: vi.Mock<any, any>;
+    fetchHTML: Mock<any, any>;
+    fetchMetadata: Mock<any, any>;
   };
   puppeteer: typeof puppeteerMock;
 }

@@ -29,7 +29,7 @@ export const ScientificStudyListItem: React.FC<
         <EventListItemBase
           {...props}
           event={item}
-          type={Events.ScientificStudy.SCIENTIFIC_STUDY.value}
+          type={Events.EventTypes.SCIENTIFIC_STUDY.value}
           title={item.payload.title}
           link={item.payload.url}
           excerpt={item.excerpt}

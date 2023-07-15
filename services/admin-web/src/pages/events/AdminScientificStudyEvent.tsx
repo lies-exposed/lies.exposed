@@ -1,4 +1,4 @@
-import * as ScientificStudy from "@liexp/shared/lib/io/http/Events/ScientificStudy";
+import { EventTypes } from '@liexp/shared/lib/io/http/Events';
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import {
   BooleanField,
@@ -112,7 +112,7 @@ export const ScientificStudyCreate: React.FC<CreateProps> = (props) => {
       transform={(r) =>
         transformEvent(dataProvider)(uuid(), {
           ...r,
-          type: ScientificStudy.SCIENTIFIC_STUDY.value,
+          type: EventTypes.SCIENTIFIC_STUDY.value,
         })
       }
     >
@@ -150,7 +150,7 @@ export const ScientificStudyCreate: React.FC<CreateProps> = (props) => {
             return (
               <URLMetadataInput
                 source="url"
-                type={ScientificStudy.SCIENTIFIC_STUDY.value}
+                type={EventTypes.SCIENTIFIC_STUDY.value}
               />
             );
           }}
