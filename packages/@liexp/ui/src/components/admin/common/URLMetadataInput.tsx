@@ -1,4 +1,4 @@
-import { type SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/ScientificStudy";
+import { type SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType";
 import * as React from "react";
 import {
   TextInput,

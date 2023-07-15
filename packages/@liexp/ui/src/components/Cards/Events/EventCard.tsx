@@ -37,14 +37,14 @@ const EventCard: React.FC<EventCardProps> = ({
 }) => {
   const { actors, groups, media, keywords } = getEventMetadata(event);
   const title =
-    event.type === Events.Death.DEATH.value
+    event.type === Events.EventTypes.DEATH.value
       ? `Death ${event.payload.victim?.fullName}`
-      : event.type === Events.Quote.QUOTE.value
+      : event.type === Events.EventTypes.QUOTE.value
       ? `Quote by ${event.payload.actor?.fullName}`
       : event.payload.title;
 
   const image =
-    event.type === Events.Death.DEATH.value
+    event.type === Events.EventTypes.DEATH.value
       ? event.payload.victim?.avatar
       : media[0]?.thumbnail ?? defaultImage;
 

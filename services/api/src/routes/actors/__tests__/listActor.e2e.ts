@@ -22,6 +22,8 @@ describe("List Actor", () => {
         actors.map((a) => ({
           ...a,
           memberIn: [],
+          bornOn: undefined,
+          diedOn: undefined,
           death: undefined,
         })),
       ),

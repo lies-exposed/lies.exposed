@@ -1,5 +1,5 @@
 import { http } from "@liexp/shared/lib/io";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/ScientificStudy";
+import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType";
 import { AdminCreate } from "@liexp/shared/lib/io/http/User";
 import { createExcerptValue } from "@liexp/shared/lib/slate";
 import { LinkArb } from "@liexp/shared/lib/tests";
@@ -35,7 +35,7 @@ describe("Create Scientific Study", () => {
 
     await throwTE(
       appTest.ctx.db.save(ActorEntity, [
-        { ...actor, death: undefined, memberIn: [] },
+        { ...actor, diedOn: undefined, bornOn: undefined, memberIn: [] },
       ]),
     );
     await throwTE(
@@ -160,7 +160,7 @@ describe("Create Scientific Study", () => {
 
     const scientificStudyData: http.Events.ScientificStudy.CreateScientificStudyBody =
       {
-        type: http.Events.ScientificStudy.SCIENTIFIC_STUDY.value,
+        type: http.Events.EventTypes.SCIENTIFIC_STUDY.value,
         draft: true,
         date: new Date(),
         excerpt,

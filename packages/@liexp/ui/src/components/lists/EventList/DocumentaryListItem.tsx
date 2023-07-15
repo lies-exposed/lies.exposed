@@ -33,7 +33,7 @@ export const DocumentaryListItem: React.FC<DocumentaryListItemProps> = ({
       <Grid container spacing={2}>
         <EventListItemBase
           event={item}
-          type={Events.Documentary.DOCUMENTARY.value}
+          type={Events.EventTypes.DOCUMENTARY.value}
           title={item.payload.title}
           link={item.payload.website}
           excerpt={item.excerpt}

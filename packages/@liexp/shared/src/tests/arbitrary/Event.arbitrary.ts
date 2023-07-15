@@ -91,7 +91,7 @@ export const UncategorizedArb: fc.Arbitrary<http.Events.Uncategorized.Uncategori
   getArbitrary(t.strict(uncategorizedProps)).map((u) => ({
     ...u,
     id: fc.sample(fc.uuid(), 1)[0] as any,
-    type: http.Events.Uncategorized.UNCATEGORIZED.value,
+    type: http.Events.EventTypes.UNCATEGORIZED.value,
     date: fc.sample(DateArb, 1)[0],
     createdAt: fc.sample(DateArb, 1)[0],
     updatedAt: fc.sample(DateArb, 1)[0],

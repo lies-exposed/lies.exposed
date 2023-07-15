@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { DOCUMENTARY } from "@liexp/shared/lib/io/http/Events/Documentary";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { UUID } from "io-ts-types/lib/UUID";
@@ -33,7 +33,7 @@ export const MakeCreateDocumentaryReleaseRoute: Route = (r, { db, logger }) => {
       return pipe(
         db.save(EventV2Entity, [
           {
-            type: DOCUMENTARY.value,
+            type: EventTypes.DOCUMENTARY.value,
             ...documentaryData,
             payload,
           },

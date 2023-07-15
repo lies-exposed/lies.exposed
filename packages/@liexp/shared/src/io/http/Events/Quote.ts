@@ -3,14 +3,12 @@ import * as t from "io-ts";
 import { UUID } from "io-ts-types/UUID";
 import { optionFromNullable } from "io-ts-types/optionFromNullable";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
+import { QUOTE } from './EventType';
 import { GetSearchEventsQuery } from "./SearchEventsQuery";
-
-export const QUOTE = t.literal("Quote");
-export type QUOTE = t.TypeOf<typeof QUOTE>;
 
 export const QuoteListQuery = t.strict(
   {
-    ...propsOmit(GetSearchEventsQuery, ["type"]),
+    ...propsOmit(GetSearchEventsQuery, ["eventType"]),
     actor: optionFromNullable(t.array(UUID)),
   },
   "QuoteListQuery",

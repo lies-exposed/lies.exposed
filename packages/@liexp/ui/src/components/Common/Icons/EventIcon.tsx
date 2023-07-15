@@ -4,14 +4,8 @@ import {
   type FontAwesomeIconProps,
 } from "@fortawesome/react-fontawesome";
 import {
-  Death,
-  Documentary,
-  type Event,
-  Patent,
-  Quote,
-  ScientificStudy,
-  Transaction,
-  Uncategorized,
+  EventTypes,
+  type Event
 } from "@liexp/shared/lib/io/http/Events";
 import * as React from "react";
 import { styled } from "../../../theme";
@@ -29,23 +23,23 @@ const Root = styled("text")(() => ({
 }));
 
 export const EventTypeColor = {
-  [Uncategorized.UNCATEGORIZED.value]: "#EC3535",
-  [Death.DEATH.value]: "#111111",
-  [ScientificStudy.SCIENTIFIC_STUDY.value]: "#2596be",
-  [Patent.PATENT.value]: "#BE259E",
-  [Documentary.DOCUMENTARY.value]: "#2538BE",
-  [Transaction.TRANSACTION.value]: "#2DBE25",
-  [Quote.QUOTE.value]: "#451ade",
+  [EventTypes.UNCATEGORIZED.value]: "#EC3535",
+  [EventTypes.DEATH.value]: "#111111",
+  [EventTypes.SCIENTIFIC_STUDY.value]: "#2596be",
+  [EventTypes.PATENT.value]: "#BE259E",
+  [EventTypes.DOCUMENTARY.value]: "#2538BE",
+  [EventTypes.TRANSACTION.value]: "#2DBE25",
+  [EventTypes.QUOTE.value]: "#451ade",
 };
 
 export const EventTypeIconClass = {
-  [Uncategorized.UNCATEGORIZED.value]: "calendar" as IconName,
-  [Death.DEATH.value]: "skull-crossbones" as IconName,
-  [ScientificStudy.SCIENTIFIC_STUDY.value]: "flask" as IconName,
-  [Patent.PATENT.value]: "barcode" as IconName,
-  [Documentary.DOCUMENTARY.value]: "film" as IconName,
-  [Transaction.TRANSACTION.value]: "money-bill-1-wave" as IconName,
-  [Quote.QUOTE.value]: "quote-left" as IconName,
+  [EventTypes.UNCATEGORIZED.value]: "calendar" as IconName,
+  [EventTypes.DEATH.value]: "skull-crossbones" as IconName,
+  [EventTypes.SCIENTIFIC_STUDY.value]: "flask" as IconName,
+  [EventTypes.PATENT.value]: "barcode" as IconName,
+  [EventTypes.DOCUMENTARY.value]: "film" as IconName,
+  [EventTypes.TRANSACTION.value]: "money-bill-1-wave" as IconName,
+  [EventTypes.QUOTE.value]: "quote-left" as IconName,
 };
 
 interface EventIconProps extends Omit<FontAwesomeIconProps, "icon"> {
@@ -54,7 +48,7 @@ interface EventIconProps extends Omit<FontAwesomeIconProps, "icon"> {
 
 export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
   switch (type) {
-    case Quote.QUOTE.value:
+    case EventTypes.QUOTE.value:
       return (
         <FontAwesomeIcon
           {...props}
@@ -63,7 +57,7 @@ export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
           style={{ ...props.style, color: EventTypeColor.Quote }}
         />
       );
-    case ScientificStudy.SCIENTIFIC_STUDY.value:
+    case EventTypes.SCIENTIFIC_STUDY.value:
       return (
         <FontAwesomeIcon
           {...props}
@@ -72,7 +66,7 @@ export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
           style={{ ...props.style, color: EventTypeColor.ScientificStudy }}
         />
       );
-    case Death.DEATH.value:
+    case EventTypes.DEATH.value:
       return (
         <FontAwesomeIcon
           {...props}
@@ -81,7 +75,7 @@ export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
           style={{ ...props.style, color: EventTypeColor.Death }}
         />
       );
-    case Patent.PATENT.value:
+    case EventTypes.PATENT.value:
       return (
         <FontAwesomeIcon
           {...props}
@@ -90,7 +84,7 @@ export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
           style={{ ...props.style, color: EventTypeColor.Patent }}
         />
       );
-    case Documentary.DOCUMENTARY.value:
+    case EventTypes.DOCUMENTARY.value:
       return (
         <FontAwesomeIcon
           {...props}
@@ -99,7 +93,7 @@ export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
           style={{ ...props.style, color: EventTypeColor.Documentary }}
         />
       );
-    case Transaction.TRANSACTION.value:
+    case EventTypes.TRANSACTION.value:
       return (
         <FontAwesomeIcon
           {...props}

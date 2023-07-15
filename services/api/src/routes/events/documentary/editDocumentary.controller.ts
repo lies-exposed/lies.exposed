@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { Documentary } from "@liexp/shared/lib/io/http/Events";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
@@ -21,7 +21,7 @@ export const MakeEditDocumentaryEventRoute: Route = (r, ctx) => {
         TE.chain((event) =>
           editEventQuery(ctx)(event, {
             ...body,
-            type: Documentary.DOCUMENTARY.value,
+            type: EventTypes.DOCUMENTARY.value,
             payload,
             media: O.some([payload.media]),
             keywords,

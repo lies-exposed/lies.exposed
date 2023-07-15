@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { DOCUMENTARY } from "@liexp/shared/lib/io/http/Events/Documentary";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
@@ -11,7 +11,7 @@ export const MakeGetDocumentaryEventRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.DocumentaryEvent.Get, ({ params: { id } }) => {
     return pipe(
       ctx.db.findOneOrFail(EventV2Entity, {
-        where: { type: Equal(DOCUMENTARY.value), id: Equal(id) },
+        where: { type: Equal(EventTypes.DOCUMENTARY.value), id: Equal(id) },
         loadRelationIds: {
           relations: ["media", "keywords", "links"],
         },

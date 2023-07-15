@@ -15,21 +15,21 @@ export const getEventCommonProps = (
 ): EventCommonProps => {
   const title = getTitle(e, relations);
   switch (e.type) {
-    case http.Events.ScientificStudy.SCIENTIFIC_STUDY.value: {
+    case http.Events.EventTypes.SCIENTIFIC_STUDY.value: {
       return {
         title,
         url: e.payload.url,
         date: [e.date],
       };
     }
-    case http.Events.Patent.PATENT.value: {
+    case http.Events.EventTypes.PATENT.value: {
       return {
         title,
         url: e.payload.source,
         date: [e.date],
       };
     }
-    case http.Events.Documentary.DOCUMENTARY.value: {
+    case http.Events.EventTypes.DOCUMENTARY.value: {
       return {
         title,
         url:
@@ -40,7 +40,7 @@ export const getEventCommonProps = (
         date: [e.date],
       };
     }
-    case http.Events.Uncategorized.UNCATEGORIZED.value: {
+    case http.Events.EventTypes.UNCATEGORIZED.value: {
       return {
         title,
         url: undefined,

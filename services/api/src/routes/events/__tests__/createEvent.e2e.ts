@@ -1,5 +1,5 @@
 import * as http from "@liexp/shared/lib/io/http";
-import { Quote } from "@liexp/shared/lib/io/http/Events";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events";
 import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary";
 import { CreateEventBodyArb } from "@liexp/shared/lib/tests/arbitrary/Event.arbitrary";
 import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary";
@@ -132,11 +132,11 @@ describe("Create Event", () => {
   test.todo("Should create an event with groups");
   test.todo("Should create an event with group members");
 
-  test(`Should create a ${Quote.QUOTE.value} event `, async () => {
+  test(`Should create a ${EventTypes.QUOTE.value} event `, async () => {
     const eventData = {
       date: new Date().toISOString(),
       draft: false,
-      type: Quote.QUOTE.value,
+      type: EventTypes.QUOTE.value,
       payload: {
         quote: fc.sample(fc.string(), 1)[0],
         actor: actors[0].id,

@@ -1,33 +1,33 @@
 import { getTitle } from "@liexp/shared/lib/helpers/event";
 import * as io from "@liexp/shared/lib/io";
 import { EventSuggestionStatus } from "@liexp/shared/lib/io/http/EventSuggestion";
-import { Documentary, Patent } from "@liexp/shared/lib/io/http/Events";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
 import * as React from "react";
 import {
   BooleanInput,
   Button,
+  Create,
   Datagrid,
   DateField,
   FormDataConsumer,
   FormTab,
   FunctionField,
-  Create,
   List,
   LoadingPage,
   ReferenceField,
   SelectInput,
   TabbedForm,
   TextField,
+  useCreateController,
   useDataProvider,
   useGetIdentity,
   usePermissions,
   useRecordContext,
   useRefresh,
+  type CreateProps,
   type EditProps,
   type ListProps,
-  type CreateProps,
-  useCreateController,
 } from "react-admin";
 import { EventIcon } from "../../../Common/Icons";
 import ReactPageInput from "../../../admin/ReactPageInput";
@@ -97,9 +97,9 @@ export const EventSuggestionList: React.FC<ListProps> = (props) => {
                   {r.payload.type}
                 </Typography>{" "}
                 {[
-                  io.http.Events.Uncategorized.UNCATEGORIZED.value,
-                  io.http.Events.ScientificStudy.SCIENTIFIC_STUDY.value,
-                  io.http.Events.Patent.PATENT.value,
+                  io.http.Events.EventTypes.UNCATEGORIZED.value,
+                  io.http.Events.EventTypes.SCIENTIFIC_STUDY.value,
+                  io.http.Events.EventTypes.PATENT.value,
                 ].includes(r.payload.event.type) ? (
                   <Typography>
                     {getTitle(r.payload.event, {
@@ -228,7 +228,7 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
               // console.log({ formData, scopedFormData, rest });
 
               if (
-                formData.payload.event.type === Documentary.DOCUMENTARY.value
+                formData.payload.event.type === EventTypes.DOCUMENTARY.value
               ) {
                 return <DocumentaryEditFormTab {...rest} />;
               }
@@ -238,7 +238,7 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
               if (formData.payload.event.type === "ScientificStudy") {
                 return <ScientificStudyEventEditTab {...rest} />;
               }
-              if (formData.payload.event.type === Patent.PATENT.value) {
+              if (formData.payload.event.type === EventTypes.PATENT.value) {
                 return <PatentEventEditFormTab {...rest} />;
               }
 
@@ -359,7 +359,7 @@ export const EventSuggestionCreate: React.FC<CreateProps & { event: any }> = ({
               // console.log({ formData, scopedFormData, rest });
 
               if (
-                formData.payload.event.type === Documentary.DOCUMENTARY.value
+                formData.payload.event.type === EventTypes.DOCUMENTARY.value
               ) {
                 return <DocumentaryEditFormTab {...rest} />;
               }
@@ -369,7 +369,7 @@ export const EventSuggestionCreate: React.FC<CreateProps & { event: any }> = ({
               if (formData.payload.event.type === "ScientificStudy") {
                 return <ScientificStudyEventEditTab {...rest} />;
               }
-              if (formData.payload.event.type === Patent.PATENT.value) {
+              if (formData.payload.event.type === EventTypes.PATENT.value) {
                 return <PatentEventEditFormTab {...rest} />;
               }
 

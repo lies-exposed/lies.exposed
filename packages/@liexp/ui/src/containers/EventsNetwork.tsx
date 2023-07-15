@@ -30,6 +30,7 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
   filter,
   ...props
 }) => {
+
   // console.log(filter);
 
   const eventsFilter = {

@@ -20,6 +20,7 @@ describe("Create Hierarchy Edge Bundling", () => {
         },
         media: [],
         keywords: [keywords[1], keywords[i]],
+        links: [],
       }));
 
       const { graph } = createHierarchicalEdgeBundling({
@@ -51,6 +52,7 @@ describe("Create Hierarchy Edge Bundling", () => {
         },
         media: [],
         keywords: [keywords[1], keywords[2]],
+        links: []
       }));
 
       const { graph } = createHierarchicalEdgeBundling({
@@ -107,6 +109,7 @@ describe("Create Hierarchy Edge Bundling", () => {
         },
         media: [],
         keywords: i % 2 === 0 ? [keywords[0], keywords[i]] : [keywords[i]],
+        links: []
       }));
 
       const { graph } = createHierarchicalEdgeBundling({

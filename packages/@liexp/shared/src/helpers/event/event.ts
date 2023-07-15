@@ -163,7 +163,7 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
   };
 
   switch (e.type) {
-    case Events.Quote.QUOTE.value: {
+    case Events.EventTypes.QUOTE.value: {
       return {
         ...commonIds,
         actors: e.payload.actor ? [e.payload.actor] : [],
@@ -171,7 +171,7 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
         groupsMembers: [],
       };
     }
-    case Events.Death.DEATH.value: {
+    case Events.EventTypes.DEATH.value: {
       return {
         ...commonIds,
         actors: [e.payload.victim],
@@ -179,7 +179,7 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
         groupsMembers: [],
       };
     }
-    case Events.Transaction.TRANSACTION.value: {
+    case Events.EventTypes.TRANSACTION.value: {
       const actors = [
         e.payload.from.type === "Actor" ? e.payload.from.id : undefined,
         e.payload.to.type === "Actor" ? e.payload.to.id : undefined,
@@ -195,7 +195,7 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
         groupsMembers: [],
       };
     }
-    case Events.Patent.PATENT.value: {
+    case Events.EventTypes.PATENT.value: {
       return {
         ...commonIds,
         actors: e.payload.owners.actors,
@@ -204,7 +204,7 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
       };
     }
 
-    case Events.Documentary.DOCUMENTARY.value: {
+    case Events.EventTypes.DOCUMENTARY.value: {
       return {
         ...commonIds,
         actors: [
@@ -220,7 +220,7 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
       };
     }
 
-    case Events.ScientificStudy.SCIENTIFIC_STUDY.value: {
+    case Events.EventTypes.SCIENTIFIC_STUDY.value: {
       return {
         ...commonIds,
         links: commonIds.links.concat(e.payload.url),
@@ -230,7 +230,7 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
       };
     }
 
-    case Events.Uncategorized.UNCATEGORIZED.value: {
+    case Events.EventTypes.UNCATEGORIZED.value: {
       return {
         ...commonIds,
         actors: e.payload.actors,
@@ -280,7 +280,7 @@ export const getEventMetadata = (e: SearchEvent): Events.EventRelations => {
   };
 
   switch (e.type) {
-    case Events.Death.DEATH.value: {
+    case Events.EventTypes.DEATH.value: {
       return {
         ...commonIds,
         actors: e.payload.victim ? [e.payload.victim] : [],
@@ -288,7 +288,7 @@ export const getEventMetadata = (e: SearchEvent): Events.EventRelations => {
         groupsMembers: [],
       };
     }
-    case Events.Transaction.TRANSACTION.value: {
+    case Events.EventTypes.TRANSACTION.value: {
       const actors = [
         e.payload.from.type === "Actor" ? e.payload.from.id : undefined,
         e.payload.to.type === "Actor" ? e.payload.to.id : undefined,
@@ -304,7 +304,7 @@ export const getEventMetadata = (e: SearchEvent): Events.EventRelations => {
         groupsMembers: [],
       };
     }
-    case Events.Patent.PATENT.value: {
+    case Events.EventTypes.PATENT.value: {
       return {
         ...commonIds,
         actors: e.payload.owners.actors,
@@ -313,7 +313,7 @@ export const getEventMetadata = (e: SearchEvent): Events.EventRelations => {
       };
     }
 
-    case Events.Documentary.DOCUMENTARY.value: {
+    case Events.EventTypes.DOCUMENTARY.value: {
       return {
         ...commonIds,
         actors: [...e.payload.authors.actors, ...e.payload.subjects.actors],
@@ -323,7 +323,7 @@ export const getEventMetadata = (e: SearchEvent): Events.EventRelations => {
       };
     }
 
-    case Events.ScientificStudy.SCIENTIFIC_STUDY.value: {
+    case Events.EventTypes.SCIENTIFIC_STUDY.value: {
       return {
         ...commonIds,
         actors: e.payload.authors,
@@ -332,7 +332,7 @@ export const getEventMetadata = (e: SearchEvent): Events.EventRelations => {
       };
     }
 
-    case Events.Quote.QUOTE.value: {
+    case Events.EventTypes.QUOTE.value: {
       return {
         ...commonIds,
         actors: e.payload.actor ? [e.payload.actor] : [],
@@ -341,7 +341,7 @@ export const getEventMetadata = (e: SearchEvent): Events.EventRelations => {
       };
     }
 
-    case Events.Uncategorized.UNCATEGORIZED.value: {
+    case Events.EventTypes.UNCATEGORIZED.value: {
       return {
         ...commonIds,
         actors: e.payload.actors,
@@ -361,13 +361,13 @@ export const transform = (
     },
 ): O.Option<Events.Event> => {
   switch (type) {
-    case Events.Death.DEATH.value: {
+    case Events.EventTypes.DEATH.value: {
       return pipe(
         props.actors.at(0),
         O.fromNullable,
         O.map((v) => ({
           ...e,
-          type: Events.Death.DEATH.value,
+          type: Events.EventTypes.DEATH.value,
           payload: {
             victim: v,
             location: undefined,
@@ -375,7 +375,7 @@ export const transform = (
         })),
       );
     }
-    case Events.Transaction.TRANSACTION.value: {
+    case Events.EventTypes.TRANSACTION.value: {
       const from = pipe(
         props.actors,
         A.head,
@@ -411,7 +411,7 @@ export const transform = (
         }),
         O.map(({ to, from }) => ({
           ...e,
-          type: Events.Transaction.TRANSACTION.value,
+          type: Events.EventTypes.TRANSACTION.value,
           payload: {
             currency: "USD",
             total: 0,
@@ -422,14 +422,14 @@ export const transform = (
         })),
       );
     }
-    case Events.Patent.PATENT.value: {
+    case Events.EventTypes.PATENT.value: {
       return pipe(
         props.url,
         O.fromNullable,
         O.chainNullableK((url) => props.links.at(0)),
         O.map((source: any) => ({
           ...e,
-          type: Events.Patent.PATENT.value,
+          type: Events.EventTypes.PATENT.value,
           payload: {
             title: props.title,
             source,
@@ -442,7 +442,7 @@ export const transform = (
       );
     }
 
-    case Events.Documentary.DOCUMENTARY.value: {
+    case Events.EventTypes.DOCUMENTARY.value: {
       return pipe(
         sequenceS(O.Applicative)({
           media: pipe(props.media, A.head),
@@ -450,7 +450,7 @@ export const transform = (
         }),
         O.map(({ media, website }) => ({
           ...e,
-          type: Events.Documentary.DOCUMENTARY.value,
+          type: Events.EventTypes.DOCUMENTARY.value,
           payload: {
             title: props.title,
             website,
@@ -468,13 +468,13 @@ export const transform = (
       );
     }
 
-    case Events.ScientificStudy.SCIENTIFIC_STUDY.value: {
+    case Events.EventTypes.SCIENTIFIC_STUDY.value: {
       return pipe(
         props.links,
         A.head,
         O.map((url) => ({
           ...e,
-          type: Events.ScientificStudy.SCIENTIFIC_STUDY.value,
+          type: Events.EventTypes.SCIENTIFIC_STUDY.value,
           payload: {
             title: props.title,
             image: props.media.at(0),
@@ -486,13 +486,13 @@ export const transform = (
       );
     }
 
-    case Events.Quote.QUOTE.value: {
+    case Events.EventTypes.QUOTE.value: {
       return pipe(
         props.actors,
         A.head,
         O.map((actor) => ({
           ...e,
-          type: Events.Quote.QUOTE.value,
+          type: Events.EventTypes.QUOTE.value,
           payload: {
             quote: e.excerpt ? getTextContents(e.excerpt as any) : undefined,
             actor,
@@ -505,7 +505,7 @@ export const transform = (
     default: {
       return O.some({
         ...e,
-        type: Events.Uncategorized.UNCATEGORIZED.value,
+        type: Events.EventTypes.UNCATEGORIZED.value,
         payload: {
           title: props.title,
           location: props.location,
@@ -526,16 +526,16 @@ export const getTotals = (
   return {
     uncategorized:
       acc.uncategorized +
-      (Events.Uncategorized.UNCATEGORIZED.is(e.type) ? 1 : 0),
+      (Events.EventTypes.UNCATEGORIZED.is(e.type) ? 1 : 0),
     scientificStudies:
       acc.scientificStudies +
-      (Events.ScientificStudy.SCIENTIFIC_STUDY.is(e.type) ? 1 : 0),
+      (Events.EventTypes.SCIENTIFIC_STUDY.is(e.type) ? 1 : 0),
     transactions:
-      acc.transactions + (Events.Transaction.TRANSACTION.is(e.type) ? 1 : 0),
-    patents: acc.patents + (Events.Patent.PATENT.is(e.type) ? 1 : 0),
-    deaths: acc.deaths + (Events.Death.DEATH.is(e.type) ? 1 : 0),
+      acc.transactions + (Events.EventTypes.TRANSACTION.is(e.type) ? 1 : 0),
+    patents: acc.patents + (Events.EventTypes.PATENT.is(e.type) ? 1 : 0),
+    deaths: acc.deaths + (Events.EventTypes.DEATH.is(e.type) ? 1 : 0),
     documentaries:
-      acc.documentaries + (Events.Documentary.DOCUMENTARY.is(e.type) ? 1 : 0),
-    quotes: acc.quotes + (Events.Quote.QUOTE.is(e.type) ? 1 : 0),
+      acc.documentaries + (Events.EventTypes.DOCUMENTARY.is(e.type) ? 1 : 0),
+    quotes: acc.quotes + (Events.EventTypes.QUOTE.is(e.type) ? 1 : 0),
   };
 };

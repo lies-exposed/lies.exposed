@@ -1,4 +1,4 @@
-import { Death, EventType, Quote } from "@liexp/shared/lib/io/http/Events";
+import { EventType, EventTypes } from "@liexp/shared/lib/io/http/Events";
 import { Loader } from "@liexp/ui/lib/components/Common/Loader";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import EventTimelineItem, {
@@ -31,7 +31,7 @@ const Template: StoryFn<EventTimelineItemStoryProps> = ({ type, ...props }) => {
         queries={{
           events: searchEventsQuery({
             hash: "events-timeline-list-item-storybook",
-            type: [type],
+            eventType: [type],
             _start: 0,
             _end: 1,
           }),
@@ -50,7 +50,7 @@ const Template: StoryFn<EventTimelineItemStoryProps> = ({ type, ...props }) => {
 const DeathEventTimelineListItem = Template.bind({});
 
 DeathEventTimelineListItem.args = {
-  type: Death.DEATH.value,
+  type: EventTypes.DEATH.value,
   isLast: false,
   onActorClick: () => {},
   onGroupClick() {},
@@ -63,7 +63,7 @@ DeathEventTimelineListItem.args = {
 
 const QuoteEventTimelineListItem = Template.bind({});
 QuoteEventTimelineListItem.args = {
-  type: Quote.QUOTE.value,
+  type: EventTypes.QUOTE.value,
   isLast: false,
 };
 

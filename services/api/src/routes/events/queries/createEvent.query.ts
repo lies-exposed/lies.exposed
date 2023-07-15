@@ -30,7 +30,7 @@ export const createEventQuery =
       }),
       TE.chain(({ keywords, links, media }) => {
         switch (input.type) {
-          case http.Events.Quote.QUOTE.value: {
+          case http.Events.EventTypes.QUOTE.value: {
             const { type, date, draft, excerpt, payload } = input;
             return TE.right({
               type,
@@ -43,7 +43,7 @@ export const createEventQuery =
               media,
             });
           }
-          case http.Events.Patent.PATENT.value: {
+          case http.Events.EventTypes.PATENT.value: {
             const { type, date, draft, excerpt, payload } = input;
             return TE.right({
               type,
@@ -58,7 +58,7 @@ export const createEventQuery =
               media,
             } as any);
           }
-          case http.Events.Death.DEATH.value: {
+          case http.Events.EventTypes.DEATH.value: {
             const { type, date, draft, excerpt, payload } = input;
             return TE.right({
               type,
@@ -74,7 +74,7 @@ export const createEventQuery =
               media,
             });
           }
-          case http.Events.ScientificStudy.SCIENTIFIC_STUDY.value: {
+          case http.Events.EventTypes.SCIENTIFIC_STUDY.value: {
             const { type, draft, excerpt, date, payload } = input;
             return TE.right({
               type,
@@ -87,7 +87,7 @@ export const createEventQuery =
               media,
             });
           }
-          case http.Events.Documentary.DOCUMENTARY.value: {
+          case http.Events.EventTypes.DOCUMENTARY.value: {
             const { type, draft, excerpt, date, payload } = input;
             return TE.right({
               type,
@@ -100,7 +100,7 @@ export const createEventQuery =
               media,
             });
           }
-          case http.Events.Transaction.TRANSACTION.value: {
+          case http.Events.EventTypes.TRANSACTION.value: {
             const { type, draft, excerpt, date, payload } = input;
             return TE.right({
               type,
@@ -113,7 +113,7 @@ export const createEventQuery =
               media,
             });
           }
-          case http.Events.Uncategorized.UNCATEGORIZED.value:
+          case http.Events.EventTypes.UNCATEGORIZED.value:
           default: {
             const { excerpt, type, draft, date, payload } = input;
             const uncategorizedEvent: DeepPartial<EventV2Entity> = {

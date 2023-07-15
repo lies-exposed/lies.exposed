@@ -1,7 +1,7 @@
 // https://www.postgresql.org/docs/12/functions-json.html
 
 import { type DBError } from "@liexp/backend/lib/providers/orm/Database";
-import { QUOTE } from "@liexp/shared/lib/io/http/Events/Quote";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
 import { sequenceS } from "fp-ts/Apply";
@@ -84,7 +84,7 @@ export const whereActorInArray = (
         )
         .orWhere(
           new Brackets((qb) => {
-            qb.where(` event.type = '${QUOTE.value}' `).andWhere(
+            qb.where(` event.type = '${EventTypes.QUOTE.value}' `).andWhere(
               ` ("event"."payload"::jsonb -> 'actor' ?| ARRAY[:...actors]) `,
             );
           }),
@@ -301,7 +301,7 @@ export const searchEventV2Query =
                       CASE
                         WHEN event.type IN ('Uncategorized', 'Documentary', 'ScientificStudy', 'Patent') THEN "event"."payload"::jsonb ->> 'title'
                         WHEN event.type IN ('Death') THEN "event"."payload"::jsonb ->> 'victim'::text
-                        WHEN event.type IN ('${QUOTE.value}') AND "event"."payload"::jsonb ? 'quote' THEN "event"."payload"::jsonb ->> 'quote'::text
+                        WHEN event.type IN ('${EventTypes.QUOTE.value}') AND "event"."payload"::jsonb ? 'quote' THEN "event"."payload"::jsonb ->> 'quote'::text
 
                       END, ''
                     )
@@ -450,7 +450,7 @@ export const searchEventV2Query =
 
             const documentariesCount = q
               .clone()
-              .andWhere(" event.type::text = 'Documentary' ");
+              .andWhere(` event.type::text = '${EventTypes.DOCUMENTARY.value}' `);
 
             // logger.debug.log(
             //   `Documentary count query %O`,
@@ -459,7 +459,7 @@ export const searchEventV2Query =
 
             const transactionsCount = q
               .clone()
-              .andWhere("event.type = 'Transaction'");
+              .andWhere(`event.type = '${EventTypes.TRANSACTION.value}'`);
 
             // logger.debug.log(
             //   `Transaction count query %O`,
@@ -468,7 +468,7 @@ export const searchEventV2Query =
 
             const quotesCount = q
               .clone()
-              .andWhere(`event.type = '${QUOTE.value}'`);
+              .andWhere(`event.type = '${EventTypes.QUOTE.value}'`);
 
             if (O.isSome(type)) {
               q.andWhere("event.type::text IN (:...types)", {

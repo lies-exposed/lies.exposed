@@ -314,7 +314,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                     selectedKeywordIds={filters.keywords}
                     query={{
                       ids: [event.id],
-                      type: EventType.types.map((t) => t.value),
+                      eventType: EventType.types.map((t) => t.value),
                       startDate: formatDate(subYears(new Date(), 1)),
                       endDate: formatDate(new Date()),
                     }}

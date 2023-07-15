@@ -1,4 +1,3 @@
-import { ActorEntity } from "@entities/Actor.entity";
 import { fp } from "@liexp/core/lib/fp";
 import { createExcerptValue } from "@liexp/shared/lib/slate";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors";
@@ -6,8 +5,10 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import D from "debug";
 import { pipe } from "fp-ts/lib/function";
 import snakeCase from "lodash/snakeCase";
+// eslint-disable-next-line import/no-named-as-default
 import prompts from "prompts";
-import { startContext, stopContext } from './start-ctx';
+import { startContext, stopContext } from "./start-ctx";
+import { ActorEntity } from "@entities/Actor.entity";
 
 /**
  * Usage ts-node ./bin/create-from-wikipedia $search
@@ -30,7 +31,7 @@ const run = async (): Promise<any> => {
   const result = await pipe(
     ctx.wp.search(search),
     fp.TE.map((r) => r.results),
-    throwTE
+    throwTE,
   );
 
   ctx.logger.debug.log("Search results %O", result);
@@ -42,10 +43,7 @@ const run = async (): Promise<any> => {
     choices: result.map((r) => ({ title: r.title, value: r.title })),
   });
 
-  const page = await pipe(
-    ctx.wp.parse(choice.page),
-    throwTE
-  );
+  const page = await pipe(ctx.wp.parse(choice.page), throwTE);
 
   ctx.logger.debug.log("Page %O", page);
 
@@ -58,7 +56,7 @@ const run = async (): Promise<any> => {
     fp.A.head,
     fp.O.chainNullableK((r) => r.srcset?.[0]?.src),
     fp.O.map((url) => `https:${url}`),
-    fp.O.toUndefined
+    fp.O.toUndefined,
   );
 
   ctx.logger.debug.log("Page content %O", image);
@@ -67,7 +65,7 @@ const run = async (): Promise<any> => {
     page.fullurl.split("/"),
     fp.A.last,
     fp.O.map((n) => snakeCase(n.replaceAll("_", " "))),
-    fp.O.getOrElse(() => snakeCase(search))
+    fp.O.getOrElse(() => snakeCase(search)),
   );
 
   const [actor] = await pipe(
@@ -80,7 +78,7 @@ const run = async (): Promise<any> => {
         color: generateRandomColor(),
       },
     ]),
-    throwTE
+    throwTE,
   );
 
   ctx.logger.debug.log("Created actor %O", actor);

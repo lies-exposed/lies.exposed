@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/ScientificStudy";
+import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType";
 import {
   AdminCreate,
   AdminDelete,

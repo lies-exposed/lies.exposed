@@ -67,7 +67,7 @@ interface EventNetworkGraphBoxWrapperProps<T extends any>
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 export const EventNetworkGraphBoxWrapper = <T extends any>({
   count = 50,
-  query: { ids, type: queryType, ...query },
+  query: { ids, eventType, ...query },
   type,
   // selectedActorIds,
   // selectedGroupIds,
@@ -129,7 +129,7 @@ export const EventNetworkGraphBoxWrapper = <T extends any>({
       }}
       render={({ graph }) => {
         const innerProps = transform(graph, {
-          query: { ids, type: EventType.types.map((t) => t.value), ...query },
+          query: { ids, eventType: EventType.types.map((t) => t.value), ...query },
           type,
           selectedActorIds: query.actors,
           selectedGroupIds: query.groups,
@@ -228,7 +228,7 @@ const transformNetworkOutput = (
     selectedGroupIds,
     selectedKeywordIds,
     type,
-    query: { ids, type: queryType, ...query },
+    query: { ids, eventType, ...query },
     ...props
   }: EventNetworkGraphBoxProps,
 ): Omit<EventsNetworkGraphProps, "width" | "height"> & {
@@ -309,14 +309,14 @@ const transformNetworkOutput = (
 
     // console.log("query type", queryType);
     const isTypeIncluded: boolean = pipe(
-      queryType,
+      eventType,
       fp.O.fromNullable,
       fp.O.chain((et) =>
-        t.string.is(et) ? fp.O.some(et === e.type) : fp.O.none,
+        EventType.is(et) ? fp.O.some(et === e.type) : fp.O.none,
       ),
       fp.O.alt(() =>
-        t.array(t.string).is(queryType)
-          ? fp.O.some(queryType.includes(e.type))
+        t.array(EventType).is(eventType)
+          ? fp.O.some(eventType.includes(e.type))
           : fp.O.none,
       ),
       fp.O.getOrElse(() => true),
@@ -423,13 +423,13 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
   const [state, setState] = React.useState<{
     startDate: string;
     endDate: string;
-    type: string[] | string | undefined;
+    eventType: EventType[] | EventType | undefined;
     selectedActorIds: string[];
     selectedGroupIds: string[];
     selectedKeywordIds: string[];
   }>({
     startDate: query.startDate,
-    type: query.type ?? EventType.types.map((t) => t.value),
+    eventType: query.eventType ?? EventType.types.map((t) => t.value),
     endDate: query.endDate,
     selectedActorIds: props.selectedActorIds ?? [],
     selectedGroupIds: props.selectedGroupIds ?? [],
@@ -449,7 +449,7 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
         hash={"event-network-graph-box-wrapper"}
         query={{
           ...query,
-          type: state.type,
+          eventType: state.eventType,
           startDate: state.startDate,
           endDate: state.endDate,
         }}
@@ -482,7 +482,7 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
                 actors: state.selectedActorIds,
                 groups: state.selectedGroupIds,
                 keywords: state.selectedKeywordIds,
-                type: state.type,
+                eventType: state.eventType,
                 startDate: state.startDate,
                 endDate: state.endDate,
               }}
@@ -504,7 +504,7 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
                 setState((s) => ({
                   ...s,
                   ...q,
-                  type: q.type,
+                  eventType: q.eventType,
                   startDate: q.startDate ?? state.startDate,
                   endDate: q.endDate ?? state.endDate,
                   selectedActorIds: q.actors ?? [],
@@ -514,7 +514,7 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
               }}
               onQueryClear={() => {
                 setState({
-                  type: undefined,
+                  eventType: undefined,
                   startDate: query.startDate,
                   endDate: query.endDate,
                   selectedActorIds: props.selectedActorIds ?? [],

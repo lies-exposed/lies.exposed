@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { PATENT } from "@liexp/shared/lib/io/http/Events/Patent";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";
@@ -37,7 +37,7 @@ export const MakeGetListPatentEventRoute: Route = (r, ctx) => {
       return pipe(
         searchEventV2Query(ctx)({
           ...query,
-          type: O.some([PATENT.value]),
+          type: O.some([EventTypes.PATENT.value]),
           draft,
           actors: O.none,
           keywords,
