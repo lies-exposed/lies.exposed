@@ -53,7 +53,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
     groupsMembers: query.groupsMembers ?? [],
     media: query.media ?? [],
     locations: query.locations ?? [],
-    type: (query.type as EventType[]) ?? EventType.types.map((t) => t.value),
+    eventType: (query.eventType as EventType[]) ?? EventType.types.map((t) => t.value),
     title: query.title,
     _order: query._order ?? "DESC",
     _sort: "date",

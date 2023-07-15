@@ -16,7 +16,7 @@
     "typeRoots": [
       "../../../node_modules/@types",
       "../backend/typings",
-      "./typings"
+      "typings"
     ],
     "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
     "paths": {
@@ -34,6 +34,10 @@
       "path": "../test"
     }
   ],
-  "include": ["./src", "./src/**/*.json"],
+  "include": [
+    "../../../node_modules/vitest/globals.d.ts",
+    "./src",
+    "./src/**/*.json"
+  ],
   "exclude": ["node_modules", "lib"]
 }

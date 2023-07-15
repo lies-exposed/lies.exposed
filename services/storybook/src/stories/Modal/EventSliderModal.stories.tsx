@@ -20,7 +20,7 @@ const Template: StoryFn<EventSliderModalProps> = ({
   ...props
 }) => {
   const [query, setQuery] = React.useState({
-    type: undefined,
+    eventType: undefined,
     title: undefined,
     actors: [],
     groups: [],

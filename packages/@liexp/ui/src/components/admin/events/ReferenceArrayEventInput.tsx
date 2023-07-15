@@ -1,4 +1,4 @@
-import { DEATH } from "@liexp/shared/lib/io/http/Events/Death";
+import { DEATH } from "@liexp/shared/lib/io/http/Events/EventType";
 import React from "react";
 import {
   AutocompleteArrayInput,

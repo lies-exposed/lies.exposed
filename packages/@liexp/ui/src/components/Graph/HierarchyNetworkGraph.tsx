@@ -5,10 +5,7 @@ import {
   type Keyword,
 } from "@liexp/shared/lib/io/http";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
-import { DEATH } from "@liexp/shared/lib/io/http/Events/Death";
-import { DOCUMENTARY } from "@liexp/shared/lib/io/http/Events/Documentary";
-import { PATENT } from "@liexp/shared/lib/io/http/Events/Patent";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/ScientificStudy";
+import { EventTypes } from '@liexp/shared/lib/io/http/Events';
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvent";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
@@ -134,19 +131,19 @@ export const HierarchyNetworkGraph: React.FC<HierarchyNetworkGraphProps> = ({
           return 2;
         }
 
-        if (DEATH.is(n.type)) {
+        if (EventTypes.DEATH.is(n.type)) {
           return 3;
         }
 
-        if (DOCUMENTARY.is(n.type)) {
+        if (EventTypes.DOCUMENTARY.is(n.type)) {
           return 3;
         }
 
-        if (SCIENTIFIC_STUDY.is(n.type)) {
+        if (EventTypes.SCIENTIFIC_STUDY.is(n.type)) {
           return 3;
         }
 
-        if (PATENT.is(n.type)) {
+        if (EventTypes.PATENT.is(n.type)) {
           return 3;
         }
 

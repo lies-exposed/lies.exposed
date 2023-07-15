@@ -2,11 +2,8 @@ import * as io from "@liexp/shared/lib/io";
 import { http } from "@liexp/shared/lib/io";
 import { Events } from "@liexp/shared/lib/io/http";
 import {
-  Death,
-  Documentary,
   EventType,
-  Quote,
-  ScientificStudy,
+  EventTypes
 } from "@liexp/shared/lib/io/http/Events";
 import { getTextContentsCapped } from "@liexp/shared/lib/slate";
 import { LinkIcon } from "@liexp/ui/lib/components/Common/Icons";
@@ -24,13 +21,13 @@ import {
   FormTab,
   FunctionField,
   List,
-  type RaRecord as Record,
   ReferenceField,
   SavedQueriesList,
   TabbedForm,
   TextField,
   useDataProvider,
   useRecordContext,
+  type RaRecord as Record,
 } from "@liexp/ui/lib/components/admin";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
@@ -43,6 +40,7 @@ import EventPreview from "@liexp/ui/lib/components/admin/previews/EventPreview";
 import { DeathEventEditFormTab } from "@liexp/ui/lib/components/admin/tabs/DeathEventEditFormTab";
 import { DocumentaryEditFormTab } from "@liexp/ui/lib/components/admin/tabs/DocumentaryEditFormTab";
 import { EventGeneralTab } from "@liexp/ui/lib/components/admin/tabs/EventGeneralTab";
+import { PatentEventEditFormTab } from "@liexp/ui/lib/components/admin/tabs/PatentEventEditTab";
 import { QuoteEditFormTab } from "@liexp/ui/lib/components/admin/tabs/QuoteEditFormTab";
 import { ReferenceLinkTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceLinkTab";
 import { ReferenceMediaTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceMediaTab";
@@ -50,12 +48,12 @@ import { ScientificStudyEventEditTab } from "@liexp/ui/lib/components/admin/tabs
 import { UncategorizedEventEditTab } from "@liexp/ui/lib/components/admin/tabs/UncategorizedEventEditTab";
 import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
 import {
-  alpha,
   Box,
   Card,
   CardContent,
   PlayCircleOutline,
   Typography,
+  alpha,
 } from "@liexp/ui/lib/components/mui";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import * as R from "fp-ts/Record";
@@ -148,25 +146,23 @@ export const EventList: React.FC = () => (
         };
       }}
       rowClick={(_props, _id, record) => {
-        if (
-          record.type === http.Events.ScientificStudy.SCIENTIFIC_STUDY.value
-        ) {
+        if (record.type === http.Events.EventTypes.SCIENTIFIC_STUDY.value) {
           return `/scientific-studies/${record.id}`;
         }
 
-        if (record.type === http.Events.Death.DEATH.value) {
+        if (record.type === http.Events.EventTypes.DEATH.value) {
           return `/deaths/${record.id}`;
         }
 
-        if (record.type === http.Events.Patent.PATENT.value) {
+        if (record.type === http.Events.EventTypes.PATENT.value) {
           return `/patents/${record.id}`;
         }
 
-        if (record.type === http.Events.Documentary.DOCUMENTARY.value) {
+        if (record.type === http.Events.EventTypes.DOCUMENTARY.value) {
           return `/documentaries/${record.id}`;
         }
 
-        if (record.type === http.Events.Transaction.TRANSACTION.value) {
+        if (record.type === http.Events.EventTypes.TRANSACTION.value) {
           return `/transactions/${record.id}`;
         }
 
@@ -184,8 +180,8 @@ export const EventList: React.FC = () => (
                 {r.type}
               </Typography>{" "}
               {[
-                io.http.Events.Uncategorized.UNCATEGORIZED.value,
-                io.http.Events.ScientificStudy.SCIENTIFIC_STUDY.value,
+                io.http.Events.EventTypes.UNCATEGORIZED.value,
+                io.http.Events.EventTypes.SCIENTIFIC_STUDY.value,
               ].includes(r.type) ? (
                 <Typography>{r.payload.title}</Typography>
               ) : (
@@ -211,11 +207,11 @@ export const EventList: React.FC = () => (
         label="actors"
         source="payload"
         render={(r: Record | undefined) => {
-          if (r?.type === Events.Uncategorized.UNCATEGORIZED.value) {
+          if (r?.type === Events.EventTypes.UNCATEGORIZED.value) {
             return r.payload.actors.length;
           }
 
-          if (r?.type === Events.ScientificStudy.SCIENTIFIC_STUDY.value) {
+          if (r?.type === Events.EventTypes.SCIENTIFIC_STUDY.value) {
             return r.payload.authors.length;
           }
 
@@ -242,11 +238,11 @@ export const EventList: React.FC = () => (
         label="groupsMembers"
         source="payload"
         render={(r: Record | undefined) => {
-          if (r?.type === http.Events.Uncategorized.UNCATEGORIZED.value) {
+          if (r?.type === http.Events.EventTypes.UNCATEGORIZED.value) {
             return r.payload.groupsMembers.length;
           }
 
-          if (r?.type === http.Events.ScientificStudy.SCIENTIFIC_STUDY.value) {
+          if (r?.type === http.Events.EventTypes.SCIENTIFIC_STUDY.value) {
             return 0;
           }
 
@@ -272,19 +268,19 @@ export const EditTitle: React.FC = () => {
   const record = useRecordContext<http.Events.Event>();
   if (record) {
     switch (record.type) {
-      case http.Events.Uncategorized.UNCATEGORIZED.value:
+      case http.Events.EventTypes.UNCATEGORIZED.value:
         return <UncategorizedEventTitle />;
-      case http.Events.ScientificStudy.SCIENTIFIC_STUDY.value:
+      case http.Events.EventTypes.SCIENTIFIC_STUDY.value:
         return <ScientificStudyEventTitle />;
-      case http.Events.Death.DEATH.value:
+      case http.Events.EventTypes.DEATH.value:
         return <DeathEventTitle />;
-      case http.Events.Patent.PATENT.value:
+      case http.Events.EventTypes.PATENT.value:
         return <PatentEventTitle />;
-      case http.Events.Documentary.DOCUMENTARY.value:
+      case http.Events.EventTypes.DOCUMENTARY.value:
         return <DocumentaryReleaseTitle />;
-      case http.Events.Transaction.TRANSACTION.value:
+      case http.Events.EventTypes.TRANSACTION.value:
         return <TransactionTitle record={record} />;
-      case http.Events.Quote.QUOTE.value:
+      case http.Events.EventTypes.QUOTE.value:
         return <QuoteTitle />;
     }
   }
@@ -308,17 +304,20 @@ export const EventEdit: React.FC = (props) => {
           <EventGeneralTab>
             <FormDataConsumer>
               {({ formData, getSource, scopedFormData, ...rest }) => {
-                if (formData.type === Documentary.DOCUMENTARY.value) {
+                if (formData.type === EventTypes.DOCUMENTARY.value) {
                   return <DocumentaryEditFormTab />;
                 }
-                if (formData.type === Death.DEATH.value) {
+                if (formData.type === EventTypes.DEATH.value) {
                   return <DeathEventEditFormTab />;
                 }
-                if (formData.type === ScientificStudy.SCIENTIFIC_STUDY.value) {
+                if (formData.type === EventTypes.SCIENTIFIC_STUDY.value) {
                   return <ScientificStudyEventEditTab />;
                 }
-                if (formData.type === Quote.QUOTE.value) {
+                if (formData.type === EventTypes.QUOTE.value) {
                   return <QuoteEditFormTab />;
+                }
+                if (formData.type === EventTypes.PATENT.value) {
+                  return <PatentEventEditFormTab />;
                 }
                 return <UncategorizedEventEditTab />;
               }}

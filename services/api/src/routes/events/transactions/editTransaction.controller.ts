@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { Transaction } from "@liexp/shared/lib/io/http/Events";
+import { EventTypes } from '@liexp/shared/lib/io/http/Events';
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
@@ -20,7 +20,7 @@ export const MakeEditTransactionEventRoute: Route = (r, ctx) => {
         TE.chain((event) =>
           editEventQuery(ctx)(event, {
             ...body,
-            type: Transaction.TRANSACTION.value,
+            type: EventTypes.TRANSACTION.value,
             payload,
             media,
             keywords,

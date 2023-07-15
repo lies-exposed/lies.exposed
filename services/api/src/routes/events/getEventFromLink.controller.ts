@@ -103,7 +103,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                     type: EventSuggestion.EventSuggestionType.types[0].value,
                     event: {
                       ...commonSuggestion,
-                      type: Events.Documentary.DOCUMENTARY.value,
+                      type: Events.EventTypes.DOCUMENTARY.value,
                       payload: {
                         title: suggestedTitle,
                         website: l.id,
@@ -123,7 +123,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                     type: EventSuggestion.EventSuggestionType.types[0].value,
                     event: {
                       ...commonSuggestion,
-                      type: Events.Patent.PATENT.value,
+                      type: Events.EventTypes.PATENT.value,
                       payload: {
                         title: suggestedTitle,
                         source: l.id,
@@ -138,7 +138,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                     type: EventSuggestion.EventSuggestionType.types[0].value,
                     event: {
                       ...commonSuggestion,
-                      type: Events.ScientificStudy.SCIENTIFIC_STUDY.value,
+                      type: Events.EventTypes.SCIENTIFIC_STUDY.value,
                       payload: {
                         title: suggestedTitle,
                         url: l.id,
@@ -155,7 +155,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                 type: EventSuggestion.EventSuggestionType.types[0].value,
                 event: {
                   ...commonSuggestion,
-                  type: Events.Death.DEATH.value,
+                  type: Events.EventTypes.DEATH.value,
                   payload: {
                     victim: uuid() as any,
                     location: undefined as any,
@@ -166,7 +166,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                 type: EventSuggestion.EventSuggestionType.types[0].value,
                 event: {
                   ...commonSuggestion,
-                  type: Events.Uncategorized.UNCATEGORIZED.value,
+                  type: Events.EventTypes.UNCATEGORIZED.value,
                   payload: {
                     title: suggestedTitle,
                     actors: [],

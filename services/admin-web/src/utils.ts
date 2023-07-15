@@ -1,7 +1,5 @@
 import * as http from "@liexp/shared/lib/io/http";
-import { DEATH } from "@liexp/shared/lib/io/http/Events/Death";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/ScientificStudy";
-import { UNCATEGORIZED } from "@liexp/shared/lib/io/http/Events/Uncategorized";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { type RawMedia, uploadFile } from "@liexp/ui/lib/client/admin/MediaAPI";
 import { apiProvider } from "@liexp/ui/lib/client/api";
@@ -147,11 +145,11 @@ export const transformEvent = async (
   );
 
   const event =
-    data.type === UNCATEGORIZED.value
+    data.type === EventTypes.UNCATEGORIZED.value
       ? transformUncategorized(data)
-      : data.type === DEATH.value
+      : data.type === EventTypes.DEATH.value
       ? transformDeath(data)
-      : data.type === SCIENTIFIC_STUDY.value
+      : data.type === EventTypes.SCIENTIFIC_STUDY.value
       ? transformScientificStudy(data)
       : data;
 

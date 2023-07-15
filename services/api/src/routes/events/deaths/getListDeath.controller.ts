@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { DEATH } from "@liexp/shared/lib/io/http/Events/Death";
+import { DEATH } from "@liexp/shared/lib/io/http/Events/EventType";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";

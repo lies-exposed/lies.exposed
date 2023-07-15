@@ -1,6 +1,4 @@
-import { DEATH } from "@liexp/shared/lib/io/http/Events/Death";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/ScientificStudy";
-import { UNCATEGORIZED } from "@liexp/shared/lib/io/http/Events/Uncategorized";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
 import { DeathEventEntity } from "@entities/archive/DeathEvent.entity";
 import { EventEntity } from "@entities/archive/Event.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
@@ -85,7 +83,7 @@ export class EventV21639419928672 implements MigrationInterface {
             excerpt: {},
             body: (e.body2 as any) ?? {},
             draft: false,
-            type: UNCATEGORIZED.value,
+            type: EventTypes.UNCATEGORIZED.value,
             payload: {
               title: e.title,
               location: undefined,
@@ -111,7 +109,7 @@ export class EventV21639419928672 implements MigrationInterface {
             ...(s as any),
             draft: false,
             excerpt: {},
-            type: DEATH.value,
+            type: EventTypes.DEATH.value,
             payload: {
               location: (s as any).location ?? undefined,
               victim: s.victim.id as any,
@@ -135,7 +133,7 @@ export class EventV21639419928672 implements MigrationInterface {
           (s): EventV2Entity => ({
             ...(s as any),
             draft: false,
-            type: SCIENTIFIC_STUDY.value,
+            type: EventTypes.SCIENTIFIC_STUDY.value,
             payload: {
               title: s.title,
               url: s.url as any,

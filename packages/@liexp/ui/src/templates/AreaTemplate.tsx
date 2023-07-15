@@ -1,7 +1,7 @@
 import { type Area } from "@liexp/shared/lib/io/http";
 import { EventType } from "@liexp/shared/lib/io/http/Events";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvent";
-import { Feature } from "ol";
+import Feature from "ol/Feature";
 import * as React from "react";
 import { AutoSizer } from "react-virtualized";
 import { AreaPageContent } from "../components/AreaPageContent";
@@ -100,7 +100,7 @@ export const AreaTemplateUI: React.FC<AreaTemplateProps> = ({
           media: [],
           keywords: [],
           locations: [area.id],
-          type: EventType.types.map((t) => t.value),
+          eventType: EventType.types.map((t) => t.value),
           _sort: "createdAt",
           _order: "DESC",
         }}

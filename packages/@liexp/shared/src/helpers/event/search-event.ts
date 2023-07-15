@@ -213,7 +213,7 @@ export const toSearchEvent = (
   );
 
   switch (e.type) {
-    case Events.Quote.QUOTE.value: {
+    case Events.EventTypes.QUOTE.value: {
       return {
         ...e,
         payload: {
@@ -225,7 +225,7 @@ export const toSearchEvent = (
         links,
       };
     }
-    case Events.Death.DEATH.value: {
+    case Events.EventTypes.DEATH.value: {
       return {
         ...e,
         payload: {
@@ -241,7 +241,7 @@ export const toSearchEvent = (
         links,
       };
     }
-    case Events.ScientificStudy.SCIENTIFIC_STUDY.value: {
+    case Events.EventTypes.SCIENTIFIC_STUDY.value: {
       return {
         ...e,
         payload: {
@@ -255,7 +255,7 @@ export const toSearchEvent = (
         links,
       };
     }
-    case Events.Patent.PATENT.value: {
+    case Events.EventTypes.PATENT.value: {
       return {
         ...e,
         payload: {
@@ -268,7 +268,7 @@ export const toSearchEvent = (
         links,
       };
     }
-    case Events.Documentary.DOCUMENTARY.value: {
+    case Events.EventTypes.DOCUMENTARY.value: {
       return {
         ...e,
         payload: {
@@ -297,7 +297,7 @@ export const toSearchEvent = (
         links,
       };
     }
-    case Events.Transaction.TRANSACTION.value: {
+    case Events.EventTypes.TRANSACTION.value: {
       const from =
         e.payload.from.type === "Group"
           ? groups.find((g) => g.id === e.payload.from.id)

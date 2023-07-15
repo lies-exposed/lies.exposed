@@ -7,7 +7,9 @@ import { HumanReadableStringArb } from "./HumanReadableString.arbitrary";
 import { placeKitten } from "./Media.arbitrary";
 import { ColorArb } from "./common/Color.arbitrary";
 
-export const ActorArb: tests.fc.Arbitrary<http.Actor.Actor> = tests
+export const ActorArb: tests.fc.Arbitrary<
+  http.Actor.Actor & { bornOn: undefined; diedOn: undefined }
+> = tests
   .getArbitrary(
     t.strict(
       propsOmit(http.Actor.Actor, [

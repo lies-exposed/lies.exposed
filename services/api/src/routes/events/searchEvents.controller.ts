@@ -1,4 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { EventType } from "@liexp/shared/lib/io/http/Events";
 import { type Router } from "express";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
@@ -25,7 +26,7 @@ export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {
       draft,
       startDate,
       endDate,
-      type: _type,
+      eventType: _type,
       title,
       exclude,
       withDeleted,
@@ -54,9 +55,7 @@ export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {
 
     const type = pipe(
       _type,
-      O.map((tp) => {
-        return t.array(t.string).is(tp) ? tp : [tp];
-      }),
+      O.map((tp) => (t.array(EventType).is(tp) ? tp : [tp])),
     );
 
     ctx.logger.debug.log("find options %O", findOptions);

@@ -2,9 +2,7 @@ import * as t from "io-ts";
 import { UUID } from "io-ts-types/lib/UUID";
 import { URL } from "../Common/URL";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
-
-export const SCIENTIFIC_STUDY = t.literal("ScientificStudy");
-export type SCIENTIFIC_STUDY = t.TypeOf<typeof SCIENTIFIC_STUDY>;
+import { SCIENTIFIC_STUDY } from './EventType';
 
 export const ScientificStudyPayload = t.strict(
   {

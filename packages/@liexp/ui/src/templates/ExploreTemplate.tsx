@@ -210,14 +210,16 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
             fp.NEA.fromArray(filterKeywords.data.map((d) => d.id)),
             fp.O.toUndefined,
           );
-          const selectedActorIds = pipe(
-            fp.NEA.fromArray(filterActors.data.map((a) => a.id)),
-            fp.O.toUndefined,
-          );
-          const selectedGroupIds = pipe(
-            fp.NEA.fromArray(filterGroups.data.map((a) => a.id)),
-            fp.O.toUndefined,
-          );
+          const selectedActorIds =
+            pipe(
+              fp.NEA.fromArray(filterActors.data.map((a) => a.id)),
+              fp.O.toUndefined
+            );
+          const selectedGroupIds =
+            pipe(
+              fp.NEA.fromArray(filterGroups.data.map((a) => a.id)),
+              fp.O.toUndefined
+            );
 
           return (
             <Box
@@ -327,7 +329,6 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                     relations={relations}
                     onRelationsChange={setRelations}
                     query={{
-                      ...params,
                       ids: undefined,
                       keywords: selectedKeywordIds,
                       actors: selectedActorIds,

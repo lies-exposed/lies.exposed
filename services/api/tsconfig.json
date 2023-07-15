@@ -6,14 +6,14 @@
     "baseUrl": "./src",
     "jsx": "react",
     "rootDir": "./",
-    "lib": ["DOM"],
+    "lib": ["DOM", "ES2022"],
     "tsBuildInfoFile": "build/.tsbuildinfo",
-    "types": ["vitest/globals"],
     "typeRoots": [
-      "../../node_modules/@types",
       "./typings",
+      "../../node_modules/@types",
+      "../../node_modules/vitest",
       "../../packages/@liexp/backend/typings",
-      "../../packages/@liexp/shared/typings"
+      "../../packages/@liexp/shared/typings",
     ],
     "target": "esnext",
     "module": "NodeNext",
@@ -47,7 +47,13 @@
       "path": "../../packages/@liexp/core"
     }
   ],
-  "include": ["./bin", "./src", "./scripts", "./test"],
+  "include": [
+    "../../node_modules/vitest/*.d.ts",
+    "./bin",
+    "./src",
+    "./scripts",
+    "./test"
+  ],
   "exclude": ["**/build", "**/lib"],
   "ts-node": {
     "transpileOnly": true,

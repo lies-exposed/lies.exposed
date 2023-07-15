@@ -236,7 +236,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
   ...props
 }) => {
   switch (e.type) {
-    case http.Events.Quote.QUOTE.value: {
+    case http.Events.EventTypes.QUOTE.value: {
       return (
         <EventSliderItemBase
           {...props}
@@ -248,7 +248,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
         />
       );
     }
-    case http.Events.Transaction.TRANSACTION.value: {
+    case http.Events.EventTypes.TRANSACTION.value: {
       const actors = e.payload.from.type === "Actor" ? [e.payload.from.id] : [];
       const groups = e.payload.from.type === "Group" ? [e.payload.from.id] : [];
       return (
@@ -266,7 +266,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
         />
       );
     }
-    case http.Events.Documentary.DOCUMENTARY.value: {
+    case http.Events.EventTypes.DOCUMENTARY.value: {
       return (
         <EventSliderItemBase
           {...props}
@@ -282,7 +282,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
         />
       );
     }
-    case http.Events.Death.DEATH.value: {
+    case http.Events.EventTypes.DEATH.value: {
       return (
         <EventSliderItemBase
           {...props}
@@ -298,7 +298,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
         />
       );
     }
-    case http.Events.ScientificStudy.SCIENTIFIC_STUDY.value: {
+    case http.Events.EventTypes.SCIENTIFIC_STUDY.value: {
       return (
         <EventSliderItemBase
           {...props}
@@ -314,7 +314,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
         />
       );
     }
-    case http.Events.Patent.PATENT.value: {
+    case http.Events.EventTypes.PATENT.value: {
       return (
         <EventSliderItemBase
           {...props}

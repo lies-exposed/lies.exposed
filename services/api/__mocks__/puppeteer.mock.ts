@@ -1,8 +1,12 @@
 /* eslint-disable import/first */
 vi.mocked("puppeteer-extra");
-import puppeteer, { PuppeteerExtra } from "puppeteer-extra";
+import { PuppeteerExtra } from "puppeteer-extra";
+import { Mocked } from "vitest";
 
-const puppeteerMock = { use : vi.fn(), launch: vi.fn() } as vi.Mocked<PuppeteerExtra>;
+const puppeteerMock = {
+  use: vi.fn(),
+  launch: vi.fn(),
+} as any as Mocked<PuppeteerExtra>;
 
 export const pageMock = {
   on: vi.fn(),

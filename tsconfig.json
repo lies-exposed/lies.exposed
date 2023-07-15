@@ -11,7 +11,7 @@
     "resolveJsonModule": true,
     "noImplicitReturns": true,
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": ["packages/@liexp/*/typings"],
+    "typeRoots": ["node_modules/@types", "packages/@liexp/*/typings"],
     "baseUrl": ".",
     "paths": {
       "@liexp/core/*": ["packages/@liexp/core/src/*"],
@@ -20,19 +20,5 @@
       "@liexp/ui/*": ["packages/@liexp/ui/src/*"]
     }
   },
-  "exclude": ["node_modules"],
-  "references": [
-    {
-      "path": "./packages/@liexp/core"
-    },
-    {
-      "path": "./packages/@liexp/shared"
-    },
-    {
-      "path": "./packages/@liexp/test"
-    },
-    {
-      "path": "./packages/@liexp/ui"
-    }
-  ]
+  "exclude": ["node_modules"]
 }

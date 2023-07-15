@@ -1,6 +1,6 @@
 import { getEventMetadata } from "@liexp/shared/lib/helpers/event/event";
 import { getTitle } from "@liexp/shared/lib/helpers/event/getTitle.helper";
-import { UNCATEGORIZED } from "@liexp/shared/lib/io/http/Events/Uncategorized";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
 import {
   LoadingIndicator,
   useRecordContext,
@@ -23,7 +23,7 @@ export const EventEditActions: React.FC = () => {
     return {
       title: "",
       date: undefined,
-      type: UNCATEGORIZED.value,
+      type: EventTypes.UNCATEGORIZED.value,
     };
   }, [record]);
 

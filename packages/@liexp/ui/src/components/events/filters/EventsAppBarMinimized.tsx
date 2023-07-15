@@ -1,11 +1,5 @@
 import {
-  Death,
-  Documentary,
-  Patent,
-  Quote,
-  ScientificStudy,
-  Transaction,
-  Uncategorized,
+  EventTypes
 } from "@liexp/shared/lib/io/http/Events";
 import { type SearchEventsQueryInputNoPagination } from "../../../state/queries/SearchEventsQuery";
 import { type EventTypeFiltersProps } from "./EventTypeFilters";
@@ -41,21 +35,21 @@ export const searchEventQueryToEventTypeFilters = (
   query: SearchEventsQueryInputNoPagination,
 ): Required<EventTypeFiltersProps["filters"]> => {
   return {
-    [Death.DEATH.value]: !!query.type?.includes(Death.DEATH.value),
-    [Uncategorized.UNCATEGORIZED.value]: !!query.type?.includes(
-      Uncategorized.UNCATEGORIZED.value,
+    [EventTypes.DEATH.value]: !!query.eventType?.includes(EventTypes.DEATH.value),
+    [EventTypes.UNCATEGORIZED.value]: !!query.eventType?.includes(
+      EventTypes.UNCATEGORIZED.value,
     ),
-    [ScientificStudy.SCIENTIFIC_STUDY.value]: !!query.type?.includes(
-      ScientificStudy.SCIENTIFIC_STUDY.value,
+    [EventTypes.SCIENTIFIC_STUDY.value]: !!query.eventType?.includes(
+      EventTypes.SCIENTIFIC_STUDY.value,
     ),
-    [Patent.PATENT.value]: !!query.type?.includes(Patent.PATENT.value),
-    [Documentary.DOCUMENTARY.value]: !!query.type?.includes(
-      Documentary.DOCUMENTARY.value,
+    [EventTypes.PATENT.value]: !!query.eventType?.includes(EventTypes.PATENT.value),
+    [EventTypes.DOCUMENTARY.value]: !!query.eventType?.includes(
+      EventTypes.DOCUMENTARY.value,
     ),
-    [Transaction.TRANSACTION.value]: !!query.type?.includes(
-      Transaction.TRANSACTION.value,
+    [EventTypes.TRANSACTION.value]: !!query.eventType?.includes(
+      EventTypes.TRANSACTION.value,
     ),
-    [Quote.QUOTE.value]: !!query.type?.includes(Quote.QUOTE.value),
+    [EventTypes.QUOTE.value]: !!query.eventType?.includes(EventTypes.QUOTE.value),
   };
 };
 

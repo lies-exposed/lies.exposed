@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { PATENT } from "@liexp/shared/lib/io/http/Events/Patent";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
@@ -11,7 +11,7 @@ export const MakeGetPatentEventRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.PatentEvent.Get, ({ params: { id } }) => {
     return pipe(
       ctx.db.findOneOrFail(EventV2Entity, {
-        where: { type: Equal(PATENT.value), id: Equal(id) },
+        where: { type: Equal(EventTypes.PATENT.value), id: Equal(id) },
         loadRelationIds: {
           relations: ["media", "keywords", "links"],
         },

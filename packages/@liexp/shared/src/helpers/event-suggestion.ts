@@ -72,7 +72,7 @@ export const getSuggestions = (
           type: http.EventSuggestion.EventSuggestionType.types[0].value,
           event: {
             ...commonSuggestion,
-            type: http.Events.Patent.PATENT.value,
+            type: http.Events.EventTypes.PATENT.value,
             payload: {
               title: suggestedTitle,
               source: l.id,
@@ -87,7 +87,7 @@ export const getSuggestions = (
           type: http.EventSuggestion.EventSuggestionType.types[0].value,
           event: {
             ...commonSuggestion,
-            type: http.Events.ScientificStudy.SCIENTIFIC_STUDY.value,
+            type: http.Events.EventTypes.SCIENTIFIC_STUDY.value,
             payload: {
               title: suggestedTitle,
               url: l.id,
@@ -108,7 +108,7 @@ export const getSuggestions = (
       type: http.EventSuggestion.EventSuggestionType.types[0].value,
       event: {
         ...commonSuggestion,
-        type: http.Events.Documentary.DOCUMENTARY.value,
+        type: http.Events.EventTypes.DOCUMENTARY.value,
         payload: {
           title: suggestedTitle,
           website: pipe(
@@ -136,7 +136,7 @@ export const getSuggestions = (
     //   type: http.EventSuggestion.EventSuggestionType.types[0].value,
     //   event: {
     //     ...commonSuggestion,
-    //     type: http.Events.Death.DEATH.value,
+    //     type: http.Events.EventTypes.DEATH.value,
     //     payload: {
     //       victim: uuid() as any,
     //       location: undefined as any,
@@ -147,7 +147,7 @@ export const getSuggestions = (
       type: http.EventSuggestion.EventSuggestionType.types[0].value,
       event: {
         ...commonSuggestion,
-        type: http.Events.Uncategorized.UNCATEGORIZED.value,
+        type: http.Events.EventTypes.UNCATEGORIZED.value,
         payload: {
           title: suggestedTitle,
           actors: relations.actors,

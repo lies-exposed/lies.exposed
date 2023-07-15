@@ -2,14 +2,14 @@ import { propsOmit } from "@liexp/core/lib/io/utils";
 import * as t from "io-ts";
 import { UUID } from "io-ts-types/lib/UUID";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
+import { DOCUMENTARY } from './EventType';
 import { GetSearchEventsQuery } from "./SearchEventsQuery";
 
-export const DOCUMENTARY = t.literal("Documentary");
-export type DOCUMENTARY = t.TypeOf<typeof DOCUMENTARY>;
+
 
 export const DocumentaryListQuery = t.strict(
   {
-    ...propsOmit(GetSearchEventsQuery, ["type"]),
+    ...propsOmit(GetSearchEventsQuery, ["eventType"]),
   },
   "DocumentaryListQuery",
 );
