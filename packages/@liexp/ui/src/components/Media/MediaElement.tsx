@@ -119,7 +119,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
 
   return (
     <StyledBox className={clsx(classes.root, className)} style={style}>
-      <Box style={{ position: "relative" }}>{mediaElement}</Box>
+      <Box style={{ position: "relative", height: '100%' }}>{mediaElement}</Box>
 
       {enableDescription ? (
         <Box className={classes.description}>
