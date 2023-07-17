@@ -35,6 +35,7 @@ import * as S from "fp-ts/string";
 import { type UUID } from "io-ts-types/lib/UUID";
 import { fetchEventsWithRelations } from "@flows/events/fetchWithRelations.flow";
 import { type TEFlow } from "@flows/flow.types";
+import { cleanItemsFromSlateFields } from '@utils/clean.utils';
 
 const uniqueId = GetEncodeUtils<
   {
@@ -59,15 +60,6 @@ const uniqueId = GetEncodeUtils<
   keywords: keywords.join("-"),
 }));
 
-function cleanItemsFromSlateFields<T extends Actor.Actor | Group.Group>(
-  actors: T[],
-): T[] {
-  return actors.map(({ body, excerpt, ...a }: any) => ({
-    ...a,
-    excerpt: {},
-    body: {},
-  }));
-}
 
 type ItemType = Group.Group | Keyword.Keyword | Actor.Actor;
 

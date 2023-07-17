@@ -12,7 +12,10 @@ import {
   type Keyword,
   type Media,
 } from "@liexp/shared/lib/io/http";
-import { type GetNetworkQuery } from "@liexp/shared/lib/io/http/Network";
+import {
+  type NetworkLink,
+  type GetNetworkQuery,
+} from "@liexp/shared/lib/io/http/Network";
 import {
   type FlowGraphOutput,
   type FlowGraphType,
@@ -25,48 +28,57 @@ import { fetchEventsByRelation } from "@flows/events/fetchByRelations.flow";
 import { fetchEventsRelations } from "@flows/events/fetchEventsRelations.flow";
 import { type TEFlow } from "@flows/flow.types";
 import { toEventV2IO } from "@routes/events/eventV2.io";
+import { cleanItemsFromSlateFields } from '@utils/clean.utils';
 
 const ordByDate = pipe(
   fp.N.Ord,
   fp.Ord.contramap((n: Events.Event) => differenceInDays(n.date, new Date())),
 );
 
-const updateMap = (m: Map<string, any[]>) => (ids: any[], eId: string) => {
-  return pipe(
-    ids,
-    fp.A.map((a) =>
-      pipe(
-        m,
-        fp.Map.lookup(fp.S.Eq)(a.id),
-        fp.O.chain((links) =>
-          pipe(
-            links,
-            fp.A.last,
-            fp.O.map((l) =>
-              links.concat({
-                source: l.target,
-                color: toColor(a.color),
-                target: eId,
-              }),
+const updateMap =
+  (m: Map<string, any[]>, sourceType: NetworkLink["sourceType"]) =>
+  (ids: any[], eId: string) => {
+    return pipe(
+      ids,
+      fp.A.map((a) =>
+        pipe(
+          m,
+          fp.Map.lookup(fp.S.Eq)(a.id),
+          fp.O.chain((links) =>
+            pipe(
+              links,
+              fp.A.last,
+              fp.O.map((l) =>
+                links.concat({
+                  source: l.target,
+                  stroke: toColor(a.color),
+                  fill: toColor(a.color),
+                  sourceType,
+                  value: 1,
+                  target: eId,
+                }),
+              ),
             ),
           ),
+          fp.O.getOrElse(() => [
+            {
+              source: a.id,
+              name: a.name ?? a.fullName,
+              fill: toColor(a.color),
+              stroke: toColor(a.color),
+              sourceType,
+              value: 1,
+              target: eId,
+            },
+          ]),
+          (links): [string, any[]] => [a.id, links],
         ),
-        fp.O.getOrElse(() => [
-          {
-            source: a.id,
-            name: a.name ?? a.fullName,
-            color: toColor(a.color),
-            target: eId,
-          },
-        ]),
-        (links): [string, any[]] => [a.id, links],
       ),
-    ),
-    fp.A.reduce(m, (acc, [k, ll]) =>
-      pipe(acc, fp.Map.upsertAt(fp.S.Eq)(k, ll)),
-    ),
-  );
-};
+      fp.A.reduce(m, (acc, [k, ll]) =>
+        pipe(acc, fp.Map.upsertAt(fp.S.Eq)(k, ll)),
+      ),
+    );
+  };
 
 export const getFlowGraph =
   (l: Logger) =>
@@ -128,16 +140,16 @@ export const getFlowGraph =
           keywords: eventKeywords,
         } = getRelationIds(n);
 
-        const actorLinks = updateMap(acc.actorLinks)(
+        const actorLinks = updateMap(acc.actorLinks, "actors")(
           actors.filter((a) => eventActors.includes(a.id)),
           n.id,
         );
-        const groupLinks = updateMap(acc.groupLinks)(
+        const groupLinks = updateMap(acc.groupLinks, "groups")(
           groups.filter((g) => eventGroups.includes(g.id)),
           n.id,
         );
 
-        const keywordLinks = updateMap(acc.keywordLinks)(
+        const keywordLinks = updateMap(acc.keywordLinks, "keywords")(
           keywords.filter((g) => eventKeywords.includes(g.id)),
           n.id,
         );
@@ -177,8 +189,8 @@ export const getFlowGraph =
       startDate,
       endDate,
       events,
-      groups,
-      actors,
+      groups: cleanItemsFromSlateFields(groups),
+      actors: cleanItemsFromSlateFields(actors),
       keywords,
       media,
       eventLinks: [],
