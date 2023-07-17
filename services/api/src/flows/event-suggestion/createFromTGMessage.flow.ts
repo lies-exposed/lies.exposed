@@ -59,11 +59,18 @@ const parsePlatformMedia: TEFlow<
           (te) => {
             return pipe(
               te,
-              TE.map((record) => {
+              TE.chain((record) => {
                 if (O.isSome(record)) {
-                  return [record.value];
+                  return TE.right([record.value]);
                 }
-                return [];
+
+                return ctx.db.save(MediaEntity, [
+                  {
+                    ...media,
+                    description: media.description ?? media.location,
+                    creator: { id: creator.id },
+                  },
+                ]);
               }),
             );
           },
