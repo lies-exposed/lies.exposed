@@ -1,11 +1,9 @@
 export const tgProviderMock = {
-  bot: {
-    command: vi.fn(),
-    api: {
-      getChat: vi.fn(),
-      downloadFile: vi.fn(),
-    } as any,
-  },
+  api: {
+    onText: vi.fn(),
+    getChat: vi.fn(),
+    downloadFile: vi.fn(),
+  } as any,
   startPolling: vi.fn(),
   stopPolling: vi.fn(),
   onMessage: vi.fn(),

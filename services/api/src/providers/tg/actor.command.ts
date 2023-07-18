@@ -1,15 +1,21 @@
+import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider";
 import { fp } from "@liexp/core/lib/fp";
-import { URL } from "@liexp/shared/lib/io/http/Common";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { type BotBrotherCtx } from "bot-brother";
 import { pipe } from "fp-ts/function";
 import kebabCase from "lodash/kebabCase";
+import type TelegramBot from "node-telegram-bot-api";
 import { ActorEntity } from "@entities/Actor.entity";
 import { fetchActorFromWikipedia } from "@flows/actors/fetchActorFromWikipedia";
+import { toControllerError } from "@io/ControllerError";
 import { type RouteContext } from "@routes/route.types";
 
 const getSuccessMessage = (actor: ActorEntity, baseUrl: string): string =>
   `Actor <a href="${baseUrl}/actors/${actor.id}">${actor.fullName}</a>`;
+
+const callbackQueryListeners: Record<
+  string,
+  (c: TelegramBot.CallbackQuery) => void
+> = {};
 
 export const actorCommand = ({
   logger,
@@ -18,77 +24,137 @@ export const actorCommand = ({
   db,
   env,
   ...rest
-}: RouteContext): BotBrotherCtx => {
-  tg.bot
-    .command("actor")
-    .invoke(async (ctx) => {
-      ctx.search = ctx.args.join(" ");
-      const username = kebabCase(ctx.search);
-      logger.debug.log("Looking for actor %s (%s)", ctx.search, username);
+}: RouteContext): TGBotProvider => {
+  tg.api.onText(/\/actor\s(.*)/, (msg, match) => {
+    if (!match || match[1] === "") {
+      return;
+    }
 
-      const actor = await pipe(
-        db.findOne(ActorEntity, { where: { username } }),
-        fp.TE.map(fp.O.toNullable),
-        throwTE,
-      );
+    logger.debug.log(`Match %O`, match);
+    const commandContext: any = {};
 
-      if (actor) {
-        await ctx.sendMessage(getSuccessMessage(actor, env.WEB_URL), {
-          parse_mode: "HTML",
-        });
-        return;
-      }
+    commandContext.search = match[1];
+    const username = kebabCase(commandContext.search);
+    logger.debug.log(
+      "Looking for actor %s (%s)",
+      commandContext.search,
+      username,
+    );
 
-      await pipe(
-        wp.search(ctx.search),
-        fp.TE.map((q) =>
-          q.results.slice(0, 5).map((s) => ({
-            [s.title]: { value: s.pageid },
-          })),
-        ),
-        fp.TE.map((options) => {
-          ctx.keyboard([options]);
-          return undefined;
-        }),
-        throwTE,
-      );
+    void pipe(
+      db.findOne(ActorEntity, { where: { username } }),
+      fp.TE.chain((a) => {
+        if (fp.O.isSome(a)) {
+          return pipe(
+            fp.TE.tryCatch(
+              () =>
+                tg.api.sendMessage(
+                  msg.chat.id,
+                  getSuccessMessage(a.value, env.WEB_URL),
+                ),
+              toControllerError,
+            ),
+          );
+        }
+        return pipe(
+          wp.search(commandContext.search),
+          fp.TE.mapLeft(toControllerError),
+          fp.TE.map((q) =>
+            q.results.slice(0, 5).map((s) => ({
+              [s.title]: { value: s.pageid },
+            })),
+          ),
+          fp.TE.chain((options) => {
+            const inlineKeyboardButtons = options.map((o) =>
+              Object.entries(o).map(([name, v]) => ({
+                text: name,
+                callback_data: JSON.stringify({
+                  command: "actor",
+                  value: v.value,
+                }),
+              })),
+            );
 
-      await ctx.sendMessage(`Looking for ${ctx.search} on Wikipedia...`);
-    })
-    .answer(async (ctx) => {
-      if (!ctx.answer || URL.is(ctx.answer)) {
-        return;
-      }
-      logger.debug.log("User pick %O", ctx.answer);
-      const pageId = ctx.answer;
-      ctx.hideKeyboard();
-      const actorData = await pipe(
-        fetchActorFromWikipedia({
-          db,
-          logger,
-          wp,
-          tg,
-          env,
-          ...rest,
-        })(pageId),
-        throwTE,
-      );
+            callbackQueryListeners[msg.chat.id] = (answer) => {
+              if (!answer.data) {
+                return;
+              }
+              const jsonData = JSON.parse(answer.data);
+              logger.debug.log("User pick %O", jsonData);
 
-      const actor = await pipe(
-        db.save(ActorEntity, [
-          {
-            ...actorData,
-            bornOn: actorData.bornOn as any,
-            diedOn: actorData.diedOn as any,
-          },
-        ]),
-        fp.TE.map((r) => r[0]),
-        throwTE,
-      );
+              void pipe(
+                fetchActorFromWikipedia({
+                  db,
+                  logger,
+                  wp,
+                  tg,
+                  env,
+                  ...rest,
+                })(jsonData.value),
+                fp.TE.chain((actorData) => {
+                  return pipe(
+                    db.findOne(ActorEntity, {
+                      where: { username: actorData.username },
+                    }),
+                    fp.TE.chain((a) => {
+                      if (fp.O.isSome(a)) {
+                        return fp.TE.right([a.value]);
+                      }
 
-      await ctx.sendMessage(getSuccessMessage(actor, env.WEB_URL), {
-        parse_mode: "HTML",
-      });
-    });
-  return tg.bot;
+                      return db.save(ActorEntity, [
+                        {
+                          ...actorData,
+                          bornOn: actorData.bornOn as any,
+                          diedOn: actorData.diedOn as any,
+                        },
+                      ]);
+                    }),
+                  );
+                }),
+                fp.TE.chain(([actor]) =>
+                  fp.TE.tryCatch(
+                    () =>
+                      tg.api.sendMessage(
+                        msg.chat.id,
+                        getSuccessMessage(actor, env.WEB_URL),
+                        {
+                          parse_mode: "HTML",
+                        },
+                      ),
+                    toControllerError,
+                  ),
+                ),
+                fp.TE.chainFirst(() => {
+                  tg.api.removeListener(
+                    "callback_query",
+                    callbackQueryListeners[msg.chat.id],
+                  );
+
+                  // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+                  delete callbackQueryListeners[msg.chat.id];
+                  return fp.TE.right(undefined);
+                }),
+                throwTE,
+              );
+            };
+
+            tg.api.on("callback_query", callbackQueryListeners[msg.chat.id]);
+
+            return fp.TE.tryCatch(
+              () =>
+                tg.api.sendMessage(msg.chat.id, "Select one of the result", {
+                  reply_markup: {
+                    inline_keyboard: inlineKeyboardButtons,
+                  },
+                }),
+              toControllerError,
+            );
+          }),
+        );
+      }),
+      throwTE,
+    );
+  });
+
+  return tg;
 };

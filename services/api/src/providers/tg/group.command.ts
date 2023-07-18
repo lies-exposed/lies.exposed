@@ -1,15 +1,21 @@
+import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider";
 import { fp } from "@liexp/core/lib/fp";
 import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor";
-import { URL } from "@liexp/shared/lib/io/http/Common";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { type BotBrotherCtx } from "bot-brother";
 import { pipe } from "fp-ts/function";
+import type TelegramBot from "node-telegram-bot-api";
 import { GroupEntity } from "@entities/Group.entity";
 import { fetchGroupFromWikipedia } from "@flows/groups/fetchGroupFromWikipedia";
+import { toControllerError } from "@io/ControllerError";
 import { type RouteContext } from "@routes/route.types";
 
 const getSuccessMessage = (g: GroupEntity, baseUrl: string): string =>
   `Group <a href="${baseUrl}/group/${g.id}">${g.name}</a>`;
+
+const callbackQueryListeners: Record<
+  string,
+  (c: TelegramBot.CallbackQuery) => void
+> = {};
 
 export const groupCommand = ({
   logger,
@@ -18,64 +24,126 @@ export const groupCommand = ({
   tg,
   env,
   ...tgContext
-}: RouteContext): BotBrotherCtx => {
-  tg.bot
-    .command("group")
-    .invoke(async (ctx) => {
-      ctx.search = ctx.args.join(" ");
-      const username = getUsernameFromDisplayName(ctx.search);
-      logger.debug.log("/group %s", ctx.search, username);
+}: RouteContext): TGBotProvider => {
+  const handleGroupMessage = async (
+    msg: TelegramBot.Message,
+    match: RegExpExecArray | null,
+  ): Promise<void> => {
+    if (!match || match[1] === "") {
+      return;
+    }
 
-      const group = await pipe(
-        db.findOne(GroupEntity, { where: { username } }),
-        fp.TE.map(fp.O.toNullable),
-        throwTE,
-      );
-      if (group) {
-        await ctx.sendMessage(getSuccessMessage(group, env.WEB_URL), {
-          parse_mode: "HTML",
-        });
-        return;
-      }
-      await pipe(
-        wp.search(ctx.search),
-        fp.TE.map((q) =>
-          q.results.slice(0, 5).map((s) => ({
-            [s.title]: { value: s.pageid },
-          })),
-        ),
-        fp.TE.map((options) => {
-          ctx.keyboard([options]);
-          return undefined;
-        }),
-        throwTE,
-      );
+    logger.debug.log(`Match %O`, match);
+    const commandContext: any = {};
 
-      await ctx.sendMessage(`Looking for ${ctx.search} on Wikipedia...`);
-    })
-    .answer(async (ctx) => {
-      if (URL.is(ctx.answer) || !ctx.answer) {
-        return;
-      }
-      logger.debug.log("User pick %O", ctx.answer);
-      const pageId = ctx.answer;
-      ctx.hideKeyboard();
-      const groupData = await pipe(
-        fetchGroupFromWikipedia({ logger, wp, tg, db, env, ...tgContext })(
-          pageId,
-        ),
-        throwTE,
-      );
+    commandContext.search = match[1];
+    const username = getUsernameFromDisplayName(commandContext.search);
+    logger.debug.log("/group %s", commandContext.search, username);
 
-      const [group] = await pipe(
-        db.save(GroupEntity, [{ ...groupData, members: [] }]),
-        throwTE,
-      );
+    void pipe(
+      db.findOne(GroupEntity, { where: { username } }),
+      fp.TE.chain((g) => {
+        if (fp.O.isSome(g)) {
+          return fp.TE.tryCatch(
+            () =>
+              tg.api.sendMessage(
+                msg.chat.id,
+                getSuccessMessage(g.value, env.WEB_URL),
+                {
+                  parse_mode: "HTML",
+                },
+              ),
+            toControllerError,
+          );
+        }
 
-      return await ctx.sendMessage(getSuccessMessage(group, env.WEB_URL), {
-        parse_mode: "HTML",
-      });
-    });
+        return pipe(
+          wp.search(commandContext.search),
+          fp.TE.mapLeft(toControllerError),
+          fp.TE.map((q) =>
+            q.results.slice(0, 5).map((s) => ({
+              [s.title]: { value: s.pageid },
+            })),
+          ),
+          fp.TE.chain((options) => {
+            const inlineKeyboardButtons = options.map((o) =>
+              Object.entries(o).map(([name, v]) => ({
+                text: name,
+                callback_data: JSON.stringify({
+                  command: "actor",
+                  value: v.value,
+                }),
+              })),
+            );
 
-  return tg.bot;
+            callbackQueryListeners[msg.chat.id] = (answer) => {
+              if (!answer.data) {
+                return;
+              }
+              const jsonData = JSON.parse(answer.data);
+              logger.debug.log("User pick %O", jsonData);
+              const pageId = jsonData.value;
+
+              void pipe(
+                fetchGroupFromWikipedia({
+                  logger,
+                  wp,
+                  tg,
+                  db,
+                  env,
+                  ...tgContext,
+                })(pageId),
+                fp.TE.chain((groupData) =>
+                  db.save(GroupEntity, [{ ...groupData, members: [] }]),
+                ),
+                fp.TE.chain(([group]) =>
+                  fp.TE.tryCatch(
+                    () =>
+                      tg.api.sendMessage(
+                        msg.chat.id,
+                        getSuccessMessage(group, env.WEB_URL),
+                        {
+                          parse_mode: "HTML",
+                        },
+                      ),
+                    toControllerError,
+                  ),
+                ),
+                fp.TE.chainFirst(() => {
+                  tg.api.removeListener(
+                    "callback_query",
+                    callbackQueryListeners[msg.chat.id],
+                  );
+
+                  // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+                  delete callbackQueryListeners[msg.chat.id];
+                  return fp.TE.right(undefined);
+                }),
+                throwTE,
+              );
+            };
+
+            tg.api.on("callback_query", callbackQueryListeners[msg.chat.id]);
+
+            return fp.TE.tryCatch(
+              () =>
+                tg.api.sendMessage(msg.chat.id, "Results found on Wikipedia", {
+                  reply_markup: {
+                    inline_keyboard: inlineKeyboardButtons,
+                  },
+                }),
+              toControllerError,
+            );
+          }),
+        );
+      }),
+      throwTE,
+    );
+  };
+
+  tg.api.onText(/\/group\s(.*)/, (msg, match) => {
+    void handleGroupMessage(msg, match);
+  });
+
+  return tg;
 };

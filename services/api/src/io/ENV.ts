@@ -79,6 +79,7 @@ const ENV = t.intersection(
         TG_BOT_CHAT: t.string,
         TG_BOT_USERNAME: t.string,
         TG_BOT_POLLING: BooleanFromString,
+        TG_BOT_BASE_API_URL: t.string,
         IG_USERNAME: t.string,
         IG_PASSWORD: t.string,
       },

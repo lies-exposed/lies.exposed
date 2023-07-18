@@ -29,5 +29,6 @@ ssh $SSH_DOMAIN << "EOF"
     # sudo certbot --nginx -d $API_DOMAIN
     # sudo certbot --nginx -d $WEB_DOMAIN
     cat /etc/nginx/sites-enabled/$WEB_DOMAIN
+
 EOF
 
