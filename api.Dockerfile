@@ -53,8 +53,6 @@ COPY --from=build /app/services/api/build /app/services/api/build
 
 RUN yarn config set --home enableTelemetry false && yarn workspaces focus -A --production && rm -rf /app/.yarn/cache /app/node_modules/.cache /app/services/api/node_modules/.cache
 
-RUN mkdir /app/node_modules/bot-brother/__storage/
-
 # Run everything after as non-privileged user.
 USER pptruser
 

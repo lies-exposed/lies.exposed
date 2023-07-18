@@ -26,6 +26,10 @@ import { PathReporter } from "io-ts/lib/PathReporter";
 import metadataParser from "page-metadata-parser";
 import puppeteer from "puppeteer-core";
 import wk from "wikipedia";
+import { actorCommand } from './providers/tg/actor.command';
+import { groupCommand } from './providers/tg/group.command';
+import { helpCommand } from './providers/tg/help.command';
+import { startCommand } from './providers/tg/start.command';
 import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
 import { toControllerError, type ControllerError } from "@io/ControllerError";
 import { type ENV } from "@io/ENV";
@@ -130,6 +134,7 @@ export const makeContext = (
             token: env.TG_BOT_TOKEN,
             chat: env.TG_BOT_CHAT,
             polling: env.TG_BOT_POLLING,
+            baseApiUrl: env.TG_BOT_BASE_API_URL,
           },
         ),
         TE.right,
@@ -252,7 +257,15 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   // social posts
   MakeSocialPostRoutes(router, ctx);
 
-  const tgLogger = ctx.logger.extend("tg-bot");
+  const tgLogger = ctx.logger.extend("tg-bot"); // bind /start command to tg bot
+
+  startCommand(ctx);
+  // bind /help command to tg bot
+  helpCommand(ctx);
+  // bind /actor command to tg bot
+  actorCommand(ctx);
+  // bind /group command to tg bot
+  groupCommand(ctx);
 
   ctx.tg.onMessage((msg, metadata) => {
     if (msg.text?.startsWith("/")) {
@@ -305,7 +318,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
       throwTE,
     )
       .then((message) =>
-        ctx.tg.bot.api.sendMessage(msg.chat.id, message, {
+        ctx.tg.api.sendMessage(msg.chat.id, message, {
           reply_to_message_id: msg.message_id,
         }),
       )

@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rm -rf build",
     "start": "node bin/run.js",
-    "develop": "ts-node src/run.ts",
+    "develop": "yarn ts:node:paths src/run.ts",
     "develop:alpha": "DOTENV_CONFIG_PATH=.env.alpha ts-node-dev src/run.ts",
     "build": "tsc -b ./tsconfig.build.json",
     "watch": "tsc -b ./tsconfig.build.json --watch",
@@ -45,7 +45,6 @@
     "@liexp/core": "0.1.0",
     "@liexp/shared": "0.1.0",
     "axios": "^1.4.0",
-    "bot-brother": "^2.1.5",
     "canvas": "^2.11.2",
     "cors": "2.8.5",
     "debug": "^4.3.4",
