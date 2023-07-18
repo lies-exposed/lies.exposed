@@ -6,10 +6,6 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { failure } from "io-ts/lib/PathReporter";
 import { postOnSocialJob } from "./jobs/socialPostScheduler.job";
-import { actorCommand } from "./providers/tg/actor.command";
-import { groupCommand } from "./providers/tg/group.command";
-import { helpCommand } from "./providers/tg/help.command";
-import { startCommand } from "./providers/tg/start.command";
 import { makeApp, makeContext } from "./server";
 
 const run = (): Promise<void> => {
@@ -49,14 +45,6 @@ const run = (): Promise<void> => {
       },
       ({ ctx, app }) =>
         () => {
-          // bind /start command to tg bot
-          startCommand(ctx);
-          // bind /help command to tg bot
-          helpCommand(ctx);
-          // bind /actor command to tg bot
-          actorCommand(ctx);
-          // bind /group command to tg bot
-          groupCommand(ctx);
 
           const postOnSocialTask = postOnSocialJob(ctx);
           postOnSocialTask.start();

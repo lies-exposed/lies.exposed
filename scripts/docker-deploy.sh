@@ -26,11 +26,9 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     mkdir -p ./temp/networks/groups
     mkdir -p ./temp/networks/events
     mkdir -p ./temp/tg/messages
-    mkdir -p ./bot-brother-storage
 
     chown -R pptruser:pptruser ./config
     chown -R pptruser:pptruser ./temp
-    chown -R pptruser:pptruser ./bot-brother-storage
     export API_UID=$(id pptruser -u)
     export API_GID=$(id pptruser -g)
     docker compose pull

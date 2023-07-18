@@ -169,7 +169,7 @@ describe("Create From TG Message", () => {
       fs.writeFileSync(tempFileLocation, new Uint8Array(10));
 
       // mock tg download
-      Test.mocks.tg.bot.api.downloadFile.mockImplementationOnce(() =>
+      Test.mocks.tg.api.downloadFile.mockImplementationOnce(() =>
         Promise.resolve(tempFileLocation),
       );
 
@@ -518,7 +518,7 @@ describe("Create From TG Message", () => {
           "Photos and videos %d",
           photos.length + videos.length,
         );
-        Test.mocks.tg.bot.api.downloadFile.mockReset();
+        Test.mocks.tg.api.downloadFile.mockReset();
         Test.mocks.s3.client.send.mockReset();
 
         // // create the media
@@ -533,7 +533,7 @@ describe("Create From TG Message", () => {
           fs.writeFileSync(tempFileLocation, new Uint8Array(10));
 
           // mock tg download
-          Test.mocks.tg.bot.api.downloadFile.mockImplementationOnce(() =>
+          Test.mocks.tg.api.downloadFile.mockImplementationOnce(() =>
             Promise.resolve(tempFileLocation),
           );
 
@@ -556,7 +556,7 @@ describe("Create From TG Message", () => {
           fs.writeFileSync(tempFileLocation, new Uint8Array(10));
 
           // mock tg download
-          Test.mocks.tg.bot.api.downloadFile
+          Test.mocks.tg.api.downloadFile
             .mockImplementationOnce(() => Promise.resolve(tempFileLocation))
             .mockImplementationOnce(() => Promise.resolve(tempFileLocation));
 

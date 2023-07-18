@@ -1,4 +1,4 @@
-import { type BotBrotherCtx } from "bot-brother";
+import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider";
 import { type RouteContext } from "@routes/route.types";
 
 export const startCommand = ({
@@ -8,11 +8,12 @@ export const startCommand = ({
   db,
   env,
   ...rest
-}: RouteContext): BotBrotherCtx => {
-  tg.bot.command("start").invoke((ctx) => {
-    return ctx.sendMessage(
+}: RouteContext): TGBotProvider => {
+  tg.api.onText(/\/start/, (msg, match) => {
+    void tg.api.sendMessage(
+      msg.chat.id,
       `Hello, I'm the bot for ${env.TG_BOT_CHAT}.\n\nI can create links, actors, groups and other thing for you.\n\nDiscover what I can do with the /help command`,
     );
   });
-  return tg.bot;
+  return tg;
 };
