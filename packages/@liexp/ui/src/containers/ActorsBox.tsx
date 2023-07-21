@@ -26,33 +26,21 @@ export const ActorsBoxWrapper: React.FC<ActorsBoxWrapperProps> = ({
   );
 };
 
-type ActorsBoxProps<D extends React.ElementType<any> = "ul"> = Omit<
-  ActorListProps<D>,
-  "actors" | "onActorClick"
-> &
+type ActorsBoxProps = Omit<ActorListProps, "actors"> &
   Omit<ActorsBoxWrapperProps, "children">;
 
-const ActorsBox = <D extends React.ElementType<any> = "ul">({
+const ActorsBox: React.FC<ActorsBoxProps> = ({
   params,
-  displayFullName,
-  style,
-  itemStyle,
-  onItemClick,
   discrete,
   prefix,
   ...props
-}: ActorsBoxProps<D>): JSX.Element => {
+}) => {
   return (
     <ActorsBoxWrapper params={params} discrete={discrete} prefix={prefix}>
       {({ data: actors }) => (
         <ActorList
           {...props}
-          displayFullName={displayFullName}
-          style={style}
-          itemStyle={itemStyle}
           actors={actors.map((a) => ({ ...a, selected: true }))}
-          onActorClick={(a) => onItemClick?.(a)}
-          onItemClick={onItemClick}
         />
       )}
     </ActorsBoxWrapper>

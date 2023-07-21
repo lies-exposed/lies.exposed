@@ -76,7 +76,7 @@ const MediaSearchTemplate: React.FC<MediaSearchTemplateProps> = ({
             />
             <ActorsBox
               params={{ filter: { ids: filter.actors } }}
-              onItemClick={(a: any) => {
+              onActorClick={(a) => {
                 onFilterChange({
                   ..._filter,
                   actors: _filter.actors.filter((kk) => kk.id !== a.id),
