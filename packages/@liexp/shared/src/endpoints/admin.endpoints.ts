@@ -1,6 +1,7 @@
 import * as t from "io-ts";
 import { UUID } from "io-ts-types/lib/UUID";
 import { Endpoint } from "ts-endpoint";
+import { Color, URL } from "../io/http/Common";
 import { ResourceEndpoints } from "./types";
 
 export const List = Endpoint({
@@ -56,6 +57,21 @@ export const Delete = Endpoint({
   Output: t.unknown,
 });
 
+export const BuildImage = Endpoint({
+  Method: "POST",
+  getPath: () => `/admins/images/build`,
+  Input: {
+    Body: t.strict({
+      text: t.string,
+      media: URL,
+      textBlend: t.string,
+      textGravity: t.string,
+      background: t.union([Color, t.undefined]),
+    }),
+  },
+  Output: t.any,
+});
+
 const admin = ResourceEndpoints({
   Get,
   Create,
@@ -63,7 +79,7 @@ const admin = ResourceEndpoints({
   Edit,
   Delete,
   Custom: {
-    // PostToPlatform,
+    BuildImage,
   },
 });
 

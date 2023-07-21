@@ -3,6 +3,7 @@ import { MakeURLMetadata } from "@liexp/backend/lib/providers/URLMetadata.provid
 import { GetFFMPEGProvider } from "@liexp/backend/lib/providers/ffmpeg.provider";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider";
 import { IGProvider } from "@liexp/backend/lib/providers/ig/ig.provider";
+import { MakeImgProcClient } from "@liexp/backend/lib/providers/imgproc/imgproc.provider";
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider";
 import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider";
@@ -25,16 +26,18 @@ import { pipe } from "fp-ts/function";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import metadataParser from "page-metadata-parser";
 import puppeteer from "puppeteer-core";
+import sharp from 'sharp';
 import wk from "wikipedia";
-import { actorCommand } from './providers/tg/actor.command';
-import { groupCommand } from './providers/tg/group.command';
-import { helpCommand } from './providers/tg/help.command';
-import { startCommand } from './providers/tg/start.command';
+import { actorCommand } from "./providers/tg/actor.command";
+import { groupCommand } from "./providers/tg/group.command";
+import { helpCommand } from "./providers/tg/help.command";
+import { startCommand } from "./providers/tg/start.command";
 import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
 import { toControllerError, type ControllerError } from "@io/ControllerError";
 import { type ENV } from "@io/ENV";
 import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.routes";
 import { MakeActorRoutes } from "@routes/actors/actors.routes";
+import { MakeAdminRoutes } from "@routes/admin/admin.routes";
 import { MakeAreasRoutes } from "@routes/areas/Areas.routes";
 import { MakeDeathEventsRoutes } from "@routes/events/deaths/death.routes";
 import { MakeDocumentaryReleaseRoutes } from "@routes/events/documentary/documentary.routes";
@@ -149,6 +152,9 @@ export const makeContext = (
           credentials: { username: env.IG_USERNAME, password: env.IG_PASSWORD },
         }),
       ),
+      imgProc: TE.right(MakeImgProcClient({
+        client: sharp.bind(sharp)
+      })),
     }),
     TE.mapLeft((e) => ({
       ...e,
@@ -254,6 +260,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   MakeUploadsRoutes(router, ctx);
 
   // admin
+  MakeAdminRoutes(router, ctx);
   // social posts
   MakeSocialPostRoutes(router, ctx);
 
