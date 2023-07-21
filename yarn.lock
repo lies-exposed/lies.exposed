@@ -455,11 +455,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/lib-storage@npm:^3.367.0":
-  version: 3.367.0
-  resolution: "@aws-sdk/lib-storage@npm:3.367.0"
+"@aws-sdk/lib-storage@npm:^3.374.0":
+  version: 3.374.0
+  resolution: "@aws-sdk/lib-storage@npm:3.374.0"
   dependencies:
-    "@smithy/middleware-endpoint": ^1.0.1
+    "@smithy/abort-controller": ^1.0.1
+    "@smithy/middleware-endpoint": ^1.0.2
     "@smithy/smithy-client": ^1.0.3
     buffer: 5.6.0
     events: 3.3.0
@@ -467,7 +468,7 @@ __metadata:
     tslib: ^2.5.0
   peerDependencies:
     "@aws-sdk/client-s3": ^3.0.0
-  checksum: 5e19ccebf63bb36d2e04d61c46b37f4db55cc79f9c7109f2db0000109462303f106f4c5a760c6843cb297eba3125ca6b9dd93876c84a41f441ed782e23e52eb5
+  checksum: 5d3a414ea7f901bc9392e13134862c1fad0dbaa6371f851e34a0a947fc840a1c47b8e2f54336a07d3d31178472e453e4fdf525c565902e2161730e9855aab0cd
   languageName: node
   linkType: hard
 
@@ -3637,7 +3638,7 @@ __metadata:
   resolution: "@liexp/shared@workspace:packages/@liexp/shared"
   dependencies:
     "@aws-sdk/client-s3": ^3.367.0
-    "@aws-sdk/lib-storage": ^3.367.0
+    "@aws-sdk/lib-storage": ^3.374.0
     "@aws-sdk/s3-request-presigner": ^3.367.0
     "@databases/escape-identifier": ^1.0.3
     "@databases/sql": ^3.3.0
@@ -4974,7 +4975,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@smithy/abort-controller@npm:^1.0.2":
+"@smithy/abort-controller@npm:^1.0.1, @smithy/abort-controller@npm:^1.0.2":
   version: 1.0.2
   resolution: "@smithy/abort-controller@npm:1.0.2"
   dependencies:
@@ -5119,7 +5120,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@smithy/middleware-endpoint@npm:^1.0.1":
+"@smithy/middleware-endpoint@npm:^1.0.1, @smithy/middleware-endpoint@npm:^1.0.2":
   version: 1.0.3
   resolution: "@smithy/middleware-endpoint@npm:1.0.3"
   dependencies:
@@ -9655,7 +9656,7 @@ __metadata:
   resolution: "api@workspace:services/api"
   dependencies:
     "@aws-sdk/client-s3": ^3.367.0
-    "@aws-sdk/lib-storage": ^3.367.0
+    "@aws-sdk/lib-storage": ^3.374.0
     "@aws-sdk/s3-request-presigner": ^3.367.0
     "@databases/escape-identifier": ^1.0.3
     "@databases/pg": ^5.4.1
