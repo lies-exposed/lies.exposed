@@ -20,7 +20,11 @@ import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import supertest from "supertest";
-import { type DataSource, type EntityTarget, type ObjectLiteral } from "typeorm";
+import {
+  type DataSource,
+  type EntityTarget,
+  type ObjectLiteral,
+} from "typeorm";
 import { s3Mock } from "../__mocks__/s3.mock";
 import { igProviderMock } from "../__mocks__/ig.mock";
 import puppeteerMocks from "../__mocks__/puppeteer.mock";
@@ -29,6 +33,7 @@ import { wikipediaProviderMock } from "../__mocks__/wikipedia.mock";
 import { type RouteContext } from "../src/routes/route.types";
 import { makeApp } from "../src/server";
 import { mocks, type AppMocks } from "./mocks";
+import { MakeImgProcClient } from "@liexp/backend/src/providers/imgproc/imgproc.provider";
 
 export interface AppTest {
   ctx: RouteContext;
@@ -67,7 +72,7 @@ export const initAppTest = async (): Promise<AppTest> => {
       env: pipe(
         ENV.decode(process.env),
         TE.fromEither,
-        TE.mapLeft(toControllerError)
+        TE.mapLeft(toControllerError),
       ),
     }),
     TE.map(({ db, env }) => ({
@@ -90,17 +95,20 @@ export const initAppTest = async (): Promise<AppTest> => {
         fetchHTML: (url: string, opts: any) => {
           return TE.tryCatch(
             () => mocks.urlMetadata.fetchHTML(url, opts) as Promise<any>,
-            (e) => e as any
+            (e) => e as any,
           );
         },
         fetchMetadata: (url: string, opts: any) => {
           return TE.tryCatch(
             () => mocks.urlMetadata.fetchMetadata(url, opts) as Promise<any>,
-            (e) => e as any
+            (e) => e as any,
           );
         },
       },
       http: HTTP({}),
+      imgProc: MakeImgProcClient({
+        client: (() => Promise.resolve(Buffer.from([]))) as any,
+      }),
     })),
     TE.map((ctx) => ({
       ctx,
@@ -108,7 +116,7 @@ export const initAppTest = async (): Promise<AppTest> => {
       utils: {
         e2eAfterAll: () => {
           const liftFind = <E extends ObjectLiteral>(
-            e: EntityTarget<E>
+            e: EntityTarget<E>,
           ): TE.TaskEither<Error, boolean> =>
             pipe(
               ctx.db.find(e, { take: 100 }),
@@ -116,11 +124,11 @@ export const initAppTest = async (): Promise<AppTest> => {
                 els.length > 0
                   ? ctx.db.delete(
                       e,
-                      els.map((e) => e.id)
+                      els.map((e) => e.id),
                     )
-                  : TE.right({ affected: 0, raw: {} })
+                  : TE.right({ affected: 0, raw: {} }),
               ),
-              TE.map((r) => (r.affected ?? 0) >= 0)
+              TE.map((r) => (r.affected ?? 0) >= 0),
             );
 
           return pipe(
@@ -133,7 +141,7 @@ export const initAppTest = async (): Promise<AppTest> => {
               event: liftFind(EventV2Entity),
             }),
             TE.map(({ media, actor }) => media && actor),
-            throwTE
+            throwTE,
           );
         },
       },
@@ -142,6 +150,6 @@ export const initAppTest = async (): Promise<AppTest> => {
     TE.map((app) => {
       return app;
     }),
-    throwTE
+    throwTE,
   );
 };
