@@ -41,7 +41,7 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
                 filter: undefined,
                 sort: { field: "updatedAt", order: "DESC" },
               }}
-              onItemClick={(a: ActorItem) => {
+              onActorClick={(a: ActorItem) => {
                 navigateTo.actors({ id: a.id }, { tab: 0 });
               }}
             />

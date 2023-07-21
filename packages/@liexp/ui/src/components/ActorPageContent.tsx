@@ -68,7 +68,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
                 group: groups.map((g) => g.id),
               },
             }}
-            onItemClick={onActorClick}
+            onActorClick={onActorClick}
           />
         </Grid>
       )}

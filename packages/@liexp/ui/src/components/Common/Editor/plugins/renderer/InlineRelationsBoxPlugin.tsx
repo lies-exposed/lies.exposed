@@ -42,7 +42,7 @@ export const InlineRelationsPlugin: React.FC<InlineRelationsPluginProps> = ({
       <ActorsBox
         style={{ display: "flex", flexDirection: "row" }}
         params={{ filter: { ids: actors } }}
-        onItemClick={onActorClick}
+        onActorClick={onActorClick}
       />
       <GroupsBox
         params={{ filter: { ids: groups } }}

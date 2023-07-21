@@ -4,7 +4,7 @@ import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { Avatar, type AvatarSize } from "../Common/Avatar";
 import { ExpandableList } from "../Common/ExpandableList";
-import { List, type ListItemProps, type ListProps } from "../Common/List";
+import { List, type ListItemProps } from "../Common/List";
 import { Box, Typography } from "../mui";
 
 export interface ActorItem extends io.Actor.Actor {
@@ -67,10 +67,7 @@ export const ActorListItem: React.FC<ActorListItemProps> = ({
   );
 };
 
-export type ActorListProps<D extends React.ElementType<any> = "ul"> = Omit<
-  ListProps<ActorItem, D>,
-  "data" | "getKey" | "ListItem" | "filter"
-> & {
+export interface ActorListProps {
   className?: string;
   actors: ActorItem[];
   onActorClick: (actor: ActorItem, e: any) => void;
@@ -78,16 +75,16 @@ export type ActorListProps<D extends React.ElementType<any> = "ul"> = Omit<
   displayFullName?: boolean;
   style?: React.CSSProperties;
   itemStyle?: React.CSSProperties;
-};
+}
 
-export const ActorList = <D extends React.ElementType<any> = "ul">({
+export const ActorList: React.FC<ActorListProps> = ({
   actors,
   onActorClick,
   avatarSize,
   itemStyle,
   displayFullName,
   ...props
-}: ActorListProps<D>): JSX.Element => {
+}) => {
   return (
     <List
       {...props}
@@ -111,7 +108,9 @@ export const ActorList = <D extends React.ElementType<any> = "ul">({
   );
 };
 
-export const ExpandableActorList = <D extends React.ElementType<any> = "ul">({
+export const ExpandableActorList: React.FC<
+  ActorListProps & { limit?: number }
+> = ({
   actors,
   onActorClick,
   avatarSize,
@@ -120,7 +119,7 @@ export const ExpandableActorList = <D extends React.ElementType<any> = "ul">({
   limit = 10,
   style,
   ...props
-}: ActorListProps<D> & { limit?: number }): JSX.Element => {
+}) => {
   return (
     <ExpandableList
       {...props}
