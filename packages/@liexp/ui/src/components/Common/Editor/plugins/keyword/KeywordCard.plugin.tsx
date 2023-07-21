@@ -62,7 +62,7 @@ const createPlugin = (
                 order: "DESC",
               },
             }}
-            onItemClick={() => {}}
+            onActorClick={() => {}}
           />
         );
       }
