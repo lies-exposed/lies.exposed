@@ -1,13 +1,14 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
+import * as ReactDOM from "react-dom/client";
 import AdminPage from "./AdminPage";
 import reportWebVitals from "./reportWebVitals";
 
-ReactDOM.render(
+const container: any = document.getElementById("root");
+const root = ReactDOM.createRoot(container);
+root.render(
   <React.StrictMode>
     <AdminPage />
   </React.StrictMode>,
-  document.getElementById("root"),
 );
 
 // If you want to start measuring performance in your app, pass a function
