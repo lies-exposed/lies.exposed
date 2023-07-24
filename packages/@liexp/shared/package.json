@@ -62,7 +62,8 @@
     "fast-csv": "^4",
     "react": "^18",
     "react-admin": "^4",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "sharp": "*"
   },
   "lint-staged": {
     "**/*.(ts|tsx|js|jsx)": "eslint --fix",
