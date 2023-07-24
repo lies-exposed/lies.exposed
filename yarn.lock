@@ -9687,7 +9687,7 @@ __metadata:
     vitest: ^0.33.0
     wikipedia: ^2.1.0
     wink-eng-lite-web-model: ^1.5.0
-    wink-nlp: ^1.14.2
+    wink-nlp: ^1.14.3
     wink-nlp-utils: ^2.1.0
   languageName: unknown
   linkType: soft
@@ -25932,10 +25932,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wink-nlp@npm:^1.12.0, wink-nlp@npm:^1.14.2":
+"wink-nlp@npm:^1.12.0":
   version: 1.14.2
   resolution: "wink-nlp@npm:1.14.2"
   checksum: a3ad5914b9ae2be8e8d93405425e4dff8e3a9f769b4a90eb0d13523a829b08ffc946ef221b4c7633de1a73ff3a63153f2a3a34352107b40a82faa759e1ce7c6b
+  languageName: node
+  linkType: hard
+
+"wink-nlp@npm:^1.14.3":
+  version: 1.14.3
+  resolution: "wink-nlp@npm:1.14.3"
+  checksum: c13e9bf904015800f2ace5f16425e7f4c96578a480d8552b623bf466a5f53491d27c719853595c0af39af02f18c46ded1f3e15796ec0eaf6120a01ee11fcee95
   languageName: node
   linkType: hard
 
