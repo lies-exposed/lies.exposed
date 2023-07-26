@@ -37,5 +37,7 @@ export const postOnSocialJob = (ctx: RouteContext): Cron.ScheduledTask =>
         ),
       ),
       throwTE,
-    );
+    ).catch((err) => {
+      ctx.logger.error.log(`Social Posting error %O`, err);
+    });
   });

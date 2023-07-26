@@ -46,25 +46,9 @@ const run = (): Promise<void> => {
       ({ ctx, app }) =>
         () => {
 
+          // cron jobs
           const postOnSocialTask = postOnSocialJob(ctx);
           postOnSocialTask.start();
-          // const downloadVaccineDataTask = Cron.schedule(
-          //   ctx.env.DOWNLOAD_VACCINE_DATA_CRON,
-          //   () => {
-          //     serverLogger.info.log("Start vaccine data download task...");
-          //     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-          //     runDownload()()
-          //       .then(() => runParse())
-          //       .then(() => runAggregate())
-          //       .catch((e) => {
-          //         serverLogger.error.log(
-          //           "An error occured during vaccine data download task: %O",
-          //           e
-          //         );
-          //       });
-          //   }
-          // );
-          // ctx.logger.debug.log('Setup "download vaccine data task" (%s)', ctx.env.DOWNLOAD_VACCINE_DATA_CRON);
 
           const server = app.listen(ctx.env.API_PORT, () => {
             ctx.logger.info.log(`Server is listening ${ctx.env.API_PORT}`);
