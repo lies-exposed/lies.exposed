@@ -126,16 +126,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/client-s3@npm:^3.374.0":
-  version: 3.374.0
-  resolution: "@aws-sdk/client-s3@npm:3.374.0"
+"@aws-sdk/client-s3@npm:^3.377.0":
+  version: 3.377.0
+  resolution: "@aws-sdk/client-s3@npm:3.377.0"
   dependencies:
     "@aws-crypto/sha1-browser": 3.0.0
     "@aws-crypto/sha256-browser": 3.0.0
     "@aws-crypto/sha256-js": 3.0.0
-    "@aws-sdk/client-sts": 3.370.0
+    "@aws-sdk/client-sts": 3.377.0
     "@aws-sdk/credential-provider-node": 3.370.0
-    "@aws-sdk/hash-stream-node": 3.374.0
+    "@aws-sdk/hash-stream-node": "*"
     "@aws-sdk/middleware-bucket-endpoint": 3.370.0
     "@aws-sdk/middleware-expect-continue": 3.370.0
     "@aws-sdk/middleware-flexible-checksums": 3.374.0
@@ -184,7 +184,7 @@ __metadata:
     "@smithy/util-waiter": ^1.0.1
     fast-xml-parser: 4.2.5
     tslib: ^2.5.0
-  checksum: 19f02e92eb85827555379cde72479de92928d8180a1e2902e9ea515821d860336d8653544e907702cb72ec54da4b7f7fd6db8df91761e62a55246e54fb068884
+  checksum: 574ac880a4251d0af5e25fbca9912910e4485391d1febac0a2ad0018a0fe40d7761d588ede8e62ed2e9748f27989c409f76d5b7ba84e08f898b82552b89d89ec
   languageName: node
   linkType: hard
 
@@ -270,9 +270,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/client-sts@npm:3.370.0":
-  version: 3.370.0
-  resolution: "@aws-sdk/client-sts@npm:3.370.0"
+"@aws-sdk/client-sts@npm:3.377.0":
+  version: 3.377.0
+  resolution: "@aws-sdk/client-sts@npm:3.377.0"
   dependencies:
     "@aws-crypto/sha256-browser": 3.0.0
     "@aws-crypto/sha256-js": 3.0.0
@@ -311,7 +311,7 @@ __metadata:
     "@smithy/util-utf8": ^1.0.1
     fast-xml-parser: 4.2.5
     tslib: ^2.5.0
-  checksum: 55ce8a7a8a8a44cffdbfca10ac2e4d389a4a13e81a4558ef401c3174727296c47375cec5898023e082285aaf5804d62f5d887da53e343f24aec8d8b5bc4ea29b
+  checksum: 14bdc55b3ba6ad4b6761e1dc8b7904950643b1830987ca6712f2f16a23a95e42fdaf3dbdae0fbfc966e796dbaebede0046fd5234c3a5e5e88a39b77ae0db6cbb
   languageName: node
   linkType: hard
 
@@ -404,19 +404,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/hash-stream-node@npm:3.374.0":
-  version: 3.374.0
-  resolution: "@aws-sdk/hash-stream-node@npm:3.374.0"
+"@aws-sdk/hash-stream-node@npm:*":
+  version: 3.370.0
+  resolution: "@aws-sdk/hash-stream-node@npm:3.370.0"
   dependencies:
-    "@smithy/hash-stream-node": ^1.0.1
+    "@aws-sdk/types": 3.370.0
+    "@aws-sdk/util-utf8": 3.310.0
     tslib: ^2.5.0
-  checksum: ffbdb1abdcbd06b1290e8d056321ee586310fc8ce4a822d9fe5f9f5445c4adf2da64f88d335a58e0959952e7301f3ff235ee353ceb4e4cb2a5b2905a220ffb70
+  checksum: 97add2caadb15f5b6cbc551801dc672ba6e3664667c9be53c794cca9a1be827df932ac40148bae0e7586b6f7bebb2483257501d3c9e946dd1ba7fbb31a29de33
   languageName: node
   linkType: hard
 
-"@aws-sdk/lib-storage@npm:^3.374.0":
-  version: 3.374.0
-  resolution: "@aws-sdk/lib-storage@npm:3.374.0"
+"@aws-sdk/is-array-buffer@npm:3.310.0":
+  version: 3.310.0
+  resolution: "@aws-sdk/is-array-buffer@npm:3.310.0"
+  dependencies:
+    tslib: ^2.5.0
+  checksum: ddd1536ad16e29186fb5055bc279cfe9790b7c32552e1ee21e31d4e410e1df297b06c94c6117f854ec368d29e60a231dd8cc77e5b604a6260e7602876fd047f8
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/lib-storage@npm:^3.377.0":
+  version: 3.377.0
+  resolution: "@aws-sdk/lib-storage@npm:3.377.0"
   dependencies:
     "@smithy/abort-controller": ^1.0.1
     "@smithy/middleware-endpoint": ^1.0.2
@@ -427,7 +437,7 @@ __metadata:
     tslib: ^2.5.0
   peerDependencies:
     "@aws-sdk/client-s3": ^3.0.0
-  checksum: 5d3a414ea7f901bc9392e13134862c1fad0dbaa6371f851e34a0a947fc840a1c47b8e2f54336a07d3d31178472e453e4fdf525c565902e2161730e9855aab0cd
+  checksum: 4dc607b1b33919ba080115c369a7aa29f15c4ad7a8082dc800543811503e266d90ef7e00f174604d5127848a83e24f0eacebe4638ae4002e250022f6b754c8b1
   languageName: node
   linkType: hard
 
@@ -583,9 +593,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/s3-request-presigner@npm:^3.375.0":
-  version: 3.375.0
-  resolution: "@aws-sdk/s3-request-presigner@npm:3.375.0"
+"@aws-sdk/s3-request-presigner@npm:^3.377.0":
+  version: 3.377.0
+  resolution: "@aws-sdk/s3-request-presigner@npm:3.377.0"
   dependencies:
     "@aws-sdk/signature-v4-multi-region": 3.370.0
     "@aws-sdk/types": 3.370.0
@@ -595,7 +605,7 @@ __metadata:
     "@smithy/smithy-client": ^1.0.3
     "@smithy/types": ^1.1.0
     tslib: ^2.5.0
-  checksum: 9bc2abd677474a1d115fad14d82a134909c53c2ce68551a66054dcb679c9bb9fd5d9d20e7bff5ffb7d13fb7d4bd564766a173d48601b364102d7b6a0dd0fe8f9
+  checksum: fd81cc6e67999b8fc824e362f324714b2d226131999d703ab973baf9b21b19bde2d698382b02e499032b7b2b265c40bf1da1d8f7d88d33ac04c58f944e9a997a
   languageName: node
   linkType: hard
 
@@ -647,6 +657,16 @@ __metadata:
   dependencies:
     tslib: ^2.5.0
   checksum: faac1e10f8bb6c2fe5fee82bcb7ce56c2b37ae9ffdb2b78b0746a7a06005eaa5ea747a0a10eaf490c1c4907ecc327e1c94a600e26a069e023e54b8d63c031e96
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/util-buffer-from@npm:3.310.0":
+  version: 3.310.0
+  resolution: "@aws-sdk/util-buffer-from@npm:3.310.0"
+  dependencies:
+    "@aws-sdk/is-array-buffer": 3.310.0
+    tslib: ^2.5.0
+  checksum: 9c3bd9c0664a0cbb5270eb285a662274bb9c46ae0d79e0275a85e74659a4b1f094bab900994780fd70dd0152dc6d2d33a8bc681d87f3911fa48eae9f6c3558d6
   languageName: node
   linkType: hard
 
@@ -716,6 +736,16 @@ __metadata:
   dependencies:
     tslib: ^2.3.1
   checksum: b6a1e580da1c9b62c749814182a7649a748ca4253edb4063aa521df97d25b76eae3359eb1680b86f71aac668e05cc05c514379bca39ebf4ba998ae4348412da8
+  languageName: node
+  linkType: hard
+
+"@aws-sdk/util-utf8@npm:3.310.0":
+  version: 3.310.0
+  resolution: "@aws-sdk/util-utf8@npm:3.310.0"
+  dependencies:
+    "@aws-sdk/util-buffer-from": 3.310.0
+    tslib: ^2.5.0
+  checksum: 4045e79b8e3593e12233b359ba77d1b4c162fd9fcb4ab3b58b711c41b725552306dd91402b8d57ce5be080c76309f046a7a0c4ff704d12f9ba71e3b25b810086
   languageName: node
   linkType: hard
 
@@ -3452,6 +3482,7 @@ __metadata:
     "@liexp/core": 0.1.0
     "@liexp/shared": 0.1.0
     "@liexp/test": 0.1.0
+    "@smithy/hash-stream-node": ^2.0.1
     "@types/fluent-ffmpeg": ^2.1.21
     "@types/jsonwebtoken": ^9.0.2
     "@types/node-telegram-bot-api": ^0.61.6
@@ -3554,9 +3585,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@liexp/shared@workspace:packages/@liexp/shared"
   dependencies:
-    "@aws-sdk/client-s3": ^3.374.0
-    "@aws-sdk/lib-storage": ^3.374.0
-    "@aws-sdk/s3-request-presigner": ^3.375.0
+    "@aws-sdk/client-s3": ^3.377.0
+    "@aws-sdk/lib-storage": ^3.377.0
+    "@aws-sdk/s3-request-presigner": ^3.377.0
     "@databases/escape-identifier": ^1.0.3
     "@databases/sql": ^3.3.0
     "@liexp/core": 0.1.0
@@ -5037,14 +5068,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@smithy/hash-stream-node@npm:^1.0.1":
-  version: 1.0.2
-  resolution: "@smithy/hash-stream-node@npm:1.0.2"
+"@smithy/hash-stream-node@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@smithy/hash-stream-node@npm:2.0.1"
   dependencies:
-    "@smithy/types": ^1.1.1
-    "@smithy/util-utf8": ^1.0.2
+    "@smithy/types": ^2.0.2
+    "@smithy/util-utf8": ^2.0.0
     tslib: ^2.5.0
-  checksum: 106879ce4f5d41f090ae60f10a9d86455718901d04579d316cc4ce9e4bcbe21a6ea018552d30436b632e98a92f372748ecfe1cee345548c9cbdf2335d1965d67
+  checksum: 8c80dbfe4ae143d73feae381c47e78e29f05d9bfed457cfdb22c5e0fc5b773500c943cd9ca58a1eb04f7ccfcea197bcd05741ad68ae17b08472264e900bc8edf
   languageName: node
   linkType: hard
 
@@ -5064,6 +5095,15 @@ __metadata:
   dependencies:
     tslib: ^2.5.0
   checksum: 811b100b809bc1730ed33231ae22afbce5ccc8d2d5db5c8e86b52db718d738283337a43f777397d1308c24243d0be3e3d862684e9be1dbdfb547a8d8399f0911
+  languageName: node
+  linkType: hard
+
+"@smithy/is-array-buffer@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@smithy/is-array-buffer@npm:2.0.0"
+  dependencies:
+    tslib: ^2.5.0
+  checksum: 6d101cf509a7818667f42d297894f88f86ef41d3cc9d02eae38bbe5e69b16edf83b8e67eb691964d859a16a4e39db1aad323d83f6ae55ae4512a14ff6406c02d
   languageName: node
   linkType: hard
 
@@ -5256,6 +5296,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@smithy/types@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "@smithy/types@npm:2.0.2"
+  dependencies:
+    tslib: ^2.5.0
+  checksum: 4afdd7c77b212abd9e0770a1489057aa0470f8a59061c4fb2175b1f12e02180db3d85e16f2cd870a95c17bd28a5a4b8ef1dff1ade6852f85eafea12872d9588e
+  languageName: node
+  linkType: hard
+
 "@smithy/url-parser@npm:^1.0.1, @smithy/url-parser@npm:^1.0.2":
   version: 1.0.2
   resolution: "@smithy/url-parser@npm:1.0.2"
@@ -5302,6 +5351,16 @@ __metadata:
     "@smithy/is-array-buffer": ^1.0.2
     tslib: ^2.5.0
   checksum: ca4308ebc54f372777fc53b2782c752ebfdfe3934b1c4da935c78bb2f4f921d2071056edc644704ba894d363f85cc52fc07095d93eb6cbba510ba19a767be265
+  languageName: node
+  linkType: hard
+
+"@smithy/util-buffer-from@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@smithy/util-buffer-from@npm:2.0.0"
+  dependencies:
+    "@smithy/is-array-buffer": ^2.0.0
+    tslib: ^2.5.0
+  checksum: d33cbf3e488d23390c88705ddae71b08de7a87b6453e38b508cd37a22a02e8b5be9f0cd46c1347b496c3977a815a7399b18840544ecdc4cce8cf3dcd0f5bb009
   languageName: node
   linkType: hard
 
@@ -5400,6 +5459,16 @@ __metadata:
     "@smithy/util-buffer-from": ^1.0.2
     tslib: ^2.5.0
   checksum: 64add10ac1bbeb0c96a1ba8b05886ae86cee589fd4cccb25276849748fed7035c54e64d40107f22a57ca9b4f9324afe4baf0007c67536d520c1b8378e1e6ec55
+  languageName: node
+  linkType: hard
+
+"@smithy/util-utf8@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@smithy/util-utf8@npm:2.0.0"
+  dependencies:
+    "@smithy/util-buffer-from": ^2.0.0
+    tslib: ^2.5.0
+  checksum: bc8cda84f85b513380a61352635b306ae50d3b92974454db32835b39bbaa38150332b89346098ba9dea2e0002e2963fcbdd622bc9b3eec7b7ea8fa3f8c7ce737
   languageName: node
   linkType: hard
 
@@ -9611,9 +9680,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "api@workspace:services/api"
   dependencies:
-    "@aws-sdk/client-s3": ^3.374.0
-    "@aws-sdk/lib-storage": ^3.374.0
-    "@aws-sdk/s3-request-presigner": ^3.375.0
+    "@aws-sdk/client-s3": ^3.377.0
+    "@aws-sdk/lib-storage": ^3.377.0
+    "@aws-sdk/s3-request-presigner": ^3.377.0
     "@databases/escape-identifier": ^1.0.3
     "@databases/pg": ^5.4.1
     "@liexp/backend": 0.1.0

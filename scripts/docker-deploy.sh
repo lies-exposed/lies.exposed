@@ -31,8 +31,8 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     chown -R pptruser:pptruser ./temp
     export API_UID=$(id pptruser -u)
     export API_GID=$(id pptruser -g)
-    docker compose pull
-    docker compose up --build --force-recreate -d --wait
+    docker compose --env-file .env.api pull
+    docker compose --env-file .env.api up --build --force-recreate -d --wait
     docker system prune -f
     docker builder prune -f --all
     docker compose run --name api-migration api yarn migration:run > migration.txt
