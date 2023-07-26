@@ -32,7 +32,7 @@
     "web": "yarn workspace web",
     "admin-web": "yarn workspace admin-web",
     "storybook": "yarn workspace storybook",
-    "docker:up": "docker-compose up --force-recreate api web admin-web space",
+    "docker:up": "docker-compose --env-file ./services/api/.env.local up --force-recreate db space telegram-bot-api",
     "packages:build": "yarn core build && yarn shared build && yarn backend build && yarn ui build",
     "deploy:setup": "./deploy/setup.sh",
     "post-deploy": "./deploy/post-deploy.sh",

@@ -25,16 +25,12 @@ const run = (): Promise<void> => {
     })),
     TE.fold(
       (err) => {
+        serverLogger.error.log("%s\n %s \n\n %O", err.name, err.message, err);
         const parsedError =
           err.details.kind === "DecodingError"
             ? failure(err.details.errors as any[])
             : (err.details.meta as any[]) ?? [];
-        serverLogger.error.log(
-          "%s\n %O \n\n %O",
-          err.name,
-          err.message,
-          parsedError,
-        );
+        serverLogger.error.log("Parsed error %O", parsedError);
         return () =>
           // eslint-disable-next-line prefer-promise-reject-errors
           Promise.reject({
@@ -45,7 +41,6 @@ const run = (): Promise<void> => {
       },
       ({ ctx, app }) =>
         () => {
-
           // cron jobs
           const postOnSocialTask = postOnSocialJob(ctx);
           postOnSocialTask.start();
