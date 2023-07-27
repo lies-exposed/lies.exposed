@@ -1,6 +1,13 @@
 import * as React from "react";
 
-export const TabPanel: React.FC<any> = (props) => {
+export const TabPanel: React.FC<
+  React.PropsWithChildren<{
+    index: number;
+    value: number;
+    className?: string;
+  }> &
+    any
+> = (props) => {
   const { children, value, index, ...other } = props;
 
   return (

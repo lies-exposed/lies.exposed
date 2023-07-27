@@ -49,6 +49,8 @@ const SearchableInput = <I extends SearchableItem>({
             const item = selectedItems.filter((si) => !v.includes(si));
             onUnselectItem(item[0], selectedItems);
           }
+        } else if (typeof v === "object") {
+          onSelectItem(v as any, [v] as any[]);
         }
       }}
       getOptionLabel={getValue}

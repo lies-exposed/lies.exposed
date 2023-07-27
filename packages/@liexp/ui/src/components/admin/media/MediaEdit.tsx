@@ -141,6 +141,8 @@ export const ThumbnailEditField: React.FC<FieldProps> = (props) => {
   );
 };
 
+
+
 const MediaEditToolbar: React.FC = () => {
   const record = useRecordContext();
   return (

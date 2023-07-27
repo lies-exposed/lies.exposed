@@ -8,7 +8,12 @@ import { MEDIA } from "./Media";
 
 export const SocialPostBodyMultipleMedia = t.array(
   t.type({
-    type: t.union([t.literal("photo"), t.literal("video")]),
+    type: t.union([
+      t.literal("photo"),
+      t.literal("video"),
+      // t.literal("file"),
+      // t.literal("music"),
+    ]),
     media: t.string,
   }),
   "SocialPostBodyMultipleMedia",
@@ -51,7 +56,7 @@ export const CreateSocialPost = t.strict(
     url: t.string,
     date: t.string,
     content: t.string,
-    media: t.union([t.string, SocialPostBodyMultipleMedia]),
+    media: SocialPostBodyMultipleMedia,
     actors: t.array(Actor),
     groups: t.array(Group),
     keywords: t.array(Keyword),
