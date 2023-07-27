@@ -131,7 +131,7 @@ export const EventList: React.FC = () => (
                     <EventIcon type={t.value} /> {t.value}
                   </span>
                 }
-                value={{ type: [t.value] }}
+                value={{ eventType: [t.value] }}
               />
             ))}
           </FilterList>
