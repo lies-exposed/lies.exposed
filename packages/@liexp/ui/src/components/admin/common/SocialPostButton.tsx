@@ -65,7 +65,6 @@ export const SocialPostButton: React.FC<SocialPostButtonProps> = ({
                 media: getShareMedia(
                   result.media,
                   `${process.env.WEB_URL}/liexp-logo-1200x630.png`,
-                  multipleMedia,
                 ),
               },
             }));
