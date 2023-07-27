@@ -32,7 +32,7 @@
     "web": "yarn workspace web",
     "admin-web": "yarn workspace admin-web",
     "storybook": "yarn workspace storybook",
-    "docker:up": "docker-compose --env-file ./services/api/.env.local up --force-recreate db space telegram-bot-api",
+    "docker:up": "docker-compose --env-file ./services/api/.env.local up -d --force-recreate db space telegram-bot-api",
     "packages:build": "yarn core build && yarn shared build && yarn backend build && yarn ui build",
     "deploy:setup": "./deploy/setup.sh",
     "post-deploy": "./deploy/post-deploy.sh",
@@ -73,7 +73,6 @@
   "resolutions": {
     "react-dnd": "^15",
     "react-dnd-html5-backend": "^15",
-    "dotenv": "^16.3.1",
-    "node-telegram-bot-api": "^0.61.0"
+    "dotenv": "^16.3.1"
   }
 }

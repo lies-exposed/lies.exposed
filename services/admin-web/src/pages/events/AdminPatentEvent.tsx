@@ -20,7 +20,6 @@ import {
   ReferenceField,
 } from "@liexp/ui/lib/components/admin";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
 import ReferenceArrayGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput";
@@ -38,12 +37,12 @@ import { EventEditActions } from "./actions/EditEventActions";
 
 const patentEventsFilter = [
   <BooleanInput
-    key="withDrafts"
+    key="draft"
     label="Draft only"
-    source="withDrafts"
+    source="draft"
     alwaysOn
   />,
-  <ReferenceActorInput key="victim" source="victim" alwaysOn />,
+  // <ReferenceActorInput key="author" source="author" alwaysOn />,
   <DateInput key="date" source="date" />,
 ];
 
@@ -51,11 +50,11 @@ export const PatentList: React.FC<ListProps> = (props) => (
   <List
     {...props}
     filters={patentEventsFilter}
-    perPage={20}
+    perPage={50}
     filterDefaultValues={{
       _sort: "date",
       _order: "DESC",
-      widthDrafts: false,
+      draft: false,
     }}
   >
     <Datagrid rowClick="edit">
