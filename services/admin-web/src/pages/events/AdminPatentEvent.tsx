@@ -38,9 +38,9 @@ import { EventEditActions } from "./actions/EditEventActions";
 
 const patentEventsFilter = [
   <BooleanInput
-    key="withDrafts"
+    key="draft"
     label="Draft only"
-    source="withDrafts"
+    source="draft"
     alwaysOn
   />,
   <ReferenceActorInput key="victim" source="victim" alwaysOn />,
