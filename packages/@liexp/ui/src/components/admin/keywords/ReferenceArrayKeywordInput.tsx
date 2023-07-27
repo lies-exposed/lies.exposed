@@ -4,12 +4,12 @@ import {
   AutocompleteArrayInput,
   Button,
   ReferenceArrayInput,
-  type ReferenceInputProps,
   useRefresh,
-  // AutocompleteInput,
+  type ReferenceInputProps,
 } from "react-admin";
 import { apiProvider } from "../../../client/api";
 import { Box, TextField } from "../../mui";
+import { ColorInput } from "../common/inputs/ColorInput";
 import { ImportKeywordButton } from "./ImportKeywordButton";
 
 const ReferenceArrayKeywordInput: React.FC<
@@ -45,32 +45,16 @@ const ReferenceArrayKeywordInput: React.FC<
               setKeyword((k) => ({ ...k, tag: e.target.value }));
             }}
           />
-          <Box
-            display="flex"
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-              background: `#${color}`,
-              margin: "0 20px",
+          <ColorInput
+            source="color"
+            value={color}
+            onChange={(e) => {
+              setKeyword((k) => ({
+                ...k,
+                color: e.target.value,
+              }));
             }}
-          >
-            <Button
-              size="small"
-              label="random"
-              variant="contained"
-              onClick={() => {
-                setKeyword((k) => ({ ...k, color: generateRandomColor() }));
-              }}
-            />
-            <TextField
-              size="small"
-              value={color}
-              style={{ width: 80 }}
-              onChange={(e) => {
-                setKeyword((k) => ({ ...k, color: e.target.value as any }));
-              }}
-            />
-          </Box>
+          />
           <Button
             size="small"
             disabled={tag?.length < 3}

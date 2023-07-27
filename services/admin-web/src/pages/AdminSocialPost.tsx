@@ -1,5 +1,7 @@
+import { ImageType } from "@liexp/shared/lib/io/http/Media";
 import { PUBLISHED, TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost";
 import {
+  Create,
   Datagrid,
   DateField,
   Edit,
@@ -9,12 +11,14 @@ import {
   SelectInput,
   SimpleForm,
   TextField,
-  useRecordContext,
+  TextInput,
+  useRecordContext
 } from "@liexp/ui/lib/components/admin";
 import {
   ShareModalContent,
   emptySharePayload,
 } from "@liexp/ui/lib/components/admin/Modal/ShareModal";
+import ReferenceArrayMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceArrayMediaInput";
 import { Box } from "@liexp/ui/lib/components/mui";
 import * as React from "react";
 
@@ -77,5 +81,19 @@ export const SocialPostEdit: React.FC = () => {
         <SocialPostEditContent />
       </SimpleForm>
     </Edit>
+  );
+};
+
+export const SocialPostCreate: React.FC = () => {
+  return (
+    <Create>
+      <SimpleForm>
+        <TextInput source="text" />
+        <ReferenceArrayMediaInput
+          source="media"
+          allowedTypes={ImageType.types.map((t) => t.value)}
+        />
+      </SimpleForm>
+    </Create>
   );
 };

@@ -1,7 +1,6 @@
 import { type CreateSocialPost } from "@liexp/shared/lib/io/http/SocialPost";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import * as t from "io-ts";
 import { type UUID } from "io-ts-types/lib/UUID";
 import { type EventV2Entity } from "@entities/Event.v2.entity";
 import { type Flow, type TEFlow } from "@flows/flow.types";
@@ -67,8 +66,8 @@ export const postToTG: TEFlow<[UUID, CreateSocialPost], EventV2Entity> =
       TE.right,
       TE.chain((text) => {
         ctx.logger.debug.log("Upload media %O", body.media);
-        return t.string.is(body.media)
-          ? ctx.tg.postPhoto(body.media, text)
+        return body.media.length === 1
+          ? ctx.tg.postPhoto(body.media[0].media, text)
           : ctx.tg.postMediaGroup(text, body.media);
       }),
       TE.mapLeft((e) => ServerError([e.message])),
