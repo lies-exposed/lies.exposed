@@ -3489,7 +3489,7 @@ __metadata:
     "@types/prettier": ^3.0.0
     "@types/uuid": ^9.0.2
     date-fns: ^2.30.0
-    fp-ts: ^2.16.0
+    fp-ts: ^2.16.1
     io-ts: ^2.2.20
     page-metadata-parser: ^1.1.4
     prettier: ^3.0.0
@@ -3554,7 +3554,7 @@ __metadata:
     file-loader: ^6.2.0
     filemanager-webpack-plugin: ^8.0.0
     fork-ts-checker-webpack-plugin: ^8.0.0
-    fp-ts: ^2.16.0
+    fp-ts: ^2.16.1
     html-replace-webpack-plugin: ^2.6.0
     html-webpack-plugin: ^5.5.3
     io-ts: ^2.2.20
@@ -3605,7 +3605,7 @@ __metadata:
     date-fns: ^2.30.0
     domino: ^2.1.6
     fast-csv: ^4.3.6
-    fp-ts: ^2.16.0
+    fp-ts: ^2.16.1
     io-ts: ^2.2.20
     io-ts-types: ^0.5.19
     jsonwebtoken: ^9.0.1
@@ -3637,7 +3637,7 @@ __metadata:
     "@liexp/core": 0.1.0
     fast-check: ^2.25.0
     fast-check-io-ts: ^0.5.0
-    fp-ts: ^2.16.0
+    fp-ts: ^2.16.1
     io-ts: ^2.2.20
     io-ts-types: ^0.5.19
     prettier: ^3.0.0
@@ -3719,7 +3719,7 @@ __metadata:
     date-fns: ^2.30.0
     eslint: ^8.46.0
     eslint-plugin-import: ^2.28.0
-    fp-ts: ^2.16.0
+    fp-ts: ^2.16.1
     geotiff: ^2.0.7
     io-ts: ^2.2.20
     io-ts-types: ^0.5.19
@@ -9440,7 +9440,7 @@ __metadata:
     eslint-plugin-react: ^7.33.1
     eslint-webpack-plugin: ^4.0.1
     final-form: ^4.20.9
-    fp-ts: ^2.16.0
+    fp-ts: ^2.16.1
     history: ^5.3.0
     mini-create-react-context: ^0.4.1
     page-metadata-parser: ^1.1.4
@@ -9723,7 +9723,7 @@ __metadata:
     fast-csv: ^4.3.6
     fluent-ffmpeg: ^2.1.2
     form-data: ^4.0.0
-    fp-ts: ^2.16.0
+    fp-ts: ^2.16.1
     front-matter: 4.0.2
     gray-matter: ^4.0.3
     instagram-private-api: ^1.45.3
@@ -14854,10 +14854,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fp-ts@npm:^2.0.0, fp-ts@npm:^2.16.0, fp-ts@npm:^2.9.3":
+"fp-ts@npm:^2.0.0, fp-ts@npm:^2.9.3":
   version: 2.16.0
   resolution: "fp-ts@npm:2.16.0"
   checksum: 0724a4d8b2171cc98e9d9a05e6fe7e0acbc8c79eaabe8e257cbe3a6a5a77acdbdd2572e2ca8135e91d6e02542237499db6e952a58829ba0796ab96063dd39eb2
+  languageName: node
+  linkType: hard
+
+"fp-ts@npm:^2.16.1":
+  version: 2.16.1
+  resolution: "fp-ts@npm:2.16.1"
+  checksum: 94e8bb1d037fdc44414ac93bbabecc3f94fb798d6564e77427ae2ecfa0f77681ec35968598d7b0cbf8274566469c7b42e8727390eb889e1121c199341939c2a3
   languageName: node
   linkType: hard
 
@@ -25654,7 +25661,7 @@ __metadata:
     eslint-plugin-react: ^7.33.1
     eslint-webpack-plugin: ^4.0.1
     express: ^4.18.2
-    fp-ts: ^2.16.0
+    fp-ts: ^2.16.1
     io-ts: ^2.2.20
     io-ts-types: ^0.5.19
     is-plain-object: ^5.0.0
