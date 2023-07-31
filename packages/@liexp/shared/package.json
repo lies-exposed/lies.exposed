@@ -43,7 +43,7 @@
   "devDependencies": {
     "@liexp/test": "0.1.0",
     "@types/bs58": "^4.0.1",
-    "@types/prettier": "^2.7.3",
+    "@types/prettier": "^3.0.0",
     "@types/react": "^18.2.16",
     "@types/react-dom": "^18.2.7",
     "@types/throttle-debounce": "^5.0.0",
