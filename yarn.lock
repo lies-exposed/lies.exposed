@@ -3730,7 +3730,7 @@ __metadata:
     query-string: ^7.1.3
     ra-core: ^4.12.2
     ra-i18n-polyglot: ^4.12.2
-    ra-input-rich-text: ^4.12.2
+    ra-input-rich-text: ^4.12.3
     ra-ui-materialui: ^4.12.2
     react: ^18.2.0
     react-admin: ^4.12.2
@@ -9447,7 +9447,7 @@ __metadata:
     prettier: ^3.0.0
     ra-core: ^4.12.2
     ra-i18n-polyglot: ^4.12.2
-    ra-input-rich-text: ^4.12.2
+    ra-input-rich-text: ^4.12.3
     ra-ui-materialui: ^4.12.2
     react: ^18.2.0
     react-admin: ^4.12.2
@@ -21068,9 +21068,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ra-input-rich-text@npm:^4.12.2":
-  version: 4.12.2
-  resolution: "ra-input-rich-text@npm:4.12.2"
+"ra-input-rich-text@npm:^4.12.3":
+  version: 4.12.3
+  resolution: "ra-input-rich-text@npm:4.12.3"
   dependencies:
     "@tiptap/core": ^2.0.3
     "@tiptap/extension-color": ^2.0.3
@@ -21092,7 +21092,7 @@ __metadata:
     ra-ui-materialui: ^4.0.0
     react: ^16.9.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0
-  checksum: 65ad9acee6e511b636f63f12b7a9c3500c4e97cb126277b54a06d39ad1e6d6836dc2f4400d6c5ec95575acf118559ddd42e5cf81b919f2118a6df5c464447a08
+  checksum: fed0b0c13dc0d38b9ac6f0c51633f5ed29cccd874efcaf0405d4aa4fe8b9a50e7390d2601609fa4615fc960b1e8a76dd13e2078db8fba39820b4f4177d1392b3
   languageName: node
   linkType: hard
 
@@ -25667,7 +25667,7 @@ __metadata:
     query-string: ^7.1.3
     ra-core: ^4.12.2
     ra-i18n-polyglot: ^4.12.2
-    ra-input-rich-text: ^4.12.2
+    ra-input-rich-text: ^4.12.3
     ra-ui-materialui: ^4.12.2
     react: ^18.2.0
     react-admin: ^4.12.2
