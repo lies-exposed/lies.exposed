@@ -3731,7 +3731,7 @@ __metadata:
     ra-core: ^4.12.2
     ra-i18n-polyglot: ^4.12.2
     ra-input-rich-text: ^4.12.2
-    ra-ui-materialui: ^4.12.2
+    ra-ui-materialui: ^4.12.3
     react: ^18.2.0
     react-admin: ^4.12.2
     react-audio-player: ^0.17.0
@@ -9448,7 +9448,7 @@ __metadata:
     ra-core: ^4.12.2
     ra-i18n-polyglot: ^4.12.2
     ra-input-rich-text: ^4.12.2
-    ra-ui-materialui: ^4.12.2
+    ra-ui-materialui: ^4.12.3
     react: ^18.2.0
     react-admin: ^4.12.2
     react-dom: ^18.2.0
@@ -21136,6 +21136,37 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ra-ui-materialui@npm:^4.12.3":
+  version: 4.12.3
+  resolution: "ra-ui-materialui@npm:4.12.3"
+  dependencies:
+    autosuggest-highlight: ^3.1.1
+    clsx: ^1.1.1
+    css-mediaquery: ^0.1.2
+    dompurify: ^2.4.3
+    hotscript: ^1.0.12
+    inflection: ~1.12.0
+    jsonexport: ^3.2.0
+    lodash: ~4.17.5
+    prop-types: ^15.7.0
+    query-string: ^7.1.1
+    react-dropzone: ^12.0.4
+    react-error-boundary: ^3.1.4
+    react-query: ^3.32.1
+    react-transition-group: ^4.4.1
+  peerDependencies:
+    "@mui/icons-material": ^5.0.1
+    "@mui/material": ^5.0.2
+    ra-core: ^4.0.0
+    react: ^16.9.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0
+    react-hook-form: "*"
+    react-router: ^6.1.0
+    react-router-dom: ^6.1.0
+  checksum: b91e7982eb8ada32f8c35f73ec599c2575866ed291b6326e976cb13e9ec34951eeccc4d016d529ec9d155b3d76e6c220d56159a43e7c0987f25a3995a7b5fe60
+  languageName: node
+  linkType: hard
+
 "ramda@npm:0.29.0":
   version: 0.29.0
   resolution: "ramda@npm:0.29.0"
@@ -25668,7 +25699,7 @@ __metadata:
     ra-core: ^4.12.2
     ra-i18n-polyglot: ^4.12.2
     ra-input-rich-text: ^4.12.2
-    ra-ui-materialui: ^4.12.2
+    ra-ui-materialui: ^4.12.3
     react: ^18.2.0
     react-admin: ^4.12.2
     react-dom: ^18.2.0
