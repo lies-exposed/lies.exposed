@@ -3730,10 +3730,10 @@ __metadata:
     query-string: ^7.1.3
     ra-core: ^4.12.2
     ra-i18n-polyglot: ^4.12.2
-    ra-input-rich-text: ^4.12.2
-    ra-ui-materialui: ^4.12.2
+    ra-input-rich-text: ^4.12.3
+    ra-ui-materialui: ^4.12.3
     react: ^18.2.0
-    react-admin: ^4.12.2
+    react-admin: ^4.12.3
     react-audio-player: ^0.17.0
     react-dom: ^18.2.0
     react-dropzone: ^12.1.0
@@ -6533,24 +6533,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/core-darwin-arm64@npm:1.3.70":
-  version: 1.3.70
-  resolution: "@swc/core-darwin-arm64@npm:1.3.70"
-  conditions: os=darwin & cpu=arm64
-  languageName: node
-  linkType: hard
-
 "@swc/core-darwin-arm64@npm:1.3.72":
   version: 1.3.72
   resolution: "@swc/core-darwin-arm64@npm:1.3.72"
   conditions: os=darwin & cpu=arm64
-  languageName: node
-  linkType: hard
-
-"@swc/core-darwin-x64@npm:1.3.70":
-  version: 1.3.70
-  resolution: "@swc/core-darwin-x64@npm:1.3.70"
-  conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
@@ -6561,24 +6547,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/core-linux-arm-gnueabihf@npm:1.3.70":
-  version: 1.3.70
-  resolution: "@swc/core-linux-arm-gnueabihf@npm:1.3.70"
-  conditions: os=linux & cpu=arm
-  languageName: node
-  linkType: hard
-
 "@swc/core-linux-arm-gnueabihf@npm:1.3.72":
   version: 1.3.72
   resolution: "@swc/core-linux-arm-gnueabihf@npm:1.3.72"
   conditions: os=linux & cpu=arm
-  languageName: node
-  linkType: hard
-
-"@swc/core-linux-arm64-gnu@npm:1.3.70":
-  version: 1.3.70
-  resolution: "@swc/core-linux-arm64-gnu@npm:1.3.70"
-  conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
@@ -6589,24 +6561,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/core-linux-arm64-musl@npm:1.3.70":
-  version: 1.3.70
-  resolution: "@swc/core-linux-arm64-musl@npm:1.3.70"
-  conditions: os=linux & cpu=arm64 & libc=musl
-  languageName: node
-  linkType: hard
-
 "@swc/core-linux-arm64-musl@npm:1.3.72":
   version: 1.3.72
   resolution: "@swc/core-linux-arm64-musl@npm:1.3.72"
   conditions: os=linux & cpu=arm64 & libc=musl
-  languageName: node
-  linkType: hard
-
-"@swc/core-linux-x64-gnu@npm:1.3.70":
-  version: 1.3.70
-  resolution: "@swc/core-linux-x64-gnu@npm:1.3.70"
-  conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
@@ -6617,24 +6575,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/core-linux-x64-musl@npm:1.3.70":
-  version: 1.3.70
-  resolution: "@swc/core-linux-x64-musl@npm:1.3.70"
-  conditions: os=linux & cpu=x64 & libc=musl
-  languageName: node
-  linkType: hard
-
 "@swc/core-linux-x64-musl@npm:1.3.72":
   version: 1.3.72
   resolution: "@swc/core-linux-x64-musl@npm:1.3.72"
   conditions: os=linux & cpu=x64 & libc=musl
-  languageName: node
-  linkType: hard
-
-"@swc/core-win32-arm64-msvc@npm:1.3.70":
-  version: 1.3.70
-  resolution: "@swc/core-win32-arm64-msvc@npm:1.3.70"
-  conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
@@ -6645,24 +6589,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/core-win32-ia32-msvc@npm:1.3.70":
-  version: 1.3.70
-  resolution: "@swc/core-win32-ia32-msvc@npm:1.3.70"
-  conditions: os=win32 & cpu=ia32
-  languageName: node
-  linkType: hard
-
 "@swc/core-win32-ia32-msvc@npm:1.3.72":
   version: 1.3.72
   resolution: "@swc/core-win32-ia32-msvc@npm:1.3.72"
   conditions: os=win32 & cpu=ia32
-  languageName: node
-  linkType: hard
-
-"@swc/core-win32-x64-msvc@npm:1.3.70":
-  version: 1.3.70
-  resolution: "@swc/core-win32-x64-msvc@npm:1.3.70"
-  conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
@@ -6673,51 +6603,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/core@npm:^1.3.49":
-  version: 1.3.70
-  resolution: "@swc/core@npm:1.3.70"
-  dependencies:
-    "@swc/core-darwin-arm64": 1.3.70
-    "@swc/core-darwin-x64": 1.3.70
-    "@swc/core-linux-arm-gnueabihf": 1.3.70
-    "@swc/core-linux-arm64-gnu": 1.3.70
-    "@swc/core-linux-arm64-musl": 1.3.70
-    "@swc/core-linux-x64-gnu": 1.3.70
-    "@swc/core-linux-x64-musl": 1.3.70
-    "@swc/core-win32-arm64-msvc": 1.3.70
-    "@swc/core-win32-ia32-msvc": 1.3.70
-    "@swc/core-win32-x64-msvc": 1.3.70
-  peerDependencies:
-    "@swc/helpers": ^0.5.0
-  dependenciesMeta:
-    "@swc/core-darwin-arm64":
-      optional: true
-    "@swc/core-darwin-x64":
-      optional: true
-    "@swc/core-linux-arm-gnueabihf":
-      optional: true
-    "@swc/core-linux-arm64-gnu":
-      optional: true
-    "@swc/core-linux-arm64-musl":
-      optional: true
-    "@swc/core-linux-x64-gnu":
-      optional: true
-    "@swc/core-linux-x64-musl":
-      optional: true
-    "@swc/core-win32-arm64-msvc":
-      optional: true
-    "@swc/core-win32-ia32-msvc":
-      optional: true
-    "@swc/core-win32-x64-msvc":
-      optional: true
-  peerDependenciesMeta:
-    "@swc/helpers":
-      optional: true
-  checksum: 2a3228de3bb497433a7b91815c4ce59bb92a289c9b91245ee42fe0cd12a3dbff73e74fc498e29bb5083abf6867b1fa89b04cd0ac716ba270a455d89f9d491922
-  languageName: node
-  linkType: hard
-
-"@swc/core@npm:^1.3.72":
+"@swc/core@npm:^1.3.49, @swc/core@npm:^1.3.72":
   version: 1.3.72
   resolution: "@swc/core@npm:1.3.72"
   dependencies:
@@ -9561,10 +9447,10 @@ __metadata:
     prettier: ^3.0.0
     ra-core: ^4.12.2
     ra-i18n-polyglot: ^4.12.2
-    ra-input-rich-text: ^4.12.2
-    ra-ui-materialui: ^4.12.2
+    ra-input-rich-text: ^4.12.3
+    ra-ui-materialui: ^4.12.3
     react: ^18.2.0
-    react-admin: ^4.12.2
+    react-admin: ^4.12.3
     react-dom: ^18.2.0
     react-final-form: ^6.5.9
     react-final-form-arrays: ^3.1.4
@@ -14968,14 +14854,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fp-ts@npm:^2.0.0, fp-ts@npm:^2.9.3":
-  version: 2.16.0
-  resolution: "fp-ts@npm:2.16.0"
-  checksum: 0724a4d8b2171cc98e9d9a05e6fe7e0acbc8c79eaabe8e257cbe3a6a5a77acdbdd2572e2ca8135e91d6e02542237499db6e952a58829ba0796ab96063dd39eb2
-  languageName: node
-  linkType: hard
-
-"fp-ts@npm:^2.16.1":
+"fp-ts@npm:^2.0.0, fp-ts@npm:^2.16.1, fp-ts@npm:^2.9.3":
   version: 2.16.1
   resolution: "fp-ts@npm:2.16.1"
   checksum: 94e8bb1d037fdc44414ac93bbabecc3f94fb798d6564e77427ae2ecfa0f77681ec35968598d7b0cbf8274566469c7b42e8727390eb889e1121c199341939c2a3
@@ -21189,9 +21068,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ra-input-rich-text@npm:^4.12.2":
-  version: 4.12.2
-  resolution: "ra-input-rich-text@npm:4.12.2"
+"ra-input-rich-text@npm:^4.12.3":
+  version: 4.12.3
+  resolution: "ra-input-rich-text@npm:4.12.3"
   dependencies:
     "@tiptap/core": ^2.0.3
     "@tiptap/extension-color": ^2.0.3
@@ -21213,7 +21092,7 @@ __metadata:
     ra-ui-materialui: ^4.0.0
     react: ^16.9.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0
-  checksum: 65ad9acee6e511b636f63f12b7a9c3500c4e97cb126277b54a06d39ad1e6d6836dc2f4400d6c5ec95575acf118559ddd42e5cf81b919f2118a6df5c464447a08
+  checksum: fed0b0c13dc0d38b9ac6f0c51633f5ed29cccd874efcaf0405d4aa4fe8b9a50e7390d2601609fa4615fc960b1e8a76dd13e2078db8fba39820b4f4177d1392b3
   languageName: node
   linkType: hard
 
@@ -21226,9 +21105,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ra-ui-materialui@npm:^4.12.2":
-  version: 4.12.2
-  resolution: "ra-ui-materialui@npm:4.12.2"
+"ra-ui-materialui@npm:^4.12.3":
+  version: 4.12.3
+  resolution: "ra-ui-materialui@npm:4.12.3"
   dependencies:
     autosuggest-highlight: ^3.1.1
     clsx: ^1.1.1
@@ -21253,7 +21132,7 @@ __metadata:
     react-hook-form: "*"
     react-router: ^6.1.0
     react-router-dom: ^6.1.0
-  checksum: 8c78752e8e3ab8b53fdc7e31337c04c10ce7931a1b99f316c4c18dfdbacad91738a561d12330c0cc83714694dbf3cef7e110e3d00610f55101a41bd8241f524f
+  checksum: b91e7982eb8ada32f8c35f73ec599c2575866ed291b6326e976cb13e9ec34951eeccc4d016d529ec9d155b3d76e6c220d56159a43e7c0987f25a3995a7b5fe60
   languageName: node
   linkType: hard
 
@@ -21301,9 +21180,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-admin@npm:^4.12.2":
-  version: 4.12.2
-  resolution: "react-admin@npm:4.12.2"
+"react-admin@npm:^4.12.3":
+  version: 4.12.3
+  resolution: "react-admin@npm:4.12.3"
   dependencies:
     "@emotion/react": ^11.4.1
     "@emotion/styled": ^11.3.0
@@ -21313,14 +21192,14 @@ __metadata:
     ra-core: ^4.12.2
     ra-i18n-polyglot: ^4.12.2
     ra-language-english: ^4.12.2
-    ra-ui-materialui: ^4.12.2
+    ra-ui-materialui: ^4.12.3
     react-hook-form: ^7.43.9
     react-router: ^6.1.0
     react-router-dom: ^6.1.0
   peerDependencies:
     react: ^16.9.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0
-  checksum: 59f5cdd8bdb4bba69777ff0bda13e29f64f73bdf401208f35736cb84277e6b34138746f77c907241e7999b58a18376355f4261308b8e5711e06c1f84a5d30320
+  checksum: 5cf75e5296a25f176209eeab157773788130c1e5c8fa309e941c69dcd2826b06295507a3d275dfa467c1c5dc8961e2d7f5ae8443fa7c82337f85ea4e84cdb017
   languageName: node
   linkType: hard
 
@@ -25788,10 +25667,10 @@ __metadata:
     query-string: ^7.1.3
     ra-core: ^4.12.2
     ra-i18n-polyglot: ^4.12.2
-    ra-input-rich-text: ^4.12.2
-    ra-ui-materialui: ^4.12.2
+    ra-input-rich-text: ^4.12.3
+    ra-ui-materialui: ^4.12.3
     react: ^18.2.0
-    react-admin: ^4.12.2
+    react-admin: ^4.12.3
     react-dom: ^18.2.0
     react-error-boundary: ^4.0.10
     react-helmet: ^6.1.0
