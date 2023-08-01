@@ -8,8 +8,6 @@ services:
     user: $API_UID:$API_GID
     env_file:
       - .env.api
-    environment:
-      - DEBUG=@liexp*
     ports:
       - "4010:4010"
     expose:
@@ -38,10 +36,8 @@ services:
     image: ghcr.io/lies-exposed/liexp-web:alpha-latest
     container_name: liexp-web
     env_file:
-      # - ../services/web/.env
       - .env.web
     environment:
-      DEBUG: "@liexp:*"
       API_URL: http://api:4010/v1
       ADMIN_URL: https://alpha.lies.exposed/admin
     ports:
