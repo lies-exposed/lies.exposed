@@ -31,6 +31,7 @@ export const MakeCreateSocialPostRoute: Route = (r, ctx) => {
               content: {
                 ...body,
               },
+              scheduledAt: new Date(),
               status: PUBLISHED.value,
             }),
             TE.chain((p) =>
