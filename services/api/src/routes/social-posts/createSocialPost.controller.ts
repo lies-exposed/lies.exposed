@@ -32,7 +32,6 @@ export const MakeCreateSocialPostRoute: Route = (r, ctx) => {
                 ...body,
               },
               scheduledAt: new Date(),
-              status: PUBLISHED.value,
             }),
             TE.chain((p) =>
               pipe(
@@ -56,6 +55,7 @@ export const MakeCreateSocialPostRoute: Route = (r, ctx) => {
                       entity: id,
                       type,
                       result,
+                      status: PUBLISHED.value,
                     },
                   ]),
                 ),
