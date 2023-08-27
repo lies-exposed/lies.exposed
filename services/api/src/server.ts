@@ -15,6 +15,7 @@ import { HTTP } from "@liexp/shared/lib/providers/http/http.provider";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import axios from "axios";
 import cors from "cors";
+import * as ExifReader from "exifreader";
 import express from "express";
 import { expressjwt as jwt } from "express-jwt";
 import { unless } from "express-unless";
@@ -26,7 +27,7 @@ import { pipe } from "fp-ts/function";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import metadataParser from "page-metadata-parser";
 import puppeteer from "puppeteer-core";
-import sharp from 'sharp';
+import sharp from "sharp";
 import wk from "wikipedia";
 import { actorCommand } from "./providers/tg/actor.command";
 import { groupCommand } from "./providers/tg/group.command";
@@ -152,9 +153,12 @@ export const makeContext = (
           credentials: { username: env.IG_USERNAME, password: env.IG_PASSWORD },
         }),
       ),
-      imgProc: TE.right(MakeImgProcClient({
-        client: sharp.bind(sharp)
-      })),
+      imgProc: TE.right(
+        MakeImgProcClient({
+          client: sharp.bind(sharp),
+          exifR: ExifReader,
+        }),
+      ),
     }),
     TE.mapLeft((e) => ({
       ...e,

@@ -1,9 +1,12 @@
+import { fp, pipe } from "@liexp/core/lib/fp";
 import * as logger from "@liexp/core/lib/logger";
+import type ExifReader from "exifreader";
+import type { load } from "exifreader";
 import * as TE from "fp-ts/TaskEither";
 import type sharp from "sharp";
 import { IOError } from "ts-io-error";
 
-const s3Logger = logger.GetLogger("space");
+const s3Logger = logger.GetLogger("imgproc");
 
 class ImgProcError extends IOError {}
 
@@ -39,18 +42,28 @@ export interface ImgProcClient {
   run: (
     f: (s: ImgProcClientImpl) => Promise<Buffer>,
   ) => TE.TaskEither<ImgProcError, Buffer>;
+  readExif: (
+    file: Buffer,
+    options: Parameters<typeof load>[1],
+  ) => TE.TaskEither<ImgProcError, ExifReader.Tags>;
 }
 
 export interface MakeImgProcClientConfig {
   client: ImgProcClientImpl;
+  exifR: { load: typeof load };
 }
 
 export const MakeImgProcClient = ({
   client,
+  exifR,
 }: MakeImgProcClientConfig): ImgProcClient => {
   return {
-    run(f) {
-      return TE.tryCatch(async () => await f(client), toError);
+    run: (f) => TE.tryCatch(async () => await f(client), toError),
+    readExif: (file, opts) => {
+      return pipe(
+        fp.IOE.tryCatch(() => exifR.load(file, opts), toError),
+        TE.fromIOEither,
+      );
     },
   };
 };

@@ -133,6 +133,8 @@ const GRAVITY_OPTIONS = [
   "south",
   "southwest",
   "southeast",
+  "east",
+  "west",
 ];
 
 const BLEND_OPTIONS = [
