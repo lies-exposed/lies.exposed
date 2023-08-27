@@ -10133,7 +10133,7 @@ __metadata:
     vite-tsconfig-paths: ^4.2.0
     vitest: ^0.34.3
     wikipedia: ^2.1.0
-    wink-eng-lite-web-model: ^1.5.0
+    wink-eng-lite-web-model: ^1.5.2
     wink-nlp: ^1.14.3
     wink-nlp-utils: ^2.1.0
   languageName: unknown
@@ -26533,12 +26533,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wink-eng-lite-web-model@npm:^1.4.3, wink-eng-lite-web-model@npm:^1.5.0":
+"wink-eng-lite-web-model@npm:^1.4.3":
   version: 1.5.0
   resolution: "wink-eng-lite-web-model@npm:1.5.0"
   peerDependencies:
     wink-nlp: ">1.8.1"
   checksum: a28dfa13f775c32e77136cf85df6b2d475cc53cc223e8734c4d11d0008b98e1104a667776d1ad0c067c3ab16dbefb0d364fcae97ce7a5db2e9e3901ddc23a579
+  languageName: node
+  linkType: hard
+
+"wink-eng-lite-web-model@npm:^1.5.2":
+  version: 1.5.2
+  resolution: "wink-eng-lite-web-model@npm:1.5.2"
+  peerDependencies:
+    wink-nlp: ">1.8.1"
+  checksum: c9db29ef2b93197211055cbc60b800211609e42bfa7a7ffb5577621435917dbe41b3839da20e67c26d5ef96e4e098c3e17dafe68305347340f43fe854ca69254
   languageName: node
   linkType: hard
 
