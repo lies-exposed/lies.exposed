@@ -66,6 +66,7 @@ export const BuildImage = Endpoint({
       media: URL,
       textBlend: t.string,
       textGravity: t.string,
+      textWidth: t.union([t.number, t.undefined]),
       background: t.union([Color, t.undefined]),
     }),
   },
