@@ -75,7 +75,7 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-webpack-plugin": "^4.0.1",
     "page-metadata-parser": "^1.1.4",
-    "prettier": "^3.0.1",
+    "prettier": "^3.0.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6",
     "webpack": "^5.88.2",
