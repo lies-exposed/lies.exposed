@@ -15,7 +15,7 @@ export const toGroupIO = (
       startDate: group.startDate?.toISOString() ?? undefined,
       endDate: group.endDate?.toISOString() ?? undefined,
       color: toColor(group.color),
-      avatar: group.avatar === null ? undefined : group.avatar,
+      avatar: group.avatar ?? undefined,
       members: group.members ? group.members : [],
       subGroups: [],
       createdAt: group.createdAt.toISOString(),
