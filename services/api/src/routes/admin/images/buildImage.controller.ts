@@ -68,8 +68,8 @@ export const MakeAdminBuildImageRoute: Route = (r, ctx) => {
         ),
         TE.chain(({ buf: mediaBuffer, exif }) =>
           ctx.imgProc.run(async (sharp) => {
-            const imageHeight = exif["Image Height"]?.value ?? 600;
-            const imageWidth = exif["Image Width"]?.value ?? 600;
+            const imageHeight = exif["Image Height"]?.value ?? 1200;
+            const imageWidth = exif["Image Width"]?.value ?? 1200;
 
             ctx.logger.info.log(
               `Using image %s (w=%s h=%s)`,
@@ -78,8 +78,15 @@ export const MakeAdminBuildImageRoute: Route = (r, ctx) => {
               imageHeight,
             );
 
-            const height = imageHeight > imageWidth ? imageHeight : imageWidth;
-            const width = imageHeight > imageWidth ? imageHeight : imageWidth;
+            let height = imageHeight > imageWidth ? imageHeight : imageWidth;
+            let width = imageHeight > imageWidth ? imageHeight : imageWidth;
+            if (height > 2000) {
+              height = 2000;
+            }
+
+            if (width > 2000) {
+              width = 2000;
+            }
 
             const textWidth = isHorizontalGravity(textGravity as any)
               ? _textWidth ?? DEFAULT_TEXT_WIDTH
@@ -96,8 +103,8 @@ export const MakeAdminBuildImageRoute: Route = (r, ctx) => {
             });
 
             const mediaHeight = getSizeForGravity(() => height, {
-              onEast: () => height * 2,
-              onWest: () => height * 2,
+              onEast: () => height,
+              onWest: () => height,
             });
 
             const mediaLayer = await sharp(mediaBuffer)
@@ -220,17 +227,19 @@ export const MakeAdminBuildImageRoute: Route = (r, ctx) => {
             };
 
             ctx.logger.debug.log(`Frame image sizes %O`, {
-              width,
-              height,
+              width: frameWidth,
+              height: frameHeight,
               left: frameLeft,
               top: frameTop,
             });
 
-            return await sharp(frame)
+            const imageBuf = await sharp(frame)
               .composite(layers)
               .sharpen()
               .toFormat("png")
               .toBuffer();
+
+            return imageBuf;
           }),
         ),
         TE.map((buffer) => ({
