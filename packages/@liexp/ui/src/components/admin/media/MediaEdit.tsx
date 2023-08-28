@@ -141,8 +141,6 @@ export const ThumbnailEditField: React.FC<FieldProps> = (props) => {
   );
 };
 
-
-
 const MediaEditToolbar: React.FC = () => {
   const record = useRecordContext();
   return (
@@ -193,7 +191,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
     >
       <TabbedForm toolbar={<MediaEditToolbar />}>
         <FormTab label="general">
-          <Grid container>
+          <Grid container spacing={2}>
             <Grid item md={6}>
               <MediaField source="location" />
               <MediaInput sourceLocation="location" sourceType="type" />
@@ -225,8 +223,8 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
           >
             <Datagrid rowClick="edit">
               <TextField source="id" />
-              <TextField source="title" />
-              <DateField source="createdAt" />
+              <TextField source="payload.title" />
+              <DateField source="date" showDate />
             </Datagrid>
           </ReferenceManyField>
         </FormTab>
