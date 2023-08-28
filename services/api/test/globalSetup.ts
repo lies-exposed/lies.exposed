@@ -1,3 +1,4 @@
+import * as path from "path";
 import { loadENV } from "@liexp/core/lib/env/utils";
 import * as logger from "@liexp/core/lib/logger";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
@@ -6,7 +7,6 @@ import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { PathReporter } from "io-ts/lib/PathReporter";
-import * as path from "path";
 import { TestENV } from "./TestENV";
 
 export default async (): Promise<() => void> => {
@@ -33,6 +33,7 @@ export default async (): Promise<() => void> => {
       TE.fromEither,
       throwTE
     );
+
     return () => {
       // eslint-disable-next-line no-console
       console.log("global teardown");

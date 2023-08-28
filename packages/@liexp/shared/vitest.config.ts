@@ -4,6 +4,7 @@ import * as path from 'path'
 
 export default defineConfig({
   test: {
+    name: 'shared',
     root: __dirname,
     globals: true,
     include: [__dirname + "/src/**/*.spec.ts"],

@@ -13,8 +13,8 @@ import {
   type Media,
 } from "@liexp/shared/lib/io/http";
 import {
-  type NetworkLink,
   type GetNetworkQuery,
+  type NetworkLink,
 } from "@liexp/shared/lib/io/http/Network";
 import {
   type FlowGraphOutput,
@@ -24,11 +24,11 @@ import { toColor } from "@liexp/shared/lib/utils/colors";
 import { differenceInDays, subYears } from "@liexp/shared/lib/utils/date";
 import { pipe } from "fp-ts/function";
 import { type UUID } from "io-ts-types/lib/UUID";
-import { fetchEventsByRelation } from "@flows/events/fetchByRelations.flow";
-import { fetchEventsRelations } from "@flows/events/fetchEventsRelations.flow";
-import { type TEFlow } from "@flows/flow.types";
-import { toEventV2IO } from "@routes/events/eventV2.io";
-import { cleanItemsFromSlateFields } from '@utils/clean.utils';
+import { toEventV2IO } from "../../routes/events/eventV2.io";
+import { cleanItemsFromSlateFields } from '../../utils/clean.utils';
+import { fetchEventsByRelation } from "../events/fetchByRelations.flow";
+import { fetchEventsRelations } from "../events/fetchEventsRelations.flow";
+import { type TEFlow } from "../flow.types";
 
 const ordByDate = pipe(
   fp.N.Ord,
