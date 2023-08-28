@@ -155,6 +155,7 @@ export const makeContext = (
       ),
       imgProc: TE.right(
         MakeImgProcClient({
+          logger: logger.GetLogger("imgproc"),
           client: sharp.bind(sharp),
           exifR: ExifReader,
         }),
