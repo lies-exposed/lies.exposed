@@ -71,7 +71,7 @@ export const MakeAdminBuildImageRoute: Route = (r, ctx) => {
             const imageHeight = exif["Image Height"]?.value ?? 600;
             const imageWidth = exif["Image Width"]?.value ?? 600;
 
-            ctx.logger.debug.log(
+            ctx.logger.info.log(
               `Using image %s (w=%s h=%s)`,
               media,
               imageWidth,
@@ -170,7 +170,7 @@ export const MakeAdminBuildImageRoute: Route = (r, ctx) => {
               onWest: () => 15,
             });
 
-            ctx.logger.debug.log(`Text layer sizes %O`, {
+            ctx.logger.info.log(`Text layer sizes %O`, {
               width: textLayerWidth,
               height: textLayerHeight,
               left: textLayerLeft,

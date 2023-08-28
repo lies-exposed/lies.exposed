@@ -10,6 +10,7 @@ module.exports = {
         "core",
         "shared",
         "test",
+        "backend",
         "ui",
         "web",
         "admin",
