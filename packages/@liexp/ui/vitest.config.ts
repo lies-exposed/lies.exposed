@@ -3,6 +3,7 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
+    name: 'ui',
     root: __dirname,
     globals: true,
     include: [__dirname + "/src/**/*.spec.ts"],

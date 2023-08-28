@@ -6,6 +6,7 @@ import { VaccineEntry } from "vaccines/types";
 
 const now = new Date();
 const reduceToReport = ReportReducer(GetLogger("parse-data-test"));
+
 describe("Parse Vaccine Data", () => {
   test("Should compute datum by date", () => {
     const date = subDays(now, 3);
