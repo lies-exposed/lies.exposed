@@ -33,9 +33,9 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as S from "fp-ts/string";
 import { type UUID } from "io-ts-types/lib/UUID";
-import { fetchEventsWithRelations } from "@flows/events/fetchWithRelations.flow";
+import { cleanItemsFromSlateFields } from '../../utils/clean.utils';
+import { fetchEventsWithRelations } from "../events/fetchWithRelations.flow";
 import { type TEFlow } from "@flows/flow.types";
-import { cleanItemsFromSlateFields } from '@utils/clean.utils';
 
 const uniqueId = GetEncodeUtils<
   {

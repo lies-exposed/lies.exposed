@@ -116,7 +116,7 @@ jobs:
         env:
           DEBUG: "-@liexp*"
         run: |
-          yarn api test
+          yarn api test:spec
           yarn api test:e2e
 
   docker_build:
