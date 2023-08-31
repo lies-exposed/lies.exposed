@@ -1,7 +1,9 @@
 import * as t from "io-ts";
+import { BooleanFromString } from 'io-ts-types/lib/BooleanFromString';
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { ACTORS, Actor } from "./Actor";
+import { UUID } from './Common';
 import { EVENTS } from "./Events";
 import { GROUPS, Group } from "./Group";
 import { KEYWORDS, Keyword } from "./Keyword";
@@ -55,7 +57,9 @@ export type SocialPostStatus = t.TypeOf<typeof SocialPostStatus>;
 export const GetListSocialPostQuery = t.type(
   {
     ...GetListQuery.props,
+    distinct: optionFromNullable(BooleanFromString),
     status: optionFromNullable(SocialPostStatus),
+    entity: optionFromNullable(UUID),
   },
   "GetListSocialPostQuery",
 );
@@ -80,6 +84,7 @@ export type CreateSocialPost = t.TypeOf<typeof CreateSocialPost>;
 export const SocialPost = t.strict(
   {
     ...CreateSocialPost.type.props,
+    publishCount: t.number,
     status: SocialPostStatus,
     scheduledAt: DateFromISOString,
   },

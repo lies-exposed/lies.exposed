@@ -1,4 +1,5 @@
 import { toColor } from "@liexp/shared/lib/utils/colors";
+import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
 import {
   Create,
   type CreateProps,
@@ -11,8 +12,7 @@ import {
   TextField,
   TextInput,
   useRecordContext,
-} from "@liexp/ui/lib/components/admin";
-import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
+} from "@liexp/ui/lib/components/admin/react-admin";
 import * as React from "react";
 
 const RESOURCE = "keywords";

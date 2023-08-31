@@ -1,15 +1,15 @@
 import "@liexp/ui/assets/react-page.css";
 import { apiProvider, authProvider } from "@liexp/ui/lib/client/api";
 import { FullSizeLoader } from "@liexp/ui/lib/components/Common/FullSizeLoader";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
+import ReferenceMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceMediaInput";
 import {
   AdminContext,
   EditBase,
   SimpleForm,
   TextInput,
   useUpdate,
-} from "@liexp/ui/lib/components/admin";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceMediaInput";
+} from "@liexp/ui/lib/components/admin/react-admin";
 import { Box, Container } from "@liexp/ui/lib/components/mui";
 import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider";
 import { styled, themeOptions } from "@liexp/ui/lib/theme";

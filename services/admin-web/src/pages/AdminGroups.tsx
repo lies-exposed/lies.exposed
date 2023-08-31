@@ -4,6 +4,16 @@ import { parseDate } from "@liexp/shared/lib/utils/date";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
+import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput";
+import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
+import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
+import { WebPreviewButton } from "@liexp/ui/lib/components/admin/common/WebPreviewButton";
+import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
+import ReferenceManyEventField from "@liexp/ui/lib/components/admin/events/ReferenceManyEventField";
+import { GroupDataGrid } from "@liexp/ui/lib/components/admin/groups/GroupDataGrid";
+import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField";
+import GroupPreview from "@liexp/ui/lib/components/admin/previews/GroupPreview";
 import {
   ArrayInput,
   AutocompleteArrayInput,
@@ -32,17 +42,7 @@ import {
   type EditProps,
   type RaRecord,
   type SelectInputProps,
-} from "@liexp/ui/lib/components/admin";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput";
-import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
-import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
-import { WebPreviewButton } from "@liexp/ui/lib/components/admin/common/WebPreviewButton";
-import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
-import ReferenceManyEventField from "@liexp/ui/lib/components/admin/events/ReferenceManyEventField";
-import { GroupDataGrid } from "@liexp/ui/lib/components/admin/groups/GroupDataGrid";
-import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField";
-import GroupPreview from "@liexp/ui/lib/components/admin/previews/GroupPreview";
+} from "@liexp/ui/lib/components/admin/react-admin";
 import { Box, Grid, Typography } from "@liexp/ui/lib/components/mui";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

@@ -1,38 +1,37 @@
 import type * as Events from "@liexp/shared/lib/io/http/Events";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
-import {
-  BooleanField,
-  BooleanInput,
-  Create,
-  type CreateProps,
-  Datagrid,
-  DateField,
-  DateInput,
-  Edit,
-  type EditProps,
-  FormTab,
-  type FormTabProps,
-  List,
-  type ListProps,
-  NumberField,
-  NumberInput,
-  SelectInput,
-  SimpleForm,
-  TabbedForm,
-  TextField,
-  TextInput,
-  useDataProvider,
-} from "@liexp/ui/lib/components/admin";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
 import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput";
 import ReferenceAreaInput from "@liexp/ui/lib/components/admin/common/ReferenceAreaInput";
 import { ReferenceBySubjectField } from "@liexp/ui/lib/components/admin/common/ReferenceBySubjectField";
 import ReferenceBySubjectInput from "@liexp/ui/lib/components/admin/common/ReferenceBySubjectInput";
+import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm";
 import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
+import {
+  BooleanField,
+  BooleanInput,
+  Create,
+  Datagrid,
+  DateField,
+  DateInput,
+  FormTab,
+  List,
+  NumberField,
+  NumberInput,
+  SelectInput,
+  SimpleForm,
+  TextField,
+  TextInput,
+  useDataProvider,
+  type CreateProps,
+  type EditProps,
+  type FormTabProps,
+  type ListProps
+} from "@liexp/ui/lib/components/admin/react-admin";
 import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
+import { Box } from '@liexp/ui/lib/components/mui';
 import * as React from "react";
-import { EventEditActions } from "./actions/EditEventActions";
 
 const transactionEventsFilter = [
   <BooleanInput
@@ -81,49 +80,36 @@ export const TransactionEditFormTab: React.FC<FormTabProps> = (props) => (
 );
 
 export const TransactionEdit: React.FC<EditProps> = (props: EditProps) => {
-  const dataProvider = useDataProvider();
   return (
-    <Edit
-      title={<TransactionTitle {...(props as any)} />}
-      {...props}
-      actions={<EventEditActions />}
-      transform={(r) => transformEvent(dataProvider)(r.id, r)}
-    >
-      <TabbedForm>
-        <FormTab label="Generals">
-          <BooleanInput source="draft" defaultValue={false} />
-          <TextInput fullWidth source="payload.title" />
-          <ReferenceAreaInput source="payload.location" />
-          <NumberInput source="payload.total" />
-          <SelectInput
-            source="payload.currency"
-            choices={["euro", "dollar"].map((c) => ({
-              id: c,
-              name: c,
-            }))}
-          />
-          <DateInput source="date" />
-          <ReferenceBySubjectInput source="payload.from" />
-          <ReferenceBySubjectInput source="payload.to" />
-          <ReactPageInput source="excerpt" onlyText />
-          <ReferenceArrayKeywordInput
-            source="keywords"
-            defaultValue={[]}
-            showAdd
-          />
-          <DateField source="updatedAt" showTime={true} />
-          <DateField source="createdAt" showTime={true} />
-        </FormTab>
-        <FormTab label="Body">
-          <ReactPageInput source="body" />
-        </FormTab>
-        <FormTab label="Links">
-          <ReferenceArrayLinkInput source="links" />
-        </FormTab>
-      </TabbedForm>
-    </Edit>
+    <EditEventForm title={<TransactionTitle {...(props as any)} />} {...props}>
+      <Box>
+        <BooleanInput source="draft" defaultValue={false} />
+        <TextInput fullWidth source="payload.title" />
+        <ReferenceAreaInput source="payload.location" />
+        <NumberInput source="payload.total" />
+        <SelectInput
+          source="payload.currency"
+          choices={["euro", "dollar"].map((c) => ({
+            id: c,
+            name: c,
+          }))}
+        />
+        <DateInput source="date" />
+        <ReferenceBySubjectInput source="payload.from" />
+        <ReferenceBySubjectInput source="payload.to" />
+        <ReactPageInput source="excerpt" onlyText />
+        <ReferenceArrayKeywordInput
+          source="keywords"
+          defaultValue={[]}
+          showAdd
+        />
+        <DateField source="updatedAt" showTime={true} />
+        <DateField source="createdAt" showTime={true} />
+      </Box>
+    </EditEventForm>
   );
 };
+
 export const TransactionCreate: React.FC<CreateProps> = (props) => {
   const dataProvider = useDataProvider();
   return (

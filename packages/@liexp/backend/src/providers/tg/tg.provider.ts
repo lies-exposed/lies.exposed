@@ -4,7 +4,7 @@ import { pipe } from "fp-ts/function";
 import TelegramBot from "node-telegram-bot-api";
 
 export interface TGBotProvider {
-  api: TelegramBot,
+  api: TelegramBot;
   upsertPinnedMessage: (
     text: string,
   ) => TE.TaskEither<Error, TelegramBot.Message>;
@@ -30,7 +30,13 @@ export interface TGBotProviderOpts {
 }
 
 const toTGError = (e: unknown): Error => {
-  return e as Error;
+  if (e) {
+    const errorAny: any = e;
+    if (errorAny.code === "ETELEGRAM") {
+      return errorAny.toJSON();
+    }
+  }
+  return new Error("Unknown telegram error", { cause: e });
 };
 
 const liftTGTE = <A>(p: () => Promise<A>): TE.TaskEither<Error, A> => {
@@ -48,7 +54,7 @@ export const TGBotProvider = (
   logger.debug.log("tg bot provider %O", opts);
   const api = new TelegramBot(opts.token, {
     polling: opts.polling,
-    baseApiUrl: opts.baseApiUrl
+    baseApiUrl: opts.baseApiUrl,
   });
 
   return {

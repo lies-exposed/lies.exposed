@@ -1,41 +1,33 @@
 import { type http } from "@liexp/shared/lib/io";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
+import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
+import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
+import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField";
+import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm";
+import { DeathEventEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/DeathEventEditFormTab";
+import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
+import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
+import { MediaArrayInput } from "@liexp/ui/lib/components/admin/media/input/MediaArrayInput";
 import {
   AutocompleteInput,
   BooleanField,
   BooleanInput,
   Create,
-  type CreateProps,
   Datagrid,
   DateField,
   DateInput,
-  FormTab,
   List,
-  type ListProps,
   ReferenceField,
   ReferenceInput,
   SimpleForm,
-  TabbedForm,
   useDataProvider,
   useRecordContext,
-} from "@liexp/ui/lib/components/admin";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
-import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
-import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
-import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField";
-import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
-import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
-import { ReferenceMediaDataGrid } from "@liexp/ui/lib/components/admin/media/ReferenceMediaDataGrid";
-import { ImportMediaButton } from "@liexp/ui/lib/components/admin/media/button/ImportMediaButton";
-import { MediaArrayInput } from "@liexp/ui/lib/components/admin/media/input/MediaArrayInput";
-import EventPreview from "@liexp/ui/lib/components/admin/previews/EventPreview";
-import { DeathEventEditFormTab } from "@liexp/ui/lib/components/admin/tabs/DeathEventEditFormTab";
-import { EventGeneralTab } from "@liexp/ui/lib/components/admin/tabs/EventGeneralTab";
-import { ReferenceLinkTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceLinkTab";
+  type CreateProps,
+  type ListProps
+} from "@liexp/ui/lib/components/admin/react-admin";
 import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
 import * as React from "react";
-import { EventEditActions } from "./actions/EditEventActions";
 
 const deathEventsFilter = [
   <ReferenceArrayActorInput
@@ -91,33 +83,10 @@ export const DeathEventTitle: React.FC = () => {
 };
 
 export const DeathEdit: React.FC = () => {
-  const dataProvider = useDataProvider();
   return (
-    <EditForm
-      title={<DeathEventTitle />}
-      actions={<EventEditActions />}
-      transform={(r) => transformEvent(dataProvider)(r.id, r)}
-      preview={<EventPreview />}
-    >
-      <TabbedForm>
-        <FormTab label="Generals">
-          <EventGeneralTab>
-            <DeathEventEditFormTab />
-          </EventGeneralTab>
-        </FormTab>
-        <FormTab label="Body">
-          <ReactPageInput source="body" />
-        </FormTab>
-        <FormTab label="Media">
-          <ImportMediaButton />
-          <MediaArrayInput source="newMedia" defaultValue={[]} fullWidth />
-          <ReferenceMediaDataGrid source="media" />
-        </FormTab>
-        <FormTab label="Links">
-          <ReferenceLinkTab source="links" />
-        </FormTab>
-      </TabbedForm>
-    </EditForm>
+    <EditEventForm title={<DeathEventTitle />}>
+      <DeathEventEditFormTab />
+    </EditEventForm>
   );
 };
 

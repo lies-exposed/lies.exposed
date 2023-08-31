@@ -75,7 +75,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
   post: payload,
   multipleMedia,
   media,
-  onChange: setState,
+  onChange,
 }) => {
   const [tab, setTab] = React.useState(0);
 
@@ -90,7 +90,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
               name="content"
               value={payload.content ?? ""}
               onChange={(e) => {
-                setState({
+                onChange({
                   multipleMedia,
                   media,
                   payload: {
@@ -169,7 +169,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
                     }}
                     value={multipleMedia}
                     onChange={() => {
-                      setState({
+                      onChange({
                         multipleMedia: !multipleMedia,
                         media,
                         payload: {
@@ -193,7 +193,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
                 media={media[0].thumbnail ?? defaultImage}
                 text={payload.content}
                 onBuild={(_, base64Source) => {
-                  setState({
+                  onChange({
                     payload: {
                       ...payload,
                       media: [
@@ -223,7 +223,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
                   value={payload.platforms.IG}
                   checked={payload.platforms.IG}
                   onChange={() => {
-                    setState({
+                    onChange({
                       multipleMedia,
                       media,
                       payload: {
@@ -249,7 +249,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
                   value={payload.platforms.TG}
                   checked={payload.platforms.TG}
                   onChange={() => {
-                    setState({
+                    onChange({
                       multipleMedia,
                       media,
                       payload: {
@@ -277,7 +277,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
                   value={payload.schedule !== undefined}
                   checked={payload.schedule !== undefined}
                   onChange={() => {
-                    setState({
+                    onChange({
                       multipleMedia,
                       media,
                       payload: {
@@ -298,7 +298,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
                 value={payload.schedule ?? ""}
                 onChange={(e) => {
                   if (e.target.value !== "") {
-                    setState({
+                    onChange({
                       multipleMedia,
                       media,
                       payload: {
