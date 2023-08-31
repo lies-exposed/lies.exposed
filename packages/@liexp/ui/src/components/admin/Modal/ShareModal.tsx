@@ -316,56 +316,57 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
       {/** Preview */}
       <Grid item lg={6}>
         <Box>
-          <Typography>
-            <Link href={payload.url}>{payload.title}</Link>
-          </Typography>
-        </Box>
-
-        {payload?.date ? (
-          <Box style={{ width: "100%" }}>
+          <MediaList
+            style={{ width: "100%", maxHeight: 300 }}
+            itemStyle={{ maxHeight: 300 }}
+            columns={payload.media.length > 3 ? 3 : media.length}
+            hideDescription
+            media={payload.media.map((m) => ({
+              id: uuid() as any,
+              creator: undefined,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+              events: [],
+              links: [],
+              keywords: [],
+              featuredIn: [],
+              deletedAt: undefined,
+              description: m.type,
+              thumbnail: m.media,
+              location: m.media,
+              selected: true,
+              type: contentTypeFromFileExt(m.media),
+            }))}
+            onItemClick={(m) => {
+              if (ImageType.is(m.type)) {
+                const downloadLink = document.createElement("a");
+                downloadLink.href = m.location;
+                downloadLink.download = `${kebabCase(
+                  payload.title.substring(0, 150),
+                )}.${fileExtFromContentType(m.type)}`;
+                downloadLink.click();
+                downloadLink.remove();
+              }
+            }}
+          />
+          <Box>
             <Typography>
-              <Link
-                href={`${process.env.WEB_URL}/events?startDate=${payload.date}`}
-              >
-                {payload.date}
-              </Link>
+              <Link href={payload.url}>{payload.title}</Link>
             </Typography>
           </Box>
-        ) : null}
 
-        <MediaList
-          style={{ width: "100%", height: 200 }}
-          itemStyle={{ height: 200 }}
-          columns={payload.media.length > 3 ? 3 : media.length}
-          hideDescription
-          media={payload.media.map((m) => ({
-            id: uuid() as any,
-            creator: undefined,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            events: [],
-            links: [],
-            keywords: [],
-            featuredIn: [],
-            deletedAt: undefined,
-            description: m.type,
-            thumbnail: m.media,
-            location: m.media,
-            selected: true,
-            type: contentTypeFromFileExt(m.media),
-          }))}
-          onItemClick={(m) => {
-            if (ImageType.is(m.type)) {
-              const downloadLink = document.createElement("a");
-              downloadLink.href = m.location;
-              downloadLink.download = `${kebabCase(
-                payload.title.substring(0, 150),
-              )}.${fileExtFromContentType(m.type)}`;
-              downloadLink.click();
-              downloadLink.remove();
-            }
-          }}
-        />
+          {payload?.date ? (
+            <Box style={{ width: "100%" }}>
+              <Typography>
+                <Link
+                  href={`${process.env.WEB_URL}/events?startDate=${payload.date}`}
+                >
+                  {payload.date}
+                </Link>
+              </Typography>
+            </Box>
+          ) : null}
+        </Box>
       </Grid>
     </Grid>
   );

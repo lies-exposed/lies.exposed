@@ -1,10 +1,12 @@
 import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { ACTORS, Actor } from "./Actor";
 import { EVENTS } from "./Events";
 import { GROUPS, Group } from "./Group";
 import { KEYWORDS, Keyword } from "./Keyword";
 import { MEDIA } from "./Media";
+import { GetListQuery } from "./Query";
 
 export const SocialPostBodyMultipleMedia = t.array(
   t.type({
@@ -49,6 +51,14 @@ export const SocialPostStatus = t.union(
 );
 
 export type SocialPostStatus = t.TypeOf<typeof SocialPostStatus>;
+
+export const GetListSocialPostQuery = t.type(
+  {
+    ...GetListQuery.props,
+    status: optionFromNullable(SocialPostStatus),
+  },
+  "GetListSocialPostQuery",
+);
 
 export const CreateSocialPost = t.strict(
   {

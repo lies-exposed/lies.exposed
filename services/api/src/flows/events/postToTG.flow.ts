@@ -1,7 +1,9 @@
 import { type CreateSocialPost } from "@liexp/shared/lib/io/http/SocialPost";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
+import * as t from "io-ts";
 import { type UUID } from "io-ts-types/lib/UUID";
+import type TelegramBot from 'node-telegram-bot-api';
 import { type EventV2Entity } from "@entities/Event.v2.entity";
 import { type Flow, type TEFlow } from "@flows/flow.types";
 import { ServerError } from "@io/ControllerError";
@@ -62,13 +64,16 @@ export const postToTG: TEFlow<[UUID, CreateSocialPost], EventV2Entity> =
   (ctx) => (id, body) => {
     return pipe(
       writeText(ctx)(body),
-      ctx.logger.info.logInPipe(`Posting ${id} with caption %s`),
       TE.right,
       TE.chain((text) => {
         ctx.logger.debug.log("Upload media %O", body.media);
-        return body.media.length === 1
-          ? ctx.tg.postPhoto(body.media[0].media, text)
-          : ctx.tg.postMediaGroup(text, body.media);
+        const media: TelegramBot.InputMedia[] = t.string.is(body.media)
+          ? [{ type: "photo", media: body.media }]
+          : body.media;
+
+        return media.length === 1
+          ? ctx.tg.postPhoto(media[0].media, text)
+          : ctx.tg.postMediaGroup(text, media);
       }),
       TE.mapLeft((e) => ServerError([e.message])),
     );
