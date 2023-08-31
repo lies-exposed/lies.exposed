@@ -4,6 +4,17 @@ import { generateRandomColor } from "@liexp/shared/lib/utils/colors";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
+import { ActorDataGrid } from "@liexp/ui/lib/components/admin/actors/ActorDataGrid";
+import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
+import { WebPreviewButton } from "@liexp/ui/lib/components/admin/common/WebPreviewButton";
+import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
+import { CreateEventButton } from "@liexp/ui/lib/components/admin/events/CreateEventButton";
+import ReferenceManyEventField from "@liexp/ui/lib/components/admin/events/ReferenceManyEventField";
+import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceGroupInput";
+import { SearchLinksButton } from "@liexp/ui/lib/components/admin/links/SearchLinksButton";
+import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField";
+import ActorPreview from "@liexp/ui/lib/components/admin/previews/ActorPreview";
 import {
   ArrayInput,
   Create,
@@ -28,18 +39,7 @@ import {
   type DataProvider,
   type EditProps,
   type RaRecord,
-} from "@liexp/ui/lib/components/admin";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import { ActorDataGrid } from "@liexp/ui/lib/components/admin/actors/ActorDataGrid";
-import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
-import { WebPreviewButton } from "@liexp/ui/lib/components/admin/common/WebPreviewButton";
-import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
-import { CreateEventButton } from "@liexp/ui/lib/components/admin/events/CreateEventButton";
-import ReferenceManyEventField from "@liexp/ui/lib/components/admin/events/ReferenceManyEventField";
-import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceGroupInput";
-import { SearchLinksButton } from "@liexp/ui/lib/components/admin/links/SearchLinksButton";
-import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField";
-import ActorPreview from "@liexp/ui/lib/components/admin/previews/ActorPreview";
+} from "@liexp/ui/lib/components/admin/react-admin";
 import { Grid } from "@liexp/ui/lib/components/mui";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";

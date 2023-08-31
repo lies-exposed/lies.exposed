@@ -1,3 +1,8 @@
+import { MapInput } from "@liexp/ui/lib/components/admin/MapInput";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
+import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
+import ReferenceArrayEventInput from "@liexp/ui/lib/components/admin/events/ReferenceArrayEventInput";
+import AreaPreview from "@liexp/ui/lib/components/admin/previews/AreaPreview";
 import {
   Create,
   Datagrid,
@@ -14,12 +19,7 @@ import {
   type CreateProps,
   type EditProps,
   type ListProps,
-} from "@liexp/ui/lib/components/admin";
-import { MapInput } from "@liexp/ui/lib/components/admin/MapInput";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
-import ReferenceArrayEventInput from "@liexp/ui/lib/components/admin/events/ReferenceArrayEventInput";
-import AreaPreview from "@liexp/ui/lib/components/admin/previews/AreaPreview";
+} from "@liexp/ui/lib/components/admin/react-admin";
 import { ReferenceMediaTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceMediaTab";
 import { transformMedia } from "@liexp/ui/lib/components/admin/transform.utils";
 import * as React from "react";

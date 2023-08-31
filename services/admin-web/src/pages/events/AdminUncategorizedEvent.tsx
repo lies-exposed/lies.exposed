@@ -1,6 +1,15 @@
 import { Events } from "@liexp/shared/lib/io/http";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { EventIcon } from "@liexp/ui/lib/components/Common/Icons/EventIcon";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
+import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
+import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
+import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField";
+import ReferenceAreaInput from "@liexp/ui/lib/components/admin/common/ReferenceAreaInput";
+import ReferenceArrayGroupMemberInput from "@liexp/ui/lib/components/admin/common/ReferenceArrayGroupMemberInput";
+import { UncategorizedEventEditTab } from "@liexp/ui/lib/components/admin/events/tabs/UncategorizedEventEditTab";
+import ReferenceArrayGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput";
+import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
 import {
   BooleanInput,
   Create,
@@ -10,27 +19,18 @@ import {
   FormTab,
   FunctionField,
   List,
-  type ListProps,
-  type RaRecord,
   ReferenceArrayField,
-  required,
   TabbedForm,
   TextField,
   TextInput,
+  required,
   useDataProvider,
   useRecordContext,
-} from "@liexp/ui/lib/components/admin";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
-import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
-import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField";
-import ReferenceAreaInput from "@liexp/ui/lib/components/admin/common/ReferenceAreaInput";
-import ReferenceArrayGroupMemberInput from "@liexp/ui/lib/components/admin/common/ReferenceArrayGroupMemberInput";
-import ReferenceArrayGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput";
-import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
+  type ListProps,
+  type RaRecord,
+} from "@liexp/ui/lib/components/admin/react-admin";
 import { ReferenceLinkTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceLinkTab";
 import { ReferenceMediaTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceMediaTab";
-import { UncategorizedEventEditTab } from "@liexp/ui/lib/components/admin/tabs/UncategorizedEventEditTab";
 import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import * as React from "react";

@@ -9,8 +9,8 @@ import {
   useRecordContext,
   type EditProps,
 } from "react-admin";
-import { Box } from "../../mui";
-import ReferenceActorInput from "../actors/ReferenceActorInput";
+import { Box } from "../../../mui";
+import ReferenceActorInput from "../../actors/ReferenceActorInput";
 
 export const QuoteEditFormTab: React.FC<EditProps & { record?: any }> = (
   props,

@@ -39,8 +39,8 @@ export const decodeUserFromRequest =
     req: Express.Request,
     routePerms: UserPermission[],
   ): IOE.IOEither<JWTError, User> => {
-    const headerKeys = Object.keys(req.headers);
-    logger.debug.log(`Checking headers %O for authorization`, headerKeys);
+    // const headerKeys = Object.keys(req.headers);
+    // logger.debug.log(`Checking headers %O for authorization`, headerKeys);
     const decodedHeaders = HeadersWithAuthorization.decode(req.headers);
 
     logger.debug.log(
@@ -119,7 +119,7 @@ export const authenticationHandler: (
         next(e);
       },
       (user) => () => {
-        ctx.logger.debug.log("Calling next handler with user %s", user.id);
+        // ctx.logger.debug.log("Calling next handler with user %s", user.id);
         req.user = user;
         next();
       },

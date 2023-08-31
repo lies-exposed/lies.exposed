@@ -23,6 +23,7 @@ import {
 } from "react-admin";
 import { transformMedia } from "../../../client/admin/MediaAPI";
 import { Box, Button, Grid } from "../../mui";
+import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent";
 import { EditForm } from "../common/EditForm";
 import { MediaTGPostButton } from "../common/SocialPostButton";
 import { CreateEventFromMediaButton } from "../events/CreateEventFromMediaButton";
@@ -230,6 +231,13 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
         </FormTab>
         <FormTab label="links">
           <ReferenceLinkTab source="links" />
+        </FormTab>
+        <FormTab label="social posts">
+          <SocialPostFormTabContent
+            target="entity"
+            source="id"
+            type={"media"}
+          />
         </FormTab>
       </TabbedForm>
     </EditForm>

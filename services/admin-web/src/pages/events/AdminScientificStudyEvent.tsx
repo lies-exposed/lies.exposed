@@ -1,43 +1,37 @@
-import { EventTypes } from '@liexp/shared/lib/io/http/Events';
+import { EventTypes } from "@liexp/shared/lib/io/http/Events";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
+import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
+import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
+import URLMetadataInput from "@liexp/ui/lib/components/admin/common/URLMetadataInput";
+import { EditEventForm } from '@liexp/ui/lib/components/admin/events/EditEventForm';
+import { ScientificStudyEventEditTab } from "@liexp/ui/lib/components/admin/events/tabs/ScientificStudyEventEditTab";
+import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceGroupInput";
+import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
+import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
+import { MediaArrayInput } from "@liexp/ui/lib/components/admin/media/input/MediaArrayInput";
 import {
   BooleanField,
   BooleanInput,
   Create,
-  type CreateProps,
   Datagrid,
   DateField,
   DateInput,
   FormDataConsumer,
-  FormTab,
   List,
-  type ListProps,
   ReferenceField,
   SimpleForm,
-  TabbedForm,
   TextField,
   TextInput,
   useDataProvider,
   useRecordContext,
-} from "@liexp/ui/lib/components/admin";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
-import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
-import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
-import URLMetadataInput from "@liexp/ui/lib/components/admin/common/URLMetadataInput";
-import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceGroupInput";
-import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
-import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
-import { ReferenceMediaDataGrid } from "@liexp/ui/lib/components/admin/media/ReferenceMediaDataGrid";
-import { MediaArrayInput } from "@liexp/ui/lib/components/admin/media/input/MediaArrayInput";
-import EventPreview from "@liexp/ui/lib/components/admin/previews/EventPreview";
-import { EventGeneralTab } from "@liexp/ui/lib/components/admin/tabs/EventGeneralTab";
-import { ReferenceLinkTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceLinkTab";
-import { ScientificStudyEventEditTab } from "@liexp/ui/lib/components/admin/tabs/ScientificStudyEventEditTab";
+  type CreateProps,
+  type ListProps
+} from "@liexp/ui/lib/components/admin/react-admin";
 import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
 import { Box } from "@liexp/ui/lib/components/mui";
 import * as React from "react";
-import { EventEditActions } from "./actions/EditEventActions";
+
 
 const listFilter = [
   <TextInput key="title" source="title" alwaysOn />,
@@ -73,33 +67,10 @@ export const ScientificStudyEventTitle: React.FC = () => {
 };
 
 export const ScientificStudyEdit: React.FC = () => {
-  const dataProvider = useDataProvider();
   return (
-    <EditForm
-      title={<ScientificStudyEventTitle />}
-      actions={<EventEditActions />}
-      transform={(r) => transformEvent(dataProvider)(r.id, r)}
-      preview={<EventPreview />}
-    >
-      <TabbedForm>
-        <FormTab label="General">
-          <EventGeneralTab>
-            <ScientificStudyEventEditTab />
-          </EventGeneralTab>
-        </FormTab>
-        <FormTab label="body">
-          <ReactPageInput source="body" />
-        </FormTab>
-
-        <FormTab label="media">
-          <MediaArrayInput source="newMedia" defaultValue={[]} />
-          <ReferenceMediaDataGrid source="media" />
-        </FormTab>
-        <FormTab label="links">
-          <ReferenceLinkTab source="links" />
-        </FormTab>
-      </TabbedForm>
-    </EditForm>
+    <EditEventForm title={<ScientificStudyEventTitle />}>
+      <ScientificStudyEventEditTab />
+    </EditEventForm>
   );
 };
 

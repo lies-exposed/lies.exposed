@@ -2,7 +2,7 @@ import { fp, pipe } from "@liexp/core/lib/fp";
 import { API } from "@liexp/shared/lib/providers/http/api.provider";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { type AxiosError } from "axios";
-import { type AuthProvider } from "../components/admin";
+import { type AuthProvider } from "../components/admin/react-admin";
 import * as http from "../http";
 
 export const api = API({
