@@ -104,6 +104,7 @@
     "@types/node-cron": "^3.0.8",
     "@types/node-telegram-bot-api": "^0.61.7",
     "@types/pg": "^8.10.2",
+    "@types/prettier": "^3.0.0",
     "@types/prompts": "^2.4.4",
     "@types/supertest": "^2.0.12",
     "@types/uuid": "^9.0.2",
