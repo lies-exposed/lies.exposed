@@ -1,9 +1,9 @@
 import * as React from "react";
 import { TextInput } from "react-admin";
-import { Box } from "../../mui";
-import ReferenceArrayActorInput from "../actors/ReferenceArrayActorInput";
-import ReferenceArrayGroupInput from "../groups/ReferenceArrayGroupInput";
-import ReferenceLinkInput from "../links/ReferenceLinkInput";
+import { Box } from "../../../mui";
+import ReferenceArrayActorInput from "../../actors/ReferenceArrayActorInput";
+import ReferenceArrayGroupInput from "../../groups/ReferenceArrayGroupInput";
+import ReferenceLinkInput from "../../links/ReferenceLinkInput";
 
 export const PatentEventEditFormTab: React.FC = () => {
   return (

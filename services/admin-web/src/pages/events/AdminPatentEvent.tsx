@@ -1,47 +1,36 @@
 import { uuid } from "@liexp/shared/lib/utils/uuid";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
+import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
+import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm";
+import { PatentEventEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/PatentEventEditTab";
+import ReferenceArrayGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput";
+import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
+import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
+import ReferenceLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceLinkInput";
+import { MediaArrayInput } from "@liexp/ui/lib/components/admin/media/input/MediaArrayInput";
 import {
   BooleanField,
   BooleanInput,
   Create,
-  type CreateProps,
   Datagrid,
   DateField,
   DateInput,
-  FormTab,
   List,
-  type ListProps,
+  ReferenceField,
   SimpleForm,
-  TabbedForm,
   TextField,
   TextInput,
   UrlField,
   useDataProvider,
   useRecordContext,
-  ReferenceField,
-} from "@liexp/ui/lib/components/admin";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
-import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
-import ReferenceArrayGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput";
-import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
-import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
-import ReferenceLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceLinkInput";
-import { ReferenceMediaDataGrid } from "@liexp/ui/lib/components/admin/media/ReferenceMediaDataGrid";
-import { MediaArrayInput } from "@liexp/ui/lib/components/admin/media/input/MediaArrayInput";
-import EventPreview from "@liexp/ui/lib/components/admin/previews/EventPreview";
-import { EventGeneralTab } from "@liexp/ui/lib/components/admin/tabs/EventGeneralTab";
-import { PatentEventEditFormTab } from "@liexp/ui/lib/components/admin/tabs/PatentEventEditTab";
+  type CreateProps,
+  type ListProps,
+} from "@liexp/ui/lib/components/admin/react-admin";
 import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
 import * as React from "react";
-import { EventEditActions } from "./actions/EditEventActions";
 
 const patentEventsFilter = [
-  <BooleanInput
-    key="draft"
-    label="Draft only"
-    source="draft"
-    alwaysOn
-  />,
+  <BooleanInput key="draft" label="Draft only" source="draft" alwaysOn />,
   // <ReferenceActorInput key="author" source="author" alwaysOn />,
   <DateInput key="date" source="date" />,
 ];
@@ -79,32 +68,10 @@ export const PatentEventTitle: React.FC = () => {
 };
 
 export const PatentEdit: React.FC = () => {
-  const dataProvider = useDataProvider();
   return (
-    <EditForm
-      title={<PatentEventTitle />}
-      actions={<EventEditActions />}
-      transform={(r) => transformEvent(dataProvider)(r.id, r)}
-      preview={<EventPreview />}
-    >
-      <TabbedForm>
-        <FormTab label="Generals">
-          <EventGeneralTab>
-            <PatentEventEditFormTab />
-          </EventGeneralTab>
-        </FormTab>
-        <FormTab label="Body">
-          <ReactPageInput source="body" />
-        </FormTab>
-        <FormTab label="Media">
-          <MediaArrayInput source="newMedia" defaultValue={[]} fullWidth />
-          <ReferenceMediaDataGrid source="media" />
-        </FormTab>
-        <FormTab label="Links">
-          <ReferenceArrayLinkInput source="links" />
-        </FormTab>
-      </TabbedForm>
-    </EditForm>
+    <EditEventForm title={<PatentEventTitle />}>
+      <PatentEventEditFormTab />
+    </EditEventForm>
   );
 };
 

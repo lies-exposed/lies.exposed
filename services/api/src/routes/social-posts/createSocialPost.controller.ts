@@ -65,7 +65,7 @@ export const MakeCreateSocialPostRoute: Route = (r, ctx) => {
 
       return pipe(
         saveInDb,
-        TE.map((data) => ({
+        TE.map(([data]) => ({
           body: {
             data,
           },

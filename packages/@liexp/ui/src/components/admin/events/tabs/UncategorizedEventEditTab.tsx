@@ -8,12 +8,12 @@ import {
   type EditProps,
   type RaRecord,
 } from "react-admin";
-import { Box, Grid } from "../../mui";
-import ReferenceArrayActorInput from "../actors/ReferenceArrayActorInput";
-import { AvatarField } from "../common/AvatarField";
-import ReferenceAreaInput from "../common/ReferenceAreaInput";
-import ReferenceArrayGroupMemberInput from "../common/ReferenceArrayGroupMemberInput";
-import ReferenceArrayGroupInput from "../groups/ReferenceArrayGroupInput";
+import { Box, Grid } from "../../../mui";
+import ReferenceArrayActorInput from "../../actors/ReferenceArrayActorInput";
+import { AvatarField } from "../../common/AvatarField";
+import ReferenceAreaInput from "../../common/ReferenceAreaInput";
+import ReferenceArrayGroupMemberInput from "../../common/ReferenceArrayGroupMemberInput";
+import ReferenceArrayGroupInput from "../../groups/ReferenceArrayGroupInput";
 
 export const UncategorizedEventEditTab: React.FC<
   EditProps & { record?: RaRecord; sourcePrefix?: string }

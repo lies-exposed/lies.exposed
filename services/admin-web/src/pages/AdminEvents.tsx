@@ -1,13 +1,21 @@
 import * as io from "@liexp/shared/lib/io";
 import { http } from "@liexp/shared/lib/io";
 import { Events } from "@liexp/shared/lib/io/http";
-import {
-  EventType,
-  EventTypes
-} from "@liexp/shared/lib/io/http/Events";
+import { EventType, EventTypes } from "@liexp/shared/lib/io/http/Events";
 import { getTextContentsCapped } from "@liexp/shared/lib/slate";
 import { LinkIcon } from "@liexp/ui/lib/components/Common/Icons";
 import { EventIcon } from "@liexp/ui/lib/components/Common/Icons/EventIcon";
+import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
+import ReferenceArrayGroupMemberInput from "@liexp/ui/lib/components/admin/common/ReferenceArrayGroupMemberInput";
+import { EditEventForm } from '@liexp/ui/lib/components/admin/events/EditEventForm';
+import { DeathEventEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/DeathEventEditFormTab";
+import { DocumentaryEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/DocumentaryEditFormTab";
+import { PatentEventEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/PatentEventEditTab";
+import { QuoteEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/QuoteEditFormTab";
+import { ScientificStudyEventEditTab } from "@liexp/ui/lib/components/admin/events/tabs/ScientificStudyEventEditTab";
+import { UncategorizedEventEditTab } from "@liexp/ui/lib/components/admin/events/tabs/UncategorizedEventEditTab";
+import ReferenceArrayGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput";
+import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
 import {
   BooleanField,
   BooleanInput,
@@ -18,35 +26,14 @@ import {
   FilterListItem,
   FilterLiveSearch,
   FormDataConsumer,
-  FormTab,
   FunctionField,
   List,
   ReferenceField,
   SavedQueriesList,
-  TabbedForm,
   TextField,
-  useDataProvider,
   useRecordContext,
-  type RaRecord as Record,
-} from "@liexp/ui/lib/components/admin";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
-import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
-import ReferenceArrayGroupMemberInput from "@liexp/ui/lib/components/admin/common/ReferenceArrayGroupMemberInput";
-import ReferenceArrayGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput";
-import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
-import { ImportMediaButton } from "@liexp/ui/lib/components/admin/media/button/ImportMediaButton";
-import EventPreview from "@liexp/ui/lib/components/admin/previews/EventPreview";
-import { DeathEventEditFormTab } from "@liexp/ui/lib/components/admin/tabs/DeathEventEditFormTab";
-import { DocumentaryEditFormTab } from "@liexp/ui/lib/components/admin/tabs/DocumentaryEditFormTab";
-import { EventGeneralTab } from "@liexp/ui/lib/components/admin/tabs/EventGeneralTab";
-import { PatentEventEditFormTab } from "@liexp/ui/lib/components/admin/tabs/PatentEventEditTab";
-import { QuoteEditFormTab } from "@liexp/ui/lib/components/admin/tabs/QuoteEditFormTab";
-import { ReferenceLinkTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceLinkTab";
-import { ReferenceMediaTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceMediaTab";
-import { ScientificStudyEventEditTab } from "@liexp/ui/lib/components/admin/tabs/ScientificStudyEventEditTab";
-import { UncategorizedEventEditTab } from "@liexp/ui/lib/components/admin/tabs/UncategorizedEventEditTab";
-import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
+  type RaRecord as Record
+} from "@liexp/ui/lib/components/admin/react-admin";
 import {
   Box,
   Card,
@@ -65,7 +52,6 @@ import { QuoteTitle } from "./events/AdminQuoteEvent";
 import { ScientificStudyEventTitle } from "./events/AdminScientificStudyEvent";
 import { TransactionTitle } from "./events/AdminTransactionEvent";
 import { UncategorizedEventTitle } from "./events/AdminUncategorizedEvent";
-import { EventEditActions } from "./events/actions/EditEventActions";
 
 const RESOURCE = "events";
 
@@ -140,7 +126,7 @@ export const EventList: React.FC = () => (
     }
   >
     <Datagrid
-      rowStyle={(record) => {
+      rowSx={(record) => {
         return {
           backgroundColor: record.deletedAt ? alpha("#FF0000", 0.6) : undefined,
         };
@@ -288,54 +274,29 @@ export const EditTitle: React.FC = () => {
 };
 
 export const EventEdit: React.FC = (props) => {
-  const dataProvider = useDataProvider();
 
   return (
-    <EditForm
-      {...props}
-      title={<EditTitle />}
-      redirect={false}
-      actions={<EventEditActions />}
-      preview={<EventPreview />}
-      transform={(r) => transformEvent(dataProvider)(r.id, r)}
-    >
-      <TabbedForm>
-        <FormTab label="Generals">
-          <EventGeneralTab>
-            <FormDataConsumer>
-              {({ formData, getSource, scopedFormData, ...rest }) => {
-                if (formData.type === EventTypes.DOCUMENTARY.value) {
-                  return <DocumentaryEditFormTab />;
-                }
-                if (formData.type === EventTypes.DEATH.value) {
-                  return <DeathEventEditFormTab />;
-                }
-                if (formData.type === EventTypes.SCIENTIFIC_STUDY.value) {
-                  return <ScientificStudyEventEditTab />;
-                }
-                if (formData.type === EventTypes.QUOTE.value) {
-                  return <QuoteEditFormTab />;
-                }
-                if (formData.type === EventTypes.PATENT.value) {
-                  return <PatentEventEditFormTab />;
-                }
-                return <UncategorizedEventEditTab />;
-              }}
-            </FormDataConsumer>
-          </EventGeneralTab>
-        </FormTab>
-        <FormTab label="body">
-          <ReactPageInput label="body" source="body" />
-        </FormTab>
-
-        <FormTab label="Media">
-          <ImportMediaButton />
-          <ReferenceMediaTab source="media" fullWidth />
-        </FormTab>
-        <FormTab label="Links">
-          <ReferenceLinkTab source="links" />
-        </FormTab>
-      </TabbedForm>
-    </EditForm>
+    <EditEventForm {...props} title={<EditTitle />} redirect={false}>
+      <FormDataConsumer>
+        {({ formData, getSource, scopedFormData, ...rest }) => {
+          if (formData.type === EventTypes.DOCUMENTARY.value) {
+            return <DocumentaryEditFormTab />;
+          }
+          if (formData.type === EventTypes.DEATH.value) {
+            return <DeathEventEditFormTab />;
+          }
+          if (formData.type === EventTypes.SCIENTIFIC_STUDY.value) {
+            return <ScientificStudyEventEditTab />;
+          }
+          if (formData.type === EventTypes.QUOTE.value) {
+            return <QuoteEditFormTab />;
+          }
+          if (formData.type === EventTypes.PATENT.value) {
+            return <PatentEventEditFormTab />;
+          }
+          return <UncategorizedEventEditTab />;
+        }}
+      </FormDataConsumer>
+    </EditEventForm>
   );
 };

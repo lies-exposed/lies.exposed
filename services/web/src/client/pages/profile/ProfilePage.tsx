@@ -1,7 +1,6 @@
 import "@liexp/ui/assets/react-page.css";
 import { apiProvider, authProvider } from "@liexp/ui/lib/client/api";
 import { FAIcon } from "@liexp/ui/lib/components/Common/Icons/FAIcon";
-import { Admin, Login, Resource } from "@liexp/ui/lib/components/admin";
 import {
   EventSuggestionEdit,
   EventSuggestionList,
@@ -16,6 +15,7 @@ import {
   MediaEdit,
   MediaList,
 } from "@liexp/ui/lib/components/admin/media";
+import { Admin, Login, Resource } from "@liexp/ui/lib/components/admin/react-admin";
 import {
   StoryCreate,
   StoryEdit,

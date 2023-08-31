@@ -38,15 +38,15 @@ import { EventSuggestionStatusInput } from "../../common/inputs/EventSuggestionS
 import { EventSuggestionTypeInput } from "../../common/inputs/EventSuggestionTypeInput";
 import { ImportMediaButton } from "../../media/button/ImportMediaButton";
 import { EventSuggestionPreview } from "../../previews/EventSuggestionPreview";
-import { DeathEventEditFormTab } from "../../tabs/DeathEventEditFormTab";
-import { DocumentaryEditFormTab } from "../../tabs/DocumentaryEditFormTab";
-import { PatentEventEditFormTab } from "../../tabs/PatentEventEditTab";
 import { ReferenceLinkTab } from "../../tabs/ReferenceLinkTab";
 import { ReferenceMediaTab } from "../../tabs/ReferenceMediaTab";
-import { ScientificStudyEventEditTab } from "../../tabs/ScientificStudyEventEditTab";
-import { UncategorizedEventEditTab } from "../../tabs/UncategorizedEventEditTab";
 import { transformEvent } from "../../transform.utils";
 import ReferenceUserInput from "../../user/ReferenceUserInput";
+import { DeathEventEditFormTab } from "../tabs/DeathEventEditFormTab";
+import { DocumentaryEditFormTab } from "../tabs/DocumentaryEditFormTab";
+import { PatentEventEditFormTab } from "../tabs/PatentEventEditTab";
+import { ScientificStudyEventEditTab } from "../tabs/ScientificStudyEventEditTab";
+import { UncategorizedEventEditTab } from "../tabs/UncategorizedEventEditTab";
 
 const RESOURCE = "events/suggestions";
 

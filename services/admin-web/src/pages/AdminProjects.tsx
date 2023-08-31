@@ -2,6 +2,10 @@ import { http } from "@liexp/shared/lib/io";
 import { Kind } from "@liexp/shared/lib/io/http/ProjectImage";
 import { ProjectPageContent } from "@liexp/ui/lib/components/ProjectPageContent";
 import { ValidationErrorsLayout } from "@liexp/ui/lib/components/ValidationErrorsLayout";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
+import ReferenceAreaInput from "@liexp/ui/lib/components/admin/common/ReferenceAreaInput";
+import RichTextInput from "@liexp/ui/lib/components/admin/common/RichTextInput";
+import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
 import {
   ArrayField,
   ArrayInput,
@@ -25,11 +29,7 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-} from "@liexp/ui/lib/components/admin";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceAreaInput from "@liexp/ui/lib/components/admin/common/ReferenceAreaInput";
-import RichTextInput from "@liexp/ui/lib/components/admin/common/RichTextInput";
-import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
+} from "@liexp/ui/lib/components/admin/react-admin";
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
 import * as React from "react";

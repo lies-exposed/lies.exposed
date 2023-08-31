@@ -1,5 +1,4 @@
 import { apiProvider, authProvider } from "@liexp/ui/lib/client/api";
-import { Admin, Login, Resource } from "@liexp/ui/lib/components/admin";
 import {
   EventSuggestionEdit,
   EventSuggestionList,
@@ -15,6 +14,7 @@ import {
   MediaEdit,
   MediaList,
 } from "@liexp/ui/lib/components/admin/media";
+import { Admin, Login, Resource } from "@liexp/ui/lib/components/admin/react-admin";
 import {
   StoryCreate,
   StoryEdit,

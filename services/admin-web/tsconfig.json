@@ -15,10 +15,7 @@
     "forceConsistentCasingInFileNames": true,
     "lib": ["dom", "esnext"],
     "skipLibCheck": true,
-    "typeRoots": [
-      "../../packages/@liexp/shared/typings",
-      "typings"
-    ],
+    "typeRoots": ["../../packages/@liexp/shared/typings", "typings"],
     "baseUrl": "./src",
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,

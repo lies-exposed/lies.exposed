@@ -7,7 +7,7 @@ import {
   type CreateResult,
   type UpdateParams,
   type UpdateResult,
-} from "@liexp/ui/lib/components/admin";
+} from "@liexp/ui/lib/components/admin/react-admin";
 import { type APIRESTClient } from "@liexp/ui/lib/http";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
