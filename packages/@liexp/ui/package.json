@@ -121,7 +121,7 @@
     "@types/topojson-specification": "^1.0.2",
     "eslint": "^8.48.0",
     "eslint-plugin-import": "^2.28.1",
-    "prettier": "^3.0.2",
+    "prettier": "^3.0.3",
     "reactflow": "^11.8.3",
     "typescript": "^5.1.6"
   },
