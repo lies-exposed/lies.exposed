@@ -5,11 +5,13 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  Index,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 
 @Entity("social_post")
+@Index(["type", "entity"])
 export class SocialPostEntity {
   @PrimaryGeneratedColumn("uuid")
   id: UUID;
