@@ -61,7 +61,6 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
         <Typography style={{ marginBottom: 20 }}>{m.description}</Typography>
       </Box>
       <EventsPanelBox
-        slide={false}
         query={{
           hash: `media-${m.id}`,
           media: [m.id],

@@ -102,7 +102,6 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
               }}
             >
               <EventsPanelBox
-                slide={false}
                 query={{
                   ...query,
                   hash: `actor-${actor.id}`,

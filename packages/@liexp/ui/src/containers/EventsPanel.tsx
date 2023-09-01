@@ -131,7 +131,6 @@ export interface EventsQueryParams {
 interface EventsPanelProps {
   query: SearchEventsQueryInputNoPagination;
   tab: number;
-  slide: boolean;
   keywords: Keyword.Keyword[];
   actors: Actor.Actor[];
   groups: Group.Group[];
@@ -142,8 +141,7 @@ interface EventsPanelProps {
 
 export const EventsPanel: React.FC<EventsPanelProps> = ({
   tab,
-  slide,
-  query: { hash, ..._query },
+  query: { hash, slide: _slide, ..._query },
   actors,
   groups,
   groupsMembers,
@@ -151,6 +149,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   onQueryChange,
   onEventClick,
 }) => {
+  const slide = (_slide as any) === "true";
   const query = {
     type: EventType.types.map((t) => t.value),
     ..._query,
@@ -289,7 +288,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
         query={{ ...query, hash }}
         onQueryChange={handleUpdateEventsSearch}
         onQueryClear={() => {
-          onQueryChange({ hash }, 0);
+          onQueryChange({ hash, slide: false }, 0);
         }}
         onClick={onEventClick}
         onActorClick={onActorsChange}
