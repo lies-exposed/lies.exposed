@@ -56,7 +56,7 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
           media={m}
           enableDescription={false}
           style={{ marginBottom: 80 }}
-          itemStyle={{ maxHeight: 400, minHeight: 300 }}
+          itemStyle={{ maxHeight: 600, minHeight: 300 }}
         />
         <Typography style={{ marginBottom: 20 }}>{m.description}</Typography>
       </Box>
