@@ -5413,6 +5413,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@remix-run/router@npm:1.8.0":
+  version: 1.8.0
+  resolution: "@remix-run/router@npm:1.8.0"
+  checksum: f754f02d3b4fc86791b88acf16065000609e2324b9436027844a76831c7107c0994067cb83abdd6093c282bd518a5c89b5e02aead585782978586e3a04534428
+  languageName: node
+  linkType: hard
+
 "@rollup/pluginutils@npm:^5.0.4":
   version: 5.0.4
   resolution: "@rollup/pluginutils@npm:5.0.4"
@@ -22482,7 +22489,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^6.1.0, react-router-dom@npm:^6.11.2":
+"react-router-dom@npm:^6.1.0":
   version: 6.11.2
   resolution: "react-router-dom@npm:6.11.2"
   dependencies:
@@ -22495,6 +22502,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-router-dom@npm:^6.15.0":
+  version: 6.15.0
+  resolution: "react-router-dom@npm:6.15.0"
+  dependencies:
+    "@remix-run/router": 1.8.0
+    react-router: 6.15.0
+  peerDependencies:
+    react: ">=16.8"
+    react-dom: ">=16.8"
+  checksum: 95301837e293654f00934de6a4bdb27bfb06f613503e4cce7a93f19384793729832e7479d50faf3b9457d149014d4df40a3ee3a5193d7e3a3caadb7aaa6ec0f9
+  languageName: node
+  linkType: hard
+
 "react-router@npm:6.11.2, react-router@npm:^6.1.0":
   version: 6.11.2
   resolution: "react-router@npm:6.11.2"
@@ -22503,6 +22523,17 @@ __metadata:
   peerDependencies:
     react: ">=16.8"
   checksum: e47f875dca70033a3b42704cb5ec076b60f9629a5cdc3be613707f3d5a5706123fb80301037455c285c6d5a1011b443e1784e0103969ebfac7071648d360c413
+  languageName: node
+  linkType: hard
+
+"react-router@npm:6.15.0":
+  version: 6.15.0
+  resolution: "react-router@npm:6.15.0"
+  dependencies:
+    "@remix-run/router": 1.8.0
+  peerDependencies:
+    react: ">=16.8"
+  checksum: 345b29277e13997f2625f0037f537eaf1955bb9f44ebfea80dd3ff83fc06273f7b64e1be944bfc75945fd2af5af917874133a8a93ed5ecaca523be8f045ae166
   languageName: node
   linkType: hard
 
@@ -26586,7 +26617,7 @@ __metadata:
     react-dom: ^18.2.0
     react-error-boundary: ^4.0.10
     react-helmet: ^6.1.0
-    react-router-dom: ^6.11.2
+    react-router-dom: ^6.15.0
     react-share: ^4.4.1
     react-slick: ^0.29.0
     react-spring: ^9.7.2
