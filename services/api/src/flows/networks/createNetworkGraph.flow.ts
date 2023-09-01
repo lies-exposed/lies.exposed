@@ -194,7 +194,7 @@ export const getEventGraph = (
       );
 
       const evLinks: NetworkLink[] =
-        index > 0
+        index > 0 && acc.eventNodes[index - 1]
           ? [
               {
                 source: acc.eventNodes[index - 1].id,
