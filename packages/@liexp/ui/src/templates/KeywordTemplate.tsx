@@ -49,6 +49,7 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
   query,
   onQueryChange,
 }) => {
+
   return (
     <QueriesRenderer
       queries={{ keyword: useKeywordQuery({ id: keywordId }) }}
@@ -105,7 +106,6 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
 
               <EventsPanelBox
                 tab={tab}
-                slide={false}
                 query={{
                   ...query,
                   hash: `keyword-${keywordId}`,

@@ -130,7 +130,6 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
               />
 
               <EventsPanelBox
-                slide={false}
                 query={{
                   ...query,
                   hash: `group-${group.id}`,
