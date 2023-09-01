@@ -10,15 +10,16 @@ export const traverseArrayOfE = <A, E, B>(
   fn: (a: A) => E.Either<E, B>,
 ): E.Either<E, B[]> => pipe(results, A.traverse(E.Applicative)(fn));
 
-interface ReqInput {
+interface ReqInput<D> {
   skip: number;
   amount: number;
+  results: D[]
 }
 
 export const walkPaginatedRequest =
   ({ logger }: { logger: Logger }) =>
   <A, E, D>(
-    apiReqFn: (i: ReqInput) => TE.TaskEither<E, A>,
+    apiReqFn: (i: ReqInput<D>) => TE.TaskEither<E, A>,
     getTotal: (r: A) => number,
     getData: (r: A) => D[],
     skip: number,
@@ -29,12 +30,12 @@ export const walkPaginatedRequest =
     const loop = (
       skip: number,
       amount: number,
-      result: D[],
+      results: D[],
     ): TE.TaskEither<E, D[]> => {
       logger.debug.log("Walking paginated requests: %d => %d", skip, amount);
 
       return pipe(
-        apiReqFn({ skip, amount }),
+        apiReqFn({ skip, amount, results }),
         fp.TE.mapLeft((e) => ({
           ...e,
           message: `Failed with skip(${skip}) and amount(${amount}): ${JSON.stringify(
@@ -48,13 +49,13 @@ export const walkPaginatedRequest =
           logger.debug.log("Total %d, results size %d", total, data.length);
 
           if (amount < total) {
-            return loop(skip + amount, amount + amount, result.concat(data));
+            return loop(skip + amount, amount + amount, results.concat(data));
           }
           logger.debug.log(
             "All elements collected, returning... %d",
             data.length,
           );
-          return fp.TE.right(result.concat(data));
+          return fp.TE.right(results.concat(data));
         }),
       );
     };

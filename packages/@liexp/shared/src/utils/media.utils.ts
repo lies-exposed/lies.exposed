@@ -1,5 +1,7 @@
 import { fp } from "@liexp/core/lib/fp";
+import { type Option } from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
+import { UUID } from "io-ts-types/lib/UUID";
 import { type UploadResource } from "../endpoints/upload.endpoints";
 import * as Media from "../io/http/Media";
 
@@ -40,6 +42,17 @@ export const fileExtFromContentType = (c: Media.ValidContentType): string => {
     case Media.MediaType.types[0].value:
       return "jpg";
   }
+};
+
+export const getResourceAndIdFromLocation = (
+  u: string,
+): Option<{ resource: string; id: string }> => {
+  const [, resource, id] = pipe(u.split("/"));
+
+  if (resource && UUID.is(id)) {
+    return fp.O.some({ resource, id });
+  }
+  return fp.O.none;
 };
 
 export const getMediaKeyFromLocation = (u: string): string => {
