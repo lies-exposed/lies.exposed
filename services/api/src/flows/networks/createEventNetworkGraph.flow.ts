@@ -24,7 +24,7 @@ import {
   type NetworkLink,
   type GetNetworkQuery,
   type NetworkGraphOutput,
-  type NetworkGroupBy
+  type NetworkGroupBy,
 } from "@liexp/shared/lib/io/http/Network";
 import { type EventNetworkDatum } from "@liexp/shared/lib/io/http/Network/networks";
 import { sequenceS } from "fp-ts/Apply";
@@ -553,15 +553,19 @@ export const createEventNetworkGraph: TEFlow<
                         stroke: color,
                         value: 0,
                       },
-                      {
+                    ];
+                    if (tuples[1].events?.[0]?.id) {
+                      update.keywordLinks.push({
                         source: tuples[1].events?.[0]?.id,
-                        sourceType: "events",
+                        sourceType: "events" as any,
                         target: k.toString(),
                         fill: color,
                         stroke: color,
                         value: 0,
-                      },
-                    ].concat(tuples[1].keywordLinks);
+                      });
+                    }
+
+                    update.keywordLinks.push(...tuples[1].keywordLinks);
                   }
 
                   return {
