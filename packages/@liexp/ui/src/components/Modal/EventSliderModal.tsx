@@ -1,3 +1,4 @@
+import { EventType } from "@liexp/shared/lib/io/http/Events";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
 import RunIcon from "@mui/icons-material/PlayCircleOutline";
 import { clsx } from "clsx";
@@ -36,7 +37,7 @@ const StyledModal = styled(Modal)(({ theme }) => ({
     height: "100%",
     // margin: theme.spacing(2),
     padding: theme.spacing(2),
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: "white",
   },
   [`& .${classes.closeIconBox}`]: {
     display: "flex",
@@ -46,10 +47,15 @@ const StyledModal = styled(Modal)(({ theme }) => ({
     display: "flex",
     flexDirection: "column",
     flexGrow: 1,
+    maxWidth: "100%",
+    // alignItems: "center",
+    alignSelf: "center",
   },
   [`& .${classes.eventsSlider}`]: {
     flexShrink: 0,
     flexGrow: 0,
+    maxWidth: "80%",
+    // margin: 'auto'
     // overflow: "auto",
   },
   [`& .${classes.eventsAppBar}`]: {
@@ -81,21 +87,12 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
   const hash = "slider";
   const _start = parseInt((query as any)._start ?? "0", 10);
 
-  const [{ start, current }, setBounds] = React.useState({
+  const [{ start, current, eventType }, setBounds] = React.useState({
     current: _start,
     start: _start,
+    eventType: query.eventType ?? EventType.types.map((t) => t.value),
   });
   const end = start + perPage + 1;
-  // const query = React.useMemo((): SearchEventQueryInput => {
-  //   // if (current % 10 === 0) {
-  //   return {
-  //     ..._query,
-  //     _start: current,
-  //     _end: end,
-  //     hash,
-  //   };
-  //   // }
-  // }, [_query, current]);
 
   // console.log({ url, selectedSuggestion, createDisabled });
 
@@ -120,9 +117,9 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
         //   _start: nextStart,
         //   _end: nextStart + perPage,
         // } as any);
-        setBounds({ current: 0, start: start + perPage });
+        setBounds({ current: 0, start: start + perPage, eventType });
       } else {
-        setBounds({ current: nextSlide, start });
+        setBounds({ current: nextSlide, start, eventType });
       }
     },
     [start, current, query, hash],
@@ -213,10 +210,15 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
 
                   <EventsAppBar
                     className={classes.eventsAppBar}
-                    query={query}
+                    query={{
+                      ...query,
+                      eventType,
+                    }}
                     current={appBarCurrent}
                     totals={totals}
-                    onQueryChange={onQueryChange}
+                    onQueryChange={(q) => {
+                      onQueryChange({ ...q, slide: open });
+                    }}
                     onQueryClear={() => {}}
                     events={events}
                     actors={rest.actors.map((a) => ({

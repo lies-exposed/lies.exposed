@@ -33,7 +33,7 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as S from "fp-ts/string";
 import { type UUID } from "io-ts-types/lib/UUID";
-import { cleanItemsFromSlateFields } from '../../utils/clean.utils';
+import { cleanItemsFromSlateFields } from "../../utils/clean.utils";
 import { fetchEventsWithRelations } from "../events/fetchWithRelations.flow";
 import { type TEFlow } from "@flows/flow.types";
 
@@ -59,7 +59,6 @@ const uniqueId = GetEncodeUtils<
   groups: groups.join("-"),
   keywords: keywords.join("-"),
 }));
-
 
 type ItemType = Group.Group | Keyword.Keyword | Actor.Actor;
 
@@ -240,26 +239,29 @@ export const getEventGraph = (
       };
     }),
     ({ eventNodes, actorLinks, groupLinks, keywordLinks, ...r }) => {
-      const dateRange = pipe(
-        eventNodes,
-        A.foldMap({
-          empty: {
-            startDate: eventNodes[0].date,
-            endDate: eventNodes[eventNodes.length - 1].date,
-          },
-          concat: (x, y) => ({
-            startDate: new Date(
-              Math.min(x.startDate.getTime(), y.startDate.getTime()),
-            ),
-            endDate: new Date(
-              Math.max(x.endDate.getTime(), y.endDate.getTime()),
-            ),
-          }),
-        })((f) => ({
-          startDate: f.date,
-          endDate: f.date,
-        })),
-      );
+      const dateRange =
+        eventNodes.length > 0
+          ? pipe(
+              eventNodes,
+              A.foldMap({
+                empty: {
+                  startDate: eventNodes[0].date,
+                  endDate: eventNodes[eventNodes.length - 1].date,
+                },
+                concat: (x, y) => ({
+                  startDate: new Date(
+                    Math.min(x.startDate.getTime(), y.startDate.getTime()),
+                  ),
+                  endDate: new Date(
+                    Math.max(x.endDate.getTime(), y.endDate.getTime()),
+                  ),
+                }),
+              })((f) => ({
+                startDate: f.date,
+                endDate: f.date,
+              })),
+            )
+          : { startDate: new Date(), endDate: new Date() };
 
       return {
         ...r,

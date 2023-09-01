@@ -65,7 +65,6 @@ export const LinkTemplateUI: React.FC<LinkTemplateUIProps> = ({
         <Typography style={{ marginBottom: 20 }}>{link.description}</Typography>
       </Box>
       <EventsPanelBox
-        slide={false}
         query={{
           hash: `link-${link.id}`,
           media: [],

@@ -85,7 +85,6 @@ export const AreaTemplateUI: React.FC<AreaTemplateProps> = ({
     >
       <AreaPageContent area={area} onGroupClick={() => {}} />
       <EventsPanel
-        slide={false}
         keywords={[]}
         actors={[]}
         groups={[]}
