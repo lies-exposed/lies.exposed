@@ -30,15 +30,19 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { In } from "typeorm";
 import { ActorEntity } from "@entities/Actor.entity";
+import { type EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { KeywordEntity } from "@entities/Keyword.entity";
 import { MediaEntity } from "@entities/Media.entity";
 import { type TEFlow } from "@flows/flow.types";
-import { toControllerError } from "@io/ControllerError";
+import { type ControllerError, toControllerError } from "@io/ControllerError";
 import { toActorIO } from "@routes/actors/actor.io";
 import { toEventV2IO } from "@routes/events/eventV2.io";
-import { searchEventV2Query } from "@routes/events/queries/searchEventsV2.query";
+import {
+  type SearchEventOutput,
+  searchEventV2Query,
+} from "@routes/events/queries/searchEventsV2.query";
 import { toGroupIO } from "@routes/groups/group.io";
 import { toGroupMemberIO } from "@routes/groups-members/groupMember.io";
 import { toKeywordIO } from "@routes/keywords/keyword.io";
@@ -143,7 +147,11 @@ export const createStatsByEntityType: TEFlow<
       }, toControllerError),
     ),
     TE.chain(() =>
-      walkPaginatedRequest(ctx)(
+      walkPaginatedRequest(ctx)<
+        SearchEventOutput,
+        ControllerError,
+        EventV2Entity
+      >(
         ({ skip, amount }) =>
           searchEventV2Query(ctx)({
             ids: O.none,

@@ -16,9 +16,11 @@ import * as TE from "fp-ts/TaskEither";
 import { flow, pipe } from "fp-ts/function";
 import { type UUID } from "io-ts-types/lib/UUID";
 import { fetchEventsRelations } from "./fetchEventsRelations.flow";
+import { type EventV2Entity } from "@entities/Event.v2.entity";
 import { type TEFlow } from "@flows/flow.types";
+import { type ControllerError } from "@io/ControllerError";
 import { toEventV2IO } from "@routes/events/eventV2.io";
-import { searchEventV2Query } from "@routes/events/queries/searchEventsV2.query";
+import { type SearchEventOutput, searchEventV2Query } from "@routes/events/queries/searchEventsV2.query";
 
 export const fetchEventsWithRelations: TEFlow<
   [NetworkType, UUID[], GetNetworkQuery],
@@ -40,7 +42,7 @@ export const fetchEventsWithRelations: TEFlow<
       endDate,
     });
     return pipe(
-      walkPaginatedRequest(ctx)(
+      walkPaginatedRequest(ctx)<SearchEventOutput, ControllerError, EventV2Entity>(
         ({ skip, amount }) =>
           searchEventV2Query(ctx)({
             ids: fp.O.none,

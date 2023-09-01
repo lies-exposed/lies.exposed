@@ -32,6 +32,7 @@ const GetLocalSpaceClient: Reader<LocalSpaceClientCtx, SpaceClient> = ({
       return TE.right({ DeleteMarker: true, $metadata: {} });
     },
     upload: () => TE.right({ Location: "", $metadata: {} }),
+    listObjects: () => TE.right({ Contents: [], $metadata: {} }),
     getSignedUrl: (params) => {
       logger.debug.log("getSignedURL with operation %s", params);
       return TE.right(

@@ -12,6 +12,9 @@ import {
   type PutObjectCommandInput,
   type S3Client,
   PutObjectCommand,
+  ListObjectsCommand,
+  type ListObjectsCommandInput,
+  type ListObjectsCommandOutput,
 } from "@aws-sdk/client-s3";
 import { Upload } from "@aws-sdk/lib-storage";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
@@ -63,6 +66,9 @@ export interface SpaceClient {
   getObject: (
     params: GetObjectCommandInput,
   ) => TE.TaskEither<SpaceError, GetObjectCommandOutput>;
+  listObjects: (
+    input: ListObjectsCommandInput,
+  ) => TE.TaskEither<SpaceError, ListObjectsCommandOutput>;
   // upload: (
   //   params: PutObjectCommandInput
   // ) => TE.TaskEither<SpaceError, PutObjectCommandOutput>;
@@ -167,6 +173,10 @@ export const MakeSpaceClient = ({
       );
 
       const params = new GetObjectCommand(input);
+      return TE.tryCatch(() => client.send(params), toError);
+    },
+    listObjects: (input: ListObjectsCommandInput) => {
+      const params = new ListObjectsCommand(input);
       return TE.tryCatch(() => client.send(params), toError);
     },
 
