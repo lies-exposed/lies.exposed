@@ -39,6 +39,7 @@ interface IframeMediaElementProps {
   media: Omit<Media.Media, "type"> & { type: Media.IframeVideoType };
   className?: string;
   style?: React.CSSProperties;
+  itemStyle?: React.CSSProperties;
   onLoad?: () => void;
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
@@ -47,6 +48,7 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
   media,
   onLoad,
   style,
+  itemStyle,
   className,
   onClick,
   ...props
@@ -60,6 +62,7 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
         <iframe
           className={classes.iframe}
           {...props}
+          style={itemStyle}
           src={media.location}
           ref={ref}
           loading="lazy"
@@ -77,6 +80,7 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
         <VideoCover
           className={classes.cover}
           thumbnail={media.thumbnail}
+          style={itemStyle}
           onClick={(e) => {
             e.stopPropagation();
             if (onClick) {

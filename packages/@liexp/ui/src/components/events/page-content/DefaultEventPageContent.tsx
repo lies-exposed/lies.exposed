@@ -54,7 +54,7 @@ export const DefaultEventPageContent: React.FC<
               onItemClick={handleMediaClick}
               itemStyle={{
                 maxWidth: 800,
-                minHeight: 500,
+                maxHeight: 600,
               }}
               hideDescription={true}
             />
