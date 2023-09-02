@@ -65,7 +65,7 @@
     "pm2": "^5.3.0",
     "prettier": "^3.0.3",
     "terser": "^5.19.3",
-    "typescript": "^5.1.6",
+    "typescript": "^5.2.2",
     "vitest": "^0.34.3",
     "webpack": "^5.88.2"
   },
