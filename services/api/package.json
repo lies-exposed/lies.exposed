@@ -83,7 +83,7 @@
     "ts-shared": "2.0.0-alpha.6",
     "tsconfig-paths": "^4.2.0",
     "typeorm": "^0.3.17",
-    "typescript": "^5.1.6",
+    "typescript": "^5.2.2",
     "uuid": "^9.0.0",
     "wikipedia": "^2.1.0",
     "wink-eng-lite-web-model": "^1.5.2",

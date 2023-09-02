@@ -50,7 +50,7 @@
     "@types/uuid": "^9.0.3",
     "@visx/network": "^3.3.0",
     "fast-csv": "^4.3.6",
-    "typescript": "^5.1.6",
+    "typescript": "^5.2.2",
     "vitest": "^0.34.3"
   },
   "peerDependencies": {

@@ -15,8 +15,8 @@
       "../../packages/@liexp/shared/typings"
     ],
     "target": "esnext",
-    "module": "NodeNext",
-    "moduleResolution": "node",
+    // "module": "NodeNext",
+    "moduleResolution": "Node",
     "allowJs": true,
     "esModuleInterop": true,
     "declaration": true,
