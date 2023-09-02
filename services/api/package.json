@@ -36,7 +36,8 @@
     "share-post-message": "yarn ts:node:build ./bin/share-post-message.ts",
     "create-from-wikipedia": "yarn ts:node:build ./bin/create-from-wikipedia.ts",
     "set-default-group-usernames": "yarn ts:node:build ./bin/set-default-group-usernames.ts",
-    "clean-space-media": "yarn ts:node:build ./bin/clean-space-media.ts"
+    "clean-space-media": "yarn ts:node:build ./bin/clean-space-media.ts",
+    "import-from-kmz": "yarn ts:node:build ./bin/import-from-kmz.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.405.0",
@@ -72,6 +73,7 @@
     "node-telegram-bot-api": "^0.61.0",
     "nodemon": "^3.0.1",
     "page-metadata-parser": "^1.1.4",
+    "parse2-kmz": "^1.0.7",
     "pdfjs-dist": "^3.10.111",
     "pg": "^8.11.3",
     "puppeteer-core": "^19.11.1",

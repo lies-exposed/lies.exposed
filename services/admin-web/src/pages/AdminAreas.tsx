@@ -19,6 +19,8 @@ import {
   type CreateProps,
   type EditProps,
   type ListProps,
+  Button,
+  Loading,
 } from "@liexp/ui/lib/components/admin/react-admin";
 import { ReferenceMediaTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceMediaTab";
 import { transformMedia } from "@liexp/ui/lib/components/admin/transform.utils";
@@ -55,6 +57,22 @@ const transformArea = ({ newMedia = [], newEvents, ...area }: any): any => {
   };
 };
 
+const OpenInGMapsButton: React.FC = () => {
+  const record = useRecordContext();
+  return record ? (
+    <Button
+      label="Open in GMaps"
+      onClick={(): void => {
+        window.open(
+          `https://www.google.com/maps/@${record.geometry.coordinates[1]},${record.geometry.coordinates[0]},16.42z`,
+          "_blank",
+        );
+      }}
+    />
+  ) : (
+    <Loading />
+  );
+};
 export const AreaEdit: React.FC<EditProps> = () => (
   <EditForm
     title={<EditTitle />}
@@ -71,6 +89,7 @@ export const AreaEdit: React.FC<EditProps> = () => (
       </FormTab>
       <FormTab label="Geometry">
         <MapInput source="geometry" />
+        <OpenInGMapsButton />
       </FormTab>
       <FormTab label="Events">
         <ReferenceArrayEventInput source="events" />
