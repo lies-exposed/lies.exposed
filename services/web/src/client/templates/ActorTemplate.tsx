@@ -1,3 +1,4 @@
+import { EventType } from '@liexp/shared/lib/io/http/Events';
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import SEO from "@liexp/ui/lib/components/SEO";
 import { Box } from "@liexp/ui/lib/components/mui";
@@ -28,7 +29,11 @@ const ActorPage: React.FC<{ actorId: string }> = ({ actorId }) => {
             />
             <ActorTemplate
               tab={tab}
-              query={query}
+              query={{
+                ...query,
+                eventType:
+                  query.eventType ?? EventType.types.map((t) => t.value),
+              }}
               onQueryChange={(q) => {
                 navigateToResource.actors({ id: actor.id }, { ...q, tab });
               }}

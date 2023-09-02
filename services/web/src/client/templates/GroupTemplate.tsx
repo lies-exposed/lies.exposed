@@ -1,3 +1,4 @@
+import { EventType } from "@liexp/shared/lib/io/http/Events";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import { useGroupQuery } from "@liexp/ui/lib/state/queries/groups.queries";
 import { GroupTemplate } from "@liexp/ui/lib/templates/GroupTemplate";
@@ -18,7 +19,10 @@ const GroupPage: React.FC<{ groupId: string }> = ({ groupId }) => {
           <GroupTemplate
             group={group}
             tab={tab}
-            query={query}
+            query={{
+              ...query,
+              eventType: query.eventType ?? EventType.types.map((t) => t.value),
+            }}
             onTabChange={(t) => {
               navigateTo.groups({ id: groupId }, { tab: t });
             }}
