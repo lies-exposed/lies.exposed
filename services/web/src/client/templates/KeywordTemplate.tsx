@@ -1,3 +1,4 @@
+import { EventType } from "@liexp/shared/lib/io/http/Events";
 import { KeywordTemplate } from "@liexp/ui/lib/templates/KeywordTemplate";
 import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils";
 import * as React from "react";
@@ -13,7 +14,10 @@ const KeywordPage: React.FC<{ keywordId: string }> = ({ keywordId }) => {
     <KeywordTemplate
       id={keywordId}
       tab={tab}
-      query={query}
+      query={{
+        ...query,
+        eventType: query.eventType ?? EventType.types.map((t) => t.value),
+      }}
       onTabChange={(tab) => {
         navigateTo.keywords({ id: keywordId }, { tab });
       }}
