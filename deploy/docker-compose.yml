@@ -64,6 +64,11 @@ services:
     ports:
       - "8081:8081"
     restart: on-failure
+    logging:
+      driver: "json-file"
+      options:
+          max-file: 5
+          max-size: 10m
 
 
 volumes:
