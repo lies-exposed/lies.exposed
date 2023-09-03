@@ -3463,7 +3463,6 @@ __metadata:
     "@liexp/core": 0.1.0
     "@liexp/shared": 0.1.0
     "@liexp/test": 0.1.0
-    "@smithy/hash-stream-node": ^2.0.1
     "@types/fluent-ffmpeg": ^2.1.21
     "@types/jsonwebtoken": ^9.0.2
     "@types/node-telegram-bot-api": ^0.61.7
@@ -5613,7 +5612,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@smithy/hash-stream-node@npm:^2.0.1, @smithy/hash-stream-node@npm:^2.0.5":
+"@smithy/hash-stream-node@npm:^2.0.5":
   version: 2.0.5
   resolution: "@smithy/hash-stream-node@npm:2.0.5"
   dependencies:
