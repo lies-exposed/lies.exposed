@@ -1,4 +1,5 @@
 import * as io from "@liexp/shared/lib/io";
+import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils";
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
 import { type MediaEntity } from "@entities/Media.entity";
@@ -11,12 +12,13 @@ export const toImageIO = (
   return pipe(
     io.http.Media.AdminMedia.decode({
       ...media,
+      location: ensureHTTPS(media.location),
       creator: media.creator ?? undefined,
       links: media.links ?? [],
       events: media.events ?? [],
       keywords: media.keywords ?? [],
       featuredIn: media.featuredIn ?? [],
-      thumbnail: media.thumbnail ?? undefined,
+      thumbnail: media.thumbnail ? ensureHTTPS(media.thumbnail) : undefined,
       transferable: !media.location.includes(spaceEndpoint),
       createdAt: media.createdAt.toISOString(),
       updatedAt: media.updatedAt.toISOString(),

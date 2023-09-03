@@ -1,5 +1,6 @@
 import * as io from "@liexp/shared/lib/io";
 import { toColor } from "@liexp/shared/lib/utils/colors";
+import { ensureHTTPS } from '@liexp/shared/lib/utils/media.utils';
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
 import { type ActorEntity } from "../../entities/Actor.entity";
@@ -12,7 +13,7 @@ export const toActorIO = (
     io.http.Actor.Actor.decode({
       ...a,
       color: toColor(a.color),
-      avatar: a.avatar ?? undefined,
+      avatar: a.avatar ? ensureHTTPS(a.avatar) : undefined,
       memberIn: a.memberIn ? a.memberIn : [],
       createdAt: a.createdAt.toISOString(),
       updatedAt: a.updatedAt.toISOString(),
