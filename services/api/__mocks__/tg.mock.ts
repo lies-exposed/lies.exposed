@@ -3,6 +3,7 @@ export const tgProviderMock = {
     onText: vi.fn(),
     getChat: vi.fn(),
     downloadFile: vi.fn(),
+    getFileStream: vi.fn(),
   } as any,
   startPolling: vi.fn(),
   stopPolling: vi.fn(),
