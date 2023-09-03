@@ -9974,7 +9974,7 @@ __metadata:
     eslint-plugin-promise: ^6.1.1
     eslint-plugin-react: ^7.33.2
     eslint-webpack-plugin: ^4.0.1
-    final-form: ^4.20.9
+    final-form: ^4.20.10
     fp-ts: ^2.16.1
     history: ^5.3.0
     mini-create-react-context: ^0.4.1
@@ -15225,12 +15225,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"final-form@npm:^4.20.9":
-  version: 4.20.9
-  resolution: "final-form@npm:4.20.9"
+"final-form@npm:^4.20.10":
+  version: 4.20.10
+  resolution: "final-form@npm:4.20.10"
   dependencies:
     "@babel/runtime": ^7.10.0
-  checksum: 2235a41864e0b8aa24a358b8896a02764735d3660cd8ee30b9cea9e6d3a6239e74d1b6bc5dea0e663a5b90393045783c7714ceea13bceffe10811915c88a8d60
+  checksum: 92491998d7e284ce47453a54ea94e949aa5852d9307fe8875da9107d2eb966542cbca6f73bd306407eddfbd8d5c8d40cbd6d198358439b5cc4b8c8caea6d8e7b
   languageName: node
   linkType: hard
 
