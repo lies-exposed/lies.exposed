@@ -1,5 +1,3 @@
-import * as fs from "fs";
-import path from "path";
 import { fp } from "@liexp/core/lib/fp";
 import { isExcludedURL } from "@liexp/shared/lib/helpers/link.helper";
 import {
@@ -7,7 +5,7 @@ import {
   type VideoPlatformMatch,
 } from "@liexp/shared/lib/helpers/media";
 import { URL } from "@liexp/shared/lib/io/http/Common";
-import { MediaType } from "@liexp/shared/lib/io/http/Media";
+import { MP4Type, MediaType } from "@liexp/shared/lib/io/http/Media";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { sequenceS } from "fp-ts/Apply";
@@ -82,25 +80,34 @@ const parsePlatformMedia: TEFlow<
 
 const parseVideo: TEFlow<[string, TelegramBot.Video], MediaEntity[]> =
   (ctx) => (description, video) => {
-    const tempFolder = path.resolve(process.cwd(), "temp/tg/media");
-
+    ctx.logger.debug.log("Parse video with description %O", {
+      ...video,
+      description,
+    });
+    // const tempFolder = path.resolve(process.cwd(), "temp/tg/media");
+    const mediaId = uuid();
     const thumbTask: TE.TaskEither<ControllerError, string | undefined> = pipe(
       O.fromNullable(video.thumb?.file_id),
       O.fold(
         () => TE.right(undefined as any as string),
         (id) =>
           pipe(
-            TE.tryCatch(() => {
-              ctx.logger.debug.log("Download file from TG %s", id);
-              return ctx.tg.api.downloadFile(id, tempFolder);
+            TE.tryCatch(async () => {
+              ctx.logger.debug.log("Download thumb file from TG %s", id);
+              const thumbFile = ctx.tg.api.getFileStream(id);
+              ctx.logger.debug.log(
+                "Thumb file stream length %d",
+                thumbFile.readableLength,
+              );
+              return thumbFile;
             }, toControllerError),
-            TE.chain((f) =>
-              ctx.s3.upload({
+            TE.chain((f) => {
+              return ctx.s3.upload({
                 Bucket: ctx.env.SPACE_BUCKET,
-                Key: `public/media/${uuid()}`,
-                Body: fs.readFileSync(f),
-              }),
-            ),
+                Key: `public/media/${mediaId}/${mediaId}.jpg`,
+                Body: f,
+              });
+            }),
             TE.mapLeft(toControllerError),
             TE.map((r) => r.Location),
           ),
@@ -109,23 +116,32 @@ const parseVideo: TEFlow<[string, TelegramBot.Video], MediaEntity[]> =
 
     return pipe(
       sequenceS(TE.ApplicativePar)({
-        video: TE.tryCatch(
-          () => ctx.tg.api.downloadFile(video.file_id, tempFolder),
-          toControllerError,
-        ),
+        video: TE.tryCatch(async () => {
+          ctx.logger.debug.log(
+            "Download video file from TG %s (%d)MB",
+            video.file_id,
+            Math.ceil((video.file_size ?? 1) / 1000 / 1000),
+          );
+          const videoFile = ctx.tg.api.getFileStream(video.file_id);
+
+          return videoFile;
+        }, toControllerError),
         thumb: thumbTask,
       }),
       TE.chain(({ video, thumb }) => {
-        ctx.logger.debug.log("File downloaded %O", { video, thumb });
-
         return createAndUpload(ctx)(
           {
-            type: MediaType.types[3].value,
-            location: video,
+            type: MP4Type.value,
+            location: "",
             description,
             thumbnail: thumb,
           },
-          fs.readFileSync(video),
+          {
+            Body: video,
+            ContentType: MP4Type.value,
+          },
+          mediaId,
+          false,
         );
       }),
       TE.map((m) => [m]),
@@ -138,11 +154,10 @@ const parsePhoto: TEFlow<[string, TelegramBot.PhotoSize[]], MediaEntity[]> =
     return pipe(
       photo,
       A.map((p) => {
-        const tempFolder = path.resolve(process.cwd(), "temp/tg/media");
-
+        const mediaId = uuid();
         return pipe(
           TE.tryCatch(
-            () => ctx.tg.api.downloadFile(p.file_id, tempFolder),
+            async () => ctx.tg.api.getFileStream(p.file_id),
             toControllerError,
           ),
           TE.chain((f) => {
@@ -151,11 +166,15 @@ const parsePhoto: TEFlow<[string, TelegramBot.PhotoSize[]], MediaEntity[]> =
             return createAndUpload(ctx)(
               {
                 type: MediaType.types[0].value,
-                location: f,
+                location: p.file_id,
                 description,
                 thumbnail: undefined,
               },
-              fs.readFileSync(f),
+              {
+                Body: f,
+              },
+              mediaId,
+              false,
             );
           }),
         );
@@ -168,10 +187,12 @@ const takeURLFromMessageEntity =
   (text?: string) =>
   (acc: URL[], e: TelegramBot.MessageEntity): URL[] => {
     if (e.type === "url" && text) {
-      return acc.concat(text.substring(e.offset, e.offset + e.length) as any);
+      return acc.concat(
+        text.substring(e.offset, e.offset + e.length) as any as URL,
+      );
     }
     if (e.type === "text_link") {
-      return acc.concat(e.url as any);
+      return acc.concat(e.url as any as URL);
     }
     return acc;
   };
@@ -354,9 +375,19 @@ export const createFromTGMessage: TEFlow<
   );
 
   ctx.logger.debug.log("Video to parse %O", video);
-  const byVideoTask = O.isSome(video)
-    ? pipe(parseVideo(ctx)(message.caption ?? "", video.value))
-    : TE.right([]);
+  const byVideoTask = pipe(
+    video,
+    O.fold(
+      () => TE.right([]),
+      (v) =>
+        parseVideo(ctx)(
+          message.caption ??
+            (message.video as any)?.file_name ??
+            message.video?.file_id,
+          v,
+        ),
+    ),
+  );
 
   const byPlatformMediaTask = (
     p: puppeteer.Page,
