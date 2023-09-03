@@ -82,3 +82,10 @@ export const getMediaThumbKey = (
   id: string,
   contentType: Media.ValidContentType,
 ): string => getMediaKey("media", id, `${id}-thumb`, contentType);
+
+export const ensureHTTPS = (url: string): string => {
+  if (url.startsWith("https://") || url.startsWith("http://")) {
+    return url;
+  }
+  return `https://${url}`;
+};

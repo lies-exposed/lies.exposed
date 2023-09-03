@@ -1,9 +1,10 @@
 import * as io from "@liexp/shared/lib/io";
 import { toColor } from "@liexp/shared/lib/utils/colors";
+import { ensureHTTPS } from '@liexp/shared/lib/utils/media.utils';
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
 import { type GroupEntity } from "../../entities/Group.entity";
-import { type ControllerError, DecodeError } from "@io/ControllerError";
+import { DecodeError, type ControllerError } from "@io/ControllerError";
 
 export const toGroupIO = (
   group: GroupEntity,
@@ -15,7 +16,7 @@ export const toGroupIO = (
       startDate: group.startDate?.toISOString() ?? undefined,
       endDate: group.endDate?.toISOString() ?? undefined,
       color: toColor(group.color),
-      avatar: group.avatar ?? undefined,
+      avatar: group.avatar ? ensureHTTPS(group.avatar) : undefined,
       members: group.members ? group.members : [],
       subGroups: [],
       createdAt: group.createdAt.toISOString(),
