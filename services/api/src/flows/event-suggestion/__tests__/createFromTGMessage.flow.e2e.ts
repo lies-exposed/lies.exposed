@@ -518,7 +518,7 @@ describe("Create From TG Message", () => {
           "Photos and videos %d",
           photos.length + videos.length,
         );
-        Test.mocks.tg.api.downloadFile.mockReset();
+        Test.mocks.tg.api.getFileStream.mockReset();
         Test.mocks.s3.client.send.mockReset();
 
         // // create the media
