@@ -169,8 +169,8 @@ describe("Create From TG Message", () => {
       fs.writeFileSync(tempFileLocation, new Uint8Array(10));
 
       // mock tg download
-      Test.mocks.tg.api.downloadFile.mockImplementationOnce(() =>
-        Promise.resolve(tempFileLocation),
+      Test.mocks.tg.api.getFileStream.mockImplementationOnce(() =>
+        fs.createReadStream(tempFileLocation)
       );
 
       // mock puppeteer goto
@@ -533,8 +533,8 @@ describe("Create From TG Message", () => {
           fs.writeFileSync(tempFileLocation, new Uint8Array(10));
 
           // mock tg download
-          Test.mocks.tg.api.downloadFile.mockImplementationOnce(() =>
-            Promise.resolve(tempFileLocation),
+          Test.mocks.tg.api.getFileStream.mockImplementationOnce(() =>
+            fs.createReadStream(tempFileLocation),
           );
 
           // mock s3 upload
@@ -556,9 +556,9 @@ describe("Create From TG Message", () => {
           fs.writeFileSync(tempFileLocation, new Uint8Array(10));
 
           // mock tg download
-          Test.mocks.tg.api.downloadFile
-            .mockImplementationOnce(() => Promise.resolve(tempFileLocation))
-            .mockImplementationOnce(() => Promise.resolve(tempFileLocation));
+          Test.mocks.tg.api.getFileStream
+            .mockImplementationOnce(() => fs.createReadStream(tempFileLocation))
+            .mockImplementationOnce(() => fs.createReadStream(tempFileLocation));
 
           // mock s3 upload
           Test.mocks.s3.client.send
