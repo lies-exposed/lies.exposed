@@ -9,7 +9,8 @@ export interface TGBotProvider {
     text: string,
   ) => TE.TaskEither<Error, TelegramBot.Message>;
   post: (text: string) => TE.TaskEither<Error, any>;
-  postPhoto: (image: string, caption: string) => TE.TaskEither<Error, any>;
+  postPhoto: (imageUrl: string, caption: string) => TE.TaskEither<Error, any>;
+  postVideo: (videoUrl: string, caption: string) => TE.TaskEither<Error, any>;
   postMediaGroup: (
     text: string,
     media: readonly TelegramBot.InputMedia[],
@@ -100,6 +101,14 @@ export const TGBotProvider = (
     postPhoto: (image, caption) => {
       return liftTGTE(() =>
         api.sendPhoto(opts.chat, image, {
+          caption,
+          parse_mode: "HTML",
+        }),
+      );
+    },
+    postVideo: (image, caption) => {
+      return liftTGTE(() =>
+        api.sendVideo(opts.chat, image, {
           caption,
           parse_mode: "HTML",
         }),
