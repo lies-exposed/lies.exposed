@@ -1,9 +1,10 @@
+import { ImageType } from "@liexp/shared/lib/io/http/Media";
 import { type CreateSocialPost } from "@liexp/shared/lib/io/http/SocialPost";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
 import { type UUID } from "io-ts-types/lib/UUID";
-import type TelegramBot from 'node-telegram-bot-api';
+import type TelegramBot from "node-telegram-bot-api";
 import { type EventV2Entity } from "@entities/Event.v2.entity";
 import { type Flow, type TEFlow } from "@flows/flow.types";
 import { ServerError } from "@io/ControllerError";
@@ -71,9 +72,13 @@ export const postToTG: TEFlow<[UUID, CreateSocialPost], EventV2Entity> =
           ? [{ type: "photo", media: body.media }]
           : body.media;
 
-        return media.length === 1
-          ? ctx.tg.postPhoto(media[0].media, text)
-          : ctx.tg.postMediaGroup(text, media);
+        if (media.length === 1) {
+          if (ImageType.is(media[0].type)) {
+            return ctx.tg.postPhoto(media[0].media, text);
+          }
+          return ctx.tg.postVideo(media[0].media, text);
+        }
+        return ctx.tg.postMediaGroup(text, media);
       }),
       TE.mapLeft((e) => ServerError([e.message])),
     );
