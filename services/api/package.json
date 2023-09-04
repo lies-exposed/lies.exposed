@@ -65,7 +65,7 @@
     "instagram-private-api": "^1.45.3",
     "io-ts": "^2.2.20",
     "io-ts-types": "^0.5.19",
-    "jsonwebtoken": "^9.0.1",
+    "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "module-alias": "^2.2.3",
     "multer": "^1.4.5-lts.1",
