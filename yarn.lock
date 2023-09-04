@@ -18153,7 +18153,7 @@ __metadata:
     lint-staged: ^13.3.0
     pm2: ^5.3.0
     prettier: ^3.0.3
-    terser: ^5.19.3
+    terser: ^5.19.4
     typescript: ^5.2.2
     vitest: ^0.34.3
     webpack: ^5.88.2
@@ -24994,7 +24994,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"terser@npm:^5.10.0, terser@npm:^5.16.5, terser@npm:^5.19.3":
+"terser@npm:^5.10.0, terser@npm:^5.16.5":
   version: 5.19.3
   resolution: "terser@npm:5.19.3"
   dependencies:
@@ -25005,6 +25005,20 @@ __metadata:
   bin:
     terser: bin/terser
   checksum: dde1b387891ad953760cec56b168d1f2b1eae5f47410bec57f3587daa9719ee0cf3155961adf77cdff9ea88e086dd49c78a721eafdcbdd0dd590c47c8e660a37
+  languageName: node
+  linkType: hard
+
+"terser@npm:^5.19.4":
+  version: 5.19.4
+  resolution: "terser@npm:5.19.4"
+  dependencies:
+    "@jridgewell/source-map": ^0.3.3
+    acorn: ^8.8.2
+    commander: ^2.20.0
+    source-map-support: ~0.5.20
+  bin:
+    terser: bin/terser
+  checksum: 09273ce7d3fbe8fea0ec2603ad1c06cc304838bdac42bbfe77835b0b0b6c4a894054575ca518fe16c95d5c401574a8c703f4fde97da45f1c972ea568e6ecafda
   languageName: node
   linkType: hard
 
