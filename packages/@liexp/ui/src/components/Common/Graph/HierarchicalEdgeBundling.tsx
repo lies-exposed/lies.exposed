@@ -118,7 +118,7 @@ export function HierarchicalEdgeBundling({
           d3.ascending(a.data.id, b.data.id),
       );
 
-    const root = tree(bilink(hierarchy as any)) as HierarchyLinkedNode<
+    const root = tree(bilink(hierarchy as any) as any) as HierarchyLinkedNode<
       d3.HierarchyPointNode<HierarchicalEdgeBundlingDatum>
     >;
 
