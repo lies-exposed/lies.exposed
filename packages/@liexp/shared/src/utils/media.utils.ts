@@ -87,5 +87,10 @@ export const ensureHTTPS = (url: string): string => {
   if (url.startsWith("https://") || url.startsWith("http://")) {
     return url;
   }
+
+  if (url.startsWith('//')) {
+    return `https:${url}`;
+  }
+
   return `https://${url}`;
 };

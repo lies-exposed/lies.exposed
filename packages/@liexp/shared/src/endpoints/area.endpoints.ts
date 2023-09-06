@@ -1,9 +1,8 @@
 import * as t from "io-ts";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
-import { Area } from "../io/http/Area";
+import { Area, CreateAreaBody, EditAreaBody } from "../io/http/Area";
 import { UUID } from "../io/http/Common";
-import { Geometry } from "../io/http/Common/Geometry";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
@@ -33,15 +32,6 @@ const Get = Endpoint({
   Output: SingleAreaOutput,
 });
 
-export const CreateAreaBody = t.strict(
-  {
-    label: t.string,
-    geometry: Geometry,
-    body: t.UnknownRecord,
-  },
-  "CreateAreaBody",
-);
-
 const Create = Endpoint({
   Method: "POST",
   getPath: () => "/areas",
@@ -51,17 +41,6 @@ const Create = Endpoint({
   },
   Output: SingleAreaOutput,
 });
-
-export const EditAreaBody = t.strict(
-  {
-    geometry: optionFromNullable(Geometry),
-    label: optionFromNullable(t.string),
-    body: optionFromNullable(t.UnknownRecord),
-    media: t.array(UUID),
-    events: t.array(UUID),
-  },
-  "EditAreaBody",
-);
 
 export const Edit = Endpoint({
   Method: "PUT",
