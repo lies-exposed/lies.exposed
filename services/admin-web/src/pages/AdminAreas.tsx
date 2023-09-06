@@ -21,17 +21,36 @@ import {
   type ListProps,
   Button,
   Loading,
+  BooleanInput,
+  BooleanField,
 } from "@liexp/ui/lib/components/admin/react-admin";
 import { ReferenceMediaTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceMediaTab";
 import { transformMedia } from "@liexp/ui/lib/components/admin/transform.utils";
+import { Box } from "@liexp/ui/lib/components/mui";
 import * as React from "react";
 
 const RESOURCE = "areas";
 
 export const AreaList: React.FC<ListProps> = () => (
   <List resource={RESOURCE}>
-    <Datagrid rowClick="edit">
-      <TextField source="label" />
+    <Datagrid
+      rowClick="edit"
+      rowSx={(r) => ({
+        opacity: r.draft ? 0.7 : 1,
+      })}
+    >
+      <FunctionField
+        render={(r) => {
+          return (
+            <Box>
+              <TextField display={"block"} source="label" />
+              <TextField source="slug" />
+            </Box>
+          );
+        }}
+      />
+
+      <BooleanField source="draft" />
       <FunctionField
         source="media"
         render={(a) => {
@@ -83,6 +102,8 @@ export const AreaEdit: React.FC<EditProps> = () => (
     <TabbedForm>
       <FormTab label="Generals">
         <TextInput source="label" />
+        <TextInput source="slug" />
+        <BooleanInput source="draft" />
         <ReactPageInput source="body" onlyText />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
@@ -105,6 +126,7 @@ export const AreaCreate: React.FC<CreateProps> = (props) => (
   <Create title="Create a Post">
     <SimpleForm>
       <TextInput source="label" validate={[required()]} />
+      <TextInput source="slug" validate={[required()]} />
       <MapInput source="geometry" />
       <ReactPageInput source="body" defaultValue="" validate={[required()]} />
     </SimpleForm>

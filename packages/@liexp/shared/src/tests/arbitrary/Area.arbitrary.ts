@@ -2,7 +2,7 @@ import * as tests from "@liexp/test";
 import * as t from "io-ts";
 import * as http from "../../io/http";
 
-const { createdAt, updatedAt, id, media, geometry, body, ...areaProps } =
+const { createdAt, updatedAt, id, media, geometry, body, slug, ...areaProps } =
   http.Area.Area.type.props;
 
 export const AreaArb: tests.fc.Arbitrary<http.Area.Area> = tests
@@ -10,6 +10,7 @@ export const AreaArb: tests.fc.Arbitrary<http.Area.Area> = tests
   .map((p) => ({
     ...p,
     id: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
+    slug: tests.fc.sample(tests.fc.string({ minLength: 40 }), 1)[0],
     media: [],
     body: {},
     geometry: tests.fc.sample(

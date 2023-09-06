@@ -18,6 +18,7 @@ import type TelegramBot from "node-telegram-bot-api";
 import type * as puppeteer from "puppeteer-core";
 import { Equal } from "typeorm";
 import { createAndUpload } from "../media/createAndUpload.flow";
+import { type AreaEntity } from "@entities/Area.entity";
 import { LinkEntity } from "@entities/Link.entity";
 import { MediaEntity } from "@entities/Media.entity";
 import { type UserEntity } from "@entities/User.entity";
@@ -31,6 +32,7 @@ export interface EventResult {
   link: LinkEntity[];
   photos: MediaEntity[];
   videos: MediaEntity[];
+  areas: AreaEntity[];
   hashtags: string[];
 }
 
@@ -288,6 +290,7 @@ export const createFromTGMessage: TEFlow<
             videos: [],
             photos: [],
             hashtags: [],
+            areas: []
           });
         }
       }
@@ -417,6 +420,7 @@ export const createFromTGMessage: TEFlow<
               videos: byVideoTask,
               platformMedia: byPlatformMediaTask(page, creator),
               hashtags: TE.right(hashtags),
+              areas: TE.right([])
             }),
           (page) =>
             TE.tryCatch(() => page.browser().close(), toControllerError),

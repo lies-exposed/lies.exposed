@@ -3,11 +3,11 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
+import { CreateAreaBody } from "../io/http/Area";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import * as Project from "../io/http/Project";
 import * as ProjectImage from "../io/http/ProjectImage";
 import { GetListQuery } from "../io/http/Query";
-import { CreateAreaBody } from "./area.endpoints";
 import { ResourceEndpoints } from "./types";
 
 const SingleGroupOutput = Output(Project.Project, "Project");

@@ -30,6 +30,7 @@ import puppeteer from "puppeteer-core";
 import sharp from "sharp";
 import wk from "wikipedia";
 import { actorCommand } from "./providers/tg/actor.command";
+import { areaCommand } from "./providers/tg/area.command";
 import { groupCommand } from "./providers/tg/group.command";
 import { helpCommand } from "./providers/tg/help.command";
 import { startCommand } from "./providers/tg/start.command";
@@ -278,6 +279,8 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   actorCommand(ctx);
   // bind /group command to tg bot
   groupCommand(ctx);
+  // bind /area command to tg bot
+  areaCommand(ctx);
 
   ctx.tg.onMessage((msg, metadata) => {
     if (msg.text?.startsWith("/")) {
@@ -317,15 +320,18 @@ export const makeApp = (ctx: RouteContext): express.Express => {
                 )
               : ""
           }`,
-          `Videos: ${
-            eventSuggestion.videos.length > 0
-              ? eventSuggestion.videos.map(
-                  (m) => `${ctx.env.WEB_URL}/media/${m.id}\n`,
-                )
-              : ""
-          }`,
+          eventSuggestion.videos.length > 0
+            ? `Areas: ${eventSuggestion.videos.map(
+                (m) => `${ctx.env.WEB_URL}/media/${m.id}\n`,
+              )}`
+            : null,
+          eventSuggestion.videos.length > 0
+            ? `Videos: ${eventSuggestion.videos.map(
+                (m) => `${ctx.env.WEB_URL}/media/${m.id}\n`,
+              )}`
+            : null,
         ];
-        return message.join("\n");
+        return message.filter((m) => !!m).join("\n");
       }),
       throwTE,
     )

@@ -1,4 +1,5 @@
 import { fp } from "@liexp/core/lib/fp";
+import { ensureHTTPS } from '@liexp/shared/lib/utils/media.utils';
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { type Page } from "wikipedia";
@@ -24,7 +25,7 @@ export const fetchFromWikipedia: TEFlow<[string], LoadedPage> =
             media.items.filter((i) => i.type === "image"),
             fp.A.head,
             fp.O.chainNullableK((r) => r.srcset?.[0]?.src),
-            fp.O.map((url) => `https:${url}`),
+            fp.O.map((url) => ensureHTTPS(url)),
             fp.O.toUndefined,
           );
 

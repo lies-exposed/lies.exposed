@@ -58,6 +58,8 @@ describe("Create Area", () => {
       .send({
         color: "ffffff",
         label: tests.fc.sample(tests.fc.string())[0],
+        slug: tests.fc.sample(tests.fc.string())[0],
+        draft: tests.fc.sample(tests.fc.boolean())[0],
         excerpt: { content: "my content" },
         body: { content: "my content" },
         geometry: {
