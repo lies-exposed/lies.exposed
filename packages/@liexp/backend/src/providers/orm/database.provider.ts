@@ -160,6 +160,10 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
           handleError(),
         ),
         TE.map(O.fromNullable),
+        ctx.logger.debug.logInTaskEither((r) => [
+          `findOne %s with options %O: %s`,
+          ...[entity, options, O.isSome(r) ? 'found' : 'none'],
+        ]),
       );
     },
     findOneOrFail: (entity, options) => {

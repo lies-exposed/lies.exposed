@@ -9,9 +9,9 @@ export interface FPTSLogger {
   log: (message: string, ...args: any[]) => void;
   logInPipe: (message: string) => <I>(value: I) => I;
   logInTask: (message: string) => <I>(t: T.Task<I>) => T.Task<I>;
-  logInTaskEither: (
-    message: string,
-  ) => <E, A>(t: TE.TaskEither<E, A>) => TE.TaskEither<E, A>;
+  logInTaskEither: <A>(
+    f: ((r: A) => [string, ...any[]]) | string,
+  ) => <E>(t: TE.TaskEither<E, A>) => TE.TaskEither<E, A>;
 }
 
 export interface Logger {
@@ -51,16 +51,18 @@ export const GetLogger = (name: string): Logger => {
 
   const logInTaskEither =
     (d: debug.Debugger) =>
-    (message: string) =>
+    (f: (((r: any) => [string, ...any[]])) | string) =>
     <E, A>(t: TE.TaskEither<E, A>) =>
       pipe(
         t,
         TE.mapLeft((e) => {
-          d(message, e);
+          const [msg, ...args] = typeof f === "string" ? [f, e] : f(e)
+          d(msg, ...args);
           return e;
         }),
         TE.map((result) => {
-          d(message, result);
+          const [msg, ...args] = typeof f === "string" ? [f, result] : f(result)
+          d(msg, ...args);
           return result;
         }),
       );

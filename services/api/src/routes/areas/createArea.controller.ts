@@ -1,3 +1,4 @@
+import { fp } from "@liexp/core/lib/fp";
 import { Endpoints, AddEndpoint } from "@liexp/shared/lib/endpoints";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
@@ -14,13 +15,17 @@ export const MakeCreateAreaRoute: Route = (r, { db, logger, jwt }) => {
       logger.debug.log("Headers %O", { headers, body });
 
       return pipe(
-        db.save(AreaEntity, [body]),
-        TE.chain(([actor]) =>
-          db.findOneOrFail(AreaEntity, {
-            where: { id: Equal(actor.id) },
-            loadRelationIds: true,
-          }),
-        ),
+        db.findOne(AreaEntity, {
+          where: { slug: Equal(body.slug) },
+          loadRelationIds: true,
+        }),
+        TE.chain((area) => {
+          if (fp.O.isSome(area)) {
+            return TE.right([area.value]);
+          }
+          return db.save(AreaEntity, [body]);
+        }),
+        fp.TE.map(([a]) => a),
         TE.chainEitherK(toAreaIO),
         TE.map((page) => ({
           body: {

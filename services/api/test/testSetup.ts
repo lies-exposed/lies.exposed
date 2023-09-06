@@ -12,11 +12,12 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await throwTE(g.appTest?.ctx.db.close() ?? fp.TE.right(undefined)).catch(
-    (e) => {
-      // eslint-disable-next-line no-console
-      console.error(e);
-    },
-  );
+  await Promise.all([
+    throwTE(g.appTest?.ctx.db.close() ?? fp.TE.right(undefined)),
+    // g.appTest?.ctx.tg.api.close(),
+  ]).catch((e) => {
+    // eslint-disable-next-line no-console
+    console.error(e);
+  });
   g.appTest = undefined;
 });

@@ -21,6 +21,6 @@ export const isByGroup =
   (by: Common.BySubject): boolean =>
     by.type === "Group" && by.id === group.id;
 
-export const getUsernameFromDisplayName = (fullName: string): string => {
-  return kebabCase(fullName.replaceAll("_", " "));
+export const getUsernameFromDisplayName = (s: string): string => {
+  return kebabCase(s.replaceAll("_", " "));
 };

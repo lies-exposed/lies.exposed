@@ -1,13 +1,39 @@
 import * as t from "io-ts";
+import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable';
 import { BaseProps } from "./Common/BaseProps";
 import { Geometry } from "./Common/Geometry";
 import { UUID } from "./Common/UUID";
 
+
+export const CreateAreaBody = t.strict(
+  {
+    label: t.string,
+    slug: t.string,
+    draft: t.boolean,
+    geometry: Geometry,
+    body: t.UnknownRecord,
+  },
+  "CreateAreaBody",
+);
+
+export const EditAreaBody = t.strict(
+  {
+    geometry: optionFromNullable(Geometry),
+    label: optionFromNullable(t.string),
+    slug: optionFromNullable(t.string),
+    draft: optionFromNullable(t.boolean),
+    body: optionFromNullable(t.UnknownRecord),
+    media: t.array(UUID),
+    events: t.array(UUID),
+  },
+  "EditAreaBody",
+);
+
 export const Area = t.strict(
   {
     ...BaseProps.type.props,
-    label: t.string,
-    body: t.union([t.UnknownRecord, t.string, t.null]),
+    ...CreateAreaBody.type.props,
+    body: t.union([t.UnknownRecord, t.null]),
     geometry: Geometry,
     media: t.array(UUID),
   },
