@@ -3,7 +3,7 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     target-branch: daily
     open-pull-requests-limit: 10
     versioning-strategy: increase
@@ -14,3 +14,27 @@ updates:
         versions: ["3.*"]
       - dependency-name: "query-string"
         versions: ["8.*"]
+    groups:
+      types:
+        patterns:
+          - "@types/*"
+      storybook:
+        patterns:
+          - "@storybook/*"
+          - "storybook"
+      vitest:
+        patterns:
+          - "*vitest*"
+          - "vite-tsconfig-paths"
+      eslint:
+        patterns:
+          - "eslint*"
+      uuid:
+        patterns:
+          - "*uuid"
+      mui:
+        patterns:
+          - "*mui*"
+      visx:
+        patterns:
+          - "*visx*"
