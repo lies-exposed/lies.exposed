@@ -18,6 +18,11 @@ updates:
       types:
         patterns:
           - "@types/*"
+      ra:
+        patterns:
+          - "ra-*"
+          - "react-core"
+          - "react-admin"
       storybook:
         patterns:
           - "@storybook/*"
