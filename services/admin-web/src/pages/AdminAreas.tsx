@@ -68,8 +68,8 @@ const EditTitle: React.FC<EditProps> = () => {
   return <span>Area {record?.title}</span>;
 };
 
-const transformArea = ({ newMedia = [], newEvents, ...area }: any): any => {
-  const media = transformMedia(newMedia);
+const transformArea = ({ newMediaRef = [], newEvents, ...area }: any): any => {
+  const media = transformMedia(newMediaRef);
   return {
     ...area,
     media: area.media.concat(media),
