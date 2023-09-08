@@ -3528,7 +3528,7 @@ __metadata:
     io-ts-types: ^0.5.19
     is-plain-object: ^5.0.0
     lodash: ^4.17.21
-    ol: ^7.5.2
+    ol: ^8.1.0
     prettier: ^3.0.3
     query-string: ^7.1.3
     ra-core: ^4.13.3
@@ -3567,34 +3567,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mapbox/jsonlint-lines-primitives@npm:~2.0.2":
-  version: 2.0.2
-  resolution: "@mapbox/jsonlint-lines-primitives@npm:2.0.2"
-  checksum: 4eb31edd3ccff530f7b687ddc6d813d6e24fc66e9a563460882e7861b49f9331c5ded6fd7e927b37affbbd98f83bff1f7b916119044f1931df03c6ffedba2cfb
-  languageName: node
-  linkType: hard
-
-"@mapbox/mapbox-gl-style-spec@npm:^13.23.1":
-  version: 13.28.0
-  resolution: "@mapbox/mapbox-gl-style-spec@npm:13.28.0"
-  dependencies:
-    "@mapbox/jsonlint-lines-primitives": ~2.0.2
-    "@mapbox/point-geometry": ^0.1.0
-    "@mapbox/unitbezier": ^0.0.0
-    csscolorparser: ~1.0.2
-    json-stringify-pretty-compact: ^2.0.0
-    minimist: ^1.2.6
-    rw: ^1.3.3
-    sort-object: ^0.3.2
-  bin:
-    gl-style-composite: bin/gl-style-composite.js
-    gl-style-format: bin/gl-style-format.js
-    gl-style-migrate: bin/gl-style-migrate.js
-    gl-style-validate: bin/gl-style-validate.js
-  checksum: 17246a849cbdb5062e077760a6e71aa7339299b965523ecd6f414926de11568e2070b3f3a792c34745715c53ce8c7b87d7df5f448d9152fffe8c74a111239f34
-  languageName: node
-  linkType: hard
-
 "@mapbox/node-pre-gyp@npm:^1.0.0":
   version: 1.0.11
   resolution: "@mapbox/node-pre-gyp@npm:1.0.11"
@@ -3614,13 +3586,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mapbox/point-geometry@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "@mapbox/point-geometry@npm:0.1.0"
-  checksum: ed41c1ce0140de81039424415d9a199abba72cdb2287314e1b8c3e295da3224f7e8c1b0ae99a9b097703e7abe63e1978a518e29896989cc8bba3d482360bc22f
-  languageName: node
-  linkType: hard
-
 "@mapbox/togeojson@npm:^0.16.0":
   version: 0.16.0
   resolution: "@mapbox/togeojson@npm:0.16.0"
@@ -3631,13 +3596,6 @@ __metadata:
   bin:
     togeojson: togeojson
   checksum: 634bdd2fa6f6c7b4352d6f8c135c881476ff054617d204928d3023427a2008f4bb4d011d68c26e7aff1b7d7c1b1faec7fb5b78f5104b8ac4942f7764c1c69b7d
-  languageName: node
-  linkType: hard
-
-"@mapbox/unitbezier@npm:^0.0.0":
-  version: 0.0.0
-  resolution: "@mapbox/unitbezier@npm:0.0.0"
-  checksum: 22ae6d56f743570fb222a5b0d323398e342007f689ae6445b6238d60a2faaa312b41c1de1fb2553bca4ccdb2d3f7006af04d94457c54b44a6454ce0198eebf9e
   languageName: node
   linkType: hard
 
@@ -12419,13 +12377,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"csscolorparser@npm:~1.0.2":
-  version: 1.0.3
-  resolution: "csscolorparser@npm:1.0.3"
-  checksum: e40f3045ea15c7e7eaa78e110412fe8b820d47b698c1eb1d1e7ecb42703bf447406a24304b891ae9df61e85d947f33fc67bd0120c7f9e3a5183e6e0b9afff92c
-  languageName: node
-  linkType: hard
-
 "cssesc@npm:^3.0.0":
   version: 3.0.0
   resolution: "cssesc@npm:3.0.0"
@@ -17551,13 +17502,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"json-stringify-pretty-compact@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "json-stringify-pretty-compact@npm:2.0.0"
-  checksum: b476aa4ce2728cc7d89bffc4e99433015efc7065313cb90b7a6450cfd934aa3a61846ee9040c79ce00c44ca046cdd6ec0113157c9b895c85b7529c3056d6a1ea
-  languageName: node
-  linkType: hard
-
 "json-stringify-safe@npm:^5.0.1, json-stringify-safe@npm:~5.0.1":
   version: 5.0.1
   resolution: "json-stringify-safe@npm:5.0.1"
@@ -18573,13 +18517,6 @@ __metadata:
   version: 1.5.0
   resolution: "map-or-similar@npm:1.5.0"
   checksum: f65c0d420e272d0fce4e24db35f6a08109218480bca1d61eaa442cbe6cf46270b840218d3b5e94e4bfcc2595f1d0a1fa5885df750b52aac9ab1d437b29dcce38
-  languageName: node
-  linkType: hard
-
-"mapbox-to-css-font@npm:^2.4.1":
-  version: 2.4.2
-  resolution: "mapbox-to-css-font@npm:2.4.2"
-  checksum: d7fd9339cf552c71d33a5b949e2ee9716fd5f38df6cada44d488ee6bf40be85344b8317ac677b871362377cd2816054bea44a41cfa96ddc60bea2a64ab99d5d8
   languageName: node
   linkType: hard
 
@@ -19763,27 +19700,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ol-mapbox-style@npm:^10.1.0":
-  version: 10.7.0
-  resolution: "ol-mapbox-style@npm:10.7.0"
-  dependencies:
-    "@mapbox/mapbox-gl-style-spec": ^13.23.1
-    mapbox-to-css-font: ^2.4.1
-    ol: ^7.3.0
-  checksum: c6f9b121b69870a6b68969a108f5272d2e2e4c629dfac9ad317c3bd1a676fe5cc5e4e9fb9e8bea9f86122707cd9af378ee80bd60ec9c9528005128a7438be959
-  languageName: node
-  linkType: hard
-
-"ol@npm:^7.3.0, ol@npm:^7.5.2":
-  version: 7.5.2
-  resolution: "ol@npm:7.5.2"
+"ol@npm:^8.1.0":
+  version: 8.1.0
+  resolution: "ol@npm:8.1.0"
   dependencies:
     earcut: ^2.2.3
     geotiff: ^2.0.7
-    ol-mapbox-style: ^10.1.0
     pbf: 3.2.1
     rbush: ^3.0.1
-  checksum: 6390caa4a66a5e2b6b71475c9dbfd64eb99762b3d00d38896e35452f45adbd9f927a2d10f86f57e53e27930edcccbe18f00c1f8e219f117301c1364ccabf8689
+  checksum: 9bf5ee0b8eb8f55763f4e9203afa8ad60ec9ba6e7a8cb4a3600a6fc0a72c3597dd96f59c6e165f186576f0727a848b7546289c3b88dd5945f18aa5ce9e31b958
   languageName: node
   linkType: hard
 
@@ -23336,7 +23261,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rw@npm:1, rw@npm:^1.3.3":
+"rw@npm:1":
   version: 1.3.3
   resolution: "rw@npm:1.3.3"
   checksum: c20d82421f5a71c86a13f76121b751553a99cd4a70ea27db86f9b23f33db941f3f06019c30f60d50c356d0bd674c8e74764ac146ea55e217c091bde6fba82aa3
@@ -23965,30 +23890,6 @@ __metadata:
     ip: ^2.0.0
     smart-buffer: ^4.2.0
   checksum: 259d9e3e8e1c9809a7f5c32238c3d4d2a36b39b83851d0f573bfde5f21c4b1288417ce1af06af1452569cd1eb0841169afd4998f0e04ba04656f6b7f0e46d748
-  languageName: node
-  linkType: hard
-
-"sort-asc@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "sort-asc@npm:0.1.0"
-  checksum: c130223336a9431edd4c12cf0a4893eb9327591f8c9d9ccd1b27a42f7657b4bb84807d7150d79fc52ab7d1e9691684897de7ef2a6a3516d32349af68d2705d57
-  languageName: node
-  linkType: hard
-
-"sort-desc@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "sort-desc@npm:0.1.1"
-  checksum: f2a2568f4eaf9a7315700ae9e46e74ae7b395f24323bf807f07b20269a7c162b549b0bac6d5bb8e26f7ee15af72a74fdaf09d47257227dbe31c4ac8f13b19e1d
-  languageName: node
-  linkType: hard
-
-"sort-object@npm:^0.3.2":
-  version: 0.3.2
-  resolution: "sort-object@npm:0.3.2"
-  dependencies:
-    sort-asc: ^0.1.0
-    sort-desc: ^0.1.1
-  checksum: 701fac8b49e9c720f4e5f4b70e995a795771dbecab2368b2e362c5c02cc269418a061f3303c47137d22fc3fe1ded03b4fd4215edec0960c4721274d320dae2b4
   languageName: node
   linkType: hard
 
@@ -26551,7 +26452,7 @@ __metadata:
     is-plain-object: ^5.0.0
     module-alias: ^2.2.3
     nodemon: ^3.0.1
-    ol: ^7.5.2
+    ol: ^8.1.0
     page-metadata-parser: ^1.1.4
     prettier: ^3.0.3
     prop-types: ^15.8.1
