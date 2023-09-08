@@ -1,10 +1,8 @@
 import * as t from "io-ts";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
-import { Area, CreateAreaBody, EditAreaBody } from "../io/http/Area";
+import { Area, CreateAreaBody, EditAreaBody, ListAreaQuery } from "../io/http/Area";
 import { UUID } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
-import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
 
 const SingleAreaOutput = Output(Area, "Area");
@@ -14,11 +12,7 @@ const List = Endpoint({
   Method: "GET",
   getPath: () => "/areas",
   Input: {
-    Query: t.type({
-      ...GetListQuery.props,
-      q: optionFromNullable(t.string),
-      ids: optionFromNullable(t.array(UUID)),
-    }),
+    Query: ListAreaQuery,
   },
   Output: ListAreaOutput,
 });
