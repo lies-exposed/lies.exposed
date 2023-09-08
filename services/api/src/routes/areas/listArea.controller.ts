@@ -1,26 +1,34 @@
+import { fp } from '@liexp/core/lib/fp';
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { AdminRead } from '@liexp/shared/lib/io/http/User';
 import { type Router } from "express";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as IOE from "fp-ts/IOEither";
 import * as O from "fp-ts/Option";
-import * as R from "fp-ts/Record";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { type RouteContext } from "../route.types";
 import { toAreaIO } from "./Area.io";
 import { AreaEntity } from "@entities/Area.entity";
 import { toControllerError } from "@io/ControllerError";
+import { decodeUserFromRequest } from '@utils/authenticationHandler';
 import { getORMOptions } from "@utils/orm.utils";
 
 export const MakeListAreaRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
     Endpoints.Area.List,
-    ({ query: { q: search, ids, ...query } }) => {
+    ({ query: { q: search, ids, draft, ...query } }, req) => {
       const findOptions = getORMOptions(
         { ...query },
         ctx.env.DEFAULT_PAGE_SIZE,
       );
+
+      const user = pipe(
+        decodeUserFromRequest(ctx)(req, [AdminRead.value]),
+        fp.IOE.mapLeft(() => null),
+        fp.IOE.toUnion
+      )()
 
       const findT = pipe(
         IOE.tryCatch(() => {
@@ -44,13 +52,18 @@ export const MakeListAreaRoute = (r: Router, ctx: RouteContext): void => {
                   ids: ids.value,
                 });
               }
+              if (user && O.isSome(draft)) {
+                q.andWhere('draft = :draft', { draft: draft.value })
+              } else {
+                q.andWhere('draft = :draft', { draft: false })
+              }
               return q;
             },
             (q) => {
               if (findOptions.order) {
                 const order = pipe(
                   findOptions.order,
-                  R.reduceWithIndex({}, (k, acc, v) => ({
+                  fp.R.reduceWithIndex(fp.S.Ord)({}, (k, acc, v) => ({
                     ...acc,
                     [`area.${k}`]: v,
                   })),

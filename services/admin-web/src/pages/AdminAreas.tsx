@@ -31,13 +31,26 @@ import * as React from "react";
 
 const RESOURCE = "areas";
 
+const areaFilters = [
+  <BooleanInput
+    key="draft"
+    label="Draft"
+    source="draft"
+    defaultValue={false}
+    alwaysOn
+    size="small"
+  />,
+  <BooleanInput key="withDeleted" source="withDeleted" alwaysOn size="small" />,
+];
+
 export const AreaList: React.FC<ListProps> = () => (
-  <List resource={RESOURCE}>
+  <List resource={RESOURCE} filters={areaFilters}>
     <Datagrid
       rowClick="edit"
       rowSx={(r) => ({
         opacity: r.draft ? 0.7 : 1,
       })}
+      results={50}
     >
       <FunctionField
         render={(r) => {
