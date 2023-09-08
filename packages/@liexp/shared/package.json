@@ -23,7 +23,7 @@
     "@aws-sdk/s3-request-presigner": "^3.405.0",
     "@databases/escape-identifier": "^1.0.3",
     "@databases/sql": "^3.3.0",
-    "@liexp/core": "0.1.0",
+    "@liexp/core": "workspace:^",
     "axios": "^1.5.0",
     "bs58": "^5.0.0",
     "cheerio": "^1.0.0-rc.12",
@@ -43,7 +43,6 @@
   "devDependencies": {
     "@liexp/test": "0.1.0",
     "@types/bs58": "^4.0.1",
-    "@types/prettier": "^3.0.0",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "@types/throttle-debounce": "^5.0.0",

@@ -6,6 +6,7 @@ import {
   type SocialPostButtonProps,
 } from "@liexp/ui/lib/components/admin/common/SocialPostButton";
 import { useEventsQuery } from "@liexp/ui/lib/state/queries/event.queries";
+import { useDataProvider } from '@liexp/ui/lib/components/admin/react-admin';
 import { type StoryFn, type Meta } from "@storybook/react";
 import * as React from "react";
 import { AdminContext, RecordContextProvider } from "react-admin";
@@ -19,6 +20,7 @@ const meta: Meta = {
 export default meta;
 
 const Template: StoryFn<SocialPostButtonProps> = (props) => {
+  const apiProvder = useDataProvider()
   return (
     <div style={{ height: "100%", width: "100%" }}>
       <QueriesRenderer
@@ -31,7 +33,7 @@ const Template: StoryFn<SocialPostButtonProps> = (props) => {
         render={({ events: { data: events } }) => {
           return (
             <AdminContext
-              dataProvider={apiProvider}
+              dataProvider={apiProvider as any}
               authProvider={authProvider}
             >
               <RecordContextProvider value={events[0]}>

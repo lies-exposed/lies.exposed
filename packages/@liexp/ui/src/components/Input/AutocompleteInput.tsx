@@ -47,7 +47,7 @@ export const AutocompleteInput = <T extends { id: string }>({
         ? { ids: selectedIds }
         : {};
     return {
-      sort: { field: "createdAt", order: "DESC" },
+      sort: { field: "createdAt", order: "DESC" as const },
       pagination: { page: 1, perPage: 20 },
       filter,
     };
