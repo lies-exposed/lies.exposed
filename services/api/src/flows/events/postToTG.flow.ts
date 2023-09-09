@@ -1,7 +1,7 @@
+import { type Stream } from "stream";
+import { fp, pipe } from "@liexp/core/lib/fp";
 import { ImageType } from "@liexp/shared/lib/io/http/Media";
 import { type CreateSocialPost } from "@liexp/shared/lib/io/http/SocialPost";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
 import { type UUID } from "io-ts-types/lib/UUID";
 import type TelegramBot from "node-telegram-bot-api";
@@ -65,21 +65,32 @@ export const postToTG: TEFlow<[UUID, CreateSocialPost], EventV2Entity> =
   (ctx) => (id, body) => {
     return pipe(
       writeText(ctx)(body),
-      TE.right,
-      TE.chain((text) => {
+      fp.TE.right,
+      fp.TE.chain((text) => {
         ctx.logger.debug.log("Upload media %O", body.media);
         const media: TelegramBot.InputMedia[] = t.string.is(body.media)
           ? [{ type: "photo", media: body.media }]
           : body.media;
 
-        if (media.length === 1) {
-          if (ImageType.is(media[0].type)) {
-            return ctx.tg.postPhoto(media[0].media, text);
-          }
-          return ctx.tg.postVideo(media[0].media, text);
-        }
-        return ctx.tg.postMediaGroup(text, media);
+        return pipe(
+          media,
+          fp.TE.right,
+          fp.TE.chain((media) => {
+            if (media.length === 1) {
+              if (ImageType.is(media[0].type)) {
+                return ctx.tg.postPhoto(media[0].media, text);
+              }
+              return pipe(
+                ctx.http.get<Stream>(media[0].media, {
+                  responseType: "stream",
+                }),
+                fp.TE.chain((stream) => ctx.tg.postVideo(stream, text)),
+              );
+            }
+            return ctx.tg.postMediaGroup(text, media);
+          }),
+        );
       }),
-      TE.mapLeft((e) => ServerError([e.message])),
+      fp.TE.mapLeft((e) => ServerError([e.message])),
     );
   };
