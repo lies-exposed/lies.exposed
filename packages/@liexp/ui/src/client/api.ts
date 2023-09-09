@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp";
-import { API } from "@liexp/shared/lib/providers/http/api.provider";
+import { API } from "@liexp/shared/lib/providers/api/api.provider";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { type AxiosError } from "axios";
 import { type AuthProvider } from "../components/admin/react-admin";
