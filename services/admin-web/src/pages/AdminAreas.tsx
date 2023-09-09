@@ -5,25 +5,27 @@ import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
 import ReferenceArrayEventInput from "@liexp/ui/lib/components/admin/events/ReferenceArrayEventInput";
 import AreaPreview from "@liexp/ui/lib/components/admin/previews/AreaPreview";
 import {
+  BooleanField,
+  BooleanInput,
+  Button,
   Create,
   Datagrid,
   DateField,
   FormTab,
   FunctionField,
   List,
+  Loading,
   SimpleForm,
   TabbedForm,
   TextField,
   TextInput,
   required,
+  useDataProvider,
   useRecordContext,
   type CreateProps,
   type EditProps,
   type ListProps,
-  Button,
-  Loading,
-  BooleanInput,
-  BooleanField,
+  useRefresh,
 } from "@liexp/ui/lib/components/admin/react-admin";
 import { ReferenceMediaTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceMediaTab";
 import { transformMedia } from "@liexp/ui/lib/components/admin/transform.utils";
@@ -106,6 +108,31 @@ const OpenInGMapsButton: React.FC = () => {
     <Loading />
   );
 };
+
+const UpdateGeometryButton: React.FC = () => {
+  const record = useRecordContext();
+  const dataProvider = useDataProvider();
+  const refresh = useRefresh();
+  return record ? (
+    <Button
+      label="Update Geometry (Point)"
+      onClick={(): void => {
+        void dataProvider
+          .update("areas", {
+            id: record.id,
+            data: { ...record, events: [], updateGeometry: true },
+            previousData: record,
+          })
+          .then(() => {
+            refresh();
+          });
+      }}
+    />
+  ) : (
+    <Loading />
+  );
+};
+
 export const AreaEdit: React.FC<EditProps> = () => (
   <EditForm
     title={<EditTitle />}
@@ -125,7 +152,12 @@ export const AreaEdit: React.FC<EditProps> = () => (
       </FormTab>
       <FormTab label="Geometry">
         <MapInput source="geometry" />
-        <OpenInGMapsButton />
+        <Box>
+          <Box>
+            <UpdateGeometryButton />
+          </Box>
+          <OpenInGMapsButton />
+        </Box>
       </FormTab>
       <FormTab label="Events">
         <ReferenceArrayEventInput source="events" />

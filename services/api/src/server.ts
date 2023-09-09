@@ -2,6 +2,7 @@ import * as path from "path";
 import { MakeURLMetadata } from "@liexp/backend/lib/providers/URLMetadata.provider";
 import { GetFFMPEGProvider } from "@liexp/backend/lib/providers/ffmpeg.provider";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider";
+import { GeocodeProvider } from "@liexp/backend/lib/providers/geocode/geocode.provider";
 import { IGProvider } from "@liexp/backend/lib/providers/ig/ig.provider";
 import { MakeImgProcClient } from "@liexp/backend/lib/providers/imgproc/imgproc.provider";
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider";
@@ -11,7 +12,7 @@ import { S3Client } from "@liexp/backend/lib/providers/space";
 import { TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider";
 import { WikipediaProvider } from "@liexp/backend/lib/providers/wikipedia/wikipedia.provider";
 import * as logger from "@liexp/core/lib/logger";
-import { HTTP } from "@liexp/shared/lib/providers/http/http.provider";
+import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import axios from "axios";
 import cors from "cors";
@@ -68,6 +69,7 @@ import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller";
 import { MakeUserRoutes } from "@routes/users/User.routes";
 import { getDataSource } from "@utils/data-source";
 import { GetWriteJSON } from "@utils/json.utils";
+
 
 // var whitelist = ["http://localhost:8002"]
 const corsOptions: cors.CorsOptions = {
@@ -146,7 +148,12 @@ export const makeContext = (
       ),
       puppeteer: TE.right(GetPuppeteerProvider(puppeteer, {})),
       ffmpeg: TE.right(GetFFMPEGProvider(ffmpeg)),
-      http: TE.right(HTTP({})),
+      http: TE.right(HTTPProvider({})),
+      geo: TE.right(
+        GeocodeProvider({
+          http: HTTPProvider({ baseURL: env.GEO_CODE_BASE_URL }),
+        }),
+      ),
       wp: TE.right(wpProvider),
       ig: TE.right(
         IGProvider({

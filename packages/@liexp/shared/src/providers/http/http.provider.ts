@@ -59,7 +59,7 @@ export type TERequest<E extends MinimalEndpointInstance> = (
   input: TypeOfEndpointInstance<E>["Input"],
 ) => TE.TaskEither<APIError, TypeOfEndpointInstance<E>["Output"]>;
 
-interface HTTP {
+interface HTTPProvider {
   get: <T>(
     url: string,
     config?: AxiosRequestConfig<any>,
@@ -76,7 +76,7 @@ interface HTTP {
   ) => TE.TaskEither<Error, R>;
 }
 
-const HTTP = (c: AxiosRequestConfig): HTTP => {
+const HTTPProvider = (c: AxiosRequestConfig): HTTPProvider => {
   const client = axios.create(c);
 
   const get = <T>(
@@ -106,4 +106,4 @@ const HTTP = (c: AxiosRequestConfig): HTTP => {
   };
 };
 
-export { HTTP };
+export { HTTPProvider };

@@ -68,7 +68,7 @@ const MapInput: React.FC<MapInputProps> = ({
         const map = getDefaultMap(target, featuresLayer);
         if (features.length > 0) {
           map.getView().fit(featuresSource.getExtent(), {
-            maxZoom: 16,
+            maxZoom: 12,
             padding: [80, 80, 80, 80],
           });
         }

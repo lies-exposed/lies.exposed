@@ -74,12 +74,24 @@ export const fetchAreaFromWikipedia: TEFlow<
         fp.TE.chain((a) => {
           const saveArea = fp.O.isSome(a)
             ? fp.TE.right([a.value])
-            : ctx.db.save(AreaEntity, [
-                {
+            : pipe(
+                ctx.geo.search(areaData.label),
+                TE.map((geo) => ({
                   ...areaData,
-                  media: [],
-                },
-              ]);
+                  geometry: {
+                    type: "Point" as const,
+                    coordinates: [+geo[0].lon, +geo[0].lat],
+                  },
+                })),
+                TE.chain((areaData) =>
+                  ctx.db.save(AreaEntity, [
+                    {
+                      ...areaData,
+                      media: [],
+                    },
+                  ]),
+                ),
+              );
 
           return pipe(
             saveArea,
