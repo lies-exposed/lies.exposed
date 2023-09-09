@@ -8,6 +8,10 @@ updates:
     open-pull-requests-limit: 10
     versioning-strategy: increase
     ignore:
+      - dependency-name: "@types/mime"
+        versions: ["3.*"]
+      - dependency-name: "@types/node"
+        versions: ["20.*"]
       - dependency-name: "fast-check"
         versions: ["3.*"]
       - dependency-name: "query-string"
