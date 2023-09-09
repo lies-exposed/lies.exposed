@@ -1,5 +1,6 @@
 import { MapInput } from "@liexp/ui/lib/components/admin/MapInput";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
+import { AreaTGPostButton } from "@liexp/ui/lib/components/admin/areas/button/AreaTGPostButton";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
 import ReferenceArrayEventInput from "@liexp/ui/lib/components/admin/events/ReferenceArrayEventInput";
 import AreaPreview from "@liexp/ui/lib/components/admin/previews/AreaPreview";
@@ -111,6 +112,7 @@ export const AreaEdit: React.FC<EditProps> = () => (
     redirect={false}
     transform={transformArea}
     preview={<AreaPreview />}
+    actions={<AreaTGPostButton />}
   >
     <TabbedForm>
       <FormTab label="Generals">

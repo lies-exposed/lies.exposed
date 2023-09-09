@@ -3,11 +3,11 @@ import { getTitle } from "@liexp/shared/lib/helpers/event/getTitle.helper";
 import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
 import * as React from "react";
 import { Box } from "../../mui";
-import { EventSocialPostButton } from "../common/SocialPostButton";
 import { UpdateMetadataButton } from "../common/UpdateMetadataButton";
 import { WebPreviewButton } from "../common/WebPreviewButton";
 import { SearchLinksButton } from "../links/SearchLinksButton";
 import { LoadingIndicator, useRecordContext } from '../react-admin';
+import { EventSocialPostButton } from './button/EventSocialPostButton';
 
 export const EventEditActions: React.FC = () => {
   const record: any = useRecordContext();
