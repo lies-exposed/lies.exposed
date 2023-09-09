@@ -11,7 +11,7 @@ import {
 import { Endpoints } from "../../endpoints";
 import { type ResourceEndpoints } from "../../endpoints/types";
 import { type APIError } from "../../io/http/Error/APIError";
-import { HTTP, liftFetch } from "./http.provider";
+import { HTTPProvider, liftFetch } from "../http/http.provider";
 
 const apiLogger = GetLogger("API");
 
@@ -39,12 +39,12 @@ type API = {
             {};
       }
     : never;
-} & HTTP;
+} & HTTPProvider;
 
 const API = (c: AxiosRequestConfig): API => {
   const client = axios.create(c);
 
-  const http = HTTP(c);
+  const http = HTTPProvider(c);
 
   const toTERequest = <E extends MinimalEndpointInstance>(
     e: E,

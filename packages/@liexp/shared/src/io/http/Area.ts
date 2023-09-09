@@ -1,16 +1,16 @@
 import * as t from "io-ts";
-import { BooleanFromString } from 'io-ts-types/lib/BooleanFromString';
-import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable';
+import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { BaseProps } from "./Common/BaseProps";
 import { Geometry } from "./Common/Geometry";
 import { UUID } from "./Common/UUID";
-import { GetListQuery } from './Query/GetListQuery';
+import { GetListQuery } from "./Query/GetListQuery";
 
 export const ListAreaQuery = t.type({
   ...GetListQuery.props,
   q: optionFromNullable(t.string),
   ids: optionFromNullable(t.array(UUID)),
-  draft: optionFromNullable(BooleanFromString)
+  draft: optionFromNullable(BooleanFromString),
 });
 
 export const CreateAreaBody = t.strict(
@@ -32,7 +32,8 @@ export const EditAreaBody = t.strict(
     draft: optionFromNullable(t.boolean),
     body: optionFromNullable(t.UnknownRecord),
     media: t.array(UUID),
-    events: t.array(UUID),
+    events: optionFromNullable(t.array(UUID)),
+    updateGeometry: optionFromNullable(t.boolean),
   },
   "EditAreaBody",
 );

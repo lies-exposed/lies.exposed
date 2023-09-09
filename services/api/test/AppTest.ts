@@ -12,7 +12,7 @@ import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider";
 import { MakeSpaceClient } from "@liexp/backend/lib/providers/space/SpaceClient";
 import { GetLogger } from "@liexp/core/lib/logger";
-import { HTTP } from "@liexp/shared/lib/providers/http/http.provider";
+import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { getDataSource } from "@utils/data-source";
 import D from "debug";
@@ -105,7 +105,7 @@ export const initAppTest = async (): Promise<AppTest> => {
           );
         },
       },
-      http: HTTP({}),
+      http: HTTPProvider({}),
       imgProc: MakeImgProcClient({
         client: (() => Promise.resolve(Buffer.from([]))) as any,
       }),

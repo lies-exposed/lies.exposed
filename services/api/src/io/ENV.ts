@@ -26,29 +26,37 @@ const ENV = t.intersection(
       ],
       "NODE_ENV",
     ),
-    t.strict(
-      {
-        DEBUG: t.string,
-        API_PORT: NumberFromString,
-        API_HOST: t.string,
-        DEFAULT_PAGE_SIZE: NumberFromString,
-        JWT_SECRET: t.string,
-        SOCIAL_POSTING_CRON: t.string,
-        WEB_URL: t.string,
-      },
-      "API_ENV",
-    ),
-    t.strict(
-      {
-        // SPACES
-        SPACE_BUCKET: t.string,
-        SPACE_ENDPOINT: t.string,
-        SPACE_REGION: t.string,
-        SPACE_ACCESS_KEY_ID: t.string,
-        SPACE_ACCESS_KEY_SECRET: t.string,
-      },
-      "SPACE_ENV",
-    ),
+    t.intersection([
+      t.strict(
+        {
+          DEBUG: t.string,
+          API_PORT: NumberFromString,
+          API_HOST: t.string,
+          DEFAULT_PAGE_SIZE: NumberFromString,
+          JWT_SECRET: t.string,
+          SOCIAL_POSTING_CRON: t.string,
+          WEB_URL: t.string,
+        },
+        "API_ENV",
+      ),
+      t.strict(
+        {
+          // SPACES
+          SPACE_BUCKET: t.string,
+          SPACE_ENDPOINT: t.string,
+          SPACE_REGION: t.string,
+          SPACE_ACCESS_KEY_ID: t.string,
+          SPACE_ACCESS_KEY_SECRET: t.string,
+        },
+        "SPACE_ENV",
+      ),
+      t.strict(
+        {
+          GEO_CODE_BASE_URL: t.string,
+        },
+        "GEO_CODE_ENV",
+      ),
+    ]),
     t.intersection(
       [
         t.strict(
