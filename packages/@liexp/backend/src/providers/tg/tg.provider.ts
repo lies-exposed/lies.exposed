@@ -1,4 +1,6 @@
+import { type Stream } from "stream";
 import { type Logger } from "@liexp/core/lib/logger";
+import { MP4Type } from "@liexp/shared/lib/io/http/Media";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import TelegramBot from "node-telegram-bot-api";
@@ -9,8 +11,14 @@ export interface TGBotProvider {
     text: string,
   ) => TE.TaskEither<Error, TelegramBot.Message>;
   post: (text: string) => TE.TaskEither<Error, any>;
-  postPhoto: (imageUrl: string, caption: string) => TE.TaskEither<Error, any>;
-  postVideo: (videoUrl: string, caption: string) => TE.TaskEither<Error, any>;
+  postPhoto: (
+    imageUrl: string | Stream,
+    caption: string,
+  ) => TE.TaskEither<Error, any>;
+  postVideo: (
+    videoUrl: string | Stream,
+    caption: string,
+  ) => TE.TaskEither<Error, any>;
   postMediaGroup: (
     text: string,
     media: readonly TelegramBot.InputMedia[],
@@ -108,10 +116,15 @@ export const TGBotProvider = (
     },
     postVideo: (image, caption) => {
       return liftTGTE(() =>
-        api.sendVideo(opts.chat, image, {
-          caption,
-          parse_mode: "HTML",
-        }),
+        api.sendVideo(
+          opts.chat,
+          image,
+          {
+            caption,
+            parse_mode: "HTML",
+          },
+          { contentType: MP4Type.value },
+        ),
       );
     },
     postMediaGroup(caption, media) {
