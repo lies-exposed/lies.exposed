@@ -8,8 +8,6 @@ updates:
     open-pull-requests-limit: 10
     versioning-strategy: increase
     ignore:
-      - dependency-name: "@types/*"
-        versions: ["*"]
       - dependency-name: "fast-check"
         versions: ["3.*"]
       - dependency-name: "query-string"
@@ -18,6 +16,9 @@ updates:
       types:
         patterns:
           - "@types/*"
+      aws-sdk:
+        patterns:
+          - "@aws-sdk/*"
       ra:
         patterns:
           - "ra-*"
