@@ -25,7 +25,6 @@ import { transformMedia } from "../../../client/admin/MediaAPI";
 import { Box, Button, Grid } from "../../mui";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent";
 import { EditForm } from "../common/EditForm";
-import { MediaTGPostButton } from "../common/SocialPostButton";
 import { CreateEventFromMediaButton } from "../events/CreateEventFromMediaButton";
 import ReferenceArrayEventInput from "../events/ReferenceArrayEventInput";
 import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput";
@@ -33,6 +32,7 @@ import MediaPreview from "../previews/MediaPreview";
 import { ReferenceLinkTab } from "../tabs/ReferenceLinkTab";
 import ReferenceUserInput from "../user/ReferenceUserInput";
 import { MediaField } from "./MediaField";
+import { MediaTGPostButton } from './button/MediaTGPostButton';
 import { MediaInput } from "./input/MediaInput";
 
 const EditTitle: React.FC<EditProps> = ({ record }: any) => {

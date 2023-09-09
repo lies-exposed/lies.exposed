@@ -36,7 +36,6 @@ import {
 import { Box, Grid, Toolbar } from "../../mui";
 import { DangerZoneField } from "../common/DangerZoneField";
 import { EditForm } from "../common/EditForm";
-import { LinkTGPostButton } from "../common/SocialPostButton";
 import URLMetadataInput from "../common/URLMetadataInput";
 import { CreateEventFromLinkButton } from "../events/CreateEventFromLinkButton";
 import ReferenceArrayEventInput from "../events/ReferenceArrayEventInput";
@@ -47,6 +46,7 @@ import { MediaField } from "../media/MediaField";
 import ReferenceMediaInput from "../media/input/ReferenceMediaInput";
 import LinkPreview from "../previews/LinkPreview";
 import ReferenceUserInput from "../user/ReferenceUserInput";
+import { LinkTGPostButton } from './button/LinkTGPostButton';
 
 const RESOURCE = "links";
 
