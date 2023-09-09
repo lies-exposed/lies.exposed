@@ -9,7 +9,7 @@ updates:
     versioning-strategy: increase
     ignore:
       - dependency-name: "@types/mime"
-        versions: ["3.*"]
+        versions: ["2.*"]
       - dependency-name: "@types/node"
         versions: ["20.*"]
       - dependency-name: "fast-check"
