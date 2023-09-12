@@ -3,6 +3,7 @@ import { uuid } from "@liexp/shared/lib/utils/uuid";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
 import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput";
 import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField";
+import ReferenceBySubjectInput from '@liexp/ui/lib/components/admin/common/ReferenceBySubjectInput';
 import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm";
 import { QuoteEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/QuoteEditFormTab";
 import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
@@ -88,7 +89,7 @@ export const QuoteCreate: React.FC<CreateProps> = () => {
         <Grid container spacing={2}>
           <Grid item md={6}>
             <BooleanInput source="draft" defaultValue={false} />
-            <ReferenceActorInput source="payload.actor" />
+            <ReferenceBySubjectInput source="payload.subject" />
             <DateInput source="date" />
           </Grid>
           <Grid item md={6}>

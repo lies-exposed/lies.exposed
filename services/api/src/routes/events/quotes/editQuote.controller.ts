@@ -4,8 +4,8 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { UUID } from "io-ts-types/lib/UUID";
 import { Equal } from "typeorm";
+import { toQuoteIO } from './quote.io';
 import { EventV2Entity } from "@entities/Event.v2.entity";
-import { toEventV2IO } from "@routes/events/eventV2.io";
 import { type Route } from "@routes/route.types";
 
 export const MakeEditQuoteRoute: Route = (r, { db, logger }) => {
@@ -47,7 +47,7 @@ export const MakeEditQuoteRoute: Route = (r, { db, logger }) => {
             },
           }),
         ),
-        TE.chainEitherK(toEventV2IO),
+        TE.chainEitherK(toQuoteIO),
         TE.map((data) => ({
           body: {
             data,

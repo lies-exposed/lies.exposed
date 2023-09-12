@@ -36,7 +36,11 @@ export const getTitleForSearchEvent = (
 ): string => {
   switch (e.type) {
     case http.Events.EventTypes.QUOTE.value:
-      return `Quote by ${e.payload.actor?.fullName}`;
+      return `Quote by ${
+        e.payload.subject.type === "Group"
+          ? e.payload.subject.id.name
+          : e.payload.subject.id.fullName
+      }`;
     case http.Events.EventTypes.DEATH.value:
       return `Death of ${e.payload?.victim?.fullName}`;
     case http.Events.EventTypes.DOCUMENTARY.value:
