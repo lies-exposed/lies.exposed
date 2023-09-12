@@ -84,8 +84,12 @@ export const whereActorInArray = (
         )
         .orWhere(
           new Brackets((qb) => {
-            qb.where(` event.type = '${EventTypes.QUOTE.value}' `).andWhere(
-              ` ("event"."payload"::jsonb -> 'actor' ?| ARRAY[:...actors]) `
+            qb.where(` event.type = '${EventTypes.QUOTE.value}' `)
+            .andWhere(
+              ` "event"."payload"::jsonb -> 'subject' ->> 'type' = 'Actor'`
+            )
+            .andWhere(
+              ` ("event"."payload"::jsonb -> 'subject' ?| ARRAY[:...actors]) `
             );
           })
         );
@@ -114,6 +118,9 @@ export const whereGroupInArray = (
         )
         .orWhere(
           ` (event.type = 'Patent' AND "event"."payload"::jsonb -> 'owners' -> 'groups' ?| ARRAY[:...groups])`
+        )
+        .orWhere(
+          ` (event.type = 'Quote' AND "event"."payload"::jsonb -> 'subject' ->> 'type' = 'Group' AND "event"."payload"::jsonb -> 'subject' -> 'id' ?| ARRAY[:...groups])`
         )
         .orWhere(
           new Brackets((qb) => {

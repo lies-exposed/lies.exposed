@@ -33,7 +33,9 @@ export const QuoteEventPageContent: React.FC<QuoteEventPageContentProps> = ({
           }}
         >
           <Typography variant="subtitle2">
-            {item.payload.actor.fullName}
+            {item.payload.subject.type === "Group"
+              ? item.payload.subject.id.name
+              : item.payload.subject.id.fullName}
           </Typography>
         </Box>
       </Grid>
@@ -47,7 +49,7 @@ export const QuoteEventPageContent: React.FC<QuoteEventPageContentProps> = ({
           justifyContent: "center",
         }}
       >
-        <Avatar src={item.payload.actor.avatar} size="xlarge" />
+        <Avatar src={item.payload.subject.id.avatar} size="xlarge" />
       </Grid>
     </Grid>
   );

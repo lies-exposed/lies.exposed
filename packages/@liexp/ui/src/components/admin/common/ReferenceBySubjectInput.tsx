@@ -6,7 +6,7 @@ import {
   type ReferenceInputProps,
   SelectInput,
 } from "react-admin";
-import { Box } from "../../mui";
+import { Box, Grid } from "../../mui";
 import ReferenceActorInput from "../actors/ReferenceActorInput";
 import ReferenceGroupInput from "../groups/ReferenceGroupInput";
 
@@ -15,40 +15,45 @@ const ReferenceBySubjectInput: React.FC<
 > = ({ source, ...props }) => {
   return (
     <Box>
-      <SelectInput
-        {...props}
-        source={`${source}.type`}
-        choices={[ByActor, ByGroup]
-          .map((t) => t.type.props.type.value)
-          .map((v) => ({
-            id: v,
-            name: v,
-          }))}
-      />
-      <FormDataConsumer {...props}>
-        {({ formData, scopedFormData, getSource, ...rest }) => {
-          const type = _.get(formData, `${source}.type`);
-
-          if (type === "Actor") {
-            return (
-              <ReferenceActorInput
-                {...props}
-                {...rest}
-                source={`${source}.id`}
-              />
-            );
-          } else if (type === "Group") {
-            return (
-              <ReferenceGroupInput
-                {...props}
-                {...rest}
-                source={`${source}.id`}
-              />
-            );
-          }
-          return "Select subject type";
-        }}
-      </FormDataConsumer>
+      <Grid container alignItems={"center"} justifyContent={"center"}>
+        <Grid item md={2}>
+          <SelectInput
+            {...props}
+            source={`${source}.type`}
+            choices={[ByActor, ByGroup]
+              .map((t) => t.type.props.type.value)
+              .map((v) => ({
+                id: v,
+                name: v,
+              }))}
+          />
+        </Grid>
+        <Grid item md={10}>
+          <FormDataConsumer {...props}>
+            {({ formData, scopedFormData, getSource, ...rest }) => {
+              const type = _.get(formData, `${source}.type`);
+              if (type === "Actor") {
+                return (
+                  <ReferenceActorInput
+                    {...props}
+                    {...rest}
+                    source={`${source}.id`}
+                  />
+                );
+              } else if (type === "Group") {
+                return (
+                  <ReferenceGroupInput
+                    {...props}
+                    {...rest}
+                    source={`${source}.id`}
+                  />
+                );
+              }
+              return "Select subject type";
+            }}
+          </FormDataConsumer>
+        </Grid>
+      </Grid>
     </Box>
   );
 };

@@ -66,22 +66,22 @@ export const EventSocialPostButton: React.FC<
             });
 
             if (searchEvent.type === "Quote") {
-              const { actor } = searchEvent.payload;
+              const { subject } = searchEvent.payload;
               return {
                 event: {
                   ...searchEvent,
                 },
-                actors: [actor],
-                groups: relations.groups,
-                media: actor.avatar
+                actors: subject.type === 'Actor' ? [subject.id]: [],
+                groups: subject.type === 'Group' ? [subject.id]: [],
+                media: subject.id.avatar
                   ? pipe(
-                    actor.avatar.split("."),
+                    subject.id.avatar.split("."),
                     fp.A.last,
                     fp.O.map((ext) => [
                       {
                         id: uuid(),
-                        location: actor.avatar,
-                        thumbnail: actor.avatar,
+                        location: subject.id.avatar,
+                        thumbnail: subject.id.avatar,
                         type: contentTypeFromFileExt(ext),
                       },
                     ]),

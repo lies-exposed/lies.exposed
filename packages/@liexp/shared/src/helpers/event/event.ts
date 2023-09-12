@@ -164,10 +164,25 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
 
   switch (e.type) {
     case Events.EventTypes.QUOTE.value: {
+      const quote =
+        e.payload.subject?.type === "Actor"
+          ? {
+              actors: [e.payload.subject.id],
+              groups: [],
+            }
+          : e.payload.subject?.type === "Group"
+          ? {
+              groups: [e.payload.subject.id],
+              actors: [],
+            }
+          : {
+              groups: [],
+              actors: [],
+            };
+
       return {
         ...commonIds,
-        actors: e.payload.actor ? [e.payload.actor] : [],
-        groups: [],
+        ...quote,
         groupsMembers: [],
       };
     }
@@ -333,10 +348,20 @@ export const getEventMetadata = (e: SearchEvent): Events.EventRelations => {
     }
 
     case Events.EventTypes.QUOTE.value: {
+      const quote =
+        e.payload.subject.type === "Group"
+          ? {
+              actors: [],
+              groups: [e.payload.subject.id],
+            }
+          : {
+              groups: [],
+              actors: [e.payload.subject.id],
+            };
+
       return {
         ...commonIds,
-        actors: e.payload.actor ? [e.payload.actor] : [],
-        groups: [],
+        ...quote,
         groupsMembers: [],
       };
     }
@@ -487,15 +512,28 @@ export const transform = (
     }
 
     case Events.EventTypes.QUOTE.value: {
-      return pipe(
+      const subjectOpt = pipe(
         props.actors,
         A.head,
-        O.map((actor) => ({
+        O.map((id): BySubject => ({ type: "Actor", id })),
+        O.alt(() =>
+          pipe(
+            props.groups,
+            A.head,
+            O.map((id): BySubject => ({ type: "Group", id })),
+          ),
+        ),
+      );
+
+      return pipe(
+        subjectOpt,
+        O.map((subject) => ({
           ...e,
           type: Events.EventTypes.QUOTE.value,
           payload: {
             quote: e.excerpt ? getTextContents(e.excerpt as any) : undefined,
-            actor,
+            actor: undefined,
+            subject,
             details: undefined,
           },
         })),
@@ -525,8 +563,7 @@ export const getTotals = (
 ): Events.SearchEvent.SearchEventsQuery.EventTotals => {
   return {
     uncategorized:
-      acc.uncategorized +
-      (Events.EventTypes.UNCATEGORIZED.is(e.type) ? 1 : 0),
+      acc.uncategorized + (Events.EventTypes.UNCATEGORIZED.is(e.type) ? 1 : 0),
     scientificStudies:
       acc.scientificStudies +
       (Events.EventTypes.SCIENTIFIC_STUDY.is(e.type) ? 1 : 0),
