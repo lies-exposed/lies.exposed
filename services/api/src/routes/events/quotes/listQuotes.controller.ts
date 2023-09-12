@@ -5,8 +5,8 @@ import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { toEventV2IO } from "../eventV2.io";
 import { searchEventV2Query } from "../queries/searchEventsV2.query";
+import { toQuoteIO } from './quote.io';
 import { type Route } from "@routes/route.types";
 import { getORMOptions } from "@utils/orm.utils";
 
@@ -66,7 +66,7 @@ export const MakeGetListQuoteRoute: Route = (r, ctx) => {
         TE.chain(({ results, totals: { quotes } }) =>
           pipe(
             results,
-            A.traverse(E.Applicative)(toEventV2IO),
+            A.traverse(E.Applicative)(toQuoteIO),
             TE.fromEither,
             TE.map((data) => ({ data, total: quotes })),
           ),

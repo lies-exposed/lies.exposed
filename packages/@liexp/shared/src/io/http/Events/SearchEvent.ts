@@ -100,8 +100,10 @@ export interface SearchDocumentaryEvent
 
 export interface SearchQuoteEvent
   extends Omit<Quote.Quote, "payload" | "media" | "keywords" | "links"> {
-  payload: Omit<Quote.QuotePayload, "actor"> & {
-    actor: Actor.Actor;
+  payload: Omit<Quote.QuotePayload, "subject"> & {
+    subject:
+      | { type: "Actor"; id: Actor.Actor }
+      | { type: "Group"; id: Group.Group };
   };
   media: Media.Media[];
   keywords: Keyword.Keyword[];

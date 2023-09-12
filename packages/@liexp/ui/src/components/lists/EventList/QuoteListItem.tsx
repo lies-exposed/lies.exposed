@@ -86,8 +86,10 @@ export const QuoteListItem: React.FC<QuoteListItemProps> = ({
               }}
             >
               <Typography variant="subtitle2">
-                {item.payload.actor.fullName}
-              </Typography>
+            {item.payload.subject.type === "Group"
+              ? item.payload.subject.id.name
+              : item.payload.subject.id.fullName}
+          </Typography>
             </Box>
           </Grid>
           <Grid
@@ -100,7 +102,7 @@ export const QuoteListItem: React.FC<QuoteListItemProps> = ({
               justifyContent: "center",
             }}
           >
-            <Avatar src={item.payload.actor.avatar} size="xlarge" />
+            <Avatar src={item.payload.subject.id.avatar} size="xlarge" />
           </Grid>
         </Grid>
       </Grid>

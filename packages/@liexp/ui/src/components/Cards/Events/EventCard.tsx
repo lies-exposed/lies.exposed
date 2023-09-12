@@ -1,3 +1,6 @@
+import {
+  getTitleForSearchEvent,
+} from "@liexp/shared/lib/helpers/event";
 import { getEventMetadata } from "@liexp/shared/lib/helpers/event/event";
 import { Events } from "@liexp/shared/lib/io/http";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
@@ -36,12 +39,7 @@ const EventCard: React.FC<EventCardProps> = ({
   ...props
 }) => {
   const { actors, groups, media, keywords } = getEventMetadata(event);
-  const title =
-    event.type === Events.EventTypes.DEATH.value
-      ? `Death ${event.payload.victim?.fullName}`
-      : event.type === Events.EventTypes.QUOTE.value
-      ? `Quote by ${event.payload.actor?.fullName}`
-      : event.payload.title;
+  const title = getTitleForSearchEvent(event);
 
   const image =
     event.type === Events.EventTypes.DEATH.value

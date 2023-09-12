@@ -218,7 +218,12 @@ export const toSearchEvent = (
         ...e,
         payload: {
           ...e.payload,
-          actor: actors[0],
+          subject: actors[0]
+            ? {
+                type: "Actor",
+                id: actors[0],
+              }
+            : { type: "Group", id: groups[0] },
         },
         media,
         keywords,
