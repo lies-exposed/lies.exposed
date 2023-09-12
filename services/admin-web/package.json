@@ -48,7 +48,7 @@
     "react-helmet": "^6.1.0",
     "react-query": "^3.39.3",
     "slick-carousel": "^1.8.1",
-    "uuid": "^9.0.0",
+    "uuid": "^9.0.1",
     "web-vitals": "^3.4.0"
   },
   "devDependencies": {

@@ -38,7 +38,7 @@
     "ts-endpoint": "^2.0.0",
     "ts-endpoint-express": "^2.0.0",
     "ts-io-error": "^2.0.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@liexp/test": "0.1.0",
