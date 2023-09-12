@@ -3489,8 +3489,8 @@ __metadata:
     "@types/react-slick": ^0.23.10
     "@types/react-virtualized": ^9.21.22
     "@types/throttle-debounce": ^5.0.0
-    "@types/topojson-client": ^3.1.1
-    "@types/topojson-specification": ^1.0.2
+    "@types/topojson-client": ^3.1.2
+    "@types/topojson-specification": ^1.0.3
     "@visx/axis": ^3.3.0
     "@visx/chord": ^3.3.0
     "@visx/clip-path": ^3.3.0
@@ -8794,32 +8794,32 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/topojson-client@npm:^3.1.1":
-  version: 3.1.1
-  resolution: "@types/topojson-client@npm:3.1.1"
+"@types/topojson-client@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "@types/topojson-client@npm:3.1.2"
   dependencies:
     "@types/geojson": "*"
     "@types/topojson-specification": "*"
-  checksum: 09f101803b2ba86a10929eb7467e56f7185a5b3f2964e48a81905c8b19de922b75ffcf37ea1b362b5f5971b1659b5da6d6a0f10caa8419c642807ca7612cab6b
+  checksum: 956b79729b5cde252e3fc279b19d353a674e54f72cf045455693654150d2815381465cbe597e9f3124ad4cfbf7c42985cbb21e58ec051d1da83a088182313c0b
   languageName: node
   linkType: hard
 
-"@types/topojson-server@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "@types/topojson-server@npm:3.0.1"
+"@types/topojson-server@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@types/topojson-server@npm:3.0.2"
   dependencies:
     "@types/geojson": "*"
     "@types/topojson-specification": "*"
-  checksum: 47d4f24950e06184023cc2b09bce985e459e54372f2ea43d1e1d24ebe48786b330cd726829015bc9cab9b8e25c7f5c1b27a8ccd1b199ac5731c13e895b6adced
+  checksum: 532825e3d77e51974858ac5edb128d15a6d90d7c061ce907658af6401cff43511cbfc82f83528f483befbb56dd354ae557888409b4cf6fe00c36f8950db66108
   languageName: node
   linkType: hard
 
-"@types/topojson-specification@npm:*, @types/topojson-specification@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "@types/topojson-specification@npm:1.0.2"
+"@types/topojson-specification@npm:*, @types/topojson-specification@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@types/topojson-specification@npm:1.0.3"
   dependencies:
     "@types/geojson": "*"
-  checksum: ad1a759cc9cb76d388140eaac160794d0ea33f8b4ba5b75bad4a48b6b0a28c72e031fca78d564871759eb6a8b4173a5e19baedb79f2c5b5eaa18c9b808248a89
+  checksum: 944b4d54c381472f44558cabe753805ef56d23b993b69eb9fc3b2f0475408f0c24f0ecaf11428a15b92705086a36345e7ae4c3ddc57d7653da32a0222c440ee4
   languageName: node
   linkType: hard
 
@@ -26228,16 +26228,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:^9.0.0":
-  version: 9.0.0
-  resolution: "uuid@npm:9.0.0"
-  bin:
-    uuid: dist/bin/uuid
-  checksum: 8dd2c83c43ddc7e1c71e36b60aea40030a6505139af6bee0f382ebcd1a56f6cd3028f7f06ffb07f8cf6ced320b76aea275284b224b002b289f89fe89c389b028
-  languageName: node
-  linkType: hard
-
-"uuid@npm:^9.0.1":
+"uuid@npm:^9.0.0, uuid@npm:^9.0.1":
   version: 9.0.1
   resolution: "uuid@npm:9.0.1"
   bin:
@@ -26579,8 +26570,8 @@ __metadata:
     "@types/react-router-dom": ^5.3.3
     "@types/react-slick": ^0.23.10
     "@types/throttle-debounce": ^5.0.0
-    "@types/topojson-client": ^3.1.1
-    "@types/topojson-server": ^3.0.1
+    "@types/topojson-client": ^3.1.2
+    "@types/topojson-server": ^3.0.2
     "@types/uuid": ^9.0.3
     "@types/webpack-bundle-analyzer": ^4.6.0
     "@types/webpack-node-externals": ^3.0.0
