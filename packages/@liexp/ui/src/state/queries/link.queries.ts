@@ -8,7 +8,7 @@ import { type FetchQuery, type UseListQueryFn } from "./type";
 export const defaultGetLinksQueryParams = {
   sort: {
     field: "createdAt",
-    order: "DESC",
+    order: "DESC" as const,
   },
   pagination: {
     perPage: 20,
