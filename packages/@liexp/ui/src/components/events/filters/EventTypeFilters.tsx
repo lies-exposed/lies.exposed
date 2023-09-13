@@ -52,7 +52,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 const eventIconProps = {
   size: "sm" as const,
   style: {
-    marginRight: 10,
+    // marginRight: 10,
     width: 18,
     height: 18,
   },
@@ -131,10 +131,19 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
     [onChange],
   );
 
+  const gridItemProps = {
+    item: true,
+    md: "auto" as const,
+    style: {
+      marginLeft: 5,
+      marginRight: 5
+    }
+  }
+
   return (
     <StyledBox className={classes.root}>
       <Grid container style={{ width: "100%" }}>
-        <Grid item sm={2} md={2}>
+        <Grid {...gridItemProps}>
           <IconButton
             className={clsx(classes.iconButton, {
               [classes.iconButtonSelected]: filters.Uncategorized,
@@ -152,7 +161,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             </Typography>
           </IconButton>
         </Grid>
-        <Grid item sm={2} md={2}>
+        <Grid {...gridItemProps}>
           <IconButton
             color="primary"
             className={clsx(classes.iconButton, {
@@ -170,7 +179,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             </Typography>
           </IconButton>
         </Grid>
-        <Grid item sm={2} md={2}>
+        <Grid {...gridItemProps}>
           <IconButton
             color="primary"
             className={clsx(classes.iconButton, {
@@ -188,7 +197,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             </Typography>
           </IconButton>
         </Grid>
-        <Grid item sm={2} md={2}>
+        <Grid {...gridItemProps}>
           <IconButton
             color="primary"
             className={clsx(classes.iconButton, {
@@ -206,7 +215,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             </Typography>
           </IconButton>
         </Grid>
-        <Grid item sm={2} md={2}>
+        <Grid {...gridItemProps}>
           <IconButton
             color="primary"
             className={clsx(classes.iconButton, {
@@ -224,7 +233,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             </Typography>
           </IconButton>
         </Grid>
-        <Grid item sm={2} md={2}>
+        <Grid {...gridItemProps}>
           <IconButton
             color="primary"
             className={clsx(classes.iconButton, {
@@ -239,6 +248,24 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             <EventIcon type="Transaction" {...eventIconProps} />
             <Typography variant="caption" className={classes.typeTotal}>
               {totals.transactions}
+            </Typography>
+          </IconButton>
+        </Grid>
+        <Grid {...gridItemProps}>
+          <IconButton
+            color="primary"
+            className={clsx(classes.iconButton, {
+              [classes.iconButtonSelected]: filters.Quote,
+            })}
+            onClick={(e) => {
+              e.preventDefault();
+              handleFilterChange(EventTypes.QUOTE.value);
+            }}
+            size="large"
+          >
+            <EventIcon type="Quote" {...eventIconProps} />
+            <Typography variant="caption" className={classes.typeTotal}>
+              {totals.quotes}
             </Typography>
           </IconButton>
         </Grid>
