@@ -69,7 +69,7 @@ import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller";
 import { MakeUserRoutes } from "@routes/users/User.routes";
 import { getDataSource } from "@utils/data-source";
 import { GetWriteJSON } from "@utils/json.utils";
-
+import { getThanksMessage } from "@utils/tg.utils";
 
 // var whitelist = ["http://localhost:8002"]
 const corsOptions: cors.CorsOptions = {
@@ -308,37 +308,9 @@ export const makeApp = (ctx: RouteContext): express.Express => {
           metadata,
         ),
       }),
-      TE.map(({ eventSuggestion, storeMsg }) => {
+      TE.map(({ eventSuggestion }) => {
         tgLogger.info.log("Success %O", eventSuggestion);
-        const message = [
-          "Thanks for your contribution! 🫶",
-          "\n",
-          `Links: ${
-            eventSuggestion.link
-              ? eventSuggestion.link.map(
-                  (l) => `${ctx.env.WEB_URL}/links/${l.id}\n`,
-                )
-              : ""
-          }`,
-          `Photos: ${
-            eventSuggestion.photos.length > 0
-              ? eventSuggestion.photos.map(
-                  (m) => `${ctx.env.WEB_URL}/media/${m.id}\n`,
-                )
-              : ""
-          }`,
-          eventSuggestion.videos.length > 0
-            ? `Areas: ${eventSuggestion.videos.map(
-                (m) => `${ctx.env.WEB_URL}/media/${m.id}\n`,
-              )}`
-            : null,
-          eventSuggestion.videos.length > 0
-            ? `Videos: ${eventSuggestion.videos.map(
-                (m) => `${ctx.env.WEB_URL}/media/${m.id}\n`,
-              )}`
-            : null,
-        ];
-        return message.filter((m) => !!m).join("\n");
+        return getThanksMessage(eventSuggestion, ctx.env.WEB_URL);
       }),
       throwTE,
     )
