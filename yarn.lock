@@ -3284,11 +3284,11 @@ __metadata:
     "@liexp/core": 0.1.0
     "@liexp/shared": 0.1.0
     "@liexp/test": 0.1.0
-    "@types/fluent-ffmpeg": ^2.1.21
+    "@types/fluent-ffmpeg": ^2.1.22
     "@types/jsonwebtoken": ^9.0.2
     "@types/node-telegram-bot-api": ^0.61.7
     "@types/prettier": ^3.0.0
-    "@types/uuid": ^9.0.3
+    "@types/uuid": ^9.0.4
     date-fns: ^2.30.0
     exifreader: ^4.13.0
     fp-ts: ^2.16.1
@@ -3399,7 +3399,7 @@ __metadata:
     "@types/react": ^18.2.21
     "@types/react-dom": ^18.2.7
     "@types/throttle-debounce": ^5.0.0
-    "@types/uuid": ^9.0.3
+    "@types/uuid": ^9.0.4
     "@visx/network": ^3.3.0
     axios: ^1.5.0
     bs58: ^5.0.0
@@ -8035,12 +8035,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/fluent-ffmpeg@npm:^2.1.21":
-  version: 2.1.21
-  resolution: "@types/fluent-ffmpeg@npm:2.1.21"
+"@types/fluent-ffmpeg@npm:^2.1.22":
+  version: 2.1.22
+  resolution: "@types/fluent-ffmpeg@npm:2.1.22"
   dependencies:
     "@types/node": "*"
-  checksum: 412e29bf578a2619b6600a0c0977568b3e3c7dafb155e80a2743a5f2a8169d2e3654a6db526e7a35bd03c6437fb6f7542db5ca869b5f3b028438219ae933e593
+  checksum: 9c8fea2810cef1342294a3320857a62a32fbccba5c8b578877206fca2923596878274b8095340c2fc520951088e41546b98b491474e0b42c32a50acdf3fb0dcd
   languageName: node
   linkType: hard
 
@@ -8301,10 +8301,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^18.17.15":
-  version: 18.17.15
-  resolution: "@types/node@npm:18.17.15"
-  checksum: eed11d4398ccdb999a4c65658ee75de621a4ad57aece48ed2fb8803b1e2711fadf58d8aefbdb0a447d69cf3cba602ca32fe0fc92077575950a796e1dc13baa0f
+"@types/node@npm:^18.17.16":
+  version: 18.17.16
+  resolution: "@types/node@npm:18.17.16"
+  checksum: 8f9dbaf4a67a14110e2a0d805f9b57f3a5cda774dbcb7b1e7973efe31d5eeea358482dbe36a5bfadb0dde99f065f1ae0531f25a032f015871aa0b2896eb3c4ae
   languageName: node
   linkType: hard
 
@@ -8715,10 +8715,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/uuid@npm:^9.0.3":
-  version: 9.0.3
-  resolution: "@types/uuid@npm:9.0.3"
-  checksum: 3dde198defd71c067dd14b3050a8fe6d1ead5fe94ec318472e2c30a399d13f18941fe66cffabdcac7267177c9de2f975fdee6f0cc87cde610a2578e1ce4cc3af
+"@types/uuid@npm:^9.0.4":
+  version: 9.0.4
+  resolution: "@types/uuid@npm:9.0.4"
+  checksum: 356e2504456eaebbc43a5af5ca6c07d71f5ae5520b5767cb1c62cd0ec55475fc4ee3d16a2874f4a5fce78e40e8583025afd3a7d9ba41f82939de310665f53f0e
   languageName: node
   linkType: hard
 
@@ -9811,7 +9811,7 @@ __metadata:
     "@testing-library/user-event": ^14.4.3
     "@types/debug": ^4.1.8
     "@types/lodash": ^4.14.198
-    "@types/node": ^18.17.15
+    "@types/node": ^18.17.16
     "@types/prettier": ^3.0.0
     "@types/react": ^18.2.21
     "@types/react-dom": ^18.2.7
@@ -10094,19 +10094,19 @@ __metadata:
     "@types/debug": ^4.1.8
     "@types/eslint": ^8.44.2
     "@types/express": ^4.17.17
-    "@types/fluent-ffmpeg": ^2.1.21
+    "@types/fluent-ffmpeg": ^2.1.22
     "@types/jsonwebtoken": ^9.0.2
     "@types/lodash": ^4.14.198
     "@types/module-alias": ^2.0.2
     "@types/multer": ^1.4.7
-    "@types/node": ^18.17.15
+    "@types/node": ^18.17.16
     "@types/node-cron": ^3.0.8
     "@types/node-telegram-bot-api": ^0.61.7
     "@types/pg": ^8.10.2
     "@types/prettier": ^3.0.0
     "@types/prompts": ^2.4.4
     "@types/supertest": ^2.0.12
-    "@types/uuid": ^9.0.3
+    "@types/uuid": ^9.0.4
     axios: ^1.5.0
     canvas: ^2.11.2
     cors: 2.8.5
@@ -26431,7 +26431,7 @@ __metadata:
     "@types/debug": ^4.1.8
     "@types/express": ^4.17.17
     "@types/mime": ^1.3.2
-    "@types/node": ^18.17.15
+    "@types/node": ^18.17.16
     "@types/react": ^18.2.21
     "@types/react-calendar-heatmap": ^1.6.3
     "@types/react-dom": ^18.2.7
@@ -26441,7 +26441,7 @@ __metadata:
     "@types/throttle-debounce": ^5.0.0
     "@types/topojson-client": ^3.1.2
     "@types/topojson-server": ^3.0.2
-    "@types/uuid": ^9.0.3
+    "@types/uuid": ^9.0.4
     "@types/webpack-bundle-analyzer": ^4.6.0
     "@types/webpack-node-externals": ^3.0.0
     "@typescript-eslint/eslint-plugin": ^6.6.0
