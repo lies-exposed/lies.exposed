@@ -1,6 +1,5 @@
 import { type Stream } from "stream";
 import { fp, pipe } from "@liexp/core/lib/fp";
-import { ImageType } from "@liexp/shared/lib/io/http/Media";
 import { type CreateSocialPost } from "@liexp/shared/lib/io/http/SocialPost";
 import * as t from "io-ts";
 import { type UUID } from "io-ts-types/lib/UUID";
@@ -77,7 +76,7 @@ export const postToTG: TEFlow<[UUID, CreateSocialPost], EventV2Entity> =
           fp.TE.right,
           fp.TE.chain((media) => {
             if (media.length === 1) {
-              if (ImageType.is(media[0].type)) {
+              if (media[0].type === 'photo') {
                 return ctx.tg.postPhoto(media[0].media, text);
               }
               return pipe(
