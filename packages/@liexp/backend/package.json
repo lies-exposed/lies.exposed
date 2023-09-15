@@ -28,7 +28,7 @@
     "ts-io-error": "^2.0.0"
   },
   "devDependencies": {
-    "@types/fluent-ffmpeg": "^2.1.21",
+    "@types/fluent-ffmpeg": "^2.1.22",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/node-telegram-bot-api": "^0.61.7",
     "@types/prettier": "^3.0.0",
