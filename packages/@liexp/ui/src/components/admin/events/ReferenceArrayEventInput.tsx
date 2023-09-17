@@ -1,4 +1,3 @@
-import { getTitle } from "@liexp/shared/lib/helpers/event";
 import React from "react";
 import {
   AutocompleteArrayInput,
@@ -7,6 +6,7 @@ import {
 } from "react-admin";
 import { EventIcon } from "../../Common/Icons";
 import { Box } from "../../mui";
+import { EventTitle } from "./titles/EventTitle";
 
 const ReferenceArrayEventInput: React.FC<
   Omit<ReferenceArrayInputProps, "children"> & { source: string }
@@ -20,16 +20,8 @@ const ReferenceArrayEventInput: React.FC<
         optionText={(r) => {
           return (
             <Box>
-              <EventIcon type={r.type} />
-              {getTitle(r, {
-                actors: [],
-                groups: [],
-                media: [],
-                links: [],
-                areas: [],
-                groupsMembers: [],
-                keywords: [],
-              })}
+              <EventIcon type={r.type} style={{ marginRight: 10 }} />
+              <EventTitle record={r} />
             </Box>
           );
         }}

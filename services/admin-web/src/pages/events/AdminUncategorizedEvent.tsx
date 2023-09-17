@@ -25,7 +25,6 @@ import {
   TextInput,
   required,
   useDataProvider,
-  useRecordContext,
   type ListProps,
   type RaRecord,
 } from "@liexp/ui/lib/components/admin/react-admin";
@@ -105,11 +104,6 @@ export const UncategorizedEventList: React.FC<ListProps> = (props) => (
     </Datagrid>
   </List>
 );
-
-export const UncategorizedEventTitle: React.FC = () => {
-  const record = useRecordContext();
-  return <span>Event: {record?.payload?.title}</span>;
-};
 
 export const UncategorizedEventCreate: React.FC = (props) => {
   const dataProvider = useDataProvider();

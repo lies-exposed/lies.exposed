@@ -1,10 +1,7 @@
-import * as io from "@liexp/shared/lib/io";
 import { ImageType } from "@liexp/shared/lib/io/http/Media";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
 import * as React from "react";
 import {
-  // AutocompleteArrayInput,
-  BooleanField,
   BooleanInput,
   Button,
   Create,
@@ -15,9 +12,7 @@ import {
   FormTab,
   FunctionField,
   List,
-  type ListProps,
   LoadingPage,
-  type RaRecord,
   // ReferenceArrayInput,
   ReferenceField,
   ReferenceManyField,
@@ -31,7 +26,8 @@ import {
   useRecordContext,
   useRefresh,
   type DatagridProps,
-  // AutocompleteInput,
+  type ListProps,
+  type RaRecord,
 } from "react-admin";
 import { Box, Grid, Toolbar } from "../../mui";
 import { DangerZoneField } from "../common/DangerZoneField";
@@ -39,6 +35,7 @@ import { EditForm } from "../common/EditForm";
 import URLMetadataInput from "../common/URLMetadataInput";
 import { CreateEventFromLinkButton } from "../events/CreateEventFromLinkButton";
 import ReferenceArrayEventInput from "../events/ReferenceArrayEventInput";
+import ReferenceManyEventField from "../events/ReferenceManyEventField";
 import ReferenceGroupInput from "../groups/ReferenceGroupInput";
 import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput";
 import { SearchLinksButton } from "../links/SearchLinksButton";
@@ -46,7 +43,7 @@ import { MediaField } from "../media/MediaField";
 import ReferenceMediaInput from "../media/input/ReferenceMediaInput";
 import LinkPreview from "../previews/LinkPreview";
 import ReferenceUserInput from "../user/ReferenceUserInput";
-import { LinkTGPostButton } from './button/LinkTGPostButton';
+import { LinkTGPostButton } from "./button/LinkTGPostButton";
 
 const RESOURCE = "links";
 
@@ -247,33 +244,11 @@ export const LinkEdit: React.FC = () => {
         </FormTab>
         <FormTab label="Events">
           <CreateEventFromLinkButton />
-          <ReferenceArrayEventInput
-            source="newEvents"
-            reference="events"
-            defaultValue={[]}
-          />
-          <ReferenceManyField
-            reference="events"
+          <ReferenceArrayEventInput source="newEvents" defaultValue={[]} />
+          <ReferenceManyEventField
             target="links[]"
             filter={{ withDrafts: true }}
-          >
-            <Datagrid rowClick="edit">
-              <BooleanField source="draft" />
-              <FunctionField
-                render={(r: any) => {
-                  if (r) {
-                    switch (r.type) {
-                      case io.http.Events.EventTypes.DEATH.value:
-                        return `${r.type}: ${r.payload.victim}`;
-                      default:
-                        return `${r.type}: ${r.payload.title}`;
-                    }
-                  }
-                  return "no record";
-                }}
-              />
-            </Datagrid>
-          </ReferenceManyField>
+          />
         </FormTab>
         <FormTab label="Event Suggestions">
           <ReferenceManyField

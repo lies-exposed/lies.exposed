@@ -11,6 +11,7 @@ import { ReferenceLinkTab } from "../tabs/ReferenceLinkTab";
 import { ReferenceMediaTab } from "../tabs/ReferenceMediaTab";
 import { transformEvent } from "../transform.utils";
 import { EventEditActions } from "./EditEventActions";
+import { EventTitle } from './titles/EventTitle';
 
 export const EditEventForm: React.FC<
   React.PropsWithChildren<EditProps>
@@ -22,6 +23,7 @@ export const EditEventForm: React.FC<
       redirect={false}
       actions={<EventEditActions />}
       preview={<EventPreview />}
+      title={<EventTitle />}
       transform={(r) => transformEvent(dataProvider)(r.id, r)}
       {...props}
     >

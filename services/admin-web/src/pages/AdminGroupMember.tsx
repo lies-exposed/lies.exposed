@@ -4,24 +4,22 @@ import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/Reference
 import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
 import { WebPreviewButton } from "@liexp/ui/lib/components/admin/common/WebPreviewButton";
 import ReferenceArrayEventInput from "@liexp/ui/lib/components/admin/events/ReferenceArrayEventInput";
+import ReferenceManyEventField from "@liexp/ui/lib/components/admin/events/ReferenceManyEventField";
 import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceGroupInput";
 import {
   Create,
-  type CreateProps,
   Datagrid,
   DateField,
   DateInput,
   Edit,
   FormTab,
   List,
-  type ListProps,
-  type RaRecord,
-  ReferenceField,
-  ReferenceManyField,
   SimpleForm,
   TabbedForm,
-  TextField,
   useRecordContext,
+  type CreateProps,
+  type ListProps,
+  type RaRecord
 } from "@liexp/ui/lib/components/admin/react-admin";
 import { FormControl, Grid } from "@liexp/ui/lib/components/mui";
 import * as React from "react";
@@ -102,19 +100,7 @@ export const GroupMemberEdit: React.FC = () => {
         </FormTab>
         <FormTab label="Events">
           <ReferenceArrayEventInput source="events" />
-          <ReferenceManyField
-            reference="events"
-            source="id"
-            target="groupsMembers[]"
-          >
-            <Datagrid>
-              <ReferenceField source="id" reference="events">
-                <TextField source="id" />
-              </ReferenceField>
-              <DateField source="date" />
-              <DateField source="createdAt" />
-            </Datagrid>
-          </ReferenceManyField>
+          <ReferenceManyEventField target="groupsMembers[]" />
         </FormTab>
       </TabbedForm>
     </Edit>

@@ -14,6 +14,7 @@ import { PatentEventEditFormTab } from "@liexp/ui/lib/components/admin/events/ta
 import { QuoteEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/QuoteEditFormTab";
 import { ScientificStudyEventEditTab } from "@liexp/ui/lib/components/admin/events/tabs/ScientificStudyEventEditTab";
 import { UncategorizedEventEditTab } from "@liexp/ui/lib/components/admin/events/tabs/UncategorizedEventEditTab";
+import { EventTitle } from '@liexp/ui/lib/components/admin/events/titles/EventTitle';
 import ReferenceArrayGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput";
 import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
 import {
@@ -31,7 +32,6 @@ import {
   ReferenceField,
   SavedQueriesList,
   TextField,
-  useRecordContext,
   type RaRecord as Record
 } from "@liexp/ui/lib/components/admin/react-admin";
 import {
@@ -45,13 +45,6 @@ import {
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import * as R from "fp-ts/Record";
 import * as React from "react";
-import { DeathEventTitle } from "./events/AdminDeathEvent";
-import { DocumentaryReleaseTitle } from "./events/AdminDocumentaryEvent";
-import { PatentEventTitle } from "./events/AdminPatentEvent";
-import { QuoteTitle } from "./events/AdminQuoteEvent";
-import { ScientificStudyEventTitle } from "./events/AdminScientificStudyEvent";
-import { TransactionTitle } from "./events/AdminTransactionEvent";
-import { UncategorizedEventTitle } from "./events/AdminUncategorizedEvent";
 
 const RESOURCE = "events";
 
@@ -250,33 +243,10 @@ export const EventList: React.FC = () => (
   </List>
 );
 
-export const EditTitle: React.FC = () => {
-  const record = useRecordContext<http.Events.Event>();
-  if (record) {
-    switch (record.type) {
-      case http.Events.EventTypes.UNCATEGORIZED.value:
-        return <UncategorizedEventTitle />;
-      case http.Events.EventTypes.SCIENTIFIC_STUDY.value:
-        return <ScientificStudyEventTitle />;
-      case http.Events.EventTypes.DEATH.value:
-        return <DeathEventTitle />;
-      case http.Events.EventTypes.PATENT.value:
-        return <PatentEventTitle />;
-      case http.Events.EventTypes.DOCUMENTARY.value:
-        return <DocumentaryReleaseTitle />;
-      case http.Events.EventTypes.TRANSACTION.value:
-        return <TransactionTitle record={record} />;
-      case http.Events.EventTypes.QUOTE.value:
-        return <QuoteTitle />;
-    }
-  }
-  return <span>No record</span>;
-};
-
 export const EventEdit: React.FC = (props) => {
 
   return (
-    <EditEventForm {...props} title={<EditTitle />} redirect={false}>
+    <EditEventForm {...props} title={<EventTitle />} redirect={false}>
       <FormDataConsumer>
         {({ formData, getSource, scopedFormData, ...rest }) => {
           if (formData.type === EventTypes.DOCUMENTARY.value) {
