@@ -1,10 +1,12 @@
-import { DEATH } from "@liexp/shared/lib/io/http/Events/EventType";
+import { getTitle } from "@liexp/shared/lib/helpers/event";
 import React from "react";
 import {
   AutocompleteArrayInput,
   ReferenceArrayInput,
   type ReferenceArrayInputProps,
 } from "react-admin";
+import { EventIcon } from "../../Common/Icons";
+import { Box } from "../../mui";
 
 const ReferenceArrayEventInput: React.FC<
   Omit<ReferenceArrayInputProps, "children"> & { source: string }
@@ -16,12 +18,20 @@ const ReferenceArrayEventInput: React.FC<
         filterToQuery={(title: any) => ({ title })}
         fullWidth
         optionText={(r) => {
-          switch (r.type) {
-            case DEATH.value:
-              return `${r.type}: ${r.payload.victim}`;
-            default:
-              return `${r.type}: ${r.payload.title}`;
-          }
+          return (
+            <Box>
+              <EventIcon type={r.type} />
+              {getTitle(r, {
+                actors: [],
+                groups: [],
+                media: [],
+                links: [],
+                areas: [],
+                groupsMembers: [],
+                keywords: [],
+              })}
+            </Box>
+          );
         }}
       />
     </ReferenceArrayInput>
