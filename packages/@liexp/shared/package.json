@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@liexp/test": "0.1.0",
-    "@types/bs58": "^4.0.1",
+    "@types/bs58": "^4.0.2",
     "@types/prettier": "^3.0.0",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
