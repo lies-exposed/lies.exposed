@@ -1,4 +1,3 @@
-import * as io from "@liexp/shared/lib/io";
 import React from "react";
 import {
   BooleanField,
@@ -7,6 +6,9 @@ import {
   ReferenceArrayField,
   type ReferenceArrayFieldProps,
 } from "react-admin";
+import { EventIcon } from '../../Common/Icons';
+import { Box } from '../../mui';
+import { EventTitle } from './titles/EventTitle';
 
 const ReferenceArrayEventField: React.FC<
   Omit<ReferenceArrayFieldProps, "reference" | "children"> & { source: string }
@@ -20,12 +22,12 @@ const ReferenceArrayEventField: React.FC<
       <BooleanField source="draft" />
       <FunctionField
         render={(r: any) => {
-          switch (r.type) {
-            case io.http.Events.EventTypes.DEATH.value:
-              return `${r.type}: ${r.payload.victim}`;
-            default:
-              return `${r.type}: ${r.payload.title}`;
-          }
+          return (
+            <Box>
+              <EventIcon type={r.type} style={{ marginRight: 10 }} />
+              <EventTitle record={r} />
+            </Box>
+          );
         }}
       />
     </Datagrid>

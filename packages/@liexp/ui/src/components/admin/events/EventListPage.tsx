@@ -1,6 +1,9 @@
 import * as io from "@liexp/shared/lib/io";
 import { Events } from "@liexp/shared/lib/io/http";
-import { DEATH, SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType";
+import {
+  DEATH,
+  SCIENTIFIC_STUDY,
+} from "@liexp/shared/lib/io/http/Events/EventType";
 import { getTextContentsCapped } from "@liexp/shared/lib/slate";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import * as R from "fp-ts/Record";
@@ -62,6 +65,122 @@ const eventsFilter = [
   <DateInput key="endDate" source="endDate" />,
 ];
 
+export const EventDataGrid: React.FC = () => {
+  return (
+    <Datagrid
+      rowClick={(_props, _id, record) => {
+        if (record.type === SCIENTIFIC_STUDY.value) {
+          return `/scientific-studies/${record.id}`;
+        }
+        if (record.type === DEATH.value) {
+          return `/deaths/${record.id}`;
+        }
+        return `/events/${record.id}`;
+      }}
+    >
+      <BooleanField source="draft" />
+      <FunctionField
+        label="type"
+        render={(r: any) => {
+          return (
+            <Box>
+              <EventIcon color="primary" type={r.type} />
+              <Typography display="inline" variant="subtitle1">
+                {r.type}
+              </Typography>{" "}
+              {[
+                io.http.Events.EventTypes.UNCATEGORIZED.value,
+                io.http.Events.EventTypes.SCIENTIFIC_STUDY.value,
+              ].includes(r.type) ? (
+                <Typography>{r.payload.title}</Typography>
+              ) : (
+                <ReferenceField source="payload.victim" reference="actors">
+                  <TextField source="username" />
+                </ReferenceField>
+              )}
+            </Box>
+          );
+        }}
+      />
+      <FunctionField
+        label="excerpt"
+        render={(r: any) => {
+          return !R.isEmpty(r.excerpt)
+            ? getTextContentsCapped(r.excerpt, 60)
+            : "";
+        }}
+      />
+      <FunctionField source="links" render={(r: any) => r.links?.length ?? 0} />
+      <FunctionField source="media" render={(r: any) => r.media?.length ?? 0} />
+      <FunctionField<RaRecord<string>>
+        label="actors"
+        source="payload"
+        render={(r) => {
+          if (r?.type === Events.EventTypes.UNCATEGORIZED.value) {
+            return r.payload.actors.length;
+          }
+
+          if (r?.type === Events.EventTypes.SCIENTIFIC_STUDY.value) {
+            return r.payload.authors.length;
+          }
+
+          return 1;
+        }}
+      />
+
+      <FunctionField<RaRecord<string>>
+        label="groups"
+        source="payload"
+        render={(r) => {
+          if (r?.type === "Uncategorized") {
+            return r.payload.groups.length;
+          }
+
+          if (r?.type === "ScientificStudy") {
+            return r.payload.publisher ? 1 : 0;
+          }
+
+          return 0;
+        }}
+      />
+      <FunctionField<RaRecord<string>>
+        label="groupsMembers"
+        source="payload"
+        render={(r) => {
+          if (r?.type === "Uncategorized") {
+            return r.payload.groupsMembers.length;
+          }
+
+          if (r?.type === "ScientificStudy") {
+            return 0;
+          }
+
+          return 1;
+        }}
+      />
+      <FunctionField<RaRecord<string>>
+        label="Location"
+        source="payload.location.coordinates"
+        render={(r) => (r?.location?.coordinates ? <PinDropIcon /> : "-")}
+      />
+
+      <DateField source="date" />
+      <FunctionField<RaRecord<string>>
+        label="Dates"
+        render={(r) => {
+          return (
+            <Box>
+              <DateField source="updatedAt" />
+              <DateField source="createdAt" />
+              <DateField source="deletedAt" />
+            </Box>
+          );
+        }}
+      />
+    </Datagrid>
+  );
+};
+
 export const EventListPage: React.FC = () => {
   return (
     <List
@@ -73,123 +192,7 @@ export const EventListPage: React.FC = () => {
       filters={eventsFilter}
       perPage={20}
     >
-      <Datagrid
-        rowClick={(_props, _id, record) => {
-          if (record.type === SCIENTIFIC_STUDY.value) {
-            return `/scientific-studies/${record.id}`;
-          }
-          if (record.type === DEATH.value) {
-            return `/deaths/${record.id}`;
-          }
-          return `/events/${record.id}`;
-        }}
-      >
-        <BooleanField source="draft" />
-        <FunctionField
-          label="type"
-          render={(r: any) => {
-            return (
-              <Box>
-                <EventIcon color="primary" type={r.type} />
-                <Typography display="inline" variant="subtitle1">
-                  {r.type}
-                </Typography>{" "}
-                {[
-                  io.http.Events.EventTypes.UNCATEGORIZED.value,
-                  io.http.Events.EventTypes.SCIENTIFIC_STUDY.value,
-                ].includes(r.type) ? (
-                  <Typography>{r.payload.title}</Typography>
-                ) : (
-                  <ReferenceField source="payload.victim" reference="actors">
-                    <TextField source="username" />
-                  </ReferenceField>
-                )}
-              </Box>
-            );
-          }}
-        />
-        <FunctionField
-          label="excerpt"
-          render={(r: any) => {
-            return !R.isEmpty(r.excerpt)
-              ? getTextContentsCapped(r.excerpt, 60)
-              : "";
-          }}
-        />
-        <FunctionField
-          source="links"
-          render={(r: any) => r.links?.length ?? 0}
-        />
-        <FunctionField
-          source="media"
-          render={(r: any) => r.media?.length ?? 0}
-        />
-        <FunctionField<RaRecord<string>>
-          label="actors"
-          source="payload"
-          render={(r) => {
-            if (r?.type === Events.EventTypes.UNCATEGORIZED.value) {
-              return r.payload.actors.length;
-            }
-
-            if (r?.type === Events.EventTypes.SCIENTIFIC_STUDY.value) {
-              return r.payload.authors.length;
-            }
-
-            return 1;
-          }}
-        />
-
-        <FunctionField<RaRecord<string>>
-          label="groups"
-          source="payload"
-          render={(r) => {
-            if (r?.type === "Uncategorized") {
-              return r.payload.groups.length;
-            }
-
-            if (r?.type === "ScientificStudy") {
-              return r.payload.publisher ? 1 : 0;
-            }
-
-            return 0;
-          }}
-        />
-        <FunctionField<RaRecord<string>>
-          label="groupsMembers"
-          source="payload"
-          render={(r) => {
-            if (r?.type === "Uncategorized") {
-              return r.payload.groupsMembers.length;
-            }
-
-            if (r?.type === "ScientificStudy") {
-              return 0;
-            }
-
-            return 1;
-          }}
-        />
-        <FunctionField<RaRecord<string>>
-          label="Location"
-          source="payload.location.coordinates"
-          render={(r) => (r?.location?.coordinates ? <PinDropIcon /> : "-")}
-        />
-
-        <DateField source="date" />
-        <FunctionField<RaRecord<string>>
-          label="Dates"
-          render={(r) => {
-            return (
-              <Box>
-                <DateField source="updatedAt" />
-                <DateField source="createdAt" />
-                <DateField source="deletedAt" />
-              </Box>
-            );
-          }}
-        />
-      </Datagrid>
+      <EventDataGrid />
     </List>
   );
 };

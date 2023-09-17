@@ -1,4 +1,3 @@
-import type * as Events from "@liexp/shared/lib/io/http/Events";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
 import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput";
@@ -27,10 +26,10 @@ import {
   type CreateProps,
   type EditProps,
   type FormTabProps,
-  type ListProps
+  type ListProps,
 } from "@liexp/ui/lib/components/admin/react-admin";
 import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
-import { Box } from '@liexp/ui/lib/components/mui';
+import { Box } from "@liexp/ui/lib/components/mui";
 import * as React from "react";
 
 const transactionEventsFilter = [
@@ -67,12 +66,6 @@ export const TransactionList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-export const TransactionTitle: React.FC<{
-  record: Events.Transaction.Transaction;
-}> = ({ record }) => {
-  return <span>Transaction: {record?.payload?.total}</span>;
-};
-
 export const TransactionEditFormTab: React.FC<FormTabProps> = (props) => (
   <FormTab {...props} label="Payload">
     <ReferenceActorInput source="payload.victim" />
@@ -81,7 +74,7 @@ export const TransactionEditFormTab: React.FC<FormTabProps> = (props) => (
 
 export const TransactionEdit: React.FC<EditProps> = (props: EditProps) => {
   return (
-    <EditEventForm title={<TransactionTitle {...(props as any)} />} {...props}>
+    <EditEventForm {...props}>
       <Box>
         <BooleanInput source="draft" defaultValue={false} />
         <TextInput fullWidth source="payload.title" />

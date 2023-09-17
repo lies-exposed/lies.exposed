@@ -1,4 +1,3 @@
-import { type http } from "@liexp/shared/lib/io";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
@@ -22,7 +21,6 @@ import {
   ReferenceInput,
   SimpleForm,
   useDataProvider,
-  useRecordContext,
   type CreateProps,
   type ListProps
 } from "@liexp/ui/lib/components/admin/react-admin";
@@ -73,18 +71,9 @@ export const DeathList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-export const DeathEventTitle: React.FC = () => {
-  const record = useRecordContext<http.Events.Death.Death>();
-  return (
-    <span>
-      Event: {record?.payload?.victim} on {record?.date.toString()}
-    </span>
-  );
-};
-
 export const DeathEdit: React.FC = () => {
   return (
-    <EditEventForm title={<DeathEventTitle />}>
+    <EditEventForm>
       <DeathEventEditFormTab />
     </EditEventForm>
   );

@@ -2,24 +2,21 @@ import { ImageType } from "@liexp/shared/lib/io/http/Media";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
 import * as React from "react";
 import {
-  Datagrid,
   DateField,
   DeleteButton,
   DeleteWithConfirmButton,
+  FormDataConsumer,
   FormTab,
   LoadingPage,
-  ReferenceManyField,
   SaveButton,
   TabbedForm,
-  TextField,
   TextInput,
   useDataProvider,
   usePermissions,
   useRecordContext,
   useRefresh,
   type EditProps,
-  type FieldProps,
-  FormDataConsumer,
+  type FieldProps
 } from "react-admin";
 import { transformMedia } from "../../../client/admin/MediaAPI";
 import { Box, Button, Grid } from "../../mui";
@@ -27,12 +24,13 @@ import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent
 import { EditForm } from "../common/EditForm";
 import { CreateEventFromMediaButton } from "../events/CreateEventFromMediaButton";
 import ReferenceArrayEventInput from "../events/ReferenceArrayEventInput";
+import ReferenceManyEventField from "../events/ReferenceManyEventField";
 import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput";
 import MediaPreview from "../previews/MediaPreview";
 import { ReferenceLinkTab } from "../tabs/ReferenceLinkTab";
 import ReferenceUserInput from "../user/ReferenceUserInput";
 import { MediaField } from "./MediaField";
-import { MediaTGPostButton } from './button/MediaTGPostButton';
+import { MediaTGPostButton } from "./button/MediaTGPostButton";
 import { MediaInput } from "./input/MediaInput";
 
 const EditTitle: React.FC<EditProps> = ({ record }: any) => {
@@ -217,17 +215,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
         <FormTab label="events">
           <CreateEventFromMediaButton />
           <ReferenceArrayEventInput source="events" defaultValue={[]} />
-          <ReferenceManyField
-            label="Events"
-            target="media[]"
-            reference="events"
-          >
-            <Datagrid rowClick="edit">
-              <TextField source="id" />
-              <TextField source="payload.title" />
-              <DateField source="date" showDate />
-            </Datagrid>
-          </ReferenceManyField>
+          <ReferenceManyEventField label="Events" target="media[]" />
         </FormTab>
         <FormTab label="links">
           <ReferenceLinkTab source="links" />

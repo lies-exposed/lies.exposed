@@ -6,6 +6,7 @@ import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
 import URLMetadataInput from "@liexp/ui/lib/components/admin/common/URLMetadataInput";
 import { EditEventForm } from '@liexp/ui/lib/components/admin/events/EditEventForm';
 import { ScientificStudyEventEditTab } from "@liexp/ui/lib/components/admin/events/tabs/ScientificStudyEventEditTab";
+import {ScientificStudyEventTitle} from "@liexp/ui/lib/components/admin/events/titles/ScientificStudyEventTitle";
 import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceGroupInput";
 import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
@@ -24,7 +25,6 @@ import {
   TextField,
   TextInput,
   useDataProvider,
-  useRecordContext,
   type CreateProps,
   type ListProps
 } from "@liexp/ui/lib/components/admin/react-admin";
@@ -60,11 +60,6 @@ export const ScientificStudiesList: React.FC<ListProps> = (props) => (
     </Datagrid>
   </List>
 );
-
-export const ScientificStudyEventTitle: React.FC = () => {
-  const record = useRecordContext();
-  return <span>Scientific Study: {record?.payload?.title}</span>;
-};
 
 export const ScientificStudyEdit: React.FC = () => {
   return (

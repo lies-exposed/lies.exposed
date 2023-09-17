@@ -22,9 +22,8 @@ import {
   TextInput,
   UrlField,
   useDataProvider,
-  useRecordContext,
   type CreateProps,
-  type ListProps,
+  type ListProps
 } from "@liexp/ui/lib/components/admin/react-admin";
 import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
 import * as React from "react";
@@ -60,16 +59,9 @@ export const PatentList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-export const PatentEventTitle: React.FC = () => {
-  const record = useRecordContext();
-  return record ? (
-    <span>{`Event: ${record.payload.title} on ${record.date}`}</span>
-  ) : null;
-};
-
 export const PatentEdit: React.FC = () => {
   return (
-    <EditEventForm title={<PatentEventTitle />}>
+    <EditEventForm>
       <PatentEventEditFormTab />
     </EditEventForm>
   );
