@@ -2,6 +2,7 @@ import * as React from "react";
 import { ReferenceArrayField } from "react-admin";
 import { Box } from "../../mui";
 import { ActorDataGrid } from "../actors/ActorDataGrid";
+import { EventDataGrid } from '../events/EventListPage';
 import { GroupDataGrid } from "../groups/GroupDataGrid";
 import { LinkDatagrid } from "../links/AdminLinks";
 
@@ -18,7 +19,7 @@ export const StoryRelationsBox: React.FC = () => {
         <LinkDatagrid />
       </ReferenceArrayField>
       <ReferenceArrayField reference="events" source="events">
-        <LinkDatagrid />
+        <EventDataGrid />
       </ReferenceArrayField>
     </Box>
   );

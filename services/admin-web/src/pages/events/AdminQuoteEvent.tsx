@@ -1,4 +1,3 @@
-import type * as Events from "@liexp/shared/lib/io/http/Events";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
 import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput";
@@ -20,7 +19,6 @@ import {
   TextField,
   TextInput,
   useDataProvider,
-  useRecordContext,
   type CreateProps,
   type ListProps
 } from "@liexp/ui/lib/components/admin/react-admin";
@@ -57,14 +55,9 @@ export const QuoteList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-export const QuoteTitle: React.FC = () => {
-  const record = useRecordContext<Events.Quote.Quote>();
-  return <span>Quote by: {record?.payload?.actor}</span>;
-};
-
 export const QuoteEdit: React.FC = () => {
   return (
-    <EditEventForm title={<QuoteTitle />}>
+    <EditEventForm>
       <QuoteEditFormTab />
     </EditEventForm>
   );

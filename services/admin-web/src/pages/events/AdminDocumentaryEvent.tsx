@@ -1,4 +1,3 @@
-import type * as Events from "@liexp/shared/lib/io/http/Events";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
@@ -23,7 +22,6 @@ import {
   TextField,
   TextInput,
   useDataProvider,
-  useRecordContext,
   type CreateProps,
   type ListProps
 } from "@liexp/ui/lib/components/admin/react-admin";
@@ -62,14 +60,10 @@ export const DocumentaryList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-export const DocumentaryReleaseTitle: React.FC = () => {
-  const record = useRecordContext<Events.Documentary.Documentary>();
-  return <span>Documentary: {record?.payload?.title}</span>;
-};
 
 export const DocumentaryEdit: React.FC = () => {
   return (
-    <EditEventForm title={<DocumentaryReleaseTitle />}>
+    <EditEventForm>
       <DocumentaryEditFormTab />
     </EditEventForm>
   );
