@@ -38,6 +38,7 @@ updates:
           - "vite-tsconfig-paths"
       eslint:
         patterns:
+          - "@typescript-eslint/*"
           - "eslint*"
       uuid:
         patterns:
