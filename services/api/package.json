@@ -105,7 +105,7 @@
     "@types/lodash": "^4.14.198",
     "@types/module-alias": "^2.0.2",
     "@types/multer": "^1.4.7",
-    "@types/node": "^18.17.17",
+    "@types/node": "^18.17.18",
     "@types/node-cron": "^3.0.8",
     "@types/node-telegram-bot-api": "^0.61.7",
     "@types/pg": "^8.10.2",
