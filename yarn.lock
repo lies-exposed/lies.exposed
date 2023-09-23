@@ -3335,8 +3335,8 @@ __metadata:
   dependencies:
     "@pmmmwh/react-refresh-webpack-plugin": ^0.5.11
     "@types/copy-webpack-plugin": ^10.1.0
-    "@types/debug": ^4.1.8
-    "@types/dotenv-webpack": ^7.0.4
+    "@types/debug": ^4.1.9
+    "@types/dotenv-webpack": ^7.0.5
     "@types/eslint": ^8.44.2
     "@types/express": ^4.17.17
     "@types/html-replace-webpack-plugin": ^2.6.2
@@ -3479,8 +3479,8 @@ __metadata:
     "@react-page/plugins-video": ^5.4.4
     "@react-page/react-admin": ^5.4.4
     "@types/chroma-js": ^2.4.1
-    "@types/d3": ^7.4.0
-    "@types/d3-sankey": ^0.12.1
+    "@types/d3": ^7.4.1
+    "@types/d3-sankey": ^0.12.2
     "@types/eslint": ^8.44.2
     "@types/prettier": ^3.0.0
     "@types/reach__router": ^1.3.11
@@ -7764,12 +7764,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/d3-sankey@npm:^0.12.1":
-  version: 0.12.1
-  resolution: "@types/d3-sankey@npm:0.12.1"
+"@types/d3-sankey@npm:^0.12.2":
+  version: 0.12.2
+  resolution: "@types/d3-sankey@npm:0.12.2"
   dependencies:
     "@types/d3-shape": ^1
-  checksum: 243eae3e42f7d76156ecd9807479f2a0a2b0c821974ca998156b759a55e5d8c1dcdeeea6567b6e58b0d549f5c36c8ad10dec3e856cbba3b16182eb2428ae2883
+  checksum: 5ec9167926a6864e66e179e47506ee721d6d8a7c13b260882673f9bcbc1a263d224f0ceda278423be7ee465525d46a6113f43598db0dd3340bfc191fdd26929f
   languageName: node
   linkType: hard
 
@@ -7915,12 +7915,59 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/debug@npm:^4.1.0, @types/debug@npm:^4.1.8":
+"@types/d3@npm:^7.4.1":
+  version: 7.4.1
+  resolution: "@types/d3@npm:7.4.1"
+  dependencies:
+    "@types/d3-array": "*"
+    "@types/d3-axis": "*"
+    "@types/d3-brush": "*"
+    "@types/d3-chord": "*"
+    "@types/d3-color": "*"
+    "@types/d3-contour": "*"
+    "@types/d3-delaunay": "*"
+    "@types/d3-dispatch": "*"
+    "@types/d3-drag": "*"
+    "@types/d3-dsv": "*"
+    "@types/d3-ease": "*"
+    "@types/d3-fetch": "*"
+    "@types/d3-force": "*"
+    "@types/d3-format": "*"
+    "@types/d3-geo": "*"
+    "@types/d3-hierarchy": "*"
+    "@types/d3-interpolate": "*"
+    "@types/d3-path": "*"
+    "@types/d3-polygon": "*"
+    "@types/d3-quadtree": "*"
+    "@types/d3-random": "*"
+    "@types/d3-scale": "*"
+    "@types/d3-scale-chromatic": "*"
+    "@types/d3-selection": "*"
+    "@types/d3-shape": "*"
+    "@types/d3-time": "*"
+    "@types/d3-time-format": "*"
+    "@types/d3-timer": "*"
+    "@types/d3-transition": "*"
+    "@types/d3-zoom": "*"
+  checksum: 6abba93db07ded60280f74b1825c19035fd0551d28c3a99a18bb3e6ac7caf6dbadd9e0f929ca29dab6509380670febd8c981f81229ebebb3911ad08599b5e89d
+  languageName: node
+  linkType: hard
+
+"@types/debug@npm:^4.1.0":
   version: 4.1.8
   resolution: "@types/debug@npm:4.1.8"
   dependencies:
     "@types/ms": "*"
   checksum: a9a9bb40a199e9724aa944e139a7659173a9b274798ea7efbc277cb084bc37d32fc4c00877c3496fac4fed70a23243d284adb75c00b5fdabb38a22154d18e5df
+  languageName: node
+  linkType: hard
+
+"@types/debug@npm:^4.1.9":
+  version: 4.1.9
+  resolution: "@types/debug@npm:4.1.9"
+  dependencies:
+    "@types/ms": "*"
+  checksum: e88ee8b19d106f33eb0d3bc58bacff9702e98d821fd1ebd1de8942e6b97419e19a1ccf39370f1764a1dc66f79fd4619f3412e1be6eeb9f0b76412f5ffe4ead93
   languageName: node
   linkType: hard
 
@@ -7938,14 +7985,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/dotenv-webpack@npm:^7.0.4":
-  version: 7.0.4
-  resolution: "@types/dotenv-webpack@npm:7.0.4"
+"@types/dotenv-webpack@npm:^7.0.5":
+  version: 7.0.5
+  resolution: "@types/dotenv-webpack@npm:7.0.5"
   dependencies:
     "@types/node": "*"
     tapable: ^2.2.0
     webpack: ^5
-  checksum: 596090034f777c01a475440ff8dc4a9b5a8dd158c0ea19b3547f5ac62dae9f135041e0c66f7267c259bf285ab7e8a1a3770fe75bf2128d97326dc47e71a20c0a
+  checksum: efa8379f9adc78aeb3fea93526a01e2ec1a303d9b07937f9f2eaa196f3b4cd3caae3c3ad84667cfbaabdf25ecf4be129770a0e60449324be25633d2f0c320fa5
   languageName: node
   linkType: hard
 
@@ -8171,10 +8218,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.149, @types/lodash@npm:^4.14.167, @types/lodash@npm:^4.14.172, @types/lodash@npm:^4.14.198":
+"@types/lodash@npm:^4.14.149, @types/lodash@npm:^4.14.167, @types/lodash@npm:^4.14.172":
   version: 4.14.198
   resolution: "@types/lodash@npm:4.14.198"
   checksum: b290e4480707151bcec738bca40527915defe52a0d8e26c83685c674163a265e1a88cb2ee56b0fb587a89819d0cd5df86ada836aec3e9c2e4bf516e7d348d524
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:^4.14.199":
+  version: 4.14.199
+  resolution: "@types/lodash@npm:4.14.199"
+  checksum: e68d1fcbbfce953ed87b296a628573f62939227bcda0c934954e862b421e8a34c5e71cad6fea27b9980567909e6a4698f09025692958e36d64ea9ed99ec6fb2e
   languageName: node
   linkType: hard
 
@@ -9809,8 +9863,8 @@ __metadata:
     "@testing-library/dom": ^9.3.1
     "@testing-library/react": ^14.0.0
     "@testing-library/user-event": ^14.4.3
-    "@types/debug": ^4.1.8
-    "@types/lodash": ^4.14.198
+    "@types/debug": ^4.1.9
+    "@types/lodash": ^4.14.199
     "@types/node": ^18.17.18
     "@types/prettier": ^3.0.0
     "@types/react": ^18.2.22
@@ -10091,12 +10145,12 @@ __metadata:
     "@swc/core": ^1.3.82
     "@types/body-parser": ^1.19.3
     "@types/cors": ^2.8.14
-    "@types/debug": ^4.1.8
+    "@types/debug": ^4.1.9
     "@types/eslint": ^8.44.2
     "@types/express": ^4.17.17
     "@types/fluent-ffmpeg": ^2.1.22
     "@types/jsonwebtoken": ^9.0.3
-    "@types/lodash": ^4.14.198
+    "@types/lodash": ^4.14.199
     "@types/module-alias": ^2.0.2
     "@types/multer": ^1.4.7
     "@types/node": ^18.17.18
@@ -26401,8 +26455,8 @@ __metadata:
     "@mui/icons-material": ^5.14.7
     "@mui/material": ^5.14.7
     "@types/bs58": ^4.0.2
-    "@types/d3": ^7.4.0
-    "@types/debug": ^4.1.8
+    "@types/d3": ^7.4.1
+    "@types/debug": ^4.1.9
     "@types/express": ^4.17.17
     "@types/mime": ^1.3.2
     "@types/node": ^18.17.18
