@@ -27,10 +27,10 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
     <SplitPageTemplate
       resource={{ name: "media", item: m }}
       aside={
-        <Box>
+        <Box width="100%" paddingLeft={10}>
           <MediaElement
             media={m}
-            itemStyle={{ maxHeight: 200, minHeight: 200, width: "100%" }}
+            itemStyle={{ maxHeight: 200, minHeight: 200, width: "auto" }}
             disableZoom
           />
           <Typography>{m.type}</Typography>
