@@ -120,7 +120,7 @@ jobs:
           yarn api test:e2e
 
   docker_build:
-    if: ${{ github.base_ref == 'release/alpha' }}
+    if: ${{ github.head_ref == 'release/alpha' }}
     needs: [install, build-packages, lint]
     runs-on: ubuntu-latest
     steps:
