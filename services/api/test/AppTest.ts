@@ -33,7 +33,9 @@ import { wikipediaProviderMock } from "../__mocks__/wikipedia.mock";
 import { type RouteContext } from "../src/routes/route.types";
 import { makeApp } from "../src/server";
 import { mocks, type AppMocks } from "./mocks";
-import { MakeImgProcClient } from "@liexp/backend/src/providers/imgproc/imgproc.provider";
+import { MakeImgProcClient } from "@liexp/backend/lib/providers/imgproc/imgproc.provider";
+import { AreaEntity } from '@entities/Area.entity';
+import { GeocodeProvider } from '@liexp/backend/lib/providers/geocode/geocode.provider';
 
 export interface AppTest {
   ctx: RouteContext;
@@ -107,8 +109,11 @@ export const initAppTest = async (): Promise<AppTest> => {
       },
       http: HTTPProvider({}),
       imgProc: MakeImgProcClient({
+        logger,
+        exifR: {} as any,
         client: (() => Promise.resolve(Buffer.from([]))) as any,
       }),
+      geo: GeocodeProvider({http: {} as any }),
     })),
     TE.map((ctx) => ({
       ctx,
@@ -139,6 +144,7 @@ export const initAppTest = async (): Promise<AppTest> => {
               actor: liftFind(ActorEntity),
               group: liftFind(GroupEntity),
               event: liftFind(EventV2Entity),
+              area: liftFind(AreaEntity)
             }),
             TE.map(({ media, actor }) => media && actor),
             throwTE,

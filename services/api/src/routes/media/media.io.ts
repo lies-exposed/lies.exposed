@@ -17,6 +17,7 @@ export const toImageIO = (
       links: media.links ?? [],
       events: media.events ?? [],
       keywords: media.keywords ?? [],
+      areas: media.areas ?? [],
       featuredIn: media.featuredIn ?? [],
       thumbnail: media.thumbnail ? ensureHTTPS(media.thumbnail) : undefined,
       transferable: !media.location.includes(spaceEndpoint),

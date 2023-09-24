@@ -329,6 +329,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
               events: [],
               links: [],
               keywords: [],
+              areas: [],
               featuredIn: [],
               deletedAt: undefined,
               description: m.type,

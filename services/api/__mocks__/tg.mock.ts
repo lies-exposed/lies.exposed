@@ -10,6 +10,7 @@ export const tgProviderMock = {
   onMessage: vi.fn(),
   post: vi.fn(),
   postPhoto: vi.fn(),
+  postVideo: vi.fn(),
   postMediaGroup: vi.fn(),
   upsertPinnedMessage: vi.fn(),
 };
