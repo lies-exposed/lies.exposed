@@ -2,6 +2,7 @@ import { uuid } from "@liexp/shared/lib/utils/uuid";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
 import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput";
 import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField";
+import { ReferenceBySubjectField } from '@liexp/ui/lib/components/admin/common/ReferenceBySubjectField';
 import ReferenceBySubjectInput from '@liexp/ui/lib/components/admin/common/ReferenceBySubjectInput';
 import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm";
 import { QuoteEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/QuoteEditFormTab";
@@ -14,9 +15,7 @@ import {
   DateField,
   DateInput,
   List,
-  ReferenceField,
   SimpleForm,
-  TextField,
   TextInput,
   useDataProvider,
   type CreateProps,
@@ -44,9 +43,7 @@ export const QuoteList: React.FC<ListProps> = (props) => (
     }}
   >
     <Datagrid rowClick="edit">
-      <ReferenceField reference="actors" source="payload.actor">
-        <TextField source="fullName" />
-      </ReferenceField>
+    <ReferenceBySubjectField source="payload.subject" />
       <ExcerptField source="excerpt" />
       <DateField source="date" />
       <DateField source="updatedAt" />
