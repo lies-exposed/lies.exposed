@@ -78,6 +78,14 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
             TE.map(({ thumbnail, location }) => ({
               ...m,
               ...body,
+              keywords: body.keywords.map((id) => ({ id })),
+              links: body.links.map((id) => ({ id })),
+              events: body.events.map((id) => ({
+                id,
+              })),
+              areas: body.areas.map((id) => ({
+                id,
+              })),
               creator: O.isSome(creator)
                 ? { id: creator.value }
                 : { id: m.creator as any },
@@ -90,11 +98,6 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
           ctx.db.save(MediaEntity, [
             {
               ...image,
-              keywords: body.keywords.map((id) => ({ id })),
-              links: body.links.map((id) => ({ id })),
-              events: body.events.map((id) => ({
-                id,
-              })),
               id,
             },
           ]),

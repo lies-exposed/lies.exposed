@@ -35,6 +35,7 @@ export const LinkTemplateUI: React.FC<LinkTemplateUIProps> = ({
                 links: [],
                 keywords: [],
                 featuredIn: [],
+                areas: [],
                 creator: undefined,
                 createdAt: new Date(),
                 updatedAt: new Date(),

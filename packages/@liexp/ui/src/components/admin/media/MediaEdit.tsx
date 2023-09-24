@@ -21,6 +21,7 @@ import {
 import { transformMedia } from "../../../client/admin/MediaAPI";
 import { Box, Button, Grid } from "../../mui";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent";
+import ReferenceAreaTab from '../areas/input/ReferenceAreaTab';
 import { EditForm } from "../common/EditForm";
 import { CreateEventFromMediaButton } from "../events/CreateEventFromMediaButton";
 import ReferenceArrayEventInput from "../events/ReferenceArrayEventInput";
@@ -216,6 +217,9 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
           <CreateEventFromMediaButton />
           <ReferenceArrayEventInput source="events" defaultValue={[]} />
           <ReferenceManyEventField label="Events" target="media[]" />
+        </FormTab>
+        <FormTab label="areas">
+          <ReferenceAreaTab source="areas" />
         </FormTab>
         <FormTab label="links">
           <ReferenceLinkTab source="links" />

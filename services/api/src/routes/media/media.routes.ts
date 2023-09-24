@@ -1,8 +1,8 @@
 import { type Router } from "express";
 import { MakeCreateMediaRoute } from "./createMedia.route";
 import { MakeDeleteMediaRoute } from "./deleteMedia.route";
-import { MakeEditMediaRoute } from "./editMedia.route";
-import { MakeGetMediaRoute } from "./getMedia.routes";
+import { MakeEditMediaRoute } from "./editMedia.controller";
+import { MakeGetMediaRoute } from "./getMedia.controller";
 import { MakeListMediaRoute } from "./listMedia.controller";
 import { type RouteContext } from "@routes/route.types";
 
