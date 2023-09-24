@@ -174,8 +174,8 @@ export const SocialPostEdit: React.FC = () => {
         return {
           ...r,
           ...content,
-          platforms,
-          media,
+          platforms: platforms ?? { IG: false, TG: true },
+          media: typeof media === 'string' ? [{ media, type: 'photo'}] : media,
           publishCount: 0,
         };
       }}
