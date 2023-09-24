@@ -30,7 +30,7 @@ export const ReferenceLinkTab: React.FC<
       <ReferenceArrayField {...props} reference="links" fullWidth>
         <Datagrid rowClick="edit">
           <TextField source="id" />
-          <MediaField source="image.thumbnail" type="image/jpeg" />
+          <MediaField source="image.thumbnail" type="image/jpeg" controls={false} />
           <TextField source="title" />
           <DateField source="publishDate" />
           <TextField source="url" />

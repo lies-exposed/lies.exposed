@@ -107,7 +107,7 @@ export const ThumbnailEditField: React.FC<FieldProps> = (props) => {
                 }}
                 style={{ margin: 20 }}
               >
-                <MediaField {...props} source="thumbnail" type="image/jpg" />
+                <MediaField {...props} source="thumbnail" type="image/jpg" controls={false} />
               </Box>
               <GenerateThumbnailButton {...props} />
               <TransferButton target="thumbnail" />
@@ -193,7 +193,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
         <FormTab label="general">
           <Grid container spacing={2}>
             <Grid item md={6}>
-              <MediaField source="location" />
+              <MediaField source="location" controls={true} />
               <MediaInput sourceLocation="location" sourceType="type" />
               <TransferButton {...props} />
             </Grid>

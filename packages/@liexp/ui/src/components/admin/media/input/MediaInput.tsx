@@ -62,6 +62,7 @@ export const MediaInput: React.FC<MediaInputProps> = ({
                   <MediaField
                     source={sourceLocation}
                     type={sourceType}
+                    controls={true}
                     record={{
                       ...formData,
                       [sourceLocation]: mediaSrc,

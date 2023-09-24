@@ -185,7 +185,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
             </Grid>
             <Grid item md={6}>
               <GroupKindInput source="kind" />
-              <MediaField source="avatar" type="image/jpeg" />
+              <MediaField source="avatar" type="image/jpeg" controls={false} />
               <Box style={{ display: "flex", flexDirection: "column" }}>
                 <DateField source="updatedAt" showTime={true} />
                 <DateField source="createdAt" showTime={true} />
@@ -195,7 +195,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           <ReactPageInput label="excerpt" source="excerpt" />
         </FormTab>
         <FormTab label="Avatar">
-          <MediaField source="avatar" type="image/jpeg" />
+          <MediaField source="avatar" type="image/jpeg" controls={false} />
           <ImageInput source="avatar">
             <ImageField src="src" />
           </ImageInput>

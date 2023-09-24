@@ -55,7 +55,7 @@ export const UserEdit: React.FC<EditProps> = (props) => (
     <TabbedForm>
       <FormTab label="generals">
         <AvatarField source="avatar" />
-        <MediaField source="avatar" type="image/jpeg" />
+        <MediaField source="avatar" type="image/jpeg" controls={false} />
         <TextInput source="username" />
         <TextInput source="firstName" />
         <TextInput source="lastName" />

@@ -128,7 +128,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
     >
       <TabbedForm>
         <FormTab label="generals">
-          <MediaField source="avatar" type="image/jpeg" />
+          <MediaField source="avatar" type="image/jpeg" controls={false} />
           <ColorInput source="color" />
           <TextInput source="username" />
           <TextInput source="fullName" />
