@@ -5,7 +5,7 @@ export const getThanksMessage = (eventSuggestion: EventResult, baseURL: string):
         "Thanks for your contribution! 🫶",
         "\n",
 
-        eventSuggestion.link
+        eventSuggestion.link.length > 0
           ? `Links: ${eventSuggestion.link.map(
               (l) => `${baseURL}/links/${l.id}\n`,
             )}`
