@@ -15,7 +15,7 @@ export const MakeGetMediaRoute = (r: Router, ctx: RouteContext): void => {
       ctx.db.findOneOrFail(MediaEntity, {
         where: { id: Equal(id) },
         loadRelationIds: {
-          relations: ["creator", "events", "keywords", "links"],
+          relations: ["creator", "events", "keywords", "links", "areas"],
         },
         withDeleted: true,
       }),

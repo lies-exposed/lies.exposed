@@ -24,6 +24,7 @@ export const MakeCreateMediaRoute = (r: Router, ctx: RouteContext): void => {
               {
                 ...body,
                 creator: u.id as any,
+                areas: body.areas.map(id => ({ id })),
                 keywords: body.keywords.map((id) => ({ id })),
                 events: body.events.map((e) => ({
                   id: e,

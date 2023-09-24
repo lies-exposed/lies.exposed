@@ -14,6 +14,7 @@ const mediaProps = propsOmit(http.Media.Media, [
   "links",
   "events",
   "keywords",
+  'areas',
   "featuredIn",
 ]);
 
@@ -37,8 +38,8 @@ export const MediaArb: tests.fc.Arbitrary<http.Media.Media> = tests
           links: [],
           keywords: [],
           featuredIn: [],
+          areas: [],
           type: "image/png",
-          // creator: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
           creator: undefined,
           location,
           thumbnail,
