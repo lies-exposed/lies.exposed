@@ -10147,7 +10147,7 @@ __metadata:
     module-alias: ^2.2.3
     multer: ^1.4.5-lts.1
     node-cron: ^3.0.2
-    node-telegram-bot-api: ^0.61.0
+    node-telegram-bot-api: ^0.63.0
     nodemon: ^3.0.1
     page-metadata-parser: ^1.1.4
     parse2-kmz: ^1.0.7
@@ -19437,9 +19437,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-telegram-bot-api@npm:^0.61.0":
-  version: 0.61.0
-  resolution: "node-telegram-bot-api@npm:0.61.0"
+"node-telegram-bot-api@npm:^0.63.0":
+  version: 0.63.0
+  resolution: "node-telegram-bot-api@npm:0.63.0"
   dependencies:
     array.prototype.findindex: ^2.0.2
     bl: ^1.2.3
@@ -19450,7 +19450,7 @@ __metadata:
     pump: ^2.0.0
     request: ^2.83.0
     request-promise: ^4.2.2
-  checksum: f3939a341107fd0137eaa0f24e31277ba9d1b988eff46acd0c774df2dede2227baaf83beb18e579456c8a6884e9e7db5020f8e25dc0fef5ec42d360a010ff8bd
+  checksum: f13d96d68919402cdcb15eb47529703e6d97e1243293c6c409a936fca7f0f7f4543fc9d67c910a3fbc07eae152e11dc77a5313557fcf860ce7b3b4d7c90bedfa
   languageName: node
   linkType: hard
 
