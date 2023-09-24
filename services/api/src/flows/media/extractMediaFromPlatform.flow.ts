@@ -8,10 +8,10 @@ import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import type * as puppeteer from "puppeteer-core";
-import { extractThumbnail } from "./createThumbnail.flow";
+import { extractThumbnailFromVideoPlatform } from './thumbnails/extractThumbnailFromVideoPlatform';
 import { type MediaEntity } from "@entities/Media.entity";
 import { type TEFlow } from "@flows/flow.types";
-import { type ControllerError, toControllerError } from "@io/ControllerError";
+import { toControllerError, type ControllerError } from "@io/ControllerError";
 
 export const extractDescriptionFromPlatform = (
   m: VideoPlatformMatch,
@@ -85,7 +85,7 @@ export const extractMediaFromPlatform: TEFlow<
       location: extractEmbedFromPlatform(url, m, page),
       description: extractDescriptionFromPlatform(m, page),
       thumbnail: pipe(
-        extractThumbnail(m, page),
+        extractThumbnailFromVideoPlatform(m, page),
         TE.mapLeft(toControllerError),
         TE.orElse(
           (): TE.TaskEither<ControllerError, string | undefined> =>

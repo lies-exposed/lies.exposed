@@ -7,7 +7,7 @@ import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { toImageIO } from "./media.io";
 import { MediaEntity } from "@entities/Media.entity";
-import { createThumbnail } from "@flows/media/createThumbnail.flow";
+import { createThumbnail } from "@flows/media/thumbnails/createThumbnail.flow";
 import { transferFromExternalProvider } from "@flows/media/transferFromExternalProvider.flow";
 import { type RouteContext } from "@routes/route.types";
 
@@ -52,11 +52,14 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
           pipe(
             sequenceS(TE.ApplicativeSeq)({
               thumbnail: O.isSome(overrideThumbnail)
-                ? createThumbnail(ctx)({
-                    ...m,
-                    ...body,
-                    id,
-                  })
+                ? pipe(
+                    createThumbnail(ctx)({
+                      ...m,
+                      ...body,
+                      id,
+                    }),
+                    TE.map((s) => s[0]),
+                  )
                 : O.isSome(transferThumbnail) && m.thumbnail
                 ? transferFromExternalProvider(ctx)(
                     m.id,

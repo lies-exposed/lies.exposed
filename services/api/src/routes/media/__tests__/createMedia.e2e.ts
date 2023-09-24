@@ -47,6 +47,16 @@ describe("Create Media", () => {
         creator: undefined,
       }));
 
+    Test.mocks.axios.get.mockImplementation(() => {
+      return Promise.resolve({ data: Buffer.from([]) });
+    });
+
+    Test.mocks.s3.client.send.mockImplementation(() => {
+      return Promise.resolve({
+        Location: tests.fc.sample(tests.fc.webUrl(), 1)[0],
+      });
+    });
+
     const response = await Test.req
       .post("/v1/media")
       .set("Authorization", authorizationToken)
@@ -61,6 +71,7 @@ describe("Create Media", () => {
       ...media,
       creator: users[0].id,
     });
+    expect(Test.mocks.axios.get).toHaveBeenCalledTimes(1);
     mediaIds.push(response.body.data.id);
   });
 
@@ -76,6 +87,16 @@ describe("Create Media", () => {
       .post("/v1/media")
       .set("Authorization", authorizationToken)
       .send(media);
+
+    Test.mocks.axios.get.mockImplementationOnce(() => {
+      return Promise.resolve({ data: Buffer.from([]) });
+    });
+
+    Test.mocks.s3.client.send.mockImplementation(() => {
+      return Promise.resolve({
+        Location: tests.fc.sample(tests.fc.webUrl(), 1)[0],
+      });
+    });
 
     expect(response.status).toEqual(200);
 

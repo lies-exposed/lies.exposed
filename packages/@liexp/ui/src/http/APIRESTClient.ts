@@ -9,6 +9,7 @@ export interface APIRESTClient {
   request: <T = any>(config: AxiosRequestConfig<T>) => Promise<any>;
   get: <R = any>(url: string, params: any) => Promise<R>;
   put: (url: string, data?: any) => Promise<AxiosResponse<any>>;
+  post: (url: string, data?: any) => Promise<AxiosResponse<any>>;
   getList: <R extends RA.RaRecord>(
     resource: string,
     params: RA.GetListParams,
@@ -97,6 +98,7 @@ export const APIRESTClient = ({
       liftClientRequest(() => client.request<T>(config))(),
     get: (url, params) =>
       liftClientRequest(() => client.get(url, { params }))(),
+    post: (url, data) => liftClientRequest<any>(() => client.post(url, data))(),
     put: (url, data) => liftClientRequest<any>(() => client.put(url, data))(),
     getOne: (resource, params) =>
       liftClientRequest<RA.GetOneResult<any>>(() =>
