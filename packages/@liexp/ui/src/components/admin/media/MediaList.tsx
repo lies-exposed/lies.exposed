@@ -57,7 +57,7 @@ export const MediaList: React.FC<ListProps> = (props) => {
           borderLeft: `5px solid ${r.transferable ? amber[500] : "transparent"}`,
         })}
       >
-        <MediaField type="image/jpeg" source="thumbnail" />
+        <MediaField type="image/jpeg" source="thumbnail" controls={false} />
         <FunctionField
           label="events"
           render={(r: any) => {

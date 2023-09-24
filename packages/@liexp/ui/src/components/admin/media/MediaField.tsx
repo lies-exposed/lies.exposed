@@ -13,10 +13,12 @@ interface MediaFieldProps extends FieldProps {
   type?: string;
   source: string;
   sourceType?: MediaType;
+  controls: boolean
 }
 
 export const MediaField: React.FC<MediaFieldProps> = ({
   sourceType,
+  controls,
   ...props
 }) => {
   const record = useRecordContext(props);
@@ -43,7 +45,7 @@ export const MediaField: React.FC<MediaFieldProps> = ({
     case MediaType.types[5].value:
       return (
         <video
-          controls={true}
+          controls={controls}
           autoPlay={false}
           preload="none"
           style={{ maxWidth: 300 }}
