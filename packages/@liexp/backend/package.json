@@ -30,7 +30,7 @@
   "devDependencies": {
     "@types/fluent-ffmpeg": "^2.1.22",
     "@types/jsonwebtoken": "^9.0.3",
-    "@types/node-telegram-bot-api": "^0.61.7",
+    "@types/node-telegram-bot-api": "^0.61.8",
     "@types/prettier": "^3.0.0",
     "@types/uuid": "^9.0.4",
     "date-fns": "^2.30.0",
