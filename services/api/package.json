@@ -94,7 +94,7 @@
   },
   "devDependencies": {
     "@liexp/test": "0.1.0",
-    "@swc/core": "^1.3.82",
+    "@swc/core": "^1.3.88",
     "@types/body-parser": "^1.19.3",
     "@types/cors": "^2.8.14",
     "@types/debug": "^4.1.9",
