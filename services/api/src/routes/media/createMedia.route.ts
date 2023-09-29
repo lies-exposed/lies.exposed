@@ -5,7 +5,7 @@ import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { toImageIO } from "./media.io";
 import { MediaEntity } from "@entities/Media.entity";
-import { createThumbnail } from "@flows/media/createThumbnail.flow";
+import { createThumbnail } from "@flows/media/thumbnails/createThumbnail.flow";
 import { type RouteContext } from "@routes/route.types";
 import { authenticationHandler } from "@utils/authenticationHandler";
 import { ensureUserExists } from "@utils/user.utils";
@@ -42,7 +42,7 @@ export const MakeCreateMediaRoute = (r: Router, ctx: RouteContext): void => {
                 TE.chain((media) =>
                   pipe(
                     createThumbnail(ctx)(media),
-                    TE.map((thumbnail) => ({ ...media, thumbnail })),
+                    TE.map((thumbnail) => ({ ...media, thumbnail: thumbnail[0] })),
                     TE.chainFirst((m) => ctx.db.save(MediaEntity, [m])),
                   ),
                 ),

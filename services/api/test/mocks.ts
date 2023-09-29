@@ -4,6 +4,7 @@ import { s3Mock } from "../__mocks__/s3.mock";
 import { tgProviderMock } from "../__mocks__/tg.mock";
 
 export interface AppMocks {
+  axios: typeof axiosMock;
   tg: typeof tgProviderMock;
   s3: typeof s3Mock;
   urlMetadata: {
@@ -16,7 +17,12 @@ export interface AppMocks {
 export const fetchHTML = vi.fn();
 export const fetchMetadata = vi.fn();
 
+export const axiosMock =  {
+  get: vi.fn()
+}
+
 export const mocks: AppMocks = {
+  axios: axiosMock,
   tg: tgProviderMock,
   s3: s3Mock,
   urlMetadata: {

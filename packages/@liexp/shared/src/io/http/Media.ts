@@ -42,6 +42,8 @@ export type MediaType = t.TypeOf<typeof MediaType>;
 
 export const ImageType = t.union([JpgType, JpegType, PngType], "ImageType");
 export type ImageType = t.TypeOf<typeof ImageType>;
+export const AudioType = t.union([OGGType, MP3Type], "AudioType");
+export type AudioType = t.TypeOf<typeof AudioType>;
 
 export const ValidContentType = t.union([
   MediaType.types[0],

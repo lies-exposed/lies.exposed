@@ -44,7 +44,7 @@ type API = {
 const API = (c: AxiosRequestConfig): API => {
   const client = axios.create(c);
 
-  const http = HTTPProvider(c);
+  const http = HTTPProvider(axios.create({}));
 
   const toTERequest = <E extends MinimalEndpointInstance>(
     e: E,
