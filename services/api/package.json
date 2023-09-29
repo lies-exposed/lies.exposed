@@ -124,7 +124,7 @@
     "typeorm-uml": "^1.6.5",
     "unplugin-swc": "^1.4.2",
     "vite-tsconfig-paths": "^4.2.1",
-    "vitest": "^0.34.5"
+    "vitest": "^0.34.6"
   },
   "_moduleAliases": {
     "@io": "build/io",
