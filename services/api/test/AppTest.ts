@@ -1,4 +1,5 @@
 import { ActorEntity } from "@entities/Actor.entity";
+import { AreaEntity } from '@entities/Area.entity';
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { KeywordEntity } from "@entities/Keyword.entity";
@@ -7,10 +8,12 @@ import { MediaEntity } from "@entities/Media.entity";
 import { toControllerError } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider";
+import { GeocodeProvider } from '@liexp/backend/lib/providers/geocode/geocode.provider';
+import { MakeImgProcClient } from "@liexp/backend/lib/providers/imgproc/imgproc.provider";
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider";
 import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider";
-import { MakeSpaceClient } from "@liexp/backend/lib/providers/space/SpaceClient";
+import { MakeSpaceProvider } from "@liexp/backend/lib/providers/space/space.provider";
 import { GetLogger } from "@liexp/core/lib/logger";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
@@ -25,17 +28,14 @@ import {
   type EntityTarget,
   type ObjectLiteral,
 } from "typeorm";
-import { s3Mock } from "../__mocks__/s3.mock";
 import { igProviderMock } from "../__mocks__/ig.mock";
 import puppeteerMocks from "../__mocks__/puppeteer.mock";
+import { s3Mock } from "../__mocks__/s3.mock";
 import { tgProviderMock } from "../__mocks__/tg.mock";
 import { wikipediaProviderMock } from "../__mocks__/wikipedia.mock";
 import { type RouteContext } from "../src/routes/route.types";
 import { makeApp } from "../src/server";
 import { mocks, type AppMocks } from "./mocks";
-import { MakeImgProcClient } from "@liexp/backend/lib/providers/imgproc/imgproc.provider";
-import { AreaEntity } from '@entities/Area.entity';
-import { GeocodeProvider } from '@liexp/backend/lib/providers/geocode/geocode.provider';
 
 export interface AppTest {
   ctx: RouteContext;
@@ -89,7 +89,7 @@ export const initAppTest = async (): Promise<AppTest> => {
       },
       puppeteer: GetPuppeteerProvider(puppeteerMocks, { headless: "new" }),
       tg: tgProviderMock,
-      s3: MakeSpaceClient(s3Mock as any),
+      s3: MakeSpaceProvider(s3Mock as any),
       ig: igProviderMock,
       fs: GetFSClient(),
       wp: wikipediaProviderMock,

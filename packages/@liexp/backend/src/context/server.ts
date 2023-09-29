@@ -9,13 +9,13 @@ import { type ImgProcClient } from '../providers/imgproc/imgproc.provider';
 import { type JWTProvider } from "../providers/jwt/jwt.provider";
 import { type DatabaseClient } from "../providers/orm";
 import { type PuppeteerProvider } from "../providers/puppeteer.provider";
-import { type SpaceClient } from "../providers/space";
+import { type SpaceProvider } from "../providers/space";
 import { type TGBotProvider } from "../providers/tg/tg.provider";
 import { type WikipediaProvider } from "../providers/wikipedia/wikipedia.provider";
 
 export interface ServerContext {
   db: DatabaseClient;
-  s3: SpaceClient.SpaceClient;
+  s3: SpaceProvider.SpaceProvider;
   logger: logger.Logger;
   jwt: JWTProvider;
   urlMetadata: URLMetadataClient;

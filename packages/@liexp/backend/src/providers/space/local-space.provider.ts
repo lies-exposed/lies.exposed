@@ -3,17 +3,17 @@ import { type AxiosInstance, type AxiosResponse } from "axios";
 import { type Reader } from "fp-ts/Reader";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { type SpaceClient, toError } from "./SpaceClient";
+import { type SpaceProvider, toError } from "./space.provider";
 
-interface LocalSpaceClientCtx {
+interface LocalSpaceProviderCtx {
   client: AxiosInstance;
   logger: logger.Logger;
 }
 
-const GetLocalSpaceClient: Reader<LocalSpaceClientCtx, SpaceClient> = ({
+const GetLocalSpaceProvider: Reader<LocalSpaceProviderCtx, SpaceProvider> = ({
   logger: serverLogger,
   client,
-}: LocalSpaceClientCtx): SpaceClient => {
+}: LocalSpaceProviderCtx): SpaceProvider => {
   const logger = serverLogger.extend("local-space-client");
 
   return {
@@ -47,4 +47,4 @@ const GetLocalSpaceClient: Reader<LocalSpaceClientCtx, SpaceClient> = ({
   };
 };
 
-export { GetLocalSpaceClient };
+export { GetLocalSpaceProvider };
