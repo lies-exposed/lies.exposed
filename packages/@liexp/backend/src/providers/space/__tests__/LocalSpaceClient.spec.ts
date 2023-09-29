@@ -1,7 +1,7 @@
 import * as logger from "@liexp/core/lib/logger";
 import * as E from "fp-ts/Either";
 // eslint-disable-next-line no-restricted-imports
-import { GetLocalSpaceClient } from "../LocalSpaceClient";
+import { GetLocalSpaceProvider } from "../local-space.provider";
 vi.mock("axios");
 
 const baseURL = "http://localhost:4010";
@@ -16,7 +16,7 @@ const axiosMock = {
 };
 
 describe("LocalSpaceClient", () => {
-  const localSpaceClient = GetLocalSpaceClient({
+  const localSpaceClient = GetLocalSpaceProvider({
     client: axiosMock as any,
     logger: logger.GetLogger("FSClient"),
   });

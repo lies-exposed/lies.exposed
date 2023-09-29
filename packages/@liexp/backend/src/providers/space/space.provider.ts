@@ -55,7 +55,7 @@ export const toError = (e: unknown): SpaceError => {
   };
 };
 
-export interface SpaceClient {
+export interface SpaceProvider {
   getEndpoint: (
     bucket: string,
     s?: string,
@@ -86,15 +86,15 @@ export interface SpaceClient {
   ) => TE.TaskEither<SpaceError, DeleteObjectCommandOutput>;
 }
 
-export type SpaceClientImpl = S3Client;
+export type SpaceProviderImpl = S3Client;
 
-export interface MakeSpaceClientConfig {
-  client: SpaceClientImpl;
+export interface MakeSpaceProviderConfig {
+  client: SpaceProviderImpl;
 }
 
-export const MakeSpaceClient = ({
+export const MakeSpaceProvider = ({
   client,
-}: MakeSpaceClientConfig): SpaceClient => {
+}: MakeSpaceProviderConfig): SpaceProvider => {
   return {
     getEndpoint: (bucket, path) => {
       return pipe(
@@ -145,6 +145,7 @@ export const MakeSpaceClient = ({
     upload(input) {
       return pipe(
         TE.tryCatch(async () => {
+
           const parallelUploads3 = new Upload({
             client,
             params: { ...input },

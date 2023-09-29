@@ -8,7 +8,7 @@ import { MakeImgProcClient } from "@liexp/backend/lib/providers/imgproc/imgproc.
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider";
 import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider";
-import { S3Client } from "@liexp/backend/lib/providers/space";
+import { S3Provider } from "@liexp/backend/lib/providers/space";
 import { TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider";
 import { WikipediaProvider } from "@liexp/backend/lib/providers/wikipedia/wikipedia.provider";
 import * as logger from "@liexp/core/lib/logger";
@@ -88,7 +88,7 @@ export const makeContext = (
 
   const s3 =
     env.NODE_ENV === "development" || env.NODE_ENV === "test"
-      ? S3Client.GetS3Client({
+      ? S3Provider.GetS3Provider({
           endpoint: env.DEV_DATA_HOST,
           credentials: {
             accessKeyId: env.SPACE_ACCESS_KEY_ID,
@@ -97,7 +97,7 @@ export const makeContext = (
           tls: true,
           forcePathStyle: true,
         })
-      : S3Client.GetS3Client({
+      : S3Provider.GetS3Provider({
           endpoint: `https://${env.SPACE_REGION}.${env.SPACE_ENDPOINT}`,
           region: env.SPACE_REGION,
           credentials: {

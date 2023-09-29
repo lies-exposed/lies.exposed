@@ -1,2 +1,2 @@
-export * as S3Client from "./S3Client";
-export * as SpaceClient from "./SpaceClient";
+export * as S3Provider from "./s3.provider";
+export * as SpaceProvider from "./space.provider";
