@@ -3353,12 +3353,12 @@ __metadata:
     "@types/eslint": ^8.44.3
     "@types/express": ^4.17.18
     "@types/html-replace-webpack-plugin": ^2.6.2
-    "@types/mime": ^1.3.2
+    "@types/mime": ^1.3.3
     "@types/mini-css-extract-plugin": ^2.5.1
     "@types/prettier": ^3.0.0
-    "@types/react": ^18.2.22
-    "@types/webpack-bundle-analyzer": ^4.6.0
-    "@types/webpack-node-externals": ^3.0.1
+    "@types/react": ^18.2.23
+    "@types/webpack-bundle-analyzer": ^4.6.1
+    "@types/webpack-node-externals": ^3.0.2
     copy-webpack-plugin: ^11.0.0
     css-loader: ^6.8.1
     css-minimizer-webpack-plugin: ^5.0.1
@@ -3409,8 +3409,8 @@ __metadata:
     "@liexp/test": 0.1.0
     "@types/bs58": ^4.0.2
     "@types/prettier": ^3.0.0
-    "@types/react": ^18.2.22
-    "@types/react-dom": ^18.2.7
+    "@types/react": ^18.2.23
+    "@types/react-dom": ^18.2.8
     "@types/throttle-debounce": ^5.0.0
     "@types/uuid": ^9.0.4
     "@visx/network": ^3.3.0
@@ -3496,11 +3496,11 @@ __metadata:
     "@types/d3-sankey": ^0.12.2
     "@types/eslint": ^8.44.3
     "@types/prettier": ^3.0.0
-    "@types/reach__router": ^1.3.11
-    "@types/react": ^18.2.22
-    "@types/react-helmet": ^6.1.6
+    "@types/reach__router": ^1.3.12
+    "@types/react": ^18.2.23
+    "@types/react-helmet": ^6.1.7
     "@types/react-slick": ^0.23.10
-    "@types/react-virtualized": ^9.21.22
+    "@types/react-virtualized": ^9.21.23
     "@types/throttle-debounce": ^5.0.0
     "@types/topojson-client": ^3.1.2
     "@types/topojson-specification": ^1.0.3
@@ -8252,10 +8252,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/mime@npm:^1, @types/mime@npm:^1.3.2":
+"@types/mime@npm:^1":
   version: 1.3.2
   resolution: "@types/mime@npm:1.3.2"
   checksum: 0493368244cced1a69cb791b485a260a422e6fcc857782e1178d1e6f219f1b161793e9f87f5fae1b219af0f50bee24fcbe733a18b4be8fdd07a38a8fb91146fd
+  languageName: node
+  linkType: hard
+
+"@types/mime@npm:^1.3.3":
+  version: 1.3.3
+  resolution: "@types/mime@npm:1.3.3"
+  checksum: 7e27dede6517c1d604821a8a5412d6b7131decc8397ad4bac9216fc90dea26c9571426623ebeea2a9b89dbfb89ad98f7370a3c62cd2be8896c6e897333b117c9
   languageName: node
   linkType: hard
 
@@ -8289,12 +8296,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/multer@npm:^1.4.7":
-  version: 1.4.7
-  resolution: "@types/multer@npm:1.4.7"
+"@types/multer@npm:^1.4.8":
+  version: 1.4.8
+  resolution: "@types/multer@npm:1.4.8"
   dependencies:
     "@types/express": "*"
-  checksum: 680cb0710aa25264d20cdcdaf34c212b636b55ea141310f06c25354ab1401193c7aa6839f9d22abf64a223fab1f2b8287f2512b0bef7e1628c4e9ffe54b4aeb2
+  checksum: bdc4e367d8f228303b987f8ecd4189d069990b97007308e3f1f80c009aae620eea7720484a39ef265e1ba915481e405631bc2113d148b4461e1d12d14dc38dac
   languageName: node
   linkType: hard
 
@@ -8354,10 +8361,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^18.17.19":
-  version: 18.17.19
-  resolution: "@types/node@npm:18.17.19"
-  checksum: 6ab47127cd7534511aa199550659d56b44e5a6dbec9df054d0cde279926b4d43f0e6438f92c8392b039ab4e2a85aa0f698b95926430aff860e23bfc36c96576c
+"@types/node@npm:^18.18.0":
+  version: 18.18.0
+  resolution: "@types/node@npm:18.18.0"
+  checksum: 61bcffa28eb713e7a4c66fd369df603369c3f834a783faeced95fe3e78903faa25f1a704d49e054f41d71b7915eeb066d10a37cc699421fcf5dd267f96ad5808
   languageName: node
   linkType: hard
 
@@ -8447,25 +8454,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/reach__router@npm:^1.3.11":
-  version: 1.3.11
-  resolution: "@types/reach__router@npm:1.3.11"
+"@types/reach__router@npm:^1.3.12":
+  version: 1.3.12
+  resolution: "@types/reach__router@npm:1.3.12"
   dependencies:
     "@types/react": "*"
-  checksum: 6bcf40714e0dafff66cbf10a534320eae35dae8344f616d2ddf077937287a0df188dfbfb32fb8045cbc641139d1ab69ee5bb258a51642823cadefbcda020a044
+  checksum: df838ba6bc3463c50ae35e704e11a9073bb0617c04676887a9ad87177b078d6593aa3cd8b63de07e791ac8b86183dbb0f20072c22dd40754487a47f0064c3fb7
   languageName: node
   linkType: hard
 
-"@types/react-calendar-heatmap@npm:^1.6.3":
-  version: 1.6.3
-  resolution: "@types/react-calendar-heatmap@npm:1.6.3"
+"@types/react-calendar-heatmap@npm:^1.6.4":
+  version: 1.6.4
+  resolution: "@types/react-calendar-heatmap@npm:1.6.4"
   dependencies:
     "@types/react": "*"
-  checksum: 31f66307e960a1f03037b90a3c7eca6f707ba44e74788c9705d72c0ca5610c4cfb6756a5e69f288768110a37e3941e2af54b8f093107e37e3ae162e4709030c7
+  checksum: 9a3d2e1ebaaf2cf30d218c32f3fc3201954e39e54283ffd7f71d3a8cf36e39d192e40e70897a82ac952a9b31cd5f9c2dc77bc1908323596ddf8cd0bdada831ad
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:*, @types/react-dom@npm:^18.0.0, @types/react-dom@npm:^18.2.7":
+"@types/react-dom@npm:*, @types/react-dom@npm:^18.0.0":
   version: 18.2.7
   resolution: "@types/react-dom@npm:18.2.7"
   dependencies:
@@ -8474,12 +8481,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-helmet@npm:^6.1.6":
-  version: 6.1.6
-  resolution: "@types/react-helmet@npm:6.1.6"
+"@types/react-dom@npm:^18.2.8":
+  version: 18.2.8
+  resolution: "@types/react-dom@npm:18.2.8"
   dependencies:
     "@types/react": "*"
-  checksum: 81560c56bfe854b6a43aee31360862588ac875d1177b975da5ce049ac9aa2f7c98dcde65d4397bfaa04e468f40cf3ab2975a2ef966a69d64a60493422898698d
+  checksum: d36264631028d021b73cd9e015f10b95c4959ae1ce8f7a7419f318d1f05b1d063e6afffcd2a349a6bccd64ccc9ee9d2d976e1f0437643f0e7db621fa035bca65
+  languageName: node
+  linkType: hard
+
+"@types/react-helmet@npm:^6.1.7":
+  version: 6.1.7
+  resolution: "@types/react-helmet@npm:6.1.7"
+  dependencies:
+    "@types/react": "*"
+  checksum: d5ee8343f10f8746a022249c6401493baa73241a90b5002b59e8a6ce31650b9e1ab38d398eba5564af026f68eda107c8fcdca01fc046a163a96dc422710f6a77
   languageName: node
   linkType: hard
 
@@ -8534,17 +8550,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-virtualized@npm:^9.21.22":
-  version: 9.21.22
-  resolution: "@types/react-virtualized@npm:9.21.22"
+"@types/react-virtualized@npm:^9.21.23":
+  version: 9.21.23
+  resolution: "@types/react-virtualized@npm:9.21.23"
   dependencies:
     "@types/prop-types": "*"
     "@types/react": "*"
-  checksum: 1c3f8e3f93f3ff8fc80ea0cbf24507cfd40e51b2503a6fbae323b0aa39f192d56d83b9007897e787c2810398b84bfcdf90364f3517c3bc4679cee69462e4d4c6
+  checksum: 825ca8e30df26dcf37c0aec5712c677a277be099e743aade62a53de15a1f3d8e4cc7baa2dc07dd1608b6ea3783b3a528033096c15ebc39dfefd3e0d6cff49317
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^18.2.22":
+"@types/react@npm:*, @types/react@npm:>=16":
   version: 18.2.22
   resolution: "@types/react@npm:18.2.22"
   dependencies:
@@ -8552,6 +8568,17 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: 44289523dabaadcd3fd85689abb98f9ebcc8492d7e978348d1c986138acef4801030b279e89a19e38a6319e294bcea77559e37e0c803e4bacf2b8ae3a56ba587
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^18.2.23":
+  version: 18.2.23
+  resolution: "@types/react@npm:18.2.23"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: efb9d1ed1940c0e7ba08a21ffba5e266d8dbbb8fe618cfb97bc902dfc96385fdd8189e3f7f64b4aa13134f8e61947d60560deb23be151253c3a97b0d070897ca
   languageName: node
   linkType: hard
 
@@ -8677,12 +8704,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/supertest@npm:^2.0.12":
-  version: 2.0.12
-  resolution: "@types/supertest@npm:2.0.12"
+"@types/supertest@npm:^2.0.13":
+  version: 2.0.13
+  resolution: "@types/supertest@npm:2.0.13"
   dependencies:
     "@types/superagent": "*"
-  checksum: f0e2b44f86bec2f708d6a3d0cb209055b487922040773049b0f8c6b557af52d4b5fa904e17dfaa4ce6e610172206bbec7b62420d158fa57b6ffc2de37b1730d3
+  checksum: fe66be8e16626f254dc9d9691706942689f47a84edf7d3baaeadd6d4d576dbf915ee70cebdd7034015e83fa91fcd2dcff1cd0252514e4c510619817a183b5b4f
   languageName: node
   linkType: hard
 
@@ -8766,24 +8793,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/webpack-bundle-analyzer@npm:^4.6.0":
-  version: 4.6.0
-  resolution: "@types/webpack-bundle-analyzer@npm:4.6.0"
+"@types/webpack-bundle-analyzer@npm:^4.6.1":
+  version: 4.6.1
+  resolution: "@types/webpack-bundle-analyzer@npm:4.6.1"
   dependencies:
     "@types/node": "*"
     tapable: ^2.2.0
     webpack: ^5
-  checksum: 1cd5baa621a1dbe820bacf981d6e48f3423b733fb5e33c1356347e73d5e3e880ae6ebacf8f43d9e47e135d3ed2653ec5e40e12c6ce187f2eb3f548d9c949f6aa
+  checksum: 7324dfb68cf399a2210d9e1ae5927655625f71e306b5cf2d8f583f12e6cb43e243e4b0e6ef53e3de9f685034ce767bc68ab49884e7e91c89609ec741c8e6ccf4
   languageName: node
   linkType: hard
 
-"@types/webpack-node-externals@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "@types/webpack-node-externals@npm:3.0.1"
+"@types/webpack-node-externals@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@types/webpack-node-externals@npm:3.0.2"
   dependencies:
     "@types/node": "*"
     webpack: ^5
-  checksum: e6df4db2e0a564e8b62c68985b3607d3b29634e7d7098ff061073da4790d80bf1083eb9bd2a9946e4307287ebfc5d73a6d581e6108097453fba7173283716d2d
+  checksum: c68d60207df80a4e8a0e599f6cc81cd9753727172dc38a8006056949fdf95ac5a12d927508bab003f50dcfbe8c89f835993bc106efe35a7e912113d2871b716c
   languageName: node
   linkType: hard
 
@@ -9855,11 +9882,11 @@ __metadata:
     "@testing-library/user-event": ^14.5.1
     "@types/debug": ^4.1.9
     "@types/lodash": ^4.14.199
-    "@types/node": ^18.17.19
+    "@types/node": ^18.18.0
     "@types/prettier": ^3.0.0
-    "@types/react": ^18.2.22
-    "@types/react-dom": ^18.2.7
-    "@types/webpack-bundle-analyzer": ^4.6.0
+    "@types/react": ^18.2.23
+    "@types/react-dom": ^18.2.8
+    "@types/webpack-bundle-analyzer": ^4.6.1
     "@typescript-eslint/eslint-plugin": ^6.7.2
     "@typescript-eslint/parser": ^6.7.2
     debug: ^4.3.4
@@ -10142,14 +10169,14 @@ __metadata:
     "@types/jsonwebtoken": ^9.0.3
     "@types/lodash": ^4.14.199
     "@types/module-alias": ^2.0.2
-    "@types/multer": ^1.4.7
-    "@types/node": ^18.17.19
+    "@types/multer": ^1.4.8
+    "@types/node": ^18.18.0
     "@types/node-cron": ^3.0.9
     "@types/node-telegram-bot-api": ^0.61.8
     "@types/pg": ^8.10.3
     "@types/prettier": ^3.0.0
     "@types/prompts": ^2.4.5
-    "@types/supertest": ^2.0.12
+    "@types/supertest": ^2.0.13
     "@types/uuid": ^9.0.4
     axios: ^1.5.0
     canvas: ^2.11.2
@@ -26434,20 +26461,20 @@ __metadata:
     "@types/d3": ^7.4.1
     "@types/debug": ^4.1.9
     "@types/express": ^4.17.18
-    "@types/mime": ^1.3.2
-    "@types/node": ^18.17.19
-    "@types/react": ^18.2.22
-    "@types/react-calendar-heatmap": ^1.6.3
-    "@types/react-dom": ^18.2.7
-    "@types/react-helmet": ^6.1.6
+    "@types/mime": ^1.3.3
+    "@types/node": ^18.18.0
+    "@types/react": ^18.2.23
+    "@types/react-calendar-heatmap": ^1.6.4
+    "@types/react-dom": ^18.2.8
+    "@types/react-helmet": ^6.1.7
     "@types/react-router-dom": ^5.3.3
     "@types/react-slick": ^0.23.10
     "@types/throttle-debounce": ^5.0.0
     "@types/topojson-client": ^3.1.2
     "@types/topojson-server": ^3.0.2
     "@types/uuid": ^9.0.4
-    "@types/webpack-bundle-analyzer": ^4.6.0
-    "@types/webpack-node-externals": ^3.0.1
+    "@types/webpack-bundle-analyzer": ^4.6.1
+    "@types/webpack-node-externals": ^3.0.2
     "@typescript-eslint/eslint-plugin": ^6.7.2
     "@typescript-eslint/parser": ^6.7.2
     "@visx/axis": ^3.3.0
