@@ -30,7 +30,6 @@ import {
 } from "typeorm";
 import { igProviderMock } from "../__mocks__/ig.mock";
 import puppeteerMocks from "../__mocks__/puppeteer.mock";
-import { s3Mock } from "../__mocks__/s3.mock";
 import { tgProviderMock } from "../__mocks__/tg.mock";
 import { wikipediaProviderMock } from "../__mocks__/wikipedia.mock";
 import { type RouteContext } from "../src/routes/route.types";
@@ -89,7 +88,7 @@ export const initAppTest = async (): Promise<AppTest> => {
       },
       puppeteer: GetPuppeteerProvider(puppeteerMocks, { headless: "new" }),
       tg: tgProviderMock,
-      s3: MakeSpaceProvider(s3Mock as any),
+      s3: MakeSpaceProvider(mocks.s3 as any),
       ig: igProviderMock,
       fs: GetFSClient(),
       wp: wikipediaProviderMock,
@@ -107,13 +106,13 @@ export const initAppTest = async (): Promise<AppTest> => {
           );
         },
       },
-      http: HTTPProvider({}),
+      http: HTTPProvider(mocks.axios as any),
       imgProc: MakeImgProcClient({
         logger,
         exifR: {} as any,
         client: (() => Promise.resolve(Buffer.from([]))) as any,
       }),
-      geo: GeocodeProvider({http: {} as any }),
+      geo: GeocodeProvider({ http: {} as any }),
     })),
     TE.map((ctx) => ({
       ctx,
@@ -144,7 +143,7 @@ export const initAppTest = async (): Promise<AppTest> => {
               actor: liftFind(ActorEntity),
               group: liftFind(GroupEntity),
               event: liftFind(EventV2Entity),
-              area: liftFind(AreaEntity)
+              area: liftFind(AreaEntity),
             }),
             TE.map(({ media, actor }) => media && actor),
             throwTE,

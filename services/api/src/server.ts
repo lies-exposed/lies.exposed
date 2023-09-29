@@ -14,7 +14,7 @@ import { WikipediaProvider } from "@liexp/backend/lib/providers/wikipedia/wikipe
 import * as logger from "@liexp/core/lib/logger";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import axios from "axios";
+import * as axios from "axios";
 import cors from "cors";
 import * as ExifReader from "exifreader";
 import express from "express";
@@ -120,7 +120,7 @@ export const makeContext = (
   });
 
   const urlMetadataClient = MakeURLMetadata({
-    client: axios,
+    client: axios.default.create({}),
     parser: {
       getMetadata: metadataParser.getMetadata,
     },
@@ -148,10 +148,12 @@ export const makeContext = (
       ),
       puppeteer: TE.right(GetPuppeteerProvider(puppeteer, {})),
       ffmpeg: TE.right(GetFFMPEGProvider(ffmpeg)),
-      http: TE.right(HTTPProvider({})),
+      http: TE.right(HTTPProvider(axios.default.create({}))),
       geo: TE.right(
         GeocodeProvider({
-          http: HTTPProvider({ baseURL: env.GEO_CODE_BASE_URL }),
+          http: HTTPProvider(
+            axios.default.create({ baseURL: env.GEO_CODE_BASE_URL }),
+          ),
         }),
       ),
       wp: TE.right(wpProvider),

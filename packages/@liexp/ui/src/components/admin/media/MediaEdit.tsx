@@ -16,12 +16,12 @@ import {
   useRecordContext,
   useRefresh,
   type EditProps,
-  type FieldProps
+  type FieldProps,
 } from "react-admin";
 import { transformMedia } from "../../../client/admin/MediaAPI";
 import { Box, Button, Grid } from "../../mui";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent";
-import ReferenceAreaTab from '../areas/input/ReferenceAreaTab';
+import ReferenceAreaTab from "../areas/input/ReferenceAreaTab";
 import { EditForm } from "../common/EditForm";
 import { CreateEventFromMediaButton } from "../events/CreateEventFromMediaButton";
 import ReferenceArrayEventInput from "../events/ReferenceArrayEventInput";
@@ -30,34 +30,13 @@ import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput";
 import MediaPreview from "../previews/MediaPreview";
 import { ReferenceLinkTab } from "../tabs/ReferenceLinkTab";
 import ReferenceUserInput from "../user/ReferenceUserInput";
+import { GenerateThumbnailButton } from './GenerateThumbnailButton';
 import { MediaField } from "./MediaField";
 import { MediaTGPostButton } from "./button/MediaTGPostButton";
 import { MediaInput } from "./input/MediaInput";
 
 const EditTitle: React.FC<EditProps> = ({ record }: any) => {
   return <span>Media {record?.description}</span>;
-};
-
-const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
-  const refresh = useRefresh();
-  const record = useRecordContext(props);
-  const apiProvider = useDataProvider();
-  return (
-    <Button
-      onClick={() => {
-        void apiProvider
-          .put(`media/${record.id}`, {
-            ...record,
-            overrideThumbnail: true,
-          })
-          .then(() => {
-            refresh();
-          });
-      }}
-    >
-      Generate Thumbnail
-    </Button>
-  );
 };
 
 const TransferButton: React.FC<FieldProps & { target?: "thumbnail" }> = ({
@@ -107,7 +86,12 @@ export const ThumbnailEditField: React.FC<FieldProps> = (props) => {
                 }}
                 style={{ margin: 20 }}
               >
-                <MediaField {...props} source="thumbnail" type="image/jpg" controls={false} />
+                <MediaField
+                  {...props}
+                  source="thumbnail"
+                  type="image/jpg"
+                  controls={false}
+                />
               </Box>
               <GenerateThumbnailButton {...props} />
               <TransferButton target="thumbnail" />
