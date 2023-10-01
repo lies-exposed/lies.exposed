@@ -9,11 +9,6 @@ export const createThumbnail: TEFlow<
   [Pick<Media.Media, "id" | "location" | "type">],
   string[]
 > = (ctx) => (media) => {
-  ctx.logger.debug.log(
-    "Extracting thumbnail from url %s with type %s",
-    media.location,
-    media.type,
-  );
 
   return pipe(
     extractThumbnail(ctx)(media),
