@@ -20,6 +20,7 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     cat ./gh-token.txt | docker login ghcr.io -u $u --password-stdin
     rm ./gh-token.txt
 
+    rm -rf ./temp
     mkdir -p ./config/nlp
     mkdir -p ./temp/networks/keywords
     mkdir -p ./temp/networks/actors
@@ -39,6 +40,8 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     docker compose run -d --rm --name upsert-nlp-entities api yarn ts:node:build ./bin/upsert-nlp-entities.ts
     docker compose run -d --rm --name upsert-tg-pinned-message api yarn upsert-tg-pinned-message
     docker compose run -d --rm --name parse-all-tg-messages api yarn parse-tg-message all true
+
+    cd ~/
     # list top 5 bigger files
     find -type f -exec du -Sh {} + | sort -rh | head -n 5
 EOF
