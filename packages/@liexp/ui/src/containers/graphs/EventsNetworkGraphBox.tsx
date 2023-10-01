@@ -375,10 +375,30 @@ const transformNetworkOutput = (
 
   // console.log(relationLinks);
 
-  const relationNodes = actors
-    .map((a): any => ({ ...a, type: ACTORS.value }))
-    .concat(groups.map((g) => ({ ...g, type: GROUPS.value })))
-    .concat(keywords.map((k) => ({ ...k, type: KEYWORDS.value })))
+  const keywordNodes = keywords.map((k) => ({
+    ...k,
+    type: KEYWORDS.value,
+    count: keywordLinks.filter((kk) => kk.source === k.id || kk.target === k.id)
+      .length,
+  }));
+
+  const actorNodes = actors.map((a): any => ({
+    ...a,
+    type: ACTORS.value,
+    count: actorLinks.filter((kk) => kk.source === a.id || kk.target === a.id)
+      .length,
+  }));
+
+  const groupNodes = groups.map((g) => ({
+    ...g,
+    type: GROUPS.value,
+    count: groupLinks.filter((kk) => kk.source === g.id || kk.target === g.id)
+      .length,
+  }));
+
+  const relationNodes = actorNodes
+    .concat(groupNodes)
+    .concat(keywordNodes)
     .filter(
       (r) =>
         // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
@@ -534,7 +554,7 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
                   actors: [],
                   groups: [],
                   keywords: [],
-                  hash: ""
+                  hash: "",
                 });
               }}
             />
