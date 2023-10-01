@@ -67,7 +67,7 @@ const Template: StoryFn<EventNetworkGraphBoxProps> = ({
         <Box style={{ display: "flex", flexDirection: "column" }}>
           <Box style={{ display: "flex" }}>{input}</Box>
         </Box>
-        <Box style={{ display: "flex", flexGrow: 1, maxHeight: 600 }}>
+        <Box style={{ display: "flex", height: 800 }}>
           <EventsNetworkGraphBox
             {...props}
             query={{
@@ -84,14 +84,14 @@ const Template: StoryFn<EventNetworkGraphBoxProps> = ({
 const EventsByActors = Template.bind({});
 
 const commonQuery = {
-  startDate: formatDate(subWeeks(new Date(), 10)),
+  startDate: formatDate(subWeeks(new Date(), 300)),
   endDate: formatDate(new Date()),
 };
 
 EventsByActors.args = {
   count: 20,
   type: ACTORS.value,
-  relations: [ACTORS.value],
+  relations: [ACTORS.value, KEYWORDS.value],
   query: {
     ...commonQuery,
     ids: ["4163db78-67ca-4243-80fe-05ff920e70e1"],

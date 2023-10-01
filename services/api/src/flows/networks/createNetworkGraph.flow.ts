@@ -423,15 +423,17 @@ export const createNetworkGraph: TEFlow<
           groups.length,
           keywords.length,
         );
+
+        const cleanedActors = cleanItemsFromSlateFields(actors);
+        const cleanedGroups = cleanItemsFromSlateFields(groups);
+
         const events = pipe(
           _events,
           fp.A.map((aa) =>
             toSearchEvent(aa, {
-              actors: new Map(
-                cleanItemsFromSlateFields(actors).map((a) => [a.id, a]),
-              ),
+              actors: new Map(cleanedActors.map((a) => [a.id, a])),
               groups: new Map(
-                cleanItemsFromSlateFields(groups).map((g) => [g.id, g]),
+                cleanedGroups.map((g) => [g.id, g]),
               ),
               keywords: new Map(keywords.map((k) => [k.id, k])),
               media: new Map(media.map((m) => [m.id, m])),
@@ -442,8 +444,8 @@ export const createNetworkGraph: TEFlow<
 
         const eventGraph = getEventGraph(type, ids, {
           events,
-          actors: cleanItemsFromSlateFields(actors),
-          groups: cleanItemsFromSlateFields(groups),
+          actors: cleanedActors,
+          groups: cleanedGroups,
           keywords,
           media,
           relations,

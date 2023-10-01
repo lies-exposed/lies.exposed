@@ -44,7 +44,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
   onKeywordClick,
   ...props
 }) => {
-  // console.log('events network graph', props.graph)
+  // console.log("events network graph", props.graph);
   // const [groupBy] = React.useState(props.groupBy);
 
   const colors = React.useMemo(
@@ -105,16 +105,16 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
           areas: n.areas ?? [],
         });
       }}
-      nodeRadius={(n) => 14}
+      nodeRadius={(n) => (n.count ?? 0) + 10}
       // nodeStrength={(n) => {
       //   if (n.type === KEYWORDS.value) {
-      //     return 1;
+      //     return 1 / n.count;
       //   } else if (n.type === ACTORS.value) {
-      //     return 2;
+      //     return 10;
       //   } else if (n.type === GROUPS.value) {
-      //     return 3;
+      //     return 10;
       //   }
-      //   return 5;
+      //   return 10;
       // }}
       nodeGroup={(n) => {
         if (n.fullName) {
