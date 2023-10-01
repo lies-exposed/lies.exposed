@@ -31,6 +31,7 @@ export const toStoryIO = ({
             keywords: [],
             events: [],
             links: [],
+            areas: [],
             featuredIn: [],
           }
         : undefined,
