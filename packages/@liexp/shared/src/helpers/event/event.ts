@@ -167,12 +167,12 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
       const quote =
         e.payload.subject?.type === "Actor"
           ? {
-              actors: [e.payload.subject.id],
+              actors: e.payload.subject?.id ? [e.payload.subject.id] : [],
               groups: [],
             }
           : e.payload.subject?.type === "Group"
           ? {
-              groups: [e.payload.subject.id],
+              groups: e.payload.subject?.id ? [e.payload.subject.id] : [],
               actors: [],
             }
           : {
@@ -352,11 +352,11 @@ export const getEventMetadata = (e: SearchEvent): Events.EventRelations => {
         e.payload.subject.type === "Group"
           ? {
               actors: [],
-              groups: [e.payload.subject.id],
+              groups: e.payload.subject?.id ? [e.payload.subject.id] : [],
             }
           : {
               groups: [],
-              actors: [e.payload.subject.id],
+              actors: e.payload.subject?.id ? [e.payload.subject.id] : [],
             };
 
       return {

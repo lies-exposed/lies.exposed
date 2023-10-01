@@ -114,6 +114,7 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
       color: _.color,
       tag: _.tag,
       image: _.image,
+      count: _.count,
     }));
 
     links = d3.map(links, (_, i) => ({
@@ -151,7 +152,10 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
           Math.sqrt(transform.k),
       );
 
-      text.style("font-size", 12 / Math.sqrt(transform.k));
+      text.style(
+        "font-size",
+        (k: any) => `${(nodeRadius(k) * 2) / Math.sqrt(transform.k)}px`,
+      );
 
       actorOrGroupImage
         .attr("width", (n) => (nodeRadius(n) * 2) / Math.sqrt(transform.k))
@@ -175,7 +179,12 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
         .attr("height", (d) => (nodeRadius(d) * 2) / Math.sqrt(transform.k))
         .attr("width", (d) => (nodeRadius(d) * 2) / Math.sqrt(transform.k));
 
-      keywordPattern.style("font-size", "18px");
+      keywordPattern
+        .attr("height", (k) => (nodeRadius(k) * 2) / Math.sqrt(transform.k))
+        .style(
+          "font-size",
+          (k) => `${(nodeRadius(k) * 2) / Math.sqrt(transform.k)}px`,
+        );
     });
 
     const simulation = d3
@@ -205,10 +214,10 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
         .style("text-anchor", "bottom")
         .style("font-size", "12px")
         .style("stroke", "#000")
-        .style("display", "none")
-        .text(({ index: i, type }) =>
-          type === KEYWORDS.value ? `#${T[i]}` : T[i],
-        );
+        .style("display", "none");
+      // .text(({ index: i, type }) =>
+      //   type === KEYWORDS.value ? `#${T[i]}` : T[i],
+      // );
     }
 
     const link = g
