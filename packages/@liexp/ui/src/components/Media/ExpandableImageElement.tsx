@@ -42,7 +42,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   [`& .${boxClasses.image}`]: {
     width: "auto",
     height: "100%",
-    maxWidth: 2000,
+    maxWidth: "100%",
     maxHeight: 800,
     objectFit: "cover",
     margin: "auto",
