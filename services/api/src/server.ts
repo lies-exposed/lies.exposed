@@ -38,6 +38,7 @@ import { startCommand } from "./providers/tg/start.command";
 import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
 import { toControllerError, type ControllerError } from "@io/ControllerError";
 import { type ENV } from "@io/ENV";
+import { EventsConfig } from "@queries/config";
 import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.routes";
 import { MakeActorRoutes } from "@routes/actors/actors.routes";
 import { MakeAdminRoutes } from "@routes/admin/admin.routes";
@@ -170,6 +171,7 @@ export const makeContext = (
           exifR: ExifReader,
         }),
       ),
+      config: TE.right({ events: EventsConfig }),
     }),
     TE.mapLeft((e) => ({
       ...e,

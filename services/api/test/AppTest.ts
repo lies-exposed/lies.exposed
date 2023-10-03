@@ -1,5 +1,5 @@
 import { ActorEntity } from "@entities/Actor.entity";
-import { AreaEntity } from '@entities/Area.entity';
+import { AreaEntity } from "@entities/Area.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { KeywordEntity } from "@entities/Keyword.entity";
@@ -8,7 +8,7 @@ import { MediaEntity } from "@entities/Media.entity";
 import { toControllerError } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider";
-import { GeocodeProvider } from '@liexp/backend/lib/providers/geocode/geocode.provider';
+import { GeocodeProvider } from "@liexp/backend/lib/providers/geocode/geocode.provider";
 import { MakeImgProcClient } from "@liexp/backend/lib/providers/imgproc/imgproc.provider";
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider";
 import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm";
@@ -35,6 +35,7 @@ import { wikipediaProviderMock } from "../__mocks__/wikipedia.mock";
 import { type RouteContext } from "../src/routes/route.types";
 import { makeApp } from "../src/server";
 import { mocks, type AppMocks } from "./mocks";
+import { EventsConfig } from "@queries/config";
 
 export interface AppTest {
   ctx: RouteContext;
@@ -80,8 +81,12 @@ export const initAppTest = async (): Promise<AppTest> => {
       env,
       db,
       logger,
+      config: { events: EventsConfig },
       jwt: GetJWTProvider({ secret: env.JWT_SECRET, logger }),
       ffmpeg: {
+        ffprobe: (file: any) => {
+          return TE.right({} as any);
+        },
         runCommand: () => {
           return TE.right("");
         },
