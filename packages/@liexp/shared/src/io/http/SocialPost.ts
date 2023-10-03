@@ -1,9 +1,9 @@
 import * as t from "io-ts";
-import { BooleanFromString } from 'io-ts-types/lib/BooleanFromString';
+import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { ACTORS, Actor } from "./Actor";
-import { UUID } from './Common';
+import { UUID } from "./Common";
 import { EVENTS } from "./Events";
 import { GROUPS, Group } from "./Group";
 import { KEYWORDS, Keyword } from "./Keyword";
@@ -69,7 +69,7 @@ export const CreateSocialPost = t.strict(
     title: t.string,
     url: t.string,
     date: t.string,
-    content: t.string,
+    content: t.union([t.string, t.undefined]),
     media: SocialPostBodyMultipleMedia,
     actors: t.array(Actor),
     groups: t.array(Group),
