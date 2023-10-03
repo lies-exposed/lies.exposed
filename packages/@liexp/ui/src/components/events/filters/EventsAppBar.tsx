@@ -52,6 +52,7 @@ const classes = {
   searchIcon: `${PREFIX}-searchIcon`,
   inputRoot: `${PREFIX}-inputRoot`,
   inputInput: `${PREFIX}-inputInput`,
+  eventTotal: `${PREFIX}-eventTotal`,
   tabs: `${PREFIX}-tabs`,
   expandedBox: `${PREFIX}-expanded-box`,
 };
@@ -116,7 +117,24 @@ const StyledBox = styled(Box)(({ theme }) => ({
       width: "20ch",
     },
   },
-
+  [`& .${classes.inputInput}`]: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
+    },
+  },
+  [`& .${classes.eventTotal}`]: {
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+    flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   [`& .${classes.tabs}`]: {
     width: "100%",
     [theme.breakpoints.up("sm")]: {
@@ -287,40 +305,27 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
     ) : null;
 
   const eventTotal = (
-    <Box
-      style={{
-        display: "flex",
-        width: "100%",
-        flexGrow: 1,
-        justifyContent: "flex-end",
-      }}
-    >
-      <Typography
-        display="inline"
-        variant="h5"
-        color="secondary"
-        style={{
-          margin: "auto",
-          marginRight: 0,
-        }}
-      >
+    <Box className={classes.eventTotal}>
+      <Typography display="flex" variant="h5" color="secondary" margin={0}>
         {totalEvents}
       </Typography>
-      <IconButton
-        style={{
-          padding: 20,
-        }}
-        onClick={(e) => {
-          e.stopPropagation();
-          onQueryChange({
-            ...query,
-            _order: query._order === "DESC" ? "ASC" : "DESC",
-          });
-        }}
-        size="large"
-      >
-        {query._order === "DESC" ? <ArrowUpIcon /> : <ArrowDownIcon />}
-      </IconButton>
+      <Box margin={0}>
+        <IconButton
+          style={{
+            padding: 20,
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+            onQueryChange({
+              ...query,
+              _order: query._order === "DESC" ? "ASC" : "DESC",
+            });
+          }}
+          size="large"
+        >
+          {query._order === "DESC" ? <ArrowUpIcon /> : <ArrowDownIcon />}
+        </IconButton>
+      </Box>
     </Box>
   );
 
@@ -661,27 +666,25 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
             </Grid>
           </Box>
         </Grid>
-        <Grid
-          item
-          md={2}
-          sm={2}
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            flexShrink: 0,
-            alignItems: "baseline",
-          }}
-        >
+        <Grid item md={2} sm={2}>
           <Box
             style={{
               display: "flex",
-              justifyContent: "flex-end",
-              marginRight: 20,
+              flexDirection: "column",
+              flexShrink: 0,
+              alignItems: "center",
+              paddingRight: 16
             }}
           >
-            {clearButton}
+            <Box
+              style={{
+                display: "flex",
+              }}
+            >
+              {clearButton}
+            </Box>
+            {eventTotal}
           </Box>
-          {eventTotal}
         </Grid>
       </Grid>
     </StyledBox>
