@@ -14,6 +14,7 @@ import { type RouteContext } from "../../route.types";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { type ControllerError } from "@io/ControllerError";
+import { type EventsConfig } from "@queries/config";
 import { addOrder } from "@utils/orm.utils";
 
 type WhereT = "AND" | "OR";
@@ -29,112 +30,103 @@ const getWhere = (
     : q.where.bind(q);
 };
 
-export const whereActorInArray = (
-  q: SelectQueryBuilder<EventV2Entity>,
-  actors: string[],
-  whereT?: WhereT,
-): SelectQueryBuilder<EventV2Entity> => {
-  const where = getWhere(q, whereT);
-  where(
-    new Brackets((q) => {
-      q.where(
-        new Brackets((qqb) => {
-          qqb
-            .where(" event.type = 'Uncategorized' ")
-            .andWhere(
-              `"event"."payload"::jsonb -> 'actors' ?| ARRAY[:...actors] `,
-            );
-        }),
-      )
-        .orWhere(
-          new Brackets((qb) => {
-            qb.where(" event.type = 'Death' ").andWhere(
-              ` "event"."payload"::jsonb -> 'victim' ?| ARRAY[:...actors] `,
-            );
-          }),
-        )
-        .orWhere(
-          new Brackets((qb) => {
-            qb.where(" event.type = 'Documentary' ").andWhere(
-              `( "event"."payload"::jsonb -> 'subjects' -> 'actors' ?| ARRAY[:...actors] OR "event"."payload"::jsonb -> 'authors' -> 'actors' ?| ARRAY[:...actors] )`,
-            );
-          }),
-        )
-        .orWhere(
-          new Brackets((qb) => {
-            qb.where(" event.type = 'ScientificStudy' ").andWhere(
-              ` "event"."payload"::jsonb -> 'authors' ?| ARRAY[:...actors] `,
-            );
-          }),
-        )
-        .orWhere(
-          new Brackets((qb) => {
-            qb.where(" event.type = 'Patent' ").andWhere(
-              ` "event"."payload"::jsonb -> 'owners' -> 'actors' ?| ARRAY[:...actors] `,
-            );
-          }),
-        )
-        .orWhere(
-          new Brackets((qb) => {
-            qb.where(" event.type = 'Transaction' ").andWhere(
-              `( ("event"."payload"::jsonb -> 'from' ->> 'type' = 'Actor' AND "event"."payload"::jsonb -> 'from' -> 'id' ?| ARRAY[:...actors]) OR ` +
-                ` ("event"."payload"::jsonb -> 'to' ->> 'type' = 'Actor' AND "event"."payload"::jsonb -> 'to' -> 'id' ?| ARRAY[:...actors]) )`,
-            );
-          }),
-        )
-        .orWhere(
-          new Brackets((qb) => {
-            qb.where(` event.type = '${EventTypes.QUOTE.value}' `)
-              .andWhere(
-                ` "event"."payload"::jsonb -> 'subject' ->> 'type' = 'Actor'`,
-              )
-              .andWhere(
-                ` ("event"."payload"::jsonb -> 'subject' ?| ARRAY[:...actors]) `,
-              );
-          }),
-        );
-    }),
-  );
-  q.setParameter("actors", actors);
-  return q;
-};
+export const whereInTitle =
+  (config: EventsConfig) =>
+  (
+    q: SelectQueryBuilder<EventV2Entity>,
+    title: string,
+  ): SelectQueryBuilder<EventV2Entity> => {
+    const trimmedWords = title
+      .trim()
+      .replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>{}[]\\\/]/gi, " ");
 
-export const whereGroupInArray = (
-  q: SelectQueryBuilder<EventV2Entity>,
-  groups: string[],
-  whereT?: WhereT,
-): SelectQueryBuilder<EventV2Entity> => {
-  const where = getWhere(q, whereT);
-  where(
-    new Brackets((qq) => {
-      qq.where(
-        ` (event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groups' ?| ARRAY[:...groups]) `,
-      )
-        .orWhere(
-          ` (event.type = 'ScientificStudy' AND "event"."payload"::jsonb -> 'publisher' ?| ARRAY[:...groups])`,
-        )
-        .orWhere(
-          `(event.type = 'Documentary' AND ( "event"."payload"::jsonb -> 'subjects' -> 'groups' ?| ARRAY[:...groups] OR "event"."payload"::jsonb -> 'authors' -> 'groups' ?| ARRAY[:...groups] ) )`,
-        )
-        .orWhere(
-          ` (event.type = 'Patent' AND "event"."payload"::jsonb -> 'owners' -> 'groups' ?| ARRAY[:...groups])`,
-        )
-        .orWhere(
-          ` (event.type = 'Quote' AND "event"."payload"::jsonb -> 'subject' ->> 'type' = 'Group' AND "event"."payload"::jsonb -> 'subject' -> 'id' ?| ARRAY[:...groups])`,
-        )
-        .orWhere(
-          new Brackets((qb) => {
-            qb.where(" event.type = 'Transaction' ").andWhere(
-              `( ("event"."payload"::jsonb -> 'from' ->> 'type' = 'Group' AND "event"."payload"::jsonb -> 'from' -> 'id' ?| ARRAY[:...groups]) OR ` +
-                ` ("event"."payload"::jsonb -> 'to' ->> 'type' = 'Group' AND "event"."payload"::jsonb -> 'to' -> 'id' ?| ARRAY[:...groups]) )`,
-            );
-          }),
-        );
-    }),
-  );
+    const tsQueryTitle = trimmedWords
+      .split(" ")
+      .sort((a, b) => b.length - a.length)
+      .slice(0, 3)
+      .join(" | ")
+      .toLowerCase();
 
-  return q.setParameter("groups", groups);
-};
+    // logger.debug.log(
+    //   "PG ts_query for title '%s' \n '%s'",
+    //   trimmedWords,
+    //   tsQueryTitle
+    // );
+
+    const cases = Object.entries(config).reduce(
+      (acc, [key, value]) =>
+        acc.concat(
+          `WHEN event.type IN ('${key}') THEN ${value.whereTitleIn(q)}`,
+        ),
+      [""],
+    );
+
+    const whereTitle = `ts_rank_cd(
+      to_tsvector(
+        'english',
+        coalesce(
+          CASE
+            ${cases.join("\n")}
+          END, ''
+        )
+      ),
+      to_tsquery('english', :q)
+    ) > 0.001`;
+
+    return q.andWhere(whereTitle, {
+      q: tsQueryTitle,
+    });
+  };
+
+export const whereActorInArray =
+  (config: EventsConfig) =>
+  (
+    q: SelectQueryBuilder<EventV2Entity>,
+    actors: string[],
+    whereT?: WhereT,
+  ): SelectQueryBuilder<EventV2Entity> => {
+    const where = getWhere(q, whereT);
+    where(
+      new Brackets((q) => {
+        Object.entries(config).forEach(([key, fn], i) => {
+          const where = i === 0 ? q.where.bind(q) : q.orWhere.bind(q);
+          where(
+            new Brackets((qqb) => {
+              fn.whereActorsIn(qqb.where(` event.type = '${key}' `));
+            }),
+          );
+        });
+        return q;
+      }),
+    );
+    q.setParameter("actors", actors);
+    return q;
+  };
+
+export const whereGroupInArray =
+  (config: EventsConfig) =>
+  (
+    q: SelectQueryBuilder<EventV2Entity>,
+    groups: string[],
+    whereT?: WhereT,
+  ): SelectQueryBuilder<EventV2Entity> => {
+    const where = getWhere(q, whereT);
+    where(
+      new Brackets((q) => {
+        Object.entries(config).forEach(([key, fn], i) => {
+          const where = i === 0 ? q.where.bind(q) : q.orWhere.bind(q);
+          where(
+            new Brackets((qqb) => {
+              fn.whereGroupsIn(qqb.where(` event.type = '${key}' `));
+            }),
+          );
+        });
+        return q;
+      }),
+    );
+
+    return q.setParameter("groups", groups);
+  };
 
 interface SearchEventQuery {
   ids: O.Option<string[]>;
@@ -190,7 +182,7 @@ export interface SearchEventOutput {
 }
 
 export const searchEventV2Query =
-  ({ db, logger }: RouteContext) =>
+  ({ db, logger, config }: RouteContext) =>
   (
     query: Partial<SearchEventQuery>,
   ): TE.TaskEither<DBError, SearchEventOutput> => {
@@ -243,9 +235,10 @@ export const searchEventV2Query =
       groupsMembersQuery,
       TE.chain((groupsMembers) => {
         logger.debug.log(
-          `Find options for event (type: %O) %O`,
+          `Find options for event (type: %s) %O`,
           O.toUndefined(type),
           {
+            title,
             exclude,
             startDate,
             endDate,
@@ -283,44 +276,7 @@ export const searchEventV2Query =
             }
 
             if (O.isSome(title)) {
-              const trimmedWords = title.value
-                .trim()
-                .replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>{}[]\\\/]/gi, " ");
-
-              const tsQueryTitle = trimmedWords
-                .split(" ")
-                .sort((a, b) => b.length - a.length)
-                .slice(0, 3)
-                .join(" | ")
-                .toLowerCase();
-
-              // logger.debug.log(
-              //   "PG ts_query for title '%s' \n '%s'",
-              //   trimmedWords,
-              //   tsQueryTitle
-              // );
-
-              q.andWhere(
-                `ts_rank_cd(
-                  to_tsvector(
-                    'english',
-                    coalesce(
-                      CASE
-                        WHEN event.type IN ('Uncategorized', 'Documentary', 'ScientificStudy', 'Patent') THEN "event"."payload"::jsonb ->> 'title'
-                        WHEN event.type IN ('Death') THEN "event"."payload"::jsonb ->> 'victim'::text
-                        WHEN event.type IN ('${EventTypes.QUOTE.value}') AND "event"."payload"::jsonb ? 'quote' THEN "event"."payload"::jsonb ->> 'quote'::text
-
-                      END, ''
-                    )
-                  ),
-                  to_tsquery('english', :q)
-                ) > 0.001`,
-                {
-                  q: tsQueryTitle,
-                },
-              );
-
-              hasWhere = true;
+              q = whereInTitle(config.events)(q, title.value);
             }
 
             q.andWhere(
@@ -347,7 +303,7 @@ export const searchEventV2Query =
 
                 let hasWhereActor = false;
                 if (O.isSome(actors)) {
-                  whereActorInArray(
+                  whereActorInArray(config.events)(
                     q,
                     actors.value,
                     hasWhere ? "AND" : undefined,
@@ -362,7 +318,7 @@ export const searchEventV2Query =
                     : hasWhere
                     ? "AND"
                     : undefined;
-                  whereGroupInArray(q, groups.value, whereT);
+                  whereGroupInArray(config.events)(q, groups.value, whereT);
                 }
 
                 if (groupsMembers.length > 0) {
