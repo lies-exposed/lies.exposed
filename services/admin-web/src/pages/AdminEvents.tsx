@@ -1,4 +1,3 @@
-import * as io from "@liexp/shared/lib/io";
 import { http } from "@liexp/shared/lib/io";
 import { Events } from "@liexp/shared/lib/io/http";
 import { EventType, EventTypes } from "@liexp/shared/lib/io/http/Events";
@@ -152,22 +151,21 @@ export const EventList: React.FC = () => (
       <FunctionField
         label="type"
         render={(r: any) => {
+          const title = r.payload.title ?? r.payload.quote ?? r.payload.details;
           return (
             <Box>
               <EventIcon color="primary" type={r.type} />
               <Typography display="inline" variant="subtitle1">
                 {r.type}
-              </Typography>{" "}
-              {[
-                io.http.Events.EventTypes.UNCATEGORIZED.value,
-                io.http.Events.EventTypes.SCIENTIFIC_STUDY.value,
-              ].includes(r.type) ? (
-                <Typography>{r.payload.title}</Typography>
-              ) : (
+              </Typography>
+              {title ? (
+                <Typography style={{ display: "block" }}>{title}</Typography>
+              ) : undefined}
+              {r.payload.victim ? (
                 <ReferenceField source="payload.victim" reference="actors">
                   <TextField source="username" />
                 </ReferenceField>
-              )}
+              ) : undefined}
             </Box>
           );
         }}
