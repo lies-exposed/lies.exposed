@@ -1,13 +1,12 @@
 import { type Keyword } from "@liexp/shared/lib/io/http";
 import { formatDate, parseISO } from "@liexp/shared/lib/utils/date";
 import * as React from "react";
-import {
-  useDataProvider,
-  useRecordContext
-} from "react-admin";
+import { useDataProvider, useRecordContext } from "react-admin";
 import { CircularProgress } from "../../../mui";
-import { type SocialPostButtonProps, SocialPostButton } from '../../common/SocialPostButton';
-
+import {
+  type SocialPostButtonProps,
+  SocialPostButton,
+} from "../../common/SocialPostButton";
 
 export const MediaTGPostButton: React.FC<
   Omit<SocialPostButtonProps, "onLoadSharePayloadClick">
@@ -24,15 +23,16 @@ export const MediaTGPostButton: React.FC<
       onLoadSharePayloadClick={async () => {
         const url = `${process.env.WEB_URL}/media/${record.id}`;
 
-        const keywords: Keyword.Keyword[] = record.keywords.length > 0
-          ? await apiProvider
-            .getList("keywords", {
-              filter: { ids: record.keywords },
-              pagination: { perPage: record.keywords.length, page: 1 },
-              sort: { order: "ASC", field: "createdAt" },
-            })
-            .then((data) => data.data)
-          : await Promise.resolve([]);
+        const keywords: Keyword.Keyword[] =
+          record.keywords.length > 0
+            ? await apiProvider
+                .getList("keywords", {
+                  filter: { ids: record.keywords },
+                  pagination: { perPage: record.keywords.length, page: 1 },
+                  sort: { order: "ASC", field: "createdAt" },
+                })
+                .then((data) => data.data)
+            : await Promise.resolve([]);
 
         const date = formatDate(parseISO(record.createdAt));
 
@@ -41,13 +41,14 @@ export const MediaTGPostButton: React.FC<
           keywords,
           media: [record as any],
           date,
-          content: record.description,
+          content: undefined,
           actors: [],
           groups: [],
           url,
           platforms: { TG: true, IG: false },
           schedule: record.schedule,
         };
-      }} />
+      }}
+    />
   );
 };
