@@ -56,6 +56,7 @@ cp /root/node/app/current/deploy/nginx/alpha.lies.exposed.conf /etc/nginx/sites-
 # cd ../../;
 
 # reload services
+rm -rf ~/.pm2/pm2.log
 rm -rf ~/.pm2/logs
 sudo nginx -s reload
 # pm2 restart ecosystem.config.js
