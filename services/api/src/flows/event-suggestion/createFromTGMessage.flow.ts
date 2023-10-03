@@ -5,7 +5,8 @@ import {
   type VideoPlatformMatch,
 } from "@liexp/shared/lib/helpers/media";
 import { URL } from "@liexp/shared/lib/io/http/Common";
-import { MP4Type, MediaType } from "@liexp/shared/lib/io/http/Media";
+import { MediaType, MP4Type } from "@liexp/shared/lib/io/http/Media";
+import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { sequenceS } from "fp-ts/Apply";
@@ -111,7 +112,7 @@ const parseVideo: TEFlow<[string, TelegramBot.Video], MediaEntity[]> =
               });
             }),
             TE.mapLeft(toControllerError),
-            TE.map((r) => r.Location),
+            TE.map((r) => ensureHTTPS(r.Location)),
           ),
       ),
     );
@@ -290,7 +291,7 @@ export const createFromTGMessage: TEFlow<
             videos: [],
             photos: [],
             hashtags: [],
-            areas: []
+            areas: [],
           });
         }
       }
@@ -420,7 +421,7 @@ export const createFromTGMessage: TEFlow<
               videos: byVideoTask,
               platformMedia: byPlatformMediaTask(page, creator),
               hashtags: TE.right(hashtags),
-              areas: TE.right([])
+              areas: TE.right([]),
             }),
           (page) =>
             TE.tryCatch(() => page.browser().close(), toControllerError),
