@@ -1,4 +1,4 @@
-import { type Stream } from "stream";
+import { PassThrough, type Stream } from "stream";
 import { fp, pipe } from "@liexp/core/lib/fp";
 import { type CreateSocialPost } from "@liexp/shared/lib/io/http/SocialPost";
 import * as t from "io-ts";
@@ -76,14 +76,29 @@ export const postToTG: TEFlow<[UUID, CreateSocialPost], EventV2Entity> =
           fp.TE.right,
           fp.TE.chain((media) => {
             if (media.length === 1) {
-              if (media[0].type === 'photo') {
+              if (media[0].type === "photo") {
                 return ctx.tg.postPhoto(media[0].media, text);
               }
               return pipe(
                 ctx.http.get<Stream>(media[0].media, {
                   responseType: "stream",
                 }),
-                fp.TE.chain((stream) => ctx.tg.postVideo(stream, text)),
+                ctx.logger.debug.logInTaskEither(() => ["Video received"]),
+                fp.TE.chain((stream) => {
+                  const durationStream = new PassThrough();
+                  const postVideoStream = new PassThrough();
+                  stream.pipe(durationStream);
+
+                  return pipe(
+                    ctx.ffmpeg.ffprobe(durationStream as any),
+                    fp.TE.chain((opts) => {
+                      stream.pipe(postVideoStream);
+                      return ctx.tg.postVideo(postVideoStream, text, {
+                        duration: opts.format.duration,
+                      });
+                    }),
+                  );
+                }),
               );
             }
             return ctx.tg.postMediaGroup(text, media);

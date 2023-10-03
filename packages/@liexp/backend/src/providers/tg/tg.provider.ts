@@ -18,6 +18,7 @@ export interface TGBotProvider {
   postVideo: (
     videoUrl: string | Stream,
     caption: string,
+    opts?: TelegramBot.SendVideoOptions,
   ) => TE.TaskEither<Error, any>;
   postMediaGroup: (
     text: string,
@@ -114,7 +115,7 @@ export const TGBotProvider = (
         }),
       );
     },
-    postVideo: (image, caption) => {
+    postVideo: (image, caption, videoOpts) => {
       return liftTGTE(() =>
         api.sendVideo(
           opts.chat,
@@ -122,6 +123,7 @@ export const TGBotProvider = (
           {
             caption,
             parse_mode: "HTML",
+            ...videoOpts,
           },
           { contentType: MP4Type.value },
         ),
