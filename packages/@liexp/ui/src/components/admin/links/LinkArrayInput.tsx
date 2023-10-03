@@ -16,14 +16,14 @@ export const LinkArrayInput: React.FC<
 > = (props) => {
   return (
     <ArrayInput source={props.source} fullWidth>
-      <SimpleFormIterator>
+      <SimpleFormIterator fullWidth>
         <BooleanInput source="fromURL" />
         <FormDataConsumer>
           {({ formData, scopedFormData, getSource, ...rest }) => {
             const getSrc = getSource ?? ((s: string) => s);
             if (scopedFormData?.fromURL) {
               return (
-                <Box>
+                <Box style={{ width: '100%' }}>
                   <TextInput source={getSrc("url")} fullWidth />
                   <TextInput
                     source={getSrc("description")}
