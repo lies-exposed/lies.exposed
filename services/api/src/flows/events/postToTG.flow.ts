@@ -85,17 +85,29 @@ export const postToTG: TEFlow<[UUID, CreateSocialPost], EventV2Entity> =
                 }),
                 ctx.logger.debug.logInTaskEither(() => ["Video received"]),
                 fp.TE.chain((stream) => {
-                  const durationStream = new PassThrough();
-                  const postVideoStream = new PassThrough();
-                  stream.pipe(durationStream);
 
                   return pipe(
-                    ctx.ffmpeg.ffprobe(durationStream as any),
-                    fp.TE.chain((opts) => {
-                      stream.pipe(postVideoStream);
-                      return ctx.tg.postVideo(postVideoStream, text, {
-                        duration: opts.format.duration,
-                      });
+                    fp.TE.Do,
+                    fp.TE.bind("opts", () => {
+                      const postVideoStream = stream.pipe(new PassThrough());
+                      return pipe(
+                        ctx.ffmpeg.ffprobe(
+                          stream.pipe(new PassThrough()) as any,
+                        ),
+                        fp.TE.map((opts) => ({ opts, postVideoStream })),
+                      );
+                    }),
+                    fp.TE.bind(
+                      "post",
+                      ({ opts: { opts, postVideoStream } }) => {
+                        return ctx.tg.postVideo(postVideoStream, text, {
+                          duration: opts.format.duration,
+                        });
+                      },
+                    ),
+                    fp.TE.map(({ post, opts }) => {
+                      // console.log(post, opts);
+                      return post;
                     }),
                   );
                 }),
