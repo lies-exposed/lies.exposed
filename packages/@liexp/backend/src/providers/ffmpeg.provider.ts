@@ -1,5 +1,6 @@
+import { type Stream } from 'stream';
 import { GetLogger } from "@liexp/core/lib/logger";
-import type ffmpeg from "fluent-ffmpeg";
+import ffmpeg from "fluent-ffmpeg";
 import * as TE from "fp-ts/TaskEither";
 
 const ffmpegLogger = GetLogger("ffmpeg");
@@ -8,6 +9,7 @@ export interface FFMPEGProvider {
   runCommand: (
     f: (ff: typeof ffmpeg) => ffmpeg.FfmpegCommand,
   ) => TE.TaskEither<Error, any>;
+  ffprobe: (file: string | Stream) => TE.TaskEither<Error, ffmpeg.FfprobeData>;
 }
 
 const toError = (e: unknown): Error => {
@@ -23,6 +25,9 @@ export type GetFFMPEGProvider = (ff: typeof ffmpeg) => FFMPEGProvider;
 
 export const GetFFMPEGProvider: GetFFMPEGProvider = (ffmpg) => {
   return {
+    ffprobe: (file) => TE.taskify<string, Error, ffmpeg.FfprobeData>(
+      ffmpg.ffprobe.bind(ffmpeg.ffprobe),
+    )(file as any),
     runCommand: (f) => {
       return TE.tryCatch(() => {
         return new Promise((resolve, reject) => {

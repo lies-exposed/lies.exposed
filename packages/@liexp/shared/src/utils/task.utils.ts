@@ -1,3 +1,4 @@
+import { type Readable, type Writable } from "stream";
 import { fp } from "@liexp/core/lib/fp";
 import * as T from "fp-ts/Task";
 import type * as TE from "fp-ts/TaskEither";
@@ -33,4 +34,21 @@ export const separateTE = <E, A>(
     ),
     fp.T.map(fp.A.separate),
   );
+};
+
+export const taskifyStream = (
+  stream: Readable,
+  to: Writable,
+): TE.TaskEither<Error, void> => {
+  return fp.TE.tryCatch(() => {
+    stream.pipe(to);
+
+    return new Promise((resolve, reject) => {
+      to.on("error", reject);
+
+      to.on("finish", () => {
+        resolve();
+      });
+    });
+  }, fp.E.toError);
 };

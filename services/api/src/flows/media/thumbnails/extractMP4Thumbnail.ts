@@ -4,6 +4,7 @@ import { fp } from "@liexp/core/lib/fp";
 import { type Media } from "@liexp/shared/lib/io/http";
 import { type MP4Type } from "@liexp/shared/lib/io/http/Media";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils";
+import { taskifyStream } from "@liexp/shared/lib/utils/task.utils";
 import axios from "axios";
 import type Ffmpeg from "fluent-ffmpeg";
 import * as TE from "fp-ts/TaskEither";
@@ -51,19 +52,9 @@ export const downloadVideo: TEFlow<
       const tempVideoFile = fs.createWriteStream(tempVideoFilePath);
 
       return pipe(
-        TE.tryCatch(() => {
-          stream.data.pipe(tempVideoFile);
-
-          return new Promise((resolve, reject) => {
-            tempVideoFile.on("error", (e) => {
-              reject(e);
-            });
-
-            tempVideoFile.on("finish", () => {
-              resolve(tempVideoFilePath);
-            });
-          });
-        }, toControllerError),
+        taskifyStream(stream.data, tempVideoFile),
+        TE.mapLeft(toControllerError),
+        TE.map(() => tempVideoFilePath),
       );
     }),
   );
