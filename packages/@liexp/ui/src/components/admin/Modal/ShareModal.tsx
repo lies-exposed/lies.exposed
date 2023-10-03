@@ -191,7 +191,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
             <Box>
               <BuildImageButton
                 media={media[0].thumbnail ?? defaultImage}
-                text={payload.content}
+                text={payload.content ?? payload.title}
                 onBuild={(_, base64Source) => {
                   onChange({
                     payload: {
