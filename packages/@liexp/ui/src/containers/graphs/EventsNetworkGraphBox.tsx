@@ -526,8 +526,8 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
                 hash: "",
                 ...query,
                 eventType: state.eventType,
-                startDate: state.startDate,
-                endDate: state.endDate,
+                startDate: minDate.toISOString(),
+                endDate: maxDate.toISOString(),
               }}
               dateRange={[minDate, maxDate]}
               keywords={keywords.map((k) => ({
