@@ -12,7 +12,7 @@ import { MediaEntity } from "@entities/Media.entity";
 import { type TEFlow } from "@flows/flow.types";
 import { fetchFromWikipedia } from "@flows/wikipedia/fetchFromWikipedia";
 import { toAreaIO } from "@routes/areas/Area.io";
-import { toImageIO } from "@routes/media/media.io";
+import { toMediaIO } from "@routes/media/media.io";
 
 export const fetchAreaFromWikipedia: TEFlow<
   [string],
@@ -121,7 +121,7 @@ export const fetchAreaFromWikipedia: TEFlow<
                   sequenceS(fp.E.Applicative)({
                     area: toAreaIO(area),
                     media: pipe(
-                      media.map((m) => toImageIO(m, ctx.env.SPACE_ENDPOINT)),
+                      media.map((m) => toMediaIO(m, ctx.env.SPACE_ENDPOINT)),
                       fp.A.sequence(fp.E.Applicative),
                     ),
                   }),

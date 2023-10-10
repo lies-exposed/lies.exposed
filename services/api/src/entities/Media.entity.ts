@@ -1,4 +1,4 @@
-import { MediaType } from "@liexp/shared/lib/io/http/Media";
+import { type Media, MediaType } from "@liexp/shared/lib/io/http/Media";
 import { type UUID } from "io-ts-types/lib/UUID";
 import {
   Column,
@@ -46,6 +46,12 @@ export class MediaEntity {
   })
   @JoinTable()
   creator: UserEntity | null;
+
+  @Column({
+    type: "json",
+    nullable: true,
+  })
+  extra: Media["extra"];
 
   @ManyToMany(() => EventV2Entity, (e) => e.media, {
     cascade: false,

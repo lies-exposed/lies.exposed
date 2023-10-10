@@ -74,11 +74,15 @@ export const GetListMediaQuery = t.type(
 );
 export type GetListMediaQuery = t.TypeOf<typeof GetListMediaQuery>;
 
+const MediaExtra = t.strict({ duration: t.number }, 'MediaExtra');
+type MediaExtra = t.TypeOf<typeof MediaExtra>
+
 export const CreateMedia = t.strict(
   {
     location: t.string,
     description: t.string,
     thumbnail: t.union([t.string, t.undefined]),
+    extra: t.union([MediaExtra, t.undefined]),
     type: ValidContentType,
   },
   "CreateMedia",
@@ -95,6 +99,7 @@ export const Media = t.strict(
     location: t.string,
     creator: t.union([UUID, t.undefined]),
     events: t.array(UUID),
+    extra: t.union([MediaExtra, t.undefined]),
     links: t.array(UUID),
     keywords: t.array(UUID),
     areas: t.array(UUID),

@@ -5,7 +5,7 @@ import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
-import { toImageIO } from "./media.io";
+import { toMediaIO } from "./media.io";
 import { MediaEntity } from "@entities/Media.entity";
 import { createThumbnail } from "@flows/media/thumbnails/createThumbnail.flow";
 import { transferFromExternalProvider } from "@flows/media/transferFromExternalProvider.flow";
@@ -23,6 +23,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
         thumbnail,
         location,
         creator,
+        extra: _extra,
         ...body
       },
     }) => {
@@ -40,6 +41,8 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
         _transferThumbnail,
         O.filter((o) => !!o),
       );
+
+      const extra = pipe(_extra, O.toUndefined);
 
       return pipe(
         ctx.db.findOneOrFail(MediaEntity, {
@@ -92,6 +95,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
               creator: O.isSome(creator)
                 ? { id: creator.value }
                 : { id: m.creator as any },
+              extra,
               thumbnail,
               location,
             })),
@@ -107,7 +111,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
         ),
         TE.chain(([media]) =>
           TE.fromEither(
-            toImageIO(
+            toMediaIO(
               {
                 ...media,
                 creator: media.creator?.id as any,
