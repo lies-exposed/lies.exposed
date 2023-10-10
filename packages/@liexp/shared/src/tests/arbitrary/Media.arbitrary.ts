@@ -14,7 +14,7 @@ const mediaProps = propsOmit(http.Media.Media, [
   "links",
   "events",
   "keywords",
-  'areas',
+  "areas",
   "featuredIn",
 ]);
 

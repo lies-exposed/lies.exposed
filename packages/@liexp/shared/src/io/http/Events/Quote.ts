@@ -2,9 +2,9 @@ import { propsOmit } from "@liexp/core/lib/io/utils";
 import * as t from "io-ts";
 import { UUID } from "io-ts-types/UUID";
 import { optionFromNullable } from "io-ts-types/optionFromNullable";
-import { BySubject } from '../Common';
+import { BySubject } from "../Common";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
-import { QUOTE } from './EventType';
+import { QUOTE } from "./EventType";
 import { GetSearchEventsQuery } from "./SearchEventsQuery";
 
 export const QuoteListQuery = t.strict(

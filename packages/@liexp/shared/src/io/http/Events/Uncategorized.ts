@@ -3,8 +3,7 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromUndefined } from "../../Common/optionFromUndefined";
 import { UUID } from "../Common";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
-import { UNCATEGORIZED } from './EventType';
-
+import { UNCATEGORIZED } from "./EventType";
 
 export const CreateEventBody = t.strict(
   {
