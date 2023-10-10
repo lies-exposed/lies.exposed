@@ -2,10 +2,8 @@ import { propsOmit } from "@liexp/core/lib/io/utils";
 import * as t from "io-ts";
 import { UUID } from "io-ts-types/lib/UUID";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
-import { DOCUMENTARY } from './EventType';
+import { DOCUMENTARY } from "./EventType";
 import { GetSearchEventsQuery } from "./SearchEventsQuery";
-
-
 
 export const DocumentaryListQuery = t.strict(
   {
@@ -32,12 +30,17 @@ export const DocumentaryPayload = t.strict(
   "DocumentaryPayload",
 );
 export type DocumentaryPayload = t.TypeOf<typeof DocumentaryPayload>;
+export const EditDocumentaryPayload = t.intersection([
+  DocumentaryPayload,
+  t.strict({ website: t.union([UUID, t.undefined]) }),
+]);
+export type EditDocumentaryPayload = t.TypeOf<typeof EditDocumentaryPayload>;
 
 export const CreateDocumentaryBody = t.strict(
   {
     ...CreateEventCommon.type.props,
     type: DOCUMENTARY,
-    payload: DocumentaryPayload,
+    payload: EditDocumentaryPayload,
   },
   "CreateDocumentaryBody",
 );
@@ -48,7 +51,7 @@ export const EditDocumentaryBody = t.strict(
   {
     ...EditEventCommon.type.props,
     type: DOCUMENTARY,
-    payload: DocumentaryPayload,
+    payload: EditDocumentaryPayload,
   },
   "EditDocumentaryBody",
 );

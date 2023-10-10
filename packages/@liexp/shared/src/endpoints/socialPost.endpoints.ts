@@ -79,6 +79,6 @@ export const socialPosts = ResourceEndpoints({
   Create,
   Delete,
   Custom: {
-    Publish
+    Publish,
   },
 });

@@ -4,7 +4,7 @@ import { DateFromISOString } from "io-ts-types/DateFromISOString";
 import { UUID } from "io-ts-types/UUID";
 import { optionFromUndefined } from "../../Common/optionFromUndefined";
 import { GetListQuery } from "../Query";
-import { EventType } from './EventType';
+import { EventType } from "./EventType";
 
 export const GetSearchEventsQuery = t.strict(
   {

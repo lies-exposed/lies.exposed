@@ -1,6 +1,11 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
-import { Area, CreateAreaBody, EditAreaBody, ListAreaQuery } from "../io/http/Area";
+import {
+  Area,
+  CreateAreaBody,
+  EditAreaBody,
+  ListAreaQuery,
+} from "../io/http/Area";
 import { UUID } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import { ResourceEndpoints } from "./types";
