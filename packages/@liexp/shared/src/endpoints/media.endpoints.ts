@@ -88,12 +88,12 @@ export const media = ResourceEndpoints({
   Delete,
   Custom: {
     GetThumbnails: Endpoint({
-      Method: 'POST',
+      Method: "POST",
       getPath: ({ id }) => `/media/${id}/thumbnails`,
       Input: {
         Params: t.type({ id: UUID }),
       },
-      Output: t.strict({ data: t.array(t.any) })
-    })
+      Output: t.strict({ data: t.array(t.any) }),
+    }),
   },
 });

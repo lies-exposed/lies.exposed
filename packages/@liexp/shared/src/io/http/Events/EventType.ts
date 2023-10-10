@@ -42,5 +42,5 @@ const EventTypes = {
   TRANSACTION,
   QUOTE,
   UNCATEGORIZED,
-}
-export { EventTypes }
+};
+export { EventTypes };

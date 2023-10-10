@@ -13,7 +13,7 @@ export const traverseArrayOfE = <A, E, B>(
 interface ReqInput<D> {
   skip: number;
   amount: number;
-  results: D[]
+  results: D[];
 }
 
 export const walkPaginatedRequest =

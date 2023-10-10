@@ -1,5 +1,9 @@
 import { GetLogger } from "@liexp/core/lib/logger";
-import { type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from "axios";
+import {
+  type AxiosInstance,
+  type AxiosRequestConfig,
+  type AxiosResponse,
+} from "axios";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { flow, pipe } from "fp-ts/function";

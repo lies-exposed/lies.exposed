@@ -4,9 +4,8 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { UUID } from "io-ts-types/lib/UUID";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
-import { DEATH } from './EventType';
+import { DEATH } from "./EventType";
 import { GetSearchEventsQuery } from "./SearchEventsQuery";
-
 
 export const DeathListQuery = t.strict(
   {
