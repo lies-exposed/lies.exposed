@@ -20,13 +20,6 @@ describe("Create Media", () => {
   });
 
   afterAll(async () => {
-    // await throwTE(
-    //   Test.ctx.db.delete(
-    //     EventV2Entity,
-    //     [event].map((e) => e.id)
-    //   )
-    // );
-
     await throwTE(Test.ctx.db.delete(MediaEntity, mediaIds));
     await throwTE(
       Test.ctx.db.delete(
@@ -62,16 +55,19 @@ describe("Create Media", () => {
       .set("Authorization", authorizationToken)
       .send(media);
 
+    expect(Test.mocks.axios.get).toHaveBeenCalledTimes(1);
+
     expect(response.status).toEqual(200);
 
     delete media.thumbnail;
+    delete media.extra;
     delete media.deletedAt;
 
     expect(response.body.data).toMatchObject({
       ...media,
       creator: users[0].id,
     });
-    expect(Test.mocks.axios.get).toHaveBeenCalledTimes(1);
+
     mediaIds.push(response.body.data.id);
   });
 

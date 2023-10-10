@@ -44,7 +44,7 @@ import { fetchRelations } from "@routes/events/queries/fetchEventRelations.utils
 import { infiniteSearchEventQuery } from "@routes/events/queries/searchEventsV2.query";
 import { toGroupIO } from "@routes/groups/group.io";
 import { toKeywordIO } from "@routes/keywords/keyword.io";
-import { toImageIO } from "@routes/media/media.io";
+import { toMediaIO } from "@routes/media/media.io";
 
 interface GetEventGraphOpts {
   events: SearchEvent.SearchEvent[];
@@ -418,7 +418,7 @@ export const createEventNetworkGraph: TEFlow<
           media: pipe(
             relations.media,
             fp.A.traverse(fp.E.Applicative)((m) =>
-              toImageIO(
+              toMediaIO(
                 {
                   ...m,
                   links: [],

@@ -16,6 +16,7 @@ export const toLinkIO = (
       image: link.image
         ? {
             ...link.image,
+            extra: link.image.extra ?? undefined,
             thumbnail: link.image.thumbnail ?? undefined,
           }
         : undefined,

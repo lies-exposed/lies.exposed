@@ -337,6 +337,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
               location: m.media,
               selected: true,
               type: contentTypeFromFileExt(m.media),
+              extra: undefined,
             }))}
             onItemClick={(m) => {
               if (ImageType.is(m.type)) {

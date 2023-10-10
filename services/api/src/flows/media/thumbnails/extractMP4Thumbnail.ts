@@ -8,57 +8,100 @@ import { taskifyStream } from "@liexp/shared/lib/utils/task.utils";
 import axios from "axios";
 import type Ffmpeg from "fluent-ffmpeg";
 import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { pipe, flow } from "fp-ts/function";
 import { type ExtractThumbnailFlow } from "./ExtractThumbnailFlow.type";
 import { type TEFlow } from "@flows/flow.types";
 import { toControllerError } from "@io/ControllerError";
 
+type SimpleMedia = Pick<Media.Media, "id" | "location"> & { type: MP4Type };
+
 export const takeVideoScreenshots: TEFlow<
-  [string, Ffmpeg.ScreenshotsConfig],
-  Ffmpeg.ScreenshotsConfig
-> = (ctx) => (tempVideoFilePath, screenshotOpts) => {
-  return pipe(
-    ctx.ffmpeg.runCommand((ffmpeg) => {
-      const command = ffmpeg(tempVideoFilePath)
-        .inputFormat("mp4")
-        .noAudio()
-        .screenshots(screenshotOpts);
-      // .outputOptions("-movflags frag_keyframe+empty_moov");
-      return command;
-    }),
-    TE.mapLeft(toControllerError),
-    TE.map(() => screenshotOpts),
-  );
-};
+  [
+    {
+      media: SimpleMedia;
+      tempFolder: string;
+      filename: string;
+      tempVideoFilePath: string;
+      opts: Ffmpeg.ScreenshotsConfig;
+    },
+  ],
+  Array<{ key: string; thumbnailName: string }>
+> =
+  (ctx) =>
+  ({
+    filename,
+    tempFolder,
+    media,
+    tempVideoFilePath,
+    opts: screenshotOpts,
+  }) => {
+    return pipe(
+      ctx.ffmpeg.runCommand((ffmpeg) => {
+        const command = ffmpeg(tempVideoFilePath)
+          .inputFormat("mp4")
+          .noAudio()
+          .screenshots(screenshotOpts);
+        // .outputOptions("-movflags frag_keyframe+empty_moov");
+        return command;
+      }),
+      TE.mapLeft(toControllerError),
+      TE.map(() => {
+        return pipe(
+          Array.from({ length: 2 }),
+          fp.A.mapWithIndex((i) => {
+            const thumbnailName = filename.replace("%i", (i + 1).toString());
 
-export const downloadVideo: TEFlow<
-  [Pick<Media.Media, "id" | "location"> & { type: MP4Type }, string],
-  string
-> = (ctx) => (media, tempFolder) => {
-  const tempVideoFilePath = path.resolve(tempFolder, `${media.id}.mp4`);
+            ctx.logger.debug.log("Thumbnail file name %s", thumbnailName);
 
-  if (fs.existsSync(tempVideoFilePath)) {
-    return TE.right(tempVideoFilePath);
-  }
+            const key = getMediaKey(
+              "media",
+              media.id,
+              thumbnailName,
+              "image/png",
+            );
 
-  return pipe(
-    TE.tryCatch(() => {
-      ctx.logger.debug.log("Getting mp4 from %s", media.location);
-      return axios.get(media.location, {
-        responseType: "stream",
-      });
-    }, toControllerError),
-    TE.chain((stream) => {
-      const tempVideoFile = fs.createWriteStream(tempVideoFilePath);
+            ctx.logger.debug.log("Thumbnail key %s", key);
 
-      return pipe(
-        taskifyStream(stream.data, tempVideoFile),
-        TE.mapLeft(toControllerError),
-        TE.map(() => tempVideoFilePath),
-      );
-    }),
-  );
-};
+            return {
+              key,
+              thumbnailName: path.resolve(tempFolder, thumbnailName),
+            };
+          }),
+        );
+      }),
+    );
+  };
+
+export const extractVideoMetadata: TEFlow<[string], Ffmpeg.FfprobeData> = (
+  ctx,
+) => flow(ctx.ffmpeg.ffprobe, TE.mapLeft(toControllerError));
+
+export const downloadVideo: TEFlow<[SimpleMedia, string], string> =
+  (ctx) => (media, tempFolder) => {
+    const tempVideoFilePath = path.resolve(tempFolder, `${media.id}.mp4`);
+
+    if (fs.existsSync(tempVideoFilePath)) {
+      return TE.right(tempVideoFilePath);
+    }
+
+    return pipe(
+      TE.tryCatch(() => {
+        ctx.logger.debug.log("Getting mp4 from %s", media.location);
+        return axios.get(media.location, {
+          responseType: "stream",
+        });
+      }, toControllerError),
+      TE.chain((stream) => {
+        const tempVideoFile = fs.createWriteStream(tempVideoFilePath);
+
+        return pipe(
+          taskifyStream(stream.data, tempVideoFile),
+          TE.mapLeft(toControllerError),
+          TE.map(() => tempVideoFilePath),
+        );
+      }),
+    );
+  };
 
 export const extractMP4Thumbnail: ExtractThumbnailFlow<MP4Type> =
   (ctx) => (media) => {
@@ -67,6 +110,9 @@ export const extractMP4Thumbnail: ExtractThumbnailFlow<MP4Type> =
     return pipe(
       TE.Do,
       TE.bind("tempVideoFilePath", () => downloadVideo(ctx)(media, tempFolder)),
+      TE.bind("metadata", ({ tempVideoFilePath }) =>
+        extractVideoMetadata(ctx)(tempVideoFilePath),
+      ),
       TE.bind("screenshots", ({ tempVideoFilePath }) => {
         const filename = `${media.id}-thumb-%i.png`;
 
@@ -78,33 +124,12 @@ export const extractMP4Thumbnail: ExtractThumbnailFlow<MP4Type> =
         };
 
         return pipe(
-          takeVideoScreenshots(ctx)(tempVideoFilePath, screenshotOpts),
-          TE.map(() => {
-            return pipe(
-              Array.from({ length: 2 }),
-              fp.A.mapWithIndex((i) => {
-                const thumbnailName = filename.replace(
-                  "%i",
-                  (i + 1).toString(),
-                );
-
-                ctx.logger.debug.log("Thumbnail file name %s", thumbnailName);
-
-                const key = getMediaKey(
-                  "media",
-                  media.id,
-                  thumbnailName,
-                  "image/png",
-                );
-
-                ctx.logger.debug.log("Thumbnail key %s", key);
-
-                return {
-                  key,
-                  thumbnailName: path.resolve(tempFolder, thumbnailName),
-                };
-              }),
-            );
+          takeVideoScreenshots(ctx)({
+            media,
+            filename,
+            tempFolder,
+            tempVideoFilePath,
+            opts: screenshotOpts,
           }),
         );
       }),

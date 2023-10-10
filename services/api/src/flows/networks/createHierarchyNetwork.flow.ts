@@ -46,7 +46,7 @@ import {
 import { toGroupIO } from "@routes/groups/group.io";
 import { toGroupMemberIO } from "@routes/groups-members/groupMember.io";
 import { toKeywordIO } from "@routes/keywords/keyword.io";
-import { toImageIO } from "@routes/media/media.io";
+import { toMediaIO } from "@routes/media/media.io";
 
 export const createStatsByEntityType: TEFlow<
   [StatsType, string],
@@ -229,7 +229,7 @@ export const createStatsByEntityType: TEFlow<
                 ),
                 media: pipe(
                   media,
-                  A.map((m) => toImageIO(m, ctx.env.SPACE_ENDPOINT)),
+                  A.map((m) => toMediaIO(m, ctx.env.SPACE_ENDPOINT)),
                   A.sequence(E.Applicative),
                   E.getOrElse((): Media.Media[] => []),
                 ),
