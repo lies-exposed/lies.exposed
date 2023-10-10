@@ -3,7 +3,7 @@ import { type Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
-import { toImageIO } from "./media.io";
+import { toMediaIO } from "./media.io";
 import { MediaEntity } from "@entities/Media.entity";
 import { type RouteContext } from "@routes/route.types";
 
@@ -19,7 +19,7 @@ export const MakeGetMediaRoute = (r: Router, ctx: RouteContext): void => {
         },
         withDeleted: true,
       }),
-      TE.chainEitherK((m) => toImageIO(m, ctx.env.SPACE_ENDPOINT)),
+      TE.chainEitherK((m) => toMediaIO(m, ctx.env.SPACE_ENDPOINT)),
       TE.map((data) => ({
         body: {
           data,

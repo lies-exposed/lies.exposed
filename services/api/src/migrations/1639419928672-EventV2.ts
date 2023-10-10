@@ -101,7 +101,9 @@ export class EventV21639419928672 implements MigrationInterface {
       );
     const deathEvents = await queryRunner.manager
       .find(DeathEventEntity, {
-        relations: ["victim"],
+        loadRelationIds: {
+          relations: ["victim"],
+        },
       })
       .then((ss) =>
         ss.map(
@@ -112,7 +114,7 @@ export class EventV21639419928672 implements MigrationInterface {
             type: EventTypes.DEATH.value,
             payload: {
               location: (s as any).location ?? undefined,
-              victim: s.victim.id as any,
+              victim: s.victim as any,
             },
             body: {},
             media: [],

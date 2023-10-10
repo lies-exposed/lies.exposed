@@ -5,7 +5,7 @@ import { pipe } from "fp-ts/function";
 import { type MediaEntity } from "@entities/Media.entity";
 import { type ControllerError, DecodeError } from "@io/ControllerError";
 
-export const toImageIO = (
+export const toMediaIO = (
   media: MediaEntity,
   spaceEndpoint: string,
 ): E.Either<ControllerError, io.http.Media.Media> => {
@@ -14,6 +14,7 @@ export const toImageIO = (
       ...media,
       location: ensureHTTPS(media.location),
       creator: media.creator ?? undefined,
+      extra: media.extra ?? undefined,
       links: media.links ?? [],
       events: media.events ?? [],
       keywords: media.keywords ?? [],

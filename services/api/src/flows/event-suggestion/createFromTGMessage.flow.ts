@@ -138,6 +138,7 @@ const parseVideo: TEFlow<[string, TelegramBot.Video], MediaEntity[]> =
             location: "",
             description,
             thumbnail: thumb,
+            extra: undefined,
           },
           {
             Body: video,
@@ -172,6 +173,7 @@ const parsePhoto: TEFlow<[string, TelegramBot.PhotoSize[]], MediaEntity[]> =
                 location: p.file_id,
                 description,
                 thumbnail: undefined,
+                extra: undefined,
               },
               {
                 Body: f,

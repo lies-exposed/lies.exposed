@@ -64,6 +64,7 @@ export const fetchAsLink: TEFlow<
                       keywords: [],
                       featuredIn: [],
                       deletedAt: null,
+                      extra: undefined,
                     }),
                   ),
                 ),

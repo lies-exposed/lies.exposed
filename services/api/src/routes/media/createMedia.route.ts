@@ -3,7 +3,7 @@ import { type Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
-import { toImageIO } from "./media.io";
+import { toMediaIO } from "./media.io";
 import { MediaEntity } from "@entities/Media.entity";
 import { createThumbnail } from "@flows/media/thumbnails/createThumbnail.flow";
 import { type RouteContext } from "@routes/route.types";
@@ -17,13 +17,13 @@ export const MakeCreateMediaRoute = (r: Router, ctx: RouteContext): void => {
       return pipe(
         ensureUserExists(req.user),
         TE.fromEither,
-        ctx.logger.error.logInTaskEither("User %O"),
         TE.chain((u) =>
           pipe(
             ctx.db.save(MediaEntity, [
               {
                 ...body,
                 creator: u.id as any,
+                extra: body.extra ?? null,
                 areas: body.areas.map((id) => ({ id })),
                 keywords: body.keywords.map((id) => ({ id })),
                 events: body.events.map((e) => ({
@@ -53,9 +53,7 @@ export const MakeCreateMediaRoute = (r: Router, ctx: RouteContext): void => {
             ),
           ),
         ),
-        TE.chain((media) =>
-          TE.fromEither(toImageIO(media, ctx.env.SPACE_ENDPOINT)),
-        ),
+        TE.chainEitherK((media) => toMediaIO(media, ctx.env.SPACE_ENDPOINT)),
         TE.map((data) => ({
           body: {
             data,

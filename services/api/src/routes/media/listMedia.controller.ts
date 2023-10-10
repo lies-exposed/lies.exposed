@@ -8,7 +8,7 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { type UUID } from "io-ts-types/lib/UUID";
 import { fetchManyMedia } from "../../queries/media/fetchManyMedia.query";
-import { toImageIO } from "./media.io";
+import { toMediaIO } from "./media.io";
 import { searchEventV2Query } from "@routes/events/queries/searchEventsV2.query";
 import { type RouteContext } from "@routes/route.types";
 
@@ -56,7 +56,7 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
             keywords: d.keywords.map((e) => e.id) as any[],
           })),
           A.traverse(E.Applicative)((m) =>
-            toImageIO(m, ctx.env.SPACE_ENDPOINT),
+            toMediaIO(m, ctx.env.SPACE_ENDPOINT),
           ),
           TE.fromEither,
           TE.map((results) => ({
