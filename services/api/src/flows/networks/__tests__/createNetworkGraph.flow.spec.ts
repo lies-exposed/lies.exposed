@@ -2,15 +2,15 @@ import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
 import { type http } from "@liexp/shared/lib/io";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
-import { type NetworkLink, type NetworkType } from "@liexp/shared/lib/io/http/Network";
+import {
+  type NetworkLink,
+  type NetworkType,
+} from "@liexp/shared/lib/io/http/Network";
 import { UncategorizedArb } from "@liexp/shared/lib/tests";
 import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary";
 import { fc } from "@liexp/test";
 import { pipe } from "fp-ts/function";
-import {
-  getEventGraph,
-  getRelationLinks,
-} from "../createNetworkGraph.flow";
+import { getEventGraph, getRelationLinks } from "../createNetworkGraph.flow";
 
 const getLink = (
   k: any,

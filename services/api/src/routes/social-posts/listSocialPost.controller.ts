@@ -52,7 +52,7 @@ export const MakeListSocialPostRoute = (r: Router, ctx: RouteContext): void => {
           (s) =>
             s
               .from(SocialPostEntity, "sub_sp")
-              .addSelect("count(*)", 'publishCount')
+              .addSelect("count(*)", "publishCount")
               .where('"entity" = "sp"."entity"'),
 
           "publishCount",

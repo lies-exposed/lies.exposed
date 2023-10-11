@@ -15,7 +15,11 @@ import {
   MediaEdit,
   MediaList,
 } from "@liexp/ui/lib/components/admin/media";
-import { Admin, Login, Resource } from "@liexp/ui/lib/components/admin/react-admin";
+import {
+  Admin,
+  Login,
+  Resource,
+} from "@liexp/ui/lib/components/admin/react-admin";
 import {
   StoryCreate,
   StoryEdit,

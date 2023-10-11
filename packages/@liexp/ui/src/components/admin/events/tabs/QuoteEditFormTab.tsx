@@ -1,9 +1,5 @@
 import * as React from "react";
-import {
-  TextField,
-  TextInput,
-  type EditProps
-} from "react-admin";
+import { TextField, TextInput, type EditProps } from "react-admin";
 import { Box } from "../../../mui";
 import ReferenceBySubjectInput from "../../common/ReferenceBySubjectInput";
 

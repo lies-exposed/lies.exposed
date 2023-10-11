@@ -1,7 +1,7 @@
 import { type HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { IOError } from 'ts-io-error';
+import { IOError } from "ts-io-error";
 
 interface GeocodeSearch {
   display_name: string;
@@ -13,8 +13,8 @@ interface GeocodeSearch {
 export class GeocodeError extends IOError {}
 
 const toGeocodeError = (e: unknown): GeocodeError => {
-  return e as any
-}
+  return e as any;
+};
 
 export interface GeocodeProvider {
   search: (q: string) => TE.TaskEither<GeocodeError, GeocodeSearch[]>;
@@ -34,7 +34,7 @@ export const GeocodeProvider = (
           q,
         },
       }),
-      TE.mapLeft(toGeocodeError)
+      TE.mapLeft(toGeocodeError),
     );
   };
   return { search };

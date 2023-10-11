@@ -1,6 +1,4 @@
-import {
-  EventTypes
-} from "@liexp/shared/lib/io/http/Events/EventType";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
 import * as React from "react";
 import {

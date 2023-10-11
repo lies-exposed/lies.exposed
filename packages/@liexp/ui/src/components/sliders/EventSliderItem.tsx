@@ -237,13 +237,16 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
 }) => {
   switch (e.type) {
     case http.Events.EventTypes.QUOTE.value: {
-      const quote = e.payload.subject.type === 'Actor' ? {
-        actors: [e.payload.subject.id],
-        groups: []
-      }: {
-        groups: [e.payload.subject.id],
-        actors: []
-      }
+      const quote =
+        e.payload.subject.type === "Actor"
+          ? {
+              actors: [e.payload.subject.id],
+              groups: [],
+            }
+          : {
+              groups: [e.payload.subject.id],
+              actors: [],
+            };
       return (
         <EventSliderItemBase
           {...props}

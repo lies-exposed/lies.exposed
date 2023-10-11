@@ -7,14 +7,14 @@ import { LinkIcon } from "@liexp/ui/lib/components/Common/Icons";
 import { EventIcon } from "@liexp/ui/lib/components/Common/Icons/EventIcon";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
 import ReferenceArrayGroupMemberInput from "@liexp/ui/lib/components/admin/common/ReferenceArrayGroupMemberInput";
-import { EditEventForm } from '@liexp/ui/lib/components/admin/events/EditEventForm';
+import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm";
 import { DeathEventEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/DeathEventEditFormTab";
 import { DocumentaryEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/DocumentaryEditFormTab";
 import { PatentEventEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/PatentEventEditTab";
 import { QuoteEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/QuoteEditFormTab";
 import { ScientificStudyEventEditTab } from "@liexp/ui/lib/components/admin/events/tabs/ScientificStudyEventEditTab";
 import { UncategorizedEventEditTab } from "@liexp/ui/lib/components/admin/events/tabs/UncategorizedEventEditTab";
-import { EventTitle } from '@liexp/ui/lib/components/admin/events/titles/EventTitle';
+import { EventTitle } from "@liexp/ui/lib/components/admin/events/titles/EventTitle";
 import ReferenceArrayGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput";
 import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
 import {
@@ -32,7 +32,7 @@ import {
   ReferenceField,
   SavedQueriesList,
   TextField,
-  type RaRecord as Record
+  type RaRecord as Record,
 } from "@liexp/ui/lib/components/admin/react-admin";
 import {
   Box,
@@ -244,7 +244,6 @@ export const EventList: React.FC = () => (
 );
 
 export const EventEdit: React.FC = (props) => {
-
   return (
     <EditEventForm {...props} title={<EventTitle />} redirect={false}>
       <FormDataConsumer>

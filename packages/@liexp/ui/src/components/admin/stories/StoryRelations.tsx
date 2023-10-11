@@ -2,7 +2,7 @@ import * as React from "react";
 import { ReferenceArrayField } from "react-admin";
 import { Box } from "../../mui";
 import { ActorDataGrid } from "../actors/ActorDataGrid";
-import { EventDataGrid } from '../events/EventListPage';
+import { EventDataGrid } from "../events/EventListPage";
 import { GroupDataGrid } from "../groups/GroupDataGrid";
 import { LinkDatagrid } from "../links/AdminLinks";
 

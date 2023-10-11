@@ -5,7 +5,7 @@ import {
   FunctionField,
   ReferenceManyField,
   type RaRecord,
-  type ReferenceManyFieldProps
+  type ReferenceManyFieldProps,
 } from "react-admin";
 import { EventIcon } from "../../Common/Icons";
 import { Box } from "../../mui";
@@ -14,7 +14,6 @@ import { EventTitle } from "./titles/EventTitle";
 const ReferenceManyEventField: React.FC<
   Omit<ReferenceManyFieldProps<RaRecord<string>>, "reference" | "children">
 > = (props) => {
-
   return (
     <ReferenceManyField
       {...props}

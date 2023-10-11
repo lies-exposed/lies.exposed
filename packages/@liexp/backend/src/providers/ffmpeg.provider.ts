@@ -1,4 +1,4 @@
-import { type Stream } from 'stream';
+import { type Stream } from "stream";
 import { GetLogger } from "@liexp/core/lib/logger";
 import ffmpeg from "fluent-ffmpeg";
 import * as TE from "fp-ts/TaskEither";
@@ -25,9 +25,10 @@ export type GetFFMPEGProvider = (ff: typeof ffmpeg) => FFMPEGProvider;
 
 export const GetFFMPEGProvider: GetFFMPEGProvider = (ffmpg) => {
   return {
-    ffprobe: (file) => TE.taskify<string, Error, ffmpeg.FfprobeData>(
-      ffmpg.ffprobe.bind(ffmpeg.ffprobe),
-    )(file as any),
+    ffprobe: (file) =>
+      TE.taskify<string, Error, ffmpeg.FfprobeData>(
+        ffmpg.ffprobe.bind(ffmpeg.ffprobe),
+      )(file as any),
     runCommand: (f) => {
       return TE.tryCatch(() => {
         return new Promise((resolve, reject) => {

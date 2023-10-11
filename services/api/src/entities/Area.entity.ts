@@ -8,7 +8,7 @@ import {
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from "typeorm";
 import { MediaEntity } from "./Media.entity";
 

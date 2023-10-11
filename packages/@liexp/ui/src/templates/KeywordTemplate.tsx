@@ -49,7 +49,6 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
   query,
   onQueryChange,
 }) => {
-
   return (
     <QueriesRenderer
       queries={{ keyword: useKeywordQuery({ id: keywordId }) }}

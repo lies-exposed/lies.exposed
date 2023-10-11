@@ -41,12 +41,15 @@ export class ActorEntity {
   diedOn: string | null;
 
   @OneToMany(() => GroupMemberEntity, (member) => member.actor, {
-    cascade: ['insert'],
+    cascade: ["insert"],
     nullable: true,
   })
   memberIn: GroupMemberEntity[];
 
-  @ManyToMany(() => EventV2Entity, (e) => e.actors, { cascade: false, onDelete: 'NO ACTION' })
+  @ManyToMany(() => EventV2Entity, (e) => e.actors, {
+    cascade: false,
+    onDelete: "NO ACTION",
+  })
   events: EventV2Entity[];
 
   @Column({ type: "json", nullable: true })

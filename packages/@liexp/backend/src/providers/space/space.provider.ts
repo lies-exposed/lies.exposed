@@ -145,7 +145,6 @@ export const MakeSpaceProvider = ({
     upload(input) {
       return pipe(
         TE.tryCatch(async () => {
-
           const parallelUploads3 = new Upload({
             client,
             params: { ...input },

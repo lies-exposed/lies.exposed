@@ -23,7 +23,7 @@ import {
   UrlField,
   useDataProvider,
   type CreateProps,
-  type ListProps
+  type ListProps,
 } from "@liexp/ui/lib/components/admin/react-admin";
 import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
 import * as React from "react";

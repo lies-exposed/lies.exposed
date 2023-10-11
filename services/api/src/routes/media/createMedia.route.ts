@@ -24,7 +24,7 @@ export const MakeCreateMediaRoute = (r: Router, ctx: RouteContext): void => {
               {
                 ...body,
                 creator: u.id as any,
-                areas: body.areas.map(id => ({ id })),
+                areas: body.areas.map((id) => ({ id })),
                 keywords: body.keywords.map((id) => ({ id })),
                 events: body.events.map((e) => ({
                   id: e,
@@ -42,7 +42,10 @@ export const MakeCreateMediaRoute = (r: Router, ctx: RouteContext): void => {
                 TE.chain((media) =>
                   pipe(
                     createThumbnail(ctx)(media),
-                    TE.map((thumbnail) => ({ ...media, thumbnail: thumbnail[0] })),
+                    TE.map((thumbnail) => ({
+                      ...media,
+                      thumbnail: thumbnail[0],
+                    })),
                     TE.chainFirst((m) => ctx.db.save(MediaEntity, [m])),
                   ),
                 ),

@@ -1,5 +1,5 @@
 import { fp } from "@liexp/core/lib/fp";
-import { ensureHTTPS } from '@liexp/shared/lib/utils/media.utils';
+import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { type Page } from "wikipedia";

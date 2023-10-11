@@ -13,7 +13,7 @@ interface MediaFieldProps extends FieldProps {
   type?: string;
   source: string;
   sourceType?: MediaType;
-  controls: boolean
+  controls: boolean;
 }
 
 export const MediaField: React.FC<MediaFieldProps> = ({

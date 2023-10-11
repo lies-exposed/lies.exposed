@@ -170,7 +170,7 @@ describe("Create From TG Message", () => {
 
       // mock tg download
       Test.mocks.tg.api.getFileStream.mockImplementationOnce(() =>
-        fs.createReadStream(tempFileLocation)
+        fs.createReadStream(tempFileLocation),
       );
 
       // mock puppeteer goto
@@ -558,7 +558,9 @@ describe("Create From TG Message", () => {
           // mock tg download
           Test.mocks.tg.api.getFileStream
             .mockImplementationOnce(() => fs.createReadStream(tempFileLocation))
-            .mockImplementationOnce(() => fs.createReadStream(tempFileLocation));
+            .mockImplementationOnce(() =>
+              fs.createReadStream(tempFileLocation),
+            );
 
           // mock s3 upload
           Test.mocks.s3.client.send

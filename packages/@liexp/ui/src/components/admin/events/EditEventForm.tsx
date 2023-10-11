@@ -11,11 +11,13 @@ import { ReferenceLinkTab } from "../tabs/ReferenceLinkTab";
 import { ReferenceMediaTab } from "../tabs/ReferenceMediaTab";
 import { transformEvent } from "../transform.utils";
 import { EventEditActions } from "./EditEventActions";
-import { EventTitle } from './titles/EventTitle';
+import { EventTitle } from "./titles/EventTitle";
 
-export const EditEventForm: React.FC<
-  React.PropsWithChildren<EditProps>
-> = ({ children, title, ...props }) => {
+export const EditEventForm: React.FC<React.PropsWithChildren<EditProps>> = ({
+  children,
+  title,
+  ...props
+}) => {
   const dataProvider = useDataProvider();
 
   return (

@@ -1,6 +1,6 @@
 import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider";
 import { fp } from "@liexp/core/lib/fp";
-import { type Area } from '@liexp/shared/lib/io/http';
+import { type Area } from "@liexp/shared/lib/io/http";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { pipe } from "fp-ts/function";
 import kebabCase from "lodash/kebabCase";
@@ -8,7 +8,7 @@ import type TelegramBot from "node-telegram-bot-api";
 import { AreaEntity } from "@entities/Area.entity";
 import { fetchAreaFromWikipedia } from "@flows/areas/fetchAreaFromWikipedia";
 import { toControllerError } from "@io/ControllerError";
-import { toAreaIO } from '@routes/areas/Area.io';
+import { toAreaIO } from "@routes/areas/Area.io";
 import { type RouteContext } from "@routes/route.types";
 
 const getSuccessMessage = (area: Area.Area, baseUrl: string): string =>
@@ -45,15 +45,16 @@ export const areaCommand = ({
         if (fp.O.isSome(a)) {
           return pipe(
             fp.TE.fromEither(toAreaIO(a.value)),
-            fp.TE.chain(area =>
-            fp.TE.tryCatch(
-              () =>
-                tg.api.sendMessage(
-                  msg.chat.id,
-                  getSuccessMessage(area, env.WEB_URL),
-                ),
-              toControllerError,
-            )),
+            fp.TE.chain((area) =>
+              fp.TE.tryCatch(
+                () =>
+                  tg.api.sendMessage(
+                    msg.chat.id,
+                    getSuccessMessage(area, env.WEB_URL),
+                  ),
+                toControllerError,
+              ),
+            ),
           );
         }
 
@@ -82,7 +83,6 @@ export const areaCommand = ({
               }
               const jsonData = JSON.parse(answer.data);
               logger.debug.log("User pick %O", jsonData);
-
 
               void pipe(
                 fetchAreaFromWikipedia({
@@ -135,7 +135,9 @@ export const areaCommand = ({
         );
       }),
       throwTE,
-    ).catch(e => { logger.error.log(`Failed to create area: %O`, e); });
+    ).catch((e) => {
+      logger.error.log(`Failed to create area: %O`, e);
+    });
   });
 
   return tg;

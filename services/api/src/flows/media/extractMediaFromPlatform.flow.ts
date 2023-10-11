@@ -8,7 +8,7 @@ import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import type * as puppeteer from "puppeteer-core";
-import { extractThumbnailFromVideoPlatform } from './thumbnails/extractThumbnailFromVideoPlatform';
+import { extractThumbnailFromVideoPlatform } from "./thumbnails/extractThumbnailFromVideoPlatform";
 import { type MediaEntity } from "@entities/Media.entity";
 import { type TEFlow } from "@flows/flow.types";
 import { toControllerError, type ControllerError } from "@io/ControllerError";

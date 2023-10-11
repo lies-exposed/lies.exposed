@@ -45,7 +45,7 @@ export const ColorInput: React.FC<TextInputProps> = ({
           value={color}
           style={{ width: 80 }}
           onChange={(e: any) => {
-            setColor({ color: e.target.value  });
+            setColor({ color: e.target.value });
             props.onChange?.(e);
           }}
         />

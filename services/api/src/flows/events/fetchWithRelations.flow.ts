@@ -20,7 +20,10 @@ import { type EventV2Entity } from "@entities/Event.v2.entity";
 import { type TEFlow } from "@flows/flow.types";
 import { type ControllerError } from "@io/ControllerError";
 import { toEventV2IO } from "@routes/events/eventV2.io";
-import { type SearchEventOutput, searchEventV2Query } from "@routes/events/queries/searchEventsV2.query";
+import {
+  type SearchEventOutput,
+  searchEventV2Query,
+} from "@routes/events/queries/searchEventsV2.query";
 
 export const fetchEventsWithRelations: TEFlow<
   [NetworkType, UUID[], GetNetworkQuery],
@@ -42,7 +45,11 @@ export const fetchEventsWithRelations: TEFlow<
       endDate,
     });
     return pipe(
-      walkPaginatedRequest(ctx)<SearchEventOutput, ControllerError, EventV2Entity>(
+      walkPaginatedRequest(ctx)<
+        SearchEventOutput,
+        ControllerError,
+        EventV2Entity
+      >(
         ({ skip, amount }) =>
           searchEventV2Query(ctx)({
             ids: fp.O.none,

@@ -1,4 +1,4 @@
-import { fp, pipe } from '@liexp/core/lib/fp';
+import { fp, pipe } from "@liexp/core/lib/fp";
 import { type Group } from "@liexp/shared/lib/io/http/Group";
 import * as React from "react";
 import { Avatar, type AvatarSize } from "../Common/Avatar";

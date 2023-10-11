@@ -30,7 +30,7 @@ import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput";
 import MediaPreview from "../previews/MediaPreview";
 import { ReferenceLinkTab } from "../tabs/ReferenceLinkTab";
 import ReferenceUserInput from "../user/ReferenceUserInput";
-import { GenerateThumbnailButton } from './GenerateThumbnailButton';
+import { GenerateThumbnailButton } from "./GenerateThumbnailButton";
 import { MediaField } from "./MediaField";
 import { MediaTGPostButton } from "./button/MediaTGPostButton";
 import { MediaInput } from "./input/MediaInput";

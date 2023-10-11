@@ -19,7 +19,7 @@ import {
   useRecordContext,
   type CreateProps,
   type ListProps,
-  type RaRecord
+  type RaRecord,
 } from "@liexp/ui/lib/components/admin/react-admin";
 import { FormControl, Grid } from "@liexp/ui/lib/components/mui";
 import * as React from "react";

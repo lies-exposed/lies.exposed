@@ -1,6 +1,4 @@
-import {
-  getTitleForSearchEvent,
-} from "@liexp/shared/lib/helpers/event";
+import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event";
 import { getEventMetadata } from "@liexp/shared/lib/helpers/event/event";
 import { Events } from "@liexp/shared/lib/io/http";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
