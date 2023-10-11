@@ -162,7 +162,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
         TE.map(O.fromNullable),
         ctx.logger.debug.logInTaskEither((r) => [
           `findOne %s with options %O: %s`,
-          ...[entity, options, O.isSome(r) ? 'found' : 'none'],
+          ...[entity, options, O.isSome(r) ? "found" : "none"],
         ]),
       );
     },

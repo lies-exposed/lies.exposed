@@ -14,7 +14,7 @@ export const toQuoteIO = (
       payload: {
         ...event.payload,
         actor: undefined,
-        subject: p.subject ?? { type: 'Actor', id: p.actor }
+        subject: p.subject ?? { type: "Actor", id: p.actor },
       },
       excerpt: event.excerpt ?? undefined,
       body: event.body ?? undefined,

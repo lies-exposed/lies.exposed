@@ -1,6 +1,6 @@
 import * as io from "@liexp/shared/lib/io";
 import { toColor } from "@liexp/shared/lib/utils/colors";
-import { ensureHTTPS } from '@liexp/shared/lib/utils/media.utils';
+import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils";
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
 import { type GroupEntity } from "../../entities/Group.entity";

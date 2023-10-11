@@ -31,7 +31,7 @@ interface VideoProps {
   loop: boolean;
   style?: React.CSSProperties;
   onLoad?: () => void;
-  disableZoom?: boolean
+  disableZoom?: boolean;
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
@@ -47,11 +47,11 @@ export const Video: React.FC<VideoProps> = ({
   style,
   onLoad,
   onClick,
-  disableZoom = false
+  disableZoom = false,
 }) => {
   const [loaded, setLoaded] = React.useState(false);
 
-  const showVideo = loaded && !disableZoom
+  const showVideo = loaded && !disableZoom;
   return (
     <Root
       className={clsx(classes.wrapper, className)}

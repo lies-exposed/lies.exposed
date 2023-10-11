@@ -62,7 +62,7 @@ export class EventV2Entity {
   media: MediaEntity[];
 
   @ManyToMany(() => KeywordEntity, (a) => a.events, {
-    cascade: ['insert'],
+    cascade: ["insert"],
     nullable: true,
   })
   @JoinTable()

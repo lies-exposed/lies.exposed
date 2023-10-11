@@ -1,6 +1,6 @@
-import { fp } from '@liexp/core/lib/fp';
+import { fp } from "@liexp/core/lib/fp";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { AdminRead } from '@liexp/shared/lib/io/http/User';
+import { AdminRead } from "@liexp/shared/lib/io/http/User";
 import { type Router } from "express";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
@@ -12,7 +12,7 @@ import { type RouteContext } from "../route.types";
 import { toAreaIO } from "./Area.io";
 import { AreaEntity } from "@entities/Area.entity";
 import { toControllerError } from "@io/ControllerError";
-import { decodeUserFromRequest } from '@utils/authenticationHandler';
+import { decodeUserFromRequest } from "@utils/authenticationHandler";
 import { getORMOptions } from "@utils/orm.utils";
 
 export const MakeListAreaRoute = (r: Router, ctx: RouteContext): void => {
@@ -27,8 +27,8 @@ export const MakeListAreaRoute = (r: Router, ctx: RouteContext): void => {
       const user = pipe(
         decodeUserFromRequest(ctx)(req, [AdminRead.value]),
         fp.IOE.mapLeft(() => null),
-        fp.IOE.toUnion
-      )()
+        fp.IOE.toUnion,
+      )();
 
       const findT = pipe(
         IOE.tryCatch(() => {
@@ -53,9 +53,9 @@ export const MakeListAreaRoute = (r: Router, ctx: RouteContext): void => {
                 });
               }
               if (user && O.isSome(draft)) {
-                q.andWhere('draft = :draft', { draft: draft.value })
+                q.andWhere("draft = :draft", { draft: draft.value });
               } else {
-                q.andWhere('draft = :draft', { draft: false })
+                q.andWhere("draft = :draft", { draft: false });
               }
               return q;
             },

@@ -136,9 +136,9 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
     md: "auto" as const,
     style: {
       marginLeft: 5,
-      marginRight: 5
-    }
-  }
+      marginRight: 5,
+    },
+  };
 
   return (
     <StyledBox className={classes.root}>
@@ -209,7 +209,10 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             }}
             size="large"
           >
-            <EventIcon type={EventTypes.DOCUMENTARY.value} {...eventIconProps} />
+            <EventIcon
+              type={EventTypes.DOCUMENTARY.value}
+              {...eventIconProps}
+            />
             <Typography variant="caption" className={classes.typeTotal}>
               {totals.documentaries}
             </Typography>

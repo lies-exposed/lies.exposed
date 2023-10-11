@@ -8,10 +8,7 @@ import { type Route } from "@routes/route.types";
 export const MakeEditSocialPostRoute: Route = (r, ctx) => {
   AddEndpoint(r)(
     Endpoints.SocialPosts.Edit,
-    ({
-      params: { id },
-      body: { status, schedule, scheduledAt, ...body },
-    }) => {
+    ({ params: { id }, body: { status, schedule, scheduledAt, ...body } }) => {
       return pipe(
         ctx.db.findOneOrFail(SocialPostEntity, {
           where: { id: Equal(id) },

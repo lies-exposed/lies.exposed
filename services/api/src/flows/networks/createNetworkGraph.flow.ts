@@ -432,9 +432,7 @@ export const createNetworkGraph: TEFlow<
           fp.A.map((aa) =>
             toSearchEvent(aa, {
               actors: new Map(cleanedActors.map((a) => [a.id, a])),
-              groups: new Map(
-                cleanedGroups.map((g) => [g.id, g]),
-              ),
+              groups: new Map(cleanedGroups.map((g) => [g.id, g])),
               keywords: new Map(keywords.map((k) => [k.id, k])),
               media: new Map(media.map((m) => [m.id, m])),
               groupsMembers: new Map(),

@@ -28,7 +28,7 @@ import {
   useInput,
   useRecordContext,
   useRefresh,
-  type DatagridProps
+  type DatagridProps,
 } from "@liexp/ui/lib/components/admin/react-admin";
 import { Box } from "@liexp/ui/lib/components/mui";
 import * as React from "react";
@@ -175,7 +175,7 @@ export const SocialPostEdit: React.FC = () => {
           ...r,
           ...content,
           platforms: platforms ?? { IG: false, TG: true },
-          media: typeof media === 'string' ? [{ media, type: 'photo'}] : media,
+          media: typeof media === "string" ? [{ media, type: "photo" }] : media,
           publishCount: 0,
         };
       }}

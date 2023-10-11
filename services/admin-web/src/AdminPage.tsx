@@ -14,7 +14,11 @@ import {
   MediaEdit,
   MediaList,
 } from "@liexp/ui/lib/components/admin/media";
-import { Admin, Login, Resource } from "@liexp/ui/lib/components/admin/react-admin";
+import {
+  Admin,
+  Login,
+  Resource,
+} from "@liexp/ui/lib/components/admin/react-admin";
 import {
   StoryCreate,
   StoryEdit,
@@ -42,7 +46,11 @@ import {
 } from "./pages/AdminGroupMember";
 import { GroupCreate, GroupEdit, GroupList } from "./pages/AdminGroups";
 import { KeywordCreate, KeywordEdit, KeywordList } from "./pages/AdminKeyword";
-import { SocialPostCreate, SocialPostEdit, SocialPostList } from "./pages/AdminSocialPost";
+import {
+  SocialPostCreate,
+  SocialPostEdit,
+  SocialPostList,
+} from "./pages/AdminSocialPost";
 import { UserCreate, UserEdit, UserList } from "./pages/AdminUsers";
 import { PageCreate, PageEdit, PageList } from "./pages/Pages";
 import {

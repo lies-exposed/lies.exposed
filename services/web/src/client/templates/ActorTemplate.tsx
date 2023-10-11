@@ -1,4 +1,4 @@
-import { EventType } from '@liexp/shared/lib/io/http/Events';
+import { EventType } from "@liexp/shared/lib/io/http/Events";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import SEO from "@liexp/ui/lib/components/SEO";
 import { Box } from "@liexp/ui/lib/components/mui";

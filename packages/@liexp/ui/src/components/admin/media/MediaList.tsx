@@ -54,7 +54,9 @@ export const MediaList: React.FC<ListProps> = (props) => {
       <Datagrid
         rowClick="edit"
         rowSx={(r) => ({
-          borderLeft: `5px solid ${r.transferable ? amber[500] : "transparent"}`,
+          borderLeft: `5px solid ${
+            r.transferable ? amber[500] : "transparent"
+          }`,
         })}
       >
         <MediaField type="image/jpeg" source="thumbnail" controls={false} />

@@ -18,7 +18,7 @@ const StyledModalContent = styled(Box)(({ theme }) => ({
   },
   [`& .${modalClasses.image}`]: {
     width: "auto",
-    maxWidth: '100%',
+    maxWidth: "100%",
     height: "100%",
     maxHeight: 800,
     objectFit: "cover",

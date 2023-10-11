@@ -6,8 +6,8 @@ import { Box } from "../../mui";
 import { UpdateMetadataButton } from "../common/UpdateMetadataButton";
 import { WebPreviewButton } from "../common/WebPreviewButton";
 import { SearchLinksButton } from "../links/SearchLinksButton";
-import { LoadingIndicator, useRecordContext } from '../react-admin';
-import { EventSocialPostButton } from './button/EventSocialPostButton';
+import { LoadingIndicator, useRecordContext } from "../react-admin";
+import { EventSocialPostButton } from "./button/EventSocialPostButton";
 
 export const EventEditActions: React.FC = () => {
   const record: any = useRecordContext();

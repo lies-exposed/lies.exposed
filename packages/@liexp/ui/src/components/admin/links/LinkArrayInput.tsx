@@ -23,7 +23,7 @@ export const LinkArrayInput: React.FC<
             const getSrc = getSource ?? ((s: string) => s);
             if (scopedFormData?.fromURL) {
               return (
-                <Box style={{ width: '100%' }}>
+                <Box style={{ width: "100%" }}>
                   <TextInput source={getSrc("url")} fullWidth />
                   <TextInput
                     source={getSrc("description")}

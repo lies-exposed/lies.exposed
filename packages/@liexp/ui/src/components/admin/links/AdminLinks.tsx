@@ -80,7 +80,11 @@ export const LinkDatagrid: React.FC<DatagridProps> = (props) => {
         render={(r: any) => {
           return (
             <Box style={{ display: "flex", flexDirection: "column" }}>
-              <MediaField source="image.thumbnail" type="image/jpeg" controls={false} />
+              <MediaField
+                source="image.thumbnail"
+                type="image/jpeg"
+                controls={false}
+              />
               <TextField
                 source="title"
                 style={{ fontWeight: 600, marginBottom: 5 }}
@@ -226,7 +230,11 @@ export const LinkEdit: React.FC = () => {
               <TextInput source="title" fullWidth />
               <URLMetadataInput source="url" type="Link" />
               <DateInput source="publishDate" />
-              <MediaField source="image.thumbnail" sourceType="image/jpeg" controls={false} />
+              <MediaField
+                source="image.thumbnail"
+                sourceType="image/jpeg"
+                controls={false}
+              />
               <ReferenceMediaInput
                 source="image.id"
                 allowedTypes={ImageType.types.map((t) => t.value)}

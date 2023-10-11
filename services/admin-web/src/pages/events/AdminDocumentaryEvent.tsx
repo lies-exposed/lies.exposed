@@ -23,7 +23,7 @@ import {
   TextInput,
   useDataProvider,
   type CreateProps,
-  type ListProps
+  type ListProps,
 } from "@liexp/ui/lib/components/admin/react-admin";
 import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
 import * as React from "react";
@@ -59,7 +59,6 @@ export const DocumentaryList: React.FC<ListProps> = (props) => (
     </Datagrid>
   </List>
 );
-
 
 export const DocumentaryEdit: React.FC = () => {
   return (

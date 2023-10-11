@@ -3,10 +3,7 @@ import {
   FontAwesomeIcon,
   type FontAwesomeIconProps,
 } from "@fortawesome/react-fontawesome";
-import {
-  EventTypes,
-  type Event
-} from "@liexp/shared/lib/io/http/Events";
+import { EventTypes, type Event } from "@liexp/shared/lib/io/http/Events";
 import * as React from "react";
 import { styled } from "../../../theme";
 

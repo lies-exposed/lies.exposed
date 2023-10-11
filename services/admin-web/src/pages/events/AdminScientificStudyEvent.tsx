@@ -4,9 +4,9 @@ import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
 import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
 import URLMetadataInput from "@liexp/ui/lib/components/admin/common/URLMetadataInput";
-import { EditEventForm } from '@liexp/ui/lib/components/admin/events/EditEventForm';
+import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm";
 import { ScientificStudyEventEditTab } from "@liexp/ui/lib/components/admin/events/tabs/ScientificStudyEventEditTab";
-import {ScientificStudyEventTitle} from "@liexp/ui/lib/components/admin/events/titles/ScientificStudyEventTitle";
+import { ScientificStudyEventTitle } from "@liexp/ui/lib/components/admin/events/titles/ScientificStudyEventTitle";
 import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceGroupInput";
 import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
@@ -26,12 +26,11 @@ import {
   TextInput,
   useDataProvider,
   type CreateProps,
-  type ListProps
+  type ListProps,
 } from "@liexp/ui/lib/components/admin/react-admin";
 import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
 import { Box } from "@liexp/ui/lib/components/mui";
 import * as React from "react";
-
 
 const listFilter = [
   <TextInput key="title" source="title" alwaysOn />,

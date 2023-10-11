@@ -51,17 +51,18 @@ export const GetLogger = (name: string): Logger => {
 
   const logInTaskEither =
     (d: debug.Debugger) =>
-    (f: (((r: any) => [string, ...any[]])) | string) =>
+    (f: ((r: any) => [string, ...any[]]) | string) =>
     <E, A>(t: TE.TaskEither<E, A>) =>
       pipe(
         t,
         TE.mapLeft((e) => {
-          const [msg, ...args] = typeof f === "string" ? [f, e] : f(e)
+          const [msg, ...args] = typeof f === "string" ? [f, e] : f(e);
           d(msg, ...args);
           return e;
         }),
         TE.map((result) => {
-          const [msg, ...args] = typeof f === "string" ? [f, result] : f(result)
+          const [msg, ...args] =
+            typeof f === "string" ? [f, result] : f(result);
           d(msg, ...args);
           return result;
         }),

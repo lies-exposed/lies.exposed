@@ -86,10 +86,10 @@ export const QuoteListItem: React.FC<QuoteListItemProps> = ({
               }}
             >
               <Typography variant="subtitle2">
-            {item.payload.subject.type === "Group"
-              ? item.payload.subject.id.name
-              : item.payload.subject.id.fullName}
-          </Typography>
+                {item.payload.subject.type === "Group"
+                  ? item.payload.subject.id.name
+                  : item.payload.subject.id.fullName}
+              </Typography>
             </Box>
           </Grid>
           <Grid

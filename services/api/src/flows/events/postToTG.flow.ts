@@ -82,9 +82,8 @@ export const postToTG: TEFlow<[UUID, CreateSocialPost], EventV2Entity> =
               return pipe(
                 ctx.http.get<Stream>(media[0].media, {
                   responseType: "stream",
-                }),  
-                fp.TE.chain((stream) => ctx.tg.postVideo(stream, text, ))
-                
+                }),
+                fp.TE.chain((stream) => ctx.tg.postVideo(stream, text)),
               );
             }
             return ctx.tg.postMediaGroup(text, media);

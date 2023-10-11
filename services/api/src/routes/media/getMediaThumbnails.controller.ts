@@ -4,7 +4,7 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { MediaEntity } from "@entities/Media.entity";
-import { createThumbnail } from '@flows/media/thumbnails/createThumbnail.flow';
+import { createThumbnail } from "@flows/media/thumbnails/createThumbnail.flow";
 import { type RouteContext } from "@routes/route.types";
 
 export const MakeGetMediaThumbnailsRoute = (

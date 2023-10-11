@@ -673,7 +673,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
               flexDirection: "column",
               flexShrink: 0,
               alignItems: "center",
-              paddingRight: 16
+              paddingRight: 16,
             }}
           >
             <Box

@@ -9,7 +9,6 @@ export const createThumbnail: TEFlow<
   [Pick<Media.Media, "id" | "location" | "type">],
   string[]
 > = (ctx) => (media) => {
-
   return pipe(
     extractThumbnail(ctx)(media),
     TE.chain((thumbnails) =>

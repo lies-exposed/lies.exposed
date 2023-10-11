@@ -25,7 +25,7 @@ import { differenceInDays, subYears } from "@liexp/shared/lib/utils/date";
 import { pipe } from "fp-ts/function";
 import { type UUID } from "io-ts-types/lib/UUID";
 import { toEventV2IO } from "../../routes/events/eventV2.io";
-import { cleanItemsFromSlateFields } from '../../utils/clean.utils';
+import { cleanItemsFromSlateFields } from "../../utils/clean.utils";
 import { fetchEventsByRelation } from "../events/fetchByRelations.flow";
 import { fetchEventsRelations } from "../events/fetchEventsRelations.flow";
 import { type TEFlow } from "../flow.types";

@@ -5,7 +5,7 @@ import {
   type Keyword,
 } from "@liexp/shared/lib/io/http";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
-import { EventTypes } from '@liexp/shared/lib/io/http/Events';
+import { EventTypes } from "@liexp/shared/lib/io/http/Events";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvent";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";

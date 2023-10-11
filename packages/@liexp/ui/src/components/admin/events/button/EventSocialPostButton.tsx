@@ -2,7 +2,7 @@ import { fp } from "@liexp/core/lib/fp";
 import { getTitle } from "@liexp/shared/lib/helpers/event";
 import {
   getEventMetadata,
-  getRelationIds
+  getRelationIds,
 } from "@liexp/shared/lib/helpers/event/event";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
 import { type Event } from "@liexp/shared/lib/io/http/Events";
@@ -14,16 +14,15 @@ import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { pipe } from "fp-ts/function";
 import { type UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
-import {
-  useDataProvider,
-  useRecordContext
-} from "react-admin";
+import { useDataProvider, useRecordContext } from "react-admin";
 import { fetchRelations } from "../../../../state/queries/SearchEventsQuery";
-import { type SocialPostButtonProps, SocialPostButton } from '../../common/SocialPostButton';
-
+import {
+  type SocialPostButtonProps,
+  SocialPostButton,
+} from "../../common/SocialPostButton";
 
 export const EventSocialPostButton: React.FC<
-  Omit<SocialPostButtonProps, "onLoadSharePayloadClick"> & { id: UUID; }
+  Omit<SocialPostButtonProps, "onLoadSharePayloadClick"> & { id: UUID }
 > = ({ id }) => {
   const apiProvider = useDataProvider();
   const record = useRecordContext();
@@ -39,7 +38,12 @@ export const EventSocialPostButton: React.FC<
               fetchRelations(relationIds),
               fp.TE.map(
                 ({
-                  actors, groups, keywords, media, groupsMembers, links,
+                  actors,
+                  groups,
+                  keywords,
+                  media,
+                  groupsMembers,
+                  links,
                 }) => ({
                   actors: actors.data,
                   keywords: keywords.data,
@@ -48,9 +52,9 @@ export const EventSocialPostButton: React.FC<
                   groupsMembers: groupsMembers.data,
                   links: links.data,
                   areas: [],
-                })
+                }),
               ),
-              throwTE
+              throwTE,
             );
 
             const title = getTitle(event, relations);
@@ -61,7 +65,7 @@ export const EventSocialPostButton: React.FC<
               media: new Map(relations.media.map((a) => [a.id, a])),
               keywords: new Map(relations.keywords.map((a) => [a.id, a])),
               groupsMembers: new Map(
-                relations.groupsMembers.map((a) => [a.id, a])
+                relations.groupsMembers.map((a) => [a.id, a]),
               ),
             });
 
@@ -71,22 +75,22 @@ export const EventSocialPostButton: React.FC<
                 event: {
                   ...searchEvent,
                 },
-                actors: subject.type === 'Actor' ? [subject.id]: [],
-                groups: subject.type === 'Group' ? [subject.id]: [],
+                actors: subject.type === "Actor" ? [subject.id] : [],
+                groups: subject.type === "Group" ? [subject.id] : [],
                 media: subject.id.avatar
                   ? pipe(
-                    subject.id.avatar.split("."),
-                    fp.A.last,
-                    fp.O.map((ext) => [
-                      {
-                        id: uuid(),
-                        location: subject.id.avatar,
-                        thumbnail: subject.id.avatar,
-                        type: contentTypeFromFileExt(ext),
-                      },
-                    ]),
-                    fp.O.getOrElse((): any[] => [])
-                  )
+                      subject.id.avatar.split("."),
+                      fp.A.last,
+                      fp.O.map((ext) => [
+                        {
+                          id: uuid(),
+                          location: subject.id.avatar,
+                          thumbnail: subject.id.avatar,
+                          type: contentTypeFromFileExt(ext),
+                        },
+                      ]),
+                      fp.O.getOrElse((): any[] => []),
+                    )
                   : relations.media,
                 title,
               };
@@ -126,6 +130,7 @@ export const EventSocialPostButton: React.FC<
               schedule: record.schedule,
             };
           });
-      }} />
+      }}
+    />
   );
 };

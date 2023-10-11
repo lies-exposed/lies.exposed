@@ -4,8 +4,8 @@ import * as React from "react";
 import { useDataProvider, useRecordContext } from "react-admin";
 import { CircularProgress } from "../../../mui";
 import {
-    SocialPostButton,
-    type SocialPostButtonProps,
+  SocialPostButton,
+  type SocialPostButtonProps,
 } from "../../common/SocialPostButton";
 
 export const AreaTGPostButton: React.FC<

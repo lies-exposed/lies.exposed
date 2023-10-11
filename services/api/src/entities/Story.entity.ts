@@ -37,7 +37,7 @@ export class StoryEntity {
     eager: true,
     cascade: false,
     nullable: true,
-    onDelete: 'NO ACTION'
+    onDelete: "NO ACTION",
   })
   featuredImage: MediaEntity | null;
 
