@@ -1,9 +1,13 @@
 import { type Stream } from "stream";
 import { fp, pipe } from "@liexp/core/lib/fp";
-import { type CreateSocialPost } from "@liexp/shared/lib/io/http/SocialPost";
+import {
+  type SocialPostBodyMultipleMedia,
+  SocialPostPhoto,
+  SocialPostVideo,
+  type CreateSocialPost,
+} from "@liexp/shared/lib/io/http/SocialPost";
 import * as t from "io-ts";
 import { type UUID } from "io-ts-types/lib/UUID";
-import type TelegramBot from "node-telegram-bot-api";
 import { type EventV2Entity } from "@entities/Event.v2.entity";
 import { type Flow, type TEFlow } from "@flows/flow.types";
 import { ServerError } from "@io/ControllerError";
@@ -67,7 +71,7 @@ export const postToTG: TEFlow<[UUID, CreateSocialPost], EventV2Entity> =
       fp.TE.right,
       fp.TE.chain((text) => {
         ctx.logger.debug.log("Upload media %O", body.media);
-        const media: TelegramBot.InputMedia[] = t.string.is(body.media)
+        const media: SocialPostBodyMultipleMedia = t.string.is(body.media)
           ? [{ type: "photo", media: body.media }]
           : body.media;
 
@@ -76,15 +80,22 @@ export const postToTG: TEFlow<[UUID, CreateSocialPost], EventV2Entity> =
           fp.TE.right,
           fp.TE.chain((media) => {
             if (media.length === 1) {
-              if (media[0].type === "photo") {
-                return ctx.tg.postPhoto(media[0].media, text);
+              const m = media[0];
+              if (SocialPostPhoto.is(m)) {
+                return ctx.tg.postPhoto(m.media, text);
               }
-              return pipe(
-                ctx.http.get<Stream>(media[0].media, {
-                  responseType: "stream",
-                }),
-                fp.TE.chain((stream) => ctx.tg.postVideo(stream, text)),
-              );
+              if (SocialPostVideo.is(m)) {
+                return pipe(
+                  ctx.http.get<Stream>(m.media, {
+                    responseType: "stream",
+                  }),
+                  fp.TE.chain((stream) =>
+                    ctx.tg.postVideo(stream, text, {
+                      duration: m.duration,
+                    }),
+                  ),
+                );
+              }
             }
             return ctx.tg.postMediaGroup(text, media);
           }),

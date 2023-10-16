@@ -68,6 +68,7 @@ export const Edit = Endpoint({
       areas: t.array(UUID),
       creator: optionFromNullable(UUID),
       overrideThumbnail: optionFromNullable(t.boolean),
+      overrideExtra: optionFromNullable(t.boolean),
       transfer: optionFromNullable(t.boolean),
       transferThumbnail: optionFromNullable(t.boolean),
     }),
