@@ -16,7 +16,7 @@ import { toImageIO } from "@routes/media/media.io";
 
 export const fetchAreaFromWikipedia: TEFlow<
   [string],
-  { area: Area.Area; media?: Media.Media }
+  { area: Area.Area; media: Media.Media[] }
 > = (ctx) => (pageId) => {
   return pipe(
     fetchFromWikipedia(ctx)(pageId),
@@ -120,7 +120,10 @@ export const fetchAreaFromWikipedia: TEFlow<
                 fp.TE.chainEitherK((media) =>
                   sequenceS(fp.E.Applicative)({
                     area: toAreaIO(area),
-                    media: toImageIO(media[0], ctx.env.SPACE_ENDPOINT),
+                    media: pipe(
+                      media.map((m) => toImageIO(m, ctx.env.SPACE_ENDPOINT)),
+                      fp.A.sequence(fp.E.Applicative),
+                    ),
                   }),
                 ),
               ),
