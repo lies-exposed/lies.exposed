@@ -3560,7 +3560,7 @@ __metadata:
     react-query: ^3.39.3
     react-share: ^4.4.1
     react-slick: ^0.29.0
-    react-spring: ^9.7.2
+    react-spring: ^9.7.3
     react-toc: ^3.1.0
     react-virtualized: ^9.22.5
     reactflow: ^11.9.2
@@ -22574,9 +22574,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-spring@npm:^9.7.2":
-  version: 9.7.2
-  resolution: "react-spring@npm:9.7.2"
+"react-spring@npm:^9.7.3":
+  version: 9.7.3
+  resolution: "react-spring@npm:9.7.3"
   dependencies:
     "@react-spring/core": ~9.7.3
     "@react-spring/konva": ~9.7.3
@@ -22587,7 +22587,7 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: c3cfe2091d1d0dcce34f5a400c379603664821be5a72f6f9815131c6777dd47aea5b6bccbd3ad2cb8e0194489349202e9592cd49595ef768a22c6eb69262c352
+  checksum: f763fb64b16b59b7b98816b88898d1697906aebd0d9067bdb2af61d2522b3a313d1117e139e75e39f0cd438e1d110956cfb3573bdefb5516ffba3e7aa618d87e
   languageName: node
   linkType: hard
 
@@ -24371,7 +24371,7 @@ __metadata:
     prettier: ^3.0.3
     react: ^18.2.0
     react-dom: ^18.2.0
-    react-spring: ^9.7.2
+    react-spring: ^9.7.3
     reactflow: ^11.9.2
     storybook: ^7.4.6
     typescript: ^5.2.2
@@ -26591,7 +26591,7 @@ __metadata:
     react-router-dom: ^6.15.0
     react-share: ^4.4.1
     react-slick: ^0.29.0
-    react-spring: ^9.7.2
+    react-spring: ^9.7.3
     react-toc: ^3.1.0
     reactflow: ^11.9.2
     slick-carousel: ^1.8.1
