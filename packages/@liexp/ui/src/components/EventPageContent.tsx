@@ -1,8 +1,11 @@
 import * as http from "@liexp/shared/lib/io/http";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events";
+import {
+  EventTypes
+} from "@liexp/shared/lib/io/http/Events";
 import * as React from "react";
 import { useTheme } from "../theme";
 import { DefaultEventPageContent } from "./events/page-content/DefaultEventPageContent";
+import { DocumentaryPageContent } from "./events/page-content/DocumentaryPageContent";
 import { QuoteEventPageContent } from "./events/page-content/QuoteEventPageContent";
 import { Box, Grid, Link } from "./mui";
 
@@ -46,6 +49,12 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
   const eventPageContent =
     event.type === EventTypes.QUOTE.value ? (
       <QuoteEventPageContent event={event} />
+    ) : event.type === EventTypes.DOCUMENTARY.value ? (
+      <DocumentaryPageContent
+        event={event}
+        media={relations.media[0]}
+        onMediaClick={onMediaClick}
+      />
     ) : (
       <DefaultEventPageContent
         event={event}
