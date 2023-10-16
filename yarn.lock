@@ -3504,7 +3504,7 @@ __metadata:
     "@types/throttle-debounce": ^5.0.0
     "@types/topojson-client": ^3.1.2
     "@types/topojson-specification": ^1.0.3
-    "@visx/axis": ^3.3.0
+    "@visx/axis": ^3.4.0
     "@visx/chord": ^3.3.0
     "@visx/clip-path": ^3.3.0
     "@visx/event": ^3.3.0
@@ -9062,9 +9062,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@visx/axis@npm:^3.3.0":
-  version: 3.3.0
-  resolution: "@visx/axis@npm:3.3.0"
+"@visx/axis@npm:^3.4.0":
+  version: 3.4.0
+  resolution: "@visx/axis@npm:3.4.0"
   dependencies:
     "@types/react": "*"
     "@visx/group": 3.3.0
@@ -9076,7 +9076,7 @@ __metadata:
     prop-types: ^15.6.0
   peerDependencies:
     react: ^16.3.0-0 || ^17.0.0-0 || ^18.0.0-0
-  checksum: b82d5017ca01c23b0f5c3dbf23d99ea28dcfd37bac8f15d0397d6ba0ac3d569dd935f7cc90588a6c1c1bee185af444539ecde1d653484c0922131f7ab43c5928
+  checksum: 77c0b94075c4662098136a78f466e0f3864db97fa091494a33579bfab7f99e04f52bf6a70facaf9061f7c1918b471b752833866dfbe7c8905181b3d4f35a203e
   languageName: node
   linkType: hard
 
@@ -26437,7 +26437,7 @@ __metadata:
     "@types/webpack-node-externals": ^3.0.2
     "@typescript-eslint/eslint-plugin": ^6.7.5
     "@typescript-eslint/parser": ^6.7.5
-    "@visx/axis": ^3.3.0
+    "@visx/axis": ^3.4.0
     "@visx/gradient": ^3.3.0
     "@visx/legend": ^3.3.0
     "@visx/network": ^3.3.0
