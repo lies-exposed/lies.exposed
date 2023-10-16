@@ -74,8 +74,8 @@ export const GetListMediaQuery = t.type(
 );
 export type GetListMediaQuery = t.TypeOf<typeof GetListMediaQuery>;
 
-const MediaExtra = t.strict({ duration: t.number }, 'MediaExtra');
-type MediaExtra = t.TypeOf<typeof MediaExtra>
+export const MediaExtra = t.strict({ duration: t.number }, 'MediaExtra');
+export type MediaExtra = t.TypeOf<typeof MediaExtra>
 
 export const CreateMedia = t.strict(
   {

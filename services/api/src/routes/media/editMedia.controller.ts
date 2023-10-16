@@ -1,12 +1,14 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { MP4Type } from "@liexp/shared/lib/io/http/Media";
 import { type Router } from "express";
-import { sequenceS } from "fp-ts/Apply";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
+import * as t from "io-ts";
 import { Equal } from "typeorm";
 import { toMediaIO } from "./media.io";
 import { MediaEntity } from "@entities/Media.entity";
+import { extractMP4Extra } from "@flows/media/extra/extractMP4Extra";
 import { createThumbnail } from "@flows/media/thumbnails/createThumbnail.flow";
 import { transferFromExternalProvider } from "@flows/media/transferFromExternalProvider.flow";
 import { type RouteContext } from "@routes/route.types";
@@ -20,10 +22,10 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
         overrideThumbnail: _overrideThumbnail,
         transfer: _transfer,
         transferThumbnail: _transferThumbnail,
+        overrideExtra: _overrideExtra,
         thumbnail,
         location,
         creator,
-        extra: _extra,
         ...body
       },
     }) => {
@@ -31,6 +33,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
         _overrideThumbnail,
         O.filter((o) => !!o),
       );
+      const overrideExtra = pipe(_overrideExtra, O.filter(t.boolean.is));
 
       const transfer = pipe(
         _transfer,
@@ -42,72 +45,76 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
         O.filter((o) => !!o),
       );
 
-      const extra = pipe(_extra, O.toUndefined);
-
       return pipe(
-        ctx.db.findOneOrFail(MediaEntity, {
-          where: { id: Equal(id) },
-          loadRelationIds: {
-            relations: ["creator"],
-          },
-        }),
-        TE.chain((m) =>
-          pipe(
-            sequenceS(TE.ApplicativeSeq)({
-              thumbnail: O.isSome(overrideThumbnail)
-                ? pipe(
-                    createThumbnail(ctx)({
-                      ...m,
-                      ...body,
-                      id,
-                    }),
-                    TE.map((s) => s[0]),
-                  )
-                : O.isSome(transferThumbnail) && m.thumbnail
-                ? transferFromExternalProvider(ctx)(
-                    m.id,
-                    m.thumbnail,
-                    `${m.id}-thumb`,
-                    m.type,
-                  )
-                : TE.right(O.toNullable(thumbnail)),
-              location: O.isSome(transfer)
-                ? transferFromExternalProvider(ctx)(
-                    m.id,
-                    m.location,
-                    m.id,
-                    m.type,
-                  )
-                : TE.right(location),
-            }),
-            ctx.logger.debug.logInTaskEither(`Updates %O`),
-            TE.map(({ thumbnail, location }) => ({
-              ...m,
-              ...body,
-              keywords: body.keywords.map((id) => ({ id })),
-              links: body.links.map((id) => ({ id })),
-              events: body.events.map((id) => ({
-                id,
-              })),
-              areas: body.areas.map((id) => ({
-                id,
-              })),
-              creator: O.isSome(creator)
-                ? { id: creator.value }
-                : { id: m.creator as any },
-              extra,
-              thumbnail,
-              location,
-            })),
-          ),
-        ),
-        TE.chain((image) =>
-          ctx.db.save(MediaEntity, [
-            {
-              ...image,
-              id,
+        TE.Do,
+        TE.bind("media", () =>
+          ctx.db.findOneOrFail(MediaEntity, {
+            where: { id: Equal(id) },
+            loadRelationIds: {
+              relations: ["creator"],
             },
-          ]),
+          }),
+        ),
+        TE.bind("thumbnail", ({ media: m }) =>
+          O.isSome(overrideThumbnail)
+            ? pipe(
+                createThumbnail(ctx)({
+                  ...m,
+                  ...body,
+                  id,
+                }),
+                TE.map((s) => s[0]),
+              )
+            : O.isSome(transferThumbnail) && m.thumbnail
+            ? transferFromExternalProvider(ctx)(
+                m.id,
+                m.thumbnail,
+                `${m.id}-thumb`,
+                m.type,
+              )
+            : TE.right(O.toNullable(thumbnail)),
+        ),
+        TE.bind("location", ({ media }) =>
+          O.isSome(transfer)
+            ? transferFromExternalProvider(ctx)(
+                media.id,
+                media.location,
+                media.id,
+                media.type,
+              )
+            : TE.right(location),
+        ),
+        TE.bind("extra", ({ media }) =>
+          O.isSome(overrideExtra) && media.type === MP4Type.value
+            ? extractMP4Extra(ctx)({ ...media, type: MP4Type.value })
+            : TE.right(media.extra),
+        ),
+        ctx.logger.debug.logInTaskEither(`Updates %O`),
+        TE.chain(({ thumbnail, location, media, extra }) =>
+          pipe(
+            ctx.db.save(MediaEntity, [
+              {
+                ...media,
+                ...body,
+                keywords: body.keywords.map((id) => ({ id })),
+                links: body.links.map((id) => ({ id })),
+                events: body.events.map((id) => ({
+                  id,
+                })),
+                areas: body.areas.map((id) => ({
+                  id,
+                })),
+                creator: O.isSome(creator)
+                  ? { id: creator.value }
+                  : { id: media.creator as any },
+                extra,
+                thumbnail,
+                location,
+
+                id,
+              },
+            ]),
+          ),
         ),
         TE.chain(([media]) =>
           TE.fromEither(

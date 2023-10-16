@@ -4,22 +4,22 @@ import { fp } from "@liexp/core/lib/fp";
 import { type Media } from "@liexp/shared/lib/io/http";
 import { type MP4Type } from "@liexp/shared/lib/io/http/Media";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils";
-import { taskifyStream } from "@liexp/shared/lib/utils/task.utils";
-import axios from "axios";
 import type Ffmpeg from "fluent-ffmpeg";
 import * as TE from "fp-ts/TaskEither";
-import { pipe, flow } from "fp-ts/function";
+import { pipe } from "fp-ts/function";
+import { downloadMP4Video } from "../downloadMP4Video";
 import { type ExtractThumbnailFlow } from "./ExtractThumbnailFlow.type";
 import { type TEFlow } from "@flows/flow.types";
 import { toControllerError } from "@io/ControllerError";
 
-type SimpleMedia = Pick<Media.Media, "id" | "location"> & { type: MP4Type };
+export type SimpleMedia = Pick<Media.Media, "id" | "location"> & {
+  type: MP4Type;
+};
 
 export const takeVideoScreenshots: TEFlow<
   [
     {
       media: SimpleMedia;
-      tempFolder: string;
       filename: string;
       tempVideoFilePath: string;
       opts: Ffmpeg.ScreenshotsConfig;
@@ -28,13 +28,7 @@ export const takeVideoScreenshots: TEFlow<
   Array<{ key: string; thumbnailName: string }>
 > =
   (ctx) =>
-  ({
-    filename,
-    tempFolder,
-    media,
-    tempVideoFilePath,
-    opts: screenshotOpts,
-  }) => {
+  ({ filename, media, tempVideoFilePath, opts: screenshotOpts }) => {
     return pipe(
       ctx.ffmpeg.runCommand((ffmpeg) => {
         const command = ffmpeg(tempVideoFilePath)
@@ -64,7 +58,10 @@ export const takeVideoScreenshots: TEFlow<
 
             return {
               key,
-              thumbnailName: path.resolve(tempFolder, thumbnailName),
+              thumbnailName: path.resolve(
+                ctx.config.dirs.temp.media,
+                thumbnailName,
+              ),
             };
           }),
         );
@@ -72,53 +69,19 @@ export const takeVideoScreenshots: TEFlow<
     );
   };
 
-export const extractVideoMetadata: TEFlow<[string], Ffmpeg.FfprobeData> = (
-  ctx,
-) => flow(ctx.ffmpeg.ffprobe, TE.mapLeft(toControllerError));
-
-export const downloadVideo: TEFlow<[SimpleMedia, string], string> =
-  (ctx) => (media, tempFolder) => {
-    const tempVideoFilePath = path.resolve(tempFolder, `${media.id}.mp4`);
-
-    if (fs.existsSync(tempVideoFilePath)) {
-      return TE.right(tempVideoFilePath);
-    }
-
-    return pipe(
-      TE.tryCatch(() => {
-        ctx.logger.debug.log("Getting mp4 from %s", media.location);
-        return axios.get(media.location, {
-          responseType: "stream",
-        });
-      }, toControllerError),
-      TE.chain((stream) => {
-        const tempVideoFile = fs.createWriteStream(tempVideoFilePath);
-
-        return pipe(
-          taskifyStream(stream.data, tempVideoFile),
-          TE.mapLeft(toControllerError),
-          TE.map(() => tempVideoFilePath),
-        );
-      }),
-    );
-  };
-
 export const extractMP4Thumbnail: ExtractThumbnailFlow<MP4Type> =
   (ctx) => (media) => {
-    const tempFolder = path.resolve(process.cwd(), "temp");
-
     return pipe(
       TE.Do,
-      TE.bind("tempVideoFilePath", () => downloadVideo(ctx)(media, tempFolder)),
-      TE.bind("metadata", ({ tempVideoFilePath }) =>
-        extractVideoMetadata(ctx)(tempVideoFilePath),
+      TE.bind("tempVideoFilePath", () =>
+        downloadMP4Video(ctx)(media, ctx.config.dirs.temp.media),
       ),
       TE.bind("screenshots", ({ tempVideoFilePath }) => {
         const filename = `${media.id}-thumb-%i.png`;
 
         const screenshotOpts = {
           timemarks: ["10%", "20%"],
-          folder: tempFolder,
+          folder: ctx.config.dirs.temp.media,
           filename,
           count: 2,
         };
@@ -127,7 +90,6 @@ export const extractMP4Thumbnail: ExtractThumbnailFlow<MP4Type> =
           takeVideoScreenshots(ctx)({
             media,
             filename,
-            tempFolder,
             tempVideoFilePath,
             opts: screenshotOpts,
           }),

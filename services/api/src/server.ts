@@ -171,7 +171,10 @@ export const makeContext = (
           exifR: ExifReader,
         }),
       ),
-      config: TE.right({ events: EventsConfig }),
+      config: TE.right({
+        events: EventsConfig,
+        dirs: { temp: { media: path.resolve(process.cwd(), "temp") } },
+      }),
     }),
     TE.mapLeft((e) => ({
       ...e,
