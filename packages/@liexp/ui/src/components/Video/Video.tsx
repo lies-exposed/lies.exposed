@@ -78,11 +78,11 @@ export const Video: React.FC<VideoProps> = ({
         <VideoCover
           thumbnail={thumbnail}
           onClick={(e) => {
-            e.stopPropagation();
-            if (onClick) {
-              onClick(e);
-            } else {
+            if (disableZoom) {
+              e.stopPropagation();
               setLoaded(true);
+            } else if (onClick) {
+              onClick(e);
             }
           }}
           style={{
