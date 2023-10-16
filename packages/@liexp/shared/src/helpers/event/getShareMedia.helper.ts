@@ -10,7 +10,9 @@ export const getShareMultipleMedia = (
 ): SocialPostBodyMultipleMedia => {
   const cover = media.reduce<SocialPostBodyMultipleMedia>((acc, m) => {
     if (http.Media.MP4Type.is(m.type)) {
-      return acc.concat([{ type: "video", media: m.location }]);
+      return acc.concat([
+        { type: "video", media: m.location, duration: m.extra?.duration ?? 0 },
+      ]);
     } else if (http.Media.PDFType.is(m.type)) {
       return acc.concat([
         { type: "photo", media: m.thumbnail ?? defaultImage },

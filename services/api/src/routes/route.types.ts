@@ -6,6 +6,11 @@ import { type EventsConfig } from '@queries/config';
 export interface RouteContext extends ServerContext {
   env: ENV;
   config: {
+    dirs: {
+      temp: {
+        media: string;
+      }
+    }
     events: EventsConfig;
   };
 }

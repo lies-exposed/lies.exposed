@@ -16,7 +16,7 @@ import {
   useRecordContext,
   useRefresh,
   type EditProps,
-  type FieldProps,
+  type FieldProps
 } from "react-admin";
 import { transformMedia } from "../../../client/admin/MediaAPI";
 import { Box, Button, Grid } from "../../mui";
@@ -30,8 +30,10 @@ import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput";
 import MediaPreview from "../previews/MediaPreview";
 import { ReferenceLinkTab } from "../tabs/ReferenceLinkTab";
 import ReferenceUserInput from "../user/ReferenceUserInput";
-import { GenerateThumbnailButton } from "./GenerateThumbnailButton";
+import { DurationField } from './DurationField';
 import { MediaField } from "./MediaField";
+import { GenerateExtraButton } from "./button/GenerateExtraButton";
+import { GenerateThumbnailButton } from "./button/GenerateThumbnailButton";
 import { MediaTGPostButton } from "./button/MediaTGPostButton";
 import { MediaInput } from "./input/MediaInput";
 
@@ -179,6 +181,8 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
             <Grid item md={6}>
               <MediaField source="location" controls={true} />
               <MediaInput sourceLocation="location" sourceType="type" />
+              <DurationField source="extra.duration" />
+              <GenerateExtraButton />
               <TransferButton {...props} />
             </Grid>
             <Grid item md={6}>

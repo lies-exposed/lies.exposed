@@ -1,3 +1,4 @@
+import { MP4Type } from "@liexp/shared/lib/io/http/Media";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
 import * as React from "react";
 import {
@@ -14,6 +15,7 @@ import {
   type ListProps,
 } from "react-admin";
 import { Box, Typography, amber } from "../../mui";
+import { toFormattedDuration } from "./DurationField";
 import { MediaField } from "./MediaField";
 import { MediaTypeInput } from "./input/MediaTypeInput";
 
@@ -79,7 +81,12 @@ export const MediaList: React.FC<ListProps> = (props) => {
                 >
                   {url.hostname}
                 </Typography>
-                <Typography variant="subtitle1">{r.type}</Typography>
+                <Typography variant="subtitle1">
+                  {r.type}
+                  {r.type === MP4Type.value &&
+                    r.extra?.duration &&
+                    ` - ${toFormattedDuration(r.extra.duration)}`}
+                </Typography>
                 <Typography variant="body1">{r.description}</Typography>
               </Box>
             );

@@ -10,16 +10,25 @@ import { KEYWORDS, Keyword } from "./Keyword";
 import { MEDIA } from "./Media";
 import { GetListQuery } from "./Query";
 
-export const SocialPostBodyMultipleMedia = t.array(
-  t.type({
-    type: t.union([
-      t.literal("photo"),
-      t.literal("video"),
-      // t.literal("file"),
-      // t.literal("music"),
-    ]),
+export const SocialPostPhoto = t.type(
+  {
+    type: t.literal("photo"),
     media: t.string,
-  }),
+  },
+  "SocialPostPhoto",
+);
+
+export const SocialPostVideo = t.type(
+  {
+    type: t.literal("video"),
+    media: t.string,
+    duration: t.number,
+  },
+  "SocialPostVideo",
+);
+
+export const SocialPostBodyMultipleMedia = t.array(
+  t.union([SocialPostPhoto, SocialPostVideo]),
   "SocialPostBodyMultipleMedia",
 );
 export type SocialPostBodyMultipleMedia = t.TypeOf<
