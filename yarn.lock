@@ -3368,7 +3368,7 @@ __metadata:
     express: ^4.18.2
     file-loader: ^6.2.0
     filemanager-webpack-plugin: ^8.0.0
-    fork-ts-checker-webpack-plugin: ^8.0.0
+    fork-ts-checker-webpack-plugin: ^9.0.0
     fp-ts: ^2.16.1
     html-replace-webpack-plugin: ^2.6.0
     html-webpack-plugin: ^5.5.3
@@ -3385,7 +3385,7 @@ __metadata:
     tsconfig-paths-webpack-plugin: ^4.1.0
     typescript: ^5.2.2
     url-loader: ^4.1.1
-    webpack: ^5.88.2
+    webpack: ^5.89.0
     webpack-bundle-analyzer: ^4.9.1
     webpack-dev-server: ^4.15.1
     webpack-node-externals: ^3.0.0
@@ -8026,17 +8026,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:*, @types/eslint@npm:^8.37.0":
-  version: 8.44.3
-  resolution: "@types/eslint@npm:8.44.3"
-  dependencies:
-    "@types/estree": "*"
-    "@types/json-schema": "*"
-  checksum: 3a0d152785400cb83a887a646d9c8877468e686b6fb439635c64856b70dbe91019e588d2b32bc923cd60642bf5dca7f70b2cf61eb431cf25fbdf2932f6e13dd3
-  languageName: node
-  linkType: hard
-
-"@types/eslint@npm:^8.44.4":
+"@types/eslint@npm:*, @types/eslint@npm:^8.37.0, @types/eslint@npm:^8.44.4":
   version: 8.44.4
   resolution: "@types/eslint@npm:8.44.4"
   dependencies:
@@ -8072,19 +8062,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express@npm:*, @types/express@npm:^4.17.13, @types/express@npm:^4.7.0":
-  version: 4.17.18
-  resolution: "@types/express@npm:4.17.18"
-  dependencies:
-    "@types/body-parser": "*"
-    "@types/express-serve-static-core": ^4.17.33
-    "@types/qs": "*"
-    "@types/serve-static": "*"
-  checksum: 8c178da4f0edff1f006d871fbdc3f849620986ff10bad252f3dfd45b57554e26aaa28c602285df028930d5216e257a06fbaf795070f8bb42f7d87e3b689cba50
-  languageName: node
-  linkType: hard
-
-"@types/express@npm:^4.17.19":
+"@types/express@npm:*, @types/express@npm:^4.17.13, @types/express@npm:^4.17.19, @types/express@npm:^4.7.0":
   version: 4.17.19
   resolution: "@types/express@npm:4.17.19"
   dependencies:
@@ -8480,16 +8458,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:*, @types/react-dom@npm:^18.0.0":
-  version: 18.2.12
-  resolution: "@types/react-dom@npm:18.2.12"
-  dependencies:
-    "@types/react": "*"
-  checksum: 64eaf808e91c1d58270ea92dda0e0cbb671f7289be4a5a4e0ccbd85857dd69394970eaa403d958dfbca739735c0af9cde4cf8fe135ff34434838360beae8d306
-  languageName: node
-  linkType: hard
-
-"@types/react-dom@npm:^18.2.13":
+"@types/react-dom@npm:*, @types/react-dom@npm:^18.0.0, @types/react-dom@npm:^18.2.13":
   version: 18.2.13
   resolution: "@types/react-dom@npm:18.2.13"
   dependencies:
@@ -8568,18 +8537,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:>=16":
-  version: 18.2.27
-  resolution: "@types/react@npm:18.2.27"
-  dependencies:
-    "@types/prop-types": "*"
-    "@types/scheduler": "*"
-    csstype: ^3.0.2
-  checksum: bb29779d4e83e30886a4a939b02812a7ae2d49a26e19eb4be48a6d4e73e8b09ca1a639c97c0ba12a7fe46711355059db7f958cbc1754fe697690656cdb9eca07
-  languageName: node
-  linkType: hard
-
-"@types/react@npm:^18.2.28":
+"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^18.2.28":
   version: 18.2.28
   resolution: "@types/react@npm:18.2.28"
   dependencies:
@@ -9930,7 +9888,7 @@ __metadata:
     typescript: ^5.2.2
     uuid: ^9.0.1
     web-vitals: ^3.4.0
-    webpack: ^5.88.2
+    webpack: ^5.89.0
     webpack-bundle-analyzer: ^4.9.1
     webpack-cli: ^5.1.4
   languageName: unknown
@@ -15367,6 +15325,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fork-ts-checker-webpack-plugin@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "fork-ts-checker-webpack-plugin@npm:9.0.0"
+  dependencies:
+    "@babel/code-frame": ^7.16.7
+    chalk: ^4.1.2
+    chokidar: ^3.5.3
+    cosmiconfig: ^7.0.1
+    deepmerge: ^4.2.2
+    fs-extra: ^10.0.0
+    memfs: ^3.4.1
+    minimatch: ^3.0.4
+    node-abort-controller: ^3.0.1
+    schema-utils: ^3.1.1
+    semver: ^7.3.5
+    tapable: ^2.2.1
+  peerDependencies:
+    typescript: ">3.6.0"
+    webpack: ^5.11.0
+  checksum: 268494ac57dfd766f775397f53fb63966331218933d899a23a135755d35ea21cc526ae70284cdac1602d587ffb2168bccc9adf06e7c905a5320d421bd6b1c477
+  languageName: node
+  linkType: hard
+
 "form-data@npm:^2.5.0":
   version: 2.5.1
   resolution: "form-data@npm:2.5.1"
@@ -18005,7 +17986,7 @@ __metadata:
     terser: ^5.21.0
     typescript: ^5.2.2
     vitest: ^0.34.6
-    webpack: ^5.88.2
+    webpack: ^5.89.0
   languageName: unknown
   linkType: soft
 
@@ -24274,7 +24255,7 @@ __metadata:
     reactflow: ^11.9.2
     storybook: ^7.4.6
     typescript: ^5.2.2
-    webpack: ^5.88.2
+    webpack: ^5.89.0
   languageName: unknown
   linkType: soft
 
@@ -26502,7 +26483,7 @@ __metadata:
     tsconfig-paths-webpack-plugin: ^4.1.0
     typescript: ^5.2.2
     uuid: ^9.0.1
-    webpack: ^5.88.2
+    webpack: ^5.89.0
     webpack-bundle-analyzer: ^4.9.1
     webpack-cli: ^5.1.4
     webpack-dev-server: ^4.15.1
@@ -26699,9 +26680,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack@npm:5, webpack@npm:^5, webpack@npm:^5.88.2":
-  version: 5.88.2
-  resolution: "webpack@npm:5.88.2"
+"webpack@npm:5, webpack@npm:^5, webpack@npm:^5.89.0":
+  version: 5.89.0
+  resolution: "webpack@npm:5.89.0"
   dependencies:
     "@types/eslint-scope": ^3.7.3
     "@types/estree": ^1.0.0
@@ -26732,7 +26713,7 @@ __metadata:
       optional: true
   bin:
     webpack: bin/webpack.js
-  checksum: 79476a782da31a21f6dd38fbbd06b68da93baf6a62f0d08ca99222367f3b8668f5a1f2086b7bb78e23172e31fa6df6fa7ab09b25e827866c4fc4dc2b30443ce2
+  checksum: 43fe0dbc30e168a685ef5a86759d5016a705f6563b39a240aa00826a80637d4a3deeb8062e709d6a4b05c63e796278244c84b04174704dc4a37bedb0f565c5ed
   languageName: node
   linkType: hard
 
