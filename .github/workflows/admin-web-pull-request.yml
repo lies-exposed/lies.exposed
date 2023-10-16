@@ -17,7 +17,7 @@ jobs:
   install:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: ./.github/actions/install-deps
         with:
@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [install]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: ./.github/actions/install-deps
         with:
@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [install, build-packages]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: ./.github/actions/install-deps
         with:
@@ -59,7 +59,7 @@ jobs:
     needs: [install, build-packages, lint]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: ./.github/actions/install-deps
         with:
@@ -83,7 +83,7 @@ jobs:
     needs: [install, build-packages, lint, build]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: ./.github/actions/install-deps
         with:
