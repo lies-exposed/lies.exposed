@@ -8,6 +8,7 @@ export interface RouteContext extends ServerContext {
   config: {
     dirs: {
       temp: {
+        root: string;
         media: string;
       }
     }

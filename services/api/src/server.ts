@@ -173,7 +173,12 @@ export const makeContext = (
       ),
       config: TE.right({
         events: EventsConfig,
-        dirs: { temp: { media: path.resolve(process.cwd(), "temp") } },
+        dirs: {
+          temp: {
+            root: path.resolve(process.cwd(), "temp"),
+            media: path.resolve(process.cwd(), "temp/media"),
+          },
+        },
       }),
     }),
     TE.mapLeft((e) => ({

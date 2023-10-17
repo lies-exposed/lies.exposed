@@ -71,11 +71,11 @@ export const GetFSClient = (): FSClient => {
         }
 
         const statsExists = fs.existsSync(filePath);
-        fsLogger.debug.log(
-          "Network file path %s exists? %s",
-          path.relative(process.cwd(), filePath),
-          statsExists,
-        );
+        // fsLogger.debug.log(
+        //   "Network file path %s exists? %s",
+        //   path.relative(process.cwd(), filePath),
+        //   statsExists,
+        // );
         return statsExists;
       }, toFSError),
     );
@@ -90,12 +90,13 @@ export const GetFSClient = (): FSClient => {
           const hoursDelta = differenceInHours(new Date(), mtime);
 
           fsLogger.debug.log(
-            "Last network file update %s (%d h)",
+            "Last file update %s (%d h > %d h)",
             distanceFromNow(mtime),
             hoursDelta,
+            hours
           );
 
-          return hoursDelta < hours;
+          return hoursDelta >= hours;
         }
 
         return false;
@@ -134,15 +135,15 @@ export const GetFSClient = (): FSClient => {
     getOlderThanOr: (fileName, hours) => (te) => {
       return pipe(
         olderThan(fileName, hours),
-        fp.TE.chain((exists) => {
-          if (exists) {
+        fp.TE.chain((older) => {
+          if (!older) {
             return pipe(getObject(fileName), fp.TE.map(JSON.parse));
           }
           return pipe(
             te,
             fp.TE.mapLeft(toFSError),
-            fp.TE.chainFirst((graph) =>
-              writeObject(fileName, JSON.stringify(graph)),
+            fp.TE.chainFirst((body) =>
+              writeObject(fileName, JSON.stringify(body)),
             ),
           );
         }),
