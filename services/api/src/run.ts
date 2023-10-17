@@ -7,6 +7,7 @@ import { pipe } from "fp-ts/function";
 import { failure } from "io-ts/lib/PathReporter";
 import { postOnSocialJob } from "./jobs/socialPostScheduler.job";
 import { makeApp, makeContext } from "./server";
+import { cleanTempFolder } from "./jobs/cleanTempFolder.job";
 
 const run = (): Promise<void> => {
   const serverLogger = logger.GetLogger("api");
@@ -43,7 +44,9 @@ const run = (): Promise<void> => {
         () => {
           // cron jobs
           const postOnSocialTask = postOnSocialJob(ctx);
+          const cleanTempFolderTask = cleanTempFolder(ctx);
           postOnSocialTask.start();
+          cleanTempFolderTask.start();
 
           const server = app.listen(ctx.env.API_PORT, () => {
             ctx.logger.info.log(`Server is listening ${ctx.env.API_PORT}`);
@@ -57,6 +60,9 @@ const run = (): Promise<void> => {
             // downloadVaccineDataTask.stop();
             serverLogger.debug.log(`Removing "post on social" cron task...`);
             postOnSocialTask.stop();
+            serverLogger.debug.log(`Removing "clean up temp folder" cron task...`);
+            cleanTempFolderTask.stop();
+
             // eslint-disable-next-line no-console
             serverLogger.debug.log("closing server...");
             server.close();
@@ -75,6 +81,7 @@ const run = (): Promise<void> => {
                   );
                 },
               );
+
             void ctx.db
               .close()()
               .then((e) => {
