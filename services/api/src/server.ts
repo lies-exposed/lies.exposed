@@ -174,6 +174,7 @@ export const makeContext = (
       config: TE.right({
         events: EventsConfig,
         dirs: {
+          cwd: process.cwd(),
           temp: {
             root: path.resolve(process.cwd(), "temp"),
             media: path.resolve(process.cwd(), "temp/media"),
@@ -311,7 +312,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
       sequenceS(TE.ApplicativePar)({
         storeMsg: GetWriteJSON(ctx.logger)(
           path.resolve(
-            process.cwd(),
+            ctx.config.dirs.cwd,
             `temp/tg/messages/${msg.message_id}.json`,
           ),
         )(msg),

@@ -52,7 +52,7 @@ export const createStatsByEntityType: TEFlow<
   [StatsType, string],
   HierarchicalEdgeBundlingProps["graph"]
 > = (ctx) => (type, id) => {
-  const filePath = path.resolve(process.cwd(), `temp/stats/${type}/${id}.json`);
+  const filePath = path.resolve(ctx.config.dirs.cwd, `temp/stats/${type}/${id}.json`);
 
   ctx.logger.debug.log("%s stats file %s", type, filePath);
 

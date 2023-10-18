@@ -26,8 +26,8 @@ export const ColorInput: React.FC<TextInputProps> = ({
         style={{
           alignItems: "center",
           justifyContent: "center",
-          background: toColorHash(color),
-          margin: "0 20px",
+          border: `2px solid ${toColorHash(color)}`,
+          padding: "10px 20px",
         }}
       >
         <Button
@@ -42,6 +42,7 @@ export const ColorInput: React.FC<TextInputProps> = ({
         />
         <TextField
           size="small"
+          label={props.label ?? "color"}
           value={color}
           style={{ width: 80 }}
           onChange={(e: any) => {

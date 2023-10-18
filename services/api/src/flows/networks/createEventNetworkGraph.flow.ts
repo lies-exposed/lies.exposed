@@ -343,8 +343,8 @@ export const createEventNetworkGraph: TEFlow<
   (ctx) =>
   (id, { relations: relation }) => {
     const filePath = path.resolve(
-      process.cwd(),
-      `temp/networks/events/${id}.json`,
+      ctx.config.dirs.temp.root,
+      `networks/events/${id}.json`,
     );
 
     const createEventNetworkGraphTask = pipe(
