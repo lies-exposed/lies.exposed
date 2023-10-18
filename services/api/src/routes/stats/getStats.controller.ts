@@ -11,8 +11,8 @@ import { toControllerError } from "@io/ControllerError";
 export const MakeGetStatsRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Stats.List, ({ query: { id, type } }) => {
     const filePath = path.resolve(
-      process.cwd(),
-      `temp/stats/${type}/${id}.json`,
+      ctx.config.dirs.temp.root,
+      `stats/${type}/${id}.json`,
     );
 
     return pipe(

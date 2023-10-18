@@ -11,7 +11,7 @@ export const createStats: TEFlow<
   ["keywords" | "groups" | "actors", string],
   any
 > = (ctx) => (type, id) => {
-  const filePath = path.resolve(process.cwd(), `temp/stats/${type}/${id}.json`);
+  const filePath = path.resolve(ctx.config.dirs.temp.root, `stats/${type}/${id}.json`);
 
   ctx.logger.debug.log("%s stats file %s", filePath);
 

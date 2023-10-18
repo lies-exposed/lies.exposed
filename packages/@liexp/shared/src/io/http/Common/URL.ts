@@ -25,3 +25,5 @@ export const URL = t.brand(
 );
 
 export type URL = t.TypeOf<typeof URL>;
+export const MaybeURL = t.union([URL, t.string], "MaybeURL");
+export type MaybeURL = t.TypeOf<typeof MaybeURL>;

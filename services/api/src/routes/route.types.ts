@@ -7,6 +7,7 @@ export interface RouteContext extends ServerContext {
   env: ENV;
   config: {
     dirs: {
+      cwd: string;
       temp: {
         root: string;
         media: string;
