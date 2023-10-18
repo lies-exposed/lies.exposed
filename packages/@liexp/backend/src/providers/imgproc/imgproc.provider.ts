@@ -6,7 +6,7 @@ import * as TE from "fp-ts/TaskEither";
 import type sharp from "sharp";
 import { IOError } from "ts-io-error";
 
-class ImgProcError extends IOError {}
+export class ImgProcError extends IOError {}
 
 export const toError =
   (l: logger.Logger) =>

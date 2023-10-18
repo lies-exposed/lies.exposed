@@ -87,7 +87,7 @@ const parseVideo: TEFlow<[string, TelegramBot.Video], MediaEntity[]> =
       ...video,
       description,
     });
-    // const tempFolder = path.resolve(process.cwd(), "temp/tg/media");
+
     const mediaId = uuid();
     const thumbTask: TE.TaskEither<ControllerError, string | undefined> = pipe(
       O.fromNullable(video.thumb?.file_id),

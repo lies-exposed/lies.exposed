@@ -210,7 +210,7 @@ export const createFlowGraph: TEFlow<
   (id, type, { relations, emptyRelations, ...query }) => {
     ctx.logger.debug.log(`Flow graph for %s (%s) %O`, type, id, query);
     const filePath = path.resolve(
-      process.cwd(),
+      ctx.config.dirs.cwd,
       `temp/graphs/flows/${type}/${id}.json`,
     );
 
