@@ -53,7 +53,7 @@ export const authProvider: AuthProvider = {
       return Promise.reject(errorData);
     }
     // eslint-disable-next-line no-console
-    console.error(e);
+    console.error(e.response?.data);
     return Promise.resolve();
   },
   getPermissions: async () => {

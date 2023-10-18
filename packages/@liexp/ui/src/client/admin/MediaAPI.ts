@@ -151,6 +151,7 @@ export const transformMedia =
       (data.newLinks ?? []).flatMap((l: any) => l.ids),
     );
     const keywords = (data.keywords ?? []).concat(data.newKeywords ?? []);
+    const areas = (data.areas ?? []).concat(data.newAreas ?? []);
 
     return await pipe(
       mediaTask,
@@ -161,6 +162,7 @@ export const transformMedia =
         events,
         links,
         keywords,
+        areas,
       })),
       throwTE,
     );
