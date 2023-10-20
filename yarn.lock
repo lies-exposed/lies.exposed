@@ -3299,9 +3299,9 @@ __metadata:
     "@liexp/test": 0.1.0
     "@types/fluent-ffmpeg": ^2.1.23
     "@types/jsonwebtoken": ^9.0.4
-    "@types/node-telegram-bot-api": ^0.61.9
+    "@types/node-telegram-bot-api": ^0.61.11
     "@types/prettier": ^3.0.0
-    "@types/uuid": ^9.0.5
+    "@types/uuid": ^9.0.6
     date-fns: ^2.30.0
     exifreader: ^4.13.0
     fp-ts: ^2.16.1
@@ -3350,15 +3350,15 @@ __metadata:
     "@types/copy-webpack-plugin": ^10.1.0
     "@types/debug": ^4.1.10
     "@types/dotenv-webpack": ^7.0.6
-    "@types/eslint": ^8.44.5
+    "@types/eslint": ^8.44.6
     "@types/express": ^4.17.20
     "@types/html-replace-webpack-plugin": ^2.6.3
-    "@types/mime": ^1.3.3
+    "@types/mime": ^1.3.4
     "@types/mini-css-extract-plugin": ^2.5.1
     "@types/prettier": ^3.0.0
-    "@types/react": ^18.2.29
-    "@types/webpack-bundle-analyzer": ^4.6.1
-    "@types/webpack-node-externals": ^3.0.2
+    "@types/react": ^18.2.31
+    "@types/webpack-bundle-analyzer": ^4.6.2
+    "@types/webpack-node-externals": ^3.0.3
     copy-webpack-plugin: ^11.0.0
     css-loader: ^6.8.1
     css-minimizer-webpack-plugin: ^5.0.1
@@ -3409,10 +3409,10 @@ __metadata:
     "@liexp/test": 0.1.0
     "@types/bs58": ^4.0.3
     "@types/prettier": ^3.0.0
-    "@types/react": ^18.2.29
-    "@types/react-dom": ^18.2.13
+    "@types/react": ^18.2.31
+    "@types/react-dom": ^18.2.14
     "@types/throttle-debounce": ^5.0.1
-    "@types/uuid": ^9.0.5
+    "@types/uuid": ^9.0.6
     "@visx/network": ^3.3.0
     axios: ^1.5.1
     bs58: ^5.0.0
@@ -3494,13 +3494,13 @@ __metadata:
     "@types/chroma-js": ^2.4.2
     "@types/d3": ^7.4.2
     "@types/d3-sankey": ^0.12.3
-    "@types/eslint": ^8.44.5
+    "@types/eslint": ^8.44.6
     "@types/prettier": ^3.0.0
     "@types/reach__router": ^1.3.13
-    "@types/react": ^18.2.29
+    "@types/react": ^18.2.31
     "@types/react-helmet": ^6.1.8
     "@types/react-slick": ^0.23.11
-    "@types/react-virtualized": ^9.21.24
+    "@types/react-virtualized": ^9.21.26
     "@types/throttle-debounce": ^5.0.1
     "@types/topojson-client": ^3.1.3
     "@types/topojson-specification": ^1.0.4
@@ -7984,13 +7984,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:*, @types/eslint@npm:^8.37.0, @types/eslint@npm:^8.44.5":
-  version: 8.44.5
-  resolution: "@types/eslint@npm:8.44.5"
+"@types/eslint@npm:*, @types/eslint@npm:^8.37.0, @types/eslint@npm:^8.44.6":
+  version: 8.44.6
+  resolution: "@types/eslint@npm:8.44.6"
   dependencies:
     "@types/estree": "*"
     "@types/json-schema": "*"
-  checksum: 0fba768ecffbd9eccf07207979ffa82e748bfb67203be107d8fb6c9b1215054d57ca12062577878e73353ef8feb43591951c2a750452fde639858f501e03304a
+  checksum: ed8de582ab3dbd7ec0bf97d41f4f3de28dd8a37fc48bc423e1c406bbb70d1fd8c4175ba17ad6495ef9ef99a43df71421277b7a2a0355097489c4c4cf6bb266ff
   languageName: node
   linkType: hard
 
@@ -8203,10 +8203,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/mime@npm:^1, @types/mime@npm:^1.3.3":
-  version: 1.3.3
-  resolution: "@types/mime@npm:1.3.3"
-  checksum: 7e27dede6517c1d604821a8a5412d6b7131decc8397ad4bac9216fc90dea26c9571426623ebeea2a9b89dbfb89ad98f7370a3c62cd2be8896c6e897333b117c9
+"@types/mime@npm:^1, @types/mime@npm:^1.3.4":
+  version: 1.3.4
+  resolution: "@types/mime@npm:1.3.4"
+  checksum: d8670d2993773903e00fc0d7aa3254be2f8b384300ce3278999d057afbb80a5f71543d656d9d9725d691088c0b94e4acfca84359becf122cdf5942e53c9a75ce
   languageName: node
   linkType: hard
 
@@ -8226,10 +8226,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/module-alias@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "@types/module-alias@npm:2.0.2"
-  checksum: 722519ee03e51e6fe94ca1ac5c711042801afd703f2de1031eb4a1523e9e060e6655517be8d089779ad8d6ab5e72dd6483f0c7d6f31eb6f79a2280ee49c8a2da
+"@types/module-alias@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "@types/module-alias@npm:2.0.3"
+  checksum: 1380de27fabdbcb0a10b9af2e3c8dc554f4447fca077bf7c29973079fa6d4fe14cd34ec3cb546ebd806618883697045386f0e540049806b0f2a5dd8eba1856e8
   languageName: node
   linkType: hard
 
@@ -8266,14 +8266,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node-telegram-bot-api@npm:^0.61.9":
-  version: 0.61.9
-  resolution: "@types/node-telegram-bot-api@npm:0.61.9"
+"@types/node-telegram-bot-api@npm:^0.61.11":
+  version: 0.61.11
+  resolution: "@types/node-telegram-bot-api@npm:0.61.11"
   dependencies:
     "@types/node": "*"
     "@types/request": "*"
     eventemitter3: ">=3.0.0"
-  checksum: d9ee66dbfeb30bbbd6bbd8476cbd65f4d090d7758b956a8605d03a3e97b6125d228725e361f6747a6068f1ee142b4055cf3355c1541df992a860552945f7d648
+  checksum: 95a3f521ac25b3a3bf97fa9bf5879791a0578c8094c546ad2fd261b5c5da3b185d101d365add74ffdc3015de308551ada1265635492e5a8155f42fc2861d37fb
   languageName: node
   linkType: hard
 
@@ -8333,14 +8333,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pg@npm:^8.10.6":
-  version: 8.10.6
-  resolution: "@types/pg@npm:8.10.6"
+"@types/pg@npm:^8.10.7":
+  version: 8.10.7
+  resolution: "@types/pg@npm:8.10.7"
   dependencies:
     "@types/node": "*"
     pg-protocol: "*"
     pg-types: ^4.0.1
-  checksum: 5eccb9d74251be219c6a66bc31467e1d12a612353b86bf18899f9e13671178baa83ff695aa7cce3469f851dd898747cd499b8b464c1ca7efd40bec17553f6eb3
+  checksum: 90a616360844b6f877be21a24839af2115f5eb9c8e3eeaf577fa0f036c6c56ad140113fdd8268e63cf215bd0953d89caa1af05191dd89cb2e6d96eb6db6074d2
   languageName: node
   linkType: hard
 
@@ -8409,12 +8409,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:*, @types/react-dom@npm:^18.0.0, @types/react-dom@npm:^18.2.13":
-  version: 18.2.13
-  resolution: "@types/react-dom@npm:18.2.13"
+"@types/react-dom@npm:*, @types/react-dom@npm:^18.0.0, @types/react-dom@npm:^18.2.14":
+  version: 18.2.14
+  resolution: "@types/react-dom@npm:18.2.14"
   dependencies:
     "@types/react": "*"
-  checksum: 22ba066b141dca5a5a9227fae0afc7c94b470fff8e8a38ade72649da57a8ea04d0cb2ba3e22005e7d8e772d49bddd28855b1dd98e6defd033bba6afb6edff883
+  checksum: 890289c70d1966c168037637c09cacefe6205bdd27a33252144a6b432595a2943775ac1a1accac0beddaeb67f8fdf721e076acb1adc990b08e51c3d9fd4e780c
   languageName: node
   linkType: hard
 
@@ -8478,24 +8478,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-virtualized@npm:^9.21.24":
-  version: 9.21.24
-  resolution: "@types/react-virtualized@npm:9.21.24"
+"@types/react-virtualized@npm:^9.21.26":
+  version: 9.21.26
+  resolution: "@types/react-virtualized@npm:9.21.26"
   dependencies:
     "@types/prop-types": "*"
     "@types/react": "*"
-  checksum: dc8b6addfe01734d9c9886fa909bbba1f208e60c07b4b46da984a8e495c7e2a719ff04b43646e208a082304ea140f0618b495ba9a110cabe797d20d9e31c7b91
+  checksum: 68d636e53b142d9c07905cb1d5c6196846b99ac263455ef3db9642aa0a101c4614ca3f9df9620b4d1ce0eb022ebf9dc148a2a15a7a119bdb3e3195ec4368d65c
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^18.2.29":
-  version: 18.2.29
-  resolution: "@types/react@npm:18.2.29"
+"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^18.2.31":
+  version: 18.2.31
+  resolution: "@types/react@npm:18.2.31"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: 3d09ac61a683fa976512a28ac175b9d823f0368adc5fb2abf53f64ab030e8ad866a201a8029f92ff48246c8e326f7517ebe165f976ecb412627c65c6f9a7c9d3
+  checksum: b11be8e39174d3303e308461400889e353e422d22b01d09795b2c35b7b99d5351716503d9ec5c58e4c2c871249603fa52840d45a34fb5901dd7a26e06129c716
   languageName: node
   linkType: hard
 
@@ -8703,31 +8703,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/uuid@npm:^9.0.5":
-  version: 9.0.5
-  resolution: "@types/uuid@npm:9.0.5"
-  checksum: 7577940949619768303c0bf0a7cc235fac3cfae1c0bb4a2e85bfb87b2eb1024955ab446f775394d259442cd769b663b6ce43c39bdfc955d946bf833804ddb421
+"@types/uuid@npm:^9.0.6":
+  version: 9.0.6
+  resolution: "@types/uuid@npm:9.0.6"
+  checksum: 739dcb2e620ff097fa916edeab455eb75640c4883a850784fdb15b32f67b719e05275c6d6419bb6da11350d26bd14ed05ba5e992ff228411cdd98cbc772d71ef
   languageName: node
   linkType: hard
 
-"@types/webpack-bundle-analyzer@npm:^4.6.1":
-  version: 4.6.1
-  resolution: "@types/webpack-bundle-analyzer@npm:4.6.1"
+"@types/webpack-bundle-analyzer@npm:^4.6.2":
+  version: 4.6.2
+  resolution: "@types/webpack-bundle-analyzer@npm:4.6.2"
   dependencies:
     "@types/node": "*"
     tapable: ^2.2.0
     webpack: ^5
-  checksum: 7324dfb68cf399a2210d9e1ae5927655625f71e306b5cf2d8f583f12e6cb43e243e4b0e6ef53e3de9f685034ce767bc68ab49884e7e91c89609ec741c8e6ccf4
+  checksum: 2f798e0c6a4aac9da84f56c4600c8fafbac7cc2316b0a0b3e35cab46f5b0d045c29b8c9803c64f03756faa941ff7344920e16b45fe46a322ae3be52f4c8dee76
   languageName: node
   linkType: hard
 
-"@types/webpack-node-externals@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "@types/webpack-node-externals@npm:3.0.2"
+"@types/webpack-node-externals@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "@types/webpack-node-externals@npm:3.0.3"
   dependencies:
     "@types/node": "*"
     webpack: ^5
-  checksum: c68d60207df80a4e8a0e599f6cc81cd9753727172dc38a8006056949fdf95ac5a12d927508bab003f50dcfbe8c89f835993bc106efe35a7e912113d2871b716c
+  checksum: 0153ffdea20bf5b4728ac45f7e959b41deabd8226f4741a1542b1ce7259b04717b2a766a240629b7307a211ed7205dff6bb2e2b85d8450970162ab9fed809fe6
   languageName: node
   linkType: hard
 
@@ -9801,9 +9801,9 @@ __metadata:
     "@types/lodash": ^4.14.200
     "@types/node": ^18.18.6
     "@types/prettier": ^3.0.0
-    "@types/react": ^18.2.29
-    "@types/react-dom": ^18.2.13
-    "@types/webpack-bundle-analyzer": ^4.6.1
+    "@types/react": ^18.2.31
+    "@types/react-dom": ^18.2.14
+    "@types/webpack-bundle-analyzer": ^4.6.2
     "@typescript-eslint/eslint-plugin": ^6.7.5
     "@typescript-eslint/parser": ^6.7.5
     debug: ^4.3.4
@@ -10080,21 +10080,21 @@ __metadata:
     "@types/body-parser": ^1.19.4
     "@types/cors": ^2.8.15
     "@types/debug": ^4.1.10
-    "@types/eslint": ^8.44.5
+    "@types/eslint": ^8.44.6
     "@types/express": ^4.17.20
     "@types/fluent-ffmpeg": ^2.1.23
     "@types/jsonwebtoken": ^9.0.4
     "@types/lodash": ^4.14.200
-    "@types/module-alias": ^2.0.2
+    "@types/module-alias": ^2.0.3
     "@types/multer": ^1.4.9
     "@types/node": ^18.18.6
     "@types/node-cron": ^3.0.10
-    "@types/node-telegram-bot-api": ^0.61.9
-    "@types/pg": ^8.10.6
+    "@types/node-telegram-bot-api": ^0.61.11
+    "@types/pg": ^8.10.7
     "@types/prettier": ^3.0.0
     "@types/prompts": ^2.4.7
     "@types/supertest": ^2.0.15
-    "@types/uuid": ^9.0.5
+    "@types/uuid": ^9.0.6
     axios: ^1.5.1
     canvas: ^2.11.2
     cors: 2.8.5
@@ -24195,7 +24195,7 @@ __metadata:
     "@storybook/react-webpack5": ^7.5.1
     "@storybook/theming": ^7.5.1
     "@types/babel__preset-env": ^7.9.4
-    "@types/eslint": ^8.44.5
+    "@types/eslint": ^8.44.6
     "@types/prettier": ^3.0.0
     d3: ^7.8.5
     eslint: ^8.51.0
@@ -26361,20 +26361,20 @@ __metadata:
     "@types/d3": ^7.4.2
     "@types/debug": ^4.1.10
     "@types/express": ^4.17.20
-    "@types/mime": ^1.3.3
+    "@types/mime": ^1.3.4
     "@types/node": ^18.18.6
-    "@types/react": ^18.2.29
+    "@types/react": ^18.2.31
     "@types/react-calendar-heatmap": ^1.6.5
-    "@types/react-dom": ^18.2.13
+    "@types/react-dom": ^18.2.14
     "@types/react-helmet": ^6.1.8
     "@types/react-router-dom": ^5.3.3
     "@types/react-slick": ^0.23.11
     "@types/throttle-debounce": ^5.0.1
     "@types/topojson-client": ^3.1.3
     "@types/topojson-server": ^3.0.3
-    "@types/uuid": ^9.0.5
-    "@types/webpack-bundle-analyzer": ^4.6.1
-    "@types/webpack-node-externals": ^3.0.2
+    "@types/uuid": ^9.0.6
+    "@types/webpack-bundle-analyzer": ^4.6.2
+    "@types/webpack-node-externals": ^3.0.3
     "@typescript-eslint/eslint-plugin": ^6.7.5
     "@typescript-eslint/parser": ^6.7.5
     "@visx/axis": ^3.4.0
