@@ -28,6 +28,7 @@ export const toStoryIO = ({
             createdAt: story.featuredImage.createdAt?.toISOString(),
             updatedAt: story.featuredImage.updatedAt?.toISOString(),
             deletedAt: story.featuredImage.deletedAt?.toISOString(),
+            extra: story.featuredImage.extra ?? undefined,
             keywords: [],
             events: [],
             links: [],
