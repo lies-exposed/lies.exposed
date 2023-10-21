@@ -25,7 +25,7 @@ WORKDIR /app
 COPY package.json /app/package.json
 COPY .yarnrc.yml /app/.yarnrc.yml
 COPY .yarn /app/.yarn
-COPY assets /app/assets
+COPY services/api/assets /app/services/api/assets
 COPY services/api/package.json /app/services/api/package.json
 COPY tsconfig.json /app/tsconfig.json
 COPY services/api/tsconfig.json /app/services/api/tsconfig.json
