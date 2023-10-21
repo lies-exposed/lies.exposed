@@ -70,7 +70,7 @@ export const extractThumbnailFromPDF: ExtractThumbnailFlow<PDFType> =
           Body: screenshotBuffer,
           ContentType: ImageType.types[2].value,
           Bucket: ctx.env.SPACE_BUCKET,
-          ACL: "public-read",
+          ACL: "public-read" as const,
         };
       }),
       TE.map((s) => [s]),
