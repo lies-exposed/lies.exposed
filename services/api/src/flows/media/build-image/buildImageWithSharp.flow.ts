@@ -232,7 +232,7 @@ const addWatermarkLayer: TEFlow<
     ctx.imgProc.run(async (sharp) => {
       const logoImagePath = path.resolve(
         ctx.config.dirs.cwd,
-        "../../packages/@liexp/ui/assets/logo/logo192.png",
+        "assets/logo/logo192.png",
       );
 
       return await sharp(logoImagePath).resize(logoWidth, logoWidth).toBuffer();
