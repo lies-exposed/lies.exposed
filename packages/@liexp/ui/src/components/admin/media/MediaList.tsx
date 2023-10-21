@@ -73,21 +73,26 @@ export const MediaList: React.FC<ListProps> = (props) => {
 
             return (
               <Box>
-                <Typography
-                  variant="h6"
-                  style={{
-                    fontSize: 14,
-                  }}
-                >
-                  {url.hostname}
-                </Typography>
-                <Typography variant="subtitle1">
-                  {r.type}
-                  {r.type === MP4Type.value &&
-                    r.extra?.duration &&
-                    ` - ${toFormattedDuration(r.extra.duration)}`}
-                </Typography>
-                <Typography variant="body1">{r.description}</Typography>
+                <Box>
+                  <Typography
+                    variant="h6"
+                    style={{
+                      fontSize: 14,
+                    }}
+                  >
+                    {url.hostname}
+                  </Typography>
+                  <Typography variant="subtitle1">
+                    {r.type}
+                    {r.type === MP4Type.value &&
+                      r.extra?.duration &&
+                      ` - ${toFormattedDuration(r.extra.duration)}`}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="subtitle1">{r.label}</Typography>
+                  <Typography variant="body1">{r.description}</Typography>
+                </Box>
               </Box>
             );
           }}

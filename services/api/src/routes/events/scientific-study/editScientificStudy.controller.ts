@@ -2,8 +2,9 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { UUID } from "io-ts-types/lib/UUID";
-import { Equal } from "typeorm";
+import { type DeepPartial, Equal } from "typeorm";
 import { EventV2Entity } from "@entities/Event.v2.entity";
+import { type MediaEntity } from "@entities/Media.entity";
 import { toEventV2IO } from "@routes/events/eventV2.io";
 import { type Route } from "@routes/route.types";
 
@@ -21,7 +22,7 @@ export const MakeEditScientificStudyRoute: Route = (
         return {
           ...l,
         };
-      }),
+      }) as DeepPartial<MediaEntity[]>,
       links: body.links.map((l) => {
         if (UUID.is(l)) {
           return { id: l };

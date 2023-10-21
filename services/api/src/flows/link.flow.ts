@@ -50,6 +50,7 @@ export const fetchAsLink: TEFlow<
                   O.alt(() =>
                     O.some<MediaEntity>({
                       id: uuid() as any,
+                      label: m.description ?? m.url,
                       thumbnail: image,
                       location: image,
                       description: m.description ?? m.url,
@@ -64,7 +65,7 @@ export const fetchAsLink: TEFlow<
                       keywords: [],
                       featuredIn: [],
                       deletedAt: null,
-                      extra: undefined,
+                      extra: null,
                     }),
                   ),
                 ),

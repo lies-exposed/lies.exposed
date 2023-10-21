@@ -1,4 +1,4 @@
-import { type Media, MediaType } from "@liexp/shared/lib/io/http/Media";
+import { type MediaExtra, MediaType } from "@liexp/shared/lib/io/http/Media";
 import { type UUID } from "io-ts-types/lib/UUID";
 import {
   Column,
@@ -25,13 +25,16 @@ export class MediaEntity {
   id: UUID;
 
   @Column({ type: "varchar", nullable: true })
+  label: string | null;
+
+  @Column({ type: "varchar", nullable: true })
   thumbnail: string | null;
 
   @Column({ type: "varchar", nullable: false, unique: true })
   location: string;
 
-  @Column({ type: "varchar", nullable: false })
-  description: string;
+  @Column({ type: "varchar", nullable: true })
+  description: string | null;
 
   @Column({
     type: "enum",
@@ -51,7 +54,7 @@ export class MediaEntity {
     type: "json",
     nullable: true,
   })
-  extra: Media["extra"];
+  extra: MediaExtra | null
 
   @ManyToMany(() => EventV2Entity, (e) => e.media, {
     cascade: false,

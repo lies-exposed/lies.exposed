@@ -54,6 +54,8 @@ export const createAndUpload: TEFlow<
             events: [],
             links: [],
             featuredIn: [],
+            keywords: [],
+            areas: [],
             id: mediaId,
             location: upload.Location,
             thumbnail: thumb,

@@ -21,7 +21,11 @@ export const AutocompleteMediaInput: React.FC<AutocompleteMediaInputProps> = ({
   return (
     <AutocompleteInput<Media.Media>
       placeholder="Media description..."
-      getValue={(a) => (typeof a === "string" ? a : a?.description)}
+      getValue={(a) =>
+        typeof a === "string"
+          ? a
+          : a?.label ?? a?.description ?? "No description"
+      }
       searchToFilter={(description) => ({ description })}
       selectedItems={selectedItems}
       query={(p) => useMediaQuery(p, discrete)}

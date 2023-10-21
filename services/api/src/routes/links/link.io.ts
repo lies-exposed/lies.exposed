@@ -16,8 +16,14 @@ export const toLinkIO = (
       image: link.image
         ? {
             ...link.image,
+            label: link.image.label ?? undefined,
+            description: link.image.description ?? undefined,
             extra: link.image.extra ?? undefined,
             thumbnail: link.image.thumbnail ?? undefined,
+            links: link.image.links ?? [],
+            events: link.image.events ?? [],
+            keywords: link.image.keywords ?? [],
+            areas: link.image.areas ?? [],
           }
         : undefined,
       keywords: link.keywords ?? [],

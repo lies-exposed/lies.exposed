@@ -9,9 +9,12 @@ import { Equal, In } from "typeorm";
 import { type RouteContext } from "../route.types";
 import { toLinkIO } from "./link.io";
 import { EventV2Entity } from "@entities/Event.v2.entity";
+import { type KeywordEntity } from "@entities/Keyword.entity";
 import { LinkEntity } from "@entities/Link.entity";
+import { type MediaEntity } from "@entities/Media.entity";
 import { UserEntity } from "@entities/User.entity";
 import { fetchAsLink } from "@flows/link.flow";
+import { type ControllerError } from "@io/ControllerError";
 import { authenticationHandler } from "@utils/authenticationHandler";
 import { ensureUserExists } from "@utils/user.utils";
 
@@ -36,11 +39,11 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
             url: sanitizeURL(url),
             image: UUID.is(image) ? { id: image } : image ?? null,
             // events: events.map((e) => ({ id: e })),
-            keywords: body.keywords.map((k) => ({ id: k })),
+            keywords: body.keywords.map((k) => ({ id: k })) as KeywordEntity[],
             id,
             creator: pipe(
               creator,
-              O.map((id) => ({ id })),
+              O.map((id): any => ({ id })),
               O.toNullable,
             ),
           };
@@ -55,7 +58,7 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
               where: { id: Equal(id) },
               relations: ["image"],
             }),
-            TE.chain((l) => {
+            TE.chain((l): TE.TaskEither<ControllerError, LinkEntity> => {
               return pipe(
                 overrideThumbnail,
                 O.map((t) => {
@@ -66,11 +69,20 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
                         ...ll,
                         ...l,
                         ...linkUpdate,
+                        provider: linkUpdate.provider ?? l.provider ?? null,
+                        publishDate: linkUpdate.publishDate ?? null,
                         image: ll.image
-                          ? {
+                          ? ({
                               ...ll.image,
-                              thumbnail: ll.image.thumbnail ?? undefined,
-                            }
+                              events: [],
+                              keywords: [],
+                              areas: [],
+                              links: [],
+                              stories: [],
+                              label: ll.image.label ?? null,
+                              description: ll.image.description ?? null,
+                              thumbnail: ll.image.thumbnail ?? null,
+                            } as any)
                           : null,
                       })),
                     );
@@ -79,9 +91,32 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
                   return TE.right({
                     ...l,
                     ...linkUpdate,
+                    publishDate: linkUpdate.publishDate ?? null,
+                    provider: linkUpdate.provider ?? l.provider ?? null,
+                    image: l.image
+                      ? ({
+                          ...l.image,
+                          events: [],
+                          keywords: [],
+                          areas: [],
+                          links: [],
+                          stories: [],
+                          label: l.image.label ?? null,
+                          description: l.image.description ?? null,
+                          thumbnail: l.image.thumbnail ?? null,
+                        } as any)
+                      : null,
                   });
                 }),
-                O.getOrElse(() => TE.right({ ...l, ...linkUpdate })),
+                O.getOrElse(() =>
+                  TE.right({
+                    ...l,
+                    ...linkUpdate,
+                    publishDate: linkUpdate.publishDate ?? null,
+                    provider: linkUpdate.provider ?? l.provider ?? null,
+                    image: (linkUpdate.image ?? l.image) as MediaEntity | null,
+                  }),
+                ),
               );
             }),
             TE.chain((l) => ctx.db.save(LinkEntity, [l])),
