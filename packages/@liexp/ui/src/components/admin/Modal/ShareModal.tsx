@@ -83,6 +83,25 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
     <Grid container width="100%" height="100%" spacing={2}>
       <Grid item lg={6}>
         <Box>
+        <Box>
+            <Input
+              fullWidth
+              multiline
+              name="title"
+              value={payload.title ?? ""}
+              onChange={(e) => {
+                onChange({
+                  multipleMedia,
+                  media,
+                  payload: {
+                    ...payload,
+                    title: e.target.value,
+                  },
+                });
+              }}
+            />
+          </Box>
+
           <Box>
             <Input
               fullWidth

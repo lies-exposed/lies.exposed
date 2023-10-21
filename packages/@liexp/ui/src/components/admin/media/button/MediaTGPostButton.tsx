@@ -37,11 +37,11 @@ export const MediaTGPostButton: React.FC<
         const date = formatDate(parseISO(record.createdAt));
 
         return {
-          title: record.description,
+          title: record.label ?? record.description,
           keywords,
           media: [record as any],
           date,
-          content: undefined,
+          content: record.description,
           actors: [],
           groups: [],
           url,
