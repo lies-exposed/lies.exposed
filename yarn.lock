@@ -2442,16 +2442,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@databases/connection-pool@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@databases/connection-pool@npm:1.1.0"
-  dependencies:
-    "@databases/queue": ^1.0.0
-    is-promise: ^4.0.0
-  checksum: b568f70774f1c473029ce017f3e593136d332d1753f9076d714d85dad07c7c4245ff902de9a7f0515fcf1fcabc8dc473c4045af7fa1bf7e8b5ce30b2eac165ca
-  languageName: node
-  linkType: hard
-
 "@databases/escape-identifier@npm:^1.0.3":
   version: 1.0.3
   resolution: "@databases/escape-identifier@npm:1.0.3"
@@ -2461,109 +2451,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@databases/lock@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "@databases/lock@npm:2.1.0"
-  dependencies:
-    "@databases/queue": ^1.0.0
-  checksum: b77d7e5800786afe75d335a94b7548ae80b8b5c2026258aa2cc08ce084838868cbfb8a942131c41b9fc1c4c80e2ac7b65aa116b21aff58dec4cc177022a7ba96
-  languageName: node
-  linkType: hard
-
-"@databases/pg-config@npm:^3.1.0":
-  version: 3.2.0
-  resolution: "@databases/pg-config@npm:3.2.0"
-  dependencies:
-    cosmiconfig: ^8.1.0
-    funtypes: ^4.1.0
-  checksum: 130f73c27571144b538435b0d26b5287535a9792186a0b55156070a867d51a2c9b20bc9655283849cd0ddf9f968aae9e36385d973c0a264d409a3e96fa267d4d
-  languageName: node
-  linkType: hard
-
-"@databases/pg-connection-string@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@databases/pg-connection-string@npm:1.0.0"
-  checksum: 87a8a744446f0259a05388187cc54d81c4ba5d35b239e7fc7c6754eae13f3544b7370719e7b7d9c139d719ad2d5ea26486cb0bef57b5c7f3508e3044a83fe932
-  languageName: node
-  linkType: hard
-
-"@databases/pg-data-type-id@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@databases/pg-data-type-id@npm:3.0.0"
-  checksum: 4f1d441df9016a122f8f8bc65d402d6f40426eb0997cce026818287202344a604af9cc1c492521c9a89cd36e60603ec8d3ff7b9d038271fb0dfb6c77a1d102d1
-  languageName: node
-  linkType: hard
-
-"@databases/pg-errors@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@databases/pg-errors@npm:1.0.0"
-  checksum: b859b76bec4fb8f4627312b3bb2c1a52ea34b5aa61928fa9038bc30e73b6ae05c63a320306207e7a8cf063a7e20388ee5f848f5394dbc92319e50d1ffa380d4f
-  languageName: node
-  linkType: hard
-
-"@databases/pg@npm:^5.4.1":
-  version: 5.4.1
-  resolution: "@databases/pg@npm:5.4.1"
-  dependencies:
-    "@babel/code-frame": ^7.0.0
-    "@databases/escape-identifier": ^1.0.3
-    "@databases/pg-config": ^3.1.0
-    "@databases/pg-connection-string": ^1.0.0
-    "@databases/pg-data-type-id": ^3.0.0
-    "@databases/pg-errors": ^1.0.0
-    "@databases/push-to-async-iterable": ^3.0.0
-    "@databases/shared": ^3.0.0
-    "@databases/split-sql-query": ^1.0.3
-    "@databases/sql": ^3.2.0
-    "@types/cuid": ^1.3.1
-    assert-never: ^1.2.1
-    cuid: ^2.1.8
-    pg: ^8.4.2
-    pg-cursor: ^2.4.2
-  checksum: 36dc09a83141f9f949a822c4e101af48b39121ecec8dbc917f2320dbd5f96c4fd9110bdf633dbbf2a35a45c5b7b5dd4464cb76ab9473c32477e535554ec95bc0
-  languageName: node
-  linkType: hard
-
-"@databases/push-to-async-iterable@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@databases/push-to-async-iterable@npm:3.0.0"
-  dependencies:
-    "@databases/queue": ^1.0.0
-  checksum: 6ef05e46cfa3710e802daa16014b34c4e24d149435c66d7fae2bd36e518e8f6f2a1640d9528e172aa665eef9d028870537adb0abb7fb4eb3203a8bd6cd34dde6
-  languageName: node
-  linkType: hard
-
-"@databases/queue@npm:^1.0.0, @databases/queue@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@databases/queue@npm:1.0.1"
-  checksum: f79933a830e7eddda0eab027098170dd148d91a6fa67e9619e0c3245060680b4f071eb8644e46e3baf806c26e76e3038460e72e65b04282f6784b7d84004fd57
-  languageName: node
-  linkType: hard
-
-"@databases/shared@npm:^3.0.0":
-  version: 3.0.2
-  resolution: "@databases/shared@npm:3.0.2"
-  dependencies:
-    "@databases/connection-pool": ^1.1.0
-    "@databases/lock": ^2.1.0
-    "@databases/queue": ^1.0.1
-    "@databases/split-sql-query": ^1.0.3
-    "@databases/sql": ^3.3.0
-    cuid: ^2.1.8
-  checksum: 25e66d19d3af27ac6a7a436424822dd5a83f07f10b77e932b3e1dac2224fd1cbe042ebddfa5e8a9d707c7d96340d9de30d2c4b368213748c77785d05ba3098fb
-  languageName: node
-  linkType: hard
-
-"@databases/split-sql-query@npm:^1.0.3":
-  version: 1.0.4
-  resolution: "@databases/split-sql-query@npm:1.0.4"
-  peerDependencies:
-    "@databases/sql": "*"
-  checksum: 53f1b9c36a662851c57714f44a1b05e4baf7a75bcd2fa49c2f2951a4f92427cd067c8d392743b5e52460d521dc2e7248715371c4147e2e2c6f5bc559f17ca950
-  languageName: node
-  linkType: hard
-
-"@databases/sql@npm:^3.2.0, @databases/sql@npm:^3.3.0":
+"@databases/sql@npm:^3.3.0":
   version: 3.3.0
   resolution: "@databases/sql@npm:3.3.0"
   checksum: b3c4fb30116e76328f5ef5d17931490a5322d446a25b1801f5a714618e184846686382223fd0632256e59c5352143a2562ccfdff0f71070b5f69b45e9f31d81b
@@ -7546,13 +7434,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/cuid@npm:^1.3.1":
-  version: 1.3.1
-  resolution: "@types/cuid@npm:1.3.1"
-  checksum: 6d78cd1023f7af41e8c93e9c95c16b12ba82d9f650709bf1dfeabcb18df5ba664bb32eedb852ae899c38f01a6a49429e93ee458b0973eab9f59a5797c79660db
-  languageName: node
-  linkType: hard
-
 "@types/d3-array@npm:*":
   version: 3.0.7
   resolution: "@types/d3-array@npm:3.0.7"
@@ -10071,7 +9952,6 @@ __metadata:
     "@aws-sdk/lib-storage": ^3.433.0
     "@aws-sdk/s3-request-presigner": ^3.433.0
     "@databases/escape-identifier": ^1.0.3
-    "@databases/pg": ^5.4.1
     "@liexp/backend": 0.1.0
     "@liexp/core": 0.1.0
     "@liexp/shared": 0.1.0
@@ -10461,13 +10341,6 @@ __metadata:
   dependencies:
     safer-buffer: ~2.1.0
   checksum: 39f2ae343b03c15ad4f238ba561e626602a3de8d94ae536c46a4a93e69578826305366dc09fbb9b56aec39b4982a463682f259c38e59f6fa380cd72cd61e493d
-  languageName: node
-  linkType: hard
-
-"assert-never@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "assert-never@npm:1.2.1"
-  checksum: ea4f1756d90f55254c4dc7a20d6c5d5bc169160562aefe3d8756b598c10e695daf568f21b6d6b12245d7f3782d3ff83ef6a01ab75d487adfc6909470a813bf8c
   languageName: node
   linkType: hard
 
@@ -12152,7 +12025,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cosmiconfig@npm:^8.0.0, cosmiconfig@npm:^8.1.0":
+"cosmiconfig@npm:^8.0.0":
   version: 8.3.3
   resolution: "cosmiconfig@npm:8.3.3"
   dependencies:
@@ -12501,13 +12374,6 @@ __metadata:
   version: 3.1.2
   resolution: "csstype@npm:3.1.2"
   checksum: e1a52e6c25c1314d6beef5168da704ab29c5186b877c07d822bd0806717d9a265e8493a2e35ca7e68d0f5d472d43fac1cdce70fd79fd0853dff81f3028d857b5
-  languageName: node
-  linkType: hard
-
-"cuid@npm:^2.1.8":
-  version: 2.1.8
-  resolution: "cuid@npm:2.1.8"
-  checksum: 12b85b3f5150a6f0b9e4f345c8d98299d74647419151751fa1132f6702fe2b5388ceceb1c9b49bad7cab1b3ac033c7cedea8ffc034930f90005b8a4345025288
   languageName: node
   linkType: hard
 
@@ -15514,13 +15380,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"funtypes@npm:^4.1.0":
-  version: 4.2.0
-  resolution: "funtypes@npm:4.2.0"
-  checksum: faf22a54c64b20051f25009af83b77cc6d0b567b68a0f46829b5e97bb180f6672109d23c028aa6b179f2cc088ba300e477f52b3e39445f52d1804bcd28d4d763
-  languageName: node
-  linkType: hard
-
 "gauge@npm:^3.0.0":
   version: 3.0.2
   resolution: "gauge@npm:3.0.2"
@@ -17044,13 +16903,6 @@ __metadata:
   dependencies:
     isobject: ^3.0.1
   checksum: 2a401140cfd86cabe25214956ae2cfee6fbd8186809555cd0e84574f88de7b17abacb2e477a6a658fa54c6083ecbda1e6ae404c7720244cd198903848fca70ca
-  languageName: node
-  linkType: hard
-
-"is-promise@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "is-promise@npm:4.0.0"
-  checksum: 0b46517ad47b00b6358fd6553c83ec1f6ba9acd7ffb3d30a0bf519c5c69e7147c132430452351b8a9fc198f8dd6c4f76f8e6f5a7f100f8c77d57d9e0f4261a8a
   languageName: node
   linkType: hard
 
@@ -20255,15 +20107,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pg-cursor@npm:^2.4.2":
-  version: 2.10.3
-  resolution: "pg-cursor@npm:2.10.3"
-  peerDependencies:
-    pg: ^8
-  checksum: 86dd66c4bf70da5272eb60d485a60f4216ebbffe2b7d314fe18a28a0cadf9b0d056d2291e0f108ed413be185818c2e82105bf290bf98fc91f73c52e4d0de42b8
-  languageName: node
-  linkType: hard
-
 "pg-int8@npm:1.0.1":
   version: 1.0.1
   resolution: "pg-int8@npm:1.0.1"
@@ -20322,7 +20165,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pg@npm:^8.11.3, pg@npm:^8.4.2":
+"pg@npm:^8.11.3":
   version: 8.11.3
   resolution: "pg@npm:8.11.3"
   dependencies:
