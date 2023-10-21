@@ -44,7 +44,6 @@
     "@aws-sdk/lib-storage": "^3.433.0",
     "@aws-sdk/s3-request-presigner": "^3.433.0",
     "@databases/escape-identifier": "^1.0.3",
-    "@databases/pg": "^5.4.1",
     "@liexp/backend": "0.1.0",
     "@liexp/core": "0.1.0",
     "@liexp/shared": "0.1.0",
