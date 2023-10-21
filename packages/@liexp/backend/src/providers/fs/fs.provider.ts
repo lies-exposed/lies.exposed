@@ -46,7 +46,7 @@ export interface FSClient {
   olderThan: (
     filePath: string,
     cacheH?: number,
-  ) => TE.TaskEither<FSError, boolean>;
+  ) => TE.TaskEither<FSError, "valid" | "older" | "not-found">;
   getObject: (filePath: string) => TE.TaskEither<FSError, string>;
   writeObject: (filePath: string, data: string) => TE.TaskEither<FSError, void>;
   deleteObject: (filePath: string) => TE.TaskEither<FSError, void>;
@@ -93,13 +93,13 @@ export const GetFSClient = (): FSClient => {
             "Last file update %s (%d h > %d h)",
             distanceFromNow(mtime),
             hoursDelta,
-            hours
+            hours,
           );
 
-          return hoursDelta >= hours;
+          return hoursDelta >= hours ? "older" : "valid";
         }
 
-        return false;
+        return "not-found";
       }),
     );
   };
@@ -136,7 +136,7 @@ export const GetFSClient = (): FSClient => {
       return pipe(
         olderThan(fileName, hours),
         fp.TE.chain((older) => {
-          if (!older) {
+          if (older === "valid") {
             return pipe(getObject(fileName), fp.TE.map(JSON.parse));
           }
           return pipe(

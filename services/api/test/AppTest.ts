@@ -17,11 +17,13 @@ import { MakeSpaceProvider } from "@liexp/backend/lib/providers/space/space.prov
 import { GetLogger } from "@liexp/core/lib/logger";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { EventsConfig } from "@queries/config";
 import { getDataSource } from "@utils/data-source";
 import D from "debug";
 import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
+import path from "path";
 import supertest from "supertest";
 import {
   type DataSource,
@@ -35,7 +37,6 @@ import { wikipediaProviderMock } from "../__mocks__/wikipedia.mock";
 import { type RouteContext } from "../src/routes/route.types";
 import { makeApp } from "../src/server";
 import { mocks, type AppMocks } from "./mocks";
-import { EventsConfig } from "@queries/config";
 
 export interface AppTest {
   ctx: RouteContext;
@@ -63,6 +64,7 @@ export const initAppTest = async (): Promise<AppTest> => {
 
   const logger = GetLogger("test");
 
+  const cwd = path.resolve(__dirname, '../');
   // if (!g.dataSource) {
   //   const dataSource = getDataSource(process.env as any, false);
   //   g.dataSource = await dataSource.initialize();
@@ -81,7 +83,16 @@ export const initAppTest = async (): Promise<AppTest> => {
       env,
       db,
       logger,
-      config: { events: EventsConfig },
+      config: {
+        events: EventsConfig,
+        dirs: {
+          cwd: cwd,
+          temp: {
+            root: path.resolve(cwd, "temp"),
+            media: path.resolve(cwd, "temp/media"),
+          },
+        },
+      },
       jwt: GetJWTProvider({ secret: env.JWT_SECRET, logger }),
       ffmpeg: {
         ffprobe: (file: any) => {

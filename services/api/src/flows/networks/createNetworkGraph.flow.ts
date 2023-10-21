@@ -454,10 +454,7 @@ export const createNetworkGraph: TEFlow<
         });
 
         return eventGraph;
-      }),
-      TE.chainFirst((graph) =>
-        ctx.fs.writeObject(filePath, JSON.stringify(graph)),
-      ),
+      })
     );
 
     return pipe(createNetworkGraphTask, ctx.fs.getOlderThanOr(filePath));
