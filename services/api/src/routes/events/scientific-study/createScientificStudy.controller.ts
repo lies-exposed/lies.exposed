@@ -7,8 +7,10 @@ import { AdminCreate } from "@liexp/shared/lib/io/http/User";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { UUID } from "io-ts-types/lib/UUID";
-import { Equal } from "typeorm";
+import { type DeepPartial, Equal } from "typeorm";
 import { EventV2Entity } from "@entities/Event.v2.entity";
+import { type KeywordEntity } from '@entities/Keyword.entity';
+import { type MediaEntity } from '@entities/Media.entity';
 import { UserEntity } from "@entities/User.entity";
 import { createEventFromURL } from "@flows/events/scientific-studies/createFromURL.flow";
 import { type ControllerError } from "@io/ControllerError";
@@ -47,7 +49,7 @@ const createScientificStudyFromPlainObject =
         return {
           ...l,
         };
-      }),
+      }) as DeepPartial<MediaEntity[]>,
       keywords: body.media.map((l) => {
         if (UUID.is(l)) {
           return {
@@ -57,7 +59,7 @@ const createScientificStudyFromPlainObject =
         return {
           ...l,
         };
-      }),
+      }) as DeepPartial<KeywordEntity[]>,
       payload,
     };
 

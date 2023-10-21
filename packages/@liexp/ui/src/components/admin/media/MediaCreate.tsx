@@ -28,12 +28,8 @@ export const MediaCreate: React.FC<CreateProps> = (props) => {
     >
       <SimpleForm>
         <MediaInput sourceLocation="location" sourceType="type" />
-        <TextInput
-          source="description"
-          multiline
-          fullWidth
-          validate={[required()]}
-        />
+        <TextInput source="label" fullWidth validate={[required()]} />
+        <TextInput source="description" multiline fullWidth />
       </SimpleForm>
     </Create>
   );

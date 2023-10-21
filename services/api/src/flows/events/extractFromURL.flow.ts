@@ -285,8 +285,15 @@ const extractByProvider: TEFlow<
               image: l.image
                 ? {
                     ...l.image,
+                    label: l.image.label ?? undefined,
+                    description: l.image.description ?? undefined,
                     thumbnail: l.image.thumbnail ?? undefined,
                     type: l.image as any as ImageType,
+                    extra: l.image.extra ?? undefined,
+                    events: [],
+                    links: [],
+                    keywords: [],
+                    areas: [],
                   }
                 : undefined,
               keywords: [],

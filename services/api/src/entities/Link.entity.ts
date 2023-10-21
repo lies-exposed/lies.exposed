@@ -1,5 +1,4 @@
-import { type URL } from "@liexp/shared/lib/io/http/Common";
-import { type UUID } from "io-ts-types/lib/UUID";
+import { type URL, type UUID } from "@liexp/shared/lib/io/http/Common";
 import {
   Column,
   CreateDateColumn,
@@ -43,7 +42,7 @@ export class LinkEntity {
   publishDate: Date | null;
 
   @Column({ type: "varchar", nullable: true })
-  provider: string;
+  provider: UUID | null;
 
   @ManyToOne(() => UserEntity, (u) => u.links, {
     nullable: true,

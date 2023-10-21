@@ -29,7 +29,10 @@ export const LinkArb: tests.fc.Arbitrary<http.Link.Link> = tests
     description: tests.fc.sample(HumanReadableStringArb(), 5).join(" "),
     image: tests.fc
       .sample(MediaArb, 1)
-      .map((m) => ({ ...m, type: "image/jpg" as const }))[0],
+      .map((m) => ({
+        ...m,
+        type: "image/jpg" as const,
+      }))[0],
     id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
     url: tests.fc.sample(URLArb, 1)[0],
     publishDate: tests.fc.sample(DateArb, 1)[0],

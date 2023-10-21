@@ -332,6 +332,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
               areas: [],
               featuredIn: [],
               deletedAt: undefined,
+              label: m.media,
               description: m.type,
               thumbnail: m.media,
               location: m.media,

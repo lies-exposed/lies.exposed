@@ -29,7 +29,7 @@ export const createEventSuggestionFromMedia: TEFlow<
             type: "Uncategorized" as const,
             excerpt: suggestedExcerpt,
             payload: {
-              title: mm[0].description,
+              title: mm[0].label ?? mm[0].description ?? mm[0].id,
               actors: [],
               groups: [],
               groupsMembers: [],

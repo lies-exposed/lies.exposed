@@ -122,7 +122,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
     <StyledBox className={clsx(classes.root, className)} style={style}>
       <Box style={{ position: "relative", height: "100%" }}>{mediaElement}</Box>
 
-      {enableDescription ? (
+      {enableDescription && media.description ? (
         <Box className={classes.description}>
           <Typography gutterBottom variant="body2" component="p" color="white">
             {media.description.substring(0, 100)}
