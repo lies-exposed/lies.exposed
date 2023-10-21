@@ -52,6 +52,7 @@ export const fetchAreaFromWikipedia: TEFlow<
               thumbnail: undefined,
               type: contentTypeFromFileExt(avatar),
               location: avatar,
+              label: page.title,
               description: page.title,
               creator: undefined,
               events: [],
@@ -105,15 +106,11 @@ export const fetchAreaFromWikipedia: TEFlow<
                   (media) =>
                     ctx.db.save(MediaEntity, [
                       {
+                        ...media,
                         areas: [{ id: area.id }],
-                        stories: [],
-                        media: [media],
+                        location: media.location,
                         thumbnail: media.thumbnail ?? null,
                         creator: null,
-                        events: [],
-                        links: [],
-                        featuredIn: [],
-                        keywords: [],
                       },
                     ]),
                 ),
