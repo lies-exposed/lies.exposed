@@ -23,6 +23,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
         transfer: _transfer,
         transferThumbnail: _transferThumbnail,
         overrideExtra: _overrideExtra,
+        description: _description,
         thumbnail,
         location,
         creator,
@@ -44,6 +45,8 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
         _transferThumbnail,
         O.filter((o) => !!o),
       );
+
+      const description = pipe(_description, O.toNullable);
 
       return pipe(
         TE.Do,
@@ -107,10 +110,10 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
                 creator: O.isSome(creator)
                   ? { id: creator.value }
                   : { id: media.creator as any },
+                description,
                 extra,
                 thumbnail,
                 location,
-
                 id,
               },
             ]),

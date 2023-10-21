@@ -37,7 +37,7 @@ export const MakeGetMetadataRoute = (r: Router, ctx: RouteContext): void => {
                   keywords: [],
                   icon: "",
                   image: link.value.image?.location ?? null,
-                  provider: link.value.provider,
+                  provider: link.value.provider ?? "",
                   type: "article",
                   url: link.value.url,
                 })

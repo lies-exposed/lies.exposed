@@ -21,7 +21,7 @@ const MediaTemplate: React.FC<{ mediaId: string }> = ({ mediaId }) => {
         return (
           <Box>
             <SEO
-              title={m.description}
+              title={m.label ?? m.description ?? m.location}
               image={m.thumbnail ?? ""}
               urlPath={`media/${m.id}`}
             />

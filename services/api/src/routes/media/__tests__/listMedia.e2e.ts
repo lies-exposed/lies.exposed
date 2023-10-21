@@ -68,8 +68,15 @@ describe("List Media", () => {
       .query({ "events[]": event.id })
       .set("Authorization", authorizationToken);
 
-    const { updatedAt, createdAt, deletedAt, extra, ...expectedMedia } =
-      media[0] as any;
+    const {
+      updatedAt,
+      createdAt,
+      deletedAt,
+      extra,
+      description,
+      label,
+      ...expectedMedia
+    } = media[0] as any;
 
     expect(response.status).toEqual(200);
     expect(response.body.data).toHaveLength(1);

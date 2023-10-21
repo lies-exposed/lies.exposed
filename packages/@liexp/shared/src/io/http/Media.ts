@@ -74,16 +74,21 @@ export const GetListMediaQuery = t.type(
 );
 export type GetListMediaQuery = t.TypeOf<typeof GetListMediaQuery>;
 
-export const MediaExtra = t.strict({ duration: t.number }, 'MediaExtra');
-export type MediaExtra = t.TypeOf<typeof MediaExtra>
+export const MediaExtra = t.strict({ duration: t.number }, "MediaExtra");
+export type MediaExtra = t.TypeOf<typeof MediaExtra>;
 
 export const CreateMedia = t.strict(
   {
     location: t.string,
-    description: t.string,
+    label: t.union([t.string, t.undefined]),
+    description: t.union([t.string, t.undefined]),
     thumbnail: t.union([t.string, t.undefined]),
     extra: t.union([MediaExtra, t.undefined]),
     type: ValidContentType,
+    events: t.array(UUID),
+    links: t.array(UUID),
+    keywords: t.array(UUID),
+    areas: t.array(UUID),
   },
   "CreateMedia",
 );
@@ -92,17 +97,10 @@ export type CreateMedia = t.TypeOf<typeof CreateMedia>;
 
 export const Media = t.strict(
   {
+    ...CreateMedia.type.props,
     id: UUID,
     type: MediaType,
-    thumbnail: t.union([t.string, t.undefined]),
-    description: t.string,
-    location: t.string,
     creator: t.union([UUID, t.undefined]),
-    events: t.array(UUID),
-    extra: t.union([MediaExtra, t.undefined]),
-    links: t.array(UUID),
-    keywords: t.array(UUID),
-    areas: t.array(UUID),
     featuredIn: t.union([t.array(UUID), t.undefined]),
     createdAt: DateFromISOString,
     updatedAt: DateFromISOString,

@@ -72,7 +72,7 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
   const [modal, showModal] = useModal({ disablePortal: false });
 
   const handleZoomClick = React.useCallback(() => {
-    showModal(media.description, (onClose) => (
+    showModal(media.label ?? media.description ?? "No label", (onClose) => (
       <StyledModalContent className={modalClasses.root}>
         <Box
           display={"flex"}

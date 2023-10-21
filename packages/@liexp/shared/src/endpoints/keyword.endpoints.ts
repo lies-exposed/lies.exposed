@@ -1,5 +1,6 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
+import { UUID } from '../io/http/Common';
 import * as Keyword from "../io/http/Keyword";
 import { ResourceEndpoints } from "./types";
 
@@ -16,7 +17,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/keywords/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
   },
   Output: Keyword.SingleKeywordOutput,
 });
@@ -34,7 +35,7 @@ export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/keywords/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
     Body: Keyword.CreateKeyword,
   },
   Output: Keyword.SingleKeywordOutput,
@@ -44,7 +45,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/keywords/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
   },
   Output: Keyword.SingleKeywordOutput,
 });

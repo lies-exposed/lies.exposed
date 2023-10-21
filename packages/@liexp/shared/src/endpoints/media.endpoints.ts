@@ -4,7 +4,7 @@ import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { Media } from "../io/http";
 import { ListOutput, Output } from "../io/http/Common/Output";
-import { MediaType } from "../io/http/Media";
+import { CreateMedia } from "../io/http/Media";
 import { ResourceEndpoints } from "./types";
 
 const SingleMediaOutput = Output(Media.Media, "Media");
@@ -28,25 +28,25 @@ export const Get = Endpoint({
   Output: t.unknown,
 });
 
-const CreateMediaBody = t.strict(
-  {
-    type: MediaType,
-    location: t.string,
-    description: t.string,
-    extra: t.union([t.any, t.undefined]),
-    areas: t.array(UUID),
-    keywords: t.array(UUID),
-    events: t.array(UUID),
-  },
-  "CreateImageBody",
-);
+// const CreateMediaBody = t.strict(
+//   {
+//     type: MediaType,
+//     location: t.string,
+//     description: t.string,
+//     extra: t.union([t.any, t.undefined]),
+//     areas: t.array(UUID),
+//     keywords: t.array(UUID),
+//     events: t.array(UUID),
+//   },
+//   "CreateImageBody",
+// );
 
 export const Create = Endpoint({
   Method: "POST",
   getPath: () => "/media",
   Input: {
     Query: undefined,
-    Body: CreateMediaBody,
+    Body: CreateMedia,
   },
   Output: SingleMediaOutput,
 });
@@ -60,7 +60,8 @@ export const Edit = Endpoint({
       type: Media.MediaType,
       thumbnail: optionFromNullable(t.string),
       location: t.string,
-      description: t.string,
+      label: t.string,
+      description: optionFromNullable(t.string),
       extra: optionFromNullable(t.strict({ duration: t.number })),
       links: t.array(UUID),
       events: t.array(UUID),

@@ -16,6 +16,8 @@ export const toProjectImageIO = ({
     io.http.ProjectImage.ProjectImage.decode({
       ...projectImage,
       ...image,
+      label: image?.label ?? image?.id,
+      description: image?.description ?? image?.label ?? image?.id,
       projectId: project.id,
       createdAt: projectImage.createdAt.toISOString(),
       updatedAt: projectImage.updatedAt.toISOString(),

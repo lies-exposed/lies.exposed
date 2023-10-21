@@ -20,7 +20,7 @@ export const MakeListProjectImageRoute = (
           ctx.db.find(ProjectImageEntity, {
             relations: ["image", "project"],
           }),
-          TE.chainEitherK(A.traverse(E.either)(toProjectImageIO)),
+          TE.chainEitherK(A.traverse(E.Applicative)(toProjectImageIO)),
         ),
         count: ctx.db.count(ProjectImageEntity),
       }),

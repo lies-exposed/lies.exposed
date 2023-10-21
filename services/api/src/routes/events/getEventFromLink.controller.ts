@@ -36,7 +36,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                 keywords: [],
                 icon: "",
                 image: link.value.image?.location ?? null,
-                provider: link.value.provider,
+                provider: link.value.provider ?? "",
                 type: "article",
                 url: link.value.url,
               })

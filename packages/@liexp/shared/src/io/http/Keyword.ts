@@ -11,8 +11,8 @@ export type KEYWORDS = t.TypeOf<typeof KEYWORDS>;
 export const GetKeywordListQuery = t.type(
   {
     ...GetListQuery.props,
-    ids: optionFromNullable(t.array(t.string)),
-    events: optionFromNullable(t.array(t.string)),
+    ids: optionFromNullable(t.array(UUID)),
+    events: optionFromNullable(t.array(UUID)),
     search: optionFromNullable(t.string),
   },
   "GetKeywordListQuery",

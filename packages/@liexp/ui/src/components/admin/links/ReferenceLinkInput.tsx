@@ -16,7 +16,7 @@ export const matchLinkSuggestions = (
   filterValue: string,
   choice: Media,
 ): boolean => {
-  return choice?.description?.toLowerCase().includes(filterValue.toLowerCase());
+  return (choice?.label ?? choice?.description ?? "No description")?.toLowerCase().includes(filterValue.toLowerCase());
 };
 
 export const LinkAutocompleteOptionText: React.FC = () => {

@@ -1,4 +1,4 @@
-import { type Tag, type Color } from "@liexp/shared/lib/io/http/Common";
+import { type Tag, type Color, type UUID } from "@liexp/shared/lib/io/http/Common";
 import {
   Column,
   CreateDateColumn,
@@ -19,7 +19,7 @@ import { StoryEntity } from "./Story.entity";
 @Index(["tag"], { unique: true })
 export class KeywordEntity {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  id: UUID;
 
   @Column({ type: "varchar", nullable: false })
   tag: Tag;

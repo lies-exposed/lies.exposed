@@ -25,10 +25,13 @@ export const MakeCreateMediaRoute = (r: Router, ctx: RouteContext): void => {
               ctx.db.save(MediaEntity, [
                 {
                   ...body,
+                  label: body.label ?? null,
+                  description: body.description ?? null,
                   creator: u.id as any,
                   extra: body.extra ?? null,
                   areas: body.areas.map((id) => ({ id })),
                   keywords: body.keywords.map((id) => ({ id })),
+                  links: body.links.map((id) => ({ id })),
                   events: body.events.map((e) => ({
                     id: e,
                   })),
