@@ -159,27 +159,19 @@ export const extractRelationsFromURL: TEFlow<
   }
 > = (ctx) => (p, url) => {
   const id = GetEncodeUtils<string>((url) => ({ url })).hash(url);
-  const filePath = ctx.fs.resolve(`temp/urls/${id}.txt`);
-
-  const cacheExists = ctx.fs.olderThan(filePath);
+  const filePath = path.resolve(ctx.config.dirs.temp.root, `urls/${id}.txt`);
 
   return pipe(
-    cacheExists,
-    TE.chain((exists) => {
-      if (!exists) {
-        ctx.logger.debug.log("URL %s not cached, loading it...", filePath);
-        return pipe(
-          TE.tryCatch(async () => {
-            await p.goto(url, {
-              waitUntil: "networkidle0",
-            });
-            return await p.$eval("body", (b) => b.innerText);
-          }, toControllerError),
-          TE.chainFirst((text) => ctx.fs.writeObject(filePath, text)),
-        );
-      }
-      return pipe(ctx.fs.getObject(filePath), TE.mapLeft(toControllerError));
-    }),
+    ctx.fs.getOlderThanOr(filePath)(
+      pipe(
+        TE.tryCatch(async () => {
+          await p.goto(url, {
+            waitUntil: "networkidle0",
+          });
+          return await p.$eval("body", (b) => b.innerText);
+        }, toControllerError),
+      ),
+    ),
     TE.chain((text) => {
       const nerProvider = GetNERProvider(ctx);
 
@@ -187,7 +179,7 @@ export const extractRelationsFromURL: TEFlow<
         sequenceS(TE.ApplicativeSeq)({
           entities: pipe(
             ctx.fs.getObject(
-              path.resolve(__dirname, "../../../", nerProvider.entitiesFile),
+              path.resolve(ctx.config.dirs.cwd, nerProvider.entitiesFile),
             ),
             TE.map(JSON.parse),
           ),
