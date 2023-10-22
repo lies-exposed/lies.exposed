@@ -137,8 +137,13 @@ services:
       - telegram-bot-api-data:/var/lib/telegram-bot-api
     ports:
       - "8081:8081"
-
-  telegram-bot:
+    restart: on-failure
+    logging:
+      driver: "json-file"
+      options:
+          max-file: 5
+          max-size: 10m
+  nginx:
     image: nginx:1.19-alpine
     restart: always
     depends_on:
