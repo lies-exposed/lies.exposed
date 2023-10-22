@@ -70,13 +70,9 @@ export const EventsConfig: EventsConfig = {
   },
   Quote: {
     whereActorsIn: (qb) =>
-      qb
-        .andWhere(
-          ` "event"."payload"::jsonb -> 'subject' ->> 'type' = 'Actor' `,
-        )
-        .andWhere(
-          ` ("event"."payload"::jsonb -> 'subject' ?| ARRAY[:...actors]) `,
-        ),
+      qb.andWhere(
+        ` ( ("event"."payload"::jsonb -> 'subject' ->> 'type' = 'Actor' AND "event"."payload"::jsonb -> 'subject' -> 'id' ?| ARRAY[:...actors]) OR "event"."payload"::jsonb -> 'actor' ?| ARRAY[:...actors] ) `,
+      ),
     whereGroupsIn: (qb) =>
       qb.andWhere(
         ` (event.type = 'Quote' AND "event"."payload"::jsonb -> 'subject' ->> 'type' = 'Group' AND "event"."payload"::jsonb -> 'subject' -> 'id' ?| ARRAY[:...groups])`,
