@@ -159,11 +159,16 @@ export const GetPuppeteerProvider = (
             ...opts,
           };
 
-          const b = await (pup.launch(options) as any);
-          return b;
+          puppeteerLogger.info.log('Launching browser with %O', options);
+
+          const b = await pup.launch(options);
+          return b as puppeteer.Browser;
         }, toPuppeteerError);
       }),
       TE.map((b) => {
+        b.on("error", (e: any) => {
+          puppeteerLogger.error.log("browser error", e);
+        });
         b.on("disconnected", (e: any) => {
           puppeteerLogger.debug.log("browser disconnected", e);
         });
