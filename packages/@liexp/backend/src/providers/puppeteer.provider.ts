@@ -153,7 +153,7 @@ export const GetPuppeteerProvider = (
 
           const options = {
             executablePath,
-            headless: "new",
+            headless: true,
             args: ["--no-sandbox"],
             ...defaultOpts,
             ...opts,
@@ -161,7 +161,7 @@ export const GetPuppeteerProvider = (
 
           puppeteerLogger.info.log('Launching browser with %O', options);
 
-          const b = await pup.launch(options);
+          const b = await p.launch(options);
           return b as puppeteer.Browser;
         }, toPuppeteerError);
       }),
