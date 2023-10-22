@@ -50,7 +50,7 @@ export const MakeGetListQuoteRoute: Route = (r, ctx) => {
           type: O.some([EventTypes.QUOTE.value]),
           startDate,
           endDate,
-          actors: O.none,
+          actors,
           keywords,
           links,
           media,

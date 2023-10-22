@@ -1,6 +1,6 @@
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput";
+import ReferenceArrayActorInput from '@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput';
 import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField";
 import { ReferenceBySubjectField } from "@liexp/ui/lib/components/admin/common/ReferenceBySubjectField";
 import ReferenceBySubjectInput from "@liexp/ui/lib/components/admin/common/ReferenceBySubjectInput";
@@ -26,7 +26,7 @@ import { Grid } from "@liexp/ui/lib/components/mui";
 import * as React from "react";
 
 const quotesFilter = [
-  <ReferenceActorInput key="actor" source="actor" alwaysOn />,
+  <ReferenceArrayActorInput key="actors" source="actors" alwaysOn />,
   <BooleanInput key="draft" label="Draft only" source="draft" alwaysOn />,
   <DateInput key="date" source="date" alwaysOn />,
 ];
