@@ -24,6 +24,8 @@ export const toStoryIO = ({
       featuredImage: story.featuredImage
         ? {
             ...story.featuredImage,
+            label: story.featuredImage.label ?? undefined,
+            description: story.featuredImage.description ?? undefined,
             thumbnail: story.featuredImage.thumbnail ?? undefined,
             createdAt: story.featuredImage.createdAt?.toISOString(),
             updatedAt: story.featuredImage.updatedAt?.toISOString(),
