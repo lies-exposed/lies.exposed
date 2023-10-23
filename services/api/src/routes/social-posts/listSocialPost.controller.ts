@@ -12,20 +12,20 @@ export const MakeListSocialPostRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
     Endpoints.SocialPosts.List,
     ({ query: { status, entity, distinct, ...query } }) => {
-      const findSocialPostTask = ctx.db.manager
+      const findSocialPostQuery = ctx.db.manager
         .createQueryBuilder()
         .select()
         .from(SocialPostEntity, "sp");
 
       const ormOpts = getORMOptions(query, ctx.env.DEFAULT_PAGE_SIZE);
       if (fp.O.isSome(status)) {
-        findSocialPostTask.where("status = :status", { status: status.value });
+        findSocialPostQuery.where("status = :status", { status: status.value });
       }
 
       if (fp.O.isSome(entity)) {
         const where = fp.O.isSome(status)
-          ? findSocialPostTask.andWhere.bind(findSocialPostTask)
-          : findSocialPostTask.where.bind(findSocialPostTask);
+          ? findSocialPostQuery.andWhere.bind(findSocialPostQuery)
+          : findSocialPostQuery.where.bind(findSocialPostQuery);
 
         where("entity = :entity", { entity: entity.value });
       }
@@ -37,16 +37,24 @@ export const MakeListSocialPostRoute = (r: Router, ctx: RouteContext): void => {
       );
 
       if (isDistinct) {
-        findSocialPostTask.distinctOn(["sp.entity"]);
-        findSocialPostTask.groupBy("sp.entity");
-        ormOpts.order = { "sp.entity": "DESC" };
+        findSocialPostQuery.distinctOn(["sp.entity"]);
+        findSocialPostQuery.groupBy("sp.entity");
+        ormOpts.order = {
+          entity: "DESC",
+          ...(ormOpts.order ?? {}),
+        };
       }
 
       if (ormOpts.order) {
-        addOrder(ormOpts.order, findSocialPostTask);
+        addOrder(
+          ormOpts.order,
+          findSocialPostQuery,
+          "sp",
+          isDistinct ? ["sp.entity"] : [],
+        );
       }
 
-      findSocialPostTask
+      findSocialPostQuery
         .addSelect("*")
         .addSelect(
           (s) =>
@@ -61,11 +69,14 @@ export const MakeListSocialPostRoute = (r: Router, ctx: RouteContext): void => {
         .skip(ormOpts.skip)
         .take(ormOpts.take);
 
-      ctx.logger.debug.log(`Find social posts %s`, findSocialPostTask.getSql());
+      ctx.logger.debug.log(
+        `Find social posts %s`,
+        findSocialPostQuery.getSql(),
+      );
 
       return pipe(
         sequenceS(TE.ApplicativePar)({
-          data: ctx.db.execQuery(() => findSocialPostTask.getRawAndEntities()),
+          data: ctx.db.execQuery(() => findSocialPostQuery.getRawAndEntities()),
           total: ctx.db.count(SocialPostEntity),
         }),
         // TE.chain(({ data, total }) =>

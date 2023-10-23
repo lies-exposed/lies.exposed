@@ -1,6 +1,8 @@
+import { fp } from "@liexp/core/lib/fp";
 import { UUID } from "@liexp/shared/lib/io/http/Common/UUID";
 import * as Query from "@liexp/shared/lib/io/http/Query";
 import * as O from "fp-ts/Option";
+import { contramap } from "fp-ts/Ord";
 import * as R from "fp-ts/Record";
 import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
@@ -56,9 +58,7 @@ const getSkipAndTakeOptions = (
   return pipe(
     pagination._start,
     O.alt(() => O.some(0)),
-    O.map((p) => {
-      return { skip: p, take };
-    }),
+    O.map((p) => ({ skip: p, take })),
     O.getOrElse(() => ({ skip: 0, take })),
   );
 };
@@ -93,16 +93,49 @@ const getWhereOption = (_f: Query.FilterQuery): Partial<ORMFilter> => {
   );
 };
 
+export const getOrder = (
+  order: ORMOrder["order"],
+  prefix?: string,
+  orderedKeys?: string[],
+): ORMOrder["order"] => {
+  const init: Record<string, { value: any; index: number }> = {};
+  return pipe(
+    order,
+    R.reduceWithIndex(fp.S.Ord)(init, (key, acc, value) => {
+      const finalKey = prefix ? `${prefix}.${key}` : key;
+      const keyIndex = (orderedKeys ?? []).findIndex((k) => k === finalKey);
+      const index = keyIndex;
+      acc[finalKey] = {
+        value,
+        index,
+      };
+      return acc;
+    }),
+    R.toArray,
+    fp.A.sort(
+      pipe(
+        fp.N.Ord,
+        contramap(([k, e]: [string, { value: any; index: number }]) => e.index),
+      ),
+    ),
+    fp.A.reverse,
+    fp.A.reduce({} as any, (acc, v) => {
+      acc[v[0]] = v[1].value
+      return acc;
+    }),
+  );
+};
+
 export const addOrder = <T extends ObjectLiteral>(
   order: ORMOrder["order"],
   q: SelectQueryBuilder<T>,
   prefix?: string,
+  orderedKeys?: string[],
 ): SelectQueryBuilder<T> => {
   return pipe(
-    order,
+    getOrder(order, prefix, orderedKeys),
     R.mapWithIndex((key, value) => {
-      const orderKey = prefix ? `${prefix}.${key}` : key;
-      q.addOrderBy(orderKey, value);
+      q.addOrderBy(key, value);
     }),
     () => q,
   );
