@@ -83,7 +83,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
     <Grid container width="100%" height="100%" spacing={2}>
       <Grid item lg={6}>
         <Box>
-        <Box>
+          <Box>
             <Input
               fullWidth
               multiline
@@ -376,6 +376,12 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
               <Link href={payload.url}>{payload.title}</Link>
             </Typography>
           </Box>
+
+          {payload.content ? (
+            <Box>
+              <Typography>{payload.content}</Typography>
+            </Box>
+          ) : null}
 
           {payload?.date ? (
             <Box style={{ width: "100%" }}>
