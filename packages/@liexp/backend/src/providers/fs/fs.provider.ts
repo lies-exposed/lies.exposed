@@ -49,7 +49,10 @@ export interface FSClient {
   ) => TE.TaskEither<FSError, "valid" | "older" | "not-found">;
   getObject: (filePath: string) => TE.TaskEither<FSError, string>;
   writeObject: (filePath: string, data: string) => TE.TaskEither<FSError, void>;
-  deleteObject: (filePath: string) => TE.TaskEither<FSError, void>;
+  deleteObject: (
+    filePath: string,
+    throwIfNoExists?: boolean,
+  ) => TE.TaskEither<FSError, void>;
   getOlderThanOr: (
     filePath: string,
     time?: number,
@@ -124,11 +127,23 @@ export const GetFSClient = (): FSClient => {
     olderThan,
     writeObject,
     getObject,
-    deleteObject: (filePath) => {
+    deleteObject: (filePath, throwIfNoExists) => {
       fsLogger.debug.log("Deleting object at path %s", filePath);
       return pipe(
-        TE.fromIO(() => {
-          fs.rmSync(filePath);
+        objectExists(filePath),
+        TE.chain((exists) => {
+          if (exists) {
+            return TE.fromIO(() => {
+              fs.rmSync(filePath);
+            });
+          } else {
+            if (throwIfNoExists) {
+              return TE.left(
+                toFSError(new Error(`File ${filePath} don't exists.`)),
+              );
+            }
+            return TE.right(undefined);
+          }
         }),
       );
     },

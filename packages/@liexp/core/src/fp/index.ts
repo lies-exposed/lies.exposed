@@ -1,5 +1,6 @@
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
+import * as Eq from 'fp-ts/Eq'
 import * as IOE from "fp-ts/IOEither";
 import * as Json from "fp-ts/Json";
 import * as Map from "fp-ts/Map";
@@ -27,6 +28,7 @@ export const fp = {
   N,
   Ord,
   Json,
+  Eq
 };
 
 export { pipe, flow };

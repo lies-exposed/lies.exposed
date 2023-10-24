@@ -1,21 +1,24 @@
+import { fp, pipe } from "@liexp/core/lib/fp";
 import { format, subWeeks } from "date-fns";
 import { sequenceS } from "fp-ts/Apply";
-import * as A from "fp-ts/Array";
-import * as Eq from "fp-ts/Eq";
-import * as Map from "fp-ts/Map";
 import { type Monoid } from "fp-ts/Monoid";
-import * as O from "fp-ts/Option";
-import * as Ord from "fp-ts/Ord";
-import { pipe } from "fp-ts/function";
-import * as N from "fp-ts/number";
-import * as S from "fp-ts/string";
+import { type NonEmptyArray } from "fp-ts/NonEmptyArray";
+import type * as O from "fp-ts/Option";
 import { UUID } from "io-ts-types/lib/UUID";
-import { Events, type Actor, type Common, type Group } from "../../io/http";
+import {
+  Events,
+  type Actor,
+  type Common,
+  type Group,
+  type Network,
+} from "../../io/http";
 import { type BySubject } from "../../io/http/Common";
+import { type EventRelationIds } from "../../io/http/Events";
 import { type SearchEvent } from "../../io/http/Events/SearchEvent";
 import { getTextContents } from "../../slate";
 import { type EventCommonProps } from "./getCommonProps.helper";
-import { type EventRelationIds } from "@io/http/Events";
+
+const { Ord, Eq, S, N } = fp;
 
 type EventsByYearMap = Map<number, Map<number, Events.Event[]>>;
 
@@ -33,7 +36,7 @@ interface NavigationItem {
 export const eventsDataToNavigatorItems = (
   events: Events.Event[],
 ): NavigationItem[] => {
-  const initial: EventsByYearMap = Map.empty;
+  const initial: EventsByYearMap = new Map();
 
   const yearItems = events.reduce<EventsByYearMap>((acc, e) => {
     const frontmatter = e;
@@ -41,16 +44,16 @@ export const eventsDataToNavigatorItems = (
     const month = frontmatter.date.getUTCMonth();
 
     const value = pipe(
-      Map.lookup(N.Eq)(year, acc),
-      O.fold(
-        () => Map.singleton(month, [e]),
+      fp.Map.lookup(N.Eq)(year, acc),
+      fp.O.fold(
+        () => fp.Map.singleton(month, [e]),
         (monthMap) =>
           pipe(
-            Map.lookupWithKey(N.Eq)(month, monthMap),
-            O.fold(
-              () => Map.upsertAt(N.Eq)(month, [e])(monthMap),
+            fp.Map.lookupWithKey(N.Eq)(month, monthMap),
+            fp.O.fold(
+              () => fp.Map.upsertAt(N.Eq)(month, [e])(monthMap),
               ([monthKey, eventsInMonth]) => {
-                return Map.upsertAt(N.Eq)(monthKey, eventsInMonth.concat(e))(
+                return fp.Map.upsertAt(N.Eq)(monthKey, eventsInMonth.concat(e))(
                   monthMap,
                 );
               },
@@ -59,13 +62,13 @@ export const eventsDataToNavigatorItems = (
       ),
     );
 
-    return Map.upsertAt(N.Eq)(year, value)(acc);
+    return fp.Map.upsertAt(N.Eq)(year, value)(acc);
   }, initial);
 
   const initialData: NavigationItem[] = [];
-  return Map.toArray(Ord.reverse(N.Ord))(yearItems).reduce<NavigationItem[]>(
+  return fp.Map.toArray(Ord.reverse(N.Ord))(yearItems).reduce<NavigationItem[]>(
     (acc, [year, monthMap]) => {
-      const months = Map.toArray(Ord.reverse(N.Ord))(monthMap).reduce<
+      const months = fp.Map.toArray(Ord.reverse(N.Ord))(monthMap).reduce<
         NavigationItem[]
       >((monthAcc, [month, events]) => {
         return monthAcc.concat({
@@ -119,28 +122,28 @@ export const eventsInDateRange =
   (events: Events.Event[]): Events.Event[] => {
     return pipe(
       events,
-      A.sort(Ord.getDualOrd(ordEventDate)),
+      fp.A.sort(fp.Ord.reverse(ordEventDate)),
       (orderedEvents) => {
         const minDate = pipe(
           props.minDate,
-          O.alt(() =>
+          fp.O.alt(() =>
             pipe(
-              A.last(orderedEvents),
-              O.map((e) => e.date),
+              fp.A.last(orderedEvents),
+              fp.O.map((e) => e.date),
             ),
           ),
-          O.getOrElse(() => subWeeks(new Date(), 1)),
+          fp.O.getOrElse(() => subWeeks(new Date(), 1)),
         );
 
         const maxDate = pipe(
           props.maxDate,
-          O.alt(() =>
+          fp.O.alt(() =>
             pipe(
-              A.head(orderedEvents),
-              O.map((e) => e.date),
+              fp.A.head(orderedEvents),
+              fp.O.map((e) => e.date),
             ),
           ),
-          O.getOrElse(() => new Date()),
+          fp.O.getOrElse(() => new Date()),
         );
 
         return { events: orderedEvents, minDate, maxDate };
@@ -148,7 +151,9 @@ export const eventsInDateRange =
       ({ events, minDate, maxDate }) => {
         return pipe(
           events,
-          A.filter((e) => Ord.between(Ord.ordDate)(minDate, maxDate)(e.date)),
+          fp.A.filter((e) =>
+            Ord.between(Ord.ordDate)(minDate, maxDate)(e.date),
+          ),
         );
       },
     );
@@ -254,6 +259,40 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
       };
     }
   }
+};
+
+const nonEmptyArrayOrNull = <A>(x: A[]): NonEmptyArray<A> | null => {
+  const z = pipe(fp.NEA.fromArray(x ?? []), fp.O.toNullable);
+  return z;
+};
+
+// const concatToNEAOrNull = <A>(x: A[], y: A[]): NonEmptyArray<A> | null => {
+//   console.log({ x, y });
+//   const z = pipe(
+//     fp.NEA.fromArray(x ?? []),
+//     fp.O.map((kk) => fp.NEA.concat(kk)(y ?? [])),
+//     fp.O.getOrElse(() => nonEmptyArrayOrNull(y)),
+//   );
+//   console.log({ z });
+//   return z;
+// };
+
+export const toGetNetworkQuery = ({
+  keywords,
+  links,
+  actors,
+  groups,
+}: Events.EventRelationIds): Network.GetNetworkQuerySerialized => {
+  return {
+    relations: null,
+    ids: null,
+    startDate: null,
+    endDate: null,
+    emptyRelations: null,
+    keywords: nonEmptyArrayOrNull(keywords),
+    actors: nonEmptyArrayOrNull(actors),
+    groups: nonEmptyArrayOrNull(groups),
+  };
 };
 
 const eventRelationIdsMonoid: Monoid<EventRelationIds> = {
@@ -389,8 +428,8 @@ export const transform = (
     case Events.EventTypes.DEATH.value: {
       return pipe(
         props.actors.at(0),
-        O.fromNullable,
-        O.map((v) => ({
+        fp.O.fromNullable,
+        fp.O.map((v) => ({
           ...e,
           type: Events.EventTypes.DEATH.value,
           payload: {
@@ -403,38 +442,38 @@ export const transform = (
     case Events.EventTypes.TRANSACTION.value: {
       const from = pipe(
         props.actors,
-        A.head,
-        O.map((id): BySubject => ({ type: "Actor", id })),
-        O.alt(() =>
+        fp.A.head,
+        fp.O.map((id): BySubject => ({ type: "Actor", id })),
+        fp.O.alt(() =>
           pipe(
             props.groups,
-            A.head,
-            O.map((id): BySubject => ({ type: "Group", id })),
+            fp.A.head,
+            fp.O.map((id): BySubject => ({ type: "Group", id })),
           ),
         ),
       );
 
       const to = pipe(
         props.actors,
-        A.takeLeft(2),
-        A.head,
-        O.map((id): BySubject => ({ type: "Actor" as const, id })),
-        O.alt(() =>
+        fp.A.takeLeft(2),
+        fp.A.head,
+        fp.O.map((id): BySubject => ({ type: "Actor" as const, id })),
+        fp.O.alt(() =>
           pipe(
             props.groups,
-            A.takeLeft(2),
-            A.head,
-            O.map((id): BySubject => ({ type: "Group" as const, id })),
+            fp.A.takeLeft(2),
+            fp.A.head,
+            fp.O.map((id): BySubject => ({ type: "Group" as const, id })),
           ),
         ),
       );
 
       return pipe(
-        sequenceS(O.Applicative)({
+        sequenceS(fp.O.Applicative)({
           to,
           from,
         }),
-        O.map(({ to, from }) => ({
+        fp.O.map(({ to, from }) => ({
           ...e,
           type: Events.EventTypes.TRANSACTION.value,
           payload: {
@@ -450,9 +489,9 @@ export const transform = (
     case Events.EventTypes.PATENT.value: {
       return pipe(
         props.url,
-        O.fromNullable,
-        O.chainNullableK((url) => props.links.at(0)),
-        O.map((source: any) => ({
+        fp.O.fromNullable,
+        fp.O.chainNullableK((url) => props.links.at(0)),
+        fp.O.map((source: any) => ({
           ...e,
           type: Events.EventTypes.PATENT.value,
           payload: {
@@ -469,11 +508,11 @@ export const transform = (
 
     case Events.EventTypes.DOCUMENTARY.value: {
       return pipe(
-        sequenceS(O.Applicative)({
-          media: pipe(props.media, A.head),
-          website: pipe(props.links, A.head),
+        sequenceS(fp.O.Applicative)({
+          media: pipe(props.media, fp.A.head),
+          website: pipe(props.links, fp.A.head),
         }),
-        O.map(({ media, website }) => ({
+        fp.O.map(({ media, website }) => ({
           ...e,
           type: Events.EventTypes.DOCUMENTARY.value,
           payload: {
@@ -496,8 +535,8 @@ export const transform = (
     case Events.EventTypes.SCIENTIFIC_STUDY.value: {
       return pipe(
         props.links,
-        A.head,
-        O.map((url) => ({
+        fp.A.head,
+        fp.O.map((url) => ({
           ...e,
           type: Events.EventTypes.SCIENTIFIC_STUDY.value,
           payload: {
@@ -514,20 +553,20 @@ export const transform = (
     case Events.EventTypes.QUOTE.value: {
       const subjectOpt = pipe(
         props.actors,
-        A.head,
-        O.map((id): BySubject => ({ type: "Actor", id })),
-        O.alt(() =>
+        fp.A.head,
+        fp.O.map((id): BySubject => ({ type: "Actor", id })),
+        fp.O.alt(() =>
           pipe(
             props.groups,
-            A.head,
-            O.map((id): BySubject => ({ type: "Group", id })),
+            fp.A.head,
+            fp.O.map((id): BySubject => ({ type: "Group", id })),
           ),
         ),
       );
 
       return pipe(
         subjectOpt,
-        O.map((subject) => ({
+        fp.O.map((subject) => ({
           ...e,
           type: Events.EventTypes.QUOTE.value,
           payload: {
@@ -541,7 +580,7 @@ export const transform = (
     }
 
     default: {
-      return O.some({
+      return fp.O.some({
         ...e,
         type: Events.EventTypes.UNCATEGORIZED.value,
         payload: {
@@ -556,6 +595,17 @@ export const transform = (
     }
   }
 };
+
+export const eventsEmptyTotals: Events.SearchEvent.SearchEventsQuery.EventTotals =
+  {
+    uncategorized: 0,
+    documentaries: 0,
+    scientificStudies: 0,
+    quotes: 0,
+    patents: 0,
+    transactions: 0,
+    deaths: 0,
+  };
 
 export const getTotals = (
   acc: Events.SearchEvent.SearchEventsQuery.EventTotals,
