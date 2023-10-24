@@ -11,7 +11,7 @@ import * as GroupMember from "./GroupMember";
 import * as Keyword from "./Keyword";
 import * as Link from "./Link";
 import * as Media from "./Media";
-import * as Network from "./Networks";
+import * as Network from "./Network";
 import * as Page from "./Page";
 import * as Project from "./Project";
 import * as ProjectImage from "./ProjectImage";

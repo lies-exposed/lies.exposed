@@ -28,6 +28,18 @@ export const GetFlowGraph = Endpoint({
   Output: t.strict({ data: FlowGraphOutput }),
 });
 
+export const EditFlowGraph = Endpoint({
+  Method: "PUT",
+  getPath: ({ id, type }) => `/graphs/flows/${type}/${id}`,
+  Input: {
+    Params: GetFlowGraphParams,
+    Body: t.strict({
+      regenerate: t.boolean
+    })
+  },
+  Output: t.strict({ data: FlowGraphOutput }),
+});
+
 export const ListGraphs = Endpoint({
   Method: "GET",
   getPath: () => `/graphs`,
@@ -78,5 +90,6 @@ export const graphs = ResourceEndpoints({
   Delete: DeleteGraph,
   Custom: {
     GetGraphByType: GetFlowGraph,
+    EditFlowGraph,
   },
 });

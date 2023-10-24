@@ -1,5 +1,6 @@
 import * as t from "io-ts";
 import { UUID } from "io-ts-types/UUID";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import {
@@ -49,11 +50,10 @@ export const Get = Endpoint({
 
 export const Edit = Endpoint({
   Method: "PUT",
-  getPath: ({ id }) => `/networks/${id}`,
+  getPath: ({ type, id }) => `/networks/${type}/${id}`,
   Input: {
-    Query: undefined,
-    Params: t.type({ id: UUID }),
-    Body: t.unknown,
+    Params: t.type({...GetNetworkParams.props, id: UUID }),
+    Body: t.strict({ regenerate: optionFromNullable(t.boolean) }),
   },
   Output: SingleOutput,
 });

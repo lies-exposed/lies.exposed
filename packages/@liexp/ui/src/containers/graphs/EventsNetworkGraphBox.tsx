@@ -47,11 +47,8 @@ export interface EventNetworkGraphBoxProps
   selectedKeywordIds?: string[];
   query: Omit<
     SearchEventsQueryInputNoPagination,
-    "hash" | "startDate" | "endDate"
-  > & {
-    startDate: string;
-    endDate: string;
-  };
+    "hash"
+  >;
   onRelationsChange?: (relations: NetworkGroupBy[]) => void;
 }
 
@@ -243,8 +240,8 @@ const transformNetworkOutput = (
     ...otherProps
   } = props;
 
-  const startDate = parseISO(query.startDate);
-  const endDate = parseISO(query.endDate);
+  const startDate = parseISO(query.startDate ?? graph.startDate.toISOString());
+  const endDate = parseISO(query.endDate ?? graph.endDate.toISOString());
 
   // console.log({ startDate, endDate });
   const {

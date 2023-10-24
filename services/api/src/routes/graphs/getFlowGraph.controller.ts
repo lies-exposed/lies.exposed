@@ -10,7 +10,7 @@ export const MakeGetFlowGraphRoute = (r: Router, ctx: RouteContext): void => {
     Endpoints.Graph.Custom.GetGraphByType,
     ({ params: { id, type }, query }) => {
       return pipe(
-        createFlowGraph(ctx)(id, type, query),
+        createFlowGraph(ctx)(type, id, query),
         TE.map((data) => ({
           body: {
             data,
