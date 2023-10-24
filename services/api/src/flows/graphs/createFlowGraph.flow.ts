@@ -2,6 +2,7 @@ import path from "path";
 import { fp } from "@liexp/core/lib/fp";
 import { type Logger } from "@liexp/core/lib/logger";
 import {
+  eventsEmptyTotals,
   getRelationIds,
   getTotals,
 } from "@liexp/shared/lib/helpers/event/event";
@@ -28,7 +29,7 @@ import { toEventV2IO } from "../../routes/events/eventV2.io";
 import { cleanItemsFromSlateFields } from "../../utils/clean.utils";
 import { fetchEventsByRelation } from "../events/fetchByRelations.flow";
 import { fetchEventsRelations } from "../events/fetchEventsRelations.flow";
-import { type TEFlow } from "../flow.types";
+import { type Flow, type TEFlow } from "../flow.types";
 
 const ordByDate = pipe(
   fp.N.Ord,
@@ -120,15 +121,7 @@ export const getFlowGraph =
       actorLinks: new Map<string, any[]>(),
       groupLinks: new Map<string, any[]>(),
       keywordLinks: new Map<string, any[]>(),
-      totals: {
-        uncategorized: 0,
-        documentaries: 0,
-        scientificStudies: 0,
-        quotes: 0,
-        patents: 0,
-        transactions: 0,
-        deaths: 0,
-      },
+      totals: eventsEmptyTotals,
     };
 
     const graph = pipe(
@@ -202,17 +195,21 @@ export const getFlowGraph =
     };
   };
 
-export const createFlowGraph: TEFlow<
-  [UUID, FlowGraphType, GetNetworkQuery],
-  FlowGraphOutput
-> =
-  (ctx) =>
-  (id, type, { relations, emptyRelations, ...query }) => {
-    ctx.logger.debug.log(`Flow graph for %s (%s) %O`, type, id, query);
-    const filePath = path.resolve(
+export const getFilePath: Flow<[FlowGraphType, UUID], string> =
+  (ctx) => (type, id) => {
+    return path.resolve(
       ctx.config.dirs.cwd,
       `temp/graphs/flows/${type}/${id}.json`,
     );
+  };
+
+export const createFlowGraph: TEFlow<
+  [FlowGraphType, UUID, GetNetworkQuery],
+  FlowGraphOutput
+> =
+  (ctx) =>
+  (type, id, { relations, emptyRelations, ...query }) => {
+    ctx.logger.debug.log(`Flow graph for %s (%s) %O`, type, id, query);
 
     const createFlowGraphTask = pipe(
       fetchEventsByRelation(ctx)(type, [id], {
@@ -227,5 +224,10 @@ export const createFlowGraph: TEFlow<
       fp.TE.map(getFlowGraph(ctx.logger)),
     );
 
-    return pipe(createFlowGraphTask, ctx.fs.getOlderThanOr(filePath, 6));
+    return pipe(
+      createFlowGraphTask,
+      ctx.fs.getOlderThanOr(getFilePath(ctx)(type, id), 6),
+    );
   };
+
+

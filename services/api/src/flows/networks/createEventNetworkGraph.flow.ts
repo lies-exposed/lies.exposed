@@ -2,6 +2,7 @@ import * as fs from "fs";
 import path from "path";
 import { fp } from "@liexp/core/lib/fp";
 import {
+  eventsEmptyTotals,
   getColorByEventType,
   getEventMetadata,
   getRelationIds,
@@ -22,7 +23,6 @@ import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
 import {
   type NetworkLink,
-  type GetNetworkQuery,
   type NetworkGraphOutput,
   type NetworkGroupBy,
 } from "@liexp/shared/lib/io/http/Network";
@@ -325,23 +325,15 @@ const initialResult: Result = {
   actorLinks: [],
   groupLinks: [],
   keywordLinks: [],
-  totals: {
-    uncategorized: 0,
-    documentaries: 0,
-    scientificStudies: 0,
-    quotes: 0,
-    patents: 0,
-    transactions: 0,
-    deaths: 0,
-  },
+  totals: eventsEmptyTotals,
 };
 
 export const createEventNetworkGraph: TEFlow<
-  [UUID, GetNetworkQuery],
+  [UUID],
   NetworkGraphOutput
 > =
   (ctx) =>
-  (id, { relations: relation }) => {
+  (id) => {
     const filePath = path.resolve(
       ctx.config.dirs.temp.root,
       `networks/events/${id}.json`,

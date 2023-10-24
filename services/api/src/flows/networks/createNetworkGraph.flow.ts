@@ -1,5 +1,6 @@
 import { fp } from "@liexp/core/lib/fp";
 import {
+  eventsEmptyTotals,
   getColorByEventType,
   getEventMetadata,
   getTotals,
@@ -59,6 +60,17 @@ const uniqueId = GetEncodeUtils<
   groups: groups.join("-"),
   keywords: keywords.join("-"),
 }));
+
+export const emptyGetNetworkQuery: GetNetworkQuery = {
+  ids: fp.O.none,
+  startDate: fp.O.none,
+  endDate: fp.O.none,
+  relations: fp.O.some(["actors", "groups", "keywords"]),
+  groups: fp.O.none,
+  actors: fp.O.none,
+  keywords: fp.O.none,
+  emptyRelations: fp.O.none,
+};
 
 type ItemType = Group.Group | Keyword.Keyword | Actor.Actor;
 
@@ -302,15 +314,7 @@ const initialResult: Result = {
   actorLinks: new Map(),
   groupLinks: new Map(),
   keywordLinks: new Map(),
-  totals: {
-    uncategorized: 0,
-    documentaries: 0,
-    scientificStudies: 0,
-    quotes: 0,
-    patents: 0,
-    transactions: 0,
-    deaths: 0,
-  },
+  totals: eventsEmptyTotals,
 };
 
 export interface Graph {

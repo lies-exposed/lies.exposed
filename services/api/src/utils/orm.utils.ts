@@ -116,11 +116,11 @@ export const getOrder = (
       pipe(
         fp.N.Ord,
         contramap(([k, e]: [string, { value: any; index: number }]) => e.index),
+        fp.Ord.reverse,
       ),
     ),
-    fp.A.reverse,
     fp.A.reduce({} as any, (acc, v) => {
-      acc[v[0]] = v[1].value
+      acc[v[0]] = v[1].value;
       return acc;
     }),
   );

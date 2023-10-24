@@ -11,6 +11,7 @@ import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
 import { WebPreviewButton } from "@liexp/ui/lib/components/admin/common/WebPreviewButton";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
 import ReferenceManyEventField from "@liexp/ui/lib/components/admin/events/ReferenceManyEventField";
+import { EventsNetworkGraphFormTab } from "@liexp/ui/lib/components/admin/events/tabs/EventsNetworkGraphFormTab";
 import { GroupDataGrid } from "@liexp/ui/lib/components/admin/groups/GroupDataGrid";
 import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField";
 import GroupPreview from "@liexp/ui/lib/components/admin/previews/GroupPreview";
@@ -43,6 +44,7 @@ import {
   type RaRecord,
   type SelectInputProps,
 } from "@liexp/ui/lib/components/admin/react-admin";
+import { LazyFormTabContent } from "@liexp/ui/lib/components/admin/tabs/LazyFormTabContent";
 import { Box, Grid, Typography } from "@liexp/ui/lib/components/mui";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
@@ -228,6 +230,11 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
         </FormTab>
         <FormTab label="events">
           <ReferenceManyEventField source="id" target="groups[]" />
+        </FormTab>
+        <FormTab label="Network">
+          <LazyFormTabContent tab={5}>
+            <EventsNetworkGraphFormTab type="groups" />
+          </LazyFormTabContent>
         </FormTab>
       </TabbedForm>
     </EditForm>

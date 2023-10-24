@@ -11,6 +11,8 @@ import { WebPreviewButton } from "@liexp/ui/lib/components/admin/common/WebPrevi
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
 import { CreateEventButton } from "@liexp/ui/lib/components/admin/events/CreateEventButton";
 import ReferenceManyEventField from "@liexp/ui/lib/components/admin/events/ReferenceManyEventField";
+import {EventsFlowGraphFormTab} from '@liexp/ui/lib/components/admin/events/tabs/EventsFlowGraphFormTab'
+import { EventsNetworkGraphFormTab } from "@liexp/ui/lib/components/admin/events/tabs/EventsNetworkGraphFormTab";
 import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceGroupInput";
 import { SearchLinksButton } from "@liexp/ui/lib/components/admin/links/SearchLinksButton";
 import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField";
@@ -40,6 +42,7 @@ import {
   type EditProps,
   type RaRecord,
 } from "@liexp/ui/lib/components/admin/react-admin";
+import { LazyFormTabContent } from "@liexp/ui/lib/components/admin/tabs/LazyFormTabContent";
 import { Grid } from "@liexp/ui/lib/components/mui";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
@@ -190,6 +193,16 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
               return await Promise.reject(new Error(`Can't create event ${t}`));
             }}
           />
+        </FormTab>
+        <FormTab label="networks">
+          <LazyFormTabContent tab={5}>
+            <EventsNetworkGraphFormTab type="actors" />
+          </LazyFormTabContent>
+        </FormTab>
+        <FormTab label="flows">
+          <LazyFormTabContent tab={6}>
+            <EventsFlowGraphFormTab type="actors" />
+          </LazyFormTabContent>
         </FormTab>
       </TabbedForm>
     </EditForm>
