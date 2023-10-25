@@ -1,5 +1,6 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
 import { MP4Type } from "@liexp/shared/lib/io/http/Media";
+import { ensureHTTPS } from '@liexp/shared/lib/utils/media.utils';
 import { type Router } from "express";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
@@ -113,7 +114,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
                 description,
                 extra,
                 thumbnail,
-                location,
+                location: ensureHTTPS(location),
                 id,
               },
             ]),
