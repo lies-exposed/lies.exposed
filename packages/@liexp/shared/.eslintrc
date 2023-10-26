@@ -3,5 +3,8 @@
   "parserOptions": {
     "tsconfigRootDir": "./",
     "project": ["./tsconfig.json"]
+  },
+  "settings": {
+    "import/ignore": ["uuid"]
   }
 }
