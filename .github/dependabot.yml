@@ -4,19 +4,21 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    target-branch: daily
+    open-pull-requests-limit: 0
+    target-branch: "daily"
     versioning-strategy: increase
     allow:
-      - dependency-type: all
+      # Allow both direct and indirect updates for all packages
+      - dependency-type: "all"
     ignore:
       - dependency-name: "@types/mime"
-        versions: ["2.*", "3.*"]
+        versions: ["2.x", "3.x"]
       - dependency-name: "@types/node"
-        versions: ["20.*"]
+        versions: ["20.x"]
       - dependency-name: "fast-check"
-        versions: ["3.*"]
+        versions: ["3.x"]
       - dependency-name: "query-string"
-        versions: ["8.*"]
+        versions: ["8.x"]
     groups:
       types:
         patterns:
