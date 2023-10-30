@@ -3355,7 +3355,7 @@ __metadata:
     "@types/throttle-debounce": ^5.0.1
     "@types/uuid": ^9.0.6
     "@visx/network": ^3.3.0
-    axios: ^1.5.1
+    axios: ^1.6.0
     bs58: ^5.0.0
     cheerio: ^1.0.0-rc.12
     date-fns: ^2.30.0
@@ -3467,7 +3467,7 @@ __metadata:
     "@visx/tooltip": ^3.3.0
     "@visx/wordcloud": ^3.3.0
     "@visx/zoom": ^3.3.0
-    axios: ^1.5.1
+    axios: ^1.6.0
     chroma-js: ^2.4.2
     clsx: ^2.0.0
     d3: ^7.8.5
@@ -10037,7 +10037,7 @@ __metadata:
     "@types/prompts": ^2.4.7
     "@types/supertest": ^2.0.15
     "@types/uuid": ^9.0.6
-    axios: ^1.5.1
+    axios: ^1.6.0
     canvas: ^2.11.2
     cors: 2.8.5
     debug: ^4.3.4
@@ -10563,7 +10563,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.4.0, axios@npm:^1.5.1":
+"axios@npm:^1.4.0":
   version: 1.5.1
   resolution: "axios@npm:1.5.1"
   dependencies:
@@ -10571,6 +10571,17 @@ __metadata:
     form-data: ^4.0.0
     proxy-from-env: ^1.1.0
   checksum: 4444f06601f4ede154183767863d2b8e472b4a6bfc5253597ed6d21899887e1fd0ee2b3de792ac4f8459fe2e359d2aa07c216e45fd8b9e4e0688a6ebf48a5a8d
+  languageName: node
+  linkType: hard
+
+"axios@npm:^1.6.0":
+  version: 1.6.0
+  resolution: "axios@npm:1.6.0"
+  dependencies:
+    follow-redirects: ^1.15.0
+    form-data: ^4.0.0
+    proxy-from-env: ^1.1.0
+  checksum: c7c9f2ae9e0b9bad7d6f9a4dff030930b12ee667dedf54c3c776714f91681feb743c509ac0796ae5c01e12c4ab4a2bee74905068dd200fbc1ab86f9814578fb0
   languageName: node
   linkType: hard
 
@@ -26377,7 +26388,7 @@ __metadata:
     "@visx/network": ^3.3.0
     "@visx/responsive": ^3.3.0
     "@visx/tooltip": ^3.3.0
-    axios: ^1.5.1
+    axios: ^1.6.0
     bs58: ^5.0.0
     clsx: ^2.0.0
     d3: ^7.8.5
