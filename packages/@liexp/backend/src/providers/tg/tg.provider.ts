@@ -10,16 +10,16 @@ export interface TGBotProvider {
   upsertPinnedMessage: (
     text: string,
   ) => TE.TaskEither<Error, TelegramBot.Message>;
-  post: (text: string) => TE.TaskEither<Error, any>;
+  post: (text: string, replyToMessageId?: number) => TE.TaskEither<Error, TelegramBot.Message>;
   postPhoto: (
     imageUrl: string | Stream,
     caption: string,
-  ) => TE.TaskEither<Error, any>;
+  ) => TE.TaskEither<Error, TelegramBot.Message>;
   postVideo: (
     videoUrl: string | Stream,
     caption: string,
     opts?: TelegramBot.SendVideoOptions,
-  ) => TE.TaskEither<Error, any>;
+  ) => TE.TaskEither<Error, TelegramBot.Message>;
   postMediaGroup: (
     text: string,
     media: readonly TelegramBot.InputMedia[],
@@ -99,9 +99,10 @@ export const TGBotProvider = (
         }),
       );
     },
-    post: (text) => {
+    post: (text, replyToMessageId) => {
       return liftTGTE(() =>
         api.sendMessage(opts.chat, text, {
+          reply_to_message_id: replyToMessageId,
           parse_mode: "HTML",
           disable_web_page_preview: false,
         }),
