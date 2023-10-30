@@ -1,4 +1,5 @@
 import { apiProvider, authProvider } from "@liexp/ui/lib/client/api";
+import { DeathEventIcon, DocumentaryEventIcon, PatentEventIcon, QuoteEventIcon, ScientificStudyEventIcon, TransactionEventIcon, UncategorizedEventIcon } from '@liexp/ui/lib/components/Common/Icons';
 import {
   EventSuggestionEdit,
   EventSuggestionList,
@@ -26,7 +27,6 @@ import {
 } from "@liexp/ui/lib/components/admin/stories/AdminStories";
 import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import EventIcon from "@mui/icons-material/Event";
 import GroupIcon from "@mui/icons-material/Group";
 import LinkIcon from "@mui/icons-material/Link";
 import MapIcon from "@mui/icons-material/Map";
@@ -169,7 +169,7 @@ const AdminPage: React.FC = () => {
         list={EventList}
         edit={EventEdit}
         create={UncategorizedEventCreate}
-        icon={EventIcon}
+        icon={UncategorizedEventIcon}
       />
 
       <Resource
@@ -177,6 +177,7 @@ const AdminPage: React.FC = () => {
         list={DeathList}
         edit={DeathEdit}
         create={DeathCreate}
+        icon={DeathEventIcon}
       />
 
       <Resource
@@ -184,24 +185,28 @@ const AdminPage: React.FC = () => {
         list={ScientificStudiesList}
         edit={ScientificStudyEdit}
         create={ScientificStudyCreate}
+        icon={ScientificStudyEventIcon}
       />
       <Resource
         name="patents"
         list={PatentList}
         edit={PatentEdit}
         create={PatentCreate}
+        icon={PatentEventIcon}
       />
       <Resource
         name="documentaries"
         list={DocumentaryList}
         edit={DocumentaryEdit}
         create={DocumentaryCreate}
+        icon={DocumentaryEventIcon}
       />
       <Resource
         name="transactions"
         list={TransactionList}
         edit={TransactionEdit}
         create={TransactionCreate}
+        icon={TransactionEventIcon}
       />
 
       <Resource
@@ -209,6 +214,7 @@ const AdminPage: React.FC = () => {
         list={QuoteList}
         edit={QuoteEdit}
         create={QuoteCreate}
+        icon={QuoteEventIcon}
       />
       <Resource
         name="links"
