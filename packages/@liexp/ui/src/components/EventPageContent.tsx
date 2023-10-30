@@ -80,7 +80,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
             >
               <Box style={{ marginBottom: theme.spacing(3) }}>
                 {link ? (
-                  <Link href={link.url} target="_blank">
+                  <Link href={`/links/${link.id}`}>
                     {link.title}
                   </Link>
                 ) : null}

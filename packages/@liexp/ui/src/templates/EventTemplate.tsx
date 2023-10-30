@@ -75,6 +75,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
   onGroupMemberClick,
   onKeywordClick,
   onEventClick,
+  onLinkClick,
   filters,
 }) => {
   const theme = useTheme();
@@ -333,7 +334,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                     filter={{ ids: event.links }}
                     defaultExpanded={true}
                     column={2}
-                    onItemClick={() => {}}
+                    onItemClick={onLinkClick}
                   />
                 </Box>
               </SplitPageTemplate>

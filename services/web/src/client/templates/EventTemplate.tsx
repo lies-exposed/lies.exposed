@@ -45,8 +45,8 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
             onKeywordClick={(a) => {
               navigateTo.keywords({ id: a.id }, { tab: 0 });
             }}
-            onLinkClick={() => {
-              // navigateTo.actors({ id: a.id }, { tab });
+            onLinkClick={(l) => {
+              navigateTo.links({ id: l.id }, { tab: 0 });
             }}
             onMediaClick={(m) => {
               navigateTo.media({ id: m.id }, { tab: 0 });
