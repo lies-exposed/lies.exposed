@@ -245,7 +245,7 @@ export const LinkEdit: React.FC = () => {
               {isAdmin && <DangerZoneField />}
             </Grid>
             <Grid item md={6}>
-              <ReferenceArrayKeywordInput source="keywords" showAdd={false} />
+              <ReferenceArrayKeywordInput source="keywords" showAdd={true} />
               {isAdmin && <ReferenceUserInput source="creator" />}
             </Grid>
           </Grid>
