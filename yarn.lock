@@ -3477,7 +3477,7 @@ __metadata:
     eslint: ^8.52.0
     eslint-plugin-import: ^2.29.0
     fp-ts: ^2.16.1
-    geotiff: ^2.0.7
+    geotiff: ^2.1.0
     io-ts: ^2.2.20
     io-ts-types: ^0.5.19
     is-plain-object: ^5.0.0
@@ -10563,18 +10563,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.4.0":
-  version: 1.5.1
-  resolution: "axios@npm:1.5.1"
-  dependencies:
-    follow-redirects: ^1.15.0
-    form-data: ^4.0.0
-    proxy-from-env: ^1.1.0
-  checksum: 4444f06601f4ede154183767863d2b8e472b4a6bfc5253597ed6d21899887e1fd0ee2b3de792ac4f8459fe2e359d2aa07c216e45fd8b9e4e0688a6ebf48a5a8d
-  languageName: node
-  linkType: hard
-
-"axios@npm:^1.6.0":
+"axios@npm:^1.4.0, axios@npm:^1.6.0":
   version: 1.6.0
   resolution: "axios@npm:1.6.0"
   dependencies:
@@ -15494,9 +15483,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"geotiff@npm:^2.0.7":
-  version: 2.0.7
-  resolution: "geotiff@npm:2.0.7"
+"geotiff@npm:^2.0.7, geotiff@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "geotiff@npm:2.1.0"
   dependencies:
     "@petamoriken/float16": ^3.4.7
     lerc: ^3.0.0
@@ -15505,7 +15494,8 @@ __metadata:
     quick-lru: ^6.1.1
     web-worker: ^1.2.0
     xml-utils: ^1.0.2
-  checksum: d64bd3c3cf0342368899fe693059520e003a6610515760e6afe1cb4191397e5fc180591f2aa75729bb0283190eda0574e10e3da0241be2556cbedc5c50222f69
+    zstddec: ^0.1.0
+  checksum: b9fa2688cc6b2fd885059091f18eaf788df45ee261890c1da16c0e90e5e3680b501613554fb080d0823c842971818b9335c837ee39bfc816d7a2e395f122a3ec
   languageName: node
   linkType: hard
 
@@ -27188,6 +27178,13 @@ __metadata:
     compress-commons: ^4.1.2
     readable-stream: ^3.6.0
   checksum: 33bd5ee7017656c2ad728b5d4ba510e15bd65ce1ec180c5bbdc7a5f063256353ec482e6a2bc74de7515219d8494147924b9aae16e63fdaaf37cdf7d1ee8df125
+  languageName: node
+  linkType: hard
+
+"zstddec@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "zstddec@npm:0.1.0"
+  checksum: 76113b43ec4031f9a120285c830e43bafae4c25c0a72f7a9e228af815c3e52432a8414c5d4eb6cfd3282443a4a3d2bc18b445dd702e770b1e330b6e39081750f
   languageName: node
   linkType: hard
 
