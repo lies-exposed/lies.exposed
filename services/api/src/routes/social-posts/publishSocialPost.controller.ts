@@ -15,7 +15,7 @@ export const MakePublishSocialPostRoute: Route = (r, ctx) => {
         },
       }),
       TE.chain((p) => postToTG(ctx)(id, { ...p.content })),
-      ctx.logger.info.logInTaskEither(`Posting ${id} with caption %O`),
+      ctx.logger.info.logInTaskEither((r) => [`Posting ${id} with caption %O`, r.text]),
       TE.chain((result) =>
         ctx.db.save(SocialPostEntity, [
           {
