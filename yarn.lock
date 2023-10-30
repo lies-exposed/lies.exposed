@@ -3309,7 +3309,7 @@ __metadata:
     express: ^4.18.2
     file-loader: ^6.2.0
     filemanager-webpack-plugin: ^8.0.0
-    fork-ts-checker-webpack-plugin: ^9.0.0
+    fork-ts-checker-webpack-plugin: ^9.0.2
     fp-ts: ^2.16.1
     html-replace-webpack-plugin: ^2.6.0
     html-webpack-plugin: ^5.5.3
@@ -12087,9 +12087,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cosmiconfig@npm:^8.0.0":
-  version: 8.3.3
-  resolution: "cosmiconfig@npm:8.3.3"
+"cosmiconfig@npm:^8.0.0, cosmiconfig@npm:^8.2.0":
+  version: 8.3.6
+  resolution: "cosmiconfig@npm:8.3.6"
   dependencies:
     import-fresh: ^3.3.0
     js-yaml: ^4.1.0
@@ -12100,7 +12100,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: d678cc8f0aa68c9fc66966a409a15affda3338928edb9fc7ab9969d9a733bc7bf1396e11679d5d31f8a153d60b51faeccc91612e986137d8549f4230ab4368c9
+  checksum: dc339ebea427898c9e03bf01b56ba7afbac07fc7d2a2d5a15d6e9c14de98275a9565da949375aee1809591c152c0a3877bb86dbeaf74d5bd5aaa79955ad9e7a0
   languageName: node
   linkType: hard
 
@@ -15205,14 +15205,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fork-ts-checker-webpack-plugin@npm:^9.0.0":
-  version: 9.0.0
-  resolution: "fork-ts-checker-webpack-plugin@npm:9.0.0"
+"fork-ts-checker-webpack-plugin@npm:^9.0.2":
+  version: 9.0.2
+  resolution: "fork-ts-checker-webpack-plugin@npm:9.0.2"
   dependencies:
     "@babel/code-frame": ^7.16.7
     chalk: ^4.1.2
     chokidar: ^3.5.3
-    cosmiconfig: ^7.0.1
+    cosmiconfig: ^8.2.0
     deepmerge: ^4.2.2
     fs-extra: ^10.0.0
     memfs: ^3.4.1
@@ -15224,7 +15224,7 @@ __metadata:
   peerDependencies:
     typescript: ">3.6.0"
     webpack: ^5.11.0
-  checksum: 268494ac57dfd766f775397f53fb63966331218933d899a23a135755d35ea21cc526ae70284cdac1602d587ffb2168bccc9adf06e7c905a5320d421bd6b1c477
+  checksum: 136a87bfa36cb6ca27d2ae0feb3c6cabe0de734c1c1ed38f95b71ddb3eb4b6c461829a2dbb04f18f0f717fc6341f544327598255758c269cec9774ccee035afc
   languageName: node
   linkType: hard
 
@@ -17881,7 +17881,7 @@ __metadata:
     lint-staged: ^14.0.1
     pm2: ^5.3.0
     prettier: ^3.0.3
-    terser: ^5.22.0
+    terser: ^5.23.0
     typescript: ^5.2.2
     vitest: ^0.34.6
     webpack: ^5.89.0
@@ -24678,9 +24678,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"terser@npm:^5.10.0, terser@npm:^5.16.8, terser@npm:^5.22.0":
-  version: 5.22.0
-  resolution: "terser@npm:5.22.0"
+"terser@npm:^5.10.0, terser@npm:^5.16.8, terser@npm:^5.23.0":
+  version: 5.23.0
+  resolution: "terser@npm:5.23.0"
   dependencies:
     "@jridgewell/source-map": ^0.3.3
     acorn: ^8.8.2
@@ -24688,7 +24688,7 @@ __metadata:
     source-map-support: ~0.5.20
   bin:
     terser: bin/terser
-  checksum: ee95981c54ebd381e0b7f5872c646e7a05543e53960f8e0c2f240863c368989d43a3ca80b7e9f691683c92ba199eb4b91d61785fef0b9ca4a887eb55866001f4
+  checksum: 7481df0353bf8fa7b8e7fda16685b06f09de5754891d2ecdccb91c3d723503b2ee08681a1b309eefe972b0997cc1993cd466205c9421cbb5b1059c34ecd17ad9
   languageName: node
   linkType: hard
 
