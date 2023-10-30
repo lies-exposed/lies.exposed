@@ -64,7 +64,7 @@
     "lint-staged": "^14.0.1",
     "pm2": "^5.3.0",
     "prettier": "^3.0.3",
-    "terser": "^5.22.0",
+    "terser": "^5.23.0",
     "typescript": "^5.2.2",
     "vitest": "^0.34.6",
     "webpack": "^5.89.0"
