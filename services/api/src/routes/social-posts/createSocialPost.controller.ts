@@ -45,9 +45,6 @@ export const MakeCreateSocialPostRoute: Route = (r, ctx) => {
                     ? postToTG(ctx)(id, { ...p.content, platforms })
                     : TE.right(undefined),
                 }),
-                ctx.logger.info.logInTaskEither(
-                  `Posting ${id} with caption %O`,
-                ),
                 TE.chain((result) =>
                   ctx.db.save(SocialPostEntity, [
                     {

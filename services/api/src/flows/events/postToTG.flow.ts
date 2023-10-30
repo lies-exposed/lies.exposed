@@ -1,14 +1,14 @@
 import { type Stream } from "stream";
 import { fp, pipe } from "@liexp/core/lib/fp";
 import {
-  type SocialPostBodyMultipleMedia,
   SocialPostPhoto,
   SocialPostVideo,
   type CreateSocialPost,
+  type SocialPostBodyMultipleMedia,
 } from "@liexp/shared/lib/io/http/SocialPost";
 import * as t from "io-ts";
 import { type UUID } from "io-ts-types/lib/UUID";
-import { type EventV2Entity } from "@entities/Event.v2.entity";
+import type TelegramBot from "node-telegram-bot-api";
 import { type Flow, type TEFlow } from "@flows/flow.types";
 import { ServerError } from "@io/ControllerError";
 
@@ -64,7 +64,25 @@ const writeText: Flow<[CreateSocialPost], string> = (ctx) => (body) => {
   ].join("\n");
 };
 
-export const postToTG: TEFlow<[UUID, CreateSocialPost], EventV2Entity> =
+const getMessageTexts = (
+  post: CreateSocialPost,
+  text: string
+): { mediaText: string; messageText: string; useReply: boolean } => {
+  if (text.length > 300) {
+    return {
+      mediaText: post.title,
+      messageText: text,
+      useReply: true,
+    };
+  }
+  return {
+    mediaText: text,
+    messageText: text,
+    useReply: false,
+  };
+};
+
+export const postToTG: TEFlow<[UUID, CreateSocialPost], TelegramBot.Message> =
   (ctx) => (id, body) => {
     return pipe(
       writeText(ctx)(body),
@@ -75,6 +93,8 @@ export const postToTG: TEFlow<[UUID, CreateSocialPost], EventV2Entity> =
           ? [{ type: "photo", media: body.media }]
           : body.media;
 
+        const { mediaText, messageText, useReply } = getMessageTexts(body, text);
+
         return pipe(
           media,
           fp.TE.right,
@@ -82,7 +102,7 @@ export const postToTG: TEFlow<[UUID, CreateSocialPost], EventV2Entity> =
             if (media.length === 1) {
               const m = media[0];
               if (SocialPostPhoto.is(m)) {
-                return ctx.tg.postPhoto(m.media, text);
+                return ctx.tg.postPhoto(m.media, mediaText);
               }
               if (SocialPostVideo.is(m)) {
                 return pipe(
@@ -90,15 +110,20 @@ export const postToTG: TEFlow<[UUID, CreateSocialPost], EventV2Entity> =
                     responseType: "stream",
                   }),
                   fp.TE.chain((stream) =>
-                    ctx.tg.postVideo(stream, text, {
+                    ctx.tg.postVideo(stream, mediaText, {
                       duration: m.duration,
                     }),
                   ),
                 );
               }
             }
-            return ctx.tg.postMediaGroup(text, media);
+            return ctx.tg.postMediaGroup(mediaText, media);
           }),
+          fp.TE.chain((message) =>
+            useReply
+              ? ctx.tg.post(messageText, message.message_id)
+              : fp.TE.right(message),
+          ),
         );
       }),
       fp.TE.mapLeft((e) => ServerError([e.message])),
