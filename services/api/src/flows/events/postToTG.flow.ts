@@ -68,7 +68,7 @@ const getMessageTexts = (
   post: CreateSocialPost,
   text: string
 ): { mediaText: string; messageText: string; useReply: boolean } => {
-  if (text.length > 300) {
+  if (text.length > 500) {
     return {
       mediaText: post.title,
       messageText: text,
@@ -88,7 +88,7 @@ export const postToTG: TEFlow<[UUID, CreateSocialPost], TelegramBot.Message> =
       writeText(ctx)(body),
       fp.TE.right,
       fp.TE.chain((text) => {
-        ctx.logger.debug.log("Upload media %O", body.media);
+        ctx.logger.debug.log("Upload media %O with text length %d", body.media, text.length);
         const media: SocialPostBodyMultipleMedia = t.string.is(body.media)
           ? [{ type: "photo", media: body.media }]
           : body.media;
