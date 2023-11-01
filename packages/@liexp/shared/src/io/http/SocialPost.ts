@@ -79,6 +79,7 @@ export const CreateSocialPost = t.strict(
     url: t.string,
     date: t.string,
     content: t.union([t.string, t.undefined]),
+    useReply: t.boolean,
     media: SocialPostBodyMultipleMedia,
     actors: t.array(Actor),
     groups: t.array(Group),

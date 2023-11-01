@@ -330,6 +330,31 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
               />
             ) : null}
           </Box>
+          <Box>
+          <FormControlLabel
+              control={
+                <Switch
+                  size="small"
+                  inputProps={{
+                    "aria-label": "Use Reply",
+                  }}
+                  value={payload.useReply}
+                  checked={payload.useReply}
+                  onChange={() => {
+                    onChange({
+                      multipleMedia,
+                      media,
+                      payload: {
+                        ...payload,
+                        useReply: !payload.useReply
+                      },
+                    });
+                  }}
+                />
+              }
+              label={"Use Reply?"}
+            />
+          </Box>
         </Box>
       </Grid>
       {/** Preview */}

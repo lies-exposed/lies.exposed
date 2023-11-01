@@ -126,6 +126,7 @@ export const EventSocialPostButton: React.FC<
               keywords,
               actors,
               groups,
+              useReply: false,
               platforms: { TG: true, IG: false },
               schedule: record.schedule,
             };
