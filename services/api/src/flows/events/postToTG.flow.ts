@@ -15,7 +15,10 @@ import { ServerError } from "@io/ControllerError";
 const writeText: Flow<[CreateSocialPost], string> = (ctx) => (body) => {
   const title = `<a href="${body.url}"><b>${body.title}</b></a>`;
   const date = `<a href="${ctx.env.WEB_URL}/events?startDate=${body.date}">${body.date}</a>`;
-  const keywords = `${body.keywords.map((k) => `#${k.tag}`).join(" ")}`;
+  const keywords =
+    body.keywords.length > 0
+      ? body.keywords.map((k) => `#${k.tag}`).join(" ")
+      : null;
   const actors =
     body.actors.length > 0
       ? [
@@ -42,26 +45,22 @@ const writeText: Flow<[CreateSocialPost], string> = (ctx) => (body) => {
           "\n",
         ]
       : [];
-  const submitLink = `Submit a link to ${ctx.env.TG_BOT_USERNAME}`;
+  // const submitLink = `Submit a link to ${ctx.env.TG_BOT_USERNAME}`;
   const publicChannels = [
     `${ctx.env.TG_BOT_CHAT}`,
     `<a href="${ctx.env.WEB_URL}">alpha.lies.exposed</a>`,
     `<a href="https://github.com/lies-exposed/lies.exposed">GitHub</a>`,
   ];
-  const footer = [submitLink, "Follow us ".concat(publicChannels.join(" | "))];
+  const footer = [publicChannels.join(" | ")];
 
-  return [
-    title,
-    date,
-    "\n",
-    body.content,
-    "\n",
-    ...actors,
-    ...groups,
-    keywords,
-    "\n",
-    ...footer,
-  ].join("\n");
+  const post = [title, date, "\n", body.content, "\n"];
+
+  const relationsBlock =
+    actors.length > 0 || groups.length > 0 || keywords
+      ? [...actors, ...groups, ...(keywords ? [keywords] : []), "\n"]
+      : [];
+
+  return [...post, ...relationsBlock, ...footer].join("\n");
 };
 
 const getMessageTexts = (
