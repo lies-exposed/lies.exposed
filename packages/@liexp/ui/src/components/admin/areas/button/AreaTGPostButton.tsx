@@ -45,6 +45,7 @@ export const AreaTGPostButton: React.FC<
           actors: [],
           groups: [],
           url,
+          useReply: false,
           platforms: { TG: true, IG: false },
           schedule: record.schedule,
         };

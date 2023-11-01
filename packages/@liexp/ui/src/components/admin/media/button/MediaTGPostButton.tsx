@@ -46,6 +46,7 @@ export const MediaTGPostButton: React.FC<
           groups: [],
           url,
           platforms: { TG: true, IG: false },
+          useReply: false,
           schedule: record.schedule,
         };
       }}

@@ -65,12 +65,13 @@ const writeText: Flow<[CreateSocialPost], string> = (ctx) => (body) => {
 };
 
 const getMessageTexts = (
-  post: CreateSocialPost,
-  text: string
+  label: string,
+  text: string,
+  useReply: boolean,
 ): { mediaText: string; messageText: string; useReply: boolean } => {
-  if (text.length > 500) {
+  if (useReply) {
     return {
-      mediaText: post.title,
+      mediaText: label,
       messageText: text,
       useReply: true,
     };
@@ -88,12 +89,20 @@ export const postToTG: TEFlow<[UUID, CreateSocialPost], TelegramBot.Message> =
       writeText(ctx)(body),
       fp.TE.right,
       fp.TE.chain((text) => {
-        ctx.logger.debug.log("Upload media %O with text length %d", body.media, text.length);
+        ctx.logger.debug.log(
+          "Upload media %O with text length %d",
+          body.media,
+          text.length,
+        );
         const media: SocialPostBodyMultipleMedia = t.string.is(body.media)
           ? [{ type: "photo", media: body.media }]
           : body.media;
 
-        const { mediaText, messageText, useReply } = getMessageTexts(body, text);
+        const { mediaText, messageText, useReply } = getMessageTexts(
+          body.title,
+          text,
+          body.useReply,
+        );
 
         return pipe(
           media,
