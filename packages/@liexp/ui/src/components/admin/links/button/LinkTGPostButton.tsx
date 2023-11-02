@@ -41,7 +41,7 @@ export const LinkTGPostButton: React.FC<
                 .then((data) => data.data)
             : await Promise.resolve([]);
 
-        const date = formatDate(parseISO(record.createdAt));
+        const date = formatDate(parseISO(record.publishDate));
 
         return {
           title: record.title,
