@@ -91,7 +91,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
         TE.bind("extra", ({ media }) =>
           O.isSome(overrideExtra) && media.type === MP4Type.value
             ? extractMP4Extra(ctx)({ ...media, type: MP4Type.value })
-            : TE.right(media.extra),
+            : TE.right(media.extra ? ({ ...media.extra, duration: Math.floor(media.extra.duration) }) : null),
         ),
         ctx.logger.debug.logInTaskEither(`Updates %O`),
         TE.chain(({ thumbnail, location, media, extra }) =>

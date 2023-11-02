@@ -1,4 +1,4 @@
-import { fp, pipe, flow } from "@liexp/core/lib/fp";
+import { flow, fp, pipe } from "@liexp/core/lib/fp";
 import { type MediaExtra } from "@liexp/shared/lib/io/http/Media";
 import type Ffmpeg from "fluent-ffmpeg";
 import { downloadMP4Video } from '../downloadMP4Video';
@@ -22,7 +22,8 @@ export const extractMP4Extra: TEFlow<[SimpleMedia], MediaExtra> =
         extractVideoFFProbeData(ctx)(tempVideoFilePath),
       ),
       fp.TE.map(({ metadata }) => ({
-        duration: metadata.format.duration ?? 0,
+        // keep duration in seconds
+        duration: Math.floor( metadata.format.duration ?? 0),
       })),
     );
   };
