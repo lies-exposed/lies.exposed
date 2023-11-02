@@ -75,7 +75,7 @@ export const MediaList: React.FC<ListProps> = (props) => {
               <Box>
                 <Box>
                   <Typography variant="h5" style={{ fontSize: 16 }}>{r.label}</Typography>
-                  <Typography variant="body1">{r.description}</Typography>
+                  {r.description ? <Typography variant="body1">{r.description.substring(0, 150)}</Typography>:  null}
                 </Box>
                 <Box>
                   <Typography variant="subtitle1">
