@@ -6,15 +6,15 @@ import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
-import { styled } from "../../theme";
-import { EventIcon } from "../Common/Icons";
-import { LinksBox } from "../LinksBox";
-import { ActorList } from "../lists/ActorList";
-import { type EventListItemProps } from "../lists/EventList/EventListItem";
-import GroupList from "../lists/GroupList";
-import KeywordList from "../lists/KeywordList";
-import { Box, Grid, Link, Typography } from "../mui";
-import { MediaSlider } from "./MediaSlider";
+import { styled } from "../../../theme";
+import { EventIcon } from "../../Common/Icons";
+import { LinksBox } from "../../LinksBox";
+import { ActorList } from "../../lists/ActorList";
+import { type EventListItemProps } from "../../lists/EventList/EventListItem";
+import GroupList from "../../lists/GroupList";
+import KeywordList from "../../lists/KeywordList";
+import { Box, Grid, Link, Typography } from "../../mui";
+import { MediaSlider } from "../MediaSlider";
 
 // export interface EventListItemProps {
 //   event: Events.SearchEvent.SearchEvent;
@@ -55,9 +55,10 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
   [`&.${classes.root}`]: {
     display: "flex",
     flexDirection: "column",
-    paddingRight: theme.spacing(3),
-    paddingLeft: theme.spacing(3),
-    width: "100%",
+    background: "orange",
+    padding: theme.spacing(3),
+    width: 600,
+    margin: 'auto',
     height: "100%",
   },
   [`& .${classes.title}`]: {
@@ -101,15 +102,7 @@ export const EventSliderItemBase: React.FC<EventSliderItemBaseProps> = ({
   ...props
 }) => {
   return (
-    <StyledGrid
-      item
-      className={classes.root}
-      lg={10}
-      md={12}
-      sm={12}
-      xs={12}
-      style={{ maxWidth: "100%", width: "100%" }}
-    >
+    <StyledGrid item className={classes.root} lg={10} md={12} sm={12} xs={12}>
       <Grid item>
         <Box className={classes.title}>
           <EventIcon className={classes.eventIcon} type={type} size="2x" />

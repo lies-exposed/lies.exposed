@@ -10,8 +10,11 @@ import {
 import { styled, useTheme } from "../../theme";
 import QueriesRenderer from "../QueriesRenderer";
 import EventsAppBar from "../events/filters/EventsAppBar";
-import { Box, CloseIcon, IconButton, Modal } from "../mui";
-import { EventSlider, type EventSliderProps } from "../sliders/EventSlider";
+import { Box, CloseIcon, IconButton, Modal, Typography } from "../mui";
+import {
+  EventSlider,
+  type EventSliderProps,
+} from "../sliders/EventsStorySlider/EventsStorySlider";
 
 const EVENT_SLIDER_MODAL_PREFIX = "event-slider-modal";
 
@@ -54,8 +57,8 @@ const StyledModal = styled(Modal)(({ theme }) => ({
   [`& .${classes.eventsSlider}`]: {
     flexShrink: 0,
     flexGrow: 0,
-    maxWidth: "80%",
-    // margin: 'auto'
+    maxWidth: "100%",
+    margin: 'auto 0'
     // overflow: "auto",
   },
   [`& .${classes.eventsAppBar}`]: {
@@ -64,7 +67,10 @@ const StyledModal = styled(Modal)(({ theme }) => ({
 }));
 
 export interface EventSliderModalProps
-  extends Omit<EventSliderProps, "events" | "open" | "totals" | "onClose"> {
+  extends Omit<
+    EventSliderProps,
+    "events" | "open" | "totals" | "onClose" | "slide" | "onSlideChange"
+  > {
   query: SearchEventsQueryInputNoPagination;
   open?: boolean;
   onQueryChange: (q: SearchEventsQueryInputNoPagination) => void;
@@ -194,16 +200,31 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
 
               return (
                 <Box className={classes.content}>
+                  <Box style={{ position: "absolute", top: 0, left: 0 }}>
+                    Current {current}
+                    <Box>
+                      <Typography variant="body1" display={"block"}>
+                        Totals {totals.uncategorized + totals.deaths + totals.documentaries + totals.patents + totals.deaths + totals.quotes + totals.scientificStudies}
+                      </Typography>
+                      <Typography variant="body2" display={"block"}>
+                        Uncategorized: {totals.uncategorized}
+                      </Typography>
+                      <Typography variant="body2" display={"block"}>
+                        Documentaries: {totals.documentaries}
+                      </Typography>
+                      <Typography variant="body2" display={"block"}>
+                        Deaths: {totals.deaths}
+                      </Typography>
+                    </Box>
+                  </Box>
                   <Box className={clsx(classes.eventsSlider)}>
                     <EventSlider
                       {...props}
+                      slide={current}
                       events={eventsChunk}
                       totals={totals}
-                      slider={{
-                        dots: false,
-                        beforeChange: (c, n) => {
-                          handleBeforeSlide(n, totals);
-                        },
+                      onSlideChange={(n) => {
+                        handleBeforeSlide(n, totals);
                       }}
                     />
                   </Box>
