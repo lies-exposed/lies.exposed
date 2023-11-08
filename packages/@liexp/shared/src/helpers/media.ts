@@ -122,9 +122,8 @@ export const getPlatform = (
   // rumble
   const rumbleMatch = url.match(rumbleEmbedVideoRegExp);
   if (
-    t.string.is(rumbleMatch?.[1]) &&
-    t.string.is(rumbleMatch?.[2]) &&
-    rumbleMatch?.[2].startsWith("?pub=")
+    rumbleMatch && t.string.is(rumbleMatch[1]) &&
+    t.string.is(rumbleMatch?.[2])
   ) {
     return E.right({
       platform: "rumble",

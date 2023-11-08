@@ -107,7 +107,12 @@ export const extractThumbnailFromVideoPlatform = (
           } else {
             selector = "#videoPlayer video[poster]";
           }
-          await page.waitForSelector(selector);
+          try {
+          await page.waitForSelector(selector, { timeout: 10_000 });
+          } catch(e) {
+            selector = 'video[poster]';
+            await page.waitForSelector(selector, { timeout: 10_000 });
+          }
 
           const videoPosterSrc = await page.$eval(selector, (el) => {
             return el.getAttribute("poster");
@@ -167,20 +172,20 @@ export const extractThumbnailFromIframe: ExtractThumbnailFlow<
       ),
       match: pipe(
         getPlatform(media.location),
-        E.mapLeft((e) => ServerError(e as any)),
+        E.mapLeft(toControllerError),
         TE.fromEither,
       ),
     }),
     TE.chain(({ html, match }) => {
       return pipe(
         extractThumbnailFromVideoPlatform(match, html),
-        TE.mapLeft((e) => ServerError(e as any)),
+        TE.mapLeft(toControllerError),
         TE.chain((url) => createFromRemote(ctx)(media.id, url, "image/jpg")),
         TE.map((url) => [url]),
         TE.chainFirst(() =>
           TE.tryCatch(
             () => html.browser().close(),
-            (e) => ServerError(e as any),
+            toControllerError,
           ),
         ),
       );
