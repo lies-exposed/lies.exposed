@@ -8,7 +8,6 @@ import {
 import {
   faEdit,
   faBarcode,
-  faLink,
   faFilm,
   faMoneyBill1Wave,
   faCalendar,
@@ -27,9 +26,16 @@ import {
   faUser,
   faUserFriends,
   faFileImage,
+  faHashtag,
+  faPersonHalfDress,
+  faUserGroup,
+  faUsersBetweenLines,
+  faShareNodes,
+  faMapLocation,
 } from "@fortawesome/free-solid-svg-icons";
 import { faCircleDollarToSlot } from "@fortawesome/free-solid-svg-icons/faCircleDollarToSlot";
 import { faFlask } from "@fortawesome/free-solid-svg-icons/faFlask";
+import { faLink } from "@fortawesome/free-solid-svg-icons/faLink";
 import { faRemove } from "@fortawesome/free-solid-svg-icons/faRemove";
 import { faSkullCrossbones } from "@fortawesome/free-solid-svg-icons/faSkullCrossbones";
 
@@ -68,5 +74,12 @@ library.add(
     faUser,
     faUserFriends,
     faFileImage,
+    faHashtag,
+    faPersonHalfDress,
+    faUserGroup,
+    faUsersBetweenLines,
+    faUser,
+    faShareNodes,
+    faMapLocation
   ] as any[]),
 );
