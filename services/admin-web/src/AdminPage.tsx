@@ -1,5 +1,20 @@
 import { apiProvider, authProvider } from "@liexp/ui/lib/client/api";
-import { DeathEventIcon, DocumentaryEventIcon, PatentEventIcon, QuoteEventIcon, ScientificStudyEventIcon, TransactionEventIcon, UncategorizedEventIcon } from '@liexp/ui/lib/components/Common/Icons';
+import {
+  DeathEventIcon,
+  DocumentaryEventIcon,
+  PatentEventIcon,
+  QuoteEventIcon,
+  ScientificStudyEventIcon,
+  TransactionEventIcon,
+  UncategorizedEventIcon,
+  ActorIcon,
+  AreaIcon,
+  GroupIcon,
+  HashtagIcon,
+  SocialPostIcon,
+  UserIcon,
+  LinkIcon,
+} from "@liexp/ui/lib/components/Common/Icons";
 import {
   EventSuggestionEdit,
   EventSuggestionList,
@@ -27,12 +42,8 @@ import {
 } from "@liexp/ui/lib/components/admin/stories/AdminStories";
 import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import GroupIcon from "@mui/icons-material/Group";
-import LinkIcon from "@mui/icons-material/Link";
-import MapIcon from "@mui/icons-material/Map";
 import PermMediaIcon from "@mui/icons-material/PermMedia";
 import PostAddIcon from "@mui/icons-material/PostAdd";
-import RecentActorsIcon from "@mui/icons-material/RecentActors";
 import * as React from "react";
 import { Route } from "react-router-dom";
 import "./index.css";
@@ -135,7 +146,7 @@ const AdminPage: React.FC = () => {
         list={ActorList}
         edit={ActorEdit}
         create={ActorCreate}
-        icon={RecentActorsIcon}
+        icon={ActorIcon}
       />
       <Resource
         name="groups"
@@ -155,7 +166,7 @@ const AdminPage: React.FC = () => {
         list={AreaList}
         create={AreaCreate}
         edit={AreaEdit}
-        icon={MapIcon}
+        icon={AreaIcon}
       />
 
       <Resource
@@ -227,6 +238,7 @@ const AdminPage: React.FC = () => {
         list={KeywordList}
         edit={KeywordEdit}
         create={KeywordCreate}
+        icon={HashtagIcon}
       />
 
       <Resource
@@ -234,13 +246,14 @@ const AdminPage: React.FC = () => {
         list={SocialPostList}
         edit={SocialPostEdit}
         create={SocialPostCreate}
+        icon={SocialPostIcon}
       />
       <Resource
         name="users"
         list={UserList}
         edit={UserEdit}
         create={UserCreate}
-        icon={RecentActorsIcon}
+        icon={UserIcon}
       />
     </Admin>
   );
