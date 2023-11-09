@@ -32,6 +32,10 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
             media={m}
             itemStyle={{ maxHeight: 200, minHeight: 200, width: "auto" }}
             disableZoom
+            options={{
+              iframe: { showPlay: false },
+              video: { showPlay: false },
+            }}
           />
           <Typography>{m.type}</Typography>
           <KeywordsBox ids={m.keywords} onItemClick={onKeywordClick} />

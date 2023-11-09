@@ -90,6 +90,7 @@ export const MediaListItem: React.ForwardRefRenderFunction<
                 }
               : undefined
           }
+          options={{ iframe: { showPlay: false }, video: { showPlay: false } }}
         />
       </Box>
     </StyledBox>

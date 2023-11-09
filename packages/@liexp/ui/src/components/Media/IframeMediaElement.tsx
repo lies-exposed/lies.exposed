@@ -42,6 +42,7 @@ interface IframeMediaElementProps {
   itemStyle?: React.CSSProperties;
   onLoad?: () => void;
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  showPlay?: boolean;
 }
 
 const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
@@ -51,6 +52,7 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
   itemStyle,
   className,
   onClick,
+  showPlay = true,
   ...props
 }) => {
   const ref = React.useRef<HTMLIFrameElement | null>(null);
@@ -81,6 +83,7 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
           className={classes.cover}
           thumbnail={media.thumbnail}
           style={itemStyle}
+          showPlay={showPlay}
           onClick={(e) => {
             e.stopPropagation();
             if (onClick) {

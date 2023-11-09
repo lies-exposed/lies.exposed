@@ -32,6 +32,7 @@ interface VideoProps {
   style?: React.CSSProperties;
   onLoad?: () => void;
   disableZoom?: boolean;
+  showPlay?: boolean;
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
@@ -48,6 +49,7 @@ export const Video: React.FC<VideoProps> = ({
   onLoad,
   onClick,
   disableZoom = false,
+  showPlay = true
 }) => {
   const [loaded, setLoaded] = React.useState(false);
 
@@ -77,6 +79,7 @@ export const Video: React.FC<VideoProps> = ({
       ) : (
         <VideoCover
           thumbnail={thumbnail}
+          showPlay={showPlay}
           onClick={(e) => {
             if (disableZoom) {
               e.stopPropagation();
