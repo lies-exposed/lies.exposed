@@ -13,9 +13,9 @@ import ReferenceArrayLinkInput from "./ReferenceArrayLinkInput";
 
 export const LinkArrayInput: React.FC<
   { source: string } & Omit<ArrayInputProps, "children">
-> = (props) => {
+> = ({ source, ...props }) => {
   return (
-    <ArrayInput source={props.source} fullWidth>
+    <ArrayInput {...props} source={source}>
       <SimpleFormIterator fullWidth>
         <BooleanInput source="fromURL" />
         <FormDataConsumer>
