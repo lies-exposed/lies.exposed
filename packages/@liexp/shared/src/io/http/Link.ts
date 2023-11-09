@@ -4,7 +4,7 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { optionFromUndefined } from "../Common/optionFromUndefined";
 import { URL, UUID } from "./Common";
-import { CreateMedia } from "./Media";
+import { CreateMedia, MediaType } from "./Media";
 import { GetListQuery } from "./Query";
 
 export const GetListLinkQuery = t.type(
@@ -38,6 +38,7 @@ const LinkMedia = t.strict(
   {
     id: UUID,
     ...CreateMedia.type.props,
+    type: MediaType,
   },
   "LinkMedia",
 );
