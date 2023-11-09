@@ -19,7 +19,7 @@ export const ReferenceLinkTab: React.FC<
     "newLinks";
 
   return (
-    <Box>
+    <Box width={"100%"}>
       <LinkArrayInput
         label="new links"
         source={newLinksSource}
@@ -27,7 +27,7 @@ export const ReferenceLinkTab: React.FC<
         defaultValue={[]}
       />
 
-      <ReferenceArrayField {...props} reference="links" fullWidth>
+      <ReferenceArrayField {...props} reference="links">
         <Datagrid rowClick="edit">
           <TextField source="id" />
           <MediaField
