@@ -20,6 +20,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
     ({
       params: { id },
       body: {
+        restore: _restore,
         overrideThumbnail: _overrideThumbnail,
         transfer: _transfer,
         transferThumbnail: _transferThumbnail,
@@ -39,16 +40,17 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
 
       const transfer = pipe(
         _transfer,
-        O.filter((o) => !!o),
+        O.filter((o): o is true => !!o),
       );
 
       const transferThumbnail = pipe(
         _transferThumbnail,
-        O.filter((o) => !!o),
+        O.filter((o): o is true => !!o),
       );
 
       const description = pipe(_description, O.toNullable);
 
+      const restore = pipe(_restore, O.filter((o): o is true => !!o), O.isSome);
       return pipe(
         TE.Do,
         TE.bind("media", () =>
@@ -57,6 +59,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
             loadRelationIds: {
               relations: ["creator"],
             },
+            withDeleted: restore
           }),
         ),
         TE.bind("thumbnail", ({ media: m }) =>
@@ -111,6 +114,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
                 creator: O.isSome(creator)
                   ? { id: creator.value }
                   : { id: media.creator as any },
+                deletedAt: restore ? null: media.deletedAt,
                 description,
                 extra,
                 thumbnail,
