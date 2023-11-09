@@ -7,6 +7,7 @@ interface VideoCoverProps {
   style?: React.CSSProperties;
   onLoad?: () => void;
   className?: string;
+  showPlay: boolean;
 }
 
 export const VideoCover: React.FC<VideoCoverProps> = ({
@@ -15,6 +16,7 @@ export const VideoCover: React.FC<VideoCoverProps> = ({
   onClick,
   style,
   onLoad,
+  showPlay
 }) => {
   React.useEffect(() => {
     onLoad?.();
@@ -35,7 +37,7 @@ export const VideoCover: React.FC<VideoCoverProps> = ({
         height: "100%",
       }}
     >
-      <PlayCircleOutline style={{ color: "white" }} fontSize="large" />
+      {showPlay?<PlayCircleOutline style={{ color: "white" }} fontSize="large" />: null}
     </div>
   );
 };

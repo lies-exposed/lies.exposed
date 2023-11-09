@@ -45,6 +45,14 @@ export interface MediaElementProps {
   enableDescription?: boolean;
   disableZoom?: boolean;
   onClick?: (e: any) => void;
+  options?: {
+    iframe: {
+      showPlay: boolean;
+    }
+    video: {
+      showPlay: boolean;
+    }
+  }
 }
 
 const MediaElement: React.FC<MediaElementProps> = ({
@@ -54,6 +62,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
   style,
   itemStyle,
   enableDescription = false,
+  options,
   ...props
 }) => {
   const mediaElement = React.useMemo(() => {
@@ -62,6 +71,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
         return (
           <IframeMediaElement
             {...props}
+            showPlay={options?.iframe.showPlay}
             style={itemStyle}
             itemStyle={itemStyle}
             className={clsx(classes.item, itemClassName)}
@@ -82,6 +92,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
         return (
           <Video
             {...props}
+            showPlay={options?.video.showPlay}
             style={itemStyle}
             className={clsx(classes.item, itemClassName)}
             thumbnail={media.thumbnail}
