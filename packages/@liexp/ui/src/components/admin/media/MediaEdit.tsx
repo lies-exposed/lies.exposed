@@ -12,14 +12,15 @@ import {
   TabbedForm,
   TextInput,
   useDataProvider,
+  useEditController,
   usePermissions,
   useRecordContext,
   useRefresh,
   type EditProps,
-  type FieldProps,
+  type FieldProps
 } from "react-admin";
 import { transformMedia } from "../../../client/admin/MediaAPI";
-import { Box, Button, Grid } from "../../mui";
+import { Box, Button, Grid, alpha } from "../../mui";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent";
 import ReferenceAreaTab from "../areas/input/ReferenceAreaTab";
 import { EditForm } from "../common/EditForm";
@@ -156,7 +157,8 @@ const MediaEditToolbar: React.FC = () => {
 export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
   const apiProvider = useDataProvider();
   const { permissions, isLoading: isLoadingPermissions } = usePermissions();
-  if (isLoadingPermissions) {
+  const { record } = useEditController(props);
+  if (isLoadingPermissions || !record) {
     return <LoadingPage />;
   }
 
@@ -175,7 +177,12 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
         </Box>
       }
     >
-      <TabbedForm toolbar={<MediaEditToolbar />}>
+      <TabbedForm
+        toolbar={<MediaEditToolbar />}
+        style={{
+          background: record?.deletedAt ? alpha("#ff0000", .3) : undefined,
+        }}
+      >
         <FormTab label="general">
           <Grid container spacing={2}>
             <Grid item md={6}>
@@ -195,9 +202,12 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
               <TextInput source="description" fullWidth multiline />
               <Box>
                 <Box>
-                  <DateField source="updatedAt" showTime={true} />
+                  <DateField label="Updated At" source="updatedAt" showTime={true} />
                 </Box>
-                <DateField source="createdAt" showTime={true} />
+                <Box>
+                <DateField label="Created At" source="createdAt" showTime={true} />
+                </Box>
+                <DateField label="Deleted At" source="deletedAt" showTime={true} />
               </Box>
             </Grid>
           </Grid>
