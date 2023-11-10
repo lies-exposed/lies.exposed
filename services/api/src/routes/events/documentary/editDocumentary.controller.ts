@@ -5,8 +5,8 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { type Route } from "../../route.types";
-import { toEventV2IO } from "../eventV2.io";
 import { editEventQuery } from "../queries/editEvent.query";
+import { toDocumentaryIO } from './documentary.io';
 import { EventV2Entity } from "@entities/Event.v2.entity";
 
 export const MakeEditDocumentaryEventRoute: Route = (r, ctx) => {
@@ -35,7 +35,7 @@ export const MakeEditDocumentaryEventRoute: Route = (r, ctx) => {
             loadRelationIds: true,
           }),
         ),
-        TE.chainEitherK(toEventV2IO),
+        TE.chainEitherK(toDocumentaryIO),
         TE.map((data) => ({
           body: {
             data,

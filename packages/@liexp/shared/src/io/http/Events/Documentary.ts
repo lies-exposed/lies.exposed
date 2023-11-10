@@ -30,10 +30,10 @@ export const DocumentaryPayload = t.strict(
   "DocumentaryPayload",
 );
 export type DocumentaryPayload = t.TypeOf<typeof DocumentaryPayload>;
-export const EditDocumentaryPayload = t.intersection([
-  DocumentaryPayload,
-  t.strict({ website: t.union([UUID, t.undefined]) }),
-]);
+export const EditDocumentaryPayload = t.strict({
+  ...DocumentaryPayload.type.props,
+  website: t.union([UUID, t.undefined, t.null]) 
+});
 export type EditDocumentaryPayload = t.TypeOf<typeof EditDocumentaryPayload>;
 
 export const CreateDocumentaryBody = t.strict(

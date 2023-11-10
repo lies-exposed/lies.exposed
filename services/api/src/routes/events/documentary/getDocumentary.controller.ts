@@ -3,7 +3,7 @@ import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
-import { toEventV2IO } from "../eventV2.io";
+import { toDocumentaryIO } from './documentary.io';
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { type Route } from "@routes/route.types";
 
@@ -16,7 +16,7 @@ export const MakeGetDocumentaryEventRoute: Route = (r, ctx) => {
           relations: ["media", "keywords", "links"],
         },
       }),
-      TE.chainEitherK(toEventV2IO),
+      TE.chainEitherK(toDocumentaryIO),
       TE.map((data) => ({
         body: { data },
         statusCode: 200,

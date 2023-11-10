@@ -23,7 +23,7 @@ export const MediaAutocompleteOptionText: React.FC = () => {
         src={record.thumbnail}
         style={{ marginRight: 10, width: 100, height: 100 }}
       />
-      <Typography>{record.description}</Typography>
+      <Typography>{record.label ?? record.description}</Typography>
     </div>
   ) : (
     <span>No media</span>
@@ -50,7 +50,7 @@ const ReferenceMediaInput: React.FC<
         source="id"
         optionText={<MediaAutocompleteOptionText />}
         matchSuggestion={matchMediaSuggestions}
-        inputText={(r) => r.description}
+        inputText={(r) => r.label ?? r.description}
         filterToQuery={(description) => ({ description })}
       />
     </ReferenceInput>
