@@ -5,8 +5,8 @@ import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { toEventV2IO } from "../eventV2.io";
 import { searchEventV2Query } from "../queries/searchEventsV2.query";
+import { toDocumentaryIO } from './documentary.io';
 import { type Route } from "@routes/route.types";
 import { getORMOptions } from "@utils/orm.utils";
 
@@ -74,7 +74,7 @@ export const MakeGetListDocumentaryEventRoute: Route = (r, ctx) => {
                   r.payload.website === "" ? undefined : r.payload.website,
               },
             })),
-            A.traverse(E.Applicative)(toEventV2IO),
+            A.traverse(E.Applicative)(toDocumentaryIO),
             TE.fromEither,
             TE.map((data) => ({ data, total: documentaries })),
           ),

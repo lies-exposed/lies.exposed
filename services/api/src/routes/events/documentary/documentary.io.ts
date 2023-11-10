@@ -4,17 +4,16 @@ import { pipe } from "fp-ts/function";
 import { type EventV2Entity } from "@entities/Event.v2.entity";
 import { type ControllerError, DecodeError } from "@io/ControllerError";
 
-export const toQuoteIO = (
+export const toDocumentaryIO = (
   event: EventV2Entity,
-): E.Either<ControllerError, io.http.Events.Quote.Quote> => {
+): E.Either<ControllerError, io.http.Events.Documentary.Documentary> => {
   const p: any = event.payload;
   return pipe(
-    io.http.Events.Quote.Quote.decode({
+    io.http.Events.Documentary.Documentary.decode({
       ...event,
       payload: {
         ...p,
-        actor: undefined,
-        subject: p.subject ?? { type: "Actor", id: p.actor },
+        website: p?.website ?? undefined,
       },
       excerpt: event.excerpt ?? undefined,
       body: event.body ?? undefined,
