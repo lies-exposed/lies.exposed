@@ -1,6 +1,11 @@
 import { ImageType } from "@liexp/shared/lib/io/http/Media";
 import * as SocialPost from "@liexp/shared/lib/io/http/SocialPost";
 import { PUBLISHED, TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost";
+import { formatDate } from "@liexp/shared/lib/utils/date";
+import {
+  InstagramIcon,
+  TelegramIcon,
+} from "@liexp/ui/lib/components/Common/Icons";
 import {
   ShareModalContent,
   emptySharePayload,
@@ -30,7 +35,7 @@ import {
   useRefresh,
   type DatagridProps,
 } from "@liexp/ui/lib/components/admin/react-admin";
-import { Box } from "@liexp/ui/lib/components/mui";
+import { Box, Typography } from "@liexp/ui/lib/components/mui";
 import * as React from "react";
 
 const RESOURCE = "social-posts";
@@ -67,8 +72,25 @@ const SocialPostDataGrid: React.FC<DatagridProps> = (props) => {
           e.preventDefault();
         }}
         render={(r) => (
-          <Link to={`/${r.type}/${r.entity}`}>{r.content?.title}</Link>
+          <Box>
+            <Link to={`/${r.type}/${r.entity}`}>{r.content?.title}</Link>
+            <Typography display={"block"}>{r.content.content}</Typography>
+          </Box>
         )}
+      />
+
+      <FunctionField
+        label="Platforms"
+        render={(r: any) => {
+          return (
+            <Box>
+              <TelegramIcon
+                style={{ opacity: r.result?.tg ? 1 : 0.2, marginRight: 10 }}
+              />
+              <InstagramIcon style={{ opacity: r.result?.ig ? 1 : 0.2 }} />
+            </Box>
+          );
+        }}
       />
       <TextField source="status" />
       <NumberField source="publishCount" />
@@ -88,6 +110,58 @@ export const SocialPostEditTitle: React.FC = () => {
   const record: any = useRecordContext();
   return <Box>Social Post: {record?.content?.title}</Box>;
 };
+
+export const SocialPostPlatformsPosts: React.FC<{
+  source: string;
+  onChange?: (r: SocialPost.CreateSocialPost) => void;
+}> = ({ source, onChange }) => {
+  const record = useRecordContext({ source });
+
+  const result = React.useMemo(() => {
+    const result = record?.result;
+    return {
+      ig: result?.ig,
+      tg: result?.tg ?? result,
+    };
+  }, [record]);
+
+  const dates = React.useMemo(() => {
+    let tgDate: string | undefined;
+    let igDate: string | undefined;
+    try {
+      tgDate = formatDate(new Date(result.tg.date * 1000));
+    } catch (e) {}
+
+    try {
+      igDate = formatDate(new Date(result.ig.media.taken_at * 1000));
+    } catch (e) {}
+
+    return { tg: tgDate, ig: igDate };
+  }, [result.tg, result.ig]);
+
+  return (
+    <Box>
+      {record?.result?.ig ? (
+        <Box>
+          <InstagramIcon />
+          <Typography>
+            Instagram {result.ig.upload_id} ({dates.ig})
+          </Typography>
+          {/* <Typography>{JSON.stringify(result.ig, null, 2)}</Typography> */}
+        </Box>
+      ) : null}
+      {record?.result?.tg ? (
+        <Box>
+          <TelegramIcon />
+          <Typography display={"block"}>
+            Telegram {result.tg.message_id} ({dates.tg})
+          </Typography>
+          {/* <Typography>{JSON.stringify(result.tg, null, 2)}</Typography> */}
+        </Box>
+      ) : null}
+    </Box>
+  );
+};
 export const SocialPostEditContent: React.FC<{
   source: string;
   onChange?: (r: SocialPost.CreateSocialPost) => void;
@@ -101,7 +175,13 @@ export const SocialPostEditContent: React.FC<{
 
   const media = Array.isArray(record.content?.media)
     ? record.content.media
-    : [{ type: "photo", media: record.content?.media }];
+    : [
+        {
+          type: "photo",
+          media: record.content?.media,
+          thumbnail: record.content?.media,
+        },
+      ];
 
   return record ? (
     <ShareModalContent
@@ -170,13 +250,20 @@ export const SocialPostEdit: React.FC = () => {
     <Edit
       redirect="edit"
       title={<SocialPostEditTitle />}
-      transform={({ content: { platforms, media, ...content }, ...r }) => {
+      transform={({
+        content: { platforms, media, useReply, ...content },
+        ...r
+      }) => {
         return {
           ...r,
           ...content,
+          useReply: useReply ?? false,
           platforms: platforms ?? { IG: false, TG: true },
-          media: typeof media === "string" ? [{ media, type: "photo" }] : media,
-          publishCount: 0,
+          media:
+            typeof media === "string"
+              ? [{ media, type: "photo", thumbnail: media }]
+              : media,
+          publishCount: content.publishCount ?? 0,
         };
       }}
     >
@@ -184,6 +271,7 @@ export const SocialPostEdit: React.FC = () => {
         <FormTab label="General">
           <SocialPostStatus />
           <SocialPostEditContent source="content" />
+          <SocialPostPlatformsPosts source="result" />
         </FormTab>
         <FormTab label={"Posts"}>
           <SocialPostFormTabContent source="entity" target="entity" />

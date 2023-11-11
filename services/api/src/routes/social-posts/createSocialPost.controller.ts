@@ -1,13 +1,11 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
 import { PUBLISHED, TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost";
 import addHours from "date-fns/addHours";
-import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
 import { SocialPostEntity } from "@entities/SocialPost.entity";
-import { postToIG } from "@flows/events/postToIG.flow";
-import { postToTG } from "@flows/events/postToTG.flow";
+import { postToSocialPlatforms } from '@flows/social-posts/postToPlatforms.flow';
 import { type Route } from "@routes/route.types";
 
 export const MakeCreateSocialPostRoute: Route = (r, ctx) => {
@@ -35,16 +33,7 @@ export const MakeCreateSocialPostRoute: Route = (r, ctx) => {
             }),
             TE.chain((p) =>
               pipe(
-                sequenceS(TE.ApplicativePar)({
-                  ig: platforms.IG
-                    ? postToIG(ctx)({ ...p.content, platforms }, () =>
-                        Promise.reject(new Error("Not implemented")),
-                      )
-                    : TE.right(undefined),
-                  tg: platforms.TG
-                    ? postToTG(ctx)(id, { ...p.content, platforms })
-                    : TE.right(undefined),
-                }),
+                postToSocialPlatforms(ctx)(id, {...p.content, platforms }),
                 TE.chain((result) =>
                   ctx.db.save(SocialPostEntity, [
                     {

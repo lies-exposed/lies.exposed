@@ -1,4 +1,4 @@
-import { type Geometry } from "@liexp/shared/lib/io/http/Common";
+import { type UUID, type Geometry } from "@liexp/shared/lib/io/http/Common";
 import {
   Column,
   CreateDateColumn,
@@ -16,7 +16,7 @@ import { MediaEntity } from "./Media.entity";
 @Index(["slug"])
 export class AreaEntity {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  id: UUID;
 
   @Column({ type: "varchar", nullable: false })
   label: string;

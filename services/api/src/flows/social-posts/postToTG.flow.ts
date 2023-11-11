@@ -94,7 +94,7 @@ export const postToTG: TEFlow<[UUID, CreateSocialPost], TelegramBot.Message> =
           text.length,
         );
         const media: SocialPostBodyMultipleMedia = t.string.is(body.media)
-          ? [{ type: "photo", media: body.media }]
+          ? [{ type: "photo", media: body.media, thumbnail: body.media }]
           : body.media;
 
         const { mediaText, messageText, useReply } = getMessageTexts(
