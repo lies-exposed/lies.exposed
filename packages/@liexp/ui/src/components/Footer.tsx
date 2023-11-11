@@ -1,7 +1,7 @@
 import * as React from "react";
 import { styled, useTheme } from "../theme";
 import DonateButton from "./Common/Button/DonateButton";
-import { GithubIcon, TelegramIcon } from "./Common/Icons";
+import { GithubIcon, InstagramIcon, TelegramIcon } from "./Common/Icons";
 import {
   Box,
   Container,
@@ -62,7 +62,7 @@ export const Footer: React.FC<{
 
   const {
     site: {
-      siteMetadata: { title, github, telegram, storybook, docs },
+      siteMetadata: { title, github, telegram, instagram, storybook, docs },
     },
   } = {
     site: {
@@ -70,6 +70,7 @@ export const Footer: React.FC<{
         title: "lies.exposed",
         github: { link: "https://github.com/lies.exposed/lies-exposed" },
         telegram: { link: "https://t.me/lies_exposed" },
+        instagram: { link: "https://www.instagram.com/liexp.official/" },
         storybook: { link: "/storybook" },
         docs: { label: "Docs", link: "/docs" },
       },
@@ -159,7 +160,22 @@ export const Footer: React.FC<{
                   </Typography>
                 </Link>
               </MenuItem>
-              <MenuItem disableGutters={true}>
+            </MenuList>
+          </Grid>
+          <Grid className={classes.rightColumn} item sm={4} md={2}>
+            <Typography
+              variant="h6"
+              style={{
+                textTransform: "uppercase",
+                color: "white",
+                fontWeight: 600,
+                fontSize: 14,
+              }}
+            >
+              Community
+            </Typography>
+            <MenuList title="Community" disablePadding={true}>
+            <MenuItem disableGutters={true}>
                 <Link
                   className={classes.link}
                   href={telegram.link}
@@ -178,21 +194,25 @@ export const Footer: React.FC<{
                   </Typography>
                 </Link>
               </MenuItem>
-            </MenuList>
-          </Grid>
-          <Grid className={classes.rightColumn} item sm={4} md={2}>
-            <Typography
-              variant="h6"
-              style={{
-                textTransform: "uppercase",
-                color: "white",
-                fontWeight: 600,
-                fontSize: 14,
-              }}
-            >
-              Community
-            </Typography>
-            <MenuList title="Community" disablePadding={true}>
+              <MenuItem disableGutters={true}>
+                <Link
+                  className={classes.link}
+                  href={instagram.link}
+                  target="_blank"
+                >
+                  <InstagramIcon size="1x" color={theme.palette.common.white} />{" "}
+                  <Typography
+                    className={classes.linkText}
+                    variant="subtitle1"
+                    display="inline"
+                    style={{
+                      color: theme.palette.common.white,
+                    }}
+                  >
+                    Instagram
+                  </Typography>
+                </Link>
+              </MenuItem>
               <MenuItem disableGutters={true}>
                 <Link
                   className={classes.link}

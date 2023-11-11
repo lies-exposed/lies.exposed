@@ -14,6 +14,7 @@ export const SocialPostPhoto = t.type(
   {
     type: t.literal("photo"),
     media: t.string,
+    thumbnail: t.string
   },
   "SocialPostPhoto",
 );
@@ -22,6 +23,7 @@ export const SocialPostVideo = t.type(
   {
     type: t.literal("video"),
     media: t.string,
+    thumbnail: t.string,
     duration: t.number,
   },
   "SocialPostVideo",

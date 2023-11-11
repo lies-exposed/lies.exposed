@@ -37,8 +37,10 @@ export const MakeCreateSocialPostRoute: Route = (r, ctx) => {
               pipe(
                 sequenceS(TE.ApplicativePar)({
                   ig: platforms.IG
-                    ? postToIG(ctx)({ ...p.content, platforms }, () =>
-                        Promise.reject(new Error("Not implemented")),
+                    ? postToIG(ctx)({ ...p.content, platforms }, (e) =>
+                        Promise.resolve({
+                          code: "invalid",
+                        }),
                       )
                     : TE.right(undefined),
                   tg: platforms.TG

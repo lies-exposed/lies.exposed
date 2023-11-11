@@ -218,6 +218,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
                       media: [
                         {
                           media: base64Source,
+                          thumbnail: base64Source,
                           type: "photo",
                         },
                       ],
