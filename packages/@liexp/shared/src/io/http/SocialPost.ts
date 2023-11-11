@@ -14,6 +14,7 @@ export const SocialPostPhoto = t.type(
   {
     type: t.literal("photo"),
     media: t.string,
+    thumbnail: t.string
   },
   "SocialPostPhoto",
 );
@@ -22,6 +23,7 @@ export const SocialPostVideo = t.type(
   {
     type: t.literal("video"),
     media: t.string,
+    thumbnail: t.string,
     duration: t.number,
   },
   "SocialPostVideo",
@@ -91,11 +93,18 @@ export const CreateSocialPost = t.strict(
 );
 export type CreateSocialPost = t.TypeOf<typeof CreateSocialPost>;
 
+export const SocialPostPublishResult = t.strict({
+  tg: t.any,
+  ig: t.any,
+}, 'SocialPostPublishResult')
+export type SocialPostPublishResult = t.TypeOf<typeof SocialPostPublishResult>
+
 export const SocialPost = t.strict(
   {
     ...CreateSocialPost.type.props,
     publishCount: t.number,
     status: SocialPostStatus,
+    result: SocialPostPublishResult,
     scheduledAt: DateFromISOString,
   },
   "ShareMessageBody",

@@ -1,4 +1,4 @@
-import { SocialPostStatus } from "@liexp/shared/lib/io/http/SocialPost";
+import { type SocialPostPublishResult, SocialPostStatus } from "@liexp/shared/lib/io/http/SocialPost";
 import { type UUID } from "io-ts-types/lib/UUID";
 import {
   Column,
@@ -32,7 +32,7 @@ export class SocialPostEntity {
   status: SocialPostStatus;
 
   @Column({ type: "json", nullable: true })
-  result: any;
+  result: SocialPostPublishResult;
 
   @Column({ type: "timestamptz" })
   scheduledAt: Date;

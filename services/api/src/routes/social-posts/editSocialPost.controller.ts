@@ -22,6 +22,10 @@ export const MakeEditSocialPostRoute: Route = (r, ctx) => {
                 ...sp.content,
                 ...body,
               },
+              result: {
+                tg: sp.result.tg ?? sp.result,
+                ig: sp.result.ig
+              },
               id,
               scheduledAt: scheduledAt ?? sp.scheduledAt,
             },

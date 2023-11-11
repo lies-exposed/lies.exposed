@@ -1,11 +1,11 @@
 import { fp } from "@liexp/core/lib/fp";
-import { TO_PUBLISH, PUBLISHED } from "@liexp/shared/lib/io/http/SocialPost";
+import { PUBLISHED, TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { pipe } from "fp-ts/function";
 import Cron from "node-cron";
 import { LessThanOrEqual } from "typeorm";
 import { SocialPostEntity } from "@entities/SocialPost.entity";
-import { postToTG } from "@flows/events/postToTG.flow";
+import { postToSocialPlatforms } from '@flows/social-posts/postToPlatforms.flow';
 import { type RouteContext } from "@routes/route.types";
 
 export const postOnSocialJob = (ctx: RouteContext): Cron.ScheduledTask =>
@@ -25,10 +25,13 @@ export const postOnSocialJob = (ctx: RouteContext): Cron.ScheduledTask =>
         pipe(
           pp.map((p) =>
             pipe(
-              postToTG(ctx)(p.entity, p.content),
-              fp.TE.chain((r) =>
+              postToSocialPlatforms(ctx)(p.entity, p.content),
+              fp.TE.chain(({ ig, tg }) =>
                 ctx.db.save(SocialPostEntity, [
-                  { ...p, status: PUBLISHED.value, result: r },
+                  { ...p, status: PUBLISHED.value, result: {
+                    ig: ig ?? p.result.ig,
+                    tg: tg ?? p.result.tg
+                  }, },
                 ]),
               ),
             ),

@@ -3,7 +3,7 @@ import { PUBLISHED } from "@liexp/shared/lib/io/http/SocialPost";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { SocialPostEntity } from "@entities/SocialPost.entity";
-import { postToTG } from "@flows/events/postToTG.flow";
+import { postToSocialPlatforms } from "@flows/social-posts/postToPlatforms.flow";
 import { type Route } from "@routes/route.types";
 
 export const MakePublishSocialPostRoute: Route = (r, ctx) => {
@@ -14,16 +14,22 @@ export const MakePublishSocialPostRoute: Route = (r, ctx) => {
           id,
         },
       }),
-      TE.chain((p) => postToTG(ctx)(id, { ...p.content })),
-      ctx.logger.info.logInTaskEither((r) => [`Posting ${id} with caption %O`, r.text]),
-      TE.chain((result) =>
-        ctx.db.save(SocialPostEntity, [
-          {
-            id,
-            result,
-            status: PUBLISHED.value,
-          },
-        ]),
+      TE.chain((p) =>
+        pipe(
+          postToSocialPlatforms(ctx)(id, p.content),
+          TE.chain(({ ig, tg }) =>
+            ctx.db.save(SocialPostEntity, [
+              {
+                id,
+                result: {
+                  ig: ig ?? p.result.ig,
+                  tg: tg ?? p.result.tg
+                },
+                status: PUBLISHED.value,
+              },
+            ]),
+          ),
+        ),
       ),
       TE.map((data) => ({
         body: {

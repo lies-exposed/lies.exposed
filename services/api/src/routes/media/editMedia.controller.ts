@@ -133,6 +133,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
                 keywords: media.keywords.map((k) => k.id) as any[],
                 links: media.links.map((l) => l.id) as any[],
                 events: media.events.map((e) => e.id) as any[],
+                areas: media.areas.map((e) => e.id) as any[],
               },
               ctx.env.SPACE_ENDPOINT,
             ),

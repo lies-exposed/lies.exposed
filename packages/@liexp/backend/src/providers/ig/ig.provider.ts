@@ -1,10 +1,13 @@
 import { type Logger } from "@liexp/core/lib/logger";
 import * as TE from "fp-ts/TaskEither";
 import {
-  type AccountRepositoryLoginErrorResponse,
-  type AccountRepositoryLoginResponseLogged_in_user,
   IgApiClient,
   IgLoginTwoFactorRequiredError,
+  type MediaRepositoryConfigureResponseRootObject,
+  type PostingVideoOptions,
+  type AccountRepositoryLoginErrorResponse,
+  type AccountRepositoryLoginResponseLogged_in_user,
+  type PostingAlbumOptions
 } from "instagram-private-api";
 
 export type OnLoginErrorFn = (
@@ -17,7 +20,9 @@ export interface IGProvider {
   login: (
     onError: OnLoginErrorFn,
   ) => TE.TaskEither<Error, AccountRepositoryLoginResponseLogged_in_user>;
-  postPhoto: (image: Buffer, caption: string) => TE.TaskEither<Error, any>;
+  postPhoto: (image: Buffer, caption: string) => TE.TaskEither<Error, MediaRepositoryConfigureResponseRootObject>;
+  postVideo: (options: PostingVideoOptions) => TE.TaskEither<Error, MediaRepositoryConfigureResponseRootObject>
+  postAlbum: (options: PostingAlbumOptions) => TE.TaskEither<Error, any>
 }
 
 interface IGProviderOpts {
@@ -56,7 +61,7 @@ export const IGProvider = (opts: IGProviderOpts): IGProvider => {
       // Execute all requests prior to authorization in the real Android application
       // Not required but recommended
 
-      await ig.simulate.preLoginFlow();
+      // await ig.simulate.preLoginFlow();
 
       opts.logger.debug.log("Login user %s", opts.credentials.username);
       loggedInUser = await ig.account
@@ -85,9 +90,9 @@ export const IGProvider = (opts: IGProviderOpts): IGProvider => {
         });
       // The same as preLoginFlow()
       // Optionally wrap it to process.nextTick so we dont need to wait ending of this bunch of requests
-      process.nextTick(async () => {
-        await ig.simulate.postLoginFlow();
-      });
+      // process.nextTick(async () => {
+      //   await ig.simulate.postLoginFlow();
+      // });
       opts.logger.debug.log("Logged user %o", loggedInUser);
       // Create UserFeed instance to get loggedInUser's posts
       return loggedInUser;
@@ -98,14 +103,19 @@ export const IGProvider = (opts: IGProviderOpts): IGProvider => {
     ig,
     login,
     postPhoto: (image, caption) => {
-      return TE.tryCatch(
+      return liftTE(
         () =>
           ig.publish.photo({
             file: image,
             caption,
           }),
-        toIGError,
       );
     },
+    postVideo: (options) => {
+      return liftTE(() => ig.publish.video(options))
+    },
+    postAlbum: (options) => {
+      return liftTE(() => ig.publish.album(options))
+    }
   };
 };

@@ -32,7 +32,7 @@ export const DocumentaryPayload = t.strict(
 export type DocumentaryPayload = t.TypeOf<typeof DocumentaryPayload>;
 export const EditDocumentaryPayload = t.strict({
   ...DocumentaryPayload.type.props,
-  website: t.union([UUID, t.undefined, t.null]) 
+  website: t.union([UUID, t.undefined, t.null]),
 });
 export type EditDocumentaryPayload = t.TypeOf<typeof EditDocumentaryPayload>;
 
