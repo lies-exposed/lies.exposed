@@ -14,6 +14,7 @@ export interface MediaBoxProps {
   perPage?: number;
   hideDescription?: boolean;
   disableZoom?: boolean;
+  columns?: number
 }
 
 export const MediaBox: React.FC<MediaBoxProps> = ({

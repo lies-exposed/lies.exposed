@@ -5,6 +5,7 @@ import { ActorDataGrid } from "../actors/ActorDataGrid";
 import { EventDataGrid } from "../events/EventListPage";
 import { GroupDataGrid } from "../groups/GroupDataGrid";
 import { LinkDatagrid } from "../links/AdminLinks";
+import { MediaDataGrid } from '../media';
 
 export const StoryRelationsBox: React.FC = () => {
   return (
@@ -17,6 +18,9 @@ export const StoryRelationsBox: React.FC = () => {
       </ReferenceArrayField>
       <ReferenceArrayField reference="links" source="links">
         <LinkDatagrid />
+      </ReferenceArrayField>
+      <ReferenceArrayField reference="media" source="media">
+        <MediaDataGrid />
       </ReferenceArrayField>
       <ReferenceArrayField reference="events" source="events">
         <EventDataGrid />

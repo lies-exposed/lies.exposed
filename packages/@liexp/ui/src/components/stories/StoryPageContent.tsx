@@ -2,7 +2,9 @@ import {
   type Actor,
   type Group,
   type Keyword,
+  type Media,
   type Story,
+  type Events
 } from "@liexp/shared/lib/io/http";
 import { isValidValue } from "@liexp/shared/lib/slate";
 import { formatDate } from "@liexp/shared/lib/utils/date";
@@ -12,7 +14,6 @@ import * as React from "react";
 import { useTheme } from "../../theme";
 import EditButton from "../Common/Button/EditButton";
 import { LazyEditor as Editor } from "../Common/Editor";
-import { EventTimelinePlugin } from "../Common/Editor/plugins/renderer/EventTimelinePlugin";
 import { InlineRelationsPlugin } from "../Common/Editor/plugins/renderer/InlineRelationsBoxPlugin";
 import { TOCPlugin } from "../Common/Editor/plugins/renderer/TOCPlugin";
 import { MainContent } from "../MainContent";
@@ -23,6 +24,8 @@ export interface StoryPageContentProps {
   onActorClick: (k: Actor.Actor) => void;
   onGroupClick: (k: Group.Group) => void;
   onKeywordClick: (k: Keyword.Keyword) => void;
+  onMediaClick: (m: Media.Media) => void
+  onEventClick: (m: Events.Event) => void
 }
 
 export const StoryPageContent: React.FC<StoryPageContentProps> = ({
@@ -39,6 +42,8 @@ export const StoryPageContent: React.FC<StoryPageContentProps> = ({
   onActorClick,
   onGroupClick,
   onKeywordClick,
+  onMediaClick,
+  onEventClick
 }) => {
   const theme = useTheme();
 
@@ -114,8 +119,9 @@ export const StoryPageContent: React.FC<StoryPageContentProps> = ({
             onActorClick={onActorClick}
             onGroupClick={onGroupClick}
             onKeywordClick={onKeywordClick}
+            onMediaClick={onMediaClick}
+            onEventClick={onEventClick}
           />
-          <EventTimelinePlugin events={events} />
         </Grid>
       </Grid>
     </Grid>
