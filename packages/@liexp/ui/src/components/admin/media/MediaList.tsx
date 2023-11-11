@@ -29,8 +29,8 @@ const mediaFilters = [
   <BooleanInput key="deletedOnly" source="deletedOnly" alwaysOn size="small" />,
 ];
 
-export const MediaList: React.FC<ListProps> = (props) => {
-  const { identity, isLoading } = useGetIdentity();
+export const MediaDataGrid: React.FC = () => {
+  const { isLoading } = useGetIdentity();
   const { permissions, isLoading: isLoadingPermissions } = usePermissions();
   if (isLoading || isLoadingPermissions) {
     return <LoadingPage />;
@@ -38,7 +38,93 @@ export const MediaList: React.FC<ListProps> = (props) => {
 
   const isAdmin = checkIsAdmin(permissions || []);
 
-  const filter = !isAdmin && identity?.id ? { creator: identity?.id } : {};
+  return (
+    <Datagrid
+      rowClick="edit"
+      rowSx={(r) => ({
+        borderLeft: `5px solid ${r.transferable ? amber[500] : "transparent"}`,
+      })}
+    >
+      <MediaField type="image/jpeg" source="thumbnail" controls={false} />
+      <FunctionField
+        label="events"
+        render={(r: any) => {
+          const url = r.location
+            ? new URL(r.location)
+            : {
+                hostname: "no link given",
+              };
+
+          return (
+            <Box>
+              <Box>
+                <Typography variant="h5" style={{ fontSize: 16 }}>
+                  {r.label}
+                </Typography>
+                {r.description ? (
+                  <Typography variant="body1">
+                    {r.description.substring(0, 150)}
+                  </Typography>
+                ) : null}
+              </Box>
+              <Box>
+                <Typography variant="subtitle1">
+                  {r.type}
+                  {r.type === MP4Type.value &&
+                    r.extra?.duration &&
+                    ` - ${toFormattedDuration(r.extra.duration)}`}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  style={{
+                    fontSize: 14,
+                  }}
+                >
+                  {url.hostname}
+                </Typography>
+              </Box>
+            </Box>
+          );
+        }}
+      />
+      {isAdmin && (
+        <ReferenceField source="creator" reference="users">
+          <FunctionField
+            label="creator"
+            render={(r: any) => (r ? `${r.firstName} ${r.lastName}` : "")}
+          />
+        </ReferenceField>
+      )}
+
+      <FunctionField
+        label="events"
+        render={(r: any) => {
+          return r.events.length;
+        }}
+      />
+      <FunctionField
+        label="links"
+        render={(r: any) => {
+          return r.links.length;
+        }}
+      />
+
+      <DateField source="updatedAt" />
+      <DateField source="createdAt" />
+    </Datagrid>
+  );
+};
+
+export const MediaList: React.FC<ListProps> = (props) => {
+  const { data, isLoading } = useGetIdentity();
+  const { permissions, isLoading: isLoadingPermissions } = usePermissions();
+  if (isLoading || isLoadingPermissions) {
+    return <LoadingPage />;
+  }
+
+  const isAdmin = checkIsAdmin(permissions || []);
+
+  const filter = !isAdmin && data?.id ? { creator: data?.id } : {};
 
   return (
     <List
@@ -53,75 +139,7 @@ export const MediaList: React.FC<ListProps> = (props) => {
       }}
       perPage={20}
     >
-      <Datagrid
-        rowClick="edit"
-        rowSx={(r) => ({
-          borderLeft: `5px solid ${
-            r.transferable ? amber[500] : "transparent"
-          }`,
-        })}
-      >
-        <MediaField type="image/jpeg" source="thumbnail" controls={false} />
-        <FunctionField
-          label="events"
-          render={(r: any) => {
-            const url = r.location
-              ? new URL(r.location)
-              : {
-                  hostname: "no link given",
-                };
-
-            return (
-              <Box>
-                <Box>
-                  <Typography variant="h5" style={{ fontSize: 16 }}>{r.label}</Typography>
-                  {r.description ? <Typography variant="body1">{r.description.substring(0, 150)}</Typography>:  null}
-                </Box>
-                <Box>
-                  <Typography variant="subtitle1">
-                    {r.type}
-                    {r.type === MP4Type.value &&
-                      r.extra?.duration &&
-                      ` - ${toFormattedDuration(r.extra.duration)}`}
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    style={{
-                      fontSize: 14,
-                    }}
-                  >
-                    {url.hostname}
-                  </Typography>
-                </Box>
-              </Box>
-            );
-          }}
-        />
-        {isAdmin && (
-          <ReferenceField source="creator" reference="users">
-            <FunctionField
-              label="creator"
-              render={(r: any) => (r ? `${r.firstName} ${r.lastName}` : "")}
-            />
-          </ReferenceField>
-        )}
-
-        <FunctionField
-          label="events"
-          render={(r: any) => {
-            return r.events.length;
-          }}
-        />
-        <FunctionField
-          label="links"
-          render={(r: any) => {
-            return r.links.length;
-          }}
-        />
-
-        <DateField source="updatedAt" />
-        <DateField source="createdAt" />
-      </Datagrid>
+      <MediaDataGrid />
     </List>
   );
 };

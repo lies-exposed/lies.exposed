@@ -112,7 +112,6 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
   const dataProvider = useDataProvider();
   const { data, isLoading } = useGetIdentity();
   const { permissions, isLoading: isPermsLoading } = usePermissions();
-
   if (isLoading || isPermsLoading) {
     return <LoadingPage />;
   }

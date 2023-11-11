@@ -36,6 +36,12 @@ const StoryTemplate: React.FC<{ storyPath: string }> = ({ storyPath }) => {
                 onGroupClick={(g) => {
                   navigateTo.groups({ id: g.id });
                 }}
+                onMediaClick={(m) => {
+                  navigateTo.media({ id: m.id });
+                }}
+                onEventClick={(e) => {
+                  navigateTo.events({ id: e.id });
+                }}
               />
 
               <StoriesBox

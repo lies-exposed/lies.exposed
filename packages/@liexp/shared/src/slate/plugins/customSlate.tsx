@@ -194,3 +194,11 @@ export const getLiexpSlate = (custom: any): SlateCellPlugin<any> => {
 export const isSlatePlugin = (c: Cell): boolean => {
   return c.plugin?.id === LIEXP_SLATE_PLUGIN_ID;
 };
+
+export const isMediaBlockCell = (c: Cell): boolean => {
+  return c.plugin?.id === MEDIA_BLOCK_PLUGIN;
+};
+
+export const isEventBlockCell = (c: Cell): boolean => {
+  return c.plugin?.id === EVENT_BLOCK_PLUGIN;
+};
