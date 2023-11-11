@@ -25,7 +25,10 @@ const StyledBox = styled(Box)(({ theme }) => ({
   [`&.${classes.root}`]: {},
 }));
 
-const EventsTimeline: React.FC<{ events: Event[] }> = ({ events }) => {
+const EventsTimeline: React.FC<{
+  events: Event[];
+  onEventClick: (e: Event) => void;
+}> = ({ events, onEventClick }) => {
   return (
     <List>
       {events.map((e) => {
@@ -39,7 +42,12 @@ const EventsTimeline: React.FC<{ events: Event[] }> = ({ events }) => {
           areas: [],
         });
         return (
-          <ListItem key={e.id}>
+          <ListItem
+            key={e.id}
+            onClick={() => {
+              onEventClick(e);
+            }}
+          >
             <Card>
               <CardHeader
                 avatar={<EventIcon size="2x" type={e.type} />}
@@ -56,10 +64,12 @@ const EventsTimeline: React.FC<{ events: Event[] }> = ({ events }) => {
 
 interface EventTimelinePluginProps {
   events: string[];
+  onEventClick: (m: Event) => void
 }
 
 export const EventTimelinePlugin: React.FC<EventTimelinePluginProps> = ({
   events,
+  onEventClick
 }) => {
   return (
     <StyledBox className={classes.root}>
@@ -67,7 +77,7 @@ export const EventTimelinePlugin: React.FC<EventTimelinePluginProps> = ({
       <QueriesRenderer
         queries={{ events: useEventsQuery({ filter: { ids: events } }, true) }}
         render={({ events: { data: events } }) => {
-          return <EventsTimeline events={events} />;
+          return <EventsTimeline events={events} onEventClick={onEventClick} />;
         }}
       />
     </StyledBox>

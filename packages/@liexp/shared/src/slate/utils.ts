@@ -19,6 +19,8 @@ import {
   COMPONENT_PICKER_POPOVER_PLUGIN,
   EVENT_BLOCK_PLUGIN,
   MEDIA_BLOCK_PLUGIN,
+  isMediaBlockCell,
+  isEventBlockCell,
 } from "./plugins/customSlate";
 
 export const getTextContents = (v: Value, j?: string): string => {
@@ -173,31 +175,44 @@ const deserializePlugin = (
 };
 
 const deserializeCell = (c: Cell): Option<InlineRelation[]> => {
-  if (c.dataI18n?.en?.slate && isSlatePlugin(c)) {
-    const plugins: Array<SlateComponentPluginDefinition<any>> = c.dataI18n.en
-      .slate as any;
+  // console.log("cell", c);
+  if (c.dataI18n?.en?.slate) {
+    if (isSlatePlugin(c)) {
+      // console.log("is slate plugin");
+      const plugins: Array<SlateComponentPluginDefinition<any>> = c.dataI18n.en
+        .slate as any;
 
-    return pipe(
-      plugins.map((p) =>
-        pipe(
-          deserializePlugin(p),
-          fp.O.getOrElse((): InlineRelation[] => []),
+      return pipe(
+        plugins.map((p) =>
+          pipe(
+            deserializePlugin(p),
+            fp.O.getOrElse((): InlineRelation[] => []),
+          ),
         ),
-      ),
-      // fp.A.traverse(fp.O.Applicative)((e) => {
-      //  const plug = deserializePlugin(e)
-      //  console.log('plug', plug);
-      //  return plug;
-      // }),
-      // (relations) => {
-      //   console.log({ relations });
-      //   return relations;
-      // },
-      fp.A.flatten,
-      fp.O.fromPredicate((arr) => arr.length > 0),
-    );
+        // fp.A.traverse(fp.O.Applicative)((e) => {
+        //  const plug = deserializePlugin(e)
+        //  console.log('plug', plug);
+        //  return plug;
+        // }),
+        // (relations) => {
+        //   console.log({ relations });
+        //   return relations;
+        // },
+        fp.A.flatten,
+        fp.O.fromPredicate((arr) => arr.length > 0),
+      );
+    }
   }
 
+  if (isMediaBlockCell(c) || isEventBlockCell(c)) {
+    return deserializePlugin({
+      ...c.plugin,
+      type: c.plugin?.id,
+      data: c.dataI18n?.en as any,
+    } as any);
+  }
+
+  // console.log("not a slate plugin");
   return pipe(
     transform({ rows: c.rows ?? [] }, deserializeCell),
     fp.O.fromNullable,

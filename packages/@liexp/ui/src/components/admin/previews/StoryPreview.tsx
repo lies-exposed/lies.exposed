@@ -35,6 +35,8 @@ const StoryPreview: React.FC = () => {
               onKeywordClick={() => {}}
               onActorClick={() => {}}
               onGroupClick={() => {}}
+              onMediaClick={() => {}}
+              onEventClick={() => {}}
             />
           </QueryClientProvider>
         </ThemeProvider>
