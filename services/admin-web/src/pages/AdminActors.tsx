@@ -7,11 +7,10 @@ import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
 import { ActorDataGrid } from "@liexp/ui/lib/components/admin/actors/ActorDataGrid";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
-import { WebPreviewButton } from "@liexp/ui/lib/components/admin/common/WebPreviewButton";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
 import { CreateEventButton } from "@liexp/ui/lib/components/admin/events/CreateEventButton";
 import ReferenceManyEventField from "@liexp/ui/lib/components/admin/events/ReferenceManyEventField";
-import {EventsFlowGraphFormTab} from '@liexp/ui/lib/components/admin/events/tabs/EventsFlowGraphFormTab'
+import { EventsFlowGraphFormTab } from '@liexp/ui/lib/components/admin/events/tabs/EventsFlowGraphFormTab';
 import { EventsNetworkGraphFormTab } from "@liexp/ui/lib/components/admin/events/tabs/EventsNetworkGraphFormTab";
 import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceGroupInput";
 import { SearchLinksButton } from "@liexp/ui/lib/components/admin/links/SearchLinksButton";
@@ -103,7 +102,6 @@ const EditActions: React.FC = () => {
   const record = useRecordContext();
   return (
     <>
-      <WebPreviewButton resource="actors" />{" "}
       {record?.fullName ? <SearchLinksButton query={record.fullName} /> : null}
     </>
   );

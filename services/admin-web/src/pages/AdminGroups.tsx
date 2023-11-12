@@ -8,7 +8,6 @@ import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
 import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput";
 import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
-import { WebPreviewButton } from "@liexp/ui/lib/components/admin/common/WebPreviewButton";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
 import ReferenceManyEventField from "@liexp/ui/lib/components/admin/events/ReferenceManyEventField";
 import { EventsNetworkGraphFormTab } from "@liexp/ui/lib/components/admin/events/tabs/EventsNetworkGraphFormTab";
@@ -158,15 +157,6 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
     <EditForm
       title={<EditTitle {...props} />}
       {...props}
-      actions={
-        <>
-          <WebPreviewButton
-            resource="/dashboard/groups"
-            source="id"
-            record={{ id: props.id } as any}
-          />
-        </>
-      }
       transform={transformGroup(dataProvider)}
       preview={<GroupPreview />}
       redirect={false}

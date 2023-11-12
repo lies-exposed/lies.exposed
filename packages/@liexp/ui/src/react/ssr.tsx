@@ -23,6 +23,25 @@ const ssrLog = GetLogger("ssr");
 
 const ABORT_DELAY = 10 * 1000;
 
+interface BaseRoute {
+  path: string;
+  route: React.FC;
+}
+type RedirectRoute = BaseRoute & { redirect: string };
+type AsyncDataRoute = BaseRoute & {
+  queries: (
+    params: any,
+    query: any,
+  ) => Promise<
+    Array<{ queryKey: string[]; queryFn: (params: any) => Promise<any> }>
+  >;
+};
+type ServerRoute = RedirectRoute | AsyncDataRoute;
+
+
+const isRedirectRoute = (r: ServerRoute): r is RedirectRoute => {
+  return (r as any).redirect
+}
 export const getServer = (
   app: express.Express,
   App: React.ComponentType,
@@ -30,16 +49,7 @@ export const getServer = (
   env: {
     NODE_ENV: "production" | "development";
   },
-  routes: Array<{
-    path: string;
-    route: React.FC;
-    queries: (
-      params: any,
-      query: any,
-    ) => Promise<
-      Array<{ queryKey: string[]; queryFn: (params: any) => Promise<any> }>
-    >;
-  }>,
+  routes: ServerRoute[],
   // webpackConfig: webpack.Configuration
 ): express.Express => {
   const indexFile = path.resolve(publicDir, "./index.html");
@@ -48,86 +58,81 @@ export const getServer = (
     .readFileSync(indexFile, "utf8")
     .split('<div id="root">')[0];
 
-  const requestHandler = (
-    req: express.Request,
-    res: express.Response,
-    next: () => void,
-  ): void => {
-    const helmetContext = {
-      helmet: undefined,
-    };
+  const requestHandler =
+    (r: AsyncDataRoute) =>
+    (req: express.Request, res: express.Response, next: () => void): void => {
+      const helmetContext = {
+        helmet: undefined,
+      };
 
-    const queryClient = new QueryClient({
-      defaultOptions: {
-        queries: {
-          suspense: true,
-          notifyOnChangeProps: ["data"],
-        },
-      },
-    });
-
-    void Promise.all(
-      routes
-        .filter((r) => r.path === req.route.path)
-        .map((r) => r.queries(req.params, req.query)),
-    )
-      .then((queries) => {
-        const routeQueries = queries.flatMap((r) => r);
-        return Promise.all(
-          routeQueries.map((r) => {
-            ssrLog.debug.log("Prefetch query %O", r.queryKey);
-            return queryClient.prefetchQuery(r.queryKey, r.queryFn);
-          }),
-        );
-      })
-      .then(() => {
-        let didError = false;
-        const dehydratedState = dehydrate(queryClient);
-
-        const cache = createEmotionCache();
-
-        let body = "";
-
-        // Simple stream wrapper for writing `backHTML` before closing the stream.
-        const resStream = new Writable({
-          write(chunk, _encoding, cb) {
-            const content = chunk.toString("utf8");
-
-            body += content;
-
-            cb();
+      const queryClient = new QueryClient({
+        defaultOptions: {
+          queries: {
+            suspense: true,
+            notifyOnChangeProps: ["data"],
           },
-          final() {
-            const h = helmetContext.helmet as any;
+        },
+      });
 
-            const fontawesomeCss = dom.css();
-            const head = `
+      void r
+        .queries(req.params, req.query)
+        .then((queries) => {
+          const routeQueries = queries.flatMap((r) => r);
+          return Promise.all(
+            routeQueries.map((r) => {
+              ssrLog.debug.log("Prefetch query %O", r.queryKey);
+              return queryClient.prefetchQuery(r.queryKey, r.queryFn);
+            }),
+          );
+        })
+        .then(() => {
+          let didError = false;
+          const dehydratedState = dehydrate(queryClient);
+
+          const cache = createEmotionCache();
+
+          let body = "";
+
+          // Simple stream wrapper for writing `backHTML` before closing the stream.
+          const resStream = new Writable({
+            write(chunk, _encoding, cb) {
+              const content = chunk.toString("utf8");
+
+              body += content;
+
+              cb();
+            },
+            final() {
+              const h = helmetContext.helmet as any;
+
+              const fontawesomeCss = dom.css();
+              const head = `
                     ${h.title.toString()}
                     ${h.meta.toString().replace("/>", "/>\n")}
                     ${h.script.toString()}
                   `;
 
-            // const { extractCritical } = createEmotionServer(cache);
+              // const { extractCritical } = createEmotionServer(cache);
 
-            // const emotionCss = extractCritical(body);
-            // console.log(emotionCss);
+              // const emotionCss = extractCritical(body);
+              // console.log(emotionCss);
 
-            res.write(
-              indexHTML
-                .replace("<head>", `<head ${h.htmlAttributes.toString()}>`)
-                .replace('<meta id="helmet-head"/>', head)
-                .replace("<body>", `<body ${h.bodyAttributes.toString()}>`)
-                .replace(
-                  '<style id="font-awesome-css"></style>',
-                  `<style type="text/css">${fontawesomeCss}</style>`,
-                )
-                // .replace('<style id="css-server-side"></style>', emotionCss.css)
-                .concat('<div id="root">')
-                .concat(body),
-            );
+              res.write(
+                indexHTML
+                  .replace("<head>", `<head ${h.htmlAttributes.toString()}>`)
+                  .replace('<meta id="helmet-head"/>', head)
+                  .replace("<body>", `<body ${h.bodyAttributes.toString()}>`)
+                  .replace(
+                    '<style id="font-awesome-css"></style>',
+                    `<style type="text/css">${fontawesomeCss}</style>`,
+                  )
+                  // .replace('<style id="css-server-side"></style>', emotionCss.css)
+                  .concat('<div id="root">')
+                  .concat(body),
+              );
 
-            res.end(
-              `</div>
+              res.end(
+                `</div>
                 <script>
                   window.__REACT_QUERY_STATE__ = ${JSON.stringify(
                     dehydratedState,
@@ -135,77 +140,77 @@ export const getServer = (
                 </script>
               </body>
             </html>`,
-            );
-          },
-        });
+              );
+            },
+          });
 
-        const { pipe, abort } = ReactDOMServer.renderToPipeableStream(
-          <StaticRouter location={req.url}>
-            <HelmetProvider context={helmetContext}>
-              <QueryClientProvider client={queryClient}>
-                <Hydrate state={dehydratedState}>
-                  <CacheProvider value={cache}>
-                    <ThemeProvider theme={ECOTheme}>
-                      <CssBaseline enableColorScheme />
-                      {env.NODE_ENV === "development" ? (
-                        <App />
-                      ) : (
-                        <React.Suspense>
+          const { pipe, abort } = ReactDOMServer.renderToPipeableStream(
+            <StaticRouter location={req.url}>
+              <HelmetProvider context={helmetContext}>
+                <QueryClientProvider client={queryClient}>
+                  <Hydrate state={dehydratedState}>
+                    <CacheProvider value={cache}>
+                      <ThemeProvider theme={ECOTheme}>
+                        <CssBaseline enableColorScheme />
+                        {env.NODE_ENV === "development" ? (
                           <App />
-                        </React.Suspense>
-                      )}
-                    </ThemeProvider>
-                  </CacheProvider>
-                </Hydrate>
-              </QueryClientProvider>
-            </HelmetProvider>
-          </StaticRouter>,
-          {
-            // Executed when the shell render resulted in error
-            onError(x) {
-              ssrLog.error.log(`Error caught %O`, x);
-              didError = true;
+                        ) : (
+                          <React.Suspense>
+                            <App />
+                          </React.Suspense>
+                        )}
+                      </ThemeProvider>
+                    </CacheProvider>
+                  </Hydrate>
+                </QueryClientProvider>
+              </HelmetProvider>
+            </StaticRouter>,
+            {
+              // Executed when the shell render resulted in error
+              onError(x) {
+                ssrLog.error.log(`Error caught %O`, x);
+                didError = true;
+              },
+              onShellError(err) {
+                didError = true;
+                ssrLog.error.log(`Shell error caught %O`, err);
+              },
+              onAllReady() {
+                ssrLog.debug.log("On all ready");
+              },
+              onShellReady() {
+                const status = didError ? 500 : 200;
+
+                ssrLog.debug.log("Send response %d", status);
+
+                res
+                  .status(status)
+                  .setHeader("Content-Type", "text/html; charset=utf-8");
+
+                pipe(resStream);
+              },
             },
-            onShellError(err) {
-              didError = true;
-              ssrLog.error.log(`Shell error caught %O`, err);
-            },
-            onAllReady() {
-              ssrLog.debug.log("On all ready");
-            },
-            onShellReady() {
-              const status = didError ? 500 : 200;
+          );
 
-              ssrLog.debug.log("Send response %d", status);
+          // const stream = pipe(renderStylesToNodeStream());
 
-              res
-                .status(status)
-                .setHeader("Content-Type", "text/html; charset=utf-8");
-
-              pipe(resStream);
-            },
-          },
-        );
-
-        // const stream = pipe(renderStylesToNodeStream());
-
-        // Abort when the stream takes too long.
-        setTimeout(() => {
-          ssrLog.debug.log("Request timeout %d", ABORT_DELAY);
-          if (didError) {
-            ssrLog.debug.log("Error thrown");
-            abort();
-          }
-        }, ABORT_DELAY);
-      })
-      .catch((e) => {
-        ssrLog.error.log("Caught error %O", e);
-        res.status(500).end(e.message);
-      })
-      .finally(() => {
-        queryClient.clear();
-      });
-  };
+          // Abort when the stream takes too long.
+          setTimeout(() => {
+            ssrLog.debug.log("Request timeout %d", ABORT_DELAY);
+            if (didError) {
+              ssrLog.debug.log("Error thrown");
+              abort();
+            }
+          }, ABORT_DELAY);
+        })
+        .catch((e) => {
+          ssrLog.error.log("Caught error %O", e);
+          res.status(500).end(e.message);
+        })
+        .finally(() => {
+          queryClient.clear();
+        });
+    };
 
   // if (process.env.NODE_ENV === "development") {
   //   app.use(
@@ -222,7 +227,15 @@ export const getServer = (
   );
 
   routes.forEach((r) => {
-    app.get(r.path, requestHandler);
+    if (isRedirectRoute(r)) {
+      app.get(r.path, (req, res) => {
+        // TODO: very opinionated and not really versatile
+        res.redirect(r.redirect.replace(':id', req.params.id));
+        return res;
+      });
+    } else {
+      app.get(r.path, requestHandler(r));
+    }
   });
 
   return app;

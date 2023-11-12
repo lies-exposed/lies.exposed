@@ -65,7 +65,7 @@ import {
 import { hashToQuery } from "@liexp/ui/lib/utils/history.utils";
 import { UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import IndexPage from "./pages";
 import NotFoundPage from "./pages/404";
 
@@ -93,6 +93,19 @@ const MediaTemplate = React.lazy(() => import("./templates/MediaTemplate"));
 const LinkTemplate = React.lazy(() => import("./templates/LinkTemplate"));
 const PageTemplate = React.lazy(() => import("./templates/PageTemplate"));
 const EditStoryPage = React.lazy(() => import("./pages/stories/EditStoryPage"));
+
+const RedirectToEventsRoute: React.FC = () => {
+  const params = useParams();
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (params.id) {
+      navigate(`/events/${params.id}`);
+    }
+  }, [params?.id]);
+
+  return null;
+};
 
 const githubQuery = {
   queryKey: ["github", { user: "lies-exposed", repo: "lies.exposed" }],
@@ -450,6 +463,36 @@ export const routes = [
         },
       ];
     },
+  },
+  {
+    path: "/scientific-studies/:id",
+    route: RedirectToEventsRoute,
+    redirect: "/events/:id",
+  },
+  {
+    path: "/deaths/:id",
+    route: RedirectToEventsRoute,
+    redirect: "/events/:id",
+  },
+  {
+    path: "/quotes/:id",
+    route: RedirectToEventsRoute,
+    redirect: "/events/:id",
+  },
+  {
+    path: "/patents/:id",
+    route: RedirectToEventsRoute,
+    redirect: "/events/:id",
+  },
+  {
+    path: "/documentaries/:id",
+    route: RedirectToEventsRoute,
+    redirect: "/events/:id",
+  },
+  {
+    path: "/transactions/:id",
+    route: RedirectToEventsRoute,
+    redirect: "/events/:id",
   },
   // keywords
   {
