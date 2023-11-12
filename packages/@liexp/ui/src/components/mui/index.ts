@@ -11,6 +11,7 @@ import SearchIcon from "@mui/icons-material/SearchOutlined";
 import UndoIcon from "@mui/icons-material/Undo";
 import TreeItem from "@mui/lab/TreeItem";
 import TreeView from "@mui/lab/TreeView";
+import { ButtonGroup } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -119,6 +120,7 @@ export {
   type TextFieldProps,
   IconButton,
   Button,
+  ButtonGroup,
   ClickAwayListener,
   Grow,
   FormGroup,

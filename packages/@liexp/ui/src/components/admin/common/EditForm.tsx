@@ -1,13 +1,15 @@
 import * as React from "react";
-import { Grid } from "../../mui";
+import { Grid, Stack } from "../../mui";
 import {
+  Button,
   Edit,
   useDataProvider,
-  type EditProps,
   useRecordContext,
   useRefresh,
-  Button,
+  useResourceContext,
+  type EditProps,
 } from "../react-admin";
+import { WebPreviewButton } from "./WebPreviewButton";
 
 export interface EditFormProps extends EditProps {
   preview: React.ReactNode;
@@ -21,6 +23,7 @@ export const EditForm: React.FC<React.PropsWithChildren<EditFormProps>> = ({
   preview,
 }) => {
   const [showPreview, setShowPreview] = React.useState(false);
+  const resource = useResourceContext();
   return (
     <Edit
       title={title}
@@ -30,13 +33,16 @@ export const EditForm: React.FC<React.PropsWithChildren<EditFormProps>> = ({
     >
       <Grid container>
         <Grid item md={12}>
-          <Button
-            label={`${showPreview ? "Hide" : "Show"} Preview`}
-            onClick={() => {
-              setShowPreview(!showPreview);
-            }}
-          />
-          <RestoreButton />
+          <Stack spacing={2} direction={"row"}>
+            <Button
+              label={`${showPreview ? "Hide" : "Show"} Preview`}
+              onClick={() => {
+                setShowPreview(!showPreview);
+              }}
+            />
+            <WebPreviewButton resource={resource} source="id" />
+            <RestoreButton />
+          </Stack>
         </Grid>
         <Grid item md={showPreview ? 6 : 12} lg={showPreview ? 6 : 12}>
           {children}
@@ -70,5 +76,10 @@ const RestoreButton: React.FC = () => {
         refresh();
       });
   };
-  return <Button label="Restore" onClick={handleOnClick} />;
+  if (record?.deletedAt) {
+    return (
+      <Button label="Restore" variant="contained" onClick={handleOnClick} />
+    );
+  }
+  return null;
 };
