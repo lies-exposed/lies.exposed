@@ -1,3 +1,4 @@
+import "@liexp/ui/assets/main.css";
 import "@liexp/ui/lib/components/Common/Icons/library";
 import { FullSizeLoader } from "@liexp/ui/lib/components/Common/FullSizeLoader";
 import { Footer } from "@liexp/ui/lib/components/Footer";
@@ -8,8 +9,8 @@ import * as React from "react";
 import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 import { Route, Routes, useLocation } from "react-router";
 import AppHeader, { logo192 } from "./components/header/AppHeader";
+import NotFoundPage from "./pages/404";
 import { routes } from "./routes";
-import "@liexp/ui/assets/main.css";
 
 const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
   // eslint-disable-next-line no-console
@@ -60,6 +61,7 @@ export const App: React.FC = () => {
                   }
                 />
               ))}
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </Grid>
           <Grid item xs={12}>
