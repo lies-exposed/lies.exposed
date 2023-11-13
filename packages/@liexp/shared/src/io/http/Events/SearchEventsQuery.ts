@@ -1,6 +1,7 @@
 import * as t from "io-ts";
 import { BooleanFromString } from "io-ts-types/BooleanFromString";
 import { DateFromISOString } from "io-ts-types/DateFromISOString";
+import { NumberFromString } from 'io-ts-types/NumberFromString';
 import { UUID } from "io-ts-types/UUID";
 import { optionFromUndefined } from "../../Common/optionFromUndefined";
 import { GetListQuery } from "../Query";
@@ -30,6 +31,8 @@ export const GetSearchEventsQuery = t.strict(
     emptyGroups: optionFromUndefined(BooleanFromString),
     emptyMedia: optionFromUndefined(BooleanFromString),
     emptyLinks: optionFromUndefined(BooleanFromString),
+    spCount: optionFromUndefined(NumberFromString),
+    onlyUnshared: optionFromUndefined(BooleanFromString)
   },
   "GetEventsQueryFilter",
 );

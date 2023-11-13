@@ -64,6 +64,7 @@ describe("Create Media", () => {
     delete media.thumbnail;
     delete media.extra;
     delete media.deletedAt;
+    delete media.socialPosts;
 
     expect(response.body.data).toMatchObject({
       ...media,

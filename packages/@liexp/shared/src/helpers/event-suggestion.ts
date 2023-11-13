@@ -59,6 +59,7 @@ export const getSuggestions = (
     ),
     links: [],
     keywords: relations.keywords,
+    socialPosts: [],
     createdAt: new Date(),
     updatedAt: new Date(),
     deletedAt: undefined,
@@ -80,7 +81,7 @@ export const getSuggestions = (
                 actors: [],
                 groups: [],
               } as any,
-            },
+            }
           },
         },
         {
@@ -132,17 +133,6 @@ export const getSuggestions = (
         },
       },
     },
-    // {
-    //   type: http.EventSuggestion.EventSuggestionType.types[0].value,
-    //   event: {
-    //     ...commonSuggestion,
-    //     type: http.Events.EventTypes.DEATH.value,
-    //     payload: {
-    //       victim: uuid() as any,
-    //       location: undefined as any,
-    //     },
-    //   },
-    // },
     {
       type: http.EventSuggestion.EventSuggestionType.types[0].value,
       event: {

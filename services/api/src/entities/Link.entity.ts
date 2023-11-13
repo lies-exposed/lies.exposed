@@ -14,6 +14,7 @@ import {
 import { EventV2Entity } from "./Event.v2.entity";
 import { KeywordEntity } from "./Keyword.entity";
 import { MediaEntity } from "./Media.entity";
+import { type SocialPostEntity } from './SocialPost.entity';
 import { UserEntity } from "./User.entity";
 
 @Entity("link")
@@ -59,6 +60,8 @@ export class LinkEntity {
     cascade: false,
   })
   keywords: KeywordEntity[];
+
+  socialPosts?: SocialPostEntity[]
 
   @CreateDateColumn()
   createdAt: Date;

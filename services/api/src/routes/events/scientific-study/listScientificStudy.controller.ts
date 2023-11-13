@@ -29,6 +29,8 @@ export const MakeListScientificStudyRoute: Route = (
         emptyKeywords,
         withDeleted,
         withDrafts,
+        spCount,
+        onlyUnshared,
         ...query
       },
     }) => {
@@ -57,6 +59,8 @@ export const MakeListScientificStudyRoute: Route = (
           emptyMedia,
           withDeleted: O.getOrElse(() => false)(withDeleted),
           withDrafts: O.getOrElse(() => false)(withDeleted),
+          spCount,
+          onlyUnshared,
           ...queryOptions,
         }),
         TE.chain(({ results, totals: { scientificStudies } }) =>

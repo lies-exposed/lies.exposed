@@ -25,6 +25,7 @@ export const CreateEventFromSuggestionRoute: Route = (r, ctx) => {
             TE.map((relations) => ({
               ...suggestion.payload.event,
               ...relations,
+              socialPosts: [],
               id:
                 suggestion.payload.type ===
                 EventSuggestion.EventSuggestionType.types[1].value

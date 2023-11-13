@@ -18,6 +18,7 @@ import {
   type Media,
   type Events,
 } from "@liexp/shared/lib/io/http";
+import { type UUID } from '@liexp/shared/lib/io/http/Common'
 import { EventType } from "@liexp/shared/lib/io/http/Events";
 import { StatsType } from "@liexp/shared/lib/io/http/Stats";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
@@ -155,10 +156,10 @@ export const createStatsByEntityType: TEFlow<
         ({ skip, amount }) =>
           searchEventV2Query(ctx)({
             ids: O.none,
-            actors: type === StatsType.types[1].value ? O.some([id]) : O.none,
-            groups: type === StatsType.types[2].value ? O.some([id]) : O.none,
+            actors: type === StatsType.types[1].value ? O.some([id as UUID]) : O.none,
+            groups: type === StatsType.types[2].value ? O.some([id as UUID]) : O.none,
             groupsMembers: O.none,
-            keywords: type === StatsType.types[0].value ? O.some([id]) : O.none,
+            keywords: type === StatsType.types[0].value ? O.some([id as UUID]) : O.none,
             links: O.none,
             locations: O.none,
             type: O.some(EventType.types.map((t) => t.value)),

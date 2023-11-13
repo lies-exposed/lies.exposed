@@ -16,7 +16,7 @@ import {
   type ObjectLiteral,
 } from "typeorm";
 
-interface ORMOrder {
+export interface ORMOrder {
   order: Record<string, "ASC" | "DESC">;
 }
 

@@ -18,6 +18,7 @@ export const GetListLinkQuery = t.type(
     creator: optionFromNullable(UUID),
     emptyEvents: optionFromNullable(BooleanFromString),
     onlyDeleted: optionFromNullable(BooleanFromString),
+    onlyUnshared: optionFromNullable(BooleanFromString),
   },
   "GetListLinkQuery",
 );
@@ -76,6 +77,7 @@ export const Link = t.strict(
     provider: t.union([UUID, t.undefined]),
     creator: t.union([UUID, t.undefined]),
     events: t.array(UUID),
+    socialPosts: t.array(UUID),
     createdAt: DateFromISOString,
     updatedAt: DateFromISOString,
     deletedAt: t.union([DateFromISOString, t.undefined]),

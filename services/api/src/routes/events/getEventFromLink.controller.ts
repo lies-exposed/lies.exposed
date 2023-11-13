@@ -90,6 +90,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
               links: [],
               newLinks: suggestedEventLinks,
               keywords: [],
+              socialPosts: undefined,
               createdAt: new Date(),
               updatedAt: new Date(),
               deletedAt: undefined,

@@ -22,6 +22,7 @@ export const toMediaIO = (
       keywords: media.keywords ?? [],
       areas: media.areas ?? [],
       featuredIn: media.featuredIn ?? [],
+      socialPosts: media.socialPosts ?? [],
       thumbnail: media.thumbnail ? ensureHTTPS(media.thumbnail) : undefined,
       transferable: !media.location.includes(spaceEndpoint),
       createdAt: media.createdAt.toISOString(),
