@@ -376,6 +376,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
               keywords: [],
               areas: [],
               featuredIn: [],
+              socialPosts: undefined,
               deletedAt: undefined,
               label: m.media,
               description: m.type,

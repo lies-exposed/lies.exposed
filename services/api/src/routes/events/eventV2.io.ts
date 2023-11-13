@@ -22,6 +22,7 @@ export const toEventV2IO = (
           excerpt: event.excerpt ?? undefined,
           body: event.body ?? undefined,
           date: event.date.toISOString(),
+          socialPosts: event.socialPosts ?? [],
           createdAt: event.createdAt.toISOString(),
           updatedAt: event.updatedAt.toISOString(),
           deletedAt: event.deletedAt?.toISOString() ?? undefined,

@@ -37,10 +37,12 @@ export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {
       emptyLinks,
       emptyMedia,
       ids,
+      spCount,
+      onlyUnshared,
       ...queryRest
     } = query;
 
-    ctx.logger.debug.log("query %O", queryRest);
+    // ctx.logger.debug.log("query %O", queryRest);
 
     const findOptions = getORMOptions(
       {
@@ -80,6 +82,8 @@ export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {
         withDrafts: O.getOrElse(() => false)(withDrafts),
         emptyMedia,
         emptyLinks,
+        spCount,
+        onlyUnshared,
         ...findOptions,
       }),
       TE.chain(({ results, totals }) =>

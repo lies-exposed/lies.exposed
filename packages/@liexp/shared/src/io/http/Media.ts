@@ -1,6 +1,7 @@
 import * as t from "io-ts";
 import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
+import { NumberFromString } from 'io-ts-types/lib/NumberFromString';
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { UUID } from "./Common/UUID";
 import { GetListQuery } from "./Query";
@@ -69,6 +70,8 @@ export const GetListMediaQuery = t.type(
     deletedOnly: optionFromNullable(BooleanFromString),
     creator: optionFromNullable(UUID),
     keywords: optionFromNullable(t.array(UUID)),
+    spCount: optionFromNullable(NumberFromString),
+    onlyUnshared: optionFromNullable(BooleanFromString),
   },
   "MediaListQuery",
 );
@@ -102,6 +105,7 @@ export const Media = t.strict(
     type: MediaType,
     creator: t.union([UUID, t.undefined]),
     featuredIn: t.union([t.array(UUID), t.undefined]),
+    socialPosts: t.union([t.array(UUID), t.undefined]),
     createdAt: DateFromISOString,
     updatedAt: DateFromISOString,
     deletedAt: t.union([DateFromISOString, t.undefined]),

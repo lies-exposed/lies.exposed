@@ -35,6 +35,8 @@ export const MakeGetListDocumentaryEventRoute: Route = (r, ctx) => {
         emptyActors,
         emptyGroups,
         emptyKeywords,
+        spCount,
+        onlyUnshared,
         ...query
       },
     }) => {

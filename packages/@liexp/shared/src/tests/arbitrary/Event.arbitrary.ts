@@ -82,6 +82,7 @@ const uncategorizedProps = propsOmit(http.Events.Uncategorized.Uncategorized, [
   "media",
   "links",
   "keywords",
+  "socialPosts",
   "createdAt",
   "updatedAt",
   "deletedAt",
@@ -109,4 +110,5 @@ export const UncategorizedArb: fc.Arbitrary<http.Events.Uncategorized.Uncategori
       groupsMembers: fc.sample(fc.uuid(), 5) as any[],
       endDate: undefined,
     },
+    socialPosts: undefined
   }));

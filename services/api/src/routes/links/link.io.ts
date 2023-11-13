@@ -31,6 +31,7 @@ export const toLinkIO = (
       creator: UUID.is(link.creator) ? link.creator : undefined,
       publishDate: link.publishDate?.toISOString() ?? undefined,
       events: link.events ?? [],
+      socialPosts: link.socialPosts ?? [],
       createdAt: link.createdAt.toISOString(),
       updatedAt: link.updatedAt.toISOString(),
       deletedAt: link.deletedAt?.toISOString(),

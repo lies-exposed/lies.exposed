@@ -1,3 +1,4 @@
+import { fp } from '@liexp/core/lib/fp';
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
 import { type Router } from "express";
 import * as A from "fp-ts/Array";
@@ -9,6 +10,7 @@ import { type RouteContext } from "../route.types";
 import { toLinkIO } from "./link.io";
 import { LinkEntity } from "@entities/Link.entity";
 import { toControllerError } from "@io/ControllerError";
+import { leftJoinSocialPosts } from '@queries/socialPosts/leftJoinSocialPosts.query';
 import { addOrder, getORMOptions } from "@utils/orm.utils";
 
 export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
@@ -25,6 +27,7 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
           onlyDeleted,
           provider,
           creator,
+          onlyUnshared: _onlyUnshared,
           ...query
         },
       },
@@ -34,12 +37,18 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
         { ...query },
         ctx.env.DEFAULT_PAGE_SIZE,
       );
+      const onlyUnshared = pipe(
+        _onlyUnshared,
+        fp.O.filter(o => !!o)
+      )
 
       ctx.logger.debug.log(`find Options %O`, {
         events,
         ids,
         search,
         emptyEvents,
+        onlyDeleted,
+        onlyUnshared,
         ...findOptions,
       });
 
@@ -51,7 +60,8 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
               .leftJoinAndSelect("link.creator", "creator")
               .leftJoinAndSelect("link.image", "image")
               .leftJoinAndSelect("link.events", "events")
-              .leftJoinAndSelect("link.keywords", "keywords"),
+              .leftJoinAndSelect("link.keywords", "keywords")
+              .leftJoinAndSelect(leftJoinSocialPosts('links'), "socialPosts", 'link.id = "socialPosts"."socialPosts_entity"'),
             (q) => {
               if (O.isSome(search)) {
                 return q.where(
@@ -104,6 +114,10 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
                 }
               }
 
+              if (O.isSome(onlyUnshared)) {
+                q.andWhere('"socialPosts_spCount" < 1 OR "socialPosts_spCount" IS NULL')
+              }
+
               return q;
             },
             (q) => {
@@ -113,11 +127,11 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
               return q;
             },
             (q) => {
-              // ctx.logger.debug.log(
-              //   "Get links query %s, %O",
-              //   q.getSql(),
-              //   q.getParameters()
-              // );
+              ctx.logger.debug.log(
+                "Get links query %s, %O",
+                q.getSql(),
+                q.getParameters()
+              );
               return q
                 .skip(findOptions.skip)
                 .take(findOptions.take)
@@ -136,6 +150,7 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
               creator: (r.creator?.id as any) ?? null,
               events: r.events.map((e) => e.id) as any[],
               keywords: r.keywords.map((e) => e.id) as any[],
+              socialPosts: (r.socialPosts ?? []).map(s => s.id) as any[]
             })),
             A.traverse(E.Applicative)(toLinkIO),
             E.map((data) => ({ data, total })),

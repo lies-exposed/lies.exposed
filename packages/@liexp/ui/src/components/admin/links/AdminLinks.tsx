@@ -30,6 +30,7 @@ import {
   type RaRecord,
 } from "react-admin";
 import { Box, Grid, Toolbar } from "../../mui";
+import { SocialPostFormTabContent } from '../SocialPost/SocialPostFormTabContent';
 import { DangerZoneField } from "../common/DangerZoneField";
 import { EditForm } from "../common/EditForm";
 import URLMetadataInput from "../common/URLMetadataInput";
@@ -55,6 +56,7 @@ const linksFilter = [
   // </ReferenceArrayInput>,
   <BooleanInput key="emptyEvents" source="emptyEvents" alwaysOn />,
   <BooleanInput key="onlyDeleted" source="onlyDeleted" alwaysOn />,
+  <BooleanInput key="onlyUnshared" source="onlyUnshared" alwaysOn />,
 ];
 
 export const LinkListActions: React.FC = () => {
@@ -109,6 +111,10 @@ export const LinkDatagrid: React.FC<DatagridProps> = (props) => {
       <FunctionField
         label="resources.links.fields.events_length"
         render={(r: any | undefined) => r?.events?.length ?? "-"}
+      />
+      <FunctionField
+        label="resources.links.fields.social_posts_length"
+        render={(r: any | undefined) => r?.socialPosts?.length ?? "-"}
       />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />
@@ -269,6 +275,9 @@ export const LinkEdit: React.FC = () => {
               <TextField source="payload.event.payload.title" />
             </Datagrid>
           </ReferenceManyField>
+        </FormTab>
+        <FormTab label="Social Posts">
+          <SocialPostFormTabContent type='links' source="id" />
         </FormTab>
       </TabbedForm>
     </EditForm>

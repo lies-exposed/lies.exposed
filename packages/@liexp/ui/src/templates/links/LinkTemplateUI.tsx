@@ -40,6 +40,7 @@ export const LinkTemplateUI: React.FC<LinkTemplateUIProps> = ({
                 updatedAt: new Date(),
                 deletedAt: undefined,
                 extra: undefined,
+                socialPosts: undefined,
               }}
               itemStyle={{ maxHeight: 200, minHeight: 200, width: "100%" }}
               disableZoom

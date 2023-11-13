@@ -1,4 +1,4 @@
-import { type MediaExtra, MediaType } from "@liexp/shared/lib/io/http/Media";
+import { MediaType, type MediaExtra } from "@liexp/shared/lib/io/http/Media";
 import { type UUID } from "io-ts-types/lib/UUID";
 import {
   Column,
@@ -16,6 +16,7 @@ import { AreaEntity } from "./Area.entity";
 import { EventV2Entity } from "./Event.v2.entity";
 import { KeywordEntity } from "./Keyword.entity";
 import { LinkEntity } from "./Link.entity";
+import { type SocialPostEntity } from './SocialPost.entity';
 import { StoryEntity } from "./Story.entity";
 import { UserEntity } from "./User.entity";
 
@@ -85,6 +86,8 @@ export class MediaEntity {
     cascade: false,
   })
   keywords: KeywordEntity[];
+
+  socialPosts?: SocialPostEntity[]
 
   @CreateDateColumn()
   createdAt: Date;

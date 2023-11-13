@@ -15,6 +15,7 @@ export const PatentEventArb = getArbitrary(
       "links",
       "keywords",
       "payload",
+      "socialPosts",
       "createdAt",
       "updatedAt",
       "deletedAt",
@@ -32,6 +33,7 @@ export const PatentEventArb = getArbitrary(
   media: fc.sample(fc.uuid(), 5) as any[],
   keywords: fc.sample(fc.uuid(), 5) as any[],
   links: fc.sample(fc.uuid(), 5) as any[],
+  socialPosts: [],
   payload: {
     title: fc.sample(fc.string(), 1)[0],
     owners: { groups: [], actors: [] },

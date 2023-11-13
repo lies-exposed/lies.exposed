@@ -29,6 +29,8 @@ export const MakeGetListDeathEventRoute: Route = (r, ctx) => {
         emptyKeywords,
         emptyLinks,
         emptyMedia,
+        spCount,
+        onlyUnshared,
         ...query
       },
     }) => {
@@ -48,6 +50,8 @@ export const MakeGetListDeathEventRoute: Route = (r, ctx) => {
           withDrafts: O.getOrElse(() => false)(withDrafts),
           emptyLinks,
           emptyMedia,
+          spCount,
+          onlyUnshared,
           ...ormOptions,
         }),
         TE.chain(({ results, totals: { deaths } }) =>

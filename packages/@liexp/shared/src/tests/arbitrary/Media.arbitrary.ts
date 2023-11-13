@@ -17,6 +17,7 @@ const mediaProps = propsOmit(http.Media.Media, [
   "keywords",
   "areas",
   "featuredIn",
+  "socialPosts"
 ]);
 
 export const placeKitten = (): string => {
@@ -43,6 +44,7 @@ export const MediaArb: tests.fc.Arbitrary<http.Media.Media> = tests
           type: "image/png",
           creator: undefined,
           extra: undefined,
+          socialPosts: undefined,
           location,
           thumbnail,
           id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,

@@ -13,6 +13,7 @@ import {
   useGetIdentity,
   usePermissions,
   type ListProps,
+  NumberInput,
 } from "react-admin";
 import { Box, Typography, amber } from "../../mui";
 import { toFormattedDuration } from "./DurationField";
@@ -25,6 +26,8 @@ const mediaFilters = [
   <TextInput key="description" source="description" alwaysOn size="small" />,
   <BooleanInput key="emptyEvents" source="emptyEvents" alwaysOn size="small" />,
   <BooleanInput key="emptyLinks" source="emptyLinks" alwaysOn size="small" />,
+  <BooleanInput key="onlyUnshared" source="onlyUnshared" alwaysOn size="small" />,
+  <NumberInput key="spCount" label="Social Post Count" source="spCount" size="small" />,
   <MediaTypeInput key="type" source="type" alwaysOn size="small" />,
   <BooleanInput key="deletedOnly" source="deletedOnly" alwaysOn size="small" />,
 ];
@@ -106,6 +109,12 @@ export const MediaDataGrid: React.FC = () => {
         label="links"
         render={(r: any) => {
           return r.links.length;
+        }}
+      />
+      <FunctionField
+        label="social_posts"
+        render={(r: any) => {
+          return r.socialPosts?.length ?? 0;
         }}
       />
 

@@ -17,7 +17,7 @@ import {
   useRecordContext,
   useRefresh,
   type EditProps,
-  type FieldProps
+  type FieldProps,
 } from "react-admin";
 import { transformMedia } from "../../../client/admin/MediaAPI";
 import { Box, Button, Grid, alpha } from "../../mui";
@@ -180,7 +180,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
       <TabbedForm
         toolbar={<MediaEditToolbar />}
         style={{
-          background: record?.deletedAt ? alpha("#ff0000", .3) : undefined,
+          background: record?.deletedAt ? alpha("#ff0000", 0.3) : undefined,
         }}
       >
         <FormTab label="general">
@@ -202,12 +202,24 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
               <TextInput source="description" fullWidth multiline />
               <Box>
                 <Box>
-                  <DateField label="Updated At" source="updatedAt" showTime={true} />
+                  <DateField
+                    label="Updated At"
+                    source="updatedAt"
+                    showTime={true}
+                  />
                 </Box>
                 <Box>
-                <DateField label="Created At" source="createdAt" showTime={true} />
+                  <DateField
+                    label="Created At"
+                    source="createdAt"
+                    showTime={true}
+                  />
                 </Box>
-                <DateField label="Deleted At" source="deletedAt" showTime={true} />
+                <DateField
+                  label="Deleted At"
+                  source="deletedAt"
+                  showTime={true}
+                />
               </Box>
             </Grid>
           </Grid>
@@ -224,11 +236,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
           <ReferenceLinkTab source="links" />
         </FormTab>
         <FormTab label="social posts">
-          <SocialPostFormTabContent
-            target="entity"
-            source="id"
-            type={"media"}
-          />
+          <SocialPostFormTabContent type="media" source="id" />
         </FormTab>
       </TabbedForm>
     </EditForm>

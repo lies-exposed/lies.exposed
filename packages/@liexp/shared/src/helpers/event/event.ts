@@ -165,6 +165,7 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
     keywords: e.keywords,
     links: e.links,
     areas: [],
+    socialPosts: []
   };
 
   switch (e.type) {

@@ -29,7 +29,7 @@ describe("List Media", () => {
 
     await throwTE(
       Test.ctx.db.save(EventV2Entity, [
-        { ...event, links: [], media: [{ id: media[0].id }], keywords: [] },
+        { ...event, socialPosts: undefined, links: [], media: [{ id: media[0].id }], keywords: [] },
       ]),
     );
   });
@@ -75,6 +75,7 @@ describe("List Media", () => {
       extra,
       description,
       label,
+      socialPosts,
       ...expectedMedia
     } = media[0] as any;
 
