@@ -151,6 +151,7 @@ describe("Edit Event", () => {
         ...event.payload,
         ...eventData.payload,
       },
+      socialPosts: [],
       date: eventData.date,
       createdAt: event.createdAt.toISOString(),
       updatedAt: body.updatedAt,

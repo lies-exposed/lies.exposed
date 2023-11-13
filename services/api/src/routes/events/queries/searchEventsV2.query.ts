@@ -1,8 +1,15 @@
 // https://www.postgresql.org/docs/12/functions-json.html
 
 import { type DBError } from "@liexp/backend/lib/providers/orm";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
-import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
+import { fp } from "@liexp/core/lib/fp";
+import {
+  EventTypes,
+  type EventType,
+} from "@liexp/shared/lib/io/http/Events/EventType";
+import {
+  type GetSearchEventsQuery,
+  type EventTotals
+} from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
@@ -15,7 +22,8 @@ import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { type ControllerError } from "@io/ControllerError";
 import { type EventsConfig } from "@queries/config";
-import { addOrder } from "@utils/orm.utils";
+import { leftJoinSocialPosts } from "@queries/socialPosts/leftJoinSocialPosts.query";
+import { addOrder, type ORMOrder } from "@utils/orm.utils";
 
 type WhereT = "AND" | "OR";
 
@@ -128,29 +136,47 @@ export const whereGroupInArray =
     return q.setParameter("groups", groups);
   };
 
-interface SearchEventQuery {
-  ids: O.Option<string[]>;
-  actors: O.Option<string[]>;
-  groups: O.Option<string[]>;
-  groupsMembers: O.Option<string[]>;
-  keywords: O.Option<string[]>;
-  links: O.Option<string[]>;
-  media: O.Option<string[]>;
-  locations: O.Option<string[]>;
-  type: O.Option<string[]>;
-  title: O.Option<string>;
-  draft: O.Option<boolean>;
-  startDate: O.Option<Date>;
-  endDate: O.Option<Date>;
-  exclude: O.Option<string[]>;
+// interface SearchEventQuery {
+//   ids: O.Option<string[]>;
+//   actors: O.Option<string[]>;
+//   groups: O.Option<string[]>;
+//   groupsMembers: O.Option<string[]>;
+//   keywords: O.Option<string[]>;
+//   links: O.Option<string[]>;
+//   media: O.Option<string[]>;
+//   locations: O.Option<string[]>;
+//   type: O.Option<string[]>;
+//   title: O.Option<string>;
+//   draft: O.Option<boolean>;
+//   startDate: O.Option<Date>;
+//   endDate: O.Option<Date>;
+//   exclude: O.Option<string[]>;
+//   withDeleted: boolean;
+//   withDrafts: boolean;
+//   emptyMedia: O.Option<boolean>;
+//   emptyLinks: O.Option<boolean>;
+//   spCount: O.Option<number>;
+//   skip: number;
+//   take: number;
+//   order?: Record<string, "ASC" | "DESC">;
+// }
+
+type SearchEventQuery = Omit<
+  GetSearchEventsQuery,
+  | "eventType"
+  | "withDeleted"
+  | "withDrafts"
+  | "_start"
+  | "_end"
+  | "_sort"
+  | "_order"
+> & {
+  type: O.Option<EventType[]>;
   withDeleted: boolean;
   withDrafts: boolean;
-  emptyMedia: O.Option<boolean>;
-  emptyLinks: O.Option<boolean>;
   skip: number;
   take: number;
-  order?: Record<string, "ASC" | "DESC">;
-}
+} & ORMOrder;
 
 const searchQueryDefaults: SearchEventQuery = {
   ids: O.none,
@@ -160,6 +186,7 @@ const searchQueryDefaults: SearchEventQuery = {
   exclude: O.none,
   withDeleted: false,
   withDrafts: false,
+  spCount: O.none,
   keywords: O.none,
   groups: O.none,
   actors: O.none,
@@ -173,6 +200,11 @@ const searchQueryDefaults: SearchEventQuery = {
   groupsMembers: O.none,
   emptyLinks: O.none,
   emptyMedia: O.none,
+  emptyKeywords: O.none,
+  emptyActors: O.none,
+  emptyGroups: O.none,
+  onlyUnshared: O.none,
+  order: {},
 };
 
 export interface SearchEventOutput {
@@ -210,10 +242,17 @@ export const searchEventV2Query =
       draft,
       emptyLinks,
       emptyMedia,
+      spCount,
+      onlyUnshared: _onlyUnshared,
       order,
       skip,
       take,
     } = opts;
+
+    const onlyUnshared = pipe(
+      _onlyUnshared,
+      fp.O.filter((o) => !!o),
+    );
 
     const groupsMembersQuery = pipe(
       O.isSome(actors)
@@ -259,7 +298,12 @@ export const searchEventV2Query =
             .createQueryBuilder(EventV2Entity, "event")
             .leftJoinAndSelect("event.keywords", "keywords")
             .leftJoinAndSelect("event.media", "media")
-            .leftJoinAndSelect("event.links", "links"),
+            .leftJoinAndSelect("event.links", "links")
+            .leftJoinAndSelect(
+              leftJoinSocialPosts("events"),
+              "socialPosts",
+              '"socialPosts"."socialPosts_entity" = event.id',
+            ),
           (q) => {
             let hasWhere = false;
 
@@ -367,6 +411,16 @@ export const searchEventV2Query =
               });
             }
 
+            if (O.isSome(spCount)) {
+              q.andWhere('"socialPosts_spCount" >= :spCount', {
+                spCount: spCount.value,
+              });
+            } else if (O.isSome(onlyUnshared)) {
+              q.andWhere(
+                '"socialPosts_spCount" < 1 OR "socialPosts_spCount" IS NULL',
+              );
+            }
+
             if (O.isSome(draft)) {
               q.andWhere("event.draft = :draft", { draft: draft.value });
             } else if (!withDrafts) {
@@ -457,10 +511,12 @@ export const searchEventV2Query =
           },
         );
 
-        return sequenceS(TE.ApplicativePar)({
+        return sequenceS(fp.TE.ApplicativePar)({
           results: db.execQuery(async () => {
             const resultQ = searchV2Query.resultsQuery
-              .loadAllRelationIds({ relations: ["keywords", "links", "media"] })
+              .loadAllRelationIds({
+                relations: ["keywords", "links", "media"],
+              })
               .skip(skip)
               .take(take);
 
@@ -472,9 +528,21 @@ export const searchEventV2Query =
 
             const results = await resultQ.getRawAndEntities();
 
-            // logger.debug.log("Raw results %O", results);
+            // logger.debug.log("Raw results %O", results.raw);
 
-            return results.entities;
+            return results.entities.map((e) => ({
+              ...e,
+              socialPosts: results.raw
+                .filter((r) => r.event_id === e.id && !!r.socialPosts_ids)
+                .reduce((acc, r) => {
+                  r.socialPosts_ids.forEach((id: string) => {
+                    if (!acc.includes(id)) {
+                      acc.push(id);
+                    }
+                  });
+                  return acc;
+                }, []),
+            }));
           }),
           uncategorized: db.execQuery(() =>
             searchV2Query.uncategorizedCount.getCount(),

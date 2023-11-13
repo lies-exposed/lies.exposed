@@ -113,7 +113,7 @@ const run = async (): Promise<any> => {
 
   pipe(
     events,
-    fp.A.map((e) => {
+    fp.A.foldMap(fp.Void.Monoid)((e) => {
       ctx.logger.debug.log(
         "Updated event %s (%s) => %O",
         e.id,

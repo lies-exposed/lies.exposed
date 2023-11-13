@@ -35,6 +35,7 @@ import {
 import { uploadImages } from "../../../client/admin/MediaAPI";
 import { Box, Grid } from "../../mui";
 import ReactPageInput from "../ReactPageInput";
+import { SocialPostFormTabContent } from '../SocialPost/SocialPostFormTabContent';
 import { EditForm } from "../common/EditForm";
 import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput";
 import ReferenceMediaInput from "../media/input/ReferenceMediaInput";
@@ -165,6 +166,9 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
         </FormTab>
         <FormTab label="Relations">
           <StoryRelationsBox />
+        </FormTab>
+        <FormTab label="Social Posts">
+          <SocialPostFormTabContent type="stories" source='id' />
         </FormTab>
       </TabbedForm>
     </EditForm>

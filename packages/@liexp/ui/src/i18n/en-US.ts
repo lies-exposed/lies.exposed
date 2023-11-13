@@ -40,6 +40,7 @@ export default {
       name: "Link |||| Links",
       fields: {
         events_length: "N of events",
+        social_posts_length: "N of social posts"
       },
       actions: {
         update_metadata: "Update URL Metadata",

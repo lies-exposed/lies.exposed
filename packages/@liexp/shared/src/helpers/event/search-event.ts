@@ -82,6 +82,7 @@ export const getNewRelationIds = (
         media: acc.media.concat(newMediaIds),
         keywords: acc.keywords.concat(newKeywordIds),
         links: acc.links.concat(newLinkIds),
+        socialPosts: []
       };
     }),
   );

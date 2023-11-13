@@ -4,6 +4,7 @@ import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
 import { MediaEntity } from "@entities/Media.entity";
 import { type TEFlow } from "@flows/flow.types";
+import { leftJoinSocialPosts } from "@queries/socialPosts/leftJoinSocialPosts.query";
 import { addOrder, getORMOptions } from "@utils/orm.utils";
 
 const defaultQuery: http.Media.GetListMediaQuery = {
@@ -17,6 +18,8 @@ const defaultQuery: http.Media.GetListMediaQuery = {
   emptyEvents: fp.O.none,
   emptyLinks: fp.O.none,
   deletedOnly: fp.O.none,
+  spCount: fp.O.none,
+  onlyUnshared: fp.O.none,
   _sort: fp.O.some("updatedAt"),
   _order: fp.O.some("DESC"),
   _end: fp.O.some(20 as any),
@@ -38,6 +41,8 @@ export const fetchManyMedia: TEFlow<
     emptyLinks,
     deletedOnly,
     exclude,
+    spCount,
+    onlyUnshared,
     ...ormQuery
   } = q;
 
@@ -55,6 +60,11 @@ export const fetchManyMedia: TEFlow<
       .leftJoinAndSelect("media.events", "events")
       .leftJoinAndSelect("media.keywords", "keywords")
       .leftJoinAndSelect("media.links", "links")
+      .leftJoinAndSelect(
+        leftJoinSocialPosts("media"),
+        "socialPosts",
+        '"socialPosts"."socialPosts_entity" = media.id',
+      )
       .loadAllRelationIds({ relations: ["creator"] }),
     (q) => {
       let hasWhere = false;
@@ -122,6 +132,16 @@ export const fetchManyMedia: TEFlow<
         const where = hasWhere ? q.andWhere.bind(q) : q.where.bind(q);
         where("links.id IS NULL");
         hasWhere = true;
+      }
+
+      if (fp.O.isSome(spCount)) {
+        q.andWhere('"socialPosts_spCount" >= :spCount', {
+          spCount: spCount.value,
+        });
+      } else if (fp.O.isSome(onlyUnshared)) {
+        q.andWhere(
+          '"socialPosts_spCount" < 1 OR "socialPosts_spCount" IS NULL',
+        );
       }
 
       const includeDeleted = pipe(

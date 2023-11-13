@@ -191,7 +191,7 @@ describe("Create From TG Message", () => {
         ({ id, ...r }) => r,
       ) as any[];
 
-      const { creator, areas, keywords, stories, ...media } = await throwTE(
+      const { creator, areas, keywords, stories, socialPosts, ...media } = await throwTE(
         Test.ctx.db.findOneOrFail(MediaEntity, {
           where: { description: Equal(message.caption) },
         }),

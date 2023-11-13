@@ -48,7 +48,7 @@ export const EditEventForm: React.FC<React.PropsWithChildren<EditProps>> = ({
           <ReferenceLinkTab source="links" />
         </FormTab>
         <FormTab label="SocialPosts">
-          <SocialPostFormTabContent type="events" source="id" target="entity" />
+          <SocialPostFormTabContent type="events" source="id" />
         </FormTab>
         <FormTab label="Flow">
           <LazyFormTabContent tab={5}>

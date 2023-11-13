@@ -32,6 +32,7 @@ import {
   SavedQueriesList,
   TextField,
   type RaRecord as Record,
+  NumberInput,
 } from "@liexp/ui/lib/components/admin/react-admin";
 import {
   Box,
@@ -63,6 +64,8 @@ const eventsFilter = [
     size="small"
   />,
   <BooleanInput key="withDeleted" source="withDeleted" alwaysOn size="small" />,
+  <BooleanInput key="onlyUnshared" source="onlyUnshared" alwaysOn size="small" />,
+  <NumberInput key="spCount" label="Social Post Count" source="spCount" size="small" />,
   <ReferenceArrayGroupInput key="groups" source="groups" size="small" />,
   <ReferenceArrayActorInput key="actors" source="actors" />,
   <ReferenceArrayGroupMemberInput key="groupsMembers" source="groupsMembers" />,
@@ -211,6 +214,7 @@ export const EventList: React.FC = () => (
           return 0;
         }}
       />
+      <FunctionField source="socialPosts" render={(r: any) => r.socialPosts?.length ?? 0} />
       <FunctionField
         label="groupsMembers"
         source="payload"

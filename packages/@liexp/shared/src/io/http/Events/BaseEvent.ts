@@ -52,6 +52,7 @@ export const EventCommon = t.strict(
     id: UUID,
     media: t.array(UUID, "media"),
     links: t.array(UUID, "links"),
+    socialPosts: t.union([t.array(UUID), t.undefined]),
     createdAt: DateFromISOString,
     updatedAt: DateFromISOString,
     deletedAt: t.union([DateFromISOString, t.undefined], "deletedAt"),

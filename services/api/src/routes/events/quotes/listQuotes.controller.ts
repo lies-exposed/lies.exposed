@@ -35,6 +35,8 @@ export const MakeGetListQuoteRoute: Route = (r, ctx) => {
         emptyKeywords,
         emptyLinks,
         emptyMedia,
+        spCount,
+        onlyUnshared,
         ...query
       },
     }) => {
@@ -61,6 +63,8 @@ export const MakeGetListQuoteRoute: Route = (r, ctx) => {
           emptyMedia,
           withDeleted: O.getOrElse(() => false)(withDeleted),
           withDrafts: O.getOrElse(() => false)(withDrafts),
+          spCount,
+          onlyUnshared,
           ...ormOptions,
         }),
         TE.chain(({ results, totals: { quotes } }) =>

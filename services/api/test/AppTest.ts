@@ -1,13 +1,6 @@
-import { ActorEntity } from "@entities/Actor.entity";
-import { AreaEntity } from "@entities/Area.entity";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { GroupEntity } from "@entities/Group.entity";
-import { KeywordEntity } from "@entities/Keyword.entity";
-import { LinkEntity } from "@entities/Link.entity";
-import { MediaEntity } from "@entities/Media.entity";
-import { toControllerError } from "@io/ControllerError";
-import { ENV } from "@io/ENV";
+import path from "path";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider";
+import { ENV } from "@io/ENV";
 import { GeocodeProvider } from "@liexp/backend/lib/providers/geocode/geocode.provider";
 import { MakeImgProcClient } from "@liexp/backend/lib/providers/imgproc/imgproc.provider";
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider";
@@ -17,13 +10,11 @@ import { MakeSpaceProvider } from "@liexp/backend/lib/providers/space/space.prov
 import { GetLogger } from "@liexp/core/lib/logger";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { EventsConfig } from "@queries/config";
 import { getDataSource } from "@utils/data-source";
 import D from "debug";
 import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import path from "path";
 import supertest from "supertest";
 import {
   type DataSource,
@@ -37,6 +28,15 @@ import { wikipediaProviderMock } from "../__mocks__/wikipedia.mock";
 import { type RouteContext } from "../src/routes/route.types";
 import { makeApp } from "../src/server";
 import { mocks, type AppMocks } from "./mocks";
+import { ActorEntity } from "@entities/Actor.entity";
+import { AreaEntity } from "@entities/Area.entity";
+import { EventV2Entity } from "@entities/Event.v2.entity";
+import { GroupEntity } from "@entities/Group.entity";
+import { KeywordEntity } from "@entities/Keyword.entity";
+import { LinkEntity } from "@entities/Link.entity";
+import { MediaEntity } from "@entities/Media.entity";
+import { toControllerError } from "@io/ControllerError";
+import { EventsConfig } from "@queries/config";
 
 export interface AppTest {
   ctx: RouteContext;
@@ -86,7 +86,7 @@ export const initAppTest = async (): Promise<AppTest> => {
       config: {
         events: EventsConfig,
         dirs: {
-          cwd: cwd,
+          cwd,
           temp: {
             root: path.resolve(cwd, "temp"),
             media: path.resolve(cwd, "temp/media"),
@@ -134,7 +134,7 @@ export const initAppTest = async (): Promise<AppTest> => {
       ctx,
       mocks,
       utils: {
-        e2eAfterAll: () => {
+        e2eAfterAll: async () => {
           const liftFind = <E extends ObjectLiteral>(
             e: EntityTarget<E>,
           ): TE.TaskEither<Error, boolean> =>
@@ -151,7 +151,7 @@ export const initAppTest = async (): Promise<AppTest> => {
               TE.map((r) => (r.affected ?? 0) >= 0),
             );
 
-          return pipe(
+          return await pipe(
             sequenceS(TE.ApplicativePar)({
               link: liftFind(LinkEntity),
               media: liftFind(MediaEntity),

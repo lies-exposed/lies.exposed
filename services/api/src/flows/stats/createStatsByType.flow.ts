@@ -13,6 +13,7 @@ import {
   type GroupMember,
   type Media,
 } from "@liexp/shared/lib/io/http";
+import { type UUID } from '@liexp/shared/lib/io/http/Common';
 import { EventType, type SearchEvent } from "@liexp/shared/lib/io/http/Events";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
 import { sequenceS } from "fp-ts/Apply";
@@ -198,9 +199,9 @@ export const createStatsByType: TEFlow<
         ({ skip, amount }) =>
           searchEventV2Query(ctx)({
             ids: O.none,
-            actors: type === "actors" ? O.some([id]) : O.none,
-            groups: type === "groups" ? O.some([id]) : O.none,
-            keywords: type === "keywords" ? O.some([id]) : O.none,
+            actors: type === "actors" ? O.some([id as UUID]) : O.none,
+            groups: type === "groups" ? O.some([id as UUID]) : O.none,
+            keywords: type === "keywords" ? O.some([id as UUID]) : O.none,
             groupsMembers: O.none,
             links: O.none,
             locations: O.none,

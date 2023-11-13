@@ -15,6 +15,11 @@ import * as passwordUtils from "@utils/password.utils";
 export const MakeUserLoginRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(UserLogin, ({ body: { username, password } }) => {
     ctx.logger.debug.log("Login user with username or email %s", username);
+    // void pipe(
+    //   passwordUtils.hash(password),
+    //   ctx.logger.debug.logInTaskEither('Password hash %s')
+    // )()
+    ;
     return pipe(
       ctx.db.findOneOrFail(UserEntity, {
         where: [{ username }, { email: username }],
