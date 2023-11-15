@@ -15,7 +15,6 @@
     "rootDir": "./src",
     "typeRoots": [
       "../../../node_modules/@types",
-      "../backend/typings",
       "typings"
     ],
     "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
