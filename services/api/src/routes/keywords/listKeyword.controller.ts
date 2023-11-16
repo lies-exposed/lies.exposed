@@ -5,11 +5,21 @@ import { pipe } from "fp-ts/function";
 import { fetchKeywords } from "../../queries/keywords/fetchKeywords.query";
 import { toKeywordIO } from "./keyword.io";
 import { type RouteContext } from "@routes/route.types";
+import { AdminRead } from "@liexp/shared/lib/io/http/User";
+import { decodeUserFromRequest } from "@utils/authenticationHandler";
 
 export const MakeListKeywordRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(Endpoints.Keyword.List, ({ query }) => {
+  AddEndpoint(r)(Endpoints.Keyword.List, ({ query }, req) => {
+    const user = pipe(
+      decodeUserFromRequest(ctx)(req, [AdminRead.value]),
+      fp.IOE.mapLeft(() => null),
+      fp.IOE.toUnion,
+    );
+
     return pipe(
-      fetchKeywords(ctx)(query),
+      user,
+      fp.TE.fromIO,
+      fp.TE.chain((user) => fetchKeywords(ctx)(user, query)),
       fp.TE.chain(([data, total]) =>
         pipe(
           data,

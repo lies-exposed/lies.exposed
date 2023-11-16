@@ -3,10 +3,12 @@ import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { ACTORS, Actor } from "./Actor";
+import { AREAS } from './Area';
 import { UUID } from "./Common";
 import { EVENTS } from "./Events";
 import { GROUPS, Group } from "./Group";
 import { KEYWORDS, Keyword } from "./Keyword";
+import { LINKS } from './Link';
 import { MEDIA } from "./Media";
 import { GetListQuery } from "./Query";
 
@@ -49,7 +51,7 @@ export const SocialPlatform = t.union(
 export type SocialPlatform = t.TypeOf<typeof SocialPlatform>;
 
 export const SocialPostResourceType = t.union(
-  [ACTORS, GROUPS, KEYWORDS, MEDIA, EVENTS],
+  [ACTORS, GROUPS, KEYWORDS, MEDIA, EVENTS, LINKS, AREAS],
   "SocialPostResourceType",
 );
 export type SocialPostResourceType = t.TypeOf<typeof SocialPostResourceType>;
@@ -69,6 +71,7 @@ export const GetListSocialPostQuery = t.type(
   {
     ...GetListQuery.props,
     distinct: optionFromNullable(BooleanFromString),
+    type: SocialPostResourceType,
     status: optionFromNullable(SocialPostStatus),
     entity: optionFromNullable(UUID),
   },

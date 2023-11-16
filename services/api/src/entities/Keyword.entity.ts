@@ -14,6 +14,7 @@ import { EventV2Entity } from "./Event.v2.entity";
 import { LinkEntity } from "./Link.entity";
 import { MediaEntity } from "./Media.entity";
 import { StoryEntity } from "./Story.entity";
+import { SocialPostEntity } from './SocialPost.entity';
 
 @Entity("keyword")
 @Index(["tag"], { unique: true })
@@ -43,6 +44,9 @@ export class KeywordEntity {
   })
   @JoinTable()
   media: MediaEntity[];
+
+  // admin props
+  socialPosts?: SocialPostEntity[]
 
   @CreateDateColumn()
   createdAt: Date;

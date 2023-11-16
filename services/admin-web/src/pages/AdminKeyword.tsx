@@ -1,4 +1,5 @@
 import { toColor } from "@liexp/shared/lib/utils/colors";
+import { KeywordTGPostButton } from '@liexp/ui/lib/components/admin/keywords/button/KeywordTGPostButton';
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
 import {
   Create,
@@ -12,7 +13,9 @@ import {
   TextField,
   TextInput,
   useRecordContext,
+  FunctionField,
 } from "@liexp/ui/lib/components/admin/react-admin";
+import { Stack } from '@liexp/ui/lib/components/mui';
 import * as React from "react";
 
 const RESOURCE = "keywords";
@@ -28,6 +31,12 @@ export const KeywordList: React.FC<ListProps> = (props) => (
       })}
     >
       <TextField source="tag" />
+      <FunctionField
+        source="socialPosts"
+        render={(k) => {
+          return (k.socialPosts ?? []).length;
+        }}
+      />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />
     </Datagrid>
@@ -44,6 +53,11 @@ export const KeywordEdit: React.FC = () => {
   return (
     <Edit
       title={<EditTitle />}
+      actions={
+        <Stack>
+          <KeywordTGPostButton />
+        </Stack>
+      }
       transform={({ newEvents, ...r }) => {
         return {
           ...r,

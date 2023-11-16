@@ -8,7 +8,7 @@ import {
 } from "@liexp/shared/lib/io/http/Events/EventType";
 import {
   type GetSearchEventsQuery,
-  type EventTotals
+  type EventTotals,
 } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
 import { sequenceS } from "fp-ts/Apply";
@@ -22,7 +22,10 @@ import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { type ControllerError } from "@io/ControllerError";
 import { type EventsConfig } from "@queries/config";
-import { leftJoinSocialPosts } from "@queries/socialPosts/leftJoinSocialPosts.query";
+import {
+  aggregateSocialPostsPerEntry,
+  leftJoinSocialPosts,
+} from "@queries/socialPosts/leftJoinSocialPosts.query";
 import { addOrder, type ORMOrder } from "@utils/orm.utils";
 
 type WhereT = "AND" | "OR";
@@ -34,8 +37,8 @@ const getWhere = (
   return whereT === "AND"
     ? q.andWhere.bind(q)
     : whereT === "OR"
-    ? q.orWhere.bind(q)
-    : q.where.bind(q);
+      ? q.orWhere.bind(q)
+      : q.where.bind(q);
 };
 
 export const whereInTitle =
@@ -360,8 +363,8 @@ export const searchEventV2Query =
                   const whereT = hasWhereActor
                     ? "OR"
                     : hasWhere
-                    ? "AND"
-                    : undefined;
+                      ? "AND"
+                      : undefined;
                   whereGroupInArray(config.events)(q, groups.value, whereT);
                 }
 
@@ -532,16 +535,11 @@ export const searchEventV2Query =
 
             return results.entities.map((e) => ({
               ...e,
-              socialPosts: results.raw
-                .filter((r) => r.event_id === e.id && !!r.socialPosts_ids)
-                .reduce((acc, r) => {
-                  r.socialPosts_ids.forEach((id: string) => {
-                    if (!acc.includes(id)) {
-                      acc.push(id);
-                    }
-                  });
-                  return acc;
-                }, []),
+              socialPosts: aggregateSocialPostsPerEntry(
+                "event_id",
+                results.raw,
+                e,
+              ) as any[],
             }));
           }),
           uncategorized: db.execQuery(() =>

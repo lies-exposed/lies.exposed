@@ -17,18 +17,18 @@ import * as React from "react";
 import { useDataProvider, useRecordContext } from "react-admin";
 import { fetchRelations } from "../../../../state/queries/SearchEventsQuery";
 import {
-  type SocialPostButtonProps,
-  SocialPostButton,
+  SocialPostButton
 } from "../../common/SocialPostButton";
 
 export const EventSocialPostButton: React.FC<
-  Omit<SocialPostButtonProps, "onLoadSharePayloadClick"> & { id: UUID }
+  { id: UUID }
 > = ({ id }) => {
   const apiProvider = useDataProvider();
   const record = useRecordContext();
 
   return (
     <SocialPostButton
+    type="events"
       onLoadSharePayloadClick={async ({ multipleMedia }) => {
         return await apiProvider
           .getOne<Event>(`events`, { id })

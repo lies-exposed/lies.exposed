@@ -4,13 +4,10 @@ import * as React from "react";
 import { useDataProvider, useRecordContext } from "react-admin";
 import { CircularProgress } from "../../../mui";
 import {
-  type SocialPostButtonProps,
-  SocialPostButton,
+  SocialPostButton
 } from "../../common/SocialPostButton";
 
-export const LinkTGPostButton: React.FC<
-  Omit<SocialPostButtonProps, "onLoadSharePayloadClick">
-> = () => {
+export const LinkTGPostButton: React.FC = () => {
   const record = useRecordContext();
   const apiProvider = useDataProvider();
 
@@ -20,6 +17,7 @@ export const LinkTGPostButton: React.FC<
 
   return (
     <SocialPostButton
+      type="links"
       onLoadSharePayloadClick={async () => {
         const url = `${process.env.WEB_URL}/links/${record.id}`;
 

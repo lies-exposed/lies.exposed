@@ -6,6 +6,13 @@ import { pipe } from "fp-ts/function";
 import { KeywordEntity } from "@entities/Keyword.entity";
 import { type RouteContext } from "@routes/route.types";
 import { getORMOptions } from "@utils/orm.utils";
+import { TEFlow } from "@flows/flow.types";
+import { User } from "@liexp/shared/lib/io/http";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
+import {
+  aggregateSocialPostsPerEntry,
+  leftJoinSocialPosts,
+} from "@queries/socialPosts/leftJoinSocialPosts.query";
 
 // import * as O from 'fp-ts/Option'
 
@@ -18,11 +25,13 @@ const defaultQuery: http.Keyword.GetKeywordListQuery = {
   _order: O.some("DESC"),
   _sort: O.some("createdAt"),
 };
-export const fetchKeywords =
-  ({ db, env, logger }: RouteContext) =>
-  (
-    query: Partial<http.Keyword.GetKeywordListQuery>,
-  ): TE.TaskEither<DBError, [KeywordEntity[], number]> => {
+
+export const fetchKeywords: TEFlow<
+  [User.User | null, Partial<http.Keyword.GetKeywordListQuery>],
+  [KeywordEntity[], number]
+> =
+  ({ db, env, logger }) =>
+  (user, query): TE.TaskEither<DBError, [KeywordEntity[], number]> => {
     const q = { ...defaultQuery, ...query };
 
     const { ids, search, events, ...otherQuery } = q;
@@ -31,8 +40,20 @@ export const fetchKeywords =
 
     logger.debug.log(`Find Options %O`, findOptions);
 
+    const isAdmin = user ? checkIsAdmin(user.permissions) : false;
+
     return pipe(
       db.manager.createQueryBuilder(KeywordEntity, "keyword"),
+      (q) => {
+        if (isAdmin) {
+          q.leftJoinAndSelect(
+            leftJoinSocialPosts("keywords"),
+            "socialPosts",
+            'keyword.id = "socialPosts"."socialPosts_entity"',
+          );
+        }
+        return q;
+      },
       (q) => {
         if (O.isSome(ids)) {
           return q.where(`keyword.id IN (:...ids)`, {
@@ -58,7 +79,22 @@ export const fetchKeywords =
           .orderBy("keyword.updatedAt", "DESC");
       },
       (q) => {
-        return db.execQuery(() => q.getManyAndCount());
+        return db.execQuery(async () => {
+          if (isAdmin) {
+            const results = await q.getRawAndEntities();
+            const count = await q.getCount();
+            const entities = results.entities.map((e) => ({
+              ...e,
+              socialPosts: aggregateSocialPostsPerEntry(
+                "keyword_id",
+                results.raw,
+                e,
+              ) as any[],
+            }));
+            return [entities, count];
+          }
+          return q.getManyAndCount();
+        });
       },
     );
   };

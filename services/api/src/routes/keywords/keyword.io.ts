@@ -11,6 +11,7 @@ export const toKeywordIO = (
   return pipe(
     io.http.Keyword.Keyword.decode({
       ...keyword,
+      socialPosts: keyword.socialPosts ?? [],
       color: keyword.color ? toColor(keyword.color) : "000000",
       createdAt: keyword.createdAt.toISOString(),
       updatedAt: keyword.updatedAt.toISOString(),

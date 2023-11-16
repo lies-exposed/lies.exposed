@@ -1,6 +1,7 @@
 import { fp } from "@liexp/core/lib/fp";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
 import { AdminRead } from "@liexp/shared/lib/io/http/User";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
 import { type Router } from "express";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
@@ -12,6 +13,10 @@ import { type RouteContext } from "../route.types";
 import { toAreaIO } from "./Area.io";
 import { AreaEntity } from "@entities/Area.entity";
 import { toControllerError } from "@io/ControllerError";
+import {
+  aggregateSocialPostsPerEntry,
+  leftJoinSocialPosts,
+} from "@queries/socialPosts/leftJoinSocialPosts.query";
 import { decodeUserFromRequest } from "@utils/authenticationHandler";
 import { getORMOptions } from "@utils/orm.utils";
 
@@ -30,6 +35,10 @@ export const MakeListAreaRoute = (r: Router, ctx: RouteContext): void => {
         fp.IOE.toUnion,
       )();
 
+      const isAdmin = user?.permissions
+        ? checkIsAdmin(user.permissions)
+        : false;
+
       const findT = pipe(
         IOE.tryCatch(() => {
           return pipe(
@@ -37,6 +46,16 @@ export const MakeListAreaRoute = (r: Router, ctx: RouteContext): void => {
               .createQueryBuilder(AreaEntity, "area")
               .select()
               .leftJoinAndSelect("area.media", "media"),
+            (q) => {
+              if (isAdmin) {
+                q.leftJoinAndSelect(
+                  leftJoinSocialPosts("areas"),
+                  "socialPosts",
+                  'area.id = "socialPosts"."socialPosts_entity"',
+                );
+              }
+              return q;
+            },
             (q) => {
               if (O.isSome(search)) {
                 return q.where(
@@ -85,7 +104,24 @@ export const MakeListAreaRoute = (r: Router, ctx: RouteContext): void => {
           );
         }, toControllerError),
         TE.fromIOEither,
-        TE.chain((q) => ctx.db.execQuery(() => q.getManyAndCount())),
+        TE.chain((q) =>
+          ctx.db.execQuery(async (): Promise<[AreaEntity[], number]> => {
+            if (isAdmin) {
+              const results = await q.getRawAndEntities();
+              const count = await q.getCount();
+              const entities = results.entities.map((e) => ({
+                ...e,
+                socialPosts: aggregateSocialPostsPerEntry(
+                  "area_id",
+                  results.raw,
+                  e,
+                ) as any[],
+              }));
+              return [entities, count];
+            }
+            return await q.getManyAndCount();
+          }),
+        ),
       );
 
       return pipe(

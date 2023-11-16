@@ -1,4 +1,4 @@
-import { fp } from '@liexp/core/lib/fp';
+import { fp } from "@liexp/core/lib/fp";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
 import { type Router } from "express";
 import * as A from "fp-ts/Array";
@@ -9,8 +9,11 @@ import { pipe } from "fp-ts/function";
 import { type RouteContext } from "../route.types";
 import { toLinkIO } from "./link.io";
 import { LinkEntity } from "@entities/Link.entity";
-import { toControllerError } from "@io/ControllerError";
-import { leftJoinSocialPosts } from '@queries/socialPosts/leftJoinSocialPosts.query';
+import { type ControllerError, toControllerError } from "@io/ControllerError";
+import {
+  aggregateSocialPostsPerEntry,
+  leftJoinSocialPosts,
+} from "@queries/socialPosts/leftJoinSocialPosts.query";
 import { addOrder, getORMOptions } from "@utils/orm.utils";
 
 export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
@@ -39,8 +42,8 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
       );
       const onlyUnshared = pipe(
         _onlyUnshared,
-        fp.O.filter(o => !!o)
-      )
+        fp.O.filter((o) => !!o),
+      );
 
       ctx.logger.debug.log(`find Options %O`, {
         events,
@@ -52,7 +55,10 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
         ...findOptions,
       });
 
-      const listGroupsMembersTE = TE.tryCatch(
+      const listGroupsMembersTE = TE.tryCatch<
+        ControllerError,
+        [{ entities: LinkEntity[]; raw: any[] }, number]
+      >(
         () =>
           pipe(
             ctx.db.manager
@@ -61,7 +67,11 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
               .leftJoinAndSelect("link.image", "image")
               .leftJoinAndSelect("link.events", "events")
               .leftJoinAndSelect("link.keywords", "keywords")
-              .leftJoinAndSelect(leftJoinSocialPosts('links'), "socialPosts", 'link.id = "socialPosts"."socialPosts_entity"'),
+              .leftJoinAndSelect(
+                leftJoinSocialPosts("links"),
+                "socialPosts",
+                'link.id = "socialPosts"."socialPosts_entity"',
+              ),
             (q) => {
               if (O.isSome(search)) {
                 return q.where(
@@ -115,7 +125,9 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
               }
 
               if (O.isSome(onlyUnshared)) {
-                q.andWhere('"socialPosts_spCount" < 1 OR "socialPosts_spCount" IS NULL')
+                q.andWhere(
+                  '"socialPosts_spCount" < 1 OR "socialPosts_spCount" IS NULL',
+                );
               }
 
               return q;
@@ -130,12 +142,16 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
               ctx.logger.debug.log(
                 "Get links query %s, %O",
                 q.getSql(),
-                q.getParameters()
+                q.getParameters(),
               );
-              return q
-                .skip(findOptions.skip)
-                .take(findOptions.take)
-                .getManyAndCount();
+
+              q.skip(findOptions.skip).take(findOptions.take);
+
+              return q.getRawAndEntities().then(async (results) => {
+                const count = await q.getCount();
+
+                return [results, count];
+              });
             },
           ),
         toControllerError,
@@ -143,6 +159,17 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
 
       return pipe(
         listGroupsMembersTE,
+        TE.map(([{ entities, raw }, count]): [LinkEntity[], number] => [
+          entities.map((e) => ({
+            ...e,
+            socialPosts: aggregateSocialPostsPerEntry(
+              "link_id",
+              raw,
+              e,
+            ) as any[],
+          })),
+          count,
+        ]),
         TE.chainEitherK(([results, total]) =>
           pipe(
             results.map((r) => ({
@@ -150,7 +177,7 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
               creator: (r.creator?.id as any) ?? null,
               events: r.events.map((e) => e.id) as any[],
               keywords: r.keywords.map((e) => e.id) as any[],
-              socialPosts: (r.socialPosts ?? []).map(s => s.id) as any[]
+              socialPosts: (r.socialPosts ?? []),
             })),
             A.traverse(E.Applicative)(toLinkIO),
             E.map((data) => ({ data, total })),
