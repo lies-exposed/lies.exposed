@@ -55,7 +55,7 @@
     "@testing-library/dom": "^9.3.3",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.5.1",
-    "@types/debug": "^4.1.11",
+    "@types/debug": "^4.1.12",
     "@types/lodash": "^4.14.201",
     "@types/node": "^18.18.9",
     "@types/prettier": "^3.0.0",
