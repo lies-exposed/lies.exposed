@@ -1,6 +1,7 @@
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as Eq from "fp-ts/Eq";
+import * as IO from 'fp-ts/IO';
 import * as IOE from "fp-ts/IOEither";
 import * as Json from "fp-ts/Json";
 import * as Map from "fp-ts/Map";
@@ -25,6 +26,7 @@ export const fp = {
   NEA,
   R,
   S,
+  IO,
   IOE,
   N,
   Ord,

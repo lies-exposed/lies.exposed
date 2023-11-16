@@ -1,10 +1,10 @@
-import { Area, type Media } from "@liexp/shared/lib/io/http";
+import { type Area, type Media } from "@liexp/shared/lib/io/http";
+import { getTextContentsCapped } from "@liexp/shared/lib/slate";
 import { formatDate, parseISO } from "@liexp/shared/lib/utils/date";
 import * as React from "react";
 import { useDataProvider, useRecordContext } from "react-admin";
 import { CircularProgress } from "../../../mui";
 import { SocialPostButton } from "../../common/SocialPostButton";
-import { getTextContentsCapped } from "@liexp/shared/src/slate";
 
 export const AreaTGPostButton: React.FC = () => {
   const record = useRecordContext<Area.Area>();

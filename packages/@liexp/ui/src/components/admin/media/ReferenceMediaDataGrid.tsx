@@ -1,12 +1,10 @@
 import * as React from "react";
 import {
-  Datagrid,
   ReferenceArrayField,
-  type ReferenceArrayFieldProps,
-  TextField,
   type RaRecord,
+  type ReferenceArrayFieldProps
 } from "react-admin";
-import { MediaField } from "./MediaField";
+import { MediaDataGrid } from './MediaList';
 
 export const ReferenceMediaDataGrid: React.FC<
   Omit<ReferenceArrayFieldProps<RaRecord<string>>, "children" | "reference">
@@ -20,12 +18,7 @@ export const ReferenceMediaDataGrid: React.FC<
       sortByOrder="DESC"
       fullWidth={true}
     >
-      <Datagrid rowClick="edit" width="100%">
-        <TextField source="id" />
-        <MediaField source="thumbnail" controls={false} />
-        <TextField source="label" />
-        <TextField source="description" />
-      </Datagrid>
+      <MediaDataGrid />
     </ReferenceArrayField>
   );
 };

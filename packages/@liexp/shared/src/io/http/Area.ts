@@ -14,7 +14,9 @@ export const ListAreaQuery = t.type({
   q: optionFromNullable(t.string),
   ids: optionFromNullable(t.array(UUID)),
   draft: optionFromNullable(BooleanFromString),
-});
+}, 'ListAreaQuery');
+
+export type ListAreaQuery = t.TypeOf<typeof ListAreaQuery>
 
 export const CreateAreaBody = t.strict(
   {

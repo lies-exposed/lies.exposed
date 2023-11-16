@@ -263,6 +263,7 @@ export const createStatsByType: TEFlow<
                           events: [],
                           links: [],
                           media: [],
+                          socialPosts: []
                         },
                       ]),
                     ),

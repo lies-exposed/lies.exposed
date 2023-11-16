@@ -11,16 +11,16 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { UUID } from "io-ts-types/lib/UUID";
 import { type DeepPartial } from "typeorm";
-import { fetchActors } from "../../../queries/actors/fetchActors.query";
-import { fetchGroups } from "../../../queries/groups/fetchGroups.query";
-import { fetchKeywords } from "../../../queries/keywords/fetchKeywords.query";
-import { fetchManyMedia } from "../../../queries/media/fetchManyMedia.query";
 import { type ActorEntity } from "@entities/Actor.entity";
 import { type GroupEntity } from "@entities/Group.entity";
 import { type KeywordEntity } from "@entities/Keyword.entity";
 import { type LinkEntity } from "@entities/Link.entity";
 import { type MediaEntity } from "@entities/Media.entity";
 import { ServerError } from "@io/ControllerError";
+import { fetchActors } from "@queries/actors/fetchActors.query";
+import { fetchGroups } from "@queries/groups/fetchGroups.query";
+import { fetchKeywords } from "@queries/keywords/fetchKeywords.query";
+import { fetchManyMedia } from "@queries/media/fetchManyMedia.query";
 import { type RouteContext } from "@routes/route.types";
 
 export const fetchLinksT =
@@ -138,6 +138,7 @@ export const fetchRelations =
       media: O.Option<UUID[]>;
       groupsMembers: O.Option<UUID[]>;
     },
+    isAdmin: boolean
   ): TE.TaskEither<
     DBError,
     {
@@ -185,7 +186,7 @@ export const fetchRelations =
                 input.keywords,
                 fp.O.map((a) => a.length as any),
               ),
-            }),
+            }, isAdmin),
             fp.TE.map(([results]) => results),
           )
         : TE.right([]),

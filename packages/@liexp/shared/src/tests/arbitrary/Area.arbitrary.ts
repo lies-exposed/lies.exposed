@@ -2,7 +2,7 @@ import * as tests from "@liexp/test";
 import * as t from "io-ts";
 import * as http from "../../io/http";
 
-const { createdAt, updatedAt, id, media, geometry, body, slug, ...areaProps } =
+const { createdAt, updatedAt, id, media, geometry, body, slug, socialPosts, ...areaProps } =
   http.Area.Area.type.props;
 
 export const AreaArb: tests.fc.Arbitrary<http.Area.Area> = tests
@@ -24,6 +24,7 @@ export const AreaArb: tests.fc.Arbitrary<http.Area.Area> = tests
       }),
       1,
     )[0],
+    socialPosts: [],
     createdAt: new Date(),
     updatedAt: new Date(),
   }));

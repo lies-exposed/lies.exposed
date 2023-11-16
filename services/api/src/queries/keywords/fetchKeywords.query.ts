@@ -4,17 +4,12 @@ import * as O from "fp-ts/Option";
 import type * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { KeywordEntity } from "@entities/Keyword.entity";
-import { type RouteContext } from "@routes/route.types";
-import { getORMOptions } from "@utils/orm.utils";
-import { TEFlow } from "@flows/flow.types";
-import { User } from "@liexp/shared/lib/io/http";
-import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
+import { type TEFlow } from "@flows/flow.types";
 import {
   aggregateSocialPostsPerEntry,
   leftJoinSocialPosts,
 } from "@queries/socialPosts/leftJoinSocialPosts.query";
-
-// import * as O from 'fp-ts/Option'
+import { getORMOptions } from "@utils/orm.utils";
 
 const defaultQuery: http.Keyword.GetKeywordListQuery = {
   ids: O.none,
@@ -27,11 +22,11 @@ const defaultQuery: http.Keyword.GetKeywordListQuery = {
 };
 
 export const fetchKeywords: TEFlow<
-  [User.User | null, Partial<http.Keyword.GetKeywordListQuery>],
+  [Partial<http.Keyword.GetKeywordListQuery>, boolean],
   [KeywordEntity[], number]
 > =
   ({ db, env, logger }) =>
-  (user, query): TE.TaskEither<DBError, [KeywordEntity[], number]> => {
+  ( query, isAdmin): TE.TaskEither<DBError, [KeywordEntity[], number]> => {
     const q = { ...defaultQuery, ...query };
 
     const { ids, search, events, ...otherQuery } = q;
@@ -39,8 +34,6 @@ export const fetchKeywords: TEFlow<
     const findOptions = getORMOptions(otherQuery, env.DEFAULT_PAGE_SIZE);
 
     logger.debug.log(`Find Options %O`, findOptions);
-
-    const isAdmin = user ? checkIsAdmin(user.permissions) : false;
 
     return pipe(
       db.manager.createQueryBuilder(KeywordEntity, "keyword"),
@@ -93,7 +86,7 @@ export const fetchKeywords: TEFlow<
             }));
             return [entities, count];
           }
-          return q.getManyAndCount();
+          return await q.getManyAndCount();
         });
       },
     );

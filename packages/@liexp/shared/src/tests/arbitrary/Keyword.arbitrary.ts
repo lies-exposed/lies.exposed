@@ -38,6 +38,7 @@ export const KeywordArb = fc.record({
   id: fc.uuidV(4) as fc.Arbitrary<any>,
   tag: TagArb() as fc.Arbitrary<any>,
   color: ColorArb,
+  socialPosts: fc.constant([]),
   createdAt: DateArb,
   updatedAt: DateArb,
 });
