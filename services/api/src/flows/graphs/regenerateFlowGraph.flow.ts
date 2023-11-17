@@ -16,7 +16,7 @@ const deleteFlowGraph: TEFlow<[FlowGraphType, UUID], void> =
 
 
 
-export const regenerateFlowGraph: TEFlow<[FlowGraphType, UUID], FlowGraphOutput> = (ctx) => (type, id) => {
+export const regenerateFlowGraph: TEFlow<[FlowGraphType, UUID, boolean], FlowGraphOutput> = (ctx) => (type, id, isAdmin) => {
   return pipe(
     deleteFlowGraph(ctx)(type, id),
     fp.TE.chain(() => createFlowGraph(ctx)(type, id, {
@@ -28,7 +28,7 @@ export const regenerateFlowGraph: TEFlow<[FlowGraphType, UUID], FlowGraphOutput>
       actors: fp.O.none,
       keywords: fp.O.none,
       emptyRelations: fp.O.none,
-    })
+    }, isAdmin)
     )
   );
 };

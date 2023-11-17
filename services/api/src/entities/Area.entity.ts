@@ -11,6 +11,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { MediaEntity } from "./Media.entity";
+import { type SocialPostEntity } from './SocialPost.entity';
 
 @Entity("area")
 @Index(["slug"])
@@ -41,6 +42,9 @@ export class AreaEntity {
   @ManyToMany(() => MediaEntity, (m) => m.areas)
   @JoinTable()
   media: MediaEntity[];
+
+  // admin props
+  socialPosts?: SocialPostEntity[]
 
   @CreateDateColumn()
   createdAt: Date;

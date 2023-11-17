@@ -7,6 +7,9 @@ import { URL, UUID } from "./Common";
 import { CreateMedia, MediaType } from "./Media";
 import { GetListQuery } from "./Query";
 
+export const LINKS = t.literal('links');
+export type LINKS = t.TypeOf<typeof LINKS>;
+
 export const GetListLinkQuery = t.type(
   {
     ...GetListQuery.props,

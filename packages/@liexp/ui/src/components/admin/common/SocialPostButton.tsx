@@ -1,6 +1,6 @@
 import { getShareMedia } from "@liexp/shared/lib/helpers/event";
 import { type Media } from "@liexp/shared/lib/io/http";
-import { type CreateSocialPost } from "@liexp/shared/lib/io/http/SocialPost";
+import { type SocialPostResourceType, type CreateSocialPost } from "@liexp/shared/lib/io/http/SocialPost";
 import * as React from "react";
 import {
   useRecordContext,
@@ -13,8 +13,10 @@ import { ShareModal, emptySharePayload } from "../Modal/ShareModal";
 interface OnLoadSharePayloadClickOpts {
   multipleMedia: boolean;
 }
+
 export interface SocialPostButtonProps extends FieldProps {
   id?: Identifier;
+  type: SocialPostResourceType
   onLoadSharePayloadClick: (opts: OnLoadSharePayloadClickOpts) => Promise<
     Omit<CreateSocialPost, "media"> & {
       media: Media.Media[];
@@ -23,6 +25,7 @@ export interface SocialPostButtonProps extends FieldProps {
 }
 
 export const SocialPostButton: React.FC<SocialPostButtonProps> = ({
+  type,
   onLoadSharePayloadClick,
 }) => {
   const record = useRecordContext();
@@ -61,7 +64,7 @@ export const SocialPostButton: React.FC<SocialPostButtonProps> = ({
         <ShareModal
           id={record.id}
           open={!!payload.title}
-          type="events"
+          type={type}
           payload={payload}
           media={media}
           multipleMedia={multipleMedia}

@@ -13,6 +13,7 @@ import {
 import { EventV2Entity } from "./Event.v2.entity";
 import { LinkEntity } from "./Link.entity";
 import { MediaEntity } from "./Media.entity";
+import { type SocialPostEntity } from './SocialPost.entity';
 import { StoryEntity } from "./Story.entity";
 
 @Entity("keyword")
@@ -43,6 +44,9 @@ export class KeywordEntity {
   })
   @JoinTable()
   media: MediaEntity[];
+
+  // admin props
+  socialPosts?: SocialPostEntity[]
 
   @CreateDateColumn()
   createdAt: Date;

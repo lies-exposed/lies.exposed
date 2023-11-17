@@ -323,72 +323,71 @@ export interface Graph {
 }
 
 export const createNetworkGraph: TEFlow<
-  [NetworkType, UUID[], GetNetworkQuery],
+  [NetworkType, UUID[], GetNetworkQuery, boolean],
   NetworkGraphOutput
-> =
-  (ctx) =>
-  (
+> = (ctx) => (type, ids, networkQuery, isAdmin) => {
+  const {
+    relations: _relations,
+    emptyRelations,
+    actors,
+    groups,
+    keywords,
+    startDate,
+    endDate,
+  } = networkQuery;
+
+  const relations = pipe(
+    _relations,
+    O.getOrElse((): NetworkGroupBy[] => []),
+  );
+
+  ctx.logger.debug.log("Getting network for %O", {
     type,
     ids,
-    {
-      relations: _relations,
-      emptyRelations,
-      actors,
-      groups,
-      keywords,
-      startDate,
-      endDate,
-    },
-  ) => {
-    const relations = pipe(
-      _relations,
-      O.getOrElse((): NetworkGroupBy[] => []),
-    );
+    actors,
+    groups,
+    keywords,
+    startDate,
+    endDate,
+  });
 
-    ctx.logger.debug.log("Getting network for %O", {
-      type,
-      ids,
-      actors,
-      groups,
-      keywords,
-      startDate,
-      endDate,
-    });
+  const keywordIds = pipe(
+    keywords,
+    O.fold(
+      () => [],
+      (): UUID[] => [],
+    ),
+  );
 
-    const keywordIds = pipe(
-      keywords,
+  const networkId = uniqueId.hash({
+    ids,
+    relations,
+    actors: pipe(
+      actors,
       O.fold(
         () => [],
         (): UUID[] => [],
       ),
-    );
+    ),
+    groups: pipe(
+      groups,
+      O.fold(
+        () => [],
+        (): UUID[] => [],
+      ),
+    ),
+    keywords: keywordIds,
+  });
 
-    const networkId = uniqueId.hash({
+  const filePath = ctx.fs.resolve(`temp/networks/${type}/${networkId}.json`);
+
+  ctx.logger.debug.log("Creating graph for %s => %s", type, ids);
+
+  const createNetworkGraphTask = pipe(
+    fetchEventsWithRelations(ctx)(
+      type,
       ids,
-      relations,
-      actors: pipe(
-        actors,
-        O.fold(
-          () => [],
-          (): UUID[] => [],
-        ),
-      ),
-      groups: pipe(
-        groups,
-        O.fold(
-          () => [],
-          (): UUID[] => [],
-        ),
-      ),
-      keywords: keywordIds,
-    });
-
-    const filePath = ctx.fs.resolve(`temp/networks/${type}/${networkId}.json`);
-
-    ctx.logger.debug.log("Creating graph for %s => %s", type, ids);
-
-    const createNetworkGraphTask = pipe(
-      fetchEventsWithRelations(ctx)(type, ids, {
+      {
         ids: O.none,
         actors:
           type === ACTORS.value
@@ -418,48 +417,50 @@ export const createNetworkGraph: TEFlow<
         endDate: O.none,
         relations: O.some(relations),
         emptyRelations: O.none,
-      }),
-      TE.map(({ events: _events, actors, groups, keywords, media }) => {
-        ctx.logger.debug.log(`Total events fetched %d`, _events.length);
-        ctx.logger.debug.log(
-          `Fetch actors (%d), groups (%d), keywords (%d)`,
-          actors.length,
-          groups.length,
-          keywords.length,
-        );
+      },
+      isAdmin,
+    ),
+    TE.map(({ events: _events, actors, groups, keywords, media }) => {
+      ctx.logger.debug.log(`Total events fetched %d`, _events.length);
+      ctx.logger.debug.log(
+        `Fetch actors (%d), groups (%d), keywords (%d)`,
+        actors.length,
+        groups.length,
+        keywords.length,
+      );
 
-        const cleanedActors = cleanItemsFromSlateFields(actors);
-        const cleanedGroups = cleanItemsFromSlateFields(groups);
+      const cleanedActors = cleanItemsFromSlateFields(actors);
+      const cleanedGroups = cleanItemsFromSlateFields(groups);
 
-        const events = pipe(
-          _events,
-          fp.A.map((aa) =>
-            toSearchEvent(aa, {
-              actors: new Map(cleanedActors.map((a) => [a.id, a])),
-              groups: new Map(cleanedGroups.map((g) => [g.id, g])),
-              keywords: new Map(keywords.map((k) => [k.id, k])),
-              media: new Map(media.map((m) => [m.id, m])),
-              groupsMembers: new Map(),
-            }),
-          ),
-        );
+      const events = pipe(
+        _events,
+        fp.A.map((aa) =>
+          toSearchEvent(aa, {
+            actors: new Map(cleanedActors.map((a) => [a.id, a])),
+            groups: new Map(cleanedGroups.map((g) => [g.id, g])),
+            keywords: new Map(keywords.map((k) => [k.id, k])),
+            media: new Map(media.map((m) => [m.id, m])),
+            groupsMembers: new Map(),
+          }),
+        ),
+      );
 
-        const eventGraph = getEventGraph(type, ids, {
-          events,
-          actors: cleanedActors,
-          groups: cleanedGroups,
-          keywords,
-          media,
-          relations,
-          emptyRelations: pipe(
-            emptyRelations,
-            O.getOrElse(() => true),
-          ),
-        });
+      const eventGraph = getEventGraph(type, ids, {
+        events,
+        actors: cleanedActors,
+        groups: cleanedGroups,
+        keywords,
+        media,
+        relations,
+        emptyRelations: pipe(
+          emptyRelations,
+          O.getOrElse(() => true),
+        ),
+      });
 
-        return eventGraph;
-      })
-    );
+      return eventGraph;
+    }),
+  );
 
-    return pipe(createNetworkGraphTask, ctx.fs.getOlderThanOr(filePath));
-  };
+  return pipe(createNetworkGraphTask, ctx.fs.getOlderThanOr(filePath));
+};

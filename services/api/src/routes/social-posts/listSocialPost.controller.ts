@@ -11,23 +11,27 @@ import { addOrder, getORMOptions } from "@utils/orm.utils";
 export const MakeListSocialPostRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
     Endpoints.SocialPosts.List,
-    ({ query: { status, entity, distinct, ...query } }) => {
+    ({ query: { status, entity, distinct, type, ...query } }) => {
       const findSocialPostQuery = ctx.db.manager
         .createQueryBuilder()
         .select()
         .from(SocialPostEntity, "sp");
 
       const ormOpts = getORMOptions(query, ctx.env.DEFAULT_PAGE_SIZE);
+
+      findSocialPostQuery.where('"type" = :type', {
+        type,
+      });
       if (fp.O.isSome(status)) {
-        findSocialPostQuery.where("status = :status", { status: status.value });
+        findSocialPostQuery.andWhere("status = :status", {
+          status: status.value,
+        });
       }
 
       if (fp.O.isSome(entity)) {
-        const where = fp.O.isSome(status)
-          ? findSocialPostQuery.andWhere.bind(findSocialPostQuery)
-          : findSocialPostQuery.where.bind(findSocialPostQuery);
-
-        where("entity = :entity", { entity: entity.value });
+        findSocialPostQuery.andWhere("entity = :entity", {
+          entity: entity.value,
+        });
       }
 
       const isDistinct = pipe(
@@ -61,7 +65,10 @@ export const MakeListSocialPostRoute = (r: Router, ctx: RouteContext): void => {
             s
               .from(SocialPostEntity, "sub_sp")
               .addSelect("count(*)", "publishCount")
-              .where('"entity" = "sp"."entity"'),
+              .where('"entity" = "sp"."entity"')
+              .andWhere('"type" = :type', {
+                type,
+              }),
 
           "publishCount",
         )

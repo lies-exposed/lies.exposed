@@ -1,18 +1,25 @@
 import { toColor } from "@liexp/shared/lib/utils/colors";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
+import { KeywordTGPostButton } from "@liexp/ui/lib/components/admin/keywords/button/KeywordTGPostButton";
+import ReferenceManyLinkField from '@liexp/ui/lib/components/admin/links/ReferenceManyLinkField';
+import ReferenceManyMediaField from '@liexp/ui/lib/components/admin/media/ReferenceManyMediaField';
 import {
   Create,
-  type CreateProps,
   Datagrid,
   DateField,
   Edit,
+  FormTab,
+  FunctionField,
   List,
-  type ListProps,
   SimpleForm,
+  TabbedForm,
   TextField,
   TextInput,
   useRecordContext,
+  type CreateProps,
+  type ListProps
 } from "@liexp/ui/lib/components/admin/react-admin";
+import { Stack } from "@liexp/ui/lib/components/mui";
 import * as React from "react";
 
 const RESOURCE = "keywords";
@@ -23,11 +30,17 @@ export const KeywordList: React.FC<ListProps> = (props) => (
   <List {...props} resource={RESOURCE} filters={keywordsFilter} perPage={20}>
     <Datagrid
       rowClick="edit"
-      rowStyle={(r) => ({
+      rowSx={(r) => ({
         borderLeft: `5px solid #${r.color}`,
       })}
     >
       <TextField source="tag" />
+      <FunctionField
+        source="socialPosts"
+        render={(k) => {
+          return (k.socialPosts ?? []).length;
+        }}
+      />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />
     </Datagrid>
@@ -44,6 +57,11 @@ export const KeywordEdit: React.FC = () => {
   return (
     <Edit
       title={<EditTitle />}
+      actions={
+        <Stack>
+          <KeywordTGPostButton />
+        </Stack>
+      }
       transform={({ newEvents, ...r }) => {
         return {
           ...r,
@@ -52,10 +70,18 @@ export const KeywordEdit: React.FC = () => {
         };
       }}
     >
-      <SimpleForm>
-        <TextInput source="tag" />
-        <ColorInput source="color" />
-      </SimpleForm>
+      <TabbedForm>
+        <FormTab label="general">
+          <TextInput source="tag" />
+          <ColorInput source="color" />
+        </FormTab>
+        <FormTab label="media">
+          <ReferenceManyMediaField source="id" target="keywords[]" /> 
+        </FormTab>
+        <FormTab label="links">
+          <ReferenceManyLinkField source="id" target="keywords[]" /> 
+        </FormTab>
+      </TabbedForm>
     </Edit>
   );
 };

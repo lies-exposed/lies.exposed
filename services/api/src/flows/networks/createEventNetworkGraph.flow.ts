@@ -40,7 +40,7 @@ import { type Flow, type TEFlow } from "@flows/flow.types";
 import { toControllerError, type ControllerError } from "@io/ControllerError";
 import { toActorIO } from "@routes/actors/actor.io";
 import { toEventV2IO } from "@routes/events/eventV2.io";
-import { fetchRelations } from "@routes/events/queries/fetchEventRelations.utils";
+import { fetchRelations } from "@routes/events/queries/fetchEventRelations.query";
 import { infiniteSearchEventQuery } from "@routes/events/queries/searchEventsV2.query";
 import { toGroupIO } from "@routes/groups/group.io";
 import { toKeywordIO } from "@routes/keywords/keyword.io";
@@ -329,11 +329,11 @@ const initialResult: Result = {
 };
 
 export const createEventNetworkGraph: TEFlow<
-  [UUID],
+  [UUID,  boolean],
   NetworkGraphOutput
 > =
   (ctx) =>
-  (id) => {
+  (id, isAdmin) => {
     const filePath = path.resolve(
       ctx.config.dirs.temp.root,
       `networks/events/${id}.json`,
@@ -383,7 +383,7 @@ export const createEventNetworkGraph: TEFlow<
               media,
               O.fromPredicate((m) => m.length > 0),
             ),
-          }),
+          }, isAdmin),
           TE.map((r) => ({ event, ...r })),
         );
       }),

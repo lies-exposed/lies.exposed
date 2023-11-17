@@ -13,6 +13,7 @@ export const toProjectIO = (
       areas: project.areas.map((a) => ({
         ...a,
         media: a.media ?? [],
+        socialPosts: a.socialPosts ?? [],
         geometry: a.geometry,
         createdAt: a.createdAt.toISOString(),
         updatedAt: a.updatedAt.toISOString(),

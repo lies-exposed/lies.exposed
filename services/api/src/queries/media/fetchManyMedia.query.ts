@@ -162,12 +162,19 @@ export const fetchManyMedia: TEFlow<
       return q;
     },
     (q) => {
-      ctx.logger.debug.log(
-        "Skip %d, take %d",
-        findOptions.skip,
-        findOptions.take,
+      // ctx.logger.debug.log(
+      //   "Skip %d, take %d",
+      //   findOptions.skip,
+      //   findOptions.take,
+      // );
+
+      ctx.logger.debug.log(q.getSql(), q.getParameters());
+
+      return (
+        q
+          .skip(findOptions.skip)
+          .take(findOptions.take)
       );
-      return q.skip(findOptions.skip).take(findOptions.take);
     },
     (q) => ctx.db.execQuery(() => q.getManyAndCount()),
   );
