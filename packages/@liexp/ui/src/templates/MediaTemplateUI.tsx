@@ -5,7 +5,9 @@ import { KeywordsBox } from "../components/KeywordsBox";
 import { LinksBox } from "../components/LinksBox";
 import MediaElement from "../components/Media/MediaElement";
 import { Box, Typography } from "../components/mui";
+import EventsBox from "../containers/EventsBox";
 import { EventsPanelBox } from "../containers/EventsPanel";
+import { MediaBox } from '../containers/MediaBox';
 import { SplitPageTemplate } from "./SplitPageTemplate";
 
 export interface MediaTemplateUIProps {
@@ -14,6 +16,7 @@ export interface MediaTemplateUIProps {
   onTabChange: (t: number) => void;
   onEventClick: (e: SearchEvent) => void;
   onKeywordClick: (k: Keyword.Keyword) => void;
+  onMediaClick: (m: Media.Media) => void;
 }
 
 export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
@@ -22,6 +25,7 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
   onTabChange,
   onEventClick,
   onKeywordClick,
+  onMediaClick,
 }) => {
   return (
     <SplitPageTemplate
@@ -30,7 +34,12 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
         <Box width="100%" paddingLeft={10}>
           <MediaElement
             media={m}
-            itemStyle={{ maxHeight: 200, minHeight: 200, width: "auto" }}
+            itemStyle={{
+              maxHeight: 200,
+              minHeight: 200,
+              width: "auto",
+              maxWidth: "100%",
+            }}
             disableZoom
             options={{
               iframe: { showPlay: false },
@@ -60,9 +69,21 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
           media={m}
           enableDescription={false}
           style={{ marginBottom: 80 }}
-          itemStyle={{ maxHeight: 600, minHeight: 300 }}
+          itemStyle={{ maxHeight: 600, minHeight: 300, maxWidth: "100%" }}
         />
-        <Typography style={{ marginBottom: 20 }}>{m.description}</Typography>
+        <Box style={{ marginBottom: 100 }}>
+          <Typography variant="h4" component="h1">
+            {m.label ?? null}
+          </Typography>
+          <Typography style={{ marginBottom: 20 }}>{m.description}</Typography>
+        </Box>
+        <MediaBox filter={{ keywords: m.keywords }} onClick={onMediaClick} limit={3} />
+
+        <EventsBox
+          title="Events by keywords"
+          query={{ keywords: m.keywords, _end: 3 }}
+          onEventClick={onEventClick}
+        />
       </Box>
       <EventsPanelBox
         query={{

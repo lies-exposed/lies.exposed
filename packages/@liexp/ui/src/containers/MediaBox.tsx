@@ -14,14 +14,14 @@ export interface MediaBoxProps {
   perPage?: number;
   hideDescription?: boolean;
   disableZoom?: boolean;
-  columns?: number
+  columns?: number;
 }
 
 export const MediaBox: React.FC<MediaBoxProps> = ({
   filter,
   limit,
   onClick,
-  perPage = 100,
+  perPage = 20,
   ...props
 }) => {
   const [page, setPage] = React.useState(1);

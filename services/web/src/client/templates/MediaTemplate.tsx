@@ -37,6 +37,9 @@ const MediaTemplate: React.FC<{ mediaId: string }> = ({ mediaId }) => {
               onKeywordClick={(k) => {
                 navigateToResource.keywords({ id: k.id });
               }}
+              onMediaClick={(m) => {
+                navigateToResource.media({ id: m.id });
+              }}
             />
           </Box>
         );
