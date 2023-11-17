@@ -21,12 +21,12 @@ import { type TEFlow } from "@flows/flow.types";
 import { type ControllerError } from "@io/ControllerError";
 import { toEventV2IO } from "@routes/events/eventV2.io";
 import {
-  type SearchEventOutput,
   searchEventV2Query,
+  type SearchEventOutput,
 } from "@routes/events/queries/searchEventsV2.query";
 
 export const fetchEventsWithRelations: TEFlow<
-  [NetworkType, UUID[], GetNetworkQuery],
+  [NetworkType, UUID[], GetNetworkQuery, boolean],
   {
     events: Events.Event[];
     actors: Actor.Actor[];
@@ -36,7 +36,7 @@ export const fetchEventsWithRelations: TEFlow<
   }
 > =
   (ctx) =>
-  (type, ids, { actors, groups, keywords, startDate, endDate }) => {
+  (type, ids, { actors, groups, keywords, startDate, endDate }, isAdmin) => {
     ctx.logger.debug.log(`Fetch all events with %O`, {
       actors,
       groups,
@@ -70,6 +70,6 @@ export const fetchEventsWithRelations: TEFlow<
       TE.chainEitherK(
         flow(fp.A.map(toEventV2IO), fp.A.sequence(fp.E.Applicative)),
       ),
-      TE.chain(fetchEventsRelations(ctx)),
+      TE.chain((events) => fetchEventsRelations(ctx)(events, isAdmin)),
     );
   };

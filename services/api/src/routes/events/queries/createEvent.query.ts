@@ -4,7 +4,7 @@ import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { type DeepPartial } from "typeorm";
-import { fetchRelationIds } from "./fetchEventRelations.utils";
+import { fetchRelationIds } from "./fetchEventRelations.query";
 import { type EventV2Entity } from "@entities/Event.v2.entity";
 import { type RouteContext } from "@routes/route.types";
 

@@ -73,6 +73,12 @@ export const AreaList: React.FC<ListProps> = () => (
           return (a.media ?? []).length;
         }}
       />
+      <FunctionField
+        source="socialPosts"
+        render={(a) => {
+          return (a.socialPosts ?? []).length;
+        }}
+      />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />
     </Datagrid>

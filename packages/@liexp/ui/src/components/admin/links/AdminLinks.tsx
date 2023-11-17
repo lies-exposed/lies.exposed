@@ -7,14 +7,10 @@ import {
   Create,
   CreateButton,
   Datagrid,
-  DateField,
   DateInput,
   FormTab,
-  FunctionField,
   List,
   LoadingPage,
-  // ReferenceArrayInput,
-  ReferenceField,
   ReferenceManyField,
   SimpleForm,
   TabbedForm,
@@ -25,7 +21,6 @@ import {
   usePermissions,
   useRecordContext,
   useRefresh,
-  type DatagridProps,
   type ListProps,
   type RaRecord,
 } from "react-admin";
@@ -44,6 +39,7 @@ import { MediaField } from "../media/MediaField";
 import ReferenceMediaInput from "../media/input/ReferenceMediaInput";
 import LinkPreview from "../previews/LinkPreview";
 import ReferenceUserInput from "../user/ReferenceUserInput";
+import { LinkDataGrid } from './LinkDataGrid';
 import { LinkTGPostButton } from "./button/LinkTGPostButton";
 
 const RESOURCE = "links";
@@ -65,60 +61,6 @@ export const LinkListActions: React.FC = () => {
       <CreateButton />
       <SearchLinksButton />
     </Box>
-  );
-};
-
-export const LinkDatagrid: React.FC<DatagridProps> = (props) => {
-  const { permissions, isLoading } = usePermissions();
-
-  if (isLoading) {
-    return <LoadingPage />;
-  }
-
-  const isAdmin = checkIsAdmin(permissions);
-  return (
-    <Datagrid rowClick="edit" {...props}>
-      <FunctionField
-        render={(r: any) => {
-          return (
-            <Box style={{ display: "flex", flexDirection: "column" }}>
-              <MediaField
-                source="image.thumbnail"
-                type="image/jpeg"
-                controls={false}
-              />
-              <TextField
-                source="title"
-                style={{ fontWeight: 600, marginBottom: 5 }}
-              />
-              <TextField source="description" />
-            </Box>
-          );
-        }}
-      />
-      <DateField source="publishDate" />
-      {isAdmin && (
-        <ReferenceField source="creator" reference="users">
-          <FunctionField
-            render={(u: any) => `${u.firstName} ${u.lastName} (${u.username})`}
-          />
-        </ReferenceField>
-      )}
-      <ReferenceField source="provider" reference="groups">
-        <TextField source="name" />
-      </ReferenceField>
-
-      <FunctionField
-        label="resources.links.fields.events_length"
-        render={(r: any | undefined) => r?.events?.length ?? "-"}
-      />
-      <FunctionField
-        label="resources.links.fields.social_posts_length"
-        render={(r: any | undefined) => r?.socialPosts?.length ?? "-"}
-      />
-      <DateField source="updatedAt" />
-      <DateField source="createdAt" />
-    </Datagrid>
   );
 };
 
@@ -146,7 +88,7 @@ export const LinkList: React.FC<ListProps> = (props) => {
       actions={<LinkListActions />}
       {...props}
     >
-      <LinkDatagrid />
+      <LinkDataGrid />
     </List>
   );
 };

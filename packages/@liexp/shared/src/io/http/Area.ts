@@ -6,12 +6,17 @@ import { Geometry } from "./Common/Geometry";
 import { UUID } from "./Common/UUID";
 import { GetListQuery } from "./Query/GetListQuery";
 
+export const AREAS = t.literal('areas')
+export type AREAS = t.TypeOf<typeof AREAS>
+
 export const ListAreaQuery = t.type({
   ...GetListQuery.props,
   q: optionFromNullable(t.string),
   ids: optionFromNullable(t.array(UUID)),
   draft: optionFromNullable(BooleanFromString),
-});
+}, 'ListAreaQuery');
+
+export type ListAreaQuery = t.TypeOf<typeof ListAreaQuery>
 
 export const CreateAreaBody = t.strict(
   {
@@ -45,6 +50,7 @@ export const Area = t.strict(
     body: t.union([t.UnknownRecord, t.null]),
     geometry: Geometry,
     media: t.array(UUID),
+    socialPosts: t.array(UUID)
   },
   "Area",
 );

@@ -4,13 +4,10 @@ import * as React from "react";
 import { useDataProvider, useRecordContext } from "react-admin";
 import { CircularProgress } from "../../../mui";
 import {
-  type SocialPostButtonProps,
   SocialPostButton,
 } from "../../common/SocialPostButton";
 
-export const MediaTGPostButton: React.FC<
-  Omit<SocialPostButtonProps, "onLoadSharePayloadClick">
-> = () => {
+export const MediaTGPostButton: React.FC = () => {
   const record = useRecordContext();
   const apiProvider = useDataProvider();
 
@@ -20,6 +17,7 @@ export const MediaTGPostButton: React.FC<
 
   return (
     <SocialPostButton
+      type="media"
       onLoadSharePayloadClick={async () => {
         const url = `${process.env.WEB_URL}/media/${record.id}`;
 

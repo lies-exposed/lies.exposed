@@ -204,11 +204,11 @@ export const getFilePath: Flow<[FlowGraphType, UUID], string> =
   };
 
 export const createFlowGraph: TEFlow<
-  [FlowGraphType, UUID, GetNetworkQuery],
+  [FlowGraphType, UUID, GetNetworkQuery, boolean],
   FlowGraphOutput
 > =
   (ctx) =>
-  (type, id, { relations, emptyRelations, ...query }) => {
+  (type, id, { relations, emptyRelations, ...query }, isAdmin) => {
     ctx.logger.debug.log(`Flow graph for %s (%s) %O`, type, id, query);
 
     const createFlowGraphTask = pipe(
@@ -220,7 +220,7 @@ export const createFlowGraph: TEFlow<
       fp.TE.chainEitherK(({ results }) =>
         pipe(results.map(toEventV2IO), fp.A.sequence(fp.E.Applicative)),
       ),
-      fp.TE.chain(fetchEventsRelations(ctx)),
+      fp.TE.chain(events => fetchEventsRelations(ctx)(events, isAdmin)),
       fp.TE.map(getFlowGraph(ctx.logger)),
     );
 

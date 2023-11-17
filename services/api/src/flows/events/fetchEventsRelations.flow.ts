@@ -14,13 +14,13 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { type TEFlow } from "@flows/flow.types";
 import { toActorIO } from "@routes/actors/actor.io";
-import { fetchRelations } from "@routes/events/queries/fetchEventRelations.utils";
+import { fetchRelations } from "@routes/events/queries/fetchEventRelations.query";
 import { toGroupIO } from "@routes/groups/group.io";
 import { toKeywordIO } from "@routes/keywords/keyword.io";
 import { toMediaIO } from "@routes/media/media.io";
 
 export const fetchEventsRelations: TEFlow<
-  [Events.Event[]],
+  [Events.Event[], boolean],
   {
     events: Events.Event[];
     actors: Actor.Actor[];
@@ -29,7 +29,7 @@ export const fetchEventsRelations: TEFlow<
     media: Media.Media[];
     groupsMembers: GroupMember.GroupMember[];
   }
-> = (ctx) => (events) => {
+> = (ctx) => (events, isAdmin) => {
   return pipe(
     TE.right(takeEventRelations(events)),
     TE.chain((relations) =>
@@ -44,7 +44,7 @@ export const fetchEventsRelations: TEFlow<
             relations.media,
             O.fromPredicate((m) => m.length > 0),
           ),
-        }),
+        }, isAdmin),
         TE.chain((relations) =>
           sequenceS(TE.ApplicativePar)({
             events: fp.TE.right(events),
