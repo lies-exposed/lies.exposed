@@ -150,8 +150,8 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
         </FormTab>
 
         <FormTab label="Groups">
-          <ArrayInput source="newMemberIn" defaultValue={[]}>
-            <SimpleFormIterator>
+          <ArrayInput source="newMemberIn" defaultValue={[]} fullWidth>
+            <SimpleFormIterator fullWidth>
               <ReferenceGroupInput source="group" />
               <DateInput source="startDate" />
               <DateInput source="endDate" />

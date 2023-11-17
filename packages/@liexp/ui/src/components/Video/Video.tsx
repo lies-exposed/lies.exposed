@@ -81,11 +81,11 @@ export const Video: React.FC<VideoProps> = ({
           thumbnail={thumbnail}
           showPlay={showPlay}
           onClick={(e) => {
-            if (disableZoom) {
+            if (onClick) {
+              onClick(e);
+            } else if (disableZoom && !loaded) {
               e.stopPropagation();
               setLoaded(true);
-            } else if (onClick) {
-              onClick(e);
             }
           }}
           style={{
