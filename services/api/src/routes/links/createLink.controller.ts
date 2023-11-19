@@ -9,7 +9,7 @@ import { Equal } from "typeorm";
 import { toLinkIO } from "./link.io";
 import { LinkEntity } from "@entities/Link.entity";
 import { UserEntity } from "@entities/User.entity";
-import { fetchAsLink } from "@flows/link.flow";
+import { fetchAsLink } from "@flows/links/link.flow";
 import { type RouteContext } from "@routes/route.types";
 import { authenticationHandler } from "@utils/authenticationHandler";
 import { ensureUserExists } from "@utils/user.utils";

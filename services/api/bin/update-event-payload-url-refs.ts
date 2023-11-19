@@ -2,7 +2,7 @@
 require("module-alias")(process.cwd());
 
 import { EventV2Entity } from "@entities/Event.v2.entity";
-import { fetchAndSave } from "@flows/link.flow";
+import { fetchAndSave } from "@flows/links/link.flow";
 import { getOneAdminOrFail } from "@flows/users/getOneUserOrFail.flow";
 import { fp } from "@liexp/core/lib/fp";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";

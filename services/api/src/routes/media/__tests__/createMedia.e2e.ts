@@ -50,6 +50,12 @@ describe("Create Media", () => {
       });
     });
 
+    Test.mocks.s3.classes.Upload.mockReset().mockImplementation(() => ({
+      done: vi.fn().mockResolvedValueOnce({
+        Location: tests.fc.sample(tests.fc.webUrl(), 1)[0],
+      }),
+    }));
+
     const response = await Test.req
       .post("/v1/media")
       .set("Authorization", authorizationToken)

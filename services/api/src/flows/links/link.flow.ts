@@ -9,7 +9,7 @@ import { pipe } from "fp-ts/function";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { type Metadata } from "page-metadata-parser";
 import { Equal } from "typeorm";
-import { type TEFlow } from "./flow.types";
+import { type TEFlow } from "../flow.types";
 import { LinkEntity } from "@entities/Link.entity";
 import { MediaEntity } from "@entities/Media.entity";
 import { type UserEntity } from "@entities/User.entity";
@@ -90,17 +90,22 @@ export const fetchAsLink: TEFlow<
           publishDate = undefined;
         }
 
-        const link = new LinkEntity();
-        link.id = uuid() as any;
-        link.title = meta.title;
-        link.url = url as any;
-        link.description = meta.description;
-        link.publishDate = publishDate;
-        link.image = meta.image;
-        link.createdAt = new Date();
-        link.updatedAt = new Date();
 
-        return link;
+        return {
+          id: uuid() as any,
+          title: meta.title,
+          url: url as any,
+          description: meta.description,
+          publishDate,
+          image: meta.image,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          creator: null,
+          events: [],
+          provider: null,
+          keywords: [],
+          deletedAt: null
+        };
       }),
     );
   };

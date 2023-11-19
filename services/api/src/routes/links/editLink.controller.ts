@@ -13,7 +13,7 @@ import { type KeywordEntity } from "@entities/Keyword.entity";
 import { LinkEntity } from "@entities/Link.entity";
 import { type MediaEntity } from "@entities/Media.entity";
 import { UserEntity } from "@entities/User.entity";
-import { fetchAsLink } from "@flows/link.flow";
+import { fetchAsLink } from "@flows/links/link.flow";
 import { type ControllerError } from "@io/ControllerError";
 import { authenticationHandler } from "@utils/authenticationHandler";
 import { ensureUserExists } from "@utils/user.utils";

@@ -27,6 +27,8 @@ export const pageMock = {
       setTimeout(resolve, ms / 10);
     });
   }),
+  emulate: vi.fn().mockRejectedValue(new Error(`emulate: Not implemented`)),
+  screenshot: vi.fn().mockRejectedValue(new Error(`screenshot: Not implemented`)),
   browser: () => browserMock,
 };
 

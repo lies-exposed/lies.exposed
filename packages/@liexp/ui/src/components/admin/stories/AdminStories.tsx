@@ -1,3 +1,4 @@
+import { ImageType } from '@liexp/shared/lib/io/http/Media';
 import { relationsTransformer } from "@liexp/shared/lib/slate/utils";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
@@ -154,7 +155,7 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
 
           <ReferenceMediaInput
             source="featuredImage.id"
-            allowedTypes={["image/jpeg", "image/jpg", "image/png"]}
+            allowedTypes={ImageType.types.map(t => t.value)}
           />
 
           <ArrayInput source="links">
@@ -191,7 +192,7 @@ export const StoryCreate: React.FC<CreateProps> = (props) => {
         <ReferenceArrayKeywordInput source="keywords" showAdd={true} />
         <ReferenceMediaInput
           source="featuredImage"
-          allowedTypes={["image/jpeg", "image/jpg", "image/png"]}
+          allowedTypes={ImageType.types.map(t => t.value)}
         />
         <DateInput source="date" />
         <ArrayInput source="links">

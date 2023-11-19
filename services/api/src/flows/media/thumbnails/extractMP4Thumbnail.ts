@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { fp } from "@liexp/core/lib/fp";
 import { type Media } from "@liexp/shared/lib/io/http";
-import { type MP4Type } from "@liexp/shared/lib/io/http/Media";
+import { PngType, type MP4Type } from "@liexp/shared/lib/io/http/Media";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils";
 import type Ffmpeg from "fluent-ffmpeg";
 import * as TE from "fp-ts/TaskEither";
@@ -51,7 +51,7 @@ export const takeVideoScreenshots: TEFlow<
               "media",
               media.id,
               thumbnailName,
-              "image/png",
+              PngType.value,
             );
 
             ctx.logger.debug.log("Thumbnail key %s", key);
@@ -99,7 +99,7 @@ export const extractMP4Thumbnail: ExtractThumbnailFlow<MP4Type> =
         return screenshots.map(({ key, thumbnailName }) => ({
           Key: key,
           Body: fs.createReadStream(thumbnailName),
-          ContentType: "image/png",
+          ContentType: PngType.value,
           Bucket: ctx.env.SPACE_BUCKET,
           ACL: "public-read",
         }));
