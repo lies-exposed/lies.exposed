@@ -10,7 +10,10 @@ export interface TGBotProvider {
   upsertPinnedMessage: (
     text: string,
   ) => TE.TaskEither<Error, TelegramBot.Message>;
-  post: (text: string, replyToMessageId?: number) => TE.TaskEither<Error, TelegramBot.Message>;
+  post: (
+    text: string,
+    replyToMessageId?: number,
+  ) => TE.TaskEither<Error, TelegramBot.Message>;
   postPhoto: (
     imageUrl: string | Stream,
     caption: string,
@@ -61,7 +64,16 @@ export const TGBotProvider = (
   { logger }: TGBotProviderCtx,
   opts: TGBotProviderOpts,
 ): TGBotProvider => {
-  logger.debug.log("tg bot provider %O", opts);
+  const encryptedToken = opts.token
+    .split(":")
+    .map((s) => s
+      .substring(0, 3)
+      .concat(Array.from({ length: s.length - 4 }).map(() => "x").join(''))
+    ).join(':');
+  logger.debug.log("tg bot provider %O", {
+    ...opts,
+    token: encryptedToken,
+  });
   const api = new TelegramBot(opts.token, {
     polling: opts.polling,
     baseApiUrl: opts.baseApiUrl,
