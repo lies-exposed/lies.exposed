@@ -1,6 +1,7 @@
+import { PngType } from '@liexp/shared/lib/io/http/Media';
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { fc } from "@liexp/test";
+import { uuid } from '@liexp/shared/lib/utils/uuid';
 import { GetAppTest, type AppTest } from "../../../../test/AppTest";
 
 describe("Upload file", () => {
@@ -30,9 +31,10 @@ describe("Upload file", () => {
 
   test("Should receive an error when upload unaccepted media", async () => {
     const error = new Error("can't upload");
-    Test.mocks.s3.client.send.mockImplementationOnce(() =>
-      Promise.reject(error),
-    );
+
+    Test.mocks.s3.classes.Upload.mockReset().mockImplementation(() => ({
+      done: vi.fn().mockRejectedValueOnce(error),
+    }));
 
     const response = await Test.req
       .put(`/v1/uploads-multipart/file-key`)
@@ -52,14 +54,17 @@ describe("Upload file", () => {
   });
 
   test("Should upload media files with correct keys", async () => {
+    const mediaId = uuid()
+    const mediaKey = `media/${mediaId}/${mediaId}.png`
     const uploadedObject = {
-      Key: fc.sample(fc.string(), 1)[0],
-      Location: fc.sample(fc.webUrl(), 1)[0],
+      Bucket: 'media',
+      Key: mediaKey,
+      Location: `https://media.localhost:9007/public/${mediaKey}`,
     };
 
-    Test.mocks.s3.client.send.mockImplementationOnce(() =>
-      Promise.resolve(uploadedObject),
-    );
+    Test.mocks.s3.classes.Upload.mockReset().mockImplementation(() => ({
+      done: vi.fn().mockResolvedValueOnce(uploadedObject),
+    }));
 
     const response = await Test.req
       .put(`/v1/uploads-multipart/file-key`)
@@ -76,7 +81,7 @@ describe("Upload file", () => {
     const expectedLocation = await throwTE(
       Test.ctx.s3.getEndpoint(
         Test.ctx.env.SPACE_BUCKET,
-        getMediaKey("media", "file-key", "file-key", "image/jpeg"),
+        getMediaKey("media", mediaId, mediaId, PngType.value),
       ),
     );
 

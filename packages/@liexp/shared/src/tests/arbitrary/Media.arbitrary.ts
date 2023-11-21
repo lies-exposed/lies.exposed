@@ -41,7 +41,7 @@ export const MediaArb: tests.fc.Arbitrary<http.Media.Media> = tests
           keywords: [],
           featuredIn: [],
           areas: [],
-          type: "image/png",
+          type: http.Media.PngType.value,
           creator: undefined,
           extra: undefined,
           socialPosts: undefined,

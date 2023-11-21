@@ -13,7 +13,7 @@ import { pipe } from "fp-ts/function";
 import { type Metadata } from "page-metadata-parser";
 import type * as puppeteer from "puppeteer-core";
 import { In } from "typeorm";
-import { fetchAndSave } from "../link.flow";
+import { fetchAndSave } from "../links/link.flow";
 import { ActorEntity } from "@entities/Actor.entity";
 import { type EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";

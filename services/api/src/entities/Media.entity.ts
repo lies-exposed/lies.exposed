@@ -16,7 +16,7 @@ import { AreaEntity } from "./Area.entity";
 import { EventV2Entity } from "./Event.v2.entity";
 import { KeywordEntity } from "./Keyword.entity";
 import { LinkEntity } from "./Link.entity";
-import { type SocialPostEntity } from './SocialPost.entity';
+import { type SocialPostEntity } from "./SocialPost.entity";
 import { StoryEntity } from "./Story.entity";
 import { UserEntity } from "./User.entity";
 
@@ -55,7 +55,7 @@ export class MediaEntity {
     type: "json",
     nullable: true,
   })
-  extra: MediaExtra | null
+  extra: MediaExtra | null;
 
   @ManyToMany(() => EventV2Entity, (e) => e.media, {
     cascade: false,
@@ -87,7 +87,7 @@ export class MediaEntity {
   })
   keywords: KeywordEntity[];
 
-  socialPosts?: SocialPostEntity[]
+  socialPosts?: SocialPostEntity[];
 
   @CreateDateColumn()
   createdAt: Date;
@@ -97,4 +97,5 @@ export class MediaEntity {
 
   @DeleteDateColumn()
   deletedAt: Date | null;
+
 }

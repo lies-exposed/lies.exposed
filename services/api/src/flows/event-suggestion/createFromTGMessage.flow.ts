@@ -24,7 +24,11 @@ import { LinkEntity } from "@entities/Link.entity";
 import { MediaEntity } from "@entities/Media.entity";
 import { type UserEntity } from "@entities/User.entity";
 import { type TEFlow } from "@flows/flow.types";
-import { fetchAndSave } from "@flows/link.flow";
+import { fetchAndSave } from "@flows/links/link.flow";
+import {
+  takeLinkScreenshot,
+  uploadScreenshot,
+} from "@flows/links/takeLinkScreenshot.flow";
 import { extractMediaFromPlatform } from "@flows/media/extractMediaFromPlatform.flow";
 import { getOneAdminOrFail } from "@flows/users/getOneUserOrFail.flow";
 import { toControllerError, type ControllerError } from "@io/ControllerError";
@@ -319,6 +323,7 @@ export const createFromTGMessage: TEFlow<
 
   const byURLTask = (
     user: UserEntity,
+    page: puppeteer.Page,
   ): TE.TaskEither<ControllerError, LinkEntity[]> =>
     pipe(
       urls,
@@ -346,6 +351,24 @@ export const createFromTGMessage: TEFlow<
 
             return pipe(
               fetchAndSave(ctx)(user, url),
+              TE.chain((link) =>
+                pipe(
+                  link.image?.thumbnail
+                    ? TE.right(link)
+                    : pipe(
+                        takeLinkScreenshot(ctx)(link),
+                        TE.chain((buffer) =>
+                          uploadScreenshot(ctx)(link, buffer),
+                        ),
+                        TE.chain((l) =>
+                          ctx.db.save(MediaEntity, [
+                            { ...link.image, ...l, links: [link] },
+                          ]),
+                        ),
+                        TE.map((media) => ({ ...link, image: media[0] }))
+                      ),
+                ),
+              ),
               TE.mapLeft(toControllerError),
             );
           }),
@@ -428,7 +451,7 @@ export const createFromTGMessage: TEFlow<
           ),
           (page) =>
             sequenceS(TE.ApplicativePar)({
-              link: byURLTask(creator),
+              link: byURLTask(creator, page),
               photos: byPhotoTask,
               videos: byVideoTask,
               platformMedia: byPlatformMediaTask(page, creator),

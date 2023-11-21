@@ -11,7 +11,8 @@ export type MEDIA = t.TypeOf<typeof MEDIA>;
 
 const JpgType = t.literal("image/jpg");
 const JpegType = t.literal("image/jpeg");
-const PngType = t.literal("image/png");
+export const PngType = t.literal("image/png");
+export type PngType = t.TypeOf<typeof PngType>
 
 /** audio types */
 export const MP3Type = t.literal("audio/mp3");

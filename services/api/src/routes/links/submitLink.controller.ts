@@ -3,7 +3,7 @@ import { type Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { toLinkIO } from "./link.io";
-import { fetchAndSave } from "@flows/link.flow";
+import { fetchAndSave } from "@flows/links/link.flow";
 import { getOneAdminOrFail } from "@flows/users/getOneUserOrFail.flow";
 import { type RouteContext } from "@routes/route.types";
 

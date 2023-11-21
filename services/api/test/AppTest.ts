@@ -64,7 +64,7 @@ export const initAppTest = async (): Promise<AppTest> => {
 
   const logger = GetLogger("test");
 
-  const cwd = path.resolve(__dirname, '../');
+  const cwd = path.resolve(__dirname, "../");
   // if (!g.dataSource) {
   //   const dataSource = getDataSource(process.env as any, false);
   //   g.dataSource = await dataSource.initialize();

@@ -21,9 +21,12 @@ import {
 } from "@liexp/ui/lib/components/admin/events/suggestions/AdminEventSuggestion";
 import {
   LinkCreate,
-  LinkEdit,
   LinkList,
 } from "@liexp/ui/lib/components/admin/links/AdminLinks";
+import {
+  LinkEdit
+} from "@liexp/ui/lib/components/admin/links/LinkEdit";
+
 import {
   MediaCreate,
   MediaCreateMany,

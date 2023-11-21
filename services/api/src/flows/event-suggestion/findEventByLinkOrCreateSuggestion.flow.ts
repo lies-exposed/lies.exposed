@@ -3,7 +3,7 @@ import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
-import * as linkFlows from "../link.flow";
+import * as linkFlows from "../links/link.flow";
 import { createEventSuggestionFromLink } from "./createFromLink.flow";
 import { searchEventSuggestion } from "./searchEventSuggestion.flow";
 import { type EventV2Entity } from "@entities/Event.v2.entity";
