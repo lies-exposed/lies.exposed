@@ -16,8 +16,8 @@ import {
   type ListObjectsCommandInput,
   type ListObjectsCommandOutput,
 } from "@aws-sdk/client-s3";
-import { Upload } from "@aws-sdk/lib-storage";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { type Upload } from "@aws-sdk/lib-storage";
+import { type getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { type Endpoint } from "@aws-sdk/types";
 import * as logger from "@liexp/core/lib/logger";
 import * as TE from "fp-ts/TaskEither";
@@ -90,10 +90,16 @@ export type SpaceProviderImpl = S3Client;
 
 export interface MakeSpaceProviderConfig {
   client: SpaceProviderImpl;
+  getSignedUrl: typeof getSignedUrl,
+  classes: {
+  Upload: typeof Upload,
+  }
 }
 
 export const MakeSpaceProvider = ({
   client,
+  getSignedUrl,
+  classes
 }: MakeSpaceProviderConfig): SpaceProvider => {
   return {
     getEndpoint: (bucket, path) => {
@@ -145,15 +151,15 @@ export const MakeSpaceProvider = ({
     upload(input) {
       return pipe(
         TE.tryCatch(async () => {
-          const parallelUploads3 = new Upload({
+          const parallelUploads3 = new classes.Upload({
             client,
             params: { ...input },
             queueSize: 4, // optional concurrency configuration
             partSize: 1024 * 1024 * 5, // optional size of each part, in bytes, at least 5MB
             leavePartsOnError: false, // optional manually handle dropped parts
           });
-
-          return await parallelUploads3.done();
+          const result = await parallelUploads3.done();
+          return result;
         }, toError),
         TE.filterOrElse(
           (

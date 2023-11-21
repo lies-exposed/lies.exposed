@@ -10,7 +10,7 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as S from "fp-ts/string";
 import { type LinkEntity } from "@entities/Link.entity";
-import { fetchAsLink } from "@flows/link.flow";
+import { fetchAsLink } from "@flows/links/link.flow";
 import { getOneAdminOrFail } from "@flows/users/getOneUserOrFail.flow";
 import { toControllerError } from "@io/ControllerError";
 import { type RouteContext } from "@routes/route.types";

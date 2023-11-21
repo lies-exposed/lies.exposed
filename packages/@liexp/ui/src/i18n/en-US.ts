@@ -45,6 +45,7 @@ export default {
       actions: {
         update_metadata: "Update URL Metadata",
         override_thumbnail: "Override Thumbnail",
+        take_web_page_screenshot: 'Take Web Page Screenshot'
       },
     },
   },

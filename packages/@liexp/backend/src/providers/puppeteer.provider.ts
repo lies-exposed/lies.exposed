@@ -5,7 +5,7 @@ import type * as error from "@liexp/shared/lib/io/http/Error";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import type * as puppeteer from "puppeteer-core";
+import * as puppeteer from "puppeteer-core";
 import { addExtra, type VanillaPuppeteer } from "puppeteer-extra";
 import puppeteerStealth from "puppeteer-extra-plugin-stealth";
 
@@ -107,6 +107,7 @@ type BrowserLaunchOpts = puppeteer.LaunchOptions &
   puppeteer.BrowserLaunchArgumentOptions;
 
 export interface PuppeteerProvider {
+  devices: typeof puppeteer.KnownDevices;
   getBrowser: (
     opts: BrowserLaunchOpts,
   ) => TE.TaskEither<PuppeteerError, puppeteer.Browser>;
@@ -257,6 +258,7 @@ export const GetPuppeteerProvider = (
   };
 
   return {
+    devices: puppeteer.KnownDevices,
     getBrowser,
     goToPage,
     download,

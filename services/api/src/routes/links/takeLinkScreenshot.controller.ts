@@ -1,0 +1,111 @@
+import { fp } from "@liexp/core/lib/fp";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { PngType } from '@liexp/shared/lib/io/http/Media';
+import { AdminEdit, type User } from "@liexp/shared/lib/io/http/User";
+import { uuid } from "@liexp/shared/lib/utils/uuid";
+import { type Router } from "express";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
+import { Equal } from "typeorm";
+import { toLinkIO } from "./link.io";
+import { LinkEntity } from "@entities/Link.entity";
+import { MediaEntity } from "@entities/Media.entity";
+import { UserEntity } from "@entities/User.entity";
+import {
+  takeLinkScreenshot,
+  uploadScreenshot,
+} from "@flows/links/takeLinkScreenshot.flow";
+import { NotAuthorizedError, type ControllerError } from "@io/ControllerError";
+import { type RouteContext } from "@routes/route.types";
+import {
+  RequestDecoder,
+  authenticationHandler,
+} from "@utils/authenticationHandler";
+
+export const MakeTakeLinkScreenshotRoute = (
+  r: Router,
+  ctx: RouteContext,
+): void => {
+  AddEndpoint(r, authenticationHandler(ctx, [AdminEdit.value]))(
+    Endpoints.Link.Custom.TakeLinkScreenshot,
+    ({ params: { id }, body }, req) => {
+      ctx.logger.debug.log("Body %O", body);
+
+      const getMediaOrMakeFromLinkTask = (
+        link: LinkEntity,
+      ): TE.TaskEither<ControllerError, Array<Partial<MediaEntity>>> =>
+        pipe(
+          fp.O.fromNullable<Partial<MediaEntity> | null>(link.image),
+          fp.O.map(fp.A.of),
+          fp.O.getOrElse(
+            (): Array<Partial<MediaEntity>> => [
+              {
+                id: uuid() as any,
+                label: link.title,
+                description: link.description ?? link.title,
+                type: PngType.value,
+              },
+            ],
+          ),
+          TE.right,
+        );
+
+      return pipe(
+        TE.Do,
+        TE.bind("user", () =>
+          pipe(
+            RequestDecoder.decodeNullableUser(ctx)(req, []),
+            TE.fromIO,
+            TE.filterOrElse(
+              (user): user is User => !!user?.id,
+              (e) => NotAuthorizedError(),
+            ),
+            TE.chain((user) =>
+              ctx.db.findOneOrFail(UserEntity, {
+                where: { id: Equal((user as any).id) },
+              }),
+            ),
+          ),
+        ),
+        TE.bind("link", () =>
+          ctx.db.findOneOrFail(LinkEntity, {
+            where: { id: Equal(id) },
+            relations: ["image"],
+          }),
+        ),
+        TE.bind("media", ({ user, link }) =>
+          pipe(
+            getMediaOrMakeFromLinkTask(link),
+            TE.chain(([media]) =>
+              pipe(
+                takeLinkScreenshot(ctx)(link),
+                TE.chain((buffer) => uploadScreenshot(ctx)(link, buffer)),
+                TE.chain((m) =>
+                  ctx.db.save(MediaEntity, [
+                    {
+                      ...link.image,
+                      ...m,
+                      creator: user,
+                    },
+                  ]),
+                ),
+                TE.map((mm) => mm[0]),
+              ),
+            ),
+          ),
+        ),
+        TE.map(({ media, link }) => ({ link: { ...link, media } })),
+        TE.chain(({ link }) =>
+          pipe(
+            toLinkIO(link),
+            TE.fromEither,
+            TE.map((data) => ({
+              body: { data },
+              statusCode: 200,
+            })),
+          ),
+        ),
+      );
+    },
+  );
+};

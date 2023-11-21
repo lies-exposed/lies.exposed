@@ -19,11 +19,9 @@ const s3Mock = {
       .fn()
       .mockImplementation(() => Promise.reject(new Error("Not implemented"))),
   },
-  // parallelUpload: vi
-  //   .fn()
-  //   .mockImplementation(() =>
-  //     Promise.reject(new Error("Parallel upload not implemented"))
-  //   ),
+  classes: {
+    Upload: vi.fn().mockRejectedValue(new Error("Upload not implemented")),
+  },
   getSignedUrl: vi.fn(),
 };
 

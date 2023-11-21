@@ -82,6 +82,16 @@ export const UpdateMetadata = Endpoint({
   Output: OneLinkOutput,
 });
 
+export const TakeLinkScreenshot = Endpoint({
+  Method: "POST",
+  getPath: ({ id }) => `/links/${id}/screenshot`,
+  Input: {
+    Params: t.type({ id: UUID }),
+    Body: Link.EditLink,
+  },
+  Output: OneLinkOutput,
+});
+
 export const links = ResourceEndpoints({
   Get,
   List,
@@ -91,5 +101,6 @@ export const links = ResourceEndpoints({
   Custom: {
     CreateMany,
     Submit,
+    TakeLinkScreenshot
   },
 });

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
+import { PngType } from '@liexp/shared/lib/io/http/Media';
 import * as bodyParser from "body-parser";
 import { type Router } from "express";
 import * as T from "fp-ts/Task";
@@ -20,7 +21,7 @@ export const MakeUploadFileRoute = (r: Router, ctx: RouteContext): void => {
       extended: false,
       // 2 GB
       limit: 2048 * 1000 * 1000,
-      type: ["image/jpeg", "image/png"],
+      type: ["image/jpeg", PngType.value],
     }),
     async (req, res) => {
       ctx.logger.debug.log("Req %O", req);

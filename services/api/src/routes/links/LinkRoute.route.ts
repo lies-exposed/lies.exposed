@@ -7,6 +7,7 @@ import { MakeEditLinkMetadataRoute } from "./editLinkMetadata.controller";
 import { MakeGetLinksRoute } from "./getLink.controller";
 import { MakeListLinksRoute } from "./listLinks.controller";
 import { MakeSubmitLinkRoute } from "./submitLink.controller";
+import { MakeTakeLinkScreenshotRoute } from './takeLinkScreenshot.controller';
 import { type RouteContext } from "@routes/route.types";
 
 export const MakeLinkRoutes = (router: Router, ctx: RouteContext): void => {
@@ -18,4 +19,5 @@ export const MakeLinkRoutes = (router: Router, ctx: RouteContext): void => {
   MakeDeleteLinkRoute(router, ctx);
   MakeGetLinksRoute(router, ctx);
   MakeListLinksRoute(router, ctx);
+  MakeTakeLinkScreenshotRoute(router, ctx);
 };

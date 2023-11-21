@@ -66,6 +66,16 @@ describe("Create From TG Message", () => {
         description,
       });
 
+      Test.mocks.puppeteer.page.emulate.mockReset().mockResolvedValueOnce({});
+      Test.mocks.puppeteer.page.screenshot
+        .mockResolvedValueOnce(Buffer.from(""));
+      Test.mocks.s3.classes.Upload.mockReset().mockImplementation(() => ({
+        done: vi.fn().mockResolvedValueOnce({
+          Location: fc.sample(fc.webUrl({ size: "small" }), 1)[0],
+        }),
+      }));
+      Test.mocks.puppeteer.browser.close.mockResolvedValueOnce({});
+
       const result: any = await pipe(
         createFromTGMessage(Test.ctx)(
           {
@@ -105,7 +115,7 @@ describe("Create From TG Message", () => {
 
       await throwTE(Test.ctx.db.delete(LinkEntity, [expectedLink.id]));
       await throwTE(Test.ctx.db.delete(EventSuggestionEntity, [result.id]));
-    });
+    }, { timeout: 10_000 });
 
     test("succeeds when link is already present in db", async () => {
       const url = fc.sample(URLArb, 1)[0];
@@ -148,7 +158,7 @@ describe("Create From TG Message", () => {
           },
         ],
       });
-    });
+    }, { timeout: 10_000 });
 
     test("succeeds with a photo", async () => {
       const title = fc.sample(HumanReadableStringArb(), 1)[0];
@@ -191,11 +201,12 @@ describe("Create From TG Message", () => {
         ({ id, ...r }) => r,
       ) as any[];
 
-      const { creator, areas, keywords, stories, socialPosts, ...media } = await throwTE(
-        Test.ctx.db.findOneOrFail(MediaEntity, {
-          where: { description: Equal(message.caption) },
-        }),
-      );
+      const { creator, areas, keywords, stories, socialPosts, ...media } =
+        await throwTE(
+          Test.ctx.db.findOneOrFail(MediaEntity, {
+            where: { description: Equal(message.caption) },
+          }),
+        );
 
       if (result.link.length > 0) {
         await throwTE(
@@ -500,12 +511,13 @@ describe("Create From TG Message", () => {
 
         Test.ctx.logger.debug.log("Message %O", message);
 
+        puppeteerMocks.page.emulate.mockReset().mockResolvedValueOnce({});
         const urls = c.urls(message);
         urls.forEach((m) => {
           Test.mocks.urlMetadata.fetchMetadata.mockResolvedValueOnce(m);
         });
 
-        puppeteerMocks.page.goto.mockReset().mockResolvedValueOnce({});
+        puppeteerMocks.page.goto.mockReset().mockResolvedValue({});
         puppeteerMocks.page.waitForSelector
           .mockReset()
           .mockResolvedValueOnce({});
