@@ -129,6 +129,7 @@
     "@io": "build/io",
     "@entities": "build/entities",
     "@flows": "build/flows",
+    "@providers": "build/providers",
     "@queries": "build/queries",
     "@routes": "build/routes",
     "@utils": "build/utils"

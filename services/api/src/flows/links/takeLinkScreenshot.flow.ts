@@ -1,8 +1,6 @@
 import { fp } from "@liexp/core/lib/fp";
 import { PngType } from "@liexp/shared/lib/io/http/Media";
-import {
-  getMediaThumbKey,
-} from "@liexp/shared/lib/utils/media.utils";
+import { getMediaThumbKey } from "@liexp/shared/lib/utils/media.utils";
 import { pipe } from "fp-ts/function";
 import { type LinkEntity } from "@entities/Link.entity";
 import { type MediaEntity } from "@entities/Media.entity";
@@ -35,15 +33,17 @@ export const takeLinkScreenshot: TEFlow<[LinkEntity], Buffer> =
 export const uploadScreenshot: TEFlow<
   [LinkEntity, Buffer],
   Partial<MediaEntity>
-> = (ctx) => (link, base64) => {
+> = (ctx) => (link, buffer) => {
+  const mediaKey = getMediaThumbKey(
+    link.image?.id ? link.image.id : link.id,
+    PngType.value,
+  );
   return pipe(
     ctx.s3.upload({
       Bucket: ctx.env.SPACE_BUCKET,
-      Key: getMediaThumbKey(
-        link.image?.id ? link.image.id : link.id,
-        PngType.value,
-      ),
-      Body: base64,
+      Key: mediaKey,
+      Body: buffer,
+      ContentType: PngType.value,
     }),
     fp.TE.map((upload) => ({
       ...link.image,

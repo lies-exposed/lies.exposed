@@ -18,7 +18,6 @@ const ENV = t.intersection(
         t.strict({
           NODE_ENV: t.union([DEVELOPMENT, TEST]),
           DOWNLOAD_VACCINE_DATA_CRON: t.string,
-          DEV_DATA_HOST: t.string,
         }),
         t.strict({
           NODE_ENV: PRODUCTION,

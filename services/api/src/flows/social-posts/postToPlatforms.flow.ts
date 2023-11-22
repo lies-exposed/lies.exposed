@@ -10,7 +10,8 @@ import { postToTG } from './postToTG.flow';
 import { type TEFlow } from "@flows/flow.types";
 
 export const postToSocialPlatforms: TEFlow<[UUID, CreateSocialPost], { tg?: TelegramBot.Message; ig: any }> =
-  (ctx) => (id, {platforms, ...body}) => {
+  (ctx) => (id, { platforms: _platforms, ...body }) => {
+    const platforms = _platforms ?? { IG: false, TG: false }
     return pipe(
         sequenceS(fp.TE.ApplicativePar)({
             ig: platforms.IG
