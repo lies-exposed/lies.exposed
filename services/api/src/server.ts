@@ -8,7 +8,6 @@ import { MakeImgProcClient } from "@liexp/backend/lib/providers/imgproc/imgproc.
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider";
 import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider";
-import { S3Provider } from "@liexp/backend/lib/providers/space";
 import { TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider";
 import { WikipediaProvider } from "@liexp/backend/lib/providers/wikipedia/wikipedia.provider";
 import * as logger from "@liexp/core/lib/logger";
@@ -38,6 +37,7 @@ import { startCommand } from "./providers/tg/start.command";
 import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
 import { toControllerError, type ControllerError } from "@io/ControllerError";
 import { type ENV } from "@io/ENV";
+import { createS3Provider } from '@providers/context/s3.context';
 import { EventsConfig } from "@queries/config";
 import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.routes";
 import { MakeActorRoutes } from "@routes/actors/actors.routes";
@@ -87,26 +87,6 @@ export const makeContext = (
     TE.mapLeft(toControllerError),
   );
 
-  const s3 =
-    env.NODE_ENV === "development" || env.NODE_ENV === "test"
-      ? S3Provider.GetS3Provider({
-          endpoint: env.DEV_DATA_HOST,
-          credentials: {
-            accessKeyId: env.SPACE_ACCESS_KEY_ID,
-            secretAccessKey: env.SPACE_ACCESS_KEY_SECRET,
-          },
-          tls: true,
-          forcePathStyle: true,
-        })
-      : S3Provider.GetS3Provider({
-          endpoint: `https://${env.SPACE_REGION}.${env.SPACE_ENDPOINT}`,
-          region: env.SPACE_REGION,
-          credentials: {
-            accessKeyId: env.SPACE_ACCESS_KEY_ID,
-            secretAccessKey: env.SPACE_ACCESS_KEY_SECRET,
-          },
-          tls: true,
-        });
 
   const wpProvider = WikipediaProvider({
     logger: logger.GetLogger("mw"),
@@ -130,7 +110,7 @@ export const makeContext = (
     sequenceS(TE.ApplicativePar)({
       logger: TE.right(serverLogger),
       db,
-      s3: TE.right(s3),
+      s3: TE.right(createS3Provider(env)),
       fs: TE.right(fsClient),
       jwt: TE.right(jwtClient),
       urlMetadata: TE.right(urlMetadataClient),
