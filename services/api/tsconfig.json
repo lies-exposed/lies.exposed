@@ -27,6 +27,7 @@
       "@io/*": ["io/*"],
       "@entities/*": ["entities/*"],
       "@flows/*": ["flows/*"],
+      "@providers/*": ["providers/*"],
       "@queries/*": ["queries/*"],
       "@routes/*": ["routes/*"],
       "@utils/*": ["utils/*"]

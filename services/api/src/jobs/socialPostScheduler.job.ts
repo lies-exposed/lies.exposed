@@ -5,7 +5,7 @@ import { pipe } from "fp-ts/function";
 import Cron from "node-cron";
 import { LessThanOrEqual } from "typeorm";
 import { SocialPostEntity } from "@entities/SocialPost.entity";
-import { postToSocialPlatforms } from '@flows/social-posts/postToPlatforms.flow';
+import { postToSocialPlatforms } from "@flows/social-posts/postToPlatforms.flow";
 import { type RouteContext } from "@routes/route.types";
 
 export const postOnSocialJob = (ctx: RouteContext): Cron.ScheduledTask =>
@@ -28,10 +28,14 @@ export const postOnSocialJob = (ctx: RouteContext): Cron.ScheduledTask =>
               postToSocialPlatforms(ctx)(p.entity, p.content),
               fp.TE.chain(({ ig, tg }) =>
                 ctx.db.save(SocialPostEntity, [
-                  { ...p, status: PUBLISHED.value, result: {
-                    ig: ig ?? p.result.ig,
-                    tg: tg ?? p.result.tg
-                  }, },
+                  {
+                    ...p,
+                    status: PUBLISHED.value,
+                    result: {
+                      ig: ig ?? p.result.ig,
+                      tg: tg ?? p.result.tg,
+                    },
+                  },
                 ]),
               ),
             ),

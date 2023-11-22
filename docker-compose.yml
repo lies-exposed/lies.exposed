@@ -35,6 +35,7 @@ services:
     environment:
       MINIO_ROOT_USER: space-access-key-id
       MINIO_ROOT_PASSWORD: space-access-key-secret-id
+    hostname: fra1.space.liexp.dev
     volumes:
       - space-data:/data
     healthcheck:
@@ -52,13 +53,14 @@ services:
     container_name: liexp-api
     env_file:
       - ./services/api/.env
-      # - .env.alpha
+      # - ./services/api/.env.alpha
     environment:
       DEBUG: "@liexp*"
       DB_HOST: db
       DB_PORT: 5432
       API_PORT: 4010
-      DEV_DATA_HOST: http://localhost:9007
+      API_HOST: api.liexp.dev
+    hostname: api.liexp.dev
     depends_on:
       - db
       - space
