@@ -1,7 +1,6 @@
 import { fp } from "@liexp/core/lib/fp";
 import { PngType } from "@liexp/shared/lib/io/http/Media";
 import {
-  getMediaKeyFromLocation,
   getMediaThumbKey,
 } from "@liexp/shared/lib/utils/media.utils";
 import { pipe } from "fp-ts/function";
@@ -41,11 +40,7 @@ export const uploadScreenshot: TEFlow<
     ctx.s3.upload({
       Bucket: ctx.env.SPACE_BUCKET,
       Key: getMediaThumbKey(
-        link.image?.thumbnail
-          ? getMediaKeyFromLocation(link.image?.thumbnail)
-          : link.image?.id
-            ? link.image.id
-            : link.id,
+        link.image?.id ? link.image.id : link.id,
         PngType.value,
       ),
       Body: base64,
