@@ -126,14 +126,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/client-s3@npm:^3.451.0":
-  version: 3.451.0
-  resolution: "@aws-sdk/client-s3@npm:3.451.0"
+"@aws-sdk/client-s3@npm:^3.456.0":
+  version: 3.456.0
+  resolution: "@aws-sdk/client-s3@npm:3.456.0"
   dependencies:
     "@aws-crypto/sha1-browser": 3.0.0
     "@aws-crypto/sha256-browser": 3.0.0
     "@aws-crypto/sha256-js": 3.0.0
-    "@aws-sdk/client-sts": 3.451.0
+    "@aws-sdk/client-sts": 3.454.0
     "@aws-sdk/core": 3.451.0
     "@aws-sdk/credential-provider-node": 3.451.0
     "@aws-sdk/middleware-bucket-endpoint": 3.451.0
@@ -187,7 +187,7 @@ __metadata:
     "@smithy/util-waiter": ^2.0.13
     fast-xml-parser: 4.2.5
     tslib: ^2.5.0
-  checksum: 0604486c6ebdd2bdcf61c63cd8d24177b4fe6d7468fa18e0c653457353d77ea5cf70ed307275534882b647bdbcb9e907dfcbca81ba3f4b2d55f07faa609fb921
+  checksum: e77542547c7f30c39380fa8558d9917f2d989583b66ed9ee9200108e96bf675b72136f4f8985c299867f0414b44203c4d51b10f8243079eaff519666c58dbbb4
   languageName: node
   linkType: hard
 
@@ -235,9 +235,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/client-sts@npm:3.451.0":
-  version: 3.451.0
-  resolution: "@aws-sdk/client-sts@npm:3.451.0"
+"@aws-sdk/client-sts@npm:3.454.0":
+  version: 3.454.0
+  resolution: "@aws-sdk/client-sts@npm:3.454.0"
   dependencies:
     "@aws-crypto/sha256-browser": 3.0.0
     "@aws-crypto/sha256-js": 3.0.0
@@ -279,7 +279,7 @@ __metadata:
     "@smithy/util-utf8": ^2.0.2
     fast-xml-parser: 4.2.5
     tslib: ^2.5.0
-  checksum: d5fc965400ddecfd466c82e88ee2c0d1d59c06980774ce4b0715ae13e8c522f1ad346aa04891b68d755a792477ed483411e3040875f156bdd160ae6fde511f07
+  checksum: 92e687abc8dcd5f6ddf911fe5800f04eeb11164214327072334275b04725ac77ee2170247b69df645ff756ed9f2b27916921d442fb393dc46084c114b5f76f54
   languageName: node
   linkType: hard
 
@@ -382,9 +382,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/lib-storage@npm:^3.451.0":
-  version: 3.451.0
-  resolution: "@aws-sdk/lib-storage@npm:3.451.0"
+"@aws-sdk/lib-storage@npm:^3.456.0":
+  version: 3.456.0
+  resolution: "@aws-sdk/lib-storage@npm:3.456.0"
   dependencies:
     "@smithy/abort-controller": ^2.0.1
     "@smithy/middleware-endpoint": ^2.2.0
@@ -395,7 +395,7 @@ __metadata:
     tslib: ^2.5.0
   peerDependencies:
     "@aws-sdk/client-s3": ^3.0.0
-  checksum: b05ed4cda2655f678f13a1a090b809d32fe4666d650547ef7a66a8f10f26ed0b10865d2b4b6bfa6a2fae285dc2b70c2a773ab01a125e60d038358901ff266c65
+  checksum: 001f9fa653e22edc3c95635b570df05d0c34ce456fd7bc15d6daa36102b988835764efc646e5232888be1a3f0f877dc8d68934b246089b8e7ba795606d10cab6
   languageName: node
   linkType: hard
 
@@ -566,9 +566,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aws-sdk/s3-request-presigner@npm:^3.451.0":
-  version: 3.451.0
-  resolution: "@aws-sdk/s3-request-presigner@npm:3.451.0"
+"@aws-sdk/s3-request-presigner@npm:^3.456.0":
+  version: 3.456.0
+  resolution: "@aws-sdk/s3-request-presigner@npm:3.456.0"
   dependencies:
     "@aws-sdk/signature-v4-multi-region": 3.451.0
     "@aws-sdk/types": 3.451.0
@@ -578,7 +578,7 @@ __metadata:
     "@smithy/smithy-client": ^2.1.15
     "@smithy/types": ^2.5.0
     tslib: ^2.5.0
-  checksum: 25a01ee7bc69f1d1b7453e0428eb75ae32c417ade5f3925acc397357e5e3b7a8d932806435258c88e813b18021fa68d62ea7f95caba534dc47d4ae8f01c601e4
+  checksum: 2176052382e26cb5f9d31282f93d2bfcd8d8ff7520342e238e69779569e1ee687775572379d2ba352af95ceda88716840a0f4afb2dc9c2bfb5b2c470a4d5e3da
   languageName: node
   linkType: hard
 
@@ -3359,9 +3359,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@liexp/shared@workspace:packages/@liexp/shared"
   dependencies:
-    "@aws-sdk/client-s3": ^3.451.0
-    "@aws-sdk/lib-storage": ^3.451.0
-    "@aws-sdk/s3-request-presigner": ^3.451.0
+    "@aws-sdk/client-s3": ^3.456.0
+    "@aws-sdk/lib-storage": ^3.456.0
+    "@aws-sdk/s3-request-presigner": ^3.456.0
     "@databases/escape-identifier": ^1.0.3
     "@databases/sql": ^3.3.0
     "@liexp/core": 0.1.0
@@ -10007,9 +10007,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "api@workspace:services/api"
   dependencies:
-    "@aws-sdk/client-s3": ^3.451.0
-    "@aws-sdk/lib-storage": ^3.451.0
-    "@aws-sdk/s3-request-presigner": ^3.451.0
+    "@aws-sdk/client-s3": ^3.456.0
+    "@aws-sdk/lib-storage": ^3.456.0
+    "@aws-sdk/s3-request-presigner": ^3.456.0
     "@databases/escape-identifier": ^1.0.3
     "@liexp/backend": 0.1.0
     "@liexp/core": 0.1.0
