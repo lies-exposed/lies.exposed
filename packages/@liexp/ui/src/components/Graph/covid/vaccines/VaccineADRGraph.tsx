@@ -76,7 +76,6 @@ const ageGroupColors = {
   [TwelveToSixteenYears.value]: "#cd23d9",
   [EighteenToSixtyFourYears.value]: "#83db7e",
   [SixtyFiveToEightyfiveYears.value]: "#c0cbcf",
-  [EighteenToSixtyFourYears.value]: "#4f7185",
   [MoreThanEightyFiveYears.value]: "#5175dc",
 };
 

@@ -45,12 +45,12 @@
     "@types/bs58": "^4.0.4",
     "@types/prettier": "^3.0.0",
     "@types/react": "^18.2.38",
-    "@types/react-dom": "^18.2.16",
+    "@types/react-dom": "^18.2.17",
     "@types/throttle-debounce": "^5.0.2",
     "@types/uuid": "^9.0.7",
     "@visx/network": "^3.3.0",
     "fast-csv": "^4.3.6",
-    "typescript": "^5.2.2",
+    "typescript": "^5.3.2",
     "vitest": "^0.34.6"
   },
   "peerDependencies": {
