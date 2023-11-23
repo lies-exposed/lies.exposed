@@ -62,7 +62,7 @@ const run = async (): Promise<any> => {
           fetchKeywords(ctx)({
             _start: O.some(skip as any),
             _end: O.some(amount as any),
-          }),
+          }, true),
         ([, t]) => t,
         ([rr]) => rr,
         0,
