@@ -3503,12 +3503,12 @@ __metadata:
     ol: ^8.2.0
     prettier: ^3.1.0
     query-string: ^7.1.3
-    ra-core: ^4.16.0
-    ra-i18n-polyglot: ^4.16.0
-    ra-input-rich-text: ^4.16.0
-    ra-ui-materialui: ^4.16.0
+    ra-core: ^4.16.1
+    ra-i18n-polyglot: ^4.16.1
+    ra-input-rich-text: ^4.16.1
+    ra-ui-materialui: ^4.16.1
     react: ^18.2.0
-    react-admin: ^4.16.0
+    react-admin: ^4.16.1
     react-audio-player: ^0.17.0
     react-dom: ^18.2.0
     react-dropzone: ^12.1.0
@@ -9763,12 +9763,12 @@ __metadata:
     mini-create-react-context: ^0.4.1
     page-metadata-parser: ^1.1.4
     prettier: ^3.1.0
-    ra-core: ^4.16.0
-    ra-i18n-polyglot: ^4.16.0
-    ra-input-rich-text: ^4.16.0
-    ra-ui-materialui: ^4.16.0
+    ra-core: ^4.16.1
+    ra-i18n-polyglot: ^4.16.1
+    ra-input-rich-text: ^4.16.1
+    ra-ui-materialui: ^4.16.1
     react: ^18.2.0
-    react-admin: ^4.16.0
+    react-admin: ^4.16.1
     react-dom: ^18.2.0
     react-final-form: ^6.5.9
     react-final-form-arrays: ^3.1.4
@@ -21649,9 +21649,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ra-core@npm:^4.16.0":
-  version: 4.16.0
-  resolution: "ra-core@npm:4.16.0"
+"ra-core@npm:^4.16.1":
+  version: 4.16.1
+  resolution: "ra-core@npm:4.16.1"
   dependencies:
     clsx: ^1.1.1
     date-fns: ^2.19.0
@@ -21670,23 +21670,23 @@ __metadata:
     react-hook-form: ^7.43.9
     react-router: ^6.1.0
     react-router-dom: ^6.1.0
-  checksum: 68ce3208649df2a0943ad536ed3d19cd6bf389edadab94f73b0068dcfcf226cd187a4f7e24e689f4b6ba65d49c75362a1876a97a8fadec11f6f64f4f20ef00c0
+  checksum: c21564de18f6182b52829c93c60046b3073fcb68c8db4c82b691495532843fabd3f450e1307998725c9de50214a442f3275ecec043d713a72694bcd3cdc16be5
   languageName: node
   linkType: hard
 
-"ra-i18n-polyglot@npm:^4.16.0":
-  version: 4.16.0
-  resolution: "ra-i18n-polyglot@npm:4.16.0"
+"ra-i18n-polyglot@npm:^4.16.1":
+  version: 4.16.1
+  resolution: "ra-i18n-polyglot@npm:4.16.1"
   dependencies:
     node-polyglot: ^2.2.2
-    ra-core: ^4.16.0
-  checksum: a64efe2af75d652b487d8ff08f432eb3e508b060ff3c3452be7ea9e960a3b6e2a8bd07b1fc0e6ce867b17cb5cb665497b9effd21233dd78ddda72d34f4b914ac
+    ra-core: ^4.16.1
+  checksum: 1295d1892e4b4f8ce31d33f75b5f23abccc9150bbc24f464b7d19d3b94d445bc611d48630e9edc5f71ad87271ae0e1cead93568173fff2990bceb0db408d969c
   languageName: node
   linkType: hard
 
-"ra-input-rich-text@npm:^4.16.0":
-  version: 4.16.0
-  resolution: "ra-input-rich-text@npm:4.16.0"
+"ra-input-rich-text@npm:^4.16.1":
+  version: 4.16.1
+  resolution: "ra-input-rich-text@npm:4.16.1"
   dependencies:
     "@tiptap/core": ^2.0.3
     "@tiptap/extension-color": ^2.0.3
@@ -21708,22 +21708,22 @@ __metadata:
     ra-ui-materialui: ^4.0.0
     react: ^16.9.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0
-  checksum: 101b9d567e3e3495568800b2f97230ba31d744e68fc897673cc0fbe15efa34a2df511d0b29f9fecaf3c158c085538763d8b4502dbf4d8548e231d096af8647c8
+  checksum: 76d8a49170ee0b5283eef9c6c4af4b07833a80237cb6f2423d4f5c4cd7fe511d20fde2f32762c700d482e3ac4fd3c10de2e7793ba696471219550264e5b4fd94
   languageName: node
   linkType: hard
 
-"ra-language-english@npm:^4.16.0":
-  version: 4.16.0
-  resolution: "ra-language-english@npm:4.16.0"
+"ra-language-english@npm:^4.16.1":
+  version: 4.16.1
+  resolution: "ra-language-english@npm:4.16.1"
   dependencies:
-    ra-core: ^4.16.0
-  checksum: 4f7073272c66cfedabc042d85d4677ef52b877129a2abf1b65b1cfc22ba988144cb0295ef0315fd9e4b79cb0d4de8deef5199fec5b9f145c91c5fb5d11403f2b
+    ra-core: ^4.16.1
+  checksum: c4a43b10a84fe9bbf8b7dfa63c25e7ed98353eadd83fb16c752e0ba7fa17001e35292a5f251e2215d30a57da8f08f9000f3bcd02fe2467f8dc6aec3e7c70e8cf
   languageName: node
   linkType: hard
 
-"ra-ui-materialui@npm:^4.16.0":
-  version: 4.16.0
-  resolution: "ra-ui-materialui@npm:4.16.0"
+"ra-ui-materialui@npm:^4.16.1":
+  version: 4.16.1
+  resolution: "ra-ui-materialui@npm:4.16.1"
   dependencies:
     autosuggest-highlight: ^3.1.1
     clsx: ^1.1.1
@@ -21749,7 +21749,7 @@ __metadata:
     react-is: ^16.9.0 || ^17.0.0 || ^18.0.0
     react-router: ^6.1.0
     react-router-dom: ^6.1.0
-  checksum: 9732facbd64c71115f56133af844f5d204f0edec1fd51d55c49352740830a27cd699a169a8d6321fb78e878b6d3fae48cbc7ed9ebd7230c5e039b03eb12fe7d5
+  checksum: c887fbd128d7be99291ce059ba595bc876261fb5347b1878969cb407753d36eaff4f332c39096775039815e1a7036ea66057fe7fdf2a24c8c9b1c6524a9f0c84
   languageName: node
   linkType: hard
 
@@ -21811,26 +21811,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-admin@npm:^4.16.0":
-  version: 4.16.0
-  resolution: "react-admin@npm:4.16.0"
+"react-admin@npm:^4.16.1":
+  version: 4.16.1
+  resolution: "react-admin@npm:4.16.1"
   dependencies:
     "@emotion/react": ^11.4.1
     "@emotion/styled": ^11.3.0
     "@mui/icons-material": ^5.0.1
     "@mui/material": ^5.0.2
     history: ^5.1.0
-    ra-core: ^4.16.0
-    ra-i18n-polyglot: ^4.16.0
-    ra-language-english: ^4.16.0
-    ra-ui-materialui: ^4.16.0
+    ra-core: ^4.16.1
+    ra-i18n-polyglot: ^4.16.1
+    ra-language-english: ^4.16.1
+    ra-ui-materialui: ^4.16.1
     react-hook-form: ^7.43.9
     react-router: ^6.1.0
     react-router-dom: ^6.1.0
   peerDependencies:
     react: ^16.9.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0
-  checksum: 87ebd66c97b32e0473cd7adf6e4a962c531196cfdb7ee8e8ff6ce370b187959027f5be0535fea449432d2b19354cfa24a209a7421b9d4e32a1c904a13430fad2
+  checksum: f1c7c298695757f095309caca5ea229f00f4e8076ed72bc55cfef979b2deafbc70859edda991f7cedd51c5909003f92e89678f6bf3c044616d2b3516e9b5a19b
   languageName: node
   linkType: hard
 
@@ -26410,12 +26410,12 @@ __metadata:
     prettier: ^3.1.0
     prop-types: ^15.8.1
     query-string: ^7.1.3
-    ra-core: ^4.16.0
-    ra-i18n-polyglot: ^4.16.0
-    ra-input-rich-text: ^4.16.0
-    ra-ui-materialui: ^4.16.0
+    ra-core: ^4.16.1
+    ra-i18n-polyglot: ^4.16.1
+    ra-input-rich-text: ^4.16.1
+    ra-ui-materialui: ^4.16.1
     react: ^18.2.0
-    react-admin: ^4.16.0
+    react-admin: ^4.16.1
     react-dom: ^18.2.0
     react-error-boundary: ^4.0.11
     react-helmet: ^6.1.0
