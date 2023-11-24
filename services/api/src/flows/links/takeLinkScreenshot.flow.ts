@@ -44,6 +44,7 @@ export const uploadScreenshot: TEFlow<
       Key: mediaKey,
       Body: buffer,
       ContentType: PngType.value,
+      ACL: 'public-read'
     }),
     fp.TE.map((upload) => ({
       ...link.image,
