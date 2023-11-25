@@ -1,20 +1,21 @@
 import { apiProvider, authProvider } from "@liexp/ui/lib/client/api";
 import {
+  ActorIcon,
+  AreaIcon,
   DeathEventIcon,
   DocumentaryEventIcon,
+  GroupIcon,
+  HashtagIcon,
+  LinkIcon,
   PatentEventIcon,
   QuoteEventIcon,
   ScientificStudyEventIcon,
+  SocialPostIcon,
   TransactionEventIcon,
   UncategorizedEventIcon,
-  ActorIcon,
-  AreaIcon,
-  GroupIcon,
-  HashtagIcon,
-  SocialPostIcon,
   UserIcon,
-  LinkIcon,
 } from "@liexp/ui/lib/components/Common/Icons";
+import { SocialPostEdit } from '@liexp/ui/lib/components/admin/SocialPost/SocialPostEdit';
 import {
   EventSuggestionEdit,
   EventSuggestionList,
@@ -62,7 +63,6 @@ import { GroupCreate, GroupEdit, GroupList } from "./pages/AdminGroups";
 import { KeywordCreate, KeywordEdit, KeywordList } from "./pages/AdminKeyword";
 import {
   SocialPostCreate,
-  SocialPostEdit,
   SocialPostList,
 } from "./pages/AdminSocialPost";
 import { UserCreate, UserEdit, UserList } from "./pages/AdminUsers";

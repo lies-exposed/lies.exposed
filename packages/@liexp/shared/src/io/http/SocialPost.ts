@@ -3,12 +3,12 @@ import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { ACTORS, Actor } from "./Actor";
-import { AREAS } from './Area';
+import { AREAS } from "./Area";
 import { UUID } from "./Common";
 import { EVENTS } from "./Events";
 import { GROUPS, Group } from "./Group";
 import { KEYWORDS, Keyword } from "./Keyword";
-import { LINKS } from './Link';
+import { LINKS } from "./Link";
 import { MEDIA } from "./Media";
 import { GetListQuery } from "./Query";
 
@@ -16,7 +16,7 @@ export const SocialPostPhoto = t.type(
   {
     type: t.literal("photo"),
     media: t.string,
-    thumbnail: t.string
+    thumbnail: t.string,
   },
   "SocialPostPhoto",
 );
@@ -26,7 +26,7 @@ export const SocialPostVideo = t.type(
     type: t.literal("video"),
     media: t.string,
     thumbnail: t.string,
-    duration: t.number,
+    duration: t.union([t.number, t.undefined]),
   },
   "SocialPostVideo",
 );
@@ -71,7 +71,7 @@ export const GetListSocialPostQuery = t.type(
   {
     ...GetListQuery.props,
     distinct: optionFromNullable(BooleanFromString),
-    type: SocialPostResourceType,
+    type: optionFromNullable(SocialPostResourceType),
     status: optionFromNullable(SocialPostStatus),
     entity: optionFromNullable(UUID),
   },
@@ -96,15 +96,20 @@ export const CreateSocialPost = t.strict(
 );
 export type CreateSocialPost = t.TypeOf<typeof CreateSocialPost>;
 
-export const SocialPostPublishResult = t.strict({
-  tg: t.any,
-  ig: t.any,
-}, 'SocialPostPublishResult')
-export type SocialPostPublishResult = t.TypeOf<typeof SocialPostPublishResult>
+export const SocialPostPublishResult = t.strict(
+  {
+    tg: t.any,
+    ig: t.any,
+  },
+  "SocialPostPublishResult",
+);
+export type SocialPostPublishResult = t.TypeOf<typeof SocialPostPublishResult>;
 
 export const SocialPost = t.strict(
   {
     ...CreateSocialPost.type.props,
+    type: SocialPostResourceType,
+    entity: UUID,
     publishCount: t.number,
     status: SocialPostStatus,
     result: SocialPostPublishResult,
@@ -113,3 +118,14 @@ export const SocialPost = t.strict(
   "ShareMessageBody",
 );
 export type SocialPost = t.TypeOf<typeof SocialPost>;
+
+export const EditSocialPost = t.strict(
+  {
+    ...SocialPost.type.props,
+    keywords: t.array(UUID),
+    groups: t.array(UUID),
+    actors: t.array(UUID),
+  },
+  "EditSocialPost",
+);
+export type EditSocialPost = t.TypeOf<typeof EditSocialPost>;
