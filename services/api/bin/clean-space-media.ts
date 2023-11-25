@@ -18,9 +18,10 @@ import { MediaEntity } from "@entities/Media.entity";
 import { type ControllerError } from "@io/ControllerError";
 
 /**
- * Usage ts-node ./bin/create-from-wikipedia $search
+ * Usage ts-node ./bin/clean-space-media [--dry] [-i|--interactive]
  *
- * $search      text used as query for wikipedia search api
+ * -i      interactive mode
+ * --dry    dry mode
  *
  * @returns void
  */
