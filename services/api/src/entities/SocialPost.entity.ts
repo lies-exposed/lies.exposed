@@ -1,4 +1,4 @@
-import { SocialPostStatus, type SocialPostPublishResult } from "@liexp/shared/lib/io/http/SocialPost";
+import { SocialPostStatus, type SocialPostPublishResult, type SocialPostResourceType } from "@liexp/shared/lib/io/http/SocialPost";
 import { type UUID } from "io-ts-types/lib/UUID";
 import {
   Column,
@@ -21,7 +21,7 @@ export class SocialPostEntity {
   entity: UUID;
 
   @Column({ type: "varchar" })
-  type: string;
+  type: SocialPostResourceType;
 
   @Column({ type: "json", nullable: false })
   content: any;

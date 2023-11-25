@@ -380,7 +380,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
               deletedAt: undefined,
               label: m.media,
               description: m.type,
-              thumbnail: m.media,
+              thumbnail: m.thumbnail,
               location: m.media,
               selected: true,
               type: contentTypeFromFileExt(m.media),

@@ -1,9 +1,11 @@
 import * as t from "io-ts";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { UUID } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import {
   CreateSocialPost,
+  EditSocialPost,
   GetListSocialPostQuery,
   SocialPost,
   SocialPostResourceType,
@@ -49,7 +51,7 @@ export const Edit = Endpoint({
   getPath: ({ id }) => `/social-posts/${id}`,
   Input: {
     Params: t.type({ id: UUID }),
-    Body: SocialPost,
+    Body: EditSocialPost,
   },
   Output: SingleSocialPostOutput,
 });
@@ -68,6 +70,12 @@ export const Publish = Endpoint({
   getPath: ({ id }) => `/social-posts/${id}/publish`,
   Input: {
     Params: t.type({ id: UUID }),
+    Body: t.type({
+      platforms: t.type({
+        IG: optionFromNullable(t.boolean),
+        TG: optionFromNullable(t.boolean),
+      }),
+    }),
   },
   Output: SingleSocialPostOutput,
 });
