@@ -72,7 +72,7 @@ export const LinkEdit: React.FC = () => {
                 source="image.id"
                 allowedTypes={ImageType.types.map((t) => t.value)}
               />
-              <Stack direction={"row"}>
+              <Stack direction={"row"} spacing={2}>
                 <OverrideThumbnail />
                 <TakeLinkScreenshot />
               </Stack>
