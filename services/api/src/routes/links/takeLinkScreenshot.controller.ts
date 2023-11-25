@@ -76,14 +76,15 @@ export const MakeTakeLinkScreenshotRoute = (
         TE.bind("media", ({ user, link }) =>
           pipe(
             getMediaOrMakeFromLinkTask(link),
-            TE.chain(([media]) =>
+            TE.map(([media]) => ({...link, image: media as any })),
+            TE.chain((linkWithMedia) =>
               pipe(
-                takeLinkScreenshot(ctx)(link),
-                TE.chain((buffer) => uploadScreenshot(ctx)(link, buffer)),
+                takeLinkScreenshot(ctx)(linkWithMedia),
+                TE.chain((buffer) => uploadScreenshot(ctx)(linkWithMedia, buffer)),
                 TE.chain((m) =>
                   ctx.db.save(MediaEntity, [
                     {
-                      ...link.image,
+                      ...linkWithMedia.image,
                       ...m,
                       creator: user,
                     },

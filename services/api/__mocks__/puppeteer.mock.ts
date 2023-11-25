@@ -16,6 +16,7 @@ export const pageMock = {
     .fn()
     .mockRejectedValue(new Error(`waitForSelector: Not implemented`)),
   $: vi.fn().mockRejectedValue(new Error(`$: Not implemented`)),
+  $$: vi.fn().mockRejectedValue(new Error(`$: Not implemented`)),
   $eval: vi.fn().mockRejectedValue(new Error(`$eval: Not implemented`)),
   $x: vi.fn().mockRejectedValue(new Error(`$x: Not implemented`)),
   evaluate: vi.fn().mockRejectedValue(new Error(`evaluate: Not implemented`)),

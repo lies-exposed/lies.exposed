@@ -67,6 +67,7 @@ describe("Create From TG Message", () => {
       });
 
       Test.mocks.puppeteer.page.emulate.mockReset().mockResolvedValueOnce({});
+      Test.mocks.puppeteer.page.$$.mockReset().mockResolvedValueOnce([]);
       Test.mocks.puppeteer.page.screenshot
         .mockResolvedValueOnce(Buffer.from(""));
       Test.mocks.s3.classes.Upload.mockReset().mockImplementation(() => ({
