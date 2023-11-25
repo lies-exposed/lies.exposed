@@ -19,9 +19,11 @@ export const MakeListSocialPostRoute = (r: Router, ctx: RouteContext): void => {
 
       const ormOpts = getORMOptions(query, ctx.env.DEFAULT_PAGE_SIZE);
 
-      findSocialPostQuery.where('"type" = :type', {
-        type,
-      });
+      if (fp.O.isSome(type)) {
+        findSocialPostQuery.where('"type" = :type', {
+          type: type.value,
+        });
+      }
       if (fp.O.isSome(status)) {
         findSocialPostQuery.andWhere("status = :status", {
           status: status.value,
