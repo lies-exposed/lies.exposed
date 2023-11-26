@@ -1,9 +1,9 @@
 import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event";
 import {
   eqByUUID,
-  getEventMetadata,
   ordEventDate,
 } from "@liexp/shared/lib/helpers/event/event";
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
 import {
   type Actor,
   type Common,
@@ -14,7 +14,7 @@ import {
   type Topic,
 } from "@liexp/shared/lib/io/http";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvent";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent";
 import { LegendItem, LegendLabel, LegendOrdinal } from "@visx/legend";
 import { type Link } from "@visx/network/lib/types";
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
@@ -567,7 +567,7 @@ export function createEventNetworkGraphProps({
           actors: eventActors,
           groups: eventGroups,
           keywords: eventKeywords,
-        } = getEventMetadata(e);
+        } = getSearchEventRelations(e);
 
         const eventTitle = getTitleForSearchEvent(e);
 

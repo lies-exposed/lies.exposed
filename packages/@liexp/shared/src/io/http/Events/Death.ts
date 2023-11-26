@@ -5,7 +5,7 @@ import { UUID } from "io-ts-types/lib/UUID";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
 import { DEATH } from "./EventType";
-import { GetSearchEventsQuery } from "./SearchEventsQuery";
+import { GetSearchEventsQuery } from "./SearchEvents/SearchEventsQuery";
 
 export const DeathListQuery = t.strict(
   {

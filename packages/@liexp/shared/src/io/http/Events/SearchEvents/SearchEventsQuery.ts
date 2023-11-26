@@ -1,11 +1,11 @@
 import * as t from "io-ts";
 import { BooleanFromString } from "io-ts-types/BooleanFromString";
 import { DateFromISOString } from "io-ts-types/DateFromISOString";
-import { NumberFromString } from 'io-ts-types/NumberFromString';
+import { NumberFromString } from "io-ts-types/NumberFromString";
 import { UUID } from "io-ts-types/UUID";
-import { optionFromUndefined } from "../../Common/optionFromUndefined";
-import { GetListQuery } from "../Query";
-import { EventType } from "./EventType";
+import { optionFromUndefined } from "../../../Common/optionFromUndefined";
+import { GetListQuery } from "../../Query";
+import { EventType } from "../EventType";
 
 export const GetSearchEventsQuery = t.strict(
   {
@@ -32,7 +32,7 @@ export const GetSearchEventsQuery = t.strict(
     emptyMedia: optionFromUndefined(BooleanFromString),
     emptyLinks: optionFromUndefined(BooleanFromString),
     spCount: optionFromUndefined(NumberFromString),
-    onlyUnshared: optionFromUndefined(BooleanFromString)
+    onlyUnshared: optionFromUndefined(BooleanFromString),
   },
   "GetEventsQueryFilter",
 );
@@ -40,17 +40,3 @@ export const GetSearchEventsQuery = t.strict(
 export type GetSearchEventsQuery = t.TypeOf<typeof GetSearchEventsQuery>;
 export type GetSearchEventsQueryInput = t.OutputOf<typeof GetSearchEventsQuery>;
 
-export const EventTotals = t.strict(
-  {
-    uncategorized: t.number,
-    deaths: t.number,
-    scientificStudies: t.number,
-    patents: t.number,
-    documentaries: t.number,
-    transactions: t.number,
-    quotes: t.number,
-  },
-  "EventTotals",
-);
-
-export type EventTotals = t.TypeOf<typeof EventTotals>;

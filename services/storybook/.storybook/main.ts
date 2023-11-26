@@ -87,16 +87,10 @@ const webpackConfig: Pick<StorybookConfig, "webpackFinal" | "webpack"> = {
     );
     config.resolve.plugins.push(new TSConfigPathsWebpackPlugin());
 
-    // console.log("config modules", config.module);
-    // console.log("module rules", config.module?.rules);
-    // console.log("config resolve", config.resolve);
-    // console.log("config", config);
-
     config.resolve.fallback = {
       ...config.resolve.fallback,
       assert: require.resolve("browser-assert"),
     };
-    // console.log(config);
     return config;
   },
 };
@@ -105,7 +99,6 @@ const config: StorybookConfig & {
   env: any;
 } = {
   // previewHead: (head, { configType }) => {
-  //   console.log(head);
   //   if (configType === "PRODUCTION") {
   //     return `<base href="/storybook/" /> ${head.replace} `;
   //   }

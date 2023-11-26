@@ -1,4 +1,4 @@
-import { getRelationIds } from "@liexp/shared/lib/helpers/event/event";
+import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
 import { type NetworkType } from "@liexp/shared/lib/io/http/Network";
 import { useRecordContext, useRefresh } from "ra-core";
 import { Button, LoadingIndicator } from "ra-ui-materialui";

@@ -93,6 +93,20 @@ export const transformQuote = (
   };
 };
 
+const transformBook = (
+  data: any,
+): http.Events.Book.CreateBookBody & { id: http.Common.UUID } => {
+  return {
+    ...data,
+    payload: {
+      ...data.payload,
+      publisher: data.payload.publisher?.type
+        ? data.payload.publisher
+        : undefined,
+    },
+  };
+};
+
 export const transformEvent =
   (dataProvider: DataProvider<any>) =>
   async (id: string, data: RaRecord): Promise<RaRecord> => {
@@ -161,12 +175,14 @@ export const transformEvent =
       data.type === EventTypes.UNCATEGORIZED.value
         ? transformUncategorized(data)
         : data.type === EventTypes.DEATH.value
-        ? transformDeath(data)
-        : data.type === EventTypes.SCIENTIFIC_STUDY.value
-        ? transformScientificStudy(data)
-        : data.type === EventTypes.QUOTE.value
-        ? transformQuote(data)
-        : data;
+          ? transformDeath(data)
+          : data.type === EventTypes.SCIENTIFIC_STUDY.value
+            ? transformScientificStudy(data)
+            : data.type === EventTypes.QUOTE.value
+              ? transformQuote(data)
+              : data.type === EventTypes.BOOK.value
+                ? transformBook(data)
+                : data;
 
     // eslint-disable-next-line @typescript-eslint/return-await
     return pipe(

@@ -20,6 +20,7 @@ const Root = styled("text")(() => ({
 }));
 
 export const EventTypeColor = {
+  [EventTypes.BOOK.value]: "#B5F425",
   [EventTypes.UNCATEGORIZED.value]: "#EC3535",
   [EventTypes.DEATH.value]: "#111111",
   [EventTypes.SCIENTIFIC_STUDY.value]: "#2596be",
@@ -30,13 +31,14 @@ export const EventTypeColor = {
 };
 
 export const EventTypeIconClass = {
-  [EventTypes.UNCATEGORIZED.value]: "calendar" as IconName,
+  [EventTypes.BOOK.value]: "book" as IconName,
   [EventTypes.DEATH.value]: "skull-crossbones" as IconName,
   [EventTypes.SCIENTIFIC_STUDY.value]: "flask" as IconName,
   [EventTypes.PATENT.value]: "barcode" as IconName,
   [EventTypes.DOCUMENTARY.value]: "film" as IconName,
   [EventTypes.TRANSACTION.value]: "money-bill-1-wave" as IconName,
   [EventTypes.QUOTE.value]: "quote-left" as IconName,
+  [EventTypes.UNCATEGORIZED.value]: "calendar" as IconName,
 };
 
 interface EventIconProps extends Omit<FontAwesomeIconProps, "icon"> {
@@ -45,6 +47,15 @@ interface EventIconProps extends Omit<FontAwesomeIconProps, "icon"> {
 
 export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
   switch (type) {
+    case EventTypes.BOOK.value:
+      return (
+        <FontAwesomeIcon
+          {...props}
+          mask={undefined}
+          icon={EventTypeIconClass.Book}
+          style={{ ...props.style, color: EventTypeColor.Book }}
+        />
+      );
     case EventTypes.QUOTE.value:
       return (
         <FontAwesomeIcon
@@ -142,6 +153,9 @@ export const TransactionEventIcon: React.FC<Omit<EventIconProps, "type">> = (pro
   <EventIcon type="Transaction" {...props} />
 );
 
+export const BookEventIcon: React.FC<Omit<EventIconProps, "type">> = (props) => (
+  <EventIcon type="Book" {...props} />
+);
 
 export const EventIconInSVG: React.FC<
   EventIconProps & React.SVGProps<SVGTextElement>

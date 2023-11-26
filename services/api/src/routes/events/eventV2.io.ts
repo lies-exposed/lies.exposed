@@ -1,19 +1,22 @@
 import * as io from "@liexp/shared/lib/io";
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
+import { toBookIO } from "./books/book.io";
 import { toDocumentaryIO } from "./documentary/documentary.io";
 import { toQuoteIO } from "./quotes/quote.io";
 import { type EventV2Entity } from "@entities/Event.v2.entity";
-import { type ControllerError, DecodeError } from "@io/ControllerError";
+import { DecodeError, type ControllerError } from "@io/ControllerError";
 
 export const toEventV2IO = (
   event: EventV2Entity,
 ): E.Either<ControllerError, io.http.Events.Event> => {
   return pipe(
-    event.type === "Quote"
+    event.type === io.http.Events.EventTypes.QUOTE.value
       ? toQuoteIO(event)
-      : event.type === "Documentary"
+      : event.type === io.http.Events.EventTypes.DOCUMENTARY.value
       ? toDocumentaryIO(event)
+      : event.type === io.http.Events.EventTypes.BOOK.value
+      ? toBookIO(event)
       : E.right(event as any),
     E.chain((event) =>
       pipe(

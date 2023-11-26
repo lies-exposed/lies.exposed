@@ -12,7 +12,7 @@ interface CreateEventBodyArbOpts {
   keywordIds?: boolean;
 }
 
-const createEventProps = propsOmit(http.Events.CreateEventBody.types[3], [
+const createEventProps = propsOmit(http.Events.CreateEventBody.types[4], [
   "excerpt",
   "body",
   "date",
@@ -41,7 +41,7 @@ export const CreateEventBodyArb = ({
         fc.oneof(fc.constant(undefined), DateArb),
         1,
       )[0] as any,
-    },
+    } as any,
     media: fc.sample(
       fc.record({
         location: URLArb,

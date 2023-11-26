@@ -1,9 +1,9 @@
 import { propsOmit } from "@liexp/core/lib/io/utils";
 import * as t from "io-ts";
-import { BySubject } from "../Common/BySubject";
+import { BySubjectId } from "../Common/BySubject";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
 import { TRANSACTION } from "./EventType";
-import { GetSearchEventsQuery } from "./SearchEventsQuery";
+import { GetSearchEventsQuery } from "./SearchEvents/SearchEventsQuery";
 
 export const TransactionListQuery = t.strict(
   {
@@ -18,8 +18,8 @@ export const TransactionPayload = t.strict(
     title: t.string,
     total: t.number,
     currency: t.string,
-    from: BySubject,
-    to: BySubject,
+    from: BySubjectId,
+    to: BySubjectId,
   },
   "TransactionPayload",
 );

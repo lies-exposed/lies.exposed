@@ -30,27 +30,12 @@ export const createEventQuery =
       }),
       TE.chain(({ keywords, links, media }) => {
         switch (input.type) {
-          case http.Events.EventTypes.QUOTE.value: {
-            const { type, date, draft, excerpt, payload } = input;
-            return TE.right({
-              type,
-              payload,
-              draft,
-              date,
-              excerpt,
-              keywords,
-              links,
-              media,
-            });
-          }
           case http.Events.EventTypes.PATENT.value: {
             const { type, date, draft, excerpt, payload } = input;
             return TE.right({
               type,
               draft,
-              payload: {
-                ...payload,
-              },
+              payload,
               date,
               excerpt,
               keywords,
@@ -74,32 +59,10 @@ export const createEventQuery =
               media,
             });
           }
-          case http.Events.EventTypes.SCIENTIFIC_STUDY.value: {
-            const { type, draft, excerpt, date, payload } = input;
-            return TE.right({
-              type,
-              draft,
-              excerpt,
-              date,
-              payload,
-              keywords,
-              links,
-              media,
-            });
-          }
-          case http.Events.EventTypes.DOCUMENTARY.value: {
-            const { type, draft, excerpt, date, payload } = input;
-            return TE.right({
-              type,
-              draft,
-              excerpt,
-              date,
-              payload,
-              keywords,
-              links,
-              media,
-            });
-          }
+          case http.Events.EventTypes.QUOTE.value:
+          case http.Events.EventTypes.SCIENTIFIC_STUDY.value:
+          case http.Events.EventTypes.BOOK.value:
+          case http.Events.EventTypes.DOCUMENTARY.value:
           case http.Events.EventTypes.TRANSACTION.value: {
             const { type, draft, excerpt, date, payload } = input;
             return TE.right({

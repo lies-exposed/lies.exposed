@@ -12,17 +12,17 @@ import { Box } from "../../../mui";
 import { MediaField } from "../MediaField";
 
 interface MediaInputProps extends Omit<InputProps, "source"> {
-  sourceType: string;
-  sourceLocation: string;
   type?: "fromURL" | "fromFile";
   supportedTypes?: MediaType[];
   source?: string;
   style?: React.CSSProperties;
+  sourceType?: string;
+  sourceLocation?: string;
 }
 
 export const MediaInput: React.FC<MediaInputProps> = ({
-  sourceType,
-  sourceLocation,
+  sourceType = 'type',
+  sourceLocation = 'location',
   type: _type = "_type",
   supportedTypes,
   source,

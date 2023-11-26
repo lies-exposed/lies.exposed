@@ -1,17 +1,20 @@
-import type * as Actor from "../Actor";
-import type * as Group from "../Group";
-import type * as GroupMember from "../GroupMember";
-import type * as Keyword from "../Keyword";
-import type * as Link from "../Link";
-import type * as Media from "../Media";
-import type * as Death from "./Death";
-import type * as Documentary from "./Documentary";
-import type * as Patent from "./Patent";
-import type * as Quote from "./Quote";
-import type * as ScientificStudy from "./ScientificStudy";
+import type * as Actor from "../../Actor";
+import { type BySubject } from "../../Common";
+import type * as Group from "../../Group";
+import type * as GroupMember from "../../GroupMember";
+import type * as Keyword from "../../Keyword";
+import type * as Link from "../../Link";
+import type * as Media from "../../Media";
+import type * as Death from "../Death";
+import type * as Documentary from "../Documentary";
+import * as EventTotals from "../EventTotals";
+import type * as Patent from "../Patent";
+import type * as Quote from "../Quote";
+import type * as ScientificStudy from "../ScientificStudy";
+import type * as Transaction from "../Transaction";
+import type * as Uncategorized from "../Uncategorized";
+import type { SearchBookEvent } from './SearchBookEvent';
 import * as SearchEventsQuery from "./SearchEventsQuery";
-import type * as Transaction from "./Transaction";
-import type * as Uncategorized from "./Uncategorized";
 
 export interface SearchUncategorizedEvent
   extends Omit<
@@ -52,7 +55,7 @@ export interface SearchScientificStudyEvent
   > & {
     url: Link.Link;
     authors: Actor.Actor[];
-    publisher: Group.Group;
+    publisher?: Group.Group;
   };
   media: Media.Media[];
   keywords: Keyword.Keyword[];
@@ -101,9 +104,7 @@ export interface SearchDocumentaryEvent
 export interface SearchQuoteEvent
   extends Omit<Quote.Quote, "payload" | "media" | "keywords" | "links"> {
   payload: Omit<Quote.QuotePayload, "subject"> & {
-    subject:
-      | { type: "Actor"; id: Actor.Actor }
-      | { type: "Group"; id: Group.Group };
+    subject: BySubject
   };
   media: Media.Media[];
   keywords: Keyword.Keyword[];
@@ -111,36 +112,24 @@ export interface SearchQuoteEvent
 }
 
 export interface SearchTransactionEvent
-  extends Omit<
-    Transaction.Transaction,
-    "payload" | "media" | "keywords" | "links"
-  > {
+  extends SearchEventBase<Transaction.Transaction> {
   payload: Omit<Transaction.TransactionPayload, "from" | "to"> & {
-    from:
-      | {
-          type: "Group";
-          id: Group.Group;
-        }
-      | {
-          type: "Actor";
-          id: Actor.Actor;
-        };
-    to:
-      | {
-          type: "Group";
-          id: Group.Group;
-        }
-      | {
-          type: "Actor";
-          id: Actor.Actor;
-        };
+    from: BySubject;
+    to: BySubject;
   };
+}
+
+type SearchEventBase<T extends { payload: any }> = Omit<
+  T,
+  "payload" | "media" | "keywords" | "links"
+> & {
   media: Media.Media[];
   keywords: Keyword.Keyword[];
   links: Link.Link[];
-}
+};
 
 type SearchEvent =
+  | SearchBookEvent
   | SearchDeathEvent
   | SearchScientificStudyEvent
   | SearchUncategorizedEvent
@@ -149,4 +138,4 @@ type SearchEvent =
   | SearchTransactionEvent
   | SearchQuoteEvent;
 
-export { SearchEventsQuery, type SearchEvent };
+export { SearchEventsQuery, type SearchEvent, EventTotals, type SearchBookEvent };

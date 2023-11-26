@@ -5,6 +5,7 @@ export const getTitle = (
   relations: http.Events.EventRelations,
 ): string => {
   switch (e.type) {
+    case http.Events.EventTypes.BOOK.value:
     case http.Events.EventTypes.DOCUMENTARY.value:
     case http.Events.EventTypes.PATENT.value:
     case http.Events.EventTypes.SCIENTIFIC_STUDY.value:

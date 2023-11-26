@@ -32,7 +32,7 @@ export default class ProjectTemplate extends React.PureComponent<
                     {...project}
                     metadata={{
                       Protest: [],
-                      Condemned: [],
+                      Book: [],
                       Arrest: [],
                       Death: [],
                       PublicAnnouncement: [],

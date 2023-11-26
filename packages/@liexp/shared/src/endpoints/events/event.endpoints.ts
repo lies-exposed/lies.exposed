@@ -2,12 +2,9 @@ import * as t from "io-ts";
 import { UUID } from "io-ts-types/lib/UUID";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
-import * as http from "../io/http";
-import {
-  EventTotals,
-  GetSearchEventsQuery,
-} from "../io/http/Events/SearchEventsQuery";
-import { ResourceEndpoints } from "./types";
+import * as http from "../../io/http";
+import { GetSearchEventsQuery } from "../../io/http/Events/SearchEvents/SearchEventsQuery";
+import { ResourceEndpoints } from "../types";
 
 const SingleEventOutput = http.Common.Output(http.Events.Event, "Event");
 export const ListEventOutput = t.strict(
@@ -25,7 +22,7 @@ export const ListEventOutput = t.strict(
       "Data",
     ),
     total: t.number,
-    totals: EventTotals,
+    totals: http.Events.SearchEvent.EventTotals.EventTotals,
   },
   "Events",
 );

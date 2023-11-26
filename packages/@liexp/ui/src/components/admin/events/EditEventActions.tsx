@@ -1,4 +1,4 @@
-import { getEventMetadata } from "@liexp/shared/lib/helpers/event/event";
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
 import { getTitle } from "@liexp/shared/lib/helpers/event/getTitle.helper";
 import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
 import * as React from "react";
@@ -13,7 +13,7 @@ export const EventEditActions: React.FC = () => {
   const record: any = useRecordContext();
   const { title, date, type } = React.useMemo(() => {
     if (record) {
-      const relations = getEventMetadata(record);
+      const relations = getSearchEventRelations(record);
       const title = getTitle(record, relations);
       return { title, date: record.date, type: record.type };
     }

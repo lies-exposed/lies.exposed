@@ -1,3 +1,4 @@
+import { EventTotalsMonoid } from '@liexp/shared/lib/io/http/Events/EventTotals';
 import {
   ActorArb,
   GroupArb,
@@ -79,15 +80,7 @@ EventsTimelineListExample.args = {
     keywords: [],
     groupsMembers: [],
     links: [],
-    totals: {
-      uncategorized: 10,
-      deaths: 0,
-      scientificStudies: 0,
-      patents: 0,
-      documentaries: 0,
-      transactions: 0,
-      quotes: 0,
-    },
+    totals: EventTotalsMonoid.empty,
     total: 10,
   },
   total: 10,

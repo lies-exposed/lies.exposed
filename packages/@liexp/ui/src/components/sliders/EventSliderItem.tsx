@@ -1,3 +1,4 @@
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
 import * as http from "@liexp/shared/lib/io/http";
 import { type EventType } from "@liexp/shared/lib/io/http/Events";
 import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate";
@@ -235,31 +236,32 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
   event: e,
   ...props
 }) => {
+  const { actors, groups, keywords, links, media } = getSearchEventRelations(e);
   switch (e.type) {
-    case http.Events.EventTypes.QUOTE.value: {
-      const quote =
-        e.payload.subject.type === "Actor"
-          ? {
-              actors: [e.payload.subject.id],
-              groups: [],
-            }
-          : {
-              groups: [e.payload.subject.id],
-              actors: [],
-            };
+    case http.Events.EventTypes.BOOK.value: {
       return (
         <EventSliderItemBase
           {...props}
           {...e}
-          {...quote}
+          title={e.payload.title}
+          date={e.date}
+          excerpt={e.excerpt}
+          {...{ actors, groups, keywords, links, media }}
+        />
+      );
+    }
+    case http.Events.EventTypes.QUOTE.value: {
+      return (
+        <EventSliderItemBase
+          {...props}
+          {...e}
+          {...{ actors, groups, keywords, links, media }}
           title="Quote"
           links={[]}
         />
       );
     }
     case http.Events.EventTypes.TRANSACTION.value: {
-      const actors = e.payload.from.type === "Actor" ? [e.payload.from.id] : [];
-      const groups = e.payload.from.type === "Group" ? [e.payload.from.id] : [];
       return (
         <EventSliderItemBase
           {...props}
@@ -267,11 +269,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
           type={e.type}
           title={e.payload.title}
           excerpt={e.excerpt}
-          actors={actors}
-          groups={groups}
-          links={e.links}
-          media={e.media}
-          keywords={e.keywords}
+          {...{ actors, groups, keywords, links, media }}
         />
       );
     }
@@ -283,11 +281,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
           title={e.payload.title}
           date={e.date}
           excerpt={e.excerpt}
-          actors={[...e.payload.subjects.actors]}
-          groups={e.payload.subjects.groups}
-          links={e.links}
-          media={e.media}
-          keywords={e.keywords}
+          {...{ actors, groups, keywords, links, media }}
         />
       );
     }
@@ -299,11 +293,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
           title={""}
           date={e.date}
           excerpt={e.excerpt}
-          actors={[e.payload.victim]}
-          groups={[]}
-          links={e.links}
-          media={e.media}
-          keywords={e.keywords}
+          {...{ actors, groups, keywords, links, media }}
         />
       );
     }
@@ -315,11 +305,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
           title={e.payload.title}
           date={e.date}
           excerpt={e.excerpt}
-          actors={e.payload.authors}
-          groups={[e.payload.publisher]}
-          links={e.links}
-          media={e.media}
-          keywords={e.keywords}
+          {...{ actors, groups, keywords, links, media }}
         />
       );
     }
@@ -331,11 +317,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
           title={e.payload.title}
           date={e.date}
           excerpt={e.excerpt}
-          actors={e.payload.owners.actors}
-          groups={e.payload.owners.groups}
-          links={e.links}
-          media={e.media}
-          keywords={e.keywords}
+          {...{ actors, groups, keywords, links, media }}
         />
       );
     }
@@ -347,11 +329,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
           title={e.payload.title}
           date={e.date}
           excerpt={e.excerpt}
-          actors={e.payload.actors}
-          groups={e.payload.groups}
-          links={e.links}
-          media={e.media}
-          keywords={e.keywords}
+          {...{ actors, groups, keywords, links, media }}
         />
       );
   }

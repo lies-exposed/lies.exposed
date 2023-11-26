@@ -3,14 +3,14 @@ import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
-import { UUID } from "../io/http/Common";
-import { ListOutput, Output } from "../io/http/Common/Output";
+import { UUID } from "../../io/http/Common";
+import { ListOutput, Output } from "../../io/http/Common/Output";
 import {
   CreateScientificStudyBody,
   ScientificStudy,
-} from "../io/http/Events/ScientificStudy";
-import { GetSearchEventsQuery } from "../io/http/Events/SearchEventsQuery";
-import { ResourceEndpoints } from "./types";
+} from "../../io/http/Events/ScientificStudy";
+import { GetSearchEventsQuery } from "../../io/http/Events/SearchEvents/SearchEventsQuery";
+import { ResourceEndpoints } from "../types";
 
 const SingleStudyOutput = Output(ScientificStudy, "Death");
 const ListStudyOutput = ListOutput(ScientificStudy, "Deaths");

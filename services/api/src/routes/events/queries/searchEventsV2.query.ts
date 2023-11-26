@@ -2,14 +2,12 @@
 
 import { type DBError } from "@liexp/backend/lib/providers/orm";
 import { fp } from "@liexp/core/lib/fp";
+import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals";
 import {
   EventTypes,
   type EventType,
 } from "@liexp/shared/lib/io/http/Events/EventType";
-import {
-  type GetSearchEventsQuery,
-  type EventTotals,
-} from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
+import { type GetSearchEventsQuery } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEventsQuery";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
@@ -92,26 +90,32 @@ export const whereInTitle =
 export const whereActorInArray =
   (config: EventsConfig) =>
   (
-    q: SelectQueryBuilder<EventV2Entity>,
+    selectQ: SelectQueryBuilder<EventV2Entity>,
     actors: string[],
+    eventType: O.Option<EventType[]>,
     whereT?: WhereT,
   ): SelectQueryBuilder<EventV2Entity> => {
-    const where = getWhere(q, whereT);
-    where(
+    const outerWhere = getWhere(selectQ, whereT);
+    outerWhere(
       new Brackets((q) => {
-        Object.entries(config).forEach(([key, fn], i) => {
+        Object.entries(config)
+        .filter(([key]) => O.isNone(eventType) || eventType.value.includes(key as any))
+        .forEach(([eventType, queryConfig], i) => {
           const where = i === 0 ? q.where.bind(q) : q.orWhere.bind(q);
           where(
             new Brackets((qqb) => {
-              fn.whereActorsIn(qqb.where(` event.type = '${key}' `));
+              return queryConfig.whereActorsIn(
+                qqb.where(` event.type = '${eventType}' `),
+                actors,
+              );
             }),
           );
         });
         return q;
       }),
     );
-    q.setParameter("actors", actors);
-    return q;
+    selectQ.setParameter("actors", actors);
+    return selectQ;
   };
 
 export const whereGroupInArray =
@@ -119,50 +123,31 @@ export const whereGroupInArray =
   (
     q: SelectQueryBuilder<EventV2Entity>,
     groups: string[],
+    eventType: O.Option<EventType[]>,
     whereT?: WhereT,
   ): SelectQueryBuilder<EventV2Entity> => {
-    const where = getWhere(q, whereT);
-    where(
-      new Brackets((q) => {
-        Object.entries(config).forEach(([key, fn], i) => {
-          const where = i === 0 ? q.where.bind(q) : q.orWhere.bind(q);
+    const outerWhere = getWhere(q, whereT);
+    outerWhere(
+      new Brackets((subQ) => {
+        Object.entries(config)
+        .filter(([key]) => O.isNone(eventType) || eventType.value.includes(key as any))
+        .forEach(([eventType, fn], i) => {
+          const where = i === 0 ? subQ.where.bind(subQ) : subQ.orWhere.bind(subQ);
           where(
             new Brackets((qqb) => {
-              fn.whereGroupsIn(qqb.where(` event.type = '${key}' `));
+              fn.whereGroupsIn(
+                qqb.where(` event.type = '${eventType}' `),
+                groups,
+              );
             }),
           );
         });
-        return q;
+        return subQ;
       }),
     );
 
     return q.setParameter("groups", groups);
   };
-
-// interface SearchEventQuery {
-//   ids: O.Option<string[]>;
-//   actors: O.Option<string[]>;
-//   groups: O.Option<string[]>;
-//   groupsMembers: O.Option<string[]>;
-//   keywords: O.Option<string[]>;
-//   links: O.Option<string[]>;
-//   media: O.Option<string[]>;
-//   locations: O.Option<string[]>;
-//   type: O.Option<string[]>;
-//   title: O.Option<string>;
-//   draft: O.Option<boolean>;
-//   startDate: O.Option<Date>;
-//   endDate: O.Option<Date>;
-//   exclude: O.Option<string[]>;
-//   withDeleted: boolean;
-//   withDrafts: boolean;
-//   emptyMedia: O.Option<boolean>;
-//   emptyLinks: O.Option<boolean>;
-//   spCount: O.Option<number>;
-//   skip: number;
-//   take: number;
-//   order?: Record<string, "ASC" | "DESC">;
-// }
 
 type SearchEventQuery = Omit<
   GetSearchEventsQuery,
@@ -353,6 +338,7 @@ export const searchEventV2Query =
                   whereActorInArray(config.events)(
                     q,
                     actors.value,
+                    type,
                     hasWhere ? "AND" : undefined,
                   );
                   hasWhere = true;
@@ -365,7 +351,7 @@ export const searchEventV2Query =
                     : hasWhere
                       ? "AND"
                       : undefined;
-                  whereGroupInArray(config.events)(q, groups.value, whereT);
+                  whereGroupInArray(config.events)(q, groups.value, type, whereT);
                 }
 
                 if (groupsMembers.length > 0) {
@@ -490,19 +476,24 @@ export const searchEventV2Query =
               .clone()
               .andWhere(`event.type = '${EventTypes.QUOTE.value}'`);
 
+            const booksCount = q
+              .clone()
+              .andWhere(`event.type = '${EventTypes.BOOK.value}'`);
+
             if (O.isSome(type)) {
-              q.andWhere("event.type::text IN (:...types)", {
+              q.andWhere('"event"."type"::text IN (:...types)', {
                 types: type.value,
               });
             }
 
-            // logger.debug.log(
-            //   `Search event v2 query %s with params %O`,
-            //   ...q.getQueryAndParameters()
-            // );
+            logger.debug.log(
+              `Search event v2 query %s with params %O`,
+              ...q.getQueryAndParameters(),
+            );
 
             return {
               resultsQuery: q,
+              booksCount,
               uncategorizedCount,
               deathsCount,
               scientificStudiesCount,
@@ -557,6 +548,7 @@ export const searchEventV2Query =
             searchV2Query.transactionsCount.getCount(),
           ),
           quotes: db.execQuery(() => searchV2Query.quotesCount.getCount()),
+          books: db.execQuery(() => searchV2Query.booksCount.getCount()),
         });
       }),
       TE.map(({ results, ...totals }) => ({
@@ -569,7 +561,8 @@ export const searchEventV2Query =
           totals.scientificStudies +
           totals.uncategorized +
           totals.transactions +
-          totals.quotes,
+          totals.quotes +
+          totals.books,
       })),
     );
   };

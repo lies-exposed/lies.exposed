@@ -6,7 +6,7 @@ import {
 } from "@liexp/shared/lib/io/http";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
 import { EventTypes } from "@liexp/shared/lib/io/http/Events";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvent";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
 import { type EventNetworkDatum } from "@liexp/shared/lib/io/http/Network/networks";

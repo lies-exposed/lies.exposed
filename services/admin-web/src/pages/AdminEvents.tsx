@@ -7,6 +7,7 @@ import { EventIcon } from "@liexp/ui/lib/components/Common/Icons/EventIcon";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
 import ReferenceArrayGroupMemberInput from "@liexp/ui/lib/components/admin/common/ReferenceArrayGroupMemberInput";
 import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm";
+import { BookEditFormTab } from '@liexp/ui/lib/components/admin/events/tabs/BookEditFormTab';
 import { DeathEventEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/DeathEventEditFormTab";
 import { DocumentaryEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/DocumentaryEditFormTab";
 import { PatentEventEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/PatentEventEditTab";
@@ -39,6 +40,7 @@ import {
   Card,
   CardContent,
   PlayCircleOutline,
+  Stack,
   Typography,
   alpha,
 } from "@liexp/ui/lib/components/mui";
@@ -64,8 +66,18 @@ const eventsFilter = [
     size="small"
   />,
   <BooleanInput key="withDeleted" source="withDeleted" alwaysOn size="small" />,
-  <BooleanInput key="onlyUnshared" source="onlyUnshared" alwaysOn size="small" />,
-  <NumberInput key="spCount" label="Social Post Count" source="spCount" size="small" />,
+  <BooleanInput
+    key="onlyUnshared"
+    source="onlyUnshared"
+    alwaysOn
+    size="small"
+  />,
+  <NumberInput
+    key="spCount"
+    label="Social Post Count"
+    source="spCount"
+    size="small"
+  />,
   <ReferenceArrayGroupInput key="groups" source="groups" size="small" />,
   <ReferenceArrayActorInput key="actors" source="actors" />,
   <ReferenceArrayGroupMemberInput key="groupsMembers" source="groupsMembers" />,
@@ -157,10 +169,12 @@ export const EventList: React.FC = () => (
           const title = r.payload.title ?? r.payload.quote ?? r.payload.details;
           return (
             <Box>
-              <EventIcon color="primary" type={r.type} />
-              <Typography display="inline" variant="subtitle1">
-                {r.type}
-              </Typography>
+              <Stack direction="row" spacing={1} alignItems="center">
+                <EventIcon color="primary" type={r.type} />
+                <Typography display="inline" variant="subtitle1">
+                  {r.type}
+                </Typography>
+              </Stack>
               {title ? (
                 <Typography style={{ display: "block" }}>{title}</Typography>
               ) : undefined}
@@ -214,7 +228,10 @@ export const EventList: React.FC = () => (
           return 0;
         }}
       />
-      <FunctionField source="socialPosts" render={(r: any) => r.socialPosts?.length ?? 0} />
+      <FunctionField
+        source="socialPosts"
+        render={(r: any) => r.socialPosts?.length ?? 0}
+      />
       <FunctionField
         label="groupsMembers"
         source="payload"
@@ -265,6 +282,11 @@ export const EventEdit: React.FC = (props) => {
           if (formData.type === EventTypes.PATENT.value) {
             return <PatentEventEditFormTab />;
           }
+
+          if (formData.type === EventTypes.BOOK.value) {
+            return <BookEditFormTab />;
+          }
+
           return <UncategorizedEventEditTab />;
         }}
       </FormDataConsumer>

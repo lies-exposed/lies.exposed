@@ -1,4 +1,4 @@
-import { getRelationIds } from "@liexp/shared/lib/helpers/event/event";
+import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
 import {
   type Link,
   type Actor,

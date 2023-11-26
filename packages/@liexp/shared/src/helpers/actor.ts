@@ -13,12 +13,12 @@ export const getActors =
 
 export const isByActor =
   (actor: Actor.Actor) =>
-  (by: Common.BySubject): boolean =>
+  (by: Common.BySubjectId): boolean =>
     by.type === "Actor" && by.id === actor.id;
 
 export const isByGroup =
   (group: Group.Group) =>
-  (by: Common.BySubject): boolean =>
+  (by: Common.BySubjectId): boolean =>
     by.type === "Group" && by.id === group.id;
 
 export const getUsernameFromDisplayName = (s: string): string => {

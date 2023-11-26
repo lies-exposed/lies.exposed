@@ -1,9 +1,9 @@
 import { fp, pipe } from "@liexp/core/lib/fp";
+import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals";
 import {
   type EventType,
   EventTypes,
 } from "@liexp/shared/lib/io/http/Events/EventType";
-import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
 import { clsx } from "clsx";
 import * as React from "react";
 import { styled } from "../../../theme";
@@ -67,6 +67,7 @@ export interface EventTypeFiltersProps {
 }
 
 export const allFiltersEnabled: EventTypeMap = {
+  [EventTypes.BOOK.value]: true,
   [EventTypes.DEATH.value]: true,
   [EventTypes.UNCATEGORIZED.value]: true,
   [EventTypes.SCIENTIFIC_STUDY.value]: true,
@@ -102,6 +103,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
 
       const ff: EventTypeMap = allEnabled
         ? {
+            [EventTypes.BOOK.value]: false,
             [EventTypes.DOCUMENTARY.value]: false,
             [EventTypes.PATENT.value]: false,
             [EventTypes.TRANSACTION.value]: false,
@@ -112,19 +114,20 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             [filterK]: true,
           }
         : allDisabled
-        ? {
-            [EventTypes.DOCUMENTARY.value]: true,
-            [EventTypes.PATENT.value]: true,
-            [EventTypes.TRANSACTION.value]: true,
-            [EventTypes.UNCATEGORIZED.value]: true,
-            [EventTypes.DEATH.value]: true,
-            [EventTypes.SCIENTIFIC_STUDY.value]: true,
-            [EventTypes.QUOTE.value]: true,
-          }
-        : {
-            ...filters,
-            [filterK]: !filters[filterK],
-          };
+          ? {
+              [EventTypes.BOOK.value]: true,
+              [EventTypes.DOCUMENTARY.value]: true,
+              [EventTypes.PATENT.value]: true,
+              [EventTypes.TRANSACTION.value]: true,
+              [EventTypes.UNCATEGORIZED.value]: true,
+              [EventTypes.DEATH.value]: true,
+              [EventTypes.SCIENTIFIC_STUDY.value]: true,
+              [EventTypes.QUOTE.value]: true,
+            }
+          : {
+              ...filters,
+              [filterK]: !filters[filterK],
+            };
 
       onChange(ff, filterK);
     },
@@ -215,6 +218,27 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             />
             <Typography variant="caption" className={classes.typeTotal}>
               {totals.documentaries}
+            </Typography>
+          </IconButton>
+        </Grid>
+        <Grid {...gridItemProps}>
+          <IconButton
+            color="primary"
+            className={clsx(classes.iconButton, {
+              [classes.iconButtonSelected]: filters.Book,
+            })}
+            onClick={(e) => {
+              e.preventDefault();
+              handleFilterChange(EventTypes.BOOK.value);
+            }}
+            size="large"
+          >
+            <EventIcon
+              type={EventTypes.BOOK.value}
+              {...eventIconProps}
+            />
+            <Typography variant="caption" className={classes.typeTotal}>
+              {totals.books}
             </Typography>
           </IconButton>
         </Grid>

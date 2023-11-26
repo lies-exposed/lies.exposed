@@ -1,8 +1,9 @@
+import { IframeVideoType, MP4Type } from '@liexp/shared/lib/io/http/Media';
 import * as React from "react";
 import { type EditProps, TextInput } from "react-admin";
 import { Box } from "../../../mui";
 import ReferenceArrayActorInput from "../../actors/ReferenceArrayActorInput";
-import ReferenceAreaInput from "../../common/ReferenceAreaInput";
+import ReferenceAreaInput from "../../areas/input/ReferenceAreaInput";
 import ReferenceArrayGroupInput from "../../groups/ReferenceArrayGroupInput";
 import ReferenceLinkInput from "../../links/ReferenceLinkInput";
 import ReferenceMediaInput from "../../media/input/ReferenceMediaInput";
@@ -15,7 +16,7 @@ export const DocumentaryEditFormTab: React.FC<EditProps & { record?: any }> = (
     <ReferenceAreaInput source="payload.location" />
     <ReferenceLinkInput source="payload.website" fullWidth />
     <ReferenceMediaInput
-      allowedTypes={["video/mp4", "iframe/video"]}
+      allowedTypes={[MP4Type.value, IframeVideoType.value]}
       source="payload.media"
     />
 
