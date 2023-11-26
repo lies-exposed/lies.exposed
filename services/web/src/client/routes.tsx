@@ -1,4 +1,4 @@
-import { getRelationIds } from "@liexp/shared/lib/helpers/event/event";
+import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
 import { EventType } from "@liexp/shared/lib/io/http/Events";
 import { StatsType } from "@liexp/shared/lib/io/http/Stats";
 import { fetchStoryByPath } from "@liexp/ui/lib/providers/DataProvider";

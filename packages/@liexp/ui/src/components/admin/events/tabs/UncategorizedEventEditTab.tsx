@@ -10,8 +10,8 @@ import {
 } from "react-admin";
 import { Box, Grid } from "../../../mui";
 import ReferenceArrayActorInput from "../../actors/ReferenceArrayActorInput";
+import ReferenceAreaInput from "../../areas/input/ReferenceAreaInput";
 import { AvatarField } from "../../common/AvatarField";
-import ReferenceAreaInput from "../../common/ReferenceAreaInput";
 import ReferenceArrayGroupMemberInput from "../../common/ReferenceArrayGroupMemberInput";
 import ReferenceArrayGroupInput from "../../groups/ReferenceArrayGroupInput";
 

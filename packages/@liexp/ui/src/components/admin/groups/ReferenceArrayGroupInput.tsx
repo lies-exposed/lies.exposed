@@ -1,10 +1,10 @@
 import React from "react";
+import { GroupChip } from "../../groups/GroupChip";
 import {
   AutocompleteArrayInput,
   ReferenceArrayInput,
   type ReferenceArrayInputProps,
-} from "react-admin";
-import { GroupChip } from "../../groups/GroupChip";
+} from "../react-admin";
 
 const ReferenceArrayGroupInput: React.FC<
   Omit<ReferenceArrayInputProps, "children"> & { source: string }

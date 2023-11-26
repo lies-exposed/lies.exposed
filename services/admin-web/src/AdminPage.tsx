@@ -2,6 +2,7 @@ import { apiProvider, authProvider } from "@liexp/ui/lib/client/api";
 import {
   ActorIcon,
   AreaIcon,
+  BookEventIcon,
   DeathEventIcon,
   DocumentaryEventIcon,
   GroupIcon,
@@ -24,9 +25,7 @@ import {
   LinkCreate,
   LinkList,
 } from "@liexp/ui/lib/components/admin/links/AdminLinks";
-import {
-  LinkEdit
-} from "@liexp/ui/lib/components/admin/links/LinkEdit";
+import { LinkEdit } from "@liexp/ui/lib/components/admin/links/LinkEdit";
 
 import {
   MediaCreate,
@@ -99,6 +98,7 @@ import {
 } from "./pages/events/AdminTransactionEvent";
 import { UncategorizedEventCreate } from "./pages/events/AdminUncategorizedEvent";
 import { adminThemeOptions } from "./theme";
+import { BookCreate, BookEdit, BookList } from "pages/events/AdminBookEvent";
 
 const AdminPage: React.FC = () => {
   // eslint-disable-next-line no-console
@@ -184,6 +184,14 @@ const AdminPage: React.FC = () => {
         edit={EventEdit}
         create={UncategorizedEventCreate}
         icon={UncategorizedEventIcon}
+      />
+
+      <Resource
+        name="books"
+        list={BookList}
+        edit={BookEdit}
+        create={BookCreate}
+        icon={BookEventIcon}
       />
 
       <Resource

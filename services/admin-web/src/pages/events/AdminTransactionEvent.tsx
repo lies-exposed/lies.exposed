@@ -1,9 +1,9 @@
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
 import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput";
-import ReferenceAreaInput from "@liexp/ui/lib/components/admin/common/ReferenceAreaInput";
-import { ReferenceBySubjectField } from "@liexp/ui/lib/components/admin/common/ReferenceBySubjectField";
-import ReferenceBySubjectInput from "@liexp/ui/lib/components/admin/common/ReferenceBySubjectInput";
+import ReferenceAreaInput from "@liexp/ui/lib/components/admin/areas/input/ReferenceAreaInput";
+import { ReferenceBySubjectField } from "@liexp/ui/lib/components/admin/common/inputs/BySubject/ReferenceBySubjectField";
+import ReferenceBySubjectInput from "@liexp/ui/lib/components/admin/common/inputs/BySubject/ReferenceBySubjectInput";
 import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm";
 import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";

@@ -1,4 +1,4 @@
-import { getEventMetadata } from "@liexp/shared/lib/helpers/event/event";
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
 import * as React from "react";
 import {
   EventsSankeyGraph,
@@ -51,7 +51,7 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
 
         const relationIds = events.reduce(
           (acc, e) => {
-            const { actors, groups, groupsMembers } = getEventMetadata(e);
+            const { actors, groups, groupsMembers } = getSearchEventRelations(e);
             return {
               actors: acc.actors.concat(
                 actors

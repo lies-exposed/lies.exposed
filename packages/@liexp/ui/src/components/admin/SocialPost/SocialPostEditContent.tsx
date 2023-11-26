@@ -1,9 +1,9 @@
 import type * as SocialPost from "@liexp/shared/lib/io/http/SocialPost";
 import * as React from "react";
 import {
-  ShareModalContent,
   emptySharePayload
 } from "../Modal/ShareModal";
+import { ShareModalContent } from '../Modal/ShareModalContent';
 import {
   useInput,
   useRecordContext

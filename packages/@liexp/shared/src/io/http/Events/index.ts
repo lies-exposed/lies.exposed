@@ -8,7 +8,7 @@ import { type Keyword } from "../Keyword";
 import { type Link } from "../Link";
 import { type Media } from "../Media";
 import * as Arrest from "./Arrest";
-import * as Condemned from "./Condemned";
+import * as Book from "./Book";
 import * as Death from "./Death";
 import * as Documentary from "./Documentary";
 import { EventType, EventTypes } from "./EventType";
@@ -18,13 +18,13 @@ import * as Protest from "./Protest";
 import * as PublicAnnouncement from "./PublicAnnouncement";
 import * as Quote from "./Quote";
 import * as ScientificStudy from "./ScientificStudy";
-import * as SearchEvent from "./SearchEvent";
+import * as SearchEvent from "./SearchEvents/SearchEvent";
 import * as Transaction from "./Transaction";
 import * as Uncategorized from "./Uncategorized";
 
 export interface EventListMap {
   Protest: Protest.Protest[];
-  Condemned: Condemned.Condemned[];
+  Book: Book.Book[];
   Arrest: Arrest.Arrest[];
   Death: Death.Death[];
   PublicAnnouncement: PublicAnnouncement.PublicAnnouncement[];
@@ -33,6 +33,7 @@ export interface EventListMap {
 }
 
 export const EventMap: { [key in Event["type"]]: t.Mixed } = {
+  Book: Book.Book,
   Death: Death.Death,
   Patent: Patent.Patent,
   ScientificStudy: ScientificStudy.ScientificStudy,
@@ -44,6 +45,7 @@ export const EventMap: { [key in Event["type"]]: t.Mixed } = {
 
 export const CreateEventBody = t.union(
   [
+    Book.CreateBookBody,
     Death.CreateDeathBody,
     Patent.CreatePatentBody,
     ScientificStudy.CreateScientificStudyBody.types[0],
@@ -59,6 +61,7 @@ export type CreateEventBody = t.TypeOf<typeof CreateEventBody>;
 
 export const EditEventBody = t.union(
   [
+    Book.EditBookBody,
     Death.EditDeathBody,
     Patent.EditPatentBody,
     ScientificStudy.EditScientificStudyBody,
@@ -74,6 +77,7 @@ export type EditEventBody = t.TypeOf<typeof EditEventBody>;
 
 export const EventPayload = t.union(
   [
+    Book.BookPayload,
     Death.DeathPayload,
     Patent.PatentPayload,
     ScientificStudy.ScientificStudyPayload,
@@ -88,6 +92,7 @@ export type EventPayload = t.TypeOf<typeof EventPayload>;
 
 export const Event = t.union(
   [
+    Book.Book,
     Death.Death,
     ScientificStudy.ScientificStudy,
     Uncategorized.Uncategorized,
@@ -126,9 +131,10 @@ interface EventRelations {
 export {
   EventType,
   EventTypes,
+
   Protest,
   Fined,
-  Condemned,
+  Book,
   Arrest,
   PublicAnnouncement,
   Death,

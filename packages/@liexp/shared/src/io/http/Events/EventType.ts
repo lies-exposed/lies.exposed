@@ -1,9 +1,10 @@
 import * as t from "io-ts";
 
+export const BOOK = t.literal("Book");
+export type BOOK = t.TypeOf<typeof BOOK>;
+
 export const DEATH = t.literal("Death");
 export type DEATH = t.TypeOf<typeof DEATH>;
-export const UNCATEGORIZED = t.literal("Uncategorized");
-export type UNCATEGORIZED = t.TypeOf<typeof UNCATEGORIZED>;
 
 export const DOCUMENTARY = t.literal("Documentary");
 export type DOCUMENTARY = t.TypeOf<typeof DOCUMENTARY>;
@@ -20,8 +21,13 @@ export type TRANSACTION = t.TypeOf<typeof TRANSACTION>;
 export const QUOTE = t.literal("Quote");
 export type QUOTE = t.TypeOf<typeof QUOTE>;
 
+export const UNCATEGORIZED = t.literal("Uncategorized");
+export type UNCATEGORIZED = t.TypeOf<typeof UNCATEGORIZED>;
+
+
 export const EventType = t.union(
   [
+    BOOK,
     DEATH,
     UNCATEGORIZED,
     SCIENTIFIC_STUDY,
@@ -35,6 +41,7 @@ export const EventType = t.union(
 export type EventType = t.TypeOf<typeof EventType>;
 
 const EventTypes = {
+  BOOK,
   DEATH,
   DOCUMENTARY,
   PATENT,

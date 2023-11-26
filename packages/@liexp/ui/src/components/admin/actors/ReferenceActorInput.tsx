@@ -4,6 +4,7 @@ import {
   ReferenceInput,
   type ReferenceInputProps,
 } from "react-admin";
+import { ActorChip } from '../../actors/ActorChip';
 
 const ReferenceActorInput: React.FC<
   Omit<ReferenceInputProps, "children"> & { source: string }
@@ -12,8 +13,9 @@ const ReferenceActorInput: React.FC<
     <ReferenceInput {...props} reference="actors">
       <AutocompleteInput
         size="small"
-        optionText="fullName"
         filterToQuery={(fullName) => ({ fullName })}
+        optionText={(a) => <ActorChip actor={a} displayFullName displayAvatar />}
+        inputText={(t) => t.fullName}
         fullWidth
       />
     </ReferenceInput>

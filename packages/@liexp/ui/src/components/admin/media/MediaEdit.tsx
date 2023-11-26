@@ -22,7 +22,7 @@ import {
 import { transformMedia } from "../../../client/admin/MediaAPI";
 import { Box, Button, Grid, alpha } from "../../mui";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent";
-import ReferenceAreaTab from "../areas/input/ReferenceAreaTab";
+import ReferenceAreaTab from "../areas/ReferenceAreaTab";
 import { EditForm } from "../common/EditForm";
 import { CreateEventFromMediaButton } from "../events/CreateEventFromMediaButton";
 import ReferenceArrayEventInput from "../events/ReferenceArrayEventInput";
@@ -187,7 +187,6 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
           <Grid container spacing={2}>
             <Grid item md={6}>
               <MediaField source="location" controls={true} />
-              <MediaInput sourceLocation="location" sourceType="type" />
               <DurationField source="extra.duration" />
               <GenerateExtraButton />
               <TransferButton {...props} />

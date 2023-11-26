@@ -1,4 +1,5 @@
 import * as A from "fp-ts/Array";
+import * as date from "fp-ts/Date";
 import * as E from "fp-ts/Either";
 import * as Eq from "fp-ts/Eq";
 import * as IO from 'fp-ts/IO';
@@ -33,6 +34,7 @@ export const fp = {
   Json,
   Eq,
   Void,
+  Date: date
 };
 
 export { pipe, flow };

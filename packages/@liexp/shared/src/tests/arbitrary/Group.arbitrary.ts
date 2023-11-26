@@ -5,7 +5,7 @@ import * as http from "../../io/http";
 import { HumanReadableStringArb } from "./HumanReadableString.arbitrary";
 import { ColorArb } from "./common/Color.arbitrary";
 
-export const GroupArb: tests.fc.Arbitrary<http.Group.Group> = tests
+export const GroupArb: tests.fc.Arbitrary<http.Group.Group & { members: any[] }> = tests
   .getArbitrary(
     t.strict(
       propsOmit(http.Group.Group, [

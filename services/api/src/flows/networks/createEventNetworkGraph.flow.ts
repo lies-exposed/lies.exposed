@@ -1,13 +1,13 @@
 import * as fs from "fs";
 import path from "path";
 import { fp } from "@liexp/core/lib/fp";
+import { TupleWithId } from "@liexp/core/lib/fp/utils/TupleWithId";
 import {
-  eventsEmptyTotals,
   getColorByEventType,
-  getEventMetadata,
-  getRelationIds,
   getTotals,
 } from "@liexp/shared/lib/helpers/event/event";
+import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
 import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/getTitle.helper";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
 import {
@@ -18,13 +18,13 @@ import {
 } from "@liexp/shared/lib/io/http";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
-import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
+import { EventTotalsMonoid, type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
 import {
-  type NetworkLink,
   type NetworkGraphOutput,
   type NetworkGroupBy,
+  type NetworkLink,
 } from "@liexp/shared/lib/io/http/Network";
 import { type EventNetworkDatum } from "@liexp/shared/lib/io/http/Network/networks";
 import { sequenceS } from "fp-ts/Apply";
@@ -77,7 +77,7 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
           groups: eventGroups,
           keywords: eventKeywords,
           media: eventMedia,
-        } = getEventMetadata(e);
+        } = getSearchEventRelations(e);
 
         const eventTitle = getTitleForSearchEvent(e);
 
@@ -268,15 +268,7 @@ const initialOutput: NetworkGraphOutput = {
   selectedLinks: [],
   startDate: new Date(),
   endDate: new Date(),
-  totals: {
-    uncategorized: 0,
-    documentaries: 0,
-    scientificStudies: 0,
-    quotes: 0,
-    patents: 0,
-    transactions: 0,
-    deaths: 0,
-  },
+  totals: EventTotalsMonoid.empty,
 };
 
 const monoidOutput: Monoid<NetworkGraphOutput> = {
@@ -300,6 +292,7 @@ const monoidOutput: Monoid<NetworkGraphOutput> = {
     keywordLinks: x.keywordLinks.concat(y.keywordLinks),
     groupLinks: x.groupLinks.concat(y.groupLinks),
     eventLinks: x.eventLinks.concat(y.eventLinks),
+    totals: EventTotalsMonoid.concat(x.totals, y.totals),
   }),
 };
 
@@ -325,7 +318,7 @@ const initialResult: Result = {
   actorLinks: [],
   groupLinks: [],
   keywordLinks: [],
-  totals: eventsEmptyTotals,
+  totals: EventTotalsMonoid.empty,
 };
 
 export const createEventNetworkGraph: TEFlow<
@@ -461,10 +454,10 @@ export const createEventNetworkGraph: TEFlow<
                     // },
                     fp.A.map((e) =>
                       toSearchEvent(e, {
-                        actors: new Map(actors.map((a) => [a.id, a])),
-                        groups: new Map(groups.map((g) => [g.id, g])),
-                        keywords: new Map(keywords.map((k) => [k.id, k])),
-                        media: new Map(media.map((m) => [m.id, m])),
+                        actors: new Map(actors.map(TupleWithId.of)),
+                        groups: new Map(groups.map(TupleWithId.of)),
+                        keywords: new Map(keywords.map(TupleWithId.of)),
+                        media: new Map(media.map(TupleWithId.of)),
                         groupsMembers: new Map(),
                       }),
                     ),

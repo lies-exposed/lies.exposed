@@ -1,6 +1,6 @@
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
 import { EventType } from "@liexp/shared/lib/io/http/Events";
-import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
+import { EventTotalsMonoid, type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
 import {
@@ -250,15 +250,7 @@ const HierarchyNetworkGraphBoxWrapper: React.FC<
             keywords: [],
             // graph: stats,
             graph: { nodes: [], links: [] },
-            totals: {
-              uncategorized: 0,
-              transactions: 0,
-              documentaries: 0,
-              scientificStudies: 0,
-              patents: 0,
-              deaths: 0,
-              quotes: 0,
-            },
+            totals: EventTotalsMonoid.empty,
             minDate: startDate,
             maxDate: endDate,
           };

@@ -6,7 +6,7 @@ import * as React from "react";
 import { useNavigateTo } from '../../../utils/history.utils';
 import { Stack } from "../../mui";
 import ReferenceActorInput from "../actors/ReferenceActorInput";
-import ReferenceAreaInput from "../common/ReferenceAreaInput";
+import ReferenceAreaInput from "../areas/input/ReferenceAreaInput";
 import ReferenceEventInput from "../events/ReferenceEventInput";
 import ReferenceGroupInput from "../groups/ReferenceGroupInput";
 import ReferenceKeywordInput from '../keywords/ReferenceKeywordInput';

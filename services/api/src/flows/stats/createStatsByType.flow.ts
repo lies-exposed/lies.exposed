@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { type DBError } from "@liexp/backend/lib/providers/orm";
 import { fp } from "@liexp/core/lib/fp";
-import { getEventMetadata } from "@liexp/shared/lib/helpers/event/event";
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
 import {
   getNewRelationIds,
   toSearchEvent,
@@ -73,7 +73,7 @@ const updateCache = (s: StatsCache, e: SearchEvent.SearchEvent): StatsCache => {
     actors: eventActors,
     groups: eventGroups,
     keywords: eventKeywords,
-  } = getEventMetadata(e);
+  } = getSearchEventRelations(e);
 
   const actors = updateMap(s.actors, eventActors);
   const groups = updateMap(s.groups, eventGroups);

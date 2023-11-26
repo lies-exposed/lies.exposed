@@ -15,7 +15,7 @@ import {
   Stats,
 } from "../../io/http";
 import { type UUID } from "../../io/http/Common";
-import { getEventMetadata } from "../event/event";
+import { getSearchEventRelations } from '@helpers/event/getSearchEventRelations';
 
 const logger = GetLogger("hierarchy-edge-bundling");
 
@@ -75,7 +75,7 @@ export const createHierarchicalEdgeBundling = ({
         actors: eventActors,
         groups: eventGroups,
         keywords: eventKeywords,
-      } = getEventMetadata(e);
+      } = getSearchEventRelations(e);
 
       logger.debug.log("event %O", e);
       logger.debug.log("relations %O", {

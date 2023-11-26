@@ -7,7 +7,7 @@ import { optionFromNullable } from "io-ts-types/optionFromNullable";
 import { type serializedType } from 'ts-io-error/lib/Codec';
 import { Actor, ACTORS } from "./Actor";
 import { EVENTS } from "./Events";
-import { EventTotals } from "./Events/SearchEventsQuery";
+import { EventTotals } from './Events/EventTotals';
 import { Group, GROUPS } from "./Group";
 import { Keyword, KEYWORDS } from "./Keyword";
 import { Media } from "./Media";

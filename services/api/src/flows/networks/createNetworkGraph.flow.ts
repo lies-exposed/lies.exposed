@@ -1,10 +1,9 @@
 import { fp } from "@liexp/core/lib/fp";
 import {
-  eventsEmptyTotals,
   getColorByEventType,
-  getEventMetadata,
-  getTotals,
+  getTotals
 } from "@liexp/shared/lib/helpers/event/event";
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
 import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/getTitle.helper";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
 import {
@@ -15,15 +14,15 @@ import {
 } from "@liexp/shared/lib/io/http";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
-import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
+import { EventTotalsMonoid, type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
 import { ValidContentType } from "@liexp/shared/lib/io/http/Media";
 import {
-  type NetworkLink,
   type GetNetworkQuery,
   type NetworkGraphOutput,
   type NetworkGroupBy,
+  type NetworkLink,
   type NetworkType,
 } from "@liexp/shared/lib/io/http/Network";
 import { type EventNetworkDatum } from "@liexp/shared/lib/io/http/Network/networks";
@@ -138,7 +137,7 @@ export const getEventGraph = (
         groups: eventGroups,
         keywords: eventKeywords,
         media: eventMedia,
-      } = getEventMetadata(e);
+      } = getSearchEventRelations(e);
 
       const eventTitle = getTitleForSearchEvent(e);
 
@@ -314,7 +313,7 @@ const initialResult: Result = {
   actorLinks: new Map(),
   groupLinks: new Map(),
   keywordLinks: new Map(),
-  totals: eventsEmptyTotals,
+  totals: EventTotalsMonoid.empty,
 };
 
 export interface Graph {
