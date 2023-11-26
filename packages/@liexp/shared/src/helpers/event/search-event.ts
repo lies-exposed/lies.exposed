@@ -12,8 +12,8 @@ import {
   type Link,
   type Media,
 } from "../../io/http";
-import { type EventTotals } from "../../io/http/Events/SearchEventsQuery";
-import { getRelationIds } from "./event";
+import { type EventTotals } from "../../io/http/Events/EventTotals";
+import { getRelationIds } from "./getEventRelationIds";
 
 export interface SearchEventsQueryCache {
   events: Events.SearchEvent.SearchEvent[];
@@ -82,7 +82,7 @@ export const getNewRelationIds = (
         media: acc.media.concat(newMediaIds),
         keywords: acc.keywords.concat(newKeywordIds),
         links: acc.links.concat(newLinkIds),
-        socialPosts: []
+        socialPosts: [],
       };
     }),
   );
@@ -214,6 +214,37 @@ export const toSearchEvent = (
   );
 
   switch (e.type) {
+    case Events.EventTypes.BOOK.value: {
+      const authors = e.payload.authors.map((a) => {
+        if (a.type === "Actor") {
+          return { ...a, id: actors.find((aa) => aa.id === a.id) };
+        }
+        return { ...a, id: groups.find((g) => g.id === a.id) };
+      });
+      const publisher = e.payload.publisher
+        ? {
+            ...e.payload.publisher,
+            id:
+              e.payload.publisher.type === "Actor"
+                ? actors.find((a) => a.id === e.payload.publisher?.id)
+                : groups.find((g) => g.id === e.payload.publisher?.id),
+          }
+        : undefined;
+      const pdfMedia = media.find(m => e.payload.media.pdf === m.id)
+      const audioMedia = media.find(m => e.payload.media.audio === m.id)
+      return {
+        ...e,
+        payload: {
+          ...e.payload,
+          authors,
+          media: { pdf: pdfMedia, audio: audioMedia },
+          publisher,
+        },
+        media,
+        keywords,
+        links,
+      };
+    }
     case Events.EventTypes.QUOTE.value: {
       return {
         ...e,

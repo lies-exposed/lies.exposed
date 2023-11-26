@@ -1,18 +1,23 @@
 import { type Media, type MediaType } from "@liexp/shared/lib/io/http/Media";
+import { get } from "lodash";
 import React from "react";
+import { Stack, Typography } from "../../../mui";
 import {
   AutocompleteInput,
+  FunctionField,
+  Link,
   ReferenceInput,
-  type ReferenceInputProps,
   useRecordContext,
-} from "react-admin";
-import { Typography } from "../../../mui";
+  type ReferenceInputProps,
+} from "../../react-admin";
 
 export const matchMediaSuggestions = (
   filterValue: string,
   choice: Media,
 ): boolean => {
-  return (choice?.label ?? choice?.description ?? "No description")?.toLowerCase().includes(filterValue.toLowerCase());
+  return (choice?.label ?? choice?.description ?? "No description")
+    ?.toLowerCase()
+    .includes(filterValue.toLowerCase());
 };
 
 export const MediaAutocompleteOptionText: React.FC = () => {
@@ -38,22 +43,33 @@ const ReferenceMediaInput: React.FC<
   }
 > = ({ allowedTypes, ...props }) => {
   return (
-    <ReferenceInput
-      {...props}
-      reference="media"
-      filter={{
-        type: allowedTypes,
-      }}
-    >
-      <AutocompleteInput
-        fullWidth
-        source="id"
-        optionText={<MediaAutocompleteOptionText />}
-        matchSuggestion={matchMediaSuggestions}
-        inputText={(r) => r.label ?? r.description}
-        filterToQuery={(description) => ({ description })}
+    <Stack spacing={2} direction={"row"} alignItems={"center"}>
+      <ReferenceInput
+        {...props}
+        reference="media"
+        filter={{
+          type: allowedTypes,
+        }}
+      >
+        <AutocompleteInput
+          fullWidth
+          source="id"
+          optionText={<MediaAutocompleteOptionText />}
+          matchSuggestion={matchMediaSuggestions}
+          inputText={(r) => r.label ?? r.description}
+          filterToQuery={(description) => ({ description })}
+        />
+      </ReferenceInput>
+      <FunctionField
+        source={props.source}
+        render={(record: any, source: any) => {
+          const media = get(record, source);
+          return (
+            record?.id && <Link to={`/media/${media}`}>Open Media</Link>
+          );
+        }}
       />
-    </ReferenceInput>
+    </Stack>
   );
 };
 

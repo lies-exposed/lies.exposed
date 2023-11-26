@@ -3,7 +3,7 @@ import { Kind } from "@liexp/shared/lib/io/http/ProjectImage";
 import { ProjectPageContent } from "@liexp/ui/lib/components/ProjectPageContent";
 import { ValidationErrorsLayout } from "@liexp/ui/lib/components/ValidationErrorsLayout";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceAreaInput from "@liexp/ui/lib/components/admin/common/ReferenceAreaInput";
+import ReferenceAreaInput from "@liexp/ui/lib/components/admin/areas/input/ReferenceAreaInput";
 import RichTextInput from "@liexp/ui/lib/components/admin/common/RichTextInput";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
 import {
@@ -119,7 +119,7 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
                     Arrest: [],
                     Protest: [],
                     Death: [],
-                    Condemned: [],
+                    Book: [],
                     PublicAnnouncement: [],
                     Uncategorized: [],
                     Transaction: [],

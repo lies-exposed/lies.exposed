@@ -9,8 +9,8 @@ import {
   type EventType,
   type SearchEvent,
 } from "@liexp/shared/lib/io/http/Events";
+import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals";
 import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
-import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
 import ArrowDownIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpIcon from "@mui/icons-material/ArrowUpward";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
@@ -209,6 +209,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
         [ff.ScientificStudy, EventTypes.SCIENTIFIC_STUDY.value],
         [ff.Transaction, EventTypes.TRANSACTION.value],
         [ff.Quote, EventTypes.QUOTE.value],
+        [ff.Book, EventTypes.BOOK.value],
       ]
         .map(([enabled, key]: any[]) => (enabled ? key : undefined))
         .filter((a) => a !== undefined);
@@ -286,6 +287,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
     scientificStudies: filters.events.ScientificStudy,
     deaths: filters.events.Death,
     quotes: filters.events.Quote,
+    books: filters.events.Book,
   });
 
   const clearButton =

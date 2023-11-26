@@ -1,5 +1,5 @@
 import { GetLogger } from "@liexp/core/lib/logger";
-import { type ListEventOutput } from "@liexp/shared/lib/endpoints/event.endpoints";
+import { type ListEventOutput } from "@liexp/shared/lib/endpoints/events/event.endpoints";
 import {
   getNewRelationIds,
   updateCache,
@@ -15,10 +15,10 @@ import {
   type Media,
 } from "@liexp/shared/lib/io/http";
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
+import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals";
 import {
-  type EventTotals,
   type GetSearchEventsQueryInput,
-} from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
+} from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEventsQuery";
 import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

@@ -4,19 +4,13 @@ import { sequenceS } from "fp-ts/Apply";
 import { type Monoid } from "fp-ts/Monoid";
 import { type NonEmptyArray } from "fp-ts/NonEmptyArray";
 import type * as O from "fp-ts/Option";
-import { UUID } from "io-ts-types/lib/UUID";
-import {
-  Events,
-  type Actor,
-  type Common,
-  type Group,
-  type Network,
-} from "../../io/http";
-import { type BySubject } from "../../io/http/Common";
+import { type UUID } from "io-ts-types/lib/UUID";
+import { Events, type Common, type Network } from "../../io/http";
 import { type EventRelationIds } from "../../io/http/Events";
-import { type SearchEvent } from "../../io/http/Events/SearchEvent";
+import { toBySubjectId } from "../../io/utils/BySubjectUtils";
 import { getTextContents } from "../../slate";
 import { type EventCommonProps } from "./getCommonProps.helper";
+import { getRelationIds } from "./getEventRelationIds";
 
 const { Ord, Eq, S, N } = fp;
 
@@ -97,6 +91,7 @@ export const ordEventDate = Ord.ord.contramap(
 );
 
 const colorMap: Record<Events.Event["type"], string> = {
+  Book: "#451d0a",
   Death: "#000",
   ScientificStudy: "#e43a01",
   Uncategorized: "#ccc111",
@@ -152,115 +147,12 @@ export const eventsInDateRange =
         return pipe(
           events,
           fp.A.filter((e) =>
-            Ord.between(Ord.ordDate)(minDate, maxDate)(e.date),
+            fp.Ord.between(fp.Date.Ord)(minDate, maxDate)(e.date),
           ),
         );
       },
     );
   };
-
-export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
-  const commonIds = {
-    media: e.media,
-    keywords: e.keywords,
-    links: e.links,
-    areas: [],
-    socialPosts: []
-  };
-
-  switch (e.type) {
-    case Events.EventTypes.QUOTE.value: {
-      const quote =
-        e.payload.subject?.type === "Actor"
-          ? {
-              actors: e.payload.subject?.id ? [e.payload.subject.id] : [],
-              groups: [],
-            }
-          : e.payload.subject?.type === "Group"
-          ? {
-              groups: e.payload.subject?.id ? [e.payload.subject.id] : [],
-              actors: [],
-            }
-          : {
-              groups: [],
-              actors: [],
-            };
-
-      return {
-        ...commonIds,
-        ...quote,
-        groupsMembers: [],
-      };
-    }
-    case Events.EventTypes.DEATH.value: {
-      return {
-        ...commonIds,
-        actors: [e.payload.victim],
-        groups: [],
-        groupsMembers: [],
-      };
-    }
-    case Events.EventTypes.TRANSACTION.value: {
-      const actors = [
-        e.payload.from.type === "Actor" ? e.payload.from.id : undefined,
-        e.payload.to.type === "Actor" ? e.payload.to.id : undefined,
-      ].filter(UUID.is);
-      const groups = [
-        e.payload.from.type === "Group" ? e.payload.from.id : undefined,
-        e.payload.to.type === "Group" ? e.payload.to.id : undefined,
-      ].filter(UUID.is);
-      return {
-        ...commonIds,
-        actors,
-        groups,
-        groupsMembers: [],
-      };
-    }
-    case Events.EventTypes.PATENT.value: {
-      return {
-        ...commonIds,
-        actors: e.payload.owners.actors,
-        groups: e.payload.owners.groups,
-        groupsMembers: [],
-      };
-    }
-
-    case Events.EventTypes.DOCUMENTARY.value: {
-      return {
-        ...commonIds,
-        actors: [
-          ...e.payload.authors.actors,
-          ...e.payload.subjects.actors,
-        ].filter((a) => a !== undefined),
-        groups: [
-          ...e.payload.authors.groups,
-          ...e.payload.subjects.groups,
-        ].filter((a) => a !== undefined),
-        groupsMembers: [],
-        media: [e.payload.media, ...commonIds.media],
-      };
-    }
-
-    case Events.EventTypes.SCIENTIFIC_STUDY.value: {
-      return {
-        ...commonIds,
-        links: commonIds.links.concat(e.payload.url),
-        actors: e.payload.authors,
-        groups: e.payload.publisher ? [e.payload.publisher] : [],
-        groupsMembers: [],
-      };
-    }
-
-    case Events.EventTypes.UNCATEGORIZED.value: {
-      return {
-        ...commonIds,
-        actors: e.payload.actors,
-        groups: e.payload.groups,
-        groupsMembers: e.payload.groupsMembers,
-      };
-    }
-  }
-};
 
 const nonEmptyArrayOrNull = <A>(x: A[]): NonEmptyArray<A> | null => {
   const z = pipe(fp.NEA.fromArray(x ?? []), fp.O.toNullable);
@@ -326,97 +218,6 @@ export const takeEventRelations = (
   );
 };
 
-export const getEventMetadata = (e: SearchEvent): Events.EventRelations => {
-  const commonIds = {
-    media: e.media,
-    keywords: e.keywords,
-    links: e.links,
-    areas: [],
-  };
-
-  switch (e.type) {
-    case Events.EventTypes.DEATH.value: {
-      return {
-        ...commonIds,
-        actors: e.payload.victim ? [e.payload.victim] : [],
-        groups: [],
-        groupsMembers: [],
-      };
-    }
-    case Events.EventTypes.TRANSACTION.value: {
-      const actors = [
-        e.payload.from.type === "Actor" ? e.payload.from.id : undefined,
-        e.payload.to.type === "Actor" ? e.payload.to.id : undefined,
-      ].filter((e): e is Actor.Actor => e !== undefined);
-      const groups = [
-        e.payload.from.type === "Group" ? e.payload.from.id : undefined,
-        e.payload.to.type === "Group" ? e.payload.to.id : undefined,
-      ].filter((e): e is Group.Group => e !== undefined);
-      return {
-        ...commonIds,
-        actors,
-        groups,
-        groupsMembers: [],
-      };
-    }
-    case Events.EventTypes.PATENT.value: {
-      return {
-        ...commonIds,
-        actors: e.payload.owners.actors,
-        groups: e.payload.owners.groups,
-        groupsMembers: [],
-      };
-    }
-
-    case Events.EventTypes.DOCUMENTARY.value: {
-      return {
-        ...commonIds,
-        actors: [...e.payload.authors.actors, ...e.payload.subjects.actors],
-        groups: [...e.payload.authors.groups, ...e.payload.subjects.groups],
-        groupsMembers: [],
-        media: [...commonIds.media, e.payload.media],
-      };
-    }
-
-    case Events.EventTypes.SCIENTIFIC_STUDY.value: {
-      return {
-        ...commonIds,
-        actors: e.payload.authors,
-        groups: e.payload.publisher ? [e.payload.publisher] : [],
-        groupsMembers: [],
-      };
-    }
-
-    case Events.EventTypes.QUOTE.value: {
-      const quote =
-        e.payload.subject.type === "Group"
-          ? {
-              actors: [],
-              groups: e.payload.subject?.id ? [e.payload.subject.id] : [],
-            }
-          : {
-              groups: [],
-              actors: e.payload.subject?.id ? [e.payload.subject.id] : [],
-            };
-
-      return {
-        ...commonIds,
-        ...quote,
-        groupsMembers: [],
-      };
-    }
-
-    case Events.EventTypes.UNCATEGORIZED.value: {
-      return {
-        ...commonIds,
-        actors: e.payload.actors,
-        groups: e.payload.groups,
-        groupsMembers: e.payload.groupsMembers,
-      };
-    }
-  }
-};
-
 export const transform = (
   e: Events.Event,
   type: Events.EventType,
@@ -444,12 +245,12 @@ export const transform = (
       const from = pipe(
         props.actors,
         fp.A.head,
-        fp.O.map((id): BySubject => ({ type: "Actor", id })),
+        fp.O.map((id) => toBySubjectId("Actor", id)),
         fp.O.alt(() =>
           pipe(
             props.groups,
             fp.A.head,
-            fp.O.map((id): BySubject => ({ type: "Group", id })),
+            fp.O.map((id) => toBySubjectId("Group", id)),
           ),
         ),
       );
@@ -458,13 +259,13 @@ export const transform = (
         props.actors,
         fp.A.takeLeft(2),
         fp.A.head,
-        fp.O.map((id): BySubject => ({ type: "Actor" as const, id })),
+        fp.O.map((id) => toBySubjectId("Actor", id)),
         fp.O.alt(() =>
           pipe(
             props.groups,
             fp.A.takeLeft(2),
             fp.A.head,
-            fp.O.map((id): BySubject => ({ type: "Group" as const, id })),
+            fp.O.map((id) => toBySubjectId("Group", id)),
           ),
         ),
       );
@@ -506,7 +307,6 @@ export const transform = (
         })),
       );
     }
-
     case Events.EventTypes.DOCUMENTARY.value: {
       return pipe(
         sequenceS(fp.O.Applicative)({
@@ -555,12 +355,12 @@ export const transform = (
       const subjectOpt = pipe(
         props.actors,
         fp.A.head,
-        fp.O.map((id): BySubject => ({ type: "Actor", id })),
+        fp.O.map((id) => toBySubjectId("Actor", id)),
         fp.O.alt(() =>
           pipe(
             props.groups,
             fp.A.head,
-            fp.O.map((id): BySubject => ({ type: "Group", id })),
+            fp.O.map((id) => toBySubjectId("Group", id)),
           ),
         ),
       );
@@ -597,21 +397,10 @@ export const transform = (
   }
 };
 
-export const eventsEmptyTotals: Events.SearchEvent.SearchEventsQuery.EventTotals =
-  {
-    uncategorized: 0,
-    documentaries: 0,
-    scientificStudies: 0,
-    quotes: 0,
-    patents: 0,
-    transactions: 0,
-    deaths: 0,
-  };
-
 export const getTotals = (
-  acc: Events.SearchEvent.SearchEventsQuery.EventTotals,
+  acc: Events.SearchEvent.EventTotals.EventTotals,
   e: Events.Event | Events.SearchEvent.SearchEvent,
-): Events.SearchEvent.SearchEventsQuery.EventTotals => {
+): Events.SearchEvent.EventTotals.EventTotals => {
   return {
     uncategorized:
       acc.uncategorized + (Events.EventTypes.UNCATEGORIZED.is(e.type) ? 1 : 0),
@@ -622,6 +411,7 @@ export const getTotals = (
       acc.transactions + (Events.EventTypes.TRANSACTION.is(e.type) ? 1 : 0),
     patents: acc.patents + (Events.EventTypes.PATENT.is(e.type) ? 1 : 0),
     deaths: acc.deaths + (Events.EventTypes.DEATH.is(e.type) ? 1 : 0),
+    books: acc.books + (Events.EventTypes.BOOK.is(e.type) ? 1 : 0),
     documentaries:
       acc.documentaries + (Events.EventTypes.DOCUMENTARY.is(e.type) ? 1 : 0),
     quotes: acc.quotes + (Events.EventTypes.QUOTE.is(e.type) ? 1 : 0),

@@ -1,5 +1,5 @@
 import { type Actor } from "../Actor";
-import { type SearchEvent } from "../Events/SearchEvent";
+import { type SearchEvent } from "../Events/SearchEvents/SearchEvent";
 import { type Group } from "../Group";
 import { type Keyword } from "../Keyword";
 

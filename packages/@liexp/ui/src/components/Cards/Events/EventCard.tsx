@@ -1,5 +1,5 @@
 import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event";
-import { getEventMetadata } from "@liexp/shared/lib/helpers/event/event";
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
 import { Events } from "@liexp/shared/lib/io/http";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
 import { formatDate } from "@liexp/shared/lib/utils/date";
@@ -36,7 +36,7 @@ const EventCard: React.FC<EventCardProps> = ({
   onEventClick,
   ...props
 }) => {
-  const { actors, groups, media, keywords } = getEventMetadata(event);
+  const { actors, groups, media, keywords } = getSearchEventRelations(event);
   const title = getTitleForSearchEvent(event);
 
   const image =

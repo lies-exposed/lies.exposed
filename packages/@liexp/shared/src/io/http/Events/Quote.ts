@@ -1,10 +1,10 @@
 import { propsOmit } from "@liexp/core/lib/io/utils";
 import * as t from "io-ts";
 import { UUID } from "io-ts-types/UUID";
-import { BySubject } from "../Common";
+import { BySubjectId } from "../Common";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
 import { QUOTE } from "./EventType";
-import { GetSearchEventsQuery } from "./SearchEventsQuery";
+import { GetSearchEventsQuery } from "./SearchEvents/SearchEventsQuery";
 
 export const QuoteListQuery = t.strict(
   {
@@ -17,7 +17,7 @@ export type QuoteListQuery = t.TypeOf<typeof QuoteListQuery>;
 export const QuotePayload = t.strict(
   {
     actor: t.union([UUID, t.undefined]),
-    subject: t.union([BySubject, t.undefined]),
+    subject: t.union([BySubjectId, t.undefined]),
     quote: t.union([t.string, t.undefined]),
     details: t.union([t.string, t.undefined]),
   },

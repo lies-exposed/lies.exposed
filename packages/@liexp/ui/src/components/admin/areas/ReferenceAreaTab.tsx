@@ -10,7 +10,7 @@ import {
   type ReferenceFieldProps,
   type RaRecord,
 } from "react-admin";
-import { Box } from "../../../mui";
+import { Box } from "../../mui";
 
 const ReferenceArrayAreaInput: React.FC<
   Omit<ReferenceArrayInputProps, "children"> & { source: string }

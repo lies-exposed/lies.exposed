@@ -33,6 +33,7 @@ export const searchEventQueryToEventTypeFilters = (
   query: SearchEventsQueryInputNoPagination,
 ): Required<EventTypeFiltersProps["filters"]> => {
   return {
+    [EventTypes.BOOK.value]: !!query.eventType?.includes(EventTypes.BOOK.value),
     [EventTypes.DEATH.value]: !!query.eventType?.includes(
       EventTypes.DEATH.value,
     ),

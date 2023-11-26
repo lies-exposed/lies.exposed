@@ -5,7 +5,7 @@ import { UUID } from "io-ts-types/lib/UUID";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
 import { PATENT } from "./EventType";
-import { GetSearchEventsQuery } from "./SearchEventsQuery";
+import { GetSearchEventsQuery } from "./SearchEvents/SearchEventsQuery";
 
 export const PatentListQuery = t.strict(
   {
@@ -63,3 +63,4 @@ export const EditPatentBody = t.strict({
   type: PATENT,
   payload: PatentPayload,
 });
+export type EditPatentBody = t.TypeOf<typeof EditPatentBody>;

@@ -3,7 +3,7 @@ import {
   type Events,
   type Keyword,
 } from "@liexp/shared/lib/io/http";
-import { ByActor, ByGroup } from "@liexp/shared/lib/io/http/Common";
+import { ByActorId, ByGroupId } from "@liexp/shared/lib/io/http/Common";
 import { TRANSACTION } from "@liexp/shared/lib/io/http/Events/EventType";
 import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
@@ -33,7 +33,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 const getSubject = (
   subject: Events.SearchEvent.SearchTransactionEvent["payload"]["from"],
 ): JSX.Element => {
-  if (subject.type === ByActor.type.props.type.value) {
+  if (subject.type === ByActorId.type.props.type.value) {
     return (
       <ActorListItem
         style={{ display: "inline" }}
@@ -41,7 +41,7 @@ const getSubject = (
       />
     );
   }
-  if (subject.type === ByGroup.type.props.type.value) {
+  if (subject.type === ByGroupId.type.props.type.value) {
     return (
       <GroupListItem
         style={{ display: "inline" }}

@@ -2,10 +2,9 @@ import path from "path";
 import { fp } from "@liexp/core/lib/fp";
 import { type Logger } from "@liexp/core/lib/logger";
 import {
-  eventsEmptyTotals,
-  getRelationIds,
   getTotals,
 } from "@liexp/shared/lib/helpers/event/event";
+import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
 import {
   type Actor,
   type Events,
@@ -13,6 +12,7 @@ import {
   type Keyword,
   type Media,
 } from "@liexp/shared/lib/io/http";
+import { EventTotalsMonoid } from '@liexp/shared/lib/io/http/Events/EventTotals';
 import {
   type GetNetworkQuery,
   type NetworkLink,
@@ -121,7 +121,7 @@ export const getFlowGraph =
       actorLinks: new Map<string, any[]>(),
       groupLinks: new Map<string, any[]>(),
       keywordLinks: new Map<string, any[]>(),
-      totals: eventsEmptyTotals,
+      totals: EventTotalsMonoid.empty,
     };
 
     const graph = pipe(

@@ -1,9 +1,8 @@
 import { fp } from "@liexp/core/lib/fp";
+import { TupleWithId } from "@liexp/core/lib/fp/utils/TupleWithId";
 import { getTitle } from "@liexp/shared/lib/helpers/event";
-import {
-  getEventMetadata,
-  getRelationIds,
-} from "@liexp/shared/lib/helpers/event/event";
+import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
 import { type Event } from "@liexp/shared/lib/io/http/Events";
 import { getTextContents, isValidValue } from "@liexp/shared/lib/slate";
@@ -16,19 +15,15 @@ import { type UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
 import { useDataProvider, useRecordContext } from "react-admin";
 import { fetchRelations } from "../../../../state/queries/SearchEventsQuery";
-import {
-  SocialPostButton
-} from "../../common/SocialPostButton";
+import { SocialPostButton } from "../../common/SocialPostButton";
 
-export const EventSocialPostButton: React.FC<
-  { id: UUID }
-> = ({ id }) => {
+export const EventSocialPostButton: React.FC<{ id: UUID }> = ({ id }) => {
   const apiProvider = useDataProvider();
   const record = useRecordContext();
 
   return (
     <SocialPostButton
-    type="events"
+      type="events"
       onLoadSharePayloadClick={async ({ multipleMedia }) => {
         return await apiProvider
           .getOne<Event>(`events`, { id })
@@ -60,12 +55,12 @@ export const EventSocialPostButton: React.FC<
             const title = getTitle(event, relations);
 
             const searchEvent = toSearchEvent(event, {
-              actors: new Map(relations.actors.map((a) => [a.id, a])),
-              groups: new Map(relations.groups.map((a) => [a.id, a])),
-              media: new Map(relations.media.map((a) => [a.id, a])),
-              keywords: new Map(relations.keywords.map((a) => [a.id, a])),
+              actors: new Map(relations.actors.map(TupleWithId.of)),
+              groups: new Map(relations.groups.map(TupleWithId.of)),
+              media: new Map(relations.media.map(TupleWithId.of)),
+              keywords: new Map(relations.keywords.map(TupleWithId.of)),
               groupsMembers: new Map(
-                relations.groupsMembers.map((a) => [a.id, a]),
+                relations.groupsMembers.map(TupleWithId.of),
               ),
             });
 
@@ -96,7 +91,8 @@ export const EventSocialPostButton: React.FC<
               };
             }
 
-            const { media, actors, groups } = getEventMetadata(searchEvent);
+            const { media, actors, groups } = getSearchEventRelations(searchEvent);
+
             return {
               event: {
                 ...event,

@@ -1,9 +1,7 @@
 import { fp } from "@liexp/core/lib/fp";
 import { getEventCommonProps } from "@liexp/shared/lib/helpers/event";
-import {
-  getRelationIds,
-  transform,
-} from "@liexp/shared/lib/helpers/event/event";
+import { transform } from "@liexp/shared/lib/helpers/event/event";
+import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
 import { Events } from "@liexp/shared/lib/io/http";
 import { pipe } from "fp-ts/function";
 import { get } from "lodash";

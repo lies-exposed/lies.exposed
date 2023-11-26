@@ -1,5 +1,5 @@
 import { EventType } from "@liexp/shared/lib/io/http/Events";
-import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
+import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals";
 import RunIcon from "@mui/icons-material/PlayCircleOutline";
 import { clsx } from "clsx";
 import * as React from "react";

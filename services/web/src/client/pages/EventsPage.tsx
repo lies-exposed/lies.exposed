@@ -1,5 +1,5 @@
 import { EventType } from "@liexp/shared/lib/io/http/Events";
-import { type GetSearchEventsQueryInput } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
+import { type GetSearchEventsQueryInput } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEventsQuery";
 import { formatDate } from "@liexp/shared/lib/utils/date";
 import {
   clearSearchEventsQueryCache,

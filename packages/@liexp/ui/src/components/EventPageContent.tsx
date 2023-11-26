@@ -1,9 +1,8 @@
 import * as http from "@liexp/shared/lib/io/http";
-import {
-  EventTypes
-} from "@liexp/shared/lib/io/http/Events";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events";
 import * as React from "react";
 import { useTheme } from "../theme";
+import { BookEventPageContent } from "./events/page-content/BookEventPageContent";
 import { DefaultEventPageContent } from "./events/page-content/DefaultEventPageContent";
 import { DocumentaryPageContent } from "./events/page-content/DocumentaryPageContent";
 import { QuoteEventPageContent } from "./events/page-content/QuoteEventPageContent";
@@ -41,13 +40,19 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
     event.type === http.Events.EventTypes.DOCUMENTARY.value
       ? event.payload.website
       : event.type === http.Events.EventTypes.SCIENTIFIC_STUDY.value
-      ? event.payload.url
-      : event.type === http.Events.EventTypes.PATENT.value
-      ? event.payload.source
-      : undefined;
+        ? event.payload.url
+        : event.type === http.Events.EventTypes.PATENT.value
+          ? event.payload.source
+          : undefined;
+
 
   const eventPageContent =
-    event.type === EventTypes.QUOTE.value ? (
+    event.type === EventTypes.BOOK.value ? (
+      <BookEventPageContent
+        event={event}
+        onMediaClick={onMediaClick}
+      />
+    ) : event.type === EventTypes.QUOTE.value ? (
       <QuoteEventPageContent event={event} />
     ) : event.type === EventTypes.DOCUMENTARY.value ? (
       <DocumentaryPageContent
@@ -80,9 +85,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
             >
               <Box style={{ marginBottom: theme.spacing(3) }}>
                 {link ? (
-                  <Link href={`/links/${link.id}`}>
-                    {link.title}
-                  </Link>
+                  <Link href={`/links/${link.id}`}>{link.title}</Link>
                 ) : null}
 
                 <Box

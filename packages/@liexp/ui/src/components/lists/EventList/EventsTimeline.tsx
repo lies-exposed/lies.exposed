@@ -1,15 +1,15 @@
+import { EventTotalsMonoid } from "@liexp/shared/lib/io/http/Events/EventTotals";
 import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
-import { type EventTotals } from "@liexp/shared/lib/io/http/Events/SearchEventsQuery";
 import * as React from "react";
 import {
   AutoSizer,
+  InfiniteLoader,
   type Index,
   type IndexRange,
-  InfiniteLoader,
 } from "react-virtualized";
 import {
-  type SearchEventQueryInput,
   searchEventsInfiniteQuery,
+  type SearchEventQueryInput,
 } from "../../../state/queries/SearchEventsQuery";
 import { FullSizeLoader } from "../../Common/FullSizeLoader";
 import { Box } from "../../mui";
@@ -62,7 +62,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
             keywords: [] as any[],
             links: [] as any[],
             total: 0,
-            totals: {} as any as EventTotals,
+            totals: EventTotalsMonoid.empty
           },
         )
       : undefined;

@@ -7,6 +7,7 @@ import {
   faTelegram,
 } from "@fortawesome/free-brands-svg-icons";
 import {
+  faBook,
   faEdit,
   faBarcode,
   faFilm,
@@ -55,6 +56,7 @@ library.add(
     faCircleDollarToSlot,
     faSkullCrossbones,
     faEdit,
+    faBook,
     faBarcode,
     faLink,
     faFilm,

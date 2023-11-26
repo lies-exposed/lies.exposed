@@ -16,6 +16,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   [`&.${classes.root}`]: {
     display: "flex !important",
     height: "100%",
+    minHeight: 200,
   },
   [`& .${classes.modalContainer}`]: {
     position: "absolute",

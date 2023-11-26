@@ -12,14 +12,15 @@ import {
 } from "@liexp/shared/lib/helpers/graph/createHierarchicalEdgeBundlingData";
 import {
   type Actor,
+  type Events,
   type Group,
   type GroupMember,
   type Keyword,
   type Media,
-  type Events,
 } from "@liexp/shared/lib/io/http";
-import { type UUID } from '@liexp/shared/lib/io/http/Common'
+import { type UUID } from '@liexp/shared/lib/io/http/Common';
 import { EventType } from "@liexp/shared/lib/io/http/Events";
+import { EventTotalsMonoid } from '@liexp/shared/lib/io/http/Events/EventTotals';
 import { StatsType } from "@liexp/shared/lib/io/http/Stats";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
 import { sequenceS } from "fp-ts/Apply";
@@ -37,12 +38,12 @@ import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { KeywordEntity } from "@entities/Keyword.entity";
 import { MediaEntity } from "@entities/Media.entity";
 import { type TEFlow } from "@flows/flow.types";
-import { type ControllerError, toControllerError } from "@io/ControllerError";
+import { toControllerError, type ControllerError } from "@io/ControllerError";
 import { toActorIO } from "@routes/actors/actor.io";
 import { toEventV2IO } from "@routes/events/eventV2.io";
 import {
-  type SearchEventOutput,
   searchEventV2Query,
+  type SearchEventOutput,
 } from "@routes/events/queries/searchEventsV2.query";
 import { toGroupIO } from "@routes/groups/group.io";
 import { toGroupMemberIO } from "@routes/groups-members/groupMember.io";
@@ -200,15 +201,7 @@ export const createStatsByEntityType: TEFlow<
                 events: {
                   data: events,
                   total: events.length,
-                  totals: {
-                    uncategorized: 0,
-                    deaths: 0,
-                    documentaries: 0,
-                    transactions: 0,
-                    scientificStudies: 0,
-                    patents: 0,
-                    quotes: 0,
-                  },
+                  totals: EventTotalsMonoid.empty
                 },
                 actors: pipe(
                   actors,

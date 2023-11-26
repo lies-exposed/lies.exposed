@@ -8,7 +8,7 @@ import { placeKitten } from "./Media.arbitrary";
 import { ColorArb } from "./common/Color.arbitrary";
 
 export const ActorArb: tests.fc.Arbitrary<
-  http.Actor.Actor & { bornOn: undefined; diedOn: undefined }
+  http.Actor.Actor & { bornOn: undefined; diedOn: undefined; memberIn: any[] }
 > = tests
   .getArbitrary(
     t.strict(

@@ -1,6 +1,6 @@
 import { type http } from "@liexp/shared/lib/io";
 import * as React from "react";
-import { type FieldProps, useRecordContext } from "react-admin";
+import { type FieldProps, useRecordContext } from "../../react-admin";
 
 export const DeathEventTitle: React.FC<FieldProps<http.Events.Death.Death>> = ({
   record: _record,

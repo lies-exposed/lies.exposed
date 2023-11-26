@@ -3,7 +3,7 @@ import * as t from "io-ts";
 import { UUID } from "io-ts-types/lib/UUID";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
 import { DOCUMENTARY } from "./EventType";
-import { GetSearchEventsQuery } from "./SearchEventsQuery";
+import { GetSearchEventsQuery } from "./SearchEvents/SearchEventsQuery";
 
 export const DocumentaryListQuery = t.strict(
   {

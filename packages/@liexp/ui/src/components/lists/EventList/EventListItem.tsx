@@ -6,6 +6,7 @@ import {
   type Keyword,
 } from "@liexp/shared/lib/io/http";
 import * as React from "react";
+import { BookListItem } from './BookListItem';
 import { DeathListItem } from "./DeathListItem";
 import { DocumentaryListItem } from "./DocumentaryListItem";
 import PatentListItem from "./PatentListItem";
@@ -32,6 +33,9 @@ export const EventListItem: React.FC<EventListItemProps> = ({
   ...props
 }) => {
   switch (e.type) {
+    case Events.EventTypes.BOOK.value: {
+      return <BookListItem item={e} {...props} />;
+    }
     case Events.EventTypes.TRANSACTION.value: {
       return <TransactionListItem item={e} {...props} />;
     }

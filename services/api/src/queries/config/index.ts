@@ -1,30 +1,20 @@
 import { type EventType } from "@liexp/shared/lib/io/http/Events";
-import { type WhereExpressionBuilder } from "typeorm";
-
-interface EventQueryConfig {
-  whereActorsIn: (qb: WhereExpressionBuilder) => WhereExpressionBuilder;
-  whereGroupsIn: (qb: WhereExpressionBuilder) => WhereExpressionBuilder;
-  whereTitleIn: (qb: WhereExpressionBuilder) => string;
-}
+import { type EventQueryConfig } from './EventQueryConfig';
+import { Book } from './events/book.config';
+import { Death } from './events/death.config';
+import { Patent } from './events/patent.config';
 
 export type EventsConfig = {
   [K in EventType]: EventQueryConfig;
 };
 
 export const EventsConfig: EventsConfig = {
-  Death: {
-    whereActorsIn: (qb) =>
-      qb.andWhere(
-        ` "event"."payload"::jsonb -> 'victim' ?| ARRAY[:...actors] `,
-      ),
-    whereGroupsIn: (qb) => qb.andWhere(
-      ` "event"."payload"::jsonb ->> 'type' = 'Quote' AND "event"."payload" IS NULL `,
-    ),
-    whereTitleIn: (qb) => `"event"."payload"::jsonb ->> 'victim'::text`,
-  },
+  Book,
+  Death,
   ScientificStudy: {
     whereActorsIn: (qb) =>
-      qb.andWhere(
+      qb
+      .andWhere(
         ` "event"."payload"::jsonb -> 'authors' ?| ARRAY[:...actors] `,
       ),
     whereGroupsIn: (qb) =>
@@ -44,17 +34,7 @@ export const EventsConfig: EventsConfig = {
       ),
     whereTitleIn: (qb) => `"event"."payload"::jsonb ->> 'title'`,
   },
-  Patent: {
-    whereActorsIn: (qb) =>
-      qb.andWhere(
-        ` "event"."payload"::jsonb -> 'owners' -> 'actors' ?| ARRAY[:...actors] `,
-      ),
-    whereGroupsIn: (qb) =>
-      qb.andWhere(
-        ` (event.type = 'Patent' AND "event"."payload"::jsonb -> 'owners' -> 'groups' ?| ARRAY[:...groups])`,
-      ),
-    whereTitleIn: (qb) => `"event"."payload"::jsonb ->> 'title'`,
-  },
+  Patent,
   Transaction: {
     whereActorsIn: (qb) =>
       qb.andWhere(
@@ -85,8 +65,8 @@ export const EventsConfig: EventsConfig = {
     whereActorsIn: (qb) =>
       qb.andWhere(`"event"."payload"::jsonb -> 'actors' ?| ARRAY[:...actors] `),
     whereGroupsIn: (qb) =>
-      qb.where(
-        ` (event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groups' ?| ARRAY[:...groups]) `,
+      qb.andWhere(
+        ` (event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groups' ?| ARRAY[:...groups] ) `,
       ),
     whereTitleIn: (qb) => `"event"."payload"::jsonb ->> 'title'`,
   },

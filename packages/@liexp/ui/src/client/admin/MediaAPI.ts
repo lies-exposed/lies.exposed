@@ -134,7 +134,7 @@ export const uploadImages =
 export const transformMedia =
   (apiProvider: DataProvider<string>) =>
   async (data: RaRecord): Promise<RaRecord> => {
-    const mediaTask =
+    const uploadFileTask =
       data._type === "fromFile" && data.location.rawFile
         ? uploadFile(apiProvider)(
             "media",
@@ -154,11 +154,12 @@ export const transformMedia =
     const areas = (data.areas ?? []).concat(data.newAreas ?? []);
 
     return await pipe(
-      mediaTask,
+      uploadFileTask,
       TE.map((media) => ({
         ...data,
         id: data.id.toString(),
         ...media,
+        label: data.label ?? data.description,
         events,
         links,
         keywords,
