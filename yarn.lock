@@ -1991,7 +1991,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-env@npm:^7.23.2, @babel/preset-env@npm:^7.23.3":
+"@babel/preset-env@npm:^7.23.2, @babel/preset-env@npm:^7.23.5":
   version: 7.23.5
   resolution: "@babel/preset-env@npm:7.23.5"
   dependencies:
@@ -3272,13 +3272,13 @@ __metadata:
     "@types/copy-webpack-plugin": ^10.1.0
     "@types/debug": ^4.1.12
     "@types/dotenv-webpack": ^7.0.7
-    "@types/eslint": ^8.44.7
+    "@types/eslint": ^8.44.8
     "@types/express": ^4.17.21
     "@types/html-replace-webpack-plugin": ^2.6.4
     "@types/mime": ^1.3.5
     "@types/mini-css-extract-plugin": ^2.5.1
     "@types/prettier": ^3.0.0
-    "@types/react": ^18.2.38
+    "@types/react": ^18.2.40
     "@types/webpack-bundle-analyzer": ^4.6.3
     "@types/webpack-node-externals": ^3.0.4
     copy-webpack-plugin: ^11.0.0
@@ -3331,7 +3331,7 @@ __metadata:
     "@liexp/test": 0.1.0
     "@types/bs58": ^4.0.4
     "@types/prettier": ^3.0.0
-    "@types/react": ^18.2.38
+    "@types/react": ^18.2.40
     "@types/react-dom": ^18.2.17
     "@types/throttle-debounce": ^5.0.2
     "@types/uuid": ^9.0.7
@@ -3416,10 +3416,10 @@ __metadata:
     "@types/chroma-js": ^2.4.3
     "@types/d3": ^7.4.3
     "@types/d3-sankey": ^0.12.4
-    "@types/eslint": ^8.44.7
+    "@types/eslint": ^8.44.8
     "@types/prettier": ^3.0.0
     "@types/reach__router": ^1.3.14
-    "@types/react": ^18.2.38
+    "@types/react": ^18.2.40
     "@types/react-helmet": ^6.1.9
     "@types/react-slick": ^0.23.12
     "@types/react-virtualized": ^9.21.28
@@ -7733,13 +7733,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:*, @types/eslint@npm:^8.37.0, @types/eslint@npm:^8.44.7":
-  version: 8.44.7
-  resolution: "@types/eslint@npm:8.44.7"
+"@types/eslint@npm:*, @types/eslint@npm:^8.37.0, @types/eslint@npm:^8.44.8":
+  version: 8.44.8
+  resolution: "@types/eslint@npm:8.44.8"
   dependencies:
     "@types/estree": "*"
     "@types/json-schema": "*"
-  checksum: 72a52f74477fbe7cc95ad290b491f51f0bc547cb7ea3672c68da3ffd3fb21ba86145bc36823a37d0a186caedeaee15b2d2a6b4c02c6c55819ff746053bd28310
+  checksum: c3bc70166075e6e9f7fb43978882b9ac0b22596b519900b08dc8a1d761bbbddec4c48a60cc4eb674601266223c6f11db30f3fb6ceaae96c23c54b35ad88022bc
   languageName: node
   linkType: hard
 
@@ -8046,12 +8046,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^18.0.0, @types/node@npm:^18.18.12":
-  version: 18.18.12
-  resolution: "@types/node@npm:18.18.12"
+"@types/node@npm:^18.0.0, @types/node@npm:^18.19.1":
+  version: 18.19.1
+  resolution: "@types/node@npm:18.19.1"
   dependencies:
     undici-types: ~5.26.4
-  checksum: 59bb2e94b096761647fe70c79a3134f4d5f6017a493884beeeb525a9047c055db41dc5b0deb91e92160891cb84290f4da8a8ab4cc037f5341ec6ad48eb24ce10
+  checksum: f687338a6f1c463b03232337652804f62f5ae197ae9517a76cf6543ec5a3e358e41f26da0e4fc1afe4871c4a96eec3e3c440fb4ddb616cdc336b42ca203adb29
   languageName: node
   linkType: hard
 
@@ -8238,14 +8238,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^18.2.38":
-  version: 18.2.38
-  resolution: "@types/react@npm:18.2.38"
+"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^18.2.40":
+  version: 18.2.40
+  resolution: "@types/react@npm:18.2.40"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: 71f8c167173d32252be8b2d3c1c76b3570b94d2fbbd139da86d146be453626f5777e12c2781559119637520dbef9f91cffe968f67b5901618f29226d49fad326
+  checksum: c1d8cf29bc314e2d04203b4afe5673aea4ddec39a685c6aff72b01f5b01ae84fed6e994b5e1dbb9fbe4bc69625fdb65a295fae656a2ca9f6a8c949afb327b644
   languageName: node
   linkType: hard
 
@@ -9564,9 +9564,9 @@ __metadata:
     "@testing-library/user-event": ^14.5.1
     "@types/debug": ^4.1.12
     "@types/lodash": ^4.14.202
-    "@types/node": ^18.18.12
+    "@types/node": ^18.19.1
     "@types/prettier": ^3.0.0
-    "@types/react": ^18.2.38
+    "@types/react": ^18.2.40
     "@types/react-dom": ^18.2.17
     "@types/webpack-bundle-analyzer": ^4.6.3
     "@typescript-eslint/eslint-plugin": ^6.13.1
@@ -9844,14 +9844,14 @@ __metadata:
     "@types/body-parser": ^1.19.5
     "@types/cors": ^2.8.17
     "@types/debug": ^4.1.12
-    "@types/eslint": ^8.44.7
+    "@types/eslint": ^8.44.8
     "@types/express": ^4.17.21
     "@types/fluent-ffmpeg": ^2.1.24
     "@types/jsonwebtoken": ^9.0.5
     "@types/lodash": ^4.14.202
     "@types/module-alias": ^2.0.4
     "@types/multer": ^1.4.11
-    "@types/node": ^18.18.12
+    "@types/node": ^18.19.1
     "@types/node-cron": ^3.0.11
     "@types/node-telegram-bot-api": ^0.63.3
     "@types/pg": ^8.10.9
@@ -23867,7 +23867,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "storybook@workspace:services/storybook"
   dependencies:
-    "@babel/preset-env": ^7.23.3
+    "@babel/preset-env": ^7.23.5
     "@babel/preset-react": ^7.23.3
     "@babel/preset-typescript": ^7.23.3
     "@liexp/core": 0.1.0
@@ -23882,7 +23882,7 @@ __metadata:
     "@storybook/react-webpack5": ^7.6.3
     "@storybook/theming": ^7.6.3
     "@types/babel__preset-env": ^7.9.6
-    "@types/eslint": ^8.44.7
+    "@types/eslint": ^8.44.8
     "@types/prettier": ^3.0.0
     d3: ^7.8.5
     eslint: ^8.55.0
@@ -26094,8 +26094,8 @@ __metadata:
     "@types/debug": ^4.1.12
     "@types/express": ^4.17.21
     "@types/mime": ^1.3.5
-    "@types/node": ^18.18.12
-    "@types/react": ^18.2.38
+    "@types/node": ^18.19.1
+    "@types/react": ^18.2.40
     "@types/react-calendar-heatmap": ^1.6.6
     "@types/react-dom": ^18.2.17
     "@types/react-helmet": ^6.1.9

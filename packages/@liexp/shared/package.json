@@ -44,7 +44,7 @@
     "@liexp/test": "0.1.0",
     "@types/bs58": "^4.0.4",
     "@types/prettier": "^3.0.0",
-    "@types/react": "^18.2.38",
+    "@types/react": "^18.2.40",
     "@types/react-dom": "^18.2.17",
     "@types/throttle-debounce": "^5.0.2",
     "@types/uuid": "^9.0.7",
