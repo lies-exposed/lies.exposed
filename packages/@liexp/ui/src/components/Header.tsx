@@ -46,6 +46,9 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
   [`& .${classes.logo}`]: {
     padding: 10,
     height: 64,
+    [`${theme.breakpoints.down("sm")}`]: {
+      height: 48,
+    },
   },
   [`& .${classes.title}`]: {
     margin: 0,
@@ -67,6 +70,9 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
     alignContent: "flex-start",
     alignItems: "center",
     flexGrow: 1,
+    [`${theme.breakpoints.down("sm")}`]: {
+      display: "none",
+    },
   },
   [`& .${classes.menuItem}`]: {
     color: theme.palette.common.white,
