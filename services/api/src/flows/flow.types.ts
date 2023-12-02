@@ -18,3 +18,7 @@ export type Flow<Args extends any[], R> = (
 export type TEFlow<Args extends any[], R> = (
   ctx: RouteContext,
 ) => (...args: Args) => TE.TaskEither<ControllerError, R>;
+
+export type TEFlow2<R> = (
+  ctx: RouteContext,
+) => TE.TaskEither<ControllerError, R>;
