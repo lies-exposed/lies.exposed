@@ -1,6 +1,8 @@
 import { type Stream } from "stream";
 import { fp, pipe } from "@liexp/core/lib/fp";
+import { PDFType } from "@liexp/shared/lib/io/http/Media";
 import {
+  SocialPostDocument,
   SocialPostPhoto,
   SocialPostVideo,
   type CreateSocialPost,
@@ -112,6 +114,16 @@ export const postToTG: TEFlow<[UUID, CreateSocialPost], TelegramBot.Message> =
               if (SocialPostPhoto.is(m)) {
                 return ctx.tg.postPhoto(m.media, mediaText);
               }
+
+              if (SocialPostDocument.is(m)) {
+                return ctx.tg.postFile(
+                  mediaText,
+                  m.filename,
+                  m.media,
+                  PDFType.value,
+                );
+              }
+
               if (SocialPostVideo.is(m)) {
                 return pipe(
                   ctx.http.get<Stream>(m.media, {
@@ -125,7 +137,16 @@ export const postToTG: TEFlow<[UUID, CreateSocialPost], TelegramBot.Message> =
                 );
               }
             }
-            return ctx.tg.postMediaGroup(mediaText, media);
+            const allowedMedia = pipe(
+              media.map((m) => {
+                if (m.type === 'document') {
+                  return fp.E.left(m);
+                }
+                return fp.E.right(m);
+              }),
+              fp.A.separate,
+            );
+            return ctx.tg.postMediaGroup(mediaText, allowedMedia.right);
           }),
           fp.TE.chain((message) =>
             useReply

@@ -1,6 +1,6 @@
 import { type Stream } from "stream";
 import { type Logger } from "@liexp/core/lib/logger";
-import { MP4Type } from "@liexp/shared/lib/io/http/Media";
+import { MP4Type, PDFType } from "@liexp/shared/lib/io/http/Media";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import TelegramBot from "node-telegram-bot-api";
@@ -27,6 +27,7 @@ export interface TGBotProvider {
     text: string,
     media: readonly TelegramBot.InputMedia[],
   ) => TE.TaskEither<Error, TelegramBot.Message>;
+  postFile: (text: string, fileName: string, file: string | Stream | Buffer, contentType?: PDFType) => TE.TaskEither<Error, TelegramBot.Message>;
   onMessage: (
     f: (message: TelegramBot.Message, metadata: TelegramBot.Metadata) => void,
   ) => void;
@@ -152,6 +153,14 @@ export const TGBotProvider = (
             { disable_notification: true },
           ),
         ),
+      );
+    },
+    postFile(text, filename, file, contentType = PDFType.value) {
+      return liftTGTE(() =>
+        api.sendDocument(opts.chat, file, {
+          caption: text,
+          parse_mode: "HTML",
+        }, { filename, contentType }),
       );
     },
     onMessage: (f) => {
