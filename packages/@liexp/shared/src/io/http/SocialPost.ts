@@ -20,6 +20,18 @@ export const SocialPostPhoto = t.type(
   },
   "SocialPostPhoto",
 );
+export type SocialPostPhoto = t.TypeOf<typeof SocialPostPhoto>;
+
+export const SocialPostDocument = t.type(
+  {
+    type: t.literal("document"),
+    filename: t.string,
+    media: t.string,
+    thumbnail: t.string,
+  },
+  "SocialPostPhoto",
+);
+export type SocialPostDocument = t.TypeOf<typeof SocialPostDocument>;
 
 export const SocialPostVideo = t.type(
   {
@@ -30,9 +42,10 @@ export const SocialPostVideo = t.type(
   },
   "SocialPostVideo",
 );
+export type SocialPostVideo = t.TypeOf<typeof SocialPostVideo>;
 
 export const SocialPostBodyMultipleMedia = t.array(
-  t.union([SocialPostPhoto, SocialPostVideo]),
+  t.union([SocialPostPhoto, SocialPostVideo, SocialPostDocument]),
   "SocialPostBodyMultipleMedia",
 );
 export type SocialPostBodyMultipleMedia = t.TypeOf<
