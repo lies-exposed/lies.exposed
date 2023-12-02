@@ -4,7 +4,7 @@ import { pipe } from "fp-ts/function";
 import {
   type EventResult,
   createFromTGMessage,
-} from "@flows/event-suggestion/createFromTGMessage.flow";
+} from "./createFromTGMessage.flow";
 import { type TEFlow } from "@flows/flow.types";
 import { toControllerError } from "@io/ControllerError";
 

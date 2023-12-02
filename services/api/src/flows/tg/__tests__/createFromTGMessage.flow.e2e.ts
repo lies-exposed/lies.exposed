@@ -19,11 +19,11 @@ import {
   TGPhotoArb,
 } from "../../../../test/arbitraries/TGMessage.arb";
 import { saveUser, type UserTest } from "../../../../test/user.utils";
+import { createFromTGMessage } from "../createFromTGMessage.flow";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { LinkEntity } from "@entities/Link.entity";
 import { MediaEntity } from "@entities/Media.entity";
 import { UserEntity } from "@entities/User.entity";
-import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
 
 const tempDir = path.resolve(__dirname, `../../../../temp/tg/media`);
 
