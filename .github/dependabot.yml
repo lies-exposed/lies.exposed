@@ -19,36 +19,36 @@ updates:
         versions: ["3.x"]
       - dependency-name: "query-string"
         versions: ["8.x"]
-    groups:
-      types:
-        patterns:
-          - "@types/*"
-      aws-sdk:
-        patterns:
-          - "@aws-sdk/*"
-      ra:
-        patterns:
-          - "ra-*"
-          - "react-core"
-          - "react-admin"
-      storybook:
-        patterns:
-          - "@storybook/*"
-          - "*storybook*"
-      vitest:
-        patterns:
-          - "*vitest*"
-          - "vite-tsconfig-paths"
-      eslint:
-        patterns:
-          - "@typescript-eslint/*"
-          - "eslint*"
-      uuid:
-        patterns:
-          - "*uuid"
-      mui:
-        patterns:
-          - "*mui*"
-      visx:
-        patterns:
-          - "*visx*"
+    # groups:
+    #   types:
+    #     patterns:
+    #       - "@types/*"
+    #   aws-sdk:
+    #     patterns:
+    #       - "@aws-sdk/*"
+    #   ra:
+    #     patterns:
+    #       - "ra-*"
+    #       - "react-core"
+    #       - "react-admin"
+    #   storybook:
+    #     patterns:
+    #       - "@storybook/*"
+    #       - "*storybook*"
+    #   vitest:
+    #     patterns:
+    #       - "*vitest*"
+    #       - "vite-tsconfig-paths"
+    #   eslint:
+    #     patterns:
+    #       - "@typescript-eslint/*"
+    #       - "eslint*"
+    #   uuid:
+    #     patterns:
+    #       - "*uuid"
+    #   mui:
+    #     patterns:
+    #       - "*mui*"
+    #   visx:
+    #     patterns:
+    #       - "*visx*"
