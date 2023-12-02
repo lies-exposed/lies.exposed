@@ -2,6 +2,7 @@ import { type Events } from "@liexp/shared/lib/io/http";
 import * as A from "fp-ts/Array";
 import { pipe } from "fp-ts/function";
 import React from "react";
+import { styled } from "../../../theme";
 import { Grid } from "../../mui";
 import EventCard from "./EventCard";
 
@@ -10,6 +11,32 @@ interface EventCardGridProps {
   onItemClick: (e: Events.SearchEvent.SearchEvent) => void;
 }
 
+const PREFIX = "EventCardGrid";
+const classes = {
+  cardContainer: `${PREFIX}-grid`,
+  card: `${PREFIX}-card`,
+};
+
+const StyledGrid = styled(Grid)(({ theme }) => ({
+  [`& .${classes.cardContainer}`]: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: theme.spacing(2),
+    height: "100%",
+    [`${theme.breakpoints.down("sm")}`]: {
+      height: "auto",
+    },
+  },
+  [`& .${classes.card}`]: {
+    height: "100%",
+    width: "100%",
+    [`${theme.breakpoints.down("sm")}`]: {
+      height: "auto",
+    },
+  },
+}));
+
 export const EventCardGrid: React.FC<EventCardGridProps> = ({
   events,
   ...props
@@ -17,7 +44,7 @@ export const EventCardGrid: React.FC<EventCardGridProps> = ({
   const gridSize = 12 / (events.length < 3 ? events.length : 3);
 
   return (
-    <Grid container spacing={2}>
+    <StyledGrid container spacing={2}>
       {pipe(
         events,
         A.chunksOf(3),
@@ -33,15 +60,15 @@ export const EventCardGrid: React.FC<EventCardGridProps> = ({
                 <Grid
                   key={e.id}
                   item
+                  className={classes.cardContainer}
                   md={gridSize}
                   sm={6}
                   xs={12}
-                  style={{ height: "100%" }}
                 >
                   <EventCard
                     event={e}
                     showRelations={true}
-                    style={{ height: "100%" }}
+                    className={classes.card}
                     onEventClick={props.onItemClick}
                   />
                 </Grid>
@@ -50,6 +77,6 @@ export const EventCardGrid: React.FC<EventCardGridProps> = ({
           );
         }),
       )}
-    </Grid>
+    </StyledGrid>
   );
 };
