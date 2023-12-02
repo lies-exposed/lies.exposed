@@ -8,7 +8,7 @@ import { loadENV } from "@liexp/core/lib/env/utils";
 import { fp } from "@liexp/core/lib/fp";
 import { separateTE, throwTE } from "@liexp/shared/lib/utils/task.utils";
 import D from "debug";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import { startContext, stopContext } from "./start-ctx";
 import { parseTGMessageFlow } from "@flows/tg/parseMessages.flow";
 

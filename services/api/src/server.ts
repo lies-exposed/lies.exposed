@@ -35,7 +35,7 @@ import { groupCommand } from "./providers/tg/group.command";
 import { helpCommand } from "./providers/tg/help.command";
 import { startCommand } from "./providers/tg/start.command";
 import { AddRoutes } from "./routes";
-import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
+import { createFromTGMessage } from "@flows/tg/createFromTGMessage.flow";
 import { toControllerError, type ControllerError } from "@io/ControllerError";
 import { type ENV } from "@io/ENV";
 import { createS3Provider } from "@providers/context/s3.context";
