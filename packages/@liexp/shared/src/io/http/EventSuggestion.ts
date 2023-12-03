@@ -4,6 +4,7 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { UUID } from "io-ts-types/lib/UUID";
 import { URL } from "./Common";
 import {
+  Book,
   Death,
   Documentary,
   Event,
@@ -56,6 +57,14 @@ const UpdateEventSuggestion = t.type(
     ),
   },
   "UpdateEventSuggestion",
+);
+
+const NewBookEvent = t.strict(
+  {
+    ...propsOmit(Book.Book, ["id", "createdAt", "updatedAt"]),
+    newLinks: EventSuggestionLinks,
+  },
+  "NewBookEvent",
 );
 
 const NewDeathEvent = t.strict(
@@ -111,6 +120,7 @@ export const NewEventSuggestion = t.strict(
     type: EventSuggestionNewType,
     event: t.union(
       [
+        NewBookEvent,
         NewDeathEvent,
         NewScientificStudyEvent,
         NewPatentEvent,
