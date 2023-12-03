@@ -26,14 +26,16 @@ export const getShareMultipleMedia = (
           thumbnail: m.thumbnail ?? defaultImage,
         },
       ]);
-    } else if (http.Media.MP3Type.is(m.type)) {
-      return acc.concat([
-        {
-          type: "photo",
-          media: m.thumbnail ?? defaultImage,
-          thumbnail: m.thumbnail ?? defaultImage,
-        },
-      ]);
+    } else if (http.Media.MP3Type.is(m.type) || http.Media.OGGType.is(m.type)) {
+      
+      // return acc.concat([
+      //   {
+      //     type: "photo",
+      //     media: m.thumbnail ?? defaultImage,
+      //     thumbnail: m.thumbnail ?? defaultImage,
+      //   },
+      // ]);
+      return acc;
     } else {
       return acc.concat([
         {

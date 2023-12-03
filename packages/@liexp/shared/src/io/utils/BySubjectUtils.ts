@@ -1,3 +1,6 @@
+import { fp } from "@liexp/core/lib/fp";
+import { type Option } from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
 import { type Actor, type Group } from "../http";
 import {
   ACTOR,
@@ -50,4 +53,43 @@ export const findBySubject = (
   }
 
   return groups.find((g) => g.id === s.id);
+};
+
+const toBySubjectArray = (
+  ss: BySubjectId[],
+  actors: Actor.Actor[],
+  groups: Group.Group[],
+): BySubject[] => {
+  return ss.flatMap((s) => {
+    const subject: BySubject["id"] | undefined = findBySubject(
+      s,
+      actors,
+      groups,
+    );
+    if (subject) {
+      const bySubject: BySubject = {
+        type: s.type,
+        id: subject,
+      } as any;
+      return [bySubject];
+    }
+    return [];
+  });
+};
+
+const lookupForSubject = (
+  subject: BySubjectId,
+  actors: Actor.Actor[],
+  groups: Group.Group[],
+): Option<BySubject> => {
+  return pipe(
+    findBySubject(subject, actors, groups),
+    fp.O.fromNullable,
+    fp.O.map((s) => toBySubject(subject.type, s)),
+  );
+};
+
+export const BySubjectUtils = {
+  toBySubjectArray,
+  lookupForSubject,
 };

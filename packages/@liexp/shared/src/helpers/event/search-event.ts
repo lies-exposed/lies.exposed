@@ -1,3 +1,4 @@
+import { fp } from "@liexp/core/lib/fp";
 import * as A from "fp-ts/Array";
 import * as M from "fp-ts/Map";
 import { pipe } from "fp-ts/function";
@@ -12,7 +13,9 @@ import {
   type Link,
   type Media,
 } from "../../io/http";
+import { type BySubject } from "../../io/http/Common";
 import { type EventTotals } from "../../io/http/Events/EventTotals";
+import { BySubjectUtils } from "../../io/utils/BySubjectUtils";
 import { getRelationIds } from "./getEventRelationIds";
 
 export interface SearchEventsQueryCache {
@@ -179,31 +182,44 @@ export const toSearchEvent = (
 
   const actors = pipe(
     actorIds,
-    A.map((a) => pipe(s.actors ?? new Map(), M.lookup(S.Eq)(a))),
+    A.map((a) =>
+      pipe(s.actors ?? new Map<string, Actor.Actor>(), M.lookup(S.Eq)(a)),
+    ),
     A.compact,
   );
 
   const groups = pipe(
     groupIds,
-    A.map((a) => pipe(s.groups ?? new Map(), M.lookup(S.Eq)(a))),
+    A.map((a) =>
+      pipe(s.groups ?? new Map<string, Group.Group>(), M.lookup(S.Eq)(a)),
+    ),
     A.compact,
   );
 
   const groupsMembers = pipe(
     groupsMembersIds,
-    A.map((a) => pipe(s.groupsMembers ?? new Map(), M.lookup(S.Eq)(a))),
+    A.map((a) =>
+      pipe(
+        s.groupsMembers ?? new Map<string, GroupMember.GroupMember>(),
+        M.lookup(S.Eq)(a),
+      ),
+    ),
     A.compact,
   );
 
   const media = pipe(
     mediaIds,
-    A.map((a) => pipe(s.media ?? new Map(), M.lookup(S.Eq)(a))),
+    A.map((a) =>
+      pipe(s.media ?? new Map<string, Media.Media>(), M.lookup(S.Eq)(a)),
+    ),
     A.compact,
   );
 
   const keywords = pipe(
     keywordIds,
-    A.map((a) => pipe(s.keywords ?? new Map(), M.lookup(S.Eq)(a))),
+    A.map((a) =>
+      pipe(s.keywords ?? new Map<string, Keyword.Keyword>(), M.lookup(S.Eq)(a)),
+    ),
     A.compact,
   );
 
@@ -215,22 +231,17 @@ export const toSearchEvent = (
 
   switch (e.type) {
     case Events.EventTypes.BOOK.value: {
-      const authors = e.payload.authors.map((a) => {
-        if (a.type === "Actor") {
-          return { ...a, id: actors.find((aa) => aa.id === a.id) };
-        }
-        return { ...a, id: groups.find((g) => g.id === a.id) };
-      });
-      const publisher = e.payload.publisher
-        ? {
-            ...e.payload.publisher,
-            id:
-              e.payload.publisher.type === "Actor"
-                ? actors.find((a) => a.id === e.payload.publisher?.id)
-                : groups.find((g) => g.id === e.payload.publisher?.id),
-          }
-        : undefined;
-      const pdfMedia = media.find((m) => e.payload.media.pdf === m.id);
+      const authors = BySubjectUtils.toBySubjectArray(e.payload.authors, actors, groups)
+      const publisher = pipe(
+        e.payload.publisher,
+        fp.O.fromNullable,
+        fp.O.chain((pub) => BySubjectUtils.lookupForSubject(pub, actors, groups)),
+        fp.O.toUndefined,
+      );
+
+      const pdfMedia: Media.Media = media.find(
+        (m) => e.payload.media.pdf === m.id,
+      ) ?? media[0];
       const audioMedia = media.find((m) => e.payload.media.audio === m.id);
       return {
         ...e,
@@ -335,22 +346,22 @@ export const toSearchEvent = (
       };
     }
     case Events.EventTypes.TRANSACTION.value: {
-      const from =
-        e.payload.from.type === "Group"
-          ? groups.find((g) => g.id === e.payload.from.id)
-          : actors.find((a) => a.id === e.payload.from.id);
+      const from: BySubject = pipe(
+        BySubjectUtils.lookupForSubject(e.payload.from, actors, groups),
+        fp.O.toUndefined,
+      ) ?? { type: "Actor", id: actors[0] };
 
-      const to =
-        e.payload.to.type === "Group"
-          ? groups.find((g) => g.id === e.payload.to.id)
-          : actors.find((a) => a.id === e.payload.to.id);
+      const to = pipe(
+        BySubjectUtils.lookupForSubject(e.payload.to, actors, groups),
+        fp.O.toUndefined,
+      ) ?? { type: "Actor", id: actors[0] };
 
       return {
         ...e,
         payload: {
           ...e.payload,
-          from: { ...e.payload.from, id: from },
-          to: { ...e.payload.to, id: to },
+          from,
+          to,
         },
         media,
         keywords,
