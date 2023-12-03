@@ -68,14 +68,6 @@ export const MakeGetListDocumentaryEventRoute: Route = (r, ctx) => {
         TE.chain(({ results, totals: { documentaries } }) =>
           pipe(
             results,
-            A.map((r: any) => ({
-              ...r,
-              payload: {
-                ...r.payload,
-                website:
-                  r.payload.website === "" ? undefined : r.payload.website,
-              },
-            })),
             A.traverse(E.Applicative)(toDocumentaryIO),
             TE.fromEither,
             TE.map((data) => ({ data, total: documentaries })),
