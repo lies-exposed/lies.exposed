@@ -22,6 +22,12 @@ export const getSuggestions = (
         O.map((l) => l.title ?? ""),
       ),
     ),
+    O.alt(() =>
+      pipe(
+        media,
+        O.chainNullableK((m) => m.label),
+      ),
+    ),
     O.getOrElse(() => m.title),
   );
 
@@ -66,45 +72,69 @@ export const getSuggestions = (
   };
 
   const suggestions: http.EventSuggestion.CreateEventSuggestion[] = [
-    ...pipe(
-      link,
-      O.map((l) => [
-        {
-          type: http.EventSuggestion.EventSuggestionType.types[0].value,
-          event: {
-            ...commonSuggestion,
-            type: http.Events.EventTypes.PATENT.value,
-            payload: {
-              title: suggestedTitle,
-              source: l.id,
-              owners: {
-                actors: [],
-                groups: [],
-              } as any,
-            },
-          },
-        },
-        {
-          type: http.EventSuggestion.EventSuggestionType.types[0].value,
-          event: {
-            ...commonSuggestion,
-            type: http.Events.EventTypes.SCIENTIFIC_STUDY.value,
-            payload: {
-              title: suggestedTitle,
-              url: l.id,
-              image: pipe(
-                suggestedMedia,
+    ...pipe({ link, media: suggestedMedia }, ({ link, media }) => [
+      {
+        type: http.EventSuggestion.EventSuggestionType.types[0].value,
+        event: {
+          ...commonSuggestion,
+          type: http.Events.EventTypes.BOOK.value,
+          payload: {
+            title: suggestedTitle,
+            media: {
+              pdf: pipe(
+                media,
                 O.map((m) => m.id),
                 O.toUndefined,
               ),
-              publisher: undefined,
-              authors: [],
+              audio: undefined,
             },
+            publisher: undefined,
+            authors: [],
           },
         },
-      ]),
-      O.getOrElse((): http.EventSuggestion.CreateEventSuggestion[] => []),
-    ),
+      },
+      ...(O.isSome(link)
+        ? [
+            {
+              type: http.EventSuggestion.EventSuggestionType.types[0].value,
+              event: {
+                ...commonSuggestion,
+                type: http.Events.EventTypes.PATENT.value,
+                payload: {
+                  title: suggestedTitle,
+                  source: link.value.id,
+                  owners: {
+                    actors: [],
+                    groups: [],
+                  } as any,
+                },
+              },
+            },
+          ]
+        : []),
+      ...(O.isSome(link)
+        ? [
+            {
+              type: http.EventSuggestion.EventSuggestionType.types[0].value,
+              event: {
+                ...commonSuggestion,
+                type: http.Events.EventTypes.SCIENTIFIC_STUDY.value,
+                payload: {
+                  title: suggestedTitle,
+                  url: link.value.id,
+                  image: pipe(
+                    media,
+                    O.map((m) => m.id),
+                    O.toUndefined,
+                  ),
+                  publisher: undefined,
+                  authors: [],
+                },
+              },
+            },
+          ]
+        : []),
+    ]),
     {
       type: http.EventSuggestion.EventSuggestionType.types[0].value,
       event: {
