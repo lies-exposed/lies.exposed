@@ -32,8 +32,8 @@ export const postOnSocialJob = (ctx: RouteContext): Cron.ScheduledTask =>
                     ...p,
                     status: PUBLISHED.value,
                     result: {
-                      ig: ig ?? p.result.ig,
-                      tg: tg ?? p.result.tg,
+                      ig: ig ?? p.result?.ig,
+                      tg: tg ?? p.result?.tg,
                     },
                   },
                 ]),
