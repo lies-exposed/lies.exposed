@@ -1,6 +1,6 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
 import { MP4Type } from "@liexp/shared/lib/io/http/Media";
-import { ensureHTTPS } from '@liexp/shared/lib/utils/media.utils';
+import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils";
 import { type Router } from "express";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
@@ -50,7 +50,11 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
 
       const description = pipe(_description, O.toNullable);
 
-      const restore = pipe(_restore, O.filter((o): o is true => !!o), O.isSome);
+      const restore = pipe(
+        _restore,
+        O.filter((o): o is true => !!o),
+        O.isSome,
+      );
       return pipe(
         TE.Do,
         TE.bind("media", () =>
@@ -59,7 +63,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
             loadRelationIds: {
               relations: ["creator"],
             },
-            withDeleted: restore
+            withDeleted: restore,
           }),
         ),
         TE.bind("thumbnail", ({ media: m }) =>
@@ -73,13 +77,13 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
                 TE.map((s) => s[0]),
               )
             : O.isSome(transferThumbnail) && m.thumbnail
-            ? transferFromExternalProvider(ctx)(
-                m.id,
-                m.thumbnail,
-                `${m.id}-thumb`,
-                m.type,
-              )
-            : TE.right(O.toNullable(thumbnail)),
+              ? transferFromExternalProvider(ctx)(
+                  m.id,
+                  m.thumbnail,
+                  `${m.id}-thumb`,
+                  m.type,
+                )
+              : TE.right(O.toNullable(thumbnail)),
         ),
         TE.bind("location", ({ media }) =>
           O.isSome(transfer)
@@ -94,7 +98,14 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
         TE.bind("extra", ({ media }) =>
           O.isSome(overrideExtra) && media.type === MP4Type.value
             ? extractMP4Extra(ctx)({ ...media, type: MP4Type.value })
-            : TE.right(media.extra ? ({ ...media.extra, duration: Math.floor(media.extra.duration) }) : null),
+            : TE.right(
+                media.extra
+                  ? {
+                      ...media.extra,
+                      duration: Math.floor(media.extra.duration),
+                    }
+                  : null,
+              ),
         ),
         ctx.logger.debug.logInTaskEither(`Updates %O`),
         TE.chain(({ thumbnail, location, media, extra }) =>
@@ -114,7 +125,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
                 creator: O.isSome(creator)
                   ? { id: creator.value }
                   : { id: media.creator as any },
-                deletedAt: restore ? null: media.deletedAt,
+                deletedAt: restore ? null : media.deletedAt,
                 description,
                 extra,
                 thumbnail,

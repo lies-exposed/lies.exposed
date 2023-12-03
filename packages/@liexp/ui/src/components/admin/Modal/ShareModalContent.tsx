@@ -1,10 +1,10 @@
 import { getShareMedia } from "@liexp/shared/lib/helpers/event";
-import { type Media } from '@liexp/shared/lib/io/http';
+import { type Media } from "@liexp/shared/lib/io/http";
 import { ImageType } from "@liexp/shared/lib/io/http/Media";
-import { type CreateSocialPost } from '@liexp/shared/lib/io/http/SocialPost';
+import { type CreateSocialPost } from "@liexp/shared/lib/io/http/SocialPost";
 import {
   contentTypeFromFileExt,
-  fileExtFromContentType
+  fileExtFromContentType,
 } from "@liexp/shared/lib/utils/media.utils";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { kebabCase } from "lodash";
@@ -16,14 +16,15 @@ import GroupList from "../../lists/GroupList";
 import KeywordList from "../../lists/KeywordList";
 import { MediaList } from "../../lists/MediaList";
 import {
-  Box, FormControlLabel,
+  Box,
+  FormControlLabel,
   Grid,
   Input,
   Link,
   Switch,
   Tab,
   Tabs,
-  Typography
+  Typography,
 } from "../../mui";
 import { BuildImageButton } from "../media/button/BuildImageButton";
 
@@ -39,7 +40,10 @@ export interface ShareModalContentProps {
 }
 
 export const ShareModalContent: React.FC<ShareModalContentProps> = ({
-  post: payload, multipleMedia, media, onChange,
+  post: payload,
+  multipleMedia,
+  media,
+  onChange,
 }) => {
   const [tab, setTab] = React.useState(0);
   return (
@@ -61,7 +65,8 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
                     title: e.target.value,
                   },
                 });
-              }} />
+              }}
+            />
           </Box>
 
           <Box>
@@ -79,7 +84,8 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
                     content: e.target.value,
                   },
                 });
-              }} />
+              }}
+            />
           </Box>
 
           <Tabs
@@ -98,7 +104,8 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
                   ...a,
                   selected: true,
                 }))}
-                onActorClick={() => { }} />
+                onActorClick={() => {}}
+              />
             </Box>
 
             <Box style={{ display: "flex", flexWrap: "wrap" }}>
@@ -107,7 +114,8 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
                   ...g,
                   selected: true,
                 }))}
-                onItemClick={() => { }} />
+                onItemClick={() => {}}
+              />
             </Box>
 
             <Box style={{ display: "flex", flexWrap: "wrap", padding: 16 }}>
@@ -116,7 +124,8 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
                   ...k,
                   selected: true,
                 }))}
-                onItemClick={() => { }} />
+                onItemClick={() => {}}
+              />
             </Box>
 
             <Box>
@@ -127,35 +136,41 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
                   columns={media.length > 3 ? 3 : media.length}
                   hideDescription
                   media={media.map((m) => ({ ...m, selected: true }))}
-                  onItemClick={() => { }} />
+                  onItemClick={() => {}}
+                />
               ) : media[0] ? (
                 <Box style={{ width: "100%", height: 200 }}>
                   <img
                     src={media[0].thumbnail}
-                    style={{ width: "auto", margin: "auto", height: "100%" }} />
+                    style={{ width: "auto", margin: "auto", height: "100%" }}
+                  />
                 </Box>
               ) : null}
               <FormControlLabel
-                control={<Switch
-                  size="small"
-                  inputProps={{
-                    "aria-label": "Group media",
-                  }}
-                  value={multipleMedia}
-                  onChange={() => {
-                    onChange({
-                      multipleMedia: !multipleMedia,
-                      media,
-                      payload: {
-                        ...payload,
-                        media: getShareMedia(
-                          media,
-                          `${process.env.WEB_URL}/liexp-logo-1200x630.png`
-                        ),
-                      },
-                    });
-                  }} />}
-                label={multipleMedia ? "Media group" : "Single media"} />
+                control={
+                  <Switch
+                    size="small"
+                    inputProps={{
+                      "aria-label": "Group media",
+                    }}
+                    value={multipleMedia}
+                    onChange={() => {
+                      onChange({
+                        multipleMedia: !multipleMedia,
+                        media,
+                        payload: {
+                          ...payload,
+                          media: getShareMedia(
+                            media,
+                            `${process.env.WEB_URL}/liexp-logo-1200x630.png`,
+                          ),
+                        },
+                      });
+                    }}
+                  />
+                }
+                label={multipleMedia ? "Media group" : "Single media"}
+              />
             </Box>
           </TabPanel>
           <TabPanel index={1} value={tab}>
@@ -178,77 +193,90 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
                     multipleMedia,
                     media,
                   });
-                }} />
+                }}
+              />
             </Box>
           </TabPanel>
 
           <Box>
             <Typography variant="subtitle2">Post on</Typography>
             <FormControlLabel
-              control={<Switch
-                size="small"
-                inputProps={{
-                  "aria-label": "Post on Instagram",
-                }}
-                value={payload.platforms.IG}
-                checked={payload.platforms.IG}
-                onChange={() => {
-                  onChange({
-                    multipleMedia,
-                    media,
-                    payload: {
-                      ...payload,
-                      platforms: {
-                        ...payload.platforms,
-                        IG: !payload.platforms.IG,
+              control={
+                <Switch
+                  size="small"
+                  inputProps={{
+                    "aria-label": "Post on Instagram",
+                  }}
+                  value={payload.platforms.IG}
+                  checked={payload.platforms.IG}
+                  onChange={() => {
+                    onChange({
+                      multipleMedia,
+                      media,
+                      payload: {
+                        ...payload,
+                        platforms: {
+                          ...payload.platforms,
+                          IG: !payload.platforms.IG,
+                        },
                       },
-                    },
-                  });
-                }} />}
-              label={"Instagram"} />
+                    });
+                  }}
+                />
+              }
+              label={"Instagram"}
+            />
             <FormControlLabel
-              control={<Switch
-                size="small"
-                inputProps={{
-                  "aria-label": "Post on Telegram",
-                }}
-                value={payload.platforms.TG}
-                checked={payload.platforms.TG}
-                onChange={() => {
-                  onChange({
-                    multipleMedia,
-                    media,
-                    payload: {
-                      ...payload,
-                      platforms: {
-                        ...payload.platforms,
-                        TG: !payload.platforms.TG,
+              control={
+                <Switch
+                  size="small"
+                  inputProps={{
+                    "aria-label": "Post on Telegram",
+                  }}
+                  value={payload.platforms.TG}
+                  checked={payload.platforms.TG}
+                  onChange={() => {
+                    onChange({
+                      multipleMedia,
+                      media,
+                      payload: {
+                        ...payload,
+                        platforms: {
+                          ...payload.platforms,
+                          TG: !payload.platforms.TG,
+                        },
                       },
-                    },
-                  });
-                }} />}
-              label={"Telegram"} />
+                    });
+                  }}
+                />
+              }
+              label={"Telegram"}
+            />
           </Box>
           <Box>
             <FormControlLabel
-              control={<Switch
-                size="small"
-                inputProps={{
-                  "aria-label": "Post on Telegram",
-                }}
-                value={payload.schedule !== undefined}
-                checked={payload.schedule !== undefined}
-                onChange={() => {
-                  onChange({
-                    multipleMedia,
-                    media,
-                    payload: {
-                      ...payload,
-                      schedule: payload.schedule ? undefined : 0,
-                    },
-                  });
-                }} />}
-              label={"Schedule (+ hours from now)"} />
+              control={
+                <Switch
+                  size="small"
+                  inputProps={{
+                    "aria-label": "Post on Telegram",
+                  }}
+                  value={payload.schedule !== undefined}
+                  checked={payload.schedule !== undefined}
+                  onChange={() => {
+                    onChange({
+                      multipleMedia,
+                      media,
+                      payload: {
+                        ...payload,
+                        schedule: payload.schedule ? undefined : 0,
+                      },
+                    });
+                  }}
+                />
+              }
+              label={"Schedule (+ hours from now)"}
+            />
             {payload.schedule !== undefined ? (
               <Input
                 fullWidth
@@ -266,29 +294,34 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
                       },
                     });
                   }
-                }} />
+                }}
+              />
             ) : null}
           </Box>
           <Box>
             <FormControlLabel
-              control={<Switch
-                size="small"
-                inputProps={{
-                  "aria-label": "Use Reply",
-                }}
-                value={payload.useReply}
-                checked={payload.useReply}
-                onChange={() => {
-                  onChange({
-                    multipleMedia,
-                    media,
-                    payload: {
-                      ...payload,
-                      useReply: !payload.useReply
-                    },
-                  });
-                }} />}
-              label={"Use Reply?"} />
+              control={
+                <Switch
+                  size="small"
+                  inputProps={{
+                    "aria-label": "Use Reply",
+                  }}
+                  value={payload.useReply}
+                  checked={payload.useReply}
+                  onChange={() => {
+                    onChange({
+                      multipleMedia,
+                      media,
+                      payload: {
+                        ...payload,
+                        useReply: !payload.useReply,
+                      },
+                    });
+                  }}
+                />
+              }
+              label={"Use Reply?"}
+            />
           </Box>
         </Box>
       </Grid>
@@ -325,12 +358,13 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
                 const downloadLink = document.createElement("a");
                 downloadLink.href = m.location;
                 downloadLink.download = `${kebabCase(
-                  payload.title.substring(0, 150)
+                  payload.title.substring(0, 150),
                 )}.${fileExtFromContentType(m.type)}`;
                 downloadLink.click();
                 downloadLink.remove();
               }
-            }} />
+            }}
+          />
           <Box>
             <Typography>
               <Link href={payload.url}>{payload.title}</Link>

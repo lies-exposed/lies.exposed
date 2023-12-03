@@ -40,12 +40,12 @@ export default {
       name: "Link |||| Links",
       fields: {
         events_length: "N of events",
-        social_posts_length: "N of social posts"
+        social_posts_length: "N of social posts",
       },
       actions: {
         update_metadata: "Update URL Metadata",
         override_thumbnail: "Override Thumbnail",
-        take_web_page_screenshot: 'Take Web Page Screenshot'
+        take_web_page_screenshot: "Take Web Page Screenshot",
       },
     },
   },

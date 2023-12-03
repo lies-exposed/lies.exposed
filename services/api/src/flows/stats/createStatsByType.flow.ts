@@ -13,7 +13,7 @@ import {
   type GroupMember,
   type Media,
 } from "@liexp/shared/lib/io/http";
-import { type UUID } from '@liexp/shared/lib/io/http/Common';
+import { type UUID } from "@liexp/shared/lib/io/http/Common";
 import { EventType, type SearchEvent } from "@liexp/shared/lib/io/http/Events";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
 import { sequenceS } from "fp-ts/Apply";
@@ -263,7 +263,7 @@ export const createStatsByType: TEFlow<
                           events: [],
                           links: [],
                           media: [],
-                          socialPosts: []
+                          socialPosts: [],
                         },
                       ]),
                     ),

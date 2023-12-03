@@ -1,7 +1,7 @@
 import { type Media, type Events } from "@liexp/shared/lib/io/http";
 import * as React from "react";
 import { useTheme } from "../../../theme";
-import MediaElement from '../../Media/MediaElement';
+import MediaElement from "../../Media/MediaElement";
 import { Grid, Typography } from "../../mui";
 
 interface BookEventPageContentProps {
@@ -14,7 +14,9 @@ export const BookEventPageContent: React.FC<BookEventPageContentProps> = ({
   onMediaClick,
 }) => {
   const theme = useTheme();
-  const { payload:{ media } } = item;
+  const {
+    payload: { media },
+  } = item;
 
   return (
     <Grid
@@ -35,10 +37,18 @@ export const BookEventPageContent: React.FC<BookEventPageContentProps> = ({
           marginBottom: theme.spacing(5),
         }}
       >
-        <MediaElement media={media.pdf} disableZoom={true} onClick={onMediaClick} />
-        {media.audio ?
-        <MediaElement media={media.audio} disableZoom={true} onClick={onMediaClick} />
-        : null}
+        <MediaElement
+          media={media.pdf}
+          disableZoom={true}
+          onClick={onMediaClick}
+        />
+        {media.audio ? (
+          <MediaElement
+            media={media.audio}
+            disableZoom={true}
+            onClick={onMediaClick}
+          />
+        ) : null}
       </Grid>
       <Grid item md={6} sm={6} xs={12} style={{ padding: 10 }}>
         <Typography style={{ display: "flex" }} variant="subtitle1">

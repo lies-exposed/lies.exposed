@@ -30,7 +30,6 @@ export const getSearchEventRelations = (
         .flatMap((a) => (a.type === "Group" ? [a.id] : []))
         .concat(publisherGroups);
 
-
       const media = e.payload.media.audio
         ? [e.payload.media.pdf, e.payload.media.audio]
         : [e.payload.media.pdf];

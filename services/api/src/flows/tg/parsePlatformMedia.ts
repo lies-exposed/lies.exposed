@@ -10,7 +10,8 @@ import { type TEFlow } from "@flows/flow.types";
 import { extractMediaFromPlatform } from "@flows/media/extractMediaFromPlatform.flow";
 
 export const parsePlatformMedia: TEFlow<
-  [URL, VideoPlatformMatch, puppeteer.Page, UserEntity], MediaEntity[]
+  [URL, VideoPlatformMatch, puppeteer.Page, UserEntity],
+  MediaEntity[]
 > = (ctx) => (url, m, page, creator) => {
   ctx.logger.debug.log("Parse platform media %O (%s)", m, url);
   return pipe(
@@ -19,7 +20,8 @@ export const parsePlatformMedia: TEFlow<
       return pipe(
         media.location,
         O.fromNullable,
-        O.map((location) => ctx.db.findOne(MediaEntity, { where: { location } })
+        O.map((location) =>
+          ctx.db.findOne(MediaEntity, { where: { location } }),
         ),
         O.fold(
           () => {
@@ -42,11 +44,11 @@ export const parsePlatformMedia: TEFlow<
                     creator: { id: creator.id },
                   },
                 ]);
-              })
+              }),
             );
-          }
-        )
+          },
+        ),
       );
-    })
+    }),
   );
 };

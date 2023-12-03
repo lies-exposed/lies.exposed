@@ -3,12 +3,15 @@ import { type GetListLinkQuery } from "@liexp/shared/lib/io/http/Link";
 import { LinkEntity } from "@entities/Link.entity";
 import { type TEFlow } from "@flows/flow.types";
 import { toControllerError } from "@io/ControllerError";
-import { aggregateSocialPostsPerEntry, leftJoinSocialPosts } from "@queries/socialPosts/leftJoinSocialPosts.query";
+import {
+  aggregateSocialPostsPerEntry,
+  leftJoinSocialPosts,
+} from "@queries/socialPosts/leftJoinSocialPosts.query";
 import { addOrder, getORMOptions } from "@utils/orm.utils";
 
 export const fetchLinks: TEFlow<
   [GetListLinkQuery, boolean],
-  [ LinkEntity[], number]
+  [LinkEntity[], number]
 > = (ctx) => (query, isAdmin) => {
   const {
     events,

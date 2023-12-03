@@ -175,7 +175,7 @@ export const Footer: React.FC<{
               Community
             </Typography>
             <MenuList title="Community" disablePadding={true}>
-            <MenuItem disableGutters={true}>
+              <MenuItem disableGutters={true}>
                 <Link
                   className={classes.link}
                   href={telegram.link}

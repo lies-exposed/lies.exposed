@@ -12,7 +12,7 @@ export const MakeGetBookEventRoute: Route = (r, ctx) => {
       ctx.db.findOneOrFail(EventV2Entity, {
         where: { id: Equal(id) },
         loadRelationIds: {
-          relations: ["keywords", "media", 'links'],
+          relations: ["keywords", "media", "links"],
         },
       }),
       TE.chainEitherK(toBookIO),

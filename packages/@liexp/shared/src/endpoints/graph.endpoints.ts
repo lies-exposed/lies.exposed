@@ -34,8 +34,8 @@ export const EditFlowGraph = Endpoint({
   Input: {
     Params: GetFlowGraphParams,
     Body: t.strict({
-      regenerate: t.boolean
-    })
+      regenerate: t.boolean,
+    }),
   },
   Output: t.strict({ data: FlowGraphOutput }),
 });

@@ -14,10 +14,10 @@ export const toEventV2IO = (
     event.type === io.http.Events.EventTypes.QUOTE.value
       ? toQuoteIO(event)
       : event.type === io.http.Events.EventTypes.DOCUMENTARY.value
-      ? toDocumentaryIO(event)
-      : event.type === io.http.Events.EventTypes.BOOK.value
-      ? toBookIO(event)
-      : E.right(event as any),
+        ? toDocumentaryIO(event)
+        : event.type === io.http.Events.EventTypes.BOOK.value
+          ? toBookIO(event)
+          : E.right(event as any),
     E.chain((event) =>
       pipe(
         io.http.Events.Event.decode({

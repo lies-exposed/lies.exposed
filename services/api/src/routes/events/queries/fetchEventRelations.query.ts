@@ -138,7 +138,7 @@ export const fetchRelations =
       media: O.Option<UUID[]>;
       groupsMembers: O.Option<UUID[]>;
     },
-    isAdmin: boolean
+    isAdmin: boolean,
   ): TE.TaskEither<
     DBError,
     {
@@ -180,13 +180,16 @@ export const fetchRelations =
         : TE.right([]),
       keywords: O.isSome(input.keywords)
         ? pipe(
-            fetchKeywords(ctx)({
-              ids: input.keywords,
-              _end: pipe(
-                input.keywords,
-                fp.O.map((a) => a.length as any),
-              ),
-            }, isAdmin),
+            fetchKeywords(ctx)(
+              {
+                ids: input.keywords,
+                _end: pipe(
+                  input.keywords,
+                  fp.O.map((a) => a.length as any),
+                ),
+              },
+              isAdmin,
+            ),
             fp.TE.map(([results]) => results),
           )
         : TE.right([]),

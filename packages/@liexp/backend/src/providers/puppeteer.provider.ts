@@ -160,7 +160,7 @@ export const GetPuppeteerProvider = (
             ...opts,
           };
 
-          puppeteerLogger.info.log('Launching browser with %O', options);
+          puppeteerLogger.info.log("Launching browser with %O", options);
 
           const b = await p.launch(options);
           return b as puppeteer.Browser;

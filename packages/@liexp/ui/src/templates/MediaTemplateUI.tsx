@@ -7,7 +7,7 @@ import MediaElement from "../components/Media/MediaElement";
 import { Box, Typography } from "../components/mui";
 import EventsBox from "../containers/EventsBox";
 import { EventsPanelBox } from "../containers/EventsPanel";
-import { MediaBox } from '../containers/MediaBox';
+import { MediaBox } from "../containers/MediaBox";
 import { SplitPageTemplate } from "./SplitPageTemplate";
 
 export interface MediaTemplateUIProps {
@@ -77,7 +77,11 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
           </Typography>
           <Typography style={{ marginBottom: 20 }}>{m.description}</Typography>
         </Box>
-        <MediaBox filter={{ keywords: m.keywords }} onClick={onMediaClick} limit={3} />
+        <MediaBox
+          filter={{ keywords: m.keywords }}
+          onClick={onMediaClick}
+          limit={3}
+        />
 
         <EventsBox
           title="Events by keywords"

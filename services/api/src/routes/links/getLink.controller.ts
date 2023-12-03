@@ -1,4 +1,4 @@
-import { fp } from '@liexp/core/lib/fp';
+import { fp } from "@liexp/core/lib/fp";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
 import { type Router } from "express";
@@ -14,7 +14,7 @@ export const MakeGetLinksRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Link.Get, ({ params: { id } }, req) => {
     const isAdmin = pipe(
       RequestDecoder.decodeNullableUser(ctx)(req, []),
-      fp.IO.map((u) => u ? checkIsAdmin(u.permissions) : false)
+      fp.IO.map((u) => (u ? checkIsAdmin(u.permissions) : false)),
     )();
     return pipe(
       ctx.db.findOneOrFail(LinkEntity, {

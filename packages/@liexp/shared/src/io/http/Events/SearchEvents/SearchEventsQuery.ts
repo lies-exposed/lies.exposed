@@ -39,4 +39,3 @@ export const GetSearchEventsQuery = t.strict(
 
 export type GetSearchEventsQuery = t.TypeOf<typeof GetSearchEventsQuery>;
 export type GetSearchEventsQueryInput = t.OutputOf<typeof GetSearchEventsQuery>;
-

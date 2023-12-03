@@ -44,8 +44,8 @@ export const AutocompleteInput = <T extends { id: string }>({
       value !== undefined && value !== ""
         ? searchToFilter(value)
         : selectedIds.length > 0
-        ? { ids: selectedIds }
-        : {};
+          ? { ids: selectedIds }
+          : {};
     return {
       sort: { field: "createdAt", order: "DESC" as const },
       pagination: { page: 1, perPage: 20 },

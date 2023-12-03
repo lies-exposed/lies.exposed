@@ -4,7 +4,7 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { UUID } from "io-ts-types/lib/UUID";
 import { Equal } from "typeorm";
-import { toDocumentaryIO } from './documentary.io';
+import { toDocumentaryIO } from "./documentary.io";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { type Route } from "@routes/route.types";
 

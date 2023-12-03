@@ -51,8 +51,8 @@ const transformMedia =
             data.location.rawFile.type,
           )
         : data._type === "fromURL" && data.url
-        ? TE.fromEither(parseURL(data.url))
-        : TE.right({ type: data.type, location: data.location });
+          ? TE.fromEither(parseURL(data.url))
+          : TE.right({ type: data.type, location: data.location });
 
     const events = (data.events ?? []).concat(data.newEvents ?? []);
     const links = (data.links ?? []).concat(

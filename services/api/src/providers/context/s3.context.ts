@@ -16,7 +16,7 @@ export const createS3Provider = (env: ENV): SpaceProvider.SpaceProvider => {
             secretAccessKey: env.SPACE_ACCESS_KEY_SECRET,
           },
           tls: false,
-          forcePathStyle: true
+          forcePathStyle: true,
         }
       : {
           endpoint: `https://${env.SPACE_REGION}.${env.SPACE_ENDPOINT}`,

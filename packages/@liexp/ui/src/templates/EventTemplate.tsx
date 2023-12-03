@@ -1,4 +1,4 @@
-import { TupleWithId } from '@liexp/core/lib/fp/utils/TupleWithId';
+import { TupleWithId } from "@liexp/core/lib/fp/utils/TupleWithId";
 import { getEventCommonProps } from "@liexp/shared/lib/helpers/event";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
 import { type http } from "@liexp/shared/lib/io";

@@ -19,10 +19,10 @@ export const parseDocument: TEFlow<[TelegramBot.Document], MediaEntity[]> =
       TE.chain((f) => {
         ctx.logger.debug.log("File downloaded %O", f);
 
-        const contentType = messageDocument.mime_type as any ?? PDFType.value;
+        const contentType = (messageDocument.mime_type as any) ?? PDFType.value;
         return createAndUpload(ctx)(
           {
-            type: contentType ,
+            type: contentType,
             location: messageDocument.file_id,
             label: messageDocument.file_name,
             description: messageDocument.file_name,

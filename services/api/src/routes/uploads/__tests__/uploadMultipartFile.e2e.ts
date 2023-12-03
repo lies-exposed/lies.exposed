@@ -1,7 +1,7 @@
-import { PngType } from '@liexp/shared/lib/io/http/Media';
+import { PngType } from "@liexp/shared/lib/io/http/Media";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { uuid } from '@liexp/shared/lib/utils/uuid';
+import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest";
 
 describe("Upload file", () => {
@@ -54,10 +54,10 @@ describe("Upload file", () => {
   });
 
   test("Should upload media files with correct keys", async () => {
-    const mediaId = uuid()
-    const mediaKey = `media/${mediaId}/${mediaId}.png`
+    const mediaId = uuid();
+    const mediaKey = `media/${mediaId}/${mediaId}.png`;
     const uploadedObject = {
-      Bucket: 'media',
+      Bucket: "media",
       Key: mediaKey,
       Location: `https://media.localhost:9007/public/${mediaKey}`,
     };

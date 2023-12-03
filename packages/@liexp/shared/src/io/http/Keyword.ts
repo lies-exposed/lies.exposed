@@ -35,7 +35,7 @@ export const Keyword = t.strict(
     ...CreateKeyword.type.props,
     color: Color,
     id: UUID,
-    socialPosts: t.array(UUID)
+    socialPosts: t.array(UUID),
   },
   "Keyword",
 );

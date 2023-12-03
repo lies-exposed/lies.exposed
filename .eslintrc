@@ -12,13 +12,7 @@
   "plugins": ["@typescript-eslint", "fp-ts"],
   "parserOptions": {
     "project": [
-      "./tsconfig.test.json",
-      "./packages/@liexp/shared/tsconfig.json",
-      "./packages/@liexp/ui/tsconfig.test.json",
-      "./packages/@liexp/test/tsconfig.json",
-      "./services/admin-web/tsconfig.json",
-      "./services/api/tsconfig.json",
-      "./services/web/tsconfig.json"
+      "./tsconfig.test.json"
     ]
   },
   "settings": {

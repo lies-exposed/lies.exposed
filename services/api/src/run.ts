@@ -60,7 +60,9 @@ const run = (): Promise<void> => {
             // downloadVaccineDataTask.stop();
             serverLogger.debug.log(`Removing "post on social" cron task...`);
             postOnSocialTask.stop();
-            serverLogger.debug.log(`Removing "clean up temp folder" cron task...`);
+            serverLogger.debug.log(
+              `Removing "clean up temp folder" cron task...`,
+            );
             cleanTempFolderTask.stop();
 
             // eslint-disable-next-line no-console

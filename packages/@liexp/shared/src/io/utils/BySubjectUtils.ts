@@ -1,10 +1,10 @@
-import { type Actor, type Group } from '../http';
+import { type Actor, type Group } from "../http";
 import {
-    ACTOR,
-    GROUP,
-    type BySubject,
-    type BySubjectId,
-    type UUID
+  ACTOR,
+  GROUP,
+  type BySubject,
+  type BySubjectId,
+  type UUID,
 } from "../http/Common";
 
 export const toBySubjectId = (type: ACTOR | GROUP, id: UUID): BySubjectId => {
@@ -31,7 +31,7 @@ export const toBySubject = <T extends ACTOR | GROUP>(
       type: ACTOR.value,
       id,
     };
-    return byActor
+    return byActor;
   }
 
   return {

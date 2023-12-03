@@ -2,9 +2,9 @@ import React from "react";
 import {
   ReferenceManyField,
   type RaRecord,
-  type ReferenceManyFieldProps
+  type ReferenceManyFieldProps,
 } from "react-admin";
-import { MediaDataGrid } from './MediaList';
+import { MediaDataGrid } from "./MediaList";
 
 const ReferenceManyMediaField: React.FC<
   Omit<ReferenceManyFieldProps<RaRecord<string>>, "reference" | "children">

@@ -1,6 +1,9 @@
 import { getShareMedia } from "@liexp/shared/lib/helpers/event";
 import { type Media } from "@liexp/shared/lib/io/http";
-import { type SocialPostResourceType, type CreateSocialPost } from "@liexp/shared/lib/io/http/SocialPost";
+import {
+  type SocialPostResourceType,
+  type CreateSocialPost,
+} from "@liexp/shared/lib/io/http/SocialPost";
 import * as React from "react";
 import {
   useRecordContext,
@@ -16,7 +19,7 @@ interface OnLoadSharePayloadClickOpts {
 
 export interface SocialPostButtonProps extends FieldProps {
   id?: Identifier;
-  type: SocialPostResourceType
+  type: SocialPostResourceType;
   onLoadSharePayloadClick: (opts: OnLoadSharePayloadClickOpts) => Promise<
     Omit<CreateSocialPost, "media"> & {
       media: Media.Media[];

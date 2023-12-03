@@ -35,7 +35,7 @@ const ENV = t.intersection(
           JWT_SECRET: t.string,
           WEB_URL: t.string,
           SOCIAL_POSTING_CRON: t.string,
-          TEMP_FOLDER_CLEAN_UP_CRON: t.string
+          TEMP_FOLDER_CLEAN_UP_CRON: t.string,
         },
         "API_ENV",
       ),

@@ -139,7 +139,7 @@ export const postToTG: TEFlow<[UUID, CreateSocialPost], TelegramBot.Message> =
             }
             const allowedMedia = pipe(
               media.map((m) => {
-                if (m.type === 'document') {
+                if (m.type === "document") {
                   return fp.E.left(m);
                 }
                 return fp.E.right(m);

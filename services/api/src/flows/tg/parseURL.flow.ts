@@ -8,12 +8,15 @@ import { pipe } from "fp-ts/function";
 import type * as puppeteer from "puppeteer-core";
 import { Equal } from "typeorm";
 import { LinkEntity } from "@entities/Link.entity";
-import { MediaEntity } from '@entities/Media.entity';
+import { MediaEntity } from "@entities/Media.entity";
 import { type UserEntity } from "@entities/User.entity";
 import { type TEFlow } from "@flows/flow.types";
-import { fetchAndSave } from '@flows/links/link.flow';
-import { takeLinkScreenshot, uploadScreenshot } from '@flows/links/takeLinkScreenshot.flow';
-import { toControllerError } from '@io/ControllerError';
+import { fetchAndSave } from "@flows/links/link.flow";
+import {
+  takeLinkScreenshot,
+  uploadScreenshot,
+} from "@flows/links/takeLinkScreenshot.flow";
+import { toControllerError } from "@io/ControllerError";
 
 export const parseURLs: TEFlow<
   [O.Option<URL[]>, UserEntity, puppeteer.Page],

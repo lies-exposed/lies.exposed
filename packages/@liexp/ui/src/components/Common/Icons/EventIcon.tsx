@@ -125,37 +125,37 @@ export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
   }
 };
 
-export const QuoteEventIcon: React.FC<Omit<EventIconProps, "type">> = (props) => (
-  <EventIcon type="Quote" {...props} />
-);
+export const QuoteEventIcon: React.FC<Omit<EventIconProps, "type">> = (
+  props,
+) => <EventIcon type="Quote" {...props} />;
 
-export const ScientificStudyEventIcon: React.FC<Omit<EventIconProps, "type">> = (props) => (
-  <EventIcon type="ScientificStudy" {...props} />
-);
+export const ScientificStudyEventIcon: React.FC<
+  Omit<EventIconProps, "type">
+> = (props) => <EventIcon type="ScientificStudy" {...props} />;
 
-export const DeathEventIcon: React.FC<Omit<EventIconProps, "type">> = (props) => (
-  <EventIcon type="Death" {...props} />
-);
+export const DeathEventIcon: React.FC<Omit<EventIconProps, "type">> = (
+  props,
+) => <EventIcon type="Death" {...props} />;
 
-export const PatentEventIcon: React.FC<Omit<EventIconProps, "type">> = (props) => (
-  <EventIcon type="Patent" {...props} />
-);
+export const PatentEventIcon: React.FC<Omit<EventIconProps, "type">> = (
+  props,
+) => <EventIcon type="Patent" {...props} />;
 
-export const DocumentaryEventIcon: React.FC<Omit<EventIconProps, "type">> = (props) => (
-  <EventIcon type="Documentary" {...props} />
-);
+export const DocumentaryEventIcon: React.FC<Omit<EventIconProps, "type">> = (
+  props,
+) => <EventIcon type="Documentary" {...props} />;
 
-export const UncategorizedEventIcon: React.FC<Omit<EventIconProps, "type">> = (props) => (
-  <EventIcon type="Uncategorized" {...props} />
-);
+export const UncategorizedEventIcon: React.FC<Omit<EventIconProps, "type">> = (
+  props,
+) => <EventIcon type="Uncategorized" {...props} />;
 
-export const TransactionEventIcon: React.FC<Omit<EventIconProps, "type">> = (props) => (
-  <EventIcon type="Transaction" {...props} />
-);
+export const TransactionEventIcon: React.FC<Omit<EventIconProps, "type">> = (
+  props,
+) => <EventIcon type="Transaction" {...props} />;
 
-export const BookEventIcon: React.FC<Omit<EventIconProps, "type">> = (props) => (
-  <EventIcon type="Book" {...props} />
-);
+export const BookEventIcon: React.FC<Omit<EventIconProps, "type">> = (
+  props,
+) => <EventIcon type="Book" {...props} />;
 
 export const EventIconInSVG: React.FC<
   EventIconProps & React.SVGProps<SVGTextElement>

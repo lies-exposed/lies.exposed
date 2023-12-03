@@ -1,9 +1,10 @@
 import * as React from "react";
 import {
-  Button, useDataProvider, useRecordContext,
-  useRefresh
+  Button,
+  useDataProvider,
+  useRecordContext,
+  useRefresh,
 } from "react-admin";
-
 
 export const UpdateMetadataButton: React.FC = () => {
   const refresh = useRefresh();
@@ -17,6 +18,7 @@ export const UpdateMetadataButton: React.FC = () => {
         void dataProvider.put(`/links/${record?.id}/metadata`).then(() => {
           refresh();
         });
-      }} />
+      }}
+    />
   );
 };

@@ -15,7 +15,7 @@ import {
   type UserPermission,
 } from "@liexp/shared/lib/io/http/User";
 import type * as express from "express";
-import { type IO } from 'fp-ts/IO';
+import { type IO } from "fp-ts/IO";
 import * as IOE from "fp-ts/IOEither";
 import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
@@ -111,10 +111,7 @@ const decodeUserFromRequest =
 
 const decodeNullableUser =
   ({ logger, jwt }: AuthenticationContext) =>
-  (
-    req: Express.Request,
-    routePerms: UserPermission[],
-  ): IO<User | null> => {
+  (req: Express.Request, routePerms: UserPermission[]): IO<User | null> => {
     return pipe(
       decodeUserFromRequest({ logger, jwt })(req, routePerms),
       IOE.mapLeft(() => null),

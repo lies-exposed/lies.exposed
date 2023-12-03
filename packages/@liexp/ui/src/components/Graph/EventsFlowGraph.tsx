@@ -220,14 +220,14 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
             e.type === Events.EventTypes.UNCATEGORIZED.value
               ? -50
               : e.type === Events.EventTypes.SCIENTIFIC_STUDY.value
-              ? -25
-              : e.type === Events.EventTypes.PATENT.value
-              ? 0
-              : e.type === Events.EventTypes.DEATH.value
-              ? 25
-              : e.type === Events.EventTypes.DOCUMENTARY.value
-              ? 50
-              : 75,
+                ? -25
+                : e.type === Events.EventTypes.PATENT.value
+                  ? 0
+                  : e.type === Events.EventTypes.DEATH.value
+                    ? 25
+                    : e.type === Events.EventTypes.DOCUMENTARY.value
+                      ? 50
+                      : 75,
         },
       })),
     );

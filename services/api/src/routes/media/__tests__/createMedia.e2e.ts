@@ -65,8 +65,8 @@ describe("Create Media", () => {
 
     expect(response.status).toEqual(200);
 
-    delete media.label
-    delete media.description
+    delete media.label;
+    delete media.description;
     delete media.thumbnail;
     delete media.extra;
     delete media.deletedAt;

@@ -1,9 +1,5 @@
-import {
-  toGetNetworkQuery,
-} from "@liexp/shared/lib/helpers/event/event";
-import {
-  getRelationIds,
-} from "@liexp/shared/lib/helpers/event/getEventRelationIds";
+import { toGetNetworkQuery } from "@liexp/shared/lib/helpers/event/event";
+import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
 import { type Network } from "@liexp/shared/lib/io/http";
 import { type FlowGraphType } from "@liexp/shared/lib/io/http/graphs/FlowGraph";
 import { useRecordContext, useRefresh } from "ra-core";

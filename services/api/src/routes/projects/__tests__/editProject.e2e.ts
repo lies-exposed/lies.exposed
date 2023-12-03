@@ -25,7 +25,7 @@ describe("Edit Project ", () => {
     const [areaData] = fc.sample(AreaArb, 1).map((a) => ({
       ...a,
       media: [],
-      socialPosts: []
+      socialPosts: [],
     }));
     [area] = await throwTE(appTest.ctx.db.save(AreaEntity, [areaData]));
     const [projectData] = fc.sample(ProjectArb, 1);

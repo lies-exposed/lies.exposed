@@ -1,6 +1,5 @@
-import { type Monoid } from 'fp-ts/Monoid';
+import { type Monoid } from "fp-ts/Monoid";
 import * as t from "io-ts";
-
 
 export const EventTotals = t.strict(
   {
@@ -13,7 +12,7 @@ export const EventTotals = t.strict(
     transactions: t.number,
     quotes: t.number,
   },
-  "EventTotals"
+  "EventTotals",
 );
 export type EventTotals = t.TypeOf<typeof EventTotals>;
 
@@ -41,4 +40,3 @@ export const EventTotalsMonoid: Monoid<EventTotals> = {
     };
   },
 };
-

@@ -1,6 +1,6 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
-import { UUID } from '../io/http/Common';
+import { UUID } from "../io/http/Common";
 import * as Keyword from "../io/http/Keyword";
 import { ResourceEndpoints } from "./types";
 

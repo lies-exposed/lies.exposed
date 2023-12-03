@@ -1,4 +1,4 @@
-import { EventTotalsMonoid } from '@liexp/shared/lib/io/http/Events/EventTotals';
+import { EventTotalsMonoid } from "@liexp/shared/lib/io/http/Events/EventTotals";
 import {
   ActorArb,
   GroupArb,

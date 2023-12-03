@@ -45,10 +45,7 @@ export interface EventNetworkGraphBoxProps
   selectedActorIds?: string[];
   selectedGroupIds?: string[];
   selectedKeywordIds?: string[];
-  query: Omit<
-    SearchEventsQueryInputNoPagination,
-    "hash"
-  >;
+  query: Omit<SearchEventsQueryInputNoPagination, "hash">;
   onRelationsChange?: (relations: NetworkGroupBy[]) => void;
 }
 

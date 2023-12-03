@@ -90,7 +90,6 @@ export const fetchAsLink: TEFlow<
           publishDate = undefined;
         }
 
-
         return {
           id: uuid() as any,
           title: meta.title,
@@ -104,7 +103,7 @@ export const fetchAsLink: TEFlow<
           events: [],
           provider: null,
           keywords: [],
-          deletedAt: null
+          deletedAt: null,
         };
       }),
     );

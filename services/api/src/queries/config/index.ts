@@ -1,8 +1,8 @@
 import { type EventType } from "@liexp/shared/lib/io/http/Events";
-import { type EventQueryConfig } from './EventQueryConfig';
-import { Book } from './events/book.config';
-import { Death } from './events/death.config';
-import { Patent } from './events/patent.config';
+import { type EventQueryConfig } from "./EventQueryConfig";
+import { Book } from "./events/book.config";
+import { Death } from "./events/death.config";
+import { Patent } from "./events/patent.config";
 
 export type EventsConfig = {
   [K in EventType]: EventQueryConfig;
@@ -13,8 +13,7 @@ export const EventsConfig: EventsConfig = {
   Death,
   ScientificStudy: {
     whereActorsIn: (qb) =>
-      qb
-      .andWhere(
+      qb.andWhere(
         ` "event"."payload"::jsonb -> 'authors' ?| ARRAY[:...actors] `,
       ),
     whereGroupsIn: (qb) =>

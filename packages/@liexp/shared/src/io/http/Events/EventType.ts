@@ -24,7 +24,6 @@ export type QUOTE = t.TypeOf<typeof QUOTE>;
 export const UNCATEGORIZED = t.literal("Uncategorized");
 export type UNCATEGORIZED = t.TypeOf<typeof UNCATEGORIZED>;
 
-
 export const EventType = t.union(
   [
     BOOK,

@@ -18,7 +18,7 @@ import URLMetadataInput from "../common/URLMetadataInput";
 import ReferenceArrayEventInput from "../events/ReferenceArrayEventInput";
 import ReferenceGroupInput from "../groups/ReferenceGroupInput";
 import { SearchLinksButton } from "../links/SearchLinksButton";
-import { LinkDataGrid } from './LinkDataGrid';
+import { LinkDataGrid } from "./LinkDataGrid";
 
 const RESOURCE = "links";
 

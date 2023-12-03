@@ -91,7 +91,8 @@ export const EventSocialPostButton: React.FC<{ id: UUID }> = ({ id }) => {
               };
             }
 
-            const { media, actors, groups } = getSearchEventRelations(searchEvent);
+            const { media, actors, groups } =
+              getSearchEventRelations(searchEvent);
 
             return {
               event: {

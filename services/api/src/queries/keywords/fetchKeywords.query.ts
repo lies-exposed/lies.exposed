@@ -26,7 +26,7 @@ export const fetchKeywords: TEFlow<
   [KeywordEntity[], number]
 > =
   ({ db, env, logger }) =>
-  ( query, isAdmin): TE.TaskEither<DBError, [KeywordEntity[], number]> => {
+  (query, isAdmin): TE.TaskEither<DBError, [KeywordEntity[], number]> => {
     const q = { ...defaultQuery, ...query };
 
     const { ids, search, events, ...otherQuery } = q;

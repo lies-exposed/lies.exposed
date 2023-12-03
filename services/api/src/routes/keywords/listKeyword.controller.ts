@@ -10,7 +10,6 @@ import { RequestDecoder } from "@utils/authenticationHandler";
 
 export const MakeListKeywordRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Keyword.List, ({ query }, req) => {
-
     return pipe(
       RequestDecoder.decodeNullableUser(ctx)(req, [AdminRead.value]),
       fp.TE.fromIO,

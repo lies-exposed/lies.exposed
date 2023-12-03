@@ -20,7 +20,7 @@ export const ReferenceBySubjectField: React.FC<
 
   if (sourceType === "Actor") {
     return (
-      <ReferenceField  {...props} reference="actors" source={sourceId}>
+      <ReferenceField {...props} reference="actors" source={sourceId}>
         <AvatarField source={sourceAvatar} />
       </ReferenceField>
     );
@@ -28,7 +28,7 @@ export const ReferenceBySubjectField: React.FC<
 
   if (sourceType === "Group") {
     return (
-      <ReferenceField {...props}  reference="groups" source={sourceId}>
+      <ReferenceField {...props} reference="groups" source={sourceId}>
         <AvatarField source={sourceAvatar} />
       </ReferenceField>
     );

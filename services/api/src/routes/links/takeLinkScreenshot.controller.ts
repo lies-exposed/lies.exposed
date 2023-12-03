@@ -1,6 +1,6 @@
 import { fp } from "@liexp/core/lib/fp";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { PngType } from '@liexp/shared/lib/io/http/Media';
+import { PngType } from "@liexp/shared/lib/io/http/Media";
 import { AdminEdit, type User } from "@liexp/shared/lib/io/http/User";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { type Router } from "express";
@@ -76,11 +76,13 @@ export const MakeTakeLinkScreenshotRoute = (
         TE.bind("media", ({ user, link }) =>
           pipe(
             getMediaOrMakeFromLinkTask(link),
-            TE.map(([media]) => ({...link, image: media as any })),
+            TE.map(([media]) => ({ ...link, image: media as any })),
             TE.chain((linkWithMedia) =>
               pipe(
                 takeLinkScreenshot(ctx)(linkWithMedia),
-                TE.chain((buffer) => uploadScreenshot(ctx)(linkWithMedia, buffer)),
+                TE.chain((buffer) =>
+                  uploadScreenshot(ctx)(linkWithMedia, buffer),
+                ),
                 TE.chain((m) =>
                   ctx.db.save(MediaEntity, [
                     {

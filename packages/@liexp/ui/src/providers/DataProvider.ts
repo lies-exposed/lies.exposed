@@ -115,8 +115,8 @@ interface Query<G, L, CC> {
     params: InferEndpointParams<G>["params"] extends t.ExactType<infer T>
       ? t.TypeOf<T>
       : InferEndpointParams<G>["params"] extends undefined
-      ? undefined
-      : serializedType<InferEndpointParams<G>["params"]>,
+        ? undefined
+        : serializedType<InferEndpointParams<G>["params"]>,
     query?: serializedType<InferEndpointParams<G>["query"]>,
   ) => Promise<
     InferEndpointParams<G>["output"] extends t.ExactType<infer T>

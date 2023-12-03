@@ -65,8 +65,8 @@ const addLayer: AddLayerFlow = (ctx) => (layer, parent) => {
     layer.type === "media"
       ? addMediaImageLayer(ctx)(layer, parent)
       : layer.type === "watermark"
-      ? addWatermarkLayer(ctx)(layer, parent)
-      : addTextLayer(ctx)(layer, parent);
+        ? addWatermarkLayer(ctx)(layer, parent)
+        : addTextLayer(ctx)(layer, parent);
 
   return pipe(fetchSource);
 };

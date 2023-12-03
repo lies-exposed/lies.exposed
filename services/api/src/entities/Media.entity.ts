@@ -97,5 +97,4 @@ export class MediaEntity {
 
   @DeleteDateColumn()
   deletedAt: Date | null;
-
 }

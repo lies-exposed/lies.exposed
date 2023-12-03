@@ -1,7 +1,7 @@
 import { fp } from "@liexp/core/lib/fp";
 import {
   getColorByEventType,
-  getTotals
+  getTotals,
 } from "@liexp/shared/lib/helpers/event/event";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
 import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/getTitle.helper";
@@ -14,7 +14,10 @@ import {
 } from "@liexp/shared/lib/io/http";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
-import { EventTotalsMonoid, type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals";
+import {
+  EventTotalsMonoid,
+  type EventTotals,
+} from "@liexp/shared/lib/io/http/Events/EventTotals";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
 import { ValidContentType } from "@liexp/shared/lib/io/http/Media";

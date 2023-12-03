@@ -1,7 +1,11 @@
 import { type SelectQueryBuilder } from "typeorm";
 import { SocialPostEntity } from "@entities/SocialPost.entity";
 
-export const aggregateSocialPostsPerEntry = (key: string, list: Array<{ socialPosts_ids: string[]; [index: string]: any }>, e: { id: string }): string[] => {
+export const aggregateSocialPostsPerEntry = (
+  key: string,
+  list: Array<{ socialPosts_ids: string[]; [index: string]: any }>,
+  e: { id: string },
+): string[] => {
   return list
     .filter((r) => r[key] === e.id && !!r.socialPosts_ids)
     .reduce<string[]>((acc, r) => {

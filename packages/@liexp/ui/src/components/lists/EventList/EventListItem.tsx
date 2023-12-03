@@ -6,7 +6,7 @@ import {
   type Keyword,
 } from "@liexp/shared/lib/io/http";
 import * as React from "react";
-import { BookListItem } from './BookListItem';
+import { BookListItem } from "./BookListItem";
 import { DeathListItem } from "./DeathListItem";
 import { DocumentaryListItem } from "./DocumentaryListItem";
 import PatentListItem from "./PatentListItem";

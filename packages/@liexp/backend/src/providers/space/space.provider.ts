@@ -90,16 +90,16 @@ export type SpaceProviderImpl = S3Client;
 
 export interface MakeSpaceProviderConfig {
   client: SpaceProviderImpl;
-  getSignedUrl: typeof getSignedUrl,
+  getSignedUrl: typeof getSignedUrl;
   classes: {
-  Upload: typeof Upload,
-  }
+    Upload: typeof Upload;
+  };
 }
 
 export const MakeSpaceProvider = ({
   client,
   getSignedUrl,
-  classes
+  classes,
 }: MakeSpaceProviderConfig): SpaceProvider => {
   return {
     getEndpoint: (bucket, path) => {

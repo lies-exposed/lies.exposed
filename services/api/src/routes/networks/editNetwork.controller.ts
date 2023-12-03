@@ -30,7 +30,12 @@ export const MakeEditNetworkRoute = (r: Router, ctx: RouteContext): void => {
           }
         }
 
-        return createNetworkGraph(ctx)(type, [id], emptyGetNetworkQuery, isAdmin);
+        return createNetworkGraph(ctx)(
+          type,
+          [id],
+          emptyGetNetworkQuery,
+          isAdmin,
+        );
       };
 
       return pipe(

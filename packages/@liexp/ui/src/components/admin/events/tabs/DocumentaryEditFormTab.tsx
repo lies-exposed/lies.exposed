@@ -1,4 +1,4 @@
-import { IframeVideoType, MP4Type } from '@liexp/shared/lib/io/http/Media';
+import { IframeVideoType, MP4Type } from "@liexp/shared/lib/io/http/Media";
 import * as React from "react";
 import { type EditProps, TextInput } from "react-admin";
 import { Box } from "../../../mui";

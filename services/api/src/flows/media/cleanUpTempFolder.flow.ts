@@ -13,7 +13,7 @@ export const cleanUpFolder: TEFlow<[string, number], void> =
           .readdirSync(tempFolder, "utf8")
           .map((f) => path.resolve(tempFolder, f));
 
-          return files.filter((f) => {
+        return files.filter((f) => {
           const isDir = fs
             .lstatSync(f, {
               throwIfNoEntry: false,

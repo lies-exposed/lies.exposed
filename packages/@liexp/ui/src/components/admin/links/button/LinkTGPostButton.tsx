@@ -3,9 +3,7 @@ import { formatDate, parseISO } from "@liexp/shared/lib/utils/date";
 import * as React from "react";
 import { useDataProvider, useRecordContext } from "react-admin";
 import { CircularProgress } from "../../../mui";
-import {
-  SocialPostButton
-} from "../../common/SocialPostButton";
+import { SocialPostButton } from "../../common/SocialPostButton";
 
 export const LinkTGPostButton: React.FC = () => {
   const record = useRecordContext();

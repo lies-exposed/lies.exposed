@@ -16,7 +16,10 @@ export const BookEditFormTab: React.FC<EditProps & { record?: any }> = (
         source="payload.media.pdf"
         allowedTypes={[PDFType.value]}
       />
-      <ReferenceMediaInput source="payload.media.audio" allowedTypes={AudioType.types.map(t => t.value)} />
+      <ReferenceMediaInput
+        source="payload.media.audio"
+        allowedTypes={AudioType.types.map((t) => t.value)}
+      />
       <ReferenceArrayBySubjectInput source="payload.authors" />
       <ReferenceBySubjectInput source="payload.publisher" />
     </Box>

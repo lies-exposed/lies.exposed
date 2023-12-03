@@ -1,8 +1,8 @@
 import { toColor } from "@liexp/shared/lib/utils/colors";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
 import { KeywordTGPostButton } from "@liexp/ui/lib/components/admin/keywords/button/KeywordTGPostButton";
-import ReferenceManyLinkField from '@liexp/ui/lib/components/admin/links/ReferenceManyLinkField';
-import ReferenceManyMediaField from '@liexp/ui/lib/components/admin/media/ReferenceManyMediaField';
+import ReferenceManyLinkField from "@liexp/ui/lib/components/admin/links/ReferenceManyLinkField";
+import ReferenceManyMediaField from "@liexp/ui/lib/components/admin/media/ReferenceManyMediaField";
 import {
   Create,
   Datagrid,
@@ -17,7 +17,7 @@ import {
   TextInput,
   useRecordContext,
   type CreateProps,
-  type ListProps
+  type ListProps,
 } from "@liexp/ui/lib/components/admin/react-admin";
 import { Stack } from "@liexp/ui/lib/components/mui";
 import * as React from "react";
@@ -76,10 +76,10 @@ export const KeywordEdit: React.FC = () => {
           <ColorInput source="color" />
         </FormTab>
         <FormTab label="media">
-          <ReferenceManyMediaField source="id" target="keywords[]" /> 
+          <ReferenceManyMediaField source="id" target="keywords[]" />
         </FormTab>
         <FormTab label="links">
-          <ReferenceManyLinkField source="id" target="keywords[]" /> 
+          <ReferenceManyLinkField source="id" target="keywords[]" />
         </FormTab>
       </TabbedForm>
     </Edit>

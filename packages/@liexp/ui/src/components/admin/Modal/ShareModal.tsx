@@ -13,7 +13,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "../../mui";
-import { ShareModalContent } from './ShareModalContent';
+import { ShareModalContent } from "./ShareModalContent";
 
 interface ShareModalProps {
   id: Identifier;
@@ -37,7 +37,6 @@ export const emptySharePayload: CreateSocialPost = {
   platforms: { IG: true, TG: true },
   schedule: undefined,
 } as any;
-
 
 const classes = {
   paper: `share-modal-paper`,

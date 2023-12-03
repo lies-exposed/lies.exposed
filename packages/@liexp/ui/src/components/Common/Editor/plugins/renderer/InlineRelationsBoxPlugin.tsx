@@ -9,11 +9,11 @@ import { type InlineRelations } from "@liexp/shared/lib/slate/utils";
 import * as React from "react";
 import ActorsBox from "../../../../../containers/ActorsBox";
 import { GroupsBox } from "../../../../../containers/GroupsBox";
-import { MediaBox } from '../../../../../containers/MediaBox';
+import { MediaBox } from "../../../../../containers/MediaBox";
 import { styled } from "../../../../../theme";
 import { KeywordsBox } from "../../../../KeywordsBox";
 import { Box } from "../../../../mui";
-import { EventTimelinePlugin } from './EventTimelinePlugin';
+import { EventTimelinePlugin } from "./EventTimelinePlugin";
 
 const PREFIX = `inline-relations-box`;
 
@@ -33,8 +33,8 @@ interface InlineRelationsPluginProps {
   onActorClick: (a: Actor.Actor) => void;
   onGroupClick: (g: Group.Group) => void;
   onKeywordClick: (g: Keyword.Keyword) => void;
-  onMediaClick: (m: Media.Media) => void
-  onEventClick: (m: Events.Event) => void
+  onMediaClick: (m: Media.Media) => void;
+  onEventClick: (m: Events.Event) => void;
 }
 
 export const InlineRelationsPlugin: React.FC<InlineRelationsPluginProps> = ({
@@ -43,7 +43,7 @@ export const InlineRelationsPlugin: React.FC<InlineRelationsPluginProps> = ({
   onGroupClick,
   onKeywordClick,
   onMediaClick,
-  onEventClick
+  onEventClick,
 }) => {
   return (
     <StyledBox className={classes.root}>

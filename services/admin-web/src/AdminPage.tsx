@@ -16,7 +16,7 @@ import {
   UncategorizedEventIcon,
   UserIcon,
 } from "@liexp/ui/lib/components/Common/Icons";
-import { SocialPostEdit } from '@liexp/ui/lib/components/admin/SocialPost/SocialPostEdit';
+import { SocialPostEdit } from "@liexp/ui/lib/components/admin/SocialPost/SocialPostEdit";
 import {
   EventSuggestionEdit,
   EventSuggestionList,
@@ -60,10 +60,7 @@ import {
 } from "./pages/AdminGroupMember";
 import { GroupCreate, GroupEdit, GroupList } from "./pages/AdminGroups";
 import { KeywordCreate, KeywordEdit, KeywordList } from "./pages/AdminKeyword";
-import {
-  SocialPostCreate,
-  SocialPostList,
-} from "./pages/AdminSocialPost";
+import { SocialPostCreate, SocialPostList } from "./pages/AdminSocialPost";
 import { UserCreate, UserEdit, UserList } from "./pages/AdminUsers";
 import { PageCreate, PageEdit, PageList } from "./pages/Pages";
 import {

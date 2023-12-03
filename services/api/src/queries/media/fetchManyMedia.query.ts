@@ -170,11 +170,7 @@ export const fetchManyMedia: TEFlow<
 
       ctx.logger.debug.log(q.getSql(), q.getParameters());
 
-      return (
-        q
-          .skip(findOptions.skip)
-          .take(findOptions.take)
-      );
+      return q.skip(findOptions.skip).take(findOptions.take);
     },
     (q) => ctx.db.execQuery(() => q.getManyAndCount()),
   );

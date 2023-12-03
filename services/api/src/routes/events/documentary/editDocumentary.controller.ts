@@ -6,7 +6,7 @@ import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { type Route } from "../../route.types";
 import { editEventQuery } from "../queries/editEvent.query";
-import { toDocumentaryIO } from './documentary.io';
+import { toDocumentaryIO } from "./documentary.io";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 
 export const MakeEditDocumentaryEventRoute: Route = (r, ctx) => {

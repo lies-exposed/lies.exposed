@@ -48,11 +48,11 @@ export interface MediaElementProps {
   options?: {
     iframe: {
       showPlay: boolean;
-    }
+    };
     video: {
       showPlay: boolean;
-    }
-  }
+    };
+  };
 }
 
 const MediaElement: React.FC<MediaElementProps> = ({

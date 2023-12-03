@@ -26,8 +26,18 @@ const mediaFilters = [
   <TextInput key="description" source="description" alwaysOn size="small" />,
   <BooleanInput key="emptyEvents" source="emptyEvents" alwaysOn size="small" />,
   <BooleanInput key="emptyLinks" source="emptyLinks" alwaysOn size="small" />,
-  <BooleanInput key="onlyUnshared" source="onlyUnshared" alwaysOn size="small" />,
-  <NumberInput key="spCount" label="Social Post Count" source="spCount" size="small" />,
+  <BooleanInput
+    key="onlyUnshared"
+    source="onlyUnshared"
+    alwaysOn
+    size="small"
+  />,
+  <NumberInput
+    key="spCount"
+    label="Social Post Count"
+    source="spCount"
+    size="small"
+  />,
   <MediaTypeInput key="type" source="type" alwaysOn size="small" />,
   <BooleanInput key="deletedOnly" source="deletedOnly" alwaysOn size="small" />,
 ];

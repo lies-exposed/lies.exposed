@@ -230,8 +230,8 @@ export const toSearchEvent = (
                 : groups.find((g) => g.id === e.payload.publisher?.id),
           }
         : undefined;
-      const pdfMedia = media.find(m => e.payload.media.pdf === m.id)
-      const audioMedia = media.find(m => e.payload.media.audio === m.id)
+      const pdfMedia = media.find((m) => e.payload.media.pdf === m.id);
+      const audioMedia = media.find((m) => e.payload.media.audio === m.id);
       return {
         ...e,
         payload: {

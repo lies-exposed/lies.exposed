@@ -1,5 +1,5 @@
 import { type Router } from "express";
-import { MakeEditNetworkRoute } from './editNetwork.controller';
+import { MakeEditNetworkRoute } from "./editNetwork.controller";
 import { MakeGetNetworkRoute } from "./getNetwork.controller";
 import { type RouteContext } from "@routes/route.types";
 

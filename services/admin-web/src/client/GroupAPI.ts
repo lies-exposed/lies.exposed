@@ -66,8 +66,8 @@ export const editGroup =
       typeof avatar === "string"
         ? TE.right([{ type: MediaType.types[0].value, location: avatar }])
         : data.id
-        ? uploadImages(client)(resource, data.id, [(avatar as any).rawFile])
-        : TE.left(new Error("No avatar to upload"));
+          ? uploadImages(client)(resource, data.id, [(avatar as any).rawFile])
+          : TE.left(new Error("No avatar to upload"));
 
     return pipe(
       avatarTask,

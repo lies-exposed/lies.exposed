@@ -72,7 +72,7 @@ export const Edit = Endpoint({
       overrideExtra: optionFromNullable(t.boolean),
       transfer: optionFromNullable(t.boolean),
       transferThumbnail: optionFromNullable(t.boolean),
-      restore: optionFromNullable(t.boolean)
+      restore: optionFromNullable(t.boolean),
     }),
   },
   Output: SingleMediaOutput,

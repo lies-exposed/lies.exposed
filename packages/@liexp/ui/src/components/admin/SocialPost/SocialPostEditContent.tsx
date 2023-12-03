@@ -1,13 +1,8 @@
 import type * as SocialPost from "@liexp/shared/lib/io/http/SocialPost";
 import * as React from "react";
-import {
-  emptySharePayload
-} from "../Modal/ShareModal";
-import { ShareModalContent } from '../Modal/ShareModalContent';
-import {
-  useInput,
-  useRecordContext
-} from "../react-admin";
+import { emptySharePayload } from "../Modal/ShareModal";
+import { ShareModalContent } from "../Modal/ShareModalContent";
+import { useInput, useRecordContext } from "../react-admin";
 
 export const SocialPostEditContent: React.FC<{
   source: string;
@@ -23,12 +18,12 @@ export const SocialPostEditContent: React.FC<{
   const media = Array.isArray(record.content?.media)
     ? record.content.media
     : [
-      {
-        type: "photo",
-        media: record.content?.media,
-        thumbnail: record.content?.media,
-      },
-    ];
+        {
+          type: "photo",
+          media: record.content?.media,
+          thumbnail: record.content?.media,
+        },
+      ];
 
   return record ? (
     <ShareModalContent
@@ -41,6 +36,7 @@ export const SocialPostEditContent: React.FC<{
       media={media}
       onChange={({ payload: record }) => {
         field.field.onChange(record);
-      }} />
+      }}
+    />
   ) : null;
 };

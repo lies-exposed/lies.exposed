@@ -4,7 +4,7 @@ import {
   type NetworkGraphOutput,
   type NetworkType,
 } from "@liexp/shared/lib/io/http/Network";
-import { AdminRead } from '@liexp/shared/lib/io/http/User';
+import { AdminRead } from "@liexp/shared/lib/io/http/User";
 import { type Router } from "express";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
