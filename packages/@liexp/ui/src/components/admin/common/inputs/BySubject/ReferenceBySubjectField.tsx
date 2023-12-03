@@ -1,3 +1,4 @@
+import { ByActor, ByGroup } from "@liexp/shared/lib/io/http/Common";
 import get from "lodash/get";
 import * as React from "react";
 import { ReferenceField, useRecordContext, type FieldProps } from "react-admin";
@@ -18,7 +19,7 @@ export const ReferenceBySubjectField: React.FC<
   const sourceId = source ? `${source}.id` : "id";
   const sourceAvatar = "avatar";
 
-  if (sourceType === "Actor") {
+  if (ByActor.type.props.type.is(sourceType)) {
     return (
       <ReferenceField {...props} reference="actors" source={sourceId}>
         <AvatarField source={sourceAvatar} />
@@ -26,7 +27,7 @@ export const ReferenceBySubjectField: React.FC<
     );
   }
 
-  if (sourceType === "Group") {
+  if (ByGroup.type.props.type.is(sourceType)) {
     return (
       <ReferenceField {...props} reference="groups" source={sourceId}>
         <AvatarField source={sourceAvatar} />

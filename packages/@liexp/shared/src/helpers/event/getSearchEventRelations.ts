@@ -32,11 +32,15 @@ export const getSearchEventRelations = (
 
       const media = e.payload.media.audio
         ? [e.payload.media.pdf, e.payload.media.audio]
-        : [e.payload.media.pdf];
-
+        : e.payload.media.pdf
+          ? [e.payload.media.pdf]
+          : [];
+      const commonMediaUnique = commonRelations.media.filter(
+        (cm) => !media.find((m) => m.id === cm.id),
+      );
       return {
         ...commonRelations,
-        media: commonRelations.media.concat(...media),
+        media: media.concat(...commonMediaUnique),
         actors,
         groups,
         groupsMembers: [],
