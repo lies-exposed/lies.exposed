@@ -4,7 +4,7 @@ import {
   type Keyword,
   type Media,
   type Story,
-  type Events
+  type Events,
 } from "@liexp/shared/lib/io/http";
 import { isValidValue } from "@liexp/shared/lib/slate";
 import { formatDate } from "@liexp/shared/lib/utils/date";
@@ -24,8 +24,8 @@ export interface StoryPageContentProps {
   onActorClick: (k: Actor.Actor) => void;
   onGroupClick: (k: Group.Group) => void;
   onKeywordClick: (k: Keyword.Keyword) => void;
-  onMediaClick: (m: Media.Media) => void
-  onEventClick: (m: Events.Event) => void
+  onMediaClick: (m: Media.Media) => void;
+  onEventClick: (m: Events.Event) => void;
 }
 
 export const StoryPageContent: React.FC<StoryPageContentProps> = ({
@@ -43,7 +43,7 @@ export const StoryPageContent: React.FC<StoryPageContentProps> = ({
   onGroupClick,
   onKeywordClick,
   onMediaClick,
-  onEventClick
+  onEventClick,
 }) => {
   const theme = useTheme();
 

@@ -233,10 +233,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             }}
             size="large"
           >
-            <EventIcon
-              type={EventTypes.BOOK.value}
-              {...eventIconProps}
-            />
+            <EventIcon type={EventTypes.BOOK.value} {...eventIconProps} />
             <Typography variant="caption" className={classes.typeTotal}>
               {totals.books}
             </Typography>

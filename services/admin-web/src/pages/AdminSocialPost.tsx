@@ -1,6 +1,6 @@
 import { ImageType } from "@liexp/shared/lib/io/http/Media";
 import { PUBLISHED, TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost";
-import { SocialPostPlatformIcon } from '@liexp/ui/lib/components/admin/SocialPost/SocialPostEdit';
+import { SocialPostPlatformIcon } from "@liexp/ui/lib/components/admin/SocialPost/SocialPostEdit";
 import ReferenceArrayMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceArrayMediaInput";
 import {
   BooleanInput,
@@ -66,7 +66,7 @@ const SocialPostDataGrid: React.FC<DatagridProps> = (props) => {
         render={(r: any) => {
           return (
             <Stack direction="row" spacing={1}>
-              <SocialPostPlatformIcon platform='TG' />
+              <SocialPostPlatformIcon platform="TG" />
               <SocialPostPlatformIcon platform="IG" />
             </Stack>
           );

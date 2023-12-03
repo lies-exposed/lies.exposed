@@ -16,7 +16,7 @@ export const VideoCover: React.FC<VideoCoverProps> = ({
   onClick,
   style,
   onLoad,
-  showPlay
+  showPlay,
 }) => {
   React.useEffect(() => {
     onLoad?.();
@@ -37,7 +37,9 @@ export const VideoCover: React.FC<VideoCoverProps> = ({
         height: "100%",
       }}
     >
-      {showPlay?<PlayCircleOutline style={{ color: "white" }} fontSize="large" />: null}
+      {showPlay ? (
+        <PlayCircleOutline style={{ color: "white" }} fontSize="large" />
+      ) : null}
     </div>
   );
 };

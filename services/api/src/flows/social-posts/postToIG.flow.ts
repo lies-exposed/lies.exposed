@@ -1,4 +1,4 @@
-import { type OnLoginErrorFn, } from "@liexp/backend/lib/providers/ig/ig.provider";
+import { type OnLoginErrorFn } from "@liexp/backend/lib/providers/ig/ig.provider";
 import { fp } from "@liexp/core/lib/fp";
 import {
   SocialPostPhoto,
@@ -7,7 +7,7 @@ import {
 } from "@liexp/shared/lib/io/http/SocialPost";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { type MediaRepositoryConfigureResponseRootObject } from 'instagram-private-api';
+import { type MediaRepositoryConfigureResponseRootObject } from "instagram-private-api";
 import * as t from "io-ts";
 import { type TEFlow } from "@flows/flow.types";
 import { ServerError } from "@io/ControllerError";
@@ -75,7 +75,7 @@ export const postToIG: TEFlow<
                   video: stream,
                   coverImage: thumbnail,
                 }),
-              )
+              ),
             );
           }),
         );

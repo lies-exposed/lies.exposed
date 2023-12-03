@@ -1,7 +1,11 @@
 import * as t from "io-ts";
 import { UUID } from "io-ts-types/lib/UUID";
 import { Endpoint } from "ts-endpoint";
-import { MediaImageLayer, TextLayer, WatermarkLayer } from "../io/http/admin/BuildImage";
+import {
+  MediaImageLayer,
+  TextLayer,
+  WatermarkLayer,
+} from "../io/http/admin/BuildImage";
 import { ResourceEndpoints } from "./types";
 
 export const List = Endpoint({
@@ -62,11 +66,14 @@ export const BuildImage = Endpoint({
   getPath: () => `/admins/images/build`,
   Input: {
     Body: t.strict({
-      layers: t.strict({
-        media: t.union([MediaImageLayer, t.undefined]),
-        text: t.union([TextLayer, t.undefined]),
-        watermark: t.union([WatermarkLayer, t.undefined]),
-      }, 'Layers'),
+      layers: t.strict(
+        {
+          media: t.union([MediaImageLayer, t.undefined]),
+          text: t.union([TextLayer, t.undefined]),
+          watermark: t.union([WatermarkLayer, t.undefined]),
+        },
+        "Layers",
+      ),
     }),
   },
   Output: t.any,

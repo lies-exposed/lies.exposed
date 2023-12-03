@@ -13,7 +13,7 @@ import type * as Quote from "../Quote";
 import type * as ScientificStudy from "../ScientificStudy";
 import type * as Transaction from "../Transaction";
 import type * as Uncategorized from "../Uncategorized";
-import type { SearchBookEvent } from './SearchBookEvent';
+import type { SearchBookEvent } from "./SearchBookEvent";
 import * as SearchEventsQuery from "./SearchEventsQuery";
 
 export interface SearchUncategorizedEvent
@@ -104,7 +104,7 @@ export interface SearchDocumentaryEvent
 export interface SearchQuoteEvent
   extends Omit<Quote.Quote, "payload" | "media" | "keywords" | "links"> {
   payload: Omit<Quote.QuotePayload, "subject"> & {
-    subject: BySubject
+    subject: BySubject;
   };
   media: Media.Media[];
   keywords: Keyword.Keyword[];
@@ -138,4 +138,9 @@ type SearchEvent =
   | SearchTransactionEvent
   | SearchQuoteEvent;
 
-export { SearchEventsQuery, type SearchEvent, EventTotals, type SearchBookEvent };
+export {
+  SearchEventsQuery,
+  type SearchEvent,
+  EventTotals,
+  type SearchBookEvent,
+};

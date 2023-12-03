@@ -55,111 +55,120 @@ describe("Create From TG Message", () => {
   });
 
   describe("createEventSuggestion", () => {
-    test("succeeds when link is not yet present in db", async () => {
-      const url = fc.sample(URLArb, 1)[0];
-      const description = fc.sample(HumanReadableStringArb(), 1)[0];
+    test(
+      "succeeds when link is not yet present in db",
+      async () => {
+        const url = fc.sample(URLArb, 1)[0];
+        const description = fc.sample(HumanReadableStringArb(), 1)[0];
 
-      Test.mocks.puppeteer.page.goto.mockReset().mockResolvedValueOnce({});
+        Test.mocks.puppeteer.page.goto.mockReset().mockResolvedValueOnce({});
 
-      Test.mocks.urlMetadata.fetchMetadata.mockResolvedValueOnce({
-        url,
-        description,
-      });
+        Test.mocks.urlMetadata.fetchMetadata.mockResolvedValueOnce({
+          url,
+          description,
+        });
 
-      Test.mocks.puppeteer.page.emulate.mockReset().mockResolvedValueOnce({});
-      Test.mocks.puppeteer.page.$$.mockReset().mockResolvedValueOnce([]);
-      Test.mocks.puppeteer.page.screenshot
-        .mockResolvedValueOnce(Buffer.from(""));
-      Test.mocks.s3.classes.Upload.mockReset().mockImplementation(() => ({
-        done: vi.fn().mockResolvedValueOnce({
-          Location: fc.sample(fc.webUrl({ size: "small" }), 1)[0],
-        }),
-      }));
-      Test.mocks.puppeteer.browser.close.mockResolvedValueOnce({});
+        Test.mocks.puppeteer.page.emulate.mockReset().mockResolvedValueOnce({});
+        Test.mocks.puppeteer.page.$$.mockReset().mockResolvedValueOnce([]);
+        Test.mocks.puppeteer.page.screenshot.mockResolvedValueOnce(
+          Buffer.from(""),
+        );
+        Test.mocks.s3.classes.Upload.mockReset().mockImplementation(() => ({
+          done: vi.fn().mockResolvedValueOnce({
+            Location: fc.sample(fc.webUrl({ size: "small" }), 1)[0],
+          }),
+        }));
+        Test.mocks.puppeteer.browser.close.mockResolvedValueOnce({});
 
-      const result: any = await pipe(
-        createFromTGMessage(Test.ctx)(
-          {
-            message_id: 1,
-            text: url,
-            date: new Date().getMilliseconds(),
-            chat: { id: 1, type: "private" },
-            entities: [
-              {
-                type: "url",
-                offset: 0,
-                length: url.length,
-              },
-            ],
-          },
-          {},
-        ),
-        throwTE,
-      );
+        const result: any = await pipe(
+          createFromTGMessage(Test.ctx)(
+            {
+              message_id: 1,
+              text: url,
+              date: new Date().getMilliseconds(),
+              chat: { id: 1, type: "private" },
+              entities: [
+                {
+                  type: "url",
+                  offset: 0,
+                  length: url.length,
+                },
+              ],
+            },
+            {},
+          ),
+          throwTE,
+        );
 
-      const { id, ...expectedExcerpt } = createExcerptValue(description);
-      expectedExcerpt.rows = expectedExcerpt.rows.map(
-        ({ id, ...r }) => r,
-      ) as any[];
+        const { id, ...expectedExcerpt } = createExcerptValue(description);
+        expectedExcerpt.rows = expectedExcerpt.rows.map(
+          ({ id, ...r }) => r,
+        ) as any[];
 
-      const expectedLink = await throwTE(
-        Test.ctx.db.findOneOrFail(LinkEntity, {
-          where: { url: sanitizeURL(url) },
-        }),
-      );
+        const expectedLink = await throwTE(
+          Test.ctx.db.findOneOrFail(LinkEntity, {
+            where: { url: sanitizeURL(url) },
+          }),
+        );
 
-      expect(result).toMatchObject({
-        link: [{ id: expectedLink.id, description }],
-        photos: [],
-        videos: [],
-      });
+        expect(result).toMatchObject({
+          link: [{ id: expectedLink.id, description }],
+          photos: [],
+          videos: [],
+        });
 
-      await throwTE(Test.ctx.db.delete(LinkEntity, [expectedLink.id]));
-      await throwTE(Test.ctx.db.delete(EventSuggestionEntity, [result.id]));
-    }, { timeout: 10_000 });
+        await throwTE(Test.ctx.db.delete(LinkEntity, [expectedLink.id]));
+        await throwTE(Test.ctx.db.delete(EventSuggestionEntity, [result.id]));
+      },
+      { timeout: 10_000 },
+    );
 
-    test("succeeds when link is already present in db", async () => {
-      const url = fc.sample(URLArb, 1)[0];
-      const description = fc.sample(HumanReadableStringArb(), 1)[0];
-      let link = {
-        url: sanitizeURL(url),
-        description,
-        id: uuid(),
-      };
+    test(
+      "succeeds when link is already present in db",
+      async () => {
+        const url = fc.sample(URLArb, 1)[0];
+        const description = fc.sample(HumanReadableStringArb(), 1)[0];
+        let link = {
+          url: sanitizeURL(url),
+          description,
+          id: uuid(),
+        };
 
-      [link] = await throwTE(Test.ctx.db.save(LinkEntity, [link]));
+        [link] = await throwTE(Test.ctx.db.save(LinkEntity, [link]));
 
-      Test.mocks.puppeteer.page.goto.mockReset().mockResolvedValueOnce({});
+        Test.mocks.puppeteer.page.goto.mockReset().mockResolvedValueOnce({});
 
-      const result = await throwTE(
-        createFromTGMessage(Test.ctx)(
-          {
-            message_id: 1,
-            text: url,
-            date: new Date().getMilliseconds(),
-            chat: { id: 1, type: "private" },
-            entities: [
-              {
-                type: "url",
-                offset: 0,
-                length: url.length,
-              },
-            ],
-          },
-          {},
-        ),
-      );
+        const result = await throwTE(
+          createFromTGMessage(Test.ctx)(
+            {
+              message_id: 1,
+              text: url,
+              date: new Date().getMilliseconds(),
+              chat: { id: 1, type: "private" },
+              entities: [
+                {
+                  type: "url",
+                  offset: 0,
+                  length: url.length,
+                },
+              ],
+            },
+            {},
+          ),
+        );
 
-      await throwTE(Test.ctx.db.delete(LinkEntity, [link.id]));
+        await throwTE(Test.ctx.db.delete(LinkEntity, [link.id]));
 
-      expect(result).toMatchObject({
-        link: [
-          {
-            id: link.id,
-          },
-        ],
-      });
-    }, { timeout: 10_000 });
+        expect(result).toMatchObject({
+          link: [
+            {
+              id: link.id,
+            },
+          ],
+        });
+      },
+      { timeout: 10_000 },
+    );
 
     test("succeeds with a photo", async () => {
       const title = fc.sample(HumanReadableStringArb(), 1)[0];

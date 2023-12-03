@@ -3,7 +3,7 @@ import {
   ArrayField,
   type ArrayFieldProps,
   SingleFieldList,
-  useRecordContext
+  useRecordContext,
 } from "react-admin";
 import { ReferenceBySubjectField } from "./ReferenceBySubjectField";
 
@@ -11,13 +11,10 @@ interface ReferenceArrayBySubjectFieldProps extends ArrayFieldProps {
   source: string;
 }
 
-
 const ReferenceBySubjectFieldListItem: React.FC = () => {
   const record = useRecordContext();
-  return (
-    <ReferenceBySubjectField record={record} />
-  );
-}
+  return <ReferenceBySubjectField record={record} />;
+};
 
 export const ReferenceArrayBySubjectField: React.FC<
   ReferenceArrayBySubjectFieldProps

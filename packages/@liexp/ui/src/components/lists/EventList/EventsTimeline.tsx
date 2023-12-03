@@ -62,7 +62,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
             keywords: [] as any[],
             links: [] as any[],
             total: 0,
-            totals: EventTotalsMonoid.empty
+            totals: EventTotalsMonoid.empty,
           },
         )
       : undefined;

@@ -1,10 +1,11 @@
 import * as React from "react";
 import {
-  Button, useDataProvider, useRecordContext,
-  useRefresh
+  Button,
+  useDataProvider,
+  useRecordContext,
+  useRefresh,
 } from "react-admin";
-import { transformLink } from '../transformLink';
-
+import { transformLink } from "../transformLink";
 
 export const OverrideThumbnail: React.FC = () => {
   const refresh = useRefresh();
@@ -21,11 +22,12 @@ export const OverrideThumbnail: React.FC = () => {
             transformLink({
               ...record,
               overrideThumbnail: true,
-            })
+            }),
           )
           .then(() => {
             refresh();
           });
-      }} />
+      }}
+    />
   );
 };

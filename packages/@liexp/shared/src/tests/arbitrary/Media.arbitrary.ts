@@ -17,7 +17,7 @@ const mediaProps = propsOmit(http.Media.Media, [
   "keywords",
   "areas",
   "featuredIn",
-  "socialPosts"
+  "socialPosts",
 ]);
 
 export const placeKitten = (): string => {

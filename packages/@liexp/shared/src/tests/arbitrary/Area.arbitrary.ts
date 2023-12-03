@@ -2,8 +2,17 @@ import * as tests from "@liexp/test";
 import * as t from "io-ts";
 import * as http from "../../io/http";
 
-const { createdAt, updatedAt, id, media, geometry, body, slug, socialPosts, ...areaProps } =
-  http.Area.Area.type.props;
+const {
+  createdAt,
+  updatedAt,
+  id,
+  media,
+  geometry,
+  body,
+  slug,
+  socialPosts,
+  ...areaProps
+} = http.Area.Area.type.props;
 
 export const AreaArb: tests.fc.Arbitrary<http.Area.Area> = tests
   .getArbitrary(t.strict({ ...areaProps }))

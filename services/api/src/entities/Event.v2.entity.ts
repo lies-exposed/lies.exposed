@@ -17,7 +17,7 @@ import { type GroupEntity } from "./Group.entity";
 import { KeywordEntity } from "./Keyword.entity";
 import { LinkEntity } from "./Link.entity";
 import { MediaEntity } from "./Media.entity";
-import { type SocialPostEntity } from './SocialPost.entity';
+import { type SocialPostEntity } from "./SocialPost.entity";
 import { StoryEntity } from "./Story.entity";
 
 @Entity("event_v2")
@@ -74,7 +74,6 @@ export class EventV2Entity {
     onDelete: "NO ACTION",
   })
   stories: StoryEntity[];
-
 
   actors: ActorEntity[];
   groups: GroupEntity[];

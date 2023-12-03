@@ -34,17 +34,23 @@ export const fetchEventsRelations: TEFlow<
     TE.right(takeEventRelations(events)),
     TE.chain((relations) =>
       pipe(
-        fetchRelations(ctx)({
-          keywords: pipe(relations.keywords, O.fromPredicate(fp.A.isNonEmpty)),
-          actors: pipe(relations.actors, O.fromPredicate(fp.A.isNonEmpty)),
-          groups: pipe(relations.groups, O.fromPredicate(fp.A.isNonEmpty)),
-          groupsMembers: O.some(relations.groupsMembers),
-          links: O.none,
-          media: pipe(
-            relations.media,
-            O.fromPredicate((m) => m.length > 0),
-          ),
-        }, isAdmin),
+        fetchRelations(ctx)(
+          {
+            keywords: pipe(
+              relations.keywords,
+              O.fromPredicate(fp.A.isNonEmpty),
+            ),
+            actors: pipe(relations.actors, O.fromPredicate(fp.A.isNonEmpty)),
+            groups: pipe(relations.groups, O.fromPredicate(fp.A.isNonEmpty)),
+            groupsMembers: O.some(relations.groupsMembers),
+            links: O.none,
+            media: pipe(
+              relations.media,
+              O.fromPredicate((m) => m.length > 0),
+            ),
+          },
+          isAdmin,
+        ),
         TE.chain((relations) =>
           sequenceS(TE.ApplicativePar)({
             events: fp.TE.right(events),

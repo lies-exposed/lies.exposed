@@ -1,7 +1,7 @@
 import { type ServerContext } from "@liexp/backend/lib/context/server";
 import { type Router } from "express";
 import { type ENV } from "@io/ENV";
-import { type EventsConfig } from '@queries/config';
+import { type EventsConfig } from "@queries/config";
 
 export interface RouteContext extends ServerContext {
   env: ENV;
@@ -11,8 +11,8 @@ export interface RouteContext extends ServerContext {
       temp: {
         root: string;
         media: string;
-      }
-    }
+      };
+    };
     events: EventsConfig;
   };
 }

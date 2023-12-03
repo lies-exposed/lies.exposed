@@ -16,9 +16,7 @@ import {
 } from "@liexp/shared/lib/io/http";
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals";
-import {
-  type GetSearchEventsQueryInput,
-} from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEventsQuery";
+import { type GetSearchEventsQueryInput } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEventsQuery";
 import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

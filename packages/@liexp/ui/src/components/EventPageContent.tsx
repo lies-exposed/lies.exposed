@@ -45,13 +45,9 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
           ? event.payload.source
           : undefined;
 
-
   const eventPageContent =
     event.type === EventTypes.BOOK.value ? (
-      <BookEventPageContent
-        event={event}
-        onMediaClick={onMediaClick}
-      />
+      <BookEventPageContent event={event} onMediaClick={onMediaClick} />
     ) : event.type === EventTypes.QUOTE.value ? (
       <QuoteEventPageContent event={event} />
     ) : event.type === EventTypes.DOCUMENTARY.value ? (

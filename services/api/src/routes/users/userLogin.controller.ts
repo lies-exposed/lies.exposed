@@ -19,7 +19,6 @@ export const MakeUserLoginRoute = (r: Router, ctx: RouteContext): void => {
     //   passwordUtils.hash(password),
     //   ctx.logger.debug.logInTaskEither('Password hash %s')
     // )()
-    ;
     return pipe(
       ctx.db.findOneOrFail(UserEntity, {
         where: [{ username }, { email: username }],

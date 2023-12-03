@@ -148,10 +148,10 @@ export const transformEvent = async (
     data.type === EventTypes.UNCATEGORIZED.value
       ? transformUncategorized(data)
       : data.type === EventTypes.DEATH.value
-      ? transformDeath(data)
-      : data.type === EventTypes.SCIENTIFIC_STUDY.value
-      ? transformScientificStudy(data)
-      : data;
+        ? transformDeath(data)
+        : data.type === EventTypes.SCIENTIFIC_STUDY.value
+          ? transformScientificStudy(data)
+          : data;
 
   // eslint-disable-next-line @typescript-eslint/return-await
   return pipe(

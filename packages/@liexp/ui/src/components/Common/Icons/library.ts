@@ -84,6 +84,6 @@ library.add(
     faUsersBetweenLines,
     faUser,
     faShareNodes,
-    faMapLocation
+    faMapLocation,
   ] as any[]),
 );

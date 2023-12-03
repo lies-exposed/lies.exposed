@@ -6,7 +6,7 @@ import { ReferenceArrayBySubjectField } from "@liexp/ui/lib/components/admin/com
 import { ReferenceBySubjectField } from "@liexp/ui/lib/components/admin/common/inputs/BySubject/ReferenceBySubjectField";
 import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm";
 import { BookEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/BookEditFormTab";
-import ReferenceArrayGroupInput from '@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput';
+import ReferenceArrayGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput";
 import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
 import {
@@ -20,7 +20,7 @@ import {
   TextField,
   useDataProvider,
   type CreateProps,
-  type ListProps
+  type ListProps,
 } from "@liexp/ui/lib/components/admin/react-admin";
 import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
 import { Grid } from "@liexp/ui/lib/components/mui";

@@ -10,7 +10,7 @@ const GetS3Provider: Reader<GetS3ProviderConfig, SpaceProvider> = (config) =>
   MakeSpaceProvider({
     client: new S3Client(config),
     getSignedUrl,
-    classes: { Upload }
+    classes: { Upload },
   });
 
 export { GetS3Provider };

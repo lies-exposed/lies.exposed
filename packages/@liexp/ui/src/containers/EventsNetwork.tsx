@@ -51,7 +51,8 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
 
         const relationIds = events.reduce(
           (acc, e) => {
-            const { actors, groups, groupsMembers } = getSearchEventRelations(e);
+            const { actors, groups, groupsMembers } =
+              getSearchEventRelations(e);
             return {
               actors: acc.actors.concat(
                 actors

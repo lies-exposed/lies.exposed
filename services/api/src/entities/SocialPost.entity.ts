@@ -1,4 +1,8 @@
-import { SocialPostStatus, type SocialPostPublishResult, type SocialPostResourceType } from "@liexp/shared/lib/io/http/SocialPost";
+import {
+  SocialPostStatus,
+  type SocialPostPublishResult,
+  type SocialPostResourceType,
+} from "@liexp/shared/lib/io/http/SocialPost";
 import { type UUID } from "io-ts-types/lib/UUID";
 import {
   Column,
@@ -7,9 +11,9 @@ import {
   Entity,
   Index,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from "typeorm";
-import { type LinkEntity } from './Link.entity';
+import { type LinkEntity } from "./Link.entity";
 
 @Entity("social_post")
 @Index(["type", "entity"])
@@ -38,7 +42,7 @@ export class SocialPostEntity {
   @Column({ type: "timestamptz" })
   scheduledAt: Date;
 
-  links?: LinkEntity[]
+  links?: LinkEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

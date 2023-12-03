@@ -27,7 +27,12 @@ export interface TGBotProvider {
     text: string,
     media: readonly TelegramBot.InputMedia[],
   ) => TE.TaskEither<Error, TelegramBot.Message>;
-  postFile: (text: string, fileName: string, file: string | Stream | Buffer, contentType?: PDFType) => TE.TaskEither<Error, TelegramBot.Message>;
+  postFile: (
+    text: string,
+    fileName: string,
+    file: string | Stream | Buffer,
+    contentType?: PDFType,
+  ) => TE.TaskEither<Error, TelegramBot.Message>;
   onMessage: (
     f: (message: TelegramBot.Message, metadata: TelegramBot.Metadata) => void,
   ) => void;
@@ -67,10 +72,14 @@ export const TGBotProvider = (
 ): TGBotProvider => {
   const encryptedToken = opts.token
     .split(":")
-    .map((s) => s
-      .substring(0, 3)
-      .concat(Array.from({ length: s.length - 4 }).map(() => "x").join(''))
-    ).join(':');
+    .map((s) =>
+      s.substring(0, 3).concat(
+        Array.from({ length: s.length - 4 })
+          .map(() => "x")
+          .join(""),
+      ),
+    )
+    .join(":");
   logger.debug.log("tg bot provider %O", {
     ...opts,
     token: encryptedToken,
@@ -157,10 +166,15 @@ export const TGBotProvider = (
     },
     postFile(text, filename, file, contentType = PDFType.value) {
       return liftTGTE(() =>
-        api.sendDocument(opts.chat, file, {
-          caption: text,
-          parse_mode: "HTML",
-        }, { filename, contentType }),
+        api.sendDocument(
+          opts.chat,
+          file,
+          {
+            caption: text,
+            parse_mode: "HTML",
+          },
+          { filename, contentType },
+        ),
       );
     },
     onMessage: (f) => {

@@ -88,9 +88,7 @@ const SocialPostEditFormTabInstagram: React.FC = () => {
     return <LoadingIndicator />;
   }
   if (!record.result?.ig) {
-    return (
-      <PublishNowButton platforms={{ IG: true }} />
-    );
+    return <PublishNowButton platforms={{ IG: true }} />;
   }
 
   const { result } = record;

@@ -64,12 +64,12 @@ const EventsTimeline: React.FC<{
 
 interface EventTimelinePluginProps {
   events: string[];
-  onEventClick: (m: Event) => void
+  onEventClick: (m: Event) => void;
 }
 
 export const EventTimelinePlugin: React.FC<EventTimelinePluginProps> = ({
   events,
-  onEventClick
+  onEventClick,
 }) => {
   return (
     <StyledBox className={classes.root}>

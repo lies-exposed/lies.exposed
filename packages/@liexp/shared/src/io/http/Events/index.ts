@@ -131,7 +131,6 @@ interface EventRelations {
 export {
   EventType,
   EventTypes,
-
   Protest,
   Fined,
   Book,

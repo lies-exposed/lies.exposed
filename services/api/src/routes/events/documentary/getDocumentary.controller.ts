@@ -3,7 +3,7 @@ import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
-import { toDocumentaryIO } from './documentary.io';
+import { toDocumentaryIO } from "./documentary.io";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { type Route } from "@routes/route.types";
 

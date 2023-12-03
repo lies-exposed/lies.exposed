@@ -1,9 +1,7 @@
 import path from "path";
 import { fp } from "@liexp/core/lib/fp";
 import { type Logger } from "@liexp/core/lib/logger";
-import {
-  getTotals,
-} from "@liexp/shared/lib/helpers/event/event";
+import { getTotals } from "@liexp/shared/lib/helpers/event/event";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
 import {
   type Actor,
@@ -12,7 +10,7 @@ import {
   type Keyword,
   type Media,
 } from "@liexp/shared/lib/io/http";
-import { EventTotalsMonoid } from '@liexp/shared/lib/io/http/Events/EventTotals';
+import { EventTotalsMonoid } from "@liexp/shared/lib/io/http/Events/EventTotals";
 import {
   type GetNetworkQuery,
   type NetworkLink,
@@ -220,7 +218,7 @@ export const createFlowGraph: TEFlow<
       fp.TE.chainEitherK(({ results }) =>
         pipe(results.map(toEventV2IO), fp.A.sequence(fp.E.Applicative)),
       ),
-      fp.TE.chain(events => fetchEventsRelations(ctx)(events, isAdmin)),
+      fp.TE.chain((events) => fetchEventsRelations(ctx)(events, isAdmin)),
       fp.TE.map(getFlowGraph(ctx.logger)),
     );
 
@@ -229,5 +227,3 @@ export const createFlowGraph: TEFlow<
       ctx.fs.getOlderThanOr(getFilePath(ctx)(type, id), 6),
     );
   };
-
-

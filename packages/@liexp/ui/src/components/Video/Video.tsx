@@ -49,7 +49,7 @@ export const Video: React.FC<VideoProps> = ({
   onLoad,
   onClick,
   disableZoom = false,
-  showPlay = true
+  showPlay = true,
 }) => {
   const [loaded, setLoaded] = React.useState(false);
 

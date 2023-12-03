@@ -1,7 +1,7 @@
 import * as t from "io-ts";
 import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { NumberFromString } from 'io-ts-types/lib/NumberFromString';
+import { NumberFromString } from "io-ts-types/lib/NumberFromString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { UUID } from "./Common/UUID";
 import { GetListQuery } from "./Query";
@@ -12,7 +12,7 @@ export type MEDIA = t.TypeOf<typeof MEDIA>;
 const JpgType = t.literal("image/jpg");
 const JpegType = t.literal("image/jpeg");
 export const PngType = t.literal("image/png");
-export type PngType = t.TypeOf<typeof PngType>
+export type PngType = t.TypeOf<typeof PngType>;
 
 /** audio types */
 export const MP3Type = t.literal("audio/mp3");

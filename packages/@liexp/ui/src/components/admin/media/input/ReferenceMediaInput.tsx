@@ -64,9 +64,7 @@ const ReferenceMediaInput: React.FC<
         source={props.source}
         render={(record: any, source: any) => {
           const media = get(record, source);
-          return (
-            record?.id && <Link to={`/media/${media}`}>Open Media</Link>
-          );
+          return record?.id && <Link to={`/media/${media}`}>Open Media</Link>;
         }}
       />
     </Stack>

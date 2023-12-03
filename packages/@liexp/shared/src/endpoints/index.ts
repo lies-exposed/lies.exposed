@@ -9,7 +9,7 @@ import * as User from "./User.endpoints";
 import * as Actor from "./actor.endpoints";
 import * as Admins from "./admin.endpoints";
 import * as Area from "./area.endpoints";
-import * as BookEvent from './events/book.endpoints';
+import * as BookEvent from "./events/book.endpoints";
 import * as DeathEvent from "./events/death.endpoints";
 import * as DocumentaryEvent from "./events/documentary.endpoints";
 import * as Event from "./events/event.endpoints";

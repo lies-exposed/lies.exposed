@@ -1,8 +1,5 @@
 import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event";
-import {
-  eqByUUID,
-  ordEventDate,
-} from "@liexp/shared/lib/helpers/event/event";
+import { eqByUUID, ordEventDate } from "@liexp/shared/lib/helpers/event/event";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
 import {
   type Actor,
@@ -109,8 +106,8 @@ export const EventsSankeyGraph: React.FC<EventsSankeyGraphProps> = (props) => {
                       groupBy === "actor"
                         ? "group"
                         : groupBy === "group"
-                        ? "keyword"
-                        : "actor";
+                          ? "keyword"
+                          : "actor";
                     setGroupBy(nextGroupBy);
                   }}
                 >
@@ -590,8 +587,8 @@ export function createEventNetworkGraphProps({
             groupBy === "group"
               ? eventGroups
               : groupBy === "actor"
-              ? eventActors
-              : eventKeywords;
+                ? eventActors
+                : eventKeywords;
 
           // console.log("event actors", groupByEventList)
           const groupByItem: GroupByItem | undefined = groupByEventList[0];
@@ -721,8 +718,8 @@ export function createEventNetworkGraphProps({
       groupBy === "actor"
         ? gb.username
         : groupBy === "group"
-        ? gb.name
-        : gb.tag,
+          ? gb.name
+          : gb.tag,
     ),
     range: groupByArray.map((t) => `#${t.color}`),
   });

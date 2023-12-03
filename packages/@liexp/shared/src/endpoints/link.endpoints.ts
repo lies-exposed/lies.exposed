@@ -101,6 +101,6 @@ export const links = ResourceEndpoints({
   Custom: {
     CreateMany,
     Submit,
-    TakeLinkScreenshot
+    TakeLinkScreenshot,
   },
 });

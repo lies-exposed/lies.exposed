@@ -99,18 +99,21 @@ export const whereActorInArray =
     outerWhere(
       new Brackets((q) => {
         Object.entries(config)
-        .filter(([key]) => O.isNone(eventType) || eventType.value.includes(key as any))
-        .forEach(([eventType, queryConfig], i) => {
-          const where = i === 0 ? q.where.bind(q) : q.orWhere.bind(q);
-          where(
-            new Brackets((qqb) => {
-              return queryConfig.whereActorsIn(
-                qqb.where(` event.type = '${eventType}' `),
-                actors,
-              );
-            }),
-          );
-        });
+          .filter(
+            ([key]) =>
+              O.isNone(eventType) || eventType.value.includes(key as any),
+          )
+          .forEach(([eventType, queryConfig], i) => {
+            const where = i === 0 ? q.where.bind(q) : q.orWhere.bind(q);
+            where(
+              new Brackets((qqb) => {
+                return queryConfig.whereActorsIn(
+                  qqb.where(` event.type = '${eventType}' `),
+                  actors,
+                );
+              }),
+            );
+          });
         return q;
       }),
     );
@@ -130,18 +133,22 @@ export const whereGroupInArray =
     outerWhere(
       new Brackets((subQ) => {
         Object.entries(config)
-        .filter(([key]) => O.isNone(eventType) || eventType.value.includes(key as any))
-        .forEach(([eventType, fn], i) => {
-          const where = i === 0 ? subQ.where.bind(subQ) : subQ.orWhere.bind(subQ);
-          where(
-            new Brackets((qqb) => {
-              fn.whereGroupsIn(
-                qqb.where(` event.type = '${eventType}' `),
-                groups,
-              );
-            }),
-          );
-        });
+          .filter(
+            ([key]) =>
+              O.isNone(eventType) || eventType.value.includes(key as any),
+          )
+          .forEach(([eventType, fn], i) => {
+            const where =
+              i === 0 ? subQ.where.bind(subQ) : subQ.orWhere.bind(subQ);
+            where(
+              new Brackets((qqb) => {
+                fn.whereGroupsIn(
+                  qqb.where(` event.type = '${eventType}' `),
+                  groups,
+                );
+              }),
+            );
+          });
         return subQ;
       }),
     );
@@ -351,7 +358,12 @@ export const searchEventV2Query =
                     : hasWhere
                       ? "AND"
                       : undefined;
-                  whereGroupInArray(config.events)(q, groups.value, type, whereT);
+                  whereGroupInArray(config.events)(
+                    q,
+                    groups.value,
+                    type,
+                    whereT,
+                  );
                 }
 
                 if (groupsMembers.length > 0) {

@@ -11,7 +11,7 @@ describe("Get Patent List", () => {
     draft: false,
     media: [],
     links: [],
-    keywords: []
+    keywords: [],
   }));
 
   beforeAll(async () => {

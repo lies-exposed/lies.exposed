@@ -7,7 +7,7 @@ import { EventIcon } from "@liexp/ui/lib/components/Common/Icons/EventIcon";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
 import ReferenceArrayGroupMemberInput from "@liexp/ui/lib/components/admin/common/ReferenceArrayGroupMemberInput";
 import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm";
-import { BookEditFormTab } from '@liexp/ui/lib/components/admin/events/tabs/BookEditFormTab';
+import { BookEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/BookEditFormTab";
 import { DeathEventEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/DeathEventEditFormTab";
 import { DocumentaryEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/DocumentaryEditFormTab";
 import { PatentEventEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/PatentEventEditTab";

@@ -38,10 +38,9 @@ type AsyncDataRoute = BaseRoute & {
 };
 type ServerRoute = RedirectRoute | AsyncDataRoute;
 
-
 const isRedirectRoute = (r: ServerRoute): r is RedirectRoute => {
-  return (r as any).redirect
-}
+  return (r as any).redirect;
+};
 export const getServer = (
   app: express.Express,
   App: React.ComponentType,
@@ -230,7 +229,7 @@ export const getServer = (
     if (isRedirectRoute(r)) {
       app.get(r.path, (req, res) => {
         // TODO: very opinionated and not really versatile
-        res.redirect(r.redirect.replace(':id', req.params.id));
+        res.redirect(r.redirect.replace(":id", req.params.id));
         return res;
       });
     } else {

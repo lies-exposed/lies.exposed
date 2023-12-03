@@ -15,7 +15,7 @@ const ReferenceEventInput: React.FC<
     <ReferenceInput {...props} reference="events">
       <AutocompleteInput
         source="id"
-        size='small'
+        size="small"
         filterToQuery={(title: any) => ({ title })}
         fullWidth
         getOptionLabel={(r) => r.payload?.title ?? ""}

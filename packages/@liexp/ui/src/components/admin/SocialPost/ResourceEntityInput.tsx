@@ -3,13 +3,13 @@ import {
   type SocialPost,
 } from "@liexp/shared/lib/io/http/SocialPost";
 import * as React from "react";
-import { useNavigateTo } from '../../../utils/history.utils';
+import { useNavigateTo } from "../../../utils/history.utils";
 import { Stack } from "../../mui";
 import ReferenceActorInput from "../actors/ReferenceActorInput";
 import ReferenceAreaInput from "../areas/input/ReferenceAreaInput";
 import ReferenceEventInput from "../events/ReferenceEventInput";
 import ReferenceGroupInput from "../groups/ReferenceGroupInput";
-import ReferenceKeywordInput from '../keywords/ReferenceKeywordInput';
+import ReferenceKeywordInput from "../keywords/ReferenceKeywordInput";
 import ReferenceLinkInput from "../links/ReferenceLinkInput";
 import ReferenceMediaInput from "../media/input/ReferenceMediaInput";
 import {
@@ -73,7 +73,12 @@ export const ResourceEntityInput: React.FC = () => {
         }))}
       />
       {referenceInput}
-      <Button size='small' variant='contained' label={`Open ${record.type}`} onClick={handleResourceOpenClick} />
+      <Button
+        size="small"
+        variant="contained"
+        label={`Open ${record.type}`}
+        onClick={handleResourceOpenClick}
+      />
     </Stack>
   );
 };

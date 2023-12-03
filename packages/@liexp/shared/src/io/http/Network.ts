@@ -4,10 +4,10 @@ import { DateFromISOString } from "io-ts-types/DateFromISOString";
 import { UUID } from "io-ts-types/UUID";
 import { nonEmptyArray } from "io-ts-types/nonEmptyArray";
 import { optionFromNullable } from "io-ts-types/optionFromNullable";
-import { type serializedType } from 'ts-io-error/lib/Codec';
+import { type serializedType } from "ts-io-error/lib/Codec";
 import { Actor, ACTORS } from "./Actor";
 import { EVENTS } from "./Events";
-import { EventTotals } from './Events/EventTotals';
+import { EventTotals } from "./Events/EventTotals";
 import { Group, GROUPS } from "./Group";
 import { Keyword, KEYWORDS } from "./Keyword";
 import { Media } from "./Media";
@@ -39,7 +39,7 @@ export const GetNetworkQuery = t.type(
 );
 
 export type GetNetworkQuery = t.TypeOf<typeof GetNetworkQuery>;
-export type GetNetworkQuerySerialized = serializedType<typeof GetNetworkQuery>
+export type GetNetworkQuerySerialized = serializedType<typeof GetNetworkQuery>;
 
 export const GetNetworkParams = t.type(
   {

@@ -1,6 +1,5 @@
 import { type RaRecord } from "react-admin";
 
-
 export const transformLink = ({ newEvents, ...r }: RaRecord): RaRecord => {
   return {
     ...r,

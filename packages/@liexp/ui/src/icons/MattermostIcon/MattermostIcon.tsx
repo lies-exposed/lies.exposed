@@ -13,8 +13,8 @@ export const MattermostIcon: React.FC<MattermostIconProps> = (props) => {
     props.variant === "white"
       ? WhiteIcon
       : props.variant === "black"
-      ? GreyIcon
-      : GreyIcon;
+        ? GreyIcon
+        : GreyIcon;
   const width = fontSize === "small" ? 18 : 36;
   const height = fontSize === "small" ? 18 : 36;
   return <img src={iconSrc} width={width} height={height} />;

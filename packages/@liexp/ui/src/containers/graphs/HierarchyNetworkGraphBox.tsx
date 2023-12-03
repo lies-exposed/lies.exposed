@@ -1,6 +1,9 @@
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
 import { EventType } from "@liexp/shared/lib/io/http/Events";
-import { EventTotalsMonoid, type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals";
+import {
+  EventTotalsMonoid,
+  type EventTotals,
+} from "@liexp/shared/lib/io/http/Events/EventTotals";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
 import {

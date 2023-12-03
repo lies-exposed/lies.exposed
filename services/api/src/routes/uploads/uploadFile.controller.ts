@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { PngType } from '@liexp/shared/lib/io/http/Media';
+import { PngType } from "@liexp/shared/lib/io/http/Media";
 import * as bodyParser from "body-parser";
 import { type Router } from "express";
 import * as T from "fp-ts/Task";

@@ -21,8 +21,8 @@ interface MediaInputProps extends Omit<InputProps, "source"> {
 }
 
 export const MediaInput: React.FC<MediaInputProps> = ({
-  sourceType = 'type',
-  sourceLocation = 'location',
+  sourceType = "type",
+  sourceLocation = "location",
   type: _type = "_type",
   supportedTypes,
   source,

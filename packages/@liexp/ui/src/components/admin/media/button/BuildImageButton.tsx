@@ -85,8 +85,8 @@ export const LayerBox: React.FC<{
                   return typeof v === "string"
                     ? v
                     : Array.isArray(v)
-                    ? (v as any)[0].name
-                    : v.name;
+                      ? (v as any)[0].name
+                      : v.name;
                 }}
                 items={GRAVITY_OPTIONS.map((c) => ({
                   id: c,
@@ -111,8 +111,8 @@ export const LayerBox: React.FC<{
                   return typeof v === "string"
                     ? v
                     : Array.isArray(v)
-                    ? (v as any)[0].name
-                    : v.name;
+                      ? (v as any)[0].name
+                      : v.name;
                 }}
                 items={BLEND_OPTIONS.map((c) => ({ id: c, name: c }))}
                 isOptionEqualToValue={(o, v) => o.id === v.id}

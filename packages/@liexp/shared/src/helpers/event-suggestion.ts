@@ -81,7 +81,7 @@ export const getSuggestions = (
                 actors: [],
                 groups: [],
               } as any,
-            }
+            },
           },
         },
         {

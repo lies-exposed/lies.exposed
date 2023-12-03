@@ -7,7 +7,7 @@ export const SocialPostFormTabContent: React.FC<{
   source: string;
   target?: string;
   type?: string;
-}> = ({ source, target = 'entity', type }) => {
+}> = ({ source, target = "entity", type }) => {
   const record = useRecordContext();
   if (!record) {
     return null;

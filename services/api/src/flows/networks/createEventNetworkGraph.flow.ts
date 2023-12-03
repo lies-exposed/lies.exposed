@@ -18,7 +18,10 @@ import {
 } from "@liexp/shared/lib/io/http";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
-import { EventTotalsMonoid, type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals";
+import {
+  EventTotalsMonoid,
+  type EventTotals,
+} from "@liexp/shared/lib/io/http/Events/EventTotals";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
 import {
@@ -322,42 +325,41 @@ const initialResult: Result = {
 };
 
 export const createEventNetworkGraph: TEFlow<
-  [UUID,  boolean],
+  [UUID, boolean],
   NetworkGraphOutput
-> =
-  (ctx) =>
-  (id, isAdmin) => {
-    const filePath = path.resolve(
-      ctx.config.dirs.temp.root,
-      `networks/events/${id}.json`,
-    );
+> = (ctx) => (id, isAdmin) => {
+  const filePath = path.resolve(
+    ctx.config.dirs.temp.root,
+    `networks/events/${id}.json`,
+  );
 
-    const createEventNetworkGraphTask = pipe(
-      ctx.db.findOneOrFail(EventV2Entity, {
-        where: {
-          id: Equal(id),
-        },
-        loadRelationIds: {
-          relations: ["keywords", "media"],
-        },
-      }),
-      TE.chainEitherK((ev) => toEventV2IO({ ...ev, links: [] })),
-      ctx.logger.debug.logInTaskEither(`event %O`),
-      // get all relations for the given event
-      fp.TE.map((event) => ({
-        ...getRelationIds(event),
-        event,
-      })),
-      // get event timeline for each relation
-      TE.chain(({ actors, groups, keywords, groupsMembers, media, event }) => {
-        ctx.logger.debug.log("Relation graph for this event %O", {
-          actors: actors.length,
-          groups: groups.length,
-          keywords: keywords.length,
-        });
+  const createEventNetworkGraphTask = pipe(
+    ctx.db.findOneOrFail(EventV2Entity, {
+      where: {
+        id: Equal(id),
+      },
+      loadRelationIds: {
+        relations: ["keywords", "media"],
+      },
+    }),
+    TE.chainEitherK((ev) => toEventV2IO({ ...ev, links: [] })),
+    ctx.logger.debug.logInTaskEither(`event %O`),
+    // get all relations for the given event
+    fp.TE.map((event) => ({
+      ...getRelationIds(event),
+      event,
+    })),
+    // get event timeline for each relation
+    TE.chain(({ actors, groups, keywords, groupsMembers, media, event }) => {
+      ctx.logger.debug.log("Relation graph for this event %O", {
+        actors: actors.length,
+        groups: groups.length,
+        keywords: keywords.length,
+      });
 
-        return pipe(
-          fetchRelations(ctx)({
+      return pipe(
+        fetchRelations(ctx)(
+          {
             keywords: pipe(
               keywords,
               O.fromPredicate((a) => a.length > 0),
@@ -376,230 +378,229 @@ export const createEventNetworkGraph: TEFlow<
               media,
               O.fromPredicate((m) => m.length > 0),
             ),
-          }, isAdmin),
-          TE.map((r) => ({ event, ...r })),
-        );
+          },
+          isAdmin,
+        ),
+        TE.map((r) => ({ event, ...r })),
+      );
+    }),
+    TE.chain(({ event, ...relations }) =>
+      sequenceS(TE.ApplicativePar)({
+        event: fp.TE.right(event),
+        actors: pipe(
+          relations.actors,
+          fp.A.traverse(fp.E.Applicative)(toActorIO),
+          fp.TE.fromEither,
+        ),
+        groups: pipe(
+          relations.groups,
+          fp.A.traverse(fp.E.Applicative)((g) =>
+            toGroupIO({ ...g, members: [] }),
+          ),
+          fp.TE.fromEither,
+        ),
+        keywords: pipe(
+          relations.keywords,
+          fp.A.traverse(fp.E.Applicative)(toKeywordIO),
+          fp.TE.fromEither,
+        ),
+        media: pipe(
+          relations.media,
+          fp.A.traverse(fp.E.Applicative)((m) =>
+            toMediaIO(
+              {
+                ...m,
+                links: [],
+                keywords: [],
+                events: [],
+              },
+              ctx.env.SPACE_ENDPOINT,
+            ),
+          ),
+          fp.TE.fromEither,
+        ),
       }),
-      TE.chain(({ event, ...relations }) =>
-        sequenceS(TE.ApplicativePar)({
-          event: fp.TE.right(event),
-          actors: pipe(
-            relations.actors,
-            fp.A.traverse(fp.E.Applicative)(toActorIO),
-            fp.TE.fromEither,
-          ),
-          groups: pipe(
-            relations.groups,
-            fp.A.traverse(fp.E.Applicative)((g) =>
-              toGroupIO({ ...g, members: [] }),
-            ),
-            fp.TE.fromEither,
-          ),
-          keywords: pipe(
-            relations.keywords,
-            fp.A.traverse(fp.E.Applicative)(toKeywordIO),
-            fp.TE.fromEither,
-          ),
-          media: pipe(
-            relations.media,
-            fp.A.traverse(fp.E.Applicative)((m) =>
-              toMediaIO(
-                {
-                  ...m,
-                  links: [],
-                  keywords: [],
-                  events: [],
-                },
-                ctx.env.SPACE_ENDPOINT,
+    ),
+    TE.chain(({ event, actors, groups, keywords, media }) => {
+      ctx.logger.debug.log(`Actors %d`, actors.length);
+      ctx.logger.debug.log(`Groups %d`, groups.length);
+      ctx.logger.debug.log(`Keywords %d`, keywords.length);
+      ctx.logger.debug.log(`Media %d`, media.length);
+
+      const getGraph = (
+        ids: UUID[],
+        key: "keywords" | "actors" | "groups",
+      ): TE.TaskEither<ControllerError, NetworkGraphOutput> =>
+        pipe(
+          ids,
+          A.traverse(TE.ApplicativeSeq)((k) =>
+            pipe(
+              infiniteSearchEventQuery(ctx)({
+                exclude: O.some([event.id]),
+                [key]: O.some([k]),
+                order: { date: "DESC" },
+              }),
+              fp.TE.chainEitherK(
+                fp.A.traverse(fp.E.Applicative)((ev) =>
+                  toEventV2IO({ ...ev, links: [] }),
+                ),
               ),
+              fp.TE.map((ee): [string, NetworkGraphOutput] => [
+                k,
+                pipe(
+                  ee,
+                  // (ee) => {
+                  //   ctx.logger.debug.log(
+                  //     `Deaths events %O`,
+                  //     ee.filter((e) => e.type === "Death")
+                  //   );
+                  //   return ee;
+                  // },
+                  fp.A.map((e) =>
+                    toSearchEvent(e, {
+                      actors: new Map(actors.map(TupleWithId.of)),
+                      groups: new Map(groups.map(TupleWithId.of)),
+                      keywords: new Map(keywords.map(TupleWithId.of)),
+                      media: new Map(media.map(TupleWithId.of)),
+                      groupsMembers: new Map(),
+                    }),
+                  ),
+                  // (events) => {
+                  //   ctx.logger.debug.log(
+                  //     "Deaths %O",
+                  //     events.filter((e) => e.type === "Death")
+                  //   );
+                  //   return events;
+                  // },
+                  (events) =>
+                    getEventGraph(ctx)({
+                      events,
+                      keywords,
+                      actors,
+                      groups,
+                      media,
+                      relation: key,
+                      emptyRelations: false,
+                    }),
+                ),
+              ]),
+              fp.TE.map((tuples) => {
+                const color = getColorByEventType({
+                  type: event.type,
+                });
+                const update: any = {};
+
+                if (key === ACTORS.value) {
+                  update.actorLinks = [
+                    {
+                      source: k + "",
+                      sourceType: key,
+                      target: event.id + "",
+                      fill: color,
+                      stroke: color,
+                      value: 0,
+                    },
+                    {
+                      source: tuples[1].events?.[0]?.id + "",
+                      sourceType: "events",
+                      target: k + "",
+                      fill: color,
+                      stroke: color,
+                      value: 0,
+                    },
+                  ].concat(tuples[1].actorLinks);
+                }
+
+                if (key === GROUPS.value) {
+                  update.groupLinks = [
+                    {
+                      source: k.toString(),
+                      sourceType: key,
+                      target: event.id.toString(),
+                      fill: color,
+                      stroke: color,
+                      value: 0,
+                    },
+                    {
+                      source: tuples[1].events?.[0]?.id,
+                      sourceType: "events",
+                      target: k.toString(),
+                      fill: color,
+                      stroke: color,
+                      value: 0,
+                    },
+                  ].concat(tuples[1].groupLinks);
+                }
+
+                if (key === KEYWORDS.value) {
+                  update.keywordLinks = [
+                    {
+                      source: k.toString(),
+                      sourceType: key,
+                      target: event.id.toString(),
+                      fill: color,
+                      stroke: color,
+                      value: 0,
+                    },
+                  ];
+                  if (tuples[1].events?.[0]?.id) {
+                    update.keywordLinks.push({
+                      source: tuples[1].events?.[0]?.id,
+                      sourceType: "events" as any,
+                      target: k.toString(),
+                      fill: color,
+                      stroke: color,
+                      value: 0,
+                    });
+                  }
+
+                  update.keywordLinks.push(...tuples[1].keywordLinks);
+                }
+
+                return {
+                  ...tuples[1],
+                  ...update,
+                };
+              }),
             ),
-            fp.TE.fromEither,
+          ),
+          TE.map(reduceResultToOutput(ctx)),
+          TE.map((output) => ({
+            ...output,
+            actors,
+            groups,
+            keywords,
+            events: [event].concat(output.events),
+          })),
+        );
+
+      return pipe(
+        sequenceS(TE.ApplicativePar)({
+          keywords: getGraph(
+            keywords.map((k) => k.id),
+            KEYWORDS.value,
+          ),
+          actors: getGraph(
+            actors.map((a) => a.id),
+            ACTORS.value,
+          ),
+          groups: getGraph(
+            groups.map((g) => g.id),
+            GROUPS.value,
           ),
         }),
-      ),
-      TE.chain(({ event, actors, groups, keywords, media }) => {
-        ctx.logger.debug.log(`Actors %d`, actors.length);
-        ctx.logger.debug.log(`Groups %d`, groups.length);
-        ctx.logger.debug.log(`Keywords %d`, keywords.length);
-        ctx.logger.debug.log(`Media %d`, media.length);
+        TE.map(({ keywords, groups, actors }) =>
+          reduceResultToOutput(ctx)([keywords, groups, actors]),
+        ),
+      );
+    }),
+    TE.chainIOEitherK((graph) => {
+      return fp.IOE.tryCatch(() => {
+        fs.writeFileSync(filePath, JSON.stringify(graph));
+        return graph;
+      }, toControllerError);
+    }),
+  );
 
-        const getGraph = (
-          ids: UUID[],
-          key: "keywords" | "actors" | "groups",
-        ): TE.TaskEither<ControllerError, NetworkGraphOutput> =>
-          pipe(
-            ids,
-            A.traverse(TE.ApplicativeSeq)((k) =>
-              pipe(
-                infiniteSearchEventQuery(ctx)({
-                  exclude: O.some([event.id]),
-                  [key]: O.some([k]),
-                  order: { date: "DESC" },
-                }),
-                fp.TE.chainEitherK(
-                  fp.A.traverse(fp.E.Applicative)((ev) =>
-                    toEventV2IO({ ...ev, links: [] }),
-                  ),
-                ),
-                fp.TE.map((ee): [string, NetworkGraphOutput] => [
-                  k,
-                  pipe(
-                    ee,
-                    // (ee) => {
-                    //   ctx.logger.debug.log(
-                    //     `Deaths events %O`,
-                    //     ee.filter((e) => e.type === "Death")
-                    //   );
-                    //   return ee;
-                    // },
-                    fp.A.map((e) =>
-                      toSearchEvent(e, {
-                        actors: new Map(actors.map(TupleWithId.of)),
-                        groups: new Map(groups.map(TupleWithId.of)),
-                        keywords: new Map(keywords.map(TupleWithId.of)),
-                        media: new Map(media.map(TupleWithId.of)),
-                        groupsMembers: new Map(),
-                      }),
-                    ),
-                    // (events) => {
-                    //   ctx.logger.debug.log(
-                    //     "Deaths %O",
-                    //     events.filter((e) => e.type === "Death")
-                    //   );
-                    //   return events;
-                    // },
-                    (events) =>
-                      getEventGraph(ctx)({
-                        events,
-                        keywords,
-                        actors,
-                        groups,
-                        media,
-                        relation: key,
-                        emptyRelations: false,
-                      }),
-                  ),
-                ]),
-                fp.TE.map((tuples) => {
-                  const color = getColorByEventType({
-                    type: event.type,
-                  });
-                  const update: any = {};
-
-                  if (key === ACTORS.value) {
-                    update.actorLinks = [
-                      {
-                        source: k + "",
-                        sourceType: key,
-                        target: event.id + "",
-                        fill: color,
-                        stroke: color,
-                        value: 0,
-                      },
-                      {
-                        source: tuples[1].events?.[0]?.id + "",
-                        sourceType: "events",
-                        target: k + "",
-                        fill: color,
-                        stroke: color,
-                        value: 0,
-                      },
-                    ].concat(tuples[1].actorLinks);
-                  }
-
-                  if (key === GROUPS.value) {
-                    update.groupLinks = [
-                      {
-                        source: k.toString(),
-                        sourceType: key,
-                        target: event.id.toString(),
-                        fill: color,
-                        stroke: color,
-                        value: 0,
-                      },
-                      {
-                        source: tuples[1].events?.[0]?.id,
-                        sourceType: "events",
-                        target: k.toString(),
-                        fill: color,
-                        stroke: color,
-                        value: 0,
-                      },
-                    ].concat(tuples[1].groupLinks);
-                  }
-
-                  if (key === KEYWORDS.value) {
-                    update.keywordLinks = [
-                      {
-                        source: k.toString(),
-                        sourceType: key,
-                        target: event.id.toString(),
-                        fill: color,
-                        stroke: color,
-                        value: 0,
-                      },
-                    ];
-                    if (tuples[1].events?.[0]?.id) {
-                      update.keywordLinks.push({
-                        source: tuples[1].events?.[0]?.id,
-                        sourceType: "events" as any,
-                        target: k.toString(),
-                        fill: color,
-                        stroke: color,
-                        value: 0,
-                      });
-                    }
-
-                    update.keywordLinks.push(...tuples[1].keywordLinks);
-                  }
-
-                  return {
-                    ...tuples[1],
-                    ...update,
-                  };
-                }),
-              ),
-            ),
-            TE.map(reduceResultToOutput(ctx)),
-            TE.map((output) => ({
-              ...output,
-              actors,
-              groups,
-              keywords,
-              events: [event].concat(output.events),
-            })),
-          );
-
-        return pipe(
-          sequenceS(TE.ApplicativePar)({
-            keywords: getGraph(
-              keywords.map((k) => k.id),
-              KEYWORDS.value,
-            ),
-            actors: getGraph(
-              actors.map((a) => a.id),
-              ACTORS.value,
-            ),
-            groups: getGraph(
-              groups.map((g) => g.id),
-              GROUPS.value,
-            ),
-          }),
-          TE.map(({ keywords, groups, actors }) =>
-            reduceResultToOutput(ctx)([keywords, groups, actors]),
-          ),
-        );
-      }),
-      TE.chainIOEitherK((graph) => {
-        return fp.IOE.tryCatch(() => {
-          fs.writeFileSync(filePath, JSON.stringify(graph));
-          return graph;
-        }, toControllerError);
-      }),
-    );
-
-    return pipe(
-      createEventNetworkGraphTask,
-      ctx.fs.getOlderThanOr(filePath, 6),
-    );
-  };
+  return pipe(createEventNetworkGraphTask, ctx.fs.getOlderThanOr(filePath, 6));
+};

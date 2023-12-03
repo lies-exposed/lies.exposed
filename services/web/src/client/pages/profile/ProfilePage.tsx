@@ -9,9 +9,7 @@ import {
   LinkCreate,
   LinkList,
 } from "@liexp/ui/lib/components/admin/links/AdminLinks";
-import {
-  LinkEdit
-} from "@liexp/ui/lib/components/admin/links/LinkEdit";
+import { LinkEdit } from "@liexp/ui/lib/components/admin/links/LinkEdit";
 import {
   MediaCreate,
   MediaEdit,

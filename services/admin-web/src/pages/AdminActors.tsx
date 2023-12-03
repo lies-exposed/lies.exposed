@@ -10,7 +10,7 @@ import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
 import { CreateEventButton } from "@liexp/ui/lib/components/admin/events/CreateEventButton";
 import ReferenceManyEventField from "@liexp/ui/lib/components/admin/events/ReferenceManyEventField";
-import { EventsFlowGraphFormTab } from '@liexp/ui/lib/components/admin/events/tabs/EventsFlowGraphFormTab';
+import { EventsFlowGraphFormTab } from "@liexp/ui/lib/components/admin/events/tabs/EventsFlowGraphFormTab";
 import { EventsNetworkGraphFormTab } from "@liexp/ui/lib/components/admin/events/tabs/EventsNetworkGraphFormTab";
 import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceGroupInput";
 import { SearchLinksButton } from "@liexp/ui/lib/components/admin/links/SearchLinksButton";

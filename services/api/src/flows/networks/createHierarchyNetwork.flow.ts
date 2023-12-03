@@ -18,9 +18,9 @@ import {
   type Keyword,
   type Media,
 } from "@liexp/shared/lib/io/http";
-import { type UUID } from '@liexp/shared/lib/io/http/Common';
+import { type UUID } from "@liexp/shared/lib/io/http/Common";
 import { EventType } from "@liexp/shared/lib/io/http/Events";
-import { EventTotalsMonoid } from '@liexp/shared/lib/io/http/Events/EventTotals';
+import { EventTotalsMonoid } from "@liexp/shared/lib/io/http/Events/EventTotals";
 import { StatsType } from "@liexp/shared/lib/io/http/Stats";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
 import { sequenceS } from "fp-ts/Apply";
@@ -54,7 +54,10 @@ export const createStatsByEntityType: TEFlow<
   [StatsType, string],
   HierarchicalEdgeBundlingProps["graph"]
 > = (ctx) => (type, id) => {
-  const filePath = path.resolve(ctx.config.dirs.cwd, `temp/stats/${type}/${id}.json`);
+  const filePath = path.resolve(
+    ctx.config.dirs.cwd,
+    `temp/stats/${type}/${id}.json`,
+  );
 
   ctx.logger.debug.log("%s stats file %s", type, filePath);
 
@@ -157,10 +160,13 @@ export const createStatsByEntityType: TEFlow<
         ({ skip, amount }) =>
           searchEventV2Query(ctx)({
             ids: O.none,
-            actors: type === StatsType.types[1].value ? O.some([id as UUID]) : O.none,
-            groups: type === StatsType.types[2].value ? O.some([id as UUID]) : O.none,
+            actors:
+              type === StatsType.types[1].value ? O.some([id as UUID]) : O.none,
+            groups:
+              type === StatsType.types[2].value ? O.some([id as UUID]) : O.none,
             groupsMembers: O.none,
-            keywords: type === StatsType.types[0].value ? O.some([id as UUID]) : O.none,
+            keywords:
+              type === StatsType.types[0].value ? O.some([id as UUID]) : O.none,
             links: O.none,
             locations: O.none,
             type: O.some(EventType.types.map((t) => t.value)),
@@ -201,7 +207,7 @@ export const createStatsByEntityType: TEFlow<
                 events: {
                   data: events,
                   total: events.length,
-                  totals: EventTotalsMonoid.empty
+                  totals: EventTotalsMonoid.empty,
                 },
                 actors: pipe(
                   actors,

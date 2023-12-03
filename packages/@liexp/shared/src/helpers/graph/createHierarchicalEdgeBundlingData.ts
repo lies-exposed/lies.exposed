@@ -15,7 +15,7 @@ import {
   Stats,
 } from "../../io/http";
 import { type UUID } from "../../io/http/Common";
-import { getSearchEventRelations } from '@helpers/event/getSearchEventRelations';
+import { getSearchEventRelations } from "@helpers/event/getSearchEventRelations";
 
 const logger = GetLogger("hierarchy-edge-bundling");
 
@@ -88,8 +88,8 @@ export const createHierarchicalEdgeBundling = ({
         relation === Stats.StatsType.types[1].value
           ? eventActors
           : relation === Stats.StatsType.types[0].value
-          ? eventKeywords
-          : eventGroups;
+            ? eventKeywords
+            : eventGroups;
       const result = pipe(
         eventRelation,
         A.reduce(acc, (acc1, g) => {

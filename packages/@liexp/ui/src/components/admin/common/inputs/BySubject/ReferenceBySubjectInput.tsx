@@ -5,7 +5,7 @@ import {
   FormDataConsumer,
   SelectInput,
   TextInput,
-  type ReferenceInputProps
+  type ReferenceInputProps,
 } from "react-admin";
 import { Stack } from "../../../../mui";
 import ReferenceActorInput from "../../../actors/ReferenceActorInput";
@@ -47,7 +47,13 @@ const ReferenceBySubjectInput: React.FC<
               />
             );
           }
-          return <TextInput source={source} defaultValue={"Select subject type"} disabled />;
+          return (
+            <TextInput
+              source={source}
+              defaultValue={"Select subject type"}
+              disabled
+            />
+          );
         }}
       </FormDataConsumer>
     </Stack>

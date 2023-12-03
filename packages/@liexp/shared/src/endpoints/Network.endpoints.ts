@@ -52,7 +52,7 @@ export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ type, id }) => `/networks/${type}/${id}`,
   Input: {
-    Params: t.type({...GetNetworkParams.props, id: UUID }),
+    Params: t.type({ ...GetNetworkParams.props, id: UUID }),
     Body: t.strict({ regenerate: optionFromNullable(t.boolean) }),
   },
   Output: SingleOutput,

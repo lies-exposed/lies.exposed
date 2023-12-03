@@ -2,7 +2,7 @@ import * as A from "fp-ts/Array";
 import * as date from "fp-ts/Date";
 import * as E from "fp-ts/Either";
 import * as Eq from "fp-ts/Eq";
-import * as IO from 'fp-ts/IO';
+import * as IO from "fp-ts/IO";
 import * as IOE from "fp-ts/IOEither";
 import * as Json from "fp-ts/Json";
 import * as Map from "fp-ts/Map";
@@ -34,7 +34,7 @@ export const fp = {
   Json,
   Eq,
   Void,
-  Date: date
+  Date: date,
 };
 
 export { pipe, flow };

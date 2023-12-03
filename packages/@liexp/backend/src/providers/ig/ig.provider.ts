@@ -7,7 +7,7 @@ import {
   type PostingVideoOptions,
   type AccountRepositoryLoginErrorResponse,
   type AccountRepositoryLoginResponseLogged_in_user,
-  type PostingAlbumOptions
+  type PostingAlbumOptions,
 } from "instagram-private-api";
 
 export type OnLoginErrorFn = (
@@ -20,9 +20,14 @@ export interface IGProvider {
   login: (
     onError: OnLoginErrorFn,
   ) => TE.TaskEither<Error, AccountRepositoryLoginResponseLogged_in_user>;
-  postPhoto: (image: Buffer, caption: string) => TE.TaskEither<Error, MediaRepositoryConfigureResponseRootObject>;
-  postVideo: (options: PostingVideoOptions) => TE.TaskEither<Error, MediaRepositoryConfigureResponseRootObject>
-  postAlbum: (options: PostingAlbumOptions) => TE.TaskEither<Error, any>
+  postPhoto: (
+    image: Buffer,
+    caption: string,
+  ) => TE.TaskEither<Error, MediaRepositoryConfigureResponseRootObject>;
+  postVideo: (
+    options: PostingVideoOptions,
+  ) => TE.TaskEither<Error, MediaRepositoryConfigureResponseRootObject>;
+  postAlbum: (options: PostingAlbumOptions) => TE.TaskEither<Error, any>;
 }
 
 interface IGProviderOpts {
@@ -103,19 +108,18 @@ export const IGProvider = (opts: IGProviderOpts): IGProvider => {
     ig,
     login,
     postPhoto: (image, caption) => {
-      return liftTE(
-        () =>
-          ig.publish.photo({
-            file: image,
-            caption,
-          }),
+      return liftTE(() =>
+        ig.publish.photo({
+          file: image,
+          caption,
+        }),
       );
     },
     postVideo: (options) => {
-      return liftTE(() => ig.publish.video(options))
+      return liftTE(() => ig.publish.video(options));
     },
     postAlbum: (options) => {
-      return liftTE(() => ig.publish.album(options))
-    }
+      return liftTE(() => ig.publish.album(options));
+    },
   };
 };

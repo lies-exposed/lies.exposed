@@ -4,8 +4,8 @@ import { Box } from "../../mui";
 import { ActorDataGrid } from "../actors/ActorDataGrid";
 import { EventDataGrid } from "../events/EventListPage";
 import { GroupDataGrid } from "../groups/GroupDataGrid";
-import { LinkDataGrid } from '../links/LinkDataGrid';
-import { MediaDataGrid } from '../media';
+import { LinkDataGrid } from "../links/LinkDataGrid";
+import { MediaDataGrid } from "../media";
 
 export const StoryRelationsBox: React.FC = () => {
   return (

@@ -1,4 +1,4 @@
-import { ImageType } from '@liexp/shared/lib/io/http/Media';
+import { ImageType } from "@liexp/shared/lib/io/http/Media";
 import { relationsTransformer } from "@liexp/shared/lib/slate/utils";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
@@ -36,7 +36,7 @@ import {
 import { uploadImages } from "../../../client/admin/MediaAPI";
 import { Box, Grid } from "../../mui";
 import ReactPageInput from "../ReactPageInput";
-import { SocialPostFormTabContent } from '../SocialPost/SocialPostFormTabContent';
+import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent";
 import { EditForm } from "../common/EditForm";
 import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput";
 import ReferenceMediaInput from "../media/input/ReferenceMediaInput";
@@ -155,7 +155,7 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
 
           <ReferenceMediaInput
             source="featuredImage.id"
-            allowedTypes={ImageType.types.map(t => t.value)}
+            allowedTypes={ImageType.types.map((t) => t.value)}
           />
 
           <ArrayInput source="links">
@@ -169,7 +169,7 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
           <StoryRelationsBox />
         </FormTab>
         <FormTab label="Social Posts">
-          <SocialPostFormTabContent type="stories" source='id' />
+          <SocialPostFormTabContent type="stories" source="id" />
         </FormTab>
       </TabbedForm>
     </EditForm>
@@ -192,7 +192,7 @@ export const StoryCreate: React.FC<CreateProps> = (props) => {
         <ReferenceArrayKeywordInput source="keywords" showAdd={true} />
         <ReferenceMediaInput
           source="featuredImage"
-          allowedTypes={ImageType.types.map(t => t.value)}
+          allowedTypes={ImageType.types.map((t) => t.value)}
         />
         <DateInput source="date" />
         <ArrayInput source="links">

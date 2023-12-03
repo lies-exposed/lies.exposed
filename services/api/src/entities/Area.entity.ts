@@ -11,7 +11,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { MediaEntity } from "./Media.entity";
-import { type SocialPostEntity } from './SocialPost.entity';
+import { type SocialPostEntity } from "./SocialPost.entity";
 
 @Entity("area")
 @Index(["slug"])
@@ -44,7 +44,7 @@ export class AreaEntity {
   media: MediaEntity[];
 
   // admin props
-  socialPosts?: SocialPostEntity[]
+  socialPosts?: SocialPostEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

@@ -6,7 +6,7 @@ import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { searchEventV2Query } from "../queries/searchEventsV2.query";
-import { toDocumentaryIO } from './documentary.io';
+import { toDocumentaryIO } from "./documentary.io";
 import { type Route } from "@routes/route.types";
 import { getORMOptions } from "@utils/orm.utils";
 

@@ -39,8 +39,8 @@ export const BookEventArb = getArbitrary(
     authors: [],
     media: {
       pdf: fc.sample(fc.uuid(), 1)[0],
-      audio: undefined
+      audio: undefined,
     },
-    publisher: undefined
+    publisher: undefined,
   },
 }));
