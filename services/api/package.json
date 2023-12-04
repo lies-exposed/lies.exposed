@@ -62,7 +62,7 @@
     "front-matter": "4.0.2",
     "gray-matter": "^4.0.3",
     "instagram-private-api": "^1.45.3",
-    "io-ts": "^2.2.20",
+    "io-ts": "^2.2.21",
     "io-ts-types": "^0.5.19",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
