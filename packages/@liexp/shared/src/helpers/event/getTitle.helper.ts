@@ -49,6 +49,7 @@ export const getTitleForSearchEvent = (
     case http.Events.EventTypes.SCIENTIFIC_STUDY.value:
     case http.Events.EventTypes.TRANSACTION.value:
     case http.Events.EventTypes.UNCATEGORIZED.value:
+    case http.Events.EventTypes.BOOK.value:
       return e.payload.title;
     default:
       return "no title given";
