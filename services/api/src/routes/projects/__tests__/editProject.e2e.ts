@@ -32,7 +32,7 @@ describe("Edit Project ", () => {
       media: [],
       events: [],
       socialPosts: [],
-      creator: null
+      creator: null,
     }));
     [area] = await throwTE(appTest.ctx.db.save(AreaEntity, [areaData]));
     const [projectData] = fc.sample(ProjectArb, 1);

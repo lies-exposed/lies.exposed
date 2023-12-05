@@ -30,7 +30,7 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
         queries={(Q) => ({
           groups: Q.Group.list.useQuery(
             {
-              pagination: { page: 1, perPage: 20 },
+              pagination: { page: 1, perPage: 40 },
               sort: { field: "id", order: "ASC" },
               filter: null,
             },

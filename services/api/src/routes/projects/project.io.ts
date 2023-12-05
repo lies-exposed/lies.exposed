@@ -18,7 +18,7 @@ export const toProjectIO = (
         geometry: a.geometry,
         createdAt: a.createdAt.toISOString(),
         updatedAt: a.updatedAt.toISOString(),
-        creator: null
+        creator: null,
       })),
       media: project.media.map(({ image, ...i }) => ({
         ...i,

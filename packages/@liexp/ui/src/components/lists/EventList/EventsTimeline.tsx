@@ -52,8 +52,9 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
             links: acc.links.concat(p.links),
             total: p.total,
             totals: p.totals,
+            firstDate: p.firstDate ?? acc.firstDate,
+            lastDate: p.lastDate ?? acc.lastDate,
           }),
-
           {
             events: [] as any[],
             actors: [] as any[],
@@ -64,6 +65,8 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
             links: [] as any[],
             total: 0,
             totals: EventTotalsMonoid.empty,
+            firstDate: new Date().toISOString(),
+            lastDate: new Date().toISOString(),
           },
         )
       : undefined;

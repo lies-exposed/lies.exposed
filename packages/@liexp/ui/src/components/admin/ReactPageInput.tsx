@@ -12,7 +12,7 @@ import {
 } from "react-admin";
 import { ErrorBoundary } from "react-error-boundary";
 import { editor } from "../Common/Editor/index.js";
-import { ErrorBox } from '../Common/ErrorBox.js';
+import { ErrorBox } from "../Common/ErrorBox.js";
 import JSONInput from "../Common/JSON/JSONInput.js";
 import { Box, Button, FormControlLabel, Paper, Switch } from "../mui/index.js";
 

@@ -16,7 +16,7 @@ import {
   UpdateDateColumn,
   type Relation,
 } from "typeorm";
-import { EventV2Entity } from './Event.v2.entity.js';
+import { EventV2Entity } from "./Event.v2.entity.js";
 import { MediaEntity } from "./Media.entity.js";
 import { type SocialPostEntity } from "./SocialPost.entity.js";
 
@@ -57,7 +57,6 @@ export class AreaEntity {
   @ManyToMany(() => MediaEntity, (m) => m.areas)
   @JoinTable()
   media: Relation<MediaEntity[] | null>;
-
 
   @OneToMany(() => EventV2Entity, (a) => a.location)
   events: EventV2Entity[];
