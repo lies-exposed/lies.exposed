@@ -112,6 +112,7 @@ export const ThumbnailEditField: React.FC<FieldProps> = (props) => {
                 label="Location"
                 sourceLocation="thumbnail"
                 sourceType={ImageType.types[0].value}
+                showInputOnClick
               />
               <Button
                 onClick={() => {
@@ -186,7 +187,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
         <FormTab label="general">
           <Grid container spacing={2}>
             <Grid item md={6}>
-              <MediaField source="location" controls={true} />
+              <MediaInput source="location" showInputOnClick />
               <DurationField source="extra.duration" />
               <GenerateExtraButton />
               <TransferButton {...props} />
