@@ -86,16 +86,16 @@ export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {
         onlyUnshared,
         ...findOptions,
       }),
-      TE.chain(({ results, totals }) =>
+      TE.chain(({ results, ...rest }) =>
         pipe(
           results,
           A.map((e) => toEventV2IO(e)),
           A.sequence(E.Applicative),
-          E.map((data) => ({ data, totals })),
+          E.map((data) => ({ data, ...rest })),
           TE.fromEither,
         ),
       ),
-      TE.map(({ data, totals }) => ({
+      TE.map(({ data, totals, firstDate, lastDate }) => ({
         body: {
           data,
           total:
@@ -106,6 +106,8 @@ export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {
             totals.documentaries +
             totals.transactions,
           totals,
+          firstDate: firstDate?.toISOString(),
+          lastDate: lastDate?.toISOString(),
         },
         statusCode: 200,
       })),

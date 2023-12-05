@@ -13,7 +13,7 @@ import { ActorEntity } from "#entities/Actor.entity.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";
 import { KeywordEntity } from "#entities/Keyword.entity.js";
-import { LinkEntity } from '#entities/Link.entity';
+import { LinkEntity } from "#entities/Link.entity";
 import { type TEFlow } from "#flows/flow.types.js";
 import { extractRelationsFromText } from "#flows/nlp/extractRelationsFromText.flow.js";
 import { extractRelationsFromURL } from "#flows/nlp/extractRelationsFromURL.flow.js";
@@ -112,8 +112,7 @@ export const extractEntitiesFromAny: TEFlow<
     () => {
       if (ExtractEntitiesWithNLPInput.types[0].is(body)) {
         return pipe(
-          ctx.puppeteer.getBrowserFirstPage("about:blank", {
-          }),
+          ctx.puppeteer.getBrowserFirstPage("about:blank", {}),
           fp.TE.mapLeft(toControllerError),
           fp.TE.chain((p) =>
             pipe(

@@ -64,10 +64,7 @@ export const AreaList: React.FC<ListProps> = () => (
       <FunctionField
         render={(r: any) => {
           return (
-            <Stack
-              direction="row"
-              alignItems="center"
-            >
+            <Stack direction="row" alignItems="center">
               {r.featuredImage ? (
                 <Stack>
                   <MediaField

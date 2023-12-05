@@ -25,7 +25,7 @@ export const MakeCreateAreaRoute: Route = (r, { db, logger, jwt, env }) => {
           return db.save(AreaEntity, [body]);
         }),
         fp.TE.map(([a]) => a),
-        TE.chainEitherK(a => toAreaIO(a, env.SPACE_ENDPOINT)),
+        TE.chainEitherK((a) => toAreaIO(a, env.SPACE_ENDPOINT)),
         TE.map((page) => ({
           body: {
             data: page,

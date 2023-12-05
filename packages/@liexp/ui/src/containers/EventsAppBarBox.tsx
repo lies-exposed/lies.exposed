@@ -1,3 +1,4 @@
+import { parseISO } from "date-fns";
 import * as React from "react";
 import QueriesRenderer from "../components/QueriesRenderer.js";
 import EventsAppBar, {
@@ -29,13 +30,23 @@ const EventsAppBarBox: React.FC<EventsAppBarBoxProps> = ({
           _end: 0,
         }),
       }}
-      render={({ searchEvents: { totals, events } }) => {
+      render={({
+        searchEvents: {
+          totals,
+          firstDate = new Date().toISOString(),
+          lastDate = new Date().toISOString(),
+          events,
+        },
+      }) => {
         return (
           <EventsAppBar
             {...props}
             query={query}
             events={events}
             totals={totals}
+            dateRange={
+              props.dateRange ?? [parseISO(firstDate), parseISO(lastDate)]
+            }
           />
         );
       }}
