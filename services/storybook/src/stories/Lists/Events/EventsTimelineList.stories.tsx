@@ -6,6 +6,7 @@ import {
   MediaArb,
   UncategorizedArb,
 } from "@liexp/shared/lib/tests/index.js";
+import { subYears } from "@liexp/shared/lib/utils/date.utils";
 import { fc } from "@liexp/test";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import EventsTimelineList, {
@@ -81,6 +82,8 @@ EventsTimelineListExample.args = {
     media: [],
     keywords: [],
     groupsMembers: [],
+    firstDate: subYears(new Date(), 5).toISOString(),
+    lastDate: new Date().toISOString(),
     links: [],
     totals: EventTotalsMonoid.empty,
     total: 10,

@@ -1,7 +1,7 @@
 // https://www.postgresql.org/docs/12/functions-json.html
 
 import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { fp } from "@liexp/core/lib/fp/index.js";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
 import {
   EventTypes,
@@ -9,15 +9,15 @@ import {
 } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type GetSearchEventsQuery } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEventsQuery.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
-import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
+import { pipe } from "fp-ts/lib/function.js";
 import { Brackets, In, type SelectQueryBuilder } from "typeorm";
+import { type ControllerError } from "../../../io/ControllerError.js";
 import { type RouteContext } from "../../route.types.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
-import { type ControllerError } from "#io/ControllerError.js";
 import { type EventsConfig } from "#queries/config/index.js";
 import {
   aggregateSocialPostsPerEntry,
@@ -201,10 +201,144 @@ const searchQueryDefaults: SearchEventQuery = {
   order: {},
 };
 
+const addWhereToQueryBuilder = (
+  q: SelectQueryBuilder<EventV2Entity>,
+  config: EventsConfig,
+  opts: Omit<SearchEventQuery, "startDate" | "endDate">,
+  groupsMembers: string[],
+): SelectQueryBuilder<EventV2Entity> => {
+  const {
+    exclude,
+    ids,
+    actors,
+    groups,
+    groupsMembers: _groupsMembers,
+    locations,
+    keywords,
+    media,
+    links,
+    type,
+    search: title,
+    withDrafts,
+    draft,
+    emptyLinks,
+    emptyMedia,
+    spCount,
+    onlyUnshared: _onlyUnshared,
+  } = opts;
+
+  const onlyUnshared = pipe(
+    _onlyUnshared,
+    fp.O.filter((o) => !!o),
+  );
+
+  let hasWhere = false;
+
+  if (O.isSome(ids)) {
+    q.where("event.id IN (:...ids)", {
+      ids: ids.value,
+    });
+    return q;
+  } else if (O.isSome(exclude)) {
+    q.where("event.id NOT IN (:...ids)", {
+      ids: exclude.value,
+    });
+    hasWhere = true;
+  }
+
+  if (O.isSome(title)) {
+    q = whereInTitle(config)(q, title.value);
+  }
+
+  q.andWhere(
+    new Brackets((qb) => {
+      let hasWhereActor = false;
+      if (O.isSome(actors)) {
+        whereActorInArray(config)(
+          q,
+          actors.value,
+          type,
+          hasWhere ? "AND" : undefined,
+        );
+        hasWhere = true;
+        hasWhereActor = true;
+      }
+
+      if (O.isSome(groups)) {
+        const whereT = hasWhereActor ? "OR" : hasWhere ? "AND" : undefined;
+        whereGroupInArray(config)(q, groups.value, type, whereT);
+      }
+
+      if (groupsMembers.length > 0) {
+        qb.orWhere(
+          `( event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groupsMembers' ?| ARRAY[:...groupsMembers] )`,
+          {
+            groupsMembers,
+          },
+        );
+      }
+    }),
+  );
+
+  if (O.isSome(locations)) {
+    q.andWhere(
+      new Brackets((locationQb) => {
+        locationQb
+          .where(
+            ` (event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'location' ?| ARRAY[:...locations]) `,
+          )
+          .orWhere(`location.id IN (:...locations)`);
+      }),
+    );
+
+    q.setParameter("locations", locations.value);
+  }
+
+  if (O.isSome(keywords)) {
+    q.andWhere("keywords.id IN (:...keywords)", {
+      keywords: keywords.value,
+    });
+  }
+
+  if (O.isSome(emptyMedia) && O.toUndefined(emptyMedia)) {
+    q.andWhere("media.id IS NULL");
+  } else if (O.isSome(media)) {
+    q.andWhere("media.id IN (:...media)", {
+      media: media.value,
+    });
+  }
+
+  if (O.isSome(emptyLinks) && O.toUndefined(emptyLinks)) {
+    q.andWhere("links.id IS NULL");
+  } else if (O.isSome(links)) {
+    const where = hasWhere ? q.andWhere.bind(q) : q.andWhere.bind(q);
+    where("links.id IN (:...links)", {
+      links: links.value,
+    });
+  }
+
+  if (O.isSome(spCount)) {
+    q.andWhere('"socialPosts_spCount" >= :spCount', {
+      spCount: spCount.value,
+    });
+  } else if (O.isSome(onlyUnshared)) {
+    q.andWhere('"socialPosts_spCount" < 1 OR "socialPosts_spCount" IS NULL');
+  }
+
+  if (O.isSome(draft)) {
+    q.andWhere("event.draft = :draft", { draft: draft.value });
+  } else if (!withDrafts) {
+    q.andWhere("event.draft = false");
+  }
+  return q;
+};
+
 export interface SearchEventOutput {
   results: EventV2Entity[];
   totals: EventTotals;
   total: number;
+  firstDate?: Date;
+  lastDate?: Date;
 }
 
 export const searchEventV2Query =
@@ -218,76 +352,86 @@ export const searchEventV2Query =
     };
 
     const {
-      exclude,
-      ids,
       actors,
-      groups,
       groupsMembers: _groupsMembers,
-      locations,
-      keywords,
-      media,
-      links,
       type,
-      search: title,
-      startDate,
-      endDate,
       withDeleted,
-      withDrafts,
-      draft,
-      emptyLinks,
-      emptyMedia,
-      spCount,
       onlyUnshared: _onlyUnshared,
       order,
       skip,
       take,
     } = opts;
 
-    const onlyUnshared = pipe(
-      _onlyUnshared,
-      fp.O.filter((o) => !!o),
-    );
-
-    const groupsMembersQuery = pipe(
-      O.isSome(actors)
-        ? pipe(
-            db.find(GroupMemberEntity, {
-              where: {
-                actor: { id: In(actors.value) },
-              },
-            }),
-            TE.map(A.map((gm) => gm.id)),
-          )
-        : TE.right<DBError, string[]>([]),
-      TE.map((gm) =>
-        O.isSome(_groupsMembers) ? gm.concat(..._groupsMembers.value) : gm,
-      ),
-    );
-
     return pipe(
-      groupsMembersQuery,
-      TE.chain((groupsMembers) => {
-        logger.debug.log(
-          `Find options for event (type: %s) %O`,
-          O.toUndefined(type),
-          {
-            title,
-            exclude,
-            startDate,
-            endDate,
-            actors,
-            groups,
-            groupsMembers,
-            keywords,
-            links,
-            media,
-            order,
-            skip,
-            take,
-          },
+      TE.Do,
+      TE.bind("groupsMembers", () =>
+        pipe(
+          O.isSome(actors)
+            ? pipe(
+                db.find(GroupMemberEntity, {
+                  where: {
+                    actor: { id: In(actors.value) },
+                  },
+                }),
+                TE.map(A.map((gm) => gm.id)),
+              )
+            : TE.right<DBError, string[]>([]),
+          TE.map((gm) =>
+            O.isSome(_groupsMembers) ? gm.concat(..._groupsMembers.value) : gm,
+          ),
+        ),
+      ),
+      TE.bind("firstDate", ({ groupsMembers }) => {
+        const dates = pipe(
+          db.manager
+            .createQueryBuilder(EventV2Entity, "event")
+            .addSelect('MIN("event"."date")', "firstDate")
+            .addSelect('MAX("event"."date")', "lastDate")
+            .leftJoinAndSelect("event.keywords", "keywords")
+            .leftJoinAndSelect("event.media", "media")
+            .leftJoinAndSelect("event.links", "links"),
+          (q) =>
+            addWhereToQueryBuilder(q, config.events, opts, groupsMembers)
+              .addGroupBy('"event"."id"')
+              .addGroupBy('"keywords"."id"')
+              .addGroupBy('"media"."id"')
+              .addGroupBy('"links"."id"'),
+          (q) => addOrder({ date: "ASC" }, q, "event"),
         );
 
-        const searchV2Query = pipe(
+        logger.debug.log(
+          `Dates query %s with params %O`,
+          ...dates.getQueryAndParameters(),
+        );
+
+        return db.execQuery(() => dates.getRawOne<{ firstDate: Date }>());
+      }),
+      TE.bind("lastDate", ({ groupsMembers }) => {
+        const dates = pipe(
+          db.manager
+            .createQueryBuilder(EventV2Entity, "event")
+            .addSelect('MAX("event"."date")', "lastDate")
+            .leftJoinAndSelect("event.keywords", "keywords")
+            .leftJoinAndSelect("event.media", "media")
+            .leftJoinAndSelect("event.links", "links"),
+          (q) =>
+            addWhereToQueryBuilder(q, config.events, opts, groupsMembers)
+              .addGroupBy('"event"."id"')
+              .addGroupBy('"keywords"."id"')
+              .addGroupBy('"media"."id"')
+              .addGroupBy('"links"."id"'),
+          (q) => addOrder({ date: "DESC" }, q, "event"),
+        );
+
+        logger.debug.log(
+          `Dates query %s with params %O`,
+          ...dates.getQueryAndParameters(),
+        );
+
+        return db.execQuery(() => dates.getRawOne<{ lastDate: Date }>());
+      }),
+      TE.bind("results", ({ groupsMembers }) => {
+        const queryBuilder = pipe(
           db.manager
             .createQueryBuilder(EventV2Entity, "event")
             .addSelect("RANDOM()", "seeder_random")
@@ -302,136 +446,31 @@ export const searchEventV2Query =
               '"socialPosts"."socialPosts_entity" = event.id',
             ),
           (q) => {
-            let hasWhere = false;
-
-            if (O.isSome(ids)) {
-              q.where("event.id IN (:...ids)", {
-                ids: ids.value,
-              });
-              return q;
-            } else if (O.isSome(exclude)) {
-              q.where("event.id NOT IN (:...ids)", {
-                ids: exclude.value,
-              });
-              hasWhere = true;
-            }
-
-            if (O.isSome(title)) {
-              q = whereInTitle(config.events)(q, title.value);
-            }
-
-            q.andWhere(
-              new Brackets((qb) => {
-                if (O.isSome(startDate)) {
-                  const where = hasWhere
-                    ? qb.andWhere.bind(qb)
-                    : qb.where.bind(qb);
-                  where("event.date >= :startDate", {
-                    startDate: startDate.value.toDateString(),
-                  });
-                  hasWhere = true;
-                }
-
-                if (O.isSome(endDate)) {
-                  const where = hasWhere
-                    ? qb.andWhere.bind(qb)
-                    : qb.where.bind(qb);
-                  where("event.date <= :endDate", {
-                    endDate: endDate.value.toDateString(),
-                  });
-                  hasWhere = true;
-                }
-
-                let hasWhereActor = false;
-                if (O.isSome(actors)) {
-                  whereActorInArray(config.events)(
-                    q,
-                    actors.value,
-                    type,
-                    hasWhere ? "AND" : undefined,
-                  );
-                  hasWhere = true;
-                  hasWhereActor = true;
-                }
-
-                if (O.isSome(groups)) {
-                  const whereT = hasWhereActor
-                    ? "OR"
-                    : hasWhere
-                      ? "AND"
-                      : undefined;
-                  whereGroupInArray(config.events)(
-                    q,
-                    groups.value,
-                    type,
-                    whereT,
-                  );
-                }
-
-                if (groupsMembers.length > 0) {
-                  qb.orWhere(
-                    `( event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groupsMembers' ?| ARRAY[:...groupsMembers] )`,
-                    {
-                      groupsMembers,
-                    },
-                  );
-                }
-              }),
+            logger.debug.log(
+              `Find options for event (type: %s) %O`,
+              O.toUndefined(type),
+              opts,
             );
 
-            if (O.isSome(locations)) {
-              q.andWhere(
-                new Brackets((locationQb) => {
-                  locationQb
-                    .where(
-                      ` (event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'location' ?| ARRAY[:...locations]) `,
-                    )
-                    .orWhere(`location.id IN (:...locations)`);
-                }),
-              );
+            const qq = addWhereToQueryBuilder(
+              q,
+              config.events,
+              opts,
+              groupsMembers,
+            );
 
-              q.setParameter("locations", locations.value);
-            }
-
-            if (O.isSome(keywords)) {
-              q.andWhere("keywords.id IN (:...keywords)", {
-                keywords: keywords.value,
+            if (O.isSome(opts.startDate)) {
+              qq.andWhere("event.date >= :startDate", {
+                startDate: opts.startDate.value.toDateString(),
               });
             }
 
-            if (O.isSome(emptyMedia) && O.toUndefined(emptyMedia)) {
-              q.andWhere("media.id IS NULL");
-            } else if (O.isSome(media)) {
-              q.andWhere("media.id IN (:...media)", {
-                media: media.value,
+            if (O.isSome(opts.endDate)) {
+              qq.andWhere("event.date <= :endDate", {
+                endDate: opts.endDate.value.toDateString(),
               });
             }
-
-            if (O.isSome(emptyLinks) && O.toUndefined(emptyLinks)) {
-              q.andWhere("links.id IS NULL");
-            } else if (O.isSome(links)) {
-              const where = hasWhere ? q.andWhere.bind(q) : q.andWhere.bind(q);
-              where("links.id IN (:...links)", {
-                links: links.value,
-              });
-            }
-
-            if (O.isSome(spCount)) {
-              q.andWhere('"socialPosts_spCount" >= :spCount', {
-                spCount: spCount.value,
-              });
-            } else if (O.isSome(onlyUnshared)) {
-              q.andWhere(
-                '"socialPosts_spCount" < 1 OR "socialPosts_spCount" IS NULL',
-              );
-            }
-
-            if (O.isSome(draft)) {
-              q.andWhere("event.draft = :draft", { draft: draft.value });
-            } else if (!withDrafts) {
-              q.andWhere("event.draft = false");
-            }
-            return q;
+            return qq;
           },
           (q) => {
             if (withDeleted) {
@@ -521,9 +560,9 @@ export const searchEventV2Query =
           },
         );
 
-        return sequenceS(fp.TE.ApplicativePar)({
+        return fp.sequenceS(fp.TE.ApplicativePar)({
           results: db.execQuery(async () => {
-            const resultQ = searchV2Query.resultsQuery
+            const resultQ = queryBuilder.resultsQuery
               .loadAllRelationIds({
                 relations: ["keywords", "links", "media", "location"],
               })
@@ -538,6 +577,7 @@ export const searchEventV2Query =
 
             const results = await resultQ.getRawAndEntities();
 
+            // logger.debug.log("Result entities %O", results.entities);
             // logger.debug.log("Raw results %O", results.raw);
 
             return results.entities.map((e) => ({
@@ -550,26 +590,29 @@ export const searchEventV2Query =
             }));
           }),
           uncategorized: db.execQuery(() =>
-            searchV2Query.uncategorizedCount.getCount(),
+            queryBuilder.uncategorizedCount.getCount(),
           ),
-          deaths: db.execQuery(() => searchV2Query.deathsCount.getCount()),
+          deaths: db.execQuery(() => queryBuilder.deathsCount.getCount()),
           scientificStudies: db.execQuery(() =>
-            searchV2Query.scientificStudiesCount.getCount(),
+            queryBuilder.scientificStudiesCount.getCount(),
           ),
-          patents: db.execQuery(() => searchV2Query.patentCount.getCount()),
+          patents: db.execQuery(() => queryBuilder.patentCount.getCount()),
           documentaries: db.execQuery(() =>
-            searchV2Query.documentariesCount.getCount(),
+            queryBuilder.documentariesCount.getCount(),
           ),
           transactions: db.execQuery(() =>
-            searchV2Query.transactionsCount.getCount(),
+            queryBuilder.transactionsCount.getCount(),
           ),
-          quotes: db.execQuery(() => searchV2Query.quotesCount.getCount()),
-          books: db.execQuery(() => searchV2Query.booksCount.getCount()),
+          quotes: db.execQuery(() => queryBuilder.quotesCount.getCount()),
+          books: db.execQuery(() => queryBuilder.booksCount.getCount()),
         });
       }),
-      TE.map(({ results, ...totals }) => ({
+
+      TE.map(({ results: { results, ...totals }, firstDate, lastDate }) => ({
         results,
         totals,
+        firstDate: firstDate?.firstDate,
+        lastDate: lastDate?.lastDate,
         total:
           totals.deaths +
           totals.documentaries +

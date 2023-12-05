@@ -15,10 +15,10 @@ export const MakeGetAreaRoute: Route = (r, { db, env }) => {
           relations: ["media", "events"],
         },
         relations: {
-          featuredImage: true
+          featuredImage: true,
         },
       }),
-      TE.chainEitherK(a => toAreaIO(a, env.SPACE_ENDPOINT)),
+      TE.chainEitherK((a) => toAreaIO(a, env.SPACE_ENDPOINT)),
       TE.map((area) => ({
         body: {
           data: area,

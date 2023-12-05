@@ -73,7 +73,7 @@ export const MakeEditAreaRoute: Route = (r, { db, geo, env, logger }) => {
               relations: ["media", "events"],
             },
             relations: {
-              featuredImage: true
+              featuredImage: true,
             },
           }),
         ),

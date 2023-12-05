@@ -23,6 +23,8 @@ export const ListEventOutput = t.strict(
     ),
     total: t.number,
     totals: http.Events.SearchEvent.EventTotals.EventTotals,
+    firstDate: t.union([t.string, t.undefined]),
+    lastDate: t.union([t.string, t.undefined]),
   },
   "Events",
 );

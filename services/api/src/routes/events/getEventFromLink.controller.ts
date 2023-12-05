@@ -206,12 +206,18 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                 search: O.fromNullable(metadata.title),
               }),
               ctx.logger.debug.logInTaskEither("Events %O"),
-              TE.chain(({ results, ...rest }) =>
+              TE.chain(({ results, firstDate, lastDate, ...rest }) =>
                 pipe(
                   results,
                   A.map(toEventV2IO),
                   A.sequence(E.Applicative),
-                  E.map((data) => ({ data, suggestions, ...rest })),
+                  E.map((data) => ({
+                    data,
+                    suggestions,
+                    firstDate: firstDate?.toISOString(),
+                    lastDate: lastDate?.toISOString(),
+                    ...rest,
+                  })),
                   TE.fromEither,
                 ),
               ),

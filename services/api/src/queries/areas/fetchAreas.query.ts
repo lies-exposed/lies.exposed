@@ -27,7 +27,7 @@ export const fetchAreas: TEFlow<
             .createQueryBuilder(AreaEntity, "area")
             .select()
             .leftJoinAndSelect("area.featuredImage", "featuredImage"),
-            // .leftJoinAndSelect("area.media", "media"),
+          // .leftJoinAndSelect("area.media", "media"),
           (q) => {
             if (isAdmin) {
               q.leftJoinAndSelect(

@@ -44,6 +44,8 @@ export interface SearchEventQueryResult {
   keywords: Keyword.Keyword[];
   links: Link.Link[];
   totals: EventTotals;
+  firstDate?: string;
+  lastDate?: string;
   total: number;
 }
 
@@ -177,7 +179,7 @@ const searchEventsQ =
         log.error.log(`API Error %O`, e.details);
         return e;
       }),
-      TE.chain(({ data, ...response }) => {
+      TE.chain(({ data, firstDate, lastDate,  ...response }) => {
         log.debug.log("API response %O", { data, response });
 
         return pipe(
@@ -206,6 +208,8 @@ const searchEventsQ =
                 keywords: keywords.data,
                 links: links.data,
                 events: searchEventsQueryCache.events,
+                firstDate,
+                lastDate,
               };
             },
           ),
