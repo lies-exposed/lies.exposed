@@ -18,6 +18,7 @@ interface MediaInputProps extends Omit<InputProps, "source"> {
   style?: React.CSSProperties;
   sourceType?: string;
   sourceLocation?: string;
+  showInputOnClick?: boolean;
 }
 
 export const MediaInput: React.FC<MediaInputProps> = ({
@@ -27,9 +28,18 @@ export const MediaInput: React.FC<MediaInputProps> = ({
   supportedTypes,
   source,
   style,
+  showInputOnClick = false,
   ...props
 }) => {
   const types = supportedTypes ?? MediaType.types.map((a) => a.value);
+  const [editMode, setEditMode] = React.useState(showInputOnClick);
+
+  const handleClickOnField = showInputOnClick
+    ? (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setEditMode(!editMode);
+      }
+    : undefined;
 
   // console.log({ type, sourceType, sourceLocation });
   return (
@@ -48,10 +58,24 @@ export const MediaInput: React.FC<MediaInputProps> = ({
       <FormDataConsumer>
         {({ formData, scopedFormData, getSource, ...rest }) => {
           const mediaType = formData[sourceLocation]?.rawFile?.type;
+          const typeSource = get(formData, getSource?.(_type) ?? _type);
+          const showInput = showInputOnClick ? editMode : false;
 
-          if (get(formData, getSource?.(_type) ?? _type) === "fromFile") {
-            const mediaSrc = get(formData, sourceLocation)?.src;
+          const mediaSrc = get(formData, sourceLocation)?.src;
 
+          if (showInput) {
+            return (
+              <Box onClick={handleClickOnField}>
+                <MediaField
+                  source={sourceLocation}
+                  type={sourceType}
+                  controls={true}
+                  {...props}
+                />
+              </Box>
+            );
+          }
+          if (typeSource === "fromFile") {
             return (
               <Box>
                 <FileInput
@@ -74,7 +98,7 @@ export const MediaInput: React.FC<MediaInputProps> = ({
           }
 
           return (
-            <Box>
+            <Box onClick={handleClickOnField}>
               <TextInput source={sourceLocation} />
               <SelectInput
                 {...rest}
