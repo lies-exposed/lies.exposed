@@ -34,7 +34,7 @@
     "@liexp/shared": "0.1.0",
     "@liexp/ui": "0.1.0",
     "@mui/icons-material": "^5.14.19",
-    "@mui/material": "^5.14.19",
+    "@mui/material": "^5.14.20",
     "@visx/axis": "^3.5.0",
     "@visx/gradient": "^3.3.0",
     "@visx/legend": "^3.5.0",
