@@ -3225,7 +3225,7 @@ __metadata:
     "@liexp/test": 0.1.0
     "@types/fluent-ffmpeg": ^2.1.24
     "@types/jsonwebtoken": ^9.0.5
-    "@types/node-telegram-bot-api": ^0.63.3
+    "@types/node-telegram-bot-api": ^0.64.0
     "@types/prettier": ^3.0.0
     "@types/uuid": ^9.0.7
     date-fns: ^2.30.0
@@ -3282,7 +3282,7 @@ __metadata:
     "@types/mime": ^1.3.5
     "@types/mini-css-extract-plugin": ^2.5.1
     "@types/prettier": ^3.0.0
-    "@types/react": ^18.2.40
+    "@types/react": ^18.2.42
     "@types/webpack-bundle-analyzer": ^4.6.3
     "@types/webpack-node-externals": ^3.0.4
     copy-webpack-plugin: ^11.0.0
@@ -3335,7 +3335,7 @@ __metadata:
     "@liexp/test": 0.1.0
     "@types/bs58": ^4.0.4
     "@types/prettier": ^3.0.0
-    "@types/react": ^18.2.40
+    "@types/react": ^18.2.42
     "@types/react-dom": ^18.2.17
     "@types/throttle-debounce": ^5.0.2
     "@types/uuid": ^9.0.7
@@ -3423,10 +3423,10 @@ __metadata:
     "@types/eslint": ^8.44.8
     "@types/prettier": ^3.0.0
     "@types/reach__router": ^1.3.14
-    "@types/react": ^18.2.40
-    "@types/react-helmet": ^6.1.9
+    "@types/react": ^18.2.42
+    "@types/react-helmet": ^6.1.11
     "@types/react-slick": ^0.23.12
-    "@types/react-virtualized": ^9.21.28
+    "@types/react-virtualized": ^9.21.29
     "@types/throttle-debounce": ^5.0.2
     "@types/topojson-client": ^3.1.4
     "@types/topojson-specification": ^1.0.5
@@ -8019,13 +8019,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node-telegram-bot-api@npm:^0.63.3":
-  version: 0.63.3
-  resolution: "@types/node-telegram-bot-api@npm:0.63.3"
+"@types/node-telegram-bot-api@npm:^0.64.0":
+  version: 0.64.0
+  resolution: "@types/node-telegram-bot-api@npm:0.64.0"
   dependencies:
     "@types/node": "*"
     "@types/request": "*"
-  checksum: e1e5cee72689ea05ba8d05a9e9785b894029cb62f83b5b0ae2f22575387cc3fec3a0f50057cc4ed3581aa90a93cd69238a5572faf0b517ffb6af406752b159d6
+  checksum: 6450e60595db521b3a8104790e09935112bbf5e68e1612ae76c2ccd8790c5614cec051cb23ec053ba2d653111f65f27687020e7a31b8fd7b54bab4664187f74e
   languageName: node
   linkType: hard
 
@@ -8050,12 +8050,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^18.0.0, @types/node@npm:^18.19.1":
-  version: 18.19.1
-  resolution: "@types/node@npm:18.19.1"
+"@types/node@npm:^18.0.0, @types/node@npm:^18.19.2":
+  version: 18.19.2
+  resolution: "@types/node@npm:18.19.2"
   dependencies:
     undici-types: ~5.26.4
-  checksum: f687338a6f1c463b03232337652804f62f5ae197ae9517a76cf6543ec5a3e358e41f26da0e4fc1afe4871c4a96eec3e3c440fb4ddb616cdc336b42ca203adb29
+  checksum: 6ae1e456f469bd50cac55d01ec17cddca3e60a1ae8cf6a95c8f2c49668ac358fd68d53af32076e37418f3b07cf6d2b245a48e3b77998ac51cc6a797d9d1a4367
   languageName: node
   linkType: hard
 
@@ -8172,12 +8172,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-helmet@npm:^6.1.9":
-  version: 6.1.9
-  resolution: "@types/react-helmet@npm:6.1.9"
+"@types/react-helmet@npm:^6.1.11":
+  version: 6.1.11
+  resolution: "@types/react-helmet@npm:6.1.11"
   dependencies:
     "@types/react": "*"
-  checksum: 4f96b338b6500042a1dde6e7af0e109df91f5ec52a1200dd9511748f85cd659b22e84b51677f86fb1c319dd9e0da56c6947b7130cb1f8989a8ff8e5c2cc26007
+  checksum: e329d8ad82c365fec7dd7d91c8b6d167faac30cef0d9f1e27d7e895172a0ebfa65829fb4acabbe79283b01cbbe5840a845caeb50148ceef6f3fad42b3c2c4bdc
   languageName: node
   linkType: hard
 
@@ -8232,24 +8232,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-virtualized@npm:^9.21.28":
-  version: 9.21.28
-  resolution: "@types/react-virtualized@npm:9.21.28"
+"@types/react-virtualized@npm:^9.21.29":
+  version: 9.21.29
+  resolution: "@types/react-virtualized@npm:9.21.29"
   dependencies:
     "@types/prop-types": "*"
     "@types/react": "*"
-  checksum: 973efce0be96083f397bf64cd9fd270e65a16e42dcd6d628943847425638c8412908591ec7db40b960bd0476cdeddef76695702e011a2677be31ffff667fa576
+  checksum: df10e8847e20ac2b4bac647a9bfc027edbc73ff41e298024de7b8588e0d8e9b220ba7d65231fced9ca9eb5284a1d6a478ec934f950f33795baed586bd0e30ea0
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^18.2.40":
-  version: 18.2.40
-  resolution: "@types/react@npm:18.2.40"
+"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^18.2.42":
+  version: 18.2.42
+  resolution: "@types/react@npm:18.2.42"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: c1d8cf29bc314e2d04203b4afe5673aea4ddec39a685c6aff72b01f5b01ae84fed6e994b5e1dbb9fbe4bc69625fdb65a295fae656a2ca9f6a8c949afb327b644
+  checksum: d2019afdf48303a3a598a97cc9dd2284e3c04b369e791f6ba3c33232b7f8645daff97b093a19f8b3ce75ac8a261b47552cb4513226ab16d843eb9443b0f91844
   languageName: node
   linkType: hard
 
@@ -9568,9 +9568,9 @@ __metadata:
     "@testing-library/user-event": ^14.5.1
     "@types/debug": ^4.1.12
     "@types/lodash": ^4.14.202
-    "@types/node": ^18.19.1
+    "@types/node": ^18.19.2
     "@types/prettier": ^3.0.0
-    "@types/react": ^18.2.40
+    "@types/react": ^18.2.42
     "@types/react-dom": ^18.2.17
     "@types/webpack-bundle-analyzer": ^4.6.3
     "@typescript-eslint/eslint-plugin": ^6.13.1
@@ -9855,9 +9855,9 @@ __metadata:
     "@types/lodash": ^4.14.202
     "@types/module-alias": ^2.0.4
     "@types/multer": ^1.4.11
-    "@types/node": ^18.19.1
+    "@types/node": ^18.19.2
     "@types/node-cron": ^3.0.11
-    "@types/node-telegram-bot-api": ^0.63.3
+    "@types/node-telegram-bot-api": ^0.64.0
     "@types/pg": ^8.10.9
     "@types/prettier": ^3.0.0
     "@types/prompts": ^2.4.9
@@ -26098,11 +26098,11 @@ __metadata:
     "@types/debug": ^4.1.12
     "@types/express": ^4.17.21
     "@types/mime": ^1.3.5
-    "@types/node": ^18.19.1
-    "@types/react": ^18.2.40
+    "@types/node": ^18.19.2
+    "@types/react": ^18.2.42
     "@types/react-calendar-heatmap": ^1.6.6
     "@types/react-dom": ^18.2.17
-    "@types/react-helmet": ^6.1.9
+    "@types/react-helmet": ^6.1.11
     "@types/react-router-dom": ^5.3.3
     "@types/react-slick": ^0.23.12
     "@types/throttle-debounce": ^5.0.2
