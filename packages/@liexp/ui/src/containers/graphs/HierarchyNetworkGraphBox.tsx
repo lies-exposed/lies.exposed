@@ -10,7 +10,7 @@ import {
   type NetworkGroupBy,
   type NetworkType,
 } from "@liexp/shared/lib/io/http/Network";
-import { parseDate } from "@liexp/shared/lib/utils/date";
+import { parseDate } from "@liexp/shared/lib/utils/date.utils";
 import { ParentSize } from "@visx/responsive";
 import * as React from "react";
 import { type GetListParams } from "react-admin";

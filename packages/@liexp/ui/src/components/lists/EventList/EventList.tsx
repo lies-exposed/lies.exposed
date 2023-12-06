@@ -1,6 +1,6 @@
 import { type Events } from "@liexp/shared/lib/io/http";
 import { groupBy } from "@liexp/shared/lib/utils/array.utils";
-import { distanceFromNow } from "@liexp/shared/lib/utils/date";
+import { distanceFromNow } from "@liexp/shared/lib/utils/date.utils";
 import * as Eq from "fp-ts/Eq";
 import { pipe } from "fp-ts/function";
 import * as S from "fp-ts/string";

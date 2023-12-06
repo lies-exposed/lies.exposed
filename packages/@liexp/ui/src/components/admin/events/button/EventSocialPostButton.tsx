@@ -6,7 +6,7 @@ import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSear
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
 import { type Event } from "@liexp/shared/lib/io/http/Events";
 import { getTextContents, isValidValue } from "@liexp/shared/lib/slate";
-import { formatDate, parseISO } from "@liexp/shared/lib/utils/date";
+import { formatDate, parseISO } from "@liexp/shared/lib/utils/date.utils";
 import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { uuid } from "@liexp/shared/lib/utils/uuid";

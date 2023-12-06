@@ -2,7 +2,7 @@ import {
   type SocialPlatform,
   type EditSocialPost,
 } from "@liexp/shared/lib/io/http/SocialPost";
-import { formatDate } from "@liexp/shared/lib/utils/date";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils";
 import * as React from "react";
 import { InstagramIcon, TelegramIcon } from "../../Common/Icons";
 import { Box, Stack, Typography } from "../../mui";

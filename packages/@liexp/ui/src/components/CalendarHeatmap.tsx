@@ -1,6 +1,6 @@
 import { ordEventDate } from "@liexp/shared/lib/helpers/event/event";
 import { type Events } from "@liexp/shared/lib/io/http";
-import { formatDate } from "@liexp/shared/lib/utils/date";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils";
 import { Group } from "@visx/group";
 import { HeatmapCircle } from "@visx/heatmap";
 import { scaleLinear } from "@visx/scale";

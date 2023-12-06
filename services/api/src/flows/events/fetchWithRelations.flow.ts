@@ -10,7 +10,7 @@ import {
   type GetNetworkQuery,
   type NetworkType,
 } from "@liexp/shared/lib/io/http/Network";
-import { parseISO } from "@liexp/shared/lib/utils/date";
+import { parseISO } from "@liexp/shared/lib/utils/date.utils";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
 import * as TE from "fp-ts/TaskEither";
 import { flow, pipe } from "fp-ts/function";

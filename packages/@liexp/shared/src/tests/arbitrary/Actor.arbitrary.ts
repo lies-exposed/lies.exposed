@@ -2,7 +2,7 @@ import { propsOmit } from "@liexp/core/lib/io/utils";
 import * as tests from "@liexp/test";
 import * as t from "io-ts";
 import * as http from "../../io/http";
-import { formatDate } from "../../utils/date";
+import { formatDate } from "../../utils/date.utils";
 import { HumanReadableStringArb } from "./HumanReadableString.arbitrary";
 import { placeKitten } from "./Media.arbitrary";
 import { ColorArb } from "./common/Color.arbitrary";
