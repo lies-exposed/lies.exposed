@@ -8,7 +8,7 @@ import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
-import { formatDate } from "@liexp/shared/lib/utils/date";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils";
 import subYears from "date-fns/subYears";
 import * as React from "react";
 import { LinksListBox } from "../components/LinksBox";

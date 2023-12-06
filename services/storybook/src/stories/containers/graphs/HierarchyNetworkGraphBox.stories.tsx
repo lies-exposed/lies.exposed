@@ -1,7 +1,7 @@
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
-import { formatDate } from "@liexp/shared/lib/utils/date";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils";
 import { AutocompleteActorInput } from "@liexp/ui/lib/components/Input/AutocompleteActorInput";
 import { AutocompleteGroupInput } from "@liexp/ui/lib/components/Input/AutocompleteGroupInput";
 import { AutocompleteKeywordInput } from "@liexp/ui/lib/components/Input/AutocompleteKeywordInput";

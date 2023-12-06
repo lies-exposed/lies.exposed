@@ -2,7 +2,7 @@
 import * as path from "path";
 import { GetLogger } from "@liexp/core/lib/logger";
 import { GetCSVUtil } from "@liexp/shared/lib/utils/csv.utils";
-import { distanceFromNow } from "@liexp/shared/lib/utils/date";
+import { distanceFromNow } from "@liexp/shared/lib/utils/date.utils";
 import { parse } from "date-fns";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";

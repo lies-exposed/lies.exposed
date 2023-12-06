@@ -2,7 +2,7 @@ import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSear
 import * as http from "@liexp/shared/lib/io/http";
 import { type EventType } from "@liexp/shared/lib/io/http/Events";
 import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate";
-import { formatDateToShort } from "@liexp/shared/lib/utils/date";
+import { formatDateToShort } from "@liexp/shared/lib/utils/date.utils";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";

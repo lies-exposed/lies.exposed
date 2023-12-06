@@ -1,6 +1,6 @@
 import * as io from "@liexp/shared/lib/io";
 import { type Media } from "@liexp/shared/lib/io/http";
-import { parseDate } from "@liexp/shared/lib/utils/date";
+import { parseDate } from "@liexp/shared/lib/utils/date.utils";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI";

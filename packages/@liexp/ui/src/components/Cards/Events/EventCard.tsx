@@ -2,7 +2,7 @@ import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
 import { Events } from "@liexp/shared/lib/io/http";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
-import { formatDate } from "@liexp/shared/lib/utils/date";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils";
 import { parseISO } from "date-fns";
 import * as React from "react";
 import { LazyEditor as Editor } from "../../Common/Editor";

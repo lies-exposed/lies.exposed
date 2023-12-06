@@ -2,7 +2,7 @@ import {
   formatAnyDateToShort,
   formatDate,
   parseDate,
-} from "@liexp/shared/lib/utils/date";
+} from "@liexp/shared/lib/utils/date.utils";
 import { addDays, differenceInDays, subYears } from "date-fns";
 import * as React from "react";
 import { styled } from "../../theme";

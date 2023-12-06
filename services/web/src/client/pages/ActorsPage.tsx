@@ -1,5 +1,5 @@
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
-import { formatDate } from "@liexp/shared/lib/utils/date";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils";
 import { AutocompleteActorInput } from "@liexp/ui/lib/components/Input/AutocompleteActorInput";
 import { MainContent } from "@liexp/ui/lib/components/MainContent";
 import { PageContent } from "@liexp/ui/lib/components/PageContent";

@@ -7,7 +7,7 @@ import {
   type Events,
 } from "@liexp/shared/lib/io/http";
 import { isValidValue } from "@liexp/shared/lib/slate";
-import { formatDate } from "@liexp/shared/lib/utils/date";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils";
 import { parseISO } from "date-fns";
 import * as t from "io-ts";
 import * as React from "react";

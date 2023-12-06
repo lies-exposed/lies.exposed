@@ -1,5 +1,5 @@
 import { type Events, type Project } from "@liexp/shared/lib/io/http";
-import { formatDate } from "@liexp/shared/lib/utils/date";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
 import * as React from "react";

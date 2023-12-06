@@ -31,7 +31,6 @@ import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput";
 import MediaPreview from "../previews/MediaPreview";
 import { ReferenceLinkTab } from "../tabs/ReferenceLinkTab";
 import ReferenceUserInput from "../user/ReferenceUserInput";
-import { DurationField } from "./DurationField";
 import { MediaField } from "./MediaField";
 import { GenerateExtraButton } from "./button/GenerateExtraButton";
 import { GenerateThumbnailButton } from "./button/GenerateThumbnailButton";
@@ -51,6 +50,7 @@ const TransferButton: React.FC<FieldProps & { target?: "thumbnail" }> = ({
   const apiProvider = useDataProvider();
   return (
     <Button
+      variant="contained"
       onClick={() => {
         const params: any = {};
         if (target === "thumbnail") {
@@ -188,9 +188,8 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
           <Grid container spacing={2}>
             <Grid item md={6}>
               <MediaInput source="location" showInputOnClick />
-              <DurationField source="extra.duration" />
-              <GenerateExtraButton />
               <TransferButton {...props} />
+              <GenerateExtraButton />
             </Grid>
             <Grid item md={6}>
               {isAdmin && <ReferenceUserInput source="creator" />}

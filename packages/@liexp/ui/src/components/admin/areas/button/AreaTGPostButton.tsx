@@ -1,6 +1,6 @@
 import { type Area, type Media } from "@liexp/shared/lib/io/http";
 import { getTextContentsCapped } from "@liexp/shared/lib/slate";
-import { formatDate, parseISO } from "@liexp/shared/lib/utils/date";
+import { formatDate, parseISO } from "@liexp/shared/lib/utils/date.utils";
 import * as React from "react";
 import { useDataProvider, useRecordContext } from "react-admin";
 import { CircularProgress } from "../../../mui";

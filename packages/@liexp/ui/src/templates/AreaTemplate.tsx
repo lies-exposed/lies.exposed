@@ -1,7 +1,7 @@
 import { type Area } from "@liexp/shared/lib/io/http";
 import { EventType } from "@liexp/shared/lib/io/http/Events";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent";
-import { formatDate } from "@liexp/shared/lib/utils/date";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils";
 import { subYears } from "date-fns";
 import Feature from "ol/Feature";
 import * as React from "react";

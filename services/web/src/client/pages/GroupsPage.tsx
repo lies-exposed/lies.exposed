@@ -1,6 +1,6 @@
 import { EventType } from "@liexp/shared/lib/io/http/Events";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group";
-import { formatDate } from "@liexp/shared/lib/utils/date";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils";
 import { AutocompleteGroupInput } from "@liexp/ui/lib/components/Input/AutocompleteGroupInput";
 import { MainContent } from "@liexp/ui/lib/components/MainContent";
 import { PageContent } from "@liexp/ui/lib/components/PageContent";
