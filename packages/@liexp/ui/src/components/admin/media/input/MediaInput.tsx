@@ -63,18 +63,6 @@ export const MediaInput: React.FC<MediaInputProps> = ({
 
           const mediaSrc = get(formData, sourceLocation)?.src;
 
-          if (showInput) {
-            return (
-              <Box onClick={handleClickOnField}>
-                <MediaField
-                  source={sourceLocation}
-                  type={sourceType}
-                  controls={true}
-                  {...props}
-                />
-              </Box>
-            );
-          }
           if (typeSource === "fromFile") {
             return (
               <Box>
@@ -93,6 +81,19 @@ export const MediaInput: React.FC<MediaInputProps> = ({
                     }}
                   />
                 </FileInput>
+              </Box>
+            );
+          }
+
+          if (showInput) {
+            return (
+              <Box onClick={handleClickOnField}>
+                <MediaField
+                  source={sourceLocation}
+                  type={sourceType}
+                  controls={true}
+                  {...props}
+                />
               </Box>
             );
           }

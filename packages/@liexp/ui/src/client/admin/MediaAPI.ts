@@ -157,7 +157,11 @@ export const transformMedia =
       ? {
           ...data.extra,
           duration: data.extra.duration
-            ? durationToSeconds(data.extra.duration)
+            ? typeof data.extra.duration === "string"
+              ? durationToSeconds(data.extra.duration)
+              : typeof data.extra.duration === "number"
+                ? data.extra.duration
+                : undefined
             : undefined,
         }
       : undefined;

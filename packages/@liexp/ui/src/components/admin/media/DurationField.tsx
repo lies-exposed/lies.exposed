@@ -38,13 +38,13 @@ export const fromMaybeDuration = (s: string): Duration => {
 export const durationToSeconds = (duration: Duration): number => {
   const [hours, minutes, seconds] = duration.split(":").map((n) => parseInt(n));
   return hours * 3600 + minutes * 60 + seconds;
-}
+};
 
 export const DurationField: React.FC<InputProps> = (props) => {
   const {
     field,
     fieldState: { isTouched, invalid, error },
-    formState: { isSubmitted, },
+    formState: { isSubmitted },
   } = useInput({
     ...props,
     format: (v) => {
@@ -52,9 +52,10 @@ export const DurationField: React.FC<InputProps> = (props) => {
         return v;
       } else if (typeof v === "number") {
         return toFormattedDuration(v);
+      } else if (typeof v === "string") {
+        return fromMaybeDuration(v);
       }
-
-      return fromMaybeDuration(v);
+      return v;
     },
   });
 
@@ -63,7 +64,9 @@ export const DurationField: React.FC<InputProps> = (props) => {
       {...field}
       error={(isTouched || isSubmitted) && invalid}
       helperText={
-        (isTouched || isSubmitted) && invalid ? error?.message : `Equivalent to ${durationToSeconds(field.value)} seconds`
+        (isTouched || isSubmitted) && invalid && field.value
+          ? error?.message
+          : `Equivalent to ${durationToSeconds(field.value)} seconds`
       }
       size="small"
     />
