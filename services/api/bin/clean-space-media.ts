@@ -1,6 +1,6 @@
 import { type ListObjectsOutput, type _Object } from "@aws-sdk/client-s3";
 import { fp } from "@liexp/core/lib/fp";
-import { formatDistanceToNow } from "@liexp/shared/lib/utils/date";
+import { formatDistanceToNow } from "@liexp/shared/lib/utils/date.utils";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
 import { getResourceAndIdFromLocation } from "@liexp/shared/lib/utils/media.utils";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";

@@ -12,7 +12,7 @@ import {
   ZeroToOneMonth,
 } from "@liexp/shared/lib/io/http/covid/VaccineDatum";
 import { type VaccineDistributionDatum } from "@liexp/shared/lib/io/http/covid/VaccineDistributionDatum";
-import { formatDate } from "@liexp/shared/lib/utils/date";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils";
 import { AxisBottom, AxisLeft, AxisRight } from "@visx/axis";
 import { curveLinear } from "@visx/curve";
 import { localPoint } from "@visx/event";

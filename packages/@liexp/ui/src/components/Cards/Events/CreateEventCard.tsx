@@ -1,7 +1,7 @@
 import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/getTitle.helper";
 import { type Events } from "@liexp/shared/lib/io/http";
 import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate";
-import { formatDate } from "@liexp/shared/lib/utils/date";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils";
 import * as React from "react";
 import { EventIcon } from "../../Common/Icons";
 import KeywordList from "../../lists/KeywordList";

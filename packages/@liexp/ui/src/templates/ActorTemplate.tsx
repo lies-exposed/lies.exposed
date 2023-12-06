@@ -5,7 +5,7 @@ import {
 } from "@liexp/shared/lib/io/http";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
-import { formatDate } from "@liexp/shared/lib/utils/date";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils";
 import subYears from "date-fns/subYears";
 import * as React from "react";
 import { ActorPageContent } from "../components/ActorPageContent";

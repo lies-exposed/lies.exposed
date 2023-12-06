@@ -29,6 +29,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
         thumbnail,
         location,
         creator,
+        extra: _extra,
         ...body
       },
     }) => {
@@ -54,6 +55,10 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
         _restore,
         O.filter((o): o is true => !!o),
         O.isSome,
+      );
+      const extra = pipe(
+        _extra,
+        O.toUndefined,
       );
       return pipe(
         TE.Do,
@@ -99,10 +104,13 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
           O.isSome(overrideExtra) && media.type === MP4Type.value
             ? extractMP4Extra(ctx)({ ...media, type: MP4Type.value })
             : TE.right(
-                media.extra
+                extra
                   ? {
                       ...media.extra,
-                      duration: Math.floor(media.extra.duration),
+                      ...extra,
+                      duration: extra.duration
+                        ? Math.floor(extra.duration)
+                        : media.extra?.duration,
                     }
                   : null,
               ),

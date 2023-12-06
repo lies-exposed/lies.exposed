@@ -1,3 +1,4 @@
+import { get } from "lodash";
 import * as React from "react";
 import {
   useDataProvider,
@@ -5,10 +6,12 @@ import {
   useRefresh,
   type FieldProps,
 } from "react-admin";
-import { Box, Button } from "../../../mui";
+import { Button, Stack, Typography } from "../../../mui";
+import { DurationField } from "../DurationField";
 
-export const GenerateExtraButton: React.FC<FieldProps> = (props) => {
+export const GenerateExtraButton: React.FC<FieldProps> = ({ source = "extra", ...props}) => {
   const record = useRecordContext(props);
+  const extra = get(record, source);
   const refresh = useRefresh();
   const apiProvider = useDataProvider();
 
@@ -24,8 +27,24 @@ export const GenerateExtraButton: React.FC<FieldProps> = (props) => {
       });
   }, []);
 
+  // wrap $extra in react memo
+  const extraFields = React.useMemo(() => {
+    if (extra) {
+      return (
+        <Stack direction="column" spacing={2}>
+          <Typography variant="body1">Extra</Typography>
+          {extra.duration ? (
+            <DurationField source="extra.duration" label="duration" />
+          ) : null}
+        </Stack>
+      );
+    }
+    return null;
+  }, [extra]);
+
   return (
-    <Box>
+    <Stack spacing={2} padding={2}>
+      {extraFields}
       <Button
         onClick={() => {
           handleExtraUpdate();
@@ -33,6 +52,6 @@ export const GenerateExtraButton: React.FC<FieldProps> = (props) => {
       >
         Generate Extra
       </Button>
-    </Box>
+    </Stack>
   );
 };

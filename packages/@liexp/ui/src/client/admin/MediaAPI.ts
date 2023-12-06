@@ -6,7 +6,8 @@ import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { type RaRecord, type DataProvider } from "react-admin";
+import { type DataProvider, type RaRecord } from "react-admin";
+import { durationToSeconds } from "../../components/admin/media/DurationField";
 import { apiProvider } from "../api";
 
 export interface RawMedia {
@@ -152,7 +153,14 @@ export const transformMedia =
     );
     const keywords = (data.keywords ?? []).concat(data.newKeywords ?? []);
     const areas = (data.areas ?? []).concat(data.newAreas ?? []);
-
+    const extra = data.extra
+      ? {
+          ...data.extra,
+          duration: data.extra.duration
+            ? durationToSeconds(data.extra.duration)
+            : undefined,
+        }
+      : undefined;
     return await pipe(
       uploadFileTask,
       TE.map((media) => ({
@@ -160,6 +168,7 @@ export const transformMedia =
         id: data.id.toString(),
         ...media,
         label: data.label ?? data.description,
+        extra,
         events,
         links,
         keywords,

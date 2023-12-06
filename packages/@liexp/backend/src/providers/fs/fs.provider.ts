@@ -5,7 +5,7 @@ import * as logger from "@liexp/core/lib/logger";
 import {
   distanceFromNow,
   differenceInHours,
-} from "@liexp/shared/lib/utils/date";
+} from "@liexp/shared/lib/utils/date.utils";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { IOError } from "ts-io-error";
