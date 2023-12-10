@@ -3239,7 +3239,7 @@ __metadata:
     puppeteer-extra-plugin-stealth: ^2.11.2
     ts-io-error: ^2.0.0
     typeorm: ^0.3.17
-    typescript: ^5.3.2
+    typescript: ^5.3.3
   peerDependencies:
     "@react-page/editor": ^5.2.0
     "@react-page/plugins-slate": ^5.2.0
@@ -3309,7 +3309,7 @@ __metadata:
     style-loader: ^3.3.3
     ts-loader: ^9.5.1
     tsconfig-paths-webpack-plugin: ^4.1.0
-    typescript: ^5.3.2
+    typescript: ^5.3.3
     url-loader: ^4.1.1
     webpack: ^5.89.0
     webpack-bundle-analyzer: ^4.10.1
@@ -3355,7 +3355,7 @@ __metadata:
     ts-endpoint: ^2.0.0
     ts-endpoint-express: ^2.0.0
     ts-io-error: ^2.0.0
-    typescript: ^5.3.2
+    typescript: ^5.3.3
     uuid: ^9.0.1
     vitest: ^0.34.6
   peerDependencies:
@@ -3383,7 +3383,7 @@ __metadata:
     io-ts: ^2.2.21
     io-ts-types: ^0.5.19
     prettier: ^3.1.0
-    typescript: ^5.3.2
+    typescript: ^5.3.3
   peerDependencies:
     debug: ^4.3.1
   languageName: unknown
@@ -3494,7 +3494,7 @@ __metadata:
     topojson-client: ^3.1.0
     ts-endpoint: ^2.0.0
     ts-io-error: ^2.0.0
-    typescript: ^5.3.2
+    typescript: ^5.3.3
     waveform-data: ^4.3.0
   languageName: unknown
   linkType: soft
@@ -9604,8 +9604,8 @@ __metadata:
     react-helmet: ^6.1.0
     react-query: ^3.39.3
     slick-carousel: ^1.8.1
-    ts-node: ^10.9.1
-    typescript: ^5.3.2
+    ts-node: ^10.9.2
+    typescript: ^5.3.3
     uuid: ^9.0.1
     web-vitals: ^3.4.0
     webpack: ^5.89.0
@@ -9903,13 +9903,13 @@ __metadata:
     sharp: ^0.32.6
     supertest: ^6.3.3
     ts-endpoint-express: ^2.0.0
-    ts-node: ^10.9.1
+    ts-node: ^10.9.2
     ts-node-dev: ^2.0.0
     ts-shared: 2.0.0-alpha.6
     tsconfig-paths: ^4.2.0
     typeorm: ^0.3.17
     typeorm-uml: ^1.6.5
-    typescript: ^5.3.2
+    typescript: ^5.3.3
     unplugin-swc: ^1.4.3
     uuid: ^9.0.1
     vite-tsconfig-paths: ^4.2.1
@@ -17670,8 +17670,8 @@ __metadata:
     lint-staged: ^14.0.1
     pm2: ^5.3.0
     prettier: ^3.1.0
-    terser: ^5.25.0
-    typescript: ^5.3.2
+    terser: ^5.26.0
+    typescript: ^5.3.3
     vitest: ^0.34.6
     webpack: ^5.89.0
   languageName: unknown
@@ -23896,7 +23896,7 @@ __metadata:
     react-spring: ^9.7.3
     reactflow: ^11.10.1
     storybook: ^7.6.4
-    typescript: ^5.3.2
+    typescript: ^5.3.3
     webpack: ^5.89.0
   languageName: unknown
   linkType: soft
@@ -24420,9 +24420,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"terser@npm:^5.10.0, terser@npm:^5.16.8, terser@npm:^5.25.0":
-  version: 5.25.0
-  resolution: "terser@npm:5.25.0"
+"terser@npm:^5.10.0, terser@npm:^5.16.8, terser@npm:^5.26.0":
+  version: 5.26.0
+  resolution: "terser@npm:5.26.0"
   dependencies:
     "@jridgewell/source-map": ^0.3.3
     acorn: ^8.8.2
@@ -24430,7 +24430,7 @@ __metadata:
     source-map-support: ~0.5.20
   bin:
     terser: bin/terser
-  checksum: ddc5ba020060cea976105ea83f5832385297f5091198f10143c1224e35bbb4ad9dfc40ee95d51a8f1290d0a4c7910d66e0ecc4b596402e94ba829bfc58022151
+  checksum: 02a9bb896f04df828025af8f0eced36c315d25d310b6c2418e7dad2bed19ddeb34a9cea9b34e7c24789830fa51e1b6a9be26679980987a9c817a7e6d9cd4154b
   languageName: node
   linkType: hard
 
@@ -24869,9 +24869,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-node@npm:^10.4.0, ts-node@npm:^10.8.1, ts-node@npm:^10.9.1":
-  version: 10.9.1
-  resolution: "ts-node@npm:10.9.1"
+"ts-node@npm:^10.4.0, ts-node@npm:^10.8.1, ts-node@npm:^10.9.2":
+  version: 10.9.2
+  resolution: "ts-node@npm:10.9.2"
   dependencies:
     "@cspotcode/source-map-support": ^0.8.0
     "@tsconfig/node10": ^1.0.7
@@ -24903,7 +24903,7 @@ __metadata:
     ts-node-script: dist/bin-script.js
     ts-node-transpile-only: dist/bin-transpile.js
     ts-script: dist/bin-script-deprecated.js
-  checksum: 090adff1302ab20bd3486e6b4799e90f97726ed39e02b39e566f8ab674fd5bd5f727f43615debbfc580d33c6d9d1c6b1b3ce7d8e3cca3e20530a145ffa232c35
+  checksum: fde256c9073969e234526e2cfead42591b9a2aec5222bac154b0de2fa9e4ceb30efcd717ee8bc785a56f3a119bdd5aa27b333d9dbec94ed254bd26f8944c67ac
   languageName: node
   linkType: hard
 
@@ -25291,23 +25291,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.6.4 || ^5.2.2, typescript@npm:^5.3.2":
-  version: 5.3.2
-  resolution: "typescript@npm:5.3.2"
+"typescript@npm:^4.6.4 || ^5.2.2, typescript@npm:^5.3.3":
+  version: 5.3.3
+  resolution: "typescript@npm:5.3.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: d92534dda639eb825db013203404c1fabca8ac630564283c9e7dc9e64fd9c9346c2de95ecebdf3e6e8c1c32941bca1cfe0da37877611feb9daf8feeaea58d230
+  checksum: 2007ccb6e51bbbf6fde0a78099efe04dc1c3dfbdff04ca3b6a8bc717991862b39fd6126c0c3ebf2d2d98ac5e960bcaa873826bb2bb241f14277034148f41f6a2
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.6.4 || ^5.2.2#~builtin<compat/typescript>, typescript@patch:typescript@^5.3.2#~builtin<compat/typescript>":
-  version: 5.3.2
-  resolution: "typescript@patch:typescript@npm%3A5.3.2#~builtin<compat/typescript>::version=5.3.2&hash=f3b441"
+"typescript@patch:typescript@^4.6.4 || ^5.2.2#~builtin<compat/typescript>, typescript@patch:typescript@^5.3.3#~builtin<compat/typescript>":
+  version: 5.3.3
+  resolution: "typescript@patch:typescript@npm%3A5.3.3#~builtin<compat/typescript>::version=5.3.3&hash=f3b441"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: c034461079fbfde3cb584ddee52afccb15b6e32a0ce186d0b2719968786f7ca73e1b07f71fac4163088790b16811c6ccf79680de190664ef66ff0ba9c1fe4a23
+  checksum: f61375590b3162599f0f0d5b8737877ac0a7bc52761dbb585d67e7b8753a3a4c42d9a554c4cc929f591ffcf3a2b0602f65ae3ce74714fd5652623a816862b610
   languageName: node
   linkType: hard
 
@@ -26165,10 +26165,10 @@ __metadata:
     throttle-debounce: ^5.0.0
     topojson-client: 3.1.0
     topojson-server: 3.0.1
-    ts-node: ^10.9.1
+    ts-node: ^10.9.2
     ts-node-dev: ^2.0.0
     tsconfig-paths-webpack-plugin: ^4.1.0
-    typescript: ^5.3.2
+    typescript: ^5.3.3
     uuid: ^9.0.1
     webpack: ^5.89.0
     webpack-bundle-analyzer: ^4.10.1
