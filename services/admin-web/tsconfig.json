@@ -25,6 +25,6 @@
       "@client/*": ["./client/*"]
     }
   },
-  "include": ["./src", "./typings"],
+  "include": ["./src", "./typings", ".eslintrc.js"],
   "exclude": ["node_modules", "build"]
 }

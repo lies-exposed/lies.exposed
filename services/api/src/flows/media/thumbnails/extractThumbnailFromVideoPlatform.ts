@@ -1,22 +1,22 @@
 import { type PutObjectCommandInput } from "@aws-sdk/client-s3";
-import { toPuppeteerError } from "@liexp/backend/lib/providers/puppeteer.provider";
+import { toPuppeteerError } from "@liexp/backend/lib/providers/puppeteer.provider.js";
+import { pipe } from "@liexp/core/lib/fp/index.js";
 import {
   getPlatform,
   type VideoPlatformMatch,
-} from "@liexp/shared/lib/helpers/media";
-import { type Media } from "@liexp/shared/lib/io/http";
+} from "@liexp/shared/lib/helpers/media.js";
+import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import {
   getMediaKeyFromLocation,
   getMediaThumbKey,
-} from "@liexp/shared/lib/utils/media.utils";
-import { sequenceS } from "fp-ts/Apply";
-import * as E from "fp-ts/Either";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+} from "@liexp/shared/lib/utils/media.utils.js";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as E from "fp-ts/lib/Either.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Page } from "puppeteer-core";
-import { type ExtractThumbnailFlow } from "./ExtractThumbnailFlow.type";
-import { type TEFlow } from "@flows/flow.types";
-import { ServerError, toControllerError } from "@io/ControllerError";
+import { type ExtractThumbnailFlow } from "./ExtractThumbnailFlow.type.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { ServerError, toControllerError } from "#io/ControllerError.js";
 
 export const createFromRemote: TEFlow<
   [string, string, Media.MediaType],

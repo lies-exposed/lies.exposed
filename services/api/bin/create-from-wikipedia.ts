@@ -1,14 +1,13 @@
-import { fp } from "@liexp/core/lib/fp";
-import { createExcerptValue } from "@liexp/shared/lib/slate";
-import { generateRandomColor } from "@liexp/shared/lib/utils/colors";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { createExcerptValue } from "@liexp/shared/lib/slate/index.js";
+import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import D from "debug";
-import { pipe } from "fp-ts/lib/function";
 import snakeCase from "lodash/snakeCase";
 // eslint-disable-next-line import/no-named-as-default
 import prompts from "prompts";
-import { startContext, stopContext } from "./start-ctx";
-import { ActorEntity } from "@entities/Actor.entity";
+import { startContext, stopContext } from "./start-ctx.js";
+import { ActorEntity } from "#entities/Actor.entity.js";
 
 /**
  * Usage create-from-wikipedia $search

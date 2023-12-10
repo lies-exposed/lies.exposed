@@ -2,8 +2,8 @@ import { type S3ClientConfig } from "@aws-sdk/client-s3";
 import {
   S3Provider,
   type SpaceProvider,
-} from "@liexp/backend/lib/providers/space";
-import { type ENV } from "@io/ENV";
+} from "@liexp/backend/lib/providers/space/index.js";
+import { type ENV } from "#io/ENV.js";
 
 export const createS3Provider = (env: ENV): SpaceProvider.SpaceProvider => {
   const config: S3ClientConfig =

@@ -1,8 +1,8 @@
-import * as io from "@liexp/shared/lib/io";
-import * as E from "fp-ts/Either";
-import { pipe } from "fp-ts/function";
-import { type EventV2Entity } from "@entities/Event.v2.entity";
-import { type ControllerError, DecodeError } from "@io/ControllerError";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import * as io from "@liexp/shared/lib/io/index.js";
+import * as E from "fp-ts/lib/Either.js";
+import { type EventV2Entity } from "#entities/Event.v2.entity.js";
+import { type ControllerError, DecodeError } from "#io/ControllerError.js";
 
 export const toDocumentaryIO = (
   event: EventV2Entity,

@@ -1,20 +1,20 @@
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   PDFType,
   ImageType,
   type MediaType,
-} from "@liexp/shared/lib/io/http/Media";
-import { getMediaKey } from "@liexp/shared/lib/utils/media.utils";
+} from "@liexp/shared/lib/io/http/Media.js";
+import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import axios from "axios";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import * as t from "io-ts";
-import { type UUID } from "io-ts-types/lib/UUID";
-import { type TEFlow } from "@flows/flow.types";
+import { type TEFlow } from "#flows/flow.types.js";
 import {
   toControllerError,
   type ControllerError,
   ServerError,
-} from "@io/ControllerError";
+} from "#io/ControllerError.js";
 
 type TransferableMediaType = ImageType | PDFType;
 export const transferFromExternalProvider: TEFlow<

@@ -1,15 +1,15 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { AddActorBody } from "@liexp/shared/lib/io/http/Actor";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { AddActorBody } from "@liexp/shared/lib/io/http/Actor.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { ActorEntity } from "../../entities/Actor.entity";
-import { type Route } from "../route.types";
-import { toActorIO } from "./actor.io";
-import { searchActorAndCreateFromWikipedia } from "@flows/actors/fetchActorFromWikipedia";
-import { ServerError } from "@io/ControllerError";
-import { authenticationHandler } from "@utils/authenticationHandler";
+import { ActorEntity } from "../../entities/Actor.entity.js";
+import { type Route } from "../route.types.js";
+import { toActorIO } from "./actor.io.js";
+import { searchActorAndCreateFromWikipedia } from "#flows/actors/fetchActorFromWikipedia.js";
+import { ServerError } from "#io/ControllerError.js";
+import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeCreateActorRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(ctx, ["admin:create"]))(

@@ -1,23 +1,23 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   CreateScientificStudyBody,
   type CreateScientificStudyPlainBody,
-} from "@liexp/shared/lib/io/http/Events/ScientificStudy";
-import { AdminCreate } from "@liexp/shared/lib/io/http/User";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { UUID } from "io-ts-types/lib/UUID";
+} from "@liexp/shared/lib/io/http/Events/ScientificStudy.js";
+import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { type DeepPartial, Equal } from "typeorm";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { type KeywordEntity } from "@entities/Keyword.entity";
-import { type MediaEntity } from "@entities/Media.entity";
-import { UserEntity } from "@entities/User.entity";
-import { createEventFromURL } from "@flows/events/scientific-studies/createFromURL.flow";
-import { type ControllerError } from "@io/ControllerError";
-import { toEventV2IO } from "@routes/events/eventV2.io";
-import { type Route, type RouteContext } from "@routes/route.types";
-import { authenticationHandler } from "@utils/authenticationHandler";
-import { ensureUserExists } from "@utils/user.utils";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { type KeywordEntity } from "#entities/Keyword.entity.js";
+import { type MediaEntity } from "#entities/Media.entity.js";
+import { UserEntity } from "#entities/User.entity.js";
+import { createEventFromURL } from "#flows/events/scientific-studies/createFromURL.flow.js";
+import { type ControllerError } from "#io/ControllerError.js";
+import { toEventV2IO } from "#routes/events/eventV2.io.js";
+import { type Route, type RouteContext } from "#routes/route.types.js";
+import { authenticationHandler } from "#utils/authenticationHandler.js";
+import { ensureUserExists } from "#utils/user.utils.js";
 
 const createScientificStudyFromPlainObject =
   (ctx: RouteContext) =>

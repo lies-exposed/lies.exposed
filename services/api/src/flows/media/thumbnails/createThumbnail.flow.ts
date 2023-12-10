@@ -1,9 +1,8 @@
-import { fp } from "@liexp/core/lib/fp";
-import { type Media } from "@liexp/shared/lib/io/http";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { extractThumbnail } from "./extractThumbnail.flow";
-import { type TEFlow } from "@flows/flow.types";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { type Media } from "@liexp/shared/lib/io/http/index.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { extractThumbnail } from "./extractThumbnail.flow.js";
+import { type TEFlow } from "#flows/flow.types.js";
 
 export const createThumbnail: TEFlow<
   [Pick<Media.Media, "id" | "location" | "type">],

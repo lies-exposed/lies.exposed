@@ -21,7 +21,7 @@ export const baseConfig = defineConfig({
       module: { type: "es6" },
     }),
     viteTsconfigPaths({
-      // root: __dirname
+      root: __dirname
     }),
   ],
 });

@@ -1,10 +1,10 @@
-import { createExcerptValue } from "@liexp/shared/lib/slate";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { type KeywordEntity } from "@entities/Keyword.entity";
-import { type LinkEntity } from "@entities/Link.entity";
-import { type TEFlow } from "@flows/flow.types";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { createExcerptValue } from "@liexp/shared/lib/slate/index.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { type KeywordEntity } from "#entities/Keyword.entity.js";
+import { type LinkEntity } from "#entities/Link.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
 
 export const createEventFromLink: TEFlow<
   [LinkEntity, KeywordEntity[]],

@@ -1,12 +1,12 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal, In } from "typeorm";
-import { ActorEntity } from "@entities/Actor.entity";
-import { GroupEntity } from "@entities/Group.entity";
-import { KeywordEntity } from "@entities/Keyword.entity";
-import { SocialPostEntity } from "@entities/SocialPost.entity";
-import { type Route } from "@routes/route.types";
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { GroupEntity } from "#entities/Group.entity.js";
+import { KeywordEntity } from "#entities/Keyword.entity.js";
+import { SocialPostEntity } from "#entities/SocialPost.entity.js";
+import { type Route } from "#routes/route.types.js";
 
 export const MakeEditSocialPostRoute: Route = (r, ctx) => {
   AddEndpoint(r)(

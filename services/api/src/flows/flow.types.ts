@@ -1,6 +1,6 @@
-import type * as TE from "fp-ts/TaskEither";
-import { type ControllerError } from "@io/ControllerError";
-import { type RouteContext } from "@routes/route.types";
+import type * as TE from "fp-ts/lib/TaskEither.js";
+import { type ControllerError } from "#io/ControllerError.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 /**
  * Flow is a curried function of {@link RouteContext} that returns

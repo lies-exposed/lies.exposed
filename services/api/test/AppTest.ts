@@ -1,16 +1,14 @@
 import path from "path";
-import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider";
-import { ENV } from "@io/ENV";
-import { GeocodeProvider } from "@liexp/backend/lib/providers/geocode/geocode.provider";
-import { MakeImgProcClient } from "@liexp/backend/lib/providers/imgproc/imgproc.provider";
-import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider";
-import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm";
-import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider";
-import { MakeSpaceProvider } from "@liexp/backend/lib/providers/space/space.provider";
-import { GetLogger } from "@liexp/core/lib/logger";
-import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { getDataSource } from "@utils/data-source";
+import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
+import { GeocodeProvider } from "@liexp/backend/lib/providers/geocode/geocode.provider.js";
+import { MakeImgProcClient } from "@liexp/backend/lib/providers/imgproc/imgproc.provider.js";
+import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
+import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm/index.js";
+import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
+import { MakeSpaceProvider } from "@liexp/backend/lib/providers/space/space.provider.js";
+import { GetLogger } from "@liexp/core/lib/logger/index.js";
+import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import D from "debug";
 import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
@@ -21,22 +19,24 @@ import {
   type EntityTarget,
   type ObjectLiteral,
 } from "typeorm";
-import { igProviderMock } from "../__mocks__/ig.mock";
-import puppeteerMocks from "../__mocks__/puppeteer.mock";
-import { tgProviderMock } from "../__mocks__/tg.mock";
-import { wikipediaProviderMock } from "../__mocks__/wikipedia.mock";
-import { type RouteContext } from "../src/routes/route.types";
-import { makeApp } from "../src/server";
-import { mocks, type AppMocks } from "./mocks";
-import { ActorEntity } from "@entities/Actor.entity";
-import { AreaEntity } from "@entities/Area.entity";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { GroupEntity } from "@entities/Group.entity";
-import { KeywordEntity } from "@entities/Keyword.entity";
-import { LinkEntity } from "@entities/Link.entity";
-import { MediaEntity } from "@entities/Media.entity";
-import { toControllerError } from "@io/ControllerError";
-import { EventsConfig } from "@queries/config";
+import { igProviderMock } from "../__mocks__/ig.mock.js";
+import puppeteerMocks from "../__mocks__/puppeteer.mock.js";
+import { tgProviderMock } from "../__mocks__/tg.mock.js";
+import { wikipediaProviderMock } from "../__mocks__/wikipedia.mock.js";
+import { type RouteContext } from "../src/routes/route.types.js";
+import { mocks, type AppMocks } from "./mocks.js";
+import { makeApp } from '#app/index.js';
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { AreaEntity } from "#entities/Area.entity.js";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { GroupEntity } from "#entities/Group.entity.js";
+import { KeywordEntity } from "#entities/Keyword.entity.js";
+import { LinkEntity } from "#entities/Link.entity.js";
+import { MediaEntity } from "#entities/Media.entity.js";
+import { toControllerError } from "#io/ControllerError.js";
+import { ENV } from "#io/ENV.js";
+import { EventsConfig } from "#queries/config/index.js";
+import { getDataSource } from "#utils/data-source.js";
 
 export interface AppTest {
   ctx: RouteContext;

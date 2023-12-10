@@ -1,4 +1,4 @@
-import { type UUID, type Geometry } from "@liexp/shared/lib/io/http/Common";
+import { type UUID, type Geometry } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   Column,
   CreateDateColumn,
@@ -8,10 +8,11 @@ import {
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
+  type Relation,
   UpdateDateColumn,
 } from "typeorm";
-import { MediaEntity } from "./Media.entity";
-import { type SocialPostEntity } from "./SocialPost.entity";
+import { MediaEntity } from "./Media.entity.js";
+import { type SocialPostEntity } from "./SocialPost.entity.js";
 
 @Entity("area")
 @Index(["slug"])
@@ -41,7 +42,7 @@ export class AreaEntity {
 
   @ManyToMany(() => MediaEntity, (m) => m.areas)
   @JoinTable()
-  media: MediaEntity[];
+  media: Relation< MediaEntity[]>;
 
   // admin props
   socialPosts?: SocialPostEntity[];

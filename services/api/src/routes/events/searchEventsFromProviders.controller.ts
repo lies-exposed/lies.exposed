@@ -1,19 +1,19 @@
-import { toPuppeteerError } from "@liexp/backend/lib/providers/puppeteer.provider";
-import { searchWithGoogle } from "@liexp/backend/lib/scrapers/searchLinksWithGoogle";
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { defaultSites } from "@liexp/shared/lib/utils/defaultSites";
+import { toPuppeteerError } from "@liexp/backend/lib/providers/puppeteer.provider.js";
+import { searchWithGoogle } from "@liexp/backend/lib/scrapers/searchLinksWithGoogle.js";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { defaultSites } from "@liexp/shared/lib/utils/defaultSites.js";
 import { type Router } from "express";
-import * as A from "fp-ts/Array";
-import * as O from "fp-ts/Option";
-import * as Ord from "fp-ts/Ord";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import * as S from "fp-ts/string";
-import { type LinkEntity } from "@entities/Link.entity";
-import { fetchAsLink } from "@flows/links/link.flow";
-import { getOneAdminOrFail } from "@flows/users/getOneUserOrFail.flow";
-import { toControllerError } from "@io/ControllerError";
-import { type RouteContext } from "@routes/route.types";
+import * as A from "fp-ts/lib/Array.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as Ord from "fp-ts/lib/Ord.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import * as S from "fp-ts/lib/string.js";
+import { type LinkEntity } from "#entities/Link.entity.js";
+import { fetchAsLink } from "#flows/links/link.flow.js";
+import { getOneAdminOrFail } from "#flows/users/getOneUserOrFail.flow.js";
+import { toControllerError } from "#io/ControllerError.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 export const SearchEventsFromProviderRoute = (
   r: Router,

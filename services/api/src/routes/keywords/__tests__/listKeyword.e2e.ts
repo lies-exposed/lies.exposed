@@ -1,9 +1,9 @@
-import { type http } from "@liexp/shared/lib/io";
-import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary";
+import { type http } from "@liexp/shared/lib/io/index.js";
+import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as tests from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
-import { KeywordEntity } from "@entities/Keyword.entity";
+import { KeywordEntity } from "#entities/Keyword.entity.js";
 
 describe("List Keywords", () => {
   let Test: AppTest,

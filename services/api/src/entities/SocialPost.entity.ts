@@ -1,9 +1,9 @@
+import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   SocialPostStatus,
   type SocialPostPublishResult,
   type SocialPostResourceType,
-} from "@liexp/shared/lib/io/http/SocialPost";
-import { type UUID } from "io-ts-types/lib/UUID";
+} from "@liexp/shared/lib/io/http/SocialPost.js";
 import {
   Column,
   CreateDateColumn,
@@ -13,7 +13,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { type LinkEntity } from "./Link.entity";
+import { type LinkEntity } from "./Link.entity.js";
 
 @Entity("social_post")
 @Index(["type", "entity"])

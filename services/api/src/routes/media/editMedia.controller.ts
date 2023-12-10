@@ -1,18 +1,18 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { MP4Type } from "@liexp/shared/lib/io/http/Media";
-import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { MP4Type } from "@liexp/shared/lib/io/http/Media.js";
+import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
 import { type Router } from "express";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import * as t from "io-ts";
 import { Equal } from "typeorm";
-import { toMediaIO } from "./media.io";
-import { MediaEntity } from "@entities/Media.entity";
-import { extractMP4Extra } from "@flows/media/extra/extractMP4Extra";
-import { createThumbnail } from "@flows/media/thumbnails/createThumbnail.flow";
-import { transferFromExternalProvider } from "@flows/media/transferFromExternalProvider.flow";
-import { type RouteContext } from "@routes/route.types";
+import { toMediaIO } from "./media.io.js";
+import { MediaEntity } from "#entities/Media.entity.js";
+import { extractMP4Extra } from "#flows/media/extra/extractMP4Extra.js";
+import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
+import { transferFromExternalProvider } from "#flows/media/transferFromExternalProvider.flow.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(

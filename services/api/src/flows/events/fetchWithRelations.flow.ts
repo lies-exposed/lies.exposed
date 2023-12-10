@@ -1,29 +1,28 @@
-import { fp } from "@liexp/core/lib/fp";
+import { fp, flow, pipe } from "@liexp/core/lib/fp/index.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import {
+  type GetNetworkQuery,
+  type NetworkType,
+} from "@liexp/shared/lib/io/http/Network.js";
 import {
   type Actor,
   type Events,
   type Group,
   type Keyword,
   type Media,
-} from "@liexp/shared/lib/io/http";
-import {
-  type GetNetworkQuery,
-  type NetworkType,
-} from "@liexp/shared/lib/io/http/Network";
-import { parseISO } from "@liexp/shared/lib/utils/date.utils";
-import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
-import * as TE from "fp-ts/TaskEither";
-import { flow, pipe } from "fp-ts/function";
-import { type UUID } from "io-ts-types/lib/UUID";
-import { fetchEventsRelations } from "./fetchEventsRelations.flow";
-import { type EventV2Entity } from "@entities/Event.v2.entity";
-import { type TEFlow } from "@flows/flow.types";
-import { type ControllerError } from "@io/ControllerError";
-import { toEventV2IO } from "@routes/events/eventV2.io";
+} from "@liexp/shared/lib/io/http/index.js";
+import { parseISO } from "@liexp/shared/lib/utils/date.utils.js";
+import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { fetchEventsRelations } from "./fetchEventsRelations.flow.js";
+import { type EventV2Entity } from "#entities/Event.v2.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { type ControllerError } from "#io/ControllerError.js";
+import { toEventV2IO } from "#routes/events/eventV2.io.js";
 import {
   searchEventV2Query,
   type SearchEventOutput,
-} from "@routes/events/queries/searchEventsV2.query";
+} from "#routes/events/queries/searchEventsV2.query.js";
 
 export const fetchEventsWithRelations: TEFlow<
   [NetworkType, UUID[], GetNetworkQuery, boolean],

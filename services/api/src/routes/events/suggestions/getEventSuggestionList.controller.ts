@@ -1,16 +1,16 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { type EventSuggestion } from "@liexp/shared/lib/io/http";
-import { EventSuggestionRead, type User } from "@liexp/shared/lib/io/http/User";
-import * as A from "fp-ts/Array";
-import * as E from "fp-ts/Either";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { toEventSuggestion } from "./eventSuggestion.io";
-import { searchEventSuggestion } from "@flows/event-suggestion/searchEventSuggestion.flow";
-import { type Route } from "@routes/route.types";
-import { authenticationHandler } from "@utils/authenticationHandler";
-import { foldOptionals } from "@utils/foldOptionals.utils";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { EventSuggestionRead, type User } from "@liexp/shared/lib/io/http/User.js";
+import { type EventSuggestion } from "@liexp/shared/lib/io/http/index.js";
+import * as A from "fp-ts/lib/Array.js";
+import * as E from "fp-ts/lib/Either.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { toEventSuggestion } from "./eventSuggestion.io.js";
+import { searchEventSuggestion } from "#flows/event-suggestion/searchEventSuggestion.flow.js";
+import { type Route } from "#routes/route.types.js";
+import { authenticationHandler } from "#utils/authenticationHandler.js";
+import { foldOptionals } from "#utils/foldOptionals.utils.js";
 
 export const GetEventSuggestionListRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(ctx, ["event-suggestion:read"]))(

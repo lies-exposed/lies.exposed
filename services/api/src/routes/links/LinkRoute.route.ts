@@ -1,14 +1,14 @@
 import { type Router } from "express";
-import { MakeCreateLinkRoute } from "./createLink.controller";
-import { MakeCreateManyLinkRoute } from "./createManyLink.controller";
-import { MakeDeleteLinkRoute } from "./deleteLink.controller";
-import { MakeEditLinkRoute } from "./editLink.controller";
-import { MakeEditLinkMetadataRoute } from "./editLinkMetadata.controller";
-import { MakeGetLinksRoute } from "./getLink.controller";
-import { MakeListLinksRoute } from "./listLinks.controller";
-import { MakeSubmitLinkRoute } from "./submitLink.controller";
-import { MakeTakeLinkScreenshotRoute } from "./takeLinkScreenshot.controller";
-import { type RouteContext } from "@routes/route.types";
+import { MakeCreateLinkRoute } from "./createLink.controller.js";
+import { MakeCreateManyLinkRoute } from "./createManyLink.controller.js";
+import { MakeDeleteLinkRoute } from "./deleteLink.controller.js";
+import { MakeEditLinkRoute } from "./editLink.controller.js";
+import { MakeEditLinkMetadataRoute } from "./editLinkMetadata.controller.js";
+import { MakeGetLinksRoute } from "./getLink.controller.js";
+import { MakeListLinksRoute } from "./listLinks.controller.js";
+import { MakeSubmitLinkRoute } from "./submitLink.controller.js";
+import { MakeTakeLinkScreenshotRoute } from "./takeLinkScreenshot.controller.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 export const MakeLinkRoutes = (router: Router, ctx: RouteContext): void => {
   MakeSubmitLinkRoute(router, ctx);

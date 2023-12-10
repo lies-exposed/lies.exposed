@@ -1,5 +1,5 @@
-import * as io from "@liexp/shared/lib/io";
-import { type UUID } from "io-ts-types/lib/UUID";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import * as io from "@liexp/shared/lib/io/index.js";
 import {
   Column,
   CreateDateColumn,
@@ -9,10 +9,11 @@ import {
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
+  type Relation,
   UpdateDateColumn,
 } from "typeorm";
-import { GroupMemberEntity } from "./GroupMember.entity";
-import { StoryEntity } from "./Story.entity";
+import { GroupMemberEntity } from "./GroupMember.entity.js";
+import { StoryEntity } from "./Story.entity.js";
 
 @Entity("group")
 export class GroupEntity {
@@ -53,13 +54,13 @@ export class GroupEntity {
     cascade: ["insert"],
     nullable: true,
   })
-  members: GroupMemberEntity[];
+  members: Relation< GroupMemberEntity[]>;
 
   @ManyToMany(() => StoryEntity, (k) => k.groups, {
     cascade: false,
   })
   @JoinTable()
-  stories: StoryEntity[];
+  stories: Relation< StoryEntity[]>;
 
   @CreateDateColumn()
   createdAt: Date;

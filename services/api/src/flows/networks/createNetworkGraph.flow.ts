@@ -1,44 +1,43 @@
-import { fp } from "@liexp/core/lib/fp";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   getColorByEventType,
   getTotals,
-} from "@liexp/shared/lib/helpers/event/event";
-import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
-import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/getTitle.helper";
-import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
-import {
-  type Actor,
-  type Group,
-  type Keyword,
-  type Media,
-} from "@liexp/shared/lib/io/http";
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
+} from "@liexp/shared/lib/helpers/event/event.js";
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
+import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/getTitle.helper.js";
+import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
+import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   EventTotalsMonoid,
   type EventTotals,
-} from "@liexp/shared/lib/io/http/Events/EventTotals";
-import { GROUPS } from "@liexp/shared/lib/io/http/Group";
-import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
-import { ValidContentType } from "@liexp/shared/lib/io/http/Media";
+} from "@liexp/shared/lib/io/http/Events/EventTotals.js";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
+import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
+import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
+import { ValidContentType } from "@liexp/shared/lib/io/http/Media.js";
+import { type EventNetworkDatum } from "@liexp/shared/lib/io/http/Network/networks.js";
 import {
   type GetNetworkQuery,
   type NetworkGraphOutput,
   type NetworkGroupBy,
   type NetworkLink,
   type NetworkType,
-} from "@liexp/shared/lib/io/http/Network";
-import { type EventNetworkDatum } from "@liexp/shared/lib/io/http/Network/networks";
-import { GetEncodeUtils } from "@liexp/shared/lib/utils/encode.utils";
-import * as A from "fp-ts/Array";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import * as S from "fp-ts/string";
-import { type UUID } from "io-ts-types/lib/UUID";
-import { cleanItemsFromSlateFields } from "../../utils/clean.utils";
-import { fetchEventsWithRelations } from "../events/fetchWithRelations.flow";
-import { type TEFlow } from "@flows/flow.types";
+} from "@liexp/shared/lib/io/http/Network.js";
+import {
+  type Actor,
+  type Group,
+  type Keyword,
+  type Media,
+} from "@liexp/shared/lib/io/http/index.js";
+import { GetEncodeUtils } from "@liexp/shared/lib/utils/encode.utils.js";
+import * as A from "fp-ts/lib/Array.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import * as S from "fp-ts/lib/string.js";
+import { cleanItemsFromSlateFields } from "../../utils/clean.utils.js";
+import { fetchEventsWithRelations } from "../events/fetchWithRelations.flow.js";
+import { type TEFlow } from "#flows/flow.types.js";
 
 const uniqueId = GetEncodeUtils<
   {

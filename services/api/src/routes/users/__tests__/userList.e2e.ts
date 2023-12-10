@@ -1,9 +1,9 @@
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { fc } from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
-import { UserEntity } from "@entities/User.entity";
-import { hash } from "@utils/password.utils";
+import { UserEntity } from "#entities/User.entity.js";
+import { hash } from "#utils/password.utils.js";
 
 describe("User List", () => {
   let Test: AppTest;

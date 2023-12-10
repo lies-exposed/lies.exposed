@@ -1,13 +1,13 @@
-import { http } from "@liexp/shared/lib/io";
+import { pipe } from "@liexp/core/lib/fp";
+import { http } from "@liexp/shared/lib/io/index.js";
 import { MediaArb, ProjectArb, AreaArb } from "@liexp/shared/lib/tests";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
-import { pipe } from "fp-ts/function";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
 import { loginUser, saveUser } from "../../../../test/user.utils";
-import { AreaEntity } from "@entities/Area.entity";
-import { ProjectEntity } from "@entities/Project.entity";
-import { UserEntity } from "@entities/User.entity";
+import { AreaEntity } from "#entities/Area.entity.js";
+import { ProjectEntity } from "#entities/Project.entity.js";
+import { UserEntity } from "#entities/User.entity.js";
 
 describe("Edit Project ", () => {
   let appTest: AppTest;

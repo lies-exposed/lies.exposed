@@ -1,11 +1,11 @@
 import { type Router } from "express";
-import { MakeCreateMediaRoute } from "./createMedia.route";
-import { MakeDeleteMediaRoute } from "./deleteMedia.route";
-import { MakeEditMediaRoute } from "./editMedia.controller";
-import { MakeGetMediaRoute } from "./getMedia.controller";
-import { MakeGetMediaThumbnailsRoute } from "./getMediaThumbnails.controller";
-import { MakeListMediaRoute } from "./listMedia.controller";
-import { type RouteContext } from "@routes/route.types";
+import { MakeCreateMediaRoute } from "./createMedia.route.js";
+import { MakeDeleteMediaRoute } from "./deleteMedia.route.js";
+import { MakeEditMediaRoute } from "./editMedia.controller.js";
+import { MakeGetMediaRoute } from "./getMedia.controller.js";
+import { MakeGetMediaThumbnailsRoute } from "./getMediaThumbnails.controller.js";
+import { MakeListMediaRoute } from "./listMedia.controller.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 export const MakeMediaRoutes = (router: Router, ctx: RouteContext): void => {
   MakeGetMediaRoute(router, ctx);

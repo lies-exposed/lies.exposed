@@ -1,33 +1,32 @@
 import path from "path";
-import { fp } from "@liexp/core/lib/fp";
-import { type Logger } from "@liexp/core/lib/logger";
-import { getTotals } from "@liexp/shared/lib/helpers/event/event";
-import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type Logger } from "@liexp/core/lib/logger/index.js";
+import { getTotals } from "@liexp/shared/lib/helpers/event/event.js";
+import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { EventTotalsMonoid } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
+import {
+  type GetNetworkQuery,
+  type NetworkLink,
+} from "@liexp/shared/lib/io/http/Network.js";
+import {
+  type FlowGraphOutput,
+  type FlowGraphType,
+} from "@liexp/shared/lib/io/http/graphs/FlowGraph";
 import {
   type Actor,
   type Events,
   type Group,
   type Keyword,
   type Media,
-} from "@liexp/shared/lib/io/http";
-import { EventTotalsMonoid } from "@liexp/shared/lib/io/http/Events/EventTotals";
-import {
-  type GetNetworkQuery,
-  type NetworkLink,
-} from "@liexp/shared/lib/io/http/Network";
-import {
-  type FlowGraphOutput,
-  type FlowGraphType,
-} from "@liexp/shared/lib/io/http/graphs/FlowGraph";
-import { toColor } from "@liexp/shared/lib/utils/colors";
-import { differenceInDays, subYears } from "@liexp/shared/lib/utils/date.utils";
-import { pipe } from "fp-ts/function";
-import { type UUID } from "io-ts-types/lib/UUID";
-import { toEventV2IO } from "../../routes/events/eventV2.io";
-import { cleanItemsFromSlateFields } from "../../utils/clean.utils";
-import { fetchEventsByRelation } from "../events/fetchByRelations.flow";
-import { fetchEventsRelations } from "../events/fetchEventsRelations.flow";
-import { type Flow, type TEFlow } from "../flow.types";
+} from "@liexp/shared/lib/io/http/index.js";
+import { toColor } from "@liexp/shared/lib/utils/colors.js";
+import { differenceInDays, subYears } from "@liexp/shared/lib/utils/date.utils.js";
+import { toEventV2IO } from "../../routes/events/eventV2.io.js";
+import { cleanItemsFromSlateFields } from "../../utils/clean.utils.js";
+import { fetchEventsByRelation } from "../events/fetchByRelations.flow.js";
+import { fetchEventsRelations } from "../events/fetchEventsRelations.flow.js";
+import { type Flow, type TEFlow } from "../flow.types.js";
 
 const ordByDate = pipe(
   fp.N.Ord,

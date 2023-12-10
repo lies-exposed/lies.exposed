@@ -1,12 +1,12 @@
 import { type Router } from "express";
-import { MakeUserCreateRoute } from "./userCreate.controller";
-import { MakeUserEditRoute } from "./userEdit.controller";
-import { MakeUserGetRoute } from "./userGet.controller";
-import { MakeUserListRoute } from "./userList.controller";
-import { MakeUserLoginRoute } from "./userLogin.controller";
-import { MakeUserGetMeRoute } from "./userMe.controller";
-import { MakeSignUpUserRoute } from "./userSignUp.controller";
-import { type RouteContext } from "@routes/route.types";
+import { MakeUserCreateRoute } from "./userCreate.controller.js";
+import { MakeUserEditRoute } from "./userEdit.controller.js";
+import { MakeUserGetRoute } from "./userGet.controller.js";
+import { MakeUserListRoute } from "./userList.controller.js";
+import { MakeUserLoginRoute } from "./userLogin.controller.js";
+import { MakeUserGetMeRoute } from "./userMe.controller.js";
+import { MakeSignUpUserRoute } from "./userSignUp.controller.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 export const MakeUserRoutes = (router: Router, ctx: RouteContext): void => {
   MakeUserGetMeRoute(router, ctx);

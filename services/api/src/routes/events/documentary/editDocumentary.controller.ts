@@ -1,13 +1,13 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { type Route } from "../../route.types";
-import { editEventQuery } from "../queries/editEvent.query";
-import { toDocumentaryIO } from "./documentary.io";
-import { EventV2Entity } from "@entities/Event.v2.entity";
+import { type Route } from "../../route.types.js";
+import { editEventQuery } from "../queries/editEvent.query.js";
+import { toDocumentaryIO } from "./documentary.io.js";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
 
 export const MakeEditDocumentaryEventRoute: Route = (r, ctx) => {
   AddEndpoint(r)(

@@ -1,15 +1,15 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { UUID } from "@liexp/shared/lib/io/http/Common";
-import * as A from "fp-ts/Array";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import * as A from "fp-ts/lib/Array.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { type Route } from "../route.types";
-import { toActorIO } from "./actor.io";
-import { ActorEntity } from "@entities/Actor.entity";
-import { authenticationHandler } from "@utils/authenticationHandler";
-import { foldOptionals } from "@utils/foldOptionals.utils";
+import { type Route } from "../route.types.js";
+import { toActorIO } from "./actor.io.js";
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { authenticationHandler } from "#utils/authenticationHandler.js";
+import { foldOptionals } from "#utils/foldOptionals.utils.js";
 
 export const MakeEditActorRoute: Route = (r, { db, logger, jwt }) => {
   AddEndpoint(r, authenticationHandler({ logger, jwt }, ["admin:create"]))(

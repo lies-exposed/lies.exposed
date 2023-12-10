@@ -10,13 +10,14 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
+  type Relation,
   UpdateDateColumn,
 } from "typeorm";
-import { GroupMemberEntity } from "../GroupMember.entity";
-import { LinkEntity } from "../Link.entity";
-import { MediaV1Entity } from "./Media.v1.entity";
-import { ActorEntity } from "@entities/Actor.entity";
-import { GroupEntity } from "@entities/Group.entity";
+import { GroupMemberEntity } from "../GroupMember.entity.js";
+import { LinkEntity } from "../Link.entity.js";
+import { MediaV1Entity } from "./Media.v1.entity.js";
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { GroupEntity } from "#entities/Group.entity.js";
 
 @Entity("death_event")
 export class DeathEventEntity {
@@ -45,19 +46,19 @@ export class DeathEventEntity {
 
   @OneToOne(() => ActorEntity, (v) => v.id, { nullable: false })
   @JoinColumn()
-  victim: ActorEntity;
+  victim: Relation< ActorEntity>;
 
   @ManyToMany(() => GroupEntity, (a) => a.id, { nullable: true })
   @JoinTable()
-  subspectedGroups: GroupEntity[];
+  subspectedGroups: Relation<GroupEntity[]>;
 
   @ManyToMany(() => ActorEntity, (a) => a.id, { nullable: true })
   @JoinTable()
-  supsectedActors: ActorEntity[];
+  supsectedActors: Relation<ActorEntity[]>;
 
   @ManyToMany(() => GroupMemberEntity, (a) => a.id, { nullable: true })
   @JoinTable()
-  suspectedGroupsMembers: GroupMemberEntity[];
+  suspectedGroupsMembers: Relation<GroupMemberEntity[]>;
 
   @CreateDateColumn()
   createdAt: Date;

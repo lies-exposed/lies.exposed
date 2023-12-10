@@ -1,9 +1,9 @@
-import * as io from "@liexp/shared/lib/io";
-import { toColor } from "@liexp/shared/lib/utils/colors";
-import * as E from "fp-ts/Either";
-import { pipe } from "fp-ts/function";
-import { type KeywordEntity } from "../../entities/Keyword.entity";
-import { type ControllerError, DecodeError } from "@io/ControllerError";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import * as io from "@liexp/shared/lib/io/index.js";
+import { toColor } from "@liexp/shared/lib/utils/colors.js";
+import * as E from "fp-ts/lib/Either.js";
+import { type KeywordEntity } from "../../entities/Keyword.entity.js";
+import { type ControllerError, DecodeError } from "#io/ControllerError.js";
 
 export const toKeywordIO = (
   keyword: KeywordEntity,

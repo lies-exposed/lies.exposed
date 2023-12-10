@@ -1,9 +1,9 @@
 import { type Router } from "express";
-import { MakeCreateDocumentaryReleaseRoute } from "./createDocumentary.controller";
-import { MakeEditDocumentaryEventRoute } from "./editDocumentary.controller";
-import { MakeGetDocumentaryEventRoute } from "./getDocumentary.controller";
-import { MakeGetListDocumentaryEventRoute } from "./getListDocumentaries.controller";
-import { type RouteContext } from "@routes/route.types";
+import { MakeCreateDocumentaryReleaseRoute } from "./createDocumentary.controller.js";
+import { MakeEditDocumentaryEventRoute } from "./editDocumentary.controller.js";
+import { MakeGetDocumentaryEventRoute } from "./getDocumentary.controller.js";
+import { MakeGetListDocumentaryEventRoute } from "./getListDocumentaries.controller.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 export const MakeDocumentaryReleaseRoutes = (
   router: Router,

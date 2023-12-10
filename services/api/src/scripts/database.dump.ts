@@ -1,12 +1,12 @@
 import { execSync } from "child_process";
 import * as path from "path";
-import * as logger from "@liexp/core/lib/logger";
-import * as E from "fp-ts/Either";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import * as logger from "@liexp/core/lib/logger/index.js";
 import type * as T from "fp-ts/Task";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { PathReporter } from "io-ts/lib/PathReporter";
-import { ENV } from "@io/ENV";
+import * as E from "fp-ts/lib/Either.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { PathReporter } from "io-ts/lib/PathReporter.js";
+import { ENV } from "#io/ENV.js";
 
 const log = logger.GetLogger("database:dump");
 const run = (): T.Task<void> => {

@@ -1,4 +1,4 @@
-import { type Actor, type Group } from "@liexp/shared/lib/io/http";
+import { type Actor, type Group } from "@liexp/shared/lib/io/http/index.js";
 
 export function cleanItemsFromSlateFields<T extends Actor.Actor | Group.Group>(
   actors: T[],

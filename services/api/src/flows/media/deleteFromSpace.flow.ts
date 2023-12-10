@@ -1,9 +1,9 @@
-import { getMediaKeyFromLocation } from "@liexp/shared/lib/utils/media.utils";
-import { sequenceS } from "fp-ts/Apply";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { type MediaEntity } from "@entities/Media.entity";
-import { type TEFlow } from "@flows/flow.types";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { getMediaKeyFromLocation } from "@liexp/shared/lib/utils/media.utils.js";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { type MediaEntity } from "#entities/Media.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
 
 export const deleteFromSpace: TEFlow<[MediaEntity], MediaEntity> =
   (ctx) => (m) => {

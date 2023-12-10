@@ -11,7 +11,7 @@
       "decorators": true,
       "dynamicImport": true
     },
-    "target": "es2021",
+    "target": "es2022",
     "transform": {
       "decoratorMetadata": true,
       "legacyDecorator": true
@@ -19,11 +19,11 @@
     "keepClassNames": true,
     "baseUrl": "./src",
     "paths": {
-      "@io/*": ["io/*"],
-      "@entities/*": ["entities/*"],
-      "@flows/*": ["flows/*"],
-      "@routes/*": ["routes/*"],
-      "@utils/*": ["utils/*"]
+      "#io/*": ["io/*"],
+      "#entities/*": ["entities/*"],
+      "#flows/*": ["flows/*"],
+      "#routes/*": ["routes/*"],
+      "#utils/*": ["utils/*"]
     }
   },
   "minify": false

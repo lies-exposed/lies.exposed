@@ -1,12 +1,12 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { UUID } from "io-ts-types/lib/UUID";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { type DeepPartial, Equal } from "typeorm";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { type MediaEntity } from "@entities/Media.entity";
-import { toEventV2IO } from "@routes/events/eventV2.io";
-import { type Route } from "@routes/route.types";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { type MediaEntity } from "#entities/Media.entity.js";
+import { toEventV2IO } from "#routes/events/eventV2.io.js";
+import { type Route } from "#routes/route.types.js";
 
 export const MakeEditScientificStudyRoute: Route = (
   r,

@@ -7,14 +7,15 @@ import {
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
+  type Relation,
   UpdateDateColumn,
 } from "typeorm";
-import { ActorEntity } from "./Actor.entity";
-import { EventV2Entity } from "./Event.v2.entity";
-import { GroupEntity } from "./Group.entity";
-import { KeywordEntity } from "./Keyword.entity";
-import { MediaEntity } from "./Media.entity";
-import { UserEntity } from "./User.entity";
+import { ActorEntity } from "./Actor.entity.js";
+import { EventV2Entity } from "./Event.v2.entity.js";
+import { GroupEntity } from "./Group.entity.js";
+import { KeywordEntity } from "./Keyword.entity.js";
+import { MediaEntity } from "./Media.entity.js";
+import { UserEntity } from "./User.entity.js";
 
 @Entity("story")
 export class StoryEntity {
@@ -39,7 +40,7 @@ export class StoryEntity {
     nullable: true,
     onDelete: "NO ACTION",
   })
-  featuredImage: MediaEntity | null;
+  featuredImage: Relation<MediaEntity | null>;
 
   @Column({ type: "varchar", nullable: true })
   excerpt: string | null;
@@ -54,34 +55,34 @@ export class StoryEntity {
     cascade: false,
     nullable: true,
   })
-  creator: UserEntity | null;
+  creator: Relation< UserEntity | null>;
 
   @ManyToMany(() => KeywordEntity, (k) => k.stories, {
     cascade: false,
   })
-  keywords: KeywordEntity[];
+  keywords: Relation< KeywordEntity[]>;
 
   @ManyToMany(() => ActorEntity, (k) => k.stories, {
     cascade: false,
   })
-  actors: ActorEntity[];
+  actors: Relation< ActorEntity[]>;
 
   @ManyToMany(() => GroupEntity, (k) => k.stories, {
     cascade: false,
   })
-  groups: GroupEntity[];
+  groups: Relation< GroupEntity[]>;
 
   @ManyToMany(() => MediaEntity, (k) => k.stories, {
     cascade: false,
   })
   @JoinTable()
-  media: MediaEntity[];
+  media: Relation< MediaEntity[]>;
 
   @ManyToMany(() => EventV2Entity, (k) => k.stories, {
     cascade: false,
   })
   @JoinTable()
-  events: EventV2Entity[];
+  events: Relation< EventV2Entity[]>;
 
   @CreateDateColumn()
   createdAt: Date;

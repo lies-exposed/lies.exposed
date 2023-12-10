@@ -1,18 +1,17 @@
-import { fp } from "@liexp/core/lib/fp";
-import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor";
-import { type Area, type Media } from "@liexp/shared/lib/io/http";
-import { createExcerptValue } from "@liexp/shared/lib/slate";
-import { generateRandomColor } from "@liexp/shared/lib/utils/colors";
-import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils";
-import { sequenceS } from "fp-ts/Apply";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { AreaEntity } from "@entities/Area.entity";
-import { MediaEntity } from "@entities/Media.entity";
-import { type TEFlow } from "@flows/flow.types";
-import { fetchFromWikipedia } from "@flows/wikipedia/fetchFromWikipedia";
-import { toAreaIO } from "@routes/areas/Area.io";
-import { toMediaIO } from "@routes/media/media.io";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
+import { type Area, type Media } from "@liexp/shared/lib/io/http/index.js";
+import { createExcerptValue } from "@liexp/shared/lib/slate/index.js";
+import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
+import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { AreaEntity } from "#entities/Area.entity.js";
+import { MediaEntity } from "#entities/Media.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { fetchFromWikipedia } from "#flows/wikipedia/fetchFromWikipedia.js";
+import { toAreaIO } from "#routes/areas/Area.io.js";
+import { toMediaIO } from "#routes/media/media.io.js";
 
 export const fetchAreaFromWikipedia: TEFlow<
   [string],

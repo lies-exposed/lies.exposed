@@ -1,9 +1,9 @@
-import * as io from "@liexp/shared/lib/io";
-import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils";
-import * as E from "fp-ts/Either";
-import { pipe } from "fp-ts/function";
-import { type MediaEntity } from "@entities/Media.entity";
-import { type ControllerError, DecodeError } from "@io/ControllerError";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import * as io from "@liexp/shared/lib/io/index.js";
+import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
+import * as E from "fp-ts/lib/Either.js";
+import { type MediaEntity } from "#entities/Media.entity.js";
+import { type ControllerError, DecodeError } from "#io/ControllerError.js";
 
 export const toMediaIO = (
   media: MediaEntity,

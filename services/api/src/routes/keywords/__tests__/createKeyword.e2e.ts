@@ -1,11 +1,11 @@
-import { type http } from "@liexp/shared/lib/io";
-import { TagArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary";
-import { ColorArb } from "@liexp/shared/lib/tests/arbitrary/common/Color.arbitrary";
+import { type http } from "@liexp/shared/lib/io/index.js";
+import { TagArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary.js";
+import { ColorArb } from "@liexp/shared/lib/tests/arbitrary/common/Color.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
 import { loginUser, saveUser } from "../../../../test/user.utils";
-import { KeywordEntity } from "@entities/Keyword.entity";
+import { KeywordEntity } from "#entities/Keyword.entity.js";
 
 describe("Create Keyword", () => {
   let Test: AppTest;

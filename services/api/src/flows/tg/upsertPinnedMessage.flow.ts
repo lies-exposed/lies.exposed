@@ -1,11 +1,11 @@
-import { sequenceS } from "fp-ts/Apply";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import type TelegramBot from "node-telegram-bot-api";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { KeywordEntity } from "@entities/Keyword.entity";
-import { type TEFlow } from "@flows/flow.types";
-import { toControllerError } from "@io/ControllerError";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { KeywordEntity } from "#entities/Keyword.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { toControllerError } from "#io/ControllerError.js";
 
 interface ToPinnedMessageOptions {
   bot: string;

@@ -1,15 +1,14 @@
-import { fp } from "@liexp/core/lib/fp";
-import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor";
-import { type AddActorBody } from "@liexp/shared/lib/io/http/Actor";
-import { createExcerptValue } from "@liexp/shared/lib/slate";
-import { generateRandomColor } from "@liexp/shared/lib/utils/colors";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
+import { type AddActorBody } from "@liexp/shared/lib/io/http/Actor.js";
+import { createExcerptValue } from "@liexp/shared/lib/slate/index.js";
+import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { ActorEntity } from "@entities/Actor.entity";
-import { type TEFlow } from "@flows/flow.types";
-import { fetchFromWikipedia } from "@flows/wikipedia/fetchFromWikipedia";
-import { NotFoundError, toControllerError } from "@io/ControllerError";
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { fetchFromWikipedia } from "#flows/wikipedia/fetchFromWikipedia.js";
+import { NotFoundError, toControllerError } from "#io/ControllerError.js";
 
 export const fetchActorFromWikipedia: TEFlow<[string], AddActorBody> =
   (ctx) => (pageId) => {

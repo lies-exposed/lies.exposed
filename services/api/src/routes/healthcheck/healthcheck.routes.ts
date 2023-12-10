@@ -1,6 +1,6 @@
 import { type Router } from "express";
-import { MakeGetHealthcheckRoute } from "./getHealthcheck.controller";
-import { type RouteContext } from "@routes/route.types";
+import { MakeGetHealthcheckRoute } from "./getHealthcheck.controller.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 export const MakeHealthcheckRoutes = (
   router: Router,

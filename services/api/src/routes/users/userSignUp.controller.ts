@@ -1,13 +1,13 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import * as http from "@liexp/shared/lib/io/http";
-import { UserStatusPending } from "@liexp/shared/lib/io/http/User";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { toUserIO } from "./user.io";
-import { UserEntity } from "@entities/User.entity";
-import { type Route } from "@routes/route.types";
-import * as passwordUtils from "@utils/password.utils";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { UserStatusPending } from "@liexp/shared/lib/io/http/User.js";
+import * as http from "@liexp/shared/lib/io/http/index.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { toUserIO } from "./user.io.js";
+import { UserEntity } from "#entities/User.entity.js";
+import { type Route } from "#routes/route.types.js";
+import * as passwordUtils from "#utils/password.utils.js";
 
 export const MakeSignUpUserRoute: Route = (r, ctx) => {
   AddEndpoint(r)(

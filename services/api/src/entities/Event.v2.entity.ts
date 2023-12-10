@@ -1,6 +1,6 @@
-import * as http from "@liexp/shared/lib/io/http";
-import { UNCATEGORIZED } from "@liexp/shared/lib/io/http/Events/EventType";
-import { type UUID } from "io-ts-types/lib/UUID";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { UNCATEGORIZED } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import * as http from "@liexp/shared/lib/io/http/index.js";
 import {
   Column,
   CreateDateColumn,
@@ -10,15 +10,16 @@ import {
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
+  type Relation,
   UpdateDateColumn,
 } from "typeorm";
-import { type ActorEntity } from "./Actor.entity";
-import { type GroupEntity } from "./Group.entity";
-import { KeywordEntity } from "./Keyword.entity";
-import { LinkEntity } from "./Link.entity";
-import { MediaEntity } from "./Media.entity";
-import { type SocialPostEntity } from "./SocialPost.entity";
-import { StoryEntity } from "./Story.entity";
+import { type ActorEntity } from "./Actor.entity.js";
+import { type GroupEntity } from "./Group.entity.js";
+import { KeywordEntity } from "./Keyword.entity.js";
+import { LinkEntity } from "./Link.entity.js";
+import { MediaEntity } from "./Media.entity.js";
+import { type SocialPostEntity } from "./SocialPost.entity.js";
+import { StoryEntity } from "./Story.entity.js";
 
 @Entity("event_v2")
 export class EventV2Entity {
@@ -53,27 +54,27 @@ export class EventV2Entity {
     nullable: true,
   })
   @JoinTable()
-  links: LinkEntity[];
+  links: Relation< LinkEntity[]>;
 
   @ManyToMany(() => MediaEntity, (a) => a.events, {
     cascade: ["insert"],
     nullable: true,
   })
   @JoinTable()
-  media: MediaEntity[];
+  media: Relation<MediaEntity[]>;
 
   @ManyToMany(() => KeywordEntity, (a) => a.events, {
     cascade: ["insert"],
     nullable: true,
   })
   @JoinTable()
-  keywords: KeywordEntity[];
+  keywords: Relation<KeywordEntity[]>;
 
   @ManyToMany(() => StoryEntity, (k) => k.events, {
     cascade: false,
     onDelete: "NO ACTION",
   })
-  stories: StoryEntity[];
+  stories: Relation<StoryEntity[]>;
 
   actors: ActorEntity[];
   groups: GroupEntity[];

@@ -1,13 +1,13 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Router } from "express";
-import { sequenceS } from "fp-ts/Apply";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal, Raw } from "typeorm";
-import { ActorEntity } from "../../entities/Actor.entity";
-import { type RouteContext } from "../route.types";
-import { toActorIO } from "./actor.io";
-import { EventV2Entity } from "@entities/Event.v2.entity";
+import { ActorEntity } from "../../entities/Actor.entity.js";
+import { type RouteContext } from "../route.types.js";
+import { toActorIO } from "./actor.io.js";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
 
 export const MakeGetActorRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Actor.Get, ({ params: { id } }) => {

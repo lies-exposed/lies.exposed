@@ -1,30 +1,29 @@
 // https://www.postgresql.org/docs/12/functions-json.html
 
-import { type DBError } from "@liexp/backend/lib/providers/orm";
-import { fp } from "@liexp/core/lib/fp";
-import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals";
+import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
 import {
   EventTypes,
   type EventType,
-} from "@liexp/shared/lib/io/http/Events/EventType";
-import { type GetSearchEventsQuery } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEventsQuery";
-import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
-import { sequenceS } from "fp-ts/Apply";
-import * as A from "fp-ts/Array";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+} from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { type GetSearchEventsQuery } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEventsQuery.js";
+import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as A from "fp-ts/lib/Array.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Brackets, In, type SelectQueryBuilder } from "typeorm";
-import { type RouteContext } from "../../route.types";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { GroupMemberEntity } from "@entities/GroupMember.entity";
-import { type ControllerError } from "@io/ControllerError";
-import { type EventsConfig } from "@queries/config";
+import { type RouteContext } from "../../route.types.js";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
+import { type ControllerError } from "#io/ControllerError.js";
+import { type EventsConfig } from "#queries/config/index.js";
 import {
   aggregateSocialPostsPerEntry,
   leftJoinSocialPosts,
-} from "@queries/socialPosts/leftJoinSocialPosts.query";
-import { addOrder, type ORMOrder } from "@utils/orm.utils";
+} from "#queries/socialPosts/leftJoinSocialPosts.query.js";
+import { addOrder, type ORMOrder } from "#utils/orm.utils.js";
 
 type WhereT = "AND" | "OR";
 
@@ -498,10 +497,10 @@ export const searchEventV2Query =
               });
             }
 
-            logger.debug.log(
-              `Search event v2 query %s with params %O`,
-              ...q.getQueryAndParameters(),
-            );
+            // logger.debug.log(
+            //   `Search event v2 query %s with params %O`,
+            //   ...q.getQueryAndParameters(),
+            // );
 
             return {
               resultsQuery: q,

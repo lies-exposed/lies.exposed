@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { UploadResource } from "@liexp/shared/lib/endpoints/upload.endpoints";
-import { getMediaKey } from "@liexp/shared/lib/utils/media.utils";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { UploadResource } from "@liexp/shared/lib/endpoints/upload.endpoints.js";
+import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import { type Router } from "express";
-import { sequenceS } from "fp-ts/Apply";
-import * as T from "fp-ts/Task";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as T from "fp-ts/lib/Task.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import * as t from "io-ts";
 import multer, { memoryStorage } from "multer";
-import { DecodeError, toControllerError } from "@io/ControllerError";
-import { type RouteContext } from "@routes/route.types";
+import { DecodeError, toControllerError } from "#io/ControllerError.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 const UploadFileData = t.strict({ key: t.string, resource: UploadResource });
 

@@ -1,9 +1,9 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { type Route } from "../../route.types";
-import { toDeathIO } from "./death.io";
-import { DeathEventViewEntity } from "@entities/events/DeathEvent.entity";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { type Route } from "../../route.types.js";
+import { toDeathIO } from "./death.io.js";
+import { DeathEventViewEntity } from "#entities/events/DeathEvent.entity.js";
 
 export const MakeDeleteDeathEventRoute: Route = (r, { db }) => {
   AddEndpoint(r)(Endpoints.DeathEvent.Delete, ({ params: { id } }) => {

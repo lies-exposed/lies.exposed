@@ -1,11 +1,11 @@
-import { AddEndpoint, Graph } from "@liexp/shared/lib/endpoints";
-import { GetCSVUtil } from "@liexp/shared/lib/utils/csv.utils";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Graph } from "@liexp/shared/lib/endpoints/index.js";
+import { GetCSVUtil } from "@liexp/shared/lib/utils/csv.utils.js";
 import { type Router } from "express";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import * as t from "io-ts";
-import { NotFoundError, ServerError } from "@io/ControllerError";
-import { type RouteContext } from "@routes/route.types";
+import { NotFoundError, ServerError } from "#io/ControllerError.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 export const MakeGetGraphsRoute = (r: Router, ctx: RouteContext): void => {
   const csvUtil = GetCSVUtil({ log: ctx.logger });

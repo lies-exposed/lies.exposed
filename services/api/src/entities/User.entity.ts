@@ -1,9 +1,9 @@
+import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   type UserPermission,
   UserStatus,
   UserStatusPending,
-} from "@liexp/shared/lib/io/http/User";
-import { type UUID } from "io-ts-types/lib/UUID";
+} from "@liexp/shared/lib/io/http/User.js";
 import {
   Column,
   CreateDateColumn,
@@ -12,12 +12,13 @@ import {
   Index,
   OneToMany,
   PrimaryGeneratedColumn,
+  type Relation,
   UpdateDateColumn,
 } from "typeorm";
-import { EventSuggestionEntity } from "./EventSuggestion.entity";
-import { LinkEntity } from "./Link.entity";
-import { MediaEntity } from "./Media.entity";
-import { StoryEntity } from "./Story.entity";
+import { EventSuggestionEntity } from "./EventSuggestion.entity.js";
+import { LinkEntity } from "./Link.entity.js";
+import { MediaEntity } from "./Media.entity.js";
+import { StoryEntity } from "./Story.entity.js";
 
 @Entity("user")
 export class UserEntity {
@@ -54,16 +55,16 @@ export class UserEntity {
     cascade: false,
     nullable: true,
   })
-  eventSuggestions: EventSuggestionEntity[];
+  eventSuggestions: Relation< EventSuggestionEntity[]>;
 
   @OneToMany(() => LinkEntity, (l) => l.creator)
-  links: LinkEntity[];
+  links: Relation<LinkEntity[]>;
 
   @OneToMany(() => MediaEntity, (m) => m.creator)
-  media: MediaEntity[];
+  media: Relation<MediaEntity[]>;
 
   @OneToMany(() => StoryEntity, (a) => a.creator)
-  stories: StoryEntity[];
+  stories: Relation<StoryEntity[]>;
 
   @CreateDateColumn()
   createdAt: Date;

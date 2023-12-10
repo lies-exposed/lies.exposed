@@ -1,14 +1,14 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Router } from "express";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { toUserIO } from "./user.io";
-import { UserEntity } from "@entities/User.entity";
-import { NotAuthorizedError } from "@io/ControllerError";
-import { type RouteContext } from "@routes/route.types";
-import { authenticationHandler } from "@utils/authenticationHandler";
-import { ensureUserExists } from "@utils/user.utils";
+import { toUserIO } from "./user.io.js";
+import { UserEntity } from "#entities/User.entity.js";
+import { NotAuthorizedError } from "#io/ControllerError.js";
+import { type RouteContext } from "#routes/route.types.js";
+import { authenticationHandler } from "#utils/authenticationHandler.js";
+import { ensureUserExists } from "#utils/user.utils.js";
 
 export const MakeUserGetMeRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r, authenticationHandler(ctx, []))(

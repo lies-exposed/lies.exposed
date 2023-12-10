@@ -1,12 +1,11 @@
-import { fp } from "@liexp/core/lib/fp";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   type FlowGraphOutput,
   type FlowGraphType,
 } from "@liexp/shared/lib/io/http/graphs/FlowGraph";
-import { pipe } from "fp-ts/function";
-import { type UUID } from "io-ts-types/lib/UUID";
-import { type TEFlow } from "../flow.types";
-import { createFlowGraph, getFilePath } from "./createFlowGraph.flow";
+import { type TEFlow } from "../flow.types.js";
+import { createFlowGraph, getFilePath } from "./createFlowGraph.flow.js";
 
 const deleteFlowGraph: TEFlow<[FlowGraphType, UUID], void> =
   (ctx) => (type, id) => {

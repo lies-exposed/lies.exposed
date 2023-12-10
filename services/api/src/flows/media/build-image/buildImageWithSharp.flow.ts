@@ -1,17 +1,17 @@
 import path from "path";
-import { type ImgProcError } from "@liexp/backend/lib/providers/imgproc/imgproc.provider";
-import { fp, pipe } from "@liexp/core/lib/fp";
+import { type ImgProcError } from "@liexp/backend/lib/providers/imgproc/imgproc.provider.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   type BuildImageLayer,
   type MediaImageLayer,
   type TextLayer,
   type WatermarkLayer,
 } from "@liexp/shared/lib/io/http/admin/BuildImage";
-import { toColorHash } from "@liexp/shared/lib/utils/colors";
+import { toColorHash } from "@liexp/shared/lib/utils/colors.js";
 import type sharp from "sharp";
 import { type GravityEnum } from "sharp";
-import { type TEFlow } from "@flows/flow.types";
-import { toControllerError } from "@io/ControllerError";
+import { type TEFlow } from "#flows/flow.types.js";
+import { toControllerError } from "#io/ControllerError.js";
 
 const DEFAULT_TEXT_WIDTH = 100;
 const DEFAULT_TEXT_HEIGHT = 20;

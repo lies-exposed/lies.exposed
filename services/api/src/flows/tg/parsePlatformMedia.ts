@@ -1,13 +1,13 @@
-import { type VideoPlatformMatch } from "@liexp/shared/lib/helpers/media";
-import { type URL } from "@liexp/shared/lib/io/http/Common";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { type VideoPlatformMatch } from "@liexp/shared/lib/helpers/media.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/index.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import type * as puppeteer from "puppeteer-core";
-import { MediaEntity } from "@entities/Media.entity";
-import { type UserEntity } from "@entities/User.entity";
-import { type TEFlow } from "@flows/flow.types";
-import { extractMediaFromPlatform } from "@flows/media/extractMediaFromPlatform.flow";
+import { MediaEntity } from "#entities/Media.entity.js";
+import { type UserEntity } from "#entities/User.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { extractMediaFromPlatform } from "#flows/media/extractMediaFromPlatform.flow.js";
 
 export const parsePlatformMedia: TEFlow<
   [URL, VideoPlatformMatch, puppeteer.Page, UserEntity],

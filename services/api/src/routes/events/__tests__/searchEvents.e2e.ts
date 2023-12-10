@@ -1,17 +1,17 @@
+import { pipe } from "@liexp/core/lib/fp/index.js";
 import { GroupMemberArb } from "@liexp/shared/lib/tests";
-import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary";
-import { UncategorizedArb } from "@liexp/shared/lib/tests/arbitrary/Event.arbitrary";
-import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary";
+import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
+import { UncategorizedArb } from "@liexp/shared/lib/tests/arbitrary/Event.arbitrary.js";
+import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
-import * as A from "fp-ts/Array";
-import { pipe } from "fp-ts/function";
+import * as A from "fp-ts/lib/Array.js";
 import jwt from "jsonwebtoken";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest";
-import { ActorEntity } from "@entities/Actor.entity";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { GroupEntity } from "@entities/Group.entity";
-import { GroupMemberEntity } from "@entities/GroupMember.entity";
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { GroupEntity } from "#entities/Group.entity.js";
+import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
 
 describe("Search Events", () => {
   let appTest: AppTest, authorizationToken: string, totalEvents: number;

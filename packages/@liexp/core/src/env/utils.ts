@@ -8,8 +8,10 @@ export const loadENV = (
 ): void => {
   root = root ?? process.cwd();
   p = p ?? process.env.DOTENV_CONFIG_PATH ?? ".env";
+
+  const envPath = path.resolve(root, p);
   dotenv.config({
-    path: path.resolve(root, p),
+    path: envPath,
     override: override ?? false,
   });
 };

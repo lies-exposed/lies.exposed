@@ -1,11 +1,11 @@
-import { type http } from "@liexp/shared/lib/io";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { type UUID } from "io-ts-types/lib/UUID";
-import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
-import { type TEFlow } from "@flows/flow.types";
-import { addOrder } from "@utils/orm.utils";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { type http } from "@liexp/shared/lib/io/index.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { EventSuggestionEntity } from "#entities/EventSuggestion.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { addOrder } from "#utils/orm.utils.js";
 
 interface SearchEventSuggestionFilter {
   status: O.Option<http.EventSuggestion.EventSuggestionStatus[]>;

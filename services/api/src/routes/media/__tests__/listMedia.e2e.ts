@@ -1,10 +1,10 @@
-import { type http } from "@liexp/shared/lib/io";
+import { type http } from "@liexp/shared/lib/io/index.js";
 import { MediaArb, UncategorizedArb } from "@liexp/shared/lib/tests";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as tests from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { MediaEntity } from "@entities/Media.entity";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { MediaEntity } from "#entities/Media.entity.js";
 
 describe("List Media", () => {
   let Test: AppTest,

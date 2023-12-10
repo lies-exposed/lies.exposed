@@ -1,8 +1,8 @@
-import type * as io from "@liexp/shared/lib/io";
-import * as E from "fp-ts/Either";
+import type * as io from "@liexp/shared/lib/io/index.js";
+import * as E from "fp-ts/lib/Either.js";
 import * as t from "io-ts";
-import { PathReporter } from "io-ts/lib/PathReporter";
-import { type IOError } from "ts-shared/lib/errors";
+import { PathReporter } from "io-ts/lib/PathReporter.js";
+import { type IOError } from "ts-shared/lib/errors.js";
 
 export const APIStatusCode = t.union(
   [

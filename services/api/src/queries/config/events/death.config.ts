@@ -1,4 +1,4 @@
-import { type EventQueryConfig } from "../EventQueryConfig";
+import { type EventQueryConfig } from "../EventQueryConfig.js";
 
 export const Death: EventQueryConfig = {
   whereActorsIn: (qb) =>

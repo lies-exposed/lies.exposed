@@ -1,6 +1,6 @@
 import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
-import { NumberFromString } from "io-ts-types/lib/NumberFromString";
+import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
+import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
 
 const DEVELOPMENT = t.literal("development");
 const PRODUCTION = t.literal("production");

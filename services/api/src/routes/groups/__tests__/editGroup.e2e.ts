@@ -1,12 +1,12 @@
-import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary";
-import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary";
+import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
+import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
 import { loginUser, saveUser } from "../../../../test/user.utils";
-import { ActorEntity } from "@entities/Actor.entity";
-import { GroupEntity } from "@entities/Group.entity";
-import { UserEntity } from "@entities/User.entity";
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { GroupEntity } from "#entities/Group.entity.js";
+import { UserEntity } from "#entities/User.entity.js";
 
 describe("Edit Group", () => {
   let appTest: AppTest;

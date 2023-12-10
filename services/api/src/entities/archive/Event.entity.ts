@@ -9,12 +9,12 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { ActorEntity } from "../Actor.entity";
-import { GroupEntity } from "../Group.entity";
-import { GroupMemberEntity } from "../GroupMember.entity";
-import { KeywordEntity } from "../Keyword.entity";
-import { LinkEntity } from "../Link.entity";
-import { MediaV1Entity } from "./Media.v1.entity";
+import { ActorEntity } from "../Actor.entity.js";
+import { GroupEntity } from "../Group.entity.js";
+import { GroupMemberEntity } from "../GroupMember.entity.js";
+import { KeywordEntity } from "../Keyword.entity.js";
+import { LinkEntity } from "../Link.entity.js";
+import { MediaV1Entity } from "./Media.v1.entity.js";
 
 @Entity("event")
 export class EventEntity {

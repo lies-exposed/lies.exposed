@@ -1,19 +1,18 @@
-import { fp } from "@liexp/core/lib/fp";
-import { type URL } from "@liexp/shared/lib/io/http/Common";
-import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
-import * as E from "fp-ts/Either";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/index.js";
+import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import * as E from "fp-ts/lib/Either.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
 import { type Metadata } from "page-metadata-parser";
 import { Equal } from "typeorm";
-import { type TEFlow } from "../flow.types";
-import { LinkEntity } from "@entities/Link.entity";
-import { MediaEntity } from "@entities/Media.entity";
-import { type UserEntity } from "@entities/User.entity";
-import { ServerError, type ControllerError } from "@io/ControllerError";
+import { type TEFlow } from "../flow.types.js";
+import { LinkEntity } from "#entities/Link.entity.js";
+import { MediaEntity } from "#entities/Media.entity.js";
+import { type UserEntity } from "#entities/User.entity.js";
+import { ServerError, type ControllerError } from "#io/ControllerError.js";
 
 export const fetchAsLink: TEFlow<
   [UserEntity, URL, Partial<Metadata> | undefined],

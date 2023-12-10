@@ -2,7 +2,7 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as tests from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
 import { loginUser, saveUser } from "../../../../test/user.utils";
-import { ActorEntity } from "@entities/Actor.entity";
+import { ActorEntity } from "#entities/Actor.entity.js";
 
 describe("Delete Actor", () => {
   let Test: AppTest, user: any, authorizationToken: string, actor: any;

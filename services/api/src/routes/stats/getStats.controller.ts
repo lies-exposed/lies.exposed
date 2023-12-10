@@ -1,12 +1,12 @@
 import * as fs from "fs";
 import path from "path";
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import * as IOE from "fp-ts/IOEither";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { type Route } from "../route.types";
-import { createStats } from "@flows/stats/createStats.flow";
-import { toControllerError } from "@io/ControllerError";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import * as IOE from "fp-ts/lib/IOEither.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { type Route } from "../route.types.js";
+import { createStats } from "#flows/stats/createStats.flow.js";
+import { toControllerError } from "#io/ControllerError.js";
 
 export const MakeGetStatsRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Stats.List, ({ query: { id, type } }) => {

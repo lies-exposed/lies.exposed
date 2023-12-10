@@ -1,22 +1,22 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { type Router } from "express";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { UUID } from "io-ts-types/lib/UUID";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal, In } from "typeorm";
-import { type RouteContext } from "../route.types";
-import { toLinkIO } from "./link.io";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { type KeywordEntity } from "@entities/Keyword.entity";
-import { LinkEntity } from "@entities/Link.entity";
-import { type MediaEntity } from "@entities/Media.entity";
-import { UserEntity } from "@entities/User.entity";
-import { fetchAsLink } from "@flows/links/link.flow";
-import { type ControllerError } from "@io/ControllerError";
-import { authenticationHandler } from "@utils/authenticationHandler";
-import { ensureUserExists } from "@utils/user.utils";
+import { type RouteContext } from "../route.types.js";
+import { toLinkIO } from "./link.io.js";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { type KeywordEntity } from "#entities/Keyword.entity.js";
+import { LinkEntity } from "#entities/Link.entity.js";
+import { type MediaEntity } from "#entities/Media.entity.js";
+import { UserEntity } from "#entities/User.entity.js";
+import { fetchAsLink } from "#flows/links/link.flow.js";
+import { type ControllerError } from "#io/ControllerError.js";
+import { authenticationHandler } from "#utils/authenticationHandler.js";
+import { ensureUserExists } from "#utils/user.utils.js";
 
 export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r, authenticationHandler(ctx, ["admin:edit"]))(
