@@ -1,4 +1,4 @@
-import { pipe } from '@liexp/core/lib/fp/index.js';
+import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints, AddEndpoint } from "@liexp/shared/lib/endpoints/index.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";

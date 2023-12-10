@@ -3,7 +3,7 @@ import "reflect-metadata";
 // other imports
 import * as fs from "fs";
 import * as path from "path";
-import * as TE from 'fp-ts/lib/TaskEither.js'
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { DataSource, type DataSourceOptions } from "typeorm";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { AreaEntity } from "#entities/Area.entity.js";
@@ -24,7 +24,10 @@ import { DeathEventEntity } from "#entities/archive/DeathEvent.entity.js";
 import { EventEntity } from "#entities/archive/Event.entity.js";
 import { MediaV1Entity } from "#entities/archive/Media.v1.entity.js";
 import { ScientificStudyEntity } from "#entities/archive/ScientificStudy.entity.js";
-import { type ControllerError, toControllerError } from '#io/ControllerError.js';
+import {
+  type ControllerError,
+  toControllerError,
+} from "#io/ControllerError.js";
 import { type ENV } from "#io/ENV.js";
 
 export const getORMConfig = (
@@ -91,7 +94,9 @@ export const getDataSource = (
   return TE.tryCatch(async () => {
     const config = getORMConfig(env, includeOldEntities);
     const dataSource = new DataSource(config);
-    await dataSource.initialize();
+    // if (!dataSource.isInitialized) {
+    //   await dataSource.initialize();
+    // }
     return dataSource;
   }, toControllerError);
 };

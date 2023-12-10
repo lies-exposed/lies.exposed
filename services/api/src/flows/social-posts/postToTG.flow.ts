@@ -155,9 +155,9 @@ export const postToTG: TEFlow<
         fp.TE.chain((message) =>
           useReply
             ? pipe(
-              ctx.tg.post(messageText, message[0].message_id),
-              fp.TE.map((reply) => [reply]),
-            )
+                ctx.tg.post(messageText, message[0].message_id),
+                fp.TE.map((reply) => [reply]),
+              )
             : fp.TE.right(message),
         ),
       );

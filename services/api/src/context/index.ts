@@ -22,23 +22,25 @@ import metadataParser from "page-metadata-parser";
 import puppeteer from "puppeteer-core";
 import sharp from "sharp";
 import wk from "wikipedia";
-import { toControllerError, type ControllerError } from "#io/ControllerError.js";
+import {
+  toControllerError,
+  type ControllerError,
+} from "#io/ControllerError.js";
 import { type ENV } from "#io/ENV.js";
 import { createS3Provider } from "#providers/context/s3.context.js";
 import { EventsConfig } from "#queries/config/index.js";
 import { type RouteContext } from "#routes/route.types.js";
 import { getDataSource } from "#utils/data-source.js";
 
-
 export const makeContext = (
-  env: ENV
+  env: ENV,
 ): TaskEither<ControllerError, RouteContext> => {
   const serverLogger = logger.GetLogger("server");
 
   const db = pipe(
     getDataSource(env, true),
-    fp.TE.chain(source => GetTypeORMClient(source)),
-    fp.TE.mapLeft(toControllerError)
+    fp.TE.chain((source) => GetTypeORMClient(source)),
+    fp.TE.mapLeft(toControllerError),
   );
 
   const wpProvider = WikipediaProvider({
@@ -76,9 +78,9 @@ export const makeContext = (
             chat: env.TG_BOT_CHAT,
             polling: env.TG_BOT_POLLING,
             baseApiUrl: env.TG_BOT_BASE_API_URL,
-          }
+          },
         ),
-        fp.TE.right
+        fp.TE.right,
       ),
       puppeteer: fp.TE.right(GetPuppeteerProvider(puppeteer, {})),
       ffmpeg: fp.TE.right(GetFFMPEGProvider(ffmpeg)),
@@ -86,23 +88,23 @@ export const makeContext = (
       geo: fp.TE.right(
         GeocodeProvider({
           http: HTTPProvider(
-            axios.default.create({ baseURL: env.GEO_CODE_BASE_URL })
+            axios.default.create({ baseURL: env.GEO_CODE_BASE_URL }),
           ),
-        })
+        }),
       ),
       wp: fp.TE.right(wpProvider),
       ig: fp.TE.right(
         IGProvider({
           logger: logger.GetLogger("ig"),
           credentials: { username: env.IG_USERNAME, password: env.IG_PASSWORD },
-        })
+        }),
       ),
       imgProc: fp.TE.right(
         MakeImgProcClient({
           logger: logger.GetLogger("imgproc"),
           client: sharp.bind(sharp),
           exifR: ExifReader,
-        })
+        }),
       ),
       config: fp.TE.right({
         events: EventsConfig,
@@ -119,6 +121,6 @@ export const makeContext = (
       ...e,
       name: e.name,
       status: 500,
-    }))
+    })),
   );
 };

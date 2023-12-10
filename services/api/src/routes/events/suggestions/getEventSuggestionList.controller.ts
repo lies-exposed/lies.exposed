@@ -1,6 +1,9 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { EventSuggestionRead, type User } from "@liexp/shared/lib/io/http/User.js";
+import {
+  EventSuggestionRead,
+  type User,
+} from "@liexp/shared/lib/io/http/User.js";
 import { type EventSuggestion } from "@liexp/shared/lib/io/http/index.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";

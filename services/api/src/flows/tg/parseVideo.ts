@@ -9,7 +9,10 @@ import type TelegramBot from "node-telegram-bot-api";
 import { createAndUpload } from "../media/createAndUpload.flow.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
-import { toControllerError, type ControllerError } from "#io/ControllerError.js";
+import {
+  toControllerError,
+  type ControllerError,
+} from "#io/ControllerError.js";
 
 export const parseVideo: TEFlow<[string, TelegramBot.Video], MediaEntity[]> =
   (ctx) => (description, video) => {

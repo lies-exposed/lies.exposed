@@ -56,10 +56,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
         O.filter((o): o is true => !!o),
         O.isSome,
       );
-      const extra = pipe(
-        _extra,
-        O.toUndefined,
-      );
+      const extra = pipe(_extra, O.toUndefined);
       return pipe(
         TE.Do,
         TE.bind("media", () =>

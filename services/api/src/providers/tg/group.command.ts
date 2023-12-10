@@ -1,5 +1,5 @@
 import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.js";
-import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import type TelegramBot from "node-telegram-bot-api";

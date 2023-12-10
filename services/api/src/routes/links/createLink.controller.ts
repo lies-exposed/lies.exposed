@@ -1,4 +1,4 @@
-import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { EventSuggestionRead } from "@liexp/shared/lib/io/http/User.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";

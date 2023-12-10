@@ -1,4 +1,4 @@
-import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { isExcludedURL } from "@liexp/shared/lib/helpers/link.helper.js";
 import {
   type VideoPlatformMatch,

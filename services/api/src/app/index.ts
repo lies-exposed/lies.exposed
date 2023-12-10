@@ -19,8 +19,6 @@ import { MakeUploadFileRoute } from "#routes/uploads/uploadFile.controller.js";
 import { GetWriteJSON } from "#utils/json.utils.js";
 import { getThanksMessage } from "#utils/tg.utils.js";
 
-
-
 // var whitelist = ["http://localhost:8002"]
 export const corsOptions: cors.CorsOptions = {
   origin: true,
@@ -38,7 +36,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   app.use(
     jsonMiddleware.unless({
       path: [{ url: /\/v1\/uploads-multipart\/*/, method: "PUT" }],
-    })
+    }),
   );
 
   app.use(
@@ -54,7 +52,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
         { url: /\/v1\/events\/suggestions*\//, method: "PUT" },
         { url: /\/media\/*/ },
       ],
-    })
+    }),
   );
 
   // const mediaPath = path.resolve(__dirname, "../data");
@@ -82,23 +80,24 @@ export const makeApp = (ctx: RouteContext): express.Express => {
         storeMsg: GetWriteJSON(ctx.logger)(
           path.resolve(
             ctx.config.dirs.cwd,
-            `temp/tg/messages/${msg.message_id}.json`
-          )
+            `temp/tg/messages/${msg.message_id}.json`,
+          ),
         )(msg),
         eventSuggestion: createFromTGMessage({ ...ctx, logger: tgLogger })(
           msg,
-          metadata
+          metadata,
         ),
       }),
       fp.TE.map(({ eventSuggestion }) => {
         tgLogger.info.log("Success %O", eventSuggestion);
         return getThanksMessage(eventSuggestion, ctx.env.WEB_URL);
       }),
-      throwTE
+      throwTE,
     )
-      .then((message) => ctx.tg.api.sendMessage(msg.chat.id, message, {
-        reply_to_message_id: msg.message_id,
-      })
+      .then((message) =>
+        ctx.tg.api.sendMessage(msg.chat.id, message, {
+          reply_to_message_id: msg.message_id,
+        }),
       )
       .catch((e) => {
         tgLogger.error.log("Error %O", e);
@@ -114,7 +113,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
         "An error occurred during %s %s %O",
         req.method,
         req.url,
-        err
+        err,
       );
       if (err) {
         if (err.name === "UnauthorizedError") {
@@ -142,7 +141,9 @@ export const makeApp = (ctx: RouteContext): express.Express => {
         ctx.logger.debug.log("Error kind %s", err.details.kind);
         if (err.details.kind === "ServerError") {
           if (err.details.meta.kind === "DecodingError") {
-            const errors = PathReporter.report(fp.E.left(err.details.meta.errors));
+            const errors = PathReporter.report(
+              fp.E.left(err.details.meta.errors),
+            );
             ctx.logger.error.log(`An error occurred %O`, errors);
             return res.status(500).send({
               ...err,
@@ -167,7 +168,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
         `An error occurred during %s %s: %O`,
         req.method,
         req.url,
-        JSON.stringify(err, null, 2)
+        JSON.stringify(err, null, 2),
       );
       return res.status(500).send(err);
     }

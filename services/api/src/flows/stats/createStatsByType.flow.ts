@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
-import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
 import {
   getNewRelationIds,
@@ -9,7 +9,10 @@ import {
   type SearchEventsQueryCache,
 } from "@liexp/shared/lib/helpers/event/search-event.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
-import { EventType, type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
+import {
+  EventType,
+  type SearchEvent,
+} from "@liexp/shared/lib/io/http/Events/index.js";
 import {
   type Events,
   type GroupMember,
@@ -30,7 +33,10 @@ import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
 import { KeywordEntity } from "#entities/Keyword.entity.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
-import { toControllerError, type ControllerError } from "#io/ControllerError.js";
+import {
+  toControllerError,
+  type ControllerError,
+} from "#io/ControllerError.js";
 import { toEventV2IO } from "#routes/events/eventV2.io.js";
 import {
   searchEventV2Query,

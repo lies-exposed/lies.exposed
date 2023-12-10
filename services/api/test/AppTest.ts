@@ -19,17 +19,14 @@ import {
   type EntityTarget,
   type ObjectLiteral,
 } from "typeorm";
-import { igProviderMock } from "../__mocks__/ig.mock.js";
-import puppeteerMocks from "../__mocks__/puppeteer.mock.js";
-import { tgProviderMock } from "../__mocks__/tg.mock.js";
-import { wikipediaProviderMock } from "../__mocks__/wikipedia.mock.js";
 import { type RouteContext } from "../src/routes/route.types.js";
 import { mocks, type AppMocks } from "./mocks.js";
-import { makeApp } from '#app/index.js';
+import { makeApp } from "#app/index.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { AreaEntity } from "#entities/Area.entity.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";
+import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
 import { KeywordEntity } from "#entities/Keyword.entity.js";
 import { LinkEntity } from "#entities/Link.entity.js";
 import { MediaEntity } from "#entities/Media.entity.js";
@@ -47,19 +44,7 @@ export interface AppTest {
   };
 }
 
-const g = global as any as {
-  appTest: AppTest;
-  dataSource: DataSource;
-};
-
-export const GetAppTest = async (): Promise<AppTest> => {
-  if (!g.appTest) {
-    g.appTest = await initAppTest();
-  }
-  return g.appTest;
-};
-
-export const initAppTest = async (): Promise<AppTest> => {
+const initAppTest = async (): Promise<AppTest> => {
   D.enable(process.env.DEBUG ?? "-");
 
   const logger = GetLogger("test");
@@ -105,12 +90,12 @@ export const initAppTest = async (): Promise<AppTest> => {
           return TE.right("");
         },
       },
-      puppeteer: GetPuppeteerProvider(puppeteerMocks, { headless: "new" }),
-      tg: tgProviderMock,
+      puppeteer: GetPuppeteerProvider(mocks.puppeteer, { headless: "new" }),
+      tg: mocks.tg,
       s3: MakeSpaceProvider(mocks.s3 as any),
-      ig: igProviderMock,
+      ig: mocks.ig,
       fs: GetFSClient(),
-      wp: wikipediaProviderMock,
+      wp: mocks.wiki,
       urlMetadata: {
         fetchHTML: (url: string, opts: any) => {
           return TE.tryCatch(
@@ -129,7 +114,7 @@ export const initAppTest = async (): Promise<AppTest> => {
       imgProc: MakeImgProcClient({
         logger,
         exifR: {} as any,
-        client: (() => Promise.resolve(Buffer.from([]))) as any,
+        client: mocks.sharp as any,
       }),
       geo: GeocodeProvider({ http: {} as any }),
     })),
@@ -155,10 +140,11 @@ export const initAppTest = async (): Promise<AppTest> => {
             );
 
           return await pipe(
-            sequenceS(TE.ApplicativePar)({
+            sequenceS(TE.ApplicativeSeq)({
               link: liftFind(LinkEntity),
               media: liftFind(MediaEntity),
               keyword: liftFind(KeywordEntity),
+              groupMembers: liftFind(GroupMemberEntity),
               actor: liftFind(ActorEntity),
               group: liftFind(GroupEntity),
               event: liftFind(EventV2Entity),
@@ -176,4 +162,16 @@ export const initAppTest = async (): Promise<AppTest> => {
     }),
     throwTE,
   );
+};
+
+const g = global as any as {
+  appTest: AppTest;
+  dataSource: DataSource;
+};
+
+export const GetAppTest = async (): Promise<AppTest> => {
+  if (!g.appTest) {
+    g.appTest = await initAppTest();
+  }
+  return g.appTest;
 };
