@@ -1,9 +1,9 @@
 import { type Router } from "express";
-import { MakeCreateProjectRoute } from "./createProject.controller";
-import { MakeEditProjectRoute } from "./editProject.controller";
-import { MakeGetProjectRoute } from "./getProject.controller";
-import { MakeListProjectRoute } from "./getProjects.controller";
-import { type RouteContext } from "@routes/route.types";
+import { MakeCreateProjectRoute } from "./createProject.controller.js";
+import { MakeEditProjectRoute } from "./editProject.controller.js";
+import { MakeGetProjectRoute } from "./getProject.controller.js";
+import { MakeListProjectRoute } from "./getProjects.controller.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 export const MakeProjectRoutes = (router: Router, ctx: RouteContext): void => {
   MakeCreateProjectRoute(router, ctx);

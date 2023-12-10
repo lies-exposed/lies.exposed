@@ -27,6 +27,6 @@
       "path": "../shared/tsconfig.build.json"
     }
   ],
-  "include": ["./src", "./typings", "./src/**/*.json"],
+  "include": ["./src", "./typings", "./src/**/*.json", ".eslintrc.js"],
   "exclude": ["node_modules", "lib"]
 }

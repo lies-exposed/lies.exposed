@@ -1,7 +1,7 @@
-import { fp } from "@liexp/core/lib/fp";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { fp } from "@liexp/core/lib/fp/index.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { afterAll, beforeAll } from "vitest";
-import { type AppTest, GetAppTest } from "./AppTest";
+import { type AppTest, GetAppTest } from "./AppTest.js";
 
 const g = global as any as { appTest?: AppTest };
 

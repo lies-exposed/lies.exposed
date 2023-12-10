@@ -1,11 +1,11 @@
+import { pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { fc } from "@liexp/test";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
-import { UserEntity } from "@entities/User.entity";
-import { hash } from "@utils/password.utils";
+import { UserEntity } from "#entities/User.entity.js";
+import { hash } from "#utils/password.utils.js";
 
 describe("User login", () => {
   let Test: AppTest, user: UserEntity;

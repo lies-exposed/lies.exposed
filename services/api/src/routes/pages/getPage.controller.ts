@@ -1,11 +1,11 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { PageEntity } from "../../entities/Page.entity";
-import { type Route } from "../route.types";
-import { toPageIO } from "./page.io";
-import { NotFoundError } from "@io/ControllerError";
+import { PageEntity } from "../../entities/Page.entity.js";
+import { type Route } from "../route.types.js";
+import { toPageIO } from "./page.io.js";
+import { NotFoundError } from "#io/ControllerError.js";
 
 export const MakeGetPageRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Page.Get, ({ params: { id } }) => {

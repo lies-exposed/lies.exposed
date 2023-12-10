@@ -1,13 +1,12 @@
-import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider";
-import { fp } from "@liexp/core/lib/fp";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { pipe } from "fp-ts/function";
-import kebabCase from "lodash/kebabCase";
+import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import kebabCase from "lodash/kebabCase.js";
 import type TelegramBot from "node-telegram-bot-api";
-import { ActorEntity } from "@entities/Actor.entity";
-import { fetchActorFromWikipedia } from "@flows/actors/fetchActorFromWikipedia";
-import { toControllerError } from "@io/ControllerError";
-import { type RouteContext } from "@routes/route.types";
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { fetchActorFromWikipedia } from "#flows/actors/fetchActorFromWikipedia.js";
+import { toControllerError } from "#io/ControllerError.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 const getSuccessMessage = (actor: ActorEntity, baseUrl: string): string =>
   `Actor <a href="${baseUrl}/actors/${actor.id}">${actor.fullName}</a>`;

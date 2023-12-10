@@ -1,9 +1,9 @@
 import { type Router } from "express";
-import { MakeCreateTransactionEventRoute } from "./createTransaction.controller";
-import { MakeEditTransactionEventRoute } from "./editTransaction.controller";
-import { MakeGetListTransactionEventRoute } from "./getListTransaction.controller";
-import { MakeGetTransactionEventRoute } from "./getTransaction.controller";
-import { type RouteContext } from "@routes/route.types";
+import { MakeCreateTransactionEventRoute } from "./createTransaction.controller.js";
+import { MakeEditTransactionEventRoute } from "./editTransaction.controller.js";
+import { MakeGetListTransactionEventRoute } from "./getListTransaction.controller.js";
+import { MakeGetTransactionEventRoute } from "./getTransaction.controller.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 export const MakeTransactionEventsRoutes = (
   router: Router,

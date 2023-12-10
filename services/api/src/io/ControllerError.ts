@@ -1,7 +1,7 @@
-import { JWTError } from "@liexp/backend/lib/providers/jwt/jwt.provider";
-import { DBError } from "@liexp/backend/lib/providers/orm";
+import { JWTError } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
+import { DBError } from "@liexp/backend/lib/providers/orm/index.js";
 import * as t from "io-ts";
-import { failure } from "io-ts/lib/PathReporter";
+import { failure } from "io-ts/lib/PathReporter.js";
 
 export const APIStatusCode = t.union(
   [

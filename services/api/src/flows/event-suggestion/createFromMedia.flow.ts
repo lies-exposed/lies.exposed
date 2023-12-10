@@ -1,10 +1,10 @@
-import { createExcerptValue } from "@liexp/shared/lib/slate";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
-import { type KeywordEntity } from "@entities/Keyword.entity";
-import { type MediaEntity } from "@entities/Media.entity";
-import { type TEFlow } from "@flows/flow.types";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { createExcerptValue } from "@liexp/shared/lib/slate/index.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { EventSuggestionEntity } from "#entities/EventSuggestion.entity.js";
+import { type KeywordEntity } from "#entities/Keyword.entity.js";
+import { type MediaEntity } from "#entities/Media.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
 /**
  * Create an event suggestion from the given media.
  *

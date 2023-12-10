@@ -1,4 +1,4 @@
-// import * as logger from "@liexp/core/lib/logger";
+// import * as logger from "@liexp/core/lib/logger/index.js";
 // import Docker from "dockerode";
 
 // export type GetDockerContainer = (

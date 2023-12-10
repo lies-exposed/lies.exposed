@@ -1,13 +1,13 @@
-import { fp, pipe } from "@liexp/core/lib/fp";
-import { type GetListLinkQuery } from "@liexp/shared/lib/io/http/Link";
-import { LinkEntity } from "@entities/Link.entity";
-import { type TEFlow } from "@flows/flow.types";
-import { toControllerError } from "@io/ControllerError";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type GetListLinkQuery } from "@liexp/shared/lib/io/http/Link.js";
+import { LinkEntity } from "#entities/Link.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { toControllerError } from "#io/ControllerError.js";
 import {
   aggregateSocialPostsPerEntry,
   leftJoinSocialPosts,
-} from "@queries/socialPosts/leftJoinSocialPosts.query";
-import { addOrder, getORMOptions } from "@utils/orm.utils";
+} from "#queries/socialPosts/leftJoinSocialPosts.query.js";
+import { addOrder, getORMOptions } from "#utils/orm.utils.js";
 
 export const fetchLinks: TEFlow<
   [GetListLinkQuery, boolean],

@@ -1,10 +1,10 @@
 import { type Router } from "express";
-import { MakeCreateGroupMemberRoute } from "./createGroupMember.controller";
-import { MakeDeleteGroupMemberRoute } from "./deleteGroupMember.controller";
-import { MakeEditGroupMemberRoute } from "./editGroupMember.controller";
-import { MakeGetGroupMemberRoute } from "./getGroupMember.controller";
-import { MakeListGroupMemberRoute } from "./getGroupMembers.controller";
-import { type RouteContext } from "@routes/route.types";
+import { MakeCreateGroupMemberRoute } from "./createGroupMember.controller.js";
+import { MakeDeleteGroupMemberRoute } from "./deleteGroupMember.controller.js";
+import { MakeEditGroupMemberRoute } from "./editGroupMember.controller.js";
+import { MakeGetGroupMemberRoute } from "./getGroupMember.controller.js";
+import { MakeListGroupMemberRoute } from "./getGroupMembers.controller.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 export const MakeGroupMemberRoutes = (
   router: Router,

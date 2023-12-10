@@ -1,26 +1,25 @@
-import { fp } from "@liexp/core/lib/fp";
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { PngType } from "@liexp/shared/lib/io/http/Media";
-import { AdminEdit, type User } from "@liexp/shared/lib/io/http/User";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { PngType } from "@liexp/shared/lib/io/http/Media.js";
+import { AdminEdit, type User } from "@liexp/shared/lib/io/http/User.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { type Router } from "express";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { toLinkIO } from "./link.io";
-import { LinkEntity } from "@entities/Link.entity";
-import { MediaEntity } from "@entities/Media.entity";
-import { UserEntity } from "@entities/User.entity";
+import { toLinkIO } from "./link.io.js";
+import { LinkEntity } from "#entities/Link.entity.js";
+import { MediaEntity } from "#entities/Media.entity.js";
+import { UserEntity } from "#entities/User.entity.js";
 import {
   takeLinkScreenshot,
   uploadScreenshot,
-} from "@flows/links/takeLinkScreenshot.flow";
-import { NotAuthorizedError, type ControllerError } from "@io/ControllerError";
-import { type RouteContext } from "@routes/route.types";
+} from "#flows/links/takeLinkScreenshot.flow.js";
+import { NotAuthorizedError, type ControllerError } from "#io/ControllerError.js";
+import { type RouteContext } from "#routes/route.types.js";
 import {
   RequestDecoder,
   authenticationHandler,
-} from "@utils/authenticationHandler";
+} from "#utils/authenticationHandler.js";
 
 export const MakeTakeLinkScreenshotRoute = (
   r: Router,

@@ -1,19 +1,19 @@
-import { type URL } from "@liexp/shared/lib/io/http/Common";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/index.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import * as linkFlows from "../links/link.flow";
-import { createEventSuggestionFromLink } from "./createFromLink.flow";
-import { searchEventSuggestion } from "./searchEventSuggestion.flow";
-import { type EventV2Entity } from "@entities/Event.v2.entity";
-import { type EventSuggestionEntity } from "@entities/EventSuggestion.entity";
-import { KeywordEntity } from "@entities/Keyword.entity";
-import { LinkEntity } from "@entities/Link.entity";
-import { UserEntity } from "@entities/User.entity";
-import { type TEFlow } from "@flows/flow.types";
-import { type ControllerError } from "@io/ControllerError";
-import { searchEventV2Query } from "@routes/events/queries/searchEventsV2.query";
+import * as linkFlows from "../links/link.flow.js";
+import { createEventSuggestionFromLink } from "./createFromLink.flow.js";
+import { searchEventSuggestion } from "./searchEventSuggestion.flow.js";
+import { type EventV2Entity } from "#entities/Event.v2.entity.js";
+import { type EventSuggestionEntity } from "#entities/EventSuggestion.entity.js";
+import { KeywordEntity } from "#entities/Keyword.entity.js";
+import { LinkEntity } from "#entities/Link.entity.js";
+import { UserEntity } from "#entities/User.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { type ControllerError } from "#io/ControllerError.js";
+import { searchEventV2Query } from "#routes/events/queries/searchEventsV2.query.js";
 
 export const findEventByLinkOrCreateSuggestion: TEFlow<
   [URL, any[]],

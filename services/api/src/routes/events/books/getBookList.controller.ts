@@ -1,14 +1,14 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { BOOK } from "@liexp/shared/lib/io/http/Events/EventType";
-import * as A from "fp-ts/Array";
-import * as E from "fp-ts/Either";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { searchEventV2Query } from "../queries/searchEventsV2.query";
-import { toBookIO } from "./book.io";
-import { type Route } from "@routes/route.types";
-import { getORMOptions } from "@utils/orm.utils";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { BOOK } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import * as A from "fp-ts/lib/Array.js";
+import * as E from "fp-ts/lib/Either.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { searchEventV2Query } from "../queries/searchEventsV2.query.js";
+import { toBookIO } from "./book.io.js";
+import { type Route } from "#routes/route.types.js";
+import { getORMOptions } from "#utils/orm.utils.js";
 
 export const MakeListBookEventRoute: Route = (r, ctx) => {
   AddEndpoint(r)(

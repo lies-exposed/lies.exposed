@@ -1,3 +1,4 @@
+import {sequenceS, sequenceT} from 'fp-ts/Apply'
 import * as A from "fp-ts/Array";
 import * as date from "fp-ts/Date";
 import * as E from "fp-ts/Either";
@@ -35,6 +36,8 @@ export const fp = {
   Eq,
   Void,
   Date: date,
+  sequenceS,
+  sequenceT
 };
 
 export { pipe, flow };

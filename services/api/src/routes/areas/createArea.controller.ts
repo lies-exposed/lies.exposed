@@ -1,12 +1,11 @@
-import { fp } from "@liexp/core/lib/fp";
-import { Endpoints, AddEndpoint } from "@liexp/shared/lib/endpoints";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { Endpoints, AddEndpoint } from "@liexp/shared/lib/endpoints/index.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { AreaEntity } from "../../entities/Area.entity";
-import { type Route } from "../route.types";
-import { toAreaIO } from "./Area.io";
-import { authenticationHandler } from "@utils/authenticationHandler";
+import { AreaEntity } from "../../entities/Area.entity.js";
+import { type Route } from "../route.types.js";
+import { toAreaIO } from "./Area.io.js";
+import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeCreateAreaRoute: Route = (r, { db, logger, jwt }) => {
   AddEndpoint(r, authenticationHandler({ logger, jwt }, ["admin:create"]))(

@@ -1,6 +1,6 @@
 import { type Router } from "express";
-import { MakeGetMetadataRoute } from "./getMetadata.route";
-import { type RouteContext } from "@routes/route.types";
+import { MakeGetMetadataRoute } from "./getMetadata.route.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 export const MakeOpenGraphRoutes = (
   router: Router,

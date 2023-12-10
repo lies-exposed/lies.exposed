@@ -1,16 +1,16 @@
-import { AddEndpoint } from "@liexp/shared/lib/endpoints";
-import { UpdateMetadata } from "@liexp/shared/lib/endpoints/link.endpoints";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint } from "@liexp/shared/lib/endpoints/index.js";
+import { UpdateMetadata } from "@liexp/shared/lib/endpoints/link.endpoints.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { type Router } from "express";
-import { sequenceS } from "fp-ts/Apply";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { toLinkIO } from "./link.io";
-import { LinkEntity } from "@entities/Link.entity";
-import { ServerError } from "@io/ControllerError";
-import { type RouteContext } from "@routes/route.types";
-import { authenticationHandler } from "@utils/authenticationHandler";
+import { toLinkIO } from "./link.io.js";
+import { LinkEntity } from "#entities/Link.entity.js";
+import { ServerError } from "#io/ControllerError.js";
+import { type RouteContext } from "#routes/route.types.js";
+import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeEditLinkMetadataRoute = (
   r: Router,

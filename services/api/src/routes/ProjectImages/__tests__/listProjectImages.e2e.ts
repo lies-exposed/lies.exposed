@@ -1,13 +1,13 @@
-import { http } from "@liexp/shared/lib/io";
+import { http } from "@liexp/shared/lib/io/index.js";
 import { MediaArb, ProjectArb } from "@liexp/shared/lib/tests";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
 import * as t from "io-ts";
 import jwt from "jsonwebtoken";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
-import { MediaEntity } from "@entities/Media.entity";
-import { ProjectEntity } from "@entities/Project.entity";
-import { ProjectImageEntity } from "@entities/ProjectImage.entity";
+import { MediaEntity } from "#entities/Media.entity.js";
+import { ProjectEntity } from "#entities/Project.entity.js";
+import { ProjectImageEntity } from "#entities/ProjectImage.entity.js";
 
 describe("List Project Images", () => {
   let appTest: AppTest;

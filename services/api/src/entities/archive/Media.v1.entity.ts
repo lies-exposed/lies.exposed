@@ -1,4 +1,4 @@
-import { MediaType } from "@liexp/shared/lib/io/http/Media";
+import { MediaType } from "@liexp/shared/lib/io/http/Media.js";
 import {
   Column,
   CreateDateColumn,
@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { EventEntity } from "./Event.entity";
+import { EventEntity } from "./Event.entity.js";
 
 @Entity("image")
 export class MediaV1Entity {

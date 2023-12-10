@@ -1,19 +1,18 @@
-import { fp } from "@liexp/core/lib/fp";
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   type NetworkGraphOutput,
   type NetworkType,
-} from "@liexp/shared/lib/io/http/Network";
-import { AdminRead } from "@liexp/shared/lib/io/http/User";
+} from "@liexp/shared/lib/io/http/Network.js";
+import { AdminRead } from "@liexp/shared/lib/io/http/User.js";
 import { type Router } from "express";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { type UUID } from "io-ts-types/lib/UUID";
-import { createEventNetworkGraph } from "@flows/networks/createEventNetworkGraph.flow";
-import { createNetworkGraph } from "@flows/networks/createNetworkGraph.flow";
-import { type ControllerError } from "@io/ControllerError";
-import { type RouteContext } from "@routes/route.types";
-import { RequestDecoder } from "@utils/authenticationHandler";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { createEventNetworkGraph } from "#flows/networks/createEventNetworkGraph.flow.js";
+import { createNetworkGraph } from "#flows/networks/createNetworkGraph.flow.js";
+import { type ControllerError } from "#io/ControllerError.js";
+import { type RouteContext } from "#routes/route.types.js";
+import { RequestDecoder } from "#utils/authenticationHandler.js";
 
 export const MakeGetNetworkRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Networks.Get, ({ params: { type }, query }, req) => {

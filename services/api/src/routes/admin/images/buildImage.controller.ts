@@ -1,10 +1,10 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type BuildImageLayer } from "@liexp/shared/lib/io/http/admin/BuildImage";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { buildImageWithSharp } from "@flows/media/build-image/buildImageWithSharp.flow";
-import { type Route } from "@routes/route.types";
-import { authenticationHandler } from "@utils/authenticationHandler";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { buildImageWithSharp } from "#flows/media/build-image/buildImageWithSharp.flow.js";
+import { type Route } from "#routes/route.types.js";
+import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeAdminBuildImageRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(ctx, ["admin:create"]))(

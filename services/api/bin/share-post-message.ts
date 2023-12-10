@@ -3,7 +3,7 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { pipe } from "fp-ts/lib/function";
 import prompts from "prompts";
 import { startContext, stopContext } from "./start-ctx";
-import { postToIG } from "@flows/social-posts/postToIG.flow";
+import { postToIG } from "#flows/social-posts/postToIG.flow";
 
 const run = async (): Promise<any> => {
   const ctx = await startContext();

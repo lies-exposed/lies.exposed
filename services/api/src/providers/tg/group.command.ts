@@ -1,13 +1,12 @@
-import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider";
-import { fp } from "@liexp/core/lib/fp";
-import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { pipe } from "fp-ts/function";
+import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.js";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import type TelegramBot from "node-telegram-bot-api";
-import { GroupEntity } from "@entities/Group.entity";
-import { fetchGroupFromWikipedia } from "@flows/groups/fetchGroupFromWikipedia";
-import { toControllerError } from "@io/ControllerError";
-import { type RouteContext } from "@routes/route.types";
+import { GroupEntity } from "#entities/Group.entity.js";
+import { fetchGroupFromWikipedia } from "#flows/groups/fetchGroupFromWikipedia.js";
+import { toControllerError } from "#io/ControllerError.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 const getSuccessMessage = (g: GroupEntity, baseUrl: string): string =>
   `Group <a href="${baseUrl}/group/${g.id}">${g.name}</a>`;

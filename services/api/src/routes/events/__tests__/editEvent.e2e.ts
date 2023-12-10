@@ -1,10 +1,10 @@
-import * as http from "@liexp/shared/lib/io/http";
-import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary";
-import { AreaArb } from "@liexp/shared/lib/tests/arbitrary/Area.arbitrary";
-import { UncategorizedArb } from "@liexp/shared/lib/tests/arbitrary/Event.arbitrary";
-import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary";
-import { LinkArb } from "@liexp/shared/lib/tests/arbitrary/Link.arbitrary";
-import { MediaArb } from "@liexp/shared/lib/tests/arbitrary/Media.arbitrary";
+import * as http from "@liexp/shared/lib/io/http/index.js";
+import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
+import { AreaArb } from "@liexp/shared/lib/tests/arbitrary/Area.arbitrary.js";
+import { UncategorizedArb } from "@liexp/shared/lib/tests/arbitrary/Event.arbitrary.js";
+import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
+import { LinkArb } from "@liexp/shared/lib/tests/arbitrary/Link.arbitrary.js";
+import { MediaArb } from "@liexp/shared/lib/tests/arbitrary/Media.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest";
@@ -13,13 +13,13 @@ import {
   saveUser,
   type UserTest,
 } from "../../../../test/user.utils";
-import { ActorEntity } from "@entities/Actor.entity";
-import { AreaEntity } from "@entities/Area.entity";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { GroupEntity } from "@entities/Group.entity";
-import { GroupMemberEntity } from "@entities/GroupMember.entity";
-import { LinkEntity } from "@entities/Link.entity";
-import { MediaEntity } from "@entities/Media.entity";
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { AreaEntity } from "#entities/Area.entity.js";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { GroupEntity } from "#entities/Group.entity.js";
+import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
+import { LinkEntity } from "#entities/Link.entity.js";
+import { MediaEntity } from "#entities/Media.entity.js";
 
 describe("Edit Event", () => {
   let appTest: AppTest;

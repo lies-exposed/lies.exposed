@@ -1,21 +1,20 @@
 import { type ListObjectsOutput, type _Object } from "@aws-sdk/client-s3";
-import { fp } from "@liexp/core/lib/fp";
-import { formatDistanceToNow } from "@liexp/shared/lib/utils/date.utils";
-import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
-import { getResourceAndIdFromLocation } from "@liexp/shared/lib/utils/media.utils";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { formatDistanceToNow } from "@liexp/shared/lib/utils/date.utils.js";
+import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
+import { getResourceAndIdFromLocation } from "@liexp/shared/lib/utils/media.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import D from "debug";
+import { type Option } from "fp-ts/lib/Option.js";
+import { type TaskEither } from 'fp-ts/lib/TaskEither.js';
 // eslint-disable-next-line import/no-named-as-default
 import prompts from "prompts";
-import D from "debug";
-import { type Option } from "fp-ts/Option";
-import { type TaskEither } from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
 import { Equal, Like } from "typeorm";
-import { startContext, stopContext } from "./start-ctx";
-import { ActorEntity } from "@entities/Actor.entity";
-import { GroupEntity } from "@entities/Group.entity";
-import { MediaEntity } from "@entities/Media.entity";
-import { type ControllerError } from "@io/ControllerError";
+import { startContext, stopContext } from "./start-ctx.js";
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { GroupEntity } from "#entities/Group.entity.js";
+import { MediaEntity } from "#entities/Media.entity.js";
+import { type ControllerError } from "#io/ControllerError.js";
 
 /**
  * Usage clean-space-media [--dry] [-i|--interactive]

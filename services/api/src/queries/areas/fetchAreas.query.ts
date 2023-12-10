@@ -1,17 +1,16 @@
-import { fp } from "@liexp/core/lib/fp";
-import { type ListAreaQuery } from "@liexp/shared/lib/io/http/Area";
-import * as IOE from "fp-ts/IOEither";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { AreaEntity } from "@entities/Area.entity";
-import { type TEFlow } from "@flows/flow.types";
-import { toControllerError } from "@io/ControllerError";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { type ListAreaQuery } from "@liexp/shared/lib/io/http/Area.js";
+import * as IOE from "fp-ts/lib/IOEither.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { AreaEntity } from "#entities/Area.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { toControllerError } from "#io/ControllerError.js";
 import {
   aggregateSocialPostsPerEntry,
   leftJoinSocialPosts,
-} from "@queries/socialPosts/leftJoinSocialPosts.query";
-import { getORMOptions } from "@utils/orm.utils";
+} from "#queries/socialPosts/leftJoinSocialPosts.query.js";
+import { getORMOptions } from "#utils/orm.utils.js";
 
 export const fetchAreas: TEFlow<
   [ListAreaQuery, boolean],

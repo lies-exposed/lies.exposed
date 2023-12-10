@@ -1,14 +1,14 @@
-import { sequenceS } from "fp-ts/Apply";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import type TelegramBot from "node-telegram-bot-api";
-import { MessageParser } from "./MessageParser";
-import { type AreaEntity } from "@entities/Area.entity";
-import { type LinkEntity } from "@entities/Link.entity";
-import { type MediaEntity } from "@entities/Media.entity";
-import { type TEFlow } from "@flows/flow.types";
-import { getOneAdminOrFail } from "@flows/users/getOneUserOrFail.flow";
-import { toControllerError } from "@io/ControllerError";
+import { MessageParser } from "./MessageParser/index.js";
+import { type AreaEntity } from "#entities/Area.entity.js";
+import { type LinkEntity } from "#entities/Link.entity.js";
+import { type MediaEntity } from "#entities/Media.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { getOneAdminOrFail } from "#flows/users/getOneUserOrFail.flow.js";
+import { toControllerError } from "#io/ControllerError.js";
 
 export interface EventResult {
   link: LinkEntity[];

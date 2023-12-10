@@ -1,22 +1,21 @@
-import { fp } from "@liexp/core/lib/fp";
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
-import { EVENTS } from "@liexp/shared/lib/io/http/Events";
-import { GROUPS } from "@liexp/shared/lib/io/http/Group";
-import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { EVENTS } from "@liexp/shared/lib/io/http/Events/index.js";
+import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
+import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
 import {
   type GetNetworkQuery,
   type NetworkType,
-} from "@liexp/shared/lib/io/http/Network";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { type UUID } from "io-ts-types/lib/UUID";
-import { type TEFlow } from "@flows/flow.types";
-import { toControllerError } from "@io/ControllerError";
+} from "@liexp/shared/lib/io/http/Network.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { toControllerError } from "#io/ControllerError.js";
 import {
   searchEventV2Query,
   type SearchEventOutput,
-} from "@routes/events/queries/searchEventsV2.query";
+} from "#routes/events/queries/searchEventsV2.query.js";
 
 export const fetchEventsByRelation: TEFlow<
   [NetworkType, UUID[], GetNetworkQuery],

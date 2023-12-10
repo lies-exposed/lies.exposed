@@ -1,4 +1,4 @@
-import { http } from "@liexp/shared/lib/io";
+import { http } from "@liexp/shared/lib/io/index.js";
 import {
   Column,
   CreateDateColumn,
@@ -7,10 +7,11 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  type Relation,
   UpdateDateColumn,
 } from "typeorm";
-import { MediaEntity } from "./Media.entity";
-import { ProjectEntity } from "./Project.entity";
+import { MediaEntity } from "./Media.entity.js";
+import { ProjectEntity } from "./Project.entity.js";
 
 @Entity("project_image")
 export class ProjectImageEntity {
@@ -28,11 +29,11 @@ export class ProjectImageEntity {
     nullable: false,
   })
   @JoinColumn()
-  image: MediaEntity;
+  image: Relation< MediaEntity>;
 
   @ManyToOne(() => ProjectEntity, (a) => a.id, { nullable: false })
   @JoinColumn()
-  project: ProjectEntity;
+  project:  Relation<ProjectEntity>;
 
   @CreateDateColumn()
   createdAt: Date;

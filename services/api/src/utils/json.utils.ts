@@ -1,11 +1,11 @@
 import * as fs from "fs";
-import { type Logger } from "@liexp/core/lib/logger";
-import * as E from "fp-ts/Either";
-import * as IOE from "fp-ts/IOEither";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { type Logger } from "@liexp/core/lib/logger/index.js";
+import * as E from "fp-ts/lib/Either.js";
+import * as IOE from "fp-ts/lib/IOEither.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import type * as t from "io-ts";
-import { PathReporter } from "io-ts/lib/PathReporter";
+import { PathReporter } from "io-ts/lib/PathReporter.js";
 
 export const GetWriteJSON =
   (log: Logger) =>

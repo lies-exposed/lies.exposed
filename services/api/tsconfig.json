@@ -5,7 +5,7 @@
     "outDir": "./build",
     "baseUrl": "./src",
     "jsx": "react",
-    "rootDir": "./",
+    "rootDir": "./src",
     "lib": ["DOM", "ES2022"],
     "tsBuildInfoFile": "build/.tsbuildinfo",
     "typeRoots": [
@@ -15,7 +15,7 @@
       "../../packages/@liexp/shared/typings"
     ],
     "target": "esnext",
-    // "module": "NodeNext",
+    "module": "ES6",
     "moduleResolution": "Node",
     "allowJs": true,
     "esModuleInterop": true,
@@ -24,35 +24,24 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "paths": {
-      "@io/*": ["io/*"],
-      "@entities/*": ["entities/*"],
-      "@flows/*": ["flows/*"],
-      "@providers/*": ["providers/*"],
-      "@queries/*": ["queries/*"],
-      "@routes/*": ["routes/*"],
-      "@utils/*": ["utils/*"]
+      "#app/*": ["app/*"],
+      "#context/*": ["context/*"],
+      "#io/*": ["io/*"],
+      "#entities/*": ["entities/*"],
+      "#flows/*": ["flows/*"],
+      "#providers/*": ["providers/*"],
+      "#queries/*": ["queries/*"],
+      "#routes/*": ["routes/*"],
+      "#utils/*": ["utils/*"]
     }
   },
-  "references": [
-    {
-      "path": "../../packages/@liexp/test"
-    },
-    {
-      "path": "../../packages/@liexp/shared"
-    },
-    {
-      "path": "../../packages/@liexp/backend"
-    },
-    {
-      "path": "../../packages/@liexp/core"
-    }
-  ],
   "include": [
     "../../node_modules/vitest/globals.d.ts",
     "./bin",
     "./src",
     "./scripts",
-    "./test"
+    "./test",
+    ".eslintrc.cjs"
   ],
   "exclude": ["**/build", "**/lib"]
 }

@@ -1,12 +1,11 @@
 import * as fs from "fs";
-import { fp } from "@liexp/core/lib/fp";
-import { pipe } from "fp-ts/function";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
 import {
   type EventResult,
   createFromTGMessage,
-} from "./createFromTGMessage.flow";
-import { type TEFlow } from "@flows/flow.types";
-import { toControllerError } from "@io/ControllerError";
+} from "./createFromTGMessage.flow.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { toControllerError } from "#io/ControllerError.js";
 
 export const parseTGMessageFlow: TEFlow<[string, boolean], EventResult> =
   (ctx) => (filePath, deleteFile) => {

@@ -1,16 +1,16 @@
-import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
-import { type http } from "@liexp/shared/lib/io";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
-import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
+import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
 import {
   type NetworkLink,
   type NetworkType,
-} from "@liexp/shared/lib/io/http/Network";
+} from "@liexp/shared/lib/io/http/Network.js";
+import { type http } from "@liexp/shared/lib/io/index.js";
 import { UncategorizedArb } from "@liexp/shared/lib/tests";
-import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary";
+import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary.js";
 import { fc } from "@liexp/test";
-import { pipe } from "fp-ts/function";
-import { getEventGraph, getRelationLinks } from "../createNetworkGraph.flow";
+import { getEventGraph, getRelationLinks } from "../createNetworkGraph.flow.js";
 
 const getLink = (
   k: any,

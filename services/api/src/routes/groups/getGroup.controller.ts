@@ -1,11 +1,11 @@
-import { Endpoints, AddEndpoint } from "@liexp/shared/lib/endpoints";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { Endpoints, AddEndpoint } from "@liexp/shared/lib/endpoints/index.js";
 import { type Router } from "express";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { GroupEntity } from "../../entities/Group.entity";
-import { type RouteContext } from "../route.types";
-import { toGroupIO } from "./group.io";
+import { GroupEntity } from "../../entities/Group.entity.js";
+import { type RouteContext } from "../route.types.js";
+import { toGroupIO } from "./group.io.js";
 
 export const MakeGetGroupRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Group.Get, ({ params: { id } }) => {

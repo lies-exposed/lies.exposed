@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { PngType } from "@liexp/shared/lib/io/http/Media";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { PngType } from "@liexp/shared/lib/io/http/Media.js";
 import * as bodyParser from "body-parser";
 import { type Router } from "express";
-import * as T from "fp-ts/Task";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import * as T from "fp-ts/lib/Task.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import * as t from "io-ts";
-import { DecodeError } from "@io/ControllerError";
-import { type RouteContext } from "@routes/route.types";
+import { DecodeError } from "#io/ControllerError.js";
+import { type RouteContext } from "#routes/route.types.js";
 // import multer from 'multer';
 // const uploads = multer({ dest: '../../media'})
 
@@ -17,7 +17,7 @@ export const MakeUploadFileRoute = (r: Router, ctx: RouteContext): void => {
   r.put(
     "/uploads/:key",
     // uploads.single('media'),
-    bodyParser.urlencoded({
+    bodyParser.default.urlencoded({
       extended: false,
       // 2 GB
       limit: 2048 * 1000 * 1000,

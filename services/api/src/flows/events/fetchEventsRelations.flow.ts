@@ -1,5 +1,5 @@
-import { fp } from "@liexp/core/lib/fp";
-import { takeEventRelations } from "@liexp/shared/lib/helpers/event/event";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { takeEventRelations } from "@liexp/shared/lib/helpers/event/event.js";
 import {
   type GroupMember,
   type Actor,
@@ -7,17 +7,16 @@ import {
   type Group,
   type Keyword,
   type Media,
-} from "@liexp/shared/lib/io/http";
-import { sequenceS } from "fp-ts/Apply";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { type TEFlow } from "@flows/flow.types";
-import { toActorIO } from "@routes/actors/actor.io";
-import { fetchRelations } from "@routes/events/queries/fetchEventRelations.query";
-import { toGroupIO } from "@routes/groups/group.io";
-import { toKeywordIO } from "@routes/keywords/keyword.io";
-import { toMediaIO } from "@routes/media/media.io";
+} from "@liexp/shared/lib/io/http/index.js";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { toActorIO } from "#routes/actors/actor.io.js";
+import { fetchRelations } from "#routes/events/queries/fetchEventRelations.query.js";
+import { toGroupIO } from "#routes/groups/group.io.js";
+import { toKeywordIO } from "#routes/keywords/keyword.io.js";
+import { toMediaIO } from "#routes/media/media.io.js";
 
 export const fetchEventsRelations: TEFlow<
   [Events.Event[], boolean],

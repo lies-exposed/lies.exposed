@@ -1,15 +1,15 @@
-import { MP4Type } from "@liexp/shared/lib/io/http/Media";
-import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
-import { sequenceS } from "fp-ts/Apply";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { MP4Type } from "@liexp/shared/lib/io/http/Media.js";
+import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import type TelegramBot from "node-telegram-bot-api";
-import { createAndUpload } from "../media/createAndUpload.flow";
-import { type MediaEntity } from "@entities/Media.entity";
-import { type TEFlow } from "@flows/flow.types";
-import { toControllerError, type ControllerError } from "@io/ControllerError";
+import { createAndUpload } from "../media/createAndUpload.flow.js";
+import { type MediaEntity } from "#entities/Media.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { toControllerError, type ControllerError } from "#io/ControllerError.js";
 
 export const parseVideo: TEFlow<[string, TelegramBot.Video], MediaEntity[]> =
   (ctx) => (description, video) => {

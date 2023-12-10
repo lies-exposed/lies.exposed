@@ -1,17 +1,17 @@
+import { pipe } from "@liexp/core/lib/fp/index.js";
 import {
   getPlatformEmbedURL,
   type VideoPlatformMatch,
-} from "@liexp/shared/lib/helpers/media";
-import { type URL } from "@liexp/shared/lib/io/http/Common";
-import { IframeVideoType } from "@liexp/shared/lib/io/http/Media";
-import { sequenceS } from "fp-ts/Apply";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+} from "@liexp/shared/lib/helpers/media.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/index.js";
+import { IframeVideoType } from "@liexp/shared/lib/io/http/Media.js";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import type * as puppeteer from "puppeteer-core";
-import { extractThumbnailFromVideoPlatform } from "./thumbnails/extractThumbnailFromVideoPlatform";
-import { type MediaEntity } from "@entities/Media.entity";
-import { type TEFlow } from "@flows/flow.types";
-import { toControllerError, type ControllerError } from "@io/ControllerError";
+import { extractThumbnailFromVideoPlatform } from "./thumbnails/extractThumbnailFromVideoPlatform.js";
+import { type MediaEntity } from "#entities/Media.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { toControllerError, type ControllerError } from "#io/ControllerError.js";
 
 export const extractDescriptionFromPlatform = (
   m: VideoPlatformMatch,

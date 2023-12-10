@@ -1,19 +1,19 @@
-import * as http from "@liexp/shared/lib/io/http";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events";
-import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary";
-import { CreateEventBodyArb } from "@liexp/shared/lib/tests/arbitrary/Event.arbitrary";
-import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/index.js";
+import * as http from "@liexp/shared/lib/io/http/index.js";
+import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
+import { CreateEventBodyArb } from "@liexp/shared/lib/tests/arbitrary/Event.arbitrary.js";
+import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
-import * as A from "fp-ts/Array";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import * as A from "fp-ts/lib/Array.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { In } from "typeorm";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest";
 import { loginUser, saveUser } from "../../../../test/user.utils";
-import { ActorEntity } from "@entities/Actor.entity";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { KeywordEntity } from "@entities/Keyword.entity";
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { KeywordEntity } from "#entities/Keyword.entity.js";
 
 describe("Create Event", () => {
   let appTest: AppTest;

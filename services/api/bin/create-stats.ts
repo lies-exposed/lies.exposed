@@ -1,11 +1,10 @@
-import { createStats } from "@flows/stats/createStats.flow";
-import { fp } from "@liexp/core/lib/fp";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { pipe } from "fp-ts/lib/function";
-import { PathReporter } from "io-ts/lib/PathReporter";
-import { startContext } from "./start-ctx";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { PathReporter } from "io-ts/lib/PathReporter.js";
+import { startContext } from "./start-ctx.js";
+import { createStats } from "#flows/stats/createStats.flow.js";
 
-const toError = (m: string) => `
+const toError = (m: string):string => `
 
   ${m}
 
@@ -14,7 +13,7 @@ const toError = (m: string) => `
   create-stats.ts $type $id
 `;
 
-const run = async () => {
+const run = async (): Promise<void> => {
   const [, , _type, id] = process.argv;
 
   if (!_type) {
@@ -22,6 +21,7 @@ const run = async () => {
   }
 
   const type: "keywords" | "groups" | "actors" = _type as any;
+  // eslint-disable-next-line no-console
   console.log("Creating stats for type ", type);
 
   if (!id) {
@@ -30,7 +30,7 @@ const run = async () => {
 
   const ctx = await startContext();
 
-  return pipe(
+  return await pipe(
     createStats(ctx)(type, id),
     fp.TE.bimap(
       (err) => {
@@ -50,4 +50,5 @@ const run = async () => {
   );
 };
 
+// eslint-disable-next-line no-console
 void run().catch(console.error);

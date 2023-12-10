@@ -1,15 +1,12 @@
 // /* eslint-disable @typescript-eslint/no-var-requires */
-// require("module-alias")(process.cwd());
 
-import { fp } from "@liexp/core/lib/fp";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { sequenceS } from "fp-ts/lib/Apply";
-import { pipe } from "fp-ts/lib/function";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { Brackets } from "typeorm";
-import { startContext, stopContext } from "./start-ctx";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { LinkEntity } from "@entities/Link.entity";
-import { getOneAdminOrFail } from "@flows/users/getOneUserOrFail.flow";
+import { startContext, stopContext } from "./start-ctx.js";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { LinkEntity } from "#entities/Link.entity.js";
+import { getOneAdminOrFail } from "#flows/users/getOneUserOrFail.flow.js";
 
 /**
  * Usage add-event-default-links
@@ -22,7 +19,7 @@ const run = async (): Promise<any> => {
   const ctx = await startContext();
 
   const events = await pipe(
-    sequenceS(fp.TE.ApplicativePar)({
+    fp.sequenceS(fp.TE.ApplicativePar)({
       creator: getOneAdminOrFail(ctx),
       events: pipe(
         ctx.db.execQuery(() => {

@@ -1,12 +1,12 @@
-import { ImageType, type PDFType } from "@liexp/shared/lib/io/http/Media";
-import { getMediaKey } from "@liexp/shared/lib/utils/media.utils";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { ImageType, type PDFType } from "@liexp/shared/lib/io/http/Media.js";
+import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import * as Canvas from "canvas";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import * as pdfJS from "pdfjs-dist/legacy/build/pdf";
-import { type RenderParameters } from "pdfjs-dist/types/src/display/api";
-import { type ExtractThumbnailFlow } from "./ExtractThumbnailFlow.type";
-import { toControllerError } from "@io/ControllerError";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import * as pdfJS from "pdfjs-dist/legacy/build/pdf.js";
+import { type RenderParameters } from "pdfjs-dist/types/src/display/api.js";
+import { type ExtractThumbnailFlow } from "./ExtractThumbnailFlow.type.js";
+import { toControllerError } from "#io/ControllerError.js";
 
 export const extractThumbnailFromPDF: ExtractThumbnailFlow<PDFType> =
   (ctx) => (media) => {

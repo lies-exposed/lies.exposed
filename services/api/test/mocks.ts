@@ -1,7 +1,7 @@
 import { type Mock, vi } from "vitest";
-import puppeteerMock from "../__mocks__/puppeteer.mock";
-import { s3Mock } from "../__mocks__/s3.mock";
-import { tgProviderMock } from "../__mocks__/tg.mock";
+import puppeteerMock from "../__mocks__/puppeteer.mock.js";
+import { s3Mock } from "../__mocks__/s3.mock.js";
+import { tgProviderMock } from "../__mocks__/tg.mock.js";
 
 export interface AppMocks {
   axios: typeof axiosMock;

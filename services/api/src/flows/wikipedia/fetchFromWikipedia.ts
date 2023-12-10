@@ -1,10 +1,9 @@
-import { fp } from "@liexp/core/lib/fp";
-import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Page } from "wikipedia";
-import { type TEFlow } from "@flows/flow.types";
-import { toControllerError } from "@io/ControllerError";
+import { type TEFlow } from "#flows/flow.types.js";
+import { toControllerError } from "#io/ControllerError.js";
 
 interface LoadedPage {
   page: Page;

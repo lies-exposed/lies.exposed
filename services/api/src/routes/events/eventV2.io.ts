@@ -1,11 +1,11 @@
-import * as io from "@liexp/shared/lib/io";
-import * as E from "fp-ts/Either";
-import { pipe } from "fp-ts/function";
-import { toBookIO } from "./books/book.io";
-import { toDocumentaryIO } from "./documentary/documentary.io";
-import { toQuoteIO } from "./quotes/quote.io";
-import { type EventV2Entity } from "@entities/Event.v2.entity";
-import { DecodeError, type ControllerError } from "@io/ControllerError";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import * as io from "@liexp/shared/lib/io/index.js";
+import * as E from "fp-ts/lib/Either.js";
+import { toBookIO } from "./books/book.io.js";
+import { toDocumentaryIO } from "./documentary/documentary.io.js";
+import { toQuoteIO } from "./quotes/quote.io.js";
+import { type EventV2Entity } from "#entities/Event.v2.entity.js";
+import { DecodeError, type ControllerError } from "#io/ControllerError.js";
 
 export const toEventV2IO = (
   event: EventV2Entity,

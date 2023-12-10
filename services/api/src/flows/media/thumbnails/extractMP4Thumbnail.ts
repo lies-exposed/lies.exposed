@@ -1,16 +1,15 @@
 import fs from "fs";
 import path from "path";
-import { fp } from "@liexp/core/lib/fp";
-import { type Media } from "@liexp/shared/lib/io/http";
-import { PngType, type MP4Type } from "@liexp/shared/lib/io/http/Media";
-import { getMediaKey } from "@liexp/shared/lib/utils/media.utils";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { PngType, type MP4Type } from "@liexp/shared/lib/io/http/Media.js";
+import { type Media } from "@liexp/shared/lib/io/http/index.js";
+import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import type Ffmpeg from "fluent-ffmpeg";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { downloadMP4Video } from "../downloadMP4Video";
-import { type ExtractThumbnailFlow } from "./ExtractThumbnailFlow.type";
-import { type TEFlow } from "@flows/flow.types";
-import { toControllerError } from "@io/ControllerError";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { downloadMP4Video } from "../downloadMP4Video.js";
+import { type ExtractThumbnailFlow } from "./ExtractThumbnailFlow.type.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { toControllerError } from "#io/ControllerError.js";
 
 export type SimpleMedia = Pick<Media.Media, "id" | "location"> & {
   type: MP4Type;

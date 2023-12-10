@@ -1,10 +1,10 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { type Route } from "../../route.types";
-import { toEventV2IO } from "../eventV2.io";
-import { EventV2Entity } from "@entities/Event.v2.entity";
+import { type Route } from "../../route.types.js";
+import { toEventV2IO } from "../eventV2.io.js";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
 
 export const MakeGetDeathEventRoute: Route = (r, { s3, db, env }) => {
   AddEndpoint(r)(Endpoints.DeathEvent.Get, ({ params: { id } }) => {

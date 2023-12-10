@@ -1,12 +1,12 @@
 import fs from "fs";
 import path from "path";
-import { taskifyStream } from "@liexp/shared/lib/utils/task.utils";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { taskifyStream } from "@liexp/shared/lib/utils/task.utils.js";
 import axios from "axios";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { type SimpleMedia } from "./thumbnails/extractMP4Thumbnail";
-import { type TEFlow } from "@flows/flow.types";
-import { toControllerError } from "@io/ControllerError";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { type SimpleMedia } from "./thumbnails/extractMP4Thumbnail.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { toControllerError } from "#io/ControllerError.js";
 
 export const downloadMP4Video: TEFlow<[SimpleMedia, string], string> =
   (ctx) => (media, tempFolder) => {

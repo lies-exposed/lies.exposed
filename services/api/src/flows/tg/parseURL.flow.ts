@@ -1,22 +1,22 @@
-import { isExcludedURL } from "@liexp/shared/lib/helpers/link.helper";
-import { URL } from "@liexp/shared/lib/io/http/Common/URL";
-import * as A from "fp-ts/Array";
-import * as E from "fp-ts/Either";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { isExcludedURL } from "@liexp/shared/lib/helpers/link.helper.js";
+import { URL } from "@liexp/shared/lib/io/http/Common/URL.js";
+import * as A from "fp-ts/lib/Array.js";
+import * as E from "fp-ts/lib/Either.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import type * as puppeteer from "puppeteer-core";
 import { Equal } from "typeorm";
-import { LinkEntity } from "@entities/Link.entity";
-import { MediaEntity } from "@entities/Media.entity";
-import { type UserEntity } from "@entities/User.entity";
-import { type TEFlow } from "@flows/flow.types";
-import { fetchAndSave } from "@flows/links/link.flow";
+import { LinkEntity } from "#entities/Link.entity.js";
+import { MediaEntity } from "#entities/Media.entity.js";
+import { type UserEntity } from "#entities/User.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { fetchAndSave } from "#flows/links/link.flow.js";
 import {
   takeLinkScreenshot,
   uploadScreenshot,
-} from "@flows/links/takeLinkScreenshot.flow";
-import { toControllerError } from "@io/ControllerError";
+} from "#flows/links/takeLinkScreenshot.flow.js";
+import { toControllerError } from "#io/ControllerError.js";
 
 export const parseURLs: TEFlow<
   [O.Option<URL[]>, UserEntity, puppeteer.Page],

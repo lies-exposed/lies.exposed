@@ -21,6 +21,7 @@
   "include": [
     "test",
     "src",
+    ".eslintrc.js",
     "**/*.spec.ts",
     "**/*.test.ts"
   ],

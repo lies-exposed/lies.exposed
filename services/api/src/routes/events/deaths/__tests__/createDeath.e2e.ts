@@ -1,12 +1,12 @@
-import { http } from "@liexp/shared/lib/io";
-import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary";
+import { http } from "@liexp/shared/lib/io/index.js";
+import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../../test/AppTest";
 import { loginUser, saveUser } from "../../../../../test/user.utils";
-import { ActorEntity } from "@entities/Actor.entity";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { UserEntity } from "@entities/User.entity";
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { UserEntity } from "#entities/User.entity.js";
 
 describe("Create Death Event", () => {
   let appTest: AppTest;

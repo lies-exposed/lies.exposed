@@ -1,16 +1,16 @@
 import { ActorArb, UncategorizedArb } from "@liexp/shared/lib/tests";
-import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary";
+import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
-import * as E from "fp-ts/Either";
+import * as E from "fp-ts/lib/Either.js";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
 import {
   toPinnedMessage,
   upsertPinnedMessage,
-} from "../upsertPinnedMessage.flow";
-import { ActorEntity } from "@entities/Actor.entity";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { KeywordEntity } from "@entities/Keyword.entity";
+} from "../upsertPinnedMessage.flow.js";
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { KeywordEntity } from "#entities/Keyword.entity.js";
 
 describe("Upsert Pinned Message Flow", () => {
   let Test: AppTest;

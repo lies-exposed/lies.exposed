@@ -1,11 +1,10 @@
-import { fp } from "@liexp/core/lib/fp";
-import { type http } from "@liexp/shared/lib/io";
-import { pipe } from "fp-ts/function";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { type http } from "@liexp/shared/lib/io/index.js";
 import * as t from "io-ts";
-import { MediaEntity } from "@entities/Media.entity";
-import { type TEFlow } from "@flows/flow.types";
-import { leftJoinSocialPosts } from "@queries/socialPosts/leftJoinSocialPosts.query";
-import { addOrder, getORMOptions } from "@utils/orm.utils";
+import { MediaEntity } from "#entities/Media.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { leftJoinSocialPosts } from "#queries/socialPosts/leftJoinSocialPosts.query.js";
+import { addOrder, getORMOptions } from "#utils/orm.utils.js";
 
 const defaultQuery: http.Media.GetListMediaQuery = {
   type: fp.O.none,

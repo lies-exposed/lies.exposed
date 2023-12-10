@@ -1,15 +1,20 @@
 import fs from "fs";
 import path from "path";
-import { type DBError } from "@liexp/backend/lib/providers/orm";
+import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
+import { pipe } from "@liexp/core/lib/fp/index.js";
 import {
   getNewRelationIds,
   updateCache,
   type SearchEventsQueryCache,
-} from "@liexp/shared/lib/helpers/event/search-event";
+} from "@liexp/shared/lib/helpers/event/search-event.js";
 import {
   createHierarchicalEdgeBundling,
   type HierarchicalEdgeBundlingProps,
-} from "@liexp/shared/lib/helpers/graph/createHierarchicalEdgeBundlingData";
+} from "@liexp/shared/lib/helpers/graph/createHierarchicalEdgeBundlingData.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { EventTotalsMonoid } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
+import { EventType } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { StatsType } from "@liexp/shared/lib/io/http/Stats.js";
 import {
   type Actor,
   type Events,
@@ -17,38 +22,33 @@ import {
   type GroupMember,
   type Keyword,
   type Media,
-} from "@liexp/shared/lib/io/http";
-import { type UUID } from "@liexp/shared/lib/io/http/Common";
-import { EventType } from "@liexp/shared/lib/io/http/Events";
-import { EventTotalsMonoid } from "@liexp/shared/lib/io/http/Events/EventTotals";
-import { StatsType } from "@liexp/shared/lib/io/http/Stats";
-import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
-import { sequenceS } from "fp-ts/Apply";
-import * as A from "fp-ts/Array";
-import * as E from "fp-ts/Either";
-import * as IOE from "fp-ts/IOEither";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+} from "@liexp/shared/lib/io/http/index.js";
+import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as A from "fp-ts/lib/Array.js";
+import * as E from "fp-ts/lib/Either.js";
+import * as IOE from "fp-ts/lib/IOEither.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { In } from "typeorm";
-import { ActorEntity } from "@entities/Actor.entity";
-import { type EventV2Entity } from "@entities/Event.v2.entity";
-import { GroupEntity } from "@entities/Group.entity";
-import { GroupMemberEntity } from "@entities/GroupMember.entity";
-import { KeywordEntity } from "@entities/Keyword.entity";
-import { MediaEntity } from "@entities/Media.entity";
-import { type TEFlow } from "@flows/flow.types";
-import { toControllerError, type ControllerError } from "@io/ControllerError";
-import { toActorIO } from "@routes/actors/actor.io";
-import { toEventV2IO } from "@routes/events/eventV2.io";
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { type EventV2Entity } from "#entities/Event.v2.entity.js";
+import { GroupEntity } from "#entities/Group.entity.js";
+import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
+import { KeywordEntity } from "#entities/Keyword.entity.js";
+import { MediaEntity } from "#entities/Media.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { toControllerError, type ControllerError } from "#io/ControllerError.js";
+import { toActorIO } from "#routes/actors/actor.io.js";
+import { toEventV2IO } from "#routes/events/eventV2.io.js";
 import {
   searchEventV2Query,
   type SearchEventOutput,
-} from "@routes/events/queries/searchEventsV2.query";
-import { toGroupIO } from "@routes/groups/group.io";
-import { toGroupMemberIO } from "@routes/groups-members/groupMember.io";
-import { toKeywordIO } from "@routes/keywords/keyword.io";
-import { toMediaIO } from "@routes/media/media.io";
+} from "#routes/events/queries/searchEventsV2.query.js";
+import { toGroupIO } from "#routes/groups/group.io.js";
+import { toGroupMemberIO } from "#routes/groups-members/groupMember.io.js";
+import { toKeywordIO } from "#routes/keywords/keyword.io.js";
+import { toMediaIO } from "#routes/media/media.io.js";
 
 export const createStatsByEntityType: TEFlow<
   [StatsType, string],

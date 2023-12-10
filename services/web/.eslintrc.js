@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  extends: ["../../.eslintrc", "plugin:react/recommended"],
+  extends: ["../../.eslintrc.js", "plugin:react/recommended"],
   plugins: ["@typescript-eslint", "react"],
   parserOptions: {
     tsconfigRootDir: __dirname,

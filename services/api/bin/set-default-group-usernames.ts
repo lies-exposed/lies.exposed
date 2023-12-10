@@ -1,15 +1,10 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-require("module-alias")(process.cwd());
-
-// other imports
-import { GroupEntity } from "@entities/Group.entity";
-import { fp } from "@liexp/core/lib/fp";
-import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor";
-import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { pipe } from "fp-ts/lib/function";
-import { fetchGroups } from "@queries/groups/fetchGroups.query";
-import { startContext, stopContext } from "./start-ctx";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
+import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { startContext, stopContext } from "./start-ctx.js";
+import { GroupEntity } from "#entities/Group.entity.js";
+import { fetchGroups } from "#queries/groups/fetchGroups.query.js";
 
 const run = async (): Promise<void> => {
   const ctx = await startContext();

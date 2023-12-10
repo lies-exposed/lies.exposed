@@ -1,4 +1,4 @@
-import { type EventResult } from "@flows/tg/createFromTGMessage.flow";
+import { type EventResult } from "#flows/tg/createFromTGMessage.flow.js";
 
 export const getThanksMessage = (
   eventSuggestion: EventResult,

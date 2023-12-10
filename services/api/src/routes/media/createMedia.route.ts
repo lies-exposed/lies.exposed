@@ -1,15 +1,15 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { MP4Type } from "@liexp/shared/lib/io/http/Media";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { MP4Type } from "@liexp/shared/lib/io/http/Media.js";
 import { type Router } from "express";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { toMediaIO } from "./media.io";
-import { MediaEntity } from "@entities/Media.entity";
-import { extractMP4Extra } from "@flows/media/extra/extractMP4Extra";
-import { createThumbnail } from "@flows/media/thumbnails/createThumbnail.flow";
-import { type RouteContext } from "@routes/route.types";
-import { authenticationHandler } from "@utils/authenticationHandler";
-import { ensureUserExists } from "@utils/user.utils";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { toMediaIO } from "./media.io.js";
+import { MediaEntity } from "#entities/Media.entity.js";
+import { extractMP4Extra } from "#flows/media/extra/extractMP4Extra.js";
+import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
+import { type RouteContext } from "#routes/route.types.js";
+import { authenticationHandler } from "#utils/authenticationHandler.js";
+import { ensureUserExists } from "#utils/user.utils.js";
 
 export const MakeCreateMediaRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r, authenticationHandler(ctx, []))(

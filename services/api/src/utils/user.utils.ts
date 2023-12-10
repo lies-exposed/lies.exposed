@@ -1,7 +1,7 @@
-import { User } from "@liexp/shared/lib/io/http";
-import * as E from "fp-ts/Either";
-import { pipe } from "fp-ts/function";
-import { NotAuthorizedError, type ControllerError } from "@io/ControllerError";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { User } from "@liexp/shared/lib/io/http/index.js";
+import * as E from "fp-ts/lib/Either.js";
+import { NotAuthorizedError, type ControllerError } from "#io/ControllerError.js";
 
 export const ensureUserExists = (
   u?: Express.User,

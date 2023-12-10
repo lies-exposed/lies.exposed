@@ -1,11 +1,11 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Router } from "express";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { toMediaIO } from "./media.io";
-import { MediaEntity } from "@entities/Media.entity";
-import { type RouteContext } from "@routes/route.types";
+import { toMediaIO } from "./media.io.js";
+import { MediaEntity } from "#entities/Media.entity.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 export const MakeGetMediaRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Media.Get, ({ params: { id } }, req) => {

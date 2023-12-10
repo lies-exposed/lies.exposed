@@ -1,17 +1,12 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-require("module-alias")(process.cwd());
-
-// other imports
-import { fp } from "@liexp/core/lib/fp";
-import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { sequenceS } from "fp-ts/lib/Apply";
-import { fetchActors } from "@queries/actors/fetchActors.query";
-import { fetchGroups } from "@queries/groups/fetchGroups.query";
-import { fetchKeywords } from "@queries/keywords/fetchKeywords.query";
-import { startContext, stopContext } from "./start-ctx";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { startContext, stopContext } from "./start-ctx.js";
+import { fetchActors } from "#queries/actors/fetchActors.query.js";
+import { fetchGroups } from "#queries/groups/fetchGroups.query.js";
+import { fetchKeywords } from "#queries/keywords/fetchKeywords.query.js";
 
 const makePatterns = (s: string): string[] => {
   const chunks = s.split(" ");

@@ -1,15 +1,15 @@
 import * as fs from "fs";
 import path from "path";
+import { pipe } from "@liexp/core/lib/fp/index.js";
 import { getPlatformEmbedURL } from "@liexp/shared/lib/helpers/media";
-import { AdminCreate } from "@liexp/shared/lib/io/http/User";
-import { createExcerptValue } from "@liexp/shared/lib/slate";
-import { HumanReadableStringArb } from "@liexp/shared/lib/tests/arbitrary/HumanReadableString.arbitrary";
-import { URLArb } from "@liexp/shared/lib/tests/arbitrary/URL.arbitrary";
+import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
+import { createExcerptValue } from "@liexp/shared/lib/slate/index.js";
+import { HumanReadableStringArb } from "@liexp/shared/lib/tests/arbitrary/HumanReadableString.arbitrary.js";
+import { URLArb } from "@liexp/shared/lib/tests/arbitrary/URL.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
+import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { fc } from "@liexp/test";
-import { pipe } from "fp-ts/function";
 import type TelegramBot from "node-telegram-bot-api";
 import { Equal } from "typeorm";
 import puppeteerMocks from "../../../../__mocks__/puppeteer.mock";
@@ -19,11 +19,11 @@ import {
   TGPhotoArb,
 } from "../../../../test/arbitraries/TGMessage.arb";
 import { saveUser, type UserTest } from "../../../../test/user.utils";
-import { createFromTGMessage } from "../createFromTGMessage.flow";
-import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
-import { LinkEntity } from "@entities/Link.entity";
-import { MediaEntity } from "@entities/Media.entity";
-import { UserEntity } from "@entities/User.entity";
+import { createFromTGMessage } from "../createFromTGMessage.flow.js";
+import { EventSuggestionEntity } from "#entities/EventSuggestion.entity.js";
+import { LinkEntity } from "#entities/Link.entity.js";
+import { MediaEntity } from "#entities/Media.entity.js";
+import { UserEntity } from "#entities/User.entity.js";
 
 const tempDir = path.resolve(__dirname, `../../../../temp/tg/media`);
 

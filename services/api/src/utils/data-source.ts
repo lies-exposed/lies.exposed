@@ -3,29 +3,29 @@ import "reflect-metadata";
 // other imports
 import * as fs from "fs";
 import * as path from "path";
-import * as TE from 'fp-ts/TaskEither';
+import * as TE from 'fp-ts/lib/TaskEither.js'
 import { DataSource, type DataSourceOptions } from "typeorm";
-import { ActorEntity } from "@entities/Actor.entity";
-import { AreaEntity } from "@entities/Area.entity";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
-import { GroupEntity } from "@entities/Group.entity";
-import { GroupMemberEntity } from "@entities/GroupMember.entity";
-import { KeywordEntity } from "@entities/Keyword.entity";
-import { LinkEntity } from "@entities/Link.entity";
-import { MediaEntity } from "@entities/Media.entity";
-import { PageEntity } from "@entities/Page.entity";
-import { ProjectEntity } from "@entities/Project.entity";
-import { ProjectImageEntity } from "@entities/ProjectImage.entity";
-import { SocialPostEntity } from "@entities/SocialPost.entity";
-import { StoryEntity } from "@entities/Story.entity";
-import { UserEntity } from "@entities/User.entity";
-import { DeathEventEntity } from "@entities/archive/DeathEvent.entity";
-import { EventEntity } from "@entities/archive/Event.entity";
-import { MediaV1Entity } from "@entities/archive/Media.v1.entity";
-import { ScientificStudyEntity } from "@entities/archive/ScientificStudy.entity";
-import { type ControllerError, toControllerError } from '@io/ControllerError';
-import { type ENV } from "@io/ENV";
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { AreaEntity } from "#entities/Area.entity.js";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { EventSuggestionEntity } from "#entities/EventSuggestion.entity.js";
+import { GroupEntity } from "#entities/Group.entity.js";
+import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
+import { KeywordEntity } from "#entities/Keyword.entity.js";
+import { LinkEntity } from "#entities/Link.entity.js";
+import { MediaEntity } from "#entities/Media.entity.js";
+import { PageEntity } from "#entities/Page.entity.js";
+import { ProjectEntity } from "#entities/Project.entity.js";
+import { ProjectImageEntity } from "#entities/ProjectImage.entity.js";
+import { SocialPostEntity } from "#entities/SocialPost.entity.js";
+import { StoryEntity } from "#entities/Story.entity.js";
+import { UserEntity } from "#entities/User.entity.js";
+import { DeathEventEntity } from "#entities/archive/DeathEvent.entity.js";
+import { EventEntity } from "#entities/archive/Event.entity.js";
+import { MediaV1Entity } from "#entities/archive/Media.v1.entity.js";
+import { ScientificStudyEntity } from "#entities/archive/ScientificStudy.entity.js";
+import { type ControllerError, toControllerError } from '#io/ControllerError.js';
+import { type ENV } from "#io/ENV.js";
 
 export const getORMConfig = (
   env: ENV,

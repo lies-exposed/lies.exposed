@@ -6,11 +6,12 @@ import {
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
+  type Relation,
   UpdateDateColumn,
 } from "typeorm";
-import { EventV2Entity } from "./Event.v2.entity";
-import { ActorEntity } from "@entities/Actor.entity";
-import { GroupEntity } from "@entities/Group.entity";
+import { EventV2Entity } from "./Event.v2.entity.js";
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { GroupEntity } from "#entities/Group.entity.js";
 
 @Entity("group_member")
 export class GroupMemberEntity {
@@ -33,16 +34,16 @@ export class GroupMemberEntity {
     nullable: false,
     cascade: false,
   })
-  group: GroupEntity;
+  group: Relation<GroupEntity>
 
   @ManyToOne(() => ActorEntity, (a) => a.id, {
     nullable: false,
     cascade: false,
   })
-  actor: ActorEntity;
+  actor:Relation< ActorEntity>;
 
   @ManyToMany(() => EventV2Entity, { cascade: false })
-  events: EventV2Entity[];
+  events: Relation<EventV2Entity[]>;
 
   @CreateDateColumn()
   createdAt: Date;

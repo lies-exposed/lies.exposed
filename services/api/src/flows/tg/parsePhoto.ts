@@ -1,13 +1,13 @@
-import { MediaType } from "@liexp/shared/lib/io/http/Media";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
-import * as A from "fp-ts/Array";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { MediaType } from "@liexp/shared/lib/io/http/Media.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import * as A from "fp-ts/lib/Array.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import type TelegramBot from "node-telegram-bot-api";
-import { createAndUpload } from "../media/createAndUpload.flow";
-import { type MediaEntity } from "@entities/Media.entity";
-import { type TEFlow } from "@flows/flow.types";
-import { toControllerError, type ControllerError } from "@io/ControllerError";
+import { createAndUpload } from "../media/createAndUpload.flow.js";
+import { type MediaEntity } from "#entities/Media.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { toControllerError, type ControllerError } from "#io/ControllerError.js";
 
 export const parsePhoto: TEFlow<
   [string, TelegramBot.PhotoSize[]],
