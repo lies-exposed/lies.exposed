@@ -1,6 +1,6 @@
 import { type URLMetadataClient } from "@liexp/backend/lib/providers/URLMetadata.provider.js";
 import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
-import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import { type CreateLink } from "@liexp/shared/lib/io/http/Link.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";

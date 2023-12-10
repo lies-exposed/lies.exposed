@@ -12,13 +12,13 @@ import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { fc } from "@liexp/test";
 import type TelegramBot from "node-telegram-bot-api";
 import { Equal } from "typeorm";
-import puppeteerMocks from "../../../../__mocks__/puppeteer.mock";
-import { type AppTest, GetAppTest } from "../../../../test/AppTest";
+import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
+import puppeteerMocks from "../../../../test/__mocks__/puppeteer.mock";
 import {
   TGMessageArb,
   TGPhotoArb,
 } from "../../../../test/arbitraries/TGMessage.arb";
-import { saveUser, type UserTest } from "../../../../test/user.utils";
+import { saveUser, type UserTest } from "../../../../test/user.utils.js";
 import { createFromTGMessage } from "../createFromTGMessage.flow.js";
 import { EventSuggestionEntity } from "#entities/EventSuggestion.entity.js";
 import { LinkEntity } from "#entities/Link.entity.js";

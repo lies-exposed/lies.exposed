@@ -11,8 +11,10 @@ export default defineConfig({
     watch: false,
     coverage: {
       exclude: [`**/lib`],
-      statements: 80,
-      functions: 80
+      thresholds: {
+        statements: 80,
+        functions: 80
+      }
     },
     alias: {
       "@liexp/core/lib": path.resolve(

@@ -1,4 +1,4 @@
-import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { PngType } from "@liexp/shared/lib/io/http/Media.js";
 import { AdminEdit, type User } from "@liexp/shared/lib/io/http/User.js";
@@ -14,7 +14,10 @@ import {
   takeLinkScreenshot,
   uploadScreenshot,
 } from "#flows/links/takeLinkScreenshot.flow.js";
-import { NotAuthorizedError, type ControllerError } from "#io/ControllerError.js";
+import {
+  NotAuthorizedError,
+  type ControllerError,
+} from "#io/ControllerError.js";
 import { type RouteContext } from "#routes/route.types.js";
 import {
   RequestDecoder,

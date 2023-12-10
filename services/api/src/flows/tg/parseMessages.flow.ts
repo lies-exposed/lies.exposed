@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   type EventResult,
   createFromTGMessage,

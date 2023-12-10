@@ -3,6 +3,8 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { afterAll, beforeAll } from "vitest";
 import { type AppTest, GetAppTest } from "./AppTest.js";
 
+vi.mock("sharp");
+
 const g = global as any as { appTest?: AppTest };
 
 beforeAll(async () => {

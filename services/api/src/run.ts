@@ -9,7 +9,7 @@ import { postOnSocialJob } from "./jobs/socialPostScheduler.job.js";
 import { makeApp } from "./app/index.js";
 import { makeContext } from "./context/index.js";
 import { cleanTempFolder } from "./jobs/cleanTempFolder.job.js";
-import D from 'debug';
+import D from "debug";
 const run = (): Promise<void> => {
   process.env.NODE_ENV = process.env.NODE_ENV ?? "development";
 
@@ -21,7 +21,6 @@ const run = (): Promise<void> => {
 
     D.enable(process.env.DEBUG ?? "*");
   }
-
 
   return pipe(
     parseENV(process.env),

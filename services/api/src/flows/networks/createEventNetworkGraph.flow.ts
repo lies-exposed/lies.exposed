@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import path from "path";
-import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { TupleWithId } from "@liexp/core/lib/fp/utils/TupleWithId.js";
 import {
   getColorByEventType,
@@ -39,7 +39,10 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { type Flow, type TEFlow } from "#flows/flow.types.js";
-import { toControllerError, type ControllerError } from "#io/ControllerError.js";
+import {
+  toControllerError,
+  type ControllerError,
+} from "#io/ControllerError.js";
 import { toActorIO } from "#routes/actors/actor.io.js";
 import { toEventV2IO } from "#routes/events/eventV2.io.js";
 import { fetchRelations } from "#routes/events/queries/fetchEventRelations.query.js";

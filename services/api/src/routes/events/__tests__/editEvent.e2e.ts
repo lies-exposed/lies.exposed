@@ -7,12 +7,12 @@ import { LinkArb } from "@liexp/shared/lib/tests/arbitrary/Link.arbitrary.js";
 import { MediaArb } from "@liexp/shared/lib/tests/arbitrary/Media.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
-import { GetAppTest, type AppTest } from "../../../../test/AppTest";
+import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import {
   loginUser,
   saveUser,
   type UserTest,
-} from "../../../../test/user.utils";
+} from "../../../../test/user.utils.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { AreaEntity } from "#entities/Area.entity.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";

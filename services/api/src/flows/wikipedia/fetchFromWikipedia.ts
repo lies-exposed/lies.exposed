@@ -1,4 +1,4 @@
-import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Page } from "wikipedia";
