@@ -1,7 +1,7 @@
 // https://www.postgresql.org/docs/12/functions-json.html
 
 import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
-import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
 import {
   EventTypes,

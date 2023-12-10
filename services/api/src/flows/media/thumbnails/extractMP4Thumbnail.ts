@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { PngType, type MP4Type } from "@liexp/shared/lib/io/http/Media.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";

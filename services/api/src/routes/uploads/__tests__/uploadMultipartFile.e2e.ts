@@ -2,7 +2,7 @@ import { PngType } from "@liexp/shared/lib/io/http/Media.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
-import { GetAppTest, type AppTest } from "../../../../test/AppTest";
+import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 
 describe("Upload file", () => {
   let Test: AppTest, authorizationToken: string;

@@ -38,7 +38,10 @@ import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
 import { KeywordEntity } from "#entities/Keyword.entity.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
-import { toControllerError, type ControllerError } from "#io/ControllerError.js";
+import {
+  toControllerError,
+  type ControllerError,
+} from "#io/ControllerError.js";
 import { toActorIO } from "#routes/actors/actor.io.js";
 import { toEventV2IO } from "#routes/events/eventV2.io.js";
 import {

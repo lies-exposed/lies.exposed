@@ -51,7 +51,7 @@
     "@visx/network": "^3.3.0",
     "fast-csv": "^4.3.6",
     "typescript": "^5.3.3",
-    "vitest": "^0.34.6"
+    "vitest": "^1.0.4"
   },
   "peerDependencies": {
     "@react-page/editor": "^5.2.0",

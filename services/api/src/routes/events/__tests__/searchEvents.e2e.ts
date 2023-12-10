@@ -7,7 +7,7 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
 import * as A from "fp-ts/lib/Array.js";
 import jwt from "jsonwebtoken";
-import { GetAppTest, type AppTest } from "../../../../test/AppTest";
+import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";

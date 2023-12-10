@@ -11,7 +11,10 @@ import type * as puppeteer from "puppeteer-core";
 import { extractThumbnailFromVideoPlatform } from "./thumbnails/extractThumbnailFromVideoPlatform.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
-import { toControllerError, type ControllerError } from "#io/ControllerError.js";
+import {
+  toControllerError,
+  type ControllerError,
+} from "#io/ControllerError.js";
 
 export const extractDescriptionFromPlatform = (
   m: VideoPlatformMatch,

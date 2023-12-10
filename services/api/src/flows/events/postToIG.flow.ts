@@ -1,5 +1,5 @@
 import { type OnLoginErrorFn } from "@liexp/backend/lib/providers/ig/ig.provider.js";
-import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   SocialPostPhoto,
   type CreateSocialPost,

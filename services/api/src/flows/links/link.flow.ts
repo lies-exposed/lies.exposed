@@ -1,4 +1,4 @@
-import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type URL } from "@liexp/shared/lib/io/http/Common/index.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";

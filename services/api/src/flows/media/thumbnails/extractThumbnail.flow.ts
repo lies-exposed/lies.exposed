@@ -1,4 +1,4 @@
-import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type MediaType } from "@liexp/shared/lib/io/http/Media.js";
 import { Media } from "@liexp/shared/lib/io/http/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";

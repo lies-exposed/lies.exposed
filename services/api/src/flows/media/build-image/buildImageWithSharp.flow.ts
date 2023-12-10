@@ -8,8 +8,7 @@ import {
   type WatermarkLayer,
 } from "@liexp/shared/lib/io/http/admin/BuildImage";
 import { toColorHash } from "@liexp/shared/lib/utils/colors.js";
-import type sharp from "sharp";
-import { type GravityEnum } from "sharp";
+import { type OverlayOptions, type GravityEnum } from "sharp";
 import { type TEFlow } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
 
@@ -50,7 +49,7 @@ const getSize =
     return pipe(useDefault(), Math.ceil);
   };
 
-type SharpOverlayOptionsWithSize = sharp.OverlayOptions & {
+type SharpOverlayOptionsWithSize = OverlayOptions & {
   width: number;
   height: number;
 };
@@ -295,7 +294,7 @@ export const buildImageWithSharp: TEFlow<[BuildImageLayer[]], Buffer> =
           const frameLeft = 0;
           const frameTop = 0;
 
-          const frame: sharp.OverlayOptions = {
+          const frame: OverlayOptions = {
             create: {
               width: frameWidth,
               height: frameHeight,

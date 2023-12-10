@@ -3,7 +3,7 @@ import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary.
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
 import * as E from "fp-ts/lib/Either.js";
-import { type AppTest, GetAppTest } from "../../../../test/AppTest";
+import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 import {
   toPinnedMessage,
   upsertPinnedMessage,

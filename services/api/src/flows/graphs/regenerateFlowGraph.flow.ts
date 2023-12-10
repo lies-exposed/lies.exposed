@@ -1,4 +1,4 @@
-import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   type FlowGraphOutput,

@@ -6,7 +6,7 @@ import {
 } from "@liexp/shared/lib/tests";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
-import { type AppTest, GetAppTest } from "../../../../test/AppTest";
+import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";

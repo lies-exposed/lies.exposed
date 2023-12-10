@@ -1,20 +1,24 @@
-import path from "path";
 import { defineProject, mergeConfig } from "vitest/config";
-import { baseConfig } from "../vitest.base-config";
+import { PathnameAlias, baseConfig } from "../vitest.base-config.js";
+
+const toAlias = PathnameAlias(import.meta.url);
 
 export default mergeConfig(
   baseConfig,
   defineProject({
     test: {
       name: "api-e2e",
-      root: path.join(__dirname, "../"),
+      root: toAlias("../"),
       globals: true,
-      include: [path.join(__dirname, `../src/**/*.e2e.ts`)],
-      setupFiles: [path.join(__dirname, `testSetup.ts`)],
-      globalSetup: [path.join(__dirname, `globalSetup.ts`)],
+      include: [toAlias(`../src/**/*.e2e.ts`)],
+      setupFiles: [toAlias(`testSetup.ts`)],
+      globalSetup: [toAlias(`globalSetup.ts`)],
       exclude: ["**/build", "**/src/migrations", "**/src/scripts"],
-      threads: false,
-      singleThread: true,
+      poolOptions: {
+        threads: {
+          singleThread: true,
+        }
+      }
     },
   }),
 );

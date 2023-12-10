@@ -3,7 +3,7 @@ import { LinkArb, UncategorizedArb } from "@liexp/shared/lib/tests";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as tests from "@liexp/test";
 import { In } from "typeorm";
-import { type AppTest, GetAppTest } from "../../../../test/AppTest";
+import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { LinkEntity } from "#entities/Link.entity.js";
 import { MediaEntity } from "#entities/Media.entity.js";

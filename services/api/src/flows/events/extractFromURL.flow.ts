@@ -21,7 +21,10 @@ import { KeywordEntity } from "#entities/Keyword.entity.js";
 import { type LinkEntity } from "#entities/Link.entity.js";
 import { type UserEntity } from "#entities/User.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
-import { toControllerError, type ControllerError } from "#io/ControllerError.js";
+import {
+  toControllerError,
+  type ControllerError,
+} from "#io/ControllerError.js";
 
 const extractEventFromProviderLink: TEFlow<
   [puppeteer.Page, string, LinkEntity],

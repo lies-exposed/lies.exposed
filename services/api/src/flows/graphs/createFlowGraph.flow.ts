@@ -21,7 +21,10 @@ import {
   type Media,
 } from "@liexp/shared/lib/io/http/index.js";
 import { toColor } from "@liexp/shared/lib/utils/colors.js";
-import { differenceInDays, subYears } from "@liexp/shared/lib/utils/date.utils.js";
+import {
+  differenceInDays,
+  subYears,
+} from "@liexp/shared/lib/utils/date.utils.js";
 import { toEventV2IO } from "../../routes/events/eventV2.io.js";
 import { cleanItemsFromSlateFields } from "../../utils/clean.utils.js";
 import { fetchEventsByRelation } from "../events/fetchByRelations.flow.js";

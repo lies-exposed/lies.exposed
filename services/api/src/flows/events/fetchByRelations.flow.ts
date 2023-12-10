@@ -1,4 +1,4 @@
-import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import { EVENTS } from "@liexp/shared/lib/io/http/Events/index.js";

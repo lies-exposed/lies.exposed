@@ -11,12 +11,12 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { fc } from "@liexp/test";
 import { In } from "typeorm";
-import { GetAppTest, type AppTest } from "../../../../../test/AppTest";
+import { GetAppTest, type AppTest } from "../../../../../test/AppTest.js";
 import {
   type UserTest,
   loginUser,
   saveUser,
-} from "../../../../../test/user.utils";
+} from "../../../../../test/user.utils.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";

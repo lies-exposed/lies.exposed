@@ -1,4 +1,4 @@
-import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { PUBLISHED } from "@liexp/shared/lib/io/http/SocialPost.js";
 import * as TE from "fp-ts/lib/TaskEither.js";

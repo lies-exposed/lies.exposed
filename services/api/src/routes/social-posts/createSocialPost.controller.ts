@@ -1,7 +1,7 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { PUBLISHED, TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost.js";
-import {addHours} from "date-fns";
+import { addHours } from "date-fns";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import * as t from "io-ts";
 import { SocialPostEntity } from "#entities/SocialPost.entity.js";

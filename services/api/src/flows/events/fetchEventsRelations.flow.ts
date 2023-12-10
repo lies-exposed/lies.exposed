@@ -1,4 +1,4 @@
-import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { takeEventRelations } from "@liexp/shared/lib/helpers/event/event.js";
 import {
   type GroupMember,

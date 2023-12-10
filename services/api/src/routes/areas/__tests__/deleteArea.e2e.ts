@@ -1,8 +1,8 @@
 import { type http } from "@liexp/shared/lib/io/index.js";
 import { AreaArb } from "@liexp/shared/lib/tests/arbitrary/Area.arbitrary.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
-import { type AppTest, GetAppTest } from "../../../../test/AppTest";
+import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 import { AreaEntity } from "#entities/Area.entity.js";
 
 describe("Delete Area", () => {
@@ -21,6 +21,7 @@ describe("Delete Area", () => {
         areas.map((a) => ({
           ...a,
           media: [],
+          socialPosts: []
         })),
       ),
     );
