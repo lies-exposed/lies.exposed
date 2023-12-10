@@ -1,21 +1,21 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { Events, EventSuggestion } from "@liexp/shared/lib/io/http";
-import { createExcerptValue } from "@liexp/shared/lib/slate";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Events, EventSuggestion } from "@liexp/shared/lib/io/http/index.js";
+import { createExcerptValue } from "@liexp/shared/lib/slate/index.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { addWeeks, subWeeks } from "date-fns";
-import { sequenceS } from "fp-ts/Apply";
-import * as A from "fp-ts/Array";
-import * as E from "fp-ts/Either";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as A from "fp-ts/lib/Array.js";
+import * as E from "fp-ts/lib/Either.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Metadata } from "page-metadata-parser";
 import { Equal } from "typeorm";
-import { toEventV2IO } from "./eventV2.io";
-import { searchEventV2Query } from "./queries/searchEventsV2.query";
-import { LinkEntity } from "@entities/Link.entity";
-import { type ControllerError, ServerError } from "@io/ControllerError";
-import { type Route } from "@routes/route.types";
+import { toEventV2IO } from "./eventV2.io.js";
+import { searchEventV2Query } from "./queries/searchEventsV2.query.js";
+import { LinkEntity } from "#entities/Link.entity.js";
+import { type ControllerError, ServerError } from "#io/ControllerError.js";
+import { type Route } from "#routes/route.types.js";
 
 export const GetEventFromLinkRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Event.Custom.GetFromLink, ({ query: { url } }) => {

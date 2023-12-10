@@ -1,12 +1,12 @@
-import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor";
-import { type CreateGroupBody } from "@liexp/shared/lib/io/http/Group";
-import { createExcerptValue } from "@liexp/shared/lib/slate";
-import { generateRandomColor } from "@liexp/shared/lib/utils/colors";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { type TEFlow } from "@flows/flow.types";
-import { fetchFromWikipedia } from "@flows/wikipedia/fetchFromWikipedia";
-import { NotFoundError, toControllerError } from "@io/ControllerError";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
+import { type CreateGroupBody } from "@liexp/shared/lib/io/http/Group.js";
+import { createExcerptValue } from "@liexp/shared/lib/slate/index.js";
+import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { fetchFromWikipedia } from "#flows/wikipedia/fetchFromWikipedia.js";
+import { NotFoundError, toControllerError } from "#io/ControllerError.js";
 
 export const fetchGroupFromWikipedia: TEFlow<[string], CreateGroupBody> =
   (ctx) => (pageId) => {

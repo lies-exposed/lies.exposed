@@ -1,8 +1,8 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { type Route } from "@routes/route.types";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { type Route } from "#routes/route.types.js";
 
 export const MakeDeleteScientificStudyRoute: Route = (r, { db }) => {
   AddEndpoint(r)(Endpoints.ScientificStudy.Delete, ({ params: { id } }) => {

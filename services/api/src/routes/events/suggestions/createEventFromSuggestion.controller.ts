@@ -1,13 +1,13 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { EventSuggestion } from "@liexp/shared/lib/io/http";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { fetchRelationIds } from "../queries/fetchEventRelations.query";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
-import { type Route } from "@routes/route.types";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { EventSuggestion } from "@liexp/shared/lib/io/http/index.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { fetchRelationIds } from "../queries/fetchEventRelations.query.js";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { EventSuggestionEntity } from "#entities/EventSuggestion.entity.js";
+import { type Route } from "#routes/route.types.js";
 
 export const CreateEventFromSuggestionRoute: Route = (r, ctx) => {
   AddEndpoint(r)(

@@ -1,14 +1,13 @@
-import { fp } from "@liexp/core/lib/fp";
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import { type Router } from "express";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { type RouteContext } from "../route.types";
-import { toLinkIO } from "./link.io";
-import { LinkEntity } from "@entities/Link.entity";
-import { RequestDecoder } from "@utils/authenticationHandler";
+import { type RouteContext } from "../route.types.js";
+import { toLinkIO } from "./link.io.js";
+import { LinkEntity } from "#entities/Link.entity.js";
+import { RequestDecoder } from "#utils/authenticationHandler.js";
 
 export const MakeGetLinksRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Link.Get, ({ params: { id } }, req) => {

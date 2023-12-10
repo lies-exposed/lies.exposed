@@ -3,8 +3,8 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as tests from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
 import { loginUser, saveUser } from "../../../../test/user.utils";
-import { MediaEntity } from "@entities/Media.entity";
-import { UserEntity } from "@entities/User.entity";
+import { MediaEntity } from "#entities/Media.entity.js";
+import { UserEntity } from "#entities/User.entity.js";
 
 describe("Create Media", () => {
   let Test: AppTest, authorizationToken: string;

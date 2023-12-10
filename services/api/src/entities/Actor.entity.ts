@@ -1,4 +1,4 @@
-import { type UUID } from "io-ts-types/lib/UUID";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   Column,
   CreateDateColumn,
@@ -9,11 +9,12 @@ import {
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
+  type Relation,
   UpdateDateColumn,
 } from "typeorm";
-import { EventV2Entity } from "./Event.v2.entity";
-import { GroupMemberEntity } from "./GroupMember.entity";
-import { StoryEntity } from "./Story.entity";
+import { EventV2Entity } from "./Event.v2.entity.js";
+import { GroupMemberEntity } from "./GroupMember.entity.js";
+import { StoryEntity } from "./Story.entity.js";
 
 @Entity("actor")
 export class ActorEntity {
@@ -44,13 +45,13 @@ export class ActorEntity {
     cascade: ["insert"],
     nullable: true,
   })
-  memberIn: GroupMemberEntity[];
+  memberIn: Relation< GroupMemberEntity[]>;
 
   @ManyToMany(() => EventV2Entity, (e) => e.actors, {
     cascade: false,
     onDelete: "NO ACTION",
   })
-  events: EventV2Entity[];
+  events: Relation< EventV2Entity[]>;
 
   @Column({ type: "json", nullable: true })
   excerpt: Record<string, unknown> | null;
@@ -62,7 +63,7 @@ export class ActorEntity {
     cascade: false,
   })
   @JoinTable()
-  stories: StoryEntity[];
+  stories: Relation< StoryEntity[]>;
 
   @CreateDateColumn()
   createdAt: Date;

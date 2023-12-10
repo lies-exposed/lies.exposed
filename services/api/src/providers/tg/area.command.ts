@@ -1,15 +1,14 @@
-import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider";
-import { fp } from "@liexp/core/lib/fp";
-import { type Area } from "@liexp/shared/lib/io/http";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { pipe } from "fp-ts/function";
-import kebabCase from "lodash/kebabCase";
+import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type Area } from "@liexp/shared/lib/io/http/index.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import kebabCase from "lodash/kebabCase.js";
 import type TelegramBot from "node-telegram-bot-api";
-import { AreaEntity } from "@entities/Area.entity";
-import { fetchAreaFromWikipedia } from "@flows/areas/fetchAreaFromWikipedia";
-import { toControllerError } from "@io/ControllerError";
-import { toAreaIO } from "@routes/areas/Area.io";
-import { type RouteContext } from "@routes/route.types";
+import { AreaEntity } from "#entities/Area.entity.js";
+import { fetchAreaFromWikipedia } from "#flows/areas/fetchAreaFromWikipedia.js";
+import { toControllerError } from "#io/ControllerError.js";
+import { toAreaIO } from "#routes/areas/Area.io.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 const getSuccessMessage = (area: Area.Area, baseUrl: string): string =>
   `Area <a href="${baseUrl}/areas/${area.id}">${area.label}</a>`;

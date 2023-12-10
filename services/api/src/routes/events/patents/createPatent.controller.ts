@@ -1,19 +1,19 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
-import { sequenceS } from "fp-ts/Apply";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { type UUID } from "io-ts-types/lib/UUID";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal, In } from "typeorm";
-import { type Route } from "../../route.types";
-import { toEventV2IO } from "../eventV2.io";
-import { createEventQuery } from "../queries/createEvent.query";
-import { ActorEntity } from "@entities/Actor.entity";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { GroupEntity } from "@entities/Group.entity";
-import { LinkEntity } from "@entities/Link.entity";
-import { type ControllerError } from "@io/ControllerError";
+import { type Route } from "../../route.types.js";
+import { toEventV2IO } from "../eventV2.io.js";
+import { createEventQuery } from "../queries/createEvent.query.js";
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { GroupEntity } from "#entities/Group.entity.js";
+import { LinkEntity } from "#entities/Link.entity.js";
+import { type ControllerError } from "#io/ControllerError.js";
 
 export const MakeCreatePatentEventRoute: Route = (r, ctx) => {
   AddEndpoint(r)(

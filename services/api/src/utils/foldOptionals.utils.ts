@@ -1,6 +1,6 @@
-import * as O from "fp-ts/Option";
-import * as R from "fp-ts/Record";
-import { pipe } from "fp-ts/function";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as R from "fp-ts/lib/Record.js";
 
 type OptionalsToUndefined<T extends Record<string, O.Option<any>>> = {
   [K in keyof T]: T[K] extends O.Some<infer A> ? A : undefined;

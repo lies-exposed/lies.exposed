@@ -1,15 +1,15 @@
-import { type DBError } from "@liexp/backend/lib/providers/orm";
-import { type http } from "@liexp/shared/lib/io";
-import * as O from "fp-ts/Option";
-import type * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { KeywordEntity } from "@entities/Keyword.entity";
-import { type TEFlow } from "@flows/flow.types";
+import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { type http } from "@liexp/shared/lib/io/index.js";
+import * as O from "fp-ts/lib/Option.js";
+import type * as TE from "fp-ts/lib/TaskEither.js";
+import { KeywordEntity } from "#entities/Keyword.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
 import {
   aggregateSocialPostsPerEntry,
   leftJoinSocialPosts,
-} from "@queries/socialPosts/leftJoinSocialPosts.query";
-import { getORMOptions } from "@utils/orm.utils";
+} from "#queries/socialPosts/leftJoinSocialPosts.query.js";
+import { getORMOptions } from "#utils/orm.utils.js";
 
 const defaultQuery: http.Keyword.GetKeywordListQuery = {
   ids: O.none,

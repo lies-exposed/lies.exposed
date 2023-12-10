@@ -1,15 +1,11 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-require("module-alias")(process.cwd());
-
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { fetchAndSave } from "@flows/links/link.flow";
-import { getOneAdminOrFail } from "@flows/users/getOneUserOrFail.flow";
-import { fp } from "@liexp/core/lib/fp";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { sequenceS } from "fp-ts/lib/Apply";
-import { pipe } from "fp-ts/lib/function";
-import { startContext, stopContext } from "./start-ctx";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { sequenceS } from "fp-ts/Apply";
 import { Brackets } from "typeorm";
+import { startContext, stopContext } from "./start-ctx.js";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { fetchAndSave } from "#flows/links/link.flow.js";
+import { getOneAdminOrFail } from "#flows/users/getOneUserOrFail.flow.js";
 
 /**
  * Usage update-event-payload-url-refs
@@ -30,24 +26,24 @@ const run = async (): Promise<any> => {
             .where(
               new Brackets((qq) => {
                 qq.where(
-                  `(event.type = 'ScientificStudy' AND TRIM("event"."payload"::jsonb ->> 'url') like 'http%')`
+                  `(event.type = 'ScientificStudy' AND TRIM("event"."payload"::jsonb ->> 'url') like 'http%')`,
                 )
                   .orWhere(
-                    ` (event.type = 'Patent' AND TRIM("event"."payload"::jsonb ->> 'source') like 'http%')`
+                    ` (event.type = 'Patent' AND TRIM("event"."payload"::jsonb ->> 'source') like 'http%')`,
                   )
                   .orWhere(
-                    ` (event.type = 'Documentary' AND TRIM("event"."payload"::jsonb ->> 'website') like 'http%')`
+                    ` (event.type = 'Documentary' AND TRIM("event"."payload"::jsonb ->> 'website') like 'http%')`,
                   )
                   .orWhere(
-                    ` (event.type = 'Documentary' AND TRIM("event"."payload"::jsonb ->> 'website') = '')`
+                    ` (event.type = 'Documentary' AND TRIM("event"."payload"::jsonb ->> 'website') = '')`,
                   );
-              })
+              }),
             )
 
             .printSql();
 
           return q.getMany();
-        })
+        }),
         // fp.TE.map(([ev]) => ev)
       ),
     }),
@@ -71,7 +67,7 @@ const run = async (): Promise<any> => {
             },
             fp.TE.fromIO,
             fp.TE.chain((url) =>
-              url ? fetchAndSave(ctx)(creator, url) : fp.TE.right(undefined)
+              url ? fetchAndSave(ctx)(creator, url) : fp.TE.right(undefined),
             ),
             fp.TE.map((l) => {
               if (!l) {
@@ -97,28 +93,29 @@ const run = async (): Promise<any> => {
                 "Updated event %s (%s) => %O",
                 e.id,
                 e.type,
-                e.payload
+                e.payload,
               );
               return e;
-            })
+            }),
           );
         }),
-        fp.A.sequence(fp.TE.ApplicativeSeq)
-      )
+        fp.A.sequence(fp.TE.ApplicativeSeq),
+      ),
     ),
-    throwTE
+    throwTE,
   );
 
   pipe(
     events,
-    fp.A.map((e) =>
+    // eslint-disable-next-line array-callback-return
+    fp.A.map((e): void => {
       ctx.logger.debug.log(
         "Updated event %s (%s) => %O",
         e.id,
         e.type,
-        e.payload
-      )
-    )
+        e.payload,
+      );
+    }),
   );
 
   await stopContext(ctx);

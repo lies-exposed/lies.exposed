@@ -1,18 +1,16 @@
 /* eslint-disable import/first */
 /* eslint-disable @typescript-eslint/no-var-requires */
-require("module-alias")(process.cwd());
 
 // other imports
 import path from "path";
-import { fp } from "@liexp/core/lib/fp";
-import { type Geometry } from "@liexp/shared/lib/io/http/Common";
-import { createExcerptValue } from "@liexp/shared/lib/slate";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type Geometry } from "@liexp/shared/lib/io/http/Common/index.js";
+import { createExcerptValue } from "@liexp/shared/lib/slate/index.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { JsonContains } from "typeorm";
-import { startContext, stopContext } from "./start-ctx";
-import { AreaEntity } from "@entities/Area.entity";
+import { startContext, stopContext } from "./start-ctx.js";
+import { AreaEntity } from "#entities/Area.entity.js";
 const parseKMZ = require("parse2-kmz");
 
 interface GEOFeature {

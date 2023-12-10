@@ -1,12 +1,12 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { QUOTE } from "@liexp/shared/lib/io/http/Events/EventType";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { UUID } from "io-ts-types/lib/UUID";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { QUOTE } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { toQuoteIO } from "./quote.io";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { type Route } from "@routes/route.types";
+import { toQuoteIO } from "./quote.io.js";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { type Route } from "#routes/route.types.js";
 
 export const MakeEditQuoteRoute: Route = (r, { db, logger }) => {
   AddEndpoint(r)(

@@ -1,12 +1,12 @@
 import { type Router } from "express";
-import { MakeCreateScientificStudyRoute } from "./createScientificStudy.controller";
-// import { MakeCreateScientificStudyFromURLRoute } from "./createScientificStudyFromUrl.controller";
-import { MakeDeleteScientificStudyRoute } from "./deleteScientificStudy.controller";
-import { MakeEditScientificStudyRoute } from "./editScientificStudy.controller";
-import { MakeExtractScientificStudyFromURLRoute } from "./extractScientificStudyFromUrl.controller";
-import { MakeGetScientificStudyRoute } from "./getScientificStudy.controller";
-import { MakeListScientificStudyRoute } from "./listScientificStudy.controller";
-import { type RouteContext } from "@routes/route.types";
+import { MakeCreateScientificStudyRoute } from "./createScientificStudy.controller.js";
+// import { MakeCreateScientificStudyFromURLRoute } from "./createScientificStudyFromUrl.controller.js";
+import { MakeDeleteScientificStudyRoute } from "./deleteScientificStudy.controller.js";
+import { MakeEditScientificStudyRoute } from "./editScientificStudy.controller.js";
+import { MakeExtractScientificStudyFromURLRoute } from "./extractScientificStudyFromUrl.controller.js";
+import { MakeGetScientificStudyRoute } from "./getScientificStudy.controller.js";
+import { MakeListScientificStudyRoute } from "./listScientificStudy.controller.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 export const MakeScientificStudyRoutes = (
   router: Router,

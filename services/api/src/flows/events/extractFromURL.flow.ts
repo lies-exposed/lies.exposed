@@ -1,27 +1,27 @@
 import path from "path";
-import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider";
-import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion";
-import { type URL as URLT } from "@liexp/shared/lib/io/http/Common";
-import { type ImageType } from "@liexp/shared/lib/io/http/Media";
-import { GetEncodeUtils } from "@liexp/shared/lib/utils/encode.utils";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
+import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
+import { type URL as URLT } from "@liexp/shared/lib/io/http/Common/index.js";
+import { type ImageType } from "@liexp/shared/lib/io/http/Media.js";
+import { GetEncodeUtils } from "@liexp/shared/lib/utils/encode.utils.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { parse } from "date-fns";
-import { sequenceS } from "fp-ts/Apply";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Metadata } from "page-metadata-parser";
 import type * as puppeteer from "puppeteer-core";
 import { In } from "typeorm";
-import { fetchAndSave } from "../links/link.flow";
-import { ActorEntity } from "@entities/Actor.entity";
-import { type EventV2Entity } from "@entities/Event.v2.entity";
-import { GroupEntity } from "@entities/Group.entity";
-import { KeywordEntity } from "@entities/Keyword.entity";
-import { type LinkEntity } from "@entities/Link.entity";
-import { type UserEntity } from "@entities/User.entity";
-import { type TEFlow } from "@flows/flow.types";
-import { toControllerError, type ControllerError } from "@io/ControllerError";
+import { fetchAndSave } from "../links/link.flow.js";
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { type EventV2Entity } from "#entities/Event.v2.entity.js";
+import { GroupEntity } from "#entities/Group.entity.js";
+import { KeywordEntity } from "#entities/Keyword.entity.js";
+import { type LinkEntity } from "#entities/Link.entity.js";
+import { type UserEntity } from "#entities/User.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { toControllerError, type ControllerError } from "#io/ControllerError.js";
 
 const extractEventFromProviderLink: TEFlow<
   [puppeteer.Page, string, LinkEntity],

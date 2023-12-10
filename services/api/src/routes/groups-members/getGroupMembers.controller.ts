@@ -1,14 +1,14 @@
-import { Endpoints, AddEndpoint } from "@liexp/shared/lib/endpoints";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { Endpoints, AddEndpoint } from "@liexp/shared/lib/endpoints/index.js";
 import { type Router } from "express";
-import * as A from "fp-ts/Array";
-import * as E from "fp-ts/Either";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { type RouteContext } from "../route.types";
-import { toGroupMemberIO } from "./groupMember.io";
-import { GroupMemberEntity } from "@entities/GroupMember.entity";
-import { getORMOptions } from "@utils/orm.utils";
+import * as A from "fp-ts/lib/Array.js";
+import * as E from "fp-ts/lib/Either.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { type RouteContext } from "../route.types.js";
+import { toGroupMemberIO } from "./groupMember.io.js";
+import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
+import { getORMOptions } from "#utils/orm.utils.js";
 
 export const MakeListGroupMemberRoute = (
   r: Router,

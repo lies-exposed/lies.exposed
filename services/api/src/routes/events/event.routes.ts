@@ -1,18 +1,18 @@
 import { type Router } from "express";
-import { CreateEventRoute } from "./createEvent.controller";
-import { DeleteEventRoute } from "./deleteEvent.controller";
-import { DeleteEventSuggestionRoute } from "./deleteEventSuggestion.controller";
-import { EditEventRoute } from "./editEvent.controller";
-import { GetEventRoute } from "./getEvent.controller";
-import { GetEventFromLinkRoute } from "./getEventFromLink.controller";
-import { SearchEventRoute } from "./searchEvents.controller";
-import { SearchEventsFromProviderRoute } from "./searchEventsFromProviders.controller";
-import { CreateEventFromSuggestionRoute } from "./suggestions/createEventFromSuggestion.controller";
-import { CreateEventSuggestionRoute } from "./suggestions/createEventSuggestion.controller";
-import { EditEventSuggestionRoute } from "./suggestions/editEventSuggestion.controller";
-import { GetEventSuggestionRoute } from "./suggestions/getEventSuggestion.controller";
-import { GetEventSuggestionListRoute } from "./suggestions/getEventSuggestionList.controller";
-import { type RouteContext } from "@routes/route.types";
+import { CreateEventRoute } from "./createEvent.controller.js";
+import { DeleteEventRoute } from "./deleteEvent.controller.js";
+import { DeleteEventSuggestionRoute } from "./deleteEventSuggestion.controller.js";
+import { EditEventRoute } from "./editEvent.controller.js";
+import { GetEventRoute } from "./getEvent.controller.js";
+import { GetEventFromLinkRoute } from "./getEventFromLink.controller.js";
+import { SearchEventRoute } from "./searchEvents.controller.js";
+import { SearchEventsFromProviderRoute } from "./searchEventsFromProviders.controller.js";
+import { CreateEventFromSuggestionRoute } from "./suggestions/createEventFromSuggestion.controller.js";
+import { CreateEventSuggestionRoute } from "./suggestions/createEventSuggestion.controller.js";
+import { EditEventSuggestionRoute } from "./suggestions/editEventSuggestion.controller.js";
+import { GetEventSuggestionRoute } from "./suggestions/getEventSuggestion.controller.js";
+import { GetEventSuggestionListRoute } from "./suggestions/getEventSuggestionList.controller.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 export const MakeEventRoutes = (router: Router, ctx: RouteContext): void => {
   // MakeCreateEventFromLinkRoute(router, ctx);

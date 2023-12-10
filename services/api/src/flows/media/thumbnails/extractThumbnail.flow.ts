@@ -1,15 +1,14 @@
-import { fp } from "@liexp/core/lib/fp";
-import { Media } from "@liexp/shared/lib/io/http";
-import { type MediaType } from "@liexp/shared/lib/io/http/Media";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { type ExtractThumbnailFlow } from "./ExtractThumbnailFlow.type";
-import { extractMP4Thumbnail } from "./extractMP4Thumbnail";
-import { extractThumbnailFromPDF } from "./extractThumbnailFromPDF";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { type MediaType } from "@liexp/shared/lib/io/http/Media.js";
+import { Media } from "@liexp/shared/lib/io/http/index.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { type ExtractThumbnailFlow } from "./ExtractThumbnailFlow.type.js";
+import { extractMP4Thumbnail } from "./extractMP4Thumbnail.js";
+import { extractThumbnailFromPDF } from "./extractThumbnailFromPDF.js";
 import {
   createFromRemote,
   extractThumbnailFromIframe,
-} from "./extractThumbnailFromVideoPlatform";
+} from "./extractThumbnailFromVideoPlatform.js";
 
 export const extractThumbnail: ExtractThumbnailFlow<MediaType> =
   (ctx) => (media) => {

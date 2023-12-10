@@ -1,17 +1,16 @@
-import { type GeocodeError } from "@liexp/backend/lib/providers/geocode/geocode.provider";
-import { fp } from "@liexp/core/lib/fp";
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { type Geometry } from "@liexp/shared/lib/io/http/Common";
+import { type GeocodeError } from "@liexp/backend/lib/providers/geocode/geocode.provider.js";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Point } from "@liexp/shared/lib/io/http/Common/Geometry";
-import { sequenceS } from "fp-ts/Apply";
-import { type Option } from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { type Geometry } from "@liexp/shared/lib/io/http/Common/index.js";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import { type Option } from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { type Route } from "../route.types";
-import { toAreaIO } from "./Area.io";
-import { AreaEntity } from "@entities/Area.entity";
-import { foldOptionals } from "@utils/foldOptionals.utils";
+import { type Route } from "../route.types.js";
+import { toAreaIO } from "./Area.io.js";
+import { AreaEntity } from "#entities/Area.entity.js";
+import { foldOptionals } from "#utils/foldOptionals.utils.js";
 
 export const MakeEditAreaRoute: Route = (r, { db, geo, logger }) => {
   AddEndpoint(r)(

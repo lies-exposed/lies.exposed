@@ -1,9 +1,9 @@
-import { type UncategorizedV2Payload } from "@liexp/shared/lib/io/http/Events/Uncategorized";
+import { type UncategorizedV2Payload } from "@liexp/shared/lib/io/http/Events/Uncategorized.js";
 import { ViewColumn, ViewEntity } from "typeorm";
-import { type LinkEntity } from "../Link.entity";
-import { type ActorEntity } from "@entities/Actor.entity";
-import { type GroupEntity } from "@entities/Group.entity";
-import { type GroupMemberEntity } from "@entities/GroupMember.entity";
+import { type LinkEntity } from "../Link.entity.js";
+import { type ActorEntity } from "#entities/Actor.entity.js";
+import { type GroupEntity } from "#entities/Group.entity.js";
+import { type GroupMemberEntity } from "#entities/GroupMember.entity.js";
 
 @ViewEntity({
   expression: `

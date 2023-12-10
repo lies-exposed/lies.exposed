@@ -1,21 +1,21 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { type Link } from "@liexp/shared/lib/io/http";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { type Link } from "@liexp/shared/lib/io/http/index.js";
 import { type Router } from "express";
-import { sequenceS } from "fp-ts/Apply";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Metadata } from "page-metadata-parser";
 import { Equal } from "typeorm";
-import { LinkEntity } from "@entities/Link.entity";
-import { extractRelationsFromURL } from "@flows/events/extractFromURL.flow";
+import { LinkEntity } from "#entities/Link.entity.js";
+import { extractRelationsFromURL } from "#flows/events/extractFromURL.flow.js";
 import {
   type ControllerError,
   ServerError,
   toControllerError,
-} from "@io/ControllerError";
-import { toLinkIO } from "@routes/links/link.io";
-import { type RouteContext } from "@routes/route.types";
+} from "#io/ControllerError.js";
+import { toLinkIO } from "#routes/links/link.io.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 export const MakeGetMetadataRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(

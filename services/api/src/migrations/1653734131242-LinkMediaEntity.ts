@@ -1,5 +1,5 @@
-import { LinkEntity } from "@entities/Link.entity";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
+import { LinkEntity } from "#entities/Link.entity.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { MigrationInterface, QueryRunner } from "typeorm";
 
 export class LinkMediaEntity1653734131242 implements MigrationInterface {

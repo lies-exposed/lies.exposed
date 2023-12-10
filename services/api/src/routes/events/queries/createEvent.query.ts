@@ -1,12 +1,12 @@
-import { type DBError } from "@liexp/backend/lib/providers/orm";
-import * as http from "@liexp/shared/lib/io/http";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import * as http from "@liexp/shared/lib/io/http/index.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { type DeepPartial } from "typeorm";
-import { fetchRelationIds } from "./fetchEventRelations.query";
-import { type EventV2Entity } from "@entities/Event.v2.entity";
-import { type RouteContext } from "@routes/route.types";
+import { fetchRelationIds } from "./fetchEventRelations.query.js";
+import { type EventV2Entity } from "#entities/Event.v2.entity.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 export const createEventQuery =
   (ctx: RouteContext) =>

@@ -1,10 +1,10 @@
-import { flow, fp, pipe } from "@liexp/core/lib/fp";
-import { type MediaExtra } from "@liexp/shared/lib/io/http/Media";
+import { flow, fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type MediaExtra } from "@liexp/shared/lib/io/http/Media.js";
 import type Ffmpeg from "fluent-ffmpeg";
-import { downloadMP4Video } from "../downloadMP4Video";
-import { type SimpleMedia } from "../thumbnails/extractMP4Thumbnail";
-import { type TEFlow } from "@flows/flow.types";
-import { toControllerError } from "@io/ControllerError";
+import { downloadMP4Video } from "../downloadMP4Video.js";
+import { type SimpleMedia } from "../thumbnails/extractMP4Thumbnail.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { toControllerError } from "#io/ControllerError.js";
 
 export const extractVideoFFProbeData: TEFlow<[string], Ffmpeg.FfprobeData> = (
   ctx,

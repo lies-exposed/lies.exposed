@@ -1,4 +1,4 @@
-import * as http from "@liexp/shared/lib/io/http";
+import * as http from "@liexp/shared/lib/io/http/index.js";
 import {
   Column,
   CreateDateColumn,
@@ -7,9 +7,10 @@ import {
   Index,
   ManyToOne,
   PrimaryGeneratedColumn,
+  type Relation,
   UpdateDateColumn,
 } from "typeorm";
-import { UserEntity } from "./User.entity";
+import { UserEntity } from "./User.entity.js";
 
 @Entity("event_suggestion")
 export class EventSuggestionEntity {
@@ -29,7 +30,7 @@ export class EventSuggestionEntity {
   @ManyToOne(() => UserEntity, (u) => u.eventSuggestions, {
     cascade: false,
   })
-  creator: UserEntity;
+  creator: Relation< UserEntity>;
 
   @CreateDateColumn()
   createdAt: Date;

@@ -2,9 +2,9 @@ import {
   type FilterQuery,
   type GetListQuery,
 } from "@liexp/shared/lib/io/http/Query";
-import * as O from "fp-ts/Option";
+import * as O from "fp-ts/lib/Option.js";
 import { Like } from "typeorm";
-import { getORMOptions } from "../orm.utils";
+import { getORMOptions } from "../orm.utils.js";
 
 describe("ORM utils V2", () => {
   test("Should return only pagination", () => {

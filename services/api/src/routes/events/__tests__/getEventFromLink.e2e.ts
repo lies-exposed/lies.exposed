@@ -7,10 +7,10 @@ import {
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
-import { ActorEntity } from "@entities/Actor.entity";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { GroupEntity } from "@entities/Group.entity";
-import { GroupMemberEntity } from "@entities/GroupMember.entity";
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { GroupEntity } from "#entities/Group.entity.js";
+import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
 
 describe("Get event from link", () => {
   let appTest: AppTest;

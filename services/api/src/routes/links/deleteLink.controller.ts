@@ -1,15 +1,15 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import { type Router } from "express";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { type RouteContext } from "../route.types";
-import { LinkEntity } from "@entities/Link.entity";
-import { NotFoundError } from "@io/ControllerError";
-import { authenticationHandler } from "@utils/authenticationHandler";
-import { ensureUserExists } from "@utils/user.utils";
+import { type RouteContext } from "../route.types.js";
+import { LinkEntity } from "#entities/Link.entity.js";
+import { NotFoundError } from "#io/ControllerError.js";
+import { authenticationHandler } from "#utils/authenticationHandler.js";
+import { ensureUserExists } from "#utils/user.utils.js";
 
 export const MakeDeleteLinkRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r, authenticationHandler(ctx, ["admin:delete"]))(

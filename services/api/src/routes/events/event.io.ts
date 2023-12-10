@@ -1,9 +1,9 @@
-import * as io from "@liexp/shared/lib/io";
-import * as E from "fp-ts/Either";
-import { pipe } from "fp-ts/function";
-import { UUID } from "io-ts-types/lib/UUID";
-import { type EventEntity } from "@entities/archive/Event.entity";
-import { type ControllerError, DecodeError } from "@io/ControllerError";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import * as io from "@liexp/shared/lib/io/index.js";
+import * as E from "fp-ts/lib/Either.js";
+import { type EventEntity } from "#entities/archive/Event.entity.js";
+import { type ControllerError, DecodeError } from "#io/ControllerError.js";
 
 export const toEventIO = (
   event: EventEntity,

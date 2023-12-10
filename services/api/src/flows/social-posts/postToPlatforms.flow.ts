@@ -1,11 +1,11 @@
-import { fp, pipe } from "@liexp/core/lib/fp";
-import { type CreateSocialPost } from "@liexp/shared/lib/io/http/SocialPost";
-import { sequenceS } from "fp-ts/Apply";
-import { type UUID } from "io-ts-types/lib/UUID";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { type CreateSocialPost } from "@liexp/shared/lib/io/http/SocialPost.js";
+import { sequenceS } from "fp-ts/lib/Apply.js";
 import type TelegramBot from "node-telegram-bot-api";
-import { postToIG } from "./postToIG.flow";
-import { postToTG } from "./postToTG.flow";
-import { type TEFlow } from "@flows/flow.types";
+import { postToIG } from "./postToIG.flow.js";
+import { postToTG } from "./postToTG.flow.js";
+import { type TEFlow } from "#flows/flow.types.js";
 
 export const postToSocialPlatforms: TEFlow<
   [UUID, CreateSocialPost],

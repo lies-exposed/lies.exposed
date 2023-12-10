@@ -94,7 +94,7 @@ services:
     ports:
       - "4020:4020"
     volumes:
-      - ./.eslintrc:/app/.eslintrc
+      - ./.eslintrc.js:/app/.eslintrc.js
       - ./tsconfig.json:/app/tsconfig.json
       - ./packages/@liexp:/app/packages/@liexp:cached
       - ./services/web:/app/services/web:cached
@@ -117,7 +117,7 @@ services:
     ports:
       - "4001:4001"
     volumes:
-      - ./.eslintrc:/app/.eslintrc
+      - ./.eslintrc.js:/app/.eslintrc.js
       - ./tsconfig.json:/app/tsconfig.json
       - ./packages/@liexp:/app/packages/@liexp:cached
       - ./services/admin-web:/app/services/admin-web:cached

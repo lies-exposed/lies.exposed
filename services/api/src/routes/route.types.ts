@@ -1,7 +1,7 @@
-import { type ServerContext } from "@liexp/backend/lib/context/server";
+import { type ServerContext } from "@liexp/backend/lib/context/server.js";
 import { type Router } from "express";
-import { type ENV } from "@io/ENV";
-import { type EventsConfig } from "@queries/config";
+import { type ENV } from "#io/ENV.js";
+import { type EventsConfig } from "#queries/config/index.js";
 
 export interface RouteContext extends ServerContext {
   env: ENV;

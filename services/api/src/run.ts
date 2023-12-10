@@ -1,20 +1,27 @@
 /* eslint-disable import/order, import/first */
-import { loadENV } from "@liexp/core/lib/env/utils";
-import * as logger from "@liexp/core/lib/logger";
-import { parseENV } from "@utils/env.utils";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { failure } from "io-ts/lib/PathReporter";
-import { postOnSocialJob } from "./jobs/socialPostScheduler.job";
-import { makeApp, makeContext } from "./server";
-import { cleanTempFolder } from "./jobs/cleanTempFolder.job";
-
+import { loadENV } from "@liexp/core/lib/env/utils.js";
+import * as logger from "@liexp/core/lib/logger/index.js";
+import { parseENV } from "#utils/env.utils.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { pipe } from "fp-ts/lib/function.js";
+import { failure } from "io-ts/lib/PathReporter.js";
+import { postOnSocialJob } from "./jobs/socialPostScheduler.job.js";
+import { makeApp } from "./app/index.js";
+import { makeContext } from "./context/index.js";
+import { cleanTempFolder } from "./jobs/cleanTempFolder.job.js";
+import D from 'debug';
 const run = (): Promise<void> => {
+  process.env.NODE_ENV = process.env.NODE_ENV ?? "development";
+
   const serverLogger = logger.GetLogger("api");
 
   if (process.env.NODE_ENV === "development") {
+    loadENV(process.cwd(), ".env", true);
     loadENV(process.cwd(), ".env.local", true);
+
+    D.enable(process.env.DEBUG ?? "*");
   }
+
 
   return pipe(
     parseENV(process.env),
@@ -29,7 +36,9 @@ const run = (): Promise<void> => {
         serverLogger.error.log("%s\n %s \n\n %O", err.name, err.message, err);
         const parsedError =
           err.details.kind === "DecodingError"
-            ? failure(err.details.errors as any[])
+            ? err.details.errors
+              ? failure(err.details.errors as any[])
+              : []
             : (err.details.meta as any[]) ?? [];
         serverLogger.error.log("Parsed error %O", parsedError);
         return () =>

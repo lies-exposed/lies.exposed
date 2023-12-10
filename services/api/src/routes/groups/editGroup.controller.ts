@@ -1,14 +1,14 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import { type Router } from "express";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { UUID } from "io-ts-types/lib/UUID";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { GroupEntity } from "../../entities/Group.entity";
-import { toGroupIO } from "./group.io";
-import { type RouteContext } from "@routes/route.types";
-import { authenticationHandler } from "@utils/authenticationHandler";
+import { GroupEntity } from "../../entities/Group.entity.js";
+import { toGroupIO } from "./group.io.js";
+import { type RouteContext } from "#routes/route.types.js";
+import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeEditGroupRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r, authenticationHandler(ctx, ["admin:edit"]))(

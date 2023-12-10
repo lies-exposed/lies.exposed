@@ -1,16 +1,14 @@
 /* eslint-disable import/first */
 /* eslint-disable @typescript-eslint/no-var-requires */
-require("module-alias")(process.cwd());
 
 import * as fs from "fs";
 import * as path from "path";
-import { loadENV } from "@liexp/core/lib/env/utils";
-import { fp } from "@liexp/core/lib/fp";
-import { separateTE, throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { loadENV } from "@liexp/core/lib/env/utils.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { separateTE, throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import D from "debug";
-import { pipe } from "fp-ts/function";
-import { startContext, stopContext } from "./start-ctx";
-import { parseTGMessageFlow } from "@flows/tg/parseMessages.flow";
+import { startContext, stopContext } from "./start-ctx.js";
+import { parseTGMessageFlow } from "#flows/tg/parseMessages.flow.js";
 
 /**
  * Usage parse-tg-message $messageN $delete?

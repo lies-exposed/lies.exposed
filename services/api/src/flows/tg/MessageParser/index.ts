@@ -1,26 +1,25 @@
-import { fp } from "@liexp/core/lib/fp";
-import { isExcludedURL } from "@liexp/shared/lib/helpers/link.helper";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { isExcludedURL } from "@liexp/shared/lib/helpers/link.helper.js";
 import {
   type VideoPlatformMatch,
   getPlatform,
-} from "@liexp/shared/lib/helpers/media";
-import { type URL } from "@liexp/shared/lib/io/http/Common/URL";
-import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils";
-import * as E from "fp-ts/Either";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+} from "@liexp/shared/lib/helpers/media.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
+import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
+import * as E from "fp-ts/lib/Either.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import type TelegramBot from "node-telegram-bot-api";
 import type * as puppeteer from "puppeteer-core";
-import { parseDocument } from "../parseDocument";
-import { parsePhoto } from "../parsePhoto";
-import { parsePlatformMedia } from "../parsePlatformMedia";
-import { parseURLs } from "../parseURL.flow";
-import { parseVideo } from "../parseVideo";
-import { type LinkEntity } from "@entities/Link.entity";
-import { type MediaEntity } from "@entities/Media.entity";
-import { type UserEntity } from "@entities/User.entity";
-import { type TEFlow, type TEFlow2 } from "@flows/flow.types";
+import { parseDocument } from "../parseDocument.js";
+import { parsePhoto } from "../parsePhoto.js";
+import { parsePlatformMedia } from "../parsePlatformMedia.js";
+import { parseURLs } from "../parseURL.flow.js";
+import { parseVideo } from "../parseVideo.js";
+import { type LinkEntity } from "#entities/Link.entity.js";
+import { type MediaEntity } from "#entities/Media.entity.js";
+import { type UserEntity } from "#entities/User.entity.js";
+import { type TEFlow, type TEFlow2 } from "#flows/flow.types.js";
 
 interface MessageParserAPI {
   parseDocument: TEFlow2<MediaEntity[]>;

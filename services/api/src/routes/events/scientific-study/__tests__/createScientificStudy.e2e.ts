@@ -1,15 +1,15 @@
-import { http } from "@liexp/shared/lib/io";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType";
-import { AdminCreate } from "@liexp/shared/lib/io/http/User";
-import { createExcerptValue } from "@liexp/shared/lib/slate";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
+import { http } from "@liexp/shared/lib/io/index.js";
+import { createExcerptValue } from "@liexp/shared/lib/slate/index.js";
 import { LinkArb } from "@liexp/shared/lib/tests";
-import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary";
-import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary";
-import { HumanReadableStringArb } from "@liexp/shared/lib/tests/arbitrary/HumanReadableString.arbitrary";
+import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
+import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
+import { HumanReadableStringArb } from "@liexp/shared/lib/tests/arbitrary/HumanReadableString.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils";
+import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { fc } from "@liexp/test";
-import { pipe } from "fp-ts/function";
 import { In } from "typeorm";
 import { GetAppTest, type AppTest } from "../../../../../test/AppTest";
 import {
@@ -17,10 +17,10 @@ import {
   loginUser,
   saveUser,
 } from "../../../../../test/user.utils";
-import { ActorEntity } from "@entities/Actor.entity";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { GroupEntity } from "@entities/Group.entity";
-import { LinkEntity } from "@entities/Link.entity";
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { GroupEntity } from "#entities/Group.entity.js";
+import { LinkEntity } from "#entities/Link.entity.js";
 
 describe("Create Scientific Study", () => {
   let appTest: AppTest;

@@ -1,11 +1,11 @@
 import { ActorArb, GroupArb } from "@liexp/shared/lib/tests";
-import { BookEventArb } from "@liexp/shared/lib/tests/arbitrary/events/BookEvent.arbitrary";
+import { BookEventArb } from "@liexp/shared/lib/tests/arbitrary/events/BookEvent.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
 import { GetAppTest, type AppTest } from "../../../../../test/AppTest";
-import { ActorEntity } from "@entities/Actor.entity";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { GroupEntity } from "@entities/Group.entity";
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { GroupEntity } from "#entities/Group.entity.js";
 
 describe("Get Book List", () => {
   let appTest: AppTest;

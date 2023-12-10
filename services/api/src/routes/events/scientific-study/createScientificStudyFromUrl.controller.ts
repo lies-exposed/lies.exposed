@@ -1,15 +1,15 @@
-// import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-// import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/ScientificStudy";
-// import * as O from "fp-ts/Option";
-// import * as TE from "fp-ts/TaskEither";
-// import { pipe } from "fp-ts/function";
+// import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+// import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/ScientificStudy.js";
+// import * as O from "fp-ts/lib/Option.js";
+// import * as TE from "fp-ts/lib/TaskEither.js";
+// import { pipe } from "@liexp/core/lib/fp/index.js";
 // import { Equal } from "typeorm";
 // import { findByURL } from "../../../queries/events/scientificStudy.query";
-// import { EventV2Entity } from "@entities/Event.v2.entity";
-// import { extractFromURL } from "@flows/events/extractFromURL.flow";
-// import { ServerError, toControllerError } from "@io/ControllerError";
-// import { toEventV2IO } from "@routes/events/eventV2.io";
-// import { Route } from "@routes/route.types";
+// import { EventV2Entity } from "#entities/Event.v2.entity.js";
+// import { extractFromURL } from "#flows/events/extractFromURL.flow.js";
+// import { ServerError, toControllerError } from "#io/ControllerError.js";
+// import { toEventV2IO } from "#routes/events/eventV2.io.js";
+// import { Route } from "#routes/route.types.js";
 
 // export const MakeCreateScientificStudyFromURLRoute: Route = (r, ctx) => {
 //   AddEndpoint(r)(

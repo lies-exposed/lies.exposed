@@ -1,11 +1,10 @@
-import { fp } from "@liexp/core/lib/fp";
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { PUBLISHED } from "@liexp/shared/lib/io/http/SocialPost";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { SocialPostEntity } from "@entities/SocialPost.entity";
-import { postToSocialPlatforms } from "@flows/social-posts/postToPlatforms.flow";
-import { type Route } from "@routes/route.types";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { PUBLISHED } from "@liexp/shared/lib/io/http/SocialPost.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { SocialPostEntity } from "#entities/SocialPost.entity.js";
+import { postToSocialPlatforms } from "#flows/social-posts/postToPlatforms.flow.js";
+import { type Route } from "#routes/route.types.js";
 
 export const MakePublishSocialPostRoute: Route = (r, ctx) => {
   AddEndpoint(r)(

@@ -1,20 +1,20 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import {
   type NetworkGraphOutput,
   type NetworkType,
-} from "@liexp/shared/lib/io/http/Network";
-import { AdminRead } from "@liexp/shared/lib/io/http/User";
+} from "@liexp/shared/lib/io/http/Network.js";
+import { AdminRead } from "@liexp/shared/lib/io/http/User.js";
 import { type Router } from "express";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { createEventNetworkGraph } from "@flows/networks/createEventNetworkGraph.flow";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { createEventNetworkGraph } from "#flows/networks/createEventNetworkGraph.flow.js";
 import {
   createNetworkGraph,
   emptyGetNetworkQuery,
-} from "@flows/networks/createNetworkGraph.flow";
-import { type ControllerError } from "@io/ControllerError";
-import { type RouteContext } from "@routes/route.types";
-import { RequestDecoder } from "@utils/authenticationHandler";
+} from "#flows/networks/createNetworkGraph.flow.js";
+import { type ControllerError } from "#io/ControllerError.js";
+import { type RouteContext } from "#routes/route.types.js";
+import { RequestDecoder } from "#utils/authenticationHandler.js";
 
 export const MakeEditNetworkRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(

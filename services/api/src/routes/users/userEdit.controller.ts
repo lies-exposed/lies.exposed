@@ -1,11 +1,11 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { toUserIO } from "./user.io";
-import { UserEntity } from "@entities/User.entity";
-import { type Route } from "@routes/route.types";
-import { authenticationHandler } from "@utils/authenticationHandler";
+import { toUserIO } from "./user.io.js";
+import { UserEntity } from "#entities/User.entity.js";
+import { type Route } from "#routes/route.types.js";
+import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeUserEditRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(ctx, ["admin:edit"]))(

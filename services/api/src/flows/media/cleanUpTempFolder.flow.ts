@@ -1,8 +1,8 @@
 import * as fs from "fs";
 import path from "path";
-import { fp, flow, pipe } from "@liexp/core/lib/fp";
-import { type TEFlow } from "@flows/flow.types";
-import { toControllerError } from "@io/ControllerError";
+import { fp, flow, pipe } from "@liexp/core/lib/fp/index.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { toControllerError } from "#io/ControllerError.js";
 
 export const cleanUpFolder: TEFlow<[string, number], void> =
   (ctx) => (tempFolder, time) => {

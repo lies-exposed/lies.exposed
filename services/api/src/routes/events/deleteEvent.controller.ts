@@ -1,10 +1,10 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { AdminDelete } from "@liexp/shared/lib/io/http/User";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { type Route } from "@routes/route.types";
-import { authenticationHandler } from "@utils/authenticationHandler";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { AdminDelete } from "@liexp/shared/lib/io/http/User.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { type Route } from "#routes/route.types.js";
+import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const DeleteEventRoute: Route = (r, { db, logger, jwt }) => {
   AddEndpoint(r, authenticationHandler({ jwt, logger }, [AdminDelete.value]))(

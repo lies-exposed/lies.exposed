@@ -1,7 +1,7 @@
 import path from "path";
-import { pipe } from "fp-ts/function";
-import { createStatsByType } from "./createStatsByType.flow";
-import { type TEFlow } from "@flows/flow.types";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { createStatsByType } from "./createStatsByType.flow.js";
+import { type TEFlow } from "#flows/flow.types.js";
 
 export const createStats: TEFlow<
   ["keywords" | "groups" | "actors", string],

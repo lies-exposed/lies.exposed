@@ -1,5 +1,5 @@
-import { MediaType, type MediaExtra } from "@liexp/shared/lib/io/http/Media";
-import { type UUID } from "io-ts-types/lib/UUID";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { MediaType, type MediaExtra } from "@liexp/shared/lib/io/http/Media.js";
 import {
   Column,
   CreateDateColumn,
@@ -10,15 +10,16 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  type Relation,
   UpdateDateColumn,
 } from "typeorm";
-import { AreaEntity } from "./Area.entity";
-import { EventV2Entity } from "./Event.v2.entity";
-import { KeywordEntity } from "./Keyword.entity";
-import { LinkEntity } from "./Link.entity";
-import { type SocialPostEntity } from "./SocialPost.entity";
-import { StoryEntity } from "./Story.entity";
-import { UserEntity } from "./User.entity";
+import { AreaEntity } from "./Area.entity.js";
+import { EventV2Entity } from "./Event.v2.entity.js";
+import { KeywordEntity } from "./Keyword.entity.js";
+import { LinkEntity } from "./Link.entity.js";
+import { type SocialPostEntity } from "./SocialPost.entity.js";
+import { StoryEntity } from "./Story.entity.js";
+import { UserEntity } from "./User.entity.js";
 
 @Entity("image")
 export class MediaEntity {
@@ -49,43 +50,43 @@ export class MediaEntity {
     nullable: true,
   })
   @JoinTable()
-  creator: UserEntity | null;
+  creator: Relation< UserEntity | null>;
 
   @Column({
     type: "json",
     nullable: true,
   })
-  extra: MediaExtra | null;
+  extra: Relation< MediaExtra | null>;
 
   @ManyToMany(() => EventV2Entity, (e) => e.media, {
     cascade: false,
   })
-  events: EventV2Entity[];
+  events: Relation< EventV2Entity[]>;
 
   @OneToMany(() => LinkEntity, (e) => e.image, {
     cascade: false,
   })
-  links: LinkEntity[];
+  links: Relation< LinkEntity[]>;
 
   @ManyToMany(() => AreaEntity, (a) => a.media, {
     cascade: false,
   })
-  areas: AreaEntity[];
+  areas: Relation< AreaEntity[]>;
 
   @OneToMany(() => StoryEntity, (a) => a.featuredImage, {
     cascade: false,
   })
-  featuredIn: StoryEntity[];
+  featuredIn:Relation< StoryEntity[]>;
 
   @ManyToMany(() => StoryEntity, (a) => a.media, {
     cascade: false,
   })
-  stories: StoryEntity[];
+  stories: Relation< StoryEntity[]>;
 
   @ManyToMany(() => KeywordEntity, (a) => a.media, {
     cascade: false,
   })
-  keywords: KeywordEntity[];
+  keywords: Relation< KeywordEntity[]>;
 
   socialPosts?: SocialPostEntity[];
 

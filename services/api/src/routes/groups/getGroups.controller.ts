@@ -1,12 +1,11 @@
-import { fp } from "@liexp/core/lib/fp";
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Router } from "express";
-import * as E from "fp-ts/Either";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { fetchGroups } from "../../queries/groups/fetchGroups.query";
-import { type RouteContext } from "../route.types";
-import { toGroupIO } from "./group.io";
+import * as E from "fp-ts/lib/Either.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { fetchGroups } from "../../queries/groups/fetchGroups.query.js";
+import { type RouteContext } from "../route.types.js";
+import { toGroupIO } from "./group.io.js";
 
 export const MakeListGroupRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Group.List, ({ query }) => {

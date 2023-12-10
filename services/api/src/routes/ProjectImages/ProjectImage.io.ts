@@ -1,8 +1,8 @@
-import * as io from "@liexp/shared/lib/io";
-import * as E from "fp-ts/Either";
-import { pipe } from "fp-ts/function";
-import { type ProjectImageEntity } from "@entities/ProjectImage.entity";
-import { type ControllerError, DecodeError } from "@io/ControllerError";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import * as io from "@liexp/shared/lib/io/index.js";
+import * as E from "fp-ts/lib/Either.js";
+import { type ProjectImageEntity } from "#entities/ProjectImage.entity.js";
+import { type ControllerError, DecodeError } from "#io/ControllerError.js";
 
 export const toProjectImageIO = ({
   project,

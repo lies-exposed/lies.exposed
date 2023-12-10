@@ -1,42 +1,41 @@
 import fs from "fs";
 import path from "path";
-import { type DBError } from "@liexp/backend/lib/providers/orm";
-import { fp } from "@liexp/core/lib/fp";
-import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
+import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
 import {
   getNewRelationIds,
   toSearchEvent,
   type SearchEventsQueryCache,
-} from "@liexp/shared/lib/helpers/event/search-event";
+} from "@liexp/shared/lib/helpers/event/search-event.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { EventType, type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
 import {
   type Events,
   type GroupMember,
   type Media,
-} from "@liexp/shared/lib/io/http";
-import { type UUID } from "@liexp/shared/lib/io/http/Common";
-import { EventType, type SearchEvent } from "@liexp/shared/lib/io/http/Events";
-import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils";
-import { sequenceS } from "fp-ts/Apply";
-import * as A from "fp-ts/Array";
-import * as E from "fp-ts/Either";
-import * as IOE from "fp-ts/IOEither";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+} from "@liexp/shared/lib/io/http/index.js";
+import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as A from "fp-ts/lib/Array.js";
+import * as E from "fp-ts/lib/Either.js";
+import * as IOE from "fp-ts/lib/IOEither.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { In } from "typeorm";
-import { ActorEntity } from "@entities/Actor.entity";
-import { type EventV2Entity } from "@entities/Event.v2.entity";
-import { GroupEntity } from "@entities/Group.entity";
-import { GroupMemberEntity } from "@entities/GroupMember.entity";
-import { KeywordEntity } from "@entities/Keyword.entity";
-import { MediaEntity } from "@entities/Media.entity";
-import { type TEFlow } from "@flows/flow.types";
-import { type ControllerError, toControllerError } from "@io/ControllerError";
-import { toEventV2IO } from "@routes/events/eventV2.io";
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { type EventV2Entity } from "#entities/Event.v2.entity.js";
+import { GroupEntity } from "#entities/Group.entity.js";
+import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
+import { KeywordEntity } from "#entities/Keyword.entity.js";
+import { MediaEntity } from "#entities/Media.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { toControllerError, type ControllerError } from "#io/ControllerError.js";
+import { toEventV2IO } from "#routes/events/eventV2.io.js";
 import {
-  type SearchEventOutput,
   searchEventV2Query,
-} from "@routes/events/queries/searchEventsV2.query";
+  type SearchEventOutput,
+} from "#routes/events/queries/searchEventsV2.query.js";
 
 interface StatsCache {
   events: string[];

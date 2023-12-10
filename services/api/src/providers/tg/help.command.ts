@@ -1,5 +1,5 @@
-import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider";
-import { type RouteContext } from "@routes/route.types";
+import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 export const helpCommand = ({
   logger,

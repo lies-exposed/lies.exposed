@@ -36,7 +36,8 @@
   "include": [
     "../../../node_modules/vitest/globals.d.ts",
     "./src",
-    "./src/**/*.json"
+    "./src/**/*.json",
+    ".eslintrc.js"
   ],
   "exclude": ["node_modules", "lib"]
 }

@@ -1,12 +1,12 @@
-import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
+import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
 import { UncategorizedArb } from "@liexp/shared/lib/tests";
-import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary";
+import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as tests from "@liexp/test";
 import { addDays } from "date-fns";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { KeywordEntity } from "@entities/Keyword.entity";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { KeywordEntity } from "#entities/Keyword.entity.js";
 
 describe("Get Network", () => {
   let Test: AppTest, authorizationToken: string, events: any[], keywords: any[];

@@ -1,5 +1,5 @@
 import { type SelectQueryBuilder } from "typeorm";
-import { SocialPostEntity } from "@entities/SocialPost.entity";
+import { SocialPostEntity } from "#entities/SocialPost.entity.js";
 
 export const aggregateSocialPostsPerEntry = (
   key: string,

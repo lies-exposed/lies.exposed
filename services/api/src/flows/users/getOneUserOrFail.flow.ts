@@ -2,11 +2,11 @@ import {
   AdminCreate,
   AdminDelete,
   AdminEdit,
-} from "@liexp/shared/lib/io/http/User";
-import type * as TE from "fp-ts/TaskEither";
-import { UserEntity } from "@entities/User.entity";
-import { type ControllerError } from "@io/ControllerError";
-import { type RouteContext } from "@routes/route.types";
+} from "@liexp/shared/lib/io/http/User.js";
+import type * as TE from "fp-ts/lib/TaskEither.js";
+import { UserEntity } from "#entities/User.entity.js";
+import { type ControllerError } from "#io/ControllerError.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 export const getOneAdminOrFail = (
   ctx: RouteContext,

@@ -1,13 +1,13 @@
 import * as path from "path";
-import { loadENV } from "@liexp/core/lib/env/utils";
-import * as logger from "@liexp/core/lib/logger";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { loadENV } from "@liexp/core/lib/env/utils.js";
+import * as logger from "@liexp/core/lib/logger/index.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as dotenv from "dotenv";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { PathReporter } from "io-ts/lib/PathReporter";
-import { TestENV } from "./TestENV";
+import { PathReporter } from "io-ts/PathReporter";
+import { TestENV } from "./TestENV.js";
 
 export default async (): Promise<() => void> => {
   try {

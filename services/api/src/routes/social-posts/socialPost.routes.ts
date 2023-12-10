@@ -1,10 +1,10 @@
 import { type Router } from "express";
-import { MakeCreateSocialPostRoute } from "./createSocialPost.controller";
-import { MakeEditSocialPostRoute } from "./editSocialPost.controller";
-import { MakeGetSocialPostRoute } from "./getSocialPost.controller";
-import { MakeListSocialPostRoute } from "./listSocialPost.controller";
-import { MakePublishSocialPostRoute } from "./publishSocialPost.controller";
-import { type RouteContext } from "@routes/route.types";
+import { MakeCreateSocialPostRoute } from "./createSocialPost.controller.js";
+import { MakeEditSocialPostRoute } from "./editSocialPost.controller.js";
+import { MakeGetSocialPostRoute } from "./getSocialPost.controller.js";
+import { MakeListSocialPostRoute } from "./listSocialPost.controller.js";
+import { MakePublishSocialPostRoute } from "./publishSocialPost.controller.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 export const MakeSocialPostRoutes = (
   router: Router,

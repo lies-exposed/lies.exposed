@@ -1,8 +1,9 @@
 import {
   type JWTProvider,
   JWTError,
-} from "@liexp/backend/lib/providers/jwt/jwt.provider";
-import type * as logger from "@liexp/core/lib/logger";
+} from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import type * as logger from "@liexp/core/lib/logger/index.js";
 import {
   AdminCreate,
   AdminDelete,
@@ -13,14 +14,13 @@ import {
   EventSuggestionRead,
   type User,
   type UserPermission,
-} from "@liexp/shared/lib/io/http/User";
+} from "@liexp/shared/lib/io/http/User.js";
 import type * as express from "express";
 import { type IO } from "fp-ts/IO";
-import * as IOE from "fp-ts/IOEither";
-import { pipe } from "fp-ts/function";
+import * as IOE from "fp-ts/lib/IOEither.js";
 import * as t from "io-ts";
-import { PathReporter } from "io-ts/lib/PathReporter";
-import { NotAuthorizedError } from "@io/ControllerError";
+import { PathReporter } from "io-ts/lib/PathReporter.js";
+import { NotAuthorizedError } from "#io/ControllerError.js";
 
 const HeadersWithAuthorization = t.strict(
   {

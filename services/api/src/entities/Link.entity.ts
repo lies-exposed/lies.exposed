@@ -1,4 +1,4 @@
-import { type URL, type UUID } from "@liexp/shared/lib/io/http/Common";
+import { type URL, type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   Column,
   CreateDateColumn,
@@ -9,13 +9,14 @@ import {
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
+  type Relation,
   UpdateDateColumn,
 } from "typeorm";
-import { EventV2Entity } from "./Event.v2.entity";
-import { KeywordEntity } from "./Keyword.entity";
-import { MediaEntity } from "./Media.entity";
-import { type SocialPostEntity } from "./SocialPost.entity";
-import { UserEntity } from "./User.entity";
+import { EventV2Entity } from "./Event.v2.entity.js";
+import { KeywordEntity } from "./Keyword.entity.js";
+import { MediaEntity } from "./Media.entity.js";
+import { type SocialPostEntity } from "./SocialPost.entity.js";
+import { UserEntity } from "./User.entity.js";
 
 @Entity("link")
 @Index(["url"], { unique: true })
@@ -37,7 +38,7 @@ export class LinkEntity {
     nullable: true,
   })
   @JoinColumn()
-  image: MediaEntity | null;
+  image: Relation< MediaEntity | null>;
 
   @Column({ type: "timestamptz", nullable: true })
   publishDate: Date | null;
@@ -49,7 +50,7 @@ export class LinkEntity {
     nullable: true,
     cascade: false,
   })
-  creator: UserEntity | null;
+  creator: Relation<UserEntity | null>;
 
   @ManyToMany(() => EventV2Entity, (e) => e.links, {
     cascade: false,

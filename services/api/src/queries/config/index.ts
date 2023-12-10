@@ -1,8 +1,8 @@
-import { type EventType } from "@liexp/shared/lib/io/http/Events";
-import { type EventQueryConfig } from "./EventQueryConfig";
-import { Book } from "./events/book.config";
-import { Death } from "./events/death.config";
-import { Patent } from "./events/patent.config";
+import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type EventQueryConfig } from "./EventQueryConfig.js";
+import { Book } from "./events/book.config.js";
+import { Death } from "./events/death.config.js";
+import { Patent } from "./events/patent.config.js";
 
 export type EventsConfig = {
   [K in EventType]: EventQueryConfig;

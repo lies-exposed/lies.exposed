@@ -1,16 +1,16 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { EventType } from "@liexp/shared/lib/io/http/Events";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type Router } from "express";
-import * as A from "fp-ts/Array";
-import * as E from "fp-ts/Either";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import * as A from "fp-ts/lib/Array.js";
+import * as E from "fp-ts/lib/Either.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import * as t from "io-ts";
-import { toEventV2IO } from "./eventV2.io";
-import { searchEventV2Query } from "./queries/searchEventsV2.query";
-import { type RouteContext } from "@routes/route.types";
-import { getORMOptions } from "@utils/orm.utils";
+import { toEventV2IO } from "./eventV2.io.js";
+import { searchEventV2Query } from "./queries/searchEventsV2.query.js";
+import { type RouteContext } from "#routes/route.types.js";
+import { getORMOptions } from "#utils/orm.utils.js";
 
 export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Event.List, ({ query }) => {

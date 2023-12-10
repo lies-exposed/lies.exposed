@@ -1,16 +1,15 @@
-import { type OnLoginErrorFn } from "@liexp/backend/lib/providers/ig/ig.provider";
-import { fp } from "@liexp/core/lib/fp";
+import { type OnLoginErrorFn } from "@liexp/backend/lib/providers/ig/ig.provider.js";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
 import {
   SocialPostPhoto,
   type CreateSocialPost,
   type SocialPostBodyMultipleMedia,
-} from "@liexp/shared/lib/io/http/SocialPost";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+} from "@liexp/shared/lib/io/http/SocialPost.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { type MediaRepositoryConfigureResponseRootObject } from "instagram-private-api";
 import * as t from "io-ts";
-import { type TEFlow } from "@flows/flow.types";
-import { ServerError } from "@io/ControllerError";
+import { type TEFlow } from "#flows/flow.types.js";
+import { ServerError } from "#io/ControllerError.js";
 
 export const postToIG: TEFlow<
   [CreateSocialPost, OnLoginErrorFn],

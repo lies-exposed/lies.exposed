@@ -1,18 +1,18 @@
 import { type Stream } from "stream";
-import { fp, pipe } from "@liexp/core/lib/fp/index";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/index";
-import { PDFType } from "@liexp/shared/lib/io/http/Media";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { PDFType } from "@liexp/shared/lib/io/http/Media.js";
 import {
   SocialPostDocument,
   SocialPostPhoto,
   SocialPostVideo,
   type CreateSocialPost,
   type SocialPostBodyMultipleMedia,
-} from "@liexp/shared/lib/io/http/SocialPost";
+} from "@liexp/shared/lib/io/http/SocialPost.js";
 import * as t from "io-ts";
 import type TelegramBot from "node-telegram-bot-api";
-import { type Flow, type TEFlow } from "@flows/flow.types";
-import { ServerError } from "@io/ControllerError";
+import { type Flow, type TEFlow } from "#flows/flow.types.js";
+import { ServerError } from "#io/ControllerError.js";
 
 const writeText: Flow<[CreateSocialPost], string> = (ctx) => (body) => {
   const title = `<a href="${body.url}"><b>${body.title}</b></a>`;

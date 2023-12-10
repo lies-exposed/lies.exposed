@@ -1,53 +1,52 @@
 import * as fs from "fs";
 import path from "path";
-import { fp } from "@liexp/core/lib/fp";
-import { TupleWithId } from "@liexp/core/lib/fp/utils/TupleWithId";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { TupleWithId } from "@liexp/core/lib/fp/utils/TupleWithId.js";
 import {
   getColorByEventType,
   getTotals,
-} from "@liexp/shared/lib/helpers/event/event";
-import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
-import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
-import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/getTitle.helper";
-import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
+} from "@liexp/shared/lib/helpers/event/event.js";
+import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
+import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/getTitle.helper.js";
+import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
+import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import {
+  EventTotalsMonoid,
+  type EventTotals,
+} from "@liexp/shared/lib/io/http/Events/EventTotals.js";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
+import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
+import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
+import { type EventNetworkDatum } from "@liexp/shared/lib/io/http/Network/networks.js";
+import {
+  type NetworkGraphOutput,
+  type NetworkGroupBy,
+  type NetworkLink,
+} from "@liexp/shared/lib/io/http/Network.js";
 import {
   type Actor,
   type Group,
   type Keyword,
   type Media,
-} from "@liexp/shared/lib/io/http";
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
-import {
-  EventTotalsMonoid,
-  type EventTotals,
-} from "@liexp/shared/lib/io/http/Events/EventTotals";
-import { GROUPS } from "@liexp/shared/lib/io/http/Group";
-import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
-import {
-  type NetworkGraphOutput,
-  type NetworkGroupBy,
-  type NetworkLink,
-} from "@liexp/shared/lib/io/http/Network";
-import { type EventNetworkDatum } from "@liexp/shared/lib/io/http/Network/networks";
-import { sequenceS } from "fp-ts/Apply";
-import * as A from "fp-ts/Array";
+} from "@liexp/shared/lib/io/http/index.js";
 import { type Monoid } from "fp-ts/Monoid";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { type UUID } from "io-ts-types/lib/UUID";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as A from "fp-ts/lib/Array.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { type Flow, type TEFlow } from "@flows/flow.types";
-import { toControllerError, type ControllerError } from "@io/ControllerError";
-import { toActorIO } from "@routes/actors/actor.io";
-import { toEventV2IO } from "@routes/events/eventV2.io";
-import { fetchRelations } from "@routes/events/queries/fetchEventRelations.query";
-import { infiniteSearchEventQuery } from "@routes/events/queries/searchEventsV2.query";
-import { toGroupIO } from "@routes/groups/group.io";
-import { toKeywordIO } from "@routes/keywords/keyword.io";
-import { toMediaIO } from "@routes/media/media.io";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { type Flow, type TEFlow } from "#flows/flow.types.js";
+import { toControllerError, type ControllerError } from "#io/ControllerError.js";
+import { toActorIO } from "#routes/actors/actor.io.js";
+import { toEventV2IO } from "#routes/events/eventV2.io.js";
+import { fetchRelations } from "#routes/events/queries/fetchEventRelations.query.js";
+import { infiniteSearchEventQuery } from "#routes/events/queries/searchEventsV2.query.js";
+import { toGroupIO } from "#routes/groups/group.io.js";
+import { toKeywordIO } from "#routes/keywords/keyword.io.js";
+import { toMediaIO } from "#routes/media/media.io.js";
 
 interface GetEventGraphOpts {
   events: SearchEvent.SearchEvent[];

@@ -1,12 +1,11 @@
-import { fp } from "@liexp/core/lib/fp";
-import { PngType } from "@liexp/shared/lib/io/http/Media";
-import { getMediaThumbKey } from "@liexp/shared/lib/utils/media.utils";
-import { pipe } from "fp-ts/function";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { PngType } from "@liexp/shared/lib/io/http/Media.js";
+import { getMediaThumbKey } from "@liexp/shared/lib/utils/media.utils.js";
 import type * as puppeteer from "puppeteer-core";
-import { type LinkEntity } from "@entities/Link.entity";
-import { type MediaEntity } from "@entities/Media.entity";
-import { type TEFlow } from "@flows/flow.types";
-import { toControllerError } from "@io/ControllerError";
+import { type LinkEntity } from "#entities/Link.entity.js";
+import { type MediaEntity } from "#entities/Media.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { toControllerError } from "#io/ControllerError.js";
 
 function getText(linkText: string): string {
   linkText = linkText.replace(/\r\n|\r/g, "\n");

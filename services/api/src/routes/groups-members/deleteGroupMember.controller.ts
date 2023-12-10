@@ -1,12 +1,12 @@
-import { Endpoints, AddEndpoint } from "@liexp/shared/lib/endpoints";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { Endpoints, AddEndpoint } from "@liexp/shared/lib/endpoints/index.js";
 import { type Router } from "express";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { type RouteContext } from "../route.types";
-import { toGroupMemberIO } from "./groupMember.io";
-import { GroupMemberEntity } from "@entities/GroupMember.entity";
-import { authenticationHandler } from "@utils/authenticationHandler";
+import { type RouteContext } from "../route.types.js";
+import { toGroupMemberIO } from "./groupMember.io.js";
+import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
+import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeDeleteGroupMemberRoute = (
   r: Router,

@@ -1,11 +1,10 @@
-import { loadENV } from "@liexp/core/lib/env/utils";
-import { fp } from "@liexp/core/lib/fp";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { loadENV } from "@liexp/core/lib/env/utils.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import D from "debug";
-import { pipe } from "fp-ts/function";
-import { makeContext } from "../build/server";
-import { type RouteContext } from "@routes/route.types";
-import { parseENV } from "@utils/env.utils";
+import { makeContext } from "#context/index.js";
+import { type RouteContext } from "#routes/route.types.js";
+import { parseENV } from "#utils/env.utils.js";
 
 export const startContext = async (env?: any): Promise<RouteContext> => {
   loadENV(process.cwd(), process.env.DOTENV_CONFIG_PATH ?? ".env");

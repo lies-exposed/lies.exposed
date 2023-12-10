@@ -1,13 +1,12 @@
-import { fp } from "@liexp/core/lib/fp";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { sequenceT } from "fp-ts/Apply";
-import { pipe } from "fp-ts/function";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { sequenceT } from "fp-ts/lib/Apply.js";
 import Cron from "node-cron";
 import {
   cleanUpFolder,
   cleanUpTempMedia,
-} from "@flows/media/cleanUpTempFolder.flow";
-import { type RouteContext } from "@routes/route.types";
+} from "#flows/media/cleanUpTempFolder.flow.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 export const cleanTempFolder = (ctx: RouteContext): Cron.ScheduledTask =>
   Cron.schedule(ctx.env.TEMP_FOLDER_CLEAN_UP_CRON, (opts) => {

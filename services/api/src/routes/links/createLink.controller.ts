@@ -1,18 +1,17 @@
-import { fp } from "@liexp/core/lib/fp";
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { EventSuggestionRead } from "@liexp/shared/lib/io/http/User";
-import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils";
+import { fp , pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { EventSuggestionRead } from "@liexp/shared/lib/io/http/User.js";
+import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { type Router } from "express";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { toLinkIO } from "./link.io";
-import { LinkEntity } from "@entities/Link.entity";
-import { UserEntity } from "@entities/User.entity";
-import { fetchAsLink } from "@flows/links/link.flow";
-import { type RouteContext } from "@routes/route.types";
-import { authenticationHandler } from "@utils/authenticationHandler";
-import { ensureUserExists } from "@utils/user.utils";
+import { toLinkIO } from "./link.io.js";
+import { LinkEntity } from "#entities/Link.entity.js";
+import { UserEntity } from "#entities/User.entity.js";
+import { fetchAsLink } from "#flows/links/link.flow.js";
+import { type RouteContext } from "#routes/route.types.js";
+import { authenticationHandler } from "#utils/authenticationHandler.js";
+import { ensureUserExists } from "#utils/user.utils.js";
 
 export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r, authenticationHandler(ctx, [EventSuggestionRead.value]))(

@@ -1,12 +1,12 @@
-import { type Media } from "@liexp/shared/lib/io/http";
-import { type MediaType } from "@liexp/shared/lib/io/http/Media";
-import { getMediaKey } from "@liexp/shared/lib/utils/media.utils";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { createThumbnail } from "./thumbnails/createThumbnail.flow";
-import { MediaEntity } from "@entities/Media.entity";
-import { type TEFlow } from "@flows/flow.types";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { type MediaType } from "@liexp/shared/lib/io/http/Media.js";
+import { type Media } from "@liexp/shared/lib/io/http/index.js";
+import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { createThumbnail } from "./thumbnails/createThumbnail.flow.js";
+import { MediaEntity } from "#entities/Media.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
 
 export const createAndUpload: TEFlow<
   [

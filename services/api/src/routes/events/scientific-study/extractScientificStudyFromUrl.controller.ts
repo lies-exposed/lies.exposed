@@ -1,23 +1,23 @@
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import {
   AdminCreate,
   AdminDelete,
   AdminEdit,
-} from "@liexp/shared/lib/io/http/User";
-import { sequenceS } from "fp-ts/Apply";
-import * as O from "fp-ts/Option";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+} from "@liexp/shared/lib/io/http/User.js";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as O from "fp-ts/lib/Option.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { UserEntity } from "@entities/User.entity";
-import { extractFromURL } from "@flows/events/extractFromURL.flow";
-import { ServerError, toControllerError } from "@io/ControllerError";
-import { toEventV2IO } from "@routes/events/eventV2.io";
-import { type Route } from "@routes/route.types";
-import { authenticationHandler } from "@utils/authenticationHandler";
-import { ensureUserExists } from "@utils/user.utils";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { UserEntity } from "#entities/User.entity.js";
+import { extractFromURL } from "#flows/events/extractFromURL.flow.js";
+import { ServerError, toControllerError } from "#io/ControllerError.js";
+import { toEventV2IO } from "#routes/events/eventV2.io.js";
+import { type Route } from "#routes/route.types.js";
+import { authenticationHandler } from "#utils/authenticationHandler.js";
+import { ensureUserExists } from "#utils/user.utils.js";
 
 export const MakeExtractScientificStudyFromURLRoute: Route = (r, ctx) => {
   AddEndpoint(

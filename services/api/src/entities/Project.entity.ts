@@ -7,10 +7,11 @@ import {
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
+  type Relation,
   UpdateDateColumn,
 } from "typeorm";
-import { AreaEntity } from "./Area.entity";
-import { ProjectImageEntity } from "./ProjectImage.entity";
+import { AreaEntity } from "./Area.entity.js";
+import { ProjectImageEntity } from "./ProjectImage.entity.js";
 
 @Entity("project")
 export class ProjectEntity {
@@ -35,11 +36,11 @@ export class ProjectEntity {
   @OneToMany(() => ProjectImageEntity, (a) => a.project, {
     cascade: ["insert"],
   })
-  media: ProjectImageEntity[];
+  media: Relation<ProjectImageEntity[]>;
 
   @ManyToMany(() => AreaEntity, { cascade: ["insert"] })
   @JoinTable()
-  areas: AreaEntity[];
+  areas: Relation<AreaEntity[]>;
 
   @CreateDateColumn()
   createdAt: Date;
