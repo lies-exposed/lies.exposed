@@ -76,8 +76,8 @@
     "eslint-webpack-plugin": "^4.0.1",
     "page-metadata-parser": "^1.1.4",
     "prettier": "^3.1.0",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.3.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
     "webpack": "^5.89.0",
     "webpack-bundle-analyzer": "^4.10.1",
     "webpack-cli": "^5.1.4"
