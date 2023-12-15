@@ -11,7 +11,7 @@ import { startContext, stopContext } from "./start-ctx";
 import { ActorEntity } from "@entities/Actor.entity";
 
 /**
- * Usage ts-node ./bin/create-from-wikipedia $search
+ * Usage create-from-wikipedia $search
  *
  * $search      text used as query for wikipedia search api
  *

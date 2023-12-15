@@ -12,7 +12,7 @@ import { LinkEntity } from "@entities/Link.entity";
 import { getOneAdminOrFail } from "@flows/users/getOneUserOrFail.flow";
 
 /**
- * Usage ts-node ./bin/create-from-wikipedia $search
+ * Usage add-event-default-links
  *
  * $search      text used as query for wikipedia search api
  *

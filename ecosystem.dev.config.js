@@ -30,13 +30,6 @@ const apiDevelop = {
   namespace: "liexp",
   cwd: path.resolve(__dirname, "./services/api"),
   script: "yarn develop",
-  watch: [
-    path.resolve(__dirname, "./packages/@liexp/core/lib"),
-    path.resolve(__dirname, "./packages/@liexp/shared/lib"),
-    path.resolve(__dirname, "./services/api/src"),
-  ],
-  watch_delay: 2000,
-  ignore_watch: [path.resolve(__dirname, "./services/api/build")],
   env: apiEnv,
 };
 

@@ -16,9 +16,7 @@
     "lib": ["dom", "esnext"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "typeRoots": [
-      "typings"
-    ],
+    "typeRoots": ["typings"],
     "importHelpers": true,
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
@@ -30,15 +28,6 @@
   },
   "include": ["./src", "./typings"],
   "exclude": ["**/__tests__", "**/__specs__", "**/tests", "**/test"],
-  "ts-node": {
-    "require": ["tsconfig-paths/register"],
-    "transpileOnly": true,
-    "compilerOptions": {
-      "module": "CommonJS",
-      "moduleResolution": "node",
-      "esModuleInterop": true
-    }
-  },
   "references": [
     {
       "path": "../../packages/@liexp/core"

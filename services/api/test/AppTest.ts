@@ -72,7 +72,10 @@ export const initAppTest = async (): Promise<AppTest> => {
 
   return await pipe(
     sequenceS(TE.ApplicativePar)({
-      db: GetTypeORMClient(getDataSource(process.env as any, false)),
+      db: pipe(
+        getDataSource(process.env as any, false),
+        TE.chain((source) => GetTypeORMClient(source)),
+      ),
       env: pipe(
         ENV.decode(process.env),
         TE.fromEither,

@@ -12,9 +12,8 @@ import { startContext, stopContext } from "./start-ctx";
 import { Brackets } from "typeorm";
 
 /**
- * Usage ts-node ./bin/create-from-wikipedia $search
+ * Usage update-event-payload-url-refs
  *
- * $search      text used as query for wikipedia search api
  *
  * @returns void
  */

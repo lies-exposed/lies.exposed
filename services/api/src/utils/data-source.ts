@@ -1,7 +1,10 @@
+// import 'reflect-metadata' as first
 import "reflect-metadata";
+// other imports
 import * as fs from "fs";
 import * as path from "path";
-import { DataSource } from "typeorm";
+import * as TE from 'fp-ts/TaskEither';
+import { DataSource, type DataSourceOptions } from "typeorm";
 import { ActorEntity } from "@entities/Actor.entity";
 import { AreaEntity } from "@entities/Area.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
@@ -21,12 +24,13 @@ import { DeathEventEntity } from "@entities/archive/DeathEvent.entity";
 import { EventEntity } from "@entities/archive/Event.entity";
 import { MediaV1Entity } from "@entities/archive/Media.v1.entity";
 import { ScientificStudyEntity } from "@entities/archive/ScientificStudy.entity";
+import { type ControllerError, toControllerError } from '@io/ControllerError';
 import { type ENV } from "@io/ENV";
 
-export const getDataSource = (
+export const getORMConfig = (
   env: ENV,
   includeOldEntities: boolean,
-): DataSource => {
+): DataSourceOptions => {
   const ssl =
     env.DB_SSL_MODE === "require"
       ? {
@@ -36,7 +40,7 @@ export const getDataSource = (
         }
       : false;
 
-  return new DataSource({
+  return {
     type: "postgres",
     host: env.DB_HOST,
     username: env.DB_USERNAME,
@@ -77,5 +81,17 @@ export const getDataSource = (
       env.NODE_ENV === "test"
         ? undefined
         : [`${process.cwd()}/build/migrations/*.js`],
-  });
+  };
+};
+
+export const getDataSource = (
+  env: ENV,
+  includeOldEntities: boolean,
+): TE.TaskEither<ControllerError, DataSource> => {
+  return TE.tryCatch(async () => {
+    const config = getORMConfig(env, includeOldEntities);
+    const dataSource = new DataSource(config);
+    await dataSource.initialize();
+    return dataSource;
+  }, toControllerError);
 };
