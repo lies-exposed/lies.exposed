@@ -3225,7 +3225,7 @@ __metadata:
     "@liexp/test": 0.1.0
     "@types/fluent-ffmpeg": ^2.1.24
     "@types/jsonwebtoken": ^9.0.5
-    "@types/node-telegram-bot-api": ^0.64.0
+    "@types/node-telegram-bot-api": ^0.64.1
     "@types/prettier": ^3.0.0
     "@types/uuid": ^9.0.7
     date-fns: ^2.30.0
@@ -3282,7 +3282,7 @@ __metadata:
     "@types/mime": ^1.3.5
     "@types/mini-css-extract-plugin": ^2.5.1
     "@types/prettier": ^3.0.0
-    "@types/react": ^18.2.42
+    "@types/react": ^18.2.45
     "@types/webpack-bundle-analyzer": ^4.6.3
     "@types/webpack-node-externals": ^3.0.4
     copy-webpack-plugin: ^11.0.0
@@ -3335,7 +3335,7 @@ __metadata:
     "@liexp/test": 0.1.0
     "@types/bs58": ^4.0.4
     "@types/prettier": ^3.0.0
-    "@types/react": ^18.2.42
+    "@types/react": ^18.2.45
     "@types/react-dom": ^18.2.17
     "@types/throttle-debounce": ^5.0.2
     "@types/uuid": ^9.0.7
@@ -3423,7 +3423,7 @@ __metadata:
     "@types/eslint": ^8.44.8
     "@types/prettier": ^3.0.0
     "@types/reach__router": ^1.3.14
-    "@types/react": ^18.2.42
+    "@types/react": ^18.2.45
     "@types/react-helmet": ^6.1.11
     "@types/react-slick": ^0.23.12
     "@types/react-virtualized": ^9.21.29
@@ -3470,12 +3470,12 @@ __metadata:
     ol: ^8.2.0
     prettier: ^3.1.0
     query-string: ^7.1.3
-    ra-core: ^4.16.2
-    ra-i18n-polyglot: ^4.16.2
-    ra-input-rich-text: ^4.16.2
-    ra-ui-materialui: ^4.16.2
+    ra-core: ^4.16.3
+    ra-i18n-polyglot: ^4.16.3
+    ra-input-rich-text: ^4.16.3
+    ra-ui-materialui: ^4.16.3
     react: ^18.2.0
-    react-admin: ^4.16.2
+    react-admin: ^4.16.3
     react-audio-player: ^0.17.0
     react-dom: ^18.2.0
     react-dropzone: ^12.1.0
@@ -8019,13 +8019,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node-telegram-bot-api@npm:^0.64.0":
-  version: 0.64.0
-  resolution: "@types/node-telegram-bot-api@npm:0.64.0"
+"@types/node-telegram-bot-api@npm:^0.64.1":
+  version: 0.64.1
+  resolution: "@types/node-telegram-bot-api@npm:0.64.1"
   dependencies:
     "@types/node": "*"
     "@types/request": "*"
-  checksum: 6450e60595db521b3a8104790e09935112bbf5e68e1612ae76c2ccd8790c5614cec051cb23ec053ba2d653111f65f27687020e7a31b8fd7b54bab4664187f74e
+  checksum: b2136f30d0588a3a5b7810eb38963308966d39e17e0d53513e03c937cbbe2839e5161dd700593b5aad79db12918b1f721b267f9230a6e9741d256b9f57134114
   languageName: node
   linkType: hard
 
@@ -8050,12 +8050,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^18.0.0, @types/node@npm:^18.19.2":
-  version: 18.19.2
-  resolution: "@types/node@npm:18.19.2"
+"@types/node@npm:^18.0.0, @types/node@npm:^18.19.3":
+  version: 18.19.3
+  resolution: "@types/node@npm:18.19.3"
   dependencies:
     undici-types: ~5.26.4
-  checksum: 6ae1e456f469bd50cac55d01ec17cddca3e60a1ae8cf6a95c8f2c49668ac358fd68d53af32076e37418f3b07cf6d2b245a48e3b77998ac51cc6a797d9d1a4367
+  checksum: 58c4fa45a78fcec75c78182a4b266395905957633654eb0311c5f9c30ac15c179ea2287ab1af034e46c2db7bb0589ef0000ee64c1de8f568a0aad29eaadb100c
   languageName: node
   linkType: hard
 
@@ -8242,14 +8242,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^18.2.42":
-  version: 18.2.42
-  resolution: "@types/react@npm:18.2.42"
+"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^18.2.45":
+  version: 18.2.45
+  resolution: "@types/react@npm:18.2.45"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: d2019afdf48303a3a598a97cc9dd2284e3c04b369e791f6ba3c33232b7f8645daff97b093a19f8b3ce75ac8a261b47552cb4513226ab16d843eb9443b0f91844
+  checksum: 40b256bdce67b026348022b4f8616a693afdad88cf493b77f7b4e6c5f4b0e4ba13a6068e690b9b94572920840ff30d501ea3d8518e1f21cc8fb8204d4b140c8a
   languageName: node
   linkType: hard
 
@@ -9554,9 +9554,9 @@ __metadata:
     "@testing-library/user-event": ^14.5.1
     "@types/debug": ^4.1.12
     "@types/lodash": ^4.14.202
-    "@types/node": ^18.19.2
+    "@types/node": ^18.19.3
     "@types/prettier": ^3.0.0
-    "@types/react": ^18.2.42
+    "@types/react": ^18.2.45
     "@types/react-dom": ^18.2.17
     "@types/webpack-bundle-analyzer": ^4.6.3
     "@typescript-eslint/eslint-plugin": ^6.13.1
@@ -9578,12 +9578,12 @@ __metadata:
     mini-create-react-context: ^0.4.1
     page-metadata-parser: ^1.1.4
     prettier: ^3.1.0
-    ra-core: ^4.16.2
-    ra-i18n-polyglot: ^4.16.2
-    ra-input-rich-text: ^4.16.2
-    ra-ui-materialui: ^4.16.2
+    ra-core: ^4.16.3
+    ra-i18n-polyglot: ^4.16.3
+    ra-input-rich-text: ^4.16.3
+    ra-ui-materialui: ^4.16.3
     react: ^18.2.0
-    react-admin: ^4.16.2
+    react-admin: ^4.16.3
     react-dom: ^18.2.0
     react-final-form: ^6.5.9
     react-final-form-arrays: ^3.1.4
@@ -9840,9 +9840,9 @@ __metadata:
     "@types/lodash": ^4.14.202
     "@types/module-alias": ^2.0.4
     "@types/multer": ^1.4.11
-    "@types/node": ^18.19.2
+    "@types/node": ^18.19.3
     "@types/node-cron": ^3.0.11
-    "@types/node-telegram-bot-api": ^0.64.0
+    "@types/node-telegram-bot-api": ^0.64.1
     "@types/pg": ^8.10.9
     "@types/prettier": ^3.0.0
     "@types/prompts": ^2.4.9
@@ -21381,9 +21381,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ra-core@npm:^4.16.2":
-  version: 4.16.2
-  resolution: "ra-core@npm:4.16.2"
+"ra-core@npm:^4.16.3":
+  version: 4.16.3
+  resolution: "ra-core@npm:4.16.3"
   dependencies:
     clsx: ^1.1.1
     date-fns: ^2.19.0
@@ -21402,23 +21402,23 @@ __metadata:
     react-hook-form: ^7.43.9
     react-router: ^6.1.0
     react-router-dom: ^6.1.0
-  checksum: 318bac324f6076d7ebd413d4e182a3c7e8ec6276137d6e0c88ecf5cc1bb682b16657932d759c576d0f5a1fa6c942e43c3b9d283d05959aea06411fc1039052f1
+  checksum: 365b2ff908733c9948f708196349e7b643f1bef856fe08fd5a79969091eb7925f7a337a32a4f27c1a573f0c9270e40d8d0d5a71e317f5e86aa62cd05949ea1a4
   languageName: node
   linkType: hard
 
-"ra-i18n-polyglot@npm:^4.16.2":
-  version: 4.16.2
-  resolution: "ra-i18n-polyglot@npm:4.16.2"
+"ra-i18n-polyglot@npm:^4.16.3":
+  version: 4.16.3
+  resolution: "ra-i18n-polyglot@npm:4.16.3"
   dependencies:
     node-polyglot: ^2.2.2
-    ra-core: ^4.16.2
-  checksum: b2ebb7510f5e4431f7d13e1ac5ac510749d9638b1f8b92ed198ea67c3f2e2d0fc3cc7b96d1952c987efe9965e562db906e4dab7d4a28553a194e11a1905c1fb1
+    ra-core: ^4.16.3
+  checksum: 61f8eeb42eca756ecc3d99a9c39aeda12691c5c80aa8307bba13d75bf7b17ea48978d6e29cc80ea60812e61cf1f2e614a87a227f2b9fc7d895ab4d1220a64b1f
   languageName: node
   linkType: hard
 
-"ra-input-rich-text@npm:^4.16.2":
-  version: 4.16.2
-  resolution: "ra-input-rich-text@npm:4.16.2"
+"ra-input-rich-text@npm:^4.16.3":
+  version: 4.16.3
+  resolution: "ra-input-rich-text@npm:4.16.3"
   dependencies:
     "@tiptap/core": ^2.0.3
     "@tiptap/extension-color": ^2.0.3
@@ -21440,22 +21440,22 @@ __metadata:
     ra-ui-materialui: ^4.0.0
     react: ^16.9.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0
-  checksum: e0332a42f9960be140971b79cb94102a1bcdd87d72f393ffc0851361db1e1a3ee4a722359e6981c1c1741fb8da1e96da48df961e3d8132a2e2dec85d6f726a01
+  checksum: 3cb04dc0d2cfc3a68713b63f92549e15f32c222726639b104b1405a8498ca0166e2747b6c9e796556e91205ab05beb7d772e1d43bc80f2da1fc2b53ea78b7446
   languageName: node
   linkType: hard
 
-"ra-language-english@npm:^4.16.2":
-  version: 4.16.2
-  resolution: "ra-language-english@npm:4.16.2"
+"ra-language-english@npm:^4.16.3":
+  version: 4.16.3
+  resolution: "ra-language-english@npm:4.16.3"
   dependencies:
-    ra-core: ^4.16.2
-  checksum: f1d9443d2a93a9613ec27b222f1a338c681414bd94dc3a5b3e347cdbd284329fd243c481ff6d663cc04dc50f00edbf6c9e3d5592b89ff55b84a357973ea2c869
+    ra-core: ^4.16.3
+  checksum: 5312c3e2d4a8ff2354808e3f57d04e5319aaf5fe62cbe77afce2edc6753d344523a6bbdf9e037652e126aa6286d6939dcaa55ced0d2305466e9f62a01c979e04
   languageName: node
   linkType: hard
 
-"ra-ui-materialui@npm:^4.16.2":
-  version: 4.16.2
-  resolution: "ra-ui-materialui@npm:4.16.2"
+"ra-ui-materialui@npm:^4.16.3":
+  version: 4.16.3
+  resolution: "ra-ui-materialui@npm:4.16.3"
   dependencies:
     autosuggest-highlight: ^3.1.1
     clsx: ^1.1.1
@@ -21481,7 +21481,7 @@ __metadata:
     react-is: ^16.9.0 || ^17.0.0 || ^18.0.0
     react-router: ^6.1.0
     react-router-dom: ^6.1.0
-  checksum: e9835473841b1a9f3bfc2eee3c2a736d9b0bf09891e29cf86d5528de3c0daad84718579fd5a71b6741ac48ebd603fd04f7adec9a1b82d337e053e55818af17a3
+  checksum: b70bd546b901936484cb9bd9a2eef2b9ed6fe74f3a3a09bb81c3cd00fb4904fe6e04ec2253845fe10666ad1702a63d2e7280678db97f78e24b27748ac5fb709c
   languageName: node
   linkType: hard
 
@@ -21543,26 +21543,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-admin@npm:^4.16.2":
-  version: 4.16.2
-  resolution: "react-admin@npm:4.16.2"
+"react-admin@npm:^4.16.3":
+  version: 4.16.3
+  resolution: "react-admin@npm:4.16.3"
   dependencies:
     "@emotion/react": ^11.4.1
     "@emotion/styled": ^11.3.0
     "@mui/icons-material": ^5.0.1
     "@mui/material": ^5.0.2
     history: ^5.1.0
-    ra-core: ^4.16.2
-    ra-i18n-polyglot: ^4.16.2
-    ra-language-english: ^4.16.2
-    ra-ui-materialui: ^4.16.2
+    ra-core: ^4.16.3
+    ra-i18n-polyglot: ^4.16.3
+    ra-language-english: ^4.16.3
+    ra-ui-materialui: ^4.16.3
     react-hook-form: ^7.43.9
     react-router: ^6.1.0
     react-router-dom: ^6.1.0
   peerDependencies:
     react: ^16.9.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0
-  checksum: d6f3ba8f101dbe9e16899a3b671c6ccf42737b36c7fef28d26a70a9f403fde6e800dde4ba43489317c024daf14b0f08e715ab27ac971f9c0c9ef6fe324b09e84
+  checksum: c70bffda0b9daeee72b4dd4b272ba2bc22a05dd7f70d812a9c2f97311277b120cbdf901abc1d0c59b4fdffb8423fb9769c28bdb0fd5292a4577e9099bb941193
   languageName: node
   linkType: hard
 
@@ -26041,8 +26041,8 @@ __metadata:
     "@types/debug": ^4.1.12
     "@types/express": ^4.17.21
     "@types/mime": ^1.3.5
-    "@types/node": ^18.19.2
-    "@types/react": ^18.2.42
+    "@types/node": ^18.19.3
+    "@types/react": ^18.2.45
     "@types/react-calendar-heatmap": ^1.6.6
     "@types/react-dom": ^18.2.17
     "@types/react-helmet": ^6.1.11
@@ -26089,12 +26089,12 @@ __metadata:
     prettier: ^3.1.0
     prop-types: ^15.8.1
     query-string: ^7.1.3
-    ra-core: ^4.16.2
-    ra-i18n-polyglot: ^4.16.2
-    ra-input-rich-text: ^4.16.2
-    ra-ui-materialui: ^4.16.2
+    ra-core: ^4.16.3
+    ra-i18n-polyglot: ^4.16.3
+    ra-input-rich-text: ^4.16.3
+    ra-ui-materialui: ^4.16.3
     react: ^18.2.0
-    react-admin: ^4.16.2
+    react-admin: ^4.16.3
     react-dom: ^18.2.0
     react-error-boundary: ^4.0.11
     react-helmet: ^6.1.0

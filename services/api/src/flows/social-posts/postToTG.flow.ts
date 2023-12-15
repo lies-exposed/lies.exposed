@@ -1,5 +1,6 @@
 import { type Stream } from "stream";
-import { fp, pipe } from "@liexp/core/lib/fp";
+import { fp, pipe } from "@liexp/core/lib/fp/index";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/index";
 import { PDFType } from "@liexp/shared/lib/io/http/Media";
 import {
   SocialPostDocument,
@@ -9,7 +10,6 @@ import {
   type SocialPostBodyMultipleMedia,
 } from "@liexp/shared/lib/io/http/SocialPost";
 import * as t from "io-ts";
-import { type UUID } from "io-ts-types/lib/UUID";
 import type TelegramBot from "node-telegram-bot-api";
 import { type Flow, type TEFlow } from "@flows/flow.types";
 import { ServerError } from "@io/ControllerError";
@@ -84,77 +84,84 @@ const getMessageTexts = (
   };
 };
 
-export const postToTG: TEFlow<[UUID, CreateSocialPost], TelegramBot.Message> =
-  (ctx) => (id, body) => {
-    return pipe(
-      writeText(ctx)(body),
-      fp.TE.right,
-      fp.TE.chain((text) => {
-        ctx.logger.debug.log(
-          "Upload media %O with text length %d",
-          body.media,
-          text.length,
-        );
-        const media: SocialPostBodyMultipleMedia = t.string.is(body.media)
-          ? [{ type: "photo", media: body.media, thumbnail: body.media }]
-          : body.media;
+export const postToTG: TEFlow<
+  [UUID, CreateSocialPost],
+  TelegramBot.Message[]
+> = (ctx) => (id, body) => {
+  return pipe(
+    writeText(ctx)(body),
+    fp.TE.right,
+    fp.TE.chain((text) => {
+      ctx.logger.debug.log(
+        "Upload media %O with text length %d",
+        body.media,
+        text.length,
+      );
+      const media: SocialPostBodyMultipleMedia = t.string.is(body.media)
+        ? [{ type: "photo", media: body.media, thumbnail: body.media }]
+        : body.media;
 
-        const { mediaText, messageText, useReply } = getMessageTexts(
-          body.title,
-          text,
-          body.useReply,
-        );
+      const { mediaText, messageText, useReply } = getMessageTexts(
+        body.title,
+        text,
+        body.useReply,
+      );
 
-        return pipe(
-          media,
-          fp.TE.right,
-          fp.TE.chain((media) => {
-            if (media.length === 1) {
-              const m = media[0];
-              if (SocialPostPhoto.is(m)) {
-                return ctx.tg.postPhoto(m.media, mediaText);
-              }
-
-              if (SocialPostDocument.is(m)) {
-                return ctx.tg.postFile(
-                  mediaText,
-                  m.filename,
-                  m.media,
-                  PDFType.value,
-                );
-              }
-
-              if (SocialPostVideo.is(m)) {
-                return pipe(
-                  ctx.http.get<Stream>(m.media, {
-                    responseType: "stream",
-                  }),
-                  fp.TE.chain((stream) =>
-                    ctx.tg.postVideo(stream, mediaText, {
-                      duration: m.duration,
-                    }),
-                  ),
-                );
-              }
+      return pipe(
+        media,
+        fp.TE.right,
+        fp.TE.chain((media) => {
+          if (media.length === 1) {
+            const m = media[0];
+            if (SocialPostPhoto.is(m)) {
+              return pipe(
+                ctx.tg.postPhoto(m.media, mediaText),
+                fp.TE.map((message) => [message]),
+              );
             }
-            const allowedMedia = pipe(
-              media.map((m) => {
-                if (m.type === "document") {
-                  return fp.E.left(m);
-                }
-                return fp.E.right(m);
-              }),
-              fp.A.separate,
-            );
-            return ctx.tg.postMediaGroup(mediaText, allowedMedia.right);
-          }),
-          fp.TE.chain((message) =>
-            useReply
-              ? ctx.tg.post(messageText, message.message_id)
-              : fp.TE.right(message),
-          ),
-        );
-      }),
-      fp.TE.mapLeft((e) => ServerError([e.message])),
-    );
-  };
+
+            if (SocialPostDocument.is(m)) {
+              return pipe(
+                ctx.tg.postFile(mediaText, m.filename, m.media, PDFType.value),
+                fp.TE.map((message) => [message]),
+              );
+            }
+
+            if (SocialPostVideo.is(m)) {
+              return pipe(
+                ctx.http.get<Stream>(m.media, {
+                  responseType: "stream",
+                }),
+                fp.TE.chain((stream) =>
+                  ctx.tg.postVideo(stream, mediaText, {
+                    duration: m.duration,
+                  }),
+                ),
+                fp.TE.map((message) => [message]),
+              );
+            }
+          }
+          const allowedMedia = pipe(
+            media.map((m) => {
+              if (m.type === "document") {
+                return fp.E.left(m);
+              }
+              return fp.E.right(m);
+            }),
+            fp.A.separate,
+          );
+          return ctx.tg.postMediaGroup(mediaText, allowedMedia.right);
+        }),
+        fp.TE.chain((message) =>
+          useReply
+            ? pipe(
+              ctx.tg.post(messageText, message[0].message_id),
+              fp.TE.map((reply) => [reply]),
+            )
+            : fp.TE.right(message),
+        ),
+      );
+    }),
+    fp.TE.mapLeft((e) => ServerError([e.message])),
+  );
+};

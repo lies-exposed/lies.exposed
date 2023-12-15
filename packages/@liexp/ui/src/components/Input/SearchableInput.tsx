@@ -21,7 +21,7 @@ export interface SearchableInputProps<I extends SearchableItem>
 }
 
 const SearchableInput = <I extends SearchableItem>({
-  placeholder,
+  placeholder = "Search...",
   label,
   items,
   selectedItems,
@@ -31,13 +31,11 @@ const SearchableInput = <I extends SearchableItem>({
   onUnselectItem,
   ...props
 }: SearchableInputProps<I>): JSX.Element => {
-  const placehoder = placeholder ?? "Search...";
 
   return (
     <Autocomplete<I, typeof props.multiple, boolean, boolean>
       {...props}
       size="small"
-      placeholder={placehoder}
       value={selectedItems ?? undefined}
       options={items}
       onChange={(e, v) => {
@@ -57,6 +55,7 @@ const SearchableInput = <I extends SearchableItem>({
       renderInput={(params) => (
         <TextField
           {...params}
+          placeholder={placeholder}
           label={label}
           margin="normal"
           variant="outlined"

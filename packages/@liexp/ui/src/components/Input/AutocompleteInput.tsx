@@ -14,6 +14,7 @@ export interface AutocompleteInputProps<T extends SearchableItem>
     AutocompleteProps<T, boolean, boolean, boolean>,
     "renderInput" | "options" | "onChange"
   > {
+  placeholder?: string;
   query: (
     params: GetListParams,
   ) => UseQueryResult<{ data: T[]; total: number }, APIError>;
@@ -72,7 +73,6 @@ export const AutocompleteInput = <T extends { id: string }>({
     <Autocomplete<T, boolean, boolean, boolean>
       {...props}
       size="small"
-      placeholder={placeholder}
       inputValue={value}
       value={(items.data?.data ?? []).filter((i) => selectedIds.includes(i.id))}
       options={(items.data?.data ?? []).filter(

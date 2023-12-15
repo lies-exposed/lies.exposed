@@ -9,7 +9,7 @@ import { type TEFlow } from "@flows/flow.types";
 
 export const postToSocialPlatforms: TEFlow<
   [UUID, CreateSocialPost],
-  { tg?: TelegramBot.Message; ig: any }
+  { tg?: TelegramBot.Message[]; ig: any }
 > =
   (ctx) =>
   (id, { platforms: _platforms, ...body }) => {
