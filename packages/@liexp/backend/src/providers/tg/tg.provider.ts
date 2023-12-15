@@ -26,7 +26,7 @@ export interface TGBotProvider {
   postMediaGroup: (
     text: string,
     media: readonly TelegramBot.InputMedia[],
-  ) => TE.TaskEither<Error, TelegramBot.Message>;
+  ) => TE.TaskEither<Error, TelegramBot.Message[]>;
   postFile: (
     text: string,
     fileName: string,
