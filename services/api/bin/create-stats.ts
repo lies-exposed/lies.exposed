@@ -11,7 +11,7 @@ const toError = (m: string) => `
 
   $type = events|keywords|groups|actors
   $id = relation DB id
-  ts-node ./create-stats.ts $type $id
+  create-stats.ts $type $id
 `;
 
 const run = async () => {

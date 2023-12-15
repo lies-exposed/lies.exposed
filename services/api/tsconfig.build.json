@@ -20,9 +20,5 @@
     "strictPropertyInitialization": false
   },
   "include": ["./src"],
-  "exclude": ["**/__tests__/**", "*/__mocks__/**", "./test/**"],
-  "ts-node": {
-    "transpileOnly": true,
-    "files": true,
-  }
+  "exclude": ["**/__tests__/**", "*/__mocks__/**", "./test/**"]
 }

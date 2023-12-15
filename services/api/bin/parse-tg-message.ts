@@ -13,7 +13,7 @@ import { startContext, stopContext } from "./start-ctx";
 import { parseTGMessageFlow } from "@flows/tg/parseMessages.flow";
 
 /**
- * Usage ts-node ./bin/parse-tg-message $messageN $delete?
+ * Usage parse-tg-message $messageN $delete?
  *
  * $messageN    Id of json file stored in ../temp/tg/messages
  * $delete      "true" to delete the file on parse completed, Optional

@@ -18,7 +18,7 @@ import { MediaEntity } from "@entities/Media.entity";
 import { type ControllerError } from "@io/ControllerError";
 
 /**
- * Usage ts-node ./bin/clean-space-media [--dry] [-i|--interactive]
+ * Usage clean-space-media [--dry] [-i|--interactive]
  *
  * -i      interactive mode
  * --dry    dry mode

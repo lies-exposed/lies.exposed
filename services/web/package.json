@@ -18,7 +18,7 @@
     "watch": "tsc -b --watch",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src/",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
-    "scripts:make-avatars-mock": "ts-node ./scripts/make-avatars-mock.ts",
+    "scripts:make-avatars-mock": "tsx ./scripts/make-avatars-mock.ts",
     "bundle-stats-app": "webpack-bundle-analyzer build/stats.json",
     "bundle-stats-server": "webpack-bundle-analyzer build/server/stats.json"
   },
@@ -76,6 +76,7 @@
     "throttle-debounce": "^5.0.0",
     "topojson-client": "3.1.0",
     "topojson-server": "3.0.1",
+    "tsx": "^4.6.2",
     "uuid": "^9.0.1",
     "world-atlas": "2.0.2"
   },
@@ -111,8 +112,6 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-webpack-plugin": "^4.0.1",
     "prettier": "^3.1.0",
-    "ts-node": "^10.9.2",
-    "ts-node-dev": "^2.0.0",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
     "typescript": "^5.3.3",
     "webpack": "^5.89.0",
