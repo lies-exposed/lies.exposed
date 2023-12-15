@@ -12,9 +12,10 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
     "test:e2e": "vitest -c vitest.e2e.config.ts",
-    "serve": "DOTENV_CONFIG_PATH=../../.env.local ts-node -r dotenv/config -r tsconfig-paths/register ./src/serve",
-    "vaccines:download": "DOTENV_CONFIG_PATH=../../.env.local ts-node -r dotenv/config -r tsconfig-paths/register ./src/vaccines/download",
-    "vaccines:parse": "DOTENV_CONFIG_PATH=../../.env.local ts-node -r dotenv/config -r tsconfig-paths/register ./src/vaccines/parse",
+    "tsx:dev": "DOTENV_CONFIG_PATH=../../.env.local node -r tsx/cjs -r dotenv/config",
+    "serve": "yarn tsx:dev ./src/serve",
+    "vaccines:download": "yarn tsx:dev ./src/vaccines/download",
+    "vaccines:parse": "yarn tsx:dev ./src/vaccines/parse",
     "bucket:pull": "aws s3 sync s3://econnessione-alpha/public ./buckets/public --endpoint https://fra1.digitaloceanspaces.com/",
     "clean:data": "rm -rf ./public/media/actors ./public/media/groups ./public/media/images"
   },
@@ -33,7 +34,6 @@
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1",
     "supertest": "^6.2.2",
-    "ts-node": "^10.7.0",
     "typescript": "^4.6.2"
   },
   "license": "MIT",

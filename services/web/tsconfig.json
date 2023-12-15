@@ -31,15 +31,6 @@
     }
   },
   "include": ["./src", "./typings", "./webpack.*.ts"],
-  "ts-node": {
-    "require": ["tsconfig-paths/register"],
-    "transpileOnly": true,
-    "compilerOptions": {
-      "module": "CommonJS",
-      "moduleResolution": "node",
-      "esModuleInterop": true
-    }
-  },
   "references": [
     {
       "path": "../../packages/@liexp/core"
