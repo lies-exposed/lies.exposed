@@ -73,7 +73,7 @@ export const toPuppeteerError = (e: unknown): PuppeteerError => {
   return {
     name: "UnknownPuppeteerError",
     status: 500,
-    message: "An error occured",
+    message: "An error occurred",
     details: [],
   };
 };

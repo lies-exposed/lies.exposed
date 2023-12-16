@@ -10,6 +10,7 @@ import { makeApp } from "./app/index.js";
 import { makeContext } from "./context/index.js";
 import { cleanTempFolder } from "./jobs/cleanTempFolder.job.js";
 import D from "debug";
+
 const run = (): Promise<void> => {
   process.env.NODE_ENV = process.env.NODE_ENV ?? "development";
 
@@ -100,7 +101,7 @@ const run = (): Promise<void> => {
           });
 
           server.on("error", (e) => {
-            serverLogger.error.log("An error occured %O", e);
+            serverLogger.error.log("An error occurred %O", e);
           });
 
           return Promise.resolve(undefined);

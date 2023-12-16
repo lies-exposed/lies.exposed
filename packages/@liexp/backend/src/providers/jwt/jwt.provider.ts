@@ -30,7 +30,7 @@ export const toError =
     return {
       status: override?.status ?? 401,
       name: "JWTClient",
-      message: "An error occured",
+      message: "An error occurred",
       details: {
         kind: "ClientError",
         status: "500",
