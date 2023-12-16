@@ -1,5 +1,6 @@
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
 import * as React from "react";
+import {type FallbackProps} from 'react-error-boundary'
 import { Box, Card, CardContent, CardHeader, Grid, Typography } from "../mui";
 
 const APIErrorBox = (e: APIError): React.ReactElement => {
@@ -18,7 +19,7 @@ const APIErrorBox = (e: APIError): React.ReactElement => {
   );
 };
 
-export const ErrorBox: (e: any) => React.ReactElement = (e: any) => {
+export const ErrorBox: React.FC<FallbackProps> = ({ error: e }) => {
   const box = React.useMemo(() => {
     if (e.name === "APIError") {
       return <APIErrorBox {...e} />;

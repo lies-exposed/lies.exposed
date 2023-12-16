@@ -66,7 +66,14 @@ export const AutocompleteInput = <T extends { id: string }>({
   const items = query(itemQueryParams);
 
   if (items.isError) {
-    return <ErrorBox />;
+    return (
+      <ErrorBox
+        error={items.error}
+        resetErrorBoundary={() => {
+          setValue("");
+        }}
+      />
+    );
   }
 
   return (

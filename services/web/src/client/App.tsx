@@ -1,27 +1,17 @@
 import "@liexp/ui/assets/main.css";
 import "@liexp/ui/lib/components/Common/Icons/library";
+import { ErrorBox } from "@liexp/ui/lib/components/Common/ErrorBox";
 import { FullSizeLoader } from "@liexp/ui/lib/components/Common/FullSizeLoader";
 import { Footer } from "@liexp/ui/lib/components/Footer";
 import SEO from "@liexp/ui/lib/components/SEO";
 import { Grid, useMediaQuery } from "@liexp/ui/lib/components/mui";
 import { useTheme } from "@liexp/ui/lib/theme";
 import * as React from "react";
-import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
+import { ErrorBoundary } from "react-error-boundary";
 import { Route, Routes, useLocation } from "react-router";
 import AppHeader, { logo192 } from "./components/header/AppHeader";
 import NotFoundPage from "./pages/404";
 import { routes } from "./routes";
-
-const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
-  // eslint-disable-next-line no-console
-  console.error("error", error);
-  return (
-    <>
-      <div>{error.name}</div>
-      <div>{error.message}</div>
-    </>
-  );
-};
 
 export const App: React.FC = () => {
   const location = useLocation();
@@ -30,25 +20,25 @@ export const App: React.FC = () => {
 
   return (
     <div style={{ height: "100%", display: "flex" }}>
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <SEO title="lies exposed" urlPath={location.pathname} />
-        <AppHeader />
+      <SEO title="lies exposed" urlPath={location.pathname} />
+      <AppHeader />
+      <Grid
+        container
+        style={{ minHeight: "100%", height: "100%", width: "100%" }}
+      >
         <Grid
-          container
-          style={{ minHeight: "100%", height: "100%", width: "100%" }}
+          item
+          style={{
+            width: "100%",
+            // minHeight: `calc(100% - ${
+            //   theme.mixins.toolbar.height ?? 64
+            // }px - 100px)`,
+            minHeight: "100%",
+            // height: "100%",
+            marginTop: theme.mixins.toolbar.height ?? 64 + 16,
+          }}
         >
-          <Grid
-            item
-            style={{
-              width: "100%",
-              // minHeight: `calc(100% - ${
-              //   theme.mixins.toolbar.height ?? 64
-              // }px - 100px)`,
-              minHeight: "100%",
-              // height: "100%",
-              marginTop: theme.mixins.toolbar.height ?? 64 + 16,
-            }}
-          >
+          <ErrorBoundary FallbackComponent={ErrorBox}>
             <Routes>
               {routes.map((r) => (
                 <Route
@@ -63,18 +53,18 @@ export const App: React.FC = () => {
               ))}
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
-          </Grid>
-          <Grid item xs={12}>
-            <Footer
-              logoSrc={logo192}
-              style={{
-                paddingLeft:
-                  location.pathname === "/events" && !isDownSM ? 240 : 0,
-              }}
-            />
-          </Grid>
+          </ErrorBoundary>
         </Grid>
-      </ErrorBoundary>
+        <Grid item xs={12}>
+          <Footer
+            logoSrc={logo192}
+            style={{
+              paddingLeft:
+                location.pathname === "/events" && !isDownSM ? 240 : 0,
+            }}
+          />
+        </Grid>
+      </Grid>
     </div>
   );
 };

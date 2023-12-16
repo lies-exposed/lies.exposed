@@ -75,7 +75,7 @@ const QueriesRenderer = <
     return (
       <div>
         {Object.values(errors).map((err, i) => (
-          <ErrorBox {...err} key={i} />
+          <ErrorBox error={err} key={i} resetErrorBoundary={() => undefined} />
         ))}
       </div>
     );
