@@ -6,6 +6,7 @@ import {
   Entity,
   ManyToMany,
   PrimaryGeneratedColumn,
+  type Relation,
   UpdateDateColumn,
 } from "typeorm";
 import { EventEntity } from "./Event.entity.js";
@@ -32,7 +33,7 @@ export class MediaV1Entity {
   type: MediaType;
 
   @ManyToMany(() => EventEntity, (e) => e.media, { cascade: false })
-  events: EventEntity[];
+  events: Relation< EventEntity[]>;
 
   @CreateDateColumn()
   createdAt: Date;

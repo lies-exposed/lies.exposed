@@ -55,7 +55,7 @@ export class UserEntity {
     cascade: false,
     nullable: true,
   })
-  eventSuggestions: Relation< EventSuggestionEntity[]>;
+  eventSuggestions: Relation<EventSuggestionEntity[]>;
 
   @OneToMany(() => LinkEntity, (l) => l.creator)
   links: Relation<LinkEntity[]>;

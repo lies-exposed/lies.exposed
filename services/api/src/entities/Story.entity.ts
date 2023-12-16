@@ -55,34 +55,34 @@ export class StoryEntity {
     cascade: false,
     nullable: true,
   })
-  creator: Relation< UserEntity | null>;
+  creator: Relation<UserEntity | null>;
 
   @ManyToMany(() => KeywordEntity, (k) => k.stories, {
     cascade: false,
   })
-  keywords: Relation< KeywordEntity[]>;
+  keywords: Relation<KeywordEntity[]>;
 
   @ManyToMany(() => ActorEntity, (k) => k.stories, {
     cascade: false,
   })
-  actors: Relation< ActorEntity[]>;
+  actors: Relation<ActorEntity[]>;
 
   @ManyToMany(() => GroupEntity, (k) => k.stories, {
     cascade: false,
   })
-  groups: Relation< GroupEntity[]>;
+  groups: Relation<GroupEntity[]>;
 
   @ManyToMany(() => MediaEntity, (k) => k.stories, {
     cascade: false,
   })
   @JoinTable()
-  media: Relation< MediaEntity[]>;
+  media: Relation<MediaEntity[]>;
 
   @ManyToMany(() => EventV2Entity, (k) => k.stories, {
     cascade: false,
   })
   @JoinTable()
-  events: Relation< EventV2Entity[]>;
+  events: Relation<EventV2Entity[]>;
 
   @CreateDateColumn()
   createdAt: Date;

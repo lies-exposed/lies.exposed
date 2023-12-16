@@ -50,43 +50,43 @@ export class MediaEntity {
     nullable: true,
   })
   @JoinTable()
-  creator: Relation< UserEntity | null>;
+  creator: Relation<UserEntity | null>;
 
   @Column({
     type: "json",
     nullable: true,
   })
-  extra: Relation< MediaExtra | null>;
+  extra: Relation<MediaExtra | null>;
 
   @ManyToMany(() => EventV2Entity, (e) => e.media, {
     cascade: false,
   })
-  events: Relation< EventV2Entity[]>;
+  events: Relation<EventV2Entity[]>;
 
   @OneToMany(() => LinkEntity, (e) => e.image, {
     cascade: false,
   })
-  links: Relation< LinkEntity[]>;
+  links: Relation<LinkEntity[]>;
 
   @ManyToMany(() => AreaEntity, (a) => a.media, {
     cascade: false,
   })
-  areas: Relation< AreaEntity[]>;
+  areas: Relation<AreaEntity[]>;
 
   @OneToMany(() => StoryEntity, (a) => a.featuredImage, {
     cascade: false,
   })
-  featuredIn:Relation< StoryEntity[]>;
+  featuredIn: Relation<StoryEntity[]>;
 
   @ManyToMany(() => StoryEntity, (a) => a.media, {
     cascade: false,
   })
-  stories: Relation< StoryEntity[]>;
+  stories: Relation<StoryEntity[]>;
 
   @ManyToMany(() => KeywordEntity, (a) => a.media, {
     cascade: false,
   })
-  keywords: Relation< KeywordEntity[]>;
+  keywords: Relation<KeywordEntity[]>;
 
   socialPosts?: SocialPostEntity[];
 

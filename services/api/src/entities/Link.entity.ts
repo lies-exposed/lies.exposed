@@ -38,7 +38,7 @@ export class LinkEntity {
     nullable: true,
   })
   @JoinColumn()
-  image: Relation< MediaEntity | null>;
+  image: Relation<MediaEntity | null>;
 
   @Column({ type: "timestamptz", nullable: true })
   publishDate: Date | null;
@@ -55,12 +55,12 @@ export class LinkEntity {
   @ManyToMany(() => EventV2Entity, (e) => e.links, {
     cascade: false,
   })
-  events: EventV2Entity[];
+  events: Relation<EventV2Entity[]>;
 
   @ManyToMany(() => KeywordEntity, (e) => e.links, {
     cascade: false,
   })
-  keywords: KeywordEntity[];
+  keywords: Relation<KeywordEntity[]>;
 
   socialPosts?: SocialPostEntity[];
 

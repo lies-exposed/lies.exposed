@@ -51,16 +51,16 @@ export class GroupEntity {
   body: Record<string, unknown> | null;
 
   @OneToMany(() => GroupMemberEntity, (member) => member.group, {
-    cascade: ["insert"],
+    cascade: ["insert", "soft-remove", "remove"],
     nullable: true,
   })
-  members: Relation< GroupMemberEntity[]>;
+  members: Relation<GroupMemberEntity[]>;
 
   @ManyToMany(() => StoryEntity, (k) => k.groups, {
     cascade: false,
   })
   @JoinTable()
-  stories: Relation< StoryEntity[]>;
+  stories: Relation<StoryEntity[]>;
 
   @CreateDateColumn()
   createdAt: Date;

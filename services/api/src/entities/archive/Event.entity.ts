@@ -7,6 +7,7 @@ import {
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
+  type Relation,
   UpdateDateColumn,
 } from "typeorm";
 import { ActorEntity } from "../Actor.entity.js";
@@ -51,36 +52,36 @@ export class EventEntity {
 
   @ManyToMany(() => GroupEntity, (a) => [], { nullable: true })
   @JoinTable()
-  groups: GroupEntity[];
+  groups: Relation<GroupEntity[]>;
 
   @ManyToMany(() => ActorEntity, (a) => a.events, { nullable: true })
   @JoinTable()
-  actors: ActorEntity[];
+  actors: Relation<ActorEntity[]>;
 
   @ManyToMany(() => GroupMemberEntity, (gm) => gm.events, { nullable: true })
   @JoinTable()
-  groupsMembers: GroupMemberEntity[];
+  groupsMembers: Relation<GroupMemberEntity[]>;
 
   @ManyToMany(() => LinkEntity, (a) => a.events, {
     cascade: ["insert"],
     nullable: true,
   })
   @JoinTable()
-  links: LinkEntity[];
+  links: Relation<LinkEntity[]>;
 
   @ManyToMany(() => MediaV1Entity, (a) => a.events, {
     cascade: ["insert"],
     nullable: true,
   })
   @JoinTable()
-  media: MediaV1Entity[];
+  media: Relation<MediaV1Entity[]>;
 
   @ManyToMany(() => KeywordEntity, (a) => a.events, {
     cascade: ["insert"],
     nullable: true,
   })
   @JoinTable()
-  keywords: KeywordEntity[];
+  keywords: Relation<KeywordEntity[]>;
 
   @DeleteDateColumn()
   deletedAt: Date | null;
