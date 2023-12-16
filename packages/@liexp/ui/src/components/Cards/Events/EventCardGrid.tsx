@@ -24,14 +24,14 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
     alignItems: "center",
     padding: theme.spacing(2),
     height: "100%",
-    [`${theme.breakpoints.down("sm")}`]: {
+    [theme.breakpoints.down("md")]: {
       height: "auto",
     },
   },
   [`& .${classes.card}`]: {
     height: "100%",
     width: "100%",
-    [`${theme.breakpoints.down("sm")}`]: {
+    [`${theme.breakpoints.down("md")}`]: {
       height: "auto",
     },
   },
