@@ -25169,7 +25169,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-node@npm:^10.8.1":
+"ts-node@npm:^10.8.1, ts-node@npm:^10.9.2":
   version: 10.9.2
   resolution: "ts-node@npm:10.9.2"
   dependencies:
@@ -26447,8 +26447,8 @@ __metadata:
     throttle-debounce: ^5.0.0
     topojson-client: 3.1.0
     topojson-server: 3.0.1
+    ts-node: ^10.9.2
     tsconfig-paths-webpack-plugin: ^4.1.0
-    tsx: ^4.6.2
     typescript: ^5.3.3
     uuid: ^9.0.1
     webpack: ^5.89.0
