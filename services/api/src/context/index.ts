@@ -38,8 +38,8 @@ export const makeContext = (
   const serverLogger = logger.GetLogger("server");
 
   const db = pipe(
-    getDataSource(env, true),
-    fp.TE.chain((source) => GetTypeORMClient(source)),
+    getDataSource(env, false),
+    fp.TE.chain(GetTypeORMClient),
     fp.TE.mapLeft(toControllerError),
   );
 

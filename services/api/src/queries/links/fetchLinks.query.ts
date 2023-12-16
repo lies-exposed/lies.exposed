@@ -2,7 +2,6 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type GetListLinkQuery } from "@liexp/shared/lib/io/http/Link.js";
 import { LinkEntity } from "#entities/Link.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
-import { toControllerError } from "#io/ControllerError.js";
 import {
   aggregateSocialPostsPerEntry,
   leftJoinSocialPosts,
@@ -43,15 +42,15 @@ export const fetchLinks: TEFlow<
   });
 
   return pipe(
-    fp.TE.tryCatch(
-      (): Promise<[{ entities: LinkEntity[]; raw: any[] }, number]> =>
+    ctx.db.execQuery(
+      () =>
         pipe(
           ctx.db.manager
             .createQueryBuilder(LinkEntity, "link")
             .leftJoinAndSelect("link.creator", "creator")
             .leftJoinAndSelect("link.image", "image")
-            .leftJoinAndSelect("link.events", "events")
-            .leftJoinAndSelect("link.keywords", "keywords"),
+            .leftJoinAndSelect("link.keywords", "keywords")
+            .leftJoinAndSelect("link.events", "events"),
           (q) => {
             if (isAdmin) {
               return q.leftJoinAndSelect(
@@ -128,7 +127,7 @@ export const fetchLinks: TEFlow<
             }
             return q;
           },
-          (q) => {
+          async (q) => {
             ctx.logger.debug.log(
               "Get links query %s, %O",
               q.getSql(),
@@ -137,21 +136,17 @@ export const fetchLinks: TEFlow<
 
             q.skip(findOptions.skip).take(findOptions.take);
 
-            return q.getRawAndEntities().then(async (results) => {
+            return await q.getRawAndEntities().then(async (results) => {
               const count = await q.getCount();
 
-              return [results, count];
+              const entities = results.entities.map((e) => ({
+                ...e,
+                socialPosts: aggregateSocialPostsPerEntry("link_id", results.raw, e) as any[],
+              }))
+              return [entities, count];
             });
           },
         ),
-      toControllerError,
     ),
-    fp.TE.map(([{ entities, raw }, count]): [LinkEntity[], number] => [
-      entities.map((e) => ({
-        ...e,
-        socialPosts: aggregateSocialPostsPerEntry("link_id", raw, e) as any[],
-      })),
-      count,
-    ]),
   );
 };

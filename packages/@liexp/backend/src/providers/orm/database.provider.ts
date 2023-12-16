@@ -95,7 +95,7 @@ export const toError =
   (l: logger.Logger) =>
   (override?: Partial<DBError>) =>
   (e: unknown): DBError => {
-    l.error.log("An error occured %O", e);
+    l.error.log("An error occurred %O", e);
     if (e instanceof Error) {
       return {
         status: override?.status ?? 500,
@@ -112,7 +112,7 @@ export const toError =
     return {
       status: override?.status ?? 500,
       name: "DBError",
-      message: "An error occured",
+      message: "An error occurred",
       details: {
         kind: "ClientError",
         status: "500",
@@ -137,10 +137,10 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
     return format;
   };
 
-  const execQuery = <T>(lazyQ: () => Promise<T>): TE.TaskEither<DBError, T> =>
-    TE.tryCatch(lazyQ, toError(ctx.logger)());
-
   const handleError = toError(ctx.logger);
+
+  const execQuery = <T>(lazyQ: () => Promise<T>): TE.TaskEither<DBError, T> =>
+    TE.tryCatch(lazyQ, handleError());
 
   return {
     manager: ctx.connection.manager,
