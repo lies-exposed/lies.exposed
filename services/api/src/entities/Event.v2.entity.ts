@@ -54,7 +54,7 @@ export class EventV2Entity {
     nullable: true,
   })
   @JoinTable()
-  links: Relation< LinkEntity[]>;
+  links: Relation<LinkEntity[]>;
 
   @ManyToMany(() => MediaEntity, (a) => a.events, {
     cascade: ["insert"],

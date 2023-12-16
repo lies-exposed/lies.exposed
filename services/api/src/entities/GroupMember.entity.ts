@@ -34,13 +34,13 @@ export class GroupMemberEntity {
     nullable: false,
     cascade: false,
   })
-  group: Relation<GroupEntity>
+  group: Relation<GroupEntity>;
 
   @ManyToOne(() => ActorEntity, (a) => a.id, {
     nullable: false,
     cascade: false,
   })
-  actor:Relation< ActorEntity>;
+  actor: Relation<ActorEntity>;
 
   @ManyToMany(() => EventV2Entity, { cascade: false })
   events: Relation<EventV2Entity[]>;

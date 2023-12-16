@@ -8,6 +8,7 @@ import {
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
+  type Relation,
   UpdateDateColumn,
 } from "typeorm";
 import { ActorEntity } from "#entities/Actor.entity.js";
@@ -45,10 +46,10 @@ export class ScientificStudyEntity {
 
   @ManyToMany(() => ActorEntity, (a) => a.id, { nullable: true })
   @JoinTable()
-  authors: ActorEntity[];
+  authors: Relation<ActorEntity[]>;
 
   @ManyToOne(() => GroupEntity, (a) => a.id, { nullable: true })
-  publisher: GroupEntity;
+  publisher: Relation<GroupEntity>;
 
   @CreateDateColumn()
   createdAt: Date;

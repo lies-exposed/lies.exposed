@@ -34,7 +34,7 @@ export class KeywordEntity {
   color: Color | null;
 
   @ManyToMany(() => EventV2Entity, (e) => e.keywords, { cascade: false })
-  events: Relation< EventV2Entity[]>;
+  events: Relation<EventV2Entity[]>;
 
   @ManyToMany(() => LinkEntity, (e) => e.keywords, { cascade: false })
   @JoinTable()

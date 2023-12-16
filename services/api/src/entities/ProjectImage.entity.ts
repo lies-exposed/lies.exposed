@@ -29,11 +29,11 @@ export class ProjectImageEntity {
     nullable: false,
   })
   @JoinColumn()
-  image: Relation< MediaEntity>;
+  image: Relation<MediaEntity>;
 
   @ManyToOne(() => ProjectEntity, (a) => a.id, { nullable: false })
   @JoinColumn()
-  project:  Relation<ProjectEntity>;
+  project: Relation<ProjectEntity>;
 
   @CreateDateColumn()
   createdAt: Date;

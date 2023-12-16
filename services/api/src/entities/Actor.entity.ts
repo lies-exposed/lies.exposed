@@ -42,16 +42,16 @@ export class ActorEntity {
   diedOn: string | null;
 
   @OneToMany(() => GroupMemberEntity, (member) => member.actor, {
-    cascade: ["insert"],
+    cascade: ["insert", "soft-remove", "remove"],
     nullable: true,
   })
-  memberIn: Relation< GroupMemberEntity[]>;
+  memberIn: Relation<GroupMemberEntity[]>;
 
   @ManyToMany(() => EventV2Entity, (e) => e.actors, {
     cascade: false,
     onDelete: "NO ACTION",
   })
-  events: Relation< EventV2Entity[]>;
+  events: Relation<EventV2Entity[]>;
 
   @Column({ type: "json", nullable: true })
   excerpt: Record<string, unknown> | null;
@@ -63,7 +63,7 @@ export class ActorEntity {
     cascade: false,
   })
   @JoinTable()
-  stories: Relation< StoryEntity[]>;
+  stories: Relation<StoryEntity[]>;
 
   @CreateDateColumn()
   createdAt: Date;

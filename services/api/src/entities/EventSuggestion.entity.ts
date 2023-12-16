@@ -30,7 +30,7 @@ export class EventSuggestionEntity {
   @ManyToOne(() => UserEntity, (u) => u.eventSuggestions, {
     cascade: false,
   })
-  creator: Relation< UserEntity>;
+  creator: Relation<UserEntity>;
 
   @CreateDateColumn()
   createdAt: Date;

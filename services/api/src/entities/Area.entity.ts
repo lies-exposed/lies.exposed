@@ -1,4 +1,7 @@
-import { type UUID, type Geometry } from "@liexp/shared/lib/io/http/Common/index.js";
+import {
+  type UUID,
+  type Geometry,
+} from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   Column,
   CreateDateColumn,
@@ -42,7 +45,7 @@ export class AreaEntity {
 
   @ManyToMany(() => MediaEntity, (m) => m.areas)
   @JoinTable()
-  media: Relation< MediaEntity[]>;
+  media: Relation<MediaEntity[]>;
 
   // admin props
   socialPosts?: SocialPostEntity[];

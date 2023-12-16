@@ -35,18 +35,18 @@ export class DeathEventEntity {
     cascade: ["insert"],
     nullable: true,
   })
-  news: LinkEntity[];
+  news: Relation<LinkEntity[]>;
 
   @ManyToMany(() => MediaV1Entity, (a) => a.events, {
     cascade: ["insert"],
     nullable: true,
   })
   @JoinTable()
-  media: MediaV1Entity[];
+  media: Relation<MediaV1Entity[]>;
 
   @OneToOne(() => ActorEntity, (v) => v.id, { nullable: false })
   @JoinColumn()
-  victim: Relation< ActorEntity>;
+  victim: Relation<ActorEntity>;
 
   @ManyToMany(() => GroupEntity, (a) => a.id, { nullable: true })
   @JoinTable()
