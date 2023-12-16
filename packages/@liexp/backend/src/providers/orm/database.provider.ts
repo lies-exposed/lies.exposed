@@ -301,15 +301,10 @@ const MakeDatabaseClient: MakeDatabaseClient =
 
       if (dataSource.isInitialized) {
         logger.debug.log(
-          "The connection is already present in connection manager...",
+          "The connection is already initialized...",
         );
-        const conn = dataSource;
 
-        return TE.tryCatch(
-          () =>
-            conn.isInitialized ? Promise.resolve(conn) : conn.initialize(),
-          toError(logger)(),
-        );
+        return TE.right(dataSource);
       }
 
       logger.debug.log("Connection %s not found, creating...", connectionName);
