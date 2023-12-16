@@ -61,7 +61,7 @@ export const Uncategorized = t.strict(
     type: UNCATEGORIZED,
     payload: UncategorizedV2Payload,
   },
-  "UncategorizedEventV2",
+  "UncategorizedEvent",
 );
 
 export type Uncategorized = t.TypeOf<typeof Uncategorized>;
