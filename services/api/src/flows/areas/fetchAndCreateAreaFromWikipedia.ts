@@ -13,15 +13,15 @@ import { fetchFromWikipedia } from "#flows/wikipedia/fetchFromWikipedia.js";
 import { toAreaIO } from "#routes/areas/Area.io.js";
 import { toMediaIO } from "#routes/media/media.io.js";
 
-export const fetchAreaFromWikipedia: TEFlow<
+export const fetchAndCreateAreaFromWikipedia: TEFlow<
   [string],
   { area: Area.Area; media: Media.Media[] }
 > = (ctx) => (pageId) => {
   return pipe(
     fetchFromWikipedia(ctx)(pageId),
-    TE.map(({ page, avatar, intro }) => {
+    TE.map(({ page, featuredMedia, intro }) => {
       ctx.logger.debug.log("Area fetched from wikipedia %s: %O", page.title, {
-        avatar,
+        featuredMedia,
         intro,
       });
       const slug = pipe(
@@ -45,12 +45,12 @@ export const fetchAreaFromWikipedia: TEFlow<
           createdAt: new Date(),
           updatedAt: new Date(),
         },
-        media: avatar
+        media: featuredMedia
           ? {
               id: undefined as any,
               thumbnail: undefined,
-              type: contentTypeFromFileExt(avatar),
-              location: avatar,
+              type: contentTypeFromFileExt(featuredMedia),
+              location: featuredMedia,
               label: page.title,
               description: page.title,
               creator: undefined,
@@ -117,7 +117,12 @@ export const fetchAreaFromWikipedia: TEFlow<
                   sequenceS(fp.E.Applicative)({
                     area: toAreaIO(area),
                     media: pipe(
-                      media.map((m) => toMediaIO(m, ctx.env.SPACE_ENDPOINT)),
+                      media.map((m) =>
+                        toMediaIO(
+                          { ...m, areas: m.areas.map((a): any => a.id) },
+                          ctx.env.SPACE_ENDPOINT,
+                        ),
+                      ),
                       fp.A.sequence(fp.E.Applicative),
                     ),
                   }),

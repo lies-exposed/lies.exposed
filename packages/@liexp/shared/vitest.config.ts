@@ -1,6 +1,5 @@
 import viteTsconfigPaths from "vite-tsconfig-paths";
 import { defineConfig } from "vitest/config";
-import * as path from 'path'
 
 export default defineConfig({
   test: {
@@ -16,14 +15,7 @@ export default defineConfig({
         functions: 80
       }
     },
-    alias: {
-      "@liexp/core/lib": path.resolve(
-        __dirname,
-        "../core/src"
-      ),
-    }
   },
-
   plugins: [viteTsconfigPaths()],
   root: __dirname,
 });

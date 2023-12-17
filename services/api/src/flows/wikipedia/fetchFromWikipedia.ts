@@ -7,7 +7,7 @@ import { toControllerError } from "#io/ControllerError.js";
 
 interface LoadedPage {
   page: Page;
-  avatar: string | undefined;
+  featuredMedia: string | undefined;
   intro: string;
 }
 
@@ -20,7 +20,7 @@ export const fetchFromWikipedia: TEFlow<[string], LoadedPage> =
         return TE.tryCatch(async () => {
           const media = await p.media();
 
-          const avatar = pipe(
+          const featuredMedia = pipe(
             media.items.filter((i) => i.type === "image"),
             fp.A.head,
             fp.O.chainNullableK((r) => r.srcset?.[0]?.src),
@@ -32,7 +32,7 @@ export const fetchFromWikipedia: TEFlow<[string], LoadedPage> =
 
           return {
             page: p,
-            avatar,
+            featuredMedia,
             intro,
           };
         }, toControllerError);

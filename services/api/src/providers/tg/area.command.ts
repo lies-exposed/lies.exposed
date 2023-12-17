@@ -5,7 +5,7 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import kebabCase from "lodash/kebabCase.js";
 import type TelegramBot from "node-telegram-bot-api";
 import { AreaEntity } from "#entities/Area.entity.js";
-import { fetchAreaFromWikipedia } from "#flows/areas/fetchAreaFromWikipedia.js";
+import { fetchAndCreateAreaFromWikipedia } from "#flows/areas/fetchAndCreateAreaFromWikipedia.js";
 import { toControllerError } from "#io/ControllerError.js";
 import { toAreaIO } from "#routes/areas/Area.io.js";
 import { type RouteContext } from "#routes/route.types.js";
@@ -84,7 +84,7 @@ export const areaCommand = ({
               logger.debug.log("User pick %O", jsonData);
 
               void pipe(
-                fetchAreaFromWikipedia({
+                fetchAndCreateAreaFromWikipedia({
                   db,
                   logger,
                   wp,
