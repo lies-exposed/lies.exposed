@@ -1,23 +1,29 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { createExcerptValue } from "@liexp/shared/lib/slate/index.js";
-import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import D from "debug";
-import snakeCase from "lodash/snakeCase";
 // eslint-disable-next-line import/no-named-as-default
 import prompts from "prompts";
 import { startContext, stopContext } from "./start-ctx.js";
-import { ActorEntity } from "#entities/Actor.entity.js";
+import { fetchActorFromWikipedia } from "#flows/actors/fetchAndCreateActorFromWikipedia.js";
+import { fetchAndCreateAreaFromWikipedia } from "#flows/areas/fetchAndCreateAreaFromWikipedia.js";
+import { fetchGroupFromWikipedia } from "#flows/groups/fetchGroupFromWikipedia.js";
 
 /**
- * Usage create-from-wikipedia $search
+ * Usage create-from-wikipedia $type $search
  *
+ * $type        type of entity to create  (actor|area|group)
  * $search      text used as query for wikipedia search api
  *
  * @returns void
  */
 const run = async (): Promise<any> => {
-  const [, , search] = process.argv;
+  const [, , type, search] = process.argv;
+
+  if (!["area", "actor", "group"].includes(type)) {
+    throw new Error(
+      `Wrong type ${type} given. Allowed types are: 'actor', 'area', 'group'`,
+    );
+  }
 
   if (!search) {
     throw new Error('Missing "search" param');
@@ -27,19 +33,19 @@ const run = async (): Promise<any> => {
 
   D.enable(ctx.env.DEBUG);
 
-  const result = await pipe(
+  const wpResult = await pipe(
     ctx.wp.search(search),
     fp.TE.map((r) => r.results),
     throwTE,
   );
 
-  ctx.logger.debug.log("Search results %O", result);
+  ctx.logger.debug.log("Search results %O", wpResult);
 
   const choice = await prompts({
     message: "Select correct page",
     type: "select",
     name: "page",
-    choices: result.map((r) => ({ title: r.title, value: r.title })),
+    choices: wpResult.map((r) => ({ title: r.title, value: r.title })),
   });
 
   const page = await pipe(ctx.wp.parse(choice.page), throwTE);
@@ -60,27 +66,25 @@ const run = async (): Promise<any> => {
 
   ctx.logger.debug.log("Page content %O", image);
 
-  const username = pipe(
-    page.fullurl.split("/"),
-    fp.A.last,
-    fp.O.map((n) => snakeCase(n.replaceAll("_", " "))),
-    fp.O.getOrElse(() => snakeCase(search)),
-  );
+  let result;
+  if (type === "area") {
+    result = await pipe(
+      fetchAndCreateAreaFromWikipedia(ctx)(String(page.pageid)),
+      throwTE,
+    );
+  } else if (type === "actor") {
+    result = await pipe(
+      fetchActorFromWikipedia(ctx)(String(page.pageid)),
+      throwTE,
+    );
+  } else if (type === "group") {
+    result = await pipe(
+      fetchGroupFromWikipedia(ctx)(String(page.pageid)),
+      throwTE,
+    );
+  }
 
-  const [actor] = await pipe(
-    ctx.db.save(ActorEntity, [
-      {
-        fullName: page.title,
-        username,
-        excerpt: createExcerptValue(intro),
-        avatar: image,
-        color: generateRandomColor(),
-      },
-    ]),
-    throwTE,
-  );
-
-  ctx.logger.debug.log("Created actor %O", actor);
+  ctx.logger.debug.log("Created %s %O", type, result);
 
   await stopContext(ctx);
 };

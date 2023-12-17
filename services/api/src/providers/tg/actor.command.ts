@@ -4,7 +4,9 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import kebabCase from "lodash/kebabCase.js";
 import type TelegramBot from "node-telegram-bot-api";
 import { ActorEntity } from "#entities/Actor.entity.js";
-import { fetchActorFromWikipedia } from "#flows/actors/fetchActorFromWikipedia.js";
+import {
+  searchActorAndCreateFromWikipedia
+} from "#flows/actors/fetchAndCreateActorFromWikipedia.js";
 import { toControllerError } from "#io/ControllerError.js";
 import { type RouteContext } from "#routes/route.types.js";
 
@@ -22,7 +24,7 @@ export const actorCommand = ({
   tg,
   db,
   env,
-  ...rest
+  ...restCtx
 }: RouteContext): TGBotProvider => {
   tg.api.onText(/\/actor\s(.*)/, (msg, match) => {
     if (!match || match[1] === "") {
@@ -82,35 +84,15 @@ export const actorCommand = ({
               logger.debug.log("User pick %O", jsonData);
 
               void pipe(
-                fetchActorFromWikipedia({
-                  db,
+                searchActorAndCreateFromWikipedia({
                   logger,
                   wp,
                   tg,
+                  db,
                   env,
-                  ...rest,
+                  ...restCtx,
                 })(jsonData.value),
-                fp.TE.chain((actorData) => {
-                  return pipe(
-                    db.findOne(ActorEntity, {
-                      where: { username: actorData.username },
-                    }),
-                    fp.TE.chain((a) => {
-                      if (fp.O.isSome(a)) {
-                        return fp.TE.right([a.value]);
-                      }
-
-                      return db.save(ActorEntity, [
-                        {
-                          ...actorData,
-                          bornOn: actorData.bornOn as any,
-                          diedOn: actorData.diedOn as any,
-                        },
-                      ]);
-                    }),
-                  );
-                }),
-                fp.TE.chain(([actor]) =>
+                fp.TE.chain((actor) =>
                   fp.TE.tryCatch(
                     () =>
                       tg.api.sendMessage(

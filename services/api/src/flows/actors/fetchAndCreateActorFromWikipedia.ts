@@ -14,7 +14,7 @@ export const fetchActorFromWikipedia: TEFlow<[string], AddActorBody> =
   (ctx) => (pageId) => {
     return pipe(
       fetchFromWikipedia(ctx)(pageId),
-      TE.map(({ page, avatar, intro }) => {
+      TE.map(({ page, featuredMedia: avatar, intro }) => {
         ctx.logger.debug.log("Actor fetched from wikipedia %s", page.title);
         const username = pipe(
           page.fullurl.split("/"),

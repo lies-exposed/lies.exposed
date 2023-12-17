@@ -12,7 +12,7 @@ export const fetchGroupFromWikipedia: TEFlow<[string], CreateGroupBody> =
   (ctx) => (pageId) => {
     return pipe(
       fetchFromWikipedia(ctx)(pageId),
-      TE.map(({ page, avatar, intro }) => {
+      TE.map(({ page, featuredMedia: avatar, intro }) => {
         const group = {
           name: page.title,
           username: getUsernameFromDisplayName(page.title),
