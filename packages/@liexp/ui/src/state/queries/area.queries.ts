@@ -1,7 +1,11 @@
 import { type Area } from "@liexp/shared/lib/io/http";
 import type { GetListParams } from "react-admin";
 import { useQuery } from "react-query";
-import { Queries } from "../../providers/DataProvider";
+import { type APIRESTClient } from "../../http/APIRESTClient.js";
+import {
+  type Queries,
+  asQueries
+} from "../../providers/DataProvider.js";
 import { fetchQuery } from "./common";
 import { type FetchQuery, type UseListQueryFn, type UseQueryFn } from "./type";
 
@@ -27,18 +31,26 @@ export const getAreaQueryKey = (
     discrete,
   ];
 };
-export const fetchAreas: FetchQuery<typeof Queries.Area.getList> = fetchQuery(
-  Queries.Area.getList,
-);
+export const fetchAreas = (dataProvider: APIRESTClient): FetchQuery<Queries['Area']['getList']> =>
+  fetchQuery(asQueries(dataProvider).Area.getList);
 
-export const useAreasQuery: UseListQueryFn<Area.Area> = (params, discrete) => {
-  return useQuery(getAreaQueryKey(params, discrete), fetchAreas);
+export const useAreasQuery: UseListQueryFn<Area.Area> = (
+  dp,
+  params,
+  discrete,
+) => {
+  return useQuery(getAreaQueryKey(params, discrete), fetchAreas(dp));
 };
 
-export const fetchArea = async ({ queryKey }: any): Promise<Area.Area> => {
-  return await Queries.Area.get({ id: queryKey[1].id });
-};
+export const fetchArea =
+  (dp: APIRESTClient) =>
+  async ({ queryKey }: any): Promise<Area.Area> => {
+    return await asQueries(dp).Area.get({ id: queryKey[1].id });
+  };
 
-export const useAreaQuery: UseQueryFn<{ id: string }, Area.Area> = (params) => {
-  return useQuery(["areas", params], fetchArea);
+export const useAreaQuery: UseQueryFn<{ id: string }, Area.Area> = (
+  dp,
+  params,
+) => {
+  return useQuery(["areas", params], fetchArea(dp));
 };

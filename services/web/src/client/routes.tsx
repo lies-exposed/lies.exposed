@@ -1,7 +1,7 @@
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
 import { EventType } from "@liexp/shared/lib/io/http/Events";
 import { StatsType } from "@liexp/shared/lib/io/http/Stats";
-import { fetchStoryByPath } from "@liexp/ui/lib/providers/DataProvider";
+import { apiProvider } from "@liexp/ui/lib/client/api";
 import {
   fetchGroupsMembers,
   getGroupsMembersQueryKey,
@@ -27,6 +27,7 @@ import {
 import {
   fetchStories,
   getStoryQueryKey,
+  fetchStoryByPath,
 } from "@liexp/ui/lib/state/queries/article.queries";
 import { fetchEvent } from "@liexp/ui/lib/state/queries/event.queries";
 import { fetchGithubRepo } from "@liexp/ui/lib/state/queries/github";
@@ -636,7 +637,7 @@ export const routes = [
       return <NotFoundPage />;
     },
     queries: async ({ storyPath }: any) => {
-      const story = await fetchStoryByPath({ path: storyPath });
+      const story = await fetchStoryByPath(apiProvider, { path: storyPath });
       return [
         ...commonQueries,
         {

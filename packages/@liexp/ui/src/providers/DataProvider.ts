@@ -6,7 +6,8 @@ import {
   toAPIError,
   type APIError,
 } from "@liexp/shared/lib/io/http/Error/APIError";
-import * as io from "@liexp/shared/lib/io/index";
+import type * as io from "@liexp/shared/lib/io/index";
+import { throwTE } from '@liexp/shared/lib/utils/task.utils';
 import axios from "axios";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
@@ -15,7 +16,11 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import type * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter";
-import type { GetListParams, GetListResult, GetOneResult } from "react-admin";
+import type {
+  GetListParams,
+  GetListResult,
+  GetOneResult,
+} from "react-admin";
 import {
   type EndpointInstance,
   type InferEndpointParams,
@@ -72,16 +77,6 @@ const liftFetch = <B extends { data: any }>(
   );
 };
 
-export const foldTE = <E, A>(te: TE.TaskEither<E, A>): Promise<A> => {
-  return pipe(
-    te,
-    TE.fold(
-      (e) => () => Promise.reject(e),
-      (r) => () => Promise.resolve(r),
-    ),
-  )();
-};
-
 export const pageContentByPath = ({
   path,
 }: {
@@ -107,7 +102,7 @@ export const pageContentByPath = ({
         }),
       ),
     ),
-    foldTE,
+    throwTE,
   );
 
 interface Query<G, L, CC> {
@@ -170,6 +165,7 @@ const toQueries = <
   L extends MinimalEndpoint,
   CC extends Record<string, MinimalEndpointInstance>,
 >(
+  dataProvider: APIRESTClient,
   e: ResourceEndpoints<
     EndpointInstance<G>,
     EndpointInstance<L>,
@@ -192,7 +188,7 @@ const toQueries = <
           e.Get.Output.decode,
         ),
         TE.map((r) => r.data),
-        foldTE,
+        throwTE,
       ),
     getList: (
       params: GetListParams,
@@ -209,7 +205,7 @@ const toQueries = <
             }>(e.List.getPath(), params),
           e.List.Output.decode,
         ),
-        foldTE,
+        throwTE,
       ),
     Custom: pipe(
       e.Custom as any,
@@ -236,20 +232,21 @@ const toQueries = <
         return (
           params: TypeOfEndpointInstance<typeof ee>["Input"],
         ): Promise<TypeOfEndpointInstance<typeof ee>["Output"]> =>
-          pipe(fetch(params), foldTE);
+          pipe(fetch(params), throwTE);
       }),
     ) as any,
   };
 };
 
-const Queries: Queries = pipe(
-  Endpoints,
-  R.toArray,
-  A.reduce({}, (q, [k, e]) => ({
-    ...q,
-    [k]: toQueries(e as any),
-  })),
-) as Queries;
+const asQueries = (dataProvider: APIRESTClient): Queries =>
+  pipe(
+    Endpoints,
+    R.toArray,
+    A.reduce({}, (q, [k, e]) => ({
+      ...q,
+      [k]: toQueries(dataProvider, e as any),
+    })),
+  ) as Queries;
 
 const jsonClient = axios.create({
   baseURL: `${process.env.DATA_URL}/public`,
@@ -260,21 +257,8 @@ export const jsonData =
   ({ id }: { id: string }): Promise<{ data: A }> =>
     pipe(
       liftFetch(() => jsonClient.get(id), decode),
-      foldTE,
+      throwTE,
     );
 
-export const fetchStoryByPath = ({
-  path,
-}: {
-  path: string;
-}): Promise<io.http.Story.Story> =>
-  pipe(
-    liftFetch(
-      () => dataProvider.get("stories", { path }),
-      io.http.Common.ListOutput(io.http.Story.Story, "Stories").decode,
-    ),
-    TE.map((pages) => pages.data[0]),
-    foldTE,
-  );
 
-export { Queries, Endpoints };
+export { asQueries, type Queries, Endpoints };

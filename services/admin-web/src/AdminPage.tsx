@@ -26,7 +26,6 @@ import {
   LinkList,
 } from "@liexp/ui/lib/components/admin/links/AdminLinks";
 import { LinkEdit } from "@liexp/ui/lib/components/admin/links/LinkEdit";
-
 import {
   MediaCreate,
   MediaCreateMany,
@@ -35,7 +34,12 @@ import {
 } from "@liexp/ui/lib/components/admin/media";
 import {
   Admin,
+  CustomRoutes,
+  Layout,
+  type LayoutProps,
   Login,
+  Menu,
+  type MenuProps,
   Resource,
 } from "@liexp/ui/lib/components/admin/react-admin";
 import {
@@ -61,8 +65,10 @@ import {
 import { GroupCreate, GroupEdit, GroupList } from "./pages/AdminGroups";
 import { KeywordCreate, KeywordEdit, KeywordList } from "./pages/AdminKeyword";
 import { SocialPostCreate, SocialPostList } from "./pages/AdminSocialPost";
+import { AdminStats } from './pages/AdminStats';
 import { UserCreate, UserEdit, UserList } from "./pages/AdminUsers";
 import { PageCreate, PageEdit, PageList } from "./pages/Pages";
+import { BookCreate, BookEdit, BookList } from "./pages/events/AdminBookEvent";
 import {
   DeathCreate,
   DeathEdit,
@@ -95,7 +101,14 @@ import {
 } from "./pages/events/AdminTransactionEvent";
 import { UncategorizedEventCreate } from "./pages/events/AdminUncategorizedEvent";
 import { adminThemeOptions } from "./theme";
-import { BookCreate, BookEdit, BookList } from "pages/events/AdminBookEvent";
+
+const MyMenu: React.FC<MenuProps> = (props) => (
+  <Menu>
+    <Menu.DashboardItem />
+    <Menu.ResourceItems />
+  </Menu>
+);
+const MyLayout: React.FC<LayoutProps> = (props) => <Layout {...props} menu={MyMenu} />;
 
 const AdminPage: React.FC = () => {
   // eslint-disable-next-line no-console
@@ -106,6 +119,7 @@ const AdminPage: React.FC = () => {
       i18nProvider={i18nProvider}
       loginPage={Login}
       theme={adminThemeOptions as any}
+      layout={MyLayout}
     >
       <Resource
         name="pages"
@@ -263,6 +277,9 @@ const AdminPage: React.FC = () => {
         create={UserCreate}
         icon={UserIcon}
       />
+      <CustomRoutes>
+        <Route path="/" element={<AdminStats />} />
+      </CustomRoutes>
     </Admin>
   );
 };

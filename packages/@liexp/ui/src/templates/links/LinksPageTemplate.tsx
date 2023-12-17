@@ -18,6 +18,7 @@ export const LinksPageTemplate: React.FC<LinksPageTemplateProps> = ({
   params = defaultGetActorsQueryParams,
   onItemClick,
 }) => {
+  
   return (
     <QueriesRenderer
       queries={{
