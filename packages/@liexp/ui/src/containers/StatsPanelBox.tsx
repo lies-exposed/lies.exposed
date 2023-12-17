@@ -4,6 +4,7 @@ import {
   type Keyword,
 } from "@liexp/shared/lib/io/http";
 import { type EventType } from "@liexp/shared/lib/io/http/Events";
+import { type StatsType } from "@liexp/shared/lib/io/http/Stats";
 import * as React from "react";
 import { KeywordsBoxWrapper } from "../components/KeywordsBox";
 import QueriesRenderer from "../components/QueriesRenderer";
@@ -11,7 +12,7 @@ import { ActorChipCount } from "../components/actors/ActorChipCount";
 import { GroupChipCount } from "../components/groups/GroupChipCount";
 import { KeywordChipCount } from "../components/keywords/KeywordChipCount";
 import { Box, Typography } from "../components/mui";
-import { useStatsQuery } from "../state/queries/stats.queries";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
 import { styled } from "../theme";
 import { ActorsBoxWrapper } from "./ActorsBox";
 import { GroupsBoxWrapper } from "./GroupsBox";
@@ -74,7 +75,7 @@ export interface EventsQueryParams {
 }
 
 interface StatsPanelProps {
-  type: string;
+  type: StatsType;
   id: string;
   onActorClick: (e: Actor.Actor) => void;
   onGroupClick: (g: Group.Group) => void;
@@ -88,6 +89,7 @@ export const StatsPanelBox: React.FC<StatsPanelProps> = ({
   onGroupClick,
   onKeywordClick,
 }) => {
+  const Queries = useEndpointQueries();
   return (
     <StyledBox
       id={`stats-panel-${type}-${id}`}
@@ -99,7 +101,7 @@ export const StatsPanelBox: React.FC<StatsPanelProps> = ({
       <Typography variant="h5">Interactions</Typography>
       <QueriesRenderer
         queries={{
-          stats: useStatsQuery({ id, type }),
+          stats: Queries.Stats.get.useQuery({ id, type }),
         }}
         render={({ stats }) => {
           const actors = Object.entries(stats.actors)

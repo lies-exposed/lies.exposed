@@ -1,7 +1,6 @@
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import SEO from "@liexp/ui/lib/components/SEO";
 import { Box } from "@liexp/ui/lib/components/mui";
-import { useGetLinkQuery } from "@liexp/ui/lib/state/queries/link.queries";
 import { LinkTemplateUI } from "@liexp/ui/lib/templates/links/LinkTemplateUI";
 import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils";
 import * as React from "react";
@@ -14,9 +13,9 @@ const LinkTemplate: React.FC<{ linkId: string }> = ({ linkId }) => {
 
   return (
     <QueriesRenderer
-      queries={{
-        link: useGetLinkQuery(linkId),
-      }}
+      queries={(Q) => ({
+        link: Q.Link.get.useQuery({ id: linkId }),
+      })}
       render={({ link }) => {
         return (
           <Box>

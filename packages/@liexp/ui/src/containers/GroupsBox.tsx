@@ -3,7 +3,7 @@ import * as React from "react";
 import QueriesRenderer from "../components/QueriesRenderer";
 import GroupList from "../components/lists/GroupList";
 import { Box } from "../components/mui";
-import { useGroupsQuery } from "../state/queries/groups.queries";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
 
 interface GroupsBoxWrapperProps {
   params: any;
@@ -18,13 +18,15 @@ export const GroupsBoxWrapper: React.FC<GroupsBoxWrapperProps> = ({
   prefix = "group-box-wrapper",
   children,
 }) => {
+  const Queries = useEndpointQueries();
   return (
     <QueriesRenderer
       queries={{
-        groups: useGroupsQuery(
+        groups: Queries.Group.list.useQuery(
           {
             ...params,
           },
+          undefined,
           discrete,
           prefix,
         ),

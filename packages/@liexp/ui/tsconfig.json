@@ -11,8 +11,8 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "outDir": "./lib",
-    "baseUrl": "./src",
-    "rootDir": "./src",
+    "baseUrl": "./",
+    "rootDir": "./",
     "typeRoots": [
       "../shared/typings",
       "./typings"
@@ -27,6 +27,6 @@
       "path": "../shared/tsconfig.build.json"
     }
   ],
-  "include": ["./src", "./typings", "./src/**/*.json", ".eslintrc.js"],
+  "include": ["./src", "./test", "./typings", "./src/**/*.json", ".eslintrc.js"],
   "exclude": ["node_modules", "lib"]
 }

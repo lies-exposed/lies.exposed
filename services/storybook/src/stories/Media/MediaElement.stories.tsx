@@ -4,7 +4,6 @@ import MediaElement, {
   type MediaElementProps,
 } from "@liexp/ui/lib/components/Media/MediaElement";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
-import { useMediaQuery } from "@liexp/ui/lib/state/queries/media.queries";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
@@ -21,16 +20,17 @@ const Template: StoryFn<MediaElementProps & { type: MediaType }> = ({
 }) => {
   return (
     <QueriesRenderer
-      queries={{
-        actor: useMediaQuery(
+      queries={(Q) => ({
+        media: Q.Media.list.useQuery(
           { filter: { type }, pagination: { perPage: 1, page: 1 } },
+          undefined,
           false,
         ),
-      }}
-      render={({ actor }) => {
+      })}
+      render={({ media }) => {
         return (
           <MainContent>
-            <MediaElement {...props} media={actor.data[0]} />
+            <MediaElement {...props} media={media.data[0]} />
           </MainContent>
         );
       }}

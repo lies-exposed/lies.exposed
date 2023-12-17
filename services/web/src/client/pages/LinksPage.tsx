@@ -1,4 +1,4 @@
-import { defaultGetLinksQueryParams } from "@liexp/ui/lib/state/queries/link.queries";
+import { defaultUseQueryListParams } from "@liexp/ui/lib/providers/EndpointQueriesProvider/params";
 import { LinksPageTemplate } from "@liexp/ui/lib/templates/links/LinksPageTemplate";
 import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
@@ -9,7 +9,7 @@ const LinksPage: React.FC<RouteComponentProps> = (props) => {
 
   return (
     <LinksPageTemplate
-      params={defaultGetLinksQueryParams}
+      params={defaultUseQueryListParams}
       onItemClick={(a) => {
         navigateTo.links({ id: a.id });
       }}

@@ -61,15 +61,14 @@ const liftClientRequest = <T>(
 const formatParams = <P extends RA.GetListParams | RA.GetManyReferenceParams>(
   params: P,
 ): RA.GetListParams => {
+  const sort = params?.sort ?? { field: "createdAt", order: "ASC" };
+  const pagination = params?.pagination ?? { perPage: 20, page: 1 };
   return {
-    _sort: params.sort.field,
-    _order: params.sort.order,
+    _sort: sort.field,
+    _order: sort.order,
     ...params.filter,
-    _start:
-      params.pagination.page * params.pagination.perPage -
-      params.pagination.perPage,
-    // _end: params.pagination.perPage * params.pagination.page,
-    _end: params.pagination.perPage,
+    _start: pagination.page * pagination.perPage - pagination.perPage,
+    _end: pagination.perPage,
   };
 };
 
@@ -139,10 +138,8 @@ export const APIRESTClient = ({
       )();
     },
     updateMany: (resource, params) => client.put(`${resource}`, { params }),
-    delete: (resource, params) => {
-      // eslint-disable-next-line no-console
-      return client.delete(`${resource}/${params.id}`, { params });
-    },
+    delete: (resource, params) =>
+      client.delete(`${resource}/${params.id}`, { params }),
     deleteMany: (resource, params) => client.delete(resource, { params }),
   };
 };

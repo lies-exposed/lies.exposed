@@ -4,33 +4,56 @@ import {
   type QueryObserverSuccessResult,
   type UseQueryResult,
 } from "react-query";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
+import { type EndpointsQueryProvider } from "../providers/EndpointQueriesProvider";
 import { ErrorBox } from "./Common/ErrorBox";
 import { FullSizeLoader } from "./Common/FullSizeLoader";
 import { Loader } from "./Common/Loader";
 
-interface QueriesRendererProps<
-  Q extends Record<string, UseQueryResult<any, APIError>>,
-> {
+type QueriesRecord = Record<string, UseQueryResult<any, APIError>>;
+type QueriesProp =
+  | QueriesRecord
+  | ((qq: EndpointsQueryProvider) => QueriesRecord);
+
+type RenderFn<Q extends QueriesProp> = (
+  data: Q extends QueriesRecord
+    ? {
+        [K in keyof Q]: QueryObserverSuccessResult<
+          Q[K] extends UseQueryResult<infer A, APIError> ? A : never,
+          APIError
+        >["data"];
+      }
+    : Q extends (...args: any[]) => QueriesRecord
+      ? {
+          [K in keyof ReturnType<Q>]: QueryObserverSuccessResult<
+            ReturnType<Q>[K] extends UseQueryResult<infer A, APIError>
+              ? A
+              : never,
+            APIError
+          >["data"];
+        }
+      : never,
+) => JSX.Element;
+
+interface QueriesRendererProps<Q extends QueriesProp> {
   loader?: "fullsize" | "default";
   queries: Q;
   debug?: boolean;
-  render: (data: {
-    [K in keyof Q]: QueryObserverSuccessResult<
-      Q[K] extends UseQueryResult<infer A, APIError> ? A : never,
-      APIError
-    >["data"];
-  }) => JSX.Element;
+  render: RenderFn<Q>;
 }
 
-const QueriesRenderer = <
-  Q extends Record<string, UseQueryResult<any, APIError>>,
->({
+const QueriesRenderer = <Q extends QueriesProp>({
   queries,
   loader = "default",
   ...props
 }: QueriesRendererProps<Q>): JSX.Element => {
   const initialErrors: Record<string, APIError> = {};
-  const { isLoading, isError, data, errors } = Object.entries(queries).reduce(
+  const endpointsQueryProvider = useEndpointQueries();
+  const queriesObject =
+    typeof queries === "function" ? queries(endpointsQueryProvider) : queries;
+  const { isLoading, isError, data, errors } = Object.entries(
+    queriesObject,
+  ).reduce(
     (acc, [key, value]) => {
       // if (!value.isSuccess) {
       //   // eslint-disable-next-line no-console

@@ -4,7 +4,6 @@ import {
 } from "@liexp/ui/lib/components/Common/Avatar";
 import { MainContent } from "@liexp/ui/lib/components/MainContent";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
-import { useActorsQuery } from "@liexp/ui/lib/state/queries/actor.queries";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
@@ -18,7 +17,9 @@ export default meta;
 const Template: StoryFn<AvatarProps> = (props) => {
   return (
     <QueriesRenderer
-      queries={{ actors: useActorsQuery({}, false) }}
+      queries={(Q) => ({
+        actors: Q.Actor.list.useQuery({ filter: null }, undefined, false),
+      })}
       render={({ actors }) => {
         const actor = actors.data[0];
         return (

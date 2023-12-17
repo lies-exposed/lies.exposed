@@ -1,7 +1,6 @@
 import { EventType } from "@liexp/shared/lib/io/http/Events";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/queries/SearchEventsQuery";
-import { useKeywordsQuery } from "@liexp/ui/lib/state/queries/keywords.queries";
 import {
   KeywordTemplate,
   type KeywordTemplateProps,
@@ -36,15 +35,16 @@ const Template: StoryFn<KeywordTemplateProps> = (props) => {
 
   return (
     <QueriesRenderer
-      queries={{
-        keyword: useKeywordsQuery(
+      queries={(Q) => ({
+        keyword: Q.Keyword.list.useQuery(
           {
             pagination: { perPage: 10, page: 1 },
             filter: { search: "graphene" },
           },
+          undefined,
           false,
         ),
-      }}
+      })}
       render={({ keyword: { data: keywords } }) => {
         return (
           <KeywordTemplate

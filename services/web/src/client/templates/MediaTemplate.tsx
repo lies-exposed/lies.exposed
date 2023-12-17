@@ -1,7 +1,6 @@
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import SEO from "@liexp/ui/lib/components/SEO";
 import { Box } from "@liexp/ui/lib/components/mui";
-import { useGetMediaQuery } from "@liexp/ui/lib/state/queries/media.queries";
 import { MediaTemplateUI } from "@liexp/ui/lib/templates/MediaTemplateUI";
 import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils";
 import * as React from "react";
@@ -14,9 +13,9 @@ const MediaTemplate: React.FC<{ mediaId: string }> = ({ mediaId }) => {
 
   return (
     <QueriesRenderer
-      queries={{
-        media: useGetMediaQuery(mediaId),
-      }}
+      queries={(Q) => ({
+        media: Q.Media.get.useQuery({ id: mediaId }),
+      })}
       render={({ media: m }) => {
         return (
           <Box>

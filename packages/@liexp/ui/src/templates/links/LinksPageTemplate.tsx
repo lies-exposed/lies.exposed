@@ -6,8 +6,8 @@ import { PageContent } from "../../components/PageContent";
 import QueriesRenderer from "../../components/QueriesRenderer";
 import { LinksList } from "../../components/lists/LinkList";
 import { Box } from "../../components/mui";
-import { defaultGetActorsQueryParams } from "../../state/queries/actor.queries";
-import { useLinksQuery } from "../../state/queries/link.queries";
+import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
+import { defaultUseQueryListParams } from "../../providers/EndpointQueriesProvider/params";
 
 export interface LinksPageTemplateProps {
   params?: any;
@@ -15,14 +15,14 @@ export interface LinksPageTemplateProps {
 }
 
 export const LinksPageTemplate: React.FC<LinksPageTemplateProps> = ({
-  params = defaultGetActorsQueryParams,
+  params = defaultUseQueryListParams,
   onItemClick,
 }) => {
-  
+  const queries = useEndpointQueries();
   return (
     <QueriesRenderer
       queries={{
-        actors: useLinksQuery(params, false),
+        actors: queries.Link.list.useQuery(params, undefined, false),
       }}
       render={({ actors: { data: actors } }) => {
         return (

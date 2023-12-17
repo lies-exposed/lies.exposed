@@ -4,7 +4,6 @@ import { scaleLog } from "@visx/scale";
 import { Text } from "@visx/text";
 import Wordcloud from "@visx/wordcloud/lib/Wordcloud";
 import * as React from "react";
-import { useKeywordsDistributionQuery } from "../../state/queries/keywords.queries";
 import QueriesRenderer from "../QueriesRenderer";
 
 interface KeywordDatum extends Keyword.Keyword {
@@ -96,12 +95,12 @@ const KeywordsDistributionGraph: React.FC<
 > = (props) => {
   return (
     <QueriesRenderer
-      queries={{
-        keywordDistribution: useKeywordsDistributionQuery({
-          _start: 0,
-          _end: 50,
+      queries={(Q) => ({
+        keywordDistribution: Q.Keyword.Custom.Distribution.useQuery(undefined, {
+          _start: "0",
+          _end: "50",
         }),
-      }}
+      })}
       render={({ keywordDistribution }) => {
         return (
           <KeywordsDistributionGraphComponent

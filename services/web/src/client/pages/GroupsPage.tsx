@@ -8,7 +8,6 @@ import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import GroupList from "@liexp/ui/lib/components/lists/GroupList";
 import { Grid, Typography } from "@liexp/ui/lib/components/mui";
 import { GroupEventNetworkGraphBox } from "@liexp/ui/lib/containers/graphs/GroupEventNetworkGraphBox";
-import { useGroupsQuery } from "@liexp/ui/lib/state/queries/groups.queries";
 import { type RouteComponentProps } from "@reach/router";
 import { subYears } from "date-fns";
 import * as React from "react";
@@ -28,16 +27,17 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
         }}
       />
       <QueriesRenderer
-        queries={{
-          groups: useGroupsQuery(
+        queries={(Q) => ({
+          groups: Q.Group.list.useQuery(
             {
               pagination: { page: 1, perPage: 20 },
               sort: { field: "id", order: "ASC" },
               filter: {},
             },
+            undefined,
             false,
           ),
-        }}
+        })}
         render={({ groups }) => (
           <>
             <Typography variant="subtitle1">{groups.total}</Typography>

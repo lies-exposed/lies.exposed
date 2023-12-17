@@ -1,5 +1,4 @@
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
-import { useEventsQuery } from "@liexp/ui/lib/state/queries/event.queries";
 import {
   EventTemplateUI,
   type EventTemplateProps,
@@ -22,15 +21,16 @@ const Template: StoryFn<EventTemplateProps & { defaultTab: number }> = ({
 
   return (
     <QueriesRenderer
-      queries={{
-        events: useEventsQuery(
+      queries={(Q) => ({
+        events: Q.Event.list.useQuery(
           {
             pagination: { perPage: 10, page: 1 },
             filter: {},
           },
+          undefined,
           false,
         ),
-      }}
+      })}
       render={({ events: { data } }) => {
         return (
           <EventTemplateUI

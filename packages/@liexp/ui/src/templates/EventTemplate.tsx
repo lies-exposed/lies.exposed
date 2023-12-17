@@ -4,7 +4,10 @@ import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
 import { type http } from "@liexp/shared/lib/io";
 import { EventType } from "@liexp/shared/lib/io/http/Events";
 import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate";
-import { formatAnyDateToShort, formatDate } from "@liexp/shared/lib/utils/date.utils";
+import {
+  formatAnyDateToShort,
+  formatDate,
+} from "@liexp/shared/lib/utils/date.utils";
 import subYears from "date-fns/subYears";
 import * as React from "react";
 import AreasMap from "../components/AreasMap";

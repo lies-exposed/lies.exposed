@@ -6,7 +6,7 @@ import {
   MediaSlider,
   type MediaSliderProps,
 } from "../components/sliders/MediaSlider";
-import { useMediaQuery } from "../state/queries/media.queries";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
 
 export interface MediaSliderBoxProps extends Omit<MediaSliderProps, "data"> {
   query: GetListParams;
@@ -19,9 +19,10 @@ const MediaSliderBox: React.FC<MediaSliderBoxProps> = ({
   enableDescription,
   ...props
 }) => {
+  const Queries = useEndpointQueries();
   return (
     <QueriesRenderer
-      queries={{ media: useMediaQuery(query, false) }}
+      queries={{ media: Queries.Media.list.useQuery(query, undefined, false) }}
       render={({ media: { data: media } }) => {
         return (
           <Box {...props}>

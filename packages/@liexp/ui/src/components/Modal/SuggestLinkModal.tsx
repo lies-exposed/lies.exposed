@@ -1,5 +1,5 @@
 import * as React from "react";
-import { dataProvider } from "../../providers/DataProvider";
+import { apiClient } from "../../providers/EndpointsRESTClient/EndpointsRESTClient";
 import { styled } from "../../theme";
 import LinkPreview from "../admin/previews/LinkPreview";
 import { Box, Button, CloseIcon, IconButton, Input, Modal } from "../mui";
@@ -46,7 +46,7 @@ export const SuggestLinkModal: React.FC<SuggestLinkModalProps> = ({
   const [link, setLink] = React.useState<any>(undefined);
 
   const handleURLSubmission = (): void => {
-    void dataProvider
+    void apiClient
       .create("/links/submit", { data: { url } })
       .then(({ data }) => {
         setLink(data);

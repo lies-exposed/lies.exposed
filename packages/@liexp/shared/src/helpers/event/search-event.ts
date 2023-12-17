@@ -231,17 +231,22 @@ export const toSearchEvent = (
 
   switch (e.type) {
     case Events.EventTypes.BOOK.value: {
-      const authors = BySubjectUtils.toBySubjectArray(e.payload.authors, actors, groups)
+      const authors = BySubjectUtils.toBySubjectArray(
+        e.payload.authors,
+        actors,
+        groups,
+      );
       const publisher = pipe(
         e.payload.publisher,
         fp.O.fromNullable,
-        fp.O.chain((pub) => BySubjectUtils.lookupForSubject(pub, actors, groups)),
+        fp.O.chain((pub) =>
+          BySubjectUtils.lookupForSubject(pub, actors, groups),
+        ),
         fp.O.toUndefined,
       );
 
-      const pdfMedia: Media.Media = media.find(
-        (m) => e.payload.media.pdf === m.id,
-      ) ?? media[0];
+      const pdfMedia: Media.Media =
+        media.find((m) => e.payload.media.pdf === m.id) ?? media[0];
       const audioMedia = media.find((m) => e.payload.media.audio === m.id);
       return {
         ...e,

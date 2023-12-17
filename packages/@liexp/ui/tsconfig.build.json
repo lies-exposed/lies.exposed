@@ -4,5 +4,5 @@
     "composite": false
   },
   "include": ["./src", "./typings", "./src/**/*.json"],
-  "exclude": ["node_modules", "lib", "**/*.spec.ts", "**/*.spec.tsx"]
+  "exclude": ["node_modules", "lib", "**/*.spec.ts", "**/*.spec.tsx", "test"]
 }

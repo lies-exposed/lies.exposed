@@ -1,3 +1,5 @@
-import { apiProvider } from '@liexp/ui/lib/client/api';
-import {asQueries} from '@liexp/ui/lib/providers/DataProvider.js'
-export const Queries = asQueries(apiProvider);
+import { Endpoints } from "@liexp/shared/lib/endpoints";
+import { apiProvider } from "@liexp/ui/lib/client/api";
+import { fromEndpoints } from "@liexp/ui/lib/providers/EndpointsRESTClient/EndpointsRESTClient";
+
+export const Queries = fromEndpoints(apiProvider)(Endpoints);

@@ -31,7 +31,6 @@ const SearchableInput = <I extends SearchableItem>({
   onUnselectItem,
   ...props
 }: SearchableInputProps<I>): JSX.Element => {
-
   return (
     <Autocomplete<I, typeof props.multiple, boolean, boolean>
       {...props}

@@ -1,6 +1,5 @@
 import { EventType } from "@liexp/shared/lib/io/http/Events";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
-import { useGroupQuery } from "@liexp/ui/lib/state/queries/groups.queries";
 import { GroupTemplate } from "@liexp/ui/lib/templates/GroupTemplate";
 import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils";
 import * as React from "react";
@@ -13,7 +12,7 @@ const GroupPage: React.FC<{ groupId: string }> = ({ groupId }) => {
 
   return (
     <QueriesRenderer
-      queries={{ group: useGroupQuery({ id: groupId }) }}
+      queries={(Q) => ({ group: Q.Group.get.useQuery({ id: groupId }) })}
       render={({ group }) => {
         return (
           <GroupTemplate

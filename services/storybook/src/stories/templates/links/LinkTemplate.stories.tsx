@@ -1,9 +1,5 @@
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import {
-  defaultGetLinksQueryParams,
-  useLinksQuery,
-} from "@liexp/ui/lib/state/queries/link.queries";
-import {
   LinkTemplateUI,
   type LinkTemplateUIProps,
 } from "@liexp/ui/lib/templates/links/LinkTemplateUI";
@@ -25,18 +21,19 @@ const Template: StoryFn<LinkTemplateUIProps> = (props) => {
 
   return (
     <QueriesRenderer
-      queries={{
-        links: useLinksQuery(
+      queries={(Q) => ({
+        links: Q.Link.list.useQuery(
           {
-            ...defaultGetLinksQueryParams,
             pagination: {
-              ...defaultGetLinksQueryParams.pagination,
+              page: 1,
               perPage: 3,
             },
+            filter: null,
           },
+          undefined,
           false,
         ),
-      }}
+      })}
       render={({
         links: {
           data: [, , link],

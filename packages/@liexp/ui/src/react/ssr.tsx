@@ -4,6 +4,7 @@ import * as path from "path";
 import { CacheProvider } from "@emotion/react";
 import { dom } from "@fortawesome/fontawesome-svg-core";
 import { GetLogger } from "@liexp/core/lib/logger";
+import { Endpoints } from "@liexp/shared/lib/endpoints";
 import * as express from "express";
 import * as React from "react";
 import * as ReactDOMServer from "react-dom/server";
@@ -14,8 +15,15 @@ import {
   QueryClientProvider,
 } from "react-query";
 import { StaticRouter } from "react-router-dom/server";
+import { apiProvider } from "../client/api";
 import { HelmetProvider } from "../components/SEO";
 import { CssBaseline, ThemeProvider } from "../components/mui";
+import {
+  QueryProviderCustomQueries,
+  CreateQueryProvider,
+} from "../providers/EndpointQueriesProvider";
+import { type EndpointsQueryProvider } from "../providers/EndpointQueriesProvider";
+import { fromEndpoints } from "../providers/EndpointsRESTClient/EndpointsRESTClient";
 import { ECOTheme } from "../theme";
 import createEmotionCache from "./createEmotionCache";
 
@@ -30,13 +38,15 @@ interface BaseRoute {
 type RedirectRoute = BaseRoute & { redirect: string };
 type AsyncDataRoute = BaseRoute & {
   queries: (
+    Q: EndpointsQueryProvider,
+  ) => (
     params: any,
     query: any,
   ) => Promise<
     Array<{ queryKey: string[]; queryFn: (params: any) => Promise<any> }>
   >;
 };
-type ServerRoute = RedirectRoute | AsyncDataRoute;
+export type ServerRoute = RedirectRoute | AsyncDataRoute;
 
 const isRedirectRoute = (r: ServerRoute): r is RedirectRoute => {
   return (r as any).redirect;
@@ -57,6 +67,11 @@ export const getServer = (
     .readFileSync(indexFile, "utf8")
     .split('<div id="root">')[0];
 
+  const Q = CreateQueryProvider(
+    fromEndpoints(apiProvider)(Endpoints),
+    QueryProviderCustomQueries,
+  );
+
   const requestHandler =
     (r: AsyncDataRoute) =>
     (req: express.Request, res: express.Response, next: () => void): void => {
@@ -74,7 +89,7 @@ export const getServer = (
       });
 
       void r
-        .queries(req.params, req.query)
+        .queries(Q)(req.params, req.query)
         .then((queries) => {
           const routeQueries = queries.flatMap((r) => r);
           return Promise.all(

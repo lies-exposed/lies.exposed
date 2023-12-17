@@ -1,7 +1,6 @@
 import { MainContent } from "@liexp/ui/lib/components/MainContent";
 import Map, { type MapProps } from "@liexp/ui/lib/components/Map";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
-import { useActorsQuery } from "@liexp/ui/lib/state/queries/actor.queries";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
@@ -15,9 +14,8 @@ export default meta;
 const Template: StoryFn<MapProps<any>> = (props) => {
   return (
     <QueriesRenderer
-      queries={{ actors: useActorsQuery({}, false) }}
-      render={({ actors }) => {
-        const actor = actors.data[0];
+      queries={{}}
+      render={() => {
         return (
           <MainContent>
             <Map {...props} />

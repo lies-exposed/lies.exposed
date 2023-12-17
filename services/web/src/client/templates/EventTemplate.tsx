@@ -1,6 +1,5 @@
 import { EventType } from "@liexp/shared/lib/io/http/Events";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
-import { useEventQuery } from "@liexp/ui/lib/state/queries/event.queries";
 import { EventTemplateUI } from "@liexp/ui/lib/templates/EventTemplate";
 import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils";
 import * as React from "react";
@@ -20,9 +19,9 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
   return (
     <QueriesRenderer
       loader="fullsize"
-      queries={{
-        event: useEventQuery({ id: eventId }),
-      }}
+      queries={(Q) => ({
+        event: Q.Event.get.useQuery({ id: eventId }),
+      })}
       render={({ event }) => {
         return (
           <EventTemplateUI

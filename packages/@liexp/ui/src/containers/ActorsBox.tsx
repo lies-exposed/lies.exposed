@@ -3,7 +3,7 @@ import * as React from "react";
 import { type GetListParams } from "react-admin";
 import QueriesRenderer from "../components/QueriesRenderer";
 import { ActorList, type ActorListProps } from "../components/lists/ActorList";
-import { useActorsQuery } from "../state/queries/actor.queries";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
 
 interface ActorsBoxWrapperProps {
   params: Partial<GetListParams>;
@@ -18,9 +18,17 @@ export const ActorsBoxWrapper: React.FC<ActorsBoxWrapperProps> = ({
   prefix = "actors-wrapper",
   children,
 }) => {
+  const Queries = useEndpointQueries();
   return (
     <QueriesRenderer
-      queries={{ actors: useActorsQuery(params, discrete, prefix) }}
+      queries={{
+        actors: Queries.Actor.list.useQuery(
+          { ...params, filter: params.filter ?? null },
+          undefined,
+          discrete,
+          prefix,
+        ),
+      }}
       render={({ actors }) => children(actors)}
     />
   );

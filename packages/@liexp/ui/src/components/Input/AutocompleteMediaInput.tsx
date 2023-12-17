@@ -1,6 +1,6 @@
 import { type Media } from "@liexp/shared/lib/io/http";
 import * as React from "react";
-import { useMediaQuery } from "../../state/queries/media.queries";
+import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
 import { MediaList, MediaListItemRef } from "../lists/MediaList";
 import { Grid, Typography } from "../mui";
 import { AutocompleteInput } from "./AutocompleteInput";
@@ -18,6 +18,7 @@ export const AutocompleteMediaInput: React.FC<AutocompleteMediaInputProps> = ({
   discrete = true,
   ...props
 }) => {
+  const Queries = useEndpointQueries();
   return (
     <AutocompleteInput<Media.Media>
       placeholder="Media description..."
@@ -28,7 +29,7 @@ export const AutocompleteMediaInput: React.FC<AutocompleteMediaInputProps> = ({
       }
       searchToFilter={(description) => ({ description })}
       selectedItems={selectedItems}
-      query={(p) => useMediaQuery(p, discrete)}
+      query={(p) => Queries.Media.list.useQuery(p, undefined, discrete)}
       renderTags={(items) => (
         <MediaList
           media={items.map((i) => ({

@@ -7,10 +7,7 @@ import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import { ActorList } from "@liexp/ui/lib/components/lists/ActorList";
 import { Grid } from "@liexp/ui/lib/components/mui";
 import { ActorEventNetworkGraphBox } from "@liexp/ui/lib/containers/graphs/ActorEventNetworkGraphBox";
-import {
-  defaultGetActorsQueryParams,
-  useActorsQuery,
-} from "@liexp/ui/lib/state/queries/actor.queries";
+import { defaultUseQueryListParams } from "@liexp/ui/lib/providers/EndpointQueriesProvider/params";
 import { type RouteComponentProps } from "@reach/router";
 import { subYears } from "date-fns";
 import * as React from "react";
@@ -21,9 +18,9 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
 
   return (
     <QueriesRenderer
-      queries={{
-        actors: useActorsQuery(defaultGetActorsQueryParams, false),
-      }}
+      queries={(Q) => ({
+        actors: Q.Actor.list.useQuery(defaultUseQueryListParams),
+      })}
       render={({ actors: { data: actors } }) => {
         return (
           <MainContent style={{ height: "100%" }}>
