@@ -24,6 +24,22 @@ RUN export DOTENV_CONFIG_PATH=${DOTENV_CONFIG_PATH}
 
 RUN yarn && yarn web build && yarn web build:app-server
 
+
+FROM ghcr.io/lies-exposed/liexp-base:18-latest as prod_deps
+WORKDIR /app
+
+COPY --from=build /app/.yarn/ /app/.yarn/
+
+COPY package.json /app/package.json
+COPY .yarnrc.yml /app/.yarnrc.yml
+COPY services/web/package.json /app/services/web/package.json
+
+COPY --from=build /app/packages/@liexp/core/package.json /app/packages/@liexp/core/package.json
+COPY --from=build /app/packages/@liexp/shared/package.json /app/packages/@liexp/shared/package.json
+COPY --from=build /app/packages/@liexp/ui/package.json /app/packages/@liexp/ui/package.json
+
+RUN yarn config set --home enableTelemetry false && yarn workspaces focus -A --production
+
 FROM node:18-slim as production
 
 WORKDIR /app
@@ -33,7 +49,6 @@ COPY yarn.lock .
 COPY .yarn/plugins/ .yarn/plugins/
 COPY .yarn/releases/ .yarn/releases/
 COPY .yarnrc.yml .
-# COPY tsconfig.json .
 
 COPY --from=build /app/packages/@liexp/core/package.json /app/packages/@liexp/core/package.json
 COPY --from=build /app/packages/@liexp/core/lib /app/packages/@liexp/core/lib
@@ -45,11 +60,9 @@ COPY --from=build /app/packages/@liexp/ui/lib /app/packages/@liexp/ui/lib
 COPY --from=build /app/services/web/build /app/services/web/build
 COPY --from=build /app/services/web/package.json /app/services/web/package.json
 COPY --from=build /app/services/web/.env /app/services/web/.env
+COPY --from=prod_deps /app/node_modules /app/node_modules
 
-RUN rm -rf /app/services/web/node_modules \
-    rm -rf /app/node_modules
-
-RUN yarn config set --home enableTelemetry false && yarn workspaces focus web --production && rm -rf /app/.yarn/cache /app/node_modules/.cache /app/services/api/node_modules/.cache
+RUN yarn config set --home enableTelemetry false
 
 WORKDIR /app/services/web
 

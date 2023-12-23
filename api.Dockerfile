@@ -18,40 +18,53 @@ COPY services/api ./services/api
 
 RUN yarn config set --home enableTelemetry false && yarn install && yarn api build
 
+
+FROM ghcr.io/lies-exposed/liexp-base:18-latest as prod_deps
+WORKDIR /app
+
+COPY --from=build /app/.yarn/ /app/.yarn/
+
+COPY package.json /app/package.json
+COPY .yarnrc.yml /app/.yarnrc.yml
+COPY services/api/package.json /app/services/api/package.json
+
+COPY packages/@liexp/core/package.json /app/packages/@liexp/core/package.json
+COPY packages/@liexp/shared/package.json /app/packages/@liexp/shared/package.json
+COPY packages/@liexp/backend/package.json /app/packages/@liexp/backend/package.json
+COPY packages/@liexp/test/package.json /app/packages/@liexp/test/package.json
+
+RUN yarn config set --home enableTelemetry false && yarn workspaces focus -A --production
+
 FROM ghcr.io/lies-exposed/liexp-base:18-latest as production
 
 WORKDIR /app
 
+COPY .yarn/plugins /app/.yarn/plugins
+COPY .yarn/releases /app/.yarn/releases
+
 COPY package.json /app/package.json
 COPY .yarnrc.yml /app/.yarnrc.yml
-COPY .yarn /app/.yarn
-COPY services/api/assets /app/services/api/assets
 COPY services/api/package.json /app/services/api/package.json
-COPY tsconfig.json /app/tsconfig.json
-COPY services/api/tsconfig.json /app/services/api/tsconfig.json
-COPY services/api/tsconfig.build.json /app/services/api/tsconfig.build.json
-
-# yarn cache
-# COPY --from=build /app/.yarn /app/.yarn
+COPY packages/@liexp/core/package.json /app/packages/@liexp/core/package.json
+COPY packages/@liexp/shared/package.json /app/packages/@liexp/shared/package.json
+COPY packages/@liexp/backend/package.json /app/packages/@liexp/backend/package.json
+COPY packages/@liexp/test/package.json /app/packages/@liexp/test/package.json
+COPY packages/@liexp/ui/package.json /app/packages/@liexp/ui/package.json
 
 # packages
 COPY --from=build /app/packages/@liexp/core/lib /app/packages/@liexp/core/lib
-COPY --from=build /app/packages/@liexp/core/package.json /app/packages/@liexp/core/package.json
 COPY --from=build /app/packages/@liexp/shared/lib /app/packages/@liexp/shared/lib
-COPY --from=build /app/packages/@liexp/shared/package.json /app/packages/@liexp/shared/package.json
 COPY --from=build /app/packages/@liexp/backend/lib /app/packages/@liexp/backend/lib
-COPY --from=build /app/packages/@liexp/backend/package.json /app/packages/@liexp/backend/package.json
 COPY --from=build /app/packages/@liexp/test/lib /app/packages/@liexp/test/lib
-COPY --from=build /app/packages/@liexp/test/package.json /app/packages/@liexp/test/package.json
-# COPY --from=build /app/packages/@liexp/ui/lib /app/packages/@liexp/ui/lib
-COPY --from=build /app/packages/@liexp/ui/package.json /app/packages/@liexp/ui/package.json
 
 # API service
-COPY --from=build /app/services/api/package.json /app/services/api/package.json
 COPY --from=build /app/services/api/bin /app/services/api/bin
 COPY --from=build /app/services/api/build /app/services/api/build
+COPY --from=build /app/services/api/assets /app/services/api/assets
 
-RUN yarn config set --home enableTelemetry false && yarn workspaces focus -A --production && rm -rf /app/.yarn/cache /app/node_modules/.cache /app/services/api/node_modules/.cache
+COPY --from=prod_deps /app/node_modules /app/node_modules
+
+RUN yarn workspaces focus -A --production
 
 # Run everything after as non-privileged user.
 USER pptruser
