@@ -42,9 +42,13 @@ WORKDIR /app
 COPY .yarn/plugins /app/.yarn/plugins
 COPY .yarn/releases /app/.yarn/releases
 
+COPY tsconfig.json /app/tsconfig.json
 COPY package.json /app/package.json
 COPY .yarnrc.yml /app/.yarnrc.yml
 COPY services/api/package.json /app/services/api/package.json
+COPY services/api/tsconfig.json /app/services/api/tsconfig.json
+COPY services/api/tsconfig.build.json /app/services/api/tsconfig.build.json
+
 COPY packages/@liexp/core/package.json /app/packages/@liexp/core/package.json
 COPY packages/@liexp/shared/package.json /app/packages/@liexp/shared/package.json
 COPY packages/@liexp/backend/package.json /app/packages/@liexp/backend/package.json
