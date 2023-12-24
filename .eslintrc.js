@@ -53,5 +53,7 @@ module.exports = {
     "@typescript-eslint/promise-function-async": ["off"],
     "@typescript-eslint/strict-boolean-expressions": ["off"],
     "@typescript-eslint/restrict-plus-operands": ["off"],
+    "@typescript-eslint/no-unsafe-argument": ["off"],
+    "@typescript-eslint/unbound-method": ["off"],
   },
 };

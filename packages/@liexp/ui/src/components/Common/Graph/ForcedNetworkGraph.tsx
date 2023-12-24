@@ -416,7 +416,7 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
 
     node.exit().remove();
 
-    svg.call(zoom as any).call(zoom.transform as any, d3.zoomIdentity);
+    svg.call(zoom as any).call(zoom.transform.bind(zoom) as any, d3.zoomIdentity);
 
     if (invalidation !== null) {
       void invalidation().then(() => simulation.stop());
