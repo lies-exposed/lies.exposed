@@ -27,9 +27,7 @@ function bilink(
     d.incoming = [];
     d.outgoing = (d.data.targets ?? []).map((i) => [
       d,
-      map.get(i) as HierarchyLinkedNode<
-        d3.HierarchyNode<HierarchicalEdgeBundlingDatum>
-      >,
+      map.get(i) as any,
     ]);
   }
   for (const d of root.leaves())
