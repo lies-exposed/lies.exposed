@@ -49,10 +49,10 @@ export const fetchAsLink: TEFlow<
                   O.alt(() =>
                     O.some<MediaEntity>({
                       id: uuid() as any,
-                      label: m.description ?? m.url,
+                      label: defaults?.title ?? m.description ?? m.url,
                       thumbnail: image,
                       location: image,
-                      description: m.description ?? m.url,
+                      description: defaults?.title ?? m.description ?? m.url,
                       type: "image/jpeg",
                       createdAt: new Date(),
                       updatedAt: new Date(),

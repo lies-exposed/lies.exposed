@@ -23,7 +23,7 @@ const run = async (): Promise<any> => {
 
   const [, , tgNumber, _deleteFile] = process.argv;
 
-  const messagesFolder = path.resolve(__dirname, `../temp/tg/messages`);
+  const messagesFolder = path.resolve(process.cwd(), `temp/tg/messages`);
 
   const messageFile =
     tgNumber === "latest"

@@ -55,9 +55,9 @@ export const parseURLs: TEFlow<
                   : pipe(
                       takeLinkScreenshot(ctx)(link),
                       TE.chain((buffer) => uploadScreenshot(ctx)(link, buffer)),
-                      TE.chain((l) =>
+                      TE.chain((m) =>
                         ctx.db.save(MediaEntity, [
-                          { ...link.image, ...l, links: [link] },
+                          { ...link.image, ...m, links: [link] },
                         ]),
                       ),
                       TE.map((media) => ({ ...link, image: media[0] })),
