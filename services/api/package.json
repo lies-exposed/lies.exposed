@@ -129,7 +129,7 @@
     "supertest": "^6.3.3",
     "typeorm-uml": "^1.6.5",
     "vite-tsconfig-paths": "^4.2.2",
-    "vitest": "^1.0.4"
+    "vitest": "^1.1.0"
   },
   "license": "MIT",
   "lint-staged": {
