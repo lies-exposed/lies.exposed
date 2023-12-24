@@ -9773,7 +9773,7 @@ __metadata:
     dotenv: ^16.3.1
     eslint: ^8.56.0
     eslint-config-prettier: ^9.1.0
-    eslint-config-standard-with-typescript: ^39.1.1
+    eslint-config-standard-with-typescript: ^43.0.0
     eslint-import-resolver-typescript: ^3.6.1
     eslint-plugin-import: ^2.29.1
     eslint-plugin-n: ^16.5.0
@@ -14142,9 +14142,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-standard-with-typescript@npm:^39.1.1":
-  version: 39.1.1
-  resolution: "eslint-config-standard-with-typescript@npm:39.1.1"
+"eslint-config-standard-with-typescript@npm:^43.0.0":
+  version: 43.0.0
+  resolution: "eslint-config-standard-with-typescript@npm:43.0.0"
   dependencies:
     "@typescript-eslint/parser": ^6.4.0
     eslint-config-standard: 17.1.0
@@ -14155,7 +14155,7 @@ __metadata:
     eslint-plugin-n: "^15.0.0 || ^16.0.0 "
     eslint-plugin-promise: ^6.0.0
     typescript: "*"
-  checksum: 803e22fb5ac413044ae33771042ead2666214fe0e034545c8c7e0725106f8e09bfda87fa3a9553ab94346f3921a10e795a7d798442955af19addce2cd3a0c664
+  checksum: a12c7f5eadb11aba7ce316050a2413cbd280d63f9c20f38ad4f4038e717b0b09b2625d1aab9e3a5d4ec697924e8536130fda8237e87d23d9fbfa27431a4c046a
   languageName: node
   linkType: hard
 
@@ -17949,7 +17949,7 @@ __metadata:
     "@vitest/coverage-v8": ^1.0.4
     eslint: ^8.56.0
     eslint-config-prettier: ^9.1.0
-    eslint-config-standard-with-typescript: ^39.1.1
+    eslint-config-standard-with-typescript: ^43.0.0
     eslint-import-resolver-typescript: ^3.6.1
     eslint-plugin-fp-ts: ^0.3.2
     eslint-plugin-import: ^2.29.1
@@ -26419,7 +26419,7 @@ __metadata:
     dotenv: ^16.3.1
     eslint: ^8.56.0
     eslint-config-prettier: ^9.1.0
-    eslint-config-standard-with-typescript: ^39.1.1
+    eslint-config-standard-with-typescript: ^43.0.0
     eslint-import-resolver-typescript: ^3.6.1
     eslint-plugin-import: ^2.29.1
     eslint-plugin-n: ^16.5.0

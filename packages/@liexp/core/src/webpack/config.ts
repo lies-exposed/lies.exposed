@@ -73,13 +73,12 @@ const getConfig = <A extends Record<string, t.Mixed>>(
   );
 
   const buildENV = pipe(
-    {
+    BUILD_ENV.decode({
       BUNDLE_TARGET: "chrome",
       BUNDLE_STATS: "false",
       NODE_ENV: mode,
       ...process.env,
-    },
-    BUILD_ENV.decode,
+    }),
     (validation: any) => {
       if (validation._tag === "Left") {
         webpackLogger.error.log(
@@ -92,7 +91,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
     },
   );
 
-  const appEnv = pipe(process.env, opts.env.decode, (validation) => {
+  const appEnv = pipe(opts.env.decode(process.env), (validation) => {
     if (validation._tag === "Left") {
       // eslint-disable-next-line
       console.error(

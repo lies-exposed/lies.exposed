@@ -6,6 +6,7 @@ import { ColorArb } from "./common/Color.arbitrary";
 export const TagArb = (): fc.Arbitrary<string> => {
   const stringArb = fc.convertToNext(fc.string());
   return fc.convertFromNext({
+    ...stringArb,
     shrink: stringArb.shrink,
     canShrinkWithoutContext: stringArb.canShrinkWithoutContext,
     filter: stringArb.filter,
