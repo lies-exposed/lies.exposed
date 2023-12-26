@@ -11,7 +11,7 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "outDir": "./lib",
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "rootDir": "./",
     "typeRoots": [
       "../../../node_modules/@types",
@@ -19,10 +19,10 @@
     ],
     "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
     "paths": {
-      "@helpers/*": ["./helpers/*"],
-      "@io/*": ["./io/*"],
-      "@providers/*": ["./providers/*"],
-      "@utils/*": ["./utils/*"]
+      "@helpers/*": ["./src/helpers/*"],
+      "@io/*": ["./src/io/*"],
+      "@providers/*": ["./src/providers/*"],
+      "@utils/*": ["./src/utils/*"]
     }
   },
   "references": [
