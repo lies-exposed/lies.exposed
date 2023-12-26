@@ -22,6 +22,7 @@ export interface GeocodeProvider {
 
 interface GeocodeProviderOptions {
   http: HTTPProvider;
+  apiKey: string;
 }
 
 export const GeocodeProvider = (
@@ -32,6 +33,7 @@ export const GeocodeProvider = (
       opts.http.get<GeocodeSearch[]>("/search", {
         params: {
           q,
+          api_key: opts.apiKey
         },
       }),
       TE.mapLeft(toGeocodeError),
