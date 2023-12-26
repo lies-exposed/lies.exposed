@@ -99,8 +99,8 @@ export const toGetListResourceQuery = <L>(
   return {
     getKey,
     fetch,
-    useQuery: (p) =>
-      useQuery(getKey(p), ({ queryKey }) =>
+    useQuery: (p, q, d, prefix) =>
+      useQuery(getKey(p, q, d, prefix), ({ queryKey }) =>
         fetch(queryKey[1], queryKey[2], !!queryKey[3]),
       ),
   };
@@ -130,8 +130,8 @@ export const toQueries = <
         return {
           getKey,
           fetch,
-          useQuery: (p: any) =>
-            useQuery(getKey(p), ({ queryKey }) =>
+          useQuery: (p: any, q: any, d: any, prefix: any) =>
+            useQuery(getKey(p, q, d, prefix), ({ queryKey }) =>
               fetch(queryKey[1], queryKey[2], !!queryKey[3]),
             ),
         };
