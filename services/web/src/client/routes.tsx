@@ -1,7 +1,7 @@
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
 import { EventType } from "@liexp/shared/lib/io/http/Events";
 import { StatsType } from "@liexp/shared/lib/io/http/Stats";
-import { defaultUseQueryListParams } from "@liexp/ui/lib/providers/EndpointQueriesProvider/params";
+import { defaultUseQueryListParams } from "@liexp/shared/lib/providers/EndpointQueriesProvider/params";
 import { type ServerRoute } from "@liexp/ui/lib/react/ssr";
 import {
   fetchSearchEvents,

@@ -1,4 +1,5 @@
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
+import { defaultUseQueryListParams } from "@liexp/shared/lib/providers/EndpointQueriesProvider/params";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils";
 import { AutocompleteActorInput } from "@liexp/ui/lib/components/Input/AutocompleteActorInput";
 import { MainContent } from "@liexp/ui/lib/components/MainContent";
@@ -7,7 +8,6 @@ import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import { ActorList } from "@liexp/ui/lib/components/lists/ActorList";
 import { Grid } from "@liexp/ui/lib/components/mui";
 import { ActorEventNetworkGraphBox } from "@liexp/ui/lib/containers/graphs/ActorEventNetworkGraphBox";
-import { defaultUseQueryListParams } from "@liexp/ui/lib/providers/EndpointQueriesProvider/params";
 import { type RouteComponentProps } from "@reach/router";
 import { subYears } from "date-fns";
 import * as React from "react";
