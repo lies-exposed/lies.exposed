@@ -53,6 +53,7 @@ const ENV = t.intersection(
       t.strict(
         {
           GEO_CODE_BASE_URL: t.string,
+          GEO_CODE_API_KEY: t.string,
         },
         "GEO_CODE_ENV",
       ),

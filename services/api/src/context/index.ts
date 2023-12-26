@@ -90,6 +90,7 @@ export const makeContext = (
           http: HTTPProvider(
             axios.default.create({ baseURL: env.GEO_CODE_BASE_URL }),
           ),
+          apiKey: env.GEO_CODE_API_KEY
         }),
       ),
       wp: fp.TE.right(wpProvider),
