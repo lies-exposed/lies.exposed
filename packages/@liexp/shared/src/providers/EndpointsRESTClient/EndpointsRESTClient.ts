@@ -1,11 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
-
-import { type ResourceEndpoints } from "@liexp/shared/lib/endpoints/types";
-import {
-  toAPIError,
-  type APIError,
-} from "@liexp/shared/lib/io/http/Error/APIError";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import axios from "axios";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
@@ -24,7 +16,10 @@ import {
   type TypeOfEndpointInstance,
 } from "ts-endpoint";
 import { type serializedType } from "ts-io-error/lib/Codec";
-import { APIRESTClient } from "../../http";
+import { type ResourceEndpoints } from "../../endpoints/types";
+import { toAPIError, type APIError } from "../../io/http/Error/APIError";
+import { APIRESTClient } from "../../providers/api-rest.provider";
+import { throwTE } from "../../utils/task.utils";
 
 const toError = (e: unknown): APIError => {
   if ((e as any).name === "AxiosError") {
@@ -118,23 +113,23 @@ export interface Query<G, L, CC> {
                   InferEndpointInstanceParams<CC[K]>["headers"]
                 >;
               }
-            : {}) &
+            : Record<string, unknown>) &
             (InferEndpointInstanceParams<CC[K]>["query"] extends t.Mixed
               ? {
                   Query: serializedType<
                     InferEndpointInstanceParams<CC[K]>["query"]
                   >;
                 }
-              : {}) &
+              : Record<string, unknown>) &
             (InferEndpointInstanceParams<CC[K]>["params"] extends t.Mixed
               ? {
                   Params: serializedType<
                     InferEndpointInstanceParams<CC[K]>["params"]
                   >;
                 }
-              : {}) &
+              : Record<string, unknown>) &
             (InferEndpointInstanceParams<CC[K]>["body"] extends undefined
-              ? {}
+              ? Record<string, unknown>
               : {
                   Body: serializedType<
                     InferEndpointInstanceParams<CC[K]>["body"]

@@ -5,25 +5,25 @@ import { CacheProvider } from "@emotion/react";
 import { dom } from "@fortawesome/fontawesome-svg-core";
 import { GetLogger } from "@liexp/core/lib/logger";
 import { Endpoints } from "@liexp/shared/lib/endpoints";
+import {
+  CreateQueryProvider,
+  QueryProviderCustomQueries,
+  type EndpointsQueryProvider
+} from "@liexp/shared/lib/providers/EndpointQueriesProvider";
+import { fromEndpoints } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient";
 import * as express from "express";
 import * as React from "react";
 import * as ReactDOMServer from "react-dom/server";
 import {
-  dehydrate,
   Hydrate,
   QueryClient,
   QueryClientProvider,
+  dehydrate,
 } from "react-query";
 import { StaticRouter } from "react-router-dom/server";
 import { apiProvider } from "../client/api";
 import { HelmetProvider } from "../components/SEO";
 import { CssBaseline, ThemeProvider } from "../components/mui";
-import {
-  QueryProviderCustomQueries,
-  CreateQueryProvider,
-} from "../providers/EndpointQueriesProvider";
-import { type EndpointsQueryProvider } from "../providers/EndpointQueriesProvider";
-import { fromEndpoints } from "../providers/EndpointsRESTClient/EndpointsRESTClient";
 import { ECOTheme } from "../theme";
 import createEmotionCache from "./createEmotionCache";
 

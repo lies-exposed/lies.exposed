@@ -1,10 +1,10 @@
-import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
 import { type UseQueryResult } from "react-query";
 import {
   type InferEndpointInstanceParams,
   type MinimalEndpointInstance,
 } from "ts-endpoint";
 import { type serializedType } from "ts-io-error/lib/Codec";
+import { type APIError } from "../../io/http/Error/APIError";
 import {
   type GetListFnParamsE,
   type EndpointsRESTClient,

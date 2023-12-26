@@ -1,5 +1,5 @@
+import { apiClient } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient";
 import * as React from "react";
-import { apiClient } from "../../providers/EndpointsRESTClient/EndpointsRESTClient";
 import { styled } from "../../theme";
 import LinkPreview from "../admin/previews/LinkPreview";
 import { Box, Button, CloseIcon, IconButton, Input, Modal } from "../mui";

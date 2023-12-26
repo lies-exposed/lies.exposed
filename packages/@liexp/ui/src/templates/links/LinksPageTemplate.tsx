@@ -1,4 +1,5 @@
 import { type Link } from "@liexp/shared/lib/io/http";
+import { defaultUseQueryListParams } from "@liexp/shared/lib/providers/EndpointQueriesProvider/params";
 import * as React from "react";
 import { AutocompleteLinkInput } from "../../components/Input/AutocompleteLinkInput";
 import { MainContent } from "../../components/MainContent";
@@ -7,7 +8,6 @@ import QueriesRenderer from "../../components/QueriesRenderer";
 import { LinksList } from "../../components/lists/LinkList";
 import { Box } from "../../components/mui";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
-import { defaultUseQueryListParams } from "../../providers/EndpointQueriesProvider/params";
 
 export interface LinksPageTemplateProps {
   params?: any;

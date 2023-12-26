@@ -11,8 +11,8 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "outDir": "./lib",
-    "baseUrl": "./",
-    "rootDir": "./",
+    "baseUrl": "./src",
+    "rootDir": "./src",
     "typeRoots": [
       "../shared/typings",
       "./typings"

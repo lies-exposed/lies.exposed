@@ -1,4 +1,5 @@
 import { type Project } from "@liexp/shared/lib/io/http/Project";
+import type * as http from "@liexp/shared/lib/providers/api-rest.provider";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
@@ -10,7 +11,6 @@ import {
   type CreateResult,
   type UpdateParams,
 } from "react-admin";
-import type * as http from "../../http";
 import { uploadImages } from "./MediaAPI";
 
 export const editProject =

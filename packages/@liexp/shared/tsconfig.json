@@ -12,7 +12,7 @@
     "resolveJsonModule": true,
     "outDir": "./lib",
     "baseUrl": "./src",
-    "rootDir": "./src",
+    "rootDir": "./",
     "typeRoots": [
       "../../../node_modules/@types",
       "typings"

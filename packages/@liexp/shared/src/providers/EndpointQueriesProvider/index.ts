@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp";
-import { type Endpoints } from "@liexp/shared/lib/endpoints";
+import { type Endpoints } from "../../endpoints";
 import { type EndpointsRESTClient } from "../EndpointsRESTClient/EndpointsRESTClient";
 import { toQueries } from "./QueryProvider";
 import {

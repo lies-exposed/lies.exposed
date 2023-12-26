@@ -1,5 +1,5 @@
-import { type Endpoints } from "@liexp/shared/lib/endpoints";
 import { type MinimalEndpointInstance } from "ts-endpoint";
+import { type Endpoints } from "../../endpoints";
 import {
   type GetDataOutputEI,
   type GetListFnParamsE,

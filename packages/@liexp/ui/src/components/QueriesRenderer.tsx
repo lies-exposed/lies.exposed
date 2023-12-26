@@ -1,11 +1,11 @@
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
+import { type EndpointsQueryProvider } from "@liexp/shared/lib/providers/EndpointQueriesProvider"
 import * as React from "react";
 import {
   type QueryObserverSuccessResult,
   type UseQueryResult,
 } from "react-query";
 import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
-import { type EndpointsQueryProvider } from "../providers/EndpointQueriesProvider";
 import { ErrorBox } from "./Common/ErrorBox";
 import { FullSizeLoader } from "./Common/FullSizeLoader";
 import { Loader } from "./Common/Loader";

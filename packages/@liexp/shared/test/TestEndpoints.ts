@@ -1,7 +1,7 @@
-import { ResourceEndpoints } from "@liexp/shared/lib/endpoints/types";
-import { Actor } from "@liexp/shared/lib/io/http";
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
+import { ResourceEndpoints } from "../src/endpoints/types";
+import { Actor } from "../src/io/http";
 import {
     type CustomQueryOverride,
   type QueryProviderOverrides,

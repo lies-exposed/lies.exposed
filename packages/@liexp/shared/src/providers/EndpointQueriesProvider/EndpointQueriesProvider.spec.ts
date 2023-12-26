@@ -1,16 +1,12 @@
-import { ActorArb } from "@liexp/shared/lib/tests";
 import { fc } from "@liexp/test";
 import { parseISO } from "date-fns";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { type MockProxy } from "vitest-mock-extended";
-import { TestEndpoints, overrides } from '../../../test/TestEndpoints';
-import { type APIRESTClient } from "../../http";
-import {
-  fromEndpoints
-} from "../EndpointsRESTClient/EndpointsRESTClient";
+import { TestEndpoints, overrides } from "../../../test/TestEndpoints";
+import { ActorArb } from "../../tests";
+import { fromEndpoints } from "../EndpointsRESTClient/EndpointsRESTClient";
+import { type APIRESTClient } from "../api-rest.provider";
 import { CreateQueryProvider } from "./index";
-
-
 
 const apiProviderMock: MockProxy<APIRESTClient> = vi.hoisted(() => {
   return {
