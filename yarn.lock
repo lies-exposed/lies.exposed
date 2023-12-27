@@ -9340,9 +9340,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitest/coverage-v8@npm:^1.0.4":
-  version: 1.0.4
-  resolution: "@vitest/coverage-v8@npm:1.0.4"
+"@vitest/coverage-v8@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@vitest/coverage-v8@npm:1.1.0"
   dependencies:
     "@ampproject/remapping": ^2.2.1
     "@bcoe/v8-coverage": ^0.2.3
@@ -9359,7 +9359,7 @@ __metadata:
     v8-to-istanbul: ^9.2.0
   peerDependencies:
     vitest: ^1.0.0
-  checksum: 96ed5b05b534128423b84a6053ca3f6bf48a1edf8a2b185407e339d959bb26cdecab7eddd628abc2cd2001d5fe64c79153f4111126ec7ec5d07ff4ae38e9a474
+  checksum: a531754153ea5b9129147ce79687fd9ac7bf3df5b06fb2bcf1955cbc7ca7de1de45214a1aec27523131a18f73af552717a529f495d1b220b3b9a4a585ab1ede5
   languageName: node
   linkType: hard
 
@@ -17956,7 +17956,7 @@ __metadata:
     "@types/prettier": ^3.0.0
     "@typescript-eslint/eslint-plugin": ^6.15.0
     "@typescript-eslint/parser": ^6.15.0
-    "@vitest/coverage-v8": ^1.0.4
+    "@vitest/coverage-v8": ^1.1.0
     eslint: ^8.56.0
     eslint-config-prettier: ^9.1.0
     eslint-config-standard-with-typescript: ^43.0.0
