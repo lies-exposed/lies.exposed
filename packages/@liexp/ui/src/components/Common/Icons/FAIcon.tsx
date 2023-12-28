@@ -86,3 +86,12 @@ export const LinkIcon: FAIconFC = (props) => (
     style={{ cursor: "pointer" }}
   />
 );
+
+
+export const MediaIcon: FAIconFC = (props) => (
+  <FAIcon
+    color={toColorHash(generateRandomColor())}
+    {...props}
+    icon={"file-image"}
+  />
+);
