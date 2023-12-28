@@ -93,7 +93,7 @@ export const fetchAsLink: TEFlow<
           id: uuid() as any,
           title: meta.title,
           url: url as any,
-          description: meta.description,
+          description: meta.description ??  meta.title,
           publishDate,
           image: meta.image,
           createdAt: new Date(),
