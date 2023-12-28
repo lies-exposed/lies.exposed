@@ -79,7 +79,10 @@ export const fetchAndCreateAreaFromWikipedia: TEFlow<
                 fetchCoordinates(ctx)(areaData.label),
                 TE.map((geo) => ({
                   ...areaData,
-                  ...geo,
+                  ...pipe(
+                    geo,
+                    fp.O.getOrElse(() => ({})),
+                  ),
                 })),
                 TE.chain((areaData) =>
                   ctx.db.save(AreaEntity, [
