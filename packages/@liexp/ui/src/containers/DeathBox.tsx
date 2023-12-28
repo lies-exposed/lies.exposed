@@ -3,7 +3,6 @@ import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
 import QueriesRenderer from "../components/QueriesRenderer";
-import { useEventQuery } from "../state/queries/event.queries";
 
 export class DeathBox extends React.PureComponent<{
   id: string;
@@ -15,7 +14,7 @@ export class DeathBox extends React.PureComponent<{
         () => <div>Missing death id</div>,
         (deathId) => (
           <QueriesRenderer
-            queries={{ death: useEventQuery({ id: deathId }) }}
+            queries={(Q) => ({ death: Q.Event.get.useQuery({ id: deathId }) })}
             render={({ death }) => {
               return <div>Died on {formatDate(death.date)}</div>;
             }}

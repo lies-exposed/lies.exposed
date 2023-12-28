@@ -1,6 +1,5 @@
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/queries/SearchEventsQuery";
-import { useActorsQuery } from "@liexp/ui/lib/state/queries/actor.queries";
 import {
   ActorTemplate,
   type ActorTemplateProps,
@@ -24,15 +23,16 @@ const Template: StoryFn<ActorTemplateProps> = (props) => {
   return (
     <>
       <QueriesRenderer
-        queries={{
-          actor: useActorsQuery(
+        queries={(Q) => ({
+          actor: Q.Actor.list.useQuery(
             {
               pagination: { perPage: 10, page: 1 },
               filter: { ids: ["1bde0d49-03a1-411d-9f18-2e70a722532b"] },
             },
+            undefined,
             false,
           ),
-        }}
+        })}
         render={({ actor: { data } }) => {
           return (
             <ActorTemplate

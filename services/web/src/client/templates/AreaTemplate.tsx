@@ -1,7 +1,6 @@
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import SEO from "@liexp/ui/lib/components/SEO";
 import { Box } from "@liexp/ui/lib/components/mui";
-import { useAreaQuery } from "@liexp/ui/lib/state/queries/area.queries";
 import { AreaTemplateUI } from "@liexp/ui/lib/templates/AreaTemplate";
 import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils";
 import * as React from "react";
@@ -14,9 +13,9 @@ const AreaTemplate: React.FC<{ areaId: string }> = ({ areaId }) => {
 
   return (
     <QueriesRenderer
-      queries={{
-        area: useAreaQuery({ id: areaId }),
-      }}
+      queries={(Q) => ({
+        area: Q.Area.get.useQuery({ id: areaId }),
+      })}
       render={({ area }) => {
         return (
           <Box style={{ width: "100%", height: "100%" }}>

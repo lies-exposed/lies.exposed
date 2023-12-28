@@ -13,11 +13,8 @@ import EventsTimeline from "../components/lists/EventList/EventsTimeline";
 import { Box, Grid } from "../components/mui";
 import EventsAppBarBox from "../containers/EventsAppBarBox";
 import { EventsNetworkGraphBox } from "../containers/graphs/EventsNetworkGraphBox";
-import { useGroupMembersQuery } from "../state/queries/DiscreteQueries";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
-import { useActorsQuery } from "../state/queries/actor.queries";
-import { useGroupsQuery } from "../state/queries/groups.queries";
-import { useKeywordsQuery } from "../state/queries/keywords.queries";
 import { SplitPageTemplate } from "../templates/SplitPageTemplate";
 import { styled } from "../theme";
 
@@ -154,6 +151,8 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
     ACTORS.value,
   ]);
 
+  const queries = useEndpointQueries();
+
   return (
     <StyledGrid container justifyContent="center" style={{ height: "100%" }}>
       <SEO
@@ -167,21 +166,23 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
 
       <QueriesRenderer
         queries={{
-          filterActors: useActorsQuery(
+          filterActors: queries.Actor.list.useQuery(
             {
               pagination: { page: 1, perPage: params.actors?.length ?? 0 },
               filter: { ids: params.actors },
             },
+            undefined,
             true,
           ),
-          filterGroups: useGroupsQuery(
+          filterGroups: queries.Group.list.useQuery(
             {
               pagination: { page: 1, perPage: params.groups?.length ?? 0 },
               filter: { ids: params.groups },
             },
+            undefined,
             true,
           ),
-          filterGroupsMembers: useGroupMembersQuery(
+          filterGroupsMembers: queries.GroupMember.list.useQuery(
             {
               pagination: {
                 page: 1,
@@ -189,14 +190,16 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
               },
               filter: { ids: params.groupsMembers },
             },
+            undefined,
             true,
           ),
-          filterKeywords: useKeywordsQuery(
+          filterKeywords: queries.Keyword.list.useQuery(
             {
               pagination: { page: 1, perPage: params.keywords?.length ?? 0 },
               sort: { field: "updatedAt", order: "DESC" },
               filter: { ids: params.keywords },
             },
+            undefined,
             true,
           ),
         }}

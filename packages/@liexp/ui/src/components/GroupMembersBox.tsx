@@ -1,6 +1,5 @@
 import { type GroupMember } from "@liexp/shared/lib/io/http";
 import * as React from "react";
-import { useGroupMembersQuery } from "../state/queries/DiscreteQueries";
 import QueriesRenderer from "./QueriesRenderer";
 import { GroupsMembersList } from "./lists/GroupMemberList";
 import { Box } from "./mui";
@@ -39,8 +38,8 @@ export const GroupMembersBox: React.FC<GroupMembersBoxProps> = ({
     <Box>
       <QueriesRenderer
         loader="default"
-        queries={{
-          groupsMembers: useGroupMembersQuery(
+        queries={(Q) => ({
+          groupsMembers: Q.GroupMember.list.useQuery(
             {
               pagination: { page: 1, perPage: 10 },
               sort: { field: "createdAt", order: "DESC" },
@@ -48,9 +47,10 @@ export const GroupMembersBox: React.FC<GroupMembersBoxProps> = ({
                 ids,
               },
             },
+            undefined,
             false,
           ),
-        }}
+        })}
         render={({ groupsMembers: { data: groupsMembers } }) => {
           return <GroupMembersList {...props} groupsMembers={groupsMembers} />;
         }}

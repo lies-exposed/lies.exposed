@@ -1,57 +1,21 @@
-import { type GroupMember, type Project } from "@liexp/shared/lib/io/http";
+import { Endpoints } from "@liexp/shared/lib/endpoints";
+import { type Project } from "@liexp/shared/lib/io/http";
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
+import {
+  fromEndpoints,
+  jsonData,
+} from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient";
+import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider";
 import type * as t from "io-ts";
-import type { GetListParams, GetOneParams } from "react-admin";
+import type { GetOneParams } from "react-admin";
 import { useQuery, type UseQueryResult } from "react-query";
-import { Queries, jsonData } from "../../providers/DataProvider";
-import { fetchQuery } from "./common";
-import { type FetchQuery } from "./type";
-
-export const getGroupsMembersQueryKey = (
-  p: Partial<GetListParams>,
-  discrete: boolean,
-): [string, GetListParams, boolean] => {
-  return [
-    "groups-members",
-    {
-      filter: p.filter ? p.filter : {},
-      pagination: {
-        perPage: 20,
-        page: 1,
-        ...p.pagination,
-      },
-      sort: {
-        order: "DESC",
-        field: "updatedAt",
-        ...p.sort,
-      },
-    },
-    discrete,
-  ];
-};
-
-export const fetchGroupsMembers: FetchQuery<
-  typeof Queries.GroupMember.getList
-> = fetchQuery(Queries.GroupMember.getList);
-
-export const useGroupMembersQuery = (
-  params: Partial<GetListParams>,
-  discrete: boolean,
-): UseQueryResult<
-  { data: GroupMember.GroupMember[]; total: number },
-  APIError
-> => {
-  return useQuery(
-    getGroupsMembersQueryKey(params, discrete),
-    fetchGroupsMembers,
-  );
-};
 
 export const useProjectQuery = (
+  dp: APIRESTClient,
   params: GetOneParams,
 ): UseQueryResult<Project.Project, any> => {
   return useQuery(["project", params.id], async () => {
-    return await Queries.Project.get(params);
+    return await fromEndpoints(dp)(Endpoints).Project.get(params);
   });
 };
 

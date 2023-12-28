@@ -3,7 +3,7 @@ import * as React from "react";
 import { type GetListParams } from "react-admin";
 import QueriesRenderer from "../components/QueriesRenderer";
 import { StoryList } from "../components/stories/StoryList";
-import { useStoriesQuery } from "../state/queries/article.queries";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
 
 interface ActorsBoxProps {
   params: GetListParams;
@@ -19,9 +19,12 @@ const StoriesBox = ({
   onItemClick,
   ...props
 }: ActorsBoxProps): JSX.Element | null => {
+  const Queries = useEndpointQueries();
   return (
     <QueriesRenderer
-      queries={{ stories: useStoriesQuery(params, false) }}
+      queries={{
+        stories: Queries.Story.list.useQuery(params, undefined, false),
+      }}
       render={({ stories: { data: stories } }) => {
         return (
           <StoryList

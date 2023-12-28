@@ -25,7 +25,7 @@ export const Get = Endpoint({
   Input: {
     Params: t.type({ id: UUID }),
   },
-  Output: t.unknown,
+  Output: SingleMediaOutput,
 });
 
 // const CreateMediaBody = t.strict(

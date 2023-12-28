@@ -30,7 +30,7 @@
       "@containers/*": ["./client/containers/*"]
     }
   },
-  "include": ["./src", "./typings", "./webpack.*.ts"],
+  "include": ["./src", "./typings", ".eslintrc.js", "./webpack.*.ts"],
   "references": [
     {
       "path": "../../packages/@liexp/core"

@@ -3,6 +3,7 @@ import { getEventCommonProps } from "@liexp/shared/lib/helpers/event";
 import { transform } from "@liexp/shared/lib/helpers/event/event";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
 import { Events } from "@liexp/shared/lib/io/http";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { pipe } from "fp-ts/function";
 import { get } from "lodash";
 import * as React from "react";
@@ -13,7 +14,6 @@ import {
   useRedirect,
   type FieldProps,
 } from "react-admin";
-import { foldTE } from "../../../../providers/DataProvider";
 import { fetchRelations } from "../../../../state/queries/SearchEventsQuery";
 import { Box, MenuItem, Select, type SelectChangeEvent } from "../../../mui";
 
@@ -56,7 +56,7 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
           fp.O.toUndefined,
         ),
       ),
-      foldTE,
+      throwTE,
     );
 
     if (!plainEvent) {

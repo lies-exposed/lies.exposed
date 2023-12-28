@@ -1,13 +1,14 @@
 import * as React from "react";
 import AreasMap, { type AreasMapProps } from "../components/AreasMap";
 import QueriesRenderer from "../components/QueriesRenderer";
-import { useAreasQuery } from "../state/queries/area.queries";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
 
 const AreasMapBox: React.FC<AreasMapProps> = (props) => {
+  const Queries = useEndpointQueries();
   return (
     <QueriesRenderer
       queries={{
-        areas: useAreasQuery(
+        areas: Queries.Area.list.useQuery(
           {
             pagination: { perPage: 20, page: 1 },
             filter: null,
@@ -16,6 +17,7 @@ const AreasMapBox: React.FC<AreasMapProps> = (props) => {
               order: "DESC",
             },
           },
+          undefined,
           false,
         ),
       }}

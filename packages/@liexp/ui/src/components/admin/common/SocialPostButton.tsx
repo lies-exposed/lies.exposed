@@ -47,11 +47,10 @@ export const SocialPostButton: React.FC<SocialPostButtonProps> = ({
         size="small"
         onClick={() => {
           void onLoadSharePayloadClick({ multipleMedia }).then((result) => {
-
             const shareMedia = getShareMedia(
               result.media,
               `${process.env.WEB_URL}/liexp-logo-1200x630.png`,
-            )
+            );
 
             setState((s) => ({
               ...s,

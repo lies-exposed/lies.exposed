@@ -4,7 +4,6 @@ import {
 } from "@liexp/ui/lib/components/AreaPageContent";
 import { MainContent } from "@liexp/ui/lib/components/MainContent";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
-import { useActorsQuery } from "@liexp/ui/lib/state/queries/actor.queries";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
@@ -18,8 +17,8 @@ export default meta;
 const Template: StoryFn<AreaPageContentProps> = (props) => {
   return (
     <QueriesRenderer
-      queries={{
-        actors: useActorsQuery(
+      queries={(Q) => ({
+        areas: Q.Area.list.useQuery(
           {
             filter: {},
             pagination: {
@@ -31,13 +30,14 @@ const Template: StoryFn<AreaPageContentProps> = (props) => {
               order: "DESC",
             },
           },
+          undefined,
           false,
         ),
-      }}
-      render={({ actors }) => {
+      })}
+      render={({ areas }) => {
         return (
           <MainContent>
-            <AreaPageContent {...props} {...actors.data[0]} />
+            <AreaPageContent {...props} {...areas.data[0]} />
           </MainContent>
         );
       }}

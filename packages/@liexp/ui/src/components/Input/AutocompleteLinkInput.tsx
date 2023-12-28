@@ -2,7 +2,7 @@ import { type Link } from "@liexp/shared/lib/io/http";
 import * as React from "react";
 import LinkCard from "../../components/Cards/LinkCard";
 import { LinksList } from "../../components/lists/LinkList";
-import { useLinksQuery } from "../../state/queries/link.queries";
+import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
 import { Grid, Typography } from "../mui";
 import { AutocompleteInput } from "./AutocompleteInput";
 
@@ -19,6 +19,7 @@ export const AutocompleteLinkInput: React.FC<AutocompleteLinkInputProps> = ({
   discrete = true,
   ...props
 }) => {
+  const Queries = useEndpointQueries();
   return (
     <AutocompleteInput<Link.Link>
       placeholder="Search in links..."
@@ -27,7 +28,7 @@ export const AutocompleteLinkInput: React.FC<AutocompleteLinkInputProps> = ({
       }
       searchToFilter={(description) => ({ description })}
       selectedItems={selectedItems}
-      query={(p) => useLinksQuery(p, discrete)}
+      query={(p) => Queries.Link.list.useQuery(p, undefined, discrete)}
       renderTags={(items) => (
         <LinksList
           links={items.map((i) => ({

@@ -6,10 +6,8 @@ import {
 } from "@liexp/shared/lib/io/http/Events/EventTotals";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
-import {
-  type NetworkGroupBy,
-  type NetworkType,
-} from "@liexp/shared/lib/io/http/Network";
+import { type NetworkGroupBy } from "@liexp/shared/lib/io/http/Network";
+import { type StatsType } from "@liexp/shared/lib/io/http/Stats";
 import { parseDate } from "@liexp/shared/lib/utils/date.utils";
 import { ParentSize } from "@visx/responsive";
 import * as React from "react";
@@ -26,8 +24,8 @@ import {
   FormControlLabel,
   Typography,
 } from "../../components/mui";
+import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
 import { type SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery";
-import { useStatsQuery } from "../../state/queries/stats.queries";
 import { type UseListQueryFn } from "../../state/queries/type";
 
 export interface HierarchyNetworkGraphBoxProps
@@ -37,7 +35,7 @@ export interface HierarchyNetworkGraphBoxProps
   > {
   count?: number;
   id: string;
-  type: NetworkType;
+  type: StatsType;
   relations?: NetworkGroupBy[];
   showRelations?: boolean;
   query: Omit<
@@ -81,6 +79,7 @@ const HierarchyNetworkGraphBoxWrapper: React.FC<
   showRelations = true,
   ...props
 }) => {
+  const Queries = useEndpointQueries();
   const startDate = parseDate(query.startDate);
   const endDate = parseDate(query.endDate);
 
@@ -95,7 +94,7 @@ const HierarchyNetworkGraphBoxWrapper: React.FC<
     <Box style={{ height: "100%" }}>
       <QueriesRenderer
         queries={{
-          stats: useStatsQuery({ type, id }),
+          stats: Queries.Stats.get.useQuery({ type, id }),
         }}
         render={({ stats }) => {
           // console.log(stats);
@@ -541,7 +540,7 @@ export const HierarchyNetworkGraphBoxWithQuery: React.FC<
   return (
     <QueriesRenderer
       queries={{
-        items: useQuery(params, false),
+        items: useQuery({} as any, params, false),
       }}
       render={({ items: { data } }) => {
         return (

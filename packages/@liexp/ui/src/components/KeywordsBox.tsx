@@ -4,7 +4,7 @@ import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { type GetListParams } from "react-admin";
-import { useKeywordsQuery } from "../state/queries/keywords.queries";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
 import QueriesRenderer from "./QueriesRenderer";
 import KeywordList from "./lists/KeywordList";
 import { Box, type BoxProps } from "./mui";
@@ -18,13 +18,15 @@ export const KeywordsBoxWrapper: React.FC<KeywordsBoxWrapperProps> = ({
   params,
   children,
 }) => {
+  const Queries = useEndpointQueries();
   return (
     <QueriesRenderer
       queries={{
-        keywords: useKeywordsQuery(
+        keywords: Queries.Keyword.list.useQuery(
           {
-            ...params,
+            ...(params as any),
           },
+          undefined,
           true,
         ),
       }}

@@ -10,7 +10,6 @@ import { EventsFlowGraph } from "../../components/Graph/EventsFlowGraph";
 import QueriesRenderer from "../../components/QueriesRenderer";
 import EventsAppBar from "../../components/events/filters/EventsAppBar";
 import { Box } from "../../components/mui";
-import { useFlowGraphQuery } from "../../state/queries/graph.queries";
 
 export interface EventsFlowGraphBoxProps {
   id: UUID;
@@ -102,10 +101,10 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
 
   return (
     <QueriesRenderer
-      queries={{
-        graph: useFlowGraphQuery({ type, id }, query),
-      }}
-      render={({ graph: { data: graph } }) => {
+      queries={(Q) => ({
+        graph: Q.Graph.Custom.GetGraphByType.useQuery({ type, id }, query),
+      })}
+      render={({ graph }) => {
         return (
           <Box
             height={"100%"}

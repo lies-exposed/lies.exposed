@@ -9,7 +9,10 @@ import {
 import { Button, Stack, Typography } from "../../../mui";
 import { DurationField } from "../DurationField";
 
-export const GenerateExtraButton: React.FC<FieldProps> = ({ source = "extra", ...props}) => {
+export const GenerateExtraButton: React.FC<FieldProps> = ({
+  source = "extra",
+  ...props
+}) => {
   const record = useRecordContext(props);
   const extra = get(record, source);
   const refresh = useRefresh();

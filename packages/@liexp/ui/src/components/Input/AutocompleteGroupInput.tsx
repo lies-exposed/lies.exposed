@@ -1,7 +1,7 @@
 import { type Group } from "@liexp/shared/lib/io/http";
 import * as React from "react";
 import { useQuery } from "react-query";
-import { useGroupsQuery } from "../../state/queries/groups.queries";
+import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
 import GroupList, { GroupListItem } from "../lists/GroupList";
 import { AutocompleteInput } from "./AutocompleteInput";
 
@@ -20,6 +20,7 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
   options,
   ...props
 }) => {
+  const Queries = useEndpointQueries();
   return (
     <AutocompleteInput<Group.Group>
       placeholder="Groups..."
@@ -31,7 +32,7 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
           ? useQuery(["actor-options"], () =>
               Promise.resolve({ data: options }),
             )
-          : useGroupsQuery(p, discrete)
+          : Queries.Group.list.useQuery(p, undefined, discrete)
       }
       renderTags={(items) => (
         <GroupList

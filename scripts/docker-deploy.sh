@@ -38,9 +38,10 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     docker system prune -f
     docker builder prune -f --all
     docker compose run --name api-migration api yarn migration:run > migration.txt
-    docker compose run -d --rm --name upsert-nlp-entities api yarn ts:node:build ./bin/upsert-nlp-entities.ts
+    docker compose run -d --rm --name upsert-nlp-entities api yarn upsert-nlp-entities
     docker compose run -d --rm --name upsert-tg-pinned-message api yarn upsert-tg-pinned-message
     docker compose run -d --rm --name parse-all-tg-messages api yarn parse-tg-message all true
+    docker compose run -d --rm --name clean-space-media api yarn clean-space-media --dry
 
     cd ~/
     # list top 5 bigger files

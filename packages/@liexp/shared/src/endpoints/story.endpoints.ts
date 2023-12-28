@@ -5,7 +5,7 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { Story } from "../io/http";
-import { Output } from "../io/http/Common/Output";
+import { ListOutput, Output } from "../io/http/Common/Output";
 import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
 
@@ -26,7 +26,7 @@ export const ListStory = Endpoint({
   Input: {
     Query: ListStoryQuery,
   },
-  Output: Output(t.array(Story.Story), "Story"),
+  Output: ListOutput(Story.Story, "Story"),
 });
 
 export const GetStory = Endpoint({

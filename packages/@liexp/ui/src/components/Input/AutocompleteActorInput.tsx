@@ -1,7 +1,7 @@
 import { type Actor } from "@liexp/shared/lib/io/http";
 import * as React from "react";
 import { useQuery } from "react-query";
-import { useActorsQuery } from "../../state/queries/actor.queries";
+import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
 import { ActorList, ActorListItem } from "../lists/ActorList";
 import { AutocompleteInput } from "./AutocompleteInput";
 
@@ -20,6 +20,7 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
   options,
   ...props
 }) => {
+  const Queries = useEndpointQueries();
   return (
     <AutocompleteInput<Actor.Actor>
       disablePortal={true}
@@ -32,7 +33,7 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
           ? useQuery(["actor-options"], () =>
               Promise.resolve({ data: options }),
             )
-          : useActorsQuery(p, discrete)
+          : Queries.Actor.list.useQuery(p, undefined, discrete)
       }
       renderTags={(items) => (
         <ActorList

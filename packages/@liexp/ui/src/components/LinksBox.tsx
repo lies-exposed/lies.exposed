@@ -1,10 +1,9 @@
-// import { formatDate } from "@liexp/shared/lib/utils/date.utils";
 import { type GetListLinkQuery } from "@liexp/shared/lib/io/http/Link";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMoreOutlined";
 import LinkIcon from "@mui/icons-material/LinkOutlined";
 import * as React from "react";
 import { type serializedType } from "ts-io-error/lib/Codec";
-import { useLinksQuery } from "../state/queries/link.queries";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
 import QueriesRenderer from "./QueriesRenderer";
 import { LinksList, type LinksListProps } from "./lists/LinkList";
 import {
@@ -78,17 +77,19 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
   column,
   style,
 }) => {
+  const Queries = useEndpointQueries();
   const [expanded, setExpanded] = React.useState(defaultExpanded);
   const perPage = filter?.ids?.length ?? 20;
 
   return (
     <QueriesRenderer
       queries={{
-        links: useLinksQuery(
+        links: Queries.Link.list.useQuery(
           {
             pagination: { page: 1, perPage },
             filter: expanded ? filter : {},
           },
+          undefined,
           true,
         ),
       }}
@@ -158,16 +159,18 @@ export const LinksListBox: React.FC<LinksBoxProps> = ({
   onItemClick,
   column,
 }) => {
+  const Queries = useEndpointQueries();
   const perPage = filter?.ids?.length ?? 20;
 
   return (
     <QueriesRenderer
       queries={{
-        links: useLinksQuery(
+        links: Queries.Link.list.useQuery(
           {
             pagination: { page: 1, perPage },
             filter,
           },
+          undefined,
           true,
         ),
       }}

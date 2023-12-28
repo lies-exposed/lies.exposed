@@ -9,12 +9,20 @@
     "skipDefaultLibCheck": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "baseUrl": "./src",
+    "rootDir": "./src",
+    "paths": {
+      "@helpers/*": ["./helpers/*"],
+      "@io/*": ["./io/*"],
+      "@providers/*": ["./providers/*"],
+      "@utils/*": ["./utils/*"]
+    }
   },
-  "include": ["./src"],
+  "include": ["./src", "!src/**/*.spec.ts"],
   "exclude": [
     "node_modules",
     "lib",
-    "./src/**/*.spec.ts"
+    "src/**/*.spec.ts"
   ]
 }

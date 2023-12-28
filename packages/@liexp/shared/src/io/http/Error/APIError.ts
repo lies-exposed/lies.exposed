@@ -15,5 +15,5 @@ export const toAPIError = (e: unknown): APIError => {
     return new APIError(e.message, []);
   }
 
-  return new APIError("An error occurred", []);
+  return new APIError("An error occurred", [JSON.stringify(e)]);
 };

@@ -38,4 +38,5 @@ jobs:
       - name: Run tests
         env:
           DEBUG: "-@liexp*"
-        run: yarn shared test
+        run: |
+          yarn shared test

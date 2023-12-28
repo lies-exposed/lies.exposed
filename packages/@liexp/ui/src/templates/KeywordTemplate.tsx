@@ -20,8 +20,8 @@ import { MediaBox } from "../containers/MediaBox";
 import { StatsPanelBox } from "../containers/StatsPanelBox";
 import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox";
 import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventsNetworkGraphBox";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
-import { useKeywordQuery } from "../state/queries/keywords.queries";
 import { SplitPageTemplate } from "./SplitPageTemplate";
 
 export interface KeywordTemplateProps {
@@ -49,9 +49,10 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
   query,
   onQueryChange,
 }) => {
+  const Queries = useEndpointQueries();
   return (
     <QueriesRenderer
-      queries={{ keyword: useKeywordQuery({ id: keywordId }) }}
+      queries={{ keyword: Queries.Keyword.get.useQuery({ id: keywordId }) }}
       render={({ keyword }) => {
         return (
           <Box

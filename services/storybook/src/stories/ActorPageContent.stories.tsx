@@ -4,8 +4,6 @@ import {
 } from "@liexp/ui/lib/components/ActorPageContent";
 import { MainContent } from "@liexp/ui/lib/components/MainContent";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
-import { useActorQuery } from "@liexp/ui/lib/state/queries/actor.queries";
-import { useGroupsQuery } from "@liexp/ui/lib/state/queries/groups.queries";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
@@ -21,17 +19,18 @@ const Template: StoryFn<
 > = ({ id, ...props }) => {
   return (
     <QueriesRenderer
-      queries={{
-        actor: useActorQuery({ id }),
-        groups: useGroupsQuery(
+      queries={(Q) => ({
+        actor: Q.Actor.get.useQuery({ id }),
+        groups: Q.Group.list.useQuery(
           {
             pagination: { perPage: 20, page: 1 },
             sort: { field: "createdAt", order: "DESC" },
             filter: { members: [id] },
           },
+          undefined,
           false,
         ),
-      }}
+      })}
       render={({ actor, groups }) => {
         return (
           <MainContent>

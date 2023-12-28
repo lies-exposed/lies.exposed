@@ -26,7 +26,6 @@ import {
   LinkList,
 } from "@liexp/ui/lib/components/admin/links/AdminLinks";
 import { LinkEdit } from "@liexp/ui/lib/components/admin/links/LinkEdit";
-
 import {
   MediaCreate,
   MediaCreateMany,
@@ -35,7 +34,12 @@ import {
 } from "@liexp/ui/lib/components/admin/media";
 import {
   Admin,
+  CustomRoutes,
+  Layout,
+  type LayoutProps,
   Login,
+  Menu,
+  type MenuProps,
   Resource,
 } from "@liexp/ui/lib/components/admin/react-admin";
 import {
@@ -43,6 +47,7 @@ import {
   StoryEdit,
   StoryList,
 } from "@liexp/ui/lib/components/admin/stories/AdminStories";
+import { DataProviderContext } from "@liexp/ui/lib/context/DataProviderContext";
 import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import PermMediaIcon from "@mui/icons-material/PermMedia";
@@ -61,8 +66,10 @@ import {
 import { GroupCreate, GroupEdit, GroupList } from "./pages/AdminGroups";
 import { KeywordCreate, KeywordEdit, KeywordList } from "./pages/AdminKeyword";
 import { SocialPostCreate, SocialPostList } from "./pages/AdminSocialPost";
+import { AdminStats } from "./pages/AdminStats";
 import { UserCreate, UserEdit, UserList } from "./pages/AdminUsers";
 import { PageCreate, PageEdit, PageList } from "./pages/Pages";
+import { BookCreate, BookEdit, BookList } from "./pages/events/AdminBookEvent";
 import {
   DeathCreate,
   DeathEdit,
@@ -95,175 +102,197 @@ import {
 } from "./pages/events/AdminTransactionEvent";
 import { UncategorizedEventCreate } from "./pages/events/AdminUncategorizedEvent";
 import { adminThemeOptions } from "./theme";
-import { BookCreate, BookEdit, BookList } from "pages/events/AdminBookEvent";
+
+const MyMenu: React.FC<MenuProps> = (props) => (
+  <Menu>
+    <Menu.DashboardItem />
+    <Menu.ResourceItems />
+  </Menu>
+);
+const MyLayout: React.FC<LayoutProps> = (props) => (
+  <Layout {...props} menu={MyMenu} />
+);
 
 const AdminPage: React.FC = () => {
   // eslint-disable-next-line no-console
   return (
-    <Admin
-      dataProvider={apiProvider}
-      authProvider={authProvider}
-      i18nProvider={i18nProvider}
-      loginPage={Login}
-      theme={adminThemeOptions as any}
-    >
-      <Resource
-        name="pages"
-        edit={PageEdit}
-        list={PageList}
-        create={PageCreate}
-        icon={PostAddIcon}
-      />
-
-      <Resource
-        name="stories"
-        list={StoryList}
-        edit={StoryEdit}
-        create={StoryCreate}
-        icon={AssignmentIcon}
-      />
-
-      <Resource
-        name="media"
-        list={MediaList}
-        edit={MediaEdit}
-        create={MediaCreate}
-        icon={PermMediaIcon}
+    <DataProviderContext.Provider value={apiProvider}>
+      <DataProviderContext.Consumer>
+        {(dataProvider) => {
+          // eslint-disable-next-line no-console
+          console.log(dataProvider);
+          return null;
+        }}
+      </DataProviderContext.Consumer>
+      <Admin
+        dataProvider={apiProvider}
+        authProvider={authProvider}
+        i18nProvider={i18nProvider}
+        loginPage={Login}
+        theme={adminThemeOptions as any}
+        layout={MyLayout}
       >
-        <Route path="multiple" element={<MediaCreateMany />} />
-      </Resource>
+        <Resource
+          name="pages"
+          edit={PageEdit}
+          list={PageList}
+          create={PageCreate}
+          icon={PostAddIcon}
+        />
 
-      <Resource
-        name="links"
-        list={LinkList}
-        edit={LinkEdit}
-        create={LinkCreate}
-        icon={LinkIcon}
-      />
+        <Resource
+          name="stories"
+          list={StoryList}
+          edit={StoryEdit}
+          create={StoryCreate}
+          icon={AssignmentIcon}
+        />
 
-      <Resource
-        name="actors"
-        list={ActorList}
-        edit={ActorEdit}
-        create={ActorCreate}
-        icon={ActorIcon}
-      />
-      <Resource
-        name="groups"
-        list={GroupList}
-        edit={GroupEdit}
-        create={GroupCreate}
-        icon={GroupIcon}
-      />
-      <Resource
-        name="groups-members"
-        list={GroupMemberList}
-        create={GroupMemberCreate}
-        edit={GroupMemberEdit}
-      />
-      <Resource
-        name="areas"
-        list={AreaList}
-        create={AreaCreate}
-        edit={AreaEdit}
-        icon={AreaIcon}
-      />
+        <Resource
+          name="media"
+          list={MediaList}
+          edit={MediaEdit}
+          create={MediaCreate}
+          icon={PermMediaIcon}
+        >
+          <Route path="multiple" element={<MediaCreateMany />} />
+        </Resource>
 
-      <Resource
-        name="events/suggestions"
-        list={EventSuggestionList}
-        edit={EventSuggestionEdit}
-      />
+        <Resource
+          name="links"
+          list={LinkList}
+          edit={LinkEdit}
+          create={LinkCreate}
+          icon={LinkIcon}
+        />
 
-      <Resource
-        name="events"
-        list={EventList}
-        edit={EventEdit}
-        create={UncategorizedEventCreate}
-        icon={UncategorizedEventIcon}
-      />
+        <Resource
+          name="actors"
+          list={ActorList}
+          edit={ActorEdit}
+          create={ActorCreate}
+          icon={ActorIcon}
+        />
+        <Resource
+          name="groups"
+          list={GroupList}
+          edit={GroupEdit}
+          create={GroupCreate}
+          icon={GroupIcon}
+        />
+        <Resource
+          name="groups-members"
+          list={GroupMemberList}
+          create={GroupMemberCreate}
+          edit={GroupMemberEdit}
+        />
+        <Resource
+          name="areas"
+          list={AreaList}
+          create={AreaCreate}
+          edit={AreaEdit}
+          icon={AreaIcon}
+        />
 
-      <Resource
-        name="books"
-        list={BookList}
-        edit={BookEdit}
-        create={BookCreate}
-        icon={BookEventIcon}
-      />
+        <Resource
+          name="events/suggestions"
+          list={EventSuggestionList}
+          edit={EventSuggestionEdit}
+        />
 
-      <Resource
-        name="deaths"
-        list={DeathList}
-        edit={DeathEdit}
-        create={DeathCreate}
-        icon={DeathEventIcon}
-      />
+        <Resource
+          name="events"
+          list={EventList}
+          edit={EventEdit}
+          create={UncategorizedEventCreate}
+          icon={UncategorizedEventIcon}
+        />
 
-      <Resource
-        name="scientific-studies"
-        list={ScientificStudiesList}
-        edit={ScientificStudyEdit}
-        create={ScientificStudyCreate}
-        icon={ScientificStudyEventIcon}
-      />
-      <Resource
-        name="patents"
-        list={PatentList}
-        edit={PatentEdit}
-        create={PatentCreate}
-        icon={PatentEventIcon}
-      />
-      <Resource
-        name="documentaries"
-        list={DocumentaryList}
-        edit={DocumentaryEdit}
-        create={DocumentaryCreate}
-        icon={DocumentaryEventIcon}
-      />
-      <Resource
-        name="transactions"
-        list={TransactionList}
-        edit={TransactionEdit}
-        create={TransactionCreate}
-        icon={TransactionEventIcon}
-      />
+        <Resource
+          name="books"
+          list={BookList}
+          edit={BookEdit}
+          create={BookCreate}
+          icon={BookEventIcon}
+        />
 
-      <Resource
-        name="quotes"
-        list={QuoteList}
-        edit={QuoteEdit}
-        create={QuoteCreate}
-        icon={QuoteEventIcon}
-      />
-      <Resource
-        name="links"
-        list={LinkList}
-        edit={LinkEdit}
-        create={LinkCreate}
-      />
-      <Resource
-        name="keywords"
-        list={KeywordList}
-        edit={KeywordEdit}
-        create={KeywordCreate}
-        icon={HashtagIcon}
-      />
+        <Resource
+          name="deaths"
+          list={DeathList}
+          edit={DeathEdit}
+          create={DeathCreate}
+          icon={DeathEventIcon}
+        />
 
-      <Resource
-        name={"social-posts"}
-        list={SocialPostList}
-        edit={SocialPostEdit}
-        create={SocialPostCreate}
-        icon={SocialPostIcon}
-      />
-      <Resource
-        name="users"
-        list={UserList}
-        edit={UserEdit}
-        create={UserCreate}
-        icon={UserIcon}
-      />
-    </Admin>
+        <Resource
+          name="scientific-studies"
+          list={ScientificStudiesList}
+          edit={ScientificStudyEdit}
+          create={ScientificStudyCreate}
+          icon={ScientificStudyEventIcon}
+        />
+        <Resource
+          name="patents"
+          list={PatentList}
+          edit={PatentEdit}
+          create={PatentCreate}
+          icon={PatentEventIcon}
+        />
+        <Resource
+          name="documentaries"
+          list={DocumentaryList}
+          edit={DocumentaryEdit}
+          create={DocumentaryCreate}
+          icon={DocumentaryEventIcon}
+        />
+        <Resource
+          name="transactions"
+          list={TransactionList}
+          edit={TransactionEdit}
+          create={TransactionCreate}
+          icon={TransactionEventIcon}
+        />
+
+        <Resource
+          name="quotes"
+          list={QuoteList}
+          edit={QuoteEdit}
+          create={QuoteCreate}
+          icon={QuoteEventIcon}
+        />
+        <Resource
+          name="links"
+          list={LinkList}
+          edit={LinkEdit}
+          create={LinkCreate}
+        />
+        <Resource
+          name="keywords"
+          list={KeywordList}
+          edit={KeywordEdit}
+          create={KeywordCreate}
+          icon={HashtagIcon}
+        />
+
+        <Resource
+          name={"social-posts"}
+          list={SocialPostList}
+          edit={SocialPostEdit}
+          create={SocialPostCreate}
+          icon={SocialPostIcon}
+        />
+        <Resource
+          name="users"
+          list={UserList}
+          edit={UserEdit}
+          create={UserCreate}
+          icon={UserIcon}
+        />
+        <CustomRoutes>
+          <Route path="/" element={<AdminStats />} />
+        </CustomRoutes>
+      </Admin>
+    </DataProviderContext.Provider>
   );
 };
 

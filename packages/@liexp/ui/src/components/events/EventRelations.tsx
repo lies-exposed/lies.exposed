@@ -10,12 +10,6 @@ import { type Event } from "@liexp/shared/lib/io/http/Events";
 import { type Media } from "@liexp/shared/lib/io/http/Media";
 import { UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
-import { useGroupMembersQuery } from "../../state/queries/DiscreteQueries";
-import { useActorsQuery } from "../../state/queries/actor.queries";
-import { useAreasQuery } from "../../state/queries/area.queries";
-import { useGroupsQuery } from "../../state/queries/groups.queries";
-import { useLinksQuery } from "../../state/queries/link.queries";
-import { useMediaQuery } from "../../state/queries/media.queries";
 import QueriesRenderer from "../QueriesRenderer";
 
 export const EventRelations: React.FC<{
@@ -31,10 +25,11 @@ export const EventRelations: React.FC<{
   }) => JSX.Element;
 }> = ({ event, children }) => {
   const { actors, groups, media, links, groupsMembers } = getRelationIds(event);
+
   return (
     <QueriesRenderer
-      queries={{
-        actors: useActorsQuery(
+      queries={(Q) => ({
+        actors: Q.Actor.list.useQuery(
           {
             filter: { ids: actors },
             pagination: {
@@ -42,9 +37,10 @@ export const EventRelations: React.FC<{
               page: 1,
             },
           },
+          undefined,
           true,
         ),
-        groups: useGroupsQuery(
+        groups: Q.Group.list.useQuery(
           {
             filter: { ids: groups },
             pagination: {
@@ -52,9 +48,10 @@ export const EventRelations: React.FC<{
               page: 1,
             },
           },
+          undefined,
           true,
         ),
-        groupsMembers: useGroupMembersQuery(
+        groupsMembers: Q.GroupMember.list.useQuery(
           {
             filter: { ids: groupsMembers },
             pagination: {
@@ -62,9 +59,10 @@ export const EventRelations: React.FC<{
               page: 1,
             },
           },
+          undefined,
           true,
         ),
-        media: useMediaQuery(
+        media: Q.Media.list.useQuery(
           {
             filter: { ids: media },
             pagination: {
@@ -76,9 +74,10 @@ export const EventRelations: React.FC<{
               order: "DESC",
             },
           },
+          undefined,
           true,
         ),
-        links: useLinksQuery(
+        links: Q.Link.list.useQuery(
           {
             filter: { ids: links },
             pagination: {
@@ -90,9 +89,10 @@ export const EventRelations: React.FC<{
               order: "DESC",
             },
           },
+          undefined,
           true,
         ),
-        areas: useAreasQuery(
+        areas: Q.Area.list.useQuery(
           {
             filter: UUID.is((event.payload as any).location)
               ? { ids: [(event.payload as any).location] }
@@ -102,9 +102,10 @@ export const EventRelations: React.FC<{
               page: 1,
             },
           },
+          undefined,
           true,
         ),
-      }}
+      })}
       render={({
         actors: { data: actors },
         groups: { data: groups },

@@ -6,7 +6,7 @@ import { PageContent } from "../components/PageContent";
 import QueriesRenderer from "../components/QueriesRenderer";
 import { AreaList } from "../components/lists/AreaList";
 import { Box, Container, Grid } from "../components/mui";
-import { useAreasQuery } from "../state/queries/area.queries";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
 import { useTheme } from "../theme";
 
 export interface SearchAreaTemplateProps {
@@ -17,13 +17,15 @@ const SearchAreaTemplate: React.FC<SearchAreaTemplateProps> = ({
   onAreaClick,
 }) => {
   const theme = useTheme();
+  const Queries = useEndpointQueries();
   return (
     <QueriesRenderer
       queries={{
-        areas: useAreasQuery(
+        areas: Queries.Area.list.useQuery(
           {
             filter: null,
           },
+          undefined,
           false,
         ),
       }}

@@ -11,18 +11,18 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "outDir": "./lib",
-    "baseUrl": "./src",
-    "rootDir": "./src",
+    "baseUrl": "./",
+    "rootDir": "./",
     "typeRoots": [
       "../../../node_modules/@types",
       "typings"
     ],
     "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
     "paths": {
-      "@helpers/*": ["./helpers/*"],
-      "@io/*": ["./io/*"],
-      "@providers/*": ["./providers/*"],
-      "@utils/*": ["./utils/*"]
+      "@helpers/*": ["./src/helpers/*"],
+      "@io/*": ["./src/io/*"],
+      "@providers/*": ["./src/providers/*"],
+      "@utils/*": ["./src/utils/*"]
     }
   },
   "references": [
@@ -37,6 +37,7 @@
     "../../../node_modules/vitest/globals.d.ts",
     "./src",
     "./src/**/*.json",
+    "./test",
     ".eslintrc.js"
   ],
   "exclude": ["node_modules", "lib"]

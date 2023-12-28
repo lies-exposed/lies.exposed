@@ -29,8 +29,8 @@ import {
   FormControlLabel,
   Typography,
 } from "../../components/mui";
+import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
 import { type SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery";
-import { useNetworkGraphQuery } from "../../state/queries/network.queries";
 import { type UseListQueryFn } from "../../state/queries/type";
 
 export interface EventNetworkGraphBoxProps
@@ -72,6 +72,7 @@ export const EventsNetworkGraphBoxWrapper = <T extends any>({
   transform,
   ...props
 }: EventNetworkGraphBoxWrapperProps<T>): JSX.Element => {
+  const Queries = useEndpointQueries();
   const [relations, setRelations] = onRelationsChange
     ? [_relations, onRelationsChange]
     : React.useState(_relations);
@@ -88,7 +89,7 @@ export const EventsNetworkGraphBoxWrapper = <T extends any>({
   return (
     <QueriesRenderer
       queries={{
-        graph: useNetworkGraphQuery(
+        graph: Queries.Networks.get.useQuery(
           { type },
           {
             ...query,
@@ -598,7 +599,7 @@ export const EventsNetworkGraphBoxWithQuery: React.FC<
   return (
     <QueriesRenderer
       queries={{
-        items: useQuery(params, false),
+        items: useQuery(params, {}, false),
       }}
       render={({ items: { data } }) => {
         return (

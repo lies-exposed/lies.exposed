@@ -1,8 +1,6 @@
 import { type Stats } from "@liexp/shared/lib/io/http";
 import type { GetListParams } from "react-admin";
 import { useQuery } from "react-query";
-import { Queries } from "../../providers/DataProvider";
-import { fetchQuery } from "./common";
 import { type UseQueryFn } from "./type";
 
 export const getStatsQueryKey = (
@@ -28,11 +26,11 @@ export const getStatsQueryKey = (
   ];
 };
 
-export const fetchStats = async (params: any): Promise<Stats.Stats> => {
-  return await fetchQuery(Queries.Stats.getList)(params).then(
-    (results) => results.data[0],
-  );
-};
+// export const fetchStats = async (params: any): Promise<Stats.Stats> => {
+//   return await fetchQuery(Queries.Stats.getList)(params).then(
+//     (results) => results.data[0],
+//   );
+// };
 
 export const useStatsQuery: UseQueryFn<
   {
@@ -48,6 +46,6 @@ export const useStatsQuery: UseQueryFn<
       },
       false,
     ),
-    fetchStats,
+    () => Promise.resolve(),
   );
 };

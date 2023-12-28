@@ -4,20 +4,18 @@ import {
   type Keyword,
 } from "@liexp/shared/lib/io/http";
 import * as React from "react";
+import { useEndpointQueries } from "../../../hooks/useEndpointQueriesProvider";
 import { type SearchEventsQueryInputNoPagination } from "../../../state/queries/SearchEventsQuery";
-import { fetchActors } from "../../../state/queries/actor.queries";
-import { fetchGroups } from "../../../state/queries/groups.queries";
-import { fetchKeywords } from "../../../state/queries/keywords.queries";
 import { ActorListItem } from "../../lists/ActorList";
 import { GroupListItem } from "../../lists/GroupList";
 import { KeywordListItem } from "../../lists/KeywordList";
 import {
   Autocomplete,
-  type AutocompleteInputChangeReason,
-  type AutocompleteProps,
   Box,
   TextField,
   Typography,
+  type AutocompleteInputChangeReason,
+  type AutocompleteProps,
 } from "../../mui";
 
 export type SearchOption =
@@ -78,6 +76,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
   onQueryChange,
   ...props
 }) => {
+  const Queries = useEndpointQueries();
   const [search, setSearch] = React.useState(query.title ?? "");
   const [searchOptions, setSearchOptions] = React.useState<SearchOption[]>([]);
 
@@ -91,57 +90,50 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
 
       if (q.startsWith("#")) {
         // fetch keywords
-        void fetchKeywords({
-          queryKey: [
-            "keywords",
-            {
-              filter: { search: q.replace("#", "") },
-              sort: { field: "createdAt", order: "DESC" },
-              pagination: {
-                perPage: 20,
-                page: 1,
-              },
+        void Queries.Keyword.list
+          .fetch({
+            filter: { search: q.replace("#", "") },
+            sort: { field: "createdAt", order: "DESC" },
+            pagination: {
+              perPage: 20,
+              page: 1,
             },
-          ],
-        }).then((res) => {
-          setSearchOptions(res.data.map((g) => ({ type: "Keyword", item: g })));
-        });
+          })
+          .then((res) => {
+            setSearchOptions(
+              res.data.map((g) => ({ type: "Keyword", item: g })),
+            );
+          });
       } else if (q.startsWith("a@")) {
         // fetch actors
-        void fetchActors({
-          queryKey: [
-            "actors",
-            {
-              filter: { fullName: q.replace("a@", "") },
-              sort: { field: "createdAt", order: "DESC" },
-              pagination: {
-                perPage: 20,
-                page: 1,
-              },
+        void Queries.Actor.list
+          .fetch({
+            filter: { fullName: q.replace("a@", "") },
+            sort: { field: "createdAt", order: "DESC" },
+            pagination: {
+              perPage: 20,
+              page: 1,
             },
-          ],
-        }).then((res) => {
-          setSearchOptions(res.data.map((g) => ({ type: "Actor", item: g })));
-        });
+          })
+          .then((res) => {
+            setSearchOptions(res.data.map((g) => ({ type: "Actor", item: g })));
+          });
       } else if (q.startsWith("g@")) {
         // fetch groups
-        void fetchGroups({
-          queryKey: [
-            "groups",
-            {
-              filter: { name: q.replace("g@", "") },
-              sort: { field: "createdAt", order: "DESC" },
-              pagination: {
-                perPage: 20,
-                page: 1,
-              },
+        void Queries.Group.list
+          .fetch({
+            filter: { name: q.replace("g@", "") },
+            sort: { field: "createdAt", order: "DESC" },
+            pagination: {
+              perPage: 20,
+              page: 1,
             },
-          ],
-        }).then((groups) => {
-          setSearchOptions(
-            groups.data.map((g) => ({ type: "Group", item: g })),
-          );
-        });
+          })
+          .then((groups) => {
+            setSearchOptions(
+              groups.data.map((g) => ({ type: "Group", item: g })),
+            );
+          });
       } else {
         setSearchOptions([
           {

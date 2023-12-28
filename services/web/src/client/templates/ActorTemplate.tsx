@@ -2,7 +2,6 @@ import { EventType } from "@liexp/shared/lib/io/http/Events";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import SEO from "@liexp/ui/lib/components/SEO";
 import { Box } from "@liexp/ui/lib/components/mui";
-import { useActorQuery } from "@liexp/ui/lib/state/queries/actor.queries";
 import { ActorTemplate } from "@liexp/ui/lib/templates/ActorTemplate";
 import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils";
 import * as React from "react";
@@ -16,9 +15,9 @@ const ActorPage: React.FC<{ actorId: string }> = ({ actorId }) => {
 
   return (
     <QueriesRenderer
-      queries={{
-        actor: useActorQuery({ id: actorId }),
-      }}
+      queries={(Q) => ({
+        actor: Q.Actor.get.useQuery({ id: actorId }),
+      })}
       render={({ actor }) => {
         return (
           <Box style={{ height: "100%" }}>

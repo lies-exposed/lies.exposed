@@ -1,0 +1,89 @@
+import { fp } from "@liexp/core/lib/fp";
+import { pipe } from "fp-ts/lib/function";
+import { useQuery } from "react-query";
+import {
+  type MinimalEndpoint,
+  type MinimalEndpointInstance,
+} from "ts-endpoint";
+import {
+  type EndpointsRESTClient,
+  type GetFnParams,
+  type GetListFnQuery,
+  type GetListFnParamsE,
+} from "../EndpointsRESTClient/EndpointsRESTClient";
+import { fetchQuery, getDefaultKey } from "./QueryProvider";
+import { type GetKeyFn, type ResourceQueries } from "./types";
+
+export interface GetQueryOverride<P, Q = undefined> {
+  getKey?: GetKeyFn<P, Q>;
+  // transformParams?: (p: any) => any;
+  // transformResult?: (r: any) => any;
+}
+
+export type CustomQueryOverride<ES, P, Q, O> = (
+  q: EndpointsRESTClient<ES>,
+) => (p: P, q: Q) => Promise<O>;
+
+export interface ResourceEndpointsQueriesOverride<ES, G, L, CC> {
+  get?: G extends MinimalEndpointInstance
+    ? GetQueryOverride<GetFnParams<G>>
+    : never;
+  list?: L extends MinimalEndpointInstance
+    ? GetQueryOverride<GetListFnParamsE<L>, GetListFnQuery<L>>
+    : never;
+  Custom?: {
+    [K in keyof CC]: CC[K] extends CustomQueryOverride<
+      ES,
+      infer P,
+      infer Q,
+      infer O
+    >
+      ? CustomQueryOverride<ES, P, Q, O>
+      : never;
+  };
+}
+
+export type QueryProviderOverrides<ES, QO = Record<string, any>> = {
+  [K in keyof QO]: QO[K] extends ResourceEndpointsQueriesOverride<
+    ES,
+    infer G,
+    infer L,
+    infer CC
+  >
+    ? ResourceEndpointsQueriesOverride<ES, G, L, CC>
+    : never;
+};
+
+export const toOverrideQueries = <
+  ES,
+  G extends MinimalEndpoint,
+  L extends MinimalEndpoint,
+  CC extends Record<string, any>,
+>(
+  QP: EndpointsRESTClient<ES>,
+  namespace: string,
+  e: ResourceEndpointsQueriesOverride<ES, G, L, CC>,
+): Partial<ResourceQueries<G, L, CC>> => {
+  return {
+    get: undefined,
+    list: undefined,
+    Custom: pipe(
+      e.Custom ?? {},
+      fp.R.mapWithIndex((key, ee) => {
+        const getKey = getDefaultKey(`${namespace}-${key}`);
+        const fetch = fetchQuery((p, q) => {
+          return (ee as any)(QP)(p, q);
+        });
+
+        return {
+          getKey,
+          fetch,
+          useQuery: (p: any) =>
+            useQuery(getKey(p), ({ queryKey }) => {
+              return fetch(queryKey[1], queryKey[2], !!queryKey[3]);
+            }),
+        };
+      }),
+    ) as any,
+  };
+};
