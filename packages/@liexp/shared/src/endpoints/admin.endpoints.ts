@@ -1,6 +1,7 @@
 import * as t from "io-ts";
 import { UUID } from "io-ts-types/lib/UUID";
 import { Endpoint } from "ts-endpoint";
+import { ListOutput } from "../io/http/Common";
 import {
   MediaImageLayer,
   TextLayer,
@@ -92,6 +93,12 @@ export const SearchAreaCoordinates = Endpoint({
 });
 
 
+export const GetOrphanMedia = Endpoint({
+  Method: "GET",
+  getPath: () => `/admins/media/orphans`,
+  Output: ListOutput(t.any, "OrphanMedia"),
+});
+
 const admin = ResourceEndpoints({
   Get,
   Create,
@@ -100,7 +107,8 @@ const admin = ResourceEndpoints({
   Delete,
   Custom: {
     BuildImage,
-    SearchAreaCoordinates
+    SearchAreaCoordinates,
+    GetOrphanMedia
   },
 });
 
