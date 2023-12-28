@@ -59,10 +59,11 @@ export const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
   const [modal, showModal] = useModal();
 
   const handleThumbnailUpdate = React.useCallback((thumbnail: string) => {
+    const data = { ...record, thumbnail };
     void apiProvider
       .update(`media`, {
         id: record.id,
-        data: { ...record, thumbnail },
+        data,
         previousData: record,
       })
       .then(() => {

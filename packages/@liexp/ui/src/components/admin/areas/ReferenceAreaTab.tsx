@@ -33,7 +33,7 @@ export const ReferenceArrayAreaField: React.FC<
   Omit<ReferenceArrayFieldProps, "reference">
 > = (props) => {
   return (
-    <ReferenceArrayField {...props} reference="areas" fullWidth>
+    <ReferenceArrayField {...props} reference="areas">
       <Datagrid rowClick="edit">
         <TextField source="id" />
         <TextField source="label" />
@@ -46,8 +46,8 @@ const ReferenceAreaTab: React.FC<
   Omit<ReferenceFieldProps<RaRecord<string>>, "reference">
 > = ({ source }) => {
   return (
-    <Box>
-      <ReferenceArrayAreaInput source={source} />
+    <Box style={{ width: '100%' }}>
+      <ReferenceArrayAreaInput source={source} fullWidth />
       <ReferenceArrayAreaField source={source} />
     </Box>
   );
