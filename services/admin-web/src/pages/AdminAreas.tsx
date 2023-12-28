@@ -1,6 +1,7 @@
 import { MapInput } from "@liexp/ui/lib/components/admin/MapInput";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
 import { AreaTGPostButton } from "@liexp/ui/lib/components/admin/areas/button/AreaTGPostButton";
+import { SearchAreaCoordinatesButton } from "@liexp/ui/lib/components/admin/areas/button/SearchAreaCoordinatesButton";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
 import ReferenceArrayEventInput from "@liexp/ui/lib/components/admin/events/ReferenceArrayEventInput";
 import AreaPreview from "@liexp/ui/lib/components/admin/previews/AreaPreview";
@@ -160,6 +161,7 @@ export const AreaEdit: React.FC<EditProps> = () => (
         <MapInput source="geometry" />
         <Box>
           <Box>
+            <SearchAreaCoordinatesButton />
             <UpdateGeometryButton />
           </Box>
           <OpenInGMapsButton />
