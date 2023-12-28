@@ -5,16 +5,15 @@ import { MainContent } from "@liexp/ui/lib/components/MainContent";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import SEO from "@liexp/ui/lib/components/SEO";
 import { Box, Container } from "@liexp/ui/lib/components/mui";
-import { usePageContentByPathQuery } from "@liexp/ui/lib/state/queries/page.queries";
 import * as React from "react";
 import NotFoundPage from "../pages/404";
 
 const PageTemplate: React.FC<{ customPath: string }> = ({ customPath }) => {
   return (
     <QueriesRenderer
-      queries={{
-        page: usePageContentByPathQuery({ path: customPath }),
-      }}
+      queries={(Q) => ({
+        page: Q.Page.Custom.GetPageContentByPath.useQuery(customPath),
+      })}
       render={({ page: m }) => {
         return (
           <Box>

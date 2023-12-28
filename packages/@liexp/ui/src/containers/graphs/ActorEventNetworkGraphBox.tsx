@@ -1,7 +1,7 @@
 import { type NetworkType } from "@liexp/shared/lib/io/http/Network";
 import * as React from "react";
 import { type GetListParams } from "react-admin";
-import { useActorsQuery } from "../../state/queries/actor.queries";
+import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
 import {
   EventsNetworkGraphBoxWithQuery,
   type EventNetworkGraphBoxProps,
@@ -16,10 +16,11 @@ export interface ActorEventNetworkGraphBoxProps
 export const ActorEventNetworkGraphBox: React.FC<
   ActorEventNetworkGraphBoxProps
 > = ({ query, ...props }) => {
+  const Queries = useEndpointQueries();
   return (
     <EventsNetworkGraphBoxWithQuery
       {...props}
-      useQuery={useActorsQuery}
+      useQuery={(p) => Queries.Event.list.useQuery(p as any, undefined, true)}
       eventsBoxQuery={query}
     />
   );

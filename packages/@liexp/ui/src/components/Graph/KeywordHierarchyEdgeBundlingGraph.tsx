@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useHierarchyNetworkGraphQuery } from "../../state/queries/network.queries";
 import {
   HierarchicalEdgeBundling,
   type HierarchicalEdgeBundlingOnClickProps,
@@ -17,16 +16,18 @@ export const KeywordHierarchyEdgeBundlingGraph: React.FC<
 > = ({ keyword, ...props }) => {
   return (
     <QueriesRenderer
-      queries={{
-        graph: useHierarchyNetworkGraphQuery(
+      queries={(Q) => ({
+        graph: Q.Networks.Custom.GetHierarchyNetwork.useQuery(
           {
             type: "keywords",
           },
           {
-            ids: [keyword],
+            filter: {
+              ids: [keyword],
+            },
           },
         ),
-      }}
+      })}
       render={({ graph }) => {
         return (
           <HierarchicalEdgeBundling

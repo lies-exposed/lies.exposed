@@ -3,7 +3,6 @@ import {
   StoryPageContent,
   type StoryPageContentProps,
 } from "@liexp/ui/lib/components/stories/StoryPageContent";
-import { useStoriesQuery } from "@liexp/ui/lib/state/queries/article.queries";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
@@ -18,19 +17,20 @@ const Template: StoryFn<StoryPageContentProps> = (props) => {
   const [index, setIndex] = React.useState(0);
   return (
     <QueriesRenderer
-      queries={{
-        article: useStoriesQuery(
+      queries={(Q) => ({
+        article: Q.Story.list.useQuery(
           {
             pagination: {
               perPage: 10,
               page: 1,
             },
             sort: { field: "date", order: "DESC" },
-            filter: { draft: true },
+            filter: { draft: "true" },
           },
+          undefined,
           false,
         ),
-      }}
+      })}
       render={({ article }) => {
         const art = article.data[index];
         return art ? (

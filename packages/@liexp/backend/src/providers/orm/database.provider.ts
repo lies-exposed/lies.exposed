@@ -300,9 +300,7 @@ const MakeDatabaseClient: MakeDatabaseClient =
       );
 
       if (dataSource.isInitialized) {
-        logger.debug.log(
-          "The connection is already initialized...",
-        );
+        logger.debug.log("The connection is already initialized...");
 
         return TE.right(dataSource);
       }

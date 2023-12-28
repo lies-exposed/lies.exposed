@@ -1,7 +1,7 @@
 import { type http } from "@liexp/shared/lib/io";
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { api } from "@liexp/ui/lib/client/api";
-import { foldTE } from "@liexp/ui/lib/providers/DataProvider";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { useMutation, type UseMutationResult } from "react-query";
@@ -20,7 +20,7 @@ export const createEventFromLink = (): UseMutationResult<
             url: params.url,
           },
         }),
-        foldTE,
+        throwTE,
       ),
     { onSuccess: () => queryClient.invalidateQueries(["events"]) },
   );
@@ -37,7 +37,7 @@ export const getEventFromLink = (): UseMutationResult<
           url: params.url as any,
         },
       }),
-      foldTE,
+      throwTE,
     ),
   );
 
@@ -51,7 +51,7 @@ export const createEventSuggestion = (): UseMutationResult<
       api.Event.Custom.CreateSuggestion({
         Body: params,
       }),
-      foldTE,
+      throwTE,
     ),
   );
 
@@ -69,6 +69,6 @@ export const getURLMetadata = (): UseMutationResult<
         },
       }),
       TE.map((d) => d.data),
-      foldTE,
+      throwTE,
     ),
   );

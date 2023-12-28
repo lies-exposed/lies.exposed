@@ -1,6 +1,5 @@
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/queries/SearchEventsQuery";
-import { useGroupsQuery } from "@liexp/ui/lib/state/queries/groups.queries";
 import {
   GroupTemplate,
   type GroupTemplateProps,
@@ -23,15 +22,16 @@ const Template: StoryFn<GroupTemplateProps> = (props) => {
 
   return (
     <QueriesRenderer
-      queries={{
-        groups: useGroupsQuery(
+      queries={(Q) => ({
+        groups: Q.Group.list.useQuery(
           {
             pagination: { perPage: 10, page: 1 },
             filter: { name: "food" },
           },
+          undefined,
           false,
         ),
-      }}
+      })}
       render={({ groups: { data } }) => {
         return (
           <GroupTemplate

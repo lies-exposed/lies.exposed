@@ -10,10 +10,8 @@ import EventSliderModal from "../components/Modal/EventSliderModal";
 import QueriesRenderer from "../components/QueriesRenderer";
 import EventsTimeline from "../components/lists/EventList/EventsTimeline";
 import { Box, Grid } from "../components/mui";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
-import { useActorsQuery } from "../state/queries/actor.queries";
-import { useGroupsQuery } from "../state/queries/groups.queries";
-import { useKeywordsQuery } from "../state/queries/keywords.queries";
 import { styled } from "../theme";
 import EventsAppBarBox from "./EventsAppBarBox";
 
@@ -312,33 +310,38 @@ export const EventsPanelBox: React.FC<EventsPanelBoxProps> = ({
   query,
   ...props
 }) => {
+  const Queries = useEndpointQueries();
+
   return (
     <QueriesRenderer
       queries={{
-        groups: useGroupsQuery(
+        groups: Queries.Group.list.useQuery(
           {
             pagination: { perPage: query.groups?.length ?? 0, page: 1 },
             sort: { field: "createdAt", order: "DESC" },
             filter: { ids: query.groups },
           },
+          undefined,
           true,
           `events-groups-${query.hash}`,
         ),
-        actors: useActorsQuery(
+        actors: Queries.Actor.list.useQuery(
           {
             pagination: { perPage: query.actors?.length ?? 0, page: 1 },
             sort: { field: "createdAt", order: "DESC" },
             filter: { ids: query.actors },
           },
+          undefined,
           true,
           `events-actors-${query.hash}`,
         ),
-        keywords: useKeywordsQuery(
+        keywords: Queries.Keyword.list.useQuery(
           {
             pagination: { perPage: query.keywords?.length ?? 0, page: 1 },
             sort: { field: "createdAt", order: "DESC" },
             filter: { ids: query.keywords },
           },
+          undefined,
           true,
           `events-keywords-${query.hash}`,
         ),

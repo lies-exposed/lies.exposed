@@ -4,7 +4,6 @@ import {
 } from "@liexp/ui/lib/components/KeywordPageContent";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import { Box } from "@liexp/ui/lib/components/mui";
-import { useKeywordsQuery } from "@liexp/ui/lib/state/queries/keywords.queries";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
@@ -18,15 +17,16 @@ export default meta;
 const Template: StoryFn<KeywordPageContentProps> = (props) => {
   return (
     <QueriesRenderer
-      queries={{
-        keyword: useKeywordsQuery(
+      queries={(Q) => ({
+        keyword: Q.Keyword.list.useQuery(
           {
             pagination: { perPage: 10, page: 1 },
             filter: { search: "graphene" },
           },
+          undefined,
           false,
         ),
-      }}
+      })}
       render={({ keyword: { data: keywords } }) => {
         return (
           <Box>

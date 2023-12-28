@@ -1,4 +1,5 @@
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
+import { defaultUseQueryListParams } from "@liexp/shared/lib/providers/EndpointQueriesProvider/params";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils";
 import { AutocompleteActorInput } from "@liexp/ui/lib/components/Input/AutocompleteActorInput";
 import { MainContent } from "@liexp/ui/lib/components/MainContent";
@@ -7,10 +8,6 @@ import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import { ActorList } from "@liexp/ui/lib/components/lists/ActorList";
 import { Grid } from "@liexp/ui/lib/components/mui";
 import { ActorEventNetworkGraphBox } from "@liexp/ui/lib/containers/graphs/ActorEventNetworkGraphBox";
-import {
-  defaultGetActorsQueryParams,
-  useActorsQuery,
-} from "@liexp/ui/lib/state/queries/actor.queries";
 import { type RouteComponentProps } from "@reach/router";
 import { subYears } from "date-fns";
 import * as React from "react";
@@ -21,9 +18,9 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
 
   return (
     <QueriesRenderer
-      queries={{
-        actors: useActorsQuery(defaultGetActorsQueryParams, false),
-      }}
+      queries={(Q) => ({
+        actors: Q.Actor.list.useQuery(defaultUseQueryListParams),
+      })}
       render={({ actors: { data: actors } }) => {
         return (
           <MainContent style={{ height: "100%" }}>

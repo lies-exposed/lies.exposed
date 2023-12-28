@@ -3,7 +3,6 @@ import {
   MediaList,
   type MediaListProps,
 } from "@liexp/ui/lib/components/lists/MediaList";
-import { useMediaQuery } from "@liexp/ui/lib/state/queries/media.queries";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
@@ -20,8 +19,8 @@ const Template: StoryFn<MediaListProps> = (props) => {
   return (
     <div style={{ height: "100%" }}>
       <QueriesRenderer
-        queries={{
-          media: useMediaQuery(
+        queries={(Q) => ({
+          media: Q.Media.list.useQuery(
             {
               filter: {},
               pagination: {
@@ -29,9 +28,10 @@ const Template: StoryFn<MediaListProps> = (props) => {
                 page: 1,
               },
             },
+            undefined,
             false,
           ),
-        }}
+        })}
         render={({ media }) => {
           return (
             <MediaList

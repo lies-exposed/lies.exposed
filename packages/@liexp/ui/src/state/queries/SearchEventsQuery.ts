@@ -6,27 +6,27 @@ import {
   type SearchEventsQueryCache,
 } from "@liexp/shared/lib/helpers/event/search-event";
 import {
-  type Link,
   type Actor,
   type Events,
   type Group,
   type GroupMember,
   type Keyword,
+  type Link,
   type Media,
 } from "@liexp/shared/lib/io/http";
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals";
 import { type GetSearchEventsQueryInput } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEventsQuery";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { sequenceS } from "fp-ts/Apply";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import {
   useInfiniteQuery,
-  type UseInfiniteQueryResult,
   useQuery,
+  type UseInfiniteQueryResult,
   type UseQueryResult,
 } from "react-query";
-import { foldTE } from "../../providers/DataProvider";
 import { api } from "../api";
 
 const log = GetLogger("search-events-query");
@@ -240,7 +240,7 @@ export const fetchSearchEvents = async ({
   queryKey,
 }: any): Promise<SearchEventQueryResult> => {
   const params = queryKey[1];
-  return await pipe(searchEventsQ(api.Event.List)(params), foldTE);
+  return await pipe(searchEventsQ(api.Event.List)(params), throwTE);
 };
 export const searchEventsQuery = (
   input: SearchEventQueryInput,
@@ -268,7 +268,7 @@ export const fetchSearchEventsInfinite = async ({
       _start: pageParam?.startIndex ?? 0,
       _end: pageParam?.stopIndex ?? 20,
     }),
-    foldTE,
+    throwTE,
   );
 };
 
@@ -333,7 +333,7 @@ export const getEventsFromLinkQuery = ({
           ),
         );
       }),
-      foldTE,
+      throwTE,
     );
   });
 };

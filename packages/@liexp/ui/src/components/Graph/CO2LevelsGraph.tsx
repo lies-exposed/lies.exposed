@@ -3,7 +3,7 @@ import { LinearGradient } from "@visx/gradient";
 import { ParentSize } from "@visx/responsive";
 import * as t from "io-ts";
 import * as React from "react";
-import { useGraphQuery } from "../../state/queries/graph.queries";
+import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
 import { AxisGraph } from "../Common/Graph/AxisGraph";
 import QueriesRenderer from "../QueriesRenderer";
 import { Checkbox } from "../mui";
@@ -90,6 +90,7 @@ const initialState: State = {
   toggleData: "last-2000-years",
 };
 export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = (props) => {
+  const Queries = useEndpointQueries();
   const { showPoints, showGrid = true, style } = props;
 
   const [{ toggleData }, setToggleData] = React.useState(initialState);
@@ -100,7 +101,7 @@ export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = (props) => {
 
   return (
     <QueriesRenderer
-      queries={{ data: useGraphQuery(id) }}
+      queries={{ data: Queries.Graph.get.useQuery(undefined, { id }) }}
       render={({ data }) => (
         <ParentSize
           style={{ height: 400, width: "100%", ...style }}

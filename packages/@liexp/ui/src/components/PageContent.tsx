@@ -1,6 +1,5 @@
 import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate";
 import * as React from "react";
-import { usePageContentByPathQuery } from "../state/queries/page.queries";
 import { LazyEditor as Editor } from "./Common/Editor";
 import { TOCPlugin } from "./Common/Editor/plugins/renderer/TOCPlugin";
 import QueriesRenderer from "./QueriesRenderer";
@@ -13,7 +12,9 @@ export interface PageContentProps {
 export const PageContent: React.FC<PageContentProps> = ({ path }) => {
   return (
     <QueriesRenderer
-      queries={{ pageContent: usePageContentByPathQuery({ path }) }}
+      queries={(Q) => ({
+        pageContent: Q.Page.Custom.GetPageContentByPath.useQuery(path),
+      })}
       render={({ pageContent: { title, path, excerpt, body2 } }) => {
         return (
           <div className="page-content" style={{ marginBottom: 100 }}>

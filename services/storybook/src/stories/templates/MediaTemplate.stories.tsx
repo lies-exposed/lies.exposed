@@ -1,5 +1,4 @@
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
-import { useMediaQuery } from "@liexp/ui/lib/state/queries/media.queries";
 import {
   MediaTemplateUI,
   type MediaTemplateUIProps,
@@ -19,14 +18,16 @@ const Template: StoryFn<MediaTemplateUIProps> = (props) => {
 
   return (
     <QueriesRenderer
-      queries={{
-        media: useMediaQuery(
+      queries={(Q) => ({
+        media: Q.Media.list.useQuery(
           {
             pagination: { perPage: 1, page: 1 },
+            filter: null,
           },
+          undefined,
           false,
         ),
-      }}
+      })}
       render={({ media: { data } }) => {
         return (
           <MediaTemplateUI

@@ -1,11 +1,10 @@
+import { type Endpoints } from "@liexp/shared/lib/endpoints";
 import { type Media } from "@liexp/shared/lib/io/http";
 import * as React from "react";
 import { type serializedType } from "ts-io-error/lib/Codec";
 import QueriesRenderer from "../components/QueriesRenderer";
 import { MediaList } from "../components/lists/MediaList";
 import { Box, Pagination } from "../components/mui";
-import { type Endpoints } from "../providers/DataProvider";
-import { useMediaQuery } from "../state/queries/media.queries";
 
 export interface MediaBoxProps {
   filter: Partial<serializedType<typeof Endpoints.Media.List.Input.Query>>;
@@ -31,8 +30,8 @@ export const MediaBox: React.FC<MediaBoxProps> = ({
 
   return (
     <QueriesRenderer
-      queries={{
-        media: useMediaQuery(
+      queries={(Q) => ({
+        media: Q.Media.list.useQuery(
           {
             filter,
             pagination: {
@@ -40,9 +39,10 @@ export const MediaBox: React.FC<MediaBoxProps> = ({
               page: limit ? 1 : page,
             },
           },
+          undefined,
           false,
         ),
-      }}
+      })}
       render={({ media: { total, data: media } }) => {
         return (
           <Box style={{ height: "100%", width: "100%" }}>

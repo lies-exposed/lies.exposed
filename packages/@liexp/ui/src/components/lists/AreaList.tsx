@@ -1,7 +1,7 @@
 import type * as io from "@liexp/shared/lib/io/http";
 import { getTextContentsCapped } from "@liexp/shared/lib/slate";
 import * as React from "react";
-import { useMediaQuery } from "../../state/queries/media.queries";
+import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
 import { styled } from "../../theme";
 import { List, type ListItemProps } from "../Common/List";
 import {
@@ -39,7 +39,8 @@ export const AreaListItem: React.FC<
     style?: React.CSSProperties;
   }
 > = ({ item, onClick, style }) => {
-  const media = useMediaQuery(
+  const Queries = useEndpointQueries();
+  const media = Queries.Media.list.useQuery(
     {
       filter: { ids: item.media },
       pagination: { perPage: 1, page: 1 },
@@ -48,6 +49,7 @@ export const AreaListItem: React.FC<
         order: "DESC",
       },
     },
+    undefined,
     true,
   );
 

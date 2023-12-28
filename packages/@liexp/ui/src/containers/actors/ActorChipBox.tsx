@@ -5,7 +5,6 @@ import {
   ActorChip,
   type ActorChipProps,
 } from "../../components/actors/ActorChip";
-import { useActorQuery } from "../../state/queries/actor.queries";
 
 type ActorChipBoxProps = ActorChipProps & {
   id: UUID;
@@ -17,7 +16,7 @@ const ActorChipBox = ({
 }: ActorChipBoxProps): JSX.Element | null => {
   return (
     <QueriesRenderer
-      queries={{ actor: useActorQuery({ id }) }}
+      queries={(Q) => ({ actor: Q.Actor.get.useQuery({ id }) })}
       render={({ actor }) => {
         return <ActorChip {...props} actor={actor} />;
       }}

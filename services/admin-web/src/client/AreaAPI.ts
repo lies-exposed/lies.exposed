@@ -1,10 +1,10 @@
 import { type Area } from "@liexp/shared/lib/io/http/Area";
+import type * as http from "@liexp/shared/lib/providers/api-rest.provider";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import {
   type UpdateParams,
   type UpdateResult,
 } from "@liexp/ui/lib/components/admin/react-admin";
-import type * as http from "@liexp/ui/lib/http";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

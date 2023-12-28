@@ -4,8 +4,6 @@ import {
 } from "@liexp/ui/lib/components/GroupPageContent";
 import { MainContent } from "@liexp/ui/lib/components/MainContent";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
-import { useGroupMembersQuery } from "@liexp/ui/lib/state/queries/DiscreteQueries";
-import { useGroupsQuery } from "@liexp/ui/lib/state/queries/groups.queries";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
@@ -19,8 +17,8 @@ export default meta;
 const Template: StoryFn<GroupPageContentProps> = (props) => {
   return (
     <QueriesRenderer
-      queries={{
-        groups: useGroupsQuery(
+      queries={(Q) => ({
+        groups: Q.Group.list.useQuery(
           {
             filter: {},
             pagination: {
@@ -32,23 +30,25 @@ const Template: StoryFn<GroupPageContentProps> = (props) => {
               order: "DESC",
             },
           },
+          undefined,
           false,
         ),
-      }}
+      })}
       render={({ groups }) => {
         const group = groups.data[0];
         return (
           <QueriesRenderer
-            queries={{
-              groupsMembers: useGroupMembersQuery(
+            queries={(Q) => ({
+              groupsMembers: Q.GroupMember.list.useQuery(
                 {
                   filter: {
                     group: group.id,
                   },
                 },
+                undefined,
                 false,
               ),
-            }}
+            })}
             render={({ groupsMembers }) => {
               return (
                 <MainContent>

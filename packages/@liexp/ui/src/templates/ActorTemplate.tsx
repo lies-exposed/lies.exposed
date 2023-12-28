@@ -18,7 +18,6 @@ import { StatsPanelBox } from "../containers/StatsPanelBox";
 import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox";
 import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventsNetworkGraphBox";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
-import { useGroupsQuery } from "../state/queries/groups.queries";
 import { SplitPageTemplate } from "./SplitPageTemplate";
 
 export interface ActorTemplateProps {
@@ -48,17 +47,18 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
 
   return (
     <QueriesRenderer
-      queries={{
-        groups: useGroupsQuery(
+      queries={(Queries) => ({
+        groups: Queries.Group.list.useQuery(
           {
             pagination: { perPage: 20, page: 1 },
             sort: { field: "createdAt", order: "DESC" },
             filter: { members: [actor.id] },
           },
+          undefined,
           false,
           `actor-${actor.id}`,
         ),
-      }}
+      })}
       render={({ groups: { data: groups } }) => {
         return (
           <Box

@@ -6,9 +6,8 @@ import {
 } from "../components/Graph/EventsSankeyGraph";
 import QueriesRenderer from "../components/QueriesRenderer";
 import { Box } from "../components/mui";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
 import { searchEventsQuery } from "../state/queries/SearchEventsQuery";
-import { useActorsQuery } from "../state/queries/actor.queries";
-import { useGroupsQuery } from "../state/queries/groups.queries";
 import { type EventsQueryParams } from "./EventsPanel";
 
 interface EventsNetworkProps
@@ -31,6 +30,8 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
   ...props
 }) => {
   // console.log(filter);
+
+  const Queries = useEndpointQueries();
 
   const eventsFilter = {
     ...filter,
@@ -90,16 +91,18 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
           >
             <QueriesRenderer
               queries={{
-                actors: useActorsQuery(
+                actors: Queries.Actor.list.useQuery(
                   {
                     filter: { ids: relationIds.actors },
                   },
+                  undefined,
                   true,
                 ),
-                groups: useGroupsQuery(
+                groups: Queries.Group.list.useQuery(
                   {
                     filter: { ids: relationIds.groups },
                   },
+                  undefined,
                   true,
                 ),
               }}

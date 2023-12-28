@@ -1,4 +1,4 @@
-import {sequenceS, sequenceT} from 'fp-ts/Apply'
+import { sequenceS, sequenceT } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
 import * as date from "fp-ts/Date";
 import * as E from "fp-ts/Either";
@@ -37,7 +37,7 @@ export const fp = {
   Void,
   Date: date,
   sequenceS,
-  sequenceT
+  sequenceT,
 };
 
 export { pipe, flow };

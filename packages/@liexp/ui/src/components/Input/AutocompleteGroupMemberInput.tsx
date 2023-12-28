@@ -1,6 +1,6 @@
 import { type GroupMember } from "@liexp/shared/lib/io/http";
 import * as React from "react";
-import { useGroupMembersQuery } from "../../state/queries/DiscreteQueries";
+import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
 import {
   GroupMemberListItem,
   GroupsMembersList,
@@ -16,6 +16,7 @@ interface AutocompleteGroupMemberInputProps {
 export const AutocompleteGroupMemberInput: React.FC<
   AutocompleteGroupMemberInputProps
 > = ({ selectedItems, onItemClick, ...props }) => {
+  const Queries = useEndpointQueries();
   return (
     <AutocompleteInput<GroupMember.GroupMember>
       placeholder="Group Member..."
@@ -24,7 +25,7 @@ export const AutocompleteGroupMemberInput: React.FC<
       getValue={(k) =>
         typeof k === "string" ? k : `${k.group.name} - ${k.actor.fullName}`
       }
-      query={(p) => useGroupMembersQuery(p, true)}
+      query={(p) => Queries.GroupMember.list.useQuery(p, undefined, true)}
       renderTags={(items) => (
         <GroupsMembersList
           groupsMembers={items.map((i) => ({

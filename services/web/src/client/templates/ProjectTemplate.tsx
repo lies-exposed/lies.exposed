@@ -2,7 +2,6 @@ import { MainContent } from "@liexp/ui/lib/components/MainContent";
 import { ProjectPageContent } from "@liexp/ui/lib/components/ProjectPageContent";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import SEO from "@liexp/ui/lib/components/SEO";
-import { useProjectQuery } from "@liexp/ui/lib/state/queries/DiscreteQueries";
 import { Container } from "@mui/material";
 import { type RouteComponentProps } from "@reach/router";
 import * as O from "fp-ts/Option";
@@ -19,7 +18,9 @@ export default class ProjectTemplate extends React.PureComponent<
         () => <div>Missing project id</div>,
         (projectId) => (
           <QueriesRenderer
-            queries={{ project: useProjectQuery({ id: projectId }) }}
+            queries={(Q) => ({
+              project: Q.Project.get.useQuery({ id: projectId }),
+            })}
             render={({ project }) => (
               <Container>
                 <MainContent>

@@ -2,12 +2,9 @@ import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
 import { type GetListParams } from "react-admin";
 import { type UseQueryResult } from "react-query";
 
-export type FetchQuery<FN extends (...args: any[]) => Promise<any>> = (
-  q: any,
-) => ReturnType<FN>;
-
 export type UseListQueryFn<T> = (
   params: Partial<GetListParams>,
+  q: any,
   discrete: boolean,
   suffix?: string,
 ) => UseQueryResult<{ data: T[]; total: number }, APIError>;

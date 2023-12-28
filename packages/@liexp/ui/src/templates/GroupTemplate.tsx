@@ -12,7 +12,7 @@ import { EventsPanelBox } from "../containers/EventsPanel";
 import { StatsPanelBox } from "../containers/StatsPanelBox";
 import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox";
 import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventsNetworkGraphBox";
-import { useGroupMembersQuery } from "../state/queries/DiscreteQueries";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
 import { SplitPageTemplate } from "./SplitPageTemplate";
 
@@ -39,15 +39,17 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
   onKeywordClick,
   onEventClick,
 }) => {
+  const Queries = useEndpointQueries();
   return (
     <QueriesRenderer
       queries={{
-        groupsMembers: useGroupMembersQuery(
+        groupsMembers: Queries.GroupMember.list.useQuery(
           {
             filter: {
               group: group.id,
             },
           },
+          undefined,
           false,
         ),
       }}
