@@ -36,11 +36,11 @@ import {
   Admin,
   CustomRoutes,
   Layout,
-  type LayoutProps,
   Login,
   Menu,
-  type MenuProps,
   Resource,
+  type LayoutProps,
+  type MenuProps
 } from "@liexp/ui/lib/components/admin/react-admin";
 import {
   StoryCreate,
@@ -114,7 +114,6 @@ const MyLayout: React.FC<LayoutProps> = (props) => (
 );
 
 const AdminPage: React.FC = () => {
-  // eslint-disable-next-line no-console
   return (
     <DataProviderContext.Provider value={apiProvider}>
       <DataProviderContext.Consumer>
