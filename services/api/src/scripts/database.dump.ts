@@ -1,5 +1,6 @@
 import { execSync } from "child_process";
 import * as path from "path";
+import { loadENV } from '@liexp/core/lib/env/utils';
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
 import type * as T from "fp-ts/Task";
@@ -15,6 +16,8 @@ const run = (): T.Task<void> => {
   if (prefixFlag === undefined || prefix === undefined) {
     throw new Error("Prefix string (-p) is missing.");
   }
+
+  loadENV(process.cwd(), process.env.DOTENV_CONFIG_PATH ?? '.env', true)
 
   return pipe(
     ENV.decode(process.env),

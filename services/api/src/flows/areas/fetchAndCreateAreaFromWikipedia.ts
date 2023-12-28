@@ -6,6 +6,7 @@ import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
+import { fetchCoordinates } from "./fetchCoordinates.flow";
 import { AreaEntity } from "#entities/Area.entity.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
@@ -75,13 +76,10 @@ export const fetchAndCreateAreaFromWikipedia: TEFlow<
           const saveArea = fp.O.isSome(a)
             ? fp.TE.right([a.value])
             : pipe(
-                ctx.geo.search(areaData.label),
+                fetchCoordinates(ctx)(areaData.label),
                 TE.map((geo) => ({
                   ...areaData,
-                  geometry: {
-                    type: "Point" as const,
-                    coordinates: [+geo[0].lon, +geo[0].lat],
-                  },
+                  ...geo,
                 })),
                 TE.chain((areaData) =>
                   ctx.db.save(AreaEntity, [

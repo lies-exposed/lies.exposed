@@ -79,6 +79,19 @@ export const BuildImage = Endpoint({
   Output: t.any,
 });
 
+export const SearchAreaCoordinates = Endpoint({
+  Method: "POST",
+  getPath: ({ id }) => `/admins/areas/${id}/search-coordinates`,
+  Input: {
+    Params: t.type({ id: UUID }),
+    Body: t.strict({
+      label: t.string,
+    }),
+  },
+  Output: t.any,
+});
+
+
 const admin = ResourceEndpoints({
   Get,
   Create,
@@ -87,6 +100,7 @@ const admin = ResourceEndpoints({
   Delete,
   Custom: {
     BuildImage,
+    SearchAreaCoordinates
   },
 });
 
