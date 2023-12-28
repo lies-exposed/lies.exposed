@@ -103,7 +103,7 @@
     "topojson-client": "^3.1.0",
     "ts-endpoint": "^2.0.0",
     "ts-io-error": "^2.0.0",
-    "waveform-data": "^4.3.0"
+    "waveform-data": "^4.4.0"
   },
   "devDependencies": {
     "@types/chroma-js": "^2.4.3",
