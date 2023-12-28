@@ -2,8 +2,8 @@ import { http } from "@liexp/shared/lib/io";
 import { Polygon } from "@liexp/shared/lib/io/http/Common/Geometry";
 import { uuid } from "@liexp/shared/lib/utils/uuid";
 import _ from "lodash";
-import { type FeatureLike } from "ol/Feature";
 import type Feature from "ol/Feature";
+import { type FeatureLike } from "ol/Feature";
 import Map from "ol/Map";
 import View from "ol/View";
 import GeoJSON from "ol/format/GeoJSON";
@@ -15,9 +15,9 @@ import * as React from "react";
 import {
   Button,
   FormDataConsumer,
-  type InputProps,
   SelectInput,
   useInput,
+  type InputProps,
 } from "react-admin";
 
 const formatOptions = {
@@ -60,8 +60,12 @@ const MapInput: React.FC<MapInputProps> = ({
       const maybeFeatures = value.coordinates
         ? (format.readFeature(value) as FeatureLike)
         : undefined;
-      const features: Array<Feature<Geometry>> =
-        maybeFeatures && Array.isArray(maybeFeatures) ? maybeFeatures : [];
+
+      const features: Array<Feature<Geometry>> = maybeFeatures
+        ? Array.isArray(maybeFeatures)
+          ? maybeFeatures
+          : [maybeFeatures as Feature<Geometry>]
+        : [];
 
       const target = mapContainer.current;
       if (target) {
