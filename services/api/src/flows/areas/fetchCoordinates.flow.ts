@@ -1,7 +1,6 @@
-import { fp } from "@liexp/core/lib/fp";
-import { type Geometry } from "@liexp/shared/lib/io/http/Common";
-import { pipe } from "fp-ts/lib/function";
-import { type TEFlow } from "#flows/flow.types";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type Geometry } from "@liexp/shared/lib/io/http/Common/index.js";
+import { type TEFlow } from "#flows/flow.types.js";
 
 export const fetchCoordinates: TEFlow<[string], Geometry.Point> =
   (ctx) => (label) => {
