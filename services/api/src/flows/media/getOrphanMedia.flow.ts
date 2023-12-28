@@ -5,11 +5,11 @@ import { getResourceAndIdFromLocation } from "@liexp/shared/lib/utils/media.util
 import { type Option } from "fp-ts/lib/Option.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { Equal, Like } from "typeorm";
-import { ActorEntity } from "#entities/Actor.entity";
-import { GroupEntity } from "#entities/Group.entity";
-import { MediaEntity } from "#entities/Media.entity";
-import { type TEFlow } from "#flows/flow.types";
-import { type ControllerError } from "#io/ControllerError";
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { GroupEntity } from "#entities/Group.entity.js";
+import { MediaEntity } from "#entities/Media.entity.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import { type ControllerError } from "#io/ControllerError.js";
 
 export const getOrphanMediaFlow: TEFlow<[], _Object[]> = (ctx) => () => {
   return pipe(
