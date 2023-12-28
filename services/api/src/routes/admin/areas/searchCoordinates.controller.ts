@@ -1,8 +1,8 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { fetchCoordinates } from "#flows/areas/fetchCoordinates.flow";
+import { fetchCoordinates } from "#flows/areas/fetchCoordinates.flow.js";
 import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 

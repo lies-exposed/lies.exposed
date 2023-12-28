@@ -1,10 +1,10 @@
-import { UserEntity } from "#entities/User.entity.js";
-import { UserPermission } from "@liexp/shared/lib/io/http/User";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
-import { hash } from "#utils/password.utils.js";
+import { type UserPermission } from "@liexp/shared/lib/io/http/User.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { fc } from "@liexp/test";
-import { AppTest } from "./AppTest";
+import { type AppTest } from "./AppTest";
+import { UserEntity } from "#entities/User.entity.js";
+import { hash } from "#utils/password.utils.js";
 
 export const loginUser =
   (T: AppTest) =>
