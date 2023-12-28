@@ -11,7 +11,7 @@ import {
 } from "@liexp/ui/lib/state/queries/SearchEventsQuery";
 import { fetchGithubRepo } from "@liexp/ui/lib/state/queries/github";
 import { hashToQuery } from "@liexp/ui/lib/utils/history.utils";
-import { UUID } from "io-ts-types";
+import { UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import IndexPage from "./pages";
