@@ -48,6 +48,7 @@ COPY .yarnrc.yml /app/.yarnrc.yml
 COPY services/api/package.json /app/services/api/package.json
 COPY services/api/tsconfig.json /app/services/api/tsconfig.json
 COPY services/api/tsconfig.build.json /app/services/api/tsconfig.build.json
+COPY services/api/ormconfig.js /app/services/api/ormconfig.js
 
 COPY packages/@liexp/core/package.json /app/packages/@liexp/core/package.json
 COPY packages/@liexp/shared/package.json /app/packages/@liexp/shared/package.json
