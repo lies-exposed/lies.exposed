@@ -3439,7 +3439,7 @@ __metadata:
     "@types/mime": ^1.3.5
     "@types/mini-css-extract-plugin": ^2.5.1
     "@types/prettier": ^3.0.0
-    "@types/react": ^18.2.45
+    "@types/react": ^18.2.46
     "@types/webpack-bundle-analyzer": ^4.6.3
     "@types/webpack-node-externals": ^3.0.4
     copy-webpack-plugin: ^11.0.0
@@ -3492,7 +3492,7 @@ __metadata:
     "@liexp/test": 0.1.0
     "@types/bs58": ^4.0.4
     "@types/prettier": ^3.0.0
-    "@types/react": ^18.2.45
+    "@types/react": ^18.2.46
     "@types/react-dom": ^18.2.18
     "@types/throttle-debounce": ^5.0.2
     "@types/uuid": ^9.0.7
@@ -3582,7 +3582,7 @@ __metadata:
     "@types/eslint": ^8.56.0
     "@types/prettier": ^3.0.0
     "@types/reach__router": ^1.3.14
-    "@types/react": ^18.2.45
+    "@types/react": ^18.2.46
     "@types/react-helmet": ^6.1.11
     "@types/react-slick": ^0.23.13
     "@types/react-virtualized": ^9.21.29
@@ -8470,14 +8470,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^18.2.45":
-  version: 18.2.45
-  resolution: "@types/react@npm:18.2.45"
+"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^18.2.46":
+  version: 18.2.46
+  resolution: "@types/react@npm:18.2.46"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: 40b256bdce67b026348022b4f8616a693afdad88cf493b77f7b4e6c5f4b0e4ba13a6068e690b9b94572920840ff30d501ea3d8518e1f21cc8fb8204d4b140c8a
+  checksum: cb0e4dc7f41988a059e1246a19ec377101f5b16097ec4bf7000ef3c431ec0c8c873f40e95075821f908db1f4e3352775f0f18cea53dcad14dce67c0f5110f2bd
   languageName: node
   linkType: hard
 
@@ -8597,13 +8597,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/supertest@npm:^6.0.1":
-  version: 6.0.1
-  resolution: "@types/supertest@npm:6.0.1"
+"@types/supertest@npm:^6.0.2":
+  version: 6.0.2
+  resolution: "@types/supertest@npm:6.0.2"
   dependencies:
     "@types/methods": ^1.1.4
     "@types/superagent": ^8.1.0
-  checksum: 26e849e9b173b65b18aeb2107b737f8528e865639a9d9101b005b133f9cba01ec1c0c046a3b54971d87e441fc2325694132e941fdcd225c7e19202de5dd0b12d
+  checksum: 1eafa472665757a6fd984439d11f388ae0480c6d243a6884066c474c4e0357de5373316488da503b1690c3163e075ca8c64c0c4853b3bb7deb09e05d1b64e556
   languageName: node
   linkType: hard
 
@@ -9788,7 +9788,7 @@ __metadata:
     "@types/lodash": ^4.14.202
     "@types/node": ^18.19.3
     "@types/prettier": ^3.0.0
-    "@types/react": ^18.2.45
+    "@types/react": ^18.2.46
     "@types/react-dom": ^18.2.18
     "@types/webpack-bundle-analyzer": ^4.6.3
     "@typescript-eslint/eslint-plugin": ^6.15.0
@@ -10077,7 +10077,7 @@ __metadata:
     "@types/pg": ^8.10.9
     "@types/prettier": ^3.0.0
     "@types/prompts": ^2.4.9
-    "@types/supertest": ^6.0.1
+    "@types/supertest": ^6.0.2
     "@types/uuid": ^9.0.7
     axios: ^1.6.3
     canvas: ^2.11.2
@@ -26448,7 +26448,7 @@ __metadata:
     "@types/mime": ^1.3.5
     "@types/node": ^18.19.3
     "@types/prettier": ^3.0.0
-    "@types/react": ^18.2.45
+    "@types/react": ^18.2.46
     "@types/react-calendar-heatmap": ^1.6.6
     "@types/react-dom": ^18.2.18
     "@types/react-helmet": ^6.1.11
