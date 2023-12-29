@@ -23,7 +23,7 @@ export const AutocompleteLinkInput: React.FC<AutocompleteLinkInputProps> = ({
   return (
     <AutocompleteInput<Link.Link>
       placeholder="Search in links..."
-      getValue={(a) =>
+      getOptionLabel={(a) =>
         typeof a === "string" ? a : a.description ?? a.title ?? "no description"
       }
       searchToFilter={(description) => ({ description })}

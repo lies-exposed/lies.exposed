@@ -8,7 +8,7 @@ import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
-  title: "Components/inputs/AutocompleteMediaInput",
+  title: "Components/Media/inputs/AutocompleteMediaInput",
   component: AutocompleteMediaInput,
 };
 

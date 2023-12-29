@@ -4,6 +4,7 @@ import * as React from "react";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
 import { styled } from "../../theme";
 import { List, type ListItemProps } from "../Common/List";
+import { defaultImage } from "../SEO";
 import {
   Card,
   CardActionArea,
@@ -53,24 +54,24 @@ export const AreaListItem: React.FC<
     true,
   );
 
+  const mediaSrc = media.data?.data?.[0]?.location ?? defaultImage;
+
   return (
     <StyledBox
       key={item.id}
       display="flex"
       alignItems="center"
       margin={0}
-      style={{ cursor: "pointer", flexDirection: "column", ...style }}
+      style={{ cursor: "pointer", flexDirection: 'column', ...style }}
       onClick={(e) => onClick?.(item, e)}
     >
       <Card className={classes.root}>
         <CardActionArea>
-          {(media.data?.data?.length ?? 0) > 0 ? (
-            <CardMedia
-              className={classes.media}
-              image={(media.data as any).data[0].location}
-              title={item.label}
-            />
-          ) : null}
+          <CardMedia
+            className={classes.media}
+            image={mediaSrc}
+            title={item.label}
+          />
           <CardContent>
             <Typography gutterBottom variant="h6" component="h3">
               {item.label}
@@ -82,20 +83,12 @@ export const AreaListItem: React.FC<
             </Typography>
           </CardContent>
         </CardActionArea>
-        {/* <CardActions>
-          <Button size="small" color="primary">
-            Share
-          </Button>
-          <Button size="small" color="primary">
-            Learn More
-          </Button>
-        </CardActions> */}
       </Card>
     </StyledBox>
   );
 };
 
-interface AreaListProps extends ListProps {
+export interface AreaListProps extends ListProps {
   className?: string;
   areas: Area[];
   onAreaClick: (actor: Area) => void;

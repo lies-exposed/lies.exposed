@@ -22,7 +22,7 @@ export const AutocompleteGroupMemberInput: React.FC<
       placeholder="Group Member..."
       searchToFilter={(tag) => ({ tag })}
       selectedItems={selectedItems}
-      getValue={(k) =>
+      getOptionLabel={(k) =>
         typeof k === "string" ? k : `${k.group.name} - ${k.actor.fullName}`
       }
       query={(p) => Queries.GroupMember.list.useQuery(p, undefined, true)}

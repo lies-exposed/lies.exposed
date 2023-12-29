@@ -23,7 +23,7 @@ export const AutocompleteKeywordInput: React.FC<
       placeholder="Keyword..."
       searchToFilter={(search) => ({ search })}
       selectedItems={selectedItems}
-      getValue={(k) => (typeof k === "string" ? k : k.tag)}
+      getOptionLabel={(k) => (typeof k === "string" ? k : k.tag)}
       query={(p) =>
         options
           ? useQuery(["keyword-options"], () =>
