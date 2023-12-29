@@ -1,6 +1,6 @@
 import { MainContent } from "@liexp/ui/lib/components/MainContent";
-import { PageContent } from "@liexp/ui/lib/components/PageContent";
 import SEO from "@liexp/ui/lib/components/SEO";
+import { PageContentBox } from "@liexp/ui/lib/containers/PageContentBox";
 import StoriesBox from "@liexp/ui/lib/containers/StoriesBox";
 import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
@@ -13,7 +13,7 @@ const BlogPage: React.FC<RouteComponentProps> = () => {
     <>
       <SEO title="Stories" image="" urlPath={`stories`} />
       <MainContent>
-        <PageContent path="stories" />
+        <PageContentBox path="stories" />
       </MainContent>
 
       <StoriesBox

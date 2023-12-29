@@ -4,8 +4,8 @@ import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { LoadingIndicator, useEditContext } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { PageContentBox } from "../../../containers/PageContentBox";
 import { ECOTheme } from "../../../theme";
-import { PageContent } from "../../PageContent";
 import { HelmetProvider } from "../../SEO";
 import { ValidationErrorsLayout } from "../../ValidationErrorsLayout";
 import { ThemeProvider } from "../../mui";
@@ -33,7 +33,7 @@ const PagePreview: React.FC = () => {
       <HelmetProvider>
         <ThemeProvider theme={ECOTheme}>
           <QueryClientProvider client={qc}>
-            <PageContent {...p} />
+            <PageContentBox {...p} />
           </QueryClientProvider>
         </ThemeProvider>
       </HelmetProvider>

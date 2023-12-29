@@ -3,10 +3,10 @@ import { defaultUseQueryListParams } from "@liexp/shared/lib/providers/EndpointQ
 import * as React from "react";
 import { AutocompleteLinkInput } from "../../components/Input/AutocompleteLinkInput";
 import { MainContent } from "../../components/MainContent";
-import { PageContent } from "../../components/PageContent";
 import QueriesRenderer from "../../components/QueriesRenderer";
 import { LinksList } from "../../components/lists/LinkList";
 import { Box } from "../../components/mui";
+import { PageContentBox } from "../../containers/PageContentBox";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
 
 export interface LinksPageTemplateProps {
@@ -27,7 +27,7 @@ export const LinksPageTemplate: React.FC<LinksPageTemplateProps> = ({
       render={({ actors: { data: actors } }) => {
         return (
           <MainContent style={{ height: "100%" }}>
-            <PageContent path="actors" />
+            <PageContentBox path="actors" />
 
             <>
               <AutocompleteLinkInput selectedItems={[]} onChange={(c) => {}} />

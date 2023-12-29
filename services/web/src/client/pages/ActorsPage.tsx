@@ -3,10 +3,10 @@ import { defaultUseQueryListParams } from "@liexp/shared/lib/providers/EndpointQ
 import { formatDate } from "@liexp/shared/lib/utils/date.utils";
 import { AutocompleteActorInput } from "@liexp/ui/lib/components/Input/AutocompleteActorInput";
 import { MainContent } from "@liexp/ui/lib/components/MainContent";
-import { PageContent } from "@liexp/ui/lib/components/PageContent";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import { ActorList } from "@liexp/ui/lib/components/lists/ActorList";
 import { Grid } from "@liexp/ui/lib/components/mui";
+import { PageContentBox } from "@liexp/ui/lib/containers/PageContentBox";
 import { ActorEventNetworkGraphBox } from "@liexp/ui/lib/containers/graphs/ActorEventNetworkGraphBox";
 import { type RouteComponentProps } from "@reach/router";
 import { subYears } from "date-fns";
@@ -24,7 +24,7 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
       render={({ actors: { data: actors } }) => {
         return (
           <MainContent style={{ height: "100%" }}>
-            <PageContent path="actors" />
+            <PageContentBox path="actors" />
 
             <>
               <AutocompleteActorInput
