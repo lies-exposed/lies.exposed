@@ -3,10 +3,10 @@ import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils";
 import { AutocompleteGroupInput } from "@liexp/ui/lib/components/Input/AutocompleteGroupInput";
 import { MainContent } from "@liexp/ui/lib/components/MainContent";
-import { PageContent } from "@liexp/ui/lib/components/PageContent";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
 import GroupList from "@liexp/ui/lib/components/lists/GroupList";
 import { Grid, Typography } from "@liexp/ui/lib/components/mui";
+import { PageContentBox } from "@liexp/ui/lib/containers/PageContentBox";
 import { GroupEventNetworkGraphBox } from "@liexp/ui/lib/containers/graphs/GroupEventNetworkGraphBox";
 import { type RouteComponentProps } from "@reach/router";
 import { subYears } from "date-fns";
@@ -17,7 +17,7 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
   const navigateTo = useNavigateToResource();
   return (
     <MainContent>
-      <PageContent path="groups" />
+      <PageContentBox path="groups" />
       <AutocompleteGroupInput
         selectedItems={[]}
         onChange={(gg) => {

@@ -1,5 +1,4 @@
 import KeywordsDistributionGraph from "@liexp/ui/lib/components/Graph/KeywordDistributionGraph";
-import { PageContent } from "@liexp/ui/lib/components/PageContent";
 import SEO from "@liexp/ui/lib/components/SEO";
 import { type ActorItem } from "@liexp/ui/lib/components/lists/ActorList";
 import { Box, Grid, Typography } from "@liexp/ui/lib/components/mui";
@@ -7,6 +6,7 @@ import ActorsBox from "@liexp/ui/lib/containers/ActorsBox";
 import EventsBox from "@liexp/ui/lib/containers/EventsBox";
 import { GroupsBox } from "@liexp/ui/lib/containers/GroupsBox";
 import { MediaBox } from "@liexp/ui/lib/containers/MediaBox";
+import { PageContentBox } from "@liexp/ui/lib/containers/PageContentBox";
 import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
@@ -22,7 +22,7 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
     >
       <Grid item lg={10} md={12} xs={12}>
         <SEO title="lies.exposed" urlPath="/" />
-        <PageContent path="index" />
+        <PageContentBox path="index" />
         <KeywordsDistributionGraph
           onClick={(k) => {
             navigateTo.keywords({ id: k.id });

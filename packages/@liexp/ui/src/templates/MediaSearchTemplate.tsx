@@ -2,7 +2,6 @@ import { type Media } from "@liexp/shared/lib/io/http";
 import * as React from "react";
 import { KeywordsBox } from "../components/KeywordsBox";
 import { MainContent } from "../components/MainContent";
-import { PageContent } from "../components/PageContent";
 import SearchEventInput, {
   type SearchFilter,
 } from "../components/events/inputs/SearchEventInput";
@@ -10,6 +9,7 @@ import { Box, Container } from "../components/mui";
 import ActorsBox from "../containers/ActorsBox";
 import { GroupsBox } from "../containers/GroupsBox";
 import { MediaBox } from "../containers/MediaBox";
+import { PageContentBox } from "../containers/PageContentBox";
 
 export interface MediaSearchTemplateProps {
   filter: SearchFilter;
@@ -57,7 +57,7 @@ const MediaSearchTemplate: React.FC<MediaSearchTemplateProps> = ({
               marginBottom: 20,
             }}
           >
-            <PageContent path="media" />
+            <PageContentBox path="media" />
             <SearchEventInput
               query={{
                 hash: "",
