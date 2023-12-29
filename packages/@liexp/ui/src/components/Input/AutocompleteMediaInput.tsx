@@ -22,7 +22,7 @@ export const AutocompleteMediaInput: React.FC<AutocompleteMediaInputProps> = ({
   return (
     <AutocompleteInput<Media.Media>
       placeholder="Media description..."
-      getValue={(a) =>
+      getOptionLabel={(a) =>
         typeof a === "string"
           ? a
           : a?.label ?? a?.description ?? "No description"

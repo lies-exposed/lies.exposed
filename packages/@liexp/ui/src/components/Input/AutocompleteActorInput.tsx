@@ -25,7 +25,7 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
     <AutocompleteInput<Actor.Actor>
       disablePortal={true}
       placeholder="Actors..."
-      getValue={(a) => (typeof a === "string" ? a : a.fullName)}
+      getOptionLabel={(a) => (typeof a === "string" ? a : a.fullName)}
       searchToFilter={(fullName) => ({ fullName })}
       selectedItems={selectedItems}
       query={(p) =>

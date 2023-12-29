@@ -5,6 +5,7 @@ import { useNavigateToResource } from "../utils/location.utils";
 
 const AreasPage: React.FC<RouteComponentProps> = ({ ...props }) => {
   const navigateTo = useNavigateToResource();
+
   return (
     <SearchAreaTemplate
       onAreaClick={(a) => {
