@@ -24,7 +24,7 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
   return (
     <AutocompleteInput<Events.Event>
       placeholder="Event description..."
-      getValue={(a) =>
+      getOptionLabel={(a) =>
         typeof a === "string"
           ? a
           : getTitle(a, {

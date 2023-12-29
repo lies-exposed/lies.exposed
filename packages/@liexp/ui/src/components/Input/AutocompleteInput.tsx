@@ -19,7 +19,7 @@ export interface AutocompleteInputProps<T extends SearchableItem>
     params: GetListParams,
   ) => UseQueryResult<{ data: T[]; total: number }, APIError>;
   searchToFilter: (t: string) => Record<string, string>;
-  getValue: (v: T | string) => string;
+  getOptionLabel: (v: T | string) => string;
   selectedItems: T[];
   onItemsChange: (items: T[]) => void;
 }
@@ -27,7 +27,7 @@ export interface AutocompleteInputProps<T extends SearchableItem>
 export const AutocompleteInput = <T extends { id: string }>({
   query,
   selectedItems,
-  getValue,
+  getOptionLabel,
   placeholder,
   renderTags,
   renderOption,
@@ -35,42 +35,43 @@ export const AutocompleteInput = <T extends { id: string }>({
   onItemsChange,
   ...props
 }: AutocompleteInputProps<T>): React.ReactElement => {
-  const selectedIds = selectedItems.map((s) => s.id);
-  const [value, setValue] = React.useState<string>("");
-  // const setValueThrottled = throttle(300, setValue, true);
+  const [inputValue, setInputValue] = React.useState<string>("");
+  const selectedIds = React.useMemo(
+    () => selectedItems.map((s) => s.id),
+    [selectedItems],
+  );
 
   // params
   const itemQueryParams = React.useMemo(() => {
     const filter =
-      value !== undefined && value !== ""
-        ? searchToFilter(value)
+      inputValue !== undefined && inputValue !== ""
+        ? searchToFilter(inputValue)
         : selectedIds.length > 0
           ? { ids: selectedIds }
-          : {};
+          : null;
     return {
       sort: { field: "createdAt", order: "DESC" as const },
       pagination: { page: 1, perPage: 20 },
       filter,
     };
-  }, [value]);
-
-  // queries
-
-  const handleValueChange = React.useCallback(
-    (v: string) => {
-      setValue(v);
-    },
-    [value],
-  );
+  }, [inputValue]);
 
   const items = query(itemQueryParams);
+  const data = items.data?.data ?? [];
+
+  const { options, value } = React.useMemo(() => {
+    const options = data.filter((i) => !selectedIds.includes(i.id));
+
+    const value = data.filter((i) => selectedIds.includes(i.id));
+    return { options, value };
+  }, [data, selectedIds]);
 
   if (items.isError) {
     return (
       <ErrorBox
         error={items.error}
         resetErrorBoundary={() => {
-          setValue("");
+          setInputValue("");
         }}
       />
     );
@@ -78,35 +79,40 @@ export const AutocompleteInput = <T extends { id: string }>({
 
   return (
     <Autocomplete<T, boolean, boolean, boolean>
-      {...props}
       size="small"
-      inputValue={value}
-      value={(items.data?.data ?? []).filter((i) => selectedIds.includes(i.id))}
-      options={(items.data?.data ?? []).filter(
-        (i) => !selectedIds.includes(i.id),
-      )}
-      onChange={(e, v) => {
-        if (Array.isArray(v)) {
-          onItemsChange(v as T[]);
-          handleValueChange("");
+      disablePortal
+      multiple
+      openOnFocus
+      inputValue={inputValue}
+      onInputChange={(e, v, r) => {
+        if (r === "input") {
+          setInputValue(v);
         }
       }}
-      getOptionLabel={getValue}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          placeholder={placeholder}
-          variant="standard"
-          onChange={(e) => {
-            const v = e.target.value;
-            handleValueChange(v);
-          }}
-        />
-      )}
-      disablePortal={true}
-      multiple={true}
+      value={value}
+      onChange={(e, v, r, d) => {
+        if (Array.isArray(v)) {
+          onItemsChange(v as T[]);
+          setInputValue("");
+        }
+      }}
+      options={options}
+      getOptionLabel={getOptionLabel}
+      renderInput={(params) => {
+        return (
+          <TextField
+            {...params}
+            placeholder={placeholder}
+            InputProps={{
+              ...params.InputProps,
+              type: "search",
+            }}
+          />
+        );
+      }}
       renderTags={renderTags}
       renderOption={renderOption}
+      {...props}
     />
   );
 };
