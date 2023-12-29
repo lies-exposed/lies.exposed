@@ -2,10 +2,10 @@ import { type Area } from "@liexp/shared/lib/io/http";
 import * as React from "react";
 import { AutoSizer } from "react-virtualized";
 import AreasMap from "../components/AreasMap";
-import { PageContent } from "../components/PageContent";
 import QueriesRenderer from "../components/QueriesRenderer";
 import { AreaList } from "../components/lists/AreaList";
 import { Box, Container, Grid } from "../components/mui";
+import { PageContentBox } from "../containers/PageContentBox";
 import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
 import { useTheme } from "../theme";
 
@@ -40,7 +40,7 @@ const SearchAreaTemplate: React.FC<SearchAreaTemplateProps> = ({
                 <Container style={{ height, width: "100%" }}>
                   <Grid container style={{ height, width: "100%" }}>
                     <Grid item md={12}>
-                      <PageContent path="areas" />
+                      <PageContentBox path="areas" />
                     </Grid>
 
                     <Grid

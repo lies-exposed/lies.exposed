@@ -1,7 +1,7 @@
 import { ContentWithSidebar } from "@liexp/ui/lib/components/ContentWithSidebar";
 import { MainContent } from "@liexp/ui/lib/components/MainContent";
-import { PageContent } from "@liexp/ui/lib/components/PageContent";
 import { TableOfContents } from "@liexp/ui/lib/components/TableOfContents";
+import { PageContentBox } from "@liexp/ui/lib/containers/PageContentBox";
 import { type RouteComponentProps } from "@reach/router";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
@@ -21,7 +21,7 @@ class DocsPage extends React.PureComponent<RouteComponentProps> {
         )}
       >
         <MainContent>
-          <PageContent path="docs" />
+          <PageContentBox path="docs" />
         </MainContent>
       </ContentWithSidebar>
     );
