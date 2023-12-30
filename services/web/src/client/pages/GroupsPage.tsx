@@ -32,7 +32,7 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
             {
               pagination: { page: 1, perPage: 20 },
               sort: { field: "id", order: "ASC" },
-              filter: {},
+              filter: null,
             },
             undefined,
             false,
@@ -58,7 +58,7 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
               }}
             />
             <Grid container style={{ height: 600 }}>
-              <Grid item md={6} style={{ height: "100%" }}>
+              <Grid item md={12} style={{ height: "100%" }}>
                 <GroupEventNetworkGraphBox
                   showRelations={false}
                   params={{
