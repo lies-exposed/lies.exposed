@@ -8,10 +8,11 @@ import { type APIError } from "../../io/http/Error/APIError";
 import {
   type GetListFnParamsE,
   type EndpointsRESTClient,
-  type GetDataOutput,
+  type EndpointOutput,
   type GetFnParams,
   type GetListFnQuery,
   type Query,
+  type EndpointDataOutput,
 } from "../EndpointsRESTClient/EndpointsRESTClient";
 
 export type QueryFnKey<P, Q = undefined> = [string, P, Q | undefined, boolean];
@@ -40,8 +41,8 @@ export interface ResourceQuery<P, Q, A> {
 }
 
 export interface ResourceQueries<G, L, CC> {
-  get: ResourceQuery<GetFnParams<G>, any, GetDataOutput<G>>;
-  list: ResourceQuery<GetListFnParamsE<L>, GetListFnQuery<L>, GetDataOutput<L>>;
+  get: ResourceQuery<GetFnParams<G>, any, EndpointOutput<G>>;
+  list: ResourceQuery<GetListFnParamsE<L>, GetListFnQuery<L>, EndpointOutput<L>>;
   Custom: CC extends Record<string, MinimalEndpointInstance>
     ? {
         [K in keyof CC]: ResourceQuery<
@@ -51,7 +52,7 @@ export interface ResourceQueries<G, L, CC> {
             ? undefined
             : serializedType<InferEndpointInstanceParams<CC[K]>["params"]>,
           Partial<serializedType<InferEndpointInstanceParams<CC[K]>["query"]>>,
-          GetDataOutput<CC[K]>
+          EndpointDataOutput<CC[K]>
         >;
       }
     : never;

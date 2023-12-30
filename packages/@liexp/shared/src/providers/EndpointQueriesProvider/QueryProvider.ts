@@ -6,7 +6,7 @@ import {
   type MinimalEndpointInstance,
 } from "ts-endpoint";
 import {
-  type GetDataOutput,
+  type EndpointOutput,
   type GetFn,
   type GetFnParams,
   type GetListFn,
@@ -39,10 +39,10 @@ const toGetResourceQuery = <G>(
   q: GetFn<G>,
   key: string,
   override?: GetQueryOverride<GetFnParams<G>>,
-): ResourceQuery<GetFnParams<G>, any, GetDataOutput<G>> => {
+): ResourceQuery<GetFnParams<G>, any, EndpointOutput<G>> => {
   const getKey: GetKeyFn<GetFnParams<G>> =
     override?.getKey ?? getDefaultKey(key);
-  const fetch: QueryPromiseFunction<GetFnParams<G>, any, GetDataOutput<G>> = (
+  const fetch: QueryPromiseFunction<GetFnParams<G>, any, EndpointOutput<G>> = (
     params,
     query,
   ) => {
@@ -86,7 +86,7 @@ export const toGetListResourceQuery = <L>(
   getListFn: GetListFn<L>,
   key: string,
   override?: GetQueryOverride<GetListFnParamsE<L>, GetListFnQuery<L>>,
-): ResourceQuery<GetListFnParamsE<L>, GetListFnQuery<L>, GetDataOutput<L>> => {
+): ResourceQuery<GetListFnParamsE<L>, GetListFnQuery<L>, EndpointOutput<L>> => {
   const getKey: GetKeyFn<
     GetListFnParamsE<L>,
     GetListFnQuery<L>
@@ -94,7 +94,7 @@ export const toGetListResourceQuery = <L>(
   const fetch: QueryPromiseFunction<
     GetListFnParamsE<L>,
     GetListFnQuery<L>,
-    GetDataOutput<L>
+    EndpointOutput<L>
   > = fetchQuery((p: any, q: any) => getListFn(p));
   return {
     getKey,

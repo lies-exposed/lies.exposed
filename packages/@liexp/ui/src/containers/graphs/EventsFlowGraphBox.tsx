@@ -104,7 +104,7 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
       queries={(Q) => ({
         graph: Q.Graph.Custom.GetGraphByType.useQuery({ type, id }, query),
       })}
-      render={({ graph }) => {
+      render={({ graph: { data: graph } }) => {
         return (
           <Box
             height={"100%"}
