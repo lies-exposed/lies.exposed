@@ -10126,7 +10126,7 @@ __metadata:
     typeorm-uml: ^1.6.5
     typescript: ^5.3.3
     uuid: ^9.0.1
-    vite-tsconfig-paths: ^4.2.2
+    vite-tsconfig-paths: ^4.2.3
     vitest: ^1.1.0
     wikipedia: ^2.1.1
     wink-eng-lite-web-model: ^1.5.2
@@ -26222,9 +26222,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite-tsconfig-paths@npm:^4.2.2":
-  version: 4.2.2
-  resolution: "vite-tsconfig-paths@npm:4.2.2"
+"vite-tsconfig-paths@npm:^4.2.3":
+  version: 4.2.3
+  resolution: "vite-tsconfig-paths@npm:4.2.3"
   dependencies:
     debug: ^4.1.1
     globrex: ^0.1.2
@@ -26234,7 +26234,7 @@ __metadata:
   peerDependenciesMeta:
     vite:
       optional: true
-  checksum: c28d7941e4280facf12ee06c684957ed2854c6bfbce4675359af43182dc135726a72a4f3d034e0a78afed58debfd38b1600f92fb301b7b267708f17d96484119
+  checksum: d8a837eded390ea03c56eb97c8e35fbb8a1073c97e3c8119adab5e8c8a3f8b6dc610c5a9236c6dc3f778ea1650e72d7f5a39b82df20feec0e546f23feac74b8e
   languageName: node
   linkType: hard
 
