@@ -21,7 +21,11 @@ export const GroupEventNetworkGraphBox: React.FC<
     <EventsNetworkGraphBoxWithQuery
       {...props}
       useQuery={(p) =>
-        Queries.Networks.list.useQuery(p as any, undefined, false)
+        Queries.Networks.list.useQuery(
+          { ...p, filter: p.filter ?? null },
+          undefined,
+          true,
+        )
       }
       eventsBoxQuery={query}
     />
