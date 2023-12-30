@@ -51,8 +51,8 @@ const toGetResourceQuery = <G>(
   return {
     getKey,
     fetch,
-    useQuery: (p) =>
-      useQuery(getKey(p), ({ queryKey }) => fetch(queryKey[1], queryKey[2])),
+    useQuery: (p, q, d, prefix) =>
+      useQuery(getKey(p, q, d, prefix), ({ queryKey }) => fetch(queryKey[1], queryKey[2], !!queryKey[3])),
   };
 };
 
