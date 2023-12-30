@@ -128,7 +128,7 @@
     "prompts": "^2.4.2",
     "supertest": "^6.3.3",
     "typeorm-uml": "^1.6.5",
-    "vite-tsconfig-paths": "^4.2.2",
+    "vite-tsconfig-paths": "^4.2.3",
     "vitest": "^1.1.0"
   },
   "license": "MIT",
