@@ -52,7 +52,7 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
               />
             </>
             <Grid container style={{ height: 600 }}>
-              <Grid item md={6} style={{ height: "100%" }}>
+              <Grid item md={12} style={{ height: "100%" }}>
                 <ActorEventNetworkGraphBox
                   params={{
                     sort: { field: "updatedAt", order: "DESC" },
@@ -62,35 +62,6 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
                     },
                   }}
                   showRelations={false}
-                  type={ACTORS.value}
-                  relations={[ACTORS.value]}
-                  query={{
-                    startDate: formatDate(subYears(new Date(), 2)),
-                    endDate: formatDate(new Date()),
-                  }}
-                  onEventClick={(e) => {
-                    navigateTo.events({ id: e.id }, { tab: 0 });
-                  }}
-                  onActorClick={(e) => {
-                    navigateTo.actors({ id: e.id }, { tab: 0 });
-                  }}
-                  onGroupClick={(e) => {
-                    navigateTo.groups({ id: e.id }, { tab: 0 });
-                  }}
-                  onKeywordClick={(e) => {
-                    navigateTo.keywords({ id: e.id }, { tab: 0 });
-                  }}
-                />
-              </Grid>
-              <Grid item md={6} style={{ height: "100%" }}>
-                <ActorEventNetworkGraphBox
-                  showRelations={false}
-                  params={{
-                    pagination: {
-                      perPage: 1,
-                      page: 1,
-                    },
-                  }}
                   type={ACTORS.value}
                   relations={[ACTORS.value]}
                   query={{
