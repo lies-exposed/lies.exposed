@@ -8,7 +8,7 @@ import { Endpoints } from "@liexp/shared/lib/endpoints";
 import {
   CreateQueryProvider,
   QueryProviderCustomQueries,
-  type EndpointsQueryProvider
+  type EndpointsQueryProvider,
 } from "@liexp/shared/lib/providers/EndpointQueriesProvider";
 import { fromEndpoints } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient";
 import * as express from "express";

@@ -25,10 +25,7 @@ function bilink(
   const leaves = root.leaves();
   for (const d of leaves) {
     d.incoming = [];
-    d.outgoing = (d.data.targets ?? []).map((i) => [
-      d,
-      map.get(i) as any,
-    ]);
+    d.outgoing = (d.data.targets ?? []).map((i) => [d, map.get(i) as any]);
   }
   for (const d of root.leaves())
     for (const o of d.outgoing) {

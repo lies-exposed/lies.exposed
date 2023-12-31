@@ -14,7 +14,6 @@ const meta: Meta = {
 export default meta;
 
 const Template: StoryFn<AreaListProps> = (props) => {
-
   return (
     <div style={{ height: "100%" }}>
       <QueriesRenderer
@@ -52,4 +51,3 @@ AreaListExample.args = {
 };
 
 export { AreaListExample };
-

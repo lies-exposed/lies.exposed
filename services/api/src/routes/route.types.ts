@@ -11,6 +11,7 @@ export interface RouteContext extends ServerContext {
       temp: {
         root: string;
         media: string;
+        stats: string;
       };
     };
     events: EventsConfig;

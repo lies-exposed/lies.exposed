@@ -103,7 +103,11 @@ export const StatsPanelBox: React.FC<StatsPanelProps> = ({
         queries={{
           stats: Queries.Stats.list.useQuery({ filter: { id, type } }),
         }}
-        render={({ stats: { data: [stats] } }) => {
+        render={({
+          stats: {
+            data: [stats],
+          },
+        }) => {
           const actors = Object.entries(stats.actors)
             .sort(([, n1], [, n2]) => n2 - n1)
             .slice(0, 5);
