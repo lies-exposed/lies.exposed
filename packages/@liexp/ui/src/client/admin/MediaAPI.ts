@@ -76,6 +76,10 @@ export const uploadFile =
             headers: {
               "Content-Type": "multipart/form-data",
             },
+            onUploadProgress: (progressEvent) => {
+              // eslint-disable-next-line no-console
+              console.log( `Progress: ${progressEvent.progress ?? 0}, ETA: ${progressEvent.estimated ?? "Infinite"}`);
+            },
           })
           .then((response) => {
             return {

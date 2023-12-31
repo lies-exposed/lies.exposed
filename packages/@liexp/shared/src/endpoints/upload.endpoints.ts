@@ -26,6 +26,7 @@ export const GetSignedURL = Endpoint({
       resource: UploadResource,
       resourceId: t.string,
       ContentType: ValidContentType,
+      ContentLength: t.number
     }),
   },
   Output: t.strict({ data: t.strict({ url: t.string }) }),
