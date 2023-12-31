@@ -1,5 +1,5 @@
 import { parseURL } from "@liexp/shared/lib/helpers/media";
-import { MP4Type, type MediaType } from "@liexp/shared/lib/io/http/Media";
+import { type MediaType } from "@liexp/shared/lib/io/http/Media";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import axios from "axios";
 import * as A from "fp-ts/Array";
@@ -8,7 +8,6 @@ import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { type DataProvider, type RaRecord } from "react-admin";
 import { durationToSeconds } from "../../components/admin/media/DurationField";
-import { apiProvider } from "../api";
 
 export interface RawMedia {
   location: {
@@ -38,6 +37,7 @@ const getSignedUrl =
     resource: string,
     resourceId: string,
     ContentType: MediaType,
+    ContentLength: number,
   ): TE.TaskEither<Error, { data: { url: string } }> => {
     return pipe(
       TE.tryCatch(
@@ -47,6 +47,7 @@ const getSignedUrl =
               resource,
               resourceId,
               ContentType,
+              ContentLength,
             },
           }),
         E.toError,
@@ -62,35 +63,35 @@ export const uploadFile =
     f: File,
     type: MediaType,
   ): TE.TaskEither<Error, { type: MediaType; location: string }> => {
-    const videoTask = pipe(
-      TE.tryCatch(async () => {
-        const formData = new FormData();
-        formData.append("resource", resource);
-        formData.append("media", f);
-        return await apiProvider
-          .request({
-            method: "PUT",
-            url: `/uploads-multipart/${resourceId}`,
-            data: formData,
-            timeout: 600 * 1000,
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          })
-          .then((response) => {
-            return {
-              type,
-              location: response.data.Location,
-            };
-          });
-      }, E.toError),
-    );
-
+    // const videoTask = pipe(
+    //   TE.tryCatch(async () => {
+    //     const formData = new FormData();
+    //     formData.append("resource", resource);
+    //     formData.append("media", f);
+    //     return await apiProvider
+    //       .request({
+    //         method: "PUT",
+    //         url: `/uploads-multipart/${resourceId}`,
+    //         data: formData,
+    //         timeout: 600 * 1000,
+    //         headers: {
+    //           "Content-Type": "multipart/form-data",
+    //         },
+    //       })
+    //       .then((response) => {
+    //         return {
+    //           type,
+    //           location: response.data.Location,
+    //         };
+    //       });
+    //   }, E.toError),
+    // );
+// console.log(f);
     const othersTask = pipe(
-      getSignedUrl(client)(resource, resourceId, type),
+      getSignedUrl(client)(resource, resourceId, type, f.length),
       TE.chain((url) => {
         const [location] = url.data.url.split("?");
-
+        console.log(url.data.url);
         return pipe(
           TE.tryCatch(
             () =>
@@ -111,9 +112,9 @@ export const uploadFile =
       }),
     );
 
-    if (MP4Type.is(type)) {
-      return videoTask;
-    }
+    // if (MP4Type.is(type)) {
+    //   return videoTask;
+    // }
     return othersTask;
   };
 

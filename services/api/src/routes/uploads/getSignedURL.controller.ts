@@ -10,7 +10,7 @@ import { type RouteContext } from "#routes/route.types.js";
 export const MakeSignedUrlRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
     GetSignedURL,
-    ({ body: { resource, resourceId, ContentType } }) => {
+    ({ body: { resource, resourceId, ContentType, ContentLength } }) => {
       return pipe(
         ctx.s3.getSignedUrl({
           Bucket: ctx.env.SPACE_BUCKET,
@@ -18,6 +18,8 @@ export const MakeSignedUrlRoute = (r: Router, ctx: RouteContext): void => {
             ContentType,
           )}`,
           ContentType,
+          ACL: "public-read",
+          ContentLength
         }),
         TE.map((url) => ({
           body: {
