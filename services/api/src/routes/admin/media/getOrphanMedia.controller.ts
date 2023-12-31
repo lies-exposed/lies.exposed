@@ -11,8 +11,15 @@ export const MakeAdminGetOrphanMediaRoute: Route = (r, ctx) => {
     () => {
       return pipe(
         getOrphanMediaFlow(ctx)(),
-        TE.map((media) => ({
-          body: { data: media, total: media.length },
+        TE.map((data) => ({
+          body: {
+            data,
+            total: data.orphans.length + data.match.length,
+            totals: {
+              orphans: data.orphans.length,
+              match: data.match.length,
+            },
+          },
           statusCode: 201,
         })),
       );

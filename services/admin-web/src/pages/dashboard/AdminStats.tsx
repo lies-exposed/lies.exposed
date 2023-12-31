@@ -1,9 +1,7 @@
 import { MediaIcon } from "@liexp/ui/lib/components/Common/Icons";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import {
-  Button,
   Card,
-  CardActions,
   CardContent,
   Grid,
   Stack,
@@ -19,7 +17,7 @@ export const AdminStats: React.FC = () => {
           queries={(Q) => ({
             media: Q.Admin.Custom.GetOrphanMedia.useQuery(undefined),
           })}
-          render={({ media: { data: media } }) => {
+          render={({ media: { data, total } }) => {
             return (
               <Card>
                 <CardContent>
@@ -39,13 +37,19 @@ export const AdminStats: React.FC = () => {
                     direction="row"
                     spacing={2}
                   >
-                    <Typography>Orphan:</Typography>
-                    <Typography variant="h6">{media.length}</Typography>
+                    <Typography>Orphans:</Typography>
+                    <Typography variant="h6">{data.orphans.length}</Typography>
+                  </Stack>
+                  <Stack
+                    alignContent={"center"}
+                    alignItems={"center"}
+                    direction="row"
+                    spacing={2}
+                  >
+                    <Typography>Linked:</Typography>
+                    <Typography variant="h6">{data.match.length}</Typography>
                   </Stack>
                 </CardContent>
-                <CardActions>
-                  <Button>Clear</Button>
-                </CardActions>
               </Card>
             );
           }}

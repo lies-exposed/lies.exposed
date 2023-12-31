@@ -87,7 +87,6 @@ export const LinkIcon: FAIconFC = (props) => (
   />
 );
 
-
 export const MediaIcon: FAIconFC = (props) => (
   <FAIcon
     color={toColorHash(generateRandomColor())}

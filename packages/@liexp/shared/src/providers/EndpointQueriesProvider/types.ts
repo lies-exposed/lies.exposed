@@ -42,7 +42,11 @@ export interface ResourceQuery<P, Q, A> {
 
 export interface ResourceQueries<G, L, CC> {
   get: ResourceQuery<GetFnParams<G>, any, EndpointOutput<G>>;
-  list: ResourceQuery<GetListFnParamsE<L>, GetListFnQuery<L>, EndpointOutput<L>>;
+  list: ResourceQuery<
+    GetListFnParamsE<L>,
+    GetListFnQuery<L>,
+    EndpointOutput<L>
+  >;
   Custom: CC extends Record<string, MinimalEndpointInstance>
     ? {
         [K in keyof CC]: ResourceQuery<

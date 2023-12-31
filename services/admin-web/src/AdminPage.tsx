@@ -65,9 +65,9 @@ import {
 import { GroupCreate, GroupEdit, GroupList } from "./pages/AdminGroups";
 import { KeywordCreate, KeywordEdit, KeywordList } from "./pages/AdminKeyword";
 import { SocialPostCreate, SocialPostList } from "./pages/AdminSocialPost";
-import { AdminStats } from "./pages/AdminStats";
 import { UserCreate, UserEdit, UserList } from "./pages/AdminUsers";
 import { PageCreate, PageEdit, PageList } from "./pages/Pages";
+import { AdminStats } from "./pages/dashboard/AdminStats";
 import { BookCreate, BookEdit, BookList } from "./pages/events/AdminBookEvent";
 import {
   DeathCreate,
