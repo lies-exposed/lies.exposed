@@ -81,7 +81,7 @@ export type EndpointOutput<L> =
       : t.TypeOf<T>["data"]
     : never;
 
-export type EndpointDataOutput<L> = 
+export type EndpointDataOutput<L> =
   InferEndpointParams<L>["output"] extends t.ExactType<infer T>
     ? t.TypeOf<T>
     : never;

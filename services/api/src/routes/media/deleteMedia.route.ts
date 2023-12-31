@@ -4,6 +4,7 @@ import { type Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
+import { LinkEntity } from "#entities/Link.entity";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { ProjectImageEntity } from "#entities/ProjectImage.entity.js";
 import { deleteFromSpace } from "#flows/media/deleteFromSpace.flow.js";
@@ -12,7 +13,11 @@ import { type RouteContext } from "#routes/route.types.js";
 export const MakeDeleteMediaRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Media.Delete, ({ params: { id } }) => {
     return pipe(
-      ctx.db.findOneOrFail(MediaEntity, { where: { id }, withDeleted: true }),
+      ctx.db.findOneOrFail(MediaEntity, {
+        where: { id },
+        relations: ["links"],
+        withDeleted: true,
+      }),
       TE.chain((m) =>
         sequenceS(TE.ApplicativeSeq)({
           projectImages: pipe(
@@ -28,6 +33,12 @@ export const MakeDeleteMediaRoute = (r: Router, ctx: RouteContext): void => {
                 : TE.right(undefined),
             ),
           ),
+          links: m.deletedAt
+            ? ctx.db.delete(
+                LinkEntity,
+                m.links.map((l) => l.id),
+              )
+            : TE.right(undefined),
           space: m.deletedAt ? deleteFromSpace(ctx)(m) : TE.right(undefined),
           media: m.deletedAt
             ? ctx.db.delete(MediaEntity, id)

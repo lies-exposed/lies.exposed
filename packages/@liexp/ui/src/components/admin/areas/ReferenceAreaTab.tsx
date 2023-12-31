@@ -46,7 +46,7 @@ const ReferenceAreaTab: React.FC<
   Omit<ReferenceFieldProps<RaRecord<string>>, "reference">
 > = ({ source }) => {
   return (
-    <Box style={{ width: '100%' }}>
+    <Box style={{ width: "100%" }}>
       <ReferenceArrayAreaInput source={source} fullWidth />
       <ReferenceArrayAreaField source={source} />
     </Box>

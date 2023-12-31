@@ -12,10 +12,12 @@ export const MakeAdminSearchAreaCoordinatesRoute: Route = (r, ctx) => {
     ({ body: { label } }) => {
       return pipe(
         fetchCoordinates(ctx)(label),
-        TE.map(geo => pipe(
-          geo,
-          fp.O.getOrElse(() => ({}))
-        )),
+        TE.map((geo) =>
+          pipe(
+            geo,
+            fp.O.getOrElse(() => ({})),
+          ),
+        ),
         TE.map((coords) => ({
           body: { data: { id: uuid(), ...coords } },
           statusCode: 201,

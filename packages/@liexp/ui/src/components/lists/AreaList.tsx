@@ -62,7 +62,7 @@ export const AreaListItem: React.FC<
       display="flex"
       alignItems="center"
       margin={0}
-      style={{ cursor: "pointer", flexDirection: 'column', ...style }}
+      style={{ cursor: "pointer", flexDirection: "column", ...style }}
       onClick={(e) => onClick?.(item, e)}
     >
       <Card className={classes.root}>
