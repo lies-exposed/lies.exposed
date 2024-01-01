@@ -4,7 +4,7 @@ import { type Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { LinkEntity } from "#entities/Link.entity";
+import { LinkEntity } from "#entities/Link.entity.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { ProjectImageEntity } from "#entities/ProjectImage.entity.js";
 import { deleteFromSpace } from "#flows/media/deleteFromSpace.flow.js";
