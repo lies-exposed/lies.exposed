@@ -53,6 +53,8 @@ interface EventListItemBaseProps<E> {
   excerpt: any;
   keywords: http.Keyword.Keyword[];
   media: http.Media.Media[];
+  mediaDescription?: boolean;
+  disableMediaAction?: boolean;
   links: http.Link.Link[];
   onKeywordClick?: (k: http.Keyword.Keyword) => void;
   onRowInvalidate: (e: E) => void;
@@ -69,6 +71,8 @@ const EventListItemBase = <E extends any>({
   excerpt,
   keywords,
   media,
+  mediaDescription = true,
+  disableMediaAction = true, 
   links,
   onKeywordClick,
   onRowInvalidate,
@@ -144,7 +148,8 @@ const EventListItemBase = <E extends any>({
                   maxWidth: 600,
                 })}
                 onLoad={onLoad}
-                enableDescription={true}
+                enableDescription={mediaDescription}
+                disableZoom={disableMediaAction}
               />
             )}
           </Box>

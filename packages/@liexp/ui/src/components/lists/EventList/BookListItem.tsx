@@ -36,6 +36,8 @@ export const BookListItem: React.FC<BookListItemProps> = ({
           keywords={item.keywords}
           links={item.links}
           media={item.media}
+          mediaDescription={false}
+          disableMediaAction={true}
         />
       </Grid>
     </Box>
