@@ -39,8 +39,13 @@ export const BookEventPageContent: React.FC<BookEventPageContentProps> = ({
       >
         <MediaElement
           media={media.pdf}
-          disableZoom={true}
+          disableZoom={false}
           onClick={onMediaClick}
+          itemStyle={{
+            width: "100%",
+            height: 500,
+            marginBottom: theme.spacing(5),
+          }}
         />
         {media.audio ? (
           <MediaElement

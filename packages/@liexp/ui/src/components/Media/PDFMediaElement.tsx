@@ -2,7 +2,7 @@ import { type Media } from "@liexp/shared/lib/io/http";
 import { clsx } from "clsx";
 import * as React from "react";
 import { styled } from "../../theme";
-import { Box, Button, Modal, Typography, CloseIcon } from "../mui";
+import { Box, Button, Modal, Typography, CloseIcon, Stack } from "../mui";
 
 const PREFIX = "PDFMediaElement";
 
@@ -48,6 +48,7 @@ interface PDFMediaElementProps {
   style?: React.CSSProperties;
   onLoad?: () => void;
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  disableOpen?: boolean;
 }
 
 const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
@@ -56,6 +57,7 @@ const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
   onLoad,
   style,
   onClick,
+  disableOpen = true,
   ...props
 }) => {
   const [open, setOpen] = React.useState(false);
@@ -73,68 +75,70 @@ const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
         ...style,
         background: media.thumbnail ? `url(${media.thumbnail})` : undefined,
         backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
+        backgroundSize: "auto 100%",
+        backgroundPosition: "center",
       }}
     >
-      {!onClick ? (
-        <Button
-          variant="contained"
-          onClick={() => {
-            setOpen(true);
-          }}
-          color="primary"
-        >
-          Open PDF
-        </Button>
-      ) : null}
-
-      <Modal
-        open={open}
-        onClose={() => {
-          setOpen(false);
-        }}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <div className={classes.modalContainer}>
-          <div className={classes.paper}>
-            <Box
-              display={"flex"}
-              flexDirection="column"
-              style={{ position: "relative", height: "100%" }}
-            >
-              <Box display="inline">
-                <CloseIcon
-                  onClick={() => {
-                    setOpen(false);
-                  }}
-                />
-                <Typography
-                  id="alert-dialog-title"
-                  variant="h4"
-                  display="inline"
+      {!onClick && !disableOpen ? (
+        <Stack>
+          <Button
+            variant="contained"
+            onClick={() => {
+              setOpen(true);
+            }}
+            color="primary"
+          >
+            Open PDF
+          </Button>
+          <Modal
+            open={open}
+            onClose={() => {
+              setOpen(false);
+            }}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <div className={classes.modalContainer}>
+              <div className={classes.paper}>
+                <Box
+                  display={"flex"}
+                  flexDirection="column"
+                  style={{ position: "relative", height: "100%" }}
                 >
-                  {media.description}
-                </Typography>
-              </Box>
+                  <Box display="inline">
+                    <CloseIcon
+                      onClick={() => {
+                        setOpen(false);
+                      }}
+                    />
+                    <Typography
+                      id="alert-dialog-title"
+                      variant="h4"
+                      display="inline"
+                    >
+                      {media.description}
+                    </Typography>
+                  </Box>
 
-              <Box
-                id="alert-dialog-description"
-                display={"flex"}
-                width="100%"
-                height="100%"
-              >
-                <embed
-                  src={media.location}
-                  type="application/pdf"
-                  width="100%"
-                  height="100%"
-                />
-              </Box>
-            </Box>
-          </div>
-        </div>
-      </Modal>
+                  <Box
+                    id="alert-dialog-description"
+                    display={"flex"}
+                    width="100%"
+                    height="100%"
+                  >
+                    <embed
+                      src={media.location}
+                      type="application/pdf"
+                      width="100%"
+                      height="100%"
+                    />
+                  </Box>
+                </Box>
+              </div>
+            </div>
+          </Modal>
+        </Stack>
+      ) : null}
     </StyledBox>
   );
 };
