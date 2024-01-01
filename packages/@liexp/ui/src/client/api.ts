@@ -16,8 +16,11 @@ const publicDataProvider = http.APIRESTClient({
 export const apiProvider = http.APIRESTClient({
   url: process.env.API_URL,
   getAuth: () => {
-    const token = localStorage.getItem("auth");
-    return token;
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("auth");
+      return token;
+    }
+    return null;
   },
 });
 
