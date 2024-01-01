@@ -63,6 +63,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
   itemStyle,
   enableDescription = false,
   options,
+  disableZoom = false,
   ...props
 }) => {
   const mediaElement = React.useMemo(() => {
@@ -85,6 +86,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
             style={itemStyle}
             className={clsx(classes.item, itemClassName)}
             media={{ ...media, type: "application/pdf" }}
+            disableOpen={disableZoom}
           />
         );
       }
@@ -102,6 +104,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
             loop={false}
             controls={true}
             autoPlay={false}
+            disableZoom={disableZoom}
           />
         );
       }
