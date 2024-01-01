@@ -24,7 +24,7 @@ export const MediaModalContent: React.FC<MediaModalContentProps> = ({
         {...props}
         style={{ width: "100%" }}
         itemStyle={() => ({ height: 400 })}
-        disableZoom
+        disableZoom={false}
       />
     </Box>
   );
