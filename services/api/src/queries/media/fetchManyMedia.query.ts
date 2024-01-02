@@ -16,6 +16,7 @@ const defaultQuery: http.Media.GetListMediaQuery = {
   keywords: fp.O.none,
   emptyEvents: fp.O.none,
   emptyLinks: fp.O.none,
+  emptyAreas: fp.O.none,
   deletedOnly: fp.O.none,
   spCount: fp.O.none,
   onlyUnshared: fp.O.none,
@@ -38,6 +39,7 @@ export const fetchManyMedia: TEFlow<
     events,
     emptyEvents,
     emptyLinks,
+    emptyAreas,
     deletedOnly,
     exclude,
     spCount,
@@ -59,6 +61,7 @@ export const fetchManyMedia: TEFlow<
       .leftJoinAndSelect("media.events", "events")
       .leftJoinAndSelect("media.keywords", "keywords")
       .leftJoinAndSelect("media.links", "links")
+      .leftJoinAndSelect("media.areas", "areas")
       .leftJoinAndSelect(
         leftJoinSocialPosts("media"),
         "socialPosts",
@@ -130,6 +133,12 @@ export const fetchManyMedia: TEFlow<
       if (fp.O.isSome(emptyLinks) && emptyLinks.value) {
         const where = hasWhere ? q.andWhere.bind(q) : q.where.bind(q);
         where("links.id IS NULL");
+        hasWhere = true;
+      }
+
+      if (fp.O.isSome(emptyAreas) && emptyAreas.value) {
+        const where = hasWhere ? q.andWhere.bind(q) : q.where.bind(q);
+        where("areas.id IS NULL");
         hasWhere = true;
       }
 

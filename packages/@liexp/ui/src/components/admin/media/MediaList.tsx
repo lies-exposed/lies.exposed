@@ -26,6 +26,7 @@ const mediaFilters = [
   <TextInput key="description" source="description" alwaysOn size="small" />,
   <BooleanInput key="emptyEvents" source="emptyEvents" alwaysOn size="small" />,
   <BooleanInput key="emptyLinks" source="emptyLinks" alwaysOn size="small" />,
+  <BooleanInput key="emptyAreas" source="emptyAreas" alwaysOn size="small" />,
   <BooleanInput
     key="onlyUnshared"
     source="onlyUnshared"
