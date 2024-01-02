@@ -25,12 +25,28 @@ const adminEnv = dotenv.parse(
   )
 );
 
-const apiDevelop = {
+const apiBuildW = {
   name: "api-dev",
   namespace: "liexp",
   cwd: path.resolve(__dirname, "./services/api"),
-  script: "yarn develop",
+  script: "yarn tsc -b tsconfig.build.json --watch",
   env: apiEnv,
+};
+
+const apiServe = {
+  namespace: 'liexp',
+  name: "api-serve",
+  cwd: path.resolve(__dirname, "./services/api"),
+  script: "yarn start",
+  watch: ["build"],
+  watch_delay: 1000,
+  wait_ready: true,
+  listen_timeout: 10000,
+  kill_timeout: 3000,
+  env: {
+    ...apiEnv,
+    DEBUG: "@liexp*"
+  }
 };
 
 module.exports = {
@@ -44,7 +60,8 @@ module.exports = {
       watch: false,
       env: webEnv,
     },
-    apiDevelop,
+    apiServe,
+    apiBuildW,
     {
       name: "admin-dev",
       namespace: "liexp",
