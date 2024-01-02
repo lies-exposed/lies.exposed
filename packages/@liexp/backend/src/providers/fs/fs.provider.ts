@@ -41,6 +41,7 @@ export const toFSError = (e: unknown): FSError => {
 };
 
 export interface FSClient {
+  _fs: typeof fs;
   resolve: (filePath: string) => string;
   objectExists: (filePath: string) => TE.TaskEither<FSError, boolean>;
   olderThan: (
@@ -122,6 +123,7 @@ export const GetFSClient = (): FSClient => {
   };
 
   return {
+    _fs: fs,
     resolve: (p) => path.resolve(process.cwd(), p),
     objectExists,
     olderThan,

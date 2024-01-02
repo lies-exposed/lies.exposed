@@ -91,17 +91,19 @@ export const SearchAreaCoordinates = Endpoint({
   Output: t.any,
 });
 
-export const GetOrphanMedia = Endpoint({
+export const GetMediaStats = Endpoint({
   Method: "GET",
-  getPath: () => `/admins/media/orphans`,
+  getPath: () => `/admins/media/stats`,
   Output: t.strict({
     data: t.strict({
       orphans: t.array(t.any),
       match: t.array(t.any),
+      temp: t.array(t.any)
     }),
     totals: t.strict({
       orphans: t.number,
       match: t.number,
+      temp: t.number
     }),
     total: t.number,
   }),
@@ -116,7 +118,7 @@ const admin = ResourceEndpoints({
   Custom: {
     BuildImage,
     SearchAreaCoordinates,
-    GetOrphanMedia,
+    GetMediaStats,
   },
 });
 
