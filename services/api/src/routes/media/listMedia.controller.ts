@@ -25,6 +25,7 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
             links: d.links.map((l) => l.id) as any[],
             events: d.events.map((e) => e.id) as any[],
             keywords: d.keywords.map((e) => e.id) as any[],
+            areas: d.areas.map((e) => e.id) as any[],
           })),
           A.traverse(E.Applicative)((m) =>
             toMediaIO(m, ctx.env.SPACE_ENDPOINT),
