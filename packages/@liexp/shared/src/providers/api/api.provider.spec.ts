@@ -10,7 +10,7 @@ describe("ApiProvider", () => {
       List: expect.any(Function),
       Custom: {
         BuildImage: expect.anything(),
-        GetOrphanMedia: expect.anything(),
+        GetMediaStats: expect.anything(),
       },
     });
 
