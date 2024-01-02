@@ -102,7 +102,7 @@ export const MediaInput: React.FC<MediaInputProps> = ({
           return (
             <Box>
               <Stack spacing={2} direction="row" alignItems="center">
-                <TextInput source={sourceLocation} style={{ width: '80%' }} />
+                <TextInput source={sourceLocation} style={{ width: "80%" }} />
                 <SelectInput
                   {...rest}
                   source={sourceType}
@@ -113,14 +113,15 @@ export const MediaInput: React.FC<MediaInputProps> = ({
                   defaultValue={mediaType}
                 />
               </Stack>
-
-              <Button
-                label="Update"
-                variant="contained"
-                size="small"
-                color='secondary'
-                onClick={handleClickOnField}
-              />
+              {handleClickOnField ? (
+                <Button
+                  label="Update"
+                  variant="contained"
+                  size="small"
+                  color="secondary"
+                  onClick={handleClickOnField}
+                />
+              ) : null}
             </Box>
           );
         }}
