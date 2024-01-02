@@ -1,14 +1,15 @@
 import { MediaType } from "@liexp/shared/lib/io/http/Media";
 import { get } from "lodash";
 import * as React from "react";
+import { Box, Stack } from "../../../mui";
 import {
   FileInput,
   FormDataConsumer,
   SelectInput,
   TextInput,
   type InputProps,
-} from "react-admin";
-import { Box } from "../../../mui";
+  Button,
+} from "../../react-admin";
 import { MediaField } from "../MediaField";
 
 interface MediaInputProps extends Omit<InputProps, "source"> {
@@ -43,7 +44,7 @@ export const MediaInput: React.FC<MediaInputProps> = ({
 
   // console.log({ type, sourceType, sourceLocation });
   return (
-    <Box style={style}>
+    <Stack spacing={2} marginBottom={2} style={style}>
       <SelectInput
         source={_type}
         defaultValue={"fromURL"}
@@ -99,22 +100,31 @@ export const MediaInput: React.FC<MediaInputProps> = ({
           }
 
           return (
-            <Box onClick={handleClickOnField}>
-              <TextInput source={sourceLocation} />
-              <SelectInput
-                {...rest}
-                fullWidth
-                source={sourceType}
-                choices={MediaType.types.map((v) => ({
-                  id: v.value,
-                  name: v.value,
-                }))}
-                defaultValue={mediaType}
+            <Box>
+              <Stack spacing={2} direction="row" alignItems="center">
+                <TextInput source={sourceLocation} style={{ width: '80%' }} />
+                <SelectInput
+                  {...rest}
+                  source={sourceType}
+                  choices={MediaType.types.map((v) => ({
+                    id: v.value,
+                    name: v.value,
+                  }))}
+                  defaultValue={mediaType}
+                />
+              </Stack>
+
+              <Button
+                label="Update"
+                variant="contained"
+                size="small"
+                color='secondary'
+                onClick={handleClickOnField}
               />
             </Box>
           );
         }}
       </FormDataConsumer>
-    </Box>
+    </Stack>
   );
 };
