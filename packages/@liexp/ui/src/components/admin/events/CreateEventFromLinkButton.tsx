@@ -46,7 +46,7 @@ export const CreateEventFromLinkButton: React.FC = () => {
 
         return suggestions.find((t) => t.event.type === type);
       });
-  }, [record]);
+  }, [record, type]);
 
   return (
     <Box>
