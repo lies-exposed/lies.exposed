@@ -37,18 +37,20 @@ export const separateTE = <E, A>(
 };
 
 export const taskifyStream = (
-  stream: Readable,
+  from: Readable,
   to: Writable,
 ): TE.TaskEither<Error, void> => {
   return fp.TE.tryCatch(() => {
-    stream.pipe(to);
-
-    return new Promise((resolve, reject) => {
+    const p = new Promise<void>((resolve, reject) => {
       to.on("error", reject);
 
       to.on("finish", () => {
         resolve();
       });
     });
+
+    from.pipe(to);
+
+    return p;
   }, fp.E.toError);
 };

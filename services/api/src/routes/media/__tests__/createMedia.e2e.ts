@@ -1,3 +1,4 @@
+import { IframeVideoType } from "@liexp/shared/lib/io/http/Media.js";
 import { MediaArb } from "@liexp/shared/lib/tests";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as tests from "@liexp/test";
@@ -31,12 +32,22 @@ describe("Create Media", () => {
     await Test.utils.e2eAfterAll();
   });
 
-  test("Should create a media", async () => {
+  beforeEach(() => {
+    Test.mocks.axios.get.mockClear();
+    Test.mocks.s3.client.send.mockClear();
+    Test.mocks.s3.classes.Upload.mockClear();
+    Test.mocks.puppeteer.page.goto.mockClear();
+    Test.mocks.puppeteer.page.waitForSelector.mockClear();
+    Test.mocks.puppeteer.page.$eval.mockClear();
+  })
+
+  test("Should create a media from MP4 file location", async () => {
     const [media] = tests.fc
-      .sample(MediaArb, 100)
+      .sample(MediaArb, 1)
       .map(({ createdAt, updatedAt, id, ...m }, i) => ({
         ...m,
-        location: `${m.location}?${i}`,
+        label: `label-${id}`,
+        location: `https://example.com/${id}.mp4`,
         creator: undefined,
       }));
 
@@ -44,15 +55,17 @@ describe("Create Media", () => {
       return Promise.resolve({ data: Buffer.from([]) });
     });
 
-    Test.mocks.s3.client.send.mockImplementation(() => {
-      return Promise.resolve({
-        Location: tests.fc.sample(tests.fc.webUrl(), 1)[0],
-      });
-    });
+    // const uploadLocation = tests.fc.sample(tests.fc.webUrl(), 1)[0];
+    // Test.mocks.s3.client.send.mockImplementation(() => {
+    //   return Promise.resolve({
+    //     Location: uploadLocation,
+    //   });
+    // });
 
+    const uploadThumbLocation = tests.fc.sample(tests.fc.webUrl(), 1)[0];
     Test.mocks.s3.classes.Upload.mockReset().mockImplementation(() => ({
       done: vi.fn().mockResolvedValueOnce({
-        Location: tests.fc.sample(tests.fc.webUrl(), 1)[0],
+        Location: uploadThumbLocation,
       }),
     }));
 
@@ -65,16 +78,85 @@ describe("Create Media", () => {
 
     expect(response.status).toEqual(200);
 
-    delete media.label;
-    delete media.description;
-    delete media.thumbnail;
-    delete media.extra;
-    delete media.deletedAt;
-    delete media.socialPosts;
-
-    expect(response.body.data).toMatchObject({
+    expect({
+      extra: undefined,
+      deletedAt: undefined,
+      ...response.body.data,
+    }).toMatchObject({
       ...media,
+      id: expect.any(String),
+      description: media.description ? media.description : media.label,
+      thumbnail: uploadThumbLocation,
       creator: users[0].id,
+      socialPosts: [],
+      transferable: true,
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String),
+    });
+
+    mediaIds.push(response.body.data.id);
+  });
+
+  test("Should create a media from iframe/video location", async () => {
+    const [media] = tests.fc
+      .sample(MediaArb, 1)
+      .map(({ createdAt, updatedAt, id, ...m }, i) => ({
+        ...m,
+        id,
+        label: `label-${id}`,
+        location: `https://www.youtube.com/watch?v=${id}`,
+        type: IframeVideoType.value,
+        creator: undefined,
+      }));
+
+    Test.mocks.axios.get.mockImplementation(() => {
+      return Promise.resolve({ data: Buffer.from([]) });
+    });
+
+    Test.mocks.puppeteer.page.goto.mockImplementation(() => {
+      return Promise.resolve();
+    });
+    Test.mocks.puppeteer.page.waitForSelector.mockImplementation(() => {
+      return Promise.resolve();
+    });
+    const uploadThumbLocation = "https://example.com/thumbnail.jpg";
+    Test.mocks.puppeteer.page.$eval.mockImplementation(() => {
+      return Promise.resolve(uploadThumbLocation);
+    });
+
+    Test.mocks.s3.classes.Upload.mockReset().mockImplementation(() => ({
+      done: vi.fn().mockResolvedValueOnce({
+        Location: "https://example.com/thumbnail.jpg",
+      }),
+    }));
+
+    const response = await Test.req
+      .post("/v1/media")
+      .set("Authorization", authorizationToken)
+      .send(media);
+
+    expect(response.status).toEqual(200);
+
+    // fetch thumbnail from youtube
+    expect(Test.mocks.axios.get).toHaveBeenCalledTimes(1);
+
+    expect(Test.mocks.s3.client.send).toHaveBeenCalledTimes(0);
+
+    expect({
+      extra: undefined,
+      deletedAt: undefined,
+      ...response.body.data,
+    }).toMatchObject({
+      ...media,
+      id: expect.any(String),
+      location: `https://www.youtube.com/embed/${media.id}`,
+      description: media.description ?? media.label,
+      thumbnail: uploadThumbLocation,
+      creator: users[0].id,
+      socialPosts: [],
+      transferable: true,
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String),
     });
 
     mediaIds.push(response.body.data.id);
@@ -85,6 +167,7 @@ describe("Create Media", () => {
       .sample(MediaArb, 100)
       .map(({ id, createdAt, updatedAt, ...m }) => ({
         ...m,
+        location: `https://example.com/${id}.jpg`,
         creator: undefined,
       }));
 
