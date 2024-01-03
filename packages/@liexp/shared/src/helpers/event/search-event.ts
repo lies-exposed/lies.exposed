@@ -16,6 +16,7 @@ import {
 import { type BySubject } from "../../io/http/Common";
 import { type EventTotals } from "../../io/http/Events/EventTotals";
 import { BySubjectUtils } from "../../io/utils/BySubjectUtils";
+import { eventRelationIdsMonoid } from './event';
 import { getRelationIds } from "./getEventRelationIds";
 
 export interface SearchEventsQueryCache {
@@ -41,20 +42,14 @@ export const getNewRelationIds = (
   const mediaIds = pipe(s.media, M.keys(S.Ord));
   const keywordIds = pipe(s.keywords, M.keys(S.Ord));
   const linkIds = pipe(s.links, M.keys(S.Ord));
+  const areaIds = pipe(s.areas, M.keys(S.Ord));
 
-  const init: Events.EventRelationIds = {
-    actors: [],
-    groups: [],
-    groupsMembers: [],
-    media: [],
-    keywords: [],
-    links: [],
-  };
+  const init: Events.EventRelationIds = eventRelationIdsMonoid.empty
 
   return pipe(
     events,
     A.reduce(init, (acc, e) => {
-      const { actors, groups, groupsMembers, media, keywords, links } =
+      const { actors, groups, groupsMembers, media, keywords, links, areas } =
         getRelationIds(e);
 
       const newActors = actors.filter(
@@ -78,6 +73,10 @@ export const getNewRelationIds = (
         (k) => ![...linkIds, ...acc.links].includes(k),
       );
 
+      const newAreaIds = areas.filter(
+        (k) => ![...areaIds, ...acc.areas].includes(k),
+      );
+
       return {
         actors: acc.actors.concat(newActors),
         groups: acc.groups.concat(newGroups),
@@ -85,6 +84,7 @@ export const getNewRelationIds = (
         media: acc.media.concat(newMediaIds),
         keywords: acc.keywords.concat(newKeywordIds),
         links: acc.links.concat(newLinkIds),
+        areas: acc.areas.concat(newAreaIds),
         socialPosts: [],
       };
     }),

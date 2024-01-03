@@ -1,3 +1,4 @@
+import { getRelationIdsFromEventRelations } from '@liexp/shared/lib/helpers/event/getEventRelationIds';
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion";
 import * as io from "@liexp/shared/lib/io";
 import * as O from "fp-ts/Option";
@@ -34,14 +35,7 @@ export const CreateEventFromLinkButton: React.FC = () => {
           m,
           O.some(record as any),
           O.fromNullable(record.thumbnail),
-          {
-            actors: relations.actors.map((a: any) => a.id),
-            groups: relations.groups.map((a: any) => a.id),
-            keywords: relations.keywords.map((k: any) => k.id),
-            links: relations.links.map((k: any) => k.id),
-            groupsMembers: [],
-            media: [],
-          },
+          getRelationIdsFromEventRelations(relations),
         );
 
         return suggestions.find((t) => t.event.type === type);

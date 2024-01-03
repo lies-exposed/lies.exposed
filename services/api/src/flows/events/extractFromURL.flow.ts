@@ -1,6 +1,7 @@
 import path from "path";
 import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { getRelationIdsFromEventRelations } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
 import { type URL as URLT } from "@liexp/shared/lib/io/http/Common/index.js";
 import { type ImageType } from "@liexp/shared/lib/io/http/Media.js";
@@ -310,14 +311,15 @@ const extractByProvider: TEFlow<
               deletedAt: undefined,
             }),
             O.none,
-            {
-              actors: relations.actors.map((a) => a.id),
-              groups: relations.groups.map((a) => a.id),
-              keywords: [],
+            getRelationIdsFromEventRelations({
               groupsMembers: [],
               media: [],
-              links: [],
-            },
+              areas: [],
+              actors: relations.actors as any[],
+              groups: relations.groups as any[],
+              keywords: relations.keywords as any[],
+              links: relations.links as any[],
+            }),
           ),
         ),
         O.chain((suggestions) =>

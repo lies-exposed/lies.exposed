@@ -132,3 +132,17 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
     }
   }
 };
+
+export const getRelationIdsFromEventRelations = (
+  e: Events.EventRelations,
+): Events.EventRelationIds => {
+  return {
+    actors: e.actors.map((a) => a.id),
+    areas: e.areas.map((a) => a.id),
+    groups: e.groups.map((g) => g.id),
+    groupsMembers: e.groupsMembers.map((gm) => gm.id),
+    keywords: e.keywords.map((k) => k.id),
+    links: e.links.map((l) => l.id),
+    media: e.media.map((m) => m.id),
+  };
+};

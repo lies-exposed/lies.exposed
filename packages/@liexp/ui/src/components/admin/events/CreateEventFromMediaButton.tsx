@@ -1,3 +1,4 @@
+import { eventRelationIdsMonoid } from "@liexp/shared/lib/helpers/event/event";
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion";
 import * as io from "@liexp/shared/lib/io";
 import * as O from "fp-ts/Option";
@@ -24,14 +25,7 @@ export const CreateEventFromMediaButton: React.FC = () => {
       } as any,
       O.none,
       O.some(record as any),
-      {
-        actors: [],
-        groups: [],
-        groupsMembers: [],
-        media: [],
-        keywords: [],
-        links: [],
-      },
+      eventRelationIdsMonoid.empty,
     ).find((t) => t.event.type === type);
 
     const { newLinks, ...event }: any = suggestion?.event;

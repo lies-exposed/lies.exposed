@@ -188,7 +188,7 @@ export const toGetNetworkQuery = ({
   };
 };
 
-const eventRelationIdsMonoid: Monoid<EventRelationIds> = {
+export const eventRelationIdsMonoid: Monoid<EventRelationIds> = {
   empty: {
     keywords: [],
     actors: [],
@@ -196,6 +196,7 @@ const eventRelationIdsMonoid: Monoid<EventRelationIds> = {
     groupsMembers: [],
     media: [],
     links: [],
+    areas: [],
   },
   concat: (x, y) => ({
     ...x,
@@ -204,6 +205,7 @@ const eventRelationIdsMonoid: Monoid<EventRelationIds> = {
     ),
     actors: x.actors.concat(y.actors.filter((a) => !x.actors.includes(a))),
     groups: x.groups.concat(y.groups.filter((a) => !x.groups.includes(a))),
+    areas: x.areas.concat(y.areas.filter((a) => !x.areas.includes(a))),
   }),
 };
 
