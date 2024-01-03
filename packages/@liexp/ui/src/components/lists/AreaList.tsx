@@ -54,7 +54,12 @@ export const AreaListItem: React.FC<
     true,
   );
 
-  const mediaSrc = media.data?.data?.[0]?.location ?? defaultImage;
+  const mediaSrc = React.useMemo(() => {
+    if (media.data?.data?.[0]?.location) {
+      return media.data?.data?.[0]?.location;
+    }
+    return defaultImage;
+  }, [media.data?.data?.[0]?.location]);
 
   return (
     <StyledBox
