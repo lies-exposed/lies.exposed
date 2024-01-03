@@ -1,10 +1,10 @@
 import { fp } from "@liexp/core/lib/fp";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
+import { EventType } from '@liexp/shared/lib/io/http/Events';
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils";
-import { subMonths } from "date-fns";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
 import QueriesRenderer from "../components/QueriesRenderer";
@@ -134,17 +134,13 @@ export interface ExploreTemplateProps {
 
 const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
   hash,
-  params: p,
+  params,
   tab,
   slide,
   onQueryChange,
   onQueryClear,
   onEventClick,
 }) => {
-  const params = {
-    ...p,
-  };
-
   const [relations, setRelations] = React.useState([
     KEYWORDS.value,
     GROUPS.value,
@@ -169,7 +165,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
           filterActors: queries.Actor.list.useQuery(
             {
               pagination: { page: 1, perPage: params.actors?.length ?? 0 },
-              filter: { ids: params.actors },
+              filter: { ids: params.actors ?? [] },
             },
             undefined,
             true,
@@ -177,7 +173,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
           filterGroups: queries.Group.list.useQuery(
             {
               pagination: { page: 1, perPage: params.groups?.length ?? 0 },
-              filter: { ids: params.groups },
+              filter: { ids: params.groups ?? [] },
             },
             undefined,
             true,
@@ -188,7 +184,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                 page: 1,
                 perPage: params.groupsMembers?.length ?? 0,
               },
-              filter: { ids: params.groupsMembers },
+              filter: { ids: params.groupsMembers ?? [] },
             },
             undefined,
             true,
@@ -197,7 +193,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
             {
               pagination: { page: 1, perPage: params.keywords?.length ?? 0 },
               sort: { field: "updatedAt", order: "DESC" },
-              filter: { ids: params.keywords },
+              filter: { ids: params.keywords ?? [] },
             },
             undefined,
             true,
@@ -334,9 +330,8 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                       keywords: selectedKeywordIds,
                       actors: selectedActorIds,
                       groups: selectedGroupIds,
-                      startDate:
-                        params.startDate ??
-                        formatDate(subMonths(new Date(), 1)),
+                      eventType: params.eventType ?? EventType.types.map((t) => t.value),
+                      startDate: params.startDate,
                       endDate: params.endDate ?? formatDate(new Date()),
                     }}
                     selectedKeywordIds={selectedKeywordIds}

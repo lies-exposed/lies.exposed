@@ -26,7 +26,7 @@ const adminEnv = dotenv.parse(
 );
 
 const apiBuildW = {
-  name: "api-dev",
+  name: "api-build-w",
   namespace: "liexp",
   cwd: path.resolve(__dirname, "./services/api"),
   script: "yarn tsc -b tsconfig.build.json --watch",

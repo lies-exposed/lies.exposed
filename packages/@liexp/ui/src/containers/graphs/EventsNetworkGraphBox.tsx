@@ -1,5 +1,8 @@
 import { fp } from "@liexp/core/lib/fp";
-import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
+import {
+  getRelationIdsFromEventRelations,
+} from "@liexp/shared/lib/helpers/event/getEventRelationIds";
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
 import { EventType } from "@liexp/shared/lib/io/http/Events";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals";
@@ -254,15 +257,26 @@ const transformNetworkOutput = (
     keywords,
   } = graph;
 
-  const minDate =
-    events.length > 0 ? events.at(events.length - 1).date : new Date();
-  const maxDate = events.length > 0 ? events.at(0).date : new Date();
+  const minDate = pipe(
+    events,
+    fp.A.last,
+    fp.O.map((d) => d.date),
+    fp.O.getOrElse(() => new Date()),
+  );
+  const maxDate = pipe(
+    events,
+    fp.A.head,
+    fp.O.map((d) => d.date),
+    fp.O.getOrElse(() => new Date()),
+  );
 
   // console.log({ minDate, maxDate });
+
   const filteredEvents = events
     .map((e) => {
-      const date = parseISO(e.date);
+      const date = e.date;
       const min = differenceInDays(date, startDate);
+
       if (min < 0) {
         // console.log(`Days to start date ${startDate}`, min);
         return fp.E.left(
@@ -280,7 +294,10 @@ const transformNetworkOutput = (
       }
 
       // console.log("e", e);
-      const eventRelations = getRelationIds(e);
+      const eventRelations = pipe(
+        getSearchEventRelations(e),
+        getRelationIdsFromEventRelations,
+      );
       // console.log("event relations", eventRelations);
       if (selectedActorIds && selectedActorIds.length > 0) {
         // console.log("filter per actors", eventRelations.actors);
@@ -353,10 +370,12 @@ const transformNetworkOutput = (
         // console.log(`Not included:`, res.left);
         return [];
       }
+
+      // console.log(`Included:`, res.right.id);
       return [res.right];
     });
 
-  // console.log(filteredEvents);
+  // console.log("filtered events", filteredEvents);
 
   const eventIds = filteredEvents.map((e) => e.id);
 
@@ -401,7 +420,7 @@ const transformNetworkOutput = (
         ids?.includes(r.id),
     );
 
-  const nodes = filteredEvents.concat(relationNodes);
+  const nodes: any[] = filteredEvents.concat(relationNodes);
 
   const links = eventLinks
     .filter((l) => eventIds.includes(l.target) && eventIds.includes(l.source))
@@ -414,8 +433,8 @@ const transformNetworkOutput = (
     groups,
     keywords,
     graph: { nodes: [...nodes], links: [...links] },
-    minDate: parseISO(minDate),
-    maxDate: parseISO(maxDate),
+    minDate,
+    maxDate,
     totals: graph.totals,
   };
 };

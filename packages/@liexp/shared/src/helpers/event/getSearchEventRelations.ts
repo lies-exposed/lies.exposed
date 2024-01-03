@@ -85,7 +85,10 @@ export const getSearchEventRelations = (
         actors: [...e.payload.authors.actors, ...e.payload.subjects.actors],
         groups: [...e.payload.authors.groups, ...e.payload.subjects.groups],
         groupsMembers: [],
-        media: [...commonRelations.media, e.payload.media],
+        media: [
+          ...commonRelations.media,
+          ...(e.payload.media ? [e.payload.media] : []),
+        ],
       };
     }
 

@@ -69,6 +69,7 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
                     },
                   }}
                   type={GROUPS.value}
+                  relations={[GROUPS.value]}
                   query={{
                     eventType: EventType.types.map((t) => t.value),
                     startDate: formatDate(subYears(new Date(), 2)),

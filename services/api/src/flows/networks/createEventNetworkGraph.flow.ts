@@ -251,7 +251,7 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
           ...dateRange,
           media: [],
           selectedLinks: [],
-          events: eventNodes,
+          events: eventNodes as SearchEvent.SearchEvent[],
           actors: allActors,
           groups: allGroups,
           keywords: allKeywords,
@@ -383,10 +383,10 @@ export const createEventNetworkGraph: TEFlow<
           },
           isAdmin,
         ),
-        TE.map((r) => ({ event, ...r })),
+        TE.map((relations) => ({ event, relations })),
       );
     }),
-    TE.chain(({ event, ...relations }) =>
+    TE.chain(({ event, relations }) =>
       sequenceS(TE.ApplicativePar)({
         event: fp.TE.right(event),
         actors: pipe(
@@ -428,6 +428,14 @@ export const createEventNetworkGraph: TEFlow<
       ctx.logger.debug.log(`Groups %d`, groups.length);
       ctx.logger.debug.log(`Keywords %d`, keywords.length);
       ctx.logger.debug.log(`Media %d`, media.length);
+
+      const searchEvent = toSearchEvent(event, {
+        actors: new Map(actors.map(TupleWithId.of)),
+        groups: new Map(groups.map(TupleWithId.of)),
+        keywords: new Map(keywords.map(TupleWithId.of)),
+        media: new Map(media.map(TupleWithId.of)),
+        groupsMembers: new Map(),
+      });
 
       const getGraph = (
         ids: UUID[],
@@ -572,7 +580,7 @@ export const createEventNetworkGraph: TEFlow<
             actors,
             groups,
             keywords,
-            events: [event].concat(output.events),
+            events: [searchEvent].concat(output.events),
           })),
         );
 
