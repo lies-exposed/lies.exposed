@@ -127,6 +127,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
             style={itemStyle}
             className={clsx(classes.item, itemClassName)}
             media={media as any}
+            disableZoom={disableZoom}
           />
         );
     }
