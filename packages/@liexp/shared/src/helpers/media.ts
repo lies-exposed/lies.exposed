@@ -79,6 +79,8 @@ const peertubeEmbedVideoRegExp =
   /http(?:s?):\/\/([^/]+)\/videos\/embed\/([^/]+)(&(amp;)?[\w?=]*)?/;
 
 const supportedPlatformsRegExp = [
+  ytVideoRegExp,
+  ytVideoEmbedRegExp,
   odyseeVideoRegExp,
   rumbleEmbedVideoRegExp,
   rumblePageVideoRegExp,

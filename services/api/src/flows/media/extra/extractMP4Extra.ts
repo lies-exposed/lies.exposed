@@ -2,7 +2,7 @@ import { flow, fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type MediaExtra } from "@liexp/shared/lib/io/http/Media.js";
 import type Ffmpeg from "fluent-ffmpeg";
 import { downloadMP4Video } from "../downloadMP4Video.js";
-import { type SimpleMedia } from "../thumbnails/extractMP4Thumbnail.js";
+import { type SimpleMedia } from "../thumbnails/extractMP4Thumbnail.flow.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
 

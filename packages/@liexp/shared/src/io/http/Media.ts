@@ -89,7 +89,7 @@ export const CreateMedia = t.strict(
     description: t.union([t.string, t.undefined]),
     thumbnail: t.union([t.string, t.undefined]),
     extra: t.union([MediaExtra, t.undefined]),
-    type: ValidContentType,
+    type: MediaType,
     events: t.array(UUID),
     links: t.array(UUID),
     keywords: t.array(UUID),
