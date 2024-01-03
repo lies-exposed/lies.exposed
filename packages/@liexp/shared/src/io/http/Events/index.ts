@@ -111,6 +111,7 @@ type EVENTS = t.TypeOf<typeof EVENTS>;
 
 interface EventRelationIds {
   actors: UUID[];
+  areas: UUID[];
   groups: UUID[];
   groupsMembers: UUID[];
   keywords: UUID[];

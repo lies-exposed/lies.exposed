@@ -6,7 +6,7 @@ import { nonEmptyArray } from "io-ts-types/nonEmptyArray";
 import { optionFromNullable } from "io-ts-types/optionFromNullable";
 import { type serializedType } from "ts-io-error/lib/Codec";
 import { Actor, ACTORS } from "./Actor";
-import { EVENTS } from "./Events";
+import { EVENTS, type SearchEvent } from "./Events";
 import { EventTotals } from "./Events/EventTotals";
 import { Group, GROUPS } from "./Group";
 import { Keyword, KEYWORDS } from "./Keyword";
@@ -52,8 +52,8 @@ export type GetNetworkParams = t.TypeOf<typeof GetNetworkParams>;
 
 export const NetworkLink = t.type(
   {
-    source: t.string,
-    target: t.string,
+    source: UUID,
+    target: UUID,
     fill: t.string,
     value: t.number,
     stroke: t.string,
@@ -82,4 +82,7 @@ export const NetworkGraphOutput = t.strict(
   "NetworkGraphOutput",
 );
 
-export type NetworkGraphOutput = t.TypeOf<typeof NetworkGraphOutput>;
+export type NetworkGraphOutput = Omit<
+  t.TypeOf<typeof NetworkGraphOutput>,
+  "events"
+> & { events: SearchEvent.SearchEvent[] };

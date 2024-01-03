@@ -1,4 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp";
+import { GetLogger } from "@liexp/core/lib/logger";
 import * as R from "fp-ts/Record";
 import { useQuery } from "react-query";
 import {
@@ -26,6 +27,8 @@ import {
   type ResourceQuery,
 } from "./types";
 
+const queryProviderLogger = GetLogger("QueryProvider");
+
 export const getDefaultKey =
   (key: string) =>
   <P, Q>(p: P, q?: Q, d?: boolean, prefix?: string): QueryFnKey<P, Q> => [
@@ -34,29 +37,6 @@ export const getDefaultKey =
     q ?? undefined,
     d ?? false,
   ];
-
-const toGetResourceQuery = <G>(
-  q: GetFn<G>,
-  key: string,
-  override?: GetQueryOverride<GetFnParams<G>>,
-): ResourceQuery<GetFnParams<G>, any, EndpointOutput<G>> => {
-  const getKey: GetKeyFn<GetFnParams<G>> =
-    override?.getKey ?? getDefaultKey(key);
-  const fetch: QueryPromiseFunction<GetFnParams<G>, any, EndpointOutput<G>> = (
-    params,
-    query,
-  ) => {
-    return q(params, query);
-  };
-  return {
-    getKey,
-    fetch,
-    useQuery: (p, q, d, prefix) =>
-      useQuery(getKey(p, q, d, prefix), ({ queryKey }) =>
-        fetch(queryKey[1], queryKey[2], !!queryKey[3]),
-      ),
-  };
-};
 
 export const emptyQuery = (): Promise<any> =>
   Promise.resolve({
@@ -75,7 +55,7 @@ export const fetchQuery =
     if (discrete) {
       if (
         R.isEmpty(params.filter) ||
-        (params.filter?.ids && params.filter?.ids?.length === 0)
+        (params.filter?.ids && params.filter?.ids.length === 0)
       ) {
         return await emptyQuery();
       }
@@ -83,6 +63,32 @@ export const fetchQuery =
 
     return await q(params, query);
   };
+
+const toGetResourceQuery = <G>(
+  getFn: GetFn<G>,
+  key: string,
+  override?: GetQueryOverride<GetFnParams<G>>,
+): ResourceQuery<GetFnParams<G>, any, EndpointOutput<G>> => {
+  const getKey: GetKeyFn<GetFnParams<G>> =
+    override?.getKey ?? getDefaultKey(key);
+  const fetch: QueryPromiseFunction<GetFnParams<G>, any, EndpointOutput<G>> = (
+    params,
+    query,
+  ) => {
+    return getFn(params, query);
+  };
+  return {
+    getKey,
+    fetch,
+    useQuery: (p, q, d, prefix) => {
+      const qKey = getKey(p, q, d, prefix);
+      queryProviderLogger.debug.log("useQuery for %s 'get' %O", key, qKey);
+      return useQuery(qKey, ({ queryKey }) =>
+        fetch(queryKey[1], queryKey[2], !!queryKey[3]),
+      );
+    },
+  };
+};
 
 export const toGetListResourceQuery = <L>(
   getListFn: GetListFn<L>,
@@ -101,10 +107,13 @@ export const toGetListResourceQuery = <L>(
   return {
     getKey,
     fetch,
-    useQuery: (p, q, d, prefix) =>
-      useQuery(getKey(p, q, d, prefix), ({ queryKey }) =>
+    useQuery: (p, q, d, prefix) => {
+      const qKey = getKey(p, q, d, prefix);
+      queryProviderLogger.debug.log("useQuery for %s 'list' %O", key, qKey);
+      return useQuery(qKey, ({ queryKey }) =>
         fetch(queryKey[1], queryKey[2], !!queryKey[3]),
-      ),
+      );
+    },
   };
 };
 
@@ -132,10 +141,18 @@ export const toQueries = <
         return {
           getKey,
           fetch,
-          useQuery: (p: any, q: any, d: any, prefix: any) =>
-            useQuery(getKey(p, q, d, prefix), ({ queryKey }) =>
+          useQuery: (p: any, q: any, d: any, prefix: any) => {
+            const qKey = getKey(p, q, d, prefix);
+            queryProviderLogger.debug.log(
+              "useQuery for %s 'Custom' %s: %O",
+              key,
+              index,
+              qKey,
+            );
+            return useQuery(qKey, ({ queryKey }) =>
               fetch(queryKey[1], queryKey[2], !!queryKey[3]),
-            ),
+            );
+          },
         };
       }),
     ) as any,

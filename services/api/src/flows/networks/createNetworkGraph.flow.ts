@@ -1,4 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { TupleWithId } from "@liexp/core/lib/fp/utils/TupleWithId.js";
 import {
   getColorByEventType,
   getTotals,
@@ -239,7 +240,7 @@ export const getEventGraph = (
 
       // console.log("ev links", evLinks);
 
-      const evNodes: any[] = [...acc.eventNodes, eventDatum];
+      const evNodes: EventNetworkDatum[] = [...acc.eventNodes, eventDatum];
 
       return {
         eventNodes: evNodes,
@@ -287,7 +288,7 @@ export const getEventGraph = (
         keywordLinks: fp.Map.toArray(S.Ord)(keywordLinks).flatMap(
           ([_k, links]) => links,
         ),
-        events: eventNodes,
+        events: eventNodes as SearchEvent.SearchEvent[],
         actors: allActors,
         groups: allGroups,
         keywords: allKeywords,
@@ -437,10 +438,10 @@ export const createNetworkGraph: TEFlow<
         _events,
         fp.A.map((aa) =>
           toSearchEvent(aa, {
-            actors: new Map(cleanedActors.map((a) => [a.id, a])),
-            groups: new Map(cleanedGroups.map((g) => [g.id, g])),
-            keywords: new Map(keywords.map((k) => [k.id, k])),
-            media: new Map(media.map((m) => [m.id, m])),
+            actors: new Map(cleanedActors.map(TupleWithId.of)),
+            groups: new Map(cleanedGroups.map(TupleWithId.of)),
+            keywords: new Map(keywords.map(TupleWithId.of)),
+            media: new Map(media.map(TupleWithId.of)),
             groupsMembers: new Map(),
           }),
         ),
