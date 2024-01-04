@@ -30,7 +30,7 @@
     "@liexp/core": "0.1.0",
     "@liexp/shared": "0.1.0",
     "@liexp/ui": "0.1.0",
-    "@mui/material": "^5.15.2",
+    "@mui/material": "^5.15.3",
     "debug": "^4.3.4",
     "final-form": "^4.20.10",
     "fp-ts": "^2.16.2",
