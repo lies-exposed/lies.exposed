@@ -64,7 +64,7 @@ export const SocialPlatform = t.union(
 export type SocialPlatform = t.TypeOf<typeof SocialPlatform>;
 
 export const SocialPostResourceType = t.union(
-  [ACTORS, GROUPS, KEYWORDS, MEDIA, EVENTS, LINKS, AREAS],
+  [ACTORS, GROUPS, KEYWORDS, MEDIA, EVENTS, LINKS, AREAS, t.literal('stories')],
   "SocialPostResourceType",
 );
 export type SocialPostResourceType = t.TypeOf<typeof SocialPostResourceType>;
