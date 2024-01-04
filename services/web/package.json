@@ -41,7 +41,7 @@
     "@visx/network": "^3.3.0",
     "@visx/responsive": "^3.3.0",
     "@visx/tooltip": "^3.3.0",
-    "axios": "^1.6.3",
+    "axios": "^1.6.4",
     "bs58": "^5.0.0",
     "clsx": "^2.1.0",
     "d3": "^7.8.5",
