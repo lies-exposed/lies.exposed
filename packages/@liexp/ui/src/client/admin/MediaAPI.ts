@@ -38,6 +38,7 @@ const getSignedUrl =
     resource: string,
     resourceId: string,
     ContentType: MediaType,
+    ContentLength: number
   ): TE.TaskEither<Error, { data: { url: string } }> => {
     return pipe(
       TE.tryCatch(
@@ -47,6 +48,7 @@ const getSignedUrl =
               resource,
               resourceId,
               ContentType,
+              ContentLength
             },
           }),
         E.toError,
@@ -91,7 +93,7 @@ export const uploadFile =
     );
 
     const othersTask = pipe(
-      getSignedUrl(client)(resource, resourceId, type),
+      getSignedUrl(client)(resource, resourceId, type, f.size),
       TE.chain((url) => {
         const [location] = url.data.url.split("?");
 
