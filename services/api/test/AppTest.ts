@@ -78,6 +78,7 @@ const initAppTest = async (): Promise<AppTest> => {
           temp: {
             root: path.resolve(cwd, "temp"),
             media: path.resolve(cwd, "temp/media"),
+            stats: path.resolve(cwd, "temp/stats"),
           },
         },
       },
@@ -116,7 +117,7 @@ const initAppTest = async (): Promise<AppTest> => {
         exifR: {} as any,
         client: mocks.sharp as any,
       }),
-      geo: GeocodeProvider({ http: {} as any }),
+      geo: GeocodeProvider({ http: {} as any, apiKey: "fake-geo-api-key" }),
     })),
     TE.map((ctx) => ({
       ctx,
