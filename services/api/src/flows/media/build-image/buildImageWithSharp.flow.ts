@@ -87,7 +87,7 @@ const addMediaImageLayer: TEFlow<
               "Image Width": parent.width,
               "Image Height": parent.width,
             } as any)
-          : ctx.imgProc.readExif(buf, {}),
+          : ctx.imgProc.readExif(buf as any, {}),
         fp.TE.map((exif) => ({ exif, buf })),
       ),
     ),
@@ -100,12 +100,13 @@ const addMediaImageLayer: TEFlow<
           input: buf,
           left: 0,
           top: 0,
-          width:
-            exif["Image Width"]?.value ?? parent?.width ?? DEFAULT_TEXT_WIDTH,
+          width: (typeof exif["Image Width"]?.value === "string"
+            ? exif["Image Width"]?.value
+            : parent?.width ?? DEFAULT_TEXT_WIDTH) as number,
           height:
-            exif["Image Height"]?.value ??
-            parent?.height ??
-            DEFAULT_TEXT_HEIGHT,
+            (typeof exif["Image Height"]?.value === "string"
+              ? exif["Image Height"]?.value
+              : parent?.height ?? DEFAULT_TEXT_HEIGHT) as number,
         },
       ];
     }),
