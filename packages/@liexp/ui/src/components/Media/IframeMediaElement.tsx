@@ -14,7 +14,7 @@ const classes = {
 
 const Root = styled("div")(() => ({
   [`&.${classes.root}`]: {
-    minHeight: 200,
+    minHeight: 300,
     objectFit: "contain",
   },
   [`& .${classes.iframe}`]: {
