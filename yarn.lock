@@ -3382,7 +3382,7 @@ __metadata:
     "@liexp/test": 0.1.0
     "@types/fluent-ffmpeg": ^2.1.24
     "@types/jsonwebtoken": ^9.0.5
-    "@types/node-telegram-bot-api": ^0.64.1
+    "@types/node-telegram-bot-api": ^0.64.2
     "@types/prettier": ^3.0.0
     "@types/uuid": ^9.0.7
     date-fns: ^2.30.0
@@ -8246,13 +8246,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node-telegram-bot-api@npm:^0.64.1":
-  version: 0.64.1
-  resolution: "@types/node-telegram-bot-api@npm:0.64.1"
+"@types/node-telegram-bot-api@npm:^0.64.2":
+  version: 0.64.2
+  resolution: "@types/node-telegram-bot-api@npm:0.64.2"
   dependencies:
     "@types/node": "*"
     "@types/request": "*"
-  checksum: b2136f30d0588a3a5b7810eb38963308966d39e17e0d53513e03c937cbbe2839e5161dd700593b5aad79db12918b1f721b267f9230a6e9741d256b9f57134114
+  checksum: 7e7eb3529ca09d25b9beccb73c119284e019dcb2262e6ab885486ad203fa8098a1bd0f7136ea94e5ab165a0eb330ead24fbca8c643911efdfe15ab697255e113
   languageName: node
   linkType: hard
 
@@ -10074,7 +10074,7 @@ __metadata:
     "@types/multer": ^1.4.11
     "@types/node": ^18.19.4
     "@types/node-cron": ^3.0.11
-    "@types/node-telegram-bot-api": ^0.64.1
+    "@types/node-telegram-bot-api": ^0.64.2
     "@types/pg": ^8.10.9
     "@types/prettier": ^3.0.0
     "@types/prompts": ^2.4.9
