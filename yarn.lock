@@ -3565,7 +3565,7 @@ __metadata:
     "@mui/material": ^5.15.3
     "@mui/styles": ^5.15.3
     "@mui/system": ^5.15.3
-    "@mui/x-data-grid": ^6.18.6
+    "@mui/x-data-grid": ^6.18.7
     "@reach/router": ^1.3.4
     "@react-page/editor": ^5.4.4
     "@react-page/plugins-background": ^5.4.4
@@ -3944,9 +3944,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/x-data-grid@npm:^6.18.6":
-  version: 6.18.6
-  resolution: "@mui/x-data-grid@npm:6.18.6"
+"@mui/x-data-grid@npm:^6.18.7":
+  version: 6.18.7
+  resolution: "@mui/x-data-grid@npm:6.18.7"
   dependencies:
     "@babel/runtime": ^7.23.2
     "@mui/utils": ^5.14.16
@@ -3958,7 +3958,7 @@ __metadata:
     "@mui/system": ^5.4.1
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-  checksum: 1716e8bd13373af8bd3d7244e40f284c57f67b89d5976cbe3be829a35cc84258d36d5b20c83289c10fe2515d9d427318e1366f83f1238d2e9a5470bc5208d92b
+  checksum: ac3e1e196a576ce3ebe5cb204dd8fc286604265107a3c3e0f6ec3ad333b7c115500017e2328c6c61dac3bd0620c3bc54ab8d7490a629e38cb93e71f91a5be60c
   languageName: node
   linkType: hard
 
