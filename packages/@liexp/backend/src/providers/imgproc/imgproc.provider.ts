@@ -43,9 +43,9 @@ export interface ImgProcClient {
     f: (s: ImgProcClientImpl) => Promise<Buffer>,
   ) => TE.TaskEither<ImgProcError, Buffer>;
   readExif: (
-    file: Buffer,
+    file: string | File,
     options: Parameters<typeof load>[1],
-  ) => TE.TaskEither<ImgProcError, ExifReader.Tags>;
+  ) => TE.TaskEither<ImgProcError, ExifReader.XmpTags>;
 }
 
 export interface MakeImgProcClientConfig {
@@ -63,8 +63,7 @@ export const MakeImgProcClient = ({
     run: (f) => TE.tryCatch(async () => await f(client), toError(logger)),
     readExif: (file, opts) => {
       return pipe(
-        fp.IOE.tryCatch(() => exifR.load(file, opts), toError(logger)),
-        TE.fromIOEither,
+        fp.TE.tryCatch(() => exifR.load(file, {...opts, async: true }), toError(logger)),
       );
     },
   };

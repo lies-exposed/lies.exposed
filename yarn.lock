@@ -3382,7 +3382,7 @@ __metadata:
     "@types/prettier": ^3.0.0
     "@types/uuid": ^9.0.7
     date-fns: ^2.30.0
-    exifreader: ^4.19.1
+    exifreader: ^4.20.0
     fp-ts: ^2.16.2
     io-ts: ^2.2.21
     page-metadata-parser: ^1.1.4
@@ -10078,7 +10078,7 @@ __metadata:
     eslint-config-prettier: ^9.1.0
     eslint-import-resolver-typescript: ^3.6.1
     eslint-plugin-import: ^2.29.1
-    exifreader: ^4.19.1
+    exifreader: ^4.20.0
     express: ^4.18.2
     express-jwt: ^8.4.1
     fast-csv: ^4.3.6
@@ -14608,15 +14608,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"exifreader@npm:^4.19.1":
-  version: 4.19.1
-  resolution: "exifreader@npm:4.19.1"
+"exifreader@npm:^4.20.0":
+  version: 4.20.0
+  resolution: "exifreader@npm:4.20.0"
   dependencies:
     "@xmldom/xmldom": ^0.8.10
   dependenciesMeta:
     "@xmldom/xmldom":
       optional: true
-  checksum: ec49b32d7c37d3d1f7acc847bcc5a79a3dce8c89c186dc3753272178d09e7523d47b3e1d80cd0cfb91f976e38fc20688678b86ea1fc83436aea13789c564c8e5
+  checksum: 112f48b538cd2151e3d25a7ac141f11074c7893ad8f669da2e2ecc546d276af03c012727bf6f169c7364f1fb33ffd5e8350a43918a44ff30471f6f0da4455243
   languageName: node
   linkType: hard
 
