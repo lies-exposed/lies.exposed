@@ -1,6 +1,7 @@
 import { http } from "@liexp/shared/lib/io";
 import * as React from "react";
 import { type FieldProps, useRecordContext } from "../../react-admin";
+import { BookTitle } from './BookTitle';
 import { DeathEventTitle } from "./DeathEventTitle";
 import { DocumentaryReleaseTitle } from "./DocumentaryReleaseTitle";
 import { PatentEventTitle } from "./PatentEventTitle";
@@ -29,6 +30,8 @@ export const EventTitle: React.FC<FieldProps<http.Events.Event>> = ({
         return <TransactionTitle record={record} />;
       case http.Events.EventTypes.QUOTE.value:
         return <QuoteTitle record={record} />;
+      case http.Events.EventTypes.BOOK.value:
+        return <BookTitle record={record} />;
     }
   }
   return <span>No record</span>;
