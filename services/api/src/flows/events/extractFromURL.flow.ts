@@ -16,10 +16,13 @@ import type * as puppeteer from "puppeteer-core";
 import { In } from "typeorm";
 import { fetchAndSave } from "../links/link.flow.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
+import { type AreaEntity } from '#entities/Area.entity.js';
 import { type EventV2Entity } from "#entities/Event.v2.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";
+import { type GroupMemberEntity } from '#entities/GroupMember.entity.js';
 import { KeywordEntity } from "#entities/Keyword.entity.js";
 import { type LinkEntity } from "#entities/Link.entity.js";
+import { type MediaEntity } from '#entities/Media.entity.js';
 import { type UserEntity } from "#entities/User.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import {
@@ -160,6 +163,9 @@ export const extractRelationsFromURL: TEFlow<
     groups: GroupEntity[];
     keywords: KeywordEntity[];
     links: LinkEntity[];
+    areas: AreaEntity[];
+    groupsMembers: GroupMemberEntity[];
+    media: MediaEntity[];
   }
 > = (ctx) => (p, url) => {
   const id = GetEncodeUtils<string>((url) => ({ url })).hash(url);
@@ -253,7 +259,10 @@ export const extractRelationsFromURL: TEFlow<
                     TE.right<ControllerError, KeywordEntity[]>([]),
                   ),
                 ),
+                media: TE.right([]),
                 links: TE.right([]),
+                areas: TE.right([]),
+                groupsMembers: TE.right([]),
               }),
             ),
           );
