@@ -62,14 +62,18 @@ export const MakeListSocialPostRoute = (r: Router, ctx: RouteContext): void => {
       findSocialPostQuery
         .addSelect("*")
         .addSelect(
-          (s) =>
-            s
-              .from(SocialPostEntity, "sub_sp")
+          (s) => {
+            s.from(SocialPostEntity, "sub_sp")
               .addSelect("count(*)", "publishCount")
-              .where('"entity" = "sp"."entity"')
-              .andWhere('"type" = :type', {
-                type,
-              }),
+              .where('"entity" = "sp"."entity"');
+            if (fp.O.isSome(type)) {
+              s.andWhere('"type" = :type', {
+                type: type.value,
+              });
+            }
+
+            return s;
+          },
 
           "publishCount",
         )
@@ -78,8 +82,8 @@ export const MakeListSocialPostRoute = (r: Router, ctx: RouteContext): void => {
         .take(ormOpts.take);
 
       ctx.logger.debug.log(
-        `Find social posts %s`,
-        findSocialPostQuery.getSql(),
+        `Find social posts %O`,
+        findSocialPostQuery.getQueryAndParameters(),
       );
 
       return pipe(
