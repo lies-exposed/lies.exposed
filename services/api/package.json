@@ -58,7 +58,7 @@
     "@liexp/backend": "0.1.0",
     "@liexp/core": "0.1.0",
     "@liexp/shared": "0.1.0",
-    "axios": "^1.6.4",
+    "axios": "^1.6.5",
     "canvas": "^2.11.2",
     "cors": "2.8.5",
     "debug": "^4.3.4",
