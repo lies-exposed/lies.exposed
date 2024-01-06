@@ -29,7 +29,7 @@ export const LinkAutocompleteOptionText: React.FC = () => {
         src={record.image?.thumbnail}
         style={{ marginRight: 10, width: 100, height: 100 }}
       />
-      <Typography>{record.description}</Typography>
+      <Typography>{record.title}</Typography>
     </div>
   ) : (
     <span>No link</span>
@@ -54,7 +54,7 @@ const ReferenceLinkInput: React.FC<
           source="id"
           optionText={<LinkAutocompleteOptionText />}
           matchSuggestion={matchLinkSuggestions}
-          inputText={(r) => r.description}
+          inputText={(r) => r.title}
           filterToQuery={(q) => ({ q })}
         />
       </ReferenceInput>
