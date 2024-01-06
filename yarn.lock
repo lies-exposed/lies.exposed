@@ -3429,13 +3429,13 @@ __metadata:
     "@types/copy-webpack-plugin": ^10.1.0
     "@types/debug": ^4.1.12
     "@types/dotenv-webpack": ^7.0.7
-    "@types/eslint": ^8.56.0
+    "@types/eslint": ^8.56.1
     "@types/express": ^4.17.21
     "@types/html-replace-webpack-plugin": ^2.6.4
     "@types/mime": ^1.3.5
     "@types/mini-css-extract-plugin": ^2.5.1
     "@types/prettier": ^3.0.0
-    "@types/react": ^18.2.46
+    "@types/react": ^18.2.47
     "@types/webpack-bundle-analyzer": ^4.6.3
     "@types/webpack-node-externals": ^3.0.4
     copy-webpack-plugin: ^11.0.0
@@ -3488,7 +3488,7 @@ __metadata:
     "@liexp/test": 0.1.0
     "@types/bs58": ^4.0.4
     "@types/prettier": ^3.0.0
-    "@types/react": ^18.2.46
+    "@types/react": ^18.2.47
     "@types/react-dom": ^18.2.18
     "@types/throttle-debounce": ^5.0.2
     "@types/uuid": ^9.0.7
@@ -3575,10 +3575,10 @@ __metadata:
     "@types/chroma-js": ^2.4.3
     "@types/d3": ^7.4.3
     "@types/d3-sankey": ^0.12.4
-    "@types/eslint": ^8.56.0
+    "@types/eslint": ^8.56.1
     "@types/prettier": ^3.0.0
     "@types/reach__router": ^1.3.15
-    "@types/react": ^18.2.46
+    "@types/react": ^18.2.47
     "@types/react-helmet": ^6.1.11
     "@types/react-slick": ^0.23.13
     "@types/react-virtualized": ^9.21.29
@@ -7960,13 +7960,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:*, @types/eslint@npm:^8.37.0, @types/eslint@npm:^8.56.0":
-  version: 8.56.0
-  resolution: "@types/eslint@npm:8.56.0"
+"@types/eslint@npm:*, @types/eslint@npm:^8.37.0, @types/eslint@npm:^8.56.1":
+  version: 8.56.1
+  resolution: "@types/eslint@npm:8.56.1"
   dependencies:
     "@types/estree": "*"
     "@types/json-schema": "*"
-  checksum: 8eca14c1ca8a4dbbcbf6bed67775db9dd2f9947802d6da39fa0c4c297a1e5465e898332232bb51980586a9a45b1b21bc13fd79fcc81adcd4c86062372e9bab6d
+  checksum: 1a4c7334c2f0cfead7b9d25c574c7b3d0b44242958703caa868ed38990a96b5d96477e6fceb7be54fbadd6fb61c97b778b9df58531ced3ec4b022d3e54254dc3
   languageName: node
   linkType: hard
 
@@ -8458,14 +8458,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^18.2.46":
-  version: 18.2.46
-  resolution: "@types/react@npm:18.2.46"
+"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^18.2.47":
+  version: 18.2.47
+  resolution: "@types/react@npm:18.2.47"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: cb0e4dc7f41988a059e1246a19ec377101f5b16097ec4bf7000ef3c431ec0c8c873f40e95075821f908db1f4e3352775f0f18cea53dcad14dce67c0f5110f2bd
+  checksum: 49608f07f73374e535b21f99fee28e6cfd5801d887c6ed88c41b4dc701dbcee9f0c4d289d9af7b2b23114f76dbf203ffe2c9191bfb4958cf18dae5a25daedbd0
   languageName: node
   linkType: hard
 
@@ -9778,7 +9778,7 @@ __metadata:
     "@types/lodash": ^4.14.202
     "@types/node": ^18.19.4
     "@types/prettier": ^3.0.0
-    "@types/react": ^18.2.46
+    "@types/react": ^18.2.47
     "@types/react-dom": ^18.2.18
     "@types/webpack-bundle-analyzer": ^4.6.3
     "@typescript-eslint/eslint-plugin": ^6.18.0
@@ -10055,7 +10055,7 @@ __metadata:
     "@types/body-parser": ^1.19.5
     "@types/cors": ^2.8.17
     "@types/debug": ^4.1.12
-    "@types/eslint": ^8.56.0
+    "@types/eslint": ^8.56.1
     "@types/express": ^4.17.21
     "@types/fluent-ffmpeg": ^2.1.24
     "@types/jsonwebtoken": ^9.0.5
@@ -24269,7 +24269,7 @@ __metadata:
     "@storybook/react-webpack5": ^7.6.7
     "@storybook/theming": ^7.6.7
     "@types/babel__preset-env": ^7.9.6
-    "@types/eslint": ^8.56.0
+    "@types/eslint": ^8.56.1
     "@types/prettier": ^3.0.0
     d3: ^7.8.5
     eslint: ^8.56.0
@@ -26452,7 +26452,7 @@ __metadata:
     "@types/mime": ^1.3.5
     "@types/node": ^18.19.4
     "@types/prettier": ^3.0.0
-    "@types/react": ^18.2.46
+    "@types/react": ^18.2.47
     "@types/react-calendar-heatmap": ^1.6.6
     "@types/react-dom": ^18.2.18
     "@types/react-helmet": ^6.1.11
