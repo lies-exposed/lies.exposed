@@ -4,7 +4,7 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import kebabCase from "lodash/kebabCase.js";
 import type TelegramBot from "node-telegram-bot-api";
 import { ActorEntity } from "#entities/Actor.entity.js";
-import { searchActorAndCreateFromWikipedia } from "#flows/actors/fetchAndCreateActorFromWikipedia.js";
+import { fetchAndCreateActorFromWikipedia } from "#flows/actors/fetchAndCreateActorFromWikipedia.js";
 import { toControllerError } from "#io/ControllerError.js";
 import { type RouteContext } from "#routes/route.types.js";
 
@@ -82,7 +82,7 @@ export const actorCommand = ({
               logger.debug.log("User pick %O", jsonData);
 
               void pipe(
-                searchActorAndCreateFromWikipedia({
+                fetchAndCreateActorFromWikipedia({
                   logger,
                   wp,
                   tg,
