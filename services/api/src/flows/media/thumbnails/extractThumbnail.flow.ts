@@ -1,13 +1,13 @@
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { pipe } from "@liexp/core/lib/fp/index.js";
 import { type MediaType } from "@liexp/shared/lib/io/http/Media.js";
 import { Media } from "@liexp/shared/lib/io/http/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type ExtractThumbnailFlow } from "./ExtractThumbnailFlow.type.js";
 import { extractMP4Thumbnail } from "./extractMP4Thumbnail.flow.js";
+import { extractThumbnailFromImage } from "./extractThumbnailFromImage.js";
 import { extractThumbnailFromPDF } from "./extractThumbnailFromPDF.js";
 import {
-  createFromRemote,
-  extractThumbnailFromIframe,
+  extractThumbnailFromIframe
 } from "./extractThumbnailFromVideoPlatform.js";
 
 export const extractThumbnail: ExtractThumbnailFlow<MediaType> =
@@ -29,8 +29,7 @@ export const extractThumbnail: ExtractThumbnailFlow<MediaType> =
 
     if (Media.ImageType.is(type)) {
       return pipe(
-        createFromRemote(ctx)(m.id, m.location, type),
-        TE.map(fp.A.of),
+        extractThumbnailFromImage(ctx)({ ...m, type }),
       );
     }
 
