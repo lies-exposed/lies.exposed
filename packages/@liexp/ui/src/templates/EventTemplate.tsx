@@ -16,6 +16,7 @@ import { GroupMembersList } from "../components/GroupMembersBox";
 import { KeywordsBox } from "../components/KeywordsBox";
 import { LinksListBox } from "../components/LinksBox";
 import SEO from "../components/SEO";
+import { EventRelatedEvents } from '../components/events/EventRelatedEvents/EventRelatedEvents';
 import { EventRelations } from "../components/events/EventRelations";
 import { ActorList } from "../components/lists/ActorList";
 import GroupList from "../components/lists/GroupList";
@@ -89,20 +90,21 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
   return (
     <StyledBox className={classes.root}>
       <EventRelations event={event}>
-        {({ actors, groups, groupsMembers, media, links, areas }) => {
+        {({ actors, groups, groupsMembers, keywords, media, links, areas }) => {
           const searchEvent = toSearchEvent(event, {
             actors: new Map(actors.map(TupleWithId.of)),
             groups: new Map(groups.map(TupleWithId.of)),
             media: new Map(media.map(TupleWithId.of)),
             links: new Map(links.map(TupleWithId.of)),
             areas: new Map(areas.map(TupleWithId.of)),
+            keywords: new Map(keywords.map(TupleWithId.of)),
           });
 
           const { title } = getEventCommonProps(event, {
             actors,
             groups,
             groupsMembers: [],
-            keywords: [],
+            keywords,
             media,
             links,
             areas,
@@ -288,7 +290,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                       actors,
                       groups,
                       groupsMembers,
-                      keywords: [],
+                      keywords,
                       areas,
                     }}
                     onDateClick={onDateClick}
@@ -296,9 +298,18 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                     onKeywordClick={onKeywordClick}
                     onActorClick={onActorClick}
                     onGroupMemberClick={(g) => {}}
-                    onLinkClick={() => {}}
+                    onLinkClick={(l) => {}}
                     onAreaClick={(a) => {}}
                   />
+                  <EventRelatedEvents event={searchEvent} relations={{
+                    media,
+                    links,
+                    actors,
+                    groups,
+                    groupsMembers,
+                    keywords,
+                    areas,
+                  }} onEventClick={onEventClick} />
                 </Grid>
 
                 <EventsFlowGraphBox

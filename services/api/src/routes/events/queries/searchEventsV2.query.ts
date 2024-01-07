@@ -290,6 +290,7 @@ export const searchEventV2Query =
         const searchV2Query = pipe(
           db.manager
             .createQueryBuilder(EventV2Entity, "event")
+            .addSelect("RANDOM()", "seeder_random")
             .leftJoinAndSelect("event.keywords", "keywords")
             .leftJoinAndSelect("event.media", "media")
             .leftJoinAndSelect("event.links", "links")
@@ -433,11 +434,11 @@ export const searchEventV2Query =
               q.withDeleted();
             }
 
-            q.cache(true);
-
             if (order !== undefined) {
               addOrder(order, q, "event");
             }
+
+            q.cache(true);
 
             const uncategorizedCount = q
               .clone()
