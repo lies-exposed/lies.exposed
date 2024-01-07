@@ -13,7 +13,7 @@ import {
   Tab,
   Tabs,
   Typography,
-  useMediaQuery as useMuiMediaQuery,
+  useMuiMediaQuery,
 } from "../components/mui";
 import { styled, useTheme } from "../theme";
 

@@ -24,7 +24,7 @@ import {
   Box,
   Grid,
   Typography,
-  useMediaQuery as useMuiMediaQuery,
+  useMuiMediaQuery,
 } from "../components/mui";
 import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox";
 import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventsNetworkGraphBox";

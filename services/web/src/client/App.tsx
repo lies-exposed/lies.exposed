@@ -4,7 +4,7 @@ import { ErrorBox } from "@liexp/ui/lib/components/Common/ErrorBox";
 import { FullSizeLoader } from "@liexp/ui/lib/components/Common/FullSizeLoader";
 import { Footer } from "@liexp/ui/lib/components/Footer";
 import SEO from "@liexp/ui/lib/components/SEO";
-import { Grid, useMediaQuery } from "@liexp/ui/lib/components/mui";
+import { Grid, useMuiMediaQuery } from "@liexp/ui/lib/components/mui";
 import { useTheme } from "@liexp/ui/lib/theme";
 import * as React from "react";
 import { ErrorBoundary } from "react-error-boundary";
@@ -16,7 +16,7 @@ import { routes } from "./routes";
 export const App: React.FC = () => {
   const location = useLocation();
   const theme = useTheme();
-  const isDownSM = useMediaQuery("min-width: 899px");
+  const isDownSM = useMuiMediaQuery("min-width: 899px");
 
   return (
     <div style={{ height: "100%", display: "flex" }}>

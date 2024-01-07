@@ -1,4 +1,5 @@
-import Header, { type HeaderMenuItem } from "@liexp/ui/lib/components/Header";
+import Header from "@liexp/ui/lib/components/Header/Header";
+import { type HeaderMenuItem } from "@liexp/ui/lib/components/Header/HeaderMenu/types";
 import { useNavigateTo } from "@liexp/ui/lib/utils/history.utils";
 import * as React from "react";
 import { useHasAuth } from "../../utils/auth.utils";
