@@ -1,27 +1,17 @@
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
 import {
-  type Link,
-  type Actor,
-  type Area,
-  type Group,
-  type GroupMember,
+  type Events
 } from "@liexp/shared/lib/io/http";
 import { type Event } from "@liexp/shared/lib/io/http/Events";
-import { type Media } from "@liexp/shared/lib/io/http/Media";
 import { UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
 import QueriesRenderer from "../QueriesRenderer";
 
 export const EventRelations: React.FC<{
   event: Event;
-  children: (props: {
-    actors: Actor.Actor[];
-    groups: Group.Group[];
-    media: Media[];
-    areas: Area.Area[];
-    links: Link.Link[];
+  children: (props: Events.EventRelations & {
     event: Event;
-    groupsMembers: GroupMember.GroupMember[];
+    
   }) => JSX.Element;
 }> = ({ event, children }) => {
   const { actors, groups, media, links, groupsMembers } = getRelationIds(event);
@@ -92,6 +82,17 @@ export const EventRelations: React.FC<{
           undefined,
           true,
         ),
+        keywords: Q.Keyword.list.useQuery(
+          {
+            filter: { ids: event.keywords },
+            pagination: {
+              perPage: event.keywords.length,
+              page: 1,
+            },
+          },
+          undefined,
+          true,
+        ),
         areas: Q.Area.list.useQuery(
           {
             filter: UUID.is((event.payload as any).location)
@@ -113,6 +114,7 @@ export const EventRelations: React.FC<{
         areas: { data: areas },
         groupsMembers: { data: groupsMembers },
         links: { data: links },
+        keywords: { data: keywords },
       }) => {
         return children({
           actors,
@@ -122,6 +124,7 @@ export const EventRelations: React.FC<{
           areas,
           groupsMembers,
           links,
+          keywords,
         });
       }}
     />
