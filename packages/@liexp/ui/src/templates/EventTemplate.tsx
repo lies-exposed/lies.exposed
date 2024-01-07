@@ -16,7 +16,7 @@ import { GroupMembersList } from "../components/GroupMembersBox";
 import { KeywordsBox } from "../components/KeywordsBox";
 import { LinksListBox } from "../components/LinksBox";
 import SEO from "../components/SEO";
-import { EventRelatedEvents } from '../components/events/EventRelatedEvents/EventRelatedEvents';
+import { EventRelatedEvents } from "../components/events/EventRelatedEvents/EventRelatedEvents";
 import { EventRelations } from "../components/events/EventRelations";
 import { ActorList } from "../components/lists/ActorList";
 import GroupList from "../components/lists/GroupList";
@@ -134,7 +134,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                     spacing={2}
                     style={{
                       display: "flex",
-                      flexDirection: isDownSM ? undefined : "column",
+                      flexDirection: isDownSM ? undefined : "row",
                       alignItems: isDownSM ? "center" : "flex-end",
                       justifyContent: isDownSM ? "flex-start" : "flex-end",
                       paddingRight: 20,
@@ -148,6 +148,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                           flexDirection: "row",
                           flexWrap: isDownSM ? "wrap" : undefined,
                           alignItems: "flex-end",
+                          justifyContent: isDownSM ? "flex-start" : "flex-end",
                           cursor: "pointer",
                         }}
                         onClick={() => {
@@ -301,15 +302,19 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                     onLinkClick={(l) => {}}
                     onAreaClick={(a) => {}}
                   />
-                  <EventRelatedEvents event={searchEvent} relations={{
-                    media,
-                    links,
-                    actors,
-                    groups,
-                    groupsMembers,
-                    keywords,
-                    areas,
-                  }} onEventClick={onEventClick} />
+                  <EventRelatedEvents
+                    event={searchEvent}
+                    relations={{
+                      media,
+                      links,
+                      actors,
+                      groups,
+                      groupsMembers,
+                      keywords,
+                      areas,
+                    }}
+                    onEventClick={onEventClick}
+                  />
                 </Grid>
 
                 <EventsFlowGraphBox

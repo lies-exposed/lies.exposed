@@ -49,6 +49,12 @@ const EventTemplateDefault = Template.bind({});
 
 EventTemplateDefault.args = {
   defaultTab: 0,
+  filters: {
+    actors: [],
+    groups: [],
+    keywords: [],
+    eventType: [],
+  }
 };
 
 export { EventTemplateDefault };

@@ -41,7 +41,7 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
 
   [`.${classes.left}`]: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
     alignItems: "flex-end",
     [theme.breakpoints.down("md")]: {
       alignItems: "flex-start",
@@ -197,7 +197,13 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
   return (
     <StyledGrid className={classes.root} container spacing={2}>
       <Grid item lg={3} md={3} sm={12} xs={12} className={classes.left}>
-        <Stack height={"100%"}>
+        <Stack
+          width={"100%"}
+          height={"100%"}
+          direction="column"
+          alignContent={"end"}
+          justifyContent={"start"}
+        >
           <Box className={classes.sidebar}>
             {React.Children.toArray(asideNode)}
             <Box className={classes.editButtonBox}>

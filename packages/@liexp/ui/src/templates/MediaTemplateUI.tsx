@@ -31,7 +31,7 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
     <SplitPageTemplate
       resource={{ name: "media", item: m }}
       aside={
-        <Box width="100%" paddingLeft={10}>
+        <Box width="100%" display="flex" flexDirection={"column"} paddingLeft={2}>
           <MediaElement
             media={m}
             itemStyle={{
