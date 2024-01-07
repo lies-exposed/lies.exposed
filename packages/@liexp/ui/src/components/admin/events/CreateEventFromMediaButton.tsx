@@ -6,7 +6,7 @@ import { useRecordContext } from "ra-core";
 import * as React from "react";
 import { Button, useDataProvider } from "react-admin";
 import { useNavigate } from "react-router";
-import { Box, MenuItem, Select } from "../../mui";
+import { Box, MenuItem, Select, Stack } from "../../mui";
 
 export const CreateEventFromMediaButton: React.FC = () => {
   const record = useRecordContext();
@@ -41,7 +41,7 @@ export const CreateEventFromMediaButton: React.FC = () => {
   }
 
   return (
-    <Box>
+    <Stack direction={"row"} spacing={2}>
       <Select
         size="small"
         value={type}
@@ -62,6 +62,6 @@ export const CreateEventFromMediaButton: React.FC = () => {
           void handleSubmit();
         }}
       />
-    </Box>
+    </Stack>
   );
 };
