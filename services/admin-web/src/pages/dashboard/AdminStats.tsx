@@ -11,8 +11,13 @@ import {
 } from "@liexp/ui/lib/components/mui";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
+import { useNavigate } from "react-router";
 
 export const AdminStats: React.FC = () => {
+  const navigate = useNavigate();
+  const onNoThumbnailsClick = React.useCallback(() => {
+    navigate(`/media?filter=${JSON.stringify({ emptyThumbnail: true })}`);
+  }, []);
   return (
     <Grid container spacing={2}>
       <Grid item md={4} sm={6}>
@@ -32,6 +37,18 @@ export const AdminStats: React.FC = () => {
                   >
                     <MediaIcon />
                     <Typography variant="h5">Media</Typography>
+                  </Stack>
+
+                  <Stack
+                    alignContent={"center"}
+                    alignItems={"center"}
+                    direction="row"
+                    spacing={2}
+                  >
+                    <Typography>No Thumbnails:</Typography>
+                    <Typography variant="h6" onClick={onNoThumbnailsClick}>
+                      {data.noThumbnails.length}
+                    </Typography>
                   </Stack>
 
                   <Stack

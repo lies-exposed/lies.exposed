@@ -98,12 +98,15 @@ export const GetMediaStats = Endpoint({
     data: t.strict({
       orphans: t.array(t.any),
       match: t.array(t.any),
-      temp: t.array(t.any)
+      temp: t.array(t.any),
+      noThumbnails: t.array(t.any)
     }),
     totals: t.strict({
       orphans: t.number,
       match: t.number,
-      temp: t.number
+      temp: t.number,
+      noThumbnails: t.number  
+
     }),
     total: t.number,
   }),

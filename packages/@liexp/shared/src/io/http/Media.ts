@@ -66,6 +66,7 @@ export const GetListMediaQuery = t.type(
     ids: optionFromNullable(t.array(UUID)),
     exclude: optionFromNullable(t.array(UUID)),
     description: optionFromNullable(t.string),
+    emptyThumbnail: optionFromNullable(BooleanFromString),
     emptyEvents: optionFromNullable(BooleanFromString),
     emptyLinks: optionFromNullable(BooleanFromString),
     emptyAreas: optionFromNullable(BooleanFromString),
