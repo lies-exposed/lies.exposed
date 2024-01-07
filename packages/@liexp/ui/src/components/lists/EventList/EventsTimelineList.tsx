@@ -60,6 +60,7 @@ const Row: React.FC<
     parent,
     index,
     k: key,
+    condensed,
   } = props;
 
   return (
@@ -100,6 +101,7 @@ const Row: React.FC<
             event={event}
             style={style}
             onClick={onClick}
+            condensed={condensed}
             onKeywordClick={onKeywordClick}
             onActorClick={onActorClick}
             onGroupClick={onGroupClick}
@@ -142,12 +144,14 @@ const EventsTimelineList: React.ForwardRefRenderFunction<
     onGroupClick,
     onKeywordClick,
     onGroupMemberClick,
+    condensed,
     ...listProps
   } = props;
 
   // const isDownSM = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const itemProps = {
+  const rowProps = {
+    condensed,
     onClick,
     onActorClick,
     onGroupClick,
@@ -171,7 +175,7 @@ const EventsTimelineList: React.ForwardRefRenderFunction<
 
         return (
           <Row
-            {...itemProps}
+            {...rowProps}
             {...props}
             key={key}
             k={key}

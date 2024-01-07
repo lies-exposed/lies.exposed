@@ -1,6 +1,6 @@
 import { fp } from "@liexp/core/lib/fp";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
-import { EventType } from '@liexp/shared/lib/io/http/Events';
+import { EventType } from "@liexp/shared/lib/io/http/Events";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
@@ -10,7 +10,14 @@ import * as React from "react";
 import QueriesRenderer from "../components/QueriesRenderer";
 import SEO from "../components/SEO";
 import EventsTimeline from "../components/lists/EventList/EventsTimeline";
-import { Box, Grid } from "../components/mui";
+import {
+  Box,
+  FormControlLabel,
+  FormGroup,
+  Grid,
+  Stack,
+  Switch,
+} from "../components/mui";
 import EventsAppBarBox from "../containers/EventsAppBarBox";
 import { EventsNetworkGraphBox } from "../containers/graphs/EventsNetworkGraphBox";
 import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
@@ -147,6 +154,8 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
     ACTORS.value,
   ]);
 
+  const [condensedList, setCondensedList] = React.useState(false);
+
   const queries = useEndpointQueries();
 
   return (
@@ -229,37 +238,63 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
             >
               <SplitPageTemplate
                 aside={
-                  <EventsAppBarBox
-                    hash={hash}
-                    defaultExpanded={true}
-                    query={{ ...params, slide, hash }}
-                    actors={filterActors.data.map((i) => ({
-                      ...i,
-                      selected: true,
-                    }))}
-                    groups={filterGroups.data.map((i) => ({
-                      ...i,
-                      selected: true,
-                    }))}
-                    groupsMembers={filterGroupsMembers.data.map((i) => ({
-                      ...i,
-                      selected: true,
-                    }))}
-                    keywords={filterKeywords.data.map((i) => ({
-                      ...i,
-                      selected: true,
-                    }))}
-                    onQueryChange={(u) => {
-                      onQueryChange(u, tab);
-                    }}
-                    onQueryClear={onQueryClear}
-                    layout={{
-                      searchBox: 10,
-                      eventTypes: 12,
-                      dateRangeBox: { columns: 12, variant: "picker" },
-                      relations: 12,
-                    }}
-                  />
+                  <Stack padding={2} spacing={2}>
+                    <EventsAppBarBox
+                      hash={hash}
+                      defaultExpanded={true}
+                      query={{ ...params, slide, hash }}
+                      actors={filterActors.data.map((i) => ({
+                        ...i,
+                        selected: true,
+                      }))}
+                      groups={filterGroups.data.map((i) => ({
+                        ...i,
+                        selected: true,
+                      }))}
+                      groupsMembers={filterGroupsMembers.data.map((i) => ({
+                        ...i,
+                        selected: true,
+                      }))}
+                      keywords={filterKeywords.data.map((i) => ({
+                        ...i,
+                        selected: true,
+                      }))}
+                      onQueryChange={(u) => {
+                        onQueryChange(u, tab);
+                      }}
+                      onQueryClear={onQueryClear}
+                      layout={{
+                        searchBox: 10,
+                        eventTypes: 12,
+                        dateRangeBox: { columns: 12, variant: "picker" },
+                        relations: 12,
+                      }}
+                    />
+                  </Stack>
+                }
+                asideBottom={
+                  <Stack
+                    padding={2}
+                    flexGrow={1}
+                    alignItems={"flex-end"}
+                    alignContent={"end"}
+                  >
+                    <FormGroup>
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            size="small"
+                            value={condensedList}
+                            onChange={(e) => {
+                              setCondensedList(e.target.checked);
+                            }}
+                          />
+                        }
+                        label="Condensed list"
+                        labelPlacement='start'
+                      />
+                    </FormGroup>
+                  </Stack>
                 }
                 onTabChange={(tab) => {
                   onQueryChange(
@@ -286,6 +321,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                   hash={hash}
                   queryParams={{ ...params, slide }}
                   onClick={onEventClick}
+                  condensed={condensedList}
                   onActorClick={(actor) => {
                     onQueryChange(
                       {
@@ -330,7 +366,8 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                       keywords: selectedKeywordIds,
                       actors: selectedActorIds,
                       groups: selectedGroupIds,
-                      eventType: params.eventType ?? EventType.types.map((t) => t.value),
+                      eventType:
+                        params.eventType ?? EventType.types.map((t) => t.value),
                       startDate: params.startDate,
                       endDate: params.endDate ?? formatDate(new Date()),
                     }}

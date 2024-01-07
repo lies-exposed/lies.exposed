@@ -27,6 +27,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
     flexGrow: 1,
     justifyContent: "flex-start",
     alignItems: "flex-end",
+    width: "100%",
     [theme.breakpoints.down("md")]: {
       flexDirection: "row",
       justifyContent: "flex-end",
@@ -44,7 +45,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
   [`& .${classes.subjectsList}`]: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
     [theme.breakpoints.down("md")]: {
       flexDirection: "row",
       justifyContent: "flex-end",
