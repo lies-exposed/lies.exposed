@@ -1,4 +1,3 @@
-import { pipe } from "@liexp/core/lib/fp/index.js";
 import { type MediaType } from "@liexp/shared/lib/io/http/Media.js";
 import { Media } from "@liexp/shared/lib/io/http/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -6,9 +5,7 @@ import { type ExtractThumbnailFlow } from "./ExtractThumbnailFlow.type.js";
 import { extractMP4Thumbnail } from "./extractMP4Thumbnail.flow.js";
 import { extractThumbnailFromImage } from "./extractThumbnailFromImage.js";
 import { extractThumbnailFromPDF } from "./extractThumbnailFromPDF.js";
-import {
-  extractThumbnailFromIframe
-} from "./extractThumbnailFromVideoPlatform.js";
+import { extractThumbnailFromIframe } from "./extractThumbnailFromVideoPlatform.js";
 
 export const extractThumbnail: ExtractThumbnailFlow<MediaType> =
   (ctx) => (media) => {
@@ -28,9 +25,7 @@ export const extractThumbnail: ExtractThumbnailFlow<MediaType> =
     }
 
     if (Media.ImageType.is(type)) {
-      return pipe(
-        extractThumbnailFromImage(ctx)({ ...m, type }),
-      );
+      return extractThumbnailFromImage(ctx)({ ...m, type });
     }
 
     if (Media.AudioType.is(type)) {
