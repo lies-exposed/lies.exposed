@@ -113,10 +113,7 @@ export interface EventTimelineItemProps extends EventListItemProps {
 
 // eslint-disable-next-line react/display-name
 const EventTimelineItem = React.forwardRef<any, EventTimelineItemProps>(
-  (
-    { event: e, isLast, style, onKeywordClick, onRowInvalidate, ...props },
-    ref,
-  ) => {
+  ({ event: e, isLast, style, ...props }, ref) => {
     return (
       <Root
         key={`event-list-item-${e.id}`}
@@ -149,12 +146,7 @@ const EventTimelineItem = React.forwardRef<any, EventTimelineItemProps>(
             {!isLast ? <TimelineConnector /> : null}
           </TimelineSeparator>
           <TimelineContent className={classes.content}>
-            <EventListItem
-              event={e}
-              onKeywordClick={onKeywordClick}
-              onRowInvalidate={onRowInvalidate}
-              {...props}
-            />
+            <EventListItem event={e} {...props} />
           </TimelineContent>
         </TimelineItem>
       </Root>

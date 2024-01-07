@@ -32,20 +32,23 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 const getSubject = (
   subject: Events.SearchEvent.SearchTransactionEvent["payload"]["from"],
+  condensed: boolean
 ): JSX.Element => {
   if (subject.type === ByActorId.type.props.type.value) {
     return (
       <ActorListItem
+        avatarSize={ condensed ?"xsmall" : 'small'}
         style={{ display: "inline" }}
-        item={{ ...subject.id, selected: false }}
+        item={{ ...subject.id, selected: true }}
       />
     );
   }
   if (subject.type === ByGroupId.type.props.type.value) {
     return (
       <GroupListItem
+      avatarSize={ condensed ?"xsmall" : 'small'}
         style={{ display: "inline" }}
-        item={{ ...subject.id, selected: false }}
+        item={{ ...subject.id, selected: true }}
       />
     );
   }
@@ -54,6 +57,7 @@ const getSubject = (
 
 interface TransactionListItemProps {
   item: Events.SearchEvent.SearchTransactionEvent;
+  condensed?: boolean;
   onClick?: (e: Events.SearchEvent.SearchTransactionEvent) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onKeywordClick?: (e: Keyword.Keyword) => void;
@@ -63,6 +67,7 @@ interface TransactionListItemProps {
 
 export const TransactionListItem: React.FC<TransactionListItemProps> = ({
   item,
+  condensed = false,
   onClick,
   onActorClick,
   onKeywordClick,
@@ -91,6 +96,8 @@ export const TransactionListItem: React.FC<TransactionListItemProps> = ({
         </Grid>
         <Grid
           item
+          md={condensed ? 6 : 12}
+          sm={condensed ? 6 : 12}
           xs={12}
           style={{
             display: "flex",
@@ -99,7 +106,7 @@ export const TransactionListItem: React.FC<TransactionListItemProps> = ({
             // justifyContent: 'center'
           }}
         >
-          <Box display={"flex"}>{getSubject(item.payload.from)}</Box>
+          <Box display={"flex"}>{getSubject(item.payload.from, condensed)}</Box>
           <Box display={"flex"}>
             <ArrowRightIcon />
             <Typography variant="subtitle1">
@@ -107,11 +114,11 @@ export const TransactionListItem: React.FC<TransactionListItemProps> = ({
             </Typography>
             <ArrowRightIcon />
           </Box>
-          <Box display="flex">{getSubject(item.payload.to)}</Box>
+          <Box display="flex">{getSubject(item.payload.to, condensed)}</Box>
         </Grid>
 
         {isValidValue(item.excerpt as any) ? (
-          <Grid item xs={12}>
+          <Grid item md={condensed ? 6 : 12} sm={condensed ? 6 : 12} xs={12}>
             <Typography style={{ display: "flex" }} variant="body1">
               {getTextContentsCapped(item.excerpt as any, 300)}
             </Typography>

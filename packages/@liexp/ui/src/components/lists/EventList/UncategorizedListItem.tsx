@@ -12,6 +12,7 @@ import EventListItemBase from "./EventListItemBase";
 
 interface UncategorizedListItemProps {
   item: Events.SearchEvent.SearchUncategorizedEvent;
+  condensed?: boolean;
   onClick?: (e: Events.SearchEvent.SearchUncategorizedEvent) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onGroupClick?: (e: Group.Group) => void;
@@ -24,6 +25,7 @@ interface UncategorizedListItemProps {
 export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
   item,
   onClick,
+  condensed,
   onActorClick,
   onGroupClick,
   onGroupMemberClick,
@@ -53,6 +55,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
           links={item.links}
           onKeywordClick={onKeywordClick}
           onRowInvalidate={onRowInvalidate}
+          condensed={condensed}
           onLoad={onLoad}
         />
       </Grid>
