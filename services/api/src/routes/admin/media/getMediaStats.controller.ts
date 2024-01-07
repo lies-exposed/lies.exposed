@@ -1,9 +1,7 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { getOrphanMediaFlow } from "#flows/media/getOrphanMedia.flow.js";
-import { getTempMediaCountFlow } from "#flows/media/getTempMediaCount.flow.js";
+import { getMediaAdminStatsFlow } from "#flows/admin/media/getMediaAdminStats.flow.js";
 import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
@@ -12,18 +10,16 @@ export const MakeAdminGetMediaStatsRoute: Route = (r, ctx) => {
     Endpoints.Admin.Custom.GetMediaStats,
     () => {
       return pipe(
-        sequenceS(TE.ApplicativePar)({
-          orphans: getOrphanMediaFlow(ctx)(),
-          temp: getTempMediaCountFlow(ctx)(),
-        }),
-        TE.map(({ orphans: data, temp }) => ({
+        getMediaAdminStatsFlow(ctx)(),
+        TE.map(({ orphans: data, temp, noThumbnails }) => ({
           body: {
-            data: { ...data, temp },
+            data: { ...data, temp, noThumbnails },
             total: data.orphans.length + data.match.length,
             totals: {
               orphans: data.orphans.length,
               match: data.match.length,
               temp: temp.length,
+              noThumbnails: noThumbnails.length,
             },
           },
           statusCode: 201,

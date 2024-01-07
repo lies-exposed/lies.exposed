@@ -14,6 +14,7 @@ const defaultQuery: http.Media.GetListMediaQuery = {
   description: fp.O.none,
   events: fp.O.none,
   keywords: fp.O.none,
+  emptyThumbnail: fp.O.none,
   emptyEvents: fp.O.none,
   emptyLinks: fp.O.none,
   emptyAreas: fp.O.none,
@@ -39,6 +40,7 @@ export const fetchManyMedia: TEFlow<
     events,
     emptyEvents,
     emptyLinks,
+    emptyThumbnail,
     emptyAreas,
     deletedOnly,
     exclude,
@@ -128,6 +130,12 @@ export const fetchManyMedia: TEFlow<
           where("events.id IS NULL");
           hasWhere = true;
         }
+      }
+
+      if (fp.O.isSome(emptyThumbnail) && emptyThumbnail.value) {
+        const where = hasWhere ? q.andWhere.bind(q) : q.where.bind(q);
+        where("media.thumbnail IS NULL");
+        hasWhere = true;
       }
 
       if (fp.O.isSome(emptyLinks) && emptyLinks.value) {
