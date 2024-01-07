@@ -16,7 +16,7 @@ import {
 } from "typeorm";
 
 export interface ORMOrder {
-  order: Record<string, "ASC" | "DESC">;
+  order: Record<"random" | string, "ASC" | "DESC">;
 }
 
 interface ORMPagination {
@@ -34,6 +34,11 @@ const getOrderQuery = (s: Query.SortQuery): Partial<ORMOrder> => {
     O.fold(
       () => ({}),
       (key) => {
+        if (key === "random") {
+          return {
+            order: { random: true },
+          };
+        }
         return {
           order: {
             [key]: O.getOrElse(
@@ -135,7 +140,11 @@ export const addOrder = <T extends ObjectLiteral>(
   return pipe(
     getOrder(order, prefix, orderedKeys),
     R.mapWithIndex((key, value) => {
-      q.addOrderBy(key, value);
+      if (key.includes("random")) {
+        q.addOrderBy('seeder_random', "DESC");
+      } else {
+        q.addOrderBy(key, value);
+      }
     }),
     () => q,
   );
