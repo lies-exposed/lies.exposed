@@ -9,6 +9,7 @@ import { a11yProps, TabPanel } from "../components/Common/TabPanel";
 import {
   Box,
   Grid,
+  Stack,
   Tab,
   Tabs,
   Typography,
@@ -111,6 +112,7 @@ export interface SplitPageTemplateProps {
         name: string;
         avatar?: string;
       };
+  asideBottom?: React.ReactNode;
   tabs: Array<{
     label: string;
   }>;
@@ -130,6 +132,7 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
   onTabChange,
   share,
   aside,
+  asideBottom,
   tabs: _tabs,
   resource,
   children,
@@ -194,7 +197,7 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
   return (
     <StyledGrid className={classes.root} container spacing={2}>
       <Grid item lg={3} md={3} sm={12} xs={12} className={classes.left}>
-        <Box width="100%">
+        <Stack height={"100%"}>
           <Box className={classes.sidebar}>
             {React.Children.toArray(asideNode)}
             <Box className={classes.editButtonBox}>
@@ -218,19 +221,23 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
               />
             </Box>
           </Box>
-        </Box>
 
-        <Tabs
-          className={classes.tabs}
-          value={tab}
-          onChange={(e, v) => {
-            onTabChange(v);
-          }}
-          orientation={isSM ? "horizontal" : "vertical"}
-          variant={isSM ? "fullWidth" : "standard"}
-        >
-          {tabs}
-        </Tabs>
+          <Box style={{ display: "flex", alignSelf: "flex-end" }}>
+            <Tabs
+              className={classes.tabs}
+              value={tab}
+              onChange={(e, v) => {
+                onTabChange(v);
+              }}
+              orientation={isSM ? "horizontal" : "vertical"}
+              variant={isSM ? "fullWidth" : "standard"}
+            >
+              {tabs}
+            </Tabs>
+          </Box>
+
+          {asideBottom ?? null}
+        </Stack>
       </Grid>
       <Grid item lg={9} md={9} sm={12} xs={12} className={classes.main}>
         {tabsContent}

@@ -53,6 +53,7 @@ interface EventListItemBaseProps<E> {
   excerpt: any;
   keywords: http.Keyword.Keyword[];
   media: http.Media.Media[];
+  condensed?: boolean;
   mediaDescription?: boolean;
   disableMediaAction?: boolean;
   links: http.Link.Link[];
@@ -71,8 +72,9 @@ const EventListItemBase = <E extends any>({
   excerpt,
   keywords,
   media,
+  condensed = false,
   mediaDescription = true,
-  disableMediaAction = true, 
+  disableMediaAction = true,
   links,
   onKeywordClick,
   onRowInvalidate,
@@ -80,10 +82,8 @@ const EventListItemBase = <E extends any>({
   mediaLayout = "slider",
 }: EventListItemBaseProps<E>): JSX.Element => {
   React.useEffect(() => {
-    if (media.length === 0) {
-      onLoad?.();
-    }
-  }, []);
+    onLoad?.();
+  }, [condensed, media.length, onLoad]);
 
   return (
     <StyledGrid item lg={12} md={12} sm={12} xs={12} style={{ width: "100%" }}>
@@ -124,7 +124,7 @@ const EventListItemBase = <E extends any>({
 
       {pipe(
         media,
-        O.fromPredicate((arr) => arr.length > 0),
+        O.fromPredicate((arr) => arr.length > 0 && !condensed),
         O.map((media) => (
           // eslint-disable-next-line react/jsx-key
           <Box

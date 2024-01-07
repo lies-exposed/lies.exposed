@@ -29,6 +29,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 interface QuoteListItemProps {
   item: Events.SearchEvent.SearchQuoteEvent;
+  condensed?: boolean;
   onClick?: (e: Events.SearchEvent.SearchQuoteEvent) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onKeywordClick?: (e: Keyword.Keyword) => void;
@@ -39,6 +40,7 @@ interface QuoteListItemProps {
 export const QuoteListItem: React.FC<QuoteListItemProps> = ({
   item,
   onClick,
+  condensed,
   onActorClick,
   onKeywordClick,
   onLoad,
@@ -73,7 +75,13 @@ export const QuoteListItem: React.FC<QuoteListItemProps> = ({
             // justifyContent: 'center'
           }}
         >
-          <Grid item md={6} sm={6} xs={12} style={{ padding: 10 }}>
+          <Grid
+            item
+            md={!condensed ? 6 : 12}
+            sm={!condensed ? 6 : 12}
+            xs={12}
+            style={{ padding: 10 }}
+          >
             <Typography style={{ display: "flex" }} variant="subtitle1">
               {getTextContents(item.excerpt as any)}
             </Typography>
@@ -92,18 +100,20 @@ export const QuoteListItem: React.FC<QuoteListItemProps> = ({
               </Typography>
             </Box>
           </Grid>
-          <Grid
-            item
-            md={4}
-            sm={6}
-            xs={12}
-            style={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Avatar src={item.payload.subject.id.avatar} size="xlarge" />
-          </Grid>
+          {!condensed ? (
+            <Grid
+              item
+              md={4}
+              sm={6}
+              xs={12}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Avatar src={item.payload.subject.id.avatar} size="xlarge" />
+            </Grid>
+          ) : null}
         </Grid>
       </Grid>
     </StyledBox>
