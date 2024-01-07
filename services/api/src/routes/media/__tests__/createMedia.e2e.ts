@@ -85,7 +85,7 @@ describe("Create Media", () => {
     }).toMatchObject({
       ...media,
       id: expect.any(String),
-      description: media.description ? media.description : media.label,
+      description: media.description ?? media.label,
       thumbnail: uploadThumbLocation,
       creator: users[0].id,
       socialPosts: [],
