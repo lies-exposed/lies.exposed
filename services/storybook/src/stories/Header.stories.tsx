@@ -1,9 +1,9 @@
-import Header, { type HeaderProps } from "@liexp/ui/lib/components/Header";
+import Header, { type HeaderProps } from "@liexp/ui/lib/components/Header/Header";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
 const meta: Meta = {
-  title: "Components/Header",
+  title: "Components/Header/Header",
   component: Header,
   parameters: {
     docs: {
@@ -32,6 +32,11 @@ export const HeaderExample = Template.bind({});
 HeaderExample.args = {
   menu: [
     {
+      label: "Docs",
+      view: "#docs",
+      subItems: []
+    },
+    {
       label: "Explore",
       view: "#explore",
       subItems: [
@@ -42,6 +47,10 @@ HeaderExample.args = {
         {
           label: "Actors",
           view: "#actors",
+        },
+        {
+          label: "Groups",
+          view: "#groups",
         },
       ],
     },
