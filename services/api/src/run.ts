@@ -59,6 +59,10 @@ const run = (): Promise<void> => {
 
           const server = app.listen(ctx.env.API_PORT, () => {
             ctx.logger.info.log(`Server is listening ${ctx.env.API_PORT}`);
+
+            ctx.tg.api.on("polling_error", (e) => {
+              serverLogger.error.log(`TG Bot error during polling %O`, e);
+            });
           });
 
           process.on("SIGINT", () => {
