@@ -29,8 +29,10 @@ export const MakeCreateMediaRoute = (r: Router, ctx: RouteContext): void => {
                 parseURL(body.location),
                 ctx.logger.info.logInPipe(`Parsed url %O`),
                 fp.E.mapLeft(toControllerError),
-                TE.fromEither,
-                TE.map((r) => r.location),
+                fp.E.fold(
+                  () => TE.right(body.location),
+                  (r) => TE.right(r.location),
+                ),
               );
             }),
             TE.bind("media", ({ location }) =>

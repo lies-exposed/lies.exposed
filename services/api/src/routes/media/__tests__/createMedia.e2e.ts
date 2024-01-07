@@ -39,7 +39,7 @@ describe("Create Media", () => {
     Test.mocks.puppeteer.page.goto.mockClear();
     Test.mocks.puppeteer.page.waitForSelector.mockClear();
     Test.mocks.puppeteer.page.$eval.mockClear();
-  })
+  });
 
   test("Should create a media from MP4 file location", async () => {
     const [media] = tests.fc
@@ -55,12 +55,14 @@ describe("Create Media", () => {
       return Promise.resolve({ data: Buffer.from([]) });
     });
 
-    // const uploadLocation = tests.fc.sample(tests.fc.webUrl(), 1)[0];
-    // Test.mocks.s3.client.send.mockImplementation(() => {
-    //   return Promise.resolve({
-    //     Location: uploadLocation,
-    //   });
-    // });
+    const sharpMock = {
+      resize: vitest.fn().mockReturnThis(),
+      toFormat: vitest.fn().mockReturnThis(),
+      toBuffer: vitest.fn().mockResolvedValueOnce(Buffer.from([])),
+    };
+    Test.mocks.sharp.mockImplementation(() => {
+      return sharpMock;
+    });
 
     const uploadThumbLocation = tests.fc.sample(tests.fc.webUrl(), 1)[0];
     Test.mocks.s3.classes.Upload.mockReset().mockImplementation(() => ({
@@ -75,6 +77,13 @@ describe("Create Media", () => {
       .send(media);
 
     expect(Test.mocks.axios.get).toHaveBeenCalledTimes(1);
+    expect(Test.mocks.sharp).toHaveBeenCalledTimes(1);
+    expect(sharpMock.resize).toHaveBeenCalledWith({
+      width: 640,
+      withoutEnlargement: true,
+    });
+    expect(sharpMock.toFormat).toHaveBeenCalledWith("png");
+    expect(sharpMock.toBuffer).toHaveBeenCalledTimes(1);
 
     expect(response.status).toEqual(200);
 
@@ -171,6 +180,15 @@ describe("Create Media", () => {
         creator: undefined,
       }));
 
+    const sharpMock = {
+      resize: vitest.fn().mockReturnThis(),
+      toFormat: vitest.fn().mockReturnThis(),
+      toBuffer: vitest.fn().mockResolvedValueOnce(Buffer.from([])),
+    };
+    Test.mocks.sharp.mockImplementation(() => {
+      return sharpMock;
+    });
+
     const response = await Test.req
       .post("/v1/media")
       .set("Authorization", authorizationToken)
@@ -179,6 +197,13 @@ describe("Create Media", () => {
     Test.mocks.axios.get.mockImplementationOnce(() => {
       return Promise.resolve({ data: Buffer.from([]) });
     });
+
+    expect(sharpMock.resize).toHaveBeenCalledWith({
+      width: 640,
+      withoutEnlargement: true,
+    });
+    expect(sharpMock.toFormat).toHaveBeenCalledWith("png");
+    expect(sharpMock.toBuffer).toHaveBeenCalledTimes(1);
 
     Test.mocks.s3.client.send.mockImplementation(() => {
       return Promise.resolve({

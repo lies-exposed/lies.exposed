@@ -1,1 +1,1 @@
-export const sharpMock = {}
+export const sharpMock = vitest.fn()
