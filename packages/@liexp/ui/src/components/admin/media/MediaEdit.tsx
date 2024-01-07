@@ -20,7 +20,7 @@ import {
   type FieldProps,
 } from "react-admin";
 import { transformMedia } from "../../../client/admin/MediaAPI";
-import { Box, Button, Grid, alpha } from "../../mui";
+import { Box, Button, Grid, Stack, alpha } from "../../mui";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent";
 import ReferenceAreaTab from "../areas/ReferenceAreaTab";
 import { EditForm } from "../common/EditForm";
@@ -224,9 +224,11 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
           </Grid>
         </FormTab>
         <FormTab label="events">
-          <CreateEventFromMediaButton />
-          <ReferenceArrayEventInput source="events" defaultValue={[]} />
-          <ReferenceManyEventField label="Events" target="media[]" />
+          <Stack spacing={2} width={"100%"}>
+            <CreateEventFromMediaButton />
+            <ReferenceArrayEventInput source="events" defaultValue={[]} />
+            <ReferenceManyEventField label="Events" target="media[]" />
+          </Stack>
         </FormTab>
         <FormTab label="areas">
           <ReferenceAreaTab source="areas" />
