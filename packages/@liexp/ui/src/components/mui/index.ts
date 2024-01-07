@@ -55,6 +55,7 @@ import List, { type ListProps } from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
+import Menu from "@mui/material/Menu";
 import MenuItem, { type MenuItemProps } from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import Modal, { type ModalProps } from "@mui/material/Modal";
@@ -73,7 +74,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography, { type TypographyProps } from "@mui/material/Typography";
 import { amber } from "@mui/material/colors";
 import { ThemeProvider } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import useMuiMediaQuery from "@mui/material/useMediaQuery";
 import { alpha } from "@mui/system/colorManipulator";
 
 export {
@@ -130,7 +131,7 @@ export {
   MenuItem,
   type MenuItemProps,
   MenuList,
-  useMediaQuery,
+  useMuiMediaQuery,
   Modal,
   type ModalProps,
   Tab,
@@ -148,6 +149,7 @@ export {
   DialogActions,
   Input,
   InputLabel,
+  Menu,
   List,
   ListItem,
   ListItemText,
