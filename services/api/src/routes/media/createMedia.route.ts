@@ -8,7 +8,6 @@ import { toMediaIO } from "./media.io.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { extractMP4Extra } from "#flows/media/extra/extractMP4Extra.js";
 import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
-import { toControllerError } from "#io/ControllerError.js";
 import { type RouteContext } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { ensureUserExists } from "#utils/user.utils.js";
@@ -27,12 +26,11 @@ export const MakeCreateMediaRoute = (r: Router, ctx: RouteContext): void => {
             TE.bind("location", () => {
               return pipe(
                 parseURL(body.location),
-                ctx.logger.info.logInPipe(`Parsed url %O`),
-                fp.E.mapLeft(toControllerError),
                 fp.E.fold(
-                  () => TE.right(body.location),
-                  (r) => TE.right(r.location),
+                  () => body.location,
+                  (r) => r.location,
                 ),
+                TE.right,
               );
             }),
             TE.bind("media", ({ location }) =>
