@@ -112,7 +112,7 @@
     "@types/jsonwebtoken": "^9.0.5",
     "@types/lodash": "^4.14.202",
     "@types/multer": "^1.4.11",
-    "@types/node": "^18.19.5",
+    "@types/node": "^18.19.6",
     "@types/node-cron": "^3.0.11",
     "@types/node-telegram-bot-api": "^0.64.2",
     "@types/pg": "^8.10.9",
