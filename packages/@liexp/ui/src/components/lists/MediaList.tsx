@@ -180,15 +180,17 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
     },
     ref,
   ) => {
+    const maxHeight =
+      style?.maxHeight ??
+      style?.height ??
+      itemStyle?.maxHeight ??
+      itemStyle?.height;
+
     return (
       <ParentSize
         style={{
           width: "100%",
-          maxHeight:
-            style?.maxHeight ??
-            style?.height ??
-            itemStyle?.maxHeight ??
-            itemStyle?.height,
+          maxHeight,
           minHeight: 50,
         }}
       >
@@ -196,7 +198,7 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
           return (
             <StyledMasonry
               className={clsx(listClasses.root, className)}
-              style={style}
+              style={{ height: "100%", maxHeight, overflow: "auto", ...style }}
               columns={columns}
               spacing={1}
               defaultColumns={columns}

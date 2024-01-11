@@ -38,7 +38,7 @@ const getSignedUrl =
     resource: string,
     resourceId: string,
     ContentType: MediaType,
-    ContentLength: number
+    ContentLength: number,
   ): TE.TaskEither<Error, { data: { url: string } }> => {
     return pipe(
       TE.tryCatch(
@@ -48,7 +48,7 @@ const getSignedUrl =
               resource,
               resourceId,
               ContentType,
-              ContentLength
+              ContentLength,
             },
           }),
         E.toError,
@@ -80,7 +80,11 @@ export const uploadFile =
             },
             onUploadProgress: (progressEvent) => {
               // eslint-disable-next-line no-console
-              console.log( `Progress: ${progressEvent.progress ?? 0}, ETA: ${progressEvent.estimated ?? "Infinite"}`);
+              console.log(
+                `Progress: ${progressEvent.progress ?? 0}, ETA: ${
+                  progressEvent.estimated ?? "Infinite"
+                }`,
+              );
             },
           })
           .then((response) => {

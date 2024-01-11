@@ -87,7 +87,6 @@ export const HeaderMenuDesktop: React.FC<HeaderMenuProps> = ({
   onMenuItemClick,
   currentPath,
 }) => {
-
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 

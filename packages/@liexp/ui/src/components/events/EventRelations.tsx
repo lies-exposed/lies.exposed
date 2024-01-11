@@ -1,7 +1,5 @@
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
-import {
-  type Events
-} from "@liexp/shared/lib/io/http";
+import { type Events } from "@liexp/shared/lib/io/http";
 import { type Event } from "@liexp/shared/lib/io/http/Events";
 import { UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
@@ -9,10 +7,11 @@ import QueriesRenderer from "../QueriesRenderer";
 
 export const EventRelations: React.FC<{
   event: Event;
-  children: (props: Events.EventRelations & {
-    event: Event;
-    
-  }) => JSX.Element;
+  children: (
+    props: Events.EventRelations & {
+      event: Event;
+    },
+  ) => JSX.Element;
 }> = ({ event, children }) => {
   const { actors, groups, media, links, groupsMembers } = getRelationIds(event);
 

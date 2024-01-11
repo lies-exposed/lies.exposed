@@ -1,5 +1,6 @@
 import { type Media } from "@liexp/shared/lib/io/http";
 import OpenInFull from "@mui/icons-material/OpenInFull";
+import { clsx } from "clsx";
 import * as React from "react";
 import { useModal } from "../../hooks/useModal";
 import { styled } from "../../theme";
@@ -13,8 +14,8 @@ const modalClasses = {
 };
 
 const StyledModalContent = styled(Box)(({ theme }) => ({
-  [`& .${modalClasses.root}`]: {
-    position: "absolute",
+  [`&.${modalClasses.root}`]: {
+    height: "100%",
   },
   [`& .${modalClasses.image}`]: {
     width: "auto",
@@ -39,6 +40,9 @@ const boxClasses = {
 };
 
 const StyledBox = styled(Box)(({ theme }) => ({
+  [`&.${boxClasses.root}`]: {
+    overflow: "hidden",
+  },
   [`& .${boxClasses.image}`]: {
     width: "auto",
     height: "100%",
@@ -109,7 +113,7 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
   }, [modal, media]);
   return (
     <StyledBox
-      className={className}
+      className={clsx(boxClasses.root, className)}
       height="100%"
       display="flex"
       alignItems="center"
