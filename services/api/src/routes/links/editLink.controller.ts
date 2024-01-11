@@ -38,7 +38,7 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
             ...body,
             url: sanitizeURL(url),
             image: UUID.is(image) ? { id: image } : image ?? null,
-            // events: events.map((e) => ({ id: e })),
+            events: events.map((e) => ({ id: e })) as EventV2Entity[],
             keywords: body.keywords.map((k) => ({ id: k })) as KeywordEntity[],
             id,
             creator: pipe(

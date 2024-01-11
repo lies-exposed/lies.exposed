@@ -13,7 +13,7 @@ import ReferenceArrayLinkInput from "./ReferenceArrayLinkInput";
 
 export const LinkArrayInput: React.FC<
   { source: string } & Omit<ArrayInputProps, "children">
-> = ({ source, ...props }) => {
+> = ({ source, defaultValue, ...props }) => {
   return (
     <ArrayInput {...props} source={source}>
       <SimpleFormIterator fullWidth>
@@ -36,7 +36,7 @@ export const LinkArrayInput: React.FC<
             }
             return (
               <Box width="100%">
-                <ReferenceArrayLinkInput source={getSrc("ids")} />
+                <ReferenceArrayLinkInput source={getSrc("ids")} defaultValue={defaultValue} />
               </Box>
             );
           }}

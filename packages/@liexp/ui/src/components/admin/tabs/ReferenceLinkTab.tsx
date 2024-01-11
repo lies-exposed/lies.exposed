@@ -9,17 +9,21 @@ import {
 } from "react-admin";
 import { Box } from "../../mui";
 import { LinkArrayInput } from "../links/LinkArrayInput";
+import ReferenceArrayLinkInput from "../links/ReferenceArrayLinkInput";
 import { MediaField } from "../media/MediaField";
 
 export const ReferenceLinkTab: React.FC<
   Omit<ReferenceFieldProps<RaRecord<string>>, "reference">
 > = (props) => {
+  const source = props.source ?? "links";
   const newLinksSource =
     props.source?.split(".").slice(0, -1).concat("newLinks").join(".") ??
     "newLinks";
 
   return (
     <Box width={"100%"}>
+      <ReferenceArrayLinkInput label="links" source={source} fullWidth={true} />
+
       <LinkArrayInput
         label="new links"
         source={newLinksSource}
@@ -28,7 +32,7 @@ export const ReferenceLinkTab: React.FC<
       />
 
       <ReferenceArrayField {...props} reference="links">
-        <Datagrid rowClick="edit">
+        <Datagrid rowClick="edit" isRowSelectable={() => false}>
           <TextField source="id" />
           <MediaField
             source="image.thumbnail"
