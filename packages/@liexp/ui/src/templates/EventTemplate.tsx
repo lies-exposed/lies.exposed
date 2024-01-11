@@ -20,12 +20,7 @@ import { EventRelatedEvents } from "../components/events/EventRelatedEvents/Even
 import { EventRelations } from "../components/events/EventRelations";
 import { ActorList } from "../components/lists/ActorList";
 import GroupList from "../components/lists/GroupList";
-import {
-  Box,
-  Grid,
-  Typography,
-  useMuiMediaQuery,
-} from "../components/mui";
+import { Box, Grid, Typography, useMuiMediaQuery } from "../components/mui";
 import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox";
 import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventsNetworkGraphBox";
 import { styled, useTheme } from "../theme";

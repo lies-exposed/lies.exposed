@@ -1,7 +1,7 @@
 import { http } from "@liexp/shared/lib/io";
 import * as React from "react";
 import { type FieldProps, useRecordContext } from "../../react-admin";
-import { BookTitle } from './BookTitle';
+import { BookTitle } from "./BookTitle";
 import { DeathEventTitle } from "./DeathEventTitle";
 import { DocumentaryReleaseTitle } from "./DocumentaryReleaseTitle";
 import { PatentEventTitle } from "./PatentEventTitle";

@@ -291,7 +291,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                           />
                         }
                         label="Condensed list"
-                        labelPlacement='start'
+                        labelPlacement="start"
                       />
                     </FormGroup>
                   </Stack>

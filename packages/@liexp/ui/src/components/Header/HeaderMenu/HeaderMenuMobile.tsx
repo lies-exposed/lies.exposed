@@ -123,7 +123,7 @@ const HeaderMenuMobileDiv = styled("div")(({ theme }) => ({
     alignItems: "center",
     width: "100%",
     maxWidth: 350,
-    padding: 20
+    padding: 20,
   },
   [`& .${menuClasses.mobileMenuIcon}`]: {
     margin: 0,

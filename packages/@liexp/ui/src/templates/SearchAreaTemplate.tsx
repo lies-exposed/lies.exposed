@@ -1,13 +1,13 @@
 import { type Area } from "@liexp/shared/lib/io/http";
 import * as React from "react";
-import { AutoSizer } from 'react-virtualized';
-import AreasMap from '../components/AreasMap';
+import { AutoSizer } from "react-virtualized";
+import AreasMap from "../components/AreasMap";
 import { AutocompleteAreaInput } from "../components/Input/AutocompleteAreaInput";
-import QueriesRenderer from '../components/QueriesRenderer';
-import { AreaList } from '../components/lists/AreaList';
+import QueriesRenderer from "../components/QueriesRenderer";
+import { AreaList } from "../components/lists/AreaList";
 import { Box, Container, Grid } from "../components/mui";
 import { PageContentBox } from "../containers/PageContentBox";
-import { useTheme } from '../theme';
+import { useTheme } from "../theme";
 
 export interface SearchAreaTemplateProps {
   onAreaClick: (a: Area.Area) => void;
@@ -30,7 +30,7 @@ const SearchAreaTemplate: React.FC<SearchAreaTemplateProps> = ({
         discrete={true}
       />
       <QueriesRenderer
-        queries={Q => ({
+        queries={(Q) => ({
           areas: Q.Area.list.useQuery(
             {
               filter: null,

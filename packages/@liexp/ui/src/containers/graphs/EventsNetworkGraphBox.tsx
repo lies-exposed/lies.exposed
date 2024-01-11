@@ -1,7 +1,5 @@
 import { fp } from "@liexp/core/lib/fp";
-import {
-  getRelationIdsFromEventRelations,
-} from "@liexp/shared/lib/helpers/event/getEventRelationIds";
+import { getRelationIdsFromEventRelations } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
 import { EventType } from "@liexp/shared/lib/io/http/Events";

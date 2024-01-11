@@ -30,11 +30,14 @@ const StyledModal = styled(Modal)(({ theme }) => ({
   [`& .${classes.closeIconBox}`]: {
     display: "flex",
     alignSelf: "flex-end",
+    position: "absolute",
+    backgroundColor: theme.palette.common.white,
   },
   [`& .${classes.content}`]: {
     display: "flex",
     flexDirection: "column",
     flexGrow: 1,
+    height: "100%",
   },
 }));
 
@@ -73,6 +76,7 @@ export const useModal = (
         title={title}
       >
         <Box className={classes.content}>
+          {content}
           <Box className={classes.closeIconBox}>
             <IconButton
               aria-label="Close"
@@ -86,7 +90,6 @@ export const useModal = (
               <CloseIcon fontSize="small" />
             </IconButton>
           </Box>
-          {content}
         </Box>
       </StyledModal>
     );

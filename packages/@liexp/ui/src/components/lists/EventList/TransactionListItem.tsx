@@ -32,12 +32,12 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 const getSubject = (
   subject: Events.SearchEvent.SearchTransactionEvent["payload"]["from"],
-  condensed: boolean
+  condensed: boolean,
 ): JSX.Element => {
   if (subject.type === ByActorId.type.props.type.value) {
     return (
       <ActorListItem
-        avatarSize={ condensed ?"xsmall" : 'small'}
+        avatarSize={condensed ? "xsmall" : "small"}
         style={{ display: "inline" }}
         item={{ ...subject.id, selected: true }}
       />
@@ -46,7 +46,7 @@ const getSubject = (
   if (subject.type === ByGroupId.type.props.type.value) {
     return (
       <GroupListItem
-      avatarSize={ condensed ?"xsmall" : 'small'}
+        avatarSize={condensed ? "xsmall" : "small"}
         style={{ display: "inline" }}
         item={{ ...subject.id, selected: true }}
       />

@@ -1,4 +1,4 @@
-import { getRelationIdsFromEventRelations } from '@liexp/shared/lib/helpers/event/getEventRelationIds';
+import { getRelationIdsFromEventRelations } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion";
 import * as io from "@liexp/shared/lib/io";
 import * as O from "fp-ts/Option";
