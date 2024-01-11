@@ -31,7 +31,11 @@ export const DocumentaryPageContent: React.FC<DocumentaryPageContentProps> = ({
           marginBottom: theme.spacing(5),
         }}
       >
-        <MediaElement media={media} disableZoom={true} onClick={onMediaClick} />
+        <MediaElement
+          media={media}
+          disableZoom={false}
+          onClick={onMediaClick}
+        />
       </Grid>
       <Grid item>
         {isValidValue(event.excerpt) ? (
