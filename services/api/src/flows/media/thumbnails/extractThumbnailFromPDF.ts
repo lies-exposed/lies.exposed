@@ -3,7 +3,7 @@ import { ImageType, type PDFType } from "@liexp/shared/lib/io/http/Media.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import * as Canvas from "canvas";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import * as pdfJS from "pdfjs-dist";
+import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 import { type RenderParameters } from "pdfjs-dist/types/src/display/api.js";
 import { type ExtractThumbnailFlow } from "./ExtractThumbnailFlow.type.js";
 import { toControllerError } from "#io/ControllerError.js";
@@ -17,7 +17,7 @@ export const extractThumbnailFromPDF: ExtractThumbnailFlow<PDFType> =
       TE.mapLeft(toControllerError),
       TE.chain((pdfStream) =>
         TE.tryCatch(async () => {
-          const pdf = await pdfJS.getDocument({
+          const pdf = await getDocument({
             data: new Uint16Array(pdfStream),
           }).promise;
 
