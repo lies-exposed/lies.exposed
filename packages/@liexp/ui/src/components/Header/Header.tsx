@@ -4,15 +4,9 @@ import DonateButton from "../Common/Button/DonateButton";
 import SuggestLinkButton from "../Common/Button/SuggestLinkButton";
 import { TelegramIcon } from "../Common/Icons";
 import GithubButton from "../GithubButton";
-import {
-  AppBar,
-  Box,
-  Link,
-  Toolbar,
-  Typography
-} from "../mui";
-import { HeaderMenu } from './HeaderMenu/HeaderMenu';
-import { type HeaderMenuItem } from './HeaderMenu/types';
+import { AppBar, Box, Link, Toolbar, Typography } from "../mui";
+import { HeaderMenu } from "./HeaderMenu/HeaderMenu";
+import { type HeaderMenuItem } from "./HeaderMenu/types";
 
 const PREFIX = "Header";
 
@@ -22,6 +16,7 @@ export const classes = {
   menuButton: `${PREFIX}-menuButton`,
   menuItem: `${PREFIX}-menuItem`,
   menuLeft: `${PREFIX}-menuLeft`,
+  menuRight: `${PREFIX}-menuRight`,
   menuItemLink: `${PREFIX}-menuItemLink`,
   title: `${PREFIX}-title`,
   titleLink: `${PREFIX}-titleLink`,
@@ -46,16 +41,16 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
     margin: 0,
     marginRight: theme.spacing(2),
     color: theme.palette.common.white,
-    fontWeight: theme.typography.fontWeightBold ,
+    fontWeight: theme.typography.fontWeightBold,
     cursor: "pointer",
     [`${theme.breakpoints.down("sm")}`]: {
-      fontSize: 12
-    }
+      fontSize: 12,
+    },
   },
 
   [`& .${classes.titleLink}`]: {
     color: theme.palette.common.black,
-    fontWeight: theme.typography.fontWeightBold ,
+    fontWeight: theme.typography.fontWeightBold,
     fontFamily: theme.typography.h6.fontFamily,
     letterSpacing: 1.1,
     textDecoration: "none",
@@ -67,13 +62,19 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
     flexGrow: 1,
     [`${theme.breakpoints.down("sm")}`]: {
       display: "none",
-      flexGrow: 1
+      flexGrow: 1,
     },
+  },
+  [`& .${classes.menuRight}`]: {
+    display: "flex",
+    alignContent: "flex-start",
+    justifyContent: "flex-end",
+    flexGrow: 1,
   },
   [`& .${classes.menuItem}`]: {
     color: theme.palette.common.white,
-    ...(theme.typography.subtitle1 ),
-    fontWeight: theme.typography.fontWeightBold ,
+    ...theme.typography.subtitle1,
+    fontWeight: theme.typography.fontWeightBold,
     fontSize: 16,
     textTransform: "none",
     cursor: "pointer",
@@ -85,7 +86,7 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
   },
   [`& .${classes.menuItemLink}`]: {
     color: theme.palette.text.primary,
-    ...(theme.typography.subtitle1 ),
+    ...theme.typography.subtitle1,
     // fontWeight: theme.typography.fontWeightBold as any,
     fontSize: 14,
     margin: 0,
@@ -94,8 +95,6 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
     marginRight: theme.spacing(2),
   },
 }));
-
-
 
 export interface HeaderProps {
   logoSrc?: string;
@@ -154,13 +153,15 @@ const Header: React.FC<HeaderProps> = ({
           </Box>
         </Box>
 
-        <SuggestLinkButton className={classes.menuItem} color={"white"} />
+        <Box className={classes.menuRight}>
+          <SuggestLinkButton className={classes.menuItem} color={"white"} />
 
-        <HeaderMenu
-          menu={menu}
-          onMenuItemClick={onMenuItemClick}
-          currentPath={pathname}
-        />
+          <HeaderMenu
+            menu={menu}
+            onMenuItemClick={onMenuItemClick}
+            currentPath={pathname}
+          />
+        </Box>
       </Toolbar>
     </StyledAppBar>
   );
