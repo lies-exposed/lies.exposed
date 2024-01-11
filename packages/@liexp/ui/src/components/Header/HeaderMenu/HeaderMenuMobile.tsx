@@ -116,9 +116,6 @@ const HeaderMenuMobileDiv = styled("div")(({ theme }) => ({
     flexGrow: 1,
     justifyContent: "flex-end",
     alignItems: "center",
-    [`${theme.breakpoints.down("md")}`]: {
-      flexGrow: 0,
-    },
   },
   [`& .${menuClasses.mobileMenu}`]: {
     display: "flex",
