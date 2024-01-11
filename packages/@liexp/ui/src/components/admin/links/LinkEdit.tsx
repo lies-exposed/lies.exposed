@@ -87,12 +87,15 @@ export const LinkEdit: React.FC = () => {
           </Grid>
         </FormTab>
         <FormTab label="Events">
-          <CreateEventFromLinkButton />
-          <ReferenceArrayEventInput source="newEvents" defaultValue={[]} />
-          <ReferenceManyEventField
-            target="links[]"
-            filter={{ withDrafts: true }}
-          />
+          <Stack direction={"column"} spacing={2}>
+            <ReferenceArrayEventInput source="events" target="ids" />
+            <CreateEventFromLinkButton />
+            <ReferenceArrayEventInput source="newEvents" defaultValue={[]} />
+            <ReferenceManyEventField
+              target="links[]"
+              filter={{ withDrafts: true }}
+            />
+          </Stack>
         </FormTab>
         <FormTab label="Event Suggestions">
           <ReferenceManyField

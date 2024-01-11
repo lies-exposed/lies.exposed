@@ -20,7 +20,7 @@ const ReferenceManyEventField: React.FC<
       reference="events"
       filter={{ ...props.filter }}
     >
-      <Datagrid rowClick="edit">
+      <Datagrid rowClick="edit" isRowSelectable={() => false}>
         <BooleanField source="draft" />
         <FunctionField
           render={(r: any) => {
