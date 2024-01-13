@@ -8,10 +8,19 @@ import {
 } from "@liexp/shared/lib/io/http/graphs/Graph.js";
 import { StatAccordion } from "@liexp/ui/lib/components/Common/StatAccordion.js";
 // import { VaccineEffectivenessIndicators } from "@liexp/ui/lib/components/Graph/covid/vaccines/VaccineEffectivenessIndicators";
-import { a11yProps, TabPanel } from "@liexp/ui/lib/components/Common/TabPanel.js";
+import {
+  a11yProps,
+  TabPanel,
+} from "@liexp/ui/lib/components/Common/TabPanel.js";
 import { VaccineADRGraph } from "@liexp/ui/lib/components/Graph/covid/vaccines/VaccineADRGraph.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
-import { Box, Grid, Tab, Tabs, Typography } from "@liexp/ui/lib/components/mui/index.js";
+import {
+  Box,
+  Grid,
+  Tab,
+  Tabs,
+  Typography,
+} from "@liexp/ui/lib/components/mui/index.js";
 import { useJSONDataQuery } from "@liexp/ui/lib/state/queries/DiscreteQueries.js";
 import { useNavigateTo } from "@liexp/ui/lib/utils/history.utils.js";
 import { scaleOrdinal } from "@visx/scale";

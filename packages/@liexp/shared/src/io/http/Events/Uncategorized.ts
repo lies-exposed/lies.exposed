@@ -2,7 +2,11 @@ import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
 import { optionFromUndefined } from "../../Common/optionFromUndefined.js";
 import { UUID } from "../Common/index.js";
-import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent.js";
+import {
+  CreateEventCommon,
+  EditEventCommon,
+  EventCommon,
+} from "./BaseEvent.js";
 import { UNCATEGORIZED } from "./EventType.js";
 
 export const CreateEventBody = t.strict(

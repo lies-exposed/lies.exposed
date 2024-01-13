@@ -7,15 +7,18 @@ import {
   AccordionSummary,
   AppBar,
   Autocomplete,
+  type AutocompleteRenderInputParams,
   List,
   ListItem,
   ListItemButton,
   ListItemText,
   ListSubheader,
+  type InputProps,
   type AutocompleteInputChangeReason,
   type AutocompleteProps,
   type ListProps,
-  Box, type BoxProps,
+  Box,
+  type BoxProps,
   Breadcrumbs,
   Button,
   ButtonGroup,
@@ -73,7 +76,10 @@ import {
   type TypographyProps,
 } from "@mui/material";
 import { amber } from "@mui/material/colors/index.js";
-import { StyledEngineProvider, ThemeProvider } from "@mui/material/styles/index.js";
+import {
+  StyledEngineProvider,
+  ThemeProvider,
+} from "@mui/material/styles/index.js";
 import useMuiMediaQuery from "@mui/material/useMediaQuery/index.js";
 import { alpha } from "@mui/system/colorManipulator.js";
 import * as MUIIcons from "./icons.js";
@@ -84,6 +90,8 @@ export {
   AccordionSummary,
   AppBar,
   Autocomplete,
+  type AutocompleteRenderInputParams,
+  type InputProps,
   Box,
   Breadcrumbs,
   Button,

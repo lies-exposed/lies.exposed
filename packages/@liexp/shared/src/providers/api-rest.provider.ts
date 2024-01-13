@@ -58,6 +58,16 @@ const liftClientRequest = <T>(
   );
 };
 
+export const paramsToPagination = (
+  start: number,
+  end: number,
+): RA.GetListParams["pagination"] => {
+  return {
+    page: start < 20 ? 1 : Math.ceil(start / 20) + 1,
+    perPage: 20,
+  };
+};
+
 const formatParams = <P extends RA.GetListParams | RA.GetManyReferenceParams>(
   params: P,
 ): RA.GetListParams => {
@@ -104,9 +114,10 @@ export const APIRESTClient = ({
         client.get(`${resource}/${params.id}`, { params }),
       )(),
     getList: (resource, params) => {
+      const formattedParams = formatParams(params);
       return liftClientRequest<RA.GetListResult<any>>(() =>
         client.get(resource, {
-          params: formatParams(params),
+          params: formattedParams,
         }),
       )();
     },

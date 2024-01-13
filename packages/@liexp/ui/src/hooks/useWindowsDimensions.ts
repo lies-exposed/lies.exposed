@@ -19,14 +19,20 @@ function getWindowDimensions(): WindowsDimensions {
   };
 }
 
-export default function useWindowDimensions(): WindowsDimensions {
+export default function useWindowDimensions({
+  onResize,
+}: {
+  onResize?: (dimensions: WindowsDimensions) => void;
+}): WindowsDimensions {
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions(),
   );
 
   useEffect(() => {
     function handleResize(): void {
-      setWindowDimensions(getWindowDimensions());
+      const dimensions = getWindowDimensions();
+      setWindowDimensions(dimensions);
+      onResize?.(dimensions);
     }
 
     window.addEventListener("resize", handleResize);

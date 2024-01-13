@@ -2,7 +2,10 @@ import { type Actor } from "@liexp/shared/lib/io/http/Actor.js";
 import * as React from "react";
 import { type GetListParams } from "react-admin";
 import QueriesRenderer from "../components/QueriesRenderer.js";
-import { ActorList, type ActorListProps } from "../components/lists/ActorList.js";
+import {
+  ActorList,
+  type ActorListProps,
+} from "../components/lists/ActorList.js";
 import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
 
 interface ActorsBoxWrapperProps {

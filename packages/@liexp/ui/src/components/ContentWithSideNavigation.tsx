@@ -1,12 +1,7 @@
 import * as React from "react";
 import { styled } from "../theme/index.js";
 import { MainContent } from "./MainContent.js";
-import {
-  Grid,
-  TreeItem,
-  TreeView,
-  Icons
-} from "./mui/index.js";
+import { Grid, TreeItem, TreeView, Icons } from "./mui/index.js";
 
 const PREFIX = "ContentWithSideNavigation";
 

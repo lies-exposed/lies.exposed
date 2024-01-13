@@ -15,7 +15,12 @@ import {
   type FieldProps,
 } from "react-admin";
 import { fetchRelations } from "../../../../state/queries/SearchEventsQuery.js";
-import { Box, MenuItem, Select, type SelectChangeEvent } from "../../../mui/index.js";
+import {
+  Box,
+  MenuItem,
+  Select,
+  type SelectChangeEvent,
+} from "../../../mui/index.js";
 
 export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
   const record = useRecordContext();

@@ -9,7 +9,14 @@ import {
 import React from "react";
 import { AutocompleteGroupInput } from "../../../../Input/AutocompleteGroupInput.js";
 import { GroupChip } from "../../../../groups/GroupChip.js";
-import { Box, Button, Checkbox, FormControlLabel, Grid, Icons } from "../../../../mui/index.js";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  Icons,
+} from "../../../../mui/index.js";
 import { Popover, type PopoverProps } from "../../../Popover.js";
 import {
   ComponentPickerPopoverControlAnchorWrapper,

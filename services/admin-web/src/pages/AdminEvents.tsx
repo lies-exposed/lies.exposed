@@ -1,4 +1,7 @@
-import { EventType, EventTypes } from "@liexp/shared/lib/io/http/Events/index.js";
+import {
+  EventType,
+  EventTypes,
+} from "@liexp/shared/lib/io/http/Events/index.js";
 import { Events } from "@liexp/shared/lib/io/http/index.js";
 import { http } from "@liexp/shared/lib/io/index.js";
 import { getTextContentsCapped } from "@liexp/shared/lib/slate/index.js";

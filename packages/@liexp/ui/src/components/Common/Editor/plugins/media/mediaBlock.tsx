@@ -17,7 +17,7 @@ import {
   FormControlLabel,
   Grid,
   Input,
-  Icons
+  Icons,
 } from "../../../../mui/index.js";
 import { MediaSlider } from "../../../../sliders/MediaSlider.js";
 

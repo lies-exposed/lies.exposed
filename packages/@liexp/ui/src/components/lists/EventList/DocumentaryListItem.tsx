@@ -1,4 +1,8 @@
-import { type Actor, Events, type Keyword } from "@liexp/shared/lib/io/http/index.js";
+import {
+  type Actor,
+  Events,
+  type Keyword,
+} from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { Box, Grid } from "../../mui/index.js";
 import EventListItemBase from "./EventListItemBase.js";

@@ -148,7 +148,7 @@ describe("Create Scientific Study", () => {
             creator: { id: admin.id },
             events: [],
             keywords: [],
-            socialPosts: []
+            socialPosts: [],
           },
         ]),
       throwTE,

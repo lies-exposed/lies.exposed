@@ -6,7 +6,13 @@ import { pipe } from "fp-ts/lib/function.js";
 import * as S from "fp-ts/lib/string.js";
 import * as React from "react";
 import { styled } from "../../../theme/index.js";
-import { Grid, List, ListItem, ListSubheader, Typography } from "../../mui/index.js";
+import {
+  Grid,
+  List,
+  ListItem,
+  ListSubheader,
+  Typography,
+} from "../../mui/index.js";
 import { EventListItem, type EventListItemProps } from "./EventListItem.js";
 
 const PREFIX = "EventList";
