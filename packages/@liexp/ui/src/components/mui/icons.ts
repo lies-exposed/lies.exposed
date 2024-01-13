@@ -21,25 +21,31 @@ import {
   SaveAlt,
   SearchOutlined,
   Undo,
-  TagOutlined as RecentKeywordsIcon
-  ,OpenInFull
+  TagOutlined as RecentKeywordsIcon,
+  OpenInFull,
 } from "@mui/icons-material";
-
 
 export {
   AddCircle,
   ArrowDown,
   ArrowUp,
   CheckBox,
-  ChevronRight, Close, ComponentPickerIcon, SaveAlt as ContentSave,
-  ExpandMore, GroupIcon, HighlightOff,
+  ChevronRight,
+  Close,
+  ComponentPickerIcon,
+  SaveAlt as ContentSave,
+  ExpandMore,
+  GroupIcon,
+  HighlightOff,
   LinkIcon,
   MediaIcon,
   MoreVert,
   PinDrop,
-  PlayCircleOutline, RecentActors, Redo, SearchOutlined as Search,
+  PlayCircleOutline,
+  RecentActors,
+  Redo,
+  SearchOutlined as Search,
   Undo,
   RecentKeywordsIcon,
-  OpenInFull
+  OpenInFull,
 };
-

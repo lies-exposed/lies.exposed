@@ -3,7 +3,10 @@ import { getEventCommonProps } from "@liexp/shared/lib/helpers/event/index.js";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
-import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate/index.js";
+import {
+  getTextContentsCapped,
+  isValidValue,
+} from "@liexp/shared/lib/slate/index.js";
 import {
   formatAnyDateToShort,
   formatDate,
@@ -20,7 +23,12 @@ import { EventRelatedEvents } from "../components/events/EventRelatedEvents/Even
 import { EventRelations } from "../components/events/EventRelations.js";
 import { ActorList } from "../components/lists/ActorList.js";
 import GroupList from "../components/lists/GroupList.js";
-import { Box, Grid, Typography, useMuiMediaQuery } from "../components/mui/index.js";
+import {
+  Box,
+  Grid,
+  Typography,
+  useMuiMediaQuery,
+} from "../components/mui/index.js";
 import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox.js";
 import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventsNetworkGraphBox.js";
 import { styled, useTheme } from "../theme/index.js";

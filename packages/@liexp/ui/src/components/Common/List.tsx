@@ -1,5 +1,8 @@
 import * as React from "react";
-import { List as MUIList, type ListProps as MUIListProps } from "../mui/index.js";
+import {
+  List as MUIList,
+  type ListProps as MUIListProps,
+} from "../mui/index.js";
 export interface ListItemProps<A> {
   item: A;
   index?: number;

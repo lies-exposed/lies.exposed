@@ -2,7 +2,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import AdminPage from "./AdminPage";
 import reportWebVitals from "./reportWebVitals";
-import './index.css';
+import "./index.css";
 
 const container: any = document.getElementById("root");
 const root = ReactDOM.createRoot(container);

@@ -1,7 +1,10 @@
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
 import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
-import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate/index.js";
+import {
+  getTextContentsCapped,
+  isValidValue,
+} from "@liexp/shared/lib/slate/index.js";
 import { formatDateToShort } from "@liexp/shared/lib/utils/date.utils.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as O from "fp-ts/lib/Option.js";

@@ -198,6 +198,7 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
         {({ height, width }) => {
           return (
             <StyledMasonry
+              ref={ref}
               className={clsx(listClasses.root, className)}
               style={{ height: "100%", maxHeight, overflow: "auto", ...style }}
               columns={columns}

@@ -8,7 +8,14 @@ import {
 } from "@react-page/plugins-slate/lib/types/slatePluginDefinitions.js";
 import React from "react";
 import { AutocompleteLinkInput } from "../../../../Input/AutocompleteLinkInput.js";
-import { Box, Button, Checkbox, FormControlLabel, Grid, Icons } from "../../../../mui/index.js";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  Icons,
+} from "../../../../mui/index.js";
 import { FullSizeLoader } from "../../../FullSizeLoader.js";
 import { Popover, type PopoverProps } from "../../../Popover.js";
 

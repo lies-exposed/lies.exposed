@@ -3,7 +3,11 @@ import * as t from "io-ts";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { BySubjectId } from "../Common/BySubject.js";
 import { UUID } from "../Common/index.js";
-import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent.js";
+import {
+  CreateEventCommon,
+  EditEventCommon,
+  EventCommon,
+} from "./BaseEvent.js";
 import { BOOK } from "./EventType.js";
 import { GetSearchEventsQuery } from "./SearchEvents/SearchEventsQuery.js";
 

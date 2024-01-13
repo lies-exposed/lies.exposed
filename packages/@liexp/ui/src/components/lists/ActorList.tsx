@@ -15,6 +15,7 @@ export interface ActorListItemProps extends ListItemProps<ActorItem> {
   avatarSize?: AvatarSize;
   displayFullName?: boolean;
   style?: React.CSSProperties;
+  onLoad?: () => void;
 }
 
 export const ActorListItem: React.FC<ActorListItemProps> = ({
@@ -23,6 +24,7 @@ export const ActorListItem: React.FC<ActorListItemProps> = ({
   displayFullName = false,
   onClick,
   style,
+  onLoad,
 }) => {
   return (
     <Box
@@ -47,6 +49,7 @@ export const ActorListItem: React.FC<ActorListItemProps> = ({
             src={src}
             size={avatarSize}
             style={{ margin: 5 }}
+            onLoad={onLoad}
           />
         )),
         O.toNullable,

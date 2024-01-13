@@ -16,6 +16,8 @@ import {
   Typography,
   type AutocompleteInputChangeReason,
   type AutocompleteProps,
+  type AutocompleteRenderInputParams,
+  type InputProps,
 } from "../../mui/index.js";
 
 export type SearchOption =
@@ -43,6 +45,9 @@ interface SearchInputProps
   > {
   query: SearchEventsQueryInputNoPagination;
   onQueryChange: (items: SearchFilter) => void;
+  inputParams?: Partial<Omit<AutocompleteRenderInputParams, "InputProps">> & {
+    InputProps: Partial<InputProps>;
+  };
 }
 
 export interface SearchFilter {
@@ -74,6 +79,7 @@ const serializeOption = (options: SearchOption[]): SearchFilter => {
 const SearchEventInput: React.FC<SearchInputProps> = ({
   query,
   onQueryChange,
+  inputParams,
   ...props
 }) => {
   const Queries = useEndpointQueries();
@@ -164,10 +170,12 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
       renderInput={(params) => (
         <TextField
           {...params}
+          {...inputParams}
           variant="standard"
           InputProps={{
             ...params.InputProps,
             style: { border: "none" },
+            ...inputParams?.InputProps,
           }}
         />
       )}

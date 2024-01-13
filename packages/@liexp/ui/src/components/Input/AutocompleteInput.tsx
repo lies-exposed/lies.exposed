@@ -3,7 +3,11 @@ import { type UseQueryResult } from "@tanstack/react-query";
 import { type GetListParams } from "ra-core";
 import * as React from "react";
 import { ErrorBox } from "../Common/ErrorBox.js";
-import { TextField, Autocomplete, type AutocompleteProps } from "../mui/index.js";
+import {
+  TextField,
+  Autocomplete,
+  type AutocompleteProps,
+} from "../mui/index.js";
 
 interface SearchableItem {
   id: string;

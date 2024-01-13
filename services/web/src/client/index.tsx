@@ -36,13 +36,16 @@ function Main(): JSX.Element {
     }
   }, []);
 
-  const [queryClient] = React.useState(() => new QueryClient({
-    defaultOptions: {
-      queries: {
-        notifyOnChangeProps: ["isLoading", "isError", "data", "error"],
-      },
-    },
-  }));
+  const [queryClient] = React.useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            notifyOnChangeProps: ["isLoading", "isError", "data", "error"],
+          },
+        },
+      }),
+  );
 
   const dehydratedState = (window as any).__REACT_QUERY_STATE__;
 

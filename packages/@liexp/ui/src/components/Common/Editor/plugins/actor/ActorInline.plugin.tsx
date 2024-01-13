@@ -1,9 +1,6 @@
 import { type Actor } from "@liexp/shared/lib/io/http/index.js";
 import { ACTOR_INLINE } from "@liexp/shared/lib/slate/plugins/customSlate.js";
-import type {
-  CellPluginComponentProps,
-  DataTType,
-} from "@react-page/editor";
+import type { CellPluginComponentProps, DataTType } from "@react-page/editor";
 import { pluginFactories } from "@react-page/plugins-slate";
 import {
   type SlateComponentPluginDefinition,

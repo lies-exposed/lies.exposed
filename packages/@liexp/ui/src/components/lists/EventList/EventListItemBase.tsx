@@ -1,7 +1,10 @@
 import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { MP3Type, OGGType } from "@liexp/shared/lib/io/http/Media.js";
 import type * as http from "@liexp/shared/lib/io/http/index.js";
-import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate/index.js";
+import {
+  getTextContentsCapped,
+  isValidValue,
+} from "@liexp/shared/lib/slate/index.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";

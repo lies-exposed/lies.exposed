@@ -1,4 +1,7 @@
-import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate/index.js";
+import {
+  getTextContentsCapped,
+  isValidValue,
+} from "@liexp/shared/lib/slate/index.js";
 import * as React from "react";
 import { LazyEditor as Editor } from "../components/Common/Editor/index.js";
 import { TOCPlugin } from "../components/Common/Editor/plugins/renderer/TOCPlugin.js";

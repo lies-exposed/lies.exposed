@@ -2,7 +2,11 @@ import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import * as t from "io-ts";
 import { UUID } from "io-ts-types/lib/UUID.js";
 import { BySubjectId } from "../Common/index.js";
-import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent.js";
+import {
+  CreateEventCommon,
+  EditEventCommon,
+  EventCommon,
+} from "./BaseEvent.js";
 import { QUOTE } from "./EventType.js";
 import { GetSearchEventsQuery } from "./SearchEvents/SearchEventsQuery.js";
 
