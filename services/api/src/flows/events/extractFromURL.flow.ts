@@ -16,13 +16,13 @@ import type * as puppeteer from "puppeteer-core";
 import { In } from "typeorm";
 import { fetchAndSave } from "../links/link.flow.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
-import { type AreaEntity } from '#entities/Area.entity.js';
+import { type AreaEntity } from "#entities/Area.entity.js";
 import { type EventV2Entity } from "#entities/Event.v2.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";
-import { type GroupMemberEntity } from '#entities/GroupMember.entity.js';
+import { type GroupMemberEntity } from "#entities/GroupMember.entity.js";
 import { KeywordEntity } from "#entities/Keyword.entity.js";
 import { type LinkEntity } from "#entities/Link.entity.js";
-import { type MediaEntity } from '#entities/Media.entity.js';
+import { type MediaEntity } from "#entities/Media.entity.js";
 import { type UserEntity } from "#entities/User.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import {
@@ -44,9 +44,8 @@ const extractEventFromProviderLink: TEFlow<
         const date = await p
           .waitForSelector(".AuthorGroups")
           .then(async (d) => {
-            const datesLabel = await p.$eval(
-              ".AuthorGroups",
-              (el) => el.nextElementSibling?.textContent?.split(", "),
+            const datesLabel = await p.$eval(".AuthorGroups", (el) =>
+              el.nextElementSibling?.textContent?.split(", "),
             );
 
             ctx.logger.debug.log("Extract date from %s", datesLabel);
@@ -202,11 +201,9 @@ export const extractRelationsFromURL: TEFlow<
                 actors: pipe(
                   details
                     .filter((d) => d.type === "actor")
-                    .reduce<string[]>(
-                      (acc, a) =>
-                        acc.includes(a.value) ? acc : acc.concat(a.value),
-                      [],
-                    ),
+                    .reduce<
+                      string[]
+                    >((acc, a) => (acc.includes(a.value) ? acc : acc.concat(a.value)), []),
                   O.fromPredicate((ll) => ll.length > 0),
                   O.map((names) =>
                     ctx.db.find(ActorEntity, {
@@ -222,11 +219,9 @@ export const extractRelationsFromURL: TEFlow<
                 groups: pipe(
                   details
                     .filter((d) => d.type === "group")
-                    .reduce<string[]>(
-                      (acc, a) =>
-                        acc.includes(a.value) ? acc : acc.concat(a.value),
-                      [],
-                    ),
+                    .reduce<
+                      string[]
+                    >((acc, a) => (acc.includes(a.value) ? acc : acc.concat(a.value)), []),
                   O.fromPredicate((l) => l.length > 0),
                   O.map((names) =>
                     ctx.db.find(GroupEntity, {
@@ -242,11 +237,9 @@ export const extractRelationsFromURL: TEFlow<
                 keywords: pipe(
                   details
                     .filter((d) => d.type === "keyword")
-                    .reduce<string[]>(
-                      (acc, a) =>
-                        acc.includes(a.value) ? acc : acc.concat(a.value),
-                      [],
-                    ),
+                    .reduce<
+                      string[]
+                    >((acc, a) => (acc.includes(a.value) ? acc : acc.concat(a.value)), []),
                   O.fromPredicate((l) => l.length > 0),
                   O.map((names) =>
                     ctx.db.find(KeywordEntity, {

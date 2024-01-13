@@ -220,7 +220,10 @@ describe("Create From TG Message", () => {
 
       if (result.link.length > 0) {
         await throwTE(
-          Test.ctx.db.delete(LinkEntity, result.link?.map((l) => l.id)),
+          Test.ctx.db.delete(
+            LinkEntity,
+            result.link?.map((l) => l.id),
+          ),
         );
       }
 

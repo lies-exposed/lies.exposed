@@ -33,12 +33,13 @@ export const MakeDeleteMediaRoute = (r: Router, ctx: RouteContext): void => {
                 : TE.right(undefined),
             ),
           ),
-          links: m.deletedAt && m.links.length > 0
-            ? ctx.db.delete(
-                LinkEntity,
-                m.links.map((l) => l.id),
-              )
-            : TE.right(undefined),
+          links:
+            m.deletedAt && m.links.length > 0
+              ? ctx.db.delete(
+                  LinkEntity,
+                  m.links.map((l) => l.id),
+                )
+              : TE.right(undefined),
           space: m.deletedAt ? deleteFromSpace(ctx)(m) : TE.right(undefined),
           media: m.deletedAt
             ? ctx.db.delete(MediaEntity, id)

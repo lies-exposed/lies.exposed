@@ -62,9 +62,10 @@ export interface ResourceQueries<G, L, CC> {
     : never;
 }
 
-export type ResourceQueryImpl<Q> = Q extends Query<infer G, infer L, infer CC>
-  ? ResourceQueries<G, L, CC>
-  : never;
+export type ResourceQueryImpl<Q> =
+  Q extends Query<infer G, infer L, infer CC>
+    ? ResourceQueries<G, L, CC>
+    : never;
 
 export type QueryProvider<ES> = {
   [K in keyof EndpointsRESTClient<ES>]: ResourceQueryImpl<

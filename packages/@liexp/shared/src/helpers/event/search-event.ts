@@ -16,7 +16,7 @@ import {
 import { type BySubject } from "../../io/http/Common";
 import { type EventTotals } from "../../io/http/Events/EventTotals";
 import { BySubjectUtils } from "../../io/utils/BySubjectUtils";
-import { eventRelationIdsMonoid } from './event';
+import { eventRelationIdsMonoid } from "./event";
 import { getRelationIds } from "./getEventRelationIds";
 
 export interface SearchEventsQueryCache {
@@ -44,7 +44,7 @@ export const getNewRelationIds = (
   const linkIds = pipe(s.links, M.keys(S.Ord));
   const areaIds = pipe(s.areas, M.keys(S.Ord));
 
-  const init: Events.EventRelationIds = eventRelationIdsMonoid.empty
+  const init: Events.EventRelationIds = eventRelationIdsMonoid.empty;
 
   return pipe(
     events,

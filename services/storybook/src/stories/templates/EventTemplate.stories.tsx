@@ -54,7 +54,7 @@ EventTemplateDefault.args = {
     groups: [],
     keywords: [],
     eventType: [],
-  }
+  },
 };
 
 export { EventTemplateDefault };

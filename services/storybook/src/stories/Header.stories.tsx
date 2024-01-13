@@ -1,4 +1,6 @@
-import Header, { type HeaderProps } from "@liexp/ui/lib/components/Header/Header";
+import Header, {
+  type HeaderProps,
+} from "@liexp/ui/lib/components/Header/Header";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
@@ -34,7 +36,7 @@ HeaderExample.args = {
     {
       label: "Docs",
       view: "#docs",
-      subItems: []
+      subItems: [],
     },
     {
       label: "Explore",
