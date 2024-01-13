@@ -19,7 +19,7 @@ export const MakeSignedUrlRoute = (r: Router, ctx: RouteContext): void => {
           )}`,
           ACL: "public-read",
           ContentType,
-          ContentLength
+          ContentLength,
         }),
         TE.map((url) => ({
           body: {

@@ -141,7 +141,7 @@ export const addOrder = <T extends ObjectLiteral>(
     getOrder(order, prefix, orderedKeys),
     R.mapWithIndex((key, value) => {
       if (key.includes("random")) {
-        q.addOrderBy('seeder_random', "DESC");
+        q.addOrderBy("seeder_random", "DESC");
       } else {
         q.addOrderBy(key, value);
       }

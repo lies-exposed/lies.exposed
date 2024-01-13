@@ -5,7 +5,7 @@ import * as React from "react";
 import { LoadingIndicator, useEditContext } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ECOTheme } from "../../../theme";
-import MediaElement from '../../Media/MediaElement';
+import MediaElement from "../../Media/MediaElement";
 import { HelmetProvider } from "../../SEO";
 import { ValidationErrorsLayout } from "../../ValidationErrorsLayout";
 import { ThemeProvider } from "../../mui";

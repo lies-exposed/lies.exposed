@@ -36,7 +36,10 @@ export const LinkArrayInput: React.FC<
             }
             return (
               <Box width="100%">
-                <ReferenceArrayLinkInput source={getSrc("ids")} defaultValue={defaultValue} />
+                <ReferenceArrayLinkInput
+                  source={getSrc("ids")}
+                  defaultValue={defaultValue}
+                />
               </Box>
             );
           }}

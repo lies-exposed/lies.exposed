@@ -103,10 +103,9 @@ const addMediaImageLayer: TEFlow<
           width: (typeof exif["Image Width"]?.value === "string"
             ? exif["Image Width"]?.value
             : parent?.width ?? DEFAULT_TEXT_WIDTH) as number,
-          height:
-            (typeof exif["Image Height"]?.value === "string"
-              ? exif["Image Height"]?.value
-              : parent?.height ?? DEFAULT_TEXT_HEIGHT) as number,
+          height: (typeof exif["Image Height"]?.value === "string"
+            ? exif["Image Height"]?.value
+            : parent?.height ?? DEFAULT_TEXT_HEIGHT) as number,
         },
       ];
     }),

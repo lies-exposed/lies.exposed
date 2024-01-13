@@ -20,7 +20,7 @@ export const MakeDeleteGroupMemberRoute = (
       return pipe(
         ctx.db.findOneOrFail(GroupMemberEntity, {
           where: { id: Equal(id) },
-          relations: ["actor", "group"]
+          relations: ["actor", "group"],
         }),
         TE.chainFirst(() => ctx.db.softDelete(GroupMemberEntity, id)),
         TE.chainEitherK(toGroupMemberIO),
