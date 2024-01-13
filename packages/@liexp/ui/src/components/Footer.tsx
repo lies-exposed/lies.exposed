@@ -1,7 +1,11 @@
 import * as React from "react";
 import { styled, useTheme } from "../theme/index.js";
 import DonateButton from "./Common/Button/DonateButton.js";
-import { GithubIcon, InstagramIcon, TelegramIcon } from "./Common/Icons/index.js";
+import {
+  GithubIcon,
+  InstagramIcon,
+  TelegramIcon,
+} from "./Common/Icons/index.js";
 import {
   Box,
   Container,

@@ -2,7 +2,7 @@ import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { type EndpointsQueryProvider } from "@liexp/shared/lib/providers/EndpointQueriesProvider/index.js";
 import {
   type QueryObserverSuccessResult,
-  type UseQueryResult
+  type UseQueryResult,
 } from "@tanstack/react-query";
 import * as React from "react";
 import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";

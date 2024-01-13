@@ -4,7 +4,10 @@ import { Grid } from "@visx/grid";
 import { Group } from "@visx/group";
 import { LegendOrdinal } from "@visx/legend";
 import { BarStackHorizontal } from "@visx/shape";
-import { type SeriesPoint, type StackKey } from "@visx/shape/lib/types/index.js";
+import {
+  type SeriesPoint,
+  type StackKey,
+} from "@visx/shape/lib/types/index.js";
 import { defaultStyles, TooltipWithBounds, useTooltip } from "@visx/tooltip";
 import { type ScaleBand, type ScaleLinear, type ScaleOrdinal } from "d3-scale";
 import * as React from "react";

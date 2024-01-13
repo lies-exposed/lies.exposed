@@ -1,4 +1,7 @@
-import { EventType, type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
+import {
+  EventType,
+  type SearchEvent,
+} from "@liexp/shared/lib/io/http/Events/index.js";
 import {
   type Actor,
   type Group,

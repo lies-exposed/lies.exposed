@@ -5,7 +5,10 @@ import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSear
 import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
 import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
-import { getTextContents, isValidValue } from "@liexp/shared/lib/slate/index.js";
+import {
+  getTextContents,
+  isValidValue,
+} from "@liexp/shared/lib/slate/index.js";
 import { formatDate, parseISO } from "@liexp/shared/lib/utils/date.utils.js";
 import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";

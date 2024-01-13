@@ -1,7 +1,15 @@
 import { clsx } from "clsx";
 import * as React from "react";
 import { styled, useTheme } from "../../../theme/index.js";
-import { Box, Button,  Icons, IconButton, Menu, MenuItem, Stack } from "../../mui/index.js";
+import {
+  Box,
+  Button,
+  Icons,
+  IconButton,
+  Menu,
+  MenuItem,
+  Stack,
+} from "../../mui/index.js";
 import { type HeaderMenuItem, type HeaderMenuSubItem } from "./types.js";
 
 interface HeaderMenuItemProps {

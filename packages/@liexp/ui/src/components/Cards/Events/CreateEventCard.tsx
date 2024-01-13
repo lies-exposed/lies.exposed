@@ -1,6 +1,9 @@
 import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/getTitle.helper.js";
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
-import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate/index.js";
+import {
+  getTextContentsCapped,
+  isValidValue,
+} from "@liexp/shared/lib/slate/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";
 import { EventIcon } from "../../Common/Icons/index.js";

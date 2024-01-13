@@ -1,11 +1,17 @@
-import { ByActorId, ByGroupId } from "@liexp/shared/lib/io/http/Common/index.js";
+import {
+  ByActorId,
+  ByGroupId,
+} from "@liexp/shared/lib/io/http/Common/index.js";
 import { TRANSACTION } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import {
   type Actor,
   type Events,
   type Keyword,
 } from "@liexp/shared/lib/io/http/index.js";
-import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate/index.js";
+import {
+  getTextContentsCapped,
+  isValidValue,
+} from "@liexp/shared/lib/slate/index.js";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight.js";
 import * as React from "react";
 import { styled } from "../../../theme/index.js";

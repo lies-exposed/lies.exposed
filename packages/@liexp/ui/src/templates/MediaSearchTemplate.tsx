@@ -1,15 +1,15 @@
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { KeywordsBox } from "../components/KeywordsBox.js";
-import { MainContent } from "../components/MainContent.js";
 import SearchEventInput, {
   type SearchFilter,
 } from "../components/events/inputs/SearchEventInput.js";
-import { Box, Container } from "../components/mui/index.js";
+import { Box, Container, Stack } from "../components/mui/index.js";
 import ActorsBox from "../containers/ActorsBox.js";
 import { GroupsBox } from "../containers/GroupsBox.js";
-import { MediaBox } from "../containers/MediaBox.js";
 import { PageContentBox } from "../containers/PageContentBox.js";
+import { InfiniteMediaListBox } from "../containers/list/InfiniteMediaListBox.js";
+import { SplitPageTemplate } from "./SplitPageTemplate.js";
 
 export interface MediaSearchTemplateProps {
   filter: SearchFilter;
@@ -33,24 +33,9 @@ const MediaSearchTemplate: React.FC<MediaSearchTemplateProps> = ({
   };
 
   return (
-    <Box
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "center",
-        height: "100%",
-        flexWrap: "wrap",
-      }}
-    >
-      <Box style={{ display: "flex", width: "100%", flexShrink: 0 }}>
-        <MainContent
-          style={{
-            display: "flex",
-            width: "100%",
-            flexShrink: 0,
-            flexDirection: "column",
-          }}
-        >
+    <SplitPageTemplate
+      aside={
+        <Stack style={{ width: "100%" }} spacing={1}>
           <Box
             style={{
               width: "100%",
@@ -64,6 +49,12 @@ const MediaSearchTemplate: React.FC<MediaSearchTemplateProps> = ({
                 ...filter,
               }}
               onQueryChange={onFilterChange}
+              inputParams={{
+                InputProps: {
+                  placeholder: "Search media",
+                },
+              }}
+              style={{ width: "100%" }}
             />
             <KeywordsBox
               ids={filter.keywords}
@@ -93,18 +84,35 @@ const MediaSearchTemplate: React.FC<MediaSearchTemplateProps> = ({
               }}
             />
           </Box>
-        </MainContent>
+        </Stack>
+      }
+      tab={0}
+      tabs={[
+        {
+          label: "Search",
+        },
+      ]}
+      resource={{ name: "media", item: null }}
+      onTabChange={() => {}}
+    >
+      <Box
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          height: "100%",
+          flexWrap: "wrap",
+        }}
+      >
+        <Container style={{ display: "flex" }}>
+          <InfiniteMediaListBox
+            listProps={{ type: "masonry" }}
+            onMediaClick={onMediaClick}
+          />
+        </Container>
       </Box>
-
-      <Container style={{ display: "flex" }}>
-        <MediaBox
-          filter={filter}
-          onClick={onMediaClick}
-          perPage={perPage}
-          hideDescription
-        />
-      </Container>
-    </Box>
+      <div />
+    </SplitPageTemplate>
   );
 };
 

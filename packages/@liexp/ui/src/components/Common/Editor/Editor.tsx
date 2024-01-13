@@ -62,8 +62,6 @@ const Editor: React.FC<Omit<EditorProps, "cellPlugins">> = ({
         }),
     );
 
-    // console.log({ lastChar });
-
     if (lastChar === "/") {
       if (!open) {
         setOpen(true);
@@ -92,14 +90,12 @@ const Editor: React.FC<Omit<EditorProps, "cellPlugins">> = ({
   );
 };
 
-
-const EditorWrapper: React.FC<Omit<EditorProps,'cellPlugins'>> = (props) => {
-
+const EditorWrapper: React.FC<Omit<EditorProps, "cellPlugins">> = (props) => {
   return (
     <ErrorBoundary FallbackComponent={ErrorBox}>
-      <Editor {...props } />
-      </ErrorBoundary>
-  )
-}
+      <Editor {...props} />
+    </ErrorBoundary>
+  );
+};
 
 export default EditorWrapper;

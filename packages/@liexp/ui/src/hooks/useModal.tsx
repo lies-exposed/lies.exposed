@@ -1,6 +1,11 @@
 import * as React from "react";
 import { Modal } from "../components/Common/Modal.js";
-import { Box, IconButton, Icons, type ModalProps } from "../components/mui/index.js";
+import {
+  Box,
+  IconButton,
+  Icons,
+  type ModalProps,
+} from "../components/mui/index.js";
 import { styled } from "../theme/index.js";
 
 const PREFIX = "modal";

@@ -16,7 +16,10 @@ import * as React from "react";
 import { usePopover } from "../../../hooks/usePopover.js";
 import { type SearchEventsQueryInputNoPagination } from "../../../state/queries/SearchEventsQuery.js";
 import { styled, useTheme } from "../../../theme/index.js";
-import { DateRangePicker, DateRangeSlider } from "../../Common/DateRangePicker.js";
+import {
+  DateRangePicker,
+  DateRangeSlider,
+} from "../../Common/DateRangePicker.js";
 import { AutocompleteActorInput } from "../../Input/AutocompleteActorInput.js";
 import { AutocompleteGroupInput } from "../../Input/AutocompleteGroupInput.js";
 import { AutocompleteKeywordInput } from "../../Input/AutocompleteKeywordInput.js";
@@ -30,7 +33,7 @@ import {
   IconButton,
   Typography,
   alpha,
-  Icons
+  Icons,
 } from "../../mui/index.js";
 import SearchEventInput, {
   type SearchFilter,

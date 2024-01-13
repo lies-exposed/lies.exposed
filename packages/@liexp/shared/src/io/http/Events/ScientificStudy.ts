@@ -1,7 +1,11 @@
 import * as t from "io-ts";
 import { UUID } from "io-ts-types/lib/UUID.js";
 import { URL } from "../Common/URL.js";
-import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent.js";
+import {
+  CreateEventCommon,
+  EditEventCommon,
+  EventCommon,
+} from "./BaseEvent.js";
 import { SCIENTIFIC_STUDY } from "./EventType.js";
 
 export const ScientificStudyPayload = t.strict(

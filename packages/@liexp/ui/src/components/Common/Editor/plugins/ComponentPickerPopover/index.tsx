@@ -2,7 +2,7 @@ import { COMPONENT_PICKER_POPOVER_PLUGIN } from "@liexp/shared/lib/slate/plugins
 import { type CellPluginComponentProps } from "@react-page/editor";
 import { pluginFactories } from "@react-page/plugins-slate";
 import * as React from "react";
-import { Icons } from '../../../../mui/index.js';
+import { Icons } from "../../../../mui/index.js";
 import { ComponentPickerPopoverControl } from "./ComponentPickerPopoverPluginControl.js";
 import {
   ComponentPickerPopoverControlAnchorWrapper,
@@ -16,7 +16,7 @@ export interface ComponentPickerPopoverSettings {
 }
 
 export const defaultSettings: ComponentPickerPopoverSettings = {
-  icon: <Icons. ComponentPickerIcon />,
+  icon: <Icons.ComponentPickerIcon />,
 };
 
 export type ComponentPickerPopoverControlType = React.ComponentType<

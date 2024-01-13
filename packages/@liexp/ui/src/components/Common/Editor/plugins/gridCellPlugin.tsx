@@ -1,7 +1,11 @@
 import { type CellPlugin } from "@react-page/editor";
 import * as React from "react";
 import { ECOTheme } from "../../../../theme/index.js";
-import { Box, ThemeProvider, StyledEngineProvider } from "../../../mui/index.js";
+import {
+  Box,
+  ThemeProvider,
+  StyledEngineProvider,
+} from "../../../mui/index.js";
 
 // interface GridCellData {
 //   [index: string]: unknown
