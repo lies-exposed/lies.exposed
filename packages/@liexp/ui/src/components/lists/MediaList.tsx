@@ -161,6 +161,7 @@ const StyledMasonry = styled(Masonry)(() => ({
     width: "100%",
     paddingRight: 0,
     paddingLeft: 0,
+    margin: 0,
   },
 }));
 
