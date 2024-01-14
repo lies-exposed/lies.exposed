@@ -1,7 +1,3 @@
-vi.mock("@aws-sdk/client-s3");
-vi.mock("@aws-sdk/s3-request-presigner");
-vi.mock("@aws-sdk/lib-storage");
-
 const s3Mock = {
   client: {
     config: {
