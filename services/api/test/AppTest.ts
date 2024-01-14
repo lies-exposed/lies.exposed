@@ -35,6 +35,14 @@ import { ENV } from "#io/ENV.js";
 import { EventsConfig } from "#queries/config/index.js";
 import { getDataSource } from "#utils/data-source.js";
 
+vi.mock("axios");
+vi.mock("page-metadata-parser");
+vi.mock("puppeteer-core", () => ({ KnownDevices: {} }));
+vi.mock("@aws-sdk/client-s3");
+vi.mock("@aws-sdk/s3-request-presigner");
+vi.mock("@aws-sdk/lib-storage");
+vi.mock("node-telegram-bot-api");
+
 export interface AppTest {
   ctx: RouteContext;
   mocks: AppMocks;

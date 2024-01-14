@@ -1,7 +1,5 @@
 import type { PuppeteerExtra } from "puppeteer-extra";
 import type { Mocked } from "vitest";
-vi.mock("puppeteer-core", () => ({}));
-vi.mock("puppeteer-extra", () => ({}));
 
 const puppeteerMock = {
   use: vi.fn(),

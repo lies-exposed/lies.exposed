@@ -1,5 +1,3 @@
-vi.mock('node-telegram-bot-api');
-
 export const tgProviderMock = {
   api: {
     onText: vi.fn(),
