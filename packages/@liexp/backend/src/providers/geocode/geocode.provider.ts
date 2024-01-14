@@ -1,6 +1,6 @@
-import { type HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { type HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { pipe } from "fp-ts/lib/function.js";
 import { IOError } from "ts-io-error";
 
 interface GeocodeSearch {

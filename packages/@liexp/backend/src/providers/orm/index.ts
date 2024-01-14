@@ -1,4 +1,2 @@
-import * as Utils from "./utils";
-export * from "./database.provider";
-
-export { Utils };
+export * as Utils from "./utils.js";
+export * from "./database.provider.js";
