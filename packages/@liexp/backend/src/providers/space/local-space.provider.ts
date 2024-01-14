@@ -1,8 +1,8 @@
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import type * as logger from "@liexp/core/lib/logger/index.js";
 import { type AxiosInstance, type AxiosResponse } from "axios";
 import { type Reader } from "fp-ts/lib/Reader.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
 import { type SpaceProvider, toError } from "./space.provider.js";
 
 interface LocalSpaceProviderCtx {
@@ -17,7 +17,18 @@ const GetLocalSpaceProvider: Reader<LocalSpaceProviderCtx, SpaceProvider> = ({
   const logger = serverLogger.extend("local-space-client");
 
   return {
-    getEndpoint: () => TE.right(`${process.platform === 'win32' ? '' : '/'}${/file:\/{2,3}(.+)\/[^/]/.exec(import.meta.url)![1]}`),
+    getEndpoint: () => {
+      return pipe(
+        fp.IOE.tryCatch(() => {
+          const fileImport = /file:\/{2,3}(.+)\/[^/]/.exec(import.meta.url);
+          if (fileImport?.[1]) {
+            return `${process.platform === "win32" ? "" : "/"}${fileImport[1]}`;
+          }
+          throw new Error(`Could not find file path from ${import.meta.url}`);
+        }, toError),
+        TE.fromIOEither,
+      );
+    },
     getObject: (params) => {
       return pipe(
         TE.tryCatch(() => {
