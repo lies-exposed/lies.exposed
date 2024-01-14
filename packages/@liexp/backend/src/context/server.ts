@@ -1,17 +1,17 @@
-import type * as logger from "@liexp/core/lib/logger";
-import { type HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider";
-import { type URLMetadataClient } from "../providers/URLMetadata.provider";
-import { type FFMPEGProvider } from "../providers/ffmpeg.provider";
-import { type FSClient } from "../providers/fs/fs.provider";
-import { type GeocodeProvider } from "../providers/geocode/geocode.provider";
-import { type IGProvider } from "../providers/ig/ig.provider";
-import { type ImgProcClient } from "../providers/imgproc/imgproc.provider";
-import { type JWTProvider } from "../providers/jwt/jwt.provider";
-import { type DatabaseClient } from "../providers/orm";
-import { type PuppeteerProvider } from "../providers/puppeteer.provider";
-import { type SpaceProvider } from "../providers/space";
-import { type TGBotProvider } from "../providers/tg/tg.provider";
-import { type WikipediaProvider } from "../providers/wikipedia/wikipedia.provider";
+import type * as logger from "@liexp/core/lib/logger/index.js";
+import { type HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
+import { type URLMetadataClient } from "../providers/URLMetadata.provider.js";
+import { type FFMPEGProvider } from "../providers/ffmpeg.provider.js";
+import { type FSClient } from "../providers/fs/fs.provider.js";
+import { type GeocodeProvider } from "../providers/geocode/geocode.provider.js";
+import { type IGProvider } from "../providers/ig/ig.provider.js";
+import { type ImgProcClient } from "../providers/imgproc/imgproc.provider.js";
+import { type JWTProvider } from "../providers/jwt/jwt.provider.js";
+import { type DatabaseClient } from "../providers/orm/index.js";
+import { type PuppeteerProvider } from "../providers/puppeteer.provider.js";
+import { type SpaceProvider } from "../providers/space/index.js";
+import { type TGBotProvider } from "../providers/tg/tg.provider.js";
+import { type WikipediaProvider } from "../providers/wikipedia/wikipedia.provider.js";
 
 export interface ServerContext {
   db: DatabaseClient;

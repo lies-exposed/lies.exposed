@@ -2,6 +2,4 @@
 . "$(dirname "$0")/_/husky.sh"
 
 docker compose up -d --remove-orphans db-test
-yarn lint && yarn build && yarn vitest run
-
-. "./scripts/healthcheck.sh"
+yarn lint && yarn build && yarn vitest run && . "./scripts/healthcheck.sh"

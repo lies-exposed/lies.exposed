@@ -1,6 +1,6 @@
-import { type Logger } from "@liexp/core/lib/logger";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { type Logger } from "@liexp/core/lib/logger/index.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { pipe } from "fp-ts/lib/function.js";
 // eslint-disable-next-line  @typescript-eslint/consistent-type-imports
 import wk, { type wikiSearchResult, type Page } from "wikipedia";
 

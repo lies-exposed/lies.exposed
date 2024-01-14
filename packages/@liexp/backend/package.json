@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "license": "MIT",
-  "main": "lib/index.js",
-  "files": [
-    "lib",
-    "assets"
-  ],
+  "type": "module",
+  "module": "lib/index.js",
+  "exports": {
+    "./lib/*": "./lib/*"
+  },
   "private": true,
   "scripts": {
     "clean": "rm -rf lib",
