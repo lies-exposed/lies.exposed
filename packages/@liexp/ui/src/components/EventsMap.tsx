@@ -1,14 +1,14 @@
-import { Events } from "@liexp/shared/lib/io/http";
-import ParentSize from "@visx/responsive/lib/components/ParentSize";
-import * as A from "fp-ts/Array";
-import * as O from "fp-ts/Option";
-import { pipe } from "fp-ts/function";
-import Feature from "ol/Feature";
+import { Events } from "@liexp/shared/lib/io/http/index.js";
+import { ParentSize } from "@visx/responsive";
+import * as A from "fp-ts/lib/Array.js";
+import * as O from "fp-ts/lib/Option.js";
+import { pipe } from "fp-ts/lib/function.js";
+import Feature from "ol/Feature.js";
 import * as React from "react";
-import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
-import { geoJSONFormat } from "../utils/map.utils";
-import Map from "./Map";
-import QueriesRenderer from "./QueriesRenderer";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
+import { geoJSONFormat } from "../utils/map.utils.js";
+import Map from "./Map.js";
+import QueriesRenderer from "./QueriesRenderer.js";
 
 interface EventsMapComponentProps {
   events: Events.Event[];

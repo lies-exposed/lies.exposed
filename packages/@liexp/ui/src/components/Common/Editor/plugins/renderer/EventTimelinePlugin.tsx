@@ -1,10 +1,10 @@
-import { getEventCommonProps } from "@liexp/shared/lib/helpers/event";
-import { type Event } from "@liexp/shared/lib/io/http/Events";
-import { formatDate } from "@liexp/shared/lib/utils/date.utils";
+import { getEventCommonProps } from "@liexp/shared/lib/helpers/event/index.js";
+import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";
-import { useEndpointQueries } from "../../../../../hooks/useEndpointQueriesProvider";
-import { styled } from "../../../../../theme";
-import QueriesRenderer from "../../../../QueriesRenderer";
+import { useEndpointQueries } from "../../../../../hooks/useEndpointQueriesProvider.js";
+import { styled } from "../../../../../theme/index.js";
+import QueriesRenderer from "../../../../QueriesRenderer.js";
 import {
   Box,
   Card,
@@ -12,8 +12,8 @@ import {
   List,
   ListItem,
   Typography,
-} from "../../../../mui";
-import { EventIcon } from "../../../Icons";
+} from "../../../../mui/index.js";
+import { EventIcon } from "../../../Icons/index.js";
 
 const PREFIX = `event-timeline-plugin`;
 

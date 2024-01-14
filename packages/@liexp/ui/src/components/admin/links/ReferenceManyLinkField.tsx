@@ -4,7 +4,7 @@ import {
   type RaRecord,
   type ReferenceManyFieldProps,
 } from "react-admin";
-import { LinkDataGrid } from "./LinkDataGrid";
+import { LinkDataGrid } from "./LinkDataGrid.js";
 
 const ReferenceManyLinksField: React.FC<
   Omit<ReferenceManyFieldProps<RaRecord<string>>, "reference" | "children">

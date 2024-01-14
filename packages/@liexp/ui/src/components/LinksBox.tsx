@@ -1,18 +1,17 @@
-import { type GetListLinkQuery } from "@liexp/shared/lib/io/http/Link";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMoreOutlined";
-import LinkIcon from "@mui/icons-material/LinkOutlined";
+import { type GetListLinkQuery } from "@liexp/shared/lib/io/http/Link.js";
 import * as React from "react";
-import { type serializedType } from "ts-io-error/lib/Codec";
-import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
-import QueriesRenderer from "./QueriesRenderer";
-import { LinksList, type LinksListProps } from "./lists/LinkList";
+import { type serializedType } from "ts-io-error/lib/Codec.js";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
+import QueriesRenderer from "./QueriesRenderer.js";
+import { LinksList, type LinksListProps } from "./lists/LinkList.js";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Box,
   Typography,
-} from "./mui";
+  Icons,
+} from "./mui/index.js";
 
 // interface LinksListProps {
 //   layout?: "list" | { md: number; sm: number; lg: number };
@@ -117,7 +116,7 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
             }}
           >
             <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
+              expandIcon={<Icons.ExpandMore />}
               aria-controls="panel2a-content"
               id={"link-accordion"}
               style={{
@@ -130,7 +129,7 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
               }}
             >
               <Box display="flex" width="100%" padding={0}>
-                <LinkIcon />{" "}
+                <Icons.LinkIcon />{" "}
                 <Typography component="span" variant="subtitle2">
                   ({links.length})
                 </Typography>

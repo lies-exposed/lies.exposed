@@ -1,8 +1,8 @@
-import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import {
   type AreaTemplateProps,
   AreaTemplateUI,
-} from "@liexp/ui/lib/templates/AreaTemplate";
+} from "@liexp/ui/lib/templates/AreaTemplate.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

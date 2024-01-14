@@ -8,8 +8,8 @@ import {
   type ReferenceFieldProps,
   type RaRecord,
 } from "react-admin";
-import { Box } from "../../mui";
-import ReferenceArrayGroupInput from "../groups/ReferenceArrayGroupInput";
+import { Box } from "../../mui/index.js";
+import ReferenceArrayGroupInput from "../groups/ReferenceArrayGroupInput.js";
 
 export const ReferenceGroupsTab: React.FC<
   ReferenceFieldProps<RaRecord<string>>

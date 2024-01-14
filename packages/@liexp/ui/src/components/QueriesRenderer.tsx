@@ -1,14 +1,14 @@
-import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
-import { type EndpointsQueryProvider } from "@liexp/shared/lib/providers/EndpointQueriesProvider";
+import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
+import { type EndpointsQueryProvider } from "@liexp/shared/lib/providers/EndpointQueriesProvider/index.js";
 import * as React from "react";
 import {
   type QueryObserverSuccessResult,
   type UseQueryResult,
 } from "react-query";
-import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
-import { ErrorBox } from "./Common/ErrorBox";
-import { FullSizeLoader } from "./Common/FullSizeLoader";
-import { Loader } from "./Common/Loader";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
+import { ErrorBox } from "./Common/ErrorBox.js";
+import { FullSizeLoader } from "./Common/FullSizeLoader.js";
+import { Loader } from "./Common/Loader.js";
 
 type QueriesRecord = Record<string, UseQueryResult<any, APIError>>;
 type QueriesProp =

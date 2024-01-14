@@ -1,5 +1,5 @@
 import * as React from "react";
-import { type FieldProps, useRecordContext } from "../../react-admin";
+import { type FieldProps, useRecordContext } from "../../react-admin.js";
 
 export const UncategorizedEventTitle: React.FC<FieldProps> = ({
   record: _record,

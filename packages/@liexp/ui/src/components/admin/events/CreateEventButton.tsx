@@ -1,5 +1,5 @@
-import * as io from "@liexp/shared/lib/io";
-import { type CreateEventBody } from "@liexp/shared/lib/io/http/Events";
+import { type CreateEventBody } from "@liexp/shared/lib/io/http/Events/index.js";
+import * as io from "@liexp/shared/lib/io/index.js";
 import * as React from "react";
 import {
   Button,
@@ -8,7 +8,7 @@ import {
   useDataProvider,
 } from "react-admin";
 import { useNavigate } from "react-router";
-import { Box, MenuItem, Select } from "../../mui";
+import { Box, MenuItem, Select } from "../../mui/index.js";
 
 interface CreateEventButtonProps {
   transform: (

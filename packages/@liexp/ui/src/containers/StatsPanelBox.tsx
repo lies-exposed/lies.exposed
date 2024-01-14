@@ -1,21 +1,21 @@
+import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type StatsType } from "@liexp/shared/lib/io/http/Stats.js";
 import {
   type Actor,
   type Group,
   type Keyword,
-} from "@liexp/shared/lib/io/http";
-import { type EventType } from "@liexp/shared/lib/io/http/Events";
-import { type StatsType } from "@liexp/shared/lib/io/http/Stats";
+} from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import { KeywordsBoxWrapper } from "../components/KeywordsBox";
-import QueriesRenderer from "../components/QueriesRenderer";
-import { ActorChipCount } from "../components/actors/ActorChipCount";
-import { GroupChipCount } from "../components/groups/GroupChipCount";
-import { KeywordChipCount } from "../components/keywords/KeywordChipCount";
-import { Box, Typography } from "../components/mui";
-import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
-import { styled } from "../theme";
-import { ActorsBoxWrapper } from "./ActorsBox";
-import { GroupsBoxWrapper } from "./GroupsBox";
+import { KeywordsBoxWrapper } from "../components/KeywordsBox.js";
+import QueriesRenderer from "../components/QueriesRenderer.js";
+import { ActorChipCount } from "../components/actors/ActorChipCount.js";
+import { GroupChipCount } from "../components/groups/GroupChipCount.js";
+import { KeywordChipCount } from "../components/keywords/KeywordChipCount.js";
+import { Box, Typography } from "../components/mui/index.js";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
+import { styled } from "../theme/index.js";
+import { ActorsBoxWrapper } from "./ActorsBox.js";
+import { GroupsBoxWrapper } from "./GroupsBox.js";
 
 const PREFIX = "EventsPanel";
 

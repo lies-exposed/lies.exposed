@@ -1,15 +1,15 @@
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import {
   type Actor,
   type Events,
   type Keyword,
-} from "@liexp/shared/lib/io/http";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
-import { getTextContents } from "@liexp/shared/lib/slate";
+} from "@liexp/shared/lib/io/http/index.js";
+import { getTextContents } from "@liexp/shared/lib/slate/index.js";
 import * as React from "react";
-import { styled } from "../../../theme";
-import { Avatar } from "../../Common/Avatar";
-import { EventIcon } from "../../Common/Icons";
-import { Box, Grid, Typography } from "../../mui";
+import { styled } from "../../../theme/index.js";
+import { Avatar } from "../../Common/Avatar.js";
+import { EventIcon } from "../../Common/Icons/index.js";
+import { Box, Grid, Typography } from "../../mui/index.js";
 
 const PREFIX = "QuoteListItem";
 

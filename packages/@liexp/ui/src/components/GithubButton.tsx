@@ -1,8 +1,8 @@
 import * as React from "react";
-import { githubRepo } from "../state/queries/github";
-import { GithubIcon } from "./Common/Icons";
-import QueriesRenderer from "./QueriesRenderer";
-import { Box, IconButton, Typography } from "./mui";
+import { githubRepo } from "../state/queries/github.js";
+import { GithubIcon } from "./Common/Icons/index.js";
+import QueriesRenderer from "./QueriesRenderer.js";
+import { Box, IconButton, Typography } from "./mui/index.js";
 
 interface GithubButtonProps {
   user: string;

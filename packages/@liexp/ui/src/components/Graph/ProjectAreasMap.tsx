@@ -1,11 +1,11 @@
-import { type Project } from "@liexp/shared/lib/io/http";
-import ParentSize from "@visx/responsive/lib/components/ParentSize";
-import * as O from "fp-ts/Option";
-import { pipe } from "fp-ts/function";
-import Feature from "ol/Feature";
+import { type Project } from "@liexp/shared/lib/io/http/index.js";
+import { ParentSize } from "@visx/responsive";
+import * as O from "fp-ts/lib/Option.js";
+import { pipe } from "fp-ts/lib/function.js";
+import Feature from "ol/Feature.js";
 import * as React from "react";
-import { geoJSONFormat } from "../../utils/map.utils";
-import Map from "../Map";
+import { geoJSONFormat } from "../../utils/map.utils.js";
+import Map from "../Map.js";
 
 export interface ProjectAreasMapProps {
   project: Project.Project;

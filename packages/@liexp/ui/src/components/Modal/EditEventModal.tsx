@@ -1,12 +1,12 @@
-import { type UUID } from "io-ts-types/lib/UUID";
+import { type UUID } from "io-ts-types/lib/UUID.js";
 import * as React from "react";
 import { AdminContext, ResourceContextProvider } from "react-admin";
-import { apiProvider, authProvider } from "../../client/api";
-import { i18nProvider } from "../../i18n/i18n.provider";
-import { styled, themeOptions } from "../../theme";
-import QueriesRenderer from "../QueriesRenderer";
-import { EventSuggestionCreate } from "../admin/events/suggestions/AdminEventSuggestion";
-import { Box, CloseIcon, IconButton, Modal } from "../mui";
+import { apiProvider, authProvider } from "../../client/api.js";
+import { i18nProvider } from "../../i18n/i18n.provider.js";
+import { styled, themeOptions } from "../../theme/index.js";
+import QueriesRenderer from "../QueriesRenderer.js";
+import { EventSuggestionCreate } from "../admin/events/suggestions/AdminEventSuggestion.js";
+import { Box, Icons, IconButton, Modal } from "../mui/index.js";
 
 const EVENT_SLIDER_MODAL_PREFIX = "event-slider-modal";
 
@@ -77,7 +77,7 @@ export const EditEventModal: React.FC<EditEventModalProps> = ({
                       onClose();
                     }}
                   >
-                    <CloseIcon fontSize="small" />
+                    <Icons.Close fontSize="small" />
                   </IconButton>
                 </Box>
 

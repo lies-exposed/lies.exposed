@@ -1,33 +1,33 @@
 import "@liexp/ui/assets/react-page.css";
-import { apiProvider, authProvider } from "@liexp/ui/lib/client/api";
-import { FAIcon } from "@liexp/ui/lib/components/Common/Icons/FAIcon";
+import { apiProvider, authProvider } from "@liexp/ui/lib/client/api.js";
+import { FAIcon } from "@liexp/ui/lib/components/Common/Icons/FAIcon.js";
 import {
   EventSuggestionEdit,
   EventSuggestionList,
-} from "@liexp/ui/lib/components/admin/events/suggestions/AdminEventSuggestion";
+} from "@liexp/ui/lib/components/admin/events/suggestions/AdminEventSuggestion.js";
 import {
   LinkCreate,
   LinkList,
-} from "@liexp/ui/lib/components/admin/links/AdminLinks";
-import { LinkEdit } from "@liexp/ui/lib/components/admin/links/LinkEdit";
+} from "@liexp/ui/lib/components/admin/links/AdminLinks.js";
+import { LinkEdit } from "@liexp/ui/lib/components/admin/links/LinkEdit.js";
 import {
   MediaCreate,
   MediaEdit,
   MediaList,
-} from "@liexp/ui/lib/components/admin/media";
+} from "@liexp/ui/lib/components/admin/media/index.js";
 import {
   Admin,
   Login,
   Resource,
-} from "@liexp/ui/lib/components/admin/react-admin";
+} from "@liexp/ui/lib/components/admin/react-admin.js";
 import {
   StoryCreate,
   StoryEdit,
   StoryList,
-} from "@liexp/ui/lib/components/admin/stories/AdminStories";
-import { SignIn } from "@liexp/ui/lib/components/admin/user/SignIn";
-import englishMessages from "@liexp/ui/lib/i18n/en-US";
-import { themeOptions } from "@liexp/ui/lib/theme";
+} from "@liexp/ui/lib/components/admin/stories/AdminStories.js";
+import { SignIn } from "@liexp/ui/lib/components/admin/user/SignIn.js";
+import englishMessages from "@liexp/ui/lib/i18n/en-US.js";
+import { themeOptions } from "@liexp/ui/lib/theme/index.js";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import * as React from "react";
 

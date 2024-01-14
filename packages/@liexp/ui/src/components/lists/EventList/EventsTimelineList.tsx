@@ -6,12 +6,12 @@ import {
   type ListRowProps,
 } from "react-virtualized";
 import { type RenderedRows } from "react-virtualized/dist/es/List";
-import { type SearchEventQueryResult } from "../../../state/queries/SearchEventsQuery";
-import { styled } from "../../../theme";
-import { type EventListItemProps } from "./EventListItem";
+import { type SearchEventQueryResult } from "../../../state/queries/SearchEventsQuery.js";
+import { styled } from "../../../theme/index.js";
+import { type EventListItemProps } from "./EventListItem.js";
 import EventTimelineItem, {
   type EventTimelineItemProps,
-} from "./EventTimelineItem";
+} from "./EventTimelineItem.js";
 
 const PREFIX = "EventsTimeline";
 

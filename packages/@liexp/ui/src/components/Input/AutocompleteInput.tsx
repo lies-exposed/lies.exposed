@@ -1,9 +1,9 @@
-import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
+import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { type GetListParams } from "ra-core";
 import * as React from "react";
 import { type UseQueryResult } from "react-query";
-import { ErrorBox } from "../Common/ErrorBox";
-import { TextField, Autocomplete, type AutocompleteProps } from "../mui";
+import { ErrorBox } from "../Common/ErrorBox.js";
+import { TextField, Autocomplete, type AutocompleteProps } from "../mui/index.js";
 
 interface SearchableItem {
   id: string;

@@ -1,11 +1,11 @@
 import * as React from "react";
 import { ReferenceArrayField } from "react-admin";
-import { Box } from "../../mui";
-import { ActorDataGrid } from "../actors/ActorDataGrid";
-import { EventDataGrid } from "../events/EventListPage";
-import { GroupDataGrid } from "../groups/GroupDataGrid";
-import { LinkDataGrid } from "../links/LinkDataGrid";
-import { MediaDataGrid } from "../media";
+import { Box } from "../../mui/index.js";
+import { ActorDataGrid } from "../actors/ActorDataGrid.js";
+import { EventDataGrid } from "../events/EventListPage.js";
+import { GroupDataGrid } from "../groups/GroupDataGrid.js";
+import { LinkDataGrid } from "../links/LinkDataGrid.js";
+import { MediaDataGrid } from "../media/index.js";
 
 export const StoryRelationsBox: React.FC = () => {
   return (

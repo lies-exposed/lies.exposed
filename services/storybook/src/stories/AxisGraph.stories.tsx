@@ -2,7 +2,7 @@ import { fc } from "@liexp/test";
 import {
   AxisGraph,
   type AxisGraphProps,
-} from "@liexp/ui/lib/components/Common/Graph/AxisGraph";
+} from "@liexp/ui/lib/components/Common/Graph/AxisGraph.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import { LinearGradient } from "@visx/gradient";
 import React from "react";

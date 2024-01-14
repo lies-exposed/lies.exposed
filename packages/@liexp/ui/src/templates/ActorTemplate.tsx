@@ -1,24 +1,24 @@
+import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
 import {
   type Actor,
   type Group,
   type Keyword,
-} from "@liexp/shared/lib/io/http";
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
-import { formatDate } from "@liexp/shared/lib/utils/date.utils";
-import subYears from "date-fns/subYears";
+} from "@liexp/shared/lib/io/http/index.js";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
+import subYears from "date-fns/subYears/index.js";
 import * as React from "react";
-import { ActorPageContent } from "../components/ActorPageContent";
-import { ActorHierarchyEdgeBundlingGraph } from "../components/Graph/ActorHierarchyEdgeBundlingGraph";
-import QueriesRenderer from "../components/QueriesRenderer";
-import SEO from "../components/SEO";
-import { Box, Grid } from "../components/mui";
-import { EventsPanelBox } from "../containers/EventsPanel";
-import { StatsPanelBox } from "../containers/StatsPanelBox";
-import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox";
-import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventsNetworkGraphBox";
-import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
-import { SplitPageTemplate } from "./SplitPageTemplate";
+import { ActorPageContent } from "../components/ActorPageContent.js";
+import { ActorHierarchyEdgeBundlingGraph } from "../components/Graph/ActorHierarchyEdgeBundlingGraph.js";
+import QueriesRenderer from "../components/QueriesRenderer.js";
+import SEO from "../components/SEO.js";
+import { Box, Grid } from "../components/mui/index.js";
+import { EventsPanelBox } from "../containers/EventsPanel.js";
+import { StatsPanelBox } from "../containers/StatsPanelBox.js";
+import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox.js";
+import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventsNetworkGraphBox.js";
+import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery.js";
+import { SplitPageTemplate } from "./SplitPageTemplate.js";
 
 export interface ActorTemplateProps {
   actor: Actor.Actor;

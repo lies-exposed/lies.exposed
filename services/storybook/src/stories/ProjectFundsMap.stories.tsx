@@ -1,7 +1,7 @@
 import {
   ProjectAreasMap,
   type ProjectAreasMapProps,
-} from "@liexp/ui/lib/components/Graph/ProjectAreasMap";
+} from "@liexp/ui/lib/components/Graph/ProjectAreasMap.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

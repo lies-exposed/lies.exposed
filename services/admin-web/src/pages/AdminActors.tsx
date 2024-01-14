@@ -1,21 +1,21 @@
-import { http } from "@liexp/shared/lib/io";
-import { createExcerptValue } from "@liexp/shared/lib/slate";
-import { generateRandomColor } from "@liexp/shared/lib/utils/colors";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
-import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import { ActorDataGrid } from "@liexp/ui/lib/components/admin/actors/ActorDataGrid";
-import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
-import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
-import { CreateEventButton } from "@liexp/ui/lib/components/admin/events/CreateEventButton";
-import ReferenceManyEventField from "@liexp/ui/lib/components/admin/events/ReferenceManyEventField";
-import { EventsFlowGraphFormTab } from "@liexp/ui/lib/components/admin/events/tabs/EventsFlowGraphFormTab";
-import { EventsNetworkGraphFormTab } from "@liexp/ui/lib/components/admin/events/tabs/EventsNetworkGraphFormTab";
-import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceGroupInput";
-import { SearchLinksButton } from "@liexp/ui/lib/components/admin/links/SearchLinksButton";
-import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField";
-import ActorPreview from "@liexp/ui/lib/components/admin/previews/ActorPreview";
+import { http } from "@liexp/shared/lib/io/index.js";
+import { createExcerptValue } from "@liexp/shared/lib/slate/index.js";
+import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI.js";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import { ActorDataGrid } from "@liexp/ui/lib/components/admin/actors/ActorDataGrid.js";
+import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
+import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput.js";
+import { CreateEventButton } from "@liexp/ui/lib/components/admin/events/CreateEventButton.js";
+import ReferenceManyEventField from "@liexp/ui/lib/components/admin/events/ReferenceManyEventField.js";
+import { EventsFlowGraphFormTab } from "@liexp/ui/lib/components/admin/events/tabs/EventsFlowGraphFormTab.js";
+import { EventsNetworkGraphFormTab } from "@liexp/ui/lib/components/admin/events/tabs/EventsNetworkGraphFormTab.js";
+import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceGroupInput.js";
+import { SearchLinksButton } from "@liexp/ui/lib/components/admin/links/SearchLinksButton.js";
+import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField.js";
+import ActorPreview from "@liexp/ui/lib/components/admin/previews/ActorPreview.js";
 import {
   ArrayInput,
   Create,
@@ -40,9 +40,9 @@ import {
   type DataProvider,
   type EditProps,
   type RaRecord,
-} from "@liexp/ui/lib/components/admin/react-admin";
-import { LazyFormTabContent } from "@liexp/ui/lib/components/admin/tabs/LazyFormTabContent";
-import { Grid } from "@liexp/ui/lib/components/mui";
+} from "@liexp/ui/lib/components/admin/react-admin.js";
+import { LazyFormTabContent } from "@liexp/ui/lib/components/admin/tabs/LazyFormTabContent.js";
+import { Grid } from "@liexp/ui/lib/components/mui/index.js";
 import * as O from "fp-ts/Option";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

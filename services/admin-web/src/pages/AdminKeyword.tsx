@@ -1,8 +1,8 @@
-import { toColor } from "@liexp/shared/lib/utils/colors";
-import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
-import { KeywordTGPostButton } from "@liexp/ui/lib/components/admin/keywords/button/KeywordTGPostButton";
-import ReferenceManyLinkField from "@liexp/ui/lib/components/admin/links/ReferenceManyLinkField";
-import ReferenceManyMediaField from "@liexp/ui/lib/components/admin/media/ReferenceManyMediaField";
+import { toColor } from "@liexp/shared/lib/utils/colors.js";
+import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput.js";
+import { KeywordTGPostButton } from "@liexp/ui/lib/components/admin/keywords/button/KeywordTGPostButton.js";
+import ReferenceManyLinkField from "@liexp/ui/lib/components/admin/links/ReferenceManyLinkField.js";
+import ReferenceManyMediaField from "@liexp/ui/lib/components/admin/media/ReferenceManyMediaField.js";
 import {
   Create,
   Datagrid,
@@ -18,8 +18,8 @@ import {
   useRecordContext,
   type CreateProps,
   type ListProps,
-} from "@liexp/ui/lib/components/admin/react-admin";
-import { Stack } from "@liexp/ui/lib/components/mui";
+} from "@liexp/ui/lib/components/admin/react-admin.js";
+import { Stack } from "@liexp/ui/lib/components/mui/index.js";
 import * as React from "react";
 
 const RESOURCE = "keywords";

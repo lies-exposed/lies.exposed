@@ -1,13 +1,13 @@
-import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
-import { getTitle } from "@liexp/shared/lib/helpers/event/getTitle.helper";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
+import { getTitle } from "@liexp/shared/lib/helpers/event/getTitle.helper.js";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as React from "react";
-import { Box } from "../../mui";
-import { UpdateMetadataButton } from "../common/UpdateMetadataButton";
-import { WebPreviewButton } from "../common/WebPreviewButton";
-import { SearchLinksButton } from "../links/SearchLinksButton";
-import { LoadingIndicator, useRecordContext } from "../react-admin";
-import { EventSocialPostButton } from "./button/EventSocialPostButton";
+import { Box } from "../../mui/index.js";
+import { UpdateMetadataButton } from "../common/UpdateMetadataButton.js";
+import { WebPreviewButton } from "../common/WebPreviewButton.js";
+import { SearchLinksButton } from "../links/SearchLinksButton.js";
+import { LoadingIndicator, useRecordContext } from "../react-admin.js";
+import { EventSocialPostButton } from "./button/EventSocialPostButton.js";
 
 export const EventEditActions: React.FC = () => {
   const record: any = useRecordContext();

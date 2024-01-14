@@ -1,10 +1,10 @@
-import { EventType } from "@liexp/shared/lib/io/http/Events";
-import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
-import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/queries/SearchEventsQuery";
+import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
+import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
 import {
   KeywordTemplate,
   type KeywordTemplateProps,
-} from "@liexp/ui/lib/templates/KeywordTemplate";
+} from "@liexp/ui/lib/templates/KeywordTemplate.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

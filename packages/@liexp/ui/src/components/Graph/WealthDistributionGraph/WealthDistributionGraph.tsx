@@ -1,9 +1,9 @@
-import ParentSize from "@visx/responsive/lib/components/ParentSize";
+import { ParentSize } from "@visx/responsive";
 import { scaleOrdinal } from "d3-scale";
 import * as React from "react";
-import { BubbleGraph } from "../../Common/Graph/BubbleGraph";
-import { Legends } from "../../Common/Graph/Legends";
-import { Typography } from "../../mui";
+import { BubbleGraph } from "../../Common/Graph/BubbleGraph.js";
+import { Legends } from "../../Common/Graph/Legends.js";
+import { Typography } from "../../mui/index.js";
 import data from "./wealth-distribution-data.json";
 
 interface WealthDistributionDatum {

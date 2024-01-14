@@ -1,12 +1,12 @@
-import * as http from "@liexp/shared/lib/io/http";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/index.js";
+import * as http from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import { useTheme } from "../theme";
-import { BookEventPageContent } from "./events/page-content/BookEventPageContent";
-import { DefaultEventPageContent } from "./events/page-content/DefaultEventPageContent";
-import { DocumentaryPageContent } from "./events/page-content/DocumentaryPageContent";
-import { QuoteEventPageContent } from "./events/page-content/QuoteEventPageContent";
-import { Box, Grid, Link } from "./mui";
+import { useTheme } from "../theme/index.js";
+import { BookEventPageContent } from "./events/page-content/BookEventPageContent.js";
+import { DefaultEventPageContent } from "./events/page-content/DefaultEventPageContent.js";
+import { DocumentaryPageContent } from "./events/page-content/DocumentaryPageContent.js";
+import { QuoteEventPageContent } from "./events/page-content/QuoteEventPageContent.js";
+import { Box, Grid, Link } from "./mui/index.js";
 
 export interface EventPageContentProps {
   event: http.Events.SearchEvent.SearchEvent;

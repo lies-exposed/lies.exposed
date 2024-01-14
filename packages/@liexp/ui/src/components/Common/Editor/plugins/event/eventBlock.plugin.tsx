@@ -1,7 +1,6 @@
-import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
-import { type Event } from "@liexp/shared/lib/io/http/Events";
-import { EVENT_BLOCK_PLUGIN } from "@liexp/shared/lib/slate/plugins/customSlate";
-import MediaIcon from "@mui/icons-material/VideoFileOutlined";
+import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
+import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
+import { EVENT_BLOCK_PLUGIN } from "@liexp/shared/lib/slate/plugins/customSlate.js";
 import type {
   CellPlugin,
   CellPluginComponentProps,
@@ -9,13 +8,13 @@ import type {
   CellPluginRenderer,
   DataTType,
   ImageUploadType,
-} from "@react-page/editor";
+} from "@react-page/editor/lib-es/index.js";
 import { parseISO } from "date-fns";
 import React from "react";
-import { EventCardGrid } from "../../../../Cards/Events/EventCardGrid";
-import { AutocompleteEventInput } from "../../../../Input/AutocompleteEventInput";
-import EventList from "../../../../lists/EventList/EventList";
-import { Box, Button, Grid } from "../../../../mui";
+import { EventCardGrid } from "../../../../Cards/Events/EventCardGrid.js";
+import { AutocompleteEventInput } from "../../../../Input/AutocompleteEventInput.js";
+import EventList from "../../../../lists/EventList/EventList.js";
+import { Box, Button, Grid, Icons } from "../../../../mui/index.js";
 
 export interface EventBlockState extends DataTType {
   events: Event[];
@@ -27,7 +26,7 @@ export interface EventBlockSettings {
 }
 
 export const defaultSettings: EventBlockSettings = {
-  icon: <MediaIcon />,
+  icon: <Icons.MediaIcon />,
 };
 
 export type ImageControlType = React.ComponentType<
@@ -155,5 +154,5 @@ const eventBlockPlugin = (
   };
 };
 
-export const EventBlockPluginIcon = MediaIcon;
+export const EventBlockPluginIcon = Icons.MediaIcon;
 export default eventBlockPlugin;

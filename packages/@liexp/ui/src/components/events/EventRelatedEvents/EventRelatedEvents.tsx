@@ -1,7 +1,7 @@
-import { Events } from "@liexp/shared/lib/io/http";
+import { Events } from "@liexp/shared/lib/io/http/index.js";
 import React from "react";
-import EventsBox from "../../../containers/EventsBox";
-import { Stack } from "../../mui";
+import EventsBox from "../../../containers/EventsBox.js";
+import { Stack } from "../../mui/index.js";
 
 export const EventRelatedEvents: React.FC<{
   event: Events.SearchEvent.SearchEvent;

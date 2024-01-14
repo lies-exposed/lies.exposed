@@ -1,20 +1,20 @@
-import { Group, Keyword, type Actor } from "@liexp/shared/lib/io/http";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
-import { formatDate } from "@liexp/shared/lib/utils/date.utils";
-import subYears from "date-fns/subYears";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
+import { Group, Keyword, type Actor } from "@liexp/shared/lib/io/http/index.js";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
+import subYears from "date-fns/subYears/index.js";
 import * as React from "react";
-import { GroupHierarchyEdgeBundlingGraph } from "../components/Graph/GroupHierarchyEdgeBundlingGraph";
-import { GroupPageContent } from "../components/GroupPageContent";
-import QueriesRenderer from "../components/QueriesRenderer";
-import SEO from "../components/SEO";
-import { Box, Grid } from "../components/mui";
-import { EventsPanelBox } from "../containers/EventsPanel";
-import { StatsPanelBox } from "../containers/StatsPanelBox";
-import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox";
-import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventsNetworkGraphBox";
-import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
-import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
-import { SplitPageTemplate } from "./SplitPageTemplate";
+import { GroupHierarchyEdgeBundlingGraph } from "../components/Graph/GroupHierarchyEdgeBundlingGraph.js";
+import { GroupPageContent } from "../components/GroupPageContent.js";
+import QueriesRenderer from "../components/QueriesRenderer.js";
+import SEO from "../components/SEO.js";
+import { Box, Grid } from "../components/mui/index.js";
+import { EventsPanelBox } from "../containers/EventsPanel.js";
+import { StatsPanelBox } from "../containers/StatsPanelBox.js";
+import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox.js";
+import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventsNetworkGraphBox.js";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
+import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery.js";
+import { SplitPageTemplate } from "./SplitPageTemplate.js";
 
 export interface GroupTemplateProps {
   group: Group.Group;

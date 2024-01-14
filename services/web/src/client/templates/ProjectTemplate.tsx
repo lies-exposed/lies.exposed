@@ -1,7 +1,7 @@
-import { MainContent } from "@liexp/ui/lib/components/MainContent";
-import { ProjectPageContent } from "@liexp/ui/lib/components/ProjectPageContent";
-import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
-import SEO from "@liexp/ui/lib/components/SEO";
+import { MainContent } from "@liexp/ui/lib/components/MainContent.js";
+import { ProjectPageContent } from "@liexp/ui/lib/components/ProjectPageContent.js";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
+import SEO from "@liexp/ui/lib/components/SEO.js";
 import { Container } from "@mui/material";
 import { type RouteComponentProps } from "@reach/router";
 import * as O from "fp-ts/Option";

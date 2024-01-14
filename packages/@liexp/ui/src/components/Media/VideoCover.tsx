@@ -1,5 +1,5 @@
 import * as React from "react";
-import { PlayCircleOutline } from "../mui";
+import { Icons } from "../mui/index.js";
 
 interface VideoCoverProps {
   thumbnail?: string;
@@ -38,7 +38,7 @@ export const VideoCover: React.FC<VideoCoverProps> = ({
       }}
     >
       {showPlay ? (
-        <PlayCircleOutline style={{ color: "white" }} fontSize="large" />
+        <Icons.PlayCircleOutline style={{ color: "white" }} fontSize="large" />
       ) : null}
     </div>
   );

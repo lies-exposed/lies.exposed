@@ -1,11 +1,11 @@
-import type * as http from "@liexp/shared/lib/io/http";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput";
-import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
-import { WebPreviewButton } from "@liexp/ui/lib/components/admin/common/WebPreviewButton";
-import ReferenceArrayEventInput from "@liexp/ui/lib/components/admin/events/ReferenceArrayEventInput";
-import ReferenceManyEventField from "@liexp/ui/lib/components/admin/events/ReferenceManyEventField";
-import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceGroupInput";
+import type * as http from "@liexp/shared/lib/io/http/index.js";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput.js";
+import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField.js";
+import { WebPreviewButton } from "@liexp/ui/lib/components/admin/common/WebPreviewButton.js";
+import ReferenceArrayEventInput from "@liexp/ui/lib/components/admin/events/ReferenceArrayEventInput.js";
+import ReferenceManyEventField from "@liexp/ui/lib/components/admin/events/ReferenceManyEventField.js";
+import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceGroupInput.js";
 import {
   Create,
   Datagrid,
@@ -20,8 +20,8 @@ import {
   type CreateProps,
   type ListProps,
   type RaRecord,
-} from "@liexp/ui/lib/components/admin/react-admin";
-import { FormControl, Grid } from "@liexp/ui/lib/components/mui";
+} from "@liexp/ui/lib/components/admin/react-admin.js";
+import { FormControl, Grid } from "@liexp/ui/lib/components/mui/index.js";
 import * as React from "react";
 
 const transformGroupMember = ({

@@ -1,45 +1,42 @@
-import { getTotal } from "@liexp/shared/lib/helpers/event";
+import { getTotal } from "@liexp/shared/lib/helpers/event/index.js";
+import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import {
+  type EventType,
+  type SearchEvent,
+} from "@liexp/shared/lib/io/http/Events/index.js";
 import {
   type Actor,
   type Group,
   type GroupMember,
   type Keyword,
-} from "@liexp/shared/lib/io/http";
-import {
-  type EventType,
-  type SearchEvent,
-} from "@liexp/shared/lib/io/http/Events";
-import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
-import ArrowDownIcon from "@mui/icons-material/ArrowDownward";
-import ArrowUpIcon from "@mui/icons-material/ArrowUpward";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+} from "@liexp/shared/lib/io/http/index.js";
 import { parseISO, subYears } from "date-fns";
 import * as React from "react";
-import { usePopover } from "../../../hooks/usePopover";
-import { type SearchEventsQueryInputNoPagination } from "../../../state/queries/SearchEventsQuery";
-import { styled, useTheme } from "../../../theme";
-import { DateRangePicker, DateRangeSlider } from "../../Common/DateRangePicker";
-import { AutocompleteActorInput } from "../../Input/AutocompleteActorInput";
-import { AutocompleteGroupInput } from "../../Input/AutocompleteGroupInput";
-import { AutocompleteKeywordInput } from "../../Input/AutocompleteKeywordInput";
-import { ActorList } from "../../lists/ActorList";
-import GroupList from "../../lists/GroupList";
-import { GroupsMembersList } from "../../lists/GroupMemberList";
-import KeywordList from "../../lists/KeywordList";
+import { usePopover } from "../../../hooks/usePopover.js";
+import { type SearchEventsQueryInputNoPagination } from "../../../state/queries/SearchEventsQuery.js";
+import { styled, useTheme } from "../../../theme/index.js";
+import { DateRangePicker, DateRangeSlider } from "../../Common/DateRangePicker.js";
+import { AutocompleteActorInput } from "../../Input/AutocompleteActorInput.js";
+import { AutocompleteGroupInput } from "../../Input/AutocompleteGroupInput.js";
+import { AutocompleteKeywordInput } from "../../Input/AutocompleteKeywordInput.js";
+import { ActorList } from "../../lists/ActorList.js";
+import GroupList from "../../lists/GroupList.js";
+import { GroupsMembersList } from "../../lists/GroupMemberList.js";
+import KeywordList from "../../lists/KeywordList.js";
 import {
   Box,
   Grid,
   IconButton,
-  SearchIcon,
   Typography,
   alpha,
-} from "../../mui";
+  Icons
+} from "../../mui/index.js";
 import SearchEventInput, {
   type SearchFilter,
-} from "../inputs/SearchEventInput";
-import { EventTypeFilters, type EventTypeMap } from "./EventTypeFilters";
-import { searchEventQueryToEventTypeFilters } from "./EventsAppBarMinimized";
+} from "../inputs/SearchEventInput.js";
+import { EventTypeFilters, type EventTypeMap } from "./EventTypeFilters.js";
+import { searchEventQueryToEventTypeFilters } from "./EventsAppBarMinimized.js";
 
 const PREFIX = "EventsAppBar";
 
@@ -302,7 +299,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
         }}
         size="large"
       >
-        <HighlightOffIcon />
+        <Icons.HighlightOff />
       </IconButton>
     ) : null;
 
@@ -325,7 +322,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
           }}
           size="large"
         >
-          {query._order === "DESC" ? <ArrowUpIcon /> : <ArrowDownIcon />}
+          {query._order === "DESC" ? <Icons.ArrowUp /> : <Icons.ArrowDown />}
         </IconButton>
       </Box>
     </Box>
@@ -334,7 +331,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
   const searchBox = (
     <div className={classes.search}>
       <div className={classes.searchIcon}>
-        <SearchIcon />
+        <Icons.Search />
       </div>
       <SearchEventInput
         classes={{

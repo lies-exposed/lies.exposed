@@ -1,7 +1,7 @@
 import { intervalToDuration } from "date-fns";
 import * as React from "react";
-import { TextField } from "../../mui";
-import { useInput, type InputProps } from "../react-admin";
+import { TextField } from "../../mui/index.js";
+import { useInput, type InputProps } from "../react-admin.js";
 
 const zeroPad = (num: number): string => String(num).padStart(2, "0");
 

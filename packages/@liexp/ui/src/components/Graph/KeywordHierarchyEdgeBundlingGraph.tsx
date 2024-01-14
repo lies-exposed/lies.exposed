@@ -2,8 +2,8 @@ import * as React from "react";
 import {
   HierarchicalEdgeBundling,
   type HierarchicalEdgeBundlingOnClickProps,
-} from "../Common/Graph/HierarchicalEdgeBundling";
-import QueriesRenderer from "../QueriesRenderer";
+} from "../Common/Graph/HierarchicalEdgeBundling.js";
+import QueriesRenderer from "../QueriesRenderer.js";
 
 export interface KeywordHierarchyEdgeBundlingGraphProps
   extends HierarchicalEdgeBundlingOnClickProps {

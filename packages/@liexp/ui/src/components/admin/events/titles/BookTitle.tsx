@@ -1,7 +1,7 @@
-import { getTitle } from "@liexp/shared/lib/helpers/event";
-import type * as Events from "@liexp/shared/lib/io/http/Events";
+import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
+import type * as Events from "@liexp/shared/lib/io/http/Events/index.js";
 import * as React from "react";
-import { useRecordContext, type FieldProps } from "../../react-admin";
+import { useRecordContext, type FieldProps } from "../../react-admin.js";
 
 export const BookTitle: React.FC<FieldProps<Events.Book.Book>> = ({
   record: _record,

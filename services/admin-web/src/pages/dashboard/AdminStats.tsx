@@ -1,4 +1,4 @@
-import { MediaIcon } from "@liexp/ui/lib/components/Common/Icons";
+import { MediaIcon } from "@liexp/ui/lib/components/Common/Icons/index.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import {
   Box,
@@ -8,8 +8,8 @@ import {
   List,
   Stack,
   Typography,
-} from "@liexp/ui/lib/components/mui";
-import { pipe } from "fp-ts/lib/function";
+} from "@liexp/ui/lib/components/mui/index.js";
+import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { useNavigate } from "react-router";
 

@@ -1,4 +1,4 @@
-import { EventTotalsMonoid } from "@liexp/shared/lib/io/http/Events/EventTotals";
+import { EventTotalsMonoid } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
 import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary.js";
 import {
   ActorArb,
@@ -7,11 +7,11 @@ import {
   UncategorizedArb,
 } from "@liexp/shared/lib/tests/index.js";
 import { fc } from "@liexp/test";
-import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import EventsTimelineList, {
   type EventsTimelineListProps,
-} from "@liexp/ui/lib/components/lists/EventList/EventsTimelineList";
-import { searchEventsQuery } from "@liexp/ui/lib/state/queries/SearchEventsQuery";
+} from "@liexp/ui/lib/components/lists/EventList/EventsTimelineList.js";
+import { searchEventsQuery } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 import { AutoSizer } from "react-virtualized";

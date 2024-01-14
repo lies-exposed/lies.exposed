@@ -2,9 +2,9 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "build",
-    "module": "esnext",
-    "moduleResolution": "node",
+    "module": "ESNext",
     "target": "es6",
+    "moduleResolution": "node",
     "jsx": "react",
     "noEmit": false,
     "allowJs": true,
@@ -26,6 +26,7 @@
     "noFallthroughCasesInSwitch": true,
     "tsBuildInfoFile": "build/.tsbuildinfo",
     "baseUrl": "./src",
+    "rootDir": "./",
     "paths": {
       "@containers/*": ["./client/containers/*"]
     }

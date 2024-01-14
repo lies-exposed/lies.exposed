@@ -1,9 +1,9 @@
 import * as React from "react";
 import { BooleanInput, DateField, DateInput } from "react-admin";
-import { Box, Grid } from "../../mui";
-import ReactPageInput from "../ReactPageInput";
-import { EventTypeInput } from "../common/inputs/EventTypeInput";
-import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput";
+import { Box, Grid } from "../../mui/index.js";
+import ReactPageInput from "../ReactPageInput.js";
+import { EventTypeInput } from "../common/inputs/EventTypeInput.js";
+import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput.js";
 
 export const EventGeneralTab: React.FC<React.PropsWithChildren> = ({
   children,

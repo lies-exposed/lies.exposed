@@ -1,4 +1,4 @@
-import { formatDate } from "@liexp/shared/lib/utils/date.utils";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import {
   TimelineConnector,
   TimelineContent,
@@ -8,12 +8,12 @@ import {
   TimelineSeparator,
 } from "@mui/lab";
 import * as React from "react";
-import { styled } from "../../../theme";
-import EditEventButton from "../../Common/Button/EditEventButton";
-import { EventIcon } from "../../Common/Icons/EventIcon";
-import { Box, Typography } from "../../mui";
-import { EventListItem, type EventListItemProps } from "./EventListItem";
-import { TimelineEventSubjects } from "./TimelineEventSubjects";
+import { styled } from "../../../theme/index.js";
+import EditEventButton from "../../Common/Button/EditEventButton.js";
+import { EventIcon } from "../../Common/Icons/EventIcon.js";
+import { Box, Typography } from "../../mui/index.js";
+import { EventListItem, type EventListItemProps } from "./EventListItem.js";
+import { TimelineEventSubjects } from "./TimelineEventSubjects.js";
 
 const PREFIX = "EventTimelineItem";
 

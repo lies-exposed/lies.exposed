@@ -4,7 +4,7 @@ import {
   ReferenceInput,
   type ReferenceInputProps,
 } from "react-admin";
-import { Box } from "../../mui";
+import { Box } from "../../mui/index.js";
 
 const ReferenceKeywordInput: React.FC<
   Omit<ReferenceInputProps, "children"> & { source: string }

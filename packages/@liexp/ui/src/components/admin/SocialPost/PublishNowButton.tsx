@@ -1,4 +1,4 @@
-import { TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost";
+import { TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost.js";
 import * as React from "react";
 import {
   Button,
@@ -6,7 +6,7 @@ import {
   useDataProvider,
   useRecordContext,
   useRefresh,
-} from "../react-admin";
+} from "../react-admin.js";
 
 export const PublishNowButton: React.FC<{
   platforms: Partial<{ IG: boolean; TG: boolean }>;

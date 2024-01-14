@@ -1,12 +1,12 @@
 import * as React from "react";
-import { styled } from "../../theme";
-import DonateButton from "../Common/Button/DonateButton";
-import SuggestLinkButton from "../Common/Button/SuggestLinkButton";
-import { TelegramIcon } from "../Common/Icons";
-import GithubButton from "../GithubButton";
-import { AppBar, Box, Link, Toolbar, Typography } from "../mui";
-import { HeaderMenu } from "./HeaderMenu/HeaderMenu";
-import { type HeaderMenuItem } from "./HeaderMenu/types";
+import { styled } from "../../theme/index.js";
+import DonateButton from "../Common/Button/DonateButton.js";
+import SuggestLinkButton from "../Common/Button/SuggestLinkButton.js";
+import { TelegramIcon } from "../Common/Icons/index.js";
+import GithubButton from "../GithubButton.js";
+import { AppBar, Box, Link, Toolbar, Typography } from "../mui/index.js";
+import { HeaderMenu } from "./HeaderMenu/HeaderMenu.js";
+import { type HeaderMenuItem } from "./HeaderMenu/types.js";
 
 const PREFIX = "Header";
 

@@ -1,7 +1,7 @@
 import path from "path";
-import { loadENV } from "@liexp/core/lib/env/utils";
-import { GetLogger } from "@liexp/core/lib/logger";
-import { getServer } from "@liexp/ui/lib/react/ssr";
+import { loadENV } from "@liexp/core/lib/env/utils.js";
+import { GetLogger } from "@liexp/core/lib/logger/index.js";
+import { getServer } from "@liexp/ui/lib/react/ssr.js";
 import D from "debug";
 import express from "express";
 
@@ -15,7 +15,12 @@ const run = (): void => {
       const app = getServer(
         express(),
         App,
-        path.resolve(__dirname, "../"),
+        path.resolve(
+          // TODO: fix this
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          `${process.platform === "win32" ? "" : "/"}${/file:\/{2,3}(.+)\/[^/]/.exec(import.meta.url)![1]}`,
+          "../",
+        ),
         {
           NODE_ENV: (process.env.NODE_ENV as any) ?? "development",
         },

@@ -1,7 +1,6 @@
-import AddLinkIcon from "@mui/icons-material/AddLink";
 import * as React from "react";
-import { SuggestLinkModal } from "../../Modal/SuggestLinkModal";
-import { Box, IconButton } from "../../mui";
+import { SuggestLinkModal } from "../../Modal/SuggestLinkModal.js";
+import { Box, IconButton, Icons } from "../../mui/index.js";
 
 export interface SuggestLinkButtonProps {
   className?: string;
@@ -26,7 +25,7 @@ const SuggestLinkButton: React.FC<SuggestLinkButtonProps> = ({
           setOpen(!open);
         }}
       >
-        <AddLinkIcon color={color} />
+        <Icons.AddCircle color={color} />
       </IconButton>
 
       <SuggestLinkModal open={open} onClose={doClose} />

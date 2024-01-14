@@ -1,6 +1,6 @@
 import { clsx } from "clsx";
 import * as React from "react";
-import { Container, Grid } from "./mui";
+import { Container, Grid } from "./mui/index.js";
 
 interface MainContentProps {
   className?: string;

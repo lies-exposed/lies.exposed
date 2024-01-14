@@ -1,7 +1,7 @@
 import {
   ActorHierarchyEdgeBundlingGraph,
   type ActorHierarchyEdgeBundlingGraphProps,
-} from "@liexp/ui/lib/components/Graph/ActorHierarchyEdgeBundlingGraph";
+} from "@liexp/ui/lib/components/Graph/ActorHierarchyEdgeBundlingGraph.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

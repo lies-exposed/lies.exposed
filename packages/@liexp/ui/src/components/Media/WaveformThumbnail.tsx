@@ -1,8 +1,8 @@
-import { type Media } from "@liexp/shared/lib/io/http";
+import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as d3 from "d3";
 import * as React from "react";
 import WaveformData from "waveform-data";
-import { useTheme } from "../../theme";
+import { useTheme } from "../../theme/index.js";
 
 interface WaveformThumbnailProps {
   media: Media.Media;

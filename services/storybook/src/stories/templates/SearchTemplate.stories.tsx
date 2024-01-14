@@ -1,6 +1,6 @@
 import SearchAreaTemplate, {
   type SearchAreaTemplateProps,
-} from "@liexp/ui/lib/templates/SearchAreaTemplate";
+} from "@liexp/ui/lib/templates/SearchAreaTemplate.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

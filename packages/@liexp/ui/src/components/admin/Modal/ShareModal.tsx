@@ -1,19 +1,19 @@
-import { type Media } from "@liexp/shared/lib/io/http";
 import {
   type CreateSocialPost,
   type SocialPlatform,
-} from "@liexp/shared/lib/io/http/SocialPost";
+} from "@liexp/shared/lib/io/http/SocialPost.js";
+import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useDataProvider, type Identifier } from "react-admin";
-import { styled } from "../../../theme";
+import { styled } from "../../../theme/index.js";
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-} from "../../mui";
-import { ShareModalContent } from "./ShareModalContent";
+} from "../../mui/index.js";
+import { ShareModalContent } from "./ShareModalContent.js";
 
 interface ShareModalProps {
   id: Identifier;

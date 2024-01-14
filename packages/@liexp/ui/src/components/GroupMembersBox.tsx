@@ -1,8 +1,8 @@
-import { type GroupMember } from "@liexp/shared/lib/io/http";
+import { type GroupMember } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import QueriesRenderer from "./QueriesRenderer";
-import { GroupsMembersList } from "./lists/GroupMemberList";
-import { Box } from "./mui";
+import QueriesRenderer from "./QueriesRenderer.js";
+import { GroupsMembersList } from "./lists/GroupMemberList.js";
+import { Box } from "./mui/index.js";
 
 interface GroupMembersBoxProps {
   ids: string[];

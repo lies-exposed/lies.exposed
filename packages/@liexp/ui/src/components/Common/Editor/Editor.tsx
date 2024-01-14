@@ -1,15 +1,15 @@
-import { fp } from "@liexp/core/lib/fp";
-import { getTextContents } from "@liexp/shared/lib/slate";
+import { fp } from "@liexp/core/lib/fp/index.js";
+import { getTextContents } from "@liexp/shared/lib/slate/index.js";
 import RPEditor, {
   type Cell,
   type EditorProps,
   type I18nField,
   type Row,
   type Value,
-} from "@react-page/editor";
-import { pipe } from "fp-ts/function";
+} from "@react-page/editor/lib-es/index.js";
+import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
-import { cellPlugins } from "./cellPlugins";
+import { cellPlugins } from "./cellPlugins.js";
 
 type I18nEnField = I18nField<Record<string, any>>;
 

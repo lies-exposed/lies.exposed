@@ -1,8 +1,8 @@
 import { type SignUpUserBody } from "@liexp/shared/lib/io/http/User.js";
 import * as React from "react";
 import { useRedirect } from "react-admin";
-import { authProvider, apiProvider as dataProvider } from "../../../client/api";
-import { Box, Button, Link, TextField, Typography } from "../../mui";
+import { authProvider, apiProvider as dataProvider } from "../../../client/api.js";
+import { Box, Button, Link, TextField, Typography } from "../../mui/index.js";
 
 interface SignInProps {
   redirectTo?: string;

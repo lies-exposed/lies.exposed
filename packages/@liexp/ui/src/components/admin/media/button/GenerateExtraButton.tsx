@@ -6,8 +6,8 @@ import {
   useRefresh,
   type FieldProps,
 } from "react-admin";
-import { Button, Stack, Typography } from "../../../mui";
-import { DurationField } from "../DurationField";
+import { Button, Stack, Typography } from "../../../mui/index.js";
+import { DurationField } from "../DurationField.js";
 
 export const GenerateExtraButton: React.FC<FieldProps> = ({
   source = "extra",

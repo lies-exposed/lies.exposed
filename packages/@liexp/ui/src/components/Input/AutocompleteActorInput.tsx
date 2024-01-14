@@ -1,9 +1,9 @@
-import { type Actor } from "@liexp/shared/lib/io/http";
+import { type Actor } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useQuery } from "react-query";
-import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
-import { ActorList, ActorListItem } from "../lists/ActorList";
-import { AutocompleteInput } from "./AutocompleteInput";
+import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
+import { ActorList, ActorListItem } from "../lists/ActorList.js";
+import { AutocompleteInput } from "./AutocompleteInput.js";
 
 interface AutocompleteActorInputProps {
   className?: string;
@@ -30,9 +30,10 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
       selectedItems={selectedItems}
       query={(p) =>
         options
-          ? useQuery(["actor-options"], () =>
-              Promise.resolve({ data: options }),
-            )
+          ? useQuery({
+              queryKey: ["actor-options"],
+              queryFn: () => Promise.resolve({ data: options }),
+            })
           : Queries.Actor.list.useQuery(p, undefined, discrete)
       }
       renderTags={(items) => (

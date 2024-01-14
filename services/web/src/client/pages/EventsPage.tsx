@@ -1,17 +1,17 @@
-import { EventType } from "@liexp/shared/lib/io/http/Events";
-import { type GetSearchEventsQueryInput } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEventsQuery";
-import { formatDate } from "@liexp/shared/lib/utils/date.utils";
+import { type GetSearchEventsQueryInput } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEventsQuery.js";
+import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import {
   clearSearchEventsQueryCache,
   type SearchEventQueryInput,
   type SearchEventsQueryInputNoPagination,
-} from "@liexp/ui/lib/state/queries/SearchEventsQuery";
+} from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
 import ExploreTemplate from "@liexp/ui/lib/templates/ExploreTemplate";
 import {
   queryToHash,
   useQueryFromHash,
   useRouteQuery,
-} from "@liexp/ui/lib/utils/history.utils";
+} from "@liexp/ui/lib/utils/history.utils.js";
 import * as React from "react";
 import { queryClient } from "../state/queries";
 import {
@@ -71,16 +71,18 @@ const EventsPage: React.FC<EventsPageProps> = () => {
       tab: number,
     ): void => {
       clearSearchEventsQueryCache();
-      void queryClient.invalidateQueries("events-search-infinite").then(() => {
-        navigateTo.events(
-          {},
-          {
-            hash: queryToHash({ ...params, ...update }),
-            tab,
-            slide: slide ? 1 : 0,
-          },
-        );
-      });
+      void queryClient
+        .invalidateQueries({ queryKey: ["events-search-infinite"] })
+        .then(() => {
+          navigateTo.events(
+            {},
+            {
+              hash: queryToHash({ ...params, ...update }),
+              tab,
+              slide: slide ? 1 : 0,
+            },
+          );
+        });
     },
     [hash, tab, params, slide],
   );

@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as React from "react";
-import { IconButton } from "../../mui";
+import { IconButton } from "../../mui/index.js";
 
 const DonateButton: React.FC<{ className?: string }> = ({ className }) => {
   return (

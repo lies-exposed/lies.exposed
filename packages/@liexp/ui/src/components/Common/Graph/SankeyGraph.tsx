@@ -8,8 +8,8 @@ import {
   sankeyLinkHorizontal,
 } from "d3-sankey";
 import * as React from "react";
-import { alpha, Box, Typography } from "../../mui";
-import { EventIcon, EventTypeColor } from "../Icons";
+import { alpha, Box, Typography } from "../../mui/index.js";
+import { EventIcon, EventTypeColor } from "../Icons/index.js";
 
 export const nodeWidth = 45;
 export const nodePadding = 10;

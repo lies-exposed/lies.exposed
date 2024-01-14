@@ -1,9 +1,9 @@
-import { type Media } from "@liexp/shared/lib/io/http";
+import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
-import { MediaList, MediaListItemRef } from "../lists/MediaList";
-import { Grid, Typography } from "../mui";
-import { AutocompleteInput } from "./AutocompleteInput";
+import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
+import { MediaList, MediaListItemRef } from "../lists/MediaList.js";
+import { Grid, Typography } from "../mui/index.js";
+import { AutocompleteInput } from "./AutocompleteInput.js";
 
 export interface AutocompleteMediaInputProps {
   className?: string;

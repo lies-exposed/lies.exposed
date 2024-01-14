@@ -3,7 +3,7 @@ import { fc } from "@liexp/test";
 import {
   LinksList,
   type LinksListProps,
-} from "@liexp/ui/lib/components/lists/LinkList";
+} from "@liexp/ui/lib/components/lists/LinkList.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

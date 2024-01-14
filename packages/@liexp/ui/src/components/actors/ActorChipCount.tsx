@@ -1,8 +1,8 @@
-import { type Actor } from "@liexp/shared/lib/io/http";
-import { toColorHash } from "@liexp/shared/lib/utils/colors";
+import { type Actor } from "@liexp/shared/lib/io/http/index.js";
+import { toColorHash } from "@liexp/shared/lib/utils/colors.js";
 import * as React from "react";
-import { Avatar } from "../Common/Avatar";
-import { ChipCount, type ChipCountProps } from "../Common/ChipCount";
+import { Avatar } from "../Common/Avatar.js";
+import { ChipCount, type ChipCountProps } from "../Common/ChipCount.js";
 
 interface ActorChipCountProps
   extends Omit<ChipCountProps, "label" | "avatar" | "color"> {

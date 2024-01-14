@@ -7,10 +7,10 @@ import {
   type ReferenceFieldProps,
   TextField,
 } from "react-admin";
-import { Box } from "../../mui";
-import { LinkArrayInput } from "../links/LinkArrayInput";
-import ReferenceArrayLinkInput from "../links/ReferenceArrayLinkInput";
-import { MediaField } from "../media/MediaField";
+import { Box } from "../../mui/index.js";
+import { LinkArrayInput } from "../links/LinkArrayInput.js";
+import ReferenceArrayLinkInput from "../links/ReferenceArrayLinkInput.js";
+import { MediaField } from "../media/MediaField.js";
 
 export const ReferenceLinkTab: React.FC<
   Omit<ReferenceFieldProps<RaRecord<string>>, "reference">

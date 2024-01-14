@@ -1,6 +1,6 @@
 import SuggestLinkButton, {
   type SuggestLinkButtonProps,
-} from "@liexp/ui/lib/components/Common/Button/SuggestLinkButton";
+} from "@liexp/ui/lib/components/Common/Button/SuggestLinkButton.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

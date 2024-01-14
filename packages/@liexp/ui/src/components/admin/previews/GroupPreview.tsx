@@ -1,14 +1,14 @@
-import { http } from "@liexp/shared/lib/io";
-import * as E from "fp-ts/Either";
-import { pipe } from "fp-ts/function";
+import { http } from "@liexp/shared/lib/io/index.js";
+import * as E from "fp-ts/lib/Either.js";
+import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { LoadingIndicator, useEditContext } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { GroupTemplate } from "../../../templates/GroupTemplate";
-import { ECOTheme } from "../../../theme";
-import { HelmetProvider } from "../../SEO";
-import { ValidationErrorsLayout } from "../../ValidationErrorsLayout";
-import { ThemeProvider } from "../../mui";
+import { GroupTemplate } from "../../../templates/GroupTemplate.js";
+import { ECOTheme } from "../../../theme/index.js";
+import { HelmetProvider } from "../../SEO.js";
+import { ValidationErrorsLayout } from "../../ValidationErrorsLayout.js";
+import { ThemeProvider } from "../../mui/index.js";
 
 const GroupPreview: React.FC = () => {
   const { record } = useEditContext();

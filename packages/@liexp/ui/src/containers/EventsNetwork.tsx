@@ -1,14 +1,14 @@
-import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
 import * as React from "react";
 import {
   EventsSankeyGraph,
   type EventsSankeyGraphProps,
-} from "../components/Graph/EventsSankeyGraph";
-import QueriesRenderer from "../components/QueriesRenderer";
-import { Box } from "../components/mui";
-import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
-import { searchEventsQuery } from "../state/queries/SearchEventsQuery";
-import { type EventsQueryParams } from "./EventsPanel";
+} from "../components/Graph/EventsSankeyGraph.js";
+import QueriesRenderer from "../components/QueriesRenderer.js";
+import { Box } from "../components/mui/index.js";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
+import { searchEventsQuery } from "../state/queries/SearchEventsQuery.js";
+import { type EventsQueryParams } from "./EventsPanel.js";
 
 interface EventsNetworkProps
   extends Omit<

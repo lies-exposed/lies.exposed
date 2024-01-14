@@ -1,9 +1,9 @@
-import { type Keyword } from "@liexp/shared/lib/io/http";
+import { type Keyword } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useQuery } from "react-query";
-import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
-import KeywordList, { KeywordListItem } from "../lists/KeywordList";
-import { AutocompleteInput } from "./AutocompleteInput";
+import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
+import KeywordList, { KeywordListItem } from "../lists/KeywordList.js";
+import { AutocompleteInput } from "./AutocompleteInput.js";
 
 interface AutocompleteKeywordInputProps {
   className?: string;
@@ -26,9 +26,10 @@ export const AutocompleteKeywordInput: React.FC<
       getOptionLabel={(k) => (typeof k === "string" ? k : k.tag)}
       query={(p) =>
         options
-          ? useQuery(["keyword-options"], () =>
-              Promise.resolve({ data: options }),
-            )
+          ? useQuery({
+              queryKey: ["keyword-options"],
+              queryFn: () => Promise.resolve({ data: options }),
+            })
           : Queries.Keyword.list.useQuery(p, undefined, discrete)
       }
       renderTags={(items) => (

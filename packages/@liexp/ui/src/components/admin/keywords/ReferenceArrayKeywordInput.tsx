@@ -1,4 +1,4 @@
-import { generateRandomColor } from "@liexp/shared/lib/utils/colors";
+import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import React from "react";
 import {
   AutocompleteArrayInput,
@@ -7,10 +7,10 @@ import {
   useRefresh,
   type ReferenceInputProps,
 } from "react-admin";
-import { apiProvider } from "../../../client/api";
-import { Box, TextField } from "../../mui";
-import { ColorInput } from "../common/inputs/ColorInput";
-import { ImportKeywordButton } from "./ImportKeywordButton";
+import { apiProvider } from "../../../client/api.js";
+import { Box, TextField } from "../../mui/index.js";
+import { ColorInput } from "../common/inputs/ColorInput.js";
+import { ImportKeywordButton } from "./ImportKeywordButton.js";
 
 const ReferenceArrayKeywordInput: React.FC<
   Omit<ReferenceInputProps, "children"> & { source: string; showAdd: boolean }

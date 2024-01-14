@@ -1,8 +1,8 @@
-import { type Keyword } from "@liexp/shared/lib/io/http";
+import { type Keyword } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import { ExpandableList } from "../Common/ExpandableList";
-import { List, type ListItemProps } from "../Common/List";
-import { Typography } from "../mui";
+import { ExpandableList } from "../Common/ExpandableList.js";
+import { List, type ListItemProps } from "../Common/List.js";
+import { Typography } from "../mui/index.js";
 
 export interface KeywordItem extends Keyword.Keyword {
   selected: boolean;

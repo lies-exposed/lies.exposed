@@ -1,10 +1,10 @@
-import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/getTitle.helper";
-import { type Events } from "@liexp/shared/lib/io/http";
-import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate";
-import { formatDate } from "@liexp/shared/lib/utils/date.utils";
+import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/getTitle.helper.js";
+import { type Events } from "@liexp/shared/lib/io/http/index.js";
+import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate/index.js";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";
-import { EventIcon } from "../../Common/Icons";
-import KeywordList from "../../lists/KeywordList";
+import { EventIcon } from "../../Common/Icons/index.js";
+import KeywordList from "../../lists/KeywordList.js";
 import {
   Box,
   Card,
@@ -13,7 +13,7 @@ import {
   CardHeader,
   CardMedia,
   type CardProps,
-} from "../../mui";
+} from "../../mui/index.js";
 
 interface EventCardProps extends Omit<CardProps, "onClick"> {
   event: Events.SearchEvent.SearchEvent;

@@ -1,14 +1,14 @@
-import { uuid } from "@liexp/shared/lib/utils/uuid";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
-import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField";
-import { ReferenceArrayBySubjectField } from "@liexp/ui/lib/components/admin/common/inputs/BySubject/ReferenceArrayBySubjectField";
-import { ReferenceBySubjectField } from "@liexp/ui/lib/components/admin/common/inputs/BySubject/ReferenceBySubjectField";
-import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm";
-import { BookEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/BookEditFormTab";
-import ReferenceArrayGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput";
-import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
-import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput.js";
+import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField.js";
+import { ReferenceArrayBySubjectField } from "@liexp/ui/lib/components/admin/common/inputs/BySubject/ReferenceArrayBySubjectField.js";
+import { ReferenceBySubjectField } from "@liexp/ui/lib/components/admin/common/inputs/BySubject/ReferenceBySubjectField.js";
+import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm.js";
+import { BookEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/BookEditFormTab.js";
+import ReferenceArrayGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput.js";
+import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput.js";
+import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput.js";
 import {
   BooleanInput,
   Create,
@@ -21,9 +21,9 @@ import {
   useDataProvider,
   type CreateProps,
   type ListProps,
-} from "@liexp/ui/lib/components/admin/react-admin";
-import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
-import { Grid } from "@liexp/ui/lib/components/mui";
+} from "@liexp/ui/lib/components/admin/react-admin.js";
+import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils.js";
+import { Grid } from "@liexp/ui/lib/components/mui/index.js";
 import * as React from "react";
 
 const quotesFilter = [

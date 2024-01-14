@@ -1,6 +1,6 @@
-import { MediaType } from "@liexp/shared/lib/io/http/Media";
+import { MediaType } from "@liexp/shared/lib/io/http/Media.js";
 import * as React from "react";
-import { SelectInput, type SelectInputProps } from "../../react-admin";
+import { SelectInput, type SelectInputProps } from "../../react-admin.js";
 
 export const MediaTypeInput: React.FC<Omit<SelectInputProps, "choices">> = (
   props,

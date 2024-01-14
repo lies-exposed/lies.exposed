@@ -1,14 +1,14 @@
-import { type BuildImageLayer } from "@liexp/shared/lib/io/http/admin/BuildImage";
-import { toColor } from "@liexp/shared/lib/utils/colors";
+import { type BuildImageLayer } from "@liexp/shared/lib/io/http/admin/BuildImage.js";
+import { toColor } from "@liexp/shared/lib/utils/colors.js";
 import * as React from "react";
 import {
   ResettableTextField,
   useDataProvider,
   type InputProps,
 } from "react-admin";
-import SearchableInput from "../../../Input/SearchableInput";
-import { Box, Button, Grid, Typography } from "../../../mui";
-import { ColorInput } from "../../common/inputs/ColorInput";
+import SearchableInput from "../../../Input/SearchableInput.js";
+import { Box, Button, Grid, Typography } from "../../../mui/index.js";
+import { ColorInput } from "../../common/inputs/ColorInput.js";
 
 const toBase64SourceImg = (base64: string): string =>
   `data:image/png;base64,${base64}`;

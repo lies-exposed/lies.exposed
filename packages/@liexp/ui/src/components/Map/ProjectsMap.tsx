@@ -1,4 +1,4 @@
-import ParentSize from "@visx/responsive/lib/components/ParentSize";
+import { ParentSize } from "@visx/responsive";
 import * as A from "fp-ts/Array";
 import Feature from "ol/Feature";
 import * as React from "react";
@@ -21,7 +21,10 @@ export const ProjectsMap: React.FC<ProjectsMapProps> = ({
   return (
     <QueriesRenderer
       queries={{
-        projects: useQuery(["projects"], () => Promise.resolve([] as any[])),
+        projects: useQuery({
+          queryKey: ["projects"],
+          queryFn: () => Promise.resolve([] as any[]),
+        }),
       }}
       render={({ projects: data }) => {
         const areas = A.flatten(data.data.map((p: any) => p.areas));

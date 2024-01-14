@@ -4,16 +4,16 @@ import {
   type Group,
   type GroupMember,
   type Keyword,
-} from "@liexp/shared/lib/io/http";
+} from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import { BookListItem } from "./BookListItem";
-import { DeathListItem } from "./DeathListItem";
-import { DocumentaryListItem } from "./DocumentaryListItem";
-import PatentListItem from "./PatentListItem";
-import { QuoteListItem } from "./QuoteListItem";
-import { ScientificStudyListItem } from "./ScientificStudyListItem";
-import { TransactionListItem } from "./TransactionListItem";
-import { UncategorizedListItem } from "./UncategorizedListItem";
+import { BookListItem } from "./BookListItem.js";
+import { DeathListItem } from "./DeathListItem.js";
+import { DocumentaryListItem } from "./DocumentaryListItem.js";
+import PatentListItem from "./PatentListItem.js";
+import { QuoteListItem } from "./QuoteListItem.js";
+import { ScientificStudyListItem } from "./ScientificStudyListItem.js";
+import { TransactionListItem } from "./TransactionListItem.js";
+import { UncategorizedListItem } from "./UncategorizedListItem.js";
 
 export interface EventListItemProps {
   className?: string;

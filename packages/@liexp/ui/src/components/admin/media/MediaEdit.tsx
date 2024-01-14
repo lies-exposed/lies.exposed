@@ -1,5 +1,5 @@
-import { ImageType } from "@liexp/shared/lib/io/http/Media";
-import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
+import { ImageType } from "@liexp/shared/lib/io/http/Media.js";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import * as React from "react";
 import {
   DateField,
@@ -19,23 +19,23 @@ import {
   type EditProps,
   type FieldProps,
 } from "react-admin";
-import { transformMedia } from "../../../client/admin/MediaAPI";
-import { Box, Button, Grid, Stack, alpha } from "../../mui";
-import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent";
-import ReferenceAreaTab from "../areas/ReferenceAreaTab";
-import { EditForm } from "../common/EditForm";
-import { CreateEventFromMediaButton } from "../events/CreateEventFromMediaButton";
-import ReferenceArrayEventInput from "../events/ReferenceArrayEventInput";
-import ReferenceManyEventField from "../events/ReferenceManyEventField";
-import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput";
-import MediaPreview from "../previews/MediaPreview";
-import { ReferenceLinkTab } from "../tabs/ReferenceLinkTab";
-import ReferenceUserInput from "../user/ReferenceUserInput";
-import { MediaField } from "./MediaField";
-import { GenerateExtraButton } from "./button/GenerateExtraButton";
-import { GenerateThumbnailButton } from "./button/GenerateThumbnailButton";
-import { MediaTGPostButton } from "./button/MediaTGPostButton";
-import { MediaInput } from "./input/MediaInput";
+import { transformMedia } from "../../../client/admin/MediaAPI.js";
+import { Box, Button, Grid, Stack, alpha } from "../../mui/index.js";
+import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
+import ReferenceAreaTab from "../areas/ReferenceAreaTab.js";
+import { EditForm } from "../common/EditForm.js";
+import { CreateEventFromMediaButton } from "../events/CreateEventFromMediaButton.js";
+import ReferenceArrayEventInput from "../events/ReferenceArrayEventInput.js";
+import ReferenceManyEventField from "../events/ReferenceManyEventField.js";
+import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput.js";
+import MediaPreview from "../previews/MediaPreview.js";
+import { ReferenceLinkTab } from "../tabs/ReferenceLinkTab.js";
+import ReferenceUserInput from "../user/ReferenceUserInput.js";
+import { MediaField } from "./MediaField.js";
+import { GenerateExtraButton } from "./button/GenerateExtraButton.js";
+import { GenerateThumbnailButton } from "./button/GenerateThumbnailButton.js";
+import { MediaTGPostButton } from "./button/MediaTGPostButton.js";
+import { MediaInput } from "./input/MediaInput.js";
 
 const EditTitle: React.FC<EditProps> = ({ record }: any) => {
   return <span>Media {record?.description}</span>;

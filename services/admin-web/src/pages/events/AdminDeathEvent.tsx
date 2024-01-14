@@ -1,13 +1,13 @@
-import { uuid } from "@liexp/shared/lib/utils/uuid";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
-import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
-import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField";
-import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm";
-import { DeathEventEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/DeathEventEditFormTab";
-import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
-import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
-import { MediaArrayInput } from "@liexp/ui/lib/components/admin/media/input/MediaArrayInput";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput.js";
+import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField.js";
+import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField.js";
+import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm.js";
+import { DeathEventEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/DeathEventEditFormTab.js";
+import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput.js";
+import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput.js";
+import { MediaArrayInput } from "@liexp/ui/lib/components/admin/media/input/MediaArrayInput.js";
 import {
   AutocompleteInput,
   BooleanField,
@@ -23,8 +23,8 @@ import {
   useDataProvider,
   type CreateProps,
   type ListProps,
-} from "@liexp/ui/lib/components/admin/react-admin";
-import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
+} from "@liexp/ui/lib/components/admin/react-admin.js";
+import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils.js";
 import * as React from "react";
 
 const deathEventsFilter = [

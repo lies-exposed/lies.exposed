@@ -1,8 +1,8 @@
 import {
   generateRandomColor,
   toColorHash,
-} from "@liexp/shared/lib/utils/colors";
-import get from "lodash/get";
+} from "@liexp/shared/lib/utils/colors.js";
+import get from "lodash/get.js";
 import * as React from "react";
 import {
   Button,
@@ -10,7 +10,7 @@ import {
   type TextInputProps,
   useInput,
 } from "react-admin";
-import { Box, TextField, FormControl } from "../../../mui";
+import { Box, TextField, FormControl } from "../../../mui/index.js";
 
 export const ColorInput: React.FC<TextInputProps> = ({
   source,

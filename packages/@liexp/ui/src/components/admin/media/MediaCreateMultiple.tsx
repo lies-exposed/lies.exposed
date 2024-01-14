@@ -1,15 +1,15 @@
-import { parseURL } from "@liexp/shared/lib/helpers/media";
+import { parseURL } from "@liexp/shared/lib/helpers/media.js";
 import {
   ImageType,
   MP3Type,
   MP4Type,
   OGGType,
   PDFType,
-} from "@liexp/shared/lib/io/http/Media";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+} from "@liexp/shared/lib/io/http/Media.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import {
   ArrayInput,
@@ -27,17 +27,17 @@ import {
 } from "react-admin";
 import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
-import { uploadFile } from "../../../client/admin/MediaAPI";
-import { styled } from "../../../theme";
+import { uploadFile } from "../../../client/admin/MediaAPI.js";
+import { styled } from "../../../theme/index.js";
 import {
   Box,
   Card,
   CardActionArea,
   CardActions,
   CardContent,
-  ContentSaveIcon,
+  Icons,
   alpha,
-} from "../../mui";
+} from "../../mui/index.js";
 
 const transformMedia =
   (apiProvider: DataProvider<string>) =>
@@ -200,7 +200,7 @@ export const MediaCreateMany: React.FC<any> = (props) => {
             <CardActions>
               <Box>
                 <Button
-                  startIcon={<ContentSaveIcon />}
+                  startIcon={<Icons.ContentSave />}
                   disabled={isSubmitting}
                   label="Save"
                   onClick={() => {

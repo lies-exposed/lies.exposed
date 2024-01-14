@@ -1,6 +1,10 @@
 module.exports = {
-  extends: ["../../../.eslintrc.js", "plugin:react/recommended"],
+  extends: [
+    "../../../.eslintrc.js",
+    "plugin:react/recommended"
+  ],
   parserOptions: {
+    sourceType: "module",
     tsconfigRootDir: __dirname,
     project: ["./tsconfig.json"],
   },

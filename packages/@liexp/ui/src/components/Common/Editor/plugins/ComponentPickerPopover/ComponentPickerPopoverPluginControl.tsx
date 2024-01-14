@@ -1,9 +1,9 @@
-import { type SlatePluginControls } from "@react-page/plugins-slate/lib/types/slatePluginDefinitions";
+import { type SlatePluginControls } from "@react-page/plugins-slate/lib/types/slatePluginDefinitions.js";
 import React from "react";
 import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
-import { ComponentsPickerPopover } from "./ComponentPickerPopover";
-import { ComponentPickerPopoverControlAnchorWrapper } from "./ComponentPickerPopoverPluginControlAnchor";
-import { type ComponentPickerPopoverState } from "./types";
+import { ComponentsPickerPopover } from "./ComponentPickerPopover.js";
+import { ComponentPickerPopoverControlAnchorWrapper } from "./ComponentPickerPopoverPluginControlAnchor.js";
+import { type ComponentPickerPopoverState } from "./types.js";
 
 export const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
   // eslint-disable-next-line no-console

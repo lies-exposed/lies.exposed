@@ -1,13 +1,13 @@
-import { AutocompleteActorInput } from "@liexp/ui/lib/components/Input/AutocompleteActorInput";
-import { AutocompleteGroupInput } from "@liexp/ui/lib/components/Input/AutocompleteGroupInput";
-import { AutocompleteKeywordInput } from "@liexp/ui/lib/components/Input/AutocompleteKeywordInput";
-import { Box } from "@liexp/ui/lib/components/mui";
+import { AutocompleteActorInput } from "@liexp/ui/lib/components/Input/AutocompleteActorInput.js";
+import { AutocompleteGroupInput } from "@liexp/ui/lib/components/Input/AutocompleteGroupInput.js";
+import { AutocompleteKeywordInput } from "@liexp/ui/lib/components/Input/AutocompleteKeywordInput.js";
+import { Box } from "@liexp/ui/lib/components/mui/index.js";
 import {
   EventsFlowGraphBox,
   type EventsFlowGraphBoxProps,
-} from "@liexp/ui/lib/containers/graphs/EventsFlowGraphBox";
+} from "@liexp/ui/lib/containers/graphs/EventsFlowGraphBox.js";
 import { type Meta, type StoryFn } from "@storybook/react";
-import subYears from "date-fns/subYears";
+import subYears from "date-fns/subYears/index.js";
 import React from "react";
 
 const meta: Meta = {

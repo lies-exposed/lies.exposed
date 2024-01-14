@@ -1,7 +1,7 @@
-import { MainContent } from "@liexp/ui/lib/components/MainContent";
-import SEO from "@liexp/ui/lib/components/SEO";
-import { PageContentBox } from "@liexp/ui/lib/containers/PageContentBox";
-import StoriesBox from "@liexp/ui/lib/containers/StoriesBox";
+import { MainContent } from "@liexp/ui/lib/components/MainContent.js";
+import SEO from "@liexp/ui/lib/components/SEO.js";
+import { PageContentBox } from "@liexp/ui/lib/containers/PageContentBox.js";
+import StoriesBox from "@liexp/ui/lib/containers/StoriesBox.js";
 import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
 import { useNavigateToResource } from "../../utils/location.utils";

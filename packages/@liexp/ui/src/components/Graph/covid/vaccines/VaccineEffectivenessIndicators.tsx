@@ -1,11 +1,11 @@
-import ParentSize from "@visx/responsive/lib/components/ParentSize";
+import { ParentSize } from "@visx/responsive";
 import { scaleBand, scaleLinear, scaleOrdinal } from "@visx/scale";
 import * as React from "react";
 import {
   BarStackGraph,
   type TooltipData,
-} from "../../../Common/Graph/BarStackGraph";
-import { Grid, Typography } from "../../../mui";
+} from "../../../Common/Graph/BarStackGraph.js";
+import { Grid, Typography } from "../../../mui/index.js";
 
 type DataGroup = "Vaccine" | "Placebo" | "Vaccine Severe" | "Placebo Severe";
 

@@ -1,6 +1,6 @@
-import { fp, pipe } from "@liexp/core/lib/fp";
-import { toError } from "fp-ts/Either";
-import { NumberFromString } from "io-ts-types/lib/NumberFromString";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { toError } from "fp-ts/lib/Either.js";
+import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
 import * as React from "react";
 import { useLocation } from "react-router";
 

@@ -1,13 +1,13 @@
-import { toGetNetworkQuery } from "@liexp/shared/lib/helpers/event/event";
-import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
-import { type Network } from "@liexp/shared/lib/io/http";
-import { type FlowGraphType } from "@liexp/shared/lib/io/http/graphs/FlowGraph";
+import { toGetNetworkQuery } from "@liexp/shared/lib/helpers/event/event.js";
+import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
+import { type FlowGraphType } from "@liexp/shared/lib/io/http/graphs/FlowGraph.js";
+import { type Network } from "@liexp/shared/lib/io/http/index.js";
 import { useRecordContext, useRefresh } from "ra-core";
 import { Button, LoadingIndicator } from "ra-ui-materialui";
 import * as React from "react";
-import { apiProvider } from "../../../../client/api";
-import { EventsFlowGraphBox } from "../../../../containers/graphs/EventsFlowGraphBox";
-import { Grid } from "../../../mui";
+import { apiProvider } from "../../../../client/api.js";
+import { EventsFlowGraphBox } from "../../../../containers/graphs/EventsFlowGraphBox.js";
+import { Grid } from "../../../mui/index.js";
 
 export const EventsFlowGraphFormTab: React.FC<{ type: FlowGraphType }> = ({
   type,

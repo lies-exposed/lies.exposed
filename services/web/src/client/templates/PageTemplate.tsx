@@ -1,10 +1,10 @@
-import { isValidValue } from "@liexp/shared/lib/slate";
-import { LazyEditor as Editor } from "@liexp/ui/lib/components/Common/Editor";
-import { TOCPlugin } from "@liexp/ui/lib/components/Common/Editor/plugins/renderer/TOCPlugin";
-import { MainContent } from "@liexp/ui/lib/components/MainContent";
-import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
-import SEO from "@liexp/ui/lib/components/SEO";
-import { Box, Container } from "@liexp/ui/lib/components/mui";
+import { isValidValue } from "@liexp/shared/lib/slate/index.js";
+import { LazyEditor as Editor } from "@liexp/ui/lib/components/Common/Editor/index.js";
+import { TOCPlugin } from "@liexp/ui/lib/components/Common/Editor/plugins/renderer/TOCPlugin.js";
+import { MainContent } from "@liexp/ui/lib/components/MainContent.js";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
+import SEO from "@liexp/ui/lib/components/SEO.js";
+import { Box, Container } from "@liexp/ui/lib/components/mui/index.js";
 import * as React from "react";
 import NotFoundPage from "../pages/404";
 

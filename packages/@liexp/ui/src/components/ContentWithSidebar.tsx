@@ -1,7 +1,5 @@
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import * as React from "react";
-import { Box, Grid } from "./mui";
+import { Box, Grid, Icons } from "./mui/index.js";
 
 interface ContentWithSidebarProps {
   sidebar: React.ReactElement;
@@ -26,7 +24,7 @@ export const ContentWithSidebar: React.FC<
         {showSidebar ? (
           <Box>
             {sidebar}
-            <ExpandMoreIcon
+            <Icons.ExpandMore
               onClick={() => {
                 toggleSidebar(!showSidebar);
               }}
@@ -39,7 +37,7 @@ export const ContentWithSidebar: React.FC<
             }}
             style={{ position: "absolute" }}
           >
-            <ChevronRightIcon />
+            <Icons.ChevronRight />
           </div>
         )}
       </Grid>

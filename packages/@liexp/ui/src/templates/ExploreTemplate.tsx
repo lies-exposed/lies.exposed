@@ -1,15 +1,15 @@
-import { fp } from "@liexp/core/lib/fp";
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
-import { EventType } from "@liexp/shared/lib/io/http/Events";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent";
-import { GROUPS } from "@liexp/shared/lib/io/http/Group";
-import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
-import { formatDate } from "@liexp/shared/lib/utils/date.utils";
-import { pipe } from "fp-ts/function";
+import { fp } from "@liexp/core/lib/fp/index.js";
+import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
+import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
+import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
+import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
-import QueriesRenderer from "../components/QueriesRenderer";
-import SEO from "../components/SEO";
-import EventsTimeline from "../components/lists/EventList/EventsTimeline";
+import QueriesRenderer from "../components/QueriesRenderer.js";
+import SEO from "../components/SEO.js";
+import EventsTimeline from "../components/lists/EventList/EventsTimeline.js";
 import {
   Box,
   FormControlLabel,
@@ -17,13 +17,13 @@ import {
   Grid,
   Stack,
   Switch,
-} from "../components/mui";
-import EventsAppBarBox from "../containers/EventsAppBarBox";
-import { EventsNetworkGraphBox } from "../containers/graphs/EventsNetworkGraphBox";
-import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
-import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
-import { SplitPageTemplate } from "../templates/SplitPageTemplate";
-import { styled } from "../theme";
+} from "../components/mui/index.js";
+import EventsAppBarBox from "../containers/EventsAppBarBox.js";
+import { EventsNetworkGraphBox } from "../containers/graphs/EventsNetworkGraphBox.js";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
+import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery.js";
+import { SplitPageTemplate } from "../templates/SplitPageTemplate.js";
+import { styled } from "../theme/index.js";
 
 const PREFIX = "EventsPage";
 

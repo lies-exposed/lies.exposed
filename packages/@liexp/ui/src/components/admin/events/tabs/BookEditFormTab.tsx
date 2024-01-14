@@ -1,10 +1,10 @@
-import { AudioType, PDFType } from "@liexp/shared/lib/io/http/Media";
+import { AudioType, PDFType } from "@liexp/shared/lib/io/http/Media.js";
 import * as React from "react";
 import { TextInput, type EditProps } from "react-admin";
-import { Box } from "../../../mui";
-import ReferenceArrayBySubjectInput from "../../common/inputs/BySubject/ReferenceArrayBySubjectInput";
-import ReferenceBySubjectInput from "../../common/inputs/BySubject/ReferenceBySubjectInput";
-import ReferenceMediaInput from "../../media/input/ReferenceMediaInput";
+import { Box } from "../../../mui/index.js";
+import ReferenceArrayBySubjectInput from "../../common/inputs/BySubject/ReferenceArrayBySubjectInput.js";
+import ReferenceBySubjectInput from "../../common/inputs/BySubject/ReferenceBySubjectInput.js";
+import ReferenceMediaInput from "../../media/input/ReferenceMediaInput.js";
 
 export const BookEditFormTab: React.FC<EditProps & { record?: any }> = (
   props,

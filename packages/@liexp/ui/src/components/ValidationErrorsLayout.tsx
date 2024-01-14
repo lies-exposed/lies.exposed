@@ -1,10 +1,10 @@
-// import * as E from "fp-ts/Either";
+// import * as E from "fp-ts/lib/Either.js";
 import type * as t from "io-ts";
-import { failure } from "io-ts/lib/PathReporter";
+import { failure } from "io-ts/lib/PathReporter.js";
 import * as React from "react";
 
-import { Layout } from "./Layout";
-import { MainContent } from "./MainContent";
+import { Layout } from "./Layout.js";
+import { MainContent } from "./MainContent.js";
 
 export const ValidationErrorsLayout = (errs: t.Errors): JSX.Element => {
   return (

@@ -1,12 +1,12 @@
-import { type GraphId } from "@liexp/shared/lib/io/http/graphs/Graph";
+import { type GraphId } from "@liexp/shared/lib/io/http/graphs/Graph.js";
 import { LinearGradient } from "@visx/gradient";
 import { ParentSize } from "@visx/responsive";
 import * as t from "io-ts";
 import * as React from "react";
-import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
-import { AxisGraph } from "../Common/Graph/AxisGraph";
-import QueriesRenderer from "../QueriesRenderer";
-import { Checkbox } from "../mui";
+import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
+import { AxisGraph } from "../Common/Graph/AxisGraph.js";
+import QueriesRenderer from "../QueriesRenderer.js";
+import { Checkbox } from "../mui/index.js";
 
 /**
  * CO2.Earth Data set: https://www.co2.earth/historical-co2-datasets

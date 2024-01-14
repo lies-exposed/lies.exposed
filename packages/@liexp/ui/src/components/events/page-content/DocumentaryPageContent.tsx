@@ -1,10 +1,10 @@
-import { type Events, type Media } from "@liexp/shared/lib/io/http";
-import { isValidValue } from "@liexp/shared/lib/slate";
+import { type Events, type Media } from "@liexp/shared/lib/io/http/index.js";
+import { isValidValue } from "@liexp/shared/lib/slate/index.js";
 import * as React from "react";
-import { useTheme } from "../../../theme";
-import { LazyEditor as Editor } from "../../Common/Editor";
-import MediaElement from "../../Media/MediaElement";
-import { Box, Grid } from "../../mui";
+import { useTheme } from "../../../theme/index.js";
+import { LazyEditor as Editor } from "../../Common/Editor/index.js";
+import MediaElement from "../../Media/MediaElement.js";
+import { Box, Grid } from "../../mui/index.js";
 
 interface DocumentaryPageContentProps {
   event: Events.SearchEvent.SearchDocumentaryEvent;

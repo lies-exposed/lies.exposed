@@ -4,7 +4,7 @@ import {
   ReferenceArrayInput,
   type ReferenceArrayInputProps,
 } from "react-admin";
-import { ActorChip } from "../../actors/ActorChip";
+import { ActorChip } from "../../actors/ActorChip.js";
 
 const ReferenceArrayActorInput: React.FC<
   Omit<ReferenceArrayInputProps, "children"> & { source: string }

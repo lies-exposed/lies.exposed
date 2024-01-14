@@ -1,10 +1,10 @@
-import { type Area } from "@liexp/shared/lib/io/http";
+import { type Area } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { AutoSizer } from "react-virtualized";
-import AreasMap from "../../components/AreasMap";
-import QueriesRenderer from "../../components/QueriesRenderer";
-import { AreaList } from "../../components/lists/AreaList";
-import { Box, Grid } from "../../components/mui";
+import AreasMap from "../../components/AreasMap.js";
+import QueriesRenderer from "../../components/QueriesRenderer.js";
+import { AreaList } from "../../components/lists/AreaList.js";
+import { Box, Grid } from "../../components/mui/index.js";
 
 interface ExploreAreasBoxProps {
   onAreaClick: (a: Area.Area) => void;

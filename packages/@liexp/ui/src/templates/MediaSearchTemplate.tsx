@@ -1,15 +1,15 @@
-import { type Media } from "@liexp/shared/lib/io/http";
+import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import { KeywordsBox } from "../components/KeywordsBox";
-import { MainContent } from "../components/MainContent";
+import { KeywordsBox } from "../components/KeywordsBox.js";
+import { MainContent } from "../components/MainContent.js";
 import SearchEventInput, {
   type SearchFilter,
-} from "../components/events/inputs/SearchEventInput";
-import { Box, Container } from "../components/mui";
-import ActorsBox from "../containers/ActorsBox";
-import { GroupsBox } from "../containers/GroupsBox";
-import { MediaBox } from "../containers/MediaBox";
-import { PageContentBox } from "../containers/PageContentBox";
+} from "../components/events/inputs/SearchEventInput.js";
+import { Box, Container } from "../components/mui/index.js";
+import ActorsBox from "../containers/ActorsBox.js";
+import { GroupsBox } from "../containers/GroupsBox.js";
+import { MediaBox } from "../containers/MediaBox.js";
+import { PageContentBox } from "../containers/PageContentBox.js";
 
 export interface MediaSearchTemplateProps {
   filter: SearchFilter;

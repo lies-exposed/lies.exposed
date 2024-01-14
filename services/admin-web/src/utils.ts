@@ -1,9 +1,9 @@
-import * as http from "@liexp/shared/lib/io/http";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { type RawMedia, uploadFile } from "@liexp/ui/lib/client/admin/MediaAPI";
-import { apiProvider } from "@liexp/ui/lib/client/api";
-import { type RaRecord } from "@liexp/ui/lib/components/admin/react-admin";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import * as http from "@liexp/shared/lib/io/http/index.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { type RawMedia, uploadFile } from "@liexp/ui/lib/client/admin/MediaAPI.js";
+import { apiProvider } from "@liexp/ui/lib/client/api.js";
+import { type RaRecord } from "@liexp/ui/lib/components/admin/react-admin.js";
 import * as A from "fp-ts/Array";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

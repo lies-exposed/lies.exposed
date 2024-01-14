@@ -1,12 +1,12 @@
-import { IframeVideoType, MP4Type } from "@liexp/shared/lib/io/http/Media";
+import { IframeVideoType, MP4Type } from "@liexp/shared/lib/io/http/Media.js";
 import * as React from "react";
 import { type EditProps, TextInput } from "react-admin";
-import { Box } from "../../../mui";
-import ReferenceArrayActorInput from "../../actors/ReferenceArrayActorInput";
-import ReferenceAreaInput from "../../areas/input/ReferenceAreaInput";
-import ReferenceArrayGroupInput from "../../groups/ReferenceArrayGroupInput";
-import ReferenceLinkInput from "../../links/ReferenceLinkInput";
-import ReferenceMediaInput from "../../media/input/ReferenceMediaInput";
+import { Box } from "../../../mui/index.js";
+import ReferenceArrayActorInput from "../../actors/ReferenceArrayActorInput.js";
+import ReferenceAreaInput from "../../areas/input/ReferenceAreaInput.js";
+import ReferenceArrayGroupInput from "../../groups/ReferenceArrayGroupInput.js";
+import ReferenceLinkInput from "../../links/ReferenceLinkInput.js";
+import ReferenceMediaInput from "../../media/input/ReferenceMediaInput.js";
 
 export const DocumentaryEditFormTab: React.FC<EditProps & { record?: any }> = (
   props,

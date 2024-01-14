@@ -1,24 +1,24 @@
 import {
   SocialPostResourceType,
   type SocialPost,
-} from "@liexp/shared/lib/io/http/SocialPost";
+} from "@liexp/shared/lib/io/http/SocialPost.js";
 import * as React from "react";
-import { useNavigateTo } from "../../../utils/history.utils";
-import { Stack } from "../../mui";
-import ReferenceActorInput from "../actors/ReferenceActorInput";
-import ReferenceAreaInput from "../areas/input/ReferenceAreaInput";
-import ReferenceEventInput from "../events/ReferenceEventInput";
-import ReferenceGroupInput from "../groups/ReferenceGroupInput";
-import ReferenceKeywordInput from "../keywords/ReferenceKeywordInput";
-import ReferenceLinkInput from "../links/ReferenceLinkInput";
-import ReferenceMediaInput from "../media/input/ReferenceMediaInput";
+import { useNavigateTo } from "../../../utils/history.utils.js";
+import { Stack } from "../../mui/index.js";
+import ReferenceActorInput from "../actors/ReferenceActorInput.js";
+import ReferenceAreaInput from "../areas/input/ReferenceAreaInput.js";
+import ReferenceEventInput from "../events/ReferenceEventInput.js";
+import ReferenceGroupInput from "../groups/ReferenceGroupInput.js";
+import ReferenceKeywordInput from "../keywords/ReferenceKeywordInput.js";
+import ReferenceLinkInput from "../links/ReferenceLinkInput.js";
+import ReferenceMediaInput from "../media/input/ReferenceMediaInput.js";
 import {
   Button,
   LoadingIndicator,
   SelectInput,
   TextInput,
   useRecordContext,
-} from "../react-admin";
+} from "../react-admin.js";
 
 export const ResourceEntityInput: React.FC = () => {
   const record = useRecordContext<SocialPost>();

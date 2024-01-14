@@ -1,13 +1,13 @@
-import { fp } from "@liexp/core/lib/fp";
-import { createExcerptValue, isValidValue } from "@liexp/shared/lib/slate";
-import { type EditorProps } from "@react-page/editor";
-import { pipe } from "fp-ts/function";
+import { fp } from "@liexp/core/lib/fp/index.js";
+import { createExcerptValue, isValidValue } from "@liexp/shared/lib/slate/index.js";
+import { type EditorProps } from "@react-page/editor/lib-es/index.js";
+import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { Labeled, useInput, type InputProps } from "react-admin";
-import Editor from "../Common/Editor/Editor";
-import { cellPlugins, minimalCellPlugins } from "../Common/Editor/cellPlugins";
-import JSONInput from "../Common/JSON/JSONInput";
-import { Box, Button, FormControlLabel, Paper, Switch } from "../mui";
+import Editor from "../Common/Editor/Editor.js";
+import { cellPlugins, minimalCellPlugins } from "../Common/Editor/cellPlugins.js";
+import JSONInput from "../Common/JSON/JSONInput.js";
+import { Box, Button, FormControlLabel, Paper, Switch } from "../mui/index.js";
 
 export type RaReactPageInputProps = {
   className?: string;

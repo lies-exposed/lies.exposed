@@ -1,13 +1,12 @@
-import MediaIcon from "@mui/icons-material/VideoFileOutlined";
 import type {
   CellPlugin,
   CellPluginComponentProps,
   DataTType,
-} from "@react-page/editor";
+} from "@react-page/editor/lib-es/index.js";
 import React from "react";
-import ActorsBox from "../../../../../containers/ActorsBox";
-import { AutocompleteActorInput } from "../../../../Input/AutocompleteActorInput";
-import { Box } from "../../../../mui";
+import ActorsBox from "../../../../../containers/ActorsBox.js";
+import { AutocompleteActorInput } from "../../../../Input/AutocompleteActorInput.js";
+import { Box, Icons } from "../../../../mui/index.js";
 
 export interface ActorInlineState extends DataTType {
   actorId: string;
@@ -18,7 +17,7 @@ export interface ActorInlineSettings {
 }
 
 export const defaultSettings: ActorInlineSettings = {
-  icon: <MediaIcon />,
+  icon: <Icons.MediaIcon />,
 };
 
 export type ActorInlineControlType = React.ComponentType<

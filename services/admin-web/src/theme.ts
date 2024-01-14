@@ -2,7 +2,7 @@ import {
   themeOptions,
   secondary,
   type ThemeOptions,
-} from "@liexp/ui/lib/theme";
+} from "@liexp/ui/lib/theme/index.js";
 
 const adminThemeOptions: ThemeOptions = {
   ...themeOptions,

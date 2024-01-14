@@ -4,7 +4,7 @@ import { Tree as VXTree } from "@visx/hierarchy";
 import { LinkHorizontal } from "@visx/shape";
 import { hierarchy, type HierarchyPointNode } from "d3-hierarchy";
 import * as t from "io-ts";
-import { date } from "io-ts-types/lib/date";
+import { date } from "io-ts-types/lib/date.js";
 import * as React from "react";
 
 export interface TreeEvent {

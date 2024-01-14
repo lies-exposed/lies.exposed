@@ -1,17 +1,17 @@
-import { type Area } from "@liexp/shared/lib/io/http";
-import { EventType } from "@liexp/shared/lib/io/http/Events";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent";
-import { formatDate } from "@liexp/shared/lib/utils/date.utils";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
+import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type Area } from "@liexp/shared/lib/io/http/index.js";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { subYears } from "date-fns";
-import Feature from "ol/Feature";
+import Feature from "ol/Feature.js";
 import * as React from "react";
 import { AutoSizer } from "react-virtualized";
-import { AreaPageContent } from "../components/AreaPageContent";
-import Map from "../components/Map";
-import { Box, Typography } from "../components/mui";
-import { EventsPanel } from "../containers/EventsPanel";
-import { geoJSONFormat } from "../utils/map.utils";
-import { SplitPageTemplate } from "./SplitPageTemplate";
+import { AreaPageContent } from "../components/AreaPageContent.js";
+import Map from "../components/Map.js";
+import { Box, Typography } from "../components/mui/index.js";
+import { EventsPanel } from "../containers/EventsPanel.js";
+import { geoJSONFormat } from "../utils/map.utils.js";
+import { SplitPageTemplate } from "./SplitPageTemplate.js";
 
 export interface AreaTemplateProps {
   area: Area.Area;

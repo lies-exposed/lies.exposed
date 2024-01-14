@@ -1,7 +1,7 @@
-import { MediaType } from "@liexp/shared/lib/io/http/Media";
+import { MediaType } from "@liexp/shared/lib/io/http/Media.js";
 import { get } from "lodash";
 import * as React from "react";
-import { Box, Stack } from "../../../mui";
+import { Box, Stack } from "../../../mui/index.js";
 import {
   FileInput,
   FormDataConsumer,
@@ -9,8 +9,8 @@ import {
   TextInput,
   type InputProps,
   Button,
-} from "../../react-admin";
-import { MediaField } from "../MediaField";
+} from "../../react-admin.js";
+import { MediaField } from "../MediaField.js";
 
 interface MediaInputProps extends Omit<InputProps, "source"> {
   type?: "fromURL" | "fromFile";

@@ -1,11 +1,11 @@
-import { fp } from "@liexp/core/lib/fp";
-import { type ResourcesNames } from "@liexp/shared/lib/io/http";
-import { pipe } from "fp-ts/function";
+import { fp } from "@liexp/core/lib/fp/index.js";
+import { type ResourcesNames } from "@liexp/shared/lib/io/http/index.js";
+import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
-import { Avatar } from "../components/Common/Avatar";
-import EditButton from "../components/Common/Button/EditButton";
-import { ShareButtons } from "../components/Common/Button/ShareButtons";
-import { a11yProps, TabPanel } from "../components/Common/TabPanel";
+import { Avatar } from "../components/Common/Avatar.js";
+import EditButton from "../components/Common/Button/EditButton.js";
+import { ShareButtons } from "../components/Common/Button/ShareButtons.js";
+import { a11yProps, TabPanel } from "../components/Common/TabPanel.js";
 import {
   Box,
   Grid,
@@ -14,8 +14,8 @@ import {
   Tabs,
   Typography,
   useMuiMediaQuery,
-} from "../components/mui";
-import { styled, useTheme } from "../theme";
+} from "../components/mui/index.js";
+import { styled, useTheme } from "../theme/index.js";
 
 const PREFIX = `split-page-template`;
 const classes = {

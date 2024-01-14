@@ -1,16 +1,16 @@
-import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
 import {
   type Actor,
   type Group,
   type GroupMember,
-} from "@liexp/shared/lib/io/http";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
+} from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import { styled } from "../../../theme";
-import { Box, type BoxProps } from "../../mui";
-import { ActorList } from "../ActorList";
-import GroupsList from "../GroupList";
-import { GroupsMembersList } from "../GroupMemberList";
+import { styled } from "../../../theme/index.js";
+import { Box, type BoxProps } from "../../mui/index.js";
+import { ActorList } from "../ActorList.js";
+import GroupsList from "../GroupList.js";
+import { GroupsMembersList } from "../GroupMemberList.js";
 
 const PREFIX = "TimelineEventSubjects";
 

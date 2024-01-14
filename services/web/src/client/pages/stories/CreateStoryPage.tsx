@@ -1,18 +1,18 @@
 import "@liexp/ui/assets/react-page.css";
-import { apiProvider, authProvider } from "@liexp/ui/lib/client/api";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceMediaInput";
+import { apiProvider, authProvider } from "@liexp/ui/lib/client/api.js";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import ReferenceMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceMediaInput.js";
 import {
   AdminContext,
   CreateBase,
   ResourceContextProvider,
   SimpleForm,
   TextInput,
-} from "@liexp/ui/lib/components/admin/react-admin";
-import { StoryRelationsBox } from "@liexp/ui/lib/components/admin/stories/StoryRelations";
-import { Box, Container } from "@liexp/ui/lib/components/mui";
-import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider";
-import { styled, themeOptions } from "@liexp/ui/lib/theme";
+} from "@liexp/ui/lib/components/admin/react-admin.js";
+import { StoryRelationsBox } from "@liexp/ui/lib/components/admin/stories/StoryRelations.js";
+import { Box, Container } from "@liexp/ui/lib/components/mui/index.js";
+import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider.js";
+import { styled, themeOptions } from "@liexp/ui/lib/theme/index.js";
 import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
 

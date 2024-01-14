@@ -1,19 +1,19 @@
+import { EventType, type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
 import {
   type Actor,
   type Group,
   type GroupMember,
   type Keyword,
-} from "@liexp/shared/lib/io/http";
-import { EventType, type SearchEvent } from "@liexp/shared/lib/io/http/Events";
+} from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import EventSliderModal from "../components/Modal/EventSliderModal";
-import QueriesRenderer from "../components/QueriesRenderer";
-import EventsTimeline from "../components/lists/EventList/EventsTimeline";
-import { Box, Grid } from "../components/mui";
-import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
-import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
-import { styled } from "../theme";
-import EventsAppBarBox from "./EventsAppBarBox";
+import EventSliderModal from "../components/Modal/EventSliderModal.js";
+import QueriesRenderer from "../components/QueriesRenderer.js";
+import EventsTimeline from "../components/lists/EventList/EventsTimeline.js";
+import { Box, Grid } from "../components/mui/index.js";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
+import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery.js";
+import { styled } from "../theme/index.js";
+import EventsAppBarBox from "./EventsAppBarBox.js";
 
 const PREFIX = "EventsPanel";
 

@@ -1,9 +1,9 @@
-import { type Keyword } from "@liexp/shared/lib/io/http";
-import { formatDate, parseISO } from "@liexp/shared/lib/utils/date.utils";
+import { type Keyword } from "@liexp/shared/lib/io/http/index.js";
+import { formatDate, parseISO } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";
 import { useDataProvider, useRecordContext } from "react-admin";
-import { CircularProgress } from "../../../mui";
-import { SocialPostButton } from "../../common/SocialPostButton";
+import { CircularProgress } from "../../../mui/index.js";
+import { SocialPostButton } from "../../common/SocialPostButton.js";
 
 export const MediaTGPostButton: React.FC = () => {
   const record = useRecordContext();

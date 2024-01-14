@@ -1,14 +1,14 @@
-import { http } from "@liexp/shared/lib/io";
-import * as E from "fp-ts/Either";
-import { pipe } from "fp-ts/function";
+import { http } from "@liexp/shared/lib/io/index.js";
+import * as E from "fp-ts/lib/Either.js";
+import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { LoadingIndicator } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { ECOTheme } from "../../../theme";
-import LinkCard from "../../Cards/LinkCard";
-import { HelmetProvider } from "../../SEO";
-import { ValidationErrorsLayout } from "../../ValidationErrorsLayout";
-import { ThemeProvider } from "../../mui";
+import { ECOTheme } from "../../../theme/index.js";
+import LinkCard from "../../Cards/LinkCard.js";
+import { HelmetProvider } from "../../SEO.js";
+import { ValidationErrorsLayout } from "../../ValidationErrorsLayout.js";
+import { ThemeProvider } from "../../mui/index.js";
 
 const LinkPreview: React.FC<{ record: any }> = ({ record }) => {
   // const { record } = useEditContext();

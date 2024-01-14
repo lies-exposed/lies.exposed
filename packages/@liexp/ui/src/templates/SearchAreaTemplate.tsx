@@ -1,13 +1,13 @@
-import { type Area } from "@liexp/shared/lib/io/http";
+import { type Area } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { AutoSizer } from "react-virtualized";
-import AreasMap from "../components/AreasMap";
-import { AutocompleteAreaInput } from "../components/Input/AutocompleteAreaInput";
-import QueriesRenderer from "../components/QueriesRenderer";
-import { AreaList } from "../components/lists/AreaList";
-import { Box, Container, Grid } from "../components/mui";
-import { PageContentBox } from "../containers/PageContentBox";
-import { useTheme } from "../theme";
+import AreasMap from "../components/AreasMap.js";
+import { AutocompleteAreaInput } from "../components/Input/AutocompleteAreaInput.js";
+import QueriesRenderer from "../components/QueriesRenderer.js";
+import { AreaList } from "../components/lists/AreaList.js";
+import { Box, Container, Grid } from "../components/mui/index.js";
+import { PageContentBox } from "../containers/PageContentBox.js";
+import { useTheme } from "../theme/index.js";
 
 export interface SearchAreaTemplateProps {
   onAreaClick: (a: Area.Area) => void;

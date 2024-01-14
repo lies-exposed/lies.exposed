@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Footer } from "./Footer";
-import Header, { type HeaderProps } from "./Header/Header";
-import { Grid } from "./mui";
+import { Footer } from "./Footer.js";
+import Header, { type HeaderProps } from "./Header/Header.js";
+import { Grid } from "./mui/index.js";
 
 interface LayoutProps {
   style?: React.CSSProperties;

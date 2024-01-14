@@ -1,12 +1,12 @@
-import { uuid } from "@liexp/shared/lib/utils/uuid";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput";
-import ReferenceAreaInput from "@liexp/ui/lib/components/admin/areas/input/ReferenceAreaInput";
-import { ReferenceBySubjectField } from "@liexp/ui/lib/components/admin/common/inputs/BySubject/ReferenceBySubjectField";
-import ReferenceBySubjectInput from "@liexp/ui/lib/components/admin/common/inputs/BySubject/ReferenceBySubjectInput";
-import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm";
-import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
-import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput.js";
+import ReferenceAreaInput from "@liexp/ui/lib/components/admin/areas/input/ReferenceAreaInput.js";
+import { ReferenceBySubjectField } from "@liexp/ui/lib/components/admin/common/inputs/BySubject/ReferenceBySubjectField.js";
+import ReferenceBySubjectInput from "@liexp/ui/lib/components/admin/common/inputs/BySubject/ReferenceBySubjectInput.js";
+import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm.js";
+import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput.js";
+import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput.js";
 import {
   BooleanField,
   BooleanInput,
@@ -27,9 +27,9 @@ import {
   type EditProps,
   type FormTabProps,
   type ListProps,
-} from "@liexp/ui/lib/components/admin/react-admin";
-import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
-import { Box } from "@liexp/ui/lib/components/mui";
+} from "@liexp/ui/lib/components/admin/react-admin.js";
+import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils.js";
+import { Box } from "@liexp/ui/lib/components/mui/index.js";
 import * as React from "react";
 
 const transactionEventsFilter = [
