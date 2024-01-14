@@ -1,9 +1,9 @@
-import type * as logger from "@liexp/core/lib/logger";
+import type * as logger from "@liexp/core/lib/logger/index.js";
 import { type AxiosInstance, type AxiosResponse } from "axios";
-import { type Reader } from "fp-ts/Reader";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { type SpaceProvider, toError } from "./space.provider";
+import { type Reader } from "fp-ts/lib/Reader.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { pipe } from "fp-ts/lib/function.js";
+import { type SpaceProvider, toError } from "./space.provider.js";
 
 interface LocalSpaceProviderCtx {
   client: AxiosInstance;
@@ -17,7 +17,7 @@ const GetLocalSpaceProvider: Reader<LocalSpaceProviderCtx, SpaceProvider> = ({
   const logger = serverLogger.extend("local-space-client");
 
   return {
-    getEndpoint: () => TE.right(__dirname),
+    getEndpoint: () => TE.right(`${process.platform === 'win32' ? '' : '/'}${/file:\/{2,3}(.+)\/[^/]/.exec(import.meta.url)![1]}`),
     getObject: (params) => {
       return pipe(
         TE.tryCatch(() => {

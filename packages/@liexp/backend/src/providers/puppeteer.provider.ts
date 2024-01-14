@@ -1,10 +1,10 @@
 /* eslint-disable import/default */
 import * as fs from "fs";
-import * as logger from "@liexp/core/lib/logger";
-import type * as error from "@liexp/shared/lib/io/http/Error";
-import * as E from "fp-ts/Either";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import * as logger from "@liexp/core/lib/logger/index.js";
+import type * as error from "@liexp/shared/lib/io/http/Error/index.js";
+import * as E from "fp-ts/lib/Either.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { pipe } from "fp-ts/lib/function.js";
 import * as puppeteer from "puppeteer-core";
 import { addExtra, type VanillaPuppeteer } from "puppeteer-extra";
 import puppeteerStealth from "puppeteer-extra-plugin-stealth";

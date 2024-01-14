@@ -1,13 +1,13 @@
 import fs from "fs";
 import path from "path";
-import { fp } from "@liexp/core/lib/fp";
-import * as logger from "@liexp/core/lib/logger";
+import { fp } from "@liexp/core/lib/fp/index.js";
+import * as logger from "@liexp/core/lib/logger/index.js";
 import {
   distanceFromNow,
   differenceInHours,
-} from "@liexp/shared/lib/utils/date.utils";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+} from "@liexp/shared/lib/utils/date.utils.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { pipe } from "fp-ts/lib/function.js";
 import { IOError } from "ts-io-error";
 
 const fsLogger = logger.GetLogger("fs");

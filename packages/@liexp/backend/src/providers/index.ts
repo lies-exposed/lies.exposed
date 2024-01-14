@@ -1,5 +1,5 @@
-import * as JWTProvider from "./jwt/jwt.provider";
-import * as TGProvider from "./tg/tg.provider";
+import * as JWTProvider from "./jwt/jwt.provider.js";
+import * as TGProvider from "./tg/tg.provider.js";
 
 const providers = {
   JWTProvider,
