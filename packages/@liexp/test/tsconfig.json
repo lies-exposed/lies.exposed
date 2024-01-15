@@ -2,20 +2,22 @@
   "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "composite": true,
+    "incremental": true,
     "noEmit": false,
     "lib": ["DOM", "ESNext"],
     "jsx": "react",
+    "target": "es6",
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "outDir": "./lib",
     "baseUrl": "./src",
     "rootDir": "./src",
     "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
-    "typeRoots": [
-      "typings"
-    ]
+    "typeRoots": ["typings"]
   },
-  "include": ["./src"],
+  "include": ["./src", ".eslintrc.js"],
   "exclude": ["node_modules", "lib"],
   "references": [
     {

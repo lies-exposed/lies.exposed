@@ -15,7 +15,7 @@ import {
   type Keyword,
   Stats,
 } from "../../io/http/index.js";
-import { getSearchEventRelations } from "@helpers/event/getSearchEventRelations";
+import { getSearchEventRelations } from "../event/getSearchEventRelations.js";
 
 const logger = GetLogger("hierarchy-edge-bundling");
 
