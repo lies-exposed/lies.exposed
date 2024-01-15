@@ -1,10 +1,10 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
 // import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray";
-import { Area } from "./Area";
-import { BaseProps } from "./Common/BaseProps";
-import { Color } from "./Common/Color";
-import { Media } from "./Media";
+import { Area } from "./Area.js";
+import { BaseProps } from "./Common/BaseProps.js";
+import { Color } from "./Common/Color.js";
+import { Media } from "./Media.js";
 
 export const PROJECT_FRONTMATTER = t.literal("ProjectFrontmatter");
 export type PROJECT_FRONTMATTER = t.TypeOf<typeof PROJECT_FRONTMATTER>;

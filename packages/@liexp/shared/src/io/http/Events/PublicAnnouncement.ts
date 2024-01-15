@@ -1,8 +1,8 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray";
-import { BaseProps } from "../Common/BaseProps";
-import { BySubjectId } from "../Common/BySubject";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray.js";
+import { BaseProps } from "../Common/BaseProps.js";
+import { BySubjectId } from "../Common/BySubject.js";
 
 export const PublicAnnouncement = t.strict(
   {

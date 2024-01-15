@@ -1,5 +1,5 @@
-import { type User } from "../io/http";
-import { AdminCreate, AdminDelete, AdminEdit } from "../io/http/User";
+import { AdminCreate, AdminDelete, AdminEdit } from "../io/http/User.js";
+import { type User } from "../io/http/index.js";
 
 export const checkIsAdmin = (pp: User.UserPermission[]): boolean => {
   return (

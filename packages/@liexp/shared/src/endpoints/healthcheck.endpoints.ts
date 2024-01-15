@@ -1,7 +1,7 @@
 import * as t from "io-ts";
-import { UUID } from "io-ts-types/UUID";
+import { UUID } from "io-ts-types/lib/UUID.js";
 import { Endpoint } from "ts-endpoint";
-import { ResourceEndpoints } from "./types";
+import { ResourceEndpoints } from "./types.js";
 
 export const ListHealthcheck = Endpoint({
   Method: "GET",

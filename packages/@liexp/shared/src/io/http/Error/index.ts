@@ -1,1 +1,1 @@
-export { CoreError } from "./Error";
+export { CoreError } from "./Error.js";

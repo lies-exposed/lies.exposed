@@ -1,20 +1,20 @@
-import type * as Actor from "../../Actor";
-import { type BySubject } from "../../Common";
-import type * as Group from "../../Group";
-import type * as GroupMember from "../../GroupMember";
-import type * as Keyword from "../../Keyword";
-import type * as Link from "../../Link";
-import type * as Media from "../../Media";
-import type * as Death from "../Death";
-import type * as Documentary from "../Documentary";
-import * as EventTotals from "../EventTotals";
-import type * as Patent from "../Patent";
-import type * as Quote from "../Quote";
-import type * as ScientificStudy from "../ScientificStudy";
-import type * as Transaction from "../Transaction";
-import type * as Uncategorized from "../Uncategorized";
-import type { SearchBookEvent } from "./SearchBookEvent";
-import * as SearchEventsQuery from "./SearchEventsQuery";
+import type * as Actor from "../../Actor.js";
+import { type BySubject } from "../../Common/index.js";
+import type * as Group from "../../Group.js";
+import type * as GroupMember from "../../GroupMember.js";
+import type * as Keyword from "../../Keyword.js";
+import type * as Link from "../../Link.js";
+import type * as Media from "../../Media.js";
+import type * as Death from "../Death.js";
+import type * as Documentary from "../Documentary.js";
+import * as EventTotals from "../EventTotals.js";
+import type * as Patent from "../Patent.js";
+import type * as Quote from "../Quote.js";
+import type * as ScientificStudy from "../ScientificStudy.js";
+import type * as Transaction from "../Transaction.js";
+import type * as Uncategorized from "../Uncategorized.js";
+import type { SearchBookEvent } from "./SearchBookEvent.js";
+import * as SearchEventsQuery from "./SearchEventsQuery.js";
 
 export interface SearchUncategorizedEvent
   extends Omit<

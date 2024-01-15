@@ -1,6 +1,6 @@
 import * as t from "io-ts";
-import { BaseProps } from "./Common/BaseProps";
-import { MediaType } from "./Media";
+import { BaseProps } from "./Common/BaseProps.js";
+import { MediaType } from "./Media.js";
 
 export const THEORY_KIND = t.literal("THEORY");
 export const PRACTICE_KIND = t.literal("PRACTICE");

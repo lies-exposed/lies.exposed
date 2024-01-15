@@ -1,7 +1,7 @@
-import * as E from "fp-ts/Either";
-import { pipe } from "fp-ts/function";
+import * as E from "fp-ts/lib/Either.js";
+import { pipe } from "fp-ts/lib/function.js";
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
 
 const NumberFromEmptyString = new t.Type(
   "NumberFromEmptyString",

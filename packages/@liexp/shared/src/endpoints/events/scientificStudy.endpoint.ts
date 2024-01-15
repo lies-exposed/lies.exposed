@@ -1,16 +1,16 @@
-import { propsOmit } from "@liexp/core/lib/io/utils";
+import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { Endpoint } from "ts-endpoint";
-import { UUID } from "../../io/http/Common";
-import { ListOutput, Output } from "../../io/http/Common/Output";
+import { ListOutput, Output } from "../../io/http/Common/Output.js";
+import { UUID } from "../../io/http/Common/index.js";
 import {
   CreateScientificStudyBody,
   ScientificStudy,
-} from "../../io/http/Events/ScientificStudy";
-import { GetSearchEventsQuery } from "../../io/http/Events/SearchEvents/SearchEventsQuery";
-import { ResourceEndpoints } from "../types";
+} from "../../io/http/Events/ScientificStudy.js";
+import { GetSearchEventsQuery } from "../../io/http/Events/SearchEvents/SearchEventsQuery.js";
+import { ResourceEndpoints } from "../types.js";
 
 const SingleStudyOutput = Output(ScientificStudy, "Death");
 const ListStudyOutput = ListOutput(ScientificStudy, "Deaths");

@@ -1,10 +1,10 @@
 import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { NumberFromString } from "io-ts-types/lib/NumberFromString";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
-import { UUID } from "./Common/UUID";
-import { GetListQuery } from "./Query";
+import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { UUID } from "./Common/UUID.js";
+import { GetListQuery } from "./Query/index.js";
 
 export const MEDIA = t.literal("media");
 export type MEDIA = t.TypeOf<typeof MEDIA>;

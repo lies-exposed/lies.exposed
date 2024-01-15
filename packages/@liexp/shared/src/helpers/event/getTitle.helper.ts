@@ -1,4 +1,4 @@
-import * as http from "../../io/http";
+import * as http from "../../io/http/index.js";
 
 export const getTitle = (
   e: http.Events.Event,

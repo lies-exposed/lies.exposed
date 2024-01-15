@@ -1,6 +1,6 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { NumberFromString } from "io-ts-types/lib/NumberFromString";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
 
 export const WHOCovid19GlobalData = t.strict(
   {

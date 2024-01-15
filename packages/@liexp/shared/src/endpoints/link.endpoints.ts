@@ -1,8 +1,8 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
-import { ListOutput, Output, URL, UUID } from "../io/http/Common";
-import * as Link from "../io/http/Link";
-import { ResourceEndpoints } from "./types";
+import { ListOutput, Output, URL, UUID } from "../io/http/Common/index.js";
+import * as Link from "../io/http/Link.js";
+import { ResourceEndpoints } from "./types.js";
 
 const OneLinkOutput = Output(Link.Link, "Link");
 const ManyLinkOutput = ListOutput(Link.Link, "Links");

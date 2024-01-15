@@ -1,10 +1,10 @@
-import { propsOmit } from "@liexp/core/lib/io/utils";
+import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { optionFromUndefined } from "../../Common/optionFromUndefined";
-import { UUID } from "../Common/UUID";
-import { CreateLink } from "../Link";
-import { CreateMedia } from "../Media";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { optionFromUndefined } from "../../Common/optionFromUndefined.js";
+import { UUID } from "../Common/UUID.js";
+import { CreateLink } from "../Link.js";
+import { CreateMedia } from "../Media.js";
 
 const createLinkProps = propsOmit(CreateLink, ["events"]);
 const CreateEventLink = t.strict(createLinkProps, "CreateEventLink");

@@ -1,9 +1,9 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { UUID } from "io-ts-types/lib/UUID";
-import { optionFromUndefined } from "../../Common/optionFromUndefined";
-import { CreateLink } from "../Link";
-import { MediaType } from "../Media";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { UUID } from "io-ts-types/lib/UUID.js";
+import { optionFromUndefined } from "../../Common/optionFromUndefined.js";
+import { CreateLink } from "../Link.js";
+import { MediaType } from "../Media.js";
 
 export const EditEventBody = t.strict(
   {

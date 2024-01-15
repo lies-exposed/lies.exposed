@@ -1,16 +1,16 @@
 import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
-import { ACTORS, Actor } from "./Actor";
-import { AREAS } from "./Area";
-import { UUID } from "./Common";
-import { EVENTS } from "./Events";
-import { GROUPS, Group } from "./Group";
-import { KEYWORDS, Keyword } from "./Keyword";
-import { LINKS } from "./Link";
-import { MEDIA } from "./Media";
-import { GetListQuery } from "./Query";
+import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { ACTORS, Actor } from "./Actor.js";
+import { AREAS } from "./Area.js";
+import { UUID } from "./Common/index.js";
+import { EVENTS } from "./Events/index.js";
+import { GROUPS, Group } from "./Group.js";
+import { KEYWORDS, Keyword } from "./Keyword.js";
+import { LINKS } from "./Link.js";
+import { MEDIA } from "./Media.js";
+import { GetListQuery } from "./Query/index.js";
 
 export const SocialPostPhoto = t.type(
   {

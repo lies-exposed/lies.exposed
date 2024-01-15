@@ -1,15 +1,15 @@
 import * as t from "io-ts";
-import { UUID } from "io-ts-types/lib/UUID";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
+import { UUID } from "io-ts-types/lib/UUID.js";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { Endpoint } from "ts-endpoint";
-import { GetListQuery } from "../io/http/Query";
+import { GetListQuery } from "../io/http/Query/index.js";
 import {
   EditUserBody,
   SignUpUserBody,
   User,
   UserPermission,
-} from "../io/http/User";
-import { ResourceEndpoints } from "./types";
+} from "../io/http/User.js";
+import { ResourceEndpoints } from "./types.js";
 
 export const UserLogin = Endpoint({
   Method: "POST",

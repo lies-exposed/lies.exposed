@@ -1,10 +1,10 @@
 import * as t from "io-ts";
-import { ACTORS } from "../Actor";
-import { UUID } from "../Common";
-import { EVENTS } from "../Events";
-import { GROUPS } from "../Group";
-import { KEYWORDS } from "../Keyword";
-import { NetworkGraphOutput } from "../Network";
+import { ACTORS } from "../Actor.js";
+import { UUID } from "../Common/index.js";
+import { EVENTS } from "../Events/index.js";
+import { GROUPS } from "../Group.js";
+import { KEYWORDS } from "../Keyword.js";
+import { NetworkGraphOutput } from "../Network.js";
 
 export const FlowGraphType = t.union(
   [KEYWORDS, ACTORS, GROUPS, EVENTS],

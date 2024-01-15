@@ -1,11 +1,11 @@
 import axios from "axios";
-import * as A from "fp-ts/Array";
-import * as E from "fp-ts/Either";
-import * as R from "fp-ts/Record";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import * as A from "fp-ts/lib/Array.js";
+import * as E from "fp-ts/lib/Either.js";
+import * as R from "fp-ts/lib/Record.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { pipe } from "fp-ts/lib/function.js";
 import type * as t from "io-ts";
-import { PathReporter } from "io-ts/lib/PathReporter";
+import { PathReporter } from "io-ts/lib/PathReporter.js";
 import type { GetListParams, GetListResult, GetOneResult } from "react-admin";
 import {
   type EndpointInstance,
@@ -15,11 +15,11 @@ import {
   type MinimalEndpointInstance,
   type TypeOfEndpointInstance,
 } from "ts-endpoint";
-import { type serializedType } from "ts-io-error/lib/Codec";
-import { type ResourceEndpoints } from "../../endpoints/types";
-import { toAPIError, type APIError } from "../../io/http/Error/APIError";
-import { APIRESTClient } from "../../providers/api-rest.provider";
-import { throwTE } from "../../utils/task.utils";
+import { type serializedType } from "ts-io-error/lib/Codec.js";
+import { type ResourceEndpoints } from "../../endpoints/types.js";
+import { toAPIError, type APIError } from "../../io/http/Error/APIError.js";
+import { APIRESTClient } from "../../providers/api-rest.provider.js";
+import { throwTE } from "../../utils/task.utils.js";
 
 const toError = (e: unknown): APIError => {
   if ((e as any).name === "AxiosError") {

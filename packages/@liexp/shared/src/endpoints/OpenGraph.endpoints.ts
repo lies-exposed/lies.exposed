@@ -1,11 +1,11 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
-import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
-import { URL } from "../io/http/Common";
-import { ListOutput, Output } from "../io/http/Common/Output";
-import { Link } from "../io/http/Link";
-import * as Media from "../io/http/Media";
-import { ResourceEndpoints } from "./types";
+import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord.js";
+import { ListOutput, Output } from "../io/http/Common/Output.js";
+import { URL } from "../io/http/Common/index.js";
+import { Link } from "../io/http/Link.js";
+import * as Media from "../io/http/Media.js";
+import { ResourceEndpoints } from "./types.js";
 
 const SingleMediaOutput = Output(Media.Media, "Media");
 const ListMediaOutput = ListOutput(Media.Media, "MediaList");

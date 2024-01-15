@@ -1,6 +1,6 @@
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
-import { UncategorizedArb } from "@liexp/shared/lib/tests";
 import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary.js";
+import { UncategorizedArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as tests from "@liexp/test";
 import { addDays } from "date-fns";

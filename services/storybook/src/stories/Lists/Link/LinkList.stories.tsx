@@ -1,4 +1,4 @@
-import { LinkArb } from "@liexp/shared/lib/tests";
+import { LinkArb } from "@liexp/shared/lib/tests/index.js";
 import { fc } from "@liexp/test";
 import {
   LinksList,

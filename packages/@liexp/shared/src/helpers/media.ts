@@ -1,8 +1,8 @@
-import * as E from "fp-ts/Either";
-import { pipe } from "fp-ts/function";
+import * as E from "fp-ts/lib/Either.js";
+import { pipe } from "fp-ts/lib/function.js";
 import * as t from "io-ts";
-import { type URL } from "../io/http/Common";
-import { MediaType } from "../io/http/Media";
+import { type URL } from "../io/http/Common/index.js";
+import { MediaType } from "../io/http/Media.js";
 
 type Youtube = "youtube";
 type Bitchute = "bitchute";

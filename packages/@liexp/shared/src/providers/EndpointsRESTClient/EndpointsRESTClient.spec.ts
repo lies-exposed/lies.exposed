@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { mock } from "vitest-mock-extended";
 import { TestEndpoints } from "../../../test/TestEndpoints";
-import { type APIRESTClient } from "../api-rest.provider";
-import { fromEndpoints } from "./EndpointsRESTClient";
+import { type APIRESTClient } from "../api-rest.provider.js";
+import { fromEndpoints } from "./EndpointsRESTClient.js";
 
 describe("EndpointsRESTClient", () => {
   const apiRESTClient = mock<APIRESTClient>();

@@ -1,4 +1,4 @@
-import { type Color } from "../io/http/Common/Color";
+import { type Color } from "../io/http/Common/Color.js";
 
 export const generateRandomColor = (): Color => {
   const c = Math.floor(Math.random() * 16777215).toString(16);

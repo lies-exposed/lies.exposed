@@ -1,11 +1,11 @@
 import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types/BooleanFromString";
-import { DateFromISOString } from "io-ts-types/DateFromISOString";
-import { NumberFromString } from "io-ts-types/NumberFromString";
-import { UUID } from "io-ts-types/UUID";
-import { optionFromUndefined } from "../../../Common/optionFromUndefined";
-import { GetListQuery } from "../../Query";
-import { EventType } from "../EventType";
+import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
+import { UUID } from "io-ts-types/lib/UUID.js";
+import { optionFromUndefined } from "../../../Common/optionFromUndefined.js";
+import { GetListQuery } from "../../Query/index.js";
+import { EventType } from "../EventType.js";
 
 export const GetSearchEventsQuery = t.strict(
   {

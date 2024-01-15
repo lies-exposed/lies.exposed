@@ -7,8 +7,8 @@ import {
   type NetworkType,
 } from "@liexp/shared/lib/io/http/Network.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
-import { UncategorizedArb } from "@liexp/shared/lib/tests";
 import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary.js";
+import { UncategorizedArb } from "@liexp/shared/lib/tests/index.js";
 import { fc } from "@liexp/test";
 import { getEventGraph, getRelationLinks } from "../createNetworkGraph.flow.js";
 
