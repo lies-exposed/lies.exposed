@@ -4,7 +4,7 @@ import { fromValidationErrors } from "@liexp/shared/lib/providers/http/http.prov
 import * as IO from "fp-ts/lib/IO.js";
 import * as IOE from "fp-ts/lib/IOEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import * as jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { IOError } from "ts-io-error";
 
 export class JWTError extends IOError {}
@@ -14,17 +14,19 @@ export const toError =
   (override?: Partial<JWTError>) =>
   (e: unknown): JWTError => {
     l.error.log("An error occurred %O", e);
-    if (e instanceof jwt.JsonWebTokenError) {
-      return {
-        status: override?.status ?? 401,
-        name: "JWTClient",
-        message: e.message,
-        details: {
-          kind: "ClientError",
-          status: "401",
-          meta: [e.stack],
-        },
-      };
+    if (e) {
+      if (e instanceof jwt.JsonWebTokenError) {
+        return {
+          status: override?.status ?? 401,
+          name: "JWTClient",
+          message: e.message,
+          details: {
+            kind: "ClientError",
+            status: "401",
+            meta: [e.stack],
+          },
+        };
+      }
     }
 
     return {
