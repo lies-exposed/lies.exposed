@@ -1,4 +1,4 @@
-import { type SignUpUserBody } from "@liexp/shared/lib/io/http/User";
+import { type SignUpUserBody } from "@liexp/shared/lib/io/http/User.js";
 import * as React from "react";
 import { useRedirect } from "react-admin";
 import { authProvider, apiProvider as dataProvider } from "../../../client/api";

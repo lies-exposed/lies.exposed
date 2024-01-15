@@ -1,10 +1,10 @@
 import * as t from "io-ts";
-import { UUID } from "io-ts-types/UUID";
-import { optionFromNullable } from "io-ts-types/optionFromNullable";
+import { UUID } from "io-ts-types/lib/UUID.js";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { Endpoint } from "ts-endpoint";
-import { Page } from "../io/http";
-import { GetListQuery } from "../io/http/Query";
-import { ResourceEndpoints } from "./types";
+import { GetListQuery } from "../io/http/Query/index.js";
+import { Page } from "../io/http/index.js";
+import { ResourceEndpoints } from "./types.js";
 
 export const ListPages = Endpoint({
   Method: "GET",

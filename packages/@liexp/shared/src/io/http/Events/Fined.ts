@@ -1,7 +1,7 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray";
-import { BaseProps, BySubjectId, MoneyAmount } from "../Common";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray.js";
+import { BaseProps, BySubjectId, MoneyAmount } from "../Common/index.js";
 
 const FINED_FRONTMATTER = t.literal("Fined");
 

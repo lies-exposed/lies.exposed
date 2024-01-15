@@ -1,16 +1,16 @@
 import { type MinimalEndpointInstance } from "ts-endpoint";
-import { type Endpoints } from "../../endpoints";
+import { type Endpoints } from "../../endpoints/index.js";
 import {
   type GetDataOutputEI,
   type GetListFnParamsE,
   type GetFnParams,
-} from "../EndpointsRESTClient/EndpointsRESTClient";
+} from "../EndpointsRESTClient/EndpointsRESTClient.js";
 import {
   type QueryProviderOverrides,
   type CustomQueryOverride,
   type ResourceEndpointsQueriesOverride,
-} from "./QueryProviderOverrides";
-import { defaultUseQueryListParams } from "./params";
+} from "./QueryProviderOverrides.js";
+import { defaultUseQueryListParams } from "./params.js";
 
 const GetHierarchyNetwork: CustomQueryOverride<
   Endpoints,

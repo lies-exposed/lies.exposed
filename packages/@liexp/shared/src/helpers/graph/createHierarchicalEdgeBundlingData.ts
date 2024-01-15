@@ -1,20 +1,20 @@
-import { GetLogger } from "@liexp/core/lib/logger";
-import type { Graph } from "@visx/network/lib/types";
-import * as A from "fp-ts/Array";
-import * as Eq from "fp-ts/Eq";
-import * as Map from "fp-ts/Map";
-import * as O from "fp-ts/Option";
+import { GetLogger } from "@liexp/core/lib/logger/index.js";
+import type { Graph } from "@visx/network/lib/types.js";
 import * as Ord from "fp-ts/Ord";
-import { pipe } from "fp-ts/function";
-import * as S from "fp-ts/string";
+import * as A from "fp-ts/lib/Array.js";
+import * as Eq from "fp-ts/lib/Eq.js";
+import * as Map from "fp-ts/lib/Map.js";
+import * as O from "fp-ts/lib/Option.js";
+import { pipe } from "fp-ts/lib/function.js";
+import * as S from "fp-ts/lib/string.js";
+import { type UUID } from "../../io/http/Common/index.js";
 import {
   type Actor,
   type Events,
   type Group,
   type Keyword,
   Stats,
-} from "../../io/http";
-import { type UUID } from "../../io/http/Common";
+} from "../../io/http/index.js";
 import { getSearchEventRelations } from "@helpers/event/getSearchEventRelations";
 
 const logger = GetLogger("hierarchy-edge-bundling");

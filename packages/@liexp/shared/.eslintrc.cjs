@@ -1,21 +1,18 @@
 module.exports = {
   extends: ["../../../.eslintrc.js"],
   parserOptions: {
+    sourceType: "module",
     tsconfigRootDir: __dirname,
     project: ["./tsconfig.json"],
   },
-  settings:{
+  settings: {
     "import/ignore": ["uuid"],
   },
   rules: {
-    
     "no-restricted-imports": [
       "error",
       {
-        patterns: [
-          "moment",
-          "@liexp/core/src",
-        ],
+        patterns: ["moment", "@liexp/core/src"],
       },
     ],
   },

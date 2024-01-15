@@ -1,7 +1,7 @@
 import * as t from "io-ts";
-import { Actor } from "../Actor";
-import { Group } from "../Group";
-import { UUID } from "./UUID";
+import { Actor } from "../Actor.js";
+import { Group } from "../Group.js";
+import { UUID } from "./UUID.js";
 
 export const ACTOR = t.literal("Actor");
 export type ACTOR = t.TypeOf<typeof ACTOR>;

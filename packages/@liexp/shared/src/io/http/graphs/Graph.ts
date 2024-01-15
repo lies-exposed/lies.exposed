@@ -1,9 +1,9 @@
 import * as t from "io-ts";
-import { Forecast } from "../climate-change/Forecast";
-import { SummitEvent } from "../climate-change/SummitEvent";
-import { WHOCovid19GlobalData } from "../covid/COVIDDailyDatum";
-import { VaccineDatum } from "../covid/VaccineDatum";
-import { VaccineDistributionDatum } from "../covid/VaccineDistributionDatum";
+import { Forecast } from "../climate-change/Forecast.js";
+import { SummitEvent } from "../climate-change/SummitEvent.js";
+import { WHOCovid19GlobalData } from "../covid/COVIDDailyDatum.js";
+import { VaccineDatum } from "../covid/VaccineDatum.js";
+import { VaccineDistributionDatum } from "../covid/VaccineDistributionDatum.js";
 
 export const Covid19EUDR = t.union([
   t.literal("covid19/vaccines/eudr/eudrvigilance.csv"),

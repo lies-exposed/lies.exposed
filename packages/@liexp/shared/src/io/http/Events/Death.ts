@@ -1,11 +1,11 @@
-import { propsOmit } from "@liexp/core/lib/io/utils";
+import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { UUID } from "io-ts-types/lib/UUID";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
-import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
-import { DEATH } from "./EventType";
-import { GetSearchEventsQuery } from "./SearchEvents/SearchEventsQuery";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { UUID } from "io-ts-types/lib/UUID.js";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent.js";
+import { DEATH } from "./EventType.js";
+import { GetSearchEventsQuery } from "./SearchEvents/SearchEventsQuery.js";
 
 export const DeathListQuery = t.strict(
   {

@@ -7,7 +7,7 @@ import {
   EventSuggestionEdit,
   EventSuggestionRead,
   UserStatus,
-} from "@liexp/shared/lib/io/http/User";
+} from "@liexp/shared/lib/io/http/User.js";
 import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
 import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField";
 import {

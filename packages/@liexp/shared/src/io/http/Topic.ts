@@ -1,7 +1,7 @@
 import * as t from "io-ts";
-import { BaseProps } from "./Common/BaseProps";
-import { Color } from "./Common/Color";
-import { markdownRemark } from "./Common/Markdown";
+import { BaseProps } from "./Common/BaseProps.js";
+import { Color } from "./Common/Color.js";
+import { markdownRemark } from "./Common/Markdown.js";
 
 export const TOPIC_FRONTMATTER = t.literal("TopicFrontmatter");
 export const TopicFrontmatter = t.strict(

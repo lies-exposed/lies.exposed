@@ -1,1 +1,1 @@
-export * from "./NonEmptyRecord";
+export * from "./NonEmptyRecord.js";

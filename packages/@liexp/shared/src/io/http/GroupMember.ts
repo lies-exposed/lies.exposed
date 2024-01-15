@@ -1,10 +1,10 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
-import { Actor } from "./Actor";
-import { ListOutput, Output } from "./Common";
-import { BaseProps } from "./Common/BaseProps";
-import { Group } from "./Group";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { Actor } from "./Actor.js";
+import { BaseProps } from "./Common/BaseProps.js";
+import { ListOutput, Output } from "./Common/index.js";
+import { Group } from "./Group.js";
 
 export const CreateGroupMember = t.strict(
   {

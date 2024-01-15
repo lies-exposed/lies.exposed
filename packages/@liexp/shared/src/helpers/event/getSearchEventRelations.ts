@@ -1,5 +1,5 @@
-import { Events, type Actor, type Group } from "../../io/http";
-import { type SearchEvent } from "../../io/http/Events/SearchEvents/SearchEvent";
+import { type SearchEvent } from "../../io/http/Events/SearchEvents/SearchEvent.js";
+import { Events, type Actor, type Group } from "../../io/http/index.js";
 
 export const getSearchEventRelations = (
   e: SearchEvent,

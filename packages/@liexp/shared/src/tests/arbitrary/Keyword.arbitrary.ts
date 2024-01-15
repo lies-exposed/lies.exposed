@@ -1,7 +1,7 @@
 import { fc } from "@liexp/test";
-import { DateArb } from "./Date.arbitrary";
-import { getRandomInt, name1 } from "./HumanReadableString.arbitrary";
-import { ColorArb } from "./common/Color.arbitrary";
+import { DateArb } from "./Date.arbitrary.js";
+import { getRandomInt, name1 } from "./HumanReadableString.arbitrary.js";
+import { ColorArb } from "./common/Color.arbitrary.js";
 
 export const TagArb = (): fc.Arbitrary<string> => {
   const stringArb = fc.convertToNext(fc.string());

@@ -1,8 +1,8 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { BaseProps } from "../../Common/BaseProps";
-import { BySubjectId } from "../../Common/BySubject";
-import { Impact } from "../../Common/Impact";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { BaseProps } from "../../Common/BaseProps.js";
+import { BySubjectId } from "../../Common/BySubject.js";
+import { Impact } from "../../Common/Impact.js";
 
 export const PROJECT_IMPACT = "ProjectImpact";
 

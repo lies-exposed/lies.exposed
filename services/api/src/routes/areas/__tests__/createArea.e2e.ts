@@ -1,4 +1,4 @@
-import { MediaArb } from "@liexp/shared/lib/tests";
+import { MediaArb } from "@liexp/shared/lib/tests/index.js";
 import * as tests from "@liexp/test";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { loginUser, saveUser } from "../../../../test/user.utils.js";

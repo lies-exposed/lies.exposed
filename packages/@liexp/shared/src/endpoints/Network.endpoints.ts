@@ -1,16 +1,16 @@
 import * as t from "io-ts";
-import { UUID } from "io-ts-types/UUID";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
+import { UUID } from "io-ts-types/lib/UUID.js";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { Endpoint } from "ts-endpoint";
-import { ListOutput, Output } from "../io/http/Common/Output";
+import { ListOutput, Output } from "../io/http/Common/Output.js";
 import {
   GetNetworkParams,
   GetNetworkQuery,
   NetworkGraphOutput,
-} from "../io/http/Network";
-import { GetListQuery } from "../io/http/Query";
-import { StatsType } from "../io/http/Stats";
-import { ResourceEndpoints } from "./types";
+} from "../io/http/Network.js";
+import { GetListQuery } from "../io/http/Query/index.js";
+import { StatsType } from "../io/http/Stats.js";
+import { ResourceEndpoints } from "./types.js";
 
 const SingleOutput = Output(NetworkGraphOutput, "Networks");
 const OutputList = ListOutput(t.any, "NetworkList");

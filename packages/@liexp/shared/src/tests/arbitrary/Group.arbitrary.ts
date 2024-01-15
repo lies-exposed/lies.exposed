@@ -1,9 +1,9 @@
-import { propsOmit } from "@liexp/core/lib/io/utils";
+import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import * as tests from "@liexp/test";
 import * as t from "io-ts";
-import * as http from "../../io/http";
-import { HumanReadableStringArb } from "./HumanReadableString.arbitrary";
-import { ColorArb } from "./common/Color.arbitrary";
+import * as http from "../../io/http/index.js";
+import { HumanReadableStringArb } from "./HumanReadableString.arbitrary.js";
+import { ColorArb } from "./common/Color.arbitrary.js";
 
 export const GroupArb: tests.fc.Arbitrary<
   http.Group.Group & { members: any[] }

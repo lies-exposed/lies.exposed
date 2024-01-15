@@ -1,11 +1,11 @@
 import * as t from "io-ts";
-import { UUID } from "io-ts-types/lib/UUID";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
+import { UUID } from "io-ts-types/lib/UUID.js";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { Endpoint } from "ts-endpoint";
-import { Media } from "../io/http";
-import { ListOutput, Output } from "../io/http/Common/Output";
-import { CreateMedia } from "../io/http/Media";
-import { ResourceEndpoints } from "./types";
+import { ListOutput, Output } from "../io/http/Common/Output.js";
+import { CreateMedia } from "../io/http/Media.js";
+import { Media } from "../io/http/index.js";
+import { ResourceEndpoints } from "./types.js";
 
 const SingleMediaOutput = Output(Media.Media, "Media");
 const ListMediaOutput = ListOutput(Media.Media, "MediaList");

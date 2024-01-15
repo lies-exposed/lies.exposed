@@ -2,7 +2,7 @@ import * as t from "io-ts";
 import {
   optionFromNullable,
   type OptionFromNullableC,
-} from "io-ts-types/lib/optionFromNullable";
+} from "io-ts-types/lib/optionFromNullable.js";
 
 export interface TOCItem {
   url?: string;

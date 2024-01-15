@@ -1,9 +1,9 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
-import { BaseProps } from "./Common/BaseProps";
-import { Color } from "./Common/Color";
-import { GetListQuery } from "./Query";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { BaseProps } from "./Common/BaseProps.js";
+import { Color } from "./Common/Color.js";
+import { GetListQuery } from "./Query/index.js";
 
 export const ACTORS = t.literal("actors");
 export type ACTORS = t.TypeOf<typeof ACTORS>;

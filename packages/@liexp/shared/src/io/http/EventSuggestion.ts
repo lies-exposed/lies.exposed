@@ -1,8 +1,8 @@
-import { propsOmit } from "@liexp/core/lib/io/utils";
+import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { UUID } from "io-ts-types/lib/UUID";
-import { URL } from "./Common";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { UUID } from "io-ts-types/lib/UUID.js";
+import { URL } from "./Common/index.js";
 import {
   Book,
   Death,
@@ -12,7 +12,7 @@ import {
   Quote,
   ScientificStudy,
   Uncategorized,
-} from "./Events";
+} from "./Events/index.js";
 
 const EventSuggestionNewType = t.literal("New");
 const EventSuggestionUpdateType = t.literal("Update");

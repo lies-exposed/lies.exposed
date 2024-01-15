@@ -1,13 +1,13 @@
 import * as t from "io-ts";
-import { UUID } from "io-ts-types/UUID";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
+import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { UUID } from "io-ts-types/lib/UUID.js";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { Endpoint } from "ts-endpoint";
-import { Story } from "../io/http";
-import { ListOutput, Output } from "../io/http/Common/Output";
-import { GetListQuery } from "../io/http/Query";
-import { ResourceEndpoints } from "./types";
+import { ListOutput, Output } from "../io/http/Common/Output.js";
+import { GetListQuery } from "../io/http/Query/index.js";
+import { Story } from "../io/http/index.js";
+import { ResourceEndpoints } from "./types.js";
 
 const ListStoryQuery = t.type(
   {

@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { Position } from "./Position";
+import { Position } from "./Position.js";
 
 export const Polygon = t.strict(
   {

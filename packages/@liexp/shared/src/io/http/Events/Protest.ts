@@ -1,11 +1,11 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
-import { BySubjectId, For } from "../Common";
-import { BaseProps } from "../Common/BaseProps";
-import { markdownRemark } from "../Common/Markdown";
-import { Media } from "../Media";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray.js";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { BaseProps } from "../Common/BaseProps.js";
+import { markdownRemark } from "../Common/Markdown.js";
+import { BySubjectId, For } from "../Common/index.js";
+import { Media } from "../Media.js";
 
 export const PROTEST = t.literal("Protest");
 export const Protest = t.strict(

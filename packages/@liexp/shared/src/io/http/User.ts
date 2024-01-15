@@ -1,6 +1,6 @@
-import { propsOmit } from "@liexp/core/lib/io/utils";
+import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import * as t from "io-ts";
-import { BaseProps } from "./Common/BaseProps";
+import { BaseProps } from "./Common/BaseProps.js";
 
 export const EventSuggestionCreate = t.literal("event-suggestion:create");
 export const EventSuggestionRead = t.literal("event-suggestion:read");

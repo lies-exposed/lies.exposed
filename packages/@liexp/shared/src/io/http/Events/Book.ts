@@ -1,11 +1,11 @@
-import { propsOmit } from "@liexp/core/lib/io/utils";
+import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import * as t from "io-ts";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
-import { UUID } from "../Common";
-import { BySubjectId } from "../Common/BySubject";
-import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
-import { BOOK } from "./EventType";
-import { GetSearchEventsQuery } from "./SearchEvents/SearchEventsQuery";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { BySubjectId } from "../Common/BySubject.js";
+import { UUID } from "../Common/index.js";
+import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent.js";
+import { BOOK } from "./EventType.js";
+import { GetSearchEventsQuery } from "./SearchEvents/SearchEventsQuery.js";
 
 export const BookListQuery = t.strict(
   {

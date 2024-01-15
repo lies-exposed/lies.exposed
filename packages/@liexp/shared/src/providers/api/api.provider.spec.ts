@@ -1,4 +1,4 @@
-import { API } from "./api.provider";
+import { API } from "./api.provider.js";
 
 describe("ApiProvider", () => {
   it("should be defined", () => {

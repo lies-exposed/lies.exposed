@@ -1,8 +1,8 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { GroupMemberArb } from "@liexp/shared/lib/tests";
 import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
 import { UncategorizedArb } from "@liexp/shared/lib/tests/arbitrary/Event.arbitrary.js";
 import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
+import { GroupMemberArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
 import * as A from "fp-ts/lib/Array.js";

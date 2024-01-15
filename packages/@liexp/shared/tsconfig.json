@@ -3,6 +3,9 @@
   "compilerOptions": {
     "lib": ["DOM", "ESNext"],
     "jsx": "react",
+    "target": "ES6",
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "noEmit": false,
     "composite": true,
     "incremental": true,
@@ -38,7 +41,7 @@
     "./src",
     "./src/**/*.json",
     "./test",
-    ".eslintrc.js"
+    ".eslintrc.cjs"
   ],
   "exclude": ["node_modules", "lib"]
 }

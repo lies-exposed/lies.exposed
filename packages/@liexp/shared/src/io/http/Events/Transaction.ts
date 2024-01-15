@@ -1,9 +1,9 @@
-import { propsOmit } from "@liexp/core/lib/io/utils";
+import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import * as t from "io-ts";
-import { BySubjectId } from "../Common/BySubject";
-import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
-import { TRANSACTION } from "./EventType";
-import { GetSearchEventsQuery } from "./SearchEvents/SearchEventsQuery";
+import { BySubjectId } from "../Common/BySubject.js";
+import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent.js";
+import { TRANSACTION } from "./EventType.js";
+import { GetSearchEventsQuery } from "./SearchEvents/SearchEventsQuery.js";
 
 export const TransactionListQuery = t.strict(
   {

@@ -1,6 +1,6 @@
 import * as tests from "@liexp/test";
 import * as t from "io-ts";
-import * as http from "../../io/http";
+import * as http from "../../io/http/index.js";
 
 const { createdAt, updatedAt, id, ...pageProps } = http.Page.Page.type.props;
 

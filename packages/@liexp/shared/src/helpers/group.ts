@@ -1,5 +1,5 @@
-import { eqString } from "fp-ts/Eq";
-import { type Group } from "../io/http";
+import { eqString } from "fp-ts/lib/Eq.js";
+import { type Group } from "../io/http/index.js";
 
 export const getGroups =
   (groups: Group.Group[]) =>

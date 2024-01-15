@@ -1,5 +1,5 @@
 import { type http } from "@liexp/shared/lib/io/index.js";
-import { MediaArb, UncategorizedArb } from "@liexp/shared/lib/tests";
+import { MediaArb, UncategorizedArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as tests from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";

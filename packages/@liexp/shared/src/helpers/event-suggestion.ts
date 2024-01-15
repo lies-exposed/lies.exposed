@@ -1,10 +1,10 @@
-import * as O from "fp-ts/Option";
-import { pipe } from "fp-ts/function";
-import { type UUID } from "io-ts-types/lib/UUID";
+import * as O from "fp-ts/lib/Option.js";
+import { pipe } from "fp-ts/lib/function.js";
+import { type UUID } from "io-ts-types/lib/UUID.js";
 import { type Metadata } from "page-metadata-parser";
-import { http } from "../io";
-import { createExcerptValue } from "../slate";
-import { uuid } from "../utils/uuid";
+import { http } from "../io/index.js";
+import { createExcerptValue } from "../slate/index.js";
+import { uuid } from "../utils/uuid.js";
 
 export const getSuggestions = (
   m: Metadata,

@@ -1,13 +1,10 @@
-import { fp } from "@liexp/core/lib/fp";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import Typography from "@mui/material/Typography";
+import { fp } from "@liexp/core/lib/fp/index.js";
+import { List, ListItem, ListItemText, Typography } from "@mui/material";
 import { type Cell } from "@react-page/editor";
 import slate, { type SlateCellPlugin } from "@react-page/plugins-slate";
-import { pipe } from "fp-ts/function";
+import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
-import { StoryUtils } from "../../utils/story.utils";
+import { StoryUtils } from "../../utils/story.utils.js";
 
 export const H1_TYPE = "HEADINGS/HEADING-ONE";
 export const H2_TYPE = "HEADINGS/HEADING-TWO";
