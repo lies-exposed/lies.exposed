@@ -1,8 +1,8 @@
 import * as tests from "@liexp/test";
 import * as t from "io-ts";
-import * as http from "../../io/http";
-import { AreaArb } from "./Area.arbitrary";
-import { ColorArb } from "./common/Color.arbitrary";
+import * as http from "../../io/http/index.js";
+import { AreaArb } from "./Area.arbitrary.js";
+import { ColorArb } from "./common/Color.arbitrary.js";
 
 const {
   createdAt: _createdAt,

@@ -1,10 +1,10 @@
 import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
-import { BaseProps } from "./Common/BaseProps";
-import { Geometry } from "./Common/Geometry";
-import { UUID } from "./Common/UUID";
-import { GetListQuery } from "./Query/GetListQuery";
+import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { BaseProps } from "./Common/BaseProps.js";
+import { Geometry } from "./Common/Geometry/index.js";
+import { UUID } from "./Common/UUID.js";
+import { GetListQuery } from "./Query/GetListQuery.js";
 
 export const AREAS = t.literal("areas");
 export type AREAS = t.TypeOf<typeof AREAS>;

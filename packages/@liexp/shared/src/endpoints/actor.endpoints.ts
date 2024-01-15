@@ -1,12 +1,12 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { Endpoint } from "ts-endpoint";
-import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
-import { Actor } from "../io/http";
-import { UUID } from "../io/http/Common";
-import { ListOutput, Output } from "../io/http/Common/Output";
-import { ResourceEndpoints } from "./types";
+import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord.js";
+import { ListOutput, Output } from "../io/http/Common/Output.js";
+import { UUID } from "../io/http/Common/index.js";
+import { Actor } from "../io/http/index.js";
+import { ResourceEndpoints } from "./types.js";
 
 export const SingleActorOutput = Output(Actor.Actor, "Actor");
 export type SingleActorOutput = t.TypeOf<typeof SingleActorOutput>;

@@ -1,13 +1,13 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
-import { GetNetworkQuery } from "../io/http/Network";
-import { GetListQuery } from "../io/http/Query";
+import { GetNetworkQuery } from "../io/http/Network.js";
+import { GetListQuery } from "../io/http/Query/index.js";
 import {
   FlowGraphOutput,
   GetFlowGraphParams,
-} from "../io/http/graphs/FlowGraph";
-import { GraphData, GraphId } from "../io/http/graphs/Graph";
-import { ResourceEndpoints } from "./types";
+} from "../io/http/graphs/FlowGraph.js";
+import { GraphData, GraphId } from "../io/http/graphs/Graph.js";
+import { ResourceEndpoints } from "./types.js";
 
 export const GetGraph = Endpoint({
   Method: "GET",

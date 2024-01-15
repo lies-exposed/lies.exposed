@@ -1,6 +1,6 @@
-import { fp } from "@liexp/core/lib/fp";
+import { fp } from "@liexp/core/lib/fp/index.js";
 import { fc } from "@liexp/test";
-import { getPlatform } from "../media";
+import { getPlatform } from "../media.js";
 
 describe("@helpers/media", () => {
   describe("parse external media url", () => {

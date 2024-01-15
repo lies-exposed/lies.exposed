@@ -3,8 +3,8 @@ import {
   type InferEndpointInstanceParams,
   type MinimalEndpointInstance,
 } from "ts-endpoint";
-import { type serializedType } from "ts-io-error/lib/Codec";
-import { type APIError } from "../../io/http/Error/APIError";
+import { type serializedType } from "ts-io-error/lib/Codec.js";
+import { type APIError } from "../../io/http/Error/APIError.js";
 import {
   type GetListFnParamsE,
   type EndpointsRESTClient,
@@ -13,7 +13,7 @@ import {
   type GetListFnQuery,
   type Query,
   type EndpointDataOutput,
-} from "../EndpointsRESTClient/EndpointsRESTClient";
+} from "../EndpointsRESTClient/EndpointsRESTClient.js";
 
 export type QueryFnKey<P, Q = undefined> = [string, P, Q | undefined, boolean];
 export type GetKeyFn<P, Q = undefined> = (

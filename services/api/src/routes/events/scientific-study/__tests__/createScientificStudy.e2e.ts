@@ -3,13 +3,13 @@ import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js"
 import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
 import { http } from "@liexp/shared/lib/io/index.js";
 import { createExcerptValue } from "@liexp/shared/lib/slate/index.js";
-import { LinkArb } from "@liexp/shared/lib/tests";
 import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
 import { HumanReadableStringArb } from "@liexp/shared/lib/tests/arbitrary/HumanReadableString.arbitrary.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { LinkArb } from "@liexp/shared/lib/tests/index.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
-import { fc } from "@liexp/test";
+import { fc } from "@liexp/test/lib/index.js";
 import { In } from "typeorm";
 import { GetAppTest, type AppTest } from "../../../../../test/AppTest.js";
 import {
@@ -148,6 +148,7 @@ describe("Create Scientific Study", () => {
             creator: { id: admin.id },
             events: [],
             keywords: [],
+            socialPosts: []
           },
         ]),
       throwTE,

@@ -1,4 +1,4 @@
-import { type EventTotals } from "../../io/http/Events/EventTotals";
+import { type EventTotals } from "../../io/http/Events/EventTotals.js";
 
 export const getTotal = (
   totals: EventTotals,

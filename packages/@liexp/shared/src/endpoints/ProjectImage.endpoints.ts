@@ -1,9 +1,9 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
-import * as http from "../io/http";
-import { ListOutput } from "../io/http/Common/Output";
-import { GetListQuery } from "../io/http/Query";
-import { ResourceEndpoints } from "./types";
+import { ListOutput } from "../io/http/Common/Output.js";
+import { GetListQuery } from "../io/http/Query/index.js";
+import * as http from "../io/http/index.js";
+import { ResourceEndpoints } from "./types.js";
 
 const ListProjectImageOutput = ListOutput(
   http.ProjectImage.ProjectImage,

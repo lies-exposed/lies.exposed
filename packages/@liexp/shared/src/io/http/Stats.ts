@@ -1,9 +1,9 @@
 import * as t from "io-ts";
-import { UUID } from "io-ts-types/lib/UUID";
-import { ACTORS } from "./Actor";
-import { ListOutput, Output } from "./Common/Output";
-import { GROUPS } from "./Group";
-import { KEYWORDS } from "./Keyword";
+import { UUID } from "io-ts-types/lib/UUID.js";
+import { ACTORS } from "./Actor.js";
+import { ListOutput, Output } from "./Common/Output.js";
+import { GROUPS } from "./Group.js";
+import { KEYWORDS } from "./Keyword.js";
 
 export const StatsType = t.union([KEYWORDS, ACTORS, GROUPS], "StatsType");
 export type StatsType = t.TypeOf<typeof StatsType>;

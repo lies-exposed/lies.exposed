@@ -1,9 +1,9 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
 
-import { GetListQuery } from "../io/http/Query";
-import * as Stats from "../io/http/Stats";
-import { ResourceEndpoints } from "./types";
+import { GetListQuery } from "../io/http/Query/index.js";
+import * as Stats from "../io/http/Stats.js";
+import { ResourceEndpoints } from "./types.js";
 
 export const List = Endpoint({
   Method: "GET",

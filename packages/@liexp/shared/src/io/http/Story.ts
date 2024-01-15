@@ -1,9 +1,9 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/DateFromISOString";
-import { UUID } from "io-ts-types/UUID";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
-import { BaseProps } from "./Common/BaseProps";
-import { Media } from "./Media";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { UUID } from "io-ts-types/lib/UUID.js";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { BaseProps } from "./Common/BaseProps.js";
+import { Media } from "./Media.js";
 
 export const EditStoryBody = t.strict(
   {

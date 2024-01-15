@@ -3,7 +3,7 @@ import {
   GroupArb,
   GroupMemberArb,
   UncategorizedArb,
-} from "@liexp/shared/lib/tests";
+} from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";

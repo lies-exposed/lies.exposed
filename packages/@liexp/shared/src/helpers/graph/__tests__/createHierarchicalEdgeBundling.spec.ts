@@ -1,7 +1,7 @@
 import { fc } from "@liexp/test";
-import { ActorArb, GroupArb, UncategorizedArb } from "../../../tests";
-import { KeywordArb } from "../../../tests/arbitrary/Keyword.arbitrary";
-import { createHierarchicalEdgeBundling } from "../createHierarchicalEdgeBundlingData";
+import { KeywordArb } from "../../../tests/arbitrary/Keyword.arbitrary.js";
+import { ActorArb, GroupArb, UncategorizedArb } from "../../../tests/index.js";
+import { createHierarchicalEdgeBundling } from "../createHierarchicalEdgeBundlingData.js";
 
 describe("Create Hierarchy Edge Bundling", () => {
   describe("for keywords", () => {

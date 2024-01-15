@@ -1,11 +1,11 @@
-import { propsOmit } from "@liexp/core/lib/io/utils";
+import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import * as tests from "@liexp/test";
 import * as t from "io-ts";
-import * as http from "../../io/http";
-import { formatDate } from "../../utils/date.utils";
-import { HumanReadableStringArb } from "./HumanReadableString.arbitrary";
-import { placeKitten } from "./Media.arbitrary";
-import { ColorArb } from "./common/Color.arbitrary";
+import * as http from "../../io/http/index.js";
+import { formatDate } from "../../utils/date.utils.js";
+import { HumanReadableStringArb } from "./HumanReadableString.arbitrary.js";
+import { placeKitten } from "./Media.arbitrary.js";
+import { ColorArb } from "./common/Color.arbitrary.js";
 
 export const ActorArb: tests.fc.Arbitrary<
   http.Actor.Actor & { memberIn: any[] }

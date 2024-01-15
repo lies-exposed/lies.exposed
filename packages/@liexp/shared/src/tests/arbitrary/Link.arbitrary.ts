@@ -1,11 +1,11 @@
-import { propsOmit } from "@liexp/core/lib/io/utils";
+import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import * as tests from "@liexp/test";
 import * as t from "io-ts";
-import * as http from "../../io/http";
-import { DateArb } from "./Date.arbitrary";
-import { HumanReadableStringArb } from "./HumanReadableString.arbitrary";
-import { MediaArb } from "./Media.arbitrary";
-import { URLArb } from "./URL.arbitrary";
+import * as http from "../../io/http/index.js";
+import { DateArb } from "./Date.arbitrary.js";
+import { HumanReadableStringArb } from "./HumanReadableString.arbitrary.js";
+import { MediaArb } from "./Media.arbitrary.js";
+import { URLArb } from "./URL.arbitrary.js";
 
 const linksProps = propsOmit(http.Link.Link, [
   "id",

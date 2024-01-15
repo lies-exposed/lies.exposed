@@ -1,8 +1,10 @@
-import { fp } from "@liexp/core/lib/fp";
-import * as A from "fp-ts/Array";
-import * as M from "fp-ts/Map";
-import { pipe } from "fp-ts/function";
-import * as S from "fp-ts/string";
+import { fp } from "@liexp/core/lib/fp/index.js";
+import * as A from "fp-ts/lib/Array.js";
+import * as M from "fp-ts/lib/Map.js";
+import { pipe } from "fp-ts/lib/function.js";
+import * as S from "fp-ts/lib/string.js";
+import { type BySubject } from "../../io/http/Common/index.js";
+import { type EventTotals } from "../../io/http/Events/EventTotals.js";
 import {
   Events,
   type Actor,
@@ -12,12 +14,10 @@ import {
   type Keyword,
   type Link,
   type Media,
-} from "../../io/http";
-import { type BySubject } from "../../io/http/Common";
-import { type EventTotals } from "../../io/http/Events/EventTotals";
-import { BySubjectUtils } from "../../io/utils/BySubjectUtils";
-import { eventRelationIdsMonoid } from "./event";
-import { getRelationIds } from "./getEventRelationIds";
+} from "../../io/http/index.js";
+import { BySubjectUtils } from "../../io/utils/BySubjectUtils.js";
+import { eventRelationIdsMonoid } from "./event.js";
+import { getRelationIds } from "./getEventRelationIds.js";
 
 export interface SearchEventsQueryCache {
   events: Events.SearchEvent.SearchEvent[];

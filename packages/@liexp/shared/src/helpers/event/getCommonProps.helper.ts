@@ -1,6 +1,6 @@
-import { type UUID } from "io-ts-types/lib/UUID";
-import * as http from "../../io/http";
-import { getTitle } from "./getTitle.helper";
+import { type UUID } from "io-ts-types/lib/UUID.js";
+import * as http from "../../io/http/index.js";
+import { getTitle } from "./getTitle.helper.js";
 
 export interface EventCommonProps {
   title: string;

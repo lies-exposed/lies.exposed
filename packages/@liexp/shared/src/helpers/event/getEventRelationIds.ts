@@ -1,5 +1,5 @@
-import { UUID } from "io-ts-types/lib/UUID";
-import { Events } from "../../io/http";
+import { UUID } from "io-ts-types/lib/UUID.js";
+import { Events } from "../../io/http/index.js";
 
 export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
   const commonIds = {

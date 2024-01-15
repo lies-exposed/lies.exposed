@@ -1,9 +1,9 @@
-import { propsOmit } from "@liexp/core/lib/io/utils";
+import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import * as t from "io-ts";
-import { UUID } from "io-ts-types/lib/UUID";
-import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
-import { DOCUMENTARY } from "./EventType";
-import { GetSearchEventsQuery } from "./SearchEvents/SearchEventsQuery";
+import { UUID } from "io-ts-types/lib/UUID.js";
+import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent.js";
+import { DOCUMENTARY } from "./EventType.js";
+import { GetSearchEventsQuery } from "./SearchEvents/SearchEventsQuery.js";
 
 export const DocumentaryListQuery = t.strict(
   {

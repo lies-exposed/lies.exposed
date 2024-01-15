@@ -1,6 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp";
 import { http } from "@liexp/shared/lib/io/index.js";
-import { MediaArb, ProjectArb, AreaArb } from "@liexp/shared/lib/tests";
+import { MediaArb, ProjectArb, AreaArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";

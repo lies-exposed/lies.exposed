@@ -1,8 +1,8 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
-import { UUID } from "../io/http/Common";
-import * as Keyword from "../io/http/Keyword";
-import { ResourceEndpoints } from "./types";
+import { UUID } from "../io/http/Common/index.js";
+import * as Keyword from "../io/http/Keyword.js";
+import { ResourceEndpoints } from "./types.js";
 
 export const List = Endpoint({
   Method: "GET",

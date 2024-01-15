@@ -1,16 +1,16 @@
-import { fp, pipe } from "@liexp/core/lib/fp";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { format, subWeeks } from "date-fns";
-import { sequenceS } from "fp-ts/Apply";
 import { type Monoid } from "fp-ts/Monoid";
-import { type NonEmptyArray } from "fp-ts/NonEmptyArray";
-import type * as O from "fp-ts/Option";
-import { type UUID } from "io-ts-types/lib/UUID";
-import { Events, type Common, type Network } from "../../io/http";
-import { type EventRelationIds } from "../../io/http/Events";
-import { toBySubjectId } from "../../io/utils/BySubjectUtils";
-import { getTextContents } from "../../slate";
-import { type EventCommonProps } from "./getCommonProps.helper";
-import { getRelationIds } from "./getEventRelationIds";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import { type NonEmptyArray } from "fp-ts/lib/NonEmptyArray.js";
+import type * as O from "fp-ts/lib/Option.js";
+import { type UUID } from "io-ts-types/lib/UUID.js";
+import { type EventRelationIds } from "../../io/http/Events/index.js";
+import { Events, type Common, type Network } from "../../io/http/index.js";
+import { toBySubjectId } from "../../io/utils/BySubjectUtils.js";
+import { getTextContents } from "../../slate/index.js";
+import { type EventCommonProps } from "./getCommonProps.helper.js";
+import { getRelationIds } from "./getEventRelationIds.js";
 
 const { Ord, Eq, S, N } = fp;
 

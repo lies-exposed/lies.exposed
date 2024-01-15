@@ -1,10 +1,10 @@
 import * as t from "io-ts";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { Endpoint } from "ts-endpoint";
-import { UUID } from "../io/http/Common";
-import * as Group from "../io/http/Group";
-import { GetListQuery } from "../io/http/Query";
-import { ResourceEndpoints } from "./types";
+import { UUID } from "../io/http/Common/index.js";
+import * as Group from "../io/http/Group.js";
+import { GetListQuery } from "../io/http/Query/index.js";
+import { ResourceEndpoints } from "./types.js";
 
 export const List = Endpoint({
   Method: "GET",

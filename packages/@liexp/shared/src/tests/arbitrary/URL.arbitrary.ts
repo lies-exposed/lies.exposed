@@ -1,5 +1,5 @@
 import { fc } from "@liexp/test";
-import { HumanReadableStringArb } from "./HumanReadableString.arbitrary";
+import { HumanReadableStringArb } from "./HumanReadableString.arbitrary.js";
 
 export const URLArb = fc
   .record({

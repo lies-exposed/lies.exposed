@@ -1,8 +1,8 @@
-import * as http from "../../io/http";
 import {
   type SocialPost,
   type SocialPostBodyMultipleMedia,
-} from "../../io/http/SocialPost";
+} from "../../io/http/SocialPost.js";
+import * as http from "../../io/http/index.js";
 
 export const getShareMultipleMedia = (
   media: http.Media.Media[],

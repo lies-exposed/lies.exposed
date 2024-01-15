@@ -1,6 +1,6 @@
-import { fp, pipe } from "@liexp/core/lib/fp";
-import { GetLogger } from "@liexp/core/lib/logger";
-import * as R from "fp-ts/Record";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { GetLogger } from "@liexp/core/lib/logger/index.js";
+import * as R from "fp-ts/lib/Record.js";
 import { useQuery } from "react-query";
 import {
   type MinimalEndpoint,
@@ -14,18 +14,18 @@ import {
   type GetListFnParamsE,
   type GetListFnQuery,
   type Query,
-} from "../EndpointsRESTClient/EndpointsRESTClient";
+} from "../EndpointsRESTClient/EndpointsRESTClient.js";
 import {
   type GetQueryOverride,
   type ResourceEndpointsQueriesOverride,
-} from "./QueryProviderOverrides";
+} from "./QueryProviderOverrides.js";
 import {
   type GetKeyFn,
   type QueryFnKey,
   type QueryPromiseFunction,
   type ResourceQueries,
   type ResourceQuery,
-} from "./types";
+} from "./types.js";
 
 const queryProviderLogger = GetLogger("QueryProvider");
 
@@ -83,9 +83,11 @@ const toGetResourceQuery = <G>(
     useQuery: (p, q, d, prefix) => {
       const qKey = getKey(p, q, d, prefix);
       queryProviderLogger.debug.log("useQuery for %s 'get' %O", key, qKey);
-      return useQuery(qKey, ({ queryKey }) =>
-        fetch(queryKey[1], queryKey[2], !!queryKey[3]),
-      );
+      return useQuery({
+        queryKey: qKey,
+        queryFn: ({ queryKey }) =>
+          fetch(queryKey[1], queryKey[2], !!queryKey[3]),
+      });
     },
   };
 };
@@ -110,9 +112,11 @@ export const toGetListResourceQuery = <L>(
     useQuery: (p, q, d, prefix) => {
       const qKey = getKey(p, q, d, prefix);
       queryProviderLogger.debug.log("useQuery for %s 'list' %O", key, qKey);
-      return useQuery(qKey, ({ queryKey }) =>
-        fetch(queryKey[1], queryKey[2], !!queryKey[3]),
-      );
+      return useQuery({
+        queryKey: qKey,
+        queryFn: ({ queryKey }) =>
+          fetch(queryKey[1], queryKey[2], !!queryKey[3]),
+      });
     },
   };
 };
@@ -149,9 +153,11 @@ export const toQueries = <
               index,
               qKey,
             );
-            return useQuery(qKey, ({ queryKey }) =>
-              fetch(queryKey[1], queryKey[2], !!queryKey[3]),
-            );
+            return useQuery({
+              queryKey: qKey,
+              queryFn: ({ queryKey }) =>
+                fetch(queryKey[1], queryKey[2], !!queryKey[3]),
+            });
           },
         };
       }),

@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 
 export const SortOrderASC = t.literal("ASC");
 export const SortOrderDESC = t.literal("DESC");

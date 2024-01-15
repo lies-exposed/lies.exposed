@@ -1,12 +1,12 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { Endpoint } from "ts-endpoint";
-import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
-import * as http from "../io/http";
-import { CreateGroupMember } from "../io/http/GroupMember";
-import { GetListQuery } from "../io/http/Query";
-import { ResourceEndpoints } from "./types";
+import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord.js";
+import { CreateGroupMember } from "../io/http/GroupMember.js";
+import { GetListQuery } from "../io/http/Query/index.js";
+import * as http from "../io/http/index.js";
+import { ResourceEndpoints } from "./types.js";
 
 export const List = Endpoint({
   Method: "GET",

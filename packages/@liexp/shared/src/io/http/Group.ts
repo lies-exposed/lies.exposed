@@ -1,14 +1,14 @@
 import * as t from "io-ts";
-import { UUID } from "io-ts-types/UUID";
 import {
   DateFromISOString,
   type DateFromISOStringC,
-} from "io-ts-types/lib/DateFromISOString";
-import { optionFromNullable } from "io-ts-types/optionFromNullable";
-import { BaseProps } from "./Common/BaseProps";
-import { Color } from "./Common/Color";
-import { ListOutput, Output } from "./Common/Output";
-import { GetListQuery } from "./Query";
+} from "io-ts-types/lib/DateFromISOString.js";
+import { UUID } from "io-ts-types/lib/UUID.js";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { BaseProps } from "./Common/BaseProps.js";
+import { Color } from "./Common/Color.js";
+import { ListOutput, Output } from "./Common/Output.js";
+import { GetListQuery } from "./Query/index.js";
 
 export const GROUPS = t.literal("groups");
 export type GROUPS = t.TypeOf<typeof GROUPS>;

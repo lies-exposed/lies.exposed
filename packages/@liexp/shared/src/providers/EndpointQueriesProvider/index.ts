@@ -1,20 +1,20 @@
-import { fp, pipe } from "@liexp/core/lib/fp";
-import { type Endpoints } from "../../endpoints";
-import { type EndpointsRESTClient } from "../EndpointsRESTClient/EndpointsRESTClient";
-import { toQueries } from "./QueryProvider";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type Endpoints } from "../../endpoints/index.js";
+import { type EndpointsRESTClient } from "../EndpointsRESTClient/EndpointsRESTClient.js";
+import { toQueries } from "./QueryProvider.js";
 import {
   toOverrideQueries,
   type CustomQueryOverride,
   type QueryProviderOverrides,
   type ResourceEndpointsQueriesOverride,
-} from "./QueryProviderOverrides";
-import { type QueryProviderCustomQueries } from "./overrides";
+} from "./QueryProviderOverrides.js";
+import { type QueryProviderCustomQueries } from "./overrides.js";
 import {
   type GetQueryProviderImplAt,
   type QueryProvider,
   type ResourceQuery,
-} from "./types";
-export { QueryProviderCustomQueries } from "./overrides";
+} from "./types.js";
+export { QueryProviderCustomQueries } from "./overrides.js";
 
 type PatchedQueryProvider<
   ES,

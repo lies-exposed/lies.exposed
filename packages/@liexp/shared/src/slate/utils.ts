@@ -1,14 +1,14 @@
-import { fp } from "@liexp/core/lib/fp";
+import { fp } from "@liexp/core/lib/fp/index.js";
 import {
   type Row,
   type Cell,
   type Value,
-} from "@react-page/editor/lib/core/types";
-import { createValue } from "@react-page/editor/lib/core/utils/createValue";
-import { getTextContents as defaultGetTextContents } from "@react-page/editor/lib/core/utils/getTextContents";
-import { type SlateComponentPluginDefinition } from "@react-page/plugins-slate/lib/types/slatePluginDefinitions";
-import { type Option } from "fp-ts/Option";
-import { pipe } from "fp-ts/function";
+} from "@react-page/editor/lib/core/types/index.js";
+import { createValue } from "@react-page/editor/lib/core/utils/createValue.js";
+import { getTextContents as defaultGetTextContents } from "@react-page/editor/lib/core/utils/getTextContents.js";
+import { type SlateComponentPluginDefinition } from "@react-page/plugins-slate/lib/types/slatePluginDefinitions.js";
+import { type Option } from "fp-ts/lib/Option.js";
+import { pipe } from "fp-ts/lib/function.js";
 import {
   getLiexpSlate,
   PARAGRAPH_TYPE,
@@ -21,7 +21,7 @@ import {
   MEDIA_BLOCK_PLUGIN,
   isMediaBlockCell,
   isEventBlockCell,
-} from "./plugins/customSlate";
+} from "./plugins/customSlate.js";
 
 export const getTextContents = (v: Value, j?: string): string => {
   return defaultGetTextContents(v, {

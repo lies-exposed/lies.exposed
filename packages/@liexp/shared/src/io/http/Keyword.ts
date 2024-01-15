@@ -1,9 +1,9 @@
 import * as t from "io-ts";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
-import { UUID, Tag, BaseProps } from "./Common";
-import { Color } from "./Common/Color";
-import { ListOutput, Output } from "./Common/Output";
-import { GetListQuery } from "./Query";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { Color } from "./Common/Color.js";
+import { ListOutput, Output } from "./Common/Output.js";
+import { UUID, Tag, BaseProps } from "./Common/index.js";
+import { GetListQuery } from "./Query/index.js";
 
 export const KEYWORDS = t.literal("keywords");
 export type KEYWORDS = t.TypeOf<typeof KEYWORDS>;

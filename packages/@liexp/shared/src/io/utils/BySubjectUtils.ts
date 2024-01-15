@@ -1,14 +1,14 @@
-import { fp } from "@liexp/core/lib/fp";
-import { type Option } from "fp-ts/Option";
-import { pipe } from "fp-ts/function";
-import { type Actor, type Group } from "../http";
+import { fp } from "@liexp/core/lib/fp/index.js";
+import { type Option } from "fp-ts/lib/Option.js";
+import { pipe } from "fp-ts/lib/function.js";
 import {
   ACTOR,
   GROUP,
   type BySubject,
   type BySubjectId,
   type UUID,
-} from "../http/Common";
+} from "../http/Common/index.js";
+import { type Actor, type Group } from "../http/index.js";
 
 export const toBySubjectId = (type: ACTOR | GROUP, id: UUID): BySubjectId => {
   if (type === "Actor") {

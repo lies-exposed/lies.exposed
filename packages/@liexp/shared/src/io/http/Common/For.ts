@@ -1,6 +1,6 @@
 import * as t from "io-ts";
-import { Group } from "../Group";
-import { Project } from "../Project";
+import { Group } from "../Group.js";
+import { Project } from "../Project.js";
 
 export const ForProject = t.strict(
   {

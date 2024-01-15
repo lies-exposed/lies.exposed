@@ -1,6 +1,6 @@
 import * as t from "io-ts";
-import { NumberFromString } from "io-ts-types/lib/NumberFromString";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
+import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 
 export const PaginationQuery = t.type(
   {

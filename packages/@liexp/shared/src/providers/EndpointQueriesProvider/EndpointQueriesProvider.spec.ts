@@ -3,10 +3,10 @@ import { parseISO } from "date-fns";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { type MockProxy } from "vitest-mock-extended";
 import { TestEndpoints, overrides } from "../../../test/TestEndpoints";
-import { ActorArb } from "../../tests";
-import { fromEndpoints } from "../EndpointsRESTClient/EndpointsRESTClient";
-import { type APIRESTClient } from "../api-rest.provider";
-import { CreateQueryProvider } from "./index";
+import { ActorArb } from "../../tests/index.js";
+import { fromEndpoints } from "../EndpointsRESTClient/EndpointsRESTClient.js";
+import { type APIRESTClient } from "../api-rest.provider.js";
+import { CreateQueryProvider } from "./index.js";
 
 const apiProviderMock: MockProxy<APIRESTClient> = vi.hoisted(() => {
   return {

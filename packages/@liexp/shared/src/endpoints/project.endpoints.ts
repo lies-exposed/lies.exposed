@@ -1,14 +1,14 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { Endpoint } from "ts-endpoint";
-import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
-import { CreateAreaBody } from "../io/http/Area";
-import { ListOutput, Output } from "../io/http/Common/Output";
-import * as Project from "../io/http/Project";
-import * as ProjectImage from "../io/http/ProjectImage";
-import { GetListQuery } from "../io/http/Query";
-import { ResourceEndpoints } from "./types";
+import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord.js";
+import { CreateAreaBody } from "../io/http/Area.js";
+import { ListOutput, Output } from "../io/http/Common/Output.js";
+import * as Project from "../io/http/Project.js";
+import * as ProjectImage from "../io/http/ProjectImage.js";
+import { GetListQuery } from "../io/http/Query/index.js";
+import { ResourceEndpoints } from "./types.js";
 
 const SingleGroupOutput = Output(Project.Project, "Project");
 const ListGroupOutput = ListOutput(Project.Project, "ListProject");

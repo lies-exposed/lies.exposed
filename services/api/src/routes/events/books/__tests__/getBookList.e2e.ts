@@ -1,5 +1,5 @@
-import { ActorArb, GroupArb } from "@liexp/shared/lib/tests";
 import { BookEventArb } from "@liexp/shared/lib/tests/arbitrary/events/BookEvent.arbitrary.js";
+import { ActorArb, GroupArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
 import { GetAppTest, type AppTest } from "../../../../../test/AppTest.js";

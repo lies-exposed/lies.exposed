@@ -1,12 +1,12 @@
 import * as t from "io-ts";
-import { UUID } from "io-ts-types/lib/UUID";
+import { UUID } from "io-ts-types/lib/UUID.js";
 import { Endpoint } from "ts-endpoint";
 import {
   MediaImageLayer,
   TextLayer,
   WatermarkLayer,
-} from "../io/http/admin/BuildImage";
-import { ResourceEndpoints } from "./types";
+} from "../io/http/admin/BuildImage.js";
+import { ResourceEndpoints } from "./types.js";
 
 export const List = Endpoint({
   Method: "GET",

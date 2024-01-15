@@ -5,10 +5,10 @@ import {
   CreateAreaBody,
   EditAreaBody,
   ListAreaQuery,
-} from "../io/http/Area";
-import { UUID } from "../io/http/Common";
-import { ListOutput, Output } from "../io/http/Common/Output";
-import { ResourceEndpoints } from "./types";
+} from "../io/http/Area.js";
+import { ListOutput, Output } from "../io/http/Common/Output.js";
+import { UUID } from "../io/http/Common/index.js";
+import { ResourceEndpoints } from "./types.js";
 
 const SingleAreaOutput = Output(Area, "Area");
 const ListAreaOutput = ListOutput(Area, "Areas");

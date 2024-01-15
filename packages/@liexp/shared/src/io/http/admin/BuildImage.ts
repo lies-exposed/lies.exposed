@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { Color, MaybeURL } from "../Common";
+import { Color, MaybeURL } from "../Common/index.js";
 
 const CommonImageLayerProps = t.strict(
   {

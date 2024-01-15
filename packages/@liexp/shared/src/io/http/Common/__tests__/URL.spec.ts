@@ -1,5 +1,5 @@
 import { fc } from "@liexp/test";
-import { URL } from "../URL";
+import { URL } from "../URL.js";
 
 describe("URL codec", () => {
   const expectAll = (urls: string[]): void => {

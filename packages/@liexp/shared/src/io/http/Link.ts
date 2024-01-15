@@ -1,11 +1,11 @@
 import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
-import { optionFromUndefined } from "../Common/optionFromUndefined";
-import { URL, UUID } from "./Common";
-import { CreateMedia, MediaType } from "./Media";
-import { GetListQuery } from "./Query";
+import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { optionFromUndefined } from "../Common/optionFromUndefined.js";
+import { URL, UUID } from "./Common/index.js";
+import { CreateMedia, MediaType } from "./Media.js";
+import { GetListQuery } from "./Query/index.js";
 
 export const LINKS = t.literal("links");
 export type LINKS = t.TypeOf<typeof LINKS>;

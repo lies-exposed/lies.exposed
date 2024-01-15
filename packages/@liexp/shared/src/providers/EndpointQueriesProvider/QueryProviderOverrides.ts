@@ -1,5 +1,5 @@
-import { fp } from "@liexp/core/lib/fp";
-import { pipe } from "fp-ts/lib/function";
+import { fp } from "@liexp/core/lib/fp/index.js";
+import { pipe } from "fp-ts/lib/function.js";
 import { useQuery } from "react-query";
 import {
   type MinimalEndpoint,
@@ -10,9 +10,9 @@ import {
   type GetFnParams,
   type GetListFnQuery,
   type GetListFnParamsE,
-} from "../EndpointsRESTClient/EndpointsRESTClient";
-import { fetchQuery, getDefaultKey } from "./QueryProvider";
-import { type GetKeyFn, type ResourceQueries } from "./types";
+} from "../EndpointsRESTClient/EndpointsRESTClient.js";
+import { fetchQuery, getDefaultKey } from "./QueryProvider.js";
+import { type GetKeyFn, type ResourceQueries } from "./types.js";
 
 export interface GetQueryOverride<P, Q = undefined> {
   getKey?: GetKeyFn<P, Q>;
@@ -79,8 +79,11 @@ export const toOverrideQueries = <
           getKey,
           fetch,
           useQuery: (p: any) =>
-            useQuery(getKey(p), ({ queryKey }) => {
-              return fetch(queryKey[1], queryKey[2], !!queryKey[3]);
+            useQuery({
+              queryKey: getKey(p),
+              queryFn: ({ queryKey }) => {
+                return fetch(queryKey[1], queryKey[2], !!queryKey[3]);
+              },
             }),
         };
       }),
