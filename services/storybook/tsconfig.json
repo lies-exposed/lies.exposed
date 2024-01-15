@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "module": "esnext",
-    "target": "es5",
+    "target": "es6",
     "jsx": "react-jsx",
     "noEmit": true,
     "allowJs": true,

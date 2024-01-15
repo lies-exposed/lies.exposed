@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "license": "MIT",
+  "main": "lib/index.js",
   "module": "lib/index.js",
   "type": "module",
   "exports": {

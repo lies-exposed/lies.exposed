@@ -1,7 +1,7 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { List, ListItem, ListItemText, Typography } from "@mui/material";
 import { type Cell } from "@react-page/editor";
-import slate, { type SlateCellPlugin } from "@react-page/plugins-slate";
+import * as slate from "@react-page/plugins-slate";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { StoryUtils } from "../../utils/story.utils.js";
@@ -41,8 +41,8 @@ const getHeaderId = (children: React.ReactNode): string | undefined => {
   );
 };
 
-export const getLiexpSlate = (custom: any): SlateCellPlugin<any> => {
-  return slate((def) => ({
+export const getLiexpSlate = (custom: any): slate.SlateCellPlugin<any> => {
+  return slate.default((def) => ({
     ...def,
     id: LIEXP_SLATE_PLUGIN_ID,
     title: "@liexp Slate plugin",

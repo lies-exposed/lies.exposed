@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "lib": ["DOM", "ESNext"],
+    "tsBuildInfoFile": "lib/tsconfig-build.tsbuildinfo",
+    "typeRoots": ["typings"]
+  },
+  "include": ["./src"],
+  "exclude": ["node_modules", ".eslintrc.js", "lib"],
+  "references": [
+    {
+      "path": "../core"
+    }
+  ]
+}

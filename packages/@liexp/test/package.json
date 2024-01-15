@@ -4,9 +4,10 @@
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "license": "MIT",
   "main": "lib/index.js",
+  "module": "lib/index.js",
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "tsc -b",
+    "build": "tsc -b tsconfig.build.json",
     "watch": "tsc -b -w",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\""

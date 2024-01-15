@@ -7,22 +7,22 @@
     ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "strictPropertyInitialization": false,
     "baseUrl": "./src",
-    "rootDir": "./src",
-    "paths": {
-      "@helpers/*": ["./helpers/*"],
-      "@io/*": ["./io/*"],
-      "@providers/*": ["./providers/*"],
-      "@utils/*": ["./utils/*"]
-    }
+    "rootDir": "./src"
   },
   "include": ["./src", "!src/**/*.spec.ts"],
   "exclude": [
     "node_modules",
     "lib",
+    ".eslintrc.cjs",
     "src/**/*.spec.ts"
-  ]
+  ],
+  "references": [
+    {
+      "path": "../core"
+    },
+    {
+      "path": "../test"
+    }
+  ],
 }
