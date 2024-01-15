@@ -1,5 +1,5 @@
-import { type URL } from "@io/http/Common";
-import { sanitizeURL } from "@utils/url.utils";
+import { type URL } from "../../io/http/Common/index.js";
+import { sanitizeURL } from "../url.utils.js";
 
 describe("URL utils", () => {
   it("sanitizeURL url", () => {

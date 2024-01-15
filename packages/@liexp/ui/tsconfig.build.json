@@ -2,6 +2,9 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "composite": false,
+    "outDir": "./lib",
+    "baseUrl": "./src",
+    "rootDir": "./src"
   },
   "include": ["./src", "./typings", "./src/**/*.json"],
   "exclude": ["node_modules", "lib", "**/*.spec.ts", "**/*.spec.tsx", "test"]

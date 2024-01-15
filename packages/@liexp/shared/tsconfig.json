@@ -20,13 +20,7 @@
       "../../../node_modules/@types",
       "typings"
     ],
-    "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
-    "paths": {
-      "@helpers/*": ["./src/helpers/*"],
-      "@io/*": ["./src/io/*"],
-      "@providers/*": ["./src/providers/*"],
-      "@utils/*": ["./src/utils/*"]
-    }
+    "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo"
   },
   "references": [
     {

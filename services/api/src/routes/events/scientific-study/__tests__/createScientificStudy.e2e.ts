@@ -9,7 +9,7 @@ import { HumanReadableStringArb } from "@liexp/shared/lib/tests/arbitrary/HumanR
 import { LinkArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
-import { fc } from "@liexp/test/lib/index.js";
+import { fc } from "@liexp/test";
 import { In } from "typeorm";
 import { GetAppTest, type AppTest } from "../../../../../test/AppTest.js";
 import {
