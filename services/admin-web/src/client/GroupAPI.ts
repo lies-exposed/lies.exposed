@@ -1,14 +1,14 @@
-import { type Group } from "@liexp/shared/lib/io/http/Group";
-import { MediaType } from "@liexp/shared/lib/io/http/Media";
-import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI";
+import { type Group } from "@liexp/shared/lib/io/http/Group.js";
+import { MediaType } from "@liexp/shared/lib/io/http/Media.js";
+import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI.js";
 import {
   type CreateParams,
   type CreateResult,
   type UpdateParams,
   type UpdateResult,
-} from "@liexp/ui/lib/components/admin/react-admin";
+} from "@liexp/ui/lib/components/admin/react-admin.js";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

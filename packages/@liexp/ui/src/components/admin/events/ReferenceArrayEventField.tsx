@@ -6,9 +6,9 @@ import {
   ReferenceArrayField,
   type ReferenceArrayFieldProps,
 } from "react-admin";
-import { EventIcon } from "../../Common/Icons";
-import { Box } from "../../mui";
-import { EventTitle } from "./titles/EventTitle";
+import { EventIcon } from "../../Common/Icons/index.js";
+import { Box } from "../../mui/index.js";
+import { EventTitle } from "./titles/EventTitle.js";
 
 const ReferenceArrayEventField: React.FC<
   Omit<ReferenceArrayFieldProps, "reference" | "children"> & { source: string }

@@ -1,12 +1,12 @@
 import * as React from "react";
 import { type GetListParams } from "react-admin";
-import QueriesRenderer from "../components/QueriesRenderer";
-import { Box } from "../components/mui";
+import QueriesRenderer from "../components/QueriesRenderer.js";
+import { Box } from "../components/mui/index.js";
 import {
   MediaSlider,
   type MediaSliderProps,
-} from "../components/sliders/MediaSlider";
-import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
+} from "../components/sliders/MediaSlider.js";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
 
 export interface MediaSliderBoxProps extends Omit<MediaSliderProps, "data"> {
   query: GetListParams;

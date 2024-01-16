@@ -1,19 +1,19 @@
-import { type VaccineDistributionDatum } from "@liexp/shared/lib/io/http/covid/VaccineDistributionDatum";
+import { type VaccineDistributionDatum } from "@liexp/shared/lib/io/http/covid/VaccineDistributionDatum.js";
 import {
   Covid19ADRs,
   Covid19EUDR,
   Covid19VAERS,
   Covid19WorldVaccineDistribution,
   CovidWHOWorldData,
-} from "@liexp/shared/lib/io/http/graphs/Graph";
-import { StatAccordion } from "@liexp/ui/lib/components/Common/StatAccordion";
+} from "@liexp/shared/lib/io/http/graphs/Graph.js";
+import { StatAccordion } from "@liexp/ui/lib/components/Common/StatAccordion.js";
 // import { VaccineEffectivenessIndicators } from "@liexp/ui/lib/components/Graph/covid/vaccines/VaccineEffectivenessIndicators";
-import { a11yProps, TabPanel } from "@liexp/ui/lib/components/Common/TabPanel";
-import { VaccineADRGraph } from "@liexp/ui/lib/components/Graph/covid/vaccines/VaccineADRGraph";
-import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
-import { Box, Grid, Tab, Tabs, Typography } from "@liexp/ui/lib/components/mui";
-import { useJSONDataQuery } from "@liexp/ui/lib/state/queries/DiscreteQueries";
-import { useNavigateTo } from "@liexp/ui/lib/utils/history.utils";
+import { a11yProps, TabPanel } from "@liexp/ui/lib/components/Common/TabPanel.js";
+import { VaccineADRGraph } from "@liexp/ui/lib/components/Graph/covid/vaccines/VaccineADRGraph.js";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
+import { Box, Grid, Tab, Tabs, Typography } from "@liexp/ui/lib/components/mui/index.js";
+import { useJSONDataQuery } from "@liexp/ui/lib/state/queries/DiscreteQueries.js";
+import { useNavigateTo } from "@liexp/ui/lib/utils/history.utils.js";
 import { scaleOrdinal } from "@visx/scale";
 import { isAfter, isBefore } from "date-fns";
 import * as A from "fp-ts/Array";

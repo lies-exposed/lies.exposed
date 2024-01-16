@@ -4,7 +4,7 @@ import {
   type RaRecord,
   type ReferenceArrayFieldProps,
 } from "react-admin";
-import { MediaDataGrid } from "./MediaList";
+import { MediaDataGrid } from "./MediaList.js";
 
 export const ReferenceMediaDataGrid: React.FC<
   Omit<ReferenceArrayFieldProps<RaRecord<string>>, "children" | "reference">

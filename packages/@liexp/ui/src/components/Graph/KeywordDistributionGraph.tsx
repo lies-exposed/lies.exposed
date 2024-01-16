@@ -1,10 +1,10 @@
-import { type Keyword } from "@liexp/shared/lib/io/http";
-import ParentSize from "@visx/responsive/lib/components/ParentSize";
+import { type Keyword } from "@liexp/shared/lib/io/http/index.js";
+import { ParentSize } from "@visx/responsive";
 import { scaleLog } from "@visx/scale";
 import { Text } from "@visx/text";
-import Wordcloud from "@visx/wordcloud/lib/Wordcloud";
+import { Wordcloud } from "@visx/wordcloud";
 import * as React from "react";
-import QueriesRenderer from "../QueriesRenderer";
+import QueriesRenderer from "../QueriesRenderer.js";
 
 interface KeywordDatum extends Keyword.Keyword {
   text: string;

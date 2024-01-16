@@ -1,4 +1,4 @@
-import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import * as React from "react";
 import {
   Datagrid,
@@ -11,8 +11,8 @@ import {
   usePermissions,
   type DatagridProps,
 } from "react-admin";
-import { Box } from "../../mui";
-import { MediaField } from "../media/MediaField";
+import { Box } from "../../mui/index.js";
+import { MediaField } from "../media/MediaField.js";
 
 export const LinkDataGrid: React.FC<DatagridProps> = (props) => {
   const { permissions, isLoading } = usePermissions();

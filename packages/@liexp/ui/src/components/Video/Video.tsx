@@ -1,8 +1,8 @@
-import { type MP4Type } from "@liexp/shared/lib/io/http/Media";
+import { type MP4Type } from "@liexp/shared/lib/io/http/Media.js";
 import { clsx } from "clsx";
 import * as React from "react";
-import { styled } from "../../theme";
-import { VideoCover } from "../Media/VideoCover";
+import { styled } from "../../theme/index.js";
+import { VideoCover } from "../Media/VideoCover.js";
 
 const PREFIX = "Video";
 

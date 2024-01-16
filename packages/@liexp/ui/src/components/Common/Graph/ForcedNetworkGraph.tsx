@@ -1,11 +1,11 @@
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
-import { EventType } from "@liexp/shared/lib/io/http/Events";
-import { GROUPS } from "@liexp/shared/lib/io/http/Group";
-import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
+import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
+import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
+import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
 import * as d3 from "d3";
 import { debounce } from "lodash";
 import * as React from "react";
-import { EventTypeColor, EventTypeIconClass } from "../Icons";
+import { EventTypeColor, EventTypeIconClass } from "../Icons/index.js";
 
 export interface ForcedNetworkGraphProps {
   id: string;

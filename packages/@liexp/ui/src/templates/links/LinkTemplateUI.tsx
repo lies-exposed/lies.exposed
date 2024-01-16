@@ -1,10 +1,10 @@
-import type * as http from "@liexp/shared/lib/io/http";
+import type * as http from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import { KeywordsBox } from "../../components/KeywordsBox";
-import MediaElement from "../../components/Media/MediaElement";
-import { Box, Typography, Link } from "../../components/mui";
-import { EventsPanelBox } from "../../containers/EventsPanel";
-import { SplitPageTemplate } from "../SplitPageTemplate";
+import { KeywordsBox } from "../../components/KeywordsBox.js";
+import MediaElement from "../../components/Media/MediaElement.js";
+import { Box, Typography, Link } from "../../components/mui/index.js";
+import { EventsPanelBox } from "../../containers/EventsPanel.js";
+import { SplitPageTemplate } from "../SplitPageTemplate.js";
 
 export interface LinkTemplateUIProps {
   link: http.Link.Link;

@@ -1,6 +1,6 @@
-import type * as http from "@liexp/shared/lib/io/http";
-import { Polygon } from "ol/geom";
-import { getArea } from "ol/sphere";
+import type * as http from "@liexp/shared/lib/io/http/index.js";
+import { Polygon } from "ol/geom.js";
+import { getArea } from "ol/sphere.js";
 
 interface DatumWithGeometry {
   geometry: http.Common.Geometry.Polygon;

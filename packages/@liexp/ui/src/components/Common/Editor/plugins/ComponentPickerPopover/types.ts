@@ -5,16 +5,16 @@ import {
   type KEYWORD_INLINE,
   type LINK_INLINE,
   type MEDIA_BLOCK_PLUGIN,
-} from "@liexp/shared/lib/slate/plugins/customSlate";
+} from "@liexp/shared/lib/slate/plugins/customSlate.js";
 // eslint-disable-next-line no-restricted-imports
 import { type OverridableComponent } from "@mui/material/OverridableComponent";
-import { type DataTType } from "@react-page/editor";
-import { type ActorInlineState } from "../actor/ActorInline.plugin";
-import { type EventBlockState } from "../event/eventBlock.plugin";
-import { type GroupInlineState } from "../group/GroupInline.plugin";
-import { type KeywordInlineState } from "../keyword/KeywordInline.plugin";
-import { type LinkInlineState } from "../links/LinkInline.plugin";
-import { type MediaBlockState } from "../media/mediaBlock";
+import { type DataTType } from "@react-page/editor/lib-es/index.js";
+import { type ActorInlineState } from "../actor/ActorInline.plugin.js";
+import { type EventBlockState } from "../event/eventBlock.plugin.js";
+import { type GroupInlineState } from "../group/GroupInline.plugin.js";
+import { type KeywordInlineState } from "../keyword/KeywordInline.plugin.js";
+import { type LinkInlineState } from "../links/LinkInline.plugin.js";
+import { type MediaBlockState } from "../media/mediaBlock.js";
 
 export type PickablePlugin = {
   icon: OverridableComponent<any>;

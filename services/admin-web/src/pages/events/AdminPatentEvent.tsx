@@ -1,13 +1,13 @@
-import { uuid } from "@liexp/shared/lib/utils/uuid";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
-import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm";
-import { PatentEventEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/PatentEventEditTab";
-import ReferenceArrayGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput";
-import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
-import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
-import ReferenceLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceLinkInput";
-import { MediaArrayInput } from "@liexp/ui/lib/components/admin/media/input/MediaArrayInput";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput.js";
+import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm.js";
+import { PatentEventEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/PatentEventEditTab.js";
+import ReferenceArrayGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput.js";
+import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput.js";
+import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput.js";
+import ReferenceLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceLinkInput.js";
+import { MediaArrayInput } from "@liexp/ui/lib/components/admin/media/input/MediaArrayInput.js";
 import {
   BooleanField,
   BooleanInput,
@@ -24,8 +24,8 @@ import {
   useDataProvider,
   type CreateProps,
   type ListProps,
-} from "@liexp/ui/lib/components/admin/react-admin";
-import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
+} from "@liexp/ui/lib/components/admin/react-admin.js";
+import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils.js";
 import * as React from "react";
 
 const patentEventsFilter = [

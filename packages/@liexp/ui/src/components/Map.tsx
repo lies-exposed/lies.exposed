@@ -1,16 +1,16 @@
-import { type FeatureLike } from "ol/Feature";
-import type Feature from "ol/Feature";
-import OlMap from "ol/Map";
-import * as OlControl from "ol/control";
-import type Geometry from "ol/geom/Geometry";
-import * as OlInteraction from "ol/interaction";
-import TileLayer from "ol/layer/Tile";
-import VectorLayer from "ol/layer/Vector";
-import OSM from "ol/source/OSM";
-import VectorSource from "ol/source/Vector";
-import { Circle, Fill, Stroke, Style } from "ol/style";
+import { type FeatureLike } from "ol/Feature.js";
+import type Feature from "ol/Feature.js";
+import OlMap from "ol/Map.js";
+import * as OlControl from "ol/control.js";
+import type Geometry from "ol/geom/Geometry.js";
+import * as OlInteraction from "ol/interaction.js";
+import TileLayer from "ol/layer/Tile.js";
+import VectorLayer from "ol/layer/Vector.js";
+import OSM from "ol/source/OSM.js";
+import VectorSource from "ol/source/Vector.js";
+import { Circle, Fill, Stroke, Style } from "ol/style.js";
 import * as React from "react";
-import { geoJSONFormat } from "../utils/map.utils";
+import { geoJSONFormat } from "../utils/map.utils.js";
 
 export interface MapProps<G extends Geometry> {
   id: string;

@@ -1,8 +1,8 @@
-import { uuid } from "@liexp/shared/lib/utils/uuid";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import * as React from "react";
-import { transformMedia } from "../../../client/admin/MediaAPI";
-import { useNavigateTo } from "../../../utils/history.utils";
-import { Stack } from "../../mui";
+import { transformMedia } from "../../../client/admin/MediaAPI.js";
+import { useNavigateTo } from "../../../utils/history.utils.js";
+import { Stack } from "../../mui/index.js";
 import {
   Button,
   Create,
@@ -11,8 +11,8 @@ import {
   required,
   useDataProvider,
   type CreateProps,
-} from "../react-admin";
-import { MediaInput } from "./input/MediaInput";
+} from "../react-admin.js";
+import { MediaInput } from "./input/MediaInput.js";
 
 export const MediaCreate: React.FC<CreateProps> = (props) => {
   const apiProvider = useDataProvider();

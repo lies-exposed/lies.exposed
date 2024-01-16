@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Box } from "../mui";
-import { MediaSlider, type MediaSliderProps } from "../sliders/MediaSlider";
+import { Box } from "../mui/index.js";
+import { MediaSlider, type MediaSliderProps } from "../sliders/MediaSlider.js";
 
 interface MediaModalContentProps extends MediaSliderProps {
   //   query: MediaSliderBoxProps["query"];

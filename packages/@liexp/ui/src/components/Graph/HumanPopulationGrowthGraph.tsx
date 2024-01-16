@@ -1,7 +1,7 @@
 import { LinearGradient } from "@visx/gradient";
-import ParentSize from "@visx/responsive/lib/components/ParentSize";
+import { ParentSize } from "@visx/responsive";
 import * as React from "react";
-import { AxisGraph } from "../Common/Graph/AxisGraph";
+import { AxisGraph } from "../Common/Graph/AxisGraph.js";
 
 export interface HumanPopulationGrowthGraphProps {
   showPoints: boolean;

@@ -1,10 +1,10 @@
-import type * as io from "@liexp/shared/lib/io/http";
-import { getTextContentsCapped } from "@liexp/shared/lib/slate";
+import type * as io from "@liexp/shared/lib/io/http/index.js";
+import { getTextContentsCapped } from "@liexp/shared/lib/slate/index.js";
 import * as React from "react";
-import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
-import { styled } from "../../theme";
-import { List, type ListItemProps } from "../Common/List";
-import { defaultImage } from "../SEO";
+import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
+import { styled } from "../../theme/index.js";
+import { List, type ListItemProps } from "../Common/List.js";
+import { defaultImage } from "../SEO.js";
 import {
   Card,
   CardActionArea,
@@ -13,7 +13,7 @@ import {
   type ListProps,
   Typography,
   Box,
-} from "../mui";
+} from "../mui/index.js";
 
 export interface Area extends io.Area.Area {
   selected: boolean;

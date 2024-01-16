@@ -1,6 +1,6 @@
-import "./library";
-export * from "./EventIcon";
-export * from "./GithubIcon";
-export * from "./TelegramIcon";
-export * from "./FAIcon";
-export * from "./InstagramIcon";
+import "./library.js";
+export * from "./EventIcon.js";
+export * from "./GithubIcon.js";
+export * from "./TelegramIcon.js";
+export * from "./FAIcon.js";
+export * from "./InstagramIcon.js";

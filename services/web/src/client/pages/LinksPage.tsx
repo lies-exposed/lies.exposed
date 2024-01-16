@@ -1,4 +1,4 @@
-import { defaultUseQueryListParams } from "@liexp/shared/lib/providers/EndpointQueriesProvider/params";
+import { defaultUseQueryListParams } from "@liexp/shared/lib/providers/EndpointQueriesProvider/params.js";
 import { LinksPageTemplate } from "@liexp/ui/lib/templates/links/LinksPageTemplate";
 import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";

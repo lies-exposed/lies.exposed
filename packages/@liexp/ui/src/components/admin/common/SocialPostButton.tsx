@@ -1,17 +1,17 @@
-import { getShareMedia } from "@liexp/shared/lib/helpers/event";
-import { type Media } from "@liexp/shared/lib/io/http";
+import { getShareMedia } from "@liexp/shared/lib/helpers/event/index.js";
 import {
   type SocialPostResourceType,
   type CreateSocialPost,
-} from "@liexp/shared/lib/io/http/SocialPost";
+} from "@liexp/shared/lib/io/http/SocialPost.js";
+import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import {
   useRecordContext,
   type FieldProps,
   type Identifier,
 } from "react-admin";
-import { Box, Button } from "../../mui";
-import { ShareModal, emptySharePayload } from "../Modal/ShareModal";
+import { Box, Button } from "../../mui/index.js";
+import { ShareModal, emptySharePayload } from "../Modal/ShareModal.js";
 
 interface OnLoadSharePayloadClickOpts {
   multipleMedia: boolean;

@@ -1,7 +1,7 @@
-import { type Actor, type Keyword, Events } from "@liexp/shared/lib/io/http";
+import { type Actor, type Keyword, Events } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import { Box, Grid } from "../../mui";
-import EventListItemBase from "./EventListItemBase";
+import { Box, Grid } from "../../mui/index.js";
+import EventListItemBase from "./EventListItemBase.js";
 
 interface DeathListItemProps {
   item: Events.SearchEvent.SearchDeathEvent;

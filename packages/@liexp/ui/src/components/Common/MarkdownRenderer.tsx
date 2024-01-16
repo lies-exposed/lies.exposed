@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import * as React from "react";
-import { LazyEditor as Editor } from "./Editor";
+import { LazyEditor as Editor } from "./Editor/index.js";
 
 // export const components: MDXProviderComponentsProp = {
 //   // layout

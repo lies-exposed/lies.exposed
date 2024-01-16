@@ -3,29 +3,29 @@ import { Writable } from "node:stream";
 import * as path from "path";
 import { CacheProvider } from "@emotion/react";
 import { dom } from "@fortawesome/fontawesome-svg-core";
-import { GetLogger } from "@liexp/core/lib/logger";
-import { Endpoints } from "@liexp/shared/lib/endpoints";
+import { GetLogger } from "@liexp/core/lib/logger/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import {
   CreateQueryProvider,
   QueryProviderCustomQueries,
   type EndpointsQueryProvider,
-} from "@liexp/shared/lib/providers/EndpointQueriesProvider";
-import { fromEndpoints } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient";
+} from "@liexp/shared/lib/providers/EndpointQueriesProvider/index.js";
+import { fromEndpoints } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
 import * as express from "express";
 import * as React from "react";
 import * as ReactDOMServer from "react-dom/server";
 import {
-  Hydrate,
+  Hydrate as HydrationBoundary,
   QueryClient,
   QueryClientProvider,
   dehydrate,
 } from "react-query";
-import { StaticRouter } from "react-router-dom/server";
-import { apiProvider } from "../client/api";
-import { HelmetProvider } from "../components/SEO";
-import { CssBaseline, ThemeProvider } from "../components/mui";
-import { ECOTheme } from "../theme";
-import createEmotionCache from "./createEmotionCache";
+import { StaticRouter } from "react-router-dom/server.js";
+import { apiProvider } from "../client/api.js";
+import { HelmetProvider } from "../components/SEO.js";
+import { CssBaseline, ThemeProvider } from "../components/mui/index.js";
+import { ECOTheme } from "../theme/index.js";
+import createEmotionCache from "./createEmotionCache.js";
 
 const ssrLog = GetLogger("ssr");
 
@@ -95,7 +95,7 @@ export const getServer = (
           return Promise.all(
             routeQueries.map((r) => {
               ssrLog.debug.log("Prefetch query %O", r.queryKey);
-              return queryClient.prefetchQuery(r.queryKey, r.queryFn);
+              return queryClient.prefetchQuery(r);
             }),
           );
         })
@@ -162,7 +162,7 @@ export const getServer = (
             <StaticRouter location={req.url}>
               <HelmetProvider context={helmetContext}>
                 <QueryClientProvider client={queryClient}>
-                  <Hydrate state={dehydratedState}>
+                  <HydrationBoundary state={dehydratedState}>
                     <CacheProvider value={cache}>
                       <ThemeProvider theme={ECOTheme}>
                         <CssBaseline enableColorScheme />
@@ -175,7 +175,7 @@ export const getServer = (
                         )}
                       </ThemeProvider>
                     </CacheProvider>
-                  </Hydrate>
+                  </HydrationBoundary>
                 </QueryClientProvider>
               </HelmetProvider>
             </StaticRouter>,

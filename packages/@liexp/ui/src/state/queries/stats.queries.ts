@@ -1,7 +1,7 @@
-import { type Stats } from "@liexp/shared/lib/io/http";
+import { type Stats } from "@liexp/shared/lib/io/http/index.js";
 import type { GetListParams } from "react-admin";
 import { useQuery } from "react-query";
-import { type UseQueryFn } from "./type";
+import { type UseQueryFn } from "./type.js";
 
 export const getStatsQueryKey = (
   p: Partial<GetListParams>,
@@ -39,13 +39,13 @@ export const useStatsQuery: UseQueryFn<
   },
   Stats.Stats
 > = (params) => {
-  return useQuery(
-    getStatsQueryKey(
+  return useQuery({
+    queryKey: getStatsQueryKey(
       {
         filter: params,
       },
       false,
     ),
-    () => Promise.resolve(),
-  );
+    queryFn: () => Promise.resolve(),
+  });
 };

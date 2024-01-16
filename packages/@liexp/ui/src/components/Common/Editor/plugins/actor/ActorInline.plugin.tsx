@@ -1,21 +1,30 @@
-import { type Actor } from "@liexp/shared/lib/io/http";
-import { ACTOR_INLINE } from "@liexp/shared/lib/slate/plugins/customSlate";
-import RecentActors from "@mui/icons-material/RecentActors";
-import type { CellPluginComponentProps, DataTType } from "@react-page/editor";
-import { pluginFactories } from "@react-page/plugins-slate";
+import { type Actor } from "@liexp/shared/lib/io/http/index.js";
+import { ACTOR_INLINE } from "@liexp/shared/lib/slate/plugins/customSlate.js";
+import type {
+  CellPluginComponentProps,
+  DataTType,
+} from "@react-page/editor/lib-es/index.js";
+import { pluginFactories } from "@react-page/plugins-slate/lib-es/index.js";
 import {
   type SlateComponentPluginDefinition,
   type SlatePluginControls,
-} from "@react-page/plugins-slate/lib/types/slatePluginDefinitions";
+} from "@react-page/plugins-slate/lib-es/types/slatePluginDefinitions.js";
 import React from "react";
-import { AutocompleteActorInput } from "../../../../Input/AutocompleteActorInput";
-import { ActorChip } from "../../../../actors/ActorChip";
-import { Box, Button, Checkbox, FormControlLabel, Grid } from "../../../../mui";
-import { Popover, type PopoverProps } from "../../../Popover";
+import { AutocompleteActorInput } from "../../../../Input/AutocompleteActorInput.js";
+import { ActorChip } from "../../../../actors/ActorChip.js";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  Icons,
+} from "../../../../mui/index.js";
+import { Popover, type PopoverProps } from "../../../Popover.js";
 import {
   ComponentPickerPopoverControlAnchorWrapper,
   ComponentPickerPopoverRendererAnchorWrapper,
-} from "../ComponentPickerPopover/ComponentPickerPopoverPluginControlAnchor";
+} from "../ComponentPickerPopover/ComponentPickerPopoverPluginControlAnchor.js";
 
 export interface ActorInlineState extends DataTType {
   actor: Actor.Actor;
@@ -28,7 +37,7 @@ export interface ActorInlineSettings {
 }
 
 export const defaultSettings: ActorInlineSettings = {
-  icon: <RecentActors />,
+  icon: <Icons.RecentActors />,
 };
 
 export type ActorInlineControlType = React.ComponentType<
@@ -221,9 +230,10 @@ const actorInlinePlugin =
     type: ACTOR_INLINE,
     object: "inline",
     isVoid: true,
-    icon: <RecentActors />,
+    icon: <Icons.RecentActors />,
     label: "Actor",
   });
 
-export const ActorInlinePluginIcon = RecentActors;
+export const ActorInlinePluginIcon = Icons.RecentActors;
+
 export { actorInlinePlugin };

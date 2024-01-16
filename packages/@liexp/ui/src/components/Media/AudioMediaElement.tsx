@@ -1,11 +1,11 @@
-import { type Media } from "@liexp/shared/lib/io/http";
+import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import { ParentSize } from "@visx/responsive";
 import { clsx } from "clsx";
 import * as React from "react";
 import ReactAudioPlayer from "react-audio-player";
-import { styled } from "../../theme";
-import { Box } from "../mui";
-import { WaveformThumbnail } from "./WaveformThumbnail";
+import { styled } from "../../theme/index.js";
+import { Box } from "../mui/index.js";
+import { WaveformThumbnail } from "./WaveformThumbnail.js";
 
 const PREFIX = "AudioMediaElement";
 

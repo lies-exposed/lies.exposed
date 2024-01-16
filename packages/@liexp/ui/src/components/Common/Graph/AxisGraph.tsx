@@ -1,7 +1,7 @@
 import {
   numTicksForHeight,
   numTicksForWidth,
-} from "@liexp/shared/lib/utils/graph.utils";
+} from "@liexp/shared/lib/utils/graph.utils.js";
 import { AxisBottom, AxisLeft, AxisRight } from "@visx/axis";
 import { curveLinear } from "@visx/curve";
 import { Grid } from "@visx/grid";

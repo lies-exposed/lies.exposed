@@ -1,10 +1,10 @@
-import { type UUID } from "io-ts-types/lib/UUID";
+import { type UUID } from "io-ts-types/lib/UUID.js";
 import * as React from "react";
-import QueriesRenderer from "../../components/QueriesRenderer";
+import QueriesRenderer from "../../components/QueriesRenderer.js";
 import {
   ActorChip,
   type ActorChipProps,
-} from "../../components/actors/ActorChip";
+} from "../../components/actors/ActorChip.js";
 
 type ActorChipBoxProps = ActorChipProps & {
   id: UUID;

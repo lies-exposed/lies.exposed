@@ -5,7 +5,7 @@ import {
 import {
   generateRandomColor,
   toColorHash,
-} from "@liexp/shared/lib/utils/colors";
+} from "@liexp/shared/lib/utils/colors.js";
 import * as React from "react";
 
 export interface FAIconProps extends FontAwesomeIconProps {

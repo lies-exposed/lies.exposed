@@ -1,17 +1,17 @@
-import { ordEventDate } from "@liexp/shared/lib/helpers/event/event";
-import { type Events } from "@liexp/shared/lib/io/http";
-import { formatDate } from "@liexp/shared/lib/utils/date.utils";
+import { ordEventDate } from "@liexp/shared/lib/helpers/event/event.js";
+import { type Events } from "@liexp/shared/lib/io/http/index.js";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { Group } from "@visx/group";
 import { HeatmapCircle } from "@visx/heatmap";
 import { scaleLinear } from "@visx/scale";
 import { TooltipWithBounds, withTooltip } from "@visx/tooltip";
-import { type WithTooltipProvidedProps } from "@visx/tooltip/lib/enhancers/withTooltip";
+import { type WithTooltipProvidedProps } from "@visx/tooltip/lib/enhancers/withTooltip.js";
 import { addDays, differenceInDays } from "date-fns";
-import { sequenceS } from "fp-ts/Apply";
-import * as A from "fp-ts/Array";
-import * as O from "fp-ts/Option";
 import { getDualOrd } from "fp-ts/Ord";
-import { identity, pipe } from "fp-ts/function";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as A from "fp-ts/lib/Array.js";
+import * as O from "fp-ts/lib/Option.js";
+import { identity, pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 
 const green = "#21f440";

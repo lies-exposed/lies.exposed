@@ -1,10 +1,10 @@
-import { type Events } from "@liexp/shared/lib/io/http";
-import * as A from "fp-ts/Array";
-import { pipe } from "fp-ts/function";
+import { type Events } from "@liexp/shared/lib/io/http/index.js";
+import * as A from "fp-ts/lib/Array.js";
+import { pipe } from "fp-ts/lib/function.js";
 import React from "react";
-import { styled } from "../../../theme";
-import { Grid } from "../../mui";
-import EventCard from "./EventCard";
+import { styled } from "../../../theme/index.js";
+import { Grid } from "../../mui/index.js";
+import EventCard from "./EventCard.js";
 
 interface EventCardGridProps {
   events: Events.SearchEvent.SearchEvent[];

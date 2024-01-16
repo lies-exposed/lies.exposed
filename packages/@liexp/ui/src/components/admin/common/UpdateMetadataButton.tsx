@@ -1,4 +1,4 @@
-import { type EventType } from "@liexp/shared/lib/io/http/Events";
+import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import * as React from "react";
 import {
   Button,
@@ -6,7 +6,7 @@ import {
   useRecordContext,
   useRefresh,
 } from "react-admin";
-import { Box } from "../../mui";
+import { Box } from "../../mui/index.js";
 
 interface UpdateMetadataButtonProps {
   type: EventType;

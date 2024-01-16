@@ -1,9 +1,9 @@
-import { fp } from "@liexp/core/lib/fp";
-import { Actor, Events, Group, Keyword } from "@liexp/shared/lib/io/http";
-import { type FlowGraphOutput } from "@liexp/shared/lib/io/http/graphs/FlowGraph";
-import { toColor } from "@liexp/shared/lib/utils/colors";
+import { fp } from "@liexp/core/lib/fp/index.js";
+import { type FlowGraphOutput } from "@liexp/shared/lib/io/http/graphs/FlowGraph.js";
+import { Actor, Events, Group, Keyword } from "@liexp/shared/lib/io/http/index.js";
+import { toColor } from "@liexp/shared/lib/utils/colors.js";
 import { parseISO } from "date-fns";
-import { pipe } from "fp-ts/function";
+import { pipe } from "fp-ts/lib/function.js";
 import React from "react";
 import {
   BaseEdge,
@@ -13,12 +13,12 @@ import {
   type EdgeProps,
   type NodeProps,
 } from "reactflow";
-import EventCard from "../Cards/Events/EventCard";
-import { FlowGraph, type FlowGraphProps } from "../Common/Graph/FlowGraph";
-import { EventIcon } from "../Common/Icons";
-import { ActorListItem } from "../lists/ActorList";
-import { GroupListItem } from "../lists/GroupList";
-import { KeywordListItem } from "../lists/KeywordList";
+import EventCard from "../Cards/Events/EventCard.js";
+import { FlowGraph, type FlowGraphProps } from "../Common/Graph/FlowGraph.js";
+import { EventIcon } from "../Common/Icons/index.js";
+import { ActorListItem } from "../lists/ActorList.js";
+import { GroupListItem } from "../lists/GroupList.js";
+import { KeywordListItem } from "../lists/KeywordList.js";
 
 const nodePosition = (
   i: number,

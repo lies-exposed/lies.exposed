@@ -1,5 +1,5 @@
-import { authProvider } from "@liexp/ui/lib/client/api";
-import { FullSizeLoader } from "@liexp/ui/lib/components/Common/FullSizeLoader";
+import { authProvider } from "@liexp/ui/lib/client/api.js";
+import { FullSizeLoader } from "@liexp/ui/lib/components/Common/FullSizeLoader.js";
 import { Container } from "@mui/system";
 import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";

@@ -1,17 +1,17 @@
-import { type Project } from "@liexp/shared/lib/io/http/Project";
-import type * as http from "@liexp/shared/lib/providers/api-rest.provider";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { sequenceS } from "fp-ts/Apply";
-import * as A from "fp-ts/Array";
-import * as E from "fp-ts/Either";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { type Project } from "@liexp/shared/lib/io/http/Project.js";
+import type * as http from "@liexp/shared/lib/providers/api-rest.provider.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as A from "fp-ts/lib/Array.js";
+import * as E from "fp-ts/lib/Either.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { pipe } from "fp-ts/lib/function.js";
 import {
   type CreateParams,
   type CreateResult,
   type UpdateParams,
 } from "react-admin";
-import { uploadImages } from "./MediaAPI";
+import { uploadImages } from "./MediaAPI.js";
 
 export const editProject =
   (client: http.APIRESTClient) =>

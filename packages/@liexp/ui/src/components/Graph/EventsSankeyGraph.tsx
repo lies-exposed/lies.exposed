@@ -1,6 +1,11 @@
-import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event";
-import { eqByUUID, ordEventDate } from "@liexp/shared/lib/helpers/event/event";
-import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
+import {
+  eqByUUID,
+  ordEventDate,
+} from "@liexp/shared/lib/helpers/event/event.js";
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
+import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/index.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
 import {
   type Actor,
   type Common,
@@ -9,30 +14,28 @@ import {
   type Keyword,
   type Page,
   type Topic,
-} from "@liexp/shared/lib/io/http";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent";
+} from "@liexp/shared/lib/io/http/index.js";
 import { LegendItem, LegendLabel, LegendOrdinal } from "@visx/legend";
-import { type Link } from "@visx/network/lib/types";
-import ParentSize from "@visx/responsive/lib/components/ParentSize";
-import ordinalScale from "@visx/scale/lib/scales/ordinal";
+import { type Link } from "@visx/network/lib/types.js";
+import { ParentSize } from "@visx/responsive";
+import ordinalScale from "@visx/scale/lib/scales/ordinal.js";
 import { type ScaleOrdinal } from "d3-scale";
 import { subWeeks } from "date-fns";
-import * as A from "fp-ts/Array";
-import * as Map from "fp-ts/Map";
-import type * as NEA from "fp-ts/NonEmptyArray";
-import * as O from "fp-ts/Option";
 import * as Ord from "fp-ts/Ord";
-import { pipe } from "fp-ts/function";
-import * as S from "fp-ts/string";
+import * as A from "fp-ts/lib/Array.js";
+import * as Map from "fp-ts/lib/Map.js";
+import type * as NEA from "fp-ts/lib/NonEmptyArray.js";
+import * as O from "fp-ts/lib/Option.js";
+import { pipe } from "fp-ts/lib/function.js";
+import * as S from "fp-ts/lib/string.js";
 import * as React from "react";
-import { type NetworkScale } from "../Common/Graph/Network/Network";
+import { type NetworkScale } from "../Common/Graph/Network/Network.js";
 import {
   type NetworkNodeDatum,
   type NetworkPointNode,
-} from "../Common/Graph/Network/NetworkNode";
-import SankeyGraph from "../Common/Graph/SankeyGraph";
-import { Box, Grid } from "../mui";
+} from "../Common/Graph/Network/NetworkNode.js";
+import SankeyGraph from "../Common/Graph/SankeyGraph.js";
+import { Box, Grid } from "../mui/index.js";
 
 type GroupByItem = Actor.Actor | Group.Group | Keyword.Keyword;
 

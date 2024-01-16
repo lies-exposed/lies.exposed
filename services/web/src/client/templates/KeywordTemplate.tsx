@@ -1,6 +1,6 @@
-import { EventType } from "@liexp/shared/lib/io/http/Events";
+import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { KeywordTemplate } from "@liexp/ui/lib/templates/KeywordTemplate";
-import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils";
+import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils.js";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 

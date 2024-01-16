@@ -1,16 +1,16 @@
+import { type GroupMember } from "@liexp/shared/lib/io/http/GroupMember.js";
 import {
   type Actor,
   type Group,
   type Project,
-} from "@liexp/shared/lib/io/http";
-import { type GroupMember } from "@liexp/shared/lib/io/http/GroupMember";
-import { isValidValue } from "@liexp/shared/lib/slate";
+} from "@liexp/shared/lib/io/http/index.js";
+import { isValidValue } from "@liexp/shared/lib/slate/index.js";
 import * as React from "react";
-import { useTheme } from "../theme";
-import { LazyEditor as Editor } from "./Common/Editor/index";
-import { ActorList } from "./lists/ActorList";
-import GroupList from "./lists/GroupList";
-import { Grid, Typography } from "./mui";
+import { useTheme } from "../theme/index.js";
+import { LazyEditor as Editor } from "./Common/Editor/index.js";
+import { ActorList } from "./lists/ActorList.js";
+import GroupList from "./lists/GroupList.js";
+import { Grid, Typography } from "./mui/index.js";
 
 export interface GroupPageContentProps {
   group: Group.Group;

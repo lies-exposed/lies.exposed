@@ -1,7 +1,7 @@
 import { clsx } from "clsx";
 import * as React from "react";
-import { styled } from "../../theme";
-import { Modal as MUIModal, type ModalProps as MUIModalProps } from "../mui";
+import { styled } from "../../theme/index.js";
+import { Modal as MUIModal, type ModalProps as MUIModalProps } from "../mui/index.js";
 
 const MODAL_PREFIX = "modal";
 

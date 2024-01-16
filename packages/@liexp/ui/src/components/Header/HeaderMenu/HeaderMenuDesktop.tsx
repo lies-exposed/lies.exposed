@@ -1,11 +1,11 @@
 import { clsx } from "clsx";
-import * as O from "fp-ts/Option";
-import { pipe } from "fp-ts/function";
+import * as O from "fp-ts/lib/Option.js";
+import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
-import { styled } from "../../../theme";
-import { Button, Stack } from "../../mui";
-import { PopperMenu } from "./PopperMenu";
-import { type HeaderMenuItem } from "./types";
+import { styled } from "../../../theme/index.js";
+import { Button, Stack } from "../../mui/index.js";
+import { PopperMenu } from "./PopperMenu.js";
+import { type HeaderMenuItem } from "./types.js";
 
 const HeaderMenuItemFC: React.FC<{
   item: HeaderMenuItem;

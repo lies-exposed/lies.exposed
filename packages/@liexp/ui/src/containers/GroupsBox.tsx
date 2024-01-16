@@ -1,9 +1,9 @@
-import { type Group } from "@liexp/shared/lib/io/http";
+import { type Group } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import QueriesRenderer from "../components/QueriesRenderer";
-import GroupList from "../components/lists/GroupList";
-import { Box } from "../components/mui";
-import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
+import QueriesRenderer from "../components/QueriesRenderer.js";
+import GroupList from "../components/lists/GroupList.js";
+import { Box } from "../components/mui/index.js";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
 
 interface GroupsBoxWrapperProps {
   params: any;

@@ -1,6 +1,6 @@
 import MediaSearchPageUI, {
   type MediaSearchTemplateProps,
-} from "@liexp/ui/lib/templates/MediaSearchTemplate";
+} from "@liexp/ui/lib/templates/MediaSearchTemplate.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

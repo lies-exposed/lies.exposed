@@ -1,8 +1,8 @@
-import { apiClient } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient";
+import { apiClient } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
 import * as React from "react";
-import { styled } from "../../theme";
-import LinkPreview from "../admin/previews/LinkPreview";
-import { Box, Button, CloseIcon, IconButton, Input, Modal } from "../mui";
+import { styled } from "../../theme/index.js";
+import LinkPreview from "../admin/previews/LinkPreview.js";
+import { Box, Button, Icons, IconButton, Input, Modal } from "../mui/index.js";
 
 const EVENT_SLIDER_MODAL_PREFIX = "event-slider-modal";
 
@@ -75,7 +75,7 @@ export const SuggestLinkModal: React.FC<SuggestLinkModalProps> = ({
               onClose();
             }}
           >
-            <CloseIcon fontSize="small" />
+            <Icons.Close fontSize="small" />
           </IconButton>
         </Box>
         {!link ? (

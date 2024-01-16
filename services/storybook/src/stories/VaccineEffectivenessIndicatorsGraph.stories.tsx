@@ -1,4 +1,4 @@
-import { VaccineEffectivenessIndicators } from "@liexp/ui/lib/components/Graph/covid/vaccines/VaccineEffectivenessIndicators";
+import { VaccineEffectivenessIndicators } from "@liexp/ui/lib/components/Graph/covid/vaccines/VaccineEffectivenessIndicators.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

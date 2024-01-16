@@ -1,14 +1,14 @@
-import { fp, pipe } from "@liexp/core/lib/fp";
-import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
 import {
   type EventType,
   EventTypes,
-} from "@liexp/shared/lib/io/http/Events/EventType";
+} from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { clsx } from "clsx";
 import * as React from "react";
-import { styled } from "../../../theme";
-import { EventIcon } from "../../Common/Icons";
-import { Box, Grid, IconButton, Typography } from "../../mui";
+import { styled } from "../../../theme/index.js";
+import { EventIcon } from "../../Common/Icons/index.js";
+import { Box, Grid, IconButton, Typography } from "../../mui/index.js";
 
 const PREFIX = "event-type-filters";
 

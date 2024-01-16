@@ -1,9 +1,9 @@
-import { type Story } from "@liexp/shared/lib/io/http/Story";
+import { type Story } from "@liexp/shared/lib/io/http/Story.js";
 import * as React from "react";
 import { type GetListParams } from "react-admin";
-import QueriesRenderer from "../components/QueriesRenderer";
-import { StoryList } from "../components/stories/StoryList";
-import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
+import QueriesRenderer from "../components/QueriesRenderer.js";
+import { StoryList } from "../components/stories/StoryList.js";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
 
 interface ActorsBoxProps {
   params: GetListParams;

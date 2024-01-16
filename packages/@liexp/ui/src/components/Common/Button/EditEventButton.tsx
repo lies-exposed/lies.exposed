@@ -1,11 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
-import { type UUID } from "io-ts-types/lib/UUID";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
+import { type UUID } from "io-ts-types/lib/UUID.js";
 import * as React from "react";
-import { authProvider } from "../../../client/api";
-import { getAdminLink } from "../../../utils/links.utils";
-import { EditEventModal } from "../../Modal/EditEventModal";
-import { Link } from "../../mui";
+import { authProvider } from "../../../client/api.js";
+import { getAdminLink } from "../../../utils/links.utils.js";
+import { EditEventModal } from "../../Modal/EditEventModal.js";
+import { Link } from "../../mui/index.js";
 
 interface EditEventButtonProps {
   admin?: boolean;

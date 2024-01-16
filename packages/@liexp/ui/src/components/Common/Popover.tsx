@@ -1,10 +1,10 @@
 // eslint-disable-next-line no-restricted-imports
 import MUIPopover, {
   type PopoverProps as MUIPopoverProps,
-} from "@mui/material/Popover";
+} from "@mui/material/Popover/index.js";
 import * as React from "react";
 
-import { styled } from "../../theme";
+import { styled } from "../../theme/index.js";
 
 const PREFIX = "popover";
 

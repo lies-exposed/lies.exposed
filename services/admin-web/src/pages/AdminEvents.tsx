@@ -1,22 +1,22 @@
-import { http } from "@liexp/shared/lib/io";
-import { Events } from "@liexp/shared/lib/io/http";
-import { EventType, EventTypes } from "@liexp/shared/lib/io/http/Events";
-import { getTextContentsCapped } from "@liexp/shared/lib/slate";
-import { LinkIcon } from "@liexp/ui/lib/components/Common/Icons";
-import { EventIcon } from "@liexp/ui/lib/components/Common/Icons/EventIcon";
-import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
-import ReferenceArrayGroupMemberInput from "@liexp/ui/lib/components/admin/common/ReferenceArrayGroupMemberInput";
-import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm";
-import { BookEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/BookEditFormTab";
-import { DeathEventEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/DeathEventEditFormTab";
-import { DocumentaryEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/DocumentaryEditFormTab";
-import { PatentEventEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/PatentEventEditTab";
-import { QuoteEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/QuoteEditFormTab";
-import { ScientificStudyEventEditTab } from "@liexp/ui/lib/components/admin/events/tabs/ScientificStudyEventEditTab";
-import { UncategorizedEventEditTab } from "@liexp/ui/lib/components/admin/events/tabs/UncategorizedEventEditTab";
-import { EventTitle } from "@liexp/ui/lib/components/admin/events/titles/EventTitle";
-import ReferenceArrayGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput";
-import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
+import { EventType, EventTypes } from "@liexp/shared/lib/io/http/Events/index.js";
+import { Events } from "@liexp/shared/lib/io/http/index.js";
+import { http } from "@liexp/shared/lib/io/index.js";
+import { getTextContentsCapped } from "@liexp/shared/lib/slate/index.js";
+import { EventIcon } from "@liexp/ui/lib/components/Common/Icons/EventIcon.js";
+import { LinkIcon } from "@liexp/ui/lib/components/Common/Icons/index.js";
+import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput.js";
+import ReferenceArrayGroupMemberInput from "@liexp/ui/lib/components/admin/common/ReferenceArrayGroupMemberInput.js";
+import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm.js";
+import { BookEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/BookEditFormTab.js";
+import { DeathEventEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/DeathEventEditFormTab.js";
+import { DocumentaryEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/DocumentaryEditFormTab.js";
+import { PatentEventEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/PatentEventEditTab.js";
+import { QuoteEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/QuoteEditFormTab.js";
+import { ScientificStudyEventEditTab } from "@liexp/ui/lib/components/admin/events/tabs/ScientificStudyEventEditTab.js";
+import { UncategorizedEventEditTab } from "@liexp/ui/lib/components/admin/events/tabs/UncategorizedEventEditTab.js";
+import { EventTitle } from "@liexp/ui/lib/components/admin/events/titles/EventTitle.js";
+import ReferenceArrayGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput.js";
+import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput.js";
 import {
   BooleanField,
   BooleanInput,
@@ -34,17 +34,16 @@ import {
   TextField,
   type RaRecord as Record,
   NumberInput,
-} from "@liexp/ui/lib/components/admin/react-admin";
+} from "@liexp/ui/lib/components/admin/react-admin.js";
 import {
   Box,
   Card,
   CardContent,
-  PlayCircleOutline,
+  Icons,
   Stack,
   Typography,
   alpha,
-} from "@liexp/ui/lib/components/mui";
-import PinDropIcon from "@mui/icons-material/PinDrop";
+} from "@liexp/ui/lib/components/mui/index.js";
 import * as R from "fp-ts/Record";
 import * as React from "react";
 
@@ -109,7 +108,7 @@ export const EventList: React.FC = () => (
         <CardContent>
           <SavedQueriesList />
           <FilterLiveSearch source="title" />
-          <FilterList label="Media" icon={<PlayCircleOutline />}>
+          <FilterList label="Media" icon={<Icons.PlayCircleOutline />}>
             <FilterListItem label="Empty Media" value={{ emptyMedia: true }} />
           </FilterList>
           <FilterList label="Links" icon={<LinkIcon />}>
@@ -251,7 +250,7 @@ export const EventList: React.FC = () => (
         label="Location"
         source="payload.location.coordinates"
         render={(r: Record | undefined) =>
-          r?.location?.coordinates ? <PinDropIcon /> : "-"
+          r?.location?.coordinates ? <Icons.PinDrop /> : "-"
         }
       />
 

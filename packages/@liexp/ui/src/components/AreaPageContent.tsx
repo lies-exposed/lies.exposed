@@ -1,8 +1,8 @@
-import { type Area, type Group } from "@liexp/shared/lib/io/http";
+import { type Area, type Group } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import MediaSliderBox from "../containers/MediaSliderBox";
-import { LazyEditor as Editor } from "./Common/Editor/index";
-import { Box, Grid } from "./mui";
+import MediaSliderBox from "../containers/MediaSliderBox.js";
+import { LazyEditor as Editor } from "./Common/Editor/index.js";
+import { Box, Grid } from "./mui/index.js";
 
 export interface AreaPageContentProps {
   area: Area.Area;

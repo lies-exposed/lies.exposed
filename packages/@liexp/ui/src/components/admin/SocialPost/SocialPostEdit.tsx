@@ -1,12 +1,12 @@
 import {
   type SocialPlatform,
   type EditSocialPost,
-} from "@liexp/shared/lib/io/http/SocialPost";
-import { formatDate } from "@liexp/shared/lib/utils/date.utils";
+} from "@liexp/shared/lib/io/http/SocialPost.js";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";
-import { InstagramIcon, TelegramIcon } from "../../Common/Icons";
-import { Box, Stack, Typography } from "../../mui";
-import { SocialPostButton } from "../common/SocialPostButton";
+import { InstagramIcon, TelegramIcon } from "../../Common/Icons/index.js";
+import { Box, Stack, Typography } from "../../mui/index.js";
+import { SocialPostButton } from "../common/SocialPostButton.js";
 import {
   Edit,
   FormTab,
@@ -14,12 +14,12 @@ import {
   TabbedForm,
   TextInput,
   useRecordContext,
-} from "../react-admin";
-import { PublishNowButton } from "./PublishNowButton";
-import { ResourceEntityInput } from "./ResourceEntityInput";
-import { SocialPostEditContent } from "./SocialPostEditContent";
-import { SocialPostFormTabContent } from "./SocialPostFormTabContent";
-import { SocialPostStatus } from "./SocialPostStatus";
+} from "../react-admin.js";
+import { PublishNowButton } from "./PublishNowButton.js";
+import { ResourceEntityInput } from "./ResourceEntityInput.js";
+import { SocialPostEditContent } from "./SocialPostEditContent.js";
+import { SocialPostFormTabContent } from "./SocialPostFormTabContent.js";
+import { SocialPostStatus } from "./SocialPostStatus.js";
 
 export const SocialPostEditTitle: React.FC = () => {
   const record: any = useRecordContext();

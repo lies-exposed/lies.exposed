@@ -5,7 +5,7 @@ import {
   SingleFieldList,
   useRecordContext,
 } from "react-admin";
-import { ReferenceBySubjectField } from "./ReferenceBySubjectField";
+import { ReferenceBySubjectField } from "./ReferenceBySubjectField.js";
 
 interface ReferenceArrayBySubjectFieldProps extends ArrayFieldProps {
   source: string;

@@ -1,21 +1,21 @@
-import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
-import { EventType } from "@liexp/shared/lib/io/http/Events";
-import { StatsType } from "@liexp/shared/lib/io/http/Stats";
-import { defaultUseQueryListParams } from "@liexp/shared/lib/providers/EndpointQueriesProvider/params";
-import { type ServerRoute } from "@liexp/ui/lib/react/ssr";
+import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
+import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { StatsType } from "@liexp/shared/lib/io/http/Stats.js";
+import { defaultUseQueryListParams } from "@liexp/shared/lib/providers/EndpointQueriesProvider/params.js";
+import { type ServerRoute } from "@liexp/ui/lib/react/ssr.js";
 import {
   fetchSearchEvents,
   fetchSearchEventsInfinite,
   getSearchEventsInfiniteQueryKey,
   getSearchEventsQueryKey,
-} from "@liexp/ui/lib/state/queries/SearchEventsQuery";
-import { fetchGithubRepo } from "@liexp/ui/lib/state/queries/github";
-import { hashToQuery } from "@liexp/ui/lib/utils/history.utils";
-import { UUID } from "io-ts-types/lib/UUID";
+} from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
+import { fetchGithubRepo } from "@liexp/ui/lib/state/queries/github.js";
+import { hashToQuery } from "@liexp/ui/lib/utils/history.utils.js";
+import { UUID } from "io-ts-types/lib/UUID.js";
 import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import IndexPage from "./pages";
 import NotFoundPage from "./pages/404";
+import IndexPage from "./pages/index";
 
 // lazy route components
 const ActorsPage = React.lazy(() => import("./pages/ActorsPage"));

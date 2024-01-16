@@ -1,9 +1,9 @@
-import { formatDate, parseISO } from "@liexp/shared/lib/utils/date.utils";
-import { defaultSites } from "@liexp/shared/lib/utils/defaultSites";
+import { formatDate, parseISO } from "@liexp/shared/lib/utils/date.utils.js";
+import { defaultSites } from "@liexp/shared/lib/utils/defaultSites.js";
 import * as React from "react";
 import { Button, useDataProvider, useRefresh } from "react-admin";
-import { type Link } from "../../Cards/LinkCard";
-import { LinksList as LinkEntityList } from "../../lists/LinkList";
+import { type Link } from "../../Cards/LinkCard.js";
+import { LinksList as LinkEntityList } from "../../lists/LinkList.js";
 import {
   Box,
   Checkbox,
@@ -14,7 +14,7 @@ import {
   FormControlLabel,
   FormGroup,
   TextField,
-} from "../../mui";
+} from "../../mui/index.js";
 
 interface SearchLinksButtonProps {
   query?: string;

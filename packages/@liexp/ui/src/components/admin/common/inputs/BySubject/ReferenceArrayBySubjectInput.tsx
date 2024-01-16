@@ -4,7 +4,7 @@ import {
   SimpleFormIterator,
   type ReferenceInputProps,
 } from "react-admin";
-import ReferenceBySubjectInput from "./ReferenceBySubjectInput";
+import ReferenceBySubjectInput from "./ReferenceBySubjectInput.js";
 
 const ReferenceArrayBySubjectInput: React.FC<
   Omit<ReferenceInputProps, "children"> & { source: string }

@@ -4,7 +4,7 @@ import {
   ReferenceInput,
   type ReferenceInputProps,
 } from "react-admin";
-import { GroupChip } from "../../groups/GroupChip";
+import { GroupChip } from "../../groups/GroupChip.js";
 
 const ReferenceGroupInput: React.FC<
   Omit<ReferenceInputProps, "children"> & { source: string }

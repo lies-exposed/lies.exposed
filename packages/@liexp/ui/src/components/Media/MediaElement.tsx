@@ -1,13 +1,13 @@
-import { Media } from "@liexp/shared/lib/io/http";
+import { Media } from "@liexp/shared/lib/io/http/index.js";
 import { clsx } from "clsx";
 import * as React from "react";
-import { styled } from "../../theme";
-import { Video } from "../Video/Video";
-import { Box, Typography } from "../mui";
-import AudioMediaElement from "./AudioMediaElement";
-import ExpandableImageElement from "./ExpandableImageElement";
-import IframeMediaElement from "./IframeMediaElement";
-import PDFMediaElement from "./PDFMediaElement";
+import { styled } from "../../theme/index.js";
+import { Video } from "../Video/Video.js";
+import { Box, Typography } from "../mui/index.js";
+import AudioMediaElement from "./AudioMediaElement.js";
+import ExpandableImageElement from "./ExpandableImageElement.js";
+import IframeMediaElement from "./IframeMediaElement.js";
+import PDFMediaElement from "./PDFMediaElement.js";
 
 const MEDIA_ELEMENT_PREFIX = "media-element";
 

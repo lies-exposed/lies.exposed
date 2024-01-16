@@ -1,8 +1,8 @@
-import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import {
   AreaList,
   type AreaListProps,
-} from "@liexp/ui/lib/components/lists/AreaList";
+} from "@liexp/ui/lib/components/lists/AreaList.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

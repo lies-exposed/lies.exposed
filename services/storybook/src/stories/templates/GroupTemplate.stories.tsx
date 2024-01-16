@@ -1,9 +1,9 @@
-import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
-import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/queries/SearchEventsQuery";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
+import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
 import {
   GroupTemplate,
   type GroupTemplateProps,
-} from "@liexp/ui/lib/templates/GroupTemplate";
+} from "@liexp/ui/lib/templates/GroupTemplate.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

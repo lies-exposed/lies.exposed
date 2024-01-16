@@ -1,11 +1,11 @@
-import { type Group } from "@liexp/shared/lib/io/http";
-import * as O from "fp-ts/Option";
-import { pipe } from "fp-ts/function";
+import { type Group } from "@liexp/shared/lib/io/http/index.js";
+import * as O from "fp-ts/lib/Option.js";
+import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
-import { Avatar, type AvatarSize } from "../Common/Avatar";
-import { ExpandableList } from "../Common/ExpandableList";
-import { List, type ListItemProps } from "../Common/List";
-import { Box, Typography } from "../mui";
+import { Avatar, type AvatarSize } from "../Common/Avatar.js";
+import { ExpandableList } from "../Common/ExpandableList.js";
+import { List, type ListItemProps } from "../Common/List.js";
+import { Box, Typography } from "../mui/index.js";
 
 export interface GroupItem extends Group.Group {
   selected: boolean;

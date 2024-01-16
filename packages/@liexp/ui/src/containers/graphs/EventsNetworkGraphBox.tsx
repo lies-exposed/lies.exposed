@@ -1,38 +1,38 @@
-import { fp } from "@liexp/core/lib/fp";
-import { getRelationIdsFromEventRelations } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
-import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
-import { EventType } from "@liexp/shared/lib/io/http/Events";
-import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals";
-import { GROUPS } from "@liexp/shared/lib/io/http/Group";
-import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
+import { fp } from "@liexp/core/lib/fp/index.js";
+import { getRelationIdsFromEventRelations } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
+import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
+import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
+import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
+import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
 import {
   type NetworkGraphOutput,
   type NetworkGroupBy,
   type NetworkType,
-} from "@liexp/shared/lib/io/http/Network";
+} from "@liexp/shared/lib/io/http/Network.js";
 import { ParentSize } from "@visx/responsive";
 import { differenceInDays, parseISO } from "date-fns";
-import { pipe } from "fp-ts/function";
+import { pipe } from "fp-ts/lib/function.js";
 import * as t from "io-ts";
-import { type UUID } from "io-ts-types/lib/UUID";
+import { type UUID } from "io-ts-types/lib/UUID.js";
 import * as React from "react";
 import { type GetListParams } from "react-admin";
 import {
   EventsNetworkGraph,
   type EventsNetworkGraphProps,
-} from "../../components/Graph/EventsNetworkGraph";
-import QueriesRenderer from "../../components/QueriesRenderer";
-import EventsAppBar from "../../components/events/filters/EventsAppBar";
+} from "../../components/Graph/EventsNetworkGraph.js";
+import QueriesRenderer from "../../components/QueriesRenderer.js";
+import EventsAppBar from "../../components/events/filters/EventsAppBar.js";
 import {
   Box,
   Checkbox,
   FormControlLabel,
   Typography,
-} from "../../components/mui";
-import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
-import { type SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery";
-import { type UseListQueryFn } from "../../state/queries/type";
+} from "../../components/mui/index.js";
+import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
+import { type SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery.js";
+import { type UseListQueryFn } from "../../state/queries/type.js";
 
 export interface EventNetworkGraphBoxProps
   extends Omit<

@@ -1,5 +1,5 @@
-import { EventTotalsMonoid } from "@liexp/shared/lib/io/http/Events/EventTotals";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
+import { EventTotalsMonoid } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as React from "react";
 import {
   AutoSizer,
@@ -10,11 +10,11 @@ import {
 import {
   searchEventsInfiniteQuery,
   type SearchEventQueryInput,
-} from "../../../state/queries/SearchEventsQuery";
-import { FullSizeLoader } from "../../Common/FullSizeLoader";
-import { Box } from "../../mui";
-import { type EventListItemProps } from "./EventListItem";
-import EventsTimelineList from "./EventsTimelineList";
+} from "../../../state/queries/SearchEventsQuery.js";
+import { FullSizeLoader } from "../../Common/FullSizeLoader.js";
+import { Box } from "../../mui/index.js";
+import { type EventListItemProps } from "./EventListItem.js";
+import EventsTimelineList from "./EventsTimelineList.js";
 
 export interface EventsTimelineProps
   extends Omit<EventListItemProps, "event" | "onRowInvalidate"> {
@@ -98,14 +98,14 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
     if (hasNextPage && !isFetchingNextPage && !isFetching) {
       const cacheSize = searchEvents?.events.length ?? 0;
       if (params.startIndex >= cacheSize || params.stopIndex > cacheSize) {
-        await fetchNextPage({ pageParam: params });
+        await fetchNextPage({});
       }
     }
     await Promise.resolve(undefined);
   };
 
   React.useEffect(() => {
-    void refetch({ refetchPage: () => true });
+    void refetch({});
   }, [hash]);
 
   if (isRefetching || !searchEvents) {

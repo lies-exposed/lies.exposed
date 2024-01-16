@@ -1,32 +1,32 @@
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
-import { EventType } from "@liexp/shared/lib/io/http/Events";
+import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
 import {
   EventTotalsMonoid,
   type EventTotals,
-} from "@liexp/shared/lib/io/http/Events/EventTotals";
-import { GROUPS } from "@liexp/shared/lib/io/http/Group";
-import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
-import { type NetworkGroupBy } from "@liexp/shared/lib/io/http/Network";
-import { type StatsType } from "@liexp/shared/lib/io/http/Stats";
-import { parseDate } from "@liexp/shared/lib/utils/date.utils";
+} from "@liexp/shared/lib/io/http/Events/EventTotals.js";
+import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
+import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
+import { type NetworkGroupBy } from "@liexp/shared/lib/io/http/Network.js";
+import { type StatsType } from "@liexp/shared/lib/io/http/Stats.js";
+import { parseDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { ParentSize } from "@visx/responsive";
 import * as React from "react";
 import { type GetListParams } from "react-admin";
 import {
   HierarchyNetworkGraph,
   type HierarchyNetworkGraphProps,
-} from "../../components/Graph/HierarchyNetworkGraph";
-import QueriesRenderer from "../../components/QueriesRenderer";
-import EventsAppBar from "../../components/events/filters/EventsAppBar";
+} from "../../components/Graph/HierarchyNetworkGraph.js";
+import QueriesRenderer from "../../components/QueriesRenderer.js";
+import EventsAppBar from "../../components/events/filters/EventsAppBar.js";
 import {
   Box,
   Checkbox,
   FormControlLabel,
   Typography,
-} from "../../components/mui";
-import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
-import { type SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery";
-import { type UseListQueryFn } from "../../state/queries/type";
+} from "../../components/mui/index.js";
+import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
+import { type SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery.js";
+import { type UseListQueryFn } from "../../state/queries/type.js";
 
 export interface HierarchyNetworkGraphBoxProps
   extends Omit<

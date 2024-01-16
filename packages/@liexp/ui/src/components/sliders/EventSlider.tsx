@@ -1,13 +1,13 @@
-import { type Events } from "@liexp/shared/lib/io/http";
-import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals";
+import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
+import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import { clsx } from "clsx";
 import * as React from "react";
-import { styled } from "../../theme";
-import { Slider, type SliderProps } from "../Common/Slider/Slider";
-import { Box } from "../mui";
+import { styled } from "../../theme/index.js";
+import { Slider, type SliderProps } from "../Common/Slider/Slider.js";
+import { Box } from "../mui/index.js";
 import EventSliderItem, {
   type EventSliderItemBaseProps,
-} from "./EventSliderItem";
+} from "./EventSliderItem.js";
 
 const EVENT_SLIDER_PREFIX = "event-slider";
 

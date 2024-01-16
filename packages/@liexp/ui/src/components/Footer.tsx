@@ -1,7 +1,7 @@
 import * as React from "react";
-import { styled, useTheme } from "../theme";
-import DonateButton from "./Common/Button/DonateButton";
-import { GithubIcon, InstagramIcon, TelegramIcon } from "./Common/Icons";
+import { styled, useTheme } from "../theme/index.js";
+import DonateButton from "./Common/Button/DonateButton.js";
+import { GithubIcon, InstagramIcon, TelegramIcon } from "./Common/Icons/index.js";
 import {
   Box,
   Container,
@@ -10,7 +10,7 @@ import {
   MenuItem,
   MenuList,
   Typography,
-} from "./mui";
+} from "./mui/index.js";
 
 const PREFIX = "Footer";
 

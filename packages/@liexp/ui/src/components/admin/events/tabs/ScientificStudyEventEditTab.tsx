@@ -1,9 +1,9 @@
 import * as React from "react";
 import { TextInput, type EditProps, type RaRecord } from "react-admin";
-import { Box } from "../../../mui";
-import ReferenceArrayActorInput from "../../actors/ReferenceArrayActorInput";
-import ReferenceGroupInput from "../../groups/ReferenceGroupInput";
-import ReferenceLinkInput from "../../links/ReferenceLinkInput";
+import { Box } from "../../../mui/index.js";
+import ReferenceArrayActorInput from "../../actors/ReferenceArrayActorInput.js";
+import ReferenceGroupInput from "../../groups/ReferenceGroupInput.js";
+import ReferenceLinkInput from "../../links/ReferenceLinkInput.js";
 
 export const ScientificStudyEventEditTab: React.FC<
   EditProps & { record?: RaRecord }

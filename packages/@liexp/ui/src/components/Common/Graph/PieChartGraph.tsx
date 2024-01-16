@@ -4,7 +4,7 @@ import { scaleOrdinal } from "@visx/scale";
 import Pie, {
   type PieArcDatum,
   type ProvidedProps,
-} from "@visx/shape/lib/shapes/Pie";
+} from "@visx/shape/lib/shapes/Pie.js";
 import * as React from "react";
 import { animated, to, useTransition } from "react-spring";
 

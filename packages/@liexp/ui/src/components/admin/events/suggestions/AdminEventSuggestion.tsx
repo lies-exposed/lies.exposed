@@ -1,8 +1,8 @@
-import { getTitle } from "@liexp/shared/lib/helpers/event";
-import * as io from "@liexp/shared/lib/io";
-import { EventSuggestionStatus } from "@liexp/shared/lib/io/http/EventSuggestion";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events";
-import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
+import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
+import { EventSuggestionStatus } from "@liexp/shared/lib/io/http/EventSuggestion.js";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/index.js";
+import * as io from "@liexp/shared/lib/io/index.js";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import * as React from "react";
 import {
   BooleanInput,
@@ -29,24 +29,24 @@ import {
   type EditProps,
   type ListProps,
 } from "react-admin";
-import { EventIcon } from "../../../Common/Icons";
-import ReactPageInput from "../../../admin/ReactPageInput";
-import { WebPreviewButton } from "../../../admin/common/WebPreviewButton";
-import { Box, Grid, Typography } from "../../../mui";
-import { EditForm } from "../../common/EditForm";
-import { EventSuggestionStatusInput } from "../../common/inputs/EventSuggestionStatusInput";
-import { EventSuggestionTypeInput } from "../../common/inputs/EventSuggestionTypeInput";
-import { ImportMediaButton } from "../../media/button/ImportMediaButton";
-import { EventSuggestionPreview } from "../../previews/EventSuggestionPreview";
-import { ReferenceLinkTab } from "../../tabs/ReferenceLinkTab";
-import { ReferenceMediaTab } from "../../tabs/ReferenceMediaTab";
-import { transformEvent } from "../../transform.utils";
-import ReferenceUserInput from "../../user/ReferenceUserInput";
-import { DeathEventEditFormTab } from "../tabs/DeathEventEditFormTab";
-import { DocumentaryEditFormTab } from "../tabs/DocumentaryEditFormTab";
-import { PatentEventEditFormTab } from "../tabs/PatentEventEditTab";
-import { ScientificStudyEventEditTab } from "../tabs/ScientificStudyEventEditTab";
-import { UncategorizedEventEditTab } from "../tabs/UncategorizedEventEditTab";
+import { EventIcon } from "../../../Common/Icons/index.js";
+import ReactPageInput from "../../../admin/ReactPageInput.js";
+import { WebPreviewButton } from "../../../admin/common/WebPreviewButton.js";
+import { Box, Grid, Typography } from "../../../mui/index.js";
+import { EditForm } from "../../common/EditForm.js";
+import { EventSuggestionStatusInput } from "../../common/inputs/EventSuggestionStatusInput.js";
+import { EventSuggestionTypeInput } from "../../common/inputs/EventSuggestionTypeInput.js";
+import { ImportMediaButton } from "../../media/button/ImportMediaButton.js";
+import { EventSuggestionPreview } from "../../previews/EventSuggestionPreview.js";
+import { ReferenceLinkTab } from "../../tabs/ReferenceLinkTab.js";
+import { ReferenceMediaTab } from "../../tabs/ReferenceMediaTab.js";
+import { transformEvent } from "../../transform.utils.js";
+import ReferenceUserInput from "../../user/ReferenceUserInput.js";
+import { DeathEventEditFormTab } from "../tabs/DeathEventEditFormTab.js";
+import { DocumentaryEditFormTab } from "../tabs/DocumentaryEditFormTab.js";
+import { PatentEventEditFormTab } from "../tabs/PatentEventEditTab.js";
+import { ScientificStudyEventEditTab } from "../tabs/ScientificStudyEventEditTab.js";
+import { UncategorizedEventEditTab } from "../tabs/UncategorizedEventEditTab.js";
 
 const RESOURCE = "events/suggestions";
 

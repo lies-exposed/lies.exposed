@@ -1,17 +1,16 @@
-import { EventType } from "@liexp/shared/lib/io/http/Events";
-import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals";
-import RunIcon from "@mui/icons-material/PlayCircleOutline";
+import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
+import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { clsx } from "clsx";
 import * as React from "react";
 import {
   searchEventsQuery,
   type SearchEventsQueryInputNoPagination,
-} from "../../state/queries/SearchEventsQuery";
-import { styled, useTheme } from "../../theme";
-import QueriesRenderer from "../QueriesRenderer";
-import EventsAppBar from "../events/filters/EventsAppBar";
-import { Box, CloseIcon, IconButton, Modal } from "../mui";
-import { EventSlider, type EventSliderProps } from "../sliders/EventSlider";
+} from "../../state/queries/SearchEventsQuery.js";
+import { styled, useTheme } from "../../theme/index.js";
+import QueriesRenderer from "../QueriesRenderer.js";
+import EventsAppBar from "../events/filters/EventsAppBar.js";
+import { Box, Icons, IconButton, Modal } from "../mui/index.js";
+import { EventSlider, type EventSliderProps } from "../sliders/EventSlider.js";
 
 const EVENT_SLIDER_MODAL_PREFIX = "event-slider-modal";
 
@@ -154,7 +153,7 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
             handleQueryChange(true);
           }}
         >
-          <RunIcon fontSize="large" />
+          <Icons.PlayCircleOutline fontSize="large" />
         </IconButton>
       </Box>
       <StyledModal
@@ -175,7 +174,7 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
                 handleQueryChange(false);
               }}
             >
-              <CloseIcon fontSize="small" />
+              <Icons.Close fontSize="small" />
             </IconButton>
           </Box>
           <QueriesRenderer

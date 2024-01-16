@@ -1,11 +1,11 @@
-import { getTitle } from "@liexp/shared/lib/helpers/event";
-import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
-import { type Events } from "@liexp/shared/lib/io/http";
+import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
+import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
+import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
-import EventCard from "../Cards/Events/EventCard";
-import { EventCardGrid } from "../Cards/Events/EventCardGrid";
-import { AutocompleteInput } from "./AutocompleteInput";
+import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
+import EventCard from "../Cards/Events/EventCard.js";
+import { EventCardGrid } from "../Cards/Events/EventCardGrid.js";
+import { AutocompleteInput } from "./AutocompleteInput.js";
 
 interface AutocompleteEventInputProps {
   className?: string;

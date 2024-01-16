@@ -1,5 +1,5 @@
-import { MediaType } from "@liexp/shared/lib/io/http/Media";
-import get from "lodash/get";
+import { MediaType } from "@liexp/shared/lib/io/http/Media.js";
+import get from "lodash/get.js";
 import * as React from "react";
 import {
   type FieldProps,

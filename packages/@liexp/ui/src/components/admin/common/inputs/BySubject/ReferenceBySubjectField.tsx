@@ -1,8 +1,8 @@
-import { ByActor, ByGroup } from "@liexp/shared/lib/io/http/Common";
-import get from "lodash/get";
+import { ByActor, ByGroup } from "@liexp/shared/lib/io/http/Common/index.js";
+import get from "lodash/get.js";
 import * as React from "react";
 import { ReferenceField, useRecordContext, type FieldProps } from "react-admin";
-import { AvatarField } from "../../AvatarField";
+import { AvatarField } from "../../AvatarField.js";
 
 interface ReferenceBySubjectFieldProps extends FieldProps {
   source?: string;

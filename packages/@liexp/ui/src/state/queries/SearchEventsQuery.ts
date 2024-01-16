@@ -1,10 +1,13 @@
-import { GetLogger } from "@liexp/core/lib/logger";
-import { type ListEventOutput } from "@liexp/shared/lib/endpoints/events/event.endpoints";
+import { GetLogger } from "@liexp/core/lib/logger/index.js";
+import { type ListEventOutput } from "@liexp/shared/lib/endpoints/events/event.endpoints.js";
 import {
   getNewRelationIds,
   updateCache,
   type SearchEventsQueryCache,
-} from "@liexp/shared/lib/helpers/event/search-event";
+} from "@liexp/shared/lib/helpers/event/search-event.js";
+import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
+import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
+import { type GetSearchEventsQueryInput } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEventsQuery.js";
 import {
   type Actor,
   type Events,
@@ -13,21 +16,18 @@ import {
   type Keyword,
   type Link,
   type Media,
-} from "@liexp/shared/lib/io/http";
-import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
-import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals";
-import { type GetSearchEventsQueryInput } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEventsQuery";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { sequenceS } from "fp-ts/Apply";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+} from "@liexp/shared/lib/io/http/index.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { pipe } from "fp-ts/lib/function.js";
 import {
   useInfiniteQuery,
   useQuery,
   type UseInfiniteQueryResult,
   type UseQueryResult,
 } from "react-query";
-import { api } from "../api";
+import { api } from "../api.js";
 
 const log = GetLogger("search-events-query");
 
@@ -245,9 +245,10 @@ export const fetchSearchEvents = async ({
 export const searchEventsQuery = (
   input: SearchEventQueryInput,
 ): UseQueryResult<SearchEventQueryResult, APIError> => {
-  return useQuery(getSearchEventsQueryKey(input), fetchSearchEvents, {
+  return useQuery({
+    queryKey: getSearchEventsQueryKey(input),
+    queryFn: fetchSearchEvents,
     refetchOnWindowFocus: false,
-    optimisticResults: false,
   });
 };
 
@@ -274,26 +275,28 @@ export const fetchSearchEventsInfinite = async ({
 
 export const searchEventsInfiniteQuery = (
   input: Partial<SearchEventQueryInput>,
-): UseInfiniteQueryResult<SearchEventQueryResult, APIError> => {
-  return useInfiniteQuery(
-    getSearchEventsInfiniteQueryKey(input),
-    fetchSearchEventsInfinite,
-    {
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      getNextPageParam: (lastPage, allPages) => {
-        const loadedEvents = allPages
-          .map((p) => p.events)
-          .reduce((acc, ev) => acc + ev.length, 0);
+): UseInfiniteQueryResult<
+  SearchEventQueryResult,
+  APIError
+> => {
+  return useInfiniteQuery({
+    // initialPageParam: { startIndex: 0, stopIndex: 20 },
+    queryKey: getSearchEventsInfiniteQueryKey(input),
+    queryFn: fetchSearchEventsInfinite,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    getNextPageParam: (lastPage, allPages) => {
+      const loadedEvents = allPages
+        .map((p) => p.events)
+        .reduce((acc, ev) => acc + ev.length, 0);
 
-        if (loadedEvents >= lastPage.total) {
-          return undefined;
-        }
+      if (loadedEvents >= lastPage.total) {
+        return undefined;
+      }
 
-        return { startIndex: loadedEvents, stopIndex: loadedEvents + 20 };
-      },
+      return { startIndex: loadedEvents, stopIndex: loadedEvents + 20 };
     },
-  );
+  });
 };
 
 export const getEventsFromLinkQuery = ({
@@ -301,39 +304,42 @@ export const getEventsFromLinkQuery = ({
 }: {
   url: string;
 }): UseQueryResult<any, APIError> => {
-  return useQuery(["events-from-link", url], async () => {
-    return await pipe(
-      api.Event.Custom.GetFromLink({
-        Query: {
-          url,
-          _start: 0,
-          _end: 20,
-        },
-      } as any),
-      TE.chain(({ data, suggestions, total, totals }) => {
-        return pipe(
-          getNewRelationIds(data, searchEventsQueryCache),
-          TE.right,
-          TE.chain(fetchRelations),
-          TE.map(
-            ({ actors, groups, groupsMembers, media, keywords, links }) => {
-              searchEventsQueryCache = updateCache(searchEventsQueryCache, {
-                events: { data, total, totals },
-                actors: actors.data,
-                groups: groups.data,
-                groupsMembers: groupsMembers.data,
-                media: media.data,
-                keywords: keywords.data,
-                links: links.data,
-                areas: [],
-              });
+  return useQuery({
+    queryKey: ["events-from-link", url],
+    queryFn: async () => {
+      return await pipe(
+        api.Event.Custom.GetFromLink({
+          Query: {
+            url,
+            _start: 0,
+            _end: 20,
+          },
+        } as any),
+        TE.chain(({ data, suggestions, total, totals }) => {
+          return pipe(
+            getNewRelationIds(data, searchEventsQueryCache),
+            TE.right,
+            TE.chain(fetchRelations),
+            TE.map(
+              ({ actors, groups, groupsMembers, media, keywords, links }) => {
+                searchEventsQueryCache = updateCache(searchEventsQueryCache, {
+                  events: { data, total, totals },
+                  actors: actors.data,
+                  groups: groups.data,
+                  groupsMembers: groupsMembers.data,
+                  media: media.data,
+                  keywords: keywords.data,
+                  links: links.data,
+                  areas: [],
+                });
 
-              return searchEventsQueryCache.events;
-            },
-          ),
-        );
-      }),
-      throwTE,
-    );
+                return searchEventsQueryCache.events;
+              },
+            ),
+          );
+        }),
+        throwTE,
+      );
+    },
   });
 };

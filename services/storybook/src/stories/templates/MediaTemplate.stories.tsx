@@ -1,8 +1,8 @@
-import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import {
   MediaTemplateUI,
   type MediaTemplateUIProps,
-} from "@liexp/ui/lib/templates/MediaTemplateUI";
+} from "@liexp/ui/lib/templates/MediaTemplateUI.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

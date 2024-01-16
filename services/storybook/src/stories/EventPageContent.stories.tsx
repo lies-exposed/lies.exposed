@@ -1,14 +1,14 @@
-import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
+import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
 import {
   type EventType,
   EventTypes,
-} from "@liexp/shared/lib/io/http/Events/EventType";
+} from "@liexp/shared/lib/io/http/Events/EventType.js";
 import {
   EventPageContent,
   type EventPageContentProps,
-} from "@liexp/ui/lib/components/EventPageContent";
-import { MainContent } from "@liexp/ui/lib/components/MainContent";
-import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+} from "@liexp/ui/lib/components/EventPageContent.js";
+import { MainContent } from "@liexp/ui/lib/components/MainContent.js";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

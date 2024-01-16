@@ -1,16 +1,16 @@
-import { http } from "@liexp/shared/lib/io";
-import { Polygon } from "@liexp/shared/lib/io/http/Common/Geometry";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
+import { Polygon } from "@liexp/shared/lib/io/http/Common/Geometry/index.js";
+import { http } from "@liexp/shared/lib/io/index.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import _ from "lodash";
-import type Feature from "ol/Feature";
-import { type FeatureLike } from "ol/Feature";
-import Map from "ol/Map";
-import View from "ol/View";
-import GeoJSON from "ol/format/GeoJSON";
-import { type Geometry } from "ol/geom";
-import Draw from "ol/interaction/Draw";
-import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
-import { OSM as OSMSource, Vector as VectorSource } from "ol/source";
+import type Feature from "ol/Feature.js";
+import { type FeatureLike } from "ol/Feature.js";
+import Map from "ol/Map.js";
+import View from "ol/View.js";
+import GeoJSON from "ol/format/GeoJSON.js";
+import { type Geometry } from "ol/geom.js";
+import Draw from "ol/interaction/Draw.js";
+import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer.js";
+import { OSM as OSMSource, Vector as VectorSource } from "ol/source.js";
 import * as React from "react";
 import {
   Button,

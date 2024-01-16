@@ -1,4 +1,4 @@
-import GEOJSON from "ol/format/GeoJSON";
+import GEOJSON from "ol/format/GeoJSON.js";
 
 const formatOptions = {
   dataProjection: "EPSG:4326",

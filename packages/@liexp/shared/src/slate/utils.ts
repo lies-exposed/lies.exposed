@@ -26,7 +26,7 @@ import {
 export const getTextContents = (v: Value, j?: string): string => {
   return defaultGetTextContents(v, {
     lang: "en",
-    cellPlugins: [getLiexpSlate({})],
+    cellPlugins: [getLiexpSlate({}) as any],
   }).join(j ?? "\n");
 };
 
@@ -72,7 +72,7 @@ export const createExcerptValue = (text: string): Value => {
     },
     {
       lang: "en",
-      cellPlugins: [slate],
+      cellPlugins: [slate as any],
     },
   );
 };

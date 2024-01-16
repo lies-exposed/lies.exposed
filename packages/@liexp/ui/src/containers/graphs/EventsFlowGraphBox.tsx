@@ -1,15 +1,15 @@
-import { Actor, Group, Keyword } from "@liexp/shared/lib/io/http";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
-import { type GetNetworkQuery } from "@liexp/shared/lib/io/http/Network";
-import { type FlowGraphType } from "@liexp/shared/lib/io/http/graphs/FlowGraph";
-import { type UUID } from "io-ts-types/lib/UUID";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type GetNetworkQuery } from "@liexp/shared/lib/io/http/Network.js";
+import { type FlowGraphType } from "@liexp/shared/lib/io/http/graphs/FlowGraph.js";
+import { Actor, Group, Keyword } from "@liexp/shared/lib/io/http/index.js";
+import { type UUID } from "io-ts-types/lib/UUID.js";
 import React from "react";
 import { type Node } from "reactflow";
-import { type serializedType } from "ts-io-error/lib/Codec";
-import { EventsFlowGraph } from "../../components/Graph/EventsFlowGraph";
-import QueriesRenderer from "../../components/QueriesRenderer";
-import EventsAppBar from "../../components/events/filters/EventsAppBar";
-import { Box } from "../../components/mui";
+import { type serializedType } from "ts-io-error/lib/Codec.js";
+import { EventsFlowGraph } from "../../components/Graph/EventsFlowGraph.js";
+import QueriesRenderer from "../../components/QueriesRenderer.js";
+import EventsAppBar from "../../components/events/filters/EventsAppBar.js";
+import { Box } from "../../components/mui/index.js";
 
 export interface EventsFlowGraphBoxProps {
   id: UUID;

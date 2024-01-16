@@ -7,9 +7,9 @@ import {
   type RaRecord,
   type ReferenceManyFieldProps,
 } from "react-admin";
-import { EventIcon } from "../../Common/Icons";
-import { Box } from "../../mui";
-import { EventTitle } from "./titles/EventTitle";
+import { EventIcon } from "../../Common/Icons/index.js";
+import { Box } from "../../mui/index.js";
+import { EventTitle } from "./titles/EventTitle.js";
 
 const ReferenceManyEventField: React.FC<
   Omit<ReferenceManyFieldProps<RaRecord<string>>, "reference" | "children">

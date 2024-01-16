@@ -1,10 +1,9 @@
-import { type Media } from "@liexp/shared/lib/io/http";
-import OpenInFull from "@mui/icons-material/OpenInFull";
+import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import { clsx } from "clsx";
 import * as React from "react";
-import { useModal } from "../../hooks/useModal";
-import { styled } from "../../theme";
-import { Box, IconButton, Typography } from "../mui";
+import { useModal } from "../../hooks/useModal.js";
+import { styled } from "../../theme/index.js";
+import { Box, IconButton, Typography, Icons } from "../mui/index.js";
 
 const MODAL_PREFIX = "ExpandableImageElement-modal";
 const modalClasses = {
@@ -135,7 +134,7 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
           }}
           size="large"
         >
-          <OpenInFull />
+          <Icons.OpenInFull />
         </IconButton>
       ) : null}
 

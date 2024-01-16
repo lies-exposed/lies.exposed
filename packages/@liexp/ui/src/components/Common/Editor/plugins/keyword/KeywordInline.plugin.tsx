@@ -1,22 +1,21 @@
-import { type Keyword } from "@liexp/shared/lib/io/http";
-import { KEYWORD_INLINE } from "@liexp/shared/lib/slate/plugins/customSlate";
-import RecentKeywordsIcon from "@mui/icons-material/TagOutlined";
-import type { CellPluginComponentProps, DataTType } from "@react-page/editor";
-import { pluginFactories } from "@react-page/plugins-slate";
+import { type Keyword } from "@liexp/shared/lib/io/http/index.js";
+import { KEYWORD_INLINE } from "@liexp/shared/lib/slate/plugins/customSlate.js";
+import type { CellPluginComponentProps, DataTType } from "@react-page/editor/lib-es/index.js";
+import { pluginFactories } from "@react-page/plugins-slate/lib-es/index.js";
 import {
   type SlateComponentPluginDefinition,
   type SlatePluginControls,
-} from "@react-page/plugins-slate/lib/types/slatePluginDefinitions";
+} from "@react-page/plugins-slate/lib-es/types/slatePluginDefinitions";
 import React from "react";
-import { AutocompleteKeywordInput } from "../../../../Input/AutocompleteKeywordInput";
-import { KeywordChip } from "../../../../keywords/KeywordChip";
-import { Box, Button, Grid } from "../../../../mui";
-import { FullSizeLoader } from "../../../FullSizeLoader";
-import { Popover } from "../../../Popover";
+import { AutocompleteKeywordInput } from "../../../../Input/AutocompleteKeywordInput.js";
+import { KeywordChip } from "../../../../keywords/KeywordChip.js";
+import { Box, Button, Grid, Icons } from "../../../../mui/index.js";
+import { FullSizeLoader } from "../../../FullSizeLoader.js";
+import { Popover } from "../../../Popover.js";
 import {
   ComponentPickerPopoverControlAnchorWrapper,
   ComponentPickerPopoverRendererAnchorWrapper,
-} from "../ComponentPickerPopover/ComponentPickerPopoverPluginControlAnchor";
+} from "../ComponentPickerPopover/ComponentPickerPopoverPluginControlAnchor.js";
 
 export interface KeywordInlineState extends DataTType {
   keyword: Keyword.Keyword;
@@ -28,7 +27,7 @@ export interface KeywordInlineSettings {
 }
 
 export const defaultSettings: KeywordInlineSettings = {
-  icon: <RecentKeywordsIcon />,
+  icon: <Icons.RecentKeywordsIcon />,
 };
 
 export type KeywordInlineControlType = React.ComponentType<
@@ -188,10 +187,10 @@ const keywordInlinePlugin =
     type: KEYWORD_INLINE,
     object: "inline",
     isVoid: true,
-    icon: <RecentKeywordsIcon />,
+    icon: <Icons.RecentKeywordsIcon />,
     label: "Keyword",
   });
 
-export const KeywordInlinePluginIcon = RecentKeywordsIcon;
+export const KeywordInlinePluginIcon = Icons.RecentKeywordsIcon;
 
 export { keywordInlinePlugin };

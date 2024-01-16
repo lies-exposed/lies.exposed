@@ -1,5 +1,5 @@
-import { ImageType } from "@liexp/shared/lib/io/http/Media";
-import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
+import { ImageType } from "@liexp/shared/lib/io/http/Media.js";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import * as React from "react";
 import {
   Datagrid,
@@ -13,26 +13,26 @@ import {
   usePermissions,
   useRecordContext,
 } from "react-admin";
-import { Grid, Stack, Toolbar } from "../../mui";
-import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent";
-import { DangerZoneField } from "../common/DangerZoneField";
-import { EditForm } from "../common/EditForm";
-import URLMetadataInput from "../common/URLMetadataInput";
-import { CreateEventFromLinkButton } from "../events/CreateEventFromLinkButton";
-import ReferenceArrayEventInput from "../events/ReferenceArrayEventInput";
-import ReferenceManyEventField from "../events/ReferenceManyEventField";
-import ReferenceGroupInput from "../groups/ReferenceGroupInput";
-import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput";
-import { MediaField } from "../media/MediaField";
-import ReferenceMediaInput from "../media/input/ReferenceMediaInput";
-import LinkPreview from "../previews/LinkPreview";
-import ReferenceUserInput from "../user/ReferenceUserInput";
-import { EditTitle } from "./EditTitle";
-import { LinkTGPostButton } from "./button/LinkTGPostButton";
-import { OverrideThumbnail } from "./button/OverrideThumbnail";
-import { TakeLinkScreenshot } from "./button/TakeLinkScreenshotButton";
-import { UpdateMetadataButton } from "./button/UpdateMetadataButton";
-import { transformLink } from "./transformLink";
+import { Grid, Stack, Toolbar } from "../../mui/index.js";
+import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
+import { DangerZoneField } from "../common/DangerZoneField.js";
+import { EditForm } from "../common/EditForm.js";
+import URLMetadataInput from "../common/URLMetadataInput.js";
+import { CreateEventFromLinkButton } from "../events/CreateEventFromLinkButton.js";
+import ReferenceArrayEventInput from "../events/ReferenceArrayEventInput.js";
+import ReferenceManyEventField from "../events/ReferenceManyEventField.js";
+import ReferenceGroupInput from "../groups/ReferenceGroupInput.js";
+import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput.js";
+import { MediaField } from "../media/MediaField.js";
+import ReferenceMediaInput from "../media/input/ReferenceMediaInput.js";
+import LinkPreview from "../previews/LinkPreview.js";
+import ReferenceUserInput from "../user/ReferenceUserInput.js";
+import { EditTitle } from "./EditTitle.js";
+import { LinkTGPostButton } from "./button/LinkTGPostButton.js";
+import { OverrideThumbnail } from "./button/OverrideThumbnail.js";
+import { TakeLinkScreenshot } from "./button/TakeLinkScreenshotButton.js";
+import { UpdateMetadataButton } from "./button/UpdateMetadataButton.js";
+import { transformLink } from "./transformLink.js";
 
 export const LinkEdit: React.FC = () => {
   const record = useRecordContext();

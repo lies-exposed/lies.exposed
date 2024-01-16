@@ -1,6 +1,6 @@
-import ParentSize from "@visx/responsive/lib/components/ParentSize";
+import { ParentSize } from "@visx/responsive";
 import * as React from "react";
-import { CircularProgress } from "../mui";
+import { CircularProgress } from "../mui/index.js";
 
 export const FullSizeLoader: React.FC<any> = () => {
   return (

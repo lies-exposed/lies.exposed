@@ -1,12 +1,12 @@
-import { uuid } from "@liexp/shared/lib/utils/uuid";
-import get from "lodash/get";
-import has from "lodash/has";
-import Feature from "ol/Feature";
-import Map from "ol/Map";
-import View from "ol/View";
-import GeoJSON from "ol/format/GeoJSON";
-import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
-import { OSM as OSMSource, Vector as VectorSource } from "ol/source";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import get from "lodash/get.js";
+import has from "lodash/has.js";
+import Feature from "ol/Feature.js";
+import Map from "ol/Map.js";
+import View from "ol/View.js";
+import GeoJSON from "ol/format/GeoJSON.js";
+import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer.js";
+import { OSM as OSMSource, Vector as VectorSource } from "ol/source.js";
 import * as React from "react";
 import { type FieldProps } from "react-admin";
 

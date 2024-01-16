@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Counter } from "./Counter";
+import { Counter } from "./Counter.js";
 
 const populationOnFirstJanuary = 7794798739; // value on 1 January 2020
 const firstJanuaryDate = new Date("2020/01/01");

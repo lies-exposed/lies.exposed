@@ -1,6 +1,5 @@
-import { type Media } from "@liexp/shared/lib/io/http";
-import { MEDIA_BLOCK_PLUGIN } from "@liexp/shared/lib/slate/plugins/customSlate";
-import MediaIcon from "@mui/icons-material/VideoFileOutlined";
+import { type Media } from "@liexp/shared/lib/io/http/index.js";
+import { MEDIA_BLOCK_PLUGIN } from "@liexp/shared/lib/slate/plugins/customSlate.js";
 import type {
   CellPlugin,
   CellPluginComponentProps,
@@ -8,9 +7,9 @@ import type {
   CellPluginRenderer,
   DataTType,
   ImageUploadType,
-} from "@react-page/editor";
+} from "@react-page/editor/lib-es/index.js";
 import React from "react";
-import { AutocompleteMediaInput } from "../../../../Input/AutocompleteMediaInput";
+import { AutocompleteMediaInput } from "../../../../Input/AutocompleteMediaInput.js";
 import {
   Box,
   Button,
@@ -18,8 +17,9 @@ import {
   FormControlLabel,
   Grid,
   Input,
-} from "../../../../mui";
-import { MediaSlider } from "../../../../sliders/MediaSlider";
+  Icons
+} from "../../../../mui/index.js";
+import { MediaSlider } from "../../../../sliders/MediaSlider.js";
 
 export interface MediaBlockState extends DataTType {
   media: Media.Media[];
@@ -33,7 +33,7 @@ export interface MediaBlockSettings {
 }
 
 export const mediaBlockDefaultSettings: MediaBlockSettings = {
-  icon: <MediaIcon />,
+  icon: <Icons.MediaIcon />,
 };
 
 export type ImageControlType = React.ComponentType<
@@ -172,6 +172,6 @@ const createMediaBlockPlugin = (
   };
 };
 
-export const MediaBlockPluginIcon = MediaIcon;
+export const MediaBlockPluginIcon = Icons.MediaIcon;
 
 export default createMediaBlockPlugin;

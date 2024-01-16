@@ -1,9 +1,9 @@
 import * as React from "react";
-import { styled, useTheme } from "../../../theme";
-import { useMuiMediaQuery } from "../../mui";
-import { HeaderMenuDesktop } from "./HeaderMenuDesktop";
-import { HeaderMenuMobile } from "./HeaderMenuMobile";
-import { type HeaderMenuItem } from "./types";
+import { styled, useTheme } from "../../../theme/index.js";
+import { useMuiMediaQuery } from "../../mui/index.js";
+import { HeaderMenuDesktop } from "./HeaderMenuDesktop.js";
+import { HeaderMenuMobile } from "./HeaderMenuMobile.js";
+import { type HeaderMenuItem } from "./types.js";
 
 export interface HeaderMenuProps {
   currentPath: string;

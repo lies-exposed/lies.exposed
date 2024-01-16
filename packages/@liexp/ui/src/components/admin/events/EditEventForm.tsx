@@ -1,20 +1,20 @@
 import { useDataProvider } from "ra-core";
 import * as React from "react";
-import ReactPageInput from "../ReactPageInput";
-import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent";
-import { EditForm } from "../common/EditForm";
-import { ImportMediaButton } from "../media/button/ImportMediaButton";
-import EventPreview from "../previews/EventPreview";
-import { type EditProps, FormTab, TabbedForm } from "../react-admin";
-import { EventGeneralTab } from "../tabs/EventGeneralTab";
-import { LazyFormTabContent } from "../tabs/LazyFormTabContent";
-import { ReferenceLinkTab } from "../tabs/ReferenceLinkTab";
-import { ReferenceMediaTab } from "../tabs/ReferenceMediaTab";
-import { transformEvent } from "../transform.utils";
-import { EventEditActions } from "./EditEventActions";
-import { EventsFlowGraphFormTab } from "./tabs/EventsFlowGraphFormTab";
-import { EventsNetworkGraphFormTab } from "./tabs/EventsNetworkGraphFormTab";
-import { EventTitle } from "./titles/EventTitle";
+import ReactPageInput from "../ReactPageInput.js";
+import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
+import { EditForm } from "../common/EditForm.js";
+import { ImportMediaButton } from "../media/button/ImportMediaButton.js";
+import EventPreview from "../previews/EventPreview.js";
+import { type EditProps, FormTab, TabbedForm } from "../react-admin.js";
+import { EventGeneralTab } from "../tabs/EventGeneralTab.js";
+import { LazyFormTabContent } from "../tabs/LazyFormTabContent.js";
+import { ReferenceLinkTab } from "../tabs/ReferenceLinkTab.js";
+import { ReferenceMediaTab } from "../tabs/ReferenceMediaTab.js";
+import { transformEvent } from "../transform.utils.js";
+import { EventEditActions } from "./EditEventActions.js";
+import { EventsFlowGraphFormTab } from "./tabs/EventsFlowGraphFormTab.js";
+import { EventsNetworkGraphFormTab } from "./tabs/EventsNetworkGraphFormTab.js";
+import { EventTitle } from "./titles/EventTitle.js";
 
 export const EditEventForm: React.FC<React.PropsWithChildren<EditProps>> = ({
   children,

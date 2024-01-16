@@ -1,7 +1,7 @@
-import { type Value } from "@react-page/editor";
+import { type Value } from "@react-page/editor/lib-es/index.js";
 import * as React from "react";
-import { Box } from "../mui";
-import { LazyEditor as Editor } from "./Editor";
+import { Box } from "../mui/index.js";
+import { LazyEditor as Editor } from "./Editor/index.js";
 
 interface EllipsesContentProps {
   content: Value;

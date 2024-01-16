@@ -1,9 +1,9 @@
-import { EventType } from "@liexp/shared/lib/io/http/Events";
-import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
-import SEO from "@liexp/ui/lib/components/SEO";
-import { Box } from "@liexp/ui/lib/components/mui";
+import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
+import SEO from "@liexp/ui/lib/components/SEO.js";
+import { Box } from "@liexp/ui/lib/components/mui/index.js";
 import { ActorTemplate } from "@liexp/ui/lib/templates/ActorTemplate";
-import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils";
+import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils.js";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 

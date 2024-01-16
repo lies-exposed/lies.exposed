@@ -1,4 +1,4 @@
-import { VaccineADRGraph } from "@liexp/ui/lib/components/Graph/covid/vaccines/VaccineADRGraph";
+import { VaccineADRGraph } from "@liexp/ui/lib/components/Graph/covid/vaccines/VaccineADRGraph.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

@@ -1,6 +1,6 @@
 import * as React from "react";
-import { useTheme } from "../../theme";
-import { Breadcrumbs, Link, Typography } from "../mui";
+import { useTheme } from "../../theme/index.js";
+import { Breadcrumbs, Link, Typography } from "../mui/index.js";
 
 interface BreadCrumbProps {
   view: {

@@ -2,8 +2,8 @@ import {
   ComponentPickerPopoverControl,
   ComponentPickerPopoverRenderer,
   type ComponentPickerPopoverState,
-} from "@liexp/ui/lib/components/Common/Editor/plugins/ComponentPickerPopover";
-import { CircularProgress } from "@liexp/ui/lib/components/mui";
+} from "@liexp/ui/lib/components/Common/Editor/plugins/ComponentPickerPopover/index.js";
+import { CircularProgress } from "@liexp/ui/lib/components/mui/index.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

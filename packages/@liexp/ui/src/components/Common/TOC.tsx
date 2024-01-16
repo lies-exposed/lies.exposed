@@ -1,6 +1,6 @@
 import * as React from "react";
 import ReactTOC from "react-toc";
-import { styled } from "../../theme";
+import { styled } from "../../theme/index.js";
 
 const PREFIX = "TOC";
 

@@ -8,8 +8,8 @@ import {
   EventSuggestionRead,
   UserStatus,
 } from "@liexp/shared/lib/io/http/User.js";
-import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
-import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField";
+import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField.js";
+import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField.js";
 import {
   AutocompleteArrayInput,
   Create,
@@ -27,7 +27,7 @@ import {
   TextField,
   TextInput,
   useRecordContext,
-} from "@liexp/ui/lib/components/admin/react-admin";
+} from "@liexp/ui/lib/components/admin/react-admin.js";
 import * as React from "react";
 
 export const UserList: React.FC<ListProps> = (props) => (

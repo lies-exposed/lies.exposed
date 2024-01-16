@@ -1,5 +1,5 @@
 import * as React from "react";
-import { TextField, Autocomplete, type AutocompleteProps } from "../mui";
+import { TextField, Autocomplete, type AutocompleteProps } from "../mui/index.js";
 
 export interface SearchableItem {
   id: string;

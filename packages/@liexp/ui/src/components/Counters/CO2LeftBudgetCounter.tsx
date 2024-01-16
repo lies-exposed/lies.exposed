@@ -7,7 +7,7 @@ import {
   differenceInYears,
 } from "date-fns";
 import * as React from "react";
-import { Counter } from "./Counter";
+import { Counter } from "./Counter.js";
 
 const END_DATE = new Date(2027, 11, 31);
 const calculateTimeLeft = (): string => {
