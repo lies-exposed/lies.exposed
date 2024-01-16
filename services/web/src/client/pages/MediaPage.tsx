@@ -1,4 +1,4 @@
-import { type SearchFilter } from "@liexp/ui/lib/components/events/inputs/SearchEventInput";
+import { type SearchFilter } from "@liexp/ui/lib/components/events/inputs/SearchEventInput.js";
 import MediaSearchTemplate from "@liexp/ui/lib/templates/MediaSearchTemplate";
 import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";

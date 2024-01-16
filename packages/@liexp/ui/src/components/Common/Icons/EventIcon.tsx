@@ -3,9 +3,9 @@ import {
   FontAwesomeIcon,
   type FontAwesomeIconProps,
 } from "@fortawesome/react-fontawesome";
-import { EventTypes, type Event } from "@liexp/shared/lib/io/http/Events";
+import { EventTypes, type Event } from "@liexp/shared/lib/io/http/Events/index.js";
 import * as React from "react";
-import { styled } from "../../../theme";
+import { styled } from "../../../theme/index.js";
 
 const PREFIX = "EventTypeColor";
 

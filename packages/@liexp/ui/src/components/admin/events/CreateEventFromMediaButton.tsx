@@ -1,12 +1,12 @@
-import { eventRelationIdsMonoid } from "@liexp/shared/lib/helpers/event/event";
-import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion";
-import * as io from "@liexp/shared/lib/io";
-import * as O from "fp-ts/Option";
+import { eventRelationIdsMonoid } from "@liexp/shared/lib/helpers/event/event.js";
+import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
+import * as io from "@liexp/shared/lib/io/index.js";
+import * as O from "fp-ts/lib/Option.js";
 import { useRecordContext } from "ra-core";
 import * as React from "react";
 import { Button, useDataProvider } from "react-admin";
 import { useNavigate } from "react-router";
-import { Box, MenuItem, Select, Stack } from "../../mui";
+import { Box, MenuItem, Select, Stack } from "../../mui/index.js";
 
 export const CreateEventFromMediaButton: React.FC = () => {
   const record = useRecordContext();

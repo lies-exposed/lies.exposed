@@ -1,7 +1,7 @@
 import { clsx } from "clsx";
 import * as React from "react";
-import * as SlickSlider from "react-slick";
-import { styled, useTheme } from "../../../theme";
+import SlickSlider, { type Settings } from "react-slick";
+import { styled, useTheme } from "../../../theme/index.js";
 
 const PREFIX = "Slider";
 
@@ -11,7 +11,8 @@ const classes = {
   item: `${PREFIX}-item`,
 };
 
-const StyledSlickSlider = styled(SlickSlider.default)(({ theme }) => ({
+// TODO: for some reason SlickSlider is not exported as default
+const StyledSlickSlider = styled((SlickSlider as any).default)(({ theme }) => ({
   [`.${classes.root}`]: {
     margin: 0,
     width: "100%",
@@ -31,7 +32,7 @@ const StyledSlickSlider = styled(SlickSlider.default)(({ theme }) => ({
   },
 }));
 
-export interface SliderProps extends SlickSlider.Settings {
+export interface SliderProps extends Settings {
   maxHeight?: number;
   style?: React.CSSProperties;
 }

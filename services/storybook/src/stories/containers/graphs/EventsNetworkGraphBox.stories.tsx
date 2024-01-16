@@ -1,15 +1,15 @@
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
-import { GROUPS } from "@liexp/shared/lib/io/http/Group";
-import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
-import { formatDate } from "@liexp/shared/lib/utils/date.utils";
-import { AutocompleteActorInput } from "@liexp/ui/lib/components/Input/AutocompleteActorInput";
-import { AutocompleteGroupInput } from "@liexp/ui/lib/components/Input/AutocompleteGroupInput";
-import { AutocompleteKeywordInput } from "@liexp/ui/lib/components/Input/AutocompleteKeywordInput";
-import { Box } from "@liexp/ui/lib/components/mui";
+import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
+import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
+import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
+import { AutocompleteActorInput } from "@liexp/ui/lib/components/Input/AutocompleteActorInput.js";
+import { AutocompleteGroupInput } from "@liexp/ui/lib/components/Input/AutocompleteGroupInput.js";
+import { AutocompleteKeywordInput } from "@liexp/ui/lib/components/Input/AutocompleteKeywordInput.js";
+import { Box } from "@liexp/ui/lib/components/mui/index.js";
 import {
   EventsNetworkGraphBox,
   type EventNetworkGraphBoxProps,
-} from "@liexp/ui/lib/containers/graphs/EventsNetworkGraphBox";
+} from "@liexp/ui/lib/containers/graphs/EventsNetworkGraphBox.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import { subWeeks } from "date-fns";
 import * as React from "react";

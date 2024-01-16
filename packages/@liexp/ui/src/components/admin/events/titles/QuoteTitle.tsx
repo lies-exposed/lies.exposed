@@ -1,11 +1,11 @@
-import { getTitle } from "@liexp/shared/lib/helpers/event";
-import type * as Events from "@liexp/shared/lib/io/http/Events";
+import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
+import type * as Events from "@liexp/shared/lib/io/http/Events/index.js";
 import * as React from "react";
 import {
   type FieldProps,
   useGetOne,
   useRecordContext,
-} from "../../react-admin";
+} from "../../react-admin.js";
 
 export const QuoteTitle: React.FC<FieldProps<Events.Quote.Quote>> = ({
   record: _record,

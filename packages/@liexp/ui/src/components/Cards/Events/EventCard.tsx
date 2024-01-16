@@ -1,15 +1,15 @@
-import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event";
-import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
-import { Events } from "@liexp/shared/lib/io/http";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events";
-import { formatDate } from "@liexp/shared/lib/utils/date.utils";
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
+import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/index.js";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
+import { Events } from "@liexp/shared/lib/io/http/index.js";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { parseISO } from "date-fns";
 import * as React from "react";
-import { LazyEditor as Editor } from "../../Common/Editor";
-import { EventIcon } from "../../Common/Icons";
-import { ActorList } from "../../lists/ActorList";
-import GroupsList from "../../lists/GroupList";
-import KeywordList from "../../lists/KeywordList";
+import { LazyEditor as Editor } from "../../Common/Editor/index.js";
+import { EventIcon } from "../../Common/Icons/index.js";
+import { ActorList } from "../../lists/ActorList.js";
+import GroupsList from "../../lists/GroupList.js";
+import KeywordList from "../../lists/KeywordList.js";
 import {
   Box,
   Card,
@@ -18,7 +18,7 @@ import {
   CardHeader,
   CardMedia,
   type CardProps,
-} from "../../mui";
+} from "../../mui/index.js";
 
 const defaultImage = "/liexp-logo-1200x630.png";
 

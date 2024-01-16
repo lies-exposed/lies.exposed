@@ -1,6 +1,5 @@
-import { type http } from "@liexp/shared/lib/io";
-import { formatDate, parseISO } from "@liexp/shared/lib/utils/date.utils";
-import LinkIcon from "@mui/icons-material/LinkOutlined";
+import { type http } from "@liexp/shared/lib/io/index.js";
+import { formatDate, parseISO } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";
 import {
   Box,
@@ -11,7 +10,8 @@ import {
   CardMedia,
   IconButton,
   Typography,
-} from "../mui";
+  Icons,
+} from "../mui/index.js";
 
 export interface Link extends http.Link.Link {
   selected: boolean;
@@ -90,7 +90,7 @@ const LinkCard: React.FC<LinkCardProps> = ({ link, onClick }) => {
             }}
             size="small"
           >
-            <LinkIcon />
+            <Icons.LinkIcon />
           </IconButton>
         </CardActions>
       </Box>

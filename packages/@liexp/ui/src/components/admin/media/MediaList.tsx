@@ -1,5 +1,5 @@
-import { MP4Type } from "@liexp/shared/lib/io/http/Media";
-import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
+import { MP4Type } from "@liexp/shared/lib/io/http/Media.js";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import * as React from "react";
 import {
   BooleanInput,
@@ -15,10 +15,10 @@ import {
   usePermissions,
   type ListProps,
 } from "react-admin";
-import { Box, Typography, amber } from "../../mui";
-import { toFormattedDuration } from "./DurationField";
-import { MediaField } from "./MediaField";
-import { MediaTypeInput } from "./input/MediaTypeInput";
+import { Box, Typography, amber } from "../../mui/index.js";
+import { toFormattedDuration } from "./DurationField.js";
+import { MediaField } from "./MediaField.js";
+import { MediaTypeInput } from "./input/MediaTypeInput.js";
 
 const RESOURCE = "media";
 

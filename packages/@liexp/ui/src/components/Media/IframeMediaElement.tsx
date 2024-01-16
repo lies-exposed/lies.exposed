@@ -1,8 +1,8 @@
-import { type Media } from "@liexp/shared/lib/io/http";
+import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import { clsx } from "clsx";
 import * as React from "react";
-import { styled } from "../../theme";
-import { VideoCover } from "./VideoCover";
+import { styled } from "../../theme/index.js";
+import { VideoCover } from "./VideoCover.js";
 
 const PREFIX = "IframeMediaElement";
 

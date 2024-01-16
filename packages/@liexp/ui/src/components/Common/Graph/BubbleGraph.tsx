@@ -1,6 +1,6 @@
 import { hierarchy } from "@visx/hierarchy";
 import * as React from "react";
-import Pack, { type PackDatum } from "./Pack";
+import Pack, { type PackDatum } from "./Pack.js";
 
 interface BubbleGraphProps<D extends PackDatum> {
   width: number;

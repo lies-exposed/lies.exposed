@@ -1,11 +1,11 @@
-import { StatsType } from "@liexp/shared/lib/io/http/Stats";
+import { StatsType } from "@liexp/shared/lib/io/http/Stats.js";
 import * as React from "react";
-import { useStatsQuery } from "../../state/queries/stats.queries";
+import { useStatsQuery } from "../../state/queries/stats.queries.js";
 import {
   HierarchicalEdgeBundling,
   type HierarchicalEdgeBundlingOnClickProps,
-} from "../Common/Graph/HierarchicalEdgeBundling";
-import QueriesRenderer from "../QueriesRenderer";
+} from "../Common/Graph/HierarchicalEdgeBundling.js";
+import QueriesRenderer from "../QueriesRenderer.js";
 
 export interface ActorHierarchyEdgeBundlingGraphProps
   extends HierarchicalEdgeBundlingOnClickProps {

@@ -1,8 +1,8 @@
-import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/queries/SearchEventsQuery";
+import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
 import {
   LinksPageTemplate,
   type LinksPageTemplateProps,
-} from "@liexp/ui/lib/templates/links/LinksPageTemplate";
+} from "@liexp/ui/lib/templates/links/LinksPageTemplate.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

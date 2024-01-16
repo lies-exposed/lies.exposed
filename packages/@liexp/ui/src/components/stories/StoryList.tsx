@@ -1,7 +1,7 @@
-import { type Story } from "@liexp/shared/lib/io/http/Story";
+import { type Story } from "@liexp/shared/lib/io/http/Story.js";
 import * as React from "react";
-import { Grid } from "../mui";
-import { StoryCard } from "./StoryCard";
+import { Grid } from "../mui/index.js";
+import { StoryCard } from "./StoryCard.js";
 
 interface StoryListProps {
   stories: Story[];

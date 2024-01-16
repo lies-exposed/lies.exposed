@@ -2,12 +2,12 @@ import {
   formatAnyDateToShort,
   formatDate,
   parseDate,
-} from "@liexp/shared/lib/utils/date.utils";
+} from "@liexp/shared/lib/utils/date.utils.js";
 import { addDays, differenceInDays, subYears } from "date-fns";
 import * as React from "react";
-import { styled } from "../../theme";
-import { Slider, Stack, Typography, Grid } from "../mui";
-import DatePicker, { type DatePickerProps } from "./DatePicker";
+import { styled } from "../../theme/index.js";
+import { Slider, Stack, Typography, Grid } from "../mui/index.js";
+import DatePicker, { type DatePickerProps } from "./DatePicker.js";
 
 const PREFIX = "date-range-picker";
 const classes = {

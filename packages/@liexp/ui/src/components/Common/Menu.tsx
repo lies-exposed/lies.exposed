@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ListItem } from "../mui";
+import { ListItem } from "../mui/index.js";
 
 interface MenuItem {
   id: string;

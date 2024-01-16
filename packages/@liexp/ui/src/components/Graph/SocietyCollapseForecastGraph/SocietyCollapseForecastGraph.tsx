@@ -1,27 +1,27 @@
-import { type Forecast } from "@liexp/shared/lib/io/http/climate-change/Forecast";
+import { type Forecast } from "@liexp/shared/lib/io/http/climate-change/Forecast.js";
 import {
   ClimateChangeForecast,
   ClimateChangeHistoryOfSummits,
-} from "@liexp/shared/lib/io/http/graphs/Graph";
-import { numTicksForWidth } from "@liexp/shared/lib/utils/graph.utils";
+} from "@liexp/shared/lib/io/http/graphs/Graph.js";
+import { numTicksForWidth } from "@liexp/shared/lib/utils/graph.utils.js";
 import { AxisBottom } from "@visx/axis";
 import { curveBasis, curveBasisOpen } from "@visx/curve";
 import { localPoint } from "@visx/event";
 import { LinearGradient } from "@visx/gradient";
 import { Group } from "@visx/group";
-import ParentSize from "@visx/responsive/lib/components/ParentSize";
+import { ParentSize } from "@visx/responsive";
 import { scaleLinear } from "@visx/scale";
 import { Bar, Line, LinePath } from "@visx/shape";
 import { Text } from "@visx/text";
 import { Threshold } from "@visx/threshold";
 import { defaultStyles, Tooltip, withTooltip } from "@visx/tooltip";
-import * as A from "fp-ts/Array";
-import * as O from "fp-ts/Option";
-import { pipe } from "fp-ts/function";
+import * as A from "fp-ts/lib/Array.js";
+import * as O from "fp-ts/lib/Option.js";
+import { pipe } from "fp-ts/lib/function.js";
 import * as t from "io-ts";
 import * as React from "react";
-import { useJSONDataQuery } from "../../../state/queries/DiscreteQueries";
-import QueriesRenderer from "../../QueriesRenderer";
+import { useJSONDataQuery } from "../../../state/queries/DiscreteQueries.js";
+import QueriesRenderer from "../../QueriesRenderer.js";
 
 const tooltipStyles = {
   ...defaultStyles,

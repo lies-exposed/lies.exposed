@@ -4,11 +4,11 @@ import {
   type GroupMember,
   type Keyword,
   Events,
-} from "@liexp/shared/lib/io/http";
+} from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import { Box, Grid } from "../../mui";
+import { Box, Grid } from "../../mui/index.js";
 
-import EventListItemBase from "./EventListItemBase";
+import EventListItemBase from "./EventListItemBase.js";
 
 interface UncategorizedListItemProps {
   item: Events.SearchEvent.SearchUncategorizedEvent;

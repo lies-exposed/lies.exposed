@@ -1,10 +1,10 @@
-import { apiProvider, authProvider } from "@liexp/ui/lib/client/api";
-import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import { apiProvider, authProvider } from "@liexp/ui/lib/client/api.js";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import {
   SocialPostButton,
   type SocialPostButtonProps,
-} from "@liexp/ui/lib/components/admin/common/SocialPostButton";
-import { EventSocialPostButton } from "@liexp/ui/lib/components/admin/events/button/EventSocialPostButton";
+} from "@liexp/ui/lib/components/admin/common/SocialPostButton.js";
+import { EventSocialPostButton } from "@liexp/ui/lib/components/admin/events/button/EventSocialPostButton.js";
 import { type StoryFn, type Meta } from "@storybook/react";
 import * as React from "react";
 import { AdminContext, RecordContextProvider } from "react-admin";

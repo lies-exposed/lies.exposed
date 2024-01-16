@@ -4,9 +4,9 @@ import {
   ReferenceArrayInput,
   type ReferenceArrayInputProps,
 } from "react-admin";
-import { EventIcon } from "../../Common/Icons";
-import { Box } from "../../mui";
-import { EventTitle } from "./titles/EventTitle";
+import { EventIcon } from "../../Common/Icons/index.js";
+import { Box } from "../../mui/index.js";
+import { EventTitle } from "./titles/EventTitle.js";
 
 const ReferenceArrayEventInput: React.FC<
   Omit<ReferenceArrayInputProps, "children"> & { source: string }

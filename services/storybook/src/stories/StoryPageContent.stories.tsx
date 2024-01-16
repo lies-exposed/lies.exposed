@@ -1,8 +1,8 @@
-import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import {
   StoryPageContent,
   type StoryPageContentProps,
-} from "@liexp/ui/lib/components/stories/StoryPageContent";
+} from "@liexp/ui/lib/components/stories/StoryPageContent.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

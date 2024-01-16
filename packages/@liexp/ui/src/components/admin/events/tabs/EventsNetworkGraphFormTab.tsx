@@ -1,11 +1,11 @@
-import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
-import { type NetworkType } from "@liexp/shared/lib/io/http/Network";
+import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
+import { type NetworkType } from "@liexp/shared/lib/io/http/Network.js";
 import { useRecordContext, useRefresh } from "ra-core";
 import { Button, LoadingIndicator } from "ra-ui-materialui";
 import * as React from "react";
-import { apiProvider } from "../../../../client/api";
-import { EventsNetworkGraphBox } from "../../../../containers/graphs/EventsNetworkGraphBox";
-import { Grid } from "../../../mui";
+import { apiProvider } from "../../../../client/api.js";
+import { EventsNetworkGraphBox } from "../../../../containers/graphs/EventsNetworkGraphBox.js";
+import { Grid } from "../../../mui/index.js";
 
 export const EventsNetworkGraphFormTab: React.FC<{
   type: NetworkType;

@@ -1,7 +1,7 @@
 import { clsx } from "clsx";
 import * as React from "react";
-import { styled } from "../../theme";
-import { Box, type BoxProps, Typography } from "../mui";
+import { styled } from "../../theme/index.js";
+import { Box, type BoxProps, Typography } from "../mui/index.js";
 
 const StyledChip = styled(Box)<{ _color: string }>(
   ({ theme, _color: color }) => ({

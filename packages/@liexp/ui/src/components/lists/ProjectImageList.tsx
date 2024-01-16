@@ -1,6 +1,6 @@
-import type * as io from "@liexp/shared/lib/io/http";
+import type * as io from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import { Grid, Typography } from "../mui";
+import { Grid, Typography } from "../mui/index.js";
 
 export interface ProjectImage extends io.ProjectImage.ProjectImage {
   selected: boolean;

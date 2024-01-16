@@ -2,13 +2,13 @@ import {
   type Actor,
   type Group,
   type Keyword,
-} from "@liexp/shared/lib/io/http";
+} from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import { useEndpointQueries } from "../../../hooks/useEndpointQueriesProvider";
-import { type SearchEventsQueryInputNoPagination } from "../../../state/queries/SearchEventsQuery";
-import { ActorListItem } from "../../lists/ActorList";
-import { GroupListItem } from "../../lists/GroupList";
-import { KeywordListItem } from "../../lists/KeywordList";
+import { useEndpointQueries } from "../../../hooks/useEndpointQueriesProvider.js";
+import { type SearchEventsQueryInputNoPagination } from "../../../state/queries/SearchEventsQuery.js";
+import { ActorListItem } from "../../lists/ActorList.js";
+import { GroupListItem } from "../../lists/GroupList.js";
+import { KeywordListItem } from "../../lists/KeywordList.js";
 import {
   Autocomplete,
   Box,
@@ -16,7 +16,7 @@ import {
   Typography,
   type AutocompleteInputChangeReason,
   type AutocompleteProps,
-} from "../../mui";
+} from "../../mui/index.js";
 
 export type SearchOption =
   | {

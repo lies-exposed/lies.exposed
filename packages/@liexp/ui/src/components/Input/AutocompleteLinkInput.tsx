@@ -1,10 +1,10 @@
-import { type Link } from "@liexp/shared/lib/io/http";
+import { type Link } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import LinkCard from "../../components/Cards/LinkCard";
-import { LinksList } from "../../components/lists/LinkList";
-import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
-import { Grid, Typography } from "../mui";
-import { AutocompleteInput } from "./AutocompleteInput";
+import LinkCard from "../../components/Cards/LinkCard.js";
+import { LinksList } from "../../components/lists/LinkList.js";
+import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
+import { Grid, Typography } from "../mui/index.js";
+import { AutocompleteInput } from "./AutocompleteInput.js";
 
 export interface AutocompleteLinkInputProps {
   className?: string;

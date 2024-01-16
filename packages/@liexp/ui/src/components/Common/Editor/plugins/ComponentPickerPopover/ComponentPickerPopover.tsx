@@ -4,24 +4,24 @@ import {
   GROUP_INLINE,
   LINK_INLINE,
   MEDIA_BLOCK_PLUGIN,
-} from "@liexp/shared/lib/slate/plugins/customSlate";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
+} from "@liexp/shared/lib/slate/plugins/customSlate.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 // eslint-disable-next-line no-restricted-imports
 import { type SlatePluginControls } from "@react-page/plugins-slate/lib/types/slatePluginDefinitions";
 import * as React from "react";
-import { List, ListItem, Typography } from "../../../../mui";
-import { Popover, type PopoverProps } from "../../../Popover";
-import { ActorInlineControlContent } from "../actor/ActorInline.plugin";
-import { EventBlockPluginControl } from "../event/eventBlock.plugin";
-import { GroupInlineControlContent } from "../group/GroupInline.plugin";
-import { KeywordInlineControlContent } from "../keyword/KeywordInline.plugin";
-import { LinkInlineControlContent } from "../links/LinkInline.plugin";
+import { List, ListItem, Typography } from "../../../../mui/index.js";
+import { Popover, type PopoverProps } from "../../../Popover.js";
+import { ActorInlineControlContent } from "../actor/ActorInline.plugin.js";
+import { EventBlockPluginControl } from "../event/eventBlock.plugin.js";
+import { GroupInlineControlContent } from "../group/GroupInline.plugin.js";
+import { KeywordInlineControlContent } from "../keyword/KeywordInline.plugin.js";
+import { LinkInlineControlContent } from "../links/LinkInline.plugin.js";
 import {
   MediaBlockPluginControl,
   type MediaBlockState,
-} from "../media/mediaBlock";
-import { PLUGINS } from "./constants";
-import { type PickablePlugin } from "./types";
+} from "../media/mediaBlock.js";
+import { PLUGINS } from "./constants/constants.js";
+import { type PickablePlugin } from "./types.js";
 
 export const ComponentsPickerPopover: React.FC<
   Omit<PopoverProps, "onClose" | "onSelect"> & {

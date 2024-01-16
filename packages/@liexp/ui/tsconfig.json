@@ -3,13 +3,15 @@
   "compilerOptions": {
     "lib": ["DOM", "ESNext"],
     "jsx": "react",
+    "target": "es6",
+    "module": "ESNext",
+    "moduleResolution": "node",
     "noEmit": false,
     "composite": true,
     "incremental": true,
     "declaration": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true,
     "outDir": "./lib",
     "baseUrl": "./",
     "rootDir": "./",
@@ -24,9 +26,15 @@
       "path": "../core"
     },
     {
-      "path": "../shared/tsconfig.build.json"
+      "path": "../shared"
     }
   ],
-  "include": ["./src", "./test", "./typings", "./src/**/*.json", ".eslintrc.js"],
+  "include": [
+    "./src",
+    "./test",
+    "./typings",
+    "./src/**/*.json",
+    ".eslintrc.cjs"
+  ],
   "exclude": ["node_modules", "lib"]
 }

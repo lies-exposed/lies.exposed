@@ -1,16 +1,16 @@
-import { EventTypes } from "@liexp/shared/lib/io/http/Events";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
-import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
-import URLMetadataInput from "@liexp/ui/lib/components/admin/common/URLMetadataInput";
-import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm";
-import { ScientificStudyEventEditTab } from "@liexp/ui/lib/components/admin/events/tabs/ScientificStudyEventEditTab";
-import { ScientificStudyEventTitle } from "@liexp/ui/lib/components/admin/events/titles/ScientificStudyEventTitle";
-import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceGroupInput";
-import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
-import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput";
-import { MediaArrayInput } from "@liexp/ui/lib/components/admin/media/input/MediaArrayInput";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/index.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput.js";
+import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField.js";
+import URLMetadataInput from "@liexp/ui/lib/components/admin/common/URLMetadataInput.js";
+import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm.js";
+import { ScientificStudyEventEditTab } from "@liexp/ui/lib/components/admin/events/tabs/ScientificStudyEventEditTab.js";
+import { ScientificStudyEventTitle } from "@liexp/ui/lib/components/admin/events/titles/ScientificStudyEventTitle.js";
+import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceGroupInput.js";
+import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput.js";
+import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput.js";
+import { MediaArrayInput } from "@liexp/ui/lib/components/admin/media/input/MediaArrayInput.js";
 import {
   BooleanField,
   BooleanInput,
@@ -27,9 +27,9 @@ import {
   useDataProvider,
   type CreateProps,
   type ListProps,
-} from "@liexp/ui/lib/components/admin/react-admin";
-import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
-import { Box } from "@liexp/ui/lib/components/mui";
+} from "@liexp/ui/lib/components/admin/react-admin.js";
+import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils.js";
+import { Box } from "@liexp/ui/lib/components/mui/index.js";
 import * as React from "react";
 
 const listFilter = [

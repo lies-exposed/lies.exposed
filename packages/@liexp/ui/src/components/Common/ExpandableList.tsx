@@ -1,13 +1,13 @@
 import * as React from "react";
-import { styled } from "../../theme";
+import { styled } from "../../theme/index.js";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Button,
-  AddCircleIcon,
-} from "../mui";
-import { List, type ListProps } from "./List";
+  Icons,
+} from "../mui/index.js";
+import { List, type ListProps } from "./List.js";
 
 const PREFIX = "expandable-list";
 const classes = {
@@ -64,7 +64,7 @@ export const ExpandableList = <A, D extends React.ElementType<any> = "ul">({
         {hasMore ? (
           <Button
             size="small"
-            startIcon={<AddCircleIcon />}
+            startIcon={<Icons.AddCircle />}
             onClick={() => {
               setOpen(!open);
             }}

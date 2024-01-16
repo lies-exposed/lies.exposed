@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Grid, Stack } from "../../mui";
+import { Grid, Stack } from "../../mui/index.js";
 import {
   Button,
   Edit,
@@ -8,8 +8,8 @@ import {
   useRefresh,
   useResourceContext,
   type EditProps,
-} from "../react-admin";
-import { WebPreviewButton } from "./WebPreviewButton";
+} from "../react-admin.js";
+import { WebPreviewButton } from "./WebPreviewButton.js";
 
 export interface EditFormProps extends EditProps {
   preview: React.ReactNode;

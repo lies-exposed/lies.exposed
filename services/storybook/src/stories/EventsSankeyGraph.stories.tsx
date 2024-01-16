@@ -1,8 +1,8 @@
-import { Events } from "@liexp/shared/lib/io/http";
+import { Events } from "@liexp/shared/lib/io/http/index.js";
 import {
   EventsSankeyGraph,
   type EventsSankeyGraphProps,
-} from "@liexp/ui/lib/components/Graph/EventsSankeyGraph";
+} from "@liexp/ui/lib/components/Graph/EventsSankeyGraph.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as A from "fp-ts/Array";
 import * as O from "fp-ts/Option";

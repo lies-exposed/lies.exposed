@@ -1,9 +1,9 @@
-import { type Area } from "@liexp/shared/lib/io/http";
+import { type Area } from "@liexp/shared/lib/io/http/index.js";
 import {
   AutocompleteAreaInput,
   type AutocompleteAreaInputProps,
-} from "@liexp/ui/lib/components/Input/AutocompleteAreaInput";
-import { MainContent } from "@liexp/ui/lib/components/MainContent";
+} from "@liexp/ui/lib/components/Input/AutocompleteAreaInput.js";
+import { MainContent } from "@liexp/ui/lib/components/MainContent.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

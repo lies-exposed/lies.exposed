@@ -1,9 +1,9 @@
-import { type Story } from "@liexp/shared/lib/io/http/Story";
-import { formatDate } from "@liexp/shared/lib/utils/date.utils";
+import { type Story } from "@liexp/shared/lib/io/http/Story.js";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { parseISO } from "date-fns";
 import * as t from "io-ts";
 import * as React from "react";
-import { Card, CardActionArea, CardHeader, CardMedia } from "../mui";
+import { Card, CardActionArea, CardHeader, CardMedia } from "../mui/index.js";
 
 interface StoryCardProps {
   article: Story;

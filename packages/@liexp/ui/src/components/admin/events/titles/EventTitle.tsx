@@ -1,14 +1,14 @@
-import { http } from "@liexp/shared/lib/io";
+import { http } from "@liexp/shared/lib/io/index.js";
 import * as React from "react";
-import { type FieldProps, useRecordContext } from "../../react-admin";
-import { BookTitle } from "./BookTitle";
-import { DeathEventTitle } from "./DeathEventTitle";
-import { DocumentaryReleaseTitle } from "./DocumentaryReleaseTitle";
-import { PatentEventTitle } from "./PatentEventTitle";
-import { QuoteTitle } from "./QuoteTitle";
-import { ScientificStudyEventTitle } from "./ScientificStudyEventTitle";
-import { TransactionTitle } from "./TransactionTitle";
-import { UncategorizedEventTitle } from "./UncategorizedEventTitle";
+import { type FieldProps, useRecordContext } from "../../react-admin.js";
+import { BookTitle } from "./BookTitle.js";
+import { DeathEventTitle } from "./DeathEventTitle.js";
+import { DocumentaryReleaseTitle } from "./DocumentaryReleaseTitle.js";
+import { PatentEventTitle } from "./PatentEventTitle.js";
+import { QuoteTitle } from "./QuoteTitle.js";
+import { ScientificStudyEventTitle } from "./ScientificStudyEventTitle.js";
+import { TransactionTitle } from "./TransactionTitle.js";
+import { UncategorizedEventTitle } from "./UncategorizedEventTitle.js";
 
 export const EventTitle: React.FC<FieldProps<http.Events.Event>> = ({
   record: _record,

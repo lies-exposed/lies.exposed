@@ -1,9 +1,9 @@
-import { type MediaType } from "@liexp/shared/lib/io/http/Media";
-import { MainContent } from "@liexp/ui/lib/components/MainContent";
+import { type MediaType } from "@liexp/shared/lib/io/http/Media.js";
+import { MainContent } from "@liexp/ui/lib/components/MainContent.js";
 import MediaElement, {
   type MediaElementProps,
-} from "@liexp/ui/lib/components/Media/MediaElement";
-import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+} from "@liexp/ui/lib/components/Media/MediaElement.js";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

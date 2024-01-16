@@ -1,8 +1,8 @@
-import { type Keyword } from "@liexp/shared/lib/io/http";
-import { toColorHash } from "@liexp/shared/lib/utils/colors";
+import { type Keyword } from "@liexp/shared/lib/io/http/index.js";
+import { toColorHash } from "@liexp/shared/lib/utils/colors.js";
 import * as React from "react";
-import { ChipCount, type ChipCountProps } from "../Common/ChipCount";
-import { KeywordChip } from "./KeywordChip";
+import { ChipCount, type ChipCountProps } from "../Common/ChipCount.js";
+import { KeywordChip } from "./KeywordChip.js";
 
 interface KeywordChipCountProps
   extends Omit<ChipCountProps, "label" | "avatar" | "color"> {

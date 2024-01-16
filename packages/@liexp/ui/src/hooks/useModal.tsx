@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Modal } from "../components/Common/Modal";
-import { Box, IconButton, CloseIcon, type ModalProps } from "../components/mui";
-import { styled } from "../theme";
+import { Modal } from "../components/Common/Modal.js";
+import { Box, IconButton, Icons, type ModalProps } from "../components/mui/index.js";
+import { styled } from "../theme/index.js";
 
 const PREFIX = "modal";
 
@@ -87,7 +87,7 @@ export const useModal = (
                 onClose();
               }}
             >
-              <CloseIcon fontSize="small" />
+              <Icons.Close fontSize="small" />
             </IconButton>
           </Box>
         </Box>

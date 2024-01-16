@@ -1,4 +1,4 @@
-import { queryToHash, useNavigateTo } from "@liexp/ui/lib/utils/history.utils";
+import { queryToHash, useNavigateTo } from "@liexp/ui/lib/utils/history.utils.js";
 import React from "react";
 
 interface CommonViewArgs {

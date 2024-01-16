@@ -1,7 +1,7 @@
 import {
   CO2LevelsGraph,
   type CO2LevelsGraphProps,
-} from "@liexp/ui/lib/components/Graph/CO2LevelsGraph";
+} from "@liexp/ui/lib/components/Graph/CO2LevelsGraph.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

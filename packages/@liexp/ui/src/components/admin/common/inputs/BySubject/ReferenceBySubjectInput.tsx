@@ -1,4 +1,4 @@
-import { ByActorId, ByGroupId } from "@liexp/shared/lib/io/http/Common";
+import { ByActorId, ByGroupId } from "@liexp/shared/lib/io/http/Common/index.js";
 import _ from "lodash";
 import React from "react";
 import {
@@ -7,9 +7,9 @@ import {
   TextInput,
   type ReferenceInputProps,
 } from "react-admin";
-import { Stack } from "../../../../mui";
-import ReferenceActorInput from "../../../actors/ReferenceActorInput";
-import ReferenceGroupInput from "../../../groups/ReferenceGroupInput";
+import { Stack } from "../../../../mui/index.js";
+import ReferenceActorInput from "../../../actors/ReferenceActorInput.js";
+import ReferenceGroupInput from "../../../groups/ReferenceGroupInput.js";
 
 const ReferenceBySubjectInput: React.FC<
   Omit<ReferenceInputProps, "children"> & { source: string }

@@ -4,16 +4,16 @@ import {
   type Group,
   type Keyword,
   type Media,
-} from "@liexp/shared/lib/io/http";
-import { type InlineRelations } from "@liexp/shared/lib/slate/utils";
+} from "@liexp/shared/lib/io/http/index.js";
+import { type InlineRelations } from "@liexp/shared/lib/slate/utils.js";
 import * as React from "react";
-import ActorsBox from "../../../../../containers/ActorsBox";
-import { GroupsBox } from "../../../../../containers/GroupsBox";
-import { MediaBox } from "../../../../../containers/MediaBox";
-import { styled } from "../../../../../theme";
-import { KeywordsBox } from "../../../../KeywordsBox";
-import { Box } from "../../../../mui";
-import { EventTimelinePlugin } from "./EventTimelinePlugin";
+import ActorsBox from "../../../../../containers/ActorsBox.js";
+import { GroupsBox } from "../../../../../containers/GroupsBox.js";
+import { MediaBox } from "../../../../../containers/MediaBox.js";
+import { styled } from "../../../../../theme/index.js";
+import { KeywordsBox } from "../../../../KeywordsBox.js";
+import { Box } from "../../../../mui/index.js";
+import { EventTimelinePlugin } from "./EventTimelinePlugin.js";
 
 const PREFIX = `inline-relations-box`;
 

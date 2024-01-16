@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { type ResourcesNames } from "@liexp/shared/lib/io/http";
-import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
+import { type ResourcesNames } from "@liexp/shared/lib/io/http/index.js";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import * as React from "react";
-import { authProvider } from "../../../client/api";
-import { getAdminLink, getProfileLink } from "../../../utils/links.utils";
-import { Link } from "../../mui";
+import { authProvider } from "../../../client/api.js";
+import { getAdminLink, getProfileLink } from "../../../utils/links.utils.js";
+import { Link } from "../../mui/index.js";
 
 interface EditButtonProps {
   admin?: boolean;

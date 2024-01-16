@@ -2,13 +2,13 @@ import * as React from "react";
 import {
   type SearchEventQueryResult,
   type SearchEventQueryInput,
-} from "../../../state/queries/SearchEventsQuery";
-import { styled } from "../../../theme";
-import { ActorList } from "../../lists/ActorList";
-import GroupList from "../../lists/GroupList";
-import { GroupsMembersList } from "../../lists/GroupMemberList";
-import KeywordList from "../../lists/KeywordList";
-import { Grid, Typography, Box } from "../../mui";
+} from "../../../state/queries/SearchEventsQuery.js";
+import { styled } from "../../../theme/index.js";
+import { ActorList } from "../../lists/ActorList.js";
+import GroupList from "../../lists/GroupList.js";
+import { GroupsMembersList } from "../../lists/GroupMemberList.js";
+import KeywordList from "../../lists/KeywordList.js";
+import { Grid, Typography, Box } from "../../mui/index.js";
 
 const PREFIX = "EventsFilterSummary";
 

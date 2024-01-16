@@ -1,8 +1,8 @@
-import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
-import SEO from "@liexp/ui/lib/components/SEO";
-import { Box } from "@liexp/ui/lib/components/mui";
-import { LinkTemplateUI } from "@liexp/ui/lib/templates/links/LinkTemplateUI";
-import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
+import SEO from "@liexp/ui/lib/components/SEO.js";
+import { Box } from "@liexp/ui/lib/components/mui/index.js";
+import { LinkTemplateUI } from "@liexp/ui/lib/templates/links/LinkTemplateUI.js";
+import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils.js";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 

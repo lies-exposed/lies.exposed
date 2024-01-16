@@ -1,8 +1,8 @@
-import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import {
   LinkTemplateUI,
   type LinkTemplateUIProps,
-} from "@liexp/ui/lib/templates/links/LinkTemplateUI";
+} from "@liexp/ui/lib/templates/links/LinkTemplateUI.js";
 import { type StoryFn, type Meta } from "@storybook/react";
 import * as React from "react";
 

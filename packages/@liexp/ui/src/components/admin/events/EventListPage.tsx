@@ -1,12 +1,11 @@
-import * as io from "@liexp/shared/lib/io";
-import { Events } from "@liexp/shared/lib/io/http";
 import {
   DEATH,
   SCIENTIFIC_STUDY,
-} from "@liexp/shared/lib/io/http/Events/EventType";
-import { getTextContentsCapped } from "@liexp/shared/lib/slate";
-import PinDropIcon from "@mui/icons-material/PinDrop";
-import * as R from "fp-ts/Record";
+} from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { Events } from "@liexp/shared/lib/io/http/index.js";
+import * as io from "@liexp/shared/lib/io/index.js";
+import { getTextContentsCapped } from "@liexp/shared/lib/slate/index.js";
+import * as R from "fp-ts/lib/Record.js";
 import * as React from "react";
 import {
   BooleanField,
@@ -22,12 +21,12 @@ import {
   TextInput,
   type RaRecord,
 } from "react-admin";
-import { EventIcon } from "../../Common/Icons/EventIcon";
-import { Box, Typography } from "../../mui";
-import ReferenceArrayActorInput from "../actors/ReferenceArrayActorInput";
-import ReferenceArrayGroupMemberInput from "../common/ReferenceArrayGroupMemberInput";
-import ReferenceArrayGroupInput from "../groups/ReferenceArrayGroupInput";
-import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput";
+import { EventIcon } from "../../Common/Icons/EventIcon.js";
+import { Box, Typography, Icons } from "../../mui/index.js";
+import ReferenceArrayActorInput from "../actors/ReferenceArrayActorInput.js";
+import ReferenceArrayGroupMemberInput from "../common/ReferenceArrayGroupMemberInput.js";
+import ReferenceArrayGroupInput from "../groups/ReferenceArrayGroupInput.js";
+import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput.js";
 
 const RESOURCE = "events";
 
@@ -161,7 +160,7 @@ export const EventDataGrid: React.FC = () => {
       <FunctionField<RaRecord<string>>
         label="Location"
         source="payload.location.coordinates"
-        render={(r) => (r?.location?.coordinates ? <PinDropIcon /> : "-")}
+        render={(r) => (r?.location?.coordinates ? <Icons.PinDrop /> : "-")}
       />
 
       <DateField source="date" />

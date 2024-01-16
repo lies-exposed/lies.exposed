@@ -5,7 +5,7 @@ import {
   useRecordContext,
   useRefresh,
 } from "react-admin";
-import { transformLink } from "../transformLink";
+import { transformLink } from "../transformLink.js";
 
 export const TakeLinkScreenshot: React.FC = () => {
   const refresh = useRefresh();

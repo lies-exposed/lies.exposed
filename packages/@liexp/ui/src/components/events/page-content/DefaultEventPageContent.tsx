@@ -1,14 +1,14 @@
-import { type Events, type Media } from "@liexp/shared/lib/io/http";
-import { MP3Type, OGGType } from "@liexp/shared/lib/io/http/Media";
-import { isValidValue } from "@liexp/shared/lib/slate";
+import { MP3Type, OGGType } from "@liexp/shared/lib/io/http/Media.js";
+import { type Events, type Media } from "@liexp/shared/lib/io/http/index.js";
+import { isValidValue } from "@liexp/shared/lib/slate/index.js";
 import * as React from "react";
-import { useModal } from "../../../hooks/useModal";
-import { useTheme } from "../../../theme";
-import { LazyEditor as Editor } from "../../Common/Editor";
-import { MediaModalContent } from "../../Modal/MediaSliderModal";
-import { MediaList } from "../../lists/MediaList";
-import { Box, Grid } from "../../mui";
-import { MediaSlider } from "../../sliders/MediaSlider";
+import { useModal } from "../../../hooks/useModal.js";
+import { useTheme } from "../../../theme/index.js";
+import { LazyEditor as Editor } from "../../Common/Editor/index.js";
+import { MediaModalContent } from "../../Modal/MediaSliderModal.js";
+import { MediaList } from "../../lists/MediaList.js";
+import { Box, Grid } from "../../mui/index.js";
+import { MediaSlider } from "../../sliders/MediaSlider.js";
 
 interface DefaultEventPageContentProps {
   event: Events.SearchEvent.SearchEvent;

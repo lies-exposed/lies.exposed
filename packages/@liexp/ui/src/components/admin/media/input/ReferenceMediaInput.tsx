@@ -1,7 +1,7 @@
-import { type Media, type MediaType } from "@liexp/shared/lib/io/http/Media";
+import { type Media, type MediaType } from "@liexp/shared/lib/io/http/Media.js";
 import { get } from "lodash";
 import React from "react";
-import { Stack, Typography } from "../../../mui";
+import { Stack, Typography } from "../../../mui/index.js";
 import {
   AutocompleteInput,
   FunctionField,
@@ -9,7 +9,7 @@ import {
   ReferenceInput,
   useRecordContext,
   type ReferenceInputProps,
-} from "../../react-admin";
+} from "../../react-admin.js";
 
 export const matchMediaSuggestions = (
   filterValue: string,

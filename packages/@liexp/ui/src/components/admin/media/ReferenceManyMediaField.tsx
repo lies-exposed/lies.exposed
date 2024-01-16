@@ -4,7 +4,7 @@ import {
   type RaRecord,
   type ReferenceManyFieldProps,
 } from "react-admin";
-import { MediaDataGrid } from "./MediaList";
+import { MediaDataGrid } from "./MediaList.js";
 
 const ReferenceManyMediaField: React.FC<
   Omit<ReferenceManyFieldProps<RaRecord<string>>, "reference" | "children">

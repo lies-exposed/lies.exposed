@@ -1,8 +1,8 @@
-import * as SocialPost from "@liexp/shared/lib/io/http/SocialPost";
+import * as SocialPost from "@liexp/shared/lib/io/http/SocialPost.js";
 import * as React from "react";
-import { Box } from "../../mui";
-import { SelectInput } from "../react-admin";
-import { PublishNowButton } from "./PublishNowButton";
+import { Box } from "../../mui/index.js";
+import { SelectInput } from "../react-admin.js";
+import { PublishNowButton } from "./PublishNowButton.js";
 
 export const SocialPostStatus: React.FC = () => {
   return (

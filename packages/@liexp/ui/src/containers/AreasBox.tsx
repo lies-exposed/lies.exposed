@@ -1,8 +1,8 @@
 import * as React from "react";
 import { type GetListParams } from "react-admin";
-import QueriesRenderer from "../components/QueriesRenderer";
-import { AreaList, type Area } from "../components/lists/AreaList";
-import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
+import QueriesRenderer from "../components/QueriesRenderer.js";
+import { AreaList, type Area } from "../components/lists/AreaList.js";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
 
 const AreasBox: React.FC<{
   params: GetListParams;

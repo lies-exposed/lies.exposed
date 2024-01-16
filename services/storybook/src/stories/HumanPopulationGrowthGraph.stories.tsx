@@ -1,7 +1,7 @@
 import {
   HumanPopulationGrowthGraph,
   type HumanPopulationGrowthGraphProps,
-} from "@liexp/ui/lib/components/Graph/HumanPopulationGrowthGraph";
+} from "@liexp/ui/lib/components/Graph/HumanPopulationGrowthGraph.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

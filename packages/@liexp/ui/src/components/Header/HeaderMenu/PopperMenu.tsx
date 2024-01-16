@@ -7,8 +7,8 @@ import {
   Paper,
   Popper,
   Typography,
-} from "../../mui";
-import { type HeaderMenuItem } from "./types";
+} from "../../mui/index.js";
+import { type HeaderMenuItem } from "./types.js";
 
 interface PopperMenuProps {
   menuItem: HeaderMenuItem;

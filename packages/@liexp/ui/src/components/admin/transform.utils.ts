@@ -1,12 +1,12 @@
-import * as http from "@liexp/shared/lib/io/http";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType";
-import { getTextContents } from "@liexp/shared/lib/slate";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import * as A from "fp-ts/Array";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import * as http from "@liexp/shared/lib/io/http/index.js";
+import { getTextContents } from "@liexp/shared/lib/slate/index.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import * as A from "fp-ts/lib/Array.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { pipe } from "fp-ts/lib/function.js";
 import { type DataProvider, type RaRecord } from "react-admin";
-import { type RawMedia, uploadFile } from "../../client/admin/MediaAPI";
+import { type RawMedia, uploadFile } from "../../client/admin/MediaAPI.js";
 
 export const transformLinks = (links: any[]): any[] => {
   return links.reduce<Array<string | { url: string; publishDate: Date }>>(

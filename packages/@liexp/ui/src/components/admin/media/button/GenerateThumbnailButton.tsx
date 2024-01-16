@@ -5,8 +5,8 @@ import {
   useRefresh,
   type FieldProps,
 } from "react-admin";
-import { useModal } from "../../../../hooks/useModal";
-import { Box, Button } from "../../../mui";
+import { useModal } from "../../../../hooks/useModal.js";
+import { Box, Button } from "../../../mui/index.js";
 
 const SelectThumbnailModalContent: React.FC<{
   thumbnails: string[];

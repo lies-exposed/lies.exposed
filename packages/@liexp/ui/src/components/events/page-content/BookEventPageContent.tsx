@@ -1,8 +1,8 @@
-import { type Media, type Events } from "@liexp/shared/lib/io/http";
+import { type Media, type Events } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import { useTheme } from "../../../theme";
-import MediaElement from "../../Media/MediaElement";
-import { Grid, Typography } from "../../mui";
+import { useTheme } from "../../../theme/index.js";
+import MediaElement from "../../Media/MediaElement.js";
+import { Grid, Typography } from "../../mui/index.js";
 
 interface BookEventPageContentProps {
   event: Events.SearchEvent.SearchBookEvent;

@@ -5,10 +5,10 @@ import {
   type ReferenceFieldProps,
   useRecordContext,
 } from "react-admin";
-import { Box } from "../../mui";
-import { ReferenceMediaDataGrid } from "../media/ReferenceMediaDataGrid";
-import { MediaArrayInput } from "../media/input/MediaArrayInput";
-import ReferenceArrayMediaInput from "../media/input/ReferenceArrayMediaInput";
+import { Box } from "../../mui/index.js";
+import { ReferenceMediaDataGrid } from "../media/ReferenceMediaDataGrid.js";
+import { MediaArrayInput } from "../media/input/MediaArrayInput.js";
+import ReferenceArrayMediaInput from "../media/input/ReferenceArrayMediaInput.js";
 
 export const ReferenceMediaTab: React.FC<
   Omit<ReferenceFieldProps<RaRecord<string>>, "reference"> & {

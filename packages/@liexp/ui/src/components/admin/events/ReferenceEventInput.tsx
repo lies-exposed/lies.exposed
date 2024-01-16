@@ -1,12 +1,12 @@
 import React from "react";
-import { EventIcon } from "../../Common/Icons";
-import { Box } from "../../mui";
+import { EventIcon } from "../../Common/Icons/index.js";
+import { Box } from "../../mui/index.js";
 import {
   AutocompleteInput,
   ReferenceInput,
   type ReferenceInputProps,
-} from "../react-admin";
-import { EventTitle } from "./titles/EventTitle";
+} from "../react-admin.js";
+import { EventTitle } from "./titles/EventTitle.js";
 
 const ReferenceEventInput: React.FC<
   Omit<ReferenceInputProps, "children"> & { source: string }

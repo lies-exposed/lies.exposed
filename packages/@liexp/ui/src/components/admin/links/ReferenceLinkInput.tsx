@@ -1,6 +1,6 @@
-import { type Link } from "@liexp/shared/lib/io/http";
-import { type Media } from "@liexp/shared/lib/io/http/Media";
-import get from "lodash/get";
+import { type Media } from "@liexp/shared/lib/io/http/Media.js";
+import { type Link } from "@liexp/shared/lib/io/http/index.js";
+import get from "lodash/get.js";
 import React from "react";
 import {
   AutocompleteInput,
@@ -10,7 +10,7 @@ import {
   Button,
   useRedirect,
 } from "react-admin";
-import { Box, Typography } from "../../mui";
+import { Box, Typography } from "../../mui/index.js";
 
 export const matchLinkSuggestions = (
   filterValue: string,

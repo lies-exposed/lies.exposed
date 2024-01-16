@@ -1,4 +1,4 @@
-import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import * as React from "react";
 import {
   BooleanInput,
@@ -13,12 +13,12 @@ import {
   usePermissions,
   type ListProps,
 } from "react-admin";
-import { Box } from "../../mui";
-import URLMetadataInput from "../common/URLMetadataInput";
-import ReferenceArrayEventInput from "../events/ReferenceArrayEventInput";
-import ReferenceGroupInput from "../groups/ReferenceGroupInput";
-import { SearchLinksButton } from "../links/SearchLinksButton";
-import { LinkDataGrid } from "./LinkDataGrid";
+import { Box } from "../../mui/index.js";
+import URLMetadataInput from "../common/URLMetadataInput.js";
+import ReferenceArrayEventInput from "../events/ReferenceArrayEventInput.js";
+import ReferenceGroupInput from "../groups/ReferenceGroupInput.js";
+import { SearchLinksButton } from "../links/SearchLinksButton.js";
+import { LinkDataGrid } from "./LinkDataGrid.js";
 
 const RESOURCE = "links";
 

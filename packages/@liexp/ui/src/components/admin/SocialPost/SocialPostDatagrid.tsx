@@ -1,7 +1,7 @@
-import { TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost";
+import { TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost.js";
 import React from "react";
-import { InstagramIcon, TelegramIcon } from "../../Common/Icons";
-import { Box } from "../../mui";
+import { InstagramIcon, TelegramIcon } from "../../Common/Icons/index.js";
+import { Box } from "../../mui/index.js";
 import {
   Datagrid,
   type DatagridProps,
@@ -10,7 +10,7 @@ import {
   Link,
   NumberField,
   TextField,
-} from "../react-admin";
+} from "../react-admin.js";
 
 export const SocialPostDataGrid: React.FC<DatagridProps> = (props) => {
   return (

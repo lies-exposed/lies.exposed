@@ -1,15 +1,15 @@
-import { Events } from "@liexp/shared/lib/io/http";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
-import { EventIcon } from "@liexp/ui/lib/components/Common/Icons/EventIcon";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput";
-import ReferenceAreaInput from "@liexp/ui/lib/components/admin/areas/input/ReferenceAreaInput";
-import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField";
-import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField";
-import ReferenceArrayGroupMemberInput from "@liexp/ui/lib/components/admin/common/ReferenceArrayGroupMemberInput";
-import { UncategorizedEventEditTab } from "@liexp/ui/lib/components/admin/events/tabs/UncategorizedEventEditTab";
-import ReferenceArrayGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput";
-import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput";
+import { Events } from "@liexp/shared/lib/io/http/index.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import { EventIcon } from "@liexp/ui/lib/components/Common/Icons/EventIcon.js";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput.js";
+import ReferenceAreaInput from "@liexp/ui/lib/components/admin/areas/input/ReferenceAreaInput.js";
+import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField.js";
+import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField.js";
+import ReferenceArrayGroupMemberInput from "@liexp/ui/lib/components/admin/common/ReferenceArrayGroupMemberInput.js";
+import { UncategorizedEventEditTab } from "@liexp/ui/lib/components/admin/events/tabs/UncategorizedEventEditTab.js";
+import ReferenceArrayGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput.js";
+import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput.js";
 import {
   BooleanInput,
   Create,
@@ -27,11 +27,11 @@ import {
   useDataProvider,
   type ListProps,
   type RaRecord,
-} from "@liexp/ui/lib/components/admin/react-admin";
-import { ReferenceLinkTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceLinkTab";
-import { ReferenceMediaTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceMediaTab";
-import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils";
-import PinDropIcon from "@mui/icons-material/PinDrop";
+} from "@liexp/ui/lib/components/admin/react-admin.js";
+import { ReferenceLinkTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceLinkTab.js";
+import { ReferenceMediaTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceMediaTab.js";
+import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils.js";
+import PinDropIcon from "@mui/icons-material/PinDrop.js";
 import * as React from "react";
 
 const RESOURCE = "events";

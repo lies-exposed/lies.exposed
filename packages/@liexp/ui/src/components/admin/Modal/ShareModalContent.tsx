@@ -1,20 +1,20 @@
-import { getShareMedia } from "@liexp/shared/lib/helpers/event";
-import { type Media } from "@liexp/shared/lib/io/http";
-import { ImageType } from "@liexp/shared/lib/io/http/Media";
-import { type CreateSocialPost } from "@liexp/shared/lib/io/http/SocialPost";
+import { getShareMedia } from "@liexp/shared/lib/helpers/event/index.js";
+import { ImageType } from "@liexp/shared/lib/io/http/Media.js";
+import { type CreateSocialPost } from "@liexp/shared/lib/io/http/SocialPost.js";
+import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import {
   contentTypeFromFileExt,
   fileExtFromContentType,
-} from "@liexp/shared/lib/utils/media.utils";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
+} from "@liexp/shared/lib/utils/media.utils.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { kebabCase } from "lodash";
 import * as React from "react";
-import { TabPanel, a11yProps } from "../../Common/TabPanel";
-import { defaultImage } from "../../SEO";
-import { ActorList } from "../../lists/ActorList";
-import GroupList from "../../lists/GroupList";
-import KeywordList from "../../lists/KeywordList";
-import { MediaList } from "../../lists/MediaList";
+import { TabPanel, a11yProps } from "../../Common/TabPanel.js";
+import { defaultImage } from "../../SEO.js";
+import { ActorList } from "../../lists/ActorList.js";
+import GroupList from "../../lists/GroupList.js";
+import KeywordList from "../../lists/KeywordList.js";
+import { MediaList } from "../../lists/MediaList.js";
 import {
   Box,
   FormControlLabel,
@@ -25,8 +25,8 @@ import {
   Tab,
   Tabs,
   Typography,
-} from "../../mui";
-import { BuildImageButton } from "../media/button/BuildImageButton";
+} from "../../mui/index.js";
+import { BuildImageButton } from "../media/button/BuildImageButton.js";
 
 export interface ShareModalContentProps {
   post: CreateSocialPost;

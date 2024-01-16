@@ -2,7 +2,7 @@ import { LinkArb } from "@liexp/shared/lib/tests/index.js";
 import { fc } from "@liexp/test";
 import LinkCard, {
   type LinkCardProps,
-} from "@liexp/ui/lib/components/Cards/LinkCard";
+} from "@liexp/ui/lib/components/Cards/LinkCard.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

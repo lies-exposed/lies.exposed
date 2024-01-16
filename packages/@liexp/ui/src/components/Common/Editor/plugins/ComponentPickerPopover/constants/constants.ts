@@ -4,14 +4,12 @@ import {
   GROUP_INLINE,
   KEYWORD_INLINE,
   MEDIA_BLOCK_PLUGIN,
-} from "@liexp/shared/lib/slate/plugins/customSlate";
-import { ActorInlinePluginIcon } from "../actor/ActorInline.plugin";
-import { EventBlockPluginIcon } from "../event/eventBlock.plugin";
-import { GroupInlinePluginIcon } from "../group/GroupInline.plugin";
-import { KeywordInlinePluginIcon } from "../keyword/KeywordInline.plugin";
-import { MediaBlockPluginIcon } from "../media/mediaBlock";
-
-export const ANCHOR_ID = "component-picker-popover-anchor";
+} from "@liexp/shared/lib/slate/plugins/customSlate.js";
+import { ActorInlinePluginIcon } from "../../actor/ActorInline.plugin.js";
+import { EventBlockPluginIcon } from "../../event/eventBlock.plugin.js";
+import { GroupInlinePluginIcon } from "../../group/GroupInline.plugin.js";
+import { KeywordInlinePluginIcon } from "../../keyword/KeywordInline.plugin.js";
+import { MediaBlockPluginIcon } from "../../media/mediaBlock.js";
 
 export const PLUGINS = [
   { name: "Actor", type: ACTOR_INLINE, icon: ActorInlinePluginIcon },

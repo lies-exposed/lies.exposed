@@ -1,18 +1,18 @@
+import { ByActorId, ByGroupId } from "@liexp/shared/lib/io/http/Common/index.js";
+import { TRANSACTION } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import {
   type Actor,
   type Events,
   type Keyword,
-} from "@liexp/shared/lib/io/http";
-import { ByActorId, ByGroupId } from "@liexp/shared/lib/io/http/Common";
-import { TRANSACTION } from "@liexp/shared/lib/io/http/Events/EventType";
-import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+} from "@liexp/shared/lib/io/http/index.js";
+import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate/index.js";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight.js";
 import * as React from "react";
-import { styled } from "../../../theme";
-import { EventIcon } from "../../Common/Icons";
-import { Box, Grid, Typography } from "../../mui";
-import { ActorListItem } from "../ActorList";
-import { GroupListItem } from "../GroupList";
+import { styled } from "../../../theme/index.js";
+import { EventIcon } from "../../Common/Icons/index.js";
+import { Box, Grid, Typography } from "../../mui/index.js";
+import { ActorListItem } from "../ActorList.js";
+import { GroupListItem } from "../GroupList.js";
 
 const PREFIX = "TransactionListItem";
 

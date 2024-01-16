@@ -5,19 +5,19 @@ import {
   KEYWORD_INLINE,
   LINK_INLINE,
   MEDIA_BLOCK_PLUGIN,
-} from "@liexp/shared/lib/slate/plugins/customSlate";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
-import { type SlateComponentPluginDefinition } from "@react-page/plugins-slate/lib/types/slatePluginDefinitions";
+} from "@liexp/shared/lib/slate/plugins/customSlate.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import { type SlateComponentPluginDefinition } from "@react-page/plugins-slate/lib/types/slatePluginDefinitions.js";
 import React from "react";
-import { CircularProgress } from "../../../../mui";
-import { ActorInlineRenderer } from "../actor/ActorInline.plugin";
-import { EventBlockPluginRenderer } from "../event/eventBlock.plugin";
-import { GroupInlineRenderer } from "../group/GroupInline.plugin";
-import { KeywordInlineRenderer } from "../keyword/KeywordInline.plugin";
-import { LinkInlineRenderer } from "../links/LinkInline.plugin";
-import { MediaBlockPluginRenderer } from "../media/mediaBlock";
-import { ComponentPickerPopoverRendererAnchorWrapper } from "./ComponentPickerPopoverPluginControlAnchor";
-import { type ComponentPickerPopoverState } from "./types";
+import { CircularProgress } from "../../../../mui/index.js";
+import { ActorInlineRenderer } from "../actor/ActorInline.plugin.js";
+import { EventBlockPluginRenderer } from "../event/eventBlock.plugin.js";
+import { GroupInlineRenderer } from "../group/GroupInline.plugin.js";
+import { KeywordInlineRenderer } from "../keyword/KeywordInline.plugin.js";
+import { LinkInlineRenderer } from "../links/LinkInline.plugin.js";
+import { MediaBlockPluginRenderer } from "../media/mediaBlock.js";
+import { ComponentPickerPopoverRendererAnchorWrapper } from "./ComponentPickerPopoverPluginControlAnchor.js";
+import { type ComponentPickerPopoverState } from "./types.js";
 
 export const ComponentPickerPopoverRenderer: SlateComponentPluginDefinition<ComponentPickerPopoverState>["Component"] =
   ({ plugin, ...props }) => {

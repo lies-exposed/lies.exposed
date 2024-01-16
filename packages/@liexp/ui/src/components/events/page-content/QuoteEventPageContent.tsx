@@ -1,8 +1,8 @@
-import { type Events } from "@liexp/shared/lib/io/http";
-import { getTextContents } from "@liexp/shared/lib/slate";
+import { type Events } from "@liexp/shared/lib/io/http/index.js";
+import { getTextContents } from "@liexp/shared/lib/slate/index.js";
 import * as React from "react";
-import { Avatar } from "../../Common/Avatar";
-import { Box, Grid, Typography } from "../../mui";
+import { Avatar } from "../../Common/Avatar.js";
+import { Box, Grid, Typography } from "../../mui/index.js";
 
 interface QuoteEventPageContentProps {
   event: Events.SearchEvent.SearchQuoteEvent;

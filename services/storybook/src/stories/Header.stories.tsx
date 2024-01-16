@@ -1,6 +1,6 @@
 import Header, {
   type HeaderProps,
-} from "@liexp/ui/lib/components/Header/Header";
+} from "@liexp/ui/lib/components/Header/Header.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

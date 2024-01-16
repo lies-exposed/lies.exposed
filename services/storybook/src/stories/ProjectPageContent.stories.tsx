@@ -1,7 +1,7 @@
 import {
   ProjectPageContent,
   type ProjectPageContentProps,
-} from "@liexp/ui/lib/components/ProjectPageContent";
+} from "@liexp/ui/lib/components/ProjectPageContent.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

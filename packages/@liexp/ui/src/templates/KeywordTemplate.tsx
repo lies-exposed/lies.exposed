@@ -1,28 +1,28 @@
+import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
+import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
+import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
 import {
   type Actor,
   type Group,
   type Keyword,
   type Media,
-} from "@liexp/shared/lib/io/http";
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent";
-import { GROUPS } from "@liexp/shared/lib/io/http/Group";
-import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
-import { formatDate } from "@liexp/shared/lib/utils/date.utils";
-import subYears from "date-fns/subYears";
+} from "@liexp/shared/lib/io/http/index.js";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
+import subYears from "date-fns/subYears/index.js";
 import * as React from "react";
-import { LinksListBox } from "../components/LinksBox";
-import QueriesRenderer from "../components/QueriesRenderer";
-import SEO from "../components/SEO";
-import { Box, Grid } from "../components/mui";
-import { EventsPanelBox } from "../containers/EventsPanel";
-import { MediaBox } from "../containers/MediaBox";
-import { StatsPanelBox } from "../containers/StatsPanelBox";
-import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox";
-import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventsNetworkGraphBox";
-import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
-import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery";
-import { SplitPageTemplate } from "./SplitPageTemplate";
+import { LinksListBox } from "../components/LinksBox.js";
+import QueriesRenderer from "../components/QueriesRenderer.js";
+import SEO from "../components/SEO.js";
+import { Box, Grid } from "../components/mui/index.js";
+import { EventsPanelBox } from "../containers/EventsPanel.js";
+import { MediaBox } from "../containers/MediaBox.js";
+import { StatsPanelBox } from "../containers/StatsPanelBox.js";
+import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox.js";
+import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventsNetworkGraphBox.js";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
+import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery.js";
+import { SplitPageTemplate } from "./SplitPageTemplate.js";
 
 export interface KeywordTemplateProps {
   id: string;

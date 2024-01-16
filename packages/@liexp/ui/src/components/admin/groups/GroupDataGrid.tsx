@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Datagrid, DateField, FunctionField, TextField } from "react-admin";
-import { Box } from "../../mui";
-import { AvatarField } from "../common/AvatarField";
+import { Box } from "../../mui/index.js";
+import { AvatarField } from "../common/AvatarField.js";
 
 export const GroupDataGrid: React.FC = () => {
   return (

@@ -1,9 +1,9 @@
-import { ImageType } from "@liexp/shared/lib/io/http/Media";
-import { relationsTransformer } from "@liexp/shared/lib/slate/utils";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { ImageType } from "@liexp/shared/lib/io/http/Media.js";
+import { relationsTransformer } from "@liexp/shared/lib/slate/utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import {
   ArrayInput,
@@ -33,16 +33,16 @@ import {
   type ListProps,
   type RaRecord,
 } from "react-admin";
-import { uploadImages } from "../../../client/admin/MediaAPI";
-import { Box, Grid } from "../../mui";
-import ReactPageInput from "../ReactPageInput";
-import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent";
-import { EditForm } from "../common/EditForm";
-import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput";
-import ReferenceMediaInput from "../media/input/ReferenceMediaInput";
-import StoryPreview from "../previews/StoryPreview";
-import ReferenceUserInput from "../user/ReferenceUserInput";
-import { StoryRelationsBox } from "./StoryRelations";
+import { uploadImages } from "../../../client/admin/MediaAPI.js";
+import { Box, Grid } from "../../mui/index.js";
+import ReactPageInput from "../ReactPageInput.js";
+import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
+import { EditForm } from "../common/EditForm.js";
+import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput.js";
+import ReferenceMediaInput from "../media/input/ReferenceMediaInput.js";
+import StoryPreview from "../previews/StoryPreview.js";
+import ReferenceUserInput from "../user/ReferenceUserInput.js";
+import { StoryRelationsBox } from "./StoryRelations.js";
 
 export const StoryList: React.FC<ListProps> = (props) => {
   const { data, isLoading } = useGetIdentity();

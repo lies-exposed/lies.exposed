@@ -5,6 +5,11 @@
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/*/*.d.ts",
+  "module": "lib/index.js",
+  "exports": {
+    "./lib/*": "./lib/*",
+    "./assets/*": "./assets/*"
+  },
   "files": [
     "lib",
     "assets"

@@ -1,9 +1,9 @@
-import { type Group } from "@liexp/shared/lib/io/http";
+import { type Group } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useQuery } from "react-query";
-import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
-import GroupList, { GroupListItem } from "../lists/GroupList";
-import { AutocompleteInput } from "./AutocompleteInput";
+import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
+import GroupList, { GroupListItem } from "../lists/GroupList.js";
+import { AutocompleteInput } from "./AutocompleteInput.js";
 
 interface AutocompleteGroupInputProps {
   className?: string;
@@ -29,9 +29,10 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
       selectedItems={selectedItems}
       query={(p) =>
         options
-          ? useQuery(["actor-options"], () =>
-              Promise.resolve({ data: options }),
-            )
+          ? useQuery({
+              queryKey: ["group-options"],
+              queryFn: () => Promise.resolve({ data: options }),
+            })
           : Queries.Group.list.useQuery(p, undefined, discrete)
       }
       renderTags={(items) => (

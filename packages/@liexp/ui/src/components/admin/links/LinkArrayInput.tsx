@@ -8,8 +8,8 @@ import {
   TextInput,
   FormDataConsumer,
 } from "react-admin";
-import { Box } from "../../mui";
-import ReferenceArrayLinkInput from "./ReferenceArrayLinkInput";
+import { Box } from "../../mui/index.js";
+import ReferenceArrayLinkInput from "./ReferenceArrayLinkInput.js";
 
 export const LinkArrayInput: React.FC<
   { source: string } & Omit<ArrayInputProps, "children">

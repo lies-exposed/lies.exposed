@@ -1,5 +1,5 @@
 import React from "react";
-import { ANCHOR_ID } from "./constants";
+import { ANCHOR_ID } from "./constants/anchor.constant.js";
 
 /**
  * Checks whatever a div with id {@link ANCHOR_ID} is present in DOM.

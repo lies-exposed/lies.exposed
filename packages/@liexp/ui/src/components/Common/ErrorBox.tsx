@@ -1,7 +1,7 @@
-import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
+import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import * as React from "react";
 import { type FallbackProps } from "react-error-boundary";
-import { Box, Card, CardContent, CardHeader, Grid, Typography } from "../mui";
+import { Box, Card, CardContent, CardHeader, Grid, Typography } from "../mui/index.js";
 
 const APIErrorBox = (e: APIError): React.ReactElement => {
   return (

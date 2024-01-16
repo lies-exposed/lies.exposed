@@ -1,13 +1,13 @@
-import { getRelationIdsFromEventRelations } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
-import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion";
-import * as io from "@liexp/shared/lib/io";
-import * as O from "fp-ts/Option";
+import { getRelationIdsFromEventRelations } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
+import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
+import * as io from "@liexp/shared/lib/io/index.js";
+import * as O from "fp-ts/lib/Option.js";
 import { useRecordContext } from "ra-core";
 import * as React from "react";
 import { Button, useDataProvider } from "react-admin";
 import { useNavigate } from "react-router";
-import { Box, MenuItem, Select } from "../../mui";
-import EventPreview from "../previews/EventPreview";
+import { Box, MenuItem, Select } from "../../mui/index.js";
+import EventPreview from "../previews/EventPreview.js";
 
 export const CreateEventFromLinkButton: React.FC = () => {
   const record = useRecordContext();

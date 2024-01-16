@@ -1,10 +1,10 @@
-import { MapInput } from "@liexp/ui/lib/components/admin/MapInput";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import { AreaTGPostButton } from "@liexp/ui/lib/components/admin/areas/button/AreaTGPostButton";
-import { SearchAreaCoordinatesButton } from "@liexp/ui/lib/components/admin/areas/button/SearchAreaCoordinatesButton";
-import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm";
-import ReferenceArrayEventInput from "@liexp/ui/lib/components/admin/events/ReferenceArrayEventInput";
-import AreaPreview from "@liexp/ui/lib/components/admin/previews/AreaPreview";
+import { MapInput } from "@liexp/ui/lib/components/admin/MapInput.js";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import { AreaTGPostButton } from "@liexp/ui/lib/components/admin/areas/button/AreaTGPostButton.js";
+import { SearchAreaCoordinatesButton } from "@liexp/ui/lib/components/admin/areas/button/SearchAreaCoordinatesButton.js";
+import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
+import ReferenceArrayEventInput from "@liexp/ui/lib/components/admin/events/ReferenceArrayEventInput.js";
+import AreaPreview from "@liexp/ui/lib/components/admin/previews/AreaPreview.js";
 import {
   BooleanField,
   BooleanInput,
@@ -27,10 +27,10 @@ import {
   type EditProps,
   type ListProps,
   useRefresh,
-} from "@liexp/ui/lib/components/admin/react-admin";
-import { ReferenceMediaTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceMediaTab";
-import { transformMedia } from "@liexp/ui/lib/components/admin/transform.utils";
-import { Box } from "@liexp/ui/lib/components/mui";
+} from "@liexp/ui/lib/components/admin/react-admin.js";
+import { ReferenceMediaTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceMediaTab.js";
+import { transformMedia } from "@liexp/ui/lib/components/admin/transform.utils.js";
+import { Box } from "@liexp/ui/lib/components/mui/index.js";
 import * as React from "react";
 
 const RESOURCE = "areas";

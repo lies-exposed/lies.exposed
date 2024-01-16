@@ -1,17 +1,16 @@
-import { type Link } from "@liexp/shared/lib/io/http";
-import { LINK_INLINE } from "@liexp/shared/lib/slate/plugins/customSlate";
-import RecentLinksIcon from "@mui/icons-material/LinkOutlined";
-import type { CellPluginComponentProps, DataTType } from "@react-page/editor";
-import { pluginFactories } from "@react-page/plugins-slate";
+import { type Link } from "@liexp/shared/lib/io/http/index.js";
+import { LINK_INLINE } from "@liexp/shared/lib/slate/plugins/customSlate.js";
+import type { CellPluginComponentProps, DataTType } from "@react-page/editor/lib-es/index.js";
 import {
   type SlateComponentPluginDefinition,
   type SlatePluginControls,
-} from "@react-page/plugins-slate/lib/types/slatePluginDefinitions";
+} from "@react-page/plugins-slate/lib/types/slatePluginDefinitions.js";
+import { pluginFactories } from "@react-page/plugins-slate/lib-es/index.js";
 import React from "react";
-import { AutocompleteLinkInput } from "../../../../Input/AutocompleteLinkInput";
-import { Box, Button, Checkbox, FormControlLabel, Grid } from "../../../../mui";
-import { FullSizeLoader } from "../../../FullSizeLoader";
-import { Popover, type PopoverProps } from "../../../Popover";
+import { AutocompleteLinkInput } from "../../../../Input/AutocompleteLinkInput.js";
+import { Box, Button, Checkbox, FormControlLabel, Grid, Icons } from "../../../../mui/index.js";
+import { FullSizeLoader } from "../../../FullSizeLoader.js";
+import { Popover, type PopoverProps } from "../../../Popover.js";
 
 export interface LinkInlineState extends DataTType {
   actor: Link.Link;
@@ -24,7 +23,7 @@ export interface LinkInlineSettings {
 }
 
 export const defaultSettings: LinkInlineSettings = {
-  icon: <RecentLinksIcon />,
+  icon: <Icons.LinkIcon />,
 };
 
 export type LinkInlineControlType = React.ComponentType<
@@ -206,10 +205,10 @@ const linkInlinePlugin = pluginFactories.createComponentPlugin<LinkInlineState>(
     type: LINK_INLINE,
     object: "inline",
     isVoid: true,
-    icon: <RecentLinksIcon />,
+    icon: <Icons.LinkIcon />,
     label: "Link",
   },
 );
 
-export const LinkInlinePluginIcon = RecentLinksIcon;
+export const LinkInlinePluginIcon = Icons.LinkIcon;
 export { linkInlinePlugin };

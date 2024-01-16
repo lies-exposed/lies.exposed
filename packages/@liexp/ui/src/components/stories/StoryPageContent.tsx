@@ -5,19 +5,19 @@ import {
   type Media,
   type Story,
   type Events,
-} from "@liexp/shared/lib/io/http";
-import { isValidValue } from "@liexp/shared/lib/slate";
-import { formatDate } from "@liexp/shared/lib/utils/date.utils";
+} from "@liexp/shared/lib/io/http/index.js";
+import { isValidValue } from "@liexp/shared/lib/slate/index.js";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { parseISO } from "date-fns";
 import * as t from "io-ts";
 import * as React from "react";
-import { useTheme } from "../../theme";
-import EditButton from "../Common/Button/EditButton";
-import { LazyEditor as Editor } from "../Common/Editor";
-import { InlineRelationsPlugin } from "../Common/Editor/plugins/renderer/InlineRelationsBoxPlugin";
-import { TOCPlugin } from "../Common/Editor/plugins/renderer/TOCPlugin";
-import { MainContent } from "../MainContent";
-import { Grid, Typography, alpha } from "../mui";
+import { useTheme } from "../../theme/index.js";
+import EditButton from "../Common/Button/EditButton.js";
+import { LazyEditor as Editor } from "../Common/Editor/index.js";
+import { InlineRelationsPlugin } from "../Common/Editor/plugins/renderer/InlineRelationsBoxPlugin.js";
+import { TOCPlugin } from "../Common/Editor/plugins/renderer/TOCPlugin.js";
+import { MainContent } from "../MainContent.js";
+import { Grid, Typography, alpha } from "../mui/index.js";
 
 export interface StoryPageContentProps {
   story: Story.Story;

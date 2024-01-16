@@ -1,6 +1,6 @@
 import EventsBox, {
   type EventsBoxProps,
-} from "@liexp/ui/lib/containers/EventsBox";
+} from "@liexp/ui/lib/containers/EventsBox.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

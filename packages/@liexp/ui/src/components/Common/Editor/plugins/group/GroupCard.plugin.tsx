@@ -1,13 +1,13 @@
-import MediaIcon from "@mui/icons-material/VideoFileOutlined";
+import MediaIcon from "@mui/icons-material/VideoFileOutlined.js";
 import type {
   CellPlugin,
   CellPluginComponentProps,
   DataTType,
-} from "@react-page/editor";
+} from "@react-page/editor/lib-es/index.js";
 import React from "react";
-import { GroupsBox } from "../../../../../containers/GroupsBox";
-import { AutocompleteGroupInput } from "../../../../Input/AutocompleteGroupInput";
-import { Box } from "../../../../mui";
+import { GroupsBox } from "../../../../../containers/GroupsBox.js";
+import { AutocompleteGroupInput } from "../../../../Input/AutocompleteGroupInput.js";
+import { Box } from "../../../../mui/index.js";
 
 export interface GroupInlineState extends DataTType {
   groupId: string;

@@ -1,9 +1,9 @@
-import { type Media } from "@liexp/shared/lib/io/http";
+import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import { clsx } from "clsx";
 import * as React from "react";
-import { styled } from "../../theme";
-import { Slider, type SliderProps } from "../Common/Slider/Slider";
-import MediaElement from "../Media/MediaElement";
+import { styled } from "../../theme/index.js";
+import { Slider, type SliderProps } from "../Common/Slider/Slider.js";
+import MediaElement from "../Media/MediaElement.js";
 
 const MEDIA_SLIDER_PREFIX = "media-slider";
 const classes = {

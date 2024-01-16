@@ -1,30 +1,30 @@
-import { TupleWithId } from "@liexp/core/lib/fp/utils/TupleWithId";
-import { getEventCommonProps } from "@liexp/shared/lib/helpers/event";
-import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
-import { type http } from "@liexp/shared/lib/io";
-import { EventType } from "@liexp/shared/lib/io/http/Events";
-import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate";
+import { TupleWithId } from "@liexp/core/lib/fp/utils/TupleWithId.js";
+import { getEventCommonProps } from "@liexp/shared/lib/helpers/event/index.js";
+import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
+import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type http } from "@liexp/shared/lib/io/index.js";
+import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate/index.js";
 import {
   formatAnyDateToShort,
   formatDate,
-} from "@liexp/shared/lib/utils/date.utils";
-import subYears from "date-fns/subYears";
+} from "@liexp/shared/lib/utils/date.utils.js";
+import subYears from "date-fns/subYears/index.js";
 import * as React from "react";
-import AreasMap from "../components/AreasMap";
-import { EventPageContent } from "../components/EventPageContent";
-import { GroupMembersList } from "../components/GroupMembersBox";
-import { KeywordsBox } from "../components/KeywordsBox";
-import { LinksListBox } from "../components/LinksBox";
-import SEO from "../components/SEO";
-import { EventRelatedEvents } from "../components/events/EventRelatedEvents/EventRelatedEvents";
-import { EventRelations } from "../components/events/EventRelations";
-import { ActorList } from "../components/lists/ActorList";
-import GroupList from "../components/lists/GroupList";
-import { Box, Grid, Typography, useMuiMediaQuery } from "../components/mui";
-import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox";
-import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventsNetworkGraphBox";
-import { styled, useTheme } from "../theme";
-import { SplitPageTemplate } from "./SplitPageTemplate";
+import AreasMap from "../components/AreasMap.js";
+import { EventPageContent } from "../components/EventPageContent.js";
+import { GroupMembersList } from "../components/GroupMembersBox.js";
+import { KeywordsBox } from "../components/KeywordsBox.js";
+import { LinksListBox } from "../components/LinksBox.js";
+import SEO from "../components/SEO.js";
+import { EventRelatedEvents } from "../components/events/EventRelatedEvents/EventRelatedEvents.js";
+import { EventRelations } from "../components/events/EventRelations.js";
+import { ActorList } from "../components/lists/ActorList.js";
+import GroupList from "../components/lists/GroupList.js";
+import { Box, Grid, Typography, useMuiMediaQuery } from "../components/mui/index.js";
+import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox.js";
+import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventsNetworkGraphBox.js";
+import { styled, useTheme } from "../theme/index.js";
+import { SplitPageTemplate } from "./SplitPageTemplate.js";
 
 const PREFIX = "event-template-ui";
 const classes = {

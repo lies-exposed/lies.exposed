@@ -4,7 +4,7 @@
     "outDir": "build",
     "module": "esnext",
     "moduleResolution": "node",
-    "target": "es5",
+    "target": "es6",
     "jsx": "react",
     "noEmit": false,
     "allowJs": true,
@@ -22,6 +22,7 @@
     "noFallthroughCasesInSwitch": true,
     "tsBuildInfoFile": "build/.tsbuildinfo",
     "baseUrl": "./src",
+    "rootDir": "./src",
     "paths": {
       "@containers/*": ["./client/containers/*"]
     }

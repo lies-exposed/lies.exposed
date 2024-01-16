@@ -1,7 +1,7 @@
-import { isServer } from "@liexp/shared/lib/utils/isServer";
+import { isServer } from "@liexp/shared/lib/utils/isServer.js";
 import * as React from "react";
 import { throttle } from "throttle-debounce";
-import { MainContent } from "../MainContent";
+import { MainContent } from "../MainContent.js";
 
 interface Viewport {
   width: number | string;

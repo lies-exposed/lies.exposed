@@ -1,9 +1,9 @@
 import * as React from "react";
-import QueriesRenderer from "../components/QueriesRenderer";
+import QueriesRenderer from "../components/QueriesRenderer.js";
 import EventsAppBar, {
   type EventsAppBarProps,
-} from "../components/events/filters/EventsAppBar";
-import { searchEventsQuery } from "../state/queries/SearchEventsQuery";
+} from "../components/events/filters/EventsAppBar.js";
+import { searchEventsQuery } from "../state/queries/SearchEventsQuery.js";
 
 interface EventsAppBarBoxProps
   extends Omit<EventsAppBarProps, "events" | "totals"> {

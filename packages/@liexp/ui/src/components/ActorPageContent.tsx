@@ -1,10 +1,10 @@
-import { type Actor, type Group } from "@liexp/shared/lib/io/http";
+import { type Actor, type Group } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import ActorsBox from "../containers/ActorsBox";
-import { DeathBox } from "../containers/DeathBox";
-import { LazyEditor as Editor } from "./Common/Editor";
-import GroupList from "./lists/GroupList";
-import { Box, Grid, Typography } from "./mui";
+import ActorsBox from "../containers/ActorsBox.js";
+import { DeathBox } from "../containers/DeathBox.js";
+import { LazyEditor as Editor } from "./Common/Editor/index.js";
+import GroupList from "./lists/GroupList.js";
+import { Box, Grid, Typography } from "./mui/index.js";
 
 export interface ActorPageContentProps {
   actor: Actor.Actor;

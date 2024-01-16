@@ -1,9 +1,9 @@
-import { EventType } from "@liexp/shared/lib/io/http/Events";
-import { formatDate } from "@liexp/shared/lib/utils/date.utils";
-import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/queries/SearchEventsQuery";
+import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
+import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
 import ExploreTemplate, {
   type ExploreTemplateProps,
-} from "@liexp/ui/lib/templates/ExploreTemplate";
+} from "@liexp/ui/lib/templates/ExploreTemplate.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

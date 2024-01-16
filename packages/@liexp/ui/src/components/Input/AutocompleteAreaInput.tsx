@@ -1,9 +1,9 @@
-import { type Area } from "@liexp/shared/lib/io/http";
+import { type Area } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
-import { AreaList, AreaListItem } from "../lists/AreaList";
-import { Grid, Typography } from "../mui";
-import { AutocompleteInput } from "./AutocompleteInput";
+import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
+import { AreaList, AreaListItem } from "../lists/AreaList.js";
+import { Grid, Typography } from "../mui/index.js";
+import { AutocompleteInput } from "./AutocompleteInput.js";
 
 export interface AutocompleteAreaInputProps {
   className?: string;

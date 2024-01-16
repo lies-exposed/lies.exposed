@@ -1,7 +1,7 @@
 import {
   MediaBox,
   type MediaBoxProps,
-} from "@liexp/ui/lib/containers/MediaBox";
+} from "@liexp/ui/lib/containers/MediaBox.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

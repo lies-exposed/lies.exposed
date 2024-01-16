@@ -1,7 +1,7 @@
-import { Events, type Keyword, type Actor } from "@liexp/shared/lib/io/http";
+import { Events, type Keyword, type Actor } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import { Box, Grid } from "../../mui";
-import EventListItemBase from "./EventListItemBase";
+import { Box, Grid } from "../../mui/index.js";
+import EventListItemBase from "./EventListItemBase.js";
 
 export interface BookListItemProps {
   item: Events.SearchEvent.SearchBookEvent;

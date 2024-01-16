@@ -1,6 +1,6 @@
-import { EventTypes } from "@liexp/shared/lib/io/http/Events";
-import { type SearchEventsQueryInputNoPagination } from "../../../state/queries/SearchEventsQuery";
-import { type EventTypeFiltersProps } from "./EventTypeFilters";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type SearchEventsQueryInputNoPagination } from "../../../state/queries/SearchEventsQuery.js";
+import { type EventTypeFiltersProps } from "./EventTypeFilters.js";
 
 // const PREFIX = "events-app-bar-minimized";
 // const classes = {

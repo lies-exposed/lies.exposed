@@ -9,7 +9,7 @@ import {
   WhatsappIcon,
   WhatsappShareButton,
 } from "react-share";
-import { Box } from "../../mui";
+import { Box } from "../../mui/index.js";
 
 interface ShareButtonsProps {
   urlPath: string;

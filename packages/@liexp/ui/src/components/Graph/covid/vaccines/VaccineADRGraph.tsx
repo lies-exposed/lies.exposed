@@ -10,26 +10,26 @@ import {
   TwoMonthsToTwoYears,
   VaccineDatum,
   ZeroToOneMonth,
-} from "@liexp/shared/lib/io/http/covid/VaccineDatum";
-import { type VaccineDistributionDatum } from "@liexp/shared/lib/io/http/covid/VaccineDistributionDatum";
-import { formatDate } from "@liexp/shared/lib/utils/date.utils";
+} from "@liexp/shared/lib/io/http/covid/VaccineDatum.js";
+import { type VaccineDistributionDatum } from "@liexp/shared/lib/io/http/covid/VaccineDistributionDatum.js";
+import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { AxisBottom, AxisLeft, AxisRight } from "@visx/axis";
 import { curveLinear } from "@visx/curve";
 import { localPoint } from "@visx/event";
 import { LinearGradient } from "@visx/gradient";
 import { Group } from "@visx/group";
-import ParentSize from "@visx/responsive/lib/components/ParentSize";
+import { ParentSize } from "@visx/responsive";
 import { scaleLinear, scaleTime } from "@visx/scale";
 import { Bar, LinePath } from "@visx/shape";
-import { type Accessor } from "@visx/shape/lib/types";
+import { type Accessor } from "@visx/shape/lib/types/index.js";
 import { TooltipWithBounds, withTooltip } from "@visx/tooltip";
 import { isDate } from "date-fns";
 import * as t from "io-ts";
 import * as React from "react";
-import { useJSONDataQuery } from "../../../../state/queries/DiscreteQueries";
-import { styled } from "../../../../theme";
-import { StatAccordion } from "../../../Common/StatAccordion";
-import QueriesRenderer from "../../../QueriesRenderer";
+import { useJSONDataQuery } from "../../../../state/queries/DiscreteQueries.js";
+import { styled } from "../../../../theme/index.js";
+import { StatAccordion } from "../../../Common/StatAccordion.js";
+import QueriesRenderer from "../../../QueriesRenderer.js";
 import {
   Box,
   FormControl,
@@ -40,7 +40,7 @@ import {
   Typography,
   type TypographyProps,
   type SelectChangeEvent,
-} from "../../../mui";
+} from "../../../mui/index.js";
 
 const PREFIX = "VaccineADRGraph";
 

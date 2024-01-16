@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Popover, type PopoverProps } from "../components/Common/Popover";
+import { Popover, type PopoverProps } from "../components/Common/Popover.js";
 
 export const usePopover = (
   props: Partial<Omit<PopoverProps, "open">>,

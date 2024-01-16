@@ -1,7 +1,7 @@
-import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
-import SEO from "@liexp/ui/lib/components/SEO";
-import { StoryPageContent } from "@liexp/ui/lib/components/stories/StoryPageContent";
-import StoriesBox from "@liexp/ui/lib/containers/StoriesBox";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
+import SEO from "@liexp/ui/lib/components/SEO.js";
+import { StoryPageContent } from "@liexp/ui/lib/components/stories/StoryPageContent.js";
+import StoriesBox from "@liexp/ui/lib/containers/StoriesBox.js";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
 import * as React from "react";

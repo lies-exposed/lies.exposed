@@ -1,7 +1,7 @@
 import React from "react";
-import { Box } from "../../mui";
-import { ReferenceManyField, useRecordContext } from "../react-admin";
-import { SocialPostDataGrid } from "./SocialPostDatagrid";
+import { Box } from "../../mui/index.js";
+import { ReferenceManyField, useRecordContext } from "../react-admin.js";
+import { SocialPostDataGrid } from "./SocialPostDatagrid.js";
 
 export const SocialPostFormTabContent: React.FC<{
   source: string;

@@ -1,21 +1,20 @@
-import { type Group } from "@liexp/shared/lib/io/http";
-import { GROUP_INLINE } from "@liexp/shared/lib/slate/plugins/customSlate";
-import GroupIcon from "@mui/icons-material/GroupOutlined";
-import type { CellPluginComponentProps, DataTType } from "@react-page/editor";
-import { pluginFactories } from "@react-page/plugins-slate";
+import { type Group } from "@liexp/shared/lib/io/http/index.js";
+import { GROUP_INLINE } from "@liexp/shared/lib/slate/plugins/customSlate.js";
+import type { CellPluginComponentProps, DataTType } from "@react-page/editor/lib-es/index.js";
 import {
   type SlateComponentPluginDefinition,
   type SlatePluginControls,
-} from "@react-page/plugins-slate/lib/types/slatePluginDefinitions";
+} from "@react-page/plugins-slate/lib/types/slatePluginDefinitions.js";
+import { pluginFactories } from "@react-page/plugins-slate/lib-es/index.js";
 import React from "react";
-import { AutocompleteGroupInput } from "../../../../Input/AutocompleteGroupInput";
-import { GroupChip } from "../../../../groups/GroupChip";
-import { Box, Button, Checkbox, FormControlLabel, Grid } from "../../../../mui";
-import { Popover, type PopoverProps } from "../../../Popover";
+import { AutocompleteGroupInput } from "../../../../Input/AutocompleteGroupInput.js";
+import { GroupChip } from "../../../../groups/GroupChip.js";
+import { Box, Button, Checkbox, FormControlLabel, Grid, Icons } from "../../../../mui/index.js";
+import { Popover, type PopoverProps } from "../../../Popover.js";
 import {
   ComponentPickerPopoverControlAnchorWrapper,
   ComponentPickerPopoverRendererAnchorWrapper,
-} from "../ComponentPickerPopover/ComponentPickerPopoverPluginControlAnchor";
+} from "../ComponentPickerPopover/ComponentPickerPopoverPluginControlAnchor.js";
 
 export interface GroupInlineState extends DataTType {
   group: Group.Group;
@@ -28,7 +27,7 @@ export interface GroupInlineSettings {
 }
 
 export const defaultSettings: GroupInlineSettings = {
-  icon: <GroupIcon />,
+  icon: <Icons.GroupIcon />,
 };
 
 export type GroupInlineControlType = React.ComponentType<
@@ -223,9 +222,9 @@ const groupInlinePlugin =
     type: GROUP_INLINE,
     object: "inline",
     isVoid: true,
-    icon: <GroupIcon />,
+    icon: <Icons.GroupIcon />,
     label: "Group",
   });
 
-export const GroupInlinePluginIcon = GroupIcon;
+export const GroupInlinePluginIcon = Icons.GroupIcon;
 export { groupInlinePlugin };

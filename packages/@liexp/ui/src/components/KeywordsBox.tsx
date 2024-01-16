@@ -1,13 +1,13 @@
-import { type Keyword } from "@liexp/shared/lib/io/http";
-import * as NEA from "fp-ts/NonEmptyArray";
-import * as O from "fp-ts/Option";
-import { pipe } from "fp-ts/function";
+import { type Keyword } from "@liexp/shared/lib/io/http/index.js";
+import * as NEA from "fp-ts/lib/NonEmptyArray.js";
+import * as O from "fp-ts/lib/Option.js";
+import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { type GetListParams } from "react-admin";
-import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider";
-import QueriesRenderer from "./QueriesRenderer";
-import KeywordList from "./lists/KeywordList";
-import { Box, type BoxProps } from "./mui";
+import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
+import QueriesRenderer from "./QueriesRenderer.js";
+import KeywordList from "./lists/KeywordList.js";
+import { Box, type BoxProps } from "./mui/index.js";
 
 interface KeywordsBoxWrapperProps {
   params: Partial<GetListParams>;

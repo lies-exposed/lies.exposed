@@ -1,13 +1,13 @@
-import { type Link } from "@liexp/shared/lib/io/http";
-import { defaultUseQueryListParams } from "@liexp/shared/lib/providers/EndpointQueriesProvider/params";
+import { type Link } from "@liexp/shared/lib/io/http/index.js";
+import { defaultUseQueryListParams } from "@liexp/shared/lib/providers/EndpointQueriesProvider/params.js";
 import * as React from "react";
-import { AutocompleteLinkInput } from "../../components/Input/AutocompleteLinkInput";
-import { MainContent } from "../../components/MainContent";
-import QueriesRenderer from "../../components/QueriesRenderer";
-import { LinksList } from "../../components/lists/LinkList";
-import { Box } from "../../components/mui";
-import { PageContentBox } from "../../containers/PageContentBox";
-import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider";
+import { AutocompleteLinkInput } from "../../components/Input/AutocompleteLinkInput.js";
+import { MainContent } from "../../components/MainContent.js";
+import QueriesRenderer from "../../components/QueriesRenderer.js";
+import { LinksList } from "../../components/lists/LinkList.js";
+import { Box } from "../../components/mui/index.js";
+import { PageContentBox } from "../../containers/PageContentBox.js";
+import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
 
 export interface LinksPageTemplateProps {
   params?: any;

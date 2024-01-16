@@ -1,10 +1,10 @@
-import { EventType, EventTypes } from "@liexp/shared/lib/io/http/Events";
-import { Loader } from "@liexp/ui/lib/components/Common/Loader";
-import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer";
+import { EventType, EventTypes } from "@liexp/shared/lib/io/http/Events/index.js";
+import { Loader } from "@liexp/ui/lib/components/Common/Loader.js";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import EventTimelineItem, {
   type EventTimelineItemProps,
-} from "@liexp/ui/lib/components/lists/EventList/EventTimelineItem";
-import { searchEventsQuery } from "@liexp/ui/lib/state/queries/SearchEventsQuery";
+} from "@liexp/ui/lib/components/lists/EventList/EventTimelineItem.js";
+import { searchEventsQuery } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

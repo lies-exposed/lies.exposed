@@ -1,5 +1,5 @@
-import { Layout } from "@liexp/ui/lib/components/Layout";
-import SEO from "@liexp/ui/lib/components/SEO";
+import { Layout } from "@liexp/ui/lib/components/Layout.js";
+import SEO from "@liexp/ui/lib/components/SEO.js";
 import * as React from "react";
 
 const SupportPage: React.FunctionComponent = () => (

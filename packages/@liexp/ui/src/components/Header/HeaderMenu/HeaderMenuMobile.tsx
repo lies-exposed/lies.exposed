@@ -1,9 +1,8 @@
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { clsx } from "clsx";
 import * as React from "react";
-import { styled, useTheme } from "../../../theme";
-import { Box, Button, IconButton, Menu, MenuItem, Stack } from "../../mui";
-import { type HeaderMenuItem, type HeaderMenuSubItem } from "./types";
+import { styled, useTheme } from "../../../theme/index.js";
+import { Box, Button,  Icons, IconButton, Menu, MenuItem, Stack } from "../../mui/index.js";
+import { type HeaderMenuItem, type HeaderMenuSubItem } from "./types.js";
 
 interface HeaderMenuItemProps {
   item: HeaderMenuItem;
@@ -197,7 +196,7 @@ export const HeaderMenuMobile: React.FC<HeaderMenuProps> = ({
           aria-haspopup="true"
           onClick={handleClick}
         >
-          <MoreVertIcon
+          <Icons.MoreVert
             style={{
               color: theme.palette.common.white,
             }}

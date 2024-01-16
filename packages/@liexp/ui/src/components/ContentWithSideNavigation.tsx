@@ -1,13 +1,12 @@
 import * as React from "react";
-import { styled } from "../theme";
-import { MainContent } from "./MainContent";
+import { styled } from "../theme/index.js";
+import { MainContent } from "./MainContent.js";
 import {
   Grid,
   TreeItem,
   TreeView,
-  ExpandMoreIcon,
-  ChevronRightIcon,
-} from "./mui";
+  Icons
+} from "./mui/index.js";
 
 const PREFIX = "ContentWithSideNavigation";
 
@@ -41,8 +40,8 @@ export const ContentWithSideNavigation: React.FC<
       <Grid item>
         <TreeView
           classes={classes}
-          defaultCollapseIcon={<ExpandMoreIcon />}
-          defaultExpandIcon={<ChevronRightIcon />}
+          defaultCollapseIcon={<Icons.ExpandMore />}
+          defaultExpandIcon={<Icons.ChevronRight />}
         >
           {items.map((i) => {
             return (

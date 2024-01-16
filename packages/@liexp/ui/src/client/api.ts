@@ -1,9 +1,9 @@
-import { fp, pipe } from "@liexp/core/lib/fp";
-import { API } from "@liexp/shared/lib/providers/api/api.provider";
-import * as http from "@liexp/shared/lib/providers/api-rest.provider";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { API } from "@liexp/shared/lib/providers/api/api.provider.js";
+import * as http from "@liexp/shared/lib/providers/api-rest.provider.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type AxiosError } from "axios";
-import { type AuthProvider } from "../components/admin/react-admin";
+import { type AuthProvider } from "../components/admin/react-admin.js";
 
 export const api = API({
   baseURL: process.env.API_URL,

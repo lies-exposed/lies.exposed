@@ -1,7 +1,7 @@
-import { ImageType } from "@liexp/shared/lib/io/http/Media";
-import { PUBLISHED, TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost";
-import { SocialPostPlatformIcon } from "@liexp/ui/lib/components/admin/SocialPost/SocialPostEdit";
-import ReferenceArrayMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceArrayMediaInput";
+import { ImageType } from "@liexp/shared/lib/io/http/Media.js";
+import { PUBLISHED, TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost.js";
+import { SocialPostPlatformIcon } from "@liexp/ui/lib/components/admin/SocialPost/SocialPostEdit.js";
+import ReferenceArrayMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceArrayMediaInput.js";
 import {
   BooleanInput,
   Create,
@@ -16,8 +16,8 @@ import {
   TextField,
   TextInput,
   type DatagridProps,
-} from "@liexp/ui/lib/components/admin/react-admin";
-import { Box, Stack, Typography } from "@liexp/ui/lib/components/mui";
+} from "@liexp/ui/lib/components/admin/react-admin.js";
+import { Box, Stack, Typography } from "@liexp/ui/lib/components/mui/index.js";
 import * as React from "react";
 
 const RESOURCE = "social-posts";

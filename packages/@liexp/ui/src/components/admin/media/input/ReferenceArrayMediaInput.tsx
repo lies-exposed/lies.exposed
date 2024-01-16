@@ -1,4 +1,4 @@
-import { type MediaType } from "@liexp/shared/lib/io/http/Media";
+import { type MediaType } from "@liexp/shared/lib/io/http/Media.js";
 import React from "react";
 import {
   AutocompleteArrayInput,
@@ -8,7 +8,7 @@ import {
 import {
   matchMediaSuggestions,
   MediaAutocompleteOptionText,
-} from "./ReferenceMediaInput";
+} from "./ReferenceMediaInput.js";
 
 const ReferenceArrayMediaInput: React.FC<
   Omit<ReferenceArrayInputProps, "children"> & {

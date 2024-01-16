@@ -1,13 +1,16 @@
 import { CacheProvider } from "@emotion/react";
 import { config, dom } from "@fortawesome/fontawesome-svg-core";
-import { HelmetProvider } from "@liexp/ui/lib/components/SEO";
-import { CssBaseline, ThemeProvider } from "@liexp/ui/lib/components/mui";
-import createEmotionCache from "@liexp/ui/lib/react/createEmotionCache";
-import { ECOTheme } from "@liexp/ui/lib/theme";
+import { HelmetProvider } from "@liexp/ui/lib/components/SEO.js";
+import {
+  CssBaseline,
+  ThemeProvider,
+} from "@liexp/ui/lib/components/mui/index.js";
+import createEmotionCache from "@liexp/ui/lib/react/createEmotionCache.js";
+import { ECOTheme } from "@liexp/ui/lib/theme/index.js";
 import debug from "debug";
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
-import { Hydrate, QueryClientProvider } from "react-query";
+import { Hydrate as HydrationBoundary, QueryClientProvider } from "react-query";
 import { BrowserRouter, HashRouter } from "react-router-dom";
 import { App } from "./App";
 import { queryClient } from "./state/queries";
@@ -40,10 +43,10 @@ function Main(): JSX.Element {
         <CacheProvider value={cache}>
           <ThemeProvider theme={ECOTheme}>
             <QueryClientProvider client={queryClient}>
-              <Hydrate state={dehydratedState}>
+              <HydrationBoundary state={dehydratedState}>
                 <CssBaseline enableColorScheme />
                 <App />
-              </Hydrate>
+              </HydrationBoundary>
             </QueryClientProvider>
           </ThemeProvider>
         </CacheProvider>

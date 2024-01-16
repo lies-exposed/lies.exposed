@@ -1,11 +1,11 @@
-import { http } from "@liexp/shared/lib/io";
-import { Kind } from "@liexp/shared/lib/io/http/ProjectImage";
-import { ProjectPageContent } from "@liexp/ui/lib/components/ProjectPageContent";
-import { ValidationErrorsLayout } from "@liexp/ui/lib/components/ValidationErrorsLayout";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput";
-import ReferenceAreaInput from "@liexp/ui/lib/components/admin/areas/input/ReferenceAreaInput";
-import RichTextInput from "@liexp/ui/lib/components/admin/common/RichTextInput";
-import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput";
+import { Kind } from "@liexp/shared/lib/io/http/ProjectImage.js";
+import { http } from "@liexp/shared/lib/io/index.js";
+import { ProjectPageContent } from "@liexp/ui/lib/components/ProjectPageContent.js";
+import { ValidationErrorsLayout } from "@liexp/ui/lib/components/ValidationErrorsLayout.js";
+import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import ReferenceAreaInput from "@liexp/ui/lib/components/admin/areas/input/ReferenceAreaInput.js";
+import RichTextInput from "@liexp/ui/lib/components/admin/common/RichTextInput.js";
+import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput.js";
 import {
   ArrayField,
   ArrayInput,
@@ -29,7 +29,7 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-} from "@liexp/ui/lib/components/admin/react-admin";
+} from "@liexp/ui/lib/components/admin/react-admin.js";
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
 import * as React from "react";

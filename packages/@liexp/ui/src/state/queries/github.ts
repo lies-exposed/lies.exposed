@@ -1,8 +1,8 @@
-import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { pipe } from "fp-ts/lib/function";
+import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { pipe } from "fp-ts/lib/function.js";
 import { useQuery, type UseQueryResult } from "react-query";
-import { api } from "../api";
+import { api } from "../api.js";
 
 export const fetchGithubRepo = ({ queryKey }: any): Promise<any> => {
   if (process.env.NODE_ENV === "development") {
@@ -25,7 +25,9 @@ export const githubRepo = ({
   repo: string;
   user: string;
 }): UseQueryResult<any, APIError> =>
-  useQuery(["github", { user, repo }], fetchGithubRepo, {
+  useQuery({
+    queryKey: ["github", { user, repo }],
+    queryFn: fetchGithubRepo,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     cacheTime: 10 * 60 * 60,

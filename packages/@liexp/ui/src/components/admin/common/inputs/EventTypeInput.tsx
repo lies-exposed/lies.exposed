@@ -1,10 +1,10 @@
-import { fp } from "@liexp/core/lib/fp";
-import { getEventCommonProps } from "@liexp/shared/lib/helpers/event";
-import { transform } from "@liexp/shared/lib/helpers/event/event";
-import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
-import { Events } from "@liexp/shared/lib/io/http";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { pipe } from "fp-ts/function";
+import { fp } from "@liexp/core/lib/fp/index.js";
+import { transform } from "@liexp/shared/lib/helpers/event/event.js";
+import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
+import { getEventCommonProps } from "@liexp/shared/lib/helpers/event/index.js";
+import { Events } from "@liexp/shared/lib/io/http/index.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { pipe } from "fp-ts/lib/function.js";
 import { get } from "lodash";
 import * as React from "react";
 import {
@@ -14,8 +14,8 @@ import {
   useRedirect,
   type FieldProps,
 } from "react-admin";
-import { fetchRelations } from "../../../../state/queries/SearchEventsQuery";
-import { Box, MenuItem, Select, type SelectChangeEvent } from "../../../mui";
+import { fetchRelations } from "../../../../state/queries/SearchEventsQuery.js";
+import { Box, MenuItem, Select, type SelectChangeEvent } from "../../../mui/index.js";
 
 export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
   const record = useRecordContext();

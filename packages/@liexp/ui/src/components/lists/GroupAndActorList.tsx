@@ -1,9 +1,9 @@
-import { type Actor, type Group } from "@liexp/shared/lib/io/http";
+import { type Actor, type Group } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import { type AvatarSize } from "../Common/Avatar";
-import { List } from "../Common/List";
-import { ActorListItem } from "./ActorList";
-import { GroupListItem } from "./GroupList";
+import { type AvatarSize } from "../Common/Avatar.js";
+import { List } from "../Common/List.js";
+import { ActorListItem } from "./ActorList.js";
+import { GroupListItem } from "./GroupList.js";
 
 export interface Group extends Group.Group {
   selected: boolean;

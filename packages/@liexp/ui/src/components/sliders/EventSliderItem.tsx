@@ -1,21 +1,21 @@
-import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
-import * as http from "@liexp/shared/lib/io/http";
-import { type EventType } from "@liexp/shared/lib/io/http/Events";
-import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate";
-import { formatDateToShort } from "@liexp/shared/lib/utils/date.utils";
-import * as A from "fp-ts/Array";
-import * as O from "fp-ts/Option";
-import { pipe } from "fp-ts/function";
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
+import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import * as http from "@liexp/shared/lib/io/http/index.js";
+import { getTextContentsCapped, isValidValue } from "@liexp/shared/lib/slate/index.js";
+import { formatDateToShort } from "@liexp/shared/lib/utils/date.utils.js";
+import * as A from "fp-ts/lib/Array.js";
+import * as O from "fp-ts/lib/Option.js";
+import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
-import { styled } from "../../theme";
-import { EventIcon } from "../Common/Icons";
-import { LinksBox } from "../LinksBox";
-import { ActorList } from "../lists/ActorList";
-import { type EventListItemProps } from "../lists/EventList/EventListItem";
-import GroupList from "../lists/GroupList";
-import KeywordList from "../lists/KeywordList";
-import { Box, Grid, Link, Typography } from "../mui";
-import { MediaSlider } from "./MediaSlider";
+import { styled } from "../../theme/index.js";
+import { EventIcon } from "../Common/Icons/index.js";
+import { LinksBox } from "../LinksBox.js";
+import { ActorList } from "../lists/ActorList.js";
+import { type EventListItemProps } from "../lists/EventList/EventListItem.js";
+import GroupList from "../lists/GroupList.js";
+import KeywordList from "../lists/KeywordList.js";
+import { Box, Grid, Link, Typography } from "../mui/index.js";
+import { MediaSlider } from "./MediaSlider.js";
 
 // export interface EventListItemProps {
 //   event: Events.SearchEvent.SearchEvent;

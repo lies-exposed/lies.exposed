@@ -1,4 +1,4 @@
-import { type SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType";
+import { type SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as React from "react";
 import {
   TextInput,
@@ -6,7 +6,7 @@ import {
   useDataProvider,
   useInput,
 } from "react-admin";
-import { Box, Button, TextField } from "../../mui";
+import { Box, Button, TextField } from "../../mui/index.js";
 
 interface URLMetadataInputProps extends TextInputProps {
   type: SCIENTIFIC_STUDY | "Link";

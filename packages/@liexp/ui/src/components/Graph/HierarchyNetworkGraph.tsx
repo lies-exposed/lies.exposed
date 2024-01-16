@@ -1,19 +1,19 @@
-import { getTitle } from "@liexp/shared/lib/helpers/event/getTitle.helper";
+import { getTitle } from "@liexp/shared/lib/helpers/event/getTitle.helper.js";
+import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/index.js";
+import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
+import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
+import { type EventNetworkDatum } from "@liexp/shared/lib/io/http/Network/networks.js";
 import {
   type Actor,
   type Group,
   type Keyword,
-} from "@liexp/shared/lib/io/http";
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent";
-import { GROUPS } from "@liexp/shared/lib/io/http/Group";
-import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword";
-import { type EventNetworkDatum } from "@liexp/shared/lib/io/http/Network/networks";
+} from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import { ForcedNetworkGraph } from "../Common/Graph/ForcedNetworkGraph";
-import { type NetworkScale } from "../Common/Graph/Network/Network";
-import { EventTypeColor } from "../Common/Icons";
+import { ForcedNetworkGraph } from "../Common/Graph/ForcedNetworkGraph.js";
+import { type NetworkScale } from "../Common/Graph/Network/Network.js";
+import { EventTypeColor } from "../Common/Icons/index.js";
 
 export type HierarchyNetworkGraphPropsGroupBy = "group" | "actor" | "keyword";
 

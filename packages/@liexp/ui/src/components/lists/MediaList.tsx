@@ -1,12 +1,12 @@
-import type * as io from "@liexp/shared/lib/io/http";
-import Masonry from "@mui/lab/Masonry";
+import type * as io from "@liexp/shared/lib/io/http/index.js";
+import Masonry from "@mui/lab/Masonry/index.js";
 import { ParentSize } from "@visx/responsive";
 import { clsx } from "clsx";
 import * as React from "react";
-import { styled } from "../../theme";
-import { type ListItemProps } from "../Common/List";
-import MediaElement from "../Media/MediaElement";
-import { Box } from "../mui";
+import { styled } from "../../theme/index.js";
+import { type ListItemProps } from "../Common/List.js";
+import MediaElement from "../Media/MediaElement.js";
+import { Box } from "../mui/index.js";
 
 export interface Media extends io.Media.Media {
   selected: boolean;

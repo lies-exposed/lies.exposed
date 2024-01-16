@@ -1,12 +1,12 @@
-import { type Area } from "@liexp/shared/lib/io/http";
+import { type Area } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import { CircularProgress } from "../../../mui";
+import { CircularProgress } from "../../../mui/index.js";
 import {
   Button,
   useDataProvider,
   useRecordContext,
   useRefresh,
-} from "../../react-admin";
+} from "../../react-admin.js";
 
 export const SearchAreaCoordinatesButton: React.FC = () => {
   const refresh = useRefresh();

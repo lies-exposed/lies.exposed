@@ -1,8 +1,8 @@
-import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion";
-import { type http } from "@liexp/shared/lib/io";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
-import CreateEventCard from "@liexp/ui/lib/components/Cards/Events/CreateEventCard";
-import EventCard from "@liexp/ui/lib/components/Cards/Events/EventCard";
+import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
+import { type http } from "@liexp/shared/lib/io/index.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import CreateEventCard from "@liexp/ui/lib/components/Cards/Events/CreateEventCard.js";
+import EventCard from "@liexp/ui/lib/components/Cards/Events/EventCard.js";
 import {
   Box,
   Button,
@@ -15,12 +15,12 @@ import {
   IconButton,
   Input,
   Typography,
-} from "@liexp/ui/lib/components/mui";
-import { useTheme } from "@liexp/ui/lib/theme";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
+} from "@liexp/ui/lib/components/mui/index.js";
+import { useTheme } from "@liexp/ui/lib/theme/index.js";
+import AddCircleIcon from "@mui/icons-material/AddCircle.js";
 import * as O from "fp-ts/Option";
 import * as React from "react";
-import { createEventSuggestion, getURLMetadata } from "../../state/commands";
+import { createEventSuggestion, getURLMetadata } from "../../state/commands.js";
 
 interface EventSuggestionsListProps {
   suggestions: http.EventSuggestion.CreateEventSuggestion[];

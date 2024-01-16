@@ -1,21 +1,21 @@
-import { fp } from "@liexp/core/lib/fp";
-import { TupleWithId } from "@liexp/core/lib/fp/utils/TupleWithId";
-import { getTitle } from "@liexp/shared/lib/helpers/event";
-import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
-import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations";
-import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
-import { type Event } from "@liexp/shared/lib/io/http/Events";
-import { getTextContents, isValidValue } from "@liexp/shared/lib/slate";
-import { formatDate, parseISO } from "@liexp/shared/lib/utils/date.utils";
-import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { uuid } from "@liexp/shared/lib/utils/uuid";
-import { pipe } from "fp-ts/function";
-import { type UUID } from "io-ts-types/lib/UUID";
+import { fp } from "@liexp/core/lib/fp/index.js";
+import { TupleWithId } from "@liexp/core/lib/fp/utils/TupleWithId.js";
+import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
+import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
+import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
+import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
+import { getTextContents, isValidValue } from "@liexp/shared/lib/slate/index.js";
+import { formatDate, parseISO } from "@liexp/shared/lib/utils/date.utils.js";
+import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import { pipe } from "fp-ts/lib/function.js";
+import { type UUID } from "io-ts-types/lib/UUID.js";
 import * as React from "react";
 import { useDataProvider, useRecordContext } from "react-admin";
-import { fetchRelations } from "../../../../state/queries/SearchEventsQuery";
-import { SocialPostButton } from "../../common/SocialPostButton";
+import { fetchRelations } from "../../../../state/queries/SearchEventsQuery.js";
+import { SocialPostButton } from "../../common/SocialPostButton.js";
 
 export const EventSocialPostButton: React.FC<{ id: UUID }> = ({ id }) => {
   const apiProvider = useDataProvider();

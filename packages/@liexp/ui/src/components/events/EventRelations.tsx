@@ -1,9 +1,9 @@
-import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds";
-import { type Events } from "@liexp/shared/lib/io/http";
-import { type Event } from "@liexp/shared/lib/io/http/Events";
-import { UUID } from "io-ts-types/lib/UUID";
+import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
+import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type Events } from "@liexp/shared/lib/io/http/index.js";
+import { UUID } from "io-ts-types/lib/UUID.js";
 import * as React from "react";
-import QueriesRenderer from "../QueriesRenderer";
+import QueriesRenderer from "../QueriesRenderer.js";
 
 export const EventRelations: React.FC<{
   event: Event;

@@ -1,7 +1,7 @@
-import { type Keyword } from "@liexp/shared/lib/io/http";
-import { toColorHash } from "@liexp/shared/lib/utils/colors";
+import { type Keyword } from "@liexp/shared/lib/io/http/index.js";
+import { toColorHash } from "@liexp/shared/lib/utils/colors.js";
 import * as React from "react";
-import { Typography, type TypographyProps } from "../mui";
+import { Typography, type TypographyProps } from "../mui/index.js";
 
 interface KeywordChipProps
   extends Omit<TypographyProps, "variant" | "onClick"> {

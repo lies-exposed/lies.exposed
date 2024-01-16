@@ -1,4 +1,4 @@
-import { fp } from "@liexp/core/lib/fp";
+import { fp } from "@liexp/core/lib/fp/index.js";
 import {
   H1_TYPE,
   H2_TYPE,
@@ -7,15 +7,15 @@ import {
   H5_TYPE,
   H6_TYPE,
   isSlatePlugin,
-} from "@liexp/shared/lib/slate/plugins/customSlate";
-import { StoryUtils } from "@liexp/shared/lib/utils/story.utils";
-import { type Cell, type Row, type Value } from "@react-page/editor";
-import { type SlateComponentPluginDefinition } from "@react-page/plugins-slate/lib/types/slatePluginDefinitions";
-import { type Option } from "fp-ts/Option";
-import { pipe } from "fp-ts/function";
+} from "@liexp/shared/lib/slate/plugins/customSlate.js";
+import { StoryUtils } from "@liexp/shared/lib/utils/story.utils.js";
+import { type Cell, type Row, type Value } from "@react-page/editor/lib-es/index.js";
+import { type SlateComponentPluginDefinition } from "@react-page/plugins-slate/lib/types/slatePluginDefinitions.js";
+import { type Option } from "fp-ts/lib/Option.js";
+import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
-import { styled } from "../../../../../theme";
-import { Box, List, ListItem, Typography } from "../../../../mui";
+import { styled } from "../../../../../theme/index.js";
+import { Box, List, ListItem, Typography } from "../../../../mui/index.js";
 
 interface SerializedHeader {
   text: string;

@@ -2,20 +2,20 @@ import { AxisBottom } from "@visx/axis";
 import { localPoint } from "@visx/event";
 import { Group } from "@visx/group";
 import { Graph } from "@visx/network";
-import { type Graph as GraphType } from "@visx/network/lib/types";
+import { type Graph as GraphType } from "@visx/network/lib/types.js";
 import { scaleTime } from "@visx/scale";
 import { Tooltip } from "@visx/tooltip";
 import withTooltip, {
   type WithTooltipProvidedProps,
-} from "@visx/tooltip/lib/enhancers/withTooltip";
-import * as A from "fp-ts/Array";
+} from "@visx/tooltip/lib/enhancers/withTooltip.js";
+import * as A from "fp-ts/lib/Array.js";
 import * as React from "react";
-import NetworkLink, { type NetworkLinkProps } from "./NetworkLink";
+import NetworkLink, { type NetworkLinkProps } from "./NetworkLink.js";
 import {
   NetworkNode,
   type NetworkNodeDatum,
   type NetworkPointNode,
-} from "./NetworkNode";
+} from "./NetworkNode.js";
 
 const backgroundColor = "transparent";
 

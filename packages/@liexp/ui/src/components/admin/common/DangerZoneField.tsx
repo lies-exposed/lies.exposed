@@ -5,8 +5,8 @@ import {
   useRedirect,
   useResourceContext,
 } from "react-admin";
-import { apiProvider } from "../../../client/api";
-import { Box } from "../../mui";
+import { apiProvider } from "../../../client/api.js";
+import { Box } from "../../mui/index.js";
 
 // interface DangerZoneFieldProps {}
 
