@@ -1,7 +1,7 @@
 // import { type Keyword } from "@liexp/shared/lib/io/http";
 // import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError";
 // import type { GetListParams, GetOneParams } from "react-admin";
-// import { useQuery, type UseQueryResult } from "react-query";
+// import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 // import { type APIRESTClient } from '../../http';
 // import { type Queries, asQueries } from "../../providers/DataProvider";
 // import { fetchQuery } from "./common";

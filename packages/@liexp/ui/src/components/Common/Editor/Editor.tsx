@@ -6,9 +6,11 @@ import RPEditor, {
   type I18nField,
   type Row,
   type Value,
-} from "@react-page/editor/lib-es/index.js";
+} from "@react-page/editor";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import { ErrorBox } from "../ErrorBox.js";
 import { cellPlugins } from "./cellPlugins.js";
 
 type I18nEnField = I18nField<Record<string, any>>;
@@ -90,4 +92,14 @@ const Editor: React.FC<Omit<EditorProps, "cellPlugins">> = ({
   );
 };
 
-export default Editor;
+
+const EditorWrapper: React.FC<Omit<EditorProps,'cellPlugins'>> = (props) => {
+
+  return (
+    <ErrorBoundary FallbackComponent={ErrorBox}>
+      <Editor {...props } />
+      </ErrorBoundary>
+  )
+}
+
+export default EditorWrapper;

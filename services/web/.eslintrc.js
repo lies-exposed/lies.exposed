@@ -1,6 +1,10 @@
 module.exports = {
   root: true,
-  extends: ["../../.eslintrc.js", "plugin:react/recommended"],
+  extends: [
+    "../../.eslintrc.js",
+    "plugin:react/recommended",
+    "plugin:@tanstack/eslint-plugin-query/recommended",
+  ],
   plugins: ["@typescript-eslint", "react"],
   parserOptions: {
     tsconfigRootDir: __dirname,

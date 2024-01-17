@@ -234,6 +234,7 @@ export const routes: ServerRoute[] = [
         return [
           ...commonQueries,
           {
+            // eslint-disable-next-line @tanstack/query/exhaustive-deps
             queryKey: ["event", { id: eventId }],
             queryFn: () => Promise.resolve(event),
           },
@@ -633,6 +634,7 @@ export const routes: ServerRoute[] = [
         return [
           ...commonQueries,
           {
+            // eslint-disable-next-line @tanstack/query/exhaustive-deps
             queryKey: storyKey,
             queryFn: async () => story,
           },

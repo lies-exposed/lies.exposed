@@ -1,6 +1,6 @@
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
+import { type UseQueryResult } from "@tanstack/react-query";
 import { type GetListParams } from "react-admin";
-import { type UseQueryResult } from "react-query";
 
 export type UseListQueryFn<T> = (
   params: Partial<GetListParams>,

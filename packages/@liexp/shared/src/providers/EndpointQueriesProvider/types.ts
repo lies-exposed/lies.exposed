@@ -1,4 +1,4 @@
-import { type UseQueryResult } from "react-query";
+import { type UseQueryResult } from "@tanstack/react-query";
 import {
   type InferEndpointInstanceParams,
   type MinimalEndpointInstance,

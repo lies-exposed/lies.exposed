@@ -10,9 +10,9 @@ import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import D from "debug";
-import { sequenceS } from "fp-ts/Apply";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { pipe } from "fp-ts/lib/function.js";
 import supertest from "supertest";
 import {
   type DataSource,

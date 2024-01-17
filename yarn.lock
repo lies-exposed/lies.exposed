@@ -3755,6 +3755,8 @@ __metadata:
     "@react-page/plugins-spacer": ^5.4.4
     "@react-page/plugins-video": ^5.4.4
     "@react-page/react-admin": ^5.4.4
+    "@tanstack/eslint-plugin-query": ^5.17.7
+    "@tanstack/react-query": ^5.17.14
     "@types/chroma-js": ^2.4.3
     "@types/d3": ^7.4.3
     "@types/d3-sankey": ^0.12.4
@@ -3821,7 +3823,6 @@ __metadata:
     react-helmet: ^6.1.0
     react-helmet-async: ^1.3.0
     react-json-view: ^1.21.3
-    react-query: ^3.39.3
     react-share: ^4.4.1
     react-slick: ^0.29.0
     react-spring: ^9.7.3
@@ -7114,6 +7115,35 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/eslint-plugin-query@npm:^5.17.7":
+  version: 5.17.7
+  resolution: "@tanstack/eslint-plugin-query@npm:5.17.7"
+  dependencies:
+    "@typescript-eslint/utils": ^5.62.0
+  peerDependencies:
+    eslint: ^8.0.0
+  checksum: 29a779fcd11e8b287ef7c286675a7ef99689ad4e4f712ed20eb24d7512dbf7ea0ecfc474e55f498ec4a313c07a3bfebfabac67c83bf2635bbb942412ff3186fd
+  languageName: node
+  linkType: hard
+
+"@tanstack/query-core@npm:5.17.14":
+  version: 5.17.14
+  resolution: "@tanstack/query-core@npm:5.17.14"
+  checksum: 2760d949cdd1d3450cbfab109f94f2ee67aeb112c2491da6aab82e9c0ff27662b9ea1e270352ad8adb5f4ee0cbbe75c23c907e794354c6cf4ea4f23f07807969
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:^5.17.14":
+  version: 5.17.14
+  resolution: "@tanstack/react-query@npm:5.17.14"
+  dependencies:
+    "@tanstack/query-core": 5.17.14
+  peerDependencies:
+    react: ^18.0.0
+  checksum: 2be27312fa8f3ac0369c097639fcf233c647e5faac430289aa1b57f1202219b9ee7db20f023bbef82f16c51a68553a8d4bed2323247ae3fd4998114aa48295b7
+  languageName: node
+  linkType: hard
+
 "@testing-library/dom@npm:^9.0.0, @testing-library/dom@npm:^9.3.3":
   version: 9.3.3
   resolution: "@testing-library/dom@npm:9.3.3"
@@ -9096,7 +9126,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/utils@npm:5.62.0":
+"@typescript-eslint/utils@npm:5.62.0, @typescript-eslint/utils@npm:^5.62.0":
   version: 5.62.0
   resolution: "@typescript-eslint/utils@npm:5.62.0"
   dependencies:
@@ -9961,6 +9991,7 @@ __metadata:
     "@liexp/shared": 0.1.0
     "@liexp/ui": 0.1.0
     "@mui/material": ^5.15.5
+    "@tanstack/react-query": ^5.17.14
     "@testing-library/dom": ^9.3.3
     "@testing-library/react": ^14.0.0
     "@testing-library/user-event": ^14.5.1
@@ -10000,7 +10031,6 @@ __metadata:
     react-final-form: ^6.5.9
     react-final-form-arrays: ^3.1.4
     react-helmet: ^6.1.0
-    react-query: ^3.39.3
     slick-carousel: ^1.8.1
     ts-node: ^10.9.2
     typescript: ^5.3.3
@@ -22377,7 +22407,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-query@npm:^3.32.1, react-query@npm:^3.39.3":
+"react-query@npm:^3.32.1":
   version: 3.39.3
   resolution: "react-query@npm:3.39.3"
   dependencies:
@@ -26586,6 +26616,7 @@ __metadata:
     "@liexp/ui": 0.1.0
     "@mui/icons-material": ^5.15.5
     "@mui/material": ^5.15.5
+    "@tanstack/react-query": ^5.17.14
     "@types/bs58": ^4.0.4
     "@types/d3": ^7.4.3
     "@types/debug": ^4.1.12
@@ -26649,7 +26680,6 @@ __metadata:
     react-dom: ^18.2.0
     react-error-boundary: ^4.0.12
     react-helmet: ^6.1.0
-    react-query: ^3.39.3
     react-router-dom: ^6.15.0
     react-share: ^4.4.1
     react-slick: ^0.29.0

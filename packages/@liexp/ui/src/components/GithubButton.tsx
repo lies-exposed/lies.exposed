@@ -17,9 +17,9 @@ const GithubButton: React.FC<GithubButtonProps> = ({
   return (
     <Box display="inline">
       <QueriesRenderer
-        queries={{
+        queries={(_) => ({
           github: githubRepo({ user, repo }),
-        }}
+        })}
         render={({ github }) => {
           return (
             <IconButton

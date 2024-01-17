@@ -9,7 +9,7 @@ import {
   isSlatePlugin,
 } from "@liexp/shared/lib/slate/plugins/customSlate.js";
 import { StoryUtils } from "@liexp/shared/lib/utils/story.utils.js";
-import { type Cell, type Row, type Value } from "@react-page/editor/lib-es/index.js";
+import { type Cell, type Row, type Value } from "@react-page/editor";
 import { type SlateComponentPluginDefinition } from "@react-page/plugins-slate/lib/types/slatePluginDefinitions.js";
 import { type Option } from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";

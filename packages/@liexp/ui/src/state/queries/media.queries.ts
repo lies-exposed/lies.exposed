@@ -4,7 +4,7 @@
 // import {
 //   useInfiniteQuery,
 //   type UseInfiniteQueryResult
-// } from "react-query";
+// } from "@tanstack/react-query";
 
 // export const getMediaQueryListKey = (
 //   p: Partial<GetListParams>,

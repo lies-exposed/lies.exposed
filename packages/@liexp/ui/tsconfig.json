@@ -15,10 +15,7 @@
     "outDir": "./lib",
     "baseUrl": "./",
     "rootDir": "./",
-    "typeRoots": [
-      "../shared/typings",
-      "./typings"
-    ],
+    "typeRoots": ["../shared/typings", "./typings"],
     "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo"
   },
   "references": [

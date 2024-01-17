@@ -1,6 +1,6 @@
 // import { type Area } from "@liexp/shared/lib/io/http";
 // import type { GetListParams } from "react-admin";
-// import { useQuery } from "react-query";
+// import { useQuery } from "@tanstack/react-query";
 // import { type APIRESTClient } from "../../http/APIRESTClient.js";
 // import {
 //   type Queries,

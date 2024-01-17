@@ -1,6 +1,6 @@
 // import { type Events } from "@liexp/shared/lib/io/http";
 // import type { GetListParams, GetOneParams } from "react-admin";
-// import { useQuery } from "react-query";
+// import { useQuery } from "@tanstack/react-query";
 // import { Queries } from "../../providers/DataProvider";
 // import { fetchQuery } from "./common";
 // import { type UseListQueryFn, type UseQueryFn } from "./type";

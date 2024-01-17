@@ -11,15 +11,15 @@ import {
   type EndpointsQueryProvider,
 } from "@liexp/shared/lib/providers/EndpointQueriesProvider/index.js";
 import { fromEndpoints } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
-import * as express from "express";
-import * as React from "react";
-import * as ReactDOMServer from "react-dom/server";
 import {
-  Hydrate as HydrationBoundary,
+  HydrationBoundary,
   QueryClient,
   QueryClientProvider,
   dehydrate,
-} from "react-query";
+} from "@tanstack/react-query";
+import * as express from "express";
+import * as React from "react";
+import * as ReactDOMServer from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server.js";
 import { apiProvider } from "../client/api.js";
 import { HelmetProvider } from "../components/SEO.js";
@@ -82,7 +82,6 @@ export const getServer = (
       const queryClient = new QueryClient({
         defaultOptions: {
           queries: {
-            suspense: true,
             notifyOnChangeProps: ["data"],
           },
         },

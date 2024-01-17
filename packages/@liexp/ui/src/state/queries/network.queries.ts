@@ -4,7 +4,7 @@
 //   type GetNetworkQuery,
 //   type NetworkGraphOutput,
 // } from "@liexp/shared/lib/io/http/Network";
-// import { useQuery, type UseQueryResult } from "react-query";
+// import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 // import { type serializedType } from "ts-io-error/lib/Codec";
 // import { Queries } from "../../providers/DataProvider";
 // import { fetchQuery } from "./common";
