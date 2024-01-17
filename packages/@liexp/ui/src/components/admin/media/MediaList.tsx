@@ -56,7 +56,7 @@ export const MediaDataGrid: React.FC = () => {
     return <LoadingPage />;
   }
 
-  const isAdmin = checkIsAdmin(permissions || []);
+  const isAdmin = checkIsAdmin(permissions ?? []);
 
   return (
     <Datagrid
@@ -148,7 +148,7 @@ export const MediaList: React.FC<ListProps> = (props) => {
     return <LoadingPage />;
   }
 
-  const isAdmin = checkIsAdmin(permissions || []);
+  const isAdmin = checkIsAdmin(permissions ?? []);
 
   const filter = !isAdmin && data?.id ? { creator: data?.id } : {};
 
