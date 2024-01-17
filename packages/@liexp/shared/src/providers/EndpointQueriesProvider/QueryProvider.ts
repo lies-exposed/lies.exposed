@@ -1,7 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
+import { useQuery } from "@tanstack/react-query";
 import * as R from "fp-ts/lib/Record.js";
-import { useQuery } from "react-query";
 import {
   type MinimalEndpoint,
   type MinimalEndpointInstance,

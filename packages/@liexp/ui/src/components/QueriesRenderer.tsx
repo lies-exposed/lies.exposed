@@ -1,10 +1,10 @@
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { type EndpointsQueryProvider } from "@liexp/shared/lib/providers/EndpointQueriesProvider/index.js";
-import * as React from "react";
 import {
   type QueryObserverSuccessResult,
-  type UseQueryResult,
-} from "react-query";
+  type UseQueryResult
+} from "@tanstack/react-query";
+import * as React from "react";
 import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
 import { ErrorBox } from "./Common/ErrorBox.js";
 import { FullSizeLoader } from "./Common/FullSizeLoader.js";
@@ -18,19 +18,18 @@ type QueriesProp =
 type RenderFn<Q extends QueriesProp> = (
   data: Q extends QueriesRecord
     ? {
-        [K in keyof Q]: QueryObserverSuccessResult<
-          Q[K] extends UseQueryResult<infer A, APIError> ? A : never,
-          APIError
-        >["data"];
+        [K in keyof Q]: Q[K] extends UseQueryResult<infer A, APIError>
+          ? NonNullable<QueryObserverSuccessResult<A, APIError>["data"]>
+          : never;
       }
     : Q extends (...args: any[]) => QueriesRecord
       ? {
-          [K in keyof ReturnType<Q>]: QueryObserverSuccessResult<
-            ReturnType<Q>[K] extends UseQueryResult<infer A, APIError>
-              ? A
-              : never,
+          [K in keyof ReturnType<Q>]: ReturnType<Q>[K] extends UseQueryResult<
+            infer A,
             APIError
-          >["data"];
+          >
+            ? NonNullable<QueryObserverSuccessResult<A, APIError>["data"]>
+            : never;
         }
       : never,
 ) => JSX.Element;
@@ -54,7 +53,7 @@ const QueriesRenderer = <Q extends QueriesProp>({
   const { isLoading, isError, data, errors } = Object.entries(
     queriesObject,
   ).reduce(
-    (acc, [key, value]) => {
+    (acc, [key, value]: [string, UseQueryResult<any, APIError>]) => {
       // if (!value.isSuccess) {
       //   // eslint-disable-next-line no-console
       //   console.log(`query ${key}`, value);

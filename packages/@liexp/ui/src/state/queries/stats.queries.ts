@@ -1,6 +1,6 @@
 import { type Stats } from "@liexp/shared/lib/io/http/index.js";
+import { useQuery } from "@tanstack/react-query";
 import type { GetListParams } from "react-admin";
-import { useQuery } from "react-query";
 import { type UseQueryFn } from "./type.js";
 
 export const getStatsQueryKey = (

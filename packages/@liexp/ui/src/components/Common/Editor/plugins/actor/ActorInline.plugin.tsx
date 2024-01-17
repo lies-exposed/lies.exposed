@@ -3,8 +3,8 @@ import { ACTOR_INLINE } from "@liexp/shared/lib/slate/plugins/customSlate.js";
 import type {
   CellPluginComponentProps,
   DataTType,
-} from "@react-page/editor/lib-es/index.js";
-import { pluginFactories } from "@react-page/plugins-slate/lib-es/index.js";
+} from "@react-page/editor";
+import { pluginFactories } from "@react-page/plugins-slate";
 import {
   type SlateComponentPluginDefinition,
   type SlatePluginControls,

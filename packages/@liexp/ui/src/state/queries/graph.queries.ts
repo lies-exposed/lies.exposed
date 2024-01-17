@@ -3,7 +3,7 @@
 //   type FlowGraphOutput,
 //   type GetFlowGraphParams,
 // } from "@liexp/shared/lib/io/http/graphs/FlowGraph";
-// import { useQuery, type UseQueryResult } from "react-query";
+// import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 
 // // export const useGraphQuery = (id: GraphId): UseQueryResult<any, APIError> => {
 // //   return useQuery(["graph", id], async () => {

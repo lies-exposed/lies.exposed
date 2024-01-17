@@ -31,6 +31,7 @@
     "@liexp/shared": "0.1.0",
     "@liexp/ui": "0.1.0",
     "@mui/material": "^5.15.5",
+    "@tanstack/react-query": "^5.17.14",
     "debug": "^4.3.4",
     "final-form": "^4.20.10",
     "fp-ts": "^2.16.2",
@@ -46,7 +47,6 @@
     "react-final-form": "^6.5.9",
     "react-final-form-arrays": "^3.1.4",
     "react-helmet": "^6.1.0",
-    "react-query": "^3.39.3",
     "slick-carousel": "^1.8.1",
     "uuid": "^9.0.1",
     "web-vitals": "^3.5.1"

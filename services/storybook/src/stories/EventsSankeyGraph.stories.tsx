@@ -4,9 +4,9 @@ import {
   type EventsSankeyGraphProps,
 } from "@liexp/ui/lib/components/Graph/EventsSankeyGraph.js";
 import { type Meta, type StoryFn } from "@storybook/react";
-import * as A from "fp-ts/Array";
-import * as O from "fp-ts/Option";
-import { pipe } from "fp-ts/function";
+import * as A from "fp-ts/lib/Array.js";
+import * as O from "fp-ts/lib/Option.js";
+import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 
 const meta: Meta = {

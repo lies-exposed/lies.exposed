@@ -18,15 +18,15 @@ import {
   type Media,
 } from "@liexp/shared/lib/io/http/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
 import {
   useInfiniteQuery,
   useQuery,
   type UseInfiniteQueryResult,
   type UseQueryResult,
-} from "react-query";
+} from "@tanstack/react-query";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { pipe } from "fp-ts/lib/function.js";
 import { api } from "../api.js";
 
 const log = GetLogger("search-events-query");
@@ -276,11 +276,11 @@ export const fetchSearchEventsInfinite = async ({
 export const searchEventsInfiniteQuery = (
   input: Partial<SearchEventQueryInput>,
 ): UseInfiniteQueryResult<
-  SearchEventQueryResult,
+  { pages: SearchEventQueryResult[]; lastPage: SearchEventQueryResult },
   APIError
 > => {
   return useInfiniteQuery({
-    // initialPageParam: { startIndex: 0, stopIndex: 20 },
+    initialPageParam: { startIndex: 0, stopIndex: 20 },
     queryKey: getSearchEventsInfiniteQueryKey(input),
     queryFn: fetchSearchEventsInfinite,
     refetchOnWindowFocus: false,

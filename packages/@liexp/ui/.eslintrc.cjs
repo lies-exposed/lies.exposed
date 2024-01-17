@@ -1,7 +1,8 @@
 module.exports = {
   extends: [
     "../../../.eslintrc.js",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "plugin:@tanstack/eslint-plugin-query/recommended",
   ],
   parserOptions: {
     sourceType: "module",

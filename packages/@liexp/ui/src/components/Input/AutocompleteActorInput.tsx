@@ -1,6 +1,6 @@
 import { type Actor } from "@liexp/shared/lib/io/http/index.js";
+import { useQuery } from "@tanstack/react-query";
 import * as React from "react";
-import { useQuery } from "react-query";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
 import { ActorList, ActorListItem } from "../lists/ActorList.js";
 import { AutocompleteInput } from "./AutocompleteInput.js";
@@ -31,6 +31,7 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
       query={(p) =>
         options
           ? useQuery({
+              // eslint-disable-next-line @tanstack/query/exhaustive-deps
               queryKey: ["actor-options"],
               queryFn: () => Promise.resolve({ data: options }),
             })

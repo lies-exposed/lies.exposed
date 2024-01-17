@@ -16,7 +16,7 @@ import {
   type UserPermission,
 } from "@liexp/shared/lib/io/http/User.js";
 import type * as express from "express";
-import { type IO } from "fp-ts/IO";
+import { type IO } from "fp-ts/lib/IO.js";
 import * as IOE from "fp-ts/lib/IOEither.js";
 import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter.js";

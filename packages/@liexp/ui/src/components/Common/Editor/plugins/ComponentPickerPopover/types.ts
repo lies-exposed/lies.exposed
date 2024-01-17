@@ -8,7 +8,7 @@ import {
 } from "@liexp/shared/lib/slate/plugins/customSlate.js";
 // eslint-disable-next-line no-restricted-imports
 import { type OverridableComponent } from "@mui/material/OverridableComponent";
-import { type DataTType } from "@react-page/editor/lib-es/index.js";
+import { type DataTType } from "@react-page/editor";
 import { type ActorInlineState } from "../actor/ActorInline.plugin.js";
 import { type EventBlockState } from "../event/eventBlock.plugin.js";
 import { type GroupInlineState } from "../group/GroupInline.plugin.js";

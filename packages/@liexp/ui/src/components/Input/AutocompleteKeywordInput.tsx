@@ -1,6 +1,6 @@
 import { type Keyword } from "@liexp/shared/lib/io/http/index.js";
+import { useQuery } from "@tanstack/react-query";
 import * as React from "react";
-import { useQuery } from "react-query";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
 import KeywordList, { KeywordListItem } from "../lists/KeywordList.js";
 import { AutocompleteInput } from "./AutocompleteInput.js";
@@ -27,6 +27,7 @@ export const AutocompleteKeywordInput: React.FC<
       query={(p) =>
         options
           ? useQuery({
+              // eslint-disable-next-line @tanstack/query/exhaustive-deps
               queryKey: ["keyword-options"],
               queryFn: () => Promise.resolve({ data: options }),
             })

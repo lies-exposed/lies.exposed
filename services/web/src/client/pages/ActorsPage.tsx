@@ -55,6 +55,7 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
               <Grid item md={12} style={{ height: "100%" }}>
                 <ActorEventNetworkGraphBox
                   params={{
+                    filter: {},
                     sort: { field: "updatedAt", order: "DESC" },
                     pagination: {
                       perPage: 1,
@@ -65,7 +66,7 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
                   type={ACTORS.value}
                   relations={[ACTORS.value]}
                   query={{
-                    startDate: formatDate(subYears(new Date(), 2)),
+                    startDate: formatDate(subYears(new Date(), 1)),
                     endDate: formatDate(new Date()),
                   }}
                   onEventClick={(e) => {

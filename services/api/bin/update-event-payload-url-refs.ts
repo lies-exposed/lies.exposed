@@ -1,6 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { sequenceS } from "fp-ts/Apply";
+import { sequenceS } from "fp-ts/lib/Apply.js";
 import { Brackets } from "typeorm";
 import { startContext, stopContext } from "./start-ctx.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";

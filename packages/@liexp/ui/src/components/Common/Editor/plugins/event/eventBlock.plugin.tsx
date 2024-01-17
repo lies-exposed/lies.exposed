@@ -8,7 +8,7 @@ import type {
   CellPluginRenderer,
   DataTType,
   ImageUploadType,
-} from "@react-page/editor/lib-es/index.js";
+} from "@react-page/editor";
 import { parseISO } from "date-fns";
 import React from "react";
 import { EventCardGrid } from "../../../../Cards/Events/EventCardGrid.js";
@@ -138,7 +138,6 @@ const eventBlockPlugin = (
   settings?: EventBlockSettings,
 ): CellPlugin<EventBlockState> => {
   const mergedSettings = { ...defaultSettings, ...settings };
-
   return {
     controls: {
       type: "custom",

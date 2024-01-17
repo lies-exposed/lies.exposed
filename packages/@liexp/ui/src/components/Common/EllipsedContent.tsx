@@ -1,4 +1,4 @@
-import { type Value } from "@react-page/editor/lib-es/index.js";
+import { type Value } from "@react-page/editor";
 import * as React from "react";
 import { Box } from "../mui/index.js";
 import { LazyEditor as Editor } from "./Editor/index.js";
