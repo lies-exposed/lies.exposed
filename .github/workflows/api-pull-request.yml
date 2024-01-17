@@ -56,7 +56,7 @@ jobs:
         run: yarn api lint
 
   build:
-    needs: [install, build-packages, lint]
+    needs: [install, build-packages]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -71,7 +71,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    needs: [install, build-packages, lint, build]
+    needs: [install, build-packages]
     services:
       pg-db-test:
         image: postgres:14
@@ -121,7 +121,7 @@ jobs:
 
   docker_build:
     if: ${{ github.head_ref == 'release/alpha' }}
-    needs: [install, build-packages, lint]
+    needs: [install, build-packages, lint, build]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
