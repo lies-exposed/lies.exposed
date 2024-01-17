@@ -12,8 +12,8 @@ import {
   useQueryFromHash,
   useRouteQuery,
 } from "@liexp/ui/lib/utils/history.utils.js";
+import { useQueryClient } from "@tanstack/react-query";
 import * as React from "react";
-import { queryClient } from "../state/queries";
 import {
   useNavigateToResource,
   type EventsView,
@@ -41,6 +41,7 @@ interface EventsPageProps extends Omit<EventsView, "view"> {}
 const EventsPage: React.FC<EventsPageProps> = () => {
   const { hash, tab, ...query } = useEventsPageQuery();
 
+  const queryClient = useQueryClient();
   const navigateTo = useNavigateToResource();
 
   const params: Omit<SearchEventQueryInput, "_start" | "_end"> = {

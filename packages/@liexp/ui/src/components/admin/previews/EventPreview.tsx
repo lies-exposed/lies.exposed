@@ -1,10 +1,10 @@
 import { Events } from "@liexp/shared/lib/io/http/index.js";
 import { http } from "@liexp/shared/lib/io/index.js";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { LoadingIndicator, useEditContext } from "react-admin";
-import { QueryClient, QueryClientProvider } from "react-query";
 import { EventTemplateUI } from "../../../templates/EventTemplate.js";
 import { ECOTheme } from "../../../theme/index.js";
 import { HelmetProvider } from "../../SEO.js";

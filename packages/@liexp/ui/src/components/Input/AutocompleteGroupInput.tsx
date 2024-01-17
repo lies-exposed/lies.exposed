@@ -1,6 +1,6 @@
 import { type Group } from "@liexp/shared/lib/io/http/index.js";
+import { useQuery } from "@tanstack/react-query";
 import * as React from "react";
-import { useQuery } from "react-query";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
 import GroupList, { GroupListItem } from "../lists/GroupList.js";
 import { AutocompleteInput } from "./AutocompleteInput.js";
@@ -30,6 +30,7 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
       query={(p) =>
         options
           ? useQuery({
+              // eslint-disable-next-line @tanstack/query/exhaustive-deps
               queryKey: ["group-options"],
               queryFn: () => Promise.resolve({ data: options }),
             })

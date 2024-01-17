@@ -2,12 +2,12 @@
 import { Logger } from "@liexp/core/lib/logger";
 import { VaccineDatum } from "@liexp/shared/lib/io/http/covid/VaccineDatum";
 import { groupBy } from "@liexp/shared/lib/utils/array.utils";
-import * as A from "fp-ts/Array";
+import * as A from "fp-ts/lib/Array.js";
 import * as D from "fp-ts/Date";
-import * as Eq from "fp-ts/Eq";
-import * as O from "fp-ts/Option";
+import * as Eq from "fp-ts/lib/Eq.js";
+import * as O from "fp-ts/lib/Option.js";
 import * as Ord from "fp-ts/Ord";
-import { pipe } from "fp-ts/function";
+import { pipe } from "fp-ts/lib/function.js";
 import { VaccineEntry } from "../types";
 
 const sortByDate = pipe(

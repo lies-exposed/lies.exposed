@@ -5,14 +5,14 @@ import { GetLogger } from "@liexp/core/lib/logger";
 import { WHOCovid19GlobalData } from "@liexp/shared/lib/io/http/covid/COVIDDailyDatum";
 import { GetCSVUtil } from "@liexp/shared/lib/utils/csv.utils";
 import { distanceFromNow } from "@liexp/shared/lib/utils/date.utils";
-import * as A from "fp-ts/Array";
+import * as A from "fp-ts/lib/Array.js";
 import * as D from "fp-ts/Date";
-import * as Eq from "fp-ts/Eq";
-import * as NEA from "fp-ts/NonEmptyArray";
-import * as O from "fp-ts/Option";
+import * as Eq from "fp-ts/lib/Eq.js";
+import * as NEA from "fp-ts/lib/NonEmptyArray.js";
+import * as O from "fp-ts/lib/Option.js";
 import * as Ord from "fp-ts/Ord";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { pipe } from "fp-ts/lib/function.js";
 
 const WHO_DATA_RESULT_DIR = path.resolve(
   __dirname,

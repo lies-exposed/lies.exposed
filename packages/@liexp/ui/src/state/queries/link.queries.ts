@@ -1,6 +1,6 @@
 // import { type Link } from "@liexp/shared/lib/io/http";
 // import type { GetListParams } from "react-admin";
-// import { type UseQueryResult, useQuery } from "react-query";
+// import { type UseQueryResult, useQuery } from "@tanstack/react-query";
 // import { type APIRESTClient } from "../../http/index";
 // import { fetchQuery } from "./common";
 // import { type FetchQuery, type UseListQueryFn } from "./type";

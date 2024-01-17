@@ -2,7 +2,7 @@ import type {
   CellPlugin,
   CellPluginComponentProps,
   DataTType,
-} from "@react-page/editor/lib-es/index.js";
+} from "@react-page/editor";
 import React from "react";
 import ActorsBox from "../../../../../containers/ActorsBox.js";
 import { AutocompleteActorInput } from "../../../../Input/AutocompleteActorInput.js";

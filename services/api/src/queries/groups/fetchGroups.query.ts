@@ -7,7 +7,7 @@ import { GroupEntity } from "#entities/Group.entity.js";
 import { type RouteContext } from "#routes/route.types.js";
 import { addOrder, getORMOptions } from "#utils/orm.utils.js";
 
-// import * as O from 'fp-ts/Option'
+// import * as O from 'fp-ts/lib/Option.js'
 
 const defaultQuery: http.Group.GetGroupListQuery = {
   ids: O.none,

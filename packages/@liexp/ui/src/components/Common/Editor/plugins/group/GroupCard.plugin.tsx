@@ -3,7 +3,7 @@ import type {
   CellPlugin,
   CellPluginComponentProps,
   DataTType,
-} from "@react-page/editor/lib-es/index.js";
+} from "@react-page/editor";
 import React from "react";
 import { GroupsBox } from "../../../../../containers/GroupsBox.js";
 import { AutocompleteGroupInput } from "../../../../Input/AutocompleteGroupInput.js";

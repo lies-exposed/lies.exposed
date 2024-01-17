@@ -5,7 +5,7 @@ import "@liexp/ui/assets/main.css";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import { Preview } from "@storybook/react";
 import * as React from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
 
@@ -21,7 +21,7 @@ const withThemeProvider = (Story, context) => {
   return (
     <HelmetProvider>
       <CacheProvider value={cache}>
-        <QueryClientProvider client={qc} contextSharing={true}>
+        <QueryClientProvider client={qc}>
           <ThemeProvider theme={ECOTheme}>
             <Story {...context} />
           </ThemeProvider>

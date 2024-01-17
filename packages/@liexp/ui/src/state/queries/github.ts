@@ -1,7 +1,7 @@
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { pipe } from "fp-ts/lib/function.js";
-import { useQuery, type UseQueryResult } from "react-query";
 import { api } from "../api.js";
 
 export const fetchGithubRepo = ({ queryKey }: any): Promise<any> => {
@@ -30,5 +30,5 @@ export const githubRepo = ({
     queryFn: fetchGithubRepo,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
-    cacheTime: 10 * 60 * 60,
+    gcTime: 10 * 60 * 60,
   });

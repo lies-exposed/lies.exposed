@@ -2,16 +2,17 @@ import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { api } from "@liexp/ui/lib/client/api.js";
+import {
+  useMutation,
+  type UseMutationResult,
+  type QueryClient,
+} from "@tanstack/react-query";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { useMutation, type UseMutationResult } from "react-query";
-import { queryClient } from "./queries.js";
 
-export const createEventFromLink = (): UseMutationResult<
-  any,
-  APIError,
-  { url: string }
-> =>
+export const createEventFromLink = (
+  qc: QueryClient,
+): UseMutationResult<any, APIError, { url: string }> =>
   useMutation({
     mutationFn: (params) =>
       pipe(
@@ -22,7 +23,7 @@ export const createEventFromLink = (): UseMutationResult<
         }),
         throwTE,
       ),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["events"] }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["events"] }),
   });
 
 export const getEventFromLink = (): UseMutationResult<

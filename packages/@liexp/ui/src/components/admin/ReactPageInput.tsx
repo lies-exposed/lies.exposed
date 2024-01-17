@@ -1,6 +1,6 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { createExcerptValue, isValidValue } from "@liexp/shared/lib/slate/index.js";
-import { type EditorProps } from "@react-page/editor/lib-es/index.js";
+import { type EditorProps } from "@react-page/editor";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { Labeled, useInput, type InputProps } from "react-admin";

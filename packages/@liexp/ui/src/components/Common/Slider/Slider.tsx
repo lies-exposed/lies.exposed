@@ -11,8 +11,7 @@ const classes = {
   item: `${PREFIX}-item`,
 };
 
-// TODO: for some reason SlickSlider is not exported as default
-const StyledSlickSlider = styled((SlickSlider as any).default)(({ theme }) => ({
+const StyledSlickSlider = styled(SlickSlider)(({ theme }) => ({
   [`.${classes.root}`]: {
     margin: 0,
     width: "100%",

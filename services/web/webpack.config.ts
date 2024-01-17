@@ -42,7 +42,7 @@ webConfig.plugins?.push(
           ? `<script data-goatcounter="https://liexp.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>`
           : "",
     },
-  ]) as any
+  ]) as any,
 );
 
 // webConfig.devtool = undefined;

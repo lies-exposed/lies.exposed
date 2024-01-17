@@ -7,13 +7,16 @@ import {
 } from "@liexp/ui/lib/components/mui/index.js";
 import createEmotionCache from "@liexp/ui/lib/react/createEmotionCache.js";
 import { ECOTheme } from "@liexp/ui/lib/theme/index.js";
+import {
+  HydrationBoundary,
+  QueryClientProvider,
+  QueryClient,
+} from "@tanstack/react-query";
 import debug from "debug";
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
-import { Hydrate as HydrationBoundary, QueryClientProvider } from "react-query";
 import { BrowserRouter, HashRouter } from "react-router-dom";
 import { App } from "./App";
-import { queryClient } from "./state/queries";
 
 config.autoAddCss = false;
 
@@ -32,6 +35,14 @@ function Main(): JSX.Element {
       jssStyles.parentElement?.removeChild(jssStyles);
     }
   }, []);
+
+  const [queryClient] = React.useState(() => new QueryClient({
+    defaultOptions: {
+      queries: {
+        notifyOnChangeProps: ["isLoading", "isError", "data", "error"],
+      },
+    },
+  }));
 
   const dehydratedState = (window as any).__REACT_QUERY_STATE__;
 

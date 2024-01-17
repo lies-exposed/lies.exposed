@@ -5,7 +5,7 @@
 // import { throwTE } from '@liexp/shared/lib/utils/task.utils';
 // import { pipe } from 'fp-ts/lib/function';
 // import type { DataProvider, GetListParams } from "react-admin";
-// import { useQuery } from "react-query";
+// import { useQuery } from "@tanstack/react-query";
 // import { type APIRESTClient } from '../../http';
 // import { Queries, asQueries } from "../../providers/DataProvider";
 // import { fetchQuery } from "./common";

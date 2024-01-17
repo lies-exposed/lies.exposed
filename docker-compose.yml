@@ -96,7 +96,9 @@ services:
     volumes:
       - ./.eslintrc.js:/app/.eslintrc.js
       - ./tsconfig.json:/app/tsconfig.json
-      - ./packages/@liexp:/app/packages/@liexp:cached
+      - ./packages/@liexp/core:/app/packages/@liexp/core:cached
+      - ./packages/@liexp/shared:/app/packages/@liexp/shared:cached
+      - ./packages/@liexp/ui:/app/packages/@liexp/ui:cached
       - ./services/web:/app/services/web:cached
     working_dir: /app/services/web
     command: yarn watch:server

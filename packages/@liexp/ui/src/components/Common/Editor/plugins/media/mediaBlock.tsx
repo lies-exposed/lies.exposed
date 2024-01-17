@@ -7,7 +7,7 @@ import type {
   CellPluginRenderer,
   DataTType,
   ImageUploadType,
-} from "@react-page/editor/lib-es/index.js";
+} from "@react-page/editor";
 import React from "react";
 import { AutocompleteMediaInput } from "../../../../Input/AutocompleteMediaInput.js";
 import {

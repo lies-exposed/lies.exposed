@@ -72,8 +72,8 @@ export const webOptimization: webpack.Configuration["optimization"] = {
         enforce: true,
       },
       vendorReactQuery: {
-        test: /[\\/]react-query[\\/]/,
-        name: "react-query",
+        test: /[\\/]@tanstack\/react-query[\\/]/,
+        name: "@tanstack-react-query",
         enforce: true,
       },
     },
