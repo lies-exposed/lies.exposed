@@ -46,7 +46,7 @@
     "prettier": "^3.2.4",
     "react-refresh": "^0.14.0",
     "react-refresh-typescript": "^2.0.9",
-    "sass": "^1.69.7",
+    "sass": "^1.70.0",
     "speed-measure-webpack-plugin": "^1.5.0",
     "style-loader": "^3.3.4",
     "ts-loader": "^9.5.1",
