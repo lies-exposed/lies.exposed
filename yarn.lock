@@ -5769,13 +5769,13 @@ __metadata:
   linkType: hard
 
 "@smithy/hash-stream-node@npm:^2.0.18":
-  version: 2.0.18
-  resolution: "@smithy/hash-stream-node@npm:2.0.18"
+  version: 2.1.1
+  resolution: "@smithy/hash-stream-node@npm:2.1.1"
   dependencies:
-    "@smithy/types": ^2.8.0
-    "@smithy/util-utf8": ^2.0.2
+    "@smithy/types": ^2.9.1
+    "@smithy/util-utf8": ^2.1.1
     tslib: ^2.5.0
-  checksum: 7d2308b69110710cb24b21b9c6c9f6517fe9a0297043e17f3cccebfd124056a19e2f9b36a070de6e45301ffc934e1340eddbb4f9db33a4136231ce21fa9ceec7
+  checksum: da3c4ba14c648ee0d2fe7d3298d601150ee0ce5ac0c7d9f54a88148b5f67b03513b41560f76f5f109f11196547b4dc4f26e314774794596d7e3ee1103a9906a8
   languageName: node
   linkType: hard
 
@@ -5795,6 +5795,15 @@ __metadata:
   dependencies:
     tslib: ^2.5.0
   checksum: 6d101cf509a7818667f42d297894f88f86ef41d3cc9d02eae38bbe5e69b16edf83b8e67eb691964d859a16a4e39db1aad323d83f6ae55ae4512a14ff6406c02d
+  languageName: node
+  linkType: hard
+
+"@smithy/is-array-buffer@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "@smithy/is-array-buffer@npm:2.1.1"
+  dependencies:
+    tslib: ^2.5.0
+  checksum: 5dbf9ed59715c871321d0624e3842340c1d662d2e8b78313d1658d39eb793b3ac5c379d573eba0a2ca3add9b313848d4d93fd04bb8565c75fbab749928b239a6
   languageName: node
   linkType: hard
 
@@ -5996,6 +6005,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@smithy/types@npm:^2.9.1":
+  version: 2.9.1
+  resolution: "@smithy/types@npm:2.9.1"
+  dependencies:
+    tslib: ^2.5.0
+  checksum: 8570affb4abb5d0ead57293977fc915d44be481120defcabb87a3fb1c7b5d2501b117835eca357b5d54ea4bbee08032f9dc3d909ecbf0abb0cec2ca9678ae7bd
+  languageName: node
+  linkType: hard
+
 "@smithy/url-parser@npm:^2.0.16":
   version: 2.0.16
   resolution: "@smithy/url-parser@npm:2.0.16"
@@ -6042,6 +6060,16 @@ __metadata:
     "@smithy/is-array-buffer": ^2.0.0
     tslib: ^2.5.0
   checksum: d33cbf3e488d23390c88705ddae71b08de7a87b6453e38b508cd37a22a02e8b5be9f0cd46c1347b496c3977a815a7399b18840544ecdc4cce8cf3dcd0f5bb009
+  languageName: node
+  linkType: hard
+
+"@smithy/util-buffer-from@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "@smithy/util-buffer-from@npm:2.1.1"
+  dependencies:
+    "@smithy/is-array-buffer": ^2.1.1
+    tslib: ^2.5.0
+  checksum: 8dc7f9afaa356696f14a80cd983a750cbad8eba7c46498ed74fb8ec0cb307f14df64fb10ceb30b2d4792395bb8b216c89155a93dee0f2b3e5cab94fef459a195
   languageName: node
   linkType: hard
 
@@ -6155,6 +6183,16 @@ __metadata:
     "@smithy/util-buffer-from": ^2.0.0
     tslib: ^2.5.0
   checksum: e38fd6324ca2858f76fb6fce427c03faec599213acf95a5b18eb77b72cdf9327bd688e5a260dbccc0f512ea5426422ed200122a9542c00b14a6d9becc3f84c79
+  languageName: node
+  linkType: hard
+
+"@smithy/util-utf8@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "@smithy/util-utf8@npm:2.1.1"
+  dependencies:
+    "@smithy/util-buffer-from": ^2.1.1
+    tslib: ^2.5.0
+  checksum: 286ce5cba3f45a8abd3d6c28e40b3204dd64300340818d77e42c1cbb0c2f6ad0c42f0e47ffaf38d74d0895b0dfd1750c5b55222ab4d205a3b39da4325971d303
   languageName: node
   linkType: hard
 
