@@ -5798,6 +5798,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@smithy/is-array-buffer@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "@smithy/is-array-buffer@npm:2.1.1"
+  dependencies:
+    tslib: ^2.5.0
+  checksum: 5dbf9ed59715c871321d0624e3842340c1d662d2e8b78313d1658d39eb793b3ac5c379d573eba0a2ca3add9b313848d4d93fd04bb8565c75fbab749928b239a6
+  languageName: node
+  linkType: hard
+
 "@smithy/md5-js@npm:^2.0.18":
   version: 2.0.18
   resolution: "@smithy/md5-js@npm:2.0.18"
@@ -6036,12 +6045,12 @@ __metadata:
   linkType: hard
 
 "@smithy/util-buffer-from@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@smithy/util-buffer-from@npm:2.0.0"
+  version: 2.1.1
+  resolution: "@smithy/util-buffer-from@npm:2.1.1"
   dependencies:
-    "@smithy/is-array-buffer": ^2.0.0
+    "@smithy/is-array-buffer": ^2.1.1
     tslib: ^2.5.0
-  checksum: d33cbf3e488d23390c88705ddae71b08de7a87b6453e38b508cd37a22a02e8b5be9f0cd46c1347b496c3977a815a7399b18840544ecdc4cce8cf3dcd0f5bb009
+  checksum: 8dc7f9afaa356696f14a80cd983a750cbad8eba7c46498ed74fb8ec0cb307f14df64fb10ceb30b2d4792395bb8b216c89155a93dee0f2b3e5cab94fef459a195
   languageName: node
   linkType: hard
 
