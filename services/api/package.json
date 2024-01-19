@@ -126,7 +126,7 @@
     "eslint-plugin-import": "^2.29.1",
     "prettier": "^3.2.4",
     "prompts": "^2.4.2",
-    "supertest": "^6.3.3",
+    "supertest": "^6.3.4",
     "typeorm-uml": "^1.6.5",
     "vite-tsconfig-paths": "^4.3.1",
     "vitest": "^1.2.1"
