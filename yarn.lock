@@ -21047,14 +21047,14 @@ __metadata:
   linkType: hard
 
 "postcss-normalize-unicode@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "postcss-normalize-unicode@npm:6.0.0"
+  version: 6.0.2
+  resolution: "postcss-normalize-unicode@npm:6.0.2"
   dependencies:
-    browserslist: ^4.21.4
+    browserslist: ^4.22.2
     postcss-value-parser: ^4.2.0
   peerDependencies:
-    postcss: ^8.2.15
-  checksum: 0f246bf5511ae2294d8ec0decda6abee58c62e301a3a8f6542fa090bb426359caee156b96cc1e7f4b3a3f2cd9f62b410a446cf101e710d8fa71c704cfb057a5d
+    postcss: ^8.4.31
+  checksum: 63e41ec27af5c93b6a4172e2406ed930451d5638b2f354bb0e3c7a441b4f40d6ab96e474aabb06c681a0ebc71d11a1fbfeca50493d02d2a1eb094cf5bae7d853
   languageName: node
   linkType: hard
 
