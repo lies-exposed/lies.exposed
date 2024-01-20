@@ -19,7 +19,7 @@
     "typeRoots": [
       "../../packages/@liexp/shared/typings",
       "../../packages/@liexp/ui/typings",
-      "typings"
+      "typings",
     ],
     "importHelpers": true,
     "allowSyntheticDefaultImports": true,
@@ -28,20 +28,20 @@
     "baseUrl": "./src",
     "rootDir": "./",
     "paths": {
-      "@containers/*": ["./client/containers/*"]
-    }
+      "@containers/*": ["./client/containers/*"],
+    },
   },
   "include": ["./src", "./typings", ".eslintrc.js", "./webpack.*.ts"],
   "references": [
     {
-      "path": "../../packages/@liexp/core"
+      "path": "../../packages/@liexp/core",
     },
     {
-      "path": "../../packages/@liexp/shared"
+      "path": "../../packages/@liexp/shared",
     },
     {
-      "path": "../../packages/@liexp/ui"
-    }
+      "path": "../../packages/@liexp/ui",
+    },
   ],
   "ts-node": {
     "require": ["tsconfig-paths/register"],
@@ -49,7 +49,7 @@
     "compilerOptions": {
       "module": "CommonJS",
       "moduleResolution": "node",
-      "esModuleInterop": true
-    }
-  }
+      "esModuleInterop": true,
+    },
+  },
 }

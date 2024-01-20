@@ -2,8 +2,8 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "build",
-    "module": "commonjs",
-    "target": "es5",
+    "module": "ESNext",
+    "target": "es6",
     "jsx": "react-jsx",
     "noEmit": false,
     "allowJs": true,
@@ -26,5 +26,14 @@
     }
   },
   "include": ["./src", "./typings", ".eslintrc.js"],
-  "exclude": ["node_modules", "build"]
+  "exclude": ["node_modules", "build"],
+  "ts-node": {
+    "require": ["tsconfig-paths/register"],
+    "transpileOnly": true,
+    "compilerOptions": {
+      "module": "CommonJS",
+      "moduleResolution": "node",
+      "esModuleInterop": true
+    }
+  }
 }
