@@ -20,7 +20,7 @@
     "importHelpers": true,
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
-    "tsBuildInfoFile": "build/.tsbuildinfo",
+    "tsBuildInfoFile": "build/tsconfig.build.tsbuildinfo",
     "baseUrl": "./src",
     "rootDir": "./src",
     "paths": {

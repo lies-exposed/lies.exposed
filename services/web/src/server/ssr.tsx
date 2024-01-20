@@ -12,15 +12,14 @@ loadENV();
 const run = (): void => {
   void Promise.all([import("../client/App"), import("../client/routes")]).then(
     ([{ App }, { routes }]) => {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // `${process.platform === "win32" ? "" : "/"}${/file:\/{2,3}(.+)\/[^/]/.exec(import.meta.url)![1]}`,
+      const publicDir = path.resolve(__dirname, "../");
+
       const app = getServer(
         express(),
         App,
-        path.resolve(
-          // TODO: fix this
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          `${process.platform === "win32" ? "" : "/"}${/file:\/{2,3}(.+)\/[^/]/.exec(import.meta.url)![1]}`,
-          "../",
-        ),
+        publicDir,
         {
           NODE_ENV: (process.env.NODE_ENV as any) ?? "development",
         },
