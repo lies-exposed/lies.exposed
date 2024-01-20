@@ -80,7 +80,7 @@
     "multer": "^1.4.5-lts.1",
     "node-cron": "^3.0.3",
     "node-telegram-bot-api": "^0.64.0",
-    "nodemon": "^3.0.2",
+    "nodemon": "^3.0.3",
     "page-metadata-parser": "^1.1.4",
     "parse2-kmz": "^1.0.7",
     "pdfjs-dist": "^4.0.379",

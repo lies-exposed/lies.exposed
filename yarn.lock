@@ -5789,16 +5789,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@smithy/is-array-buffer@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@smithy/is-array-buffer@npm:2.0.0"
-  dependencies:
-    tslib: ^2.5.0
-  checksum: 6d101cf509a7818667f42d297894f88f86ef41d3cc9d02eae38bbe5e69b16edf83b8e67eb691964d859a16a4e39db1aad323d83f6ae55ae4512a14ff6406c02d
-  languageName: node
-  linkType: hard
-
-"@smithy/is-array-buffer@npm:^2.1.1":
+"@smithy/is-array-buffer@npm:^2.0.0, @smithy/is-array-buffer@npm:^2.1.1":
   version: 2.1.1
   resolution: "@smithy/is-array-buffer@npm:2.1.1"
   dependencies:
@@ -5996,16 +5987,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@smithy/types@npm:^2.2.2, @smithy/types@npm:^2.8.0":
-  version: 2.8.0
-  resolution: "@smithy/types@npm:2.8.0"
-  dependencies:
-    tslib: ^2.5.0
-  checksum: c0c85b1422f982635c8b5c6477f5d2b28a5afeaf21f6e877dc1f96e401673632b5abaf3b49f800f1859119c498151e5a59e0361c8f56945f79642c486ac68af8
-  languageName: node
-  linkType: hard
-
-"@smithy/types@npm:^2.9.1":
+"@smithy/types@npm:^2.2.2, @smithy/types@npm:^2.8.0, @smithy/types@npm:^2.9.1":
   version: 2.9.1
   resolution: "@smithy/types@npm:2.9.1"
   dependencies:
@@ -6053,17 +6035,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@smithy/util-buffer-from@npm:^2.0.0":
-  version: 2.1.1
-  resolution: "@smithy/util-buffer-from@npm:2.1.1"
-  dependencies:
-    "@smithy/is-array-buffer": ^2.1.1
-    tslib: ^2.5.0
-  checksum: 8dc7f9afaa356696f14a80cd983a750cbad8eba7c46498ed74fb8ec0cb307f14df64fb10ceb30b2d4792395bb8b216c89155a93dee0f2b3e5cab94fef459a195
-  languageName: node
-  linkType: hard
-
-"@smithy/util-buffer-from@npm:^2.1.1":
+"@smithy/util-buffer-from@npm:^2.0.0, @smithy/util-buffer-from@npm:^2.1.1":
   version: 2.1.1
   resolution: "@smithy/util-buffer-from@npm:2.1.1"
   dependencies:
@@ -6176,17 +6148,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@smithy/util-utf8@npm:^2.0.0, @smithy/util-utf8@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "@smithy/util-utf8@npm:2.0.2"
-  dependencies:
-    "@smithy/util-buffer-from": ^2.0.0
-    tslib: ^2.5.0
-  checksum: e38fd6324ca2858f76fb6fce427c03faec599213acf95a5b18eb77b72cdf9327bd688e5a260dbccc0f512ea5426422ed200122a9542c00b14a6d9becc3f84c79
-  languageName: node
-  linkType: hard
-
-"@smithy/util-utf8@npm:^2.1.1":
+"@smithy/util-utf8@npm:^2.0.0, @smithy/util-utf8@npm:^2.0.2, @smithy/util-utf8@npm:^2.1.1":
   version: 2.1.1
   resolution: "@smithy/util-utf8@npm:2.1.1"
   dependencies:
@@ -10353,7 +10315,7 @@ __metadata:
     multer: ^1.4.5-lts.1
     node-cron: ^3.0.3
     node-telegram-bot-api: ^0.64.0
-    nodemon: ^3.0.2
+    nodemon: ^3.0.3
     page-metadata-parser: ^1.1.4
     parse2-kmz: ^1.0.7
     pdfjs-dist: ^4.0.379
@@ -19673,9 +19635,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nodemon@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "nodemon@npm:3.0.2"
+"nodemon@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "nodemon@npm:3.0.3"
   dependencies:
     chokidar: ^3.5.2
     debug: ^4
@@ -19689,7 +19651,7 @@ __metadata:
     undefsafe: ^2.0.5
   bin:
     nodemon: bin/nodemon.js
-  checksum: 61f3dd207ad444f4a7a2f1aa44adc886605c96c7bc6286291c2360e5e2cd26c3828c90a1418a60783a9da2463593383149135a5a4c099918c54d34a611745499
+  checksum: 121ebb6349167d87cefd5767ec453ceb49ec5a8d50146134a54b0e25502c29ad01caaa41460e303b35728439012564782d278b3fef3c615f3c278979c2b7d586
   languageName: node
   linkType: hard
 
