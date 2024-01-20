@@ -3835,7 +3835,7 @@ __metadata:
     ts-io-error: ^2.0.0
     typescript: ^5.3.3
     vitest-mock-extended: ^1.3.1
-    waveform-data: ^4.4.0
+    waveform-data: ^4.5.0
   languageName: unknown
   linkType: soft
 
@@ -26568,10 +26568,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"waveform-data@npm:^4.4.0":
-  version: 4.4.0
-  resolution: "waveform-data@npm:4.4.0"
-  checksum: fd0dad975f59ed3eceb531e0edf7c903c7e16a9b61606dc7b6f867e3bf5f885783bafa6af729d5573b2ac67ca4b109f20cd2fd8c33c4cedab5b0eba775cf47f4
+"waveform-data@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "waveform-data@npm:4.5.0"
+  checksum: 7e72ee573ce0c44e0402b147f9026ad53e1e79f6a908ab622820771261c3fa3440b635737371026eee175794abda912245e8d5d823b5a403c3c06d2af21a167c
   languageName: node
   linkType: hard
 
