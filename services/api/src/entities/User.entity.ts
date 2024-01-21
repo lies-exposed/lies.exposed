@@ -51,6 +51,13 @@ export class UserEntity {
   @Column({ type: "json", default: [] })
   permissions: UserPermission[];
 
+  // telegram auth
+  @Column({ type: "varchar", unique: true, nullable: true })
+  telegramId: string | null;
+
+  @Column({ type: "varchar", unique: true, nullable: true })
+  telegramToken: string | null;
+
   @OneToMany(() => EventSuggestionEntity, (e) => e.creator, {
     cascade: false,
     nullable: true,

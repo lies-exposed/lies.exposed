@@ -1,6 +1,9 @@
 import "@liexp/ui/assets/react-page.css";
 import { apiProvider, authProvider } from "@liexp/ui/lib/client/api.js";
-import { FAIcon } from "@liexp/ui/lib/components/Common/Icons/FAIcon.js";
+import {
+  FAIcon,
+  UserIcon,
+} from "@liexp/ui/lib/components/Common/Icons/FAIcon.js";
 import {
   EventSuggestionEdit,
   EventSuggestionList,
@@ -30,6 +33,9 @@ import englishMessages from "@liexp/ui/lib/i18n/en-US.js";
 import { themeOptions } from "@liexp/ui/lib/theme/index.js";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import * as React from "react";
+import { Route } from "react-router-dom";
+import { UserEditMe } from "./UseEditMe";
+import { UserListMe } from "./UserListMe";
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
 
@@ -76,6 +82,10 @@ const ProfilePage: React.FC = () => {
         create={StoryCreate}
         icon={() => <FAIcon icon="quote-left" />}
       />
+
+      <Resource name="users" list={<UserListMe />} icon={UserIcon}>
+        <Route path="me" element={<UserEditMe />} />
+      </Resource>
     </Admin>
   );
 };

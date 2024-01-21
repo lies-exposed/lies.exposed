@@ -94,7 +94,7 @@ const decodeUserFromRequest =
             return perms.some((p) => u.permissions.includes(p));
           }
 
-          return routePerms.some((p) => u.permissions.includes(p));
+          return routePerms.every((p) => u.permissions.includes(p));
         },
         (p) =>
           new JWTError(`The access token doesn't have the needed permissions`, {

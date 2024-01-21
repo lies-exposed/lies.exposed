@@ -3,6 +3,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import type TelegramBot from "node-telegram-bot-api";
+import { findUserOrReplyFlow } from './helpers/findUserOrReply.js';
 import { GroupEntity } from "#entities/Group.entity.js";
 import { fetchGroupFromWikipedia } from "#flows/groups/fetchGroupFromWikipedia.js";
 import { toControllerError } from "#io/ControllerError.js";
@@ -16,14 +17,7 @@ const callbackQueryListeners: Record<
   (c: TelegramBot.CallbackQuery) => void
 > = {};
 
-export const groupCommand = ({
-  logger,
-  db,
-  wp,
-  tg,
-  env,
-  ...tgContext
-}: RouteContext): TGBotProvider => {
+export const groupCommand = (ctx: RouteContext): TGBotProvider => {
   const handleGroupMessage = async (
     msg: TelegramBot.Message,
     match: RegExpExecArray | null,
@@ -32,32 +26,33 @@ export const groupCommand = ({
       return;
     }
 
-    logger.debug.log(`Match %O`, match);
+    ctx.logger.debug.log(`Match %O`, match);
     const commandContext: any = {};
 
     commandContext.search = match[1];
     const username = getUsernameFromDisplayName(commandContext.search);
-    logger.debug.log("/group %s", commandContext.search, username);
+    ctx.logger.debug.log("/group %s", commandContext.search, username);
 
     void pipe(
-      db.findOne(GroupEntity, { where: { username } }),
+      findUserOrReplyFlow(ctx)(user => pipe(
+      ctx.db.findOne(GroupEntity, { where: { username } }),
       fp.TE.chain((g) => {
         if (fp.O.isSome(g)) {
           return fp.TE.tryCatch(
             () =>
-              tg.api.sendMessage(
+              ctx.tg.api.sendMessage(
                 msg.chat.id,
-                getSuccessMessage(g.value, env.WEB_URL),
+                getSuccessMessage(g.value, ctx.env.WEB_URL),
                 {
                   parse_mode: "HTML",
                 },
-              ),
+              ).then(() => undefined),
             toControllerError,
           );
         }
 
         return pipe(
-          wp.search(commandContext.search),
+          ctx.wp.search(commandContext.search),
           fp.TE.mapLeft(toControllerError),
           fp.TE.map((q) =>
             q.results.slice(0, 5).map((s) => ({
@@ -80,27 +75,20 @@ export const groupCommand = ({
                 return;
               }
               const jsonData = JSON.parse(answer.data);
-              logger.debug.log("User pick %O", jsonData);
+              ctx.logger.debug.log("User pick %O", jsonData);
               const pageId = jsonData.value;
 
               void pipe(
-                fetchGroupFromWikipedia({
-                  logger,
-                  wp,
-                  tg,
-                  db,
-                  env,
-                  ...tgContext,
-                })(pageId),
+                fetchGroupFromWikipedia(ctx)(pageId),
                 fp.TE.chain((groupData) =>
-                  db.save(GroupEntity, [{ ...groupData, members: [] }]),
+                  ctx.db.save(GroupEntity, [{ ...groupData, members: [] }]),
                 ),
                 fp.TE.chain(([group]) =>
                   fp.TE.tryCatch(
                     () =>
-                      tg.api.sendMessage(
+                      ctx.tg.api.sendMessage(
                         msg.chat.id,
-                        getSuccessMessage(group, env.WEB_URL),
+                        getSuccessMessage(group, ctx.env.WEB_URL),
                         {
                           parse_mode: "HTML",
                         },
@@ -109,7 +97,7 @@ export const groupCommand = ({
                   ),
                 ),
                 fp.TE.chainFirst(() => {
-                  tg.api.removeListener(
+                  ctx.tg.api.removeListener(
                     "callback_query",
                     callbackQueryListeners[msg.chat.id],
                   );
@@ -122,27 +110,36 @@ export const groupCommand = ({
               );
             };
 
-            tg.api.on("callback_query", callbackQueryListeners[msg.chat.id]);
+            ctx.tg.api.on(
+              "callback_query",
+              callbackQueryListeners[msg.chat.id],
+            );
 
             return fp.TE.tryCatch(
               () =>
-                tg.api.sendMessage(msg.chat.id, "Results found on Wikipedia", {
-                  reply_markup: {
-                    inline_keyboard: inlineKeyboardButtons,
+                ctx.tg.api.sendMessage(
+                  msg.chat.id,
+                  "Results found on Wikipedia",
+                  {
+                    reply_markup: {
+                      inline_keyboard: inlineKeyboardButtons,
+                    },
                   },
-                }),
+                ),
               toControllerError,
             );
           }),
+          fp.TE.map(() => undefined)
         );
-      }),
+      })
+    ))(msg.chat.id, msg.from?.id),
       throwTE,
     );
   };
 
-  tg.api.onText(/\/group\s(.*)/, (msg, match) => {
+  ctx.tg.api.onText(/\/group\s(.*)/, (msg, match) => {
     void handleGroupMessage(msg, match);
   });
 
-  return tg;
+  return ctx.tg;
 };
