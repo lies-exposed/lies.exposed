@@ -96,7 +96,7 @@
     "typeorm": "^0.3.19",
     "typescript": "^5.3.3",
     "uuid": "^9.0.1",
-    "wikipedia": "^2.1.1",
+    "wikipedia": "^2.1.2",
     "wink-eng-lite-web-model": "^1.5.2",
     "wink-nlp": "^1.14.3",
     "wink-nlp-utils": "^2.1.0"

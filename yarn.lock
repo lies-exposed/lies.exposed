@@ -10337,7 +10337,7 @@ __metadata:
     uuid: ^9.0.1
     vite-tsconfig-paths: ^4.3.1
     vitest: ^1.2.1
-    wikipedia: ^2.1.1
+    wikipedia: ^2.1.2
     wink-eng-lite-web-model: ^1.5.2
     wink-nlp: ^1.14.3
     wink-nlp-utils: ^2.1.0
@@ -27075,13 +27075,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wikipedia@npm:^2.1.1":
-  version: 2.1.1
-  resolution: "wikipedia@npm:2.1.1"
+"wikipedia@npm:^2.1.2":
+  version: 2.1.2
+  resolution: "wikipedia@npm:2.1.2"
   dependencies:
     axios: ^1.4.0
     infobox-parser: ^3.6.2
-  checksum: 629b8b2205d19f86d1f8017e6ed88e051dc30326e8948a3ff907e8bb6f223fb79e622594bcd41a432dc8e7caa799d5aa563fd35d7255e14392abd00121951450
+  checksum: 35ef209e8d2e77ac0d8a954ea20d485b5a892a3b26a085166f0fedb4d8670b8a47d873ff92dab87164fcccff2af226e0c0a33b16dedd6c55e1d77b878bcc15ce
   languageName: node
   linkType: hard
 
