@@ -75,7 +75,7 @@ describe("GET User Me", () => {
       .set("authorization", token);
 
     expect(getUserResponse.status).toBe(200);
-    expect(getUserResponse.body).toMatchObject({
+    expect(getUserResponse.body.data).toMatchObject({
       id: adminId,
     });
   });
@@ -95,7 +95,7 @@ describe("GET User Me", () => {
       .set("authorization", token);
 
     expect(getUserResponse.status).toBe(200);
-    expect(getUserResponse.body).toMatchObject({
+    expect(getUserResponse.body.data).toMatchObject({
       id: supporterId,
     });
   });
