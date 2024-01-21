@@ -47,6 +47,7 @@ import {
   StoryEdit,
   StoryList,
 } from "@liexp/ui/lib/components/admin/stories/AdminStories.js";
+import { UserEdit } from '@liexp/ui/lib/components/admin/user/UserEdit';
 import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider.js";
 import AssignmentIcon from "@mui/icons-material/Assignment.js";
 import PermMediaIcon from "@mui/icons-material/PermMedia.js";
@@ -65,7 +66,7 @@ import {
 import { GroupCreate, GroupEdit, GroupList } from "./pages/AdminGroups";
 import { KeywordCreate, KeywordEdit, KeywordList } from "./pages/AdminKeyword";
 import { SocialPostCreate, SocialPostList } from "./pages/AdminSocialPost";
-import { UserCreate, UserEdit, UserList } from "./pages/AdminUsers";
+import { UserCreate, UserList } from "./pages/AdminUsers";
 import { PageCreate, PageEdit, PageList } from "./pages/Pages";
 import { AdminStats } from "./pages/dashboard/AdminStats";
 import { BookCreate, BookEdit, BookList } from "./pages/events/AdminBookEvent";

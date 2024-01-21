@@ -26,7 +26,7 @@ export type UserPermission = t.TypeOf<typeof UserPermission>;
 
 export const UserStatusPending = t.literal("Pending");
 export const UserStatusApproved = t.literal("Approved");
-export const UserStatusDeclined = t.literal("Declined");
+export const UserStatusDeclined = t.literal("Declined"); 
 export const UserStatus = t.union(
   [UserStatusPending, UserStatusApproved, UserStatusDeclined],
   "UserStatus",
@@ -63,9 +63,12 @@ export const User = t.strict(
     email: t.string,
     status: UserStatus,
     permissions: t.array(UserPermission),
+    telegramId: t.union([t.string, t.null]),
+    telegramToken: t.union([t.string, t.null]),
     createdAt: t.string,
     updatedAt: t.string,
   },
   "User",
 );
 export type User = t.TypeOf<typeof User>;
+

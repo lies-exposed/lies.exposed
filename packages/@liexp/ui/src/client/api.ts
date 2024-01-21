@@ -72,7 +72,7 @@ export const authProvider: AuthProvider = {
   },
   getIdentity: async () => {
     try {
-      const user = await apiProvider.get("users/me", {});
+      const user = await apiProvider.get("users/me", {}).then((res) => res.data);
       // console.log(user);
 
       localStorage.setItem("user", JSON.stringify(user));

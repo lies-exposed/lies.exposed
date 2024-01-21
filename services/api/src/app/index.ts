@@ -12,6 +12,7 @@ import { actorCommand } from "#providers/tg/actor.command.js";
 import { areaCommand } from "#providers/tg/area.command.js";
 import { groupCommand } from "#providers/tg/group.command.js";
 import { helpCommand } from "#providers/tg/help.command.js";
+import { loginCommand } from '#providers/tg/login.command.js';
 import { startCommand } from "#providers/tg/start.command.js";
 import { AddRoutes } from "#routes/index.js";
 import { type RouteContext } from "#routes/route.types.js";
@@ -59,6 +60,9 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   // app.use(express.static(mediaPath));
   const tgLogger = ctx.logger.extend("tg-bot"); // bind /start command to tg bot
 
+  // bind /login $email $token command to tg bot
+  loginCommand(ctx);
+  // bind /start command to tg bot
   startCommand(ctx);
   // bind /help command to tg bot
   helpCommand(ctx);

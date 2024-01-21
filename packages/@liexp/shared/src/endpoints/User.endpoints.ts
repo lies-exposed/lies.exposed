@@ -2,6 +2,7 @@ import * as t from "io-ts";
 import { UUID } from "io-ts-types/lib/UUID.js";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { Endpoint } from "ts-endpoint";
+import { Output } from '../io/http/Common/Output.js';
 import { GetListQuery } from "../io/http/Query/index.js";
 import {
   EditUserBody,
@@ -76,7 +77,16 @@ export const GetUserMe = Endpoint({
   Input: {
     Query: GetListQuery,
   },
-  Output: User,
+  Output: Output(User, 'user'),
+});
+
+export const EditUserMe = Endpoint({
+  Method: "PUT",
+  getPath: () => `/users/me`,
+  Input: {
+    Body: EditUserBody,
+  },
+  Output: Output(User, 'user'),
 });
 
 export const UserList = Endpoint({
@@ -91,6 +101,15 @@ export const UserList = Endpoint({
   Output: t.strict({ data: t.array(User), total: t.number }),
 });
 
+const UserTGTokenGenerate = Endpoint({
+  Method: "POST",
+  getPath: () => "/users/tg/token",
+  Input: {
+    Body: t.strict({}),
+  },
+  Output: t.strict({ data: t.strict({ token: t.string }) }),
+});
+
 export const users = ResourceEndpoints({
   Get: UserGet,
   Create: UserCreate,
@@ -103,6 +122,8 @@ export const users = ResourceEndpoints({
   }),
   Custom: {
     GetUserMe,
+    EditUserMe,
     SignUpUser,
+    UserTGTokenGenerate
   },
 });
