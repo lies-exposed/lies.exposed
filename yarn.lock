@@ -7292,12 +7292,12 @@ __metadata:
   linkType: hard
 
 "@tiptap/extension-gapcursor@npm:^2.1.7":
-  version: 2.1.7
-  resolution: "@tiptap/extension-gapcursor@npm:2.1.7"
+  version: 2.1.16
+  resolution: "@tiptap/extension-gapcursor@npm:2.1.16"
   peerDependencies:
     "@tiptap/core": ^2.0.0
     "@tiptap/pm": ^2.0.0
-  checksum: bff0c6c9c35b6cd58c17c0824bf04e56b2e3f21b0daa60b82093e0ef86de8fb3f2d4bdcac24a5045e08f8ca501f50632f07cc7e255848b8f1cd1da62ce9f12e8
+  checksum: c836b8af59d327d74794737845c842bba95a47a6c5d8a480426d644684e40691b61fb89846d7e1e0eeed63bb74b7e3800669b472b3cbd6078fbb77d1843c1113
   languageName: node
   linkType: hard
 
