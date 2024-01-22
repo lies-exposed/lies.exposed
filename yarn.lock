@@ -16770,11 +16770,11 @@ __metadata:
   linkType: hard
 
 "infobox-parser@npm:^3.6.2":
-  version: 3.6.2
-  resolution: "infobox-parser@npm:3.6.2"
+  version: 3.6.4
+  resolution: "infobox-parser@npm:3.6.4"
   dependencies:
     camelcase: ^4.1.0
-  checksum: a09ab6d338631590f7d0ade0b7d3d179507ada170aa81f9b404b9df8fb2c780d95e8a79b027267381594bb575d3d69f39f1d9a8af0c5f6213d5b671877380d2f
+  checksum: 1ce5a5d22a5fcadaf27c08c39e2ba27336becb60e9b7eac591734f634c8069a48113485b5027a322ff313ac5e16961e1e6e5de7a62b1cf14e1a594806d08c1d0
   languageName: node
   linkType: hard
 
