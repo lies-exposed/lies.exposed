@@ -7685,9 +7685,9 @@ __metadata:
   linkType: hard
 
 "@types/chance@npm:^1.0.2":
-  version: 1.1.4
-  resolution: "@types/chance@npm:1.1.4"
-  checksum: 0ce6a654e6702237800b01ae7889209a98752ed4792d810b5007c27c046972988ac6fcc36063bdc7ede37d3ab1d0fd0a7bb3e405d4566c80debd9e663a90bbb0
+  version: 1.1.6
+  resolution: "@types/chance@npm:1.1.6"
+  checksum: a1845ff0a70989d581b8f7628aaef1807276c0ae22d0c038013ebcac4f4bd57e6a765319377994cc3cae2122838638fdb2afe5232ee6b987b3f7ea2cddecbead
   languageName: node
   linkType: hard
 
