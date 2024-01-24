@@ -6103,12 +6103,12 @@ __metadata:
   linkType: hard
 
 "@smithy/util-middleware@npm:^2.0.0, @smithy/util-middleware@npm:^2.0.9":
-  version: 2.0.9
-  resolution: "@smithy/util-middleware@npm:2.0.9"
+  version: 2.1.1
+  resolution: "@smithy/util-middleware@npm:2.1.1"
   dependencies:
-    "@smithy/types": ^2.8.0
+    "@smithy/types": ^2.9.1
     tslib: ^2.5.0
-  checksum: 0c34552d6845ef215441602a16ac6e02e2a5a8ab70e1b2ed0dc37a7acbf5de6c7f2de9ba09f303c2bfbfa77a0a4869f6660874c9f6daeed757392fb42466e01a
+  checksum: 404bb944202df70ba0ff8bb6ea105ead0a6b365d5ef7bfafbfc919df228823563818f0ee36f0f1e20462200da2fb8c8961e20b237e4e1bd9f77c38dd701f39ab
   languageName: node
   linkType: hard
 
