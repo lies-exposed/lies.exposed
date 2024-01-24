@@ -88,7 +88,7 @@
     "puppeteer-core": "^21.7.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
-    "sharp": "^0.33.1",
+    "sharp": "^0.33.2",
     "ts-endpoint-express": "^2.0.0",
     "ts-shared": "2.0.0-alpha.6",
     "tsconfig-paths": "^4.2.0",
