@@ -115,7 +115,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
       server: config.devServer
         ? {
             port: config.port,
-            host: "localhost",
+            host: config.host,
             hmr: config.hot,
           }
         : undefined,

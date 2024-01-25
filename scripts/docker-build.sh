@@ -58,6 +58,7 @@ if [ "$web" = true ]; then
     --no-cache \
     --file web.Dockerfile \
     --target production \
+    --build-arg DOTENV_CONFIG_PATH=.env.alpha \
     --tag $WEB_IMAGE:alpha-latest \
     --tag ghcr.io/lies-exposed/$WEB_IMAGE:alpha-latest
 fi

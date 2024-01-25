@@ -7,6 +7,7 @@ cp ./services/api/.env ./deploy/.env.api
 cp ./services/web/.env ./deploy/.env.web
 
 sed -i "s/VITE_NODE_ENV=.*/VITE_NODE_ENV=production/g" ./deploy/.env.web
+sed -i "s/NODE_ENV=.*/NODE_ENV=production/g" ./deploy/.env.api
 
 docker compose down
 
@@ -23,7 +24,7 @@ cd ./deploy || return
 docker compose --env-file .env.api up --build --force-recreate -d api
 docker compose --env-file .env.api --env-file .env.web up --build --force-recreate -d web
 sleep 5
-docker compose logs -f
 
-# docker compose down
-cd ../ || return
+./scripts/nginx.setup.sh
+
+docker compose logs -f

@@ -7,6 +7,7 @@ export interface GetViteConfigParams<A extends Record<string, t.Mixed>> {
   env: t.ExactC<t.TypeC<A>>;
   envFileDir: string;
   port: number;
+  host: string;
   entry?: string;
   devServer?: boolean;
   target: AppType;

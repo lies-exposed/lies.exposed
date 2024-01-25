@@ -82,6 +82,7 @@ export const requestHandler =
       defaultOptions: {
         queries: {
           notifyOnChangeProps: ["data"],
+          refetchOnMount: false,
         },
       },
     });
@@ -123,51 +124,60 @@ export const requestHandler =
         write(chunk, _encoding, cb) {
           const content = chunk.toString("utf8");
 
+          logger.debug.log("Write chunk %d", content.length);
+
           body += content;
 
           cb();
         },
         final() {
-          const h = helmetContext.helmet as any;
+          try {
+            logger.debug.log("Sending data to client");
+            const h = helmetContext.helmet as any;
 
-          const htmlAttributes = h.htmlAttributes.toString();
-          const head = `
+            const htmlAttributes = h.htmlAttributes.toString();
+            const head = `
                       ${h.title.toString()}
                       ${h.meta.toString().replace("/>", "/>\n")}
                       ${h.script.toString()}
                     `;
 
-          // const emotionCss = extractCritical(body);
-          // console.log(emotionCss);
-          // console.log(body);
+            // const emotionCss = extractCritical(body);
+            // console.log(emotionCss);
+            // console.log(body);
 
-          const chunks = extractCriticalToChunks(body);
-          const styles = constructStyleTagsFromChunks(chunks);
+            const chunks = extractCriticalToChunks(body);
+            const styles = constructStyleTagsFromChunks(chunks);
 
-          const fontawesomeCss = dom.css();
+            const fontawesomeCss = dom.css();
 
-          const transformedTemplate = fp.pipe(
-            template
-              .replace("<head>", `<head ${htmlAttributes}>`)
-              .replace("<!--helmet-head-->", head)
-              .replace(
-                "<!--fontawesome-css-->",
-                `<style type="text/css">${fontawesomeCss}</style>`,
-              )
-              .replace("<!--emotion-css-->", styles)
-              .replace("<!--app-html-->", body)
-              .replace(
-                "<!--ssr-data-->",
-                `<script>
-                  window.__REACT_QUERY_STATE__ = ${JSON.stringify(
-                    dehydratedState,
-                  )}
-                </script>`,
-              ),
-            transformTemplate,
-          );
-          // console.log("transformed template", transformedTemplate);
-          res.write(transformedTemplate);
+            const transformedTemplate = fp.pipe(
+              template
+                .replace("<head>", `<head ${htmlAttributes}>`)
+                .replace("<!--helmet-head-->", head)
+                .replace(
+                  "<!--fontawesome-css-->",
+                  `<style type="text/css">${fontawesomeCss}</style>`,
+                )
+                .replace("<!--emotion-css-->", styles)
+                .replace("<!--app-html-->", body),
+              // .replace(
+              //   "<!--ssr-data-->",
+              //   `<script>
+              //   window.__REACT_QUERY_STATE__ = ${JSON.stringify({
+              //     ...dehydratedState,
+              //   })}
+              // </script>`,
+              // )
+              transformTemplate,
+            );
+            logger.debug.log("transformed template %s", transformedTemplate);
+            res.write(transformedTemplate);
+          } catch (e) {
+            didError = true;
+            logger.error.log("Error caught %O", e);
+            res.write(JSON.stringify(e));
+          }
 
           res.end();
         },
@@ -187,8 +197,8 @@ export const requestHandler =
         },
         {
           // Executed when the shell render resulted in error
-          onError(x) {
-            logger.error.log(`Error caught %O`, x);
+          onError(x, errorInfo) {
+            logger.error.log(`Error caught %O (%O)`, x, errorInfo);
             didError = true;
           },
           onShellError(err) {
@@ -201,13 +211,17 @@ export const requestHandler =
           onShellReady() {
             const status = didError ? 500 : 200;
 
-            logger.debug.log("Send response %d", status);
+            try {
+              logger.info.log("Send response %d", status);
 
-            res
-              .status(status)
-              .setHeader("Content-Type", "text/html; charset=utf-8");
+              res
+                .status(status)
+                .setHeader("Content-Type", "text/html; charset=utf-8");
 
-            pipe(renderStylesToNodeStream().pipe(resStream));
+              pipe(renderStylesToNodeStream().pipe(resStream));
+            } catch (e) {
+              didError = true;
+            }
           },
         },
       );

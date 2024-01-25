@@ -1,5 +1,5 @@
 import { http } from "@liexp/shared/lib/io/index.js";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider, useQueryClient } from "@tanstack/react-query";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
@@ -13,7 +13,7 @@ import { StoryPageContent } from "../../stories/StoryPageContent.js";
 const StoryPreview: React.FC = () => {
   const { record } = useEditContext();
 
-  const qc = React.useMemo(() => new QueryClient(), []);
+  const qc = useQueryClient()
 
   const result = React.useMemo(
     () => pipe(http.Story.Story.decode({ ...record, links: [] })),

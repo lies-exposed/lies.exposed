@@ -11,7 +11,9 @@ export const AppEnv = defineEnv((t) => ({
 }));
 
 export const port =
-  process.env.PORT !== undefined ? parseInt(process.env.PORT, 10) : 4001;
+  process.env.VIRTUAL_PORT !== undefined
+    ? parseInt(process.env.VIRTUAL_PORT, 10)
+    : 80;
 
 const config = defineViteConfig({
   cwd: import.meta.dirname,
@@ -19,6 +21,7 @@ const config = defineViteConfig({
   env: AppEnv,
   envFileDir: "./",
   port,
+  host: process.env.VIRTUAL_HOST ?? "localhost",
   devServer: true,
   hot: true,
   output: "build",

@@ -21,8 +21,8 @@ const ENV = t.intersection(
       t.strict(
         {
           DEBUG: t.string,
-          API_PORT: NumberFromString,
-          API_HOST: t.string,
+          VIRTUAL_PORT: NumberFromString,
+          VIRTUAL_HOST: t.string,
           DEFAULT_PAGE_SIZE: NumberFromString,
           JWT_SECRET: t.string,
           WEB_URL: t.string,
