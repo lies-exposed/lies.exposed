@@ -63,6 +63,8 @@ COPY --from=build /app/packages/@liexp/ui/lib /app/packages/@liexp/ui/lib
 COPY --from=build /app/services/web/build /app/services/web/build
 COPY --from=build /app/services/web/package.json /app/services/web/package.json
 COPY --from=build /app/services/web/.env /app/services/web/.env
+
+COPY --from=prod_deps /app/.yarn/ /app/.yarn/
 COPY --from=prod_deps /app/node_modules /app/node_modules
 
 RUN yarn config set --home enableTelemetry false

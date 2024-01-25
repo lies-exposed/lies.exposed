@@ -23,7 +23,10 @@ interface GetServerOptions {
     configuration: Configuration;
   }>;
   transformTemplate: (template: string) => string;
-  apiProvider: APIRESTClient;
+  apiProvider: {
+    client: APIRESTClient
+    ssr: APIRESTClient
+  };
   onRequestError: (e: any) => void;
 }
 
@@ -38,7 +41,7 @@ export const getServer = (
   // viteServer: ViteDevServer,
 ): express.Express => {
   const Q = CreateQueryProvider(
-    fromEndpoints(apiProvider)(Endpoints),
+    fromEndpoints(apiProvider.ssr)(Endpoints),
     QueryProviderCustomQueries,
   );
 
@@ -47,8 +50,9 @@ export const getServer = (
     ssrLog.debug.log("req.originalUrl %s (%s)", req.originalUrl, req.baseUrl);
 
     const route = routes.find((r) => {
+      ssrLog.debug.log("r.path %s", r.path);
       try {
-        return pathToRegexp(r.path).test(req.originalUrl);
+        return pathToRegexp(r.path).test(req.baseUrl);
       } catch (e) {
         ssrLog.warn.log(
           "Failed to transform route path %s to regexp: %O",
@@ -57,9 +61,10 @@ export const getServer = (
         );
         return false;
       }
-    });
+    }) ?? routes.find((r) => r.path === "/");
 
     if (!route) {
+      ssrLog.warn.log("No route found for %s", req.originalUrl);
       next();
       return;
     }
@@ -67,7 +72,7 @@ export const getServer = (
     ssrLog.info.log("req.originalUrl %s (%s)", req.originalUrl, route.path);
 
     const queries = [route].flatMap((route) => {
-      ssrLog.debug.log("route %O", route);
+      ssrLog.info.log("route %O", route);
       return isAsyncDataRoute(route) ? [route.queries] : [];
     });
 
@@ -75,7 +80,7 @@ export const getServer = (
       ...requestOptions,
       Q,
       queries,
-      apiProvider,
+      apiProvider: apiProvider.client,
       onError: onRequestError,
     })(req, res, next);
   });

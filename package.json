@@ -32,7 +32,7 @@
     "web": "yarn workspace web",
     "admin-web": "yarn workspace admin-web",
     "storybook": "yarn workspace storybook",
-    "docker:up": "docker compose --env-file ./services/api/.env.local up -d --force-recreate db space nginx",
+    "docker:compose": "./scripts/docker/docker-compose.sh",
     "packages:build": "yarn core build && yarn shared build && yarn backend build && yarn ui build",
     "deploy:setup": "./deploy/setup.sh",
     "post-deploy": "./deploy/post-deploy.sh",
