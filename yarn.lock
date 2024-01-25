@@ -7801,9 +7801,9 @@ __metadata:
   linkType: hard
 
 "@types/d3-chord@npm:^1.0.9":
-  version: 1.0.11
-  resolution: "@types/d3-chord@npm:1.0.11"
-  checksum: 2b609f82789923da00593647277959d5ec3e9e3fb706e2a0e84ba682aacdefed29cacd13ea785dfaac04438c66e4c16bc9383640f48e55fa0ba8fad5db0b03a9
+  version: 1.0.14
+  resolution: "@types/d3-chord@npm:1.0.14"
+  checksum: 7d70b219a6f3cfdf0d2ca027321e305526099a833de7f7e9216318ec78216c8b1794ff0d46e1725b34f877e01006333ec74c6521ca08cec620ead95a3943c6ab
   languageName: node
   linkType: hard
 
