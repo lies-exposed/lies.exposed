@@ -2300,12 +2300,12 @@ __metadata:
   linkType: hard
 
 "@commitlint/is-ignored@npm:^18.4.4":
-  version: 18.4.4
-  resolution: "@commitlint/is-ignored@npm:18.4.4"
+  version: 18.6.0
+  resolution: "@commitlint/is-ignored@npm:18.6.0"
   dependencies:
-    "@commitlint/types": ^18.4.4
+    "@commitlint/types": ^18.6.0
     semver: 7.5.4
-  checksum: d1eebb66c102b97663914af6ac53c93347b0a349bb37be1424caed29f8e14ccc5583e1165ccc926f137f645d9df2ba788939e9eeeb88cf33aff81dcd29c4e32c
+  checksum: 1f85b8ea2ed90cf16c73050b3b7bebb530329ffd0d3a16563b294ead898b540f1f6d6cdd97ece5d9ceab6d9eb2fa8527a73729c50da878ba7eb196ed325d6b73
   languageName: node
   linkType: hard
 
@@ -2419,6 +2419,15 @@ __metadata:
   dependencies:
     chalk: ^4.1.0
   checksum: bda09adc5f4a7d460120891ad85d2950cb3db17ee9ecf93b820c4782c5a9f8cb235b28fb559a3c4f38fbb5ada43b50bab4c2ee1eb87853be4febbcd8da30fd1f
+  languageName: node
+  linkType: hard
+
+"@commitlint/types@npm:^18.6.0":
+  version: 18.6.0
+  resolution: "@commitlint/types@npm:18.6.0"
+  dependencies:
+    chalk: ^4.1.0
+  checksum: c0b256998d8b5fe8f31f6009efe6953dcd506a625411bd13082d07548f0fe792b4de10ca97eaa78e403bf6e0f254dbd1f5d545a6be2f9a67f36a49a6111eafca
   languageName: node
   linkType: hard
 
