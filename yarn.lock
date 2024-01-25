@@ -7871,11 +7871,11 @@ __metadata:
   linkType: hard
 
 "@types/d3-fetch@npm:*":
-  version: 3.0.3
-  resolution: "@types/d3-fetch@npm:3.0.3"
+  version: 3.0.7
+  resolution: "@types/d3-fetch@npm:3.0.7"
   dependencies:
     "@types/d3-dsv": "*"
-  checksum: 94ec1b86acd15ba61036dc1c9d3225a1979f0a2b4aabf9dd25dc4e062632f4358feeab1e21205cd3f542ee4d5d3086bd1b06cb7958ca7219896a4f5cd2114e3e
+  checksum: e60cf60b25cbc49b2066ac2a3638f610c7379000562b0f499dd90fd57a8cb9740c24667a70496c2a66456d42867afeffb1722a75b26d95e7d7ee8667d96b0b36
   languageName: node
   linkType: hard
 
