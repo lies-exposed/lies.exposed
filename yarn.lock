@@ -21576,11 +21576,11 @@ __metadata:
   linkType: hard
 
 "prosemirror-transform@npm:^1.0.0, prosemirror-transform@npm:^1.1.0, prosemirror-transform@npm:^1.2.1, prosemirror-transform@npm:^1.7.0, prosemirror-transform@npm:^1.7.3":
-  version: 1.7.5
-  resolution: "prosemirror-transform@npm:1.7.5"
+  version: 1.8.0
+  resolution: "prosemirror-transform@npm:1.8.0"
   dependencies:
     prosemirror-model: ^1.0.0
-  checksum: 84a6a50ccc01b8ada979c7e204f0707bab2e1302fea8e04b901ad6ea2b52e3fde98bf37a252ce18df70f8e4f389f0f82732598e2b522b6705e2e53902de93cdd
+  checksum: 6d16ca4f954ad7b040a4adbb5ddfa8c8ad14b0514f15e1ecfd5e32f08eb3f8696492975b9e599b4776e991ab76df114166dcf6ec7b966a67b02b2069a28415f1
   languageName: node
   linkType: hard
 
