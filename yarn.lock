@@ -8064,12 +8064,12 @@ __metadata:
   linkType: hard
 
 "@types/d3-zoom@npm:*, @types/d3-zoom@npm:^3.0.1":
-  version: 3.0.4
-  resolution: "@types/d3-zoom@npm:3.0.4"
+  version: 3.0.8
+  resolution: "@types/d3-zoom@npm:3.0.8"
   dependencies:
     "@types/d3-interpolate": "*"
     "@types/d3-selection": "*"
-  checksum: 6330b8411822b979ab0fd5a7a7755295377b4dfc61fd8f925d97e5b388e3dd604b455c0009b0eda3320c14c4ea367f740a04991a71d35befdca5f75218492a68
+  checksum: a1685728949ed39faf8ce162cc13338639c57bc2fd4d55fc7902b2632cad2bc2a808941263e57ce6685647e8a6a0a556e173386a52d6bb74c9ed6195b68be3de
   languageName: node
   linkType: hard
 
