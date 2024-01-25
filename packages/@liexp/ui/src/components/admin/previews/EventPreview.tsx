@@ -1,6 +1,6 @@
 import { Events } from "@liexp/shared/lib/io/http/index.js";
 import { http } from "@liexp/shared/lib/io/index.js";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider, useQueryClient } from "@tanstack/react-query";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
@@ -17,8 +17,8 @@ interface EventPreviewProps {
 
 const EventPreview: React.FC<EventPreviewProps> = ({ event }) => {
   const record = event ?? useEditContext().record;
+  const qc = useQueryClient()
 
-  const qc = React.useMemo(() => new QueryClient(), []);
 
   const result = React.useMemo(
     () =>

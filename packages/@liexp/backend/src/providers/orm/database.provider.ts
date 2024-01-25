@@ -295,7 +295,7 @@ const MakeDatabaseClient: MakeDatabaseClient =
       dataSource: DataSource,
     ): TE.TaskEither<DBError, DataSource> => {
       logger.debug.log(
-        "Connecting to database (%s)...",
+        "Connecting to database (%s) %s ...",
         dataSource.driver.database,
       );
 

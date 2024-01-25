@@ -59,7 +59,7 @@ describe("Upload file", () => {
     const uploadedObject = {
       Bucket: "media",
       Key: mediaKey,
-      Location: `https://media.localhost:9007/public/${mediaKey}`,
+      Location: `https://media.localhost:9000/public/${mediaKey}`,
     };
 
     Test.mocks.s3.classes.Upload.mockReset().mockImplementation(() => ({

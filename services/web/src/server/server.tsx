@@ -19,7 +19,17 @@ const webSrvLog = GetLogger("web");
 const run = async (base: string): Promise<void> => {
   D.enable(process.env.VITE_DEBUG ?? "@liexp:*:error");
 
+  webSrvLog.info.log(
+    "Server running (base %s) process.env %O",
+    base,
+    process.env,
+  );
+
   const isProduction = process.env.VITE_NODE_ENV === "production";
+
+  const ssrApiProvider = APIRESTClient({
+    url: process.env.VITE_SSR_API_URL,
+  });
 
   const apiProvider = APIRESTClient({
     url: process.env.VITE_API_URL,
@@ -49,10 +59,12 @@ const run = async (base: string): Promise<void> => {
 
     getTemplate = (url: string, originalUrl: string) =>
       Promise.resolve(
-        templateFile.replace(
-          "<!--web-analytics-->",
-          `<script data-goatcounter="https://liexp.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>`,
-        ),
+        templateFile
+          .replace(/{{VITE_PUBLIC_URL}}/g, process.env.VITE_PUBLIC_URL)
+          .replace(
+            "<!--web-analytics-->",
+            `<script data-goatcounter="https://liexp.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>`,
+          ),
       );
 
     transformTemplate = (template: string) => template;
@@ -73,7 +85,7 @@ const run = async (base: string): Promise<void> => {
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "custom",
-      base: "/",
+      base,
     });
 
     serverEntry = () =>
@@ -91,7 +103,8 @@ const run = async (base: string): Promise<void> => {
       return vite.transformIndexHtml(url, templateFile, originalUrl);
     };
 
-    transformTemplate = (t: string) => t;
+    transformTemplate = (t: string) =>
+      t.replace(/{{VITE_PUBLIC_URL}}/g, process.env.VITE_PUBLIC_URL);
 
     onRequestError = (e: any) => {
       vite.ssrFixStacktrace(e);
@@ -103,7 +116,7 @@ const run = async (base: string): Promise<void> => {
     routes,
     getTemplate,
     serverEntry,
-    apiProvider,
+    apiProvider: { ssr: ssrApiProvider, client: apiProvider },
     transformTemplate,
     onRequestError,
   });
@@ -111,10 +124,17 @@ const run = async (base: string): Promise<void> => {
   server.on("error", (e) => {
     webSrvLog.error.log("app error", e);
   });
-  webSrvLog.debug.log("port", process.env.PUBLIC_URL);
 
-  server.listen(process.env.PORT, () => {
-    webSrvLog.debug.log("app listening on port %s", process.env.PORT);
+  const port = process.env.VIRTUAL_PORT
+    ? parseInt(process.env.VIRTUAL_PORT)
+    : 3000;
+
+  server.listen(port, process.env.VIRTUAL_HOST, () => {
+    webSrvLog.info.log(
+      "Server listening on %s:%s",
+      process.env.VIRTUAL_HOST,
+      process.env.VIRTUAL_PORT,
+    );
   });
 };
 

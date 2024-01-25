@@ -38,7 +38,9 @@ cp -r /root/node/app/current/services/storybook/build/* "/var/www/html/${HOST}/s
 
 sudo chown -R www-data:www-data "/var/www/html/${HOST}"
 
-cp /root/node/app/current/deploy/nginx/alpha.lies.exposed.conf /etc/nginx/sites-enabled/alpha.lies.exposed
+# rm -rf /etc/nginx/sites-enabled/
+cp /root/node/app/current/resources/nginx/alpha.lies.exposed.conf /etc/nginx/sites-enabled/alpha.lies.exposed.conf
+cp /root/node/app/current/resources/nginx/telegram-bot-api.conf /etc/nginx/sites-enabled/telegram-bot-api.conf
 
 # web
 # cd ./services/web;

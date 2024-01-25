@@ -717,6 +717,11 @@ export const routes: ServerRoute[] = [
     queries: (Q) => async () => [],
   },
   {
+    path: "/healthcheck",
+    route: () => <div>OK</div>,
+    queries: (Q) => async () => [],
+  },
+  {
     path: "/",
     route: () => <IndexPage />,
     queries: (Q, conf) => async () => [

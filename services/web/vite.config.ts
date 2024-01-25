@@ -1,3 +1,4 @@
+import { loadENV } from "@liexp/core/lib/env/utils.js";
 import { defineEnv } from "@liexp/core/lib/frontend/defineEnv.js";
 import { defineViteConfig } from "@liexp/core/lib/frontend/vite/config.js";
 import { defineConfig } from "vite";
@@ -10,8 +11,12 @@ export const AppEnv = defineEnv((t) => ({
   VITE_DEBUG: t.string,
 }));
 
+loadENV(process.cwd(), process.env.DOTENV_CONFIG_PATH ?? ".env");
+
 export const port =
-  process.env.PORT !== undefined ? parseInt(process.env.PORT, 10) : 4020;
+  process.env.VIRTUAL_PORT !== undefined
+    ? parseInt(process.env.VIRTUAL_PORT, 10)
+    : 4020;
 
 // https://vitejs.dev/config/
 const config = defineViteConfig({
@@ -21,6 +26,7 @@ const config = defineViteConfig({
   output: "build",
   base: "/",
   port,
+  host: process.env.VIRTUAL_HOST ?? "localhost",
   devServer: true,
   hot: true,
   target: "custom",
