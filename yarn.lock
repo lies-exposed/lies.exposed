@@ -22194,8 +22194,8 @@ __metadata:
   linkType: hard
 
 "react-docgen@npm:^7.0.0":
-  version: 7.0.1
-  resolution: "react-docgen@npm:7.0.1"
+  version: 7.0.3
+  resolution: "react-docgen@npm:7.0.3"
   dependencies:
     "@babel/core": ^7.18.9
     "@babel/traverse": ^7.18.9
@@ -22207,7 +22207,7 @@ __metadata:
     doctrine: ^3.0.0
     resolve: ^1.22.1
     strip-indent: ^4.0.0
-  checksum: 9c2b6cbd6bb94bf75a088dd5046707f7bcb2271c553081e7ec4daaadfd2ba7c5b68f81499212fde96192cdd6ce71dd31600fdc21c2e7ddb86dd5bf039971cd91
+  checksum: f5dbabd16a25b3c424c4962df4b4073d03ca124c3a5c99871f8436e30468854de115f959d0d5f03df77ad8dbe54f21e679fb48ba47bc125d61ae527bc5bcf0bf
   languageName: node
   linkType: hard
 
