@@ -7252,11 +7252,11 @@ __metadata:
   linkType: hard
 
 "@tiptap/extension-code@npm:^2.1.7":
-  version: 2.1.7
-  resolution: "@tiptap/extension-code@npm:2.1.7"
+  version: 2.1.16
+  resolution: "@tiptap/extension-code@npm:2.1.16"
   peerDependencies:
     "@tiptap/core": ^2.0.0
-  checksum: 3f53aa40ae32b3945bbe1101b41b1d3f6d003e4267600e12adec6dcfce9c5e5d10583d75b27493095941242008bbe54fd2628507ecdf4552a47e1cd9807f0dea
+  checksum: e591dad3d3cfbf8eeb9c0335e6efb4eff867cca57001e8baa76ac16abfee3f503fa5d9b38aba23b21da69bfcb84bb311630b5ae0835f69ef2e8866ae69c2d092
   languageName: node
   linkType: hard
 
