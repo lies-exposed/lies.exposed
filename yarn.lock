@@ -7409,12 +7409,12 @@ __metadata:
   linkType: hard
 
 "@tiptap/extension-horizontal-rule@npm:^2.1.7":
-  version: 2.1.7
-  resolution: "@tiptap/extension-horizontal-rule@npm:2.1.7"
+  version: 2.1.16
+  resolution: "@tiptap/extension-horizontal-rule@npm:2.1.16"
   peerDependencies:
     "@tiptap/core": ^2.0.0
     "@tiptap/pm": ^2.0.0
-  checksum: 8181d0d5e2bf6dd9dd6bcfed23990b072dfe8b32c166f1f2a23993a3bbaec832032c9dafdab81a6c722fde5587506aaccdc0d50c3fbfff115ce0e5ac40e62d91
+  checksum: 5b4b53e5df5599df369675132ba04a47788ce215f7effc087245fb1d8c9ecd4e0f7957273a40f41c5f16ab32b54844d9bb453e7400bdb360628d25515b3a49fc
   languageName: node
   linkType: hard
 
