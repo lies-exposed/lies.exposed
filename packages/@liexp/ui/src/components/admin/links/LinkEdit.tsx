@@ -2,18 +2,10 @@ import { ImageType } from "@liexp/shared/lib/io/http/Media.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import * as React from "react";
 import {
-  Datagrid,
-  DateInput,
-  FormTab,
-  LoadingPage,
-  ReferenceManyField,
-  TabbedForm,
-  TextField,
-  TextInput,
-  usePermissions,
-  useRecordContext,
-} from "react-admin";
-import { Grid, Stack, Toolbar } from "../../mui/index.js";
+  Grid,
+  Stack,
+  Toolbar,
+} from "../../mui/index.js";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
 import { DangerZoneField } from "../common/DangerZoneField.js";
 import { EditForm } from "../common/EditForm.js";
@@ -26,8 +18,21 @@ import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput.j
 import { MediaField } from "../media/MediaField.js";
 import ReferenceMediaInput from "../media/input/ReferenceMediaInput.js";
 import LinkPreview from "../previews/LinkPreview.js";
+import {
+  Datagrid,
+  DateInput,
+  FormTab,
+  LoadingPage,
+  ReferenceManyField,
+  TabbedForm,
+  TextField,
+  TextInput,
+  usePermissions,
+  useRecordContext
+} from "../react-admin.js";
 import ReferenceUserInput from "../user/ReferenceUserInput.js";
 import { EditTitle } from "./EditTitle.js";
+import { LinkSuggestedEntityRelations } from './LinkSuggestedEntityRelations.js';
 import { LinkTGPostButton } from "./button/LinkTGPostButton.js";
 import { OverrideThumbnail } from "./button/OverrideThumbnail.js";
 import { TakeLinkScreenshot } from "./button/TakeLinkScreenshotButton.js";
@@ -83,6 +88,7 @@ export const LinkEdit: React.FC = () => {
             <Grid item md={6}>
               <ReferenceArrayKeywordInput source="keywords" showAdd={true} />
               {isAdmin && <ReferenceUserInput source="creator" />}
+              <LinkSuggestedEntityRelations />
             </Grid>
           </Grid>
         </FormTab>

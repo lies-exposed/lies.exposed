@@ -3,7 +3,10 @@ import { API } from "@liexp/shared/lib/providers/api/api.provider.js";
 import * as http from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type AxiosError } from "axios";
-import { type AuthProvider } from "../components/admin/react-admin.js";
+import {
+  type UserIdentity,
+  type AuthProvider,
+} from "../components/admin/react-admin.js";
 
 export const api = API({
   baseURL: process.env.API_URL,
@@ -71,14 +74,21 @@ export const authProvider: AuthProvider = {
     );
   },
   getIdentity: async () => {
-    try {
-      const user = await apiProvider.get("users/me", {}).then((res) => res.data);
-      // console.log(user);
+    const getUserIdentity = apiProvider
+      .getOne("users", {
+        id: "me",
+      })
+      .then((res) => {
+        const user: UserIdentity = res.data;
+        if (user) {
+          localStorage.setItem("user", JSON.stringify(user));
+        }
+        return user;
+      })
+      .catch((e) => {
+        void authProvider.checkError(e).then(authProvider.logout);
+      }) as Promise<UserIdentity>;
 
-      localStorage.setItem("user", JSON.stringify(user));
-      return user;
-    } catch (e) {
-      return await authProvider.checkError(e).catch(authProvider.logout);
-    }
+    return await getUserIdentity;
   },
 };

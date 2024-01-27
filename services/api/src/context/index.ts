@@ -114,6 +114,7 @@ export const makeContext = (
           temp: {
             root: path.resolve(process.cwd(), "temp"),
             media: path.resolve(process.cwd(), "temp/media"),
+            nlp: path.resolve(process.cwd(), "temp/nlp"),
             stats: path.resolve(process.cwd(), "temp/stats"),
           },
         },
