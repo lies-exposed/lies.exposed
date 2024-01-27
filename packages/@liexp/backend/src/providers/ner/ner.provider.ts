@@ -3,7 +3,11 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { type IOError } from "ts-io-error";
 import model from "wink-eng-lite-web-model";
-import winkNLP, { type CustomEntityExample, type Detail } from "wink-nlp";
+import winkNLP, {
+  type SentenceImportance,
+  type CustomEntityExample,
+  type Detail,
+} from "wink-nlp";
 import NLPUtils from "wink-nlp-utils";
 
 interface NERProvider {
@@ -11,7 +15,13 @@ interface NERProvider {
   process: (
     text: string,
     patterns: CustomEntityExample[],
-  ) => TE.TaskEither<IOError, Detail[]>;
+  ) => TE.TaskEither<
+    IOError,
+    {
+      entities: Detail[];
+      sentences: Array<{ text: string; importance: number }>;
+    }
+  >;
 }
 
 export const GetNERProvider = (ctx: { logger: Logger }): NERProvider => {
@@ -28,21 +38,40 @@ export const GetNERProvider = (ctx: { logger: Logger }): NERProvider => {
               usePOS: true,
             });
 
-            // ctx.logger.debug.log("Important text %s", text);
+            ctx.logger.debug.log("Original text %s", text);
 
-            const sentences: string[] = pipe(
+            const cleanedText = pipe(
               text,
               NLPUtils.string.removeHTMLTags,
-              NLPUtils.string.removePunctuations,
+              // NLPUtils.string.removePunctuations,
               NLPUtils.string.removeExtraSpaces,
               NLPUtils.string.retainAlphaNums,
               NLPUtils.string.sentences,
               (sentences) => sentences.filter((s) => s.length > 50),
-            );
-            const s = sentences.join(" ");
+            ).join("\n");
 
-            ctx.logger.debug.log("Cleaned string %s", s);
-            const doc = nlp.readDoc(s);
+            ctx.logger.debug.log("Cleaned string %s", cleanedText);
+            const doc = nlp.readDoc(text);
+
+            const sentencesImportance = doc.out(
+              nlp.its.sentenceWiseImportance,
+            ) as SentenceImportance[];
+
+            const sentences = doc.sentences();
+
+            const wiseImportantSentences = sentencesImportance
+              .flatMap((s) => {
+                const sentence = s.importance > 0.001 && sentences.itemAt(s.index);
+                if (sentence) {
+                  return [
+                    {
+                      text: sentence.out(),
+                      importance: s.importance,
+                    },
+                  ];
+                }
+                return [];
+              });
 
             const entities: any[] = doc
               .customEntities()
@@ -51,8 +80,8 @@ export const GetNERProvider = (ctx: { logger: Logger }): NERProvider => {
             let uniqueEntities: Array<Detail & { freq: number }> = entities
               .map((e) => ({
                 ...e,
-                freq: 1,
                 value: e.type === "keyword" ? e.value.toLowerCase() : e.value,
+                freq: 0,
               }))
               .reduce<any[]>((acc, n) => {
                 const included = acc.findIndex(
@@ -64,33 +93,30 @@ export const GetNERProvider = (ctx: { logger: Logger }): NERProvider => {
                 }
                 return acc.concat({ ...n });
               }, []);
-
             doc.tokens().each((t) => {
-              const token = t.out();
               const parentCustomEntity = t.parentCustomEntity();
               if (parentCustomEntity) {
-                const parentEntity = parentCustomEntity.out(nlp.its.detail) as Detail;
-                console.log(token, JSON.stringify(parentEntity, null, 2));
+                const parentEntity = parentCustomEntity.out(
+                  nlp.its.detail,
+                ) as Detail;
                 uniqueEntities = uniqueEntities.map((e) => {
-                  if (e.value === parentEntity.value.toLowerCase()) {
+                  if (
+                    e.value.toLowerCase() === parentEntity.value.toLowerCase()
+                  ) {
                     e.freq++;
                   }
                   return e;
                 });
-                // console.log(t.parentCustomEntity()?.out(nlp.its.detail), t.out(nlp.its.detail));
               }
             });
+
+            uniqueEntities.sort((a, b) => b.freq - a.freq);
 
             if (uniqueEntities.length > 0) {
               ctx.logger.debug.log("Found entities %O", uniqueEntities);
             }
-            // tokens.each((t) => {
-            //   ctx.logger.debug.log("Token %O", t, t.out());
-            // });
 
-            // const out = tokens.out();
-
-            return entities;
+            return { entities, sentences: wiseImportantSentences };
           },
           (e: any) => e,
         ),

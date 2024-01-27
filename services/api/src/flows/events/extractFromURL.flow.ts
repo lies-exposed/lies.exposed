@@ -1,10 +1,8 @@
-import path from "path";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { getRelationIdsFromEventRelations } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
 import { type URL as URLT } from "@liexp/shared/lib/io/http/Common/index.js";
 import { type ImageType } from "@liexp/shared/lib/io/http/Media.js";
-import { GetEncodeUtils } from "@liexp/shared/lib/utils/encode.utils.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { parse } from "date-fns";
 import { sequenceS } from "fp-ts/lib/Apply.js";
@@ -13,15 +11,9 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Metadata } from "page-metadata-parser";
 import type * as puppeteer from "puppeteer-core";
 import { fetchAndSave } from "../links/link.flow.js";
-import { extractRelationsFromText } from "./extractRelationsFromText.flow.js";
-import { type ActorEntity } from "#entities/Actor.entity.js";
-import { type AreaEntity } from "#entities/Area.entity.js";
+import { extractRelationsFromURL } from '../nlp/extractRelationsFromURL.flow.js';
 import { type EventV2Entity } from "#entities/Event.v2.entity.js";
-import { type GroupEntity } from "#entities/Group.entity.js";
-import { type GroupMemberEntity } from "#entities/GroupMember.entity.js";
-import { type KeywordEntity } from "#entities/Keyword.entity.js";
 import { type LinkEntity } from "#entities/Link.entity.js";
-import { type MediaEntity } from "#entities/Media.entity.js";
 import { type UserEntity } from "#entities/User.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
@@ -151,36 +143,6 @@ const extractEventFromProviderLink: TEFlow<
   }, toControllerError);
 };
 
-export const extractRelationsFromURL: TEFlow<
-  [puppeteer.Page, string],
-  {
-    actors: ActorEntity[];
-    groups: GroupEntity[];
-    keywords: KeywordEntity[];
-    links: LinkEntity[];
-    areas: AreaEntity[];
-    groupsMembers: GroupMemberEntity[];
-    media: MediaEntity[];
-  }
-> = (ctx) => (p, url) => {
-  const id = GetEncodeUtils<string>((url) => ({ url })).hash(url);
-  const filePath = path.resolve(ctx.config.dirs.temp.root, `urls/${id}.txt`);
-
-  return pipe(
-    ctx.fs.getOlderThanOr(filePath)(
-      pipe(
-        TE.tryCatch(async () => {
-          await p.goto(url, {
-            waitUntil: "networkidle0",
-          });
-          return await p.$eval("body", (b) => b.innerText);
-        }, toControllerError),
-      ),
-    ),
-    TE.chain(extractRelationsFromText(ctx)),
-  );
-};
-
 const extractByProvider: TEFlow<
   [puppeteer.Page, string, LinkEntity],
   O.Option<EventV2Entity>
@@ -190,7 +152,7 @@ const extractByProvider: TEFlow<
       relations: extractRelationsFromURL(ctx)(p, l.url),
       provider: extractEventFromProviderLink(ctx)(p, host, l),
     }),
-    TE.map(({ relations, provider }) =>
+    TE.map(({ relations: { entities: relations }, provider }) =>
       pipe(
         provider,
         O.map((m) =>
