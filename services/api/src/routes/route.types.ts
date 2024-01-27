@@ -10,6 +10,7 @@ export interface RouteContext extends ServerContext {
       cwd: string;
       temp: {
         root: string;
+        nlp: string;
         media: string;
         stats: string;
       };

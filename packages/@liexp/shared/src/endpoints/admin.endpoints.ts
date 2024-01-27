@@ -6,6 +6,7 @@ import {
   TextLayer,
   WatermarkLayer,
 } from "../io/http/admin/BuildImage.js";
+import { ExtractEntitiesWithNLPInput, ExtractEntitiesWithNLPOutput } from '../io/http/admin/ExtractNLPEntities.js';
 import { ResourceEndpoints } from "./types.js";
 
 export const List = Endpoint({
@@ -111,6 +112,15 @@ export const GetMediaStats = Endpoint({
   }),
 });
 
+const ExtractEntitiesWithNLP = Endpoint({
+  Method: "POST",
+  getPath: () => `/admins/nlp/extract-entities`,
+  Input: {
+    Body: ExtractEntitiesWithNLPInput,
+  },
+  Output: ExtractEntitiesWithNLPOutput,
+});
+
 const admin = ResourceEndpoints({
   Get,
   Create,
@@ -121,6 +131,7 @@ const admin = ResourceEndpoints({
     BuildImage,
     SearchAreaCoordinates,
     GetMediaStats,
+    ExtractEntitiesWithNLP,
   },
 });
 
