@@ -48,7 +48,8 @@
     "create-from-wikipedia": "yarn tsx:build ./bin/create-from-wikipedia.ts",
     "set-default-group-usernames": "yarn tsx:build ./bin/set-default-group-usernames.ts",
     "clean-space-media": "yarn tsx:build ./bin/clean-space-media.ts",
-    "import-from-kmz": "yarn tsx:build ./bin/import-from-kmz.ts"
+    "import-from-kmz": "yarn tsx:build ./bin/import-from-kmz.ts",
+    "extract-entities-from-url": "yarn tsx:build ./bin/extract-entities-from-url.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.485.0",
