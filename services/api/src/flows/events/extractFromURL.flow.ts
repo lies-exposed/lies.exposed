@@ -1,5 +1,4 @@
 import path from "path";
-import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { getRelationIdsFromEventRelations } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
@@ -13,22 +12,19 @@ import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Metadata } from "page-metadata-parser";
 import type * as puppeteer from "puppeteer-core";
-import { In } from "typeorm";
 import { fetchAndSave } from "../links/link.flow.js";
-import { ActorEntity } from "#entities/Actor.entity.js";
+import { extractRelationsFromText } from "./extractRelationsFromText.flow.js";
+import { type ActorEntity } from "#entities/Actor.entity.js";
 import { type AreaEntity } from "#entities/Area.entity.js";
 import { type EventV2Entity } from "#entities/Event.v2.entity.js";
-import { GroupEntity } from "#entities/Group.entity.js";
+import { type GroupEntity } from "#entities/Group.entity.js";
 import { type GroupMemberEntity } from "#entities/GroupMember.entity.js";
-import { KeywordEntity } from "#entities/Keyword.entity.js";
+import { type KeywordEntity } from "#entities/Keyword.entity.js";
 import { type LinkEntity } from "#entities/Link.entity.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
 import { type UserEntity } from "#entities/User.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
-import {
-  toControllerError,
-  type ControllerError,
-} from "#io/ControllerError.js";
+import { toControllerError } from "#io/ControllerError.js";
 
 const extractEventFromProviderLink: TEFlow<
   [puppeteer.Page, string, LinkEntity],
@@ -181,87 +177,7 @@ export const extractRelationsFromURL: TEFlow<
         }, toControllerError),
       ),
     ),
-    TE.chain((text) => {
-      const nerProvider = GetNERProvider(ctx);
-
-      return pipe(
-        sequenceS(TE.ApplicativeSeq)({
-          entities: pipe(
-            ctx.fs.getObject(
-              path.resolve(ctx.config.dirs.cwd, nerProvider.entitiesFile),
-            ),
-            TE.map(JSON.parse),
-          ),
-        }),
-        TE.chain(({ entities }) => {
-          return pipe(
-            nerProvider.process(text, entities),
-            TE.chain((details) =>
-              sequenceS(TE.ApplicativePar)({
-                actors: pipe(
-                  details
-                    .filter((d) => d.type === "actor")
-                    .reduce<
-                      string[]
-                    >((acc, a) => (acc.includes(a.value) ? acc : acc.concat(a.value)), []),
-                  O.fromPredicate((ll) => ll.length > 0),
-                  O.map((names) =>
-                    ctx.db.find(ActorEntity, {
-                      where: {
-                        fullName: In(names),
-                      },
-                    }),
-                  ),
-                  O.getOrElse(() =>
-                    TE.right<ControllerError, ActorEntity[]>([]),
-                  ),
-                ),
-                groups: pipe(
-                  details
-                    .filter((d) => d.type === "group")
-                    .reduce<
-                      string[]
-                    >((acc, a) => (acc.includes(a.value) ? acc : acc.concat(a.value)), []),
-                  O.fromPredicate((l) => l.length > 0),
-                  O.map((names) =>
-                    ctx.db.find(GroupEntity, {
-                      where: {
-                        name: In(names),
-                      },
-                    }),
-                  ),
-                  O.getOrElse(() =>
-                    TE.right<ControllerError, GroupEntity[]>([]),
-                  ),
-                ),
-                keywords: pipe(
-                  details
-                    .filter((d) => d.type === "keyword")
-                    .reduce<
-                      string[]
-                    >((acc, a) => (acc.includes(a.value) ? acc : acc.concat(a.value)), []),
-                  O.fromPredicate((l) => l.length > 0),
-                  O.map((names) =>
-                    ctx.db.find(KeywordEntity, {
-                      where: {
-                        tag: In(names),
-                      },
-                    }),
-                  ),
-                  O.getOrElse(() =>
-                    TE.right<ControllerError, KeywordEntity[]>([]),
-                  ),
-                ),
-                media: TE.right([]),
-                links: TE.right([]),
-                areas: TE.right([]),
-                groupsMembers: TE.right([]),
-              }),
-            ),
-          );
-        }),
-      );
-    }),
+    TE.chain(extractRelationsFromText(ctx)),
   );
 };
 

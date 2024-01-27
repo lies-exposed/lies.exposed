@@ -8,7 +8,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Metadata } from "page-metadata-parser";
 import { Equal } from "typeorm";
 import { LinkEntity } from "#entities/Link.entity.js";
-import { extractRelationsFromURL } from "#flows/events/extractFromURL.flow.js";
+import { extractRelationsFromURL } from '#flows/events/extractFromURL.flow.js';
 import {
   type ControllerError,
   ServerError,
