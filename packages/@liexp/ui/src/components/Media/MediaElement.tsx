@@ -95,7 +95,8 @@ const MediaElement: React.FC<MediaElementProps> = ({
           <Video
             {...props}
             showPlay={options?.video.showPlay}
-            style={itemStyle}
+            style={style}
+            itemStyle={itemStyle}
             className={clsx(classes.item, itemClassName)}
             thumbnail={media.thumbnail}
             src={media.location}

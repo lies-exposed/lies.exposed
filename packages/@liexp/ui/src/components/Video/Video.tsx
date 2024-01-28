@@ -30,6 +30,7 @@ interface VideoProps {
   muted: boolean;
   loop: boolean;
   style?: React.CSSProperties;
+  itemStyle?: React.CSSProperties;
   onLoad?: () => void;
   disableZoom?: boolean;
   showPlay?: boolean;
@@ -46,6 +47,7 @@ export const Video: React.FC<VideoProps> = ({
   loop,
   muted,
   style,
+  itemStyle,
   onLoad,
   onClick,
   disableZoom = false,
@@ -72,6 +74,7 @@ export const Video: React.FC<VideoProps> = ({
           style={{
             width: "100%",
             height: "auto",
+            ...itemStyle
           }}
         >
           <source src={src} type={type} />
@@ -92,7 +95,7 @@ export const Video: React.FC<VideoProps> = ({
             width: "100%",
             height: "100%",
             flexGrow: 1,
-            ...style,
+            ...itemStyle,
           }}
           onLoad={onLoad}
         />
