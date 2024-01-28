@@ -2,7 +2,16 @@ import { type ExtractEntitiesWithNLPOutput } from "@liexp/shared/lib/io/http/adm
 import * as React from "react";
 import { ActorChip } from "../../actors/ActorChip.js";
 import { GroupChip } from "../../groups/GroupChip.js";
-import { Card, CardContent, Chip, Stack, Typography } from "../../mui/index.js";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Card,
+  CardContent,
+  Chip,
+  Stack,
+  Typography,
+} from "../../mui/index.js";
 import {
   Button,
   Loading,
@@ -35,69 +44,80 @@ const SuggestedEntityRelationsBox: React.FC<
   onSentenceClick,
 }) => {
   return (
-    <Stack direction={"column"} spacing={2}>
-      <Typography variant="subtitle1">Keywords</Typography>
-      <Stack direction={"row"} spacing={2} flexWrap={"wrap"}>
-        {data.entities.keywords
-          .filter((k: any) => !excludeKeywords?.includes(k.id))
-          .map((entity: any) => {
-            return (
-              <Chip
-                key={entity.id}
-                label={entity.tag}
-                onClick={() => {
-                  onKeywordClick?.(entity.id);
-                }}
-              />
-            );
-          })}
-      </Stack>
-      <Typography variant="subtitle1">Actors</Typography>
-      <Stack direction={"row"} spacing={2} flexWrap={"wrap"}>
-        {data.entities.actors
-          .filter((a: any) => !excludeActors?.includes(a.id))
-          .map((entity: any) => {
-            return (
-              <ActorChip
-                key={entity.id}
-                actor={entity}
-                displayFullName
-                onClick={(a) => {
-                  onActorClick?.(a.id);
-                }}
-              />
-            );
-          })}
-      </Stack>
-      <Typography variant="subtitle1">Groups</Typography>
-      <Stack direction={"row"} spacing={2} flexWrap={"wrap"}>
-        {data.entities.groups
-          .filter((g: any) => !excludeGroups?.includes(g.id))
-          .map((entity: any) => {
-            return (
-              <GroupChip
-                key={entity.id}
-                group={entity}
-                displayName
-                onClick={(g) => {
-                  onGroupClick?.(g.id);
-                }}
-              />
-            );
-          })}
-      </Stack>
-      <Typography variant="subtitle1">Key Sentences</Typography>
-      <Stack direction={"column"} spacing={2}>
-        {data.sentences.map((entity: any, i: number) => {
-          return (
-            <Card key={i} onClick={() => onSentenceClick?.(entity.text)}>
-              <CardContent>
-                <Typography>{entity.text}</Typography>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </Stack>
+    <Stack direction={"column"} spacing={2} onClick={e => {
+      e.stopPropagation();
+    }}>
+      <Accordion>
+        <AccordionSummary>
+          <Stack>
+            <Typography variant="subtitle1">Keywords</Typography>
+            <Stack direction={"row"} spacing={2} flexWrap={"wrap"}>
+              {data.entities.keywords
+                .filter((k: any) => !excludeKeywords?.includes(k.id))
+                .map((entity: any) => {
+                  return (
+                    <Chip
+                      key={entity.id}
+                      label={entity.tag}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onKeywordClick?.(entity.id);
+                      }}
+                    />
+                  );
+                })}
+            </Stack>
+            <Typography variant="subtitle1">Actors</Typography>
+            <Stack direction={"row"} spacing={2} flexWrap={"wrap"}>
+              {data.entities.actors
+                .filter((a: any) => !excludeActors?.includes(a.id))
+                .map((entity: any) => {
+                  return (
+                    <ActorChip
+                      key={entity.id}
+                      actor={entity}
+                      displayFullName
+                      onClick={(a) => {
+                        onActorClick?.(a.id);
+                      }}
+                    />
+                  );
+                })}
+            </Stack>
+            <Typography variant="subtitle1">Groups</Typography>
+            <Stack direction={"row"} spacing={2} flexWrap={"wrap"}>
+              {data.entities.groups
+                .filter((g: any) => !excludeGroups?.includes(g.id))
+                .map((entity: any) => {
+                  return (
+                    <GroupChip
+                      key={entity.id}
+                      group={entity}
+                      displayName
+                      onClick={(g) => {
+                        onGroupClick?.(g.id);
+                      }}
+                    />
+                  );
+                })}
+            </Stack>
+          </Stack>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Stack direction={"column"} spacing={2}>
+            <Typography variant="subtitle1">Key Sentences</Typography>
+            {data.sentences.map((entity: any, i: number) => {
+              return (
+                <Card key={i} onClick={() => onSentenceClick?.(entity.text)}>
+                  <CardContent>
+                    <Typography>{entity.text}</Typography>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </Stack>
+        </AccordionDetails>
+      </Accordion>
     </Stack>
   );
 };

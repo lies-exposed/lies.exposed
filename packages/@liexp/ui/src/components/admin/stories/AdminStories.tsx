@@ -151,12 +151,15 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
               )}
               <ReferenceArrayKeywordInput source="keywords" showAdd={true} />
             </Grid>
-          </Grid>
 
-          <ReferenceMediaInput
-            source="featuredImage.id"
-            allowedTypes={ImageType.types.map((t) => t.value)}
-          />
+            <Grid item md={6}>
+              <ReferenceMediaInput
+                source="featuredImage.id"
+                allowedTypes={ImageType.types.map((t) => t.value)}
+                fullWidth
+              />
+            </Grid>
+          </Grid>
 
           <ArrayInput source="links">
             <SimpleFormIterator>

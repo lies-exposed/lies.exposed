@@ -65,6 +65,7 @@ const EditStoryPageContent: React.FC<{ id?: string }> = ({ id }) => {
         <ReferenceMediaInput
           source="featuredImage.id"
           allowedTypes={["image/jpg"]}
+          fullWidth
         />
         <ReactPageInput className={classes.input} source="body2" />
       </SimpleForm>
