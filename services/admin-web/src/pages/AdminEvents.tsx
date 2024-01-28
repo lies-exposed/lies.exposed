@@ -267,31 +267,35 @@ export const EventList: React.FC = () => (
 export const EventEdit: React.FC = (props) => {
   return (
     <EditEventForm {...props} title={<EventTitle />} redirect={false}>
-      <FormDataConsumer>
-        {({ formData, getSource, scopedFormData, ...rest }) => {
-          if (formData.type === EventTypes.DOCUMENTARY.value) {
-            return <DocumentaryEditFormTab />;
-          }
-          if (formData.type === EventTypes.DEATH.value) {
-            return <DeathEventEditFormTab />;
-          }
-          if (formData.type === EventTypes.SCIENTIFIC_STUDY.value) {
-            return <ScientificStudyEventEditTab />;
-          }
-          if (formData.type === EventTypes.QUOTE.value) {
-            return <QuoteEditFormTab />;
-          }
-          if (formData.type === EventTypes.PATENT.value) {
-            return <PatentEventEditFormTab />;
-          }
+      {(suggestions, handlers) => (
+        <FormDataConsumer>
+          {({ formData, getSource, scopedFormData, ...rest }) => {
+            if (formData.type === EventTypes.DOCUMENTARY.value) {
+              return <DocumentaryEditFormTab />;
+            }
+            if (formData.type === EventTypes.DEATH.value) {
+              return <DeathEventEditFormTab />;
+            }
+            if (formData.type === EventTypes.SCIENTIFIC_STUDY.value) {
+              return <ScientificStudyEventEditTab />;
+            }
+            if (formData.type === EventTypes.QUOTE.value) {
+              return <QuoteEditFormTab />;
+            }
+            if (formData.type === EventTypes.PATENT.value) {
+              return <PatentEventEditFormTab />;
+            }
 
-          if (formData.type === EventTypes.BOOK.value) {
-            return <BookEditFormTab />;
-          }
+            if (formData.type === EventTypes.BOOK.value) {
+              return <BookEditFormTab />;
+            }
 
-          return <UncategorizedEventEditTab />;
-        }}
-      </FormDataConsumer>
+            return (
+              <UncategorizedEventEditTab suggestions={suggestions} handlers={handlers} record={formData as any} />
+            );
+          }}
+        </FormDataConsumer>
+      )}
     </EditEventForm>
   );
 };

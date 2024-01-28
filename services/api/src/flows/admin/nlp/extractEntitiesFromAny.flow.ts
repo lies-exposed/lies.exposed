@@ -3,17 +3,81 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   ExtractEntitiesWithNLPInput,
   type ExtractEntitiesWithNLPOutput,
+  type ExtractEntitiesWithNLPFromResourceInput,
 } from "@liexp/shared/lib/io/http/admin/ExtractNLPEntities.js";
+import { getTextContents } from "@liexp/shared/lib/slate/index.js";
 import { GetEncodeUtils } from "@liexp/shared/lib/utils/encode.utils.js";
 import { toRecord } from "fp-ts/lib/ReadonlyRecord.js";
+import { Equal } from "typeorm";
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { GroupEntity } from "#entities/Group.entity.js";
+import { KeywordEntity } from "#entities/Keyword.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import { extractRelationsFromText } from "#flows/nlp/extractRelationsFromText.flow.js";
-import { extractRelationsFromURL } from '#flows/nlp/extractRelationsFromURL.flow.js';
+import { extractRelationsFromURL } from "#flows/nlp/extractRelationsFromURL.flow.js";
 import { toControllerError } from "#io/ControllerError.js";
+
+const findOneResourceAndMapText: TEFlow<
+  [ExtractEntitiesWithNLPFromResourceInput],
+  string
+> = (ctx) => (body) => {
+  return pipe(
+    () => {
+      if (body.resource === "keywords") {
+        return pipe(
+          ctx.db.findOneOrFail(KeywordEntity, {
+            where: {
+              id: Equal(body.uuid),
+            },
+          }),
+          fp.TE.map((k) => k.tag),
+        );
+      }
+
+      if (body.resource === "groups") {
+        return pipe(
+          ctx.db.findOneOrFail(GroupEntity, {
+            where: {
+              id: Equal(body.uuid),
+            },
+          }),
+          fp.TE.map((k) => (k.body ? getTextContents(k.body as any) : "")),
+        );
+      }
+
+      if (body.resource === "actors") {
+        return pipe(
+          ctx.db.findOneOrFail(ActorEntity, {
+            where: {
+              id: Equal(body.uuid),
+            },
+          }),
+          fp.TE.map((k) => (k.body ? getTextContents(k.body as any) : "")),
+        );
+      }
+
+      if (body.resource === "events") {
+        return pipe(
+          ctx.db.findOneOrFail(EventV2Entity, {
+            where: {
+              id: Equal(body.uuid),
+            },
+          }),
+          fp.TE.map((k) => (k.excerpt ? getTextContents(k.excerpt as any) : "")),
+        );
+      }
+
+      return fp.TE.left(toControllerError({ message: "Invalid body" }));
+    },
+    fp.TE.fromIO,
+    fp.TE.chain((te) => te),
+  );
+};
 
 export const extractEntitiesFromAny: TEFlow<
   [ExtractEntitiesWithNLPInput],
-  ExtractEntitiesWithNLPOutput["data"]
+  ExtractEntitiesWithNLPOutput
 > = (ctx) => (body) => {
   return pipe(
     () => {
@@ -35,6 +99,13 @@ export const extractEntitiesFromAny: TEFlow<
       if (ExtractEntitiesWithNLPInput.types[1].is(body)) {
         return extractRelationsFromText(ctx)(body.text);
       }
+
+      if (ExtractEntitiesWithNLPInput.types[2].is(body)) {
+        return pipe(
+          findOneResourceAndMapText(ctx)(body),
+          fp.TE.chain((text) => extractRelationsFromText(ctx)(text)),
+        );
+      }
       return fp.TE.left(toControllerError({ message: "Invalid body" }));
     },
     fp.TE.fromIO,
@@ -44,7 +115,7 @@ export const extractEntitiesFromAny: TEFlow<
 
 export const extractEntitiesFromAnyCached: TEFlow<
   [ExtractEntitiesWithNLPInput],
-  ExtractEntitiesWithNLPOutput["data"]
+  ExtractEntitiesWithNLPOutput
 > = (ctx) => (body) => {
   const bodyHash = GetEncodeUtils((r) =>
     toRecord<string, string>(r as any),

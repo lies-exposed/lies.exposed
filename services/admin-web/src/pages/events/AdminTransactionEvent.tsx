@@ -74,7 +74,9 @@ export const TransactionEditFormTab: React.FC<FormTabProps> = (props) => (
 
 export const TransactionEdit: React.FC<EditProps> = (props: EditProps) => {
   return (
-    <EditEventForm {...props}>
+    <EditEventForm {...props}>{
+      () => 
+    (
       <Box>
         <BooleanInput source="draft" defaultValue={false} />
         <TextInput fullWidth source="payload.title" />
@@ -99,6 +101,7 @@ export const TransactionEdit: React.FC<EditProps> = (props: EditProps) => {
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
       </Box>
+    )}
     </EditEventForm>
   );
 };
