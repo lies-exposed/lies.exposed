@@ -1,3 +1,4 @@
+import { type ExtractEntitiesWithNLPOutput } from "@liexp/shared/lib/io/http/admin/ExtractNLPEntities.js";
 import * as React from "react";
 import {
   Datagrid,
@@ -14,10 +15,20 @@ import ReferenceAreaInput from "../../areas/input/ReferenceAreaInput.js";
 import { AvatarField } from "../../common/AvatarField.js";
 import ReferenceArrayGroupMemberInput from "../../common/ReferenceArrayGroupMemberInput.js";
 import ReferenceArrayGroupInput from "../../groups/ReferenceArrayGroupInput.js";
+import {
+  SuggestedActorEntityRelationsBox,
+  SuggestedGroupEntityRelationsBox,
+} from "../../links/SuggestedEntityRelationsBox.js";
+import { type EventGeneralTabChildrenHandlers } from '../../tabs/EventGeneralTab.js';
 
 export const UncategorizedEventEditTab: React.FC<
-  EditProps & { record?: RaRecord; sourcePrefix?: string }
-> = ({ sourcePrefix, ...props }) => {
+  EditProps & {
+    record?: RaRecord;
+    sourcePrefix?: string;
+    suggestions?: ExtractEntitiesWithNLPOutput | null;
+    handlers?: EventGeneralTabChildrenHandlers
+  }
+> = ({ sourcePrefix, suggestions, record, handlers, ...props }) => {
   const source = (s: string): string =>
     `${typeof sourcePrefix === "undefined" ? "" : `${sourcePrefix}.`}${s}`;
 
@@ -50,6 +61,11 @@ export const UncategorizedEventEditTab: React.FC<
               <TextField source="fullName" />
             </Datagrid>
           </ReferenceArrayField>
+          <SuggestedActorEntityRelationsBox
+            actors={suggestions?.entities.actors ?? []}
+            excludeActors={record?.payload?.actors}
+            onClick={handlers?.onActorClick}
+          />
         </Grid>
         <Grid item md={4} sm={12}>
           <ReferenceArrayGroupMemberInput
@@ -76,6 +92,11 @@ export const UncategorizedEventEditTab: React.FC<
               <AvatarField source="avatar" fullWidth={false} />
             </Datagrid>
           </ReferenceArrayField>
+          <SuggestedGroupEntityRelationsBox
+            groups={suggestions?.entities.groups ?? []}
+            excludeGroups={record?.payload?.groups}
+            onClick={handlers?.onGroupClick}
+          />
         </Grid>
       </Grid>
     </Box>

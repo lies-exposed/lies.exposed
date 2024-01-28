@@ -1,6 +1,7 @@
 import * as t from "io-ts";
 import { UUID } from "io-ts-types/lib/UUID.js";
 import { Endpoint } from "ts-endpoint";
+import { Output } from '../io/http/Common/Output.js';
 import {
   MediaImageLayer,
   TextLayer,
@@ -118,7 +119,7 @@ const ExtractEntitiesWithNLP = Endpoint({
   Input: {
     Body: ExtractEntitiesWithNLPInput,
   },
-  Output: ExtractEntitiesWithNLPOutput,
+  Output: Output( ExtractEntitiesWithNLPOutput, 'ExtractEntitiesWithNLPOutput'),
 });
 
 const admin = ResourceEndpoints({

@@ -19,7 +19,7 @@ const run = async (): Promise<void> => {
       pipe(
         extractRelationsFromURL(ctx)(page, url),
         fp.TE.map((r) => JSON.stringify(r, null, 2)),
-        fp.TE.chain(() =>
+        fp.TE.chainFirst(() =>
           fp.TE.tryCatch(() => page.close(), toControllerError),
         ),
       ),
