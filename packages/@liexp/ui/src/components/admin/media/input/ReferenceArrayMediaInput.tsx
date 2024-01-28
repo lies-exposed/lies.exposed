@@ -35,7 +35,7 @@ const ReferenceArrayMediaInput: React.FC<
         source="id"
         optionText={<MediaAutocompleteOptionText />}
         matchSuggestion={matchMediaSuggestions}
-        inputText={(r) => r.description}
+        inputText={(r) => r.label ?? r.description}
         filterToQuery={(description: string) => ({
           description: description === "" ? undefined : description,
         })}

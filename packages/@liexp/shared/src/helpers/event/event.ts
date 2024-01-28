@@ -292,9 +292,8 @@ export const transform = (
     }
     case Events.EventTypes.PATENT.value: {
       return pipe(
-        props.url,
+        props.url ?? props.links.at(0),
         fp.O.fromNullable,
-        fp.O.chainNullableK((url) => props.links.at(0)),
         fp.O.map((source: any) => ({
           ...e,
           type: Events.EventTypes.PATENT.value,
@@ -377,6 +376,25 @@ export const transform = (
             actor: undefined,
             subject,
             details: undefined,
+          },
+        })),
+      );
+    }
+
+    case Events.EventTypes.BOOK.value: {
+      return pipe(
+        sequenceS(fp.O.Applicative)({
+          actorAuthors: fp.O.some(props.actors),
+          media: pipe(props.media, fp.A.head),
+        }),
+        fp.O.map(({ actorAuthors, media }) => ({
+          ...e,
+          type: Events.EventTypes.BOOK.value,
+          payload: {
+            title: props.title,
+            media: { pdf: media, audio: undefined },
+            authors: actorAuthors.map((a) => ({ type: "Actor", id: a })),
+            publisher: undefined,
           },
         })),
       );
