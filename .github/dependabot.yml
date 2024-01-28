@@ -8,9 +8,9 @@ updates:
     open-pull-requests-limit: 10
     target-branch: "daily"
     versioning-strategy: increase
-    # allow:
-    #   # Allow both direct and indirect updates for all packages
-    #   - dependency-type: "all"
+    allow:
+      # Allow both direct and indirect updates for all packages
+      - dependency-type: "all"
     ignore:
       - dependency-name: "@types/mime"
         versions: ["2.x", "3.x"]
@@ -21,9 +21,6 @@ updates:
       - dependency-name: "query-string"
         versions: ["8.x"]
     groups:
-      types:
-        patterns:
-          - "@types/*"
       aws-sdk:
         patterns:
           - "@aws-sdk/*"
@@ -32,14 +29,17 @@ updates:
           - "ra-*"
           - "react-core"
           - "react-admin"
+      vitest:
+        patterns:
+          - "vite*"
+          - "vite-tsconfig-paths"
+    # types:
+    #   patterns:
+    #     - "@types/*"
     #   storybook:
     #     patterns:
     #       - "@storybook/*"
     #       - "*storybook*"
-      vitest:
-        patterns:
-          - "*vitest*"
-          - "vite-tsconfig-paths"
     #   eslint:
     #     patterns:
     #       - "@typescript-eslint/*"
