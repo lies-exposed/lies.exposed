@@ -1,5 +1,7 @@
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import { ErrorBox } from '../components/Common/ErrorBox.js';
 import { KeywordsBox } from "../components/KeywordsBox.js";
 import SearchEventInput, {
   type SearchFilter,
@@ -105,10 +107,12 @@ const MediaSearchTemplate: React.FC<MediaSearchTemplateProps> = ({
         }}
       >
         <Container style={{ display: "flex" }}>
-          <InfiniteMediaListBox
-            listProps={{ type: "masonry" }}
-            onMediaClick={onMediaClick}
-          />
+          <ErrorBoundary FallbackComponent={ErrorBox}>
+            <InfiniteMediaListBox
+              listProps={{ type: "masonry" }}
+              onMediaClick={onMediaClick}
+            />
+          </ErrorBoundary>
         </Container>
       </Box>
       <div />
