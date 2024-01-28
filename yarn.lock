@@ -7412,11 +7412,11 @@ __metadata:
   linkType: hard
 
 "@tiptap/extension-bold@npm:^2.1.7":
-  version: 2.1.7
-  resolution: "@tiptap/extension-bold@npm:2.1.7"
+  version: 2.1.16
+  resolution: "@tiptap/extension-bold@npm:2.1.16"
   peerDependencies:
     "@tiptap/core": ^2.0.0
-  checksum: 3dbcf9f83e05ba98e80cc24d5f599190e362fe285c4446dad901d75346d0c13ec2e4e4137f31923ae7e576dab28d20ff273f472ad290ed8816843b8f7297785e
+  checksum: e7943fadbdabc11d01c70da64801ae2203a7c87b7b012e2c542d2f33bc5af65724cf060055e001b35228f70a2ceb7ceb45024599bb9a50f114a0e225c229e413
   languageName: node
   linkType: hard
 
