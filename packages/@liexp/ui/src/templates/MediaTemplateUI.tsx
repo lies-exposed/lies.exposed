@@ -40,7 +40,7 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
           <MediaElement
             media={m}
             itemStyle={{
-              maxHeight: 200,
+              maxHeight: 250,
               minHeight: 200,
               width: "auto",
               maxWidth: "100%",
@@ -77,7 +77,7 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
           itemStyle={{ maxHeight: 600, minHeight: 300, maxWidth: "100%" }}
         />
         <Box style={{ marginBottom: 100 }}>
-          <Typography variant="h4" component="h1">
+          <Typography variant="h3" component="h1">
             {m.label ?? null}
           </Typography>
           <Typography style={{ marginBottom: 20 }}>{m.description}</Typography>
