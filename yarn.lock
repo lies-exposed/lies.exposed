@@ -8140,9 +8140,9 @@ __metadata:
   linkType: hard
 
 "@types/d3-polygon@npm:*":
-  version: 3.0.0
-  resolution: "@types/d3-polygon@npm:3.0.0"
-  checksum: 2b4fbd864e6e40c8f63c56c46ed27f63c18d4b9b8c6f03c48bda048bc29e0d77c01763122a3cf85cce89acb12c4a65f3cd7b1d87b53ced8bf6ce341831b30190
+  version: 3.0.2
+  resolution: "@types/d3-polygon@npm:3.0.2"
+  checksum: 7cf1eadb54f02dd3617512b558f4c0f3811f8a6a8c887d9886981c3cc251db28b68329b2b0707d9f517231a72060adbb08855227f89bef6ef30caedc0a67cab2
   languageName: node
   linkType: hard
 
