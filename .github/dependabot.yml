@@ -31,8 +31,7 @@ updates:
           - "react-admin"
       vitest:
         patterns:
-          - "vite*"
-          - "vite-tsconfig-paths"
+          - "*vite*"
       types:
         patterns:
           - "@types/*"
