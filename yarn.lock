@@ -8553,9 +8553,9 @@ __metadata:
   linkType: hard
 
 "@types/pretty-hrtime@npm:^1.0.0":
-  version: 1.0.1
-  resolution: "@types/pretty-hrtime@npm:1.0.1"
-  checksum: a6cdee417eea6f7af914e4fcd13e05822864ce10b5d7646525632e86d69b79123eec55a5d3fff0155ba46b61902775e1644bcb80e1e4dffdac28e7febb089083
+  version: 1.0.3
+  resolution: "@types/pretty-hrtime@npm:1.0.3"
+  checksum: 288061dff992c8107d5c7b5a1277bbb0a314a27eb10087dea628a08fa37694a655191a69e25a212c95e61e498363c48ad9e281d23964a448f6c14100a6be0910
   languageName: node
   linkType: hard
 
