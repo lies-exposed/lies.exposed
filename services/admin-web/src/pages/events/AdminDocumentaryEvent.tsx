@@ -61,11 +61,7 @@ export const DocumentaryList: React.FC<ListProps> = (props) => (
 );
 
 export const DocumentaryEdit: React.FC = () => {
-  return (
-    <EditEventForm>
-      <DocumentaryEditFormTab />
-    </EditEventForm>
-  );
+  return <EditEventForm>{() => <DocumentaryEditFormTab />}</EditEventForm>;
 };
 
 export const DocumentaryCreate: React.FC<CreateProps> = () => {

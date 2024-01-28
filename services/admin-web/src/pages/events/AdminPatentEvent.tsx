@@ -60,11 +60,7 @@ export const PatentList: React.FC<ListProps> = (props) => (
 );
 
 export const PatentEdit: React.FC = () => {
-  return (
-    <EditEventForm>
-      <PatentEventEditFormTab />
-    </EditEventForm>
-  );
+  return <EditEventForm>{() => <PatentEventEditFormTab />}</EditEventForm>;
 };
 
 export const PatentCreate: React.FC<CreateProps> = (props) => {

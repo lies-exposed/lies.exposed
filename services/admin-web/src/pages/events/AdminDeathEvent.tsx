@@ -74,7 +74,7 @@ export const DeathList: React.FC<ListProps> = (props) => (
 export const DeathEdit: React.FC = () => {
   return (
     <EditEventForm>
-      <DeathEventEditFormTab />
+      {() => <DeathEventEditFormTab />}
     </EditEventForm>
   );
 };

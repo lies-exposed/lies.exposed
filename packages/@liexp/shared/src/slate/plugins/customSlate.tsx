@@ -6,6 +6,10 @@ import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { StoryUtils } from "../../utils/story.utils.js";
 
+const slt = ((slate as any).default?.default ? slate.default : slate) as {
+  default: typeof slate.default;
+};
+
 export const H1_TYPE = "HEADINGS/HEADING-ONE";
 export const H2_TYPE = "HEADINGS/HEADING-TWO";
 export const H3_TYPE = "HEADINGS/HEADING-THREE";
@@ -42,7 +46,7 @@ const getHeaderId = (children: React.ReactNode): string | undefined => {
 };
 
 export const getLiexpSlate = (custom: any): slate.SlateCellPlugin<any> => {
-  return slate.default((def) => ({
+  return slt.default((def) => ({
     ...def,
     id: LIEXP_SLATE_PLUGIN_ID,
     title: "@liexp Slate plugin",
