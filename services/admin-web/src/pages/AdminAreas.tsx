@@ -30,7 +30,7 @@ import {
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { ReferenceMediaTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceMediaTab.js";
 import { transformMedia } from "@liexp/ui/lib/components/admin/transform.utils.js";
-import { Box } from "@liexp/ui/lib/components/mui/index.js";
+import { Box, Stack } from "@liexp/ui/lib/components/mui/index.js";
 import * as React from "react";
 
 const RESOURCE = "areas";
@@ -159,13 +159,11 @@ export const AreaEdit: React.FC<EditProps> = () => (
       </FormTab>
       <FormTab label="Geometry">
         <MapInput source="geometry" />
-        <Box>
-          <Box>
-            <SearchAreaCoordinatesButton />
-            <UpdateGeometryButton />
-          </Box>
+        <Stack spacing={2} alignItems={"flex-start"}>
+          <SearchAreaCoordinatesButton />
+          <UpdateGeometryButton />
           <OpenInGMapsButton />
-        </Box>
+        </Stack>
       </FormTab>
       <FormTab label="Events">
         <ReferenceArrayEventInput source="events" />
