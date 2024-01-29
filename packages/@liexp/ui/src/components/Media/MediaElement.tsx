@@ -73,7 +73,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
           <IframeMediaElement
             {...props}
             showPlay={options?.iframe.showPlay}
-            style={itemStyle}
+            style={style}
             itemStyle={itemStyle}
             className={clsx(classes.item, itemClassName)}
             media={{ ...media, type: "iframe/video" }}

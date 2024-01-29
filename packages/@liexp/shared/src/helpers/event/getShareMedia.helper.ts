@@ -1,3 +1,4 @@
+import { VideoExtra } from "../../io/http/Media.js";
 import {
   type SocialPost,
   type SocialPostBodyMultipleMedia,
@@ -15,7 +16,7 @@ export const getShareMultipleMedia = (
           type: "video",
           media: m.location,
           thumbnail: m.thumbnail ?? defaultImage,
-          duration: m.extra?.duration ?? 0,
+          duration: VideoExtra.is(m.extra) ? m.extra.duration : 0,
         },
       ]);
     } else if (http.Media.PDFType.is(m.type)) {

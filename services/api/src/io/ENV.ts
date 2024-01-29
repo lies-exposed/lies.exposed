@@ -34,8 +34,10 @@ const ENV = t.intersection(
           DEFAULT_PAGE_SIZE: NumberFromString,
           JWT_SECRET: t.string,
           WEB_URL: t.string,
+          // crons
           SOCIAL_POSTING_CRON: t.string,
           TEMP_FOLDER_CLEAN_UP_CRON: t.string,
+          GENERATE_MISSING_THUMBNAILS_CRON: t.string,
         },
         "API_ENV",
       ),
