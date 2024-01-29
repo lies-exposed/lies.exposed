@@ -19,6 +19,21 @@ const GetHierarchyNetwork: CustomQueryOverride<
   GetDataOutputEI<typeof Endpoints.Networks.Get>
 > = (Q) => (p) => Q.Networks.get({ ...p, type: "hierarchy" });
 
+
+
+const NetworksOverride: ResourceEndpointsQueriesOverride<
+  Endpoints,
+  undefined,
+  undefined,
+  {
+    GetHierarchyNetwork: typeof GetHierarchyNetwork;
+  }
+> = {
+  Custom: {
+    GetHierarchyNetwork,
+  },
+};
+
 const GetPageContentByPath: CustomQueryOverride<
   Endpoints,
   string,
@@ -41,21 +56,6 @@ const GetByPath: CustomQueryOverride<
   Q.Story.getList({ ...defaultUseQueryListParams, filter: { path: p } }).then(
     (r) => r.data[0],
   );
-
-const NetworksOverride = {
-  Custom: {
-    GetHierarchyNetwork,
-  },
-};
-
-type NetworksOverride = ResourceEndpointsQueriesOverride<
-  Endpoints,
-  undefined,
-  undefined,
-  {
-    GetHierarchyNetwork: typeof GetHierarchyNetwork;
-  }
->;
 
 const PageOverride: ResourceEndpointsQueriesOverride<
   Endpoints,
@@ -85,7 +85,7 @@ const StoryOverride: ResourceEndpointsQueriesOverride<
 const QueryProviderCustomQueries: QueryProviderOverrides<
   Endpoints,
   {
-    Networks: NetworksOverride;
+    Networks: typeof NetworksOverride;
     Page: typeof PageOverride;
     Story: typeof StoryOverride;
   }

@@ -10,6 +10,7 @@ import { makeApp } from "./app/index.js";
 import { makeContext } from "./context/index.js";
 import { cleanTempFolder } from "./jobs/cleanTempFolder.job.js";
 import D from "debug";
+import { generateMissingThumbnailsCron } from './jobs/generateMissingMedia.job.js';
 
 const run = (): Promise<void> => {
   process.env.NODE_ENV = process.env.NODE_ENV ?? "development";
@@ -54,8 +55,11 @@ const run = (): Promise<void> => {
           // cron jobs
           const postOnSocialTask = postOnSocialJob(ctx);
           const cleanTempFolderTask = cleanTempFolder(ctx);
+          const generateMissingThumbnailsTask = generateMissingThumbnailsCron(ctx);
+
           postOnSocialTask.start();
           cleanTempFolderTask.start();
+          generateMissingThumbnailsTask.start();
 
           const server = app.listen(ctx.env.API_PORT, () => {
             ctx.logger.info.log(`Server is listening ${ctx.env.API_PORT}`);
@@ -71,12 +75,16 @@ const run = (): Promise<void> => {
             //   "Removing vaccine data download cron task..."
             // );
             // downloadVaccineDataTask.stop();
-            serverLogger.debug.log(`Removing "post on social" cron task...`);
+            serverLogger.info.log(`Removing "post on social" cron task...`);
             postOnSocialTask.stop();
-            serverLogger.debug.log(
+            serverLogger.info.log(
               `Removing "clean up temp folder" cron task...`,
             );
             cleanTempFolderTask.stop();
+            serverLogger.info.log(
+              `Removing "generate missing thumbnails" cron task...`,
+            );
+            generateMissingThumbnailsTask.stop()
 
             // eslint-disable-next-line no-console
             serverLogger.debug.log("closing server...");

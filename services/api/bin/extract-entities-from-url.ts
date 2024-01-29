@@ -20,7 +20,7 @@ const run = async (): Promise<void> => {
         extractRelationsFromURL(ctx)(page, url),
         fp.TE.map((r) => JSON.stringify(r, null, 2)),
         fp.TE.chainFirst(() =>
-          fp.TE.tryCatch(() => page.close(), toControllerError),
+          fp.TE.tryCatch(() => page.browser().close(), toControllerError),
         ),
       ),
     ),

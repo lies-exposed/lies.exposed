@@ -49,7 +49,7 @@ export const takeVideoScreenshots: TEFlow<
             const key = getMediaKey(
               "media",
               media.id,
-              thumbnailName,
+              thumbnailName.replace(".png", ""),
               PngType.value,
             );
 

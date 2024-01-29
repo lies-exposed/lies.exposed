@@ -10,7 +10,9 @@ export const MEDIA = t.literal("media");
 export type MEDIA = t.TypeOf<typeof MEDIA>;
 
 const JpgType = t.literal("image/jpg");
+type JpgType = t.TypeOf<typeof JpgType>;
 const JpegType = t.literal("image/jpeg");
+type JpegType = t.TypeOf<typeof JpegType>;
 export const PngType = t.literal("image/png");
 export type PngType = t.TypeOf<typeof PngType>;
 
@@ -80,7 +82,46 @@ export const GetListMediaQuery = t.type(
 );
 export type GetListMediaQuery = t.TypeOf<typeof GetListMediaQuery>;
 
-export const MediaExtra = t.strict({ duration: t.number }, "MediaExtra");
+export const ThumbnailsExtraError = t.strict(
+  {
+    error: t.string,
+  },
+  "ThumbnailError",
+);
+export type ThumbnailsExtraError = t.TypeOf<typeof ThumbnailsExtraError>;
+
+export const ThumbnailsExtraLocations = t.array(t.string, "Thumbnails");
+export type ThumbnailsExtraLocations = t.TypeOf<typeof ThumbnailsExtraLocations>;
+
+export const ThumbnailsExtra = t.strict(
+  {
+    thumbnails: t.union([ThumbnailsExtraError, ThumbnailsExtraLocations]),
+  },
+  "ThumbnailsExtra",
+);
+export type ThumbnailsExtra = t.TypeOf<typeof ThumbnailsExtra>;
+
+export const TimeExtra = t.strict(
+  {
+    duration: t.number,
+  },
+  "TimeExtra",
+);
+export type TimeExtra = t.TypeOf<typeof TimeExtra>;
+
+export const VideoExtra = t.strict(
+  {
+    ...TimeExtra.type.props,
+    thumbnails: t.union([ThumbnailsExtraError, ThumbnailsExtraLocations, t.undefined])
+  },
+  "VideoExtra",
+);
+export type VideoExtra = t.TypeOf<typeof VideoExtra>;
+
+export const MediaExtra = t.union(
+  [ThumbnailsExtra, VideoExtra, t.undefined],
+  "MediaExtra",
+);
 export type MediaExtra = t.TypeOf<typeof MediaExtra>;
 
 export const CreateMedia = t.strict(
@@ -89,7 +130,7 @@ export const CreateMedia = t.strict(
     label: t.union([t.string, t.undefined]),
     description: t.union([t.string, t.undefined]),
     thumbnail: t.union([t.string, t.undefined]),
-    extra: t.union([MediaExtra, t.undefined]),
+    extra: MediaExtra,
     type: MediaType,
     events: t.array(UUID),
     links: t.array(UUID),

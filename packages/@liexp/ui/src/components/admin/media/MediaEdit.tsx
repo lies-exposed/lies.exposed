@@ -77,11 +77,11 @@ export const ThumbnailEditField: React.FC<FieldProps> = (props) => {
   const [loaded, setLoaded] = React.useState(false);
 
   return (
-    <Box style={{ display: "flex" }}>
+    <Stack spacing={2}>
       <FormDataConsumer>
         {() => {
           return !loaded ? (
-            <Box style={{ display: "flex", flexDirection: "column" }}>
+            <Stack direction="column" spacing={2}>
               <Box
                 onClick={(e) => {
                   setLoaded(true);
@@ -98,7 +98,7 @@ export const ThumbnailEditField: React.FC<FieldProps> = (props) => {
               </Box>
               <GenerateThumbnailButton {...props} />
               <TransferButton target="thumbnail" />
-            </Box>
+            </Stack>
           ) : (
             <Box style={{ display: "flex", flexDirection: "column" }}>
               <TextInput
@@ -125,7 +125,7 @@ export const ThumbnailEditField: React.FC<FieldProps> = (props) => {
           );
         }}
       </FormDataConsumer>
-    </Box>
+    </Stack>
   );
 };
 
