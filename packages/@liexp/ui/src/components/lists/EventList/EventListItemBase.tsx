@@ -140,6 +140,11 @@ const EventListItemBase = <E extends any>({
             {mediaLayout === "masonry" ? (
               <MediaList
                 media={media.map((m) => ({ ...m, selected: true }))}
+                itemStyle={({
+                  maxHeight: 400,
+                  height: 400,
+                  maxWidth: 600,
+                })}
                 onItemClick={() => {}}
               />
             ) : (

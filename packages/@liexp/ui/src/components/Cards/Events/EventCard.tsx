@@ -7,6 +7,7 @@ import { parseISO } from "date-fns";
 import * as React from "react";
 import { LazyEditor as Editor } from "../../Common/Editor/index.js";
 import { EventIcon } from "../../Common/Icons/index.js";
+import { defaultImage } from '../../SEO.js';
 import { ActorList } from "../../lists/ActorList.js";
 import GroupsList from "../../lists/GroupList.js";
 import KeywordList from "../../lists/KeywordList.js";
@@ -19,8 +20,6 @@ import {
   CardMedia,
   type CardProps,
 } from "../../mui/index.js";
-
-const defaultImage = "/liexp-logo-1200x630.png";
 
 interface EventCardProps extends CardProps {
   event: SearchEvent.SearchEvent;

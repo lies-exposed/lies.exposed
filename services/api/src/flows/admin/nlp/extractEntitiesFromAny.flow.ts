@@ -64,7 +64,9 @@ const findOneResourceAndMapText: TEFlow<
               id: Equal(body.uuid),
             },
           }),
-          fp.TE.map((k) => (k.excerpt ? getTextContents(k.excerpt as any) : "")),
+          fp.TE.map((k) =>
+            k.excerpt ? getTextContents(k.excerpt as any) : "",
+          ),
         );
       }
 
@@ -89,7 +91,9 @@ export const extractEntitiesFromAny: TEFlow<
             pipe(
               extractRelationsFromURL(ctx)(p, body.url),
               fp.TE.chainFirst(() =>
-                fp.TE.tryCatch(() => p.close(), toControllerError),
+                fp.TE.tryCatch(async () => {
+                  await p.browser().close();
+                }, toControllerError),
               ),
             ),
           ),

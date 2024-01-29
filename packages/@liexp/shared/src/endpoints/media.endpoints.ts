@@ -3,7 +3,7 @@ import { UUID } from "io-ts-types/lib/UUID.js";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { Endpoint } from "ts-endpoint";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
-import { CreateMedia } from "../io/http/Media.js";
+import { CreateMedia, MediaExtra } from "../io/http/Media.js";
 import { Media } from "../io/http/index.js";
 import { ResourceEndpoints } from "./types.js";
 
@@ -62,7 +62,7 @@ export const Edit = Endpoint({
       location: t.string,
       label: t.string,
       description: optionFromNullable(t.string),
-      extra: optionFromNullable(t.strict({ duration: t.number })),
+      extra: optionFromNullable(MediaExtra),
       links: t.array(UUID),
       events: t.array(UUID),
       keywords: t.array(UUID),
@@ -94,7 +94,7 @@ export const media = ResourceEndpoints({
   Create,
   Delete,
   Custom: {
-    GetThumbnails: Endpoint({
+    GenerateThumbnails: Endpoint({
       Method: "POST",
       getPath: ({ id }) => `/media/${id}/thumbnails`,
       Input: {
