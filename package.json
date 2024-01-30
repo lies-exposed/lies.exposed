@@ -36,7 +36,7 @@
     "packages:build": "yarn core build && yarn shared build && yarn backend build && yarn ui build",
     "deploy:setup": "./deploy/setup.sh",
     "post-deploy": "./deploy/post-deploy.sh",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "engines": {
     "yarn": ">= 3",
@@ -59,7 +59,7 @@
     "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-webpack-plugin": "^4.0.1",
-    "husky": "^9.0.6",
+    "husky": "^9.0.7",
     "is-ci": "^3.0.1",
     "lint-staged": "^14.0.1",
     "pm2": "^5.3.1",
