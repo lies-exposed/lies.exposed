@@ -1,8 +1,8 @@
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { flow, fp } from "@liexp/core/lib/fp/index.js";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
 import {
-  type EventType,
   EventTypes,
+  type EventType,
 } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { clsx } from "clsx";
 import * as React from "react";
@@ -66,16 +66,66 @@ export interface EventTypeFiltersProps {
   onChange: (f: EventTypeMap, t: EventType) => void;
 }
 
-export const allFiltersEnabled: EventTypeMap = {
-  [EventTypes.BOOK.value]: true,
-  [EventTypes.DEATH.value]: true,
-  [EventTypes.UNCATEGORIZED.value]: true,
-  [EventTypes.SCIENTIFIC_STUDY.value]: true,
-  [EventTypes.PATENT.value]: true,
-  [EventTypes.DOCUMENTARY.value]: true,
-  [EventTypes.TRANSACTION.value]: true,
-  [EventTypes.QUOTE.value]: true,
+export const setAllFiltersTo = (b: boolean): EventTypeMap => ({
+  [EventTypes.BOOK.value]: b,
+  [EventTypes.DEATH.value]: b,
+  [EventTypes.UNCATEGORIZED.value]: b,
+  [EventTypes.SCIENTIFIC_STUDY.value]: b,
+  [EventTypes.PATENT.value]: b,
+  [EventTypes.DOCUMENTARY.value]: b,
+  [EventTypes.TRANSACTION.value]: b,
+  [EventTypes.QUOTE.value]: b,
+});
+
+const toEnabled = flow<[EventTypeMap], boolean>(
+  fp.R.reduce(fp.S.Ord)(true, (acc, b) => acc && b),
+);
+
+const toDisabled = flow<[EventTypeMap], boolean>(
+  fp.R.reduce(fp.S.Ord)(true, (acc, b) => acc && !b),
+);
+
+const toNewFilters = (
+  filters: EventTypeMap,
+  filterK: EventType,
+): EventTypeMap => {
+  const newFilters = {
+    ...filters,
+    [filterK]: !filters[filterK],
+  };
+
+  const allCurrentEnabled = toEnabled(filters);
+
+  const allCurrentDisabled = toDisabled(filters);
+
+  const allDisabled = toDisabled(newFilters);
+
+  if (allCurrentEnabled) {
+    return {
+      ...setAllFiltersTo(false),
+      [filterK]: true,
+    };
+  }
+
+  if (allCurrentDisabled) {
+    return {
+      ...filters,
+      [filterK]: true,
+    };
+  }
+
+  if (allDisabled) {
+    return {
+      ...setAllFiltersTo(true),
+    };
+  }
+
+  return {
+    ...filters,
+    [filterK]: !filters[filterK],
+  };
 };
+
 export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
   filters: _filters,
   totals,
@@ -83,7 +133,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
 }) => {
   const filters = React.useMemo(
     () => ({
-      ...allFiltersEnabled,
+      ...setAllFiltersTo(true),
       ..._filters,
     }),
     [_filters],
@@ -91,43 +141,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
 
   const handleFilterChange = React.useCallback(
     (filterK: EventType) => {
-      const allEnabled = pipe(
-        filters,
-        fp.R.reduce(fp.S.Ord)(true, (acc, b) => acc && b),
-      );
-
-      const allDisabled = pipe(
-        filters,
-        fp.R.reduce(fp.S.Ord)(true, (acc, b) => acc && !b),
-      );
-
-      const ff: EventTypeMap = allEnabled
-        ? {
-            [EventTypes.BOOK.value]: false,
-            [EventTypes.DOCUMENTARY.value]: false,
-            [EventTypes.PATENT.value]: false,
-            [EventTypes.TRANSACTION.value]: false,
-            [EventTypes.UNCATEGORIZED.value]: false,
-            [EventTypes.DEATH.value]: false,
-            [EventTypes.SCIENTIFIC_STUDY.value]: false,
-            [EventTypes.QUOTE.value]: false,
-            [filterK]: true,
-          }
-        : allDisabled
-          ? {
-              [EventTypes.BOOK.value]: true,
-              [EventTypes.DOCUMENTARY.value]: true,
-              [EventTypes.PATENT.value]: true,
-              [EventTypes.TRANSACTION.value]: true,
-              [EventTypes.UNCATEGORIZED.value]: true,
-              [EventTypes.DEATH.value]: true,
-              [EventTypes.SCIENTIFIC_STUDY.value]: true,
-              [EventTypes.QUOTE.value]: true,
-            }
-          : {
-              ...filters,
-              [filterK]: !filters[filterK],
-            };
+      const ff = toNewFilters(filters, filterK);
 
       onChange(ff, filterK);
     },
