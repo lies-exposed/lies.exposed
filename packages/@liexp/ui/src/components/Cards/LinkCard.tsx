@@ -19,10 +19,11 @@ export interface Link extends http.Link.Link {
 
 export interface LinkCardProps {
   link: Link;
+  style?: React.CSSProperties;
   onClick: (l: Link) => void;
 }
 
-const LinkCard: React.FC<LinkCardProps> = ({ link, onClick }) => {
+const LinkCard: React.FC<LinkCardProps> = ({ link, style, onClick }) => {
   const title = link.title ?? "untitled";
   const publishDate = link.publishDate
     ? typeof link.publishDate === "string"
@@ -38,7 +39,7 @@ const LinkCard: React.FC<LinkCardProps> = ({ link, onClick }) => {
         width: "100%",
         flexDirection: "column",
         height: "100%",
-        // maxHeight: 200,
+        ...style,
       }}
       onClick={() => {
         onClick(link);

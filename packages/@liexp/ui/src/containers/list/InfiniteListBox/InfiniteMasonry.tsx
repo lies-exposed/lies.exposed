@@ -171,8 +171,8 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
         return (
           <Cell
             {...rest}
-            key={key.toString()}
-            k={key.toString()}
+            key={key}
+            k={item.id}
             item={item}
             isLast={isLast}
             CellRenderer={CellRenderer}

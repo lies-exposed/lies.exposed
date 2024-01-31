@@ -4,7 +4,13 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
 import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { UUID } from "./Common/UUID.js";
-import { GetListQuery } from "./Query/index.js";
+import {
+  GetListQueryDateRange,
+  GetListQuery,
+  GetListQueryEvents,
+  GetListQueryKeywords,
+  GetListQueryLocations,
+} from "./Query/index.js";
 
 export const MEDIA = t.literal("media");
 export type MEDIA = t.TypeOf<typeof MEDIA>;
@@ -63,11 +69,14 @@ export type ValidContentType = t.TypeOf<typeof ValidContentType>;
 export const GetListMediaQuery = t.type(
   {
     ...GetListQuery.props,
+    ...GetListQueryDateRange.props,
+    ...GetListQueryKeywords.props,
+    ...GetListQueryEvents.props,
+    ...GetListQueryLocations.props,
     type: optionFromNullable(t.union([t.array(MediaType), t.string])),
     events: optionFromNullable(t.array(UUID)),
     ids: optionFromNullable(t.array(UUID)),
     exclude: optionFromNullable(t.array(UUID)),
-    description: optionFromNullable(t.string),
     emptyThumbnail: optionFromNullable(BooleanFromString),
     emptyEvents: optionFromNullable(BooleanFromString),
     emptyLinks: optionFromNullable(BooleanFromString),
@@ -91,7 +100,9 @@ export const ThumbnailsExtraError = t.strict(
 export type ThumbnailsExtraError = t.TypeOf<typeof ThumbnailsExtraError>;
 
 export const ThumbnailsExtraLocations = t.array(t.string, "Thumbnails");
-export type ThumbnailsExtraLocations = t.TypeOf<typeof ThumbnailsExtraLocations>;
+export type ThumbnailsExtraLocations = t.TypeOf<
+  typeof ThumbnailsExtraLocations
+>;
 
 export const ThumbnailsExtra = t.strict(
   {
@@ -112,7 +123,11 @@ export type TimeExtra = t.TypeOf<typeof TimeExtra>;
 export const VideoExtra = t.strict(
   {
     ...TimeExtra.type.props,
-    thumbnails: t.union([ThumbnailsExtraError, ThumbnailsExtraLocations, t.undefined])
+    thumbnails: t.union([
+      ThumbnailsExtraError,
+      ThumbnailsExtraLocations,
+      t.undefined,
+    ]),
   },
   "VideoExtra",
 );

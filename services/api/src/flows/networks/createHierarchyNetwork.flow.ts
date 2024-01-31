@@ -173,7 +173,7 @@ export const createStatsByEntityType: TEFlow<
             links: O.none,
             locations: O.none,
             type: O.some(EventType.types.map((t) => t.value)),
-            title: O.none,
+            search: O.none,
             startDate: O.none,
             endDate: O.none,
             media: O.none,

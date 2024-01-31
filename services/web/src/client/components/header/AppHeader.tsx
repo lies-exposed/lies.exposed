@@ -47,6 +47,10 @@ const dataMenuItem: HeaderMenuItem = {
       view: "/media",
       label: "Media",
     },
+    {
+      view: "/links",
+      label: "Links",
+    },
   ],
 };
 

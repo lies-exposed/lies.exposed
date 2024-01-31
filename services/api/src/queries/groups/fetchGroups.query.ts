@@ -11,7 +11,7 @@ import { addOrder, getORMOptions } from "#utils/orm.utils.js";
 
 const defaultQuery: http.Group.GetGroupListQuery = {
   ids: O.none,
-  name: O.none,
+  search: O.none,
   members: O.none,
   _end: O.some(20 as any),
   _start: O.some(0 as any),
@@ -25,7 +25,7 @@ export const fetchGroups =
   ): TE.TaskEither<DBError, [GroupEntity[], number]> => {
     const q = { ...defaultQuery, ...query };
 
-    const { ids, members, name, ...otherQuery } = q;
+    const { ids, members, search, ...otherQuery } = q;
 
     const findOptions = getORMOptions(
       { ...otherQuery, id: ids },
@@ -40,10 +40,10 @@ export const fetchGroups =
         .leftJoinAndSelect("group.members", "members")
         .leftJoinAndSelect("members.actor", "actor"),
       (q) => {
-        if (O.isSome(name)) {
-          logger.debug.log("Where name is %s", name.value);
+        if (O.isSome(search)) {
+          logger.debug.log("Where name is %s", search.value);
           return q.andWhere("lower(unaccent(group.name)) LIKE lower(:name)", {
-            name: `%${name.value}%`,
+            name: `%${search.value}%`,
           });
         }
 

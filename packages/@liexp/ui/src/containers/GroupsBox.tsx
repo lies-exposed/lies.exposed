@@ -1,4 +1,6 @@
+import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Group } from "@liexp/shared/lib/io/http/index.js";
+import { type GetListFnParamsE } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
 import * as React from "react";
 import QueriesRenderer from "../components/QueriesRenderer.js";
 import GroupList from "../components/lists/GroupList.js";
@@ -6,7 +8,7 @@ import { Box } from "../components/mui/index.js";
 import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
 
 interface GroupsBoxWrapperProps {
-  params: any;
+  params: GetListFnParamsE<typeof Endpoints.Group.List>;
   discrete?: boolean;
   prefix?: string;
   children: (data: Group.GroupListOutput) => JSX.Element;
@@ -23,9 +25,7 @@ export const GroupsBoxWrapper: React.FC<GroupsBoxWrapperProps> = ({
     <QueriesRenderer
       queries={{
         groups: Queries.Group.list.useQuery(
-          {
-            ...params,
-          },
+          params ?? null,
           undefined,
           discrete,
           prefix,
@@ -42,7 +42,7 @@ export const GroupsBoxWrapper: React.FC<GroupsBoxWrapperProps> = ({
 export interface GroupsBoxProps
   extends Omit<GroupsBoxWrapperProps, "children"> {
   style?: React.CSSProperties;
-  onItemClick: (g: Group.Group) => void;
+  onItemClick: (g: Group.Group, e: React.SyntheticEvent) => void;
 }
 export const GroupsBox: React.FC<GroupsBoxProps> = ({
   params,
