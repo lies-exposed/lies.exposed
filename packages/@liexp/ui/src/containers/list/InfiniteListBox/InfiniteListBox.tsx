@@ -1,10 +1,14 @@
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { type EndpointsQueryProvider } from "@liexp/shared/lib/providers/EndpointQueriesProvider/index.js";
-import { type ResourceQuery } from "@liexp/shared/lib/providers/EndpointQueriesProvider/types.js";
+import {
+  type ResourceQuery
+} from "@liexp/shared/lib/providers/EndpointQueriesProvider/types.js";
+import { type GetListFnParamsE } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
 import { paramsToPagination } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
 import { AutoSizer, InfiniteLoader, type Index } from "react-virtualized";
+import { type MinimalEndpointInstance } from "ts-endpoint";
 import { FullSizeLoader } from "../../../components/Common/FullSizeLoader.js";
 import { useEndpointQueries } from "../../../hooks/useEndpointQueriesProvider.js";
 import { InfiniteList, type InfiniteListProps } from "./InfiniteList.js";
@@ -25,26 +29,29 @@ type ListProps<T extends ListType> = T extends "masonry"
       "width" | "height" | "items" | "onRowsRendered"
     >;
 
-export interface InfiniteListBoxProps<T extends ListType> {
+export interface InfiniteListBoxProps<T extends ListType, E> {
   listProps: ListProps<T>;
-  useListQuery: <R>(
+  useListQuery: (
     queryProvider: EndpointsQueryProvider,
-  ) => R extends ResourceQuery<infer P, infer G, infer A>
-    ? ResourceQuery<P, G, A>
-    : never;
+  ) => ResourceQuery<GetListFnParamsE<E>, any, any>;
+  filter: GetListFnParamsE<E>;
 }
 
-export const InfiniteListBox = <T extends ListType>({
+export const InfiniteListBox = <
+  T extends ListType,
+  E extends MinimalEndpointInstance,
+>({
   useListQuery,
+  filter,
   ...rest
-}: InfiniteListBoxProps<T>): JSX.Element => {
+}: InfiniteListBoxProps<T, E>): JSX.Element => {
   const Q = useEndpointQueries();
 
   const query = React.useMemo(() => {
-    return useListQuery<any>(Q);
+    return useListQuery(Q);
   }, [useListQuery]);
 
-  const queryKey = query.getKey({} as any, undefined, false, "infinite-list");
+  const queryKey = query.getKey(filter, undefined, false, "infinite-list");
 
   const {
     data,
@@ -65,6 +72,7 @@ export const InfiniteListBox = <T extends ListType>({
     { _start: number; _end: number }
   >({
     initialPageParam: { _start: 0, _end: 20 },
+    // eslint-disable-next-line @tanstack/query/exhaustive-deps
     queryKey,
     queryFn: (opts) => {
       const pageParam: any = paramsToPagination(
@@ -74,8 +82,9 @@ export const InfiniteListBox = <T extends ListType>({
 
       return query.fetch(
         {
+          ...filter,
+          filter: filter.filter,
           pagination: pageParam,
-          filter: null,
         },
         undefined,
         false,

@@ -1,7 +1,8 @@
 import { type Endpoints } from "@liexp/shared/lib/endpoints";
-import { type Media } from "@liexp/shared/lib/io/http";
+import { type Link } from "@liexp/shared/lib/io/http";
 import React from "react";
-import MediaElement from "../../components/Media/MediaElement";
+
+import LinkCard from "../../components/Cards/LinkCard";
 import {
   InfiniteListBox,
   type InfiniteListBoxProps,
@@ -9,26 +10,27 @@ import {
 } from "./InfiniteListBox/InfiniteListBox";
 import { type CellRendererProps } from "./InfiniteListBox/InfiniteMasonry";
 
-type InfiniteMediaListBoxProps = Omit<
-  InfiniteListBoxProps<ListType, typeof Endpoints.Media.List>,
+type InfiniteLinksListBoxProps = Omit<
+  InfiniteListBoxProps<ListType, typeof Endpoints.Link.List>,
   "useListQuery"
 > & {
-  onMediaClick?: (media: Media.Media) => void;
+  onLinkClick?: (media: Link.Link) => void;
 };
 
-export const InfiniteMediaListBox: React.FC<InfiniteMediaListBoxProps> = ({
+export const InfiniteLinksListBox: React.FC<InfiniteLinksListBoxProps> = ({
   listProps,
-  onMediaClick,
+  onLinkClick,
   filter,
   ...props
 }) => {
   return (
-    <InfiniteListBox<"masonry", typeof Endpoints.Media.List>
+    <InfiniteListBox<"masonry", typeof Endpoints.Link.List>
       {...{
         filter,
-        useListQuery: (Q) => Q.Media.list as any,
+        useListQuery: (Q) => Q.Link.list,
         listProps: {
           type: "masonry",
+          
           getItem: (data: any[], index: number) => {
             return data[index];
           },
@@ -58,16 +60,14 @@ export const InfiniteMediaListBox: React.FC<InfiniteMediaListBoxProps> = ({
 
               return (
                 <div ref={ref} style={style}>
-                  <MediaElement
-                    media={item}
+                  <LinkCard
+                    link={item}
                     style={{
-                      minWidth: columnWidth,
-                      width: "100%",
+                      width: columnWidth,
+                      // width: "100%",
                       height: "auto",
                     }}
-                    itemStyle={{ maxWidth: columnWidth, maxHeight: "100%" }}
-                    disableZoom
-                    onClick={() => onMediaClick?.(item)}
+                    onClick={() => onLinkClick?.(item)}
                   />
                 </div>
               );

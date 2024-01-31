@@ -10,7 +10,6 @@ export type ACTORS = t.TypeOf<typeof ACTORS>;
 
 export const GetListActorQueryFilter = t.partial({
   ids: optionFromNullable(t.array(t.string)),
-  fullName: optionFromNullable(t.string),
 });
 
 export type GetListActorQueryFilter = t.TypeOf<typeof GetListActorQueryFilter>;

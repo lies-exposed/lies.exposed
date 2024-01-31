@@ -40,7 +40,7 @@ export const KeywordsBoxWrapper: React.FC<KeywordsBoxWrapperProps> = ({
 
 interface KeywordsBoxProps extends BoxProps {
   ids: string[];
-  onItemClick: (k: Keyword.Keyword) => void;
+  onItemClick: (k: Keyword.Keyword, e: React.SyntheticEvent) => void;
   listStyle?: React.CSSProperties;
 }
 

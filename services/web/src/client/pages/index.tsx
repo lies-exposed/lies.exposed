@@ -52,6 +52,7 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
               prefix="last-20-updated-actors"
               style={{ width: "100%", display: "flex" }}
               params={{
+                filter: {},
                 sort: { field: "updatedAt", order: "DESC" },
               }}
               onItemClick={(g) => {
