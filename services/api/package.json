@@ -52,9 +52,9 @@
     "extract-entities-from-url": "yarn tsx:build ./bin/extract-entities-from-url.ts"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.502.0",
-    "@aws-sdk/lib-storage": "^3.502.0",
-    "@aws-sdk/s3-request-presigner": "^3.502.0",
+    "@aws-sdk/client-s3": "^3.503.1",
+    "@aws-sdk/lib-storage": "^3.503.1",
+    "@aws-sdk/s3-request-presigner": "^3.503.1",
     "@databases/escape-identifier": "^1.0.3",
     "@liexp/backend": "0.1.0",
     "@liexp/core": "0.1.0",

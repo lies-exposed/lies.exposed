@@ -23,9 +23,9 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.502.0",
-    "@aws-sdk/lib-storage": "^3.502.0",
-    "@aws-sdk/s3-request-presigner": "^3.502.0",
+    "@aws-sdk/client-s3": "^3.503.1",
+    "@aws-sdk/lib-storage": "^3.503.1",
+    "@aws-sdk/s3-request-presigner": "^3.503.1",
     "@databases/escape-identifier": "^1.0.3",
     "@databases/sql": "^3.3.0",
     "@liexp/core": "0.1.0",
