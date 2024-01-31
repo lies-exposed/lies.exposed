@@ -1,3 +1,4 @@
+import { type Endpoints } from "@liexp/shared/lib/endpoints";
 import MediaElement from "@liexp/ui/lib/components/Media/MediaElement";
 import { ActorListItem } from "@liexp/ui/lib/components/lists/ActorList";
 import { AreaListItem } from "@liexp/ui/lib/components/lists/AreaList";
@@ -17,7 +18,9 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: StoryFn<InfiniteListBoxProps<ListType>> = (props) => {
+const Template: StoryFn<
+  InfiniteListBoxProps<ListType, any>
+> = (props) => {
   return (
     <div style={{ height: 600, position: "relative" }}>
       <InfiniteListBox {...props} />
@@ -27,8 +30,9 @@ const Template: StoryFn<InfiniteListBoxProps<ListType>> = (props) => {
 
 const InfiniteMediaListBoxExample = Template.bind({});
 
-const args: InfiniteListBoxProps<"masonry"> = {
-  useListQuery: (Q) => Q.Media.list as any,
+const args: InfiniteListBoxProps<"masonry", typeof Endpoints.Media.List> = {
+  filter: { filter: {} },
+  useListQuery: (Q) => Q.Media.list,
   listProps: {
     type: "masonry",
     getItem: (data: any[], index: number) => {
@@ -55,11 +59,17 @@ const args: InfiniteListBoxProps<"masonry"> = {
   },
 };
 
-InfiniteMediaListBoxExample.args = args;
+InfiniteMediaListBoxExample.args = args as any;
 
 const InfiniteAreaListBoxExample = Template.bind({});
-const infiniteAreaListBoxExampleArgs: InfiniteListBoxProps<"masonry"> = {
-  useListQuery: (Q) => Q.Area.list as any,
+const infiniteAreaListBoxExampleArgs: InfiniteListBoxProps<
+  "masonry",
+  typeof Endpoints.Area.List
+> = {
+  filter: {
+    filter: {},
+  },
+  useListQuery: (Q) => Q.Area.list,
   listProps: {
     type: "masonry",
     getItem: (data: any[], index: number) => {
@@ -82,11 +92,15 @@ const infiniteAreaListBoxExampleArgs: InfiniteListBoxProps<"masonry"> = {
     ),
   },
 };
-InfiniteAreaListBoxExample.args = infiniteAreaListBoxExampleArgs;
+InfiniteAreaListBoxExample.args = infiniteAreaListBoxExampleArgs as any;
 
 const InfiniteActorListBoxExample = Template.bind({});
-const infiniteActorListBoxArgs: InfiniteListBoxProps<"masonry"> = {
-  useListQuery: (Q) => Q.Actor.list as any,
+const infiniteActorListBoxArgs: InfiniteListBoxProps<
+  "masonry",
+  typeof Endpoints.Actor.List
+> = {
+  filter: { filter: {} },
+  useListQuery: (Q) => Q.Actor.list,
   listProps: {
     type: "masonry",
     getItem: (data: any, index: any) => {
@@ -113,7 +127,7 @@ const infiniteActorListBoxArgs: InfiniteListBoxProps<"masonry"> = {
   },
 };
 
-InfiniteActorListBoxExample.args = infiniteActorListBoxArgs;
+InfiniteActorListBoxExample.args = infiniteActorListBoxArgs as any;
 
 export {
   InfiniteActorListBoxExample,

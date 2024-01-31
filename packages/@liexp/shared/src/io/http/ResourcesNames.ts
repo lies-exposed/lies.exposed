@@ -13,6 +13,7 @@ export const ResourcesNames = t.keyof(
     projects: null,
     media: null,
     profile: null,
+    links: null,
     "events/suggestions": null,
   },
   "ResourcesNames"

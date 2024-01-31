@@ -21,11 +21,12 @@ const Template: StoryFn<LinksPageTemplateProps> = (props) => {
 
   return (
     <LinksPageTemplate
-      params={{
+      filter={{
         pagination: { perPage: 10, page: 1 },
-        filter: { name: "food" },
+        filter: { search: "food" },
       }}
       onItemClick={() => {}}
+      onFilterChange={() => {}}
       // onQueryChange={(q) => {
       //   setQ(q);
       // }}

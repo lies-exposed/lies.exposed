@@ -13,7 +13,7 @@ import { getORMOptions } from "#utils/orm.utils.js";
 
 const defaultQuery: http.Actor.GetListActorQuery = {
   ids: O.none,
-  fullName: O.none,
+  search: O.none,
   _end: O.some(20 as any),
   _start: O.some(0 as any),
   _order: O.some("DESC"),
@@ -26,7 +26,7 @@ export const fetchActors =
   ): TE.TaskEither<DBError, { total: number; results: ActorEntity[] }> => {
     const q = { ...defaultQuery, ...query };
 
-    const { ids, fullName, ...otherQuery } = q;
+    const { ids, search, ...otherQuery } = q;
 
     const findOptions = getORMOptions(otherQuery, env.DEFAULT_PAGE_SIZE);
 
@@ -42,9 +42,9 @@ export const fetchActors =
             ids: ids.value,
           });
         }
-        if (O.isSome(fullName)) {
+        if (O.isSome(search)) {
           return q.andWhere("lower(unaccent(actors.fullName)) LIKE :fullName", {
-            fullName: `%${fullName.value}%`,
+            fullName: `%${search.value}%`,
           });
         }
         return q;

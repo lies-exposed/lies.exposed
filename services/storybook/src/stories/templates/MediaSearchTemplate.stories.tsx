@@ -12,7 +12,7 @@ const meta: Meta = {
 export default meta;
 
 const Template: StoryFn<MediaSearchTemplateProps> = (props) => {
-  const [f, setFilter] = React.useState(props.filter);
+  const [f, setFilter] = React.useState(props.filter as any);
 
   return <MediaSearchPageUI {...props} filter={f} onFilterChange={setFilter} />;
 };
@@ -21,10 +21,12 @@ const MediaTemplateDefault = Template.bind({});
 
 MediaTemplateDefault.args = {
   filter: {
-    title: "Covid",
-    keywords: [],
-    groups: [],
-    actors: [],
+    filter: {
+      search: "Covid",
+      keywords: [],
+      startDate: "2020-01-01",
+      endDate: "2020-12-31",
+    },
   },
   perPage: 10,
 };

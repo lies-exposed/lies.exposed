@@ -11,9 +11,12 @@ const defaultQuery: http.Media.GetListMediaQuery = {
   ids: fp.O.none,
   exclude: fp.O.none,
   creator: fp.O.none,
-  description: fp.O.none,
   events: fp.O.none,
   keywords: fp.O.none,
+  locations: fp.O.none,
+  search: fp.O.none,
+  startDate: fp.O.none,
+  endDate: fp.O.none,
   emptyThumbnail: fp.O.none,
   emptyEvents: fp.O.none,
   emptyLinks: fp.O.none,
@@ -32,7 +35,7 @@ export const fetchManyMedia: TEFlow<
 > = (ctx) => (query) => {
   const q = { ...defaultQuery, ...query };
   const {
-    description,
+    search,
     ids,
     creator,
     type: _type,
@@ -72,9 +75,9 @@ export const fetchManyMedia: TEFlow<
       .loadAllRelationIds({ relations: ["creator"] }),
     (q) => {
       let hasWhere = false;
-      if (fp.O.isSome(description)) {
+      if (fp.O.isSome(search)) {
         q.where("lower(media.description) LIKE lower(:description)", {
-          description: `%${description.value.toLowerCase()}%`,
+          description: `%${search.value.toLowerCase()}%`,
         });
         hasWhere = true;
       }

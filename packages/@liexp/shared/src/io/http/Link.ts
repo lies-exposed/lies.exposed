@@ -5,7 +5,12 @@ import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { optionFromUndefined } from "../Common/optionFromUndefined.js";
 import { URL, UUID } from "./Common/index.js";
 import { CreateMedia, MediaType } from "./Media.js";
-import { GetListQuery } from "./Query/index.js";
+import {
+  GetListQuery,
+  GetListQueryDateRange,
+  GetListQueryEvents,
+  GetListQueryKeywords,
+} from "./Query/index.js";
 
 export const LINKS = t.literal("links");
 export type LINKS = t.TypeOf<typeof LINKS>;
@@ -13,9 +18,9 @@ export type LINKS = t.TypeOf<typeof LINKS>;
 export const GetListLinkQuery = t.type(
   {
     ...GetListQuery.props,
-    q: optionFromNullable(t.string),
-    events: optionFromNullable(t.array(UUID)),
-    keywords: optionFromNullable(t.array(UUID)),
+    ...GetListQueryDateRange.props,
+    ...GetListQueryKeywords.props,
+    ...GetListQueryEvents.props,
     ids: optionFromNullable(t.array(UUID)),
     provider: optionFromNullable(UUID),
     creator: optionFromNullable(UUID),

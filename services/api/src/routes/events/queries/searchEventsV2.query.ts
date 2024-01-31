@@ -174,7 +174,7 @@ type SearchEventQuery = Omit<
 
 const searchQueryDefaults: SearchEventQuery = {
   ids: O.none,
-  title: O.none,
+  search: O.none,
   startDate: O.none,
   endDate: O.none,
   exclude: O.none,
@@ -228,7 +228,7 @@ export const searchEventV2Query =
       media,
       links,
       type,
-      title,
+      search: title,
       startDate,
       endDate,
       withDeleted,

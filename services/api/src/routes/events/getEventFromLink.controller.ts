@@ -202,7 +202,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                 locations: O.none,
                 startDate: O.some(minDate),
                 endDate: O.some(maxDate),
-                title: O.fromNullable(metadata.title),
+                search: O.fromNullable(metadata.title),
               }),
               ctx.logger.debug.logInTaskEither("Events %O"),
               TE.chain(({ results, ...rest }) =>

@@ -46,7 +46,6 @@ export const GetGroupListQuery = t.type(
         t.literal("updatedAt"),
       ]),
     ),
-    name: optionFromNullable(t.string),
     ids: optionFromNullable(t.array(UUID)),
     members: optionFromNullable(t.array(t.string)),
   },

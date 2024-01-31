@@ -1,21 +1,20 @@
+import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
+import { type GetListFnParamsE } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
 import * as React from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { ErrorBox } from '../components/Common/ErrorBox.js';
-import { KeywordsBox } from "../components/KeywordsBox.js";
-import SearchEventInput, {
-  type SearchFilter,
-} from "../components/events/inputs/SearchEventInput.js";
+import { ErrorBox } from "../components/Common/ErrorBox.js";
+import SearchFiltersBar, {
+  type SearchFilters,
+} from "../components/Common/Filters/SearchFiltersBox.js";
 import { Box, Container, Stack } from "../components/mui/index.js";
-import ActorsBox from "../containers/ActorsBox.js";
-import { GroupsBox } from "../containers/GroupsBox.js";
 import { PageContentBox } from "../containers/PageContentBox.js";
 import { InfiniteMediaListBox } from "../containers/list/InfiniteMediaListBox.js";
 import { SplitPageTemplate } from "./SplitPageTemplate.js";
 
 export interface MediaSearchTemplateProps {
-  filter: SearchFilter;
-  onFilterChange: (f: SearchFilter) => void;
+  filter: GetListFnParamsE<typeof Endpoints.Link.List>;
+  onFilterChange: (f: SearchFilters) => void;
   onMediaClick: (m: Media.Media) => void;
   perPage?: number;
 }
@@ -28,10 +27,10 @@ const MediaSearchTemplate: React.FC<MediaSearchTemplateProps> = ({
 }) => {
   const filter = {
     ..._filter,
-    description: _filter.title,
-    keywords: (_filter.keywords ?? []).map((k) => k.id),
-    groups: (_filter.groups ?? []).map((g) => g.id),
-    actors: (_filter.actors ?? []).map((a) => a.id),
+    filter: {
+      ..._filter.filter,
+      search: _filter.filter?.search,
+    },
   };
 
   return (
@@ -45,45 +44,18 @@ const MediaSearchTemplate: React.FC<MediaSearchTemplateProps> = ({
             }}
           >
             <PageContentBox path="media" />
-            <SearchEventInput
+            <SearchFiltersBar
               query={{
-                hash: "",
-                ...filter,
+                ...filter.filter,
               }}
+              layout={{ dateRangeBox: { variant: "picker", columns: 12 } }}
               onQueryChange={onFilterChange}
-              inputParams={{
-                InputProps: {
-                  placeholder: "Search media",
-                },
-              }}
-              style={{ width: "100%" }}
-            />
-            <KeywordsBox
-              ids={filter.keywords}
-              onItemClick={(k) => {
-                onFilterChange({
-                  ..._filter,
-                  keywords: _filter.keywords.filter((kk) => kk.id !== k.id),
-                });
-              }}
-            />
-            <ActorsBox
-              params={{ filter: { ids: filter.actors } }}
-              onActorClick={(a) => {
-                onFilterChange({
-                  ..._filter,
-                  actors: _filter.actors.filter((kk) => kk.id !== a.id),
-                });
-              }}
-            />
-            <GroupsBox
-              params={{ filter: { ids: filter.groups } }}
-              onItemClick={(g) => {
-                onFilterChange({
-                  ..._filter,
-                  groups: _filter.groups.filter((kk) => kk.id !== g.id),
-                });
-              }}
+              onQueryClear={() => {}}
+              // inputParams={{
+              //   InputProps: {
+              //     placeholder: "Search media",
+              //   },
+              // }}
             />
           </Box>
         </Stack>
@@ -109,6 +81,7 @@ const MediaSearchTemplate: React.FC<MediaSearchTemplateProps> = ({
         <Container style={{ display: "flex" }}>
           <ErrorBoundary FallbackComponent={ErrorBox}>
             <InfiniteMediaListBox
+              filter={filter}
               listProps={{ type: "masonry" }}
               onMediaClick={onMediaClick}
             />
