@@ -1,13 +1,17 @@
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { type EndpointsQueryProvider } from "@liexp/shared/lib/providers/EndpointQueriesProvider/index.js";
-import {
-  type ResourceQuery
-} from "@liexp/shared/lib/providers/EndpointQueriesProvider/types.js";
+import { type ResourceQuery } from "@liexp/shared/lib/providers/EndpointQueriesProvider/types.js";
 import { type GetListFnParamsE } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
 import { paramsToPagination } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
-import { AutoSizer, InfiniteLoader, type Index } from "react-virtualized";
+import {
+  AutoSizer,
+  InfiniteLoader,
+  type Index,
+  type Masonry,
+  type CellMeasurerCache,
+} from "react-virtualized";
 import { type MinimalEndpointInstance } from "ts-endpoint";
 import { FullSizeLoader } from "../../../components/Common/FullSizeLoader.js";
 import { useEndpointQueries } from "../../../hooks/useEndpointQueriesProvider.js";
@@ -45,8 +49,14 @@ export const InfiniteListBox = <
   filter,
   ...rest
 }: InfiniteListBoxProps<T, E>): JSX.Element => {
+  const [{ masonryRef, cellCache }, setMasonryRef] = React.useState<{
+    masonryRef: Masonry | null;
+    cellCache: CellMeasurerCache | null;
+  }>({
+    masonryRef: null,
+    cellCache: null,
+  });
   const Q = useEndpointQueries();
-
   const query = React.useMemo(() => {
     return useListQuery(Q);
   }, [useListQuery]);
@@ -60,7 +70,6 @@ export const InfiniteListBox = <
     isFetchingNextPage,
     fetchNextPage,
     isRefetching,
-    // refetch,
   } = useInfiniteQuery<
     any,
     APIError,
@@ -111,7 +120,7 @@ export const InfiniteListBox = <
     const items = data?.pages.flatMap((p) => p.data) ?? [];
     const total = data?.pages[0]?.total ?? 0;
     return { items, total };
-  }, [data]);
+  }, [data, filter]);
 
   const handleLoadMoreRows = React.useCallback(
     async (props: any) => {
@@ -126,6 +135,15 @@ export const InfiniteListBox = <
     },
     [fetchNextPage, hasNextPage, isFetchingNextPage, isRefetching],
   );
+
+  React.useEffect(() => {
+    if (masonryRef && cellCache && !(isFetching || isRefetching)) {
+      cellCache.clearAll();
+      masonryRef.clearCellPositions();
+      masonryRef.recomputeCellPositions();
+      masonryRef.forceUpdate();
+    }
+  }, [filter, total]);
 
   if (isFetching && items.length === 0) {
     return <FullSizeLoader />;
@@ -150,6 +168,9 @@ export const InfiniteListBox = <
                   total={total}
                   items={items}
                   ref={registerChild}
+                  onMasonryRef={(r: any, cellCache: any) => {
+                    setMasonryRef({ masonryRef: r, cellCache });
+                  }}
                   onCellsRendered={onRowsRendered}
                 />
               );
