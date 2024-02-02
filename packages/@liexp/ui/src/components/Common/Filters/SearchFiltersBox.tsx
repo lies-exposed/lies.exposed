@@ -337,7 +337,7 @@ const SearchFiltersBar: React.FC<SearchFiltersBarProps> = ({
                   params={{ filter: { ids: query.groups } }}
                   onItemClick={(k, e) => {
                     e.stopPropagation();
-                    const groups = (query?.groups ?? []).filter(
+                    const groups = (query.groups ?? []).filter(
                       (g) => k.id !== g,
                     );
 
