@@ -162,6 +162,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
       disablePortal
       freeSolo
       multiple
+      // value={searchOptions}
       options={searchOptions}
       inputValue={search}
       onInputChange={handleSearchChange}
@@ -179,7 +180,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
           }}
         />
       )}
-      renderOption={(props, option) => {
+      renderOption={(props, option, state, ownerState) => {
         if (option.type === "Search") {
           return (
             <Typography key={option.item} variant="subtitle1">
@@ -220,15 +221,15 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
           >
             <KeywordListItem
               item={{ ...option.item, selected: true }}
-              onClick={(a) => {
-                (props.onChange as any)?.(null, a);
-              }}
+              // onClick={(a) => {
+              //   (props.onChange as any)?.(null, {...a, selected: false });
+              // }}
             />
           </Box>
         );
       }}
       renderTags={(value) => undefined}
-      onChange={(e, v) => {
+      onChange={(e, v,reason, details) => {
         if (Array.isArray(v)) {
           const values: SearchOption[] = v.map((vv) => {
             if (typeof vv === "string") {
@@ -239,8 +240,11 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
             }
             return vv;
           });
+          // console.log('values', reason,  values, details);
           setSearchOptions([]);
           onQueryChange(serializeOption(values));
+        } else {
+          setSearchOptions([v])
         }
       }}
       loading={loading}

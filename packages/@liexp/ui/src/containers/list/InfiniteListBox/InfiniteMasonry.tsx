@@ -100,6 +100,7 @@ export type InfiniteMasonryProps = MasonryProps &
   InfiniteListBaseProps & {
     CellRenderer: CellRenderer;
     columnCount?: number;
+    onMasonryRef?: (r: Masonry | null, cellCache: CellMeasurerCache) => void;
   };
 
 let masonryRef: Masonry | null = null;
@@ -114,6 +115,7 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
     cellRenderer,
     width,
     CellRenderer,
+    onMasonryRef,
     ...props
   },
   ref,
@@ -139,21 +141,27 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
 
   useWindowDimensions({
     onResize: throttle(300, () => {
-      const newColumnCount = isDownMD ? (isDownSM ? 1 : 3) : 4;
-      if (newColumnCount !== columnCount) {
-        masonryRef?.props.cellPositioner.reset({
-          columnCount: newColumnCount,
-          columnWidth: width / newColumnCount,
-        });
-      }
-      masonryRef?.recomputeCellPositions();
+      // setTimeout(() => {
+        const newColumnCount = isDownMD ? (isDownSM ? 1 : 3) : 4;
+        if (newColumnCount !== columnCount) {
+          masonryRef?.props.cellPositioner.reset({
+            columnCount: newColumnCount,
+            columnWidth: width / newColumnCount,
+          });
+        }
+        masonryRef?.recomputeCellPositions();
+      // }, 300);
     }),
   });
+
+  React.useEffect(() => {
+    onMasonryRef?.(masonryRef, cellCache);
+  }, []);
 
   return (
     <StyledMasonry
       ref={(r) => {
-        masonryRef = r;
+        masonryRef = r as any;
         r = ref as any;
       }}
       {...props}

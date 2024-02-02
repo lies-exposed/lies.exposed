@@ -23,7 +23,7 @@ export const InfiniteMediaListBox: React.FC<InfiniteMediaListBoxProps> = ({
   ...props
 }) => {
   return (
-    <InfiniteListBox<"masonry", typeof Endpoints.Media.List>
+    <InfiniteListBox<typeof listProps.type, typeof Endpoints.Media.List>
       {...{
         filter,
         useListQuery: (Q) => Q.Media.list as any,
