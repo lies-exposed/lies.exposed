@@ -20,18 +20,11 @@ export interface MediaSearchTemplateProps {
 }
 
 const MediaSearchTemplate: React.FC<MediaSearchTemplateProps> = ({
-  filter: _filter,
+  filter,
   onFilterChange,
   onMediaClick,
   perPage = 50,
 }) => {
-  const filter = {
-    ..._filter,
-    filter: {
-      ..._filter.filter,
-      search: _filter.filter?.search,
-    },
-  };
 
   return (
     <SplitPageTemplate

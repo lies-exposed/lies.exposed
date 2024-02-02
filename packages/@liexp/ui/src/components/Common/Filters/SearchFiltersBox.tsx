@@ -158,18 +158,21 @@ const SearchFiltersBar: React.FC<SearchFiltersBarProps> = ({
   const currentDateRange = [startDate, endDate];
 
   const handleQueryChange = (queryUpdate: Partial<SearchFilters>): void => {
-    onQueryChange({
+    const newQuery = {
       ...query,
       ...queryUpdate,
       search: queryUpdate.search ?? query.search ?? undefined,
-      groups: queryUpdate?.groups ?? query.groups,
-      actors: queryUpdate?.actors ?? query.actors,
-      keywords: queryUpdate?.keywords ?? query.keywords,
-      startDate: queryUpdate.startDate ?? query.startDate,
-      endDate: queryUpdate.endDate ?? query.endDate,
+      groups: queryUpdate?.groups ? queryUpdate.groups : query.groups,
+      actors: queryUpdate?.actors ? queryUpdate.actors : query.actors,
+      keywords: queryUpdate?.keywords ? queryUpdate.keywords : query.keywords,
+      startDate: queryUpdate.startDate
+        ? queryUpdate.startDate
+        : query.startDate,
+      endDate: queryUpdate.endDate ? queryUpdate.endDate : query.endDate,
       _sort: queryUpdate._sort ?? query._sort ?? null,
       _order: queryUpdate._order ?? query._order ?? null,
-    });
+    };
+    onQueryChange(newQuery);
   };
 
   const hasActiveFilters = React.useMemo(() => {
@@ -210,16 +213,13 @@ const SearchFiltersBar: React.FC<SearchFiltersBarProps> = ({
         query={{
           hash: "",
           ...query,
-          actors: query.actors ?? undefined,
-          keywords: query.keywords ?? undefined,
         }}
         onQueryChange={(u) => {
+          // console.log("on search event input change", u);
           handleQueryChange({
-            actors: (query?.actors ?? []).concat(u.actors.map((a) => a.id)),
-            groups: (query?.groups ?? []).concat(u.groups.map((a) => a.id)),
-            keywords: (query?.keywords ?? []).concat(
-              u.keywords.map((a) => a.id),
-            ),
+            actors: u.actors.map((a) => a.id),
+            groups: u.groups.map((a) => a.id),
+            keywords: u.keywords.map((a) => a.id),
             search: u.search,
           });
         }}

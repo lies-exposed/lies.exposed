@@ -31,9 +31,6 @@ const MediaPage: React.FC<RouteComponentProps> = (props) => {
   const handleQueryChange = (q: SearchFilters): void => {
     setQ({
       ...q,
-      keywords: (searchFilters.keywords ?? []).concat(
-        q.keywords ?? ([] as any[]),
-      ),
     });
   };
 
