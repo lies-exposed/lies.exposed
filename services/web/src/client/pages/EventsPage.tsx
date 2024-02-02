@@ -93,6 +93,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
       hash={hash}
       params={params}
       tab={tab}
+      slide={slide}
       onQueryChange={handleUpdateEventsSearch}
       onQueryClear={() => {
         navigateTo.events({}, {});

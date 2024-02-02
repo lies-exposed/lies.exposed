@@ -6,7 +6,7 @@ import {
   searchEventsQuery,
   type SearchEventsQueryInputNoPagination,
 } from "../../state/queries/SearchEventsQuery.js";
-import { styled, useTheme } from "../../theme/index.js";
+import { styled } from "../../theme/index.js";
 import QueriesRenderer from "../QueriesRenderer.js";
 import EventsAppBar from "../events/filters/EventsAppBar.js";
 import { Box, Icons, IconButton, Modal } from "../mui/index.js";
@@ -79,7 +79,7 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
   onQueryClear,
   ...props
 }) => {
-  const theme = useTheme();
+  // const theme = useTheme();
 
   // const [open, setOpen] = React.useState(_open ?? false);
 
@@ -140,9 +140,9 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
     <div>
       <Box
         style={{
-          position: "fixed",
-          right: theme.spacing(2),
-          bottom: theme.spacing(8),
+          // position: "fixed",
+          // right: theme.spacing(2),
+          // bottom: theme.spacing(8),
         }}
       >
         <IconButton

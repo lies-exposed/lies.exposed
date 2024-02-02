@@ -7,6 +7,7 @@ import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
+import EventSliderModal from "../components/Modal/EventSliderModal.js";
 import QueriesRenderer from "../components/QueriesRenderer.js";
 import SEO from "../components/SEO.js";
 import EventsTimeline from "../components/lists/EventList/EventsTimeline.js";
@@ -294,6 +295,21 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                         labelPlacement="start"
                       />
                     </FormGroup>
+                    <EventSliderModal
+                      open={slide}
+                      query={{ ...params, slide, hash }}
+                      onQueryChange={(q) => {
+                        onQueryChange(q, tab);
+                      }}
+                      onQueryClear={() => {
+                        onQueryChange({ hash, slide: false }, 0);
+                      }}
+                      onClick={onEventClick}
+                      onActorClick={() => {}}
+                      onGroupClick={() => {}}
+                      onKeywordClick={() => {}}
+                      onGroupMemberClick={() => {}}
+                    />
                   </Stack>
                 }
                 onTabChange={(tab) => {
