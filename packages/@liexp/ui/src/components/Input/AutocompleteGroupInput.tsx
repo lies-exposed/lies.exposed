@@ -25,7 +25,7 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
     <AutocompleteInput<Group.Group>
       placeholder="Groups..."
       getOptionLabel={(a) => (typeof a === "string" ? a : a.name)}
-      searchToFilter={(name) => ({ name })}
+      searchToFilter={(search) => ({ search })}
       selectedItems={selectedItems}
       query={(p) =>
         options
