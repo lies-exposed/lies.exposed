@@ -66,7 +66,7 @@
     "@react-page/plugins-slate": "^5.4.4",
     "@react-page/plugins-spacer": "^5.4.4",
     "@react-page/plugins-video": "^5.4.4",
-    "axios": "^1.6.5",
+    "axios": "^1.6.7",
     "canvas": "^2.11.2",
     "cors": "2.8.5",
     "debug": "^4.3.4",
