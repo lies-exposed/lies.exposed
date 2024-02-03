@@ -31,9 +31,13 @@ export const webOptimization: webpack.Configuration["optimization"] = {
         name: "liexp-shared",
         test: /[\\/]@liexp\/shared[\\/]/,
       },
-      liexpUi: {
-        name: "liexp-ui",
-        test: /[\\/]@liexp\/ui[\\/]/,
+      liexpUiContainers: {
+        name: "liexp-ui-components",
+        test: /[\\/]@liexp\/ui\/containers[\\/]/,
+      },
+      liexpUiComponents: {
+        name: "liexp-ui-components",
+        test: /[\\/]@liexp\/ui\/components[\\/]/,
       },
       vendorFortAwesome: {
         test: /[\\/]@fortawesome[\\/]/,

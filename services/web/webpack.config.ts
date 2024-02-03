@@ -45,6 +45,6 @@ webConfig.plugins?.push(
   ]) as any,
 );
 
-webConfig.devtool = "source-map";
+// webConfig.devtool = "source-map";
 
 export default webConfig;

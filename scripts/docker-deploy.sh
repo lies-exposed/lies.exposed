@@ -5,7 +5,7 @@ set -e -x
 username=$1
 export SSH_DOMAIN=alpha.lies.exposed
 
-scp -r ./deploy/nginx $SSH_DOMAIN:/root/
+scp -r ./deploy/nginx/ $SSH_DOMAIN:docker-app/nginx/
 scp ./deploy/gh-token.txt $SSH_DOMAIN:docker-app/gh-token.txt
 scp ./services/api/.env.alpha $SSH_DOMAIN:docker-app/.env.api
 scp ./services/web/.env.alpha $SSH_DOMAIN:docker-app/.env.web

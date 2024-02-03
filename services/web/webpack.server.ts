@@ -32,6 +32,7 @@ srvConfig.resolve = {
 };
 
 srvConfig.optimization = srvConfig.mode === "production" ? webOptimization : {};
-srvConfig.devtool = "source-map";
+
+// srvConfig.devtool = "source-map";
 
 export default srvConfig;

@@ -59,7 +59,7 @@ const MediaSearchTemplate: React.FC<MediaSearchTemplateProps> = ({
           label: "Search",
         },
       ]}
-      resource={{ name: "media", item: null }}
+      resource={{ name: "media", item: { id: '' } }}
       onTabChange={() => {}}
     >
       <Box
