@@ -71,7 +71,7 @@ services:
           max-size: 10m
 
   telegram-bot:
-    image: nginx:1.19-alpine
+    image: nginx:1.19.2-alpine
     restart: always
     depends_on:
       - telegram-bot-api
