@@ -29,7 +29,7 @@
     "@databases/escape-identifier": "^1.0.3",
     "@databases/sql": "^3.3.0",
     "@liexp/core": "0.1.0",
-    "axios": "^1.6.5",
+    "axios": "^1.6.7",
     "bs58": "^5.0.0",
     "cheerio": "^1.0.0-rc.12",
     "date-fns": "^2.30.0",
