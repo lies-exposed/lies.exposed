@@ -79,7 +79,7 @@ const GroupMemberArrayInput: React.FC<Omit<ArrayInputProps, "children">> = (
 };
 
 const groupFilters = [
-  <TextInput key="name" label="name" source="name" alwaysOn size="small" />,
+  <TextInput key="search" label="name" source="search" alwaysOn size="small" />,
   <ReferenceArrayInput
     key="members"
     source="members"

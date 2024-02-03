@@ -50,9 +50,9 @@ import * as React from "react";
 
 const actorFilters = [
   <TextInput
-    key="fullName"
+    key="search"
     label="fullName"
-    source="fullName"
+    source="search"
     alwaysOn
     size="small"
   />,
