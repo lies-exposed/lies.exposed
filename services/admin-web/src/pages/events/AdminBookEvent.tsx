@@ -27,6 +27,7 @@ import { Grid } from "@liexp/ui/lib/components/mui/index.js";
 import * as React from "react";
 
 const quotesFilter = [
+  <TextField key="search" source="search" label="title" alwaysOn />,
   <ReferenceArrayActorInput key="actors" source="actors" alwaysOn />,
   <ReferenceArrayGroupInput key="groups" source="groups" alwaysOn />,
   <BooleanInput key="draft" label="Draft only" source="draft" alwaysOn />,

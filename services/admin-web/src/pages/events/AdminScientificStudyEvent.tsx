@@ -33,7 +33,7 @@ import { Box } from "@liexp/ui/lib/components/mui/index.js";
 import * as React from "react";
 
 const listFilter = [
-  <TextInput key="title" source="title" alwaysOn />,
+  <TextInput key="search" source="search" label="Title" alwaysOn />,
   <BooleanInput key="draft" label="Draft only" source="draft" alwaysOn />,
   <ReferenceGroupInput key="provider" source="provider" alwaysOn />,
   <ReferenceArrayActorInput key="authors" source="authors" />,
