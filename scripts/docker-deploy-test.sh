@@ -12,6 +12,11 @@ cp ./services/web/.env ./deploy/.env.web
 
 cp ./services/api/certs/*.crt ./deploy/certs/
 cd ./deploy || return
+
+set -a
+source .env.api
+set +a
+
 docker compose up --build --force-recreate -d
 sleep 5
 docker compose logs -f
