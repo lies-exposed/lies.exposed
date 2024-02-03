@@ -13,7 +13,7 @@ const ReferenceActorInput: React.FC<
     <ReferenceInput {...props} reference="actors">
       <AutocompleteInput
         size="small"
-        filterToQuery={(fullName) => ({ fullName })}
+        filterToQuery={(search) => ({ search })}
         optionText={(a) => (
           <ActorChip actor={a} displayFullName displayAvatar />
         )}

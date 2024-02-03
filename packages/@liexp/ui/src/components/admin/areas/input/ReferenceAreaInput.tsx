@@ -14,7 +14,7 @@ const ReferenceAreaInput: React.FC<
         fullWidth
         size="small"
         optionText="label"
-        filterToQuery={(q) => ({ q })}
+        filterToQuery={(search) => ({ search })}
       />
     </ReferenceInput>
   );

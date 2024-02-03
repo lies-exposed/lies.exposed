@@ -56,7 +56,7 @@ export const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
   const handleThumbnailUpdate = React.useCallback(
     (thumbnail: string) => {
       if (record.id) {
-        const { thumbnails, ...extra } = record.extra;
+        const { thumbnails, ...extra } = record?.extra ?? {};
         const data = {
           ...record,
           thumbnail,
@@ -92,7 +92,7 @@ export const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
     showModal("Pick the thumbnail", (onClose) => {
       return (
         <SelectThumbnailModalContent
-          thumbnails={record.extra.thumbnails}
+          thumbnails={record.extra?.thumbnails}
           defaultThumbnail={record.thumbnail}
           onClose={onClose}
           onThumbnailSelect={handleThumbnailUpdate}

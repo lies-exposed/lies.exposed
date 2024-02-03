@@ -14,7 +14,7 @@ const ReferenceArrayGroupInput: React.FC<
       <AutocompleteArrayInput
         source="id"
         optionText={(g) => <GroupChip group={g} displayName />}
-        filterToQuery={(name: any) => ({ name })}
+        filterToQuery={(search) => ({ search })}
         fullWidth
         size="small"
       />

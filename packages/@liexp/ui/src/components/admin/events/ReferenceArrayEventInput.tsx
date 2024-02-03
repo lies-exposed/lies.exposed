@@ -15,7 +15,7 @@ const ReferenceArrayEventInput: React.FC<
     <ReferenceArrayInput {...props} reference="events">
       <AutocompleteArrayInput
         source="id"
-        filterToQuery={(title: any) => ({ title })}
+        filterToQuery={(search) => ({ search })}
         fullWidth
         optionText={(r) => {
           return (

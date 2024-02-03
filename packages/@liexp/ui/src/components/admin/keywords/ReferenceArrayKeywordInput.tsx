@@ -33,7 +33,7 @@ const ReferenceArrayKeywordInput: React.FC<
         <AutocompleteArrayInput
           size="small"
           optionText="tag"
-          filterToQuery={(search: string) => ({ search })}
+          filterToQuery={(search) => ({ search })}
         />
       </ReferenceArrayInput>
       {showAdd ? <ImportKeywordButton /> : null}
