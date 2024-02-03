@@ -1,8 +1,5 @@
 import path from "path";
-import {
-  defineEnv,
-  getConfig,
-} from "@liexp/core/lib/webpack/config";
+import { defineEnv, getConfig } from "@liexp/core/lib/webpack/config";
 import { webOptimization } from "@liexp/core/lib/webpack/web.config";
 
 const SrvEnv = defineEnv((t) => ({
@@ -35,5 +32,6 @@ srvConfig.resolve = {
 };
 
 srvConfig.optimization = srvConfig.mode === "production" ? webOptimization : {};
+srvConfig.devtool = "source-map";
 
 export default srvConfig;
