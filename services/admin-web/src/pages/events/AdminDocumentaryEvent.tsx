@@ -29,7 +29,7 @@ import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils.j
 import * as React from "react";
 
 const documentaryEventsFilter = [
-  <TextInput key="title" source="title" alwaysOn />,
+  <TextInput key="search" source="search" alwaysOn />,
   <BooleanInput key="draft" label="Draft only" source="draft" alwaysOn />,
   <DateInput key="date" source="date" alwaysOn />,
 ];
@@ -42,7 +42,7 @@ export const DocumentaryList: React.FC<ListProps> = (props) => (
     filterDefaultValues={{
       _sort: "date",
       _order: "DESC",
-      title: undefined,
+      search: undefined,
       draft: undefined,
     }}
   >
