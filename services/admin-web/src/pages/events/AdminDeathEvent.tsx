@@ -1,5 +1,6 @@
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput.js";
 import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField.js";
 import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField.js";
@@ -9,7 +10,6 @@ import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/
 import ReferenceArrayLinkInput from "@liexp/ui/lib/components/admin/links/ReferenceArrayLinkInput.js";
 import { MediaArrayInput } from "@liexp/ui/lib/components/admin/media/input/MediaArrayInput.js";
 import {
-  AutocompleteInput,
   BooleanField,
   BooleanInput,
   Create,
@@ -18,11 +18,10 @@ import {
   DateInput,
   List,
   ReferenceField,
-  ReferenceInput,
   SimpleForm,
   useDataProvider,
   type CreateProps,
-  type ListProps,
+  type ListProps
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils.js";
 import * as React from "react";
@@ -72,11 +71,7 @@ export const DeathList: React.FC<ListProps> = (props) => (
 );
 
 export const DeathEdit: React.FC = () => {
-  return (
-    <EditEventForm>
-      {() => <DeathEventEditFormTab />}
-    </EditEventForm>
-  );
+  return <EditEventForm>{() => <DeathEventEditFormTab />}</EditEventForm>;
 };
 
 export const DeathCreate: React.FC<CreateProps> = (props) => {
@@ -91,13 +86,7 @@ export const DeathCreate: React.FC<CreateProps> = (props) => {
         <BooleanInput source="draft" defaultValue={false} />
         <ReactPageInput source="excerpt" onlyText />
         <ReactPageInput source="body" />
-        <ReferenceInput
-          source="payload.victim"
-          reference="actors"
-          filterToQuery={(fullName) => ({ fullName })}
-        >
-          <AutocompleteInput source="id" optionText="fullName" />
-        </ReferenceInput>
+        <ReferenceActorInput source="payload.victim" />
         <DateInput source="date" />
         <ReferenceArrayKeywordInput
           source="keywords"

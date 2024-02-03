@@ -16,7 +16,7 @@ const ReferenceArrayActorInput: React.FC<
         size="small"
         source="id"
         optionText={(a) => <ActorChip actor={a} displayFullName />}
-        filterToQuery={(fullName: string) => ({ fullName })}
+        filterToQuery={(search) => ({ search })}
       />
     </ReferenceArrayInput>
   );

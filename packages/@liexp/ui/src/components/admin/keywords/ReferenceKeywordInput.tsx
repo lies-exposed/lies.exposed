@@ -15,7 +15,7 @@ const ReferenceKeywordInput: React.FC<
         <AutocompleteInput
           size="small"
           optionText="tag"
-          filterToQuery={(search: string) => ({ search })}
+          filterToQuery={(search) => ({ search })}
         />
       </ReferenceInput>
     </Box>
