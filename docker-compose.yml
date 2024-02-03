@@ -144,7 +144,7 @@ services:
           max-file: 5
           max-size: 10m
   nginx:
-    image: nginx:1.19-alpine
+    image: nginx:1.19.2-alpine
     restart: always
     depends_on:
       - telegram-bot-api
