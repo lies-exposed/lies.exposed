@@ -12,7 +12,11 @@ const ReferenceEventInput: React.FC<
   Omit<ReferenceInputProps, "children"> & { source: string }
 > = (props) => {
   return (
-    <ReferenceInput {...props} reference="events">
+    <ReferenceInput
+      sort={{ field: "updatedAt", order: "DESC" }}
+      {...props}
+      reference="events"
+    >
       <AutocompleteInput
         source="id"
         size="small"
