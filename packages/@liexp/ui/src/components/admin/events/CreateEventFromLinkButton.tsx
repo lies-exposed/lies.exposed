@@ -35,7 +35,7 @@ export const CreateEventFromLinkButton: React.FC = () => {
           m,
           O.some(record as any),
           O.fromNullable(record.thumbnail),
-          getRelationIdsFromEventRelations(relations),
+          getRelationIdsFromEventRelations(relations.entities),
         );
 
         return suggestions.find((t) => t.event.type === type);
