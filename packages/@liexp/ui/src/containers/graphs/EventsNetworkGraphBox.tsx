@@ -239,8 +239,8 @@ const transformNetworkOutput = (
     ...otherProps
   } = props;
 
-  const startDate = parseISO(query.startDate ?? graph.startDate.toISOString());
-  const endDate = parseISO(query.endDate ?? graph.endDate.toISOString());
+  const startDate = parseISO(query.startDate ?? graph.startDate?.toISOString());
+  const endDate = parseISO(query.endDate ?? graph.endDate?.toISOString());
 
   // console.log({ startDate, endDate });
   const {
@@ -258,17 +258,15 @@ const transformNetworkOutput = (
   const minDate = pipe(
     events,
     fp.A.last,
-    fp.O.map((d) => d.date),
+    fp.O.map((d) => (typeof d.date === "string" ? parseISO(d.date) : d.date)),
     fp.O.getOrElse(() => new Date()),
   );
   const maxDate = pipe(
     events,
     fp.A.head,
-    fp.O.map((d) => d.date),
+    fp.O.map((d) => (typeof d.date === "string" ? parseISO(d.date) : d.date)),
     fp.O.getOrElse(() => new Date()),
   );
-
-  // console.log({ minDate, maxDate });
 
   const filteredEvents = events
     .map((e) => {
@@ -538,8 +536,8 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
                 hash: "",
                 ...query,
                 eventType: state.eventType,
-                startDate: minDate.toISOString(),
-                endDate: maxDate.toISOString(),
+                startDate: minDate?.toISOString(),
+                endDate: maxDate?.toISOString(),
               }}
               dateRange={[minDate, maxDate]}
               keywords={keywords.map((k) => ({
