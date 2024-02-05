@@ -38,16 +38,16 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
             false,
           ),
         })}
-        render={({ groups }) => (
+        render={({ groups: { data: groups, total } }) => (
           <>
-            <Typography variant="subtitle1">{groups.total}</Typography>
+            <Typography variant="subtitle1">{total}</Typography>
             <GroupList
               style={{
                 display: "flex",
                 flexDirection: "row",
                 flexWrap: "wrap",
               }}
-              groups={groups.data.map((a) => ({
+              groups={groups.map((a) => ({
                 ...a,
                 selected: true,
               }))}
@@ -70,6 +70,7 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
                   }}
                   type={GROUPS.value}
                   relations={[GROUPS.value]}
+                  selectedGroupIds={groups.map((g) => g.id)}
                   query={{
                     eventType: EventType.types.map((t) => t.value),
                     startDate: formatDate(subYears(new Date(), 2)),
