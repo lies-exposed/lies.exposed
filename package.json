@@ -69,7 +69,7 @@
     "vitest": "^1.2.2",
     "webpack": "^5.90.0"
   },
-  "packageManager": "yarn@3.6.3",
+  "packageManager": "yarn@3.8.0",
   "resolutions": {
     "minimist": "^1.2.8",
     "react-dnd": "^15",
