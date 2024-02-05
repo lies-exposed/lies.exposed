@@ -14,6 +14,7 @@ const ReferenceEventInput: React.FC<
   return (
     <ReferenceInput
       sort={{ field: "updatedAt", order: "DESC" }}
+      filter={{ withDrafts: true }}
       {...props}
       reference="events"
     >

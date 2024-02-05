@@ -17,17 +17,18 @@ import {
   DateInput,
   List,
   SimpleForm,
-  TextField,
+  TextInput,
   useDataProvider,
   type CreateProps,
   type ListProps,
+  TextField,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils.js";
 import { Grid } from "@liexp/ui/lib/components/mui/index.js";
 import * as React from "react";
 
-const quotesFilter = [
-  <TextField key="search" source="search" label="title" alwaysOn />,
+const booksFilter = [
+  <TextInput key="search" source="search" label="title" alwaysOn />,
   <ReferenceArrayActorInput key="actors" source="actors" alwaysOn />,
   <ReferenceArrayGroupInput key="groups" source="groups" alwaysOn />,
   <BooleanInput key="draft" label="Draft only" source="draft" alwaysOn />,
@@ -37,7 +38,7 @@ const quotesFilter = [
 export const BookList: React.FC<ListProps> = (props) => (
   <List
     {...props}
-    filters={quotesFilter}
+    filters={booksFilter}
     perPage={20}
     filterDefaultValues={{
       _sort: "date",

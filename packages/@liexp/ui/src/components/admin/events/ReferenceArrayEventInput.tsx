@@ -12,7 +12,11 @@ const ReferenceArrayEventInput: React.FC<
   Omit<ReferenceArrayInputProps, "children"> & { source: string }
 > = (props) => {
   return (
-    <ReferenceArrayInput {...props} reference="events">
+    <ReferenceArrayInput
+      filter={{ withDrafts: true }}
+      {...props}
+      reference="events"
+    >
       <AutocompleteArrayInput
         source="id"
         filterToQuery={(search) => ({ search })}

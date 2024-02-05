@@ -29,8 +29,8 @@ import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils.j
 import * as React from "react";
 
 const patentEventsFilter = [
+  <TextInput key="search" source="search" alwaysOn />,
   <BooleanInput key="draft" label="Draft only" source="draft" alwaysOn />,
-  // <ReferenceActorInput key="author" source="author" alwaysOn />,
   <DateInput key="date" source="date" />,
 ];
 
