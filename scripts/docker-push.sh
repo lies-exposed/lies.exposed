@@ -10,7 +10,7 @@ WEB_IMAGE=ghcr.io/lies-exposed/liexp-web
 (exec ./scripts/docker-login.sh "$1")
 
 echo "Pushing image $BASE_IMAGE"
-docker image push $BASE_IMAGE:18-latest
+docker image push $BASE_IMAGE:20-latest
 
 echo "Pushing image $API_IMAGE:$IMAGE_TAG"
 docker image push $API_IMAGE:$IMAGE_TAG
