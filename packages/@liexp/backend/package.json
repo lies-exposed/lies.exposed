@@ -50,7 +50,7 @@
     "date-fns": "^2",
     "debug": "*",
     "express": "^4.17.1",
-    "fast-csv": "^4.3.6",
+    "fast-csv": "^5",
     "fluent-ffmpeg": "^2.1.2",
     "instagram-private-api": "^1.45.3",
     "node-telegram-bot-api": "^0.64.0",

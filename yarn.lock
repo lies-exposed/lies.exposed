@@ -3091,32 +3091,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fast-csv/format@npm:4.3.5":
-  version: 4.3.5
-  resolution: "@fast-csv/format@npm:4.3.5"
+"@fast-csv/format@npm:5.0.0":
+  version: 5.0.0
+  resolution: "@fast-csv/format@npm:5.0.0"
   dependencies:
-    "@types/node": ^14.0.1
     lodash.escaperegexp: ^4.1.2
     lodash.isboolean: ^3.0.3
     lodash.isequal: ^4.5.0
     lodash.isfunction: ^3.0.9
     lodash.isnil: ^4.0.0
-  checksum: 36d5fb76c26179bd1718dffd49fc88f4ab62675464d7ec44c5f1de55b8c454ecdf3faf84fe291df934832233f531d24c810a71cc0c390c7c4df09685d614c65b
+  checksum: 70a01af53a47ecbbb5247696c6bd425e706e59f2aeca4cfeae879c52861c1518e5f0a86c8b2e5e00e4493aaef7d1547b1f95ca2b60078938ebd80273c4533f26
   languageName: node
   linkType: hard
 
-"@fast-csv/parse@npm:4.3.6":
-  version: 4.3.6
-  resolution: "@fast-csv/parse@npm:4.3.6"
+"@fast-csv/parse@npm:5.0.0":
+  version: 5.0.0
+  resolution: "@fast-csv/parse@npm:5.0.0"
   dependencies:
-    "@types/node": ^14.0.1
     lodash.escaperegexp: ^4.1.2
     lodash.groupby: ^4.6.0
     lodash.isfunction: ^3.0.9
     lodash.isnil: ^4.0.0
     lodash.isundefined: ^3.0.1
     lodash.uniq: ^4.5.0
-  checksum: 15434d2bc7a71af63a4cc45352a58f6edd69d464233fd6f9a808a8efb9ae326832b4f78d1ddcf9fc3bbf166e9c1dce19671c4de40371a926d60cb7c5a8bad08a
+  checksum: 5f5df7f26d9eefc95d4af20be39986a3bb0b5983299b1b454b38b27dd890a53c2a5630e239221c4e084cade96eb98e3a6a963f6b0a5104b4b11fb0011aa6e996
   languageName: node
   linkType: hard
 
@@ -3625,7 +3623,7 @@ __metadata:
     date-fns: ^2
     debug: "*"
     express: ^4.17.1
-    fast-csv: ^4.3.6
+    fast-csv: ^5
     fluent-ffmpeg: ^2.1.2
     instagram-private-api: ^1.45.3
     node-telegram-bot-api: ^0.64.0
@@ -3722,7 +3720,7 @@ __metadata:
     cheerio: ^1.0.0-rc.12
     date-fns: ^2.30.0
     domino: ^2.1.6
-    fast-csv: ^4.3.6
+    fast-csv: ^5.0.0
     fp-ts: ^2.16.2
     io-ts: ^2.2.21
     io-ts-types: ^0.5.19
@@ -3743,7 +3741,7 @@ __metadata:
     "@react-page/react-admin": ^5.2.0
     "@visx/network": ^3.0.0
     debug: "*"
-    fast-csv: ^4
+    fast-csv: ^5
     react: ^18
     react-admin: ^4.13.2
     react-dom: ^18
@@ -8531,13 +8529,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^14.0.1":
-  version: 14.18.58
-  resolution: "@types/node@npm:14.18.58"
-  checksum: 45767bb137acdd1d1486bcce279d149ab1c44089401f124e8b7044f4cd7511aa841ae8fac030e81b988b45df21cfb4eca44281c6d7f75c87f803748a30cb9043
-  languageName: node
-  linkType: hard
-
 "@types/node@npm:^18.0.0":
   version: 18.19.10
   resolution: "@types/node@npm:18.19.10"
@@ -10360,7 +10351,7 @@ __metadata:
     exifreader: ^4.20.0
     express: ^4.18.2
     express-jwt: ^8.4.1
-    fast-csv: ^4.3.6
+    fast-csv: ^5.0.0
     fluent-ffmpeg: ^2.1.2
     form-data: ^4.0.0
     fp-ts: ^2.16.2
@@ -15044,13 +15035,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-csv@npm:^4.3.6":
-  version: 4.3.6
-  resolution: "fast-csv@npm:4.3.6"
+"fast-csv@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "fast-csv@npm:5.0.0"
   dependencies:
-    "@fast-csv/format": 4.3.5
-    "@fast-csv/parse": 4.3.6
-  checksum: 77ae68c08b368a19f2b6e933160d0c5d4934513ef903577c44c84ea08befe1a6638a9480238dfcd55f14c7ddcafdb772c9408dd9d145eca62a147c503ff493a9
+    "@fast-csv/format": 5.0.0
+    "@fast-csv/parse": 5.0.0
+  checksum: d8851fdf5182c79d8edad2191242c793339b4bf302d48ea5c0309b5f83daae6a4abb67ee533a232984f7f6fc44115b4d157f60cca6e1b648063db796cb0c42d2
   languageName: node
   linkType: hard
 
