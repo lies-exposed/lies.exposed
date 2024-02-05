@@ -1,4 +1,4 @@
-FROM node:18-alpine as build
+FROM node:20-alpine as build
 
 ARG NODE_ENV=production
 ARG DOTENV_CONFIG_PATH=.env
@@ -25,7 +25,7 @@ RUN export DOTENV_CONFIG_PATH=${DOTENV_CONFIG_PATH}
 RUN yarn && yarn web build && yarn web build:app-server
 
 
-FROM ghcr.io/lies-exposed/liexp-base:18-latest as prod_deps
+FROM ghcr.io/lies-exposed/liexp-base:20-latest as prod_deps
 WORKDIR /app
 
 COPY --from=build /app/.yarn/ /app/.yarn/
@@ -41,7 +41,7 @@ COPY --from=build /app/packages/@liexp/ui/package.json /app/packages/@liexp/ui/p
 
 RUN yarn config set --home enableTelemetry false && yarn workspaces focus -A --production
 
-FROM node:18-slim as production
+FROM node:20-alpine as production
 
 WORKDIR /app
 

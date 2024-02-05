@@ -1,4 +1,4 @@
-FROM ghcr.io/lies-exposed/liexp-base:18-latest as build
+FROM ghcr.io/lies-exposed/liexp-base:20-latest as build
 
 WORKDIR /app
 
@@ -19,7 +19,7 @@ COPY services/api ./services/api
 RUN yarn config set --home enableTelemetry false && yarn install && yarn api build
 
 
-FROM ghcr.io/lies-exposed/liexp-base:18-latest as prod_deps
+FROM ghcr.io/lies-exposed/liexp-base:20-latest as prod_deps
 WORKDIR /app
 
 COPY --from=build /app/.yarn/ /app/.yarn/
@@ -35,7 +35,7 @@ COPY packages/@liexp/test/package.json /app/packages/@liexp/test/package.json
 
 RUN yarn config set --home enableTelemetry false && yarn workspaces focus -A --production
 
-FROM ghcr.io/lies-exposed/liexp-base:18-latest as production
+FROM ghcr.io/lies-exposed/liexp-base:20-latest as production
 
 WORKDIR /app
 

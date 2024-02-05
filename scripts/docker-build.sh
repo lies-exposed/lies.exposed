@@ -8,7 +8,7 @@ WEB_IMAGE=liexp-web
 
 docker build . --force-rm --pull --file base.Dockerfile \
     --tag $BASE_IMAGE:alpha-latest \
-    --tag ghcr.io/lies-exposed/$BASE_IMAGE:18-latest
+    --tag ghcr.io/lies-exposed/$BASE_IMAGE:20-latest
 
 docker build . --force-rm --pull --file api.Dockerfile \
     --target production \
