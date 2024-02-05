@@ -424,13 +424,14 @@ export const createEventNetworkGraph: TEFlow<
       }),
     ),
     TE.chain(({ event, actors, groups, keywords, media }) => {
-      ctx.logger.debug.log(`Actors %d`, actors.length);
+      const actorsMap = new Map(actors.map(TupleWithId.of));
+      ctx.logger.debug.log(`Actors %d: %O`, actors.length, actorsMap);
       ctx.logger.debug.log(`Groups %d`, groups.length);
       ctx.logger.debug.log(`Keywords %d`, keywords.length);
       ctx.logger.debug.log(`Media %d`, media.length);
 
       const searchEvent = toSearchEvent(event, {
-        actors: new Map(actors.map(TupleWithId.of)),
+        actors: actorsMap,
         groups: new Map(groups.map(TupleWithId.of)),
         keywords: new Map(keywords.map(TupleWithId.of)),
         media: new Map(media.map(TupleWithId.of)),
@@ -499,26 +500,30 @@ export const createEventNetworkGraph: TEFlow<
                   type: event.type,
                 });
                 const update: any = {};
-
+                ctx.logger.debug.log("Source key %s", k);
                 if (key === ACTORS.value) {
                   update.actorLinks = [
                     {
-                      source: k + "",
+                      source: k,
                       sourceType: key,
-                      target: event.id + "",
+                      target: event.id,
                       fill: color,
                       stroke: color,
                       value: 0,
                     },
-                    {
-                      source: tuples[1].events?.[0]?.id + "",
+                  ];
+                  if (tuples[1].events?.[0]?.id) {
+                    update.actorLinks.push({
+                      source: tuples[1].events?.[0]?.id,
                       sourceType: "events",
                       target: k + "",
                       fill: color,
                       stroke: color,
                       value: 0,
-                    },
-                  ].concat(tuples[1].actorLinks);
+                    });
+                  }
+
+                  update.actorLinks.push(...tuples[1].actorLinks);
                 }
 
                 if (key === GROUPS.value) {
@@ -531,15 +536,18 @@ export const createEventNetworkGraph: TEFlow<
                       stroke: color,
                       value: 0,
                     },
-                    {
+                  ];
+                  if (tuples[1].events?.[0]?.id) {
+                    update.groupLinks.push({
                       source: tuples[1].events?.[0]?.id,
                       sourceType: "events",
                       target: k.toString(),
                       fill: color,
                       stroke: color,
                       value: 0,
-                    },
-                  ].concat(tuples[1].groupLinks);
+                    });
+                  }
+                  update.groupLinks.push(...tuples[1].groupLinks);
                 }
 
                 if (key === KEYWORDS.value) {

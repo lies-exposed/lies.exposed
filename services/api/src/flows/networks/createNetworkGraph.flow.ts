@@ -83,16 +83,18 @@ export const getRelationLinks =
     return pipe(
       relations,
       A.reduce(relationLinks, (acc1, relation) => {
-        const eventLinks: NetworkLink[] = [
-          {
-            source: relation.id,
-            sourceType: relationType,
-            target: ev.id,
-            stroke: `#${relation.color}`,
-            fill: `#${relation.color}`,
-            value: 0,
-          },
-        ];
+        const eventLinks: NetworkLink[] = relation.id
+          ? [
+              {
+                source: relation.id,
+                sourceType: relationType,
+                target: ev.id,
+                stroke: `#${relation.color}`,
+                fill: `#${relation.color}`,
+                value: 0,
+              },
+            ]
+          : [];
 
         const links = pipe(
           acc1,
