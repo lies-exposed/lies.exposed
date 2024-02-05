@@ -3628,7 +3628,7 @@ __metadata:
     fast-csv: ^4.3.6
     fluent-ffmpeg: ^2.1.2
     instagram-private-api: ^1.45.3
-    node-telegram-bot-api: ^0.61.0
+    node-telegram-bot-api: ^0.64.0
     page-metadata-parser: ^1.1.4
     puppeteer-core: ^21.3.6
     puppeteer-extra: ^3.3.6
