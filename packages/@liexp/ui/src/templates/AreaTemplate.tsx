@@ -55,6 +55,7 @@ export const AreaTemplateUI: React.FC<AreaTemplateProps> = ({
                   flexDirection: "column",
                   alignItems: "flex-end",
                   textAlign: "right",
+                  width: "100%",
                 }}
               >
                 <Typography variant="h3">{area.label}</Typography>
