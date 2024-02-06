@@ -3,8 +3,8 @@ import { isValidValue } from "@liexp/shared/lib/slate/index.js";
 import * as React from "react";
 import { useTheme } from "../../../theme/index.js";
 import { LazyEditor as Editor } from "../../Common/Editor/index.js";
-import MediaElement from "../../Media/MediaElement.js";
 import { Box, Grid } from "../../mui/index.js";
+import { MediaSlider } from "../../sliders/MediaSlider.js";
 
 interface DocumentaryPageContentProps {
   event: Events.SearchEvent.SearchDocumentaryEvent;
@@ -31,10 +31,11 @@ export const DocumentaryPageContent: React.FC<DocumentaryPageContentProps> = ({
           marginBottom: theme.spacing(5),
         }}
       >
-        <MediaElement
-          media={media}
+        <MediaSlider
+          data={event.media}
           disableZoom={false}
           onClick={onMediaClick}
+          enableDescription={event.media.length > 1}
         />
       </Grid>
       <Grid item>
