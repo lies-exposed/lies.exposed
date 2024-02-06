@@ -66,25 +66,6 @@ export const clearSearchEventsQueryCache = (): void => {
   searchEventsQueryCache = initialSearchEventsQueryCache;
 };
 
-// const getStateByHash = (
-//   hash: string,
-//   _end: number
-// ): O.Option<SearchEventQueryResult> => {
-//   return pipe(
-//     searchEventsQueryCache.hashes,
-//     M.lookup(S.Eq)(hash),
-//     O.filter((r) => r.events.length > _end)
-//   );
-// };
-
-// const buildFromCache = (hash: string, page: number): SearchEventQueryResult => {
-//   return pipe(getStateByHash(hash), (state) =>
-//     pipe(state.events, A.takeLeft(page * 20), (events) =>
-//       toQueryResult(events, state)
-//     )
-//   );
-// };
-
 export const fetchRelations = ({
   actors,
   groups,

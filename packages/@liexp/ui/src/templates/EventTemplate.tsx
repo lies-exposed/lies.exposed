@@ -14,6 +14,7 @@ import {
 import subYears from "date-fns/subYears/index.js";
 import * as React from "react";
 import AreasMap from "../components/AreasMap.js";
+import { EventIcon } from "../components/Common/Icons/EventIcon.js";
 import { EventPageContent } from "../components/EventPageContent.js";
 import { GroupMembersList } from "../components/GroupMembersBox.js";
 import { KeywordsBox } from "../components/KeywordsBox.js";
@@ -26,6 +27,7 @@ import GroupList from "../components/lists/GroupList.js";
 import {
   Box,
   Grid,
+  Stack,
   Typography,
   useMuiMediaQuery,
 } from "../components/mui/index.js";
@@ -144,36 +146,46 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                     }}
                   >
                     <Grid item lg={12} md={12} sm={2}>
-                      <Box
-                        className="date"
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          flexWrap: isDownSM ? "wrap" : undefined,
-                          alignItems: "flex-end",
-                          justifyContent: isDownSM ? "flex-start" : "flex-end",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => {
-                          onDateClick(date);
-                        }}
+                      <Stack
+                        direction="row"
+                        alignItems="center"
+                        justifyContent="flex-end"
+                        spacing={2}
                       >
-                        {formatAnyDateToShort(date)
-                          .split(" ")
-                          .map((chunk, k) => (
-                            <Typography
-                              key={k}
-                              variant="h6"
-                              color="primary"
-                              style={{
-                                marginBottom: 0,
-                                marginLeft: k > 0 ? theme.spacing(1) : 0,
-                              }}
-                            >
-                              {chunk}
-                            </Typography>
-                          ))}
-                      </Box>
+                        <Box
+                          className="date"
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            flexWrap: isDownSM ? "wrap" : undefined,
+                            alignItems: "flex-end",
+                            justifyContent: isDownSM
+                              ? "flex-start"
+                              : "flex-end",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            onDateClick(date);
+                          }}
+                        >
+                          {formatAnyDateToShort(date)
+                            .split(" ")
+                            .map((chunk, k) => (
+                              <Typography
+                                key={k}
+                                variant="h6"
+                                color="primary"
+                                style={{
+                                  marginBottom: 0,
+                                  marginLeft: k > 0 ? theme.spacing(1) : 0,
+                                }}
+                              >
+                                {chunk}
+                              </Typography>
+                            ))}
+                        </Box>
+                        <EventIcon type={event.type} />
+                      </Stack>
                     </Grid>
                     <Grid
                       item

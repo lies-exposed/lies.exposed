@@ -108,7 +108,6 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
           ...e.payload.subjects.groups,
         ].filter((a) => a !== undefined),
         groupsMembers: [],
-        media: [e.payload.media, ...commonIds.media],
       };
     }
 
