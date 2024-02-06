@@ -34,6 +34,7 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
   [`&.${classes.root}`]: {
     flexDirection: "row",
     height: "100%",
+    width: "100%",
     [theme.breakpoints.down("md")]: {
       flexDirection: "row",
     },
