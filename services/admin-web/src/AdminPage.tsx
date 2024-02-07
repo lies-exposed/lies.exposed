@@ -47,7 +47,7 @@ import {
   StoryEdit,
   StoryList,
 } from "@liexp/ui/lib/components/admin/stories/AdminStories.js";
-import { UserEdit } from '@liexp/ui/lib/components/admin/user/UserEdit';
+import { UserEdit } from "@liexp/ui/lib/components/admin/user/UserEdit";
 import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider.js";
 import AssignmentIcon from "@mui/icons-material/Assignment.js";
 import PermMediaIcon from "@mui/icons-material/PermMedia.js";

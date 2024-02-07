@@ -21,7 +21,7 @@ export const MakeUserEditMeRoute = (r: Router, ctx: RouteContext): void => {
           ctx.db.findOneOrFail(UserEntity, { where: { id: Equal(u.id) } }),
         ),
         TE.chain((u) => ctx.db.save(UserEntity, [{ ...u, ...body }])),
-        TE.map(users => users[0]),
+        TE.map((users) => users[0]),
         TE.chainEitherK(toUserIO),
         TE.map((user) => ({
           body: { data: user },

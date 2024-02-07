@@ -26,7 +26,7 @@ export type UserPermission = t.TypeOf<typeof UserPermission>;
 
 export const UserStatusPending = t.literal("Pending");
 export const UserStatusApproved = t.literal("Approved");
-export const UserStatusDeclined = t.literal("Declined"); 
+export const UserStatusDeclined = t.literal("Declined");
 export const UserStatus = t.union(
   [UserStatusPending, UserStatusApproved, UserStatusDeclined],
   "UserStatus",
@@ -71,4 +71,3 @@ export const User = t.strict(
   "User",
 );
 export type User = t.TypeOf<typeof User>;
-

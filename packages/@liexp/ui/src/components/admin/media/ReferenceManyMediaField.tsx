@@ -6,11 +6,17 @@ import {
 } from "react-admin";
 import { MediaDataGrid } from "./MediaList.js";
 
-const ReferenceManyMediaField: React.FC<
-  Omit<ReferenceManyFieldProps<RaRecord<string>>, "reference" | "children">
+export const ReferenceManyMediaField: React.FC<
+  Omit<
+    ReferenceManyFieldProps<RaRecord<string>>,
+    "reference" | "children" | "target"
+  > & {
+    target?: string;
+  }
 > = (props) => {
   return (
     <ReferenceManyField
+      target={"id"}
       {...props}
       reference="media"
       filter={{ withDrafts: true, ...props.filter }}
@@ -19,5 +25,3 @@ const ReferenceManyMediaField: React.FC<
     </ReferenceManyField>
   );
 };
-
-export default ReferenceManyMediaField;

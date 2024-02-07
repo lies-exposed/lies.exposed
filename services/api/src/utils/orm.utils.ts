@@ -159,7 +159,7 @@ export const getORMOptions = (
     _sort,
     _order,
     ...filter
-  }: Omit<Query.GetListQuery, 'search'> & Query.FilterQuery,
+  }: Omit<Query.GetListQuery, "search"> & Query.FilterQuery,
   defaultPageSize: number,
 ): ORMOptions => ({
   ...getSkipAndTakeOptions({ _start, _end }, defaultPageSize),

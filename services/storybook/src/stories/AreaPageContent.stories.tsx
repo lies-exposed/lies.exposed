@@ -47,7 +47,6 @@ const Template: StoryFn<AreaPageContentProps> = (props) => {
 
 const AreaPageContentExample = Template.bind({});
 
-AreaPageContentExample.args = {
-};
+AreaPageContentExample.args = {};
 
 export { AreaPageContentExample };

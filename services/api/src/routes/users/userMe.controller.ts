@@ -11,23 +11,23 @@ import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { ensureUserExists } from "#utils/user.utils.js";
 
 export const MakeUserGetMeRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(
-    r,
-    authenticationHandler(ctx, []),
-  )(Endpoints.User.Custom.GetUserMe, (_, req) => {
-    ctx.logger.debug.log("Get user me %s", req.user?.id);
-    return pipe(
-      ensureUserExists(req.user),
-      TE.fromEither,
-      TE.chain((u) =>
-        ctx.db.findOneOrFail(UserEntity, { where: { id: Equal(u.id) } }),
-      ),
-      TE.mapLeft(() => NotAuthorizedError()),
-      TE.chainEitherK(toUserIO),
-      TE.map((user) => ({
-        body: { data: user },
-        statusCode: 200,
-      })),
-    );
-  });
+  AddEndpoint(r, authenticationHandler(ctx, []))(
+    Endpoints.User.Custom.GetUserMe,
+    (_, req) => {
+      ctx.logger.debug.log("Get user me %s", req.user?.id);
+      return pipe(
+        ensureUserExists(req.user),
+        TE.fromEither,
+        TE.chain((u) =>
+          ctx.db.findOneOrFail(UserEntity, { where: { id: Equal(u.id) } }),
+        ),
+        TE.mapLeft(() => NotAuthorizedError()),
+        TE.chainEitherK(toUserIO),
+        TE.map((user) => ({
+          body: { data: user },
+          statusCode: 200,
+        })),
+      );
+    },
+  );
 };

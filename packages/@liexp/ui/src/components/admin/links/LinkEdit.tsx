@@ -1,11 +1,7 @@
 import { ImageType } from "@liexp/shared/lib/io/http/Media.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import * as React from "react";
-import {
-  Grid,
-  Stack,
-  Toolbar,
-} from "../../mui/index.js";
+import { Grid, Stack, Toolbar } from "../../mui/index.js";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
 import { DangerZoneField } from "../common/DangerZoneField.js";
 import { EditForm } from "../common/EditForm.js";
@@ -28,11 +24,11 @@ import {
   TextField,
   TextInput,
   usePermissions,
-  useRecordContext
+  useRecordContext,
 } from "../react-admin.js";
 import ReferenceUserInput from "../user/ReferenceUserInput.js";
 import { EditTitle } from "./EditTitle.js";
-import { LinkSuggestedEntityRelations } from './LinkSuggestedEntityRelations.js';
+import { LinkSuggestedEntityRelations } from "./LinkSuggestedEntityRelations.js";
 import { LinkTGPostButton } from "./button/LinkTGPostButton.js";
 import { OverrideThumbnail } from "./button/OverrideThumbnail.js";
 import { TakeLinkScreenshot } from "./button/TakeLinkScreenshotButton.js";

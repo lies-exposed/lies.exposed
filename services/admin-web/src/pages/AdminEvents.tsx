@@ -291,7 +291,11 @@ export const EventEdit: React.FC = (props) => {
             }
 
             return (
-              <UncategorizedEventEditTab suggestions={suggestions} handlers={handlers} record={formData as any} />
+              <UncategorizedEventEditTab
+                suggestions={suggestions}
+                handlers={handlers}
+                record={formData as any}
+              />
             );
           }}
         </FormDataConsumer>

@@ -19,8 +19,6 @@ const GetHierarchyNetwork: CustomQueryOverride<
   GetDataOutputEI<typeof Endpoints.Networks.Get>
 > = (Q) => (p) => Q.Networks.get({ ...p, type: "hierarchy" });
 
-
-
 const NetworksOverride: ResourceEndpointsQueriesOverride<
   Endpoints,
   undefined,

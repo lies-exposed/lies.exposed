@@ -110,13 +110,12 @@ const transformBook = (
 export const transformEvent =
   (dataProvider: DataProvider<any>) =>
   async (id: string, data: RaRecord): Promise<RaRecord> => {
+    // console.log("transform event", { ...data, id });
     const newLinks = transformLinks(data.newLinks ?? []);
     const links = (data.links ?? []).concat(newLinks);
 
     const newMedia = transformMedia(data.newMedia ?? []);
-    const media: any[] = (data.media ?? [])
-      .concat(newMedia)
-      .concat(...(data.newMediaRef ?? []));
+    const media: any[] = (data.media ?? []).concat(newMedia);
 
     const { rawMedia, otherMedia } = media.reduce<{
       rawMedia: RawMedia[];
@@ -166,9 +165,11 @@ export const transformEvent =
           A.concat(otherMedia),
         ),
       ),
-      TE.map((media) =>
-        Array.isArray(data.media) ? data.media.concat(media) : media,
-      ),
+      TE.map((updatedMedia) => {
+        return Array.isArray(media)
+          ? media.concat(updatedMedia.filter((m) => !media.includes(m)))
+          : updatedMedia;
+      }),
     );
 
     const event =

@@ -63,7 +63,7 @@ export const ScientificStudiesList: React.FC<ListProps> = (props) => (
 export const ScientificStudyEdit: React.FC = () => {
   return (
     <EditEventForm title={<ScientificStudyEventTitle />}>
-      {()=> <ScientificStudyEventEditTab />}
+      {() => <ScientificStudyEventEditTab />}
     </EditEventForm>
   );
 };

@@ -142,14 +142,14 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
   useWindowDimensions({
     onResize: throttle(300, () => {
       // setTimeout(() => {
-        const newColumnCount = isDownMD ? (isDownSM ? 1 : 3) : 4;
-        if (newColumnCount !== columnCount) {
-          masonryRef?.props.cellPositioner.reset({
-            columnCount: newColumnCount,
-            columnWidth: width / newColumnCount,
-          });
-        }
-        masonryRef?.recomputeCellPositions();
+      const newColumnCount = isDownMD ? (isDownSM ? 1 : 3) : 4;
+      if (newColumnCount !== columnCount) {
+        masonryRef?.props.cellPositioner.reset({
+          columnCount: newColumnCount,
+          columnWidth: width / newColumnCount,
+        });
+      }
+      masonryRef?.recomputeCellPositions();
       // }, 300);
     }),
   });

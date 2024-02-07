@@ -21,7 +21,7 @@ import {
   SimpleForm,
   useDataProvider,
   type CreateProps,
-  type ListProps
+  type ListProps,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils.js";
 import * as React from "react";

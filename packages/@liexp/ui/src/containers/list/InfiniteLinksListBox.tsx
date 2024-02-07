@@ -30,7 +30,7 @@ export const InfiniteLinksListBox: React.FC<InfiniteLinksListBoxProps> = ({
         useListQuery: (Q) => Q.Link.list,
         listProps: {
           type: "masonry",
-          
+
           getItem: (data: any[], index: number) => {
             return data[index];
           },

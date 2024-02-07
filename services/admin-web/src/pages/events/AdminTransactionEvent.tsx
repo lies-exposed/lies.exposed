@@ -74,34 +74,33 @@ export const TransactionEditFormTab: React.FC<FormTabProps> = (props) => (
 
 export const TransactionEdit: React.FC<EditProps> = (props: EditProps) => {
   return (
-    <EditEventForm {...props}>{
-      () => 
-    (
-      <Box>
-        <BooleanInput source="draft" defaultValue={false} />
-        <TextInput fullWidth source="payload.title" />
-        <ReferenceAreaInput source="payload.location" />
-        <NumberInput source="payload.total" />
-        <SelectInput
-          source="payload.currency"
-          choices={["euro", "dollar"].map((c) => ({
-            id: c,
-            name: c,
-          }))}
-        />
-        <DateInput source="date" />
-        <ReferenceBySubjectInput source="payload.from" />
-        <ReferenceBySubjectInput source="payload.to" />
-        <ReactPageInput source="excerpt" onlyText />
-        <ReferenceArrayKeywordInput
-          source="keywords"
-          defaultValue={[]}
-          showAdd
-        />
-        <DateField source="updatedAt" showTime={true} />
-        <DateField source="createdAt" showTime={true} />
-      </Box>
-    )}
+    <EditEventForm {...props}>
+      {() => (
+        <Box>
+          <BooleanInput source="draft" defaultValue={false} />
+          <TextInput fullWidth source="payload.title" />
+          <ReferenceAreaInput source="payload.location" />
+          <NumberInput source="payload.total" />
+          <SelectInput
+            source="payload.currency"
+            choices={["euro", "dollar"].map((c) => ({
+              id: c,
+              name: c,
+            }))}
+          />
+          <DateInput source="date" />
+          <ReferenceBySubjectInput source="payload.from" />
+          <ReferenceBySubjectInput source="payload.to" />
+          <ReactPageInput source="excerpt" onlyText />
+          <ReferenceArrayKeywordInput
+            source="keywords"
+            defaultValue={[]}
+            showAdd
+          />
+          <DateField source="updatedAt" showTime={true} />
+          <DateField source="createdAt" showTime={true} />
+        </Box>
+      )}
     </EditEventForm>
   );
 };

@@ -6,7 +6,7 @@ import {
   useRecordContext,
   useUpdate,
 } from "../react-admin.js";
-import { SuggestedEntityRelationsBox } from './SuggestedEntityRelationsBox.js';
+import { SuggestedEntityRelationsBox } from "./SuggestedEntityRelationsBox.js";
 
 export const LinkSuggestedEntityRelations: React.FC = () => {
   const record = useRecordContext();

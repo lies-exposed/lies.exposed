@@ -10,7 +10,7 @@ import { makeApp } from "./app/index.js";
 import { makeContext } from "./context/index.js";
 import { cleanTempFolder } from "./jobs/cleanTempFolder.job.js";
 import D from "debug";
-import { generateMissingThumbnailsCron } from './jobs/generateMissingMedia.job.js';
+import { generateMissingThumbnailsCron } from "./jobs/generateMissingMedia.job.js";
 
 const run = (): Promise<void> => {
   process.env.NODE_ENV = process.env.NODE_ENV ?? "development";
@@ -55,7 +55,8 @@ const run = (): Promise<void> => {
           // cron jobs
           const postOnSocialTask = postOnSocialJob(ctx);
           const cleanTempFolderTask = cleanTempFolder(ctx);
-          const generateMissingThumbnailsTask = generateMissingThumbnailsCron(ctx);
+          const generateMissingThumbnailsTask =
+            generateMissingThumbnailsCron(ctx);
 
           postOnSocialTask.start();
           cleanTempFolderTask.start();
@@ -84,7 +85,7 @@ const run = (): Promise<void> => {
             serverLogger.info.log(
               `Removing "generate missing thumbnails" cron task...`,
             );
-            generateMissingThumbnailsTask.stop()
+            generateMissingThumbnailsTask.stop();
 
             // eslint-disable-next-line no-console
             serverLogger.debug.log("closing server...");

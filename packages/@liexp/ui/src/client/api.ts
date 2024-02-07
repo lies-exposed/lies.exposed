@@ -88,13 +88,14 @@ export const authProvider: AuthProvider = {
       .catch((e) => {
         // eslint-disable-next-line no-console
         console.log("error", e);
-        void authProvider.checkError(e)
-        .then(() => {
-          // eslint-disable-next-line no-console
-          console.log('error checked, logout')
-          return authProvider.logout({})
-        })
-        .then(authProvider.logout);
+        void authProvider
+          .checkError(e)
+          .then(() => {
+            // eslint-disable-next-line no-console
+            console.log("error checked, logout");
+            return authProvider.logout({});
+          })
+          .then(authProvider.logout);
       }) as Promise<UserIdentity>;
 
     return await getUserIdentity;

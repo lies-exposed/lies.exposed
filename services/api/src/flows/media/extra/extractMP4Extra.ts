@@ -23,7 +23,7 @@ export const extractMP4Extra: TEFlow<[SimpleMedia], MediaExtra> =
       fp.TE.map(({ metadata }) => ({
         // keep duration in seconds
         duration: Math.floor(metadata.format.duration ?? 0),
-        thumbnails: []
+        thumbnails: [],
       })),
     );
   };

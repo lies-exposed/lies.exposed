@@ -14,9 +14,9 @@ import { type MediaEntity } from "#entities/Media.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
 
-
 export const extractRelationsFromURL: TEFlow<
-  [puppeteer.Page, string], {
+  [puppeteer.Page, string],
+  {
     entities: {
       actors: ActorEntity[];
       groups: GroupEntity[];
@@ -26,7 +26,7 @@ export const extractRelationsFromURL: TEFlow<
       groupsMembers: GroupMemberEntity[];
       media: MediaEntity[];
     };
-    sentences: Array<{ text: string; importance: number}>;
+    sentences: Array<{ text: string; importance: number }>;
   }
 > = (ctx) => (p, url) => {
   const id = GetEncodeUtils<string>((url) => ({ url })).hash(url);
@@ -40,9 +40,9 @@ export const extractRelationsFromURL: TEFlow<
             waitUntil: "networkidle0",
           });
           return await p.$eval("body", (b) => b.innerText);
-        }, toControllerError)
-      )
+        }, toControllerError),
+      ),
     ),
-    TE.chain(extractRelationsFromText(ctx))
+    TE.chain(extractRelationsFromText(ctx)),
   );
 };

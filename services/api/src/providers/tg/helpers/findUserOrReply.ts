@@ -10,9 +10,8 @@ import { type RouteContext } from "#routes/route.types.js";
 
 export const findUserOrReplyFlow =
   (ctx: RouteContext) =>
-  (
-    te: (u: UserEntity) => TE.TaskEither<ControllerError, void>,
-  ) => (chatId: number, userId?: number): TE.TaskEither<ControllerError, void> => {
+  (te: (u: UserEntity) => TE.TaskEither<ControllerError, void>) =>
+  (chatId: number, userId?: number): TE.TaskEither<ControllerError, void> => {
     const checkUserIdExists = pipe(
       userId ? getUserByTelegramId(ctx)(userId) : fp.TE.right(fp.O.none),
     );

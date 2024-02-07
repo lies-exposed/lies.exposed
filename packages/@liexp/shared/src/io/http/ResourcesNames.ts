@@ -1,6 +1,5 @@
 import * as t from "io-ts";
 
-
 export const ResourcesNames = t.keyof(
   {
     index: null,
@@ -16,7 +15,7 @@ export const ResourcesNames = t.keyof(
     links: null,
     "events/suggestions": null,
   },
-  "ResourcesNames"
+  "ResourcesNames",
 );
 
 export type ResourcesNames = t.TypeOf<typeof ResourcesNames>;
