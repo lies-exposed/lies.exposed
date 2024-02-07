@@ -48,7 +48,6 @@ const Template: StoryFn<AreaPageContentProps> = (props) => {
 const AreaPageContentExample = Template.bind({});
 
 AreaPageContentExample.args = {
-  onGroupClick: () => {},
 };
 
 export { AreaPageContentExample };

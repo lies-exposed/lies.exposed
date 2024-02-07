@@ -34,7 +34,7 @@ const AreaPreview: React.FC = () => {
         <ThemeProvider theme={ECOTheme}>
           <QueryClientProvider client={qc}>
             <React.Suspense>
-              <AreaPageContent area={p} onGroupClick={() => undefined} />
+              <AreaPageContent area={p} onMediaClick={() => undefined} />
             </React.Suspense>
           </QueryClientProvider>
         </ThemeProvider>

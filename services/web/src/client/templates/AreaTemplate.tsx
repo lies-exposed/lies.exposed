@@ -1,4 +1,3 @@
-import { MainContent } from "@liexp/ui/lib/components/MainContent";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import SEO from "@liexp/ui/lib/components/SEO.js";
 import { Box } from "@liexp/ui/lib/components/mui/index.js";
@@ -26,17 +25,19 @@ const AreaTemplate: React.FC<{ areaId: string }> = ({ areaId }) => {
               urlPath={`areas/${area.id}`}
             />
 
-            <MainContent>
-              <AreaTemplateUI
-                area={area}
-                tab={tab}
-                onTabChange={(t) => {
-                  navigateToResource.areas({ id: area.id }, { tab: t });
-                }}
-                onAreaClick={() => {}}
-                onEventClick={() => {}}
-              />
-            </MainContent>
+            <AreaTemplateUI
+              area={area}
+              tab={tab}
+              onTabChange={(t) => {
+                navigateToResource.areas({ id: area.id }, { tab: t });
+              }}
+              onEventClick={(e) => {
+                navigateToResource.events({ id: e.id });
+              }}
+              onMediaClick={(m) => {
+                navigateToResource.media({ id: m.id }, { tab: 0 });
+              }}
+            />
           </Box>
         );
       }}
