@@ -6,7 +6,10 @@ import { EditForm } from "../common/EditForm.js";
 import { ImportMediaButton } from "../media/button/ImportMediaButton.js";
 import EventPreview from "../previews/EventPreview.js";
 import { FormTab, TabbedForm, type EditProps } from "../react-admin.js";
-import { EventGeneralTab, type EventGeneralTabProps } from "../tabs/EventGeneralTab.js";
+import {
+  EventGeneralTab,
+  type EventGeneralTabProps,
+} from "../tabs/EventGeneralTab.js";
 import { LazyFormTabContent } from "../tabs/LazyFormTabContent.js";
 import { ReferenceLinkTab } from "../tabs/ReferenceLinkTab.js";
 import { ReferenceMediaTab } from "../tabs/ReferenceMediaTab.js";
@@ -17,9 +20,8 @@ import { EventsNetworkGraphFormTab } from "./tabs/EventsNetworkGraphFormTab.js";
 import { EventTitle } from "./titles/EventTitle.js";
 
 interface EditEventFormProps extends EditProps {
-  children: EventGeneralTabProps['children']
+  children: EventGeneralTabProps["children"];
 }
-
 
 export const EditEventForm: React.FC<EditEventFormProps> = ({
   children,
@@ -38,7 +40,9 @@ export const EditEventForm: React.FC<EditEventFormProps> = ({
     >
       <TabbedForm>
         <FormTab label="Generals">
-          <EventGeneralTab>{(props, handlers) => children(props, handlers)}</EventGeneralTab>
+          <EventGeneralTab>
+            {(props, handlers) => children(props, handlers)}
+          </EventGeneralTab>
         </FormTab>
         <FormTab label="body">
           <ReactPageInput label="body" source="body" />
@@ -46,7 +50,7 @@ export const EditEventForm: React.FC<EditEventFormProps> = ({
 
         <FormTab label="Media">
           <ImportMediaButton />
-          <ReferenceMediaTab source="media" fullWidth />
+          <ReferenceMediaTab source="media" />
         </FormTab>
         <FormTab label="Links">
           <ReferenceLinkTab source="links" />

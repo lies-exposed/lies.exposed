@@ -5,9 +5,9 @@ import { MakeUserGetRoute } from "./userGet.controller.js";
 import { MakeUserListRoute } from "./userList.controller.js";
 import { MakeUserLoginRoute } from "./userLogin.controller.js";
 import { MakeUserGetMeRoute } from "./userMe.controller.js";
-import { MakeUserEditMeRoute } from './userMeEdit.controller.js';
+import { MakeUserEditMeRoute } from "./userMeEdit.controller.js";
 import { MakeSignUpUserRoute } from "./userSignUp.controller.js";
-import { MakeUserTGTokenGenerateRoute } from './userTGTokenGenerate.controller.js';
+import { MakeUserTGTokenGenerateRoute } from "./userTGTokenGenerate.controller.js";
 import { type RouteContext } from "#routes/route.types.js";
 
 export const MakeUserRoutes = (router: Router, ctx: RouteContext): void => {

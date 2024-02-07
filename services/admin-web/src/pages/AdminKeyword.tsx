@@ -2,7 +2,7 @@ import { toColor } from "@liexp/shared/lib/utils/colors.js";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput.js";
 import { KeywordTGPostButton } from "@liexp/ui/lib/components/admin/keywords/button/KeywordTGPostButton.js";
 import ReferenceManyLinkField from "@liexp/ui/lib/components/admin/links/ReferenceManyLinkField.js";
-import ReferenceManyMediaField from "@liexp/ui/lib/components/admin/media/ReferenceManyMediaField.js";
+import { ReferenceManyMediaField } from "@liexp/ui/lib/components/admin/media/ReferenceManyMediaField.js";
 import {
   Create,
   Datagrid,

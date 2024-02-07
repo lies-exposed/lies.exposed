@@ -11,7 +11,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Metadata } from "page-metadata-parser";
 import type * as puppeteer from "puppeteer-core";
 import { fetchAndSave } from "../links/link.flow.js";
-import { extractRelationsFromURL } from '../nlp/extractRelationsFromURL.flow.js';
+import { extractRelationsFromURL } from "../nlp/extractRelationsFromURL.flow.js";
 import { type EventV2Entity } from "#entities/Event.v2.entity.js";
 import { type LinkEntity } from "#entities/Link.entity.js";
 import { type UserEntity } from "#entities/User.entity.js";

@@ -59,19 +59,19 @@ export const GetNERProvider = (ctx: { logger: Logger }): NERProvider => {
 
             const sentences = doc.sentences();
 
-            const wiseImportantSentences = sentencesImportance
-              .flatMap((s) => {
-                const sentence = s.importance > 0.001 && sentences.itemAt(s.index);
-                if (sentence) {
-                  return [
-                    {
-                      text: sentence.out(),
-                      importance: s.importance,
-                    },
-                  ];
-                }
-                return [];
-              });
+            const wiseImportantSentences = sentencesImportance.flatMap((s) => {
+              const sentence =
+                s.importance > 0.001 && sentences.itemAt(s.index);
+              if (sentence) {
+                return [
+                  {
+                    text: sentence.out(),
+                    importance: s.importance,
+                  },
+                ];
+              }
+              return [];
+            });
 
             const entities: any[] = doc
               .customEntities()

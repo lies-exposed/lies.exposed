@@ -18,9 +18,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: StoryFn<
-  InfiniteListBoxProps<ListType, any>
-> = (props) => {
+const Template: StoryFn<InfiniteListBoxProps<ListType, any>> = (props) => {
   return (
     <div style={{ height: 600, position: "relative" }}>
       <InfiniteListBox {...props} />

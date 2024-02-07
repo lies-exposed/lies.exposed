@@ -19,14 +19,14 @@ import {
   SuggestedActorEntityRelationsBox,
   SuggestedGroupEntityRelationsBox,
 } from "../../links/SuggestedEntityRelationsBox.js";
-import { type EventGeneralTabChildrenHandlers } from '../../tabs/EventGeneralTab.js';
+import { type EventGeneralTabChildrenHandlers } from "../../tabs/EventGeneralTab.js";
 
 export const UncategorizedEventEditTab: React.FC<
   EditProps & {
     record?: RaRecord;
     sourcePrefix?: string;
     suggestions?: ExtractEntitiesWithNLPOutput | null;
-    handlers?: EventGeneralTabChildrenHandlers
+    handlers?: EventGeneralTabChildrenHandlers;
   }
 > = ({ sourcePrefix, suggestions, record, handlers, ...props }) => {
   const source = (s: string): string =>

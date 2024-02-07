@@ -7,7 +7,7 @@ import { parseISO } from "date-fns";
 import * as React from "react";
 import { LazyEditor as Editor } from "../../Common/Editor/index.js";
 import { EventIcon } from "../../Common/Icons/index.js";
-import { defaultImage } from '../../SEO.js';
+import { defaultImage } from "../../SEO.js";
 import { ActorList } from "../../lists/ActorList.js";
 import GroupsList from "../../lists/GroupList.js";
 import KeywordList from "../../lists/KeywordList.js";

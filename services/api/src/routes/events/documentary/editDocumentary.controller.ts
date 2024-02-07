@@ -1,7 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type Route } from "../../route.types.js";
@@ -23,7 +22,7 @@ export const MakeEditDocumentaryEventRoute: Route = (r, ctx) => {
             ...body,
             type: EventTypes.DOCUMENTARY.value,
             payload,
-            media: O.some([payload.media]),
+            media,
             keywords,
             links,
           }),

@@ -1,8 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import {
-  MP4Type
-} from "@liexp/shared/lib/io/http/Media.js";
+import { MP4Type } from "@liexp/shared/lib/io/http/Media.js";
 import { Media } from "@liexp/shared/lib/io/http/index.js";
 import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
 import { type Router } from "express";

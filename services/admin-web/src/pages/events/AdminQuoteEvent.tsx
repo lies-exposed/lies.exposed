@@ -53,11 +53,7 @@ export const QuoteList: React.FC<ListProps> = (props) => (
 );
 
 export const QuoteEdit: React.FC = () => {
-  return (
-    <EditEventForm>
-      {() => <QuoteEditFormTab />}
-    </EditEventForm>
-  );
+  return <EditEventForm>{() => <QuoteEditFormTab />}</EditEventForm>;
 };
 
 export const QuoteCreate: React.FC<CreateProps> = () => {

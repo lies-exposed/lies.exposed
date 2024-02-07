@@ -1,6 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
 import * as t from "io-ts";
+import { Brackets } from "typeorm";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import { leftJoinSocialPosts } from "#queries/socialPosts/leftJoinSocialPosts.query.js";
@@ -76,9 +77,17 @@ export const fetchManyMedia: TEFlow<
     (q) => {
       let hasWhere = false;
       if (fp.O.isSome(search)) {
-        q.where("lower(media.description) LIKE lower(:description)", {
-          description: `%${search.value.toLowerCase()}%`,
-        });
+        q.where(
+          new Brackets((qb) =>
+            qb.where(
+              "lower(media.description) LIKE :search OR lower(media.label) LIKE :search",
+              {
+                search: `%${search.value.toLowerCase()}%`,
+              },
+            ),
+          ),
+        );
+
         hasWhere = true;
       }
 

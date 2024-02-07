@@ -1,13 +1,16 @@
 import * as t from "io-ts";
 import { UUID } from "io-ts-types/lib/UUID.js";
 import { Endpoint } from "ts-endpoint";
-import { Output } from '../io/http/Common/Output.js';
+import { Output } from "../io/http/Common/Output.js";
 import {
   MediaImageLayer,
   TextLayer,
   WatermarkLayer,
 } from "../io/http/admin/BuildImage.js";
-import { ExtractEntitiesWithNLPInput, ExtractEntitiesWithNLPOutput } from '../io/http/admin/ExtractNLPEntities.js';
+import {
+  ExtractEntitiesWithNLPInput,
+  ExtractEntitiesWithNLPOutput,
+} from "../io/http/admin/ExtractNLPEntities.js";
 import { ResourceEndpoints } from "./types.js";
 
 export const List = Endpoint({
@@ -119,7 +122,7 @@ const ExtractEntitiesWithNLP = Endpoint({
   Input: {
     Body: ExtractEntitiesWithNLPInput,
   },
-  Output: Output( ExtractEntitiesWithNLPOutput, 'ExtractEntitiesWithNLPOutput'),
+  Output: Output(ExtractEntitiesWithNLPOutput, "ExtractEntitiesWithNLPOutput"),
 });
 
 const admin = ResourceEndpoints({

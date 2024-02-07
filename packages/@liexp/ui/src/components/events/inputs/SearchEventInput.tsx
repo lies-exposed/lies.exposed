@@ -229,7 +229,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
         );
       }}
       renderTags={(value) => undefined}
-      onChange={(e, v,reason, details) => {
+      onChange={(e, v, reason, details) => {
         if (Array.isArray(v)) {
           const values: SearchOption[] = v.map((vv) => {
             if (typeof vv === "string") {
@@ -244,7 +244,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
           setSearchOptions([]);
           onQueryChange(serializeOption(values));
         } else {
-          setSearchOptions([v])
+          setSearchOptions([v]);
         }
       }}
       loading={loading}

@@ -1,6 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { uuid } from '@liexp/shared/lib/utils/uuid.js';
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
@@ -10,7 +10,10 @@ import { type RouteContext } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { ensureUserExists } from "#utils/user.utils.js";
 
-export const MakeUserTGTokenGenerateRoute = (r: Router, ctx: RouteContext): void => {
+export const MakeUserTGTokenGenerateRoute = (
+  r: Router,
+  ctx: RouteContext,
+): void => {
   AddEndpoint(r, authenticationHandler(ctx, []))(
     Endpoints.User.Custom.UserTGTokenGenerate,
     (_, req) => {
@@ -22,16 +25,18 @@ export const MakeUserTGTokenGenerateRoute = (r: Router, ctx: RouteContext): void
           ctx.db.findOneOrFail(UserEntity, { where: { id: Equal(u.id) } }),
         ),
         TE.mapLeft(() => NotAuthorizedError()),
-        TE.map((user) => ({ user, telegramToken: uuid()})),
-        TE.chainFirst(({user, telegramToken }) => {
+        TE.map((user) => ({ user, telegramToken: uuid() })),
+        TE.chainFirst(({ user, telegramToken }) => {
           ctx.logger.debug.log("User found %s", user.id);
-          return ctx.db.save(UserEntity, [{
-            ...user,
-            telegramToken,
-          }]);
+          return ctx.db.save(UserEntity, [
+            {
+              ...user,
+              telegramToken,
+            },
+          ]);
         }),
         TE.map(({ telegramToken }) => ({
-          body: { data: { token: telegramToken} },
+          body: { data: { token: telegramToken } },
           statusCode: 200,
         })),
       );

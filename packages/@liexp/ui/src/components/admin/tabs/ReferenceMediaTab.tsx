@@ -1,9 +1,9 @@
 import { get } from "lodash";
 import * as React from "react";
 import {
+  useRecordContext,
   type RaRecord,
   type ReferenceFieldProps,
-  useRecordContext,
 } from "react-admin";
 import { Box } from "../../mui/index.js";
 import { ReferenceMediaDataGrid } from "../media/ReferenceMediaDataGrid.js";
@@ -16,7 +16,8 @@ export const ReferenceMediaTab: React.FC<
   }
 > = ({ source, exclude, ...props }) => {
   const record = useRecordContext();
-  const currentMedia = get(record, source ?? "media");
+  const mediaSource = source ?? "media";
+  const currentMedia = get(record, mediaSource);
   const newMediaSource =
     source?.split(".").slice(0, -1).concat("newMedia").join(".") ?? "newMedia";
   const newMediaSourceRef = newMediaSource.concat("Ref");
@@ -37,7 +38,13 @@ export const ReferenceMediaTab: React.FC<
         defaultValue={[]}
       />
 
-      <ReferenceMediaDataGrid {...props} source={source} />
+      <ReferenceArrayMediaInput
+        {...props}
+        label="Select media"
+        source={mediaSource}
+      />
+
+      <ReferenceMediaDataGrid {...props} source={mediaSource} />
     </Box>
   );
 };

@@ -54,7 +54,7 @@ export const SearchAreaCoordinatesButton: React.FC = () => {
         label="Search for coordinates"
         onClick={searchForCoordinates}
         size="small"
-        variant='outlined'
+        variant="outlined"
       />
     </Stack>
   );

@@ -15,7 +15,7 @@ import * as Page from "./Page.js";
 import * as Project from "./Project.js";
 import * as ProjectImage from "./ProjectImage.js";
 import * as Query from "./Query/index.js";
-import { ResourcesNames } from './ResourcesNames.js';
+import { ResourcesNames } from "./ResourcesNames.js";
 import * as Stats from "./Stats.js";
 import * as Story from "./Story.js";
 import * as Topic from "./Topic.js";
@@ -24,8 +24,25 @@ import * as Video from "./Video.js";
 
 export {
   Actor,
-  Area, Common, Error, EventSuggestion, Events, Group,
-  GroupMember, Keyword, Link, Media, Network, Page, Project,
-  ProjectImage, Query, ResourcesNames, Stats, Story, Topic, User, Video
+  Area,
+  Common,
+  Error,
+  EventSuggestion,
+  Events,
+  Group,
+  GroupMember,
+  Keyword,
+  Link,
+  Media,
+  Network,
+  Page,
+  Project,
+  ProjectImage,
+  Query,
+  ResourcesNames,
+  Stats,
+  Story,
+  Topic,
+  User,
+  Video,
 };
-

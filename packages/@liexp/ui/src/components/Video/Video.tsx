@@ -74,7 +74,7 @@ export const Video: React.FC<VideoProps> = ({
           style={{
             width: "100%",
             height: "auto",
-            ...itemStyle
+            ...itemStyle,
           }}
         >
           <source src={src} type={type} />

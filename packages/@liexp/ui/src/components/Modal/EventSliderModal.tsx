@@ -139,11 +139,13 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
   return (
     <div>
       <Box
-        style={{
-          // position: "fixed",
-          // right: theme.spacing(2),
-          // bottom: theme.spacing(8),
-        }}
+        style={
+          {
+            // position: "fixed",
+            // right: theme.spacing(2),
+            // bottom: theme.spacing(8),
+          }
+        }
       >
         <IconButton
           aria-label="Run slideshow"

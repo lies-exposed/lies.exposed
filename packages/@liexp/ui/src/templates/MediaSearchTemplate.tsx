@@ -25,7 +25,6 @@ const MediaSearchTemplate: React.FC<MediaSearchTemplateProps> = ({
   onMediaClick,
   perPage = 50,
 }) => {
-
   return (
     <SplitPageTemplate
       aside={
@@ -59,7 +58,7 @@ const MediaSearchTemplate: React.FC<MediaSearchTemplateProps> = ({
           label: "Search",
         },
       ]}
-      resource={{ name: "media", item: { id: '' } }}
+      resource={{ name: "media", item: { id: "" } }}
       onTabChange={() => {}}
     >
       <Box
