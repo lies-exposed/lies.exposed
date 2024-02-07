@@ -1,4 +1,4 @@
-import { type Area, type Group } from "@liexp/shared/lib/io/http/index.js";
+import { type Media, type Area } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import MediaSliderBox from "../containers/MediaSliderBox.js";
 import { LazyEditor as Editor } from "./Common/Editor/index.js";
@@ -6,10 +6,13 @@ import { Box, Grid } from "./mui/index.js";
 
 export interface AreaPageContentProps {
   area: Area.Area;
-  onGroupClick: (g: Group.Group) => void;
+  onMediaClick: (m: Media.Media) => void;
 }
 
-export const AreaPageContent: React.FC<AreaPageContentProps> = ({ area }) => {
+export const AreaPageContent: React.FC<AreaPageContentProps> = ({
+  area,
+  onMediaClick,
+}) => {
   return (
     <Grid container direction="column">
       <Grid item md={12}>
@@ -31,7 +34,7 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({ area }) => {
                 order: "DESC",
               },
             }}
-            onClick={() => {}}
+            onClick={onMediaClick}
           />
         </>
 

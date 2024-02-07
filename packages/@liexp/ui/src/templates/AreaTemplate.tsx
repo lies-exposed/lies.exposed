@@ -1,6 +1,6 @@
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
-import { type Area } from "@liexp/shared/lib/io/http/index.js";
+import { type Media, type Area } from "@liexp/shared/lib/io/http/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { subYears } from "date-fns";
 import Feature from "ol/Feature.js";
@@ -18,7 +18,7 @@ export interface AreaTemplateProps {
   tab: number;
   onTabChange: (t: number) => void;
   onEventClick: (e: SearchEvent) => void;
-  onAreaClick: (k: Area.Area) => void;
+  onMediaClick: (m: Media.Media) => void;
 }
 
 export const AreaTemplateUI: React.FC<AreaTemplateProps> = ({
@@ -26,6 +26,7 @@ export const AreaTemplateUI: React.FC<AreaTemplateProps> = ({
   tab,
   onTabChange,
   onEventClick,
+  onMediaClick,
 }) => {
   const { features } = React.useMemo(() => {
     if (area) {
@@ -86,7 +87,7 @@ export const AreaTemplateUI: React.FC<AreaTemplateProps> = ({
         },
       ]}
     >
-      <AreaPageContent area={area} onGroupClick={() => {}} />
+      <AreaPageContent area={area} onMediaClick={onMediaClick} />
       <EventsPanel
         keywords={[]}
         actors={[]}
@@ -110,7 +111,7 @@ export const AreaTemplateUI: React.FC<AreaTemplateProps> = ({
         onQueryChange={(q, tab) => {
           // navigateToResource.area({ id: actor.id }, { tab });
         }}
-        onEventClick={(e) => {}}
+        onEventClick={onEventClick}
       />
     </SplitPageTemplate>
   );
