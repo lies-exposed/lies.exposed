@@ -68,8 +68,8 @@ export type ResourceQueryImpl<Q> =
     : never;
 
 export type QueryProvider<ES> = {
-  [K in keyof EndpointsRESTClient<ES>]: ResourceQueryImpl<
-    EndpointsRESTClient<ES>[K]
+  [K in keyof EndpointsRESTClient<ES>["Endpoints"]]: ResourceQueryImpl<
+    EndpointsRESTClient<ES>["Endpoints"][K]
   >;
 };
 

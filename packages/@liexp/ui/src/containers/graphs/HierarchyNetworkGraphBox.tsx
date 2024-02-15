@@ -24,7 +24,6 @@ import {
   FormControlLabel,
   Typography,
 } from "../../components/mui/index.js";
-import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
 import { type SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery.js";
 import { type UseListQueryFn } from "../../state/queries/type.js";
 
@@ -79,7 +78,6 @@ const HierarchyNetworkGraphBoxWrapper: React.FC<
   showRelations = true,
   ...props
 }) => {
-  const Queries = useEndpointQueries();
   const startDate = parseDate(query.startDate);
   const endDate = parseDate(query.endDate);
 
@@ -93,9 +91,9 @@ const HierarchyNetworkGraphBoxWrapper: React.FC<
   return (
     <Box style={{ height: "100%" }}>
       <QueriesRenderer
-        queries={{
-          stats: Queries.Stats.get.useQuery({ type, id }),
-        }}
+        queries={(Q) => ({
+          stats: Q.Stats.get.useQuery({ type, id }),
+        })}
         render={({ stats }) => {
           // console.log(stats);
 

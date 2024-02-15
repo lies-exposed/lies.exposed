@@ -1,12 +1,13 @@
 import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
+import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { getTextContents } from "@liexp/shared/lib/slate/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { type DataProvider, type RaRecord } from "react-admin";
-import { type RawMedia, uploadFile } from "../../client/admin/MediaAPI.js";
+import { type RaRecord } from "react-admin";
+import { uploadFile, type RawMedia } from "../../client/admin/MediaAPI.js";
 
 export const transformLinks = (links: any[]): any[] => {
   return links.reduce<Array<string | { url: string; publishDate: Date }>>(
@@ -108,7 +109,7 @@ const transformBook = (
 };
 
 export const transformEvent =
-  (dataProvider: DataProvider<any>) =>
+  (dataProvider: APIRESTClient) =>
   async (id: string, data: RaRecord): Promise<RaRecord> => {
     // console.log("transform event", { ...data, id });
     const newLinks = transformLinks(data.newLinks ?? []);

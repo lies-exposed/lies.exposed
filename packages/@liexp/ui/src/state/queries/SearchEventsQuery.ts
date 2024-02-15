@@ -1,5 +1,4 @@
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
-import { type ListEventOutput } from "@liexp/shared/lib/endpoints/events/event.endpoints.js";
 import {
   getNewRelationIds,
   updateCache,
@@ -17,6 +16,7 @@ import {
   type Link,
   type Media,
 } from "@liexp/shared/lib/io/http/index.js";
+import { type API } from "@liexp/shared/lib/providers/api/api.provider";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import {
   useInfiniteQuery,
@@ -27,7 +27,6 @@ import {
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { api } from "../api.js";
 
 const log = GetLogger("search-events-query");
 
@@ -66,77 +65,79 @@ export const clearSearchEventsQueryCache = (): void => {
   searchEventsQueryCache = initialSearchEventsQueryCache;
 };
 
-export const fetchRelations = ({
-  actors,
-  groups,
-  groupsMembers,
-  media,
-  keywords,
-  links,
-}: Events.EventRelationIds): TE.TaskEither<
-  APIError,
-  {
-    actors: { data: Actor.Actor[] };
-    groups: { data: Group.Group[] };
-    groupsMembers: { data: GroupMember.GroupMember[] };
-    keywords: { data: Keyword.Keyword[] };
-    media: { data: Media.Media[] };
-    links: { data: Link.Link[] };
-  }
-> => {
-  return sequenceS(TE.ApplicativePar)({
-    actors:
-      actors.length === 0
-        ? TE.right({ data: [] })
-        : api.Actor.List({
-            Query: {
-              _start: 0,
-              perPage: actors.length,
-              ids: actors,
-            } as any,
-          }),
-    groups:
-      groups.length === 0
-        ? TE.right({ data: [] })
-        : api.Group.List({
-            Query: {
-              ids: groups,
-            } as any,
-          }),
-    groupsMembers:
-      groupsMembers.length === 0
-        ? TE.right({ data: [] })
-        : api.GroupMember.List({
-            Query: {
-              ids: groupsMembers,
-            } as any,
-          }),
-    media:
-      media.length === 0
-        ? TE.right({ data: [] })
-        : api.Media.List({
-            Query: {
-              ids: media,
-            } as any,
-          }),
-    keywords:
-      keywords.length === 0
-        ? TE.right({ data: [] })
-        : api.Keyword.List({
-            Query: {
-              ids: keywords,
-            } as any,
-          }),
-    links:
-      links.length === 0
-        ? TE.right({ data: [] })
-        : api.Link.List({
-            Query: {
-              ids: links,
-            } as any,
-          }),
-  });
-};
+export const fetchRelations =
+  (api: API) =>
+  ({
+    actors,
+    groups,
+    groupsMembers,
+    media,
+    keywords,
+    links,
+  }: Events.EventRelationIds): TE.TaskEither<
+    APIError,
+    {
+      actors: { data: Actor.Actor[] };
+      groups: { data: Group.Group[] };
+      groupsMembers: { data: GroupMember.GroupMember[] };
+      keywords: { data: Keyword.Keyword[] };
+      media: { data: Media.Media[] };
+      links: { data: Link.Link[] };
+    }
+  > => {
+    return sequenceS(TE.ApplicativePar)({
+      actors:
+        actors.length === 0
+          ? TE.right({ data: [] })
+          : api.Actor.List({
+              Query: {
+                _start: 0,
+                perPage: actors.length,
+                ids: actors,
+              } as any,
+            }),
+      groups:
+        groups.length === 0
+          ? TE.right({ data: [] })
+          : api.Group.List({
+              Query: {
+                ids: groups,
+              } as any,
+            }),
+      groupsMembers:
+        groupsMembers.length === 0
+          ? TE.right({ data: [] })
+          : api.GroupMember.List({
+              Query: {
+                ids: groupsMembers,
+              } as any,
+            }),
+      media:
+        media.length === 0
+          ? TE.right({ data: [] })
+          : api.Media.List({
+              Query: {
+                ids: media,
+              } as any,
+            }),
+      keywords:
+        keywords.length === 0
+          ? TE.right({ data: [] })
+          : api.Keyword.List({
+              Query: {
+                ids: keywords,
+              } as any,
+            }),
+      links:
+        links.length === 0
+          ? TE.right({ data: [] })
+          : api.Link.List({
+              Query: {
+                ids: links,
+              } as any,
+            }),
+    });
+  };
 
 export interface SearchEventQueryInput
   extends Omit<Partial<GetSearchEventsQueryInput>, "_start" | "_end"> {
@@ -150,7 +151,7 @@ export interface SearchEventsQueryInputNoPagination
   extends Omit<SearchEventQueryInput, "_start" | "_end"> {}
 
 const searchEventsQ =
-  (getEvents: (input: any) => TE.TaskEither<APIError, ListEventOutput>) =>
+  (api: API) =>
   ({
     _start,
     _end,
@@ -163,7 +164,7 @@ const searchEventsQ =
     // log.debug.log("Search events for %s from %d to %d", _start, _end);
 
     return pipe(
-      getEvents({
+      api.Event.List({
         Query: {
           ...query,
           _start,
@@ -175,12 +176,12 @@ const searchEventsQ =
         return e;
       }),
       TE.chain(({ data, ...response }) => {
-        // log.debug.log("[%s] API response %O", { data, response });
+        log.debug.log("API response %O", { data, response });
 
         return pipe(
           getNewRelationIds(data, searchEventsQueryCache),
           TE.right,
-          TE.chain(fetchRelations),
+          TE.chain(fetchRelations(api)),
           TE.map(
             ({ actors, groups, groupsMembers, media, keywords, links }) => {
               searchEventsQueryCache = updateCache(searchEventsQueryCache, {
@@ -217,21 +218,24 @@ export const getSearchEventsQueryKey = (
   return ["events-search", { _start: 0, _end: 20, ...p }];
 };
 
-export const fetchSearchEvents = async ({
-  queryKey,
-}: any): Promise<SearchEventQueryResult> => {
-  const params = queryKey[1];
-  return await pipe(searchEventsQ(api.Event.List)(params), throwTE);
-};
-export const searchEventsQuery = (
-  input: SearchEventQueryInput,
-): UseQueryResult<SearchEventQueryResult, APIError> => {
-  return useQuery({
-    queryKey: getSearchEventsQueryKey(input),
-    queryFn: fetchSearchEvents,
-    refetchOnWindowFocus: false,
-  });
-};
+export const fetchSearchEvents =
+  (api: API) =>
+  async ({ queryKey }: any): Promise<SearchEventQueryResult> => {
+    const params = queryKey[1];
+    return await pipe(searchEventsQ(api)(params), throwTE);
+  };
+export const searchEventsQuery =
+  (api: API) =>
+  (
+    input: SearchEventQueryInput,
+  ): UseQueryResult<SearchEventQueryResult, APIError> => {
+    return useQuery({
+      // eslint-disable-next-line @tanstack/query/exhaustive-deps
+      queryKey: getSearchEventsQueryKey(input),
+      queryFn: (p) => fetchSearchEvents(api)(p),
+      refetchOnWindowFocus: false,
+    });
+  };
 
 export const getSearchEventsInfiniteQueryKey = (
   input: any,
@@ -239,88 +243,87 @@ export const getSearchEventsInfiniteQueryKey = (
   return ["events-search-infinite", input];
 };
 
-export const fetchSearchEventsInfinite = async ({
-  queryKey,
-  pageParam,
-}: any): Promise<SearchEventQueryResult> => {
-  const params = queryKey[1];
-  return await pipe(
-    searchEventsQ(api.Event.List)({
-      ...params,
-      _start: pageParam?.startIndex ?? 0,
-      _end: pageParam?.stopIndex ?? 20,
-    }),
-    throwTE,
-  );
-};
+export const fetchSearchEventsInfinite =
+  (api: API) =>
+  async ({ queryKey, pageParam }: any): Promise<SearchEventQueryResult> => {
+    const params = queryKey[1];
+    return await pipe(
+      searchEventsQ(api)({
+        ...params,
+        _start: pageParam?.startIndex ?? 0,
+        _end: pageParam?.stopIndex ?? 20,
+      }),
+      throwTE,
+    );
+  };
 
-export const searchEventsInfiniteQuery = (
-  input: Partial<SearchEventQueryInput>,
-): UseInfiniteQueryResult<
-  { pages: SearchEventQueryResult[]; lastPage: SearchEventQueryResult },
-  APIError
-> => {
-  return useInfiniteQuery({
-    initialPageParam: { startIndex: 0, stopIndex: 20 },
-    queryKey: getSearchEventsInfiniteQueryKey(input),
-    queryFn: fetchSearchEventsInfinite,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    getNextPageParam: (lastPage, allPages) => {
-      const loadedEvents = allPages
-        .map((p) => p.events)
-        .reduce((acc, ev) => acc + ev.length, 0);
+export const searchEventsInfiniteQuery =
+  (api: API) =>
+  (
+    input: Partial<SearchEventQueryInput>,
+  ): UseInfiniteQueryResult<
+    { pages: SearchEventQueryResult[]; lastPage: SearchEventQueryResult },
+    APIError
+  > => {
+    return useInfiniteQuery({
+      initialPageParam: { startIndex: 0, stopIndex: 20 },
+      queryKey: getSearchEventsInfiniteQueryKey(input),
+      queryFn: fetchSearchEventsInfinite(api),
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      getNextPageParam: (lastPage, allPages) => {
+        const loadedEvents = allPages
+          .map((p) => p.events)
+          .reduce((acc, ev) => acc + ev.length, 0);
 
-      if (loadedEvents >= lastPage.total) {
-        return undefined;
-      }
+        if (loadedEvents >= lastPage.total) {
+          return undefined;
+        }
 
-      return { startIndex: loadedEvents, stopIndex: loadedEvents + 20 };
-    },
-  });
-};
+        return { startIndex: loadedEvents, stopIndex: loadedEvents + 20 };
+      },
+    });
+  };
 
-export const getEventsFromLinkQuery = ({
-  url,
-}: {
-  url: string;
-}): UseQueryResult<any, APIError> => {
-  return useQuery({
-    queryKey: ["events-from-link", url],
-    queryFn: async () => {
-      return await pipe(
-        api.Event.Custom.GetFromLink({
-          Query: {
-            url,
-            _start: 0,
-            _end: 20,
-          },
-        } as any),
-        TE.chain(({ data, suggestions, total, totals }) => {
-          return pipe(
-            getNewRelationIds(data, searchEventsQueryCache),
-            TE.right,
-            TE.chain(fetchRelations),
-            TE.map(
-              ({ actors, groups, groupsMembers, media, keywords, links }) => {
-                searchEventsQueryCache = updateCache(searchEventsQueryCache, {
-                  events: { data, total, totals },
-                  actors: actors.data,
-                  groups: groups.data,
-                  groupsMembers: groupsMembers.data,
-                  media: media.data,
-                  keywords: keywords.data,
-                  links: links.data,
-                  areas: [],
-                });
+export const getEventsFromLinkQuery =
+  (api: API) =>
+  ({ url }: { url: string }): UseQueryResult<any, APIError> => {
+    return useQuery({
+      queryKey: ["events-from-link", url],
+      queryFn: async () => {
+        return await pipe(
+          api.Event.Custom.GetFromLink({
+            Query: {
+              url,
+              _start: 0,
+              _end: 20,
+            },
+          } as any),
+          TE.chain(({ data, suggestions, total, totals }) => {
+            return pipe(
+              getNewRelationIds(data, searchEventsQueryCache),
+              TE.right,
+              TE.chain(fetchRelations(api)),
+              TE.map(
+                ({ actors, groups, groupsMembers, media, keywords, links }) => {
+                  searchEventsQueryCache = updateCache(searchEventsQueryCache, {
+                    events: { data, total, totals },
+                    actors: actors.data,
+                    groups: groups.data,
+                    groupsMembers: groupsMembers.data,
+                    media: media.data,
+                    keywords: keywords.data,
+                    links: links.data,
+                    areas: [],
+                  });
 
-                return searchEventsQueryCache.events;
-              },
-            ),
-          );
-        }),
-        throwTE,
-      );
-    },
-  });
-};
+                  return searchEventsQueryCache.events;
+                },
+              ),
+            );
+          }),
+          throwTE,
+        );
+      },
+    });
+  };

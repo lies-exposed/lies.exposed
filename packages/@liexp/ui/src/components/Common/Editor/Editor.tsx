@@ -1,6 +1,7 @@
+import { importDefault } from "@liexp/core/lib/esm/import-default.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { getTextContents } from "@liexp/shared/lib/slate/index.js";
-import RPEditor, {
+import _RPEditor, {
   type Cell,
   type EditorProps,
   type I18nField,
@@ -14,7 +15,7 @@ import { ErrorBox } from "../ErrorBox.js";
 import { cellPlugins } from "./cellPlugins.js";
 
 type I18nEnField = I18nField<Record<string, any>>;
-
+const RPEditor = importDefault(_RPEditor).default;
 const Editor: React.FC<Omit<EditorProps, "cellPlugins">> = ({
   value,
   onChange,

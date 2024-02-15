@@ -11,7 +11,6 @@ import {
   SaveButton,
   TabbedForm,
   TextInput,
-  useDataProvider,
   useEditController,
   usePermissions,
   useRecordContext,
@@ -20,6 +19,7 @@ import {
   type FieldProps,
 } from "react-admin";
 import { transformMedia } from "../../../client/admin/MediaAPI.js";
+import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { Box, Button, Grid, Stack, alpha } from "../../mui/index.js";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
 import ReferenceAreaTab from "../areas/ReferenceAreaTab.js";

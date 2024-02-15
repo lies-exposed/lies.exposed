@@ -1,5 +1,5 @@
-import { useDataProvider } from "ra-core";
 import * as React from "react";
+import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import ReactPageInput from "../ReactPageInput.js";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
 import { EditForm } from "../common/EditForm.js";

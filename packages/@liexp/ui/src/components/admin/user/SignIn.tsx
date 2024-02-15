@@ -1,10 +1,8 @@
 import { type SignUpUserBody } from "@liexp/shared/lib/io/http/User.js";
 import * as React from "react";
 import { useRedirect } from "react-admin";
-import {
-  authProvider,
-  apiProvider as dataProvider,
-} from "../../../client/api.js";
+import { authProvider } from "../../../client/api.js";
+import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { Box, Button, Link, TextField, Typography } from "../../mui/index.js";
 
 interface SignInProps {
@@ -13,6 +11,8 @@ interface SignInProps {
 
 export const SignIn: React.FC<SignInProps> = ({ redirectTo = "" }) => {
   const redirect = useRedirect();
+  const apiProvider = useDataProvider();
+
   const [{ username, email, password, type, firstName, lastName }, setData] =
     React.useState({
       email: "",
@@ -30,7 +30,7 @@ export const SignIn: React.FC<SignInProps> = ({ redirectTo = "" }) => {
   };
 
   const doSignUp = (u: SignUpUserBody): void => {
-    void dataProvider
+    void apiProvider
       .create("users/signup", {
         data: u,
       })

@@ -1,5 +1,5 @@
 import type * as io from "@liexp/shared/lib/io/http/index.js";
-import Masonry from "@mui/lab/Masonry/index.js";
+import { Masonry } from "@mui/lab";
 import { ParentSize } from "@visx/responsive";
 import { clsx } from "clsx";
 import * as React from "react";

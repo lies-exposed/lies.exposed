@@ -120,7 +120,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
           const seoImage =
             media[0]?.thumbnail ??
             media[0]?.location ??
-            `${process.env.PUBLIC_URL}/liexp-logo.png`;
+            `${process.env.API_PUBLIC_URL}/liexp-logo.png`;
 
           return (
             <Box style={{ height: "100%" }}>

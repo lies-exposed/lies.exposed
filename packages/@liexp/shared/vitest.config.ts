@@ -1,9 +1,10 @@
+import path from "path";
 import viteTsconfigPaths from "vite-tsconfig-paths";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
-    name: 'shared',
+    name: "shared",
     root: __dirname,
     globals: true,
     include: [__dirname + "/src/**/*.spec.ts"],
@@ -12,8 +13,8 @@ export default defineConfig({
       exclude: [`**/lib`],
       thresholds: {
         statements: 80,
-        functions: 80
-      }
+        functions: 80,
+      },
     },
   },
   plugins: [viteTsconfigPaths()],

@@ -30,7 +30,7 @@ const InfiniteMediaListBoxExample = Template.bind({});
 
 const args: InfiniteListBoxProps<"masonry", typeof Endpoints.Media.List> = {
   filter: { filter: {} },
-  useListQuery: (Q) => Q.Media.list,
+  useListQuery: (Q) => Q.Queries.Media.list,
   listProps: {
     type: "masonry",
     getItem: (data: any[], index: number) => {
@@ -67,7 +67,7 @@ const infiniteAreaListBoxExampleArgs: InfiniteListBoxProps<
   filter: {
     filter: {},
   },
-  useListQuery: (Q) => Q.Area.list,
+  useListQuery: (Q) => Q.Queries.Area.list,
   listProps: {
     type: "masonry",
     getItem: (data: any[], index: number) => {
@@ -98,7 +98,7 @@ const infiniteActorListBoxArgs: InfiniteListBoxProps<
   typeof Endpoints.Actor.List
 > = {
   filter: { filter: {} },
-  useListQuery: (Q) => Q.Actor.list,
+  useListQuery: (Q) => Q.Queries.Actor.list,
   listProps: {
     type: "masonry",
     getItem: (data: any, index: any) => {

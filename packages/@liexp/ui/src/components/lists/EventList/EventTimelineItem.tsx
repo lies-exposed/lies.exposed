@@ -129,7 +129,12 @@ const EventTimelineItem = React.forwardRef<any, EventTimelineItemProps>(
             <Typography variant="subtitle1" color="primary">
               {formatDate(e.date)}
             </Typography>
-            <TimelineEventSubjects event={e} {...props} />
+            <TimelineEventSubjects
+              event={e}
+              onActorClick={props.onActorClick}
+              onGroupClick={props.onGroupClick}
+              onGroupMemberClick={props.onGroupMemberClick}
+            />
 
             <Box className={classes.editButtonBox}>
               <EditEventButton id={e.id} />

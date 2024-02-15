@@ -1,8 +1,9 @@
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { StatsType } from "@liexp/shared/lib/io/http/Stats.js";
+import { type EndpointsQueryProvider } from "@liexp/shared/lib/providers/EndpointQueriesProvider/index.js";
 import { defaultUseQueryListParams } from "@liexp/shared/lib/providers/EndpointQueriesProvider/params.js";
-import { type ServerRoute } from "@liexp/ui/lib/react/ssr.js";
+import { type ServerRoute } from "@liexp/ui/lib/react/types.js";
 import {
   fetchSearchEvents,
   fetchSearchEventsInfinite,
@@ -55,10 +56,10 @@ const RedirectToEventsRoute: React.FC = () => {
   return null;
 };
 
-const githubQuery = {
+const githubQuery = (Q: EndpointsQueryProvider): any => ({
   queryKey: ["github", { user: "lies-exposed", repo: "lies.exposed" }],
-  queryFn: fetchGithubRepo,
-} as any;
+  queryFn: fetchGithubRepo(Q.REST.client),
+});
 
 const commonQueries = [githubQuery];
 
@@ -74,10 +75,10 @@ const linkRoute: ServerRoute = {
   queries:
     (Q) =>
     async ({ linkId }: any) => [
-      ...commonQueries,
+      ...commonQueries.flatMap((c) => c(Q)),
       {
-        queryKey: Q.Link.get.getKey({ id: linkId }),
-        queryFn: Q.Link.get.fetch,
+        queryKey: Q.Queries.Link.get.getKey({ id: linkId }),
+        queryFn: Q.Queries.Link.get.fetch,
       },
     ],
 };
@@ -86,10 +87,10 @@ const linksRoute: ServerRoute = {
   path: "/links",
   route: () => <LinksPage />,
   queries: (Q) => async () => [
-    ...commonQueries,
+    ...commonQueries.flatMap((c) => c(Q)),
     {
-      queryKey: Q.Link.list.getKey(defaultUseQueryListParams),
-      queryFn: Q.Link.list.fetch,
+      queryKey: Q.Queries.Link.list.getKey(defaultUseQueryListParams),
+      queryFn: Q.Queries.Link.list.fetch,
     },
   ],
 };
@@ -108,13 +109,13 @@ export const routes: ServerRoute[] = [
     queries:
       (Q) =>
       async ({ groupId }: any) => [
-        ...commonQueries,
+        ...commonQueries.flatMap((c) => c(Q)),
         {
-          queryKey: Q.Group.get.getKey({ id: groupId }),
-          queryFn: Q.Group.get.fetch,
+          queryKey: Q.Queries.Group.get.getKey({ id: groupId }),
+          queryFn: Q.Queries.Group.get.fetch,
         },
         {
-          queryKey: Q.GroupMember.list.getKey(
+          queryKey: Q.Queries.GroupMember.list.getKey(
             {
               filter: {
                 group: groupId,
@@ -122,14 +123,14 @@ export const routes: ServerRoute[] = [
             },
             // false,
           ),
-          queryFn: Q.GroupMember.list.fetch,
+          queryFn: Q.Queries.GroupMember.list.fetch,
         },
         {
-          queryKey: Q.Stats.get.getKey({
+          queryKey: Q.Queries.Stats.get.getKey({
             id: groupId,
             type: StatsType.types[2].value,
           }),
-          queryFn: Q.Stats.get.fetch,
+          queryFn: Q.Queries.Stats.get.fetch,
         },
       ],
   },
@@ -138,13 +139,13 @@ export const routes: ServerRoute[] = [
     path: "/groups",
     route: (props: any) => <GroupsPage />,
     queries: (Q) => async () => [
-      ...commonQueries,
+      ...commonQueries.flatMap((c) => c(Q)),
       {
-        queryKey: Q.Page.Custom.GetPageContentByPath.getKey("groups"),
-        queryFn: Q.Page.Custom.GetPageContentByPath.fetch,
+        queryKey: Q.Queries.Page.Custom.GetPageContentByPath.getKey("groups"),
+        queryFn: Q.Queries.Page.Custom.GetPageContentByPath.fetch,
       },
       {
-        queryKey: Q.Group.list.getKey(
+        queryKey: Q.Queries.Group.list.getKey(
           {
             pagination: { page: 1, perPage: 20 },
             sort: { field: "id", order: "ASC" },
@@ -152,7 +153,7 @@ export const routes: ServerRoute[] = [
           },
           // false,
         ),
-        queryFn: Q.Group.list.fetch,
+        queryFn: Q.Queries.Group.list.fetch,
       },
     ],
   },
@@ -169,13 +170,13 @@ export const routes: ServerRoute[] = [
     queries:
       (Q) =>
       async ({ actorId }: { actorId: string }) => [
-        ...commonQueries,
+        ...commonQueries.flatMap((c) => c(Q)),
         {
-          queryKey: Q.Actor.get.getKey({ id: actorId }),
-          queryFn: Q.Actor.get.fetch,
+          queryKey: Q.Queries.Actor.get.getKey({ id: actorId }),
+          queryFn: Q.Queries.Actor.get.fetch,
         },
         {
-          queryKey: Q.Group.list.getKey(
+          queryKey: Q.Queries.Group.list.getKey(
             {
               pagination: { perPage: 20, page: 1 },
               sort: { field: "createdAt", order: "DESC" },
@@ -183,14 +184,14 @@ export const routes: ServerRoute[] = [
             },
             // false,
           ),
-          queryFn: Q.Group.list.fetch,
+          queryFn: Q.Queries.Group.list.fetch,
         },
         {
-          queryKey: Q.Stats.get.getKey({
+          queryKey: Q.Queries.Stats.get.getKey({
             id: actorId,
             type: StatsType.types[1].value,
           }),
-          queryFn: Q.Stats.get.fetch,
+          queryFn: Q.Queries.Stats.get.fetch,
         },
       ],
   },
@@ -199,17 +200,17 @@ export const routes: ServerRoute[] = [
     path: "/actors",
     route: (props: any) => <ActorsPage />,
     queries: (Q) => async () => [
-      ...commonQueries,
+      ...commonQueries.flatMap((c) => c(Q)),
       {
-        queryKey: Q.Page.Custom.GetPageContentByPath.getKey("actors"),
-        queryFn: Q.Page.Custom.GetPageContentByPath.fetch,
+        queryKey: Q.Queries.Page.Custom.GetPageContentByPath.getKey("actors"),
+        queryFn: Q.Queries.Page.Custom.GetPageContentByPath.fetch,
       },
       {
-        queryKey: Q.Actor.list.getKey(
+        queryKey: Q.Queries.Actor.list.getKey(
           defaultUseQueryListParams,
           // false,
         ),
-        queryFn: Q.Actor.list.fetch,
+        queryFn: Q.Queries.Actor.list.fetch,
       },
     ],
   },
@@ -227,19 +228,19 @@ export const routes: ServerRoute[] = [
     queries:
       (Q) =>
       async ({ eventId }: any) => {
-        const event = await Q.Event.get.fetch({ id: eventId });
+        const event = await Q.Queries.Event.get.fetch({ id: eventId });
 
         const { actors, groups, keywords, media } = getRelationIds(event);
 
         return [
-          ...commonQueries,
+          ...commonQueries.flatMap((c) => c(Q)),
           {
             // eslint-disable-next-line @tanstack/query/exhaustive-deps
             queryKey: ["event", { id: eventId }],
             queryFn: () => Promise.resolve(event),
           },
           {
-            queryKey: Q.Actor.list.getKey(
+            queryKey: Q.Queries.Actor.list.getKey(
               {
                 filter: {
                   ids: actors,
@@ -251,10 +252,10 @@ export const routes: ServerRoute[] = [
               },
               // true,
             ),
-            queryFn: Q.Actor.list.fetch,
+            queryFn: Q.Queries.Actor.list.fetch,
           },
           {
-            queryKey: Q.Media.list.getKey(
+            queryKey: Q.Queries.Media.list.getKey(
               {
                 pagination: {
                   perPage: media.length,
@@ -264,10 +265,10 @@ export const routes: ServerRoute[] = [
               },
               // true,
             ),
-            queryFn: Q.Media.list.fetch,
+            queryFn: Q.Queries.Media.list.fetch,
           },
           {
-            queryKey: Q.Link.list.getKey(
+            queryKey: Q.Queries.Link.list.getKey(
               {
                 pagination: {
                   perPage: event.links.length,
@@ -277,10 +278,10 @@ export const routes: ServerRoute[] = [
               },
               // true,
             ),
-            queryFn: Q.Link.list.fetch,
+            queryFn: Q.Queries.Link.list.fetch,
           },
           {
-            queryKey: Q.Area.list.getKey(
+            queryKey: Q.Queries.Area.list.getKey(
               {
                 filter: UUID.is((event.payload as any).location)
                   ? { ids: [(event.payload as any).location] }
@@ -292,10 +293,10 @@ export const routes: ServerRoute[] = [
               },
               // true,
             ),
-            queryFn: Q.Area.list.fetch,
+            queryFn: Q.Queries.Area.list.fetch,
           },
           {
-            queryKey: Q.Keyword.list.getKey(
+            queryKey: Q.Queries.Keyword.list.getKey(
               // `event-keywords`,
               {
                 pagination: { page: 1, perPage: keywords.length },
@@ -305,7 +306,7 @@ export const routes: ServerRoute[] = [
               },
               // true,
             ),
-            queryFn: Q.Keyword.list.fetch,
+            queryFn: Q.Queries.Keyword.list.fetch,
           },
           {
             queryKey: getSearchEventsQueryKey({
@@ -357,7 +358,7 @@ export const routes: ServerRoute[] = [
       q.groupsMembers = q.groupsMembers ?? [];
 
       return [
-        ...commonQueries,
+        ...commonQueries.flatMap((c) => c(Q)),
         {
           queryKey: getSearchEventsQueryKey({
             ...q,
@@ -368,37 +369,37 @@ export const routes: ServerRoute[] = [
           queryFn: fetchSearchEvents,
         },
         {
-          queryKey: Q.Actor.list.getKey(
+          queryKey: Q.Queries.Actor.list.getKey(
             {
               pagination: { page: 1, perPage: q.actors.length },
               filter: { ids: q.actors },
             },
             // true,
           ),
-          queryFn: Q.Actor.list.fetch,
+          queryFn: Q.Queries.Actor.list.fetch,
         },
         {
-          queryKey: Q.Group.list.getKey(
+          queryKey: Q.Queries.Group.list.getKey(
             {
               pagination: { page: 1, perPage: q.groups.length },
               filter: { ids: q.groups },
             },
             // true,
           ),
-          queryFn: Q.Group.list.fetch,
+          queryFn: Q.Queries.Group.list.fetch,
         },
         {
-          queryKey: Q.GroupMember.list.getKey(
+          queryKey: Q.Queries.GroupMember.list.getKey(
             {
               pagination: { page: 1, perPage: q.groupsMembers.length },
               filter: { ids: q.groupsMembers },
             },
             // true,
           ),
-          queryFn: Q.GroupMember.list.fetch,
+          queryFn: Q.Queries.GroupMember.list.fetch,
         },
         {
-          queryKey: Q.Keyword.list.getKey(
+          queryKey: Q.Queries.Keyword.list.getKey(
             {
               pagination: { page: 1, perPage: q.keywords.length },
               sort: { field: "updatedAt", order: "DESC" },
@@ -406,7 +407,7 @@ export const routes: ServerRoute[] = [
             },
             // true,
           ),
-          queryFn: Q.Keyword.list.fetch,
+          queryFn: Q.Queries.Keyword.list.fetch,
         },
         {
           queryKey: getSearchEventsInfiniteQueryKey(q),
@@ -459,13 +460,13 @@ export const routes: ServerRoute[] = [
       return [
         ...commonQueries,
         {
-          queryKey: Q.Stats.list.getKey(
+          queryKey: Q.Queries.Stats.list.getKey(
             {
               filter: { id: params.keywordId, type: StatsType.types[0].value },
             },
             // true,
           ),
-          queryFn: Q.Stats.get.fetch,
+          queryFn: Q.Queries.Stats.get.fetch,
         },
       ];
     },
@@ -490,8 +491,8 @@ export const routes: ServerRoute[] = [
       async ({ areaId }: any) => [
         ...commonQueries,
         {
-          queryKey: Q.Area.get.getKey({ id: areaId }),
-          queryFn: Q.Area.get.fetch,
+          queryKey: Q.Queries.Area.get.getKey({ id: areaId }),
+          queryFn: Q.Queries.Area.get.fetch,
         },
       ],
   },
@@ -501,17 +502,17 @@ export const routes: ServerRoute[] = [
     queries: (Q) => async () => [
       ...commonQueries,
       {
-        queryKey: Q.Page.Custom.GetPageContentByPath.getKey("areas"),
-        queryFn: Q.Page.Custom.GetPageContentByPath.fetch,
+        queryKey: Q.Queries.Page.Custom.GetPageContentByPath.getKey("areas"),
+        queryFn: Q.Queries.Page.Custom.GetPageContentByPath.fetch,
       },
       {
-        queryKey: Q.Area.list.getKey(
+        queryKey: Q.Queries.Area.list.getKey(
           {
             filter: null,
           },
           // true,
         ),
-        queryFn: Q.Area.list.fetch,
+        queryFn: Q.Queries.Area.list.fetch,
       },
     ],
   },
@@ -530,8 +531,8 @@ export const routes: ServerRoute[] = [
       async ({ mediaId }: any) => [
         ...commonQueries,
         {
-          queryKey: Q.Media.get.getKey({ id: mediaId }),
-          queryFn: Q.Media.get.fetch,
+          queryKey: Q.Queries.Media.get.getKey({ id: mediaId }),
+          queryFn: Q.Queries.Media.get.fetch,
         },
       ],
   },
@@ -541,17 +542,17 @@ export const routes: ServerRoute[] = [
     queries: (Q) => async () => [
       ...commonQueries,
       {
-        queryKey: Q.Page.Custom.GetPageContentByPath.getKey("media"),
-        queryFn: Q.Page.Custom.GetPageContentByPath.fetch,
+        queryKey: Q.Queries.Page.Custom.GetPageContentByPath.getKey("media"),
+        queryFn: Q.Queries.Page.Custom.GetPageContentByPath.fetch,
       },
       {
-        queryKey: Q.Media.list.getKey(
+        queryKey: Q.Queries.Media.list.getKey(
           {
             filter: null,
           },
           // false,
         ),
-        queryFn: Q.Media.list.fetch,
+        queryFn: Q.Queries.Media.list.fetch,
       },
     ],
   },
@@ -598,8 +599,8 @@ export const routes: ServerRoute[] = [
       (Q) =>
       async ({ storyPath }: any) => {
         const storyParams = { filter: { path: storyPath } };
-        const storyKey = Q.Story.list.getKey(storyParams);
-        const story = await Q.Story.list
+        const storyKey = Q.Queries.Story.list.getKey(storyParams);
+        const story = await Q.Queries.Story.list
           .fetch(storyParams)
           .then((r) => r.data[0]);
 
@@ -613,7 +614,7 @@ export const routes: ServerRoute[] = [
           },
           sort: { field: "updatedAt", order: "DESC" as const },
         };
-        const mostRecentStoriesKey = Q.Story.list.getKey(
+        const mostRecentStoriesKey = Q.Queries.Story.list.getKey(
           mostRecentStoriesParams,
         );
 
@@ -627,7 +628,7 @@ export const routes: ServerRoute[] = [
           },
           sort: { field: "updatedAt", order: "DESC" as const },
         };
-        const storyRelatedKeywordsKey = Q.Keyword.list.getKey(
+        const storyRelatedKeywordsKey = Q.Queries.Keyword.list.getKey(
           storyRelatedKeywordsParams,
         );
 
@@ -640,11 +641,11 @@ export const routes: ServerRoute[] = [
           },
           {
             queryKey: mostRecentStoriesKey,
-            queryFn: Q.Story.list.fetch,
+            queryFn: Q.Queries.Story.list.fetch,
           },
           {
             queryKey: storyRelatedKeywordsKey,
-            queryFn: Q.Keyword.list.fetch,
+            queryFn: Q.Queries.Keyword.list.fetch,
           },
         ];
       },
@@ -656,11 +657,12 @@ export const routes: ServerRoute[] = [
       return [
         ...commonQueries,
         {
-          queryKey: Q.Page.Custom.GetPageContentByPath.getKey("stories"),
-          queryFn: Q.Page.Custom.GetPageContentByPath.fetch,
+          queryKey:
+            Q.Queries.Page.Custom.GetPageContentByPath.getKey("stories"),
+          queryFn: Q.Queries.Page.Custom.GetPageContentByPath.fetch,
         },
         {
-          queryKey: Q.Story.list.getKey(
+          queryKey: Q.Queries.Story.list.getKey(
             {
               pagination: { page: 1, perPage: 20 },
               sort: { field: "id", order: "DESC" as const },
@@ -668,14 +670,14 @@ export const routes: ServerRoute[] = [
             },
             // false,
           ),
-          queryFn: Q.Story.list.fetch,
+          queryFn: Q.Queries.Story.list.fetch,
         },
       ];
     },
   },
   // profile
   {
-    path: "/profile*",
+    path: "/profile/(.*)",
     route: () => <ProfilePage />,
     queries: (Q) => async () => [],
   },
@@ -703,15 +705,15 @@ export const routes: ServerRoute[] = [
     queries: (Q) => async () => [
       ...commonQueries,
       {
-        queryKey: Q.Page.Custom.GetPageContentByPath.getKey("index"),
-        queryFn: Q.Page.Custom.GetPageContentByPath.fetch,
+        queryKey: Q.Queries.Page.Custom.GetPageContentByPath.getKey("index"),
+        queryFn: Q.Queries.Page.Custom.GetPageContentByPath.fetch,
       },
       {
-        queryKey: Q.Keyword.Custom.Distribution.getKey(undefined, {
+        queryKey: Q.Queries.Keyword.Custom.Distribution.getKey(undefined, {
           _start: "1",
           _end: "50",
         }),
-        queryFn: Q.Keyword.Custom.Distribution.fetch,
+        queryFn: Q.Queries.Keyword.Custom.Distribution.fetch,
       },
       {
         queryKey: getSearchEventsQueryKey({
@@ -724,7 +726,7 @@ export const routes: ServerRoute[] = [
         queryFn: fetchSearchEvents,
       },
       {
-        queryKey: Q.Media.list.getKey(
+        queryKey: Q.Queries.Media.list.getKey(
           {
             pagination: {
               perPage: 20,
@@ -738,7 +740,7 @@ export const routes: ServerRoute[] = [
           },
           // false,
         ),
-        queryFn: Q.Media.list.fetch,
+        queryFn: Q.Queries.Media.list.fetch,
       },
     ],
   },

@@ -19,7 +19,7 @@ vi.mock("../../client/api", () => ({ apiProvider: apiProviderMock }));
 
 describe("EndpointQueriesProvider", () => {
   const queries = fromEndpoints(apiProviderMock)(TestEndpoints);
-  const Q = CreateQueryProvider(queries, overrides);
+  const { Queries: Q } = CreateQueryProvider(queries, overrides);
 
   afterEach(() => {
     apiProviderMock.get.mockReset();

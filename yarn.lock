@@ -3793,7 +3793,7 @@ __metadata:
     "@react-page/react-admin": ^5.4.4
     "@tanstack/eslint-plugin-query": ^5.17.7
     "@tanstack/react-query": ^5.17.14
-    "@types/chroma-js": ^2.4.3
+    "@types/chroma-js": ^2.4.4
     "@types/d3": ^7.4.3
     "@types/d3-sankey": ^0.12.4
     "@types/eslint": ^8.56.2
@@ -7726,10 +7726,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/chroma-js@npm:^2.4.3":
-  version: 2.4.3
-  resolution: "@types/chroma-js@npm:2.4.3"
-  checksum: 70728e18db96abf109f7af2354cbc268d8a7f23af61cac2e2ba160ee44911d8ff2642342f8d7703dbccdb06c84845f92a74e8d1a90919e3c358d085d994f0edf
+"@types/chroma-js@npm:^2.4.4":
+  version: 2.4.4
+  resolution: "@types/chroma-js@npm:2.4.4"
+  checksum: 32d69cb4c071b3d18650b803a7858d5d14e6b59fc55deb540ea29d6172f3334cddf1823ab1221cb123077171db0510b48562bac2a5853dc71f60318c5ae250bb
   languageName: node
   linkType: hard
 

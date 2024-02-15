@@ -10,6 +10,7 @@ import {
 } from "@liexp/ui/lib/components/Modal/EditEventModal.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import { Button, Box } from "@liexp/ui/lib/components/mui/index.js";
+import { useAPI } from "@liexp/ui/lib/hooks/useAPI";
 import { searchEventsQuery } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
@@ -23,6 +24,7 @@ const meta: Meta<EditEventModalProps> = {
 export default meta;
 
 const Template: StoryFn<EditEventModalProps> = ({ ...props }) => {
+  const api = useAPI();
   const [{ start, end }, setStartEnd] = React.useState({
     start: 0,
     end: 1,
@@ -49,7 +51,7 @@ const Template: StoryFn<EditEventModalProps> = ({ ...props }) => {
   return (
     <QueriesRenderer
       queries={{
-        events: searchEventsQuery({
+        events: searchEventsQuery(api)({
           hash: `edit-event-modal-story-${start}-${end}`,
           _start: start,
           _end: end,

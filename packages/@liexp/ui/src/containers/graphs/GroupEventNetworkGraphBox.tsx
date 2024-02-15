@@ -16,7 +16,7 @@ export interface GroupEventNetworkGraphBoxProps
 export const GroupEventNetworkGraphBox: React.FC<
   GroupEventNetworkGraphBoxProps
 > = ({ query, ...props }) => {
-  const Queries = useEndpointQueries();
+  const { Queries } = useEndpointQueries();
   return (
     <EventsNetworkGraphBoxWithQuery
       {...props}

@@ -5,7 +5,7 @@ import { getEventCommonProps } from "@liexp/shared/lib/helpers/event/index.js";
 import { Events } from "@liexp/shared/lib/io/http/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { get } from "lodash";
+import get from "lodash/get";
 import * as React from "react";
 import {
   Button,
@@ -14,6 +14,7 @@ import {
   useRedirect,
   type FieldProps,
 } from "react-admin";
+import { useAPI } from "../../../../hooks/useAPI.js";
 import { fetchRelations } from "../../../../state/queries/SearchEventsQuery.js";
 import {
   Box,
@@ -26,6 +27,8 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
   const record = useRecordContext();
   const redirect = useRedirect();
   const apiProvider = useDataProvider();
+  const api = useAPI();
+
   const value = get(record, source ?? "type");
   const [type, setType] = React.useState(
     value ?? Events.EventTypes.UNCATEGORIZED.value,
@@ -40,7 +43,7 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
     });
 
     const plainEvent = await pipe(
-      fetchRelations(getRelationIds(event)),
+      fetchRelations(api)(getRelationIds(event)),
       fp.TE.map((relations) => ({
         actors: relations.actors.data,
         media: relations.media.data,

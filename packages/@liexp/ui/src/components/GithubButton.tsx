@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEndpointsRESTClient } from "../hooks/useEndpointRestClient.js";
 import { githubRepo } from "../state/queries/github.js";
 import { GithubIcon } from "./Common/Icons/index.js";
 import QueriesRenderer from "./QueriesRenderer.js";
@@ -14,11 +15,12 @@ const GithubButton: React.FC<GithubButtonProps> = ({
   repo,
   className,
 }) => {
+  const api = useEndpointsRESTClient();
   return (
     <Box display="inline">
       <QueriesRenderer
         queries={(_) => ({
-          github: githubRepo({ user, repo }),
+          github: githubRepo(api.client)({ user, repo }),
         })}
         render={({ github }) => {
           return (

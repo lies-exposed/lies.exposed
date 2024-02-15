@@ -3,7 +3,7 @@ import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
 import * as d3 from "d3";
-import { debounce } from "lodash";
+import debounce from "lodash/debounce.js";
 import * as React from "react";
 import { EventTypeColor, EventTypeIconClass } from "../Icons/index.js";
 

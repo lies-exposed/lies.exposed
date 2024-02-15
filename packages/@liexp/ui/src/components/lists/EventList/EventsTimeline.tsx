@@ -7,6 +7,7 @@ import {
   type Index,
   type IndexRange,
 } from "react-virtualized";
+import { useAPI } from "../../../hooks/useAPI.js";
 import {
   searchEventsInfiniteQuery,
   type SearchEventQueryInput,
@@ -25,7 +26,7 @@ export interface EventsTimelineProps
 
 const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   const { hash, queryParams, ...listProps } = props;
-
+  const api = useAPI();
   // const isDownSM = useMediaQuery(theme.breakpoints.down("sm"));
 
   const {
@@ -36,7 +37,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
     fetchNextPage,
     isRefetching,
     refetch,
-  } = searchEventsInfiniteQuery(queryParams);
+  } = searchEventsInfiniteQuery(api)(queryParams);
 
   const searchEvents =
     data?.pages !== undefined

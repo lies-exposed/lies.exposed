@@ -3,6 +3,7 @@ import QueriesRenderer from "../components/QueriesRenderer.js";
 import EventsAppBar, {
   type EventsAppBarProps,
 } from "../components/events/filters/EventsAppBar.js";
+import { useAPI } from "../hooks/useAPI.js";
 import { searchEventsQuery } from "../state/queries/SearchEventsQuery.js";
 
 interface EventsAppBarBoxProps
@@ -16,11 +17,12 @@ const EventsAppBarBox: React.FC<EventsAppBarBoxProps> = ({
   ...props
 }) => {
   const hash = `${_hash}-totals`;
+  const api = useAPI();
 
   return (
     <QueriesRenderer
       queries={{
-        searchEvents: searchEventsQuery({
+        searchEvents: searchEventsQuery(api)({
           ...query,
           hash,
           _start: 0,

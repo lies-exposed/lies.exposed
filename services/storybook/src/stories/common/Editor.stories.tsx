@@ -1,4 +1,3 @@
-import "@liexp/ui/assets/react-page.css";
 import Editor from "@liexp/ui/lib/components/Common/Editor/Editor.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";

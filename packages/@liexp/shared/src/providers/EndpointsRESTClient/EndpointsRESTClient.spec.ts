@@ -9,8 +9,8 @@ describe("EndpointsRESTClient", () => {
   const apiClient = fromEndpoints(apiRESTClient)(TestEndpoints);
   it("should be defined", () => {
     expect(apiClient).toBeDefined();
-    expect(apiClient.Actor.get).toBeDefined();
-    expect(apiClient.Actor.getList).toBeDefined();
-    expect(apiClient.Actor.Custom.GetSiblings).toBeDefined();
+    expect(apiClient.Endpoints.Actor.get).toBeDefined();
+    expect(apiClient.Endpoints.Actor.getList).toBeDefined();
+    expect(apiClient.Endpoints.Actor.Custom.GetSiblings).toBeDefined();
   });
 });
