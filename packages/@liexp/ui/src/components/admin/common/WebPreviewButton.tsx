@@ -24,7 +24,7 @@ export const WebPreviewButton: React.FC<WebPreviewButtonProps> = (props) => {
       style={{ marginRight: 10 }}
       onClick={() => {
         window.open(
-          `${process.env.WEB_URL}/${resource}${id ? `/${id}` : ""}`,
+          `${process.env.VITE_WEB_URL}/${resource}${id ? `/${id}` : ""}`,
           "_blank",
         );
       }}

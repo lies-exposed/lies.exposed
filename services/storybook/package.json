@@ -6,9 +6,10 @@
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "license": "MIT",
   "private": true,
+  "type": "module",
   "scripts": {
     "start": "storybook dev --quiet -p 6006",
-    "build": "tsc -b",
+    "build": "tsc -b tsconfig.build.json",
     "build-sb": "storybook build -o build",
     "clean": "rm -rf build",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
@@ -41,7 +42,9 @@
     "@storybook/addon-interactions": "^7.6.16",
     "@storybook/addon-links": "^7.6.16",
     "@storybook/addon-viewport": "^7.6.16",
+    "@storybook/builder-vite": "^7.6.16",
     "@storybook/react": "^7.6.16",
+    "@storybook/react-vite": "^7.6.16",
     "@storybook/react-webpack5": "^7.6.16",
     "@storybook/theming": "^7.6.16",
     "@types/babel__preset-env": "^7.9.6",
@@ -49,6 +52,6 @@
     "eslint": "^8.56.0",
     "prettier": "^3.2.5",
     "typescript": "^5.3.3",
-    "webpack": "^5.90.2"
+    "vite": "^5.1.1"
   }
 }

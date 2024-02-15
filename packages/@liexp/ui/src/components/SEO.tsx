@@ -1,7 +1,7 @@
 import React from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-export const defaultImage = `${process.env.PUBLIC_URL}/liexp-logo-1200x630.png`;
+export const defaultImage = `${process.env.VITE_PUBLIC_URL}/liexp-logo-1200x630.png`;
 
 interface SEOProps {
   description?: string;
@@ -61,7 +61,7 @@ const SEO: React.FC<SEOProps> = ({
         },
         {
           property: "og:url",
-          content: `${process.env.PUBLIC_URL}${urlPath}`,
+          content: `${process.env.VITE_PUBLIC_URL}${urlPath}`,
         },
         {
           property: `og:title`,

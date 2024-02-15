@@ -7,10 +7,10 @@ import {
 
 const AppEnv = defineEnv((t) => ({
   NODE_ENV: t.string,
-  PUBLIC_URL: t.string,
-  API_URL: t.string,
-  ADMIN_URL: t.string,
-  DEBUG: t.string,
+  VITE_PUBLIC_URL: t.string,
+  VITE_API_URL: t.string,
+  VITE_ADMIN_URL: t.string,
+  VITE_DEBUG: t.string,
 }));
 
 const port =

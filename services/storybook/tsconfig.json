@@ -3,7 +3,7 @@
   "compilerOptions": {
     "module": "esnext",
     "target": "es6",
-    "jsx": "react-jsx",
+    "jsx": "react",
     "noEmit": true,
     "allowJs": true,
     "strict": true,
@@ -16,16 +16,14 @@
     "lib": ["dom", "esnext"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "typeRoots": [
-      "./typings"
-    ],
+    "typeRoots": ["../../node_modules/@types", "./typings"],
     "baseUrl": "./src",
-    "rootDir": "./src",
+    "rootDir": "./",
     "moduleResolution": "node",
     "isolatedModules": true
   },
-  "include": [".storybook", "./src"],
-  "exclude": ["node_modules", "public", ".cache"],
+  "include": [".storybook", "./src", ".eslintrc.cjs"],
+  "exclude": ["node_modules", "build", "public", ".cache"],
   "references": [
     {
       "path": "../../packages/@liexp/core"

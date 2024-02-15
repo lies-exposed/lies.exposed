@@ -117,7 +117,7 @@ export const EventSocialPostButton: React.FC<{ id: UUID }> = ({ id }) => {
             const content: string = isValidValue(excerpt)
               ? getTextContents(excerpt)
               : "";
-            const url = `${process.env.WEB_URL}/events/${id}`;
+            const url = `${process.env.VITE_WEB_URL}/events/${id}`;
 
             return {
               title,

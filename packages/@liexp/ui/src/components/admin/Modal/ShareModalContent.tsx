@@ -162,7 +162,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
                           ...payload,
                           media: getShareMedia(
                             media,
-                            `${process.env.WEB_URL}/liexp-logo-1200x630.png`,
+                            `${process.env.VITE_WEB_URL}/liexp-logo-1200x630.png`,
                           ),
                         },
                       });
@@ -381,7 +381,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
             <Box style={{ width: "100%" }}>
               <Typography>
                 <Link
-                  href={`${process.env.WEB_URL}/events?startDate=${payload.date}`}
+                  href={`${process.env.VITE_WEB_URL}/events?startDate=${payload.date}`}
                 >
                   {payload.date}
                 </Link>

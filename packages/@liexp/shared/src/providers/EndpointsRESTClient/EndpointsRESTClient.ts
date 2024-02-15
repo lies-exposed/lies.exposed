@@ -277,7 +277,7 @@ const fromEndpoints =
   };
 
 const jsonClient = axios.create({
-  baseURL: `${process.env.DATA_URL}/public`,
+  baseURL: `${process.env.VITE_DATA_URL}/public`,
 });
 
 export const jsonData =
