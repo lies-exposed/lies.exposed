@@ -1,8 +1,11 @@
+import { type AxiosInstance } from "axios";
+import { mock } from "vitest-mock-extended";
 import { API } from "./api.provider.js";
 
 describe("ApiProvider", () => {
+  const axiosMock = mock<AxiosInstance>();
   it("should be defined", () => {
-    const api = API({ baseURL: "http://localhost:3000" });
+    const api = API(axiosMock);
     expect(api.Admin).toMatchObject({
       Get: expect.any(Function),
       Create: expect.any(Function),

@@ -1,4 +1,4 @@
-import { pipe } from "@liexp/core/lib/fp";
+import { pipe } from "@liexp/core/lib/fp/index.js";
 import { http } from "@liexp/shared/lib/io/index.js";
 import {
   MediaArb,

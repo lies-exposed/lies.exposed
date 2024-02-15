@@ -6,8 +6,8 @@
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "scripts": {
     "clean": "rm -rf build",
-    "dev": "webpack serve",
-    "watch:app": "webpack watch",
+    "dev": "webpack serve -c webpack.config.ts",
+    "watch:app": "webpack watch -c webpack.config.ts",
     "watch:server": "webpack watch -c webpack.server.ts",
     "build:app": "webpack -c webpack.config.ts",
     "build:server": "webpack -c webpack.server.ts",

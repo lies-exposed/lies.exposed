@@ -1,5 +1,5 @@
-import { defineEnv } from "@liexp/core/lib/webpack/config";
-import { getWebConfig } from "@liexp/core/lib/webpack/web.config";
+import { defineEnv } from "@liexp/core/lib/webpack/config.js";
+import { getWebConfig } from "@liexp/core/lib/webpack/web.config.js";
 
 const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 4001;
 const config = getWebConfig({
