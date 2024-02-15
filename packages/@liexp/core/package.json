@@ -4,6 +4,10 @@
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "license": "MIT",
   "main": "lib/index.js",
+  "type": "commonjs",
+  "exports": {
+    "./lib/*": "./lib/*"
+  },
   "scripts": {
     "clean": "rm -rf lib",
     "build": "tsc -b tsconfig.build.json",

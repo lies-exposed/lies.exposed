@@ -5,7 +5,7 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import type * as t from "io-ts";
 import TerserPlugin from "terser-webpack-plugin";
 import type * as webpack from "webpack";
-import { getConfig, type GetConfigParams } from "./config";
+import { getConfig, type GetConfigParams } from "./config.js";
 
 export const webOptimization: webpack.Configuration["optimization"] = {
   chunkIds: "named",
