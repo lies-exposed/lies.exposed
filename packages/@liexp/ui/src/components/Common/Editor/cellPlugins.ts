@@ -1,3 +1,4 @@
+import { importDefault } from "@liexp/core/lib/esm/import-default.js";
 import { getLiexpSlate } from "@liexp/shared/lib/slate/index.js";
 import background from "@react-page/plugins-background";
 import divider from "@react-page/plugins-divider";
@@ -27,7 +28,7 @@ export const minimalCellPlugins = [
 // Define which plugins we want to use.
 export const cellPlugins = [
   ...minimalCellPlugins,
-  background({}),
+  importDefault(background).default({}),
   image,
   spacer,
   divider,

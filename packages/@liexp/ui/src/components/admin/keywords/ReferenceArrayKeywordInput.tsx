@@ -7,7 +7,7 @@ import {
   useRefresh,
   type ReferenceInputProps,
 } from "react-admin";
-import { apiProvider } from "../../../client/api.js";
+import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { Box, TextField } from "../../mui/index.js";
 import { ColorInput } from "../common/inputs/ColorInput.js";
 import { ImportKeywordButton } from "./ImportKeywordButton.js";
@@ -16,6 +16,7 @@ const ReferenceArrayKeywordInput: React.FC<
   Omit<ReferenceInputProps, "children"> & { source: string; showAdd: boolean }
 > = ({ showAdd, ...props }) => {
   const refresh = useRefresh();
+  const apiProvider = useDataProvider();
 
   const [{ color, tag }, setKeyword] = React.useState({
     tag: "",

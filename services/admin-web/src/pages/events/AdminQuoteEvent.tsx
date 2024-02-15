@@ -17,12 +17,12 @@ import {
   List,
   SimpleForm,
   TextInput,
-  useDataProvider,
   type CreateProps,
   type ListProps,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils.js";
 import { Grid } from "@liexp/ui/lib/components/mui/index.js";
+import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import * as React from "react";
 
 const quotesFilter = [

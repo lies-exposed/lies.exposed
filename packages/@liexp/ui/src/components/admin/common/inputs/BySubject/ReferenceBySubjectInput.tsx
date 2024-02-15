@@ -2,7 +2,7 @@ import {
   ByActorId,
   ByGroupId,
 } from "@liexp/shared/lib/io/http/Common/index.js";
-import _ from "lodash";
+import get from "lodash/get";
 import React from "react";
 import {
   FormDataConsumer,
@@ -32,7 +32,7 @@ const ReferenceBySubjectInput: React.FC<
 
       <FormDataConsumer {...props}>
         {({ formData, scopedFormData, getSource, ...rest }) => {
-          const type = _.get(formData, `${source}.type`);
+          const type = get(formData, `${source}.type`);
           if (type === "Actor") {
             return (
               <ReferenceActorInput

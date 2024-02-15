@@ -2,7 +2,6 @@ import { getEventCommonProps } from "@liexp/shared/lib/helpers/event/index.js";
 import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";
-import { useEndpointQueries } from "../../../../../hooks/useEndpointQueriesProvider.js";
 import { styled } from "../../../../../theme/index.js";
 import QueriesRenderer from "../../../../QueriesRenderer.js";
 import {
@@ -71,18 +70,17 @@ export const EventTimelinePlugin: React.FC<EventTimelinePluginProps> = ({
   events,
   onEventClick,
 }) => {
-  const Queries = useEndpointQueries();
   return (
     <StyledBox className={classes.root}>
       <Typography variant="subtitle1">Event timeline</Typography>
       <QueriesRenderer
-        queries={{
-          events: Queries.Event.list.useQuery(
+        queries={(Q) => ({
+          events: Q.Event.list.useQuery(
             { filter: { ids: events } },
             undefined,
             true,
           ),
-        }}
+        })}
         render={({ events: { data: events } }) => {
           return <EventsTimeline events={events} onEventClick={onEventClick} />;
         }}

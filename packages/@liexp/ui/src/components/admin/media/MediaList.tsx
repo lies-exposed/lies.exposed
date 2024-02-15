@@ -15,7 +15,7 @@ import {
   usePermissions,
   type ListProps,
 } from "react-admin";
-import { Box, Typography, amber } from "../../mui/index.js";
+import { Box, Typography, colors } from "../../mui/index.js";
 import { toFormattedDuration } from "./DurationField.js";
 import { MediaField } from "./MediaField.js";
 import { MediaTypeInput } from "./input/MediaTypeInput.js";
@@ -62,7 +62,7 @@ export const MediaDataGrid: React.FC = () => {
     <Datagrid
       rowClick="edit"
       rowSx={(r) => ({
-        borderLeft: `5px solid ${r.transferable ? amber[500] : "transparent"}`,
+        borderLeft: `5px solid ${r.transferable ? colors.amber[500] : "transparent"}`,
       })}
     >
       <MediaField type="image/jpeg" source="thumbnail" controls={false} />

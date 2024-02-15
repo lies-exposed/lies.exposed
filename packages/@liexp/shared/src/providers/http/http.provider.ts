@@ -81,8 +81,6 @@ interface HTTPProvider {
 }
 
 const HTTPProvider = (client: AxiosInstance): HTTPProvider => {
-  // const client = axios.create(c);
-
   const get = <T>(
     url: string,
     config?: AxiosRequestConfig<any>,

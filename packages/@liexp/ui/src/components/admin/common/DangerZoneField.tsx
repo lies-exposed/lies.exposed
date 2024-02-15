@@ -5,7 +5,7 @@ import {
   useRedirect,
   useResourceContext,
 } from "react-admin";
-import { apiProvider } from "../../../client/api.js";
+import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { Box } from "../../mui/index.js";
 
 // interface DangerZoneFieldProps {}
@@ -14,6 +14,7 @@ export const DangerZoneField: React.FC = () => {
   const record = useRecordContext();
   const resource = useResourceContext();
   const redirect = useRedirect();
+  const apiProvider = useDataProvider();
 
   const doDeletePerm = React.useCallback(() => {
     void apiProvider

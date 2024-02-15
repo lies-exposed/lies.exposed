@@ -18,7 +18,7 @@ import {
 import { type serializedType } from "ts-io-error/lib/Codec.js";
 import { type ResourceEndpoints } from "../../endpoints/types.js";
 import { toAPIError, type APIError } from "../../io/http/Error/APIError.js";
-import { APIRESTClient } from "../../providers/api-rest.provider.js";
+import { type APIRESTClient } from "../../providers/api-rest.provider.js";
 import { throwTE } from "../../utils/task.utils.js";
 
 const toError = (e: unknown): APIError => {
@@ -157,18 +157,21 @@ type EndpointsMapType = Record<
   >
 >;
 
-type EndpointsRESTClient<ES> = {
-  [K in keyof ES]: ES[K] extends ResourceEndpoints<
-    EndpointInstance<infer G>,
-    EndpointInstance<infer L>,
-    any,
-    any,
-    any,
-    infer CC
-  >
-    ? Query<G, L, CC>
-    : never;
-};
+interface EndpointsRESTClient<ES> {
+  Endpoints: {
+    [K in keyof ES]: ES[K] extends ResourceEndpoints<
+      EndpointInstance<infer G>,
+      EndpointInstance<infer L>,
+      any,
+      any,
+      any,
+      infer CC
+    >
+      ? Query<G, L, CC>
+      : never;
+  };
+  client: APIRESTClient;
+}
 
 const restFromResourceEndpoints = <
   G extends MinimalEndpoint,
@@ -226,11 +229,12 @@ const restFromResourceEndpoints = <
         const fetch = (
           params: TypeOfEndpointInstance<typeof ee>["Input"],
         ): TE.TaskEither<APIError, any> => {
+          const url = ee.getPath((params as any).Params);
           return liftFetch(
             () =>
               apiClient.request({
                 method: ee.Method,
-                url: ee.getPath((params as any).Params),
+                url,
                 params: (params as any).Query,
                 data: (params as any).Body,
                 responseType: "json",
@@ -256,19 +260,21 @@ const restFromResourceEndpoints = <
 
 const fromEndpoints =
   (apiClient: APIRESTClient) =>
-  <ES extends EndpointsMapType>(Endpoints: ES): EndpointsRESTClient<ES> =>
-    pipe(
+  <ES extends EndpointsMapType>(Endpoints: ES): EndpointsRESTClient<ES> => {
+    const endpoints = pipe(
       Endpoints,
       R.toArray,
       A.reduce({}, (q, [k, e]) => ({
         ...q,
         [k]: restFromResourceEndpoints(apiClient, e as any),
       })),
-    ) as EndpointsRESTClient<ES>;
+    ) as EndpointsRESTClient<ES>["Endpoints"];
 
-export const apiClient = APIRESTClient({
-  url: process.env.API_URL ?? "http://localhost:4010/v1",
-});
+    return {
+      Endpoints: endpoints,
+      client: apiClient,
+    };
+  };
 
 const jsonClient = axios.create({
   baseURL: `${process.env.DATA_URL}/public`,

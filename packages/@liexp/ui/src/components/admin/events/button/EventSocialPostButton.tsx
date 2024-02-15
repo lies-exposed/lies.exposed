@@ -17,11 +17,13 @@ import { pipe } from "fp-ts/lib/function.js";
 import { type UUID } from "io-ts-types/lib/UUID.js";
 import * as React from "react";
 import { useDataProvider, useRecordContext } from "react-admin";
+import { useAPI } from "../../../../hooks/useAPI.js";
 import { fetchRelations } from "../../../../state/queries/SearchEventsQuery.js";
 import { SocialPostButton } from "../../common/SocialPostButton.js";
 
 export const EventSocialPostButton: React.FC<{ id: UUID }> = ({ id }) => {
   const apiProvider = useDataProvider();
+  const api = useAPI();
   const record = useRecordContext();
 
   return (
@@ -33,7 +35,7 @@ export const EventSocialPostButton: React.FC<{ id: UUID }> = ({ id }) => {
           .then(async ({ data: event }) => {
             const relationIds = getRelationIds(event);
             const relations = await pipe(
-              fetchRelations(relationIds),
+              fetchRelations(api)(relationIds),
               fp.TE.map(
                 ({
                   actors,

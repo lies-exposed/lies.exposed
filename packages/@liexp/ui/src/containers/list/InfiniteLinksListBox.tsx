@@ -27,7 +27,7 @@ export const InfiniteLinksListBox: React.FC<InfiniteLinksListBoxProps> = ({
     <InfiniteListBox<"masonry", typeof Endpoints.Link.List>
       {...{
         filter,
-        useListQuery: (Q) => Q.Link.list,
+        useListQuery: (Q) => Q.Queries.Link.list,
         listProps: {
           type: "masonry",
 

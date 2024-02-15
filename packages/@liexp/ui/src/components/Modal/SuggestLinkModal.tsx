@@ -1,5 +1,5 @@
-import { apiClient } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
 import * as React from "react";
+import { useDataProvider } from "../../hooks/useDataProvider.js";
 import { styled } from "../../theme/index.js";
 import LinkPreview from "../admin/previews/LinkPreview.js";
 import { Box, Button, Icons, IconButton, Input, Modal } from "../mui/index.js";
@@ -44,9 +44,10 @@ export const SuggestLinkModal: React.FC<SuggestLinkModalProps> = ({
 }) => {
   const [url, setUrl] = React.useState("");
   const [link, setLink] = React.useState<any>(undefined);
+  const apiProvider = useDataProvider();
 
   const handleURLSubmission = (): void => {
-    void apiClient
+    void apiProvider
       .create("/links/submit", { data: { url } })
       .then(({ data }) => {
         setLink(data);

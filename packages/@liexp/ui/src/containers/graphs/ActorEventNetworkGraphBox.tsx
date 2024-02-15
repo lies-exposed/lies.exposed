@@ -16,7 +16,7 @@ export interface ActorEventNetworkGraphBoxProps
 export const ActorEventNetworkGraphBox: React.FC<
   ActorEventNetworkGraphBoxProps
 > = ({ query, ...props }) => {
-  const Queries = useEndpointQueries();
+  const { Queries } = useEndpointQueries();
   return (
     <EventsNetworkGraphBoxWithQuery
       {...props}

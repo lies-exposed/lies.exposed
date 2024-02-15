@@ -74,13 +74,15 @@ import {
   Toolbar,
   Typography,
   type TypographyProps,
+  Avatar,
+  type AvatarProps,
 } from "@mui/material";
-import { amber } from "@mui/material/colors/index.js";
 import {
   StyledEngineProvider,
   ThemeProvider,
-} from "@mui/material/styles/index.js";
-import useMuiMediaQuery from "@mui/material/useMediaQuery/index.js";
+  colors,
+  useMediaQuery as useMuiMediaQuery,
+} from "@mui/material";
 import { alpha } from "@mui/system/colorManipulator.js";
 import * as MUIIcons from "./icons.js";
 
@@ -89,6 +91,8 @@ export {
   AccordionDetails,
   AccordionSummary,
   AppBar,
+  Avatar,
+  type AvatarProps,
   Autocomplete,
   type AutocompleteRenderInputParams,
   type InputProps,
@@ -153,7 +157,7 @@ export {
   Typography,
   alpha,
   // colors
-  amber,
+  colors,
   useMuiMediaQuery,
   type AutocompleteInputChangeReason,
   type AutocompleteProps,

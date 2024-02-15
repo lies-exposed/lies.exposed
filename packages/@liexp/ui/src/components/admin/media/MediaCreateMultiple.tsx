@@ -6,6 +6,7 @@ import {
   OGGType,
   PDFType,
 } from "@liexp/shared/lib/io/http/Media.js";
+import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -20,14 +21,13 @@ import {
   SimpleFormIterator,
   TextInput,
   required,
-  useDataProvider,
   useRedirect,
-  type DataProvider,
   type RaRecord,
 } from "react-admin";
 import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
 import { uploadFile } from "../../../client/admin/MediaAPI.js";
+import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { styled } from "../../../theme/index.js";
 import {
   Box,
@@ -40,7 +40,7 @@ import {
 } from "../../mui/index.js";
 
 const transformMedia =
-  (apiProvider: DataProvider<string>) =>
+  (apiProvider: APIRESTClient) =>
   async (data: RaRecord): Promise<RaRecord> => {
     const mediaTask =
       data._type === "fromFile" && data.location.rawFile

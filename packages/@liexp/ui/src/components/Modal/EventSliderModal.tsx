@@ -2,6 +2,7 @@ import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.j
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { clsx } from "clsx";
 import * as React from "react";
+import { useAPI } from "../../hooks/useAPI.js";
 import {
   searchEventsQuery,
   type SearchEventsQueryInputNoPagination,
@@ -79,6 +80,7 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
   onQueryClear,
   ...props
 }) => {
+  const api = useAPI();
   // const theme = useTheme();
 
   // const [open, setOpen] = React.useState(_open ?? false);
@@ -182,7 +184,7 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
           <QueriesRenderer
             loader="fullsize"
             queries={{
-              events: searchEventsQuery({
+              events: searchEventsQuery(api)({
                 ...query,
                 _start: start,
                 _end: end,

@@ -5,8 +5,8 @@ import { type Network } from "@liexp/shared/lib/io/http/index.js";
 import { useRecordContext, useRefresh } from "ra-core";
 import { Button, LoadingIndicator } from "ra-ui-materialui";
 import * as React from "react";
-import { apiProvider } from "../../../../client/api.js";
 import { EventsFlowGraphBox } from "../../../../containers/graphs/EventsFlowGraphBox.js";
+import { useDataProvider } from "../../../../hooks/useDataProvider.js";
 import { Grid } from "../../../mui/index.js";
 
 export const EventsFlowGraphFormTab: React.FC<{ type: FlowGraphType }> = ({
@@ -14,6 +14,7 @@ export const EventsFlowGraphFormTab: React.FC<{ type: FlowGraphType }> = ({
 }) => {
   const record = useRecordContext();
   const refresh = useRefresh();
+  const apiProvider = useDataProvider();
 
   const handleRegenerateFlow = (): void => {
     void apiProvider

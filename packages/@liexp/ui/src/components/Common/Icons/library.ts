@@ -1,3 +1,4 @@
+import "@fortawesome/fontawesome-svg-core/styles.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   fab,

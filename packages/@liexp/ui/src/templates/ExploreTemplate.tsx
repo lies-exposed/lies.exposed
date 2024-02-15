@@ -157,7 +157,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
 
   const [condensedList, setCondensedList] = React.useState(false);
 
-  const queries = useEndpointQueries();
+  const { Queries } = useEndpointQueries();
 
   return (
     <StyledGrid container justifyContent="center" style={{ height: "100%" }}>
@@ -172,7 +172,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
 
       <QueriesRenderer
         queries={{
-          filterActors: queries.Actor.list.useQuery(
+          filterActors: Queries.Actor.list.useQuery(
             {
               pagination: { page: 1, perPage: params.actors?.length ?? 0 },
               filter: { ids: params.actors ?? [] },
@@ -180,7 +180,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
             undefined,
             true,
           ),
-          filterGroups: queries.Group.list.useQuery(
+          filterGroups: Queries.Group.list.useQuery(
             {
               pagination: { page: 1, perPage: params.groups?.length ?? 0 },
               filter: { ids: params.groups ?? [] },
@@ -188,7 +188,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
             undefined,
             true,
           ),
-          filterGroupsMembers: queries.GroupMember.list.useQuery(
+          filterGroupsMembers: Queries.GroupMember.list.useQuery(
             {
               pagination: {
                 page: 1,
@@ -199,7 +199,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
             undefined,
             true,
           ),
-          filterKeywords: queries.Keyword.list.useQuery(
+          filterKeywords: Queries.Keyword.list.useQuery(
             {
               pagination: { page: 1, perPage: params.keywords?.length ?? 0 },
               sort: { field: "updatedAt", order: "DESC" },

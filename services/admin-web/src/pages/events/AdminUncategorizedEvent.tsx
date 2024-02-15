@@ -24,13 +24,13 @@ import {
   TextField,
   TextInput,
   required,
-  useDataProvider,
   type ListProps,
   type RaRecord,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { ReferenceLinkTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceLinkTab.js";
 import { ReferenceMediaTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceMediaTab.js";
 import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils.js";
+import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import PinDropIcon from "@mui/icons-material/PinDrop.js";
 import * as React from "react";
 

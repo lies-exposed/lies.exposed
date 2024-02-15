@@ -11,6 +11,7 @@ import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import EventsTimelineList, {
   type EventsTimelineListProps,
 } from "@liexp/ui/lib/components/lists/EventList/EventsTimelineList.js";
+import { useAPI } from "@liexp/ui/lib/hooks/useAPI.js";
 import { searchEventsQuery } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
@@ -25,12 +26,13 @@ export default meta;
 
 const Template: StoryFn<EventsTimelineListProps> = (props) => {
   const ref = React.createRef();
+  const api = useAPI();
 
   return (
     <div style={{ height: "100%" }}>
       <QueriesRenderer
         queries={{
-          events: searchEventsQuery({
+          events: searchEventsQuery(api)({
             hash: "events-timeline-storybook",
             _start: 0,
             _end: 100,

@@ -1,8 +1,12 @@
 import { ErrorBox } from "@liexp/ui/lib/components/Common/ErrorBox";
 import { FullSizeLoader } from "@liexp/ui/lib/components/Common/FullSizeLoader";
+import {
+  SaveContextProvider,
+  useGetOne,
+} from "@liexp/ui/lib/components/admin/react-admin.js";
 import { UserEditForm } from "@liexp/ui/lib/components/admin/user/UserEdit";
+import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import { Card, Container } from "@mui/material";
-import { SaveContextProvider, useDataProvider, useGetOne } from "ra-core";
 import React from "react";
 
 export const UserEditMe: React.FC = (props) => {

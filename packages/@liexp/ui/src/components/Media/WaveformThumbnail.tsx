@@ -1,7 +1,7 @@
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as d3 from "d3";
 import * as React from "react";
-import WaveformData from "waveform-data";
+import type WaveformData from "waveform-data";
 import { useTheme } from "../../theme/index.js";
 
 interface WaveformThumbnailProps {
@@ -39,15 +39,18 @@ export const WaveformThumbnail: React.FC<WaveformThumbnailProps> = ({
           scale: 128,
         };
 
-        return new Promise<WaveformData>((resolve, reject) => {
-          WaveformData.createFromAudio(options, (err, waveform) => {
-            if (err) {
-              reject(err);
-            } else {
-              resolve(waveform);
-            }
-          });
-        });
+        return import("waveform-data").then(
+          ({ default: WaveformData }) =>
+            new Promise<WaveformData>((resolve, reject) => {
+              WaveformData.createFromAudio(options, (err, waveform) => {
+                if (err) {
+                  reject(err);
+                } else {
+                  resolve(waveform);
+                }
+              });
+            }),
+        );
       })
       .then((d) => {
         setWaveformData(d);

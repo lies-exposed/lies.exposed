@@ -1,3 +1,4 @@
+import { importDefault } from "@liexp/core/lib/esm/import-default.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { List, ListItem, ListItemText, Typography } from "@mui/material";
 import { type Cell } from "@react-page/editor";
@@ -6,9 +7,7 @@ import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { StoryUtils } from "../../utils/story.utils.js";
 
-const slt = ((slate as any).default?.default ? slate.default : slate) as {
-  default: typeof slate.default;
-};
+const slt = importDefault<typeof slate>(slate);
 
 export const H1_TYPE = "HEADINGS/HEADING-ONE";
 export const H2_TYPE = "HEADINGS/HEADING-TWO";
