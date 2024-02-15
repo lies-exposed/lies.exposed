@@ -3,6 +3,10 @@
   "compilerOptions": {
     "composite": true,
     "noEmit": false,
+    "target": "es6",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "lib": ["DOM", "ESNext"],
     "jsx": "react",
     "skipDefaultLibCheck": true,
@@ -11,9 +15,7 @@
     "baseUrl": "./src",
     "rootDir": "./src",
     "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
-    "typeRoots": [
-      "typings"
-    ],
+    "typeRoots": ["../../../node_modules/@types", "typings"]
   },
   "include": ["./src", ".eslintrc.js"],
   "exclude": ["node_modules", "lib"]
