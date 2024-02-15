@@ -3601,7 +3601,6 @@ __metadata:
     "@types/fluent-ffmpeg": ^2.1.24
     "@types/jsonwebtoken": ^9.0.5
     "@types/node-telegram-bot-api": ^0.64.2
-    "@types/prettier": ^3.0.0
     "@types/uuid": ^9.0.8
     date-fns: ^2.30.0
     exifreader: ^4.20.0
@@ -3656,7 +3655,6 @@ __metadata:
     "@types/html-replace-webpack-plugin": ^2.6.4
     "@types/mime": ^1.3.5
     "@types/mini-css-extract-plugin": ^2.5.1
-    "@types/prettier": ^3.0.0
     "@types/react": ^18.2.55
     "@types/webpack-bundle-analyzer": ^4.6.4
     "@types/webpack-node-externals": ^3.0.4
@@ -3709,7 +3707,6 @@ __metadata:
     "@liexp/core": 0.1.0
     "@liexp/test": 0.1.0
     "@types/bs58": ^4.0.4
-    "@types/prettier": ^3.0.0
     "@types/react": ^18.2.55
     "@types/react-dom": ^18.2.19
     "@types/throttle-debounce": ^5.0.2
@@ -3800,7 +3797,6 @@ __metadata:
     "@types/d3": ^7.4.3
     "@types/d3-sankey": ^0.12.4
     "@types/eslint": ^8.56.2
-    "@types/prettier": ^3.0.0
     "@types/reach__router": ^1.3.15
     "@types/react": ^18.2.55
     "@types/react-helmet": ^6.1.11
@@ -8577,15 +8573,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prettier@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@types/prettier@npm:3.0.0"
-  dependencies:
-    prettier: "*"
-  checksum: a2a512d304e5bcf78f38089dc88ad19215e6ab871d435a17aef3ce538a63b07c0e359c18db23989dc1ed9fff96d99eee1f680416080184df5c7e0e3bf767e165
-  languageName: node
-  linkType: hard
-
 "@types/pretty-hrtime@npm:^1.0.0":
   version: 1.0.3
   resolution: "@types/pretty-hrtime@npm:1.0.3"
@@ -10041,7 +10028,6 @@ __metadata:
     "@types/debug": ^4.1.12
     "@types/lodash": ^4.14.202
     "@types/node": ^20.11.16
-    "@types/prettier": ^3.0.0
     "@types/react": ^18.2.55
     "@types/react-dom": ^18.2.19
     "@types/webpack-bundle-analyzer": ^4.6.4
@@ -10335,7 +10321,6 @@ __metadata:
     "@types/node-cron": ^3.0.11
     "@types/node-telegram-bot-api": ^0.64.2
     "@types/pg": ^8.11.0
-    "@types/prettier": ^3.0.0
     "@types/prompts": ^2.4.9
     "@types/supertest": ^6.0.2
     "@types/uuid": ^9.0.8
@@ -18228,7 +18213,6 @@ __metadata:
   dependencies:
     "@commitlint/cli": ^18.4.4
     "@commitlint/config-conventional": ^18.4.4
-    "@types/prettier": ^3.0.0
     "@typescript-eslint/eslint-plugin": ^6.21.0
     "@typescript-eslint/parser": ^6.21.0
     "@vitest/coverage-v8": ^1.2.2
@@ -21293,21 +21277,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:*, prettier@npm:^3.2.5":
-  version: 3.2.5
-  resolution: "prettier@npm:3.2.5"
-  bin:
-    prettier: bin/prettier.cjs
-  checksum: 2ee4e1417572372afb7a13bb446b34f20f1bf1747db77cf6ccaf57a9be005f2f15c40f903d41a6b79eec3f57fff14d32a20fb6dee1f126da48908926fe43c311
-  languageName: node
-  linkType: hard
-
 "prettier@npm:^2.8.0":
   version: 2.8.8
   resolution: "prettier@npm:2.8.8"
   bin:
     prettier: bin-prettier.js
   checksum: b49e409431bf129dd89238d64299ba80717b57ff5a6d1c1a8b1a28b590d998a34e083fa13573bc732bb8d2305becb4c9a4407f8486c81fa7d55100eb08263cf8
+  languageName: node
+  linkType: hard
+
+"prettier@npm:^3.2.5":
+  version: 3.2.5
+  resolution: "prettier@npm:3.2.5"
+  bin:
+    prettier: bin/prettier.cjs
+  checksum: 2ee4e1417572372afb7a13bb446b34f20f1bf1747db77cf6ccaf57a9be005f2f15c40f903d41a6b79eec3f57fff14d32a20fb6dee1f126da48908926fe43c311
   languageName: node
   linkType: hard
 
@@ -24512,7 +24496,6 @@ __metadata:
     "@storybook/theming": ^7.6.10
     "@types/babel__preset-env": ^7.9.6
     "@types/eslint": ^8.56.2
-    "@types/prettier": ^3.0.0
     d3: ^7.8.5
     eslint: ^8.56.0
     prettier: ^3.2.5
@@ -26699,7 +26682,6 @@ __metadata:
     "@types/express": ^4.17.21
     "@types/mime": ^1.3.5
     "@types/node": ^20.11.16
-    "@types/prettier": ^3.0.0
     "@types/react": ^18.2.55
     "@types/react-calendar-heatmap": ^1.6.7
     "@types/react-dom": ^18.2.19
