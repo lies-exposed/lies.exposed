@@ -23,7 +23,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-spring": "^9.7.3",
-    "reactflow": "^11.10.1",
+    "reactflow": "^11.10.4",
     "storybook": "^7.6.16"
   },
   "lint-staged": {
