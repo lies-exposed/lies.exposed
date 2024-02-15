@@ -1,103 +1,54 @@
-import { type StorybookConfig } from "@storybook/react-webpack5";
-import path from "path";
-import TSConfigPathsWebpackPlugin from "tsconfig-paths-webpack-plugin";
+import { type StorybookConfig } from "@storybook/react-vite";
+import type { ViteFinal } from "@storybook/builder-vite";
+import path, { dirname, join } from "path";
+import { mergeConfig } from "vite";
+import { defineViteConfig } from "@liexp/core/lib/frontend/vite/config.js";
+import * as t from "io-ts";
 
-const webpackConfig: Pick<StorybookConfig, "webpackFinal" | "webpack"> = {
-  webpack: (config, { configType }) => {
-    if (!config.output) {
-      config.output = {};
-    }
-    if (configType === "PRODUCTION") {
-      // config.output.publicPath = "storybook";
-    }
-    return config;
-  },
-  webpackFinal: (config, { configType }) => {
-    // if (!config.output) {
-    //   config.output = {};
-    // }
+const viteFinal: ViteFinal = async (config, { configType }) => {
+  const VITE_API_URL =
+    configType === "PRODUCTION"
+      ? "https://alpha.api.lies.exposed/v1"
+      : "http://localhost:4010/v1";
 
-    // if (configType === "PRODUCTION") {
-    //   config.output.publicPath = "storybook";
-    // }
+  process.env.VITE_API_URL = VITE_API_URL;
 
-    // add rules for css
-    config.module?.rules?.push({
-      test: /\.scss$/,
-      use: ["style-loader", "css-loader", "sass-loader"],
-      include: path.resolve(__dirname, "../"),
-    });
+  const viteConfigUpdate = defineViteConfig({
+    envFileDir: path.resolve(__dirname, ".."),
+    cwd: process.cwd(),
+    output: "build",
+    assetDir: "assets",
+    env: t.strict({ VITE_API_URL: t.string }),
+    target: "web",
+    hot: false,
+  });
 
-    // config.resolve?.modules?.push(
-    //   path.resolve(process.cwd(), "../../packages/@liexp/ui")
-    // );
+  const updatedConfig = viteConfigUpdate({
+    mode: configType?.toLowerCase() ?? "production",
+    command: configType === "DEVELOPMENT" ? "serve" : "build",
+  });
 
-    // console.log(config.resolve);
-    if (!config.resolve) {
-      config.resolve = {};
-    }
+  delete updatedConfig.server;
+  delete updatedConfig.ssr;
+  delete updatedConfig.build?.outDir;
 
-    config.resolve.modules?.unshift("../../node_modules");
+  // remove react plugin
+  delete updatedConfig.plugins?.[4];
+  delete updatedConfig.plugins?.[5];
+  delete updatedConfig.plugins?.[6];
 
-    // console.log("resolve", config.resolve);
-
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      "react/jsx-runtime.js": "react/jsx-runtime",
-      "react/jsx-dev-runtime.js": "react/jsx-dev-runtime",
-
-      // "react/jsx-runtime": path.resolve(
-      //   process.cwd(),
-      //   "../../node_modules/react/jsx-runtime.js"
-      // ),
-    };
-
-    if (!config.resolve.plugins) {
-      config.resolve.plugins = [];
-    }
-    const coreBaseUrl = path.resolve(
-      process.cwd(),
-      "../../packages/@liexp/core/tsconfig.json",
+  if (config.optimizeDeps?.entries !== undefined) {
+    config.optimizeDeps.entries = (config.optimizeDeps?.entries ?? []).concat(
+      ".storybook/preview.tsx",
     );
+  }
 
-    config.resolve.plugins.push(
-      new TSConfigPathsWebpackPlugin({
-        configFile: coreBaseUrl,
-      }),
-    );
-    const sharedBaseUrl = path.resolve(
-      process.cwd(),
-      "../../packages/@liexp/shared/tsconfig.json",
-    );
+  const finalConfig = mergeConfig(config, updatedConfig);
 
-    // console.log(sharedBaseUrl);
-    config.resolve.plugins.push(
-      new TSConfigPathsWebpackPlugin({
-        configFile: sharedBaseUrl,
-      }),
-    );
-    const uiConfigFile = path.resolve(
-      process.cwd(),
-      "../../packages/@liexp/ui/tsconfig.json",
-    );
-    config.resolve.plugins.push(
-      new TSConfigPathsWebpackPlugin({
-        configFile: uiConfigFile,
-      }),
-    );
-    config.resolve.plugins.push(new TSConfigPathsWebpackPlugin());
-
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-      assert: require.resolve("browser-assert"),
-    };
-    return config;
-  },
+  return finalConfig;
 };
 
-const config: StorybookConfig & {
-  env: any;
-} = {
+const config: StorybookConfig = {
   // previewHead: (head, { configType }) => {
   //   if (configType === "PRODUCTION") {
   //     return `<base href="/storybook/" /> ${head.replace} `;
@@ -105,29 +56,33 @@ const config: StorybookConfig & {
   //   return head;
   // },
   addons: [
-    "@storybook/addon-links",
-    "@storybook/addon-essentials",
-    "@storybook/addon-interactions",
+    getAbsolutePath("@storybook/addon-links"),
+    getAbsolutePath("@storybook/addon-essentials"),
+    getAbsolutePath("@storybook/addon-interactions"),
   ],
+
   features: {
     // babelModeV7: true,
   },
+
   stories: ["../src/**/*.stories.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
+
   core: {
+    builder: "@storybook/builder-vite",
     disableTelemetry: true,
   },
   framework: {
-    name: "@storybook/react-webpack5",
+    name: getAbsolutePath("@storybook/react-vite"),
     options: {
-      legacyRootApi: true,
+      strictMode: true,
     },
   },
   docs: {
     autodocs: true,
   },
+
   typescript: {
     check: false,
-    checkOptions: {},
     reactDocgen: "react-docgen-typescript",
     reactDocgenTypescriptOptions: {
       shouldExtractLiteralValuesFromEnum: true,
@@ -135,17 +90,11 @@ const config: StorybookConfig & {
         prop.parent ? !/node_modules/.test(prop.parent.fileName) : true,
     },
   },
-  env: (config, { configType }) => {
-    const API_URL =
-      configType === "PRODUCTION"
-        ? "https://alpha.api.lies.exposed/v1"
-        : "http://localhost:4010/v1";
-    return {
-      ...config,
-      API_URL,
-    };
-  },
-  ...webpackConfig,
+  viteFinal,
 };
 
 export default config;
+
+function getAbsolutePath(value: string): any {
+  return dirname(require.resolve(join(value, "package.json")));
+}

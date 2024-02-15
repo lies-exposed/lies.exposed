@@ -34,7 +34,7 @@ export const PageContentBox: React.FC<PageContentProps> = ({
                 (excerpt as any) ?? undefined,
                 200,
               )}
-              image={`${process.env.PUBLIC_URL}/liexp-logo.png`}
+              image={`${process.env.VITE_PUBLIC_URL}/liexp-logo.png`}
               urlPath={path}
             />
             {showTitle ? (

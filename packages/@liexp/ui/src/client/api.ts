@@ -9,11 +9,11 @@ import {
 } from "../components/admin/react-admin.js";
 
 const publicDataProvider = http.APIRESTClient({
-  url: process.env.API_URL,
+  url: process.env.VITE_API_URL,
 });
 
 export const apiProvider = http.APIRESTClient({
-  url: process.env.API_URL,
+  url: process.env.VITE_API_URL,
   getAuth: () => {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("auth");
