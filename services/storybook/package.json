@@ -33,7 +33,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.23.8",
+    "@babel/preset-env": "^7.23.9",
     "@babel/preset-react": "^7.23.3",
     "@babel/preset-typescript": "^7.23.3",
     "@storybook/addon-actions": "^7.6.16",
@@ -49,6 +49,6 @@
     "eslint": "^8.56.0",
     "prettier": "^3.2.5",
     "typescript": "^5.3.3",
-    "webpack": "^5.90.1"
+    "webpack": "^5.90.2"
   }
 }

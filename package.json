@@ -63,10 +63,10 @@
     "lint-staged": "^15.2.2",
     "pm2": "^5.3.1",
     "prettier": "^3.2.5",
-    "terser": "^5.27.0",
+    "terser": "^5.27.1",
     "typescript": "^5.3.3",
     "vitest": "^1.2.2",
-    "webpack": "^5.90.1"
+    "webpack": "^5.90.2"
   },
   "packageManager": "yarn@3.8.0",
   "resolutions": {
