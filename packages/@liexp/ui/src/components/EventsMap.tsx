@@ -5,7 +5,6 @@ import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import Feature from "ol/Feature.js";
 import * as React from "react";
-import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
 import { geoJSONFormat } from "../utils/map.utils.js";
 import Map from "./Map.js";
 import QueriesRenderer from "./QueriesRenderer.js";
@@ -100,11 +99,10 @@ const EventsMap: React.FC<EventsMapProps> = (props) => {
     filter: { title, startDate, endDate, ...filters },
     ...rest
   } = props;
-  const Queries = useEndpointQueries();
   return (
     <QueriesRenderer
-      queries={{
-        events: Queries.Event.list.useQuery(
+      queries={(Q) => ({
+        events: Q.Event.list.useQuery(
           {
             pagination: { page: 1, perPage: 100 },
             sort: { field: "startDate", order: "DESC" },
@@ -124,7 +122,7 @@ const EventsMap: React.FC<EventsMapProps> = (props) => {
           undefined,
           false,
         ),
-      }}
+      })}
       render={({ events }) => {
         return <EventsMapComponent {...rest} events={events.data} />;
       }}

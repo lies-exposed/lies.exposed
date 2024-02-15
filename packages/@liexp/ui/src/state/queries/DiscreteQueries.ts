@@ -18,7 +18,7 @@ export const useProjectQuery = (
     // eslint-disable-next-line @tanstack/query/exhaustive-deps
     queryKey: ["project", params.id],
     queryFn: async () => {
-      return await fromEndpoints(dp)(Endpoints).Project.get(params);
+      return await fromEndpoints(dp)(Endpoints).Endpoints.Project.get(params);
     },
   });
 };

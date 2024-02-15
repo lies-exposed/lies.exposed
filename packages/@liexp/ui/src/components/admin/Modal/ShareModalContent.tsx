@@ -7,7 +7,7 @@ import {
   fileExtFromContentType,
 } from "@liexp/shared/lib/utils/media.utils.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
-import { kebabCase } from "lodash";
+import kebabCase from "lodash/kebabCase.js";
 import * as React from "react";
 import { TabPanel, a11yProps } from "../../Common/TabPanel.js";
 import { defaultImage } from "../../SEO.js";

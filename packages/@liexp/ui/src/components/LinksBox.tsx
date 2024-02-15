@@ -1,7 +1,6 @@
 import { type GetListLinkQuery } from "@liexp/shared/lib/io/http/Link.js";
 import * as React from "react";
 import { type serializedType } from "ts-io-error/lib/Codec.js";
-import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
 import QueriesRenderer from "./QueriesRenderer.js";
 import { LinksList, type LinksListProps } from "./lists/LinkList.js";
 import {
@@ -9,8 +8,8 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
-  Typography,
   Icons,
+  Typography,
 } from "./mui/index.js";
 
 // interface LinksListProps {
@@ -76,14 +75,13 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
   column,
   style,
 }) => {
-  const Queries = useEndpointQueries();
   const [expanded, setExpanded] = React.useState(defaultExpanded);
   const perPage = filter?.ids?.length ?? 20;
 
   return (
     <QueriesRenderer
-      queries={{
-        links: Queries.Link.list.useQuery(
+      queries={(Q) => ({
+        links: Q.Link.list.useQuery(
           {
             pagination: { page: 1, perPage },
             filter: expanded ? filter : {},
@@ -91,7 +89,7 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
           undefined,
           true,
         ),
-      }}
+      })}
       render={({ links: { data: links } }) => {
         return (
           <Accordion
@@ -158,13 +156,12 @@ export const LinksListBox: React.FC<LinksBoxProps> = ({
   onItemClick,
   column,
 }) => {
-  const Queries = useEndpointQueries();
   const perPage = filter?.ids?.length ?? 20;
 
   return (
     <QueriesRenderer
-      queries={{
-        links: Queries.Link.list.useQuery(
+      queries={(Q) => ({
+        links: Q.Link.list.useQuery(
           {
             pagination: { page: 1, perPage },
             filter,
@@ -172,7 +169,7 @@ export const LinksListBox: React.FC<LinksBoxProps> = ({
           undefined,
           true,
         ),
-      }}
+      })}
       render={({ links: { data: links } }) => {
         return (
           <LinksList

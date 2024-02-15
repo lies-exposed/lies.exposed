@@ -3,8 +3,8 @@ import { type NetworkType } from "@liexp/shared/lib/io/http/Network.js";
 import { useRecordContext, useRefresh } from "ra-core";
 import { Button, LoadingIndicator } from "ra-ui-materialui";
 import * as React from "react";
-import { apiProvider } from "../../../../client/api.js";
 import { EventsNetworkGraphBox } from "../../../../containers/graphs/EventsNetworkGraphBox.js";
+import { useDataProvider } from "../../../../hooks/useDataProvider.js";
 import { Grid } from "../../../mui/index.js";
 
 export const EventsNetworkGraphFormTab: React.FC<{
@@ -12,7 +12,7 @@ export const EventsNetworkGraphFormTab: React.FC<{
 }> = ({ type }) => {
   const record = useRecordContext();
   const refresh = useRefresh();
-
+  const apiProvider = useDataProvider();
   if (!record?.id) {
     return <LoadingIndicator />;
   }

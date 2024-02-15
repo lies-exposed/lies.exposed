@@ -20,7 +20,7 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
   options,
   ...props
 }) => {
-  const Queries = useEndpointQueries();
+  const { Queries } = useEndpointQueries();
   return (
     <AutocompleteInput<Actor.Actor>
       disablePortal={true}

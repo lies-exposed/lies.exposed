@@ -1,4 +1,5 @@
 import { ImageType } from "@liexp/shared/lib/io/http/Media.js";
+import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { relationsTransformer } from "@liexp/shared/lib/slate/utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
@@ -24,16 +25,15 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  useDataProvider,
   useGetIdentity,
   usePermissions,
   type CreateProps,
-  type DataProvider,
   type EditProps,
   type ListProps,
   type RaRecord,
 } from "react-admin";
 import { uploadImages } from "../../../client/admin/MediaAPI.js";
+import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { Box, Grid } from "../../mui/index.js";
 import ReactPageInput from "../ReactPageInput.js";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
@@ -93,7 +93,7 @@ export const StoryList: React.FC<ListProps> = (props) => {
 };
 
 const transformStory =
-  (apiProvider: DataProvider) =>
+  (apiProvider: APIRESTClient) =>
   (data: RaRecord): RaRecord | Promise<RaRecord> => {
     if (data.featuredImage?.rawFile) {
       return pipe(

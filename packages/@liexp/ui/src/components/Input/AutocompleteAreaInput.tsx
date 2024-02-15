@@ -18,7 +18,7 @@ export const AutocompleteAreaInput: React.FC<AutocompleteAreaInputProps> = ({
   discrete = true,
   className,
 }) => {
-  const Queries = useEndpointQueries();
+  const { Queries } = useEndpointQueries();
   return (
     <AutocompleteInput<Area.Area>
       className={className}

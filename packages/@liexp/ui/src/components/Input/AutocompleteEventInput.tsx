@@ -20,7 +20,7 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
   discrete = true,
   ...props
 }) => {
-  const Queries = useEndpointQueries();
+  const { Queries } = useEndpointQueries();
   return (
     <AutocompleteInput<Events.Event>
       placeholder="Event description..."

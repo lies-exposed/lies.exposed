@@ -1,6 +1,7 @@
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import * as React from "react";
 import { transformMedia } from "../../../client/admin/MediaAPI.js";
+import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { useNavigateTo } from "../../../utils/history.utils.js";
 import { Stack } from "../../mui/index.js";
 import {
@@ -9,7 +10,6 @@ import {
   SimpleForm,
   TextInput,
   required,
-  useDataProvider,
   type CreateProps,
 } from "../react-admin.js";
 import { MediaInput } from "./input/MediaInput.js";

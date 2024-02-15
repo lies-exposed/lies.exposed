@@ -21,7 +21,7 @@ export interface GetQueryOverride<P, Q = undefined> {
 }
 
 export type CustomQueryOverride<ES, P, Q, O> = (
-  q: EndpointsRESTClient<ES>,
+  q: EndpointsRESTClient<ES>["Endpoints"],
 ) => (p: P, q: Q) => Promise<O>;
 
 export interface ResourceEndpointsQueriesOverride<ES, G, L, CC> {
@@ -60,7 +60,7 @@ export const toOverrideQueries = <
   L extends MinimalEndpoint,
   CC extends Record<string, any>,
 >(
-  QP: EndpointsRESTClient<ES>,
+  QP: EndpointsRESTClient<ES>["Endpoints"],
   namespace: string,
   e: ResourceEndpointsQueriesOverride<ES, G, L, CC>,
 ): Partial<ResourceQueries<G, L, CC>> => {

@@ -1,7 +1,7 @@
 import { CustomProjection, Graticule } from "@visx/geo";
 import {
-  type ProjectionProps,
   type ParsedFeature,
+  type ProjectionProps,
 } from "@visx/geo/lib/projections/Projection.js";
 import { type GeoPermissibleObjects } from "@visx/geo/lib/types.js";
 import { scaleQuantize } from "@visx/scale";
@@ -9,7 +9,7 @@ import { Zoom } from "@visx/zoom";
 import * as React from "react";
 import * as topojson from "topojson-client";
 // eslint-disable-next-line import/no-unresolved
-import type { Topology, GeometryCollection } from "topojson-specification";
+import type { GeometryCollection, Topology } from "topojson-specification";
 import worldTopology from "./world-topo.json";
 
 export const mapBackground = "#FFF";

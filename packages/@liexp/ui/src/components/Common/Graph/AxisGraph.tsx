@@ -8,7 +8,7 @@ import { Grid } from "@visx/grid";
 import { Group } from "@visx/group";
 import { scaleLinear } from "@visx/scale";
 import { Bar, Line, LinePath } from "@visx/shape";
-import * as React from "react";
+import React from "react";
 
 // accessors
 

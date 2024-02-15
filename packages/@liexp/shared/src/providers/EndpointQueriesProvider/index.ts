@@ -1,6 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type Endpoints } from "../../endpoints/index.js";
 import { type EndpointsRESTClient } from "../EndpointsRESTClient/EndpointsRESTClient.js";
+import { API } from "../api/api.provider.js";
 import { toQueries } from "./QueryProvider.js";
 import {
   toOverrideQueries,
@@ -39,12 +40,18 @@ type PatchedQueryProvider<
     : GetQueryProviderImplAt<ES, K>;
 };
 
+interface EndpointsQueryProviderV2<ES, O extends Record<string, any>> {
+  Queries: PatchedQueryProvider<ES, O>;
+  REST: EndpointsRESTClient<ES>;
+  API: API;
+}
+
 const CreateQueryProvider = <ES, O extends Record<string, any>>(
-  apiRESTClient: EndpointsRESTClient<ES>,
+  endpointsRESTClient: EndpointsRESTClient<ES>,
   overrides?: QueryProviderOverrides<ES, O>,
-): PatchedQueryProvider<ES, O> => {
+): EndpointsQueryProviderV2<ES, O> => {
   const queryProvider = pipe(
-    apiRESTClient,
+    endpointsRESTClient.Endpoints,
     fp.R.toArray,
     fp.A.reduce({}, (q, [k, e]) => {
       const override = overrides?.[k] ?? undefined;
@@ -63,7 +70,7 @@ const CreateQueryProvider = <ES, O extends Record<string, any>>(
       fp.A.reduce({}, (q, [k, e]) => {
         return {
           ...q,
-          [k]: toOverrideQueries(apiRESTClient, k, e),
+          [k]: toOverrideQueries(endpointsRESTClient.Endpoints, k, e),
         };
       }),
     );
@@ -92,10 +99,14 @@ const CreateQueryProvider = <ES, O extends Record<string, any>>(
     }),
   ) as PatchedQueryProvider<ES, O>;
 
-  return patchedQueryProvider;
+  return {
+    Queries: patchedQueryProvider,
+    REST: endpointsRESTClient,
+    API: API(endpointsRESTClient.client.client),
+  };
 };
 
-type EndpointsQueryProvider = PatchedQueryProvider<
+type EndpointsQueryProvider = EndpointsQueryProviderV2<
   Endpoints,
   QueryProviderCustomQueries
 >;

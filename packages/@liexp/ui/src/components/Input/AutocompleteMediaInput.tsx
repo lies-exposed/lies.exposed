@@ -18,7 +18,7 @@ export const AutocompleteMediaInput: React.FC<AutocompleteMediaInputProps> = ({
   discrete = true,
   ...props
 }) => {
-  const Queries = useEndpointQueries();
+  const { Queries } = useEndpointQueries();
   return (
     <AutocompleteInput<Media.Media>
       placeholder="Media description..."

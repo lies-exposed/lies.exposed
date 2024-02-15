@@ -12,7 +12,6 @@ import { EventsPanelBox } from "../containers/EventsPanel.js";
 import { StatsPanelBox } from "../containers/StatsPanelBox.js";
 import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox.js";
 import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventsNetworkGraphBox.js";
-import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery.js";
 import { SplitPageTemplate } from "./SplitPageTemplate.js";
 
@@ -39,11 +38,10 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
   onKeywordClick,
   onEventClick,
 }) => {
-  const Queries = useEndpointQueries();
   return (
     <QueriesRenderer
-      queries={{
-        groupsMembers: Queries.GroupMember.list.useQuery(
+      queries={(Q) => ({
+        groupsMembers: Q.GroupMember.list.useQuery(
           {
             filter: {
               group: group.id,
@@ -52,7 +50,7 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
           undefined,
           false,
         ),
-      }}
+      })}
       render={({ groupsMembers }) => {
         return (
           <Box

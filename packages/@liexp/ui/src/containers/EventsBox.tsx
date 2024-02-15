@@ -3,6 +3,7 @@ import * as React from "react";
 import { EventCardGrid } from "../components/Cards/Events/EventCardGrid.js";
 import QueriesRenderer from "../components/QueriesRenderer.js";
 import { Grid, Typography } from "../components/mui/index.js";
+import { useAPI } from "../hooks/useAPI.js";
 import {
   searchEventsQuery,
   type SearchEventQueryInput,
@@ -21,10 +22,11 @@ const EventsBox: React.FC<EventsBoxProps> = ({
   onEventClick,
 }) => {
   const theme = useTheme();
+  const api = useAPI();
   return (
     <QueriesRenderer
       queries={{
-        events: searchEventsQuery({
+        events: searchEventsQuery(api)({
           hash: `${title.trim()}`,
           _start: 0,
           _end: 10,

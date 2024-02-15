@@ -20,7 +20,6 @@ import {
   TabbedForm,
   TextField,
   useCreateController,
-  useDataProvider,
   useGetIdentity,
   usePermissions,
   useRecordContext,
@@ -29,6 +28,7 @@ import {
   type EditProps,
   type ListProps,
 } from "react-admin";
+import { useDataProvider } from "../../../../hooks/useDataProvider.js";
 import { EventIcon } from "../../../Common/Icons/index.js";
 import ReactPageInput from "../../../admin/ReactPageInput.js";
 import { WebPreviewButton } from "../../../admin/common/WebPreviewButton.js";

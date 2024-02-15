@@ -90,7 +90,7 @@ const initialState: State = {
   toggleData: "last-2000-years",
 };
 export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = (props) => {
-  const Queries = useEndpointQueries();
+  const { Queries } = useEndpointQueries();
   const { showPoints, showGrid = true, style } = props;
 
   const [{ toggleData }, setToggleData] = React.useState(initialState);

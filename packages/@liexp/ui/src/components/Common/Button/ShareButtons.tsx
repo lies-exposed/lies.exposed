@@ -41,7 +41,8 @@ export const ShareButtons: React.FC<ShareButtonsProps> = ({
     <Box style={style}>
       <FacebookShareButton
         {...buttonProps}
-        quote={message}
+        title={title}
+        content={message}
         hashtag={keywords.map((k) => `#${k}`).join(" ")}
       >
         <FacebookIcon {...iconProps} />

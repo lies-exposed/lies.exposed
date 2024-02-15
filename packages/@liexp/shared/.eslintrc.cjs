@@ -8,6 +8,7 @@ module.exports = {
   settings: {
     "import/ignore": ["uuid"],
   },
+  ignorePatterns: ["vitest.config.ts"],
   rules: {
     "no-restricted-imports": [
       "error",

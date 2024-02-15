@@ -13,7 +13,7 @@ import { Loader } from "./Common/Loader.js";
 type QueriesRecord = Record<string, UseQueryResult<any, APIError>>;
 type QueriesProp =
   | QueriesRecord
-  | ((qq: EndpointsQueryProvider) => QueriesRecord);
+  | ((qq: EndpointsQueryProvider["Queries"]) => QueriesRecord);
 
 type RenderFn<Q extends QueriesProp> = (
   data: Q extends QueriesRecord
@@ -49,14 +49,17 @@ const QueriesRenderer = <Q extends QueriesProp>({
   const initialErrors: Record<string, APIError> = {};
   const endpointsQueryProvider = useEndpointQueries();
   const queriesObject =
-    typeof queries === "function" ? queries(endpointsQueryProvider) : queries;
+    typeof queries === "function"
+      ? queries(endpointsQueryProvider.Queries)
+      : queries;
+
   const { isLoading, isError, data, errors } = Object.entries(
     queriesObject,
   ).reduce(
     (acc, [key, value]: [string, UseQueryResult<any, APIError>]) => {
       // if (!value.isSuccess) {
       //   // eslint-disable-next-line no-console
-      //   console.log(`query ${key}`, value);
+      // console.log(`query ${key}`, value);
       // }
 
       return {

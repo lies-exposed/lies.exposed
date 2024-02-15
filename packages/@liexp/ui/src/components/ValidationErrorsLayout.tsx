@@ -6,7 +6,7 @@ import * as React from "react";
 import { Layout } from "./Layout.js";
 import { MainContent } from "./MainContent.js";
 
-export const ValidationErrorsLayout = (errs: t.Errors): JSX.Element => {
+export const ValidationErrorsLayout: React.FC<t.Errors> = (errs) => {
   return (
     <Layout
       header={{

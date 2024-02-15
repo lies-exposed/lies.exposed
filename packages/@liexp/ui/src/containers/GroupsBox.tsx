@@ -20,7 +20,7 @@ export const GroupsBoxWrapper: React.FC<GroupsBoxWrapperProps> = ({
   prefix = "group-box-wrapper",
   children,
 }) => {
-  const Queries = useEndpointQueries();
+  const { Queries } = useEndpointQueries();
   return (
     <QueriesRenderer
       queries={{

@@ -1,10 +1,10 @@
-// eslint-disable-next-line no-restricted-imports
-import MUIAvatar, {
-  type AvatarProps as MUIAvatarProps,
-} from "@mui/material/Avatar/index.js";
 import { clsx } from "clsx";
 import * as React from "react";
 import { styled } from "../../theme/index.js";
+import {
+  Avatar as MUIAvatar,
+  type AvatarProps as MUIAvatarProps,
+} from "../mui/index.js";
 
 const PREFIX = "Avatar";
 

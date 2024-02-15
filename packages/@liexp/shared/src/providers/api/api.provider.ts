@@ -1,5 +1,5 @@
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
-import axios, { type AxiosRequestConfig, type AxiosResponse } from "axios";
+import { type AxiosInstance, type AxiosResponse } from "axios";
 import * as A from "fp-ts/lib/Array.js";
 import * as R from "fp-ts/lib/Record.js";
 import type * as TE from "fp-ts/lib/TaskEither.js";
@@ -41,10 +41,8 @@ type API = {
     : never;
 } & HTTPProvider;
 
-const API = (c: AxiosRequestConfig): API => {
-  const client = axios.create(c);
-
-  const http = HTTPProvider(axios.create({}));
+const API = (client: AxiosInstance): API => {
+  const http = HTTPProvider(client);
 
   const toTERequest = <E extends MinimalEndpointInstance>(
     e: E,

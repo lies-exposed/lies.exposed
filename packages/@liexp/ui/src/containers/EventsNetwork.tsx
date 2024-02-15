@@ -6,6 +6,7 @@ import {
 } from "../components/Graph/EventsSankeyGraph.js";
 import QueriesRenderer from "../components/QueriesRenderer.js";
 import { Box } from "../components/mui/index.js";
+import { useAPI } from "../hooks/useAPI.js";
 import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
 import { searchEventsQuery } from "../state/queries/SearchEventsQuery.js";
 import { type EventsQueryParams } from "./EventsPanel.js";
@@ -30,8 +31,9 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
   ...props
 }) => {
   // console.log(filter);
+  const api = useAPI();
 
-  const Queries = useEndpointQueries();
+  const { Queries } = useEndpointQueries();
 
   const eventsFilter = {
     ...filter,
@@ -42,7 +44,7 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
   return (
     <QueriesRenderer
       queries={{
-        events: searchEventsQuery({
+        events: searchEventsQuery(api)({
           hash: "events-network",
           ...eventsFilter,
         }),

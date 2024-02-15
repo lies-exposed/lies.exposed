@@ -7,6 +7,7 @@ import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import EventTimelineItem, {
   type EventTimelineItemProps,
 } from "@liexp/ui/lib/components/lists/EventList/EventTimelineItem.js";
+import { useAPI } from "@liexp/ui/lib/hooks/useAPI";
 import { searchEventsQuery } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
@@ -28,11 +29,12 @@ interface EventTimelineItemStoryProps extends EventTimelineItemProps {
 }
 
 const Template: StoryFn<EventTimelineItemStoryProps> = ({ type, ...props }) => {
+  const api = useAPI();
   return (
     <div style={{ height: "100%" }}>
       <QueriesRenderer
         queries={{
-          events: searchEventsQuery({
+          events: searchEventsQuery(api)({
             hash: "events-timeline-list-item-storybook",
             eventType: [type],
             _start: 0,

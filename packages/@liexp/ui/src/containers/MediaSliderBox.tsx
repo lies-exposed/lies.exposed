@@ -19,7 +19,7 @@ const MediaSliderBox: React.FC<MediaSliderBoxProps> = ({
   enableDescription,
   ...props
 }) => {
-  const Queries = useEndpointQueries();
+  const { Queries } = useEndpointQueries();
   return (
     <QueriesRenderer
       queries={{ media: Queries.Media.list.useQuery(query, undefined, false) }}

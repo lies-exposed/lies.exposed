@@ -8,10 +8,6 @@ import {
   type AuthProvider,
 } from "../components/admin/react-admin.js";
 
-export const api = API({
-  baseURL: process.env.API_URL,
-});
-
 const publicDataProvider = http.APIRESTClient({
   url: process.env.API_URL,
 });
@@ -26,6 +22,8 @@ export const apiProvider = http.APIRESTClient({
     return null;
   },
 });
+
+export const api = API(apiProvider.client);
 
 export const authProvider: AuthProvider = {
   login: async ({ username, password }) => {
