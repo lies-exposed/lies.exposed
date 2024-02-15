@@ -46,7 +46,6 @@
     "@storybook/theming": "^7.6.10",
     "@types/babel__preset-env": "^7.9.6",
     "@types/eslint": "^8.56.2",
-    "@types/prettier": "^3.0.0",
     "eslint": "^8.56.0",
     "prettier": "^3.2.5",
     "typescript": "^5.3.3",

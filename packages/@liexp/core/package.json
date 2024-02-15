@@ -26,7 +26,6 @@
     "@types/html-replace-webpack-plugin": "^2.6.4",
     "@types/mime": "^1.3.5",
     "@types/mini-css-extract-plugin": "^2.5.1",
-    "@types/prettier": "^3.0.0",
     "@types/react": "^18.2.55",
     "@types/webpack-bundle-analyzer": "^4.6.4",
     "@types/webpack-node-externals": "^3.0.4",
