@@ -17,7 +17,7 @@ export const LinkTGPostButton: React.FC = () => {
     <SocialPostButton
       type="links"
       onLoadSharePayloadClick={async () => {
-        const url = `${process.env.WEB_URL}/links/${record.id}`;
+        const url = `${process.env.VITE_WEB_URL}/links/${record.id}`;
 
         const media: Media.Media[] =
           typeof record.image === "string"

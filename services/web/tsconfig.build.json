@@ -1,52 +1,8 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "build",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "target": "es6",
-    "jsx": "react",
-    "noEmit": false,
-    "allowJs": true,
-    "strict": true,
-    "esModuleInterop": true,
-    "noUnusedLocals": false,
-    "resolveJsonModule": true,
-    "forceConsistentCasingInFileNames": true,
-    "lib": ["dom", "esnext"],
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "typeRoots": ["typings"],
-    "importHelpers": true,
-    "allowSyntheticDefaultImports": true,
-    "noFallthroughCasesInSwitch": true,
-    "tsBuildInfoFile": "build/tsconfig.build.tsbuildinfo",
-    "baseUrl": "./src",
-    "rootDir": "./src",
-    "paths": {
-      "@containers/*": ["./client/containers/*"]
-    }
+    "rootDir": "./src"
   },
   "include": ["./src", "./typings"],
-  "exclude": ["**/__tests__", "**/__specs__", "**/tests", "**/test"],
-  "references": [
-    {
-      "path": "../../packages/@liexp/core"
-    },
-    {
-      "path": "../../packages/@liexp/shared"
-    },
-    {
-      "path": "../../packages/@liexp/ui"
-    }
-  ],
-  "ts-node": {
-    "require": ["tsconfig-paths/register"],
-    "transpileOnly": true,
-    "compilerOptions": {
-      "module": "CommonJS",
-      "moduleResolution": "node",
-      "esModuleInterop": true
-    }
-  }
+  "exclude": ["**/__tests__", "**/__specs__", "**/tests", "**/test"]
 }

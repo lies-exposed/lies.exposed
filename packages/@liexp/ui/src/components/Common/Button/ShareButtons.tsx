@@ -32,7 +32,7 @@ export const ShareButtons: React.FC<ShareButtonsProps> = ({
   };
 
   const buttonProps = {
-    url: `${process.env.PUBLIC_URL}${urlPath}`,
+    url: `${process.env.VITE_PUBLIC_URL}${urlPath}`,
     style: {
       marginRight: 10,
     },

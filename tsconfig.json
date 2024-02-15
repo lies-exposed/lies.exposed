@@ -8,6 +8,7 @@
     "declaration": true,
     "esModuleInterop": true,
     "noUnusedLocals": true,
+    "isolatedModules": true,
     "resolveJsonModule": true,
     "noImplicitReturns": true,
     "forceConsistentCasingInFileNames": true,

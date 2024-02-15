@@ -16,7 +16,7 @@ export const KeywordTGPostButton: React.FC = () => {
     <SocialPostButton
       type="keywords"
       onLoadSharePayloadClick={async () => {
-        const url = `${process.env.WEB_URL}/media/${record.id}`;
+        const url = `${process.env.VITE_WEB_URL}/media/${record.id}`;
 
         const media: Media.Media[] = await apiProvider
           .getList("media", {
