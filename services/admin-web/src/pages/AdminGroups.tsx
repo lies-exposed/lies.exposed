@@ -34,7 +34,6 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  useDataProvider,
   useRecordContext,
   type ArrayInputProps,
   type CreateProps,
@@ -45,6 +44,7 @@ import {
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { LazyFormTabContent } from "@liexp/ui/lib/components/admin/tabs/LazyFormTabContent.js";
 import { Box, Grid, Typography } from "@liexp/ui/lib/components/mui/index.js";
+import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as React from "react";

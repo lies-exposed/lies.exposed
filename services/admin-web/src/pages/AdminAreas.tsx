@@ -21,7 +21,6 @@ import {
   TextField,
   TextInput,
   required,
-  useDataProvider,
   useRecordContext,
   type CreateProps,
   type EditProps,
@@ -31,6 +30,7 @@ import {
 import { ReferenceMediaTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceMediaTab.js";
 import { transformMedia } from "@liexp/ui/lib/components/admin/transform.utils.js";
 import { Box, Stack } from "@liexp/ui/lib/components/mui/index.js";
+import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import * as React from "react";
 
 const RESOURCE = "areas";
