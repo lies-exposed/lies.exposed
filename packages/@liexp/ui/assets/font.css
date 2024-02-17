@@ -2,7 +2,8 @@
 
 @font-face {
   font-family: "Lora";
-  src: url("./fonts/Lora-Bold.eot"),
+  src: url("./fonts/Lora-Bold.eot");
+  src:
     url("./fonts/Lora-Bold.eot") format("embedded-opentype"),
     url("./fonts/Lora-Bold.woff") format("woff"),
     url("./fonts/Lora-Bold.ttf") format("truetype"),
@@ -13,7 +14,9 @@
 
 @font-face {
   font-family: "Lora";
-  src: url("./fonts/Lora-BoldItalic.eot"),
+  src: url("./fonts/Lora-BoldItalic.eot");
+  src:
+    url("./fonts/Lora-BoldItalic.eot") format("embedded-opentype"),
     url("./fonts/Lora-BoldItalic.woff") format("woff"),
     url("./fonts/Lora-BoldItalic.ttf") format("truetype"),
     url("./fonts/Lora-BoldItalic.svg") format("svg");
@@ -23,7 +26,9 @@
 
 @font-face {
   font-family: "Lora";
-  src: url("./fonts/Lora-Regular.eot"),
+  src: url("./fonts/Lora-Regular.eot");
+  src:
+    url("./fonts/Lora-Regular.eot") format("embedded-opentype"),
     url("./fonts/Lora-Regular.woff") format("woff"),
     url("./fonts/Lora-Regular.ttf") format("truetype"),
     url("./fonts/Lora-Regular.svg") format("svg");
@@ -33,7 +38,9 @@
 
 @font-face {
   font-family: "Lora";
-  src: url("./fonts/Lora-Italic.eot"),
+  src: url("./fonts/Lora-Italic.eot");
+  src:
+    url("./fonts/Lora-Italic.eot") format("embedded-opentype"),
     url("./fonts/Lora-Italic.woff") format("woff"),
     url("./fonts/Lora-Italic.ttf") format("truetype"),
     url("./fonts/Lora-Italic.svg") format("svg");
@@ -43,7 +50,9 @@
 
 @font-face {
   font-family: "Signika";
-  src: url("./fonts/Signika-Bold.eot"),
+  src: url("./fonts/Signika-Bold.eot");
+  src:
+    url("./fonts/Signika-Bold.eot") format("embedded-opentype"),
     url("./fonts/Signika-Bold.woff") format("woff"),
     url("./fonts/Signika-Bold.ttf") format("truetype"),
     url("./fonts/Signika-Bold.svg") format("svg");
@@ -53,7 +62,9 @@
 
 @font-face {
   font-family: "Signika";
-  src: url("./fonts/Signika-Light.eot"),
+  src: url("./fonts/Signika-Light.eot");
+  src:
+    url("./fonts/Signika-Light.eot") format("embedded-opentype"),
     url("./fonts/Signika-Light.woff") format("woff"),
     url("./fonts/Signika-Light.ttf") format("truetype"),
     url("./fonts/Signika-Light.svg") format("svg");
@@ -63,7 +74,9 @@
 
 @font-face {
   font-family: "Signika";
-  src: url("./fonts/Signika-Regular.eot"),
+  src: url("./fonts/Signika-Regular.eot");
+  src:
+    url("./fonts/Signika-Regular.eot") format("embedded-opentype"),
     url("./fonts/Signika-Regular.woff") format("woff"),
     url("./fonts/Signika-Regular.ttf") format("truetype"),
     url("./fonts/Signika-Regular.svg") format("svg");
