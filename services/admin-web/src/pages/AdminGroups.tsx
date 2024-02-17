@@ -1,5 +1,6 @@
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
+import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider";
 import { parseDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
@@ -37,7 +38,6 @@ import {
   useRecordContext,
   type ArrayInputProps,
   type CreateProps,
-  type DataProvider,
   type EditProps,
   type RaRecord,
   type SelectInputProps,
@@ -106,7 +106,7 @@ export const GroupList: React.FC = () => (
 );
 
 const transformGroup =
-  (apiProvider: DataProvider) =>
+  (apiProvider: APIRESTClient) =>
   (data: RaRecord): RaRecord | Promise<RaRecord> => {
     if (data._from === "wikipedia") {
       return data;

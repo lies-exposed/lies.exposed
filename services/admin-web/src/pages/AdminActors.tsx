@@ -1,4 +1,5 @@
 import { http } from "@liexp/shared/lib/io/index.js";
+import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider";
 import { createExcerptValue } from "@liexp/shared/lib/slate/index.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
@@ -36,7 +37,6 @@ import {
   TextInput,
   useRecordContext,
   type CreateProps,
-  type DataProvider,
   type EditProps,
   type RaRecord,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
@@ -70,7 +70,7 @@ export const ActorList: React.FC = () => (
 );
 
 const transformActor =
-  (dataProvider: DataProvider<string>) =>
+  (dataProvider: APIRESTClient) =>
   async (id: string, data: RaRecord): Promise<RaRecord> => {
     if (data._from === "url") {
       return data;
