@@ -1,5 +1,6 @@
 import { parseURL } from "@liexp/shared/lib/helpers/media.js";
 import { MP4Type, type MediaType } from "@liexp/shared/lib/io/http/Media.js";
+import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import axios from "axios";
 import * as A from "fp-ts/lib/Array.js";
@@ -8,7 +9,6 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { type DataProvider, type RaRecord } from "react-admin";
 import { durationToSeconds } from "../../components/admin/media/DurationField.js";
-import { apiProvider } from "../api.js";
 
 export interface RawMedia {
   location: {
@@ -57,7 +57,7 @@ const getSignedUrl =
   };
 
 export const uploadFile =
-  (client: DataProvider) =>
+  (client: APIRESTClient) =>
   (
     resource: string,
     resourceId: string,
@@ -69,7 +69,7 @@ export const uploadFile =
         const formData = new FormData();
         formData.append("resource", resource);
         formData.append("media", f);
-        return await apiProvider
+        return await client
           .request({
             method: "PUT",
             url: `/uploads-multipart/${resourceId}`,
@@ -128,7 +128,7 @@ export const uploadFile =
   };
 
 export const uploadImages =
-  (client: DataProvider) =>
+  (client: APIRESTClient) =>
   (
     resource: string,
     resourceId: string,
@@ -143,7 +143,7 @@ export const uploadImages =
   };
 
 export const transformMedia =
-  (apiProvider: DataProvider<string>) =>
+  (apiProvider: APIRESTClient) =>
   async (data: RaRecord): Promise<RaRecord> => {
     const uploadFileTask =
       data._type === "fromFile" && data.location.rawFile
