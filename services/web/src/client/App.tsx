@@ -1,7 +1,7 @@
 import "@liexp/ui/assets/main.css";
-import "@liexp/ui/lib/components/Common/Icons/library";
 import { ErrorBox } from "@liexp/ui/lib/components/Common/ErrorBox";
 import { FullSizeLoader } from "@liexp/ui/lib/components/Common/FullSizeLoader";
+import "@liexp/ui/lib/components/Common/Icons/library.js";
 import { Footer } from "@liexp/ui/lib/components/Footer";
 import SEO from "@liexp/ui/lib/components/SEO";
 import { Grid, useMuiMediaQuery } from "@liexp/ui/lib/components/mui/index";

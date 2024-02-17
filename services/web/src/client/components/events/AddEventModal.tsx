@@ -16,6 +16,7 @@ import {
   Input,
   Typography,
 } from "@liexp/ui/lib/components/mui/index.js";
+import { useEndpointsRESTClient } from "@liexp/ui/lib/hooks/useEndpointRestClient.js";
 import { useTheme } from "@liexp/ui/lib/theme/index.js";
 import AddCircleIcon from "@mui/icons-material/AddCircle.js";
 import * as O from "fp-ts/Option";
@@ -69,6 +70,7 @@ interface AddEventModalProps {
 
 const AddEventModal: React.FC<AddEventModalProps> = (props) => {
   const theme = useTheme();
+  const apiProvider = useEndpointsRESTClient();
 
   const [open, setOpen] = React.useState(false);
   const [url, setUrl] = React.useState({
@@ -82,8 +84,8 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
     (http.EventSuggestion.CreateEventSuggestion & { id: string }) | undefined
   >(undefined);
 
-  const createEventSuggestionM = createEventSuggestion();
-  const getURLMetadataM = getURLMetadata();
+  const createEventSuggestionM = createEventSuggestion(apiProvider);
+  const getURLMetadataM = getURLMetadata(apiProvider);
 
   const handleSubmit = (): void => {
     if (selectedSuggestion) {

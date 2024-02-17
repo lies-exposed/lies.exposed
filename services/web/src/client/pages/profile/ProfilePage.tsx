@@ -1,5 +1,5 @@
 import "@liexp/ui/assets/react-page.css";
-import { apiProvider, authProvider } from "@liexp/ui/lib/client/api.js";
+import { authProvider } from "@liexp/ui/lib/client/api.js";
 import {
   FAIcon,
   UserIcon,
@@ -29,6 +29,7 @@ import {
   StoryList,
 } from "@liexp/ui/lib/components/admin/stories/AdminStories.js";
 import { SignIn } from "@liexp/ui/lib/components/admin/user/SignIn.js";
+import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import englishMessages from "@liexp/ui/lib/i18n/en-US.js";
 import { themeOptions } from "@liexp/ui/lib/theme/index.js";
 import polyglotI18nProvider from "ra-i18n-polyglot";
@@ -41,7 +42,7 @@ const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
 
 const ProfilePage: React.FC = () => {
   // eslint-disable-next-line no-console
-
+  const apiProvider = useDataProvider();
   return (
     <Admin
       dataProvider={apiProvider}
