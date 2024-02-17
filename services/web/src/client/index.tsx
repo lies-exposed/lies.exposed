@@ -1,5 +1,6 @@
 import { CacheProvider } from "@emotion/react";
 import { config, dom } from "@fortawesome/fontawesome-svg-core";
+import { apiProvider } from "@liexp/ui/lib/client/api.js";
 import { HelmetProvider } from "@liexp/ui/lib/components/SEO.js";
 import {
   CssBaseline,
@@ -9,13 +10,14 @@ import createEmotionCache from "@liexp/ui/lib/react/createEmotionCache.js";
 import { ECOTheme } from "@liexp/ui/lib/theme/index.js";
 import {
   HydrationBoundary,
-  QueryClientProvider,
   QueryClient,
+  QueryClientProvider,
 } from "@tanstack/react-query";
 import debug from "debug";
+import { DataProviderContext } from "ra-core";
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
-import { BrowserRouter, HashRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { App } from "./App";
 
 config.autoAddCss = false;
@@ -49,23 +51,23 @@ function Main(): JSX.Element {
 
   const dehydratedState = (window as any).__REACT_QUERY_STATE__;
 
-  const Router =
-    process.env.NODE_ENV === "development" ? HashRouter : BrowserRouter;
   return (
-    <Router>
-      <HelmetProvider>
-        <CacheProvider value={cache}>
-          <ThemeProvider theme={ECOTheme}>
-            <QueryClientProvider client={queryClient}>
-              <HydrationBoundary state={dehydratedState}>
-                <CssBaseline enableColorScheme />
-                <App />
-              </HydrationBoundary>
-            </QueryClientProvider>
-          </ThemeProvider>
-        </CacheProvider>
-      </HelmetProvider>
-    </Router>
+    <BrowserRouter>
+      <DataProviderContext.Provider value={apiProvider}>
+        <HelmetProvider>
+          <CacheProvider value={cache}>
+            <ThemeProvider theme={ECOTheme}>
+              <QueryClientProvider client={queryClient}>
+                <HydrationBoundary state={dehydratedState}>
+                  <CssBaseline enableColorScheme />
+                  <App />
+                </HydrationBoundary>
+              </QueryClientProvider>
+            </ThemeProvider>
+          </CacheProvider>
+        </HelmetProvider>
+      </DataProviderContext.Provider>
+    </BrowserRouter>
   );
 }
 
