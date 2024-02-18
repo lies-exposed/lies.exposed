@@ -10584,7 +10584,7 @@ __metadata:
     ts-endpoint-express: ^2.0.0
     ts-shared: 2.0.0-alpha.6
     tsconfig-paths: ^4.2.0
-    tsx: ^4.7.0
+    tsx: ^4.7.1
     typeorm: ^0.3.20
     typeorm-uml: ^1.6.5
     typescript: ^5.3.3
@@ -26325,7 +26325,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsx@npm:^4.7.0":
+"tsx@npm:^4.7.1":
   version: 4.7.1
   resolution: "tsx@npm:4.7.1"
   dependencies:
