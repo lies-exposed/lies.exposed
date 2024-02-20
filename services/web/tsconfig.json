@@ -5,14 +5,14 @@
     "module": "ESNext",
     "target": "es6",
     "moduleResolution": "node",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "noEmit": false,
-    "allowJs": true,
     "strict": true,
+    "isolatedModules": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "noUnusedLocals": false,
     "resolveJsonModule": true,
-    "forceConsistentCasingInFileNames": true,
     "lib": ["dom", "esnext"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
@@ -22,8 +22,6 @@
       "typings"
     ],
     "importHelpers": true,
-    "allowSyntheticDefaultImports": true,
-    "noFallthroughCasesInSwitch": true,
     "tsBuildInfoFile": "build/.tsbuildinfo",
     "baseUrl": "./src",
     "rootDir": "./",
@@ -31,7 +29,7 @@
       "@containers/*": ["./client/containers/*"]
     }
   },
-  "include": ["./src", "./typings", ".eslintrc.js", "./webpack.*.ts"],
+  "include": ["./src", "./typings", ".eslintrc.cjs", "vite.config.ts"],
   "references": [
     {
       "path": "../../packages/@liexp/core"
@@ -42,14 +40,5 @@
     {
       "path": "../../packages/@liexp/ui"
     }
-  ],
-  "ts-node": {
-    "require": ["tsconfig-paths/register"],
-    "transpileOnly": true,
-    "compilerOptions": {
-      "module": "CommonJS",
-      "moduleResolution": "node",
-      "esModuleInterop": true
-    }
-  }
+  ]
 }

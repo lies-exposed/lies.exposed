@@ -1,4 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import type * as http from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type AxiosError } from "axios";
@@ -7,23 +8,37 @@ import {
   type UserIdentity,
 } from "../components/admin/react-admin.js";
 
+export const getAuthFromLocalStorage = (): string | null => {
+  if (typeof window !== "undefined") {
+    const token = localStorage.getItem("auth");
+    return token;
+  }
+  return null;
+};
+
 export const GetAuthProvider = (
   publicDataProvider: http.APIRESTClient,
 ): AuthProvider => {
+  const clearLocalStorage = (): void => {
+    localStorage.removeItem("auth");
+    localStorage.removeItem("user");
+  };
+
   const checkError = (e: AxiosError): Promise<void> => {
     // eslint-disable-next-line no-console
-    console.error("check error", e);
+    console.error("check error", e.code, e.response?.status, e.message);
+
     const errorData = new Error(JSON.stringify(e?.response?.data));
     if (e?.response?.status === 401) {
+      clearLocalStorage();
       return Promise.reject(errorData);
     }
     return Promise.resolve();
   };
 
-  const logout = async (p: any): Promise<void> => {
-    localStorage.removeItem("auth");
-    localStorage.removeItem("user");
-    await Promise.resolve(undefined);
+  const logout = async (p: { redirectTo?: string }): Promise<void> => {
+    clearLocalStorage();
+    await Promise.resolve({ redirectTo: p.redirectTo ?? "/login" });
   };
 
   return {
@@ -54,7 +69,12 @@ export const GetAuthProvider = (
         user,
         fp.O.fromNullable,
         fp.O.chainNullableK((u) => JSON.parse(u)?.permissions),
-        fp.E.fromOption(() => new Error("User is missing")),
+        fp.E.fromOption(
+          () =>
+            new APIError("User is missing", [
+              "User is missing in local storage",
+            ]),
+        ),
         fp.TE.fromEither,
         throwTE,
       );
@@ -73,14 +93,12 @@ export const GetAuthProvider = (
         })
         .catch((e) => {
           // eslint-disable-next-line no-console
-          console.log("error", e);
-          void checkError(e)
-            .then(() => {
-              // eslint-disable-next-line no-console
-              console.log("error checked, logout");
-              return logout({});
-            })
-            .then(logout);
+          console.log("error fetching identity", e);
+          return checkError(e).catch((err) => {
+            // eslint-disable-next-line no-console
+            console.log("error checkError, ", err);
+            throw err;
+          });
         }) as Promise<UserIdentity>;
 
       return await getUserIdentity;

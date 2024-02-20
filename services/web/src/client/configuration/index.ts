@@ -5,20 +5,20 @@ import {
 
 export const configuration: Configuration = {
   ...defaultConfiguration,
-  mode: process.env.NODE_ENV,
-  isDev: process.env.NODE_ENV === "development",
-  isProd: process.env.NODE_ENV === "production",
-  publicUrl: process.env.PUBLIC_URL,
+  mode: import.meta.env.MODE,
+  isDev: import.meta.env.DEV,
+  isProd: import.meta.env.PROD,
+  publicUrl: import.meta.env.VITE_PUBLIC_URL,
   platforms: {
     web: {
-      defaultImage: `${process.env.PUBLIC_URL}/assets/liexp-logo-1200x630.png`,
-      url: process.env.PUBLIC_URL,
+      defaultImage: `${import.meta.env.VITE_PUBLIC_URL}/assets/liexp-logo-1200x630.png`,
+      url: import.meta.env.VITE_PUBLIC_URL,
     },
     admin: {
-      url: process.env.ADMIN_URL,
+      url: import.meta.env.VITE_ADMIN_URL,
     },
     api: {
-      url: process.env.API_URL,
+      url: import.meta.env.VITE_API_URL,
     },
   },
 };

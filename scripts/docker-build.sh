@@ -10,7 +10,11 @@ docker build . --force-rm --pull --file base.Dockerfile \
     --tag $BASE_IMAGE:alpha-latest \
     --tag ghcr.io/lies-exposed/$BASE_IMAGE:20-latest
 
-docker build . --force-rm --pull --file api.Dockerfile \
+docker build . \
+    --force-rm \
+    --pull \
+    --no-cache \
+    --file api.Dockerfile \
     --target production \
     --tag $API_IMAGE:alpha-latest \
     --tag ghcr.io/lies-exposed/$API_IMAGE:alpha-latest
@@ -18,6 +22,7 @@ docker build . --force-rm --pull --file api.Dockerfile \
 docker build --build-arg DOTENV_CONFIG_PATH=.env.alpha . \
     --force-rm \
     --pull \
+    --no-cache \
     --file web.Dockerfile \
     --target production \
     --tag $WEB_IMAGE:alpha-latest \

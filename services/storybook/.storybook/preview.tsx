@@ -19,7 +19,7 @@ config.autoAddCss = false;
 dom.watch();
 
 const apiProvider = APIRESTClient({
-  url: process.env.API_URL ?? "https://alpha.api.lies.exposed/v1",
+  url: process.env.VITE_API_URL ?? "https://alpha.api.lies.exposed/v1",
 });
 const qc = new QueryClient();
 

@@ -9,6 +9,10 @@ cp ./services/web/.env ./deploy/.env.web
 # echo "Update api env HOST=$appium_server_ip to .env.local"
 
 # sed -i "s/HOST=.*/HOST=$appium_server_ip/g" ./deploy/.env.api
+docker compose down
+
+# start only db
+docker compose up db -d
 
 cp ./services/api/certs/*.crt ./deploy/certs/
 cd ./deploy || return

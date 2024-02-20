@@ -21,6 +21,7 @@
     "@liexp/shared": "0.1.0",
     "@liexp/ui": "0.1.0",
     "d3": "^7.8.5",
+    "io-ts": "^2.2.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-spring": "^9.7.3",
@@ -42,12 +43,12 @@
     "@storybook/builder-vite": "^7.6.16",
     "@storybook/react": "^7.6.16",
     "@storybook/react-vite": "^7.6.16",
-    "@storybook/react-webpack5": "^7.6.16",
     "@storybook/theming": "^7.6.16",
     "@types/babel__preset-env": "^7.9.6",
     "@types/eslint": "^8.56.2",
     "eslint": "^8.56.0",
     "prettier": "^3.2.5",
+    "serve": "^14.2.1",
     "typescript": "^5.3.3",
     "vite": "^5.1.3"
   }

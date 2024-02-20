@@ -1,9 +1,9 @@
 declare namespace NodeJS {
   interface ProcessEnv {
-    readonly NODE_ENV: "development" | "production" | "test";
-    readonly PUBLIC_URL: string;
-    readonly API_URL: string;
-    readonly DATA_URL: string;
-    readonly ADMIN_URL: string;
+    readonly VITE_NODE_ENV: "development" | "production" | "test";
+    readonly VITE_PUBLIC_URL: string;
+    readonly VITE_API_URL: string;
+    readonly VITE_DATA_URL: string;
+    readonly VITE_ADMIN_URL: string;
   }
 }

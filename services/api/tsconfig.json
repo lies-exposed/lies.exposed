@@ -4,7 +4,7 @@
     "noEmit": false,
     "outDir": "./build",
     "baseUrl": "./src",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "rootDir": "./",
     "lib": ["DOM", "ES2022"],
     "tsBuildInfoFile": "build/.tsbuildinfo",

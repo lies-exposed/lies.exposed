@@ -2,17 +2,17 @@
   "name": "admin-web",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "clean": "rm -rf build",
-    "start": "webpack serve",
-    "build:app": "webpack",
-    "serve": "serve build",
+    "start": "vite start",
+    "build:app": "vite build",
+    "dev": "vite",
     "test": "vitest",
     "build": "tsc -b",
     "watch": "tsc -b --watch",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
-    "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
-    "bundle-stats": "webpack-bundle-analyzer build/stats.json"
+    "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\""
   },
   "browserslist": {
     "production": [
@@ -49,6 +49,7 @@
     "react-helmet": "^6.1.0",
     "slick-carousel": "^1.8.1",
     "uuid": "^9.0.1",
+    "vite": "^5.1.3",
     "web-vitals": "^3.5.2"
   },
   "devDependencies": {
@@ -60,7 +61,6 @@
     "@types/node": "^20.11.19",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
-    "@types/webpack-bundle-analyzer": "^4.7.0",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "dotenv": "^16.3.1",
@@ -72,23 +72,14 @@
     "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.33.2",
-    "eslint-webpack-plugin": "^4.0.1",
     "page-metadata-parser": "^1.1.4",
     "prettier": "^3.2.5",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.3.3",
-    "webpack": "^5.90.2",
-    "webpack-bundle-analyzer": "^4.10.1",
-    "webpack-cli": "^5.1.4"
+    "typescript": "^5.3.3"
   },
   "lint-staged": {
     "**/*.(ts|tsx|js|jsx)": "eslint --fix",
     "**/*.+(ts|tsx|js|jsx|json|css)": [
       "prettier --write"
     ]
-  },
-  "_moduleAliases": {
-    "@liexp/core": "../../packages/@liexp/core/lib",
-    "@liexp/shared": "../../packages/@liexp/shared/lib"
   }
 }

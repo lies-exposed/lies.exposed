@@ -9,4 +9,3 @@ build
 # don't lint TypeScript types definition
 typings
 *.d.ts
-webpack.config.js
