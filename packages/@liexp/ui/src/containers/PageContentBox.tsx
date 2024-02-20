@@ -8,6 +8,7 @@ import { TOCPlugin } from "../components/Common/Editor/plugins/renderer/TOCPlugi
 import QueriesRenderer from "../components/QueriesRenderer.js";
 import SEO from "../components/SEO.js";
 import { Typography } from "../components/mui/index.js";
+import { useConfiguration } from "../context/ConfigurationContext.js";
 
 export interface PageContentProps {
   path: string;
@@ -20,6 +21,7 @@ export const PageContentBox: React.FC<PageContentProps> = ({
   showTitle = false,
   style,
 }) => {
+  const conf = useConfiguration();
   return (
     <QueriesRenderer
       queries={(Q) => ({
@@ -34,7 +36,7 @@ export const PageContentBox: React.FC<PageContentProps> = ({
                 (excerpt as any) ?? undefined,
                 200,
               )}
-              image={`${process.env.VITE_PUBLIC_URL}/liexp-logo.png`}
+              image={`${conf.publicUrl}/liexp-logo.png`}
               urlPath={path}
             />
             {showTitle ? (

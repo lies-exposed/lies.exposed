@@ -6,6 +6,7 @@
   "main": "lib/index.js",
   "type": "commonjs",
   "exports": {
+    ".": "./lib/index.js",
     "./lib/*": "./lib/*"
   },
   "scripts": {

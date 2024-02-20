@@ -33,6 +33,7 @@ import {
 } from "../components/mui/index.js";
 import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox.js";
 import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventsNetworkGraphBox.js";
+import { useConfiguration } from '../context/ConfigurationContext.js';
 import { styled, useTheme } from "../theme/index.js";
 import { SplitPageTemplate } from "./SplitPageTemplate.js";
 
@@ -91,6 +92,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
   const theme = useTheme();
   const isDownSM = useMuiMediaQuery(theme.breakpoints.down("md"));
   const { date } = event;
+  const conf = useConfiguration();
 
   return (
     <StyledBox className={classes.root}>
@@ -120,7 +122,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
           const seoImage =
             media[0]?.thumbnail ??
             media[0]?.location ??
-            `${process.env.API_PUBLIC_URL}/liexp-logo.png`;
+            `${conf.platforms.web.url}/liexp-logo.png`;
 
           return (
             <Box style={{ height: "100%" }}>

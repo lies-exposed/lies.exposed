@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import {
   TextField,
   Autocomplete,
@@ -34,7 +34,7 @@ const SearchableInput = <I extends SearchableItem>({
   onSelectItem,
   onUnselectItem,
   ...props
-}: SearchableInputProps<I>): JSX.Element => {
+}: SearchableInputProps<I>): React.ReactNode => {
   return (
     <Autocomplete<I, typeof props.multiple, boolean, boolean>
       {...props}

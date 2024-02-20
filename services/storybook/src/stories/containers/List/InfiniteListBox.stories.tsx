@@ -83,7 +83,7 @@ const infiniteAreaListBoxExampleArgs: InfiniteListBoxProps<
         }, []);
         return (
           <div ref={ref} style={style}>
-            <AreaListItem item={item} style={{ height: 300 }} />
+            <AreaListItem item={item} style={{ height: 300 }} defaultImage='https://placekitten.com/600/500' />
           </div>
         );
       },

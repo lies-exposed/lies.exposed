@@ -3,8 +3,8 @@ import * as React from "react";
 import { ECOTheme } from "../../../../theme/index.js";
 import {
   Box,
-  ThemeProvider,
   StyledEngineProvider,
+  ThemeProvider,
 } from "../../../mui/index.js";
 
 // interface GridCellData {
@@ -14,7 +14,7 @@ import {
 // }
 
 const gridCellPlugin: CellPlugin = {
-  Renderer: ({ children, data }) => {
+  Renderer: ({ children, data }): React.ReactNode => {
     return (
       <Box
         display="flex"
@@ -27,7 +27,7 @@ const gridCellPlugin: CellPlugin = {
       </Box>
     );
   },
-  Provider: ({ children }) => (
+  Provider: ({ children }): React.ReactNode => (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={ECOTheme}>{children}</ThemeProvider>
     </StyledEngineProvider>

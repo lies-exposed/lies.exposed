@@ -2,6 +2,7 @@ import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
+import { useConfiguration } from "../../context/ConfigurationContext.js";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
 import EventCard from "../Cards/Events/EventCard.js";
 import { EventCardGrid } from "../Cards/Events/EventCardGrid.js";
@@ -21,6 +22,7 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
   ...props
 }) => {
   const { Queries } = useEndpointQueries();
+  const conf = useConfiguration();
   return (
     <AutocompleteInput<Events.Event>
       placeholder="Event description..."
@@ -58,6 +60,7 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
               selectedItems.filter((i) => i.id !== item.id).concat(item),
             );
           }}
+          defaultImage={conf.platforms.web.defaultImage}
         />
       )}
       onItemsChange={onChange}

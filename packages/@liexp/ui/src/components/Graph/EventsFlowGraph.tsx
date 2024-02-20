@@ -18,6 +18,7 @@ import {
   type EdgeProps,
   type NodeProps,
 } from "reactflow";
+import { useConfiguration } from "../../context/ConfigurationContext.js";
 import EventCard from "../Cards/Events/EventCard.js";
 import { FlowGraph, type FlowGraphProps } from "../Common/Graph/FlowGraph.js";
 import { EventIcon } from "../Common/Icons/index.js";
@@ -44,6 +45,7 @@ const EventNode: React.FC<NodeProps<Events.SearchEvent.SearchEvent>> = ({
   sourcePosition,
   selected,
 }) => {
+  const conf = useConfiguration();
   return (
     <React.Suspense>
       <div style={{ maxWidth: 300, zIndex: selected ? 1000 : 0 }}>
@@ -58,7 +60,12 @@ const EventNode: React.FC<NodeProps<Events.SearchEvent.SearchEvent>> = ({
             }}
           />
         ) : (
-          <EventCard event={data} showMedia={true} showRelations={false} />
+          <EventCard
+            event={data}
+            showMedia={true}
+            showRelations={false}
+            defaultImage={conf.platforms.web.defaultImage}
+          />
         )}
         {sourcePosition ? (
           <Handle type="source" position={Position.Top} />

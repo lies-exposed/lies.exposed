@@ -26,6 +26,7 @@ import { TooltipWithBounds, withTooltip } from "@visx/tooltip";
 import { isDate } from "date-fns";
 import * as t from "io-ts";
 import * as React from "react";
+import { useJSONClient } from "../../../../hooks/useJSONAPI.js";
 import { useJSONDataQuery } from "../../../../state/queries/DiscreteQueries.js";
 import { styled } from "../../../../theme/index.js";
 import { StatAccordion } from "../../../Common/StatAccordion.js";
@@ -38,8 +39,8 @@ import {
   MenuItem,
   Select,
   Typography,
-  type TypographyProps,
   type SelectChangeEvent,
+  type TypographyProps,
 } from "../../../mui/index.js";
 
 const PREFIX = "VaccineADRGraph";
@@ -476,6 +477,7 @@ export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
   const [adrReportRate, setADRReportRate] = React.useState(adrReportRate100);
   const [manufacturer, setManufacturer] = React.useState("All");
   const [ageGroup, setAgeGroup] = React.useState("All" as any);
+  const jsonClient = useJSONClient();
 
   const handleADRReportRateChange = React.useCallback(
     (event: SelectChangeEvent<number>): void => {
@@ -506,7 +508,7 @@ export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
     <div>
       <QueriesRenderer
         queries={{
-          data: useJSONDataQuery(
+          data: useJSONDataQuery(jsonClient)(
             t.strict({ data: t.array(VaccineDatum) }).decode,
             id,
           ),

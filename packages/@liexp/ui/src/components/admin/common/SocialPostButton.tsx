@@ -10,6 +10,7 @@ import {
   type FieldProps,
   type Identifier,
 } from "react-admin";
+import { useConfiguration } from "../../../context/ConfigurationContext.js";
 import { Box, Button } from "../../mui/index.js";
 import { ShareModal, emptySharePayload } from "../Modal/ShareModal.js";
 
@@ -32,6 +33,7 @@ export const SocialPostButton: React.FC<SocialPostButtonProps> = ({
   onLoadSharePayloadClick,
 }) => {
   const record = useRecordContext();
+  const conf = useConfiguration();
 
   const [{ payload, media, multipleMedia }, setState] = React.useState<{
     payload: CreateSocialPost | undefined;
@@ -49,7 +51,7 @@ export const SocialPostButton: React.FC<SocialPostButtonProps> = ({
           void onLoadSharePayloadClick({ multipleMedia }).then((result) => {
             const shareMedia = getShareMedia(
               result.media,
-              `${process.env.VITE_WEB_URL}/liexp-logo-1200x630.png`,
+              `${conf.platforms.web.url}/liexp-logo-1200x630.png`,
             );
 
             setState((s) => ({

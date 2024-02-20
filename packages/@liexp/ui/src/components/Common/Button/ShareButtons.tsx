@@ -9,6 +9,7 @@ import {
   WhatsappIcon,
   WhatsappShareButton,
 } from "react-share";
+import { useConfiguration } from "../../../context/ConfigurationContext.js";
 import { Box } from "../../mui/index.js";
 
 interface ShareButtonsProps {
@@ -26,13 +27,14 @@ export const ShareButtons: React.FC<ShareButtonsProps> = ({
   keywords,
   style,
 }) => {
+  const conf = useConfiguration();
   const iconProps = {
     round: true,
     size: 24,
   };
 
   const buttonProps = {
-    url: `${process.env.VITE_PUBLIC_URL}${urlPath}`,
+    url: `${conf.publicUrl}${urlPath}`,
     style: {
       marginRight: 10,
     },

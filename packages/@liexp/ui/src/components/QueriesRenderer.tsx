@@ -45,7 +45,7 @@ const QueriesRenderer = <Q extends QueriesProp>({
   queries,
   loader = "default",
   ...props
-}: QueriesRendererProps<Q>): JSX.Element => {
+}: QueriesRendererProps<Q>): React.ReactNode => {
   const initialErrors: Record<string, APIError> = {};
   const endpointsQueryProvider = useEndpointQueries();
   const queriesObject =

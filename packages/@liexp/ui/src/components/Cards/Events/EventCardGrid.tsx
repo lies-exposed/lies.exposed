@@ -2,6 +2,7 @@ import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import * as A from "fp-ts/lib/Array.js";
 import { pipe } from "fp-ts/lib/function.js";
 import React from "react";
+import { useConfiguration } from "../../../context/ConfigurationContext.js";
 import { styled } from "../../../theme/index.js";
 import { Grid } from "../../mui/index.js";
 import EventCard from "./EventCard.js";
@@ -42,7 +43,7 @@ export const EventCardGrid: React.FC<EventCardGridProps> = ({
   ...props
 }) => {
   const gridSize = 12 / (events.length < 3 ? events.length : 3);
-
+  const conf = useConfiguration();
   return (
     <StyledGrid container spacing={2}>
       {pipe(
@@ -70,6 +71,7 @@ export const EventCardGrid: React.FC<EventCardGridProps> = ({
                     showRelations={true}
                     className={classes.card}
                     onEventClick={props.onItemClick}
+                    defaultImage={conf.platforms.web.defaultImage}
                   />
                 </Grid>
               ))}

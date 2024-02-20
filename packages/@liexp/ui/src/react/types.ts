@@ -1,4 +1,5 @@
 import { type EndpointsQueryProvider } from "@liexp/shared/lib/providers/EndpointQueriesProvider";
+import { type Configuration } from '../context/ConfigurationContext';
 
 interface BaseRoute {
   path: string;
@@ -8,6 +9,7 @@ type RedirectRoute = BaseRoute & { redirect: string };
 export type AsyncDataRoute = BaseRoute & {
   queries: (
     Q: EndpointsQueryProvider,
+    conf: Configuration,
   ) => (
     params: any,
     query: any,

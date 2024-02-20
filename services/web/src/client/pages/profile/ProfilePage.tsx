@@ -1,5 +1,5 @@
 import "@liexp/ui/assets/react-page.css";
-import { authProvider } from "@liexp/ui/lib/client/api.js";
+import { GetAuthProvider } from "@liexp/ui/lib/client/api";
 import {
   FAIcon,
   UserIcon,
@@ -43,6 +43,7 @@ const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
 const ProfilePage: React.FC = () => {
   // eslint-disable-next-line no-console
   const apiProvider = useDataProvider();
+  const authProvider = GetAuthProvider(apiProvider);
   return (
     <Admin
       dataProvider={apiProvider}

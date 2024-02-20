@@ -14,12 +14,13 @@ import { scaleLinear } from "@visx/scale";
 import { Bar, Line, LinePath } from "@visx/shape";
 import { Text } from "@visx/text";
 import { Threshold } from "@visx/threshold";
-import { defaultStyles, Tooltip, withTooltip } from "@visx/tooltip";
+import { Tooltip, defaultStyles, withTooltip } from "@visx/tooltip";
 import * as A from "fp-ts/lib/Array.js";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as t from "io-ts";
 import * as React from "react";
+import { useJSONClient } from "../../../hooks/useJSONAPI.js";
 import { useJSONDataQuery } from "../../../state/queries/DiscreteQueries.js";
 import QueriesRenderer from "../../QueriesRenderer.js";
 
@@ -385,14 +386,16 @@ export const SocietyCollapseForecastGraph = withTooltip<
 
 export class SocietyCollapseForecastGraphContainer extends React.PureComponent {
   render(): JSX.Element {
+    const jsonClient = useJSONClient();
+
     return pipe(
       <QueriesRenderer
         queries={{
-          data: useJSONDataQuery(
+          data: useJSONDataQuery(jsonClient)(
             t.strict({ data: t.array(ClimateChangeForecast.types[1]) }).decode,
             "climate-change/forecast.csv",
           ),
-          events: useJSONDataQuery(
+          events: useJSONDataQuery(jsonClient)(
             t.strict({ data: t.array(ClimateChangeHistoryOfSummits.types[1]) })
               .decode,
             "climate-change/history-of-climate-summits.csv",

@@ -161,7 +161,7 @@ const searchEventsQ =
     APIError,
     SearchEventQueryResult
   > => {
-    // log.debug.log("Search events for %s from %d to %d", _start, _end);
+    log.debug.log("Search events for %s from %d to %d", _start, _end);
 
     return pipe(
       api.Event.List({
@@ -220,22 +220,26 @@ export const getSearchEventsQueryKey = (
 
 export const fetchSearchEvents =
   (api: API) =>
-  async ({ queryKey }: any): Promise<SearchEventQueryResult> => {
-    const params = queryKey[1];
-    return await pipe(searchEventsQ(api)(params), throwTE);
+  (ctx: any): Promise<SearchEventQueryResult> => {
+    const params = ctx.queryKey[1];
+    return pipe(searchEventsQ(api)(params), throwTE);
   };
-export const searchEventsQuery =
-  (api: API) =>
-  (
-    input: SearchEventQueryInput,
-  ): UseQueryResult<SearchEventQueryResult, APIError> => {
+
+export const searchEventsQuery = (
+  api: API,
+): ((
+  input: SearchEventQueryInput,
+) => UseQueryResult<SearchEventQueryResult, APIError>) => {
+  const searchQueryFn = fetchSearchEvents(api);
+
+  return (input) => {
     return useQuery({
-      // eslint-disable-next-line @tanstack/query/exhaustive-deps
       queryKey: getSearchEventsQueryKey(input),
-      queryFn: (p) => fetchSearchEvents(api)(p),
-      refetchOnWindowFocus: false,
+      queryFn: searchQueryFn,
+      // refetchOnWindowFocus: false,
     });
   };
+};
 
 export const getSearchEventsInfiniteQueryKey = (
   input: any,
@@ -245,9 +249,9 @@ export const getSearchEventsInfiniteQueryKey = (
 
 export const fetchSearchEventsInfinite =
   (api: API) =>
-  async ({ queryKey, pageParam }: any): Promise<SearchEventQueryResult> => {
+  ({ queryKey, pageParam }: any): Promise<SearchEventQueryResult> => {
     const params = queryKey[1];
-    return await pipe(
+    return pipe(
       searchEventsQ(api)({
         ...params,
         _start: pageParam?.startIndex ?? 0,
