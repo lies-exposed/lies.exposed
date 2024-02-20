@@ -9,8 +9,8 @@ import {
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import kebabCase from "lodash/kebabCase.js";
 import * as React from "react";
+import { useConfiguration } from "../../../context/ConfigurationContext.js";
 import { TabPanel, a11yProps } from "../../Common/TabPanel.js";
-import { defaultImage } from "../../SEO.js";
 import { ActorList } from "../../lists/ActorList.js";
 import GroupList from "../../lists/GroupList.js";
 import KeywordList from "../../lists/KeywordList.js";
@@ -46,6 +46,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
   onChange,
 }) => {
   const [tab, setTab] = React.useState(0);
+  const conf = useConfiguration();
   return (
     <Grid container width="100%" height="100%" spacing={2}>
       <Grid item lg={6}>
@@ -162,7 +163,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
                           ...payload,
                           media: getShareMedia(
                             media,
-                            `${process.env.VITE_WEB_URL}/liexp-logo-1200x630.png`,
+                            `${conf.platforms.web.url}/liexp-logo-1200x630.png`,
                           ),
                         },
                       });
@@ -176,7 +177,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
           <TabPanel index={1} value={tab}>
             <Box>
               <BuildImageButton
-                media={media[0].thumbnail ?? defaultImage}
+                media={media[0].thumbnail ?? conf.platforms.web.defaultImage}
                 text={payload.content ?? payload.title}
                 onBuild={(_, base64Source) => {
                   onChange({
@@ -381,7 +382,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
             <Box style={{ width: "100%" }}>
               <Typography>
                 <Link
-                  href={`${process.env.VITE_WEB_URL}/events?startDate=${payload.date}`}
+                  href={`${conf.platforms.web.url}/events?startDate=${payload.date}`}
                 >
                   {payload.date}
                 </Link>

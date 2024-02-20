@@ -1,7 +1,6 @@
 import React from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-
-export const defaultImage = `${process.env.VITE_PUBLIC_URL}/liexp-logo-1200x630.png`;
+import { useConfiguration } from "../context/ConfigurationContext";
 
 interface SEOProps {
   description?: string;
@@ -12,34 +11,15 @@ interface SEOProps {
   urlPath: string;
 }
 
-interface QueryResults {
-  site: {
-    siteMetadata: {
-      title: string;
-      description: string;
-      author: string;
-    };
-  };
-}
-
 const SEO: React.FC<SEOProps> = ({
   description,
   lang,
   meta = [],
   title,
-  image = defaultImage,
+  image,
   urlPath,
 }) => {
-  const { site }: QueryResults = {
-    site: {
-      siteMetadata: {
-        title: "Lies Exposed",
-        description:
-          "A chronological exposure of lies perpetrated against humanity.",
-        author: "lies.exposed",
-      },
-    },
-  };
+  const { site, ...conf } = useConfiguration();
 
   const metaDescription = description ?? site.siteMetadata.description;
 
@@ -61,7 +41,7 @@ const SEO: React.FC<SEOProps> = ({
         },
         {
           property: "og:url",
-          content: `${process.env.VITE_PUBLIC_URL}${urlPath}`,
+          content: `${conf.publicUrl}${urlPath}`,
         },
         {
           property: `og:title`,
@@ -77,7 +57,7 @@ const SEO: React.FC<SEOProps> = ({
         },
         {
           property: "og:image",
-          content: image,
+          content: image ?? conf.platforms.web.defaultImage,
         },
         {
           name: `twitter:card`,

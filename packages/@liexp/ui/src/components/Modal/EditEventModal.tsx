@@ -1,7 +1,10 @@
 import { type UUID } from "io-ts-types/lib/UUID.js";
 import * as React from "react";
-import { AdminContext, ResourceContextProvider } from "react-admin";
-import { authProvider } from "../../client/api.js";
+import {
+  AdminContext,
+  ResourceContextProvider,
+  useAuthProvider,
+} from "react-admin";
 import { useDataProvider } from "../../hooks/useDataProvider.js";
 import { i18nProvider } from "../../i18n/i18n.provider.js";
 import { styled, themeOptions } from "../../theme/index.js";
@@ -52,7 +55,7 @@ export const EditEventModal: React.FC<EditEventModalProps> = ({
   ...props
 }) => {
   const apiProvider = useDataProvider();
-  // const theme = useTheme();
+  const authProvider = useAuthProvider();
 
   // console.log(start);
   return (

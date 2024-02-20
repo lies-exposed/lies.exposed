@@ -1,4 +1,3 @@
-import axios from "axios";
 import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as R from "fp-ts/lib/Record.js";
@@ -28,7 +27,7 @@ const toError = (e: unknown): APIError => {
   return toAPIError(e);
 };
 
-const liftFetch = <B extends { data: any }>(
+export const dataProviderRequestLift = <B extends { data: any }>(
   lp: () => Promise<GetOneResult<any>> | Promise<GetListResult<any>>,
   decode: <A>(a: A) => E.Either<t.Errors, B>,
 ): TE.TaskEither<APIError, B> => {
@@ -192,7 +191,7 @@ const restFromResourceEndpoints = <
     get: (params, query) => {
       const url = e.Get.getPath(params);
       return pipe(
-        liftFetch(
+        dataProviderRequestLift(
           () =>
             apiClient.get<
               serializedType<InferEndpointParams<G>["output"]> & {
@@ -213,7 +212,7 @@ const restFromResourceEndpoints = <
         : never
     > => {
       return pipe(
-        liftFetch(
+        dataProviderRequestLift(
           () =>
             apiClient.getList<{
               id: string;
@@ -230,7 +229,7 @@ const restFromResourceEndpoints = <
           params: TypeOfEndpointInstance<typeof ee>["Input"],
         ): TE.TaskEither<APIError, any> => {
           const url = ee.getPath((params as any).Params);
-          return liftFetch(
+          return dataProviderRequestLift(
             () =>
               apiClient.request({
                 method: ee.Method,
@@ -275,17 +274,5 @@ const fromEndpoints =
       client: apiClient,
     };
   };
-
-const jsonClient = axios.create({
-  baseURL: `${process.env.VITE_DATA_URL}/public`,
-});
-
-export const jsonData =
-  <A>(decode: t.Decode<unknown, { data: A }>) =>
-  ({ id }: { id: string }): Promise<{ data: A }> =>
-    pipe(
-      liftFetch(() => jsonClient.get(id), decode),
-      throwTE,
-    );
 
 export { fromEndpoints, type EndpointsRESTClient };

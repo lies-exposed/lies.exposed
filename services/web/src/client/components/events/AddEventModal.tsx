@@ -16,6 +16,7 @@ import {
   Input,
   Typography,
 } from "@liexp/ui/lib/components/mui/index.js";
+import { useConfiguration } from "@liexp/ui/lib/context/ConfigurationContext.js";
 import { useEndpointsRESTClient } from "@liexp/ui/lib/hooks/useEndpointRestClient.js";
 import { useTheme } from "@liexp/ui/lib/theme/index.js";
 import AddCircleIcon from "@mui/icons-material/AddCircle.js";
@@ -71,6 +72,7 @@ interface AddEventModalProps {
 const AddEventModal: React.FC<AddEventModalProps> = (props) => {
   const theme = useTheme();
   const apiProvider = useEndpointsRESTClient();
+  const conf = useConfiguration();
 
   const [open, setOpen] = React.useState(false);
   const [url, setUrl] = React.useState({
@@ -183,6 +185,7 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
                         event={e}
                         showRelations={false}
                         onEventClick={() => {}}
+                        defaultImage={conf.platforms.web.defaultImage}
                       />
                     </Grid>
                   );

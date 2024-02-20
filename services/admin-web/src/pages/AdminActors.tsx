@@ -1,5 +1,5 @@
 import { http } from "@liexp/shared/lib/io/index.js";
-import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider";
+import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { createExcerptValue } from "@liexp/shared/lib/slate/index.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";

@@ -2,6 +2,7 @@ import get from "lodash/get.js";
 import has from "lodash/has.js";
 import * as React from "react";
 import { type FieldProps, useRecordContext } from "react-admin";
+import { useConfiguration } from "../../../context/ConfigurationContext.js";
 import { Button } from "../../mui/index.js";
 
 interface WebPreviewButtonProps extends FieldProps {
@@ -15,6 +16,7 @@ export const WebPreviewButton: React.FC<WebPreviewButtonProps> = (props) => {
   const id =
     props.id ??
     (source && record && has(record, source) ? get(record, source) : undefined);
+  const conf = useConfiguration();
 
   return (
     <Button
@@ -24,7 +26,7 @@ export const WebPreviewButton: React.FC<WebPreviewButtonProps> = (props) => {
       style={{ marginRight: 10 }}
       onClick={() => {
         window.open(
-          `${process.env.VITE_WEB_URL}/${resource}${id ? `/${id}` : ""}`,
+          `${conf.platforms.web.url}/${resource}${id ? `/${id}` : ""}`,
           "_blank",
         );
       }}

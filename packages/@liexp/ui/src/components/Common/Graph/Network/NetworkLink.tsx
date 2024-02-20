@@ -11,7 +11,7 @@ const NetworkLink = <N extends NetworkNodeDatum>({
   source,
   target,
   stroke,
-}: NetworkLinkProps<N>): JSX.Element => {
+}: NetworkLinkProps<N>): React.ReactNode => {
   return (
     <LinkVertical
       key={`link-${source.id}-${target.id}`}

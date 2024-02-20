@@ -17,6 +17,7 @@ import { pipe } from "fp-ts/lib/function.js";
 import { type UUID } from "io-ts-types/lib/UUID.js";
 import * as React from "react";
 import { useDataProvider, useRecordContext } from "react-admin";
+import { useConfiguration } from "../../../../context/ConfigurationContext.js";
 import { useAPI } from "../../../../hooks/useAPI.js";
 import { fetchRelations } from "../../../../state/queries/SearchEventsQuery.js";
 import { SocialPostButton } from "../../common/SocialPostButton.js";
@@ -25,6 +26,7 @@ export const EventSocialPostButton: React.FC<{ id: UUID }> = ({ id }) => {
   const apiProvider = useDataProvider();
   const api = useAPI();
   const record = useRecordContext();
+  const conf = useConfiguration();
 
   return (
     <SocialPostButton
@@ -117,7 +119,7 @@ export const EventSocialPostButton: React.FC<{ id: UUID }> = ({ id }) => {
             const content: string = isValidValue(excerpt)
               ? getTextContents(excerpt)
               : "";
-            const url = `${process.env.VITE_WEB_URL}/events/${id}`;
+            const url = `${conf.platforms.web.url}/events/${id}`;
 
             return {
               title,

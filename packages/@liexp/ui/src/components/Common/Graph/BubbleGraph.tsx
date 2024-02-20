@@ -15,7 +15,7 @@ export const BubbleGraph = <D extends PackDatum>({
   height,
   data,
   ...props
-}: BubbleGraphProps<D>): JSX.Element => {
+}: BubbleGraphProps<D>): React.ReactNode => {
   const pack = hierarchy<D>({ children: [{ children: data }] } as any).sum(
     (n) => n.count,
   );

@@ -1,5 +1,4 @@
-import "@liexp/ui/assets/react-page.css";
-import { apiProvider, authProvider } from "@liexp/ui/lib/client/api.js";
+import { GetAuthProvider } from "@liexp/ui/lib/client/api";
 import { FullSizeLoader } from "@liexp/ui/lib/components/Common/FullSizeLoader.js";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
 import ReferenceMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceMediaInput.js";
@@ -11,6 +10,7 @@ import {
   useUpdate,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { Box, Container } from "@liexp/ui/lib/components/mui/index.js";
+import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider";
 import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider.js";
 import { styled, themeOptions } from "@liexp/ui/lib/theme/index.js";
 import { type RouteComponentProps } from "@reach/router";
@@ -77,6 +77,8 @@ const EditStoryPageContent: React.FC<{ id?: string }> = ({ id }) => {
 const EditStoryPage: React.FC<RouteComponentProps<{ storyId: string }>> = ({
   storyId: id,
 }) => {
+  const apiProvider = useDataProvider();
+  const authProvider = GetAuthProvider(apiProvider);
   return (
     <StyledContainer>
       <AdminContext

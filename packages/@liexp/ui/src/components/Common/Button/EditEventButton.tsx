@@ -1,8 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import { type UUID } from "io-ts-types/lib/UUID.js";
+import { useAuthProvider } from "ra-core";
 import * as React from "react";
-import { authProvider } from "../../../client/api.js";
+import { useConfiguration } from "../../../context/ConfigurationContext.js";
 import { getAdminLink } from "../../../utils/links.utils.js";
 import { EditEventModal } from "../../Modal/EditEventModal.js";
 import { Link } from "../../mui/index.js";
@@ -13,6 +14,9 @@ interface EditEventButtonProps {
 }
 
 const EditEventButton: React.FC<EditEventButtonProps> = ({ admin, id }) => {
+  const conf = useConfiguration();
+  const authProvider = useAuthProvider();
+
   const [isAdmin, setIsAdmin] = React.useState<boolean | null>(admin ?? null);
 
   const [open, setOpen] = React.useState(false);
@@ -42,7 +46,7 @@ const EditEventButton: React.FC<EditEventButtonProps> = ({ admin, id }) => {
     ? {
         target: "_blank",
         rel: "noreferrer",
-        href: getAdminLink("events", { id }),
+        href: getAdminLink(conf)("events", { id }),
       }
     : {
         target: "_self",

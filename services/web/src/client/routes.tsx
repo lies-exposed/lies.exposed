@@ -3,6 +3,7 @@ import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { StatsType } from "@liexp/shared/lib/io/http/Stats.js";
 import { type EndpointsQueryProvider } from "@liexp/shared/lib/providers/EndpointQueriesProvider/index.js";
 import { defaultUseQueryListParams } from "@liexp/shared/lib/providers/EndpointQueriesProvider/params.js";
+import { type Configuration } from "@liexp/ui/lib/context/ConfigurationContext";
 import { type ServerRoute } from "@liexp/ui/lib/react/types.js";
 import {
   fetchSearchEvents,
@@ -56,9 +57,9 @@ const RedirectToEventsRoute: React.FC = () => {
   return null;
 };
 
-const githubQuery = (Q: EndpointsQueryProvider): any => ({
+const githubQuery = (Q: EndpointsQueryProvider, conf: Configuration): any => ({
   queryKey: ["github", { user: "lies-exposed", repo: "lies.exposed" }],
-  queryFn: fetchGithubRepo(Q.REST.client),
+  queryFn: fetchGithubRepo(Q.REST.client, conf),
 });
 
 const commonQueries = [githubQuery];
@@ -73,9 +74,9 @@ const linkRoute: ServerRoute = {
     return <NotFoundPage />;
   },
   queries:
-    (Q) =>
+    (Q, conf) =>
     async ({ linkId }: any) => [
-      ...commonQueries.flatMap((c) => c(Q)),
+      ...commonQueries.flatMap((c) => c(Q, conf)),
       {
         queryKey: Q.Queries.Link.get.getKey({ id: linkId }),
         queryFn: Q.Queries.Link.get.fetch,
@@ -86,8 +87,8 @@ const linkRoute: ServerRoute = {
 const linksRoute: ServerRoute = {
   path: "/links",
   route: () => <LinksPage />,
-  queries: (Q) => async () => [
-    ...commonQueries.flatMap((c) => c(Q)),
+  queries: (Q, conf) => async () => [
+    ...commonQueries.flatMap((c) => c(Q, conf)),
     {
       queryKey: Q.Queries.Link.list.getKey(defaultUseQueryListParams),
       queryFn: Q.Queries.Link.list.fetch,
@@ -107,9 +108,9 @@ export const routes: ServerRoute[] = [
       return <NotFoundPage />;
     },
     queries:
-      (Q) =>
+      (Q, conf) =>
       async ({ groupId }: any) => [
-        ...commonQueries.flatMap((c) => c(Q)),
+        ...commonQueries.flatMap((c) => c(Q, conf)),
         {
           queryKey: Q.Queries.Group.get.getKey({ id: groupId }),
           queryFn: Q.Queries.Group.get.fetch,
@@ -138,8 +139,8 @@ export const routes: ServerRoute[] = [
   {
     path: "/groups",
     route: (props: any) => <GroupsPage />,
-    queries: (Q) => async () => [
-      ...commonQueries.flatMap((c) => c(Q)),
+    queries: (Q, conf) => async () => [
+      ...commonQueries.flatMap((c) => c(Q, conf)),
       {
         queryKey: Q.Queries.Page.Custom.GetPageContentByPath.getKey("groups"),
         queryFn: Q.Queries.Page.Custom.GetPageContentByPath.fetch,
@@ -168,9 +169,9 @@ export const routes: ServerRoute[] = [
       return <NotFoundPage />;
     },
     queries:
-      (Q) =>
+      (Q, conf) =>
       async ({ actorId }: { actorId: string }) => [
-        ...commonQueries.flatMap((c) => c(Q)),
+        ...commonQueries.flatMap((c) => c(Q, conf)),
         {
           queryKey: Q.Queries.Actor.get.getKey({ id: actorId }),
           queryFn: Q.Queries.Actor.get.fetch,
@@ -199,8 +200,8 @@ export const routes: ServerRoute[] = [
   {
     path: "/actors",
     route: (props: any) => <ActorsPage />,
-    queries: (Q) => async () => [
-      ...commonQueries.flatMap((c) => c(Q)),
+    queries: (Q, conf) => async () => [
+      ...commonQueries.flatMap((c) => c(Q, conf)),
       {
         queryKey: Q.Queries.Page.Custom.GetPageContentByPath.getKey("actors"),
         queryFn: Q.Queries.Page.Custom.GetPageContentByPath.fetch,
@@ -226,14 +227,14 @@ export const routes: ServerRoute[] = [
       return <NotFoundPage />;
     },
     queries:
-      (Q) =>
+      (Q, conf) =>
       async ({ eventId }: any) => {
         const event = await Q.Queries.Event.get.fetch({ id: eventId });
 
         const { actors, groups, keywords, media } = getRelationIds(event);
 
         return [
-          ...commonQueries.flatMap((c) => c(Q)),
+          ...commonQueries.flatMap((c) => c(Q, conf)),
           {
             // eslint-disable-next-line @tanstack/query/exhaustive-deps
             queryKey: ["event", { id: eventId }],
@@ -342,7 +343,7 @@ export const routes: ServerRoute[] = [
   {
     path: "/events",
     route: () => <EventsPage />,
-    queries: (Q) => async (params: any, query: any) => {
+    queries: (Q, conf) => async (params: any, query: any) => {
       const q = hashToQuery(query.hash);
 
       q.hash = query.hash;
@@ -358,7 +359,7 @@ export const routes: ServerRoute[] = [
       q.groupsMembers = q.groupsMembers ?? [];
 
       return [
-        ...commonQueries.flatMap((c) => c(Q)),
+        ...commonQueries.flatMap((c) => c(Q, conf)),
         {
           queryKey: getSearchEventsQueryKey({
             ...q,
@@ -702,8 +703,8 @@ export const routes: ServerRoute[] = [
   {
     path: "/",
     route: () => <IndexPage />,
-    queries: (Q) => async () => [
-      ...commonQueries,
+    queries: (Q, conf) => async () => [
+      ...commonQueries.map((c) => c(Q, conf)),
       {
         queryKey: Q.Queries.Page.Custom.GetPageContentByPath.getKey("index"),
         queryFn: Q.Queries.Page.Custom.GetPageContentByPath.fetch,
@@ -723,7 +724,7 @@ export const routes: ServerRoute[] = [
           _start: 0,
           _end: 6,
         }),
-        queryFn: fetchSearchEvents,
+        queryFn: fetchSearchEvents(Q.API),
       },
       {
         queryKey: Q.Queries.Media.list.getKey(

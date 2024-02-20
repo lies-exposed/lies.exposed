@@ -1,6 +1,6 @@
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
-import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput";
+import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput.js";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput.js";
 import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField.js";
 import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField.js";

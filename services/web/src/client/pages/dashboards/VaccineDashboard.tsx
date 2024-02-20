@@ -21,6 +21,7 @@ import {
   Tabs,
   Typography,
 } from "@liexp/ui/lib/components/mui/index.js";
+import { useJSONClient } from "@liexp/ui/lib/hooks/useJSONAPI.js";
 import { useJSONDataQuery } from "@liexp/ui/lib/state/queries/DiscreteQueries.js";
 import { useNavigateTo } from "@liexp/ui/lib/utils/history.utils.js";
 import { scaleOrdinal } from "@visx/scale";
@@ -117,15 +118,16 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
   // const deathsKeys = ["covid", "total"];
 
   const navigateTo = useNavigateTo();
+  const jsonClient = useJSONClient();
 
   return (
     <QueriesRenderer
       queries={{
-        whoData: useJSONDataQuery(
+        whoData: useJSONDataQuery(jsonClient)(
           t.strict({ data: CovidWHOWorldData.types[1] }).decode,
           CovidWHOWorldData.types[0].value,
         ),
-        distribution: useJSONDataQuery(
+        distribution: useJSONDataQuery(jsonClient)(
           t.strict({ data: Covid19WorldVaccineDistribution.types[1] }).decode,
           Covid19WorldVaccineDistribution.types[0].value,
         ),
