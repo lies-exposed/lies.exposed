@@ -1,0 +1,33 @@
+import { defineEnv } from "@liexp/core/lib/frontend/defineEnv.js";
+import { defineViteConfig } from "@liexp/core/lib/frontend/vite/config.js";
+import { defineConfig } from "vite";
+
+export const AppEnv = defineEnv((t) => ({
+  VITE_NODE_ENV: t.string,
+  VITE_PUBLIC_URL: t.string,
+  VITE_API_URL: t.string,
+  VITE_WEB_URL: t.string,
+  VITE_DEBUG: t.string,
+}));
+
+export const port =
+  process.env.PORT !== undefined ? parseInt(process.env.PORT, 10) : 4001;
+
+const config = defineViteConfig({
+  cwd: import.meta.dirname,
+  base: "/admin/",
+  env: AppEnv,
+  envFileDir: "./",
+  port,
+  devServer: true,
+  hot: true,
+  output: "build",
+  target: "spa",
+  entry: "src/index.tsx",
+  html: {
+    templatePath: "index.html",
+  },
+  tsConfigFile: "tsconfig.json",
+});
+
+export default defineConfig(config);

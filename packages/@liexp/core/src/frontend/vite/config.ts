@@ -5,11 +5,11 @@ import * as dotenv from "dotenv";
 import { failure } from "io-ts/lib/PathReporter.js";
 import { type ConfigEnv, type UserConfig } from "vite";
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
-import { createHtmlPlugin } from "vite-plugin-html";
-import htmlPurge from "vite-plugin-html-purgecss";
+// import { createHtmlPlugin } from "vite-plugin-html";
+// import htmlPurge from "vite-plugin-html-purgecss";
 import optimizer from "vite-plugin-optimizer";
 import tsConfigPaths from "vite-tsconfig-paths";
-import { importDefault } from "../../esm/import-default.js";
+// import { importDefault } from "../../esm/import-default.js";
 import { fp, pipe } from "../../fp/index.js";
 import { type GetViteConfigParams } from "./type.js";
 
@@ -50,6 +50,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
       appType: config.target,
       root: config.cwd,
       envDir: config.envFileDir,
+      base: config.base,
       define: pipe(
         env,
         fp.R.reduceWithIndex(fp.S.Ord)({}, (key, env, v) => ({
@@ -58,7 +59,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
         })),
       ),
       build: {
-        outDir: path.resolve(config.cwd,  config.output ?? 'build'),
+        outDir: config.output ?? "build",
         assetsDir: config.assetDir,
         minify: mode === "production",
         commonjsOptions: {
@@ -76,11 +77,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
           // path.join(config.cwd, "../../packages/@liexp/ui/shared/**"),
           // path.join(config.cwd, "../../packages/@liexp/ui/lib/**"),
         ],
-        include: [
-          "@liexp/core",
-          "@liexp/shared",
-          "@liexp/ui",
-        ]
+        include: ["@liexp/core", "@liexp/shared", "@liexp/ui"],
         // extensions: [".js", ".jsx", ".tsx"],
         // include: ["react-slick"],
         // exclude: ["@emotion/react/**", "hoist-non-react-statics/**"],
@@ -112,11 +109,11 @@ export const defineViteConfig = <A extends Record<string, any>>(
           },
         ],
       },
-      server: {
+      server: config.devServer ? {
         port: config.port,
         host: "localhost",
         hmr: config.hot,
-      },
+      } : undefined,
       ssr: {
         external: [
           "react",
@@ -145,21 +142,20 @@ export const defineViteConfig = <A extends Record<string, any>>(
     };
 
     if (config.html) {
-      const createHtmlPluginOpts = {
-        entry: config.entry ?? path.resolve(config.cwd, "src/index.tsx"),
-        template: path.resolve(config.cwd, config.html.templatePath),
-        verbose: true,
-        inject: {
-          ejsOptions: {
-            debug: true,
-          },
-        },
-      };
+      // const createHtmlPluginOpts = {
+      //   entry: path.resolve(config.cwd, config.entry ??  "src/index.tsx"),
+      //   template: path.resolve(config.cwd, config.html.templatePath),
+      //   verbose: true,
+      //   inject: {
+      //     ejsOptions: {
+      //       debug: true,
+      //     },
+      //   },
+      // };
 
-      viteConfig.plugins?.push(createHtmlPlugin(createHtmlPluginOpts));
+      // viteConfig.plugins?.push(createHtmlPlugin(createHtmlPluginOpts));
+      // viteConfig.plugins?.push(importDefault(htmlPurge).default());
     }
-
-    viteConfig.plugins?.push(importDefault(htmlPurge).default());
 
     return viteConfig;
   };

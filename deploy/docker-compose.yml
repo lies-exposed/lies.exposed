@@ -26,6 +26,8 @@ services:
       start_period: 30s
     command: yarn start
     restart: always
+    depends_on:
+      - telegram-bot
     logging:
       driver: "json-file"
       options:
@@ -38,8 +40,9 @@ services:
     env_file:
       - .env.web
     environment:
-      API_URL: http://api:4010/v1
-      ADMIN_URL: https://alpha.lies.exposed/admin
+      VITE_API_URL: http://api:4010/v1
+      VITE_PUBLIC_URL: https://alpha.lies.exposed
+      VITE_ADMIN_URL: https://alpha.lies.exposed/admin
     ports:
       - "4020:4020"
     links:

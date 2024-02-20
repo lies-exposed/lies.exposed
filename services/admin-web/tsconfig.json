@@ -18,26 +18,17 @@
     "typeRoots": [
       "../../packages/@liexp/shared/typings",
       "../../packages/@liexp/ui/typings",
-      "typings"
     ],
     "baseUrl": "./src",
+    "rootDir": "./",
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "isolatedModules": true,
     "paths": {
       "@client/*": ["./client/*"]
     }
   },
-  "include": ["./src", "./typings", ".eslintrc.js", "webpack.config.ts"],
-  "exclude": ["node_modules", "build"],
-  "ts-node": {
-    "require": ["tsconfig-paths/register"],
-    "transpileOnly": true,
-    "compilerOptions": {
-      "module": "CommonJS",
-      "moduleResolution": "node",
-      "esModuleInterop": true
-    }
-  }
+  "include": ["./src", "./typings", ".eslintrc.cjs", "vite.config.ts"],
+  "exclude": ["node_modules", "build"]
 }

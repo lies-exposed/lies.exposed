@@ -66,7 +66,7 @@ module.exports = {
       name: "admin-dev",
       namespace: "liexp",
       cwd: path.resolve(__dirname, "./services/admin-web"),
-      script: "yarn start",
+      script: "yarn dev",
       watch: false,
       env: adminEnv,
     },

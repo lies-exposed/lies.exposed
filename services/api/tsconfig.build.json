@@ -4,7 +4,7 @@
     "outDir": "./build",
     "baseUrl": "./src",
     "rootDir": "./src",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "composite": true,
     "tsBuildInfoFile": "build/tsconfig.build.tsbuildinfo",
     "types": [

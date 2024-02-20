@@ -74,7 +74,7 @@ jobs:
       - name: Type Check Web
         run: yarn admin-web build
 
-      - name: Build app with Webpack
+      - name: Build app
         run: yarn admin-web build:app
 
   docker_build:

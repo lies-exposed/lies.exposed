@@ -23,6 +23,7 @@ import {
   isEventBlockCell,
 } from "./plugins/customSlate.js";
 
+
 export const getTextContents = (v: Value, j?: string): string => {
   return defaultGetTextContents(v, {
     lang: "en",

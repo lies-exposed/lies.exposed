@@ -1,6 +1,7 @@
 import { CacheProvider } from "@emotion/react";
 import { config, dom } from "@fortawesome/fontawesome-svg-core";
 import { APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
+import { getAuthFromLocalStorage } from "@liexp/ui/lib/client/api.js";
 import { HelmetProvider } from "@liexp/ui/lib/components/SEO.js";
 import {
   CssBaseline,
@@ -19,12 +20,12 @@ import debug from "debug";
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import { App } from "./App";
-import { configuration } from "./configuration/index";
+import { App } from "./App.js";
+import { configuration } from "./configuration/index.js";
 
 config.autoAddCss = false;
 
-debug.enable(process.env.DEBUG ?? "@liexp:*:error");
+debug.enable(import.meta.env.VITE_DEBUG ?? "@liexp:*:error");
 
 // watch for font awesome icons
 dom.watch();
@@ -56,13 +57,7 @@ function Main(): JSX.Element {
   const [apiProvider] = React.useState(() => {
     return APIRESTClient({
       url: conf.platforms.api.url,
-      getAuth: () => {
-        if (typeof window !== "undefined") {
-          const token = localStorage.getItem("auth");
-          return token;
-        }
-        return null;
-      },
+      getAuth: getAuthFromLocalStorage,
     });
   });
 

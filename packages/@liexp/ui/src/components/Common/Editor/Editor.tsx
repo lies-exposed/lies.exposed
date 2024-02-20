@@ -21,6 +21,7 @@ const Editor: React.FC<Omit<EditorProps, "cellPlugins">> = ({
   onChange,
   ...props
 }) => {
+
   const [open, setOpen] = React.useState(false);
 
   const handleChange = (v: Value): void => {

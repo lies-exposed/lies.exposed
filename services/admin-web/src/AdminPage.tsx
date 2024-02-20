@@ -56,28 +56,28 @@ import PostAddIcon from "@mui/icons-material/PostAdd.js";
 import * as React from "react";
 import { Route } from "react-router-dom";
 import { ActorCreate, ActorEdit, ActorList } from "./pages/AdminActors";
-import { AreaCreate, AreaEdit, AreaList } from "./pages/AdminAreas";
-import { EventEdit, EventList } from "./pages/AdminEvents";
+import { AreaCreate, AreaEdit, AreaList } from "./pages/AdminAreas.js";
+import { EventEdit, EventList } from "./pages/AdminEvents.js";
 import {
   GroupMemberCreate,
   GroupMemberEdit,
   GroupMemberList,
-} from "./pages/AdminGroupMember";
-import { GroupCreate, GroupEdit, GroupList } from "./pages/AdminGroups";
+} from "./pages/AdminGroupMember.js";
+import { GroupCreate, GroupEdit, GroupList } from "./pages/AdminGroups.js";
 import {
   KeywordCreate,
   KeywordEdit,
   KeywordList,
-} from "./pages/AdminKeyword";
-import { SocialPostCreate, SocialPostList } from "./pages/AdminSocialPost";
-import { UserCreate, UserList } from "./pages/AdminUsers";
-import { PageCreate, PageEdit, PageList } from "./pages/Pages";
-import { AdminStats } from "./pages/dashboard/AdminStats";
+} from "./pages/AdminKeyword.js";
+import { SocialPostCreate, SocialPostList } from "./pages/AdminSocialPost.js";
+import { UserCreate, UserList } from "./pages/AdminUsers.js";
+import { PageCreate, PageEdit, PageList } from "./pages/Pages.js";
+import { AdminStats } from "./pages/dashboard/AdminStats.js";
 import {
   BookCreate,
   BookEdit,
   BookList,
-} from "./pages/events/AdminBookEvent";
+} from "./pages/events/AdminBookEvent.js";
 import {
   DeathCreate,
   DeathEdit,
@@ -108,8 +108,8 @@ import {
   TransactionEdit,
   TransactionList,
 } from "./pages/events/AdminTransactionEvent";
-import { UncategorizedEventCreate } from "./pages/events/AdminUncategorizedEvent";
-import { adminThemeOptions } from "./theme";
+import { UncategorizedEventCreate } from "./pages/events/AdminUncategorizedEvent.js";
+import { adminThemeOptions } from "./theme.js";
 
 const MyMenu: React.FC<MenuProps> = (props) => (
   <Menu>
