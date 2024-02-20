@@ -1,8 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { type ResourcesNames } from "@liexp/shared/lib/io/http/index.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
+import { useAuthProvider } from "ra-core";
 import * as React from "react";
-import { authProvider } from "../../../client/api.js";
+import { useConfiguration } from "../../../context/ConfigurationContext.js";
 import { getAdminLink, getProfileLink } from "../../../utils/links.utils.js";
 import { Link } from "../../mui/index.js";
 
@@ -19,6 +20,8 @@ const EditButton: React.FC<EditButtonProps> = ({
   userResourceName = resourceName,
   resource,
 }) => {
+  const conf = useConfiguration();
+  const authProvider = useAuthProvider();
   const [isAdmin, setIsAdmin] = React.useState<boolean | null>(admin ?? null);
 
   React.useEffect(() => {
@@ -40,7 +43,7 @@ const EditButton: React.FC<EditButtonProps> = ({
   }
 
   const href = isAdmin
-    ? getAdminLink(resourceName, resource)
+    ? getAdminLink(conf)(resourceName, resource)
     : getProfileLink(userResourceName, resource);
 
   return (

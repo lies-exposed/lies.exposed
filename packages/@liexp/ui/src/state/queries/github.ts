@@ -1,11 +1,12 @@
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
+import { type Configuration } from "../../context/ConfigurationContext.js";
 
 export const fetchGithubRepo =
-  (api: APIRESTClient) =>
+  (api: APIRESTClient, conf: Configuration) =>
   ({ queryKey }: any): Promise<any> => {
-    if (process.env.NODE_ENV === "development") {
+    if (conf.isDev) {
       return Promise.resolve({
         stargazers_count: 10,
       });
@@ -17,7 +18,7 @@ export const fetchGithubRepo =
   };
 
 export const githubRepo =
-  (api: APIRESTClient) =>
+  (api: APIRESTClient, conf: Configuration) =>
   ({
     repo,
     user,
@@ -27,7 +28,7 @@ export const githubRepo =
   }): UseQueryResult<any, APIError> =>
     useQuery({
       queryKey: ["github", { user, repo }],
-      queryFn: fetchGithubRepo(api),
+      queryFn: fetchGithubRepo(api, conf),
       refetchOnMount: false,
       refetchOnWindowFocus: false,
       gcTime: 10 * 60 * 60,

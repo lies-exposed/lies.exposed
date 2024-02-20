@@ -1,5 +1,6 @@
 import { type Area } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
+import { useConfiguration } from "../../context/ConfigurationContext.js";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
 import { AreaList, AreaListItem } from "../lists/AreaList.js";
 import { Grid, Typography } from "../mui/index.js";
@@ -19,6 +20,7 @@ export const AutocompleteAreaInput: React.FC<AutocompleteAreaInputProps> = ({
   className,
 }) => {
   const { Queries } = useEndpointQueries();
+  const conf = useConfiguration();
   return (
     <AutocompleteInput<Area.Area>
       className={className}
@@ -60,6 +62,7 @@ export const AutocompleteAreaInput: React.FC<AutocompleteAreaInputProps> = ({
                   selected: false,
                 }}
                 style={{ height: 100 }}
+                defaultImage={conf.platforms.web.defaultImage}
               />
             </Grid>
             <Grid item md={9}>

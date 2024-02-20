@@ -55,7 +55,7 @@ const GeoCustom: any = <P extends GeoPermissibleObjects>({
   projection,
   data,
   featureRenderer,
-}: GeoCustomProps<P>): JSX.Element => {
+}: GeoCustomProps<P>): React.ReactNode => {
   const centerX = width / 2;
   const centerY = height / 2;
   const initialScale = (width / 630) * 100;

@@ -1,24 +1,24 @@
 import type * as io from "@liexp/shared/lib/io/index.js";
 import { type NavigateFn } from "@reach/router";
+import { type Configuration } from "../context/ConfigurationContext.js";
 
-export const getAdminLink = <K extends io.http.ResourcesNames>(
-  key: K,
-  f: { id: string },
-): string => {
-  switch (key) {
-    case "stories":
-    case "projects":
-    case "events":
-    case "keywords":
-    case "actors":
-    case "media":
-    case "groups": {
-      return `${process.env.VITE_ADMIN_URL}/index.html?#/${key}/${f.id}`;
+export const getAdminLink =
+  (conf: Configuration) =>
+  <K extends io.http.ResourcesNames>(key: K, f: { id: string }): string => {
+    switch (key) {
+      case "stories":
+      case "projects":
+      case "events":
+      case "keywords":
+      case "actors":
+      case "media":
+      case "groups": {
+        return `${conf.platforms.admin.url}/index.html?#/${key}/${f.id}`;
+      }
+      default:
+        return `${conf.platforms.admin.url}/index.html`;
     }
-    default:
-      return `${process.env.VITE_ADMIN_URL}/index.html`;
-  }
-};
+  };
 
 export const getProfileLink = (
   key: io.http.ResourcesNames,

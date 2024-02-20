@@ -1,11 +1,13 @@
 import { CacheProvider } from "@emotion/react";
 import { config, dom } from "@fortawesome/fontawesome-svg-core";
-import { apiProvider } from "@liexp/ui/lib/client/api.js";
+import { APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { HelmetProvider } from "@liexp/ui/lib/components/SEO.js";
 import {
   CssBaseline,
   ThemeProvider,
 } from "@liexp/ui/lib/components/mui/index.js";
+import { ConfigurationContext } from "@liexp/ui/lib/context/ConfigurationContext.js";
+import { DataProviderContext } from "@liexp/ui/lib/context/DataProviderContext.js";
 import createEmotionCache from "@liexp/ui/lib/react/createEmotionCache.js";
 import { ECOTheme } from "@liexp/ui/lib/theme/index.js";
 import {
@@ -14,11 +16,11 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import debug from "debug";
-import { DataProviderContext } from "ra-core";
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { App } from "./App";
+import { configuration } from "./configuration/index";
 
 config.autoAddCss = false;
 
@@ -38,6 +40,8 @@ function Main(): JSX.Element {
     }
   }, []);
 
+  const [conf] = React.useState(configuration);
+
   const [queryClient] = React.useState(
     () =>
       new QueryClient({
@@ -49,24 +53,39 @@ function Main(): JSX.Element {
       }),
   );
 
+  const [apiProvider] = React.useState(() => {
+    return APIRESTClient({
+      url: conf.platforms.api.url,
+      getAuth: () => {
+        if (typeof window !== "undefined") {
+          const token = localStorage.getItem("auth");
+          return token;
+        }
+        return null;
+      },
+    });
+  });
+
   const dehydratedState = (window as any).__REACT_QUERY_STATE__;
 
   return (
     <BrowserRouter>
-      <DataProviderContext.Provider value={apiProvider}>
-        <HelmetProvider>
-          <CacheProvider value={cache}>
-            <ThemeProvider theme={ECOTheme}>
-              <QueryClientProvider client={queryClient}>
-                <HydrationBoundary state={dehydratedState}>
-                  <CssBaseline enableColorScheme />
-                  <App />
-                </HydrationBoundary>
-              </QueryClientProvider>
-            </ThemeProvider>
-          </CacheProvider>
-        </HelmetProvider>
-      </DataProviderContext.Provider>
+      <ConfigurationContext.Provider value={configuration}>
+        <DataProviderContext.Provider value={apiProvider}>
+          <HelmetProvider>
+            <CacheProvider value={cache}>
+              <ThemeProvider theme={ECOTheme}>
+                <QueryClientProvider client={queryClient}>
+                  <HydrationBoundary state={dehydratedState}>
+                    <CssBaseline enableColorScheme />
+                    <App />
+                  </HydrationBoundary>
+                </QueryClientProvider>
+              </ThemeProvider>
+            </CacheProvider>
+          </HelmetProvider>
+        </DataProviderContext.Provider>
+      </ConfigurationContext.Provider>
     </BrowserRouter>
   );
 }

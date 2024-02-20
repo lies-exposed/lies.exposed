@@ -112,8 +112,8 @@ export const getWebConfig = <A extends Record<string, t.Mixed>>(
   config.plugins?.push(
     new HtmlReplaceWebpackPlugin([
       {
-        pattern: "%VITE_PUBLIC_URL%",
-        replacement: process.env.VITE_PUBLIC_URL ?? "/",
+        pattern: "%PUBLIC_URL%",
+        replacement: process.env.PUBLIC_URL ?? "/",
       },
     ]) as any,
   );

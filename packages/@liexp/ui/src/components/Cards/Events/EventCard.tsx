@@ -7,7 +7,6 @@ import { parseISO } from "date-fns";
 import * as React from "react";
 import { LazyEditor as Editor } from "../../Common/Editor/index.js";
 import { EventIcon } from "../../Common/Icons/index.js";
-import { defaultImage } from "../../SEO.js";
 import { ActorList } from "../../lists/ActorList.js";
 import GroupsList from "../../lists/GroupList.js";
 import KeywordList from "../../lists/KeywordList.js";
@@ -23,6 +22,7 @@ import {
 
 interface EventCardProps extends CardProps {
   event: SearchEvent.SearchEvent;
+  defaultImage: string;
   showMedia?: boolean;
   showRelations: boolean;
   onEventClick?: (e: SearchEvent.SearchEvent) => void;
@@ -33,6 +33,7 @@ const EventCard: React.FC<EventCardProps> = ({
   showMedia = true,
   showRelations,
   onEventClick,
+  defaultImage,
   ...props
 }) => {
   const { actors, groups, media, keywords } = getSearchEventRelations(event);

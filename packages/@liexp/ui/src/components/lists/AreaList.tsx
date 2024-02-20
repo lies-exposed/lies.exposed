@@ -1,10 +1,10 @@
 import type * as io from "@liexp/shared/lib/io/http/index.js";
 import { getTextContentsCapped } from "@liexp/shared/lib/slate/index.js";
 import * as React from "react";
+import { useConfiguration } from "../../context/ConfigurationContext.js";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
 import { styled } from "../../theme/index.js";
 import { List, type ListItemProps } from "../Common/List.js";
-import { defaultImage } from "../SEO.js";
 import {
   Card,
   CardActionArea,
@@ -37,9 +37,10 @@ const StyledBox = styled(Box)({
 
 export const AreaListItem: React.FC<
   ListItemProps<Area> & {
+    defaultImage: string;
     style?: React.CSSProperties;
   }
-> = ({ item, onClick, style }) => {
+> = ({ item, onClick, defaultImage, style }) => {
   const { Queries } = useEndpointQueries();
   const media = Queries.Media.list.useQuery(
     {
@@ -106,6 +107,7 @@ export const AreaList: React.FC<AreaListProps> = ({
   onAreaClick,
   ...props
 }) => {
+  const conf = useConfiguration();
   return (
     <List
       {...props}
@@ -114,7 +116,12 @@ export const AreaList: React.FC<AreaListProps> = ({
       getKey={(a) => a.id}
       filter={(a) => true}
       onItemClick={onAreaClick}
-      ListItem={(area) => <AreaListItem {...area} />}
+      ListItem={(area) => (
+        <AreaListItem
+          {...area}
+          defaultImage={conf.platforms.web.defaultImage}
+        />
+      )}
     />
   );
 };

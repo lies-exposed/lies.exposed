@@ -13,7 +13,7 @@ type ActorChipBoxProps = ActorChipProps & {
 const ActorChipBox = ({
   id,
   ...props
-}: ActorChipBoxProps): JSX.Element | null => {
+}: ActorChipBoxProps): React.ReactNode | null => {
   return (
     <QueriesRenderer
       queries={(Q) => ({ actor: Q.Actor.get.useQuery({ id }) })}

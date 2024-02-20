@@ -23,15 +23,18 @@ const EventsBox: React.FC<EventsBoxProps> = ({
 }) => {
   const theme = useTheme();
   const api = useAPI();
+
+  const searchEventsFn = searchEventsQuery(api)({
+    hash: `${title.trim()}`,
+    _start: 0,
+    _end: 10,
+    ...query,
+  });
+
   return (
     <QueriesRenderer
       queries={{
-        events: searchEventsQuery(api)({
-          hash: `${title.trim()}`,
-          _start: 0,
-          _end: 10,
-          ...query,
-        }),
+        events: searchEventsFn,
       }}
       render={({ events }) => {
         return (

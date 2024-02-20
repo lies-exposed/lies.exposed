@@ -1,7 +1,6 @@
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
 import { config, dom } from "@fortawesome/fontawesome-svg-core";
-import { apiProvider } from "@liexp/ui/lib/client/api.js";
 import { HelmetProvider } from "@liexp/ui/lib/components/SEO";
 import { ECOTheme } from "@liexp/ui/lib/theme/index.js";
 import { ThemeProvider } from "@mui/material";
@@ -9,6 +8,7 @@ import { Decorator, Parameters } from "@storybook/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import * as React from "react";
 import { DataProviderContext } from "react-admin";
+import { APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 // styles
 import "@liexp/ui/assets/main.css";
 import "@liexp/ui/lib/components/Common/Icons/library.js";
@@ -18,6 +18,9 @@ config.autoAddCss = false;
 // watch for font awesome icons
 dom.watch();
 
+const apiProvider = APIRESTClient({
+  url: process.env.API_URL ?? "https://alpha.api.lies.exposed/v1",
+});
 const qc = new QueryClient();
 
 const cache = createCache({ key: "css", prepend: true });

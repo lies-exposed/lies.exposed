@@ -38,8 +38,8 @@ services:
     env_file:
       - .env.web
     environment:
-      VITE_API_URL: http://api:4010/v1
-      VITE_ADMIN_URL: https://alpha.lies.exposed/admin
+      API_URL: http://api:4010/v1
+      ADMIN_URL: https://alpha.lies.exposed/admin
     ports:
       - "4020:4020"
     links:

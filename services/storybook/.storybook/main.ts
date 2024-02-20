@@ -11,15 +11,19 @@ const viteFinal: ViteFinal = async (config, { configType }) => {
       ? "https://alpha.api.lies.exposed/v1"
       : "http://localhost:4010/v1";
 
+  const VITE_PUBLIC_URL = configType === "PRODUCTION" ? "/storybook" : "/";
+
   process.env.VITE_API_URL = VITE_API_URL;
+  process.env.VITE_PUBLIC_URL = VITE_PUBLIC_URL;
 
   const viteConfigUpdate = defineViteConfig({
     envFileDir: path.resolve(__dirname, ".."),
     cwd: process.cwd(),
     output: "build",
     assetDir: "assets",
-    env: t.strict({ VITE_API_URL: t.string }),
-    target: "web",
+    port: config.server?.port ?? 6006,
+    env: t.strict({ VITE_API_URL: t.string, VITE_PUBLIC_URL: t.string }),
+    target: "spa",
     hot: false,
   });
 
@@ -28,14 +32,19 @@ const viteFinal: ViteFinal = async (config, { configType }) => {
     command: configType === "DEVELOPMENT" ? "serve" : "build",
   });
 
+  delete updatedConfig.mode;
+  delete updatedConfig.build;
+  delete updatedConfig.appType;
   delete updatedConfig.server;
   delete updatedConfig.ssr;
-  delete updatedConfig.build?.outDir;
+  delete updatedConfig.esbuild;
+  delete updatedConfig.css;
 
   // remove react plugin
-  delete updatedConfig.plugins?.[4];
-  delete updatedConfig.plugins?.[5];
-  delete updatedConfig.plugins?.[6];
+  // delete updatedConfig.plugins?.[4];
+  // delete updatedConfig.plugins?.[5];
+  // delete updatedConfig.plugins?.[6];
+  delete updatedConfig.plugins;
 
   if (config.optimizeDeps?.entries !== undefined) {
     config.optimizeDeps.entries = (config.optimizeDeps?.entries ?? []).concat(
@@ -43,18 +52,22 @@ const viteFinal: ViteFinal = async (config, { configType }) => {
     );
   }
 
+  updatedConfig.base = "/storybook";
+  updatedConfig.resolve = {
+    ...updatedConfig.resolve,
+    preserveSymlinks: true,
+  };
+
+  console.log("config", config);
+  console.log("updatedConfig", updatedConfig);
+
   const finalConfig = mergeConfig(config, updatedConfig);
 
+  console.log("final config", finalConfig);
   return finalConfig;
 };
 
 const config: StorybookConfig = {
-  // previewHead: (head, { configType }) => {
-  //   if (configType === "PRODUCTION") {
-  //     return `<base href="/storybook/" /> ${head.replace} `;
-  //   }
-  //   return head;
-  // },
   addons: [
     getAbsolutePath("@storybook/addon-links"),
     getAbsolutePath("@storybook/addon-essentials"),

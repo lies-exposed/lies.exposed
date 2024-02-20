@@ -5,16 +5,13 @@ import * as dotenv from "dotenv";
 import { failure } from "io-ts/lib/PathReporter.js";
 import { type ConfigEnv, type UserConfig } from "vite";
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
-// import { createHtmlPlugin } from "vite-plugin-html";
+import { createHtmlPlugin } from "vite-plugin-html";
 import htmlPurge from "vite-plugin-html-purgecss";
 import optimizer from "vite-plugin-optimizer";
 import tsConfigPaths from "vite-tsconfig-paths";
 import { importDefault } from "../../esm/import-default.js";
 import { fp, pipe } from "../../fp/index.js";
-// import * as reactVirtualized from "./plugins/react-virtualized.plugin.cjs";
 import { type GetViteConfigParams } from "./type.js";
-
-// console.log(reactVirtualized);
 
 // https://vitejs.dev/config/
 export const defineViteConfig = <A extends Record<string, any>>(
@@ -48,21 +45,22 @@ export const defineViteConfig = <A extends Record<string, any>>(
     // eslint-disable-next-line
     console.log(mode, env);
 
-    return {
+    const viteConfig: UserConfig = {
       mode,
-      appType: "custom",
+      appType: config.target,
+      root: config.cwd,
+      envDir: config.envFileDir,
       define: pipe(
         env,
         fp.R.reduceWithIndex(fp.S.Ord)({}, (key, env, v) => ({
           ...env,
-          [`process.env.${key}`]: JSON.stringify(v),
+          [key]: JSON.stringify(v),
         })),
       ),
-      // envDir: config.envFileDir,
-      root: config.cwd,
       build: {
-        outDir: config.output,
+        outDir: path.resolve(config.cwd,  config.output ?? 'build'),
         assetsDir: config.assetDir,
+        minify: mode === "production",
         commonjsOptions: {
           include: [/node_modules/],
           exclude: [/@liexp\/core/, /@liexp\/shared/, /@liexp\/ui/],
@@ -73,11 +71,19 @@ export const defineViteConfig = <A extends Record<string, any>>(
         devSourcemap: true,
       },
       optimizeDeps: {
-        entries: [path.join(config.cwd, "../../packages/@liexp/ui/lib/**")],
+        entries: [
+          // path.join(config.cwd, "../../packages/@liexp/ui/core/**"),
+          // path.join(config.cwd, "../../packages/@liexp/ui/shared/**"),
+          // path.join(config.cwd, "../../packages/@liexp/ui/lib/**"),
+        ],
+        include: [
+          "@liexp/core",
+          "@liexp/shared",
+          "@liexp/ui",
+        ]
         // extensions: [".js", ".jsx", ".tsx"],
         // include: ["react-slick"],
         // exclude: ["@emotion/react/**", "hoist-non-react-statics/**"],
-        // disabled: 'dev'
       },
 
       resolve: {
@@ -106,48 +112,55 @@ export const defineViteConfig = <A extends Record<string, any>>(
           },
         ],
       },
-
       server: {
-        port: 4020,
+        port: config.port,
         host: "localhost",
-        hmr: true,
+        hmr: config.hot,
       },
       ssr: {
         external: [
-          // "react",
-          // "react-dom",
+          "react",
+          "react-dom",
           // "react-dom/server",
           // "react/jsx-runtime",
         ],
       },
       plugins: [
-        image(),
+        image() as any,
         cssInjectedByJsPlugin(),
         optimizer({
           // d3: () => require('d3'),
         }),
         tsConfigPaths({
           root: config.cwd,
+          projects: config.tsConfigFile ? [config.tsConfigFile] : undefined,
         }),
         react({
-          jsxRuntime: mode === "production" ? "automatic" : "classic",
+          jsxRuntime: "classic",
         }),
-        // (reactVirtualized as any)(),
-        // createHtmlPlugin({
-        //   entry: config.entry ?? path.resolve(config.cwd, "src/index.tsx"),
-        //   template: path.resolve(config.cwd, "index.html"),
-        //   inject: {
-        //     data: {
-        //       PUBLIC_URL: env.PUBLIC_URL,
-        //     },
-        //   },
-        //   verbose: true,
-        // }),
-        importDefault(htmlPurge).default(),
       ],
       esbuild: {
         jsx: "automatic",
       },
     };
+
+    if (config.html) {
+      const createHtmlPluginOpts = {
+        entry: config.entry ?? path.resolve(config.cwd, "src/index.tsx"),
+        template: path.resolve(config.cwd, config.html.templatePath),
+        verbose: true,
+        inject: {
+          ejsOptions: {
+            debug: true,
+          },
+        },
+      };
+
+      viteConfig.plugins?.push(createHtmlPlugin(createHtmlPluginOpts));
+    }
+
+    viteConfig.plugins?.push(importDefault(htmlPurge).default());
+
+    return viteConfig;
   };
 };

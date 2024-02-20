@@ -8,14 +8,13 @@ import { Grid } from "@visx/grid";
 import { Group } from "@visx/group";
 import { scaleLinear } from "@visx/scale";
 import { Bar, Line, LinePath } from "@visx/shape";
-import React from "react";
-
+import * as React from "react";
 // accessors
 
 export interface AxisGraphProps<D> {
   id: string;
-  background: (id: string) => JSX.Element;
-  linePathElement: (id: string) => JSX.Element;
+  background: (id: string) => React.ReactNode;
+  linePathElement: (id: string) => React.ReactNode;
   width: number;
   height: number;
   data: D[];

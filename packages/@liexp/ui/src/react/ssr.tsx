@@ -11,6 +11,7 @@ import {
   type EndpointsQueryProvider,
 } from "@liexp/shared/lib/providers/EndpointQueriesProvider/index.js";
 import { fromEndpoints } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
+import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import {
   HydrationBoundary,
   QueryClient,
@@ -21,9 +22,10 @@ import * as express from "express";
 import * as React from "react";
 import * as ReactDOMServer from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server.js";
-import { apiProvider } from "../client/api.js";
 import { HelmetProvider } from "../components/SEO.js";
 import { CssBaseline, ThemeProvider } from "../components/mui/index.js";
+import { type Configuration } from '../context/ConfigurationContext.js';
+import { DataProviderContext } from "../context/DataProviderContext.js";
 import { ECOTheme } from "../theme/index.js";
 import createEmotionCache from "./createEmotionCache.js";
 
@@ -39,6 +41,7 @@ type RedirectRoute = BaseRoute & { redirect: string };
 type AsyncDataRoute = BaseRoute & {
   queries: (
     Q: EndpointsQueryProvider,
+    conf: Configuration
   ) => (
     params: any,
     query: any,
@@ -58,6 +61,8 @@ export const getServer = (
   env: {
     NODE_ENV: "production" | "development";
   },
+  apiProvider: APIRESTClient,
+  conf: Configuration,
   routes: ServerRoute[],
   // webpackConfig: webpack.Configuration
 ): express.Express => {
@@ -88,7 +93,7 @@ export const getServer = (
       });
 
       void r
-        .queries(Q)(req.params, req.query)
+        .queries(Q, conf)(req.params, req.query)
         .then((queries) => {
           const routeQueries = queries.flatMap((r) => r);
           return Promise.all(
@@ -159,24 +164,26 @@ export const getServer = (
 
           const { pipe, abort } = ReactDOMServer.renderToPipeableStream(
             <StaticRouter location={req.url}>
-              <HelmetProvider context={helmetContext}>
-                <QueryClientProvider client={queryClient}>
-                  <HydrationBoundary state={dehydratedState}>
-                    <CacheProvider value={cache}>
-                      <ThemeProvider theme={ECOTheme}>
-                        <CssBaseline enableColorScheme />
-                        {env.NODE_ENV === "development" ? (
-                          <App />
-                        ) : (
-                          <React.Suspense>
+              <DataProviderContext.Provider value={apiProvider}>
+                <HelmetProvider context={helmetContext}>
+                  <QueryClientProvider client={queryClient}>
+                    <HydrationBoundary state={dehydratedState}>
+                      <CacheProvider value={cache}>
+                        <ThemeProvider theme={ECOTheme}>
+                          <CssBaseline enableColorScheme />
+                          {env.NODE_ENV === "development" ? (
                             <App />
-                          </React.Suspense>
-                        )}
-                      </ThemeProvider>
-                    </CacheProvider>
-                  </HydrationBoundary>
-                </QueryClientProvider>
-              </HelmetProvider>
+                          ) : (
+                            <React.Suspense>
+                              <App />
+                            </React.Suspense>
+                          )}
+                        </ThemeProvider>
+                      </CacheProvider>
+                    </HydrationBoundary>
+                  </QueryClientProvider>
+                </HelmetProvider>
+              </DataProviderContext.Provider>
             </StaticRouter>,
             {
               // Executed when the shell render resulted in error
