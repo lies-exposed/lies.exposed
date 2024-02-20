@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
     "lib": ["ESNext"],
-    "module": "commonjs",
+    "module": "ESNext",
     "target": "es6",
+    "moduleResolution": "node",
     "incremental": true,
     "strict": true,
     "declaration": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "noUnusedLocals": true,
     "isolatedModules": true,
     "resolveJsonModule": true,

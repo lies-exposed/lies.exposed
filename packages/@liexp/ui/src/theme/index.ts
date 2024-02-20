@@ -3,9 +3,8 @@ import {
   createTheme,
   useTheme,
   type ThemeOptions,
-} from "@mui/material/styles/index.js";
-import { createStyled } from "@mui/system";
-import { darken, lighten } from "@mui/system/colorManipulator.js";
+} from "@mui/material";
+import { createStyled, darken, lighten } from "@mui/system";
 
 const primaryFontFamily = "Signika";
 const secondaryFontFamily = "Lora";

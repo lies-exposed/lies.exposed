@@ -2,7 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "allowJs": false,
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "rootDir": "./",
     "tsBuildInfoFile": "build/.tsbuildinfo.build"
   },

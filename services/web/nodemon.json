@@ -1,5 +1,0 @@
-{
-  "execMap": {
-    "ts": "node --require tsx/cjs"
-  }
-}

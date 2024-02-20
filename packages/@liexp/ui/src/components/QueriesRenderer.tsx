@@ -4,7 +4,7 @@ import {
   type QueryObserverSuccessResult,
   type UseQueryResult,
 } from "@tanstack/react-query";
-import * as React from "react";
+import * as React from 'react';
 import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
 import { ErrorBox } from "./Common/ErrorBox.js";
 import { FullSizeLoader } from "./Common/FullSizeLoader.js";

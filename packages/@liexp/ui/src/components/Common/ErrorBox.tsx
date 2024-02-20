@@ -28,7 +28,7 @@ const APIErrorBox = (e: APIError): React.ReactElement => {
 
 export const ErrorBox: React.FC<FallbackProps> = ({ error: e }) => {
   const box = React.useMemo(() => {
-    if (e.name === "APIError") {
+    if (e.name === "APIError" && Array.isArray(e.details)) {
       return <APIErrorBox {...e} />;
     }
     return (

@@ -3,6 +3,7 @@ import { type AppType } from "vite";
 
 export interface GetViteConfigParams<A extends Record<string, t.Mixed>> {
   cwd: string;
+  base: string;
   env: t.ExactC<t.TypeC<A>>;
   envFileDir: string;
   port: number;

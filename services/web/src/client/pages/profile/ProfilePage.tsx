@@ -35,8 +35,8 @@ import { themeOptions } from "@liexp/ui/lib/theme/index.js";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import * as React from "react";
 import { Route } from "react-router-dom";
-import { UserEditMe } from "./UseEditMe";
-import { UserListMe } from "./UserListMe";
+import { UserEditMe } from "./UseEditMe.js";
+import { UserListMe } from "./UserListMe.js";
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
 

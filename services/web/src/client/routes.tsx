@@ -25,24 +25,28 @@ const AreasPage = React.lazy(() => import("./pages/AreasPage"));
 const CreateStoryPage = React.lazy(
   () => import("./pages/stories/CreateStoryPage"),
 );
-const BlogPage = React.lazy(() => import("./pages/stories/StorySearchPage"));
-const EventsPage = React.lazy(() => import("./pages/EventsPage"));
-const GroupsPage = React.lazy(() => import("./pages/GroupsPage"));
-const LinksPage = React.lazy(() => import("./pages/LinksPage"));
-const KeywordsPage = React.lazy(() => import("./pages/KeywordsPage"));
-const MediaPage = React.lazy(() => import("./pages/MediaPage"));
-const ProfilePage = React.lazy(() => import("./pages/profile/ProfilePage"));
-const LogoutPage = React.lazy(() => import("./pages/Logout"));
-const StoryTemplate = React.lazy(() => import("./templates/StoryTemplate"));
-const ActorTemplate = React.lazy(() => import("./templates/ActorTemplate"));
-const AreaTemplate = React.lazy(() => import("./templates/AreaTemplate"));
-const EventTemplate = React.lazy(() => import("./templates/EventTemplate"));
-const GroupTemplate = React.lazy(() => import("./templates/GroupTemplate"));
-const KeywordTemplate = React.lazy(() => import("./templates/KeywordTemplate"));
-const MediaTemplate = React.lazy(() => import("./templates/MediaTemplate"));
-const LinkTemplate = React.lazy(() => import("./templates/LinkTemplate"));
-const PageTemplate = React.lazy(() => import("./templates/PageTemplate"));
-const EditStoryPage = React.lazy(() => import("./pages/stories/EditStoryPage"));
+const BlogPage = React.lazy(() => import("./pages/stories/StorySearchPage.js"));
+const EventsPage = React.lazy(() => import("./pages/EventsPage.js"));
+const GroupsPage = React.lazy(() => import("./pages/GroupsPage.js"));
+const LinksPage = React.lazy(() => import("./pages/LinksPage.js"));
+const KeywordsPage = React.lazy(() => import("./pages/KeywordsPage.js"));
+const MediaPage = React.lazy(() => import("./pages/MediaPage.js"));
+const ProfilePage = React.lazy(() => import("./pages/profile/ProfilePage.js"));
+const LogoutPage = React.lazy(() => import("./pages/Logout.js"));
+const StoryTemplate = React.lazy(() => import("./templates/StoryTemplate.js"));
+const ActorTemplate = React.lazy(() => import("./templates/ActorTemplate.js"));
+const AreaTemplate = React.lazy(() => import("./templates/AreaTemplate.js"));
+const EventTemplate = React.lazy(() => import("./templates/EventTemplate.js"));
+const GroupTemplate = React.lazy(() => import("./templates/GroupTemplate.js"));
+const KeywordTemplate = React.lazy(
+  () => import("./templates/KeywordTemplate.js"),
+);
+const MediaTemplate = React.lazy(() => import("./templates/MediaTemplate.js"));
+const LinkTemplate = React.lazy(() => import("./templates/LinkTemplate.js"));
+const PageTemplate = React.lazy(() => import("./templates/PageTemplate.js"));
+const EditStoryPage = React.lazy(
+  () => import("./pages/stories/EditStoryPage.js"),
+);
 
 const RedirectToEventsRoute: React.FC = () => {
   const params = useParams();
@@ -57,9 +61,9 @@ const RedirectToEventsRoute: React.FC = () => {
   return null;
 };
 
-const githubQuery = (Q: EndpointsQueryProvider, conf: Configuration): any => ({
+const githubQuery = (_: EndpointsQueryProvider, conf: Configuration): any => ({
   queryKey: ["github", { user: "lies-exposed", repo: "lies.exposed" }],
-  queryFn: fetchGithubRepo(Q.REST.client, conf),
+  queryFn: fetchGithubRepo(conf),
 });
 
 const commonQueries = [githubQuery];
@@ -457,9 +461,9 @@ export const routes: ServerRoute[] = [
       }
       return <NotFoundPage />;
     },
-    queries: (Q) => async (params: any) => {
+    queries: (Q, conf) => async (params: any) => {
       return [
-        ...commonQueries,
+        ...commonQueries.flatMap((c) => c(Q, conf)),
         {
           queryKey: Q.Queries.Stats.list.getKey(
             {
@@ -488,9 +492,9 @@ export const routes: ServerRoute[] = [
       return <NotFoundPage />;
     },
     queries:
-      (Q) =>
+      (Q, conf) =>
       async ({ areaId }: any) => [
-        ...commonQueries,
+        ...commonQueries.flatMap((c) => c(Q, conf)),
         {
           queryKey: Q.Queries.Area.get.getKey({ id: areaId }),
           queryFn: Q.Queries.Area.get.fetch,
@@ -500,8 +504,8 @@ export const routes: ServerRoute[] = [
   {
     path: "/areas",
     route: () => <AreasPage />,
-    queries: (Q) => async () => [
-      ...commonQueries,
+    queries: (Q, conf) => async () => [
+      ...commonQueries.flatMap((c) => c(Q, conf)),
       {
         queryKey: Q.Queries.Page.Custom.GetPageContentByPath.getKey("areas"),
         queryFn: Q.Queries.Page.Custom.GetPageContentByPath.fetch,
@@ -528,9 +532,9 @@ export const routes: ServerRoute[] = [
       return <NotFoundPage />;
     },
     queries:
-      (Q) =>
+      (Q, conf) =>
       async ({ mediaId }: any) => [
-        ...commonQueries,
+        ...commonQueries.flatMap((c) => c(Q, conf)),
         {
           queryKey: Q.Queries.Media.get.getKey({ id: mediaId }),
           queryFn: Q.Queries.Media.get.fetch,
@@ -540,8 +544,8 @@ export const routes: ServerRoute[] = [
   {
     path: "/media",
     route: () => <MediaPage />,
-    queries: (Q) => async () => [
-      ...commonQueries,
+    queries: (Q, conf) => async () => [
+      ...commonQueries.flatMap((c) => c(Q, conf)),
       {
         queryKey: Q.Queries.Page.Custom.GetPageContentByPath.getKey("media"),
         queryFn: Q.Queries.Page.Custom.GetPageContentByPath.fetch,
@@ -597,7 +601,7 @@ export const routes: ServerRoute[] = [
       return <NotFoundPage />;
     },
     queries:
-      (Q) =>
+      (Q, conf) =>
       async ({ storyPath }: any) => {
         const storyParams = { filter: { path: storyPath } };
         const storyKey = Q.Queries.Story.list.getKey(storyParams);
@@ -634,7 +638,7 @@ export const routes: ServerRoute[] = [
         );
 
         return [
-          ...commonQueries,
+          ...commonQueries.flatMap((c) => c(Q, conf)),
           {
             // eslint-disable-next-line @tanstack/query/exhaustive-deps
             queryKey: storyKey,
@@ -654,9 +658,9 @@ export const routes: ServerRoute[] = [
   {
     path: "/stories",
     route: () => <BlogPage />,
-    queries: (Q) => async () => {
+    queries: (Q, conf) => async () => {
       return [
-        ...commonQueries,
+        ...commonQueries.flatMap((c) => c(Q, conf)),
         {
           queryKey:
             Q.Queries.Page.Custom.GetPageContentByPath.getKey("stories"),
