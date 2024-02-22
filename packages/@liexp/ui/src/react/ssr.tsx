@@ -22,6 +22,7 @@ interface GetServerOptions {
     render: ServerRenderer;
     configuration: Configuration;
   }>;
+  transformTemplate: (template: string) => string;
   apiProvider: APIRESTClient;
   onRequestError: (e: any) => void;
 }

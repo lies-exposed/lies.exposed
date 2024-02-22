@@ -1,13 +1,14 @@
 import { Writable } from "node:stream";
 import createEmotionServer from "@emotion/server/create-instance";
 import { config, dom } from "@fortawesome/fontawesome-svg-core";
+import * as fp from "@liexp/core/lib/fp/index.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
 import { type EndpointsQueryProvider } from "@liexp/shared/lib/providers/EndpointQueriesProvider/index.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import type * as express from "express";
 import type ReactDOMServer from "react-dom/server";
-import { type Configuration } from '../../context/ConfigurationContext.js';
+import { type Configuration } from "../../context/ConfigurationContext.js";
 import { ECOTheme } from "../../theme/index.js";
 import createEmotionCache from "../createEmotionCache.js";
 import { type AsyncDataRoute } from "../types.js";
@@ -37,7 +38,11 @@ interface SSRRequestHandlerOpts {
   Q: EndpointsQueryProvider;
   apiProvider: APIRESTClient;
   getTemplate: (url: string, originalUrl: string) => Promise<string>;
-  serverEntry: () => Promise<{ render: ServerRenderer; configuration: Configuration }>;
+  transformTemplate: (template: string) => string;
+  serverEntry: () => Promise<{
+    render: ServerRenderer;
+    configuration: Configuration;
+  }>;
   queries: Array<AsyncDataRoute["queries"]>;
   onError: (e: any) => void;
 }
@@ -51,6 +56,7 @@ export const requestHandler =
       queries,
       getTemplate,
       serverEntry,
+      transformTemplate,
       onError,
     }: SSRRequestHandlerOpts,
   ) =>
@@ -140,23 +146,26 @@ export const requestHandler =
 
           const fontawesomeCss = dom.css();
 
-          const transformedTemplate = template
-            .replace("<head>", `<head ${htmlAttributes}>`)
-            .replace("<!--helmet-head-->", head)
-            .replace(
-              "<!--fontawesome-css-->",
-              `<style type="text/css">${fontawesomeCss}</style>`,
-            )
-            .replace("<!--emotion-css-->", styles)
-            .replace("<!--app-html-->", body)
-            .replace(
-              "<!--ssr-data-->",
-              `<script>
+          const transformedTemplate = fp.pipe(
+            template
+              .replace("<head>", `<head ${htmlAttributes}>`)
+              .replace("<!--helmet-head-->", head)
+              .replace(
+                "<!--fontawesome-css-->",
+                `<style type="text/css">${fontawesomeCss}</style>`,
+              )
+              .replace("<!--emotion-css-->", styles)
+              .replace("<!--app-html-->", body)
+              .replace(
+                "<!--ssr-data-->",
+                `<script>
                   window.__REACT_QUERY_STATE__ = ${JSON.stringify(
                     dehydratedState,
                   )}
                 </script>`,
-            );
+              ),
+            transformTemplate,
+          );
           // console.log("transformed template", transformedTemplate);
           res.write(transformedTemplate);
 

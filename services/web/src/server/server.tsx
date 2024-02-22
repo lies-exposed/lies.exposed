@@ -41,15 +41,22 @@ const run = async (base: string): Promise<void> => {
 
   let serverEntry;
   let getTemplate;
+  let transformTemplate;
   let onRequestError;
 
   if (isProduction) {
     serverEntry = () => import(path.resolve(outputDir, "server/entry"));
 
     const templateFile = fs.readFileSync(indexFile, "utf8");
+
     getTemplate = (url: string, originalUrl: string) =>
       Promise.resolve(templateFile);
 
+    transformTemplate = (template: string) =>
+      template.replace(
+        "<!--web-analytics-->",
+        `<script data-goatcounter="https://liexp.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>`,
+      );
     onRequestError = (e: any) => {
       webSrvLog.error.log("app error", e);
     };
@@ -82,6 +89,8 @@ const run = async (base: string): Promise<void> => {
       return vite.transformIndexHtml(url, templateFile, originalUrl);
     };
 
+    transformTemplate = (t: string) => t;
+
     onRequestError = (e: any) => {
       vite.ssrFixStacktrace(e);
     };
@@ -90,9 +99,10 @@ const run = async (base: string): Promise<void> => {
   const server = getServer({
     app,
     routes,
+    getTemplate,
     serverEntry,
     apiProvider,
-    getTemplate,
+    transformTemplate,
     onRequestError,
   });
 
