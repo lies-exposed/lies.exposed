@@ -682,6 +682,18 @@ export const routes: ServerRoute[] = [
   },
   // profile
   {
+    path: "/profile",
+    route: () => <ProfilePage />,
+    queries: (Q) => async () => [],
+  },
+  // profile nested routes for react router
+  {
+    path: "/profile/*",
+    route: () => <ProfilePage />,
+    queries: (Q) => async () => [],
+  },
+  // profile nested routes that match express path
+  {
     path: "/profile/(.*)",
     route: () => <ProfilePage />,
     queries: (Q) => async () => [],

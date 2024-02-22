@@ -44,6 +44,7 @@ const ProfilePage: React.FC = () => {
   // eslint-disable-next-line no-console
   const apiProvider = useDataProvider();
   const authProvider = GetAuthProvider(apiProvider);
+
   return (
     <Admin
       dataProvider={apiProvider}
