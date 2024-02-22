@@ -18,7 +18,10 @@ interface GetServerOptions {
   app: express.Express;
   routes: ServerRoute[];
   getTemplate: (url: string, originalUrl: string) => Promise<string>;
-  serverEntry: () => Promise<{ render: ServerRenderer; configuration: Configuration }>;
+  serverEntry: () => Promise<{
+    render: ServerRenderer;
+    configuration: Configuration;
+  }>;
   apiProvider: APIRESTClient;
   onRequestError: (e: any) => void;
 }
@@ -42,9 +45,18 @@ export const getServer = (
   app.get("*", (req, res, next) => {
     ssrLog.debug.log("req.originalUrl %s (%s)", req.originalUrl, req.baseUrl);
 
-    const route = routes.find((r) =>
-      pathToRegexp(r.path).test(req.originalUrl),
-    );
+    const route = routes.find((r) => {
+      try {
+        return pathToRegexp(r.path).test(req.originalUrl);
+      } catch (e) {
+        ssrLog.warn.log(
+          "Failed to transform route path %s to regexp: %O",
+          r.path,
+          e,
+        );
+        return false;
+      }
+    });
 
     if (!route) {
       next();
