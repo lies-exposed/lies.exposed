@@ -9,7 +9,7 @@ import { MediaBox } from "@liexp/ui/lib/containers/MediaBox.js";
 import { PageContentBox } from "@liexp/ui/lib/containers/PageContentBox.js";
 import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
-import { useNavigateToResource } from "../utils/location.utils";
+import { useNavigateToResource } from "../utils/location.utils.js";
 
 const IndexPage: React.FC<RouteComponentProps> = () => {
   const navigateTo = useNavigateToResource();

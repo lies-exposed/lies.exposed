@@ -6,11 +6,42 @@ WEB_IMAGE=liexp-web
 
 (exec ./scripts/docker-login.sh "$1")
 
-docker build . --force-rm --pull --file base.Dockerfile \
+# filter image to build based on parameter
+
+base=false
+api=false
+web=false
+
+# Loop through script arguments
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --api)
+            api=true
+            shift
+            ;;
+        --web)
+            web=true
+            shift
+            ;;
+        --base)
+            base=true
+            shift
+            ;;
+        *)
+            other_args+=("$1")
+            shift
+            ;;
+    esac
+done
+
+if [ "$base" = true ]; then
+  docker build . --force-rm --pull --file base.Dockerfile \
     --tag $BASE_IMAGE:alpha-latest \
     --tag ghcr.io/lies-exposed/$BASE_IMAGE:20-latest
+fi
 
-docker build . \
+if [ "$api" = true ]; then
+  docker build . \
     --force-rm \
     --pull \
     --no-cache \
@@ -18,8 +49,10 @@ docker build . \
     --target production \
     --tag $API_IMAGE:alpha-latest \
     --tag ghcr.io/lies-exposed/$API_IMAGE:alpha-latest
+fi
 
-docker build --build-arg DOTENV_CONFIG_PATH=.env.alpha . \
+if [ "$web" = true ]; then
+  docker build . \
     --force-rm \
     --pull \
     --no-cache \
@@ -27,3 +60,4 @@ docker build --build-arg DOTENV_CONFIG_PATH=.env.alpha . \
     --target production \
     --tag $WEB_IMAGE:alpha-latest \
     --tag ghcr.io/lies-exposed/$WEB_IMAGE:alpha-latest
+fi

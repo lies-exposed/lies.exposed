@@ -1,4 +1,4 @@
-import { APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider";
+import { APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import React from "react";
 
 export const DataProviderContext = React.createContext<APIRESTClient>(

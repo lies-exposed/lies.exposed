@@ -20,6 +20,8 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     cat ./gh-token.txt | docker login ghcr.io -u $u --password-stdin
     rm ./gh-token.txt
 
+    mkdir -p ./telegram-bot-nginx-log
+
     rm -rf ./temp
     mkdir -p ./config/nlp
     mkdir -p ./temp/networks/keywords
@@ -34,14 +36,15 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     export API_UID=$(id pptruser -u)
     export API_GID=$(id pptruser -g)
     docker compose --env-file .env.api pull
-    docker compose --env-file .env.api up --build --force-recreate -d --wait
+    docker compose --env-file .env.api up --build --force-recreate -d --wait api
+    docker compose --env-file .env.web up --build --force-recreate -d --wait --no-deps web
     docker system prune -f
     docker builder prune -f --all
-    docker compose run --name api-migration api yarn migration:run > migration.txt
-    docker compose run -d --rm --name upsert-nlp-entities api yarn upsert-nlp-entities
-    docker compose run -d --rm --name upsert-tg-pinned-message api yarn upsert-tg-pinned-message
-    docker compose run -d --rm --name parse-all-tg-messages api yarn parse-tg-message all true
-    docker compose run -d --rm --name clean-space-media api yarn clean-space-media --dry
+    docker compose --env-file .env.api run  --name api-migration api yarn migration:run > migration.txt
+    docker compose --env-file .env.api  run -d --rm --name upsert-nlp-entities api yarn upsert-nlp-entities
+    docker compose --env-file .env.api  run -d --rm --name upsert-tg-pinned-message api yarn upsert-tg-pinned-message
+    docker compose --env-file .env.api  run -d --rm --name parse-all-tg-messages api yarn parse-tg-message all true
+    docker compose --env-file .env.api  run -d --rm --name clean-space-media api yarn clean-space-media --dry
 
     cd ~/
     # list top 5 bigger files

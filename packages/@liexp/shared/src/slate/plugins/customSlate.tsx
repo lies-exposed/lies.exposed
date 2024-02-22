@@ -1,7 +1,7 @@
 import { importDefault } from "@liexp/core/lib/esm/import-default.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { List, ListItem, ListItemText, Typography } from "@mui/material";
-import { type Cell } from "@react-page/editor";
+import { type Cell } from "@react-page/editor/lib/core/types/node.js";
 import * as slate from "@react-page/plugins-slate";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
