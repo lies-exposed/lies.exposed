@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "tsBuildInfoFile": "build/server.tsbuildinfo",
+    "resolveJsonModule": true,
+    "isolatedModules": false
+  },
+  "include": ["./src/server/server.tsx", "./typings"],
+  "exclude": [
+    "**/__tests__",
+    "**/__specs__",
+    "**/tests",
+    "**/test",
+    ".eslintrc.cjs",
+    "vite.config.ts"
+  ]
+}

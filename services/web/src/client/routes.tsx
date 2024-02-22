@@ -16,8 +16,8 @@ import { hashToQuery } from "@liexp/ui/lib/utils/history.utils.js";
 import { UUID } from "io-ts-types/lib/UUID.js";
 import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import NotFoundPage from "./pages/404";
-import IndexPage from "./pages/index";
+import NotFoundPage from "./pages/404.js";
+import IndexPage from "./pages/index.js";
 
 // lazy route components
 const ActorsPage = React.lazy(() => import("./pages/ActorsPage"));

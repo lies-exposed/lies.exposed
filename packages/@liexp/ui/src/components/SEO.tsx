@@ -1,6 +1,6 @@
 import React from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { useConfiguration } from "../context/ConfigurationContext";
+import { useConfiguration } from "../context/ConfigurationContext.js";
 
 interface SEOProps {
   description?: string;

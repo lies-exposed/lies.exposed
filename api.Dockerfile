@@ -33,7 +33,7 @@ COPY packages/@liexp/shared/package.json /app/packages/@liexp/shared/package.jso
 COPY packages/@liexp/backend/package.json /app/packages/@liexp/backend/package.json
 COPY packages/@liexp/test/package.json /app/packages/@liexp/test/package.json
 
-RUN yarn config set --home enableTelemetry false && yarn workspaces focus -A --production
+RUN yarn config set --home enableTelemetry false && yarn workspaces focus --production api
 
 FROM ghcr.io/lies-exposed/liexp-base:20-latest as production
 
@@ -41,10 +41,12 @@ WORKDIR /app
 
 COPY .yarn/plugins /app/.yarn/plugins
 COPY .yarn/releases /app/.yarn/releases
+COPY .yarnrc.yml /app/.yarnrc.yml
+COPY yarn.lock /app/yarn.lock
 
 COPY tsconfig.json /app/tsconfig.json
 COPY package.json /app/package.json
-COPY .yarnrc.yml /app/.yarnrc.yml
+
 COPY services/api/package.json /app/services/api/package.json
 COPY services/api/tsconfig.json /app/services/api/tsconfig.json
 COPY services/api/tsconfig.build.json /app/services/api/tsconfig.build.json
@@ -69,7 +71,9 @@ COPY --from=build /app/services/api/assets /app/services/api/assets
 
 COPY --from=prod_deps /app/node_modules /app/node_modules
 
-RUN yarn workspaces focus -A --production
+RUN yarn config set --home enableTelemetry false
+
+RUN yarn workspaces focus --production api
 
 # Run everything after as non-privileged user.
 USER pptruser

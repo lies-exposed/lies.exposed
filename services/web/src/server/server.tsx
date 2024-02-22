@@ -1,9 +1,8 @@
 // other imports
 import * as fs from "fs";
 import path from "path";
-import { loadENV } from "@liexp/core/lib/env/utils.js";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
-import { APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider";
+import { APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { getServer } from "@liexp/ui/lib/react/ssr.js";
 import { type ServerRenderer } from "@liexp/ui/lib/react/vite/render.js";
 import D from "debug";
@@ -18,11 +17,10 @@ const webSrvLog = GetLogger("web");
 // eslint-disable-next-line @typescript-eslint/naming-convention
 
 const run = async (base: string): Promise<void> => {
-  loadENV(process.cwd(), undefined, true);
+  D.enable(process.env.VITE_DEBUG ?? "@liexp:*:error");
 
   const isProduction = process.env.VITE_NODE_ENV === "production";
 
-  D.enable(process.env.VITE_DEBUG ?? "@liexp:*:error");
   const apiProvider = APIRESTClient({
     url: process.env.VITE_API_URL,
   });
@@ -45,18 +43,19 @@ const run = async (base: string): Promise<void> => {
   let onRequestError;
 
   if (isProduction) {
-    serverEntry = () => import(path.resolve(outputDir, "server/entry"));
+    serverEntry = () => import(path.resolve(outputDir, "server/entry.js"));
 
     const templateFile = fs.readFileSync(indexFile, "utf8");
 
     getTemplate = (url: string, originalUrl: string) =>
-      Promise.resolve(templateFile);
-
-    transformTemplate = (template: string) =>
-      template.replace(
-        "<!--web-analytics-->",
-        `<script data-goatcounter="https://liexp.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>`,
+      Promise.resolve(
+        templateFile.replace(
+          "<!--web-analytics-->",
+          `<script data-goatcounter="https://liexp.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>`,
+        ),
       );
+
+    transformTemplate = (template: string) => template;
     onRequestError = (e: any) => {
       webSrvLog.error.log("app error", e);
     };
@@ -64,7 +63,10 @@ const run = async (base: string): Promise<void> => {
     const compression = (await import("compression")).default;
     const sirv = (await import("sirv")).default;
     app.use(compression());
-    app.use(base, sirv("./build/client", { extensions: [] }));
+    app.use(
+      base,
+      sirv(path.resolve(cwd, "./build/client"), { extensions: [] }),
+    );
   } else {
     const { createServer: createViteServer } = await import("vite");
 

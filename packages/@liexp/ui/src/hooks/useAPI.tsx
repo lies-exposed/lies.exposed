@@ -1,6 +1,6 @@
 import { API } from "@liexp/shared/lib/providers/api/api.provider.js";
 import React from "react";
-import { useDataProvider } from "./useDataProvider";
+import { useDataProvider } from "./useDataProvider.js";
 
 export const useAPI = (): API => {
   const dataProvider = useDataProvider();
