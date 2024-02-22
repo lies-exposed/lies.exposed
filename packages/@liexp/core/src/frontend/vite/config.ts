@@ -77,10 +77,13 @@ export const defineViteConfig = <A extends Record<string, any>>(
           // path.join(config.cwd, "../../packages/@liexp/ui/shared/**"),
           // path.join(config.cwd, "../../packages/@liexp/ui/lib/**"),
         ],
-        include: ["@liexp/core", "@liexp/shared", "@liexp/ui"],
-        // extensions: [".js", ".jsx", ".tsx"],
-        // include: ["react-slick"],
-        // exclude: ["@emotion/react/**", "hoist-non-react-statics/**"],
+        include: [
+          "@liexp/core",
+          "@liexp/shared",
+          "@liexp/ui",
+          "@mui/icons-material",
+          "@mui/material",
+        ],
       },
 
       resolve: {
@@ -109,11 +112,13 @@ export const defineViteConfig = <A extends Record<string, any>>(
           },
         ],
       },
-      server: config.devServer ? {
-        port: config.port,
-        host: "localhost",
-        hmr: config.hot,
-      } : undefined,
+      server: config.devServer
+        ? {
+            port: config.port,
+            host: "localhost",
+            hmr: config.hot,
+          }
+        : undefined,
       ssr: {
         external: [
           "react",
@@ -152,7 +157,6 @@ export const defineViteConfig = <A extends Record<string, any>>(
       //     },
       //   },
       // };
-
       // viteConfig.plugins?.push(createHtmlPlugin(createHtmlPluginOpts));
       // viteConfig.plugins?.push(importDefault(htmlPurge).default());
     }
