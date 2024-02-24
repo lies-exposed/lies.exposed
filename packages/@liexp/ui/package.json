@@ -49,7 +49,7 @@
     "@react-page/plugins-spacer": "^5.4.4",
     "@react-page/plugins-video": "^5.4.4",
     "@react-page/react-admin": "^5.4.4",
-    "@tanstack/react-query": "^5.17.14",
+    "@tanstack/react-query": "^5.22.2",
     "@visx/axis": "^3.5.0",
     "@visx/chord": "^3.3.0",
     "@visx/clip-path": "^3.3.0",
@@ -113,7 +113,7 @@
     "waveform-data": "^4.5.0"
   },
   "devDependencies": {
-    "@tanstack/eslint-plugin-query": "^5.17.7",
+    "@tanstack/eslint-plugin-query": "^5.20.1",
     "@types/chroma-js": "^2.4.4",
     "@types/d3": "^7.4.3",
     "@types/d3-sankey": "^0.12.4",
