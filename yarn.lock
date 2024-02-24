@@ -3743,7 +3743,7 @@ __metadata:
     "@types/throttle-debounce": ^5.0.2
     "@types/topojson-client": ^3.1.4
     "@types/topojson-specification": ^1.0.5
-    "@visx/axis": ^3.5.0
+    "@visx/axis": ^3.8.0
     "@visx/chord": ^3.3.0
     "@visx/clip-path": ^3.3.0
     "@visx/event": ^3.3.0
@@ -8790,7 +8790,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@visx/axis@npm:^3.5.0":
+"@visx/axis@npm:^3.8.0":
   version: 3.8.0
   resolution: "@visx/axis@npm:3.8.0"
   dependencies:
@@ -24943,7 +24943,7 @@ __metadata:
     "@types/uuid": ^9.0.8
     "@typescript-eslint/eslint-plugin": ^6.21.0
     "@typescript-eslint/parser": ^6.21.0
-    "@visx/axis": ^3.5.0
+    "@visx/axis": ^3.8.0
     "@visx/gradient": ^3.3.0
     "@visx/legend": ^3.5.0
     "@visx/network": ^3.3.0

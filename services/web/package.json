@@ -35,7 +35,7 @@
     "@mui/icons-material": "^5.15.10",
     "@mui/material": "^5.15.10",
     "@tanstack/react-query": "^5.22.2",
-    "@visx/axis": "^3.5.0",
+    "@visx/axis": "^3.8.0",
     "@visx/gradient": "^3.3.0",
     "@visx/legend": "^3.5.0",
     "@visx/network": "^3.3.0",
