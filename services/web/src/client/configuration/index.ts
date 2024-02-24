@@ -11,7 +11,7 @@ export const configuration: Configuration = {
   publicUrl: import.meta.env.VITE_PUBLIC_URL,
   platforms: {
     web: {
-      defaultImage: `${import.meta.env.VITE_PUBLIC_URL}/assets/liexp-logo-1200x630.png`,
+      defaultImage: `${import.meta.env.VITE_PUBLIC_URL}/liexp-logo-1200x630.png`,
       url: import.meta.env.VITE_PUBLIC_URL,
     },
     admin: {
