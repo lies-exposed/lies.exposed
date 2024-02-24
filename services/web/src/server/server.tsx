@@ -59,12 +59,10 @@ const run = async (base: string): Promise<void> => {
 
     getTemplate = (url: string, originalUrl: string) =>
       Promise.resolve(
-        templateFile
-          .replace(/{{VITE_PUBLIC_URL}}/g, process.env.VITE_PUBLIC_URL)
-          .replace(
-            "<!--web-analytics-->",
-            `<script data-goatcounter="https://liexp.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>`,
-          ),
+        templateFile.replace(
+          "<!--web-analytics-->",
+          `<script data-goatcounter="https://liexp.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>`,
+        ),
       );
 
     transformTemplate = (template: string) => template;
@@ -103,8 +101,7 @@ const run = async (base: string): Promise<void> => {
       return vite.transformIndexHtml(url, templateFile, originalUrl);
     };
 
-    transformTemplate = (t: string) =>
-      t.replace(/{{VITE_PUBLIC_URL}}/g, process.env.VITE_PUBLIC_URL);
+    transformTemplate = (t: string) => t;
 
     onRequestError = (e: any) => {
       vite.ssrFixStacktrace(e);
