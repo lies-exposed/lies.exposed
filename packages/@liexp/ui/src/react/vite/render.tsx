@@ -123,8 +123,6 @@ export const requestHandler =
         write(chunk, _encoding, cb) {
           const content = chunk.toString("utf8");
 
-          logger.debug.log("Write chunk %d", content.length);
-
           body += content;
 
           cb();
@@ -162,11 +160,10 @@ export const requestHandler =
                 .replace("<!--app-html-->", body),
               (t) => {
                 try {
-                  logger.info.log("dehydrated state %O", dehydratedState);
                   return t.replace(
                     "<!--ssr-data-->",
                     `<script>
-                      window.__REACT_QUERY_STATE__ = ${JSON.stringify({})}
+                      window.__REACT_QUERY_STATE__ = ${JSON.stringify(dehydratedState)}
                     </script>`,
                   );
                 } catch (e) {
