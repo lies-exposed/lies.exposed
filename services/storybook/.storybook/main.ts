@@ -9,7 +9,7 @@ const viteFinal: ViteFinal = async (config, { configType }) => {
   const VITE_API_URL =
     configType === "PRODUCTION"
       ? "https://alpha.api.lies.exposed/v1"
-      : "http://localhost:4010/v1";
+      : "http://api.liexp.dev/v1";
 
   const VITE_PUBLIC_URL = configType === "PRODUCTION" ? "/storybook" : "/";
 

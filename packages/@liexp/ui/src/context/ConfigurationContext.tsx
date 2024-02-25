@@ -30,7 +30,7 @@ export const defaultConfiguration: Configuration = {
       defaultImage: `https://alpha.lies.exposed/liexp-logo-1200x630.png`,
     },
     admin: { url: "https://alpha.lies.exposed/admin/" },
-    api: { url: "https://api.alpha.lies.exposed" },
+    api: { url: "https://alpha.api.lies.exposed/v1" },
   },
   site: {
     siteMetadata: {
