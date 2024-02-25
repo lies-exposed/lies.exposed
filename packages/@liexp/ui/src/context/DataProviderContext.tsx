@@ -3,6 +3,6 @@ import React from "react";
 
 export const DataProviderContext = React.createContext<APIRESTClient>(
   APIRESTClient({
-    url: "https://api.alpha.lies.exposed",
+    url: "https://alpha.api.lies.exposed/v1",
   }),
 );
