@@ -19,12 +19,15 @@ const viteFinal: ViteFinal = async (config, { configType }) => {
   const viteConfigUpdate = defineViteConfig({
     envFileDir: path.resolve(__dirname, ".."),
     cwd: process.cwd(),
-    output: "build",
+    output: path.resolve(process.cwd(), "build"),
     assetDir: "assets",
+    base: VITE_PUBLIC_URL,
+    host: "localhost",
     port: config.server?.port ?? 6006,
     env: t.strict({ VITE_API_URL: t.string, VITE_PUBLIC_URL: t.string }),
     target: "spa",
-    hot: false,
+    devServer: configType === "DEVELOPMENT" ? true : false,
+    hot: true,
   });
 
   const updatedConfig = viteConfigUpdate({
@@ -33,7 +36,7 @@ const viteFinal: ViteFinal = async (config, { configType }) => {
   });
 
   delete updatedConfig.mode;
-  delete updatedConfig.build;
+  delete updatedConfig.build?.commonjsOptions;
   delete updatedConfig.appType;
   delete updatedConfig.server;
   delete updatedConfig.ssr;
@@ -52,7 +55,7 @@ const viteFinal: ViteFinal = async (config, { configType }) => {
     );
   }
 
-  updatedConfig.base = "/storybook";
+  updatedConfig.base = "/storybook/";
   updatedConfig.resolve = {
     ...updatedConfig.resolve,
     preserveSymlinks: true,
