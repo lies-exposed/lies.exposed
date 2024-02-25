@@ -44,7 +44,6 @@ services:
     #   retries: 3
 
   api.liexp.dev:
-    # image: liexp-api-build:alpha
     build:
       context: .
       target: build
@@ -63,6 +62,7 @@ services:
     volumes:
       - ./packages/@liexp:/app/packages/@liexp:ro
       - ./services/api:/app/services/api:ro
+      - ./services/api/temp:/app/services/api/temp:rw
     tty: true
     stdin_open: true
     working_dir: /app/services/api

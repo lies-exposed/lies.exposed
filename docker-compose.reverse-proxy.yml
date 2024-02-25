@@ -48,7 +48,6 @@ services:
   telegram.liexp.dev:
     restart: always
     image: nginx:1.25.4-alpine
-    # command: nginx -t
     volumes:
       - ./resources/nginx/telegram-bot-api.conf:/etc/nginx/conf.d/default.conf:ro
     environment:
@@ -58,7 +57,7 @@ services:
     depends_on:
       - telegram-bot-api
     ports:
-      - "9008:9008"
+      - "127.0.0.1:9008:9008"
     networks:
       - reverseproxy
 
