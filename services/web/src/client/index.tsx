@@ -25,8 +25,6 @@ import { configuration } from "./configuration/index.js";
 
 config.autoAddCss = false;
 
-// eslint-disable-next-line no-console
-console.log("import.meta.env", import.meta.env);
 debug.enable(import.meta.env.VITE_DEBUG ?? "@liexp:*:error");
 
 // watch for font awesome icons
@@ -44,9 +42,6 @@ function Main(): JSX.Element {
   }, []);
 
   const [conf] = React.useState(configuration);
-
-  // eslint-disable-next-line no-console
-  console.log("conf", conf);
 
   const [queryClient] = React.useState(
     () =>
