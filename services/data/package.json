@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rm -rf build",
     "start": "node -r dotenv/config build/serve.js",
-    "develop": "DOTENV_CONFIG_PATH=../../.env.local nodemon -r dotenv/config build/serve.js",
+    "develop": "DOTENV_CONFIG_PATH=../../.env.local node --import tsx/esm -r dotenv/config src/serve.ts",
     "build": "tsc -b",
     "watch": "tsc -b --watch",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
@@ -31,7 +31,6 @@
   "devDependencies": {
     "@types/node": "^18",
     "dotenv": "^14.3.2",
-    "nodemon": "^2.0.15",
     "prettier": "^2.5.1",
     "supertest": "^6.2.2",
     "typescript": "^4.6.2"
