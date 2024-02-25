@@ -4,7 +4,7 @@
     "allowJs": false,
     "baseUrl": "./src",
     "rootDir": "./",
-    "tsBuildInfoFile": "build/.tsbuildinfo.build"
+    "tsBuildInfoFile": "build/.build.tsbuildinfo"
   },
   "include": [".storybook", "./src"],
   "exclude": ["node_modules", "build", "public", ".cache", ".eslintrc.cjs"]

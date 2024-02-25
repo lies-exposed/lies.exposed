@@ -1,3 +1,5 @@
 {
-    "public": "storybook"
+  "rewrites": [
+    { "source": "/storybook/assets/:path", "destination": "/assets/:path" }
+  ]
 }

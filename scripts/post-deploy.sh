@@ -34,6 +34,8 @@ cp -r /root/node/app/current/services/admin-web/build/* "/var/www/html/${HOST}/a
 cd ./services/storybook;
 yarn build-sb
 cd ../../;
+rm -rf /var/www/html/${HOST}/storybook/
+mkdir -p /var/www/html/${HOST}/storybook/
 cp -r /root/node/app/current/services/storybook/build/* "/var/www/html/${HOST}/storybook/"
 
 sudo chown -R www-data:www-data "/var/www/html/${HOST}"
