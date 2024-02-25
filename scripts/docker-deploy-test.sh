@@ -21,10 +21,10 @@ cd ./deploy || return
 # source .env.api
 # set +a
 
+./scripts/nginx.up.sh
+
 docker compose --env-file .env.api up --build --force-recreate -d api
 docker compose --env-file .env.api --env-file .env.web up --build --force-recreate -d web
 sleep 5
-
-./scripts/nginx.setup.sh
 
 docker compose logs -f
