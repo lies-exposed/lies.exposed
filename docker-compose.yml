@@ -57,11 +57,10 @@ services:
       DEBUG: "@liexp*"
       DB_HOST: db.liexp.dev
       DB_PORT: 5432
-      TG_BOT_BASE_API_URL: "http://telegram-bot-api:8081"
     depends_on:
       - db.liexp.dev
       - fra1.space.liexp.dev
-      - telegram-bot-api
+      - telegram.liexp.dev
     volumes:
       - ./packages/@liexp:/app/packages/@liexp:ro
       - ./services/api:/app/services/api:ro
@@ -69,7 +68,7 @@ services:
     stdin_open: true
     working_dir: /app/services/api
     # healthcheck:
-    #   test: ["CMD", "curl", "-f", "http://api.liexp.dev:4010/v1/healthcheck"]
+    #   test: ["CMD", "curl", "-f", "http://localhost:4010/v1/healthcheck"]
     #   interval: 10s
     #   timeout: 20s
     #   retries: 10
@@ -144,28 +143,32 @@ services:
     networks:
       - reverseproxy
 
-  telegram-bot-api:
+  telegram.liexp.dev:
     image: aiogram/telegram-bot-api:latest
     env_file:
       - ./services/api/.env.local
     environment:
-      # TELEGRAM_API_ID: ${TELEGRAM_API_ID}
-      # TELEGRAM_API_HASH: ${TELEGRAM_API_HASH}
+      # TELEGRAM_STAT: 1
       TELEGRAM_VERBOSITY: 1
       TELEGRAM_LOCAL: "true"
       TELEGRAM_HTTP_IP_ADDRESS: "[::]"
-      # VIRTUAL_HOST: telegram.liexp.dev
-      # VIRTUAL_PORT: 8081
+      VIRTUAL_HOST: telegram.liexp.dev
+      VIRTUAL_PORT: 8081
+    tty: false
+    stdin_open: true
     volumes:
       - telegram-bot-api-data:/var/lib/telegram-bot-api
     ports:
       - "127.0.0.1:8081:8081"
+      # - "127.0.0.1:8082:8082"
     restart: on-failure
     logging:
       driver: "json-file"
       options:
           max-file: 5
           max-size: 10m
+    networks:
+      - reverseproxy
 
 volumes:
   db-data: {}
