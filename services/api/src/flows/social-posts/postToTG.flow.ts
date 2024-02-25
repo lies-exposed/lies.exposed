@@ -30,8 +30,8 @@ const writeText: Flow<[CreateSocialPost], string> = (ctx) => (body) => {
               (a) =>
                 `<a href="${ctx.env.WEB_URL}/actors/${a.id}">${a.fullName}</a>`,
             )
-            .join("\n")}`,
-          "\n",
+            .join(", ")}`,
+          " ",
         ]
       : [];
   const groups =
@@ -43,8 +43,8 @@ const writeText: Flow<[CreateSocialPost], string> = (ctx) => (body) => {
               (g) =>
                 `<a href="${ctx.env.WEB_URL}/groups/${g.id}">${g.name}</a>`,
             )
-            .join("\n")}`,
-          "\n",
+            .join(", ")}`,
+          " ",
         ]
       : [];
   // const submitLink = `Submit a link to ${ctx.env.TG_BOT_USERNAME}`;
