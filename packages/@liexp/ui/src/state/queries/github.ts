@@ -1,5 +1,4 @@
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
-import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import axios from 'axios';
 import { type Configuration } from "../../context/ConfigurationContext.js";
@@ -20,7 +19,7 @@ export const fetchGithubRepo =
   };
 
 export const githubRepo =
-  (api: APIRESTClient, conf: Configuration) =>
+  (conf: Configuration) =>
   ({
     repo,
     user,

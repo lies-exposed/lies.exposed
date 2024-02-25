@@ -11,6 +11,7 @@ import VectorSource from "ol/source/Vector.js";
 import { Circle, Fill, Stroke, Style } from "ol/style.js";
 import * as React from "react";
 import { geoJSONFormat } from "../utils/map.utils.js";
+import "ol/ol.css";
 
 export interface MapProps<G extends Geometry> {
   id: string;

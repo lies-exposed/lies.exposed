@@ -1,16 +1,14 @@
 import * as path from "path";
 import image from "@rollup/plugin-image";
 import react from "@vitejs/plugin-react";
-import * as dotenv from "dotenv";
 import { failure } from "io-ts/lib/PathReporter.js";
 import { type ConfigEnv, type UserConfig } from "vite";
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
-// import { createHtmlPlugin } from "vite-plugin-html";
-// import htmlPurge from "vite-plugin-html-purgecss";
 import optimizer from "vite-plugin-optimizer";
 import tsConfigPaths from "vite-tsconfig-paths";
-// import { importDefault } from "../../esm/import-default.js";
+import { loadENV } from "../../env/utils.js";
 import { fp, pipe } from "../../fp/index.js";
+import { reactVirtualized } from "./plugins/react-virtualized.js";
 import { type GetViteConfigParams } from "./type.js";
 
 // https://vitejs.dev/config/
@@ -20,7 +18,14 @@ export const defineViteConfig = <A extends Record<string, any>>(
   return ({ mode }) => {
     // const url = fileURLToPath(new URL("../../", import.meta.url));
 
-    dotenv.config({ path: path.resolve(config.envFileDir, ".env") });
+    loadENV(
+      path.resolve(
+        config.cwd,
+        config.envFileDir,
+        process.env.DOTENV_CONFIG_PATH ?? ".env",
+      ),
+    );
+    // dotenv.config({ path: path.resolve(config.envFileDir, ".env") });
 
     const env = pipe(
       // loadEnv(mode, config.envFileDir, ""),
@@ -140,6 +145,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
         react({
           jsxRuntime: "classic",
         }),
+        reactVirtualized(),
       ],
       esbuild: {
         jsx: "automatic",

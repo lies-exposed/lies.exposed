@@ -18,7 +18,7 @@ const SearchAreaTemplate: React.FC<SearchAreaTemplateProps> = ({
 }) => {
   const theme = useTheme();
   return (
-    <Container style={{ height: innerHeight, width: "100%" }}>
+    <Container style={{ maxHeight: 1000, width: "100%" }}>
       <PageContentBox path="areas" />
       <AutocompleteAreaInput
         selectedItems={[]}
