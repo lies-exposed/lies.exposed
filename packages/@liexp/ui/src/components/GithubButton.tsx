@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useConfiguration } from "../context/ConfigurationContext.js";
-import { useEndpointsRESTClient } from "../hooks/useEndpointRestClient.js";
 import { githubRepo } from "../state/queries/github.js";
 import { GithubIcon } from "./Common/Icons/index.js";
 import QueriesRenderer from "./QueriesRenderer.js";
@@ -16,13 +15,12 @@ const GithubButton: React.FC<GithubButtonProps> = ({
   repo,
   className,
 }) => {
-  const api = useEndpointsRESTClient();
   const conf = useConfiguration();
   return (
     <Box display="inline">
       <QueriesRenderer
         queries={(_) => ({
-          github: githubRepo(api.client, conf)({ user, repo }),
+          github: githubRepo(conf)({ user, repo }),
         })}
         render={({ github }) => {
           return (

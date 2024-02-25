@@ -160,18 +160,16 @@ export const requestHandler =
                   `<style type="text/css">${fontawesomeCss}</style>`,
                 )
                 .replace("<!--emotion-css-->", styles)
-                .replace("<!--app-html-->", body),
-              // .replace(
-              //   "<!--ssr-data-->",
-              //   `<script>
-              //   window.__REACT_QUERY_STATE__ = ${JSON.stringify({
-              //     ...dehydratedState,
-              //   })}
-              // </script>`,
-              // )
+                .replace("<!--app-html-->", body)
+                .replace(
+                  "<!--ssr-data-->",
+                  `<script>
+                    window.__REACT_QUERY_STATE__ = ${JSON.stringify(dehydratedState)}
+                  </script>`,
+                ),
               transformTemplate,
             );
-            logger.debug.log("transformed template %s", transformedTemplate);
+
             res.write(transformedTemplate);
           } catch (e) {
             didError = true;

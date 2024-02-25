@@ -24,4 +24,4 @@ docker network create reverseproxy
 
 docker compose -f $DIR/docker-compose.reverse-proxy.yml up --force-recreate -d
 
-docker compose -f $DIR/docker-compose.yml up --force-recreate --remove-orphans -d --wait $1
+docker compose -f $DIR/docker-compose.yml up --force-recreate -d --wait $1
