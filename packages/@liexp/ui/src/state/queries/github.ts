@@ -15,7 +15,7 @@ export const fetchGithubRepo =
     return axios.get(
       `https://api.github.com/repos/${queryKey[1].user}/${queryKey[1].repo}`,
       {},
-    );
+    ).then((res) => res.data);
   };
 
 export const githubRepo =
