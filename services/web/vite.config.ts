@@ -26,7 +26,7 @@ const config = defineViteConfig({
   output: "build",
   base: "/",
   port,
-  host: process.env.VIRTUAL_HOST ?? "localhost",
+  host: process.env.VIRTUAL_HOST ?? "0.0.0.0",
   devServer: true,
   hot: true,
   target: "custom",
