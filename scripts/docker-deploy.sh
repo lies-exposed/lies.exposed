@@ -50,7 +50,7 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
 
     nginx -s reload
 
-    docker compose --env-file .env.api run  --name api-migration api yarn migration:run > migration.txt
+    # docker compose --env-file .env.api run  --name api-migration api yarn migration:run > migration.txt
     docker compose --env-file .env.api run -d --rm --name upsert-nlp-entities api yarn upsert-nlp-entities
     docker compose --env-file .env.api run -d --rm --name upsert-tg-pinned-message api yarn upsert-tg-pinned-message
     docker compose --env-file .env.api run -d --rm --name parse-all-tg-messages api yarn parse-tg-message all true

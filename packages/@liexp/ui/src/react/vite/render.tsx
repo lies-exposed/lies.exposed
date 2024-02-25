@@ -109,6 +109,7 @@ export const requestHandler =
       let didError = false;
       const dehydratedState = dehydrate(queryClient);
 
+      logger.info.log('dehydrated state %O', dehydratedState)
       const cache = createEmotionCache();
 
       const {
@@ -164,7 +165,7 @@ export const requestHandler =
                 .replace(
                   "<!--ssr-data-->",
                   `<script>
-                    window.__REACT_QUERY_STATE__ = ${JSON.stringify(dehydratedState)}
+                    window.__REACT_QUERY_STATE__ = ${JSON.stringify({})}
                   </script>`,
                 ),
               transformTemplate,
