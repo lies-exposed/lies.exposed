@@ -31,7 +31,7 @@ const run = (): T.Task<void> => {
     }),
     TE.fromEither,
     TE.chain((env) => {
-      const outputDir = path.resolve(process.cwd(), "./db/dump");
+      const outputDir = path.resolve(process.cwd(), "./temp/db/dump");
       const ssl =
         env.DB_SSL_MODE === "require"
           ? {
