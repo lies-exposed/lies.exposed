@@ -20,7 +20,6 @@ config.autoAddCss = false;
 interface ServerRendererProps {
   url: string;
   apiProvider: APIRESTClient;
-  res: any;
   logger: any;
   dehydratedState: any;
   cache: any;
@@ -109,7 +108,6 @@ export const requestHandler =
       let didError = false;
       const dehydratedState = dehydrate(queryClient);
 
-      logger.info.log('dehydrated state %O', dehydratedState)
       const cache = createEmotionCache();
 
       const {
@@ -161,13 +159,21 @@ export const requestHandler =
                   `<style type="text/css">${fontawesomeCss}</style>`,
                 )
                 .replace("<!--emotion-css-->", styles)
-                .replace("<!--app-html-->", body)
-                .replace(
-                  "<!--ssr-data-->",
-                  `<script>
-                    window.__REACT_QUERY_STATE__ = ${JSON.stringify({})}
-                  </script>`,
-                ),
+                .replace("<!--app-html-->", body),
+              (t) => {
+                try {
+                  logger.info.log("dehydrated state %O", dehydratedState);
+                  return t.replace(
+                    "<!--ssr-data-->",
+                    `<script>
+                      window.__REACT_QUERY_STATE__ = ${JSON.stringify({})}
+                    </script>`,
+                  );
+                } catch (e) {
+                  logger.error.log("Failed to hydrate state: %O", e);
+                  return t;
+                }
+              },
               transformTemplate,
             );
 
@@ -186,7 +192,6 @@ export const requestHandler =
         {
           apiProvider,
           url: baseRoute,
-          res,
           logger,
           helmetContext,
           cache,
