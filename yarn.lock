@@ -3566,7 +3566,7 @@ __metadata:
     io-ts: ^2.2.21
     page-metadata-parser: ^1.1.4
     prettier: ^3.2.5
-    puppeteer-core: ^21.9.0
+    puppeteer-core: ^21.11.0
     puppeteer-extra: ^3.3.6
     puppeteer-extra-plugin-stealth: ^2.11.2
     ts-io-error: ^2.0.0
@@ -3585,7 +3585,7 @@ __metadata:
     instagram-private-api: ^1.45.3
     node-telegram-bot-api: ^0.64.0
     page-metadata-parser: ^1.1.4
-    puppeteer-core: ^21.3.6
+    puppeteer-core: ^21
     puppeteer-extra: ^3.3.6
     puppeteer-extra-plugin-stealth: ^2.11.2
     query-string: ^7
@@ -9715,7 +9715,7 @@ __metadata:
     pg: ^8.11.3
     prettier: ^3.2.5
     prompts: ^2.4.2
-    puppeteer-core: ^21.9.0
+    puppeteer-core: ^21.11.0
     puppeteer-extra: ^3.3.6
     puppeteer-extra-plugin-stealth: ^2.11.2
     react: ^18.2.0
@@ -20091,7 +20091,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"puppeteer-core@npm:^21.9.0":
+"puppeteer-core@npm:^21.11.0":
   version: 21.11.0
   resolution: "puppeteer-core@npm:21.11.0"
   dependencies:

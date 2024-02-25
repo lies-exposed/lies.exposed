@@ -94,7 +94,7 @@
     "parse2-kmz": "^1.0.7",
     "pdfjs-dist": "^4.0.379",
     "pg": "^8.11.3",
-    "puppeteer-core": "^21.9.0",
+    "puppeteer-core": "^21.11.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "react": "^18.2.0",
