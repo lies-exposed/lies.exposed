@@ -60,7 +60,6 @@ services:
     depends_on:
       - db.liexp.dev
       - fra1.space.liexp.dev
-      - telegram.liexp.dev
     volumes:
       - ./packages/@liexp:/app/packages/@liexp:ro
       - ./services/api:/app/services/api:ro
@@ -141,33 +140,6 @@ services:
     networks:
       - reverseproxy
 
-  telegram.liexp.dev:
-    image: aiogram/telegram-bot-api:latest
-    env_file:
-      - ./services/api/.env.local
-    environment:
-      # TELEGRAM_STAT: 1
-      TELEGRAM_VERBOSITY: 1
-      TELEGRAM_LOCAL: "true"
-      TELEGRAM_HTTP_IP_ADDRESS: "[::]"
-      VIRTUAL_HOST: telegram.liexp.dev
-      VIRTUAL_PORT: 8081
-    tty: false
-    stdin_open: true
-    volumes:
-      - telegram-bot-api-data:/var/lib/telegram-bot-api
-    ports:
-      - "127.0.0.1:8081:8081"
-      # - "127.0.0.1:8082:8082" # stats address
-    restart: on-failure
-    logging:
-      driver: "json-file"
-      options:
-          max-file: 5
-          max-size: 10m
-    networks:
-      - reverseproxy
-
 volumes:
   db-data: {}
   node_modules: {}
@@ -175,7 +147,6 @@ volumes:
   web-node_modules: {}
   admin-web-node_modules: {}
   space-data: {}
-  telegram-bot-api-data: {}
 
 networks:
   reverseproxy:
