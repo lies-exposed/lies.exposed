@@ -16,6 +16,7 @@ services:
       # - ../services/api/certs/:/app/services/api/certs/:ro
       - ./certs/:/app/services/api/certs/:ro
       - ./temp/:/app/services/api/temp/:rw
+      - ./temp/db/:/app/services/api/db/:rw
       - ./config/:/app/services/api/config/:rw
     working_dir: /app/services/api
     healthcheck:

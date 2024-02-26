@@ -18,7 +18,7 @@ scp -r ./resources/nginx/alpha.api.lies.exposed.conf $SSH_DOMAIN:/etc/nginx/site
 scp -r ./resources/nginx/telegram-bot-api.conf $SSH_DOMAIN:/etc/nginx/sites-enabled/telegram-bot-api.conf
 
 ssh $SSH_DOMAIN "bash -s $username" << "EOF"
-    set -x -e
+    set -e
     u=$1
 
     nginx -t
@@ -50,7 +50,8 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
 
     nginx -s reload
 
-    # docker compose --env-file .env.api run  --name api-migration api yarn migration:run > migration.txt
+    docker compose --env-file .env.api run -d --name api-migration api yarn migration:run
+
     docker compose --env-file .env.api run -d --rm --name upsert-nlp-entities api yarn upsert-nlp-entities
     docker compose --env-file .env.api run -d --rm --name upsert-tg-pinned-message api yarn upsert-tg-pinned-message
     docker compose --env-file .env.api run -d --rm --name parse-all-tg-messages api yarn parse-tg-message all true
