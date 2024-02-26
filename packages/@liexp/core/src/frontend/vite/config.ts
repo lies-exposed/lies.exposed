@@ -152,21 +152,6 @@ export const defineViteConfig = <A extends Record<string, any>>(
       },
     };
 
-    if (config.html) {
-      // const createHtmlPluginOpts = {
-      //   entry: path.resolve(config.cwd, config.entry ??  "src/index.tsx"),
-      //   template: path.resolve(config.cwd, config.html.templatePath),
-      //   verbose: true,
-      //   inject: {
-      //     ejsOptions: {
-      //       debug: true,
-      //     },
-      //   },
-      // };
-      // viteConfig.plugins?.push(createHtmlPlugin(createHtmlPluginOpts));
-      // viteConfig.plugins?.push(importDefault(htmlPurge).default());
-    }
-
     return viteConfig;
   };
 };
