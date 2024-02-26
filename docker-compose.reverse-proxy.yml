@@ -9,8 +9,8 @@ services:
       # - 127.0.0.1:443:443
     volumes:
       - ./resources/reverse-proxy/default.conf:/etc/nginx/conf.d/custom-settings.conf:ro
-      # - ./_data/html:/usr/share/nginx/html:rw
-      # - ./_data/certs:/etc/nginx/certs:rw
+      - ./_data/html:/usr/share/nginx/html:rw
+      - ./_data/certs:/etc/nginx/certs:rw
       - ./_data/logs:/var/log/nginx:rw
       - /var/run/docker.sock:/tmp/docker.sock:ro
     environment:
@@ -36,7 +36,7 @@ services:
     ports:
       - "127.0.0.1:8081:8081"
       # - "127.0.0.1:8082:8082" # stats address
-    restart: on-failure
+    restart: always
     logging:
       driver: "json-file"
       options:
