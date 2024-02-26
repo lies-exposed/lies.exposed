@@ -3655,7 +3655,7 @@ __metadata:
     cheerio: ^1.0.0-rc.12
     date-fns: ^2.30.0
     domino: ^2.1.6
-    fast-csv: ^5.0.0
+    fast-csv: ^5.0.1
     fp-ts: ^2.16.2
     io-ts: ^2.2.21
     io-ts-types: ^0.5.19
@@ -9695,7 +9695,7 @@ __metadata:
     exifreader: ^4.20.0
     express: ^4.18.2
     express-jwt: ^8.4.1
-    fast-csv: ^5.0.0
+    fast-csv: ^5.0.1
     fluent-ffmpeg: ^2.1.2
     form-data: ^4.0.0
     fp-ts: ^2.16.2
@@ -14243,7 +14243,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-csv@npm:^5.0.0":
+"fast-csv@npm:^5.0.1":
   version: 5.0.1
   resolution: "fast-csv@npm:5.0.1"
   dependencies:
