@@ -103,6 +103,8 @@ services:
     working_dir: /app/services/web
     command: yarn dev
     mem_limit: 2G
+    tty: true
+    stdin_open: true
     depends_on:
       - api.liexp.dev
       - fra1.space.liexp.dev
@@ -131,7 +133,7 @@ services:
       - ./services/admin-web:/app/services/admin-web:cached
     working_dir: /app/services/admin-web
     command: yarn dev
-    tty: false
+    tty: true
     depends_on:
       - liexp.dev
       - api.liexp.dev
