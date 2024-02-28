@@ -3557,7 +3557,7 @@ __metadata:
     "@liexp/shared": 0.1.0
     "@liexp/test": 0.1.0
     "@types/fluent-ffmpeg": ^2.1.24
-    "@types/jsonwebtoken": ^9.0.5
+    "@types/jsonwebtoken": ^9.0.6
     "@types/node-telegram-bot-api": ^0.64.2
     "@types/uuid": ^9.0.8
     date-fns: ^2.30.0
@@ -3606,10 +3606,10 @@ __metadata:
   dependencies:
     "@rollup/plugin-image": ^3.0.3
     "@types/debug": ^4.1.12
-    "@types/eslint": ^8.56.3
+    "@types/eslint": ^8.56.5
     "@types/express": ^4.17.21
     "@types/mime": ^1.3.5
-    "@types/react": ^18.2.58
+    "@types/react": ^18.2.61
     "@vitejs/plugin-react": ^4.2.1
     eslint: ^8.57.0
     eslint-plugin-import: ^2.29.1
@@ -3645,7 +3645,7 @@ __metadata:
     "@liexp/core": 0.1.0
     "@liexp/test": 0.1.0
     "@types/bs58": ^4.0.4
-    "@types/react": ^18.2.58
+    "@types/react": ^18.2.61
     "@types/react-dom": ^18.2.19
     "@types/throttle-debounce": ^5.0.2
     "@types/uuid": ^9.0.8
@@ -3734,9 +3734,9 @@ __metadata:
     "@types/chroma-js": ^2.4.4
     "@types/d3": ^7.4.3
     "@types/d3-sankey": ^0.12.4
-    "@types/eslint": ^8.56.3
+    "@types/eslint": ^8.56.5
     "@types/reach__router": ^1.3.15
-    "@types/react": ^18.2.58
+    "@types/react": ^18.2.61
     "@types/react-helmet": ^6.1.11
     "@types/react-slick": ^0.23.13
     "@types/react-virtualized": ^9.21.29
@@ -7907,13 +7907,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:^8.56.3":
-  version: 8.56.3
-  resolution: "@types/eslint@npm:8.56.3"
+"@types/eslint@npm:^8.56.5":
+  version: 8.56.5
+  resolution: "@types/eslint@npm:8.56.5"
   dependencies:
     "@types/estree": "*"
     "@types/json-schema": "*"
-  checksum: 6e596e583496aeebb7c0b36d1e328cb8173844f8b82c213496e533ec7990c3451811b523d98a99e5b216056e4be8c417c87504b7b31fe32389b25b3294ce767a
+  checksum: 95a7a23ca38c78e5c27a2ed36ef60f094d5e6589e3473c320b6ff69eb3ca6333d5b7f0d5053416369f5ab2fb86874df19562d4d67a98237c17def6e30abff540
   languageName: node
   linkType: hard
 
@@ -8074,12 +8074,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jsonwebtoken@npm:^9, @types/jsonwebtoken@npm:^9.0.5":
-  version: 9.0.5
-  resolution: "@types/jsonwebtoken@npm:9.0.5"
+"@types/jsonwebtoken@npm:^9, @types/jsonwebtoken@npm:^9.0.6":
+  version: 9.0.6
+  resolution: "@types/jsonwebtoken@npm:9.0.6"
   dependencies:
     "@types/node": "*"
-  checksum: 07ab6fee602e5bd3fb5c6dfe4ec400769dc20f1d7fce901feecb4c3af5f5f08323b03ea55de3e49b1aa41e171a59008f6f4318738a735588c5268a63eba25337
+  checksum: a568e7cb1c703bcb015eff8bf5996e276e748d2b39ddc47edf5ddccd1378f5792179c43302a1c803e47a54b0220f9ecaae445ec444d28bf81b88856f899e85b9
   languageName: node
   linkType: hard
 
@@ -8182,12 +8182,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.11.20":
-  version: 20.11.20
-  resolution: "@types/node@npm:20.11.20"
+"@types/node@npm:*, @types/node@npm:^20.11.24":
+  version: 20.11.24
+  resolution: "@types/node@npm:20.11.24"
   dependencies:
     undici-types: ~5.26.4
-  checksum: 79d339622fed1c0e64297c8b9f558815a91edb9fea3acb69c1201b919d450e12915cf98b1a96b2d2c121bf86f30b62b6de3708f8894c5319f8dfb3a991e3ccdd
+  checksum: b11a650e09e254f4725c94f226752b69949a9ac4a5e004e98f109437ac50b02df3ab4d12b2086722fedf2cb62e68b9e723abd3f358a7d7d90d741a0d3bee90c2
   languageName: node
   linkType: hard
 
@@ -8228,14 +8228,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pg@npm:^8.11.1":
-  version: 8.11.1
-  resolution: "@types/pg@npm:8.11.1"
+"@types/pg@npm:^8.11.2":
+  version: 8.11.2
+  resolution: "@types/pg@npm:8.11.2"
   dependencies:
     "@types/node": "*"
     pg-protocol: "*"
     pg-types: ^4.0.1
-  checksum: 3d8672800cc96ffeec934c0f7c652d699a1c5a891804e89b6783325b04c496c08ce32237a93da64e3a83540f0f2c3d20d344313716e6f1ea7f335da38a4fd241
+  checksum: 2a0290a60fafed0b3994105c342ff14c4b4840e308a5a8643dcef6276d8b39b50e42c910b59b28ac2b7d1c804c8ed8bc20a3d09be5a381f4618d67f765d30702
   languageName: node
   linkType: hard
 
@@ -8374,14 +8374,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^18.2.58":
-  version: 18.2.58
-  resolution: "@types/react@npm:18.2.58"
+"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^18.2.61":
+  version: 18.2.61
+  resolution: "@types/react@npm:18.2.61"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: 42551e30c8a54161a11b2ecd11406782ddba4472a4471d45034c551295263d56f06234f283526d0c0420352ce9ce9675b2a6c65db7a287d9613643d3ceaaf1f0
+  checksum: a100c09bc0d6d1a0a42b3fa0944b71d209b5adea6515fc21109972ec3267185372cc416c0467b1998afce6b90fc80f4c0029b5d975afb0b3070d864c7a924a5e
   languageName: node
   linkType: hard
 
@@ -9418,8 +9418,8 @@ __metadata:
     "@testing-library/user-event": ^14.5.1
     "@types/debug": ^4.1.12
     "@types/lodash": ^4.14.202
-    "@types/node": ^20.11.20
-    "@types/react": ^18.2.58
+    "@types/node": ^20.11.24
+    "@types/react": ^18.2.61
     "@types/react-dom": ^18.2.19
     "@typescript-eslint/eslint-plugin": ^6.21.0
     "@typescript-eslint/parser": ^6.21.0
@@ -9668,18 +9668,18 @@ __metadata:
     "@types/body-parser": ^1.19.5
     "@types/cors": ^2.8.17
     "@types/debug": ^4.1.12
-    "@types/eslint": ^8.56.3
+    "@types/eslint": ^8.56.5
     "@types/express": ^4.17.21
     "@types/fluent-ffmpeg": ^2.1.24
-    "@types/jsonwebtoken": ^9.0.5
+    "@types/jsonwebtoken": ^9.0.6
     "@types/lodash": ^4.14.202
     "@types/multer": ^1.4.11
-    "@types/node": ^20.11.20
+    "@types/node": ^20.11.24
     "@types/node-cron": ^3.0.11
     "@types/node-telegram-bot-api": ^0.64.2
-    "@types/pg": ^8.11.1
+    "@types/pg": ^8.11.2
     "@types/prompts": ^2.4.9
-    "@types/react": ^18.2.58
+    "@types/react": ^18.2.61
     "@types/react-dom": ^18.2.19
     "@types/supertest": ^6.0.2
     "@types/uuid": ^9.0.8
@@ -22784,7 +22784,7 @@ __metadata:
     "@storybook/react-vite": ^7.6.17
     "@storybook/theming": ^7.6.17
     "@types/babel__preset-env": ^7.9.6
-    "@types/eslint": ^8.56.3
+    "@types/eslint": ^8.56.5
     d3: ^7.8.5
     eslint: ^8.57.0
     io-ts: ^2.2.21
@@ -24856,8 +24856,8 @@ __metadata:
     "@types/debug": ^4.1.12
     "@types/express": ^4.17.21
     "@types/mime": ^1.3.5
-    "@types/node": ^20.11.20
-    "@types/react": ^18.2.58
+    "@types/node": ^20.11.24
+    "@types/react": ^18.2.61
     "@types/react-calendar-heatmap": ^1.6.7
     "@types/react-dom": ^18.2.19
     "@types/react-helmet": ^6.1.11

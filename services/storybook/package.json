@@ -45,7 +45,7 @@
     "@storybook/react-vite": "^7.6.17",
     "@storybook/theming": "^7.6.17",
     "@types/babel__preset-env": "^7.9.6",
-    "@types/eslint": "^8.56.3",
+    "@types/eslint": "^8.56.5",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
     "serve": "^14.2.1",
