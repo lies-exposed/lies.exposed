@@ -15,7 +15,8 @@
     "node_modules",
     "lib",
     "eslint.config.js",
-    "src/**/*.spec.ts"
+    "src/**/*.spec.ts",
+    "test"
   ],
   "references": [
     {

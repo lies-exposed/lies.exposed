@@ -1,14 +1,23 @@
+import background from "@react-page/plugins-background";
+import divider from "@react-page/plugins-divider";
+import html5Video from "@react-page/plugins-html5-video";
+import image from "@react-page/plugins-image";
 import { SlateCellPlugin } from "@react-page/plugins-slate";
+import spacer from "@react-page/plugins-spacer";
+import video from "@react-page/plugins-video";
 import * as React from "react";
 import Editor from "./Editor.js";
 import { LiexpEditorProps } from "./EditorProps.js";
+import { getLiexpSlate } from "./slate/index.js";
+import { LiexpEditor } from "./types.js";
 import {
   createExcerptValue,
-  getLiexpSlate,
   getTextContents,
   getTextContentsCapped,
-} from "./slate/index.js";
-import { Value } from "./types.js";
+} from "./utils.js";
+
+// exports
+export { pluginFactories } from "@react-page/plugins-slate/lib/index.js";
 
 export const LazyEditorComponent = React.lazy(() => import("./Editor.js"));
 
@@ -37,44 +46,27 @@ interface EditorFactoryProps {
   };
 }
 
-export interface LiexpEditor {
-  Editor: React.FC<LiexpEditorProps>;
-  LazyEditor: React.FC<LiexpEditorProps>;
-  liexpSlate: SlateCellPlugin<any>;
-  createExcerptValue: (text: string) => Value;
-  getTextContents: (v: Value, j?: string) => string;
-  getTextContentsCapped: (v: Value, end: number) => string;
-}
-
 export const createEditor = ({
   custom,
   cellPlugins: _cellPlugins,
 }: EditorFactoryProps): LiexpEditor => {
-  const liexpSlate = getLiexpSlate({
-    // actorInlinePlugin,
-    // groupInlinePlugin,
-    // keywordInlinePlugin,
-    // linkInlinePlugin,
-    // componentPickerPopoverPlugin,
-  });
+  const liexpSlate = getLiexpSlate(custom);
 
   const minimalCellPlugins = [liexpSlate] as any[];
 
   // Define which plugins we want to use.
   const cellPlugins = {
-    extended: [...minimalCellPlugins, _cellPlugins],
-    plain: [
+    extended: [
       ...minimalCellPlugins,
-      // background,
-      // image,
-      // spacer,
-      // divider,
-      // video,
-      // html5Video,
-      // gridCellPlugin,
-      // mediaBlock({}),
-      // eventsBlock({}),
-    ] as any[],
+      background,
+      image,
+      spacer,
+      divider,
+      video,
+      html5Video,
+      ..._cellPlugins.extended,
+    ],
+    plain: [...minimalCellPlugins, ..._cellPlugins.plain] as any[],
   };
 
   const _createExcerptValue = createExcerptValue(liexpSlate);
@@ -82,15 +74,17 @@ export const createEditor = ({
   const _getTextContentsCapped = getTextContentsCapped(liexpSlate);
 
   return {
-    Editor: ({ variant = "plain", ...props }: LiexpEditorProps) => (
-      <Editor
-        {...props}
-        slate={liexpSlate}
-        cellPlugins={
-          variant === "extended" ? cellPlugins.extended : cellPlugins.plain
-        }
-      />
-    ),
+    Editor: ({ variant = "plain", ...props }: LiexpEditorProps) => {
+      return (
+        <Editor
+          {...props}
+          slate={liexpSlate}
+          cellPlugins={
+            variant === "extended" ? cellPlugins.extended : cellPlugins.plain
+          }
+        />
+      );
+    },
     LazyEditor: ({ variant = "plain", ...props }) => {
       const LE = LazyEditor(
         liexpSlate,

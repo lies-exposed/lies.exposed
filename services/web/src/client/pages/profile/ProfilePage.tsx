@@ -1,4 +1,4 @@
-import "@liexp/ui/assets/react-page.css";
+import "@liexp/react-page/assets/react-page.css";
 import { GetAuthProvider } from "@liexp/ui/lib/client/api";
 import {
   FAIcon,

@@ -1,7 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { createExcerptValue } from "@liexp/react-page/lib/utils.js";
 import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
 import { type Area, type Media } from "@liexp/shared/lib/io/http/index.js";
-import { createExcerptValue } from "@liexp/shared/lib/slate/index.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
@@ -11,6 +11,7 @@ import { AreaEntity } from "#entities/Area.entity.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import { fetchFromWikipedia } from "#flows/wikipedia/fetchFromWikipedia.js";
+import { editor } from "#providers/slate.js";
 import { toAreaIO } from "#routes/areas/Area.io.js";
 import { toMediaIO } from "#routes/media/media.io.js";
 
@@ -32,7 +33,7 @@ export const fetchAndCreateAreaFromWikipedia: TEFlow<
         fp.O.getOrElse(() => getUsernameFromDisplayName(pageId)),
       );
 
-      const excerpt = createExcerptValue(intro);
+      const excerpt = createExcerptValue(editor.liexpSlate)(intro);
       return {
         area: {
           id: undefined as any,

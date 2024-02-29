@@ -1,11 +1,9 @@
+import { isValidValue } from "@liexp/react-page/lib/utils.js";
 import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/getTitle.helper.js";
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
-import {
-  getTextContentsCapped,
-  isValidValue,
-} from "@liexp/shared/lib/slate/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";
+import { editor } from "../../Common/Editor/index.js";
 import { EventIcon } from "../../Common/Icons/index.js";
 import KeywordList from "../../lists/KeywordList.js";
 import {
@@ -50,7 +48,7 @@ const CreateEventCard: React.FC<EventCardProps> = ({
         />
         <CardContent>
           {isValidValue(event.excerpt)
-            ? getTextContentsCapped(event.excerpt as any, 200)
+            ? editor.getTextContentsCapped(event.excerpt as any, 200)
             : null}
         </CardContent>
         <CardActions disableSpacing>

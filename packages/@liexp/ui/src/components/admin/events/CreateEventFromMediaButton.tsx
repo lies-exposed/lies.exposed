@@ -7,6 +7,7 @@ import { useRecordContext } from "ra-core";
 import * as React from "react";
 import { Button, useDataProvider } from "react-admin";
 import { useNavigate } from "react-router";
+import { editor } from "../../Common/Editor/index.js";
 import { Box, MenuItem, Select, Stack } from "../../mui/index.js";
 
 export const CreateEventFromMediaButton: React.FC = () => {
@@ -19,7 +20,7 @@ export const CreateEventFromMediaButton: React.FC = () => {
   );
 
   const handleSubmit = async (): Promise<void> => {
-    const suggestion = getSuggestions(
+    const suggestion = getSuggestions(editor.createExcerptValue)(
       {
         title: record.label ?? record.description?.substring(0, 100),
         description: record.description,

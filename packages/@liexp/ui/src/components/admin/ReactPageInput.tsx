@@ -1,17 +1,16 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
-import {
-  createExcerptValue,
-  isValidValue,
-} from "@liexp/shared/lib/slate/index.js";
-import { type EditorProps } from "@react-page/editor";
+import { type EditorProps } from "@liexp/react-page/lib/react-page.types.js";
+import { isValidValue } from "@liexp/react-page/lib/utils.js";
 import { pipe } from "fp-ts/lib/function.js";
+import { get } from "lodash";
 import * as React from "react";
-import { Labeled, useInput, type InputProps } from "react-admin";
-import Editor from "../Common/Editor/Editor.js";
 import {
-  cellPlugins,
-  minimalCellPlugins,
-} from "../Common/Editor/cellPlugins.js";
+  Labeled,
+  useInput,
+  useRecordContext,
+  type InputProps,
+} from "react-admin";
+import { editor } from "../Common/Editor/index.js";
 import JSONInput from "../Common/JSON/JSONInput.js";
 import { Box, Button, FormControlLabel, Paper, Switch } from "../mui/index.js";
 
@@ -20,7 +19,8 @@ export type RaReactPageInputProps = {
   label?: string;
   source: string;
   style?: React.CSSProperties;
-} & EditorProps;
+  variant?: "plain" | "extended";
+} & Omit<EditorProps, "cellPlugins">;
 
 const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
   label = "Content",
@@ -28,13 +28,16 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
   style,
   onChange: _onChange,
   className,
+  variant,
   ...editorProps
 }) => {
+  const record = useRecordContext();
+  const defaultValue = get(record, source) ?? editor.createExcerptValue("");
   const {
     field: { value, onChange },
   } = useInput({
     source,
-    defaultValue: createExcerptValue(""),
+    defaultValue,
   });
 
   const isValidJSON = React.useMemo(() => {
@@ -53,7 +56,7 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
   const [showJSONEditor, setShowJSONEditor] = React.useState(false);
 
   const handleClear = (): void => {
-    const value = createExcerptValue("");
+    const value = editor.createExcerptValue("");
     onChange(value);
     setShowJSONEditor(false);
   };
@@ -89,7 +92,12 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
           }}
         >
           {!showJSONEditor && isValueValid ? (
-            <Editor value={value} onChange={onChange} {...editorProps} />
+            <editor.LazyEditor
+              variant={variant}
+              value={value}
+              onChange={onChange}
+              {...editorProps}
+            />
           ) : showJSONEditor && isValidJSON ? (
             <JSONInput
               source={source}
@@ -122,7 +130,7 @@ const ReactPageInput: React.FC<
     <RaReactPageInput
       {...props}
       label={typeof props.label === "string" ? props.label : props.source}
-      cellPlugins={onlyText ? minimalCellPlugins : cellPlugins}
+      variant={onlyText ? "plain" : "extended"}
       lang="en"
     />
   );

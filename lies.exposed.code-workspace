@@ -21,6 +21,10 @@
       "path": "packages/@liexp/backend"
     },
     {
+      "name": "📦 @liexp/react-page",
+      "path": "packages/@liexp/react-page"
+    },
+    {
       "name": "📦 @liexp/ui",
       "path": "packages/@liexp/ui"
     },
@@ -60,6 +64,7 @@
     "eslint.workingDirectories": [
       "./packages/@liexp/core",
       "./packages/@liexp/shared",
+      "./packages/@liexp/test",
       "./packages/@liexp/backend",
       "./packages/@liexp/ui",
       "./services/api",

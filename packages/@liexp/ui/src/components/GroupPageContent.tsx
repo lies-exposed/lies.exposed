@@ -1,13 +1,13 @@
+import { isValidValue } from "@liexp/react-page/lib/utils.js";
 import { type GroupMember } from "@liexp/shared/lib/io/http/GroupMember.js";
 import {
   type Actor,
   type Group,
   type Project,
 } from "@liexp/shared/lib/io/http/index.js";
-import { isValidValue } from "@liexp/shared/lib/slate/index.js";
 import * as React from "react";
 import { useTheme } from "../theme/index.js";
-import { LazyEditor as Editor } from "./Common/Editor/index.js";
+import { editor } from "./Common/Editor/index.js";
 import { ActorList } from "./lists/ActorList.js";
 import GroupList from "./lists/GroupList.js";
 import { Grid, Typography } from "./mui/index.js";
@@ -46,7 +46,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
         }}
       >
         <Grid item lg={6} md={6} sm={12}>
-          <Editor value={group.excerpt as any} readOnly={true} />
+          <editor.LazyEditor value={group.excerpt as any} readOnly={true} />
         </Grid>
         <Grid item lg={6}>
           <Typography variant="h6">Members</Typography>
@@ -74,7 +74,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
         </Grid>
         {isValidValue(group.body) ? (
           <Grid item sm={12}>
-            <Editor value={group.body} readOnly />
+            <editor.LazyEditor value={group.body} readOnly />
           </Grid>
         ) : null}
       </Grid>

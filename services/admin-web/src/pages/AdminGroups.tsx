@@ -120,7 +120,7 @@ const transformGroup =
           { location: data.avatar, type: "image/jpeg" as Media.MediaType },
         ]);
 
-    const newMembers = (data.newMembers ?? []).map((m) => ({
+    const newMembers = (data.newMembers ?? []).map((m: any) => ({
       ...m,
       body: {},
     }));
@@ -237,7 +237,7 @@ export const GroupCreate: React.FC<CreateProps> = (props) => {
     <Create
       title="Create a Group"
       {...props}
-      transform={(g) => transformGroup(dataProvider)({ ...g, id: uuid() })}
+      transform={(g: any) => transformGroup(dataProvider)({ ...g, id: uuid() })}
     >
       <SimpleForm>
         <SelectInput

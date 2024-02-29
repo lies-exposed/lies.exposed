@@ -1,10 +1,11 @@
 import { http } from "@liexp/shared/lib/io/index.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
-import { createExcerptValue } from "@liexp/shared/lib/slate/index.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
+import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI.js";
+import { editor } from "@liexp/ui/lib/components/Common/Editor/index.js";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
 import { ActorDataGrid } from "@liexp/ui/lib/components/admin/actors/ActorDataGrid.js";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
@@ -79,13 +80,21 @@ const transformActor =
       ? uploadImages(dataProvider)("actors", id, [
           { file: data.avatar.rawFile, type: data.avatar.rawFile.type },
         ])
-      : TE.right([{ location: data.avatar }]);
+      : typeof data.avatar === "string"
+        ? TE.right([
+            {
+              location: data.avatar,
+              type: contentTypeFromFileExt(data.avatar),
+            },
+          ])
+        : TE.right([]);
 
     // eslint-disable-next-line @typescript-eslint/return-await
     return pipe(
       imagesTask,
       TE.map(([avatar]) => ({
         ...data,
+        type: avatar.type,
         id,
         avatar: avatar.location,
       })),
@@ -176,7 +185,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
                 return {
                   draft: true,
                   type: t,
-                  excerpt: createExcerptValue(""),
+                  excerpt: editor.createExcerptValue(""),
                   body: undefined,
                   date: new Date(),
                   payload: {
@@ -213,7 +222,7 @@ export const ActorCreate: React.FC<CreateProps> = (props) => {
     <Create
       {...props}
       title="Create an Actor"
-      transform={(a) => transformActor(dataProvider)(uuid(), a)}
+      transform={(a: any) => transformActor(dataProvider)(uuid(), a)}
     >
       <SimpleForm>
         <SelectInput

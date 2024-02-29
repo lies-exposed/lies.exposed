@@ -16,6 +16,7 @@ import {
 } from "react-admin";
 import { useAPI } from "../../../../hooks/useAPI.js";
 import { fetchRelations } from "../../../../state/queries/SearchEventsQuery.js";
+import { editor } from "../../../Common/Editor/index.js";
 import {
   Box,
   MenuItem,
@@ -57,7 +58,7 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
         pipe(
           getEventCommonProps(event, relations),
           (common) =>
-            transform(event, type, {
+            transform(editor.getTextContents)(event, type, {
               ...common,
               ...getRelationIds(event),
             }),

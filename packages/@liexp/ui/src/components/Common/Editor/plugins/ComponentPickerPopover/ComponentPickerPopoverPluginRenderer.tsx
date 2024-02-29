@@ -5,9 +5,9 @@ import {
   KEYWORD_INLINE,
   LINK_INLINE,
   MEDIA_BLOCK_PLUGIN,
-} from "@liexp/shared/lib/slate/plugins/customSlate.js";
+} from "@liexp/react-page/lib/slate/plugins/customSlate.js";
+import { type SlateComponentPluginDefinition } from "@liexp/react-page/lib/slate/types.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
-import { type SlateComponentPluginDefinition } from "@react-page/plugins-slate/lib/types/slatePluginDefinitions.js";
 import React from "react";
 import { CircularProgress } from "../../../../mui/index.js";
 import { ActorInlineRenderer } from "../actor/ActorInline.plugin.js";
@@ -27,38 +27,27 @@ export const ComponentPickerPopoverRenderer: SlateComponentPluginDefinition<Comp
 
     const pluginRenderer = React.useMemo(() => {
       if (plugin?.data) {
+        const data = plugin.data as any;
         switch (plugin.type) {
           case ACTOR_INLINE: {
-            return (
-              <ActorInlineRenderer
-                {...{ ...props, readOnly, ...plugin.data }}
-              />
-            );
+            return <ActorInlineRenderer {...{ ...props, readOnly, ...data }} />;
           }
           case GROUP_INLINE: {
-            return (
-              <GroupInlineRenderer
-                {...{ ...props, readOnly, ...plugin.data }}
-              />
-            );
+            return <GroupInlineRenderer {...{ ...props, readOnly, ...data }} />;
           }
           case KEYWORD_INLINE: {
             return (
-              <KeywordInlineRenderer
-                {...{ ...props, readOnly, ...plugin.data }}
-              />
+              <KeywordInlineRenderer {...{ ...props, readOnly, ...data }} />
             );
           }
           case LINK_INLINE: {
-            return (
-              <LinkInlineRenderer {...{ ...props, readOnly, ...plugin.data }} />
-            );
+            return <LinkInlineRenderer {...{ ...props, readOnly, ...data }} />;
           }
           case EVENT_BLOCK_PLUGIN: {
             return (
               <EventBlockPluginRenderer
                 {...props}
-                data={plugin.data}
+                data={data}
                 readOnly={true}
                 focused={false}
                 isPreviewMode={false}
@@ -78,7 +67,7 @@ export const ComponentPickerPopoverRenderer: SlateComponentPluginDefinition<Comp
                 isEditMode={false}
                 nodeId={uuid()}
                 onChange={() => {}}
-                data={plugin.data}
+                data={data}
               />
             );
           }

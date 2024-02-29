@@ -69,7 +69,7 @@ export const DocumentaryCreate: React.FC<CreateProps> = () => {
   return (
     <Create
       title="Create a Documentary"
-      transform={(data) =>
+      transform={(data: any) =>
         transformEvent(dataProvider)(uuid(), data).then((record) => ({
           ...record,
           payload: {

@@ -1,3 +1,4 @@
+import { Area } from "@liexp/shared/lib/io/http/Area.js";
 import { MapInput } from "@liexp/ui/lib/components/admin/MapInput.js";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
 import { AreaTGPostButton } from "@liexp/ui/lib/components/admin/areas/button/AreaTGPostButton.js";
@@ -57,7 +58,7 @@ export const AreaList: React.FC<ListProps> = () => (
       results={50}
     >
       <FunctionField
-        render={(r) => {
+        render={() => {
           return (
             <Box>
               <TextField display={"block"} source="label" />
@@ -70,13 +71,13 @@ export const AreaList: React.FC<ListProps> = () => (
       <BooleanField source="draft" />
       <FunctionField
         source="media"
-        render={(a) => {
+        render={(a: Area) => {
           return (a.media ?? []).length;
         }}
       />
       <FunctionField
         source="socialPosts"
-        render={(a) => {
+        render={(a: Area) => {
           return (a.socialPosts ?? []).length;
         }}
       />

@@ -2,7 +2,7 @@ import { type Actor, type Group } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import ActorsBox from "../containers/ActorsBox.js";
 import { DeathBox } from "../containers/DeathBox.js";
-import { LazyEditor as Editor } from "./Common/Editor/index.js";
+import { editor } from "./Common/Editor/index.js";
 import GroupList from "./lists/GroupList.js";
 import { Box, Grid, Typography } from "./mui/index.js";
 
@@ -24,9 +24,11 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
       <Grid item md={9} sm={8}>
         {actor.death ? <DeathBox id={actor.death} /> : null}
         {actor.excerpt ? (
-          <Editor value={actor.excerpt as any} readOnly />
+          <editor.LazyEditor value={actor.excerpt as any} readOnly />
         ) : null}
-        {actor.body ? <Editor value={actor.body as any} readOnly /> : null}
+        {actor.body ? (
+          <editor.LazyEditor value={actor.body as any} readOnly />
+        ) : null}
       </Grid>
       {groups.length > 0 ? (
         <Grid

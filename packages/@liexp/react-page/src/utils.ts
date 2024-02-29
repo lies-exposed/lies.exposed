@@ -6,8 +6,6 @@ import {
 } from "@react-page/editor/lib/core/types/index.js";
 import { createValue } from "@react-page/editor/lib/core/utils/createValue.js";
 import { getTextContents as defaultGetTextContents } from "@react-page/editor/lib/core/utils/getTextContents.js";
-import { SlateCellPlugin } from "@react-page/plugins-slate";
-import { pluginFactories } from "@react-page/plugins-slate/lib/index.js";
 import { type SlateComponentPluginDefinition } from "@react-page/plugins-slate/lib/types/slatePluginDefinitions.js";
 import { type Option } from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
@@ -22,12 +20,11 @@ import {
   MEDIA_BLOCK_PLUGIN,
   isMediaBlockCell,
   isEventBlockCell,
-} from "./plugins/customSlate.js";
-
-export { pluginFactories };
+} from "./slate/plugins/customSlate.js";
+import { LiexpEditor } from "./types.js";
 
 export const getTextContents =
-  (slate: SlateCellPlugin<any>) =>
+  (slate: LiexpEditor["liexpSlate"]) =>
   (v: Value, j?: string): string => {
     return defaultGetTextContents(v, {
       lang: "en",
@@ -36,7 +33,7 @@ export const getTextContents =
   };
 
 export const getTextContentsCapped =
-  (slate: SlateCellPlugin<any>) =>
+  (slate: LiexpEditor["liexpSlate"]) =>
   (v: Value | undefined, end: number): string => {
     if (v) {
       const contents = getTextContents(slate)(v).substring(0, end);
@@ -54,7 +51,7 @@ export const isValidValue = (v?: any): v is Value => {
 };
 
 export const createExcerptValue =
-  (slate: SlateCellPlugin<any>) =>
+  (slate: LiexpEditor["liexpSlate"]) =>
   (text: string): Value => {
     return createValue(
       {

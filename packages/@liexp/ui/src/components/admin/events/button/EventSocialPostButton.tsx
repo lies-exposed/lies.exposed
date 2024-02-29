@@ -1,14 +1,11 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { TupleWithId } from "@liexp/core/lib/fp/utils/TupleWithId.js";
+import { isValidValue } from "@liexp/react-page/lib/utils.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
 import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
 import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
-import {
-  getTextContents,
-  isValidValue,
-} from "@liexp/shared/lib/slate/index.js";
 import { formatDate, parseISO } from "@liexp/shared/lib/utils/date.utils.js";
 import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
@@ -20,6 +17,7 @@ import { useDataProvider, useRecordContext } from "react-admin";
 import { useConfiguration } from "../../../../context/ConfigurationContext.js";
 import { useAPI } from "../../../../hooks/useAPI.js";
 import { fetchRelations } from "../../../../state/queries/SearchEventsQuery.js";
+import { editor } from "../../../Common/Editor/index.js";
 import { SocialPostButton } from "../../common/SocialPostButton.js";
 
 export const EventSocialPostButton: React.FC<{ id: UUID }> = ({ id }) => {
@@ -117,7 +115,7 @@ export const EventSocialPostButton: React.FC<{ id: UUID }> = ({ id }) => {
             const { date, excerpt, keywords } = event;
 
             const content: string = isValidValue(excerpt)
-              ? getTextContents(excerpt)
+              ? editor.getTextContents(excerpt)
               : "";
             const url = `${conf.platforms.web.url}/events/${id}`;
 

@@ -1,4 +1,4 @@
-import { type SlatePluginControls } from "@react-page/plugins-slate/lib/types/slatePluginDefinitions.js";
+import { type SlatePluginControls } from "@liexp/react-page/lib/slate/types.js";
 import React from "react";
 import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 import { ComponentsPickerPopover } from "./ComponentPickerPopover.js";

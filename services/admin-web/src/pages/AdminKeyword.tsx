@@ -1,3 +1,4 @@
+import { type Keyword } from "@liexp/shared/lib/io/http/Keyword.js";
 import { toColor } from "@liexp/shared/lib/utils/colors.js";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput.js";
 import { KeywordTGPostButton } from "@liexp/ui/lib/components/admin/keywords/button/KeywordTGPostButton.js";
@@ -37,7 +38,7 @@ export const KeywordList: React.FC<ListProps> = (props) => (
       <TextField source="tag" />
       <FunctionField
         source="socialPosts"
-        render={(k) => {
+        render={(k: Keyword) => {
           return (k.socialPosts ?? []).length;
         }}
       />
@@ -62,7 +63,7 @@ export const KeywordEdit: React.FC = () => {
           <KeywordTGPostButton />
         </Stack>
       }
-      transform={({ newEvents, ...r }) => {
+      transform={({ newEvents, ...r }: any) => {
         return {
           ...r,
           color: toColor(r.color),
@@ -91,7 +92,7 @@ export const KeywordCreate: React.FC<CreateProps> = (props) => {
     <Create
       title="Create a Keyword"
       {...props}
-      transform={(r) => ({
+      transform={(r: Keyword) => ({
         ...r,
         color: r.color.replace("#", ""),
       })}

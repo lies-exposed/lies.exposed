@@ -1,9 +1,9 @@
 import type * as io from "@liexp/shared/lib/io/http/index.js";
-import { getTextContentsCapped } from "@liexp/shared/lib/slate/index.js";
 import * as React from "react";
 import { useConfiguration } from "../../context/ConfigurationContext.js";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
 import { styled } from "../../theme/index.js";
+import { editor } from "../Common/Editor/index.js";
 import { List, type ListItemProps } from "../Common/List.js";
 import {
   Card,
@@ -85,7 +85,10 @@ export const AreaListItem: React.FC<
             <Typography variant="body2" color="textSecondary" component="p">
               {typeof item.body === "string"
                 ? item.body
-                : getTextContentsCapped((item.body as any) ?? undefined, 100)}
+                : editor.getTextContentsCapped(
+                    (item.body as any) ?? undefined,
+                    100,
+                  )}
             </Typography>
           </CardContent>
         </CardActionArea>

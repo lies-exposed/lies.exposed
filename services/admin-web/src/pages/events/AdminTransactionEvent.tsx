@@ -111,7 +111,7 @@ export const TransactionCreate: React.FC<CreateProps> = (props) => {
     <Create
       title="Create a Transaction"
       {...props}
-      transform={(data) => transformEvent(dataProvider)(uuid(), data)}
+      transform={(data: any) => transformEvent(dataProvider)(uuid(), data)}
     >
       <SimpleForm>
         <BooleanInput source="draft" defaultValue={false} />

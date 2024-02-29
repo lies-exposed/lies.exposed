@@ -1,9 +1,9 @@
 import { type Area, type Media } from "@liexp/shared/lib/io/http/index.js";
-import { getTextContentsCapped } from "@liexp/shared/lib/slate/index.js";
 import { formatDate, parseISO } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";
 import { useDataProvider, useRecordContext } from "react-admin";
 import { useConfiguration } from "../../../../context/ConfigurationContext.js";
+import { editor } from "../../../Common/Editor/index.js";
 import { CircularProgress } from "../../../mui/index.js";
 import { SocialPostButton } from "../../common/SocialPostButton.js";
 
@@ -38,7 +38,7 @@ export const AreaTGPostButton: React.FC = () => {
         return {
           title: record.label,
           content: record.body
-            ? getTextContentsCapped(record.body as any, 300)
+            ? editor.getTextContentsCapped(record.body as any, 300)
             : "",
           media,
           date,

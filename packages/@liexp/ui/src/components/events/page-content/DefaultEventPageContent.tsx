@@ -1,10 +1,10 @@
+import { isValidValue } from "@liexp/react-page/lib/utils.js";
 import { MP3Type, OGGType } from "@liexp/shared/lib/io/http/Media.js";
 import { type Events, type Media } from "@liexp/shared/lib/io/http/index.js";
-import { isValidValue } from "@liexp/shared/lib/slate/index.js";
 import * as React from "react";
 import { useModal } from "../../../hooks/useModal.js";
 import { useTheme } from "../../../theme/index.js";
-import { LazyEditor as Editor } from "../../Common/Editor/index.js";
+import { editor } from "../../Common/Editor/index.js";
 import { MediaModalContent } from "../../Modal/MediaSliderModal.js";
 import { MediaList } from "../../lists/MediaList.js";
 import { Box, Grid } from "../../mui/index.js";
@@ -75,12 +75,12 @@ export const DefaultEventPageContent: React.FC<
       <Grid item>
         {isValidValue(event.excerpt) ? (
           <Box style={{ marginBottom: theme.spacing(2) }}>
-            <Editor value={event.excerpt} readOnly={true} />
+            <editor.LazyEditor value={event.excerpt} readOnly={true} />
           </Box>
         ) : null}
         {isValidValue(event.body) ? (
           <Box style={{ marginBottom: theme.spacing(2) }}>
-            <Editor value={event.body} readOnly={true} />
+            <editor.LazyEditor value={event.body} readOnly={true} />
           </Box>
         ) : null}
       </Grid>

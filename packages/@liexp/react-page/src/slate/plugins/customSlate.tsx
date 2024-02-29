@@ -191,8 +191,6 @@ export const getLiexpSlate = (custom: any): slate.SlateCellPlugin<any> => {
   return liexpSlate;
 };
 
-// export const liexpSlate = getLiexpSlate({});
-
 export const isSlatePlugin = (c: Cell): boolean => {
   return c.plugin?.id === LIEXP_SLATE_PLUGIN_ID;
 };

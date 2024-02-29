@@ -9,9 +9,9 @@ import * as React from "react";
 import { DataProviderContext } from "react-admin";
 import { APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 // styles
+import "@liexp/react-page/assets/react-page.css";
 import "@liexp/ui/lib/components/Common/Icons/library.js";
 import "@liexp/ui/assets/main.css";
-import "@liexp/ui/assets/react-page.css";
 
 config.autoAddCss = false;
 

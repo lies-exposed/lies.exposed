@@ -1,5 +1,5 @@
-import { isValidValue } from "@liexp/shared/lib/slate/index.js";
-import { LazyEditor as Editor } from "@liexp/ui/lib/components/Common/Editor/index.js";
+import { isValidValue } from "@liexp/react-page/lib/utils.js";
+import { editor } from "@liexp/ui/lib/components/Common/Editor/index.js";
 import { TOCPlugin } from "@liexp/ui/lib/components/Common/Editor/plugins/renderer/TOCPlugin.js";
 import { MainContent } from "@liexp/ui/lib/components/MainContent.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
@@ -22,7 +22,11 @@ const PageTemplate: React.FC<{ customPath: string }> = ({ customPath }) => {
               <Container style={{ display: "flex" }}>
                 <TOCPlugin value={m.body2} />
                 <MainContent>
-                  <Editor value={m.body2} readOnly />
+                  <editor.LazyEditor
+                    value={m.body2}
+                    variant="extended"
+                    readOnly
+                  />
                 </MainContent>
               </Container>
             ) : (
