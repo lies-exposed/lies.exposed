@@ -50,7 +50,6 @@
     }
   ],
   "settings": {
-    "mdx.experimentalLanguageServer": true,
     "search.exclude": {
       "**/node_modules": true,
       "**/bower_components": true,
@@ -67,6 +66,7 @@
       "./services/web",
       "./services/admin-web"
     ],
+    "eslint.experimental.useFlatConfig": true,
     "eslint.codeActionsOnSave.mode": "all",
     "cSpell.words": ["healthcheck", "liexp", "Uncategorized", "xlarge"],
     "easynpm.packageManager": "yarn"

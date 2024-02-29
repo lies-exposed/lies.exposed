@@ -9,7 +9,7 @@
     "develop": "DOTENV_CONFIG_PATH=../../.env.local node --import tsx/esm -r dotenv/config src/serve.ts",
     "build": "tsc -b",
     "watch": "tsc -b --watch",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
+    "lint": "eslint src",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
     "test:e2e": "vitest -c vitest.e2e.config.ts",
     "tsx:dev": "DOTENV_CONFIG_PATH=../../.env.local node -r tsx/cjs -r dotenv/config",

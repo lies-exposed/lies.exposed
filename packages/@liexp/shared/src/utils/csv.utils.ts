@@ -88,7 +88,7 @@ export const GetCSVUtil = ({ log }: CSVUtilOptions): CSVUtil => {
             });
         });
       }, E.toError),
-      TE.mapLeft((e) => []),
+      TE.mapLeft(() => []),
       TE.chainEitherK((results) => {
         const r = pipe(
           results,
@@ -96,7 +96,7 @@ export const GetCSVUtil = ({ log }: CSVUtilOptions): CSVUtil => {
           A.sequence(E.Applicative),
         );
 
-        return r as E.Either<t.ValidationError[], any>;
+        return r as E.Either<t.ValidationError[], A[]>;
       }),
       TE.mapLeft((errs) => {
         // eslint-disable-next-line
@@ -112,17 +112,17 @@ export const GetCSVUtil = ({ log }: CSVUtilOptions): CSVUtil => {
   ): TE.TaskEither<Error, void> => {
     return TE.tryCatch(async () => {
       log.debug.log("Write results (%d) in %s", results.length, outputPath);
-      csv
-        .writeToPath(outputPath, results, {
-          headers: Object.keys(results[0]),
-          writeHeaders: true,
-        })
-        // eslint-disable-next-line
-        .on("error", (err) => Promise.reject(err))
-        .on("finish", () => {
-          // eslint-disable-next-line @typescript-eslint/no-floating-promises
-          Promise.resolve();
-        });
+      return new Promise((resolve, reject) => {
+        csv
+          .writeToPath(outputPath, results, {
+            headers: Object.keys(results[0]),
+            writeHeaders: true,
+          })
+          .on("error", (err) => reject(err))
+          .on("finish", () => {
+            resolve();
+          });
+      });
     }, E.toError);
   };
 

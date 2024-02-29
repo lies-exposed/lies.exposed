@@ -22,7 +22,7 @@
     "moduleResolution": "node10",
     "isolatedModules": true
   },
-  "include": [".storybook", "./src", ".eslintrc.cjs"],
+  "include": [".storybook", "./src", "eslint.config.js"],
   "exclude": ["node_modules", "build", "public", ".cache"],
   "references": [
     {

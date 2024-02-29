@@ -14,7 +14,7 @@
   "exclude": [
     "node_modules",
     "lib",
-    ".eslintrc.cjs",
+    "eslint.config.js",
     "src/**/*.spec.ts"
   ],
   "references": [

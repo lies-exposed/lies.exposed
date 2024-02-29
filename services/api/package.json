@@ -22,7 +22,7 @@
     "develop:alpha": "DOTENV_CONFIG_PATH=.env.alpha yarn develop",
     "build": "tsc -b ./tsconfig.build.json",
     "watch": "tsc -b ./tsconfig.build.json --watch",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx bin/ src/",
+    "lint": "eslint bin src",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
     "test": "vitest",
     "test:spec": "vitest -c test/vitest.config.spec.ts",

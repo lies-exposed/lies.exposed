@@ -19,7 +19,7 @@
     "clean": "rm -rf lib",
     "build": "tsc -b tsconfig.build.json",
     "watch": "tsc -b -w",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
+    "lint": "eslint src",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
     "test": "vitest"
   },

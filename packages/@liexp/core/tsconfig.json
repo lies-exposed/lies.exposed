@@ -17,8 +17,8 @@
     "baseUrl": "./src",
     "rootDir": "./src",
     "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
-    "typeRoots": ["../../../node_modules/@types", "typings"]
+    "typeRoots": ["../../../node_modules/@types"]
   },
-  "include": ["./src", ".eslintrc.js"],
+  "include": ["./src", "typings", "eslint.config.js"],
   "exclude": ["node_modules", "lib"]
 }

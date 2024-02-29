@@ -35,7 +35,7 @@
     "./src",
     "./src/**/*.json",
     "./test",
-    ".eslintrc.cjs"
+    "eslint.config.js"
   ],
   "exclude": ["node_modules", "lib"]
 }
