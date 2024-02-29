@@ -1,7 +1,7 @@
-import { type Value } from "@react-page/editor";
+import { type Value } from "@liexp/react-page/lib/react-page.types.js";
 import * as React from "react";
 import { Box } from "../mui/index.js";
-import { LazyEditor as Editor } from "./Editor/index.js";
+import { editor } from "./Editor/index.js";
 
 interface EllipsesContentProps {
   content: Value;
@@ -20,7 +20,7 @@ const EllipsesContent: React.FC<EllipsesContentProps> = ({
         overflow: "hidden",
       }}
     >
-      <Editor readOnly value={content} />
+      <editor.LazyEditor readOnly value={content} />
     </Box>
   );
 };

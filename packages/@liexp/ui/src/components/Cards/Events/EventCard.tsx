@@ -5,7 +5,7 @@ import { Events } from "@liexp/shared/lib/io/http/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { parseISO } from "date-fns";
 import * as React from "react";
-import { LazyEditor as Editor } from "../../Common/Editor/index.js";
+import { editor } from "../../Common/Editor/index.js";
 import { EventIcon } from "../../Common/Icons/index.js";
 import { ActorList } from "../../lists/ActorList.js";
 import GroupsList from "../../lists/GroupList.js";
@@ -72,9 +72,7 @@ const EventCard: React.FC<EventCardProps> = ({
                 overflow: "hidden",
               }}
             >
-              <React.Suspense>
-                <Editor value={event.excerpt as any} readOnly />
-              </React.Suspense>
+              <editor.LazyEditor value={event.excerpt as any} readOnly />
             </Box>
           ) : null}
 

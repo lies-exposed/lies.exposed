@@ -1,4 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { createExcerptValue } from "@liexp/react-page/lib/utils.js";
 import { getRelationIdsFromEventRelations } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
 import { type URL as URLT } from "@liexp/shared/lib/io/http/Common/index.js";
@@ -17,6 +18,7 @@ import { type LinkEntity } from "#entities/Link.entity.js";
 import { type UserEntity } from "#entities/User.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
+import { editor } from "#providers/slate.js";
 
 const extractEventFromProviderLink: TEFlow<
   [puppeteer.Page, string, LinkEntity],
@@ -156,7 +158,7 @@ const extractByProvider: TEFlow<
       pipe(
         provider,
         O.map((m) =>
-          getSuggestions(
+          getSuggestions(createExcerptValue(editor.liexpSlate))(
             m,
             O.some({
               id: l.id,
@@ -210,8 +212,8 @@ const extractByProvider: TEFlow<
         O.map((s) => ({
           ...s.event,
           id: uuid() as any,
-          excerpt: s.event.excerpt as any,
-          body: s.event.body as any,
+          excerpt: s.event.excerpt ?? null,
+          body: s.event.body ?? null,
           links: [l],
           keywords: [],
           media: [],

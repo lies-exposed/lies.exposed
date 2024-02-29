@@ -1,18 +1,16 @@
 import { readFile, writeFile } from "fs/promises";
 import path from "path";
-import { fileURLToPath } from "url";
 import type { PluginOption } from "vite";
+import { commonJSRequire } from "../utils.js";
 // ...
 
 export function reactVirtualized(): PluginOption {
   const WRONG_CODE = `import { bpfrpt_proptype_WindowScroller } from "../WindowScroller.js";`;
 
   return {
-    name: "my:react-virtualized",
+    name: "react-virtualized:replace-window-scroller",
     async configResolved() {
-      const reactVirtualizedPath = path.dirname(
-        fileURLToPath(import.meta.resolve("react-virtualized")),
-      );
+      const reactVirtualizedPath = commonJSRequire("react-virtualized");
 
       const brokenFilePath = path.join(
         reactVirtualizedPath,

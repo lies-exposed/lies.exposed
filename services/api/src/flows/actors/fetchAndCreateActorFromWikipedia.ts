@@ -1,7 +1,7 @@
-import { fp, pipe, flow } from "@liexp/core/lib/fp/index.js";
+import { flow, fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { createExcerptValue } from "@liexp/react-page/lib/utils.js";
 import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
 import { type AddActorBody } from "@liexp/shared/lib/io/http/Actor.js";
-import { createExcerptValue } from "@liexp/shared/lib/slate/index.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
@@ -9,6 +9,7 @@ import { ActorEntity } from "#entities/Actor.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import { fetchFromWikipedia } from "#flows/wikipedia/fetchFromWikipedia.js";
 import { NotFoundError, toControllerError } from "#io/ControllerError.js";
+import { editor } from "#providers/slate";
 
 export const fetchActorFromWikipedia: TEFlow<[string], AddActorBody> =
   (ctx) => (pageId) => {
@@ -23,7 +24,7 @@ export const fetchActorFromWikipedia: TEFlow<[string], AddActorBody> =
           fp.O.getOrElse(() => getUsernameFromDisplayName(pageId)),
         );
 
-        const excerpt = createExcerptValue(intro);
+        const excerpt = createExcerptValue(editor.liexpSlate)(intro);
         return {
           fullName: page.title,
           username,

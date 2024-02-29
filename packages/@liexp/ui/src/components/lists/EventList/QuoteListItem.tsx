@@ -4,10 +4,10 @@ import {
   type Events,
   type Keyword,
 } from "@liexp/shared/lib/io/http/index.js";
-import { getTextContents } from "@liexp/shared/lib/slate/index.js";
 import * as React from "react";
 import { styled } from "../../../theme/index.js";
 import { Avatar } from "../../Common/Avatar.js";
+import { editor } from "../../Common/Editor/index.js";
 import { EventIcon } from "../../Common/Icons/index.js";
 import { Box, Grid, Typography } from "../../mui/index.js";
 
@@ -83,7 +83,7 @@ export const QuoteListItem: React.FC<QuoteListItemProps> = ({
             style={{ padding: 10 }}
           >
             <Typography style={{ display: "flex" }} variant="subtitle1">
-              {getTextContents(item.excerpt as any)}
+              {editor.getTextContents(item.excerpt as any)}
             </Typography>
             <Typography variant="caption" fontStyle="italic">
               {item.payload.details}

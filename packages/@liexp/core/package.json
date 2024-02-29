@@ -21,6 +21,8 @@
     "io-ts": "^2.2.21",
     "io-ts-types": "^0.5.19",
     "vite-plugin-css-injected-by-js": "^3.4.0",
+    "vite-plugin-html": "^3.2.2",
+    "vite-plugin-html-purgecss": "^0.1.1",
     "vite-tsconfig-paths": "^4.3.1"
   },
   "devDependencies": {
@@ -43,10 +45,7 @@
     "prettier": "^3.2.5",
     "sass": "^1.71.1",
     "typescript": "^5.4.2",
-    "vite": "^5.1.6",
-    "vite-plugin-html": "^3.2.2",
-    "vite-plugin-html-purgecss": "^0.1.1",
-    "vite-plugin-optimizer": "^1.4.3"
+    "vite": "^5.1.6"
   },
   "peerDependencies": {
     "debug": "^4.3.1",

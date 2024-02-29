@@ -1,11 +1,14 @@
-import { type Keyword } from "@liexp/shared/lib/io/http/index.js";
-import { KEYWORD_INLINE } from "@liexp/shared/lib/slate/plugins/customSlate.js";
-import type { CellPluginComponentProps, DataTType } from "@react-page/editor";
-import { pluginFactories } from "@react-page/plugins-slate";
+import { pluginFactories } from "@liexp/react-page/lib/index.js";
+import type {
+  CellPluginComponentProps,
+  DataTType,
+} from "@liexp/react-page/lib/react-page.types.js";
+import { KEYWORD_INLINE } from "@liexp/react-page/lib/slate/plugins/customSlate.js";
 import {
   type SlateComponentPluginDefinition,
   type SlatePluginControls,
-} from "@react-page/plugins-slate/lib/types/slatePluginDefinitions";
+} from "@liexp/react-page/lib/slate/types.js";
+import { type Keyword } from "@liexp/shared/lib/io/http/index.js";
 import React from "react";
 import { AutocompleteKeywordInput } from "../../../../Input/AutocompleteKeywordInput.js";
 import { KeywordChip } from "../../../../keywords/KeywordChip.js";

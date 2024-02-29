@@ -61,7 +61,7 @@ export const QuoteCreate: React.FC<CreateProps> = () => {
   return (
     <Create
       title="Add a quote"
-      transform={(data) =>
+      transform={(data: any) =>
         transformEvent(dataProvider)(uuid(), data).then((record) => ({
           ...record,
           payload: {

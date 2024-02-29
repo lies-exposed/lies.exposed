@@ -30,7 +30,10 @@ const config = defineViteConfig({
   html: {
     templatePath: "index.html",
   },
-  tsConfigFile: "tsconfig.json",
+  tsConfigFile:
+    process.env.VITE_NODE_ENV === "production"
+      ? "tsconfig.build.json"
+      : "tsconfig.json",
 });
 
 export default defineConfig(config);

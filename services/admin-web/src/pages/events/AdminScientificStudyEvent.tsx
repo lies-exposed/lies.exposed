@@ -74,7 +74,7 @@ export const ScientificStudyCreate: React.FC<CreateProps> = (props) => {
     <Create
       title="Create a Scientific Study"
       {...props}
-      transform={(r) =>
+      transform={(r: any) =>
         transformEvent(dataProvider)(uuid(), {
           ...r,
           type: EventTypes.SCIENTIFIC_STUDY.value,

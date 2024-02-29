@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import * as React from "react";
-import { LazyEditor as Editor } from "./Editor/index.js";
+import { editor } from "./Editor/index.js";
 
 // export const components: MDXProviderComponentsProp = {
 //   // layout
@@ -58,5 +58,5 @@ import { LazyEditor as Editor } from "./Editor/index.js";
 // };
 
 export const MarkdownRenderer: React.FC<{ children: any }> = ({ children }) => {
-  return <Editor value={children} readOnly />;
+  return <editor.LazyEditor value={children} readOnly />;
 };

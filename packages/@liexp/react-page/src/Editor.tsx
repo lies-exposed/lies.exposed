@@ -8,7 +8,7 @@ import RPEditor, {
 } from "@react-page/editor/lib/index.js";
 import { SlateCellPlugin } from "@react-page/plugins-slate";
 import * as React from "react";
-import { getTextContents } from "./slate/index.js";
+import { getTextContents } from "./utils.js";
 
 type I18nEnField = I18nField<Record<string, any>>;
 

@@ -4,7 +4,7 @@ import {
   GROUP_INLINE,
   KEYWORD_INLINE,
   MEDIA_BLOCK_PLUGIN,
-} from "@liexp/shared/lib/slate/plugins/customSlate.js";
+} from "@liexp/react-page/lib/slate/plugins/customSlate.js";
 import { ActorInlinePluginIcon } from "../../actor/ActorInline.plugin.js";
 import { EventBlockPluginIcon } from "../../event/eventBlock.plugin.js";
 import { GroupInlinePluginIcon } from "../../group/GroupInline.plugin.js";

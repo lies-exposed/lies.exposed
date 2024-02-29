@@ -1,11 +1,11 @@
 import path from "path";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { getTextContents } from "@liexp/react-page/lib/utils.js";
 import {
   ExtractEntitiesWithNLPInput,
-  type ExtractEntitiesWithNLPOutput,
   type ExtractEntitiesWithNLPFromResourceInput,
+  type ExtractEntitiesWithNLPOutput,
 } from "@liexp/shared/lib/io/http/admin/ExtractNLPEntities.js";
-import { getTextContents } from "@liexp/shared/lib/slate/index.js";
 import { GetEncodeUtils } from "@liexp/shared/lib/utils/encode.utils.js";
 import { toRecord } from "fp-ts/lib/ReadonlyRecord.js";
 import { Equal } from "typeorm";
@@ -17,6 +17,7 @@ import { type TEFlow } from "#flows/flow.types.js";
 import { extractRelationsFromText } from "#flows/nlp/extractRelationsFromText.flow.js";
 import { extractRelationsFromURL } from "#flows/nlp/extractRelationsFromURL.flow.js";
 import { toControllerError } from "#io/ControllerError.js";
+import { editor } from "#providers/slate";
 
 const findOneResourceAndMapText: TEFlow<
   [ExtractEntitiesWithNLPFromResourceInput],
@@ -42,7 +43,9 @@ const findOneResourceAndMapText: TEFlow<
               id: Equal(body.uuid),
             },
           }),
-          fp.TE.map((k) => (k.body ? getTextContents(k.body as any) : "")),
+          fp.TE.map((k) =>
+            k.body ? getTextContents(editor.liexpSlate)(k.body as any) : "",
+          ),
         );
       }
 
@@ -53,7 +56,9 @@ const findOneResourceAndMapText: TEFlow<
               id: Equal(body.uuid),
             },
           }),
-          fp.TE.map((k) => (k.body ? getTextContents(k.body as any) : "")),
+          fp.TE.map((k) =>
+            k.body ? getTextContents(editor.liexpSlate)(k.body as any) : "",
+          ),
         );
       }
 
@@ -65,7 +70,9 @@ const findOneResourceAndMapText: TEFlow<
             },
           }),
           fp.TE.map((k) =>
-            k.excerpt ? getTextContents(k.excerpt as any) : "",
+            k.excerpt
+              ? getTextContents(editor.liexpSlate)(k.excerpt as any)
+              : "",
           ),
         );
       }

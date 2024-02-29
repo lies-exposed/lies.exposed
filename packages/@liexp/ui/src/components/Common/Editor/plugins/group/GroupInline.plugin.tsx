@@ -1,11 +1,14 @@
-import { type Group } from "@liexp/shared/lib/io/http/index.js";
-import { GROUP_INLINE } from "@liexp/shared/lib/slate/plugins/customSlate.js";
-import type { CellPluginComponentProps, DataTType } from "@react-page/editor";
-import { pluginFactories } from "@react-page/plugins-slate";
+import { pluginFactories } from "@liexp/react-page/lib/index.js";
+import type {
+  CellPluginComponentProps,
+  DataTType,
+} from "@liexp/react-page/lib/react-page.types.js";
+import { GROUP_INLINE } from "@liexp/react-page/lib/slate/plugins/customSlate.js";
 import {
   type SlateComponentPluginDefinition,
   type SlatePluginControls,
-} from "@react-page/plugins-slate/lib/types/slatePluginDefinitions.js";
+} from "@liexp/react-page/lib/slate/types.js";
+import { type Group } from "@liexp/shared/lib/io/http/index.js";
 import React from "react";
 import { AutocompleteGroupInput } from "../../../../Input/AutocompleteGroupInput.js";
 import { GroupChip } from "../../../../groups/GroupChip.js";

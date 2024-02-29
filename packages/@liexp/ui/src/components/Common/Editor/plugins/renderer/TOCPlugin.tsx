@@ -1,5 +1,10 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import {
+  type Cell,
+  type Row,
+  type Value,
+} from "@liexp/react-page/lib/react-page.types.js";
+import {
   H1_TYPE,
   H2_TYPE,
   H3_TYPE,
@@ -7,10 +12,9 @@ import {
   H5_TYPE,
   H6_TYPE,
   isSlatePlugin,
-} from "@liexp/shared/lib/slate/plugins/customSlate.js";
+} from "@liexp/react-page/lib/slate/plugins/customSlate.js";
+import { type SlateComponentPluginDefinition } from "@liexp/react-page/lib/slate/types.js";
 import { StoryUtils } from "@liexp/shared/lib/utils/story.utils.js";
-import { type Cell, type Row, type Value } from "@react-page/editor";
-import { type SlateComponentPluginDefinition } from "@react-page/plugins-slate/lib/types/slatePluginDefinitions.js";
 import { type Option } from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";

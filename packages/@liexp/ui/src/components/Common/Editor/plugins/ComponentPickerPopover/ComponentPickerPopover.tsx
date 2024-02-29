@@ -4,10 +4,10 @@ import {
   GROUP_INLINE,
   LINK_INLINE,
   MEDIA_BLOCK_PLUGIN,
-} from "@liexp/shared/lib/slate/plugins/customSlate.js";
+} from "@liexp/react-page/lib/slate/plugins/customSlate.js";
+import { type SlatePluginControls } from "@liexp/react-page/lib/slate/types.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 // eslint-disable-next-line no-restricted-imports
-import { type SlatePluginControls } from "@react-page/plugins-slate/lib/types/slatePluginDefinitions.js";
 import * as React from "react";
 import { List, ListItem, Typography } from "../../../../mui/index.js";
 import { Popover, type PopoverProps } from "../../../Popover.js";

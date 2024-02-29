@@ -116,7 +116,7 @@ export const UncategorizedEventCreate: React.FC = (props) => {
   return (
     <Create
       title="Create a Event"
-      transform={(data) => transformEvent(dataProvider)(uuid(), data)}
+      transform={(data: any) => transformEvent(dataProvider)(uuid(), data)}
     >
       <TabbedForm>
         <FormTab label="General">

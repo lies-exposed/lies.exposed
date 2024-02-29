@@ -1,3 +1,4 @@
+import { type InlineRelations } from "@liexp/react-page/lib/utils.js";
 import {
   type Events,
   type Actor,
@@ -5,7 +6,6 @@ import {
   type Keyword,
   type Media,
 } from "@liexp/shared/lib/io/http/index.js";
-import { type InlineRelations } from "@liexp/shared/lib/slate/utils.js";
 import * as React from "react";
 import ActorsBox from "../../../../../containers/ActorsBox.js";
 import { GroupsBox } from "../../../../../containers/GroupsBox.js";

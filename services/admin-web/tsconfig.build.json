@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "allowJs": false
+  },
+  "include": ["./src", "./typings"],
+  "exclude": ["node_modules", "build", ".eslintrc.cjs", "vite.config.ts"]
+}
