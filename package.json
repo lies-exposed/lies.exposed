@@ -70,6 +70,7 @@
     "minimist": "^1.2.8",
     "react-dnd": "^15",
     "react-dnd-html5-backend": "^15",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "react-is": "^18"
   }
 }
