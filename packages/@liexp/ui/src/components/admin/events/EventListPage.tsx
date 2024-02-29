@@ -4,7 +4,6 @@ import {
 } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { Events } from "@liexp/shared/lib/io/http/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
-import { getTextContentsCapped } from "@liexp/shared/lib/slate/index.js";
 import * as R from "fp-ts/lib/Record.js";
 import * as React from "react";
 import {
@@ -21,6 +20,7 @@ import {
   TextInput,
   type RaRecord,
 } from "react-admin";
+import { editor } from "../../Common/Editor/index.js";
 import { EventIcon } from "../../Common/Icons/EventIcon.js";
 import { Box, Typography, Icons } from "../../mui/index.js";
 import ReferenceArrayActorInput from "../actors/ReferenceArrayActorInput.js";
@@ -105,7 +105,7 @@ export const EventDataGrid: React.FC = () => {
         label="excerpt"
         render={(r: any) => {
           return !R.isEmpty(r.excerpt)
-            ? getTextContentsCapped(r.excerpt, 60)
+            ? editor.getTextContentsCapped(r.excerpt, 60)
             : "";
         }}
       />

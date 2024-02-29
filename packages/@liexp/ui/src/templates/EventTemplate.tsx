@@ -1,12 +1,9 @@
 import { TupleWithId } from "@liexp/core/lib/fp/utils/TupleWithId.js";
+import { isValidValue } from "@liexp/react-page/lib/utils.js";
 import { getEventCommonProps } from "@liexp/shared/lib/helpers/event/index.js";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
-import {
-  getTextContentsCapped,
-  isValidValue,
-} from "@liexp/shared/lib/slate/index.js";
 import {
   formatAnyDateToShort,
   formatDate,
@@ -14,6 +11,7 @@ import {
 import subYears from "date-fns/subYears/index.js";
 import * as React from "react";
 import AreasMap from "../components/AreasMap.js";
+import { editor } from "../components/Common/Editor/index.js";
 import { EventIcon } from "../components/Common/Icons/EventIcon.js";
 import { EventPageContent } from "../components/EventPageContent.js";
 import { GroupMembersList } from "../components/GroupMembersBox.js";
@@ -117,7 +115,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
             areas,
           });
           const message = isValidValue(event.excerpt)
-            ? getTextContentsCapped(event.excerpt, 230)
+            ? editor.getTextContentsCapped(event.excerpt, 230)
             : "";
           const seoImage =
             media[0]?.thumbnail ??

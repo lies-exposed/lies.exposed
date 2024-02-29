@@ -1,7 +1,7 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { createExcerptValue } from "@liexp/react-page/lib/utils.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { Events, EventSuggestion } from "@liexp/shared/lib/io/http/index.js";
-import { createExcerptValue } from "@liexp/shared/lib/slate/index.js";
+import { EventSuggestion, Events } from "@liexp/shared/lib/io/http/index.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { addWeeks, subWeeks } from "date-fns";
 import { sequenceS } from "fp-ts/lib/Apply.js";
@@ -14,7 +14,8 @@ import { Equal } from "typeorm";
 import { toEventV2IO } from "./eventV2.io.js";
 import { searchEventV2Query } from "./queries/searchEventsV2.query.js";
 import { LinkEntity } from "#entities/Link.entity.js";
-import { type ControllerError, ServerError } from "#io/ControllerError.js";
+import { ServerError, type ControllerError } from "#io/ControllerError.js";
+import { editor } from "#providers/slate.js";
 import { type Route } from "#routes/route.types.js";
 
 export const GetEventFromLinkRoute: Route = (r, ctx) => {
@@ -66,7 +67,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
             );
 
             const suggestedExcerpt = metadata.description
-              ? createExcerptValue(metadata.description)
+              ? createExcerptValue(editor.liexpSlate)(metadata.description)
               : undefined;
 
             const suggestedEventLinks = pipe(

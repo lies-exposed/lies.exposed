@@ -1,6 +1,6 @@
-import { COMPONENT_PICKER_POPOVER_PLUGIN } from "@liexp/shared/lib/slate/plugins/customSlate.js";
-import { type CellPluginComponentProps } from "@react-page/editor";
-import { pluginFactories } from "@react-page/plugins-slate";
+import { pluginFactories } from "@liexp/react-page/lib/index.js";
+import { type CellPluginComponentProps } from "@liexp/react-page/lib/react-page.types.js";
+import { COMPONENT_PICKER_POPOVER_PLUGIN } from "@liexp/react-page/lib/slate/plugins/customSlate.js";
 import * as React from "react";
 import { Icons } from "../../../../mui/index.js";
 import { ComponentPickerPopoverControl } from "./ComponentPickerPopoverPluginControl.js";

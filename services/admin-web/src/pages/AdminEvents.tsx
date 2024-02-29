@@ -4,10 +4,10 @@ import {
 } from "@liexp/shared/lib/io/http/Events/index.js";
 import { Events } from "@liexp/shared/lib/io/http/index.js";
 import { http } from "@liexp/shared/lib/io/index.js";
-import { getTextContentsCapped } from "@liexp/shared/lib/slate/index.js";
 import { EventIcon } from "@liexp/ui/lib/components/Common/Icons/EventIcon.js";
 import { LinkIcon } from "@liexp/ui/lib/components/Common/Icons/index.js";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput.js";
+import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField.js";
 import ReferenceArrayGroupMemberInput from "@liexp/ui/lib/components/admin/common/ReferenceArrayGroupMemberInput.js";
 import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm.js";
 import { BookEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/BookEditFormTab.js";
@@ -32,11 +32,11 @@ import {
   FormDataConsumer,
   FunctionField,
   List,
+  NumberInput,
   ReferenceField,
   SavedQueriesList,
   TextField,
   type RaRecord as Record,
-  NumberInput,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import {
   Box,
@@ -47,7 +47,6 @@ import {
   Typography,
   alpha,
 } from "@liexp/ui/lib/components/mui/index.js";
-import * as R from "fp-ts/Record";
 import * as React from "react";
 
 const RESOURCE = "events";
@@ -189,14 +188,7 @@ export const EventList: React.FC = () => (
           );
         }}
       />
-      <FunctionField
-        label="excerpt"
-        render={(r: any) => {
-          return !R.isEmpty(r.excerpt)
-            ? getTextContentsCapped(r.excerpt, 60)
-            : "";
-        }}
-      />
+      <ExcerptField label="excerpt" />
       <FunctionField source="links" render={(r: any) => r.links?.length ?? 0} />
       <FunctionField source="media" render={(r: any) => r.media?.length ?? 0} />
       <FunctionField

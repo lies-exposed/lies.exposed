@@ -4,7 +4,6 @@ import react from "@vitejs/plugin-react";
 import { failure } from "io-ts/lib/PathReporter.js";
 import { type ConfigEnv, type UserConfig } from "vite";
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
-import optimizer from "vite-plugin-optimizer";
 import tsConfigPaths from "vite-tsconfig-paths";
 import { loadENV } from "../../env/utils.js";
 import { fp, pipe } from "../../fp/index.js";
@@ -69,7 +68,12 @@ export const defineViteConfig = <A extends Record<string, any>>(
         minify: mode === "production",
         commonjsOptions: {
           include: [/node_modules/],
-          exclude: [/@liexp\/core/, /@liexp\/shared/, /@liexp\/ui/],
+          exclude: [
+            /@liexp\/core/,
+            /@liexp\/shared/,
+            /@liexp\/react-page/,
+            /@liexp\/ui/,
+          ],
           // transformMixedEsModules: true,
         },
         rollupOptions: {
@@ -99,7 +103,12 @@ export const defineViteConfig = <A extends Record<string, any>>(
           // path.join(config.cwd, "../../packages/@liexp/ui/shared/**"),
           // path.join(config.cwd, "../../packages/@liexp/ui/lib/**"),
         ],
-        include: ["@liexp/core", "@liexp/shared", "@liexp/ui"],
+        include: [
+          "@liexp/core",
+          "@liexp/shared",
+          "@liexp/react-page",
+          "@liexp/ui",
+        ],
         // exclude: [
         //   "@mui/material",
         //   "@mui/icons-material",
@@ -184,9 +193,6 @@ export const defineViteConfig = <A extends Record<string, any>>(
       plugins: [
         image() as any,
         cssInjectedByJsPlugin(),
-        optimizer({
-          // d3: () => require('d3'),
-        }),
         tsConfigPaths({
           root: config.cwd,
           projects: config.tsConfigFile ? [config.tsConfigFile] : undefined,

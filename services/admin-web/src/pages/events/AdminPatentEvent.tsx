@@ -69,7 +69,7 @@ export const PatentCreate: React.FC<CreateProps> = (props) => {
     <Create
       title="Create a Patent Event"
       {...props}
-      transform={(data) => transformEvent(dataProvider)(uuid(), data)}
+      transform={(data: any) => transformEvent(dataProvider)(uuid(), data)}
     >
       <SimpleForm>
         <TextInput source="payload.title" />

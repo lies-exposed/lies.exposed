@@ -1,17 +1,18 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { createExcerptValue } from "@liexp/shared/lib/slate/index.js";
+import { createExcerptValue } from "@liexp/react-page/lib/utils";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { EventSuggestionEntity } from "#entities/EventSuggestion.entity.js";
 import { type KeywordEntity } from "#entities/Keyword.entity.js";
 import { type LinkEntity } from "#entities/Link.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
+import { editor } from "#providers/slate";
 
 export const createEventSuggestionFromLink: TEFlow<
   [LinkEntity, KeywordEntity[]],
   EventSuggestionEntity
 > = (ctx) => (l, hashtags) => {
   const suggestedExcerpt = l.description
-    ? createExcerptValue(l.description)
+    ? createExcerptValue(editor.liexpSlate)(l.description)
     : undefined;
 
   const publishDate = l.publishDate ?? new Date();

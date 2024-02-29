@@ -1,10 +1,11 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { createExcerptValue } from "@liexp/shared/lib/slate/index.js";
+import { createExcerptValue } from "@liexp/react-page/lib/utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { EventSuggestionEntity } from "#entities/EventSuggestion.entity.js";
 import { type KeywordEntity } from "#entities/Keyword.entity.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
+import { editor } from "#providers/slate";
 /**
  * Create an event suggestion from the given media.
  *
@@ -15,7 +16,7 @@ export const createEventSuggestionFromMedia: TEFlow<
   EventSuggestionEntity
 > = (ctx) => (mm, hashtags) => {
   const suggestedExcerpt = mm[0].description
-    ? createExcerptValue(mm[0].description)
+    ? createExcerptValue(editor.liexpSlate)(mm[0].description)
     : undefined;
 
   const publishDate = new Date();

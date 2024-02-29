@@ -1,7 +1,7 @@
 import { type Media, type Area } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import MediaSliderBox from "../containers/MediaSliderBox.js";
-import { LazyEditor as Editor } from "./Common/Editor/index.js";
+import { editor } from "./Common/Editor/index.js";
 import { Box, Grid } from "./mui/index.js";
 
 export interface AreaPageContentProps {
@@ -46,7 +46,7 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
           {typeof area.body === "string" ? (
             <div>{area.body}</div>
           ) : (
-            <Editor value={area.body as any} readOnly />
+            <editor.LazyEditor value={area.body as any} readOnly />
           )}
         </Box>
       </Grid>

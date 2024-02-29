@@ -35,6 +35,9 @@
       "path": "../../packages/@liexp/test"
     },
     {
+      "path": "../../packages/@liexp/react-page"
+    },
+    {
       "path": "../../packages/@liexp/ui"
     }
   ]

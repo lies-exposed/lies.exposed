@@ -1,6 +1,6 @@
+import { relationsTransformer } from "@liexp/react-page/lib/utils.js";
 import { ImageType } from "@liexp/shared/lib/io/http/Media.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
-import { relationsTransformer } from "@liexp/shared/lib/slate/utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -166,7 +166,7 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
               <TextInput source="" />
             </SimpleFormIterator>
           </ArrayInput>
-          <ReactPageInput source="body2" />
+          <ReactPageInput source="body2" onlyText={false} />
         </FormTab>
         <FormTab label="Relations">
           <StoryRelationsBox />

@@ -74,7 +74,7 @@ export const BookCreate: React.FC<CreateProps> = () => {
   return (
     <Create
       title="Add a book"
-      transform={(data) => {
+      transform={(data: any) => {
         return transformEvent(dataProvider)(uuid(), data).then((record) => ({
           ...record,
           payload: {

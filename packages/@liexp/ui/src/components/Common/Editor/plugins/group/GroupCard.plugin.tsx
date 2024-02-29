@@ -1,9 +1,9 @@
-import MediaIcon from "@mui/icons-material/VideoFileOutlined.js";
 import type {
   CellPlugin,
   CellPluginComponentProps,
   DataTType,
-} from "@react-page/editor";
+} from "@liexp/react-page/lib/react-page.types.js";
+import MediaIcon from "@mui/icons-material/VideoFileOutlined.js";
 import React from "react";
 import { GroupsBox } from "../../../../../containers/GroupsBox.js";
 import { AutocompleteGroupInput } from "../../../../Input/AutocompleteGroupInput.js";

@@ -1,3 +1,4 @@
+import { isValidValue } from "@liexp/react-page/lib/utils.js";
 import {
   ByActorId,
   ByGroupId,
@@ -8,13 +9,10 @@ import {
   type Events,
   type Keyword,
 } from "@liexp/shared/lib/io/http/index.js";
-import {
-  getTextContentsCapped,
-  isValidValue,
-} from "@liexp/shared/lib/slate/index.js";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight.js";
 import * as React from "react";
 import { styled } from "../../../theme/index.js";
+import { editor } from "../../Common/Editor/index.js";
 import { EventIcon } from "../../Common/Icons/index.js";
 import { Box, Grid, Typography } from "../../mui/index.js";
 import { ActorListItem } from "../ActorList.js";
@@ -126,7 +124,7 @@ export const TransactionListItem: React.FC<TransactionListItemProps> = ({
         {isValidValue(item.excerpt as any) ? (
           <Grid item md={condensed ? 6 : 12} sm={condensed ? 6 : 12} xs={12}>
             <Typography style={{ display: "flex" }} variant="body1">
-              {getTextContentsCapped(item.excerpt as any, 300)}
+              {editor.getTextContentsCapped(item.excerpt as any, 300)}
             </Typography>
           </Grid>
         ) : null}

@@ -1,9 +1,6 @@
-import {
-  getTextContentsCapped,
-  isValidValue,
-} from "@liexp/shared/lib/slate/index.js";
+import { isValidValue } from "@liexp/react-page/lib/utils.js";
 import * as React from "react";
-import { LazyEditor as Editor } from "../components/Common/Editor/index.js";
+import { editor } from "../components/Common/Editor/index.js";
 import { TOCPlugin } from "../components/Common/Editor/plugins/renderer/TOCPlugin.js";
 import QueriesRenderer from "../components/QueriesRenderer.js";
 import SEO from "../components/SEO.js";
@@ -32,7 +29,7 @@ export const PageContentBox: React.FC<PageContentProps> = ({
           <div className="page-content" style={style}>
             <SEO
               title={title}
-              description={getTextContentsCapped(
+              description={editor.getTextContentsCapped(
                 (excerpt as any) ?? undefined,
                 200,
               )}
@@ -44,7 +41,9 @@ export const PageContentBox: React.FC<PageContentProps> = ({
                 {title}
               </Typography>
             ) : null}
-            {isValidValue(body2) ? <Editor value={body2} readOnly /> : null}
+            {isValidValue(body2) ? (
+              <editor.LazyEditor value={body2} readOnly />
+            ) : null}
             {isValidValue(body2) ? <TOCPlugin value={body2} /> : null}
           </div>
         );

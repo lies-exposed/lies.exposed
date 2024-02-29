@@ -1,8 +1,9 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { getLiexpSlate } from "@liexp/react-page/lib/slate/index.js";
+import { createExcerptValue } from "@liexp/react-page/lib/utils.js";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
 import { http } from "@liexp/shared/lib/io/index.js";
-import { createExcerptValue } from "@liexp/shared/lib/slate/index.js";
 import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
 import { HumanReadableStringArb } from "@liexp/shared/lib/tests/arbitrary/HumanReadableString.arbitrary.js";
@@ -21,6 +22,7 @@ import { ActorEntity } from "#entities/Actor.entity.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";
 import { LinkEntity } from "#entities/Link.entity.js";
+import { editor } from "#providers/slate.js";
 
 describe("Create Scientific Study", () => {
   let appTest: AppTest;
@@ -157,7 +159,7 @@ describe("Create Scientific Study", () => {
     const title = fc.sample(HumanReadableStringArb(), 1)[0];
     const [excerpt] = fc
       .sample(HumanReadableStringArb(), 1)
-      .map((d) => createExcerptValue(d));
+      .map((d) => createExcerptValue(editor.liexpSlate)(d));
 
     const scientificStudyData: http.Events.ScientificStudy.CreateScientificStudyBody =
       {

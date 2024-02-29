@@ -4,8 +4,8 @@
 // other imports
 import path from "path";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { createExcerptValue } from "@liexp/react-page/lib/utils.js";
 import { type Geometry } from "@liexp/shared/lib/io/http/Common/index.js";
-import { createExcerptValue } from "@liexp/shared/lib/slate/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { JsonContains } from "typeorm";

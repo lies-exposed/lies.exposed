@@ -3644,7 +3644,6 @@ __metadata:
     vite-plugin-css-injected-by-js: ^3.4.0
     vite-plugin-html: ^3.2.2
     vite-plugin-html-purgecss: ^0.1.1
-    vite-plugin-optimizer: ^1.4.3
     vite-tsconfig-paths: ^4.3.1
   peerDependencies:
     debug: ^4.3.1
@@ -3653,7 +3652,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@liexp/react-page@workspace:packages/@liexp/react-page":
+"@liexp/react-page@0.1.0, @liexp/react-page@workspace:packages/@liexp/react-page":
   version: 0.0.0-use.local
   resolution: "@liexp/react-page@workspace:packages/@liexp/react-page"
   dependencies:
@@ -3723,9 +3722,6 @@ __metadata:
     vitest: ^1.3.1
     vitest-mock-extended: ^1.3.1
   peerDependencies:
-    "@react-page/editor": ^5.2.0
-    "@react-page/plugins-slate": ^5.2.0
-    "@react-page/react-admin": ^5.2.0
     "@visx/network": ^3.0.0
     debug: "*"
     fast-csv: ^5
@@ -3764,6 +3760,7 @@ __metadata:
     "@fortawesome/free-solid-svg-icons": ^6.5.1
     "@fortawesome/react-fontawesome": ^0.2.0
     "@liexp/core": 0.1.0
+    "@liexp/react-page": 0.1.0
     "@liexp/shared": 0.1.0
     "@mui/icons-material": ^5.15.12
     "@mui/lab": 5.0.0-alpha.167
@@ -3772,15 +3769,6 @@ __metadata:
     "@mui/system": ^5.15.12
     "@mui/x-data-grid": ^6.19.6
     "@reach/router": ^1.3.4
-    "@react-page/editor": ^5.4.4
-    "@react-page/plugins-background": ^5.4.4
-    "@react-page/plugins-divider": ^5.4.4
-    "@react-page/plugins-html5-video": ^5.4.4
-    "@react-page/plugins-image": ^5.4.4
-    "@react-page/plugins-slate": ^5.4.4
-    "@react-page/plugins-spacer": ^5.4.4
-    "@react-page/plugins-video": ^5.4.4
-    "@react-page/react-admin": ^5.4.4
     "@tanstack/eslint-plugin-query": ^5.20.1
     "@tanstack/react-query": ^5.26.3
     "@types/chroma-js": ^2.4.4
@@ -6966,7 +6954,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.26.3":
+"@tanstack/react-query@npm:^5.25.0, @tanstack/react-query@npm:^5.26.3":
   version: 5.26.3
   resolution: "@tanstack/react-query@npm:5.26.3"
   dependencies:
@@ -9514,6 +9502,7 @@ __metadata:
   resolution: "admin-web@workspace:services/admin-web"
   dependencies:
     "@liexp/core": 0.1.0
+    "@liexp/react-page": 0.1.0
     "@liexp/shared": 0.1.0
     "@liexp/ui": 0.1.0
     "@mui/material": ^5.15.12
@@ -9760,15 +9749,10 @@ __metadata:
     "@emotion/styled": ^11.11.0
     "@liexp/backend": 0.1.0
     "@liexp/core": 0.1.0
+    "@liexp/react-page": 0.1.0
     "@liexp/shared": 0.1.0
     "@liexp/test": 0.1.0
-    "@react-page/plugins-background": ^5.4.4
-    "@react-page/plugins-divider": ^5.4.4
-    "@react-page/plugins-html5-video": ^5.4.4
-    "@react-page/plugins-image": ^5.4.4
-    "@react-page/plugins-slate": ^5.4.4
-    "@react-page/plugins-spacer": ^5.4.4
-    "@react-page/plugins-video": ^5.4.4
+    "@tanstack/react-query": ^5.25.0
     "@types/body-parser": ^1.19.5
     "@types/cors": ^2.8.17
     "@types/debug": ^4.1.12
@@ -22878,6 +22862,7 @@ __metadata:
   resolution: "storybook@workspace:services/storybook"
   dependencies:
     "@liexp/core": 0.1.0
+    "@liexp/react-page": 0.1.0
     "@liexp/shared": 0.1.0
     "@liexp/ui": 0.1.0
     "@storybook/addon-actions": ^7.6.17
@@ -24723,13 +24708,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite-plugin-optimizer@npm:^1.4.3":
-  version: 1.4.3
-  resolution: "vite-plugin-optimizer@npm:1.4.3"
-  checksum: be177c4d6a333ccdc84d0d39ade1e395d3e526c78b86ea838b7e8d97e1aae7fadbb4e235bbea274cf84d9d6444762510c68ef90a94e33a5c20d6787755c1a232
-  languageName: node
-  linkType: hard
-
 "vite-tsconfig-paths@npm:^4.3.1":
   version: 4.3.1
   resolution: "vite-tsconfig-paths@npm:4.3.1"
@@ -24966,6 +24944,7 @@ __metadata:
     "@fortawesome/free-solid-svg-icons": ^6.5.1
     "@fortawesome/react-fontawesome": ^0.2.0
     "@liexp/core": 0.1.0
+    "@liexp/react-page": 0.1.0
     "@liexp/shared": 0.1.0
     "@liexp/ui": 0.1.0
     "@mui/icons-material": ^5.15.12

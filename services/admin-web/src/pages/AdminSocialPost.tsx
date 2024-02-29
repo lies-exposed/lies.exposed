@@ -50,10 +50,10 @@ const SocialPostDataGrid: React.FC<DatagridProps> = (props) => {
       <TextField source="type" />
       <FunctionField
         source="content.title"
-        onClick={(e) => {
+        onClick={(e: any) => {
           e.preventDefault();
         }}
-        render={(r) => (
+        render={(r: any) => (
           <Box>
             <Link to={`/${r.type}/${r.entity}`}>{r.content?.title}</Link>
             <Typography display={"block"}>{r.content.content}</Typography>
