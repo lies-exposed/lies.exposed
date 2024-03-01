@@ -93,7 +93,7 @@ export const searchWithGoogle =
 
           await page.waitForNavigation();
 
-          return await walkPage(nextPage, ll);
+          return walkPage(nextPage, ll);
         };
 
         // create new page

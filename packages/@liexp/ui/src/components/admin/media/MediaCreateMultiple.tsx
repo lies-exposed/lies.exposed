@@ -61,7 +61,7 @@ const transformMedia =
     const keywords = (data.keywords ?? []).concat(data.newKeywords ?? []);
     const areas = (data.areas ?? []).concat(data.newAreas ?? []);
 
-    return await pipe(
+    return pipe(
       mediaTask,
       TE.map((media) => ({
         ...data,
@@ -151,7 +151,7 @@ export const MediaCreateMany: React.FC<any> = (props) => {
         files: record.files.filter((f) => f.description !== media.description),
       });
 
-      return await uploadMedia(rest ?? [], [...uploaded, media]);
+      return uploadMedia(rest ?? [], [...uploaded, media]);
     }
     return uploaded;
   };

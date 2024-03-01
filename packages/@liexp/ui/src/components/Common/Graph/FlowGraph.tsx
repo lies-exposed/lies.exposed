@@ -12,7 +12,7 @@ import {
 
 import "reactflow/dist/style.css";
 
-export interface FlowGraphProps extends ReactFlowProps {}
+export type FlowGraphProps = ReactFlowProps;
 
 const fitViewOptions: FitViewOptions = {
   padding: 0.2,

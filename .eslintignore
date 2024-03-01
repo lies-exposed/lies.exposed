@@ -12,3 +12,4 @@ typings
 **/__tests__/**
 **/migrations/**
 vite*.config.js
+commitlint.config.js

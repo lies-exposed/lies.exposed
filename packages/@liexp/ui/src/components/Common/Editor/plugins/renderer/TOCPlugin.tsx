@@ -30,7 +30,7 @@ interface SerializedHeader {
 
 const deserializeCell = (c: Cell): Option<SerializedHeader[]> => {
   if (c.dataI18n?.en?.slate && isSlatePlugin(c)) {
-    const plugins: Array<SlateComponentPluginDefinition<any>> = c.dataI18n.en
+    const plugins: SlateComponentPluginDefinition<any>[] = c.dataI18n.en
       .slate as any;
 
     return pipe(
@@ -72,9 +72,7 @@ const extractHeaders = (v: { rows: Row[] }): SerializedHeader[] | null => {
   return pipe(v.rows, fp.A.map(deserializeRow), fp.A.flatten);
 };
 
-const serializeToTypography = (
-  value: Value,
-): Array<[string, React.ReactNode]> => {
+const serializeToTypography = (value: Value): [string, React.ReactNode][] => {
   return pipe(
     extractHeaders(value),
     fp.O.fromNullable,

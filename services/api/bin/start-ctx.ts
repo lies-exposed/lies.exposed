@@ -14,7 +14,7 @@ export const startContext = async (env?: any): Promise<RouteContext> => {
 
   D.enable(process.env.DEBUG ?? "@liexp:*:error");
 
-  return await pipe(
+  return pipe(
     parseENV({ ...process.env, TG_BOT_POLLING: "false", ...env }),
     fp.TE.fromEither,
     fp.TE.chain(makeContext),

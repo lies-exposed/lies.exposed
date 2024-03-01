@@ -69,7 +69,7 @@ export const uploadFile =
         const formData = new FormData();
         formData.append("resource", resource);
         formData.append("media", f);
-        return await client
+        return client
           .request({
             method: "PUT",
             url: `/uploads-multipart/${resourceId}`,
@@ -132,8 +132,8 @@ export const uploadImages =
   (
     resource: string,
     resourceId: string,
-    media: Array<{ type: MediaType; file: File }>,
-  ): TE.TaskEither<Error, Array<{ type: MediaType; location: string }>> => {
+    media: { type: MediaType; file: File }[],
+  ): TE.TaskEither<Error, { type: MediaType; location: string }[]> => {
     return pipe(
       media.map((file) =>
         uploadFile(client)(resource, resourceId, file.file, file.type),
@@ -175,7 +175,7 @@ export const transformMedia =
             : undefined,
         }
       : undefined;
-    return await pipe(
+    return pipe(
       uploadFileTask,
       TE.map((media) => ({
         ...data,

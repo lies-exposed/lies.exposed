@@ -14,7 +14,7 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "outDir": "./lib",
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "rootDir": "./",
     "typeRoots": [
       "../../../node_modules/@types",

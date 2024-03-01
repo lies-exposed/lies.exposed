@@ -1,11 +1,7 @@
 import { type SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as React from "react";
-import {
-  TextInput,
-  type TextInputProps,
-  useDataProvider,
-  useInput,
-} from "react-admin";
+import { TextInput, type TextInputProps, useInput } from "react-admin";
+import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { Box, Button, TextField } from "../../mui/index.js";
 
 interface URLMetadataInputProps extends TextInputProps {
@@ -18,13 +14,15 @@ const URLMetadataInput: React.FC<URLMetadataInputProps> = ({
 }) => {
   const {
     field: { onChange, value, ...inputRest },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     formState,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     fieldState,
     ...rest
   } = useInput(props);
   const dataProvider = useDataProvider();
 
-  const [metadata, setMetadata] = React.useState<any | undefined>(undefined);
+  const [metadata, setMetadata] = React.useState<any>(undefined);
 
   const handleSubmit = React.useCallback(
     (url: string) => {

@@ -56,7 +56,7 @@ interface StatsCache {
 
 const updateMap = (
   c: Map<string, number>,
-  arr: Array<{ id: string }>,
+  arr: { id: string }[],
 ): Map<string, number> => {
   return pipe(
     arr,

@@ -74,7 +74,7 @@ export const MessageParser = (
       },
       {
         url: [] as URL[],
-        video: [] as Array<VideoPlatformMatch & { url: URL }>,
+        video: [] as (VideoPlatformMatch & { url: URL })[],
       },
     );
 

@@ -1,5 +1,5 @@
-import tseslint from "typescript-eslint";
 import baseEslintConfig from "@liexp/core/lib/eslint/base.config.js";
+import tseslint from "typescript-eslint";
 
 const eslintConfig = tseslint.config(...baseEslintConfig, {
   files: [
@@ -17,13 +17,6 @@ const eslintConfig = tseslint.config(...baseEslintConfig, {
       tsconfigRootDir: import.meta.dirname,
     },
   },
-  rules: {
-    "@typescript-eslint/restrict-plus-operands": ["off"],
-    "@typescript-eslint/no-unnecessary-type-assertion": ["off"],
-    "@typescript-eslint/no-explicit-any": ["off"]
-  },
 });
-
-console.log(eslintConfig);
 
 export default eslintConfig;

@@ -30,7 +30,7 @@ const getLink = (
 const searchEventSample = (n: number, o: any): SearchEvent.SearchEvent[] =>
   fc
     .sample(UncategorizedArb, 2)
-    .map((e) => ({
+    .map((e): any => ({
       ...e,
       keywords: [],
       links: [],
@@ -45,7 +45,7 @@ const searchEventSample = (n: number, o: any): SearchEvent.SearchEvent[] =>
       },
     }))
     .map((ev) =>
-      toSearchEvent(ev as any, {
+      toSearchEvent(ev, {
         actors: new Map(),
         groups: new Map(),
         keywords: new Map(),
@@ -55,8 +55,6 @@ const searchEventSample = (n: number, o: any): SearchEvent.SearchEvent[] =>
     );
 
 describe.skip("Create Network Graph", () => {
-  beforeAll(async () => {});
-
   describe("getRelationLinks", () => {
     test("return correct links for 1 keyword", () => {
       const keywords = fc.sample(KeywordArb, 1);

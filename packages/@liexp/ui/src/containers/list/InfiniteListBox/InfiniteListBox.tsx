@@ -74,7 +74,7 @@ export const InfiniteListBox = <
     any,
     APIError,
     {
-      pages: Array<{ data: any[]; total: number }>;
+      pages: { data: any[]; total: number }[];
       lastPage: { data: any[]; total: number };
     },
     any,

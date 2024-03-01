@@ -10,7 +10,7 @@ import { type RaRecord } from "react-admin";
 import { uploadFile, type RawMedia } from "../../client/admin/MediaAPI.js";
 
 export const transformLinks = (links: any[]): any[] => {
-  return links.reduce<Array<string | { url: string; publishDate: Date }>>(
+  return links.reduce<(string | { url: string; publishDate: Date })[]>(
     (acc, l) => {
       if (l.fromURL) {
         return acc.concat({

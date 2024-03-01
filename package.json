@@ -7,7 +7,6 @@
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "license": "MIT",
   "private": true,
-  "type": "module",
   "workspaces": {
     "packages": [
       "packages/@liexp/*",

@@ -303,11 +303,10 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   );
 };
 
-interface EventsPanelBoxProps
-  extends Omit<
-    EventsPanelProps,
-    "groups" | "actors" | "keywords" | "groupsMembers"
-  > {}
+type EventsPanelBoxProps = Omit<
+  EventsPanelProps,
+  "groups" | "actors" | "keywords" | "groupsMembers"
+>;
 
 export const EventsPanelBox: React.FC<EventsPanelBoxProps> = ({
   query,

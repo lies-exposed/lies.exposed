@@ -188,7 +188,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
                   links: [],
                 };
               }
-              return await Promise.reject(new Error(`Can't create event ${t}`));
+              return Promise.reject(new Error(`Can't create event ${t}`));
             }}
           />
         </FormTab>

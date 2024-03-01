@@ -1,4 +1,4 @@
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { MP4Type } from "@liexp/shared/lib/io/http/Media.js";
 import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
@@ -28,7 +28,7 @@ export const parseVideo: TEFlow<[string, TelegramBot.Video], MediaEntity[]> =
         () => TE.right(undefined as any as string),
         (id) =>
           pipe(
-            TE.tryCatch(async () => {
+            fp.IOE.tryCatch(() => {
               ctx.logger.debug.log("Download thumb file from TG %s", id);
               const thumbFile = ctx.tg.api.getFileStream(id);
               ctx.logger.debug.log(
@@ -37,6 +37,7 @@ export const parseVideo: TEFlow<[string, TelegramBot.Video], MediaEntity[]> =
               );
               return thumbFile;
             }, toControllerError),
+            TE.fromIOEither,
             TE.chain((f) => {
               return ctx.s3.upload({
                 Bucket: ctx.env.SPACE_BUCKET,
@@ -60,7 +61,7 @@ export const parseVideo: TEFlow<[string, TelegramBot.Video], MediaEntity[]> =
           );
           const videoFile = ctx.tg.api.getFileStream(video.file_id);
 
-          return videoFile;
+          return Promise.resolve(videoFile);
         }, toControllerError),
         thumb: thumbTask,
       }),

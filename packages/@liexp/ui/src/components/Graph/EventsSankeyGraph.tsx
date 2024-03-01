@@ -382,7 +382,7 @@ const updateMap =
 const getLinks =
   (nodes: EventNetworkDatum[], relationLinks: Map<string, NetworkLink[]>) =>
   (
-    relations: Array<Common.BaseProps & { color: string }>,
+    relations: (Common.BaseProps & { color: string })[],
   ): Map<string, NetworkLink[]> => {
     return pipe(
       nodes,

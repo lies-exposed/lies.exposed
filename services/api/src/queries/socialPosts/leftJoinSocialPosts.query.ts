@@ -3,7 +3,7 @@ import { SocialPostEntity } from "#entities/SocialPost.entity.js";
 
 export const aggregateSocialPostsPerEntry = (
   key: string,
-  list: Array<{ socialPosts_ids: string[]; [index: string]: any }>,
+  list: { socialPosts_ids: string[]; [index: string]: any }[],
   e: { id: string },
 ): string[] => {
   return list

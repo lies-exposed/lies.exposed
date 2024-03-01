@@ -1,9 +1,9 @@
 import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { MigrationInterface, QueryRunner } from "typeorm";
+import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { DeathEventEntity } from "#entities/archive/DeathEvent.entity.js";
 import { EventEntity } from "#entities/archive/Event.entity.js";
-import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { ScientificStudyEntity } from "#entities/archive/ScientificStudy.entity.js";
-import { MigrationInterface, QueryRunner } from "typeorm";
 
 export class EventV21639419928672 implements MigrationInterface {
   name = "EventV21639419928672";

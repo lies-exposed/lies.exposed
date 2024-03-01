@@ -25,8 +25,8 @@ import { type RouteContext } from "#routes/route.types.js";
 export const fetchLinksT =
   (urlMetadata: URLMetadataClient) =>
   (
-    links: Array<http.Common.UUID | CreateLink>,
-  ): TE.TaskEither<DBError, Array<DeepPartial<LinkEntity>>> => {
+    links: (http.Common.UUID | CreateLink)[],
+  ): TE.TaskEither<DBError, DeepPartial<LinkEntity>[]> => {
     return pipe(
       links,
       A.reduce(
@@ -92,9 +92,9 @@ export const fetchRelationIds =
   ): TE.TaskEither<
     DBError,
     {
-      keywords: Array<DeepPartial<KeywordEntity>>;
-      links: Array<DeepPartial<LinkEntity>>;
-      media: Array<DeepPartial<MediaEntity>>;
+      keywords: DeepPartial<KeywordEntity>[];
+      links: DeepPartial<LinkEntity>[];
+      media: DeepPartial<MediaEntity>[];
     }
   > => {
     logger.debug.log("Links %O", input.links);

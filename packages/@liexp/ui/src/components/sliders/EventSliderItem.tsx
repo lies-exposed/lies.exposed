@@ -232,8 +232,10 @@ export const EventSliderItemBase: React.FC<EventSliderItemBaseProps> = ({
   );
 };
 
-interface EventSliderItemProps
-  extends Omit<EventListItemProps, "onRowInvalidate" | "onLoad"> {}
+type EventSliderItemProps = Omit<
+  EventListItemProps,
+  "onRowInvalidate" | "onLoad"
+>;
 
 const EventSliderItem: React.FC<EventSliderItemProps> = ({
   event: e,

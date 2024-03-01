@@ -73,8 +73,8 @@
     "sharp": "*"
   },
   "lint-staged": {
-    "**/*.(ts|tsx|js|jsx)": "eslint --fix",
-    "**/*.+(ts|tsx|js|jsx|json|css)": [
+    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix",
+    "src/**/*.+(ts|tsx|js|jsx|json|css)": [
       "prettier --write"
     ]
   }

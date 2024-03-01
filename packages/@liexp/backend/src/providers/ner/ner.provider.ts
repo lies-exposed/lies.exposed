@@ -1,27 +1,31 @@
+import { fp } from "@liexp/core/lib/fp/index.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { type IOError } from "ts-io-error";
+import { IOError } from "ts-io-error";
 import model from "wink-eng-lite-web-model";
 import winkNLP, {
-  type SentenceImportance,
   type CustomEntityExample,
   type Detail,
+  type SentenceImportance,
 } from "wink-nlp";
 import NLPUtils from "wink-nlp-utils";
+
+interface UniqueEntity extends Detail {
+  freq: number;
+}
+
+interface NERResults {
+  entities: UniqueEntity[];
+  sentences: { text: string; importance: number }[];
+}
 
 interface NERProvider {
   entitiesFile: string;
   process: (
     text: string,
     patterns: CustomEntityExample[],
-  ) => TE.TaskEither<
-    IOError,
-    {
-      entities: Detail[];
-      sentences: Array<{ text: string; importance: number }>;
-    }
-  >;
+  ) => TE.TaskEither<IOError, NERResults>;
 }
 
 export const GetNERProvider = (ctx: { logger: Logger }): NERProvider => {
@@ -30,8 +34,8 @@ export const GetNERProvider = (ctx: { logger: Logger }): NERProvider => {
     process: (text, patterns) => {
       ctx.logger.debug.log("Looking for %O", patterns);
       return pipe(
-        TE.tryCatch(
-          async () => {
+        fp.IOE.tryCatch(
+          (): NERResults => {
             const nlp = winkNLP(model);
             nlp.learnCustomEntities(patterns, {
               useEntity: true,
@@ -59,31 +63,35 @@ export const GetNERProvider = (ctx: { logger: Logger }): NERProvider => {
 
             const sentences = doc.sentences();
 
-            const wiseImportantSentences = sentencesImportance.flatMap((s) => {
-              const sentence =
-                s.importance > 0.001 && sentences.itemAt(s.index);
-              if (sentence) {
-                return [
-                  {
-                    text: sentence.out(),
-                    importance: s.importance,
-                  },
-                ];
-              }
-              return [];
-            });
+            const wiseImportantSentences: NERResults["sentences"] =
+              sentencesImportance.flatMap((s) => {
+                const sentence =
+                  s.importance > 0.001 && sentences.itemAt(s.index);
 
-            const entities: any[] = doc
+                if (sentence) {
+                  return [
+                    {
+                      text: sentence.out(),
+                      importance: s.importance,
+                    },
+                  ];
+                }
+                return [];
+              });
+
+            const entities = doc
               .customEntities()
-              .out(nlp.its.detail, nlp.as.freqTable);
+              .out(nlp.its.detail, nlp.as.freqTable) as Detail[];
 
-            let uniqueEntities: Array<Detail & { freq: number }> = entities
-              .map((e) => ({
-                ...e,
-                value: e.type === "keyword" ? e.value.toLowerCase() : e.value,
-                freq: 0,
-              }))
-              .reduce<any[]>((acc, n) => {
+            let uniqueEntities: (Detail & { freq: number })[] = entities
+              .map(
+                (e): UniqueEntity => ({
+                  ...e,
+                  value: e.type === "keyword" ? e.value.toLowerCase() : e.value,
+                  freq: 0,
+                }),
+              )
+              .reduce<UniqueEntity[]>((acc, n) => {
                 const included = acc.findIndex(
                   (i) => i.value === n.value && i.type === n.type,
                 );
@@ -93,6 +101,7 @@ export const GetNERProvider = (ctx: { logger: Logger }): NERProvider => {
                 }
                 return acc.concat({ ...n });
               }, []);
+
             doc.tokens().each((t) => {
               const parentCustomEntity = t.parentCustomEntity();
               if (parentCustomEntity) {
@@ -116,10 +125,15 @@ export const GetNERProvider = (ctx: { logger: Logger }): NERProvider => {
               ctx.logger.debug.log("Found entities %O", uniqueEntities);
             }
 
-            return { entities, sentences: wiseImportantSentences };
+            return {
+              entities: uniqueEntities,
+              sentences: wiseImportantSentences,
+            };
           },
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
           (e: any) => e,
         ),
+        fp.TE.fromIOEither,
       );
     },
   };

@@ -1,4 +1,4 @@
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { MediaType } from "@liexp/shared/lib/io/http/Media.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import * as A from "fp-ts/lib/Array.js";
@@ -23,10 +23,11 @@ export const parsePhoto: TEFlow<
       A.map((p) => {
         const mediaId = uuid();
         return pipe(
-          TE.tryCatch(
-            async () => ctx.tg.api.getFileStream(p.file_id),
+          fp.IOE.tryCatch(
+            () => ctx.tg.api.getFileStream(p.file_id),
             toControllerError,
           ),
+          TE.fromIOEither,
           TE.chain((f) => {
             ctx.logger.debug.log("File downloaded %O", f);
 

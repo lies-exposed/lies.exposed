@@ -2,12 +2,12 @@ import baseConfig from "@liexp/core/lib/eslint/base.config.js";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(...baseConfig, {
-  files: ["src/**/*.ts"],
-  ignores: ["vitest.config.ts"],
+  files: ["src/**/*.ts", "src/**/*.tsx"],
+  ignores: ["eslint.config.js", "vitest.config.ts"],
   languageOptions: {
     parserOptions: {
       tsconfigRootDir: import.meta.dirname,
-      project: ["./tsconfig.json", "./packages/@liexp/*/tsconfig.json"],
+      project: ["./tsconfig.json"],
     },
   },
   settings: {

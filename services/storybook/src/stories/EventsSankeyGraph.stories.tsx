@@ -43,7 +43,7 @@ const Template: StoryFn<EventsSankeyGraphProps> = (props) => {
 const NetworkGraphExample = Template.bind({});
 
 const args: EventsSankeyGraphProps = {
-  scale: "all" as "all",
+  scale: "all" as const,
   groupBy: "group",
   scalePoint: O.none,
   events: uncategorizedEvents as any[],

@@ -5,7 +5,7 @@ import type * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 
 export const throwTE = async <E, A>(te: TE.TaskEither<E, A>): Promise<A> => {
-  return await te().then((rr) => {
+  return te().then((rr) => {
     if (rr._tag === "Left") {
       return Promise.reject(rr.left);
     }
@@ -19,7 +19,7 @@ export const throwTE = async <E, A>(te: TE.TaskEither<E, A>): Promise<A> => {
  * @returns
  */
 export const separateTE = <E, A>(
-  tasks: Array<TE.TaskEither<E, A>>,
+  tasks: TE.TaskEither<E, A>[],
 ): T.Task<{ left: E[]; right: A[] }> => {
   return pipe(
     tasks,

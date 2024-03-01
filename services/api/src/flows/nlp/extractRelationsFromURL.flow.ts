@@ -26,7 +26,7 @@ export const extractRelationsFromURL: TEFlow<
       groupsMembers: GroupMemberEntity[];
       media: MediaEntity[];
     };
-    sentences: Array<{ text: string; importance: number }>;
+    sentences: { text: string; importance: number }[];
   }
 > = (ctx) => (p, url) => {
   const id = GetEncodeUtils<string>((url) => ({ url })).hash(url);
@@ -39,7 +39,7 @@ export const extractRelationsFromURL: TEFlow<
           await p.goto(url, {
             waitUntil: "networkidle0",
           });
-          return await p.$eval("body", (b) => b.innerText);
+          return p.$eval("body", (b) => b.innerText);
         }, toControllerError),
       ),
     ),

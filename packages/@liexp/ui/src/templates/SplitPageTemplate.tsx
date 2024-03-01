@@ -114,9 +114,9 @@ export interface SplitPageTemplateProps {
         avatar?: string;
       };
   asideBottom?: React.ReactNode;
-  tabs: Array<{
+  tabs: {
     label: string;
-  }>;
+  }[];
   share?: {
     title: string;
     message: string;

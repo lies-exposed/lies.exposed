@@ -10,7 +10,7 @@ import { addOrder } from "#utils/orm.utils.js";
 interface SearchEventSuggestionFilter {
   status: O.Option<http.EventSuggestion.EventSuggestionStatus[]>;
   links: O.Option<UUID[]>;
-  newLinks: O.Option<Array<Partial<http.Link.CreateLink>>>;
+  newLinks: O.Option<Partial<http.Link.CreateLink>[]>;
   order: Record<string, "ASC" | "DESC">;
   skip: number;
   take: number;

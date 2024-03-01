@@ -100,7 +100,7 @@ export const fetchAreas: TEFlow<
             }));
             return [entities, count];
           }
-          return await q.getManyAndCount();
+          return q.getManyAndCount();
         }),
       ),
     );

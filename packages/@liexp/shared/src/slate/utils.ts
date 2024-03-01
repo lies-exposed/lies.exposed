@@ -23,7 +23,6 @@ import {
   isEventBlockCell,
 } from "./plugins/customSlate.js";
 
-
 export const getTextContents = (v: Value, j?: string): string => {
   return defaultGetTextContents(v, {
     lang: "en",
@@ -180,7 +179,7 @@ const deserializeCell = (c: Cell): Option<InlineRelation[]> => {
   if (c.dataI18n?.en?.slate) {
     if (isSlatePlugin(c)) {
       // console.log("is slate plugin");
-      const plugins: Array<SlateComponentPluginDefinition<any>> = c.dataI18n.en
+      const plugins: SlateComponentPluginDefinition<any>[] = c.dataI18n.en
         .slate as any;
 
       return pipe(
