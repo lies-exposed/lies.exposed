@@ -30,7 +30,7 @@ const run = async (): Promise<void> => {
 
   const ctx = await startContext();
 
-  return await pipe(
+  return pipe(
     createStats(ctx)(type, id),
     fp.TE.bimap(
       (err) => {

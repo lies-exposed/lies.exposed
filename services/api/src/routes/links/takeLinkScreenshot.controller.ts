@@ -35,20 +35,18 @@ export const MakeTakeLinkScreenshotRoute = (
 
       const getMediaOrMakeFromLinkTask = (
         link: LinkEntity,
-      ): TE.TaskEither<ControllerError, Array<Partial<MediaEntity>>> =>
+      ): TE.TaskEither<ControllerError, Partial<MediaEntity>[]> =>
         pipe(
           fp.O.fromNullable<Partial<MediaEntity> | null>(link.image),
           fp.O.map(fp.A.of),
-          fp.O.getOrElse(
-            (): Array<Partial<MediaEntity>> => [
-              {
-                id: uuid() as any,
-                label: link.title,
-                description: link.description ?? link.title,
-                type: PngType.value,
-              },
-            ],
-          ),
+          fp.O.getOrElse((): Partial<MediaEntity>[] => [
+            {
+              id: uuid() as any,
+              label: link.title,
+              description: link.description ?? link.title,
+              type: PngType.value,
+            },
+          ]),
           TE.right,
         );
 

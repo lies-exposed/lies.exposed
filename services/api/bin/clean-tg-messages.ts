@@ -1,9 +1,10 @@
 import * as fs from "fs";
 import * as path from "path";
-import { fc } from "@liexp/test";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { fc } from "@liexp/test/lib/index.js";
 import dotenv from "dotenv";
 
-const run = async (): Promise<void> => {
+const run = (): void => {
   dotenv.config();
 
   const messagesDir = path.resolve(__dirname, `../temp/tg/messages`);
@@ -49,4 +50,17 @@ const run = async (): Promise<void> => {
 };
 
 // eslint-disable-next-line no-console
-void run().catch(console.error);
+pipe(
+  fp.IOE.tryCatch(run, fp.E.toError),
+  fp.IOE.fold(
+    (e) => () => {
+      // eslint-disable-next-line no-console
+      console.error(e);
+      process.exit(1);
+    },
+    () => () => {
+      // eslint-disable-next-line no-console
+      console.log("Done!");
+    },
+  ),
+)();

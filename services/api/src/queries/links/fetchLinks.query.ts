@@ -135,7 +135,7 @@ export const fetchLinks: TEFlow<
 
           q.skip(findOptions.skip).take(findOptions.take);
 
-          return await q.getRawAndEntities().then(async (results) => {
+          return q.getRawAndEntities().then(async (results) => {
             const count = await q.getCount();
 
             const entities = results.entities.map((e) => ({

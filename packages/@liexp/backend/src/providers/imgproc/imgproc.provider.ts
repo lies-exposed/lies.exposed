@@ -60,7 +60,7 @@ export const MakeImgProcClient = ({
   exifR,
 }: MakeImgProcClientConfig): ImgProcClient => {
   return {
-    run: (f) => TE.tryCatch(async () => await f(client), toError(logger)),
+    run: (f) => TE.tryCatch(async () => f(client), toError(logger)),
     readExif: (file, opts) => {
       return pipe(
         fp.TE.tryCatch(

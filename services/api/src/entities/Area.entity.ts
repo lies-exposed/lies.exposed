@@ -41,7 +41,7 @@ export class AreaEntity {
   geometry: Geometry.Geometry;
 
   @Column({ type: "json", nullable: true })
-  body: unknown | null;
+  body: Record<string, any> | null;
 
   @ManyToMany(() => MediaEntity, (m) => m.areas)
   @JoinTable()

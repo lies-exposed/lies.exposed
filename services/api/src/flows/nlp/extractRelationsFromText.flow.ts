@@ -27,7 +27,7 @@ export const extractRelationsFromText: TEFlow<
       groupsMembers: GroupMemberEntity[];
       media: MediaEntity[];
     };
-    sentences: Array<{ text: string; importance: number }>;
+    sentences: { text: string; importance: number }[];
   }
 > = (ctx) => (text) => {
   const nerProvider = GetNERProvider(ctx);

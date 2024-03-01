@@ -94,7 +94,6 @@ services:
     # ports:
     #   - "127.0.0.1:80:4020"
     volumes:
-      - ./.eslintrc.js:/app/.eslintrc.js
       - ./tsconfig.json:/app/tsconfig.json
       - ./packages/@liexp/core:/app/packages/@liexp/core:cached
       - ./packages/@liexp/shared:/app/packages/@liexp/shared:cached
@@ -125,7 +124,6 @@ services:
     env_file:
       - ./services/admin-web/.env
     volumes:
-      - ./.eslintrc.js:/app/.eslintrc.js
       - ./tsconfig.json:/app/tsconfig.json
       - ./packages/@liexp/core:/app/packages/@liexp/core:cached
       - ./packages/@liexp/shared:/app/packages/@liexp/shared:cached

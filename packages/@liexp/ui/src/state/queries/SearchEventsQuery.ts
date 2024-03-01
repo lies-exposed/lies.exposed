@@ -147,8 +147,10 @@ export interface SearchEventQueryInput
   slide?: boolean;
 }
 
-export interface SearchEventsQueryInputNoPagination
-  extends Omit<SearchEventQueryInput, "_start" | "_end"> {}
+export type SearchEventsQueryInputNoPagination = Omit<
+  SearchEventQueryInput,
+  "_start" | "_end"
+>;
 
 const searchEventsQ =
   (api: API) =>
@@ -214,8 +216,8 @@ const searchEventsQ =
 
 export const getSearchEventsQueryKey = (
   p: Partial<SearchEventQueryInput>,
-): [string, any] => {
-  return ["events-search", { _start: 0, _end: 20, ...p }];
+): [string, any, any, any] => {
+  return ["events-search", { _start: 0, _end: 20, ...p }, undefined, undefined];
 };
 
 export const fetchSearchEvents =
@@ -242,9 +244,9 @@ export const searchEventsQuery = (
 };
 
 export const getSearchEventsInfiniteQueryKey = (
-  input: any,
-): [string, SearchEventQueryInput] => {
-  return ["events-search-infinite", input];
+  input: Partial<SearchEventQueryInput>,
+): [string, Partial<SearchEventQueryInput>, any, any] => {
+  return ["events-search-infinite", input, undefined, undefined];
 };
 
 export const fetchSearchEventsInfinite =
@@ -295,7 +297,7 @@ export const getEventsFromLinkQuery =
     return useQuery({
       queryKey: ["events-from-link", url],
       queryFn: async () => {
-        return await pipe(
+        return pipe(
           api.Event.Custom.GetFromLink({
             Query: {
               url,

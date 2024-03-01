@@ -1,6 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as O from "fp-ts/lib/Option.js";
@@ -68,8 +67,8 @@ export const MakeCreatePatentEventRoute: Route = (r, ctx) => {
               ...payload,
               source: link.id,
               owners: {
-                actors: actors.map((a) => a.id as UUID),
-                groups: groups.map((g) => g.id as UUID),
+                actors: actors.map((a) => a.id),
+                groups: groups.map((g) => g.id),
               },
             },
             media,

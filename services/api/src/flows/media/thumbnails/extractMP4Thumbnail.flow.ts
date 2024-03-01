@@ -24,7 +24,7 @@ export const takeVideoScreenshots: TEFlow<
       opts: Ffmpeg.ScreenshotsConfig;
     },
   ],
-  Array<{ key: string; thumbnailName: string }>
+  { key: string; thumbnailName: string }[]
 > =
   (ctx) =>
   ({ filename, media, tempVideoFilePath, opts: screenshotOpts }) => {

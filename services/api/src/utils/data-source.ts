@@ -97,6 +97,6 @@ export const getDataSource = (
     // if (!dataSource.isInitialized) {
     //   await dataSource.initialize();
     // }
-    return dataSource;
+    return Promise.resolve(dataSource);
   }, toControllerError);
 };

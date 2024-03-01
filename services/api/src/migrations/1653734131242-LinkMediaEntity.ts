@@ -1,6 +1,6 @@
-import { LinkEntity } from "#entities/Link.entity.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { LinkEntity } from "#entities/Link.entity.js";
 
 export class LinkMediaEntity1653734131242 implements MigrationInterface {
   name = "LinkMediaEntity1653734131242";
@@ -19,10 +19,11 @@ export class LinkMediaEntity1653734131242 implements MigrationInterface {
     );
 
     await Promise.all(
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       links
         .filter((l: any) => l.image !== null)
         .map(async (l: any) => {
-          const image = l.image ? (l.image as any as string) : "";
+          const image = l.image ? (l.image as string) : "";
           const media = await queryRunner.manager.getRepository("image").save({
             id: uuid(),
             type: "image/jpeg",

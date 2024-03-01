@@ -82,7 +82,7 @@ export const IGProvider = (opts: IGProviderOpts): IGProvider => {
             // Get the code
             const { code } = await onError(err.response.body, err);
             // Use the code to finish the login process
-            return await ig.account.twoFactorLogin({
+            return ig.account.twoFactorLogin({
               username,
               verificationCode: code,
               twoFactorIdentifier: two_factor_identifier,

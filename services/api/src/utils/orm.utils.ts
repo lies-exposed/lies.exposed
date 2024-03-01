@@ -16,7 +16,7 @@ import {
 } from "typeorm";
 
 export interface ORMOrder {
-  order: Record<"random" | string, "ASC" | "DESC">;
+  order: Record<string, "ASC" | "DESC">;
 }
 
 interface ORMPagination {

@@ -148,9 +148,7 @@ const europeVaccineDistributionFirstDoseLineId =
 const europeVaccineDistributionSecondDoseLineId =
   "europe-vaccine-distribution-second-dose-line";
 
-const getDatumTableData = (
-  v: VaccineDatum,
-): Array<[string, string, number]> => {
+const getDatumTableData = (v: VaccineDatum): [string, string, number][] => {
   return [
     v.total_death_0_1_month,
     v.total_death_2_month_2_years,
@@ -169,7 +167,7 @@ const getDatumTableData = (
 };
 
 interface VaccineDatumTableProps {
-  data: Array<[string, string, number]>;
+  data: [string, string, number][];
   labelVariant?: TypographyProps["variant"];
   valueVariant?: TypographyProps["variant"];
 }

@@ -17,7 +17,7 @@ export interface MapProps<G extends Geometry> {
   id: string;
   width: number;
   height: number;
-  features: Array<Feature<G>>;
+  features: Feature<G>[];
   center?: [number, number];
   zoom?: number;
   interactions?: any;

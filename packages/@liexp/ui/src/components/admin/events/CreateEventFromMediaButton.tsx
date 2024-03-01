@@ -1,5 +1,6 @@
 import { eventRelationIdsMonoid } from "@liexp/shared/lib/helpers/event/event.js";
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
+import { Media } from "@liexp/shared/lib/io/http/Media.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import * as O from "fp-ts/lib/Option.js";
 import { useRecordContext } from "ra-core";
@@ -9,7 +10,7 @@ import { useNavigate } from "react-router";
 import { Box, MenuItem, Select, Stack } from "../../mui/index.js";
 
 export const CreateEventFromMediaButton: React.FC = () => {
-  const record = useRecordContext();
+  const record = useRecordContext<Media>();
   const navigate = useNavigate();
   const apiProvider = useDataProvider();
 
@@ -20,7 +21,7 @@ export const CreateEventFromMediaButton: React.FC = () => {
   const handleSubmit = async (): Promise<void> => {
     const suggestion = getSuggestions(
       {
-        title: record.description.substr(0, 100),
+        title: record.label ?? record.description?.substring(0, 100),
         description: record.description,
       } as any,
       O.none,
@@ -28,7 +29,10 @@ export const CreateEventFromMediaButton: React.FC = () => {
       eventRelationIdsMonoid.empty,
     ).find((t) => t.event.type === type);
 
-    const { newLinks, ...event }: any = suggestion?.event;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { newLinks: _newLinks, ...event }: any = suggestion?.event ?? {
+      newLinks: [],
+    };
     const { data: e } = await apiProvider.create(`/events`, {
       data: event,
     });
@@ -36,7 +40,7 @@ export const CreateEventFromMediaButton: React.FC = () => {
     navigate(`/events/${e.id}`);
   };
 
-  if (record?.events?.legnth > 0) {
+  if (record?.events?.length > 0) {
     return <Box />;
   }
 

@@ -57,11 +57,11 @@ export const fetchQuery =
         R.isEmpty(params.filter) ||
         (params.filter?.ids && params.filter?.ids.length === 0)
       ) {
-        return await emptyQuery();
+        return emptyQuery();
       }
     }
 
-    return await q(params, query);
+    return q(params, query);
   };
 
 const toGetResourceQuery = <G>(

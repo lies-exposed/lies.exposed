@@ -11,8 +11,8 @@ import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 
 type HierarchyLinkedNode<N> = N & {
-  incoming: Array<[HierarchyLinkedNode<N>, HierarchyLinkedNode<N>]>;
-  outgoing: Array<[HierarchyLinkedNode<N>, HierarchyLinkedNode<N>]>;
+  incoming: [HierarchyLinkedNode<N>, HierarchyLinkedNode<N>][];
+  outgoing: [HierarchyLinkedNode<N>, HierarchyLinkedNode<N>][];
 };
 
 function bilink(
@@ -74,7 +74,7 @@ export function HierarchicalEdgeBundling({
   const tree = d3.cluster().size([2 * Math.PI, radius - 100]);
 
   const getData = (): {
-    children: Array<{ id: string; children: HierarchicalEdgeBundlingDatum[] }>;
+    children: { id: string; children: HierarchicalEdgeBundlingDatum[] }[];
   } => {
     const { nodes, links } = graph;
     const nodeMap = new Map<

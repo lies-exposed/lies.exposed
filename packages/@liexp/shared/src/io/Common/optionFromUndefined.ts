@@ -4,8 +4,11 @@ import { pipe } from "fp-ts/lib/function.js";
 import * as t from "io-ts";
 import { option } from "io-ts-types/lib/option.js";
 
-export interface OptionFromUndefinedC<C extends t.Mixed>
-  extends t.Type<O.Option<t.TypeOf<C>>, t.OutputOf<C> | undefined, unknown> {}
+export type OptionFromUndefinedC<C extends t.Mixed> = t.Type<
+  O.Option<t.TypeOf<C>>,
+  t.OutputOf<C> | undefined,
+  unknown
+>;
 
 export const optionFromUndefined = <C extends t.Mixed>(
   codec: C,

@@ -13,7 +13,7 @@ const classes = {
   container: `${MODAL_PREFIX}-container`,
   paper: `${MODAL_PREFIX}-paper`,
 };
-interface ModalProps extends MUIModalProps {}
+type ModalProps = MUIModalProps;
 
 const StyledModal = styled(MUIModal)(({ theme }) => ({
   [`&.${classes.root}`]: {},

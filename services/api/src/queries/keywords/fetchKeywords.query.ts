@@ -86,7 +86,7 @@ export const fetchKeywords: TEFlow<
             }));
             return [entities, count];
           }
-          return await q.getManyAndCount();
+          return q.getManyAndCount();
         });
       },
     );

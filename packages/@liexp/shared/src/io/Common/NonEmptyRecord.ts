@@ -9,8 +9,11 @@ export type NonEmptyRecord<P extends t.Props> = t.Branded<
   NonEmptyRecordBrand
 >;
 
-export interface NonEmptyRecordC<P extends t.Props>
-  extends t.Type<NonEmptyRecord<P>, unknown, unknown> {}
+export type NonEmptyRecordC<P extends t.Props> = t.Type<
+  NonEmptyRecord<P>,
+  unknown,
+  unknown
+>;
 
 /**
  * A codec that succeeds if a record is not empty

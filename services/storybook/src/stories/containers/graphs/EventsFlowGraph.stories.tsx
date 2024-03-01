@@ -17,10 +17,8 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: StoryFn<EventsFlowGraphBoxProps> = ({ type, id, ...props }) => {
-  const [item, setActor] = React.useState<any | undefined>(
-    id ? { id } : undefined,
-  );
+const Template: StoryFn<EventsFlowGraphBoxProps> = ({ type, id }) => {
+  const [item, setActor] = React.useState<any>(id ? { id } : undefined);
 
   const AutocompleteItemInput = React.useMemo(() => {
     switch (type) {
@@ -51,7 +49,10 @@ const Template: StoryFn<EventsFlowGraphBoxProps> = ({ type, id, ...props }) => {
             startDate: subYears(new Date(), 5).toISOString(),
             endDate: new Date().toISOString(),
           }}
-          onEventClick={() => {}}
+          onEventClick={() => {
+            // eslint-disable-next-line no-console
+            console.log("Event clicked");
+          }}
         />
       ) : null}
     </Box>

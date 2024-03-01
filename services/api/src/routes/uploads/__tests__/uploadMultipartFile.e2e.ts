@@ -15,7 +15,7 @@ describe("Upload file", () => {
     } as any)()}`;
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     Test.mocks.s3.client.send.mockClear();
   });
 
