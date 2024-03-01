@@ -7,7 +7,7 @@
     "typeRoots": ["typings"]
   },
   "include": ["./src"],
-  "exclude": ["node_modules", ".eslintrc.js", "lib"],
+  "exclude": ["node_modules", "eslint.config.js", "lib"],
   "references": [
     {
       "path": "../core"

@@ -61,7 +61,7 @@ const MapInput: React.FC<MapInputProps> = ({
         ? (format.readFeature(value) as FeatureLike)
         : undefined;
 
-      const features: Array<Feature<Geometry>> = maybeFeatures
+      const features: Feature<Geometry>[] = maybeFeatures
         ? Array.isArray(maybeFeatures)
           ? maybeFeatures
           : [maybeFeatures as Feature<Geometry>]

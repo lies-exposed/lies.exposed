@@ -20,7 +20,7 @@ export const useProjectQuery = (
     // eslint-disable-next-line @tanstack/query/exhaustive-deps
     queryKey: ["project", params.id],
     queryFn: async () => {
-      return await fromEndpoints(dp)(Endpoints).Endpoints.Project.get(params);
+      return fromEndpoints(dp)(Endpoints).Endpoints.Project.get(params);
     },
   });
 };
@@ -44,7 +44,7 @@ export const useJSONDataQuery =
       // eslint-disable-next-line @tanstack/query/exhaustive-deps
       queryKey: ["json", id],
       queryFn: async () => {
-        return await jsonData(jsonClient)(decode)({ id });
+        return jsonData(jsonClient)(decode)({ id });
       },
     });
   };

@@ -23,7 +23,7 @@ const Root = styled("div")(({ theme }) => ({
 
 interface CounterProps {
   message?: string;
-  sources: Array<{ label: string; url: string }>;
+  sources: { label: string; url: string }[];
   getCount: () => number | string;
 }
 export const Counter: React.FC<CounterProps> = (props) => {

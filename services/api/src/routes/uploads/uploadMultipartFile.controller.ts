@@ -33,7 +33,7 @@ export const MakeUploadMultipartFileRoute = (
       ctx.logger.debug.log("body %O", req.body);
       ctx.logger.debug.log("File %O", req.file);
 
-      return await pipe(
+      return pipe(
         sequenceS(TE.ApplicativePar)({
           file: pipe(
             req.file,

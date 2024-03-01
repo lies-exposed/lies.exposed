@@ -2,10 +2,7 @@ import * as React from "react";
 import { Box } from "../mui/index.js";
 import { MediaSlider, type MediaSliderProps } from "../sliders/MediaSlider.js";
 
-interface MediaModalContentProps extends MediaSliderProps {
-  //   query: MediaSliderBoxProps["query"];
-  // media: Media.Media[];
-}
+type MediaModalContentProps = MediaSliderProps;
 
 export const MediaModalContent: React.FC<MediaModalContentProps> = ({
   ...props

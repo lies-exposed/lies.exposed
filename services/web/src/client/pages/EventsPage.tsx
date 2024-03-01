@@ -36,7 +36,7 @@ const useEventsPageQuery = (): GetSearchEventsQueryInput & {
   }, [query]);
 };
 
-interface EventsPageProps extends Omit<EventsView, "view"> {}
+type EventsPageProps = Omit<EventsView, "view">;
 
 const EventsPage: React.FC<EventsPageProps> = () => {
   const { hash, tab, ...query } = useEventsPageQuery();

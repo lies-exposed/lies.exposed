@@ -42,10 +42,10 @@ interface EventDatum {
 
 export interface SocietyCollapseForecastGraphProps {
   data: Forecast[];
-  points: Array<{
+  points: {
     year: number;
     gtCO2: number;
-  }>;
+  }[];
   events: EventDatum[];
   style?: React.CSSProperties;
   width: number;

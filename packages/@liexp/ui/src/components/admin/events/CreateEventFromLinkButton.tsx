@@ -1,11 +1,13 @@
 import { getRelationIdsFromEventRelations } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
+import { EventSuggestion } from "@liexp/shared/lib/io/http/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import * as O from "fp-ts/lib/Option.js";
 import { useRecordContext } from "ra-core";
 import * as React from "react";
-import { Button, useDataProvider } from "react-admin";
+import { Button } from "react-admin";
 import { useNavigate } from "react-router";
+import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { Box, MenuItem, Select } from "../../mui/index.js";
 import EventPreview from "../previews/EventPreview.js";
 
@@ -17,7 +19,9 @@ export const CreateEventFromLinkButton: React.FC = () => {
   const [type, setType] = React.useState<string>(
     io.http.Events.EventType.types[1].value,
   );
-  const [suggestion, setSuggestion] = React.useState<any>(undefined);
+  const [suggestion, setSuggestion] = React.useState<
+    EventSuggestion.CreateEventSuggestion | undefined
+  >(undefined);
 
   if (record?.events?.legnth > 0) {
     return <Box />;
@@ -25,12 +29,12 @@ export const CreateEventFromLinkButton: React.FC = () => {
 
   const getSuggestionFromAPI = React.useCallback(async () => {
     if (suggestion) {
-      return suggestion;
+      return Promise.resolve(suggestion);
     }
 
-    return apiProvider
+    const result = await apiProvider
       .get("open-graph/metadata", { url: record.url, type: "Link" })
-      .then(async ({ data: { metadata: m, relations } }: any) => {
+      .then(({ data: { metadata: m, relations } }: any) => {
         const suggestions = getSuggestions(
           m,
           O.some(record as any),
@@ -40,6 +44,8 @@ export const CreateEventFromLinkButton: React.FC = () => {
 
         return suggestions.find((t) => t.event.type === type);
       });
+
+    return result;
   }, [record, type]);
 
   return (
@@ -93,8 +99,9 @@ export const CreateEventFromLinkButton: React.FC = () => {
             event={{
               ...suggestion.event,
               date: suggestion.event.date.toISOString(),
-              createdAt: suggestion.event.createdAt.toISOString(),
-              updatedAt: suggestion.event.updatedAt.toISOString(),
+              // TODO: fix this
+              // createdAt: suggestion.event.createdAt.toISOString(),
+              // updatedAt: suggestion.event.updatedAt.toISOString(),
             }}
           />
         </Box>

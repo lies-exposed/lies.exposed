@@ -22,8 +22,8 @@ async function findByLink(
   linkString: RegExp,
 ): Promise<puppeteer.ElementHandle<HTMLButtonElement> | null> {
   const links = await page.$$("button");
-  for (let i = 0; i < links.length; i++) {
-    const valueHandle = await links[i].getProperty("innerText");
+  for (const link of links) {
+    const valueHandle = await link.getProperty("innerText");
     const linkText = await valueHandle.jsonValue();
     const text = getText(linkText);
     const textMatch = text.match(linkString);
@@ -31,7 +31,7 @@ async function findByLink(
       // console.log(linkString);
       // console.log(text, textMatch);
       // console.log("Found");
-      return links[i];
+      return link;
     }
   }
   return null;

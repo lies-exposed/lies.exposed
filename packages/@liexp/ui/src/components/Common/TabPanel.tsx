@@ -5,8 +5,7 @@ export const TabPanel: React.FC<
     index: number;
     value: number;
     className?: string;
-  }> &
-    any
+  }>
 > = (props) => {
   const { children, value, index, ...other } = props;
 

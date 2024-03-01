@@ -7,5 +7,5 @@
     ],
   },
   "include": ["./src"],
-  "exclude": ["node_modules", "lib", ".eslintrc.js"]
+  "exclude": ["node_modules", "lib", "eslint.config.js"]
 }

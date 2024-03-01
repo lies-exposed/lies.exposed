@@ -9,7 +9,7 @@ import { toControllerError } from "#io/ControllerError.js";
 
 interface ToPinnedMessageOptions {
   bot: string;
-  keywords: Array<{ tag: string; eventCount: number }>;
+  keywords: { tag: string; eventCount: number }[];
   keywordLimit: number;
   // actors: Array<{ fullName: string; eventCount: number }>;
   // actorLimit: number;

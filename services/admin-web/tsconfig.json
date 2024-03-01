@@ -29,6 +29,6 @@
       "@client/*": ["./client/*"]
     }
   },
-  "include": ["./src", "./typings", ".eslintrc.cjs", "vite.config.ts"],
+  "include": ["./src", "./typings", "eslint.config.js", "vite.config.ts"],
   "exclude": ["node_modules", "build"]
 }

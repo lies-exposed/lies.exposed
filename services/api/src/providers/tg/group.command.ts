@@ -23,7 +23,7 @@ export const groupCommand = (ctx: RouteContext): TGBotProvider => {
     match: RegExpExecArray | null,
   ): Promise<void> => {
     if (!match || match[1] === "") {
-      return;
+      return Promise.resolve();
     }
 
     ctx.logger.debug.log(`Match %O`, match);
@@ -34,7 +34,7 @@ export const groupCommand = (ctx: RouteContext): TGBotProvider => {
     ctx.logger.debug.log("/group %s", commandContext.search, username);
 
     void pipe(
-      findUserOrReplyFlow(ctx)((user) =>
+      findUserOrReplyFlow(ctx)(() =>
         pipe(
           ctx.db.findOne(GroupEntity, { where: { username } }),
           fp.TE.chain((g) => {

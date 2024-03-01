@@ -25,7 +25,7 @@ export const LinkDataGrid: React.FC<DatagridProps> = (props) => {
   return (
     <Datagrid rowClick="edit" {...props}>
       <FunctionField
-        render={(r: any) => {
+        render={() => {
           return (
             <Box style={{ display: "flex", flexDirection: "column" }}>
               <MediaField
@@ -56,11 +56,11 @@ export const LinkDataGrid: React.FC<DatagridProps> = (props) => {
 
       <FunctionField
         label="resources.links.fields.events_length"
-        render={(r: any | undefined) => r?.events?.length ?? "-"}
+        render={(r: any) => `${r?.events?.length ?? "-"}`}
       />
       <FunctionField
         label="resources.links.fields.social_posts_length"
-        render={(r: any | undefined) => r?.socialPosts?.length ?? "-"}
+        render={(r: any) => `${r?.socialPosts?.length ?? "-"}`}
       />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />

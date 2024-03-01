@@ -12,7 +12,6 @@ COPY services/api ./services/api
 COPY services/web ./services/web
 COPY services/admin-web ./services/admin-web
 
-COPY .eslintrc.js .
 COPY package.json .
 COPY .yarnrc.yml .
 COPY yarn.lock .

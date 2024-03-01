@@ -57,7 +57,7 @@ export const extractThumbnailFromVideoPlatform = (
         case "bitchute": {
           await page.waitForSelector(".plyr__poster");
 
-          return await page.$eval(".plyr__poster", (el) => {
+          return page.$eval(".plyr__poster", (el) => {
             const style = el.getAttribute("style");
 
             const coverUrl = style
@@ -90,7 +90,7 @@ export const extractThumbnailFromVideoPlatform = (
           const selector = ".vjs-poster";
           await page.waitForSelector(selector);
 
-          return await page.$eval(selector, (el) => {
+          return page.$eval(selector, (el) => {
             const style = el.getAttribute("style");
 
             const coverUrl = style
@@ -126,7 +126,7 @@ export const extractThumbnailFromVideoPlatform = (
 
             await page.waitForSelector(selector);
 
-            return await page.$eval(selector, (el) => {
+            return page.$eval(selector, (el) => {
               return el.getAttribute("src");
             });
           }

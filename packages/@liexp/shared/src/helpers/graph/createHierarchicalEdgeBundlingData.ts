@@ -84,7 +84,7 @@ export const createHierarchicalEdgeBundling = ({
         keywords: eventKeywords,
       });
 
-      const eventRelation: Array<Keyword.Keyword | Actor.Actor | Group.Group> =
+      const eventRelation: (Keyword.Keyword | Actor.Actor | Group.Group)[] =
         relation === Stats.StatsType.types[1].value
           ? eventActors
           : relation === Stats.StatsType.types[0].value
@@ -93,7 +93,7 @@ export const createHierarchicalEdgeBundling = ({
       const result = pipe(
         eventRelation,
         A.reduce(acc, (acc1, g) => {
-          const otherRelations: Array<{ id: UUID }> = eventRelation.filter(
+          const otherRelations: { id: UUID }[] = eventRelation.filter(
             (_) => _.id !== g.id,
           );
 

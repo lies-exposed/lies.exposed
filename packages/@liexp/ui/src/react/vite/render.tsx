@@ -42,7 +42,7 @@ interface SSRRequestHandlerOpts {
     render: ServerRenderer;
     configuration: Configuration;
   }>;
-  queries: Array<AsyncDataRoute["queries"]>;
+  queries: AsyncDataRoute["queries"][];
   onError: (e: any) => void;
 }
 

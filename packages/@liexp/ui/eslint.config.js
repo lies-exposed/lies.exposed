@@ -1,13 +1,15 @@
-module.exports = {
-  extends: [
-    "../../../.eslintrc.js",
-    "plugin:react/recommended",
-    "plugin:@tanstack/eslint-plugin-query/recommended",
-  ],
-  parserOptions: {
-    sourceType: "module",
-    tsconfigRootDir: __dirname,
-    project: ["./tsconfig.json"],
+import tseslint from "typescript-eslint";
+import reactEslintConfig from "@liexp/core/lib/eslint/react.config.js";
+
+export default tseslint.config(...reactEslintConfig, {
+  files: [
+    "src/**/*.ts",
+    "src/**/*.tsx"],
+  languageOptions: {
+    parserOptions: {
+      project: ["./tsconfig.json"],
+      tsconfigRootDir: import.meta.dirname,
+    },
   },
   rules: {
     "react/prop-types": ["off"],
@@ -26,9 +28,4 @@ module.exports = {
       },
     ],
   },
-  settings: {
-    react: {
-      version: "18.2.0",
-    },
-  },
-};
+});

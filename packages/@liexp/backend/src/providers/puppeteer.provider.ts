@@ -43,7 +43,7 @@ export const toPuppeteerError = (e: unknown): PuppeteerError => {
   puppeteerLogger.error.log("Error %O", e);
 
   if (e instanceof Error) {
-    if (e.message.indexOf("net::ERR_NAME_NOT_RESOLVED") === 0) {
+    if (e.message.startsWith("net::ERR_NAME_NOT_RESOLVED")) {
       return {
         name: "NameNotResolvedError",
         status: 500,

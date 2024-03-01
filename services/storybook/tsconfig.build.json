@@ -7,5 +7,5 @@
     "tsBuildInfoFile": "build/.build.tsbuildinfo"
   },
   "include": [".storybook", "./src"],
-  "exclude": ["node_modules", "build", "public", ".cache", ".eslintrc.cjs"]
+  "exclude": ["node_modules", "build", "public", ".cache", "eslint.config.js"]
 }

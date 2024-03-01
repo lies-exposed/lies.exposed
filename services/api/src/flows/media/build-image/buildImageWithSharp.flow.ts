@@ -129,7 +129,7 @@ const addTextLayer: TEFlow<
     const layers: SharpOverlayOptionsWithSize[] = [];
     if (layer.background) {
       const backgroundWidth = getSizeForGravity(() => layerWidth, {
-        onEast: (w) => layerWidth,
+        onEast: () => layerWidth,
         onWest: () => layerWidth,
       });
 
@@ -208,7 +208,7 @@ const addTextLayer: TEFlow<
       width,
       height,
     });
-    return layers;
+    return Promise.resolve(layers);
   }, toControllerError);
 };
 
@@ -234,7 +234,7 @@ const addWatermarkLayer: TEFlow<
         "assets/logo/logo192.png",
       );
 
-      return await sharp(logoImagePath).resize(logoWidth, logoWidth).toBuffer();
+      return sharp(logoImagePath).resize(logoWidth, logoWidth).toBuffer();
     }),
 
     fp.TE.map((input) => {
@@ -281,15 +281,15 @@ export const buildImageWithSharp: TEFlow<[BuildImageLayer[]], Buffer> =
           const layer: any = layers[0];
           const width = Math.ceil(layer.width);
           const height = Math.ceil(layer.height);
-          const getSizeForGravity = getSize(layer.gravity as any, width);
+          const getSizeForGravity = getSize(layer.gravity, width);
           const frameWidth = getSizeForGravity(() => width, {
             onEast: (w) => w * 2,
             onWest: (w) => w * 2,
           });
 
           const frameHeight = getSizeForGravity(() => height, {
-            onEast: (w) => height * 2,
-            onWest: (w) => height * 2,
+            onEast: () => height * 2,
+            onWest: () => height * 2,
           });
           const frameLeft = 0;
           const frameTop = 0;

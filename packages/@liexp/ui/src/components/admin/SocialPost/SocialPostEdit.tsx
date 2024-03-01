@@ -1,7 +1,13 @@
 import {
+  EditSocialPost,
   type SocialPlatform,
-  type EditSocialPost,
 } from "@liexp/shared/lib/io/http/SocialPost.js";
+import {
+  Actor,
+  Group,
+  Keyword,
+  Media,
+} from "@liexp/shared/lib/io/http/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";
 import { InstagramIcon, TelegramIcon } from "../../Common/Icons/index.js";
@@ -27,9 +33,21 @@ export const SocialPostEditTitle: React.FC = () => {
 };
 
 const transformSocialPost = ({
-  content: { platforms, media, useReply, ...content },
+  content: {
+    platforms,
+    media: _media,
+    keywords: _keywords,
+    groups: _groups,
+    actors: _actors,
+    useReply,
+    ...content
+  },
   ...r
 }: any): EditSocialPost => {
+  const media = _media as Media.Media[];
+  const keywords = _keywords as Keyword.Keyword[];
+  const groups = _groups as Group.Group[];
+  const actors = _actors as Actor.Actor[];
   return {
     ...r,
     ...content,
@@ -38,16 +56,31 @@ const transformSocialPost = ({
     media:
       typeof media === "string"
         ? [{ media, type: "photo", thumbnail: media }]
-        : media.map((m: any) => ({ ...m, thumbnail: m.thumbnail ?? "" })),
-    keywords: content.keywords.map((k: any) => k.id),
-    groups: content.groups.map((g: any) => g.id),
-    actors: content.actors.map((a: any) => a.id),
+        : media.map((m) => ({ ...m, thumbnail: m.thumbnail ?? "" })),
+    keywords: keywords.map((k) => k.id),
+    groups: groups.map((g) => g.id),
+    actors: actors.map((a) => a.id),
     publishCount: content.publishCount ?? 0,
-  };
+  } as EditSocialPost;
 };
 
 const SocialPostEditFormTabTelegram: React.FC = () => {
-  const record: any = useRecordContext();
+  const record = useRecordContext<EditSocialPost>();
+
+  const { result } = record;
+
+  const tg = React.useMemo((): any => {
+    let tgDate: string | undefined;
+    try {
+      tgDate = formatDate(new Date(result.tg.date * 1000));
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+    }
+
+    return { ...result.tg, date: tgDate };
+  }, [result.tg]);
+
   if (!record) {
     return <LoadingIndicator />;
   }
@@ -56,21 +89,13 @@ const SocialPostEditFormTabTelegram: React.FC = () => {
     return (
       <SocialPostButton
         type={record.type}
-        onLoadSharePayloadClick={async () => record.content}
+        onLoadSharePayloadClick={async () =>
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+          Promise.resolve(record.result.tg as any)
+        }
       />
     );
   }
-
-  const { result } = record;
-
-  const tg = React.useMemo(() => {
-    let tgDate: string | undefined;
-    try {
-      tgDate = formatDate(new Date(result.tg.date * 1000));
-    } catch (e) {}
-
-    return { ...result.tg, date: tgDate };
-  }, [result.tg]);
 
   return (
     <Box width={"100%"}>
@@ -83,24 +108,28 @@ const SocialPostEditFormTabTelegram: React.FC = () => {
 };
 
 const SocialPostEditFormTabInstagram: React.FC = () => {
-  const record = useRecordContext();
+  const record = useRecordContext<EditSocialPost>();
+
+  const { result } = record;
+
+  const ig = React.useMemo((): any => {
+    let igDate: string | undefined;
+    try {
+      igDate = formatDate(new Date(result.ig.media.taken_at * 1000));
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+    }
+
+    return { ...result.ig, date: igDate };
+  }, [result.ig]);
+
   if (!record) {
     return <LoadingIndicator />;
   }
   if (!record.result?.ig) {
     return <PublishNowButton platforms={{ IG: true }} />;
   }
-
-  const { result } = record;
-
-  const ig = React.useMemo(() => {
-    let igDate: string | undefined;
-    try {
-      igDate = formatDate(new Date(result.ig.media.taken_at * 1000));
-    } catch (e) {}
-
-    return { ...result.ig, date: igDate };
-  }, [result.ig]);
 
   return (
     <Box width={"100%"}>
@@ -140,7 +169,7 @@ const FormTabPlatformLabel: React.FC<{ platform: SocialPlatform }> = ({
   );
 };
 
-export const SocialPostEdit: React.FC = (props) => {
+export const SocialPostEdit: React.FC = () => {
   return (
     <Edit
       redirect="edit"

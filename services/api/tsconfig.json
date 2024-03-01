@@ -42,7 +42,7 @@
     "./src",
     "./scripts",
     "./test",
-    ".eslintrc.cjs",
+    "eslint.config.js",
     "vitest.workspace.ts"
   ],
   "exclude": ["**/build", "**/lib"]

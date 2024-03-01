@@ -29,7 +29,6 @@ export interface FAIconProps extends FontAwesomeIconProps {
     | "file-image"
     | "hashtag"
     | "person-half-dress"
-    | "user"
     | "users-between-lines"
     | "share-nodes"
     | "map-location";

@@ -31,7 +31,7 @@ export const MakeUploadFileRoute = (r: Router, ctx: RouteContext): void => {
       ctx.logger.debug.log("body %O", req.body);
       ctx.logger.debug.log("File %O", req.files);
 
-      return await pipe(
+      return pipe(
         UploadFileData.decode({ key, file }),
         TE.fromEither,
         TE.mapLeft((e) =>

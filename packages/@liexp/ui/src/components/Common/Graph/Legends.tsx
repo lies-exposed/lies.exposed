@@ -4,11 +4,11 @@ import * as React from "react";
 
 interface LegendsProps {
   title: string;
-  scales: Array<{
+  scales: {
     title: string;
     scale: ScaleOrdinal<string, string>;
     shape: "circle" | "rect";
-  }>;
+  }[];
 }
 
 function LegendDemo({

@@ -21,7 +21,7 @@
   "include": [
     "test",
     "src",
-    ".eslintrc.js",
+    "eslint.config.js",
     "**/*.spec.ts",
     "**/*.test.ts"
   ],

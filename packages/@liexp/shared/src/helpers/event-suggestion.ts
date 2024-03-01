@@ -37,8 +37,20 @@ export const getSuggestions = (
 
   const suggestedMedia = pipe(
     link,
-    O.chainNullableK((l) => l.image),
-    O.alt<any>(() => media),
+    O.chainNullableK((l) =>
+      l.image
+        ? {
+            ...l.image,
+            creator: undefined,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            deletedAt: undefined,
+            featuredIn: [],
+            socialPosts: [],
+          }
+        : null,
+    ),
+    O.alt(() => media),
   );
 
   const suggestedEventLinks = pipe(
@@ -66,6 +78,7 @@ export const getSuggestions = (
     links: [],
     keywords: relations.keywords,
     socialPosts: [],
+    events: [],
     createdAt: new Date(),
     updatedAt: new Date(),
     deletedAt: undefined,
@@ -73,26 +86,52 @@ export const getSuggestions = (
 
   const suggestions: http.EventSuggestion.CreateEventSuggestion[] = [
     ...pipe({ link, media: suggestedMedia }, ({ link, media }) => [
-      {
-        type: http.EventSuggestion.EventSuggestionType.types[0].value,
-        event: {
-          ...commonSuggestion,
-          type: http.Events.EventTypes.BOOK.value,
-          payload: {
-            title: suggestedTitle,
-            media: {
-              pdf: pipe(
-                media,
-                O.map((m) => m.id),
-                O.toUndefined,
-              ),
-              audio: undefined,
+      ...(O.isSome(media)
+        ? [
+            // Book
+            {
+              type: http.EventSuggestion.EventSuggestionType.types[0].value,
+              event: {
+                ...commonSuggestion,
+                type: http.Events.EventTypes.BOOK.value,
+                payload: {
+                  title: suggestedTitle,
+                  media: {
+                    pdf: media.value.id,
+                    audio: undefined,
+                  },
+                  publisher: undefined,
+                  authors: [],
+                },
+              },
             },
-            publisher: undefined,
-            authors: [],
-          },
-        },
-      },
+            // Documentary
+            {
+              type: http.EventSuggestion.EventSuggestionType.types[0].value,
+              event: {
+                ...commonSuggestion,
+                type: http.Events.EventTypes.DOCUMENTARY.value,
+                payload: {
+                  title: suggestedTitle,
+                  website: pipe(
+                    link,
+                    O.map((l) => l.id),
+                    O.toUndefined,
+                  ),
+                  media: media.value.id,
+                  authors: {
+                    actors: [],
+                    groups: [],
+                  },
+                  subjects: {
+                    actors: [],
+                    groups: [],
+                  },
+                },
+              },
+            },
+          ]
+        : []),
       ...(O.isSome(link)
         ? [
             {
@@ -135,34 +174,6 @@ export const getSuggestions = (
           ]
         : []),
     ]),
-    {
-      type: http.EventSuggestion.EventSuggestionType.types[0].value,
-      event: {
-        ...commonSuggestion,
-        type: http.Events.EventTypes.DOCUMENTARY.value,
-        payload: {
-          title: suggestedTitle,
-          website: pipe(
-            link,
-            O.map((l) => l.id),
-            O.toUndefined,
-          ),
-          media: pipe(
-            suggestedMedia,
-            O.map((m) => m.id),
-            O.toNullable,
-          ),
-          authors: {
-            actors: [],
-            groups: [],
-          },
-          subjects: {
-            actors: [],
-            groups: [],
-          },
-        },
-      },
-    },
     {
       type: http.EventSuggestion.EventSuggestionType.types[0].value,
       event: {

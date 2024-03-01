@@ -8,5 +8,12 @@
     "tsBuildInfoFile": "lib/.tsbuildinfo"
   },
   "include": ["./src", "./typings", "./src/**/*.json"],
-  "exclude": ["node_modules", "lib", "**/*.spec.ts", "**/*.spec.tsx", "test"]
+  "exclude": [
+    "node_modules",
+    "lib",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "test",
+    "eslint.config.js"
+  ]
 }

@@ -65,7 +65,7 @@ export const GetAuthProvider = (
     checkError,
     getPermissions: async () => {
       const user = localStorage.getItem("user");
-      return await pipe(
+      return pipe(
         user,
         fp.O.fromNullable,
         fp.O.chainNullableK((u) => JSON.parse(u)?.permissions),
@@ -101,7 +101,7 @@ export const GetAuthProvider = (
           });
         }) as Promise<UserIdentity>;
 
-      return await getUserIdentity;
+      return getUserIdentity;
     },
   };
 };

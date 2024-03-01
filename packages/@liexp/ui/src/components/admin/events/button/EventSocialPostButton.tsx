@@ -32,7 +32,7 @@ export const EventSocialPostButton: React.FC<{ id: UUID }> = ({ id }) => {
     <SocialPostButton
       type="events"
       onLoadSharePayloadClick={async ({ multipleMedia }) => {
-        return await apiProvider
+        return apiProvider
           .getOne<Event>(`events`, { id })
           .then(async ({ data: event }) => {
             const relationIds = getRelationIds(event);

@@ -24,7 +24,7 @@ export const AreaArb: tests.fc.Arbitrary<http.Area.Area> = tests
     body: {},
     geometry: tests.fc.sample(
       tests.fc.record({
-        type: tests.fc.constant("Polygon" as "Polygon"),
+        type: tests.fc.constant("Polygon" as const),
         coordinates: tests.fc.array(
           tests.fc.array(
             tests.fc.tuple(tests.fc.integer(), tests.fc.integer()),

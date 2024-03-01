@@ -19,7 +19,7 @@
     "clean": "rm -rf lib",
     "build": "tsc -b tsconfig.build.json",
     "watch": "tsc -b -w",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
+    "lint": "eslint src",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
     "test": "vitest"
   },
@@ -73,8 +73,8 @@
     "sharp": "*"
   },
   "lint-staged": {
-    "**/*.(ts|tsx|js|jsx)": "eslint --fix",
-    "**/*.+(ts|tsx|js|jsx|json|css)": [
+    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix",
+    "src/**/*.+(ts|tsx|js|jsx|json|css)": [
       "prettier --write"
     ]
   }
