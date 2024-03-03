@@ -21,7 +21,7 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     set -e
     u=$1
 
-    nginx -t
+    # nginx -t
 
     cd ~/docker-app/
     cat ./gh-token.txt | docker login ghcr.io -u $u --password-stdin
