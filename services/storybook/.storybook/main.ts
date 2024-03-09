@@ -5,9 +5,6 @@ import { mergeConfig } from "vite";
 import { defineViteConfig } from "@liexp/core/lib/frontend/vite/config.js";
 import * as t from "io-ts";
 
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-
 const viteFinal: ViteFinal = async (config, { configType }) => {
   const cwd = path.resolve(__dirname, "..")
 

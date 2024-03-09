@@ -5,7 +5,7 @@ import { pluginFactories } from "@react-page/plugins-slate";
 import {
   type SlateComponentPluginDefinition,
   type SlatePluginControls,
-} from "@react-page/plugins-slate/lib-es/types/slatePluginDefinitions.js";
+} from "@react-page/plugins-slate/lib/types/slatePluginDefinitions.js";
 import React from "react";
 import { AutocompleteActorInput } from "../../../../Input/AutocompleteActorInput.js";
 import { ActorChip } from "../../../../actors/ActorChip.js";

@@ -5,7 +5,7 @@ import { pluginFactories } from "@react-page/plugins-slate";
 import {
   type SlateComponentPluginDefinition,
   type SlatePluginControls,
-} from "@react-page/plugins-slate/lib-es/types/slatePluginDefinitions";
+} from "@react-page/plugins-slate/lib/types/slatePluginDefinitions";
 import React from "react";
 import { AutocompleteKeywordInput } from "../../../../Input/AutocompleteKeywordInput.js";
 import { KeywordChip } from "../../../../keywords/KeywordChip.js";
