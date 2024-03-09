@@ -10,8 +10,8 @@ import * as React from "react";
 import { DataProviderContext } from "react-admin";
 import { APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 // styles
-import "@liexp/ui/assets/main.css";
 import "@liexp/ui/lib/components/Common/Icons/library.js";
+import "@liexp/ui/assets/main.css";
 
 config.autoAddCss = false;
 
@@ -19,7 +19,7 @@ config.autoAddCss = false;
 dom.watch();
 
 const apiProvider = APIRESTClient({
-  url: process.env.VITE_API_URL ?? "https://alpha.api.lies.exposed/v1",
+  url: import.meta.env.VITE_API_URL ?? "https://alpha.api.lies.exposed/v1",
 });
 const qc = new QueryClient();
 

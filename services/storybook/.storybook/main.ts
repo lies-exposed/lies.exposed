@@ -5,23 +5,18 @@ import { mergeConfig } from "vite";
 import { defineViteConfig } from "@liexp/core/lib/frontend/vite/config.js";
 import * as t from "io-ts";
 
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+
 const viteFinal: ViteFinal = async (config, { configType }) => {
-  const VITE_API_URL =
-    configType === "PRODUCTION"
-      ? "https://alpha.api.lies.exposed/v1"
-      : "http://api.liexp.dev/v1";
-
-  const VITE_PUBLIC_URL = configType === "PRODUCTION" ? "/storybook" : "/";
-
-  process.env.VITE_API_URL = VITE_API_URL;
-  process.env.VITE_PUBLIC_URL = VITE_PUBLIC_URL;
+  const cwd = path.resolve(__dirname, "..")
 
   const viteConfigUpdate = defineViteConfig({
-    envFileDir: path.resolve(__dirname, ".."),
-    cwd: process.cwd(),
-    output: path.resolve(process.cwd(), "build"),
+    envFileDir: cwd,
+    cwd,
+    output: path.resolve(cwd, "build"),
     assetDir: "assets",
-    base: VITE_PUBLIC_URL,
+    base: "/",
     host: "localhost",
     port: config.server?.port ?? 6006,
     env: t.strict({ VITE_API_URL: t.string, VITE_PUBLIC_URL: t.string }),
