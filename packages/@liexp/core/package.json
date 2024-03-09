@@ -43,7 +43,7 @@
     "prettier": "^3.2.5",
     "sass": "^1.71.1",
     "typescript": "^5.3.3",
-    "vite": "^5.1.4",
+    "vite": "^5.1.5",
     "vite-plugin-html": "^3.2.2",
     "vite-plugin-html-purgecss": "^0.1.1",
     "vite-plugin-optimizer": "^1.4.3"
