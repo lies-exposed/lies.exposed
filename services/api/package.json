@@ -18,8 +18,8 @@
   "scripts": {
     "clean": "rm -rf build",
     "start": "node build/run.js",
-    "develop": "tsx watch src/run.ts",
-    "develop:alpha": "DOTENV_CONFIG_PATH=.env.alpha yarn develop",
+    "dev": "tsx watch src/run.ts",
+    "dev:alpha": "DOTENV_CONFIG_PATH=.env.alpha yarn dev",
     "build": "tsc -b ./tsconfig.build.json",
     "watch": "tsc -b ./tsconfig.build.json --watch",
     "lint": "eslint bin src",

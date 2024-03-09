@@ -1,4 +1,4 @@
-FROM ghcr.io/lies-exposed/liexp-base:20-latest as build
+FROM ghcr.io/lies-exposed/liexp-base:20-latest as dev
 
 WORKDIR /app
 
@@ -9,14 +9,18 @@ COPY package.json .
 COPY yarn.lock .
 COPY .yarnrc.yml .
 COPY tsconfig.json .
-COPY packages/@liexp/core ./packages/@liexp/core
-COPY packages/@liexp/test ./packages/@liexp/test
-COPY packages/@liexp/shared ./packages/@liexp/shared
-COPY packages/@liexp/backend ./packages/@liexp/backend
-COPY packages/@liexp/ui ./packages/@liexp/ui
+COPY packages/@liexp ./packages/@liexp
 COPY services/api ./services/api
 
-RUN yarn config set --home enableTelemetry false && yarn install && yarn api build
+RUN yarn config set --home enableTelemetry false && yarn install
+
+FROM ghcr.io/lies-exposed/liexp-base:20-latest as build
+
+WORKDIR /app
+
+COPY --from=dev . .
+
+RUN yarn api build
 
 
 FROM ghcr.io/lies-exposed/liexp-base:20-latest as prod_deps
@@ -32,6 +36,7 @@ COPY packages/@liexp/core/package.json /app/packages/@liexp/core/package.json
 COPY packages/@liexp/shared/package.json /app/packages/@liexp/shared/package.json
 COPY packages/@liexp/backend/package.json /app/packages/@liexp/backend/package.json
 COPY packages/@liexp/test/package.json /app/packages/@liexp/test/package.json
+COPY packages/@liexp/react-page/package.json /app/packages/@liexp/react-page/package.json
 
 RUN yarn config set --home enableTelemetry false && yarn workspaces focus --production api
 
@@ -56,13 +61,14 @@ COPY packages/@liexp/core/package.json /app/packages/@liexp/core/package.json
 COPY packages/@liexp/shared/package.json /app/packages/@liexp/shared/package.json
 COPY packages/@liexp/backend/package.json /app/packages/@liexp/backend/package.json
 COPY packages/@liexp/test/package.json /app/packages/@liexp/test/package.json
-COPY packages/@liexp/ui/package.json /app/packages/@liexp/ui/package.json
+COPY packages/@liexp/react-page/package.json /app/packages/@liexp/react-page/package.json
 
 # packages
 COPY --from=build /app/packages/@liexp/core/lib /app/packages/@liexp/core/lib
 COPY --from=build /app/packages/@liexp/shared/lib /app/packages/@liexp/shared/lib
 COPY --from=build /app/packages/@liexp/backend/lib /app/packages/@liexp/backend/lib
 COPY --from=build /app/packages/@liexp/test/lib /app/packages/@liexp/test/lib
+COPY --from=build /app/packages/@liexp/react-page/lib /app/packages/@liexp/react-page/lib
 
 # API service
 COPY --from=build /app/services/api/bin /app/services/api/bin
