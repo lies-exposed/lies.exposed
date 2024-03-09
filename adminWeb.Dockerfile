@@ -1,4 +1,4 @@
-FROM node:20-alpine as build
+FROM node:20-alpine as dev
 
 WORKDIR /app
 
@@ -8,17 +8,18 @@ COPY yarn.lock .
 COPY .yarnrc.yml .
 COPY tsconfig.json .
 
-COPY packages/@liexp/core ./packages/@liexp/core
-COPY packages/@liexp/test ./packages/@liexp/test
-COPY packages/@liexp/shared ./packages/@liexp/shared
-COPY packages/@liexp/ui ./packages/@liexp/ui
+COPY packages/@liexp ./packages/@liexp
 COPY services/admin-web ./services/admin-web
 
-RUN yarn
+RUN yarn && yarn admin-web build
 
-RUN yarn admin-web build
+FROM node:20-alpine as build
 
-RUN NODE_ENV=production yarn admin-web build:app
+WORKDIR /app
+
+COPY --from=dev . .
+
+RUN NODE_ENV=production && yarn admin-web build && yarn admin-web build:app
 
 FROM node:20-alpine as production
 
