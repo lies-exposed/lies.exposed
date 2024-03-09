@@ -9823,7 +9823,7 @@ __metadata:
     fp-ts: ^2.16.2
     front-matter: 4.0.2
     gray-matter: ^4.0.3
-    instagram-private-api: ^1.45.3
+    instagram-private-api: ^1.46.1
     io-ts: ^2.2.21
     io-ts-types: ^0.5.19
     jsonwebtoken: ^9.0.2
@@ -15903,9 +15903,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"instagram-private-api@npm:^1.45.3":
-  version: 1.45.3
-  resolution: "instagram-private-api@npm:1.45.3"
+"instagram-private-api@npm:^1.46.1":
+  version: 1.46.1
+  resolution: "instagram-private-api@npm:1.46.1"
   dependencies:
     "@lifeomic/attempt": ^3.0.0
     "@types/chance": ^1.0.2
@@ -15933,7 +15933,7 @@ __metadata:
   peerDependenciesMeta:
     re2:
       optional: true
-  checksum: cb5c604021b807de7145c257b5793d8950a1c345b17aafe97872101ae1b21d5cf40e9514d8528b37c8b6fccdc0a491734b32cc5b76e669a6b55ca2d3478673d9
+  checksum: e8aea6a0eb642cc47488757a354e0298e79a6ca4ae71fee5b93b4c26eac9d77f1c3a5ca739196ebb0a28a4001b3c76543b8bf07bb7311d289a88082054b10bff
   languageName: node
   linkType: hard
 
