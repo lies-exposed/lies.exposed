@@ -56,7 +56,7 @@
     "@aws-sdk/lib-storage": "^3.521.0",
     "@aws-sdk/s3-request-presigner": "^3.521.0",
     "@databases/escape-identifier": "^1.0.3",
-    "@emotion/react": "^11.11.3",
+    "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "@liexp/backend": "0.1.0",
     "@liexp/core": "0.1.0",
