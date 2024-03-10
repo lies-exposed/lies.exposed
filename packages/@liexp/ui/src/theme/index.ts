@@ -1,5 +1,10 @@
 /* eslint-disable no-restricted-imports */
-import { createTheme, useTheme, type ThemeOptions } from "@mui/material";
+import {
+  createTheme,
+  useTheme,
+  type ThemeOptions,
+  ThemeProvider,
+} from "@mui/material";
 import { createStyled, darken, lighten } from "@mui/system";
 
 const primaryFontFamily = "Signika";
@@ -109,4 +114,11 @@ type ECOTheme = typeof ECOTheme;
 
 const styled = createStyled({ defaultTheme: ECOTheme });
 
-export { ECOTheme, useTheme, styled, themeOptions, type ThemeOptions };
+export {
+  ECOTheme,
+  useTheme,
+  styled,
+  themeOptions,
+  type ThemeOptions,
+  ThemeProvider,
+};

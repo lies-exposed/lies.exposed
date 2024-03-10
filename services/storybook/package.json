@@ -8,7 +8,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "storybook dev --quiet -p 6006",
+    "dev": "storybook dev --quiet -p 6006",
     "build": "tsc -b tsconfig.build.json",
     "build-sb": "storybook build -o build",
     "clean": "rm -rf build",
