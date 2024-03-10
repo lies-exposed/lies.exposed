@@ -49,7 +49,7 @@
     "@react-page/plugins-spacer": "^5.4.4",
     "@react-page/plugins-video": "^5.4.4",
     "@react-page/react-admin": "^5.4.4",
-    "@tanstack/react-query": "^5.24.1",
+    "@tanstack/react-query": "^5.25.0",
     "@visx/axis": "^3.8.0",
     "@visx/chord": "^3.3.0",
     "@visx/clip-path": "^3.3.0",
