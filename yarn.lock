@@ -3590,9 +3590,6 @@ __metadata:
     typeorm: ^0.3.20
     typescript: ^5.4.2
   peerDependencies:
-    "@react-page/editor": ^5.2.0
-    "@react-page/plugins-slate": ^5.2.0
-    "@react-page/react-admin": ^5.2.0
     "@visx/network": ^3.0.0
     date-fns: ^2
     debug: "*"
