@@ -12,7 +12,7 @@ import { ThemeProvider } from "../../mui/index.js";
 
 const LinkPreview: React.FC<{ record: any }> = ({ record }) => {
   // const { record } = useEditContext();
-  const qc = useQueryClient()
+  const qc = useQueryClient();
 
   const result = React.useMemo(
     () =>

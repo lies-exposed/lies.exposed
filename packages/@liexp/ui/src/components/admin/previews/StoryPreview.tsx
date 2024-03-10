@@ -13,7 +13,7 @@ import { StoryPageContent } from "../../stories/StoryPageContent.js";
 const StoryPreview: React.FC = () => {
   const { record } = useEditContext();
 
-  const qc = useQueryClient()
+  const qc = useQueryClient();
 
   const result = React.useMemo(
     () => pipe(http.Story.Story.decode({ ...record, links: [] })),

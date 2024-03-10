@@ -17,8 +17,7 @@ interface EventPreviewProps {
 
 const EventPreview: React.FC<EventPreviewProps> = ({ event }) => {
   const record = event ?? useEditContext().record;
-  const qc = useQueryClient()
-
+  const qc = useQueryClient();
 
   const result = React.useMemo(
     () =>

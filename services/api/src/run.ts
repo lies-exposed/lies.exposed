@@ -60,9 +60,11 @@ const run = (): Promise<void> => {
           postOnSocialTask.start();
           cleanTempFolderTask.start();
           generateMissingThumbnailsTask.start();
-          const host = "0.0.0.0"
+          const host = "0.0.0.0";
           const server = app.listen(ctx.env.VIRTUAL_PORT, host, () => {
-            ctx.logger.info.log(`Server is listening ${host}:${ctx.env.VIRTUAL_PORT}`);
+            ctx.logger.info.log(
+              `Server is listening ${host}:${ctx.env.VIRTUAL_PORT}`,
+            );
 
             ctx.tg.api.on("polling_error", (e) => {
               serverLogger.error.log(`TG Bot error during polling %O`, e);
@@ -123,9 +125,8 @@ const run = (): Promise<void> => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
-run()
-  .catch((e) => {
-    // eslint-disable-next-line
-    console.error(e)
-    process.exit(1);
-  });
+run().catch((e) => {
+  // eslint-disable-next-line
+  console.error(e);
+  process.exit(1);
+});

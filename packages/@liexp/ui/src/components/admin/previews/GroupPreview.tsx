@@ -12,7 +12,7 @@ import { ThemeProvider } from "../../mui/index.js";
 
 const GroupPreview: React.FC = () => {
   const { record } = useEditContext();
-  const qc = useQueryClient()
+  const qc = useQueryClient();
 
   const result = React.useMemo(
     () =>

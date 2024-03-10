@@ -30,7 +30,7 @@ import {
   type CreateProps,
   type EditProps,
   type ListProps,
-  type RaRecord
+  type RaRecord,
 } from "react-admin";
 import { uploadImages } from "../../../client/admin/MediaAPI.js";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
