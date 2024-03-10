@@ -22,7 +22,7 @@ ARG DOTENV_CONFIG_PATH=.env
 
 WORKDIR /app
 
-COPY --from=dev . .
+COPY --from=dev /app ./
 
 RUN export NODE_ENV=${NODE_ENV}
 RUN export DOTENV_CONFIG_PATH=${DOTENV_CONFIG_PATH}

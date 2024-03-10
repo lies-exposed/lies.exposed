@@ -17,7 +17,7 @@ FROM node:20-alpine as build
 
 WORKDIR /app
 
-COPY --from=dev . .
+COPY --from=dev /app ./
 
 RUN NODE_ENV=production && yarn admin-web build && yarn admin-web build:app
 
