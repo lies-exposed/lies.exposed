@@ -15,7 +15,7 @@ export interface GetViteConfigParams<A extends Record<string, t.Mixed>> {
   assetDir?: string;
   tsConfigFile?: string;
   html?: {
-    templatePath: string
+    templatePath: string;
   };
   hot: boolean;
 }

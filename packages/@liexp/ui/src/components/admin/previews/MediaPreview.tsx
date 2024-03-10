@@ -13,7 +13,7 @@ import { ThemeProvider } from "../../mui/index.js";
 const MediaPreview: React.FC = () => {
   const { record } = useEditContext();
 
-  const qc = useQueryClient()
+  const qc = useQueryClient();
 
   const result = React.useMemo(
     () =>

@@ -18,7 +18,10 @@ root.render(
   <React.StrictMode>
     <ConfigurationContext.Provider value={configuration}>
       <DataProviderContext.Provider
-        value={APIRESTClient({ url: import.meta.env.VITE_API_URL, getAuth: getAuthFromLocalStorage })}
+        value={APIRESTClient({
+          url: import.meta.env.VITE_API_URL,
+          getAuth: getAuthFromLocalStorage,
+        })}
       >
         <QueryClientProvider client={new QueryClient()}>
           <AdminPage />

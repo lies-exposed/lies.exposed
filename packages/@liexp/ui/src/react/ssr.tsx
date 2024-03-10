@@ -24,8 +24,8 @@ interface GetServerOptions {
   }>;
   transformTemplate: (template: string) => string;
   apiProvider: {
-    client: APIRESTClient
-    ssr: APIRESTClient
+    client: APIRESTClient;
+    ssr: APIRESTClient;
   };
   onRequestError: (e: any) => void;
 }
@@ -49,19 +49,20 @@ export const getServer = (
   app.get("*", (req, res, next) => {
     ssrLog.debug.log("req.originalUrl %s (%s)", req.originalUrl, req.baseUrl);
 
-    const route = routes.find((r) => {
-      ssrLog.debug.log("r.path %s", r.path);
-      try {
-        return pathToRegexp(r.path).test(req.baseUrl);
-      } catch (e) {
-        ssrLog.warn.log(
-          "Failed to transform route path %s to regexp: %O",
-          r.path,
-          e,
-        );
-        return false;
-      }
-    }) ?? routes.find((r) => r.path === "/");
+    const route =
+      routes.find((r) => {
+        ssrLog.debug.log("r.path %s", r.path);
+        try {
+          return pathToRegexp(r.path).test(req.baseUrl);
+        } catch (e) {
+          ssrLog.warn.log(
+            "Failed to transform route path %s to regexp: %O",
+            r.path,
+            e,
+          );
+          return false;
+        }
+      }) ?? routes.find((r) => r.path === "/");
 
     if (!route) {
       ssrLog.warn.log("No route found for %s", req.originalUrl);

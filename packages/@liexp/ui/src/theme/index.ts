@@ -1,9 +1,5 @@
 /* eslint-disable no-restricted-imports */
-import {
-  createTheme,
-  useTheme,
-  type ThemeOptions,
-} from "@mui/material";
+import { createTheme, useTheme, type ThemeOptions } from "@mui/material";
 import { createStyled, darken, lighten } from "@mui/system";
 
 const primaryFontFamily = "Signika";
