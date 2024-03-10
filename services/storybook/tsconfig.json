@@ -22,8 +22,8 @@
     "moduleResolution": "node10",
     "isolatedModules": true
   },
-  "include": [".storybook", "./src", "./typings", "eslint.config.js"],
-  "exclude": ["node_modules", "build", "public", ".cache"],
+  "include": [".storybook", "src", "typings", "eslint.config.js"],
+  "exclude": ["node_modules", "build", "public"],
   "references": [
     {
       "path": "../../packages/@liexp/core"

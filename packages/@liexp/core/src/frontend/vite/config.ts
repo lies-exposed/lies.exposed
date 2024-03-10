@@ -70,23 +70,23 @@ export const defineViteConfig = <A extends Record<string, any>>(
         commonjsOptions: {
           include: [/node_modules/],
           exclude: [/@liexp\/core/, /@liexp\/shared/, /@liexp\/ui/],
-          transformMixedEsModules: true,
+          // transformMixedEsModules: true,
         },
         rollupOptions: {
-          external: [
-            "react",
-            "react-dom",
-            "redux",
-            "react-redux",
-            "@react-page/editor",
-            "@react-page/plugins-slate",
-            "@react-page/plugins-background",
-            "@react-page/plugins-divider",
-            "@react-page/plugins-html5-video",
-            "@react-page/plugins-image",
-            "@react-page/plugins-spacer",
-            "@react-page/plugins-video",
-          ],
+          // external: [
+          //   "react",
+          //   "react-dom",
+          //   "redux",
+          //   "react-redux",
+          //   "@react-page/editor",
+          //   "@react-page/plugins-slate",
+          //   "@react-page/plugins-background",
+          //   "@react-page/plugins-divider",
+          //   "@react-page/plugins-html5-video",
+          //   "@react-page/plugins-image",
+          //   "@react-page/plugins-spacer",
+          //   "@react-page/plugins-video",
+          // ],
         },
       },
       css: {
@@ -94,29 +94,23 @@ export const defineViteConfig = <A extends Record<string, any>>(
       },
       optimizeDeps: {
         entries: [
+          path.join(config.cwd, "src/**"),
           // path.join(config.cwd, "../../packages/@liexp/ui/core/**"),
           // path.join(config.cwd, "../../packages/@liexp/ui/shared/**"),
           // path.join(config.cwd, "../../packages/@liexp/ui/lib/**"),
         ],
-        include: [
-          "@liexp/core",
-          "@liexp/shared",
-          "@liexp/ui",
-          "@mui/icons-material",
-          "@mui/material",
-          "@react-page/plugins-slate",
-          "@react-page/plugins-background",
-          "@react-page/plugins-divider",
-          "@react-page/plugins-html5-video",
-          "@react-page/plugins-image",
-          "@react-page/plugins-spacer",
-          "@react-page/plugins-video",
-        ],
+        include: ["@liexp/core", "@liexp/shared", "@liexp/ui"],
+        // exclude: [
+        //   "@mui/material",
+        //   "@mui/icons-material",
+        //   "@mui/styles",
+        //   "@mui/system",
+        // ],
       },
 
       resolve: {
         // preserveSymlinks: true,
-        // dedupe: ["react", "react-dom"],
+        dedupe: ["react", "react-dom"],
         extensions: [
           ".ts",
           ".cts",
@@ -137,6 +131,38 @@ export const defineViteConfig = <A extends Record<string, any>>(
           {
             find: "react/jsx-dev-runtime.js",
             replacement: "react/jsx-dev-runtime",
+          },
+          {
+            find: /@react-page\/editor$/,
+            replacement: "@react-page/editor/lib",
+          },
+          {
+            find: /@react-page\/plugins-slate$/,
+            replacement: "@react-page/plugins-slate/lib",
+          },
+          {
+            find: /@react-page\/plugins-background$/,
+            replacement: "@react-page/plugins-background/lib",
+          },
+          {
+            find: /@react-page\/plugins-divider$/,
+            replacement: "@react-page/plugins-divider/lib",
+          },
+          {
+            find: /@react-page\/plugins-html5-video$/,
+            replacement: "@react-page/plugins-html5-video/lib",
+          },
+          {
+            find: /@react-page\/plugins-image$/,
+            replacement: "@react-page/plugins-image/lib",
+          },
+          {
+            find: /@react-page\/plugins-spacer$/,
+            replacement: "@react-page/plugins-spacer/lib",
+          },
+          {
+            find: /@react-page\/plugins-video$/,
+            replacement: "@react-page/plugins-video/lib",
           },
         ],
       },
