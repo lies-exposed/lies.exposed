@@ -110,7 +110,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
 
       resolve: {
         // preserveSymlinks: true,
-        dedupe: ["react", "react-dom"],
+        dedupe: ["react", "react-dom", "@react-page/editor"],
         extensions: [
           ".ts",
           ".cts",

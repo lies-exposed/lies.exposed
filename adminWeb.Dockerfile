@@ -11,7 +11,7 @@ COPY tsconfig.json .
 COPY packages/@liexp ./packages/@liexp
 COPY services/admin-web ./services/admin-web
 
-RUN yarn && yarn admin-web build
+RUN yarn
 
 FROM node:20-alpine as build
 
