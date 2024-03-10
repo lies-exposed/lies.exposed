@@ -3766,7 +3766,7 @@ __metadata:
     "@types/throttle-debounce": ^5.0.2
     "@types/topojson-client": ^3.1.4
     "@types/topojson-specification": ^1.0.5
-    "@visx/axis": ^3.8.0
+    "@visx/axis": ^3.10.1
     "@visx/chord": ^3.3.0
     "@visx/clip-path": ^3.3.0
     "@visx/event": ^3.3.0
@@ -3780,7 +3780,7 @@ __metadata:
     "@visx/mock-data": ^3.3.0
     "@visx/network": ^3.3.0
     "@visx/point": ^3.3.0
-    "@visx/responsive": ^3.3.0
+    "@visx/responsive": ^3.10.2
     "@visx/scale": ^3.5.0
     "@visx/shape": ^3.5.0
     "@visx/text": ^3.3.0
@@ -8912,9 +8912,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@visx/axis@npm:^3.8.0":
-  version: 3.8.0
-  resolution: "@visx/axis@npm:3.8.0"
+"@visx/axis@npm:^3.10.1":
+  version: 3.10.1
+  resolution: "@visx/axis@npm:3.10.1"
   dependencies:
     "@types/react": "*"
     "@visx/group": 3.3.0
@@ -8926,7 +8926,7 @@ __metadata:
     prop-types: ^15.6.0
   peerDependencies:
     react: ^16.3.0-0 || ^17.0.0-0 || ^18.0.0-0
-  checksum: 8d3163971b2a88bd81afbfdda0a1c0a5783e6b0a1f75de2153d20b16c165f031ffacc3807b4552126319ba3304007c1520016f1e06b551490842d037901d151f
+  checksum: dd840a9ff1582917f0ffe817a985d083176385865904b891e0e37f35d8264fecb81a958ac4c44f1b5b7bdafedf2f8ba50935853cc3c9f2a34e395eac1626f513
   languageName: node
   linkType: hard
 
@@ -9126,9 +9126,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@visx/responsive@npm:^3.3.0":
-  version: 3.3.0
-  resolution: "@visx/responsive@npm:3.3.0"
+"@visx/responsive@npm:^3.10.2":
+  version: 3.10.2
+  resolution: "@visx/responsive@npm:3.10.2"
   dependencies:
     "@types/lodash": ^4.14.172
     "@types/react": "*"
@@ -9136,7 +9136,7 @@ __metadata:
     prop-types: ^15.6.1
   peerDependencies:
     react: ^16.0.0-0 || ^17.0.0-0 || ^18.0.0-0
-  checksum: 8f23d09bdb66d1deb35a393ff731438e8f9329a0dba89cffe00cc7aadd7ffd6af021eed1452f91a8cc0566b1f025b59d32f060f9070ef2bc66c7a41f8a06c9fb
+  checksum: d6ae62d5dadd7d79f07ddc2329b5a07eed2ceca42075c2447ed678c729a63800877042ce556f782c022cd337f48b44adfffc6977db54e69790740e9e2742c00e
   languageName: node
   linkType: hard
 
@@ -25038,11 +25038,11 @@ __metadata:
     "@types/uuid": ^9.0.8
     "@typescript-eslint/eslint-plugin": ^7.1.1
     "@typescript-eslint/parser": ^7.1.1
-    "@visx/axis": ^3.8.0
+    "@visx/axis": ^3.10.1
     "@visx/gradient": ^3.3.0
     "@visx/legend": ^3.5.0
     "@visx/network": ^3.3.0
-    "@visx/responsive": ^3.3.0
+    "@visx/responsive": ^3.10.2
     "@visx/tooltip": ^3.3.0
     axios: ^1.6.7
     bs58: ^5.0.0
