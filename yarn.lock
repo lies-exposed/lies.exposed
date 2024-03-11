@@ -3750,7 +3750,7 @@ __metadata:
     "@react-page/plugins-video": ^5.4.4
     "@react-page/react-admin": ^5.4.4
     "@tanstack/eslint-plugin-query": ^5.20.1
-    "@tanstack/react-query": ^5.25.0
+    "@tanstack/react-query": ^5.26.3
     "@types/chroma-js": ^2.4.4
     "@types/d3": ^7.4.3
     "@types/d3-sankey": ^0.12.4
@@ -6927,21 +6927,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.25.0":
-  version: 5.25.0
-  resolution: "@tanstack/query-core@npm:5.25.0"
-  checksum: c4a8ddebec1a46da8abaff465190bf133bd6454cd7c641d3c579af10d7514c3eceb61b181fc68564ca2a8e1be65ea28f49a5dea01a9463e23989234b52421008
+"@tanstack/query-core@npm:5.26.3":
+  version: 5.26.3
+  resolution: "@tanstack/query-core@npm:5.26.3"
+  checksum: 0a97cb2abd908ab3cff4ddfd9435e5ad40c05414209eab14125d3af8d22e8835890bf90d971dd7694b3fa7814d0f73eb39770dcd42d7ebbd330f4e55e8ec56a4
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.25.0":
-  version: 5.25.0
-  resolution: "@tanstack/react-query@npm:5.25.0"
+"@tanstack/react-query@npm:^5.26.3":
+  version: 5.26.3
+  resolution: "@tanstack/react-query@npm:5.26.3"
   dependencies:
-    "@tanstack/query-core": 5.25.0
+    "@tanstack/query-core": 5.26.3
   peerDependencies:
     react: ^18.0.0
-  checksum: 09589477abf28d742c618d98c6c93d7887250cc718de0ecfeee63570093c1a01ce709dfd1687c30dab48fefcf3f322ba6b0481c710b7db00c3af2423df220140
+  checksum: 64924db11e2f6413cd3afff8c642c65110b1b6dccc308c838cc49a05a1a9dcffeca9ccc329bc0d1a6a13bb33a772faa410409ddc7b2c0e7325a1cf5860d49b0c
   languageName: node
   linkType: hard
 
@@ -9485,7 +9485,7 @@ __metadata:
     "@liexp/shared": 0.1.0
     "@liexp/ui": 0.1.0
     "@mui/material": ^5.15.12
-    "@tanstack/react-query": ^5.25.0
+    "@tanstack/react-query": ^5.26.3
     "@testing-library/dom": ^9.3.3
     "@testing-library/react": ^14.0.0
     "@testing-library/user-event": ^14.5.1
@@ -24938,7 +24938,7 @@ __metadata:
     "@liexp/ui": 0.1.0
     "@mui/icons-material": ^5.15.12
     "@mui/material": ^5.15.12
-    "@tanstack/react-query": ^5.25.0
+    "@tanstack/react-query": ^5.26.3
     "@types/bs58": ^4.0.4
     "@types/compression": ^1.7.5
     "@types/d3": ^7.4.3
