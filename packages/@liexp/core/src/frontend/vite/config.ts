@@ -4,6 +4,7 @@ import react from "@vitejs/plugin-react";
 import { failure } from "io-ts/lib/PathReporter.js";
 import { type ConfigEnv, type UserConfig } from "vite";
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
+import optimizer from "vite-plugin-optimizer";
 import tsConfigPaths from "vite-tsconfig-paths";
 import { loadENV } from "../../env/utils.js";
 import { fp, pipe } from "../../fp/index.js";
@@ -75,22 +76,6 @@ export const defineViteConfig = <A extends Record<string, any>>(
             /@liexp\/ui/,
           ],
           // transformMixedEsModules: true,
-        },
-        rollupOptions: {
-          // external: [
-          //   "react",
-          //   "react-dom",
-          //   "redux",
-          //   "react-redux",
-          //   "@react-page/editor",
-          //   "@react-page/plugins-slate",
-          //   "@react-page/plugins-background",
-          //   "@react-page/plugins-divider",
-          //   "@react-page/plugins-html5-video",
-          //   "@react-page/plugins-image",
-          //   "@react-page/plugins-spacer",
-          //   "@react-page/plugins-video",
-          // ],
         },
       },
       css: {
@@ -193,6 +178,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
       plugins: [
         image() as any,
         cssInjectedByJsPlugin(),
+        optimizer({}),
         tsConfigPaths({
           root: config.cwd,
           projects: config.tsConfigFile ? [config.tsConfigFile] : undefined,

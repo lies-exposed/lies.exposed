@@ -1,5 +1,6 @@
+import { importDefault } from "@liexp/core/lib/esm/import-default.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import RPEditor, {
+import _RPEditor, {
   type EditorProps as RPEditorProps,
   type Cell,
   type I18nField,
@@ -12,6 +13,7 @@ import { getTextContents } from "./utils.js";
 
 type I18nEnField = I18nField<Record<string, any>>;
 
+const RPEditor = importDefault(_RPEditor).default;
 export interface EditorProps extends RPEditorProps {
   slate: SlateCellPlugin<any>;
 }

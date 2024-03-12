@@ -3644,6 +3644,7 @@ __metadata:
     vite-plugin-css-injected-by-js: ^3.4.0
     vite-plugin-html: ^3.2.2
     vite-plugin-html-purgecss: ^0.1.1
+    vite-plugin-optimizer: ^1.4.3
     vite-tsconfig-paths: ^4.3.1
   peerDependencies:
     debug: ^4.3.1
@@ -24705,6 +24706,13 @@ __metadata:
   peerDependencies:
     vite: ">=2.0.0"
   checksum: 2fd6e1f91f74a4432222ed28e68d5f27e58ccbc9ad44e71ff9d02b684b358b0c634bdb4dd32e9d93d09e88d83c3b7b74b89698e25510bc5b94173cdc067b3ac2
+  languageName: node
+  linkType: hard
+
+"vite-plugin-optimizer@npm:^1.4.3":
+  version: 1.4.3
+  resolution: "vite-plugin-optimizer@npm:1.4.3"
+  checksum: be177c4d6a333ccdc84d0d39ade1e395d3e526c78b86ea838b7e8d97e1aae7fadbb4e235bbea274cf84d9d6444762510c68ef90a94e33a5c20d6787755c1a232
   languageName: node
   linkType: hard
 

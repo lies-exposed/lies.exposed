@@ -3,8 +3,6 @@ import { clsx } from "clsx";
 import * as React from "react";
 import _SlickSlider, { type Settings } from "react-slick";
 import { styled, useTheme } from "../../../theme/index.js";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 const PREFIX = "Slider";
 
