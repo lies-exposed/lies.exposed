@@ -3809,7 +3809,7 @@ __metadata:
     axios: ^1.6.7
     chroma-js: ^2.4.2
     clsx: ^2.1.0
-    d3: ^7.8.5
+    d3: ^7.9.0
     d3-sankey: ^0.12.3
     d3-sankey-circular: ^0.34.0
     date-fns: ^2.30.0
@@ -12326,9 +12326,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"d3@npm:^7.8.5":
-  version: 7.8.5
-  resolution: "d3@npm:7.8.5"
+"d3@npm:^7.9.0":
+  version: 7.9.0
+  resolution: "d3@npm:7.9.0"
   dependencies:
     d3-array: 3
     d3-axis: 3
@@ -12360,7 +12360,7 @@ __metadata:
     d3-timer: 3
     d3-transition: 3
     d3-zoom: 3
-  checksum: e407e79731f74d946a5eb8dec2f037b5a4ad33c294409b1d3531fdf7094de48adfe364974cb37e2396bdb81e23149d56d0ede716c004d6aebb52b3cc114cd15c
+  checksum: 1c0e9135f1fb78aa32b187fafc8b56ae6346102bd0e4e5e5a5339611a51e6038adbaa293fae373994228100eddd87320e930b1be922baeadc07c9fd43d26d99b
   languageName: node
   linkType: hard
 
@@ -22877,7 +22877,7 @@ __metadata:
     "@storybook/theming": ^7.6.17
     "@types/babel__preset-env": ^7.9.6
     "@types/eslint": ^8.56.5
-    d3: ^7.8.5
+    d3: ^7.9.0
     eslint: ^8.57.0
     io-ts: ^2.2.21
     prettier: ^3.2.5
@@ -24986,7 +24986,7 @@ __metadata:
     bs58: ^5.0.0
     clsx: ^2.1.0
     compression: ^1.7.4
-    d3: ^7.8.5
+    d3: ^7.9.0
     debug: ^4.3.4
     dotenv: ^16.4.5
     eslint: ^8.57.0
