@@ -1,8 +1,8 @@
 import { type Area } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { AutoSizer } from "react-virtualized";
-import AreasMap from "../../components/AreasMap.js";
 import QueriesRenderer from "../../components/QueriesRenderer.js";
+import AreasMap from "../../components/area/AreasMap.js";
 import { AreaList } from "../../components/lists/AreaList.js";
 import { Box, Grid } from "../../components/mui/index.js";
 

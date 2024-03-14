@@ -1,5 +1,6 @@
 import {
   ACTOR_INLINE,
+  AREA_INLINE,
   EVENT_BLOCK_PLUGIN,
   GROUP_INLINE,
   KEYWORD_INLINE,
@@ -11,6 +12,7 @@ import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import React from "react";
 import { CircularProgress } from "../../../../mui/index.js";
 import { ActorInlineRenderer } from "../actor/ActorInline.plugin.js";
+import { AreaInlineRenderer } from "../area/AreaInline.plugin.js";
 import { EventBlockPluginRenderer } from "../event/eventBlock.plugin.js";
 import { GroupInlineRenderer } from "../group/GroupInline.plugin.js";
 import { KeywordInlineRenderer } from "../keyword/KeywordInline.plugin.js";
@@ -42,6 +44,9 @@ export const ComponentPickerPopoverRenderer: SlateComponentPluginDefinition<Comp
           }
           case LINK_INLINE: {
             return <LinkInlineRenderer {...{ ...props, readOnly, ...data }} />;
+          }
+          case AREA_INLINE: {
+            return <AreaInlineRenderer {...{ ...props, readOnly, ...data }} />;
           }
           case EVENT_BLOCK_PLUGIN: {
             return (

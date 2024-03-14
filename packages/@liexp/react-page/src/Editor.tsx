@@ -26,6 +26,9 @@ const Editor: React.FC<EditorProps> = ({
 }) => {
   const [open, setOpen] = React.useState(false);
 
+  // const debounceSetValue = debounce((v: Value) => {
+  //   onChange?.(v);
+  // }, 2000);
   const handleChange = (v: Value): void => {
     const lastChar = pipe(
       pipe(

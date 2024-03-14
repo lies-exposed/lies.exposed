@@ -5,9 +5,9 @@ import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { LoadingIndicator, useEditContext } from "react-admin";
 import { ECOTheme } from "../../../theme/index.js";
-import { AreaPageContent } from "../../AreaPageContent.js";
 import { HelmetProvider } from "../../SEO.js";
 import { ValidationErrorsLayout } from "../../ValidationErrorsLayout.js";
+import { AreaPageContent } from "../../area/AreaPageContent.js";
 import { ThemeProvider } from "../../mui/index.js";
 
 const AreaPreview: React.FC = () => {

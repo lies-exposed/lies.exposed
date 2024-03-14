@@ -1,8 +1,8 @@
 import { type Media, type Area } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import MediaSliderBox from "../containers/MediaSliderBox.js";
-import { editor } from "./Common/Editor/index.js";
-import { Box, Grid } from "./mui/index.js";
+import MediaSliderBox from "../../containers/MediaSliderBox.js";
+import { editor } from "../Common/Editor/index.js";
+import { Box, Grid } from "../mui/index.js";
 
 export interface AreaPageContentProps {
   area: Area.Area;

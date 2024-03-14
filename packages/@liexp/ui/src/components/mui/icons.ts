@@ -23,6 +23,7 @@ import {
   Undo,
   TagOutlined as RecentKeywordsIcon,
   OpenInFull,
+  PinOutlined,
 } from "@mui/icons-material";
 
 export {
@@ -48,4 +49,5 @@ export {
   Undo,
   RecentKeywordsIcon,
   OpenInFull,
+  PinOutlined,
 };
