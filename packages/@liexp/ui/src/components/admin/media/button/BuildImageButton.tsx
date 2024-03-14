@@ -65,6 +65,8 @@ export const LayerBox: React.FC<{
                 onChange={(e) => {
                   handleSetLayer({ width: +e.target.value });
                 }}
+                onPointerEnterCapture={() => {}}
+                onPointerLeaveCapture={() => {}}
               />
             </Grid>
             <Grid item md={3} sm={6}>
@@ -75,6 +77,8 @@ export const LayerBox: React.FC<{
                 onChange={(e) => {
                   handleSetLayer({ height: +e.target.value });
                 }}
+                onPointerEnterCapture={() => {}}
+                onPointerLeaveCapture={() => {}}
               />
             </Grid>
             <Grid item md={3} sm={6}>
