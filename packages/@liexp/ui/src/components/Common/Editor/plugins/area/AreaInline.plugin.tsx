@@ -1,17 +1,15 @@
-import { GROUP_INLINE } from "@liexp/react-page/lib/customSlate.js";
+import { AREA_INLINE } from "@liexp/react-page/lib/customSlate.js";
 import { pluginFactories } from "@liexp/react-page/lib/index.js";
 import type {
   CellPluginComponentProps,
   DataTType,
+  SlateComponentPluginDefinition,
+  SlatePluginControls,
 } from "@liexp/react-page/lib/react-page.types.js";
-import {
-  type SlateComponentPluginDefinition,
-  type SlatePluginControls,
-} from "@liexp/react-page/lib/react-page.types.js";
-import { type Group } from "@liexp/shared/lib/io/http/index.js";
+import { type Area } from "@liexp/shared/lib/io/http/index.js";
 import React from "react";
-import { AutocompleteGroupInput } from "../../../../Input/AutocompleteGroupInput.js";
-import { GroupChip } from "../../../../groups/GroupChip.js";
+import { AutocompleteAreaInput } from "../../../../Input/AutocompleteAreaInput.js";
+import { AreaChip } from "../../../../area/AreaChip.js";
 import {
   Box,
   Button,
@@ -26,38 +24,38 @@ import {
   ComponentPickerPopoverRendererAnchorWrapper,
 } from "../ComponentPickerPopover/ComponentPickerPopoverPluginControlAnchor.js";
 
-export interface GroupInlineState extends DataTType {
-  group: Group.Group;
-  displayAvatar: boolean;
-  displayFullName: boolean;
+export interface AreaInlineState extends DataTType {
+  area: Area.Area;
+  displayFeaturedMedia: boolean;
+  displayLabel: boolean;
 }
 
-export interface GroupInlineSettings {
+export interface AreaInlineSettings {
   icon?: React.ReactNode;
 }
 
-export const defaultSettings: GroupInlineSettings = {
-  icon: <Icons.GroupIcon />,
+export const defaultSettings: AreaInlineSettings = {
+  icon: <Icons.PinDrop />,
 };
 
-export type GroupInlineControlType = React.ComponentType<
-  CellPluginComponentProps<GroupInlineState>
+export type AreaInlineControlType = React.ComponentType<
+  CellPluginComponentProps<AreaInlineState>
 >;
 
-export const GroupInlineControlContent: React.FC<{
-  data: Partial<GroupInlineState>;
-  onAdd: (d: GroupInlineState) => void;
+export const AreaInlineControlContent: React.FC<{
+  data: Partial<AreaInlineState>;
+  onAdd: (d: AreaInlineState) => void;
   onRemove: () => void;
 }> = ({ data, onAdd, onRemove }) => {
-  const [s, setS] = React.useState<GroupInlineState>({
-    group: data.group as any,
-    displayAvatar: !!data.displayAvatar,
-    displayFullName: !!data.displayFullName,
+  const [s, setS] = React.useState<AreaInlineState>({
+    area: data.area as any,
+    displayFeaturedMedia: !!data?.displayFeaturedMedia,
+    displayLabel: !!data?.displayLabel,
   });
 
   const selectedItems = React.useMemo(
-    () => ([] as any[]).concat(s?.group ? [s.group] : []),
-    [s.group],
+    () => ([] as any[]).concat(s.area ? [s.area] : []),
+    [s.area],
   );
 
   return (
@@ -70,17 +68,17 @@ export const GroupInlineControlContent: React.FC<{
       }}
     >
       <Grid container spacing={2}>
-        <Grid item sm={12}>
-          <AutocompleteGroupInput
+        <Grid item sm={12} style={{ width: "100%" }}>
+          <AutocompleteAreaInput
             discrete={false}
             selectedItems={selectedItems}
             onChange={(items) => {
-              const newGroup = items[items.length - 1];
+              const newArea = items[items.length - 1];
 
-              setS((s) => ({
+              setS({
                 ...s,
-                group: newGroup,
-              }));
+                area: newArea,
+              });
             }}
           />
         </Grid>
@@ -92,12 +90,12 @@ export const GroupInlineControlContent: React.FC<{
                 color="info"
                 disabled={false}
                 size="small"
-                checked={s.displayAvatar}
+                value={s.displayFeaturedMedia}
                 onChange={(v, c) => {
-                  setS({
+                  setS((s) => ({
                     ...s,
-                    displayAvatar: c,
-                  });
+                    displayFeaturedMedia: c,
+                  }));
                 }}
               />
             }
@@ -109,11 +107,11 @@ export const GroupInlineControlContent: React.FC<{
                 color="info"
                 disabled={false}
                 size="small"
-                checked={s.displayFullName}
+                checked={s.displayLabel}
                 onChange={(v, c) => {
                   setS({
                     ...s,
-                    displayFullName: c,
+                    displayLabel: c,
                   });
                 }}
               />
@@ -124,12 +122,12 @@ export const GroupInlineControlContent: React.FC<{
         <Grid item sm={12}>
           <Button
             variant="contained"
-            disabled={!s.group}
+            disabled={!s.area}
             onClick={() => {
               onAdd(s);
             }}
           >
-            Add
+            Insert
           </Button>
           <Button
             onClick={() => {
@@ -144,9 +142,9 @@ export const GroupInlineControlContent: React.FC<{
   );
 };
 
-export const GroupInlineControl: React.FC<
-  SlatePluginControls<GroupInlineState> & { popover?: PopoverProps }
-> = ({ add, remove, close, isActive, data, open, popover, ...props }) => {
+export const AreaInlineControl: React.FC<
+  SlatePluginControls<AreaInlineState> & { popover?: PopoverProps }
+> = ({ isActive, add, remove, close, data, open, popover, ...props }) => {
   return (
     <ComponentPickerPopoverControlAnchorWrapper active={isActive && open}>
       {(anchorEl) => (
@@ -158,9 +156,11 @@ export const GroupInlineControl: React.FC<
             close();
           }}
         >
-          <GroupInlineControlContent
+          <AreaInlineControlContent
             {...props}
-            data={{ ...data }}
+            data={{
+              ...data,
+            }}
             onAdd={(d) => {
               add({ data: d });
               close();
@@ -178,38 +178,34 @@ export const GroupInlineControl: React.FC<
   );
 };
 
-export const GroupInlineRenderer: SlateComponentPluginDefinition<GroupInlineState>["Component"] =
+export const AreaInlineRenderer: SlateComponentPluginDefinition<AreaInlineState>["Component"] =
   ({
-    displayFullName,
-    displayAvatar,
-    group,
+    displayLabel,
+    displayFeaturedMedia,
+    area,
     style,
     className,
-    getTextContents,
     useSelected,
+    useFocused,
+    getTextContents,
     readOnly,
     ...props
   }) => {
-    // console.log("group inline", {
-    //   ...props,
-    //   group,
-    //   displayAvatar,
-    //   className,
-    // });
+    const isSelected = useSelected();
 
     return (
       <ComponentPickerPopoverRendererAnchorWrapper
-        name={`group-${group?.id}`}
-        readOnly={readOnly as any}
-        hasData={!!group}
-        isSelected={useSelected()}
+        name={`Area-${area?.id}`}
+        hasData={!!area}
+        isSelected={isSelected}
+        readOnly={readOnly as boolean}
       >
-        <GroupChip
+        <AreaChip
           className={className}
           style={{ ...style, display: "inline-block" }}
-          displayName={displayFullName}
-          // displayAvatar={displayAvatar}
-          group={group}
+          displayLabel={displayLabel}
+          displayFeaturedMedia={displayFeaturedMedia}
+          area={area}
           avatarStyle={{
             display: "inline-block",
             verticalAlign: "middle",
@@ -220,21 +216,23 @@ export const GroupInlineRenderer: SlateComponentPluginDefinition<GroupInlineStat
     );
   };
 
-const groupInlinePlugin =
-  pluginFactories.createComponentPlugin<GroupInlineState>({
-    Component: GroupInlineRenderer,
+const areaInlinePlugin = pluginFactories.createComponentPlugin<AreaInlineState>(
+  {
+    Component: AreaInlineRenderer,
     controls: {
       type: "custom",
-      Component: GroupInlineControl,
+      Component: AreaInlineControl,
     },
     addHoverButton: true,
     addToolbarButton: true,
-    type: GROUP_INLINE,
+    type: AREA_INLINE,
     object: "inline",
     isVoid: true,
-    icon: <Icons.GroupIcon />,
-    label: "Group",
-  });
+    icon: <Icons.PinDrop />,
+    label: "Area",
+  },
+);
 
-export const GroupInlinePluginIcon = Icons.GroupIcon;
-export { groupInlinePlugin };
+export const AreaInlinePluginIcon = Icons.PinDrop;
+
+export { areaInlinePlugin };

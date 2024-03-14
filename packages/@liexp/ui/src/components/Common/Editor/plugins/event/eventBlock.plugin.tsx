@@ -1,3 +1,4 @@
+import { EVENT_BLOCK_PLUGIN } from "@liexp/react-page/lib/customSlate.js";
 import type {
   CellPlugin,
   CellPluginComponentProps,
@@ -6,7 +7,6 @@ import type {
   DataTType,
   ImageUploadType,
 } from "@liexp/react-page/lib/react-page.types.js";
-import { EVENT_BLOCK_PLUGIN } from "@liexp/react-page/lib/slate/plugins/customSlate.js";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
 import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
 import { parseISO } from "date-fns";

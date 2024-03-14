@@ -1,6 +1,7 @@
 import { createEditor } from "@liexp/react-page/lib/index.js";
 import { componentPickerPopoverPlugin } from "./plugins/ComponentPickerPopover/index.js";
 import { actorInlinePlugin } from "./plugins/actor/ActorInline.plugin.js";
+import { areaInlinePlugin } from "./plugins/area/AreaInline.plugin.js";
 import eventsBlock from "./plugins/event/eventBlock.plugin.js";
 import gridCellPlugin from "./plugins/gridCellPlugin.js";
 import { groupInlinePlugin } from "./plugins/group/GroupInline.plugin.js";
@@ -18,6 +19,7 @@ const editor = createEditor({
     groupInlinePlugin,
     keywordInlinePlugin,
     linkInlinePlugin,
+    areaInlinePlugin,
     componentPickerPopoverPlugin,
   },
 });

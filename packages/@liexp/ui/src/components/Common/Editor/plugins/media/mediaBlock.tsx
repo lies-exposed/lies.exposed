@@ -1,3 +1,4 @@
+import { MEDIA_BLOCK_PLUGIN } from "@liexp/react-page/lib/customSlate.js";
 import type {
   CellPlugin,
   CellPluginComponentProps,
@@ -6,7 +7,6 @@ import type {
   DataTType,
   ImageUploadType,
 } from "@liexp/react-page/lib/react-page.types.js";
-import { MEDIA_BLOCK_PLUGIN } from "@liexp/react-page/lib/slate/plugins/customSlate.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import React from "react";
 import { AutocompleteMediaInput } from "../../../../Input/AutocompleteMediaInput.js";

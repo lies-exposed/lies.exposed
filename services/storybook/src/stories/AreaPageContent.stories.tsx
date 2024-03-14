@@ -1,9 +1,9 @@
+import { MainContent } from "@liexp/ui/lib/components/MainContent.js";
+import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import {
   AreaPageContent,
   type AreaPageContentProps,
-} from "@liexp/ui/lib/components/AreaPageContent.js";
-import { MainContent } from "@liexp/ui/lib/components/MainContent.js";
-import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
+} from "@liexp/ui/lib/components/area/AreaPageContent.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
