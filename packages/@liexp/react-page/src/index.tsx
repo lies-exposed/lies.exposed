@@ -8,7 +8,7 @@ import video from "@react-page/plugins-video";
 import * as React from "react";
 import Editor from "./Editor.js";
 import { LiexpEditorProps } from "./EditorProps.js";
-import { getLiexpSlate } from "./slate/index.js";
+import { getLiexpSlate } from "./customSlate.js";
 import { LiexpEditor } from "./types.js";
 import {
   createExcerptValue,

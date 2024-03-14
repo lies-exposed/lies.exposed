@@ -20,7 +20,7 @@ import {
   MEDIA_BLOCK_PLUGIN,
   isMediaBlockCell,
   isEventBlockCell,
-} from "./slate/plugins/customSlate.js";
+} from "./customSlate.js";
 import { LiexpEditor } from "./types.js";
 
 export const getTextContents =

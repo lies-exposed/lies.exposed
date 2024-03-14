@@ -1,13 +1,11 @@
+import { ACTOR_INLINE } from "@liexp/react-page/lib/customSlate.js";
 import { pluginFactories } from "@liexp/react-page/lib/index.js";
 import type {
   CellPluginComponentProps,
   DataTType,
+  SlateComponentPluginDefinition,
+  SlatePluginControls,
 } from "@liexp/react-page/lib/react-page.types.js";
-import { ACTOR_INLINE } from "@liexp/react-page/lib/slate/plugins/customSlate.js";
-import {
-  type SlateComponentPluginDefinition,
-  type SlatePluginControls,
-} from "@liexp/react-page/lib/slate/types.js";
 import { type Actor } from "@liexp/shared/lib/io/http/index.js";
 import React from "react";
 import { AutocompleteActorInput } from "../../../../Input/AutocompleteActorInput.js";

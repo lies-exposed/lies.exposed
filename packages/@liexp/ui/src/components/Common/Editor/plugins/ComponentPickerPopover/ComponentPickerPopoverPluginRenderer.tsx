@@ -5,8 +5,8 @@ import {
   KEYWORD_INLINE,
   LINK_INLINE,
   MEDIA_BLOCK_PLUGIN,
-} from "@liexp/react-page/lib/slate/plugins/customSlate.js";
-import { type SlateComponentPluginDefinition } from "@liexp/react-page/lib/slate/types.js";
+} from "@liexp/react-page/lib/customSlate.js";
+import { type SlateComponentPluginDefinition } from "@liexp/react-page/lib/react-page.types.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import React from "react";
 import { CircularProgress } from "../../../../mui/index.js";
