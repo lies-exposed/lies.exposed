@@ -3627,7 +3627,7 @@ __metadata:
     "@types/eslint__js": ^8.42.3
     "@types/express": ^4.17.21
     "@types/mime": ^1.3.5
-    "@types/react": ^18.2.65
+    "@types/react": ^18.2.66
     "@vitejs/plugin-react": ^4.2.1
     eslint: ^8.57.0
     eslint-plugin-fp-ts: ^0.3.2
@@ -3669,7 +3669,7 @@ __metadata:
     "@react-page/plugins-video": ^5.4.4
     "@react-page/react-admin": ^5.4.4
     "@types/eslint": ^8.56.5
-    "@types/react": ^18.2.65
+    "@types/react": ^18.2.66
     "@types/react-dom": ^18.2.22
     eslint: ^8.57.0
     react: ^18.2.0
@@ -3697,7 +3697,7 @@ __metadata:
     "@liexp/core": 0.1.0
     "@liexp/test": 0.1.0
     "@types/bs58": ^4.0.4
-    "@types/react": ^18.2.65
+    "@types/react": ^18.2.66
     "@types/react-dom": ^18.2.22
     "@types/throttle-debounce": ^5.0.2
     "@types/uuid": ^9.0.8
@@ -3777,7 +3777,7 @@ __metadata:
     "@types/d3-sankey": ^0.12.4
     "@types/eslint": ^8.56.5
     "@types/reach__router": ^1.3.15
-    "@types/react": ^18.2.65
+    "@types/react": ^18.2.66
     "@types/react-helmet": ^6.1.11
     "@types/react-slick": ^0.23.13
     "@types/react-virtualized": ^9.21.29
@@ -8405,14 +8405,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^18.2.65":
-  version: 18.2.65
-  resolution: "@types/react@npm:18.2.65"
+"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^18.2.66":
+  version: 18.2.66
+  resolution: "@types/react@npm:18.2.66"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: 1931a8b36e3135f3058e988cfc0d4ffe4b75af10b8efcf8b7e5759934333922162394edff9ccf8aff838e8db62de014c015c9c094597fdf9ca1405ac1d040fdf
+  checksum: 266cdd046bd1bb4f1e2d07bba305e1264e91bedcb9e8643e303fc80468f3cf0860c82982589c67fc07a10f5496eb04c1cc2bf8283484f27a605c2651c6c8f3f3
   languageName: node
   linkType: hard
 
@@ -9514,7 +9514,7 @@ __metadata:
     "@types/debug": ^4.1.12
     "@types/lodash": ^4.17.0
     "@types/node": ^20.11.27
-    "@types/react": ^18.2.65
+    "@types/react": ^18.2.66
     "@types/react-dom": ^18.2.22
     "@typescript-eslint/eslint-plugin": ^7.2.0
     "@typescript-eslint/parser": ^7.2.0
@@ -9768,7 +9768,7 @@ __metadata:
     "@types/node-telegram-bot-api": ^0.64.3
     "@types/pg": ^8.11.2
     "@types/prompts": ^2.4.9
-    "@types/react": ^18.2.65
+    "@types/react": ^18.2.66
     "@types/react-dom": ^18.2.22
     "@types/supertest": ^6.0.2
     "@types/uuid": ^9.0.8
@@ -24965,7 +24965,7 @@ __metadata:
     "@types/express": ^4.17.21
     "@types/mime": ^1.3.5
     "@types/node": ^20.11.27
-    "@types/react": ^18.2.65
+    "@types/react": ^18.2.66
     "@types/react-calendar-heatmap": ^1.6.7
     "@types/react-dom": ^18.2.22
     "@types/react-helmet": ^6.1.11
