@@ -1,6 +1,6 @@
 import * as React from "react";
-import AreasMap, { type AreasMapProps } from "../components/AreasMap.js";
 import QueriesRenderer from "../components/QueriesRenderer.js";
+import AreasMap, { type AreasMapProps } from "../components/area/AreasMap.js";
 
 const AreasMapBox: React.FC<AreasMapProps> = (props) => {
   return (

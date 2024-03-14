@@ -10,7 +10,6 @@ import {
 } from "@liexp/shared/lib/utils/date.utils.js";
 import subYears from "date-fns/subYears/index.js";
 import * as React from "react";
-import AreasMap from "../components/AreasMap.js";
 import { editor } from "../components/Common/Editor/index.js";
 import { EventIcon } from "../components/Common/Icons/EventIcon.js";
 import { EventPageContent } from "../components/EventPageContent.js";
@@ -18,6 +17,7 @@ import { GroupMembersList } from "../components/GroupMembersBox.js";
 import { KeywordsBox } from "../components/KeywordsBox.js";
 import { LinksListBox } from "../components/LinksBox.js";
 import SEO from "../components/SEO.js";
+import AreasMap from "../components/area/AreasMap.js";
 import { EventRelatedEvents } from "../components/events/EventRelatedEvents/EventRelatedEvents.js";
 import { EventRelations } from "../components/events/EventRelations.js";
 import { ActorList } from "../components/lists/ActorList.js";

@@ -11,6 +11,7 @@ module.exports = {
         "shared",
         "test",
         "backend",
+        "react-page",
         "ui",
         "web",
         "admin",

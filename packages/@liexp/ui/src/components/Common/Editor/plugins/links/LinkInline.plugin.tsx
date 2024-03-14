@@ -1,13 +1,13 @@
+import { LINK_INLINE } from "@liexp/react-page/lib/customSlate.js";
 import { pluginFactories } from "@liexp/react-page/lib/index.js";
 import type {
   CellPluginComponentProps,
   DataTType,
 } from "@liexp/react-page/lib/react-page.types.js";
-import { LINK_INLINE } from "@liexp/react-page/lib/slate/plugins/customSlate.js";
 import {
   type SlateComponentPluginDefinition,
   type SlatePluginControls,
-} from "@liexp/react-page/lib/slate/types.js";
+} from "@liexp/react-page/lib/react-page.types.js";
 import { type Link } from "@liexp/shared/lib/io/http/index.js";
 import React from "react";
 import { AutocompleteLinkInput } from "../../../../Input/AutocompleteLinkInput.js";

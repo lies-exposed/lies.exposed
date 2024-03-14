@@ -1,9 +1,9 @@
 import { importDefault } from "@liexp/core/lib/esm/import-default.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import _RPEditor, {
-  type EditorProps as RPEditorProps,
   type Cell,
   type I18nField,
+  type EditorProps as RPEditorProps,
   type Row,
   type Value,
 } from "@react-page/editor/lib/index.js";
@@ -26,6 +26,9 @@ const Editor: React.FC<EditorProps> = ({
 }) => {
   const [open, setOpen] = React.useState(false);
 
+  // const debounceSetValue = debounce((v: Value) => {
+  //   onChange?.(v);
+  // }, 2000);
   const handleChange = (v: Value): void => {
     const lastChar = pipe(
       pipe(
@@ -66,6 +69,9 @@ const Editor: React.FC<EditorProps> = ({
         }),
     );
 
+    // console.log(lastChar);
+
+    // TODO: last char is always empty string
     if (lastChar === "/") {
       if (!open) {
         setOpen(true);
@@ -74,12 +80,13 @@ const Editor: React.FC<EditorProps> = ({
       if (open) {
         setOpen(false);
       }
+
       onChange?.(v);
     }
   };
 
-  // console.log({ value })
-  return <RPEditor value={value} onChange={handleChange} {...props}></RPEditor>;
+  // console.log({ value, props })
+  return <RPEditor {...props} value={value} onChange={handleChange}></RPEditor>;
 };
 
 export default Editor;

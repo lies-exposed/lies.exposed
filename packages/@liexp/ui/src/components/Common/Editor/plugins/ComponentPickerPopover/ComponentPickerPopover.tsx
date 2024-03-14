@@ -1,17 +1,19 @@
 import {
   ACTOR_INLINE,
+  AREA_INLINE,
   EVENT_BLOCK_PLUGIN,
   GROUP_INLINE,
   LINK_INLINE,
   MEDIA_BLOCK_PLUGIN,
-} from "@liexp/react-page/lib/slate/plugins/customSlate.js";
-import { type SlatePluginControls } from "@liexp/react-page/lib/slate/types.js";
+} from "@liexp/react-page/lib/customSlate.js";
+import { type SlatePluginControls } from "@liexp/react-page/lib/react-page.types.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 // eslint-disable-next-line no-restricted-imports
 import * as React from "react";
 import { List, ListItem, Typography } from "../../../../mui/index.js";
 import { Popover, type PopoverProps } from "../../../Popover.js";
 import { ActorInlineControlContent } from "../actor/ActorInline.plugin.js";
+import { AreaInlineControlContent } from "../area/AreaInline.plugin.js";
 import { EventBlockPluginControl } from "../event/eventBlock.plugin.js";
 import { GroupInlineControlContent } from "../group/GroupInline.plugin.js";
 import { KeywordInlineControlContent } from "../keyword/KeywordInline.plugin.js";
@@ -72,6 +74,9 @@ export const ComponentsPickerPopover: React.FC<
       }
       case LINK_INLINE: {
         return <LinkInlineControlContent {...plugin} {...commonProps} />;
+      }
+      case AREA_INLINE: {
+        return <AreaInlineControlContent {...plugin} {...commonProps} />;
       }
       case MEDIA_BLOCK_PLUGIN: {
         const data: MediaBlockState = {
