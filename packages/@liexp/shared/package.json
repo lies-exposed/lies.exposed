@@ -49,7 +49,7 @@
   "devDependencies": {
     "@liexp/test": "0.1.0",
     "@types/bs58": "^4.0.4",
-    "@types/react": "^18.2.65",
+    "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@types/throttle-debounce": "^5.0.2",
     "@types/uuid": "^9.0.8",
