@@ -35,7 +35,7 @@
     "@liexp/ui": "0.1.0",
     "@mui/icons-material": "^5.15.13",
     "@mui/material": "^5.15.13",
-    "@tanstack/react-query": "^5.27.5",
+    "@tanstack/react-query": "^5.28.4",
     "@visx/axis": "^3.10.1",
     "@visx/gradient": "^3.3.0",
     "@visx/legend": "^3.5.0",
