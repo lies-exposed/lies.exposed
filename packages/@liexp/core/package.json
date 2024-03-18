@@ -17,7 +17,7 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\""
   },
   "dependencies": {
-    "fp-ts": "^2.16.3",
+    "fp-ts": "^2.16.4",
     "io-ts": "^2.2.21",
     "io-ts-types": "^0.5.19",
     "vite-plugin-css-injected-by-js": "^3.4.0",
