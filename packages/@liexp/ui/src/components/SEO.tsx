@@ -1,6 +1,8 @@
 import * as React from "react";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import * as HelmetAsync from "react-helmet-async";
 import { useConfiguration } from "../context/ConfigurationContext.js";
+
+const { Helmet, HelmetProvider } = HelmetAsync;
 
 interface SEOProps {
   description?: string;
