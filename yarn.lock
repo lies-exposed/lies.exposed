@@ -3777,7 +3777,7 @@ __metadata:
     "@mui/x-data-grid": ^6.19.6
     "@reach/router": ^1.3.4
     "@tanstack/eslint-plugin-query": ^5.27.7
-    "@tanstack/react-query": ^5.27.5
+    "@tanstack/react-query": ^5.28.4
     "@types/chroma-js": ^2.4.4
     "@types/d3": ^7.4.3
     "@types/d3-sankey": ^0.12.4
@@ -6964,21 +6964,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.27.5":
-  version: 5.27.5
-  resolution: "@tanstack/query-core@npm:5.27.5"
-  checksum: 176bb29f39182a57ebaaa11b215fdd2df7e54fcf520a06957692875f736d8397cf65da4627ba6f9f10b763b2ee7f81b0d8da7d70d42d91c598dd2993e58bdbfb
+"@tanstack/query-core@npm:5.28.4":
+  version: 5.28.4
+  resolution: "@tanstack/query-core@npm:5.28.4"
+  checksum: d6dfbd2f14a6c7a3100e54c20b7ac42d7ea74b9d86772ae9b79f18885ebf0256f42f085abe87b8cab336e736d721ef4d68e81875b3bde8bb5145cfa362cd913f
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.27.5":
-  version: 5.27.5
-  resolution: "@tanstack/react-query@npm:5.27.5"
+"@tanstack/react-query@npm:^5.28.4":
+  version: 5.28.4
+  resolution: "@tanstack/react-query@npm:5.28.4"
   dependencies:
-    "@tanstack/query-core": 5.27.5
+    "@tanstack/query-core": 5.28.4
   peerDependencies:
     react: ^18.0.0
-  checksum: 9aefd7bc568c48120e7c1cff17f108d95606ecaab38c49f5f318c11bd843b3d25b9c835ad8b95517d3926cdaf8d7840da1c5c788a48a6d0ca6a5c25f3b3db47b
+  checksum: 1d7a4cf7ffd8b141fcb75e6c31cd8c7e0b8ecc6ff0d974ebe6226fe50df7da890bdae3349cdef89dac86b1c3506924640743dd58739f9cebfdf018ca6b609f68
   languageName: node
   linkType: hard
 
@@ -9535,7 +9535,7 @@ __metadata:
     "@liexp/shared": 0.1.0
     "@liexp/ui": 0.1.0
     "@mui/material": ^5.15.13
-    "@tanstack/react-query": ^5.27.5
+    "@tanstack/react-query": ^5.28.4
     "@testing-library/dom": ^9.3.3
     "@testing-library/react": ^14.0.0
     "@testing-library/user-event": ^14.5.1
@@ -9781,7 +9781,7 @@ __metadata:
     "@liexp/react-page": 0.1.0
     "@liexp/shared": 0.1.0
     "@liexp/test": 0.1.0
-    "@tanstack/react-query": ^5.27.5
+    "@tanstack/react-query": ^5.28.4
     "@types/body-parser": ^1.19.5
     "@types/cors": ^2.8.17
     "@types/debug": ^4.1.12
@@ -24875,7 +24875,7 @@ __metadata:
     "@liexp/ui": 0.1.0
     "@mui/icons-material": ^5.15.13
     "@mui/material": ^5.15.13
-    "@tanstack/react-query": ^5.27.5
+    "@tanstack/react-query": ^5.28.4
     "@types/bs58": ^4.0.4
     "@types/compression": ^1.7.5
     "@types/d3": ^7.4.3

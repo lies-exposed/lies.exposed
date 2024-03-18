@@ -62,7 +62,7 @@
     "@liexp/core": "0.1.0",
     "@liexp/react-page": "0.1.0",
     "@liexp/shared": "0.1.0",
-    "@tanstack/react-query": "^5.27.5",
+    "@tanstack/react-query": "^5.28.4",
     "axios": "^1.6.7",
     "canvas": "^2.11.2",
     "cors": "2.8.5",
