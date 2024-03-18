@@ -74,7 +74,7 @@
     "fast-csv": "^5.0.1",
     "fluent-ffmpeg": "^2.1.2",
     "form-data": "^4.0.0",
-    "fp-ts": "^2.16.3",
+    "fp-ts": "^2.16.4",
     "front-matter": "4.0.2",
     "gray-matter": "^4.0.3",
     "instagram-private-api": "^1.46.1",
