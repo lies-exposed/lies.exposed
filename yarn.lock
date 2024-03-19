@@ -3515,7 +3515,7 @@ __metadata:
     "@liexp/test": 0.1.0
     "@types/fluent-ffmpeg": ^2.1.24
     "@types/jsonwebtoken": ^9.0.6
-    "@types/node-telegram-bot-api": ^0.64.4
+    "@types/node-telegram-bot-api": ^0.64.6
     "@types/uuid": ^9.0.8
     date-fns: ^2.30.0
     exifreader: ^4.20.0
@@ -3567,7 +3567,7 @@ __metadata:
     "@types/eslint__js": ^8.42.3
     "@types/express": ^4.17.21
     "@types/mime": ^1.3.5
-    "@types/react": ^18.2.66
+    "@types/react": ^18.2.67
     "@vitejs/plugin-react": ^4.2.1
     eslint: ^8.57.0
     eslint-plugin-fp-ts: ^0.3.2
@@ -3609,7 +3609,7 @@ __metadata:
     "@react-page/plugins-video": ^5.4.4
     "@react-page/react-admin": ^5.4.4
     "@types/eslint": ^8.56.6
-    "@types/react": ^18.2.66
+    "@types/react": ^18.2.67
     "@types/react-dom": ^18.2.22
     eslint: ^8.57.0
     react: ^18.2.0
@@ -3637,7 +3637,7 @@ __metadata:
     "@liexp/core": 0.1.0
     "@liexp/test": 0.1.0
     "@types/bs58": ^4.0.4
-    "@types/react": ^18.2.66
+    "@types/react": ^18.2.67
     "@types/react-dom": ^18.2.22
     "@types/throttle-debounce": ^5.0.2
     "@types/uuid": ^9.0.8
@@ -3717,7 +3717,7 @@ __metadata:
     "@types/d3-sankey": ^0.12.4
     "@types/eslint": ^8.56.6
     "@types/reach__router": ^1.3.15
-    "@types/react": ^18.2.66
+    "@types/react": ^18.2.67
     "@types/react-helmet": ^6.1.11
     "@types/react-slick": ^0.23.13
     "@types/react-virtualized": ^9.21.29
@@ -7658,22 +7658,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node-telegram-bot-api@npm:^0.64.4":
-  version: 0.64.4
-  resolution: "@types/node-telegram-bot-api@npm:0.64.4"
+"@types/node-telegram-bot-api@npm:^0.64.6":
+  version: 0.64.6
+  resolution: "@types/node-telegram-bot-api@npm:0.64.6"
   dependencies:
     "@types/node": "*"
     "@types/request": "*"
-  checksum: b51b8026c3a4237deb8d24972f2e6e3ecc20d89b09c278fddf5cc4be31c6bc0a19649ca62bc5f48d1c2f37cc5398278177875f3f8662eac09e9eece1fa49e6b1
+  checksum: 15c8b93ff408e0e9d38b6a2666d1103fbb11e875bcd1bd022dc2b74110671b539e08a0a154ee6a5e5b088e0a6c88e574828dab61e13584941137704d07fbb7c6
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.11.28":
-  version: 20.11.28
-  resolution: "@types/node@npm:20.11.28"
+"@types/node@npm:*, @types/node@npm:^20.11.30":
+  version: 20.11.30
+  resolution: "@types/node@npm:20.11.30"
   dependencies:
     undici-types: ~5.26.4
-  checksum: 83fe7e649c6439103872a292f7b9808233e1eea4bf7d5afa6fce71729e3f7a06933cd792543db84cf65b89ca985fb6f44efaeb748e2ce51a6525ade030338af8
+  checksum: 7597767aa3e44b0f1bf62efa522dd17741135f283c11de6a20ead8bb7016fb4999cc30adcd8f2bb29ebb216906c92894346ccd187de170927dc1e212d2c07c81
   languageName: node
   linkType: hard
 
@@ -7714,14 +7714,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pg@npm:^8.11.2":
-  version: 8.11.2
-  resolution: "@types/pg@npm:8.11.2"
+"@types/pg@npm:^8.11.3":
+  version: 8.11.3
+  resolution: "@types/pg@npm:8.11.3"
   dependencies:
     "@types/node": "*"
     pg-protocol: "*"
     pg-types: ^4.0.1
-  checksum: 2a0290a60fafed0b3994105c342ff14c4b4840e308a5a8643dcef6276d8b39b50e42c910b59b28ac2b7d1c804c8ed8bc20a3d09be5a381f4618d67f765d30702
+  checksum: 7a2ae739aefcf21db7c2f6e45f4ce887d3f12680ccd06024454230743f767eab2b518cfd2f23984a6b7f245cb0664011ffb1ca7db0761c39df00c3669810312c
   languageName: node
   linkType: hard
 
@@ -7839,7 +7839,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^16.8.0 || ^17.0.0 || ^18.0.0, @types/react@npm:^18.2.66":
+"@types/react@npm:*, @types/react@npm:^16.8.0 || ^17.0.0 || ^18.0.0, @types/react@npm:^18.2.67":
   version: 18.2.67
   resolution: "@types/react@npm:18.2.67"
   dependencies:
@@ -8940,8 +8940,8 @@ __metadata:
     "@testing-library/user-event": ^14.5.1
     "@types/debug": ^4.1.12
     "@types/lodash": ^4.17.0
-    "@types/node": ^20.11.28
-    "@types/react": ^18.2.66
+    "@types/node": ^20.11.30
+    "@types/react": ^18.2.67
     "@types/react-dom": ^18.2.22
     "@typescript-eslint/eslint-plugin": ^7.3.1
     "@typescript-eslint/parser": ^7.3.1
@@ -9183,12 +9183,12 @@ __metadata:
     "@types/jsonwebtoken": ^9.0.6
     "@types/lodash": ^4.17.0
     "@types/multer": ^1.4.11
-    "@types/node": ^20.11.28
+    "@types/node": ^20.11.30
     "@types/node-cron": ^3.0.11
-    "@types/node-telegram-bot-api": ^0.64.4
-    "@types/pg": ^8.11.2
+    "@types/node-telegram-bot-api": ^0.64.6
+    "@types/pg": ^8.11.3
     "@types/prompts": ^2.4.9
-    "@types/react": ^18.2.66
+    "@types/react": ^18.2.67
     "@types/react-dom": ^18.2.22
     "@types/supertest": ^6.0.2
     "@types/uuid": ^9.0.8
@@ -23967,8 +23967,8 @@ __metadata:
     "@types/debug": ^4.1.12
     "@types/express": ^4.17.21
     "@types/mime": ^1.3.5
-    "@types/node": ^20.11.28
-    "@types/react": ^18.2.66
+    "@types/node": ^20.11.30
+    "@types/react": ^18.2.67
     "@types/react-calendar-heatmap": ^1.6.7
     "@types/react-dom": ^18.2.22
     "@types/react-helmet": ^6.1.11
