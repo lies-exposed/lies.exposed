@@ -39,7 +39,7 @@
   "devDependencies": {
     "@mui/material": "^5.15.14",
     "@types/eslint": "^8.56.6",
-    "@types/react": "^18.2.66",
+    "@types/react": "^18.2.67",
     "@types/react-dom": "^18.2.22",
     "eslint": "^8.57.0",
     "react": "^18.2.0",
