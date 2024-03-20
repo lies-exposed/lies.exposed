@@ -51,7 +51,7 @@
     "react-helmet": "^6.1.0",
     "slick-carousel": "^1.8.1",
     "uuid": "^9.0.1",
-    "vite": "^5.1.6",
+    "vite": "^5.2.2",
     "web-vitals": "^3.5.2"
   },
   "devDependencies": {
