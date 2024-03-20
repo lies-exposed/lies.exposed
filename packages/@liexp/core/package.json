@@ -20,7 +20,7 @@
     "fp-ts": "^2.16.4",
     "io-ts": "^2.2.21",
     "io-ts-types": "^0.5.19",
-    "vite-plugin-css-injected-by-js": "^3.4.0",
+    "vite-plugin-css-injected-by-js": "^3.5.0",
     "vite-plugin-html": "^3.2.2",
     "vite-plugin-html-purgecss": "^0.1.1",
     "vite-plugin-optimizer": "^1.4.3",
@@ -46,7 +46,7 @@
     "prettier": "^3.2.5",
     "sass": "^1.72.0",
     "typescript": "^5.4.2",
-    "vite": "^5.1.6"
+    "vite": "^5.2.2"
   },
   "peerDependencies": {
     "debug": "^4.3.1",
