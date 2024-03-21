@@ -66,7 +66,7 @@ services:
       - db.liexp.dev
       - fra1.space.liexp.dev
     volumes:
-      - node-modules:/app/services/node_modules
+      - api-node-modules:/app/node_modules
       - ./packages/@liexp:/app/packages/@liexp:ro
       - ./services/api:/app/services/api:ro
       - ./services/api/temp:/app/services/api/temp:rw
@@ -96,7 +96,7 @@ services:
     # ports:
     #   - "127.0.0.1:80:4020"
     volumes:
-      - node-modules:/app/services/node_modules
+      - web-node-modules:/app/node_modules
       - ./tsconfig.json:/app/tsconfig.json
       - ./packages/@liexp:/app/packages/@liexp:ro
       - ./services/web:/app/services/web:cached
@@ -125,7 +125,7 @@ services:
     env_file:
       - ./services/admin-web/.env
     volumes:
-      - node-modules:/app/services/node_modules:ro
+      - admin-node-modules:/app/node_modules
       - ./tsconfig.json:/app/tsconfig.json
       - ./packages/@liexp:/app/packages/@liexp:ro
       - ./services/admin-web:/app/services/admin-web:cached
@@ -147,7 +147,9 @@ services:
 
 volumes:
   db-data: {}
-  node-modules: {}
+  api-node-modules: {}
+  web-node-modules: {}
+  admin-node-modules: {}
   space-data: {}
 
 networks:
