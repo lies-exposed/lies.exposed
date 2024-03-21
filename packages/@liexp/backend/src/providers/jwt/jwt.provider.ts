@@ -16,29 +16,19 @@ export const toError =
     l.error.log("An error occurred %O", e);
     if (e) {
       if (e instanceof jwt.JsonWebTokenError) {
-        return {
-          status: override?.status ?? 401,
-          name: "JWTClient",
-          message: e.message,
-          details: {
-            kind: "ClientError",
-            status: "401",
-            meta: [e.stack],
-          },
-        };
+        return new JWTError(e.message, {
+          kind: "ClientError",
+          status: (override?.status ?? 401) + "",
+          meta: e.stack,
+        });
       }
     }
 
-    return {
-      status: override?.status ?? 401,
-      name: "JWTClient",
-      message: "An error occurred",
-      details: {
-        kind: "ClientError",
-        status: "500",
-        meta: [String(e)],
-      },
-    };
+    return new JWTError("An error occurred", {
+      status: (override?.status ?? 401) + "",
+      kind: "ClientError",
+      meta: [String(e)],
+    });
   };
 
 export interface JWTProvider {
@@ -55,7 +45,9 @@ export const GetJWTProvider = (ctx: JWTClientContext): JWTProvider => {
   return {
     signUser: (user: User) => {
       // ctx.logger.debug.log("Signing payload %O", user);
-      return IO.of(jwt.sign(JSON.stringify(user), ctx.secret));
+      return IO.of(
+        jwt.sign(JSON.stringify(user), ctx.secret, { expiresIn: "10d" }),
+      );
     },
     verifyUser: (token: string) => {
       const tk = token.replace("Bearer ", "");

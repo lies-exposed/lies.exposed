@@ -12,32 +12,26 @@ import { IOError } from "ts-io-error";
 
 const fsLogger = logger.GetLogger("fs");
 
-class FSError extends IOError {}
+export class FSError extends IOError {
+  name = "FSError";
+}
 
 export const toFSError = (e: unknown): FSError => {
   // eslint-disable-next-line
-  fsLogger.error.log("Space Error %O", e);
+  fsLogger.error.log("Error caught %O", e);
   if (e instanceof Error) {
-    return {
-      name: "FSError",
-      status: 500,
-      message: e.message,
-      details: {
-        kind: "ServerError",
-        status: "500",
-        meta: e.stack,
-      },
-    };
-  }
-  return {
-    name: "FSError",
-    status: 500,
-    message: "Internal Error",
-    details: {
+    return new FSError(e.message, {
       kind: "ServerError",
       status: "500",
-    },
-  };
+      meta: e.stack,
+    });
+  }
+
+  return new FSError("Internal Error", {
+    kind: "ServerError",
+    status: "500",
+    meta: [String(e)],
+  });
 };
 
 export interface FSClient {
@@ -158,7 +152,7 @@ export const GetFSClient = (): FSClient => {
           }
           return pipe(
             te,
-            fp.TE.mapLeft(toFSError),
+            fp.TE.mapLeft((e) => e as FSError),
             fp.TE.chainFirst((body) =>
               writeObject(fileName, JSON.stringify(body)),
             ),

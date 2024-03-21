@@ -23,7 +23,9 @@ import {
 import { type PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions.js";
 import { type QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity.js";
 
-export class DBError extends IOError {}
+export class DBError extends IOError {
+  name = "DBError";
+}
 
 type Criteria =
   | string
@@ -96,29 +98,24 @@ export const toError =
   (override?: Partial<DBError>) =>
   (e: unknown): DBError => {
     l.error.log("An error occurred %O", e);
-    if (e instanceof Error) {
-      return {
-        status: override?.status ?? 500,
-        name: "DBError",
-        message: e.message,
-        details: {
-          kind: "ServerError",
-          status: "500",
-          meta: [e.stack],
-        },
-      };
+
+    if (e instanceof IOError) {
+      return e as any;
     }
 
-    return {
-      status: override?.status ?? 500,
-      name: "DBError",
-      message: "An error occurred",
-      details: {
-        kind: "ClientError",
-        status: "500",
-        meta: [String(e)],
-      },
-    };
+    if (e instanceof Error) {
+      return new DBError(e.message, {
+        kind: "ServerError",
+        status: (override?.status ?? 500) + "",
+        meta: [e.stack],
+      });
+    }
+
+    return new DBError("An error occurred", {
+      kind: "ClientError",
+      status: "500",
+      meta: [String(e)],
+    });
   };
 
 const pgFormat: FormatConfig = {

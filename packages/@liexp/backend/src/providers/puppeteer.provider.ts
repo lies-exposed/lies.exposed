@@ -1,35 +1,34 @@
 /* eslint-disable import/default */
 import * as fs from "fs";
 import * as logger from "@liexp/core/lib/logger/index.js";
-import type * as error from "@liexp/shared/lib/io/http/Error/index.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as puppeteer from "puppeteer-core";
 import { addExtra, type VanillaPuppeteer } from "puppeteer-extra";
 import puppeteerStealth from "puppeteer-extra-plugin-stealth";
+import { IOError } from "ts-io-error";
 
 const puppeteerLogger = logger.GetLogger("puppeteer");
 
-export const ConnectionRefusePuppeteerError = "ConnectionRefusePuppeteerError";
-interface ConnectionRefusePuppeteerError extends error.CoreError {
-  name: typeof ConnectionRefusePuppeteerError;
+class ConnectionRefusePuppeteerError extends IOError {
+  name = "ConnectionRefusePuppeteerError";
 }
 
-interface NameNotResolvedError extends error.CoreError {
-  name: "NameNotResolvedError";
+class NameNotResolvedError extends IOError {
+  name = "NameNotResolvedError";
 }
 
-interface MissingPuppeteerResponseError extends error.CoreError {
-  name: "MissingPuppeteerResponseError";
+class MissingPuppeteerResponseError extends IOError {
+  name = "MissingPuppeteerResponseError";
 }
 
-interface TimeoutPuppeteerError extends error.CoreError {
-  name: "TimeoutPuppeteerError";
+class TimeoutPuppeteerError extends IOError {
+  name = "TimeoutPuppeteerError";
 }
 
-interface UnknownPuppeteerError extends error.CoreError {
-  name: "UnknownPuppeteerError";
+class UnknownPuppeteerError extends IOError {
+  name = "UnknownPuppeteerError";
 }
 
 export type PuppeteerError =
@@ -44,38 +43,33 @@ export const toPuppeteerError = (e: unknown): PuppeteerError => {
 
   if (e instanceof Error) {
     if (e.message.startsWith("net::ERR_NAME_NOT_RESOLVED")) {
-      return {
-        name: "NameNotResolvedError",
-        status: 500,
-        message: e.message,
-        details: [],
-      };
+      return new NameNotResolvedError(e.message, {
+        kind: "ClientError",
+        status: "500",
+      });
     }
     if (e.name === "TimeoutError") {
-      return {
-        name: "TimeoutPuppeteerError",
-        status: 500,
-        message: e.message,
-        details: [e as any],
-      };
+      return new TimeoutPuppeteerError(e.message, {
+        kind: "ServerError",
+        status: "500",
+        meta: e.stack,
+      });
     }
 
-    return {
-      status: 500,
-      name: e.name as any,
-      message: e.message,
-      details: [],
-    };
+    return new UnknownPuppeteerError(`${e.name}: ${e.message}`, {
+      status: "500",
+      kind: "ServerError",
+      meta: e.stack,
+    });
   }
 
   puppeteerLogger.error.log("Unknown error %O", e);
 
-  return {
-    name: "UnknownPuppeteerError",
-    status: 500,
-    message: "An error occurred",
-    details: [],
-  };
+  return new UnknownPuppeteerError("An error occurred", {
+    status: "500",
+    kind: "ServerError",
+    meta: e,
+  });
 };
 
 const makePuppeteerError = (name: string, message: string): PuppeteerError =>
@@ -123,7 +117,7 @@ export interface PuppeteerProvider {
   ) => TE.TaskEither<PuppeteerError, puppeteer.Page>;
   getPageText: (
     r: puppeteer.HTTPResponse,
-  ) => TE.TaskEither<error.CoreError, string>;
+  ) => TE.TaskEither<PuppeteerError, string>;
 }
 
 // const browserPages = (b: puppeteer.Browser) => TE.tryCatch(() => b.pages(), toPuppeteerError);
