@@ -27,32 +27,27 @@ import { IOError } from "ts-io-error";
 
 const s3Logger = logger.GetLogger("space");
 
-class SpaceError extends IOError {}
+export class SpaceError extends IOError {}
 
 export const toError = (e: unknown): SpaceError => {
+  if (e instanceof IOError) {
+    return e;
+  }
   // eslint-disable-next-line
   s3Logger.error.log("Space Error %O", e);
   if (e instanceof Error) {
-    return {
-      name: "SpaceError",
-      status: 500,
-      message: e.message,
-      details: {
-        kind: "ServerError",
-        status: "500",
-        meta: e.stack,
-      },
-    };
-  }
-  return {
-    name: "SpaceError",
-    status: 500,
-    message: "Internal Error",
-    details: {
+    return new SpaceError(e.message, {
       kind: "ServerError",
       status: "500",
-    },
-  };
+      meta: e.stack,
+    });
+  }
+
+  return new SpaceError("Internal Error", {
+    kind: "ServerError",
+    status: "500",
+    meta: [String(e)],
+  });
 };
 
 export interface SpaceProvider {

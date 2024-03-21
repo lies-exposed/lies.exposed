@@ -1,7 +1,9 @@
-import { JWTError } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
-import { DBError } from "@liexp/backend/lib/providers/orm/index.js";
+import { FSError } from "@liexp/backend/lib/providers/fs/fs.provider";
+import { JWTError } from "@liexp/backend/lib/providers/jwt/jwt.provider";
+import { DBError } from "@liexp/backend/lib/providers/orm";
+import { SpaceError } from "@liexp/backend/lib/providers/space/space.provider";
 import * as t from "io-ts";
-import { failure } from "io-ts/lib/PathReporter.js";
+import { IOError } from "ts-shared/lib/errors";
 
 export const APIStatusCode = t.union(
   [
@@ -17,101 +19,95 @@ export const APIStatusCode = t.union(
 
 export type APIStatusCode = t.TypeOf<typeof APIStatusCode>;
 
-export type ControllerError = DBError | JWTError;
+class _BadRequestError extends IOError {
+  name = "BadRequestError";
+}
 
-export const BadRequestError = (meta: string): ControllerError => ({
-  name: "BadRequestError",
-  message: `Bad Request`,
-  status: 400,
-  details: {
+export const BadRequestError = (meta: string): ControllerError =>
+  new _BadRequestError("Bad Request", {
     kind: "ClientError",
     status: "400",
     meta,
-  },
-});
+  });
 
-export const NotFoundError = (entityName: string): ControllerError => ({
-  name: "NotFoundError",
-  message: `Can't find resource ${entityName}`,
-  status: 404,
-  details: {
+class _NotFoundError extends IOError {
+  name = "NotFoundError";
+}
+
+export const NotFoundError = (entityName: string): ControllerError =>
+  new _NotFoundError(`Can't find resource ${entityName}`, {
     kind: "ClientError",
     status: "404",
-  },
-});
+  });
 
+class _ServerError extends IOError {
+  name = "ServerError";
+}
 export const ServerError = (meta?: string[]): ControllerError => {
-  return {
-    name: "APIError",
-    status: 500,
-    message: "Server Error",
-    details: {
-      kind: "ServerError",
-      status: "500",
-      meta,
-    },
-  };
+  return new _ServerError("Server Error", {
+    kind: "ServerError",
+    status: "500",
+    meta,
+  });
 };
 
+class _NotAuthorizedError extends IOError {
+  name = "NotAuthorizedError";
+}
 export const NotAuthorizedError = (): ControllerError => {
-  return {
-    name: "APIError",
-    status: 401,
-    message: "Authorization header [Authorization] is missing",
-    details: {
+  return new _NotAuthorizedError(
+    "Authorization header [Authorization] is missing",
+    {
       kind: "ClientError",
       status: "401",
     },
-  };
+  );
 };
+
+class _DecodeError extends IOError {
+  name = "DecodeError";
+}
 
 export const DecodeError = (
   message: string,
   errors: t.Errors,
 ): ControllerError => {
-  return {
-    name: "APIError: Decode Error",
-    status: 500,
-    message,
-    details: {
-      kind: "DecodingError",
-      errors: failure(errors),
-    },
-  };
+  return new _DecodeError(message, {
+    kind: "DecodingError",
+    errors,
+  });
 };
+
+export type ControllerError =
+  | JWTError
+  | DBError
+  | SpaceError
+  | FSError
+  | _BadRequestError
+  | _NotFoundError
+  | _ServerError
+  | _NotAuthorizedError
+  | _DecodeError
+  | IOError;
 
 export const toControllerError = (e: unknown): ControllerError => {
   // eslint-disable-next-line no-console
   console.error(e);
-  if (e instanceof JWTError) {
-    return e;
-  }
 
-  if (e instanceof DBError) {
+  if (e instanceof IOError) {
     return e;
   }
 
   if (e instanceof Error) {
-    return {
-      name: e.name,
-      status: 500,
-      message: e.message,
-      details: {
-        kind: "ServerError",
-        meta: e.stack,
-        status: "Unknown Error",
-      },
-    };
+    return new IOError(e.message, {
+      kind: "ServerError",
+      meta: [e.name, e.stack],
+      status: "Unknown Error",
+    });
   }
 
-  return {
-    name: "ControllerError",
-    status: 500,
-    message: "Unknown Error",
-    details: {
-      kind: "ServerError",
-      meta: [],
-      status: "Unknown Error",
-    },
-  };
+  return new IOError(`UnknownError: ${String(e)}`, {
+    kind: "ServerError",
+    status: "Unknown Error",
+  });
 };
