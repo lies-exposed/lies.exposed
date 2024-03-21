@@ -130,34 +130,34 @@ export const defineViteConfig = <A extends Record<string, any>>(
             find: /@react-page\/editor$/,
             replacement: "@react-page/editor/lib",
           },
-          {
-            find: /@react-page\/plugins-slate$/,
-            replacement: "@react-page/plugins-slate/lib",
-          },
-          {
-            find: /@react-page\/plugins-background$/,
-            replacement: "@react-page/plugins-background/lib",
-          },
-          {
-            find: /@react-page\/plugins-divider$/,
-            replacement: "@react-page/plugins-divider/lib",
-          },
-          {
-            find: /@react-page\/plugins-html5-video$/,
-            replacement: "@react-page/plugins-html5-video/lib",
-          },
-          {
-            find: /@react-page\/plugins-image$/,
-            replacement: "@react-page/plugins-image/lib",
-          },
-          {
-            find: /@react-page\/plugins-spacer$/,
-            replacement: "@react-page/plugins-spacer/lib",
-          },
-          {
-            find: /@react-page\/plugins-video$/,
-            replacement: "@react-page/plugins-video/lib",
-          },
+          // {
+          //   find: /@react-page\/plugins-slate$/,
+          //   replacement: "@react-page/plugins-slate/lib",
+          // },
+          // {
+          //   find: /@react-page\/plugins-background$/,
+          //   replacement: "@react-page/plugins-background/lib",
+          // },
+          // {
+          //   find: /@react-page\/plugins-divider$/,
+          //   replacement: "@react-page/plugins-divider/lib",
+          // },
+          // {
+          //   find: /@react-page\/plugins-html5-video$/,
+          //   replacement: "@react-page/plugins-html5-video/lib",
+          // },
+          // {
+          //   find: /@react-page\/plugins-image$/,
+          //   replacement: "@react-page/plugins-image/lib",
+          // },
+          // {
+          //   find: /@react-page\/plugins-spacer$/,
+          //   replacement: "@react-page/plugins-spacer/lib",
+          // },
+          // {
+          //   find: /@react-page\/plugins-video$/,
+          //   replacement: "@react-page/plugins-video/lib",
+          // },
         ],
       },
       server: config.devServer
