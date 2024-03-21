@@ -54,7 +54,7 @@ export const MakeGetMetadataRoute = (r: Router, ctx: RouteContext): void => {
               link,
               O.map((l) => l.url),
               O.getOrElse(() => url),
-              (url) => ctx.puppeteer.getBrowserFirstPage(url, {}),
+              (url) => ctx.puppeteer.getBrowserFirstPage("about:blank", {}),
               TE.mapLeft(toControllerError),
               TE.chain((p) => extractRelationsFromURL(ctx)(p, url)),
             ),

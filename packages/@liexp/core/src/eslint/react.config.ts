@@ -1,8 +1,6 @@
 import path from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
-// import * as queryPlugin from "@tanstack/eslint-plugin-query";
-// import react from "eslint-plugin-react";
 import tseslint from "typescript-eslint";
 import baseConfig from "./base.config.js";
 

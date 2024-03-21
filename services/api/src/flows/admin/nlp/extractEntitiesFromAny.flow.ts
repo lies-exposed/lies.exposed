@@ -13,11 +13,17 @@ import { ActorEntity } from "#entities/Actor.entity.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";
 import { KeywordEntity } from "#entities/Keyword.entity.js";
+import { LinkEntity } from '#entities/Link.entity';
 import { type TEFlow } from "#flows/flow.types.js";
 import { extractRelationsFromText } from "#flows/nlp/extractRelationsFromText.flow.js";
 import { extractRelationsFromURL } from "#flows/nlp/extractRelationsFromURL.flow.js";
-import { toControllerError } from "#io/ControllerError.js";
-import { editor } from "#providers/slate";
+import {
+  BadRequestError,
+  DecodeError,
+  ServerError,
+  toControllerError,
+} from "#io/ControllerError.js";
+import { editor } from "#providers/slate.js";
 
 const findOneResourceAndMapText: TEFlow<
   [ExtractEntitiesWithNLPFromResourceInput],
@@ -77,7 +83,20 @@ const findOneResourceAndMapText: TEFlow<
         );
       }
 
-      return fp.TE.left(toControllerError({ message: "Invalid body" }));
+      if (body.resource === "links") {
+        return pipe(
+          ctx.db.findOneOrFail(LinkEntity, {
+            where: {
+              id: Equal(body.uuid),
+            },
+          }),
+          fp.TE.map((k) => k.description),
+        );
+      }
+
+      return fp.TE.left(
+        ServerError(["Invalid resource", JSON.stringify(body)]),
+      );
     },
     fp.TE.fromIO,
     fp.TE.chain((te) => te),
@@ -88,11 +107,13 @@ export const extractEntitiesFromAny: TEFlow<
   [ExtractEntitiesWithNLPInput],
   ExtractEntitiesWithNLPOutput
 > = (ctx) => (body) => {
+  ctx.logger.debug.log("extract entities from any body %O", body);
   return pipe(
     () => {
       if (ExtractEntitiesWithNLPInput.types[0].is(body)) {
         return pipe(
-          ctx.puppeteer.getBrowserFirstPage(body.url, {}),
+          ctx.puppeteer.getBrowserFirstPage("about:blank", {
+          }),
           fp.TE.mapLeft(toControllerError),
           fp.TE.chain((p) =>
             pipe(
@@ -117,7 +138,14 @@ export const extractEntitiesFromAny: TEFlow<
           fp.TE.chain((text) => extractRelationsFromText(ctx)(text)),
         );
       }
-      return fp.TE.left(toControllerError({ message: "Invalid body" }));
+      return fp.TE.left(
+        pipe(ExtractEntitiesWithNLPInput.decode(body), (either) => {
+          if (fp.E.isLeft(either)) {
+            return DecodeError("Failed to decode body", either.left);
+          }
+          return BadRequestError("Invalid body");
+        }),
+      );
     },
     fp.TE.fromIO,
     fp.TE.chain((te) => te),

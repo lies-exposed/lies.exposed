@@ -2,44 +2,60 @@ import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import * as React from "react";
 import { type FallbackProps } from "react-error-boundary";
 import {
-  Box,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Card,
   CardContent,
   CardHeader,
-  Grid,
+  Stack,
   Typography,
 } from "../mui/index.js";
 
-const APIErrorBox = (e: APIError): React.ReactElement => {
+export const ErrorBox: React.FC<FallbackProps> = ({ error: e }) => {
+  const error = React.useMemo((): APIError => {
+    if (e.name === "APIError" && Array.isArray(e.details)) {
+      return e;
+    }
+    if (e instanceof Error) {
+      return {
+        name: "APIError",
+        message: e.message,
+        details: [e.stack ?? JSON.stringify(e, null, 2)],
+      };
+    }
+
+    return {
+      name: "APIError",
+      message: "Unknown error",
+      details: [JSON.stringify(e, null, 2)],
+    };
+  }, [e]);
+
   return (
     <Card>
       <CardHeader
-        title={"APIError"}
-        subheader={<Typography variant="subtitle1">{e.message}</Typography>}
+        title={
+          <Stack direction="row" alignItems="flex-end" spacing={1}>
+            <Typography variant="h5" marginBottom={0}>
+              {error.name}:
+            </Typography>
+            <Typography variant="subtitle1" marginBottom={0}>
+              {error.message}
+            </Typography>
+          </Stack>
+        }
       />
       <CardContent>
-        <Box>
-          <code>{e.details.join("\n")}</code>
-        </Box>
+        <Accordion>
+          <AccordionSummary>Details</AccordionSummary>
+          <AccordionDetails>
+            {error.details.map((detail, i) => (
+              <code key={i}>{detail}</code>
+            ))}
+          </AccordionDetails>
+        </Accordion>
       </CardContent>
     </Card>
   );
-};
-
-export const ErrorBox: React.FC<FallbackProps> = ({ error: e }) => {
-  const box = React.useMemo(() => {
-    if (e.name === "APIError" && Array.isArray(e.details)) {
-      return <APIErrorBox {...e} />;
-    }
-    return (
-      <Card>
-        <CardContent>
-          <Typography>An error occurred</Typography>
-          <div style={{ width: "100%" }}>{JSON.stringify(e, null, 4)}</div>
-        </CardContent>
-      </Card>
-    );
-  }, [e]);
-
-  return <Grid item>{box}</Grid>;
 };
