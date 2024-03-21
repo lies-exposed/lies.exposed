@@ -37,7 +37,7 @@ export const extractRelationsFromURL: TEFlow<
       pipe(
         TE.tryCatch(async () => {
           await p.goto(url, {
-            waitUntil: "networkidle0",
+            waitUntil: "domcontentloaded",
           });
           return p.$eval("body", (b) => b.innerText);
         }, toControllerError),

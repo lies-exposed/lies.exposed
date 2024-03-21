@@ -1,7 +1,9 @@
+import { flow, fp } from "@liexp/core/lib/fp/index.js";
 import { getRelationIdsFromEventRelations } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
 import { EventSuggestion } from "@liexp/shared/lib/io/http/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
+import { Either } from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";
 import { useRecordContext } from "ra-core";
 import * as React from "react";
@@ -9,6 +11,7 @@ import { Button } from "react-admin";
 import { useNavigate } from "react-router";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { editor } from "../../Common/Editor/index.js";
+import { ErrorBox } from "../../Common/ErrorBox.js";
 import { Box, MenuItem, Select } from "../../mui/index.js";
 import EventPreview from "../previews/EventPreview.js";
 
@@ -17,20 +20,25 @@ export const CreateEventFromLinkButton: React.FC = () => {
   const navigate = useNavigate();
   const apiProvider = useDataProvider();
 
-  const [type, setType] = React.useState<string>(
-    io.http.Events.EventType.types[1].value,
-  );
-  const [suggestion, setSuggestion] = React.useState<
-    EventSuggestion.CreateEventSuggestion | undefined
-  >(undefined);
+  const [{ suggestion, type, error }, setState] = React.useState<{
+    suggestion: EventSuggestion.CreateEventSuggestion | undefined;
+    error: Error | undefined;
+    type: io.http.Events.EventType;
+  }>({
+    suggestion: undefined,
+    error: undefined,
+    type: io.http.Events.EventType.types[1].value,
+  });
 
-  if (record?.events?.legnth > 0) {
+  if (record?.events?.length > 0) {
     return <Box />;
   }
 
-  const getSuggestionFromAPI = React.useCallback(async () => {
+  const getSuggestionFromAPI = React.useCallback(async (): Promise<
+    Either<Error, EventSuggestion.CreateEventSuggestion>
+  > => {
     if (suggestion) {
-      return Promise.resolve(suggestion);
+      return Promise.resolve(fp.E.right(suggestion));
     }
 
     const result = await apiProvider
@@ -43,7 +51,11 @@ export const CreateEventFromLinkButton: React.FC = () => {
           getRelationIdsFromEventRelations(relations.entities),
         );
 
-        return suggestions.find((t) => t.event.type === type);
+        const suggestEvent = suggestions.find((t) => t.event.type === type);
+        if (suggestEvent) {
+          return fp.E.right(suggestEvent);
+        }
+        return fp.E.left(new Error("No suggestion found"));
       });
 
     return result;
@@ -55,7 +67,11 @@ export const CreateEventFromLinkButton: React.FC = () => {
         size="small"
         value={type}
         onChange={(e) => {
-          setType(e.target.value);
+          setState({
+            suggestion: undefined,
+            error: undefined,
+            type: e.target.value as any,
+          });
         }}
       >
         {io.http.Events.EventType.types.map((t) => (
@@ -68,10 +84,32 @@ export const CreateEventFromLinkButton: React.FC = () => {
         label="Preview Event"
         onClick={() => {
           if (suggestion) {
-            setSuggestion(undefined);
+            setState({
+              type,
+              suggestion,
+              error: undefined,
+            });
           }
           setTimeout(() => {
-            void getSuggestionFromAPI().then(setSuggestion);
+            void getSuggestionFromAPI().then(
+              flow(
+                fp.E.fold(
+                  (e) => {
+                    setState({
+                      type,
+                      suggestion: undefined,
+                      error: e,
+                    });
+                  },
+                  (s) =>
+                    setState({
+                      type,
+                      suggestion: s,
+                      error: undefined,
+                    }),
+                ),
+              ),
+            );
           }, 0);
         }}
       />
@@ -79,30 +117,50 @@ export const CreateEventFromLinkButton: React.FC = () => {
         label="Create Event"
         variant="contained"
         onClick={() => {
-          void getSuggestionFromAPI().then(async (suggestion: any) => {
-            if (suggestion?.event) {
-              const { newLinks, ...event } = suggestion.event;
-
-              const { data: e } = await apiProvider.create(`/events`, {
-                data: {
-                  ...event,
-                  links: newLinks,
+          void getSuggestionFromAPI().then(
+            flow(
+              fp.E.fold(
+                (e) => {
+                  setState({
+                    type,
+                    suggestion: undefined,
+                    error: e,
+                  });
                 },
-              });
-              navigate(`/events/${e.id}`);
-            }
-          });
+                (suggestion) => {
+                  const { newLinks, ...event } = suggestion.event;
+
+                  void apiProvider
+                    .create(`/events`, {
+                      data: {
+                        ...event,
+                        links: newLinks,
+                      },
+                    })
+                    .then(({ data }) => {
+                      navigate(`/events/${data.id}`);
+                    });
+                },
+              ),
+            ),
+          );
         }}
       />
       {suggestion ? (
         <Box>
-          <EventPreview
-            event={{
-              ...suggestion.event,
-              date: suggestion.event.date.toISOString(),
-              // TODO: fix this
-              // createdAt: suggestion.event.createdAt.toISOString(),
-              // updatedAt: suggestion.event.updatedAt.toISOString(),
+          <EventPreview event={suggestion.event} />
+        </Box>
+      ) : null}
+      {error ? (
+        <Box>
+          <ErrorBox
+            error={error}
+            resetErrorBoundary={() => {
+              setState({
+                type,
+                suggestion: undefined,
+                error: undefined,
+              });
             }}
           />
         </Box>

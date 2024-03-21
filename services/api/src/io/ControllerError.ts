@@ -1,9 +1,9 @@
-import { FSError } from "@liexp/backend/lib/providers/fs/fs.provider";
-import { JWTError } from "@liexp/backend/lib/providers/jwt/jwt.provider";
-import { DBError } from "@liexp/backend/lib/providers/orm";
-import { SpaceError } from "@liexp/backend/lib/providers/space/space.provider";
+import { FSError } from "@liexp/backend/lib/providers/fs/fs.provider.js";
+import { JWTError } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
+import { DBError } from "@liexp/backend/lib/providers/orm/index.js";
+import { SpaceError } from "@liexp/backend/lib/providers/space/space.provider.js";
 import * as t from "io-ts";
-import { IOError } from "ts-shared/lib/errors";
+import { IOError } from "ts-shared/lib/errors.js";
 
 export const APIStatusCode = t.union(
   [
