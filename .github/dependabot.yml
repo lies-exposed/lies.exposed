@@ -19,6 +19,28 @@ updates:
       - dependency-name: "query-string"
         versions: ["8.x"]
     groups:
+      production-dependencies:
+        dependency-type: "production"
+        exclude-patterns:
+          - "@aws-sdk/*"
+          - "ra-*"
+          - "react-core"
+          - "react-admin"
+          - "*visx*"
+          - "*mui*"
+
+      development-dependencies:
+        dependency-type: "development"
+        exclude-patterns:
+          - "*vite*"
+          - "@types/*"
+          - "@storybook/*"
+          - "storybook"
+          - "@typescript-eslint/*"
+          - "typescript-eslint*"
+          - "eslint*"
+          - "*uuid"
+
       aws-sdk:
         patterns:
           - "@aws-sdk/*"
@@ -27,23 +49,22 @@ updates:
           - "ra-*"
           - "react-core"
           - "react-admin"
-      vitest:
+      vite:
         patterns:
           - "*vite*"
-      types:
-        patterns:
-          - "@types/*"
       storybook:
         patterns:
           - "@storybook/*"
-          - "*storybook*"
+          - "storybook"
       eslint:
         patterns:
           - "@typescript-eslint/*"
+          - "typescript-eslint*"
           - "eslint*"
       uuid:
         patterns:
           - "*uuid"
+          - "uuid"
       mui:
         patterns:
           - "*mui*"
