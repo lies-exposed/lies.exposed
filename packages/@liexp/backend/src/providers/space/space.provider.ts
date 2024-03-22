@@ -27,9 +27,11 @@ import { IOError } from "ts-io-error";
 
 const s3Logger = logger.GetLogger("space");
 
-export class SpaceError extends IOError {}
+export class SpaceError extends IOError {
+  name = "SpaceError";
+}
 
-export const toError = (e: unknown): SpaceError => {
+export const toError = (e: unknown): IOError => {
   if (e instanceof IOError) {
     return e;
   }
