@@ -66,8 +66,10 @@ export const Avatar: React.FC<AvatarProps> = ({
     <StyledMUIAvatar
       {...props}
       className={clsx(classes.root, classes[size])}
-      imgProps={{
-        decoding: "async",
+      slotProps={{
+        img: {
+          decoding: "async",
+        },
       }}
     />
   );

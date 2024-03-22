@@ -4,6 +4,7 @@ import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { BaseProps } from "./Common/BaseProps.js";
 import { Geometry } from "./Common/Geometry/index.js";
 import { UUID } from "./Common/UUID.js";
+import { Media } from "./Media.js";
 import { GetListQuery } from "./Query/GetListQuery.js";
 
 export const AREAS = t.literal("areas");
@@ -39,6 +40,7 @@ export const EditAreaBody = t.strict(
     slug: optionFromNullable(t.string),
     draft: optionFromNullable(t.boolean),
     body: optionFromNullable(t.UnknownRecord),
+    featuredImage: optionFromNullable(UUID),
     media: t.array(UUID),
     events: optionFromNullable(t.array(UUID)),
     updateGeometry: optionFromNullable(t.boolean),
@@ -51,8 +53,9 @@ export const Area = t.strict(
     ...BaseProps.type.props,
     ...CreateAreaBody.type.props,
     body: t.union([t.UnknownRecord, t.null]),
-    geometry: Geometry,
+    featuredImage: t.union([Media, t.null]),
     media: t.array(UUID),
+    events: t.array(UUID),
     socialPosts: t.array(UUID),
   },
   "Area",

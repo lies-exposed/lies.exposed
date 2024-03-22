@@ -38,18 +38,7 @@
     "migration:run": "yarn typeorm migration:run -d ./ormconfig.js",
     "migration:show": "yarn typeorm migration:show -d ./ormconfig.js",
     "migration:revert": "yarn typeorm migration:revert -d ./ormconfig.js",
-    "create-stats": "yarn tsx:build ./bin/create-stats.ts",
-    "parse-tg-message": "yarn tsx:build ./bin/parse-tg-message.ts",
-    "clean-tg-messages": "yarn tsx:build ./bin/clean-tg-messages.ts",
-    "upsert-tg-pinned-message": "yarn tsx:build ./bin/upsert-tg-pinned-message.ts",
-    "extract-events": "yarn tsx:build ./bin/extract-events.ts",
-    "upsert-nlp-entities": "yarn tsx:build ./bin/upsert-nlp-entities.ts",
-    "share-post-message": "yarn tsx:build ./bin/share-post-message.ts",
-    "create-from-wikipedia": "yarn tsx:build ./bin/create-from-wikipedia.ts",
-    "set-default-group-usernames": "yarn tsx:build ./bin/set-default-group-usernames.ts",
-    "clean-space-media": "yarn tsx:build ./bin/clean-space-media.ts",
-    "import-from-kmz": "yarn tsx:build ./bin/import-from-kmz.ts",
-    "extract-entities-from-url": "yarn tsx:build ./bin/extract-entities-from-url.ts"
+    "bin:run": "yarn tsx:build"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.540.0",

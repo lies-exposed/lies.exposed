@@ -10,7 +10,9 @@ import {
   useRecordContext,
   type InputProps,
 } from "react-admin";
+import { ErrorBoundary } from "react-error-boundary";
 import { editor } from "../Common/Editor/index.js";
+import { ErrorBox } from '../Common/ErrorBox.js';
 import JSONInput from "../Common/JSON/JSONInput.js";
 import { Box, Button, FormControlLabel, Paper, Switch } from "../mui/index.js";
 
@@ -69,56 +71,58 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
       fullWidth
       component="div"
     >
-      <>
-        <FormControlLabel
-          style={{ marginBottom: 10, marginTop: 10 }}
-          control={
-            <Switch
-              size="small"
-              value={!showJSONEditor}
-              onChange={(ev, c) => {
-                setShowJSONEditor(!c);
-              }}
-            />
-          }
-          label={!showJSONEditor ? "RichEditor" : "JSON"}
-        />
-        <Paper
-          elevation={5}
-          style={{
-            overflow: "visible",
-            padding: 16,
-            ...style,
-          }}
-        >
-          {!showJSONEditor && isValueValid ? (
-            <editor.LazyEditor
-              variant={variant}
-              value={value}
-              onChange={onChange}
-              {...editorProps}
-            />
-          ) : showJSONEditor && isValidJSON ? (
-            <JSONInput
-              source={source}
-              onClear={() => {
-                handleClear();
-              }}
-            />
-          ) : (
-            <Box>
-              <pre>{JSON.stringify(value)}</pre>
-              <Button
-                onClick={() => {
+      <ErrorBoundary FallbackComponent={ErrorBox}>
+        <>
+          <FormControlLabel
+            style={{ marginBottom: 10, marginTop: 10 }}
+            control={
+              <Switch
+                size="small"
+                value={!showJSONEditor}
+                onChange={(ev, c) => {
+                  setShowJSONEditor(!c);
+                }}
+              />
+            }
+            label={!showJSONEditor ? "RichEditor" : "JSON"}
+          />
+          <Paper
+            elevation={5}
+            style={{
+              overflow: "visible",
+              padding: 16,
+              ...style,
+            }}
+          >
+            {!showJSONEditor && isValueValid ? (
+              <editor.LazyEditor
+                variant={variant}
+                value={value}
+                onChange={onChange}
+                {...editorProps}
+              />
+            ) : showJSONEditor && isValidJSON ? (
+              <JSONInput
+                source={source}
+                onClear={() => {
                   handleClear();
                 }}
-              >
-                Clear
-              </Button>
-            </Box>
-          )}
-        </Paper>
-      </>
+              />
+            ) : (
+              <Box>
+                <pre>{JSON.stringify(value)}</pre>
+                <Button
+                  onClick={() => {
+                    handleClear();
+                  }}
+                >
+                  Clear
+                </Button>
+              </Box>
+            )}
+          </Paper>
+        </>
+      </ErrorBoundary>
     </Labeled>
   );
 };

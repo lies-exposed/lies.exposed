@@ -15,9 +15,11 @@ export const matchMediaSuggestions = (
   filterValue: string,
   choice: Media,
 ): boolean => {
-  return (choice?.label ?? choice?.description ?? "No description")
-    ?.toLowerCase()
-    .includes(filterValue.toLowerCase());
+  return (
+    choice?.label?.toLowerCase().includes(filterValue.toLowerCase()) ??
+    choice?.description?.toLowerCase().includes(filterValue.toLowerCase()) ??
+    false
+  );
 };
 
 export const MediaAutocompleteOptionText: React.FC = () => {

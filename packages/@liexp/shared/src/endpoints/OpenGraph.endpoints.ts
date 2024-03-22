@@ -5,6 +5,7 @@ import { ListOutput, Output } from "../io/http/Common/Output.js";
 import { URL } from "../io/http/Common/index.js";
 import { Link } from "../io/http/Link.js";
 import * as Media from "../io/http/Media.js";
+import { ExtractEntitiesWithNLPOutput } from "../io/http/admin/ExtractNLPEntities.js";
 import { ResourceEndpoints } from "./types.js";
 
 const SingleMediaOutput = Output(Media.Media, "Media");
@@ -23,7 +24,7 @@ export const GetMetadata = Endpoint({
     data: t.strict({
       metadata: t.any,
       link: t.union([Link, t.undefined]),
-      relations: t.any,
+      relations: ExtractEntitiesWithNLPOutput,
     }),
   }),
 });

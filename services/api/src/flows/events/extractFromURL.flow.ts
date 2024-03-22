@@ -215,6 +215,7 @@ const extractByProvider: TEFlow<
           id: uuid() as any,
           excerpt: s.event.excerpt ?? null,
           body: s.event.body ?? null,
+          location: null,
           links: [l],
           keywords: [],
           media: [],

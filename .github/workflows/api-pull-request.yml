@@ -110,7 +110,7 @@ jobs:
       - name: Upsert NLP Entities
         env:
           DOTENV_CONFIG_PATH: .env.test
-        run: yarn api upsert-nlp-entities
+        run: yarn api bin:run ./bin/upsert-nlp-entities.ts
 
       - name: Run tests
         env:
