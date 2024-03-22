@@ -7,7 +7,7 @@ import { type Route } from "../route.types.js";
 import { toAreaIO } from "./Area.io.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
-export const MakeCreateAreaRoute: Route = (r, { db, logger, jwt }) => {
+export const MakeCreateAreaRoute: Route = (r, { db, logger, jwt, env }) => {
   AddEndpoint(r, authenticationHandler({ logger, jwt }, ["admin:create"]))(
     Endpoints.Area.Create,
     ({ body, headers }) => {
@@ -25,7 +25,7 @@ export const MakeCreateAreaRoute: Route = (r, { db, logger, jwt }) => {
           return db.save(AreaEntity, [body]);
         }),
         fp.TE.map(([a]) => a),
-        TE.chainEitherK(toAreaIO),
+        TE.chainEitherK(a => toAreaIO(a, env.SPACE_ENDPOINT)),
         TE.map((page) => ({
           body: {
             data: page,

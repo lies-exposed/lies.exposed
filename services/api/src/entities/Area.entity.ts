@@ -1,6 +1,6 @@
 import {
-  type UUID,
   type Geometry,
+  type UUID,
 } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   Column,
@@ -10,10 +10,13 @@ import {
   Index,
   JoinTable,
   ManyToMany,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
-  type Relation,
   UpdateDateColumn,
+  type Relation,
 } from "typeorm";
+import { EventV2Entity } from './Event.v2.entity.js';
 import { MediaEntity } from "./Media.entity.js";
 import { type SocialPostEntity } from "./SocialPost.entity.js";
 
@@ -43,9 +46,21 @@ export class AreaEntity {
   @Column({ type: "json", nullable: true })
   body: Record<string, any> | null;
 
+  @ManyToOne(() => MediaEntity, (v) => v.areas, {
+    eager: true,
+    cascade: false,
+    nullable: true,
+    onDelete: "NO ACTION",
+  })
+  featuredImage: Relation<MediaEntity | null>;
+
   @ManyToMany(() => MediaEntity, (m) => m.areas)
   @JoinTable()
-  media: Relation<MediaEntity[]>;
+  media: Relation<MediaEntity[] | null>;
+
+
+  @OneToMany(() => EventV2Entity, (a) => a.location)
+  events: EventV2Entity[];
 
   // admin props
   socialPosts?: SocialPostEntity[];

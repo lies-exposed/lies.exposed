@@ -21,7 +21,7 @@ const AreaTemplate: React.FC<{ areaId: string }> = ({ areaId }) => {
           <Box style={{ width: "100%", height: "100%" }}>
             <SEO
               title={area.label}
-              // image={area.avatar ?? ""}
+              image={area.featuredImage?.thumbnail}
               urlPath={`areas/${area.id}`}
             />
 

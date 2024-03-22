@@ -291,9 +291,11 @@ export const searchEventV2Query =
           db.manager
             .createQueryBuilder(EventV2Entity, "event")
             .addSelect("RANDOM()", "seeder_random")
+            // TODO: should be dynamicly added if needed
             .leftJoinAndSelect("event.keywords", "keywords")
             .leftJoinAndSelect("event.media", "media")
             .leftJoinAndSelect("event.links", "links")
+            .leftJoinAndSelect("event.location", "location")
             .leftJoinAndSelect(
               leftJoinSocialPosts("events"),
               "socialPosts",
@@ -380,9 +382,11 @@ export const searchEventV2Query =
             if (O.isSome(locations)) {
               q.andWhere(
                 new Brackets((locationQb) => {
-                  locationQb.where(
-                    ` (event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'location' ?| ARRAY[:...locations]) `,
-                  );
+                  locationQb
+                    .where(
+                      ` (event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'location' ?| ARRAY[:...locations]) `,
+                    )
+                    .orWhere(`location.id IN (:...locations)`);
                 }),
               );
 
@@ -521,7 +525,7 @@ export const searchEventV2Query =
           results: db.execQuery(async () => {
             const resultQ = searchV2Query.resultsQuery
               .loadAllRelationIds({
-                relations: ["keywords", "links", "media"],
+                relations: ["keywords", "links", "media", "location"],
               })
               .skip(skip)
               .take(take);
@@ -530,7 +534,7 @@ export const searchEventV2Query =
               return [];
             }
 
-            // logger.debug.log("Result query %s", resultQ.getSql());
+            // logger.debug.log("Result query %s", resultQ.getQueryAndParameters());
 
             const results = await resultQ.getRawAndEntities();
 

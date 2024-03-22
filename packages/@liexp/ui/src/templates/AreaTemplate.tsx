@@ -1,12 +1,13 @@
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
-import { type Media, type Area } from "@liexp/shared/lib/io/http/index.js";
+import { type Area, type Media } from "@liexp/shared/lib/io/http/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { subYears } from "date-fns";
 import Feature from "ol/Feature.js";
 import * as React from "react";
 import { AutoSizer } from "react-virtualized";
 import Map from "../components/Map.js";
+import MediaElement from "../components/Media/MediaElement.js";
 import { AreaPageContent } from "../components/area/AreaPageContent.js";
 import { Box, Typography } from "../components/mui/index.js";
 import { EventsPanel } from "../containers/EventsPanel.js";
@@ -60,6 +61,17 @@ export const AreaTemplateUI: React.FC<AreaTemplateProps> = ({
                 }}
               >
                 <Typography variant="h3">{area.label}</Typography>
+                {area.featuredImage ? (
+                  <Box style={{ marginBottom: 20 }}>
+                    <MediaElement
+                      itemStyle={{
+                        height: 200,
+                      }}
+                      media={area.featuredImage}
+                    />
+                  </Box>
+                ) : null}
+
                 <Map
                   id={`area-${area.id}`}
                   width={width - width * 0.1}
@@ -95,7 +107,7 @@ export const AreaTemplateUI: React.FC<AreaTemplateProps> = ({
         groupsMembers={[]}
         query={{
           hash: `area-${area.id}`,
-          startDate: formatDate(subYears(new Date(), 2)),
+          startDate: formatDate(subYears(new Date(), 10)),
           endDate: formatDate(new Date()),
           actors: [],
           groups: [],

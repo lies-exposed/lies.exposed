@@ -74,62 +74,68 @@ export const fetchAndCreateAreaFromWikipedia: TEFlow<
           where: { label: areaData.label },
         }),
         fp.TE.chain((a) => {
-          const saveArea = fp.O.isSome(a)
-            ? fp.TE.right([a.value])
-            : pipe(
-                fetchCoordinates(ctx)(areaData.label),
-                TE.map((geo) => ({
-                  ...areaData,
-                  ...pipe(
-                    geo,
-                    fp.O.getOrElse(() => ({})),
-                  ),
-                })),
-                TE.chain((areaData) =>
-                  ctx.db.save(AreaEntity, [
-                    {
-                      ...areaData,
-                      media: [],
-                    },
-                  ]),
-                ),
-              );
-
-          return pipe(
-            saveArea,
-            ctx.logger.debug.logInTaskEither(`Saved area %O`),
-            fp.TE.chain(([area]) =>
-              pipe(
-                media,
-                fp.O.fromNullable,
-                fp.O.fold(
-                  () => fp.TE.right([]),
-                  (media) =>
-                    ctx.db.save(MediaEntity, [
+          const saveAreaTask = (media: MediaEntity | null) =>
+            fp.O.isSome(a)
+              ? fp.TE.right(a.value)
+              : pipe(
+                  fetchCoordinates(ctx)(areaData.label),
+                  TE.map((geo) => ({
+                    ...areaData,
+                    ...pipe(
+                      geo,
+                      fp.O.getOrElse(() => ({})),
+                    ),
+                  })),
+                  TE.chain((areaData) =>
+                    ctx.db.save(AreaEntity, [
                       {
-                        ...media,
-                        areas: [{ id: area.id }],
-                        location: media.location,
-                        thumbnail: media.thumbnail ?? null,
-                        creator: null,
+                        ...areaData,
+                        featuredImage: media,
+                        media: [],
                       },
                     ]),
+                  ),
+                  TE.map((mm) => mm[0]),
+                );
+
+          const saveMediaTask = pipe(
+            media,
+            fp.O.fromNullable,
+            fp.O.fold(
+              () => fp.TE.right(null),
+              (media) =>
+                pipe(
+                  ctx.db.save(MediaEntity, [
+                    {
+                      ...media,
+                      areas: [],
+                      location: media.location,
+                      thumbnail: media.thumbnail ?? null,
+                      creator: null,
+                    },
+                  ]),
+                  fp.TE.map<MediaEntity[], MediaEntity | null>((mm) => mm[0]),
                 ),
-                fp.TE.chainEitherK((media) =>
-                  sequenceS(fp.E.Applicative)({
-                    area: toAreaIO(area),
-                    media: pipe(
-                      media.map((m) =>
-                        toMediaIO(
-                          { ...m, areas: m.areas.map((a): any => a.id) },
-                          ctx.env.SPACE_ENDPOINT,
-                        ),
-                      ),
-                      fp.A.sequence(fp.E.Applicative),
+            ),
+          );
+
+          return pipe(
+            TE.Do,
+            TE.bind("media", () => saveMediaTask),
+            TE.bind("area", ({ media }) => saveAreaTask(media)),
+            fp.TE.chainEitherK(({ area }) =>
+              sequenceS(fp.E.Applicative)({
+                area: toAreaIO(area, ctx.env.SPACE_ENDPOINT),
+                media: pipe(
+                  (area.media ?? []).map((m) =>
+                    toMediaIO(
+                      { ...m, areas: m.areas.map((a): any => a.id) },
+                      ctx.env.SPACE_ENDPOINT,
                     ),
-                  }),
+                  ),
+                  fp.A.sequence(fp.E.Applicative),
                 ),
-              ),
+              }),
             ),
           );
         }),

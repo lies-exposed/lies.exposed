@@ -12,11 +12,13 @@ export const toProjectIO = (
       ...project,
       areas: project.areas.map((a) => ({
         ...a,
+        events: a.events ?? [],
         media: a.media ?? [],
         socialPosts: a.socialPosts ?? [],
         geometry: a.geometry,
         createdAt: a.createdAt.toISOString(),
         updatedAt: a.updatedAt.toISOString(),
+        creator: null
       })),
       media: project.media.map(({ image, ...i }) => ({
         ...i,

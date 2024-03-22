@@ -52,10 +52,10 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
 
     docker compose --env-file .env.api run -d --name api-migration api yarn migration:run
 
-    docker compose --env-file .env.api run -d --rm --name upsert-nlp-entities api yarn upsert-nlp-entities
-    docker compose --env-file .env.api run -d --rm --name upsert-tg-pinned-message api yarn upsert-tg-pinned-message
-    docker compose --env-file .env.api run -d --rm --name parse-all-tg-messages api yarn parse-tg-message all true
-    docker compose --env-file .env.api run -d --rm --name clean-space-media api yarn clean-space-media --dry
+    docker compose --env-file .env.api run -d --rm --name upsert-nlp-entities api yarn bin:run upsert-nlp-entities
+    docker compose --env-file .env.api run -d --rm --name upsert-tg-pinned-message api yarn bin:run upsert-tg-pinned-message
+    docker compose --env-file .env.api run -d --rm --name parse-all-tg-messages api yarn bin:run parse-tg-message all true
+    docker compose --env-file .env.api run -d --rm --name clean-space-media api yarn bin:run clean-space-media --dry
 
     cd ~/
     # list top 5 bigger files

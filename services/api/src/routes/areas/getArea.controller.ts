@@ -1,23 +1,27 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints, AddEndpoint } from "@liexp/shared/lib/endpoints/index.js";
-import { type Router } from "express";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { type RouteContext } from "../route.types.js";
+import { Route } from "../route.types.js";
 import { toAreaIO } from "./Area.io.js";
 import { AreaEntity } from "#entities/Area.entity.js";
 
-export const MakeGetAreaRoute = (r: Router, ctx: RouteContext): void => {
+export const MakeGetAreaRoute: Route = (r, { db, env }) => {
   AddEndpoint(r)(Endpoints.Area.Get, ({ params: { id } }) => {
     return pipe(
-      ctx.db.findOneOrFail(AreaEntity, {
+      db.findOneOrFail(AreaEntity, {
         where: { id: Equal(id) },
-        loadRelationIds: true,
+        loadRelationIds: {
+          relations: ["media", "events"],
+        },
+        relations: {
+          featuredImage: true
+        },
       }),
-      TE.chainEitherK(toAreaIO),
-      TE.map((actor) => ({
+      TE.chainEitherK(a => toAreaIO(a, env.SPACE_ENDPOINT)),
+      TE.map((area) => ({
         body: {
-          data: actor,
+          data: area,
         },
         statusCode: 200,
       })),

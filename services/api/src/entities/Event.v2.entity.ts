@@ -12,8 +12,10 @@ import {
   PrimaryGeneratedColumn,
   type Relation,
   UpdateDateColumn,
+  ManyToOne,
 } from "typeorm";
 import { type ActorEntity } from "./Actor.entity.js";
+import { AreaEntity } from "./Area.entity.js";
 import { type GroupEntity } from "./Group.entity.js";
 import { KeywordEntity } from "./Keyword.entity.js";
 import { LinkEntity } from "./Link.entity.js";
@@ -69,6 +71,13 @@ export class EventV2Entity {
   })
   @JoinTable()
   keywords: Relation<KeywordEntity[]>;
+
+  @ManyToOne(() => AreaEntity, (a) => a.events, {
+    cascade: ["insert"],
+    nullable: true,
+  })
+  @JoinTable()
+  location: Relation<AreaEntity | null>;
 
   @ManyToMany(() => StoryEntity, (k) => k.events, {
     cascade: false,
