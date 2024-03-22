@@ -7,10 +7,12 @@ const {
   updatedAt,
   id,
   media,
+  events,
   geometry,
   body,
   slug,
   socialPosts,
+  featuredImage,
   ...areaProps
 } = http.Area.Area.type.props;
 
@@ -21,7 +23,9 @@ export const AreaArb: tests.fc.Arbitrary<http.Area.Area> = tests
     id: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
     slug: tests.fc.sample(tests.fc.string({ minLength: 40 }), 1)[0],
     media: [],
+    events: [],
     body: {},
+    featuredImage: null,
     geometry: tests.fc.sample(
       tests.fc.record({
         type: tests.fc.constant("Polygon" as const),

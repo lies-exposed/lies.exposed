@@ -12,7 +12,7 @@ import { toAreaIO } from "./Area.io.js";
 import { AreaEntity } from "#entities/Area.entity.js";
 import { foldOptionals } from "#utils/foldOptionals.utils.js";
 
-export const MakeEditAreaRoute: Route = (r, { db, geo, logger }) => {
+export const MakeEditAreaRoute: Route = (r, { db, geo, env, logger }) => {
   AddEndpoint(r)(
     Endpoints.Area.Edit,
     ({ params: { id }, body: { media, events, updateGeometry, ...body } }) => {
@@ -46,7 +46,7 @@ export const MakeEditAreaRoute: Route = (r, { db, geo, logger }) => {
             events,
             fp.O.fold(
               () => undefined,
-              (id) => ({ id }),
+              (ids) => ids.map((id) => ({ id })),
             ),
             TE.right,
           ),
@@ -56,18 +56,28 @@ export const MakeEditAreaRoute: Route = (r, { db, geo, logger }) => {
             id,
           }),
         }),
-        TE.chain(({ events, geometry, body }) =>
+        TE.chain(({ events, geometry, body: { featuredImage, ...body } }) =>
           db.save(AreaEntity, [
-            { ...body, geometry, ...(events ? { events } : {}) },
+            {
+              ...body,
+              featuredImage: featuredImage ? { id: featuredImage } : null,
+              geometry,
+              ...(events ? { events } : {}),
+            },
           ]),
         ),
         TE.chain(() =>
           db.findOneOrFail(AreaEntity, {
             where: { id: Equal(id) },
-            loadRelationIds: true,
+            loadRelationIds: {
+              relations: ["media", "events"],
+            },
+            relations: {
+              featuredImage: true
+            },
           }),
         ),
-        TE.chainEitherK(toAreaIO),
+        TE.chainEitherK((a) => toAreaIO(a, env.SPACE_ENDPOINT)),
         TE.map((page) => ({
           body: {
             data: page,

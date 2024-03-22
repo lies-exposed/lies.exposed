@@ -56,9 +56,13 @@ export const AreaListItem: React.FC<
   );
 
   const mediaSrc = React.useMemo(() => {
-    if (media.data?.data?.[0]?.location) {
-      return media.data?.data?.[0]?.location;
+    if (item.featuredImage) {
+      return item.featuredImage.location;
     }
+
+    // if (media.data?.data?.[0]?.location) {
+    //   return media.data?.data?.[0]?.location;
+    // }
     return defaultImage;
   }, [media.data?.data?.[0]?.location]);
 

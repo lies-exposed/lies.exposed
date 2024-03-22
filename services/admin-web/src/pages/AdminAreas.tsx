@@ -5,6 +5,8 @@ import { AreaTGPostButton } from "@liexp/ui/lib/components/admin/areas/button/Ar
 import { SearchAreaCoordinatesButton } from "@liexp/ui/lib/components/admin/areas/button/SearchAreaCoordinatesButton.js";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
 import ReferenceArrayEventInput from "@liexp/ui/lib/components/admin/events/ReferenceArrayEventInput.js";
+import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField.js";
+import ReferenceMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceMediaInput.js";
 import AreaPreview from "@liexp/ui/lib/components/admin/previews/AreaPreview.js";
 import {
   BooleanField,
@@ -27,11 +29,11 @@ import {
   useRefresh,
   type CreateProps,
   type EditProps,
-  type ListProps
+  type ListProps,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { ReferenceMediaTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceMediaTab.js";
 import { transformMedia } from "@liexp/ui/lib/components/admin/transform.utils.js";
-import { Box, Stack } from "@liexp/ui/lib/components/mui/index.js";
+import { Stack } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import * as React from "react";
 
@@ -60,12 +62,26 @@ export const AreaList: React.FC<ListProps> = () => (
       results={50}
     >
       <FunctionField
-        render={() => {
+        render={(r: any) => {
           return (
-            <Box>
-              <TextField display={"block"} source="label" />
-              <TextField source="slug" />
-            </Box>
+            <Stack
+              direction="row"
+              alignItems="center"
+            >
+              {r.featuredImage ? (
+                <Stack>
+                  <MediaField
+                    source="featuredImage.location"
+                    controls={false}
+                    record={r}
+                  />
+                </Stack>
+              ) : null}
+              <Stack>
+                <TextField display={"block"} source="label" />
+                <TextField source="slug" />
+              </Stack>
+            </Stack>
           );
         }}
       />
@@ -98,6 +114,7 @@ const transformArea = ({ newMediaRef = [], newEvents, ...area }: any): any => {
   const media = transformMedia(newMediaRef);
   return {
     ...area,
+    featuredImage: area.featuredImage?.id,
     media: area.media.concat(media),
   };
 };
@@ -156,6 +173,7 @@ export const AreaEdit: React.FC<EditProps> = () => (
         <TextInput source="label" />
         <TextInput source="slug" />
         <BooleanInput source="draft" />
+        <ReferenceMediaInput source="featuredImage.id" />
         <ReactPageInput source="body" onlyText />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />

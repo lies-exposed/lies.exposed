@@ -43,7 +43,7 @@ export const areaCommand = (ctx: RouteContext): TGBotProvider => {
           fp.TE.chain((a) => {
             if (fp.O.isSome(a)) {
               return pipe(
-                fp.TE.fromEither(toAreaIO(a.value)),
+                fp.TE.fromEither(toAreaIO(a.value, ctx.env.SPACE_ENDPOINT)),
                 fp.TE.chain((area) =>
                   fp.TE.tryCatch(
                     () =>

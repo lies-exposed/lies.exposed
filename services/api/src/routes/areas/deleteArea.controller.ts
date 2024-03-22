@@ -6,14 +6,14 @@ import { type Route } from "../route.types.js";
 import { toAreaIO } from "./Area.io.js";
 import { AreaEntity } from "#entities/Area.entity.js";
 
-export const MakeDeleteAreaRoute: Route = (r, { s3, db, env }) => {
+export const MakeDeleteAreaRoute: Route = (r, { db, env }) => {
   AddEndpoint(r)(Endpoints.Area.Delete, ({ params: { id } }) => {
     return pipe(
       db.findOneOrFail(AreaEntity, {
         where: { id: Equal(id) },
       }),
       TE.chainFirst(() => db.softDelete(AreaEntity, id)),
-      TE.chainEitherK(toAreaIO),
+      TE.chainEitherK(a => toAreaIO(a, env.SPACE_ENDPOINT)),
       TE.map((page) => ({
         body: {
           data: page,

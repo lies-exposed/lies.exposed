@@ -28,8 +28,11 @@ describe("Edit Project ", () => {
     authorizationToken = authorization;
     const [areaData] = fc.sample(AreaArb, 1).map((a) => ({
       ...a,
+      featuredImage: null,
       media: [],
+      events: [],
       socialPosts: [],
+      creator: null
     }));
     [area] = await throwTE(appTest.ctx.db.save(AreaEntity, [areaData]));
     const [projectData] = fc.sample(ProjectArb, 1);
@@ -77,7 +80,7 @@ describe("Edit Project ", () => {
     expect(receivedBody).toMatchObject({
       ...expectedBody,
       ...updateData,
-      areas: expectedBody.areas.map(({ deletedAt, ...a }) => ({
+      areas: expectedBody.areas.map(({ deletedAt, creator, ...a }: any) => ({
         ...a,
         createdAt: a.createdAt.toISOString(),
         updatedAt: a.updatedAt.toISOString(),

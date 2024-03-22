@@ -56,7 +56,7 @@ cp /root/node/app/current/resources/nginx/telegram-bot-api.conf /etc/nginx/sites
 # mkdir -p ./services/api/temp/tg/messages
 # yarn build
 # yarn migration:run
-# DOTENV_CONFIG_PATH=../../.env yarn upsert-nlp-entities
+# DOTENV_CONFIG_PATH=../../.env yarn bin:run upsert-nlp-entities
 # cd ../../;
 
 # reload services
