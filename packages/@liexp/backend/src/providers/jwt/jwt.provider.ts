@@ -46,7 +46,9 @@ export const GetJWTProvider = (ctx: JWTClientContext): JWTProvider => {
     signUser: (user: User) => {
       // ctx.logger.debug.log("Signing payload %O", user);
       return IO.of(
-        jwt.sign(JSON.stringify(user), ctx.secret, { expiresIn: "10d" }),
+        jwt.sign(user, ctx.secret, {
+          expiresIn: 10 * 24 * 60 * 60,
+        }),
       );
     },
     verifyUser: (token: string) => {
