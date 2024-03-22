@@ -48,8 +48,13 @@ describe("Upload file", () => {
 
     expect(response.status).toBe(500);
     expect(response.body).toMatchObject({
-      message: "can't upload",
       name: "SpaceError",
+      status: 500,
+      details: {
+        kind: "ServerError",
+        meta: error.stack,
+        status: "500",
+      },
     });
   });
 

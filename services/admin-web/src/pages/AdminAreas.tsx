@@ -13,6 +13,7 @@ import {
   Create,
   Datagrid,
   DateField,
+  FilterLiveSearch,
   FormTab,
   FunctionField,
   List,
@@ -23,10 +24,10 @@ import {
   TextInput,
   required,
   useRecordContext,
+  useRefresh,
   type CreateProps,
   type EditProps,
-  type ListProps,
-  useRefresh,
+  type ListProps
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { ReferenceMediaTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceMediaTab.js";
 import { transformMedia } from "@liexp/ui/lib/components/admin/transform.utils.js";
@@ -37,6 +38,7 @@ import * as React from "react";
 const RESOURCE = "areas";
 
 const areaFilters = [
+  <FilterLiveSearch key="q" source="q" alwaysOn />,
   <BooleanInput
     key="draft"
     label="Draft"
