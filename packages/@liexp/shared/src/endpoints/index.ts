@@ -1,5 +1,6 @@
 import { GetEndpointSubscriber } from "ts-endpoint-express";
 import { type IOError } from "ts-io-error/lib/index.js";
+import { EndpointsMapType } from "./Endpoints.js";
 import * as GroupMember from "./GroupMember.endpoints.js";
 import * as Networks from "./Network.endpoints.js";
 import * as OpenGraph from "./OpenGraph.endpoints.js";
@@ -29,7 +30,37 @@ import * as SocialPosts from "./socialPost.endpoints.js";
 import * as Story from "./story.endpoints.js";
 import * as Uploads from "./upload.endpoints.js";
 
-const Endpoints = {
+interface Endpoints extends EndpointsMapType {
+  Admin: typeof Admins.admin;
+  User: typeof User.users;
+  Actor: typeof Actor.actors;
+  Area: typeof Area.areas;
+  Group: typeof Group.groups;
+  GroupMember: typeof GroupMember.groupsMembers;
+  Media: typeof Media.media;
+  Keyword: typeof Keyword.keywords;
+  Link: typeof Link.links;
+  Story: typeof Story.stories;
+  Graph: typeof Graph.graphs;
+  Event: typeof Event.events;
+  BookEvent: typeof BookEvent.books;
+  DeathEvent: typeof DeathEvent.deaths;
+  PatentEvent: typeof PatentEvent.patents;
+  ScientificStudy: typeof ScientificStudy.scientificStudies;
+  DocumentaryEvent: typeof DocumentaryEvent.documentaries;
+  QuoteEvent: typeof QuoteEvent.quotes;
+  TransactionEvent: typeof TransactionEvent.transactions;
+  OpenGraph: typeof OpenGraph.openGraphs;
+  Page: typeof Page.pages;
+  Project: typeof Project.projects;
+  ProjectImage: typeof ProjectImage.projectImages;
+  Stats: typeof Stats.stats;
+  Networks: typeof Networks.networks;
+  Healthcheck: typeof Healthcheck.healthcheck;
+  SocialPosts: typeof SocialPosts.socialPosts;
+}
+
+const Endpoints: Endpoints = {
   // admin
   Admin: Admins.admin,
   // user
@@ -68,8 +99,6 @@ const Endpoints = {
   SocialPosts: SocialPosts.socialPosts,
 };
 
-type Endpoints = typeof Endpoints;
-
 const AddEndpoint = GetEndpointSubscriber((e): IOError => {
   return {
     name: "EndpointError",
@@ -84,4 +113,4 @@ const AddEndpoint = GetEndpointSubscriber((e): IOError => {
 
 export const UserLogin = User.UserLogin;
 export const PageDeleteMany = Page.DeleteManyPage;
-export { Endpoints, AddEndpoint, Uploads, Graph };
+export { AddEndpoint, Endpoints, Graph, Uploads };

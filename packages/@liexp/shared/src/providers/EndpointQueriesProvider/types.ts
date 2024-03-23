@@ -4,6 +4,7 @@ import {
   type MinimalEndpointInstance,
 } from "ts-endpoint";
 import { type serializedType } from "ts-io-error/lib/Codec.js";
+import { EndpointsMapType } from "../../endpoints/Endpoints.js";
 import { type APIError } from "../../io/http/Error/APIError.js";
 import {
   type GetListFnParamsE,
@@ -67,14 +68,14 @@ export type ResourceQueryImpl<Q> =
     ? ResourceQueries<G, L, CC>
     : never;
 
-export type QueryProvider<ES> = {
+export type QueryProvider<ES extends EndpointsMapType> = {
   [K in keyof EndpointsRESTClient<ES>["Endpoints"]]: ResourceQueryImpl<
     EndpointsRESTClient<ES>["Endpoints"][K]
   >;
 };
 
 export type GetQueryProviderImplAt<
-  ES,
+  ES extends EndpointsMapType,
   K,
   KK = undefined,
 > = K extends keyof QueryProvider<ES>
