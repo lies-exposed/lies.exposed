@@ -21940,7 +21940,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"storybook@npm:^8.0.2":
+"storybook@npm:^8.0.4":
   version: 8.0.4
   resolution: "storybook@npm:8.0.4"
   dependencies:
@@ -21981,7 +21981,7 @@ __metadata:
     react-spring: ^9.7.3
     reactflow: ^11.10.4
     serve: ^14.2.1
-    storybook: ^8.0.2
+    storybook: ^8.0.4
     typescript: ^5.4.2
     vite: ^5.2.2
   languageName: unknown

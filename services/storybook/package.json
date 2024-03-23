@@ -27,7 +27,7 @@
     "react-dom": "^18.2.0",
     "react-spring": "^9.7.3",
     "reactflow": "^11.10.4",
-    "storybook": "^8.0.2"
+    "storybook": "^8.0.4"
   },
   "lint-staged": {
     "src/**/*.(ts|tsx|js|jsx)": "eslint --fix",
