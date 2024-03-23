@@ -42,8 +42,6 @@ type API = {
 } & HTTPProvider;
 
 const API = (client: AxiosInstance): API => {
-  const http = HTTPProvider(client);
-
   const toTERequest = <E extends MinimalEndpointInstance>(
     e: E,
   ): TERequest<E> => {
@@ -84,7 +82,7 @@ const API = (client: AxiosInstance): API => {
           MinimalEndpointInstance,
           MinimalEndpointInstance,
           // eslint-disable-next-line @typescript-eslint/ban-types
-          {}
+          Record<string, MinimalEndpointInstance>
         >,
       ],
       API
@@ -105,10 +103,7 @@ const API = (client: AxiosInstance): API => {
     })),
   );
 
-  return {
-    ...apiImpl,
-    ...http,
-  };
+  return apiImpl;
 };
 
 export { API };

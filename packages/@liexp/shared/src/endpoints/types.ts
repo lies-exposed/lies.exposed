@@ -1,4 +1,7 @@
-import { type MinimalEndpointInstance } from "ts-endpoint";
+import {
+  TypeOfEndpointInstance,
+  type MinimalEndpointInstance,
+} from "ts-endpoint";
 
 export interface ResourceEndpoints<
   G extends MinimalEndpointInstance,
@@ -33,3 +36,25 @@ export const ResourceEndpoints = <
   Delete: D;
   Custom: CC;
 }): ResourceEndpoints<G, L, C, E, D, CC> => endpoints;
+
+export interface ResourceEndpointsTypeOf<
+  R extends ResourceEndpoints<
+    MinimalEndpointInstance,
+    MinimalEndpointInstance,
+    MinimalEndpointInstance,
+    MinimalEndpointInstance,
+    MinimalEndpointInstance,
+    Record<string, MinimalEndpointInstance>
+  >,
+> {
+  Get: TypeOfEndpointInstance<R["Get"]>;
+  List: TypeOfEndpointInstance<R["List"]>;
+  Create: TypeOfEndpointInstance<R["Create"]>;
+  Edit: TypeOfEndpointInstance<R["Edit"]>;
+  Delete: TypeOfEndpointInstance<R["Delete"]>;
+  Custom: R["Custom"] extends Record<string, MinimalEndpointInstance>
+    ? {
+        [K in keyof R["Custom"]]: TypeOfEndpointInstance<R["Custom"][K]>;
+      }
+    : never;
+}
