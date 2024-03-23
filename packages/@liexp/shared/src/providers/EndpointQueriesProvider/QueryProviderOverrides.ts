@@ -5,6 +5,7 @@ import {
   type MinimalEndpoint,
   type MinimalEndpointInstance,
 } from "ts-endpoint";
+import { EndpointsMapType } from "../../endpoints/Endpoints.js";
 import {
   type EndpointsRESTClient,
   type GetFnParams,
@@ -20,11 +21,16 @@ export interface GetQueryOverride<P, Q = undefined> {
   // transformResult?: (r: any) => any;
 }
 
-export type CustomQueryOverride<ES, P, Q, O> = (
+export type CustomQueryOverride<ES extends EndpointsMapType, P, Q, O> = (
   q: EndpointsRESTClient<ES>["Endpoints"],
 ) => (p: P, q: Q) => Promise<O>;
 
-export interface ResourceEndpointsQueriesOverride<ES, G, L, CC> {
+export interface ResourceEndpointsQueriesOverride<
+  ES extends EndpointsMapType,
+  G,
+  L,
+  CC,
+> {
   get?: G extends MinimalEndpointInstance
     ? GetQueryOverride<GetFnParams<G>>
     : never;
@@ -43,7 +49,10 @@ export interface ResourceEndpointsQueriesOverride<ES, G, L, CC> {
   };
 }
 
-export type QueryProviderOverrides<ES, QO = Record<string, any>> = {
+export type QueryProviderOverrides<
+  ES extends EndpointsMapType,
+  QO = Record<string, any>,
+> = {
   [K in keyof QO]: QO[K] extends ResourceEndpointsQueriesOverride<
     ES,
     infer G,
@@ -55,7 +64,7 @@ export type QueryProviderOverrides<ES, QO = Record<string, any>> = {
 };
 
 export const toOverrideQueries = <
-  ES,
+  ES extends EndpointsMapType,
   G extends MinimalEndpoint,
   L extends MinimalEndpoint,
   CC extends Record<string, any>,

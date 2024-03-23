@@ -15,6 +15,7 @@ import {
   type TypeOfEndpointInstance,
 } from "ts-endpoint";
 import { type serializedType } from "ts-io-error/lib/Codec.js";
+import { EndpointsMapType } from "../../endpoints/Endpoints.js";
 import { type ResourceEndpoints } from "../../endpoints/types.js";
 import { toAPIError, type APIError } from "../../io/http/Error/APIError.js";
 import { type APIRESTClient } from "../../providers/api-rest.provider.js";
@@ -144,19 +145,7 @@ export interface Query<G, L, CC> {
     : never;
 }
 
-type EndpointsMapType = Record<
-  string,
-  ResourceEndpoints<
-    MinimalEndpointInstance,
-    MinimalEndpointInstance,
-    MinimalEndpointInstance,
-    MinimalEndpointInstance,
-    MinimalEndpointInstance,
-    Record<string, MinimalEndpointInstance>
-  >
->;
-
-interface EndpointsRESTClient<ES> {
+interface EndpointsRESTClient<ES extends EndpointsMapType> {
   Endpoints: {
     [K in keyof ES]: ES[K] extends ResourceEndpoints<
       EndpointInstance<infer G>,

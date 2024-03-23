@@ -6,6 +6,7 @@ import {
   type MinimalEndpoint,
   type MinimalEndpointInstance,
 } from "ts-endpoint";
+import { EndpointsMapType } from "../../endpoints/Endpoints.js";
 import {
   type EndpointOutput,
   type GetFn,
@@ -122,7 +123,7 @@ export const toGetListResourceQuery = <L>(
 };
 
 export const toQueries = <
-  ES,
+  ES extends EndpointsMapType,
   G extends MinimalEndpoint,
   L extends MinimalEndpoint,
   CC extends Record<string, MinimalEndpointInstance>,

@@ -1,6 +1,8 @@
 import { flow, fp } from "@liexp/core/lib/fp/index.js";
 import { getRelationIdsFromEventRelations } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
+import { Link } from "@liexp/shared/lib/io/http/Link.js";
+import { Media } from "@liexp/shared/lib/io/http/Media.js";
 import { EventSuggestion } from "@liexp/shared/lib/io/http/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import { Either } from "fp-ts/lib/Either.js";
@@ -16,7 +18,7 @@ import { Box, MenuItem, Select } from "../../mui/index.js";
 import EventPreview from "../previews/EventPreview.js";
 
 export const CreateEventFromLinkButton: React.FC = () => {
-  const record = useRecordContext();
+  const record = useRecordContext<Link>();
   const navigate = useNavigate();
   const apiProvider = useDataProvider();
 
@@ -46,8 +48,8 @@ export const CreateEventFromLinkButton: React.FC = () => {
       .then(({ data: { metadata: m, relations } }: any) => {
         const suggestions = getSuggestions(editor.createExcerptValue)(
           m,
-          O.some(record as any),
-          O.fromNullable(record.thumbnail),
+          O.some(record),
+          O.fromNullable(record.image as Media),
           getRelationIdsFromEventRelations(relations.entities),
         );
 

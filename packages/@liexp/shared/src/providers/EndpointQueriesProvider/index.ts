@@ -1,4 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { EndpointsMapType } from "../../endpoints/Endpoints.js";
 import { type Endpoints } from "../../endpoints/index.js";
 import { type EndpointsRESTClient } from "../EndpointsRESTClient/EndpointsRESTClient.js";
 import { API } from "../api/api.provider.js";
@@ -18,7 +19,7 @@ import {
 export { QueryProviderCustomQueries } from "./overrides.js";
 
 type PatchedQueryProvider<
-  ES,
+  ES extends EndpointsMapType,
   O extends Record<string, any>,
 > = QueryProvider<ES> & {
   [K in keyof QueryProviderOverrides<ES, O>]: QueryProviderOverrides<
@@ -40,13 +41,19 @@ type PatchedQueryProvider<
     : GetQueryProviderImplAt<ES, K>;
 };
 
-interface EndpointsQueryProviderV2<ES, O extends Record<string, any>> {
+interface EndpointsQueryProviderV2<
+  ES extends EndpointsMapType,
+  O extends Record<string, any>,
+> {
   Queries: PatchedQueryProvider<ES, O>;
   REST: EndpointsRESTClient<ES>;
   API: API;
 }
 
-const CreateQueryProvider = <ES, O extends Record<string, any>>(
+const CreateQueryProvider = <
+  ES extends EndpointsMapType,
+  O extends Record<string, any>,
+>(
   endpointsRESTClient: EndpointsRESTClient<ES>,
   overrides?: QueryProviderOverrides<ES, O>,
 ): EndpointsQueryProviderV2<ES, O> => {
