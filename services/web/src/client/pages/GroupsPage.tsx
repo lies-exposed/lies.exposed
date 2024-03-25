@@ -1,3 +1,4 @@
+import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
@@ -69,12 +70,28 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
                     },
                   }}
                   type={GROUPS.value}
+                  count={100}
                   relations={[GROUPS.value]}
                   selectedGroupIds={groups.map((g) => g.id)}
                   query={{
                     eventType: EventType.types.map((t) => t.value),
                     startDate: formatDate(subYears(new Date(), 2)),
                     endDate: formatDate(new Date()),
+                  }}
+                  onGroupClick={(g) => {
+                    navigateTo.groups({
+                      id: g.id,
+                    });
+                  }}
+                  onActorClick={(a) => {
+                    navigateTo.actors({
+                      id: a.id,
+                    });
+                  }}
+                  onEventClick={(e) => {
+                    navigateTo.events({
+                      id: e.id,
+                    });
                   }}
                 />
               </Grid>

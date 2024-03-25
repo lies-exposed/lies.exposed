@@ -60,16 +60,14 @@ describe("List Group Member", () => {
     await Test.utils.e2eAfterAll();
   });
 
-  test("Should return group member by given search", async () => {
-    const search = actors[0].fullName.split(" ")[0];
+  test("Should return group member by given actor", async () => {
+    const actor = actors[0].id;
     const response = await Test.req
       .get("/v1/groups-members")
       .set("Authorization", authorizationToken)
-      .query({ search });
+      .query({ actor });
 
-    const expectedResults = groupsMembers.filter((g) =>
-      g.actor.fullName.includes(search),
-    );
+    const expectedResults = groupsMembers.filter((g) => g.actor.id === actor);
 
     expect(response.status).toEqual(200);
 

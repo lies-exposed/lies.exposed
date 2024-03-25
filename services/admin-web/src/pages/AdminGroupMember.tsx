@@ -36,8 +36,13 @@ const transformGroupMember = ({
   };
 };
 
+const filters = [
+  <ReferenceActorInput key="actor" source="actor" alwaysOn />,
+  <ReferenceGroupInput key="group" source="group" alwaysOn />,
+];
+
 export const GroupMemberList: React.FC<ListProps> = (props) => (
-  <List {...props} resource="groups-members">
+  <List {...props} resource="groups-members" filters={filters}>
     <Datagrid rowClick="edit">
       <AvatarField
         label="resources.groups.fields.avatar"
