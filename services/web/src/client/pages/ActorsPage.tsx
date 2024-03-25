@@ -63,6 +63,7 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
                     },
                   }}
                   showRelations={false}
+                  count={100}
                   type={ACTORS.value}
                   relations={[ACTORS.value]}
                   selectedActorIds={actors.map((a) => a.id)}

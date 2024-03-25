@@ -60,7 +60,7 @@ interface EventNetworkGraphBoxWrapperProps<T extends any>
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 export const EventsNetworkGraphBoxWrapper = <T extends any>({
-  count = 50,
+  count,
   query: { ids, eventType, ...query },
   type,
   selectedActorIds,
@@ -129,6 +129,7 @@ export const EventsNetworkGraphBoxWrapper = <T extends any>({
             eventType,
           },
           type,
+          count,
           selectedActorIds,
           selectedGroupIds,
           selectedKeywordIds,
@@ -234,6 +235,7 @@ const transformNetworkOutput = (
     selectedKeywordIds,
     type,
     query: { ids, eventType, ...query },
+    count,
     ...otherProps
   } = props;
 
@@ -247,11 +249,13 @@ const transformNetworkOutput = (
     groupLinks,
     keywordLinks,
     selectedLinks,
-    events,
+    events: _events,
     actors,
     groups,
     keywords,
   } = graph;
+
+  const events = count ? _events.slice(0, count) : _events;
 
   const minDate = pipe(
     events,
@@ -470,14 +474,7 @@ interface EventNetworkGraphBoxWithFiltersProps
 
 export const EventNetworkGraphBoxWithFilters: React.FC<
   EventNetworkGraphBoxWithFiltersProps
-> = ({
-  count = 50,
-  query,
-  type,
-  showFilter = true,
-  onQueryChange,
-  ...props
-}) => {
+> = ({ count, query, type, showFilter = true, onQueryChange, ...props }) => {
   const state = React.useMemo(
     () => ({
       startDate: query.startDate,

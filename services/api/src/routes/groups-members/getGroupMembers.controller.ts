@@ -28,13 +28,10 @@ export const MakeListGroupMemberRoute = (
       );
 
       const listGroupsMembersTE = pipe(
-        ctx.db.manager
-          .createQueryBuilder(GroupMemberEntity, "groupsMembers")
-          .leftJoinAndSelect("groupsMembers.actor", "actor"),
-        // .leftJoinAndSelect("groupsMembers.events", "events"),
+        ctx.db.manager.createQueryBuilder(GroupMemberEntity, "groupsMembers"),
         (q) => {
           if (O.isSome(query.group)) {
-            return q.innerJoinAndSelect(
+            q.innerJoinAndSelect(
               "groupsMembers.group",
               "group",
               "group.id = :groupId",
@@ -42,8 +39,23 @@ export const MakeListGroupMemberRoute = (
                 groupId: query.group.value,
               },
             );
+          } else {
+            q.innerJoinAndSelect("groupsMembers.group", "group");
           }
-          return q.innerJoinAndSelect("groupsMembers.group", "group");
+
+          if (O.isSome(query.actor)) {
+            q.innerJoinAndSelect(
+              "groupsMembers.actor",
+              "actor",
+              "actor.id = :actorId",
+              {
+                actorId: query.actor.value,
+              },
+            );
+          } else {
+            q.innerJoinAndSelect("groupsMembers.actor", "actor");
+          }
+          return q;
         },
         (q) => {
           ctx.logger.debug.log("Ids %O", query.ids);
@@ -54,8 +66,10 @@ export const MakeListGroupMemberRoute = (
           }
           if (search._tag === "Some") {
             const likeTerm = `%${search.value}%`;
-            ctx.logger.debug.log("Searching by actor.fullName %s", likeTerm);
-            return q.andWhere("actor.fullName LIKE :likeTerm", { likeTerm });
+            ctx.logger.debug.log("Searching by excerpt %s", likeTerm);
+            return q.andWhere("groupsMembers.excerpt LIKE :likeTerm", {
+              likeTerm,
+            });
           }
           return q;
         },

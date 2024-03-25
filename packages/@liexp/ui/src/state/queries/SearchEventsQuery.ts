@@ -179,7 +179,7 @@ const searchEventsQ =
         log.error.log(`API Error %O`, e.details);
         return e;
       }),
-      TE.chain(({ data, firstDate, lastDate,  ...response }) => {
+      TE.chain(({ data, firstDate, lastDate, ...response }) => {
         log.debug.log("API response %O", { data, response });
 
         return pipe(

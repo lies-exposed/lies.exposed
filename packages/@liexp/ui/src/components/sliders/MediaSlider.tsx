@@ -47,42 +47,42 @@ export const MediaSlider: React.FC<MediaSliderProps> = ({
   itemClassName,
   ...props
 }) => {
+  const media = data.filter((m) => m !== undefined);
+
   return (
     <StyledSlider
       adaptiveHeight={true}
       infinite={false}
       arrows={true}
       draggable={true}
-      dots={true}
+      dots={media.length > 1}
       centerMode={true}
       maxHeight={400}
       {...props}
       className={clsx(classes.root, className)}
     >
-      {data
-        .filter((m) => m !== undefined)
-        .map((m, i) => (
-          <div
+      {media.map((m, i) => (
+        <div
+          key={m.id}
+          style={{
+            margin: "auto",
+            height: "100%",
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <MediaElement
             key={m.id}
-            style={{
-              margin: "auto",
-              height: "100%",
-            }}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          >
-            <MediaElement
-              key={m.id}
-              media={m}
-              itemClassName={clsx(classes.item, itemClassName)}
-              onLoad={i === 0 ? onLoad : undefined}
-              enableDescription={enableDescription}
-              disableZoom={disableZoom}
-              itemStyle={itemStyle?.(m)}
-            />
-          </div>
-        ))}
+            media={m}
+            itemClassName={clsx(classes.item, itemClassName)}
+            onLoad={i === 0 ? onLoad : undefined}
+            enableDescription={enableDescription}
+            disableZoom={disableZoom}
+            itemStyle={itemStyle?.(m)}
+          />
+        </div>
+      ))}
     </StyledSlider>
   );
 };
