@@ -66,7 +66,7 @@ const HierarchyNetworkGraphBoxWrapper: React.FC<
     ) => React.ReactNode;
   }
 > = ({
-  count = 50,
+  count,
   id,
   query: { ids, eventType: queryType, ...query },
   type,
@@ -385,14 +385,7 @@ interface HierarchyNetworkGraphBoxWithFiltersProps
 
 export const HierarchyNetworkGraphBoxWithFilters: React.FC<
   HierarchyNetworkGraphBoxWithFiltersProps
-> = ({
-  count = 50,
-  query,
-  type,
-  showFilter = true,
-  onQueryChange,
-  ...props
-}) => {
+> = ({ count, query, type, showFilter = true, onQueryChange, ...props }) => {
   const [state, setState] = React.useState<{
     startDate: string;
     endDate: string;
