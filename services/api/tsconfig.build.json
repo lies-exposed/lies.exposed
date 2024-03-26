@@ -7,13 +7,11 @@
     "jsx": "react-jsx",
     "composite": true,
     "tsBuildInfoFile": "build/tsconfig.build.tsbuildinfo",
-    "types": [
-      "express"
-    ],
+    "types": ["express"],
     "typeRoots": [
       "./typings",
       "../../packages/@liexp/backend/typings",
-      "../../packages/@liexp/shared/typings",
+      "../../packages/@liexp/shared/typings"
     ],
     "declaration": true,
     "skipLibCheck": true,

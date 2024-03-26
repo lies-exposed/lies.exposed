@@ -7,7 +7,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import { fetchFromWikipedia } from "#flows/wikipedia/fetchFromWikipedia.js";
 import { NotFoundError, toControllerError } from "#io/ControllerError.js";
-import { editor } from "#providers/slate";
+import { editor } from "#providers/slate.js";
 
 export const fetchGroupFromWikipedia: TEFlow<[string], CreateGroupBody> =
   (ctx) => (pageId) => {
