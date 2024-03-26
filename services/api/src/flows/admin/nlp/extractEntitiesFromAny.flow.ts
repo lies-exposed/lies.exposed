@@ -13,7 +13,7 @@ import { ActorEntity } from "#entities/Actor.entity.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";
 import { KeywordEntity } from "#entities/Keyword.entity.js";
-import { LinkEntity } from "#entities/Link.entity";
+import { LinkEntity } from "#entities/Link.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import { extractRelationsFromText } from "#flows/nlp/extractRelationsFromText.flow.js";
 import { extractRelationsFromURL } from "#flows/nlp/extractRelationsFromURL.flow.js";
