@@ -65,7 +65,7 @@ jobs:
         with:
           hash: ${{ hashFiles('**/yarn.lock') }}
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: |
             services/**/build

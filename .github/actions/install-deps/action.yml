@@ -17,7 +17,7 @@ runs:
         cache: "yarn"
         cache-dependency-path: yarn.lock
 
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       id: workspace-deps
       with:
         path: "**/node_modules"
