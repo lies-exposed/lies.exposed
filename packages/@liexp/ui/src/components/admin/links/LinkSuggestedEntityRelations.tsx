@@ -68,8 +68,18 @@ export const LinkSuggestedEntityRelations: React.FC = () => {
       {data ? (
         <SuggestedEntityRelationsBox
           data={data}
+          exclude={{
+            entities: {
+              actors: record.actors ?? [],
+              groups: record.groups ?? [],
+              keywords: record.keywords ?? [],
+            },
+            sentences:
+              record.description
+                ?.split("\n")
+                .map((t: string) => ({ text: t.trim(), importance: 1 })) ?? [],
+          }}
           onKeywordClick={doAddKeyword}
-          excludeKeywords={record.keywords ?? []}
           onSentenceClick={doAppendSentenceToDescription}
         />
       ) : null}

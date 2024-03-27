@@ -1,13 +1,13 @@
 import { type ExtractEntitiesWithNLPOutput } from "@liexp/shared/lib/io/http/admin/ExtractNLPEntities.js";
+import clsx from "clsx";
 import * as React from "react";
+import { styled } from "../../../theme/index.js";
 import { ActorChip } from "../../actors/ActorChip.js";
 import { GroupChip } from "../../groups/GroupChip.js";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Card,
-  CardContent,
   Chip,
   Stack,
   Typography,
@@ -107,13 +107,37 @@ export const SuggestedActorEntityRelationsBox: React.FC<
   );
 };
 
+const SUGGESTED_ENTITY_RELATIONS_CLASS = "SuggestedEntityRelations";
+const suggestedEntityRelationsClasses = {
+  root: `${SUGGESTED_ENTITY_RELATIONS_CLASS}-root`,
+  sentenceText: `${SUGGESTED_ENTITY_RELATIONS_CLASS}-sentenceText`,
+  sentenceTextExcluded: `${SUGGESTED_ENTITY_RELATIONS_CLASS}-sentenceTextExcluded`,
+};
+const SuggestedEntityRelationsStack = styled(Stack)(({ theme }) => ({
+  [`& .${suggestedEntityRelationsClasses.root}`]: {
+    padding: theme.spacing(2),
+  },
+  [`& .${suggestedEntityRelationsClasses.sentenceText}`]: {
+    cursor: "pointer",
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.light,
+    },
+  },
+  [`& .${suggestedEntityRelationsClasses.sentenceTextExcluded}`]: {
+    color: theme.palette.text.disabled,
+    opacity: 0.5,
+    "&:hover": {
+      backgroundColor: "transparent",
+    },
+  },
+}));
+
 export type SuggestedEntityRelationsBoxProps = Omit<
   SuggestedKeywordEntityRelationsBoxProps,
-  "keywords"
+  "keywords" | "excludeKeywords"
 > & {
   data: ExtractEntitiesWithNLPOutput;
-  excludeActors?: string[];
-  excludeGroups?: string[];
+  exclude?: ExtractEntitiesWithNLPOutput;
   onGroupClick?: (group: string) => void;
   onActorClick?: (actor: string) => void;
   onSentenceClick?: (sentence: string) => void;
@@ -123,57 +147,70 @@ export const SuggestedEntityRelationsBox: React.FC<
   SuggestedEntityRelationsBoxProps
 > = ({
   data,
-  excludeKeywords,
-  excludeActors,
-  excludeGroups,
+  exclude,
   onActorClick,
   onGroupClick,
   onKeywordClick,
   onSentenceClick,
 }) => {
+  const excludedSentences = exclude?.sentences.map((s) => s.text) ?? [];
+  const sentences = data.sentences.map((s) => ({
+    text: s.text,
+    excluded: excludedSentences.includes(s.text),
+  }));
+
   return (
-    <Stack
+    <SuggestedEntityRelationsStack
       direction={"column"}
       spacing={2}
       onClick={(e) => {
         e.stopPropagation();
       }}
+      className={suggestedEntityRelationsClasses.root}
     >
       <Accordion>
         <AccordionSummary>
           <Stack>
             <SuggestedKeywordEntityRelationsBox
               keywords={data.entities.keywords}
-              excludeKeywords={excludeKeywords}
+              excludeKeywords={exclude?.entities.keywords}
               onKeywordClick={onKeywordClick}
             />
             <SuggestedGroupEntityRelationsBox
               groups={data.entities.groups}
-              excludeGroups={excludeGroups}
+              excludeGroups={exclude?.entities.groups}
               onClick={onGroupClick}
             />
             <SuggestedActorEntityRelationsBox
               actors={data.entities.actors}
-              excludeActors={excludeActors}
+              excludeActors={exclude?.entities.actors}
               onClick={onActorClick}
             />
+            <Typography variant="subtitle1">
+              Key Sentences ({excludedSentences.length}/{sentences.length})
+            </Typography>
           </Stack>
         </AccordionSummary>
         <AccordionDetails>
           <Stack direction={"column"} spacing={2}>
-            <Typography variant="subtitle1">Key Sentences</Typography>
-            {data.sentences.map((entity: any, i: number) => {
+            {sentences.map((entity, i) => {
               return (
-                <Card key={i} onClick={() => onSentenceClick?.(entity.text)}>
-                  <CardContent>
-                    <Typography>{entity.text}</Typography>
-                  </CardContent>
-                </Card>
+                <Typography
+                  key={i}
+                  onClick={() => onSentenceClick?.(entity.text)}
+                  className={clsx(
+                    entity.excluded
+                      ? suggestedEntityRelationsClasses.sentenceTextExcluded
+                      : suggestedEntityRelationsClasses.sentenceText,
+                  )}
+                >
+                  {entity.text}
+                </Typography>
               );
             })}
           </Stack>
         </AccordionDetails>
       </Accordion>
-    </Stack>
+    </SuggestedEntityRelationsStack>
   );
 };
