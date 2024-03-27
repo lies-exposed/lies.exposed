@@ -1,18 +1,23 @@
 #!/usr/bin/env bash
 
-API_UID=$(id pptruser -u); export API_UID
-API_GID=$(id pptruser -g); export API_GID
+set -e -x
 
-cp ./services/api/.env ./deploy/.env.api
+# API_UID=$(id pptruser -u); export API_UID
+# API_GID=$(id pptruser -g); export API_GID
+
+
 cp ./services/web/.env ./deploy/.env.web
 
 sed -i "s/VITE_NODE_ENV=.*/VITE_NODE_ENV=production/g" ./deploy/.env.web
+
+cp ./services/api/.env ./deploy/.env.api
+
 sed -i "s/NODE_ENV=.*/NODE_ENV=production/g" ./deploy/.env.api
 
 docker compose down
 
 # start only db
-docker compose up db -d
+./scripts/docker-up.sh db.liexp.dev
 
 cp ./services/api/certs/*.crt ./deploy/certs/
 cd ./deploy || return

@@ -1,5 +1,3 @@
-
-
 services:
   db-test.liexp.dev:
     image: postgres:14

@@ -18,7 +18,7 @@ FROM ghcr.io/lies-exposed/liexp-base:20-latest as build
 
 WORKDIR /app
 
-COPY --from=dev /app ./
+COPY --from=dev /app /app
 
 RUN yarn api build
 
@@ -30,13 +30,14 @@ COPY --from=build /app/.yarn/ /app/.yarn/
 
 COPY package.json /app/package.json
 COPY .yarnrc.yml /app/.yarnrc.yml
-COPY services/api/package.json /app/services/api/package.json
 
 COPY packages/@liexp/core/package.json /app/packages/@liexp/core/package.json
 COPY packages/@liexp/shared/package.json /app/packages/@liexp/shared/package.json
 COPY packages/@liexp/backend/package.json /app/packages/@liexp/backend/package.json
 COPY packages/@liexp/test/package.json /app/packages/@liexp/test/package.json
 COPY packages/@liexp/react-page/package.json /app/packages/@liexp/react-page/package.json
+
+COPY services/api/package.json /app/services/api/package.json
 
 RUN yarn config set --home enableTelemetry false && yarn workspaces focus --production api
 
@@ -79,6 +80,7 @@ COPY --from=prod_deps /app/node_modules /app/node_modules
 
 RUN yarn config set --home enableTelemetry false
 
+# TODO: try to avoid this step
 RUN yarn workspaces focus --production api
 
 # Run everything after as non-privileged user.
