@@ -11,7 +11,7 @@ import {
   usePermissions,
   type DatagridProps,
 } from "react-admin";
-import { Box } from "../../mui/index.js";
+import { Stack } from "../../mui/index.js";
 import { MediaField } from "../media/MediaField.js";
 
 export const LinkDataGrid: React.FC<DatagridProps> = (props) => {
@@ -27,18 +27,22 @@ export const LinkDataGrid: React.FC<DatagridProps> = (props) => {
       <FunctionField
         render={() => {
           return (
-            <Box style={{ display: "flex", flexDirection: "column" }}>
-              <MediaField
-                source="image.thumbnail"
-                type="image/jpeg"
-                controls={false}
-              />
-              <TextField
-                source="title"
-                style={{ fontWeight: 600, marginBottom: 5 }}
-              />
-              <TextField source="description" />
-            </Box>
+            <Stack direction="row">
+              <Stack>
+                <MediaField
+                  source="image.thumbnail"
+                  type="image/jpeg"
+                  controls={false}
+                />
+              </Stack>
+              <Stack direction="column">
+                <TextField
+                  source="title"
+                  style={{ fontWeight: 600, marginBottom: 5 }}
+                />
+                <TextField source="description" />
+              </Stack>
+            </Stack>
           );
         }}
       />
