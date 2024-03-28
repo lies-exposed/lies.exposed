@@ -1,5 +1,4 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { getLiexpSlate } from "@liexp/react-page/lib/slate/index.js";
 import { createExcerptValue } from "@liexp/react-page/lib/utils.js";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
@@ -116,6 +115,16 @@ describe("Create Scientific Study", () => {
 
     appTest.mocks.puppeteer.page.$eval.mockResolvedValueOnce("page content");
 
+    appTest.mocks.ner.winkMethods.learnCustomEntities.mockResolvedValueOnce(
+      {} as any,
+    );
+    appTest.mocks.ner.doc.out.mockReturnValue([]),
+      appTest.mocks.ner.doc.sentences.mockReturnValue({ each: vi.fn() } as any);
+    appTest.mocks.ner.doc.customEntities.mockReturnValue({
+      out: vi.fn().mockReturnValue([]),
+    } as any);
+    appTest.mocks.ner.doc.tokens.mockReturnValue({ each: vi.fn() } as any);
+
     const response = await appTest.req
       .post(`/v1/scientific-studies`)
       .set("Authorization", authorizationToken)
@@ -123,6 +132,13 @@ describe("Create Scientific Study", () => {
 
     const body = response.body.data;
     expect(response.status).toEqual(201);
+
+    expect(appTest.mocks.ner).toHaveBeenCalledTimes(1);
+    expect(
+      appTest.mocks.ner.winkMethods.learnCustomEntities,
+    ).toHaveBeenCalledTimes(1);
+    expect(appTest.mocks.ner.winkMethods.readDoc).toHaveBeenCalledTimes(1);
+    expect(appTest.mocks.ner.doc.out).toHaveBeenCalledTimes(1);
 
     const link = await pipe(
       appTest.ctx.db.findOneOrFail(LinkEntity, {

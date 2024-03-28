@@ -33,6 +33,7 @@ export const pageMock = {
 
 export const browserMock = {
   on: vi.fn(),
+  newPage: vi.fn().mockResolvedValue(pageMock),
   pages: vi.fn().mockResolvedValue([pageMock] as any),
   close: vi.fn().mockResolvedValue(undefined),
 };

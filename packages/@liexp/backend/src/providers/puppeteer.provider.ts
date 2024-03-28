@@ -44,8 +44,9 @@ export const toPuppeteerError = (e: unknown): PuppeteerError => {
   if (e instanceof Error) {
     if (e.message.startsWith("net::ERR_NAME_NOT_RESOLVED")) {
       return new NameNotResolvedError(e.message, {
-        kind: "ClientError",
+        kind: "ServerError",
         status: "500",
+        meta: e.stack,
       });
     }
     if (e.name === "TimeoutError") {
@@ -118,6 +119,13 @@ export interface PuppeteerProvider {
   getPageText: (
     r: puppeteer.HTTPResponse,
   ) => TE.TaskEither<PuppeteerError, string>;
+  execute: <T>(
+    opts: BrowserLaunchOpts,
+    te: (
+      b: puppeteer.Browser,
+      page: puppeteer.Page,
+    ) => TE.TaskEither<PuppeteerError, T>,
+  ) => TE.TaskEither<PuppeteerError, T>;
 }
 
 // const browserPages = (b: puppeteer.Browser) => TE.tryCatch(() => b.pages(), toPuppeteerError);
@@ -172,16 +180,23 @@ export const GetPuppeteerProvider = (
     );
   };
 
-  const execute = (
+  const execute = <T>(
     opts: BrowserLaunchOpts,
     te: (
       b: puppeteer.Browser,
-    ) => TE.TaskEither<PuppeteerError, puppeteer.Browser>,
-  ): TE.TaskEither<PuppeteerError, void> => {
+      page: puppeteer.Page,
+    ) => TE.TaskEither<PuppeteerError, T>,
+  ): TE.TaskEither<PuppeteerError, T> => {
     return pipe(
-      launch(opts),
-      TE.chain((b) => te(b)),
-      TE.chain((b) => TE.tryCatch(() => b.close(), toPuppeteerError)),
+      TE.bracket(
+        launch(opts),
+        (b) =>
+          pipe(
+            TE.tryCatch(() => b.newPage(), toPuppeteerError),
+            TE.chain((p) => te(b, p)),
+          ),
+        (b) => TE.tryCatch(() => b.close(), toPuppeteerError),
+      ),
     );
   };
 
@@ -192,14 +207,17 @@ export const GetPuppeteerProvider = (
   };
 
   const download = (url: string): TE.TaskEither<PuppeteerError, void> => {
-    return execute(defaultOpts, (b) => {
-      return TE.tryCatch(async () => {
-        const page = await b.newPage();
-        await page.goto(url);
-        await page.click("button");
-        return b;
-      }, toPuppeteerError);
-    });
+    return pipe(
+      execute(defaultOpts, (b) => {
+        return TE.tryCatch(async () => {
+          const page = await b.newPage();
+          await page.goto(url);
+          await page.click("button");
+          return b;
+        }, toPuppeteerError);
+      }),
+      TE.map(() => undefined),
+    );
   };
 
   const getBrowserFirstPage = (
@@ -253,6 +271,7 @@ export const GetPuppeteerProvider = (
 
   return {
     devices: puppeteer.KnownDevices,
+    execute,
     getBrowser,
     goToPage,
     download,

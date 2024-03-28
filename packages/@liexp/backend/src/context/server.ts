@@ -7,12 +7,12 @@ import { type GeocodeProvider } from "../providers/geocode/geocode.provider.js";
 import { type IGProvider } from "../providers/ig/ig.provider.js";
 import { type ImgProcClient } from "../providers/imgproc/imgproc.provider.js";
 import { type JWTProvider } from "../providers/jwt/jwt.provider.js";
+import { type NERProvider } from "../providers/ner/ner.provider.js";
 import { type DatabaseClient } from "../providers/orm/index.js";
 import { type PuppeteerProvider } from "../providers/puppeteer.provider.js";
 import { type SpaceProvider } from "../providers/space/index.js";
 import { type TGBotProvider } from "../providers/tg/tg.provider.js";
 import { type WikipediaProvider } from "../providers/wikipedia/wikipedia.provider.js";
-
 export interface ServerContext {
   db: DatabaseClient;
   s3: SpaceProvider.SpaceProvider;
@@ -29,4 +29,8 @@ export interface ServerContext {
   imgProc: ImgProcClient;
   /** Wikipedia Provider */
   wp: WikipediaProvider;
+  /**
+   * Natural Language Provider
+   */
+  ner: NERProvider;
 }

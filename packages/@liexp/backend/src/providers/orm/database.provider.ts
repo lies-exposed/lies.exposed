@@ -112,7 +112,7 @@ export const toError =
     }
 
     return new DBError("An error occurred", {
-      kind: "ClientError",
+      kind: "ServerError",
       status: "500",
       meta: [String(e)],
     });

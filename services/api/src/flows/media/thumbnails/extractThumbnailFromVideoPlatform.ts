@@ -160,14 +160,14 @@ export const extractThumbnailFromIframe: ExtractThumbnailFlow<
   return pipe(
     sequenceS(TE.ApplyPar)({
       html: pipe(
-        ctx.puppeteer.getBrowserFirstPage(media.location, {}),
-        TE.chain((page) => {
+        ctx.puppeteer.execute({}, (b, page) => {
           return TE.tryCatch(async () => {
             await page.goto(media.location, { waitUntil: "networkidle0" });
 
             return page;
           }, toPuppeteerError);
         }),
+
         TE.mapLeft((e) => ServerError(e as any)),
       ),
       match: pipe(

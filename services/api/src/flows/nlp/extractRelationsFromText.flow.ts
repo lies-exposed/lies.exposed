@@ -1,5 +1,4 @@
 import path from "path";
-import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as O from "fp-ts/lib/Option.js";
@@ -30,20 +29,18 @@ export const extractRelationsFromText: TEFlow<
     sentences: { text: string; importance: number }[];
   }
 > = (ctx) => (text) => {
-  const nerProvider = GetNERProvider(ctx);
-
   return pipe(
     sequenceS(TE.ApplicativeSeq)({
       entities: pipe(
         ctx.fs.getObject(
-          path.resolve(ctx.config.dirs.cwd, nerProvider.entitiesFile),
+          path.resolve(ctx.config.dirs.cwd, ctx.ner.entitiesFile),
         ),
         TE.map(JSON.parse),
       ),
     }),
     TE.chain(({ entities }) => {
       return pipe(
-        nerProvider.process(text, entities),
+        ctx.ner.process(text, entities),
         TE.chain(({ entities: details, sentences }) =>
           pipe(
             sequenceS(TE.ApplicativePar)({
