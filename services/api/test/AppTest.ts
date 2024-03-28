@@ -3,6 +3,7 @@ import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { GeocodeProvider } from "@liexp/backend/lib/providers/geocode/geocode.provider.js";
 import { MakeImgProcClient } from "@liexp/backend/lib/providers/imgproc/imgproc.provider.js";
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
+import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js";
 import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm/index.js";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
 import { MakeSpaceProvider } from "@liexp/backend/lib/providers/space/space.provider.js";
@@ -14,6 +15,7 @@ import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import supertest from "supertest";
+import TestAgent from 'supertest/lib/agent.js';
 import {
   type DataSource,
   type EntityTarget,
@@ -46,7 +48,7 @@ vi.mock("node-telegram-bot-api");
 export interface AppTest {
   ctx: RouteContext;
   mocks: AppMocks;
-  req: supertest.SuperTest<supertest.Test>;
+  req: TestAgent<supertest.Test>;
   utils: {
     e2eAfterAll: () => Promise<boolean>;
   };
@@ -63,7 +65,7 @@ const initAppTest = async (): Promise<AppTest> => {
   //   g.dataSource = await dataSource.initialize();
   // }
 
-  return await pipe(
+  const appTest = await pipe(
     sequenceS(TE.ApplicativePar)({
       db: pipe(
         getDataSource(process.env as any, false),
@@ -87,6 +89,7 @@ const initAppTest = async (): Promise<AppTest> => {
             root: path.resolve(cwd, "temp"),
             media: path.resolve(cwd, "temp/media"),
             stats: path.resolve(cwd, "temp/stats"),
+            nlp: path.resolve(process.cwd(), "temp/nlp"),
           },
         },
       },
@@ -125,6 +128,11 @@ const initAppTest = async (): Promise<AppTest> => {
         exifR: {} as any,
         client: mocks.sharp as any,
       }),
+      ner: GetNERProvider({
+        logger,
+        entitiesFile: path.resolve(__dirname, "entities.json"),
+        nlp: mocks.ner,
+      }),
       geo: GeocodeProvider({ http: {} as any, apiKey: "fake-geo-api-key" }),
     })),
     TE.map((ctx) => ({
@@ -148,7 +156,7 @@ const initAppTest = async (): Promise<AppTest> => {
               TE.map((r) => (r.affected ?? 0) >= 0),
             );
 
-          return await pipe(
+          return pipe(
             sequenceS(TE.ApplicativeSeq)({
               link: liftFind(LinkEntity),
               media: liftFind(MediaEntity),
@@ -171,6 +179,8 @@ const initAppTest = async (): Promise<AppTest> => {
     }),
     throwTE,
   );
+
+  return appTest;
 };
 
 const g = global as any as {

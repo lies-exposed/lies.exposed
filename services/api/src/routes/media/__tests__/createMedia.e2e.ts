@@ -60,6 +60,7 @@ describe("Create Media", () => {
       toFormat: vitest.fn().mockReturnThis(),
       toBuffer: vitest.fn().mockResolvedValueOnce(Buffer.from([])),
     };
+
     Test.mocks.sharp.mockImplementation(() => {
       return sharpMock;
     });
