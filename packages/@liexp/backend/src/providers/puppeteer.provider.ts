@@ -44,8 +44,9 @@ export const toPuppeteerError = (e: unknown): PuppeteerError => {
   if (e instanceof Error) {
     if (e.message.startsWith("net::ERR_NAME_NOT_RESOLVED")) {
       return new NameNotResolvedError(e.message, {
-        kind: "ClientError",
+        kind: "ServerError",
         status: "500",
+        meta: e.stack,
       });
     }
     if (e.name === "TimeoutError") {

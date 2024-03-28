@@ -28,7 +28,7 @@ export const toError =
 
     if (e instanceof Error) {
       return new NERError(e.message, {
-        kind: "ClientError",
+        kind: "ServerError",
         status: (override?.status ?? 401) + "",
         meta: e.stack,
       });
@@ -36,7 +36,7 @@ export const toError =
 
     return new NERError("An error occurred", {
       status: (override?.status ?? 401) + "",
-      kind: "ClientError",
+      kind: "ServerError",
       meta: [String(e)],
     });
   };

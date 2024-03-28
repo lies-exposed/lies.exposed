@@ -37,7 +37,7 @@ class _NotFoundError extends IOError {
 
 export const NotFoundError = (entityName: string): ControllerError =>
   new _NotFoundError(`Can't find resource ${entityName}`, {
-    kind: "ClientError",
+    kind: "ServerError",
     status: "404",
   });
 
