@@ -243,7 +243,7 @@ export interface DataPayload {
   links: DataPayloadLink[];
 }
 
-export const extractFromURL: TEFlow<
+export const extractEventFromURL: TEFlow<
   [puppeteer.Page, UserEntity, DataPayloadLink],
   O.Option<EventV2Entity>
 > = (ctx) => (p, user, l) => {

@@ -1,5 +1,6 @@
 import { FSError } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { JWTError } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
+import { NERError } from "@liexp/backend/lib/providers/ner/ner.provider.js";
 import { DBError } from "@liexp/backend/lib/providers/orm/index.js";
 import { SpaceError } from "@liexp/backend/lib/providers/space/space.provider.js";
 import * as t from "io-ts";
@@ -36,7 +37,7 @@ class _NotFoundError extends IOError {
 
 export const NotFoundError = (entityName: string): ControllerError =>
   new _NotFoundError(`Can't find resource ${entityName}`, {
-    kind: "ClientError",
+    kind: "ServerError",
     status: "404",
   });
 
@@ -83,6 +84,7 @@ export type ControllerError =
   | DBError
   | SpaceError
   | FSError
+  | NERError
   | _BadRequestError
   | _NotFoundError
   | _ServerError

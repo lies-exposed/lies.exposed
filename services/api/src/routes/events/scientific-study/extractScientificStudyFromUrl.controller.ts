@@ -12,7 +12,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { UserEntity } from "#entities/User.entity.js";
-import { extractFromURL } from "#flows/events/extractFromURL.flow.js";
+import { extractEventFromURL } from "#flows/events/extractFromURL.flow.js";
 import { ServerError, toControllerError } from "#io/ControllerError.js";
 import { toEventV2IO } from "#routes/events/eventV2.io.js";
 import { type Route } from "#routes/route.types.js";
@@ -60,7 +60,7 @@ export const MakeExtractScientificStudyFromURLRoute: Route = (r, ctx) => {
                   toControllerError,
                 ),
                 TE.chain((p) =>
-                  extractFromURL(ctx)(p, user, {
+                  extractEventFromURL(ctx)(p, user, {
                     type: SCIENTIFIC_STUDY.value,
                     url: (event.payload as any).url,
                   }),

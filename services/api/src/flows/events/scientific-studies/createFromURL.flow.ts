@@ -5,7 +5,7 @@ import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { findByURL } from "../../../queries/events/scientificStudy.query.js";
-import { extractFromURL } from "../extractFromURL.flow.js";
+import { extractEventFromURL } from "../extractFromURL.flow.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { type UserEntity } from "#entities/User.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
@@ -27,7 +27,7 @@ export const createEventFromURL: TEFlow<[UserEntity, URL], EventV2Entity> =
                   toControllerError,
                 ),
                 TE.chain((p) =>
-                  extractFromURL(ctx)(p, user, {
+                  extractEventFromURL(ctx)(p, user, {
                     type: SCIENTIFIC_STUDY.value,
                     url,
                   }),
