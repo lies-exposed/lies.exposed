@@ -8,7 +8,7 @@ import { findByURL } from "../src/queries/events/scientificStudy.query.js";
 import { startContext, stopContext } from "./start-ctx.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import {
-  extractFromURL,
+  extractEventFromURL,
   type DataPayloadLink,
 } from "#flows/events/extractFromURL.flow.js";
 import { getOneAdminOrFail } from "#flows/users/getOneUserOrFail.flow.js";
@@ -41,7 +41,7 @@ const run = async (): Promise<void> => {
             [{ url: url as any, type: "link" }],
             A.traverse(TE.ApplicativeSeq)((l) =>
               pipe(
-                extractFromURL(ctx)(p, user, l),
+                extractEventFromURL(ctx)(p, user, l),
                 TE.chain(
                   (
                     ev

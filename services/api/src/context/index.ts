@@ -6,6 +6,7 @@ import { GeocodeProvider } from "@liexp/backend/lib/providers/geocode/geocode.pr
 import { IGProvider } from "@liexp/backend/lib/providers/ig/ig.provider.js";
 import { MakeImgProcClient } from "@liexp/backend/lib/providers/imgproc/imgproc.provider.js";
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
+import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js";
 import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm/index.js";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
 import { TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.js";
@@ -22,6 +23,7 @@ import metadataParser from "page-metadata-parser";
 import puppeteer from "puppeteer-core";
 import sharp from "sharp";
 import wk from "wikipedia";
+import WinkFn from "wink-nlp";
 import {
   toControllerError,
   type ControllerError,
@@ -107,7 +109,14 @@ export const makeContext = (
           exifR: ExifReader,
         }),
       ),
-      config: fp.TE.right({
+      ner: fp.TE.right(
+        GetNERProvider({
+          logger: logger.GetLogger("ner"),
+          entitiesFile: path.resolve(process.cwd(), "config/nlp/entities.json"),
+          nlp: WinkFn,
+        }),
+      ),
+      config: fp.TE.right<ControllerError, RouteContext["config"]>({
         events: EventsConfig,
         dirs: {
           cwd: process.cwd(),
