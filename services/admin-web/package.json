@@ -36,7 +36,7 @@
     "@tanstack/react-query": "^5.28.14",
     "debug": "^4.3.4",
     "final-form": "^4.20.10",
-    "fp-ts": "^2.16.4",
+    "fp-ts": "^2.16.5",
     "history": "^5.3.0",
     "mini-create-react-context": "^0.4.1",
     "ra-core": "^4.16.12",
