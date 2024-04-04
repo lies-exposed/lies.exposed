@@ -43,7 +43,7 @@
     "typescript": "^5.4.3"
   },
   "peerDependencies": {
-    "@visx/network": "^3.0.0",
+    "@visx/network": "^3",
     "date-fns": "^2",
     "debug": "*",
     "express": "^4.17.1",
@@ -53,16 +53,16 @@
     "node-telegram-bot-api": "^0.64.0",
     "page-metadata-parser": "^1.1.4",
     "puppeteer-core": "^21",
-    "puppeteer-extra": "^3.3.6",
-    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "puppeteer-extra": "^3",
+    "puppeteer-extra-plugin-stealth": "^2",
     "query-string": "^7",
     "react": "^18",
-    "react-admin": "^4.13.2",
+    "react-admin": "^4",
     "react-dom": "^18",
-    "typeorm": "^0.3.15",
+    "typeorm": "^0.3.20",
     "uuid": "^9.0.1",
     "wikipedia": "^2.0.0",
-    "wink-nlp": "^1",
+    "wink-nlp": "^2",
     "wink-nlp-utils": "^2.1.0"
   },
   "lint-staged": {

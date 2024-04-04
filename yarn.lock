@@ -3530,7 +3530,7 @@ __metadata:
     typeorm: ^0.3.20
     typescript: ^5.4.3
   peerDependencies:
-    "@visx/network": ^3.0.0
+    "@visx/network": ^3
     date-fns: ^2
     debug: "*"
     express: ^4.17.1
@@ -3540,16 +3540,16 @@ __metadata:
     node-telegram-bot-api: ^0.64.0
     page-metadata-parser: ^1.1.4
     puppeteer-core: ^21
-    puppeteer-extra: ^3.3.6
-    puppeteer-extra-plugin-stealth: ^2.11.2
+    puppeteer-extra: ^3
+    puppeteer-extra-plugin-stealth: ^2
     query-string: ^7
     react: ^18
-    react-admin: ^4.13.2
+    react-admin: ^4
     react-dom: ^18
-    typeorm: ^0.3.15
+    typeorm: ^0.3.20
     uuid: ^9.0.1
     wikipedia: ^2.0.0
-    wink-nlp: ^1
+    wink-nlp: ^2
     wink-nlp-utils: ^2.1.0
   languageName: unknown
   linkType: soft
@@ -9235,8 +9235,8 @@ __metadata:
     vite-tsconfig-paths: ^4.3.2
     vitest: ^1.4.0
     wikipedia: ^2.1.2
-    wink-eng-lite-web-model: ^1.5.2
-    wink-nlp: ^1.14.3
+    wink-eng-lite-web-model: ^1.6.0
+    wink-nlp: ^2.2.0
     wink-nlp-utils: ^2.1.0
   languageName: unknown
   linkType: soft
@@ -24199,12 +24199,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wink-eng-lite-web-model@npm:^1.4.3, wink-eng-lite-web-model@npm:^1.5.2":
-  version: 1.5.2
-  resolution: "wink-eng-lite-web-model@npm:1.5.2"
+"wink-eng-lite-web-model@npm:^1.4.3, wink-eng-lite-web-model@npm:^1.6.0":
+  version: 1.6.0
+  resolution: "wink-eng-lite-web-model@npm:1.6.0"
   peerDependencies:
-    wink-nlp: ">1.8.1"
-  checksum: c9db29ef2b93197211055cbc60b800211609e42bfa7a7ffb5577621435917dbe41b3839da20e67c26d5ef96e4e098c3e17dafe68305347340f43fe854ca69254
+    wink-nlp: ">2.1.0"
+  checksum: 63477cfa83e2288716c0291bcb5195706c6b772b070ab9968bbb47d6b3f57efb543c8ddcf0bb9f61ee2216c2f0c3df92aacf2bd74e243e32e1fb0c292ae68ab7
   languageName: node
   linkType: hard
 
@@ -24236,10 +24236,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wink-nlp@npm:^1.12.0, wink-nlp@npm:^1.14.3":
+"wink-nlp@npm:^1.12.0":
   version: 1.14.3
   resolution: "wink-nlp@npm:1.14.3"
   checksum: c13e9bf904015800f2ace5f16425e7f4c96578a480d8552b623bf466a5f53491d27c719853595c0af39af02f18c46ded1f3e15796ec0eaf6120a01ee11fcee95
+  languageName: node
+  linkType: hard
+
+"wink-nlp@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "wink-nlp@npm:2.2.0"
+  checksum: b249c37a387a1e1c79aa2df31b29127ded0f19ec3cc7bd4f38d0875e1f979e27ea67c8e128f380f8aa846fc5bbacc1788c43cc42fd2a454974a5449511950d69
   languageName: node
   linkType: hard
 

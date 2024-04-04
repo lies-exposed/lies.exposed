@@ -128,7 +128,7 @@ services:
       - ./packages/@liexp:/app/packages/@liexp:ro
       - ./services/admin-web:/app/services/admin-web:cached
     working_dir: /app/services/admin-web
-    command: yarn dev
+    command: yarn docker:dev
     tty: true
     depends_on:
       - liexp.dev
