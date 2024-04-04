@@ -193,9 +193,10 @@ export const AreaEdit: React.FC<EditProps> = () => (
   </EditForm>
 );
 
-export const AreaCreate: React.FC<CreateProps> = (props) => (
+export const AreaCreate: React.FC<CreateProps> = () => (
   <Create title="Create a Post">
     <SimpleForm>
+      <BooleanInput source="draft" defaultValue={false} />
       <TextInput source="label" validate={[required()]} />
       <TextInput source="slug" validate={[required()]} />
       <MapInput source="geometry" />
