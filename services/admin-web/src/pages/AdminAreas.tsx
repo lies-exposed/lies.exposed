@@ -2,7 +2,8 @@ import { Area } from "@liexp/shared/lib/io/http/Area.js";
 import { MapInput } from "@liexp/ui/lib/components/admin/MapInput.js";
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
 import { AreaTGPostButton } from "@liexp/ui/lib/components/admin/areas/button/AreaTGPostButton.js";
-import { SearchAreaCoordinatesButton } from "@liexp/ui/lib/components/admin/areas/button/SearchAreaCoordinatesButton.js";
+import { UpdateAreaGeometryByLabelButton } from "@liexp/ui/lib/components/admin/areas/button/UpdateAreaGeometryByLabelButton.js";
+import { UpdateAreaGeometryWithCoordinatesButton } from "@liexp/ui/lib/components/admin/areas/button/UpdateAreaGeometryWithCoordinatesButton.js";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
 import ReferenceArrayEventInput from "@liexp/ui/lib/components/admin/events/ReferenceArrayEventInput.js";
 import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField.js";
@@ -178,7 +179,8 @@ export const AreaEdit: React.FC<EditProps> = () => (
       <FormTab label="Geometry">
         <MapInput source="geometry" />
         <Stack spacing={2} alignItems={"flex-start"}>
-          <SearchAreaCoordinatesButton />
+          <UpdateAreaGeometryByLabelButton />
+          <UpdateAreaGeometryWithCoordinatesButton />
           <UpdateGeometryButton />
           <OpenInGMapsButton />
         </Stack>

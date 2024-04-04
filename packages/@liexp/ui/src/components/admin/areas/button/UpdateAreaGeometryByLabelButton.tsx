@@ -8,7 +8,7 @@ import {
   useRefresh,
 } from "../../react-admin.js";
 
-export const SearchAreaCoordinatesButton: React.FC = () => {
+export const UpdateAreaGeometryByLabelButton: React.FC = () => {
   const refresh = useRefresh();
   const record = useRecordContext<Area.Area>();
   const [query, setQuery] = React.useState(record.label ?? "");
@@ -30,7 +30,7 @@ export const SearchAreaCoordinatesButton: React.FC = () => {
       .then(() => {
         refresh();
       });
-  }, [record.label]);
+  }, [record?.label, query]);
 
   if (!record) {
     return <CircularProgress />;
@@ -51,7 +51,7 @@ export const SearchAreaCoordinatesButton: React.FC = () => {
         size="small"
       />
       <Button
-        label="Search for coordinates"
+        label="Search for coordinates by label"
         onClick={searchForCoordinates}
         size="small"
         variant="outlined"
