@@ -92,8 +92,8 @@
     "typescript": "^5.4.3",
     "uuid": "^9.0.1",
     "wikipedia": "^2.1.2",
-    "wink-eng-lite-web-model": "^1.5.2",
-    "wink-nlp": "^1.14.3",
+    "wink-eng-lite-web-model": "^1.6.0",
+    "wink-nlp": "^2.2.0",
     "wink-nlp-utils": "^2.1.0"
   },
   "devDependencies": {
