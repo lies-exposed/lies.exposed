@@ -16477,7 +16477,6 @@ __metadata:
     prettier: ^3.2.5
     typescript: ^5.4.3
     typescript-eslint: ^7.5.0
-    vite: ^5.2.6
     vitest: ^1.4.0
   languageName: unknown
   linkType: soft
