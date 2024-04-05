@@ -4,7 +4,7 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
 import * as t from "io-ts";
 import jwt from "jsonwebtoken";
-import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
+import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { ProjectEntity } from "#entities/Project.entity.js";
 import { ProjectImageEntity } from "#entities/ProjectImage.entity.js";
@@ -25,8 +25,13 @@ describe("List Project Images", () => {
       appTest.ctx.db.save(ProjectEntity, [
         {
           ...projectData,
+          media: [],
           areas: projectData.areas.map((a) => ({
             ...a,
+            featuredImage: null,
+            deletedAt: null,
+            events: [],
+            socialPosts: [],
             media: a.media.map((m) => ({ id: m })),
           })),
         },

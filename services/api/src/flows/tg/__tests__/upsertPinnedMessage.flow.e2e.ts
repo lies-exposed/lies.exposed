@@ -37,6 +37,7 @@ describe("Upsert Pinned Message Flow", () => {
       links: [],
       media: [],
       keywords: i % 2 === 0 ? [keywords[0]] : [],
+      socialPosts: [],
     }));
 
     await throwTE(Test.ctx.db.save(KeywordEntity, keywords));

@@ -62,9 +62,11 @@ describe("Edit Event", () => {
   beforeAll(async () => {
     appTest = await GetAppTest();
 
-    await throwTE(appTest.ctx.db.save(AreaEntity, [{ ...area, media: [] }]));
-    await throwTE(appTest.ctx.db.save(ActorEntity, [actor] as any[]));
-    await throwTE(appTest.ctx.db.save(GroupEntity, [group] as any[]));
+    await throwTE(
+      appTest.ctx.db.save(AreaEntity, [{ ...area, featuredImage: null }]),
+    );
+    await throwTE(appTest.ctx.db.save(ActorEntity, [actor]));
+    await throwTE(appTest.ctx.db.save(GroupEntity, [group]));
     await throwTE(
       appTest.ctx.db.save(GroupMemberEntity, [groupMember] as any[]),
     );

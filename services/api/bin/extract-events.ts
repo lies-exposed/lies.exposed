@@ -41,7 +41,7 @@ const run = async (): Promise<void> => {
             [{ url: url as any, type: "link" }],
             A.traverse(TE.ApplicativeSeq)((l) =>
               pipe(
-                extractEventFromURL(ctx)(p, user, l),
+                extractEventFromURL(ctx)(p, user, l.url),
                 TE.chain(
                   (
                     ev
@@ -50,7 +50,7 @@ const run = async (): Promise<void> => {
                     [O.Option<DataPayloadLink>, O.Option<EventV2Entity>]
                   > => {
                     if (O.isNone(ev)) {
-                      return TE.right([O.some(l), O.none]);
+                      return TE.right([O.some(l.url), O.none]);
                     }
                     return pipe(
                       findByURL(ctx)(l.url),

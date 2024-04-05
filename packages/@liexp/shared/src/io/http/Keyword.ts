@@ -13,7 +13,6 @@ export const GetKeywordListQuery = t.type(
     ...GetListQuery.props,
     ids: optionFromNullable(t.array(UUID)),
     events: optionFromNullable(t.array(UUID)),
-    search: optionFromNullable(t.string),
   },
   "GetKeywordListQuery",
 );

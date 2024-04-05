@@ -51,7 +51,7 @@ interface SearchInputProps
 }
 
 export interface SearchFilter {
-  search: string | undefined;
+  q: string | undefined;
   groups: Group.Group[];
   actors: Actor.Actor[];
   keywords: Keyword.Keyword[];
@@ -61,14 +61,14 @@ const serializeOption = (options: SearchOption[]): SearchFilter => {
   return options.reduce<SearchFilter>(
     (acc, o) => {
       return {
-        search: acc.search ?? (o.type === "Search" ? o.item : undefined),
+        q: acc.q ?? (o.type === "Search" ? o.item : undefined),
         groups: acc.groups.concat(o.type === "Group" ? [o.item] : []),
         actors: acc.actors.concat(o.type === "Actor" ? [o.item] : []),
         keywords: acc.keywords.concat(o.type === "Keyword" ? [o.item] : []),
       };
     },
     {
-      search: undefined,
+      q: undefined,
       groups: [],
       actors: [],
       keywords: [],
@@ -83,7 +83,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
   ...props
 }) => {
   const { Queries } = useEndpointQueries();
-  const [search, setSearch] = React.useState(query.search ?? "");
+  const [search, setSearch] = React.useState(query.q ?? "");
   const [searchOptions, setSearchOptions] = React.useState<SearchOption[]>([]);
 
   const handleSearchChange = React.useCallback(
@@ -98,7 +98,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
         // fetch keywords
         void Queries.Keyword.list
           .fetch({
-            filter: { search: q.replace("#", "") },
+            filter: { q: q.replace("#", "") },
             sort: { field: "createdAt", order: "DESC" },
             pagination: {
               perPage: 20,
@@ -114,7 +114,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
         // fetch actors
         void Queries.Actor.list
           .fetch({
-            filter: { search: q.replace("a@", "") },
+            filter: { q: q.replace("a@", "") },
             sort: { field: "createdAt", order: "DESC" },
             pagination: {
               perPage: 20,
@@ -128,7 +128,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
         // fetch groups
         void Queries.Group.list
           .fetch({
-            filter: { search: q.replace("g@", "") },
+            filter: { q: q.replace("g@", "") },
             sort: { field: "createdAt", order: "DESC" },
             pagination: {
               perPage: 20,

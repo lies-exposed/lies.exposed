@@ -88,7 +88,13 @@ const uncategorizedProps = propsOmit(http.Events.Uncategorized.Uncategorized, [
   "deletedAt",
 ]);
 
-export const UncategorizedArb: fc.Arbitrary<http.Events.Uncategorized.Uncategorized> =
+export type UncategorizedArbType = Omit<
+  http.Events.Uncategorized.Uncategorized,
+  "socialPosts"
+> & {
+  socialPosts?: any[];
+};
+export const UncategorizedArb: fc.Arbitrary<UncategorizedArbType> =
   getArbitrary(t.strict(uncategorizedProps)).map((u) => ({
     ...u,
     id: fc.sample(fc.uuid(), 1)[0] as any,
