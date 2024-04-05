@@ -16,7 +16,16 @@ const {
   ...areaProps
 } = http.Area.Area.type.props;
 
-export const AreaArb: tests.fc.Arbitrary<http.Area.Area> = tests
+export type AreaArbType = Omit<
+  http.Area.Area,
+  "media" | "events" | "socialPosts"
+> & {
+  events: any[];
+  media: any[];
+  socialPosts: any[];
+};
+
+export const AreaArb: tests.fc.Arbitrary<AreaArbType> = tests
   .getArbitrary(t.strict({ ...areaProps }))
   .map((p) => ({
     ...p,

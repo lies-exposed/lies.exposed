@@ -13,7 +13,7 @@ import { getORMOptions } from "#utils/orm.utils.js";
 
 const defaultQuery: http.Keyword.GetKeywordListQuery = {
   ids: O.none,
-  search: O.none,
+  q: O.none,
   events: O.none,
   _end: O.some(20 as any),
   _start: O.some(0 as any),
@@ -29,7 +29,7 @@ export const fetchKeywords: TEFlow<
   (query, isAdmin): TE.TaskEither<DBError, [KeywordEntity[], number]> => {
     const q = { ...defaultQuery, ...query };
 
-    const { ids, search, events, ...otherQuery } = q;
+    const { ids, q: search, events, ...otherQuery } = q;
 
     const findOptions = getORMOptions(otherQuery, env.DEFAULT_PAGE_SIZE);
 

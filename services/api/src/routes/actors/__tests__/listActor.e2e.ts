@@ -1,12 +1,14 @@
-import { type http } from "@liexp/shared/lib/io/index.js";
-import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
+import {
+  ActorArb,
+  ActorArbType,
+} from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as tests from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 
 describe("List Actor", () => {
-  let Test: AppTest, authorizationToken: string, actors: http.Actor.Actor[];
+  let Test: AppTest, authorizationToken: string, actors: ActorArbType[];
 
   beforeAll(async () => {
     Test = await GetAppTest();

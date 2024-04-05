@@ -131,7 +131,7 @@ const initAppTest = async (): Promise<AppTest> => {
       ner: GetNERProvider({
         logger,
         entitiesFile: path.resolve(__dirname, "entities.json"),
-        nlp: mocks.ner,
+        nlp: mocks.ner as any,
       }),
       geo: GeocodeProvider({ http: {} as any, apiKey: "fake-geo-api-key" }),
     })),

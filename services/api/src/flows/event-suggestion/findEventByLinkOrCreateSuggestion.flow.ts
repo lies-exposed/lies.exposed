@@ -36,7 +36,7 @@ export const findEventByLinkOrCreateSuggestion: TEFlow<
         return pipe(
           searchEventV2Query(ctx)({
             ids: O.none,
-            search: O.none,
+            q: O.none,
             type: O.none,
             draft: O.none,
             startDate: O.none,

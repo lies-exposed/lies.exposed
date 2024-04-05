@@ -13,7 +13,7 @@ import { getORMOptions } from "#utils/orm.utils.js";
 
 const defaultQuery: http.Actor.GetListActorQuery = {
   ids: O.none,
-  search: O.none,
+  q: O.none,
   _end: O.some(20 as any),
   _start: O.some(0 as any),
   _order: O.some("DESC"),
@@ -24,9 +24,9 @@ export const fetchActors =
   (
     query: Partial<http.Actor.GetListActorQuery>,
   ): TE.TaskEither<DBError, { total: number; results: ActorEntity[] }> => {
-    const q = { ...defaultQuery, ...query };
+    const finalQuery = { ...defaultQuery, ...query };
 
-    const { ids, search, ...otherQuery } = q;
+    const { ids, q: search, ...otherQuery } = finalQuery;
 
     const findOptions = getORMOptions(otherQuery, env.DEFAULT_PAGE_SIZE);
 

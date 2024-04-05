@@ -30,9 +30,9 @@ const run = async (): Promise<any> => {
     throwTE,
   );
 
-  ctx.logger.info.log("Orphan media count: %d", result.length);
+  ctx.logger.info.log("Orphan media count: %d", result.orphans.length);
 
-  for await (const e of result) {
+  for await (const e of result.orphans) {
     const output = {
       age: e.LastModified ? formatDistanceToNow(e.LastModified) : "unknown",
       url: `https://${ctx.env.SPACE_BUCKET}.${ctx.env.SPACE_REGION}.cdn.${ctx.env.SPACE_ENDPOINT}/${e.Key}`,

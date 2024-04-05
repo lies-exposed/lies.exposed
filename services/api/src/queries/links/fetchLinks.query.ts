@@ -16,7 +16,7 @@ export const fetchLinks: TEFlow<
     events,
     keywords,
     ids,
-    search,
+    q: search,
     emptyEvents,
     onlyDeleted,
     provider,

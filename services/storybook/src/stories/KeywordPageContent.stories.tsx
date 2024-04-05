@@ -21,7 +21,7 @@ const Template: StoryFn<KeywordPageContentProps> = (props) => {
         keyword: Q.Keyword.list.useQuery(
           {
             pagination: { perPage: 10, page: 1 },
-            filter: { search: "graphene" },
+            filter: { q: "graphene" },
           },
           undefined,
           false,

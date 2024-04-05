@@ -8,7 +8,7 @@ const MediaPage: React.FC<RouteComponentProps> = (props) => {
   const navigateTo = useNavigateToResource();
   const [searchFilters, setQ] = React.useState<SearchFilters>({
     keywords: [],
-    search: "",
+    q: "",
     actors: [],
     groups: [],
     startDate: undefined,
@@ -19,7 +19,7 @@ const MediaPage: React.FC<RouteComponentProps> = (props) => {
 
   const queryParams = {
     filter: {
-      search: searchFilters.search === "" ? undefined : searchFilters.search,
+      search: searchFilters.q === "" ? undefined : searchFilters.q,
       keywords: searchFilters.keywords ?? [],
       _sort: "createdAt",
       _order: "DESC" as const,

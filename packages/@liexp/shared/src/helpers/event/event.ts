@@ -84,7 +84,7 @@ export const eventsDataToNavigatorItems = (
   );
 };
 
-export const ordEventDate = Ord.ord.contramap(
+export const ordEventDate = Ord.Contravariant.contramap(
   Ord.ordDate,
   (e: { date: Date }) => e.date,
 );

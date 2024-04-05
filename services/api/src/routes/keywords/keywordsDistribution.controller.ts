@@ -14,7 +14,7 @@ export const MakeKeywordsDistributionRoute = (
 ): void => {
   AddEndpoint(r)(
     Endpoints.Keyword.Custom.Distribution,
-    ({ query: { ids, events, search, ...query } }) => {
+    ({ query: { ids, events, q: search, ...query } }) => {
       const findOptions = getORMOptions(
         { ...query },
         ctx.env.DEFAULT_PAGE_SIZE,

@@ -7,9 +7,9 @@ import { SortQuery } from "./SortQuery.js";
 
 export const GetListQuery = t.type(
   {
-    search: optionFromUndefined(t.string),
     ...SortQuery.props,
     ...PaginationQuery.props,
+    q: optionFromUndefined(t.string),
   },
   "GetListQuery",
 );

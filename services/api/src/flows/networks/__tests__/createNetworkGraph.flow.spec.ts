@@ -114,6 +114,7 @@ describe.skip("Create Network Graph", () => {
         links: [],
         keywords,
         media: [],
+        socialPosts: [],
       }));
 
       const graph = getEventGraph("keywords", [], {
@@ -161,6 +162,7 @@ describe.skip("Create Network Graph", () => {
         links: [],
         keywords: [keywords[0]],
         media: [],
+        socialPosts: [],
       }));
 
       const graph = getEventGraph("keywords", [keywords[0].id], {

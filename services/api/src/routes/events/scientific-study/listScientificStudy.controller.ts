@@ -19,7 +19,7 @@ export const MakeListScientificStudyRoute: Route = (
       query: {
         publishedDate,
         provider,
-        search,
+        q,
         draft,
         ids,
         emptyLinks,
@@ -51,7 +51,7 @@ export const MakeListScientificStudyRoute: Route = (
           media: O.none,
           exclude: O.none,
           locations: O.none,
-          search,
+          q,
           draft,
           startDate: publishedDate,
           endDate: publishedDate,
