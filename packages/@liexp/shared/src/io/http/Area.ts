@@ -13,7 +13,6 @@ export type AREAS = t.TypeOf<typeof AREAS>;
 export const ListAreaQuery = t.type(
   {
     ...GetListQuery.props,
-    q: optionFromNullable(t.string),
     ids: optionFromNullable(t.array(UUID)),
     draft: optionFromNullable(BooleanFromString),
   },

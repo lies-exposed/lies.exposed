@@ -11,7 +11,7 @@ import { addOrder, getORMOptions } from "#utils/orm.utils.js";
 
 const defaultQuery: http.Group.GetGroupListQuery = {
   ids: O.none,
-  search: O.none,
+  q: O.none,
   members: O.none,
   _end: O.some(20 as any),
   _start: O.some(0 as any),
@@ -23,9 +23,12 @@ export const fetchGroups =
   (
     query: Partial<http.Group.GetGroupListQuery>,
   ): TE.TaskEither<DBError, [GroupEntity[], number]> => {
-    const q = { ...defaultQuery, ...query };
-
-    const { ids, members, search, ...otherQuery } = q;
+    const {
+      ids,
+      members,
+      q: search,
+      ...otherQuery
+    } = { ...defaultQuery, ...query };
 
     const findOptions = getORMOptions(
       { ...otherQuery, id: ids },

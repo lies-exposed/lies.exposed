@@ -7,9 +7,13 @@ import { HumanReadableStringArb } from "./HumanReadableString.arbitrary.js";
 import { placeKitten } from "./Media.arbitrary.js";
 import { ColorArb } from "./common/Color.arbitrary.js";
 
-export const ActorArb: tests.fc.Arbitrary<
-  http.Actor.Actor & { memberIn: any[] }
-> = tests
+export type ActorArbType = Omit<http.Actor.Actor, "bornOn" | "diedOn"> & {
+  memberIn: any[];
+  bornOn: string;
+  diedOn: undefined;
+};
+
+export const ActorArb: tests.fc.Arbitrary<ActorArbType> = tests
   .getArbitrary(
     t.strict(
       propsOmit(http.Actor.Actor, [
@@ -39,7 +43,7 @@ export const ActorArb: tests.fc.Arbitrary<
     memberIn: [],
     body: {},
     death: undefined,
-    bornOn: formatDate(new Date()) as any,
+    bornOn: formatDate(new Date()),
     diedOn: undefined,
     createdAt: new Date(),
     updatedAt: new Date(),

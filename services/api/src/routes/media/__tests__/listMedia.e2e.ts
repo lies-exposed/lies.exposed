@@ -1,4 +1,5 @@
 import { type http } from "@liexp/shared/lib/io/index.js";
+import { UncategorizedArbType } from "@liexp/shared/lib/tests/arbitrary/Event.arbitrary.js";
 import { MediaArb, UncategorizedArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as tests from "@liexp/test";
@@ -10,7 +11,7 @@ describe("List Media", () => {
   let Test: AppTest,
     authorizationToken: string,
     media: http.Media.Media[],
-    event: http.Events.Event;
+    event: UncategorizedArbType;
   beforeAll(async () => {
     Test = await GetAppTest();
     authorizationToken = `Bearer ${Test.ctx.jwt.signUser({

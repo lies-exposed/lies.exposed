@@ -69,13 +69,19 @@ EventsTimelineListExample.args = {
       ...u,
       payload: {
         ...u.payload,
-        actors: fc.sample(ActorArb, 5),
+        actors: fc
+          .sample(ActorArb, 5)
+          .map((a) => ({
+            ...a,
+            bornOn: a.bornOn ? new Date(a.bornOn) : undefined,
+          })),
         groups: fc.sample(GroupArb, 5),
         groupsMembers: [],
       },
+      links: [],
+      socialPosts: [],
       media: fc.sample(MediaArb, 4),
       keywords: fc.sample(KeywordArb, 20),
-      links: [],
     })),
     actors: [],
     groups: [],

@@ -15,7 +15,7 @@ const defaultQuery: http.Media.GetListMediaQuery = {
   events: fp.O.none,
   keywords: fp.O.none,
   locations: fp.O.none,
-  search: fp.O.none,
+  q: fp.O.none,
   startDate: fp.O.none,
   endDate: fp.O.none,
   emptyThumbnail: fp.O.none,
@@ -33,10 +33,10 @@ const defaultQuery: http.Media.GetListMediaQuery = {
 export const fetchManyMedia: TEFlow<
   [Partial<http.Media.GetListMediaQuery>],
   [MediaEntity[], number]
-> = (ctx) => (query) => {
-  const q = { ...defaultQuery, ...query };
+> = (ctx) => (_query) => {
+  const query = { ...defaultQuery, ..._query };
   const {
-    search,
+    q: search,
     ids,
     creator,
     type: _type,
@@ -51,7 +51,7 @@ export const fetchManyMedia: TEFlow<
     spCount,
     onlyUnshared,
     ...ormQuery
-  } = q;
+  } = query;
 
   const findOptions = getORMOptions({ ...ormQuery }, ctx.env.DEFAULT_PAGE_SIZE);
 

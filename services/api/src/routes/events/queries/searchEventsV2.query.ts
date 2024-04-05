@@ -174,7 +174,7 @@ type SearchEventQuery = Omit<
 
 const searchQueryDefaults: SearchEventQuery = {
   ids: O.none,
-  search: O.none,
+  q: O.none,
   startDate: O.none,
   endDate: O.none,
   exclude: O.none,
@@ -218,7 +218,7 @@ const addWhereToQueryBuilder = (
     media,
     links,
     type,
-    search: title,
+    q: title,
     withDrafts,
     draft,
     emptyLinks,

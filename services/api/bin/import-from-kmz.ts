@@ -11,6 +11,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { JsonContains } from "typeorm";
 import { startContext, stopContext } from "./start-ctx.js";
 import { AreaEntity } from "#entities/Area.entity.js";
+import { editor } from "#providers/slate.js";
 const parseKMZ = require("parse2-kmz");
 
 interface GEOFeature {
@@ -53,7 +54,7 @@ const run = async (): Promise<any> => {
                 ...currentArea,
                 label: f.properties.name,
                 geometry: f.geometry,
-                body: createExcerptValue(f.properties.name),
+                body: createExcerptValue(editor.liexpSlate)(f.properties.name),
               },
             ]),
             TE.map((data) => data[0]),

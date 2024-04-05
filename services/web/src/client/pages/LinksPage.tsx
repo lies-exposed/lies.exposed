@@ -9,7 +9,7 @@ const LinksPage: React.FC<RouteComponentProps> = (props) => {
 
   const [searchFilters, setQ] = React.useState<SearchFilters>({
     keywords: [],
-    search: "",
+    q: "",
     actors: [],
     groups: [],
     startDate: undefined,

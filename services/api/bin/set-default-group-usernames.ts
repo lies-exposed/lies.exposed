@@ -4,12 +4,14 @@ import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { startContext, stopContext } from "./start-ctx.js";
 import { GroupEntity } from "#entities/Group.entity.js";
+import { ControllerError } from "#io/ControllerError.js";
 import { fetchGroups } from "#queries/groups/fetchGroups.query.js";
 
 const run = async (): Promise<void> => {
   const ctx = await startContext();
+  const requestWalker = walkPaginatedRequest(ctx);
   await pipe(
-    walkPaginatedRequest({ logger: ctx.logger })(
+    requestWalker<[GroupEntity[], number], ControllerError, GroupEntity>(
       (input) =>
         fetchGroups(ctx)({
           _order: fp.O.some("DESC"),
@@ -20,19 +22,19 @@ const run = async (): Promise<void> => {
       (r) => r[1],
       (r) => r[0],
       0,
-      20
+      20,
     ),
     fp.TE.map((groups) =>
       groups.map((g) => ({
         ...g,
         username: g.username ? g.username : getUsernameFromDisplayName(g.name),
-      }))
+      })),
     ),
     fp.TE.chain((groups) => ctx.db.save(GroupEntity, groups)),
     fp.TE.map((groups) =>
-      groups.map((g) => ({ id: g.id, name: g.name, username: g.username }))
+      groups.map((g) => ({ id: g.id, name: g.name, username: g.username })),
     ),
-    throwTE
+    throwTE,
     // eslint-disable-next-line no-console
   );
   await stopContext(ctx);

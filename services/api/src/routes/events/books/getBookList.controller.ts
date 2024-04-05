@@ -33,7 +33,7 @@ export const MakeListBookEventRoute: Route = (r, ctx) => {
         groups,
         groupsMembers,
         actors,
-        search,
+        q,
         ids,
         startDate,
         endDate,
@@ -46,7 +46,7 @@ export const MakeListBookEventRoute: Route = (r, ctx) => {
       return pipe(
         searchEventV2Query(ctx)({
           ...query,
-          search,
+          q,
           draft,
           type: O.some([BOOK.value]),
           actors,

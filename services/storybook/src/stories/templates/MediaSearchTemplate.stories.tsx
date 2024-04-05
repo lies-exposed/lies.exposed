@@ -22,7 +22,7 @@ const MediaTemplateDefault = Template.bind({});
 MediaTemplateDefault.args = {
   filter: {
     filter: {
-      search: "Covid",
+      q: "Covid",
       keywords: [],
       startDate: "2020-01-01",
       endDate: "2020-12-31",

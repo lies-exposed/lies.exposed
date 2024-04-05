@@ -161,7 +161,7 @@ const SearchFiltersBar: React.FC<SearchFiltersBarProps> = ({
     const newQuery = {
       ...query,
       ...queryUpdate,
-      search: queryUpdate.search ?? query.search ?? undefined,
+      q: queryUpdate.q ?? undefined,
       groups: queryUpdate?.groups ? queryUpdate.groups : query.groups,
       actors: queryUpdate?.actors ? queryUpdate.actors : query.actors,
       keywords: queryUpdate?.keywords ? queryUpdate.keywords : query.keywords,
@@ -220,14 +220,14 @@ const SearchFiltersBar: React.FC<SearchFiltersBarProps> = ({
             actors: u.actors.map((a) => a.id),
             groups: u.groups.map((a) => a.id),
             keywords: u.keywords.map((a) => a.id),
-            search: u.search,
+            q: u.q,
           });
         }}
       />
     </div>
   );
 
-  const searchTermBox = query.search ? (
+  const searchTermBox = query.q ? (
     <Box
       style={{
         display: "flex",
@@ -239,12 +239,12 @@ const SearchFiltersBar: React.FC<SearchFiltersBarProps> = ({
         onClick={() => {
           handleQueryChange({
             ...query,
-            search: undefined,
+            q: undefined,
           });
         }}
         variant="subtitle1"
       >
-        {query.search}
+        {query.q}
       </Typography>
     </Box>
   ) : null;

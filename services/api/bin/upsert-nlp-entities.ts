@@ -1,9 +1,14 @@
+import { DBError } from "@liexp/backend/lib/providers/orm/database.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { startContext, stopContext } from "./start-ctx.js";
+import { ActorEntity } from "#entities/Actor.entity.js";
+import { GroupEntity } from "#entities/Group.entity.js";
+import { KeywordEntity } from "#entities/Keyword.entity.js";
+import { toControllerError } from "#io/ControllerError.js";
 import { fetchActors } from "#queries/actors/fetchActors.query.js";
 import { fetchGroups } from "#queries/groups/fetchGroups.query.js";
 import { fetchKeywords } from "#queries/keywords/fetchKeywords.query.js";
@@ -18,10 +23,10 @@ const makePatterns = (s: string, acronym: boolean): string[] => {
     chunkAbove3.reverse().join(" "),
     chunks.join(" "),
     chunks.reverse().join(" "),
-  ]
+  ];
 
   if (acronym) {
-    patterns.push(makeAcronym(s))
+    patterns.push(makeAcronym(s));
   }
 
   return pipe(
@@ -41,9 +46,15 @@ const makeAcronym = (s: string): string => {
 const run = async (): Promise<any> => {
   const ctx = await startContext();
 
+  const requestWalker = walkPaginatedRequest(ctx);
+
   const result = await pipe(
     sequenceS(TE.ApplicativePar)({
-      actors: walkPaginatedRequest(ctx)(
+      actors: requestWalker<
+        { total: number; results: ActorEntity[] },
+        DBError,
+        ActorEntity
+      >(
         ({ skip, amount }) =>
           fetchActors(ctx)({
             _start: O.some(skip as any),
@@ -54,7 +65,7 @@ const run = async (): Promise<any> => {
         0,
         50,
       ),
-      groups: walkPaginatedRequest(ctx)(
+      groups: requestWalker<[GroupEntity[], number], DBError, GroupEntity>(
         ({ skip, amount }) =>
           fetchGroups(ctx)({
             _start: O.some(skip as any),
@@ -65,7 +76,11 @@ const run = async (): Promise<any> => {
         0,
         50,
       ),
-      keywords: walkPaginatedRequest(ctx)(
+      keywords: requestWalker<
+        [KeywordEntity[], number],
+        DBError,
+        KeywordEntity
+      >(
         ({ skip, amount }) =>
           fetchKeywords(ctx)(
             {
@@ -98,6 +113,7 @@ const run = async (): Promise<any> => {
       ];
       return pipe(
         ctx.fs.writeObject(nplConfig, JSON.stringify(entities, null, 4)),
+        TE.mapLeft(toControllerError),
       );
     }),
   )();

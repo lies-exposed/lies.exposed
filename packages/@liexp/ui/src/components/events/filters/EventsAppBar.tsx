@@ -348,14 +348,14 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
             actors: actors.concat(u.actors),
             groups: groups.concat(u.groups),
             keywords: keywords.concat(u.keywords),
-            search: u.search,
+            q: u.q,
           });
         }}
       />
     </div>
   );
 
-  const searchTermBox = query.search ? (
+  const searchTermBox = query.q ? (
     <Box
       style={{
         display: "flex",
@@ -367,12 +367,12 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
         onClick={() => {
           onQueryChange({
             ...query,
-            search: undefined,
+            q: undefined,
           });
         }}
         variant="subtitle1"
       >
-        {query.search}
+        {query.q}
       </Typography>
     </Box>
   ) : null;

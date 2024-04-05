@@ -13,6 +13,7 @@ describe("ORM utils V2", () => {
       _end: O.none,
       _start: O.none,
       _order: O.none,
+      q: O.none,
     };
 
     const ormOptions = getORMOptions(query, 20);
@@ -25,6 +26,7 @@ describe("ORM utils V2", () => {
       _order: O.none,
       _end: O.none,
       _start: O.none,
+      q: O.none,
     };
 
     const ormOptions = getORMOptions(query, 20);
@@ -37,6 +39,7 @@ describe("ORM utils V2", () => {
       _order: O.some("ASC"),
       _end: O.none,
       _start: O.none,
+      q: O.none,
     };
 
     const ormOptions = getORMOptions(query, 20);
@@ -50,6 +53,7 @@ describe("ORM utils V2", () => {
       _end: O.none,
       _start: O.none,
       field: O.some("1"),
+      q: O.none,
     };
 
     const ormOptions = getORMOptions(query, 20);
