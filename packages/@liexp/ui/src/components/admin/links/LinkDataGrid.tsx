@@ -11,7 +11,7 @@ import {
   usePermissions,
   type DatagridProps,
 } from "react-admin";
-import { Stack } from "../../mui/index.js";
+import { Stack, Typography } from "../../mui/index.js";
 import { MediaField } from "../media/MediaField.js";
 
 export const LinkDataGrid: React.FC<DatagridProps> = (props) => {
@@ -59,12 +59,32 @@ export const LinkDataGrid: React.FC<DatagridProps> = (props) => {
       </ReferenceField>
 
       <FunctionField
-        label="resources.links.fields.events_length"
-        render={(r: any) => `${r?.events?.length ?? "-"}`}
-      />
-      <FunctionField
-        label="resources.links.fields.social_posts_length"
-        render={(r: any) => `${r?.socialPosts?.length ?? "-"}`}
+        label="resources.links.fields.relations"
+        render={(r: any) => {
+          return (
+            <Stack direction="column" minWidth={150}>
+              {[
+                { label: "Events", value: r?.events?.length },
+                {
+                  label: "SocialPosts",
+                  value: r?.socialPosts?.length,
+                },
+              ].map((relation) => (
+                <Stack
+                  key={relation.label}
+                  direction="row"
+                  alignItems="center"
+                  justifyItems="center"
+                >
+                  <Typography variant="body1">{relation.label}: </Typography>
+                  <Typography variant="body1" fontWeight="semibold">
+                    {relation.value ?? "-"}
+                  </Typography>
+                </Stack>
+              ))}
+            </Stack>
+          );
+        }}
       />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />
