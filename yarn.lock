@@ -3653,7 +3653,7 @@ __metadata:
     io-ts-types: ^0.5.19
     jsonwebtoken: ^9.0.2
     query-string: ^7.1.3
-    react-admin: ^4.16.14
+    react-admin: ^4.16.15
     throttle-debounce: ^5.0.0
     ts-endpoint: ^2.0.0
     ts-endpoint-express: ^2.0.0
@@ -3765,12 +3765,12 @@ __metadata:
     path-to-regexp: ^6.2.1
     prettier: ^3.2.5
     query-string: ^7.1.3
-    ra-core: ^4.16.12
-    ra-i18n-polyglot: ^4.16.12
-    ra-input-rich-text: ^4.16.14
-    ra-ui-materialui: ^4.16.14
+    ra-core: ^4.16.15
+    ra-i18n-polyglot: ^4.16.15
+    ra-input-rich-text: ^4.16.15
+    ra-ui-materialui: ^4.16.15
     react: ^18.2.0
-    react-admin: ^4.16.14
+    react-admin: ^4.16.15
     react-audio-player: ^0.17.0
     react-dom: ^18.2.0
     react-dropzone: ^12.1.0
@@ -8953,12 +8953,12 @@ __metadata:
     mini-create-react-context: ^0.4.1
     page-metadata-parser: ^1.1.4
     prettier: ^3.2.5
-    ra-core: ^4.16.12
-    ra-i18n-polyglot: ^4.16.12
-    ra-input-rich-text: ^4.16.14
-    ra-ui-materialui: ^4.16.14
+    ra-core: ^4.16.15
+    ra-i18n-polyglot: ^4.16.15
+    ra-input-rich-text: ^4.16.15
+    ra-ui-materialui: ^4.16.15
     react: ^18.2.0
-    react-admin: ^4.16.14
+    react-admin: ^4.16.15
     react-dom: ^18.2.0
     react-final-form: ^6.5.9
     react-final-form-arrays: ^3.1.4
@@ -19584,9 +19584,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ra-core@npm:^4.16.12":
-  version: 4.16.12
-  resolution: "ra-core@npm:4.16.12"
+"ra-core@npm:^4.16.15":
+  version: 4.16.15
+  resolution: "ra-core@npm:4.16.15"
   dependencies:
     clsx: ^1.1.1
     date-fns: ^2.19.0
@@ -19605,23 +19605,23 @@ __metadata:
     react-hook-form: ^7.43.9
     react-router: ^6.1.0
     react-router-dom: ^6.1.0
-  checksum: 238fac37ef62c699c6c9738f6dc3ff4a45641a9d3cd19e4c9ec56cda0122e2d6cb2ddd5904ded480e6ddf791b9bbc0fe505e1fe7a99bdff5bd43760744167642
+  checksum: 6b3cf850080f5e34daf8c5ed8000dcda1a1a95ef06201389ac5514e1547353003d75c121e5dac7b20a16628fd9bafeb2afbb76e2c004cfd0d2f51a8a5b0246ff
   languageName: node
   linkType: hard
 
-"ra-i18n-polyglot@npm:^4.16.12":
-  version: 4.16.12
-  resolution: "ra-i18n-polyglot@npm:4.16.12"
+"ra-i18n-polyglot@npm:^4.16.15":
+  version: 4.16.15
+  resolution: "ra-i18n-polyglot@npm:4.16.15"
   dependencies:
     node-polyglot: ^2.2.2
-    ra-core: ^4.16.12
-  checksum: f7726e66cf8cf5ea1283431b818ccae6ea775f414e041a44ac655d8257fade63020c8bed2fd95b0142539669b42521f0407f5ab8a2da495ed1210821c5feb643
+    ra-core: ^4.16.15
+  checksum: 16eaa35072b1b2ba97b1b41c68bf0357a4c3f384cff273376e3b9a56c6f4838149021580ff58248f5e63e746a09dc554df75e2a50f6a39ed45f87674e898a332
   languageName: node
   linkType: hard
 
-"ra-input-rich-text@npm:^4.16.14":
-  version: 4.16.14
-  resolution: "ra-input-rich-text@npm:4.16.14"
+"ra-input-rich-text@npm:^4.16.15":
+  version: 4.16.15
+  resolution: "ra-input-rich-text@npm:4.16.15"
   dependencies:
     "@tiptap/core": ^2.0.3
     "@tiptap/extension-color": ^2.0.3
@@ -19643,22 +19643,22 @@ __metadata:
     ra-ui-materialui: ^4.0.0
     react: ^16.9.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0
-  checksum: fdb5a33065208d5c608d7df1ca37a9694952b7275d35422056e7853e1466f8be7a3792fdfbbafb215699244499e783fbb6a0c91f5cffcf451cd0b3c9abeb2d1d
+  checksum: afc13a4c1ce09cce56075c95e0ebfe2b7680d86b5f2fa3f4526a70ca347fd531d7e4e776f759b334dc9289ea8032bb3aff7d0a837ea0048178087b3554da5237
   languageName: node
   linkType: hard
 
-"ra-language-english@npm:^4.16.12":
-  version: 4.16.12
-  resolution: "ra-language-english@npm:4.16.12"
+"ra-language-english@npm:^4.16.15":
+  version: 4.16.15
+  resolution: "ra-language-english@npm:4.16.15"
   dependencies:
-    ra-core: ^4.16.12
-  checksum: e4af372b4e80c315d6909b6c791b8c6882d55fff26ad4831d3ad6d263f51ba7da5ffd5b738223cea6e94237074258b4a278f8c95dda2854736eda81eae85ef76
+    ra-core: ^4.16.15
+  checksum: f145f0047b26509e7b9146a5a0f69be8f6adce11658778584b26ab85f6394768d16ccf6d8d7a4a68b57ee8f5b29c6b773c5fd4e204625b7a35153bedb8585568
   languageName: node
   linkType: hard
 
-"ra-ui-materialui@npm:^4.16.14":
-  version: 4.16.14
-  resolution: "ra-ui-materialui@npm:4.16.14"
+"ra-ui-materialui@npm:^4.16.15":
+  version: 4.16.15
+  resolution: "ra-ui-materialui@npm:4.16.15"
   dependencies:
     autosuggest-highlight: ^3.1.1
     clsx: ^1.1.1
@@ -19684,7 +19684,7 @@ __metadata:
     react-is: ^16.9.0 || ^17.0.0 || ^18.0.0
     react-router: ^6.1.0
     react-router-dom: ^6.1.0
-  checksum: 288b3296a3f6e953e60ef90519c9fbf33939c7633f1ca78d836963e59a8ddaffbb464d69efe1b4168cbd882aa20693743242b5b254686d6d3f7166bbc4a559a8
+  checksum: 0edf3cc6ddb3989bc33b9d56fbae60cb88bb571a821dcf1afe1d8ad60e51358dbe83a38695b6c5db06a361af2ed7151dc5ec66e124a5fa29f7c009d9b41f8047
   languageName: node
   linkType: hard
 
@@ -19744,26 +19744,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-admin@npm:^4.16.14":
-  version: 4.16.14
-  resolution: "react-admin@npm:4.16.14"
+"react-admin@npm:^4.16.15":
+  version: 4.16.15
+  resolution: "react-admin@npm:4.16.15"
   dependencies:
     "@emotion/react": ^11.4.1
     "@emotion/styled": ^11.3.0
     "@mui/icons-material": ^5.0.1
     "@mui/material": ^5.0.2
     history: ^5.1.0
-    ra-core: ^4.16.12
-    ra-i18n-polyglot: ^4.16.12
-    ra-language-english: ^4.16.12
-    ra-ui-materialui: ^4.16.14
+    ra-core: ^4.16.15
+    ra-i18n-polyglot: ^4.16.15
+    ra-language-english: ^4.16.15
+    ra-ui-materialui: ^4.16.15
     react-hook-form: ^7.43.9
     react-router: ^6.1.0
     react-router-dom: ^6.1.0
   peerDependencies:
     react: ^16.9.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0
-  checksum: 555e7d728f847d21dca00708e07777f531f2178a7a72d4482a48f6f010af437246c5b5396e4f74bf9075fac2eef7652dfac87d82c6fedb3ed6acd18e3dad546e
+  checksum: 5c02c81e87e2d8d1da083422f5dac87bbf325d203e0244fa359dc140768a859acc1f6e87cf3532a92c00f759cf645add7da8b81a6a9f57d0001928e4dfe086d6
   languageName: node
   linkType: hard
 
@@ -23990,12 +23990,12 @@ __metadata:
     prettier: ^3.2.5
     prop-types: ^15.8.1
     query-string: ^7.1.3
-    ra-core: ^4.16.12
-    ra-i18n-polyglot: ^4.16.12
-    ra-input-rich-text: ^4.16.14
-    ra-ui-materialui: ^4.16.14
+    ra-core: ^4.16.15
+    ra-i18n-polyglot: ^4.16.15
+    ra-input-rich-text: ^4.16.15
+    ra-ui-materialui: ^4.16.15
     react: ^18.2.0
-    react-admin: ^4.16.14
+    react-admin: ^4.16.15
     react-dom: ^18.2.0
     react-error-boundary: ^4.0.13
     react-helmet: ^6.1.0
