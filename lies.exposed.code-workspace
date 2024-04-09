@@ -1,28 +1,36 @@
 {
   "folders": [
     {
+      "name": "ci",
+      "path": ".github"
+    },
+    {
+      "name": "data",
+      "path": "services/data"
+    },
+    {
       "name": "✨ lies.exposed",
       "path": "."
+    },
+    {
+      "name": "🚀 @liexp/backend",
+      "path": "packages/@liexp/backend"
     },
     {
       "name": "📦 @liexp/core",
       "path": "packages/@liexp/core"
     },
     {
-      "name": "📦 @liexp/test",
-      "path": "packages/@liexp/test"
+      "name": "📦 @liexp/react-page",
+      "path": "packages/@liexp/react-page"
     },
     {
       "name": "📦 @liexp/shared",
       "path": "packages/@liexp/shared"
     },
     {
-      "name": "📦 @liexp/backend",
-      "path": "packages/@liexp/backend"
-    },
-    {
-      "name": "📦 @liexp/react-page",
-      "path": "packages/@liexp/react-page"
+      "name": "📦 @liexp/test",
+      "path": "packages/@liexp/test"
     },
     {
       "name": "📦 @liexp/ui",
@@ -43,14 +51,6 @@
     {
       "name": "🚀 web",
       "path": "services/web"
-    },
-    {
-      "name": "ci",
-      "path": ".github"
-    },
-    {
-      "name": "data",
-      "path": "services/data"
     }
   ],
   "settings": {
