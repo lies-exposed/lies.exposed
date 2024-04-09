@@ -21,6 +21,11 @@ export const GetListQueryActors = t.type({
 });
 export type GetListQueryActors = t.TypeOf<typeof GetListQueryActors>;
 
+export const GetListQueryAreas = t.type({
+  areas: optionFromUndefined(t.array(UUID)),
+});
+export type GetListQueryAreas = t.TypeOf<typeof GetListQueryAreas>;
+
 export const GetListQueryGroups = t.type(
   {
     groups: optionFromUndefined(t.array(UUID)),

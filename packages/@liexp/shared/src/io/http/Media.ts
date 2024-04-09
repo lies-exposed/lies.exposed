@@ -10,6 +10,7 @@ import {
   GetListQueryEvents,
   GetListQueryKeywords,
   GetListQueryLocations,
+  GetListQueryAreas,
 } from "./Query/index.js";
 
 export const MEDIA = t.literal("media");
@@ -72,6 +73,7 @@ export const GetListMediaQuery = t.type(
     ...GetListQueryDateRange.props,
     ...GetListQueryKeywords.props,
     ...GetListQueryEvents.props,
+    ...GetListQueryAreas.props,
     ...GetListQueryLocations.props,
     type: optionFromNullable(t.union([t.array(MediaType), t.string])),
     events: optionFromNullable(t.array(UUID)),

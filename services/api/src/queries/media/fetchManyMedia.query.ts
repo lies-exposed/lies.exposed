@@ -13,6 +13,7 @@ const defaultQuery: http.Media.GetListMediaQuery = {
   exclude: fp.O.none,
   creator: fp.O.none,
   events: fp.O.none,
+  areas: fp.O.none,
   keywords: fp.O.none,
   locations: fp.O.none,
   q: fp.O.none,
@@ -42,6 +43,7 @@ export const fetchManyMedia: TEFlow<
     type: _type,
     keywords,
     events,
+    areas,
     emptyEvents,
     emptyLinks,
     emptyThumbnail,
@@ -156,7 +158,13 @@ export const fetchManyMedia: TEFlow<
         hasWhere = true;
       }
 
-      if (fp.O.isSome(emptyAreas) && emptyAreas.value) {
+      if (fp.O.isSome(areas)) {
+        const where = hasWhere ? q.andWhere.bind(q) : q.where.bind(q);
+        where("areas.id IN (:...areaIds)", {
+          areaIds: areas.value,
+        });
+        hasWhere = true;
+      } else if (fp.O.isSome(emptyAreas) && emptyAreas.value) {
         const where = hasWhere ? q.andWhere.bind(q) : q.where.bind(q);
         where("areas.id IS NULL");
         hasWhere = true;

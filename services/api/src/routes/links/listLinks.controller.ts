@@ -22,6 +22,7 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
         pipe(
           results.map((r) => ({
             ...r,
+
             creator: (r.creator?.id as any) ?? null,
             events: r.events.map((e) => e.id) as any[],
             keywords: r.keywords.map((e) => e.id) as any[],

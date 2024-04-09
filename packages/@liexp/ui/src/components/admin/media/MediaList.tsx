@@ -15,7 +15,7 @@ import {
   usePermissions,
   type ListProps,
 } from "react-admin";
-import { Box, Typography, colors } from "../../mui/index.js";
+import { Box, Stack, Typography, colors } from "../../mui/index.js";
 import { toFormattedDuration } from "./DurationField.js";
 import { MediaField } from "./MediaField.js";
 import { MediaTypeInput } from "./input/MediaTypeInput.js";
@@ -117,24 +117,41 @@ export const MediaDataGrid: React.FC = () => {
       )}
 
       <FunctionField
-        label="events"
+        label="resources.links.fields.relations"
         render={(r: any) => {
-          return r.events.length;
+          return (
+            <Stack direction="column" minWidth={150}>
+              {[
+                { label: "Events", value: r?.events?.length },
+                {
+                  label: "Areas",
+                  value: r?.areas?.length,
+                },
+                {
+                  label: "Links",
+                  value: r?.links?.length,
+                },
+                {
+                  label: "Social Posts",
+                  value: r?.socialPosts?.length,
+                },
+              ].map((relation) => (
+                <Stack
+                  key={relation.label}
+                  direction="row"
+                  alignItems="center"
+                  justifyItems="center"
+                >
+                  <Typography variant="body1">{relation.label}: </Typography>
+                  <Typography variant="body1" fontWeight="semibold">
+                    {relation.value ?? "-"}
+                  </Typography>
+                </Stack>
+              ))}
+            </Stack>
+          );
         }}
       />
-      <FunctionField
-        label="links"
-        render={(r: any) => {
-          return r.links.length;
-        }}
-      />
-      <FunctionField
-        label="social_posts"
-        render={(r: any) => {
-          return r.socialPosts?.length ?? 0;
-        }}
-      />
-
       <DateField source="updatedAt" />
       <DateField source="createdAt" />
     </Datagrid>
