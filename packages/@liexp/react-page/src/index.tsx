@@ -1,4 +1,5 @@
-import background from "@react-page/plugins-background";
+import { importDefault } from "@liexp/core/lib/esm/import-default.js";
+import _background from "@react-page/plugins-background";
 import divider from "@react-page/plugins-divider";
 import html5Video from "@react-page/plugins-html5-video";
 import image from "@react-page/plugins-image";
@@ -18,6 +19,8 @@ import {
 
 // exports
 export { pluginFactories } from "@react-page/plugins-slate/lib/index.js";
+
+const background = importDefault(_background);
 
 export const LazyEditorComponent = React.lazy(() => import("./Editor.js"));
 
@@ -58,7 +61,7 @@ export const createEditor = ({
   const cellPlugins = {
     extended: [
       ...minimalCellPlugins,
-      background,
+      background.default({}),
       image,
       spacer,
       divider,

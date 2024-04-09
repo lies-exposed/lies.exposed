@@ -35,6 +35,7 @@ import {
 import { uploadImages } from "../../../client/admin/MediaAPI.js";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { Box, Grid } from "../../mui/index.js";
+import BlockNoteInput from "../BlockNoteInput.js";
 import ReactPageInput from "../ReactPageInput.js";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
 import { EditForm } from "../common/EditForm.js";
@@ -166,6 +167,7 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
               <TextInput source="" />
             </SimpleFormIterator>
           </ArrayInput>
+          <BlockNoteInput source="body3" />
           <ReactPageInput source="body2" onlyText={false} />
         </FormTab>
         <FormTab label="Relations">

@@ -70,6 +70,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
             /@liexp\/shared/,
             /@liexp\/react-page/,
             /@liexp\/ui/,
+            /@react-page/,
           ],
           // transformMixedEsModules: true,
         },
