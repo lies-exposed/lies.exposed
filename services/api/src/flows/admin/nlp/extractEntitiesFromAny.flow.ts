@@ -50,8 +50,8 @@ const findOneResourceAndMapText: TEFlow<
             },
           }),
           fp.TE.map((k) =>
-            isValidValue(k.body)
-              ? getTextContents(editor.liexpSlate)(k.body as any)
+            isValidValue(k.excerpt)
+              ? getTextContents(editor.liexpSlate)(k.excerpt)
               : "",
           ),
         );
@@ -65,8 +65,8 @@ const findOneResourceAndMapText: TEFlow<
             },
           }),
           fp.TE.map((k) =>
-            isValidValue(k.body)
-              ? getTextContents(editor.liexpSlate)(k.body as any)
+            isValidValue(k.excerpt)
+              ? getTextContents(editor.liexpSlate)(k.excerpt)
               : "",
           ),
         );
@@ -81,7 +81,7 @@ const findOneResourceAndMapText: TEFlow<
           }),
           fp.TE.map((k) =>
             isValidValue(k.excerpt)
-              ? getTextContents(editor.liexpSlate)(k.excerpt as any)
+              ? getTextContents(editor.liexpSlate)(k.excerpt)
               : "",
           ),
         );
