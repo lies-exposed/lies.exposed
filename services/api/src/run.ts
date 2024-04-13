@@ -116,6 +116,7 @@ const run = (): Promise<void> => {
 
           server.on("error", (e) => {
             serverLogger.error.log("An error occurred %O", e);
+            process.exit(1);
           });
 
           return Promise.resolve(undefined);
