@@ -12,7 +12,7 @@ const ReferenceArrayBySubjectInput: React.FC<
   return (
     <ArrayInput {...props} source={source}>
       <SimpleFormIterator fullWidth>
-        <ReferenceBySubjectInput {...props} source="" />
+        <ReferenceBySubjectInput {...props} />
       </SimpleFormIterator>
     </ArrayInput>
   );

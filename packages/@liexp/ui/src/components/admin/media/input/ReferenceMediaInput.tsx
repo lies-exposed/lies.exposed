@@ -59,7 +59,7 @@ const ReferenceMediaInput: React.FC<
           optionText={<MediaAutocompleteOptionText />}
           matchSuggestion={matchMediaSuggestions}
           inputText={(r) => r.label ?? r.description}
-          filterToQuery={(search) => ({ search })}
+          filterToQuery={(q) => ({ q })}
         />
       </ReferenceInput>
       <FunctionField

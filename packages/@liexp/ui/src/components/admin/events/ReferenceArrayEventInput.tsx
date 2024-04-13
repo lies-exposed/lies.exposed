@@ -19,7 +19,7 @@ const ReferenceArrayEventInput: React.FC<
     >
       <AutocompleteArrayInput
         source="id"
-        filterToQuery={(search) => ({ search })}
+        filterToQuery={(q) => ({ q })}
         fullWidth
         optionText={(r) => {
           return (
