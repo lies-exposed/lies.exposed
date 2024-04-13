@@ -43,13 +43,7 @@ const eventsFilter = [
     source="withDrafts"
     alwaysOn
   />,
-  <TextInput
-    key="search"
-    label="title"
-    source="search"
-    alwaysOn
-    size="small"
-  />,
+  <TextInput key="search" label="title" source="q" alwaysOn size="small" />,
   <ReferenceArrayGroupInput key="groups" source="groups" alwaysOn />,
   <ReferenceArrayActorInput key="actors" source="actors" alwaysOn />,
   <ReferenceArrayGroupMemberInput key="groupsMembers" source="groupsMembers" />,

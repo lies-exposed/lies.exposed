@@ -79,7 +79,7 @@ const GroupMemberArrayInput: React.FC<Omit<ArrayInputProps, "children">> = (
 };
 
 const groupFilters = [
-  <TextInput key="search" label="name" source="search" alwaysOn size="small" />,
+  <TextInput key="search" label="name" source="q" alwaysOn size="small" />,
   <ReferenceArrayInput
     key="members"
     source="members"
@@ -248,7 +248,7 @@ export const GroupCreate: React.FC<CreateProps> = (props) => {
         <FormDataConsumer>
           {({ formData }) => {
             if (formData._from === "wikipedia") {
-              return <TextInput source="search" />;
+              return <TextInput source="q" />;
             }
 
             return (
