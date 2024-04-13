@@ -22,7 +22,7 @@ const ReferenceArrayAreaInput: React.FC<
         optionText="label"
         translateChoice={false}
         fullWidth
-        filterToQuery={(search) => ({ search })}
+        filterToQuery={(q) => ({ q })}
         size="small"
       />
     </ReferenceArrayInput>

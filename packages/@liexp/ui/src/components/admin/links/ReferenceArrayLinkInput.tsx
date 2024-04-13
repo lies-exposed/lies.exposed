@@ -15,7 +15,7 @@ const ReferenceArrayLinkInput: React.FC<
         optionText="title"
         translateChoice={false}
         fullWidth
-        filterToQuery={(search) => ({ search })}
+        filterToQuery={(q) => ({ q })}
         size="small"
       />
     </ReferenceArrayInput>

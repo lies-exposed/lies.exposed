@@ -21,7 +21,7 @@ const ReferenceEventInput: React.FC<
       <AutocompleteInput
         source="id"
         size="small"
-        filterToQuery={(search) => ({ search })}
+        filterToQuery={(q) => ({ q })}
         fullWidth
         getOptionLabel={(r) => r.payload?.title ?? ""}
         inputText={(r) => r.payload?.title ?? ""}
