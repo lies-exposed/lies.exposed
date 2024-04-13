@@ -109,7 +109,7 @@ export const EventList: React.FC = () => (
       >
         <CardContent>
           <SavedQueriesList />
-          <FilterLiveSearch source="search" />
+          <FilterLiveSearch source="q" />
           <FilterList label="Media" icon={<Icons.PlayCircleOutline />}>
             <FilterListItem label="Empty Media" value={{ emptyMedia: true }} />
           </FilterList>

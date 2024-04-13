@@ -50,13 +50,7 @@ import { pipe } from "fp-ts/function";
 import * as React from "react";
 
 const actorFilters = [
-  <TextInput
-    key="search"
-    label="fullName"
-    source="search"
-    alwaysOn
-    size="small"
-  />,
+  <TextInput key="search" label="fullName" source="q" alwaysOn size="small" />,
 ];
 
 export const ActorList: React.FC = () => (
@@ -233,7 +227,7 @@ export const ActorCreate: React.FC<CreateProps> = (props) => {
         <FormDataConsumer>
           {({ formData }) => {
             if (formData._from === "wikipedia") {
-              return <TextInput source="search" />;
+              return <TextInput source="q" />;
             }
 
             return (

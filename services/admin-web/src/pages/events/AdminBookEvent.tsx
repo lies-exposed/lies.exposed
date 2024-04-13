@@ -28,7 +28,7 @@ import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import * as React from "react";
 
 const booksFilter = [
-  <TextInput key="search" source="search" label="title" alwaysOn />,
+  <TextInput key="search" source="q" label="title" alwaysOn />,
   <ReferenceArrayActorInput key="actors" source="actors" alwaysOn />,
   <ReferenceArrayGroupInput key="groups" source="groups" alwaysOn />,
   <BooleanInput key="draft" label="Draft only" source="draft" alwaysOn />,

@@ -33,7 +33,7 @@ import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import * as React from "react";
 
 const listFilter = [
-  <TextInput key="search" source="search" label="Title" alwaysOn />,
+  <TextInput key="search" source="q" label="Title" alwaysOn />,
   <BooleanInput key="draft" label="Draft only" source="draft" alwaysOn />,
   <ReferenceGroupInput key="provider" source="provider" alwaysOn />,
   <ReferenceArrayActorInput key="authors" source="authors" />,
