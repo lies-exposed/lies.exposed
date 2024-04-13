@@ -1,5 +1,10 @@
 import { isValidValue } from "@liexp/react-page/lib/utils.js";
-import { MP3Type, OGGType } from "@liexp/shared/lib/io/http/Media.js";
+import {
+  IframeVideoType,
+  MP3Type,
+  MP4Type,
+  OGGType,
+} from "@liexp/shared/lib/io/http/Media.js";
 import { type Events, type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useModal } from "../../../hooks/useModal.js";
@@ -21,6 +26,13 @@ export const DefaultEventPageContent: React.FC<
 > = ({ event, media, onMediaClick, mediaLayout = "slider" }) => {
   const theme = useTheme();
   const [modal, showModal] = useModal();
+
+  const isOnlyOneMedia =
+    media.length === 1 &&
+    (IframeVideoType.is(media[0].type) ||
+      MP4Type.is(media[0].type) ||
+      MP3Type.is(media[0].type) ||
+      OGGType.is(media[0].type));
 
   const handleMediaClick = React.useCallback(
     (m: Media.Media) => {
@@ -51,22 +63,24 @@ export const DefaultEventPageContent: React.FC<
             <MediaList
               media={media.map((m) => ({ ...m, selected: true }))}
               columns={media.length > 3 ? 3 : media.length}
-              onItemClick={handleMediaClick}
+              onItemClick={!isOnlyOneMedia ? handleMediaClick : undefined}
               itemStyle={{
                 maxWidth: 800,
                 maxHeight: 600,
               }}
               hideDescription={true}
+              disableZoom={!isOnlyOneMedia}
             />
           ) : mediaLayout === "slider" ? (
             <MediaSlider
               data={media}
-              onClick={handleMediaClick}
+              onClick={!isOnlyOneMedia ? handleMediaClick : undefined}
               itemStyle={(m) => ({
                 maxWidth: 800,
                 minHeight: MP3Type.is(m.type) || OGGType.is(m.type) ? 100 : 400,
                 margin: "auto",
               })}
+              disableZoom={!isOnlyOneMedia}
             />
           ) : null
         ) : null}
