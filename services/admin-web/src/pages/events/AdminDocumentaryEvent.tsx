@@ -42,7 +42,7 @@ export const DocumentaryList: React.FC<ListProps> = (props) => (
     filterDefaultValues={{
       _sort: "date",
       _order: "DESC",
-      search: undefined,
+      q: undefined,
       draft: undefined,
     }}
   >
