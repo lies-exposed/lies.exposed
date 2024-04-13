@@ -41,33 +41,33 @@ updates:
           - "eslint*"
           - "*uuid"
 
-      aws-sdk:
-        patterns:
-          - "@aws-sdk/*"
-      react-admin:
-        patterns:
-          - "ra-*"
-          - "react-core"
-          - "react-admin"
-      vite:
-        patterns:
-          - "*vite*"
-      storybook:
-        patterns:
-          - "@storybook/*"
-          - "storybook"
-      eslint:
-        patterns:
-          - "@typescript-eslint/*"
-          - "typescript-eslint*"
-          - "eslint*"
-      uuid:
-        patterns:
-          - "*uuid"
-          - "uuid"
-      mui:
-        patterns:
-          - "*mui*"
-      visx:
-        patterns:
-          - "*visx*"
+      # aws-sdk:
+      #   patterns:
+      #     - "@aws-sdk/*"
+      # react-admin:
+      #   patterns:
+      #     - "ra-*"
+      #     - "react-core"
+      #     - "react-admin"
+      # vite:
+      #   patterns:
+      #     - "*vite*"
+      # storybook:
+      #   patterns:
+      #     - "@storybook/*"
+      #     - "storybook"
+      # eslint:
+      #   patterns:
+      #     - "@typescript-eslint/*"
+      #     - "typescript-eslint*"
+      #     - "eslint*"
+      # uuid:
+      #   patterns:
+      #     - "*uuid"
+      #     - "uuid"
+      # mui:
+      #   patterns:
+      #     - "*mui*"
+      # visx:
+      #   patterns:
+      #     - "*visx*"
