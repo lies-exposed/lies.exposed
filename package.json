@@ -72,6 +72,7 @@
     "react-dnd": "^15",
     "react-dnd-html5-backend": "^15",
     "dotenv": "^16.3.1",
-    "react-is": "^18"
+    "react-is": "^18",
+    "wink-nlp": "^2"
   }
 }
