@@ -1,6 +1,6 @@
 import path from "path";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { getTextContents } from "@liexp/react-page/lib/utils.js";
+import { getTextContents, isValidValue } from "@liexp/react-page/lib/utils.js";
 import {
   ExtractEntitiesWithNLPInput,
   type ExtractEntitiesWithNLPFromResourceInput,
@@ -50,7 +50,9 @@ const findOneResourceAndMapText: TEFlow<
             },
           }),
           fp.TE.map((k) =>
-            k.body ? getTextContents(editor.liexpSlate)(k.body as any) : "",
+            isValidValue(k.body)
+              ? getTextContents(editor.liexpSlate)(k.body as any)
+              : "",
           ),
         );
       }
@@ -63,7 +65,9 @@ const findOneResourceAndMapText: TEFlow<
             },
           }),
           fp.TE.map((k) =>
-            k.body ? getTextContents(editor.liexpSlate)(k.body as any) : "",
+            isValidValue(k.body)
+              ? getTextContents(editor.liexpSlate)(k.body as any)
+              : "",
           ),
         );
       }
@@ -76,7 +80,7 @@ const findOneResourceAndMapText: TEFlow<
             },
           }),
           fp.TE.map((k) =>
-            k.excerpt
+            isValidValue(k.excerpt)
               ? getTextContents(editor.liexpSlate)(k.excerpt as any)
               : "",
           ),
