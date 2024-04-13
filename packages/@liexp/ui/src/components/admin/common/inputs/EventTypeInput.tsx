@@ -89,6 +89,10 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
             resource = "scientific-studies";
             break;
           }
+          case "Book": {
+            resource = "books";
+            break;
+          }
           case "Death": {
             resource = "deaths";
             break;
