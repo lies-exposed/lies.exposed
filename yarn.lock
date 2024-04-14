@@ -3766,7 +3766,7 @@ __metadata:
     react-spring: ^9.7.3
     react-toc: ^3.1.0
     react-virtualized: ^9.22.5
-    reactflow: ^11.11.0
+    reactflow: ^11.11.1
     throttle-debounce: ^5.0.0
     topojson-client: ^3.1.0
     ts-endpoint: ^2.0.0
@@ -4735,37 +4735,37 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@reactflow/background@npm:11.3.10":
-  version: 11.3.10
-  resolution: "@reactflow/background@npm:11.3.10"
+"@reactflow/background@npm:11.3.11":
+  version: 11.3.11
+  resolution: "@reactflow/background@npm:11.3.11"
   dependencies:
-    "@reactflow/core": 11.11.0
+    "@reactflow/core": 11.11.1
     classcat: ^5.0.3
     zustand: ^4.4.1
   peerDependencies:
     react: ">=17"
     react-dom: ">=17"
-  checksum: e7de80aa6397985c9118ec8a90298ee3f20fcae297cb56c3c8f0cdf5c8077993e21f286f73414e174651042e1233e3831361cb6f35a76c1d3118c4fb5844899b
+  checksum: 69561335afc36bfff2ecf3bce1a8f4725cca1ca8ed285754c86726ce79a36cb14ba1321eb56747f941b4922d335703046938aab5b2a85d675a5080b799cacfe5
   languageName: node
   linkType: hard
 
-"@reactflow/controls@npm:11.2.10":
-  version: 11.2.10
-  resolution: "@reactflow/controls@npm:11.2.10"
+"@reactflow/controls@npm:11.2.11":
+  version: 11.2.11
+  resolution: "@reactflow/controls@npm:11.2.11"
   dependencies:
-    "@reactflow/core": 11.11.0
+    "@reactflow/core": 11.11.1
     classcat: ^5.0.3
     zustand: ^4.4.1
   peerDependencies:
     react: ">=17"
     react-dom: ">=17"
-  checksum: 3ce8fbb5fa4118c39612b30b877fc9a8f23eb85702fb05139face598e8c5bfb3c932e4d5d99031ef34676cc080e0d2c2948a965ce28b6c080267bc65b5ddf0af
+  checksum: 8c6c05f8eeff7491ba9a137945c494e5bc26828a06f9f3026784435555b05e7cacd4f1965f0a8a73e678940eeea8c1d2d28743a858318d77ed829b3ad734c5f0
   languageName: node
   linkType: hard
 
-"@reactflow/core@npm:11.11.0":
-  version: 11.11.0
-  resolution: "@reactflow/core@npm:11.11.0"
+"@reactflow/core@npm:11.11.1":
+  version: 11.11.1
+  resolution: "@reactflow/core@npm:11.11.1"
   dependencies:
     "@types/d3": ^7.4.0
     "@types/d3-drag": ^3.0.1
@@ -4779,15 +4779,15 @@ __metadata:
   peerDependencies:
     react: ">=17"
     react-dom: ">=17"
-  checksum: 6f5aaf65fb580b3aac42e47c0a6ab26b12639bee2af864eb88d9bf232b7662b37f548d6d6e7f6b1e2dcdc918a504fc4de738e3fcc99afcf4c06e73a7ecc1c12b
+  checksum: 3c9d90427bb18f7d53c3291c6a892fe3fb1335f17638f60f6ff9205fa61547cc8077cfab1c2e984bb68bc6b9af982ade1ba839a6a39e548ff37b0a74f246667f
   languageName: node
   linkType: hard
 
-"@reactflow/minimap@npm:11.7.10":
-  version: 11.7.10
-  resolution: "@reactflow/minimap@npm:11.7.10"
+"@reactflow/minimap@npm:11.7.11":
+  version: 11.7.11
+  resolution: "@reactflow/minimap@npm:11.7.11"
   dependencies:
-    "@reactflow/core": 11.11.0
+    "@reactflow/core": 11.11.1
     "@types/d3-selection": ^3.0.3
     "@types/d3-zoom": ^3.0.1
     classcat: ^5.0.3
@@ -4797,15 +4797,15 @@ __metadata:
   peerDependencies:
     react: ">=17"
     react-dom: ">=17"
-  checksum: 476d8dbda55e8a9a44f690af5452bb68a2ec59c7f3c57ae2cdaf08ac6c24e1c56e2648d3db8e8291d247bc292299f1401e0e991e2317e44fb1011eb5059bfc86
+  checksum: 9fe66edb31906299da02976ba37fd18fc08664a86f50d5429800a26f28a6975b740a39936b07ab2f4706cd0e79ef2952d4106d845abcd86ceb51f1eebc331e2b
   languageName: node
   linkType: hard
 
-"@reactflow/node-resizer@npm:2.2.10":
-  version: 2.2.10
-  resolution: "@reactflow/node-resizer@npm:2.2.10"
+"@reactflow/node-resizer@npm:2.2.11":
+  version: 2.2.11
+  resolution: "@reactflow/node-resizer@npm:2.2.11"
   dependencies:
-    "@reactflow/core": 11.11.0
+    "@reactflow/core": 11.11.1
     classcat: ^5.0.4
     d3-drag: ^3.0.0
     d3-selection: ^3.0.0
@@ -4813,21 +4813,21 @@ __metadata:
   peerDependencies:
     react: ">=17"
     react-dom: ">=17"
-  checksum: cdc27e6d883b02bd7268411090e52928633df155dc04a530d261136eaf81a2fde732747417414e60142f1b46222bc9604831965b115afb5675751b133b93763e
+  checksum: 29ca393e5e2926d44c13b5be5ea768d8491000683334aef37f89f2ba681edfcc78b89f2e55a7c456098634f594f521bfcf138896848bb2cb785a69ec4e4e2c2e
   languageName: node
   linkType: hard
 
-"@reactflow/node-toolbar@npm:1.3.10":
-  version: 1.3.10
-  resolution: "@reactflow/node-toolbar@npm:1.3.10"
+"@reactflow/node-toolbar@npm:1.3.11":
+  version: 1.3.11
+  resolution: "@reactflow/node-toolbar@npm:1.3.11"
   dependencies:
-    "@reactflow/core": 11.11.0
+    "@reactflow/core": 11.11.1
     classcat: ^5.0.3
     zustand: ^4.4.1
   peerDependencies:
     react: ">=17"
     react-dom: ">=17"
-  checksum: 60f049d0ec5b40daba52a6baf8e8d5fbeb3f3e3f94e4962ec23bc20628df526653e6db7eb6592639fc0fc300aa814dd841f2a8d5fbddf289e69f746a978c06a1
+  checksum: 60ab5877f05fcf3f205910d050d4fc156610ba3208abe4b195273b5d6dee885ad7fa50675e73d4f6b973ffedcdad6c3fcede128aed67fa3449ecdcfe892a6c3d
   languageName: node
   linkType: hard
 
@@ -19894,20 +19894,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"reactflow@npm:^11.11.0":
-  version: 11.11.0
-  resolution: "reactflow@npm:11.11.0"
+"reactflow@npm:^11.11.1":
+  version: 11.11.1
+  resolution: "reactflow@npm:11.11.1"
   dependencies:
-    "@reactflow/background": 11.3.10
-    "@reactflow/controls": 11.2.10
-    "@reactflow/core": 11.11.0
-    "@reactflow/minimap": 11.7.10
-    "@reactflow/node-resizer": 2.2.10
-    "@reactflow/node-toolbar": 1.3.10
+    "@reactflow/background": 11.3.11
+    "@reactflow/controls": 11.2.11
+    "@reactflow/core": 11.11.1
+    "@reactflow/minimap": 11.7.11
+    "@reactflow/node-resizer": 2.2.11
+    "@reactflow/node-toolbar": 1.3.11
   peerDependencies:
     react: ">=17"
     react-dom: ">=17"
-  checksum: eb05f2a17a6fadd0cc22208196e134024139fd2fc2f49508eb4d739af56246e4d5f237aa61c5f5e155d66335c74eea7dc1a3e9137b724c1c9c474af31d003a0c
+  checksum: 0a0bc6098dd1b7d2cfbc5ef2f9932d148b5ad54193298e6a5e3dc903dded6871c2e5e0ccd917627f3866a823d9294a45d2c30253e419f26a07b174b6b60ee248
   languageName: node
   linkType: hard
 
@@ -21471,7 +21471,7 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     react-spring: ^9.7.3
-    reactflow: ^11.11.0
+    reactflow: ^11.11.1
     serve: ^14.2.1
     storybook: ^8.0.6
     typescript: ^5.4.3
@@ -23432,7 +23432,7 @@ __metadata:
     react-slick: ^0.30.2
     react-spring: ^9.7.3
     react-toc: ^3.1.0
-    reactflow: ^11.11.0
+    reactflow: ^11.11.1
     sirv: ^2.0.4
     slick-carousel: ^1.8.1
     throttle-debounce: ^5.0.0
