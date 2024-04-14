@@ -18,7 +18,7 @@ const ReferenceManyEventField: React.FC<
     <ReferenceManyField
       {...props}
       reference="events"
-      filter={{ ...props.filter }}
+      filter={props.filter ? { ...props.filter } : undefined}
     >
       <Datagrid rowClick="edit" isRowSelectable={() => false}>
         <BooleanField source="draft" />

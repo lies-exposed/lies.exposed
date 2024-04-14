@@ -9,6 +9,7 @@ import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.pro
 import { MakeSpaceProvider } from "@liexp/backend/lib/providers/space/space.provider.js";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
+import { PDFProvider } from '@liexp/shared/lib/providers/pdf/pdf.provider.js';
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import D from "debug";
 import { sequenceS } from "fp-ts/lib/Apply.js";
@@ -133,6 +134,7 @@ const initAppTest = async (): Promise<AppTest> => {
         entitiesFile: path.resolve(__dirname, "entities.json"),
         nlp: mocks.ner as any,
       }),
+      pdf: PDFProvider({ client: {} as any }),
       geo: GeocodeProvider({ http: {} as any, apiKey: "fake-geo-api-key" }),
     })),
     TE.map((ctx) => ({

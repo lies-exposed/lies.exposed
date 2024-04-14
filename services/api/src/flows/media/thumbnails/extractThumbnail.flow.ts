@@ -4,7 +4,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { type ExtractThumbnailFlow } from "./ExtractThumbnailFlow.type.js";
 import { extractMP4Thumbnail } from "./extractMP4Thumbnail.flow.js";
 import { extractThumbnailFromImage } from "./extractThumbnailFromImage.js";
-import { extractThumbnailFromPDF } from "./extractThumbnailFromPDF.js";
+import { extractThumbnailFromPDF } from "./extractThumbnailFromPDF.flow.js";
 import { extractThumbnailFromIframe } from "./extractThumbnailFromVideoPlatform.js";
 
 export const extractThumbnail: ExtractThumbnailFlow<MediaType> =
