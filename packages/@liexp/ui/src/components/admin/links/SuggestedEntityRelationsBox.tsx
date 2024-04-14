@@ -9,6 +9,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Chip,
+  Input,
   Stack,
   Typography,
 } from "../../mui/index.js";
@@ -153,11 +154,32 @@ export const SuggestedEntityRelationsBox: React.FC<
   onKeywordClick,
   onSentenceClick,
 }) => {
-  const excludedSentences = exclude?.sentences.map((s) => s.text) ?? [];
-  const sentences = data.sentences.map((s) => ({
-    text: s.text,
-    excluded: excludedSentences.includes(s.text),
-  }));
+  const [importancePercentage, setImportancePercentage] = React.useState(25);
+
+  const { sentences, excludedSentences } = React.useMemo(() => {
+    const excludedSentences = exclude?.sentences.map((s) => s.text) ?? [];
+    const sentences = data.sentences.map((s) => ({
+      text: s.text,
+      importance: s.importance,
+      excluded: excludedSentences.includes(s.text),
+    }));
+
+    const maxImportance = Math.max(
+      ...sentences.map((s) => (!s.excluded ? s.importance : 0)),
+    );
+    const minImportance = Math.min(
+      ...sentences.map((s) => (!s.excluded ? s.importance : 0)),
+    );
+
+    const importanceLimit =
+      (importancePercentage / 100) * (maxImportance - minImportance) +
+      minImportance;
+
+    return {
+      sentences: sentences.filter((s) => s.importance >= importanceLimit),
+      excludedSentences,
+    };
+  }, [data.sentences, exclude?.sentences, importancePercentage]);
 
   return (
     <SuggestedEntityRelationsStack
@@ -193,21 +215,37 @@ export const SuggestedEntityRelationsBox: React.FC<
         </AccordionSummary>
         <AccordionDetails>
           <Stack direction={"column"} spacing={2}>
-            {sentences.map((entity, i) => {
-              return (
-                <Typography
-                  key={i}
-                  onClick={() => onSentenceClick?.(entity.text)}
-                  className={clsx(
-                    entity.excluded
-                      ? suggestedEntityRelationsClasses.sentenceTextExcluded
-                      : suggestedEntityRelationsClasses.sentenceText,
-                  )}
-                >
-                  {entity.text}
-                </Typography>
-              );
-            })}
+            <Input
+              value={importancePercentage}
+              type="number"
+              onChange={(e) => {
+                setImportancePercentage(parseInt(e.target.value, 10));
+              }}
+            />
+            <Stack
+              direction={"column"}
+              spacing={2}
+              style={{
+                overflow: "auto",
+                maxHeight: 500,
+              }}
+            >
+              {sentences.map((entity, i) => {
+                return (
+                  <Typography
+                    key={i}
+                    onClick={() => onSentenceClick?.(entity.text)}
+                    className={clsx(
+                      entity.excluded
+                        ? suggestedEntityRelationsClasses.sentenceTextExcluded
+                        : suggestedEntityRelationsClasses.sentenceText,
+                    )}
+                  >
+                    {entity.text}
+                  </Typography>
+                );
+              })}
+            </Stack>
           </Stack>
         </AccordionDetails>
       </Accordion>
