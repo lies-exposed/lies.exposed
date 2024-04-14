@@ -95,16 +95,10 @@ export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {
           TE.fromEither,
         ),
       ),
-      TE.map(({ data, totals, firstDate, lastDate }) => ({
+      TE.map(({ data, total, totals, firstDate, lastDate }) => ({
         body: {
           data,
-          total:
-            totals.deaths +
-            totals.scientificStudies +
-            totals.uncategorized +
-            totals.patents +
-            totals.documentaries +
-            totals.transactions,
+          total,
           totals,
           firstDate: firstDate?.toISOString(),
           lastDate: lastDate?.toISOString(),

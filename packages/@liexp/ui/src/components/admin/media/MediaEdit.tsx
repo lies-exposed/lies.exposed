@@ -32,6 +32,7 @@ import MediaPreview from "../previews/MediaPreview.js";
 import { ReferenceLinkTab } from "../tabs/ReferenceLinkTab.js";
 import ReferenceUserInput from "../user/ReferenceUserInput.js";
 import { MediaField } from "./MediaField.js";
+import { MediaSuggestedEntityRelations } from "./MediaSuggestedEntityRelations.js";
 import { GenerateExtraButton } from "./button/GenerateExtraButton.js";
 import { GenerateThumbnailButton } from "./button/GenerateThumbnailButton.js";
 import { MediaTGPostButton } from "./button/MediaTGPostButton.js";
@@ -195,6 +196,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
               {isAdmin && <ReferenceUserInput source="creator" />}
               <ReferenceArrayKeywordInput source="keywords" showAdd />
               <ThumbnailEditField />
+              <MediaSuggestedEntityRelations />
             </Grid>
             <Grid item md={12}>
               <TextInput source="label" fullWidth />
@@ -227,7 +229,14 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
           <Stack spacing={2} width={"100%"}>
             <CreateEventFromMediaButton />
             <ReferenceArrayEventInput source="events" defaultValue={[]} />
-            <ReferenceManyEventField label="Events" target="media[]" />
+            <ReferenceManyEventField
+              label="Events"
+              target="media[]"
+              source="id"
+              filter={{
+                withDrafts: true,
+              }}
+            />
           </Stack>
         </FormTab>
         <FormTab label="areas">

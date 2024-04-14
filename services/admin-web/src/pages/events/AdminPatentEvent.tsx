@@ -29,7 +29,7 @@ import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import * as React from "react";
 
 const patentEventsFilter = [
-  <TextInput key="search" source="q" alwaysOn />,
+  <TextInput key="search" label="Search" source="q" alwaysOn />,
   <BooleanInput key="draft" label="Draft only" source="draft" alwaysOn />,
   <DateInput key="date" source="date" />,
 ];

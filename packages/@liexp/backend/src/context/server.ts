@@ -1,5 +1,6 @@
 import type * as logger from "@liexp/core/lib/logger/index.js";
 import { type HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
+import { type PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import { type URLMetadataClient } from "../providers/URLMetadata.provider.js";
 import { type FFMPEGProvider } from "../providers/ffmpeg.provider.js";
 import { type FSClient } from "../providers/fs/fs.provider.js";
@@ -27,6 +28,7 @@ export interface ServerContext {
   fs: FSClient;
   ig: IGProvider;
   imgProc: ImgProcClient;
+  pdf: PDFProvider;
   /** Wikipedia Provider */
   wp: WikipediaProvider;
   /**

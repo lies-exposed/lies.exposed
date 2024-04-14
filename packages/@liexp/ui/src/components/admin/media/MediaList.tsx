@@ -23,7 +23,7 @@ import { MediaTypeInput } from "./input/MediaTypeInput.js";
 const RESOURCE = "media";
 
 const mediaFilters = [
-  <TextInput key="search" source="q" alwaysOn size="small" />,
+  <TextInput key="search" label="Search" source="q" alwaysOn size="small" />,
   <BooleanInput
     key="emptyThumbnail"
     source="emptyThumbnail"

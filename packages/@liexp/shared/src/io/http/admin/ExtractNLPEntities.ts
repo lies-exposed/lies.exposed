@@ -4,6 +4,7 @@ import { URL } from "../Common/URL.js";
 import { ResourcesNames } from "../ResourcesNames.js";
 
 const ExtractEntitiesWithNLPFromURLInput = t.strict({ url: URL });
+const ExtractEntitiesWithNLPFromPDFInput = t.strict({ pdf: URL });
 const ExtractEntitiesWithNLPFromTextInput = t.strict({ text: t.string });
 export const ExtractEntitiesWithNLPFromResourceInput = t.strict({
   resource: ResourcesNames,
@@ -15,6 +16,7 @@ export type ExtractEntitiesWithNLPFromResourceInput = t.TypeOf<
 
 export const ExtractEntitiesWithNLPInput = t.union([
   ExtractEntitiesWithNLPFromURLInput,
+  ExtractEntitiesWithNLPFromPDFInput,
   ExtractEntitiesWithNLPFromTextInput,
   ExtractEntitiesWithNLPFromResourceInput,
 ]);

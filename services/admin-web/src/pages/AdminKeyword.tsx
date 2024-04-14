@@ -25,7 +25,9 @@ import * as React from "react";
 
 const RESOURCE = "keywords";
 
-const keywordsFilter = [<TextInput key="search" source="q" alwaysOn />];
+const keywordsFilter = [
+  <TextInput key="search" label="Search" source="q" alwaysOn />,
+];
 
 export const KeywordList: React.FC<ListProps> = (props) => (
   <List {...props} resource={RESOURCE} filters={keywordsFilter} perPage={20}>

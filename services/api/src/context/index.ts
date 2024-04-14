@@ -14,12 +14,14 @@ import { WikipediaProvider } from "@liexp/backend/lib/providers/wikipedia/wikipe
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
+import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import * as axios from "axios";
 import * as ExifReader from "exifreader";
 import ffmpeg from "fluent-ffmpeg";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import metadataParser from "page-metadata-parser";
+import * as pdf from "pdfjs-dist";
 import puppeteer from "puppeteer-core";
 import sharp from "sharp";
 import wk from "wikipedia";
@@ -95,6 +97,7 @@ export const makeContext = (
           apiKey: env.GEO_CODE_API_KEY,
         }),
       ),
+      pdf: fp.TE.right(PDFProvider({ client: pdf })),
       wp: fp.TE.right(wpProvider),
       ig: fp.TE.right(
         IGProvider({
