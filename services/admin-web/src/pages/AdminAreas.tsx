@@ -41,7 +41,7 @@ import * as React from "react";
 const RESOURCE = "areas";
 
 const areaFilters = [
-  <FilterLiveSearch key="q" source="q" alwaysOn />,
+  <FilterLiveSearch key="q" label="Search" source="q" alwaysOn />,
   <BooleanInput
     key="draft"
     label="Draft"

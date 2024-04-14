@@ -69,12 +69,10 @@ EventsTimelineListExample.args = {
       ...u,
       payload: {
         ...u.payload,
-        actors: fc
-          .sample(ActorArb, 5)
-          .map((a) => ({
-            ...a,
-            bornOn: a.bornOn ? new Date(a.bornOn) : undefined,
-          })),
+        actors: fc.sample(ActorArb, 5).map((a) => ({
+          ...a,
+          bornOn: a.bornOn ? new Date(a.bornOn) : undefined,
+        })),
         groups: fc.sample(GroupArb, 5),
         groupsMembers: [],
       },

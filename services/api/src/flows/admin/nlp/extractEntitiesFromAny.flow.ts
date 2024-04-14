@@ -15,13 +15,13 @@ import { GroupEntity } from "#entities/Group.entity.js";
 import { KeywordEntity } from "#entities/Keyword.entity.js";
 import { LinkEntity } from "#entities/Link.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
+import { extractRelationsFromPDFs } from "#flows/nlp/extractRelationsFromPDF.flow.js";
 import { extractRelationsFromText } from "#flows/nlp/extractRelationsFromText.flow.js";
 import { extractRelationsFromURL } from "#flows/nlp/extractRelationsFromURL.flow.js";
 import {
   BadRequestError,
   DecodeError,
   ServerError,
-  toControllerError,
 } from "#io/ControllerError.js";
 import { editor } from "#providers/slate.js";
 
@@ -116,26 +116,25 @@ export const extractEntitiesFromAny: TEFlow<
     () => {
       if (ExtractEntitiesWithNLPInput.types[0].is(body)) {
         return pipe(
-          ctx.puppeteer.getBrowserFirstPage("about:blank", {}),
-          fp.TE.mapLeft(toControllerError),
-          fp.TE.chain((p) =>
-            pipe(
-              extractRelationsFromURL(ctx)(p, body.url),
-              fp.TE.chainFirst(() =>
-                fp.TE.tryCatch(async () => {
-                  await p.browser().close();
-                }, toControllerError),
-              ),
-            ),
+          ctx.puppeteer.execute({}, (b, p) =>
+            extractRelationsFromURL(ctx)(p, body.url),
           ),
         );
       }
 
       if (ExtractEntitiesWithNLPInput.types[1].is(body)) {
-        return extractRelationsFromText(ctx)(body.text);
+        return pipe(
+          ctx.puppeteer.execute({}, (b, p) =>
+            extractRelationsFromPDFs(ctx)(body.pdf),
+          ),
+        );
       }
 
       if (ExtractEntitiesWithNLPInput.types[2].is(body)) {
+        return extractRelationsFromText(ctx)(body.text);
+      }
+
+      if (ExtractEntitiesWithNLPInput.types[3].is(body)) {
         return pipe(
           findOneResourceAndMapText(ctx)(body),
           fp.TE.chain((text) => extractRelationsFromText(ctx)(text)),
