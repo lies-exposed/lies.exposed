@@ -43,7 +43,7 @@
     "express": "^4.19.2",
     "prettier": "^3.2.5",
     "sass": "^1.75.0",
-    "typescript": "^5.4.3",
+    "typescript": "^5.4.5",
     "vite": "^5.2.8"
   },
   "peerDependencies": {
