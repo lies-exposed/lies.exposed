@@ -9205,7 +9205,7 @@ __metadata:
     node-telegram-bot-api: ^0.65.1
     page-metadata-parser: ^1.1.4
     parse2-kmz: ^1.0.7
-    pdfjs-dist: ^4.0.379
+    pdfjs-dist: ^4.1.392
     pg: ^8.11.5
     prettier: ^3.2.5
     prompts: ^2.4.2
@@ -18468,10 +18468,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"path2d-polyfill@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "path2d-polyfill@npm:2.0.1"
-  checksum: e38a4f920be3550e8334b899cc56f4fca0a976ca69404ee10d656a45d422996b7e27e294e2cf0aac2e410ce59d6977cde9f95586e62a24e6c904716695e059f8
+"path2d@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "path2d@npm:0.1.2"
+  checksum: dfe8fa172ffdbd0d38824c53dd850d4269f33da07a62a9222e052c16fcf0d1e9242666c52347b62c596f4e80000819f3fa41d928068c9b778a993fa6b6d9cbf2
   languageName: node
   linkType: hard
 
@@ -18508,18 +18508,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pdfjs-dist@npm:^4.0.379":
-  version: 4.0.379
-  resolution: "pdfjs-dist@npm:4.0.379"
+"pdfjs-dist@npm:^4.1.392":
+  version: 4.1.392
+  resolution: "pdfjs-dist@npm:4.1.392"
   dependencies:
     canvas: ^2.11.2
-    path2d-polyfill: ^2.0.1
+    path2d: ^0.1.2
   dependenciesMeta:
     canvas:
       optional: true
-    path2d-polyfill:
+    path2d:
       optional: true
-  checksum: dc40e9251c4fa178bb54e655ecf370393c913cc276b1444f7314bb856004727c9bde69b7de4bccb4884da3ed0ea2613029d130bcc4c7e4ddc1c842187927734c
+  checksum: 180d48365ef559a020df785a4dbfe7c50779db5750c7700f4f53b34441af2cfbbb5d80353bc19ed36017525975059ceb200bf0fde501a92ac80b33fae54e07bf
   languageName: node
   linkType: hard
 
