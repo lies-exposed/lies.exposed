@@ -46,7 +46,7 @@
     "prettier": "^3.2.5",
     "sass": "^1.74.1",
     "typescript": "^5.4.3",
-    "vite": "^5.2.6"
+    "vite": "^5.2.8"
   },
   "peerDependencies": {
     "debug": "^4.3.1",
