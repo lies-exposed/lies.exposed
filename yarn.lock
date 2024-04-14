@@ -3511,7 +3511,7 @@ __metadata:
     puppeteer-extra-plugin-stealth: ^2.11.2
     ts-io-error: ^2.0.0
     typeorm: ^0.3.20
-    typescript: ^5.4.3
+    typescript: ^5.4.5
   peerDependencies:
     "@visx/network": ^3
     date-fns: ^2
@@ -3562,7 +3562,7 @@ __metadata:
     io-ts-types: ^0.5.19
     prettier: ^3.2.5
     sass: ^1.75.0
-    typescript: ^5.4.3
+    typescript: ^5.4.5
     vite: ^5.2.8
     vite-plugin-css-injected-by-js: ^3.5.0
     vite-plugin-optimizer: ^1.4.3
@@ -3594,7 +3594,7 @@ __metadata:
     "@types/react-dom": ^18.2.25
     eslint: ^8.57.0
     react: ^18.2.0
-    typescript: ^5.4.3
+    typescript: ^5.4.5
     typescript-eslint: ^7.6.0
     vitest: ^1.5.0
   peerDependencies:
@@ -3640,7 +3640,7 @@ __metadata:
     ts-endpoint: ^2.0.0
     ts-endpoint-express: ^2.0.0
     ts-io-error: ^2.0.0
-    typescript: ^5.4.3
+    typescript: ^5.4.5
     uuid: ^9.0.1
     vitest: ^1.5.0
     vitest-mock-extended: ^1.3.1
@@ -3667,7 +3667,7 @@ __metadata:
     io-ts: ^2.2.21
     io-ts-types: ^0.5.19
     prettier: ^3.2.5
-    typescript: ^5.4.3
+    typescript: ^5.4.5
   peerDependencies:
     debug: ^4.3.1
   languageName: unknown
@@ -3771,7 +3771,7 @@ __metadata:
     topojson-client: ^3.1.0
     ts-endpoint: ^2.0.0
     ts-io-error: ^2.0.0
-    typescript: ^5.4.3
+    typescript: ^5.4.5
     vitest-mock-extended: ^1.3.1
     waveform-data: ^4.5.0
   languageName: unknown
@@ -8929,7 +8929,7 @@ __metadata:
     react-final-form-arrays: ^3.1.4
     react-helmet: ^6.1.0
     slick-carousel: ^1.8.1
-    typescript: ^5.4.3
+    typescript: ^5.4.5
     uuid: ^9.0.1
     vite: ^5.2.8
     web-vitals: ^3.5.2
@@ -9192,10 +9192,10 @@ __metadata:
     ts-endpoint-express: ^2.0.0
     ts-shared: 2.0.0-alpha.6
     tsconfig-paths: ^4.2.0
-    tsx: ^4.7.1
+    tsx: ^4.7.2
     typeorm: ^0.3.20
     typeorm-uml: ^1.6.5
-    typescript: ^5.4.3
+    typescript: ^5.4.5
     uuid: ^9.0.1
     vite-tsconfig-paths: ^4.3.2
     vitest: ^1.5.0
@@ -16083,7 +16083,7 @@ __metadata:
     lint-staged: ^15.2.2
     pm2: ^5.3.1
     prettier: ^3.2.5
-    typescript: ^5.4.3
+    typescript: ^5.4.5
     typescript-eslint: ^7.6.0
     vite: ^5.2.8
     vitest: ^1.5.0
@@ -21474,7 +21474,7 @@ __metadata:
     reactflow: ^11.11.1
     serve: ^14.2.1
     storybook: ^8.0.6
-    typescript: ^5.4.3
+    typescript: ^5.4.5
     vite: ^5.2.8
   languageName: unknown
   linkType: soft
@@ -22375,9 +22375,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsx@npm:^4.7.1":
-  version: 4.7.1
-  resolution: "tsx@npm:4.7.1"
+"tsx@npm:^4.7.2":
+  version: 4.7.2
+  resolution: "tsx@npm:4.7.2"
   dependencies:
     esbuild: ~0.19.10
     fsevents: ~2.3.3
@@ -22387,7 +22387,7 @@ __metadata:
       optional: true
   bin:
     tsx: dist/cli.mjs
-  checksum: 7f77294c0eee9a9b203f89eb299ee80b393d6b4bf79ec01b650502213a23ea08d0dfc52e938b302ef27c97b70557f7f5a590c3174a7e3c8f1140c668eea4a3a2
+  checksum: 34c4fbbfb96848e05e39d5c55da51815f0856386428ad781a6df79e88ad62d83e9a071a3997a230ea7b45654cb215262267ac1202c31b67056359d386f6a9f65
   languageName: node
   linkType: hard
 
@@ -22662,23 +22662,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.4.3":
-  version: 5.4.3
-  resolution: "typescript@npm:5.4.3"
+"typescript@npm:^5.4.5":
+  version: 5.4.5
+  resolution: "typescript@npm:5.4.5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: d74d731527e35e64d8d2dcf2f897cf8cfbc3428be0ad7c48434218ba4ae41239f53be7c90714089db1068c05cae22436af2ecba71fd36ecc5e7a9118af060198
+  checksum: 53c879c6fa1e3bcb194b274d4501ba1985894b2c2692fa079db03c5a5a7140587a1e04e1ba03184605d35f439b40192d9e138eb3279ca8eee313c081c8bcd9b0
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^5.4.3#~builtin<compat/typescript>":
-  version: 5.4.3
-  resolution: "typescript@patch:typescript@npm%3A5.4.3#~builtin<compat/typescript>::version=5.4.3&hash=d69c25"
+"typescript@patch:typescript@^5.4.5#~builtin<compat/typescript>":
+  version: 5.4.5
+  resolution: "typescript@patch:typescript@npm%3A5.4.5#~builtin<compat/typescript>::version=5.4.5&hash=d69c25"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 3a62fe90aa79d68c9ce38ea5edb2957e62801c733b99f0e5a2b8b50922761f68f7d9a40d28c544b449866e81185cddb93cba2496d0ff3fa52ef5b1f8bcace38c
+  checksum: 2373c693f3b328f3b2387c3efafe6d257b057a142f9a79291854b14ff4d5367d3d730810aee981726b677ae0fd8329b23309da3b6aaab8263dbdccf1da07a3ba
   languageName: node
   linkType: hard
 
@@ -23438,8 +23438,8 @@ __metadata:
     throttle-debounce: ^5.0.0
     topojson-client: 3.1.0
     topojson-server: 3.0.1
-    tsx: ^4.7.1
-    typescript: ^5.4.3
+    tsx: ^4.7.2
+    typescript: ^5.4.5
     uuid: ^9.0.1
     vite: ^5.2.8
     world-atlas: 2.0.2
