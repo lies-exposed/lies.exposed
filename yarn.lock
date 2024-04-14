@@ -3562,12 +3562,12 @@ __metadata:
     "@eslint/js": ^8.57.0
     "@rollup/plugin-image": ^3.0.3
     "@types/debug": ^4.1.12
-    "@types/eslint": ^8.56.7
+    "@types/eslint": ^8.56.9
     "@types/eslint__eslintrc": ^2.1.1
     "@types/eslint__js": ^8.42.3
     "@types/express": ^4.17.21
     "@types/mime": ^1.3.5
-    "@types/react": ^18.2.75
+    "@types/react": ^18.2.78
     "@vitejs/plugin-react": ^4.2.1
     eslint: ^8.57.0
     eslint-plugin-fp-ts: ^0.3.2
@@ -3578,7 +3578,7 @@ __metadata:
     io-ts: ^2.2.21
     io-ts-types: ^0.5.19
     prettier: ^3.2.5
-    sass: ^1.74.1
+    sass: ^1.75.0
     typescript: ^5.4.3
     vite: ^5.2.8
     vite-plugin-css-injected-by-js: ^3.5.0
@@ -3608,9 +3608,9 @@ __metadata:
     "@react-page/plugins-spacer": ^5.4.4
     "@react-page/plugins-video": ^5.4.4
     "@react-page/react-admin": ^5.4.4
-    "@types/eslint": ^8.56.7
-    "@types/react": ^18.2.75
-    "@types/react-dom": ^18.2.24
+    "@types/eslint": ^8.56.9
+    "@types/react": ^18.2.78
+    "@types/react-dom": ^18.2.25
     eslint: ^8.57.0
     react: ^18.2.0
     typescript: ^5.4.3
@@ -3637,8 +3637,8 @@ __metadata:
     "@liexp/core": 0.1.0
     "@liexp/test": 0.1.0
     "@types/bs58": ^4.0.4
-    "@types/react": ^18.2.75
-    "@types/react-dom": ^18.2.24
+    "@types/react": ^18.2.78
+    "@types/react-dom": ^18.2.25
     "@types/throttle-debounce": ^5.0.2
     "@types/uuid": ^9.0.8
     "@visx/network": ^3.3.0
@@ -3715,12 +3715,12 @@ __metadata:
     "@types/chroma-js": ^2.4.4
     "@types/d3": ^7.4.3
     "@types/d3-sankey": ^0.12.4
-    "@types/eslint": ^8.56.7
+    "@types/eslint": ^8.56.9
     "@types/reach__router": ^1.3.15
-    "@types/react": ^18.2.75
+    "@types/react": ^18.2.78
     "@types/react-helmet": ^6.1.11
     "@types/react-slick": ^0.23.13
-    "@types/react-virtualized": ^9.21.29
+    "@types/react-virtualized": ^9.21.30
     "@types/throttle-debounce": ^5.0.2
     "@types/topojson-client": ^3.1.4
     "@types/topojson-specification": ^1.0.5
@@ -7425,13 +7425,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:*, @types/eslint@npm:^8.56.7":
-  version: 8.56.7
-  resolution: "@types/eslint@npm:8.56.7"
+"@types/eslint@npm:*, @types/eslint@npm:^8.56.9":
+  version: 8.56.9
+  resolution: "@types/eslint@npm:8.56.9"
   dependencies:
     "@types/estree": "*"
     "@types/json-schema": "*"
-  checksum: 26b036e27e369981843585248591b15068f1ba3ac44a01c09c34717f0b57cbb422a7ed2b497b51093b0ead97739e187dde65bbd5893ec901672dac39f41c8038
+  checksum: c0c033fc724774b791bf97465cfe246814eda1f82460aff2daa64dfce1b1a01626c75f4281d2ab10dcd9176446df0b4bf57e8ac542da6476902e28683e89137d
   languageName: node
   linkType: hard
 
@@ -7662,12 +7662,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.12.6":
-  version: 20.12.6
-  resolution: "@types/node@npm:20.12.6"
+"@types/node@npm:*, @types/node@npm:^20.12.7":
+  version: 20.12.7
+  resolution: "@types/node@npm:20.12.7"
   dependencies:
     undici-types: ~5.26.4
-  checksum: d16272276349244b1b6f15b0a23ce380efe3dfe46ace1ae37d58e791a8e53d832a2dc72d1afe01d7e5bb0ec1fba70ddd58b1da87921ec913e600331b3b906be9
+  checksum: 7cc979f7e2ca9a339ec71318c3901b9978555257929ef3666987f3e447123bc6dc92afcc89f6347e09e07d602fde7d51bcddea626c23aa2bb74aeaacfd1e1686
   languageName: node
   linkType: hard
 
@@ -7775,12 +7775,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:*, @types/react-dom@npm:^18.0.0, @types/react-dom@npm:^18.2.24":
-  version: 18.2.24
-  resolution: "@types/react-dom@npm:18.2.24"
+"@types/react-dom@npm:*, @types/react-dom@npm:^18.0.0, @types/react-dom@npm:^18.2.25":
+  version: 18.2.25
+  resolution: "@types/react-dom@npm:18.2.25"
   dependencies:
     "@types/react": "*"
-  checksum: 7fb0dd0c88c5219bcc27f1f9bf14d9e1b1593014ee7938dd46ee9782c77c39d1ccc79d2b8364a6113019d7f65c94e4dc3c37425c3972910bb2674cce98d3f3ca
+  checksum: 85f9278d6456c6cdc76da6806a33b472588cdd029b08dde32e8b5636b25a3eae529b4ac2e08c848a3d7ca44e4e97ee9a3df406c96fa0768de935c8eed6e07590
   languageName: node
   linkType: hard
 
@@ -7823,23 +7823,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-virtualized@npm:^9.21.29":
-  version: 9.21.29
-  resolution: "@types/react-virtualized@npm:9.21.29"
+"@types/react-virtualized@npm:^9.21.30":
+  version: 9.21.30
+  resolution: "@types/react-virtualized@npm:9.21.30"
   dependencies:
     "@types/prop-types": "*"
     "@types/react": "*"
-  checksum: df10e8847e20ac2b4bac647a9bfc027edbc73ff41e298024de7b8588e0d8e9b220ba7d65231fced9ca9eb5284a1d6a478ec934f950f33795baed586bd0e30ea0
+  checksum: 3beb6bc5e0edc4831094a0911ca0a5bc6a53295a54aa530e376dc5af98fb7c51bb11e293c652d56cfbcd7049b6bee880569939960ac48ca4ac6d63983030818e
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^16.8.0 || ^17.0.0 || ^18.0.0, @types/react@npm:^18.2.75":
-  version: 18.2.75
-  resolution: "@types/react@npm:18.2.75"
+"@types/react@npm:*, @types/react@npm:^16.8.0 || ^17.0.0 || ^18.0.0, @types/react@npm:^18.2.78":
+  version: 18.2.78
+  resolution: "@types/react@npm:18.2.78"
   dependencies:
     "@types/prop-types": "*"
     csstype: ^3.0.2
-  checksum: f77322720744beba6650462c0d75ccc0be27c176bd7b2aff32039ea30e498a78fe6dbce4a1c3fdbf592ccc01286059f332a294a3b6975dbb0d8d5999718ece38
+  checksum: f686d735707d46690d05ac76e8c8a619802ea6a4a8f2837981669f7dc13b6984751edc4994242afa3be279df15c67b72a5a658f02a7c5ca16f9a0b4878f1bf18
   languageName: node
   linkType: hard
 
@@ -8925,9 +8925,9 @@ __metadata:
     "@testing-library/user-event": ^14.5.1
     "@types/debug": ^4.1.12
     "@types/lodash": ^4.17.0
-    "@types/node": ^20.12.6
-    "@types/react": ^18.2.75
-    "@types/react-dom": ^18.2.24
+    "@types/node": ^20.12.7
+    "@types/react": ^18.2.78
+    "@types/react-dom": ^18.2.25
     "@typescript-eslint/eslint-plugin": ^7.6.0
     "@typescript-eslint/parser": ^7.6.0
     debug: ^4.3.4
@@ -9162,19 +9162,19 @@ __metadata:
     "@types/body-parser": ^1.19.5
     "@types/cors": ^2.8.17
     "@types/debug": ^4.1.12
-    "@types/eslint": ^8.56.7
+    "@types/eslint": ^8.56.9
     "@types/express": ^4.17.21
     "@types/fluent-ffmpeg": ^2.1.24
     "@types/jsonwebtoken": ^9.0.6
     "@types/lodash": ^4.17.0
     "@types/multer": ^1.4.11
-    "@types/node": ^20.12.6
+    "@types/node": ^20.12.7
     "@types/node-cron": ^3.0.11
     "@types/node-telegram-bot-api": ^0.64.6
     "@types/pg": ^8.11.5
     "@types/prompts": ^2.4.9
-    "@types/react": ^18.2.75
-    "@types/react-dom": ^18.2.24
+    "@types/react": ^18.2.78
+    "@types/react-dom": ^18.2.25
     "@types/supertest": ^6.0.2
     "@types/uuid": ^9.0.8
     axios: ^1.6.8
@@ -21139,16 +21139,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.74.1":
-  version: 1.74.1
-  resolution: "sass@npm:1.74.1"
+"sass@npm:^1.75.0":
+  version: 1.75.0
+  resolution: "sass@npm:1.75.0"
   dependencies:
     chokidar: ">=3.0.0 <4.0.0"
     immutable: ^4.0.0
     source-map-js: ">=0.6.2 <2.0.0"
   bin:
     sass: sass.js
-  checksum: 3cbcd73d91e65607f7987656b7f6b0c6143724304544768079ecbe95505f1ce71036916e0e02dcc9923551c3779863bcdd522732a8f4409e89205271966a36f4
+  checksum: bfb9f5ddb6a2e1fe0c1ba6191cdb17afa7b40c1eb892c7152f6a29ff2b06dc7a510bdb648f8cca0179dcb3965920ebeb8894f0710b0b450a99db563831345033
   languageName: node
   linkType: hard
 
@@ -21948,7 +21948,7 @@ __metadata:
     "@storybook/react-vite": ^8.0.6
     "@storybook/theming": ^8.0.6
     "@types/babel__preset-env": ^7.9.6
-    "@types/eslint": ^8.56.7
+    "@types/eslint": ^8.56.9
     d3: ^7.9.0
     eslint: ^8.57.0
     io-ts: ^2.2.21
@@ -23937,10 +23937,10 @@ __metadata:
     "@types/debug": ^4.1.12
     "@types/express": ^4.17.21
     "@types/mime": ^1.3.5
-    "@types/node": ^20.12.6
-    "@types/react": ^18.2.75
+    "@types/node": ^20.12.7
+    "@types/react": ^18.2.78
     "@types/react-calendar-heatmap": ^1.6.7
-    "@types/react-dom": ^18.2.24
+    "@types/react-dom": ^18.2.25
     "@types/react-helmet": ^6.1.11
     "@types/react-slick": ^0.23.13
     "@types/throttle-debounce": ^5.0.2
