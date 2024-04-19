@@ -29,13 +29,13 @@ export const toError =
     if (e instanceof Error) {
       return new NERError(e.message, {
         kind: "ServerError",
-        status: (override?.status ?? 401) + "",
+        status: (override?.status ?? 500) + "",
         meta: e.stack,
       });
     }
 
     return new NERError("An error occurred", {
-      status: (override?.status ?? 401) + "",
+      status: (override?.status ?? 500) + "",
       kind: "ServerError",
       meta: [String(e)],
     });
