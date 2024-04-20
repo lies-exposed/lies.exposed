@@ -2,7 +2,7 @@ import { Kind } from "@liexp/shared/lib/io/http/ProjectImage.js";
 import { http } from "@liexp/shared/lib/io/index.js";
 import { ProjectPageContent } from "@liexp/ui/lib/components/ProjectPageContent.js";
 import { ValidationErrorsLayout } from "@liexp/ui/lib/components/ValidationErrorsLayout.js";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import ReferenceAreaInput from "@liexp/ui/lib/components/admin/areas/input/ReferenceAreaInput.js";
 import RichTextInput from "@liexp/ui/lib/components/admin/common/RichTextInput.js";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput.js";
@@ -10,25 +10,25 @@ import {
   ArrayField,
   ArrayInput,
   Create,
-  type CreateProps,
   Datagrid,
   DateField,
   DateInput,
   Edit,
-  type EditProps,
   FormDataConsumer,
   FormTab,
   ImageField,
   ImageInput,
   List,
-  type ListProps,
-  required,
   SelectInput,
   SimpleForm,
   SimpleFormIterator,
   TabbedForm,
   TextField,
   TextInput,
+  required,
+  type CreateProps,
+  type EditProps,
+  type ListProps,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
@@ -154,7 +154,7 @@ export const ProjectCreate: React.FC<CreateProps> = (props) => (
         </SimpleFormIterator>
       </ArrayInput>
 
-      <ReactPageInput source="body" defaultValue="" validate={[required()]} />
+      <BlockNoteInput source="body" defaultValue="" validate={[required()]} />
     </SimpleForm>
   </Create>
 );

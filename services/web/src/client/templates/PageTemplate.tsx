@@ -1,5 +1,5 @@
 import { isValidValue } from "@liexp/react-page/lib/utils.js";
-import { editor } from "@liexp/ui/lib/components/Common/Editor/index.js";
+import { BNEditor } from "@liexp/ui/lib/components/Common/BlockNote/Editor";
 import { TOCPlugin } from "@liexp/ui/lib/components/Common/Editor/plugins/renderer/TOCPlugin.js";
 import { MainContent } from "@liexp/ui/lib/components/MainContent.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
@@ -22,11 +22,7 @@ const PageTemplate: React.FC<{ customPath: string }> = ({ customPath }) => {
               <Container style={{ display: "flex" }}>
                 <TOCPlugin value={m.body2} />
                 <MainContent>
-                  <editor.LazyEditor
-                    value={m.body2}
-                    variant="extended"
-                    readOnly
-                  />
+                  <BNEditor content={m.body2 as any} readOnly />
                 </MainContent>
               </Container>
             ) : (

@@ -1,5 +1,5 @@
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput.js";
 import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField.js";
 import { ReferenceArrayBySubjectField } from "@liexp/ui/lib/components/admin/common/inputs/BySubject/ReferenceArrayBySubjectField.js";
@@ -17,10 +17,10 @@ import {
   DateInput,
   List,
   SimpleForm,
+  TextField,
   TextInput,
   type CreateProps,
   type ListProps,
-  TextField,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils.js";
 import { Grid } from "@liexp/ui/lib/components/mui/index.js";
@@ -102,8 +102,8 @@ export const BookCreate: React.FC<CreateProps> = () => {
             />
           </Grid>
           <Grid item md={12}>
-            <ReactPageInput source="excerpt" onlyText />
-            <ReactPageInput source="body" onlyText />
+            <BlockNoteInput source="excerpt" onlyText />
+            <BlockNoteInput source="body" onlyText />
             <ReferenceArrayLinkInput source="links" defaultValue={[]} />
           </Grid>
         </Grid>

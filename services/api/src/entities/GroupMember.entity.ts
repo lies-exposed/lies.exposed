@@ -25,10 +25,10 @@ export class GroupMemberEntity {
   endDate: Date | null;
 
   @Column({ type: "json", nullable: true })
-  excerpt: Record<string, unknown> | null;
+  excerpt: any[] | null;
 
   @Column({ type: "json", nullable: true })
-  body: Record<string, unknown> | null;
+  body: any[] | null;
 
   @ManyToOne(() => GroupEntity, (g) => g.id, {
     nullable: false,

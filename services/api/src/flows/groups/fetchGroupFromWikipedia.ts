@@ -1,34 +1,42 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { createExcerptValue } from "@liexp/react-page/lib/utils.js";
 import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
 import { type CreateGroupBody } from "@liexp/shared/lib/io/http/Group.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
+import { toBNDocument } from '@liexp/ui/lib/components/Common/BlockNote/utils.js';
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import { fetchFromWikipedia } from "#flows/wikipedia/fetchFromWikipedia.js";
 import { NotFoundError, toControllerError } from "#io/ControllerError.js";
-import { editor } from "#providers/slate.js";
 
 export const fetchGroupFromWikipedia: TEFlow<[string], CreateGroupBody> =
   (ctx) => (pageId) => {
     return pipe(
-      fetchFromWikipedia(ctx)(pageId),
-      TE.map(({ page, featuredMedia: avatar, intro }) => {
-        const group = {
-          name: page.title,
-          username: getUsernameFromDisplayName(page.title),
-          kind: "Public" as const,
-          startDate: new Date(),
-          endDate: undefined,
-          members: [],
-          excerpt: createExcerptValue(editor.liexpSlate)(intro),
-          avatar: avatar as any,
-          color: generateRandomColor(),
-          body: {},
-        };
+      TE.Do,
+      TE.bind("wikipedia", () => fetchFromWikipedia(ctx)(pageId)),
+      TE.bind("excerpt", ({ wikipedia }) =>
+        TE.tryCatch(
+          () => toBNDocument(wikipedia.intro),
+          toControllerError,
+        ),
+      ),
+      TE.map(
+        ({ wikipedia: { page, featuredMedia: avatar }, excerpt }) => {
+          const group = {
+            name: page.title,
+            username: getUsernameFromDisplayName(page.title),
+            kind: "Public" as const,
+            startDate: new Date(),
+            endDate: undefined,
+            members: [],
+            excerpt: excerpt as any,
+            avatar: avatar as any,
+            color: generateRandomColor(),
+            body: undefined,
+          };
 
-        return group;
-      }),
+          return group;
+        },
+      ),
     );
   };
 

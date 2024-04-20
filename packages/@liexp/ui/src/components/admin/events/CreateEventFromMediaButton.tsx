@@ -7,7 +7,7 @@ import { useRecordContext } from "ra-core";
 import * as React from "react";
 import { Button, useDataProvider } from "react-admin";
 import { useNavigate } from "react-router";
-import { editor } from "../../Common/Editor/index.js";
+import { toBNDocument } from "../../Common/BlockNote/utils.js";
 import { Box, MenuItem, Select, Stack } from "../../mui/index.js";
 
 export const CreateEventFromMediaButton: React.FC = () => {
@@ -20,7 +20,7 @@ export const CreateEventFromMediaButton: React.FC = () => {
   );
 
   const handleSubmit = async (): Promise<void> => {
-    const suggestion = getSuggestions(editor.createExcerptValue)(
+    const suggestion = await getSuggestions(toBNDocument)(
       {
         title: record.label ?? record.description?.substring(0, 100),
         description: record.description,
@@ -28,7 +28,7 @@ export const CreateEventFromMediaButton: React.FC = () => {
       O.none,
       O.some(record as any),
       eventRelationIdsMonoid.empty,
-    ).find((t) => t.event.type === type);
+    ).then((suggestions) => suggestions.find((t) => t.event.type === type));
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { newLinks: _newLinks, ...event }: any = suggestion?.event ?? {

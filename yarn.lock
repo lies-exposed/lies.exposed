@@ -24886,6 +24886,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "web@workspace:services/web"
   dependencies:
+    "@blocknote/core": ^0.12.4
+    "@blocknote/react": ^0.12.4
     "@emotion/css": ^11.11.2
     "@emotion/server": ^11.11.0
     "@fortawesome/fontawesome-svg-core": ^6.5.2

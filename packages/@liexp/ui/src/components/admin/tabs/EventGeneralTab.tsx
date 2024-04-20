@@ -10,7 +10,7 @@ import {
 } from "react-admin";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { Box, Grid } from "../../mui/index.js";
-import BlockNoteInput from '../BlockNoteInput.js';
+import BlockNoteInput from "../BlockNoteInput.js";
 import { EventTypeInput } from "../common/inputs/EventTypeInput.js";
 import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput.js";
 import { SuggestedKeywordEntityRelationsBox } from "../links/SuggestedEntityRelationsBox.js";

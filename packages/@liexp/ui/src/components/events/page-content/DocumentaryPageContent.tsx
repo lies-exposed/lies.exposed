@@ -1,8 +1,7 @@
-import { isValidValue } from "@liexp/react-page/lib/utils.js";
 import { type Events, type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useTheme } from "../../../theme/index.js";
-import { editor } from "../../Common/Editor/index.js";
+import { BNEditor } from "../../Common/BlockNote/Editor.js";
 import { Box, Grid } from "../../mui/index.js";
 import { MediaSlider } from "../../sliders/MediaSlider.js";
 
@@ -39,16 +38,13 @@ export const DocumentaryPageContent: React.FC<DocumentaryPageContentProps> = ({
         />
       </Grid>
       <Grid item>
-        {isValidValue(event.excerpt) ? (
-          <Box style={{ marginBottom: theme.spacing(2) }}>
-            <editor.LazyEditor value={event.excerpt} readOnly={true} />
-          </Box>
-        ) : null}
-        {isValidValue(event.body) ? (
-          <Box style={{ marginBottom: theme.spacing(2) }}>
-            <editor.LazyEditor value={event.body} readOnly={true} />
-          </Box>
-        ) : null}
+        <Box style={{ marginBottom: theme.spacing(2) }}>
+          <BNEditor content={event.excerpt as any} readOnly={true} />
+        </Box>
+
+        <Box style={{ marginBottom: theme.spacing(2) }}>
+          <BNEditor content={event.body as any} readOnly={true} />
+        </Box>
       </Grid>
     </Grid>
   );

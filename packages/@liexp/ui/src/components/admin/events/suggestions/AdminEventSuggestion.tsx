@@ -30,9 +30,9 @@ import {
 } from "react-admin";
 import { useDataProvider } from "../../../../hooks/useDataProvider.js";
 import { EventIcon } from "../../../Common/Icons/index.js";
-import ReactPageInput from "../../../admin/ReactPageInput.js";
 import { WebPreviewButton } from "../../../admin/common/WebPreviewButton.js";
 import { Box, Grid, Typography } from "../../../mui/index.js";
+import BlockNoteInput from "../../BlockNoteInput.js";
 import { EditForm } from "../../common/EditForm.js";
 import { EventSuggestionStatusInput } from "../../common/inputs/EventSuggestionStatusInput.js";
 import { EventSuggestionTypeInput } from "../../common/inputs/EventSuggestionTypeInput.js";
@@ -253,7 +253,7 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
           </FormDataConsumer>
         </FormTab>
         <FormTab label="body">
-          <ReactPageInput label="body" source="payload.event.body" />
+          <BlockNoteInput label="body" source="payload.event.body" />
         </FormTab>
         <FormTab label="Media">
           <ImportMediaButton
@@ -384,7 +384,7 @@ export const EventSuggestionCreate: React.FC<CreateProps & { event: any }> = ({
           </FormDataConsumer>
         </FormTab>
         <FormTab label="body">
-          <ReactPageInput label="body" source="payload.event.body" />
+          <BlockNoteInput label="body" source="payload.event.body" />
         </FormTab>
         <FormTab label="Media">
           <ReferenceMediaTab source="payload.event.media" />

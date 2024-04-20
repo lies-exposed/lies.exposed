@@ -1,22 +1,22 @@
 import { type http } from "@liexp/shared/lib/io/index.js";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
 import PagePreview from "@liexp/ui/lib/components/admin/previews/PagePreview.js";
 import {
   Create,
-  type CreateProps,
   Datagrid,
   DateField,
-  type EditProps,
   FormTab,
   List,
-  type ListProps,
-  required,
   SimpleForm,
   TabbedForm,
   TextField,
   TextInput,
+  required,
   useRecordContext,
+  type CreateProps,
+  type EditProps,
+  type ListProps,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import * as React from "react";
 
@@ -48,8 +48,8 @@ export const PageEdit: React.FC<EditProps> = (props) => {
         <FormTab label="Generals">
           <TextInput source="title" />
           <TextInput source="path" />
-          <ReactPageInput source="excerpt" onlyText />
-          <ReactPageInput source="body2" />
+          <BlockNoteInput source="excerpt" onlyText />
+          <BlockNoteInput source="body2" />
           <DateField source="createdAt" />
           <DateField source="updatedAt" />
         </FormTab>
@@ -64,8 +64,8 @@ export const PageCreate: React.FC<CreateProps> = (props) => (
       <TextInput source="title" validate={[required()]} />
       <TextInput source="path" validate={[required()]} />
       <TextInput source="body" multiline />
-      <ReactPageInput source="excerpt" validate={[required()]} onlyText />
-      <ReactPageInput source="body2" validate={[required()]} />
+      <BlockNoteInput source="excerpt" validate={[required()]} onlyText />
+      <BlockNoteInput source="body2" validate={[required()]} />
     </SimpleForm>
   </Create>
 );

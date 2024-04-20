@@ -104,6 +104,7 @@ describe("Create From TG Message", () => {
         const { id, ...expectedExcerpt } = createExcerptValue(
           editor.liexpSlate,
         )(description);
+
         expectedExcerpt.rows = expectedExcerpt.rows.map(
           ({ id, ...r }) => r,
         ) as any[];

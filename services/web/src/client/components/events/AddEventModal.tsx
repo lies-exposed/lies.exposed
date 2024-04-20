@@ -3,6 +3,7 @@ import { type http } from "@liexp/shared/lib/io/index.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import CreateEventCard from "@liexp/ui/lib/components/Cards/Events/CreateEventCard.js";
 import EventCard from "@liexp/ui/lib/components/Cards/Events/EventCard.js";
+import { toBNDocument } from "@liexp/ui/lib/components/Common/BlockNote/utils.js";
 import { editor } from "@liexp/ui/lib/components/Common/Editor/index.js";
 import {
   Box,
@@ -110,16 +111,18 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
         },
         {
           onSuccess: (data) => {
-            setUrl({
-              value: "",
-              submitted: url.value,
-              suggestions: getSuggestions(editor.createExcerptValue)(
-                data.metadata,
-                O.fromNullable(data.link),
-                O.none,
-                data.relations,
-              ),
-              events: [],
+            void getSuggestions(toBNDocument)(
+              data.metadata,
+              O.fromNullable(data.link),
+              O.none,
+              data.relations,
+            ).then((suggestions) => {
+              setUrl({
+                value: "",
+                submitted: url.value,
+                suggestions,
+                events: [],
+              });
             });
           },
         },

@@ -190,7 +190,6 @@ export const GroupInlineRenderer: SlateComponentPluginDefinition<GroupInlineStat
     readOnly,
     ...props
   }) => {
-
     return (
       <ComponentPickerPopoverRendererAnchorWrapper
         name={`group-${group?.id}`}

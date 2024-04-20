@@ -6,7 +6,7 @@ import {
   type MinimalEndpoint,
   type MinimalEndpointInstance,
 } from "ts-endpoint";
-import { serializedType } from 'ts-io-error/lib/Codec.js';
+import { serializedType } from "ts-io-error/lib/Codec.js";
 import { EndpointsMapType } from "../../endpoints/Endpoints.js";
 import {
   type EndpointsRESTClient,
@@ -34,7 +34,10 @@ export interface ResourceEndpointsQueriesOverride<
   CC,
 > {
   get?: G extends MinimalEndpointInstance
-    ? GetQueryOverride<GetFnParams<G>, Partial<serializedType<InferEndpointParams<G>["query"]>>>
+    ? GetQueryOverride<
+        GetFnParams<G>,
+        Partial<serializedType<InferEndpointParams<G>["query"]>>
+      >
     : never;
   list?: L extends MinimalEndpointInstance
     ? GetQueryOverride<GetListFnParamsE<L>, Partial<GetEndpointQueryType<L>>>

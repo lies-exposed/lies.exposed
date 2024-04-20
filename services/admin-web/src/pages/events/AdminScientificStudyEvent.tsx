@@ -1,6 +1,6 @@
 import { EventTypes } from "@liexp/shared/lib/io/http/Events/index.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput.js";
 import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField.js";
 import URLMetadataInput from "@liexp/ui/lib/components/admin/common/URLMetadataInput.js";
@@ -93,8 +93,8 @@ export const ScientificStudyCreate: React.FC<CreateProps> = (props) => {
                   <DateInput source="date" />
                   <TextInput source="payload.title" />
                   <TextInput source="payload.url" />
-                  <ReactPageInput source="excerpt" onlyText />
-                  <ReactPageInput source="body" />
+                  <BlockNoteInput source="excerpt" onlyText />
+                  <BlockNoteInput source="body" />
                   <ReferenceArrayActorInput
                     source="payload.authors"
                     initialValue={[]}

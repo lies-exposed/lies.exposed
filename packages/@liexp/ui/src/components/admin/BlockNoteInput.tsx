@@ -1,10 +1,3 @@
-import { fp } from "@liexp/core/lib/fp/index.js";
-import { PARAGRAPH_TYPE } from "@liexp/react-page/lib/customSlate.js";
-import {
-  DeserializeSlatePluginFN,
-  isValidValue,
-  transform,
-} from "@liexp/react-page/lib/utils.js";
 import { get } from "lodash";
 import * as React from "react";
 import {
@@ -16,23 +9,10 @@ import {
 import { ErrorBoundary } from "react-error-boundary";
 import { BNEditor, BNEditorProps } from "../Common/BlockNote/Editor.js";
 import { type BNESchemaEditor } from "../Common/BlockNote/EditorSchema.js";
+import { fromSlateToBlockNote } from "../Common/BlockNote/utils.js";
 import { ErrorBox } from "../Common/ErrorBox.js";
 import JSONInput from "../Common/JSON/JSONInput.js";
 import { FormControlLabel, Paper, Switch } from "../mui/index.js";
-
-const deserializeSlatePluginToBlockNoteEditor: DeserializeSlatePluginFN<any> = (
-  p,
-) => {
-  if (p.type === PARAGRAPH_TYPE) {
-    return fp.O.some(
-      ((p as any).children ?? []).map((c: any) => ({
-        type: "paragraph",
-        content: c.text,
-      })),
-    );
-  }
-  return fp.O.none;
-};
 
 export interface RaBlockNoteInputProps extends Omit<BNEditorProps, "content"> {
   className?: string;
@@ -58,12 +38,7 @@ const RaBlockNoteInput: React.FC<RaBlockNoteInputProps> = ({
     field: { value, onChange },
   } = useInput<BNESchemaEditor["document"]>({
     source,
-    format: (v) => {
-      if (isValidValue(v)) {
-        return transform(v, deserializeSlatePluginToBlockNoteEditor);
-      }
-      return v;
-    },
+    format: fromSlateToBlockNote,
     defaultValue,
   });
 
@@ -73,10 +48,6 @@ const RaBlockNoteInput: React.FC<RaBlockNoteInputProps> = ({
     onChange([]);
     setShowJSONEditor(false);
   };
-
-  // const parseReactPageValue = (value: Value) => {
-  //   const content = getTextContents(editor.liexpSlate)(value);
-  // };
 
   return (
     <Labeled

@@ -1,4 +1,3 @@
-import { isValidValue } from "@liexp/react-page/lib/utils.js";
 import {
   IframeVideoType,
   MP3Type,
@@ -9,7 +8,7 @@ import { type Events, type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useModal } from "../../../hooks/useModal.js";
 import { useTheme } from "../../../theme/index.js";
-import { editor } from "../../Common/Editor/index.js";
+import { BNEditor } from "../../Common/BlockNote/Editor.js";
 import { MediaModalContent } from "../../Modal/MediaSliderModal.js";
 import { MediaList } from "../../lists/MediaList.js";
 import { Box, Grid } from "../../mui/index.js";
@@ -87,14 +86,14 @@ export const DefaultEventPageContent: React.FC<
         {modal}
       </Grid>
       <Grid item>
-        {isValidValue(event.excerpt) ? (
+        {event.excerpt ? (
           <Box style={{ marginBottom: theme.spacing(2) }}>
-            <editor.LazyEditor value={event.excerpt} readOnly={true} />
+            <BNEditor content={event.excerpt as any} readOnly />
           </Box>
         ) : null}
-        {isValidValue(event.body) ? (
+        {event.body ? (
           <Box style={{ marginBottom: theme.spacing(2) }}>
-            <editor.LazyEditor value={event.body} readOnly={true} />
+            <BNEditor content={event.body as any} readOnly />
           </Box>
         ) : null}
       </Grid>

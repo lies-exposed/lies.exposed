@@ -1,5 +1,5 @@
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput.js";
 import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField.js";
 import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm.js";
@@ -88,7 +88,7 @@ export const DocumentaryCreate: React.FC<CreateProps> = () => {
           allowedTypes={["video/mp4", "iframe/video"]}
           source="newMedia"
         />
-        <ReactPageInput source="excerpt" onlyText />
+        <BlockNoteInput source="excerpt" onlyText />
         {/** Authors */}
         <ReferenceArrayActorInput
           source="payload.authors.actors"
@@ -109,7 +109,7 @@ export const DocumentaryCreate: React.FC<CreateProps> = () => {
           defaultValue={[]}
         />
 
-        <ReactPageInput source="body" />
+        <BlockNoteInput source="body" />
 
         <ReferenceArrayKeywordInput
           source="keywords"

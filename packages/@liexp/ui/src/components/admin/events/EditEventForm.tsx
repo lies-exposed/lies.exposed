@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
-import BlockNoteInput from '../BlockNoteInput.js';
+import BlockNoteInput from "../BlockNoteInput.js";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
 import { EditForm } from "../common/EditForm.js";
 import { ImportMediaButton } from "../media/button/ImportMediaButton.js";

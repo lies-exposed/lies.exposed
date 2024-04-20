@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import * as React from "react";
-import { editor } from "./Editor/index.js";
+import { BNEditor } from "./BlockNote/Editor.js";
 
 // export const components: MDXProviderComponentsProp = {
 //   // layout
@@ -58,5 +58,5 @@ import { editor } from "./Editor/index.js";
 // };
 
 export const MarkdownRenderer: React.FC<{ children: any }> = ({ children }) => {
-  return <editor.LazyEditor value={children} readOnly />;
+  return <BNEditor content={children} readOnly />;
 };

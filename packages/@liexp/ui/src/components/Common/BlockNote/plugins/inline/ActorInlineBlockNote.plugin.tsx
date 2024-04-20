@@ -1,6 +1,4 @@
-import {
-  createReactInlineContentSpec
-} from "@blocknote/react";
+import { createReactInlineContentSpec } from "@blocknote/react";
 import React from "react";
 import ActorChipBox from "../../../../../containers/actors/ActorChipBox.js";
 import { ActorIcon } from "../../../Icons/FAIcon.js";

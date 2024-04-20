@@ -2,6 +2,7 @@ import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
 import { UUID } from "io-ts-types/lib/UUID.js";
 import { optionFromUndefined } from "../../Common/optionFromUndefined.js";
+import { BlockNoteDocument } from "../Common/BlockNoteDocument.js";
 import { CreateLink } from "../Link.js";
 import { MediaType } from "../Media.js";
 
@@ -29,8 +30,8 @@ export const EditEventBody = t.strict(
     keywords: optionFromUndefined(t.array(t.string)),
     startDate: optionFromUndefined(DateFromISOString),
     endDate: optionFromUndefined(DateFromISOString),
-    body: optionFromUndefined(t.UnknownRecord),
-    excerpt: optionFromUndefined(t.UnknownRecord),
+    body: optionFromUndefined(BlockNoteDocument),
+    excerpt: optionFromUndefined(BlockNoteDocument),
   },
   "EditEventPayload",
 );

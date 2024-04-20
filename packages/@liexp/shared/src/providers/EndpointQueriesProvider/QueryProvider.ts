@@ -70,8 +70,15 @@ export const fetchQuery =
 const toGetResourceQuery = <G>(
   getFn: GetFn<G>,
   key: string,
-  override?: GetQueryOverride<GetFnParams<G>, Partial<serializedType<InferEndpointParams<G>["query"]>>>,
-): ResourceQuery<GetFnParams<G>, Partial<serializedType<InferEndpointParams<G>["query"]>>, EndpointOutput<G>> => {
+  override?: GetQueryOverride<
+    GetFnParams<G>,
+    Partial<serializedType<InferEndpointParams<G>["query"]>>
+  >,
+): ResourceQuery<
+  GetFnParams<G>,
+  Partial<serializedType<InferEndpointParams<G>["query"]>>,
+  EndpointOutput<G>
+> => {
   const getKey: GetKeyFn<
     GetFnParams<G>,
     Partial<serializedType<InferEndpointParams<G>["query"]>>
@@ -101,7 +108,10 @@ const toGetResourceQuery = <G>(
 export const toGetListResourceQuery = <L>(
   getListFn: GetListFn<L>,
   key: string,
-  override?: GetQueryOverride<GetListFnParamsE<L>, Partial<GetEndpointQueryType<L>>>,
+  override?: GetQueryOverride<
+    GetListFnParamsE<L>,
+    Partial<GetEndpointQueryType<L>>
+  >,
 ): ResourceQuery<
   GetListFnParamsE<L>,
   Partial<GetEndpointQueryType<L>>,

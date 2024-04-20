@@ -6,6 +6,7 @@ import {
 import { UUID } from "io-ts-types/lib/UUID.js";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { BaseProps } from "./Common/BaseProps.js";
+import { BlockNoteDocument } from "./Common/BlockNoteDocument.js";
 import { Color } from "./Common/Color.js";
 import { ListOutput, Output } from "./Common/Output.js";
 import { GetListQuery } from "./Query/index.js";
@@ -30,7 +31,7 @@ export interface GroupC extends t.Props {
   members: t.ArrayC<t.StringC>;
   subGroups: t.ArrayC<t.ExactType<t.TypeC<GroupC>>>;
   body: t.StringC;
-  body2: t.UnionC<[t.UnknownRecordC, t.UndefinedC]>;
+  body2: t.UnionC<[typeof BlockNoteDocument, t.UndefinedC]>;
 }
 
 export type GroupType = t.RecursiveType<t.ExactC<t.TypeC<GroupC>>>;
@@ -60,15 +61,15 @@ export const CreateGroupBody = t.strict(
     color: t.string,
     kind: GroupKind,
     avatar: t.string,
-    excerpt: t.union([t.any, t.undefined]),
-    body: t.union([t.any, t.undefined]),
+    excerpt: t.union([BlockNoteDocument, t.undefined]),
+    body: t.union([BlockNoteDocument, t.undefined]),
     startDate: t.union([DateFromISOString, t.undefined]),
     endDate: t.union([DateFromISOString, t.undefined]),
     members: t.array(
       t.strict(
         {
           actor: UUID,
-          body: t.UnknownRecord,
+          body: BlockNoteDocument,
           startDate: DateFromISOString,
           endDate: optionFromNullable(DateFromISOString),
         },
@@ -90,7 +91,7 @@ export const EditGroupBody = t.strict(
         t.strict(
           {
             actor: UUID,
-            body: t.UnknownRecord,
+            body: BlockNoteDocument,
             startDate: DateFromISOString,
             endDate: optionFromNullable(DateFromISOString),
           },

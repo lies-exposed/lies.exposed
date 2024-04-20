@@ -2,6 +2,7 @@ import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { BaseProps } from "./Common/BaseProps.js";
+import { BlockNoteDocument } from "./Common/BlockNoteDocument.js";
 import { Color } from "./Common/Color.js";
 import { GetListQuery } from "./Query/index.js";
 
@@ -28,8 +29,8 @@ export const AddActorBody = t.strict(
     username: t.string,
     fullName: t.string,
     color: t.string,
-    body: t.any,
-    excerpt: t.any,
+    excerpt: BlockNoteDocument,
+    body: t.union([BlockNoteDocument, t.undefined]),
     avatar: t.union([t.undefined, t.string]),
     bornOn: t.union([DateFromISOString, t.undefined]),
     diedOn: t.union([DateFromISOString, t.undefined]),
@@ -48,8 +49,8 @@ export const Actor = t.strict(
     color: Color,
     memberIn: t.array(t.string),
     death: t.union([t.undefined, t.string]),
-    excerpt: t.union([t.any, t.null]),
-    body: t.union([t.any, t.null]),
+    excerpt: t.union([BlockNoteDocument, t.any, t.null]),
+    body: t.union([BlockNoteDocument, t.any, t.null]),
     bornOn: t.union([DateFromISOString, t.undefined]),
     diedOn: t.union([DateFromISOString, t.undefined]),
   },

@@ -199,6 +199,7 @@ const searchQueryDefaults: SearchEventQuery = {
   emptyGroups: O.none,
   onlyUnshared: O.none,
   order: {},
+  relations: O.none
 };
 
 const addWhereToQueryBuilder = (

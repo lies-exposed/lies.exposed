@@ -50,6 +50,7 @@ function Main(): JSX.Element {
           queries: {
             notifyOnChangeProps: ["isLoading", "isError", "data", "error"],
             refetchOnMount: false,
+            refetchOnWindowFocus: false,
           },
         },
       }),

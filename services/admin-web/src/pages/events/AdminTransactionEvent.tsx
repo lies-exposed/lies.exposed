@@ -1,5 +1,5 @@
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput.js";
 import ReferenceAreaInput from "@liexp/ui/lib/components/admin/areas/input/ReferenceAreaInput.js";
 import { ReferenceBySubjectField } from "@liexp/ui/lib/components/admin/common/inputs/BySubject/ReferenceBySubjectField.js";
@@ -91,7 +91,7 @@ export const TransactionEdit: React.FC<EditProps> = (props: EditProps) => {
           <DateInput source="date" />
           <ReferenceBySubjectInput source="payload.from" />
           <ReferenceBySubjectInput source="payload.to" />
-          <ReactPageInput source="excerpt" onlyText />
+          <BlockNoteInput source="excerpt" onlyText />
           <ReferenceArrayKeywordInput
             source="keywords"
             defaultValue={[]}
@@ -128,8 +128,8 @@ export const TransactionCreate: React.FC<CreateProps> = (props) => {
         <ReferenceBySubjectInput source="payload.from" />
         <ReferenceBySubjectInput source="payload.to" />
 
-        <ReactPageInput source="excerpt" onlyText />
-        <ReactPageInput source="body" />
+        <BlockNoteInput source="excerpt" onlyText />
+        <BlockNoteInput source="body" />
 
         <ReferenceArrayKeywordInput
           source="keywords"
