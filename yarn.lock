@@ -3691,7 +3691,7 @@ __metadata:
     "@mui/material": ^5.15.15
     "@mui/styles": ^5.15.15
     "@mui/system": ^5.15.15
-    "@mui/x-data-grid": ^7.1.0
+    "@mui/x-data-grid": ^7.3.0
     "@reach/router": ^1.3.4
     "@tanstack/eslint-plugin-query": ^5.28.11
     "@tanstack/react-query": ^5.28.14
@@ -4062,9 +4062,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/x-data-grid@npm:^7.1.0":
-  version: 7.1.0
-  resolution: "@mui/x-data-grid@npm:7.1.0"
+"@mui/x-data-grid@npm:^7.3.0":
+  version: 7.3.0
+  resolution: "@mui/x-data-grid@npm:7.3.0"
   dependencies:
     "@babel/runtime": ^7.24.0
     "@mui/system": ^5.15.14
@@ -4076,7 +4076,7 @@ __metadata:
     "@mui/material": ^5.15.14
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-  checksum: 7a4982690d8be3abced4c33fc89a941c3a61b0d800a94ab2b4581ad5392e4ee42f229edc9b78a067291250ca733c0958802fbfa6cd76bbd4101e126833bcc434
+  checksum: 926e5812bac9ba885f071a8de0351dc7f6bec9fbf817aea19351b5e752ba75f5e2b495863561d9103de3163764ba75a796230b81ca688c1cde16bbff324f86f6
   languageName: node
   linkType: hard
 
