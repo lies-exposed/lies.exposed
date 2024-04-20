@@ -40,14 +40,17 @@ export const toInitialValue = (v: any): any => {
   return {};
 };
 
-export const toBNDocument = (
+export const toBNDocument = async (
   v: any,
 ): Promise<BNESchemaEditor["document"] | null> => {
   const initialValue = toInitialValue(v);
+  console.log("initial value", initialValue);
   if (initialValue.initialContent) {
-    return schema.BlockNoteEditor.tryParseHTMLToBlocks(
+    const result = await schema.BlockNoteEditor.tryParseHTMLToBlocks(
       initialValue.initialContent,
     );
+    console.log("parsed value", result);
+    return result;
   }
   return Promise.resolve(null);
 };
