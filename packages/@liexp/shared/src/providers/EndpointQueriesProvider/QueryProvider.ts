@@ -3,9 +3,11 @@ import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { useQuery } from "@tanstack/react-query";
 import * as R from "fp-ts/lib/Record.js";
 import {
+  InferEndpointParams,
   type MinimalEndpoint,
   type MinimalEndpointInstance,
 } from "ts-endpoint";
+import { serializedType } from "ts-io-error/lib/Codec.js";
 import { EndpointsMapType } from "../../endpoints/Endpoints.js";
 import {
   type EndpointOutput,
@@ -13,7 +15,7 @@ import {
   type GetFnParams,
   type GetListFn,
   type GetListFnParamsE,
-  type GetListFnQuery,
+  type GetEndpointQueryType,
   type Query,
 } from "../EndpointsRESTClient/EndpointsRESTClient.js";
 import {
@@ -68,14 +70,17 @@ export const fetchQuery =
 const toGetResourceQuery = <G>(
   getFn: GetFn<G>,
   key: string,
-  override?: GetQueryOverride<GetFnParams<G>>,
-): ResourceQuery<GetFnParams<G>, any, EndpointOutput<G>> => {
-  const getKey: GetKeyFn<GetFnParams<G>> =
-    override?.getKey ?? getDefaultKey(key);
-  const fetch: QueryPromiseFunction<GetFnParams<G>, any, EndpointOutput<G>> = (
-    params,
-    query,
-  ) => {
+  override?: GetQueryOverride<GetFnParams<G>, Partial<serializedType<InferEndpointParams<G>["query"]>>>,
+): ResourceQuery<GetFnParams<G>, Partial<serializedType<InferEndpointParams<G>["query"]>>, EndpointOutput<G>> => {
+  const getKey: GetKeyFn<
+    GetFnParams<G>,
+    Partial<serializedType<InferEndpointParams<G>["query"]>>
+  > = override?.getKey ?? getDefaultKey(key);
+  const fetch: QueryPromiseFunction<
+    GetFnParams<G>,
+    Partial<serializedType<InferEndpointParams<G>["query"]>>,
+    EndpointOutput<G>
+  > = (params, query) => {
     return getFn(params, query);
   };
   return {
@@ -96,15 +101,19 @@ const toGetResourceQuery = <G>(
 export const toGetListResourceQuery = <L>(
   getListFn: GetListFn<L>,
   key: string,
-  override?: GetQueryOverride<GetListFnParamsE<L>, GetListFnQuery<L>>,
-): ResourceQuery<GetListFnParamsE<L>, GetListFnQuery<L>, EndpointOutput<L>> => {
+  override?: GetQueryOverride<GetListFnParamsE<L>, Partial<GetEndpointQueryType<L>>>,
+): ResourceQuery<
+  GetListFnParamsE<L>,
+  Partial<GetEndpointQueryType<L>>,
+  EndpointOutput<L>
+> => {
   const getKey: GetKeyFn<
     GetListFnParamsE<L>,
-    GetListFnQuery<L>
+    Partial<GetEndpointQueryType<L>>
   > = override?.getKey ?? getDefaultKey(key);
   const fetch: QueryPromiseFunction<
     GetListFnParamsE<L>,
-    GetListFnQuery<L>,
+    Partial<GetEndpointQueryType<L>>,
     EndpointOutput<L>
   > = fetchQuery((p: any, q: any) => getListFn(p));
   return {

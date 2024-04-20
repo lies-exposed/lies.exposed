@@ -5,6 +5,7 @@ import { parseDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI.js";
+import BlockNoteInput from '@liexp/ui/lib/components/admin/BlockNoteInput.js';
 import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
 import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput.js";
 import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField.js";
@@ -184,6 +185,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
               </Box>
             </Grid>
           </Grid>
+          <BlockNoteInput source="excerpt" />
           <ReactPageInput label="excerpt" source="excerpt" />
         </FormTab>
         <FormTab label="Avatar">

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
-import ReactPageInput from "../ReactPageInput.js";
+import BlockNoteInput from '../BlockNoteInput.js';
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
 import { EditForm } from "../common/EditForm.js";
 import { ImportMediaButton } from "../media/button/ImportMediaButton.js";
@@ -45,7 +45,7 @@ export const EditEventForm: React.FC<EditEventFormProps> = ({
           </EventGeneralTab>
         </FormTab>
         <FormTab label="body">
-          <ReactPageInput label="body" source="body" />
+          <BlockNoteInput label="body" source="body" />
         </FormTab>
 
         <FormTab label="Media">

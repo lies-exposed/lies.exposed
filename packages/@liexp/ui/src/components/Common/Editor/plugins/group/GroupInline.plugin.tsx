@@ -190,12 +190,6 @@ export const GroupInlineRenderer: SlateComponentPluginDefinition<GroupInlineStat
     readOnly,
     ...props
   }) => {
-    // console.log("group inline", {
-    //   ...props,
-    //   group,
-    //   displayAvatar,
-    //   className,
-    // });
 
     return (
       <ComponentPickerPopoverRendererAnchorWrapper

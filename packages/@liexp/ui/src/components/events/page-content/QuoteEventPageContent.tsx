@@ -1,7 +1,7 @@
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { Avatar } from "../../Common/Avatar.js";
-import { editor } from "../../Common/Editor/index.js";
+import { BNEditor } from '../../Common/BlockNote/Editor.js';
 import { Box, Grid, Typography } from "../../mui/index.js";
 
 interface QuoteEventPageContentProps {
@@ -22,7 +22,7 @@ export const QuoteEventPageContent: React.FC<QuoteEventPageContentProps> = ({
     >
       <Grid item md={6} sm={6} xs={12} style={{ padding: 10 }}>
         <Typography style={{ display: "flex" }} variant="subtitle1">
-          {editor.getTextContents(item.excerpt as any)}
+          <BNEditor content={item.excerpt as any} readOnly={true} />
         </Typography>
         <Typography variant="caption" fontStyle="italic">
           {item.payload.details}

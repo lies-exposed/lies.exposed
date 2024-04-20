@@ -1,4 +1,10 @@
-import { type EditorProps } from "@liexp/react-page/lib/react-page.types.js";
+import { fp } from "@liexp/core/lib/fp/index.js";
+import { PARAGRAPH_TYPE } from "@liexp/react-page/lib/customSlate.js";
+import {
+  DeserializeSlatePluginFN,
+  isValidValue,
+  transform,
+} from "@liexp/react-page/lib/utils.js";
 import { get } from "lodash";
 import * as React from "react";
 import {
@@ -8,19 +14,33 @@ import {
   type InputProps,
 } from "react-admin";
 import { ErrorBoundary } from "react-error-boundary";
-import { BNEditor } from "../Common/BlockNote/Editor.js";
-import { schema } from "../Common/BlockNote/EditorSchema.js";
+import { BNEditor, BNEditorProps } from "../Common/BlockNote/Editor.js";
+import { type BNESchemaEditor } from "../Common/BlockNote/EditorSchema.js";
 import { ErrorBox } from "../Common/ErrorBox.js";
 import JSONInput from "../Common/JSON/JSONInput.js";
 import { FormControlLabel, Paper, Switch } from "../mui/index.js";
 
-export type RaBlockNoteInputProps = {
+const deserializeSlatePluginToBlockNoteEditor: DeserializeSlatePluginFN<any> = (
+  p,
+) => {
+  if (p.type === PARAGRAPH_TYPE) {
+    return fp.O.some(
+      ((p as any).children ?? []).map((c: any) => ({
+        type: "paragraph",
+        content: c.text,
+      })),
+    );
+  }
+  return fp.O.none;
+};
+
+export interface RaBlockNoteInputProps extends Omit<BNEditorProps, "content"> {
   className?: string;
   label?: string;
   source: string;
   style?: React.CSSProperties;
   variant?: "plain" | "extended";
-} & Omit<EditorProps, "cellPlugins">;
+}
 
 const RaBlockNoteInput: React.FC<RaBlockNoteInputProps> = ({
   label = "Content",
@@ -30,20 +50,22 @@ const RaBlockNoteInput: React.FC<RaBlockNoteInputProps> = ({
   className,
   variant,
   readOnly,
-  ...editorProps
 }) => {
   const record = useRecordContext();
   const defaultValue = get(record, source) ?? [];
 
-  console.log("defaultValue", defaultValue);
   const {
     field: { value, onChange },
-  } = useInput<typeof schema.BlockNoteEditor.document>({
+  } = useInput<BNESchemaEditor["document"]>({
     source,
+    format: (v) => {
+      if (isValidValue(v)) {
+        return transform(v, deserializeSlatePluginToBlockNoteEditor);
+      }
+      return v;
+    },
     defaultValue,
   });
-
-  console.log("value", value);
 
   const [showJSONEditor, setShowJSONEditor] = React.useState(false);
 
@@ -52,7 +74,10 @@ const RaBlockNoteInput: React.FC<RaBlockNoteInputProps> = ({
     setShowJSONEditor(false);
   };
 
-  console.log(editorProps);
+  // const parseReactPageValue = (value: Value) => {
+  //   const content = getTextContents(editor.liexpSlate)(value);
+  // };
+
   return (
     <Labeled
       className={className}
@@ -106,14 +131,17 @@ const RaBlockNoteInput: React.FC<RaBlockNoteInputProps> = ({
 };
 
 const BlockNoteInput: React.FC<
-  InputProps & { className?: string; onlyText?: boolean }
-> = ({ onlyText = false, ...props }) => {
+  InputProps & {
+    className?: string;
+    onlyText?: boolean;
+  }
+> = ({ onlyText = false, readOnly, ...props }) => {
   return (
     <RaBlockNoteInput
       {...props}
       label={typeof props.label === "string" ? props.label : props.source}
       variant={onlyText ? "plain" : "extended"}
-      lang="en"
+      readOnly={readOnly ?? false}
     />
   );
 };

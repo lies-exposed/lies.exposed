@@ -20,8 +20,8 @@ const SlateValue = t.partial(
 
 export const CreateEventCommon = t.strict(
   {
-    excerpt: t.union([SlateValue, t.undefined]),
-    body: t.union([SlateValue, t.undefined]),
+    excerpt: t.union([SlateValue, t.array(t.any), t.undefined]),
+    body: t.union([SlateValue, t.array(t.any), t.undefined]),
     date: DateFromISOString,
     draft: t.boolean,
     media: t.array(t.union([UUID, CreateMedia])),

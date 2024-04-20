@@ -98,7 +98,7 @@ export const EventBlockPluginControl: CellPluginCustomControlsComonent<
   const selectedItems = React.useMemo(() => s.events, [s.events]);
 
   return (
-    <Box style={{ height: 200 }}>
+    <Box style={{ height: 150 }}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <AutocompleteEventInput

@@ -1,3 +1,4 @@
+import { isValidValue } from '@liexp/react-page/lib/utils.js';
 import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
@@ -89,7 +90,7 @@ export const transformQuote = (
     ...data,
     payload: {
       ...data.payload,
-      quote: editor.getTextContents(data.excerpt, "\n\n"),
+      quote: isValidValue(data.excerpt) ? editor.getTextContents(data.excerpt, "\n\n") : "",
     },
   };
 };

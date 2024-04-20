@@ -60,8 +60,8 @@ export const CreateGroupBody = t.strict(
     color: t.string,
     kind: GroupKind,
     avatar: t.string,
-    excerpt: t.union([t.UnknownRecord, t.undefined]),
-    body: t.UnknownRecord,
+    excerpt: t.union([t.any, t.undefined]),
+    body: t.union([t.any, t.undefined]),
     startDate: t.union([DateFromISOString, t.undefined]),
     endDate: t.union([DateFromISOString, t.undefined]),
     members: t.array(
@@ -116,8 +116,8 @@ export const Group = t.strict(
     avatar: t.union([t.undefined, t.string]),
     subGroups: t.array(t.string),
     members: t.array(t.string),
-    excerpt: t.union([t.UnknownRecord, t.null]),
-    body: t.union([t.UnknownRecord, t.null]),
+    excerpt: t.union([t.any, t.null]),
+    body: t.union([t.any, t.null]),
   },
   "Group",
 );
