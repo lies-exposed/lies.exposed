@@ -11495,12 +11495,12 @@ __metadata:
   linkType: hard
 
 "d3-scale-chromatic@npm:3":
-  version: 3.0.0
-  resolution: "d3-scale-chromatic@npm:3.0.0"
+  version: 3.1.0
+  resolution: "d3-scale-chromatic@npm:3.1.0"
   dependencies:
     d3-color: 1 - 3
     d3-interpolate: 1 - 3
-  checksum: a8ce4cb0267a17b28ebbb929f5e3071d985908a9c13b6fcaa2a198e1e018f275804d691c5794b970df0049725b7944f32297b31603d235af6414004f0c7f82c0
+  checksum: ab6324bd8e1f708e731e02ab44e09741efda2b174cea1d8ca21e4a87546295e99856bc44e2fd3890f228849c96bccfbcf922328f95be6a7df117453eb5cf22c9
   languageName: node
   linkType: hard
 
