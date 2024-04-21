@@ -12,7 +12,7 @@ import * as React from "react";
 import { Button } from "react-admin";
 import { useNavigate } from "react-router";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
-import { toBNDocument } from '../../Common/BlockNote/utils.js';
+import { toBNDocument } from "../../Common/BlockNote/utils/utils.js";
 import { ErrorBox } from "../../Common/ErrorBox.js";
 import { Box, MenuItem, Select } from "../../mui/index.js";
 import EventPreview from "../previews/EventPreview.js";

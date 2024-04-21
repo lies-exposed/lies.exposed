@@ -2,7 +2,7 @@ import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
-import { toBNDocument } from "@liexp/ui/lib/components/Common/BlockNote/utils.js";
+import { toBNDocument } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 import { loginUser, saveUser } from "../../../../test/user.utils.js";
 import { ActorEntity } from "#entities/Actor.entity.js";

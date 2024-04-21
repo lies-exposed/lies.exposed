@@ -8,8 +8,7 @@ import {
 } from "react-admin";
 import { ErrorBoundary } from "react-error-boundary";
 import { BNEditor, BNEditorProps } from "../Common/BlockNote/Editor.js";
-import { type BNESchemaEditor } from "../Common/BlockNote/EditorSchema.js";
-import { fromSlateToBlockNote } from "../Common/BlockNote/utils.js";
+import { fromSlateToBlockNote } from "../Common/BlockNote/utils/utils.js";
 import { ErrorBox } from "../Common/ErrorBox.js";
 import JSONInput from "../Common/JSON/JSONInput.js";
 import { FormControlLabel, Paper, Switch } from "../mui/index.js";
@@ -36,7 +35,7 @@ const RaBlockNoteInput: React.FC<RaBlockNoteInputProps> = ({
 
   const {
     field: { value, onChange },
-  } = useInput<BNESchemaEditor["document"]>({
+  } = useInput({
     source,
     format: fromSlateToBlockNote,
     defaultValue,

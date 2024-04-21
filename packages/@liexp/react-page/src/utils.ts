@@ -88,28 +88,23 @@ const deserializeRow =
 
 export function transform<T>(
   v: { rows: Row[] },
-  f: DeserializeSlatePluginFN<T>,
+  f: (c: Cell) => Option<T[]>,
 ): T[] | null {
   if (v.rows.length === 0) {
     return null;
   }
 
-  return pipe(
-    v.rows,
-    fp.A.map(deserializeRow((c) => deserializeCell(f)(c))),
-    fp.A.flatten,
-  );
+  return pipe(v.rows, fp.A.map(deserializeRow(f)), fp.A.flatten);
 }
 
 interface InlineRelation {
   id: string;
   type: "actor" | "group" | "keyword" | "event" | "media";
 }
-export type DeserializeSlatePluginFN<T> = (
-  p: SlateComponentPluginDefinition<any>,
-) => Option<T[]>;
 
-const deserializePlugin: DeserializeSlatePluginFN<InlineRelation> = (p) => {
+const deserializePlugin = (
+  p: SlateComponentPluginDefinition<any>,
+): Option<InlineRelation[]> => {
   // console.log(p.type, p);
   switch (p.type) {
     case ACTOR_INLINE: {
@@ -181,52 +176,50 @@ const deserializePlugin: DeserializeSlatePluginFN<InlineRelation> = (p) => {
   }
 };
 
-const deserializeCell =
-  <T>(deserializePlugin: DeserializeSlatePluginFN<T>) =>
-  (c: Cell): Option<T[]> => {
-    // console.log("cell", c);
-    if (c.dataI18n?.en?.slate) {
-      if (isSlatePlugin(c)) {
-        // console.log("is slate plugin");
-        const plugins: SlateComponentPluginDefinition<any>[] = c.dataI18n.en
-          .slate as any;
+const deserializeCell = (c: Cell): Option<InlineRelation[]> => {
+  // console.log("cell", c);
+  if (c.dataI18n?.en?.slate) {
+    if (isSlatePlugin(c)) {
+      // console.log("is slate plugin");
+      const plugins: SlateComponentPluginDefinition<any>[] = c.dataI18n.en
+        .slate as any;
 
-        return pipe(
-          plugins.map((p) =>
-            pipe(
-              deserializePlugin(p),
-              fp.O.getOrElse((): T[] => []),
-            ),
+      return pipe(
+        plugins.map((p) =>
+          pipe(
+            deserializePlugin(p),
+            fp.O.getOrElse((): InlineRelation[] => []),
           ),
-          // fp.A.traverse(fp.O.Applicative)((e) => {
-          //  const plug = deserializePlugin(e)
-          //  console.log('plug', plug);
-          //  return plug;
-          // }),
-          // (relations) => {
-          //   console.log({ relations });
-          //   return relations;
-          // },
-          fp.A.flatten,
-          fp.O.fromPredicate((arr) => arr.length > 0),
-        );
-      }
+        ),
+        // fp.A.traverse(fp.O.Applicative)((e) => {
+        //  const plug = deserializePlugin(e)
+        //  console.log('plug', plug);
+        //  return plug;
+        // }),
+        // (relations) => {
+        //   console.log({ relations });
+        //   return relations;
+        // },
+        fp.A.flatten,
+        fp.O.fromPredicate((arr) => arr.length > 0),
+      );
     }
+  }
 
-    if (isMediaBlockCell(c) || isEventBlockCell(c)) {
-      return deserializePlugin({
-        ...c.plugin,
-        type: c.plugin?.id,
-        data: c.dataI18n?.en as any,
-      } as any);
-    }
+  if (isMediaBlockCell(c) || isEventBlockCell(c)) {
+    return deserializePlugin({
+      ...c.plugin,
+      type: c.plugin?.id,
+      data: c.dataI18n?.en as any,
+    } as any);
+  }
 
-    // console.log("not a slate plugin");
-    return pipe(
-      transform({ rows: c.rows ?? ([] as Row[]) }, deserializePlugin),
-      fp.O.fromNullable,
-    );
-  };
+  // console.log("not a slate plugin");
+  return pipe(
+    transform({ rows: c.rows ?? [] }, deserializeCell),
+    fp.O.fromNullable,
+  );
+};
 
 export interface InlineRelations {
   actors: string[];
@@ -248,7 +241,7 @@ export const relationsTransformer = (value: Value): InlineRelations => {
   };
 
   return pipe(
-    transform(value, deserializePlugin),
+    transform(value, deserializeCell),
     fp.O.fromNullable,
     fp.O.map(
       fp.A.reduce(relations, (acc, r) => {

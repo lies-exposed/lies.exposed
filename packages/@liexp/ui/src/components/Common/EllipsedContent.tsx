@@ -1,10 +1,10 @@
-import { type Value } from "@liexp/react-page/lib/react-page.types.js";
 import * as React from "react";
 import { Box } from "../mui/index.js";
 import { BNEditor } from "./BlockNote/Editor.js";
+import { BNESchemaEditor } from "./BlockNote/EditorSchema.js";
 
 interface EllipsesContentProps {
-  content: Value;
+  content: BNESchemaEditor["document"];
   height: number;
 }
 
@@ -20,7 +20,7 @@ const EllipsesContent: React.FC<EllipsesContentProps> = ({
         overflow: "hidden",
       }}
     >
-      <BNEditor readOnly content={content as any} />
+      <BNEditor readOnly content={content} />
     </Box>
   );
 };

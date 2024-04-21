@@ -3,7 +3,7 @@ import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
 import { type Area, type Media } from "@liexp/shared/lib/io/http/index.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
-import { toBNDocumentTE } from "@liexp/ui/lib/components/Common/BlockNote/utils.js";
+import { toBNDocumentTE } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { fetchCoordinates } from "./fetchCoordinates.flow.js";

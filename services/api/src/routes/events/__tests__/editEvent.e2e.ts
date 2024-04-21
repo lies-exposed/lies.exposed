@@ -7,7 +7,7 @@ import { LinkArb } from "@liexp/shared/lib/tests/arbitrary/Link.arbitrary.js";
 import { MediaArb } from "@liexp/shared/lib/tests/arbitrary/Media.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
-import { toBNDocument } from "@liexp/ui/lib/components/Common/BlockNote/utils.js";
+import { toBNDocument } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import {
   loginUser,

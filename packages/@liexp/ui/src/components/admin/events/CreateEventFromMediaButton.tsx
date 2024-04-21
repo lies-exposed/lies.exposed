@@ -7,7 +7,7 @@ import { useRecordContext } from "ra-core";
 import * as React from "react";
 import { Button, useDataProvider } from "react-admin";
 import { useNavigate } from "react-router";
-import { toBNDocument } from "../../Common/BlockNote/utils.js";
+import { toBNDocument } from "../../Common/BlockNote/utils/utils.js";
 import { Box, MenuItem, Select, Stack } from "../../mui/index.js";
 
 export const CreateEventFromMediaButton: React.FC = () => {

@@ -3,8 +3,7 @@ import { type http } from "@liexp/shared/lib/io/index.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import CreateEventCard from "@liexp/ui/lib/components/Cards/Events/CreateEventCard.js";
 import EventCard from "@liexp/ui/lib/components/Cards/Events/EventCard.js";
-import { toBNDocument } from "@liexp/ui/lib/components/Common/BlockNote/utils.js";
-import { editor } from "@liexp/ui/lib/components/Common/Editor/index.js";
+import { toBNDocument } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import {
   Box,
   Button,

@@ -12,9 +12,10 @@ import * as t from "io-ts";
 import * as React from "react";
 import { useTheme } from "../../theme/index.js";
 import { BNEditor } from "../Common/BlockNote/Editor.js";
+import { InlineRelationsPlugin } from "../Common/BlockNote/plugins/renderer/InlineRelationsBoxPlugin.js";
+import { TOCPlugin } from "../Common/BlockNote/plugins/renderer/TOCPlugin.js";
+import { isValidValue } from "../Common/BlockNote/utils/isValidValue.js";
 import EditButton from "../Common/Button/EditButton.js";
-import { InlineRelationsPlugin } from "../Common/Editor/plugins/renderer/InlineRelationsBoxPlugin.js";
-import { TOCPlugin } from "../Common/Editor/plugins/renderer/TOCPlugin.js";
 import { MainContent } from "../MainContent.js";
 import { Grid, Typography, alpha } from "../mui/index.js";
 
@@ -109,7 +110,7 @@ export const StoryPageContent: React.FC<StoryPageContentProps> = ({
               </Typography>
             </div>
 
-            {body ? <BNEditor readOnly content={body} /> : null}
+            {isValidValue(body) ? <BNEditor readOnly content={body} /> : null}
           </MainContent>
         </Grid>
         <Grid item md={3}>

@@ -1,5 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { toBNDocumentTE } from "@liexp/ui/lib/components/Common/BlockNote/utils.js";
+import { toBNDocumentTE } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { type KeywordEntity } from "#entities/Keyword.entity.js";
@@ -11,7 +11,6 @@ export const createEventFromLink: TEFlow<
   [LinkEntity, KeywordEntity[]],
   EventV2Entity
 > = (ctx) => (l, hashtags) => {
-
   const publishDate = l.publishDate ?? new Date();
   return pipe(
     toBNDocumentTE(l.description),

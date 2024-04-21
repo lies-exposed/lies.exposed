@@ -2,7 +2,7 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { EventSuggestion, Events } from "@liexp/shared/lib/io/http/index.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
-import { toBNDocumentTE } from "@liexp/ui/lib/components/Common/BlockNote/utils.js";
+import { toBNDocumentTE } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import { addWeeks, subWeeks } from "date-fns";
 import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";
@@ -187,49 +187,55 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
 
         return TE.right({ suggestions, minDate, maxDate });
       }),
-      TE.chain(({ metadata, link, suggestions: { suggestions, minDate, maxDate } }) => {
-        return pipe(
-          searchEventV2Query(ctx)({
-            withDeleted: false,
-            withDrafts: false,
-            skip: 0,
-            take: 10,
-            type: O.none,
-            actors: O.none,
-            groups: O.none,
-            groupsMembers: O.none,
-            keywords: O.none,
-            media: O.none,
-            exclude: O.none,
-            links: pipe(
-              link,
-              O.map((l) => [l.id]),
+      TE.chain(
+        ({
+          metadata,
+          link,
+          suggestions: { suggestions, minDate, maxDate },
+        }) => {
+          return pipe(
+            searchEventV2Query(ctx)({
+              withDeleted: false,
+              withDrafts: false,
+              skip: 0,
+              take: 10,
+              type: O.none,
+              actors: O.none,
+              groups: O.none,
+              groupsMembers: O.none,
+              keywords: O.none,
+              media: O.none,
+              exclude: O.none,
+              links: pipe(
+                link,
+                O.map((l) => [l.id]),
+              ),
+              ids: O.none,
+              draft: O.none,
+              locations: O.none,
+              startDate: O.some(minDate),
+              endDate: O.some(maxDate),
+              q: O.fromNullable(metadata.title),
+            }),
+            ctx.logger.debug.logInTaskEither("Events %O"),
+            TE.chain(({ results, firstDate, lastDate, ...rest }) =>
+              pipe(
+                results,
+                A.map(toEventV2IO),
+                A.sequence(E.Applicative),
+                E.map((data) => ({
+                  data,
+                  suggestions,
+                  firstDate: firstDate?.toISOString(),
+                  lastDate: lastDate?.toISOString(),
+                  ...rest,
+                })),
+                TE.fromEither,
+              ),
             ),
-            ids: O.none,
-            draft: O.none,
-            locations: O.none,
-            startDate: O.some(minDate),
-            endDate: O.some(maxDate),
-            q: O.fromNullable(metadata.title),
-          }),
-          ctx.logger.debug.logInTaskEither("Events %O"),
-          TE.chain(({ results, firstDate, lastDate, ...rest }) =>
-            pipe(
-              results,
-              A.map(toEventV2IO),
-              A.sequence(E.Applicative),
-              E.map((data) => ({
-                data,
-                suggestions,
-                firstDate: firstDate?.toISOString(),
-                lastDate: lastDate?.toISOString(),
-                ...rest,
-              })),
-              TE.fromEither,
-            ),
-          ),
-        );
-      }),
+          );
+        },
+      ),
       TE.map((body) => ({
         body,
         statusCode: 200,

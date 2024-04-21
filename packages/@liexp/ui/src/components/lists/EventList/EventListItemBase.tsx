@@ -1,4 +1,3 @@
-import { isValidValue } from "@liexp/react-page/lib/utils.js";
 import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { MP3Type, OGGType } from "@liexp/shared/lib/io/http/Media.js";
 import type * as http from "@liexp/shared/lib/io/http/index.js";
@@ -7,7 +6,7 @@ import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { styled } from "../../../theme/index.js";
-import { editor } from "../../Common/Editor/index.js";
+import { getTextContentsCapped } from "../../Common/BlockNote/utils/index.js";
 import { EventIcon } from "../../Common/Icons/index.js";
 import { Box, Grid, Link, Typography } from "../../mui/index.js";
 import { MediaSlider } from "../../sliders/MediaSlider.js";
@@ -162,13 +161,13 @@ const EventListItemBase = <E extends any>({
         )),
         O.toNullable,
       )}
-      {isValidValue(excerpt) ? (
+      {excerpt ? (
         <Box>
           <Typography
             style={{ display: "flex", marginBottom: 20, flexGrow: 1 }}
             variant="body1"
           >
-            {editor.getTextContentsCapped(excerpt, 300)}
+            {getTextContentsCapped(excerpt, 300)}
           </Typography>
         </Box>
       ) : null}
