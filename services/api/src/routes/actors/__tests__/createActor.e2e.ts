@@ -1,6 +1,6 @@
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as tests from "@liexp/test";
-import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
+import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { loginUser, saveUser } from "../../../../test/user.utils.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 
@@ -66,6 +66,8 @@ describe("Create Actor", () => {
   });
 
   test("Should create actor", async () => {
+    const excerpt = [{ type: "paragraph", content: "my excerpt" }];
+    const body = [{ type: "paragraph", content: "my body" }];
     const response = await Test.req
       .post("/v1/actors")
       .set("Authorization", authorizationToken)
@@ -74,8 +76,8 @@ describe("Create Actor", () => {
         avatar: "http://myavatar-url.com/",
         color: "ffffff",
         fullName: tests.fc.sample(tests.fc.string())[0],
-        body: { content: "my content" },
-        excerpt: { content: "my excerpt" },
+        body: body,
+        excerpt: excerpt,
       });
 
     expect(response.status).toEqual(201);

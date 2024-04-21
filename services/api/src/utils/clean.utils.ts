@@ -5,7 +5,7 @@ export function cleanItemsFromSlateFields<T extends Actor.Actor | Group.Group>(
 ): T[] {
   return actors.map(({ body, excerpt, ...a }: any) => ({
     ...a,
-    excerpt: {},
-    body: {},
+    excerpt: [{ type: "paragraph", text: "" }],
+    body: [{ type: "paragraph", text: "" }],
   }));
 }

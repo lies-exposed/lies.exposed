@@ -1,3 +1,4 @@
+import { BlockNoteEditor } from "@blocknote/core";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { PARAGRAPH_TYPE } from "@liexp/react-page/lib/customSlate.js";
 import {
@@ -30,6 +31,13 @@ export const fromSlateToBlockNote = (v: any): any => {
 };
 
 export const toInitialValue = (v: any): any => {
+  if (typeof v === "string") {
+    return {
+      initialContent: v
+        .split("\n")
+        .map((v) => ({ type: "paragraph", content: v })),
+    };
+  }
   if (isValidValue(v)) {
     return { initialContent: fromSlateToBlockNote(v) };
   }
@@ -41,16 +49,18 @@ export const toInitialValue = (v: any): any => {
 };
 
 export const toBNDocument = async (
-  v: any,
+  v: unknown,
 ): Promise<BNESchemaEditor["document"] | null> => {
-  const initialValue = toInitialValue(v);
-  console.log("initial value", initialValue);
-  if (initialValue.initialContent) {
-    const result = await schema.BlockNoteEditor.tryParseHTMLToBlocks(
-      initialValue.initialContent,
-    );
-    console.log("parsed value", result);
+  const editor = BlockNoteEditor.create({ schema });
+
+  if (typeof v === "string") {
+    const result = await editor.tryParseHTMLToBlocks(v);
     return result;
+  } else {
+    const initialValue = toInitialValue(v);
+    if (initialValue.initialContent) {
+      return initialValue.initialContent;
+    }
   }
   return Promise.resolve(null);
 };

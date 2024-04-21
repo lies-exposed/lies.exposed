@@ -2,7 +2,8 @@ import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as tests from "@liexp/test";
-import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
+import { toBNDocument } from "@liexp/ui/lib/components/Common/BlockNote/utils.js";
+import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { loginUser, saveUser } from "../../../../test/user.utils.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";
@@ -86,7 +87,7 @@ describe("Create Group Member", () => {
         actor: actors[0].id,
         group: groups[0].id,
         startDate: new Date().toISOString(),
-        body: { content: "this actor has been a member of this group" },
+        body: await toBNDocument("this actor has been a member of this group"),
       });
 
     expect(response.status).toEqual(201);

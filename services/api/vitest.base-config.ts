@@ -17,14 +17,11 @@ export const baseConfig = defineConfig({
       sharp: toAlias("test/__mocks__/sharp.mock.ts"),
       canvas: toAlias("test/__mocks__/canvas.mock.ts"),
       "pdfjs-dist/legacy/build/pdf.js": toAlias("test/__mocks__/pdfjs.mock.ts"),
-      "@react-page/editor/**": toAlias(
-        "test/__mocks__/react-page-editor.mock.ts",
+      "@blocknote/core": toAlias(
+        "test/__mocks__/blocknote-core.mock.ts",
       ),
-      "@react-page/plugins-slate/**": toAlias(
-        "test/__mocks__/react-page-plugin-slate.mock.ts",
-      ),
-      "@react-page/react-admin/**": toAlias(
-        "test/__mocks__/react-page-react-admin.mock.ts",
+      "@blocknote/react/**": toAlias(
+        "test/__mocks__/blocknote-react.mock.ts",
       ),
     },
   },

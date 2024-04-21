@@ -7,7 +7,7 @@ export const BlockNoteDocument = new t.Type<BlockNoteDocument, any[], unknown>(
   t.array(t.type({ type: t.string })).is,
   (s, c) => {
     if (s instanceof Array) {
-      if (s.length > 1 && typeof s[0].type === "string") {
+      if (s.length >= 1 && typeof s[0].type === "string") {
         return t.success(s);
       }
     }

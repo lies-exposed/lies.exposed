@@ -61,8 +61,8 @@ export const CreateGroupBody = t.strict(
     color: t.string,
     kind: GroupKind,
     avatar: t.string,
-    excerpt: t.union([BlockNoteDocument, t.undefined]),
-    body: t.union([BlockNoteDocument, t.undefined]),
+    excerpt: t.union([BlockNoteDocument, t.any, t.undefined]),
+    body: t.union([BlockNoteDocument, t.any, t.undefined]),
     startDate: t.union([DateFromISOString, t.undefined]),
     endDate: t.union([DateFromISOString, t.undefined]),
     members: t.array(

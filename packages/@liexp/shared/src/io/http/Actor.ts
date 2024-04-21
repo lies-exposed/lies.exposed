@@ -30,7 +30,7 @@ export const AddActorBody = t.strict(
     fullName: t.string,
     color: t.string,
     excerpt: BlockNoteDocument,
-    body: t.union([BlockNoteDocument, t.undefined]),
+    body: t.union([BlockNoteDocument, t.any, t.undefined]),
     avatar: t.union([t.undefined, t.string]),
     bornOn: t.union([DateFromISOString, t.undefined]),
     diedOn: t.union([DateFromISOString, t.undefined]),
