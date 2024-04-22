@@ -6591,11 +6591,11 @@ __metadata:
   linkType: hard
 
 "@tiptap/extension-hard-break@npm:^2.2.3":
-  version: 2.2.3
-  resolution: "@tiptap/extension-hard-break@npm:2.2.3"
+  version: 2.3.0
+  resolution: "@tiptap/extension-hard-break@npm:2.3.0"
   peerDependencies:
     "@tiptap/core": ^2.0.0
-  checksum: 9e97f768c5b4a85be657d032b064fc135450852f6c8114d882222348f97c118bf1c6d5f38db9fe71f898ad723bb62ab03ae4f4b518fac229c69bd19071fd0234
+  checksum: afa1f46dbe242a117d37c9278be00f20ebc8c08888f4112930829ae42fee9487a2e2a36741b3cf3cc5c55dcf81101b218a5b2aaafc521475deb9f09fea65def7
   languageName: node
   linkType: hard
 
