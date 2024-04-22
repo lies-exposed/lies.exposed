@@ -6647,11 +6647,11 @@ __metadata:
   linkType: hard
 
 "@tiptap/extension-italic@npm:^2.2.3":
-  version: 2.2.3
-  resolution: "@tiptap/extension-italic@npm:2.2.3"
+  version: 2.3.0
+  resolution: "@tiptap/extension-italic@npm:2.3.0"
   peerDependencies:
     "@tiptap/core": ^2.0.0
-  checksum: 809ad242e158a35c12766a5fe172147b47bdeb5da46a028f044d16b7ea29fe7676968646cd4e5fe4b4a7446be3f27a027c5491f8b3f37c0b0094eff84fae439f
+  checksum: 4083498028a6a60093c5c83e06710a919b61cfb14e3881d780e1d14d7daad2701f4ffcfaa6f03d03ba464be256a40ce53e74aed6416af037f15b98a7ecdf9696
   languageName: node
   linkType: hard
 
