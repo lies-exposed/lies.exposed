@@ -6658,12 +6658,12 @@ __metadata:
   linkType: hard
 
 "@tiptap/extension-color@npm:^2.0.3":
-  version: 2.2.3
-  resolution: "@tiptap/extension-color@npm:2.2.3"
+  version: 2.3.0
+  resolution: "@tiptap/extension-color@npm:2.3.0"
   peerDependencies:
     "@tiptap/core": ^2.0.0
     "@tiptap/extension-text-style": ^2.0.0
-  checksum: ba4a70918675c283ee307008e1330b58781858ac2b42df73301b82f18f9f30ee63ac025194c46166c3e62ceb06d71d68ea670c01b81ef85356c4e69f026f8216
+  checksum: 371c289350f2945e3ca572e4e9c2b092fa7aeaa5fce88bb2cd8107b771605c64db8e140164f3b8eb053fd73a416097223f621528fc68a5485bf3bf1d753f01c9
   languageName: node
   linkType: hard
 
