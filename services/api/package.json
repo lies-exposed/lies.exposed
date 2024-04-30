@@ -49,7 +49,6 @@
     "@emotion/styled": "^11.11.5",
     "@liexp/backend": "0.1.0",
     "@liexp/core": "0.1.0",
-    "@liexp/react-page": "0.1.0",
     "@liexp/shared": "0.1.0",
     "@liexp/ui": "0.1.0",
     "@tanstack/react-query": "^5.28.14",
