@@ -6375,11 +6375,11 @@ __metadata:
   linkType: hard
 
 "@tiptap/extension-bullet-list@npm:^2.2.3":
-  version: 2.2.3
-  resolution: "@tiptap/extension-bullet-list@npm:2.2.3"
+  version: 2.3.1
+  resolution: "@tiptap/extension-bullet-list@npm:2.3.1"
   peerDependencies:
     "@tiptap/core": ^2.0.0
-  checksum: 2d582ddf3491b189b766db3d169c3bc3eb425edbca85b3e69362a9dee0f1734c202a89e541ce5cbd7e92ca5659a2d38f5d0adcf2e7ad5ccbb325e42e1b61a279
+  checksum: 182d50bf2a298e7708945af465864110ee52d8f75a3c651f8810f8b11204800d5e1ea217c577779d74169841fcc5fbfdc99edb172fc2187786dfd3108545db9b
   languageName: node
   linkType: hard
 
