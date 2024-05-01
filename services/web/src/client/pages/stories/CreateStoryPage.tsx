@@ -1,5 +1,5 @@
 import { GetAuthProvider } from "@liexp/ui/lib/client/api";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import ReferenceMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceMediaInput.js";
 import {
   AdminContext,
@@ -68,7 +68,7 @@ const CreateStoryPage: React.FC<RouteComponentProps> = () => {
                 source="featuredImage.id"
                 allowedTypes={["image/jpg"]}
               />
-              <ReactPageInput className={classes.input} source="body2" />
+              <BlockNoteInput className={classes.input} source="body2" />
 
               <StoryRelationsBox />
             </SimpleForm>

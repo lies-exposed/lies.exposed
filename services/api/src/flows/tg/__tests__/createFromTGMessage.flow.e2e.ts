@@ -1,7 +1,6 @@
 import * as fs from "fs";
 import path from "path";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { createExcerptValue } from "@liexp/react-page/lib/utils.js";
 import { getPlatformEmbedURL } from "@liexp/shared/lib/helpers/media";
 import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
 import { HumanReadableStringArb } from "@liexp/shared/lib/tests/arbitrary/HumanReadableString.arbitrary.js";
@@ -24,7 +23,6 @@ import { EventSuggestionEntity } from "#entities/EventSuggestion.entity.js";
 import { LinkEntity } from "#entities/Link.entity.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { UserEntity } from "#entities/User.entity.js";
-import { editor } from "#providers/slate.js";
 
 const tempDir = path.resolve(__dirname, `../../../../temp/tg/media`);
 
@@ -100,13 +98,6 @@ describe("Create From TG Message", () => {
           ),
           throwTE,
         );
-
-        const { id, ...expectedExcerpt } = createExcerptValue(
-          editor.liexpSlate,
-        )(description);
-        expectedExcerpt.rows = expectedExcerpt.rows.map(
-          ({ id, ...r }) => r,
-        ) as any[];
 
         const expectedLink = await throwTE(
           Test.ctx.db.findOneOrFail(LinkEntity, {
@@ -208,13 +199,6 @@ describe("Create From TG Message", () => {
       );
 
       const result = await throwTE(createFromTGMessage(Test.ctx)(message, {}));
-
-      const { id, ...expectedExcerpt } = createExcerptValue(editor.liexpSlate)(
-        message.caption,
-      );
-      expectedExcerpt.rows = expectedExcerpt.rows.map(
-        ({ id, ...r }) => r,
-      ) as any[];
 
       const { creator, areas, keywords, stories, socialPosts, ...media } =
         await throwTE(

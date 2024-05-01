@@ -1,6 +1,7 @@
 import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import * as t from "io-ts";
 import { BaseProps } from "./Common/BaseProps.js";
+import { BlockNoteDocument } from "./Common/BlockNoteDocument.js";
 
 export const Page = t.strict(
   {
@@ -8,8 +9,8 @@ export const Page = t.strict(
     title: t.string,
     path: t.string,
     body: t.union([t.string, t.undefined]),
-    excerpt: t.union([t.UnknownRecord, t.null]),
-    body2: t.union([t.UnknownRecord, t.null]),
+    excerpt: t.union([BlockNoteDocument, t.any, t.null]),
+    body2: t.union([BlockNoteDocument, t.any, t.null]),
   },
   "Page",
 );

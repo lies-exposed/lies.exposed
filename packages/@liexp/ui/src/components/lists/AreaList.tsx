@@ -3,16 +3,16 @@ import * as React from "react";
 import { useConfiguration } from "../../context/ConfigurationContext.js";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
 import { styled } from "../../theme/index.js";
-import { editor } from "../Common/Editor/index.js";
+import { getTextContentsCapped } from "../Common/BlockNote/utils/getTextContentsCapped.js";
 import { List, type ListItemProps } from "../Common/List.js";
 import {
+  Box,
   Card,
   CardActionArea,
   CardContent,
   CardMedia,
-  type ListProps,
   Typography,
-  Box,
+  type ListProps,
 } from "../mui/index.js";
 
 export interface Area extends io.Area.Area {
@@ -89,10 +89,7 @@ export const AreaListItem: React.FC<
             <Typography variant="body2" color="textSecondary" component="p">
               {typeof item.body === "string"
                 ? item.body
-                : editor.getTextContentsCapped(
-                    (item.body as any) ?? undefined,
-                    100,
-                  )}
+                : getTextContentsCapped(item.body ?? undefined, 100)}
             </Typography>
           </CardContent>
         </CardActionArea>

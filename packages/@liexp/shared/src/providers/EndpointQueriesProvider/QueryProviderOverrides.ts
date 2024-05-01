@@ -2,14 +2,16 @@ import { fp } from "@liexp/core/lib/fp/index.js";
 import { useQuery } from "@tanstack/react-query";
 import { pipe } from "fp-ts/lib/function.js";
 import {
+  InferEndpointParams,
   type MinimalEndpoint,
   type MinimalEndpointInstance,
 } from "ts-endpoint";
+import { serializedType } from "ts-io-error/lib/Codec.js";
 import { EndpointsMapType } from "../../endpoints/Endpoints.js";
 import {
   type EndpointsRESTClient,
   type GetFnParams,
-  type GetListFnQuery,
+  type GetEndpointQueryType,
   type GetListFnParamsE,
 } from "../EndpointsRESTClient/EndpointsRESTClient.js";
 import { fetchQuery, getDefaultKey } from "./QueryProvider.js";
@@ -32,10 +34,13 @@ export interface ResourceEndpointsQueriesOverride<
   CC,
 > {
   get?: G extends MinimalEndpointInstance
-    ? GetQueryOverride<GetFnParams<G>>
+    ? GetQueryOverride<
+        GetFnParams<G>,
+        Partial<serializedType<InferEndpointParams<G>["query"]>>
+      >
     : never;
   list?: L extends MinimalEndpointInstance
-    ? GetQueryOverride<GetListFnParamsE<L>, GetListFnQuery<L>>
+    ? GetQueryOverride<GetListFnParamsE<L>, Partial<GetEndpointQueryType<L>>>
     : never;
   Custom?: {
     [K in keyof CC]: CC[K] extends CustomQueryOverride<

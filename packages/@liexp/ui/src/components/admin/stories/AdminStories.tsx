@@ -1,4 +1,3 @@
-import { relationsTransformer } from "@liexp/react-page/lib/utils.js";
 import { ImageType } from "@liexp/shared/lib/io/http/Media.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
@@ -34,8 +33,9 @@ import {
 } from "react-admin";
 import { uploadImages } from "../../../client/admin/MediaAPI.js";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
+import { relationsTransformer } from "../../Common/BlockNote/utils/transform.utils.js";
 import { Box, Grid } from "../../mui/index.js";
-import ReactPageInput from "../ReactPageInput.js";
+import BlockNoteInput from "../BlockNoteInput.js";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
 import { EditForm } from "../common/EditForm.js";
 import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput.js";
@@ -166,7 +166,7 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
               <TextInput source="" />
             </SimpleFormIterator>
           </ArrayInput>
-          <ReactPageInput source="body2" onlyText={false} />
+          <BlockNoteInput source="body2" onlyText={false} />
         </FormTab>
         <FormTab label="Relations">
           <StoryRelationsBox />
@@ -203,7 +203,7 @@ export const StoryCreate: React.FC<CreateProps> = (props) => {
             <TextInput source="" />
           </SimpleFormIterator>
         </ArrayInput>
-        <ReactPageInput source="body2" />
+        <BlockNoteInput source="body2" />
       </SimpleForm>
     </Create>
   );

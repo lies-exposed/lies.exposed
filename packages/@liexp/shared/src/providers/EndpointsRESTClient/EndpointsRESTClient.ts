@@ -67,7 +67,7 @@ export type GetListFnParamsE<L> = Partial<Omit<GetListParams, "filter">> & {
   > | null;
 };
 
-export type GetListFnQuery<G> =
+export type GetEndpointQueryType<G> =
   InferEndpointParams<G>["query"] extends t.ExactType<infer T>
     ? t.TypeOf<T>
     : InferEndpointParams<G>["query"] extends undefined
@@ -95,11 +95,11 @@ export type GetDataOutputEI<L> =
 
 export type GetFn<G> = (
   params: GetFnParams<G>,
-  query?: serializedType<InferEndpointParams<G>["query"]>,
+  query?: Partial<serializedType<InferEndpointParams<G>["query"]>>,
 ) => Promise<EndpointOutput<G>>;
 
 export type GetListFnParams<L, O = undefined> = O extends undefined
-  ? Omit<GetListParams, "filter"> & { filter: Partial<GetListFnQuery<L>> }
+  ? Omit<GetListParams, "filter"> & { filter: Partial<GetEndpointQueryType<L>> }
   : O;
 
 export type GetListFn<L, O = undefined> = (
@@ -239,7 +239,7 @@ const restFromResourceEndpoints = <
           params: TypeOfEndpointInstance<typeof ee>["Input"],
           q: any,
         ): Promise<TypeOfEndpointInstance<typeof ee>["Output"]> => {
-          return pipe(fetch(params), throwTE);
+          return pipe(fetch({ ...(params as any), Query: q }), throwTE);
         };
       }),
     ) as any,

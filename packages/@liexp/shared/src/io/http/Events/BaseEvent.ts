@@ -2,6 +2,7 @@ import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
 import { optionFromUndefined } from "../../Common/optionFromUndefined.js";
+import { BlockNoteDocument } from "../Common/BlockNoteDocument.js";
 import { UUID } from "../Common/UUID.js";
 import { CreateLink } from "../Link.js";
 import { CreateMedia } from "../Media.js";
@@ -9,19 +10,10 @@ import { CreateMedia } from "../Media.js";
 const createLinkProps = propsOmit(CreateLink, ["events"]);
 const CreateEventLink = t.strict(createLinkProps, "CreateEventLink");
 
-const SlateValue = t.partial(
-  {
-    id: t.string,
-    rows: t.array(t.any),
-    version: t.number,
-  },
-  "SlateValue",
-);
-
 export const CreateEventCommon = t.strict(
   {
-    excerpt: t.union([SlateValue, t.undefined]),
-    body: t.union([SlateValue, t.undefined]),
+    excerpt: t.union([BlockNoteDocument, t.any, t.undefined]),
+    body: t.union([BlockNoteDocument, t.any, t.undefined]),
     date: DateFromISOString,
     draft: t.boolean,
     media: t.array(t.union([UUID, CreateMedia])),
@@ -34,8 +26,8 @@ export type CreateEventCommon = t.TypeOf<typeof CreateEventCommon>;
 
 export const EditEventCommon = t.strict(
   {
-    excerpt: optionFromUndefined(SlateValue),
-    body: optionFromUndefined(SlateValue),
+    excerpt: optionFromUndefined(BlockNoteDocument),
+    body: optionFromUndefined(BlockNoteDocument),
     draft: optionFromUndefined(t.boolean),
     date: optionFromUndefined(DateFromISOString),
     keywords: optionFromUndefined(t.array(UUID)),

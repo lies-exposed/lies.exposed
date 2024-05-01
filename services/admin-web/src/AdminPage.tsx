@@ -246,13 +246,6 @@ const AdminPage: React.FC = () => {
         create={DocumentaryCreate}
         icon={DocumentaryEventIcon}
       />
-      <Resource
-        name="transactions"
-        list={TransactionList}
-        edit={TransactionEdit}
-        create={TransactionCreate}
-        icon={TransactionEventIcon}
-      />
 
       <Resource
         name="quotes"
@@ -260,6 +253,13 @@ const AdminPage: React.FC = () => {
         edit={QuoteEdit}
         create={QuoteCreate}
         icon={QuoteEventIcon}
+      />
+      <Resource
+        name="transactions"
+        list={TransactionList}
+        edit={TransactionEdit}
+        create={TransactionCreate}
+        icon={TransactionEventIcon}
       />
       <Resource
         name="links"

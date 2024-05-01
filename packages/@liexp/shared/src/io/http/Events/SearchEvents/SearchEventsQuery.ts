@@ -3,6 +3,10 @@ import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
 import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
 import { UUID } from "io-ts-types/lib/UUID.js";
 import { optionFromUndefined } from "../../../Common/optionFromUndefined.js";
+import { ACTORS } from "../../Actor.js";
+import { GROUPS } from "../../Group.js";
+import { KEYWORDS } from "../../Keyword.js";
+import { MEDIA } from "../../Media.js";
 import {
   GetListQuery,
   GetListQueryDateRange,
@@ -39,6 +43,9 @@ export const GetSearchEventsQuery = t.strict(
     emptyLinks: optionFromUndefined(BooleanFromString),
     spCount: optionFromUndefined(NumberFromString),
     onlyUnshared: optionFromUndefined(BooleanFromString),
+    relations: optionFromUndefined(
+      t.array(t.union([ACTORS, GROUPS, MEDIA, KEYWORDS])),
+    ),
   },
   "GetEventsQueryFilter",
 );

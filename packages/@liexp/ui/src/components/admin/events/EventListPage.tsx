@@ -20,9 +20,9 @@ import {
   TextInput,
   type RaRecord,
 } from "react-admin";
-import { editor } from "../../Common/Editor/index.js";
+import { getTextContentsCapped } from "../../Common/BlockNote/utils/index.js";
 import { EventIcon } from "../../Common/Icons/EventIcon.js";
-import { Box, Typography, Icons } from "../../mui/index.js";
+import { Box, Icons, Typography } from "../../mui/index.js";
 import ReferenceArrayActorInput from "../actors/ReferenceArrayActorInput.js";
 import ReferenceArrayGroupMemberInput from "../common/ReferenceArrayGroupMemberInput.js";
 import ReferenceArrayGroupInput from "../groups/ReferenceArrayGroupInput.js";
@@ -105,7 +105,7 @@ export const EventDataGrid: React.FC = () => {
         label="excerpt"
         render={(r: any) => {
           return !R.isEmpty(r.excerpt)
-            ? editor.getTextContentsCapped(r.excerpt, 60)
+            ? getTextContentsCapped(r.excerpt, 60)
             : "";
         }}
       />

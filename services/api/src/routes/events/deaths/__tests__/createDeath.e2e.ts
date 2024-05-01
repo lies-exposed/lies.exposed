@@ -2,6 +2,7 @@ import { http } from "@liexp/shared/lib/io/index.js";
 import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
+import { toBNDocument } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import { type AppTest, GetAppTest } from "../../../../../test/AppTest.js";
 import { loginUser, saveUser } from "../../../../../test/user.utils.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
@@ -44,7 +45,7 @@ describe("Create Death Event", () => {
         body: {},
       },
       date: new Date().toISOString(),
-      excerpt: {},
+      excerpt: await toBNDocument("Death of an actor"),
       draft: false,
       keywords: [],
       links: [],

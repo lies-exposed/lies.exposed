@@ -9,6 +9,9 @@ import AdminPage from "./AdminPage.js";
 import { configuration } from "./configuration/index.js";
 import reportWebVitals from "./reportWebVitals.js";
 
+import "@blocknote/core/fonts/inter.css";
+import "@blocknote/react/style.css";
+
 // import main css
 import "./index.css";
 

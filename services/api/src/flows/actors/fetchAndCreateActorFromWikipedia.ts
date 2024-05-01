@@ -1,21 +1,20 @@
 import { flow, fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { createExcerptValue } from "@liexp/react-page/lib/utils.js";
 import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
 import { type AddActorBody } from "@liexp/shared/lib/io/http/Actor.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
+import { toBNDocument } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import { fetchFromWikipedia } from "#flows/wikipedia/fetchFromWikipedia.js";
 import { NotFoundError, toControllerError } from "#io/ControllerError.js";
-import { editor } from "#providers/slate.js";
 
 export const fetchActorFromWikipedia: TEFlow<[string], AddActorBody> =
   (ctx) => (pageId) => {
     return pipe(
       fetchFromWikipedia(ctx)(pageId),
-      TE.map(({ page, featuredMedia: avatar, intro }) => {
+      TE.chain(({ page, featuredMedia: avatar, intro }) => {
         ctx.logger.debug.log("Actor fetched from wikipedia %s", page.title);
         const username = pipe(
           page.fullurl.split("/"),
@@ -24,17 +23,19 @@ export const fetchActorFromWikipedia: TEFlow<[string], AddActorBody> =
           fp.O.getOrElse(() => getUsernameFromDisplayName(pageId)),
         );
 
-        const excerpt = createExcerptValue(editor.liexpSlate)(intro);
-        return {
-          fullName: page.title,
-          username,
-          avatar,
-          excerpt,
-          color: generateRandomColor(),
-          body: {},
-          bornOn: undefined,
-          diedOn: undefined,
-        };
+        return pipe(
+          TE.tryCatch(() => toBNDocument(intro), toControllerError),
+          TE.map((excerpt) => ({
+            fullName: page.title,
+            username,
+            avatar,
+            excerpt: excerpt as any,
+            color: generateRandomColor(),
+            body: undefined,
+            bornOn: undefined,
+            diedOn: undefined,
+          })),
+        );
       }),
     );
   };

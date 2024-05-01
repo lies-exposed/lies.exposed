@@ -1,5 +1,5 @@
 import type * as http from "@liexp/shared/lib/io/http/index.js";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput.js";
 import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField.js";
 import { WebPreviewButton } from "@liexp/ui/lib/components/admin/common/WebPreviewButton.js";
@@ -98,10 +98,10 @@ export const GroupMemberEdit: React.FC = () => {
 
           <DateInput source="startDate" required={true} />
           <DateInput source="endDate" required={false} />
-          <ReactPageInput label="excerpt" source="excerpt" onlyText={true} />
+          <BlockNoteInput label="excerpt" source="excerpt" onlyText={true} />
         </FormTab>
         <FormTab label="Body">
-          <ReactPageInput label="body" source="body" />
+          <BlockNoteInput label="body" source="body" />
         </FormTab>
         <FormTab label="Events">
           <ReferenceArrayEventInput source="events" />
@@ -123,7 +123,7 @@ export const GroupMemberCreate: React.FC<CreateProps> = (props) => (
       <ReferenceGroupInput source="group.id" />
       <DateInput source="startDate" />
       <DateInput source="endDate" />
-      <ReactPageInput source="body" />
+      <BlockNoteInput source="body" />
     </SimpleForm>
   </Create>
 );

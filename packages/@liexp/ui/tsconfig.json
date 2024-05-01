@@ -24,9 +24,6 @@
     },
     {
       "path": "../shared"
-    },
-    {
-      "path": "../react-page"
     }
   ],
   "include": [

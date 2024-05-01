@@ -1,5 +1,5 @@
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput.js";
 import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm.js";
 import { PatentEventEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/PatentEventEditTab.js";
@@ -76,8 +76,8 @@ export const PatentCreate: React.FC<CreateProps> = (props) => {
         <DateInput source="date" />
         <ReferenceLinkInput source="payload.source" />
         <BooleanInput source="draft" defaultValue={false} />
-        <ReactPageInput source="excerpt" onlyText />
-        <ReactPageInput source="body" />
+        <BlockNoteInput source="excerpt" onlyText />
+        <BlockNoteInput source="body" />
         <ReferenceArrayActorInput
           source="payload.owners.actors"
           defaultValue={[]}

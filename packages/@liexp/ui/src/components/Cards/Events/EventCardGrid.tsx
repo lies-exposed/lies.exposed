@@ -10,6 +10,8 @@ import EventCard from "./EventCard.js";
 interface EventCardGridProps {
   events: Events.SearchEvent.SearchEvent[];
   onItemClick: (e: Events.SearchEvent.SearchEvent) => void;
+  style?: React.CSSProperties;
+  itemStyle?: React.CSSProperties;
 }
 
 const PREFIX = "EventCardGrid";
@@ -40,12 +42,14 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
 
 export const EventCardGrid: React.FC<EventCardGridProps> = ({
   events,
+  itemStyle,
+  onItemClick,
   ...props
 }) => {
   const gridSize = 12 / (events.length < 3 ? events.length : 3);
   const conf = useConfiguration();
   return (
-    <StyledGrid container spacing={2}>
+    <StyledGrid container spacing={2} {...props}>
       {pipe(
         events,
         A.chunksOf(3),
@@ -70,8 +74,9 @@ export const EventCardGrid: React.FC<EventCardGridProps> = ({
                     event={e}
                     showRelations={true}
                     className={classes.card}
-                    onEventClick={props.onItemClick}
+                    onEventClick={onItemClick}
                     defaultImage={conf.platforms.web.defaultImage}
+                    style={itemStyle}
                   />
                 </Grid>
               ))}

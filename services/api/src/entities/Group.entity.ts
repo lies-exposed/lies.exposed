@@ -45,10 +45,10 @@ export class GroupEntity {
   endDate: Date | null;
 
   @Column({ type: "json", nullable: true })
-  excerpt: Record<string, unknown> | null;
+  excerpt: any[] | null;
 
   @Column({ type: "json", nullable: true })
-  body: Record<string, unknown> | null;
+  body: any[] | null;
 
   @OneToMany(() => GroupMemberEntity, (member) => member.group, {
     cascade: ["insert", "soft-remove", "remove"],

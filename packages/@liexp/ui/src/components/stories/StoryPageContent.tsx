@@ -1,21 +1,21 @@
-import { isValidValue } from "@liexp/react-page/lib/utils.js";
 import {
   type Actor,
+  type Events,
   type Group,
   type Keyword,
   type Media,
   type Story,
-  type Events,
 } from "@liexp/shared/lib/io/http/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { parseISO } from "date-fns";
 import * as t from "io-ts";
 import * as React from "react";
 import { useTheme } from "../../theme/index.js";
+import { BNEditor } from "../Common/BlockNote/Editor.js";
+import { InlineRelationsPlugin } from "../Common/BlockNote/plugins/renderer/InlineRelationsBoxPlugin.js";
+import { TOCPlugin } from "../Common/BlockNote/plugins/renderer/TOCPlugin.js";
+import { isValidValue } from "../Common/BlockNote/utils/isValidValue.js";
 import EditButton from "../Common/Button/EditButton.js";
-import { editor } from "../Common/Editor/index.js";
-import { InlineRelationsPlugin } from "../Common/Editor/plugins/renderer/InlineRelationsBoxPlugin.js";
-import { TOCPlugin } from "../Common/Editor/plugins/renderer/TOCPlugin.js";
 import { MainContent } from "../MainContent.js";
 import { Grid, Typography, alpha } from "../mui/index.js";
 
@@ -110,9 +110,7 @@ export const StoryPageContent: React.FC<StoryPageContentProps> = ({
               </Typography>
             </div>
 
-            {isValidValue(body) ? (
-              <editor.LazyEditor readOnly value={body} />
-            ) : null}
+            {isValidValue(body) ? <BNEditor readOnly content={body} /> : null}
           </MainContent>
         </Grid>
         <Grid item md={3}>
