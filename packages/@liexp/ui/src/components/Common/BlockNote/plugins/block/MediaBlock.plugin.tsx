@@ -15,6 +15,7 @@ import {
   Stack,
 } from "../../../../mui/index.js";
 import { BNESchemaEditor } from "../../EditorSchema.js";
+import { EditMenu } from "../EditMenu/EditMenu.js";
 
 interface MediaBlockProps {
   ids: string;
@@ -202,17 +203,28 @@ export const mediaBlock = createReactBlockSpec(
 
       return (
         <Stack direction="column">
-          {ids === DEFAULT_ID ? (
-            <MediaBlockPluginControl
-              onRemove={onRemove}
-              data={{ ids: "", enableDescription: false, height: 100 }}
-              onChange={onChange}
-            />
-          ) : (
-            <MediaBlockPluginRenderer
-              data={{ ids, enableDescription, height }}
-            />
-          )}
+          <EditMenu
+            editor={editor as any}
+            onClick={() => {
+              onChange({
+                ids: DEFAULT_ID,
+                enableDescription: false,
+                height: 100,
+              });
+            }}
+          >
+            {ids === DEFAULT_ID ? (
+              <MediaBlockPluginControl
+                onRemove={onRemove}
+                data={{ ids: "", enableDescription: false, height: 100 }}
+                onChange={onChange}
+              />
+            ) : (
+              <MediaBlockPluginRenderer
+                data={{ ids, enableDescription, height }}
+              />
+            )}
+          </EditMenu>
         </Stack>
       );
     },

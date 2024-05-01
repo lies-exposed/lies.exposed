@@ -7,6 +7,7 @@ import {
   useCreateBlockNote,
 } from "@blocknote/react";
 import * as React from "react";
+import { styled } from "../../../theme/index.js";
 import { BlockNoteEditorContext } from "./BlockNoteEditorContext.js";
 import { BNESchemaEditor, schema } from "./EditorSchema.js";
 import { insertEvent } from "./plugins/block/EventBlock.plugin.js";
@@ -35,6 +36,17 @@ export interface BNEditorProps {
   onChange?: (content: BNESchemaEditor["document"]) => void;
 }
 
+// eslint-disable-next-line react/display-name
+const ThemedBlockNoteView = (theme: "light" | "dark"): React.FC<any> => (props) => (
+  <BlockNoteView {...props} theme={theme} />
+);
+
+const StyledBlockNoteView = styled(ThemedBlockNoteView("light"))(({ editable }) => ({
+  [".bn-editor"]: {
+    padding: !editable ? 0 : 54,
+  },
+}));
+
 export const BNEditor: React.FC<BNEditorProps> = ({
   content,
   readOnly = true,
@@ -50,9 +62,9 @@ export const BNEditor: React.FC<BNEditorProps> = ({
   return (
     <div style={{ height: "100%", width: "100%" }}>
       <BlockNoteEditorContext.Provider value={editor}>
-        <BlockNoteView
-          editor={editor}
-          theme="light"
+        <StyledBlockNoteView
+          editor={editor as any}
+          theme={"light" as any}
           editable={!readOnly}
           slashMenu={false}
           onChange={() => {
@@ -67,7 +79,7 @@ export const BNEditor: React.FC<BNEditorProps> = ({
               return Promise.resolve(filterSuggestionItems(suggestions, query));
             }}
           />
-        </BlockNoteView>
+        </StyledBlockNoteView>
       </BlockNoteEditorContext.Provider>
     </div>
   );
