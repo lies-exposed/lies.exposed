@@ -23453,11 +23453,11 @@ __metadata:
   linkType: hard
 
 "tlds@npm:^1.228.0":
-  version: 1.250.0
-  resolution: "tlds@npm:1.250.0"
+  version: 1.252.0
+  resolution: "tlds@npm:1.252.0"
   bin:
     tlds: bin.js
-  checksum: 559a6757445fa7655fec52d80f96698233a9ab47bd0fabe8ece05ba48b209e7c9b927c05a929f187c38b33aa0c3a02178cf5c1bcd219c81e02c108fe82e94d55
+  checksum: cc25439b380f879d8ebd23c294e4f9a14e81332ff134122e4dae136fed579b835e6272d39b3e52aeb084f2cb9748f7616dcebf83a0b3e5af312a8e54b712ecbe
   languageName: node
   linkType: hard
 
