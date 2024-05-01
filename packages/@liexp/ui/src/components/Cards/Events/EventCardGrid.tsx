@@ -5,13 +5,15 @@ import React from "react";
 import { useConfiguration } from "../../../context/ConfigurationContext.js";
 import { styled } from "../../../theme/index.js";
 import { Grid } from "../../mui/index.js";
-import EventCard from "./EventCard.js";
+import EventCard, { EventCardProps } from "./EventCard.js";
 
 interface EventCardGridProps {
   events: Events.SearchEvent.SearchEvent[];
   onItemClick: (e: Events.SearchEvent.SearchEvent) => void;
+  showItemRelations?: boolean;
   style?: React.CSSProperties;
   itemStyle?: React.CSSProperties;
+  cardLayout?: EventCardProps['layout'];
 }
 
 const PREFIX = "EventCardGrid";
@@ -44,6 +46,8 @@ export const EventCardGrid: React.FC<EventCardGridProps> = ({
   events,
   itemStyle,
   onItemClick,
+  showItemRelations = true,
+  cardLayout,
   ...props
 }) => {
   const gridSize = 12 / (events.length < 3 ? events.length : 3);
@@ -72,11 +76,12 @@ export const EventCardGrid: React.FC<EventCardGridProps> = ({
                 >
                   <EventCard
                     event={e}
-                    showRelations={true}
+                    showRelations={showItemRelations}
                     className={classes.card}
                     onEventClick={onItemClick}
                     defaultImage={conf.platforms.web.defaultImage}
                     style={itemStyle}
+                    layout={cardLayout}
                   />
                 </Grid>
               ))}

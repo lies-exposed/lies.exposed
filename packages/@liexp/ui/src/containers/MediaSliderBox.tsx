@@ -17,6 +17,7 @@ const MediaSliderBox: React.FC<MediaSliderBoxProps> = ({
   onClick,
   itemStyle,
   enableDescription,
+  disableZoom,
   ...props
 }) => {
   const { Queries } = useEndpointQueries();
@@ -27,7 +28,7 @@ const MediaSliderBox: React.FC<MediaSliderBoxProps> = ({
         return (
           <Box {...props}>
             <MediaSlider
-              {...{ enableDescription, onClick, itemStyle }}
+              {...{ enableDescription, onClick, itemStyle, disableZoom }}
               data={media}
             />
           </Box>
