@@ -21,6 +21,7 @@ describe("Create Hierarchy Edge Bundling", () => {
         media: [],
         keywords: [keywords[1], keywords[i]],
         links: [],
+        socialPosts: [],
       }));
 
       const { graph } = createHierarchicalEdgeBundling({
@@ -40,7 +41,10 @@ describe("Create Hierarchy Edge Bundling", () => {
     test("Succeeds with all given keywords", () => {
       const keywordsCount = 10;
       const keywords = fc.sample(KeywordArb, keywordsCount);
-      const actors = fc.sample(ActorArb, 1);
+      const actors = fc.sample(ActorArb, 1).map((a) => ({
+        ...a,
+        bornOn: new Date(),
+      }));
       const groups = fc.sample(GroupArb, 1);
       const events = fc.sample(UncategorizedArb, 10).map((e, i) => ({
         ...e,
@@ -53,6 +57,7 @@ describe("Create Hierarchy Edge Bundling", () => {
         media: [],
         keywords: [keywords[1], keywords[2]],
         links: [],
+        socialPosts: [],
       }));
 
       const { graph } = createHierarchicalEdgeBundling({
@@ -97,7 +102,10 @@ describe("Create Hierarchy Edge Bundling", () => {
     test("Succeeds with keywords that have links", () => {
       const keywordsCount = 10;
       const keywords = fc.sample(KeywordArb, keywordsCount);
-      const actors = fc.sample(ActorArb, 1);
+      const actors = fc.sample(ActorArb, 1).map((a) => ({
+        ...a,
+        bornOn: new Date(),
+      }));
       const groups = fc.sample(GroupArb, 1);
       const events = fc.sample(UncategorizedArb, 10).map((e, i) => ({
         ...e,
@@ -110,6 +118,7 @@ describe("Create Hierarchy Edge Bundling", () => {
         media: [],
         keywords: i % 2 === 0 ? [keywords[0], keywords[i]] : [keywords[i]],
         links: [],
+        socialPosts: [],
       }));
 
       const { graph } = createHierarchicalEdgeBundling({

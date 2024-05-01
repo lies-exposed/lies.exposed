@@ -15,6 +15,7 @@ interface AutocompleteEventInputProps {
   discrete?: boolean;
   selectedItems: Events.Event[];
   onChange: (items: Events.Event[]) => void;
+  style?: React.CSSProperties;
 }
 
 export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
@@ -69,6 +70,7 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
         <EventCard
           key={item.id}
           showRelations={false}
+          layout="horizontal"
           event={{
             ...toSearchEvent(item, {
               media: new Map((item.media as any[]).map(TupleWithId.of)),
@@ -81,7 +83,7 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
           }}
           defaultImage={conf.platforms.web.defaultImage}
           style={{
-            maxHeight: 100,
+            maxHeight: 200,
           }}
         />
       )}
