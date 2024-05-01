@@ -21,10 +21,6 @@
       "path": "packages/@liexp/core"
     },
     {
-      "name": "📦 @liexp/react-page",
-      "path": "packages/@liexp/react-page"
-    },
-    {
       "name": "📦 @liexp/shared",
       "path": "packages/@liexp/shared"
     },

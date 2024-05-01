@@ -57,7 +57,7 @@ export const EventBlockPluginControl: React.FC<{
           remove?.();
         }}
       >
-        <Icons.Close style={{ fontSize: 9 }} />
+        <Icons.Cancel style={{ fontSize: 9 }} />
       </IconButton>
     </Stack>
   );

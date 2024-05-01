@@ -26,7 +26,6 @@
     "shared": "yarn workspace @liexp/shared",
     "backend": "yarn workspace @liexp/backend",
     "test": "yarn workspace @liexp/test",
-    "react-page": "yarn workspace @liexp/react-page",
     "ui": "yarn workspace @liexp/ui",
     "api": "yarn workspace api",
     "data": "yarn workspace data",
