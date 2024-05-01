@@ -26,7 +26,7 @@ export const AutocompleteAreaInput: React.FC<AutocompleteAreaInputProps> = ({
       className={className}
       placeholder="Search area..."
       getOptionLabel={(a) => (typeof a === "string" ? a : a.label)}
-      searchToFilter={(description) => ({ description })}
+      searchToFilter={(q) => ({ q })}
       selectedItems={selectedItems}
       query={(p) =>
         Queries.Area.list.useQuery(p, undefined, discrete, "search")

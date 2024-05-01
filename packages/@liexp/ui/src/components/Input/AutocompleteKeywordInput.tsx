@@ -11,6 +11,7 @@ interface AutocompleteKeywordInputProps {
   selectedItems: Keyword.Keyword[];
   options?: Keyword.Keyword[];
   onChange: (item: Keyword.Keyword[]) => void;
+  tabIndex?: number;
 }
 
 export const AutocompleteKeywordInput: React.FC<
@@ -21,7 +22,7 @@ export const AutocompleteKeywordInput: React.FC<
   return (
     <AutocompleteInput<Keyword.Keyword>
       placeholder="Keyword..."
-      searchToFilter={(search) => ({ search })}
+      searchToFilter={(q) => ({ q })}
       selectedItems={selectedItems}
       getOptionLabel={(k) => (typeof k === "string" ? k : k.tag)}
       query={(p) =>

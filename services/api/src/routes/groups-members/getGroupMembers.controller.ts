@@ -16,7 +16,7 @@ export const MakeListGroupMemberRoute = (
 ): void => {
   AddEndpoint(r)(
     Endpoints.GroupMember.List,
-    ({ query: { search, ...query } }) => {
+    ({ query: { q: search, ...query } }) => {
       const findOptions = getORMOptions(
         { ...query },
         ctx.env.DEFAULT_PAGE_SIZE,

@@ -11,6 +11,7 @@ interface AutocompleteGroupInputProps {
   selectedItems: Group.Group[];
   options?: Group.Group[];
   onChange: (item: Group.Group[]) => void;
+  tabIndex?: number;
 }
 
 export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
@@ -25,7 +26,7 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
     <AutocompleteInput<Group.Group>
       placeholder="Groups..."
       getOptionLabel={(a) => (typeof a === "string" ? a : a.name)}
-      searchToFilter={(search) => ({ search })}
+      searchToFilter={(q) => ({ q })}
       selectedItems={selectedItems}
       query={(p) =>
         options
