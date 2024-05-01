@@ -65,7 +65,12 @@ export const defineViteConfig = <A extends Record<string, any>>(
         minify: mode === "production",
         commonjsOptions: {
           include: [/node_modules/],
-          exclude: [/@liexp\/core/, /@liexp\/shared/, /@liexp\/ui/],
+          exclude: [
+            /@liexp\/core/,
+            /@liexp\/shared/,
+            /@liexp\/react-page/,
+            /@liexp\/ui/,
+          ],
           // transformMixedEsModules: true,
         },
       },
@@ -79,7 +84,12 @@ export const defineViteConfig = <A extends Record<string, any>>(
           // path.join(config.cwd, "../../packages/@liexp/ui/shared/**"),
           // path.join(config.cwd, "../../packages/@liexp/ui/lib/**"),
         ],
-        include: ["@liexp/core", "@liexp/shared", "@liexp/ui"],
+        include: [
+          "@liexp/core",
+          "@liexp/shared",
+          "@liexp/react-page",
+          "@liexp/ui",
+        ],
         // exclude: [
         //   "@mui/material",
         //   "@mui/icons-material",
@@ -90,7 +100,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
 
       resolve: {
         // preserveSymlinks: true,
-        dedupe: ["react", "react-dom"],
+        dedupe: ["react", "react-dom", "@react-page/editor"],
         extensions: [
           ".ts",
           ".cts",
@@ -112,6 +122,38 @@ export const defineViteConfig = <A extends Record<string, any>>(
             find: "react/jsx-dev-runtime.js",
             replacement: "react/jsx-dev-runtime",
           },
+          {
+            find: /@react-page\/editor$/,
+            replacement: "@react-page/editor/lib",
+          },
+          // {
+          //   find: /@react-page\/plugins-slate$/,
+          //   replacement: "@react-page/plugins-slate/lib",
+          // },
+          // {
+          //   find: /@react-page\/plugins-background$/,
+          //   replacement: "@react-page/plugins-background/lib",
+          // },
+          // {
+          //   find: /@react-page\/plugins-divider$/,
+          //   replacement: "@react-page/plugins-divider/lib",
+          // },
+          // {
+          //   find: /@react-page\/plugins-html5-video$/,
+          //   replacement: "@react-page/plugins-html5-video/lib",
+          // },
+          // {
+          //   find: /@react-page\/plugins-image$/,
+          //   replacement: "@react-page/plugins-image/lib",
+          // },
+          // {
+          //   find: /@react-page\/plugins-spacer$/,
+          //   replacement: "@react-page/plugins-spacer/lib",
+          // },
+          // {
+          //   find: /@react-page\/plugins-video$/,
+          //   replacement: "@react-page/plugins-video/lib",
+          // },
         ],
       },
       server: config.devServer
