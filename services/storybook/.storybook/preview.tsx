@@ -1,7 +1,7 @@
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
 import { config, dom } from "@fortawesome/fontawesome-svg-core";
-import { HelmetProvider } from "@liexp/ui/lib/components/SEO";
+import { HelmetProvider } from "@liexp/ui/lib/components/SEO.js";
 import { ECOTheme, ThemeProvider } from "@liexp/ui/lib/theme/index.js";
 import { Decorator, Parameters } from "@storybook/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -9,9 +9,10 @@ import * as React from "react";
 import { DataProviderContext } from "react-admin";
 import { APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 // styles
-import "@liexp/react-page/assets/react-page.css";
 import "@liexp/ui/lib/components/Common/Icons/library.js";
 import "@liexp/ui/assets/main.css";
+import "@blocknote/core/fonts/inter.css";
+import "@blocknote/react/style.css";
 
 config.autoAddCss = false;
 

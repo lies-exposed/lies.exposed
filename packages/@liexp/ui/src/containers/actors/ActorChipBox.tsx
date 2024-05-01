@@ -6,7 +6,7 @@ import {
   type ActorChipProps,
 } from "../../components/actors/ActorChip.js";
 
-type ActorChipBoxProps = ActorChipProps & {
+type ActorChipBoxProps = Omit<ActorChipProps, "actor"> & {
   id: UUID;
 };
 
