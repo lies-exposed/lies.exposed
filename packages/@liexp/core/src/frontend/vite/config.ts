@@ -16,16 +16,12 @@ export const defineViteConfig = <A extends Record<string, any>>(
   config: GetViteConfigParams<A>,
 ): ((env: ConfigEnv) => UserConfig) => {
   return ({ mode }) => {
-    // const url = fileURLToPath(new URL("../../", import.meta.url));
-
-    loadENV(
-      path.resolve(
-        config.cwd,
-        config.envFileDir,
-        process.env.DOTENV_CONFIG_PATH ?? ".env",
-      ),
+    const dotEnvFilePath = path.resolve(
+      config.envFileDir,
+      process.env.DOTENV_CONFIG_PATH ?? ".env",
     );
-    // dotenv.config({ path: path.resolve(config.envFileDir, ".env") });
+
+    loadENV(config.cwd, dotEnvFilePath, mode === "development");
 
     const env = pipe(
       // loadEnv(mode, config.envFileDir, ""),

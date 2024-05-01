@@ -11,8 +11,6 @@ export const AppEnv = defineEnv((t) => ({
   VITE_DEBUG: t.string,
 }));
 
-loadENV(process.cwd(), process.env.DOTENV_CONFIG_PATH ?? ".env");
-
 export const port =
   process.env.VIRTUAL_PORT !== undefined
     ? parseInt(process.env.VIRTUAL_PORT, 10)
