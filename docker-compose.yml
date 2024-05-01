@@ -11,7 +11,7 @@ services:
   db.liexp.dev:
     image: postgres:14
     ports:
-      - '127.0.0.1:8432:5432'
+      - "127.0.0.1:8432:5432"
     environment:
       POSTGRES_USER: liexp
       POSTGRES_PASSWORD: liexp-password
@@ -91,8 +91,9 @@ services:
       dockerfile: web.Dockerfile
     env_file:
       - ./services/web/.env
-    # ports:
-    #   - "127.0.0.1:80:4020"
+    ports:
+      # hmr port
+      - "127.0.0.1:24678:24678"
     volumes:
       - web-node-modules:/app/node_modules
       - ./tsconfig.json:/app/tsconfig.json
