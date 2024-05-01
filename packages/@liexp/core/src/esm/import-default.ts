@@ -5,7 +5,7 @@ export const importDefault = <
   imp: any,
 ): { default: A["default"] } => {
   // eslint-disable-next-line no-console
-  console.warn(`importing react-page component from ${typeof imp}!`);
+  console.warn(`importing commonjs module from ${typeof imp}!`);
   if (typeof imp === "function") {
     return { default: imp };
   }

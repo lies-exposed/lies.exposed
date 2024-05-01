@@ -29,7 +29,7 @@ export const PageContentBox: React.FC<PageContentProps> = ({
           <div className="page-content" style={style}>
             <SEO
               title={title}
-              description={getTextContentsCapped(excerpt as any, 200)}
+              description={getTextContentsCapped(excerpt ?? undefined, 200)}
               image={`${conf.publicUrl}/liexp-logo.png`}
               urlPath={path}
             />
