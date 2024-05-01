@@ -3,6 +3,7 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { Endpoint } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord.js";
+import { BlockNoteDocument } from "../io/http/Common/BlockNoteDocument.js";
 import { CreateGroupMember } from "../io/http/GroupMember.js";
 import { GetListQuery } from "../io/http/Query/index.js";
 import * as http from "../io/http/index.js";
@@ -51,7 +52,7 @@ export const Edit = Endpoint({
       actor: optionFromNullable(t.string),
       startDate: optionFromNullable(DateFromISOString),
       endDate: optionFromNullable(DateFromISOString),
-      body: optionFromNullable(t.UnknownRecord),
+      body: optionFromNullable(BlockNoteDocument),
     }),
   },
   Output: http.GroupMember.SingleGroupMemberOutput,

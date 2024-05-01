@@ -29,8 +29,8 @@ export const CreateEventBodyArb = ({
 }: CreateEventBodyArbOpts = {}): fc.Arbitrary<http.Events.CreateEventBody> =>
   getArbitrary(t.strict(createEventProps)).map((b) => ({
     ...b,
-    excerpt: {} as any,
-    body: {} as any,
+    excerpt: undefined,
+    body: undefined,
     payload: {
       title: "",
       actors: fc.sample(fc.uuidV(4)) as any,
@@ -103,8 +103,8 @@ export const UncategorizedArb: fc.Arbitrary<UncategorizedArbType> =
     createdAt: fc.sample(DateArb, 1)[0],
     updatedAt: fc.sample(DateArb, 1)[0],
     deletedAt: undefined,
-    excerpt: {},
-    body: {},
+    excerpt: undefined,
+    body: undefined,
     media: fc.sample(fc.uuid(), 5) as any[],
     keywords: fc.sample(fc.uuid(), 5) as any[],
     links: fc.sample(fc.uuid(), 5) as any[],

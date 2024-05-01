@@ -7,7 +7,7 @@ import {
 import * as React from "react";
 import { styled } from "../../../theme/index.js";
 import { Avatar } from "../../Common/Avatar.js";
-import { editor } from "../../Common/Editor/index.js";
+import { getTextContents } from "../../Common/BlockNote/utils/index.js";
 import { EventIcon } from "../../Common/Icons/index.js";
 import { Box, Grid, Typography } from "../../mui/index.js";
 
@@ -83,7 +83,7 @@ export const QuoteListItem: React.FC<QuoteListItemProps> = ({
             style={{ padding: 10 }}
           >
             <Typography style={{ display: "flex" }} variant="subtitle1">
-              {editor.getTextContents(item.excerpt as any)}
+              {getTextContents(item.excerpt)}
             </Typography>
             <Typography variant="caption" fontStyle="italic">
               {item.payload.details}

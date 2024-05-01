@@ -4,14 +4,14 @@
 // other imports
 import path from "path";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { createExcerptValue } from "@liexp/react-page/lib/utils.js";
 import { type Geometry } from "@liexp/shared/lib/io/http/Common/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { toBNDocumentTE } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { JsonContains } from "typeorm";
 import { startContext, stopContext } from "./start-ctx.js";
 import { AreaEntity } from "#entities/Area.entity.js";
-import { editor } from "#providers/slate.js";
+import { toControllerError } from "#io/ControllerError.js";
 const parseKMZ = require("parse2-kmz");
 
 interface GEOFeature {
@@ -24,13 +24,11 @@ interface GEOFeature {
 
 const run = async (): Promise<any> => {
   const ctx = await startContext();
-  const [,,pathToKMZ] = process.argv
+  const [, , pathToKMZ] = process.argv;
 
   const result = await pipe(
     TE.tryCatch(() => {
-      return parseKMZ.toJson(
-        path.resolve(process.cwd(), pathToKMZ),
-      );
+      return parseKMZ.toJson(path.resolve(process.cwd(), pathToKMZ));
     }, fp.E.toError),
     TE.map((f: any): GEOFeature[] => f.features),
     throwTE,
@@ -49,14 +47,18 @@ const run = async (): Promise<any> => {
           const currentArea = fp.O.isSome(area) ? area.value : {};
 
           return pipe(
-            ctx.db.save(AreaEntity, [
-              {
-                ...currentArea,
-                label: f.properties.name,
-                geometry: f.geometry,
-                body: createExcerptValue(editor.liexpSlate)(f.properties.name),
-              },
-            ]),
+            toBNDocumentTE(f.properties.name),
+            TE.mapLeft(toControllerError),
+            TE.chain((body) =>
+              ctx.db.save(AreaEntity, [
+                {
+                  ...currentArea,
+                  label: f.properties.name,
+                  geometry: f.geometry,
+                  body: body,
+                },
+              ]),
+            ),
             TE.map((data) => data[0]),
           );
         }),

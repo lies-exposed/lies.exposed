@@ -11,7 +11,7 @@ import {
   type EndpointsRESTClient,
   type EndpointOutput,
   type GetFnParams,
-  type GetListFnQuery,
+  type GetEndpointQueryType,
   type Query,
   type EndpointDataOutput,
 } from "../EndpointsRESTClient/EndpointsRESTClient.js";
@@ -35,7 +35,7 @@ export interface ResourceQuery<P, Q, A> {
   fetch: QueryPromiseFunction<P, Q, A>;
   useQuery: (
     p: P,
-    q?: Q,
+    q?: Partial<Q>,
     discrete?: boolean,
     prefix?: string,
   ) => UseQueryResult<A, APIError>;
@@ -45,7 +45,7 @@ export interface ResourceQueries<G, L, CC> {
   get: ResourceQuery<GetFnParams<G>, any, EndpointOutput<G>>;
   list: ResourceQuery<
     GetListFnParamsE<L>,
-    GetListFnQuery<L>,
+    Partial<GetEndpointQueryType<L>>,
     EndpointOutput<L>
   >;
   Custom: CC extends Record<string, MinimalEndpointInstance>

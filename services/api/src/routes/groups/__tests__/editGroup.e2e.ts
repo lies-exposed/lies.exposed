@@ -2,6 +2,7 @@ import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
+import { toBNDocument } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 import { loginUser, saveUser } from "../../../../test/user.utils.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
@@ -51,7 +52,7 @@ describe("Edit Group", () => {
   test("Should receive a 401 error", async () => {
     const updateData = {
       ...group,
-      body: { content: "new group body" },
+      body: await toBNDocument("new group body"),
     };
 
     const response = await appTest.req
@@ -65,7 +66,7 @@ describe("Edit Group", () => {
   test("Should edit the group", async () => {
     const updateData = {
       ...group,
-      body: { content: "new group body" },
+      body: await toBNDocument("new group body"),
     };
 
     const user = await saveUser(appTest, ["admin:edit"]);
@@ -79,6 +80,8 @@ describe("Edit Group", () => {
 
     expect(response.status).toEqual(200);
 
-    expect(response.body.data.body).toEqual({ content: "new group body" });
+    expect(response.body.data.body).toEqual([
+      { type: "paragraph", content: "new group body" },
+    ]);
   });
 });

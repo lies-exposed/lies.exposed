@@ -1,4 +1,3 @@
-import { isValidValue } from "@liexp/react-page/lib/utils.js";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
 import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
@@ -8,7 +7,8 @@ import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { styled } from "../../theme/index.js";
-import { editor } from "../Common/Editor/index.js";
+import { getTextContentsCapped } from "../Common/BlockNote/utils/getTextContentsCapped.js";
+import { isValidValue } from "../Common/BlockNote/utils/isValidValue.js";
 import { EventIcon } from "../Common/Icons/index.js";
 import { LinksBox } from "../LinksBox.js";
 import { ActorList } from "../lists/ActorList.js";
@@ -178,7 +178,7 @@ export const EventSliderItemBase: React.FC<EventSliderItemBaseProps> = ({
                 style={{ display: "flex", marginBottom: 20, flexGrow: 1 }}
                 variant="body1"
               >
-                {editor.getTextContentsCapped(excerpt, 300)}
+                {getTextContentsCapped(excerpt, 300)}
               </Typography>
             </Box>
           </Grid>

@@ -1,6 +1,6 @@
 import { Area } from "@liexp/shared/lib/io/http/Area.js";
+import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import { MapInput } from "@liexp/ui/lib/components/admin/MapInput.js";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
 import { AreaTGPostButton } from "@liexp/ui/lib/components/admin/areas/button/AreaTGPostButton.js";
 import { UpdateAreaGeometryByLabelButton } from "@liexp/ui/lib/components/admin/areas/button/UpdateAreaGeometryByLabelButton.js";
 import { UpdateAreaGeometryWithCoordinatesButton } from "@liexp/ui/lib/components/admin/areas/button/UpdateAreaGeometryWithCoordinatesButton.js";
@@ -172,7 +172,7 @@ export const AreaEdit: React.FC<EditProps> = () => (
         <TextInput source="slug" />
         <BooleanInput source="draft" />
         <ReferenceMediaInput source="featuredImage.id" />
-        <ReactPageInput source="body" onlyText />
+        <BlockNoteInput source="body" onlyText />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
       </FormTab>
@@ -202,7 +202,7 @@ export const AreaCreate: React.FC<CreateProps> = () => (
       <TextInput source="label" validate={[required()]} />
       <TextInput source="slug" validate={[required()]} />
       <MapInput source="geometry" />
-      <ReactPageInput source="body" defaultValue="" validate={[required()]} />
+      <BlockNoteInput source="body" defaultValue="" validate={[required()]} />
     </SimpleForm>
   </Create>
 );

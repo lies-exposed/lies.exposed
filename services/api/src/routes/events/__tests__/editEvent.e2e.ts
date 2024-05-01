@@ -7,6 +7,7 @@ import { LinkArb } from "@liexp/shared/lib/tests/arbitrary/Link.arbitrary.js";
 import { MediaArb } from "@liexp/shared/lib/tests/arbitrary/Media.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
+import { toBNDocument } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import {
   loginUser,
@@ -39,7 +40,7 @@ describe("Edit Event", () => {
     actor,
     group,
     startDate: new Date(),
-    body: "a group member",
+    body: undefined,
   };
 
   let [event] = fc.sample(UncategorizedArb, 1).map((e) => ({
@@ -74,11 +75,20 @@ describe("Edit Event", () => {
       appTest.ctx.db.save(EventV2Entity, [event] as any[]),
     );
 
-    delete (result[0] as any).deletedAt;
+    const eventExcerpt = await toBNDocument("Death of an actor");
+    const eventBody = await toBNDocument("Death of an actor extended");
     event = {
       ...event,
       ...(result[0] as any),
+      excerpt: eventExcerpt,
+      body: eventBody,
+      date: event.date.toISOString(),
+      createdAt: event.createdAt.toISOString(),
+      updatedAt: event.updatedAt.toISOString(),
     };
+    delete event.payload.endDate;
+    delete event.payload.location;
+    delete event.deletedAt;
 
     adminUser = await saveUser(appTest, [http.User.AdminDelete.value]);
 
@@ -155,7 +165,6 @@ describe("Edit Event", () => {
       },
       socialPosts: [],
       date: eventData.date,
-      createdAt: event.createdAt.toISOString(),
       updatedAt: body.updatedAt,
     });
 
@@ -362,6 +371,7 @@ describe("Edit Event", () => {
       },
       date: event.date,
       updatedAt: body.updatedAt,
+      socialPosts: [],
     });
 
     event = body;

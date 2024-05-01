@@ -41,7 +41,6 @@ COPY services/web/package.json /app/services/web/package.json
 COPY --from=build /app/packages/@liexp/core/package.json /app/packages/@liexp/core/package.json
 COPY --from=build /app/packages/@liexp/test/package.json /app/packages/@liexp/test/package.json
 COPY --from=build /app/packages/@liexp/shared/package.json /app/packages/@liexp/shared/package.json
-COPY --from=build /app/packages/@liexp/react-page/package.json /app/packages/@liexp/react-page/package.json
 COPY --from=build /app/packages/@liexp/ui/package.json /app/packages/@liexp/ui/package.json
 
 RUN yarn config set --home enableTelemetry false && yarn workspaces focus -A --production
@@ -62,9 +61,6 @@ COPY --from=build /app/packages/@liexp/test/package.json /app/packages/@liexp/te
 COPY --from=build /app/packages/@liexp/test/lib /app/packages/@liexp/test/lib
 COPY --from=build /app/packages/@liexp/shared/package.json /app/packages/@liexp/shared/package.json
 COPY --from=build /app/packages/@liexp/shared/lib /app/packages/@liexp/shared/lib
-COPY --from=build /app/packages/@liexp/react-page/package.json /app/packages/@liexp/react-page/package.json
-COPY --from=build /app/packages/@liexp/react-page/lib /app/packages/@liexp/react-page/lib
-COPY --from=build /app/packages/@liexp/react-page/assets /app/packages/@liexp/react-page/assets
 COPY --from=build /app/packages/@liexp/ui/package.json /app/packages/@liexp/ui/package.json
 COPY --from=build /app/packages/@liexp/ui/lib /app/packages/@liexp/ui/lib
 

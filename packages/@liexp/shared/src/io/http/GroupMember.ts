@@ -3,6 +3,7 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { Actor } from "./Actor.js";
 import { BaseProps } from "./Common/BaseProps.js";
+import { BlockNoteDocument } from "./Common/BlockNoteDocument.js";
 import { ListOutput, Output } from "./Common/index.js";
 import { Group } from "./Group.js";
 
@@ -12,7 +13,7 @@ export const CreateGroupMember = t.strict(
     actor: t.string,
     startDate: DateFromISOString,
     endDate: optionFromNullable(DateFromISOString),
-    body: t.UnknownRecord,
+    body: BlockNoteDocument,
   },
   "CreateGroupMember",
 );
@@ -25,8 +26,8 @@ export const GroupMember = t.strict(
     actor: Actor,
     startDate: DateFromISOString,
     endDate: t.union([t.undefined, DateFromISOString]),
-    excerpt: t.union([t.UnknownRecord, t.null]),
-    body: t.union([t.UnknownRecord, t.null]),
+    excerpt: t.union([BlockNoteDocument, t.any, t.null]),
+    body: t.union([BlockNoteDocument, t.any, t.null]),
     createdAt: t.string,
     updatedAt: t.string,
   },

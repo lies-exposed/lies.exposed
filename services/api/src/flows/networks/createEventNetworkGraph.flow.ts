@@ -177,8 +177,8 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
           {
             ...e,
             links: [],
-            excerpt: {},
-            body: {},
+            excerpt: undefined,
+            body: undefined,
             payload: e.payload as any,
             deletedAt: undefined,
             image: featuredImage,

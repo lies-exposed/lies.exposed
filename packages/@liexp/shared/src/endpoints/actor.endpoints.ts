@@ -3,6 +3,7 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { Endpoint } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord.js";
+import { BlockNoteDocument } from "../io/http/Common/BlockNoteDocument.js";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
 import { UUID } from "../io/http/Common/index.js";
 import { Actor } from "../io/http/index.js";
@@ -51,8 +52,8 @@ export const Edit = Endpoint({
       username: optionFromNullable(t.string),
       fullName: optionFromNullable(t.string),
       color: optionFromNullable(t.string),
-      excerpt: optionFromNullable(t.UnknownRecord),
-      body: optionFromNullable(t.UnknownRecord),
+      excerpt: optionFromNullable(t.array(t.any)),
+      body: optionFromNullable(t.array(t.any)),
       avatar: optionFromNullable(t.string),
       bornOn: optionFromNullable(DateFromISOString),
       diedOn: optionFromNullable(DateFromISOString),
@@ -62,7 +63,7 @@ export const Edit = Endpoint({
             UUID,
             t.strict({
               group: UUID,
-              body: t.UnknownRecord,
+              body: BlockNoteDocument,
               startDate: DateFromISOString,
               endDate: optionFromNullable(DateFromISOString),
             }),

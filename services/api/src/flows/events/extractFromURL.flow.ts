@@ -1,11 +1,11 @@
-import { pipe } from "@liexp/core/lib/fp/index.js";
-import { createExcerptValue } from "@liexp/react-page/lib/utils.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { getRelationIdsFromEventRelations } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
 import { type URL as URLT } from "@liexp/shared/lib/io/http/Common/index.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type ImageType } from "@liexp/shared/lib/io/http/Media.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import { toBNDocument } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import { parse } from "date-fns";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as O from "fp-ts/lib/Option.js";
@@ -19,7 +19,6 @@ import { type LinkEntity } from "#entities/Link.entity.js";
 import { type UserEntity } from "#entities/User.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
-import { editor } from "#providers/slate.js";
 
 const extractEventFromProviderLink: TEFlow<
   [puppeteer.Page, string, LinkEntity],
@@ -151,84 +150,108 @@ const extractByProvider: TEFlow<
   O.Option<EventV2Entity>
 > = (ctx) => (p, host, l) => {
   return pipe(
-    sequenceS(TE.ApplicativePar)({
-      relations: extractRelationsFromURL(ctx)(p, l.url),
-      provider: extractEventFromProviderLink(ctx)(p, host, l),
-    }),
-    TE.map(({ relations: { entities: relations }, provider }) =>
-      pipe(
-        provider,
-        O.map((m) =>
-          getSuggestions(createExcerptValue(editor.liexpSlate))(
-            m,
-            O.some({
-              id: l.id,
-              title: l.title,
-              description: l.description,
-              publishDate: l.publishDate ?? undefined,
-              provider: l.provider as any,
-              creator: l.creator?.id,
-              url: l.url,
-              image: l.image
-                ? {
-                    ...l.image,
-                    label: l.image.label ?? undefined,
-                    description: l.image.description ?? undefined,
-                    thumbnail: l.image.thumbnail ?? undefined,
-                    type: l.image as any as ImageType,
-                    extra: l.image.extra ?? undefined,
-                    events: [],
-                    links: [],
-                    keywords: [],
-                    areas: [],
-                  }
-                : undefined,
-              keywords: [],
-              events: [],
-              actors: [],
-              groups: [],
-              media: [],
-              socialPosts: [],
-              createdAt: new Date(),
-              updatedAt: new Date(),
-              deletedAt: undefined,
-            }),
-            O.none,
-            getRelationIdsFromEventRelations({
-              groupsMembers: [],
-              media: [],
-              areas: [],
-              actors: relations.actors as any[],
-              groups: relations.groups as any[],
-              keywords: relations.keywords as any[],
-              links: relations.links as any[],
-            }),
-          ),
+    TE.Do,
+    TE.bind("relations", () =>
+      sequenceS(TE.ApplicativePar)({
+        relations: extractRelationsFromURL(ctx)(p, l.url),
+        provider: extractEventFromProviderLink(ctx)(p, host, l),
+      }),
+    ),
+    TE.bind(
+      "suggestions",
+      ({
+        relations: {
+          relations: { entities },
+          provider,
+        },
+      }) => {
+        if (fp.O.isSome(provider)) {
+          return pipe(
+            TE.tryCatch(() => {
+              return getSuggestions(toBNDocument)(
+                provider.value,
+                O.some({
+                  id: l.id,
+                  title: l.title,
+                  description: l.description,
+                  publishDate: l.publishDate ?? undefined,
+                  provider: l.provider as any,
+                  creator: l.creator?.id,
+                  url: l.url,
+                  image: l.image
+                    ? {
+                        ...l.image,
+                        label: l.image.label ?? undefined,
+                        description: l.image.description ?? undefined,
+                        thumbnail: l.image.thumbnail ?? undefined,
+                        type: l.image as any as ImageType,
+                        extra: l.image.extra ?? undefined,
+                        events: [],
+                        links: [],
+                        keywords: [],
+                        areas: [],
+                      }
+                    : undefined,
+                  keywords: [],
+                  events: [],
+                  actors: [],
+                  groups: [],
+                  media: [],
+                  socialPosts: [],
+                  createdAt: new Date(),
+                  updatedAt: new Date(),
+                  deletedAt: undefined,
+                }),
+                O.none,
+                getRelationIdsFromEventRelations({
+                  groupsMembers: [],
+                  media: [],
+                  areas: [],
+                  actors: entities.actors as any[],
+                  groups: entities.groups as any[],
+                  keywords: entities.keywords as any[],
+                  links: entities.links as any[],
+                }),
+              );
+            }, toControllerError),
+            TE.map((suggestions) =>
+              suggestions.find((s) => s.event.type === "ScientificStudy"),
+            ),
+            TE.map(O.fromNullable),
+          );
+        }
+        return TE.right(O.none);
+      },
+    ),
+
+    TE.map(
+      ({
+        relations: {
+          relations: { entities },
+        },
+        suggestions,
+      }) =>
+        pipe(
+          suggestions,
+          O.map((s) => ({
+            ...s.event,
+            id: uuid() as any,
+            excerpt: s.event.excerpt ?? null,
+            body: s.event.body ?? null,
+            location: null,
+            links: [l],
+            keywords: [],
+            media: [],
+            events: [],
+            socialPosts: [],
+            actors: entities.actors,
+            groups: entities.groups,
+            stories: [],
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            deletedAt: null,
+          })),
         ),
-        O.chain((suggestions) =>
-          O.fromNullable(
-            suggestions.find((s) => s.event.type === "ScientificStudy"),
-          ),
-        ),
-        O.map((s) => ({
-          ...s.event,
-          id: uuid() as any,
-          excerpt: s.event.excerpt ?? null,
-          body: s.event.body ?? null,
-          location: null,
-          links: [l],
-          keywords: [],
-          media: [],
-          events: [],
-          socialPosts: [],
-          actors: relations.actors,
-          groups: relations.groups,
-          stories: [],
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          deletedAt: null,
-        })),
-      ),
     ),
   );
 };

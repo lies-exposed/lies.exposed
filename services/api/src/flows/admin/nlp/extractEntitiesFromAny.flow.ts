@@ -1,12 +1,15 @@
 import path from "path";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { getTextContents, isValidValue } from "@liexp/react-page/lib/utils.js";
 import {
   ExtractEntitiesWithNLPInput,
   type ExtractEntitiesWithNLPFromResourceInput,
   type ExtractEntitiesWithNLPOutput,
 } from "@liexp/shared/lib/io/http/admin/ExtractNLPEntities.js";
 import { GetEncodeUtils } from "@liexp/shared/lib/utils/encode.utils.js";
+import {
+  isValidValue,
+  getTextContents,
+} from "@liexp/ui/lib/components/Common/BlockNote/utils/index.js";
 import { toRecord } from "fp-ts/lib/ReadonlyRecord.js";
 import { Equal } from "typeorm";
 import { ActorEntity } from "#entities/Actor.entity.js";
@@ -23,7 +26,6 @@ import {
   DecodeError,
   ServerError,
 } from "#io/ControllerError.js";
-import { editor } from "#providers/slate.js";
 
 const findOneResourceAndMapText: TEFlow<
   [ExtractEntitiesWithNLPFromResourceInput],
@@ -50,9 +52,7 @@ const findOneResourceAndMapText: TEFlow<
             },
           }),
           fp.TE.map((k) =>
-            isValidValue(k.excerpt)
-              ? getTextContents(editor.liexpSlate)(k.excerpt)
-              : "",
+            isValidValue(k.excerpt) ? getTextContents(k.excerpt) : "",
           ),
         );
       }
@@ -65,9 +65,7 @@ const findOneResourceAndMapText: TEFlow<
             },
           }),
           fp.TE.map((k) =>
-            isValidValue(k.excerpt)
-              ? getTextContents(editor.liexpSlate)(k.excerpt)
-              : "",
+            isValidValue(k.excerpt) ? getTextContents(k.excerpt) : "",
           ),
         );
       }
@@ -80,9 +78,7 @@ const findOneResourceAndMapText: TEFlow<
             },
           }),
           fp.TE.map((k) =>
-            isValidValue(k.excerpt)
-              ? getTextContents(editor.liexpSlate)(k.excerpt)
-              : "",
+            isValidValue(k.excerpt) ? getTextContents(k.excerpt) : "",
           ),
         );
       }

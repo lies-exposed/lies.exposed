@@ -1,6 +1,6 @@
 import { GetAuthProvider } from "@liexp/ui/lib/client/api";
 import { FullSizeLoader } from "@liexp/ui/lib/components/Common/FullSizeLoader.js";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput";
 import ReferenceMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceMediaInput.js";
 import {
   AdminContext,
@@ -67,7 +67,7 @@ const EditStoryPageContent: React.FC<{ id?: string }> = ({ id }) => {
           allowedTypes={["image/jpg"]}
           fullWidth
         />
-        <ReactPageInput className={classes.input} source="body2" />
+        <BlockNoteInput className={classes.input} source="body2" />
       </SimpleForm>
       {isSubmitting ? <FullSizeLoader /> : null}
     </EditBase>

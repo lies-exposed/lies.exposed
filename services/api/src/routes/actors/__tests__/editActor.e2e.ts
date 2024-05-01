@@ -96,7 +96,7 @@ describe("Edit Actor", () => {
       const alsoMemberIn = groups.map((g) => ({
         group: g.id,
         actor: actor.id,
-        body: {},
+        body: [{ type: "paragraph", content: "hello" }],
         startDate: new Date(),
         endDate: new Date(),
       }));

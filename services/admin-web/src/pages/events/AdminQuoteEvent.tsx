@@ -1,5 +1,5 @@
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput.js";
 import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField.js";
 import { ReferenceBySubjectField } from "@liexp/ui/lib/components/admin/common/inputs/BySubject/ReferenceBySubjectField.js";
@@ -86,7 +86,7 @@ export const QuoteCreate: React.FC<CreateProps> = () => {
             />
           </Grid>
           <Grid item md={12}>
-            <ReactPageInput source="excerpt" onlyText />
+            <BlockNoteInput source="excerpt" onlyText />
             <TextInput source="payload.details" />
             <ReferenceArrayLinkInput source="links" defaultValue={[]} />
           </Grid>

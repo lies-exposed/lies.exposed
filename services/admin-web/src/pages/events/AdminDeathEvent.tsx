@@ -1,5 +1,5 @@
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput.js";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput.js";
 import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField.js";
@@ -84,8 +84,8 @@ export const DeathCreate: React.FC<CreateProps> = (props) => {
     >
       <SimpleForm>
         <BooleanInput source="draft" defaultValue={false} />
-        <ReactPageInput source="excerpt" onlyText />
-        <ReactPageInput source="body" />
+        <BlockNoteInput source="excerpt" onlyText />
+        <BlockNoteInput source="body" />
         <ReferenceActorInput source="payload.victim" />
         <DateInput source="date" />
         <ReferenceArrayKeywordInput

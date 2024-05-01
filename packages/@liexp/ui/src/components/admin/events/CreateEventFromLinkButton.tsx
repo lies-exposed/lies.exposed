@@ -12,7 +12,7 @@ import * as React from "react";
 import { Button } from "react-admin";
 import { useNavigate } from "react-router";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
-import { editor } from "../../Common/Editor/index.js";
+import { toBNDocument } from "../../Common/BlockNote/utils/utils.js";
 import { ErrorBox } from "../../Common/ErrorBox.js";
 import { Box, MenuItem, Select } from "../../mui/index.js";
 import EventPreview from "../previews/EventPreview.js";
@@ -45,8 +45,8 @@ export const CreateEventFromLinkButton: React.FC = () => {
 
     const result = await apiProvider
       .get("open-graph/metadata", { url: record.url, type: "Link" })
-      .then(({ data: { metadata: m, relations } }: any) => {
-        const suggestions = getSuggestions(editor.createExcerptValue)(
+      .then(async ({ data: { metadata: m, relations } }: any) => {
+        const suggestions = await getSuggestions(toBNDocument)(
           m,
           O.some(record),
           O.fromNullable(record.image as Media),

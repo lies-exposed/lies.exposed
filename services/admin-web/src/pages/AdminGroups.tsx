@@ -5,7 +5,7 @@ import { parseDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI.js";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput.js";
 import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField.js";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
@@ -72,7 +72,7 @@ const GroupMemberArrayInput: React.FC<Omit<ArrayInputProps, "children">> = (
         <ReferenceActorInput source="actor" />
         <DateInput source="startDate" />
         <DateInput source="endDate" />
-        <ReactPageInput onlyText={true} source="body" />
+        <BlockNoteInput onlyText={true} source="body" />
       </SimpleFormIterator>
     </ArrayInput>
   );
@@ -184,7 +184,8 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
               </Box>
             </Grid>
           </Grid>
-          <ReactPageInput label="excerpt" source="excerpt" />
+          <BlockNoteInput source="excerpt" />
+          <BlockNoteInput label="excerpt" source="excerpt" />
         </FormTab>
         <FormTab label="Avatar">
           <MediaField source="avatar" type="image/jpeg" controls={false} />
@@ -193,7 +194,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           </ImageInput>
         </FormTab>
         <FormTab label="Body">
-          <ReactPageInput label="body" source="body" />
+          <BlockNoteInput label="body" source="body" />
         </FormTab>
         <FormTab label="Members">
           <ArrayInput source="newMembers" defaultValue={[]} fullWidth>
@@ -263,8 +264,8 @@ export const GroupCreate: React.FC<CreateProps> = (props) => {
                 <ImageInput source="avatar">
                   <ImageField src="src" />
                 </ImageInput>
-                <ReactPageInput source="excerpt" onlyText />
-                <ReactPageInput source="body" />
+                <BlockNoteInput source="excerpt" onlyText />
+                <BlockNoteInput source="body" />
               </Box>
             );
           }}

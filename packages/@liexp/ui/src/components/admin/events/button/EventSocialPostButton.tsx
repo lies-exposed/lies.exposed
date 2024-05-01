@@ -1,6 +1,5 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { TupleWithId } from "@liexp/core/lib/fp/utils/TupleWithId.js";
-import { isValidValue } from "@liexp/react-page/lib/utils.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
 import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
@@ -17,7 +16,10 @@ import { useDataProvider, useRecordContext } from "react-admin";
 import { useConfiguration } from "../../../../context/ConfigurationContext.js";
 import { useAPI } from "../../../../hooks/useAPI.js";
 import { fetchRelations } from "../../../../state/queries/SearchEventsQuery.js";
-import { editor } from "../../../Common/Editor/index.js";
+import {
+  getTextContents,
+  isValidValue,
+} from "../../../Common/BlockNote/utils/index.js";
 import { SocialPostButton } from "../../common/SocialPostButton.js";
 
 export const EventSocialPostButton: React.FC<{ id: UUID }> = ({ id }) => {
@@ -115,7 +117,7 @@ export const EventSocialPostButton: React.FC<{ id: UUID }> = ({ id }) => {
             const { date, excerpt, keywords } = event;
 
             const content: string = isValidValue(excerpt)
-              ? editor.getTextContents(excerpt)
+              ? getTextContents(excerpt)
               : "";
             const url = `${conf.platforms.web.url}/events/${id}`;
 

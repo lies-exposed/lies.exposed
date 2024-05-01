@@ -2,6 +2,7 @@ import * as t from "io-ts";
 import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { BaseProps } from "./Common/BaseProps.js";
+import { BlockNoteDocument } from "./Common/BlockNoteDocument.js";
 import { Geometry } from "./Common/Geometry/index.js";
 import { UUID } from "./Common/UUID.js";
 import { Media } from "./Media.js";
@@ -27,7 +28,7 @@ export const CreateAreaBody = t.strict(
     slug: t.string,
     draft: t.boolean,
     geometry: Geometry,
-    body: t.UnknownRecord,
+    body: BlockNoteDocument,
   },
   "CreateAreaBody",
 );
@@ -38,7 +39,7 @@ export const EditAreaBody = t.strict(
     label: optionFromNullable(t.string),
     slug: optionFromNullable(t.string),
     draft: optionFromNullable(t.boolean),
-    body: optionFromNullable(t.UnknownRecord),
+    body: optionFromNullable(BlockNoteDocument),
     featuredImage: optionFromNullable(UUID),
     media: t.array(UUID),
     events: optionFromNullable(t.array(UUID)),
@@ -51,7 +52,7 @@ export const Area = t.strict(
   {
     ...BaseProps.type.props,
     ...CreateAreaBody.type.props,
-    body: t.union([t.UnknownRecord, t.null]),
+    body: t.union([BlockNoteDocument, t.any, t.null]),
     featuredImage: t.union([Media, t.null]),
     media: t.array(UUID),
     events: t.array(UUID),

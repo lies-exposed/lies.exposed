@@ -54,10 +54,10 @@ export class ActorEntity {
   events: Relation<EventV2Entity[]>;
 
   @Column({ type: "json", nullable: true })
-  excerpt: Record<string, unknown> | null;
+  excerpt: any[] | null;
 
   @Column({ type: "json", nullable: true })
-  body: Record<string, unknown> | null;
+  body: any[] | null;
 
   @ManyToMany(() => StoryEntity, (k) => k.actors, {
     cascade: false,

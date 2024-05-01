@@ -6,13 +6,13 @@ import { http } from "../io/index.js";
 import { uuid } from "../utils/uuid.js";
 
 export const getSuggestions =
-  (createExcerptValue: (b: string) => any) =>
-  (
+  (createExcerptValue: (b: string) => Promise<any>) =>
+  async (
     m: Metadata,
     link: O.Option<http.Link.Link>,
     media: O.Option<http.Media.Media>,
     relations: http.Events.EventRelationIds,
-  ): http.EventSuggestion.CreateEventSuggestion[] => {
+  ): Promise<http.EventSuggestion.CreateEventSuggestion[]> => {
     const urlDate = m.date ? new Date(m.date) : new Date();
 
     const suggestedTitle = pipe(
@@ -33,7 +33,7 @@ export const getSuggestions =
     );
 
     const suggestedExcerpt = m.description
-      ? createExcerptValue(m.description)
+      ? await createExcerptValue(m.description)
       : undefined;
 
     const suggestedMedia = pipe(

@@ -1,7 +1,3 @@
-import { fp } from "@liexp/core/lib/fp/index.js";
-import { type EditorProps } from "@liexp/react-page/lib/react-page.types.js";
-import { isValidValue } from "@liexp/react-page/lib/utils.js";
-import { pipe } from "fp-ts/lib/function.js";
 import { get } from "lodash";
 import * as React from "react";
 import {
@@ -11,55 +7,44 @@ import {
   type InputProps,
 } from "react-admin";
 import { ErrorBoundary } from "react-error-boundary";
-import { editor } from "../Common/Editor/index.js";
+import { BNEditor, BNEditorProps } from "../Common/BlockNote/Editor.js";
+import { fromSlateToBlockNote } from "../Common/BlockNote/utils/utils.js";
 import { ErrorBox } from "../Common/ErrorBox.js";
 import JSONInput from "../Common/JSON/JSONInput.js";
-import { Box, Button, FormControlLabel, Paper, Switch } from "../mui/index.js";
+import { FormControlLabel, Paper, Switch } from "../mui/index.js";
 
-export type RaReactPageInputProps = {
+export interface RaBlockNoteInputProps extends Omit<BNEditorProps, "content"> {
   className?: string;
   label?: string;
   source: string;
   style?: React.CSSProperties;
   variant?: "plain" | "extended";
-} & Omit<EditorProps, "cellPlugins">;
+}
 
-const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
+const RaBlockNoteInput: React.FC<RaBlockNoteInputProps> = ({
   label = "Content",
   source,
   style,
   onChange: _onChange,
   className,
   variant,
-  ...editorProps
+  readOnly,
 }) => {
   const record = useRecordContext();
-  const defaultValue = get(record, source) ?? editor.createExcerptValue("");
+  const defaultValue = get(record, source) ?? [];
+
   const {
     field: { value, onChange },
   } = useInput({
     source,
+    format: fromSlateToBlockNote,
     defaultValue,
   });
-
-  const isValidJSON = React.useMemo(() => {
-    if (value === "") {
-      return false;
-    }
-
-    return pipe(fp.Json.parse(value), fp.E.isRight);
-  }, [value]);
-
-  const isValueValid = React.useMemo(
-    () => value === "" || isValidValue(value) || isValidJSON,
-    [value, isValidJSON],
-  );
 
   const [showJSONEditor, setShowJSONEditor] = React.useState(false);
 
   const handleClear = (): void => {
-    const value = editor.createExcerptValue("");
-    onChange(value);
+    onChange([]);
     setShowJSONEditor(false);
   };
 
@@ -94,31 +79,19 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
               ...style,
             }}
           >
-            {!showJSONEditor && isValueValid ? (
-              <editor.LazyEditor
-                variant={variant}
-                value={value}
+            {!showJSONEditor ? (
+              <BNEditor
+                content={value}
+                readOnly={!!readOnly}
                 onChange={onChange}
-                {...editorProps}
               />
-            ) : showJSONEditor && isValidJSON ? (
+            ) : (
               <JSONInput
                 source={source}
                 onClear={() => {
                   handleClear();
                 }}
               />
-            ) : (
-              <Box>
-                <pre>{JSON.stringify(value)}</pre>
-                <Button
-                  onClick={() => {
-                    handleClear();
-                  }}
-                >
-                  Clear
-                </Button>
-              </Box>
             )}
           </Paper>
         </>
@@ -127,17 +100,20 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
   );
 };
 
-const ReactPageInput: React.FC<
-  InputProps & { className?: string; onlyText?: boolean }
-> = ({ onlyText = false, ...props }) => {
+const BlockNoteInput: React.FC<
+  InputProps & {
+    className?: string;
+    onlyText?: boolean;
+  }
+> = ({ onlyText = false, readOnly, ...props }) => {
   return (
-    <RaReactPageInput
+    <RaBlockNoteInput
       {...props}
       label={typeof props.label === "string" ? props.label : props.source}
       variant={onlyText ? "plain" : "extended"}
-      lang="en"
+      readOnly={readOnly ?? false}
     />
   );
 };
 
-export default ReactPageInput;
+export default BlockNoteInput;

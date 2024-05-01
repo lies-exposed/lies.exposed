@@ -10,7 +10,7 @@ import {
 } from "react-admin";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { Box, Grid } from "../../mui/index.js";
-import ReactPageInput from "../ReactPageInput.js";
+import BlockNoteInput from "../BlockNoteInput.js";
 import { EventTypeInput } from "../common/inputs/EventTypeInput.js";
 import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput.js";
 import { SuggestedKeywordEntityRelationsBox } from "../links/SuggestedEntityRelationsBox.js";
@@ -129,7 +129,7 @@ export const EventGeneralTab: React.FC<EventGeneralTabProps> = ({
         })}
       </Grid>
       <Grid item {...{ md: 12 }}>
-        <ReactPageInput label="excerpt" source="excerpt" onlyText />
+        <BlockNoteInput label="excerpt" source="excerpt" onlyText />
         <Box style={{ display: "flex", flexDirection: "column" }}>
           <DateField label="Updated At" source="updatedAt" showTime={true} />
           <DateField source="createdAt" showTime={true} />

@@ -5,8 +5,7 @@ import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI.js";
-import { editor } from "@liexp/ui/lib/components/Common/Editor/index.js";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import { ActorDataGrid } from "@liexp/ui/lib/components/admin/actors/ActorDataGrid.js";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput.js";
@@ -138,7 +137,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
           <TextInput source="fullName" />
           <DateInput source="bornOn" />
           <DateInput source="diedOn" />
-          <ReactPageInput source="excerpt" onlyText={true} />
+          <BlockNoteInput source="excerpt" onlyText={true} />
           <DateField source="createdAt" />
           <DateField source="updatedAt" />
         </FormTab>
@@ -149,7 +148,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
         </FormTab>
 
         <FormTab label="Content">
-          <ReactPageInput source="body" />
+          <BlockNoteInput source="body" />
         </FormTab>
 
         <FormTab label="Groups">
@@ -158,7 +157,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
               <ReferenceGroupInput source="group" />
               <DateInput source="startDate" />
               <DateInput source="endDate" />
-              <ReactPageInput onlyText={true} source="body" />
+              <BlockNoteInput onlyText={true} source="body" />
             </SimpleFormIterator>
           </ArrayInput>
 
@@ -179,7 +178,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
                 return {
                   draft: true,
                   type: t,
-                  excerpt: editor.createExcerptValue(""),
+                  excerpt: undefined,
                   body: undefined,
                   date: new Date(),
                   payload: {
@@ -253,8 +252,8 @@ export const ActorCreate: React.FC<CreateProps> = (props) => {
                   </ImageInput>
                 </Grid>
                 <Grid item md={12}>
-                  <ReactPageInput source="excerpt" onlyText={true} />
-                  <ReactPageInput source="body" />
+                  <BlockNoteInput source="excerpt" onlyText={true} />
+                  <BlockNoteInput source="body" />
                 </Grid>
               </Grid>
             );

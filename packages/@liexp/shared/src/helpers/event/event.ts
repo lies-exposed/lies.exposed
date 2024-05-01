@@ -373,7 +373,7 @@ export const transform =
             ...e,
             type: Events.EventTypes.QUOTE.value,
             payload: {
-              quote: e.excerpt ? getTextContents(e.excerpt as any) : undefined,
+              quote: e.excerpt ? getTextContents(e.excerpt) : undefined,
               actor: undefined,
               subject,
               details: undefined,

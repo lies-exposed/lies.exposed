@@ -19,5 +19,10 @@
     "strictPropertyInitialization": false
   },
   "include": ["./src"],
-  "exclude": ["**/__tests__/**", "*/__mocks__/**", "./test/**"]
+  "exclude": ["**/__tests__/**", "*/__mocks__/**", "./test/**"],
+  "references": [
+    { "path": "../../packages/@liexp/shared" },
+    { "path": "../../packages/@liexp/backend" },
+    { "path": "../../packages/@liexp/ui" }
+  ]
 }

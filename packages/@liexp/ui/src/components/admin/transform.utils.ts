@@ -7,7 +7,8 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { type RaRecord } from "react-admin";
 import { uploadFile, type RawMedia } from "../../client/admin/MediaAPI.js";
-import { editor } from "../Common/Editor/index.js";
+import { getTextContents } from "../Common/BlockNote/utils/getTextContents.js";
+import { isValidValue } from "../Common/BlockNote/utils/isValidValue.js";
 
 export const transformLinks = (links: any[]): any[] => {
   return links.reduce<(string | { url: string; publishDate: Date })[]>(
@@ -89,7 +90,9 @@ export const transformQuote = (
     ...data,
     payload: {
       ...data.payload,
-      quote: editor.getTextContents(data.excerpt, "\n\n"),
+      quote: isValidValue(data.excerpt)
+        ? getTextContents(data.excerpt).concat("\n\n")
+        : "",
     },
   };
 };

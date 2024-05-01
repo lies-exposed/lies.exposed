@@ -5,7 +5,7 @@ import { Events } from "@liexp/shared/lib/io/http/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { parseISO } from "date-fns";
 import * as React from "react";
-import { editor } from "../../Common/Editor/index.js";
+import { BNEditor } from "../../Common/BlockNote/Editor.js";
 import { EventIcon } from "../../Common/Icons/index.js";
 import { ActorList } from "../../lists/ActorList.js";
 import GroupsList from "../../lists/GroupList.js";
@@ -56,7 +56,11 @@ const EventCard: React.FC<EventCardProps> = ({
     <Card onClick={handleClick} {...props}>
       <CardActionArea>
         {showMedia ? (
-          <CardMedia component="img" image={image} style={{ height: 200 }} />
+          <CardMedia
+            component="img"
+            image={image}
+            style={{ height: props.style?.maxHeight ?? 150 }}
+          />
         ) : null}
         <CardHeader
           avatar={<EventIcon size="2x" type={event.type} />}
@@ -72,7 +76,7 @@ const EventCard: React.FC<EventCardProps> = ({
                 overflow: "hidden",
               }}
             >
-              <editor.LazyEditor value={event.excerpt as any} readOnly />
+              <BNEditor content={event.excerpt as any} readOnly />
             </Box>
           ) : null}
 

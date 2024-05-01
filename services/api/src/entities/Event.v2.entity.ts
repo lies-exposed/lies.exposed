@@ -36,10 +36,10 @@ export class EventV2Entity {
   date: Date;
 
   @Column({ type: "json", nullable: true })
-  excerpt: Record<string, unknown> | null;
+  excerpt: any[] | null;
 
   @Column({ type: "json", nullable: true })
-  body: Record<string, unknown> | null;
+  body: any[] | null;
 
   @Column({
     type: "enum",

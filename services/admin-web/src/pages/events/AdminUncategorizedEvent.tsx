@@ -1,7 +1,7 @@
 import { Events } from "@liexp/shared/lib/io/http/index.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { EventIcon } from "@liexp/ui/lib/components/Common/Icons/EventIcon.js";
-import ReactPageInput from "@liexp/ui/lib/components/admin/ReactPageInput.js";
+import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput.js";
 import ReferenceAreaInput from "@liexp/ui/lib/components/admin/areas/input/ReferenceAreaInput.js";
 import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField.js";
@@ -129,7 +129,7 @@ export const UncategorizedEventCreate: React.FC = (props) => {
             defaultValue={new Date()}
           />
           <DateInput source="payload.endDate" />
-          <ReactPageInput source="excerpt" onlyText />
+          <BlockNoteInput source="excerpt" onlyText />
           <ReferenceArrayKeywordInput
             showAdd
             source="keywords"
@@ -137,7 +137,7 @@ export const UncategorizedEventCreate: React.FC = (props) => {
           />
         </FormTab>
         <FormTab label="body">
-          <ReactPageInput source="body" />
+          <BlockNoteInput source="body" />
           <ReferenceArrayActorInput source="payload.actors" defaultValue={[]} />
           <ReferenceArrayField source="payload.actors" reference="actors">
             <Datagrid rowClick="edit">
