@@ -45,5 +45,10 @@
     "eslint.config.js",
     "vitest.workspace.ts"
   ],
-  "exclude": ["**/build", "**/lib"]
+  "exclude": ["**/build", "**/lib"],
+  "references": [
+    { "path": "../../packages/@liexp/backend" },
+    { "path": "../../packages/@liexp/shared" },
+    { "path": "../../packages/@liexp/ui" }
+  ]
 }
