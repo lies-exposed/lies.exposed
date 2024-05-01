@@ -7,6 +7,7 @@ module.exports = {
       "always",
       [
         "workspace",
+        "deps",
         "core",
         "shared",
         "test",
