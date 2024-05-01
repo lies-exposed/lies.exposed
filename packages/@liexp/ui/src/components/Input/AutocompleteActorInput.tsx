@@ -11,6 +11,7 @@ interface AutocompleteActorInputProps {
   options?: Actor.Actor[];
   onChange: (items: Actor.Actor[]) => void;
   discrete?: boolean;
+  tabIndex?: number;
 }
 
 export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
@@ -26,7 +27,7 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
       disablePortal={true}
       placeholder="Actors..."
       getOptionLabel={(a) => (typeof a === "string" ? a : a.fullName)}
-      searchToFilter={(search) => ({ search })}
+      searchToFilter={(q) => ({ q })}
       selectedItems={selectedItems}
       query={(p) =>
         options

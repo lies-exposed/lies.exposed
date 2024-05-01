@@ -1,5 +1,7 @@
+import { TupleWithId } from "@liexp/core/lib/fp/utils/TupleWithId.js";
 import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
+import { MEDIA } from "@liexp/shared/lib/io/http/Media.js";
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useConfiguration } from "../../context/ConfigurationContext.js";
@@ -39,9 +41,22 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
               areas: [],
             })
       }
-      searchToFilter={(title) => ({ title })}
+      searchToFilter={(q) => ({ q })}
       selectedItems={selectedItems}
-      query={(p) => Queries.Event.list.useQuery(p, undefined, discrete)}
+      query={(p) =>
+        Queries.Event.list.useQuery(
+          {
+            ...p,
+            filter: {
+              ...p.filter,
+              // TODO: implement this on backend
+              relations: [MEDIA.value],
+            },
+          },
+          undefined,
+          discrete,
+        )
+      }
       renderTags={(items) => (
         <EventCardGrid
           events={items.map((e) => toSearchEvent(e, {}))}
@@ -54,13 +69,20 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
         <EventCard
           key={item.id}
           showRelations={false}
-          event={{ ...toSearchEvent(item, {}) }}
+          event={{
+            ...toSearchEvent(item, {
+              media: new Map((item.media as any[]).map(TupleWithId.of)),
+            }),
+          }}
           onEventClick={() => {
             onChange(
               selectedItems.filter((i) => i.id !== item.id).concat(item),
             );
           }}
           defaultImage={conf.platforms.web.defaultImage}
+          style={{
+            maxHeight: 100,
+          }}
         />
       )}
       onItemsChange={onChange}
