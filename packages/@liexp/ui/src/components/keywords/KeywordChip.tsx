@@ -3,7 +3,7 @@ import { toColorHash } from "@liexp/shared/lib/utils/colors.js";
 import * as React from "react";
 import { Typography, type TypographyProps } from "../mui/index.js";
 
-interface KeywordChipProps
+export interface KeywordChipProps
   extends Omit<TypographyProps, "variant" | "onClick"> {
   keyword: Keyword.Keyword;
   onClick?: (k: Keyword.Keyword) => void;

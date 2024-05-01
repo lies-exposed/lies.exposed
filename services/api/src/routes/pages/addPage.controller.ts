@@ -13,7 +13,7 @@ export const MakeAddPageRoute = (r: Router, ctx: RouteContext): void => {
     ({ body }) => {
       return pipe(
         ctx.db.save(PageEntity, [
-          { ...body, body: undefined, body2: body.body2 as any },
+          { ...body, body: undefined, body2: body.body2 },
         ]),
         TE.chainEitherK(([page]) => toPageIO(page)),
         TE.map((data) => ({

@@ -17,7 +17,7 @@ export const MakeEditPageRoute = (r: Router, ctx: RouteContext): void => {
         ctx.db.save(PageEntity, [
           {
             ...editBody,
-            body2: body2 as any,
+            body2: body2,
             id,
           },
         ]),
