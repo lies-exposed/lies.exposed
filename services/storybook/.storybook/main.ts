@@ -6,7 +6,7 @@ import { defineViteConfig } from "@liexp/core/lib/frontend/vite/config.js";
 import * as t from "io-ts";
 
 const viteFinal: ViteFinal = async (config, { configType }) => {
-  const cwd = path.resolve(__dirname, "..")
+  const cwd = path.resolve(__dirname, "..");
 
   const viteConfigUpdate = defineViteConfig({
     envFileDir: cwd,
@@ -52,6 +52,13 @@ const viteFinal: ViteFinal = async (config, { configType }) => {
     ...updatedConfig.resolve,
     preserveSymlinks: true,
   };
+
+  updatedConfig.optimizeDeps!.entries =
+    updatedConfig.optimizeDeps!.entries!.concat(
+      ...["@liexp/core", "@liexp/shared", "@liexp/ui"].map(
+        (p) => `${p}/lib/**`,
+      ),
+    );
 
   console.log("config", config);
   console.log("updatedConfig", updatedConfig);

@@ -14,6 +14,7 @@ export interface MediaBoxProps {
   hideDescription?: boolean;
   disableZoom?: boolean;
   columns?: number;
+  discrete?: boolean;
 }
 
 export const MediaBox: React.FC<MediaBoxProps> = ({
@@ -21,6 +22,7 @@ export const MediaBox: React.FC<MediaBoxProps> = ({
   limit,
   onClick,
   perPage = 20,
+  discrete = true,
   ...props
 }) => {
   const [page, setPage] = React.useState(1);
@@ -40,7 +42,7 @@ export const MediaBox: React.FC<MediaBoxProps> = ({
             },
           },
           undefined,
-          false,
+          discrete,
         ),
       })}
       render={({ media: { total, data: media } }) => {

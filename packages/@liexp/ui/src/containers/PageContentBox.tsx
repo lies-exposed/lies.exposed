@@ -1,7 +1,7 @@
-import { isValidValue } from "@liexp/react-page/lib/utils.js";
 import * as React from "react";
-import { editor } from "../components/Common/Editor/index.js";
-import { TOCPlugin } from "../components/Common/Editor/plugins/renderer/TOCPlugin.js";
+import { BNEditor } from "../components/Common/BlockNote/Editor.js";
+import { TOCPlugin } from "../components/Common/BlockNote/plugins/renderer/TOCPlugin.js";
+import { getTextContentsCapped } from "../components/Common/BlockNote/utils/index.js";
 import QueriesRenderer from "../components/QueriesRenderer.js";
 import SEO from "../components/SEO.js";
 import { Typography } from "../components/mui/index.js";
@@ -29,10 +29,7 @@ export const PageContentBox: React.FC<PageContentProps> = ({
           <div className="page-content" style={style}>
             <SEO
               title={title}
-              description={editor.getTextContentsCapped(
-                (excerpt as any) ?? undefined,
-                200,
-              )}
+              description={getTextContentsCapped(excerpt as any, 200)}
               image={`${conf.publicUrl}/liexp-logo.png`}
               urlPath={path}
             />
@@ -41,10 +38,8 @@ export const PageContentBox: React.FC<PageContentProps> = ({
                 {title}
               </Typography>
             ) : null}
-            {isValidValue(body2) ? (
-              <editor.LazyEditor value={body2} readOnly />
-            ) : null}
-            {isValidValue(body2) ? <TOCPlugin value={body2} /> : null}
+            {body2 ? <BNEditor content={body2 as any} readOnly /> : null}
+            {body2 ? <TOCPlugin value={body2 as any} /> : null}
           </div>
         );
       }}
