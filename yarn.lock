@@ -6886,11 +6886,11 @@ __metadata:
   linkType: hard
 
 "@tiptap/extension-underline@npm:^2.0.3":
-  version: 2.2.3
-  resolution: "@tiptap/extension-underline@npm:2.2.3"
+  version: 2.3.1
+  resolution: "@tiptap/extension-underline@npm:2.3.1"
   peerDependencies:
     "@tiptap/core": ^2.0.0
-  checksum: fac7327b9a78dff05e5ee8be2655915ae2cccc030cdadbd03615dd945ac48b0c9e9de14e03c537733fd09092166998cb38f2ee884d99243117d884d657c66506
+  checksum: c2c84e0bb7d1222405da15e77810881c477a26b2ef9c6032f79043e653b67cad5a22968c32f2fd32864b7a17603287f25e903b8dcfd1951a340380ceb8e473de
   languageName: node
   linkType: hard
 
