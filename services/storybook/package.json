@@ -23,8 +23,8 @@
     "@liexp/ui": "0.1.0",
     "d3": "^7.9.0",
     "io-ts": "^2.2.21",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-spring": "^9.7.3",
     "reactflow": "^11.11.1",
     "storybook": "^8.0.9"
