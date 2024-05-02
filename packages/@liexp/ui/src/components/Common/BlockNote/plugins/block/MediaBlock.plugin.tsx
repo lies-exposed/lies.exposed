@@ -18,7 +18,7 @@ import { BNESchemaEditor } from "../../EditorSchema.js";
 import { EditMenu } from "../EditMenu/EditMenu.js";
 
 interface MediaBlockProps {
-  ids: string;
+  id: string;
   enableDescription: boolean;
   height: number;
 }
@@ -33,7 +33,7 @@ export const insertMedia = (editor: BNESchemaEditor) => ({
     insertOrUpdateBlock(editor, {
       type: "media",
       props: {
-        ids: DEFAULT_ID,
+        id: DEFAULT_ID,
         enableDescription: false,
         height: 100,
       },
@@ -47,7 +47,7 @@ export const insertMedia = (editor: BNESchemaEditor) => ({
 export const MediaBlockPluginRenderer: React.FC<{
   data: MediaBlockProps;
 }> = ({ ...props }) => {
-  const ids = props.data?.ids.split(",").filter(UUID.is) ?? [];
+  const ids = props.data?.id.split(",").filter(UUID.is) ?? [];
   const height = props.data.height ?? 200;
   const enableDescription = props.data.enableDescription ?? false;
 
@@ -81,7 +81,7 @@ export const MediaBlockPluginControl: React.FC<{
 }> = ({ onRemove: remove, data, ...props }) => {
   const [s, setS] = React.useState({
     media:
-      data.ids?.split(",").flatMap((id) => (UUID.is(id) ? [{ id }] : [])) ?? [],
+      data.id?.split(",").flatMap((id) => (UUID.is(id) ? [{ id }] : [])) ?? [],
     height: data.height ?? 200,
     enableDescription: data.enableDescription ?? false,
   });
@@ -146,7 +146,7 @@ export const MediaBlockPluginControl: React.FC<{
             onClick={() => {
               props.onChange({
                 ...s,
-                ids: s.media.map((m) => m.id).join(","),
+                id: s.media.map((m) => m.id).join(","),
               });
             }}
           >
@@ -169,7 +169,7 @@ export const mediaBlock = createReactBlockSpec(
   {
     type: "media",
     propSchema: {
-      ids: {
+      id: {
         default: DEFAULT_ID,
       },
       enableDescription: {
@@ -184,7 +184,7 @@ export const mediaBlock = createReactBlockSpec(
   {
     render: ({
       block: {
-        props: { ids, enableDescription, height },
+        props: { id, enableDescription, height },
       },
       editor,
     }): React.ReactNode => {
@@ -207,21 +207,21 @@ export const mediaBlock = createReactBlockSpec(
             editor={editor as any}
             onClick={() => {
               onChange({
-                ids: DEFAULT_ID,
+                id: DEFAULT_ID,
                 enableDescription: false,
                 height: 100,
               });
             }}
           >
-            {ids === DEFAULT_ID ? (
+            {id === DEFAULT_ID ? (
               <MediaBlockPluginControl
                 onRemove={onRemove}
-                data={{ ids: "", enableDescription: false, height: 100 }}
+                data={{ id: "", enableDescription: false, height: 100 }}
                 onChange={onChange}
               />
             ) : (
               <MediaBlockPluginRenderer
-                data={{ ids, enableDescription, height }}
+                data={{ id: id, enableDescription, height }}
               />
             )}
           </EditMenu>
