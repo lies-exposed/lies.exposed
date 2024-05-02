@@ -67,7 +67,7 @@ export const RelationInlineContentComponent: React.FC<{
     editor.updateBlock(pos.block, {
       content: updatedBlockContent,
     });
-  }, [editor, relation]);
+  }, [editor, relation, id]);
 
   const {
     selectInput,
@@ -165,32 +165,42 @@ export const RelationInlineContentComponent: React.FC<{
       size: "small",
       selectedItems: [],
       onChange: (a: any[]) => {
-        const pos = editor.document.find((tt) =>
-          ((tt.content as any) ?? []).find((t: any) => {
-            return (
-              t.type === "relation" ||
-              (t.type === _relation && t.props.id === _id)
-            );
-          }),
-        );
+        const currentBlock =
+          editor.document.find((tt) =>
+            ((tt.content as any) ?? []).find((t: any) => {
+              return (
+                t.type === "relation" ||
+                (t.type === relation &&
+                  (t.props.id === undefined || t.props.id === "")) ||
+                (t.type === _relation && t.props.id === _id) ||
+                (t.type === relation && t.props.id === id)
+              );
+            }),
+          ) ?? editor.getTextCursorPosition().block;
 
-        if (pos) {
-          const updatedBlockContent = (pos.content as any[]).map((t) =>
-            t.type === "relation" ||
-            (t.type === _relation && t.props.id === _id)
-              ? {
-                  type: relation as any as "actor",
-                  props: {
-                    ...relationProps,
-                    id: a[0].id,
-                  },
-                }
-              : t,
+        if (currentBlock) {
+          const updatedBlockContent = (currentBlock.content as any[]).map(
+            (t) =>
+              t.type === "relation" ||
+              (t.type === relation &&
+                (t.props.id === undefined || t.props.id === "")) ||
+              (t.type === _relation && t.props.id === _id) ||
+              (t.type === relation && t.props.id === id)
+                ? {
+                    type: relation as any as "actor",
+                    props: {
+                      ...relationProps,
+                      id: a[0].id,
+                    },
+                  }
+                : t,
           );
 
-          editor.updateBlock(pos, {
+          editor.updateBlock(currentBlock, {
             content: updatedBlockContent,
           });
+
+          setRelationProps({ id: a[0].id, relation: relation });
         }
       },
     };
@@ -206,11 +216,6 @@ export const RelationInlineContentComponent: React.FC<{
           <AutocompleteGroupInput {...autocompleteProps} />
         );
         break;
-      case "keyword":
-        elements.autocompleteInput = (
-          <AutocompleteKeywordInput {...autocompleteProps} />
-        );
-        break;
       case "area":
         elements.autocompleteInput = (
           <AutocompleteAreaInput {...autocompleteProps} />
@@ -222,7 +227,7 @@ export const RelationInlineContentComponent: React.FC<{
         );
     }
     return elements;
-  }, [relation, _relation, id, _id]);
+  }, [relation, _relation, id, _id, removeItem]);
 
   return (
     <Stack direction="row" display="inline-flex">
@@ -251,7 +256,7 @@ export const relationInlineContentSpec = createReactInlineContentSpec(
   {
     render: ({
       inlineContent: {
-        props: { relation: _relation, id: _id },
+        props: { relation, id },
       },
     }) => {
       return (
@@ -260,9 +265,9 @@ export const relationInlineContentSpec = createReactInlineContentSpec(
             editor ? (
               <RelationInlineContentComponent
                 editor={editor}
-                relation={_relation}
-                id={_id}
-                relationProps={{ id: _id }}
+                relation={relation}
+                id={id}
+                relationProps={{ id }}
                 relationRenderer={{}}
               />
             ) : null

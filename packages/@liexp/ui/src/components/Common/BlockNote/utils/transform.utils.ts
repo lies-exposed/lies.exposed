@@ -19,10 +19,12 @@ export function transform<T>(
     return null;
   }
 
+  const blockTransformer = blockSerializer(f);
+
   return pipe(
     v as BNBlock[],
     fp.A.reduce([] as T[], (acc, block) => {
-      const result = blockSerializer(f)(block);
+      const result = blockTransformer(block);
       return acc.concat(...result);
     }),
   );
@@ -66,29 +68,15 @@ const inlineRelationsPluginSerializer = (
   switch (p.type) {
     case "keyword":
     case "actor":
-    case "group": {
+    case "group":
+    case "media":
+    case "event": {
       return pipe(
         p.props?.id,
         fp.O.fromNullable,
         fp.O.map((id) => [{ id, type: p.type as InlineRelation["type"] }]),
       );
     }
-    // case EVENT_BLOCK_PLUGIN: {
-    //   const events: any[] = (p as any).data?.events ?? [];
-    //   return pipe(
-    //     events,
-    //     fp.O.fromPredicate((arr) => arr.length > 0),
-    //     fp.O.map(fp.A.map((ev) => ({ id: ev.id, type: "event" }))),
-    //   );
-    // }
-    // case MEDIA_BLOCK_PLUGIN: {
-    //   const media: any[] = (p as any).data?.media ?? [];
-    //   return pipe(
-    //     media,
-    //     fp.O.fromPredicate((arr) => arr.length > 0),
-    //     fp.O.map(fp.A.map((m) => ({ id: m.id, type: "media" }))),
-    //   );
-    // }
     case "numberedListItem":
     case "bulletListItem":
     case "table": {
