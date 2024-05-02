@@ -117,7 +117,7 @@ describe("EndpointQueriesProvider", () => {
 
     expect(apiProviderMock.request).toHaveBeenCalledWith({
       data: undefined,
-      params: undefined,
+      params: {},
       method: "GET",
       url: "/actors/1/siblings",
       responseType: "json",

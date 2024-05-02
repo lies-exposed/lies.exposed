@@ -1,15 +1,19 @@
 import { getEventCommonProps } from "@liexp/shared/lib/helpers/event/index.js";
-import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
+import { SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";
+import { useAPI } from "../../../../../hooks/useAPI.js";
+import { searchEventsQuery } from "../../../../../state/queries/SearchEventsQuery.js";
 import { styled } from "../../../../../theme/index.js";
 import QueriesRenderer from "../../../../QueriesRenderer.js";
 import {
   Box,
   Card,
   CardHeader,
+  CardMedia,
   List,
   ListItem,
+  Stack,
   Typography,
 } from "../../../../mui/index.js";
 import { EventIcon } from "../../../Icons/index.js";
@@ -18,20 +22,32 @@ const PREFIX = `event-timeline-plugin`;
 
 const classes = {
   root: `${PREFIX}-root`,
+  list: `${PREFIX}-list`,
+  listItem: `${PREFIX}-list-item`,
 };
 
 const StyledBox = styled(Box)(({ theme }) => ({
   [`&.${classes.root}`]: {},
+  [`& .${classes.list}`]: {
+    display: "flex",
+    flexDirection: "column",
+    padding: 0,
+  },
+  [`& .${classes.listItem}`]: {
+    cursor: "pointer",
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
 }));
 
 const EventsTimeline: React.FC<{
-  events: Event[];
-  onEventClick: (e: Event) => void;
+  events: SearchEvent.SearchEvent[];
+  onEventClick: (e: SearchEvent.SearchEvent) => void;
 }> = ({ events, onEventClick }) => {
   return (
-    <List>
+    <List className={classes.list}>
       {events.map((e) => {
-        const { title } = getEventCommonProps(e, {
+        const { title } = getEventCommonProps(e as any, {
           actors: [],
           groups: [],
           groupsMembers: [],
@@ -42,17 +58,28 @@ const EventsTimeline: React.FC<{
         });
         return (
           <ListItem
+            className={classes.listItem}
             key={e.id}
             onClick={() => {
               onEventClick(e);
             }}
           >
             <Card>
-              <CardHeader
-                avatar={<EventIcon size="2x" type={e.type} />}
-                title={title}
-                subheader={formatDate(e.date)}
-              />
+              <Stack direction="row" justifyContent={"center"}>
+                {e.media[0]?.thumbnail ? (
+                  <CardMedia
+                    image={e.media[0].thumbnail}
+                    title={e.media[0].label}
+                    style={{ width: 150 }}
+                  />
+                ) : null}
+
+                <CardHeader
+                  avatar={<EventIcon size="1x" type={e.type} />}
+                  title={title}
+                  subheader={formatDate(e.date)}
+                />
+              </Stack>
             </Card>
           </ListItem>
         );
@@ -63,25 +90,27 @@ const EventsTimeline: React.FC<{
 
 interface EventTimelinePluginProps {
   events: string[];
-  onEventClick: (m: Event) => void;
+  onEventClick: (m: SearchEvent.SearchEvent) => void;
 }
 
 export const EventTimelinePlugin: React.FC<EventTimelinePluginProps> = ({
   events,
   onEventClick,
 }) => {
+  const api = useAPI();
   return (
     <StyledBox className={classes.root}>
       <Typography variant="subtitle1">Event timeline</Typography>
       <QueriesRenderer
-        queries={(Q) => ({
-          events: Q.Event.list.useQuery(
-            { filter: { ids: events } },
-            undefined,
-            true,
-          ),
-        })}
-        render={({ events: { data: events } }) => {
+        queries={{
+          events: searchEventsQuery(api)({
+            hash: "event-timeline",
+            ids: events,
+            _start: 0,
+            _end: events.length,
+          }),
+        }}
+        render={({ events: { events } }) => {
           return <EventsTimeline events={events} onEventClick={onEventClick} />;
         }}
       />

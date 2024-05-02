@@ -1,6 +1,6 @@
+import { SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
 import {
   type Actor,
-  type Events,
   type Group,
   type Keyword,
   type Media,
@@ -25,7 +25,7 @@ export interface StoryPageContentProps {
   onGroupClick: (k: Group.Group) => void;
   onKeywordClick: (k: Keyword.Keyword) => void;
   onMediaClick: (m: Media.Media) => void;
-  onEventClick: (m: Events.Event) => void;
+  onEventClick: (m: SearchEvent.SearchEvent) => void;
 }
 
 export const StoryPageContent: React.FC<StoryPageContentProps> = ({

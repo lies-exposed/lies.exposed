@@ -96,10 +96,14 @@ const KeywordsDistributionGraph: React.FC<
   return (
     <QueriesRenderer
       queries={(Q) => ({
-        keywordDistribution: Q.Keyword.Custom.Distribution.useQuery(undefined, {
-          _start: "0",
-          _end: "50",
-        }),
+        keywordDistribution: Q.Keyword.Custom.Distribution.useQuery(
+          undefined,
+          {
+            _start: "0",
+            _end: "50",
+          },
+          false,
+        ),
       })}
       render={({ keywordDistribution }) => {
         return (

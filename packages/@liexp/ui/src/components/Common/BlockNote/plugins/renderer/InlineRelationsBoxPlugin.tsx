@@ -1,5 +1,5 @@
+import { SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
 import {
-  type Events,
   type Actor,
   type Group,
   type Keyword,
@@ -34,7 +34,7 @@ interface InlineRelationsPluginProps {
   onGroupClick: (g: Group.Group) => void;
   onKeywordClick: (g: Keyword.Keyword) => void;
   onMediaClick: (m: Media.Media) => void;
-  onEventClick: (m: Events.Event) => void;
+  onEventClick: (m: SearchEvent) => void;
 }
 
 export const InlineRelationsPlugin: React.FC<InlineRelationsPluginProps> = ({

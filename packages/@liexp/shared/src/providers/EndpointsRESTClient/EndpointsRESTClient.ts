@@ -239,7 +239,17 @@ const restFromResourceEndpoints = <
           params: TypeOfEndpointInstance<typeof ee>["Input"],
           q: any,
         ): Promise<TypeOfEndpointInstance<typeof ee>["Output"]> => {
-          return pipe(fetch({ ...(params as any), Query: q }), throwTE);
+          const p: any = params;
+          return pipe(
+            fetch({
+              ...(p?.Params ? { Params: p.Params } : {}),
+              Query: {
+                ...(p?.Query ?? {}),
+                ...(q ?? {}),
+              },
+            } as any),
+            throwTE,
+          );
         };
       }),
     ) as any,
