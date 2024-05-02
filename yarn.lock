@@ -6384,12 +6384,12 @@ __metadata:
   linkType: hard
 
 "@tiptap/extension-code-block@npm:^2.2.3":
-  version: 2.2.3
-  resolution: "@tiptap/extension-code-block@npm:2.2.3"
+  version: 2.3.1
+  resolution: "@tiptap/extension-code-block@npm:2.3.1"
   peerDependencies:
     "@tiptap/core": ^2.0.0
     "@tiptap/pm": ^2.0.0
-  checksum: 13c6f29fe5926aff63115fdd6e3942a7a977684c99dbf0a9f147560061fd2bc4b0f1629af5499b2b4c6006a65b2e5dfb63be093fd53c60e57bd8390896162dce
+  checksum: 980c91042b8a6736bc0d48afd284c43aeca432da09357fac6dc9f7bcf318065c52f69b2fe118d8351272b254a7058cba71867725880cc7b9b0df17d44b3e42e0
   languageName: node
   linkType: hard
 
