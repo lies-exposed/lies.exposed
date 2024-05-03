@@ -62,7 +62,7 @@
     "prettier": "^3.2.5",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.8.0",
-    "vite": "^5.2.10",
+    "vite": "^5.2.11",
     "vitest": "^1.5.3"
   },
   "packageManager": "yarn@3.8.0",
