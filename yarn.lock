@@ -6424,12 +6424,12 @@ __metadata:
   linkType: hard
 
 "@tiptap/extension-color@npm:^2.0.3":
-  version: 2.3.0
-  resolution: "@tiptap/extension-color@npm:2.3.0"
+  version: 2.3.1
+  resolution: "@tiptap/extension-color@npm:2.3.1"
   peerDependencies:
     "@tiptap/core": ^2.0.0
     "@tiptap/extension-text-style": ^2.0.0
-  checksum: 371c289350f2945e3ca572e4e9c2b092fa7aeaa5fce88bb2cd8107b771605c64db8e140164f3b8eb053fd73a416097223f621528fc68a5485bf3bf1d753f01c9
+  checksum: 0edd822ccbe27b603c133b035c047359a524269c8642bd426d6340e3225464a860873761cfe4993464f10f1b2e36d79dc4795afe22a6b2cb9660dddcdaa32880
   languageName: node
   linkType: hard
 
