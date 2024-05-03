@@ -6493,11 +6493,11 @@ __metadata:
   linkType: hard
 
 "@tiptap/extension-highlight@npm:^2.0.3":
-  version: 2.2.3
-  resolution: "@tiptap/extension-highlight@npm:2.2.3"
+  version: 2.3.1
+  resolution: "@tiptap/extension-highlight@npm:2.3.1"
   peerDependencies:
     "@tiptap/core": ^2.0.0
-  checksum: 9a6f4cf8bf3bb13dd5099e96bfd29ab6e33a0350106181b9f65863e56b0f8f3f98621f3d161593bbd8241e5b3b887ca7bb739dd8e23cb7f07251dac11804044e
+  checksum: 434766f0fe77bad7aedae98ada1cb8da69dc6e07ad379a5e5299f4dcbdcece1b2bf204e5efd3689b4c2718f494a7bf1e9ff3776e40748b25188e6b816b2ca3c1
   languageName: node
   linkType: hard
 
