@@ -6434,11 +6434,11 @@ __metadata:
   linkType: hard
 
 "@tiptap/extension-document@npm:^2.2.3":
-  version: 2.2.3
-  resolution: "@tiptap/extension-document@npm:2.2.3"
+  version: 2.3.1
+  resolution: "@tiptap/extension-document@npm:2.3.1"
   peerDependencies:
     "@tiptap/core": ^2.0.0
-  checksum: 00ac51fcd8033549301dab0ad304f2ca968c0af7517ae6fab9c9f1a65de72806e2036b88208ac4849071f103dd416a40b736036c9ef0981f7cb7371f82df4af4
+  checksum: 6c6121fa447de32fc784ade3392d53ad5b3e1f566ee195c3892eb5545d6cf8fe1b9ed2788093555b453ecbd780d02884a25eb368dd6d55ad063f7751cf8f2575
   languageName: node
   linkType: hard
 
