@@ -729,11 +729,11 @@ __metadata:
   linkType: hard
 
 "@aws-sdk/util-locate-window@npm:^3.0.0":
-  version: 3.535.0
-  resolution: "@aws-sdk/util-locate-window@npm:3.535.0"
+  version: 3.568.0
+  resolution: "@aws-sdk/util-locate-window@npm:3.568.0"
   dependencies:
     tslib: ^2.6.2
-  checksum: b421e1b08adfdd0e51c73a0b244a67188e745b870da712560d8edb28c41076f9dc94c24577bb9d07ea1f04e8ee6b543f00d1ae0617db8d729f16588238fbebae
+  checksum: 354db5187beee4203c7ec6583556ab14ecde9644c06aaa51fa2528131836d3fc73035a3b080c904e108c49defce20d5562893113b93d819b70497f47989bb578
   languageName: node
   linkType: hard
 
