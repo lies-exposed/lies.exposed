@@ -25,6 +25,7 @@ export interface GroupC extends t.Props {
   createdAt: DateFromISOStringC;
   updatedAt: DateFromISOStringC;
   name: t.StringC;
+  username: t.UnionC<[t.StringC, t.UndefinedC]>;
   kind: t.UnionC<[t.LiteralC<"Public">, t.LiteralC<"Private">]>;
   color: t.StringC;
   avatar: t.UnionC<[t.StringC, t.UndefinedC]>;

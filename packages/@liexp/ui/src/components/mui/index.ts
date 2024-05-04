@@ -76,6 +76,7 @@ import {
   type TypographyProps,
   Avatar,
   type AvatarProps,
+  Popover,
 } from "@mui/material";
 import {
   StyledEngineProvider,
@@ -142,6 +143,7 @@ export {
   Pagination,
   Paper,
   Popper,
+  Popover,
   Select,
   Slider,
   Stack,
