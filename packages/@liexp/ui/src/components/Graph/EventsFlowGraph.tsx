@@ -10,21 +10,12 @@ import { toColor } from "@liexp/shared/lib/utils/colors.js";
 import { parseISO } from "date-fns";
 import { pipe } from "fp-ts/lib/function.js";
 import React from "react";
-import {
-  BaseEdge,
-  Handle,
-  Position,
-  getBezierPath,
-  type EdgeProps,
-  type NodeProps,
-} from "reactflow";
-import { useConfiguration } from "../../context/ConfigurationContext.js";
-import EventCard from "../Cards/Events/EventCard.js";
-import { FlowGraph, type FlowGraphProps } from "../Common/Graph/FlowGraph.js";
-import { EventIcon } from "../Common/Icons/index.js";
-import { ActorListItem } from "../lists/ActorList.js";
-import { GroupListItem } from "../lists/GroupList.js";
-import { KeywordListItem } from "../lists/KeywordList.js";
+import { FlowGraph, type FlowGraphProps } from "../Common/Graph/Flow/FlowGraph.js";
+import { ActorLink } from "../Common/Graph/Flow/links/ActorLink.js";
+import { ActorNode } from "../Common/Graph/Flow/nodes/ActorNode.js";
+import { EventNode } from "../Common/Graph/Flow/nodes/EventNode.js";
+import { GroupNode } from "../Common/Graph/Flow/nodes/GroupNode.js";
+import { KeywordNode } from "../Common/Graph/Flow/nodes/KeywordNode.js";
 
 const nodePosition = (
   i: number,
@@ -37,126 +28,6 @@ const nodePosition = (
     x,
     y,
   };
-};
-
-const EventNode: React.FC<NodeProps<Events.SearchEvent.SearchEvent>> = ({
-  data,
-  targetPosition,
-  sourcePosition,
-  selected,
-}) => {
-  const conf = useConfiguration();
-  return (
-    <React.Suspense>
-      <div style={{ maxWidth: 300, zIndex: selected ? 1000 : 0 }}>
-        {targetPosition ? (
-          <Handle type="target" position={Position.Bottom} />
-        ) : null}
-        {!selected ? (
-          <EventIcon
-            type={data.type}
-            style={{
-              opacity: (data as any).selected ? 1 : 0.5,
-            }}
-          />
-        ) : (
-          <EventCard
-            event={data}
-            showMedia={true}
-            showRelations={false}
-            defaultImage={conf.platforms.web.defaultImage}
-          />
-        )}
-        {sourcePosition ? (
-          <Handle type="source" position={Position.Top} />
-        ) : null}
-      </div>
-    </React.Suspense>
-  );
-};
-
-const ActorNode: React.FC<NodeProps> = ({ data }) => {
-  return (
-    <div style={{ maxWidth: 200 }}>
-      <ActorListItem item={data} displayFullName={false} />
-      <Handle type="source" position={Position.Bottom} />
-    </div>
-  );
-};
-
-const ActorLink: React.FC<EdgeProps> = ({
-  id,
-  sourceX,
-  sourceY,
-  targetX,
-  targetY,
-  sourcePosition,
-  targetPosition,
-  style = {},
-  markerEnd,
-  markerStart,
-  data,
-}) => {
-  const [edgePath] = getBezierPath({
-    sourceX,
-    sourceY,
-    sourcePosition,
-    targetX,
-    targetY,
-    targetPosition,
-  });
-  return (
-    <div key={id}>
-      <BaseEdge
-        id={id}
-        path={edgePath}
-        markerEnd={markerEnd}
-        markerStart={markerStart}
-        style={{ ...style }}
-      />
-      {/* <EdgeLabelRenderer>
-         <div
-          style={{
-            position: "absolute",
-            transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
-            fontSize: 12,
-            backgroundColor: `${data.color}`,
-            // everything inside EdgeLabelRenderer has no pointer events by default
-            // if you have an interactive element, set pointer-events: all
-            pointerEvents: "all",
-          }}
-          className="nodrag nopan"
-        >
-          <button className="edgebutton" onClick={(event) => {}}>
-            ×
-          </button>
-        </div>
-      </EdgeLabelRenderer> */}
-    </div>
-  );
-};
-
-const GroupNode: React.FC<NodeProps> = ({ data }) => {
-  return (
-    <React.Suspense>
-      <div style={{ maxWidth: 200 }}>
-        <Handle type="source" position={Position.Bottom} />
-        <GroupListItem item={data} displayName={false} />
-        {/* <Handle type="target" position={Position.Left} /> */}
-      </div>
-    </React.Suspense>
-  );
-};
-
-const KeywordNode: React.FC<NodeProps> = ({ yPos, data }) => {
-  return (
-    <React.Suspense>
-      <div style={{ maxWidth: 200 }}>
-        <Handle type="source" position={Position.Bottom} />
-        <KeywordListItem item={data} />
-      </div>
-    </React.Suspense>
-  );
 };
 
 interface EventFlowGraphProps extends FlowGraphProps {

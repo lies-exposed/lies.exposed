@@ -10,6 +10,7 @@ interface AutocompleteGroupInputProps {
   discrete?: boolean;
   selectedItems: Group.Group[];
   options?: Group.Group[];
+  excludeIds?: string[];
   onChange: (item: Group.Group[]) => void;
   tabIndex?: number;
 }
@@ -19,6 +20,7 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
   onChange,
   discrete = true,
   options,
+  excludeIds,
   ...props
 }) => {
   const { Queries } = useEndpointQueries();
@@ -35,7 +37,13 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
               queryKey: ["group-options"],
               queryFn: () => Promise.resolve({ data: options }),
             })
-          : Queries.Group.list.useQuery(p, undefined, discrete)
+          : Queries.Group.list.useQuery(
+              {
+                filter: { ...p.filter, excludeIds },
+              },
+              undefined,
+              discrete,
+            )
       }
       renderTags={(items) => (
         <GroupList
