@@ -5,6 +5,7 @@ import JSONInput from "@liexp/ui/lib/components/Common/JSON/JSONInput.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
 import { TextWithSlugInput } from "@liexp/ui/lib/components/admin/common/inputs/TextWithSlugInput.js";
+import { GraphBuilderInput } from "@liexp/ui/lib/components/admin/graphs/GraphBuilderInput.js";
 import { SearchLinksButton } from "@liexp/ui/lib/components/admin/links/SearchLinksButton.js";
 import GraphPreview from "@liexp/ui/lib/components/admin/previews/GraphPreview.js";
 import {
@@ -94,6 +95,7 @@ export const GraphEdit: React.FC<EditProps> = (props) => {
         </FormTab>
         <FormTab label="Data">
           <GraphTypeInput />
+          <GraphBuilderInput source="data" />
           <JSONInput source="data" />
         </FormTab>
 
@@ -124,6 +126,7 @@ export const GraphCreate: React.FC<CreateProps> = (props) => {
             <TextWithSlugInput source="label" />
             <GraphTypeInput />
             <JSONInput source="data" label="Data" />
+            <GraphBuilderInput source="data" />
           </Grid>
           <Grid item md={12}>
             <BlockNoteInput source="excerpt" onlyText={true} />

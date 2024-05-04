@@ -5103,22 +5103,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@smithy/middleware-endpoint@npm:^2.5.0":
-  version: 2.5.0
-  resolution: "@smithy/middleware-endpoint@npm:2.5.0"
-  dependencies:
-    "@smithy/middleware-serde": ^2.3.0
-    "@smithy/node-config-provider": ^2.3.0
-    "@smithy/shared-ini-file-loader": ^2.4.0
-    "@smithy/types": ^2.12.0
-    "@smithy/url-parser": ^2.2.0
-    "@smithy/util-middleware": ^2.2.0
-    tslib: ^2.6.2
-  checksum: 1243567c611d33995dcfb48b5468fbe636db7c2303abafd6a311e6350926f6960c08b58cd5d2133e58b3e13b21f765b281b78b78d14b21092b8bb7cf12de0e76
-  languageName: node
-  linkType: hard
-
-"@smithy/middleware-endpoint@npm:^2.5.1":
+"@smithy/middleware-endpoint@npm:^2.5.0, @smithy/middleware-endpoint@npm:^2.5.1":
   version: 2.5.1
   resolution: "@smithy/middleware-endpoint@npm:2.5.1"
   dependencies:
@@ -5271,21 +5256,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@smithy/smithy-client@npm:^2.5.0":
-  version: 2.5.0
-  resolution: "@smithy/smithy-client@npm:2.5.0"
-  dependencies:
-    "@smithy/middleware-endpoint": ^2.5.0
-    "@smithy/middleware-stack": ^2.2.0
-    "@smithy/protocol-http": ^3.3.0
-    "@smithy/types": ^2.12.0
-    "@smithy/util-stream": ^2.2.0
-    tslib: ^2.6.2
-  checksum: 37a26dd19bc413cd8132c8585588031a25984c24c475db47bae02476e05f698f17511947fc47b89c4ed4f10a29046ba3542d6d338428aeff35e1178a9ecc7a47
-  languageName: node
-  linkType: hard
-
-"@smithy/smithy-client@npm:^2.5.1":
+"@smithy/smithy-client@npm:^2.5.0, @smithy/smithy-client@npm:^2.5.1":
   version: 2.5.1
   resolution: "@smithy/smithy-client@npm:2.5.1"
   dependencies:
