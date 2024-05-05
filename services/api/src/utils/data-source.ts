@@ -9,6 +9,7 @@ import { ActorEntity } from "#entities/Actor.entity.js";
 import { AreaEntity } from "#entities/Area.entity.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { EventSuggestionEntity } from "#entities/EventSuggestion.entity.js";
+import { GraphEntity } from "#entities/Graph.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";
 import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
 import { KeywordEntity } from "#entities/Keyword.entity.js";
@@ -77,6 +78,7 @@ export const getORMConfig = (
       UserEntity,
       EventSuggestionEntity,
       SocialPostEntity,
+      GraphEntity,
     ],
     synchronize: env.NODE_ENV === "test",
     ssl,

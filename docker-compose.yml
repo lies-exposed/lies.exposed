@@ -65,7 +65,7 @@ services:
       - fra1.space.liexp.dev
     volumes:
       - api-node-modules:/app/node_modules
-      - ./packages/@liexp:/app/packages/@liexp:ro
+      - ./packages/@liexp:/app/packages/@liexp
       - ./services/api:/app/services/api:ro
       - ./services/api/temp:/app/services/api/temp:rw
     tty: true
@@ -100,7 +100,7 @@ services:
       - ./packages/@liexp:/app/packages/@liexp:ro
       - ./services/web:/app/services/web:cached
     working_dir: /app/services/web
-    command: yarn dev
+    command: yarn docker:dev
     mem_limit: 2G
     tty: true
     stdin_open: true

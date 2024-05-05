@@ -66,7 +66,11 @@ const EventCard: React.FC<EventCardProps> = ({
           width={"100%"}
         >
           {showMedia ? (
-            <Stack display="flex" width={isVertical ? "100%" : "150px"} direction={"row"}>
+            <Stack
+              display="flex"
+              width={isVertical ? "100%" : "150px"}
+              direction={"row"}
+            >
               <CardMedia
                 component="img"
                 image={image}

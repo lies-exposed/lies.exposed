@@ -76,6 +76,8 @@ const Endpoints: Endpoints = {
 
   // stories
   Story: Story.stories,
+
+  // graphs
   Graph: Graph.graphs,
 
   // events
@@ -113,4 +115,4 @@ const AddEndpoint = GetEndpointSubscriber((e): IOError => {
 
 export const UserLogin = User.UserLogin;
 export const PageDeleteMany = Page.DeleteManyPage;
-export { AddEndpoint, Endpoints, Graph, Uploads };
+export { AddEndpoint, Endpoints, Uploads };

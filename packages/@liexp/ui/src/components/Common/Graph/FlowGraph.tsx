@@ -9,7 +9,6 @@ import {
   type FitViewOptions,
   type ReactFlowProps,
 } from "reactflow";
-
 import "reactflow/dist/style.css";
 
 export type FlowGraphProps = ReactFlowProps;
