@@ -5,6 +5,7 @@ import {
   BookEventIcon,
   DeathEventIcon,
   DocumentaryEventIcon,
+  GraphIcon,
   GroupIcon,
   HashtagIcon,
   LinkIcon,
@@ -58,6 +59,7 @@ import { Route } from "react-router-dom";
 import { ActorCreate, ActorEdit, ActorList } from "./pages/AdminActors";
 import { AreaCreate, AreaEdit, AreaList } from "./pages/AdminAreas.js";
 import { EventEdit, EventList } from "./pages/AdminEvents.js";
+import { GraphCreate, GraphEdit, GraphList } from "./pages/AdminGraph";
 import {
   GroupMemberCreate,
   GroupMemberEdit,
@@ -193,6 +195,13 @@ const AdminPage: React.FC = () => {
         create={AreaCreate}
         edit={AreaEdit}
         icon={AreaIcon}
+      />
+      <Resource
+        name="graphs"
+        list={GraphList}
+        edit={GraphEdit}
+        create={GraphCreate}
+        icon={GraphIcon}
       />
 
       <Resource

@@ -13,7 +13,7 @@ interface EventCardGridProps {
   showItemRelations?: boolean;
   style?: React.CSSProperties;
   itemStyle?: React.CSSProperties;
-  cardLayout?: EventCardProps['layout'];
+  cardLayout?: EventCardProps["layout"];
 }
 
 const PREFIX = "EventCardGrid";

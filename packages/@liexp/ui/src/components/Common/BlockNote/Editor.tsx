@@ -36,16 +36,18 @@ export interface BNEditorProps {
   onChange?: (content: BNESchemaEditor["document"]) => void;
 }
 
-// eslint-disable-next-line react/display-name
-const ThemedBlockNoteView = (theme: "light" | "dark"): React.FC<any> => (props) => (
-  <BlockNoteView {...props} theme={theme} />
-);
+const ThemedBlockNoteView =
+  (theme: "light" | "dark"): React.FC<any> =>
+  // eslint-disable-next-line react/display-name
+  (props) => <BlockNoteView {...props} theme={theme} />;
 
-const StyledBlockNoteView = styled(ThemedBlockNoteView("light"))(({ editable }) => ({
-  [".bn-editor"]: {
-    padding: !editable ? 0 : 54,
-  },
-}));
+const StyledBlockNoteView = styled(ThemedBlockNoteView("light"))(
+  ({ editable }) => ({
+    [".bn-editor"]: {
+      padding: !editable ? 0 : 54,
+    },
+  }),
+);
 
 export const BNEditor: React.FC<BNEditorProps> = ({
   content,

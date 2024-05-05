@@ -8,6 +8,7 @@
   "scripts": {
     "clean": "rm -rf build",
     "dev": "DOTENV_CONFIG_PATH=.env node --import tsx/esm -r dotenv/config ./src/server/server.tsx",
+    "docker:dev": "yarn install && node --import tsx/esm -r dotenv/config ./src/server/server.tsx",
     "watch:client": "DOTENV_CONFIG_PATH=.env.development vite dev",
     "build:client": "vite build --outDir build/client",
     "build:server-ssr": "vite build --outDir build/server --ssr src/server/entry.tsx",

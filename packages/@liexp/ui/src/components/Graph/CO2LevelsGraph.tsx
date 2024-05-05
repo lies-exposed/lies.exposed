@@ -101,7 +101,7 @@ export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = (props) => {
 
   return (
     <QueriesRenderer
-      queries={{ data: Queries.Graph.get.useQuery(undefined, { id }) }}
+      queries={{ data: Queries.Graph.get.useQuery({ id }) }}
       render={({ data }) => (
         <ParentSize
           style={{ height: 400, width: "100%", ...style }}
