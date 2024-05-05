@@ -49,7 +49,7 @@ export default tseslint.config(
         "error",
         "ignorePackages",
         {
-          js: "never",
+          js: "always",
           jsx: "never",
           ts: "never",
           tsx: "never",

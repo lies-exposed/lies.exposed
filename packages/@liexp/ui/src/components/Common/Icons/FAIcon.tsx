@@ -31,7 +31,8 @@ export interface FAIconProps extends FontAwesomeIconProps {
     | "person-half-dress"
     | "users-between-lines"
     | "share-nodes"
-    | "map-location";
+    | "map-location"
+    | "chart-line";
 }
 
 export const FAIcon: React.FC<FAIconProps> = ({ icon, ...props }) => {
@@ -94,5 +95,13 @@ export const MediaIcon: FAIconFC = (props) => (
     color={toColorHash(generateRandomColor())}
     {...props}
     icon={"file-image"}
+  />
+);
+
+export const GraphIcon: FAIconFC = (props) => (
+  <FAIcon
+    color={toColorHash(generateRandomColor())}
+    {...props}
+    icon={"chart-line"}
   />
 );

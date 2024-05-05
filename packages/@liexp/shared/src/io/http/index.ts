@@ -21,6 +21,7 @@ import * as Story from "./Story.js";
 import * as Topic from "./Topic.js";
 import * as User from "./User.js";
 import * as Video from "./Video.js";
+import * as Graph from "./graphs/Graph.js";
 
 export {
   Actor,
@@ -29,6 +30,7 @@ export {
   Error,
   EventSuggestion,
   Events,
+  Graph,
   Group,
   GroupMember,
   Keyword,

@@ -1,4 +1,5 @@
 import * as t from "io-ts";
+import { UUID } from "io-ts-types/lib/UUID.js";
 import { Forecast } from "../climate-change/Forecast.js";
 import { SummitEvent } from "../climate-change/SummitEvent.js";
 import { WHOCovid19GlobalData } from "../covid/COVIDDailyDatum.js";
@@ -86,3 +87,30 @@ export const GraphData = t.union(
 );
 
 export type GraphId = t.TypeOf<typeof GraphId>;
+
+export const GraphType = t.union(
+  [t.literal("reactflow"), t.literal("AxisGraph")],
+  "GraphType",
+);
+export type GraphType = t.TypeOf<typeof GraphType>;
+
+export const CreateGraphData = t.strict(
+  {
+    type: GraphType,
+    label: t.string,
+    slug: t.string,
+    data: t.any,
+    options: t.any,
+  },
+  "CreateGraphData",
+);
+export type CreateGraphData = t.TypeOf<typeof CreateGraphData>;
+
+export const Graph = t.strict(
+  {
+    ...CreateGraphData.type.props,
+    id: UUID,
+  },
+  "Graph",
+);
+export type Graph = t.TypeOf<typeof Graph>;

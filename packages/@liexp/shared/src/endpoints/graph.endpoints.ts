@@ -1,21 +1,69 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
+import { ListOutput, Output } from "../io/http/Common/Output.js";
+import { UUID } from "../io/http/Common/UUID.js";
 import { GetNetworkQuery } from "../io/http/Network.js";
 import { GetListQuery } from "../io/http/Query/index.js";
 import {
   FlowGraphOutput,
   GetFlowGraphParams,
 } from "../io/http/graphs/FlowGraph.js";
-import { GraphData, GraphId } from "../io/http/graphs/Graph.js";
+import { CreateGraphData, Graph } from "../io/http/graphs/Graph.js";
 import { ResourceEndpoints } from "./types.js";
+
+const SingleGraphOutput = Output(Graph, "Graph");
+const ListGraphsOutput = ListOutput(Graph, "Graphs");
 
 export const GetGraph = Endpoint({
   Method: "GET",
+  getPath: ({ id }) => `/graphs/${id}`,
+  Input: {
+    Params: t.type({ id: UUID }),
+  },
+  Output: SingleGraphOutput,
+});
+
+export const ListGraphs = Endpoint({
+  Method: "GET",
   getPath: () => `/graphs`,
   Input: {
-    Query: t.type({ id: GraphId }),
+    Query: t.partial({
+      ...GetListQuery.props,
+    }),
   },
-  Output: t.strict({ data: GraphData }),
+  Output: ListGraphsOutput,
+});
+
+export const CreateGraph = Endpoint({
+  Method: "POST",
+  getPath: () => `/graphs`,
+  Input: {
+    Body: CreateGraphData,
+  },
+  Output: SingleGraphOutput,
+});
+
+export const EditGraph = Endpoint({
+  Method: "PUT",
+  getPath: ({ id }) => `/graphs/${id}`,
+  Input: {
+    Params: t.type({
+      id: UUID,
+    }),
+    Body: CreateGraphData,
+  },
+  Output: SingleGraphOutput,
+});
+
+export const DeleteGraph = Endpoint({
+  Method: "DELETE",
+  getPath: ({ id }) => `/graphs/${id}`,
+  Input: {
+    Params: t.type({
+      id: UUID,
+    }),
+  },
+  Output: SingleGraphOutput,
 });
 
 export const GetFlowGraph = Endpoint({
@@ -38,48 +86,6 @@ export const EditFlowGraph = Endpoint({
     }),
   },
   Output: t.strict({ data: FlowGraphOutput }),
-});
-
-export const ListGraphs = Endpoint({
-  Method: "GET",
-  getPath: () => `/graphs`,
-  Input: {
-    Query: t.partial({
-      ...GetListQuery.props,
-    }),
-  },
-  Output: t.strict({ data: t.array(GraphData) }),
-});
-
-export const CreateGraph = Endpoint({
-  Method: "POST",
-  getPath: () => `/graphs`,
-  Input: {
-    Body: t.unknown,
-  },
-  Output: t.strict({ data: GraphData }),
-});
-
-export const EditGraph = Endpoint({
-  Method: "PUT",
-  getPath: () => `/graphs`,
-  Input: {
-    Query: t.type({
-      id: GraphId,
-    }),
-  },
-  Output: t.strict({ data: GraphData }),
-});
-
-export const DeleteGraph = Endpoint({
-  Method: "DELETE",
-  getPath: () => `/graphs`,
-  Input: {
-    Query: t.type({
-      id: GraphId,
-    }),
-  },
-  Output: t.strict({ data: GraphData }),
 });
 
 export const graphs = ResourceEndpoints({

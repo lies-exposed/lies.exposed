@@ -16,6 +16,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { EventSuggestionEntity } from "./EventSuggestion.entity.js";
+import { GraphEntity } from "./Graph.entity.js";
 import { LinkEntity } from "./Link.entity.js";
 import { MediaEntity } from "./Media.entity.js";
 import { StoryEntity } from "./Story.entity.js";
@@ -72,6 +73,9 @@ export class UserEntity {
 
   @OneToMany(() => StoryEntity, (a) => a.creator)
   stories: Relation<StoryEntity[]>;
+
+  @OneToMany(() => GraphEntity, (a) => a.creator)
+  graphs: Relation<GraphEntity[]>;
 
   @CreateDateColumn()
   createdAt: Date;
