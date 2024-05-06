@@ -37,7 +37,7 @@
     "@liexp/shared": "0.1.0",
     "@mui/icons-material": "^5.15.15",
     "@mui/lab": "5.0.0-alpha.170",
-    "@mui/material": "^5.15.15",
+    "@mui/material": "^5.15.16",
     "@mui/styles": "^5.15.15",
     "@mui/system": "^5.15.15",
     "@mui/x-data-grid": "^7.3.0",
