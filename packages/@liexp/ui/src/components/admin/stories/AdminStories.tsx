@@ -38,6 +38,7 @@ import { Box, Grid } from "../../mui/index.js";
 import BlockNoteInput from "../BlockNoteInput.js";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
 import { EditForm } from "../common/EditForm.js";
+import { TextWithSlugInput } from "../common/inputs/TextWithSlugInput.js";
 import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput.js";
 import ReferenceMediaInput from "../media/input/ReferenceMediaInput.js";
 import StoryPreview from "../previews/StoryPreview.js";
@@ -130,8 +131,7 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
         <FormTab label="generals">
           <Grid container>
             <Grid item md={6}>
-              <TextInput source="title" fullWidth={true} />
-              <TextInput source="path" fullWidth={true} />
+              <TextWithSlugInput source="title" slugSource="path" fullWidth />
               <DateInput source="date" />
             </Grid>
             <Grid
@@ -190,8 +190,7 @@ export const StoryCreate: React.FC<CreateProps> = (props) => {
     >
       <SimpleForm>
         <BooleanInput source="draft" />
-        <TextInput source="title" fullWidth={true} />
-        <TextInput source="path" fullWidth={true} />
+        <TextWithSlugInput source="title" slugSource="path" fullWidth />
         <ReferenceArrayKeywordInput source="keywords" showAdd={true} />
         <ReferenceMediaInput
           source="featuredImage"

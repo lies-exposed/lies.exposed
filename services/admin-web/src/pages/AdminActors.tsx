@@ -9,6 +9,7 @@ import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import { ActorDataGrid } from "@liexp/ui/lib/components/admin/actors/ActorDataGrid.js";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput.js";
+import { TextWithSlugInput } from "@liexp/ui/lib/components/admin/common/inputs/TextWithSlugInput.js";
 import { CreateEventButton } from "@liexp/ui/lib/components/admin/events/CreateEventButton.js";
 import ReferenceManyEventField from "@liexp/ui/lib/components/admin/events/ReferenceManyEventField.js";
 import { EventsFlowGraphFormTab } from "@liexp/ui/lib/components/admin/events/tabs/EventsFlowGraphFormTab.js";
@@ -133,8 +134,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
         <FormTab label="generals">
           <MediaField source="avatar" type="image/jpeg" controls={false} />
           <ColorInput source="color" />
-          <TextInput source="username" />
-          <TextInput source="fullName" />
+          <TextWithSlugInput source="fullName" slugSource="username" />
           <DateInput source="bornOn" />
           <DateInput source="diedOn" />
           <BlockNoteInput source="excerpt" onlyText={true} />
@@ -241,8 +241,7 @@ export const ActorCreate: React.FC<CreateProps> = (props) => {
                     source="color"
                     defaultValue={generateRandomColor()}
                   />
-                  <TextInput source="fullName" />
-                  <TextInput source="username" />
+                  <TextWithSlugInput source="fullName" slugSource="username" />
                   <DateInput source="bornOn" />
                   <DateInput source="diedOn" />
                 </Grid>

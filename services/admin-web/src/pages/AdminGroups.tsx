@@ -10,6 +10,7 @@ import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/Reference
 import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField.js";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput.js";
+import { TextWithSlugInput } from "@liexp/ui/lib/components/admin/common/inputs/TextWithSlugInput.js";
 import ReferenceManyEventField from "@liexp/ui/lib/components/admin/events/ReferenceManyEventField.js";
 import { EventsNetworkGraphFormTab } from "@liexp/ui/lib/components/admin/events/tabs/EventsNetworkGraphFormTab.js";
 import { GroupDataGrid } from "@liexp/ui/lib/components/admin/groups/GroupDataGrid.js";
@@ -166,8 +167,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           <Grid container spacing={2}>
             <Grid item md={6}>
               <Box style={{ display: "flex", flexDirection: "column" }}>
-                <TextInput source="name" />
-                <TextInput source="username" />
+                <TextWithSlugInput source="name" slugSource="username" />
                 <ColorInput source="color" />
                 <Box style={{ display: "flex", flexDirection: "column" }}>
                   <DateInput source="startDate" />
@@ -257,8 +257,7 @@ export const GroupCreate: React.FC<CreateProps> = (props) => {
                 <ColorInput source="color" />
                 <DateInput source="startDate" />
                 <DateInput source="endDate" />
-                <TextInput source="name" />
-                <TextInput source="username" />
+                <TextWithSlugInput source="name" slugSource="username" />
                 <GroupKindInput source="kind" />
                 <GroupMemberArrayInput source="members" />
                 <ImageInput source="avatar">
