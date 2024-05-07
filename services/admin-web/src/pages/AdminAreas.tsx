@@ -5,6 +5,7 @@ import { AreaTGPostButton } from "@liexp/ui/lib/components/admin/areas/button/Ar
 import { UpdateAreaGeometryByLabelButton } from "@liexp/ui/lib/components/admin/areas/button/UpdateAreaGeometryByLabelButton.js";
 import { UpdateAreaGeometryWithCoordinatesButton } from "@liexp/ui/lib/components/admin/areas/button/UpdateAreaGeometryWithCoordinatesButton.js";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
+import { TextWithSlugInput } from "@liexp/ui/lib/components/admin/common/inputs/TextWithSlugInput.js";
 import ReferenceArrayEventInput from "@liexp/ui/lib/components/admin/events/ReferenceArrayEventInput.js";
 import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField.js";
 import ReferenceMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceMediaInput.js";
@@ -24,7 +25,6 @@ import {
   SimpleForm,
   TabbedForm,
   TextField,
-  TextInput,
   required,
   useRecordContext,
   useRefresh,
@@ -168,8 +168,7 @@ export const AreaEdit: React.FC<EditProps> = () => (
   >
     <TabbedForm>
       <FormTab label="Generals">
-        <TextInput source="label" />
-        <TextInput source="slug" />
+        <TextWithSlugInput source="label" slugSource="slug" />
         <BooleanInput source="draft" />
         <ReferenceMediaInput source="featuredImage.id" />
         <BlockNoteInput source="body" onlyText />
@@ -199,8 +198,11 @@ export const AreaCreate: React.FC<CreateProps> = () => (
   <Create title="Create a Post">
     <SimpleForm>
       <BooleanInput source="draft" defaultValue={false} />
-      <TextInput source="label" validate={[required()]} />
-      <TextInput source="slug" validate={[required()]} />
+      <TextWithSlugInput
+        source="label"
+        slugSource="slug"
+        validate={[required()]}
+      />
       <MapInput source="geometry" />
       <BlockNoteInput source="body" defaultValue="" validate={[required()]} />
     </SimpleForm>
