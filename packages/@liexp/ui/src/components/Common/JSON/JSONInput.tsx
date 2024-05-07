@@ -1,9 +1,8 @@
-/* gist.github.com/phanngoc/473229c74d0119704d9c603b1251782a */
-import "is-plain-object";
+import { JsonEditor } from "jsoneditor-react";
 import * as React from "react";
-import { Button, Labeled, useInput } from "react-admin";
+import { Button, Labeled, TextInputProps, useInput } from "react-admin";
 
-export interface JSONInputProps {
+export interface JSONInputProps extends TextInputProps {
   label?: string;
   source: string;
   style?: React.CSSProperties;
@@ -11,50 +10,27 @@ export interface JSONInputProps {
 }
 
 const JSONInput: React.FC<JSONInputProps> = ({
-  label = "Content",
-  style,
   source,
+  label = source,
+  style,
   onClear,
   ...props
 }) => {
   const {
     field: { value, onChange },
-  } = useInput({ source });
-
-  const JSONView = React.useMemo((): React.ComponentType<any> => {
-    if (typeof window !== "undefined") {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      return require("react-json-view").default;
-    }
-    // eslint-disable-next-line react/display-name
-    return () => <div />;
-  }, [typeof window !== "undefined"]);
-
-  const [json, setJSON] = React.useState(value);
+  } = useInput({ ...props, source, defaultValue: props.defaultValue ?? "" });
 
   return (
-    <Labeled {...props} label={label} fullWidth>
+    <Labeled label={label} fullWidth>
       <>
-        <JSONView
-          src={json}
-          onAdd={(add: any) => {
-            setJSON(add.updated_src);
-          }}
-          onEdit={(edit: any) => {
-            setJSON(edit.updated_src);
-          }}
-          onDelete={(del: any) => {
-            setJSON(null);
-          }}
+        <JsonEditor
+          value={value}
+          onChange={onChange}
+          mode="text"
+          theme="ace/theme/github"
         />
 
         <Button label="Clear" onClick={() => onClear?.()} />
-        <Button
-          label="Save"
-          onClick={() => {
-            onChange(json);
-          }}
-        />
       </>
     </Labeled>
   );
