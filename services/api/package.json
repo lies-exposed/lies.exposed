@@ -76,7 +76,7 @@
     "node-telegram-bot-api": "^0.65.1",
     "page-metadata-parser": "^1.1.4",
     "parse2-kmz": "^1.0.7",
-    "pdfjs-dist": "^4.1.392",
+    "pdfjs-dist": "^4.2.67",
     "pg": "^8.11.5",
     "puppeteer-core": "^21.11.0",
     "puppeteer-extra": "^3.3.6",

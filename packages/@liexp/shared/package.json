@@ -55,7 +55,7 @@
     "@types/uuid": "^9.0.8",
     "@visx/network": "^3.3.0",
     "fast-csv": "^5.0.1",
-    "pdfjs-dist": "^4.1.392",
+    "pdfjs-dist": "^4.2.67",
     "react-admin": "^4.16.17",
     "typescript": "^5.4.5",
     "vitest": "^1.5.3",
