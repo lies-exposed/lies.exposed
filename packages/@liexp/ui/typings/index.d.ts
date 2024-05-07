@@ -15,3 +15,8 @@ declare module "*.svg" {
   export = svg;
   export default svg;
 }
+
+declare module "jsoneditor-react" {
+  const JsonEditor: any;
+  export { JsonEditor };
+}
