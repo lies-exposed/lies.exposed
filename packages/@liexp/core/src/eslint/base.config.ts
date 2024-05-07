@@ -45,6 +45,16 @@ export default tseslint.config(
         },
       ],
       "import/namespace": "off",
+      "import/extensions": [
+        "error",
+        "ignorePackages",
+        {
+          js: "never",
+          jsx: "never",
+          ts: "never",
+          tsx: "never",
+        },
+      ],
       "no-restricted-imports": [
         "error",
         {
