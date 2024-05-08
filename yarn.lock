@@ -6376,11 +6376,11 @@ __metadata:
   linkType: hard
 
 "@tiptap/extension-blockquote@npm:^2.2.3":
-  version: 2.2.3
-  resolution: "@tiptap/extension-blockquote@npm:2.2.3"
+  version: 2.3.1
+  resolution: "@tiptap/extension-blockquote@npm:2.3.1"
   peerDependencies:
     "@tiptap/core": ^2.0.0
-  checksum: 84ccbbe78e80a9cfa01a9c6d744c3eae61beca1d53197a8e982a7e0fae963d2a2455e82cf7d9fd071d1cb39b2fce58a1cca09eec3ff6e0572125a91cd15c7623
+  checksum: ceb18f1cf3e98998ad8cc145fe88a1e402affa5268a3abbc968076c746f4b027dc86ca103a2182f16af10747292142671152d9d954cd28eafceb9edb1d0927e0
   languageName: node
   linkType: hard
 
