@@ -1833,13 +1833,13 @@ __metadata:
   linkType: hard
 
 "@babel/plugin-transform-property-literals@npm:^7.23.3":
-  version: 7.23.3
-  resolution: "@babel/plugin-transform-property-literals@npm:7.23.3"
+  version: 7.24.1
+  resolution: "@babel/plugin-transform-property-literals@npm:7.24.1"
   dependencies:
-    "@babel/helper-plugin-utils": ^7.22.5
+    "@babel/helper-plugin-utils": ^7.24.0
   peerDependencies:
     "@babel/core": ^7.0.0-0
-  checksum: 16b048c8e87f25095f6d53634ab7912992f78e6997a6ff549edc3cf519db4fca01c7b4e0798530d7f6a05228ceee479251245cdd850a5531c6e6f404104d6cc9
+  checksum: a73646d7ecd95b3931a3ead82c7d5efeb46e68ba362de63eb437d33531f294ec18bd31b6d24238cd3b6a3b919a6310c4a0ba4a2629927721d4d10b0518eb7715
   languageName: node
   linkType: hard
 
