@@ -10337,9 +10337,9 @@ __metadata:
   linkType: hard
 
 "classcat@npm:^5.0.3, classcat@npm:^5.0.4":
-  version: 5.0.4
-  resolution: "classcat@npm:5.0.4"
-  checksum: 77373c58fa15ad2d4494b5c73c7ed2f859e7126227c357a3931e3f2a28e45dd9d8e779c1c8d3a8ba9ece833b21f14cd79160a7999973e28888d7e47f56c83170
+  version: 5.0.5
+  resolution: "classcat@npm:5.0.5"
+  checksum: 19bdeb99b8923b47f9df978b6ef2c5a4cc3bcaa8fb6be16244e31fad619b291b366429747331903ac2ea27560ffd6066d14089a99c95535ce0f1e897525fa63d
   languageName: node
   linkType: hard
 
