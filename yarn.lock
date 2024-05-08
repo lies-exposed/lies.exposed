@@ -2159,11 +2159,11 @@ __metadata:
   linkType: hard
 
 "@babel/runtime@npm:^7.10.0, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.17.8, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.19.4, @babel/runtime@npm:^7.20.13, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.23.8, @babel/runtime@npm:^7.23.9, @babel/runtime@npm:^7.24.0, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.6.2, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.3, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
-  version: 7.24.1
-  resolution: "@babel/runtime@npm:7.24.1"
+  version: 7.24.5
+  resolution: "@babel/runtime@npm:7.24.5"
   dependencies:
     regenerator-runtime: ^0.14.0
-  checksum: 5c8f3b912ba949865f03b3cf8395c60e1f4ebd1033fbd835bdfe81b6cac8a87d85bc3c7aded5fcdf07be044c9ab8c818f467abe0deca50020c72496782639572
+  checksum: 755383192f3ac32ba4c62bd4f1ae92aed5b82d2c6665f39eb28fa94546777cf5c63493ea92dd03f1c2e621b17e860f190c056684b7f234270fdc91e29beda063
   languageName: node
   linkType: hard
 
@@ -2221,9 +2221,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@blocknote/core@npm:^0.12.4":
-  version: 0.12.4
-  resolution: "@blocknote/core@npm:0.12.4"
+"@blocknote/core@npm:^0.13.0":
+  version: 0.13.0
+  resolution: "@blocknote/core@npm:0.13.0"
   dependencies:
     "@tiptap/core": ^2.0.3
     "@tiptap/extension-bold": ^2.0.3
@@ -2264,30 +2264,47 @@ __metadata:
     y-prosemirror: 1.2.1
     y-protocols: ^1.0.5
     yjs: ^13.6.1
-  checksum: ee08dfe029016e6d9cb20531770dbde175e9611c695121beaab9490c39fb120b26a1d4e1aea340f007d69a22356e3599d8d73a74df52bc3b107c74977089a1c3
+  checksum: ca7d55ee1c3d21964e30e7cc84aef4a063d8df634b6d377430a842c550b8a3045001f7a5c25f00aa241da1b288a52811e14f8d8077b21553589a088f9a0d6ab4
   languageName: node
   linkType: hard
 
-"@blocknote/react@npm:^0.12.4":
-  version: 0.12.4
-  resolution: "@blocknote/react@npm:0.12.4"
+"@blocknote/mantine@npm:^0.13.1":
+  version: 0.13.1
+  resolution: "@blocknote/mantine@npm:0.13.1"
   dependencies:
-    "@blocknote/core": ^0.12.4
-    "@floating-ui/react": ^0.26.4
-    "@mantine/core": ^7.7.1
-    "@mantine/hooks": ^7.7.1
+    "@blocknote/core": ^0.13.0
+    "@blocknote/react": ^0.13.1
+    "@mantine/core": ^7.5.0
+    "@mantine/hooks": ^7.5.0
     "@mantine/utils": ^6.0.21
-    "@tiptap/core": ^2.0.3
-    "@tiptap/react": ^2.0.3
-    lodash.merge: ^4.6.2
     react: ^18
-    react-dom: ^18.2.0
+    react-dom: ^18
     react-icons: ^4.3.1
     use-prefers-color-scheme: ^1.1.3
   peerDependencies:
     react: ^18
     react-dom: ^18
-  checksum: 60431a667c237dd35e07cb3eb22f12267c791ea7e63a299350cee0b62878131b16b13dd9f0cbcbb7bea53ad4cfac5eb954a546749115dc35c97cc911b9c93c81
+  checksum: a5d6dd46e8772e03cc6afa9d1873edaf20b0dc8fcd8d6ff749cf2b5afe664fea6fb459a8cc4a266e71c2647e36ad7eab14d1111ae25a949be227f38c851cfd08
+  languageName: node
+  linkType: hard
+
+"@blocknote/react@npm:^0.13.1":
+  version: 0.13.1
+  resolution: "@blocknote/react@npm:0.13.1"
+  dependencies:
+    "@blocknote/core": ^0.13.0
+    "@floating-ui/react": ^0.26.4
+    "@tiptap/core": ^2.0.3
+    "@tiptap/react": ^2.0.3
+    lodash.merge: ^4.6.2
+    react: ^18
+    react-dom: ^18
+    react-icons: ^4.3.1
+    use-prefers-color-scheme: ^1.1.3
+  peerDependencies:
+    react: ^18
+    react-dom: ^18
+  checksum: d8fe578f880831e957ae5af43852763d930b347e51fc9ca07389e59862ab666fe7b4440ef88abcc97ad4bbe0d9b196709f6e707aa399112153576ab9a5597bea
   languageName: node
   linkType: hard
 
@@ -3715,8 +3732,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@liexp/ui@workspace:packages/@liexp/ui"
   dependencies:
-    "@blocknote/core": ^0.12.4
-    "@blocknote/react": ^0.12.4
+    "@blocknote/core": ^0.13.0
+    "@blocknote/mantine": ^0.13.1
+    "@blocknote/react": ^0.13.1
     "@emotion/css": ^11.11.2
     "@emotion/server": ^11.11.0
     "@fortawesome/fontawesome-svg-core": ^6.5.2
@@ -3824,9 +3842,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mantine/core@npm:^7.7.1":
-  version: 7.8.1
-  resolution: "@mantine/core@npm:7.8.1"
+"@mantine/core@npm:^7.5.0":
+  version: 7.9.1
+  resolution: "@mantine/core@npm:7.9.1"
   dependencies:
     "@floating-ui/react": ^0.26.9
     clsx: 2.1.0
@@ -3835,19 +3853,19 @@ __metadata:
     react-textarea-autosize: 8.5.3
     type-fest: ^4.12.0
   peerDependencies:
-    "@mantine/hooks": 7.8.1
+    "@mantine/hooks": 7.9.1
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 64c2f41bec7eba2c825b70c1ee9588974715ba6092a35c7c5b79a75b834ffee139138cb23521ff21b6d22219809372d1510efd81f5ad6b56eff46de4f4cb2cba
+  checksum: ea54d63584e36c05272b4b8ede439b743a607d4926f7d2eeed979ef67042a3db473768724ac333c70aece6190a2c0cad264922b68b0f110e24ef54a094120d03
   languageName: node
   linkType: hard
 
-"@mantine/hooks@npm:^7.7.1":
-  version: 7.8.1
-  resolution: "@mantine/hooks@npm:7.8.1"
+"@mantine/hooks@npm:^7.5.0":
+  version: 7.9.1
+  resolution: "@mantine/hooks@npm:7.9.1"
   peerDependencies:
     react: ^18.2.0
-  checksum: 0ba8939c982315faa78a3be511b8776447eee1ce8bc7cf5da0bcf71fa0b319185375e419c37a3ef43e715dcd491d6bc6d19504f4475a8eda4164debeaf40a514
+  checksum: f60cd0e70e2785e42e032c9e985a74091d44f0311ed2545e2221121fb87f393ac7f1b126d52fbf912c0105c176af62495d7e06f1be48914210ddea8f17151b16
   languageName: node
   linkType: hard
 
@@ -19942,7 +19960,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^16.8.0 || ^17.0.0 || ^18.0.0, react-dom@npm:^18.2.0, react-dom@npm:^18.3.1":
+"react-dom@npm:^16.8.0 || ^17.0.0 || ^18.0.0, react-dom@npm:^18, react-dom@npm:^18.3.1":
   version: 18.3.1
   resolution: "react-dom@npm:18.3.1"
   dependencies:
@@ -22907,9 +22925,9 @@ __metadata:
   linkType: hard
 
 "type-fest@npm:^4.12.0":
-  version: 4.18.0
-  resolution: "type-fest@npm:4.18.0"
-  checksum: 137655855a452966ad2f1669bdd620774c586897e931989490fba31a5cd5eee2617b4ff44fbc45fd6b72752b7d271562ebd7da0416545091c33ce2ae4f406d70
+  version: 4.18.2
+  resolution: "type-fest@npm:4.18.2"
+  checksum: 2e9272b2b97b2f4ea2bbffda43cfce9ca89c474ad7c9565e39b80fee2ce609ea60385faffbbef98994b38feb3fa5fa38feb33acf175f4f85ee21d1773e87bf44
   languageName: node
   linkType: hard
 
@@ -23942,8 +23960,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "web@workspace:services/web"
   dependencies:
-    "@blocknote/core": ^0.12.4
-    "@blocknote/react": ^0.12.4
     "@emotion/css": ^11.11.2
     "@emotion/server": ^11.11.0
     "@fortawesome/fontawesome-svg-core": ^6.5.2

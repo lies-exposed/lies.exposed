@@ -12,7 +12,7 @@ import { APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js"
 import "@liexp/ui/lib/components/Common/Icons/library.js";
 import "@liexp/ui/assets/main.css";
 import "@blocknote/core/fonts/inter.css";
-import "@blocknote/react/style.css";
+import "@blocknote/mantine/style.css";
 
 config.autoAddCss = false;
 
