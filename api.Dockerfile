@@ -35,6 +35,7 @@ COPY packages/@liexp/core/package.json /app/packages/@liexp/core/package.json
 COPY packages/@liexp/shared/package.json /app/packages/@liexp/shared/package.json
 COPY packages/@liexp/backend/package.json /app/packages/@liexp/backend/package.json
 COPY packages/@liexp/test/package.json /app/packages/@liexp/test/package.json
+COPY packages/@liexp/ui/package.json /app/packages/@liexp/ui/package.json
 
 COPY services/api/package.json /app/services/api/package.json
 
@@ -61,12 +62,14 @@ COPY packages/@liexp/core/package.json /app/packages/@liexp/core/package.json
 COPY packages/@liexp/shared/package.json /app/packages/@liexp/shared/package.json
 COPY packages/@liexp/backend/package.json /app/packages/@liexp/backend/package.json
 COPY packages/@liexp/test/package.json /app/packages/@liexp/test/package.json
+COPY packages/@liexp/ui/package.json /app/packages/@liexp/ui/package.json
 
 # packages
 COPY --from=build /app/packages/@liexp/core/lib /app/packages/@liexp/core/lib
 COPY --from=build /app/packages/@liexp/shared/lib /app/packages/@liexp/shared/lib
 COPY --from=build /app/packages/@liexp/backend/lib /app/packages/@liexp/backend/lib
 COPY --from=build /app/packages/@liexp/test/lib /app/packages/@liexp/test/lib
+COPY --from=build /app/packages/@liexp/ui/lib /app/packages/@liexp/ui/lib
 
 # API service
 COPY --from=build /app/services/api/bin /app/services/api/bin
