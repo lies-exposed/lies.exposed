@@ -1,6 +1,6 @@
 import { filterSuggestionItems } from "@blocknote/core";
+import { BlockNoteView } from "@blocknote/mantine";
 import {
-  BlockNoteView,
   DefaultReactSuggestionItem,
   SuggestionMenuController,
   getDefaultReactSlashMenuItems,

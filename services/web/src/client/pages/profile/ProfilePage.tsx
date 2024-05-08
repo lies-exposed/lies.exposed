@@ -1,5 +1,3 @@
-import "@blocknote/core/fonts/inter.css";
-import "@blocknote/react/style.css";
 import { GetAuthProvider } from "@liexp/ui/lib/client/api";
 import {
   FAIcon,

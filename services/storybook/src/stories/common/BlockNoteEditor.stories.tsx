@@ -1,4 +1,4 @@
-import { BlockNoteView } from "@blocknote/react";
+import { BlockNoteView } from "@blocknote/mantine";
 import {
   BNEditor,
   BNEditorProps,

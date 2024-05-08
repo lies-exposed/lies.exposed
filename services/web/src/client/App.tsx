@@ -1,6 +1,6 @@
 import "@liexp/ui/assets/main.css";
 import "@blocknote/core/fonts/inter.css";
-import "@blocknote/react/style.css";
+import "@blocknote/mantine/style.css";
 import { ErrorBox } from "@liexp/ui/lib/components/Common/ErrorBox.js";
 import { FullSizeLoader } from "@liexp/ui/lib/components/Common/FullSizeLoader.js";
 import "@liexp/ui/lib/components/Common/Icons/library.js";
