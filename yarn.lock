@@ -3782,7 +3782,7 @@ __metadata:
     io-ts: ^2.2.21
     io-ts-types: ^0.5.19
     is-plain-object: ^5.0.0
-    jsoneditor: ^9.1.0
+    jsoneditor: ^10.0.3
     jsoneditor-react: ^3.1.2
     lodash: ^4.17.21
     ol: ^8.2.0
@@ -8752,7 +8752,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ace-builds@npm:^1.31.1":
+"ace-builds@npm:^1.33.1":
   version: 1.33.1
   resolution: "ace-builds@npm:1.33.1"
   checksum: 7962961e20511a3e39ef34e22afe4b0045eb2b3974352cbf487069df462b6a4dfb691296ac6216eeaa5355db9f192a780778e1aa53803743ec84213672527276
@@ -15876,20 +15876,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsoneditor@npm:^9.1.0":
-  version: 9.10.5
-  resolution: "jsoneditor@npm:9.10.5"
+"jsoneditor@npm:^10.0.3":
+  version: 10.0.3
+  resolution: "jsoneditor@npm:10.0.3"
   dependencies:
-    ace-builds: ^1.31.1
+    ace-builds: ^1.33.1
     ajv: ^6.12.6
     javascript-natural-sort: ^0.7.1
     jmespath: ^0.16.0
     json-source-map: ^0.6.1
-    jsonrepair: 3.1.0
+    jsonrepair: ^3.7.0
     mobius1-selectr: ^2.4.13
     picomodal: ^3.0.0
-    vanilla-picker: ^2.12.2
-  checksum: 9790c8a8def712ae30b9c46b68d27ad64fdee75d069ee30958a269ae49a5625ec08ca1d1d81cdb49721484d2abe6bee5cbd159a283a47c3f3e1343f2e60a8df6
+    vanilla-picker: ^2.12.3
+  checksum: baac22ee4cbaca6e2a29a7cc22125653fa106712ce6a52b01fadad6a695ef1676cd83019e46e57c9b2144a863fad80c5d136f136e51e92abcc5d24a99f296a0e
   languageName: node
   linkType: hard
 
@@ -15943,12 +15943,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsonrepair@npm:3.1.0":
-  version: 3.1.0
-  resolution: "jsonrepair@npm:3.1.0"
+"jsonrepair@npm:^3.7.0":
+  version: 3.7.0
+  resolution: "jsonrepair@npm:3.7.0"
   bin:
     jsonrepair: bin/cli.js
-  checksum: 54923aa28a46cf8258a77fbd367bfcbd81f248f4bb23728b9211f35d8d410a0035de62b41a019c7295cbbcd030accc4a4464d610b0d6ef2ca006a8345af7b4a1
+  checksum: a9632341b88c27ea4eaa1bf207ee17557159940673bc7a3e32ca38b10cd5c05c3c7bd5a3f1fba801e07c24e2021eaeabfba5ecd310eb806c07955181ca6e20eb
   languageName: node
   linkType: hard
 
@@ -23655,7 +23655,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vanilla-picker@npm:^2.12.2":
+"vanilla-picker@npm:^2.12.3":
   version: 2.12.3
   resolution: "vanilla-picker@npm:2.12.3"
   dependencies:
