@@ -1,5 +1,6 @@
 import { type Router } from "express";
 import { MakeUserCreateRoute } from "./userCreate.controller.js";
+import { MakeUserDeleteRoute } from "./userDelete.controller.js";
 import { MakeUserEditRoute } from "./userEdit.controller.js";
 import { MakeUserGetRoute } from "./userGet.controller.js";
 import { MakeUserListRoute } from "./userList.controller.js";
@@ -19,5 +20,6 @@ export const MakeUserRoutes = (router: Router, ctx: RouteContext): void => {
   MakeSignUpUserRoute(router, ctx);
   MakeUserCreateRoute(router, ctx);
   MakeUserEditRoute(router, ctx);
+  MakeUserDeleteRoute(router, ctx);
   MakeUserTGTokenGenerateRoute(router, ctx);
 };
