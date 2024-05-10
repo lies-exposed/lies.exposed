@@ -3750,8 +3750,8 @@ __metadata:
     "@mui/system": ^5.15.15
     "@mui/x-data-grid": ^7.3.0
     "@reach/router": ^1.3.4
-    "@tanstack/eslint-plugin-query": ^5.28.11
-    "@tanstack/react-query": ^5.28.14
+    "@tanstack/eslint-plugin-query": ^5.32.1
+    "@tanstack/react-query": ^5.35.5
     "@types/chroma-js": ^2.4.4
     "@types/d3": ^7.4.3
     "@types/d3-sankey": ^0.12.4
@@ -6254,32 +6254,32 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/eslint-plugin-query@npm:^5.28.11":
-  version: 5.28.11
-  resolution: "@tanstack/eslint-plugin-query@npm:5.28.11"
+"@tanstack/eslint-plugin-query@npm:^5.32.1":
+  version: 5.32.1
+  resolution: "@tanstack/eslint-plugin-query@npm:5.32.1"
   dependencies:
     "@typescript-eslint/utils": ^6.20.0
   peerDependencies:
     eslint: ^8.0.0
-  checksum: 38263935d6452341dca66be24b6b0b8006f4d96f04a1ace247b96fc42e89f5c3f01c6e754f7f183100d3b4d6718c79b16f476582ca121e75b4d0fb97b4d304b1
+  checksum: 2824c16f53d29cedfa59781fba0b2c01ed04ef8d984800683cf89f280bf2ac9e6273d11a104c1816e6b35bd6d86d1c15528e3e87ceeef64f482cc1bca59da8ed
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.28.13":
-  version: 5.28.13
-  resolution: "@tanstack/query-core@npm:5.28.13"
-  checksum: 38608889edb2ef5c3699573185b99e9e858829d2076c5f1fc6362b51ac1bdde152dfed5b1031172395d13563f17c2f4cabc57f34f1def030ca7faa7a4a1b73f5
+"@tanstack/query-core@npm:5.35.5":
+  version: 5.35.5
+  resolution: "@tanstack/query-core@npm:5.35.5"
+  checksum: 3121405f48203450240dcfa6cb69a3d0df83243a2060cb5161e125a4ae81cca4a458396ca5c1ddc7337a7b531ab280476f5ec5af5525d63297a994cb5cd28405
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.28.14":
-  version: 5.28.14
-  resolution: "@tanstack/react-query@npm:5.28.14"
+"@tanstack/react-query@npm:^5.35.5":
+  version: 5.35.5
+  resolution: "@tanstack/react-query@npm:5.35.5"
   dependencies:
-    "@tanstack/query-core": 5.28.13
+    "@tanstack/query-core": 5.35.5
   peerDependencies:
     react: ^18.0.0
-  checksum: 71ebd00796184e5366ed0d0110c722ea48909591941e3ba3018c82958d5eae5b50f97e0e8348c0cc4e1906ebb978ccad47dddc9811801cea2a07b60057027fe2
+  checksum: a099d5fc7875c9bc75537649f2870778a0fd307da4ed1cb7a97e85010aea2866f8540fe78588363c8142101257f9782bd8fa8a9558e3dfde627c4d446324482c
   languageName: node
   linkType: hard
 
@@ -8833,7 +8833,7 @@ __metadata:
     "@liexp/shared": 0.1.0
     "@liexp/ui": 0.1.0
     "@mui/material": ^5.15.15
-    "@tanstack/react-query": ^5.28.14
+    "@tanstack/react-query": ^5.35.5
     "@testing-library/dom": ^9.3.3
     "@testing-library/react": ^14.0.0
     "@testing-library/user-event": ^14.5.1
@@ -9060,7 +9060,7 @@ __metadata:
     "@liexp/shared": 0.1.0
     "@liexp/test": 0.1.0
     "@liexp/ui": 0.1.0
-    "@tanstack/react-query": ^5.28.14
+    "@tanstack/react-query": ^5.35.5
     "@types/body-parser": ^1.19.5
     "@types/cors": ^2.8.17
     "@types/debug": ^4.1.12
@@ -23972,7 +23972,7 @@ __metadata:
     "@liexp/ui": 0.1.0
     "@mui/icons-material": ^5.15.15
     "@mui/material": ^5.15.15
-    "@tanstack/react-query": ^5.28.14
+    "@tanstack/react-query": ^5.35.5
     "@types/bs58": ^4.0.4
     "@types/compression": ^1.7.5
     "@types/d3": ^7.4.3
