@@ -110,16 +110,21 @@ const UserTGTokenGenerate = Endpoint({
   Output: t.strict({ data: t.strict({ token: t.string }) }),
 });
 
+const UserDelete = Endpoint({
+  Method: "DELETE",
+  getPath: ({ id }) => `/users/${id}`,
+  Input: {
+    Params: t.type({ id: UUID }),
+  },
+  Output: t.undefined,
+});
+
 export const users = ResourceEndpoints({
   Get: UserGet,
   Create: UserCreate,
   List: UserList,
   Edit: UserEdit,
-  Delete: Endpoint({
-    Method: "DELETE",
-    getPath: () => `/users`,
-    Output: t.undefined,
-  }),
+  Delete: UserDelete,
   Custom: {
     GetUserMe,
     EditUserMe,
