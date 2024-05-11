@@ -3,7 +3,7 @@ import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
 import { type Area, type Media } from "@liexp/shared/lib/io/http/index.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
-import { toBNDocumentTE } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
+import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { fetchCoordinates } from "./fetchCoordinates.flow.js";
@@ -23,7 +23,11 @@ export const fetchAndCreateAreaFromWikipedia: TEFlow<
     TE.Do,
     TE.bind("wikipedia", () => fetchFromWikipedia(ctx)(pageId)),
     TE.bind("excerpt", ({ wikipedia }) =>
-      pipe(toBNDocumentTE(wikipedia.intro), TE.mapLeft(toControllerError)),
+      pipe(
+        toInitialValue(wikipedia.intro),
+        TE.right,
+        TE.mapLeft(toControllerError),
+      ),
     ),
     TE.map(({ wikipedia: { page, featuredMedia }, excerpt }) => {
       ctx.logger.debug.log("Area fetched from wikipedia %s: %O", page.title, {

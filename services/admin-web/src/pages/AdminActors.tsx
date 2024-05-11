@@ -5,6 +5,7 @@ import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI.js";
+import { fromSlateToBlockNote } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import { ActorDataGrid } from "@liexp/ui/lib/components/admin/actors/ActorDataGrid.js";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
@@ -67,7 +68,7 @@ export const ActorList: React.FC = () => (
 const transformActor =
   (dataProvider: APIRESTClient) =>
   async (id: string, data: RaRecord): Promise<RaRecord> => {
-    if (data._from === "url") {
+    if (data._from === "wikipedia") {
       return data;
     }
     const imagesTask = data.avatar?.rawFile
@@ -88,6 +89,8 @@ const transformActor =
       imagesTask,
       TE.map(([avatar]) => ({
         ...data,
+        body: fromSlateToBlockNote(data.body),
+        excerpt: fromSlateToBlockNote(data.excerpt),
         type: avatar.type,
         id,
         avatar: avatar.location,

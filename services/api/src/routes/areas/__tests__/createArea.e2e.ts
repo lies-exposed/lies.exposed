@@ -1,6 +1,6 @@
 import { MediaArb } from "@liexp/shared/lib/tests/index.js";
 import * as tests from "@liexp/test";
-import { toBNDocument } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
+import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { loginUser, saveUser } from "../../../../test/user.utils.js";
 
@@ -31,8 +31,8 @@ describe("Create Area", () => {
         fullName: `${tests.fc.sample(
           tests.fc.string({ minLength: 3 }),
         )} ${tests.fc.sample(tests.fc.string({ minLength: 3 }))}`,
-        excerpt: await toBNDocument(tests.fc.string()),
-        body: await toBNDocument(tests.fc.string()),
+        excerpt: toInitialValue(tests.fc.string()),
+        body: toInitialValue(tests.fc.string()),
       });
 
     expect(response.status).toEqual(401);
@@ -45,8 +45,8 @@ describe("Create Area", () => {
       .send({
         color: "ffffff",
         fullName: tests.fc.sample(tests.fc.string())[0],
-        excerpt: await toBNDocument("my content"),
-        body: await toBNDocument("my content"),
+        excerpt: toInitialValue("my content"),
+        body: toInitialValue("my content"),
       });
 
     expect(response.status).toEqual(400);
@@ -61,8 +61,8 @@ describe("Create Area", () => {
         label: tests.fc.sample(tests.fc.string())[0],
         slug: tests.fc.sample(tests.fc.string())[0],
         draft: tests.fc.sample(tests.fc.boolean())[0],
-        excerpt: await toBNDocument("my content"),
-        body: await toBNDocument("my content"),
+        excerpt: toInitialValue("my content"),
+        body: toInitialValue("my content"),
         geometry: {
           type: "Point",
           coordinates: [0, 0],

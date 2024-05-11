@@ -22,7 +22,9 @@ export interface SlateValue {
 
 export const isValidSlateValue = (v?: any): v is SlateValue => {
   const valid =
-    !!v && !!v.version && Array.isArray(v.rows) && v?.rows?.length > 0;
+    (!!v && !!v.version && Array.isArray(v.rows) && v?.rows?.length > 0) ||
+    // empty object is a valid slate value
+    JSON.stringify(v) === "{}";
 
   return valid;
 };
@@ -38,7 +40,7 @@ export function transform<T>(
   v: { rows: any[] },
   f: DeserializeSlatePluginFN<T>,
 ): T[] | null {
-  if (v.rows.length === 0) {
+  if (!v.rows?.length) {
     return null;
   }
 

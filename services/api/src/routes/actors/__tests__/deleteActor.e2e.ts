@@ -1,7 +1,7 @@
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as tests from "@liexp/test";
-import { toBNDocument } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
-import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
+import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
+import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { loginUser, saveUser } from "../../../../test/user.utils.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 
@@ -13,8 +13,8 @@ describe("Delete Actor", () => {
     user = await saveUser(Test, ["admin:create"]);
     const { authorization } = await loginUser(Test)(user);
     authorizationToken = authorization;
-    const excerpt = await toBNDocument("my content");
-    const body = await toBNDocument("my body");
+    const excerpt = toInitialValue("my content");
+    const body = toInitialValue("my body");
     actor = (
       await Test.req
         .post("/v1/actors")

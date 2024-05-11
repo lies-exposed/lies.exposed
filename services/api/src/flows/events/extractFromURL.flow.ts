@@ -5,7 +5,7 @@ import { type URL as URLT } from "@liexp/shared/lib/io/http/Common/index.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type ImageType } from "@liexp/shared/lib/io/http/Media.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
-import { toBNDocument } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
+import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import { parse } from "date-fns";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as O from "fp-ts/lib/Option.js";
@@ -168,7 +168,7 @@ const extractByProvider: TEFlow<
         if (fp.O.isSome(provider)) {
           return pipe(
             TE.tryCatch(() => {
-              return getSuggestions(toBNDocument)(
+              return getSuggestions((v) => Promise.resolve(toInitialValue(v)))(
                 provider.value,
                 O.some({
                   id: l.id,
