@@ -44,7 +44,8 @@ const ThemedBlockNoteView =
 const StyledBlockNoteView = styled(ThemedBlockNoteView("light"))(
   ({ editable }) => ({
     [".bn-editor"]: {
-      padding: !editable ? 0 : 54,
+      paddingLeft: !editable ? 0 : 54,
+      paddingRight: !editable ? 0 : 54,
     },
   }),
 );
