@@ -3743,12 +3743,12 @@ __metadata:
     "@fortawesome/react-fontawesome": ^0.2.0
     "@liexp/core": 0.1.0
     "@liexp/shared": 0.1.0
-    "@mui/icons-material": ^5.15.15
+    "@mui/icons-material": ^5.15.17
     "@mui/lab": 5.0.0-alpha.170
-    "@mui/material": ^5.15.15
-    "@mui/styles": ^5.15.15
+    "@mui/material": ^5.15.17
+    "@mui/styles": ^5.15.17
     "@mui/system": ^5.15.15
-    "@mui/x-data-grid": ^7.3.0
+    "@mui/x-data-grid": ^7.4.0
     "@reach/router": ^1.3.4
     "@tanstack/eslint-plugin-query": ^5.32.1
     "@tanstack/react-query": ^5.35.5
@@ -3951,7 +3951,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/icons-material@npm:^5.0.1, @mui/icons-material@npm:^5.15.15":
+"@mui/core-downloads-tracker@npm:^5.15.17":
+  version: 5.15.17
+  resolution: "@mui/core-downloads-tracker@npm:5.15.17"
+  checksum: 246bf7ee7ed25709006edd92fd344f57cdd9dec0b570df9f41127f87d15ee890af641eb8c646b4cd52972c71c273e8b564b999083b9828510ce72eccb153a0fd
+  languageName: node
+  linkType: hard
+
+"@mui/icons-material@npm:^5.0.1":
   version: 5.15.15
   resolution: "@mui/icons-material@npm:5.15.15"
   dependencies:
@@ -3964,6 +3971,22 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 42d62fc94be25a361034a8974b1860608e866c155ff2eea7dc18f10a4acc71dbe2f48af3f0309a345ff6fb16be30c6fbc1d8a0a447c828aa1380a49e176a8803
+  languageName: node
+  linkType: hard
+
+"@mui/icons-material@npm:^5.15.17":
+  version: 5.15.17
+  resolution: "@mui/icons-material@npm:5.15.17"
+  dependencies:
+    "@babel/runtime": ^7.23.9
+  peerDependencies:
+    "@mui/material": ^5.0.0
+    "@types/react": ^17.0.0 || ^18.0.0
+    react: ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 6ac49529cbf6d2b2b6d955e4ade4f35fb52c4d25ca66159a5033919173ea8392ebf1ddbfe28a8d8609e40d638e08fc377d5c9fab4e016e3e1d3746cfba957d38
   languageName: node
   linkType: hard
 
@@ -3996,7 +4019,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/material@npm:^5.0.2, @mui/material@npm:^5.15.15":
+"@mui/material@npm:^5.0.2":
   version: 5.15.15
   resolution: "@mui/material@npm:5.15.15"
   dependencies:
@@ -4026,6 +4049,39 @@ __metadata:
     "@types/react":
       optional: true
   checksum: ee0dc22fc4d617f7cf69f2451b6d5139978e6c5319e3056e7719159aff786ee3b80abd07691e230371811d9b5b574aef4559d7855bfe2f8493d596d960a91ab7
+  languageName: node
+  linkType: hard
+
+"@mui/material@npm:^5.15.17":
+  version: 5.15.17
+  resolution: "@mui/material@npm:5.15.17"
+  dependencies:
+    "@babel/runtime": ^7.23.9
+    "@mui/base": 5.0.0-beta.40
+    "@mui/core-downloads-tracker": ^5.15.17
+    "@mui/system": ^5.15.15
+    "@mui/types": ^7.2.14
+    "@mui/utils": ^5.15.14
+    "@types/react-transition-group": ^4.4.10
+    clsx: ^2.1.0
+    csstype: ^3.1.3
+    prop-types: ^15.8.1
+    react-is: ^18.2.0
+    react-transition-group: ^4.4.5
+  peerDependencies:
+    "@emotion/react": ^11.5.0
+    "@emotion/styled": ^11.3.0
+    "@types/react": ^17.0.0 || ^18.0.0
+    react: ^17.0.0 || ^18.0.0
+    react-dom: ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    "@emotion/react":
+      optional: true
+    "@emotion/styled":
+      optional: true
+    "@types/react":
+      optional: true
+  checksum: 4738f357f10a8d88e4efd09833e59beece1872dea6aabc7176cf1d44cf38ea1c47c3a23ce8a7c3ec8b3f31132a755f1feb9de6c3cf440af4abec8fdffeabfb46
   languageName: node
   linkType: hard
 
@@ -4067,9 +4123,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/styles@npm:^5.15.15":
-  version: 5.15.15
-  resolution: "@mui/styles@npm:5.15.15"
+"@mui/styles@npm:^5.15.17":
+  version: 5.15.17
+  resolution: "@mui/styles@npm:5.15.17"
   dependencies:
     "@babel/runtime": ^7.23.9
     "@emotion/hash": ^0.9.1
@@ -4094,7 +4150,7 @@ __metadata:
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: 5e436a8a22ae9a2e6fcb63ead3a6eff2092cc9731fce0b22d04ab9c67639a173a0e27fb617628e7720592862118a32248be458bedfabaf1de5448543a97b0307
+  checksum: 4ae6a23cbc6853c5332512e3b945c61134546330362e94a277b0ad97ebeb576833671c516aa522a87d76a29f55983f24b3f4b5bdb1c25c3ea1b705fee44135e7
   languageName: node
   linkType: hard
 
@@ -4156,21 +4212,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/x-data-grid@npm:^7.3.0":
-  version: 7.3.0
-  resolution: "@mui/x-data-grid@npm:7.3.0"
+"@mui/x-data-grid@npm:^7.4.0":
+  version: 7.4.0
+  resolution: "@mui/x-data-grid@npm:7.4.0"
   dependencies:
     "@babel/runtime": ^7.24.0
     "@mui/system": ^5.15.14
     "@mui/utils": ^5.15.14
-    clsx: ^2.1.0
+    clsx: ^2.1.1
     prop-types: ^15.8.1
     reselect: ^4.1.8
   peerDependencies:
     "@mui/material": ^5.15.14
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-  checksum: 926e5812bac9ba885f071a8de0351dc7f6bec9fbf817aea19351b5e752ba75f5e2b495863561d9103de3163764ba75a796230b81ca688c1cde16bbff324f86f6
+  checksum: 4c543a352e859e30273ab383e1449969214aac1f18de5e63db35ec53951208ed118511e911eb0c2f88821a811969bab87d0d47042d59f15caed4c2fd418620ef
   languageName: node
   linkType: hard
 
@@ -8832,7 +8888,7 @@ __metadata:
     "@liexp/core": 0.1.0
     "@liexp/shared": 0.1.0
     "@liexp/ui": 0.1.0
-    "@mui/material": ^5.15.15
+    "@mui/material": ^5.15.17
     "@tanstack/react-query": ^5.35.5
     "@testing-library/dom": ^9.3.3
     "@testing-library/react": ^14.0.0
@@ -10539,6 +10595,13 @@ __metadata:
   version: 1.2.1
   resolution: "clsx@npm:1.2.1"
   checksum: 30befca8019b2eb7dbad38cff6266cf543091dae2825c856a62a8ccf2c3ab9c2907c4d12b288b73101196767f66812365400a227581484a05f968b0307cfaf12
+  languageName: node
+  linkType: hard
+
+"clsx@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "clsx@npm:2.1.1"
+  checksum: acd3e1ab9d8a433ecb3cc2f6a05ab95fe50b4a3cfc5ba47abb6cbf3754585fcb87b84e90c822a1f256c4198e3b41c7f6c391577ffc8678ad587fc0976b24fd57
   languageName: node
   linkType: hard
 
@@ -23970,8 +24033,8 @@ __metadata:
     "@liexp/core": 0.1.0
     "@liexp/shared": 0.1.0
     "@liexp/ui": 0.1.0
-    "@mui/icons-material": ^5.15.15
-    "@mui/material": ^5.15.15
+    "@mui/icons-material": ^5.15.17
+    "@mui/material": ^5.15.17
     "@tanstack/react-query": ^5.35.5
     "@types/bs58": ^4.0.4
     "@types/compression": ^1.7.5
