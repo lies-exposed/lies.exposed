@@ -2221,9 +2221,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@blocknote/core@npm:^0.13.0":
-  version: 0.13.0
-  resolution: "@blocknote/core@npm:0.13.0"
+"@blocknote/core@npm:^0.13.2":
+  version: 0.13.2
+  resolution: "@blocknote/core@npm:0.13.2"
   dependencies:
     "@tiptap/core": ^2.0.3
     "@tiptap/extension-bold": ^2.0.3
@@ -2264,16 +2264,16 @@ __metadata:
     y-prosemirror: 1.2.1
     y-protocols: ^1.0.5
     yjs: ^13.6.1
-  checksum: ca7d55ee1c3d21964e30e7cc84aef4a063d8df634b6d377430a842c550b8a3045001f7a5c25f00aa241da1b288a52811e14f8d8077b21553589a088f9a0d6ab4
+  checksum: 799a656608d4763ddebcfd87653f43c95ffa5e51181d0951334338f756f6e36745325c0713d874ee95195432051d23ea45b89343c010593d917029aef3580e1c
   languageName: node
   linkType: hard
 
-"@blocknote/mantine@npm:^0.13.1":
-  version: 0.13.1
-  resolution: "@blocknote/mantine@npm:0.13.1"
+"@blocknote/mantine@npm:^0.13.2":
+  version: 0.13.2
+  resolution: "@blocknote/mantine@npm:0.13.2"
   dependencies:
-    "@blocknote/core": ^0.13.0
-    "@blocknote/react": ^0.13.1
+    "@blocknote/core": ^0.13.2
+    "@blocknote/react": ^0.13.2
     "@mantine/core": ^7.5.0
     "@mantine/hooks": ^7.5.0
     "@mantine/utils": ^6.0.21
@@ -2284,15 +2284,15 @@ __metadata:
   peerDependencies:
     react: ^18
     react-dom: ^18
-  checksum: a5d6dd46e8772e03cc6afa9d1873edaf20b0dc8fcd8d6ff749cf2b5afe664fea6fb459a8cc4a266e71c2647e36ad7eab14d1111ae25a949be227f38c851cfd08
+  checksum: eefd31fd85a985353c18dac0e6ba95e398695a63d3491adbb0852902663d45a295068bde4c964a95139c860565a8c14cd22075ebd0e6c6547a782668164b6491
   languageName: node
   linkType: hard
 
-"@blocknote/react@npm:^0.13.1":
-  version: 0.13.1
-  resolution: "@blocknote/react@npm:0.13.1"
+"@blocknote/react@npm:^0.13.2":
+  version: 0.13.2
+  resolution: "@blocknote/react@npm:0.13.2"
   dependencies:
-    "@blocknote/core": ^0.13.0
+    "@blocknote/core": ^0.13.2
     "@floating-ui/react": ^0.26.4
     "@tiptap/core": ^2.0.3
     "@tiptap/react": ^2.0.3
@@ -2304,7 +2304,7 @@ __metadata:
   peerDependencies:
     react: ^18
     react-dom: ^18
-  checksum: d8fe578f880831e957ae5af43852763d930b347e51fc9ca07389e59862ab666fe7b4440ef88abcc97ad4bbe0d9b196709f6e707aa399112153576ab9a5597bea
+  checksum: debc9d28ad82c1bba801e91afc38aef466b27208af23d0eaa0de774276aa2a78bfd326c350b28a678a96a5ec346df70dd6425d0623495b4049ffc5a6c4e2a993
   languageName: node
   linkType: hard
 
@@ -3732,9 +3732,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@liexp/ui@workspace:packages/@liexp/ui"
   dependencies:
-    "@blocknote/core": ^0.13.0
-    "@blocknote/mantine": ^0.13.1
-    "@blocknote/react": ^0.13.1
+    "@blocknote/core": ^0.13.2
+    "@blocknote/mantine": ^0.13.2
+    "@blocknote/react": ^0.13.2
     "@emotion/css": ^11.11.2
     "@emotion/server": ^11.11.0
     "@fortawesome/fontawesome-svg-core": ^6.5.2
