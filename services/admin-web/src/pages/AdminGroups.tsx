@@ -5,6 +5,7 @@ import { parseDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI.js";
+import { fromSlateToBlockNote } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput.js";
 import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField.js";
@@ -131,7 +132,8 @@ const transformGroup =
       uploadAvatar,
       TE.map((locations) => ({
         ...data,
-        excerpt: data.excerpt ?? undefined,
+        excerpt: fromSlateToBlockNote(data.excerpt),
+        body: fromSlateToBlockNote(data.body),
         avatar: locations[0].location,
         startDate: data.startDate?.includes("T")
           ? data.startDate
@@ -185,7 +187,6 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
             </Grid>
           </Grid>
           <BlockNoteInput source="excerpt" />
-          <BlockNoteInput label="excerpt" source="excerpt" />
         </FormTab>
         <FormTab label="Avatar">
           <MediaField source="avatar" type="image/jpeg" controls={false} />

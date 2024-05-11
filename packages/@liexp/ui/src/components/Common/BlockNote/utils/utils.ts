@@ -36,22 +36,26 @@ export const fromSlateToBlockNote = (
   return v as any;
 };
 
-export const toInitialValue = (v: unknown): { initialContent?: any[] } => {
+export const toInitialValue = (v: unknown): any[] | undefined => {
   if (typeof v === "string") {
-    return {
-      initialContent: v
-        .split("\n")
-        .map((v) => ({ type: "paragraph", content: v })),
-    };
+    return v.split("\n").map((v) => ({ type: "paragraph", content: v }));
   }
   if (isValidSlateValue(v)) {
     const result = fromSlateToBlockNote(v);
-    return result ? { initialContent: result } : {};
+    return result ? result : undefined;
   }
   if (Array.isArray(v) && v.length > 0) {
-    return { initialContent: v as any };
+    return v as any[];
   }
 
+  return undefined;
+};
+
+export const toInitialContent = (v: unknown): { initialContent?: any[] } => {
+  const initialValue = toInitialValue(v);
+  if (initialValue) {
+    return { initialContent: initialValue };
+  }
   return {};
 };
 
@@ -65,8 +69,8 @@ export const toBNDocument = async (
     return result;
   } else {
     const initialValue = toInitialValue(v);
-    if (initialValue.initialContent) {
-      return initialValue.initialContent;
+    if (initialValue) {
+      return initialValue;
     }
   }
   return Promise.resolve(null);

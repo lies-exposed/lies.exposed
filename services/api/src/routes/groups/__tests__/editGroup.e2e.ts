@@ -2,8 +2,8 @@ import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
-import { toBNDocument } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
-import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
+import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
+import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { loginUser, saveUser } from "../../../../test/user.utils.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";
@@ -52,7 +52,7 @@ describe("Edit Group", () => {
   test("Should receive a 401 error", async () => {
     const updateData = {
       ...group,
-      body: await toBNDocument("new group body"),
+      body: toInitialValue("new group body"),
     };
 
     const response = await appTest.req
@@ -66,7 +66,7 @@ describe("Edit Group", () => {
   test("Should edit the group", async () => {
     const updateData = {
       ...group,
-      body: await toBNDocument("new group body"),
+      body: toInitialValue("new group body"),
     };
 
     const user = await saveUser(appTest, ["admin:edit"]);

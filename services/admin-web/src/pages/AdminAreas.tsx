@@ -1,4 +1,6 @@
 import { Area } from "@liexp/shared/lib/io/http/Area.js";
+import { http } from "@liexp/shared/lib/io/index.js";
+import { fromSlateToBlockNote } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import { MapInput } from "@liexp/ui/lib/components/admin/MapInput.js";
 import { AreaTGPostButton } from "@liexp/ui/lib/components/admin/areas/button/AreaTGPostButton.js";
@@ -108,10 +110,15 @@ const EditTitle: React.FC<EditProps> = () => {
   return <span>Area {record?.title}</span>;
 };
 
-const transformArea = ({ newMediaRef = [], newEvents, ...area }: any): any => {
+const transformArea = ({
+  newMediaRef = [],
+  newEvents,
+  ...area
+}: any): http.Area.Area => {
   const media = transformMedia(newMediaRef);
   return {
     ...area,
+    body: fromSlateToBlockNote(area.body),
     featuredImage: area.featuredImage?.id,
     media: area.media.concat(media),
   };

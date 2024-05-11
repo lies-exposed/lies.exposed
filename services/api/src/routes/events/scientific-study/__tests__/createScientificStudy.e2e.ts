@@ -9,7 +9,7 @@ import { LinkArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { fc } from "@liexp/test";
-import { toBNDocument } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
+import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import { In } from "typeorm";
 import { GetAppTest, type AppTest } from "../../../../../test/AppTest.js";
 import {
@@ -172,9 +172,9 @@ describe("Create Scientific Study", () => {
     );
 
     const title = fc.sample(HumanReadableStringArb(), 1)[0];
-    const [excerpt] = await Promise.all(
-      fc.sample(HumanReadableStringArb(), 1).map((d) => toBNDocument(d)),
-    );
+    const [excerpt] = fc
+      .sample(HumanReadableStringArb(), 1)
+      .map((d) => toInitialValue(d));
 
     const scientificStudyData: http.Events.ScientificStudy.CreateScientificStudyBody =
       {

@@ -2,7 +2,7 @@ import { flow, fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
 import { type AddActorBody } from "@liexp/shared/lib/io/http/Actor.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
-import { toBNDocument } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
+import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { ActorEntity } from "#entities/Actor.entity.js";
@@ -24,7 +24,9 @@ export const fetchActorFromWikipedia: TEFlow<[string], AddActorBody> =
         );
 
         return pipe(
-          TE.tryCatch(() => toBNDocument(intro), toControllerError),
+          toInitialValue(intro),
+          TE.right,
+          TE.mapLeft(toControllerError),
           TE.map((excerpt) => ({
             fullName: page.title,
             username,

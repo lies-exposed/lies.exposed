@@ -6,7 +6,7 @@ import path from "path";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type Geometry } from "@liexp/shared/lib/io/http/Common/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { toBNDocumentTE } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
+import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { JsonContains } from "typeorm";
 import { startContext, stopContext } from "./start-ctx.js";
@@ -47,7 +47,8 @@ const run = async (): Promise<any> => {
           const currentArea = fp.O.isSome(area) ? area.value : {};
 
           return pipe(
-            toBNDocumentTE(f.properties.name),
+            toInitialValue(f.properties.name),
+            TE.right,
             TE.mapLeft(toControllerError),
             TE.chain((body) =>
               ctx.db.save(AreaEntity, [

@@ -2,7 +2,7 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { EventSuggestion, Events } from "@liexp/shared/lib/io/http/index.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
-import { toBNDocumentTE } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
+import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import { addWeeks, subWeeks } from "date-fns";
 import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";
@@ -51,7 +51,8 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
       TE.bind("excerpt", ({ metadata }) => {
         if (metadata.description) {
           return pipe(
-            toBNDocumentTE(metadata.description),
+            toInitialValue(metadata.description),
+            TE.right,
             TE.mapLeft(toControllerError),
           );
         }

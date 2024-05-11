@@ -1,5 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { toBNDocumentTE } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
+import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { EventSuggestionEntity } from "#entities/EventSuggestion.entity.js";
 import { type KeywordEntity } from "#entities/Keyword.entity.js";
@@ -17,7 +17,8 @@ export const createEventSuggestionFromMedia: TEFlow<
 > = (ctx) => (mm, hashtags) => {
   const publishDate = new Date();
   return pipe(
-    toBNDocumentTE(mm[0]?.description),
+    toInitialValue(mm[0]?.description),
+    TE.right,
     TE.mapLeft(toControllerError),
     TE.chain((excerpt) =>
       ctx.db.save(EventSuggestionEntity, [
