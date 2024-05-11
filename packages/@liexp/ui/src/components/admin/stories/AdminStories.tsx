@@ -26,6 +26,7 @@ import {
   TextInput,
   useGetIdentity,
   usePermissions,
+  useRecordContext,
   type CreateProps,
   type EditProps,
   type ListProps,
@@ -34,7 +35,7 @@ import {
 import { uploadImages } from "../../../client/admin/MediaAPI.js";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { relationsTransformer } from "../../Common/BlockNote/utils/transform.utils.js";
-import { Box, Grid } from "../../mui/index.js";
+import { Box, Grid, Stack } from "../../mui/index.js";
 import BlockNoteInput from "../BlockNoteInput.js";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
 import { EditForm } from "../common/EditForm.js";
@@ -62,9 +63,14 @@ export const StoryList: React.FC<ListProps> = (props) => {
       filter={{ ...filter }}
     >
       <Datagrid rowClick="edit">
-        <TextField source="title" />
-        <ImageField source="featuredImage.location" />
-        <TextField source="path" />
+        <Stack direction="row">
+          <ImageField source="featuredImage.location" />
+          <Stack direction={"column"}>
+            <TextField source="title" />
+            <TextField source="path" />
+          </Stack>
+        </Stack>
+
         <FunctionField
           render={(record: any) => {
             return (
@@ -111,6 +117,11 @@ const transformStory =
     return { ...data, ...relations };
   };
 
+const StoryTitle: React.FC = () => {
+  const record = useRecordContext();
+  return <div>Story: {record?.title}</div>;
+};
+
 export const StoryEdit: React.FC<EditProps> = (props) => {
   const dataProvider = useDataProvider();
   const { data, isLoading } = useGetIdentity();
@@ -126,6 +137,7 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
       {...props}
       transform={transformStory(dataProvider)}
       preview={<StoryPreview />}
+      title={<StoryTitle />}
     >
       <TabbedForm>
         <FormTab label="generals">
