@@ -77,7 +77,7 @@ services:
       timeout: 20s
       retries: 10
       start_period: 15s
-    command: yarn dev
+    command: yarn docker:dev
     restart: always
     mem_limit: 1G
     networks:
