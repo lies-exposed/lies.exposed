@@ -12,7 +12,7 @@ import {
 import {
   type FlowGraphOutput,
   type FlowGraphType,
-} from "@liexp/shared/lib/io/http/graphs/FlowGraph";
+} from "@liexp/shared/lib/io/http/graphs/FlowGraph.js";
 import {
   type Actor,
   type Events,
