@@ -16,7 +16,7 @@ import { actorItem } from "./plugins/inline/ActorInlineBlockNote.plugin.js";
 import { groupItem } from "./plugins/inline/GroupInlineBlockNote.plugin.js";
 import { keywordItem } from "./plugins/inline/KeywordInlineBlockNote.plugin.js";
 import { relationItem } from "./plugins/inline/RelationInlineBlockNote.plugin.js";
-import { toInitialValue } from "./utils/utils.js";
+import { toInitialContent } from "./utils/utils.js";
 
 const getCustomSlashMenuItems = (
   editor: BNESchemaEditor,
@@ -55,7 +55,7 @@ export const BNEditor: React.FC<BNEditorProps> = ({
   readOnly = true,
   onChange,
 }) => {
-  const initialContent = toInitialValue(content);
+  const initialContent = toInitialContent(content);
 
   const editor = useCreateBlockNote({
     schema,
@@ -66,8 +66,8 @@ export const BNEditor: React.FC<BNEditorProps> = ({
     <div style={{ height: "100%", width: "100%" }}>
       <BlockNoteEditorContext.Provider value={editor}>
         <StyledBlockNoteView
-          editor={editor as any}
-          theme={"light" as any}
+          editor={editor}
+          theme={"light"}
           editable={!readOnly}
           slashMenu={false}
           onChange={() => {
