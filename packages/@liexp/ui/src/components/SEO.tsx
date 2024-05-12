@@ -12,8 +12,8 @@ interface SEOProps {
 }
 
 const SEO: React.FC<SEOProps> = ({
-  description,
-  lang,
+  description = "",
+  lang = "en",
   meta = [],
   title,
   image,
@@ -78,12 +78,6 @@ const SEO: React.FC<SEOProps> = ({
       ].concat(meta)}
     />
   );
-};
-
-SEO.defaultProps = {
-  lang: `en`,
-  meta: [],
-  description: ``,
 };
 
 export default SEO;
