@@ -1,5 +1,5 @@
 import { Brackets } from "typeorm";
-import { type EventQueryConfig } from "../EventQueryConfig";
+import { type EventQueryConfig } from "../EventQueryConfig.js";
 
 export const Book: EventQueryConfig = {
   whereActorsIn: (qb, actorIds) => {

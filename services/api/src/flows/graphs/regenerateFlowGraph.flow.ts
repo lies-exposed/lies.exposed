@@ -3,7 +3,7 @@ import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   type FlowGraphOutput,
   type FlowGraphType,
-} from "@liexp/shared/lib/io/http/graphs/FlowGraph";
+} from "@liexp/shared/lib/io/http/graphs/FlowGraph.js";
 import { type TEFlow } from "../flow.types.js";
 import { createFlowGraph, getFilePath } from "./createFlowGraph.flow.js";
 
