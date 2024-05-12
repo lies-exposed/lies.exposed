@@ -8960,7 +8960,7 @@ __metadata:
     ts-endpoint-express: ^2.0.0
     ts-shared: 2.0.0-alpha.6
     tsconfig-paths: ^4.2.0
-    tsx: ^4.9.5
+    tsx: ^4.10.0
     typeorm: ^0.3.20
     typeorm-uml: ^1.6.5
     typescript: ^5.4.5
@@ -22584,9 +22584,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsx@npm:^4.9.5":
-  version: 4.9.5
-  resolution: "tsx@npm:4.9.5"
+"tsx@npm:^4.10.0":
+  version: 4.10.0
+  resolution: "tsx@npm:4.10.0"
   dependencies:
     esbuild: ~0.20.2
     fsevents: ~2.3.3
@@ -22596,7 +22596,7 @@ __metadata:
       optional: true
   bin:
     tsx: dist/cli.mjs
-  checksum: 5d7c345bc5cf65e31c281f44908d7bd11f7be453dd42d3ce89c94bad9f7782ba12fbceba48e17188397f6b5b67be0eb173604aa9c768a11f889b296c6e3e31e5
+  checksum: 95a8dfe565d381b8fa960a5f90c4137c7cc4efbf206b5cc025307331925c2f0afec84f15ef6b3e9e022235a23f86301e13f18ae3e27b1d79111c48d43e312274
   languageName: node
   linkType: hard
 
@@ -23808,7 +23808,7 @@ __metadata:
     throttle-debounce: ^5.0.0
     topojson-client: 3.1.0
     topojson-server: 3.0.1
-    tsx: ^4.9.5
+    tsx: ^4.10.0
     typescript: ^5.4.5
     uuid: ^9.0.1
     vite: ^5.2.11
