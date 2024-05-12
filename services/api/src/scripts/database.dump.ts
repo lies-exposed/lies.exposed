@@ -1,6 +1,6 @@
 import { execSync } from "child_process";
 import * as path from "path";
-import { loadENV } from "@liexp/core/lib/env/utils";
+import { loadENV } from "@liexp/core/lib/env/utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
 import * as E from "fp-ts/lib/Either.js";

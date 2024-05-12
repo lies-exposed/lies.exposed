@@ -6,7 +6,7 @@ import {
   type MediaImageLayer,
   type TextLayer,
   type WatermarkLayer,
-} from "@liexp/shared/lib/io/http/admin/BuildImage";
+} from "@liexp/shared/lib/io/http/admin/BuildImage.js";
 import { toColorHash } from "@liexp/shared/lib/utils/colors.js";
 import { type OverlayOptions, type GravityEnum } from "sharp";
 import { type TEFlow } from "#flows/flow.types.js";

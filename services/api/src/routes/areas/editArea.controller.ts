@@ -1,7 +1,7 @@
 import { type GeocodeError } from "@liexp/backend/lib/providers/geocode/geocode.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { type Point } from "@liexp/shared/lib/io/http/Common/Geometry";
+import { type Point } from "@liexp/shared/lib/io/http/Common/Geometry/index.js";
 import { type Geometry } from "@liexp/shared/lib/io/http/Common/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type Option } from "fp-ts/lib/Option.js";
