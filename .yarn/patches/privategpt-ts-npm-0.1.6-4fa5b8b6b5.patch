@@ -1,0 +1,12 @@
+diff --git a/package.json b/package.json
+index 0c27fbbb6c67d0614d2e85d9902426d02659281f..94617f94e354bf835917b2048e1cd33a8ac5157d 100644
+--- a/package.json
++++ b/package.json
+@@ -8,6 +8,7 @@
+   "description": "",
+   "main": "./index.js",
+   "types": "./index.d.ts",
++  "type": "module",
+   "dependencies": {
+     "buffer": "^6.0.3",
+     "qs": "6.11.2",

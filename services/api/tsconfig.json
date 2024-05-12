@@ -8,6 +8,9 @@
     "rootDir": "./",
     "lib": ["DOM", "ES2022"],
     "tsBuildInfoFile": "build/.tsbuildinfo",
+    "types": [
+      "vitest/globals"
+    ],
     "typeRoots": [
       "./typings",
       "../../node_modules/@types",
@@ -16,7 +19,7 @@
     ],
     "target": "ES6",
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "Bundler",
     "allowJs": true,
     "esModuleInterop": true,
     "declaration": true,
@@ -37,7 +40,6 @@
     }
   },
   "include": [
-    "../../node_modules/vitest/globals.d.ts",
     "./bin",
     "./src",
     "./scripts",

@@ -60,6 +60,7 @@ services:
       DEBUG: "@liexp*"
       DB_HOST: db.liexp.dev
       DB_PORT: 5432
+      SERVER_PORT: 4010
     depends_on:
       - db.liexp.dev
       - fra1.space.liexp.dev

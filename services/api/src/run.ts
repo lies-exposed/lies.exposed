@@ -13,11 +13,13 @@ import D from "debug";
 import { generateMissingThumbnailsCron } from "./jobs/generateMissingMedia.job.js";
 
 const run = (): Promise<void> => {
+  console.log("Starting API server...", process.env.NODE_ENV);
   process.env.NODE_ENV = process.env.NODE_ENV ?? "development";
 
   const serverLogger = logger.GetLogger("api");
 
   if (process.env.NODE_ENV === "development") {
+    loadENV(process.cwd(), ".env");
     loadENV(process.cwd(), ".env.local", true);
 
     D.enable(process.env.DEBUG ?? "*");
@@ -51,6 +53,9 @@ const run = (): Promise<void> => {
       },
       ({ ctx, app }) =>
         () => {
+          void ctx.privateGPT
+            .listIngested()
+            .then((docs) => docs.data.map((doc: any) => console.log(doc)));
           // cron jobs
           const postOnSocialTask = postOnSocialJob(ctx);
           const cleanTempFolderTask = cleanTempFolder(ctx);
@@ -60,16 +65,20 @@ const run = (): Promise<void> => {
           postOnSocialTask.start();
           cleanTempFolderTask.start();
           generateMissingThumbnailsTask.start();
-          const host = "0.0.0.0";
-          const server = app.listen(ctx.env.VIRTUAL_PORT, host, () => {
-            ctx.logger.info.log(
-              `Server is listening ${host}:${ctx.env.VIRTUAL_PORT}`,
-            );
 
-            ctx.tg.api.on("polling_error", (e) => {
-              serverLogger.error.log(`TG Bot error during polling %O`, e);
-            });
-          });
+          const server = app.listen(
+            ctx.env.SERVER_PORT,
+            ctx.env.SERVER_HOST,
+            () => {
+              ctx.logger.info.log(
+                `Server is listening ${ctx.env.SERVER_HOST}:${ctx.env.SERVER_PORT}`,
+              );
+
+              ctx.tg.api.on("polling_error", (e) => {
+                serverLogger.error.log(`TG Bot error during polling %O`, e);
+              });
+            },
+          );
 
           process.on("SIGINT", () => {
             // eslint-disable-next-line no-console

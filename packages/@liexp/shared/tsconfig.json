@@ -37,5 +37,5 @@
     "./test",
     "eslint.config.js"
   ],
-  "exclude": ["node_modules", "lib"]
+  "exclude": ["node_modules", "lib", "privategpt"]
 }

@@ -21,6 +21,8 @@ const ENV = t.intersection(
       t.strict(
         {
           DEBUG: t.string,
+          SERVER_HOST: t.string,
+          SERVER_PORT: NumberFromString,
           VIRTUAL_PORT: NumberFromString,
           VIRTUAL_HOST: t.string,
           DEFAULT_PAGE_SIZE: NumberFromString,
@@ -50,6 +52,12 @@ const ENV = t.intersection(
           GEO_CODE_API_KEY: t.string,
         },
         "GEO_CODE_ENV",
+      ),
+      t.strict(
+        {
+          PRIVATE_GPT_ENVIRONMENT: t.string,
+        },
+        "PRIVATE_GPT_ENV",
       ),
     ]),
     t.intersection(

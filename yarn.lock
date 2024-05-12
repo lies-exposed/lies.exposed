@@ -3528,6 +3528,7 @@ __metadata:
     io-ts-types: ^0.5.19
     jsonwebtoken: ^9.0.2
     pdfjs-dist: ^4.2.67
+    privategpt-sdk-node: ^0.1.2
     query-string: ^7.1.3
     react-admin: ^4.16.17
     throttle-debounce: ^5.0.0
@@ -18924,6 +18925,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"privategpt-sdk-node@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "privategpt-sdk-node@npm:0.1.2"
+  dependencies:
+    buffer: ^6.0.3
+    privategpt-sdk-utils: ^0.1.1
+    qs: 6.11.2
+    url-join: 4.0.1
+  checksum: d3b1b9135d195938d545084a88727f85c80e9467c61611a27f1326f292757b8e6507f06de40e4bb0a9daa995082318fbc6d584c2f76c739b7018bd25fa5a5adb
+  languageName: node
+  linkType: hard
+
+"privategpt-sdk-utils@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "privategpt-sdk-utils@npm:0.1.1"
+  dependencies:
+    buffer: ^6.0.3
+    qs: 6.11.2
+    url-join: 4.0.1
+  checksum: 3b023525953cb41374042577063f8b0017934a9652b3499d8506643e721c9716f4e5f3132b6c6db4413952d6c8837fded0b2411b6f2d780189af2f3fa7a9c52a
+  languageName: node
+  linkType: hard
+
 "proc-log@npm:^3.0.0":
   version: 3.0.0
   resolution: "proc-log@npm:3.0.0"
@@ -19431,7 +19455,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"qs@npm:^6.10.0, qs@npm:^6.11.0, qs@npm:^6.9.4":
+"qs@npm:6.11.2, qs@npm:^6.10.0, qs@npm:^6.11.0, qs@npm:^6.9.4":
   version: 6.11.2
   resolution: "qs@npm:6.11.2"
   dependencies:
@@ -23235,6 +23259,13 @@ __metadata:
   dependencies:
     punycode: ^2.1.0
   checksum: 7167432de6817fe8e9e0c9684f1d2de2bb688c94388f7569f7dbdb1587c9f4ca2a77962f134ec90be0cc4d004c939ff0d05acc9f34a0db39a3c797dada262633
+  languageName: node
+  linkType: hard
+
+"url-join@npm:4.0.1":
+  version: 4.0.1
+  resolution: "url-join@npm:4.0.1"
+  checksum: f74e868bf25dbc8be6a8d7237d4c36bb5b6c62c72e594d5ab1347fe91d6af7ccd9eb5d621e30152e4da45c2e9a26bec21390e911ab54a62d4d82e76028374ee5
   languageName: node
   linkType: hard
 

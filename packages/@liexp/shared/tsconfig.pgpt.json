@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "es6",
+    "moduleResolution": "Node",
+    "resolveJsonModule": false,
+    "outDir": "./lib/pgpt/",
+    "isolatedModules": true,
+    "esModuleInterop": true
+  },
+  "include": ["privategpt/index.ts"],
+  "exclude": ["node_modules", "lib", "src"]
+}

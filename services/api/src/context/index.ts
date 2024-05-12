@@ -15,6 +15,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
+import * as PrivateGPTProvider from "@liexp/shared/lib/providers/private-gpt/private-gpt.provider.js";
 import * as axios from "axios";
 import * as ExifReader from "exifreader";
 import ffmpeg from "fluent-ffmpeg";
@@ -22,6 +23,7 @@ import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import metadataParser from "page-metadata-parser";
 import * as pdf from "pdfjs-dist/legacy/build/pdf.mjs";
+import * as PrivateGPT from "privategpt-sdk-node";
 import puppeteer from "puppeteer-core";
 import sharp from "sharp";
 import wk from "wikipedia";
@@ -118,6 +120,14 @@ export const makeContext = (
           entitiesFile: path.resolve(process.cwd(), "config/nlp/entities.json"),
           nlp: WinkFn,
         }),
+      ),
+      privateGPT: pipe(
+        PrivateGPTProvider.GetPrivateGPTProvider({
+          client: new PrivateGPT.PrivategptApiClient({
+            environment: env.PRIVATE_GPT_ENVIRONMENT,
+          }),
+        }),
+        fp.TE.right,
       ),
       config: fp.TE.right<ControllerError, RouteContext["config"]>({
         events: EventsConfig,
