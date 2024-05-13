@@ -180,7 +180,7 @@ export const MediaList: React.FC<ListProps> = (props) => {
         _order: "DESC",
         emptyValues: false,
       }}
-      perPage={20}
+      perPage={25}
     >
       <MediaDataGrid />
     </List>
