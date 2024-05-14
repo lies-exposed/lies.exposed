@@ -33,6 +33,7 @@ import { ReferenceLinkTab } from "../tabs/ReferenceLinkTab.js";
 import ReferenceUserInput from "../user/ReferenceUserInput.js";
 import { MediaField } from "./MediaField.js";
 import { MediaSuggestedEntityRelations } from "./MediaSuggestedEntityRelations.js";
+import { OpenAIPromptButton } from "./OpenAIIngestButton.js";
 import { GenerateExtraButton } from "./button/GenerateExtraButton.js";
 import { GenerateThumbnailButton } from "./button/GenerateThumbnailButton.js";
 import { MediaTGPostButton } from "./button/MediaTGPostButton.js";
@@ -134,24 +135,20 @@ const MediaEditToolbar: React.FC = () => {
   const record = useRecordContext();
   return (
     <React.Fragment>
-      <Box style={{ display: "flex", margin: "20px" }}>
-        <Grid container spacing={2} style={{ maxWidth: "100%" }}>
-          <Grid flexGrow={1} item md={6}>
-            <SaveButton />
-          </Grid>
-          <Grid
-            item
-            md={6}
-            style={{
-              display: "flex",
-              alignItems: "flex-center",
-              justifyContent: "flex-end",
-            }}
-          >
-            {record.deletedAt ? <DeleteWithConfirmButton /> : <DeleteButton />}
-          </Grid>
-        </Grid>
-      </Box>
+      <Stack direction={"column"} spacing={2}>
+        <Box>
+          <SaveButton />
+        </Box>
+        <Box
+          style={{
+            display: "flex",
+            alignItems: "flex-center",
+            justifyContent: "flex-end",
+          }}
+        >
+          {record.deletedAt ? <DeleteWithConfirmButton /> : <DeleteButton />}
+        </Box>
+      </Stack>
     </React.Fragment>
   );
 };
@@ -159,7 +156,8 @@ const MediaEditToolbar: React.FC = () => {
 export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
   const apiProvider = useDataProvider();
   const { permissions, isLoading: isLoadingPermissions } = usePermissions();
-  const { record } = useEditController(props);
+  const { record, save } = useEditController(props);
+
   if (isLoadingPermissions || !record) {
     return <LoadingPage />;
   }
@@ -174,9 +172,9 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
       redirect={false}
       preview={<MediaPreview />}
       actions={
-        <Box>
+        <Stack direction={"row"} spacing={2} paddingY={2}>
           <MediaTGPostButton />
-        </Box>
+        </Stack>
       }
     >
       <TabbedForm
@@ -201,6 +199,20 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
             <Grid item md={12}>
               <TextInput source="label" fullWidth />
               <TextInput source="description" fullWidth multiline />
+              <OpenAIPromptButton
+                value={record.description}
+                getUserMessage={(m) => m}
+                onRequest={() => {}}
+                onResponse={(r) => {
+                  const reply = r.choices[0].message.content;
+                  if (reply) {
+                    void save?.({
+                      ...record,
+                      description: reply,
+                    });
+                  }
+                }}
+              />
               <Box>
                 <Box>
                   <DateField

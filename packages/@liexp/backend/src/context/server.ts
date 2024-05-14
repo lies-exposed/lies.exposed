@@ -14,6 +14,7 @@ import { type PuppeteerProvider } from "../providers/puppeteer.provider.js";
 import { type SpaceProvider } from "../providers/space/index.js";
 import { type TGBotProvider } from "../providers/tg/tg.provider.js";
 import { type WikipediaProvider } from "../providers/wikipedia/wikipedia.provider.js";
+
 export interface ServerContext {
   db: DatabaseClient;
   s3: SpaceProvider.SpaceProvider;

@@ -3,6 +3,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import cors from "cors";
 import express from "express";
+import proxy from "express-http-proxy";
 import { expressjwt as jwt } from "express-jwt";
 import { unless } from "express-unless";
 import { sequenceS } from "fp-ts/lib/Apply.js";
@@ -20,15 +21,10 @@ import { MakeUploadFileRoute } from "#routes/uploads/uploadFile.controller.js";
 import { GetWriteJSON } from "#utils/json.utils.js";
 import { getThanksMessage } from "#utils/tg.utils.js";
 
-// var whitelist = ["http://localhost:8002"]
-export const corsOptions: cors.CorsOptions = {
-  origin: true,
-};
-
 export const makeApp = (ctx: RouteContext): express.Express => {
   const app = express();
 
-  app.use(cors(corsOptions) as any);
+  app.use(cors(ctx.config.cors));
   // uploads
   MakeUploadFileRoute(app, ctx);
 
@@ -52,6 +48,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
         { url: "/v1/events/suggestions", method: "POST" },
         { url: /\/v1\/events\/suggestions*\//, method: "PUT" },
         { url: /\/media\/*/ },
+        { url: /openai\/*/ },
       ],
     }),
   );
@@ -110,6 +107,29 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   app.use("/v1", AddRoutes(express.Router(), ctx));
 
+  app.use(
+    "/openai",
+    cors(ctx.config.cors),
+    proxy("localai.liexp.dev:8080/v1", {
+      proxyReqOptDecorator: (req: any) => {
+        const proxyReq = {
+          ...req,
+          headers: {
+            ...req.headers,
+            "Access-Control-Allow-Origin": "*",
+            // connection: "keep-alive",
+          },
+        };
+        ctx.logger.debug.log("Proxy request %O", proxyReq);
+        return Promise.resolve(proxyReq);
+      },
+      proxyResOptDecorator: (proxyRes: any) => {
+        ctx.logger.debug.log("Proxy response %O", proxyRes);
+        return Promise.resolve(proxyRes);
+      },
+      timeout: 120 * 1000,
+    }),
+  );
   app.use(function (err: any, req: any, res: any, next: any) {
     // eslint-disable-next-line no-console
     try {
