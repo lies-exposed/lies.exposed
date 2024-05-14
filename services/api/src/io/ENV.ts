@@ -53,6 +53,24 @@ const ENV = t.intersection(
         },
         "GEO_CODE_ENV",
       ),
+      t.strict(
+        {
+          TG_BOT_TOKEN: t.string,
+          TG_BOT_CHAT: t.string,
+          TG_BOT_USERNAME: t.string,
+          TG_BOT_POLLING: BooleanFromString,
+          TG_BOT_BASE_API_URL: t.string,
+          IG_USERNAME: t.string,
+          IG_PASSWORD: t.string,
+        },
+        "TG_BOT_ENV",
+      ),
+      t.strict(
+        {
+          OPENAI_URL: t.string,
+        },
+        "OPENAI_ENV",
+      ),
     ]),
     t.intersection(
       [
@@ -77,18 +95,6 @@ const ENV = t.intersection(
         ]),
       ],
       "DB_ENV",
-    ),
-    t.strict(
-      {
-        TG_BOT_TOKEN: t.string,
-        TG_BOT_CHAT: t.string,
-        TG_BOT_USERNAME: t.string,
-        TG_BOT_POLLING: BooleanFromString,
-        TG_BOT_BASE_API_URL: t.string,
-        IG_USERNAME: t.string,
-        IG_PASSWORD: t.string,
-      },
-      "TG_BOT_ENV",
     ),
   ],
   "ENV",

@@ -1,16 +1,16 @@
 /* eslint-disable import/order, import/first */
+import { parseENV } from "#utils/env.utils.js";
 import { loadENV } from "@liexp/core/lib/env/utils.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
-import { parseENV } from "#utils/env.utils.js";
+import D from "debug";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { failure } from "io-ts/lib/PathReporter.js";
-import { postOnSocialJob } from "./jobs/socialPostScheduler.job.js";
 import { makeApp } from "./app/index.js";
 import { makeContext } from "./context/index.js";
 import { cleanTempFolder } from "./jobs/cleanTempFolder.job.js";
-import D from "debug";
 import { generateMissingThumbnailsCron } from "./jobs/generateMissingMedia.job.js";
+import { postOnSocialJob } from "./jobs/socialPostScheduler.job.js";
 
 const run = (): Promise<void> => {
   process.env.NODE_ENV = process.env.NODE_ENV ?? "development";

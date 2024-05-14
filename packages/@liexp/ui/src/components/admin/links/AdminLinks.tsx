@@ -57,7 +57,7 @@ export const LinkList: React.FC<ListProps> = (props) => {
     <List
       resource={RESOURCE}
       filters={linksFilter}
-      perPage={25}
+      perPage={50}
       filter={filter}
       filterDefaultValues={{
         _sort: "createdAt",
