@@ -38,8 +38,8 @@ services:
     logging:
       driver: "json-file"
       options:
-          max-file: 5
-          max-size: 10m
+        max-file: 5
+        max-size: 10m
     networks:
       - reverseproxy
 
@@ -56,6 +56,29 @@ services:
       - telegram-bot-api
     ports:
       - "127.0.0.1:9008:9008"
+    networks:
+      - reverseproxy
+
+  localai.liexp.dev:
+    image: localai/localai:latest-aio-cpu
+    # For AMD GPUs decomment the following:
+    # image: localai/localai:latest-aio-gpu-hipblas
+    # For Phi2 models decomment the following:
+    # image: localai/localai:v2.15.0-ffmpeg-core phi-2
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/readyz"]
+      interval: 1m
+      timeout: 20m
+      retries: 5
+    ports:
+      - '127.0.0.1:8080:8080'
+    tty: true
+    environment:
+      DEBUG: true
+      VIRTUAL_HOST: localai.liexp.dev
+      VIRTUAL_PORT: 8080
+    volumes:
+      - ./models:/build/models:cached
     networks:
       - reverseproxy
 
