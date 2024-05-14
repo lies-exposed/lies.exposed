@@ -38,6 +38,7 @@
     "fp-ts": "^2.16.5",
     "history": "^5.3.0",
     "mini-create-react-context": "^0.4.1",
+    "openai": "^4.47.1",
     "ra-core": "^4.16.17",
     "ra-i18n-polyglot": "^4.16.17",
     "ra-ui-materialui": "^4.16.17",

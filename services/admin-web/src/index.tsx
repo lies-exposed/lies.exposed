@@ -1,7 +1,9 @@
 import { APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
+import { GetOpenAIProvider } from "@liexp/shared/lib/providers/openai/openai.provider.js";
 import { getAuthFromLocalStorage } from "@liexp/ui/lib/client/api.js";
 import { ConfigurationContext } from "@liexp/ui/lib/context/ConfigurationContext.js";
 import { DataProviderContext } from "@liexp/ui/lib/context/DataProviderContext.js";
+import { OpenAIContext } from "@liexp/ui/lib/context/OpenAIContext.js";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
@@ -24,7 +26,14 @@ root.render(
         })}
       >
         <QueryClientProvider client={new QueryClient()}>
-          <AdminPage />
+          <OpenAIContext.Provider
+            value={GetOpenAIProvider({
+              baseURL: import.meta.env.VITE_OPENAI_URL,
+              dangerouslyAllowBrowser: true,
+            })}
+          >
+            <AdminPage />
+          </OpenAIContext.Provider>
         </QueryClientProvider>
       </DataProviderContext.Provider>
     </ConfigurationContext.Provider>

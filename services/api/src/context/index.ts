@@ -14,6 +14,7 @@ import { WikipediaProvider } from "@liexp/backend/lib/providers/wikipedia/wikipe
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
+import { GetOpenAIProvider } from "@liexp/shared/lib/providers/openai/openai.provider.js";
 import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import * as axios from "axios";
 import * as ExifReader from "exifreader";
@@ -65,6 +66,13 @@ export const makeContext = (
       getMetadata: metadataParser.getMetadata,
     },
   });
+
+  // won't work for production at the moment cause there's no
+  // local ai server
+  const openai = GetOpenAIProvider({
+    baseURL: env.OPENAI_URL,
+  });
+
   return pipe(
     sequenceS(fp.TE.ApplicativePar)({
       logger: fp.TE.right(serverLogger),
@@ -112,6 +120,7 @@ export const makeContext = (
           exifR: ExifReader,
         }),
       ),
+      openai: fp.TE.right(openai),
       ner: fp.TE.right(
         GetNERProvider({
           logger: logger.GetLogger("ner"),
@@ -120,6 +129,9 @@ export const makeContext = (
         }),
       ),
       config: fp.TE.right<ControllerError, RouteContext["config"]>({
+        cors: {
+          origin: env.NODE_ENV === "production" ? true : "*",
+        },
         events: EventsConfig,
         dirs: {
           cwd: process.cwd(),
