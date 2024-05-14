@@ -70,3 +70,6 @@ temp
 
 # Imported csv
 services/data/public/**/import
+
+# LocalAI models
+models
