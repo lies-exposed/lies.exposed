@@ -18,6 +18,7 @@ const run = (): Promise<void> => {
   const serverLogger = logger.GetLogger("api");
 
   if (process.env.NODE_ENV === "development") {
+    loadENV(process.cwd(), ".env");
     loadENV(process.cwd(), ".env.local", true);
 
     D.enable(process.env.DEBUG ?? "*");
@@ -60,16 +61,20 @@ const run = (): Promise<void> => {
           postOnSocialTask.start();
           cleanTempFolderTask.start();
           generateMissingThumbnailsTask.start();
-          const host = "0.0.0.0";
-          const server = app.listen(ctx.env.VIRTUAL_PORT, host, () => {
-            ctx.logger.info.log(
-              `Server is listening ${host}:${ctx.env.VIRTUAL_PORT}`,
-            );
 
-            ctx.tg.api.on("polling_error", (e) => {
-              serverLogger.error.log(`TG Bot error during polling %O`, e);
-            });
-          });
+          const server = app.listen(
+            ctx.env.SERVER_PORT,
+            ctx.env.SERVER_HOST,
+            () => {
+              ctx.logger.info.log(
+                `Server is listening ${ctx.env.SERVER_HOST}:${ctx.env.SERVER_PORT}`,
+              );
+
+              ctx.tg.api.on("polling_error", (e) => {
+                serverLogger.error.log(`TG Bot error during polling %O`, e);
+              });
+            },
+          );
 
           process.on("SIGINT", () => {
             // eslint-disable-next-line no-console
