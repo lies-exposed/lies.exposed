@@ -21,6 +21,8 @@ const ENV = t.intersection(
       t.strict(
         {
           DEBUG: t.string,
+          SERVER_HOST: t.string,
+          SERVER_PORT: NumberFromString,
           VIRTUAL_PORT: NumberFromString,
           VIRTUAL_HOST: t.string,
           DEFAULT_PAGE_SIZE: NumberFromString,
