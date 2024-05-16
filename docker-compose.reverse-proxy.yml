@@ -60,9 +60,10 @@ services:
       - reverseproxy
 
   localai.liexp.dev:
-    image: localai/localai:latest-aio-cpu
-    # For AMD GPUs decomment the following:
-    # image: localai/localai:latest-aio-gpu-hipblas
+    # image: localai/localai:latest-aio-cpu
+    # For Intel GPUs decomment the following:
+    image: localai/localai:latest-aio-gpu-intel-f16
+    # image: localai/localai:v2.15.0-sycl-f16-ffmpeg
     # For Phi2 models decomment the following:
     # image: localai/localai:v2.15.0-ffmpeg-core phi-2
     healthcheck:
@@ -71,14 +72,17 @@ services:
       timeout: 20m
       retries: 5
     ports:
-      - '127.0.0.1:8080:8080'
+      - '8080:8080'
     tty: true
     environment:
       DEBUG: true
+      # REBUILD: true
       VIRTUAL_HOST: localai.liexp.dev
       VIRTUAL_PORT: 8080
     volumes:
       - ./models:/build/models:cached
+    devices:
+      - /dev/dri
     networks:
       - reverseproxy
 
