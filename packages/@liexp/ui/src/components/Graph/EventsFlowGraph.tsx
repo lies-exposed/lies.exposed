@@ -10,7 +10,10 @@ import { toColor } from "@liexp/shared/lib/utils/colors.js";
 import { parseISO } from "date-fns";
 import { pipe } from "fp-ts/lib/function.js";
 import React from "react";
-import { FlowGraph, type FlowGraphProps } from "../Common/Graph/Flow/FlowGraph.js";
+import {
+  FlowGraph,
+  type FlowGraphProps,
+} from "../Common/Graph/Flow/FlowGraph.js";
 import { ActorLink } from "../Common/Graph/Flow/links/ActorLink.js";
 import { ActorNode } from "../Common/Graph/Flow/nodes/ActorNode.js";
 import { EventNode } from "../Common/Graph/Flow/nodes/EventNode.js";

@@ -1,13 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Option } from "fp-ts/lib/Option.js";
-import { BNESchemaEditor } from "../EditorSchema.js";
+import { BNBlock, BNESchemaEditor } from "../EditorSchema.js";
 import { isValidValue } from "./isValidValue.js";
-
-export interface BNBlock {
-  type: string;
-  props?: any;
-  content: any[];
-}
 
 export type DeserializeBNBlock<T> = (p: BNBlock) => Option<T[]>;
 
@@ -46,8 +40,8 @@ const blockSerializer =
       }
       case "paragraph": {
         return pipe(
-          p.content,
-          fp.A.filter((c) => !["text", "link"].includes(c.type)),
+          [...(p?.content ?? []), ...((p as any)?.children ?? [])],
+          // fp.A.filter((c) => !["text", "link"].includes(c.type)),
           fp.A.map(f),
           fp.A.compact,
           fp.A.flatten,
@@ -66,13 +60,14 @@ const inlineRelationsPluginSerializer = (
   p: BNBlock,
 ): Option<InlineRelation[]> => {
   switch (p.type) {
-    case "keyword":
-    case "actor":
-    case "group":
+    case "keyword" as any:
+    case "actor" as any:
+    case "group" as any:
     case "media":
     case "event": {
+      const pp = p as any;
       return pipe(
-        p.props?.id,
+        pp.props?.id,
         fp.O.fromNullable,
         fp.O.map((id) => [{ id, type: p.type as InlineRelation["type"] }]),
       );
@@ -86,7 +81,7 @@ const inlineRelationsPluginSerializer = (
       return pipe(
         p.content,
         fp.A.filter((c) => !["text", "link"].includes(c.type)),
-        fp.A.map((c) => inlineRelationsPluginSerializer(c)),
+        fp.A.map((c) => inlineRelationsPluginSerializer(c as any)),
         fp.A.compact,
         fp.A.flatten,
         fp.O.fromPredicate((arr) => arr.length > 0),

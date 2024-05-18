@@ -5,8 +5,8 @@ import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { styled } from "../../../../../theme/index.js";
 import { Box, List, ListItem, Typography } from "../../../../mui/index.js";
-import { BNESchemaEditor } from "../../EditorSchema.js";
-import { BNBlock, transform } from "../../utils/transform.utils.js";
+import { BNESchemaEditor, BNBlock } from "../../EditorSchema.js";
+import { transform } from "../../utils/transform.utils.js";
 
 interface SerializedHeader {
   text: string;
@@ -17,7 +17,8 @@ interface SerializedHeader {
 const headersSerializer = (c: BNBlock): Option<SerializedHeader[]> => {
   switch (c.type) {
     case "heading": {
-      const text = c.content[0]?.text ?? "Missing heading text";
+      const cc = c as any
+      const text = cc.content[0]?.text ?? "Missing heading text";
       return fp.O.some([{ text, type: c.type, level: c.props.level ?? 6 }]);
     }
     default:
