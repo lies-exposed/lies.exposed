@@ -4,7 +4,7 @@ import { useReactFlow } from "reactflow";
 import { IconButton, Icons, Stack } from "../../../../mui/index.js";
 import { ContextMenu, ContextMenuProps } from "./ContextMenu.js";
 
-export type PaneContextMenuProps = ContextMenuProps
+export type PaneContextMenuProps = ContextMenuProps;
 
 export const PaneContextMenu: React.FC<PaneContextMenuProps> = ({
   ...contextMenuProps
