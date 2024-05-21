@@ -94,7 +94,7 @@ export const EventList: React.FC = () => (
       draft: undefined,
     }}
     filters={eventsFilter}
-    perPage={20}
+    perPage={25}
     sort={{ field: "createdAt", order: "DESC" }}
     aside={
       <Card

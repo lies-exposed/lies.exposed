@@ -44,7 +44,7 @@ export const ScientificStudiesList: React.FC<ListProps> = (props) => (
   <List
     {...props}
     filters={listFilter}
-    perPage={20}
+    perPage={25}
     filterDefaultValues={{ type: "ScientificStudy", withDrafts: true }}
   >
     <Datagrid rowClick="edit">
