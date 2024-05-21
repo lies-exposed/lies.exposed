@@ -30,7 +30,7 @@ const keywordsFilter = [
 ];
 
 export const KeywordList: React.FC<ListProps> = (props) => (
-  <List {...props} resource={RESOURCE} filters={keywordsFilter} perPage={20}>
+  <List {...props} resource={RESOURCE} filters={keywordsFilter} perPage={25}>
     <Datagrid
       rowClick="edit"
       rowSx={(r) => ({

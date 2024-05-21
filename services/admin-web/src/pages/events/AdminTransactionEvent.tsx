@@ -46,7 +46,7 @@ export const TransactionList: React.FC<ListProps> = (props) => (
   <List
     {...props}
     filters={transactionEventsFilter}
-    perPage={20}
+    perPage={25}
     filterDefaultValues={{
       _sort: "date",
       _order: "DESC",

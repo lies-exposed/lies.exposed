@@ -189,7 +189,7 @@ export const EventListPage: React.FC = () => {
         draft: undefined,
       }}
       filters={eventsFilter}
-      perPage={20}
+      perPage={25}
     >
       <EventDataGrid />
     </List>

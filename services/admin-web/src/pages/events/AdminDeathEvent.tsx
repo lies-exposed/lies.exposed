@@ -48,7 +48,7 @@ export const DeathList: React.FC<ListProps> = (props) => (
   <List
     {...props}
     filters={deathEventsFilter}
-    perPage={20}
+    perPage={25}
     filterDefaultValues={{
       _sort: "date",
       _order: "DESC",

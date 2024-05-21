@@ -38,7 +38,7 @@ export const DocumentaryList: React.FC<ListProps> = (props) => (
   <List
     {...props}
     filters={documentaryEventsFilter}
-    perPage={20}
+    perPage={25}
     filterDefaultValues={{
       _sort: "date",
       _order: "DESC",

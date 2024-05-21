@@ -39,7 +39,7 @@ export const BookList: React.FC<ListProps> = (props) => (
   <List
     {...props}
     filters={booksFilter}
-    perPage={20}
+    perPage={25}
     filterDefaultValues={{
       _sort: "date",
       _order: "DESC",

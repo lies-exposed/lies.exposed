@@ -61,7 +61,7 @@ export const UncategorizedEventList: React.FC<ListProps> = (props) => (
       withDrafts: false,
     }}
     filters={eventsFilter}
-    perPage={20}
+    perPage={25}
   >
     <Datagrid rowClick="edit">
       <FunctionField
