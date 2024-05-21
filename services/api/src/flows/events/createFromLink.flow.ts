@@ -20,7 +20,7 @@ export const createEventFromLink: TEFlow<
       ctx.db.save(EventV2Entity, [
         {
           type: "Uncategorized" as const,
-          excerpt: excerpt as any,
+          excerpt: excerpt,
           payload: {
             title: l.title,
             actors: [],

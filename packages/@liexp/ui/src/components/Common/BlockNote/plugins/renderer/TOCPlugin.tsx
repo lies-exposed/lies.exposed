@@ -17,7 +17,7 @@ interface SerializedHeader {
 const headersSerializer = (c: BNBlock): Option<SerializedHeader[]> => {
   switch (c.type) {
     case "heading": {
-      const cc = c as any
+      const cc = c as any;
       const text = cc.content[0]?.text ?? "Missing heading text";
       return fp.O.some([{ text, type: c.type, level: c.props.level ?? 6 }]);
     }

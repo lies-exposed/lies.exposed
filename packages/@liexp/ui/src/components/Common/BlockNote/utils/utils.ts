@@ -1,7 +1,8 @@
 import { BlockNoteEditor } from "@blocknote/core";
 import { fp } from "@liexp/core/lib/fp/index.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { TaskEither } from "fp-ts/lib/TaskEither.js";
-import { BNESchemaEditor, schema } from "../EditorSchema.js";
+import { BNESchemaEditor, schema, BNBlock } from "../EditorSchema.js";
 import { PARAGRAPH_TYPE } from "./customSlate.js";
 import {
   SlateValue,
@@ -36,9 +37,25 @@ export const fromSlateToBlockNote = (
   return v as any;
 };
 
-export const toInitialValue = (v: unknown): any[] | undefined => {
+const toInitialValueS = (value: string): BNBlock[] => {
+  return value.split("\n").map((v) => ({
+    id: uuid(),
+    type: "paragraph",
+    props: {
+      textColor: "default",
+      backgroundColor: "default",
+      textAlignment: "left",
+    },
+    children: [],
+    content: [{ type: "text", text: v, styles: {} }],
+  })) as any[];
+};
+
+function toInitialValue(v: string): any[];
+function toInitialValue(v: unknown): any[] | undefined;
+function toInitialValue(v: any): any[] | undefined {
   if (typeof v === "string") {
-    return v.split("\n").map((v) => ({ type: "paragraph", content: v }));
+    return toInitialValueS(v);
   }
   if (isValidSlateValue(v)) {
     const result = fromSlateToBlockNote(v);
@@ -49,7 +66,9 @@ export const toInitialValue = (v: unknown): any[] | undefined => {
   }
 
   return undefined;
-};
+}
+
+export { toInitialValue };
 
 export const toInitialContent = (v: unknown): { initialContent?: any[] } => {
   const initialValue = toInitialValue(v);

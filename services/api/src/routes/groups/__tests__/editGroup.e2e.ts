@@ -80,8 +80,11 @@ describe("Edit Group", () => {
 
     expect(response.status).toEqual(200);
 
-    expect(response.body.data.body).toEqual([
-      { type: "paragraph", content: "new group body" },
+    expect(response.body.data.body).toMatchObject([
+      {
+        type: "paragraph",
+        content: [{ text: "new group body", styles: {}, type: "text" }],
+      },
     ]);
   });
 });

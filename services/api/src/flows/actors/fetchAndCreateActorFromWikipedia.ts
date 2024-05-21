@@ -31,7 +31,7 @@ export const fetchActorFromWikipedia: TEFlow<[string], AddActorBody> =
             fullName: page.title,
             username,
             avatar,
-            excerpt: excerpt as any,
+            excerpt: excerpt,
             color: generateRandomColor(),
             body: undefined,
             bornOn: undefined,
