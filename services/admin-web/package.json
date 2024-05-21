@@ -40,7 +40,6 @@
     "mini-create-react-context": "^0.4.1",
     "ra-core": "^4.16.17",
     "ra-i18n-polyglot": "^4.16.17",
-    "ra-input-rich-text": "^4.16.17",
     "ra-ui-materialui": "^4.16.17",
     "react": "^18.3.1",
     "react-admin": "^4.16.17",
