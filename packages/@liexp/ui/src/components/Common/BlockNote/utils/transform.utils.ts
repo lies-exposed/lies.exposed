@@ -79,7 +79,7 @@ const inlineRelationsPluginSerializer = (
     }
     default: {
       return pipe(
-        p.content,
+        p.content ?? [],
         fp.A.filter((c) => !["text", "link"].includes(c.type)),
         fp.A.map((c) => inlineRelationsPluginSerializer(c as any)),
         fp.A.compact,
