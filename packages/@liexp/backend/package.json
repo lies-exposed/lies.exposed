@@ -20,9 +20,9 @@
   "dependencies": {
     "@databases/escape-identifier": "^1.0.3",
     "@databases/sql": "^3.3.0",
-    "@liexp/core": "0.1.0",
-    "@liexp/shared": "0.1.0",
-    "@liexp/test": "0.1.0",
+    "@liexp/core": "workspace:^",
+    "@liexp/shared": "workspace:^",
+    "@liexp/test": "workspace:^",
     "fp-ts": "^2.16.5",
     "io-ts": "^2.2.21",
     "page-metadata-parser": "^1.1.4",
