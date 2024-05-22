@@ -54,7 +54,7 @@
     "io-ts-types": "^0.5.19",
     "is-plain-object": "^5.0.0",
     "module-alias": "^2.2.3",
-    "ol": "^8.2.0",
+    "ol": "^9.2.2",
     "page-metadata-parser": "^1.1.4",
     "prop-types": "^15.8.1",
     "query-string": "^7.1.3",
