@@ -30,6 +30,7 @@ root.render(
             value={GetOpenAIProvider({
               baseURL: import.meta.env.VITE_OPENAI_URL,
               dangerouslyAllowBrowser: true,
+              timeout: 120 * 1000,
             })}
           >
             <AdminPage />
