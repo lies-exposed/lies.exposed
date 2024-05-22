@@ -100,7 +100,7 @@
     "wink-nlp-utils": "^2.1.0"
   },
   "devDependencies": {
-    "@liexp/test": "0.1.0",
+    "@liexp/test": "workspace:^",
     "@types/body-parser": "^1.19.5",
     "@types/cors": "^2.8.17",
     "@types/debug": "^4.1.12",

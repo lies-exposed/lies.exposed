@@ -29,7 +29,7 @@
     "@aws-sdk/s3-request-presigner": "^3.540.0",
     "@databases/escape-identifier": "^1.0.3",
     "@databases/sql": "^3.3.0",
-    "@liexp/core": "0.1.0",
+    "@liexp/core": "workspace:^",
     "axios": "^1.7.2",
     "bs58": "^5.0.0",
     "cheerio": "^1.0.0-rc.12",
@@ -47,7 +47,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@liexp/test": "0.1.0",
+    "@liexp/test": "workspace:^",
     "@types/bs58": "^4.0.4",
     "@types/react": "^18.3.2",
     "@types/react-dom": "^18.3.0",

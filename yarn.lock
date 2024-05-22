@@ -3475,7 +3475,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@liexp/core@0.1.0, @liexp/core@workspace:^, @liexp/core@workspace:packages/@liexp/core":
+"@liexp/core@workspace:^, @liexp/core@workspace:packages/@liexp/core":
   version: 0.0.0-use.local
   resolution: "@liexp/core@workspace:packages/@liexp/core"
   dependencies:
@@ -3521,8 +3521,8 @@ __metadata:
     "@aws-sdk/s3-request-presigner": ^3.540.0
     "@databases/escape-identifier": ^1.0.3
     "@databases/sql": ^3.3.0
-    "@liexp/core": 0.1.0
-    "@liexp/test": 0.1.0
+    "@liexp/core": "workspace:^"
+    "@liexp/test": "workspace:^"
     "@types/bs58": ^4.0.4
     "@types/react": ^18.3.2
     "@types/react-dom": ^18.3.0
@@ -3562,11 +3562,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@liexp/test@0.1.0, @liexp/test@workspace:^, @liexp/test@workspace:packages/@liexp/test":
+"@liexp/test@workspace:^, @liexp/test@workspace:packages/@liexp/test":
   version: 0.0.0-use.local
   resolution: "@liexp/test@workspace:packages/@liexp/test"
   dependencies:
-    "@liexp/core": 0.1.0
+    "@liexp/core": "workspace:^"
     fast-check: ^2.25.0
     fast-check-io-ts: ^0.5.0
     fp-ts: ^2.16.5
@@ -9057,7 +9057,7 @@ __metadata:
     "@liexp/backend": "workspace:^"
     "@liexp/core": "workspace:^"
     "@liexp/shared": "workspace:^"
-    "@liexp/test": 0.1.0
+    "@liexp/test": "workspace:^"
     "@liexp/ui": "workspace:^"
     "@tanstack/react-query": ^5.37.1
     "@types/body-parser": ^1.19.5
