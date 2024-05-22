@@ -2233,9 +2233,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@blocknote/core@npm:^0.13.2":
-  version: 0.13.2
-  resolution: "@blocknote/core@npm:0.13.2"
+"@blocknote/core@npm:^0.13.3":
+  version: 0.13.3
+  resolution: "@blocknote/core@npm:0.13.3"
   dependencies:
     "@tiptap/core": ^2.0.3
     "@tiptap/extension-bold": ^2.0.3
@@ -2276,47 +2276,47 @@ __metadata:
     y-prosemirror: 1.2.1
     y-protocols: ^1.0.5
     yjs: ^13.6.1
-  checksum: 799a656608d4763ddebcfd87653f43c95ffa5e51181d0951334338f756f6e36745325c0713d874ee95195432051d23ea45b89343c010593d917029aef3580e1c
+  checksum: 0bde12c3567eaf6fe82fc67008a368996c1013b6b32a82ab350f2397e697a1b87eb8f9c12b5895f527aef6f7a952fe82b5f2bdcebdf0b758c5cf4d17f41f8007
   languageName: node
   linkType: hard
 
-"@blocknote/mantine@npm:^0.13.2":
-  version: 0.13.2
-  resolution: "@blocknote/mantine@npm:0.13.2"
+"@blocknote/mantine@npm:^0.13.3":
+  version: 0.13.3
+  resolution: "@blocknote/mantine@npm:0.13.3"
   dependencies:
-    "@blocknote/core": ^0.13.2
-    "@blocknote/react": ^0.13.2
+    "@blocknote/core": ^0.13.3
+    "@blocknote/react": ^0.13.3
     "@mantine/core": ^7.5.0
     "@mantine/hooks": ^7.5.0
     "@mantine/utils": ^6.0.21
     react: ^18
     react-dom: ^18
-    react-icons: ^4.3.1
+    react-icons: ^5.2.1
     use-prefers-color-scheme: ^1.1.3
   peerDependencies:
     react: ^18
     react-dom: ^18
-  checksum: eefd31fd85a985353c18dac0e6ba95e398695a63d3491adbb0852902663d45a295068bde4c964a95139c860565a8c14cd22075ebd0e6c6547a782668164b6491
+  checksum: 1ee562ac50697c6c55bde2e3dad200aaa2c7c877d4f170759750f0850470fd741c3639ae8f3f55b0b235e1483bf3a63f8e5bd9995f7836ac95d9687c6599a9ba
   languageName: node
   linkType: hard
 
-"@blocknote/react@npm:^0.13.2":
-  version: 0.13.2
-  resolution: "@blocknote/react@npm:0.13.2"
+"@blocknote/react@npm:^0.13.3":
+  version: 0.13.3
+  resolution: "@blocknote/react@npm:0.13.3"
   dependencies:
-    "@blocknote/core": ^0.13.2
+    "@blocknote/core": ^0.13.3
     "@floating-ui/react": ^0.26.4
     "@tiptap/core": ^2.0.3
     "@tiptap/react": ^2.0.3
     lodash.merge: ^4.6.2
     react: ^18
     react-dom: ^18
-    react-icons: ^4.3.1
+    react-icons: ^5.2.1
     use-prefers-color-scheme: ^1.1.3
   peerDependencies:
     react: ^18
     react-dom: ^18
-  checksum: debc9d28ad82c1bba801e91afc38aef466b27208af23d0eaa0de774276aa2a78bfd326c350b28a678a96a5ec346df70dd6425d0623495b4049ffc5a6c4e2a993
+  checksum: 270eea7fe40977518a0fa9b663119fff2058cbd8b087edf0d92ddfece22b6e3fc50273df921549131f0a89de4e21c8df754b8fe4d60bc71f92178bad1b908ba5
   languageName: node
   linkType: hard
 
@@ -3583,9 +3583,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@liexp/ui@workspace:packages/@liexp/ui"
   dependencies:
-    "@blocknote/core": ^0.13.2
-    "@blocknote/mantine": ^0.13.2
-    "@blocknote/react": ^0.13.2
+    "@blocknote/core": ^0.13.3
+    "@blocknote/mantine": ^0.13.3
+    "@blocknote/react": ^0.13.3
     "@emotion/css": ^11.11.2
     "@emotion/server": ^11.11.0
     "@fortawesome/fontawesome-svg-core": ^6.5.2
@@ -20078,12 +20078,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-icons@npm:^4.3.1":
-  version: 4.12.0
-  resolution: "react-icons@npm:4.12.0"
+"react-icons@npm:^5.2.1":
+  version: 5.2.1
+  resolution: "react-icons@npm:5.2.1"
   peerDependencies:
     react: "*"
-  checksum: db82a141117edcd884ade4229f0294b2ce15d82f68e0533294db07765d6dce00b129cf504338ec7081ce364fe899b296cb7752554ea08665b1d6bad811134e79
+  checksum: f084ea7409a3986c03b7805d0787d8526e2c988439a39f485cc526ec1b2eb6ec78e7b69345478151ce94bca8522737c6569203c8ab8b8ff08542b496f954bdfb
   languageName: node
   linkType: hard
 
