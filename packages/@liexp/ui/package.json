@@ -121,6 +121,7 @@
     "@types/topojson-client": "^3.1.4",
     "@types/topojson-specification": "^1.0.5",
     "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
     "openai": "^4.47.1",
     "prettier": "^3.2.5",
