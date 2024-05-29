@@ -5,6 +5,7 @@ import { pipe } from "fp-ts/lib/function.js";
 import { IOError } from "ts-io-error";
 import model from "wink-eng-lite-web-model";
 import {
+  ItemToken,
   type CustomEntityExample,
   type Detail,
   type SentenceImportance,
@@ -140,7 +141,7 @@ export const GetNERProvider = ({
               return acc.concat({ ...n });
             }, []);
 
-          doc.tokens().each((t) => {
+          doc.tokens().each((t: ItemToken) => {
             const parentCustomEntity = t.parentCustomEntity();
             if (parentCustomEntity) {
               const parentEntity = parentCustomEntity.out(
