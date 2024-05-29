@@ -9130,8 +9130,8 @@ __metadata:
     vite-tsconfig-paths: ^4.3.2
     vitest: ^1.6.0
     wikipedia: ^2.1.2
-    wink-eng-lite-web-model: ^1.7.1
-    wink-nlp: ^2.2.2
+    wink-eng-lite-web-model: ^1.8.0
+    wink-nlp: ^2.3.0
     wink-nlp-utils: ^2.1.0
   languageName: unknown
   linkType: soft
@@ -24255,10 +24255,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wink-eng-lite-web-model@npm:^1.4.3, wink-eng-lite-web-model@npm:^1.7.1":
-  version: 1.7.1
-  resolution: "wink-eng-lite-web-model@npm:1.7.1"
-  checksum: 2cca958d6a8125e49369dfd1d7114350bcb64068db6aaf88eac03c867955cad66d6dd2346a38449796bc4dd265b944f5b902713db2a08c8ea767a41b9ff8c612
+"wink-eng-lite-web-model@npm:^1.4.3, wink-eng-lite-web-model@npm:^1.8.0":
+  version: 1.8.0
+  resolution: "wink-eng-lite-web-model@npm:1.8.0"
+  checksum: a052f0c29a7c355755f3ea2bfe1edf9eb35dc09dbcc51081870a5efa079fdc44dd9c50f2bb2e0a2d9ed7aee68ad13ce0aae9a15c5f73dbc851759b941156182b
   languageName: node
   linkType: hard
 
