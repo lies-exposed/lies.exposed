@@ -65,7 +65,7 @@
     "@visx/network": "^3.0.0",
     "debug": "*",
     "fast-csv": "^5",
-    "pdfjs-dist": "^4",
+    "pdfjs-dist": "^4.2.67",
     "react": "^18",
     "react-admin": "^4.13.2",
     "react-dom": "^18",
