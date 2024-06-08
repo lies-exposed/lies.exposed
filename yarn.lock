@@ -3458,7 +3458,7 @@ __metadata:
     fast-csv: ^5
     fluent-ffmpeg: ^2.1.2
     instagram-private-api: ^1.45.3
-    node-telegram-bot-api: ^0.64.0
+    node-telegram-bot-api: ^0.66.0
     page-metadata-parser: ^1.1.4
     puppeteer-core: ^21
     puppeteer-extra: ^3
@@ -9104,7 +9104,7 @@ __metadata:
     lodash: ^4.17.21
     multer: ^1.4.5-lts.1
     node-cron: ^3.0.3
-    node-telegram-bot-api: ^0.65.1
+    node-telegram-bot-api: ^0.66.0
     openai: ^4.47.1
     page-metadata-parser: ^1.1.4
     parse2-kmz: ^1.0.7
@@ -17893,9 +17893,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-telegram-bot-api@npm:^0.65.1":
-  version: 0.65.1
-  resolution: "node-telegram-bot-api@npm:0.65.1"
+"node-telegram-bot-api@npm:^0.66.0":
+  version: 0.66.0
+  resolution: "node-telegram-bot-api@npm:0.66.0"
   dependencies:
     "@cypress/request": ^3.0.1
     "@cypress/request-promise": ^5.0.0
@@ -17906,7 +17906,7 @@ __metadata:
     file-type: ^3.9.0
     mime: ^1.6.0
     pump: ^2.0.0
-  checksum: 5d45ae6fa6bb3e16ec5a4ce7e49b8e793287c7c8e8a1dc5c5fc4f23387700526c5693fbba6dc90e7f369f4265a8a25416a22abf5c27456b3f198bb7cdf0cc810
+  checksum: 65465a7485182c1d0e1729971f9ae60f57ea113be23aa25cfd2c13ad9b7b766e6851097a79614f11770e45c89f69370976245e8a5feda657f37a722f78c474eb
   languageName: node
   linkType: hard
 
