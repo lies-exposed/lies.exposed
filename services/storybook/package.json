@@ -26,7 +26,7 @@
     "react-dom": "^18.3.1",
     "react-spring": "^9.7.3",
     "reactflow": "^11.11.3",
-    "storybook": "^8.1.2"
+    "storybook": "^8.1.6"
   },
   "lint-staged": {
     "src/**/*.(ts|tsx|js|jsx)": "eslint --fix",
@@ -35,16 +35,16 @@
     ]
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^8.1.2",
-    "@storybook/addon-essentials": "^8.1.2",
-    "@storybook/addon-interactions": "^8.1.2",
-    "@storybook/addon-links": "^8.1.2",
-    "@storybook/addon-viewport": "^8.1.2",
-    "@storybook/builder-vite": "^8.1.2",
-    "@storybook/manager-api": "^8.1.2",
-    "@storybook/react": "^8.1.2",
-    "@storybook/react-vite": "^8.1.2",
-    "@storybook/theming": "^8.1.2",
+    "@storybook/addon-actions": "^8.1.6",
+    "@storybook/addon-essentials": "^8.1.6",
+    "@storybook/addon-interactions": "^8.1.6",
+    "@storybook/addon-links": "^8.1.6",
+    "@storybook/addon-viewport": "^8.1.6",
+    "@storybook/builder-vite": "^8.1.6",
+    "@storybook/manager-api": "^8.1.6",
+    "@storybook/react": "^8.1.6",
+    "@storybook/react-vite": "^8.1.6",
+    "@storybook/theming": "^8.1.6",
     "@types/babel__preset-env": "^7.9.6",
     "@types/eslint": "^8.56.10",
     "eslint": "^8.57.0",
