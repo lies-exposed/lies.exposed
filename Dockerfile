@@ -1,22 +1,16 @@
-FROM node:20-alpine as build
 
-WORKDIR /app
+FROM node:20-alpine as base
 
-COPY .yarn  ./.yarn
-COPY packages/@liexp/core ./packages/@liexp/core
-COPY packages/@liexp/test ./packages/@liexp/test
-COPY packages/@liexp/shared ./packages/@liexp/shared
-COPY packages/@liexp/ui ./packages/@liexp/ui
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
-COPY services/api ./services/api
-COPY services/web ./services/web
-COPY services/admin-web ./services/admin-web
+FROM base as dev
 
-COPY package.json .
-COPY .yarnrc.yml .
-COPY yarn.lock .
-COPY tsconfig.json .
+COPY . /usr/src/app
 
-RUN yarn install
+WORKDIR /usr/src/app
 
-RUN yarn build
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+
+RUN pnpm build

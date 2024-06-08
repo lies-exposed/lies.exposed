@@ -12,12 +12,12 @@
     "develop": "DOTENV_CONFIG_PATH=../../.env.local node --import tsx/esm -r dotenv/config src/serve.ts",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
     "lint": "eslint src",
-    "serve": "yarn tsx:dev ./src/serve",
+    "serve": "pnpm tsx:dev ./src/serve",
     "start": "node -r dotenv/config build/serve.js",
     "test:e2e": "vitest -c vitest.e2e.config.ts",
     "tsx:dev": "DOTENV_CONFIG_PATH=../../.env.local node -r tsx/cjs -r dotenv/config",
-    "vaccines:download": "yarn tsx:dev ./src/vaccines/download",
-    "vaccines:parse": "yarn tsx:dev ./src/vaccines/parse",
+    "vaccines:download": "pnpm tsx:dev ./src/vaccines/download",
+    "vaccines:parse": "pnpm tsx:dev ./src/vaccines/parse",
     "watch": "tsc -b --watch"
   },
   "lint-staged": {

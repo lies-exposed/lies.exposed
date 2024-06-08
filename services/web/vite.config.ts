@@ -1,7 +1,7 @@
-import { loadENV } from "@liexp/core/lib/env/utils.js";
 import { defineEnv } from "@liexp/core/lib/frontend/defineEnv.js";
 import { defineViteConfig } from "@liexp/core/lib/frontend/vite/config.js";
-import { defineConfig } from "vite";
+import { reactVirtualized } from "@liexp/ui/lib/vite/plugins/react-virtualized.js";
+import { defineConfig, mergeConfig } from "vite";
 
 export const AppEnv = defineEnv((t) => ({
   VITE_NODE_ENV: t.string,
@@ -17,7 +17,7 @@ export const port =
     : 4020;
 
 // https://vitejs.dev/config/
-const config = defineViteConfig({
+const configFn = defineViteConfig({
   cwd: import.meta.dirname,
   env: AppEnv,
   envFileDir: "./",
@@ -36,6 +36,8 @@ const config = defineViteConfig({
     process.env.VITE_NODE_ENV === "production"
       ? "tsconfig.build.json"
       : "tsconfig.json",
+
+  plugins: [reactVirtualized()],
 });
 
-export default defineConfig(config);
+export default defineConfig(configFn);

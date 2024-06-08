@@ -2,52 +2,52 @@
   "folders": [
     {
       "name": "ci",
-      "path": ".github"
+      "path": ".github",
     },
     {
       "name": "data",
-      "path": "services/data"
+      "path": "services/data",
     },
     {
       "name": "✨ lies.exposed",
-      "path": "."
+      "path": ".",
     },
     {
       "name": "🚀 @liexp/backend",
-      "path": "packages/@liexp/backend"
+      "path": "packages/@liexp/backend",
     },
     {
       "name": "📦 @liexp/core",
-      "path": "packages/@liexp/core"
+      "path": "packages/@liexp/core",
     },
     {
       "name": "📦 @liexp/shared",
-      "path": "packages/@liexp/shared"
+      "path": "packages/@liexp/shared",
     },
     {
       "name": "📦 @liexp/test",
-      "path": "packages/@liexp/test"
+      "path": "packages/@liexp/test",
     },
     {
       "name": "📦 @liexp/ui",
-      "path": "packages/@liexp/ui"
+      "path": "packages/@liexp/ui",
     },
     {
       "name": "🚀 admin-web",
-      "path": "services/admin-web"
+      "path": "services/admin-web",
     },
     {
       "name": "🚀 api",
-      "path": "services/api"
+      "path": "services/api",
     },
     {
       "name": "storybook",
-      "path": "services/storybook"
+      "path": "services/storybook",
     },
     {
       "name": "🚀 web",
-      "path": "services/web"
-    }
+      "path": "services/web",
+    },
   ],
   "settings": {
     "search.exclude": {
@@ -55,7 +55,7 @@
       "**/bower_components": true,
       "**/*.code-search": true,
       "build/**": true,
-      "lib/**": true
+      "lib/**": true,
     },
     "eslint.workingDirectories": [
       "./packages/@liexp/core",
@@ -65,11 +65,13 @@
       "./packages/@liexp/ui",
       "./services/api",
       "./services/web",
-      "./services/admin-web"
+      "./services/admin-web",
     ],
     "eslint.experimental.useFlatConfig": true,
     "eslint.codeActionsOnSave.mode": "all",
     "cSpell.words": ["healthcheck", "liexp", "Uncategorized", "xlarge"],
-    "easynpm.packageManager": "yarn"
-  }
+    "easynpm.packageManager": "pnpm",
+    "easynpm.defaultProjectRoot": "/home/ascariandrea/Workspace/lies-exposed/services/api",
+    "pnpm-vscode-helper.extraWorkspaceScripts": [],
+  },
 }

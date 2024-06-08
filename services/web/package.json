@@ -7,9 +7,13 @@
   "license": "MIT",
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "type": "module",
+  "files": [
+    "build",
+    "public"
+  ],
   "scripts": {
     "build": "tsc -b tsconfig.build.json",
-    "build:app-server": "yarn build:client && yarn build:server-ssr && yarn build:server",
+    "build:app-server": "pnpm build:client && pnpm build:server-ssr && pnpm build:server",
     "build:client": "vite build --outDir build/client",
     "build:server": "tsc -p tsconfig.server.json",
     "build:server-ssr": "vite build --outDir build/server --ssr src/server/entry.tsx",
@@ -44,7 +48,7 @@
   },
   "dependencies": {
     "@blocknote/core": "^0.14.0",
-    "@blocknote/mantine": "0.14.0",
+    "@blocknote/mantine": "^0.14.0",
     "@blocknote/react": "^0.14.0",
     "@emotion/cache": "^11.11.0",
     "@emotion/css": "^11.11.2",
@@ -102,16 +106,18 @@
     "react-slick": "^0.30.2",
     "react-spring": "^9.7.3",
     "react-toc": "^3.1.0",
+    "react-virtualized": "^9.22.5",
     "reactflow": "^11.11.3",
     "sirv": "^2.0.4",
     "slick-carousel": "^1.8.1",
     "throttle-debounce": "^5.0.0",
-    "topojson-client": "3.1.0",
+    "topojson-client": "^3.1.0",
     "topojson-server": "3.0.1",
     "uuid": "^9.0.1",
     "world-atlas": "2.0.2"
   },
   "devDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.18.0",
     "@types/bs58": "^4.0.4",
     "@types/compression": "^1.7.5",
     "@types/d3": "^7.4.3",
@@ -125,6 +131,7 @@
     "@types/react-dom": "^18.3.0",
     "@types/react-helmet": "^6.1.11",
     "@types/react-slick": "^0.23.13",
+    "@types/react-virtualized": "^9.21.30",
     "@types/throttle-debounce": "^5.0.2",
     "@types/topojson-client": "^3.1.4",
     "@types/topojson-server": "^3.0.4",
@@ -143,5 +150,6 @@
     "tsx": "^4.13.3",
     "typescript": "^5.4.5",
     "vite": "^5.2.13"
-  }
+  },
+  "packageManager": "pnpm@9.4.0"
 }
