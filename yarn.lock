@@ -3541,7 +3541,7 @@ __metadata:
     jsonwebtoken: ^9.0.2
     pdfjs-dist: ^4.2.67
     query-string: ^7.1.3
-    react-admin: ^4.16.17
+    react-admin: ^4.16.18
     throttle-debounce: ^5.0.0
     ts-endpoint: ^2.0.0
     ts-endpoint-express: ^2.0.0
@@ -3662,9 +3662,9 @@ __metadata:
     query-string: ^7.1.3
     ra-core: ^4.16.17
     ra-i18n-polyglot: ^4.16.17
-    ra-ui-materialui: ^4.16.17
+    ra-ui-materialui: ^4.16.18
     react: ^18.3.1
-    react-admin: ^4.16.17
+    react-admin: ^4.16.18
     react-audio-player: ^0.17.0
     react-dom: ^18.3.1
     react-dropzone: ^12.1.0
@@ -8865,9 +8865,9 @@ __metadata:
     prettier: ^3.2.5
     ra-core: ^4.16.17
     ra-i18n-polyglot: ^4.16.17
-    ra-ui-materialui: ^4.16.17
+    ra-ui-materialui: ^4.16.18
     react: ^18.3.1
-    react-admin: ^4.16.17
+    react-admin: ^4.16.18
     react-dom: ^18.3.1
     react-final-form: ^6.5.9
     react-final-form-arrays: ^3.1.4
@@ -19779,9 +19779,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ra-ui-materialui@npm:^4.16.17":
-  version: 4.16.17
-  resolution: "ra-ui-materialui@npm:4.16.17"
+"ra-ui-materialui@npm:^4.16.18":
+  version: 4.16.18
+  resolution: "ra-ui-materialui@npm:4.16.18"
   dependencies:
     autosuggest-highlight: ^3.1.1
     clsx: ^1.1.1
@@ -19807,7 +19807,7 @@ __metadata:
     react-is: ^16.9.0 || ^17.0.0 || ^18.0.0
     react-router: ^6.1.0
     react-router-dom: ^6.1.0
-  checksum: 156e462459e99a5eadf7e1370a858a3f969181b6df957e47bb900064a66f3befff3fbdba58a9fb3350d5b33873883914d104369dda60418f9934eb2630e26290
+  checksum: b26dd0895a7639e3bca6406ea67a1269eb96cd3f0437ea5c1a7615d76606878c9078c577d0a4335c56b7de7f93ef5aefe0733337b70ae1a00cb960a8065ec7a4
   languageName: node
   linkType: hard
 
@@ -19867,9 +19867,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-admin@npm:^4.16.17":
-  version: 4.16.17
-  resolution: "react-admin@npm:4.16.17"
+"react-admin@npm:^4.16.18":
+  version: 4.16.18
+  resolution: "react-admin@npm:4.16.18"
   dependencies:
     "@emotion/react": ^11.4.1
     "@emotion/styled": ^11.3.0
@@ -19879,14 +19879,14 @@ __metadata:
     ra-core: ^4.16.17
     ra-i18n-polyglot: ^4.16.17
     ra-language-english: ^4.16.17
-    ra-ui-materialui: ^4.16.17
+    ra-ui-materialui: ^4.16.18
     react-hook-form: ^7.43.9
     react-router: ^6.1.0
     react-router-dom: ^6.1.0
   peerDependencies:
     react: ^16.9.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0
-  checksum: 0d09ed88419cd7b133e56ee39dade226ea7d96ec45f9e6515f0f18db8b0497cd1e8bf4630b4b000c5b56c2302ea874a06bf684e69c6d403fafb2977d55712aab
+  checksum: 73eaaa02bc67a56233faefd9a501b1fae56972259a726a427bcaa451004573b5654099a0ea3ddf9b8f4096b7a1b5f279da85949f69614a4af497627f547f2f82
   languageName: node
   linkType: hard
 
@@ -24046,9 +24046,9 @@ __metadata:
     query-string: ^7.1.3
     ra-core: ^4.16.17
     ra-i18n-polyglot: ^4.16.17
-    ra-ui-materialui: ^4.16.17
+    ra-ui-materialui: ^4.16.18
     react: ^18.3.1
-    react-admin: ^4.16.17
+    react-admin: ^4.16.18
     react-dom: ^18.3.1
     react-error-boundary: ^4.0.13
     react-helmet: ^6.1.0
