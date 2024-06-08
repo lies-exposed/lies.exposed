@@ -15,7 +15,7 @@
 
 ## Project Structure
 
-The project is built using `yarn workspaces` and divided in `packages` and `services`.
+The project is built using `pnpm workspaces` and divided in `packages` and `services`.
 
 ### Packages
 
@@ -40,7 +40,7 @@ The `services` are the deployable projects:
 The local development require some modules to be installed on your machine:
 
 - node
-- yarn
+- pnpm
 - docker
 - docker-compose
 
@@ -55,12 +55,12 @@ docker-compose up -d db # starts db in background
 docker-compose up api web admin-web data # starts api, web, admin-web and data services
 ```
 
-**N.B.: you need to run `yarn api watch` in another shell to make the api container to trigger restart event**
+**N.B.: you need to run `pnpm api watch` in another shell to make the api container to trigger restart event**
 
 ### Build
 
 ```sh
-yarn build
+pnpm build
 ```
 
 ### Run with docker

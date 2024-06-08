@@ -16,20 +16,16 @@ sed -i "s/NODE_ENV=.*/NODE_ENV=production/g" ./deploy/.env.api
 
 docker compose down
 
+./scripts/nginx.up.sh
+
 # start only db
 ./scripts/docker-up.sh db.liexp.dev
 
 cp ./services/api/certs/*.crt ./deploy/certs/
-cd ./deploy || return
+cd ./deploy || exit
 
-# set -a
-# source .env.api
-# set +a
-
-./scripts/nginx.up.sh
-
-docker compose --env-file .env.api up --build --force-recreate -d api
-docker compose --env-file .env.api --env-file .env.web up --build --force-recreate -d web
+docker compose --env-file .env.api up --build --force-recreate -d --no-deps api
+docker compose --env-file .env.web up --build --force-recreate -d --no-deps web
 sleep 5
 
 docker compose logs -f

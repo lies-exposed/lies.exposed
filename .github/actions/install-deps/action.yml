@@ -1,11 +1,11 @@
 name: Install Deps
 
-description: Install deps with yarn
+description: Install deps with pnpm
 
 inputs:
   hash:
     required: true
-    description: "The hash obtain from  hashFiles('**/yarn.lock')"
+    description: "The hash obtain from hashFiles('**/pnpm-lock.yaml')"
 
 runs:
   using: "composite"
@@ -13,17 +13,26 @@ runs:
 
     - uses: actions/setup-node@v4
       with:
-        node-version: "20"
-        cache: "yarn"
-        cache-dependency-path: yarn.lock
+        node-version: 20
+
+    - uses: pnpm/action-setup@v4
+      name: Install pnpm
+      with:
+        run_install: false
+
+    - name: Get pnpm store directory
+      shell: bash
+      run: |
+        echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
     - uses: actions/cache@v4
-      id: workspace-deps
+      name: Setup pnpm cache
       with:
-        path: "**/node_modules"
-        key: linux-modules-${{ inputs.hash }}
+        path: ${{ env.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ inputs.hash }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
 
-    - name: Install workspace deps
-      if: steps.workspace-deps.outputs.cache-hit != 'true'
-      run: yarn
+    - name: Install dependencies
       shell: bash
+      run: pnpm install

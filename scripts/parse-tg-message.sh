@@ -10,6 +10,6 @@ ssh $SSH_DOMAIN "bash" << "EOF"
 
     cd ~/docker-app/
 
-    docker compose run --rm api yarn parse-tg-message latest true
+    docker compose run --rm api pnpm parse-tg-message latest true
 EOF
 

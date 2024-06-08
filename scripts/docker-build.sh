@@ -9,6 +9,7 @@ WEB_IMAGE=liexp-web
 # filter image to build based on parameter
 
 base=false
+pnpm=false
 api=false
 web=false
 
@@ -27,6 +28,10 @@ while [[ $# -gt 0 ]]; do
             base=true
             shift
             ;;
+        --pnpm)
+            pnpm=true
+            shift
+            ;;
         *)
             other_args+=("$1")
             shift
@@ -34,16 +39,25 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+if [ "$pnpm" = true ]; then
+  docker build . --force-rm --pull --file base.Dockerfile \
+    --tag $BASE_IMAGE:alpha-pnpm-latest \
+    --tag ghcr.io/lies-exposed/$BASE_IMAGE:20-pnpm-latest \
+    --target=pnpm
+fi
+
 if [ "$base" = true ]; then
   docker build . --force-rm --pull --file base.Dockerfile \
     --tag $BASE_IMAGE:alpha-latest \
-    --tag ghcr.io/lies-exposed/$BASE_IMAGE:20-latest
+    --tag ghcr.io/lies-exposed/$BASE_IMAGE:20-latest \
+    --target=api-base
 fi
+
+
 
 if [ "$api" = true ]; then
   docker build . \
     --force-rm \
-    --pull \
     --no-cache \
     --file api.Dockerfile \
     --target production \
@@ -54,7 +68,6 @@ fi
 if [ "$web" = true ]; then
   docker build . \
     --force-rm \
-    --pull \
     --no-cache \
     --file web.Dockerfile \
     --target production \

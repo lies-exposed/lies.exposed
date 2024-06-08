@@ -1,46 +1,40 @@
 {
   "name": "lies.exposed",
   "version": "0.1.0",
-  "description": "lies.exposed project monorepo",
-  "main": "index.js",
-  "repository": "git@github.com:lies.exposed/lies-exposed.git",
-  "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
-  "license": "MIT",
   "private": true,
-  "workspaces": {
-    "packages": [
-      "packages/@liexp/*",
-      "services/api",
-      "services/admin-web",
-      "services/web",
-      "services/storybook"
-    ]
-  },
+  "description": "lies.exposed project monorepo",
+  "repository": "git@github.com:lies.exposed/lies-exposed.git",
+  "license": "MIT",
+  "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
+  "main": "index.js",
   "scripts": {
-    "clean": "yarn workspaces foreach -p run clean",
-    "lint": "yarn workspaces foreach -v -p run lint",
-    "format": "yarn workspaces foreach -p run format",
-    "build": "yarn workspaces foreach -v run build",
-    "vitest": "vitest",
-    "core": "yarn workspace @liexp/core",
-    "shared": "yarn workspace @liexp/shared",
-    "backend": "yarn workspace @liexp/backend",
-    "test": "yarn workspace @liexp/test",
-    "ui": "yarn workspace @liexp/ui",
-    "api": "yarn workspace api",
-    "data": "yarn workspace data",
-    "web": "yarn workspace web",
-    "admin-web": "yarn workspace admin-web",
-    "storybook": "yarn workspace storybook",
-    "packages:build": "yarn core build && yarn shared build && yarn backend build && yarn ui build",
+    "admin-web": "pnpm --filter 'admin-web'",
+    "api": "pnpm --filter 'api'",
+    "backend": "pnpm --filter '@liexp/backend'",
+    "build": "pnpm -r run build",
+    "clean": "pnpm -r run clean",
+    "core": "pnpm --filter '@liexp/core'",
+    "data": "pnpm --filter 'data'",
     "deploy:setup": "./deploy/setup.sh",
+    "format": "pnpm -r run format",
+    "lint": "pnpm -r run lint",
+    "packages:build": "pnpm --filter '@liexp/*' -r run build",
     "post-deploy": "./deploy/post-deploy.sh",
-    "prepare": "husky"
+    "prepare": "husky",
+    "shared": "pnpm --filter '@liexp/shared'",
+    "storybook": "pnpm --filter 'storybook'",
+    "test": "pnpm --filter '@liexp/test'",
+    "ui": "pnpm --filter '@liexp/ui'",
+    "vitest": "vitest",
+    "web": "pnpm --filter 'web'"
   },
-  "engines": {
-    "yarn": ">= 3",
-    "npm": "please use yarn >= 3",
-    "node": ">= 20"
+  "resolutions": {
+    "dotenv": "^16.4.5",
+    "minimist": "^1.2.8",
+    "react-dnd": "^15",
+    "react-dnd-html5-backend": "^15",
+    "react-is": "^18.3.1",
+    "wink-nlp": "^2.3.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.2.2",
@@ -62,16 +56,13 @@
     "prettier": "^3.2.5",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.11.0",
-    "vite": "^5.2.13",
     "vitest": "^1.6.0"
   },
-  "packageManager": "yarn@3.8.0",
-  "resolutions": {
-    "minimist": "^1.2.8",
-    "react-dnd": "^15",
-    "react-dnd-html5-backend": "^15",
-    "dotenv": "^16.3.1",
-    "react-is": "^18",
-    "wink-nlp": "^2"
+  "packageManager": "pnpm@9.4.0",
+  "engines": {
+    "node": ">= 20",
+    "npm": "please use pnpm >= 9",
+    "pnpm": ">= 9",
+    "yarn": "please use pnpm >= 9"
   }
 }

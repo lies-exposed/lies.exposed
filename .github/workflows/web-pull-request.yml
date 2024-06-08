@@ -23,7 +23,7 @@ jobs:
 
       - uses: ./.github/actions/install-deps
         with:
-          hash: ${{ hashFiles('**/yarn.lock') }}
+          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
   lint:
     runs-on: ubuntu-latest
@@ -33,14 +33,14 @@ jobs:
 
       - uses: ./.github/actions/install-deps
         with:
-          hash: ${{ hashFiles('**/yarn.lock') }}
+          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - uses: ./.github/actions/build-packages
         with:
           hash: ${{ github.sha }}
 
       - name: Lint code
-        run: yarn web lint
+        run: pnpm web lint
 
   build:
     runs-on: ubuntu-latest
@@ -51,7 +51,7 @@ jobs:
 
       - uses: ./.github/actions/install-deps
         with:
-          hash: ${{ hashFiles('**/yarn.lock') }}
+          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - uses: ./.github/actions/build-packages
         with:
@@ -64,10 +64,10 @@ jobs:
           key: web-build
 
       - name: Type Check Web
-        run: yarn web build
+        run: pnpm web build
 
       - name: Build Web App
-        run: yarn web build:app-server
+        run: pnpm web build:app-server
 
   docker-build:
     if: ${{ github.head_ref == 'release/alpha' }}

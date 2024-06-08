@@ -22,7 +22,7 @@ jobs:
 
       - uses: ./.github/actions/install-deps
         with:
-          hash: ${{ hashFiles('**/yarn.lock') }}
+          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
   build-packages:
     runs-on: ubuntu-latest
@@ -32,7 +32,7 @@ jobs:
 
       - uses: ./.github/actions/install-deps
         with:
-          hash: ${{ hashFiles('**/yarn.lock') }}
+          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - uses: ./.github/actions/build-packages
         with:
@@ -46,14 +46,14 @@ jobs:
 
       - uses: ./.github/actions/install-deps
         with:
-          hash: ${{ hashFiles('**/yarn.lock') }}
+          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - uses: ./.github/actions/build-packages
         with:
           hash: ${{ github.sha }}
 
       - name: Lint code
-        run: yarn api lint
+        run: pnpm api lint
 
   build:
     needs: [install, build-packages]
@@ -63,7 +63,11 @@ jobs:
 
       - uses: ./.github/actions/install-deps
         with:
-          hash: ${{ hashFiles('**/yarn.lock') }}
+          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - uses: ./.github/actions/build-packages
+        with:
+          hash: ${{ github.sha }}
 
       - uses: ./.github/actions/build-api
         with:
@@ -92,7 +96,7 @@ jobs:
 
       - uses: ./.github/actions/install-deps
         with:
-          hash: ${{ hashFiles('**/yarn.lock') }}
+          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - uses: ./.github/actions/build-packages
         with:
@@ -105,19 +109,19 @@ jobs:
       - name: Run migrations
         env:
           DOTENV_CONFIG_PATH: .env.test
-        run: yarn api migration:run
+        run: pnpm api migration:run
 
       - name: Upsert NLP Entities
         env:
           DOTENV_CONFIG_PATH: .env.test
-        run: yarn api bin:run ./bin/upsert-nlp-entities.ts
+        run: pnpm api bin:run ./bin/upsert-nlp-entities.ts
 
       - name: Run tests
         env:
           DEBUG: "-@liexp*"
         run: |
-          yarn api test:spec
-          yarn api test:e2e
+          pnpm api test:spec
+          pnpm api test:e2e
 
   docker_build:
     if: ${{ github.head_ref == 'release/alpha' }}
@@ -128,7 +132,7 @@ jobs:
 
       - uses: ./.github/actions/install-deps
         with:
-          hash: ${{ hashFiles('**/yarn.lock') }}
+          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Log in to registry
         uses: docker/login-action@v3

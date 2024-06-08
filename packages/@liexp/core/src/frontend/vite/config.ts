@@ -8,7 +8,6 @@ import optimizer from "vite-plugin-optimizer";
 import tsConfigPaths from "vite-tsconfig-paths";
 import { loadENV } from "../../env/utils.js";
 import { fp, pipe } from "../../fp/index.js";
-import { reactVirtualized } from "./plugins/react-virtualized.js";
 import { type GetViteConfigParams } from "./type.js";
 
 // https://vitejs.dev/config/
@@ -65,7 +64,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
         minify: mode === "production",
         commonjsOptions: {
           include: [/node_modules/],
-          exclude: [/@liexp\/core/, /@liexp\/shared/, /@liexp\/ui/],
+          // exclude: [/@liexp\/core/, /@liexp\/shared/, /@liexp\/ui/],
           // transformMixedEsModules: true,
         },
       },
@@ -79,13 +78,10 @@ export const defineViteConfig = <A extends Record<string, any>>(
           // path.join(config.cwd, "../../packages/@liexp/ui/shared/**"),
           // path.join(config.cwd, "../../packages/@liexp/ui/lib/**"),
         ],
-        include: ["@liexp/core", "@liexp/shared", "@liexp/ui"],
-        // exclude: [
-        //   "@mui/material",
-        //   "@mui/icons-material",
-        //   "@mui/styles",
-        //   "@mui/system",
-        // ],
+        include:
+          mode === "production"
+            ? undefined
+            : ["@liexp/core", "@liexp/shared", "@liexp/ui"],
       },
 
       resolve: {
@@ -140,7 +136,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
         react({
           jsxRuntime: "classic",
         }),
-        reactVirtualized(),
+        ...(config.plugins ?? [])
       ],
       esbuild: {
         jsx: "automatic",

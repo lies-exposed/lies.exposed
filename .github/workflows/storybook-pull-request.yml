@@ -20,7 +20,7 @@ jobs:
 
       - uses: ./.github/actions/install-deps
         with:
-          hash: ${{ hashFiles('**/yarn.lock') }}
+          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
   lint:
     runs-on: ubuntu-latest
@@ -30,14 +30,14 @@ jobs:
 
       - uses: ./.github/actions/install-deps
         with:
-          hash: ${{ hashFiles('**/yarn.lock') }}
+          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - uses: ./.github/actions/build-packages
         with:
           hash: ${{ github.sha }}
 
       - name: Lint code
-        run: yarn storybook lint
+        run: pnpm storybook lint
 
   build:
     runs-on: ubuntu-latest
@@ -48,7 +48,7 @@ jobs:
 
       - uses: ./.github/actions/install-deps
         with:
-          hash: ${{ hashFiles('**/yarn.lock') }}
+          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - uses: ./.github/actions/build-packages
         with:
@@ -60,7 +60,7 @@ jobs:
           key: storybook-build
 
       - name: Type Check Storybook
-        run: yarn storybook build
+        run: pnpm storybook build
 
       - name: Build Storybook
-        run: yarn storybook build-sb
+        run: pnpm storybook build-sb
