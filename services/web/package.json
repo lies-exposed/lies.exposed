@@ -1,55 +1,85 @@
 {
   "name": "web",
+  "version": "0.1.0",
   "private": true,
   "description": "A simple starter to get up and developing quickly with Gatsby",
-  "version": "0.1.0",
+  "keywords": [],
+  "license": "MIT",
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "type": "module",
   "scripts": {
+    "build": "tsc -b tsconfig.build.json",
+    "build:app-server": "yarn build:client && yarn build:server-ssr && yarn build:server",
+    "build:client": "vite build --outDir build/client",
+    "build:server": "tsc -p tsconfig.server.json",
+    "build:server-ssr": "vite build --outDir build/server --ssr src/server/entry.tsx",
     "clean": "rm -rf build",
     "dev": "DOTENV_CONFIG_PATH=.env node --import tsx/esm -r dotenv/config ./src/server/server.tsx",
-    "docker:dev": "yarn install && node --import tsx/esm -r dotenv/config ./src/server/server.tsx",
-    "watch:client": "DOTENV_CONFIG_PATH=.env.development vite dev",
-    "build:client": "vite build --outDir build/client",
-    "build:server-ssr": "vite build --outDir build/server --ssr src/server/entry.tsx",
-    "build:server": "tsc -p tsconfig.server.json",
-    "build:app-server": "yarn build:client && yarn build:server-ssr && yarn build:server",
-    "build": "tsc -b tsconfig.build.json",
+    "docker:dev": "node --import tsx/esm -r dotenv/config ./src/server/server.tsx",
+    "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
+    "lint": "eslint src",
+    "scripts:make-avatars-mock": "tsx ./scripts/make-avatars-mock.ts",
     "serve": "node ./build/server/server.js",
     "test": "vitest",
     "watch": "tsc -b --watch",
-    "lint": "eslint src",
-    "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
-    "scripts:make-avatars-mock": "tsx ./scripts/make-avatars-mock.ts"
+    "watch:client": "DOTENV_CONFIG_PATH=.env.development vite dev"
+  },
+  "lint-staged": {
+    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix",
+    "src/**/*.+(ts|tsx|js|jsx|json|css)": [
+      "prettier --write"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "dependencies": {
+    "@blocknote/core": "^0.14.0",
+    "@blocknote/mantine": "0.14.0",
+    "@blocknote/react": "^0.14.0",
+    "@emotion/cache": "^11.11.0",
     "@emotion/css": "^11.11.2",
+    "@emotion/react": "^11.11.4",
     "@emotion/server": "^11.11.0",
+    "@emotion/utils": "^1.2.1",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-brands-svg-icons": "^6.5.2",
     "@fortawesome/free-regular-svg-icons": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
-    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@liexp/core": "workspace:^",
     "@liexp/shared": "workspace:^",
     "@liexp/ui": "workspace:^",
     "@mui/icons-material": "^5.15.19",
     "@mui/material": "^5.15.19",
-    "@tanstack/react-query": "^5.37.1",
+    "@mui/system": "^5.15.15",
+    "@reach/router": "^1.3.4",
+    "@tanstack/react-query": "^5.40.1",
     "@visx/axis": "^3.10.1",
     "@visx/gradient": "^3.3.0",
     "@visx/legend": "^3.5.0",
     "@visx/network": "^3.3.0",
     "@visx/responsive": "^3.10.2",
+    "@visx/scale": "^3.5.0",
     "@visx/tooltip": "^3.3.0",
     "axios": "^1.7.2",
     "bs58": "^5.0.0",
     "clsx": "^2.1.0",
     "compression": "^1.7.4",
     "d3": "^7.9.0",
+    "date-fns": "^2.30.0",
     "debug": "^4.3.4",
     "express": "^4.19.2",
-    "fp-ts": "^2.16.5",
+    "fp-ts": "^2.16.6",
     "io-ts": "^2.2.21",
     "io-ts-types": "^0.5.19",
     "is-plain-object": "^5.0.0",
@@ -66,7 +96,8 @@
     "react-dom": "^18.3.1",
     "react-error-boundary": "^4.0.13",
     "react-helmet": "^6.1.0",
-    "react-router-dom": "^6.23.0",
+    "react-router": "^6.23.1",
+    "react-router-dom": "^6.23.1",
     "react-share": "^5.1.0",
     "react-slick": "^0.30.2",
     "react-spring": "^9.7.3",
@@ -87,8 +118,9 @@
     "@types/debug": "^4.1.12",
     "@types/express": "^4.17.21",
     "@types/mime": "^1.3.5",
-    "@types/node": "^20.12.11",
-    "@types/react": "^18.3.2",
+    "@types/node": "^20.14.2",
+    "@types/reach__router": "^1.3.15",
+    "@types/react": "^18.3.3",
     "@types/react-calendar-heatmap": "^1.6.7",
     "@types/react-dom": "^18.3.0",
     "@types/react-helmet": "^6.1.11",
@@ -110,29 +142,6 @@
     "prettier": "^3.2.5",
     "tsx": "^4.13.3",
     "typescript": "^5.4.5",
-    "vite": "^5.2.11"
-  },
-  "keywords": [],
-  "license": "MIT",
-  "engines": {
-    "node": ">=18"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "lint-staged": {
-    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix",
-    "src/**/*.+(ts|tsx|js|jsx|json|css)": [
-      "prettier --write"
-    ]
+    "vite": "^5.2.13"
   }
 }
