@@ -1,42 +1,43 @@
-FROM node:20-alpine as dev
+FROM node:20-slim as base
 
-WORKDIR /app
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
-COPY .yarn/ .yarn/
-COPY package.json .
-COPY yarn.lock .
-COPY .yarnrc.yml .
-COPY tsconfig.json .
+FROM base as dev
 
-COPY packages/@liexp ./packages/@liexp
-COPY services/admin-web ./services/admin-web
+COPY . /usr/src/app
 
-RUN yarn
+WORKDIR /usr/src/app
 
-FROM node:20-alpine as build
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
-WORKDIR /app
+RUN pnpm packages:build
 
-COPY --from=dev /app /app
+FROM base as build
 
-RUN NODE_ENV=production && yarn admin-web build && yarn admin-web build:app
+COPY --from=dev /usr/src/app /usr/src/app
 
-FROM node:20-alpine as production
+WORKDIR /usr/src/app
 
-WORKDIR /app
+RUN pnpm admin-web build
+RUN pnpm admin-web build:app
 
-COPY package.json .
-COPY yarn.lock .
-COPY .yarn/plugins/ .yarn/plugins/
-COPY .yarn/releases/ .yarn/releases/
-COPY .yarnrc.yml .
-COPY tsconfig.json .
+RUN pnpm deploy --filter=web --prod /prod/services/admin-web
 
-COPY --from=build /app/services/admin-web/build /app/services/web/build
-COPY --from=build /app/services/admin-web/package.json /app/services/web/package.json
+FROM base as production
 
-RUN yarn workspaces focus --production
+COPY --from=build /usr/src/app/packages/@liexp/core/lib /prod/packages/@liexp/core/lib
+COPY --from=build /usr/src/app/packages/@liexp/core/package.json /prod/packages/@liexp/core/package.json
 
-WORKDIR /app/services/web
+COPY --from=build /usr/src/app/packages/@liexp/shared/lib /prod/packages/@liexp/shared/lib
+COPY --from=build /usr/src/app/packages/@liexp/shared/package.json /prod/packages/@liexp/shared/package.json
 
-CMD ["yarn", "serve"]
+COPY --from=build /usr/src/app/packages/@liexp/ui/lib /prod/packages/@liexp/ui/lib
+COPY --from=build /usr/src/app/packages/@liexp/ui/package.json /prod/packages/@liexp/ui/package.json
+
+COPY --from=build /prod/services/admin-web /prod/services/admin-web
+
+WORKDIR /prod/services/admin-web
+
+CMD ["pnpm", "serve"]

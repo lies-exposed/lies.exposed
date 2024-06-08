@@ -11,19 +11,18 @@ services:
     # expose:
     #   - 4010
     volumes:
-      # - ../services/api/certs/:/app/services/api/certs/:ro
-      - ./certs/:/app/services/api/certs/:ro
-      - ./temp/:/app/services/api/temp/:rw
-      - ./temp/db/:/app/services/api/db/:rw
-      - ./config/:/app/services/api/config/:rw
-    working_dir: /app/services/api
+      - ./certs/:/prod/services/api/certs/:ro
+      - ./temp/:/prod/services/api/temp/:rw
+      - ./temp/db/:/prod/services/api/db/:rw
+      - ./config/:/prod/services/api/config/:rw
+    working_dir: /prod/services/api
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:4010/v1/healthcheck"]
       interval: 10s
       timeout: 10s
       retries: 10
       start_period: 30s
-    command: yarn start
+    command: pnpm start
     restart: always
     depends_on:
       - telegram-bot-api
@@ -47,8 +46,8 @@ services:
     #   - "4020"
     depends_on:
       - api
-    working_dir: /app/services/web
-    command: yarn serve
+    working_dir: /prod/services/web
+    command: pnpm serve
     restart: always
     logging:
       driver: "json-file"

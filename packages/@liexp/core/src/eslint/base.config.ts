@@ -3,7 +3,7 @@ import fpTS from "eslint-plugin-fp-ts";
 import importPlugin from "eslint-plugin-import";
 import tseslint from "typescript-eslint";
 
-export default tseslint.config(
+const config: any = tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
@@ -88,3 +88,5 @@ export default tseslint.config(
     },
   },
 );
+
+export default config;

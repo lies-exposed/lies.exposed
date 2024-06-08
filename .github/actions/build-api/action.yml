@@ -17,5 +17,5 @@ runs:
 
     - name: Build API
       if: steps.api-build.outputs.cache-hit != 'true'
-      run: yarn api build
+      run: pnpm api build
       shell: bash

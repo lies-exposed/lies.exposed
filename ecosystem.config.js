@@ -13,7 +13,7 @@ const apiServe = {
   namespace: 'liexp',
   name: "api-serve",
   cwd: path.resolve(__dirname, "./services/api"),
-  script: "yarn start",
+  script: "pnpm start",
   watch: ["build"],
   watch_delay: 1000,
   wait_ready: true,

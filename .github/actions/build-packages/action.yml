@@ -17,5 +17,5 @@ runs:
 
     - name: Build Packages
       if: steps.packages-build.outputs.cache-hit != 'true'
-      run: yarn packages:build
+      run: pnpm packages:build
       shell: bash

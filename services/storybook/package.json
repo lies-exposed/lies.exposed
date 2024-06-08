@@ -30,7 +30,6 @@
     "@emotion/react": "^11.11.4",
     "@emotion/server": "^11.11.0",
     "@emotion/utils": "^1.2.1",
-    "@emotion/weak-memoize": "^0.3.1",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
@@ -57,7 +56,7 @@
     "@storybook/theming": "^8.1.6",
     "@tanstack/query-core": "^5.40.0",
     "@tanstack/react-query": "^5.40.1",
-    "@visx/gradient": "^3",
+    "@visx/gradient": "^3.3.0",
     "d3": "^7.9.0",
     "date-fns": "^2.30.0",
     "escodegen": "^2.1.0",
@@ -80,24 +79,16 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@base2/pretty-print-object": "^1.0.2",
     "@types/babel__preset-env": "^7.9.6",
     "@types/eslint": "^8.56.10",
     "@types/lodash": "^4.17.5",
-    "@types/react": "^18",
+    "@types/react": "^18.3.3",
     "@types/react-virtualized": "^9.21.30",
-    "acorn": "^8.11.3",
-    "acorn-jsx": "^5.3.2",
-    "acorn-walk": "^8.3.2",
-    "doctrine": "^3.0.0",
     "eslint": "^8.57.0",
-    "is-plain-object": "^5.0.0",
     "prettier": "^3.2.5",
     "serve": "^14.2.3",
-    "stylis": "^4.3.2",
-    "tiny-invariant": "^1.3.3",
-    "ts-dedent": "^2.2.0",
     "typescript": "^5.4.5",
     "vite": "^5.2.13"
-  }
+  },
+  "packageManager": "pnpm@9.4.0"
 }

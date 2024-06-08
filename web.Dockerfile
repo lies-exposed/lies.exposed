@@ -1,80 +1,37 @@
-FROM node:20-alpine as dev
+FROM ghcr.io/lies-exposed/liexp-base:20-latest as dev
 
-WORKDIR /app
+COPY . /usr/src/app
 
-COPY .yarn/ .yarn/
-COPY package.json .
-COPY yarn.lock .
-COPY .yarnrc.yml .
-COPY tsconfig.json .
+WORKDIR /usr/src/app
 
-COPY packages/@liexp ./packages/@liexp
-COPY services/web ./services/web
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
-RUN yarn config set --home enableTelemetry false
+RUN pnpm packages:build
 
-RUN yarn
+FROM ghcr.io/lies-exposed/liexp-base:20-pnpm-latest as build
 
-FROM node:20-alpine as build
+COPY --from=dev /usr/src/app /usr/src/app
 
-ARG NODE_ENV=production
-ARG DOTENV_CONFIG_PATH=.env
+WORKDIR /usr/src/app
 
-WORKDIR /app
+RUN pnpm web build
+RUN pnpm web build:app-server
 
-COPY --from=dev /app ./
+RUN pnpm deploy --filter=web --prod /prod/services/web
 
-RUN export NODE_ENV=${NODE_ENV}
-RUN export DOTENV_CONFIG_PATH=${DOTENV_CONFIG_PATH}
+FROM ghcr.io/lies-exposed/liexp-base:20-pnpm-latest as production
 
-RUN yarn web build && yarn web build:app-server
+COPY --from=build /usr/src/app/packages/@liexp/core/lib /prod/packages/@liexp/core/lib
+COPY --from=build /usr/src/app/packages/@liexp/core/package.json /prod/packages/@liexp/core/package.json
 
-FROM ghcr.io/lies-exposed/liexp-base:20-latest as prod_deps
-WORKDIR /app
+COPY --from=build /usr/src/app/packages/@liexp/shared/lib /prod/packages/@liexp/shared/lib
+COPY --from=build /usr/src/app/packages/@liexp/shared/package.json /prod/packages/@liexp/shared/package.json
 
-COPY --from=build /app/.yarn/ /app/.yarn/
+COPY --from=build /usr/src/app/packages/@liexp/ui/lib /prod/packages/@liexp/ui/lib
+COPY --from=build /usr/src/app/packages/@liexp/ui/package.json /prod/packages/@liexp/ui/package.json
 
-COPY package.json /app/package.json
-COPY .yarnrc.yml /app/.yarnrc.yml
-COPY services/web/package.json /app/services/web/package.json
+COPY --from=build /prod/services/web /prod/services/web
 
-COPY --from=build /app/packages/@liexp/core/package.json /app/packages/@liexp/core/package.json
-COPY --from=build /app/packages/@liexp/test/package.json /app/packages/@liexp/test/package.json
-COPY --from=build /app/packages/@liexp/shared/package.json /app/packages/@liexp/shared/package.json
-COPY --from=build /app/packages/@liexp/ui/package.json /app/packages/@liexp/ui/package.json
+WORKDIR /prod/services/web
 
-RUN yarn config set --home enableTelemetry false && yarn workspaces focus -A --production
-
-FROM node:20-alpine as production
-
-WORKDIR /app
-
-COPY package.json .
-COPY yarn.lock .
-COPY .yarn/plugins/ .yarn/plugins/
-COPY .yarn/releases/ .yarn/releases/
-COPY .yarnrc.yml .
-
-COPY --from=build /app/packages/@liexp/core/package.json /app/packages/@liexp/core/package.json
-COPY --from=build /app/packages/@liexp/core/lib /app/packages/@liexp/core/lib
-COPY --from=build /app/packages/@liexp/test/package.json /app/packages/@liexp/test/package.json
-COPY --from=build /app/packages/@liexp/test/lib /app/packages/@liexp/test/lib
-COPY --from=build /app/packages/@liexp/shared/package.json /app/packages/@liexp/shared/package.json
-COPY --from=build /app/packages/@liexp/shared/lib /app/packages/@liexp/shared/lib
-COPY --from=build /app/packages/@liexp/ui/package.json /app/packages/@liexp/ui/package.json
-COPY --from=build /app/packages/@liexp/ui/lib /app/packages/@liexp/ui/lib
-
-
-
-COPY --from=build /app/services/web/build /app/services/web/build
-COPY --from=build /app/services/web/package.json /app/services/web/package.json
-COPY --from=build /app/services/web/.env /app/services/web/.env
-
-COPY --from=prod_deps /app/.yarn/ /app/.yarn/
-COPY --from=prod_deps /app/node_modules /app/node_modules
-
-RUN yarn config set --home enableTelemetry false
-
-WORKDIR /app/services/web
-
-CMD ["yarn", "serve"]
+CMD ["pnpm", "serve"]

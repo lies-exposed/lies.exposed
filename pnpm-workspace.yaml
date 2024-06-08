@@ -1,0 +1,7 @@
+
+packages:
+  - "packages/@liexp/*"
+  - "services/api"
+  - "services/web"
+  - "services/admin-web"
+  - "services/storybook"

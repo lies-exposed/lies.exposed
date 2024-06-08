@@ -1,5 +1,5 @@
 import { IncomingHttpHeaders } from "http";
-import { UUID } from 'io-ts-types/UUID';
+import { UUID } from 'io-ts-types/lib/UUID';
 
 declare global {
   namespace Express {

@@ -19,10 +19,7 @@ jobs:
 
       - uses: ./.github/actions/install-deps
         with:
-          hash: ${{ hashFiles('**/yarn.lock') }}
-
-      - name: Install modules
-        run: yarn
+          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - uses: ./.github/actions/build-packages
         with:
@@ -30,13 +27,13 @@ jobs:
 
       - name: Lint code
         run: |
-          yarn core lint
-          yarn shared lint
-          yarn test lint
-          yarn ui lint
+          pnpm core lint
+          pnpm shared lint
+          pnpm test lint
+          pnpm ui lint
 
       - name: Run tests
         env:
           DEBUG: "-@liexp*"
         run: |
-          yarn shared test
+          pnpm shared test

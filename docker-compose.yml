@@ -65,20 +65,20 @@ services:
       - db.liexp.dev
       - fra1.space.liexp.dev
     volumes:
-      - api-node-modules:/app/node_modules
-      - ./packages/@liexp:/app/packages/@liexp
-      - ./services/api:/app/services/api:ro
-      - ./services/api/temp:/app/services/api/temp:rw
+      - api-node-modules:/usr/src/app/node_modules
+      - ./packages/@liexp:/usr/src/app/packages/@liexp
+      - ./services/api:/usr/src/app/services/api:ro
+      - ./services/api/temp:/usr/src/app/services/api/temp:rw
     tty: true
     stdin_open: true
-    working_dir: /app/services/api
+    working_dir: /usr/src/app/services/api
     healthcheck:
       test: ["CMD", "curl", "-f", "http://api.liexp.dev/v1/healthcheck"]
       interval: 10s
       timeout: 20s
       retries: 10
       start_period: 15s
-    command: yarn docker:dev
+    command: pnpm docker:dev
     restart: always
     mem_limit: 1G
     networks:
@@ -96,12 +96,12 @@ services:
       # hmr port
       - "127.0.0.1:24678:24678"
     volumes:
-      - web-node-modules:/app/node_modules
-      - ./tsconfig.json:/app/tsconfig.json
-      - ./packages/@liexp:/app/packages/@liexp:ro
-      - ./services/web:/app/services/web:cached
-    working_dir: /app/services/web
-    command: yarn docker:dev
+      - web-node-modules:/usr/src/app/node_modules
+      - ./tsconfig.json:/usr/src/app/tsconfig.json
+      - ./packages/@liexp:/usr/src/app/packages/@liexp:ro
+      - ./services/web:/usr/src/app/services/web:cached
+    working_dir: /usr/src/app/services/web
+    command: pnpm docker:dev
     mem_limit: 2G
     tty: true
     stdin_open: true
@@ -125,12 +125,15 @@ services:
     env_file:
       - ./services/admin-web/.env
     volumes:
-      - admin-node-modules:/app/node_modules
-      - ./tsconfig.json:/app/tsconfig.json
-      - ./packages/@liexp:/app/packages/@liexp:ro
-      - ./services/admin-web:/app/services/admin-web:cached
-    working_dir: /app/services/admin-web
-    command: yarn docker:dev
+      # - /usr/src/app/packages/@liexp/core/node_modules/
+      # - /usr/src/app/packages/@liexp/shared/node_modules/
+      # - /usr/src/app/packages/@liexp/ui/node_modules/
+      - admin-node-modules:/usr/src/app/node_modules
+      - ./tsconfig.json:/usr/src/app/tsconfig.json
+      - ./packages/@liexp:/usr/src/app/packages/@liexp:ro
+      - ./services/admin-web:/usr/src/app/services/admin-web:cached
+    working_dir: /usr/src/app/services/admin-web
+    command: pnpm docker:dev
     tty: true
     depends_on:
       - liexp.dev

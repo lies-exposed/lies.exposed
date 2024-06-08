@@ -1,11 +1,17 @@
 import { type StorybookConfig } from "@storybook/react-vite";
 import type { ViteFinal } from "@storybook/builder-vite";
-import path, { dirname, join } from "path";
-import { mergeConfig } from "vite";
-import { defineViteConfig } from "@liexp/core/lib/frontend/vite/config.js";
+import path from "path";
 import * as t from "io-ts";
 
 const viteFinal: ViteFinal = async (config, { configType }) => {
+  const { mergeConfig } = await import("vite");
+  const { defineViteConfig } = await import(
+    "@liexp/core/lib/frontend/vite/config.js"
+  );
+  const { reactVirtualized } = await import(
+    "@liexp/ui/lib/vite/plugins/react-virtualized.js"
+  );
+
   const cwd = path.resolve(__dirname, "..");
 
   const viteConfigUpdate = defineViteConfig({
@@ -20,12 +26,17 @@ const viteFinal: ViteFinal = async (config, { configType }) => {
     target: "spa",
     devServer: configType === "DEVELOPMENT" ? true : false,
     hot: true,
+    plugins: [reactVirtualized()]
   });
 
   const updatedConfig = viteConfigUpdate({
     mode: configType?.toLowerCase() ?? "production",
     command: configType === "DEVELOPMENT" ? "serve" : "build",
   });
+
+  // const { dirname } = require('path');
+  // https://github.com/eirslett/storybook-builder-vite/issues/55
+  // updatedConfig.root = dirname(require.resolve('@storybook/builder-vite'));
 
   delete updatedConfig.mode;
   delete updatedConfig.build?.commonjsOptions;
@@ -83,7 +94,7 @@ const config: StorybookConfig = {
   stories: ["../src/**/*.stories.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
 
   core: {
-    builder: "@storybook/builder-vite",
+    builder: getAbsolutePath("@storybook/builder-vite"),
     disableTelemetry: true,
   },
   framework: {
@@ -111,5 +122,8 @@ const config: StorybookConfig = {
 export default config;
 
 function getAbsolutePath(value: string): any {
-  return dirname(require.resolve(join(value, "package.json")));
+  // const absolutePath = dirname(require.resolve(join(value, "package.json")));
+  // console.log("absolutePath", absolutePath);
+  // return absolutePath;
+  return value;
 }

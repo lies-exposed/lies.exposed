@@ -18,4 +18,5 @@ export interface GetViteConfigParams<A extends Record<string, t.Mixed>> {
     templatePath: string;
   };
   hot: boolean;
+  plugins: any[];
 }

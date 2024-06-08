@@ -13,7 +13,7 @@
     "allowSyntheticDefaultImports": true,
     "noUnusedLocals": false,
     "resolveJsonModule": true,
-    "lib": ["dom", "esnext"],
+    "lib": ["DOM", "EsNext"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "typeRoots": [
@@ -21,7 +21,7 @@
       "../../packages/@liexp/ui/typings",
       "typings"
     ],
-    "importHelpers": true,
+    "importHelpers": false,
     "tsBuildInfoFile": "build/.tsbuildinfo",
     "baseUrl": "./src",
     "rootDir": "./",

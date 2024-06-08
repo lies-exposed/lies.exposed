@@ -3,12 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "files": [
+    "build",
+    "public"
+  ],
   "scripts": {
     "build": "tsc -b",
     "build:app": "vite build",
     "clean": "rm -rf build",
-    "dev": "vite",
-    "docker:dev": "vite",
+    "dev": "vite dev",
+    "docker:dev": "vite dev",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
     "lint": "eslint src",
     "start": "vite start",
@@ -46,6 +50,7 @@
     "debug": "^4.3.4",
     "final-form": "^4.20.10",
     "fp-ts": "^2.16.6",
+    "io-ts": "^2.2.21",
     "history": "^5.3.0",
     "openai": "^4.47.1",
     "ra-core": "^4.16.17",
@@ -57,12 +62,15 @@
     "react-final-form": "^6.5.9",
     "react-final-form-arrays": "^3.1.4",
     "react-helmet": "^6.1.0",
+    "react-router": "^6.23.1",
+    "react-router-dom": "^6.23.1",
     "react-virtualized": "^9.22.5",
     "slick-carousel": "^1.8.1",
     "uuid": "^9.0.1",
     "web-vitals": "^3.5.2"
   },
   "devDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.18.0",
     "@testing-library/dom": "^9.3.3",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.5.1",
@@ -84,9 +92,8 @@
     "eslint-plugin-react": "^7.34.2",
     "page-metadata-parser": "^1.1.4",
     "prettier": "^3.2.5",
-    "react-router": "^6.23.1",
-    "react-router-dom": "6.23.1",
     "typescript": "^5.4.5",
     "vite": "^5.2.13"
-  }
+  },
+  "packageManager": "pnpm@9.4.0"
 }

@@ -11,4 +11,4 @@ docker rm lies-exposed-db-1 lies-exposed-db-test-1
 docker volume rm lies-exposed_db-data lies-exposed_db-test-data
 docker compose up -d db db-test
 # cd ./services/api/ || exit 1
-yarn migration:run
+pnpm migration:run

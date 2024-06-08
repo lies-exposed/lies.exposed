@@ -1,3 +1,4 @@
 #!/bin/sh
 
-yarn workspaces foreach run lint-staged
+# TODO: Add lint-staged to the project
+# pnpm workspaces foreach run lint-staged

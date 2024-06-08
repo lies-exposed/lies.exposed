@@ -1,5 +1,6 @@
 import { defineEnv } from "@liexp/core/lib/frontend/defineEnv.js";
 import { defineViteConfig } from "@liexp/core/lib/frontend/vite/config.js";
+import { reactVirtualized } from "@liexp/ui/lib/vite/plugins/react-virtualized.js";
 import { defineConfig } from "vite";
 
 export const AppEnv = defineEnv((t) => ({
@@ -34,6 +35,9 @@ const config = defineViteConfig({
     process.env.VITE_NODE_ENV === "production"
       ? "tsconfig.build.json"
       : "tsconfig.json",
+      plugins: [
+        reactVirtualized()
+      ]
 });
 
 export default defineConfig(config);
