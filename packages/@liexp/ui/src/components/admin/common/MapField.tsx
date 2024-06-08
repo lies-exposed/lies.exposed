@@ -5,6 +5,7 @@ import Feature from "ol/Feature.js";
 import Map from "ol/Map.js";
 import View from "ol/View.js";
 import GeoJSON from "ol/format/GeoJSON.js";
+import { Geometry } from 'ol/geom';
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer.js";
 import { OSM as OSMSource, Vector as VectorSource } from "ol/source.js";
 import * as React from "react";
@@ -18,7 +19,7 @@ const getDefaultFormat = (): GeoJSON => new GeoJSON(formatOptions);
 
 const getDefaultMap = (
   target: HTMLDivElement,
-  featuresLayer: VectorLayer<VectorSource<any>>,
+  featuresLayer: VectorLayer<Feature<Geometry>>,
 ): Map => {
   return new Map({
     target,
