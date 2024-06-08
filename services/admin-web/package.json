@@ -4,16 +4,22 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "clean": "rm -rf build",
-    "start": "vite start",
-    "build:app": "vite build",
-    "docker:dev": "yarn install && yarn dev",
-    "dev": "vite",
-    "test": "vitest",
     "build": "tsc -b",
-    "watch": "tsc -b --watch",
+    "build:app": "vite build",
+    "clean": "rm -rf build",
+    "dev": "vite",
+    "docker:dev": "vite",
+    "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
     "lint": "eslint src",
-    "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\""
+    "start": "vite start",
+    "test": "vitest",
+    "watch": "tsc -b --watch"
+  },
+  "lint-staged": {
+    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix",
+    "src/**/*.+(ts|tsx|js|jsx|json|css)": [
+      "prettier --write"
+    ]
   },
   "browserslist": {
     "production": [
@@ -50,7 +56,6 @@
     "react-helmet": "^6.1.0",
     "slick-carousel": "^1.8.1",
     "uuid": "^9.0.1",
-    "vite": "^5.2.11",
     "web-vitals": "^3.5.2"
   },
   "devDependencies": {
@@ -58,9 +63,9 @@
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.5.1",
     "@types/debug": "^4.1.12",
-    "@types/lodash": "^4.17.1",
-    "@types/node": "^20.12.11",
-    "@types/react": "^18.3.2",
+    "@types/lodash": "^4.17.5",
+    "@types/node": "^20.14.2",
+    "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.11.0",
     "@typescript-eslint/parser": "^7.11.0",
@@ -74,12 +79,7 @@
     "eslint-plugin-react": "^7.34.2",
     "page-metadata-parser": "^1.1.4",
     "prettier": "^3.2.5",
-    "typescript": "^5.4.5"
-  },
-  "lint-staged": {
-    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix",
-    "src/**/*.+(ts|tsx|js|jsx|json|css)": [
-      "prettier --write"
-    ]
+    "typescript": "^5.4.5",
+    "vite": "^5.2.13"
   }
 }
