@@ -2177,7 +2177,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.10.0, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.17.8, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.19.4, @babel/runtime@npm:^7.20.13, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.23.8, @babel/runtime@npm:^7.23.9, @babel/runtime@npm:^7.24.6, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.6.2, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.3, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.10.0, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.17.8, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.19.4, @babel/runtime@npm:^7.20.13, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.23.8, @babel/runtime@npm:^7.23.9, @babel/runtime@npm:^7.24.6, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.6.2, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.3, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
   version: 7.24.7
   resolution: "@babel/runtime@npm:7.24.7"
   dependencies:
@@ -2230,6 +2230,13 @@ __metadata:
   version: 1.0.1
   resolution: "@base2/pretty-print-object@npm:1.0.1"
   checksum: 1e8a5af578037a9d47d72f815983f9e4efb038e5f03e7635fc893194c5daa723215d71af33267893a9b618656c8eaea7be931b1c063c9b066a40994be0d23545
+  languageName: node
+  linkType: hard
+
+"@base2/pretty-print-object@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@base2/pretty-print-object@npm:1.0.2"
+  checksum: 97524362cb35f6c49a3955b50dd1bbfc7f6d291341ecdbdd79402690ffd66fb48df112cdc1fd2ac0b94c45b840d8cec7f908798db001e9dc629a25ac6084d687
   languageName: node
   linkType: hard
 
@@ -2287,7 +2294,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@blocknote/mantine@npm:^0.14.0":
+"@blocknote/mantine@npm:0.14.0, @blocknote/mantine@npm:^0.14.0":
   version: 0.14.0
   resolution: "@blocknote/mantine@npm:0.14.0"
   dependencies:
@@ -2624,7 +2631,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/cache@npm:^11, @emotion/cache@npm:^11.11.0":
+"@emotion/cache@npm:^11.11.0":
   version: 11.11.0
   resolution: "@emotion/cache@npm:11.11.0"
   dependencies:
@@ -2673,7 +2680,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/react@npm:^11.11.0, @emotion/react@npm:^11.11.4, @emotion/react@npm:^11.4.1":
+"@emotion/react@npm:^11.11.4, @emotion/react@npm:^11.4.1":
   version: 11.11.4
   resolution: "@emotion/react@npm:11.11.4"
   dependencies:
@@ -3130,15 +3137,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fortawesome/react-fontawesome@npm:^0.2.0":
-  version: 0.2.0
-  resolution: "@fortawesome/react-fontawesome@npm:0.2.0"
+"@fortawesome/react-fontawesome@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "@fortawesome/react-fontawesome@npm:0.2.2"
   dependencies:
     prop-types: ^15.8.1
   peerDependencies:
     "@fortawesome/fontawesome-svg-core": ~1 || ~6
     react: ">=16.3"
-  checksum: f652a0c2172e7b209e2d9e7e511f9b8c17abad85f55e0bd09bb1175ea1927693215da47eb6cd95b1f3a23bd124368553c677907fa76cb17c5093afc1fcffe338
+  checksum: e4bed35bfb7fc88b5bcf2305d08ee1835b82fa7705945c4d310df33bb747b05ef07a33ac9db643c8870ca4f835228978290d84d82f2c6c6a70b9ab4c886731a6
   languageName: node
   linkType: hard
 
@@ -3447,19 +3454,19 @@ __metadata:
     "@types/uuid": ^9.0.8
     date-fns: ^2.30.0
     exifreader: ^4.20.0
-    fp-ts: ^2.16.5
+    fp-ts: ^2.16.6
     io-ts: ^2.2.21
+    jsonwebtoken: ^9.0.2
     page-metadata-parser: ^1.1.4
     prettier: ^3.2.5
     puppeteer-core: ^21.11.0
     puppeteer-extra: ^3.3.6
     puppeteer-extra-plugin-stealth: ^2.11.2
     ts-io-error: ^2.0.0
-    typeorm: ^0.3.20
     typescript: ^5.4.5
   peerDependencies:
-    "@aws-sdk/client-s3": " ^3"
-    "@aws-sdk/lib-storage": 3
+    "@aws-sdk/client-s3": ^3
+    "@aws-sdk/lib-storage": ^3
     "@aws-sdk/s3-request-presigner": ^3
     "@aws-sdk/types": ^3
     "@visx/network": ^3
@@ -3485,7 +3492,7 @@ __metadata:
     uuid: ^9.0.1
     wikipedia: ^2.0.0
     wink-eng-lite-web-model: ^1
-    wink-nlp: ^2
+    wink-nlp: ^2.3.0
     wink-nlp-utils: ^2.1.0
   languageName: unknown
   linkType: soft
@@ -3510,7 +3517,7 @@ __metadata:
     eslint-plugin-import: ^2.29.1
     eslint-plugin-react: ^7.34.2
     express: ^4.19.2
-    fp-ts: ^2.16.5
+    fp-ts: ^2.16.6
     io-ts: ^2.2.21
     io-ts-types: ^0.5.19
     prettier: ^3.2.5
@@ -3540,6 +3547,7 @@ __metadata:
     "@liexp/core": "workspace:^"
     "@liexp/test": "workspace:^"
     "@types/bs58": ^4.0.4
+    "@types/jsonwebtoken": ^9.0.6
     "@types/lodash": ^4.17.5
     "@types/react": ^18.3.3
     "@types/react-dom": ^18.3.0
@@ -3552,7 +3560,7 @@ __metadata:
     date-fns: ^2.30.0
     domino: ^2.1.6
     fast-csv: ^5.0.1
-    fp-ts: ^2.16.5
+    fp-ts: ^2.16.6
     io-ts: ^2.2.21
     io-ts-types: ^0.5.19
     jsonwebtoken: ^9.0.2
@@ -3566,6 +3574,7 @@ __metadata:
     ts-io-error: ^2.0.0
     typescript: ^5.4.5
     uuid: ^9.0.1
+    vite-tsconfig-paths: ^4.3.2
     vitest: ^1.6.0
     vitest-mock-extended: ^1.3.1
   peerDependencies:
@@ -3589,7 +3598,7 @@ __metadata:
     "@liexp/core": "workspace:^"
     fast-check: ^2.25.0
     fast-check-io-ts: ^0.5.0
-    fp-ts: ^2.16.5
+    fp-ts: ^2.16.6
     io-ts: ^2.2.21
     io-ts-types: ^0.5.19
     prettier: ^3.2.5
@@ -3606,14 +3615,14 @@ __metadata:
     "@blocknote/core": ^0.14.0
     "@blocknote/mantine": ^0.14.0
     "@blocknote/react": ^0.14.0
-    "@emotion/cache": ^11
+    "@emotion/cache": ^11.11.0
     "@emotion/css": ^11.11.2
     "@emotion/server": ^11.11.0
     "@emotion/utils": ^1.2.1
     "@fortawesome/fontawesome-svg-core": ^6.5.2
     "@fortawesome/free-brands-svg-icons": ^6.5.2
     "@fortawesome/free-solid-svg-icons": ^6.5.2
-    "@fortawesome/react-fontawesome": ^0.2.0
+    "@fortawesome/react-fontawesome": ^0.2.2
     "@liexp/core": "workspace:^"
     "@liexp/shared": "workspace:^"
     "@mui/icons-material": ^5.15.19
@@ -3624,7 +3633,7 @@ __metadata:
     "@mui/x-data-grid": ^7.6.2
     "@reach/router": ^1.3.4
     "@tanstack/eslint-plugin-query": ^5.35.6
-    "@tanstack/react-query": ^5.37.1
+    "@tanstack/react-query": ^5.40.1
     "@types/chroma-js": ^2.4.4
     "@types/d3": ^7.4.3
     "@types/d3-hierarchy": ^3.1.7
@@ -3677,7 +3686,7 @@ __metadata:
     eslint: ^8.57.0
     eslint-config-prettier: ^9.1.0
     eslint-plugin-import: ^2.29.1
-    fp-ts: ^2.16.5
+    fp-ts: ^2.16.6
     geotiff: ^2.1.3
     io-ts: ^2.2.21
     io-ts-types: ^0.5.19
@@ -3702,7 +3711,7 @@ __metadata:
     react-error-boundary: ^4.0.13
     react-helmet: ^6.1.0
     react-helmet-async: ^1.3.0
-    react-hook-form: ^7.22.0
+    react-hook-form: ^7.51.5
     react-router: ^6.23.1
     react-share: ^5.1.0
     react-slick: ^0.30.2
@@ -3710,6 +3719,7 @@ __metadata:
     react-toc: ^3.1.0
     react-virtualized: ^9.22.5
     reactflow: ^11.11.3
+    slick-carousel: ^1.8.1
     throttle-debounce: ^5.0.0
     topojson-client: ^3.1.0
     ts-endpoint: ^2.0.0
@@ -4912,13 +4922,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@remix-run/router@npm:1.16.0":
-  version: 1.16.0
-  resolution: "@remix-run/router@npm:1.16.0"
-  checksum: c8afdf90b19a5a9dfb14425d57de029cadf4bbb51d668885b10df5ea2f82279d7552a9939274b519de0da40550f48e5a6c07e5d4049dbd3838fcaa29819bd641
-  languageName: node
-  linkType: hard
-
 "@remix-run/router@npm:1.16.1":
   version: 1.16.1
   resolution: "@remix-run/router@npm:1.16.1"
@@ -5654,7 +5657,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-backgrounds@npm:8.1.6":
+"@storybook/addon-backgrounds@npm:8.1.6, @storybook/addon-backgrounds@npm:^8.1.6":
   version: 8.1.6
   resolution: "@storybook/addon-backgrounds@npm:8.1.6"
   dependencies:
@@ -5677,7 +5680,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-docs@npm:8.1.6":
+"@storybook/addon-docs@npm:8.1.6, @storybook/addon-docs@npm:^8.1.6":
   version: 8.1.6
   resolution: "@storybook/addon-docs@npm:8.1.6"
   dependencies:
@@ -5727,7 +5730,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-highlight@npm:8.1.6":
+"@storybook/addon-highlight@npm:8.1.6, @storybook/addon-highlight@npm:^8.1.6":
   version: 8.1.6
   resolution: "@storybook/addon-highlight@npm:8.1.6"
   dependencies:
@@ -5766,7 +5769,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-measure@npm:8.1.6":
+"@storybook/addon-measure@npm:8.1.6, @storybook/addon-measure@npm:^8.1.6":
   version: 8.1.6
   resolution: "@storybook/addon-measure@npm:8.1.6"
   dependencies:
@@ -5776,7 +5779,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-outline@npm:8.1.6":
+"@storybook/addon-outline@npm:8.1.6, @storybook/addon-outline@npm:^8.1.6":
   version: 8.1.6
   resolution: "@storybook/addon-outline@npm:8.1.6"
   dependencies:
@@ -6162,7 +6165,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/docs-tools@npm:8.1.6":
+"@storybook/docs-tools@npm:8.1.6, @storybook/docs-tools@npm:^8.1.6":
   version: 8.1.6
   resolution: "@storybook/docs-tools@npm:8.1.6"
   dependencies:
@@ -6195,7 +6198,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/instrumenter@npm:8.1.6":
+"@storybook/instrumenter@npm:8.1.6, @storybook/instrumenter@npm:^8.1.6":
   version: 8.1.6
   resolution: "@storybook/instrumenter@npm:8.1.6"
   dependencies:
@@ -6276,7 +6279,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/react-dom-shim@npm:8.1.6":
+"@storybook/react-dom-shim@npm:8.1.6, @storybook/react-dom-shim@npm:^8.1.6":
   version: 8.1.6
   resolution: "@storybook/react-dom-shim@npm:8.1.6"
   peerDependencies:
@@ -6432,21 +6435,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.36.1":
-  version: 5.36.1
-  resolution: "@tanstack/query-core@npm:5.36.1"
-  checksum: 9ac291eff02bcfd20c8460ce04683b2551d6b51635120eb9efb1be37c6839e8428ddf85ef94bf1b71ed162b5e5cd5dfef64e14f089058d725f7cee4d8ee07d0a
+"@tanstack/query-core@npm:5.40.0, @tanstack/query-core@npm:^5.40.0":
+  version: 5.40.0
+  resolution: "@tanstack/query-core@npm:5.40.0"
+  checksum: 3c94bc71dd2f80db1e8fdd6f201d9fed7a008636ad6a6a89d24f54824ceb38bbc8c05b24731b8eb7cd895b9e75e7851962660d0aa5fc0841f3295fe95630d70e
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.37.1":
-  version: 5.37.1
-  resolution: "@tanstack/react-query@npm:5.37.1"
+"@tanstack/react-query@npm:^5.40.1":
+  version: 5.40.1
+  resolution: "@tanstack/react-query@npm:5.40.1"
   dependencies:
-    "@tanstack/query-core": 5.36.1
+    "@tanstack/query-core": 5.40.0
   peerDependencies:
     react: ^18.0.0
-  checksum: 4bac8aeed5ab6718ba3eb527542784c9475e3eda5f2602eea1479f672b5dfcfb48289b4a26ccf5ef3cba793e4b5cc00070b33e85417dda6ecbe11a09d85ad1c5
+  checksum: 4d906101c797282969cd6cb89606ed4480efe3025eedea56846697f7df5218257eb147ec17c1565b4e8b6dc09a761b17b85b1a1fadb04f704304354e28899168
   languageName: node
   linkType: hard
 
@@ -7805,7 +7808,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^16.8.0 || ^17.0.0 || ^18.0.0, @types/react@npm:^18.3.3":
+"@types/react@npm:*, @types/react@npm:^16.8.0 || ^17.0.0 || ^18.0.0, @types/react@npm:^18, @types/react@npm:^18.3.3":
   version: 18.3.3
   resolution: "@types/react@npm:18.3.3"
   dependencies:
@@ -8348,7 +8351,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@visx/gradient@npm:^3.3.0":
+"@visx/gradient@npm:^3, @visx/gradient@npm:^3.3.0":
   version: 3.3.0
   resolution: "@visx/gradient@npm:3.3.0"
   dependencies:
@@ -8886,11 +8889,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "admin-web@workspace:services/admin-web"
   dependencies:
+    "@blocknote/core": ^0.14.0
+    "@blocknote/mantine": ^0.14.0
+    "@blocknote/react": ^0.14.0
     "@liexp/core": "workspace:^"
     "@liexp/shared": "workspace:^"
     "@liexp/ui": "workspace:^"
+    "@mui/icons-material": ^5.15.19
     "@mui/material": ^5.15.19
-    "@tanstack/react-query": ^5.37.1
+    "@tanstack/react-query": ^5.40.1
     "@testing-library/dom": ^9.3.3
     "@testing-library/react": ^14.0.0
     "@testing-library/user-event": ^14.5.1
@@ -8899,6 +8906,7 @@ __metadata:
     "@types/node": ^20.14.2
     "@types/react": ^18.3.3
     "@types/react-dom": ^18.3.0
+    "@types/react-virtualized": ^9.21.30
     "@typescript-eslint/eslint-plugin": ^7.11.0
     "@typescript-eslint/parser": ^7.11.0
     debug: ^4.3.4
@@ -8911,9 +8919,8 @@ __metadata:
     eslint-plugin-promise: ^6.2.0
     eslint-plugin-react: ^7.34.2
     final-form: ^4.20.10
-    fp-ts: ^2.16.5
+    fp-ts: ^2.16.6
     history: ^5.3.0
-    mini-create-react-context: ^0.4.1
     openai: ^4.47.1
     page-metadata-parser: ^1.1.4
     prettier: ^3.2.5
@@ -8926,6 +8933,9 @@ __metadata:
     react-final-form: ^6.5.9
     react-final-form-arrays: ^3.1.4
     react-helmet: ^6.1.0
+    react-router: ^6.23.1
+    react-router-dom: 6.23.1
+    react-virtualized: ^9.22.5
     slick-carousel: ^1.8.1
     typescript: ^5.4.5
     uuid: ^9.0.1
@@ -9114,7 +9124,7 @@ __metadata:
     "@liexp/shared": "workspace:^"
     "@liexp/test": "workspace:^"
     "@liexp/ui": "workspace:^"
-    "@tanstack/react-query": ^5.37.1
+    "@tanstack/react-query": ^5.40.1
     "@types/body-parser": ^1.19.5
     "@types/cors": ^2.8.17
     "@types/debug": ^4.1.12
@@ -9134,10 +9144,13 @@ __metadata:
     "@types/supertest": ^6.0.2
     "@types/uuid": ^9.0.8
     axios: ^1.7.2
+    body-parser: ^1.20.2
     canvas: ^2.11.2
     cors: 2.8.5
+    date-fns: ^2.30.0
     debug: ^4.3.4
     domino: ^2.1.6
+    dotenv: ^16.4.5
     eslint: ^8.57.0
     eslint-config-prettier: ^9.1.0
     eslint-import-resolver-typescript: ^3.6.1
@@ -9150,7 +9163,7 @@ __metadata:
     fast-csv: ^5.0.1
     fluent-ffmpeg: ^2.1.2
     form-data: ^4.0.0
-    fp-ts: ^2.16.5
+    fp-ts: ^2.16.6
     front-matter: 4.0.2
     gray-matter: ^4.0.3
     instagram-private-api: ^1.46.1
@@ -9173,6 +9186,7 @@ __metadata:
     puppeteer-extra-plugin-stealth: ^2.11.2
     react: ^18.3.1
     react-dom: ^18.3.1
+    reflect-metadata: ^0.2.2
     sharp: ^0.33.3
     supertest: ^6.3.4
     ts-endpoint-express: ^2.0.0
@@ -9185,6 +9199,7 @@ __metadata:
     uuid: ^9.0.1
     vite-tsconfig-paths: ^4.3.2
     vitest: ^1.6.0
+    vitest-mock-extended: ^1.3.1
     wikipedia: ^2.1.2
     wink-eng-lite-web-model: ^1.8.0
     wink-nlp: ^2.3.0
@@ -9832,7 +9847,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"body-parser@npm:1.20.2":
+"body-parser@npm:1.20.2, body-parser@npm:^1.20.2":
   version: 1.20.2
   resolution: "body-parser@npm:1.20.2"
   dependencies:
@@ -13695,10 +13710,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fp-ts@npm:^2.0.0, fp-ts@npm:^2.16.5, fp-ts@npm:^2.9.3":
-  version: 2.16.5
-  resolution: "fp-ts@npm:2.16.5"
-  checksum: e43c4770ab3c501fbc4956f33c3acd4c05ce6de6c78d8bdc55d2710b1cdee62d4f631824da5689e20a8fe7a68e26c16a7c0e1b6f34cc5c9768fbdb9c66b1640e
+"fp-ts@npm:^2.0.0, fp-ts@npm:^2.16.6, fp-ts@npm:^2.9.3":
+  version: 2.16.6
+  resolution: "fp-ts@npm:2.16.6"
+  checksum: 9667b8789f1306c5657a92940af5f5014e84347b733fe2cf56a0a44322674f679e87a866e3b29bf01f706518f670173cff7996ee24ec708025097ce6b7cc42bb
   languageName: node
   linkType: hard
 
@@ -14697,6 +14712,13 @@ __metadata:
   version: 3.3.1
   resolution: "html-tags@npm:3.3.1"
   checksum: b4ef1d5a76b678e43cce46e3783d563607b1d550cab30b4f511211564574770aa8c658a400b100e588bc60b8234e59b35ff72c7851cc28f3b5403b13a2c6cbce
+  languageName: node
+  linkType: hard
+
+"html-tags@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "html-tags@npm:4.0.0"
+  checksum: 1a6c9c8a4566450c49d4d1a29c1df813e3533ca54403d4f3a2306f5954d636b3507eb8754d5ff84514bba108a64b9e1a07df53c5c9bdc33b0f06cef23dbaeafc
   languageName: node
   linkType: hard
 
@@ -17517,19 +17539,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mini-create-react-context@npm:^0.4.1":
-  version: 0.4.1
-  resolution: "mini-create-react-context@npm:0.4.1"
-  dependencies:
-    "@babel/runtime": ^7.12.1
-    tiny-warning: ^1.0.3
-  peerDependencies:
-    prop-types: ^15.0.0
-    react: ^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
-  checksum: f8cb2c7738aac355fe9ce7e8425f371b7fa90daddd5133edda4ccfdc18c49043b2ec04be6f3abf09b60a0f52549d54f158d5bfd81cdfb1a658531e5b9fe7bc6a
-  languageName: node
-  linkType: hard
-
 "mini-svg-data-uri@npm:^1.4.4":
   version: 1.4.4
   resolution: "mini-svg-data-uri@npm:1.4.4"
@@ -20144,7 +20153,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.22.0, react-hook-form@npm:^7.43.9":
+"react-hook-form@npm:^7.43.9, react-hook-form@npm:^7.51.5":
   version: 7.51.5
   resolution: "react-hook-form@npm:7.51.5"
   peerDependencies:
@@ -20267,31 +20276,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^6.1.0, react-router-dom@npm:^6.23.0":
-  version: 6.23.0
-  resolution: "react-router-dom@npm:6.23.0"
+"react-router-dom@npm:6.23.1, react-router-dom@npm:^6.1.0, react-router-dom@npm:^6.23.1":
+  version: 6.23.1
+  resolution: "react-router-dom@npm:6.23.1"
   dependencies:
-    "@remix-run/router": 1.16.0
-    react-router: 6.23.0
+    "@remix-run/router": 1.16.1
+    react-router: 6.23.1
   peerDependencies:
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: 071b4859fa97d501e4de68fdcf46bd7c88138e65149dadd9557559e4acc7ca31d091af24844c7f305625969cc20a1970450a7cde229642c4e654ca14346a982b
+  checksum: e87b5cf85019496f499286d466a4ad9cf5efe729f1420502fc5d16093d525462803253538418ea5b0da7ab5671a16caefee67848b373008e567629c2d667dc44
   languageName: node
   linkType: hard
 
-"react-router@npm:6.23.0":
-  version: 6.23.0
-  resolution: "react-router@npm:6.23.0"
-  dependencies:
-    "@remix-run/router": 1.16.0
-  peerDependencies:
-    react: ">=16.8"
-  checksum: 224838bc099637c586eaaf62b9607f6b72577ad760bf2d7a51c316e56eb8697d875e88878ec8e12fe949ef9b866655c74d82f913c6acb501bc8868f25e2b0897
-  languageName: node
-  linkType: hard
-
-"react-router@npm:^6.1.0, react-router@npm:^6.23.1":
+"react-router@npm:6.23.1, react-router@npm:^6.1.0, react-router@npm:^6.23.1":
   version: 6.23.1
   resolution: "react-router@npm:6.23.1"
   dependencies:
@@ -20607,10 +20605,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"reflect-metadata@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "reflect-metadata@npm:0.2.1"
-  checksum: 772f552a544e04b999c1bf2c868225fef10032274e9d9e315bc3e7a687a504b8b115fa71966665b9619acfd323123a941f892b593250140da809330d41564181
+"reflect-metadata@npm:^0.2.1, reflect-metadata@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "reflect-metadata@npm:0.2.2"
+  checksum: a66c7b583e4efdd8f3c3124fbff33da2d0c86d8280617516308b32b2159af7a3698c961db3246387f56f6316b1d33a608f39bb2b49d813316dfc58f6d3bf3210
   languageName: node
   linkType: hard
 
@@ -21985,32 +21983,79 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "storybook@workspace:services/storybook"
   dependencies:
+    "@base2/pretty-print-object": ^1.0.2
+    "@blocknote/core": ^0.14.0
+    "@blocknote/mantine": ^0.14.0
+    "@blocknote/react": ^0.14.0
+    "@emotion/cache": ^11.11.0
+    "@emotion/react": ^11.11.4
+    "@emotion/server": ^11.11.0
+    "@emotion/utils": ^1.2.1
+    "@emotion/weak-memoize": ^0.3.1
+    "@fortawesome/fontawesome-svg-core": ^6.5.2
     "@liexp/core": "workspace:^"
     "@liexp/shared": "workspace:^"
+    "@liexp/test": "workspace:^"
     "@liexp/ui": "workspace:^"
+    "@mui/material": ^5.15.19
     "@storybook/addon-actions": ^8.1.6
+    "@storybook/addon-backgrounds": ^8.1.6
+    "@storybook/addon-docs": ^8.1.6
     "@storybook/addon-essentials": ^8.1.6
+    "@storybook/addon-highlight": ^8.1.6
     "@storybook/addon-interactions": ^8.1.6
     "@storybook/addon-links": ^8.1.6
+    "@storybook/addon-measure": ^8.1.6
+    "@storybook/addon-outline": ^8.1.6
     "@storybook/addon-viewport": ^8.1.6
     "@storybook/builder-vite": ^8.1.6
+    "@storybook/docs-tools": ^8.1.6
+    "@storybook/instrumenter": ^8.1.6
     "@storybook/manager-api": ^8.1.6
     "@storybook/react": ^8.1.6
+    "@storybook/react-dom-shim": ^8.1.6
     "@storybook/react-vite": ^8.1.6
     "@storybook/theming": ^8.1.6
+    "@tanstack/query-core": ^5.40.0
+    "@tanstack/react-query": ^5.40.1
     "@types/babel__preset-env": ^7.9.6
     "@types/eslint": ^8.56.10
+    "@types/lodash": ^4.17.5
+    "@types/react": ^18
+    "@types/react-virtualized": ^9.21.30
+    "@visx/gradient": ^3
+    acorn: ^8.11.3
+    acorn-jsx: ^5.3.2
+    acorn-walk: ^8.3.2
     d3: ^7.9.0
+    date-fns: ^2.30.0
+    doctrine: ^3.0.0
+    escodegen: ^2.1.0
     eslint: ^8.57.0
+    fp-ts: ^2.16.6
+    html-tags: ^4.0.0
     io-ts: ^2.2.21
+    is-plain-object: ^5.0.0
+    lodash: ^4.17.21
     prettier: ^3.2.5
+    prop-types: ^15.8.1
+    ra-core: ^4.16.17
+    ra-ui-materialui: ^4.16.18
     react: ^18.3.1
+    react-admin: ^4.16.18
     react-dom: ^18.3.1
+    react-element-to-jsx-string: ^15.0.0
+    react-is: ^18.3.1
     react-spring: ^9.7.3
+    react-virtualized: ^9.22.5
     reactflow: ^11.11.3
     serve: ^14.2.3
     storybook: ^8.1.6
+    stylis: ^4.3.2
+    tiny-invariant: ^1.3.3
+    ts-dedent: ^2.2.0
     typescript: ^5.4.5
+    uuid: ^9.0.1
     vite: ^5.2.13
   languageName: unknown
   linkType: soft
@@ -22304,6 +22349,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"stylis@npm:^4.3.2":
+  version: 4.3.2
+  resolution: "stylis@npm:4.3.2"
+  checksum: 0faa8a97ff38369f47354376cd9f0def9bf12846da54c28c5987f64aaf67dcb6f00dce88a8632013bfb823b2c4d1d62a44f4ac20363a3505a7ab4e21b70179fc
+  languageName: node
+  linkType: hard
+
 "superagent@npm:^8.1.2":
   version: 8.1.2
   resolution: "superagent@npm:8.1.2"
@@ -22569,7 +22621,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tiny-warning@npm:^1.0.2, tiny-warning@npm:^1.0.3":
+"tiny-warning@npm:^1.0.2":
   version: 1.0.3
   resolution: "tiny-warning@npm:1.0.3"
   checksum: da62c4acac565902f0624b123eed6dd3509bc9a8d30c06e017104bedcf5d35810da8ff72864400ad19c5c7806fc0a8323c68baf3e326af7cb7d969f846100d71
@@ -24073,22 +24125,27 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "web@workspace:services/web"
   dependencies:
+    "@blocknote/core": ^0.14.0
+    "@blocknote/mantine": 0.14.0
+    "@blocknote/react": ^0.14.0
     "@emotion/cache": ^11.11.0
     "@emotion/css": ^11.11.2
-    "@emotion/react": ^11.11.0
+    "@emotion/react": ^11.11.4
     "@emotion/server": ^11.11.0
     "@emotion/utils": ^1.2.1
     "@fortawesome/fontawesome-svg-core": ^6.5.2
     "@fortawesome/free-brands-svg-icons": ^6.5.2
     "@fortawesome/free-regular-svg-icons": ^6.5.2
     "@fortawesome/free-solid-svg-icons": ^6.5.2
-    "@fortawesome/react-fontawesome": ^0.2.0
+    "@fortawesome/react-fontawesome": ^0.2.2
     "@liexp/core": "workspace:^"
     "@liexp/shared": "workspace:^"
     "@liexp/ui": "workspace:^"
     "@mui/icons-material": ^5.15.19
     "@mui/material": ^5.15.19
-    "@tanstack/react-query": ^5.37.1
+    "@mui/system": ^5.15.15
+    "@reach/router": ^1.3.4
+    "@tanstack/react-query": ^5.40.1
     "@types/bs58": ^4.0.4
     "@types/compression": ^1.7.5
     "@types/d3": ^7.4.3
@@ -24096,6 +24153,7 @@ __metadata:
     "@types/express": ^4.17.21
     "@types/mime": ^1.3.5
     "@types/node": ^20.14.2
+    "@types/reach__router": ^1.3.15
     "@types/react": ^18.3.3
     "@types/react-calendar-heatmap": ^1.6.7
     "@types/react-dom": ^18.3.0
@@ -24112,12 +24170,14 @@ __metadata:
     "@visx/legend": ^3.5.0
     "@visx/network": ^3.3.0
     "@visx/responsive": ^3.10.2
+    "@visx/scale": ^3.5.0
     "@visx/tooltip": ^3.3.0
     axios: ^1.7.2
     bs58: ^5.0.0
     clsx: ^2.1.0
     compression: ^1.7.4
     d3: ^7.9.0
+    date-fns: ^2.30.0
     debug: ^4.3.4
     dotenv: ^16.4.5
     eslint: ^8.57.0
@@ -24128,7 +24188,7 @@ __metadata:
     eslint-plugin-promise: ^6.2.0
     eslint-plugin-react: ^7.34.2
     express: ^4.19.2
-    fp-ts: ^2.16.5
+    fp-ts: ^2.16.6
     io-ts: ^2.2.21
     io-ts-types: ^0.5.19
     is-plain-object: ^5.0.0
@@ -24146,7 +24206,8 @@ __metadata:
     react-dom: ^18.3.1
     react-error-boundary: ^4.0.13
     react-helmet: ^6.1.0
-    react-router-dom: ^6.23.0
+    react-router: ^6.23.1
+    react-router-dom: ^6.23.1
     react-share: ^5.1.0
     react-slick: ^0.30.2
     react-spring: ^9.7.3
