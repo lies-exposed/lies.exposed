@@ -16,7 +16,7 @@ export const classes = {
   popover: `${CONTEXT_MENU_PREFIX}-popover`,
 };
 
-export const StyledContextMenuPopover = styled(Popover)(() => ({
+const StyledContextMenuPopover = styled(Popover)(() => ({
   [`&.${classes.popover}`]: {
     zIndex: 10,
   },

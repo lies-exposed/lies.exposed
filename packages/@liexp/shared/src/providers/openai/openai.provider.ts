@@ -17,5 +17,4 @@ export const GetOpenAIProvider = (ctx: ClientOptions): OpenAI => {
   });
 };
 
-
-export { type OpenAI }
+export { type OpenAI };

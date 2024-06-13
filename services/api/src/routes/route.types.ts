@@ -9,7 +9,7 @@ export interface RouteContext extends ServerContext {
   openai: OpenAI;
   env: ENV;
   config: {
-    cors: cors.CorsOptions
+    cors: cors.CorsOptions;
     dirs: {
       cwd: string;
       temp: {
