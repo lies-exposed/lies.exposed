@@ -1,4 +1,8 @@
 import polyglotI18nProvider from "ra-i18n-polyglot";
+import { I18nProvider } from "../components/admin/react-admin.js";
 import englishMessages from "./en-US.js";
 
-export const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
+const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
+
+export { i18nProvider };
+export type { I18nProvider };

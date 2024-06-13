@@ -1,5 +1,5 @@
 import { useRedirect } from "ra-core";
-import React from "react";
+import * as React from "react";
 
 export const UserListMe: React.FC = () => {
   const redirect = useRedirect();

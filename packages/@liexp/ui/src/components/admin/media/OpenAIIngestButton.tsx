@@ -1,7 +1,7 @@
 import { ChatCompletion } from "openai/resources/index.js";
 import { LoadingIndicator } from "ra-ui-materialui";
 import * as React from "react";
-import { useOpenAI } from '../../../hooks/useOpenAI.js';
+import { useOpenAI } from "../../../hooks/useOpenAI.js";
 import { Button, Stack } from "../../mui/index.js";
 
 interface OpenAIPromptButtonProps {

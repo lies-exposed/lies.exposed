@@ -3,9 +3,9 @@ import {
   CellMeasurer,
   CellMeasurerCache,
   List,
-  type ListRowProps,
+  ListRowProps,
 } from "react-virtualized";
-import { type RenderedRows } from "react-virtualized/dist/es/List";
+import { RenderedRows } from 'react-virtualized/dist/es/List.js';
 import { type SearchEventQueryResult } from "../../../state/queries/SearchEventsQuery.js";
 import { styled } from "../../../theme/index.js";
 import { type EventListItemProps } from "./EventListItem.js";

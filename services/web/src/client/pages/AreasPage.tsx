@@ -3,7 +3,7 @@ import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 
-const AreasPage: React.FC<RouteComponentProps> = ({ ...props }) => {
+const AreasPage: React.FC<RouteComponentProps> = () => {
   const navigateTo = useNavigateToResource();
 
   return (

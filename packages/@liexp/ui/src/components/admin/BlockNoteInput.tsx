@@ -72,7 +72,7 @@ const RaBlockNoteInput: React.FC<RaBlockNoteInputProps> = ({
               if (reply) {
                 const bnDoc = toInitialValue(reply);
                 onChange(bnDoc);
-                setShowJSONEditor(false)
+                setShowJSONEditor(false);
               }
             }}
           />

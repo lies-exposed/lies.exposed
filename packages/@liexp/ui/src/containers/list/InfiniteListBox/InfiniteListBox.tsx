@@ -5,13 +5,7 @@ import { type GetListFnParamsE } from "@liexp/shared/lib/providers/EndpointsREST
 import { paramsToPagination } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
-import {
-  AutoSizer,
-  InfiniteLoader,
-  type Index,
-  type Masonry,
-  type CellMeasurerCache,
-} from "react-virtualized";
+import { Index, AutoSizer, CellMeasurerCache, InfiniteLoader, Masonry } from "react-virtualized";
 import { type MinimalEndpointInstance } from "ts-endpoint";
 import { FullSizeLoader } from "../../../components/Common/FullSizeLoader.js";
 import { useEndpointQueries } from "../../../hooks/useEndpointQueriesProvider.js";

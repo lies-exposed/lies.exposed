@@ -3,9 +3,9 @@ import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as React from "react";
 import {
   AutoSizer,
-  InfiniteLoader,
   type Index,
   type IndexRange,
+  InfiniteLoader,
 } from "react-virtualized";
 import { useAPI } from "../../../hooks/useAPI.js";
 import {

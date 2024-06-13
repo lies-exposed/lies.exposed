@@ -1,6 +1,4 @@
-import OpenAI from 'openai';
+import OpenAI from "openai";
 import React from "react";
 
-export const OpenAIContext = React.createContext<OpenAI | null>(
-  null,
-);
+export const OpenAIContext = React.createContext<OpenAI | null>(null);

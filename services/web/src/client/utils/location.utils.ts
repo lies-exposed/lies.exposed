@@ -2,7 +2,7 @@ import {
   queryToHash,
   useNavigateTo,
 } from "@liexp/ui/lib/utils/history.utils.js";
-import React from "react";
+import * as React from "react";
 
 interface CommonViewArgs {
   tab?: number;

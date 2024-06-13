@@ -1,12 +1,14 @@
 // other imports
 import * as fs from "fs";
-import path from "path";
+import * as path from "path";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { getServer } from "@liexp/ui/lib/react/ssr.js";
 import { type ServerRenderer } from "@liexp/ui/lib/react/vite/render.js";
+import compression from "compression";
 import D from "debug";
 import express from "express";
+import sirv from "sirv";
 import { routes } from "../client/routes.js";
 
 const webSrvLog = GetLogger("web");
@@ -70,8 +72,6 @@ const run = async (base: string): Promise<void> => {
       webSrvLog.error.log("app error", e);
     };
 
-    const compression = (await import("compression")).default;
-    const sirv = (await import("sirv")).default;
     app.use(compression());
     app.use(
       base,

@@ -1,6 +1,4 @@
-import {
-  OpenAI
-} from "@liexp/shared/lib/providers/openai/openai.provider.js";
+import { OpenAI } from "@liexp/shared/lib/providers/openai/openai.provider.js";
 import React from "react";
 import { OpenAIContext } from "../context/OpenAIContext";
 
