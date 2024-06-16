@@ -1,20 +1,26 @@
 {
   "name": "storybook",
   "version": "0.0.1",
-  "main": "index.js",
-  "repository": "git@github.com:ascariandrea/econnessione.git",
-  "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
-  "license": "MIT",
   "private": true,
+  "repository": "git@github.com:ascariandrea/econnessione.git",
+  "license": "MIT",
+  "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "type": "module",
+  "main": "index.js",
   "scripts": {
-    "dev": "storybook dev --quiet -p 6006",
     "build": "tsc -b tsconfig.build.json",
     "build-sb": "storybook build -o build",
     "clean": "rm -rf build",
-    "lint": "eslint src",
+    "dev": "storybook dev --quiet -p 6006",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
+    "lint": "eslint src",
     "serve": "serve -d ./build"
+  },
+  "lint-staged": {
+    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix",
+    "src/**/*.+(ts|tsx|js|jsx|json|css)": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@blocknote/core": "^0.14.0",
@@ -26,10 +32,10 @@
     "@emotion/utils": "^1.2.1",
     "@emotion/weak-memoize": "^0.3.1",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
-    "@liexp/core": "workspace:^",
-    "@liexp/shared": "workspace:^",
-    "@liexp/test": "workspace:^",
-    "@liexp/ui": "workspace:^",
+    "@liexp/core": "workspace:*",
+    "@liexp/shared": "workspace:*",
+    "@liexp/test": "workspace:*",
+    "@liexp/ui": "workspace:*",
     "@mui/material": "^5.15.19",
     "@storybook/addon-actions": "^8.1.6",
     "@storybook/addon-backgrounds": "^8.1.6",
@@ -72,12 +78,6 @@
     "reactflow": "^11.11.3",
     "storybook": "^8.1.6",
     "uuid": "^9.0.1"
-  },
-  "lint-staged": {
-    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix",
-    "src/**/*.+(ts|tsx|js|jsx|json|css)": [
-      "prettier --write"
-    ]
   },
   "devDependencies": {
     "@base2/pretty-print-object": "^1.0.2",

@@ -1,28 +1,34 @@
 {
   "name": "@liexp/backend",
   "version": "0.1.0",
-  "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
+  "private": true,
   "license": "MIT",
+  "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "type": "module",
-  "module": "lib/index.js",
   "exports": {
     ".": "./lib/index.js",
     "./lib/*": "./lib/*"
   },
-  "private": true,
+  "module": "lib/index.js",
   "scripts": {
-    "clean": "rm -rf lib",
     "build": "tsc -b tsconfig.build.json",
-    "watch": "tsc -b -w",
+    "clean": "rm -rf lib",
+    "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
     "lint": "eslint src",
-    "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\""
+    "watch": "tsc -b -w"
+  },
+  "lint-staged": {
+    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix",
+    "src/**/*.+(ts|tsx|js|jsx|json|css)": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@databases/escape-identifier": "^1.0.3",
     "@databases/sql": "^3.3.0",
-    "@liexp/core": "workspace:^",
-    "@liexp/shared": "workspace:^",
-    "@liexp/test": "workspace:^",
+    "@liexp/core": "workspace:*",
+    "@liexp/shared": "workspace:*",
+    "@liexp/test": "workspace:*",
     "fp-ts": "^2.16.6",
     "io-ts": "^2.2.21",
     "jsonwebtoken": "^9.0.2",
@@ -72,11 +78,5 @@
     "wink-eng-lite-web-model": "^1",
     "wink-nlp": "^2.3.0",
     "wink-nlp-utils": "^2.1.0"
-  },
-  "lint-staged": {
-    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix",
-    "src/**/*.+(ts|tsx|js|jsx|json|css)": [
-      "prettier --write"
-    ]
   }
 }

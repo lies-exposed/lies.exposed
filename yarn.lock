@@ -3439,15 +3439,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@liexp/backend@workspace:^, @liexp/backend@workspace:packages/@liexp/backend":
+"@liexp/backend@workspace:*, @liexp/backend@workspace:packages/@liexp/backend":
   version: 0.0.0-use.local
   resolution: "@liexp/backend@workspace:packages/@liexp/backend"
   dependencies:
     "@databases/escape-identifier": ^1.0.3
     "@databases/sql": ^3.3.0
-    "@liexp/core": "workspace:^"
-    "@liexp/shared": "workspace:^"
-    "@liexp/test": "workspace:^"
+    "@liexp/core": "workspace:*"
+    "@liexp/shared": "workspace:*"
+    "@liexp/test": "workspace:*"
     "@types/fluent-ffmpeg": ^2.1.24
     "@types/jsonwebtoken": ^9.0.6
     "@types/node-telegram-bot-api": ^0.64.6
@@ -3497,7 +3497,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@liexp/core@workspace:^, @liexp/core@workspace:packages/@liexp/core":
+"@liexp/core@workspace:*, @liexp/core@workspace:packages/@liexp/core":
   version: 0.0.0-use.local
   resolution: "@liexp/core@workspace:packages/@liexp/core"
   dependencies:
@@ -3535,7 +3535,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@liexp/shared@workspace:^, @liexp/shared@workspace:packages/@liexp/shared":
+"@liexp/shared@workspace:*, @liexp/shared@workspace:packages/@liexp/shared":
   version: 0.0.0-use.local
   resolution: "@liexp/shared@workspace:packages/@liexp/shared"
   dependencies:
@@ -3544,8 +3544,8 @@ __metadata:
     "@aws-sdk/s3-request-presigner": ^3.592.0
     "@databases/escape-identifier": ^1.0.3
     "@databases/sql": ^3.3.0
-    "@liexp/core": "workspace:^"
-    "@liexp/test": "workspace:^"
+    "@liexp/core": "workspace:*"
+    "@liexp/test": "workspace:*"
     "@types/bs58": ^4.0.4
     "@types/jsonwebtoken": ^9.0.6
     "@types/lodash": ^4.17.5
@@ -3591,11 +3591,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@liexp/test@workspace:^, @liexp/test@workspace:packages/@liexp/test":
+"@liexp/test@workspace:*, @liexp/test@workspace:packages/@liexp/test":
   version: 0.0.0-use.local
   resolution: "@liexp/test@workspace:packages/@liexp/test"
   dependencies:
-    "@liexp/core": "workspace:^"
+    "@liexp/core": "workspace:*"
     fast-check: ^2.25.0
     fast-check-io-ts: ^0.5.0
     fp-ts: ^2.16.6
@@ -3608,7 +3608,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@liexp/ui@workspace:^, @liexp/ui@workspace:packages/@liexp/ui":
+"@liexp/ui@workspace:*, @liexp/ui@workspace:packages/@liexp/ui":
   version: 0.0.0-use.local
   resolution: "@liexp/ui@workspace:packages/@liexp/ui"
   dependencies:
@@ -3623,8 +3623,8 @@ __metadata:
     "@fortawesome/free-brands-svg-icons": ^6.5.2
     "@fortawesome/free-solid-svg-icons": ^6.5.2
     "@fortawesome/react-fontawesome": ^0.2.2
-    "@liexp/core": "workspace:^"
-    "@liexp/shared": "workspace:^"
+    "@liexp/core": "workspace:*"
+    "@liexp/shared": "workspace:*"
     "@mui/icons-material": ^5.15.19
     "@mui/lab": 5.0.0-alpha.170
     "@mui/material": ^5.15.19
@@ -8892,9 +8892,9 @@ __metadata:
     "@blocknote/core": ^0.14.0
     "@blocknote/mantine": ^0.14.0
     "@blocknote/react": ^0.14.0
-    "@liexp/core": "workspace:^"
-    "@liexp/shared": "workspace:^"
-    "@liexp/ui": "workspace:^"
+    "@liexp/core": "workspace:*"
+    "@liexp/shared": "workspace:*"
+    "@liexp/ui": "workspace:*"
     "@mui/icons-material": ^5.15.19
     "@mui/material": ^5.15.19
     "@tanstack/react-query": ^5.40.1
@@ -9119,11 +9119,11 @@ __metadata:
     "@databases/escape-identifier": ^1.0.3
     "@emotion/react": ^11.11.4
     "@emotion/styled": ^11.11.5
-    "@liexp/backend": "workspace:^"
-    "@liexp/core": "workspace:^"
-    "@liexp/shared": "workspace:^"
-    "@liexp/test": "workspace:^"
-    "@liexp/ui": "workspace:^"
+    "@liexp/backend": "workspace:*"
+    "@liexp/core": "workspace:*"
+    "@liexp/shared": "workspace:*"
+    "@liexp/test": "workspace:*"
+    "@liexp/ui": "workspace:*"
     "@tanstack/react-query": ^5.40.1
     "@types/body-parser": ^1.19.5
     "@types/cors": ^2.8.17
@@ -21993,10 +21993,10 @@ __metadata:
     "@emotion/utils": ^1.2.1
     "@emotion/weak-memoize": ^0.3.1
     "@fortawesome/fontawesome-svg-core": ^6.5.2
-    "@liexp/core": "workspace:^"
-    "@liexp/shared": "workspace:^"
-    "@liexp/test": "workspace:^"
-    "@liexp/ui": "workspace:^"
+    "@liexp/core": "workspace:*"
+    "@liexp/shared": "workspace:*"
+    "@liexp/test": "workspace:*"
+    "@liexp/ui": "workspace:*"
     "@mui/material": ^5.15.19
     "@storybook/addon-actions": ^8.1.6
     "@storybook/addon-backgrounds": ^8.1.6
@@ -24138,9 +24138,9 @@ __metadata:
     "@fortawesome/free-regular-svg-icons": ^6.5.2
     "@fortawesome/free-solid-svg-icons": ^6.5.2
     "@fortawesome/react-fontawesome": ^0.2.2
-    "@liexp/core": "workspace:^"
-    "@liexp/shared": "workspace:^"
-    "@liexp/ui": "workspace:^"
+    "@liexp/core": "workspace:*"
+    "@liexp/shared": "workspace:*"
+    "@liexp/ui": "workspace:*"
     "@mui/icons-material": ^5.15.19
     "@mui/material": ^5.15.19
     "@mui/system": ^5.15.15
