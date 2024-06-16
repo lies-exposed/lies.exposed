@@ -1,23 +1,30 @@
 {
   "name": "data",
-  "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
+  "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "scripts": {
-    "clean": "rm -rf build",
-    "start": "node -r dotenv/config build/serve.js",
-    "develop": "DOTENV_CONFIG_PATH=../../.env.local node --import tsx/esm -r dotenv/config src/serve.ts",
+    "bucket:pull": "aws s3 sync s3://econnessione-alpha/public ./buckets/public --endpoint https://fra1.digitaloceanspaces.com/",
     "build": "tsc -b",
-    "watch": "tsc -b --watch",
-    "lint": "eslint src",
+    "clean": "rm -rf build",
+    "clean:data": "rm -rf ./public/media/actors ./public/media/groups ./public/media/images",
+    "develop": "DOTENV_CONFIG_PATH=../../.env.local node --import tsx/esm -r dotenv/config src/serve.ts",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
+    "lint": "eslint src",
+    "serve": "yarn tsx:dev ./src/serve",
+    "start": "node -r dotenv/config build/serve.js",
     "test:e2e": "vitest -c vitest.e2e.config.ts",
     "tsx:dev": "DOTENV_CONFIG_PATH=../../.env.local node -r tsx/cjs -r dotenv/config",
-    "serve": "yarn tsx:dev ./src/serve",
     "vaccines:download": "yarn tsx:dev ./src/vaccines/download",
     "vaccines:parse": "yarn tsx:dev ./src/vaccines/parse",
-    "bucket:pull": "aws s3 sync s3://econnessione-alpha/public ./buckets/public --endpoint https://fra1.digitaloceanspaces.com/",
-    "clean:data": "rm -rf ./public/media/actors ./public/media/groups ./public/media/images"
+    "watch": "tsc -b --watch"
+  },
+  "lint-staged": {
+    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix",
+    "src/**/*.+(ts|tsx|js|jsx|json|css)": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -34,12 +41,5 @@
     "prettier": "^2.5.1",
     "supertest": "^6.2.2",
     "typescript": "^4.6.2"
-  },
-  "license": "MIT",
-  "lint-staged": {
-    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix",
-    "src/**/*.+(ts|tsx|js|jsx|json|css)": [
-      "prettier --write"
-    ]
   }
 }

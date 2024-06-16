@@ -1,9 +1,16 @@
 .cache
 .github
+.husky
+.yarn
 .vscode
+.git
+_data
+coverage
+dump
+deploy
 node_modules
 temp
-dump
+models
 **/node_modules
 **/lib
 **/build

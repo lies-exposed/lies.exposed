@@ -1,24 +1,30 @@
 {
   "name": "@liexp/test",
   "version": "0.1.0",
-  "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "license": "MIT",
-  "main": "lib/index.js",
-  "module": "lib/index.js",
+  "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "type": "module",
   "exports": {
     ".": "./lib/index.js",
     "./lib/*": "./lib/*"
   },
+  "main": "lib/index.js",
+  "module": "lib/index.js",
   "scripts": {
-    "clean": "rm -rf lib",
     "build": "tsc -b tsconfig.build.json",
-    "watch": "tsc -b -w",
+    "clean": "rm -rf lib",
+    "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
     "lint": "eslint src",
-    "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\""
+    "watch": "tsc -b -w"
+  },
+  "lint-staged": {
+    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix",
+    "src/**/*.+(ts|tsx|js|jsx|json|css)": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
-    "@liexp/core": "workspace:^",
+    "@liexp/core": "workspace:*",
     "fp-ts": "^2.16.6",
     "io-ts": "^2.2.21",
     "io-ts-types": "^0.5.19"
@@ -31,11 +37,5 @@
   },
   "peerDependencies": {
     "debug": "^4.3.1"
-  },
-  "lint-staged": {
-    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix",
-    "src/**/*.+(ts|tsx|js|jsx|json|css)": [
-      "prettier --write"
-    ]
   }
 }
