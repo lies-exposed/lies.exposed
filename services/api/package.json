@@ -45,7 +45,7 @@
     "test:e2e": "vitest -c test/vitest.config.e2e.ts",
     "test:spec": "vitest -c test/vitest.config.spec.ts",
     "tsx:build": "tsx --tsconfig tsconfig.build.json",
-    "typeorm": "TSX_TSCONFIG_PATH=tsconfig.build.json node --require tsx/cjs --require dotenv/config ../../node_modules/typeorm/cli.js",
+    "typeorm": "TSX_TSCONFIG_PATH=tsconfig.build.json node --require tsx/cjs --require dotenv/config ./node_modules/typeorm/cli.js",
     "watch": "tsc -b ./tsconfig.build.json --watch"
   },
   "lint-staged": {
