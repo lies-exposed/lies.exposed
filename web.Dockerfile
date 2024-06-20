@@ -8,7 +8,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 RUN pnpm packages:build
 
-FROM ghcr.io/lies-exposed/liexp-base:20-pnpm-latest as build
+FROM ghcr.io/lies-exposed/liexp-base:20-latest as build
 
 COPY --from=dev /usr/src/app /usr/src/app
 
