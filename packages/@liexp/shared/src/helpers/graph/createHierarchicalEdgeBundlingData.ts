@@ -1,10 +1,10 @@
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import type { Graph } from "@visx/network/lib/types.js";
-import * as Ord from "fp-ts/Ord";
 import * as A from "fp-ts/lib/Array.js";
 import * as Eq from "fp-ts/lib/Eq.js";
 import * as Map from "fp-ts/lib/Map.js";
 import * as O from "fp-ts/lib/Option.js";
+import * as Ord from "fp-ts/lib/Ord.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as S from "fp-ts/lib/string.js";
 import { type UUID } from "../../io/http/Common/index.js";

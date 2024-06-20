@@ -7,7 +7,7 @@ import {
   type QueryClient,
   type UseMutationResult,
 } from "@tanstack/react-query";
-import { pipe } from "fp-ts/function";
+import { pipe } from "fp-ts/lib/function.js";
 
 export const createEventFromLink = (
   api: EndpointsRESTClient<Endpoints>,
