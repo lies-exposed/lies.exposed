@@ -1,7 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { format, subWeeks } from "date-fns";
-import { type Monoid } from "fp-ts/Monoid";
 import { sequenceS } from "fp-ts/lib/Apply.js";
+import { type Monoid } from "fp-ts/lib/Monoid.js";
 import { type NonEmptyArray } from "fp-ts/lib/NonEmptyArray.js";
 import type * as O from "fp-ts/lib/Option.js";
 import { type UUID } from "io-ts-types/lib/UUID.js";

@@ -26,11 +26,11 @@ import { useJSONDataQuery } from "@liexp/ui/lib/state/queries/DiscreteQueries.js
 import { useNavigateTo } from "@liexp/ui/lib/utils/history.utils.js";
 import { scaleOrdinal } from "@visx/scale";
 import { isAfter, isBefore } from "date-fns";
-import * as D from "fp-ts/Date";
-import * as Ord from "fp-ts/Ord";
 import * as A from "fp-ts/lib/Array.js";
+import * as D from "fp-ts/lib/Date.js";
 import * as NEA from "fp-ts/lib/NonEmptyArray.js";
 import * as O from "fp-ts/lib/Option.js";
+import * as Ord from "fp-ts/lib/Ord.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as t from "io-ts";
 import * as React from "react";
