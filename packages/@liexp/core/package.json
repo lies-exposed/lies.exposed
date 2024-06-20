@@ -4,7 +4,7 @@
   "license": "MIT",
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "type": "module",
-  "private":true,
+  "private": true,
   "exports": {
     ".": "./lib/index.js",
     "./lib/*": "./lib/*"
@@ -49,7 +49,7 @@
     "eslint": "^8.57.0",
     "eslint-plugin-fp-ts": "^0.3.2",
     "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-react": "^7.34.2",
+    "eslint-plugin-react": "^7.34.3",
     "express": "^4.19.2",
     "prettier": "^3.2.5",
     "sass": "^1.75.0",
