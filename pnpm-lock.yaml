@@ -431,8 +431,8 @@ importers:
         specifier: ^4.2.67
         version: 4.2.67
       react-admin:
-        specifier: ^4.16.18
-        version: 4.16.18(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
+        specifier: ^4.16.19
+        version: 4.16.19(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -672,23 +672,23 @@ importers:
         specifier: ^7.1.3
         version: 7.1.3
       ra-core:
-        specifier: ^4.16.17
-        version: 4.16.17(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
+        specifier: ^4.16.19
+        version: 4.16.19(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
       ra-i18n-polyglot:
-        specifier: ^4.16.17
-        version: 4.16.17(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
+        specifier: ^4.16.19
+        version: 4.16.19(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
       ra-language-english:
-        specifier: ^4.16.17
-        version: 4.16.17(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
+        specifier: ^4.16.19
+        version: 4.16.19(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
       ra-ui-materialui:
-        specifier: ^4.16.18
-        version: 4.16.18(sqdilcovlp55mh4m5zbr4ni6bi)
+        specifier: ^4.16.19
+        version: 4.16.19(7eg7cixlt3vfujxzp2k2yce3iq)
       react:
         specifier: ^18.3.1
         version: 18.3.1
       react-admin:
-        specifier: ^4.16.18
-        version: 4.16.18(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
+        specifier: ^4.16.19
+        version: 4.16.19(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
       react-audio-player:
         specifier: ^0.17.0
         version: 0.17.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -824,7 +824,7 @@ importers:
         version: 5.4.5
       vitest-mock-extended:
         specifier: ^1.3.1
-        version: 1.3.1(typescript@5.4.5)(vitest@1.6.0(@types/node@20.14.2)(sass@1.77.2)(terser@5.31.1))
+        version: 1.3.1(typescript@5.4.5)(vitest@1.6.0(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1))
 
   services/admin-web:
     dependencies:
@@ -874,20 +874,20 @@ importers:
         specifier: ^4.47.1
         version: 4.47.1
       ra-core:
-        specifier: ^4.16.17
-        version: 4.16.17(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
+        specifier: ^4.16.19
+        version: 4.16.19(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
       ra-i18n-polyglot:
-        specifier: ^4.16.17
-        version: 4.16.17(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
+        specifier: ^4.16.19
+        version: 4.16.19(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
       ra-ui-materialui:
-        specifier: ^4.16.18
-        version: 4.16.18(sqdilcovlp55mh4m5zbr4ni6bi)
+        specifier: ^4.16.19
+        version: 4.16.19(7eg7cixlt3vfujxzp2k2yce3iq)
       react:
         specifier: ^18.3.1
         version: 18.3.1
       react-admin:
-        specifier: ^4.16.18
-        version: 4.16.18(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
+        specifier: ^4.16.19
+        version: 4.16.19(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
@@ -1327,7 +1327,7 @@ importers:
         version: 8.1.6
       '@storybook/addon-interactions':
         specifier: ^8.1.6
-        version: 8.1.6(vitest@1.6.0(@types/node@20.14.2)(sass@1.77.2)(terser@5.31.1))
+        version: 8.1.6(vitest@1.6.0(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1))
       '@storybook/addon-links':
         specifier: ^8.1.6
         version: 8.1.6(react@18.3.1)
@@ -1342,7 +1342,7 @@ importers:
         version: 8.1.6
       '@storybook/builder-vite':
         specifier: ^8.1.6
-        version: 8.1.6(prettier@3.2.5)(typescript@5.4.5)(vite@5.2.13(@types/node@20.14.2)(sass@1.77.2)(terser@5.31.1))
+        version: 8.1.6(prettier@3.2.5)(typescript@5.4.5)(vite@5.2.13(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1))
       '@storybook/docs-tools':
         specifier: ^8.1.6
         version: 8.1.6(prettier@3.2.5)
@@ -1360,7 +1360,7 @@ importers:
         version: 8.1.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@storybook/react-vite':
         specifier: ^8.1.6
-        version: 8.1.6(prettier@3.2.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.18.0)(typescript@5.4.5)(vite@5.2.13(@types/node@20.14.2)(sass@1.77.2)(terser@5.31.1))
+        version: 8.1.6(prettier@3.2.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.18.0)(typescript@5.4.5)(vite@5.2.13(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1))
       '@storybook/theming':
         specifier: ^8.1.6
         version: 8.1.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1398,17 +1398,17 @@ importers:
         specifier: ^15.8.1
         version: 15.8.1
       ra-core:
-        specifier: ^4.16.17
-        version: 4.16.17(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
+        specifier: ^4.16.19
+        version: 4.16.19(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
       ra-ui-materialui:
-        specifier: ^4.16.18
-        version: 4.16.18(sqdilcovlp55mh4m5zbr4ni6bi)
+        specifier: ^4.16.19
+        version: 4.16.19(7eg7cixlt3vfujxzp2k2yce3iq)
       react:
         specifier: ^18.3.1
         version: 18.3.1
       react-admin:
-        specifier: ^4.16.18
-        version: 4.16.18(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
+        specifier: ^4.16.19
+        version: 4.16.19(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
@@ -1463,7 +1463,7 @@ importers:
         version: 5.4.5
       vite:
         specifier: ^5.2.13
-        version: 5.2.13(@types/node@20.14.2)(sass@1.77.2)(terser@5.31.1)
+        version: 5.2.13(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1)
 
   services/web:
     dependencies:
@@ -1603,20 +1603,20 @@ importers:
         specifier: ^7.1.3
         version: 7.1.3
       ra-core:
-        specifier: ^4.16.17
-        version: 4.16.17(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
+        specifier: ^4.16.19
+        version: 4.16.19(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
       ra-i18n-polyglot:
-        specifier: ^4.16.17
-        version: 4.16.17(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
+        specifier: ^4.16.19
+        version: 4.16.19(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
       ra-ui-materialui:
-        specifier: ^4.16.18
-        version: 4.16.18(sqdilcovlp55mh4m5zbr4ni6bi)
+        specifier: ^4.16.19
+        version: 4.16.19(7eg7cixlt3vfujxzp2k2yce3iq)
       react:
         specifier: ^18.3.1
         version: 18.3.1
       react-admin:
-        specifier: ^4.16.18
-        version: 4.16.18(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
+        specifier: ^4.16.19
+        version: 4.16.19(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
@@ -4012,6 +4012,7 @@ packages:
 
   '@rollup/rollup-linux-x64-gnu@4.18.0':
     resolution: {integrity: sha512-xuglR2rBVHA5UsI8h8UbX4VJ470PtGCf5Vpswh7p2ukaqBGFTnsfzxUBetoWBWymHMxbIG0Cmx7Y9qDZzr648w==}
+    cpu: [x64]
     os: [linux]
 
   '@rollup/rollup-linux-x64-musl@4.18.0':
@@ -4951,8 +4952,14 @@ packages:
   '@types/node@18.19.34':
     resolution: {integrity: sha512-eXF4pfBNV5DAMKGbI02NnDtWrQ40hAN558/2vvS4gMpMIxaf6JmD7YjnZbq0Q9TDSSkKBamime8ewRoomHdt4g==}
 
+  '@types/node@18.19.37':
+    resolution: {integrity: sha512-Pi53fdVMk7Ig5IfAMltQQMgtY7xLzHaEous8IQasYsdQbYK3v90FkxI3XYQCe/Qme58pqp14lXJIsFmGP8VoZQ==}
+
   '@types/node@20.14.2':
     resolution: {integrity: sha512-xyu6WAMVwv6AKFLB+e/7ySZVr/0zLCzOa7rSpq6jNwpqOrUbcACDWC+53d4n2QHOnDou0fbIsg8wZu/sxrnI4Q==}
+
+  '@types/node@20.14.6':
+    resolution: {integrity: sha512-JbA0XIJPL1IiNnU7PFxDXyfAwcwVVrOoqyzzyQTyMeVhBzkJVMSkC1LlVsRQ2lpqiY4n6Bb9oCS6lzDKVQxbZw==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -5062,8 +5069,8 @@ packages:
   '@types/uuid@9.0.8':
     resolution: {integrity: sha512-jg+97EGIcY9AGHJJRaaPVgetKDsrTgbRjQ5Msgjh/DQKEFl0DtyRr/VCOyD1T2R1MNeWPK/u7JoGhlDZnKBAfA==}
 
-  '@types/webxr@0.5.16':
-    resolution: {integrity: sha512-0E0Cl84FECtzrB4qG19TNTqpunw0F1YF0QZZnFMF6pDw1kNKJtrlTKlVB34stGIsHbZsYQ7H0tNjPfZftkHHoA==}
+  '@types/webxr@0.5.17':
+    resolution: {integrity: sha512-JYcclaQIlisHRXM9dMF7SeVvQ54kcYc7QK1eKCExCTLKWnZDxP4cp/rXH4Uoa1j5+5oQJ0Cc2sZC/PWiiG4q2g==}
 
   '@types/yargs-parser@21.0.3':
     resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
@@ -5415,6 +5422,11 @@ packages:
 
   acorn@8.11.3:
     resolution: {integrity: sha512-Y9rRfJG5jcKOE0CLisYbojUjIrIEE7AGMzA/Sm4BslANhbS+cDMpgBdcPT91oJ7OuJ9hYJBx59RjbhxVnrF8Xg==}
+    engines: {node: '>=0.4.0'}
+    hasBin: true
+
+  acorn@8.12.0:
+    resolution: {integrity: sha512-RTvkC4w+KNXrM39/lWCUaG0IbRkWdCv7W/IOW9oU6SawyxulvkQy5HQPVTKxEjczcUvapcrw3cFx/60VN/NRNw==}
     engines: {node: '>=0.4.0'}
     hasBin: true
 
@@ -7302,6 +7314,10 @@ packages:
     resolution: {integrity: sha512-mvI/kdfr3l1waaPbThPA8dJa77nHXrfZIun+SWvFwSwDjmeByU7mGJGRmv1+7guU6ccyLV8e1lqZA1lD4iMGnQ==}
     engines: {node: '>=0.4.0'}
 
+  flow-parser@0.238.0:
+    resolution: {integrity: sha512-VE7XSv1epljsIN2YeBnxCmGJihpNIAnLLu/pPOdA+Gkso7qDltJwUi6vfHjgxdBbjSdAuPGnhuOHJUQG+yYwIg==}
+    engines: {node: '>=0.4.0'}
+
   fluent-ffmpeg@2.1.3:
     resolution: {integrity: sha512-Be3narBNt2s6bsaqP6Jzq91heDgOEaDCJAXcE3qcma/EJBSy5FB4cvO31XBInuAuKBx8Kptf8dkhjK0IOru39Q==}
     engines: {node: '>=18'}
@@ -8240,8 +8256,8 @@ packages:
     resolution: {integrity: sha512-9FzQjJ7MATs1tSpnco1K6ayiYE3figslrXA72G2HQ/n76RzvYlofyi5QM+iX4YRs/pu3yzxlVQSST23+dMDknw==}
     engines: {node: '>= 0.6.0'}
 
-  joi@17.13.1:
-    resolution: {integrity: sha512-vaBlIKCyo4FCUtCm7Eu4QZd/q02bWcxfUO6YSXAZOWF6gzcLBeba8kwotUdYJjDLW8Cz8RywsSOqiNJZW0mNvg==}
+  joi@17.13.3:
+    resolution: {integrity: sha512-otDA4ldcIx+ZXsKHWmp0YizCweVRZG96J10b0FevjfuncLO1oX59THoAmHkNubYJ+9gWsYsp5k8v4ib6oDv1fA==}
 
   jquery@3.7.1:
     resolution: {integrity: sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==}
@@ -9916,14 +9932,43 @@ packages:
       react-router: ^6.1.0
       react-router-dom: ^6.1.0
 
+  ra-core@4.16.19:
+    resolution: {integrity: sha512-1qNuLGaGSHYv5esqJcu7n/PeMKTBXA3JXzjQPAPDK9dBsuWC1IXx9MilivANwh8doYbpFfqsX8VJyW1aqIG1Pg==}
+    peerDependencies:
+      history: ^5.1.0
+      react: ^16.9.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0
+      react-hook-form: ^7.43.9
+      react-router: ^6.1.0
+      react-router-dom: ^6.1.0
+
   ra-i18n-polyglot@4.16.17:
     resolution: {integrity: sha512-ZsXqWg+F06rdavgKF/ZzI+3N5xtgZAOnpnFOdKaEOUMTHE+p7E512St/EkqS52FfCqQNpLkZ/zsZRJkIutmNZg==}
+
+  ra-i18n-polyglot@4.16.19:
+    resolution: {integrity: sha512-gRnY0fUn61cVtR36Qf5mgULXnQALRrjZ8Hnp7w+U9YvtrzapNTuIyZem3Tp0QL+/jRgxeqlQW7dqPYdV0bC7vg==}
 
   ra-language-english@4.16.17:
     resolution: {integrity: sha512-ypvlZ+2jXVvLaeTp/Ri470TdAOjiQXecEITBs2r9fQdWU4NFTzU25nwq6LhWbFLFHSiJkw86OLR3T1Hd/veBlg==}
 
+  ra-language-english@4.16.19:
+    resolution: {integrity: sha512-k8ykj7bJ5UEAebB+SsOAcpyb6gUlsNkJ8N0+lDAezpilBaHahDQaYtNKA+GkoZnU8rIKYMYLttcl3VdCllkG2g==}
+
   ra-ui-materialui@4.16.18:
     resolution: {integrity: sha512-vVLGVW3CZuTIptQylhwmMgkD26wppTd3AFoa8h1S0wdO0IUs3DiyD/RiWNbshVdhXOug4CocSYwfaY+eR+mqMw==}
+    peerDependencies:
+      '@mui/icons-material': ^5.0.1
+      '@mui/material': ^5.0.2
+      ra-core: ^4.0.0
+      react: ^16.9.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0
+      react-hook-form: '*'
+      react-is: ^18.3.1
+      react-router: ^6.1.0
+      react-router-dom: ^6.1.0
+
+  ra-ui-materialui@4.16.19:
+    resolution: {integrity: sha512-EyalFIUq9oUQ8N/vAeQFlrBaRTU/pMPAHvmfPHUxL5ajcQaSii6XKhRgT9S+YOec/XAU0DDaTjH9oJm0H3UgNA==}
     peerDependencies:
       '@mui/icons-material': ^5.0.1
       '@mui/material': ^5.0.2
@@ -9959,6 +10004,12 @@ packages:
 
   react-admin@4.16.18:
     resolution: {integrity: sha512-KOBKFFMkPmTaAChH7EOuNV4AeNN8iVMVIeDkXU1wbguafLCwV8goeguWgZHzafVhtdOjsxdYKezfBGBIKnEbBA==}
+    peerDependencies:
+      react: ^16.9.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0
+
+  react-admin@4.16.19:
+    resolution: {integrity: sha512-aFUPEbHFaDbfT3158moam2bchiQHE5C1f4yljSV7/0FukFkKa0ihS2hosPchqzilPEOS41ve0krYNEnHCPlHxw==}
     peerDependencies:
       react: ^16.9.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.9.0 || ^17.0.0 || ^18.0.0
@@ -11849,8 +11900,8 @@ packages:
   write-file-atomic@2.4.3:
     resolution: {integrity: sha512-GaETH5wwsX+GcnzhPgKcKjJ6M2Cq3/iZp1WyY/X1CSqrW+jVNM9Y7D8EC2sM4ZG/V8wZlSniJnCKWPmBYAucRQ==}
 
-  ws@6.2.2:
-    resolution: {integrity: sha512-zmhltoSR8u1cnDsD43TX59mzoMZsLKqUweyYBAIvTngR3shc0W6aOZylZmq/7hqyVxPdi+5Ud2QInblgyE72fw==}
+  ws@6.2.3:
+    resolution: {integrity: sha512-jmTjYU0j60B+vHey6TfR3Z7RD61z/hmxBS3VMSGIrroOWXQEneK1zNuotOUrGyBHQj0yrpsLHPWtigEFd13ndA==}
     peerDependencies:
       bufferutil: ^4.0.1
       utf-8-validate: ^5.0.2
@@ -11862,6 +11913,18 @@ packages:
 
   ws@7.4.6:
     resolution: {integrity: sha512-YmhHDO4MzaDLB+M9ym/mDA5z0naX8j7SIlT8f8z+I0VtzsRbekxEutHSme7NPS2qE8StCYQNUnfWdXta/Yu85A==}
+    engines: {node: '>=8.3.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: ^5.0.2
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
+  ws@7.5.10:
+    resolution: {integrity: sha512-+dbF1tHwZpXcbOJdVOkzLDxZP1ailvSxM6ZweXTegylPny803bFhA+vqBYw4s31NSAk4S2Qz+AKXK9a4wkdjcQ==}
     engines: {node: '>=8.3.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -14132,14 +14195,14 @@ snapshots:
     dependencies:
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.14.2
+      '@types/node': 20.14.6
       jest-mock: 29.7.0
 
   '@jest/fake-timers@29.7.0':
     dependencies:
       '@jest/types': 29.6.3
       '@sinonjs/fake-timers': 10.3.0
-      '@types/node': 20.14.2
+      '@types/node': 20.14.6
       jest-message-util: 29.7.0
       jest-mock: 29.7.0
       jest-util: 29.7.0
@@ -14152,7 +14215,7 @@ snapshots:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 20.14.2
+      '@types/node': 20.14.6
       '@types/yargs': 15.0.19
       chalk: 4.1.2
 
@@ -14161,17 +14224,17 @@ snapshots:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 20.14.2
+      '@types/node': 20.14.6
       '@types/yargs': 17.0.32
       chalk: 4.1.2
 
-  '@joshwooding/vite-plugin-react-docgen-typescript@0.3.1(typescript@5.4.5)(vite@5.2.13(@types/node@20.14.2)(sass@1.77.2)(terser@5.31.1))':
+  '@joshwooding/vite-plugin-react-docgen-typescript@0.3.1(typescript@5.4.5)(vite@5.2.13(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1))':
     dependencies:
       glob: 7.2.3
       glob-promise: 4.2.2(glob@7.2.3)
       magic-string: 0.27.0
       react-docgen-typescript: 2.2.2(typescript@5.4.5)
-      vite: 5.2.13(@types/node@20.14.2)(sass@1.77.2)(terser@5.31.1)
+      vite: 5.2.13(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1)
     optionalDependencies:
       typescript: 5.4.5
 
@@ -14741,7 +14804,7 @@ snapshots:
       cosmiconfig: 5.2.1
       deepmerge: 4.3.1
       fast-glob: 3.3.2
-      joi: 17.13.1
+      joi: 17.13.3
     transitivePeerDependencies:
       - encoding
 
@@ -14820,7 +14883,7 @@ snapshots:
       nocache: 3.0.4
       pretty-format: 26.6.2
       serve-static: 1.15.0
-      ws: 6.2.2
+      ws: 6.2.3
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -14845,7 +14908,7 @@ snapshots:
 
   '@react-native-community/cli-types@13.6.6':
     dependencies:
-      joi: 17.13.1
+      joi: 17.13.3
 
   '@react-native-community/cli@13.6.6':
     dependencies:
@@ -14981,7 +15044,7 @@ snapshots:
       selfsigned: 2.4.1
       serve-static: 1.15.0
       temp-dir: 2.0.0
-      ws: 6.2.2
+      ws: 6.2.3
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -15086,7 +15149,7 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.24.7
       '@types/react-reconciler': 0.26.7
-      '@types/webxr': 0.5.16
+      '@types/webxr': 0.5.17
       base64-js: 1.5.1
       buffer: 6.0.3
       its-fine: 1.2.5(react@18.3.1)
@@ -15185,7 +15248,7 @@ snapshots:
 
   '@rnx-kit/chromium-edge-launcher@1.0.0':
     dependencies:
-      '@types/node': 18.19.34
+      '@types/node': 18.19.37
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2
@@ -15681,11 +15744,11 @@ snapshots:
     dependencies:
       '@storybook/global': 5.0.0
 
-  '@storybook/addon-interactions@8.1.6(vitest@1.6.0(@types/node@20.14.2)(sass@1.77.2)(terser@5.31.1))':
+  '@storybook/addon-interactions@8.1.6(vitest@1.6.0(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1))':
     dependencies:
       '@storybook/global': 5.0.0
       '@storybook/instrumenter': 8.1.6
-      '@storybook/test': 8.1.6(vitest@1.6.0(@types/node@20.14.2)(sass@1.77.2)(terser@5.31.1))
+      '@storybook/test': 8.1.6(vitest@1.6.0(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1))
       '@storybook/types': 8.1.6
       polished: 4.3.1
       ts-dedent: 2.2.0
@@ -15777,7 +15840,7 @@ snapshots:
       - prettier
       - supports-color
 
-  '@storybook/builder-vite@8.1.6(prettier@3.2.5)(typescript@5.4.5)(vite@5.2.13(@types/node@20.14.2)(sass@1.77.2)(terser@5.31.1))':
+  '@storybook/builder-vite@8.1.6(prettier@3.2.5)(typescript@5.4.5)(vite@5.2.13(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1))':
     dependencies:
       '@storybook/channels': 8.1.6
       '@storybook/client-logger': 8.1.6
@@ -15796,7 +15859,7 @@ snapshots:
       fs-extra: 11.2.0
       magic-string: 0.30.10
       ts-dedent: 2.2.0
-      vite: 5.2.13(@types/node@20.14.2)(sass@1.77.2)(terser@5.31.1)
+      vite: 5.2.13(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1)
     optionalDependencies:
       typescript: 5.4.5
     transitivePeerDependencies:
@@ -16107,11 +16170,11 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@storybook/react-vite@8.1.6(prettier@3.2.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.18.0)(typescript@5.4.5)(vite@5.2.13(@types/node@20.14.2)(sass@1.77.2)(terser@5.31.1))':
+  '@storybook/react-vite@8.1.6(prettier@3.2.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.18.0)(typescript@5.4.5)(vite@5.2.13(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1))':
     dependencies:
-      '@joshwooding/vite-plugin-react-docgen-typescript': 0.3.1(typescript@5.4.5)(vite@5.2.13(@types/node@20.14.2)(sass@1.77.2)(terser@5.31.1))
+      '@joshwooding/vite-plugin-react-docgen-typescript': 0.3.1(typescript@5.4.5)(vite@5.2.13(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1))
       '@rollup/pluginutils': 5.1.0(rollup@4.18.0)
-      '@storybook/builder-vite': 8.1.6(prettier@3.2.5)(typescript@5.4.5)(vite@5.2.13(@types/node@20.14.2)(sass@1.77.2)(terser@5.31.1))
+      '@storybook/builder-vite': 8.1.6(prettier@3.2.5)(typescript@5.4.5)(vite@5.2.13(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1))
       '@storybook/node-logger': 8.1.6
       '@storybook/react': 8.1.6(prettier@3.2.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
       '@storybook/types': 8.1.6
@@ -16122,7 +16185,7 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       resolve: 1.22.8
       tsconfig-paths: 4.2.0
-      vite: 5.2.13(@types/node@20.14.2)(sass@1.77.2)(terser@5.31.1)
+      vite: 5.2.13(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1)
     transitivePeerDependencies:
       - '@preact/preset-vite'
       - encoding
@@ -16185,14 +16248,14 @@ snapshots:
       - prettier
       - supports-color
 
-  '@storybook/test@8.1.6(vitest@1.6.0(@types/node@20.14.2)(sass@1.77.2)(terser@5.31.1))':
+  '@storybook/test@8.1.6(vitest@1.6.0(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1))':
     dependencies:
       '@storybook/client-logger': 8.1.6
       '@storybook/core-events': 8.1.6
       '@storybook/instrumenter': 8.1.6
       '@storybook/preview-api': 8.1.6
       '@testing-library/dom': 9.3.4
-      '@testing-library/jest-dom': 6.4.5(vitest@1.6.0(@types/node@20.14.2)(sass@1.77.2)(terser@5.31.1))
+      '@testing-library/jest-dom': 6.4.5(vitest@1.6.0(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1))
       '@testing-library/user-event': 14.5.2(@testing-library/dom@9.3.4)
       '@vitest/expect': 1.3.1
       '@vitest/spy': 1.6.0
@@ -16246,7 +16309,7 @@ snapshots:
       lz-string: 1.5.0
       pretty-format: 27.5.1
 
-  '@testing-library/jest-dom@6.4.5(vitest@1.6.0(@types/node@20.14.2)(sass@1.77.2)(terser@5.31.1))':
+  '@testing-library/jest-dom@6.4.5(vitest@1.6.0(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1))':
     dependencies:
       '@adobe/css-tools': 4.4.0
       '@babel/runtime': 7.24.7
@@ -16257,7 +16320,7 @@ snapshots:
       lodash: 4.17.21
       redent: 3.0.0
     optionalDependencies:
-      vitest: 1.6.0(@types/node@20.14.2)(sass@1.77.2)(terser@5.31.1)
+      vitest: 1.6.0(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1)
 
   '@testing-library/react@14.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
@@ -16747,7 +16810,7 @@ snapshots:
 
   '@types/node-forge@1.3.11':
     dependencies:
-      '@types/node': 20.14.2
+      '@types/node': 20.14.6
 
   '@types/node-telegram-bot-api@0.64.6':
     dependencies:
@@ -16758,7 +16821,15 @@ snapshots:
     dependencies:
       undici-types: 5.26.5
 
+  '@types/node@18.19.37':
+    dependencies:
+      undici-types: 5.26.5
+
   '@types/node@20.14.2':
+    dependencies:
+      undici-types: 5.26.5
+
+  '@types/node@20.14.6':
     dependencies:
       undici-types: 5.26.5
 
@@ -16893,7 +16964,7 @@ snapshots:
 
   '@types/uuid@9.0.8': {}
 
-  '@types/webxr@0.5.16': {}
+  '@types/webxr@0.5.17': {}
 
   '@types/yargs-parser@21.0.3': {}
 
@@ -17434,6 +17505,8 @@ snapshots:
   acorn@7.4.1: {}
 
   acorn@8.11.3: {}
+
+  acorn@8.12.0: {}
 
   address@1.2.2: {}
 
@@ -18082,7 +18155,7 @@ snapshots:
 
   chrome-launcher@0.15.2:
     dependencies:
-      '@types/node': 20.14.2
+      '@types/node': 20.14.6
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2
@@ -19651,6 +19724,8 @@ snapshots:
 
   flow-parser@0.237.2: {}
 
+  flow-parser@0.238.0: {}
+
   fluent-ffmpeg@2.1.3:
     dependencies:
       async: 0.2.10
@@ -20630,7 +20705,7 @@ snapshots:
       '@jest/environment': 29.7.0
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.14.2
+      '@types/node': 20.14.6
       jest-mock: 29.7.0
       jest-util: 29.7.0
 
@@ -20651,13 +20726,13 @@ snapshots:
   jest-mock@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 20.14.2
+      '@types/node': 20.14.6
       jest-util: 29.7.0
 
   jest-util@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 20.14.2
+      '@types/node': 20.14.6
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11
@@ -20674,7 +20749,7 @@ snapshots:
 
   jest-worker@29.7.0:
     dependencies:
-      '@types/node': 20.14.2
+      '@types/node': 20.14.6
       jest-util: 29.7.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
@@ -20683,7 +20758,7 @@ snapshots:
 
   jmespath@0.16.0: {}
 
-  joi@17.13.1:
+  joi@17.13.3:
     dependencies:
       '@hapi/hoek': 9.3.0
       '@hapi/topo': 5.1.0
@@ -20737,7 +20812,7 @@ snapshots:
       '@babel/register': 7.24.6(@babel/core@7.24.7)
       babel-core: 7.0.0-bridge.0(@babel/core@7.24.7)
       chalk: 4.1.2
-      flow-parser: 0.237.2
+      flow-parser: 0.238.0
       graceful-fs: 4.2.11
       micromatch: 4.0.7
       neo-async: 2.6.2
@@ -21496,7 +21571,7 @@ snapshots:
       source-map: 0.5.7
       strip-ansi: 6.0.1
       throat: 5.0.0
-      ws: 7.5.9
+      ws: 7.5.10
       yargs: 17.7.2
     transitivePeerDependencies:
       - bufferutil
@@ -22783,6 +22858,27 @@ snapshots:
     transitivePeerDependencies:
       - react-native
 
+  ra-core@4.16.19(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      clsx: 1.2.1
+      date-fns: 2.30.0
+      eventemitter3: 4.0.7
+      history: 5.3.0
+      inflection: 1.12.0
+      jsonexport: 3.2.0
+      lodash: 4.17.21
+      prop-types: 15.8.1
+      query-string: 7.1.3
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-hook-form: 7.51.5(react@18.3.1)
+      react-is: 18.3.1
+      react-query: 3.39.3(react-dom@18.3.1(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
+      react-router: 6.23.1(react@18.3.1)
+      react-router-dom: 6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+    transitivePeerDependencies:
+      - react-native
+
   ra-i18n-polyglot@4.16.17(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1):
     dependencies:
       node-polyglot: 2.5.0
@@ -22796,9 +22892,34 @@ snapshots:
       - react-router
       - react-router-dom
 
+  ra-i18n-polyglot@4.16.19(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      node-polyglot: 2.5.0
+      ra-core: 4.16.19(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
+    transitivePeerDependencies:
+      - history
+      - react
+      - react-dom
+      - react-hook-form
+      - react-native
+      - react-router
+      - react-router-dom
+
   ra-language-english@4.16.17(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1):
     dependencies:
       ra-core: 4.16.17(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
+    transitivePeerDependencies:
+      - history
+      - react
+      - react-dom
+      - react-hook-form
+      - react-native
+      - react-router
+      - react-router-dom
+
+  ra-language-english@4.16.19(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      ra-core: 4.16.19(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
     transitivePeerDependencies:
       - history
       - react
@@ -22823,6 +22944,34 @@ snapshots:
       prop-types: 15.8.1
       query-string: 7.1.3
       ra-core: 4.16.17(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-dropzone: 12.1.0(react@18.3.1)
+      react-error-boundary: 3.1.4(react@18.3.1)
+      react-hook-form: 7.51.5(react@18.3.1)
+      react-is: 18.3.1
+      react-query: 3.39.3(react-dom@18.3.1(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1)
+      react-router: 6.23.1(react@18.3.1)
+      react-router-dom: 6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-transition-group: 4.4.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+    transitivePeerDependencies:
+      - react-native
+
+  ra-ui-materialui@4.16.19(7eg7cixlt3vfujxzp2k2yce3iq):
+    dependencies:
+      '@mui/icons-material': 5.15.19(@mui/material@5.15.19(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@emotion/styled@11.11.5(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.3)(react@18.3.1)
+      '@mui/material': 5.15.19(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@emotion/styled@11.11.5(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      autosuggest-highlight: 3.3.4
+      clsx: 1.2.1
+      css-mediaquery: 0.1.2
+      dompurify: 2.5.4
+      hotscript: 1.0.13
+      inflection: 1.12.0
+      jsonexport: 3.2.0
+      lodash: 4.17.21
+      prop-types: 15.8.1
+      query-string: 7.1.3
+      ra-core: 4.16.19(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       react-dropzone: 12.1.0(react@18.3.1)
@@ -22882,6 +23031,28 @@ snapshots:
       - react-native
       - supports-color
 
+  react-admin@4.16.19(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react@18.3.1):
+    dependencies:
+      '@emotion/react': 11.11.4(@types/react@18.3.3)(react@18.3.1)
+      '@emotion/styled': 11.11.5(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1)
+      '@mui/icons-material': 5.15.19(@mui/material@5.15.19(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@emotion/styled@11.11.5(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.3)(react@18.3.1)
+      '@mui/material': 5.15.19(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@emotion/styled@11.11.5(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      history: 5.3.0
+      ra-core: 4.16.19(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
+      ra-i18n-polyglot: 4.16.19(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
+      ra-language-english: 4.16.19(history@5.3.0)(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.51.5(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.5(@babel/core@7.24.7))(@types/react@18.3.3)(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
+      ra-ui-materialui: 4.16.19(7eg7cixlt3vfujxzp2k2yce3iq)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-hook-form: 7.51.5(react@18.3.1)
+      react-router: 6.23.1(react@18.3.1)
+      react-router-dom: 6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+    transitivePeerDependencies:
+      - '@types/react'
+      - react-is
+      - react-native
+      - supports-color
+
   react-audio-player@0.17.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       prop-types: 15.8.1
@@ -22896,7 +23067,7 @@ snapshots:
   react-devtools-core@5.2.0:
     dependencies:
       shell-quote: 1.8.1
-      ws: 7.5.9
+      ws: 7.5.10
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -23045,7 +23216,7 @@ snapshots:
       scheduler: 0.24.0-canary-efb381bbf-20230505
       stacktrace-parser: 0.1.10
       whatwg-fetch: 3.6.20
-      ws: 6.2.2
+      ws: 6.2.3
       yargs: 17.7.2
     optionalDependencies:
       '@types/react': 18.3.3
@@ -24232,7 +24403,7 @@ snapshots:
   terser@5.31.1:
     dependencies:
       '@jridgewell/source-map': 0.3.6
-      acorn: 8.11.3
+      acorn: 8.12.0
       commander: 2.20.3
       source-map-support: 0.5.21
 
@@ -24807,6 +24978,23 @@ snapshots:
       - supports-color
       - terser
 
+  vite-node@1.6.0(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1):
+    dependencies:
+      cac: 6.7.14
+      debug: 4.3.5
+      pathe: 1.1.2
+      picocolors: 1.0.1
+      vite: 5.2.13(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1)
+    transitivePeerDependencies:
+      - '@types/node'
+      - less
+      - lightningcss
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+
   vite-plugin-css-injected-by-js@3.5.1(vite@5.2.13(@types/node@20.14.2)(sass@1.77.2)(terser@5.31.1)):
     dependencies:
       vite: 5.2.13(@types/node@20.14.2)(sass@1.77.2)(terser@5.31.1)
@@ -24835,11 +25023,28 @@ snapshots:
       sass: 1.77.2
       terser: 5.31.1
 
+  vite@5.2.13(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1):
+    dependencies:
+      esbuild: 0.20.2
+      postcss: 8.4.38
+      rollup: 4.18.0
+    optionalDependencies:
+      '@types/node': 20.14.6
+      fsevents: 2.3.3
+      sass: 1.77.2
+      terser: 5.31.1
+
   vitest-mock-extended@1.3.1(typescript@5.4.5)(vitest@1.6.0(@types/node@20.14.2)(sass@1.77.2)(terser@5.31.1)):
     dependencies:
       ts-essentials: 9.4.2(typescript@5.4.5)
       typescript: 5.4.5
       vitest: 1.6.0(@types/node@20.14.2)(sass@1.77.2)(terser@5.31.1)
+
+  vitest-mock-extended@1.3.1(typescript@5.4.5)(vitest@1.6.0(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1)):
+    dependencies:
+      ts-essentials: 9.4.2(typescript@5.4.5)
+      typescript: 5.4.5
+      vitest: 1.6.0(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1)
 
   vitest@1.6.0(@types/node@20.14.2)(sass@1.77.2)(terser@5.31.1):
     dependencies:
@@ -24865,6 +25070,39 @@ snapshots:
       why-is-node-running: 2.2.2
     optionalDependencies:
       '@types/node': 20.14.2
+    transitivePeerDependencies:
+      - less
+      - lightningcss
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+
+  vitest@1.6.0(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1):
+    dependencies:
+      '@vitest/expect': 1.6.0
+      '@vitest/runner': 1.6.0
+      '@vitest/snapshot': 1.6.0
+      '@vitest/spy': 1.6.0
+      '@vitest/utils': 1.6.0
+      acorn-walk: 8.3.2
+      chai: 4.4.1
+      debug: 4.3.5
+      execa: 8.0.1
+      local-pkg: 0.5.0
+      magic-string: 0.30.10
+      pathe: 1.1.2
+      picocolors: 1.0.1
+      std-env: 3.7.0
+      strip-literal: 2.1.0
+      tinybench: 2.8.0
+      tinypool: 0.8.4
+      vite: 5.2.13(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1)
+      vite-node: 1.6.0(@types/node@20.14.6)(sass@1.77.2)(terser@5.31.1)
+      why-is-node-running: 2.2.2
+    optionalDependencies:
+      '@types/node': 20.14.6
     transitivePeerDependencies:
       - less
       - lightningcss
@@ -25065,11 +25303,13 @@ snapshots:
       imurmurhash: 0.1.4
       signal-exit: 3.0.7
 
-  ws@6.2.2:
+  ws@6.2.3:
     dependencies:
       async-limiter: 1.0.1
 
   ws@7.4.6: {}
+
+  ws@7.5.10: {}
 
   ws@7.5.9: {}
 
