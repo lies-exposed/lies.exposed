@@ -38,9 +38,9 @@
     ]
   },
   "dependencies": {
-    "@blocknote/core": "^0.14.0",
-    "@blocknote/mantine": "^0.14.0",
-    "@blocknote/react": "^0.14.0",
+    "@blocknote/core": "^0.14.1",
+    "@blocknote/mantine": "^0.14.1",
+    "@blocknote/react": "^0.14.1",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
     "@liexp/ui": "workspace:*",
