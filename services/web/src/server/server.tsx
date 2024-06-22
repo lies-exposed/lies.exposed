@@ -13,19 +13,12 @@ import { routes } from "../client/routes.js";
 
 const webSrvLog = GetLogger("web");
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-// const moduleDirname = path.dirname(fileURLToPath(import.meta.url));
-
-// eslint-disable-next-line @typescript-eslint/naming-convention
-
 const run = async (base: string): Promise<void> => {
   D.enable(process.env.VITE_DEBUG ?? "@liexp:*:error");
 
-  webSrvLog.info.log(
-    "Server running (base %s) process.env %O",
-    base,
-    process.env,
-  );
+  webSrvLog.debug.log("Running with process.env %O", base, process.env);
+
+  webSrvLog.info.log("Server running (base %s)", base);
 
   const isProduction = process.env.VITE_NODE_ENV === "production";
 

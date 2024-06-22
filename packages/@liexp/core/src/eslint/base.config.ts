@@ -34,6 +34,7 @@ const config: any = tseslint.config(
     },
     rules: {
       "fp-ts/no-lib-imports": "off",
+      // "fp-ts/no-module-imports": "error",
       "import/default": "off",
       "import/no-named-as-default-member": "off",
       "import/order": [
