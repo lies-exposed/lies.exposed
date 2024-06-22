@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { pipe, fp } from "@liexp/core/lib/fp/index.js";
 import { UploadResource } from "@liexp/shared/lib/endpoints/upload.endpoints.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import { type Router } from "express";
-import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as T from "fp-ts/lib/Task.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import { sequenceS } from "fp-ts/Apply";
 import * as t from "io-ts";
 import multer, { memoryStorage } from "multer";
 import { DecodeError, toControllerError } from "#io/ControllerError.js";
@@ -34,23 +32,23 @@ export const MakeUploadMultipartFileRoute = (
       ctx.logger.debug.log("File %O", req.file);
 
       return pipe(
-        sequenceS(TE.ApplicativePar)({
+        sequenceS(fp.TE.ApplicativePar)({
           file: pipe(
             req.file,
-            TE.fromPredicate(
+            fp.TE.fromPredicate(
               (f): f is Express.Multer.File => f !== undefined,
               () => toControllerError(new Error("No file given")),
             ),
           ),
           body: pipe(
             UploadFileData.decode({ key, resource }),
-            TE.fromEither,
-            TE.mapLeft((e) =>
+            fp.TE.fromEither,
+            fp.TE.mapLeft((e) =>
               DecodeError(`Failed to decode upload file data (${key})`, e),
             ),
           ),
         }),
-        TE.chain(({ body, file }) =>
+        fp.TE.chain(({ body, file }) =>
           ctx.s3.upload({
             Bucket: ctx.env.SPACE_BUCKET,
             Key: getMediaKey(
@@ -64,15 +62,15 @@ export const MakeUploadMultipartFileRoute = (
           }),
         ),
         ctx.logger.debug.logInTaskEither(`Upload results %O`),
-        TE.map((data) => ({
+        fp.TE.map((data) => ({
           body: {
             data,
           },
           statusCode: 201,
         })),
-        TE.fold(
-          (e) => T.of(res.status(500).send(e)),
-          ({ statusCode, body }) => T.of(res.status(statusCode).send(body)),
+        fp.TE.fold(
+          (e) => fp.T.of(res.status(500).send(e)),
+          ({ statusCode, body }) => fp.T.of(res.status(statusCode).send(body)),
         ),
       )();
     },

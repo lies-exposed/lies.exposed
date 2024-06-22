@@ -1,4 +1,4 @@
-import * as R from "fp-ts/lib/Record.js";
+import * as R from "fp-ts/Record";
 import * as t from "io-ts";
 
 export interface NonEmptyRecordBrand {
@@ -20,8 +20,8 @@ export type NonEmptyRecordC<P extends t.Props> = t.Type<
  *
  * @example
  * import { NonEmptyRecord } from 'io-ts-types/lib/NonEmptyRecord'
- * import { right } from 'fp-ts/lib/Either.js'
- * import { PathReporter } from 'io-ts/lib/PathReporter.js'
+ * import { right } from 'fp-ts/er'
+ * import { PathReporter } from "io-ts/PathReporter";
  *
  * assert.deepStrictEqual(NonEmptyRecord.decode({ key: 1 }), right({ key: 1 }))
  * assert.deepStrictEqual(PathReporter.report(NonEmptyRecord.decode({})), ['Invalid value "{}" supplied to : NonEmptyRecord'])

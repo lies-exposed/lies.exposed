@@ -1,6 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { EventSuggestionEntity } from "#entities/EventSuggestion.entity.js";
 import { type KeywordEntity } from "#entities/Keyword.entity.js";
 import { type LinkEntity } from "#entities/Link.entity.js";

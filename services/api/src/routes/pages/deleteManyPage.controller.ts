@@ -4,7 +4,7 @@ import {
   AddEndpoint,
 } from "@liexp/shared/lib/endpoints/index.js";
 import { type Router } from "express";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { In } from "typeorm";
 import { PageEntity } from "../../entities/Page.entity.js";
 import { type RouteContext } from "../route.types.js";

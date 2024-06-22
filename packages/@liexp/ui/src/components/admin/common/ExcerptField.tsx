@@ -1,4 +1,4 @@
-import * as R from "fp-ts/lib/Record.js";
+import * as R from "fp-ts/Record";
 import * as React from "react";
 import { FunctionField, type FieldProps } from "react-admin";
 import { getTextContentsCapped } from "../../Common/BlockNote/utils/index.js";

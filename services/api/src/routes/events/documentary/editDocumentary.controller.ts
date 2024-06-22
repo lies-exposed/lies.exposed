@@ -1,7 +1,7 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { Equal } from "typeorm";
 import { type Route } from "../../route.types.js";
 import { editEventQuery } from "../queries/editEvent.query.js";

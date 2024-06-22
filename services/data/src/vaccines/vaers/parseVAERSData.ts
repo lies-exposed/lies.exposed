@@ -2,17 +2,16 @@
 import * as path from "path";
 import { GetLogger } from "@liexp/core/lib/logger";
 import { GetCSVUtil } from "@liexp/shared/lib/utils/csv.utils";
-import { distanceFromNow } from "@liexp/shared/lib/utils/date.utils";
-import { parse } from "date-fns";
-import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as A from "fp-ts/lib/Array.js";
+import { distanceFromNow, parseISO } from "@liexp/shared/lib/utils/date.utils";
+import { sequenceS } from "fp-ts/Apply";
+import * as A from "fp-ts/Array";
 import * as D from "fp-ts/Date";
-import * as MapFP from "fp-ts/lib/Map.js";
-import * as O from "fp-ts/lib/Option.js";
+import * as MapFP from "fp-ts/Map";
+import * as O from "fp-ts/Option";
 import * as Ord from "fp-ts/Ord";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
-import * as S from "fp-ts/lib/string.js";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
+import * as S from "fp-ts/string";
 import * as t from "io-ts";
 import { NumberFromString } from "io-ts-types/lib/NumberFromString";
 import { TotalsReporter } from "../reporters/TotalReporter";
@@ -311,7 +310,7 @@ const VAERS_VAX_FILE = path.resolve(VAERS_DATA_DIR, "./2021VAERSVAX.csv");
 export const runManufacturerReport = (): TE.TaskEither<Error, void> => {
   const mapKeyOrd = pipe(
     D.Ord,
-    Ord.contramap<Date, string>((k) => parse(k))
+    Ord.contramap<Date, string>((k) => parseISO(k))
   );
 
   const resultTask = (

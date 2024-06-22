@@ -2,7 +2,7 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { UserStatusApproved } from "@liexp/shared/lib/io/http/User.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { toUserIO } from "./user.io.js";
 import { UserEntity } from "#entities/User.entity.js";
 import { type Route } from "#routes/route.types.js";

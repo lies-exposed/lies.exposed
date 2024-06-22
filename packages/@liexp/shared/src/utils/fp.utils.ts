@@ -1,9 +1,9 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
-import * as A from "fp-ts/lib/Array.js";
-import * as E from "fp-ts/lib/Either.js";
-import type * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
+import * as A from "fp-ts/Array";
+import * as E from "fp-ts/Either";
+import type * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 
 export const traverseArrayOfE = <A, E, B>(
   results: A[],

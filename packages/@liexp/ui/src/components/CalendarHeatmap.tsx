@@ -7,11 +7,11 @@ import { scaleLinear } from "@visx/scale";
 import { TooltipWithBounds, withTooltip } from "@visx/tooltip";
 import { type WithTooltipProvidedProps } from "@visx/tooltip/lib/enhancers/withTooltip.js";
 import { addDays, differenceInDays } from "date-fns";
-import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as A from "fp-ts/lib/Array.js";
-import * as O from "fp-ts/lib/Option.js";
-import { getDualOrd } from "fp-ts/lib/Ord.js";
-import { identity, pipe } from "fp-ts/lib/function.js";
+import { sequenceS } from "fp-ts/Apply";
+import * as A from "fp-ts/Array";
+import * as O from "fp-ts/Option";
+import { getDualOrd } from "fp-ts/Ord";
+import { identity, pipe } from "fp-ts/function";
 import * as React from "react";
 
 const green = "#21f440";

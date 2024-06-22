@@ -2,7 +2,7 @@ import { eventRelationIdsMonoid } from "@liexp/shared/lib/helpers/event/event.js
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
 import { Media } from "@liexp/shared/lib/io/http/Media.js";
 import * as io from "@liexp/shared/lib/io/index.js";
-import * as O from "fp-ts/lib/Option.js";
+import * as O from "fp-ts/Option";
 import { useRecordContext } from "ra-core";
 import * as React from "react";
 import { Button, useDataProvider } from "react-admin";

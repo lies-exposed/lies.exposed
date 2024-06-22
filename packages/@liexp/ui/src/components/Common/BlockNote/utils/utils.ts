@@ -1,7 +1,7 @@
 import { BlockNoteEditor } from "@blocknote/core";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
-import { TaskEither } from "fp-ts/lib/TaskEither.js";
+import { TaskEither } from "fp-ts/TaskEither";
 import { BNESchemaEditor, schema, BNBlock } from "../EditorSchema.js";
 import { PARAGRAPH_TYPE } from "./customSlate.js";
 import {
@@ -30,7 +30,7 @@ export const fromSlateToBlockNote = (
 ): BNESchemaEditor["document"] | null => {
   if (isValidSlateValue(v)) {
     return (
-      (transformSlate(v, deserializeSlatePluginToBlockNoteEditor) as any[]) ??
+      (transformSlate(v, deserializeSlatePluginToBlockNoteEditor)!) as any ??
       null
     );
   }

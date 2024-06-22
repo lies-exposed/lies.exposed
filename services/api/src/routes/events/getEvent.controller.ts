@@ -1,7 +1,7 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Router } from "express";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { type RouteContext } from "../route.types.js";
 import { toEventV2IO } from "./eventV2.io.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";

@@ -4,12 +4,13 @@ import { MP4Type } from "@liexp/shared/lib/io/http/Media.js";
 import { Media } from "@liexp/shared/lib/io/http/index.js";
 import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
 import { type Router } from "express";
-import * as O from "fp-ts/lib/Option.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
 import * as t from "io-ts";
 import { Equal } from "typeorm";
 import { toMediaIO } from "./media.io.js";
 import { MediaEntity } from "#entities/Media.entity.js";
+import { UserEntity } from '#entities/User.entity.js';
 import { extractMP4Extra } from "#flows/media/extra/extractMP4Extra.js";
 import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
 import { transferFromExternalProvider } from "#flows/media/transferFromExternalProvider.flow.js";
@@ -110,8 +111,8 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
                         ? media.extra.duration
                         : Media.TimeExtra.is(extra)
                           ? extra.duration
-                          : undefined,
-                    } as any)
+                          : undefined as any,
+                    })
                   : null,
               ),
         ),
@@ -131,8 +132,8 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
                   id,
                 })),
                 creator: O.isSome(creator)
-                  ? { id: creator.value }
-                  : { id: media.creator as any },
+                  ? { id: creator.value } as UserEntity
+                  : media.creator ? { id: media.creator.id } : null,
                 deletedAt: restore ? null : media.deletedAt,
                 description,
                 extra,
@@ -148,7 +149,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
             toMediaIO(
               {
                 ...media,
-                creator: media.creator?.id as any,
+                creator: media.creator,
                 keywords: media.keywords.map((k) => k.id) as any[],
                 links: media.links.map((l) => l.id) as any[],
                 events: media.events.map((e) => e.id) as any[],

@@ -2,7 +2,7 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { fc } from "@liexp/test";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 import { UserEntity } from "#entities/User.entity.js";
 import { hash } from "#utils/password.utils.js";

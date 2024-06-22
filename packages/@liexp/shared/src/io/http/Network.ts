@@ -1,8 +1,8 @@
 import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { BooleanFromString } from "io-ts-types/BooleanFromString";
+import { DateFromISOString } from "io-ts-types/DateFromISOString";
 import { UUID } from "io-ts-types/lib/UUID.js";
-import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray.js";
+import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { type serializedType } from "ts-io-error/lib/Codec.js";
 import { Actor, ACTORS } from "./Actor.js";

@@ -6,8 +6,8 @@ import {
   distanceFromNow,
   differenceInHours,
 } from "@liexp/shared/lib/utils/date.utils.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { IOError } from "ts-io-error";
 
 const fsLogger = logger.GetLogger("fs");

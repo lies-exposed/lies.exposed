@@ -1,6 +1,6 @@
 import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { BooleanFromString } from "io-ts-types/BooleanFromString";
+import { DateFromISOString } from "io-ts-types/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { optionFromUndefined } from "../Common/optionFromUndefined.js";
 import { URL, UUID } from "./Common/index.js";

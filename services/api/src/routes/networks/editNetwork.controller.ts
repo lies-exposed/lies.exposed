@@ -6,7 +6,7 @@ import {
 } from "@liexp/shared/lib/io/http/Network.js";
 import { AdminRead } from "@liexp/shared/lib/io/http/User.js";
 import { type Router } from "express";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { createEventNetworkGraph } from "#flows/networks/createEventNetworkGraph.flow.js";
 import {
   createNetworkGraph,

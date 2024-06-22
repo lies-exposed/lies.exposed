@@ -13,7 +13,7 @@ import {
 } from "@liexp/shared/lib/io/http/index.js";
 import { parseISO } from "@liexp/shared/lib/utils/date.utils.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { fetchEventsRelations } from "./fetchEventsRelations.flow.js";
 import { type EventV2Entity } from "#entities/Event.v2.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";

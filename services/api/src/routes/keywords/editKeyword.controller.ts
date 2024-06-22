@@ -1,6 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { toKeywordIO } from "./keyword.io.js";
 import { KeywordEntity } from "#entities/Keyword.entity.js";
 import { type Route } from "#routes/route.types.js";

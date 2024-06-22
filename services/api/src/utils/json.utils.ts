@@ -1,22 +1,20 @@
 import * as fs from "fs";
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { pipe, fp } from "@liexp/core/lib/fp/index.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
-import * as E from "fp-ts/lib/Either.js";
-import * as IOE from "fp-ts/lib/IOEither.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import { TaskEither } from 'fp-ts/TaskEither';
 import type * as t from "io-ts";
-import { PathReporter } from "io-ts/lib/PathReporter.js";
+import { PathReporter } from "io-ts/PathReporter";
 
 export const GetWriteJSON =
   (log: Logger) =>
   (outputPath: string) =>
-  (results: any): TE.TaskEither<Error, void> => {
-    return TE.fromIOEither(
-      IOE.tryCatch(() => {
+  (results: any): TaskEither<Error, void> => {
+    return fp.TE.fromIOEither(
+      fp.IOE.tryCatch(() => {
         log.debug.log(`Writing data at %s`, outputPath);
         fs.writeFileSync(outputPath, JSON.stringify(results, null, 2));
         log.debug.log(`Data written!`);
-      }, E.toError),
+      }, fp.E.toError),
     );
   };
 
@@ -25,23 +23,24 @@ export const GetReadJSON =
   <A, O = A, I = unknown>(
     readPath: string,
     decoder: t.Type<A, O, I>,
-  ): TE.TaskEither<Error, A> => {
+  ): TaskEither<Error, A> => {
     return pipe(
-      TE.fromIOEither(
-        IOE.tryCatch(() => {
+      fp.TE.fromIOEither(
+        fp.IOE.tryCatch(() => {
           log.debug.log(`Reading data from %s`, readPath);
           return fs.readFileSync(readPath, "utf-8");
-        }, E.toError),
+        }, fp.E.toError),
       ),
-      TE.chainEitherK((string) => {
+      fp.TE.chainEitherK((string) => {
         return pipe(
-          E.parseJSON(string, E.toError),
-          E.chain((json) =>
+          fp.Json.parse(string),
+          fp.E.mapLeft(e => e instanceof Error ? e : new Error()),
+          fp.E.chain((json) =>
             pipe(
-              decoder.decode(json as any),
-              E.mapLeft((e) => {
+              decoder.decode(json as I),
+              fp.E.mapLeft((e) => {
                 // eslint-disable-next-line no-console
-                console.error(PathReporter.report(E.left(e)));
+                console.error(PathReporter.report(fp.E.left(e)));
                 return new Error();
               }),
             ),

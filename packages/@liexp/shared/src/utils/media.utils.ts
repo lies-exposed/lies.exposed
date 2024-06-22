@@ -1,6 +1,6 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { type Option } from "fp-ts/lib/Option.js";
-import { pipe } from "fp-ts/lib/function.js";
+import { type Option } from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
 import { UUID } from "io-ts-types/lib/UUID.js";
 import { type UploadResource } from "../endpoints/upload.endpoints.js";
 import * as Media from "../io/http/Media.js";

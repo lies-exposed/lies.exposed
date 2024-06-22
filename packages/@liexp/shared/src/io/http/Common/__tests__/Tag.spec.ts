@@ -1,4 +1,4 @@
-import * as E from "fp-ts/lib/Either.js";
+import * as E from "fp-ts/Either";
 import * as t from "io-ts";
 import { Tag } from "../Tag.js";
 

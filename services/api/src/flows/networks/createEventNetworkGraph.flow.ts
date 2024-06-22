@@ -31,11 +31,11 @@ import {
   type Keyword,
   type Media,
 } from "@liexp/shared/lib/io/http/index.js";
+import { sequenceS } from "fp-ts/Apply";
+import * as A from "fp-ts/Array";
 import { type Monoid } from "fp-ts/Monoid";
-import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as A from "fp-ts/lib/Array.js";
-import * as O from "fp-ts/lib/Option.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
 import { Equal } from "typeorm";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { type Flow, type TEFlow } from "#flows/flow.types.js";
@@ -179,7 +179,7 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
             links: [],
             excerpt: undefined,
             body: undefined,
-            payload: e.payload as any,
+            payload: e.payload,
             deletedAt: undefined,
             image: featuredImage,
             title: eventTitle,

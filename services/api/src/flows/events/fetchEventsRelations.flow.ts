@@ -8,9 +8,9 @@ import {
   type Keyword,
   type Media,
 } from "@liexp/shared/lib/io/http/index.js";
-import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as O from "fp-ts/lib/Option.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import { sequenceS } from "fp-ts/Apply";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
 import { type TEFlow } from "#flows/flow.types.js";
 import { toActorIO } from "#routes/actors/actor.io.js";
 import { fetchRelations } from "#routes/events/queries/fetchEventRelations.query.js";

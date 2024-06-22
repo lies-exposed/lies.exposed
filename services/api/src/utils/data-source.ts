@@ -3,7 +3,7 @@ import "reflect-metadata";
 // other imports
 import * as fs from "fs";
 import * as path from "path";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { DataSource, type DataSourceOptions } from "typeorm";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { AreaEntity } from "#entities/Area.entity.js";

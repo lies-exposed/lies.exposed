@@ -1,8 +1,8 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Router } from "express";
-import * as E from "fp-ts/lib/Either.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as E from "fp-ts/Either";
+import * as TE from "fp-ts/TaskEither";
 import { fetchGroups } from "../../queries/groups/fetchGroups.query.js";
 import { type RouteContext } from "../route.types.js";
 import { toGroupIO } from "./group.io.js";

@@ -1,13 +1,14 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { relationsTransformer } from "@liexp/ui/lib/components/Common/BlockNote/utils/transform.utils.js";
-import * as O from "fp-ts/lib/Option.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
 import { Equal } from "typeorm";
 import { toStoryIO } from "./story.io.js";
 import { StoryEntity } from "#entities/Story.entity.js";
 import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
+import { MediaEntity } from '#entities/Media.entity.js';
 
 export const MakeEditStoryRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(ctx, ["event-suggestion:create"]))(
@@ -37,8 +38,8 @@ export const MakeEditStoryRoute: Route = (r, ctx) => {
         TE.chain((e) => {
           const featuredImageId = pipe(
             featuredImage,
-            O.map((f) => f.id),
-            O.getOrElse(() => e.featuredImage as any),
+            O.map((f) => f as any as MediaEntity),
+            O.getOrElse(() => e.featuredImage),
           );
 
           ctx.logger.debug.log("Featured image %O", featuredImageId);

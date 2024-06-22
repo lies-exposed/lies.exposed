@@ -9,10 +9,10 @@ import {
 } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type GetSearchEventsQuery } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEventsQuery.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
-import * as A from "fp-ts/lib/Array.js";
-import * as O from "fp-ts/lib/Option.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
+import * as A from "fp-ts/Array";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { Brackets, In, type SelectQueryBuilder } from "typeorm";
 import { type ControllerError } from "../../../io/ControllerError.js";
 import { type RouteContext } from "../../route.types.js";

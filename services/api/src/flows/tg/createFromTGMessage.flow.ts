@@ -1,6 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import { sequenceS } from "fp-ts/Apply";
+import * as TE from "fp-ts/TaskEither";
 import type TelegramBot from "node-telegram-bot-api";
 import { MessageParser } from "./MessageParser/index.js";
 import { type AreaEntity } from "#entities/Area.entity.js";

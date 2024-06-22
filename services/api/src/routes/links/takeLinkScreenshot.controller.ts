@@ -4,7 +4,7 @@ import { PngType } from "@liexp/shared/lib/io/http/Media.js";
 import { AdminEdit, type User } from "@liexp/shared/lib/io/http/User.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { type Router } from "express";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { Equal } from "typeorm";
 import { toLinkIO } from "./link.io.js";
 import { LinkEntity } from "#entities/Link.entity.js";
@@ -62,7 +62,7 @@ export const MakeTakeLinkScreenshotRoute = (
             ),
             TE.chain((user) =>
               ctx.db.findOneOrFail(UserEntity, {
-                where: { id: Equal((user as any).id) },
+                where: { id: Equal((user).id) },
               }),
             ),
           ),
@@ -76,12 +76,12 @@ export const MakeTakeLinkScreenshotRoute = (
         TE.bind("media", ({ user, link }) =>
           pipe(
             getMediaOrMakeFromLinkTask(link),
-            TE.map(([media]) => ({ ...link, image: media as any })),
+            TE.map(([media]) => ({ ...link, image: media })),
             TE.chain((linkWithMedia) =>
               pipe(
-                takeLinkScreenshot(ctx)(linkWithMedia),
+                takeLinkScreenshot(ctx)(linkWithMedia as any),
                 TE.chain((buffer) =>
-                  uploadScreenshot(ctx)(linkWithMedia, buffer),
+                  uploadScreenshot(ctx)(linkWithMedia as any, buffer),
                 ),
                 TE.chain((m) =>
                   ctx.db.save(MediaEntity, [

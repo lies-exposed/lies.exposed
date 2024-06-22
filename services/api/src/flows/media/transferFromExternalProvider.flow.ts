@@ -7,7 +7,7 @@ import {
 } from "@liexp/shared/lib/io/http/Media.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import axios from "axios";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import * as t from "io-ts";
 import { type TEFlow } from "#flows/flow.types.js";
 import {

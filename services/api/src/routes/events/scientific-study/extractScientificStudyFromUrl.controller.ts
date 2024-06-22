@@ -6,9 +6,9 @@ import {
   AdminDelete,
   AdminEdit,
 } from "@liexp/shared/lib/io/http/User.js";
-import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as O from "fp-ts/lib/Option.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import { sequenceS } from "fp-ts/Apply";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
 import { Equal } from "typeorm";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { UserEntity } from "#entities/User.entity.js";

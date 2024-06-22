@@ -1,5 +1,5 @@
 import type { AxiosInstance } from "axios";
-import { pipe } from "fp-ts/lib/function.js";
+import { pipe } from "fp-ts/function";
 import { mock } from "vitest-mock-extended";
 import { throwTE } from "../../utils/task.utils.js";
 import { HTTPProvider } from "./http.provider.js";

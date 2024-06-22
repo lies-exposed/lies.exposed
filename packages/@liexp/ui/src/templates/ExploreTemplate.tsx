@@ -5,7 +5,7 @@ import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
-import { pipe } from "fp-ts/lib/function.js";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import EventSliderModal from "../components/Modal/EventSliderModal.js";
 import QueriesRenderer from "../components/QueriesRenderer.js";

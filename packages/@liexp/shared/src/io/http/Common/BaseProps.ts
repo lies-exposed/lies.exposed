@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { DateFromISOString } from "io-ts-types/DateFromISOString";
 import { UUID } from "./UUID.js";
 
 export const BaseProps = t.strict(

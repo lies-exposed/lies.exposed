@@ -1,7 +1,7 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import * as O from "fp-ts/lib/Option.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
 import { editEventQuery } from "../queries/editEvent.query.js";
 import { toEventSuggestion } from "./eventSuggestion.io.js";
 import { EventSuggestionEntity } from "#entities/EventSuggestion.entity.js";
@@ -41,10 +41,10 @@ export const EditEventSuggestionRoute: Route = (r, ctx) => {
                   payload: {
                     ...body,
                     event: {
-                      ...event,
+                      ...(event as any),
                       excerpt: event.excerpt ?? undefined,
                       body: event.body ?? undefined,
-                    } as any,
+                    },
                   },
                   id,
                   status: "PENDING",

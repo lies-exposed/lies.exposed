@@ -9,7 +9,7 @@ import {
   Stack,
   Typography,
 } from "@liexp/ui/lib/components/mui/index.js";
-import { pipe } from "fp-ts/lib/function.js";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { useNavigate } from "react-router";
 

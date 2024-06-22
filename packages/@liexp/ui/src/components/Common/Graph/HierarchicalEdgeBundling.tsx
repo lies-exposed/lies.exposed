@@ -6,8 +6,8 @@ import {
 } from "@liexp/shared/lib/helpers/graph/createHierarchicalEdgeBundlingData.js";
 import { type HierarchyPointNode } from "@visx/hierarchy/lib/types.js";
 import * as d3 from "d3";
-import * as O from "fp-ts/lib/Option.js";
-import { pipe } from "fp-ts/lib/function.js";
+import * as O from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 
 type HierarchyLinkedNode<N> = N & {

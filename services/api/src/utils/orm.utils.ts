@@ -1,11 +1,11 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import * as Query from "@liexp/shared/lib/io/http/Query/index.js";
-import * as O from "fp-ts/lib/Option.js";
-import { contramap } from "fp-ts/lib/Ord.js";
-import * as R from "fp-ts/lib/Record.js";
+import * as O from "fp-ts/Option";
+import { contramap } from "fp-ts/Ord";
+import * as R from "fp-ts/Record";
 import * as t from "io-ts";
-import { BigIntFromString } from "io-ts-types/lib/BigIntFromString.js";
+import { BigIntFromString } from "io-ts-types/BigIntFromString";
 import {
   Equal,
   type FindOperator,

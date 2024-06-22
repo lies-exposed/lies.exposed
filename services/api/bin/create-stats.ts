@@ -1,6 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { PathReporter } from "io-ts/lib/PathReporter.js";
+import { PathReporter } from "io-ts/PathReporter";
 import { startContext } from "./start-ctx.js";
 import { createStats } from "#flows/stats/createStats.flow.js";
 

@@ -1,4 +1,4 @@
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 
 export const sleep = (amount: number): TE.TaskEither<Error, void> => {
   return TE.fromTask(

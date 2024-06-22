@@ -1,7 +1,7 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
-import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as E from "fp-ts/lib/Either.js";
+import { sequenceS } from "fp-ts/Apply";
+import * as E from "fp-ts/Either";
 import { type GroupMemberEntity } from "../../entities/GroupMember.entity.js";
 import { DecodeError, type ControllerError } from "#io/ControllerError.js";
 import { toActorIO } from "#routes/actors/actor.io.js";

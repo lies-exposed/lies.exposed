@@ -1,8 +1,8 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { type VideoPlatformMatch } from "@liexp/shared/lib/helpers/media.js";
 import { type URL } from "@liexp/shared/lib/io/http/Common/index.js";
-import * as O from "fp-ts/lib/Option.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
 import type * as puppeteer from "puppeteer-core";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { type UserEntity } from "#entities/User.entity.js";

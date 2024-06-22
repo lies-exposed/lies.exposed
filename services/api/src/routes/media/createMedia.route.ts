@@ -3,7 +3,7 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { parseURL } from "@liexp/shared/lib/helpers/media.js";
 import { MP4Type } from "@liexp/shared/lib/io/http/Media.js";
 import { type Router } from "express";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { toMediaIO } from "./media.io.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { extractMP4Extra } from "#flows/media/extra/extractMP4Extra.js";
@@ -40,7 +40,7 @@ export const MakeCreateMediaRoute = (r: Router, ctx: RouteContext): void => {
                   location,
                   label: body.label ?? null,
                   description: body.description ?? body.label ?? null,
-                  creator: u.id as any,
+                  creator: u,
                   extra: body.extra ?? null,
                   areas: body.areas.map((id) => ({ id })),
                   keywords: body.keywords.map((id) => ({ id })),

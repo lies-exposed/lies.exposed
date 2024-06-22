@@ -1,9 +1,9 @@
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import { groupBy } from "@liexp/shared/lib/utils/array.utils.js";
 import { distanceFromNow } from "@liexp/shared/lib/utils/date.utils.js";
-import * as Eq from "fp-ts/lib/Eq.js";
-import { pipe } from "fp-ts/lib/function.js";
-import * as S from "fp-ts/lib/string.js";
+import * as Eq from "fp-ts/Eq";
+import { pipe } from "fp-ts/function";
+import * as S from "fp-ts/string";
 import * as React from "react";
 import { styled } from "../../../theme/index.js";
 import {

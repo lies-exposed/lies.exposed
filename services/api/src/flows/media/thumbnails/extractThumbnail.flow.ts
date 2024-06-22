@@ -1,6 +1,6 @@
 import { type MediaType } from "@liexp/shared/lib/io/http/Media.js";
 import { Media } from "@liexp/shared/lib/io/http/index.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { type ExtractThumbnailFlow } from "./ExtractThumbnailFlow.type.js";
 import { extractMP4Thumbnail } from "./extractMP4Thumbnail.flow.js";
 import { extractThumbnailFromImage } from "./extractThumbnailFromImage.js";

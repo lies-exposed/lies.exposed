@@ -4,7 +4,7 @@ import {
 } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { Events } from "@liexp/shared/lib/io/http/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
-import * as R from "fp-ts/lib/Record.js";
+import * as R from "fp-ts/Record";
 import * as React from "react";
 import {
   BooleanField,

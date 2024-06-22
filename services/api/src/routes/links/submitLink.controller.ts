@@ -1,7 +1,7 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Router } from "express";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { toLinkIO } from "./link.io.js";
 import { fetchAndSave } from "#flows/links/link.flow.js";
 import { getOneAdminOrFail } from "#flows/users/getOneUserOrFail.flow.js";

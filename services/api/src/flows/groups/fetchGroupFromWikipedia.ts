@@ -3,7 +3,7 @@ import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
 import { type CreateGroupBody } from "@liexp/shared/lib/io/http/Group.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { type TEFlow } from "#flows/flow.types.js";
 import { fetchFromWikipedia } from "#flows/wikipedia/fetchFromWikipedia.js";
 import { NotFoundError, toControllerError } from "#io/ControllerError.js";
@@ -28,8 +28,8 @@ export const fetchGroupFromWikipedia: TEFlow<[string], CreateGroupBody> =
           startDate: new Date(),
           endDate: undefined,
           members: [],
-          excerpt: excerpt as any,
-          avatar: avatar as any,
+          excerpt: excerpt,
+          avatar: avatar as any as string,
           color: generateRandomColor(),
           body: undefined,
         };

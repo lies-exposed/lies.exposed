@@ -24,9 +24,9 @@ import {
   type UseInfiniteQueryResult,
   type UseQueryResult,
 } from "@tanstack/react-query";
-import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
+import { sequenceS } from "fp-ts/Apply";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 
 const log = GetLogger("search-events-query");
 

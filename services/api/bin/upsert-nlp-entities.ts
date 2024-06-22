@@ -1,9 +1,9 @@
 import { DBError } from "@liexp/backend/lib/providers/orm/database.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
-import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as O from "fp-ts/lib/Option.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import { sequenceS } from "fp-ts/Apply";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
 import { startContext, stopContext } from "./start-ctx.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";

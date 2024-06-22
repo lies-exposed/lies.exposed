@@ -9,7 +9,7 @@ import { formatDate, parseISO } from "@liexp/shared/lib/utils/date.utils.js";
 import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
-import { pipe } from "fp-ts/lib/function.js";
+import { pipe } from "fp-ts/function";
 import { type UUID } from "io-ts-types/lib/UUID.js";
 import * as React from "react";
 import { useDataProvider, useRecordContext } from "react-admin";

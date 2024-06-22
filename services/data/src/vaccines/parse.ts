@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 import * as path from "path";
 import { sleep } from "@liexp/shared/lib/utils/promise.utils";
-import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
+import { sequenceS } from "fp-ts/Apply";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import * as distribution from "./distribution/distribution.parse";
 import * as eudr from "./eudr/eudr.parse";
 import { TotalsReporter } from "./reporters/TotalReporter";

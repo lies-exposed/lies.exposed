@@ -5,10 +5,10 @@ import {
   type User,
 } from "@liexp/shared/lib/io/http/User.js";
 import { type EventSuggestion } from "@liexp/shared/lib/io/http/index.js";
-import * as A from "fp-ts/lib/Array.js";
-import * as E from "fp-ts/lib/Either.js";
-import * as O from "fp-ts/lib/Option.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as A from "fp-ts/Array";
+import * as E from "fp-ts/Either";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
 import { toEventSuggestion } from "./eventSuggestion.io.js";
 import { searchEventSuggestion } from "#flows/event-suggestion/searchEventSuggestion.flow.js";
 import { type Route } from "#routes/route.types.js";

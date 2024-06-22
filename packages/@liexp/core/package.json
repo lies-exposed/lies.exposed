@@ -9,7 +9,7 @@
     ".": "./lib/index.js",
     "./lib/*": "./lib/*"
   },
-  "main": "lib/index.js",
+  "module": "lib/index.js",
   "files": [
     "lib"
   ],

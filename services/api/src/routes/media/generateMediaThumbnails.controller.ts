@@ -2,7 +2,7 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type Router } from "express";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { type UUID } from "io-ts-types";
 import { Equal } from "typeorm";
 import { MediaEntity } from "#entities/Media.entity.js";

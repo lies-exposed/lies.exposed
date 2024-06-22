@@ -1,6 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { sequenceT } from "fp-ts/lib/Apply.js";
+import { sequenceT } from "fp-ts/Apply";
 import Cron from "node-cron";
 import {
   cleanUpFolder,

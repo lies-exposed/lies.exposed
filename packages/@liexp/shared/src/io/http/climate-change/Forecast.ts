@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
+import { NumberFromString } from "io-ts-types/NumberFromString";
 
 export const Forecast = t.strict(
   {

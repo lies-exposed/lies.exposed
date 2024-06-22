@@ -1,6 +1,6 @@
 import { getORMConfig } from "./build/utils/data-source.js";
 import { ENV } from "./build/io/ENV.js";
-import { PathReporter } from "io-ts/lib/PathReporter.js";
+import { PathReporter } from "io-ts/PathReporter";
 import { loadENV } from "@liexp/core/lib/env/utils.js";
 import D from 'debug';
 import { DataSource } from 'typeorm';

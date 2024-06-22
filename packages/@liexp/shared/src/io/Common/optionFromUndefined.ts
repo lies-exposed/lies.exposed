@@ -1,8 +1,8 @@
-import * as E from "fp-ts/lib/Either.js";
-import * as O from "fp-ts/lib/Option.js";
-import { pipe } from "fp-ts/lib/function.js";
+import * as E from "fp-ts/Either";
+import * as O from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
-import { option } from "io-ts-types/lib/option.js";
+import { option } from "io-ts-types/option";
 
 export type OptionFromUndefinedC<C extends t.Mixed> = t.Type<
   O.Option<t.TypeOf<C>>,

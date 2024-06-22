@@ -1,6 +1,6 @@
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
-import * as O from "fp-ts/lib/Option.js";
-import { pipe } from "fp-ts/lib/function.js";
+import * as O from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { Typography } from "./mui/index.js";
 

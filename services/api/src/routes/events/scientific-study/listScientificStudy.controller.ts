@@ -1,9 +1,9 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import * as A from "fp-ts/lib/Array.js";
-import * as O from "fp-ts/lib/Option.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as A from "fp-ts/Array";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
 import { searchEventV2Query } from "../queries/searchEventsV2.query.js";
 import { toEventV2IO } from "#routes/events/eventV2.io.js";
 import { type Route } from "#routes/route.types.js";

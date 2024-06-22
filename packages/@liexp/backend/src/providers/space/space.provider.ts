@@ -20,8 +20,8 @@ import { type Upload } from "@aws-sdk/lib-storage";
 import { type getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { type Endpoint } from "@aws-sdk/types";
 import * as logger from "@liexp/core/lib/logger/index.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import * as qs from "query-string";
 import { IOError } from "ts-io-error";
 

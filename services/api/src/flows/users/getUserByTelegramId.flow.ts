@@ -3,7 +3,7 @@ import {
   AdminCreate,
   EventSuggestionEdit,
 } from "@liexp/shared/lib/io/http/User.js";
-import { type Option } from "fp-ts/lib/Option.js";
+import { type Option } from "fp-ts/Option";
 import { UserEntity } from "#entities/User.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
 

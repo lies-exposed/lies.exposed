@@ -3,7 +3,7 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { EventSuggestionRead } from "@liexp/shared/lib/io/http/User.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { type Router } from "express";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { Equal } from "typeorm";
 import { toLinkIO } from "./link.io.js";
 import { LinkEntity } from "#entities/Link.entity.js";
@@ -45,7 +45,7 @@ export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
                       ...m,
                       events: [],
                       title: m.title,
-                      url: sanitizeURL(m.url as any),
+                      url: sanitizeURL(m.url),
                       keywords: [],
                       creator: { id: u.id },
                     },

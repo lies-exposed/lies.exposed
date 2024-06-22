@@ -1,7 +1,7 @@
 import { type Keyword } from "@liexp/shared/lib/io/http/index.js";
-import * as NEA from "fp-ts/lib/NonEmptyArray.js";
-import * as O from "fp-ts/lib/Option.js";
-import { pipe } from "fp-ts/lib/function.js";
+import * as NEA from "fp-ts/NonEmptyArray";
+import * as O from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { type GetListParams } from "react-admin";
 import QueriesRenderer from "./QueriesRenderer.js";

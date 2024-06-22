@@ -6,7 +6,7 @@ import {
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { createThumbnail } from "./thumbnails/createThumbnail.flow.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";

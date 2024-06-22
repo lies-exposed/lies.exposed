@@ -1,31 +1,30 @@
-import { pipe } from "@liexp/core/lib/fp/index.js";
-import * as O from "fp-ts/lib/Option.js";
-import * as R from "fp-ts/lib/Record.js";
+import { pipe, fp } from "@liexp/core/lib/fp/index.js";
+import { Option, Some } from 'fp-ts/Option';
 
-type OptionalsToUndefined<T extends Record<string, O.Option<any>>> = {
-  [K in keyof T]: T[K] extends O.Some<infer A> ? A : undefined;
+type OptionalsToUndefined<T extends Record<string, Option<any>>> = {
+  [K in keyof T]: T[K] extends Some<infer A> ? A : undefined;
 };
 
-export const foldOptionals = <T extends Record<string, O.Option<any>>>(
+export const foldOptionals = <T extends Record<string, Option<any>>>(
   obj: T,
-): { [K in keyof T]: T[K] extends O.Option<infer A> ? A : never } =>
+): { [K in keyof T]: T[K] extends Option<infer A> ? A : never } =>
   pipe(
     obj,
-    R.filter(O.isSome),
-    R.map((v) => v.value),
+    fp.R.filter(fp.O.isSome),
+    fp.R.map((v) => v.value),
   ) as any;
 
-export const optionalsToUndefined = <T extends Record<string, O.Option<any>>>(
+export const optionalsToUndefined = <T extends Record<string, Option<any>>>(
   obj: T,
 ): OptionalsToUndefined<T> =>
-  pipe(obj, R.map(O.toUndefined)) as OptionalsToUndefined<T>;
+  pipe(obj, fp.R.map(fp.O.toUndefined)) as any;
 
-type DefaultOptionals<T extends Record<string, O.Option<any>>> = {
-  [K in keyof T]?: T[K] extends O.Option<infer A> ? A : never;
+type DefaultOptionals<T extends Record<string, Option<any>>> = {
+  [K in keyof T]?: T[K] extends Option<infer A> ? A : never;
 };
 
 export const defaultOptionals = <
-  T extends Record<string, O.Option<any>>,
+  T extends Record<string, Option<any>>,
   D extends DefaultOptionals<T>,
 >(
   optionals: T,
@@ -33,5 +32,5 @@ export const defaultOptionals = <
 ): DefaultOptionals<T> =>
   pipe(
     optionals,
-    R.mapWithIndex((index, v) => (O.isNone(v) ? defaults[index] : v.value)),
+    fp.R.mapWithIndex((index, v) => (fp.O.isNone(v) ? defaults[index] : v.value)),
   );

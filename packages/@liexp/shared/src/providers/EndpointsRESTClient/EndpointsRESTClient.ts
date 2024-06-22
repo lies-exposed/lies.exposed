@@ -1,10 +1,10 @@
-import * as A from "fp-ts/lib/Array.js";
-import * as E from "fp-ts/lib/Either.js";
-import * as R from "fp-ts/lib/Record.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
+import * as A from "fp-ts/Array";
+import * as E from "fp-ts/Either";
+import * as R from "fp-ts/Record";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import type * as t from "io-ts";
-import { PathReporter } from "io-ts/lib/PathReporter.js";
+import { PathReporter } from "io-ts/PathReporter";
 import type { GetListParams, GetListResult, GetOneResult } from "react-admin";
 import {
   type EndpointInstance,

@@ -1,8 +1,8 @@
 import { type WindowLocation } from "@reach/router";
-import * as E from "fp-ts/lib/Either.js";
-import * as R from "fp-ts/lib/Record.js";
-import { pipe } from "fp-ts/lib/function.js";
-import * as S from "fp-ts/lib/string.js";
+import * as E from "fp-ts/Either";
+import * as R from "fp-ts/Record";
+import { pipe } from "fp-ts/function";
+import * as S from "fp-ts/string";
 import * as t from "io-ts";
 import * as querystring from "query-string";
 

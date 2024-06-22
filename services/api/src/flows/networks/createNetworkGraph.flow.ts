@@ -32,10 +32,10 @@ import {
   type Media,
 } from "@liexp/shared/lib/io/http/index.js";
 import { GetEncodeUtils } from "@liexp/shared/lib/utils/encode.utils.js";
-import * as A from "fp-ts/lib/Array.js";
-import * as O from "fp-ts/lib/Option.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import * as S from "fp-ts/lib/string.js";
+import * as A from "fp-ts/Array";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
+import * as S from "fp-ts/string";
 import { cleanItemsFromSlateFields } from "../../utils/clean.utils.js";
 import { fetchEventsWithRelations } from "../events/fetchWithRelations.flow.js";
 import { type TEFlow } from "#flows/flow.types.js";
@@ -175,7 +175,7 @@ export const getEventGraph = (
         excerpt: {},
         body: {},
         links: [],
-        payload: e.payload as any,
+        payload: e.payload,
         deletedAt: undefined,
         image: featuredImage,
         title: eventTitle,

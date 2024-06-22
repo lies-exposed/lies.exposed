@@ -1,6 +1,6 @@
-import * as E from "fp-ts/lib/Either.js";
-import * as IOE from "fp-ts/lib/IOEither.js";
-import { pipe } from "fp-ts/lib/function.js";
+import * as E from "fp-ts/Either";
+import * as IOE from "fp-ts/IOEither";
+import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
 
 export interface URLBrand {

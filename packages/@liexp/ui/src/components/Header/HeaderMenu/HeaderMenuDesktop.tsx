@@ -1,6 +1,6 @@
 import { clsx } from "clsx";
-import * as O from "fp-ts/lib/Option.js";
-import { pipe } from "fp-ts/lib/function.js";
+import * as O from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { styled } from "../../../theme/index.js";
 import { Button, Stack } from "../../mui/index.js";

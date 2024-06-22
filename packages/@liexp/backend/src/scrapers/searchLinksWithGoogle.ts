@@ -1,8 +1,8 @@
 import { addDays, parseISO, subDays } from "date-fns";
-import * as A from "fp-ts/lib/Array.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
-import * as S from "fp-ts/lib/string.js";
+import * as A from "fp-ts/Array";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
+import * as S from "fp-ts/string";
 import { type Browser } from "puppeteer-core";
 import { type ServerContext } from "../context/server.js";
 import {

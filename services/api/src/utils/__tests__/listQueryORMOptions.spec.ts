@@ -2,7 +2,7 @@ import {
   type FilterQuery,
   type GetListQuery,
 } from "@liexp/shared/lib/io/http/Query";
-import * as O from "fp-ts/lib/Option.js";
+import * as O from "fp-ts/Option";
 import { Like } from "typeorm";
 import { getORMOptions } from "../orm.utils.js";
 

@@ -1,8 +1,8 @@
 import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
-import * as O from "fp-ts/lib/Option.js";
-import type * as TE from "fp-ts/lib/TaskEither.js";
+import * as O from "fp-ts/Option";
+import type * as TE from "fp-ts/TaskEither";
 import { KeywordEntity } from "#entities/Keyword.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import {

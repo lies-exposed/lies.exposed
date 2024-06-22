@@ -1,7 +1,7 @@
 import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
-import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
+import { BooleanFromString } from "io-ts-types/BooleanFromString";
+import { DateFromISOString } from "io-ts-types/DateFromISOString";
+import { NumberFromString } from "io-ts-types/NumberFromString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { UUID } from "./Common/UUID.js";
 import {

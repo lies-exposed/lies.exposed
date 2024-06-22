@@ -1,6 +1,6 @@
 import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
-import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
+import { BooleanFromString } from "io-ts-types/BooleanFromString";
+import { NumberFromString } from "io-ts-types/NumberFromString";
 import { UUID } from "io-ts-types/lib/UUID.js";
 import { optionFromUndefined } from "../../../Common/optionFromUndefined.js";
 import { ACTORS } from "../../Actor.js";

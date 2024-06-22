@@ -10,13 +10,13 @@ import {
   getMediaKeyFromLocation,
   getMediaThumbKey,
 } from "@liexp/shared/lib/utils/media.utils.js";
-import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as E from "fp-ts/lib/Either.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import { sequenceS } from "fp-ts/Apply";
+import * as E from "fp-ts/Either";
+import * as TE from "fp-ts/TaskEither";
 import { type Page } from "puppeteer-core";
 import { type ExtractThumbnailFlow } from "./ExtractThumbnailFlow.type.js";
 import { type TEFlow } from "#flows/flow.types.js";
-import { ServerError, toControllerError } from "#io/ControllerError.js";
+import { toControllerError } from "#io/ControllerError.js";
 
 export const createFromRemote: TEFlow<
   [string, string, Media.MediaType],
@@ -167,8 +167,6 @@ export const extractThumbnailFromIframe: ExtractThumbnailFlow<
             return page;
           }, toPuppeteerError);
         }),
-
-        TE.mapLeft((e) => ServerError(e as any)),
       ),
       match: pipe(
         getPlatform(media.location),

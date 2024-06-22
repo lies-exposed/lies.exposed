@@ -24,12 +24,12 @@ import {
   type Media,
 } from "@liexp/shared/lib/io/http/index.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
-import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as A from "fp-ts/lib/Array.js";
-import * as E from "fp-ts/lib/Either.js";
-import * as IOE from "fp-ts/lib/IOEither.js";
-import * as O from "fp-ts/lib/Option.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import { sequenceS } from "fp-ts/Apply";
+import * as A from "fp-ts/Array";
+import * as E from "fp-ts/Either";
+import * as IOE from "fp-ts/IOEither";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
 import { In } from "typeorm";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { type EventV2Entity } from "#entities/Event.v2.entity.js";

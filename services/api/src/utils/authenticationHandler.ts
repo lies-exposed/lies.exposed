@@ -16,10 +16,10 @@ import {
   type UserPermission,
 } from "@liexp/shared/lib/io/http/User.js";
 import type * as express from "express";
-import { type IO } from "fp-ts/lib/IO.js";
-import * as IOE from "fp-ts/lib/IOEither.js";
+import { type IO } from "fp-ts/IO";
+import * as IOE from "fp-ts/IOEither";
 import * as t from "io-ts";
-import { PathReporter } from "io-ts/lib/PathReporter.js";
+import { PathReporter } from "io-ts/PathReporter";
 import { NotAuthorizedError } from "#io/ControllerError.js";
 
 const HeadersWithAuthorization = t.strict(

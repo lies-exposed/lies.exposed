@@ -5,7 +5,7 @@ import { PngType, type MP4Type } from "@liexp/shared/lib/io/http/Media.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import type Ffmpeg from "fluent-ffmpeg";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { downloadMP4Video } from "../downloadMP4Video.js";
 import { type ExtractThumbnailFlow } from "./ExtractThumbnailFlow.type.js";
 import { type TEFlow } from "#flows/flow.types.js";

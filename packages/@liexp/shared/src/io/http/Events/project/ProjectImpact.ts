@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { DateFromISOString } from "io-ts-types/DateFromISOString";
 import { BaseProps } from "../../Common/BaseProps.js";
 import { BySubjectId } from "../../Common/BySubject.js";
 import { Impact } from "../../Common/Impact.js";

@@ -1,6 +1,5 @@
-import { fp } from "@liexp/core/lib/fp/index.js";
-import { type Option } from "fp-ts/lib/Option.js";
-import { pipe } from "fp-ts/lib/function.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type Option } from "fp-ts/Option";
 import {
   PARAGRAPH_TYPE,
   KEYWORD_INLINE,

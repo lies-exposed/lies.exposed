@@ -1,6 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
-import * as E from "fp-ts/lib/Either.js";
+import * as E from "fp-ts/Either";
 import { type AreaEntity } from "../../entities/Area.entity.js";
 import { type ControllerError, DecodeError } from "#io/ControllerError.js";
 import { toMediaIO } from "#routes/media/media.io.js";

@@ -1,6 +1,5 @@
-// import * as E from "fp-ts/lib/Either.js";
 import type * as t from "io-ts";
-import { failure } from "io-ts/lib/PathReporter.js";
+import { failure } from "io-ts/PathReporter";
 import * as React from "react";
 
 import { Layout } from "./Layout.js";

@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { DateFromISOString } from "io-ts-types/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { BaseProps } from "./Common/BaseProps.js";
 import { BlockNoteDocument } from "./Common/BlockNoteDocument.js";

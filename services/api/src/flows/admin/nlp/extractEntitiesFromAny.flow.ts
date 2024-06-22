@@ -10,7 +10,7 @@ import {
   isValidValue,
   getTextContents,
 } from "@liexp/ui/lib/components/Common/BlockNote/utils/index.js";
-import { toRecord } from "fp-ts/lib/ReadonlyRecord.js";
+import { toRecord } from "fp-ts/ReadonlyRecord";
 import { Equal } from "typeorm";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";

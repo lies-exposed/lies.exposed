@@ -1,7 +1,7 @@
 import { type Stream } from "stream";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import ffmpeg from "fluent-ffmpeg";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 
 const ffmpegLogger = GetLogger("ffmpeg");
 

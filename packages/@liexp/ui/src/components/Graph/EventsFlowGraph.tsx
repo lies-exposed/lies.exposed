@@ -8,7 +8,7 @@ import {
 } from "@liexp/shared/lib/io/http/index.js";
 import { toColor } from "@liexp/shared/lib/utils/colors.js";
 import { parseISO } from "date-fns";
-import { pipe } from "fp-ts/lib/function.js";
+import { pipe } from "fp-ts/function";
 import React from "react";
 import {
   FlowGraph,

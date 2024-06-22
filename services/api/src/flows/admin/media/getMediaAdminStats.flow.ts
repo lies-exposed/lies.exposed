@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { sequenceS } from "fp-ts/lib/Apply.js";
+import { sequenceS } from "fp-ts/Apply";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import { getOrphanMediaFlow } from "#flows/media/getOrphanMedia.flow.js";

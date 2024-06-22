@@ -1,7 +1,7 @@
 import { NODE_ENV } from "@liexp/core/lib/env/node-env.js";
 import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
-import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
+import { BooleanFromString } from "io-ts-types/BooleanFromString";
+import { NumberFromString } from "io-ts-types/NumberFromString";
 
 const ENV = t.intersection(
   [

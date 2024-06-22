@@ -1,4 +1,4 @@
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import type * as pdf from "pdfjs-dist";
 import type {
   PDFDocumentProxy,

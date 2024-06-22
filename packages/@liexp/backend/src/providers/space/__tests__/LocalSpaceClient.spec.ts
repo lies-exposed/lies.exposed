@@ -1,5 +1,5 @@
 import * as logger from "@liexp/core/lib/logger/index.js";
-import * as E from "fp-ts/lib/Either.js";
+import * as E from "fp-ts/Either";
 // eslint-disable-next-line no-restricted-imports
 import { GetLocalSpaceProvider } from "../local-space.provider.js";
 vi.mock("axios");

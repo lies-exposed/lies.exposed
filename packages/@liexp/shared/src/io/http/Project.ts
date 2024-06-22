@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { DateFromISOString } from "io-ts-types/DateFromISOString";
 // import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray";
 import { Area } from "./Area.js";
 import { BaseProps } from "./Common/BaseProps.js";

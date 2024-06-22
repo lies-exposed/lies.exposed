@@ -1,22 +1,22 @@
-import { sequenceS, sequenceT } from "fp-ts/lib/Apply.js";
-import * as A from "fp-ts/lib/Array.js";
-import * as date from "fp-ts/lib/Date.js";
-import * as E from "fp-ts/lib/Either.js";
-import * as Eq from "fp-ts/lib/Eq.js";
-import * as IO from "fp-ts/lib/IO.js";
-import * as IOE from "fp-ts/lib/IOEither.js";
-import * as Json from "fp-ts/lib/Json.js";
-import * as Map from "fp-ts/lib/Map.js";
-import * as NEA from "fp-ts/lib/NonEmptyArray.js";
-import * as O from "fp-ts/lib/Option.js";
-import * as Ord from "fp-ts/lib/Ord.js";
-import * as R from "fp-ts/lib/Record.js";
-import * as T from "fp-ts/lib/Task.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe, flow } from "fp-ts/lib/function.js";
-import * as N from "fp-ts/lib/number.js";
-import * as S from "fp-ts/lib/string.js";
-import * as Void from "fp-ts/lib/void.js";
+import { sequenceS, sequenceT } from "fp-ts/Apply";
+import * as A from "fp-ts/Array";
+import * as date from "fp-ts/Date";
+import * as E from "fp-ts/Either";
+import * as Eq from "fp-ts/Eq";
+import * as IO from "fp-ts/IO";
+import * as IOE from "fp-ts/IOEither";
+import * as Json from "fp-ts/Json";
+import * as Map from "fp-ts/Map";
+import * as NEA from "fp-ts/NonEmptyArray";
+import * as O from "fp-ts/Option";
+import * as Ord from "fp-ts/Ord";
+import * as R from "fp-ts/Record";
+import * as T from "fp-ts/Task";
+import * as TE from "fp-ts/TaskEither";
+import { pipe, flow } from "fp-ts/function";
+import * as N from "fp-ts/number";
+import * as S from "fp-ts/string";
+import * as Void from "fp-ts/void";
 
 export const fp = {
   A,

@@ -13,7 +13,7 @@ import {
 } from "@liexp/shared/lib/io/http/Network.js";
 import { ParentSize } from "@visx/responsive";
 import { differenceInDays, parseISO } from "date-fns";
-import { pipe } from "fp-ts/lib/function.js";
+import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
 import { type UUID } from "io-ts-types/lib/UUID.js";
 import * as React from "react";

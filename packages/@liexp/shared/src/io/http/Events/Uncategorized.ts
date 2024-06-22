@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { DateFromISOString } from "io-ts-types/DateFromISOString";
 import { optionFromUndefined } from "../../Common/optionFromUndefined.js";
 import { UUID } from "../Common/index.js";
 import {

@@ -1,8 +1,8 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
-import * as A from "fp-ts/lib/Array.js";
-import * as M from "fp-ts/lib/Map.js";
-import { pipe } from "fp-ts/lib/function.js";
-import * as S from "fp-ts/lib/string.js";
+import * as A from "fp-ts/Array";
+import * as M from "fp-ts/Map";
+import { pipe } from "fp-ts/function";
+import * as S from "fp-ts/string";
 import { type BySubject } from "../../io/http/Common/index.js";
 import { type EventTotals } from "../../io/http/Events/EventTotals.js";
 import {

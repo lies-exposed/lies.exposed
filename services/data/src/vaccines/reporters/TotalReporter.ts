@@ -3,10 +3,10 @@ import { GetLogger } from "@liexp/core/lib/logger";
 import { VaccineDatum } from "@liexp/shared/lib/io/http/covid/VaccineDatum";
 import { GetCSVUtil } from "@liexp/shared/lib/utilstils/csv.utils";
 import { distanceFromNow } from "@liexp/shared/lib/utilstils/date";
-import * as A from "fp-ts/lib/Array.js";
-import * as IOE from "fp-ts/lib/IOEither.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
+import * as A from "fp-ts/Array";
+import * as IOE from "fp-ts/IOEither";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { computeTotals, ReportReducer } from "../utils/parse.utils";
 
 interface TotalReporterOpts {

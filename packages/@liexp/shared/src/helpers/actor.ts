@@ -1,4 +1,4 @@
-import * as S from "fp-ts/lib/string.js";
+import * as S from "fp-ts/string";
 import kebabCase from "lodash/kebabCase.js";
 import { type Actor, type Common, type Group } from "../io/http/index.js";
 

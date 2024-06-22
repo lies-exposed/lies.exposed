@@ -1,9 +1,9 @@
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { type AxiosInstance, type AxiosResponse } from "axios";
-import * as A from "fp-ts/lib/Array.js";
-import * as R from "fp-ts/lib/Record.js";
-import type * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
+import * as A from "fp-ts/Array";
+import * as R from "fp-ts/Record";
+import type * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import {
   type MinimalEndpointInstance,
   type TypeOfEndpointInstance,

@@ -1,6 +1,6 @@
 import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { DateFromISOString } from "io-ts-types/DateFromISOString";
 import { optionFromUndefined } from "../../Common/optionFromUndefined.js";
 import { BlockNoteDocument } from "../Common/BlockNoteDocument.js";
 import { UUID } from "../Common/UUID.js";

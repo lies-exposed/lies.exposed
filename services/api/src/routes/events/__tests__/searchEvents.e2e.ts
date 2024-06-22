@@ -5,7 +5,7 @@ import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
 import { GroupMemberArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import { fc } from "@liexp/test";
-import * as A from "fp-ts/lib/Array.js";
+import * as A from "fp-ts/Array";
 import jwt from "jsonwebtoken";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { ActorEntity } from "#entities/Actor.entity.js";

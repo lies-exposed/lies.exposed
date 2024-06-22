@@ -1,7 +1,7 @@
 import debug from "debug";
-import * as T from "fp-ts/lib/Task.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
+import * as T from "fp-ts/Task";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 
 const baseLogger = debug("@liexp");
 

@@ -2,7 +2,7 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { AdminEdit } from "@liexp/shared/lib/io/http/User.js";
 import { type Router } from "express";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { createFlowGraph } from "#flows/graphs/createFlowGraph.flow.js";
 import { regenerateFlowGraph } from "#flows/graphs/regenerateFlowGraph.flow.js";
 import { emptyGetNetworkQuery } from "#flows/networks/createNetworkGraph.flow.js";

@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import type * as TE from "fp-ts/lib/TaskEither.js";
+import type * as TE from "fp-ts/TaskEither";
 import { type UserEntity } from "#entities/User.entity.js";
 import { getUserByTelegramId } from "#flows/users/getUserByTelegramId.flow.js";
 import {

@@ -1,6 +1,6 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
-import { UUID } from "io-ts-types/lib/UUID.js";
+import { DateFromISOString } from "io-ts-types/DateFromISOString";
+import { UUID } from "io-ts-types/UUID";
 import { optionFromUndefined } from "../../Common/optionFromUndefined.js";
 import { BlockNoteDocument } from "../Common/BlockNoteDocument.js";
 import { CreateLink } from "../Link.js";

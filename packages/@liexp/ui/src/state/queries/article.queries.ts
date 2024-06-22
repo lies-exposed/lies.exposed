@@ -3,7 +3,7 @@
 // import * as io from '@liexp/shared/lib/io/index';
 // import { liftFetch } from '@liexp/shared/lib/providers/http/http.provider';
 // import { throwTE } from '@liexp/shared/lib/utils/task.utils';
-// import { pipe } from 'fp-ts/lib/function';
+// import { pipe } from 'fp-ts/function';
 // import type { DataProvider, GetListParams } from "react-admin";
 // import { useQuery } from "@tanstack/react-query";
 // import { type APIRESTClient } from '../../http';

@@ -1,6 +1,6 @@
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
-import * as O from "fp-ts/lib/Option.js";
-import { pipe } from "fp-ts/lib/function.js";
+import * as O from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import QueriesRenderer from "../components/QueriesRenderer.js";
 

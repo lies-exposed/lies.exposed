@@ -3,7 +3,7 @@ import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
 import { type AddActorBody } from "@liexp/shared/lib/io/http/Actor.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { Equal } from "typeorm";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";

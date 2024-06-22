@@ -1,9 +1,9 @@
 import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { MP3Type, OGGType } from "@liexp/shared/lib/io/http/Media.js";
 import type * as http from "@liexp/shared/lib/io/http/index.js";
-import * as A from "fp-ts/lib/Array.js";
-import * as O from "fp-ts/lib/Option.js";
-import { pipe } from "fp-ts/lib/function.js";
+import * as A from "fp-ts/Array";
+import * as O from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { styled } from "../../../theme/index.js";
 import { getTextContentsCapped } from "../../Common/BlockNote/utils/index.js";

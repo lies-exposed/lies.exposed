@@ -1,6 +1,6 @@
 import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { DateFromISOString } from "io-ts-types/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { Endpoint } from "ts-endpoint";
 import { ListOutput, Output } from "../../io/http/Common/Output.js";

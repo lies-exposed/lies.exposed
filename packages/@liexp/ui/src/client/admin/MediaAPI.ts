@@ -3,10 +3,10 @@ import { MP4Type, type MediaType } from "@liexp/shared/lib/io/http/Media.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import axios from "axios";
-import * as A from "fp-ts/lib/Array.js";
-import * as E from "fp-ts/lib/Either.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
+import * as A from "fp-ts/Array";
+import * as E from "fp-ts/Either";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { type DataProvider, type RaRecord } from "react-admin";
 import { durationToSeconds } from "../../components/admin/media/DurationField.js";
 

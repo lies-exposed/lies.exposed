@@ -1,7 +1,7 @@
 import { http } from "@liexp/shared/lib/io/index.js";
 import { QueryClientProvider, useQueryClient } from "@tanstack/react-query";
-import * as E from "fp-ts/lib/Either.js";
-import { pipe } from "fp-ts/lib/function.js";
+import * as E from "fp-ts/Either";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { LoadingIndicator, useEditContext } from "react-admin";
 import { ActorTemplate } from "../../../templates/ActorTemplate.js";

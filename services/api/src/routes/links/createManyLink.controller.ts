@@ -2,10 +2,10 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { type Router } from "express";
-import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as A from "fp-ts/lib/Array.js";
-import * as E from "fp-ts/lib/Either.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import { sequenceS } from "fp-ts/Apply";
+import * as A from "fp-ts/Array";
+import * as E from "fp-ts/Either";
+import * as TE from "fp-ts/TaskEither";
 import { In } from "typeorm";
 import { toLinkIO } from "./link.io.js";
 import { LinkEntity } from "#entities/Link.entity.js";
@@ -40,7 +40,7 @@ export const MakeCreateManyLinkRoute = (r: Router, ctx: RouteContext): void => {
           return pipe(
             body,
             A.map((b) => {
-              const u = links.find((l) => l.url === sanitizeURL(b.url as any));
+              const u = links.find((l) => l.url === sanitizeURL(b.url));
 
               if (!u) {
                 return fetchAndSave(ctx)(user, b.url);

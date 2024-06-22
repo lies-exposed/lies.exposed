@@ -4,7 +4,7 @@ import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelation
 import { getEventCommonProps } from "@liexp/shared/lib/helpers/event/index.js";
 import { Events } from "@liexp/shared/lib/io/http/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { pipe } from "fp-ts/lib/function.js";
+import { pipe } from "fp-ts/function";
 import get from "lodash/get";
 import * as React from "react";
 import {

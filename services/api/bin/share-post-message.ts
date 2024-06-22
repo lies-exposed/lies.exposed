@@ -1,6 +1,6 @@
 /* eslint-disable import/no-named-as-default */
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import prompts from "prompts";
 import { startContext, stopContext } from "./start-ctx";
 import { postToIG } from "#flows/social-posts/postToIG.flow";

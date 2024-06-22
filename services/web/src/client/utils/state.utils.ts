@@ -1,6 +1,6 @@
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import type * as t from "io-ts";
 import { stateLogger } from "./logger.utils.js";
 

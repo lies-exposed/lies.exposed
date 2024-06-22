@@ -1,5 +1,5 @@
 import { GetEndpointSubscriber } from "ts-endpoint-express";
-import { type IOError } from "ts-io-error/lib/index.js";
+import { type IOError } from "ts-io-error";
 import { EndpointsMapType } from "./Endpoints.js";
 import * as GroupMember from "./GroupMember.endpoints.js";
 import * as Networks from "./Network.endpoints.js";

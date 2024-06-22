@@ -6,7 +6,7 @@ import {
   type CreateScientificStudyPlainBody,
 } from "@liexp/shared/lib/io/http/Events/ScientificStudy.js";
 import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { type DeepPartial, Equal } from "typeorm";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { type KeywordEntity } from "#entities/Keyword.entity.js";

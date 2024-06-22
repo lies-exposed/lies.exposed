@@ -33,7 +33,7 @@ const config: any = tseslint.config(
       },
     },
     rules: {
-      "fp-ts/no-lib-imports": "off",
+      "fp-ts/no-lib-imports": "error",
       "import/default": "off",
       "import/no-named-as-default-member": "off",
       "import/order": [
@@ -63,8 +63,10 @@ const config: any = tseslint.config(
             "react-admin",
             "!@liexp/ui/lib/components/admin/react-admin",
             "@liexp/core/src",
+            "@liexp/backend/src",
             "@liexp/shared/src",
-            "@liexp/ui/src",
+            "@liexp/test/src",
+            "@liexp/ui/src"
           ],
         },
       ],

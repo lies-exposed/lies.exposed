@@ -1,8 +1,8 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import type * as logger from "@liexp/core/lib/logger/index.js";
 import { type AxiosInstance, type AxiosResponse } from "axios";
-import { type Reader } from "fp-ts/lib/Reader.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import { type Reader } from "fp-ts/Reader";
+import * as TE from "fp-ts/TaskEither";
 import { type SpaceProvider, toError } from "./space.provider.js";
 
 interface LocalSpaceProviderCtx {

@@ -6,8 +6,8 @@ import { CreateEventBodyArb } from "@liexp/shared/lib/tests/arbitrary/Event.arbi
 import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { fc } from "@liexp/test";
-import * as A from "fp-ts/lib/Array.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as A from "fp-ts/Array";
+import * as TE from "fp-ts/TaskEither";
 import { In } from "typeorm";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { loginUser, saveUser } from "../../../../test/user.utils.js";

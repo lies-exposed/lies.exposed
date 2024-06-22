@@ -1,6 +1,6 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import { startContext, stopContext } from "./start-ctx";
 import { upsertPinnedMessage } from "#flows/tg/upsertPinnedMessage.flow";
 

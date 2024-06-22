@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { Option } from "fp-ts/lib/Option.js";
+import { Option } from "fp-ts/Option";
 import { BNBlock, BNESchemaEditor } from "../EditorSchema.js";
 import { isValidValue } from "./isValidValue.js";
 

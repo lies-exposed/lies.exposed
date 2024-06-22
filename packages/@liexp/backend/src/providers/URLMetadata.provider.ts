@@ -1,7 +1,7 @@
 import { type AxiosInstance } from "axios";
 import domino from "domino";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { type Metadata, metadataRuleSets } from "page-metadata-parser";
 
 metadataRuleSets.date = {

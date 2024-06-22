@@ -16,15 +16,12 @@ import {
 import {
   type Events,
   type GroupMember,
-  type Media,
+  type Media
 } from "@liexp/shared/lib/io/http/index.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
-import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as A from "fp-ts/lib/Array.js";
-import * as E from "fp-ts/lib/Either.js";
-import * as IOE from "fp-ts/lib/IOEither.js";
-import * as O from "fp-ts/lib/Option.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import { parseISO } from 'date-fns';
+import { sequenceS } from "fp-ts/Apply";
+import { TaskEither } from 'fp-ts/TaskEither';
 import { In } from "typeorm";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { type EventV2Entity } from "#entities/Event.v2.entity.js";
@@ -60,7 +57,7 @@ const updateMap = (
 ): Map<string, number> => {
   return pipe(
     arr,
-    A.reduce(c, (acc, a) => {
+    fp.A.reduce(c, (acc, a) => {
       return pipe(
         acc,
         fp.Map.lookup(fp.S.Eq)(a.id),
@@ -112,7 +109,7 @@ export const createStatsByType: TEFlow<
     media,
     keywords,
   }: // links,
-  Events.EventRelationIds): TE.TaskEither<
+  Events.EventRelationIds): TaskEither<
     DBError,
     {
       actors: ActorEntity[];
@@ -122,10 +119,10 @@ export const createStatsByType: TEFlow<
       media: MediaEntity[];
     }
   > => {
-    return sequenceS(TE.ApplicativePar)({
+    return sequenceS(fp.TE.ApplicativePar)({
       actors:
         actors.length === 0
-          ? TE.right([])
+          ? fp.TE.right([])
           : ctx.db.find(ActorEntity, {
               where: {
                 id: In(actors),
@@ -133,7 +130,7 @@ export const createStatsByType: TEFlow<
             }),
       groups:
         groups.length === 0
-          ? TE.right([])
+          ? fp.TE.right([])
           : ctx.db.find(GroupEntity, {
               where: {
                 id: In(groups),
@@ -141,7 +138,7 @@ export const createStatsByType: TEFlow<
             }),
       groupsMembers:
         groupsMembers.length === 0
-          ? TE.right([])
+          ? fp.TE.right([])
           : ctx.db.find(GroupMemberEntity, {
               where: {
                 id: In(groupsMembers),
@@ -150,7 +147,7 @@ export const createStatsByType: TEFlow<
             }),
       media:
         media.length === 0
-          ? TE.right([])
+          ? fp.TE.right([])
           : ctx.db.find(MediaEntity, {
               where: {
                 id: In(media),
@@ -158,7 +155,7 @@ export const createStatsByType: TEFlow<
             }),
       keywords:
         keywords.length === 0
-          ? TE.right([])
+          ? fp.TE.right([])
           : ctx.db.find(KeywordEntity, {
               where: {
                 id: In(keywords),
@@ -182,8 +179,8 @@ export const createStatsByType: TEFlow<
     initialSearchEventsQueryCache;
 
   return pipe(
-    TE.fromIOEither(
-      IOE.tryCatch(() => {
+    fp.TE.fromIOEither(
+      fp.IOE.tryCatch(() => {
         const filePathDir = path.dirname(filePath);
         const tempFolderExists = fs.existsSync(filePathDir);
         if (!tempFolderExists) {
@@ -195,7 +192,7 @@ export const createStatsByType: TEFlow<
         }
       }, toControllerError),
     ),
-    TE.chain(() =>
+    fp.TE.chain(() =>
       walkPaginatedRequest(ctx)<
         SearchEventOutput,
         ControllerError,
@@ -203,20 +200,20 @@ export const createStatsByType: TEFlow<
       >(
         ({ skip, amount }) =>
           searchEventV2Query(ctx)({
-            ids: O.none,
-            actors: type === "actors" ? O.some([id as UUID]) : O.none,
-            groups: type === "groups" ? O.some([id as UUID]) : O.none,
-            keywords: type === "keywords" ? O.some([id as UUID]) : O.none,
-            groupsMembers: O.none,
-            links: O.none,
-            locations: O.none,
-            type: O.some(EventType.types.map((t) => t.value)),
-            q: O.none,
-            startDate: O.none,
-            endDate: O.none,
-            media: O.none,
-            exclude: O.none,
-            draft: O.none,
+            ids: fp.O.none,
+            actors: type === "actors" ? fp.O.some([id as UUID]) : fp.O.none,
+            groups: type === "groups" ? fp.O.some([id as UUID]) : fp.O.none,
+            keywords: type === "keywords" ? fp.O.some([id as UUID]) : fp.O.none,
+            groupsMembers: fp.O.none,
+            links: fp.O.none,
+            locations: fp.O.none,
+            type: fp.O.some(EventType.types.map((t) => t.value)),
+            q: fp.O.none,
+            startDate: fp.O.none,
+            endDate: fp.O.none,
+            media: fp.O.none,
+            exclude: fp.O.none,
+            draft: fp.O.none,
             withDeleted: false,
             withDrafts: false,
             order: {
@@ -231,19 +228,19 @@ export const createStatsByType: TEFlow<
         50,
       ),
     ),
-    TE.chain((results) =>
+    fp.TE.chain((results) =>
       pipe(
         results,
-        A.map((e) => toEventV2IO(e)),
-        A.sequence(E.Applicative),
-        TE.fromEither,
-        TE.chain((events) => {
+        fp.A.map((e) => toEventV2IO(e)),
+        fp.A.sequence(fp.E.Applicative),
+        fp.TE.fromEither,
+        fp.TE.chain((events) => {
           return pipe(
             getNewRelationIds(events, searchEventsQueryCache),
             ctx.logger.debug.logInPipe(`new relation ids %O`),
-            TE.right,
-            TE.chain(fetchRelations),
-            TE.map(({ actors, groups, groupsMembers, media, keywords }) => {
+            fp.TE.right,
+            fp.TE.chain(fetchRelations),
+            fp.TE.map(({ actors, groups, groupsMembers, media, keywords }) => {
               const init: StatsCache = {
                 events: [],
                 media: new Map(),
@@ -254,7 +251,7 @@ export const createStatsByType: TEFlow<
               };
               const result = pipe(
                 events,
-                A.reduce(init, (acc, e) => {
+                fp.A.reduce(init, (acc, e) => {
                   const searchEvent = toSearchEvent(e, {
                     media: new Map(),
                     groupsMembers: new Map(),
@@ -263,7 +260,7 @@ export const createStatsByType: TEFlow<
                         k.id as string,
                         {
                           ...k,
-                          id: k.id as any,
+                          id: k.id,
                           color: k.color as any,
                           events: [],
                           links: [],
@@ -293,8 +290,8 @@ export const createStatsByType: TEFlow<
                         {
                           ...a,
                           death: "",
-                          bornOn: (a.bornOn as any) ?? undefined,
-                          diedOn: (a.diedOn as any) ?? undefined,
+                          bornOn: a.bornOn ? parseISO(a.bornOn) : undefined,
+                          diedOn: a.diedOn ? parseISO(a.diedOn) : undefined,
                           color: a.color as any,
                           avatar: a.avatar ?? undefined,
                           memberIn: [],
@@ -313,7 +310,7 @@ export const createStatsByType: TEFlow<
         }),
       ),
     ),
-    TE.map((stats) => {
+    fp.TE.map((stats) => {
       return {
         stats: {
           actors: fp.Map.toArray(fp.S.Ord)(stats.actors)
@@ -328,8 +325,8 @@ export const createStatsByType: TEFlow<
         },
       };
     }),
-    TE.chainIOEitherK(({ stats }) => {
-      return IOE.tryCatch(() => {
+    fp.TE.chainIOEitherK(({ stats }) => {
+      return fp.IOE.tryCatch(() => {
         fs.writeFileSync(filePath, JSON.stringify(stats));
         return stats;
       }, toControllerError);

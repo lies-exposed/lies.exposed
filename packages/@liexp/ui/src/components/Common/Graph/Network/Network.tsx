@@ -8,7 +8,7 @@ import { Tooltip } from "@visx/tooltip";
 import withTooltip, {
   type WithTooltipProvidedProps,
 } from "@visx/tooltip/lib/enhancers/withTooltip.js";
-import * as A from "fp-ts/lib/Array.js";
+import * as A from "fp-ts/Array";
 import * as React from "react";
 import NetworkLink, { type NetworkLinkProps } from "./NetworkLink.js";
 import {

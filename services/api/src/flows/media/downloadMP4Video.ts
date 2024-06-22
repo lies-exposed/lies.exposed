@@ -3,7 +3,7 @@ import path from "path";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { taskifyStream } from "@liexp/shared/lib/utils/task.utils.js";
 import axios from "axios";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { type SimpleMedia } from "./thumbnails/extractMP4Thumbnail.flow.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";

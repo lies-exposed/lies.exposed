@@ -1,5 +1,5 @@
-import * as E from "fp-ts/lib/Either.js";
-import { PathReporter } from "io-ts/lib/PathReporter.js";
+import * as E from "fp-ts/Either";
+import { PathReporter } from "io-ts/PathReporter";
 import { BlockNoteDocument } from "../BlockNoteDocument.js";
 
 const expectDecodeResult = (

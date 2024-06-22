@@ -5,7 +5,7 @@ import {
   type CreateSocialPost,
   type SocialPostBodyMultipleMedia,
 } from "@liexp/shared/lib/io/http/SocialPost.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { type MediaRepositoryConfigureResponseRootObject } from "instagram-private-api";
 import * as t from "io-ts";
 import { type TEFlow } from "#flows/flow.types.js";

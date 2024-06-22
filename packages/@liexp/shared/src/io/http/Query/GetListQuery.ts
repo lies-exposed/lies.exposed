@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { DateFromISOString } from "io-ts-types/DateFromISOString";
 import { UUID } from "io-ts-types/lib/UUID.js";
 import { optionFromUndefined } from "../../Common/optionFromUndefined.js";
 import { PaginationQuery } from "./PaginationQuery.js";

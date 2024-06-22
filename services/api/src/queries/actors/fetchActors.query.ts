@@ -1,15 +1,15 @@
 import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
-import * as O from "fp-ts/lib/Option.js";
-import * as R from "fp-ts/lib/Record.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import * as S from "fp-ts/lib/string.js";
+import * as O from "fp-ts/Option";
+import * as R from "fp-ts/Record";
+import * as TE from "fp-ts/TaskEither";
+import * as S from "fp-ts/string";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { type RouteContext } from "#routes/route.types.js";
 import { getORMOptions } from "#utils/orm.utils.js";
 
-// import * as O from 'fp-ts/lib/Option.js'
+// import * as O from 'fp-ts/Option'
 
 const defaultQuery: http.Actor.GetListActorQuery = {
   ids: O.none,

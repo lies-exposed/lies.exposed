@@ -1,7 +1,7 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { StoryUtils } from "@liexp/shared/lib/utils/story.utils.js";
-import { type Option } from "fp-ts/lib/Option.js";
-import { pipe } from "fp-ts/lib/function.js";
+import { type Option } from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { styled } from "../../../../../theme/index.js";
 import { Box, List, ListItem, Typography } from "../../../../mui/index.js";

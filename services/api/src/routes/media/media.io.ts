@@ -1,7 +1,7 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
-import * as E from "fp-ts/lib/Either.js";
+import * as E from "fp-ts/Either";
 import { type MediaEntity } from "#entities/Media.entity.js";
 import { type ControllerError, DecodeError } from "#io/ControllerError.js";
 

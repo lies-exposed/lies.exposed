@@ -1,13 +1,13 @@
 import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
-import * as O from "fp-ts/lib/Option.js";
-import type * as TE from "fp-ts/lib/TaskEither.js";
+import * as O from "fp-ts/Option";
+import type * as TE from "fp-ts/TaskEither";
 import { GroupEntity } from "#entities/Group.entity.js";
 import { type RouteContext } from "#routes/route.types.js";
 import { addOrder, getORMOptions } from "#utils/orm.utils.js";
 
-// import * as O from 'fp-ts/lib/Option.js'
+// import * as O from 'fp-ts/Option'
 
 const defaultQuery: http.Group.GetGroupListQuery = {
   ids: O.none,

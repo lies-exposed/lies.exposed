@@ -1,9 +1,9 @@
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as A from "fp-ts/lib/Array.js";
-import * as O from "fp-ts/lib/Option.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
+import { sequenceS } from "fp-ts/Apply";
+import * as A from "fp-ts/Array";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { findByURL } from "../src/queries/events/scientificStudy.query.js";
 import { startContext, stopContext } from "./start-ctx.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";

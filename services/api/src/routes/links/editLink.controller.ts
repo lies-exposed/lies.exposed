@@ -3,8 +3,8 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { type Router } from "express";
-import * as O from "fp-ts/lib/Option.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
 import { Equal, In } from "typeorm";
 import { type RouteContext } from "../route.types.js";
 import { toLinkIO } from "./link.io.js";
@@ -82,7 +82,7 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
                               label: ll.image.label ?? null,
                               description: ll.image.description ?? null,
                               thumbnail: ll.image.thumbnail ?? null,
-                            } as any)
+                            })
                           : null,
                       })),
                     );
@@ -104,7 +104,7 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
                           label: l.image.label ?? null,
                           description: l.image.description ?? null,
                           thumbnail: l.image.thumbnail ?? null,
-                        } as any)
+                        })
                       : null,
                   });
                 }),

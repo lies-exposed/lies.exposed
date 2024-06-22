@@ -1,6 +1,6 @@
 import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { BooleanFromString } from "io-ts-types/BooleanFromString";
+import { DateFromISOString } from "io-ts-types/DateFromISOString";
 import { UUID } from "io-ts-types/lib/UUID.js";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { Endpoint } from "ts-endpoint";

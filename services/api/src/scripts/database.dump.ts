@@ -3,10 +3,10 @@ import * as path from "path";
 import { loadENV } from "@liexp/core/lib/env/utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
-import * as E from "fp-ts/lib/Either.js";
-import type * as T from "fp-ts/lib/Task.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { PathReporter } from "io-ts/lib/PathReporter.js";
+import * as E from "fp-ts/Either";
+import type * as T from "fp-ts/Task";
+import * as TE from "fp-ts/TaskEither";
+import { PathReporter } from "io-ts/PathReporter";
 import { ENV } from "#io/ENV.js";
 
 const log = logger.GetLogger("database:dump");

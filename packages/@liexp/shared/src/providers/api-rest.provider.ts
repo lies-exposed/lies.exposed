@@ -3,10 +3,10 @@ import axios, {
   type AxiosRequestConfig,
   type AxiosInstance,
 } from "axios";
-import * as E from "fp-ts/lib/Either.js";
-import * as Task from "fp-ts/lib/Task.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
+import * as E from "fp-ts/Either";
+import * as Task from "fp-ts/Task";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import type * as RA from "react-admin";
 
 export interface APIRESTClient {

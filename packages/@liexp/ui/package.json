@@ -1,7 +1,6 @@
 {
   "name": "@liexp/ui",
   "version": "0.1.0",
-  "private": true,
   "license": "MIT",
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "type": "module",

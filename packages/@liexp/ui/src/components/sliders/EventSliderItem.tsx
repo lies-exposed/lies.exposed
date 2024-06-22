@@ -2,9 +2,9 @@ import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSear
 import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
 import { formatDateToShort } from "@liexp/shared/lib/utils/date.utils.js";
-import * as A from "fp-ts/lib/Array.js";
-import * as O from "fp-ts/lib/Option.js";
-import { pipe } from "fp-ts/lib/function.js";
+import * as A from "fp-ts/Array";
+import * as O from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { styled } from "../../theme/index.js";
 import { getTextContentsCapped } from "../Common/BlockNote/utils/getTextContentsCapped.js";

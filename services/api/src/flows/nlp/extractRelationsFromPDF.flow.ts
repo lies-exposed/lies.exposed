@@ -1,7 +1,7 @@
 import path from "path";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { GetEncodeUtils } from "@liexp/shared/lib/utils/encode.utils.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { extractRelationsFromText } from "./extractRelationsFromText.flow.js";
 import { type ActorEntity } from "#entities/Actor.entity.js";
 import { type AreaEntity } from "#entities/Area.entity.js";

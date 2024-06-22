@@ -1,6 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
-import * as E from "fp-ts/lib/Either.js";
+import * as E from "fp-ts/Either";
 import { toBookIO } from "./books/book.io.js";
 import { toDocumentaryIO } from "./documentary/documentary.io.js";
 import { toQuoteIO } from "./quotes/quote.io.js";

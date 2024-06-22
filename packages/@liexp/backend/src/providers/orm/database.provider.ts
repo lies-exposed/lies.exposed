@@ -2,10 +2,10 @@
 import { escapePostgresIdentifier } from "@databases/escape-identifier";
 import { type FormatConfig, type SQLQuery } from "@databases/sql";
 import * as logger from "@liexp/core/lib/logger/index.js";
-import * as O from "fp-ts/lib/Option.js";
-import type * as Reader from "fp-ts/lib/Reader.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
+import * as O from "fp-ts/Option";
+import type * as Reader from "fp-ts/Reader";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { IOError } from "ts-io-error";
 import {
   type DataSource,

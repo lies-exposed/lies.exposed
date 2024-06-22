@@ -5,10 +5,10 @@ import {
   type AxiosRequestConfig,
   type AxiosResponse,
 } from "axios";
-import * as E from "fp-ts/lib/Either.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as E from "fp-ts/Either";
+import * as TE from "fp-ts/TaskEither";
 import * as t from "io-ts";
-import { PathReporter } from "io-ts/lib/PathReporter.js";
+import { PathReporter } from "io-ts/PathReporter";
 import {
   type MinimalEndpointInstance,
   type TypeOfEndpointInstance,

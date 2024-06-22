@@ -8,8 +8,8 @@ import {
   type GetNetworkQuery,
   type NetworkType,
 } from "@liexp/shared/lib/io/http/Network.js";
-import * as O from "fp-ts/lib/Option.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
 import { type TEFlow } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
 import {

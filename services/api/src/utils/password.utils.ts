@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { type ControllerError, ServerError } from "#io/ControllerError.js";
 
 const toError = (e: unknown): ControllerError => {

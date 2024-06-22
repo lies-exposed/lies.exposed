@@ -1,6 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { sequenceS } from "fp-ts/lib/Apply.js";
+import { sequenceS } from "fp-ts/Apply";
 import { Brackets } from "typeorm";
 import { startContext, stopContext } from "./start-ctx.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
@@ -55,13 +55,13 @@ const run = async (): Promise<any> => {
             () => {
               switch (e.type) {
                 case "ScientificStudy": {
-                  return (e.payload as any).url;
+                  return (e.payload).url;
                 }
                 case "Patent": {
-                  return (e.payload as any).source;
+                  return (e.payload).source;
                 }
                 case "Documentary": {
-                  return (e.payload as any).website;
+                  return (e.payload).website;
                 }
               }
             },

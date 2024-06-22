@@ -1,6 +1,6 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
-import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray.js";
+import { DateFromISOString } from "io-ts-types/DateFromISOString";
+import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { BaseProps } from "../Common/BaseProps.js";
 import { markdownRemark } from "../Common/Markdown.js";

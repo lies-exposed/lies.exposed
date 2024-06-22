@@ -2,7 +2,7 @@ import * as t from "io-ts";
 import {
   DateFromISOString,
   type DateFromISOStringC,
-} from "io-ts-types/lib/DateFromISOString.js";
+} from "io-ts-types/DateFromISOString";
 import { UUID } from "io-ts-types/lib/UUID.js";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { BaseProps } from "./Common/BaseProps.js";

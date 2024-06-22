@@ -1,6 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints, AddEndpoint } from "@liexp/shared/lib/endpoints/index.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import { Equal } from "typeorm";
 import { AreaEntity } from "../../entities/Area.entity.js";
 import { type Route } from "../route.types.js";

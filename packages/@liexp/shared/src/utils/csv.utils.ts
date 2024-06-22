@@ -1,11 +1,11 @@
 import { type Logger } from "@liexp/core/lib/logger/index.js";
 import * as csv from "fast-csv";
-import * as A from "fp-ts/lib/Array.js";
-import * as E from "fp-ts/lib/Either.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
+import * as A from "fp-ts/Array";
+import * as E from "fp-ts/Either";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import type * as t from "io-ts";
-import { PathReporter } from "io-ts/lib/PathReporter.js";
+import { PathReporter } from "io-ts/PathReporter";
 
 interface ParseFileOpts<A, O = A, I = unknown> {
   mapper?: (a: I) => A;

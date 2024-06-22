@@ -1,5 +1,5 @@
 import { type Logger } from "@liexp/core/lib/logger/index.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/TaskEither";
 import {
   IgApiClient,
   IgLoginTwoFactorRequiredError,
