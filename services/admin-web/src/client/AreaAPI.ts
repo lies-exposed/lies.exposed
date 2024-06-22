@@ -5,9 +5,9 @@ import {
   type UpdateParams,
   type UpdateResult,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
-import * as E from "fp-ts/Either";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
+import * as E from "fp-ts/lib/Either.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { pipe } from "fp-ts/lib/function.js";
 
 export const editArea =
   (client: http.APIRESTClient) =>
