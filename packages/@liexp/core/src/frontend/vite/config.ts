@@ -65,7 +65,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
         commonjsOptions: {
           include: [/node_modules/],
           // exclude: [/@liexp\/core/, /@liexp\/shared/, /@liexp\/ui/],
-          // transformMixedEsModules: true,
+          transformMixedEsModules: true,
         },
       },
       css: {
@@ -74,14 +74,10 @@ export const defineViteConfig = <A extends Record<string, any>>(
       optimizeDeps: {
         entries: [
           path.join(config.cwd, "src/**"),
-          // path.join(config.cwd, "../../packages/@liexp/ui/core/**"),
-          // path.join(config.cwd, "../../packages/@liexp/ui/shared/**"),
-          // path.join(config.cwd, "../../packages/@liexp/ui/lib/**"),
         ],
-        include:
-          mode === "production"
-            ? undefined
-            : ["@liexp/core", "@liexp/shared", "@liexp/ui"],
+        include: mode === 'production' ? undefined : [
+          '@liexp/*/**',
+        ],
       },
 
       resolve: {
@@ -140,6 +136,9 @@ export const defineViteConfig = <A extends Record<string, any>>(
       ],
       esbuild: {
         jsx: "automatic",
+        exclude: [
+          'fp-ts'
+        ]
       },
     };
 
