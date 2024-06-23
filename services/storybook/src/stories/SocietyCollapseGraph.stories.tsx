@@ -3,7 +3,7 @@ import {
   type SocietyCollapseForecastGraphProps,
 } from "@liexp/ui/lib/components/Graph/SocietyCollapseForecastGraph/SocietyCollapseForecastGraph.js";
 import { type Meta, type StoryFn } from "@storybook/react";
-import React from "react";
+import * as React from "react";
 
 const meta: Meta = {
   title: "Components/Graph/SocietyCollapseForecastGraph",

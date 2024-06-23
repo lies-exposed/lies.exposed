@@ -1,5 +1,5 @@
 import { OpenAI } from "@liexp/shared/lib/providers/openai/openai.provider.js";
-import React from "react";
+import * as React from "react";
 import { OpenAIContext } from "../context/OpenAIContext";
 
 export const useOpenAI = (): OpenAI => {

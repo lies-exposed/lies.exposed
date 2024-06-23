@@ -1,13 +1,13 @@
 import * as React from "react";
-import { Datagrid, DateField, FunctionField, TextField } from "react-admin";
 import { Box } from "../../mui/index.js";
 import { AvatarField } from "../common/AvatarField.js";
+import { Datagrid, DateField, FunctionField, TextField } from "../react-admin";
 
 export const GroupDataGrid: React.FC = () => {
   return (
     <Datagrid
       rowClick="edit"
-      rowStyle={(r) => ({
+      rowSx={(r) => ({
         borderLeft: `5px solid #${r.color}`,
       })}
     >

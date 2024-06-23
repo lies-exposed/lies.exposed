@@ -1,5 +1,5 @@
 import { Events } from "@liexp/shared/lib/io/http/index.js";
-import React from "react";
+import * as React from "react";
 import EventsBox from "../../../containers/EventsBox.js";
 import { Stack } from "../../mui/index.js";
 

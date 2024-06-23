@@ -8,7 +8,7 @@
 // import { ordString } from "fp-ts/Ord";
 // import * as Tuple from "fp-ts/Tuple";
 // import { pipe } from "fp-ts/lib/function.js";
-// import React from "react";
+// import * as React from "react";
 
 // interface ProjectFundsPieGraphProps {
 //   funds: Events.ProjectTransaction.ProjectTransaction[];

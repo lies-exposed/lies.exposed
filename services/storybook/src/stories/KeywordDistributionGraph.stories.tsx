@@ -2,7 +2,7 @@ import KeywordDistributionGraph, {
   type KeywordsDistributionGraphProps,
 } from "@liexp/ui/lib/components/Graph/KeywordDistributionGraph.js";
 import { type Meta, type StoryFn } from "@storybook/react";
-import React from "react";
+import * as React from "react";
 
 const meta: Meta = {
   title: "Components/Graph/KeywordDistribution",

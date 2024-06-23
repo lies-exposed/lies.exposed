@@ -1,5 +1,5 @@
 import { Events } from "@liexp/shared/lib/io/http/index.js";
-import React from "react";
+import * as React from "react";
 import { Handle, Position, type NodeProps } from "reactflow";
 import { useConfiguration } from "../../../../../context/ConfigurationContext.js";
 import EventCard from "../../../../Cards/Events/EventCard.js";

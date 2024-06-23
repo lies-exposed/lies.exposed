@@ -1,5 +1,5 @@
 import { http } from "@liexp/shared/lib/io/index.js";
-import React from "react";
+import * as React from "react";
 import { Node, useReactFlow } from "reactflow";
 import { Button, Icons, Stack } from "../../../../../mui/index.js";
 

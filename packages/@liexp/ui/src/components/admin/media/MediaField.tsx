@@ -7,7 +7,9 @@ import {
   UrlField,
   useRecordContext,
 } from "react-admin";
-import ReactAudioPlayer from "react-audio-player";
+import _ReactAudioPlayer from "react-audio-player";
+
+const ReactAudioPlayer: any = _ReactAudioPlayer;
 
 interface MediaFieldProps extends FieldProps {
   type?: string;

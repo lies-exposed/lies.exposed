@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { FlowGraphBuilder } from "../../Common/Graph/Flow/FlowGraphBuilder";
 import { TextInputProps, useInput } from "../react-admin";
 

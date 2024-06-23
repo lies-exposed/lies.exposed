@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { BNESchemaEditor } from "./EditorSchema.js";
 
 export const BlockNoteEditorContext =

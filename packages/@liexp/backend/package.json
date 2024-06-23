@@ -31,6 +31,7 @@
     "@liexp/test": "workspace:*",
     "fp-ts": "^2.16.6",
     "io-ts": "^2.2.21",
+    "date-fns": "^2.30.0",
     "jsonwebtoken": "^9.0.2",
     "page-metadata-parser": "^1.1.4",
     "ts-io-error": "^2.0.0"
@@ -40,7 +41,7 @@
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node-telegram-bot-api": "^0.64.6",
     "@types/uuid": "^9.0.8",
-    "date-fns": "^2.30.0",
+    "fast-csv": "^5.0.1",
     "exifreader": "^4.20.0",
     "prettier": "^3.2.5",
     "puppeteer-core": "^21.11.0",

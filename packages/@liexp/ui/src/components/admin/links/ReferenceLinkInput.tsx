@@ -1,7 +1,7 @@
 import { type Media } from "@liexp/shared/lib/io/http/Media.js";
 import { type Link } from "@liexp/shared/lib/io/http/index.js";
 import get from "lodash/get.js";
-import React from "react";
+import * as React from "react";
 import {
   AutocompleteInput,
   ReferenceInput,

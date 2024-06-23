@@ -1,6 +1,6 @@
 import { type Media, type MediaType } from "@liexp/shared/lib/io/http/Media.js";
 import get from "lodash/get";
-import React from "react";
+import * as React from "react";
 import { Stack, Typography } from "../../../mui/index.js";
 import {
   AutocompleteInput,

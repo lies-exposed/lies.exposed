@@ -8,7 +8,7 @@ import {
 } from "@liexp/ui/lib/containers/graphs/EventsFlowGraphBox.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import subYears from "date-fns/subYears/index.js";
-import React from "react";
+import * as React from "react";
 
 const meta: Meta = {
   title: "Containers/Graphs/EventsFlowGraphBox",

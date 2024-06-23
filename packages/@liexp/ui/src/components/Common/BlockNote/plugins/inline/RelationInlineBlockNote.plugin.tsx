@@ -1,5 +1,5 @@
 import { createReactInlineContentSpec } from "@blocknote/react";
-import React from "react";
+import * as React from "react";
 import { AutocompleteActorInput } from "../../../../Input/AutocompleteActorInput.js";
 import { AutocompleteAreaInput } from "../../../../Input/AutocompleteAreaInput.js";
 import { AutocompleteGroupInput } from "../../../../Input/AutocompleteGroupInput.js";

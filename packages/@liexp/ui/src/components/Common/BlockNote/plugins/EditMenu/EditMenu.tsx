@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { IconButton, Icons, Stack } from "../../../../mui/index.js";
 import { BNESchemaEditor } from "../../EditorSchema.js";
 
