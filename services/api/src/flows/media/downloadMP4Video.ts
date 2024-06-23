@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
+import { taskifyStream } from "@liexp/backend/lib/utils/task.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { taskifyStream } from "@liexp/shared/lib/utils/task.utils.js";
 import axios from "axios";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type SimpleMedia } from "./thumbnails/extractMP4Thumbnail.flow.js";

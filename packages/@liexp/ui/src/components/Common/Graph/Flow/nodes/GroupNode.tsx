@@ -1,5 +1,5 @@
 import { Group } from "@liexp/shared/lib/io/http/index.js";
-import React from "react";
+import * as React from "react";
 import { Handle, NodeProps, Position } from "reactflow";
 import { GroupListItem } from "../../../../lists/GroupList.js";
 

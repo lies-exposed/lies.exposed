@@ -3,7 +3,7 @@ import {
   type EndpointsRESTClient,
   fromEndpoints,
 } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
-import React from "react";
+import * as React from "react";
 import { useDataProvider } from "./useDataProvider.js";
 
 const useEndpointsRESTClient = (): EndpointsRESTClient<Endpoints> => {

@@ -1,6 +1,7 @@
 import { MP4Type } from "@liexp/shared/lib/io/http/Media.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import * as React from "react";
+import { Box, Stack, Typography, colors } from "../../mui/index.js";
 import {
   BooleanInput,
   Datagrid,
@@ -14,8 +15,7 @@ import {
   useGetIdentity,
   usePermissions,
   type ListProps,
-} from "react-admin";
-import { Box, Stack, Typography, colors } from "../../mui/index.js";
+} from "../react-admin";
 import { toFormattedDuration } from "./DurationField.js";
 import { MediaField } from "./MediaField.js";
 import { MediaTypeInput } from "./input/MediaTypeInput.js";

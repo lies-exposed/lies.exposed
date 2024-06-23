@@ -9,7 +9,7 @@ import {
 import { toColor } from "@liexp/shared/lib/utils/colors.js";
 import { parseISO } from "date-fns";
 import { pipe } from "fp-ts/lib/function.js";
-import React from "react";
+import * as React from "react";
 import {
   FlowGraph,
   type FlowGraphProps,

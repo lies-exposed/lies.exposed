@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { styled } from "../../../../../theme/index.js";
 import { Popover } from "../../../../mui/index.js";
 

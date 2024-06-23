@@ -1,5 +1,5 @@
 import { TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost.js";
-import React from "react";
+import * as React from "react";
 import { InstagramIcon, TelegramIcon } from "../../Common/Icons/index.js";
 import { Box } from "../../mui/index.js";
 import {

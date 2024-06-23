@@ -1,5 +1,5 @@
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
-import React from "react";
+import * as React from "react";
 import {
   AutocompleteArrayInput,
   Button,

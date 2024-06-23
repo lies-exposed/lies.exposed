@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { Handle, Position, type NodeProps } from "reactflow";
 import { KeywordListItem } from "../../../../lists/KeywordList.js";
 

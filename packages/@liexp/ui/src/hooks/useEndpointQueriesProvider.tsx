@@ -3,7 +3,7 @@ import {
   QueryProviderCustomQueries,
   type EndpointsQueryProvider,
 } from "@liexp/shared/lib/providers/EndpointQueriesProvider/index.js";
-import React from "react";
+import * as React from "react";
 import { useEndpointsRESTClient } from "./useEndpointRestClient.js";
 
 const useEndpointQueries = (): EndpointsQueryProvider => {

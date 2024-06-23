@@ -3,7 +3,7 @@ import {
   ByGroupId,
 } from "@liexp/shared/lib/io/http/Common/index.js";
 import get from "lodash/get";
-import React from "react";
+import * as React from "react";
 import {
   FormDataConsumer,
   SelectInput,
