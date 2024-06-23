@@ -6,7 +6,6 @@
   "repository": "git@github.com:lies.exposed/lies-exposed.git",
   "license": "MIT",
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
-  "main": "index.js",
   "scripts": {
     "admin-web": "pnpm --filter 'admin-web'",
     "api": "pnpm --filter 'api'",

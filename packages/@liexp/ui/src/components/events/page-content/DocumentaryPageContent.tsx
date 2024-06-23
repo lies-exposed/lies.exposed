@@ -1,7 +1,7 @@
 import { type Events, type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useTheme } from "../../../theme/index.js";
-import { BNEditor } from "../../Common/BlockNote/Editor.js";
+import { BNEditor } from "../../Common/BlockNote/index.js";
 import { Box, Grid } from "../../mui/index.js";
 import { MediaSlider } from "../../sliders/MediaSlider.js";
 

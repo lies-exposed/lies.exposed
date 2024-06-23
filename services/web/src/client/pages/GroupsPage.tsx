@@ -1,4 +1,3 @@
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";

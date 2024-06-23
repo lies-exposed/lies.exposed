@@ -6,7 +6,7 @@ import {
 } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useTheme } from "../theme/index.js";
-import { BNEditor } from "./Common/BlockNote/Editor.js";
+import { BNEditor } from "./Common/BlockNote/index.js";
 import { ActorList } from "./lists/ActorList.js";
 import GroupList from "./lists/GroupList.js";
 import { Grid, Typography } from "./mui/index.js";

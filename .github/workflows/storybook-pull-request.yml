@@ -7,9 +7,9 @@ on:
       - release/alpha
       - master
     paths:
-      # - ".github/workflows/**"
-      # - "packages/@liexp/**/src/**"
-      - "services/storybook-disabled/**"
+      - ".github/workflows/**"
+      - "packages/@liexp/**/src/**"
+      - "services/storybook/**"
 
 jobs:
   install:

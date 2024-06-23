@@ -3,9 +3,9 @@
   "compilerOptions": {
     "lib": ["DOM", "ESNext"],
     "jsx": "react-jsx",
-    "target": "es6",
+    "target": "ES6",
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "noEmit": false,
     "composite": true,
     "incremental": true,
