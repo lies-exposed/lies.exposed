@@ -27,6 +27,7 @@
     ]
   },
   "dependencies": {
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "fp-ts": "^2.16.6",
     "io-ts": "^2.2.21",
     "io-ts-types": "^0.5.19",

@@ -7,9 +7,6 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable pnpm
 
-# Run everything after as non-privileged user.
-# USER pptruser
-
 WORKDIR /usr/src/app
 
 FROM pnpm as api-base

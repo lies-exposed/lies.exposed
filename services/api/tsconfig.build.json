@@ -5,7 +5,6 @@
     "baseUrl": "./src",
     "rootDir": "./src",
     "jsx": "react-jsx",
-    "composite": true,
     "tsBuildInfoFile": "build/tsconfig.build.tsbuildinfo",
     "types": ["express"],
     "typeRoots": [

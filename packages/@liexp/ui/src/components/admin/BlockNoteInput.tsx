@@ -7,7 +7,7 @@ import {
   type InputProps,
 } from "react-admin";
 import { ErrorBoundary } from "react-error-boundary";
-import { BNEditor, BNEditorProps } from "../Common/BlockNote/Editor.js";
+import { BNEditor, BNEditorProps } from "../Common/BlockNote/index.js";
 import { getTextContents } from "../Common/BlockNote/utils/getTextContents.js";
 import {
   fromSlateToBlockNote,
@@ -127,7 +127,7 @@ const BlockNoteInput: React.FC<
     onlyText?: boolean;
     readOnly?: boolean;
   }
-> = ({ onlyText = false, readOnly = false, ...props }) => {
+> = ({ onlyText = false, readOnly = true, ...props }) => {
   return (
     <RaBlockNoteInput
       {...props}

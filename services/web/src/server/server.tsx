@@ -1,3 +1,10 @@
+/**
+ * Web Server
+ *
+ * From the example https://github.com/bluwy/create-vite-extra/tree/master/template-ssr-react
+ *
+ */
+
 // other imports
 import * as fs from "fs";
 import * as path from "path";
@@ -66,10 +73,7 @@ const run = async (base: string): Promise<void> => {
     };
 
     app.use(compression());
-    app.use(
-      base,
-      sirv(path.resolve(cwd, "./build/client"), { extensions: [] }),
-    );
+    app.use(base, sirv(path.resolve(outputDir, "client"), { extensions: [] }));
   } else {
     const { createServer: createViteServer } = await import("vite");
 

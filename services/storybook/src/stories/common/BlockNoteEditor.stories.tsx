@@ -2,7 +2,7 @@ import { BlockNoteView } from "@blocknote/mantine";
 import {
   BNEditor,
   BNEditorProps,
-} from "@liexp/ui/lib/components/Common/BlockNote/Editor.js";
+} from "@liexp/ui/lib/components/Common/BlockNote/index.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 

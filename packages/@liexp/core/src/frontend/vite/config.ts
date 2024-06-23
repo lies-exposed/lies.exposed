@@ -14,13 +14,13 @@ import { type GetViteConfigParams } from "./type.js";
 export const defineViteConfig = <A extends Record<string, any>>(
   config: GetViteConfigParams<A>,
 ): ((env: ConfigEnv) => UserConfig) => {
-  return ({ mode }) => {
+  return ({ mode: _mode }) => {
     const dotEnvFilePath = path.resolve(
       config.envFileDir,
       process.env.DOTENV_CONFIG_PATH ?? ".env",
     );
 
-    loadENV(config.cwd, dotEnvFilePath, mode === "development");
+    loadENV(config.cwd, dotEnvFilePath, _mode === "development");
 
     const env = pipe(
       // loadEnv(mode, config.envFileDir, ""),
@@ -41,6 +41,8 @@ export const defineViteConfig = <A extends Record<string, any>>(
         return env.right;
       },
     );
+
+    const mode = env.VITE_NODE_ENV ?? _mode;
 
     // eslint-disable-next-line
     console.log(mode, env);
@@ -66,14 +68,15 @@ export const defineViteConfig = <A extends Record<string, any>>(
           include: [/node_modules/],
           transformMixedEsModules: true,
         },
+        sourcemap: mode === 'development'
       },
-      assetsInclude: ["@liexp/ui/assets/main.css"],
+      assetsInclude: [],
       css: {
         devSourcemap: true,
       },
       optimizeDeps: {
         entries: [path.join(config.cwd, "src/**")],
-        include: ["@liexp/*/lib/**"],
+        include: mode === "production" ? undefined : ["@liexp/**"],
       },
 
       resolve: {
@@ -122,12 +125,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
           }
         : undefined,
       ssr: {
-        external: [
-          "react",
-          "react-dom",
-          // "react-dom/server",
-          // "react/jsx-runtime",
-        ],
+        external: ["react", "react-dom"],
       },
       plugins: [
         image() as any,
@@ -137,9 +135,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
           root: config.cwd,
           projects: config.tsConfigFile ? [config.tsConfigFile] : undefined,
         }),
-        react({
-          jsxRuntime: "classic",
-        }),
+        react(),
         ...(config.plugins ?? []),
       ],
       esbuild: {
