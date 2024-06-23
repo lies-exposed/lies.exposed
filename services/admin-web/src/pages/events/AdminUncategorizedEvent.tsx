@@ -25,7 +25,6 @@ import {
   TextInput,
   required,
   type ListProps,
-  type RaRecord,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { ReferenceLinkTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceLinkTab.js";
 import { ReferenceMediaTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceMediaTab.js";
@@ -66,7 +65,7 @@ export const UncategorizedEventList: React.FC<ListProps> = (props) => (
     <Datagrid rowClick="edit">
       <FunctionField
         label="type"
-        render={(r: any) => {
+        render={(r) => {
           return <EventIcon color="primary" type={r.type} />;
         }}
       />
@@ -74,7 +73,7 @@ export const UncategorizedEventList: React.FC<ListProps> = (props) => (
       <FunctionField
         label="actors"
         source="payload"
-        render={(r: RaRecord | undefined) => {
+        render={(r) => {
           if (r?.type === "Uncategorized") {
             return r.payload.actors.length;
           }
@@ -85,14 +84,14 @@ export const UncategorizedEventList: React.FC<ListProps> = (props) => (
 
       <FunctionField
         source="payload.groups"
-        render={(r: RaRecord | undefined) =>
+        render={(r) =>
           r ? (r.payload.groups ?? []).length : 0
         }
       />
       <FunctionField
         label="Location"
         source="payload.location"
-        render={(r: RaRecord | undefined) =>
+        render={(r) =>
           r?.location?.coordinates ? <PinDropIcon /> : "-"
         }
       />

@@ -19,14 +19,14 @@ export const CreateEventFromMediaButton: React.FC = () => {
     io.http.Events.EventType.types[0].value,
   );
 
-  const handleSubmit = async (): Promise<void> => {
+  const handleSubmit = async (media: Media): Promise<void> => {
     const suggestion = await getSuggestions(toBNDocument)(
       {
-        title: record.label ?? record.description?.substring(0, 100),
-        description: record.description,
+        title: media.label ?? media.description?.substring(0, 100),
+        description: media.description,
       } as any,
       O.none,
-      O.some(record as any),
+      O.some(media as any),
       eventRelationIdsMonoid.empty,
     ).then((suggestions) => suggestions.find((t) => t.event.type === type));
 
@@ -41,7 +41,11 @@ export const CreateEventFromMediaButton: React.FC = () => {
     navigate(`/events/${e.id}`);
   };
 
-  if (record?.events?.length > 0) {
+  if (!record) {
+    return <Box />;
+  }
+
+  if (record?.events?.length ?? 0 > 0) {
     return <Box />;
   }
 
@@ -64,7 +68,7 @@ export const CreateEventFromMediaButton: React.FC = () => {
         label="Create Event"
         variant="contained"
         onClick={() => {
-          void handleSubmit();
+          void handleSubmit(record);
         }}
       />
     </Stack>

@@ -14,41 +14,47 @@ export const MediaSuggestedEntityRelations: React.FC = () => {
   const dataProvider: any = useDataProvider();
   const [loading, setLoading] = React.useState<boolean>(false);
   const [data, setData] = React.useState<any>(null);
-  const [update, { isLoading }] = useUpdate();
+  const [update, { isPending: isLoading }] = useUpdate();
 
   const finalLoading = loading || isLoading;
 
   const doExtractNLPEntities = React.useCallback((): void => {
-    void dataProvider
-      .post("/admins/nlp/extract-entities", { pdf: record.location })
-      .then((res: any) => {
-        setLoading(false);
-        setData(res.data);
-      });
-  }, [record.location]);
+    if (record) {
+      void dataProvider
+        .post("/admins/nlp/extract-entities", { pdf: record.location })
+        .then((res: any) => {
+          setLoading(false);
+          setData(res.data);
+        });
+    }
+  }, [record?.location]);
 
   const doAddKeyword = React.useCallback(
     (entity: string) => {
-      void update("media", {
-        id: record.id,
-        data: {
-          ...record,
-          keywords: ((record.keywords as string[]) ?? []).concat([entity]),
-        },
-      });
+      if (record) {
+        void update("media", {
+          id: record.id,
+          data: {
+            ...record,
+            keywords: ((record.keywords as string[]) ?? []).concat([entity]),
+          },
+        });
+      }
     },
     [update, record, data],
   );
 
   const doAppendSentenceToDescription = React.useCallback(
     (sentence: string) => {
-      void update("media", {
-        id: record.id,
-        data: {
-          ...record,
-          description: `${record.description}\n\n${sentence}`,
-        },
-      });
+      if (record) {
+        void update("media", {
+          id: record.id,
+          data: {
+            ...record,
+            description: `${record.description}\n\n${sentence}`,
+          },
+        });
+      }
     },
     [update, record],
   );
@@ -73,10 +79,10 @@ export const MediaSuggestedEntityRelations: React.FC = () => {
             entities: {
               actors: [],
               groups: [],
-              keywords: record.keywords ?? [],
+              keywords: record?.keywords ?? [],
             },
             sentences:
-              record.description
+              record?.description
                 ?.split("\n")
                 .map((t: string) => ({ text: t.trim(), importance: 1 })) ?? [],
           }}

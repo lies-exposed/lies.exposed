@@ -32,11 +32,7 @@ export const CreateEventFromLinkButton: React.FC = () => {
     type: io.http.Events.EventType.types[1].value,
   });
 
-  if (record?.events?.length > 0) {
-    return <Box />;
-  }
-
-  const getSuggestionFromAPI = React.useCallback(async (): Promise<
+  const getSuggestionFromAPI = React.useCallback(async (link: Link): Promise<
     Either<Error, EventSuggestion.CreateEventSuggestion>
   > => {
     if (suggestion) {
@@ -44,12 +40,12 @@ export const CreateEventFromLinkButton: React.FC = () => {
     }
 
     const result = await apiProvider
-      .get("open-graph/metadata", { url: record.url, type: "Link" })
+      .get("open-graph/metadata", { url: link.url, type: "Link" })
       .then(async ({ data: { metadata: m, relations } }: any) => {
         const suggestions = await getSuggestions(toBNDocument)(
           m,
-          O.some(record),
-          O.fromNullable(record.image as Media),
+          O.some(link),
+          O.fromNullable(link.image as Media),
           getRelationIdsFromEventRelations(relations.entities),
         );
 
@@ -62,6 +58,13 @@ export const CreateEventFromLinkButton: React.FC = () => {
 
     return result;
   }, [record, type]);
+
+  
+  if (!record || record?.events?.length > 0) {
+    return <Box />;
+  }
+
+  
 
   return (
     <Box>
@@ -93,7 +96,7 @@ export const CreateEventFromLinkButton: React.FC = () => {
             });
           }
           setTimeout(() => {
-            void getSuggestionFromAPI().then(
+            void getSuggestionFromAPI(record).then(
               flow(
                 fp.E.fold(
                   (e) => {
@@ -119,7 +122,7 @@ export const CreateEventFromLinkButton: React.FC = () => {
         label="Create Event"
         variant="contained"
         onClick={() => {
-          void getSuggestionFromAPI().then(
+          void getSuggestionFromAPI(record).then(
             flow(
               fp.E.fold(
                 (e) => {

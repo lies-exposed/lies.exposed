@@ -1,3 +1,4 @@
+import { Media } from '@liexp/shared/lib/io/http/index.js';
 import get from "lodash/get";
 import * as React from "react";
 import {
@@ -9,21 +10,22 @@ import {
 import { Button, Stack, Typography } from "../../../mui/index.js";
 import { DurationField } from "../DurationField.js";
 
-export const GenerateExtraButton: React.FC<FieldProps> = ({
+export const GenerateExtraButton: React.FC<FieldProps<Media.Media>> = ({
   source = "extra",
+  record: _record,
   ...props
 }) => {
-  const record = useRecordContext(props);
+  const record: any = _record ?? useRecordContext<Media.Media>({...props, source: 'media' });
   const extra = get(record, source);
   const refresh = useRefresh();
   const apiProvider = useDataProvider();
 
-  const handleExtraUpdate = React.useCallback(() => {
+  const handleExtraUpdate = React.useCallback((media: Media.Media) => {
     void apiProvider
       .update(`media`, {
-        id: record.id,
-        data: { ...record, overrideExtra: true },
-        previousData: record,
+        id: media.id,
+        data: { ...media, overrideExtra: true },
+        previousData: media,
       })
       .then(() => {
         refresh();
@@ -45,12 +47,16 @@ export const GenerateExtraButton: React.FC<FieldProps> = ({
     return null;
   }, [extra]);
 
+  if (!record) {
+    return null;
+  }
+
   return (
     <Stack spacing={2} padding={2}>
       {extraFields}
       <Button
         onClick={() => {
-          handleExtraUpdate();
+          handleExtraUpdate(record);
         }}
       >
         Generate Extra

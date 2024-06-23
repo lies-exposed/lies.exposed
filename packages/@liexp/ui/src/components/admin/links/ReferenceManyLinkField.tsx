@@ -8,7 +8,7 @@ import { LinkDataGrid } from "./LinkDataGrid.js";
 
 const ReferenceManyLinksField: React.FC<
   Omit<ReferenceManyFieldProps<RaRecord<string>>, "reference" | "children">
-> = (props) => {
+> = ({ queryOptions, ...props }) => {
   return (
     <ReferenceManyField
       {...props}

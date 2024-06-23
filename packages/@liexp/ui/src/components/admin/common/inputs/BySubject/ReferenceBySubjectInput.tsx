@@ -33,7 +33,7 @@ const ReferenceBySubjectInput: React.FC<
       />
 
       <FormDataConsumer {...props}>
-        {({ formData, scopedFormData, getSource, ...rest }) => {
+        {({ formData, scopedFormData, ...rest }) => {
           const type = get(formData, typeSource);
           if (type === "Actor") {
             return (

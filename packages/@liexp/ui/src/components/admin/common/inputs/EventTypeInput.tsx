@@ -25,7 +25,7 @@ import {
 } from "../../../mui/index.js";
 
 export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
-  const record = useRecordContext();
+  const record = useRecordContext<Events.Event>();
   const redirect = useRedirect();
   const apiProvider = useDataProvider();
   const api = useAPI();
@@ -38,7 +38,7 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
     setType(e.target.value);
   };
 
-  const doTransform = async (): Promise<void> => {
+  const doTransform = async (record: Events.Event): Promise<void> => {
     const { data: event } = await apiProvider.getOne("events", {
       id: record.id,
     });
@@ -122,7 +122,7 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
       });
   };
 
-  return (
+  return record && (
     <Box>
       <Select
         size="small"
@@ -142,7 +142,7 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
         label="Transform"
         disabled={value === type}
         onClick={() => {
-          void doTransform();
+          void doTransform(record);
         }}
       />
     </Box>

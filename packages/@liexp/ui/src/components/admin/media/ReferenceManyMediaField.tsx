@@ -9,7 +9,7 @@ import { MediaDataGrid } from "./MediaList.js";
 export const ReferenceManyMediaField: React.FC<
   Omit<
     ReferenceManyFieldProps<RaRecord<string>>,
-    "reference" | "children" | "target"
+    "reference" | "children" | "target" | 'queryOptions'
   > & {
     target?: string;
   }

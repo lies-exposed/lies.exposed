@@ -36,7 +36,6 @@ import {
   ReferenceField,
   SavedQueriesList,
   TextField,
-  type RaRecord as Record,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import {
   Box,
@@ -188,13 +187,13 @@ export const EventList: React.FC = () => (
           );
         }}
       />
-      <ExcerptField label="excerpt" />
+      <ExcerptField label="excerpt" source="excerpt" />
       <FunctionField source="links" render={(r: any) => r.links?.length ?? 0} />
       <FunctionField source="media" render={(r: any) => r.media?.length ?? 0} />
       <FunctionField
         label="actors"
         source="payload"
-        render={(r: Record | undefined) => {
+        render={(r) => {
           if (r?.type === Events.EventTypes.UNCATEGORIZED.value) {
             return r.payload.actors.length;
           }
@@ -210,7 +209,7 @@ export const EventList: React.FC = () => (
       <FunctionField
         label="groups"
         source="payload"
-        render={(r: Record | undefined) => {
+        render={(r) => {
           if (r?.type === "Uncategorized") {
             return r.payload.groups.length;
           }
@@ -229,7 +228,7 @@ export const EventList: React.FC = () => (
       <FunctionField
         label="groupsMembers"
         source="payload"
-        render={(r: Record | undefined) => {
+        render={(r) => {
           if (r?.type === http.Events.EventTypes.UNCATEGORIZED.value) {
             return r.payload.groupsMembers.length;
           }
@@ -244,7 +243,7 @@ export const EventList: React.FC = () => (
       <FunctionField
         label="Location"
         source="payload.location.coordinates"
-        render={(r: Record | undefined) =>
+        render={(r) =>
           r?.location?.coordinates ? <Icons.PinDrop /> : "-"
         }
       />
@@ -261,7 +260,7 @@ export const EventEdit: React.FC = (props) => {
     <EditEventForm {...props} title={<EventTitle />} redirect={false}>
       {(suggestions, handlers) => (
         <FormDataConsumer>
-          {({ formData, getSource, scopedFormData, ...rest }) => {
+          {({ formData,  scopedFormData, ...rest }) => {
             if (formData.type === EventTypes.DOCUMENTARY.value) {
               return <DocumentaryEditFormTab />;
             }

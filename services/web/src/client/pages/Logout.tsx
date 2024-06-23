@@ -9,11 +9,13 @@ const LogoutPage: React.FC<RouteComponentProps> = () => {
   const navTo = useNavigateToResource();
   const authProvider = useAuthProvider();
   React.useEffect(() => {
-    void authProvider.checkAuth({}).then(() => {
-      void authProvider.logout({}).then(() => {
-        navTo.index({});
+    if (authProvider) {
+      void authProvider.checkAuth({}).then(() => {
+        void authProvider.logout({}).then(() => {
+          navTo.index({});
+        });
       });
-    });
+    }
   }, []);
 
   return (

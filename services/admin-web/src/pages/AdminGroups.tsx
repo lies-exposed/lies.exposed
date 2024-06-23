@@ -191,7 +191,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
         <FormTab label="Avatar">
           <MediaField source="avatar" type="image/jpeg" controls={false} />
           <ImageInput source="avatar">
-            <ImageField src="src" />
+            <ImageField source="" src="src" />
           </ImageInput>
         </FormTab>
         <FormTab label="Body">
@@ -262,7 +262,7 @@ export const GroupCreate: React.FC<CreateProps> = (props) => {
                 <GroupKindInput source="kind" />
                 <GroupMemberArrayInput source="members" />
                 <ImageInput source="avatar">
-                  <ImageField src="src" />
+                  <ImageField source='' src="src" />
                 </ImageInput>
                 <BlockNoteInput source="excerpt" onlyText />
                 <BlockNoteInput source="body" />

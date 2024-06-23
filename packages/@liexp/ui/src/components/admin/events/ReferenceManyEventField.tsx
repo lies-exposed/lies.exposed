@@ -13,7 +13,7 @@ import { EventTitle } from "./titles/EventTitle.js";
 
 const ReferenceManyEventField: React.FC<
   Omit<ReferenceManyFieldProps<RaRecord<string>>, "reference" | "children">
-> = (props) => {
+> = ({ queryOptions, ...props }) => {
   return (
     <ReferenceManyField
       {...props}
@@ -27,7 +27,7 @@ const ReferenceManyEventField: React.FC<
             return (
               <Box>
                 <EventIcon type={r.type} style={{ marginRight: 10 }} />
-                <EventTitle record={r} />
+                <EventTitle record={r} source='payload.title' />
               </Box>
             );
           }}

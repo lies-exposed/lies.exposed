@@ -1,3 +1,4 @@
+import { Media } from '@liexp/shared/lib/io/http/index.js';
 import * as React from "react";
 import { Grid, Stack } from "../../mui/index.js";
 import {
@@ -40,7 +41,7 @@ export const EditForm: React.FC<React.PropsWithChildren<EditFormProps>> = ({
                 setShowPreview(!showPreview);
               }}
             />
-            <WebPreviewButton resource={resource} source="id" />
+            {resource && <WebPreviewButton resource={resource} source="id" />}
             <RestoreButton />
           </Stack>
         </Grid>
@@ -61,8 +62,9 @@ export const EditForm: React.FC<React.PropsWithChildren<EditFormProps>> = ({
 const RestoreButton: React.FC = () => {
   const refresh = useRefresh();
   const dataProvider = useDataProvider();
-  const record = useRecordContext();
-  const handleOnClick = (): void => {
+  const record = useRecordContext<Media.Media>();
+
+  const handleOnClick = (record: Media.Media): void => {
     void dataProvider
       .update("media", {
         id: record.id,
@@ -78,7 +80,7 @@ const RestoreButton: React.FC = () => {
   };
   if (record?.deletedAt) {
     return (
-      <Button label="Restore" variant="contained" onClick={handleOnClick} />
+      <Button label="Restore" variant="contained" onClick={() => handleOnClick(record)} />
     );
   }
   return null;

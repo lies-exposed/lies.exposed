@@ -15,9 +15,9 @@ export const PublishNowButton: React.FC<{
   const refresh = useRefresh();
   const dataProvider = useDataProvider();
 
-  const handlePublishNow = (): void => {
+  const handlePublishNow = (post: any): void => {
     void dataProvider
-      .put(`/social-posts/${record.id}/publish`, { platforms })
+      .put(`/social-posts/${post.id}/publish`, { platforms })
       .then(() => {
         refresh();
       })
@@ -40,7 +40,7 @@ export const PublishNowButton: React.FC<{
     return (
       <Button
         label="Publish now"
-        onClick={handlePublishNow}
+        onClick={() => handlePublishNow(record)}
         variant="contained"
       />
     );
