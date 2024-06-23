@@ -19,25 +19,25 @@ export const LinkArrayInput: React.FC<
       <SimpleFormIterator fullWidth>
         <BooleanInput source="fromURL" />
         <FormDataConsumer>
-          {({ formData, scopedFormData, getSource, ...rest }) => {
-            const getSrc = getSource ?? ((s: string) => s);
+          {({ formData, scopedFormData, ...rest }) => {
+            
             if (scopedFormData?.fromURL) {
               return (
                 <Box style={{ width: "100%" }}>
-                  <TextInput source={getSrc("url")} fullWidth />
+                  <TextInput source={"url"} fullWidth />
                   <TextInput
-                    source={getSrc("description")}
+                    source={"description"}
                     multiline
                     fullWidth
                   />
-                  <DateInput source={getSrc("publishDate")} />
+                  <DateInput source={"publishDate"} />
                 </Box>
               );
             }
             return (
               <Box width="100%">
                 <ReferenceArrayLinkInput
-                  source={getSrc("ids")}
+                  source={"ids"}
                   defaultValue={defaultValue}
                 />
               </Box>

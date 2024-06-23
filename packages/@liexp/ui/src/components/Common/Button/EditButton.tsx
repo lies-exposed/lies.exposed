@@ -26,7 +26,7 @@ const EditButton: React.FC<EditButtonProps> = ({
 
   React.useEffect(() => {
     if (admin === undefined) {
-      void authProvider.checkAuth({}).then(
+      void authProvider?.checkAuth({}).then(
         async () => {
           const permissions = await authProvider.getPermissions({});
           setIsAdmin(checkIsAdmin(permissions));
@@ -36,7 +36,7 @@ const EditButton: React.FC<EditButtonProps> = ({
         },
       );
     }
-  }, []);
+  }, [authProvider]);
 
   if (isAdmin === null) {
     return null;

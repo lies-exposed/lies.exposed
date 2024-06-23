@@ -250,7 +250,7 @@ export const ActorCreate: React.FC<CreateProps> = (props) => {
                 </Grid>
                 <Grid item md={6} sm={12}>
                   <ImageInput source="avatar">
-                    <ImageField />
+                    <ImageField source='' />
                   </ImageInput>
                 </Grid>
                 <Grid item md={12}>

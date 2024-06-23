@@ -40,7 +40,7 @@ export const EventGeneralTab: React.FC<EventGeneralTabProps> = ({
     isLoading: true,
     suggestions: null,
   });
-  const [update, { isLoading: isUpdateLoading }] = useUpdate();
+  const [update, { isPending: isUpdateLoading }] = useUpdate();
 
   React.useEffect(() => {
     if (record?.id && suggestions === null) {
@@ -63,29 +63,33 @@ export const EventGeneralTab: React.FC<EventGeneralTabProps> = ({
 
   const doAddKeyword = React.useCallback(
     (entity: string) => {
-      void update("events", {
-        id: record.id,
-        data: {
-          ...record,
-          keywords: (record.keywords ?? []).concat([entity]),
-        },
-      });
+      if (record) {
+        void update("events", {
+          id: record.id,
+          data: {
+            ...record,
+            keywords: (record.keywords ?? []).concat([entity]),
+          },
+        });
+      }
     },
     [update, record],
   );
 
   const doAddActors = React.useCallback(
-    (entity: string) => {
-      void update("events", {
-        id: record.id,
-        data: {
-          ...record,
-          payload: {
-            ...record.payload,
-            actors: (record.actors ?? []).concat([entity]),
+    (actodId: string) => {
+      if (record) {
+        void update("events", {
+          id: record.id,
+          data: {
+            ...record,
+            payload: {
+              ...record.payload,
+              actors: (record.actors ?? []).concat([actodId]),
+            },
           },
-        },
-      });
+        });
+      }
     },
     [update, record],
   );

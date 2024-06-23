@@ -125,14 +125,15 @@ const BlockNoteInput: React.FC<
   InputProps & {
     className?: string;
     onlyText?: boolean;
+    readOnly?: boolean;
   }
-> = ({ onlyText = false, readOnly, ...props }) => {
+> = ({ onlyText = false, readOnly = false, ...props }) => {
   return (
     <RaBlockNoteInput
       {...props}
       label={typeof props.label === "string" ? props.label : props.source}
       variant={onlyText ? "plain" : "extended"}
-      readOnly={readOnly ?? false}
+      readOnly={readOnly}
     />
   );
 };

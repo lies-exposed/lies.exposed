@@ -11,7 +11,7 @@ export const OverrideThumbnail: React.FC = () => {
   const refresh = useRefresh();
   const record = useRecordContext();
   const dataProvider = useDataProvider();
-  return (
+  return record && (
     <Button
       label="resources.links.actions.override_thumbnail"
       variant="contained"

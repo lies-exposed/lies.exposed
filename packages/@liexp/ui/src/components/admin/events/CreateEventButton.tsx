@@ -28,6 +28,10 @@ export const CreateEventButton: React.FC<CreateEventButtonProps> = ({
     io.http.Events.EventType.types[1].value,
   );
 
+  if (!record) {
+    return null;
+  }
+
   return (
     <Box style={{ display: "flex", alignItems: "center", padding: 10 }}>
       <Select

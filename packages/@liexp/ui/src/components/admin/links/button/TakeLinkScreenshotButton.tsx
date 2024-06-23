@@ -13,6 +13,7 @@ export const TakeLinkScreenshot: React.FC = () => {
   const dataProvider = useDataProvider();
 
   const handleOnClick = (): void => {
+    if (record) {
     void dataProvider
       .post(
         `/links/${record?.id}/screenshot`,
@@ -23,6 +24,7 @@ export const TakeLinkScreenshot: React.FC = () => {
       .then(() => {
         refresh();
       });
+    }
   };
 
   return (

@@ -134,7 +134,7 @@ export const MediaCreateMany: React.FC<any> = (props) => {
       MP4Type.value,
       MP3Type.value,
       OGGType.value,
-    ],
+    ].reduce((acc, k) => ({ ...acc, [k]: [] }), {}),
     multiple: true,
     onDrop,
   });

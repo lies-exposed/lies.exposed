@@ -35,7 +35,7 @@ const StyledContainer = styled(Container)(({ theme }) => ({
 }));
 
 const EditStoryPageContent: React.FC<{ id?: string }> = ({ id }) => {
-  const [update, { isLoading: isSubmitting }] = useUpdate();
+  const [update, { isPending: isSubmitting }] = useUpdate();
   const navigate = useNavigate();
   const onSubmit = async (data: any): Promise<void> => {
     await update(

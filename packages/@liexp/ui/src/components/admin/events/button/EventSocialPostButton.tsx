@@ -132,7 +132,7 @@ export const EventSocialPostButton: React.FC<{ id: UUID }> = ({ id }) => {
               groups,
               useReply: false,
               platforms: { TG: true, IG: false },
-              schedule: record.schedule,
+              schedule: record?.schedule,
             };
           });
       }}

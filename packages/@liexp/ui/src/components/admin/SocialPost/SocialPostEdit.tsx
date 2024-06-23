@@ -67,19 +67,19 @@ const transformSocialPost = ({
 const SocialPostEditFormTabTelegram: React.FC = () => {
   const record = useRecordContext<EditSocialPost>();
 
-  const { result } = record;
+  const { result } = record ??  { result: null};
 
   const tg = React.useMemo((): any => {
     let tgDate: string | undefined;
     try {
-      tgDate = formatDate(new Date(result.tg.date * 1000));
+      tgDate = formatDate(new Date(result!.tg.date * 1000));
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
     }
 
-    return { ...result.tg, date: tgDate };
-  }, [result.tg]);
+    return { ...result?.tg, date: tgDate };
+  }, [result?.tg]);
 
   if (!record) {
     return <LoadingIndicator />;
@@ -110,19 +110,19 @@ const SocialPostEditFormTabTelegram: React.FC = () => {
 const SocialPostEditFormTabInstagram: React.FC = () => {
   const record = useRecordContext<EditSocialPost>();
 
-  const { result } = record;
+  const { result } = record ?? { result: null };
 
   const ig = React.useMemo((): any => {
     let igDate: string | undefined;
     try {
-      igDate = formatDate(new Date(result.ig.media.taken_at * 1000));
+      igDate = formatDate(new Date(result!.ig.media.taken_at * 1000));
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
     }
 
-    return { ...result.ig, date: igDate };
-  }, [result.ig]);
+    return { ...result?.ig, date: igDate };
+  }, [result?.ig]);
 
   if (!record) {
     return <LoadingIndicator />;

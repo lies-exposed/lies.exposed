@@ -57,9 +57,9 @@ export const MediaInput: React.FC<MediaInputProps> = ({
         ]}
       />
       <FormDataConsumer>
-        {({ formData, scopedFormData, getSource, ...rest }) => {
+        {({ formData, scopedFormData, ...rest }) => {
           const mediaType = formData[sourceLocation]?.rawFile?.type;
-          const typeSource = get(formData, getSource?.(_type) ?? _type);
+          const typeSource = get(formData, _type);
           const showInput = showInputOnClick ? editMode : false;
 
           const mediaSrc = get(formData, sourceLocation)?.src;
@@ -70,7 +70,13 @@ export const MediaInput: React.FC<MediaInputProps> = ({
                 <FileInput
                   {...props}
                   source={sourceLocation}
-                  accept={types.map((a) => `.${a.split("/")[1]}`).join(",")}
+                  accept={types.reduce(
+                    (acc, a) => ({
+                      ...acc,
+                      [a]: `.${a.split("/")[1]}`,
+                    }),
+                    {},
+                  )}
                 >
                   <MediaField
                     source={sourceLocation}

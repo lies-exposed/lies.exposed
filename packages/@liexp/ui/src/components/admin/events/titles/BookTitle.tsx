@@ -9,16 +9,18 @@ export const BookTitle: React.FC<FieldProps<Events.Book.Book>> = ({
   const record = useRecordContext({ record: _record });
 
   return (
-    <span>
-      {getTitle(record, {
-        groupsMembers: [],
-        keywords: [],
-        links: [],
-        areas: [],
-        media: [],
-        groups: [],
-        actors: [],
-      })}
-    </span>
+    record && (
+      <span>
+        {getTitle(record, {
+          groupsMembers: [],
+          keywords: [],
+          links: [],
+          areas: [],
+          media: [],
+          groups: [],
+          actors: [],
+        })}
+      </span>
+    )
   );
 };

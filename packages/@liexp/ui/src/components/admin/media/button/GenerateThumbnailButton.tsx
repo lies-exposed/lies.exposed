@@ -55,7 +55,7 @@ export const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
 
   const handleThumbnailUpdate = React.useCallback(
     (thumbnail: string) => {
-      if (record.id) {
+      if (record?.id) {
         const { thumbnails, ...extra } = record?.extra ?? {};
         const data = {
           ...record,
@@ -81,7 +81,7 @@ export const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
   );
 
   const handleThumbnailsGenerate = React.useCallback(() => {
-    if (record.id) {
+    if (record?.id) {
       void apiProvider.post(`media/${record.id}/thumbnails`).then(() => {
         refresh();
       });
@@ -92,8 +92,8 @@ export const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
     showModal("Pick the thumbnail", (onClose) => {
       return (
         <SelectThumbnailModalContent
-          thumbnails={record.extra?.thumbnails}
-          defaultThumbnail={record.thumbnail}
+          thumbnails={record?.extra?.thumbnails}
+          defaultThumbnail={record?.thumbnail}
           onClose={onClose}
           onThumbnailSelect={handleThumbnailUpdate}
         />

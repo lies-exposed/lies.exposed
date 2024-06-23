@@ -7,25 +7,25 @@ import { Button, useRecordContext, useRefresh } from "../../react-admin.js";
 export const UpdateAreaGeometryWithCoordinatesButton: React.FC = () => {
   const refresh = useRefresh();
   const record = useRecordContext<Area.Area>();
-  const [coords, setQuery] = React.useState(record.geometry.coordinates);
+  const [coords, setQuery] = React.useState(record?.geometry.coordinates);
 
   const apiProvider = useDataProvider();
 
-  const searchForCoordinates = React.useCallback(() => {
+  const searchForCoordinates = React.useCallback((area: Area.Area, coords: any) => {
     void apiProvider
       .update<Area.Area>("areas", {
-        id: record.id,
-        previousData: record,
+        id: area.id,
+        previousData: area,
         data: {
-          ...record,
-          featuredImage: record.featuredImage?.id,
+          ...area,
+          featuredImage: area.featuredImage?.id,
           geometry: { type: "Point", coordinates: coords },
         },
       })
       .then(() => {
         refresh();
       });
-  }, [record?.label, coords]);
+  }, [apiProvider]);
 
   if (!record) {
     return <CircularProgress />;
@@ -49,7 +49,7 @@ export const UpdateAreaGeometryWithCoordinatesButton: React.FC = () => {
       />
       <Button
         label="Search by coordinates"
-        onClick={searchForCoordinates}
+        onClick={() => searchForCoordinates(record, coords)}
         size="small"
         variant="contained"
       />
