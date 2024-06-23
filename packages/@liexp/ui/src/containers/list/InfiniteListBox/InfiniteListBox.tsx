@@ -4,7 +4,7 @@ import { type ResourceQuery } from "@liexp/shared/lib/providers/EndpointQueriesP
 import { type GetListFnParamsE } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
 import { paramsToPagination } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import React from "react";
+import * as React from "react";
 import { Index, AutoSizer, CellMeasurerCache, InfiniteLoader, Masonry } from "react-virtualized";
 import { type MinimalEndpointInstance } from "ts-endpoint";
 import { FullSizeLoader } from "../../../components/Common/FullSizeLoader.js";

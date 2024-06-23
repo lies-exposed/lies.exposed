@@ -5,7 +5,7 @@ import {
 } from "@liexp/ui/lib/components/Common/Graph/AxisGraph.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import { LinearGradient } from "@visx/gradient";
-import React from "react";
+import * as React from "react";
 
 const meta: Meta = {
   title: "Components/Graph/AxisGraph",

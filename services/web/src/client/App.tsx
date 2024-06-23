@@ -1,9 +1,5 @@
-import "@liexp/ui/assets/main.css";
-import "@blocknote/core/fonts/inter.css";
-import "@blocknote/mantine/style.css";
 import { ErrorBox } from "@liexp/ui/lib/components/Common/ErrorBox.js";
 import { FullSizeLoader } from "@liexp/ui/lib/components/Common/FullSizeLoader.js";
-import "@liexp/ui/lib/components/Common/Icons/library.js";
 import { Footer } from "@liexp/ui/lib/components/Footer.js";
 import SEO from "@liexp/ui/lib/components/SEO.js";
 import { Grid, useMuiMediaQuery } from "@liexp/ui/lib/components/mui/index.js";
@@ -14,6 +10,10 @@ import { Route, Routes, useLocation } from "react-router";
 import AppHeader, { logo192 } from "./components/header/AppHeader.js";
 import NotFoundPage from "./pages/404.js";
 import { routes } from "./routes.js";
+
+import "@liexp/ui/lib/components/Common/Icons/library.js";
+import "@liexp/ui/assets/main.css";
+import "@liexp/ui/assets/blocknote.css";
 
 export const App: React.FC = () => {
   const location = useLocation();

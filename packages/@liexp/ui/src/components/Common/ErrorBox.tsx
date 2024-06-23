@@ -12,7 +12,7 @@ import {
   Typography,
 } from "../mui/index.js";
 
-export const ErrorBox: React.FC<FallbackProps> = ({ error: e }) => {
+export const ErrorBox = ({ error: e }: FallbackProps): JSX.Element => {
   const error = React.useMemo((): APIError => {
     if (e.name === "APIError" && Array.isArray(e.details)) {
       return e;

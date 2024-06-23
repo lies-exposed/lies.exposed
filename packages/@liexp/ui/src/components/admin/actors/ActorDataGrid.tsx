@@ -1,19 +1,19 @@
 import * as React from "react";
-import { Datagrid, DateField, FunctionField, TextField } from "react-admin";
 import { Box } from "../../mui/index.js";
 import { AvatarField } from "../common/AvatarField.js";
+import { Datagrid, DateField, FunctionField, TextField } from "../react-admin";
 
 export const ActorDataGrid: React.FC = () => {
   return (
     <Datagrid
       rowClick="edit"
-      rowStyle={(r) => ({
+      rowSx={(r) => ({
         borderLeft: `5px solid #${r.color}`,
       })}
     >
       <FunctionField
         source="username"
-        render={(r: any) => {
+        render={() => {
           return (
             <Box style={{ display: "flex" }}>
               <AvatarField source="avatar" />

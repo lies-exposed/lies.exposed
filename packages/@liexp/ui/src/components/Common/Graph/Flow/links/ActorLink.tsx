@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { BaseEdge, getBezierPath, type EdgeProps } from "reactflow";
 
 export const ActorLink: React.FC<EdgeProps> = ({

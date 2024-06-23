@@ -3,7 +3,7 @@ import { type GetNetworkQuery } from "@liexp/shared/lib/io/http/Network.js";
 import { type FlowGraphType } from "@liexp/shared/lib/io/http/graphs/FlowGraph.js";
 import { Actor, Group, Keyword } from "@liexp/shared/lib/io/http/index.js";
 import { type UUID } from "io-ts-types/lib/UUID.js";
-import React from "react";
+import * as React from "react";
 import { type Node } from "reactflow";
 import { type serializedType } from "ts-io-error/lib/Codec.js";
 import { EventsFlowGraph } from "../../components/Graph/EventsFlowGraph.js";

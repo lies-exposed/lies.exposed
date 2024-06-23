@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { EventIcon } from "../../Common/Icons/index.js";
 import { Box } from "../../mui/index.js";
 import {

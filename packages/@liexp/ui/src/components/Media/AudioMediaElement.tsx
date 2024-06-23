@@ -2,10 +2,12 @@ import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import { ParentSize } from "@visx/responsive";
 import { clsx } from "clsx";
 import * as React from "react";
-import ReactAudioPlayer from "react-audio-player";
+import _ReactAudioPlayer from "react-audio-player";
 import { styled } from "../../theme/index.js";
 import { Box } from "../mui/index.js";
 import { WaveformThumbnail } from "./WaveformThumbnail.js";
+
+const ReactAudioPlayer: any = _ReactAudioPlayer;
 
 const PREFIX = "AudioMediaElement";
 
@@ -40,7 +42,7 @@ const AudioMediaElement: React.FC<AudioMediaElementProps> = ({
   style,
   ...props
 }) => {
-  const ref = React.createRef<ReactAudioPlayer>();
+  const ref = React.createRef<_ReactAudioPlayer>();
 
   return (
     <Root className={classes.root}>
