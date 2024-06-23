@@ -49,9 +49,9 @@
     "typescript": "^5.4.5"
   },
   "peerDependencies": {
-    "@aws-sdk/client-s3": "^3.592.0",
-    "@aws-sdk/lib-storage": "^3.592.0",
-    "@aws-sdk/s3-request-presigner": "^3.592.0",
+    "@aws-sdk/client-s3": "^3",
+    "@aws-sdk/lib-storage": "^3",
+    "@aws-sdk/s3-request-presigner": "^3",
     "@aws-sdk/types": "^3",
     "@visx/network": "^3.3.0",
     "axios": "^1.7.2",
