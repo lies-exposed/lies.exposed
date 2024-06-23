@@ -27,7 +27,7 @@
     ]
   },
   "dependencies": {
-    "fp-ts": "^2.16.6",
+    "effect": "^3.4.0",
     "io-ts": "^2.2.21",
     "io-ts-types": "^0.5.19",
     "vite-plugin-css-injected-by-js": "^3.5.1",
@@ -47,7 +47,6 @@
     "@types/react": "^18.3.3",
     "@vitejs/plugin-react": "^4.3.1",
     "eslint": "^8.57.0",
-    "eslint-plugin-fp-ts": "^0.3.2",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-react": "^7.34.3",
     "express": "^4.19.2",

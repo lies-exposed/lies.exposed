@@ -29,7 +29,7 @@
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
     "@liexp/test": "workspace:*",
-    "fp-ts": "^2.16.6",
+    "effect": "^3.4.0",
     "io-ts": "^2.2.21",
     "jsonwebtoken": "^9.0.2",
     "page-metadata-parser": "^1.1.4",

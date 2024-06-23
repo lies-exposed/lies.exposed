@@ -1,5 +1,4 @@
 import eslint from "@eslint/js";
-import fpTS from "eslint-plugin-fp-ts";
 import importPlugin from "eslint-plugin-import";
 import tseslint from "typescript-eslint";
 
@@ -13,12 +12,8 @@ const config: any = tseslint.config(
       // "plugin:import/typescript",
       // "plugin:import/recommended",
       // "prettier",
-      // "plugin:fp-ts/recommended",
-      // "plugin:fp-ts/recommended-requiring-type-checking",
-      // "plugin:fp-ts/recommended",
-      // "plugin:fp-ts/recommended-requiring-type-checking",
     ],
-    plugins: { "fp-ts": fpTS, import: importPlugin },
+    plugins: { import: importPlugin },
     languageOptions: {
       parserOptions: {
         project: ["./tsconfig.json"],
@@ -33,8 +28,6 @@ const config: any = tseslint.config(
       },
     },
     rules: {
-      "fp-ts/no-lib-imports": "off",
-      // "fp-ts/no-module-imports": "error",
       "import/default": "off",
       "import/no-named-as-default-member": "off",
       "import/order": [

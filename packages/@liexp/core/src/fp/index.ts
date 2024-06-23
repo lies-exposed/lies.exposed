@@ -1,4 +1,3 @@
-import { sequenceS, sequenceT } from "fp-ts/lib/Apply.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as date from "fp-ts/lib/Date.js";
 import * as E from "fp-ts/lib/Either.js";

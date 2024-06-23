@@ -118,6 +118,9 @@ importers:
       domino:
         specifier: ^2.1.6
         version: 2.1.6
+      effect:
+        specifier: ^3.4.0
+        version: 3.4.0
       express:
         specifier: ^4.19.2
         version: 4.19.2
@@ -127,9 +130,6 @@ importers:
       fluent-ffmpeg:
         specifier: ^2.1.2
         version: 2.1.3
-      fp-ts:
-        specifier: ^2.16.6
-        version: 2.16.6
       instagram-private-api:
         specifier: ^1.46.1
         version: 1.46.1
@@ -224,9 +224,9 @@ importers:
       dotenv:
         specifier: ^16.4.5
         version: 16.4.5
-      fp-ts:
-        specifier: ^2.16.6
-        version: 2.16.6
+      effect:
+        specifier: ^3.4.0
+        version: 3.4.0
       io-ts:
         specifier: ^2.2.21
         version: 2.2.21(fp-ts@2.16.6)
@@ -288,9 +288,6 @@ importers:
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
-      eslint-plugin-fp-ts:
-        specifier: ^0.3.2
-        version: 0.3.2(eslint@8.57.0)(typescript@5.4.5)
       eslint-plugin-import:
         specifier: ^2.29.1
         version: 2.29.1(@typescript-eslint/parser@7.13.1(eslint@8.57.0)(typescript@5.4.5))(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@7.13.1(eslint@8.57.0)(typescript@5.4.5))(eslint-plugin-import@2.29.1)(eslint@8.57.0))(eslint@8.57.0)
@@ -351,9 +348,9 @@ importers:
       domino:
         specifier: ^2.1.6
         version: 2.1.6
-      fp-ts:
-        specifier: ^2.16.6
-        version: 2.16.6
+      effect:
+        specifier: ^3.4.0
+        version: 3.4.0
       io-ts:
         specifier: ^2.2.21
         version: 2.2.21(fp-ts@2.16.6)
@@ -454,9 +451,9 @@ importers:
       debug:
         specifier: '*'
         version: 4.3.5
-      fp-ts:
-        specifier: ^2.16.6
-        version: 2.16.6
+      effect:
+        specifier: ^3.4.0
+        version: 3.4.0
       io-ts:
         specifier: ^2.2.21
         version: 2.2.21(fp-ts@2.16.6)
@@ -638,9 +635,9 @@ importers:
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
-      fp-ts:
-        specifier: ^2.16.6
-        version: 2.16.6
+      effect:
+        specifier: ^3.4.0
+        version: 3.4.0
       geotiff:
         specifier: ^2.1.3
         version: 2.1.3
@@ -858,12 +855,12 @@ importers:
       debug:
         specifier: ^4.3.4
         version: 4.3.5
+      effect:
+        specifier: ^3.4.0
+        version: 3.4.0
       final-form:
         specifier: ^4.20.10
         version: 4.20.10
-      fp-ts:
-        specifier: ^2.16.6
-        version: 2.16.6
       history:
         specifier: ^5.3.0
         version: 5.3.0
@@ -1048,6 +1045,9 @@ importers:
       domino:
         specifier: ^2.1.6
         version: 2.1.6
+      effect:
+        specifier: ^3.4.0
+        version: 3.4.0
       exifreader:
         specifier: ^4.20.0
         version: 4.23.1
@@ -1072,9 +1072,6 @@ importers:
       form-data:
         specifier: ^4.0.0
         version: 4.0.0
-      fp-ts:
-        specifier: ^2.16.6
-        version: 2.16.6
       front-matter:
         specifier: 4.0.2
         version: 4.0.2
@@ -1280,6 +1277,9 @@ importers:
       '@blocknote/react':
         specifier: ^0.14.1
         version: 0.14.1(@tiptap/pm@2.4.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@effect/schema':
+        specifier: ^0.68.6
+        version: 0.68.6(effect@3.4.0)
       '@emotion/cache':
         specifier: ^11.11.0
         version: 11.11.0
@@ -1379,12 +1379,12 @@ importers:
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
+      effect:
+        specifier: ^3.4.0
+        version: 3.4.0
       escodegen:
         specifier: ^2.1.0
         version: 2.1.0
-      fp-ts:
-        specifier: ^2.16.6
-        version: 2.16.6
       html-tags:
         specifier: ^4.0.0
         version: 4.0.0
@@ -1572,12 +1572,12 @@ importers:
       debug:
         specifier: ^4.3.4
         version: 4.3.5
+      effect:
+        specifier: ^3.4.0
+        version: 3.4.0
       express:
         specifier: ^4.19.2
         version: 4.19.2
-      fp-ts:
-        specifier: ^2.16.6
-        version: 2.16.6
       io-ts:
         specifier: ^2.2.21
         version: 2.2.21(fp-ts@2.16.6)
@@ -2806,6 +2806,11 @@ packages:
   '@discoveryjs/json-ext@0.5.7':
     resolution: {integrity: sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==}
     engines: {node: '>=10.0.0'}
+
+  '@effect/schema@0.68.6':
+    resolution: {integrity: sha512-Xn4R32ioAjw8Zhq+WHJVWwF1Ojy/NPn0HdXO+P/D1knTNr7XvuzbW/eKw+enRccUbnZxU4fWHyMf88d1P17ZfQ==}
+    peerDependencies:
+      effect: ^3.4.0
 
   '@emnapi/runtime@1.2.0':
     resolution: {integrity: sha512-bV21/9LQmcQeCPEg3BDFtvwL6cwiTMksYNWQQ4KOxCZikEGalWtenoZ0wCiukJINlGCIi2KXx01g4FoH/LxpzQ==}
@@ -6942,6 +6947,9 @@ packages:
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
 
+  effect@3.4.0:
+    resolution: {integrity: sha512-dBufbmIyeOi8Wog8kJUrpCIvVs/GcGMimtd6JIXhRIKdRLrVho9og/28sJmKjxHM+PG9Bn3t9XehcM3YfCB8og==}
+
   ejs@3.1.10:
     resolution: {integrity: sha512-UeJmFfOrAQS8OJWPZ4qtgHyWExa088/MtK5UEyoJGFH67cDEXkZSviOiKRCZ4Xij0zxI3JECgYs3oKx+AizQBA==}
     engines: {node: '>=0.10.0'}
@@ -7319,6 +7327,10 @@ packages:
 
   fast-check@2.25.0:
     resolution: {integrity: sha512-wRUT2KD2lAmT75WNIJIHECawoUUMHM0I5jrlLXGtGeqmPL8jl/EldUDjY1VCp6fDY8yflyfUeIOsOBrIbIiArg==}
+    engines: {node: '>=8.0.0'}
+
+  fast-check@3.19.0:
+    resolution: {integrity: sha512-CO2JX/8/PT9bDGO1iXa5h5ey1skaKI1dvecERyhH4pp3PGjwd3KIjMAXEg79Ps9nclsdt4oPbfqiAnLU0EwrAQ==}
     engines: {node: '>=8.0.0'}
 
   fast-csv@5.0.1:
@@ -10004,6 +10016,9 @@ packages:
 
   pure-rand@5.0.5:
     resolution: {integrity: sha512-BwQpbqxSCBJVpamI6ydzcKqyFmnd5msMWUGvzXLm1aXvusbbgkbOto/EUPM00hjveJEaJtdbhUjKSzWRhQVkaw==}
+
+  pure-rand@6.1.0:
+    resolution: {integrity: sha512-bVWawvoZoBYpp6yIoQtQXHZjmz35RSVHnUOTefl8Vcjr8snTPY1wnpSPMWekcFwbxI6gtmT7rSYPFvz71ldiOA==}
 
   qs@6.10.4:
     resolution: {integrity: sha512-OQiU+C+Ds5qiH91qh/mg0w+8nwQuLjM4F4M/PbmhDOoYehPh+Fb0bDjtR1sOvy7YKxvj28Y/M0PhP5uVX0kB+g==}
@@ -13866,6 +13881,11 @@ snapshots:
   '@databases/validate-unicode@1.0.0': {}
 
   '@discoveryjs/json-ext@0.5.7': {}
+
+  '@effect/schema@0.68.6(effect@3.4.0)':
+    dependencies:
+      effect: 3.4.0
+      fast-check: 3.19.0
 
   '@emnapi/runtime@1.2.0':
     dependencies:
@@ -19117,6 +19137,8 @@ snapshots:
 
   ee-first@1.1.1: {}
 
+  effect@3.4.0: {}
+
   ejs@3.1.10:
     dependencies:
       jake: 10.9.1
@@ -19713,6 +19735,10 @@ snapshots:
   fast-check@2.25.0:
     dependencies:
       pure-rand: 5.0.5
+
+  fast-check@3.19.0:
+    dependencies:
+      pure-rand: 6.1.0
 
   fast-csv@5.0.1:
     dependencies:
@@ -22931,6 +22957,8 @@ snapshots:
       - supports-color
 
   pure-rand@5.0.5: {}
+
+  pure-rand@6.1.0: {}
 
   qs@6.10.4:
     dependencies:
