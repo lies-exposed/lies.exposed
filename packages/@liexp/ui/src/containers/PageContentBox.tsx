@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BNEditor } from "../components/Common/BlockNote/Editor.js";
+import { BNEditor } from "../components/Common/BlockNote/index.js";
 import { TOCPlugin } from "../components/Common/BlockNote/plugins/renderer/TOCPlugin.js";
 import { getTextContentsCapped } from "../components/Common/BlockNote/utils/index.js";
 import QueriesRenderer from "../components/QueriesRenderer.js";

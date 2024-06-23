@@ -13,6 +13,7 @@ import { relationInlineContentSpec } from "./plugins/inline/RelationInlineBlockN
 const { image, ...otherBlockSpecs } = defaultBlockSpecs;
 // Our schema with inline content specs, which contain the configs and
 // implementations for inline content  that we want our editor to use.
+
 export const schema = BlockNoteSchema.create({
   inlineContentSpecs: {
     // Adds all default inline content.

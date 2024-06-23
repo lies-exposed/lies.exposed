@@ -190,7 +190,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
         }
         if (option.type === "Actor") {
           return (
-            <Box key={option.item.id} {...props} component="li">
+            <Box  {...props} key={option.item.id} component="li">
               <ActorListItem
                 displayFullName
                 avatarSize="small"
@@ -201,7 +201,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
         }
         if (option.type === "Group") {
           return (
-            <Box key={option.item.id} {...props} component="li">
+            <Box {...props} key={option.item.id}  component="li">
               <GroupListItem
                 avatarSize="small"
                 item={{ ...option.item, selected: true }}
@@ -212,8 +212,8 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
 
         return (
           <Box
-            key={option.item.id}
             {...props}
+            key={option.item.id}
             component="li"
             sx={{
               py: 5,

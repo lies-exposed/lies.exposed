@@ -1,7 +1,7 @@
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { Avatar } from "../../Common/Avatar.js";
-import { BNEditor } from "../../Common/BlockNote/Editor.js";
+import { BNEditor } from "../../Common/BlockNote/index.js";
 import { Box, Grid, Typography } from "../../mui/index.js";
 
 interface QuoteEventPageContentProps {

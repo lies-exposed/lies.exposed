@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import * as React from "react";
-import { BNEditor } from "./BlockNote/Editor.js";
+import { BNEditor } from "./BlockNote/index.js";
 
 // export const components: MDXProviderComponentsProp = {
 //   // layout

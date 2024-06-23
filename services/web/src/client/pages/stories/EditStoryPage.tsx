@@ -14,10 +14,7 @@ import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider";
 import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider.js";
 import { styled, themeOptions } from "@liexp/ui/lib/theme/index.js";
 import * as React from "react";
-import {
-  PathRouteProps,
-  type RouteProps as RouteComponentProps,
-} from "react-router";
+import { PathRouteProps } from "react-router";
 import { useNavigate } from "react-router-dom";
 
 const PREFIX = "create-story-page";

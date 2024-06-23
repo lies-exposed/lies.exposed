@@ -11,7 +11,7 @@ import { parseISO } from "date-fns";
 import * as t from "io-ts";
 import * as React from "react";
 import { useTheme } from "../../theme/index.js";
-import { BNEditor } from "../Common/BlockNote/Editor.js";
+import { BNEditor } from "../Common/BlockNote/index.js";
 import { InlineRelationsPlugin } from "../Common/BlockNote/plugins/renderer/InlineRelationsBoxPlugin.js";
 import { TOCPlugin } from "../Common/BlockNote/plugins/renderer/TOCPlugin.js";
 import { isValidValue } from "../Common/BlockNote/utils/isValidValue.js";

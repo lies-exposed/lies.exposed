@@ -71,21 +71,20 @@ services:
       - ./services/api/temp:/usr/src/app/services/api/temp:rw
     tty: true
     stdin_open: true
-    working_dir: /usr/src/app/services/api
+    # working_dir: /usr/src/app/services/api
     healthcheck:
       test: ["CMD", "curl", "-f", "http://api.liexp.dev/v1/healthcheck"]
       interval: 10s
       timeout: 20s
       retries: 10
       start_period: 15s
-    command: pnpm docker:dev
+    command: pnpm api docker:dev
     restart: always
     mem_limit: 1G
     networks:
       - reverseproxy
 
   liexp.dev:
-    # image: liexp-web-build:alpha
     build:
       context: .
       target: dev
@@ -125,9 +124,6 @@ services:
     env_file:
       - ./services/admin-web/.env
     volumes:
-      # - /usr/src/app/packages/@liexp/core/node_modules/
-      # - /usr/src/app/packages/@liexp/shared/node_modules/
-      # - /usr/src/app/packages/@liexp/ui/node_modules/
       - admin-node-modules:/usr/src/app/node_modules
       - ./tsconfig.json:/usr/src/app/tsconfig.json
       - ./packages/@liexp:/usr/src/app/packages/@liexp:ro

@@ -6,7 +6,7 @@ import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { Stack } from "@mui/system";
 import { parseISO } from "date-fns";
 import * as React from "react";
-import { BNEditor } from "../../Common/BlockNote/Editor.js";
+import { BNEditor } from "../../Common/BlockNote/index.js";
 import { EventIcon } from "../../Common/Icons/index.js";
 import { ActorList } from "../../lists/ActorList.js";
 import GroupsList from "../../lists/GroupList.js";

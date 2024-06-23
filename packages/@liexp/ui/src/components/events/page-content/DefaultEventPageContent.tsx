@@ -8,7 +8,7 @@ import { type Events, type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useModal } from "../../../hooks/useModal.js";
 import { useTheme } from "../../../theme/index.js";
-import { BNEditor } from "../../Common/BlockNote/Editor.js";
+import { BNEditor } from "../../Common/BlockNote/index.js";
 import { MediaModalContent } from "../../Modal/MediaSliderModal.js";
 import { MediaList } from "../../lists/MediaList.js";
 import { Box, Grid } from "../../mui/index.js";

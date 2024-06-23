@@ -1,7 +1,7 @@
 import { type Area, type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import MediaSliderBox from "../../containers/MediaSliderBox.js";
-import { BNEditor } from "../Common/BlockNote/Editor.js";
+import { BNEditor } from "../Common/BlockNote/index.js";
 import { Box, Grid } from "../mui/index.js";
 
 export interface AreaPageContentProps {

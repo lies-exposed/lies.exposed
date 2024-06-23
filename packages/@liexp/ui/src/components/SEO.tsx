@@ -1,8 +1,16 @@
+import { importDefault } from '@liexp/core/lib/esm/import-default.js';
 import * as React from "react";
 import * as HelmetAsync from "react-helmet-async";
 import { useConfiguration } from "../context/ConfigurationContext.js";
 
-const { Helmet, HelmetProvider } = HelmetAsync;
+// TODO: avoid using importDefault
+// console.log({ HelmetAsync });
+const { Helmet, HelmetProvider } = importDefault<any>(HelmetAsync).default ?? {
+  Helmet: () => <div />,
+  HelmetProvider: ({ children }: any) => <>{children}</>,
+}
+
+// console.log({ Helmet, HelmetProvider });
 
 interface SEOProps {
   description?: string;
