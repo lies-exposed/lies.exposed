@@ -13,26 +13,26 @@ export const LinkSuggestedEntityRelations: React.FC = () => {
   const dataProvider: any = useDataProvider();
   const [loading, setLoading] = React.useState<boolean>(false);
   const [data, setData] = React.useState<any>(null);
-  const [update, { isLoading }] = useUpdate();
+  const [update, { isPending: isLoading }] = useUpdate();
 
   const finalLoading = loading || isLoading;
 
   const doExtractNLPEntities = React.useCallback((): void => {
     void dataProvider
-      .post("/admins/nlp/extract-entities", { url: record.url })
+      .post("/admins/nlp/extract-entities", { url: record?.url })
       .then((res: any) => {
         setLoading(false);
         setData(res.data);
       });
-  }, [record.url]);
+  }, [record?.url]);
 
   const doAddKeyword = React.useCallback(
     (entity: string) => {
       void update("links", {
-        id: record.id,
+        id: record?.id,
         data: {
           ...record,
-          keywords: (record.keywords ?? []).concat([entity]),
+          keywords: (record?.keywords ?? []).concat([entity]),
         },
       });
     },
@@ -41,6 +41,7 @@ export const LinkSuggestedEntityRelations: React.FC = () => {
 
   const doAppendSentenceToDescription = React.useCallback(
     (sentence: string) => {
+      if (record) {
       void update("links", {
         id: record.id,
         data: {
@@ -48,6 +49,7 @@ export const LinkSuggestedEntityRelations: React.FC = () => {
           description: `${record.description}\n\n${sentence}`,
         },
       });
+    }
     },
     [update, record],
   );
@@ -65,7 +67,7 @@ export const LinkSuggestedEntityRelations: React.FC = () => {
       {!data ? (
         <Button onClick={doExtractNLPEntities} label="Suggest entities" />
       ) : null}
-      {data ? (
+      {data && record ? (
         <SuggestedEntityRelationsBox
           data={data}
           exclude={{

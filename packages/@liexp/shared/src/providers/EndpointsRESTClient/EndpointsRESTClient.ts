@@ -58,7 +58,7 @@ export type GetFnParams<G> =
       : serializedType<InferEndpointParams<G>["params"]>;
 
 export type GetListFnParamsE<L> = Partial<Omit<GetListParams, "filter">> & {
-  filter: Partial<
+  filter?: Partial<
     serializedType<
       L extends MinimalEndpointInstance
         ? InferEndpointInstanceParams<L>["query"]

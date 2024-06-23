@@ -16,12 +16,10 @@ export const MediaArrayInput: React.FC<
     <ArrayInput {...props} style={{ width: "100%" }} fullWidth>
       <SimpleFormIterator fullWidth>
         <FormDataConsumer>
-          {({ formData: record, scopedFormData, getSource, ...rest }) => {
-            const getSrc = getSource ?? ((s: string) => s);
-
-            const descriptionSource = getSrc("description");
-            const locationSource = getSrc("location");
-            const typeSource = getSrc("type");
+          {({ formData: record, scopedFormData, ...rest }) => {
+            const descriptionSource = "description";
+            const locationSource = "location";
+            const typeSource = "type";
 
             return (
               <Box>

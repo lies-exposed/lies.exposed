@@ -18,7 +18,7 @@ interface OnLoadSharePayloadClickOpts {
   multipleMedia: boolean;
 }
 
-export interface SocialPostButtonProps extends FieldProps {
+export interface SocialPostButtonProps extends Omit<FieldProps, 'source'> {
   id?: Identifier;
   type: SocialPostResourceType;
   onLoadSharePayloadClick: (opts: OnLoadSharePayloadClickOpts) => Promise<
@@ -67,7 +67,7 @@ export const SocialPostButton: React.FC<SocialPostButtonProps> = ({
       >
         Post on Social
       </Button>
-      {payload?.title ? (
+      {payload?.title && record?.id ? (
         <ShareModal
           id={record.id}
           open={!!payload.title}

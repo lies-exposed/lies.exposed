@@ -24,7 +24,7 @@ export const SignIn: React.FC<SignInProps> = ({ redirectTo = "" }) => {
     });
 
   const doLogin = (username: string, password: string): void => {
-    void authProvider.login({ username, password }).then(() => {
+    void authProvider?.login({ username, password }).then(() => {
       redirect(redirectTo);
     });
   };

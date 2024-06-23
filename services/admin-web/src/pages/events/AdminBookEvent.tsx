@@ -62,7 +62,7 @@ export const BookEdit: React.FC = () => {
   const dataProvider = useDataProvider();
   return (
     <EditEventForm
-      transform={(data) => transformEvent(dataProvider)(data.id, data)}
+      transform={(data: any) => transformEvent(dataProvider)(data.id, data)}
     >
       {(props) => <BookEditFormTab />}
     </EditEventForm>

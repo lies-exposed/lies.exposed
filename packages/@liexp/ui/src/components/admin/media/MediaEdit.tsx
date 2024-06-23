@@ -60,6 +60,8 @@ const TransferButton: React.FC<FieldProps & { target?: "thumbnail" }> = ({
         } else {
           params.transfer = true;
         }
+
+        if (record) {
         void apiProvider
           .put(`media/${record.id}`, {
             ...record,
@@ -68,6 +70,7 @@ const TransferButton: React.FC<FieldProps & { target?: "thumbnail" }> = ({
           .then(() => {
             refresh();
           });
+        }
       }}
     >
       Transfer
@@ -99,7 +102,7 @@ export const ThumbnailEditField: React.FC<FieldProps> = (props) => {
                 />
               </Box>
               <GenerateThumbnailButton {...props} />
-              <TransferButton target="thumbnail" />
+              <TransferButton target="thumbnail" source='thumbnail' />
             </Stack>
           ) : (
             <Box style={{ display: "flex", flexDirection: "column" }}>
@@ -146,7 +149,7 @@ const MediaEditToolbar: React.FC = () => {
             justifyContent: "flex-end",
           }}
         >
-          {record.deletedAt ? <DeleteWithConfirmButton /> : <DeleteButton />}
+          {record?.deletedAt ? <DeleteWithConfirmButton /> : <DeleteButton />}
         </Box>
       </Stack>
     </React.Fragment>
@@ -187,13 +190,13 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
           <Grid container spacing={2}>
             <Grid item md={6}>
               <MediaInput source="location" showInputOnClick />
-              <TransferButton {...props} />
-              <GenerateExtraButton />
+              <TransferButton {...props} source="location" />
+              <GenerateExtraButton source="extra" />
             </Grid>
             <Grid item md={6}>
               {isAdmin && <ReferenceUserInput source="creator" />}
               <ReferenceArrayKeywordInput source="keywords" showAdd />
-              <ThumbnailEditField />
+              <ThumbnailEditField source="thumbnail" />
               <MediaSuggestedEntityRelations />
             </Grid>
             <Grid item md={12}>

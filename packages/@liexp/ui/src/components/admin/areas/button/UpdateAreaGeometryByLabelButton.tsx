@@ -11,20 +11,21 @@ import {
 export const UpdateAreaGeometryByLabelButton: React.FC = () => {
   const refresh = useRefresh();
   const record = useRecordContext<Area.Area>();
-  const [query, setQuery] = React.useState(record.label ?? "");
+  const [query, setQuery] = React.useState(record?.label ?? "");
 
   const apiProvider = useDataProvider();
 
-  const searchForCoordinates = React.useCallback(() => {
+  const searchForCoordinates = React.useCallback((area: Area.Area) => {
+    
     void apiProvider
-      .create(`/admins/areas/${record.id}/search-coordinates`, {
+      .create(`/admins/areas/${area.id}/search-coordinates`, {
         data: { label: query },
       })
       .then(({ data: { id, ...geom } }) => {
         return apiProvider.update("areas", {
-          id: record.id,
-          data: { ...record, geometry: geom },
-          previousData: record,
+          id: area.id,
+          data: { ...area, geometry: geom },
+          previousData: area,
         });
       })
       .then(() => {
@@ -52,7 +53,7 @@ export const UpdateAreaGeometryByLabelButton: React.FC = () => {
       />
       <Button
         label="Search for coordinates by label"
-        onClick={searchForCoordinates}
+        onClick={() => searchForCoordinates(record)}
         size="small"
         variant="outlined"
       />

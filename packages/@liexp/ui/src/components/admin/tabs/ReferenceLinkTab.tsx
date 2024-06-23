@@ -14,7 +14,7 @@ import { MediaField } from "../media/MediaField.js";
 
 export const ReferenceLinkTab: React.FC<
   Omit<ReferenceFieldProps<RaRecord<string>>, "reference">
-> = (props) => {
+> = ({ queryOptions, ...props }) => {
   const source = props.source ?? "links";
   const newLinksSource =
     props.source?.split(".").slice(0, -1).concat("newLinks").join(".") ??

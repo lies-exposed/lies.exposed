@@ -26,7 +26,7 @@ const EditEventButton: React.FC<EditEventButtonProps> = ({ admin, id }) => {
 
   React.useEffect(() => {
     if (admin === undefined) {
-      void authProvider.checkAuth({}).then(
+      void authProvider?.checkAuth({}).then(
         async () => {
           const permissions = await authProvider.getPermissions({});
           setIsAdmin(checkIsAdmin(permissions ?? []));

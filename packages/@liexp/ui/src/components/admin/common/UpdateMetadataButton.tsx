@@ -1,4 +1,4 @@
-import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { ScientificStudy, type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import * as React from "react";
 import {
   Button,
@@ -16,12 +16,12 @@ export const UpdateMetadataButton: React.FC<UpdateMetadataButtonProps> = ({
   type,
 }) => {
   const refresh = useRefresh();
-  const record = useRecordContext();
+  const record = useRecordContext<ScientificStudy.ScientificStudy>();
   const apiProvider = useDataProvider();
 
-  const handleUpdateMetadata = React.useCallback((): void => {
+  const handleUpdateMetadata = React.useCallback((scientificStudy: ScientificStudy.ScientificStudy): void => {
     void apiProvider
-      .put(`/scientific-studies/${record.id}/extract`, {
+      .put(`/scientific-studies/${scientificStudy.id}/extract`, {
         data: {
           type,
         },
@@ -29,9 +29,9 @@ export const UpdateMetadataButton: React.FC<UpdateMetadataButtonProps> = ({
       .then(() => {
         refresh();
       });
-  }, []);
+  }, [apiProvider]);
 
-  return (
+  return record &&(
     <Box display="flex" style={{ marginRight: 10 }}>
       <Button
         label="Update from URL"
@@ -39,7 +39,7 @@ export const UpdateMetadataButton: React.FC<UpdateMetadataButtonProps> = ({
         variant="contained"
         size="small"
         onClick={() => {
-          handleUpdateMetadata();
+          handleUpdateMetadata(record);
         }}
       />
     </Box>
