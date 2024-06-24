@@ -64,20 +64,16 @@ export const defineViteConfig = <A extends Record<string, any>>(
         minify: mode === "production",
         commonjsOptions: {
           include: [/node_modules/],
-          // exclude: [/@liexp\/core/, /@liexp\/shared/, /@liexp\/ui/],
           transformMixedEsModules: true,
         },
       },
+      assetsInclude: ["@liexp/ui/assets/main.css"],
       css: {
         devSourcemap: true,
       },
       optimizeDeps: {
-        entries: [
-          path.join(config.cwd, "src/**"),
-        ],
-        include: mode === 'production' ? undefined : [
-          '@liexp/*/**',
-        ],
+        entries: [path.join(config.cwd, "src/**")],
+        include: ["@liexp/*/lib/**"],
       },
 
       resolve: {
@@ -103,6 +99,18 @@ export const defineViteConfig = <A extends Record<string, any>>(
           {
             find: "react/jsx-dev-runtime.js",
             replacement: "react/jsx-dev-runtime",
+          },
+          {
+            find: /^fp-ts\/(\w+)$/,
+            replacement: "fp-ts/lib/$1.js",
+          },
+          {
+            find: /^io-ts\/(\w+)$/,
+            replacement: "io-ts/lib/$1.js",
+          },
+          {
+            find: /^io-ts-types\/(\w+)$/,
+            replacement: "io-ts-types/lib/$1.js",
           },
         ],
       },
@@ -132,13 +140,10 @@ export const defineViteConfig = <A extends Record<string, any>>(
         react({
           jsxRuntime: "classic",
         }),
-        ...(config.plugins ?? [])
+        ...(config.plugins ?? []),
       ],
       esbuild: {
         jsx: "automatic",
-        exclude: [
-          'fp-ts'
-        ]
       },
     };
 
