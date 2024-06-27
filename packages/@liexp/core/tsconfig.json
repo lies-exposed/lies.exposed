@@ -20,6 +20,6 @@
     "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
     "typeRoots": ["../../../node_modules/@types"]
   },
-  "include": ["./src", "typings", "eslint.config.js"],
+  "include": ["./src", "typings",],
   "exclude": ["node_modules", "lib"]
 }

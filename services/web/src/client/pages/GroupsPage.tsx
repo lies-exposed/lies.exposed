@@ -9,9 +9,9 @@ import GroupList from "@liexp/ui/lib/components/lists/GroupList.js";
 import { Grid, Typography } from "@liexp/ui/lib/components/mui/index.js";
 import { PageContentBox } from "@liexp/ui/lib/containers/PageContentBox.js";
 import { GroupEventNetworkGraphBox } from "@liexp/ui/lib/containers/graphs/GroupEventNetworkGraphBox.js";
-import { type RouteComponentProps } from "@reach/router";
 import { subYears } from "date-fns";
 import * as React from "react";
+import { type RouteProps as RouteComponentProps } from "react-router";
 import { useNavigateToResource } from "../utils/location.utils";
 
 const GroupsPage: React.FC<RouteComponentProps> = (props) => {

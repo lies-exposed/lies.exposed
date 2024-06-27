@@ -1,10 +1,10 @@
 import { MainContent } from "@liexp/ui/lib/components/MainContent.js";
 import SEO from "@liexp/ui/lib/components/SEO.js";
-import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
+import { type RouteProps } from "react-router";
 import { useLocation } from "react-router-dom";
 
-const NotFoundPage: React.FC<RouteComponentProps> = () => {
+const NotFoundPage: React.FC<RouteProps> = () => {
   const location = useLocation();
   return (
     <MainContent>

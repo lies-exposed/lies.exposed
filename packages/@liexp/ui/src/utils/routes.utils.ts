@@ -1,10 +1,10 @@
-import { type WindowLocation } from "@reach/router";
 import * as E from "fp-ts/lib/Either.js";
 import * as R from "fp-ts/lib/Record.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as S from "fp-ts/lib/string.js";
 import * as t from "io-ts";
 import * as querystring from "query-string";
+import { type Location as WindowLocation } from "react-router";
 
 const queryStringOpts: querystring.ParseOptions = {
   arrayFormat: "comma",

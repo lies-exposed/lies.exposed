@@ -1,8 +1,8 @@
 import { FullSizeLoader } from "@liexp/ui/lib/components/Common/FullSizeLoader.js";
 import { Container } from "@mui/system";
-import { type RouteComponentProps } from "@reach/router";
 import { useAuthProvider } from "ra-core";
 import * as React from "react";
+import { type RouteProps as RouteComponentProps } from "react-router";
 import { useNavigateToResource } from "../utils/location.utils";
 
 const LogoutPage: React.FC<RouteComponentProps> = () => {

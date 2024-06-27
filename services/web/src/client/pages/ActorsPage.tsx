@@ -8,9 +8,9 @@ import { ActorList } from "@liexp/ui/lib/components/lists/ActorList.js";
 import { Grid } from "@liexp/ui/lib/components/mui/index.js";
 import { PageContentBox } from "@liexp/ui/lib/containers/PageContentBox.js";
 import { ActorEventNetworkGraphBox } from "@liexp/ui/lib/containers/graphs/ActorEventNetworkGraphBox.js";
-import { type RouteComponentProps } from "@reach/router";
 import { subYears } from "date-fns";
 import * as React from "react";
+import { type RouteProps as RouteComponentProps } from "react-router";
 import { useNavigateToResource } from "../utils/location.utils";
 
 const ActorsPage: React.FC<RouteComponentProps> = (props) => {
