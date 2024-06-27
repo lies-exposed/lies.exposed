@@ -1,5 +1,5 @@
 import type * as io from "@liexp/shared/lib/io/index.js";
-import { type NavigateFn } from "@reach/router";
+import { type NavigateFunction } from "react-router";
 import { type Configuration } from "../context/ConfigurationContext.js";
 
 export const getAdminLink =
@@ -37,7 +37,7 @@ export const getProfileLink = (
 };
 
 export const navigateTo = async <K extends io.http.ResourcesNames>(
-  nav: NavigateFn,
+  nav: NavigateFunction,
   resourceName: K,
   f: { path?: string; id: string },
 ): Promise<void> => {
@@ -48,11 +48,11 @@ export const navigateTo = async <K extends io.http.ResourcesNames>(
     case "keywords":
     case "projects":
     case "groups": {
-      await nav(`/${resourceName}/${f.id}`);
+      await Promise.resolve(nav(`/${resourceName}/${f.id}`));
       break;
     }
     case "profile": {
-      await nav(`/profile/${f.path}/${f.id}`);
+      await Promise.resolve(nav(`/profile/${f.path}/${f.id}`));
       break;
     }
     default:
@@ -61,13 +61,13 @@ export const navigateTo = async <K extends io.http.ResourcesNames>(
 };
 
 export const navigateToProfile = async (
-  nav: NavigateFn,
+  nav: NavigateFunction,
   resourceName: io.http.ResourcesNames,
   f: { id: string },
 ): Promise<void> => {
   switch (resourceName) {
     case "events/suggestions": {
-      await nav(`/profile/${resourceName}/${f.id}`);
+      await Promise.resolve(nav(`/profile/${resourceName}/${f.id}`));
       break;
     }
     default:

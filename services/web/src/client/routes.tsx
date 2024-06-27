@@ -600,7 +600,7 @@ export const routes: ServerRoute[] = [
     route: () => {
       const params = useParams<{ storyId: string }>();
       if (params.storyId) {
-        return <EditStoryPage storyId={params.storyId} />;
+        return <EditStoryPage id={params.storyId} />;
       }
       return <NotFoundPage />;
     },

@@ -3,17 +3,15 @@ import { ProjectPageContent } from "@liexp/ui/lib/components/ProjectPageContent.
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import SEO from "@liexp/ui/lib/components/SEO.js";
 import { Container } from "@mui/material";
-import { type RouteComponentProps } from "@reach/router";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
+import { PathRouteProps } from "react-router";
 
-export default class ProjectTemplate extends React.PureComponent<
-  RouteComponentProps<{ projectId: string }>
-> {
+export default class ProjectTemplate extends React.PureComponent<PathRouteProps> {
   render(): JSX.Element {
     return pipe(
-      O.fromNullable(this.props.projectId),
+      O.fromNullable(this.props.id),
       O.fold(
         () => <div>Missing project id</div>,
         (projectId) => (

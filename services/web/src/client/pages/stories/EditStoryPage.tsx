@@ -13,8 +13,11 @@ import { Box, Container } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider";
 import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider.js";
 import { styled, themeOptions } from "@liexp/ui/lib/theme/index.js";
-import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
+import {
+  PathRouteProps,
+  type RouteProps as RouteComponentProps,
+} from "react-router";
 import { useNavigate } from "react-router-dom";
 
 const PREFIX = "create-story-page";
@@ -74,9 +77,7 @@ const EditStoryPageContent: React.FC<{ id?: string }> = ({ id }) => {
   );
 };
 
-const EditStoryPage: React.FC<RouteComponentProps<{ storyId: string }>> = ({
-  storyId: id,
-}) => {
+const EditStoryPage: React.FC<PathRouteProps> = ({ id }) => {
   const apiProvider = useDataProvider();
   const authProvider = GetAuthProvider(apiProvider);
   return (

@@ -2,8 +2,8 @@ import { MainContent } from "@liexp/ui/lib/components/MainContent.js";
 import SEO from "@liexp/ui/lib/components/SEO.js";
 import { PageContentBox } from "@liexp/ui/lib/containers/PageContentBox.js";
 import StoriesBox from "@liexp/ui/lib/containers/StoriesBox.js";
-import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
+import { type RouteProps as RouteComponentProps } from "react-router";
 import { useNavigateToResource } from "../../utils/location.utils";
 
 const BlogPage: React.FC<RouteComponentProps> = () => {
