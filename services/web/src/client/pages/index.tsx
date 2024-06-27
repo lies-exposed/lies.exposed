@@ -7,8 +7,8 @@ import EventsBox from "@liexp/ui/lib/containers/EventsBox.js";
 import { GroupsBox } from "@liexp/ui/lib/containers/GroupsBox.js";
 import { MediaBox } from "@liexp/ui/lib/containers/MediaBox.js";
 import { PageContentBox } from "@liexp/ui/lib/containers/PageContentBox.js";
-import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
+import { type RouteProps as RouteComponentProps } from "react-router";
 import { useNavigateToResource } from "../utils/location.utils.js";
 
 const IndexPage: React.FC<RouteComponentProps> = () => {

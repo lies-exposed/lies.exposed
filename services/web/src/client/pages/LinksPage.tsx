@@ -1,7 +1,7 @@
 import { type SearchFilters } from "@liexp/ui/lib/components/Common/Filters/SearchFiltersBox";
 import { LinksPageTemplate } from "@liexp/ui/lib/templates/links/LinksPageTemplate";
-import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
+import { type RouteProps as RouteComponentProps } from "react-router";
 import { useNavigateToResource } from "../utils/location.utils";
 
 const LinksPage: React.FC<RouteComponentProps> = (props) => {

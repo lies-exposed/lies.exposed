@@ -2,10 +2,10 @@ import { ContentWithSidebar } from "@liexp/ui/lib/components/ContentWithSidebar.
 import { MainContent } from "@liexp/ui/lib/components/MainContent.js";
 import { TableOfContents } from "@liexp/ui/lib/components/TableOfContents.js";
 import { PageContentBox } from "@liexp/ui/lib/containers/PageContentBox.js";
-import { type RouteComponentProps } from "@reach/router";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
+import { type RouteProps as RouteComponentProps } from "react-router";
 
 class DocsPage extends React.PureComponent<RouteComponentProps> {
   render(): JSX.Element {

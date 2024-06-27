@@ -1,7 +1,7 @@
 import { type SearchFilters } from "@liexp/ui/lib/components/Common/Filters/SearchFiltersBox";
 import MediaSearchTemplate from "@liexp/ui/lib/templates/MediaSearchTemplate";
-import { type RouteComponentProps } from "@reach/router";
 import * as React from "react";
+import { type RouteProps as RouteComponentProps } from "react-router";
 import { useNavigateToResource } from "../utils/location.utils";
 
 const MediaPage: React.FC<RouteComponentProps> = (props) => {
