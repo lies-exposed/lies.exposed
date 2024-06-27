@@ -1,4 +1,4 @@
-import crypto from "crypto-js";
+import crypto from "node:crypto";
 
 export function hash<S extends Record<string, string> = Record<string, string>>(
   obj: S,
@@ -8,11 +8,9 @@ export function hash<S extends Record<string, string> = Record<string, string>>(
     memo += fname + "->" + obj[fname] + ",";
     return memo;
   }, "");
-  const sha1sum = crypto.SHA1(plaincnt);
-  
-  const retval = sha1sum.toString();
+  const value = crypto.createHash("sha1").update(plaincnt).digest("hex");
 
-  return retval;
+  return value;
 }
 
 export interface EncodeUtils<T> {

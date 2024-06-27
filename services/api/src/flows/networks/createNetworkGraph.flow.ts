@@ -1,3 +1,4 @@
+import { GetEncodeUtils } from "@liexp/backend/lib/utils/encode.utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { TupleWithId } from "@liexp/core/lib/fp/utils/TupleWithId.js";
 import {
@@ -31,7 +32,6 @@ import {
   type Keyword,
   type Media,
 } from "@liexp/shared/lib/io/http/index.js";
-import { GetEncodeUtils } from "@liexp/shared/lib/utils/encode.utils.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";

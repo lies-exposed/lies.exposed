@@ -1,11 +1,11 @@
 import path from "path";
+import { GetEncodeUtils } from "@liexp/backend/lib/utils/encode.utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   ExtractEntitiesWithNLPInput,
   type ExtractEntitiesWithNLPFromResourceInput,
   type ExtractEntitiesWithNLPOutput,
 } from "@liexp/shared/lib/io/http/admin/ExtractNLPEntities.js";
-import { GetEncodeUtils } from "@liexp/shared/lib/utils/encode.utils.js";
 import {
   isValidValue,
   getTextContents,
