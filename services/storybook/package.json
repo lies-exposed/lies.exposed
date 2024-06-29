@@ -6,7 +6,9 @@
   "license": "MIT",
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "type": "module",
-  "main": "index.js",
+  "files": [
+    "build"
+  ],
   "scripts": {
     "build": "tsc -b tsconfig.build.json",
     "build-sb": "storybook build -o build",
