@@ -728,6 +728,9 @@ importers:
       react-virtualized:
         specifier: ^9.22.5
         version: 9.22.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      reactflow:
+        specifier: ^11.11.3
+        version: 11.11.3(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       slick-carousel:
         specifier: ^1.8.1
         version: 1.8.1(jquery@3.7.1)
@@ -816,9 +819,6 @@ importers:
       prettier:
         specifier: ^3.2.5
         version: 3.2.5
-      reactflow:
-        specifier: ^11.11.3
-        version: 11.11.3(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -1148,8 +1148,8 @@ importers:
         specifier: ^4.2.0
         version: 4.2.0
       tsx:
-        specifier: ^4.13.3
-        version: 4.13.3
+        specifier: ^4.16.0
+        version: 4.16.0
       typeorm:
         specifier: ^0.3.20
         version: 0.3.20(pg@8.12.0)
@@ -1766,8 +1766,8 @@ importers:
         specifier: ^3.2.5
         version: 3.2.5
       tsx:
-        specifier: ^4.13.3
-        version: 4.13.3
+        specifier: ^4.16.0
+        version: 4.16.0
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -5211,8 +5211,8 @@ packages:
   '@types/uuid@9.0.8':
     resolution: {integrity: sha512-jg+97EGIcY9AGHJJRaaPVgetKDsrTgbRjQ5Msgjh/DQKEFl0DtyRr/VCOyD1T2R1MNeWPK/u7JoGhlDZnKBAfA==}
 
-  '@types/webxr@0.5.18':
-    resolution: {integrity: sha512-EM8P5wtYMPUlFbDgKfNoPc5PyhgZvwXz0Wf9gYBfJOpTI8AtPzoLJlvw/D9TmIW/LPLTmwMxWI0axBs3hjLSLg==}
+  '@types/webxr@0.5.19':
+    resolution: {integrity: sha512-4hxA+NwohSgImdTSlPXEqDqqFktNgmTXQ05ff1uWam05tNGroCMp4G+4XVl6qWm1p7GQ/9oD41kAYsSssF6Mzw==}
 
   '@types/yargs-parser@21.0.3':
     resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
@@ -11304,8 +11304,8 @@ packages:
     peerDependencies:
       typescript: '>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta'
 
-  tsx@4.13.3:
-    resolution: {integrity: sha512-FTAJJLQCMiIbt78kD5qhLjHIR5NOQDKC63wcdelWRDBE+d1xSrXYhXq4DzejnC2tGhFZHpDy2Ika0Ugf7sK8gA==}
+  tsx@4.16.0:
+    resolution: {integrity: sha512-MPgN+CuY+4iKxGoJNPv+1pyo5YWZAQ5XfsyobUG+zoKG7IkvCPLZDEyoIb8yLS2FcWci1nlxAqmvPlFWD5AFiQ==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -15245,7 +15245,7 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.24.7
       '@types/react-reconciler': 0.26.7
-      '@types/webxr': 0.5.18
+      '@types/webxr': 0.5.19
       base64-js: 1.5.1
       buffer: 6.0.3
       its-fine: 1.2.5(react@18.3.1)
@@ -17066,7 +17066,7 @@ snapshots:
 
   '@types/uuid@9.0.8': {}
 
-  '@types/webxr@0.5.18': {}
+  '@types/webxr@0.5.19': {}
 
   '@types/yargs-parser@21.0.3': {}
 
@@ -24538,9 +24538,9 @@ snapshots:
       tslib: 1.14.1
       typescript: 5.4.5
 
-  tsx@4.13.3:
+  tsx@4.16.0:
     dependencies:
-      esbuild: 0.20.2
+      esbuild: 0.21.5
       get-tsconfig: 4.7.5
     optionalDependencies:
       fsevents: 2.3.3
