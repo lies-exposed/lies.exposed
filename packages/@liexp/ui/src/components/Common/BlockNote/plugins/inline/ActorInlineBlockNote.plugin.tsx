@@ -76,7 +76,7 @@ export const actorInlineContentSpec = createReactInlineContentSpec(
                       style={{ display: "inline-block" }}
                       displayFullName={displayFullName}
                       displayAvatar={displayAvatar}
-                      id={props.id as any}
+                      id={props.id}
                       avatarStyle={{
                         display: "inline-block",
                         verticalAlign: "middle",

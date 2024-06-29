@@ -61,7 +61,7 @@ const deserializePlugin: DeserializeSlatePluginFN<InlineRelation> = (p) => {
   // console.log(p.type, p);
   switch (p.type) {
     case ACTOR_INLINE: {
-      const actor = (p as any).data?.actor ?? null;
+      const actor = p.data?.actor ?? null;
       // console.log(actor);
 
       return pipe(
@@ -71,7 +71,7 @@ const deserializePlugin: DeserializeSlatePluginFN<InlineRelation> = (p) => {
       );
     }
     case GROUP_INLINE: {
-      const group = (p as any).data?.group ?? null;
+      const group = p.data?.group ?? null;
       // console.log(group);
 
       return pipe(
@@ -81,7 +81,7 @@ const deserializePlugin: DeserializeSlatePluginFN<InlineRelation> = (p) => {
       );
     }
     case KEYWORD_INLINE: {
-      const keyword = (p as any).data?.keyword ?? null;
+      const keyword = p.data?.keyword ?? null;
       // console.log(keyword);
 
       return pipe(
@@ -91,7 +91,7 @@ const deserializePlugin: DeserializeSlatePluginFN<InlineRelation> = (p) => {
       );
     }
     case EVENT_BLOCK_PLUGIN: {
-      const events: any[] = (p as any).data?.events ?? [];
+      const events: any[] = p.data?.events ?? [];
       return pipe(
         events,
         fp.O.fromPredicate((arr) => arr.length > 0),
@@ -99,7 +99,7 @@ const deserializePlugin: DeserializeSlatePluginFN<InlineRelation> = (p) => {
       );
     }
     case MEDIA_BLOCK_PLUGIN: {
-      const media: any[] = (p as any).data?.media ?? [];
+      const media: any[] = p.data?.media ?? [];
       return pipe(
         media,
         fp.O.fromPredicate((arr) => arr.length > 0),
@@ -108,7 +108,7 @@ const deserializePlugin: DeserializeSlatePluginFN<InlineRelation> = (p) => {
     }
     case COMPONENT_PICKER_POPOVER_PLUGIN: {
       return pipe(
-        (p as any).data?.plugin,
+        p.data?.plugin,
         fp.O.fromNullable,
         fp.O.chain(deserializePlugin),
       );
@@ -116,7 +116,7 @@ const deserializePlugin: DeserializeSlatePluginFN<InlineRelation> = (p) => {
 
     case PARAGRAPH_TYPE:
     default: {
-      const children: any[] = (p as any).children ?? [];
+      const children: any[] = p.children ?? [];
       const relations = pipe(
         children.map(deserializePlugin),
         fp.A.compact,
@@ -136,7 +136,7 @@ const deserializeCell =
     if (c.dataI18n?.en?.slate) {
       if (isSlatePlugin(c)) {
         // console.log("is slate plugin");
-        const plugins: any[] = c.dataI18n.en.slate as any;
+        const plugins: any[] = c.dataI18n.en.slate;
 
         return pipe(
           plugins.map((p) =>
@@ -164,13 +164,13 @@ const deserializeCell =
       return deserializePlugin({
         ...c.plugin,
         type: c.plugin?.id,
-        data: c.dataI18n?.en as any,
-      } as any);
+        data: c.dataI18n?.en,
+      });
     }
 
     // console.log("not a slate plugin");
     return pipe(
-      transform({ rows: c.rows ?? ([] as any[]) }, deserializePlugin),
+      transform({ rows: c.rows ?? [] }, deserializePlugin),
       fp.O.fromNullable,
     );
   };
