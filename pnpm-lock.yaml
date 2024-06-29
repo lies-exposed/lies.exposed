@@ -540,8 +540,8 @@ importers:
         specifier: ^7.8.0
         version: 7.8.0(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@emotion/styled@11.11.5(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1))(@mui/material@5.15.21(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@emotion/styled@11.11.5(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tanstack/react-query':
-        specifier: ^5.48.0
-        version: 5.48.0(react@18.3.1)
+        specifier: ^5.49.0
+        version: 5.49.0(react@18.3.1)
       '@visx/axis':
         specifier: ^3.10.1
         version: 3.10.1(react@18.3.1)
@@ -751,8 +751,8 @@ importers:
         version: 4.5.0
     devDependencies:
       '@tanstack/eslint-plugin-query':
-        specifier: ^5.47.0
-        version: 5.47.0(eslint@8.57.0)(typescript@5.4.5)
+        specifier: ^5.49.0
+        version: 5.49.0(eslint@8.57.0)(typescript@5.4.5)
       '@types/chroma-js':
         specifier: ^2.4.4
         version: 2.4.4
@@ -853,8 +853,8 @@ importers:
         specifier: ^5.15.21
         version: 5.15.21(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@emotion/styled@11.11.5(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tanstack/react-query':
-        specifier: ^5.48.0
-        version: 5.48.0(react@18.3.1)
+        specifier: ^5.49.0
+        version: 5.49.0(react@18.3.1)
       debug:
         specifier: ^4.3.4
         version: 4.3.5
@@ -1022,8 +1022,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/@liexp/ui
       '@tanstack/react-query':
-        specifier: ^5.48.0
-        version: 5.48.0(react@18.3.1)
+        specifier: ^5.49.0
+        version: 5.49.0(react@18.3.1)
       axios:
         specifier: ^1.7.2
         version: 1.7.2(debug@4.3.5)
@@ -1362,11 +1362,11 @@ importers:
         specifier: ^8.1.11
         version: 8.1.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tanstack/query-core':
-        specifier: ^5.48.0
-        version: 5.48.0
+        specifier: ^5.49.0
+        version: 5.49.0
       '@tanstack/react-query':
-        specifier: ^5.48.0
-        version: 5.48.0(react@18.3.1)
+        specifier: ^5.49.0
+        version: 5.49.0(react@18.3.1)
       '@visx/gradient':
         specifier: ^3.3.0
         version: 3.3.0(react@18.3.1)
@@ -1522,8 +1522,8 @@ importers:
         specifier: ^5.15.15
         version: 5.15.20(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@emotion/styled@11.11.5(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1)
       '@tanstack/react-query':
-        specifier: ^5.48.0
-        version: 5.48.0(react@18.3.1)
+        specifier: ^5.49.0
+        version: 5.49.0(react@18.3.1)
       '@visx/axis':
         specifier: ^3.10.1
         version: 3.10.1(react@18.3.1)
@@ -4584,16 +4584,24 @@ packages:
   '@storybook/types@8.1.11':
     resolution: {integrity: sha512-k9N5iRuY2+t7lVRL6xeu6diNsxO3YI3lS4Juv3RZ2K4QsE/b3yG5ElfJB8DjHDSHwRH4ORyrU71KkOCUVfvtnw==}
 
-  '@tanstack/eslint-plugin-query@5.47.0':
-    resolution: {integrity: sha512-Y56KKu0DoftFkCd3H0xckDbvm38kg9UrGF2CABqMYr7yo94XUZhBYE8R3Gq7N4JxRvPha+lUg37eypECY5u2kA==}
+  '@tanstack/eslint-plugin-query@5.49.0':
+    resolution: {integrity: sha512-lcVeMwa3DuYoP5r6o0f8g7GCwSr7m10U4mpA9Ae/SL01hX86bz2lIRW4H62TQuMGjaqMH5vSYg/mabxe6mrvlw==}
     peerDependencies:
       eslint: ^8 || ^9
 
   '@tanstack/query-core@5.48.0':
     resolution: {integrity: sha512-lZAfPPeVIqXCswE9SSbG33B6/91XOWt/Iq41bFeWb/mnHwQSIfFRbkS4bfs+WhIk9abRArF9Id2fp0Mgo+hq6Q==}
 
+  '@tanstack/query-core@5.49.0':
+    resolution: {integrity: sha512-xUTjCPHC8G+ZvIUzjoMOLnMpNXYPQI4HjhlizTVVBwtSp24iWo4/kaBzHAzsrCVyfbiaPIFFkUvicsY4r8kF8A==}
+
   '@tanstack/react-query@5.48.0':
     resolution: {integrity: sha512-GDExbjYWzvDokyRqMSWXdrPiYpp95Aig0oeMIrxTaruOJJgWiWfUP//OAaowm2RrRkGVsavSZdko/XmIrrV2Nw==}
+    peerDependencies:
+      react: ^18.0.0
+
+  '@tanstack/react-query@5.49.0':
+    resolution: {integrity: sha512-3A0BDwGVk6UzWFdz+WTC9HHts9kI42XYLK78/DGmoj9fd6W/NsjEjI5S4lPPebgq9cWWPo9QNciaSWfH71RgNg==}
     peerDependencies:
       react: ^18.0.0
 
@@ -16336,7 +16344,7 @@ snapshots:
       '@types/express': 4.17.21
       file-system-cache: 2.3.0
 
-  '@tanstack/eslint-plugin-query@5.47.0(eslint@8.57.0)(typescript@5.4.5)':
+  '@tanstack/eslint-plugin-query@5.49.0(eslint@8.57.0)(typescript@5.4.5)':
     dependencies:
       '@typescript-eslint/utils': 8.0.0-alpha.30(eslint@8.57.0)(typescript@5.4.5)
       eslint: 8.57.0
@@ -16346,9 +16354,16 @@ snapshots:
 
   '@tanstack/query-core@5.48.0': {}
 
+  '@tanstack/query-core@5.49.0': {}
+
   '@tanstack/react-query@5.48.0(react@18.3.1)':
     dependencies:
       '@tanstack/query-core': 5.48.0
+      react: 18.3.1
+
+  '@tanstack/react-query@5.49.0(react@18.3.1)':
+    dependencies:
+      '@tanstack/query-core': 5.49.0
       react: 18.3.1
 
   '@testing-library/dom@10.1.0':
@@ -22850,7 +22865,7 @@ snapshots:
 
   ra-core@5.0.2(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.52.0(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1):
     dependencies:
-      '@tanstack/react-query': 5.48.0(react@18.3.1)
+      '@tanstack/react-query': 5.49.0(react@18.3.1)
       clsx: 2.1.1
       date-fns: 3.6.0
       eventemitter3: 5.0.1
@@ -22892,7 +22907,7 @@ snapshots:
     dependencies:
       '@mui/icons-material': 5.15.21(@mui/material@5.15.21(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@emotion/styled@11.11.5(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.3)(react@18.3.1)
       '@mui/material': 5.15.21(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@emotion/styled@11.11.5(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@tanstack/react-query': 5.48.0(react@18.3.1)
+      '@tanstack/react-query': 5.49.0(react@18.3.1)
       autosuggest-highlight: 3.3.4
       clsx: 2.1.1
       css-mediaquery: 0.1.2
