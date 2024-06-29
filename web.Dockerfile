@@ -40,7 +40,7 @@ COPY --from=build /usr/src/app/services/web/package.json /prod/services/web/pack
 
 WORKDIR /prod
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prod --ignore-scripts
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prod
 
 WORKDIR /prod/services/web
 

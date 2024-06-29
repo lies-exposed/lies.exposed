@@ -44,7 +44,7 @@ COPY --from=build /usr/src/app/services/admin-web/package.json /prod/services/ad
 
 WORKDIR /prod
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prod --ignore-scripts
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prod
 
 WORKDIR /prod/services/admin-web
 

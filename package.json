@@ -19,7 +19,6 @@
     "lint": "pnpm -r run lint",
     "packages:build": "pnpm --filter '@liexp/*' -r run build",
     "post-deploy": "./deploy/post-deploy.sh",
-    "prepare": "husky",
     "shared": "pnpm --filter '@liexp/shared'",
     "storybook": "pnpm --filter 'storybook'",
     "test": "pnpm --filter '@liexp/test'",

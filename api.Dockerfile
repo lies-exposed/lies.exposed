@@ -44,7 +44,7 @@ COPY --from=build /usr/src/app/services/api/tsconfig.build.json /prod/services/a
 
 WORKDIR /prod
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prod --ignore-scripts
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prod
 
 WORKDIR /prod/services/api
 
