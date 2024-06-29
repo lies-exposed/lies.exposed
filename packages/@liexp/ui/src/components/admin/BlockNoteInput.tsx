@@ -127,7 +127,7 @@ const BlockNoteInput: React.FC<
     onlyText?: boolean;
     readOnly?: boolean;
   }
-> = ({ onlyText = false, readOnly = true, ...props }) => {
+> = ({ onlyText = false, readOnly = false, ...props }) => {
   return (
     <RaBlockNoteInput
       {...props}
