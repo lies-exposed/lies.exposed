@@ -107,7 +107,7 @@
     "ts-endpoint-express": "^2.0.0",
     "ts-shared": "2.0.0-alpha.6",
     "tsconfig-paths": "^4.2.0",
-    "tsx": "^4.13.3",
+    "tsx": "^4.16.0",
     "typeorm": "^0.3.20",
     "typescript": "^5.4.5",
     "uuid": "^9.0.1",
