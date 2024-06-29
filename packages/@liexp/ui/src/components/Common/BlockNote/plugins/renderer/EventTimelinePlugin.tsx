@@ -98,6 +98,11 @@ export const EventTimelinePlugin: React.FC<EventTimelinePluginProps> = ({
   onEventClick,
 }) => {
   const api = useAPI();
+
+  if (events.length === 0) {
+    return null;
+  }
+
   return (
     <StyledBox className={classes.root}>
       <Typography variant="subtitle1">Event timeline</Typography>
