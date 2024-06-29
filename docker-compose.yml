@@ -71,14 +71,14 @@ services:
       - ./services/api/temp:/usr/src/app/services/api/temp:rw
     tty: true
     stdin_open: true
-    # working_dir: /usr/src/app/services/api
+    working_dir: /usr/src/app/services/api
     healthcheck:
       test: ["CMD", "curl", "-f", "http://api.liexp.dev/v1/healthcheck"]
       interval: 10s
       timeout: 20s
       retries: 10
       start_period: 15s
-    command: pnpm api docker:dev
+    command: pnpm docker:dev
     restart: always
     mem_limit: 1G
     networks:

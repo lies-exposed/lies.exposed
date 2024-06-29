@@ -27,6 +27,8 @@ FROM base as production
 
 COPY --from=dev /usr/src/app/pnpm-workspace.yaml /prod/pnpm-workspace.yaml
 COPY --from=dev /usr/src/app/package.json /prod/package.json
+COPY --from=dev /usr/src/app/pnpm-lock.yaml /prod/pnpm-lock.yaml
+COPY --from=dev /usr/src/app/.npmrc /prod/.npmrc
 
 COPY --from=build /usr/src/app/packages/@liexp/core/lib /prod/packages/@liexp/core/lib
 COPY --from=build /usr/src/app/packages/@liexp/core/package.json /prod/packages/@liexp/core/package.json
