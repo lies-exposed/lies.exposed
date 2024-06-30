@@ -814,8 +814,8 @@ importers:
         specifier: ^2.29.1
         version: 2.29.1(@typescript-eslint/parser@7.14.1(eslint@8.57.0)(typescript@5.4.5))(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@7.14.1(eslint@8.57.0)(typescript@5.4.5))(eslint-plugin-import@2.29.1)(eslint@8.57.0))(eslint@8.57.0)
       openai:
-        specifier: ^4.47.1
-        version: 4.47.1
+        specifier: ^4.52.2
+        version: 4.52.2
       prettier:
         specifier: ^3.2.5
         version: 3.2.5
@@ -871,8 +871,8 @@ importers:
         specifier: ^2.2.21
         version: 2.2.21(fp-ts@2.16.6)
       openai:
-        specifier: ^4.47.1
-        version: 4.47.1
+        specifier: ^4.52.2
+        version: 4.52.2
       ra-core:
         specifier: ^5.0.2
         version: 5.0.2(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.52.0(react@18.3.1))(react-router-dom@6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.23.1(react@18.3.1))(react@18.3.1)
@@ -1103,8 +1103,8 @@ importers:
         specifier: ^0.66.0
         version: 0.66.0(request@2.88.2)
       openai:
-        specifier: ^4.47.1
-        version: 4.47.1
+        specifier: ^4.52.2
+        version: 4.52.2
       page-metadata-parser:
         specifier: ^1.1.4
         version: 1.1.4
@@ -9397,6 +9397,10 @@ packages:
 
   openai@4.47.1:
     resolution: {integrity: sha512-WWSxhC/69ZhYWxH/OBsLEirIjUcfpQ5+ihkXKp06hmeYXgBBIUCa9IptMzYx6NdkiOCsSGYCnTIsxaic3AjRCQ==}
+    hasBin: true
+
+  openai@4.52.2:
+    resolution: {integrity: sha512-mMc0XgFuVSkcm0lRIi8zaw++otC82ZlfkCur1qguXYWPETr/+ZwL9A/vvp3YahX+shpaT6j03dwsmUyLAfmEfg==}
     hasBin: true
 
   optionator@0.9.4:
@@ -22161,6 +22165,19 @@ snapshots:
       is-wsl: 2.2.0
 
   openai@4.47.1:
+    dependencies:
+      '@types/node': 18.19.39
+      '@types/node-fetch': 2.6.11
+      abort-controller: 3.0.0
+      agentkeepalive: 4.5.0
+      form-data-encoder: 1.7.2
+      formdata-node: 4.4.1
+      node-fetch: 2.7.0
+      web-streams-polyfill: 3.3.3
+    transitivePeerDependencies:
+      - encoding
+
+  openai@4.52.2:
     dependencies:
       '@types/node': 18.19.39
       '@types/node-fetch': 2.6.11
