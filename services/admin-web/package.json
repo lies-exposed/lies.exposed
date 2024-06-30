@@ -52,7 +52,7 @@
     "fp-ts": "^2.16.6",
     "history": "^5.3.0",
     "io-ts": "^2.2.21",
-    "openai": "^4.47.1",
+    "openai": "^4.52.2",
     "ra-core": "^5.0.2",
     "ra-i18n-polyglot": "^5.0.2",
     "ra-ui-materialui": "^5.0.2",
