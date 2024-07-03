@@ -33,7 +33,7 @@ interface AudioMediaElementProps {
   media: Omit<Media.Media, "type"> & { type: Media.AudioType };
   className?: string;
   style?: React.CSSProperties;
-  onLoad?: () => void;
+  onLoad?: (rect: DOMRect) => void;
 }
 
 const AudioMediaElement: React.FC<AudioMediaElementProps> = ({
@@ -45,7 +45,7 @@ const AudioMediaElement: React.FC<AudioMediaElementProps> = ({
   const ref = React.createRef<_ReactAudioPlayer>();
 
   React.useEffect(() => {
-    onLoad?.();
+    onLoad?.(new DOMRect(0, 0, 300, 100));
   }, []);
 
   return (

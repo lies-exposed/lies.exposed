@@ -1,8 +1,8 @@
 import type * as io from "@liexp/shared/lib/io/http/index.js";
 import { Masonry } from "@mui/lab";
-import { ParentSize } from "@visx/responsive";
 import { clsx } from "clsx";
 import * as React from "react";
+import { AutoSizer } from "react-virtualized";
 import { styled } from "../../theme/index.js";
 import { type ListItemProps } from "../Common/List.js";
 import MediaElement, { type MediaElementProps } from "../Media/MediaElement.js";
@@ -63,7 +63,10 @@ type MediaListItemProps = ListItemProps<Media> &
 export const MediaListItem: React.ForwardRefRenderFunction<
   any,
   MediaListItemProps
-> = ({ style, onClick, item, enableDescription, disableZoom }, ref) => {
+> = (
+  { style, onClick, item, enableDescription, disableZoom, onLoad, itemStyle },
+  ref,
+) => {
   return (
     <StyledBox className={clsx(classes.root)} style={style} ref={ref}>
       <Box
@@ -80,6 +83,8 @@ export const MediaListItem: React.ForwardRefRenderFunction<
           media={item}
           enableDescription={enableDescription}
           disableZoom={disableZoom}
+          style={style}
+          itemStyle={itemStyle}
           onClick={
             onClick
               ? (e: any) => {
@@ -88,6 +93,7 @@ export const MediaListItem: React.ForwardRefRenderFunction<
               : undefined
           }
           options={{ iframe: { showPlay: false }, video: { showPlay: false } }}
+          onLoad={onLoad}
         />
       </Box>
     </StyledBox>
@@ -96,31 +102,27 @@ export const MediaListItem: React.ForwardRefRenderFunction<
 
 export const MediaListItemRef = React.forwardRef(MediaListItem);
 
-const MEDIA_MIN_HEIGHT = 100;
-export const MediaListItemCell: React.FC<
-  MediaListItemProps & { width: number }
-> = ({ item, onClick, style, index, width, ...props }) => {
-  const [h, setHeight] = React.useState(MEDIA_MIN_HEIGHT);
+export const MediaListItemCell: React.FC<MediaListItemProps> = ({
+  item,
+  onClick,
+  style,
+  index,
+  ...props
+}) => {
+  const [h, setHeight] = React.useState(
+    props.itemStyle?.height ?? props.itemStyle?.maxHeight ?? "auto",
+  );
 
-  React.useEffect(() => {
-    if (width === 0) {
-      return;
-    }
-
-    if (typeof window !== "undefined") {
-      const img = new Image();
-
-      img.onload = () => {
-        const newHeight = (img.height * width) / img.width;
+  const handleLoad = React.useCallback(
+    (rect: DOMRect) => {
+      if (rect.height !== h) {
+        const newHeight = (rect.height * rect.width) / rect.width;
         setHeight(newHeight);
-      };
-
-      img.onerror = () => {};
-      if (item.thumbnail) {
-        img.src = item.thumbnail;
       }
-    }
-  }, [width]);
+      props.onLoad?.(rect);
+    },
+    [props.onLoad, h],
+  );
 
   return (
     <MediaListItemRef
@@ -128,10 +130,10 @@ export const MediaListItemCell: React.FC<
       item={item}
       style={{
         ...style,
-        width,
-        height: h < MEDIA_MIN_HEIGHT ? MEDIA_MIN_HEIGHT : h,
+        height: h,
       }}
       onClick={onClick}
+      onLoad={handleLoad}
     />
   );
 };
@@ -178,29 +180,42 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
     },
     ref,
   ) => {
-    const maxHeight =
-      style?.maxHeight ??
+    const wrapperMaxHeight = style?.maxHeight ?? style?.height ?? "100%";
+
+    const minHeight =
+      itemStyle?.minHeight ??
+      itemStyle?.height ??
+      style?.minHeight ??
       style?.height ??
-      itemStyle?.maxHeight ??
-      itemStyle?.height;
+      400;
+
+    // React.useEffect(() => {
+    //   console.log("ref", ref);
+    // }, []);
 
     return (
-      <ParentSize
+      <AutoSizer
         style={{
           width: "100%",
-          maxHeight,
-          minHeight: 50,
+          height: "100%",
+          minHeight,
+          maxHeight: wrapperMaxHeight,
         }}
       >
         {({ height, width }) => {
+          const columnWidth = Math.floor(width / columns);
           return (
             <StyledMasonry
               ref={ref}
               className={clsx(listClasses.root, className)}
-              style={{ height: "100%", maxHeight, overflow: "auto", ...style }}
+              style={{
+                overflow: "auto",
+                ...style,
+                height: "100%",
+              }}
               columns={columns}
               spacing={1}
-              defaultColumns={columns}
+              defaultColumns={4}
               defaultHeight={height}
             >
               {media.map((m) => {
@@ -209,17 +224,16 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
                     key={m.id}
                     item={m}
                     onClick={onItemClick}
-                    width={Math.floor(width / columns)}
                     enableDescription={enableDescription}
                     disableZoom={disableZoom}
-                    style={itemStyle}
+                    style={{ ...itemStyle, width: columnWidth }}
                   />
                 );
               })}
             </StyledMasonry>
           );
         }}
-      </ParentSize>
+      </AutoSizer>
     );
   },
 );

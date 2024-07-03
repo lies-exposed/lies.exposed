@@ -61,7 +61,7 @@ interface ExpandableImageElementProps {
   className?: string;
   media: Omit<Media.Media, "type"> & { type: Media.ImageType };
   style?: React.CSSProperties;
-  onLoad?: () => void;
+  onLoad?: (rect: DOMRect) => void;
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   disableZoom?: boolean;
 }
@@ -131,8 +131,9 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
         className={boxClasses.image}
         src={media.thumbnail}
         style={style}
-        onLoad={() => {
-          onLoad?.();
+        onLoad={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          onLoad?.(rect);
         }}
         loading="lazy"
       />

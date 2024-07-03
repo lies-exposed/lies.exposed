@@ -40,7 +40,7 @@ interface IframeMediaElementProps {
   className?: string;
   style?: React.CSSProperties;
   itemStyle?: React.CSSProperties;
-  onLoad?: () => void;
+  onLoad?: (rect: DOMRect) => void;
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   showPlay?: boolean;
 }
