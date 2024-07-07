@@ -11,12 +11,13 @@ import { authenticationHandler } from "#utils/authenticationHandler.js";
 export const MakeQueueListRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r, authenticationHandler(ctx, ["admin:read"]))(
     Endpoints.Queues.List,
-    ({ query: { resource, type } }) => {
+    ({ query: { resource, type, status } }) => {
       return pipe(
         pipe(
           ctx.queue.list({
             resource: fp.O.toUndefined(resource),
             type: fp.O.toUndefined(type),
+            status: fp.O.toUndefined(status),
           }),
           TE.chainEitherK(A.traverse(E.Applicative)(toQueueIO)),
         ),

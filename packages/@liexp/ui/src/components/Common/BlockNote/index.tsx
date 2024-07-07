@@ -3,7 +3,7 @@ import type { BNEditorProps } from "./Editor";
 
 let BNEditor: any;
 
-if (typeof window === 'undefined') {
+if (typeof window === "undefined") {
   // eslint-disable-next-line react/display-name
   BNEditor = (): JSX.Element => <div />;
 } else {
@@ -18,6 +18,6 @@ const BNEditorWrapper: React.FC<BNEditorProps> = (props) => {
       <BNEditor {...props} />
     </React.Suspense>
   );
-}
+};
 
 export { BNEditorWrapper as BNEditor, BNEditorProps };

@@ -6,12 +6,14 @@ import { pipe } from "fp-ts/lib/function.js";
 const baseLogger = debug("@liexp");
 
 export interface FPTSLogger {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   log: (message: string, ...args: any[]) => void;
   logInPipe: (message: string) => <I>(value: I) => I;
   logInTask: (message: string) => <I>(t: T.Task<I>) => T.Task<I>;
-  logInTaskEither: <A>(
-    f: ((r: A) => [string, ...any[]]) | string,
-  ) => <E>(t: TE.TaskEither<E, A>) => TE.TaskEither<E, A>;
+  logInTaskEither: <E, A>(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    f: ((r: any) => [string, ...any[]]) | string,
+  ) => (t: TE.TaskEither<E, A>) => TE.TaskEither<E, A>;
 }
 
 export interface Logger {
@@ -34,13 +36,16 @@ export const GetLogger = (name: string): Logger => {
   const test = logger.extend(name).extend("test");
 
   const logInPipe =
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (d: debug.Debugger) => (message: string) => (value: any) => {
       d(message, value);
       return value;
     };
 
   const logInTask =
-    (d: debug.Debugger) => (message: string) => (t: T.Task<any>) =>
+    (d: debug.Debugger) =>
+    (message: string) =>
+    <T>(t: T.Task<T>) =>
       pipe(
         t,
         T.map((result) => {
@@ -51,8 +56,9 @@ export const GetLogger = (name: string): Logger => {
 
   const logInTaskEither =
     (d: debug.Debugger) =>
-    (f: ((r: any) => [string, ...any[]]) | string) =>
-    <E, A>(t: TE.TaskEither<E, A>) =>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    <E, T>(f: ((r: any) => [string, ...any[]]) | string) =>
+    (t: TE.TaskEither<E, T>) =>
       pipe(
         t,
         TE.mapLeft((e) => {

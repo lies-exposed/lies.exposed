@@ -11,7 +11,7 @@ import { authenticationHandler } from "#utils/authenticationHandler.js";
 export const MakeSettingGetRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r, authenticationHandler(ctx, ["admin:read"]))(
     Endpoints.Setting.Get,
-    ({ params: { id} }) => {
+    ({ params: { id } }) => {
       return pipe(
         ctx.db.findOneOrFail(SettingEntity, { where: { id: Equal(id) } }),
         TE.chainEitherK(toSettingIO),

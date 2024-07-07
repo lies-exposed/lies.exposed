@@ -98,6 +98,7 @@ export interface QueuesProvider {
   list: <J extends Queue.Queue>(opts?: {
     resource?: Queue.QueueResourceNames;
     type?: string;
+    status?: Queue.Status;
   }) => TaskEither<ControllerError, J[]>;
 }
 
@@ -107,19 +108,31 @@ export const GetQueueProvider = (
 ): QueuesProvider => {
   return {
     list: (opts) => {
+      const filters = [opts?.resource, opts?.type].flatMap((x) =>
+        x !== undefined ? [x] : [],
+      );
+
+      const filterFn = (file: string) => {
+        return filters.length
+          ? filters.every((filter) => file.includes(filter))
+          : true;
+      };
       return pipe(
-        fs._fs
-          .readdirSync(configPath)
-          .filter((file: string) =>
-            opts?.resource ? file.includes(opts.resource) : true,
-          ),
+        fs._fs.readdirSync(configPath).filter(filterFn),
         fp.A.traverse(fp.TE.ApplicativePar)((file) => {
           return pipe(
             fs.getObject(path.resolve(configPath, file)),
             fp.TE.mapLeft(toControllerError),
             fp.TE.map((data) => JSON.parse(data)),
+            fp.TE.chain((data) => {
+              if (opts?.status && data.status !== opts.status) {
+                return fp.TE.right([]);
+              }
+              return fp.TE.right([data]);
+            }),
           );
         }),
+        fp.TE.map(fp.A.flatten),
       );
     },
     queue: GetQueueJobProvider(fs, configPath),

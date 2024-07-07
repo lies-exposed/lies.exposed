@@ -11,21 +11,24 @@ export const UpdateAreaGeometryWithCoordinatesButton: React.FC = () => {
 
   const apiProvider = useDataProvider();
 
-  const searchForCoordinates = React.useCallback((area: Area.Area, coords: any) => {
-    void apiProvider
-      .update<Area.Area>("areas", {
-        id: area.id,
-        previousData: area,
-        data: {
-          ...area,
-          featuredImage: area.featuredImage?.id,
-          geometry: { type: "Point", coordinates: coords },
-        },
-      })
-      .then(() => {
-        refresh();
-      });
-  }, [apiProvider]);
+  const searchForCoordinates = React.useCallback(
+    (area: Area.Area, coords: any) => {
+      void apiProvider
+        .update<Area.Area>("areas", {
+          id: area.id,
+          previousData: area,
+          data: {
+            ...area,
+            featuredImage: area.featuredImage?.id,
+            geometry: { type: "Point", coordinates: coords },
+          },
+        })
+        .then(() => {
+          refresh();
+        });
+    },
+    [apiProvider],
+  );
 
   if (!record) {
     return <CircularProgress />;

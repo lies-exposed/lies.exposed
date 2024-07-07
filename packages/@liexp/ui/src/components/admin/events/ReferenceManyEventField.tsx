@@ -27,7 +27,7 @@ const ReferenceManyEventField: React.FC<
             return (
               <Box>
                 <EventIcon type={r.type} style={{ marginRight: 10 }} />
-                <EventTitle record={r} source='payload.title' />
+                <EventTitle record={r} source="payload.title" />
               </Box>
             );
           }}

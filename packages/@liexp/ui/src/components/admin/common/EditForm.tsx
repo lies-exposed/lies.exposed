@@ -1,4 +1,4 @@
-import { type Media } from '@liexp/shared/lib/io/http/index.js';
+import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { Grid, Stack } from "../../mui/index.js";
 import {
@@ -80,7 +80,11 @@ const RestoreButton: React.FC = () => {
   };
   if (record?.deletedAt) {
     return (
-      <Button label="Restore" variant="contained" onClick={() => handleOnClick(record)} />
+      <Button
+        label="Restore"
+        variant="contained"
+        onClick={() => handleOnClick(record)}
+      />
     );
   }
   return null;

@@ -7,7 +7,7 @@ import { authenticationHandler } from "#utils/authenticationHandler.js";
 export const MakeQueueDeleteRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(ctx, ["admin:delete"]))(
     Endpoints.Queues.Delete,
-    ({ params: { id, resource, type  } }) => {
+    ({ params: { id, resource, type } }) => {
       ctx.logger.debug.log("Delete user %s ", id);
       return pipe(
         ctx.queue.queue(type).deleteJob(resource, id),

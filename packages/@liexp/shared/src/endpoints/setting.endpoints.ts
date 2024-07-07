@@ -1,10 +1,10 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
-import * as Setting from '../io/http/Setting.js';
+import * as Setting from "../io/http/Setting.js";
 import { ResourceEndpoints } from "./types.js";
 
-const SingleSettingOutput = Output(Setting.Setting, 'Setting');
+const SingleSettingOutput = Output(Setting.Setting, "Setting");
 
 export const List = Endpoint({
   Method: "GET",
@@ -12,9 +12,8 @@ export const List = Endpoint({
   Input: {
     Query: Setting.GetSettingListQuery,
   },
-  Output: ListOutput(Setting.Setting, 'Settings'),
+  Output: ListOutput(Setting.Setting, "Settings"),
 });
-
 
 export const Create = Endpoint({
   Method: "POST",
@@ -22,7 +21,7 @@ export const Create = Endpoint({
   Input: {
     Body: Setting.CreateSetting,
   },
-  Output: SingleSettingOutput
+  Output: SingleSettingOutput,
 });
 
 export const Get = Endpoint({
@@ -53,16 +52,13 @@ export const Delete = Endpoint({
   Output: SingleSettingOutput,
 });
 
-
-
 const settings = ResourceEndpoints({
   Get,
   Create,
   List,
   Edit,
   Delete,
-  Custom: {
-  },
+  Custom: {},
 });
 
 export { settings };

@@ -8,6 +8,7 @@ import { expressjwt as jwt } from "express-jwt";
 import { unless } from "express-unless";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { PathReporter } from "io-ts/lib/PathReporter.js";
+import { getLangchainProviderFlow } from "#flows/ai/getLangchainProvider.flow.js";
 import { createFromTGMessage } from "#flows/tg/createFromTGMessage.flow.js";
 import { actorCommand } from "#providers/tg/actor.command.js";
 import { areaCommand } from "#providers/tg/area.command.js";
@@ -107,29 +108,32 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   app.use("/v1", AddRoutes(express.Router(), ctx));
 
-  app.use(
-    "/openai",
-    cors(ctx.config.cors),
-    proxy("localai.liexp.dev:8080/v1", {
-      proxyReqOptDecorator: (req: any) => {
-        const proxyReq = {
-          ...req,
-          headers: {
-            ...req.headers,
-            "Access-Control-Allow-Origin": "*",
-            // connection: "keep-alive",
+  app.use("/openai", cors(ctx.config.cors), (req, res, next) => {
+    void pipe(
+      getLangchainProviderFlow(ctx),
+      fp.TE.map(({ localAiProxyUrl }) =>
+        proxy(localAiProxyUrl, {
+          proxyReqOptDecorator: (req: any) => {
+            const proxyReq = {
+              ...req,
+              headers: {
+                ...req.headers,
+                "Access-Control-Allow-Origin": "*",
+                // connection: "keep-alive",
+              },
+            };
+            ctx.logger.debug.log("Proxy request %O", proxyReq);
+            return Promise.resolve(proxyReq);
           },
-        };
-        ctx.logger.debug.log("Proxy request %O", proxyReq);
-        return Promise.resolve(proxyReq);
-      },
-      proxyResOptDecorator: (proxyRes: any) => {
-        ctx.logger.debug.log("Proxy response %O", proxyRes);
-        return Promise.resolve(proxyRes);
-      },
-      timeout: 120 * 1000,
-    }),
-  );
+          proxyResOptDecorator: (proxyRes: any) => {
+            ctx.logger.debug.log("Proxy response %O", proxyRes);
+            return Promise.resolve(proxyRes);
+          },
+          timeout: 120 * 1000,
+        })(req, res, next),
+      ),
+    )();
+  });
   app.use(function (err: any, req: any, res: any, next: any) {
     // eslint-disable-next-line no-console
     try {

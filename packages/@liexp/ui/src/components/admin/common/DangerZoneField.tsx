@@ -16,18 +16,21 @@ export const DangerZoneField: React.FC = () => {
   const redirect = useRedirect();
   const apiProvider = useDataProvider();
 
-  const doDeletePerm = React.useCallback((resource: string, record: any ) => {
-    void apiProvider
-      .delete(resource, { id: record.id, meta: { permanent: true } })
-      .then((r) => {
-        redirect(`/links`);
-      });
-  }, [record?.id, record?.deletedAt]);
+  const doDeletePerm = React.useCallback(
+    (resource: string, record: any) => {
+      void apiProvider
+        .delete(resource, { id: record.id, meta: { permanent: true } })
+        .then((r) => {
+          redirect(`/links`);
+        });
+    },
+    [record?.id, record?.deletedAt],
+  );
 
   if (!resource || !record) {
     return null;
   }
-  
+
   return (
     <Box style={{ border: `1px solid red` }}>
       {record?.deletedAt ? (

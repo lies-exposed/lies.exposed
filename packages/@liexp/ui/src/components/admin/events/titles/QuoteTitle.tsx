@@ -23,17 +23,19 @@ export const QuoteTitle: React.FC<FieldProps<Events.Quote.Quote>> = ({
   const groups = group ? [group] : [];
   const actors = actor ? [actor] : [];
 
-  return record && (
-    <span>
-      {getTitle(record, {
-        groupsMembers: [],
-        keywords: [],
-        links: [],
-        areas: [],
-        media: [],
-        groups,
-        actors,
-      })}
-    </span>
+  return (
+    record && (
+      <span>
+        {getTitle(record, {
+          groupsMembers: [],
+          keywords: [],
+          links: [],
+          areas: [],
+          media: [],
+          groups,
+          actors,
+        })}
+      </span>
+    )
   );
 };

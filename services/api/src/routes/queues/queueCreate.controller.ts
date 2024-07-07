@@ -12,7 +12,11 @@ export const MakeQueueCreateRoute: Route = (r, ctx) => {
       ctx.logger.debug.log("Create queue ( %s %s) => %O", resource, id, data);
       return pipe(
         TE.right({ id, resource, type, data }),
-        TE.chainFirst((job) => ctx.queue.queue(type).addJob({...job, error: undefined, status: 'pending' })),
+        TE.chainFirst((job) =>
+          ctx.queue
+            .queue(type)
+            .addJob({ ...job, error: null, status: "pending" }),
+        ),
         TE.chainEitherK(toQueueIO),
         TE.map((data) => ({
           body: { data },

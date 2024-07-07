@@ -32,9 +32,9 @@ import {
   type ControllerError,
 } from "#io/ControllerError.js";
 import { type ENV } from "#io/ENV.js";
-// import { LangchainProviderReader} from '#providers/ai/langchain.provider.js';
+import { LangchainProviderReader } from "#providers/ai/langchain.provider.js";
 import { createS3Provider } from "#providers/context/s3.context.js";
-import { GetQueueProvider } from '#providers/queue.provider.js';
+import { GetQueueProvider } from "#providers/queue.provider.js";
 import { EventsConfig } from "#queries/config/index.js";
 import { type RouteContext } from "#routes/route.types.js";
 import { getDataSource } from "#utils/data-source.js";
@@ -139,7 +139,7 @@ export const makeContext = (
         }),
       ),
       openai: fp.TE.right(openai),
-      // langchain: fp.TE.right(LangchainProviderReader),
+      langchain: fp.TE.right(LangchainProviderReader),
       queue: fp.TE.right(GetQueueProvider(fsClient, config.dirs.temp.queue)),
       ner: fp.TE.right(
         GetNERProvider({

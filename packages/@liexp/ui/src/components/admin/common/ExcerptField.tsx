@@ -3,7 +3,7 @@ import * as React from "react";
 import { FunctionField, type FieldProps } from "react-admin";
 import { getTextContentsCapped } from "../../Common/BlockNote/utils/index.js";
 
-type ExcerptFieldProps = Omit<FieldProps, 'source'> & {
+type ExcerptFieldProps = Omit<FieldProps, "source"> & {
   source?: string;
 };
 

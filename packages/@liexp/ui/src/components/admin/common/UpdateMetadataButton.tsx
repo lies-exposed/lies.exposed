@@ -1,4 +1,7 @@
-import { type ScientificStudy, type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import {
+  type ScientificStudy,
+  type EventType,
+} from "@liexp/shared/lib/io/http/Events/index.js";
 import * as React from "react";
 import {
   Button,
@@ -19,29 +22,34 @@ export const UpdateMetadataButton: React.FC<UpdateMetadataButtonProps> = ({
   const record = useRecordContext<ScientificStudy.ScientificStudy>();
   const apiProvider = useDataProvider();
 
-  const handleUpdateMetadata = React.useCallback((scientificStudy: ScientificStudy.ScientificStudy): void => {
-    void apiProvider
-      .put(`/scientific-studies/${scientificStudy.id}/extract`, {
-        data: {
-          type,
-        },
-      })
-      .then(() => {
-        refresh();
-      });
-  }, [apiProvider]);
+  const handleUpdateMetadata = React.useCallback(
+    (scientificStudy: ScientificStudy.ScientificStudy): void => {
+      void apiProvider
+        .put(`/scientific-studies/${scientificStudy.id}/extract`, {
+          data: {
+            type,
+          },
+        })
+        .then(() => {
+          refresh();
+        });
+    },
+    [apiProvider],
+  );
 
-  return record &&(
-    <Box display="flex" style={{ marginRight: 10 }}>
-      <Button
-        label="Update from URL"
-        color="secondary"
-        variant="contained"
-        size="small"
-        onClick={() => {
-          handleUpdateMetadata(record);
-        }}
-      />
-    </Box>
+  return (
+    record && (
+      <Box display="flex" style={{ marginRight: 10 }}>
+        <Button
+          label="Update from URL"
+          color="secondary"
+          variant="contained"
+          size="small"
+          onClick={() => {
+            handleUpdateMetadata(record);
+          }}
+        />
+      </Box>
+    )
   );
 };

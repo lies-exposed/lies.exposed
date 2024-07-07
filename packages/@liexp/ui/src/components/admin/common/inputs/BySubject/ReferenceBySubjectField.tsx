@@ -4,7 +4,7 @@ import * as React from "react";
 import { ReferenceField, useRecordContext, type FieldProps } from "react-admin";
 import { AvatarField } from "../../AvatarField.js";
 
-interface ReferenceBySubjectFieldProps extends Omit<FieldProps, 'source'> {
+interface ReferenceBySubjectFieldProps extends Omit<FieldProps, "source"> {
   source?: string;
 }
 

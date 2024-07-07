@@ -19,7 +19,7 @@ import { EventsFlowGraphFormTab } from "./tabs/EventsFlowGraphFormTab.js";
 import { EventsNetworkGraphFormTab } from "./tabs/EventsNetworkGraphFormTab.js";
 import { EventTitle } from "./titles/EventTitle.js";
 
-interface EditEventFormProps extends Omit<EditProps, 'children'> {
+interface EditEventFormProps extends Omit<EditProps, "children"> {
   children: EventGeneralTabProps["children"];
 }
 
