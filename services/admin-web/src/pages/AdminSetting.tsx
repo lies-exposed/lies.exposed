@@ -1,5 +1,5 @@
-import JSONInput from '@liexp/ui/lib/components/Common/JSON/JSONInput.js';
-import { SlugInput } from '@liexp/ui/lib/components/admin/common/inputs/SlugInput.js';
+import JSONInput from "@liexp/ui/lib/components/Common/JSON/JSONInput.js";
+import { SlugInput } from "@liexp/ui/lib/components/admin/common/inputs/SlugInput.js";
 import {
   Edit,
   Create,
@@ -32,21 +32,33 @@ export const SettingList: React.FC<ListProps> = (props) => (
 
 const transformSetting: TransformData = (data) => ({
   ...data,
-  value: JSON.stringify(data.value),
+  value:
+    typeof data.value === "string" ? data.value : JSON.stringify(data.value),
 });
 
 export const SettingEdit: React.FC<CreateProps> = (props) => (
-  <Edit {...props} title="Create a custom setting">
+  <Edit {...props} title="Create a custom setting" transform={transformSetting}>
     <SimpleForm>
-    <SlugInput source="id" />
-    <JSONInput source="value" />
+      <SlugInput source="id" />
+      <JSONInput
+        source="value"
+        parse={(p) => {
+          return typeof p === "string" ? p : JSON.stringify(p);
+        }}
+        format={(v) => {
+          return typeof v === "string" ? JSON.parse(v) : v;
+        }}
+      />
     </SimpleForm>
   </Edit>
 );
 
-
 export const SettingCreate: React.FC<CreateProps> = (props) => (
-  <Create {...props} title="Create a custom setting" transform={transformSetting}>
+  <Create
+    {...props}
+    title="Create a custom setting"
+    transform={transformSetting}
+  >
     <SimpleForm>
       <SlugInput source="id" />
       <JSONInput source="value" />

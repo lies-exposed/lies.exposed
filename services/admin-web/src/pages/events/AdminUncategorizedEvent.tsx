@@ -84,16 +84,12 @@ export const UncategorizedEventList: React.FC<ListProps> = (props) => (
 
       <FunctionField
         source="payload.groups"
-        render={(r) =>
-          r ? (r.payload.groups ?? []).length : 0
-        }
+        render={(r) => (r ? (r.payload.groups ?? []).length : 0)}
       />
       <FunctionField
         label="Location"
         source="payload.location"
-        render={(r) =>
-          r?.location?.coordinates ? <PinDropIcon /> : "-"
-        }
+        render={(r) => (r?.location?.coordinates ? <PinDropIcon /> : "-")}
       />
       <FunctionField source="links" render={(r: any) => r.links?.length ?? 0} />
       <DateField source="startDate" />

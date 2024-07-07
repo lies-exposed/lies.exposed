@@ -262,7 +262,7 @@ export const GroupCreate: React.FC<CreateProps> = (props) => {
                 <GroupKindInput source="kind" />
                 <GroupMemberArrayInput source="members" />
                 <ImageInput source="avatar">
-                  <ImageField source='' src="src" />
+                  <ImageField source="" src="src" />
                 </ImageInput>
                 <BlockNoteInput source="excerpt" onlyText />
                 <BlockNoteInput source="body" />

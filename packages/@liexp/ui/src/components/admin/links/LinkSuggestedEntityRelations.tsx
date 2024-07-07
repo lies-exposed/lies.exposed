@@ -42,14 +42,14 @@ export const LinkSuggestedEntityRelations: React.FC = () => {
   const doAppendSentenceToDescription = React.useCallback(
     (sentence: string) => {
       if (record) {
-      void update("links", {
-        id: record.id,
-        data: {
-          ...record,
-          description: `${record.description}\n\n${sentence}`,
-        },
-      });
-    }
+        void update("links", {
+          id: record.id,
+          data: {
+            ...record,
+            description: `${record.description}\n\n${sentence}`,
+          },
+        });
+      }
     },
     [update, record],
   );

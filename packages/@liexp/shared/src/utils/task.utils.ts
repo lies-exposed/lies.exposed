@@ -34,5 +34,3 @@ export const separateTE = <E, A>(
     fp.T.map(fp.A.separate),
   );
 };
-
-

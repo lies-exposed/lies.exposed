@@ -14,16 +14,16 @@ export const TakeLinkScreenshot: React.FC = () => {
 
   const handleOnClick = (): void => {
     if (record) {
-    void dataProvider
-      .post(
-        `/links/${record?.id}/screenshot`,
-        transformLink({
-          ...record,
-        }),
-      )
-      .then(() => {
-        refresh();
-      });
+      void dataProvider
+        .post(
+          `/links/${record?.id}/screenshot`,
+          transformLink({
+            ...record,
+          }),
+        )
+        .then(() => {
+          refresh();
+        });
     }
   };
 

@@ -32,39 +32,39 @@ export const CreateEventFromLinkButton: React.FC = () => {
     type: io.http.Events.EventType.types[1].value,
   });
 
-  const getSuggestionFromAPI = React.useCallback(async (link: Link): Promise<
-    Either<Error, EventSuggestion.CreateEventSuggestion>
-  > => {
-    if (suggestion) {
-      return Promise.resolve(fp.E.right(suggestion));
-    }
+  const getSuggestionFromAPI = React.useCallback(
+    async (
+      link: Link,
+    ): Promise<Either<Error, EventSuggestion.CreateEventSuggestion>> => {
+      if (suggestion) {
+        return Promise.resolve(fp.E.right(suggestion));
+      }
 
-    const result = await apiProvider
-      .get("open-graph/metadata", { url: link.url, type: "Link" })
-      .then(async ({ data: { metadata: m, relations } }: any) => {
-        const suggestions = await getSuggestions(toBNDocument)(
-          m,
-          O.some(link),
-          O.fromNullable(link.image as Media),
-          getRelationIdsFromEventRelations(relations.entities),
-        );
+      const result = await apiProvider
+        .get("open-graph/metadata", { url: link.url, type: "Link" })
+        .then(async ({ data: { metadata: m, relations } }: any) => {
+          const suggestions = await getSuggestions(toBNDocument)(
+            m,
+            O.some(link),
+            O.fromNullable(link.image as Media),
+            getRelationIdsFromEventRelations(relations.entities),
+          );
 
-        const suggestEvent = suggestions.find((t) => t.event.type === type);
-        if (suggestEvent) {
-          return fp.E.right(suggestEvent);
-        }
-        return fp.E.left(new Error("No suggestion found"));
-      });
+          const suggestEvent = suggestions.find((t) => t.event.type === type);
+          if (suggestEvent) {
+            return fp.E.right(suggestEvent);
+          }
+          return fp.E.left(new Error("No suggestion found"));
+        });
 
-    return result;
-  }, [record, type]);
+      return result;
+    },
+    [record, type],
+  );
 
-  
   if (!record || record?.events?.length > 0) {
     return <Box />;
   }
-
-  
 
   return (
     <Box>

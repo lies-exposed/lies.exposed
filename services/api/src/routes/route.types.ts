@@ -3,13 +3,13 @@ import { type OpenAI } from "@liexp/shared/lib/providers/openai/openai.provider.
 import type cors from "cors";
 import { type Router } from "express";
 import { type ENV } from "#io/ENV.js";
-// import { type LangchainProviderReader } from '#providers/ai/langchain.provider.js';
-import { type QueuesProvider } from '#providers/queue.provider.js';
+import { type LangchainProviderReader } from "#providers/ai/langchain.provider.js";
+import { type QueuesProvider } from "#providers/queue.provider.js";
 import { type EventsConfig } from "#queries/config/index.js";
 
 export interface RouteContext extends ServerContext {
   openai: OpenAI;
-  // langchain: LangchainProviderReader;
+  langchain: LangchainProviderReader;
   queue: QueuesProvider;
   env: ENV;
   config: {

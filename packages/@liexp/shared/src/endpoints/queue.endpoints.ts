@@ -56,9 +56,10 @@ export const Delete = Endpoint({
   Output: SingleQueueOutput,
 });
 
-const ProcessJob= Endpoint({
+const ProcessJob = Endpoint({
   Method: "POST",
-  getPath: ({ type, resource, id }) => `/queues/${type}/${resource}/${id}/process`,
+  getPath: ({ type, resource, id }) =>
+    `/queues/${type}/${resource}/${id}/process`,
   Input: {
     Params: Queue.GetQueueParams,
   },
@@ -71,7 +72,7 @@ const queues = ResourceEndpoints({
   List,
   Edit,
   Delete,
-  Custom: {ProcessJob},
+  Custom: { ProcessJob },
 });
 
 export { queues };

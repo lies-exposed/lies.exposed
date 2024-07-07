@@ -12,7 +12,7 @@ import ReferenceManyEventField from "../events/ReferenceManyEventField.js";
 import ReferenceGroupInput from "../groups/ReferenceGroupInput.js";
 import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput.js";
 import { MediaField } from "../media/MediaField.js";
-import { OpenAIEmbeddingJobButton } from "../media/OpenAIEmbeddingJobButton.js";
+import { OpenAIEmbeddingJobButton } from "../media/OpenAIJobButton.js";
 import ReferenceMediaInput from "../media/input/ReferenceMediaInput.js";
 import LinkPreview from "../previews/LinkPreview.js";
 import {
@@ -79,7 +79,11 @@ export const LinkEdit: React.FC = () => {
                 <TakeLinkScreenshot />
               </Stack>
               <Stack>
-                <OpenAIEmbeddingJobButton resource="links" valueSource="url" />
+                <OpenAIEmbeddingJobButton
+                  resource="links"
+                  valueSource="url"
+                  type="openai-embedding"
+                />
                 <TextInput source="description" fullWidth multiline />
               </Stack>
               <ReferenceGroupInput source="provider" />

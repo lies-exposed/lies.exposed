@@ -6,20 +6,18 @@ export const QueueResourceNames = ResourcesNames;
 export type QueueResourceNames = t.TypeOf<typeof QueueResourceNames>;
 
 export const QueueTypes = t.union(
-  [t.literal("openai-embedding"), t.literal("openai-translation")],
+  [t.literal("openai-embedding"), t.literal("openai-summarize")],
   "QueueTypes",
 );
 
 export type QueueTypes = t.TypeOf<typeof QueueTypes>;
 
-export const Status = t.union(
-  [
-    t.literal("pending"),
-    t.literal("processing"),
-    t.literal("completed"),
-    t.literal("failed"),
-  ]
-);
+export const Status = t.union([
+  t.literal("pending"),
+  t.literal("processing"),
+  t.literal("completed"),
+  t.literal("failed"),
+]);
 export type Status = t.TypeOf<typeof Status>;
 
 export const GetQueueParams = t.type(
@@ -36,6 +34,7 @@ export const GetQueueListQuery = t.type(
   {
     resource: optionFromUndefined(QueueResourceNames),
     type: optionFromUndefined(QueueTypes),
+    status: optionFromUndefined(Status),
   },
   "GetQueueListQuery",
 );
@@ -55,9 +54,9 @@ export const Queue = t.strict(
   {
     ...CreateQueue.type.props,
     resource: QueueResourceNames,
-    type: t.string,
+    type: QueueTypes,
     status: Status,
-    error: t.union([t.record(t.string, t.any), t.undefined])
+    error: t.union([t.record(t.string, t.any), t.null]),
   },
   "Queue",
 );

@@ -15,23 +15,25 @@ export const UpdateAreaGeometryByLabelButton: React.FC = () => {
 
   const apiProvider = useDataProvider();
 
-  const searchForCoordinates = React.useCallback((area: Area.Area) => {
-    
-    void apiProvider
-      .create(`/admins/areas/${area.id}/search-coordinates`, {
-        data: { label: query },
-      })
-      .then(({ data: { id, ...geom } }) => {
-        return apiProvider.update("areas", {
-          id: area.id,
-          data: { ...area, geometry: geom },
-          previousData: area,
+  const searchForCoordinates = React.useCallback(
+    (area: Area.Area) => {
+      void apiProvider
+        .create(`/admins/areas/${area.id}/search-coordinates`, {
+          data: { label: query },
+        })
+        .then(({ data: { id, ...geom } }) => {
+          return apiProvider.update("areas", {
+            id: area.id,
+            data: { ...area, geometry: geom },
+            previousData: area,
+          });
+        })
+        .then(() => {
+          refresh();
         });
-      })
-      .then(() => {
-        refresh();
-      });
-  }, [record?.label, query]);
+    },
+    [record?.label, query],
+  );
 
   if (!record) {
     return <CircularProgress />;

@@ -1,10 +1,14 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import * as E from "fp-ts/lib/Either.js";
-import { type SettingEntity } from '#entities/Setting.entity.js';
+import { type SettingEntity } from "#entities/Setting.entity.js";
 import { type ControllerError, DecodeError } from "#io/ControllerError.js";
 
-export const toSettingIO = ({  value, id, ...setting }: SettingEntity): E.Either<ControllerError, io.http.Setting.Setting> => {
+export const toSettingIO = ({
+  value,
+  id,
+  ...setting
+}: SettingEntity): E.Either<ControllerError, io.http.Setting.Setting> => {
   return pipe(
     io.http.Setting.Setting.decode({
       id,

@@ -80,7 +80,7 @@ export const EventDataGrid: React.FC = () => {
       <BooleanField source="draft" />
       <FunctionField
         label="type"
-        render={(r: any) => {
+        render={(r) => {
           return (
             <Box>
               <EventIcon color="primary" type={r.type} />
@@ -103,14 +103,14 @@ export const EventDataGrid: React.FC = () => {
       />
       <FunctionField
         label="excerpt"
-        render={(r: any) => {
+        render={(r) => {
           return !R.isEmpty(r.excerpt)
             ? getTextContentsCapped(r.excerpt, 60)
             : "";
         }}
       />
-      <FunctionField source="links" render={(r: any) => r.links?.length ?? 0} />
-      <FunctionField source="media" render={(r: any) => r.media?.length ?? 0} />
+      <FunctionField source="links" render={(r) => r.links?.length ?? 0} />
+      <FunctionField source="media" render={(r) => r.media?.length ?? 0} />
       <FunctionField<RaRecord<string>>
         label="actors"
         source="payload"

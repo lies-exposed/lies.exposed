@@ -2,4 +2,4 @@ import { type OpenAI } from "@liexp/shared/lib/providers/openai/openai.provider.
 import * as React from "react";
 
 export const OpenAIContext = React.createContext<OpenAI | null>(null);
-export type { OpenAI }
+export type { OpenAI };

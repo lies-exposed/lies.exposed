@@ -243,9 +243,7 @@ export const EventList: React.FC = () => (
       <FunctionField
         label="Location"
         source="payload.location.coordinates"
-        render={(r) =>
-          r?.location?.coordinates ? <Icons.PinDrop /> : "-"
-        }
+        render={(r) => (r?.location?.coordinates ? <Icons.PinDrop /> : "-")}
       />
 
       <DateField source="date" />
@@ -260,7 +258,7 @@ export const EventEdit: React.FC = (props) => {
     <EditEventForm {...props} title={<EventTitle />} redirect={false}>
       {(suggestions, handlers) => (
         <FormDataConsumer>
-          {({ formData,  scopedFormData, ...rest }) => {
+          {({ formData, scopedFormData, ...rest }) => {
             if (formData.type === EventTypes.DOCUMENTARY.value) {
               return <DocumentaryEditFormTab />;
             }
