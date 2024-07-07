@@ -122,29 +122,31 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
       });
   };
 
-  return record && (
-    <Box>
-      <Select
-        size="small"
-        label="Transform in"
-        placeholder="Select type"
-        onChange={handleTransform}
-        value={type}
-        defaultValue={type}
-      >
-        {Events.EventType.types.map((t) => (
-          <MenuItem key={t.value} value={t.value}>
-            {t.value}
-          </MenuItem>
-        ))}
-      </Select>
-      <Button
-        label="Transform"
-        disabled={value === type}
-        onClick={() => {
-          void doTransform(record);
-        }}
-      />
-    </Box>
+  return (
+    record && (
+      <Box>
+        <Select
+          size="small"
+          label="Transform in"
+          placeholder="Select type"
+          onChange={handleTransform}
+          value={type}
+          defaultValue={type}
+        >
+          {Events.EventType.types.map((t) => (
+            <MenuItem key={t.value} value={t.value}>
+              {t.value}
+            </MenuItem>
+          ))}
+        </Select>
+        <Button
+          label="Transform"
+          disabled={value === type}
+          onClick={() => {
+            void doTransform(record);
+          }}
+        />
+      </Box>
+    )
   );
 };

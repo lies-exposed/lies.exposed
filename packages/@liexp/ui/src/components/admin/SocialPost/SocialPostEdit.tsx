@@ -67,7 +67,7 @@ const transformSocialPost = ({
 const SocialPostEditFormTabTelegram: React.FC = () => {
   const record = useRecordContext<EditSocialPost>();
 
-  const { result } = record ??  { result: null};
+  const { result } = record ?? { result: null };
 
   const tg = React.useMemo((): any => {
     let tgDate: string | undefined;

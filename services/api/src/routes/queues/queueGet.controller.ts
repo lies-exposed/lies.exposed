@@ -9,7 +9,7 @@ import { authenticationHandler } from "#utils/authenticationHandler.js";
 export const MakeQueueGetRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r, authenticationHandler(ctx, ["admin:read"]))(
     Endpoints.Queues.Get,
-    ({ params: { type, resource, id} }) => {
+    ({ params: { type, resource, id } }) => {
       return pipe(
         ctx.queue.queue(type).getJob(resource, id),
         TE.chainEitherK(toQueueIO),

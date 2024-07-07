@@ -18,7 +18,7 @@ import { MediaEntity } from "#entities/Media.entity.js";
 import { PageEntity } from "#entities/Page.entity.js";
 import { ProjectEntity } from "#entities/Project.entity.js";
 import { ProjectImageEntity } from "#entities/ProjectImage.entity.js";
-import {SettingEntity} from '#entities/Setting.entity.js'
+import { SettingEntity } from "#entities/Setting.entity.js";
 import { SocialPostEntity } from "#entities/SocialPost.entity.js";
 import { StoryEntity } from "#entities/Story.entity.js";
 import { UserEntity } from "#entities/User.entity.js";

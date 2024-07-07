@@ -1,4 +1,4 @@
-import { type Media } from '@liexp/shared/lib/io/http/index.js';
+import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import get from "lodash/get";
 import * as React from "react";
 import {
@@ -15,7 +15,8 @@ export const GenerateExtraButton: React.FC<FieldProps<Media.Media>> = ({
   record: _record,
   ...props
 }) => {
-  const record: any = _record ?? useRecordContext<Media.Media>({...props, source: 'media' });
+  const record: any =
+    _record ?? useRecordContext<Media.Media>({ ...props, source: "media" });
   const extra = get(record, source);
   const refresh = useRefresh();
   const apiProvider = useDataProvider();

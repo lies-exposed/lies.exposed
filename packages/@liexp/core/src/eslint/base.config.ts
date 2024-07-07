@@ -79,10 +79,13 @@ const config: any = tseslint.config(
       "@typescript-eslint/no-unsafe-argument": ["off"],
       "@typescript-eslint/unbound-method": ["off"],
       "@typescript-eslint/no-explicit-any": ["warn"],
-      '@typescript-eslint/consistent-type-imports': ['error', {
-        fixStyle: 'inline-type-imports',
-        prefer: 'type-imports'
-      }],
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        {
+          fixStyle: "inline-type-imports",
+          prefer: "type-imports",
+        },
+      ],
       // to be enabled
       "@typescript-eslint/no-unsafe-member-access": ["off"],
       "@typescript-eslint/no-unsafe-assignment": ["off"],

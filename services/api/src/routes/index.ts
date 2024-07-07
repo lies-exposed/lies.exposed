@@ -1,7 +1,7 @@
 import { type Router } from "express";
-import { MakeQueueRoutes } from './queues/queues.routes.js';
+import { MakeQueueRoutes } from "./queues/queues.routes.js";
 import { type RouteContext } from "./route.types.js";
-import { MakeSettingRoutes } from './settings/settings.routes.js';
+import { MakeSettingRoutes } from "./settings/settings.routes.js";
 import { MakeProjectImageRoutes } from "#routes/ProjectImages/ProjectImage.routes.js";
 import { MakeActorRoutes } from "#routes/actors/actors.routes.js";
 import { MakeAdminRoutes } from "#routes/admin/admin.routes.js";

@@ -27,9 +27,10 @@
     "paths": {
       "#app/*": ["app/*"],
       "#context/*": ["context/*"],
-      "#io/*": ["io/*"],
       "#entities/*": ["entities/*"],
       "#flows/*": ["flows/*"],
+      "#io/*": ["io/*"],
+      "#jobs/*": ["jobs/*"],
       "#providers/*": ["providers/*"],
       "#queries/*": ["queries/*"],
       "#routes/*": ["routes/*"],

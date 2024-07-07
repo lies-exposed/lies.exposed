@@ -5,7 +5,7 @@ import {
   Entity,
   Index,
   PrimaryColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from "typeorm";
 
 @Entity("settings")

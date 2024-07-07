@@ -18,7 +18,7 @@ interface OnLoadSharePayloadClickOpts {
   multipleMedia: boolean;
 }
 
-export interface SocialPostButtonProps extends Omit<FieldProps, 'source'> {
+export interface SocialPostButtonProps extends Omit<FieldProps, "source"> {
   id?: Identifier;
   type: SocialPostResourceType;
   onLoadSharePayloadClick: (opts: OnLoadSharePayloadClickOpts) => Promise<

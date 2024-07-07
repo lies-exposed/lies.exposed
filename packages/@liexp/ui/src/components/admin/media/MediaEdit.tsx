@@ -62,14 +62,14 @@ const TransferButton: React.FC<FieldProps & { target?: "thumbnail" }> = ({
         }
 
         if (record) {
-        void apiProvider
-          .put(`media/${record.id}`, {
-            ...record,
-            ...params,
-          })
-          .then(() => {
-            refresh();
-          });
+          void apiProvider
+            .put(`media/${record.id}`, {
+              ...record,
+              ...params,
+            })
+            .then(() => {
+              refresh();
+            });
         }
       }}
     >
@@ -102,7 +102,7 @@ export const ThumbnailEditField: React.FC<FieldProps> = (props) => {
                 />
               </Box>
               <GenerateThumbnailButton {...props} />
-              <TransferButton target="thumbnail" source='thumbnail' />
+              <TransferButton target="thumbnail" source="thumbnail" />
             </Stack>
           ) : (
             <Box style={{ display: "flex", flexDirection: "column" }}>

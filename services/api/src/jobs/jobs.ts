@@ -5,6 +5,7 @@ import Cron from "node-cron";
 import { cleanTempFolder } from "./cleanTempFolder.job.js";
 import { type CronFnOpts } from "./cron-task.type.js";
 import { generateMissingThumbnailsCron } from "./generateMissingMedia.job.js";
+import { processOpenAIQueue } from "./processOpenAIQueue.job.js";
 import { postOnSocialJob } from "./socialPostScheduler.job.js";
 import { type RouteContext } from "#routes/route.types.js";
 
@@ -55,6 +56,15 @@ export const CronJobs = (ctx: RouteContext): CronJobsHooks => {
   );
   const generateMissingThumbnailsTask = generateMissingThumbnailsCron(ctx);
 
+  cronLogger.debug.log(
+    `Setting up "PROCESS_EMBEDDINGS_QUEUE" cron task: %s`,
+    ctx.env.PROCESS_EMBEDDINGS_QUEUE_CRON,
+  );
+  const processEmbeddingsQueueTask = Cron.schedule(
+    ctx.env.PROCESS_EMBEDDINGS_QUEUE_CRON,
+    liftT(processOpenAIQueue(ctx)),
+    { name: "PROCESS_EMBEDDINGS_QUEUE", scheduled: false, runOnInit: false },
+  );
 
   return {
     onBootstrap() {
@@ -81,6 +91,9 @@ export const CronJobs = (ctx: RouteContext): CronJobsHooks => {
         `Removing "generate missing thumbnails" cron task...`,
       );
       generateMissingThumbnailsTask.stop();
+
+      cronLogger.info.log(`Removing "process embeddings queue" cron task...`);
+      processEmbeddingsQueueTask.stop();
     },
   };
 };

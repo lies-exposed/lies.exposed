@@ -66,8 +66,8 @@ services:
       - fra1.space.liexp.dev
     volumes:
       - api-node-modules:/usr/src/app/node_modules
-      - ./packages/@liexp:/usr/src/app/packages/@liexp
-      - ./services/api:/usr/src/app/services/api:ro
+      - ./packages/@liexp:/usr/src/app/packages/@liexp:ro
+      - ./services/api:/usr/src/app/services/api:cached
       - ./services/api/temp:/usr/src/app/services/api/temp:rw
     tty: true
     stdin_open: true

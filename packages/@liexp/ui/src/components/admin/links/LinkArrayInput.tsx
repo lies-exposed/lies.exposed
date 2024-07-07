@@ -20,16 +20,11 @@ export const LinkArrayInput: React.FC<
         <BooleanInput source="fromURL" />
         <FormDataConsumer>
           {({ formData, scopedFormData, ...rest }) => {
-            
             if (scopedFormData?.fromURL) {
               return (
                 <Box style={{ width: "100%" }}>
                   <TextInput source={"url"} fullWidth />
-                  <TextInput
-                    source={"description"}
-                    multiline
-                    fullWidth
-                  />
+                  <TextInput source={"description"} multiline fullWidth />
                   <DateInput source={"publishDate"} />
                 </Box>
               );

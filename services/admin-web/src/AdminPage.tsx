@@ -71,8 +71,12 @@ import {
   KeywordEdit,
   KeywordList,
 } from "./pages/AdminKeyword.js";
-import { QueueCreate, QueueEdit, QueueList } from './pages/AdminQueue';
-import { SettingCreate, SettingEdit, SettingList } from "./pages/AdminSetting.js";
+import { QueueCreate, QueueEdit, QueueList } from "./pages/AdminQueue";
+import {
+  SettingCreate,
+  SettingEdit,
+  SettingList,
+} from "./pages/AdminSetting.js";
 import { SocialPostCreate, SocialPostList } from "./pages/AdminSocialPost.js";
 import { UserCreate, UserList } from "./pages/AdminUsers.js";
 import { PageCreate, PageEdit, PageList } from "./pages/Pages.js";
@@ -307,11 +311,7 @@ const AdminPage: React.FC = () => {
         create={SettingCreate}
       />
 
-      <Resource
-        name="queues"
-        list={QueueList}
-        create={QueueCreate}
-        />
+      <Resource name="queues" list={QueueList} create={QueueCreate} />
       <CustomRoutes>
         <Route path="/" element={<AdminStats />} />
         <Route path="/queues/:type/:resource/:id" element={<QueueEdit />} />

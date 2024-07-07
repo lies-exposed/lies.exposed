@@ -11,8 +11,19 @@ export const MakeQueueEditRoute: Route = (r, ctx) => {
     ({ params: { id, resource, type }, body: { ...userData } }) => {
       ctx.logger.debug.log("Edit setting %s  with %O", id, userData);
       return pipe(
-        ctx.queue.queue(type).addJob({ ...userData, resource }),
-        TE.chainEitherK((job) => toQueueIO(job)),
+        TE.Do,
+        TE.bind("queue", () => TE.right(ctx.queue.queue(type))),
+        TE.bind("prevJob", ({ queue }) => queue.getJob(resource, id)),
+        TE.bind("deletePrevJob", ({ queue, prevJob }) =>
+          queue.deleteJob(prevJob.resource, prevJob.id),
+        ),
+        TE.bind("job", ({ queue, prevJob }) =>
+          pipe(
+            TE.right({ ...prevJob, ...userData, resource }),
+            TE.chainFirst(queue.addJob),
+          ),
+        ),
+        TE.chainEitherK(({ job }) => toQueueIO(job)),
         TE.map((data) => ({
           body: { data },
           statusCode: 200,

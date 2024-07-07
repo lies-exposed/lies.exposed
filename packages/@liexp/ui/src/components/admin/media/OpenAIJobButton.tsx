@@ -1,13 +1,13 @@
-import { type ResourcesNames } from "@liexp/shared/lib/io/http/ResourcesNames.js";
+import type * as Queue from "@liexp/shared/lib/io/http/Queue.js";
 import { get } from "lodash";
 import * as React from "react";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { Button, Stack } from "../../mui/index.js";
-import { LoadingIndicator, useRecordContext } from "../react-admin";
+import { LoadingIndicator, useRecordContext } from "../react-admin.js";
 
 interface OpenAIPromptButtonProps {
-  type?: string;
-  resource: ResourcesNames;
+  type?: Queue.QueueTypes;
+  resource: Queue.QueueResourceNames;
   valueSource: string;
   idSource?: string;
   prompt?: string;

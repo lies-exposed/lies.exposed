@@ -68,7 +68,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
           include: [/node_modules/],
           transformMixedEsModules: true,
         },
-        sourcemap: mode === 'development'
+        sourcemap: mode === "development",
       },
       assetsInclude: [],
       css: {

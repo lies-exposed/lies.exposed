@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Labeled, TextInput, type TextInputProps } from "react-admin";
-import { SlugInput } from './SlugInput';
+import { SlugInput } from "./SlugInput";
 
 export interface JSONInputProps extends TextInputProps {
   label?: string;
@@ -24,9 +24,7 @@ export const TextWithSlugInput: React.FC<JSONInputProps> = ({
     <Labeled label={label} fullWidth>
       <>
         <TextInput source={source} defaultValue={defaultValue} />
-        <SlugInput
-          source={slugSource}
-        />
+        <SlugInput source={slugSource} />
       </>
     </Labeled>
   );
