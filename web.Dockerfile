@@ -1,4 +1,4 @@
-FROM ghcr.io/lies-exposed/liexp-base:20-latest as dev
+FROM ghcr.io/lies-exposed/liexp-base:20-latest AS dev
 
 COPY . /usr/src/app
 
@@ -8,7 +8,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 RUN pnpm packages:build
 
-FROM ghcr.io/lies-exposed/liexp-base:20-latest as build
+FROM ghcr.io/lies-exposed/liexp-base:20-latest AS build
 
 COPY --from=dev /usr/src/app /usr/src/app
 
@@ -18,7 +18,7 @@ RUN pnpm web build
 RUN pnpm web build:app-server
 
 
-FROM ghcr.io/lies-exposed/liexp-base:20-pnpm-latest as production
+FROM ghcr.io/lies-exposed/liexp-base:20-pnpm-latest AS production
 
 COPY --from=build /usr/src/app/pnpm-lock.yaml /prod/pnpm-lock.yaml
 COPY --from=build /usr/src/app/pnpm-workspace.yaml /prod/pnpm-workspace.yaml

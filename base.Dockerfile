@@ -1,7 +1,7 @@
-FROM node:20-alpine as base
+FROM node:20-alpine AS base
 
 
-FROM base as pnpm
+FROM base AS pnpm
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -9,7 +9,7 @@ RUN corepack enable pnpm
 
 WORKDIR /usr/src/app
 
-FROM pnpm as api-base
+FROM pnpm AS api-base
 
 RUN apk add --no-cache \
     libc6-compat \
@@ -37,7 +37,7 @@ RUN addgroup -S pptruser && adduser -S -G pptruser pptruser \
     && chown -R pptruser:pptruser /home/pptruser \
     && chown -R pptruser:pptruser /prod
 
-# Run everything after as non-privileged user.
+# Run everything after AS non-privileged user.
 # USER pptruser
 
 WORKDIR /usr/src/app
