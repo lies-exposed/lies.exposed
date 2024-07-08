@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class SocialPost1688404565649 implements MigrationInterface {
   name = "SocialPost1688404565649";

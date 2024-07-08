@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class PatentEvent1644148877719 implements MigrationInterface {
   name = "PatentEvent1644148877719";

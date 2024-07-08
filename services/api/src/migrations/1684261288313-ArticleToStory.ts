@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class ArticleToStory1684261288313 implements MigrationInterface {
   name = "ArticleToStory1684261288313";

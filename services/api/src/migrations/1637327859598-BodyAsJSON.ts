@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class BodyAsJSON1637327859598 implements MigrationInterface {
   name = "BodyAsJSON1637327859598";

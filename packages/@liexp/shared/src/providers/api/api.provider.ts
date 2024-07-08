@@ -11,7 +11,7 @@ import {
 import { Endpoints } from "../../endpoints/index.js";
 import { type ResourceEndpoints } from "../../endpoints/types.js";
 import { type APIError } from "../../io/http/Error/APIError.js";
-import { HTTPProvider, liftFetch } from "../http/http.provider.js";
+import { type HTTPProvider, liftFetch } from "../http/http.provider.js";
 
 const apiLogger = GetLogger("API");
 

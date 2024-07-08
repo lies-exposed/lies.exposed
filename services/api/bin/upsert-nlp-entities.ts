@@ -1,13 +1,13 @@
-import { DBError } from "@liexp/backend/lib/providers/orm/database.provider.js";
+import { type DBError } from "@liexp/backend/lib/providers/orm/database.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { startContext, stopContext } from "./start-ctx.js";
-import { ActorEntity } from "#entities/Actor.entity.js";
-import { GroupEntity } from "#entities/Group.entity.js";
-import { KeywordEntity } from "#entities/Keyword.entity.js";
+import { type ActorEntity } from "#entities/Actor.entity.js";
+import { type GroupEntity } from "#entities/Group.entity.js";
+import { type KeywordEntity } from "#entities/Keyword.entity.js";
 import { toControllerError } from "#io/ControllerError.js";
 import { fetchActors } from "#queries/actors/fetchActors.query.js";
 import { fetchGroups } from "#queries/groups/fetchGroups.query.js";

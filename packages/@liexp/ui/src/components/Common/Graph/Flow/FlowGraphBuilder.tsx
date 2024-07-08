@@ -2,11 +2,11 @@ import { Group } from "@liexp/shared/lib/io/http/index.js";
 import { http } from "@liexp/shared/lib/io/index.js";
 import React, { useCallback } from "react";
 import {
-  Connection,
-  Edge,
-  Node,
-  NodeDragHandler,
-  ReactFlowProps,
+  type Connection,
+  type Edge,
+  type Node,
+  type NodeDragHandler,
+  type ReactFlowProps,
   addEdge,
   useEdgesState,
   useNodesState,
@@ -18,7 +18,7 @@ import { AutocompleteGroupInput } from "../../../Input/AutocompleteGroupInput.js
 import { FormControlLabel, Stack, Switch } from "../../../mui/index.js";
 import {
   NodeContextMenu,
-  NodeContextMenuProps,
+  type NodeContextMenuProps,
 } from "./ContextMenu/Node/NodeContextMenu.js";
 import { FlowGraph } from "./FlowGraph.js";
 

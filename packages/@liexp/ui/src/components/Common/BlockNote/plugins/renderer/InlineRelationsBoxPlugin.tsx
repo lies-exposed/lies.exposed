@@ -1,4 +1,4 @@
-import { SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
 import {
   type Actor,
   type Group,
@@ -12,7 +12,7 @@ import { MediaBox } from "../../../../../containers/MediaBox.js";
 import { styled } from "../../../../../theme/index.js";
 import { KeywordsBox } from "../../../../KeywordsBox.js";
 import { Box } from "../../../../mui/index.js";
-import { InlineRelations } from "../../utils/transform.utils.js";
+import { type InlineRelations } from "../../utils/transform.utils.js";
 import { EventTimelinePlugin } from "./EventTimelinePlugin.js";
 
 const PREFIX = `inline-relations-box`;

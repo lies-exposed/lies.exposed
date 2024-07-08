@@ -1,6 +1,6 @@
 import { kebabCase } from "lodash";
 import * as React from "react";
-import { Labeled, TextInput, TextInputProps } from "react-admin";
+import { Labeled, TextInput, type TextInputProps } from "react-admin";
 
 export interface JSONInputProps extends TextInputProps {
   label?: string;

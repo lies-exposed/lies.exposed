@@ -1,6 +1,6 @@
 import { JsonEditor } from "jsoneditor-react";
 import * as React from "react";
-import { Button, Labeled, TextInputProps, useInput } from "react-admin";
+import { Button, Labeled, type TextInputProps, useInput } from "react-admin";
 
 export interface JSONInputProps extends TextInputProps {
   label?: string;

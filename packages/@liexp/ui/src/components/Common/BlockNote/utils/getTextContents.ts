@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { BNESchemaEditor } from "../EditorSchema.js";
+import { type BNESchemaEditor } from "../EditorSchema.js";
 import { transform as transformBNDocument } from "./transform.utils.js";
 
 export const getTextContents = (

@@ -1,6 +1,6 @@
 import { GetEndpointSubscriber } from "ts-endpoint-express";
 import { type IOError } from "ts-io-error/lib/index.js";
-import { EndpointsMapType } from "./Endpoints.js";
+import { type EndpointsMapType } from "./Endpoints.js";
 import * as GroupMember from "./GroupMember.endpoints.js";
 import * as Networks from "./Network.endpoints.js";
 import * as OpenGraph from "./OpenGraph.endpoints.js";

@@ -1,6 +1,6 @@
 import {
   AreaArb,
-  AreaArbType,
+  type AreaArbType,
 } from "@liexp/shared/lib/tests/arbitrary/Area.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";

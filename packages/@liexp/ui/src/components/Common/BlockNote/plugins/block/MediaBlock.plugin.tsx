@@ -14,7 +14,7 @@ import {
   Input,
   Stack,
 } from "../../../../mui/index.js";
-import { BNESchemaEditor } from "../../EditorSchema.js";
+import { type BNESchemaEditor } from "../../EditorSchema.js";
 import { EditMenu } from "../EditMenu/EditMenu.js";
 
 interface MediaBlockProps {

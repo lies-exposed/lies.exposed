@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class DeathEvent1625501444377 implements MigrationInterface {
   name = "DeathEvent1625501444377";

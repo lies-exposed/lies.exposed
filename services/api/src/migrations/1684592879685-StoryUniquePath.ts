@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class StoryUniquePath1684592879685 implements MigrationInterface {
   name = "StoryUniquePath1684592879685";

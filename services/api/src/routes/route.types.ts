@@ -1,5 +1,5 @@
 import { type ServerContext } from "@liexp/backend/lib/context/server.js";
-import cors from "cors";
+import type cors from "cors";
 import { type Router } from "express";
 import { type OpenAI } from "openai";
 import { type ENV } from "#io/ENV.js";

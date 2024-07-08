@@ -1,4 +1,4 @@
-import { ChatCompletion } from "openai/resources/index.js";
+import { type ChatCompletion } from "openai/resources/index.js";
 import { LoadingIndicator } from "ra-ui-materialui";
 import * as React from "react";
 import { useOpenAI } from "../../../hooks/useOpenAI.js";

@@ -4,7 +4,7 @@ import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { Route } from "../route.types.js";
+import { type Route } from "../route.types.js";
 import { toAreaIO } from "./Area.io.js";
 import { fetchAreas } from "#queries/areas/fetchAreas.query.js";
 import { RequestDecoder } from "#utils/authenticationHandler.js";

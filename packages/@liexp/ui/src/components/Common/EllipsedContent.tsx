@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Box } from "../mui/index.js";
-import { BNESchemaEditor } from "./BlockNote/EditorSchema.js";
+import { type BNESchemaEditor } from "./BlockNote/EditorSchema.js";
 import { BNEditor } from "./BlockNote/index.js";
 
 interface EllipsesContentProps {

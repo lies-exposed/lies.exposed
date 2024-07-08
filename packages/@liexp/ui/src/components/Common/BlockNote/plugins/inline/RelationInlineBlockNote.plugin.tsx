@@ -13,7 +13,7 @@ import {
 } from "../../../../mui/index.js";
 import { ActorIcon, GroupIcon, HashtagIcon } from "../../../Icons/FAIcon.js";
 import { BlockNoteEditorContext } from "../../BlockNoteEditorContext.js";
-import { BNESchemaEditor } from "../../EditorSchema.js";
+import { type BNESchemaEditor } from "../../EditorSchema.js";
 
 // Custom Slash Menu item to insert a block after the current one.
 export const relationItem = (editor: BNESchemaEditor) => ({

@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class AreaEventRelation1654009034536 implements MigrationInterface {
   name = "AreaEventRelation1654009034536";

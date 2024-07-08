@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class GraphEntity1715015414082 implements MigrationInterface {
   name = "GraphEntity1715015414082";
