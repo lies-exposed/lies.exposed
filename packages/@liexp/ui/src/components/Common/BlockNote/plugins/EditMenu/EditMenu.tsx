@@ -1,6 +1,6 @@
 import * as React from "react";
 import { IconButton, Icons, Stack } from "../../../../mui/index.js";
-import { BNESchemaEditor } from "../../EditorSchema.js";
+import { type BNESchemaEditor } from "../../EditorSchema.js";
 
 // Custom Slash Menu item to insert a block after the current one.
 export const relationItem = (editor: BNESchemaEditor) => ({

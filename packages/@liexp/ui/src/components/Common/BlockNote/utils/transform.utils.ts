@@ -1,6 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { Option } from "fp-ts/lib/Option.js";
-import { BNBlock, BNESchemaEditor } from "../EditorSchema.js";
+import { type Option } from "fp-ts/lib/Option.js";
+import { type BNBlock, type BNESchemaEditor } from "../EditorSchema.js";
 import { isValidValue } from "./isValidValue.js";
 
 export type DeserializeBNBlock<T> = (p: BNBlock) => Option<T[]>;

@@ -1,5 +1,5 @@
-import { MinimalEndpointInstance } from "ts-endpoint";
-import { ResourceEndpoints } from "./types.js";
+import { type MinimalEndpointInstance } from "ts-endpoint";
+import { type ResourceEndpoints } from "./types.js";
 
 export type EndpointsMapType = Record<
   string,

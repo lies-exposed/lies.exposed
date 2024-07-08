@@ -1,7 +1,7 @@
 import { filterSuggestionItems } from "@blocknote/core";
 import { BlockNoteView } from "@blocknote/mantine";
 import {
-  DefaultReactSuggestionItem,
+  type DefaultReactSuggestionItem,
   SuggestionMenuController,
   getDefaultReactSlashMenuItems,
   useCreateBlockNote,
@@ -9,7 +9,7 @@ import {
 import * as React from "react";
 import { styled } from "../../../theme/index.js";
 import { BlockNoteEditorContext } from "./BlockNoteEditorContext.js";
-import { BNESchemaEditor, schema } from "./EditorSchema.js";
+import { type BNESchemaEditor, schema } from "./EditorSchema.js";
 import { insertEvent } from "./plugins/block/EventBlock.plugin.js";
 import { insertMedia } from "./plugins/block/MediaBlock.plugin.js";
 import { actorItem } from "./plugins/inline/ActorInlineBlockNote.plugin.js";

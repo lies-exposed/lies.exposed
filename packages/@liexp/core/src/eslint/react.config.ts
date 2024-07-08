@@ -1,7 +1,7 @@
 import path from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
-import tseslint, { Config } from "typescript-eslint";
+import tseslint, { type Config } from "typescript-eslint";
 import baseConfig from "./base.config.js";
 
 // mimic CommonJS variables -- not needed if using CommonJS

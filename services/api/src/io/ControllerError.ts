@@ -1,8 +1,8 @@
-import { FSError } from "@liexp/backend/lib/providers/fs/fs.provider.js";
-import { JWTError } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
-import { NERError } from "@liexp/backend/lib/providers/ner/ner.provider.js";
-import { DBError } from "@liexp/backend/lib/providers/orm/index.js";
-import { SpaceError } from "@liexp/backend/lib/providers/space/space.provider.js";
+import { type FSError } from "@liexp/backend/lib/providers/fs/fs.provider.js";
+import { type JWTError } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
+import { type NERError } from "@liexp/backend/lib/providers/ner/ner.provider.js";
+import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
+import { type SpaceError } from "@liexp/backend/lib/providers/space/space.provider.js";
 import * as t from "io-ts";
 import { IOError } from "ts-shared/lib/errors.js";
 

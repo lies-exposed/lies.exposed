@@ -1,5 +1,5 @@
 import { getEventCommonProps } from "@liexp/shared/lib/helpers/event/index.js";
-import { SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";
 import { useAPI } from "../../../../../hooks/useAPI.js";

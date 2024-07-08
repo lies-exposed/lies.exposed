@@ -5,7 +5,7 @@ import { type EndpointsQueryProvider } from "@liexp/shared/lib/providers/Endpoin
 import { defaultUseQueryListParams } from "@liexp/shared/lib/providers/EndpointQueriesProvider/params.js";
 import { type Configuration } from "@liexp/ui/lib/context/ConfigurationContext";
 import {
-  AsyncDataRouteQuery,
+  type AsyncDataRouteQuery,
   type ServerRoute,
 } from "@liexp/ui/lib/react/types.js";
 import {

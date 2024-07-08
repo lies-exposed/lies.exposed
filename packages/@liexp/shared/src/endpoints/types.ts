@@ -1,5 +1,5 @@
 import {
-  TypeOfEndpointInstance,
+  type TypeOfEndpointInstance,
   type MinimalEndpointInstance,
 } from "ts-endpoint";
 

@@ -3,7 +3,7 @@ import * as React from "react";
 import GroupChipBox from "../../../../../containers/groups/GroupChipBox.js";
 import { GroupIcon } from "../../../Icons/FAIcon.js";
 import { BlockNoteEditorContext } from "../../BlockNoteEditorContext.js";
-import { BNESchemaEditor } from "../../EditorSchema.js";
+import { type BNESchemaEditor } from "../../EditorSchema.js";
 import { RelationInlineContentComponent } from "./RelationInlineBlockNote.plugin.js";
 
 export interface GroupInlineState {

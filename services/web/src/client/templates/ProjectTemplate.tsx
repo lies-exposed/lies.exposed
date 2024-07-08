@@ -6,7 +6,7 @@ import { Container } from "@mui/material";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
-import { PathRouteProps } from "react-router";
+import { type PathRouteProps } from "react-router";
 
 export default class ProjectTemplate extends React.PureComponent<PathRouteProps> {
   render(): JSX.Element {

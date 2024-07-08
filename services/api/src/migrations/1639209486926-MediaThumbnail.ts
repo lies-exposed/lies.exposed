@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class MediaThumbnail1639209486926 implements MigrationInterface {
   name = "MediaThumbnail1639209486926";

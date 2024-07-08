@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class KeywordColorOptional1643650636035 implements MigrationInterface {
   name = "KeywordColorOptional1643650636035";

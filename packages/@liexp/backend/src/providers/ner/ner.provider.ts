@@ -1,11 +1,11 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import type * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { IOError } from "ts-io-error";
 import model from "wink-eng-lite-web-model";
 import {
-  ItemToken,
+  type ItemToken,
   type CustomEntityExample,
   type Detail,
   type SentenceImportance,

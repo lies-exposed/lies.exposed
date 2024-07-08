@@ -1,4 +1,4 @@
-import { Media } from '@liexp/shared/lib/io/http/index.js';
+import { type Media } from '@liexp/shared/lib/io/http/index.js';
 import * as React from "react";
 import { Grid, Stack } from "../../mui/index.js";
 import {

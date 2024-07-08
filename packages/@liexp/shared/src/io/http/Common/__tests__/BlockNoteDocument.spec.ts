@@ -1,4 +1,4 @@
-import * as E from "fp-ts/lib/Either.js";
+import type * as E from "fp-ts/lib/Either.js";
 import { PathReporter } from "io-ts/lib/PathReporter.js";
 import { BlockNoteDocument } from "../BlockNoteDocument.js";
 

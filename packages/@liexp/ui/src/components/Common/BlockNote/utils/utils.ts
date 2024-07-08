@@ -1,11 +1,11 @@
 import { BlockNoteEditor } from "@blocknote/core";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
-import { TaskEither } from "fp-ts/lib/TaskEither.js";
-import { BNESchemaEditor, schema, BNBlock } from "../EditorSchema.js";
+import { type TaskEither } from "fp-ts/lib/TaskEither.js";
+import { type BNESchemaEditor, schema, type BNBlock } from "../EditorSchema.js";
 import { PARAGRAPH_TYPE } from "./customSlate.js";
 import {
-  SlateValue,
+  type SlateValue,
   isValidSlateValue,
   transform as transformSlate,
 } from "./slate.utils.js";

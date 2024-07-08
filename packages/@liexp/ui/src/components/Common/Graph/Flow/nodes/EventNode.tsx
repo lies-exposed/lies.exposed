@@ -1,4 +1,4 @@
-import { Events } from "@liexp/shared/lib/io/http/index.js";
+import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { Handle, Position, type NodeProps } from "reactflow";
 import { useConfiguration } from "../../../../../context/ConfigurationContext.js";

@@ -8,7 +8,7 @@ import {
   Index,
   ManyToOne,
   PrimaryGeneratedColumn,
-  Relation,
+  type Relation,
   UpdateDateColumn,
 } from "typeorm";
 import { UserEntity } from "./User.entity.js";

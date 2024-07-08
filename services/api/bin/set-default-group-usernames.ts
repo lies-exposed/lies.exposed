@@ -4,7 +4,7 @@ import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { startContext, stopContext } from "./start-ctx.js";
 import { GroupEntity } from "#entities/Group.entity.js";
-import { ControllerError } from "#io/ControllerError.js";
+import { type ControllerError } from "#io/ControllerError.js";
 import { fetchGroups } from "#queries/groups/fetchGroups.query.js";
 
 const run = async (): Promise<void> => {

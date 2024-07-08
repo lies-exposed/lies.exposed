@@ -1,5 +1,5 @@
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { type MigrationInterface, type QueryRunner } from "typeorm";
 import { LinkEntity } from "#entities/Link.entity.js";
 
 export class LinkMediaEntity1653734131242 implements MigrationInterface {

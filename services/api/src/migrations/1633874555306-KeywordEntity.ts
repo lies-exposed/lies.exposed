@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class KeywordEntity1633874555306 implements MigrationInterface {
   name = "KeywordEntity1633874555306";

@@ -1,4 +1,4 @@
-import { Events } from "@liexp/shared/lib/io/http";
+import { type Events } from "@liexp/shared/lib/io/http";
 import get from "lodash/get";
 import set from "lodash/set";
 import * as React from "react";

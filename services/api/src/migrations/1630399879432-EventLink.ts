@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class EventLink1630399879432 implements MigrationInterface {
   name = "EventLink1630399879432";

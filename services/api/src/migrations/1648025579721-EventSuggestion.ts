@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class EventSuggestion1648025579721 implements MigrationInterface {
   name = "EventSuggestion1648025579721";

@@ -1,12 +1,12 @@
 import {
-  EditSocialPost,
+  type EditSocialPost,
   type SocialPlatform,
 } from "@liexp/shared/lib/io/http/SocialPost.js";
 import {
-  Actor,
-  Group,
-  Keyword,
-  Media,
+  type Actor,
+  type Group,
+  type Keyword,
+  type Media,
 } from "@liexp/shared/lib/io/http/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";

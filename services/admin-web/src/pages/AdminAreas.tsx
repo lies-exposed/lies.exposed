@@ -1,5 +1,5 @@
-import { Area } from "@liexp/shared/lib/io/http/Area.js";
-import { http } from "@liexp/shared/lib/io/index.js";
+import { type Area } from "@liexp/shared/lib/io/http/Area.js";
+import { type http } from "@liexp/shared/lib/io/index.js";
 import { fromSlateToBlockNote } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import { MapInput } from "@liexp/ui/lib/components/admin/MapInput.js";

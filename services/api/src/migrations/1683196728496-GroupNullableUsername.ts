@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class GroupNullableUsername1683196728496 implements MigrationInterface {
   name = "GroupNullableUsername1683196728496";

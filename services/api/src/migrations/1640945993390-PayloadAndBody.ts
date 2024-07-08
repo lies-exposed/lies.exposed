@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class PayloadAndBody1640945993390 implements MigrationInterface {
   name = "PayloadAndBody1640945993390";

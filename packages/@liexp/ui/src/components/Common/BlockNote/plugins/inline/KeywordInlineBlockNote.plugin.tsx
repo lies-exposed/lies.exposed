@@ -3,7 +3,7 @@ import * as React from "react";
 import KeywordChipBox from "../../../../../containers/keywords/KeywordChipBox.js";
 import { Icons } from "../../../../mui/index.js";
 import { BlockNoteEditorContext } from "../../BlockNoteEditorContext.js";
-import { BNESchemaEditor } from "../../EditorSchema.js";
+import { type BNESchemaEditor } from "../../EditorSchema.js";
 import { RelationInlineContentComponent } from "./RelationInlineBlockNote.plugin.js";
 
 export interface GroupInlineState {

@@ -4,7 +4,7 @@ import {
   type MinimalEndpointInstance,
 } from "ts-endpoint";
 import { type serializedType } from "ts-io-error/lib/Codec.js";
-import { EndpointsMapType } from "../../endpoints/Endpoints.js";
+import { type EndpointsMapType } from "../../endpoints/Endpoints.js";
 import { type APIError } from "../../io/http/Error/APIError.js";
 import {
   type GetListFnParamsE,

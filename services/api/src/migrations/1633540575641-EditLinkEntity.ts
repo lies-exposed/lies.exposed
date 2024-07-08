@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class EditLinkEntity1633540575641 implements MigrationInterface {
   name = "EditLinkEntity1633540575641";

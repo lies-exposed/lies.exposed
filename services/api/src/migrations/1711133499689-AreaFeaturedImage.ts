@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class AreaFeaturedImage1711133499689 implements MigrationInterface {
   name = "AreaFeaturedImage1711133499689";

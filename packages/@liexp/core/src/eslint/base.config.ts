@@ -78,10 +78,14 @@ const config: any = tseslint.config(
       "@typescript-eslint/restrict-plus-operands": ["off"],
       "@typescript-eslint/no-unsafe-argument": ["off"],
       "@typescript-eslint/unbound-method": ["off"],
+      "@typescript-eslint/no-explicit-any": ["warn"],
+      '@typescript-eslint/consistent-type-imports': ['error', {
+        fixStyle: 'inline-type-imports',
+        prefer: 'type-imports'
+      }],
       // to be enabled
       "@typescript-eslint/no-unsafe-member-access": ["off"],
       "@typescript-eslint/no-unsafe-assignment": ["off"],
-      "@typescript-eslint/no-explicit-any": ["off"],
       "@typescript-eslint/no-empty-function": ["off"],
       "@typescript-eslint/no-unsafe-return": ["off"],
       "@typescript-eslint/no-unused-vars": ["off"],

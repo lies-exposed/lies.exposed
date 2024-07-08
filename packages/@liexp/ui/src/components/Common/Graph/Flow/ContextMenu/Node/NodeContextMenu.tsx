@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { useReactFlow } from "reactflow";
 import { IconButton, Icons, Stack } from "../../../../../mui/index.js";
-import { ContextMenu, ContextMenuProps } from "../ContextMenu.js";
+import { ContextMenu, type ContextMenuProps } from "../ContextMenu.js";
 import { GroupBoxNodeContextMenu } from "./GroupBoxNodeContextMenu.js";
 
 export interface NodeContextMenuProps extends ContextMenuProps {
