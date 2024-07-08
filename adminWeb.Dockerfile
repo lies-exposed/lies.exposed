@@ -1,10 +1,10 @@
-FROM node:20-slim as base
+FROM node:20-slim AS base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
-FROM base as dev
+FROM base AS dev
 
 COPY . /usr/src/app
 
@@ -14,7 +14,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 RUN pnpm packages:build
 
-FROM base as build
+FROM base AS build
 
 COPY --from=dev /usr/src/app /usr/src/app
 
@@ -23,7 +23,7 @@ WORKDIR /usr/src/app
 RUN pnpm admin-web build
 RUN pnpm admin-web build:app
 
-FROM base as production
+FROM base AS production
 
 COPY --from=dev /usr/src/app/pnpm-workspace.yaml /prod/pnpm-workspace.yaml
 COPY --from=dev /usr/src/app/package.json /prod/package.json
