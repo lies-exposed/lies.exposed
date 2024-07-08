@@ -6,7 +6,7 @@ import {
   type NavigateFunction,
   useLocation,
   useNavigate,
-} from "react-router";
+} from "react-router-dom";
 
 const toBase64 = (data: string): string => {
   return Buffer.from(data).toString("base64");

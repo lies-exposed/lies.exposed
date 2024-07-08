@@ -129,8 +129,13 @@ export const requestHandler =
         },
         final() {
           try {
-            logger.debug.log("Sending data to client");
-            const h = helmetContext.helmet as any;
+            logger.debug.log("Sending data to client %O", helmetContext);
+            const h = helmetContext.helmet as any ?? {
+              htmlAttributes: "",
+              title: '<title>Lies Exposed</title>',
+              meta: '',
+              script: ''
+            };
 
             const htmlAttributes = h.htmlAttributes.toString();
             const head = `
