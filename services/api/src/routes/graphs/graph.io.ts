@@ -1,7 +1,7 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import * as E from "fp-ts/lib/Either.js";
-import { GraphEntity } from "#entities/Graph.entity.js";
+import { type GraphEntity } from "#entities/Graph.entity.js";
 import { DecodeError, type ControllerError } from "#io/ControllerError.js";
 
 export const toGraphIO = (

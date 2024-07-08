@@ -1,12 +1,12 @@
 import { insertOrUpdateBlock } from "@blocknote/core";
 import { createReactBlockSpec } from "@blocknote/react";
-import { Events } from "@liexp/shared/lib/io/http/index.js";
+import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import EventsBox from "../../../../../containers/EventsBox.js";
 import { AutocompleteEventInput } from "../../../../Input/AutocompleteEventInput.js";
 import { Box, IconButton, Icons, Stack } from "../../../../mui/index.js";
 import { EventIcon } from "../../../Icons/index.js";
-import { BNESchemaEditor } from "../../EditorSchema.js";
+import { type BNESchemaEditor } from "../../EditorSchema.js";
 import { EditMenu } from "../EditMenu/EditMenu.js";
 
 // Slash menu item to insert an Event block

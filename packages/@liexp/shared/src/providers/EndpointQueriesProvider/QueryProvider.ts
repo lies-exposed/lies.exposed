@@ -3,12 +3,12 @@ import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { useQuery } from "@tanstack/react-query";
 import * as R from "fp-ts/lib/Record.js";
 import {
-  InferEndpointParams,
+  type InferEndpointParams,
   type MinimalEndpoint,
   type MinimalEndpointInstance,
 } from "ts-endpoint";
-import { serializedType } from "ts-io-error/lib/Codec.js";
-import { EndpointsMapType } from "../../endpoints/Endpoints.js";
+import { type serializedType } from "ts-io-error/lib/Codec.js";
+import { type EndpointsMapType } from "../../endpoints/Endpoints.js";
 import {
   type EndpointOutput,
   type GetFn,

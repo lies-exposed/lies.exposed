@@ -1,5 +1,5 @@
 import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { type MigrationInterface, type QueryRunner } from "typeorm";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { DeathEventEntity } from "#entities/archive/DeathEvent.entity.js";
 import { EventEntity } from "#entities/archive/Event.entity.js";

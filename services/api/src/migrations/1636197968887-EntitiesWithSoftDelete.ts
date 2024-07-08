@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class EntitiesWithSoftDelete1636197968887 implements MigrationInterface {
   name = "EntitiesWithSoftDelete1636197968887";

@@ -3,7 +3,7 @@ import * as React from "react";
 import QueriesRenderer from "../../components/QueriesRenderer.js";
 import {
   KeywordChip,
-  KeywordChipProps,
+  type KeywordChipProps,
 } from "../../components/keywords/KeywordChip.js";
 
 type KeywordChipBoxProps = Omit<KeywordChipProps, "keyword"> & {

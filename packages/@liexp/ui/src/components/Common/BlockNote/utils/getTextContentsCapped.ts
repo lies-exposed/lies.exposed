@@ -1,4 +1,4 @@
-import { BNESchemaEditor } from "../EditorSchema.js";
+import { type BNESchemaEditor } from "../EditorSchema.js";
 import { getTextContents } from "./getTextContents.js";
 import { isValidValue } from "./isValidValue.js";
 

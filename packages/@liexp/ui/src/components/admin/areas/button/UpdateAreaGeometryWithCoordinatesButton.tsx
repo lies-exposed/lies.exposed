@@ -1,4 +1,4 @@
-import { Area } from "@liexp/shared/lib/io/http/index.js";
+import { type Area } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useDataProvider } from "../../../../hooks/useDataProvider.js";
 import { CircularProgress, Stack, TextField } from "../../../mui/index.js";

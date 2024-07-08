@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { EndpointsMapType } from "../../endpoints/Endpoints.js";
+import { type EndpointsMapType } from "../../endpoints/Endpoints.js";
 import { type Endpoints } from "../../endpoints/index.js";
 import { type EndpointsRESTClient } from "../EndpointsRESTClient/EndpointsRESTClient.js";
 import { API } from "../api/api.provider.js";

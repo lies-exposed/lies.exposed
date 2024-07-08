@@ -3,7 +3,7 @@ import * as React from "react";
 import ActorChipBox from "../../../../../containers/actors/ActorChipBox.js";
 import { ActorIcon } from "../../../Icons/FAIcon.js";
 import { BlockNoteEditorContext } from "../../BlockNoteEditorContext.js";
-import { BNESchemaEditor } from "../../EditorSchema.js";
+import { type BNESchemaEditor } from "../../EditorSchema.js";
 import { RelationInlineContentComponent } from "./RelationInlineBlockNote.plugin.js";
 
 export interface ActorInlineState {

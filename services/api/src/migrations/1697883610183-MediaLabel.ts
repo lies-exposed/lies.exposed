@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class MediaLabel1697883610183 implements MigrationInterface {
   name = "MediaLabel1697883610183";

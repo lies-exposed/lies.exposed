@@ -1,6 +1,6 @@
-import { Group } from "@liexp/shared/lib/io/http/index.js";
+import { type Group } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import { Handle, NodeProps, Position } from "reactflow";
+import { Handle, type NodeProps, Position } from "reactflow";
 import { GroupListItem } from "../../../../lists/GroupList.js";
 
 export const GroupNode: React.FC<NodeProps<Group.Group>> = ({

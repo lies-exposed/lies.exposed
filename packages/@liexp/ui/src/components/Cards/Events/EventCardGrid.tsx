@@ -5,7 +5,7 @@ import * as React from "react";
 import { useConfiguration } from "../../../context/ConfigurationContext.js";
 import { styled } from "../../../theme/index.js";
 import { Grid } from "../../mui/index.js";
-import EventCard, { EventCardProps } from "./EventCard.js";
+import EventCard, { type EventCardProps } from "./EventCard.js";
 
 interface EventCardGridProps {
   events: Events.SearchEvent.SearchEvent[];

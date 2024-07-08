@@ -1,4 +1,4 @@
-import { ScientificStudy, type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type ScientificStudy, type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import * as React from "react";
 import {
   Button,

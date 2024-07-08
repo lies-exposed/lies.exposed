@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class JPEGMedia1638809315822 implements MigrationInterface {
   name = "JPEGMedia1638809315822";

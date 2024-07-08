@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class PDFMedia1638191504078 implements MigrationInterface {
   name = "PDFMedia1638191504078";

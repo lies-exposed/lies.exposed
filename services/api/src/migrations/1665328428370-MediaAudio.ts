@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class MEdiaAudio1665328428370 implements MigrationInterface {
   name = "MediaAudio1665328428370";

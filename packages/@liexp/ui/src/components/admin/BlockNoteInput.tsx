@@ -7,7 +7,7 @@ import {
   type InputProps,
 } from "react-admin";
 import { ErrorBoundary } from "react-error-boundary";
-import { BNEditor, BNEditorProps } from "../Common/BlockNote/index.js";
+import { BNEditor, type BNEditorProps } from "../Common/BlockNote/index.js";
 import { getTextContents } from "../Common/BlockNote/utils/getTextContents.js";
 import {
   fromSlateToBlockNote,

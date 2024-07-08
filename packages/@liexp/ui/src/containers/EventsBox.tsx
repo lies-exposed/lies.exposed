@@ -1,6 +1,6 @@
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
 import * as React from "react";
-import { EventCardProps } from "../components/Cards/Events/EventCard.js";
+import { type EventCardProps } from "../components/Cards/Events/EventCard.js";
 import { EventCardGrid } from "../components/Cards/Events/EventCardGrid.js";
 import QueriesRenderer from "../components/QueriesRenderer.js";
 import { Grid, Typography } from "../components/mui/index.js";

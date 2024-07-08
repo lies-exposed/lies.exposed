@@ -5,7 +5,7 @@ import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { styled } from "../../../../../theme/index.js";
 import { Box, List, ListItem, Typography } from "../../../../mui/index.js";
-import { BNESchemaEditor, BNBlock } from "../../EditorSchema.js";
+import { type BNESchemaEditor, type BNBlock } from "../../EditorSchema.js";
 import { transform } from "../../utils/transform.utils.js";
 
 interface SerializedHeader {

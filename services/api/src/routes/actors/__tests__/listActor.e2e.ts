@@ -1,6 +1,6 @@
 import {
   ActorArb,
-  ActorArbType,
+  type ActorArbType,
 } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils";
 import * as tests from "@liexp/test";

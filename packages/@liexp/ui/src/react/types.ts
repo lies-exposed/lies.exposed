@@ -1,7 +1,7 @@
 import { type EndpointsQueryProvider } from "@liexp/shared/lib/providers/EndpointQueriesProvider/index.js";
 import {
-  QueryFnKey,
-  QueryPromiseFunction,
+  type QueryFnKey,
+  type QueryPromiseFunction,
 } from "@liexp/shared/lib/providers/EndpointQueriesProvider/types.js";
 import { type Configuration } from "../context/ConfigurationContext";
 
