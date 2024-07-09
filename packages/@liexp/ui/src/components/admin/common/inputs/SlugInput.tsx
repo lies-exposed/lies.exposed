@@ -1,31 +1,31 @@
+import { kebabCase } from "lodash";
 import * as React from "react";
 import { Labeled, TextInput, type TextInputProps } from "react-admin";
-import { SlugInput } from './SlugInput';
 
-export interface JSONInputProps extends TextInputProps {
+export interface SlugInputProps extends TextInputProps {
   label?: string;
   source: string;
-  slugSource?: string;
   style?: React.CSSProperties;
-  onClear?: () => void;
 }
 
-export const TextWithSlugInput: React.FC<JSONInputProps> = ({
+export const SlugInput: React.FC<SlugInputProps> = ({
   source,
-  slugSource = "slug",
   label = source,
   style,
-  onClear,
   ...props
 }) => {
   const defaultValue = props.defaultValue ?? "";
+  const defaultSlug = kebabCase(defaultValue);
 
   return (
     <Labeled label={label} fullWidth>
       <>
-        <TextInput source={source} defaultValue={defaultValue} />
-        <SlugInput
-          source={slugSource}
+        <TextInput
+          source={source}
+          parse={(value) => {
+            return value.replace(/\s/g, "-").toLowerCase();
+          }}
+          defaultValue={defaultSlug}
         />
       </>
     </Labeled>

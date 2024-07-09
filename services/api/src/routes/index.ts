@@ -1,5 +1,6 @@
 import { type Router } from "express";
 import { type RouteContext } from "./route.types.js";
+import { MakeSettingRoutes } from './settings/settings.routes.js';
 import { MakeProjectImageRoutes } from "#routes/ProjectImages/ProjectImage.routes.js";
 import { MakeActorRoutes } from "#routes/actors/actors.routes.js";
 import { MakeAdminRoutes } from "#routes/admin/admin.routes.js";
@@ -94,6 +95,9 @@ export const AddRoutes = (router: Router, ctx: RouteContext): Router => {
   MakeAdminRoutes(router, ctx);
   // social posts
   MakeSocialPostRoutes(router, ctx);
+
+  // settings
+  MakeSettingRoutes(router, ctx);
 
   return router;
 };
