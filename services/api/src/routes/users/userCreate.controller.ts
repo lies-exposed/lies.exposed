@@ -13,7 +13,7 @@ export const MakeUserCreateRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(ctx, ["admin:create"]))(
     Endpoints.User.Create,
     ({ body: { password, ...userData } }) => {
-      ctx.logger.debug.log("Login user with username or email %O", userData);
+      ctx.logger.debug.log("Creating new user %O", userData);
       return pipe(
         passwordUtils.hash(password),
         TE.chain((pw) =>

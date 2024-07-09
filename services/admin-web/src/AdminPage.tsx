@@ -71,6 +71,7 @@ import {
   KeywordEdit,
   KeywordList,
 } from "./pages/AdminKeyword.js";
+import { SettingCreate, SettingEdit, SettingList } from "./pages/AdminSetting.js";
 import { SocialPostCreate, SocialPostList } from "./pages/AdminSocialPost.js";
 import { UserCreate, UserList } from "./pages/AdminUsers.js";
 import { PageCreate, PageEdit, PageList } from "./pages/Pages.js";
@@ -297,6 +298,12 @@ const AdminPage: React.FC = () => {
         edit={UserEdit}
         create={UserCreate}
         icon={UserIcon}
+      />
+      <Resource
+        name="settings"
+        list={SettingList}
+        edit={SettingEdit}
+        create={SettingCreate}
       />
       <CustomRoutes>
         <Route path="/" element={<AdminStats />} />
