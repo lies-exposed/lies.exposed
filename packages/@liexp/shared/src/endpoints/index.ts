@@ -26,6 +26,7 @@ import * as Link from "./link.endpoints.js";
 import * as Media from "./media.endpoints.js";
 import * as Page from "./page.endpoints.js";
 import * as Project from "./project.endpoints.js";
+import * as Queues from "./queue.endpoints.js";
 import * as Setting from './setting.endpoints.js';
 import * as SocialPosts from "./socialPost.endpoints.js";
 import * as Story from "./story.endpoints.js";
@@ -55,11 +56,13 @@ interface Endpoints extends EndpointsMapType {
   Page: typeof Page.pages;
   Project: typeof Project.projects;
   ProjectImage: typeof ProjectImage.projectImages;
+  Queues: typeof Queues.queues;
   Stats: typeof Stats.stats;
   Networks: typeof Networks.networks;
   Healthcheck: typeof Healthcheck.healthcheck;
   SocialPosts: typeof SocialPosts.socialPosts;
   Setting: typeof Setting.settings;
+  
 }
 
 const Endpoints: Endpoints = {
@@ -101,7 +104,8 @@ const Endpoints: Endpoints = {
   Healthcheck: Healthcheck.healthcheck,
   // Uploads: Uploads.uploads,
   SocialPosts: SocialPosts.socialPosts,
-  Setting: Setting.settings
+  Setting: Setting.settings,
+  Queues: Queues.queues
 };
 
 const AddEndpoint = GetEndpointSubscriber((e): IOError => {

@@ -6,11 +6,9 @@ import D from "debug";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { failure } from "io-ts/lib/PathReporter.js";
+import { CronJobs } from "./jobs/jobs.js";
 import { makeApp } from "./app/index.js";
 import { makeContext } from "./context/index.js";
-import { cleanTempFolder } from "./jobs/cleanTempFolder.job.js";
-import { generateMissingThumbnailsCron } from "./jobs/generateMissingMedia.job.js";
-import { postOnSocialJob } from "./jobs/socialPostScheduler.job.js";
 
 const run = (): Promise<void> => {
   process.env.NODE_ENV = process.env.NODE_ENV ?? "development";
@@ -53,14 +51,7 @@ const run = (): Promise<void> => {
       ({ ctx, app }) =>
         () => {
           // cron jobs
-          const postOnSocialTask = postOnSocialJob(ctx);
-          const cleanTempFolderTask = cleanTempFolder(ctx);
-          const generateMissingThumbnailsTask =
-            generateMissingThumbnailsCron(ctx);
-
-          postOnSocialTask.start();
-          cleanTempFolderTask.start();
-          generateMissingThumbnailsTask.start();
+          const cronJobs = CronJobs(ctx);
 
           const server = app.listen(
             ctx.env.SERVER_PORT,
@@ -70,28 +61,21 @@ const run = (): Promise<void> => {
                 `Server is listening ${ctx.env.SERVER_HOST}:${ctx.env.SERVER_PORT}`,
               );
 
+              cronJobs.onBootstrap();
+
               ctx.tg.api.on("polling_error", (e) => {
                 serverLogger.error.log(`TG Bot error during polling %O`, e);
               });
             },
           );
 
-          process.on("SIGINT", () => {
+          process.on("beforeExit", () => {
             // eslint-disable-next-line no-console
             // serverLogger.debug.log(
             //   "Removing vaccine data download cron task..."
             // );
             // downloadVaccineDataTask.stop();
-            serverLogger.info.log(`Removing "post on social" cron task...`);
-            postOnSocialTask.stop();
-            serverLogger.info.log(
-              `Removing "clean up temp folder" cron task...`,
-            );
-            cleanTempFolderTask.stop();
-            serverLogger.info.log(
-              `Removing "generate missing thumbnails" cron task...`,
-            );
-            generateMissingThumbnailsTask.stop();
+            cronJobs.onShutdown();
 
             // eslint-disable-next-line no-console
             serverLogger.debug.log("closing server...");
@@ -121,6 +105,7 @@ const run = (): Promise<void> => {
 
           server.on("error", (e) => {
             serverLogger.error.log("An error occurred %O", e);
+            cronJobs.onShutdown();
             process.exit(1);
           });
 

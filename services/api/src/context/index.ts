@@ -32,7 +32,9 @@ import {
   type ControllerError,
 } from "#io/ControllerError.js";
 import { type ENV } from "#io/ENV.js";
+// import { LangchainProviderReader} from '#providers/ai/langchain.provider.js';
 import { createS3Provider } from "#providers/context/s3.context.js";
+import { GetQueueProvider } from '#providers/queue.provider.js';
 import { EventsConfig } from "#queries/config/index.js";
 import { type RouteContext } from "#routes/route.types.js";
 import { getDataSource } from "#utils/data-source.js";
@@ -73,6 +75,22 @@ export const makeContext = (
     baseURL: env.OPENAI_URL,
   });
 
+  const config = {
+    cors: {
+      origin: env.NODE_ENV === "production" ? true : "*",
+    },
+    events: EventsConfig,
+    dirs: {
+      cwd: process.cwd(),
+      temp: {
+        root: path.resolve(process.cwd(), "temp"),
+        media: path.resolve(process.cwd(), "temp/media"),
+        nlp: path.resolve(process.cwd(), "temp/nlp"),
+        queue: path.resolve(process.cwd(), "temp/queue"),
+        stats: path.resolve(process.cwd(), "temp/stats"),
+      },
+    },
+  };
   return pipe(
     sequenceS(fp.TE.ApplicativePar)({
       logger: fp.TE.right(serverLogger),
@@ -121,6 +139,8 @@ export const makeContext = (
         }),
       ),
       openai: fp.TE.right(openai),
+      // langchain: fp.TE.right(LangchainProviderReader),
+      queue: fp.TE.right(GetQueueProvider(fsClient, config.dirs.temp.queue)),
       ner: fp.TE.right(
         GetNERProvider({
           logger: logger.GetLogger("ner"),
@@ -128,21 +148,7 @@ export const makeContext = (
           nlp: WinkFn,
         }),
       ),
-      config: fp.TE.right<ControllerError, RouteContext["config"]>({
-        cors: {
-          origin: env.NODE_ENV === "production" ? true : "*",
-        },
-        events: EventsConfig,
-        dirs: {
-          cwd: process.cwd(),
-          temp: {
-            root: path.resolve(process.cwd(), "temp"),
-            media: path.resolve(process.cwd(), "temp/media"),
-            nlp: path.resolve(process.cwd(), "temp/nlp"),
-            stats: path.resolve(process.cwd(), "temp/stats"),
-          },
-        },
-      }),
+      config: fp.TE.right<ControllerError, RouteContext["config"]>(config),
     }),
     fp.TE.mapLeft((e) => ({
       ...e,

@@ -40,6 +40,9 @@
     "ts-io-error": "^2.0.0"
   },
   "devDependencies": {
+    "@aws-sdk/client-s3": "^3",
+    "@aws-sdk/lib-storage": "^3",
+    "@aws-sdk/s3-request-presigner": "^3",
     "@aws-sdk/types": "^3",
     "@types/fluent-ffmpeg": "^2.1.24",
     "@types/jsonwebtoken": "^9.0.6",
@@ -47,7 +50,7 @@
     "@types/uuid": "^9.0.8",
     "exifreader": "^4.20.0",
     "fast-csv": "^5.0.1",
-    "langchain": "^0.2.8",
+    "langchain": "^0.2.9",
     "prettier": "^3.3.2",
     "puppeteer-core": "^21.11.0",
     "puppeteer-extra": "^3.3.6",
