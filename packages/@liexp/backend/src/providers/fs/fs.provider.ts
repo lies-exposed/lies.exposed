@@ -104,15 +104,20 @@ export const GetFSClient = (): FSClient => {
 
   const getObject: FSClient["getObject"] = (filePath) => {
     fsLogger.debug.log("Getting object from path %s", filePath);
-    return pipe(TE.fromIO(() => fs.readFileSync(filePath, "utf-8")));
+    return pipe(
+      fp.IOE.tryCatch(() => fs.readFileSync(filePath, "utf-8"), toFSError),
+      fp.TE.fromIOEither,
+    );
   };
 
   const writeObject: FSClient["writeObject"] = (filePath, data) => {
     fsLogger.debug.log("Writing at %s: %d chars", filePath, data.length);
     return pipe(
-      TE.fromIO(() => {
-        fs.writeFileSync(filePath, data, "utf-8");
-      }),
+      TE.fromIOEither(
+        fp.IOE.tryCatch(() => {
+          fs.writeFileSync(filePath, data, "utf-8");
+        }, toFSError),
+      ),
     );
   };
 
