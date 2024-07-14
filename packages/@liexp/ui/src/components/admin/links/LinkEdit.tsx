@@ -12,6 +12,7 @@ import ReferenceManyEventField from "../events/ReferenceManyEventField.js";
 import ReferenceGroupInput from "../groups/ReferenceGroupInput.js";
 import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput.js";
 import { MediaField } from "../media/MediaField.js";
+import { OpenAIEmbeddingJobButton } from "../media/OpenAIEmbeddingJobButton.js";
 import ReferenceMediaInput from "../media/input/ReferenceMediaInput.js";
 import LinkPreview from "../previews/LinkPreview.js";
 import {
@@ -77,7 +78,10 @@ export const LinkEdit: React.FC = () => {
                 <OverrideThumbnail />
                 <TakeLinkScreenshot />
               </Stack>
-              <TextInput source="description" fullWidth multiline />
+              <Stack>
+                <OpenAIEmbeddingJobButton resource="links" valueSource="url" />
+                <TextInput source="description" fullWidth multiline />
+              </Stack>
               <ReferenceGroupInput source="provider" />
               {isAdmin && <DangerZoneField />}
             </Grid>
