@@ -71,6 +71,7 @@ import {
   KeywordEdit,
   KeywordList,
 } from "./pages/AdminKeyword.js";
+import { QueueCreate, QueueEdit, QueueList } from './pages/AdminQueue';
 import { SettingCreate, SettingEdit, SettingList } from "./pages/AdminSetting.js";
 import { SocialPostCreate, SocialPostList } from "./pages/AdminSocialPost.js";
 import { UserCreate, UserList } from "./pages/AdminUsers.js";
@@ -133,7 +134,7 @@ const AdminPage: React.FC = () => {
       authProvider={authProvider}
       i18nProvider={i18nProvider}
       loginPage={Login}
-      theme={adminThemeOptions as any}
+      theme={adminThemeOptions}
       layout={MyLayout}
     >
       <Resource
@@ -305,8 +306,15 @@ const AdminPage: React.FC = () => {
         edit={SettingEdit}
         create={SettingCreate}
       />
+
+      <Resource
+        name="queues"
+        list={QueueList}
+        create={QueueCreate}
+        />
       <CustomRoutes>
         <Route path="/" element={<AdminStats />} />
+        <Route path="/queues/:type/:resource/:id" element={<QueueEdit />} />
       </CustomRoutes>
     </Admin>
   );
