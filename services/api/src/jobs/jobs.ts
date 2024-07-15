@@ -58,10 +58,10 @@ export const CronJobs = (ctx: RouteContext): CronJobsHooks => {
 
   cronLogger.debug.log(
     `Setting up "PROCESS_EMBEDDINGS_QUEUE" cron task: %s`,
-    ctx.env.PROCESS_EMBEDDINGS_QUEUE_CRON,
+    ctx.env.PROCESS_QUEUE_JOB_CRON,
   );
   const processEmbeddingsQueueTask = Cron.schedule(
-    ctx.env.PROCESS_EMBEDDINGS_QUEUE_CRON,
+    ctx.env.PROCESS_QUEUE_JOB_CRON,
     liftT(processOpenAIQueue(ctx)),
     { name: "PROCESS_EMBEDDINGS_QUEUE", scheduled: false, runOnInit: false },
   );
