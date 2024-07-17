@@ -52,7 +52,7 @@
     "fp-ts": "^2.16.6",
     "history": "^5.3.0",
     "io-ts": "^2.2.21",
-    "openai": "^4.52.2",
+    "openai": "^4.52.7",
     "ra-core": "^5.0.4",
     "ra-i18n-polyglot": "^5.0.4",
     "ra-ui-materialui": "^5.0.4",
@@ -69,18 +69,18 @@
     "web-vitals": "^3.5.2"
   },
   "devDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.18.0",
+    "@rollup/rollup-linux-x64-gnu": "^4.18.1",
     "@testing-library/dom": "^9.3.3",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.5.1",
     "@types/debug": "^4.1.12",
-    "@types/lodash": "^4.17.5",
+    "@types/lodash": "^4.17.7",
     "@types/node": "^20.14.2",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@types/react-virtualized": "^9.21.30",
-    "@typescript-eslint/eslint-plugin": "^7.15.0",
-    "@typescript-eslint/parser": "^7.15.0",
+    "@typescript-eslint/eslint-plugin": "^7.16.1",
+    "@typescript-eslint/parser": "^7.16.1",
     "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
@@ -88,11 +88,11 @@
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-n": "^17.9.0",
     "eslint-plugin-promise": "^6.4.0",
-    "eslint-plugin-react": "^7.34.3",
+    "eslint-plugin-react": "^7.34.4",
     "page-metadata-parser": "^1.1.4",
-    "prettier": "^3.3.2",
+    "prettier": "^3.3.3",
     "typescript": "^5.4.5",
-    "vite": "^5.3.2"
+    "vite": "^5.3.4"
   },
   "packageManager": "pnpm@9.4.0"
 }
