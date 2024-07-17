@@ -37,6 +37,7 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     mkdir -p ./temp/networks/events
     mkdir -p ./temp/tg/messages
     mkdir -p ./temp/media
+    mkdir -p ./temp/queue
 
     chown -R pptruser:pptruser ./config
     chown -R pptruser:pptruser ./temp

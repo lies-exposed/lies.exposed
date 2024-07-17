@@ -24,6 +24,7 @@ COPY --from=build /usr/src/app/package.json /prod/package.json
 COPY --from=build /usr/src/app/.npmrc /prod/.npmrc
 COPY --from=build /usr/src/app/tsconfig.json /prod/tsconfig.json
 
+
 COPY --from=build /usr/src/app/packages/@liexp/core/lib /prod/packages/@liexp/core/lib
 COPY --from=build /usr/src/app/packages/@liexp/core/package.json /prod/packages/@liexp/core/package.json
 
@@ -41,6 +42,7 @@ COPY --from=build /usr/src/app/services/api/build /prod/services/api/build
 COPY --from=build /usr/src/app/services/api/package.json /prod/services/api/package.json
 COPY --from=build /usr/src/app/services/api/tsconfig.json /prod/services/api/tsconfig.json
 COPY --from=build /usr/src/app/services/api/tsconfig.build.json /prod/services/api/tsconfig.build.json
+COPY --from=build /usr/src/app/services/api/ormconfig.js /prod/services/api/ormconfig.js
 
 WORKDIR /prod
 
