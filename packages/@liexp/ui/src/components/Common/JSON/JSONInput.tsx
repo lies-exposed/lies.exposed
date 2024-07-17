@@ -18,7 +18,12 @@ const JSONInput: React.FC<JSONInputProps> = ({
 }) => {
   const {
     field: { value, onChange },
-  } = useInput({ ...props, source, defaultValue: props.defaultValue ?? "" });
+  } = useInput({
+    ...props,
+    format: (v) => (v === "" ? null : v),
+    source,
+    defaultValue: props.value ?? props.defaultValue ?? null,
+  });
 
   return (
     <Labeled label={label} fullWidth>
