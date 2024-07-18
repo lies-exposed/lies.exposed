@@ -72,7 +72,7 @@ services:
       timeout: 20m
       retries: 5
     ports:
-      - '8080:8080'
+      - "127.0.0.1:8080:8080"
     tty: true
     environment:
       DEBUG: true
