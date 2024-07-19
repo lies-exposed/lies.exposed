@@ -24,7 +24,9 @@ export const AutocompleteLinkInput: React.FC<AutocompleteLinkInputProps> = ({
     <AutocompleteInput<Link.Link>
       placeholder="Search in links..."
       getOptionLabel={(a) =>
-        typeof a === "string" ? a : a.description ?? a.title ?? "no description"
+        typeof a === "string"
+          ? a
+          : (a.description ?? a.title ?? "no description")
       }
       searchToFilter={(description) => ({ description })}
       selectedItems={selectedItems}

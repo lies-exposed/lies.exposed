@@ -1,9 +1,10 @@
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
-import { type NetworkType } from "@liexp/shared/lib/io/http/Network.js";
+import { type NetworkType } from "@liexp/shared/lib/io/http/Network/Network.js";
+import { subYears } from "date-fns";
 import { useRecordContext, useRefresh } from "ra-core";
 import { Button, LoadingIndicator } from "ra-ui-materialui";
 import * as React from "react";
-import { EventsNetworkGraphBox } from "../../../../containers/graphs/EventsNetworkGraphBox.js";
+import { EventsNetworkGraphBox } from "../../../../containers/graphs/EventsNetworkGraphBox/EventsNetworkGraphBox.js";
 import { useDataProvider } from "../../../../hooks/useDataProvider.js";
 import { Grid } from "../../../mui/index.js";
 
@@ -36,6 +37,8 @@ export const EventsNetworkGraphFormTab: React.FC<{
             type={type}
             query={{
               ...query,
+              startDate: subYears(new Date(), 300).toISOString(),
+              endDate: new Date().toISOString(),
               ids: [id],
             }}
             relations={["actors", "groups", "keywords"]}

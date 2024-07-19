@@ -17,7 +17,11 @@ import {
 } from "../../io/http/index.js";
 import { BySubjectUtils } from "../../io/utils/BySubjectUtils.js";
 import { eventRelationIdsMonoid } from "./event.js";
-import { getRelationIds } from "./getEventRelationIds.js";
+import {
+  getRelationIds,
+  getRelationIdsFromEventRelations,
+} from "./getEventRelationIds.js";
+import { getSearchEventRelations } from "./getSearchEventRelations.js";
 
 export interface SearchEventsQueryCache {
   events: Events.SearchEvent.SearchEvent[];
@@ -385,6 +389,125 @@ export const toSearchEvent = (
         media,
         keywords,
         links,
+      };
+    }
+  }
+};
+
+export const fromSearchEvent = (
+  e: Events.SearchEvent.SearchEvent,
+): Events.Event => {
+  const relations = pipe(
+    getSearchEventRelations(e),
+    getRelationIdsFromEventRelations,
+  );
+
+  switch (e.type) {
+    case Events.EventTypes.BOOK.value: {
+      return {
+        ...e,
+        ...relations,
+        payload: {
+          ...e.payload,
+          media: {
+            pdf: e.payload.media.pdf.id,
+            audio: e.payload.media.audio?.id,
+          },
+          authors: BySubjectUtils.toSubjectIds(e.payload.authors),
+          publisher: e.payload.publisher
+            ? BySubjectUtils.toSubjectId(e.payload.publisher)
+            : undefined,
+        },
+      };
+    }
+    case Events.EventTypes.QUOTE.value: {
+      return {
+        ...e,
+        ...relations,
+        payload: {
+          ...e.payload,
+          subject: BySubjectUtils.toSubjectId(e.payload.subject),
+        },
+      };
+    }
+    case Events.EventTypes.DEATH.value: {
+      return {
+        ...e,
+        ...relations,
+        payload: {
+          ...e.payload,
+          victim: e.payload.victim.id,
+        },
+      };
+    }
+    case Events.EventTypes.SCIENTIFIC_STUDY.value: {
+      return {
+        ...e,
+        ...relations,
+        payload: {
+          ...e.payload,
+          url: e.payload.url.id,
+          authors: e.payload.authors.map((a) => a.id),
+          publisher: e.payload.publisher?.id,
+        },
+      };
+    }
+
+    case Events.EventTypes.PATENT.value: {
+      return {
+        ...e,
+        ...relations,
+        payload: {
+          ...e.payload,
+          source: e.payload.source.id,
+          owners: {
+            actors: e.payload.owners.actors.map((a) => a.id),
+            groups: e.payload.owners.groups.map((g) => g.id),
+          },
+        },
+      };
+    }
+
+    case Events.EventTypes.DOCUMENTARY.value: {
+      return {
+        ...e,
+        ...relations,
+        payload: {
+          ...e.payload,
+          media: e.payload.media.id,
+          website: e.payload.website.id,
+          authors: {
+            actors: e.payload.authors.actors.map((a) => a.id),
+            groups: e.payload.authors.groups.map((g) => g.id),
+          },
+          subjects: {
+            actors: e.payload.subjects.actors.map((a) => a.id),
+            groups: e.payload.subjects.groups.map((g) => g.id),
+          },
+        },
+      };
+    }
+
+    case Events.EventTypes.TRANSACTION.value: {
+      return {
+        ...e,
+        ...relations,
+        payload: {
+          ...e.payload,
+          from: BySubjectUtils.toSubjectId(e.payload.from),
+          to: BySubjectUtils.toSubjectId(e.payload.to),
+        },
+      };
+    }
+
+    default: {
+      return {
+        ...e,
+        ...relations,
+        payload: {
+          ...e.payload,
+          ...relations,
+        },
       };
     }
   }

@@ -1,5 +1,5 @@
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
-import { type GetNetworkQuery } from "@liexp/shared/lib/io/http/Network.js";
+import { type GetNetworkQuery } from "@liexp/shared/lib/io/http/Network/Network.js";
 import { type FlowGraphType } from "@liexp/shared/lib/io/http/graphs/FlowGraph.js";
 import { Actor, Group, Keyword } from "@liexp/shared/lib/io/http/index.js";
 import { type UUID } from "io-ts-types/lib/UUID.js";

@@ -10,7 +10,7 @@ import * as GroupMember from "./GroupMember.js";
 import * as Keyword from "./Keyword.js";
 import * as Link from "./Link.js";
 import * as Media from "./Media.js";
-import * as Network from "./Network.js";
+import * as Network from "./Network/Network.js";
 import * as Page from "./Page.js";
 import * as Project from "./Project.js";
 import * as ProjectImage from "./ProjectImage.js";

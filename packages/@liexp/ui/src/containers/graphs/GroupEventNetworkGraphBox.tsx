@@ -1,11 +1,11 @@
-import { type NetworkType } from "@liexp/shared/lib/io/http/Network.js";
+import { type NetworkType } from "@liexp/shared/lib/io/http/Network/Network.js";
 import * as React from "react";
 import { type GetListParams } from "react-admin";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
 import {
   EventsNetworkGraphBoxWithQuery,
   type EventNetworkGraphBoxProps,
-} from "./EventsNetworkGraphBox.js";
+} from "./EventsNetworkGraphBox/EventsNetworkGraphBox.js";
 
 export interface GroupEventNetworkGraphBoxProps
   extends Omit<EventNetworkGraphBoxProps, "id"> {

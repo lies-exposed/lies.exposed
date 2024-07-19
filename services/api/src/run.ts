@@ -38,7 +38,7 @@ const run = (): Promise<void> => {
             ? err.details.errors
               ? failure(err.details.errors as any[])
               : []
-            : (err.details.meta as any[]) ?? [];
+            : ((err.details.meta as any[]) ?? []);
         serverLogger.error.log("Parsed error %O", parsedError);
         return () =>
           // eslint-disable-next-line prefer-promise-reject-errors

@@ -45,7 +45,7 @@ const EventCard: React.FC<EventCardProps> = ({
   const image =
     event.type === Events.EventTypes.DEATH.value
       ? event.payload.victim?.avatar
-      : media[0]?.thumbnail ?? defaultImage;
+      : (media[0]?.thumbnail ?? defaultImage);
 
   const date =
     typeof event.date === "string" ? parseISO(event.date as any) : event.date;

@@ -2,10 +2,18 @@ import {
   eqByUUID,
   ordEventDate,
 } from "@liexp/shared/lib/helpers/event/event.js";
+import { toEventNetworkDatum } from "@liexp/shared/lib/helpers/event/eventNetworkDatum.helper.js";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
 import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/index.js";
+import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
+import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
+import {
+  type NetworkLink,
+  type EventNetworkDatum,
+  type NetworkPointNode,
+} from "@liexp/shared/lib/io/http/Network/Network.js";
 import {
   type Actor,
   type Common,
@@ -16,7 +24,6 @@ import {
   type Topic,
 } from "@liexp/shared/lib/io/http/index.js";
 import { LegendItem, LegendLabel, LegendOrdinal } from "@visx/legend";
-import { type Link } from "@visx/network/lib/types.js";
 import { ParentSize } from "@visx/responsive";
 import ordinalScale from "@visx/scale/lib/scales/ordinal.js";
 import { type ScaleOrdinal } from "d3-scale";
@@ -30,30 +37,10 @@ import { pipe } from "fp-ts/lib/function.js";
 import * as S from "fp-ts/lib/string.js";
 import * as React from "react";
 import { type NetworkScale } from "../Common/Graph/Network/Network.js";
-import {
-  type NetworkNodeDatum,
-  type NetworkPointNode,
-} from "../Common/Graph/Network/NetworkNode.js";
 import SankeyGraph from "../Common/Graph/SankeyGraph.js";
 import { Box, Grid } from "../mui/index.js";
 
 type GroupByItem = Actor.Actor | Group.Group | Keyword.Keyword;
-
-type NetworkDatum = NetworkNodeDatum & SearchEvent;
-
-type EventNetworkDatum = NetworkDatum & {
-  title: string;
-  groupBy: GroupByItem[];
-  actors: O.Option<Actor.Actor[]>;
-  groups: O.Option<Group.Group[]>;
-  selected: boolean;
-};
-
-interface NetworkLink extends Link<UUID> {
-  fill: string;
-  value: number;
-  stroke: string;
-}
 
 export interface EventsSankeyGraphProps {
   events: SearchEvent[];
@@ -398,30 +385,30 @@ const getLinks =
             // console.log('last links', lastLinks);
 
             if (lastLinks.length === 0) {
-              return pipe(
-                acc1,
-                Map.upsertAt(S.Eq)(relation.id, [
-                  {
-                    source: relation.id,
-                    target: p.id,
-                    value: (1 / relations.length) * 100,
-                    stroke: `#${relation.color}`,
-                    fill: `#${relation.color}`,
-                  },
-                ]),
-              );
+              const links: NetworkLink[] = [
+                {
+                  source: relation.id,
+                  target: p.id as UUID,
+                  value: (1 / relations.length) * 100,
+                  stroke: `#${relation.color}`,
+                  fill: `#${relation.color}`,
+                  sourceType: ACTORS.value,
+                },
+              ];
+              return pipe(acc1, Map.upsertAt(S.Eq)(relation.id, links));
             }
 
             const lastLink = lastLinks[lastLinks.length - 1];
 
-            const eventLinks = [
+            const eventLinks: NetworkLink[] = [
               ...lastLinks,
               {
                 source: lastLink.target,
-                target: p.id,
+                target: p.id as UUID,
                 value: (1 / relations.length) * 100,
                 stroke: `#${relation.color}`,
                 fill: `#${relation.color}`,
+                sourceType: GROUPS.value,
               },
             ];
 
@@ -573,18 +560,18 @@ export function createEventNetworkGraphProps({
 
         const filteredEventActors = pipe(
           eventActors,
-          O.fromPredicate(A.isNonEmpty),
+          // O.fromPredicate(A.isNonEmpty),
         );
         const filteredEventGroups = pipe(
           eventGroups,
-          O.fromPredicate(A.isNonEmpty),
+          // O.fromPredicate(A.isNonEmpty),
         );
 
         // console.log({ filteredEventActors, filteredEventGroups });
 
         if (
           !includeEmptyRelations &&
-          (O.isSome(filteredEventActors) || O.isSome(filteredEventGroups))
+          (filteredEventActors.length > 0 || filteredEventGroups.length > 0)
         ) {
           const groupByEventList: GroupByItem[] =
             groupBy === "group"
@@ -594,25 +581,13 @@ export function createEventNetworkGraphProps({
                 : eventKeywords;
 
           // console.log("event actors", groupByEventList)
-          const groupByItem: GroupByItem | undefined = groupByEventList[0];
+          // const groupByItem: GroupByItem | undefined = groupByEventList[0];
 
           const eventNodes: EventNetworkDatum[] = [
             {
-              ...e,
-              title: eventTitle,
-              selected: !!groupByItem,
-              date: e.date,
-              groupBy: groupByItem ? [groupByItem] : [],
-              actors: filteredEventActors,
-              groups: filteredEventGroups,
-              keywords: [],
+              ...toEventNetworkDatum(e),
+              // groupBy: groupByItem ? [groupByItem] : [],
               label: eventTitle,
-              innerColor: groupByItem?.color
-                ? `#${groupByItem.color}`
-                : "#FF0000",
-              outerColor: groupByItem?.color
-                ? `#${groupByItem.color}`
-                : "#FF0000",
             },
           ];
 

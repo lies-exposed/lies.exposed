@@ -1,10 +1,8 @@
-import { getTitle } from "@liexp/shared/lib/helpers/event/getTitle.helper.js";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
 import { EventTypes } from "@liexp/shared/lib/io/http/Events/index.js";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
-import { type EventNetworkDatum } from "@liexp/shared/lib/io/http/Network/networks.js";
 import {
   type Actor,
   type Group,
@@ -13,6 +11,7 @@ import {
 import * as React from "react";
 import { ForcedNetworkGraph } from "../Common/Graph/ForcedNetworkGraph.js";
 import { type NetworkScale } from "../Common/Graph/Network/Network.js";
+import { type EventNetworkNodeProps } from "../Common/Graph/Network/nodes/EventNode.js";
 import { EventTypeColor } from "../Common/Icons/index.js";
 
 export type HierarchyNetworkGraphPropsGroupBy = "group" | "actor" | "keyword";
@@ -23,7 +22,7 @@ export interface HierarchyNetworkGraphProps {
   groups: Group.Group[];
   keywords: Keyword.Keyword[];
   graph: {
-    nodes: EventNetworkDatum[];
+    nodes: EventNetworkNodeProps[];
     links: any[];
   };
   selectedActorIds?: string[];
@@ -84,28 +83,20 @@ export const HierarchyNetworkGraph: React.FC<HierarchyNetworkGraphProps> = ({
       }}
       nodeGroups={[ACTORS.value, KEYWORDS.value, GROUPS.value]}
       colors={colors}
-      nodeId={(n) => n.id}
+      nodeId={(n) => n.data.id}
       linkStrokeWidth={(l) => l.value}
       linkStrength={(l) => l.value}
       linkStroke={(l) => l.fill}
       nodeTitle={(n) => {
-        if (n.type === KEYWORDS.value) {
-          return n.tag;
-        } else if (n.type === GROUPS.value) {
-          return n.name;
-        } else if (n.type === ACTORS.value) {
-          return n.fullName;
+        if (n.data.type === KEYWORDS.value) {
+          return n.data.tag;
+        } else if (n.data.type === GROUPS.value) {
+          return n.data.name;
+        } else if (n.data.type === ACTORS.value) {
+          return n.data.fullName;
         }
 
-        return getTitle(n, {
-          actors: n.actors,
-          groups: n.groups,
-          groupsMembers: [],
-          keywords: n.keywords,
-          media: n.media,
-          links: n.links ?? [],
-          areas: [],
-        });
+        return n.data.title;
       }}
       nodeRadius={(n) => 14}
       // nodeStrength={(n) => {
@@ -119,31 +110,31 @@ export const HierarchyNetworkGraph: React.FC<HierarchyNetworkGraphProps> = ({
       //   return 5;
       // }}
       nodeGroup={(n) => {
-        if (n.fullName) {
+        if (n.data.fullName) {
           return 0;
         }
 
-        if (n.tag) {
+        if (n.data.tag) {
           return 1;
         }
 
-        if (n.name) {
+        if (n.data.name) {
           return 2;
         }
 
-        if (EventTypes.DEATH.is(n.type)) {
+        if (EventTypes.DEATH.is(n.data.type)) {
           return 3;
         }
 
-        if (EventTypes.DOCUMENTARY.is(n.type)) {
+        if (EventTypes.DOCUMENTARY.is(n.data.type)) {
           return 3;
         }
 
-        if (EventTypes.SCIENTIFIC_STUDY.is(n.type)) {
+        if (EventTypes.SCIENTIFIC_STUDY.is(n.data.type)) {
           return 3;
         }
 
-        if (EventTypes.PATENT.is(n.type)) {
+        if (EventTypes.PATENT.is(n.data.type)) {
           return 3;
         }
 

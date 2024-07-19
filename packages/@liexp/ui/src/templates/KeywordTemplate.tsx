@@ -19,7 +19,7 @@ import { EventsPanelBox } from "../containers/EventsPanel.js";
 import { MediaBox } from "../containers/MediaBox.js";
 import { StatsPanelBox } from "../containers/StatsPanelBox.js";
 import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox.js";
-import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventsNetworkGraphBox.js";
+import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventsNetworkGraphBox/EventsNetworkGraphBox.js";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery.js";
 import { SplitPageTemplate } from "./SplitPageTemplate.js";
 

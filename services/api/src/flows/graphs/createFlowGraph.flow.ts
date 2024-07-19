@@ -8,7 +8,7 @@ import { EventTotalsMonoid } from "@liexp/shared/lib/io/http/Events/EventTotals.
 import {
   type GetNetworkQuery,
   type NetworkLink,
-} from "@liexp/shared/lib/io/http/Network.js";
+} from "@liexp/shared/lib/io/http/Network/Network.js";
 import {
   type FlowGraphOutput,
   type FlowGraphType,

@@ -2,7 +2,7 @@ import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
 import { UUID } from "../io/http/Common/UUID.js";
-import { GetNetworkQuery } from "../io/http/Network.js";
+import { GetNetworkQuery } from "../io/http/Network/Network.js";
 import { GetListQuery } from "../io/http/Query/index.js";
 import {
   FlowGraphOutput,

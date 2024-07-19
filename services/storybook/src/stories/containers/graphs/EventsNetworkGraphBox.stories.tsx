@@ -9,7 +9,7 @@ import { Box } from "@liexp/ui/lib/components/mui/index.js";
 import {
   EventsNetworkGraphBox,
   type EventNetworkGraphBoxProps,
-} from "@liexp/ui/lib/containers/graphs/EventsNetworkGraphBox.js";
+} from "@liexp/ui/lib/containers/graphs/EventsNetworkGraphBox/EventsNetworkGraphBox.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import { subWeeks } from "date-fns";
 import * as React from "react";

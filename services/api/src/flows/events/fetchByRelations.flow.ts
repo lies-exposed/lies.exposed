@@ -7,7 +7,7 @@ import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
 import {
   type GetNetworkQuery,
   type NetworkType,
-} from "@liexp/shared/lib/io/http/Network.js";
+} from "@liexp/shared/lib/io/http/Network/Network.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type TEFlow } from "#flows/flow.types.js";

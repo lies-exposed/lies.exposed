@@ -17,8 +17,8 @@ export const getTitle = (
       return `${byActor.fullName} - `.concat(
         e.payload.details
           ? `${e.payload.details}`
-          : e.payload.quote?.split(" ").slice(0, 10).join(" ").concat("...") ??
-              "",
+          : (e.payload.quote?.split(" ").slice(0, 10).join(" ").concat("...") ??
+              ""),
       );
     }
     case http.Events.EventTypes.DEATH.value: {
