@@ -7,7 +7,7 @@ import type * as O from "fp-ts/lib/Option.js";
 import { type UUID } from "io-ts-types/lib/UUID.js";
 import { type EventRelationIds } from "../../io/http/Events/index.js";
 import { Events, type Common, type Network } from "../../io/http/index.js";
-import { toBySubjectId } from "../../io/utils/BySubjectUtils.js";
+import { makeBySubjectId } from "../../io/utils/BySubjectUtils.js";
 import { type EventCommonProps } from "./getCommonProps.helper.js";
 import { getRelationIds } from "./getEventRelationIds.js";
 
@@ -248,12 +248,12 @@ export const transform =
         const from = pipe(
           props.actors,
           fp.A.head,
-          fp.O.map((id) => toBySubjectId("Actor", id)),
+          fp.O.map((id) => makeBySubjectId("Actor", id)),
           fp.O.alt(() =>
             pipe(
               props.groups,
               fp.A.head,
-              fp.O.map((id) => toBySubjectId("Group", id)),
+              fp.O.map((id) => makeBySubjectId("Group", id)),
             ),
           ),
         );
@@ -262,13 +262,13 @@ export const transform =
           props.actors,
           fp.A.takeLeft(2),
           fp.A.head,
-          fp.O.map((id) => toBySubjectId("Actor", id)),
+          fp.O.map((id) => makeBySubjectId("Actor", id)),
           fp.O.alt(() =>
             pipe(
               props.groups,
               fp.A.takeLeft(2),
               fp.A.head,
-              fp.O.map((id) => toBySubjectId("Group", id)),
+              fp.O.map((id) => makeBySubjectId("Group", id)),
             ),
           ),
         );
@@ -293,9 +293,9 @@ export const transform =
       }
       case Events.EventTypes.PATENT.value: {
         return pipe(
-          props.url ?? props.links.at(0),
+          props.links.at(0),
           fp.O.fromNullable,
-          fp.O.map((source: any) => ({
+          fp.O.map((source) => ({
             ...e,
             type: Events.EventTypes.PATENT.value,
             payload: {
@@ -347,7 +347,7 @@ export const transform =
               image: props.media.at(0),
               url,
               authors: props.actors,
-              publisher: props.groups.at(0) as any,
+              publisher: props.groups.at(0),
             },
           })),
         );
@@ -357,12 +357,12 @@ export const transform =
         const subjectOpt = pipe(
           props.actors,
           fp.A.head,
-          fp.O.map((id) => toBySubjectId("Actor", id)),
+          fp.O.map((id) => makeBySubjectId("Actor", id)),
           fp.O.alt(() =>
             pipe(
               props.groups,
               fp.A.head,
-              fp.O.map((id) => toBySubjectId("Group", id)),
+              fp.O.map((id) => makeBySubjectId("Group", id)),
             ),
           ),
         );

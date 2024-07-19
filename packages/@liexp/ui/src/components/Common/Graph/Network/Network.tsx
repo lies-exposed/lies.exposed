@@ -1,3 +1,7 @@
+import {
+  type NetworkNodeDatum,
+  type NetworkPointNode,
+} from "@liexp/shared/lib/io/http/Network/Network.js";
 import { AxisBottom } from "@visx/axis";
 import { localPoint } from "@visx/event";
 import { Group } from "@visx/group";
@@ -11,11 +15,7 @@ import withTooltip, {
 import * as A from "fp-ts/lib/Array.js";
 import * as React from "react";
 import NetworkLink, { type NetworkLinkProps } from "./NetworkLink.js";
-import {
-  NetworkNode,
-  type NetworkNodeDatum,
-  type NetworkPointNode,
-} from "./NetworkNode.js";
+import { NetworkNode } from "./NetworkNode.js";
 
 const backgroundColor = "transparent";
 

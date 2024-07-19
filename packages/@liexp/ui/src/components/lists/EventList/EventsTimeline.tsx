@@ -75,19 +75,19 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
     () =>
       [
         queryParams.eventType?.includes(EventTypes.DEATH.value)
-          ? searchEvents?.totals.deaths ?? 0
+          ? (searchEvents?.totals.deaths ?? 0)
           : 0,
         queryParams.eventType?.includes(EventTypes.UNCATEGORIZED.value)
-          ? searchEvents?.totals.uncategorized ?? 0
+          ? (searchEvents?.totals.uncategorized ?? 0)
           : 0,
         queryParams.eventType?.includes(EventTypes.SCIENTIFIC_STUDY.value)
-          ? searchEvents?.totals.scientificStudies ?? 0
+          ? (searchEvents?.totals.scientificStudies ?? 0)
           : 0,
         queryParams.eventType?.includes(EventTypes.PATENT.value)
-          ? searchEvents?.totals.patents ?? 0
+          ? (searchEvents?.totals.patents ?? 0)
           : 0,
         queryParams.eventType?.includes(EventTypes.DOCUMENTARY.value)
-          ? searchEvents?.totals.documentaries ?? 0
+          ? (searchEvents?.totals.documentaries ?? 0)
           : 0,
       ].reduce((acc, tot) => acc + tot, 0),
     [searchEvents?.totals ?? {}],

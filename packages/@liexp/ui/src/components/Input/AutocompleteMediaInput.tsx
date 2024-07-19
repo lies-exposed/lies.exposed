@@ -25,7 +25,7 @@ export const AutocompleteMediaInput: React.FC<AutocompleteMediaInputProps> = ({
       getOptionLabel={(a) =>
         typeof a === "string"
           ? a
-          : a?.label ?? a?.description ?? "No description"
+          : (a?.label ?? a?.description ?? "No description")
       }
       searchToFilter={(description) => ({ description })}
       selectedItems={selectedItems}

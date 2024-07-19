@@ -5,12 +5,12 @@ import { UUID } from "io-ts-types/lib/UUID.js";
 import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray.js";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { type serializedType } from "ts-io-error/lib/Codec.js";
-import { Actor, ACTORS } from "./Actor.js";
-import { EventTotals } from "./Events/EventTotals.js";
-import { EVENTS, type SearchEvent } from "./Events/index.js";
-import { Group, GROUPS } from "./Group.js";
-import { Keyword, KEYWORDS } from "./Keyword.js";
-import { Media } from "./Media.js";
+import { Actor, ACTORS } from "../Actor.js";
+import { EventTotals } from "../Events/EventTotals.js";
+import { EVENTS, type EventType } from "../Events/index.js";
+import { Group, GROUPS } from "../Group.js";
+import { Keyword, KEYWORDS } from "../Keyword.js";
+import { Media } from "../Media.js";
 
 export const NetworkType = t.union(
   [KEYWORDS, ACTORS, GROUPS, EVENTS, t.literal("hierarchy")],
@@ -63,6 +63,35 @@ export const NetworkLink = t.type(
 );
 export type NetworkLink = t.TypeOf<typeof NetworkLink>;
 
+export interface NetworkNodeDatum {
+  id: string;
+  label: string;
+  innerColor: string;
+  outerColor: string;
+}
+
+export interface NetworkNode<N extends NetworkNodeDatum> {
+  data: N;
+}
+
+export interface NetworkPointNode<N extends NetworkNodeDatum>
+  extends NetworkNode<N> {
+  x: number;
+  y: number;
+}
+
+export interface EventNetworkDatum extends NetworkNodeDatum {
+  title: string;
+  date: Date;
+  type: EventType;
+  image: string | undefined;
+  groupBy: NetworkGroupBy[];
+  actors: Actor[];
+  groups: Group[];
+  keywords: Keyword[];
+  selected: boolean;
+}
+
 export const NetworkGraphOutput = t.strict(
   {
     events: t.array(t.any),
@@ -85,4 +114,4 @@ export const NetworkGraphOutput = t.strict(
 export type NetworkGraphOutput = Omit<
   t.TypeOf<typeof NetworkGraphOutput>,
   "events"
-> & { events: SearchEvent.SearchEvent[] };
+> & { events: EventNetworkDatum[] };

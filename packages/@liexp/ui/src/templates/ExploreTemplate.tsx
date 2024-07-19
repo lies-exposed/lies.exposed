@@ -20,7 +20,7 @@ import {
   Switch,
 } from "../components/mui/index.js";
 import EventsAppBarBox from "../containers/EventsAppBarBox.js";
-import { EventsNetworkGraphBox } from "../containers/graphs/EventsNetworkGraphBox.js";
+import { EventsNetworkGraphBox } from "../containers/graphs/EventsNetworkGraphBox/EventsNetworkGraphBox.js";
 import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery.js";
 import { SplitPageTemplate } from "../templates/SplitPageTemplate.js";

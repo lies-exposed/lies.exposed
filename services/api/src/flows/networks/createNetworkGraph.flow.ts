@@ -18,14 +18,14 @@ import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
 import { ValidContentType } from "@liexp/shared/lib/io/http/Media.js";
-import { type EventNetworkDatum } from "@liexp/shared/lib/io/http/Network/networks.js";
 import {
   type GetNetworkQuery,
   type NetworkGraphOutput,
   type NetworkGroupBy,
   type NetworkLink,
   type NetworkType,
-} from "@liexp/shared/lib/io/http/Network.js";
+} from "@liexp/shared/lib/io/http/Network/Network.js";
+import { type EventNetworkDatum } from "@liexp/shared/lib/io/http/Network/Network.js";
 import {
   type Actor,
   type Group,
@@ -172,16 +172,14 @@ export const getEventGraph = (
       const { body, excerpt, ...cleanEvent } = e;
       const eventDatum: EventNetworkDatum = {
         ...cleanEvent,
-        excerpt: {},
-        body: {},
-        links: [],
-        payload: e.payload as any,
-        deletedAt: undefined,
         image: featuredImage,
+        type: e.type,
         title: eventTitle,
         selected: true,
         date: e.date,
         groupBy: [],
+        innerColor: getColorByEventType({ type: e.type }),
+        outerColor: "transparent",
         actors: cleanItemsFromSlateFields(eventActors),
         groups: cleanItemsFromSlateFields(eventGroups),
         keywords: eventKeywords,
@@ -213,8 +211,8 @@ export const getEventGraph = (
         index > 0 && acc.eventNodes[index - 1]
           ? [
               {
-                source: acc.eventNodes[index - 1].id,
-                target: e.id,
+                source: acc.eventNodes[index - 1].id as any,
+                target: e.id as any,
                 sourceType: "events",
                 stroke: getColorByEventType({
                   type: acc.eventNodes[index - 1].type,
@@ -290,7 +288,7 @@ export const getEventGraph = (
         keywordLinks: fp.Map.toArray(S.Ord)(keywordLinks).flatMap(
           ([_k, links]) => links,
         ),
-        events: eventNodes as SearchEvent.SearchEvent[],
+        events: eventNodes,
         actors: allActors,
         groups: allGroups,
         keywords: allKeywords,

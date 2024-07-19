@@ -6,6 +6,7 @@ import {
   getColorByEventType,
   getTotals,
 } from "@liexp/shared/lib/helpers/event/event.js";
+import { toEventNetworkDatum } from "@liexp/shared/lib/helpers/event/eventNetworkDatum.helper.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
 import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/getTitle.helper.js";
@@ -19,12 +20,12 @@ import {
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
-import { type EventNetworkDatum } from "@liexp/shared/lib/io/http/Network/networks.js";
 import {
   type NetworkGraphOutput,
   type NetworkGroupBy,
   type NetworkLink,
-} from "@liexp/shared/lib/io/http/Network.js";
+} from "@liexp/shared/lib/io/http/Network/Network.js";
+import { type EventNetworkDatum } from "@liexp/shared/lib/io/http/Network/Network.js";
 import {
   type Actor,
   type Group,
@@ -176,15 +177,16 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
         const eventNodes: EventNetworkDatum[] = [
           {
             ...e,
-            links: [],
-            excerpt: undefined,
-            body: undefined,
-            payload: e.payload as any,
-            deletedAt: undefined,
             image: featuredImage,
             title: eventTitle,
-            selected: true,
             date: e.date,
+            selected: true,
+            innerColor: getColorByEventType({
+              type: e.type,
+            }),
+            outerColor: getColorByEventType({
+              type: e.type,
+            }),
             groupBy: [],
             actors: [],
             groups: [],
@@ -197,7 +199,7 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
           const sourceEv = acc.eventNodes[index - 1];
           evLinks = [
             {
-              source: sourceEv.id,
+              source: sourceEv.id as any,
               target: e.id,
 
               sourceType: "events",
@@ -215,6 +217,7 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
         const evNodes = [...acc.eventNodes, ...eventNodes];
 
         return {
+          events: [...acc.events, toEventNetworkDatum(e)],
           eventNodes: evNodes,
           eventLinks: [...acc.eventLinks, ...evLinks],
           actorLinks,
@@ -251,7 +254,7 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
           ...dateRange,
           media: [],
           selectedLinks: [],
-          events: eventNodes as SearchEvent.SearchEvent[],
+          eventNodes,
           actors: allActors,
           groups: allGroups,
           keywords: allKeywords,
@@ -307,6 +310,7 @@ const reduceResultToOutput: Flow<[NetworkGraphOutput[]], NetworkGraphOutput> =
   };
 
 interface Result {
+  events: EventNetworkDatum[];
   eventNodes: EventNetworkDatum[];
   eventLinks: NetworkLink[];
   selectedLinks: [];
@@ -317,6 +321,7 @@ interface Result {
 }
 
 const initialResult: Result = {
+  events: [],
   eventNodes: [],
   eventLinks: [],
   selectedLinks: [],
@@ -588,7 +593,7 @@ export const createEventNetworkGraph: TEFlow<
             actors,
             groups,
             keywords,
-            events: [searchEvent].concat(output.events),
+            events: [toEventNetworkDatum(searchEvent)].concat(output.events),
           })),
         );
 

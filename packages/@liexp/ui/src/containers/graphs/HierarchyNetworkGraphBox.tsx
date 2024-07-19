@@ -6,7 +6,7 @@ import {
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
-import { type NetworkGroupBy } from "@liexp/shared/lib/io/http/Network.js";
+import { type NetworkGroupBy } from "@liexp/shared/lib/io/http/Network/Network.js";
 import { type StatsType } from "@liexp/shared/lib/io/http/Stats.js";
 import { parseDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { ParentSize } from "@visx/responsive";

@@ -3,7 +3,7 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import {
   type NetworkGraphOutput,
   type NetworkType,
-} from "@liexp/shared/lib/io/http/Network.js";
+} from "@liexp/shared/lib/io/http/Network/Network.js";
 import { AdminRead } from "@liexp/shared/lib/io/http/User.js";
 import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
