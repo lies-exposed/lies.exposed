@@ -26,7 +26,7 @@ const viteFinal: ViteFinal = async (config, { configType }) => {
     target: "spa",
     devServer: configType === "DEVELOPMENT" ? true : false,
     hot: true,
-    plugins: [reactVirtualized()]
+    plugins: [reactVirtualized()],
   });
 
   const updatedConfig = viteConfigUpdate({
@@ -45,6 +45,8 @@ const viteFinal: ViteFinal = async (config, { configType }) => {
   delete updatedConfig.ssr;
   delete updatedConfig.esbuild;
   delete updatedConfig.css;
+  delete updatedConfig.optimizeDeps!.include;
+  // delete updatedConfig.optimizeDeps?.include
 
   // remove react plugin
   // delete updatedConfig.plugins?.[4];
@@ -64,12 +66,10 @@ const viteFinal: ViteFinal = async (config, { configType }) => {
     preserveSymlinks: true,
   };
 
-  updatedConfig.optimizeDeps!.entries =
-    updatedConfig.optimizeDeps!.entries!.concat(
-      ...["@liexp/core", "@liexp/shared", "@liexp/ui"].map(
-        (p) => `${p}/lib/**`,
-      ),
-    );
+  updatedConfig.optimizeDeps!.entries = (config.optimizeDeps?.entries ?? []).concat(
+    ...["@liexp/core", "@liexp/shared", "@liexp/ui"].map((p) => `${p}/lib/**`),
+  );
+  delete config.optimizeDeps?.entries
 
   console.log("config", config);
   console.log("updatedConfig", updatedConfig);

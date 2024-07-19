@@ -7,7 +7,7 @@ import {
   GetNetworkParams,
   GetNetworkQuery,
   NetworkGraphOutput,
-} from "../io/http/Network.js";
+} from "../io/http/Network/Network.js";
 import { GetListQuery } from "../io/http/Query/index.js";
 import { StatsType } from "../io/http/Stats.js";
 import { ResourceEndpoints } from "./types.js";

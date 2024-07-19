@@ -32,7 +32,7 @@ import {
   useMuiMediaQuery,
 } from "../components/mui/index.js";
 import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox.js";
-import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventsNetworkGraphBox.js";
+import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventsNetworkGraphBox/EventsNetworkGraphBox.js";
 import { useConfiguration } from "../context/ConfigurationContext.js";
 import { styled, useTheme } from "../theme/index.js";
 import { SplitPageTemplate } from "./SplitPageTemplate.js";

@@ -124,7 +124,7 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
   const isDownMD = useMuiMediaQuery(theme.breakpoints.down("md"));
   const isDownSM = useMuiMediaQuery(theme.breakpoints.down("sm"));
 
-  const columnCount = defaultColumnCount ?? isDownMD ? (isDownSM ? 1 : 3) : 4;
+  const columnCount = (defaultColumnCount ?? isDownMD) ? (isDownSM ? 1 : 3) : 4;
 
   const { columnWidth, positionerCache } = React.useMemo(() => {
     const columnWidth = width / columnCount;

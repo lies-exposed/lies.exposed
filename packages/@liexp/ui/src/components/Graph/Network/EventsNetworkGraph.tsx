@@ -1,19 +1,22 @@
-import { getTitle } from "@liexp/shared/lib/helpers/event/getTitle.helper.js";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
 import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
-import { type EventNetworkDatum } from "@liexp/shared/lib/io/http/Network/networks.js";
+import { type NetworkLink } from "@liexp/shared/lib/io/http/Network/Network.js";
 import {
   type Actor,
   type Group,
   type Keyword,
 } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import { ForcedNetworkGraph } from "../Common/Graph/ForcedNetworkGraph.js";
-import { type NetworkScale } from "../Common/Graph/Network/Network.js";
-import { EventTypeColor } from "../Common/Icons/index.js";
+import { ForcedNetworkGraph } from "../../Common/Graph/ForcedNetworkGraph.js";
+import { type NetworkScale } from "../../Common/Graph/Network/Network.js";
+import { type ActorNetworkNodeProps } from "../../Common/Graph/Network/nodes/ActorNode.js";
+import { type EventNetworkNodeProps } from "../../Common/Graph/Network/nodes/EventNode.js";
+import { type GroupNetworkNodeProps } from "../../Common/Graph/Network/nodes/GroupNode.js";
+import { type KeywordNetworkNodeProps } from "../../Common/Graph/Network/nodes/KeywordNode.js";
+import { EventTypeColor } from "../../Common/Icons/index.js";
 
 export type EventsNetworkGraphPropsGroupBy = "group" | "actor" | "keyword";
 
@@ -23,8 +26,13 @@ export interface EventsNetworkGraphProps {
   groups: Group.Group[];
   keywords: Keyword.Keyword[];
   graph: {
-    nodes: EventNetworkDatum[];
-    links: any[];
+    nodes: (
+      | EventNetworkNodeProps
+      | ActorNetworkNodeProps
+      | GroupNetworkNodeProps
+      | KeywordNetworkNodeProps
+    )[];
+    links: NetworkLink[];
   };
   scale?: NetworkScale;
   onEventClick?: (e: SearchEvent) => void;
@@ -81,31 +89,23 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
       }}
       nodeGroups={[ACTORS.value, KEYWORDS.value, GROUPS.value]}
       colors={colors}
-      nodeId={(n) => n.id}
+      nodeId={(n) => n.data.id}
       linkStrokeWidth={(l) => l.value}
       linkStrength={(l) => l.value}
       linkStroke={(l) => l.fill}
       nodeTitle={(n) => {
         // console.log('node title', n);
-        if (n.type === KEYWORDS.value) {
-          return n.tag;
-        } else if (n.type === GROUPS.value) {
-          return n.name;
-        } else if (n.type === ACTORS.value) {
-          return n.fullName;
+        if (n.data.type === KEYWORDS.value) {
+          return n.data.tag;
+        } else if (n.data.type === GROUPS.value) {
+          return n.data.name;
+        } else if (n.data.type === ACTORS.value) {
+          return n.data.fullName;
         }
 
-        return getTitle(n, {
-          actors: n.actors,
-          groups: n.groups,
-          groupsMembers: [],
-          keywords: n.keywords,
-          media: n.media,
-          links: n.links ?? [],
-          areas: n.areas ?? [],
-        });
+        return n.data.title;
       }}
-      nodeRadius={(n) => (n.count ?? 0) + 10}
+      nodeRadius={(n) => (n.data.count ?? 0) + 10}
       // nodeStrength={(n) => {
       //   if (n.type === KEYWORDS.value) {
       //     return 1 / n.count;
@@ -117,31 +117,31 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
       //   return 10;
       // }}
       nodeGroup={(n) => {
-        if (n.fullName) {
+        if (n.data.fullName) {
           return 0;
         }
 
-        if (n.tag) {
+        if (n.data.tag) {
           return 1;
         }
 
-        if (n.name) {
+        if (n.data.name) {
           return 2;
         }
 
-        if (EventTypes.DEATH.is(n.type)) {
+        if (EventTypes.DEATH.is(n.data.type)) {
           return 3;
         }
 
-        if (EventTypes.DOCUMENTARY.is(n.type)) {
+        if (EventTypes.DOCUMENTARY.is(n.data.type)) {
           return 3;
         }
 
-        if (EventTypes.SCIENTIFIC_STUDY.is(n.type)) {
+        if (EventTypes.SCIENTIFIC_STUDY.is(n.data.type)) {
           return 3;
         }
 
-        if (EventTypes.PATENT.is(n.type)) {
+        if (EventTypes.PATENT.is(n.data.type)) {
           return 3;
         }
 

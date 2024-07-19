@@ -1,20 +1,6 @@
+import { type NetworkNodeDatum } from "@liexp/shared/lib/io/http/Network/Network.js";
 import { Group } from "@visx/group";
 import * as React from "react";
-
-export interface NetworkNodeDatum {
-  // x: number;
-  // y: number;
-  id: string;
-  label: string;
-  innerColor: string;
-  outerColor: string;
-}
-
-export interface NetworkPointNode<N extends NetworkNodeDatum> {
-  x: number;
-  y: number;
-  data: N;
-}
 
 export interface NetworkNodeProps<Datum extends NetworkNodeDatum> {
   node: Datum;

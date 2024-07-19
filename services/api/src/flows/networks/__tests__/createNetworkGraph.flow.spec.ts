@@ -5,7 +5,7 @@ import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
 import {
   type NetworkLink,
   type NetworkType,
-} from "@liexp/shared/lib/io/http/Network.js";
+} from "@liexp/shared/lib/io/http/Network/Network.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
 import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary.js";
 import { UncategorizedArb } from "@liexp/shared/lib/tests/index.js";

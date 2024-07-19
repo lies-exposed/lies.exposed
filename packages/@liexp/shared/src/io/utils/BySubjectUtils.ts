@@ -10,7 +10,7 @@ import {
 } from "../http/Common/index.js";
 import { type Actor, type Group } from "../http/index.js";
 
-export const toBySubjectId = (type: ACTOR | GROUP, id: UUID): BySubjectId => {
+export const makeBySubjectId = (type: ACTOR | GROUP, id: UUID): BySubjectId => {
   if (type === "Actor") {
     return {
       type: "Actor",
@@ -24,7 +24,7 @@ export const toBySubjectId = (type: ACTOR | GROUP, id: UUID): BySubjectId => {
   };
 };
 
-export const toBySubject = <T extends ACTOR | GROUP>(
+export const makeBySubject = <T extends ACTOR | GROUP>(
   type: T,
   _id: T extends ACTOR ? Actor.Actor : Group.Group,
 ): BySubject => {
@@ -69,8 +69,8 @@ const toBySubjectArray = (
     if (subject) {
       const bySubject: BySubject = {
         type: s.type,
-        id: subject,
-      } as any;
+        id: subject as any,
+      };
       return [bySubject];
     }
     return [];
@@ -85,11 +85,24 @@ const lookupForSubject = (
   return pipe(
     findBySubject(subject, actors, groups),
     fp.O.fromNullable,
-    fp.O.map((s) => toBySubject(subject.type, s)),
+    fp.O.map((s) => makeBySubject(subject.type, s)),
   );
+};
+
+const toSubjectId = (s: BySubject): BySubjectId => {
+  return {
+    type: s.type,
+    id: s.id.id,
+  };
+};
+
+const toSubjectIds = (ss: BySubject[]): BySubjectId[] => {
+  return ss.map(toSubjectId);
 };
 
 export const BySubjectUtils = {
   toBySubjectArray,
   lookupForSubject,
+  toSubjectId,
+  toSubjectIds,
 };

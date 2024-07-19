@@ -3,7 +3,7 @@ import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   type GetNetworkQuery,
   type NetworkType,
-} from "@liexp/shared/lib/io/http/Network.js";
+} from "@liexp/shared/lib/io/http/Network/Network.js";
 import {
   type Actor,
   type Events,

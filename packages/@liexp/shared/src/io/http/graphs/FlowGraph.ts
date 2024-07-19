@@ -4,7 +4,7 @@ import { UUID } from "../Common/index.js";
 import { EVENTS } from "../Events/index.js";
 import { GROUPS } from "../Group.js";
 import { KEYWORDS } from "../Keyword.js";
-import { NetworkGraphOutput } from "../Network.js";
+import { NetworkGraphOutput } from "../Network/Network.js";
 
 export const FlowGraphType = t.union(
   [KEYWORDS, ACTORS, GROUPS, EVENTS],

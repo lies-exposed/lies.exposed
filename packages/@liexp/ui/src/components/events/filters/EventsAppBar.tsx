@@ -188,10 +188,10 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
 
   const startDate = query.startDate
     ? parseISO(query.startDate)
-    : _dateRange?.[0] ?? subYears(new Date(), 1);
+    : (_dateRange?.[0] ?? subYears(new Date(), 1));
   const endDate = query.endDate
     ? parseISO(query.endDate)
-    : _dateRange?.[1] ?? new Date();
+    : (_dateRange?.[1] ?? new Date());
   const dateRange = _dateRange ?? [startDate, endDate];
   const currentDateRange = [startDate, endDate];
 
