@@ -35,8 +35,13 @@ export interface FAIconProps extends FontAwesomeIconProps {
     | "chart-line";
 }
 
-export const FAIcon: React.FC<FAIconProps> = ({ icon, ...props }) => {
-  return <FontAwesomeIcon {...props} icon={icon} />;
+export const FAIcon: React.FC<FAIconProps> = ({
+  icon,
+  width = 18,
+  height = 18,
+  ...props
+}) => {
+  return <FontAwesomeIcon {...{ ...props, width, height }} icon={icon} />;
 };
 
 type FAIconFC = React.FC<Omit<FAIconProps, "icon">>;

@@ -1,3 +1,4 @@
+import { config, dom } from "@fortawesome/fontawesome-svg-core";
 import { APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { GetOpenAIProvider } from "@liexp/shared/lib/providers/openai/openai.provider.js";
 import { getAuthFromLocalStorage } from "@liexp/ui/lib/client/api.js";
@@ -5,11 +6,19 @@ import { ConfigurationContext } from "@liexp/ui/lib/context/ConfigurationContext
 import { DataProviderContext } from "@liexp/ui/lib/context/DataProviderContext.js";
 import { OpenAIContext } from "@liexp/ui/lib/context/OpenAIContext.js";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import debug from "debug";
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import AdminPage from "./AdminPage.js";
 import { configuration } from "./configuration/index.js";
 import reportWebVitals from "./reportWebVitals.js";
+
+config.autoAddCss = false;
+
+debug.enable(import.meta.env.VITE_DEBUG ?? "@liexp:*:error");
+
+// watch for font awesome icons
+dom.watch();
 
 // import main css
 import "./index.css";
