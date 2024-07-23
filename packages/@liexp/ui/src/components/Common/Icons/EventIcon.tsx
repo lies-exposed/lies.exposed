@@ -48,7 +48,13 @@ interface EventIconProps extends Omit<FontAwesomeIconProps, "icon"> {
   type: Event["type"];
 }
 
-export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
+export const EventIcon: React.FC<EventIconProps> = ({
+  type,
+  width = 18,
+  height = 18,
+  ..._props
+}) => {
+  const props = { ..._props, width, height };
   switch (type) {
     case EventTypes.BOOK.value:
       return (
