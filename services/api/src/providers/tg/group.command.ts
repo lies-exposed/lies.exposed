@@ -10,7 +10,7 @@ import { toControllerError } from "#io/ControllerError.js";
 import { type RouteContext } from "#routes/route.types.js";
 
 const getSuccessMessage = (g: GroupEntity, baseUrl: string): string =>
-  `Group <a href="${baseUrl}/group/${g.id}">${g.name}</a>`;
+  `Group <a href="${baseUrl}/groups/${g.id}">${g.name}</a>`;
 
 const callbackQueryListeners: Record<
   string,
