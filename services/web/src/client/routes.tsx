@@ -46,7 +46,7 @@ const KeywordTemplate = React.lazy(
 );
 const MediaTemplate = React.lazy(() => import("./templates/MediaTemplate.js"));
 const LinkTemplate = React.lazy(() => import("./templates/LinkTemplate.js"));
-const PageTemplate = React.lazy(() => import("./templates/PageTemplate.js"));
+// const PageTemplate = React.lazy(() => import("./templates/PageTemplate.js"));
 const EditStoryPage = React.lazy(
   () => import("./pages/stories/EditStoryPage.js"),
 );
@@ -723,11 +723,11 @@ export const routes: ServerRoute[] = [
   {
     path: "/:customPath",
     route: () => {
-      const params = useParams<{ customPath: string }>();
+      // const params = useParams<{ customPath: string }>();
 
-      if (params.customPath) {
-        return <PageTemplate customPath={params.customPath} />;
-      }
+      // if (params.customPath) {
+      //   return <PageTemplate customPath={params.customPath} />;
+      // }
 
       return <NotFoundPage />;
     },
