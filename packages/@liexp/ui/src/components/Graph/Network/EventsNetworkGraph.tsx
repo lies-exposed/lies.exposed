@@ -77,14 +77,16 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
       linkSource={(l) => l.source}
       linkTarget={(l) => l.target}
       onClick={(m) => {
-        if (m.type === ACTORS.value) {
-          onActorClick?.(m);
-        } else if (m.type === GROUPS.value) {
-          onGroupClick?.(m);
-        } else if (m.type === KEYWORDS.value) {
-          onKeywordClick?.(m);
-        } else {
-          onEventClick?.(m);
+        if (m.data) {
+          if (m.data.type === ACTORS.value) {
+            onActorClick?.(m);
+          } else if (m.data.type === GROUPS.value) {
+            onGroupClick?.(m);
+          } else if (m.data.type === KEYWORDS.value) {
+            onKeywordClick?.(m);
+          } else {
+            onEventClick?.(m);
+          }
         }
       }}
       nodeGroups={[ACTORS.value, KEYWORDS.value, GROUPS.value]}
