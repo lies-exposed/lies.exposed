@@ -1,6 +1,5 @@
 import { StatsType } from "@liexp/shared/lib/io/http/Stats.js";
 import * as React from "react";
-import { useStatsQuery } from "../../state/queries/stats.queries.js";
 import {
   HierarchicalEdgeBundling,
   type HierarchicalEdgeBundlingOnClickProps,
@@ -18,12 +17,14 @@ export const ActorHierarchyEdgeBundlingGraph: React.FC<
 > = ({ actor, ...props }) => {
   return (
     <QueriesRenderer
-      queries={{
-        graph: useStatsQuery({
-          id: actor,
-          type: StatsType.types[1].value,
+      queries={(Q) => ({
+        graph: Q.Stats.list.useQuery({
+          filter: {
+            id: actor,
+            type: StatsType.types[1].value,
+          },
         }),
-      }}
+      })}
       render={({ graph }) => {
         return (
           <HierarchicalEdgeBundling

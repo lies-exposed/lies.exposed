@@ -20,7 +20,7 @@ export const ActorEventNetworkGraphBox: React.FC<
   return (
     <EventsNetworkGraphBoxWithQuery
       {...props}
-      useQuery={(p) => Queries.Event.list.useQuery(p as any, undefined, true)}
+      useQuery={(p) => Queries.Event.list.useQuery(p, undefined, true)}
       eventsBoxQuery={query}
     />
   );

@@ -29,6 +29,7 @@ export const App: React.FC = () => {
     <div style={{ height: "100%", display: "flex" }}>
       <ErrorBoundary FallbackComponent={ErrorBox}>
         <SEO title="lies exposed" urlPath={location.pathname} />
+        <AppHeader />
         <Routes>
           {routes.map((r) => (
             <Route
@@ -36,7 +37,6 @@ export const App: React.FC = () => {
               path={r.path}
               element={
                 <React.Suspense fallback={<FullSizeLoader />}>
-                  <AppHeader />
                   <Grid
                     container
                     style={{ minHeight: "100%", height: "100%", width: "100%" }}
