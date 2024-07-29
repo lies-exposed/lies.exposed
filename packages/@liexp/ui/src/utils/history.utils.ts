@@ -8,12 +8,24 @@ import {
   useNavigate,
 } from "react-router-dom";
 
+function base64ToBytes(base64: string): Uint8Array {
+  const binString = atob(base64);
+  return Uint8Array.from(binString, (m) => m.codePointAt(0) as any);
+}
+
+function bytesToBase64(bytes: Uint8Array): string {
+  const binString = Array.from(bytes, (byte) =>
+    String.fromCodePoint(byte),
+  ).join("");
+  return btoa(binString);
+}
+
 const toBase64 = (data: string): string => {
-  return Buffer.from(data).toString("base64");
+  return pipe(new TextEncoder().encode(data), bytesToBase64);
 };
 
 const fromBase64 = (hash: string): string => {
-  return Buffer.from(hash, "base64").toString();
+  return pipe(base64ToBytes(hash), new TextDecoder().decode);
 };
 
 const parseQuery = (s: string): qs.ParsedQuery =>
