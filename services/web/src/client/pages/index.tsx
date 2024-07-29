@@ -24,6 +24,7 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
         <SEO title="lies.exposed" urlPath="/" />
         <PageContentBox path="index" />
         <KeywordsDistributionGraph
+          count={40}
           onClick={(k) => {
             navigateTo.keywords({ id: k.id });
           }}

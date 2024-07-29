@@ -145,11 +145,13 @@ export const routes: ServerRoute[] = [
             queryFn: Q.Queries.GroupMember.list.fetch,
           },
           {
-            queryKey: Q.Queries.Stats.get.getKey({
+            queryKey: Q.Queries.Stats.list.getKey({
+              filter: {
               id: groupId,
               type: StatsType.types[2].value,
+              }
             }),
-            queryFn: Q.Queries.Stats.get.fetch,
+            queryFn: Q.Queries.Stats.list.fetch,
           },
         ]),
   },
@@ -208,11 +210,13 @@ export const routes: ServerRoute[] = [
             queryFn: Q.Queries.Group.list.fetch,
           },
           {
-            queryKey: Q.Queries.Stats.get.getKey({
-              id: actorId,
-              type: StatsType.types[1].value,
+            queryKey: Q.Queries.Stats.list.getKey({
+              filter: {
+                id: actorId,
+                type: StatsType.types[1].value,
+              },
             }),
-            queryFn: Q.Queries.Stats.get.fetch,
+            queryFn: Q.Queries.Stats.list.fetch,
           },
         ]),
   },
@@ -488,7 +492,7 @@ export const routes: ServerRoute[] = [
             },
             // true,
           ),
-          queryFn: Q.Queries.Stats.get.fetch,
+          queryFn: Q.Queries.Stats.list.fetch,
         },
       ]);
     },

@@ -79,8 +79,8 @@ export const toOverrideQueries = <
   e: ResourceEndpointsQueriesOverride<ES, G, L, CC>,
 ): Partial<ResourceQueries<G, L, CC>> => {
   return {
-    get: undefined,
-    list: undefined,
+    // get: undefined,
+    // list: undefined,
     Custom: pipe(
       e.Custom ?? {},
       fp.R.mapWithIndex((key, ee) => {
