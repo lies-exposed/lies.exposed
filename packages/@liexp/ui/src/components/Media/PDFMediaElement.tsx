@@ -6,20 +6,15 @@ import { Box, Button, Modal, Typography, Icons, Stack } from "../mui/index.js";
 
 const PREFIX = "PDFMediaElement";
 
-const classes = {
-  root: `${PREFIX}-root`,
+const modalClasses = {
   modalContainer: `${PREFIX}-modalContainer`,
   paper: `${PREFIX}-paper`,
 };
 
-const StyledBox = styled(Box)(({ theme }) => ({
-  [`&.${classes.root}`]: {
-    display: "flex !important",
-    height: "100%",
-    minHeight: 200,
-  },
-  [`& .${classes.modalContainer}`]: {
+const StyledModal = styled(Modal)(({ theme }) => ({
+  [`& .${modalClasses.modalContainer}`]: {
     position: "absolute",
+    height: "100%",
     top: 0,
     left: 0,
     right: 0,
@@ -28,17 +23,29 @@ const StyledBox = styled(Box)(({ theme }) => ({
     alignItems: "center",
     justifyContent: "center",
     minHeight: 300,
-  },
 
-  [`& .${classes.paper}`]: {
-    position: "relative",
-    width: "80%",
-    minHeight: 400,
-    maxHeight: "90%",
+    [`& .${modalClasses.paper}`]: {
+      position: "relative",
+      width: "80%",
+      minHeight: 400,
+      maxHeight: "90%",
+      height: "100%",
+      margin: "auto",
+      backgroundColor: theme.palette.background.paper,
+      padding: theme.spacing(2),
+    },
+  },
+}));
+
+const boxClasses = {
+  root: `${PREFIX}-root`,
+};
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  [`&.${boxClasses.root}`]: {
+    display: "flex !important",
     height: "100%",
-    margin: "auto",
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(2),
+    minHeight: 200,
   },
 }));
 
@@ -68,7 +75,7 @@ const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
       display="flex"
       alignItems="center"
       justifyContent="center"
-      className={clsx(classes.root, className)}
+      className={clsx(boxClasses.root, className)}
       onLoad={onLoad}
       onClick={onClick}
       style={{
@@ -90,7 +97,7 @@ const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
           >
             Open PDF
           </Button>
-          <Modal
+          <StyledModal
             open={open}
             onClose={() => {
               setOpen(false);
@@ -98,8 +105,8 @@ const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
-            <div className={classes.modalContainer}>
-              <div className={classes.paper}>
+            <div className={modalClasses.modalContainer}>
+              <div className={modalClasses.paper}>
                 <Box
                   display={"flex"}
                   flexDirection="column"
@@ -136,7 +143,7 @@ const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
                 </Box>
               </div>
             </div>
-          </Modal>
+          </StyledModal>
         </Stack>
       ) : null}
     </StyledBox>
