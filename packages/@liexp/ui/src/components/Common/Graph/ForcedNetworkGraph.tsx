@@ -360,7 +360,7 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
           function (this: any, _, d) {
             const n = d3.select(this);
             n.raise();
-            return n.text(`#${d.tag}`);
+            return n.text(`#${d.data.tag}`);
           },
           300,
           { leading: true },
