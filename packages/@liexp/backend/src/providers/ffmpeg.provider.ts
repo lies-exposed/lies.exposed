@@ -8,7 +8,7 @@ const ffmpegLogger = GetLogger("ffmpeg");
 export interface FFMPEGProvider {
   runCommand: (
     f: (ff: typeof ffmpeg) => ffmpeg.FfmpegCommand,
-  ) => TE.TaskEither<Error, any>;
+  ) => TE.TaskEither<Error, void>;
   ffprobe: (file: string | Stream) => TE.TaskEither<Error, ffmpeg.FfprobeData>;
 }
 
