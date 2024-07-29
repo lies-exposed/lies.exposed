@@ -82,7 +82,7 @@
   },
   "devDependencies": {
     "@types/babel__preset-env": "^7.9.7",
-    "@types/eslint": "^8.56.10",
+    "@types/eslint": "^8.56.11",
     "@types/lodash": "^4.17.7",
     "@types/react": "^18.3.3",
     "@types/react-virtualized": "^9.21.30",
