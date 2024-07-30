@@ -14,6 +14,7 @@ export default mergeConfig(
       setupFiles: [toAlias(`testSetup.ts`)],
       globalSetup: [toAlias(`globalSetup.ts`)],
       exclude: ["**/build", "**/src/migrations", "**/src/scripts"],
+      pool: 'threads',
       poolOptions: {
         threads: {
           singleThread: true,

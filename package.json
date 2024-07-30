@@ -39,7 +39,7 @@
     "@commitlint/config-conventional": "^19.1.0",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
-    "@vitest/coverage-v8": "^1.6.0",
+    "@vitest/coverage-v8": "^2.0.4",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.6.1",
@@ -54,7 +54,7 @@
     "prettier": "^3.3.3",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.18.0",
-    "vitest": "^1.6.0"
+    "vitest": "^2.0.4"
   },
   "packageManager": "pnpm@9.4.0",
   "engines": {
