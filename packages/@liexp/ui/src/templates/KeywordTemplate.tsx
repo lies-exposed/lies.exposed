@@ -9,7 +9,7 @@ import {
   type Media,
 } from "@liexp/shared/lib/io/http/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
-import subYears from "date-fns/subYears/index.js";
+import { subYears } from "date-fns";
 import * as React from "react";
 import { LinksListBox } from "../components/LinksBox.js";
 import QueriesRenderer from "../components/QueriesRenderer.js";

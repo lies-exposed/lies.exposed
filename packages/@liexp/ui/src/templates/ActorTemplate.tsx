@@ -6,7 +6,7 @@ import {
   type Keyword,
 } from "@liexp/shared/lib/io/http/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
-import subYears from "date-fns/subYears/index.js";
+import { subYears } from "date-fns";
 import * as React from "react";
 import { ActorPageContent } from "../components/ActorPageContent.js";
 import { ActorHierarchyEdgeBundlingGraph } from "../components/Graph/ActorHierarchyEdgeBundlingGraph.js";

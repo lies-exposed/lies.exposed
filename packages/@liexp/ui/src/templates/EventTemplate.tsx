@@ -7,7 +7,7 @@ import {
   formatAnyDateToShort,
   formatDate,
 } from "@liexp/shared/lib/utils/date.utils.js";
-import subYears from "date-fns/subYears/index.js";
+import { subYears } from "date-fns";
 import * as React from "react";
 import {
   getTextContentsCapped,
