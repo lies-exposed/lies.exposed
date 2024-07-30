@@ -1,25 +1,24 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { getMediaAdminStatsFlow } from "#flows/admin/media/getMediaAdminStats.flow.js";
+import { getLinkAdminStatsFlow } from "#flows/admin/links/getLinkAdminStats.flow.js";
 import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
-export const MakeAdminGetMediaStatsRoute: Route = (r, ctx) => {
+export const MakeAdminGetLinkStatsRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(ctx, ["admin:read"]))(
-    Endpoints.Admin.Custom.GetMediaStats,
+    Endpoints.Admin.Custom.GetLinkStats,
     () => {
       return pipe(
-        getMediaAdminStatsFlow(ctx)(),
-        TE.map(({ orphans: data, temp, noThumbnails, total }) => ({
+        getLinkAdminStatsFlow(ctx)(),
+        TE.map(({ total, noPublishDate, noThumbnails }) => ({
           body: {
-            data: { ...data, temp, noThumbnails },
+            data: {},
             total,
+            noThumbnails,
             totals: {
-              orphans: data.orphans.length,
-              match: data.match.length,
-              temp: temp.length,
-              noThumbnails: noThumbnails.length,
+              noPublishDate,
+              noThumbnails,
             },
           },
           statusCode: 201,

@@ -31,6 +31,7 @@ const linksFilter = [
   <BooleanInput key="emptyEvents" source="emptyEvents" alwaysOn />,
   <BooleanInput key="onlyDeleted" source="onlyDeleted" alwaysOn />,
   <BooleanInput key="onlyUnshared" source="onlyUnshared" alwaysOn />,
+  <BooleanInput key="noPublishDate" source="noPublishDate" alwaysOn />,
 ];
 
 export const LinkListActions: React.FC = () => {
@@ -44,6 +45,7 @@ export const LinkListActions: React.FC = () => {
 
 export const LinkList: React.FC<ListProps> = (props) => {
   const { data, isLoading } = useGetIdentity();
+
   const { permissions, isLoading: isPermsLoading } = usePermissions();
 
   if (isLoading || isPermsLoading) {
@@ -55,16 +57,16 @@ export const LinkList: React.FC<ListProps> = (props) => {
 
   return (
     <List
+      {...props}
       resource={RESOURCE}
       filters={linksFilter}
       perPage={50}
-      filter={filter}
       filterDefaultValues={{
+        ...filter,
         _sort: "createdAt",
         _order: "DESC",
       }}
       actions={<LinkListActions />}
-      {...props}
     >
       <LinkDataGrid />
     </List>
