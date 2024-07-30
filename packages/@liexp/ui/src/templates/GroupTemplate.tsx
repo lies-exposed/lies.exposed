@@ -1,7 +1,7 @@
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
 import { Group, Keyword, type Actor } from "@liexp/shared/lib/io/http/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
-import subYears from "date-fns/subYears/index.js";
+import { subYears } from "date-fns";
 import * as React from "react";
 import { GroupHierarchyEdgeBundlingGraph } from "../components/Graph/GroupHierarchyEdgeBundlingGraph.js";
 import { GroupPageContent } from "../components/GroupPageContent.js";
