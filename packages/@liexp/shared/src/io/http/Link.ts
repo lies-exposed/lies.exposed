@@ -24,6 +24,7 @@ export const GetListLinkQuery = t.type(
     ids: optionFromNullable(t.array(UUID)),
     provider: optionFromNullable(UUID),
     creator: optionFromNullable(UUID),
+    noPublishDate: optionFromUndefined(BooleanFromString),
     emptyEvents: optionFromNullable(BooleanFromString),
     onlyDeleted: optionFromNullable(BooleanFromString),
     onlyUnshared: optionFromNullable(BooleanFromString),

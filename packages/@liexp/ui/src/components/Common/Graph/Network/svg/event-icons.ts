@@ -33,7 +33,7 @@ export const eventIconsSvgDefs = (
     .attr("width", circleDiameter)
     .attr("height", circleDiameter);
 
-  const eventIconSvg = eventIconPatternGroup
+  eventIconPatternGroup
     .append("svg:i")
     .attr("class", (d) => `fa fa-${d[1]}`)
     .attr("color", "white")
@@ -60,15 +60,15 @@ export const eventIconsSvgDefs = (
 
       // const eventIconSvgSize = transformedRadius / Math.sqrt(transform.k);
       // console.log({ eventIconSvgSize });
-      eventIconSvg
-        // .attr("width", eventIconSvgSize)
-        // .attr("height", eventIconSvgSize)
-        // .attr("x", eventIconSvgSize / 2)
-        // .attr("y", eventIconSvgSize / 2)
-        // .style("font-size", () => {
-        //   const px = `${Math.round(transformedRadius / Math.sqrt(transform.k))}px`;
-        //   return px;
-        // });
+      // eventIconSvg
+      // .attr("width", eventIconSvgSize)
+      // .attr("height", eventIconSvgSize)
+      // .attr("x", eventIconSvgSize / 2)
+      // .attr("y", eventIconSvgSize / 2)
+      // .style("font-size", () => {
+      //   const px = `${Math.round(transformedRadius / Math.sqrt(transform.k))}px`;
+      //   return px;
+      // });
     },
   };
 };

@@ -147,9 +147,9 @@ export const routes: ServerRoute[] = [
           {
             queryKey: Q.Queries.Stats.list.getKey({
               filter: {
-              id: groupId,
-              type: StatsType.types[2].value,
-              }
+                id: groupId,
+                type: StatsType.types[2].value,
+              },
             }),
             queryFn: Q.Queries.Stats.list.fetch,
           },

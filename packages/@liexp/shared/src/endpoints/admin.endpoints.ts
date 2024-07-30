@@ -116,6 +116,22 @@ export const GetMediaStats = Endpoint({
   }),
 });
 
+export const GetLinkStats = Endpoint({
+  Method: "GET",
+  getPath: () => `/admins/link/stats`,
+  Output: t.strict({
+    data: t.strict({
+      // noPublishDate: t.number,
+      // noThumbnails: t.number,
+    }),
+    totals: t.strict({
+      noPublishDate: t.number,
+      noThumbnails: t.number,
+    }),
+    total: t.number,
+  }),
+});
+
 const ExtractEntitiesWithNLP = Endpoint({
   Method: "POST",
   getPath: () => `/admins/nlp/extract-entities`,
@@ -134,6 +150,7 @@ const admin = ResourceEndpoints({
   Custom: {
     BuildImage,
     SearchAreaCoordinates,
+    GetLinkStats,
     GetMediaStats,
     ExtractEntitiesWithNLP,
   },
