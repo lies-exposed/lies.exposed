@@ -22,12 +22,17 @@ export const fetchLinks: TEFlow<
     provider,
     creator,
     onlyUnshared: _onlyUnshared,
+    noPublishDate: _noPublishDate,
     ...others
   } = query;
 
   const findOptions = getORMOptions({ ...others }, ctx.env.DEFAULT_PAGE_SIZE);
   const onlyUnshared = pipe(
     _onlyUnshared,
+    fp.O.filter((o) => !!o),
+  );
+  const noPublishDate = pipe(
+    _noPublishDate,
     fp.O.filter((o) => !!o),
   );
 
@@ -104,6 +109,10 @@ export const fetchLinks: TEFlow<
             return q.where("keywords.id IN (:...keywordIds)", {
               keywordIds: keywords.value,
             });
+          }
+
+          if (fp.O.isSome(noPublishDate)) {
+            q.andWhere("link.publishDate IS NULL");
           }
 
           if (fp.O.isSome(onlyDeleted)) {

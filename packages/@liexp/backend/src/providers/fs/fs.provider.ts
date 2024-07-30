@@ -50,7 +50,7 @@ export interface FSClient {
   ) => TE.TaskEither<FSError, void>;
   getOlderThanOr: (
     filePath: string,
-    time?: number,
+    hours?: number,
   ) => <E, A>(te: TE.TaskEither<E, A>) => TE.TaskEither<FSError, A>;
 }
 

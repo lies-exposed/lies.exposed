@@ -42,10 +42,13 @@ const EventCard: React.FC<EventCardProps> = ({
   const { actors, groups, media, keywords } = getSearchEventRelations(event);
   const title = getTitleForSearchEvent(event);
 
+  const defaultMedia = media[0]?.thumbnail ?? defaultImage;
   const image =
     event.type === Events.EventTypes.DEATH.value
       ? event.payload.victim?.avatar
-      : (media[0]?.thumbnail ?? defaultImage);
+      : event.type === Events.EventTypes.QUOTE.value
+        ? (event.payload.subject.id.avatar ?? defaultMedia)
+        : defaultMedia;
 
   const date =
     typeof event.date === "string" ? parseISO(event.date as any) : event.date;
