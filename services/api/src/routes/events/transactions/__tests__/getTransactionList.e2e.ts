@@ -1,5 +1,5 @@
 import { PatentEventArb } from "@liexp/shared/lib/tests/arbitrary/events/PatentEvent.arbitrary.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { fc } from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../../test/AppTest.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";

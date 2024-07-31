@@ -1,7 +1,7 @@
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
 import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary.js";
 import { UncategorizedArb } from "@liexp/shared/lib/tests/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { addDays } from "date-fns";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";

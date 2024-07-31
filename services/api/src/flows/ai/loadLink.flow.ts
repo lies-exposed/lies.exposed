@@ -1,7 +1,7 @@
 import "cheerio";
 import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/cheerio";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type Document } from "langchain/document.js";
+import { type Document } from "langchain/document";
 import { type TEFlow } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
 

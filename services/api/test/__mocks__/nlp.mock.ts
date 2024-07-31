@@ -1,6 +1,5 @@
-import { Mock } from "vitest";
-import { mock, MockProxy } from "vitest-mock-extended";
-import { Document, Sentences, WinkMethods } from "wink-nlp";
+import { mock, type MockProxy } from "vitest-mock-extended";
+import { type Document, type Sentences, type WinkMethods } from "wink-nlp";
 
 const sentences = mock<Sentences>({}, { deep: true });
 const doc = mock<Document>(
@@ -23,7 +22,7 @@ const NLPMock = vi.fn(() => winkMethods);
 (NLPMock as any).sentences = sentences;
 
 interface NLPMock {
-  (): Mock<[], MockProxy<WinkMethods>>;
+  (): MockProxy<WinkMethods>;
   winkMethods: MockProxy<WinkMethods>;
   doc: MockProxy<Document>;
   sentences: MockProxy<Sentences>;

@@ -47,7 +47,8 @@
     "test:spec": "vitest -c test/vitest.config.spec.ts",
     "tsx:build": "tsx --tsconfig tsconfig.build.json",
     "typeorm": "TSX_TSCONFIG_PATH=tsconfig.build.json node --require tsx/cjs --require dotenv/config ../../node_modules/typeorm/cli.js",
-    "watch": "tsc -b ./tsconfig.build.json --watch"
+    "watch": "tsc -b ./tsconfig.build.json --watch",
+    "watch:dev": "tsc -b --watch"
   },
   "lint-staged": {
     "src/**/*.(ts|tsx|js|jsx)": "eslint --fix",

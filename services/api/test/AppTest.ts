@@ -16,7 +16,7 @@ import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import supertest from "supertest";
-import TestAgent from 'supertest/lib/agent.js';
+import type TestAgent from 'supertest/lib/agent.js';
 import {
   type DataSource,
   type EntityTarget,
@@ -83,6 +83,7 @@ const initAppTest = async (): Promise<AppTest> => {
       db,
       logger,
       config: {
+        cors: {},
         events: EventsConfig,
         dirs: {
           cwd,
@@ -90,7 +91,8 @@ const initAppTest = async (): Promise<AppTest> => {
             root: path.resolve(cwd, "temp"),
             media: path.resolve(cwd, "temp/media"),
             stats: path.resolve(cwd, "temp/stats"),
-            nlp: path.resolve(process.cwd(), "temp/nlp"),
+            nlp: path.resolve(cwd, "temp/nlp"),
+            queue: path.resolve(cwd, "temp/queue"),
           },
         },
       },
@@ -100,10 +102,10 @@ const initAppTest = async (): Promise<AppTest> => {
           return TE.right({} as any);
         },
         runCommand: () => {
-          return TE.right("");
+          return TE.right(undefined);
         },
       },
-      puppeteer: GetPuppeteerProvider(mocks.puppeteer, { headless: "new" }),
+      puppeteer: GetPuppeteerProvider(mocks.puppeteer, { headless: "new" }, mocks.puppeteer.devices),
       tg: mocks.tg,
       s3: MakeSpaceProvider(mocks.s3 as any),
       ig: mocks.ig,
@@ -134,6 +136,9 @@ const initAppTest = async (): Promise<AppTest> => {
         entitiesFile: path.resolve(__dirname, "entities.json"),
         nlp: mocks.ner as any,
       }),
+      langchain: {} as any,
+      queue: {} as any,
+      openai: {} as any,
       pdf: PDFProvider({ client: {} as any }),
       geo: GeocodeProvider({ http: {} as any, apiKey: "fake-geo-api-key" }),
     })),
