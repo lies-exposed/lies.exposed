@@ -1,7 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import D from "debug";
-import { startContext } from "./start-ctx";
+import { startContext } from "./start-ctx.js";
 import { extractRelationsFromURL } from '#flows/nlp/extractRelationsFromURL.flow.js';
 import { toControllerError } from "#io/ControllerError.js";
 

@@ -1,6 +1,6 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { type Queue } from "@liexp/shared/lib/io/http/index.js";
-import { type Document } from "langchain/document.js";
+import { type Document } from "langchain/document";
 import { loadLink } from "./loadLink.flow.js";
 import { loadPDF } from "./loadPDF.flow.js";
 import { loadText } from "./loadText.flow.js";

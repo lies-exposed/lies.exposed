@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type Document } from "langchain/document.js";
+import { type Document } from "langchain/document";
 import { TextLoader } from "langchain/document_loaders/fs/text";
 import { type TEFlow } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";

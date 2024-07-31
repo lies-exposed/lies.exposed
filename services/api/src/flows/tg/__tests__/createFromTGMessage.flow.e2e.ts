@@ -1,22 +1,22 @@
 import * as fs from "fs";
 import path from "path";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { getPlatformEmbedURL } from "@liexp/shared/lib/helpers/media";
+import { getPlatformEmbedURL } from "@liexp/shared/lib/helpers/media.js";
 import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
 import { HumanReadableStringArb } from "@liexp/shared/lib/tests/arbitrary/HumanReadableString.arbitrary.js";
 import { URLArb } from "@liexp/shared/lib/tests/arbitrary/URL.arbitrary.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { fc } from "@liexp/test";
 import type TelegramBot from "node-telegram-bot-api";
 import { Equal } from "typeorm";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
-import puppeteerMocks from "../../../../test/__mocks__/puppeteer.mock";
+import puppeteerMocks from "../../../../test/__mocks__/puppeteer.mock.js";
 import {
   TGMessageArb,
   TGPhotoArb,
-} from "../../../../test/arbitraries/TGMessage.arb";
+} from "../../../../test/arbitraries/TGMessage.arb.js";
 import { saveUser, type UserTest } from "../../../../test/user.utils.js";
 import { createFromTGMessage } from "../createFromTGMessage.flow.js";
 import { EventSuggestionEntity } from "#entities/EventSuggestion.entity.js";

@@ -27,7 +27,9 @@ export const pageMock = {
     });
   }),
   emulate: vi.fn().mockRejectedValue(new Error(`emulate: Not implemented`)),
-  screenshot: vi.fn().mockRejectedValue(new Error(`screenshot: Not implemented`)),
+  screenshot: vi
+    .fn()
+    .mockRejectedValue(new Error(`screenshot: Not implemented`)),
   browser: () => browserMock,
 };
 
@@ -43,4 +45,11 @@ puppeteerMock.launch.mockImplementation(() => {
   return Promise.resolve(browserMock) as any;
 });
 
-export default { ...puppeteerMock, page: pageMock, browser: browserMock };
+export default {
+  ...puppeteerMock,
+  page: pageMock,
+  browser: browserMock,
+  devices: {
+    "iPhone 13 Pro": {},
+  } as any,
+};

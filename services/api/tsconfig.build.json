@@ -6,7 +6,6 @@
     "rootDir": "./src",
     "jsx": "react-jsx",
     "tsBuildInfoFile": "build/tsconfig.build.tsbuildinfo",
-    "types": ["express"],
     "typeRoots": [
       "./typings",
       "../../packages/@liexp/backend/typings",

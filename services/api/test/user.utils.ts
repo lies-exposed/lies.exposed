@@ -2,7 +2,7 @@ import { type UserPermission } from "@liexp/shared/lib/io/http/User.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { fc } from "@liexp/test";
-import { type AppTest } from "./AppTest";
+import { type AppTest } from "./AppTest.js";
 import { UserEntity } from "#entities/User.entity.js";
 import { hash } from "#utils/password.utils.js";
 

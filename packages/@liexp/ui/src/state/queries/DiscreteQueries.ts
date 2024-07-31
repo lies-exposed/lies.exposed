@@ -7,7 +7,7 @@ import {
   fromEndpoints,
 } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import type * as t from "io-ts";
 import type { GetOneParams } from "react-admin";

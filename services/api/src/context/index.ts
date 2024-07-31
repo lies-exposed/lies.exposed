@@ -23,7 +23,8 @@ import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import metadataParser from "page-metadata-parser";
 import * as pdf from "pdfjs-dist/legacy/build/pdf.mjs";
-import puppeteer from "puppeteer-core";
+import * as puppeteer from "puppeteer-core";
+import { type VanillaPuppeteer } from 'puppeteer-extra';
 import sharp from "sharp";
 import wk from "wikipedia";
 import WinkFn from "wink-nlp";
@@ -112,7 +113,13 @@ export const makeContext = (
         ),
         fp.TE.right,
       ),
-      puppeteer: fp.TE.right(GetPuppeteerProvider(puppeteer, {})),
+      puppeteer: fp.TE.right(
+        GetPuppeteerProvider(
+          puppeteer as any as VanillaPuppeteer,
+          {},
+          puppeteer.KnownDevices,
+        ),
+      ),
       ffmpeg: fp.TE.right(GetFFMPEGProvider(ffmpeg)),
       http: fp.TE.right(HTTPProvider(axios.default.create({}))),
       geo: fp.TE.right(
