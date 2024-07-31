@@ -1,6 +1,6 @@
 import { http } from "@liexp/shared/lib/io/index.js";
 import { MediaArb, ProjectArb } from "@liexp/shared/lib/tests/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { fc } from "@liexp/test";
 import * as t from "io-ts";
 import jwt from "jsonwebtoken";

@@ -3,7 +3,7 @@
     "lib": ["ESNext"],
     "module": "ESNext",
     "target": "es6",
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "incremental": true,
     "strict": true,
     "declaration": true,

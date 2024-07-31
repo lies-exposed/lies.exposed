@@ -1,8 +1,7 @@
-import { fp } from "@liexp/core/lib/fp/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
-import { pipe } from "fp-ts/lib/function";
-import { startContext, stopContext } from "./start-ctx";
-import { upsertPinnedMessage } from "#flows/tg/upsertPinnedMessage.flow";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { startContext, stopContext } from "./start-ctx.js";
+import { upsertPinnedMessage } from "#flows/tg/upsertPinnedMessage.flow.js";
 
 const run = async (): Promise<void> => {
   const ctx = await startContext();

@@ -1,5 +1,5 @@
 import * as TE from "fp-ts/lib/TaskEither.js";
-import type * as pdf from "pdfjs-dist";
+import type * as pdf from "pdfjs-dist/legacy/build/pdf.mjs";
 import type {
   PDFDocumentProxy,
   TextItem,

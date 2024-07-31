@@ -2,8 +2,8 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import D from "debug";
 import { IsNull } from "typeorm";
-import { startContext } from "../start-ctx";
-import { AreaEntity } from "#entities/Area.entity";
+import { startContext } from "../start-ctx.js";
+import { AreaEntity } from "#entities/Area.entity.js";
 
 const run = async (): Promise<void> => {
   //   const [, , url] = process.argv;

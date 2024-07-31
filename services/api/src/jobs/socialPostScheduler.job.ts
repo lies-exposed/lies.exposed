@@ -2,7 +2,7 @@ import { fp } from "@liexp/core/lib/fp/index.js";
 import { PUBLISHED, TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { LessThanOrEqual } from "typeorm";
-import { type CronJobTE } from "./cron-task.type";
+import { type CronJobTE } from "./cron-task.type.js";
 import { SocialPostEntity } from "#entities/SocialPost.entity.js";
 import { postToSocialPlatforms } from "#flows/social-posts/postToPlatforms.flow.js";
 

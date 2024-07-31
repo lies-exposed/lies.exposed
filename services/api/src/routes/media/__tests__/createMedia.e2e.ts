@@ -1,6 +1,6 @@
 import { IframeVideoType } from "@liexp/shared/lib/io/http/Media.js";
 import { MediaArb } from "@liexp/shared/lib/tests/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 import { loginUser, saveUser } from "../../../../test/user.utils.js";

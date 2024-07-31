@@ -15,8 +15,8 @@ export interface AppMocks {
   s3: typeof s3Mock;
   wiki: typeof wikipediaProviderMock;
   urlMetadata: {
-    fetchHTML: Mock<any, any>;
-    fetchMetadata: Mock<any, any>;
+    fetchHTML: Mock<any>;
+    fetchMetadata: Mock<any>;
   };
   puppeteer: typeof puppeteerMock;
   sharp: typeof sharpMock;

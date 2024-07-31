@@ -4,7 +4,7 @@ import * as logger from "@liexp/core/lib/logger/index.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import * as puppeteer from "puppeteer-core";
+import type * as puppeteer from "puppeteer-core";
 import { addExtra, type VanillaPuppeteer } from "puppeteer-extra";
 import puppeteerStealth from "puppeteer-extra-plugin-stealth";
 import { IOError } from "ts-io-error";
@@ -135,9 +135,10 @@ export type GetPuppeteerProvider = (
   browser: puppeteer.Browser,
 ) => PuppeteerProvider;
 
-export const GetPuppeteerProvider = (
-  pup: VanillaPuppeteer,
+export const GetPuppeteerProvider = <P extends VanillaPuppeteer>(
+  pup: P,
   defaultOpts: BrowserLaunchOpts,
+  devices: typeof puppeteer.KnownDevices,
 ): PuppeteerProvider => {
   puppeteerLogger.debug.log(`PuppeteerClient with options %O`, defaultOpts);
 
@@ -270,7 +271,7 @@ export const GetPuppeteerProvider = (
   };
 
   return {
-    devices: puppeteer.KnownDevices,
+    devices,
     execute,
     getBrowser,
     goToPage,
