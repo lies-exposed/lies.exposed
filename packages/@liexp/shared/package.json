@@ -64,7 +64,7 @@
     "@types/uuid": "^9.0.8",
     "@visx/network": "^3.3.0",
     "pdfjs-dist": "^4.4.168",
-    "react-admin": "^5.1.0",
+    "react-admin": "^5.1.1",
     "typescript": "^5.4.5",
     "vite-tsconfig-paths": "^4.3.2",
     "vitest": "^2.0.5",
