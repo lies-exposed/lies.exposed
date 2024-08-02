@@ -5,7 +5,7 @@ import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { LoadingIndicator, useEditContext } from "react-admin";
 import { ECOTheme } from "../../../theme/index.js";
-import { FlowGraph } from "../../Common/Graph/FlowGraph.js";
+import { FlowGraph } from "../../Common/Graph/Flow/FlowGraph.js";
 import { HelmetProvider } from "../../SEO.js";
 import { ValidationErrorsLayout } from "../../ValidationErrorsLayout.js";
 import { ThemeProvider } from "../../mui/index.js";

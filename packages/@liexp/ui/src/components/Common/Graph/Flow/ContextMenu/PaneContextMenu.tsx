@@ -1,6 +1,6 @@
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import { useReactFlow } from "@xyflow/react";
 import React, { useCallback } from "react";
-import { useReactFlow } from "reactflow";
 import { IconButton, Icons, Stack } from "../../../../mui/index.js";
 import { ContextMenu, type ContextMenuProps } from "./ContextMenu.js";
 

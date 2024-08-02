@@ -1,6 +1,6 @@
 import { http } from "@liexp/shared/lib/io/index.js";
+import { type Node, useReactFlow } from "@xyflow/react";
 import * as React from "react";
-import { type Node, useReactFlow } from "reactflow";
 import { Button, Icons, Stack } from "../../../../../mui/index.js";
 
 interface GroupBoxNodeContextMenuProps {

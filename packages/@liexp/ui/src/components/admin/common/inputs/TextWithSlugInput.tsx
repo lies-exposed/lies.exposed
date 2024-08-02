@@ -1,5 +1,6 @@
 import * as React from "react";
-import { Labeled, TextInput, type TextInputProps } from "react-admin";
+import { TextInput, type TextInputProps } from "react-admin";
+import { Stack } from "../../../mui/index";
 import { SlugInput } from "./SlugInput";
 
 export interface JSONInputProps extends TextInputProps {
@@ -16,16 +17,13 @@ export const TextWithSlugInput: React.FC<JSONInputProps> = ({
   label = source,
   style,
   onClear,
+  defaultValue = "",
   ...props
 }) => {
-  const defaultValue = props.defaultValue ?? "";
-
   return (
-    <Labeled label={label} fullWidth>
-      <>
-        <TextInput source={source} defaultValue={defaultValue} />
-        <SlugInput source={slugSource} />
-      </>
-    </Labeled>
+    <Stack style={style}>
+      <TextInput {...props} source={source} defaultValue={defaultValue} />
+      <SlugInput {...props} source={slugSource} />
+    </Stack>
   );
 };
