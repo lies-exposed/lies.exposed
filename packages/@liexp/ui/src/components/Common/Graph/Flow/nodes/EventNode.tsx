@@ -1,16 +1,20 @@
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
+import { Handle, type NodeProps, Position, type Node } from "@xyflow/react";
 import * as React from "react";
-import { Handle, Position, type NodeProps } from "reactflow";
 import { useConfiguration } from "../../../../../context/ConfigurationContext.js";
 import EventCard from "../../../../Cards/Events/EventCard.js";
 import { EventIcon } from "../../../Icons/index.js";
 
-export const EventNode: React.FC<NodeProps<Events.SearchEvent.SearchEvent>> = ({
-  data,
-  targetPosition,
-  sourcePosition,
-  selected,
-}) => {
+// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
+export type EventNodeType = Node<any, "EventV2"> & {
+  data: Events.SearchEvent.SearchEvent;
+};
+
+// eslint-disable-next-line react/display-name
+export const EventNode = React.memo<
+  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
+  NodeProps<EventNodeType>
+>(({ data, targetPosition, sourcePosition, selected }) => {
   const conf = useConfiguration();
   return (
     <React.Suspense>
@@ -22,7 +26,7 @@ export const EventNode: React.FC<NodeProps<Events.SearchEvent.SearchEvent>> = ({
           <EventIcon
             type={data.type}
             style={{
-              opacity: (data as any).selected ? 1 : 0.5,
+              opacity: data.selected ? 1 : 0.5,
             }}
           />
         ) : (
@@ -39,4 +43,4 @@ export const EventNode: React.FC<NodeProps<Events.SearchEvent.SearchEvent>> = ({
       </div>
     </React.Suspense>
   );
-};
+});

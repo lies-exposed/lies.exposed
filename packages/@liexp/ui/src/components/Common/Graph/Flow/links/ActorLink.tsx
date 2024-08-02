@@ -1,7 +1,10 @@
+import { type Actor } from "@liexp/shared/lib/io/http";
+import { BaseEdge, type Edge, getBezierPath, type EdgeProps } from "@xyflow/react";
 import * as React from "react";
-import { BaseEdge, getBezierPath, type EdgeProps } from "reactflow";
 
-export const ActorLink: React.FC<EdgeProps> = ({
+export type ActorLinkType = Edge<Actor.Actor, typeof Actor.Actor.name>;
+
+export const ActorLink: React.FC<EdgeProps<ActorLinkType>> = ({
   id,
   sourceX,
   sourceY,

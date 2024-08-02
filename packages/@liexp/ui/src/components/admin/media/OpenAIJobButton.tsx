@@ -1,5 +1,5 @@
 import type * as Queue from "@liexp/shared/lib/io/http/Queue.js";
-import { get } from "lodash";
+import get from "lodash/get.js";
 import * as React from "react";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { Button, Stack } from "../../mui/index.js";

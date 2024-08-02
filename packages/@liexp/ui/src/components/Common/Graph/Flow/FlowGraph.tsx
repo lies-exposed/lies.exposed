@@ -1,17 +1,19 @@
-import * as React from "react";
 import {
-  ReactFlow,
   Background,
   BackgroundVariant,
   Controls,
   MiniMap,
+  ReactFlow,
   type DefaultEdgeOptions,
   type FitViewOptions,
   type ReactFlowProps,
-} from "reactflow";
-import "reactflow/dist/style.css";
+} from "@xyflow/react";
+import * as React from "react";
+import { type EdgeType } from './links/index.js';
+import { type NodeType } from './nodes/index.js';
+import "@xyflow/react/dist/style.css";
 
-export interface FlowGraphProps extends ReactFlowProps {
+export interface FlowGraphProps extends ReactFlowProps<NodeType, EdgeType> {
   miniMap?: boolean;
 }
 

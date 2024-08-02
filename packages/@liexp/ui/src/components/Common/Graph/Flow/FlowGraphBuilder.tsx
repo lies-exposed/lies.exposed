@@ -1,18 +1,16 @@
 import { Group } from "@liexp/shared/lib/io/http/index.js";
 import { http } from "@liexp/shared/lib/io/index.js";
-import React, { useCallback } from "react";
 import {
   type Connection,
   type Edge,
   type Node,
-  type NodeDragHandler,
+  type NodeMouseHandler,
   type ReactFlowProps,
   addEdge,
   useEdgesState,
   useNodesState,
-} from "reactflow";
-import { PaneContextMenu } from "../../../Common/Graph/Flow/ContextMenu/PaneContextMenu.js";
-import { nodeTypes } from "../../../Common/Graph/Flow/nodes/index.js";
+} from "@xyflow/react";
+import React, { useCallback } from "react";
 import { AutocompleteActorInput } from "../../../Input/AutocompleteActorInput.js";
 import { AutocompleteGroupInput } from "../../../Input/AutocompleteGroupInput.js";
 import { FormControlLabel, Stack, Switch } from "../../../mui/index.js";
@@ -20,18 +18,21 @@ import {
   NodeContextMenu,
   type NodeContextMenuProps,
 } from "./ContextMenu/Node/NodeContextMenu.js";
+import { PaneContextMenu } from "./ContextMenu/PaneContextMenu.js";
 import { FlowGraph } from "./FlowGraph.js";
+import { type EdgeType, edgeTypes } from "./links/index.js";
+import { type NodeType, nodeTypes } from "./nodes/index.js";
 
-interface FlowGraphBuilderProps extends ReactFlowProps {
-  nodes: Node[];
-  edges: Edge[];
+interface FlowGraphBuilderProps extends ReactFlowProps<NodeType> {
+  nodes: NodeType[];
+  edges: EdgeType[];
   options: Record<string, any>;
   onGraphChange: (data: { nodes: Node[]; edges: Edge[] }) => void;
   onOptionsChange: (options: Record<string, any>) => void;
 }
 
 const contextMenuPositioner = (
-  event: React.MouseEvent<Element>,
+  event: React.MouseEvent | MouseEvent,
   pane: DOMRect,
 ) => {
   const paneTop = pane.top;
@@ -62,18 +63,20 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
   onGraphChange,
   onOptionsChange,
 }) => {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [nodes, setNodes, onNodesChange] = useNodesState<NodeType>(initialNodes ?? []);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<EdgeType>(initialEdges);
   const [menu, setMenu] = React.useState<Omit<
     NodeContextMenuProps,
     "onClick"
   > | null>(null);
   const ref = React.useRef<HTMLElement | null>(null);
   // this ref stores the current dragged node
-  const dragRef = React.useRef<Node | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
+  const dragRef = React.useRef<NodeType | null>(null as any);
 
   // target is the node that the node is dragged over
-  const [target, setTarget] = React.useState<Node | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
+  const [target, setTarget] = React.useState<null | NodeType>(null as any);
 
   // settings like debug, snap-to-grid, etc.
   const [settings, setSettings] = React.useState({
@@ -143,12 +146,15 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
   );
 
   const onPaneContextMenu = useCallback(
-    (event: React.MouseEvent<Element>) => {
+    (event: React.MouseEvent | MouseEvent) => {
       // Prevent native context menu from showing
       event.preventDefault();
       // Calculate position of the context menu. We want to make sure it
       // doesn't get positioned off-screen.
-      const pane = event.currentTarget.getBoundingClientRect();
+      const pane =
+        event.currentTarget instanceof Element
+          ? event.currentTarget.getBoundingClientRect()
+          : null;
       if (pane) {
         const { top, left, right, bottom } = contextMenuPositioner(event, pane);
         setMenu({
@@ -172,7 +178,7 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
           nodes.concat([
             {
               id: gg[0].id,
-              data: group,
+              data: {...group, body: [], excerpt: [] },
               type: Group.Group.name,
               position: { x: 100, y: 100 },
             },
@@ -191,7 +197,7 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
           nodes.concat([
             {
               id: gg[0].id,
-              data: group,
+              data: {...group, body: [], excerpt: [] },
               type: http.Actor.Actor.name,
               position: { x: 100, y: 100 },
             },
@@ -202,11 +208,11 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
     [nodes],
   );
 
-  const onNodeDragStart: NodeDragHandler = (evt, node) => {
+  const onNodeDragStart: NodeMouseHandler<NodeType> = (evt, node) => {
     dragRef.current = node;
   };
 
-  const onNodeDrag: NodeDragHandler = (evt, node) => {
+  const onNodeDrag: NodeMouseHandler<NodeType> = (evt, node) => {
     if (!node.width || !node.height) {
       return;
     }
@@ -236,7 +242,7 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
     setTarget(targetNode);
   };
 
-  const onNodeDragStop: NodeDragHandler = (evt, node) => {
+  const onNodeDragStop: NodeMouseHandler = (evt, node) => {
     // on drag stop, we swap the colors of the nodes
     // const nodeColor = node.data.label;
     // const targetColor = target?.data.label;
@@ -338,6 +344,7 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
           onNodeContextMenu={onNodeContextMenu}
           onPaneContextMenu={onPaneContextMenu}
           nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
           fitView
           onNodeDragStart={onNodeDragStart}
           onNodeDrag={onNodeDrag}

@@ -602,6 +602,9 @@ importers:
       '@visx/zoom':
         specifier: ^3.3.0
         version: 3.3.0(react@18.3.1)
+      '@xyflow/react':
+        specifier: ^12.0.4
+        version: 12.0.4(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       axios:
         specifier: ^1.7.3
         version: 1.7.3(debug@4.3.6)
@@ -629,6 +632,9 @@ importers:
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
+      entitree-flex:
+        specifier: ^0.4.1
+        version: 0.4.1
       fp-ts:
         specifier: ^2.16.6
         version: 2.16.9
@@ -719,9 +725,6 @@ importers:
       react-virtualized:
         specifier: ^9.22.5
         version: 9.22.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      reactflow:
-        specifier: ^11.11.4
-        version: 11.11.4(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       slick-carousel:
         specifier: ^1.8.1
         version: 1.8.1(jquery@3.7.1)
@@ -846,6 +849,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.51.18
         version: 5.51.18(react@18.3.1)
+      '@xyflow/react':
+        specifier: ^12.0.4
+        version: 12.0.4(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       debug:
         specifier: ^4.3.4
         version: 4.3.6
@@ -923,8 +929,8 @@ importers:
         specifier: ^4.17.7
         version: 4.17.7
       '@types/node':
-        specifier: ^20.14.13
-        version: 20.14.13
+        specifier: ^20.14.14
+        version: 20.14.14
       '@types/react':
         specifier: ^18.3.3
         version: 18.3.3
@@ -975,7 +981,7 @@ importers:
         version: 5.5.4
       vite:
         specifier: ^5.3.5
-        version: 5.3.5(@types/node@20.14.13)(sass@1.77.8)(terser@5.31.3)
+        version: 5.3.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.3)
 
   services/api:
     dependencies:
@@ -1212,8 +1218,8 @@ importers:
         specifier: ^1.4.11
         version: 1.4.11
       '@types/node':
-        specifier: ^20.14.13
-        version: 20.14.13
+        specifier: ^20.14.14
+        version: 20.14.14
       '@types/node-cron':
         specifier: ^3.0.11
         version: 3.0.11
@@ -1267,13 +1273,13 @@ importers:
         version: 1.6.5(@oclif/config@1.18.17)(typeorm@0.3.20(pg@8.12.0))
       vite-tsconfig-paths:
         specifier: ^4.3.2
-        version: 4.3.2(typescript@5.5.4)(vite@5.3.5(@types/node@20.14.13)(sass@1.77.8)(terser@5.31.3))
+        version: 4.3.2(typescript@5.5.4)(vite@5.3.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.3))
       vitest:
         specifier: ^2.0.5
-        version: 2.0.5(@types/node@20.14.13)(sass@1.77.8)(terser@5.31.3)
+        version: 2.0.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.3)
       vitest-mock-extended:
         specifier: ^2.0.0
-        version: 2.0.0(typescript@5.5.4)(vitest@2.0.5(@types/node@20.14.13)(sass@1.77.8)(terser@5.31.3))
+        version: 2.0.0(typescript@5.5.4)(vitest@2.0.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.3))
 
   services/storybook:
     dependencies:
@@ -1430,9 +1436,6 @@ importers:
       react-virtualized:
         specifier: ^9.22.5
         version: 9.22.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      reactflow:
-        specifier: ^11.11.4
-        version: 11.11.4(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       storybook:
         specifier: ^8.2.7
         version: 8.2.7(@babel/preset-env@7.25.3(@babel/core@7.25.2))
@@ -1554,6 +1557,9 @@ importers:
       '@visx/tooltip':
         specifier: ^3.3.0
         version: 3.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@xyflow/react':
+        specifier: ^12.0.4
+        version: 12.0.4(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       axios:
         specifier: ^1.7.3
         version: 1.7.3(debug@4.3.6)
@@ -1653,9 +1659,6 @@ importers:
       react-virtualized:
         specifier: ^9.22.5
         version: 9.22.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      reactflow:
-        specifier: ^11.11.4
-        version: 11.11.4(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       sirv:
         specifier: ^2.0.4
         version: 2.0.4
@@ -1706,8 +1709,8 @@ importers:
         specifier: ^1.3.5
         version: 1.3.5
       '@types/node':
-        specifier: ^20.14.13
-        version: 20.14.13
+        specifier: ^20.14.14
+        version: 20.14.14
       '@types/reach__router':
         specifier: ^1.3.15
         version: 1.3.15
@@ -1782,7 +1785,7 @@ importers:
         version: 5.5.4
       vite:
         specifier: ^5.3.5
-        version: 5.3.5(@types/node@20.14.13)(sass@1.77.8)(terser@5.31.3)
+        version: 5.3.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.3)
 
 packages:
 
@@ -4107,42 +4110,6 @@ packages:
       react-native:
         optional: true
 
-  '@reactflow/background@11.3.14':
-    resolution: {integrity: sha512-Gewd7blEVT5Lh6jqrvOgd4G6Qk17eGKQfsDXgyRSqM+CTwDqRldG2LsWN4sNeno6sbqVIC2fZ+rAUBFA9ZEUDA==}
-    peerDependencies:
-      react: '>=17'
-      react-dom: '>=17'
-
-  '@reactflow/controls@11.2.14':
-    resolution: {integrity: sha512-MiJp5VldFD7FrqaBNIrQ85dxChrG6ivuZ+dcFhPQUwOK3HfYgX2RHdBua+gx+40p5Vw5It3dVNp/my4Z3jF0dw==}
-    peerDependencies:
-      react: '>=17'
-      react-dom: '>=17'
-
-  '@reactflow/core@11.11.4':
-    resolution: {integrity: sha512-H4vODklsjAq3AMq6Np4LE12i1I4Ta9PrDHuBR9GmL8uzTt2l2jh4CiQbEMpvMDcp7xi4be0hgXj+Ysodde/i7Q==}
-    peerDependencies:
-      react: '>=17'
-      react-dom: '>=17'
-
-  '@reactflow/minimap@11.7.14':
-    resolution: {integrity: sha512-mpwLKKrEAofgFJdkhwR5UQ1JYWlcAAL/ZU/bctBkuNTT1yqV+y0buoNVImsRehVYhJwffSWeSHaBR5/GJjlCSQ==}
-    peerDependencies:
-      react: '>=17'
-      react-dom: '>=17'
-
-  '@reactflow/node-resizer@2.2.14':
-    resolution: {integrity: sha512-fwqnks83jUlYr6OHcdFEedumWKChTHRGw/kbCxj0oqBd+ekfs+SIp4ddyNU0pdx96JIm5iNFS0oNrmEiJbbSaA==}
-    peerDependencies:
-      react: '>=17'
-      react-dom: '>=17'
-
-  '@reactflow/node-toolbar@1.3.14':
-    resolution: {integrity: sha512-rbynXQnH/xFNu4P9H+hVqlEUafDCkEoCy0Dg9mG22Sg+rY/0ck6KkrAQrYrTgXusd+cEJOMK0uOOFCK2/5rSGQ==}
-    peerDependencies:
-      react: '>=17'
-      react-dom: '>=17'
-
   '@remirror/core-constants@2.0.2':
     resolution: {integrity: sha512-dyHY+sMF0ihPus3O27ODd4+agdHMEmuRdyiZJ2CCWjPV5UFmn17ZbElvk6WOGVE4rdCJKZQCrPV2BcikOMLUGQ==}
 
@@ -5158,8 +5125,8 @@ packages:
   '@types/node@18.19.43':
     resolution: {integrity: sha512-Mw/YlgXnyJdEwLoFv2dpuJaDFriX+Pc+0qOBJ57jC1H6cDxIj2xc5yUrdtArDVG0m+KV6622a4p2tenEqB3C/g==}
 
-  '@types/node@20.14.13':
-    resolution: {integrity: sha512-+bHoGiZb8UiQ0+WEtmph2IWQCjIqg8MDZMAV+ppRRhUZnquF5mQkP/9vpSwJClEiSM/C7fZZExPzfU0vJTyp8w==}
+  '@types/node@20.14.14':
+    resolution: {integrity: sha512-d64f00982fS9YoOgJkAMolK7MN8Iq3TDdVjchbYHdEmjth/DHowx82GnoA+tVUAN+7vxfYUgAzi+JXbKNd2SDQ==}
 
   '@types/node@22.1.0':
     resolution: {integrity: sha512-AOmuRF0R2/5j1knA3c6G3HOk523Ga+l+ZXltX8SF1+5oqcXijjfTd8fY3XRZqSihEu9XhtQnKYLmkFaoxgsJHw==}
@@ -5572,6 +5539,15 @@ packages:
   '@xmldom/xmldom@0.8.10':
     resolution: {integrity: sha512-2WALfTl4xo2SkGCYRt6rDTFfk9R1czmBvUQy12gK2KuRKIpWEhcbbzy8EZXtz/jkRqHX8bFEc6FC1HjX4TUWYw==}
     engines: {node: '>=10.0.0'}
+
+  '@xyflow/react@12.0.4':
+    resolution: {integrity: sha512-eeQzw1gIbLKOB55rp2+20uB1PASDUf1q6zy2VsgugnuPEcL/olVMX3WT42XxyG8m3rcbUiHlq2NSmPTFWEjiUQ==}
+    peerDependencies:
+      react: '>=17'
+      react-dom: '>=17'
+
+  '@xyflow/system@0.0.37':
+    resolution: {integrity: sha512-hSIhezhxgftPUpC+xiQVIorcRILZUOWlLjpYPTyGWRu8s4RJvM4GqvrsFmD5OnMKXLgpU7/PqqUibDVO67oWQQ==}
 
   '@yarnpkg/fslib@2.10.3':
     resolution: {integrity: sha512-41H+Ga78xT9sHvWLlFOZLIhtU6mTGZ20pZ29EiZa97vnxdohJD2AF42rCoAoWfqUz486xY6fhjMH+DYEM9r14A==}
@@ -6976,6 +6952,9 @@ packages:
   entities@4.5.0:
     resolution: {integrity: sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==}
     engines: {node: '>=0.12'}
+
+  entitree-flex@0.4.1:
+    resolution: {integrity: sha512-KWy1sSNw/DQ4ujNJY4nQsP2JsHznn7rBZsUKI+ylN2RC6bfr/qO2G1ZmAlrMYxwYy2Azr21FHc/tRrvn3kFg/Q==}
 
   env-paths@2.2.1:
     resolution: {integrity: sha512-+h1lkLKhZMTYjog1VEpJNG7NZJWcuc2DDk/qsqSTRRCOXiLjeQ1d1/udrUGhqMxUgAlwKNZ0cf2uqan5GLuS2A==}
@@ -10489,12 +10468,6 @@ packages:
   react@18.3.1:
     resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
     engines: {node: '>=0.10.0'}
-
-  reactflow@11.11.4:
-    resolution: {integrity: sha512-70FOtJkUWH3BAOsN+LU9lCrKoKbtOPnz2uq0CV2PLdNSwxTXOhCbsZr50GmZ+Rtw3jx8Uv7/vBFtCGixLfd4Og==}
-    peerDependencies:
-      react: '>=17'
-      react-dom: '>=17'
 
   read@1.0.7:
     resolution: {integrity: sha512-rSOKNYUmaxy0om1BNjMN4ezNT6VKK+2xF4GBhc81mkH7L60i6dp8qPYrkndNLT3QPphoII3maL9PVC9XmhHwVQ==}
@@ -14375,14 +14348,14 @@ snapshots:
     dependencies:
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
       jest-mock: 29.7.0
 
   '@jest/fake-timers@29.7.0':
     dependencies:
       '@jest/types': 29.6.3
       '@sinonjs/fake-timers': 10.3.0
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
       jest-message-util: 29.7.0
       jest-mock: 29.7.0
       jest-util: 29.7.0
@@ -14395,7 +14368,7 @@ snapshots:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
       '@types/yargs': 15.0.19
       chalk: 4.1.2
 
@@ -14404,7 +14377,7 @@ snapshots:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
       '@types/yargs': 17.0.32
       chalk: 4.1.2
 
@@ -15350,84 +15323,6 @@ snapshots:
     optionalDependencies:
       react-dom: 18.3.1(react@18.3.1)
       react-native: 0.74.4(@babel/core@7.25.2)(@babel/preset-env@7.25.3(@babel/core@7.25.2))(@types/react@18.3.3)(react@18.3.1)
-
-  '@reactflow/background@11.3.14(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      '@reactflow/core': 11.11.4(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      classcat: 5.0.5
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      zustand: 4.5.4(@types/react@18.3.3)(react@18.3.1)
-    transitivePeerDependencies:
-      - '@types/react'
-      - immer
-
-  '@reactflow/controls@11.2.14(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      '@reactflow/core': 11.11.4(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      classcat: 5.0.5
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      zustand: 4.5.4(@types/react@18.3.3)(react@18.3.1)
-    transitivePeerDependencies:
-      - '@types/react'
-      - immer
-
-  '@reactflow/core@11.11.4(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      '@types/d3': 7.4.3
-      '@types/d3-drag': 3.0.7
-      '@types/d3-selection': 3.0.10
-      '@types/d3-zoom': 3.0.8
-      classcat: 5.0.5
-      d3-drag: 3.0.0
-      d3-selection: 3.0.0
-      d3-zoom: 3.0.0
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      zustand: 4.5.4(@types/react@18.3.3)(react@18.3.1)
-    transitivePeerDependencies:
-      - '@types/react'
-      - immer
-
-  '@reactflow/minimap@11.7.14(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      '@reactflow/core': 11.11.4(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@types/d3-selection': 3.0.10
-      '@types/d3-zoom': 3.0.8
-      classcat: 5.0.5
-      d3-selection: 3.0.0
-      d3-zoom: 3.0.0
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      zustand: 4.5.4(@types/react@18.3.3)(react@18.3.1)
-    transitivePeerDependencies:
-      - '@types/react'
-      - immer
-
-  '@reactflow/node-resizer@2.2.14(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      '@reactflow/core': 11.11.4(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      classcat: 5.0.5
-      d3-drag: 3.0.0
-      d3-selection: 3.0.0
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      zustand: 4.5.4(@types/react@18.3.3)(react@18.3.1)
-    transitivePeerDependencies:
-      - '@types/react'
-      - immer
-
-  '@reactflow/node-toolbar@1.3.14(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      '@reactflow/core': 11.11.4(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      classcat: 5.0.5
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      zustand: 4.5.4(@types/react@18.3.3)(react@18.3.1)
-    transitivePeerDependencies:
-      - '@types/react'
-      - immer
 
   '@remirror/core-constants@2.0.2': {}
 
@@ -16389,11 +16284,11 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
 
   '@types/bs58@4.0.4':
     dependencies:
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
       base-x: 3.0.9
 
   '@types/caseless@0.12.5': {}
@@ -16408,21 +16303,21 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
 
   '@types/conventional-commits-parser@5.0.0':
     dependencies:
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
 
   '@types/cookiejar@2.1.5': {}
 
   '@types/cors@2.8.17':
     dependencies:
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
 
   '@types/cross-spawn@6.0.6':
     dependencies:
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
 
   '@types/d3-array@3.0.3': {}
 
@@ -16614,7 +16509,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.1':
     dependencies:
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
       '@types/qs': 6.9.15
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -16632,14 +16527,14 @@ snapshots:
 
   '@types/fluent-ffmpeg@2.1.25':
     dependencies:
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
 
   '@types/geojson@7946.0.14': {}
 
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
 
   '@types/hast@2.3.10':
     dependencies:
@@ -16667,7 +16562,7 @@ snapshots:
 
   '@types/jsonwebtoken@9.0.6':
     dependencies:
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
 
   '@types/lodash@4.17.7': {}
 
@@ -16693,23 +16588,23 @@ snapshots:
 
   '@types/node-fetch@2.6.11':
     dependencies:
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
       form-data: 4.0.0
 
   '@types/node-forge@1.3.11':
     dependencies:
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
 
   '@types/node-telegram-bot-api@0.64.7':
     dependencies:
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
       '@types/request': 2.48.12
 
   '@types/node@18.19.43':
     dependencies:
       undici-types: 5.26.5
 
-  '@types/node@20.14.13':
+  '@types/node@20.14.14':
     dependencies:
       undici-types: 5.26.5
 
@@ -16723,13 +16618,13 @@ snapshots:
 
   '@types/pg@8.11.6':
     dependencies:
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
       pg-protocol: 1.6.1
       pg-types: 4.0.2
 
   '@types/prompts@2.4.9':
     dependencies:
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
       kleur: 3.0.3
 
   '@types/prop-types@15.7.12': {}
@@ -16788,7 +16683,7 @@ snapshots:
   '@types/request@2.48.12':
     dependencies:
       '@types/caseless': 0.12.5
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
       '@types/tough-cookie': 4.0.5
       form-data: 2.5.1
 
@@ -16801,12 +16696,12 @@ snapshots:
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
 
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
       '@types/send': 0.17.4
 
   '@types/stack-utils@2.0.3': {}
@@ -16815,7 +16710,7 @@ snapshots:
     dependencies:
       '@types/cookiejar': 2.1.5
       '@types/methods': 1.1.4
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
 
   '@types/supertest@6.0.2':
     dependencies:
@@ -16862,7 +16757,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
     optional: true
 
   '@typescript-eslint/eslint-plugin@7.18.0(@typescript-eslint/parser@7.18.0(eslint@8.57.0)(typescript@5.5.4))(eslint@8.57.0)(typescript@5.5.4)':
@@ -17338,6 +17233,27 @@ snapshots:
       tinyrainbow: 1.2.0
 
   '@xmldom/xmldom@0.8.10': {}
+
+  '@xyflow/react@12.0.4(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@xyflow/system': 0.0.37
+      classcat: 5.0.5
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      zustand: 4.5.4(@types/react@18.3.3)(react@18.3.1)
+    transitivePeerDependencies:
+      - '@types/react'
+      - immer
+
+  '@xyflow/system@0.0.37':
+    dependencies:
+      '@types/d3-drag': 3.0.7
+      '@types/d3-selection': 3.0.10
+      '@types/d3-transition': 3.0.8
+      '@types/d3-zoom': 3.0.8
+      d3-drag: 3.0.0
+      d3-selection: 3.0.0
+      d3-zoom: 3.0.0
 
   '@yarnpkg/fslib@2.10.3':
     dependencies:
@@ -17991,7 +17907,7 @@ snapshots:
 
   chrome-launcher@0.15.2:
     dependencies:
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2
@@ -18820,6 +18736,8 @@ snapshots:
       ansi-colors: 4.1.3
 
   entities@4.5.0: {}
+
+  entitree-flex@0.4.1: {}
 
   env-paths@2.2.1: {}
 
@@ -20444,7 +20362,7 @@ snapshots:
       '@jest/environment': 29.7.0
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
       jest-mock: 29.7.0
       jest-util: 29.7.0
 
@@ -20465,13 +20383,13 @@ snapshots:
   jest-mock@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
       jest-util: 29.7.0
 
   jest-util@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11
@@ -20488,7 +20406,7 @@ snapshots:
 
   jest-worker@29.7.0:
     dependencies:
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
       jest-util: 29.7.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
@@ -23086,20 +23004,6 @@ snapshots:
     dependencies:
       loose-envify: 1.4.0
 
-  reactflow@11.11.4(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
-    dependencies:
-      '@reactflow/background': 11.3.14(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@reactflow/controls': 11.2.14(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@reactflow/core': 11.11.4(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@reactflow/minimap': 11.7.14(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@reactflow/node-resizer': 2.2.14(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@reactflow/node-toolbar': 1.3.14(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-    transitivePeerDependencies:
-      - '@types/react'
-      - immer
-
   read@1.0.7:
     dependencies:
       mute-stream: 0.0.8
@@ -24617,13 +24521,13 @@ snapshots:
       unist-util-stringify-position: 3.0.3
       vfile-message: 3.1.4
 
-  vite-node@2.0.5(@types/node@20.14.13)(sass@1.77.8)(terser@5.31.3):
+  vite-node@2.0.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.3):
     dependencies:
       cac: 6.7.14
       debug: 4.3.6
       pathe: 1.1.2
       tinyrainbow: 1.2.0
-      vite: 5.3.5(@types/node@20.14.13)(sass@1.77.8)(terser@5.31.3)
+      vite: 5.3.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.3)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -24657,13 +24561,13 @@ snapshots:
 
   vite-plugin-optimizer@1.4.3: {}
 
-  vite-tsconfig-paths@4.3.2(typescript@5.5.4)(vite@5.3.5(@types/node@20.14.13)(sass@1.77.8)(terser@5.31.3)):
+  vite-tsconfig-paths@4.3.2(typescript@5.5.4)(vite@5.3.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.3)):
     dependencies:
       debug: 4.3.6
       globrex: 0.1.2
       tsconfck: 3.0.3(typescript@5.5.4)
     optionalDependencies:
-      vite: 5.3.5(@types/node@20.14.13)(sass@1.77.8)(terser@5.31.3)
+      vite: 5.3.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.3)
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -24679,13 +24583,13 @@ snapshots:
       - supports-color
       - typescript
 
-  vite@5.3.5(@types/node@20.14.13)(sass@1.77.8)(terser@5.31.3):
+  vite@5.3.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.3):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.39
       rollup: 4.19.1
     optionalDependencies:
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
       fsevents: 2.3.3
       sass: 1.77.8
       terser: 5.31.3
@@ -24701,11 +24605,11 @@ snapshots:
       sass: 1.77.8
       terser: 5.31.3
 
-  vitest-mock-extended@2.0.0(typescript@5.5.4)(vitest@2.0.5(@types/node@20.14.13)(sass@1.77.8)(terser@5.31.3)):
+  vitest-mock-extended@2.0.0(typescript@5.5.4)(vitest@2.0.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.3)):
     dependencies:
       ts-essentials: 10.0.1(typescript@5.5.4)
       typescript: 5.5.4
-      vitest: 2.0.5(@types/node@20.14.13)(sass@1.77.8)(terser@5.31.3)
+      vitest: 2.0.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.3)
 
   vitest-mock-extended@2.0.0(typescript@5.5.4)(vitest@2.0.5(@types/node@22.1.0)(sass@1.77.8)(terser@5.31.3)):
     dependencies:
@@ -24713,7 +24617,7 @@ snapshots:
       typescript: 5.5.4
       vitest: 2.0.5(@types/node@22.1.0)(sass@1.77.8)(terser@5.31.3)
 
-  vitest@2.0.5(@types/node@20.14.13)(sass@1.77.8)(terser@5.31.3):
+  vitest@2.0.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.3):
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@vitest/expect': 2.0.5
@@ -24731,11 +24635,11 @@ snapshots:
       tinybench: 2.8.0
       tinypool: 1.0.0
       tinyrainbow: 1.2.0
-      vite: 5.3.5(@types/node@20.14.13)(sass@1.77.8)(terser@5.31.3)
-      vite-node: 2.0.5(@types/node@20.14.13)(sass@1.77.8)(terser@5.31.3)
+      vite: 5.3.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.3)
+      vite-node: 2.0.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.3)
       why-is-node-running: 2.3.0
     optionalDependencies:
-      '@types/node': 20.14.13
+      '@types/node': 20.14.14
     transitivePeerDependencies:
       - less
       - lightningcss

@@ -1,12 +1,21 @@
+import { type Actor } from "@liexp/shared/lib/io/http/index.js";
+import { Handle, type NodeProps, Position, type Node } from "@xyflow/react";
 import * as React from "react";
-import { Handle, Position, type NodeProps } from "reactflow";
 import { ActorListItem } from "../../../../lists/ActorList.js";
 
-export const ActorNode: React.FC<NodeProps> = ({ data }) => {
-  return (
-    <div style={{ maxWidth: 200 }}>
-      <ActorListItem item={data} displayFullName={false} />
-      <Handle type="source" position={Position.Bottom} />
-    </div>
-  );
-};
+export type ActorNodeType = Node<Actor.Actor, typeof Actor.Actor.name>;
+
+// eslint-disable-next-line react/display-name, @typescript-eslint/no-redundant-type-constituents
+export const ActorNode = React.memo<NodeProps<ActorNodeType>>(
+  ({ data, selected }) => {
+    return (
+      <div style={{ maxWidth: 200 }}>
+        <ActorListItem
+          item={{ ...data, selected: !!selected }}
+          displayFullName={false}
+        />
+        <Handle type="source" position={Position.Bottom} />
+      </div>
+    );
+  },
+);
