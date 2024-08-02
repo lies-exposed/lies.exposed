@@ -2,9 +2,9 @@ import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type GetNetworkQuery } from "@liexp/shared/lib/io/http/Network/Network.js";
 import { type FlowGraphType } from "@liexp/shared/lib/io/http/graphs/FlowGraph.js";
 import { Actor, Group, Keyword } from "@liexp/shared/lib/io/http/index.js";
+import { type Node } from "@xyflow/react";
 import { type UUID } from "io-ts-types/lib/UUID.js";
 import * as React from "react";
-import { type Node } from "reactflow";
 import { type serializedType } from "ts-io-error/lib/Codec.js";
 import { EventsFlowGraph } from "../../components/Graph/EventsFlowGraph.js";
 import QueriesRenderer from "../../components/QueriesRenderer.js";
@@ -93,7 +93,7 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
         break;
       }
       case "EventV2": {
-        onEventClick(n.data);
+        onEventClick(n.data as any);
         break;
       }
     }

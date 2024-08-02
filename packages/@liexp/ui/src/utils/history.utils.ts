@@ -25,7 +25,7 @@ const toBase64 = (data: string): string => {
 };
 
 const fromBase64 = (hash: string): string => {
-  return pipe(base64ToBytes(hash), new TextDecoder().decode);
+  return pipe(base64ToBytes(hash), (bytes) => new TextDecoder().decode(bytes));
 };
 
 const parseQuery = (s: string): qs.ParsedQuery =>

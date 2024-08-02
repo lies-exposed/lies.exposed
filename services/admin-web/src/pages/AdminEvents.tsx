@@ -165,7 +165,7 @@ export const EventList: React.FC = () => (
       <BooleanField source="draft" />
       <FunctionField
         label="type"
-        render={(r: any) => {
+        render={(r) => {
           const title = r.payload.title ?? r.payload.quote ?? r.payload.details;
           return (
             <Box>
@@ -188,8 +188,8 @@ export const EventList: React.FC = () => (
         }}
       />
       <ExcerptField label="excerpt" source="excerpt" />
-      <FunctionField source="links" render={(r: any) => r.links?.length ?? 0} />
-      <FunctionField source="media" render={(r: any) => r.media?.length ?? 0} />
+      <FunctionField source="links" render={(r) => r.links?.length ?? 0} />
+      <FunctionField source="media" render={(r) => r.media?.length ?? 0} />
       <FunctionField
         label="actors"
         source="payload"
@@ -223,7 +223,7 @@ export const EventList: React.FC = () => (
       />
       <FunctionField
         source="socialPosts"
-        render={(r: any) => r.socialPosts?.length ?? 0}
+        render={(r) => r.socialPosts?.length ?? 0}
       />
       <FunctionField
         label="groupsMembers"

@@ -17,6 +17,6 @@ declare module "*.svg" {
 }
 
 declare module "jsoneditor-react" {
-  const JsonEditor: any;
+  const JsonEditor: React.ComponentType<any>;
   export { JsonEditor };
 }

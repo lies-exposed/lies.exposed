@@ -15,6 +15,7 @@ import {
   FormTab,
   List,
   SelectInput,
+  type SelectInputProps,
   SimpleForm,
   TabbedForm,
   TextField,
@@ -24,7 +25,7 @@ import {
   type EditProps,
   type RaRecord,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
-import { Grid } from "@liexp/ui/lib/components/mui/index.js";
+import { Stack } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import * as React from "react";
 
@@ -66,12 +67,13 @@ const EditActions: React.FC = () => {
   );
 };
 
-const GraphTypeInput: React.FC = () => {
+const GraphTypeInput: React.FC<SelectInputProps> = (props) => {
   return (
     <SelectInput
       source="type"
       label="Graph Type"
       choices={GraphType.types.map((t) => ({ id: t.value, name: t.value }))}
+      {...props}
     />
   );
 };
@@ -116,23 +118,21 @@ export const GraphCreate: React.FC<CreateProps> = (props) => {
       transform={(a: any) => transformGraph(dataProvider)(uuid(), a)}
     >
       <SimpleForm>
-        <Grid container spacing={2}>
-          <Grid
-            item
-            md={6}
-            sm={12}
-            style={{ display: "flex", flexDirection: "column" }}
-          >
-            <TextWithSlugInput source="label" />
-            <GraphTypeInput />
-            <JSONInput source="data" label="Data" />
-            <GraphBuilderInput source="data" />
-          </Grid>
-          <Grid item md={12}>
-            <BlockNoteInput source="excerpt" onlyText={true} />
-            <BlockNoteInput source="body" />
-          </Grid>
-        </Grid>
+        <Stack direction="row" width="100%" spacing={2}>
+          <Stack direction="row" width="100%" spacing={2}>
+            <TextWithSlugInput source="label" size="small" />
+            <GraphTypeInput size="small" />
+            <JSONInput source="data" label="Data" fullWidth />
+          </Stack>
+        </Stack>
+        <Stack width="100%">
+          <GraphBuilderInput source="data" />
+        </Stack>
+
+        <Stack width="100%" spacing={2}>
+          <BlockNoteInput source="excerpt" onlyText={true} />
+          <BlockNoteInput source="body" />
+        </Stack>
       </SimpleForm>
     </Create>
   );

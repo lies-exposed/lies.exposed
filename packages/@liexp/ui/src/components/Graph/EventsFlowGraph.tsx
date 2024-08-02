@@ -14,11 +14,8 @@ import {
   FlowGraph,
   type FlowGraphProps,
 } from "../Common/Graph/Flow/FlowGraph.js";
-import { ActorLink } from "../Common/Graph/Flow/links/ActorLink.js";
-import { ActorNode } from "../Common/Graph/Flow/nodes/ActorNode.js";
-import { EventNode } from "../Common/Graph/Flow/nodes/EventNode.js";
-import { GroupNode } from "../Common/Graph/Flow/nodes/GroupNode.js";
-import { KeywordNode } from "../Common/Graph/Flow/nodes/KeywordNode.js";
+import { edgeTypes } from "../Common/Graph/Flow/links/index.js";
+import { nodeTypes } from "../Common/Graph/Flow/nodes/index.js";
 
 const nodePosition = (
   i: number,
@@ -137,7 +134,7 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
         ...l,
         id: l.source + l.target,
         data: { color: toColor(fill) },
-        // type: Actor.Actor.name,
+        type: Actor.Actor.name,
       }));
 
     const groupEdges = graph.groupLinks
@@ -150,6 +147,7 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
         ...l,
         id: l.source + l.target,
         data: { color: toColor(fill) },
+        type: Group.Group.name,
       }));
 
     const keywordEdges = graph.keywordLinks
@@ -162,26 +160,13 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
         ...l,
         id: l.source + l.target,
         data: { color: toColor(fill) },
+        type: Keyword.Keyword.name,
       }));
 
     const edges = [...actorEdges, ...groupEdges, ...keywordEdges];
+
     return { nodes, edges };
   }, [graph, filters]);
-
-  const { nodeTypes, edgeTypes } = React.useMemo(
-    () => ({
-      nodeTypes: {
-        [Events.Event.name]: EventNode,
-        [Actor.Actor.name]: ActorNode,
-        [Group.Group.name]: GroupNode,
-        [Keyword.Keyword.name]: KeywordNode,
-      },
-      edgeTypes: {
-        [Actor.Actor.name]: ActorLink,
-      },
-    }),
-    [],
-  );
 
   return (
     <FlowGraph

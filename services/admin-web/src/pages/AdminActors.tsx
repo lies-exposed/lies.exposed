@@ -6,6 +6,7 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI.js";
 import { fromSlateToBlockNote } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
+import { EntitreeGraph } from "@liexp/ui/lib/components/Common/Graph/Flow/EntitreeGraph/EntitreeGraph.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import { ActorDataGrid } from "@liexp/ui/lib/components/admin/actors/ActorDataGrid.js";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
@@ -206,6 +207,9 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
           <LazyFormTabContent tab={6}>
             <EventsFlowGraphFormTab type="actors" />
           </LazyFormTabContent>
+        </FormTab>
+        <FormTab label="Links">
+          <EntitreeGraph />
         </FormTab>
       </TabbedForm>
     </EditForm>
