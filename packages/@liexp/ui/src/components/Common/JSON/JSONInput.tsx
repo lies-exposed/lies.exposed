@@ -38,7 +38,7 @@ const JSONInput: React.FC<JSONInputProps> = ({
     defaultValue: props.value ?? props.defaultValue ?? null,
   });
 
-  const JsonEditor: any = useJsonEditorReact();
+  const JsonEditor = useJsonEditorReact();
 
   if (!JsonEditor) {
     return null;

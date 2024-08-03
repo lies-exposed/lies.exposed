@@ -93,10 +93,8 @@ export const fetchRelations =
           ? TE.right({ data: [] })
           : api.Actor.List({
               Query: {
-                _start: 0,
-                perPage: actors.length,
                 ids: actors,
-              } as any,
+              },
             }),
       groups:
         groups.length === 0
@@ -104,7 +102,7 @@ export const fetchRelations =
           : api.Group.List({
               Query: {
                 ids: groups,
-              } as any,
+              },
             }),
       groupsMembers:
         groupsMembers.length === 0
@@ -112,7 +110,7 @@ export const fetchRelations =
           : api.GroupMember.List({
               Query: {
                 ids: groupsMembers,
-              } as any,
+              },
             }),
       media:
         media.length === 0
@@ -120,7 +118,7 @@ export const fetchRelations =
           : api.Media.List({
               Query: {
                 ids: media,
-              } as any,
+              },
             }),
       keywords:
         keywords.length === 0
@@ -128,7 +126,7 @@ export const fetchRelations =
           : api.Keyword.List({
               Query: {
                 ids: keywords,
-              } as any,
+              },
             }),
       links:
         links.length === 0
@@ -136,7 +134,7 @@ export const fetchRelations =
           : api.Link.List({
               Query: {
                 ids: links,
-              } as any,
+              },
             }),
     });
   };
@@ -249,7 +247,7 @@ export const searchEventsQuery = (
 
 export const getSearchEventsInfiniteQueryKey = (
   input: Partial<SearchEventQueryInput>,
-): [string, Partial<SearchEventQueryInput>, any, any] => {
+): [string, Partial<SearchEventQueryInput>, unknown, unknown] => {
   return ["events-search-infinite", input, undefined, undefined];
 };
 

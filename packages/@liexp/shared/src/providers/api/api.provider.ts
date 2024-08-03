@@ -8,6 +8,8 @@ import {
   type MinimalEndpointInstance,
   type TypeOfEndpointInstance,
 } from "ts-endpoint";
+import { type Codec, type serializedType } from "ts-io-error/lib/Codec.js";
+import { type RequiredKeys } from "typelevel-ts";
 import { Endpoints } from "../../endpoints/index.js";
 import { type ResourceEndpoints } from "../../endpoints/types.js";
 import { type APIError } from "../../io/http/Error/APIError.js";
@@ -15,8 +17,28 @@ import { type HTTPProvider, liftFetch } from "../http/http.provider.js";
 
 const apiLogger = GetLogger("API");
 
+export type SerializedPropsType<P> = P extends Record<string, unknown>
+  ? {
+      [k in RequiredKeys<P>]: serializedType<P[k]>;
+    }
+  : never;
+
+export type TypeOfEndpointInstanceInput<E extends MinimalEndpointInstance> = [
+  RequiredKeys<E["Input"]>,
+] extends [never]
+  ? void
+  : {
+      [K in keyof NonNullable<E["Input"]>]: NonNullable<
+        E["Input"]
+      >[K] extends Codec<any, any, any>
+        ? K extends "Query"
+          ? Partial<serializedType<NonNullable<E["Input"]>[K]>>
+          : serializedType<NonNullable<E["Input"]>[K]>
+        : never;
+    };
+
 export type TERequest<E extends MinimalEndpointInstance> = (
-  input: TypeOfEndpointInstance<E>["Input"],
+  input: TypeOfEndpointInstanceInput<E>,
 ) => TE.TaskEither<APIError, TypeOfEndpointInstance<E>["Output"]>;
 
 type API = {
@@ -45,14 +67,14 @@ const API = (client: AxiosInstance): API => {
   const toTERequest = <E extends MinimalEndpointInstance>(
     e: E,
   ): TERequest<E> => {
-    return (b: TypeOfEndpointInstance<E>["Input"]) => {
+    return (b: TypeOfEndpointInstanceInput<E>) => {
       const url = e.getPath(b?.Params);
       return pipe(
         liftFetch<TypeOfEndpointInstance<E>["Output"]>(() => {
           apiLogger.debug.log("%s %s req: %O", e.Method, url, b);
 
           return client.request<
-            TypeOfEndpointInstance<E>["Input"],
+            TypeOfEndpointInstanceInput<E>,
             AxiosResponse<TypeOfEndpointInstance<E>["Output"]>
           >({
             method: e.Method,
