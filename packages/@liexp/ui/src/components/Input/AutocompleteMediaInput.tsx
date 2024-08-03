@@ -27,7 +27,7 @@ export const AutocompleteMediaInput: React.FC<AutocompleteMediaInputProps> = ({
           ? a
           : (a?.label ?? a?.description ?? "No description")
       }
-      searchToFilter={(description) => ({ description })}
+      searchToFilter={(q) => ({ q })}
       selectedItems={selectedItems}
       query={(p) => Queries.Media.list.useQuery(p, undefined, discrete)}
       renderTags={(items) => (
