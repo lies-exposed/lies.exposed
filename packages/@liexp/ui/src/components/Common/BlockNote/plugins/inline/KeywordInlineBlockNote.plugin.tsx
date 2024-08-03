@@ -26,8 +26,8 @@ export const keywordItem = (editor: BNESchemaEditor) => ({
     ]);
   },
   aliases: ["keyword", "kw"],
-  // group: "Relations",
-  icon: <Icons.RecentKeywordsIcon />,
+  group: "Relations",
+  icon: <Icons.RecentKeywordsIcon fontSize='small' />,
   subtext: "Used to insert a keyword inline.",
 });
 
