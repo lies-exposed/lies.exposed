@@ -13,6 +13,7 @@ import { type BNESchemaEditor, schema } from "./EditorSchema.js";
 import { insertEvent } from "./plugins/block/EventBlock.plugin.js";
 import { insertMedia } from "./plugins/block/MediaBlock.plugin.js";
 import { actorItem } from "./plugins/inline/ActorInlineBlockNote.plugin.js";
+import { areaItem } from "./plugins/inline/AreaInlineBlockNote.plugin.js";
 import { groupItem } from "./plugins/inline/GroupInlineBlockNote.plugin.js";
 import { keywordItem } from "./plugins/inline/KeywordInlineBlockNote.plugin.js";
 import { relationItem } from "./plugins/inline/RelationInlineBlockNote.plugin.js";
@@ -26,6 +27,7 @@ const getCustomSlashMenuItems = (
   insertMedia(editor),
   groupItem(editor),
   actorItem(editor),
+  areaItem(editor),
   insertEvent(editor),
   keywordItem(editor),
 ];

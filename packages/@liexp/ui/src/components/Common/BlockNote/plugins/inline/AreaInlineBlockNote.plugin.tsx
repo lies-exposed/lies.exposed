@@ -1,43 +1,43 @@
 import { createReactInlineContentSpec } from "@blocknote/react";
 import * as React from "react";
-import ActorChipBox from "../../../../../containers/actors/ActorChipBox.js";
-import { ActorIcon } from "../../../Icons/FAIcon.js";
+import { AreaChipBox } from "../../../../../containers/areas/AreaChipBox.js";
+import { AreaIcon } from "../../../Icons/FAIcon.js";
 import { BlockNoteEditorContext } from "../../BlockNoteEditorContext.js";
 import { type BNESchemaEditor } from "../../EditorSchema.js";
 import { RelationInlineContentComponent } from "./RelationInlineBlockNote.plugin.js";
 
-export interface ActorInlineState {
+export interface AreaInlineState {
   id: string;
-  displayAvatar: boolean;
-  displayFullName: boolean;
+  displayLabel: boolean;
+  displayFeaturedImage: boolean;
 }
 
 // Custom Slash Menu item to insert a block after the current one.
-export const actorItem = (editor: BNESchemaEditor) => ({
-  title: "Add Actor Inline",
+export const areaItem = (editor: BNESchemaEditor) => ({
+  title: "Add Area Inline",
   onItemClick: () => {
     // Inserting the content inline
     editor.insertInlineContent([
       {
-        type: "actor",
+        type: "area",
         props: {
           id: undefined as any,
           className: "",
-          displayAvatar: true,
-          displayFullName: true,
+          displayLabel: true,
+          displayFeaturedImage: false,
         },
       },
     ]);
   },
-  aliases: ["actor", "ac"],
+  aliases: ["area", "ar"],
   group: "Relations",
-  icon: <ActorIcon />,
-  subtext: "Used to insert a block with an actor.",
+  icon: <AreaIcon />,
+  subtext: "Used to insert an area inline.",
 });
 
-export const actorInlineContentSpec = createReactInlineContentSpec(
+export const areaInlineContentSpec = createReactInlineContentSpec(
   {
-    type: "actor",
+    type: "area",
     propSchema: {
       id: {
         default: "",
@@ -45,11 +45,11 @@ export const actorInlineContentSpec = createReactInlineContentSpec(
       className: {
         default: "",
       },
-      displayAvatar: {
+      displayLabel: {
         default: true,
       },
-      displayFullName: {
-        default: true,
+      displayFeaturedImage: {
+        default: false,
       },
     },
     content: "none",
@@ -57,7 +57,7 @@ export const actorInlineContentSpec = createReactInlineContentSpec(
   {
     render: ({
       inlineContent: {
-        props: { id, className, displayFullName, displayAvatar },
+        props: { id, className, displayLabel, displayFeaturedImage },
       },
     }): React.ReactNode => {
       return (
@@ -66,21 +66,17 @@ export const actorInlineContentSpec = createReactInlineContentSpec(
             editor ? (
               <RelationInlineContentComponent
                 editor={editor}
-                relation="actor"
+                relation="area"
                 id={id}
-                relationProps={{ displayFullName, id }}
+                relationProps={{ id }}
                 relationRenderer={{
-                  actor: (props) => (
-                    <ActorChipBox
+                  area: (props) => (
+                    <AreaChipBox
                       className={className}
                       style={{ display: "inline-block" }}
-                      displayFullName={displayFullName}
-                      displayAvatar={displayAvatar}
                       id={props.id}
-                      avatarStyle={{
-                        display: "inline-block",
-                        verticalAlign: "middle",
-                      }}
+                      displayLabel={displayLabel}
+                      displayFeaturedMedia={displayFeaturedImage}
                       onClick={() => {}}
                     />
                   ),

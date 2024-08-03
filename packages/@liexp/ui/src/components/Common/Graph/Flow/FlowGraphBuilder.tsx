@@ -2,13 +2,12 @@ import { Group } from "@liexp/shared/lib/io/http/index.js";
 import { http } from "@liexp/shared/lib/io/index.js";
 import {
   type Connection,
-  type Edge,
   type Node,
   type NodeMouseHandler,
   type ReactFlowProps,
   addEdge,
   useEdgesState,
-  useNodesState,
+  useNodesState
 } from "@xyflow/react";
 import React, { useCallback } from "react";
 import { AutocompleteActorInput } from "../../../Input/AutocompleteActorInput.js";
@@ -23,12 +22,12 @@ import { FlowGraph } from "./FlowGraph.js";
 import { type EdgeType, edgeTypes } from "./links/index.js";
 import { type NodeType, nodeTypes } from "./nodes/index.js";
 
-interface FlowGraphBuilderProps extends ReactFlowProps<NodeType> {
+interface FlowGraphBuilderProps extends ReactFlowProps<NodeType, EdgeType> {
   nodes: NodeType[];
   edges: EdgeType[];
-  options: Record<string, any>;
-  onGraphChange: (data: { nodes: Node[]; edges: Edge[] }) => void;
-  onOptionsChange: (options: Record<string, any>) => void;
+  options: Record<string, string | boolean>;
+  onGraphChange: (data: { nodes: NodeType[]; edges: EdgeType[] }) => void;
+  onOptionsChange: (options: Record<string, string | boolean>) => void;
 }
 
 const contextMenuPositioner = (
@@ -72,11 +71,11 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
   const ref = React.useRef<HTMLElement | null>(null);
   // this ref stores the current dragged node
   // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-  const dragRef = React.useRef<NodeType | null>(null as any);
+  const dragRef = React.useRef<NodeType | null>(null);
 
   // target is the node that the node is dragged over
   // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-  const [target, setTarget] = React.useState<null | NodeType>(null as any);
+  const [target, setTarget] = React.useState<null | NodeType>(null);
 
   // settings like debug, snap-to-grid, etc.
   const [settings, setSettings] = React.useState({

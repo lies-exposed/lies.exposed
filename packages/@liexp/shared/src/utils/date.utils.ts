@@ -30,7 +30,7 @@ export const parseDate = (d: string): Date =>
 export const formatDateToShort = (date: Date): string =>
   format(date, "MMM do yyyy");
 
-export const formatAnyDateToShort = (date: any): string => {
+export const formatAnyDateToShort = (date: string | Date): string => {
   if (typeof date === "string") {
     return formatDateToShort(parseISO(date));
   }
