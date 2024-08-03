@@ -9,10 +9,6 @@ import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter.js";
-import {
-  type MinimalEndpointInstance,
-  type TypeOfEndpointInstance,
-} from "ts-endpoint";
 import { APIError } from "../../io/http/Error/APIError.js";
 
 const apiLogger = GetLogger("http");
@@ -59,14 +55,10 @@ export const liftFetch = <B>(
   );
 };
 
-export type TERequest<E extends MinimalEndpointInstance> = (
-  input: TypeOfEndpointInstance<E>["Input"],
-) => TE.TaskEither<APIError, TypeOfEndpointInstance<E>["Output"]>;
-
 interface HTTPProvider {
   get: <T>(
     url: string,
-    config?: AxiosRequestConfig<any>,
+    config?: AxiosRequestConfig,
   ) => TE.TaskEither<Error, T>;
   post: <T, R>(
     url: string,

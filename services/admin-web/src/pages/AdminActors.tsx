@@ -208,8 +208,10 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
             <EventsFlowGraphFormTab type="actors" />
           </LazyFormTabContent>
         </FormTab>
-        <FormTab label="Links">
-          <EntitreeGraph />
+        <FormTab label="Entitree">
+          <div style={{ height: 600, width: "100%" }}>
+            <EntitreeGraph />
+          </div>
         </FormTab>
       </TabbedForm>
     </EditForm>
