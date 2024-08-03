@@ -18,6 +18,7 @@ export const AutocompleteAreaInput: React.FC<AutocompleteAreaInputProps> = ({
   onChange,
   discrete = true,
   className,
+  ...props
 }) => {
   const { Queries } = useEndpointQueries();
   const conf = useConfiguration();
@@ -72,6 +73,7 @@ export const AutocompleteAreaInput: React.FC<AutocompleteAreaInputProps> = ({
         );
       }}
       onItemsChange={onChange}
+      {...props}
     />
   );
 };

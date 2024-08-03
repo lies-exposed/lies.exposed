@@ -11,7 +11,12 @@ import {
   Select,
   Stack,
 } from "../../../../mui/index.js";
-import { ActorIcon, GroupIcon, HashtagIcon } from "../../../Icons/FAIcon.js";
+import {
+  ActorIcon,
+  AreaIcon,
+  GroupIcon,
+  HashtagIcon,
+} from "../../../Icons/FAIcon.js";
 import { BlockNoteEditorContext } from "../../BlockNoteEditorContext.js";
 import { type BNESchemaEditor } from "../../EditorSchema.js";
 
@@ -141,6 +146,7 @@ export const RelationInlineContentComponent: React.FC<{
             display: "inline-flex",
             alignItems: "center",
             justifyContent: "center",
+            minWidth: 100,
           }}
         >
           <MenuItem value="actor">
@@ -151,6 +157,9 @@ export const RelationInlineContentComponent: React.FC<{
           </MenuItem>
           <MenuItem value="keyword">
             <HashtagIcon />
+          </MenuItem>
+          <MenuItem value="area">
+            <AreaIcon />
           </MenuItem>
         </Select>
       );
@@ -214,6 +223,11 @@ export const RelationInlineContentComponent: React.FC<{
       case "group":
         elements.autocompleteInput = (
           <AutocompleteGroupInput {...autocompleteProps} />
+        );
+        break;
+      case "keyword":
+        elements.autocompleteInput = (
+          <AutocompleteKeywordInput {...autocompleteProps} />
         );
         break;
       case "area":
