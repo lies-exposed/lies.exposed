@@ -15,6 +15,7 @@ export interface ActorInlineState {
 // Custom Slash Menu item to insert a block after the current one.
 export const actorItem = (editor: BNESchemaEditor) => ({
   title: "Add Actor Inline",
+  key: 'actor',
   onItemClick: () => {
     // Inserting the content inline
     editor.insertInlineContent([
@@ -30,7 +31,7 @@ export const actorItem = (editor: BNESchemaEditor) => ({
     ]);
   },
   aliases: ["actor", "ac"],
-  group: "Relations",
+  // group: "Relations",
   icon: <ActorIcon />,
   subtext: "Used to insert a block with an actor.",
 });

@@ -8,27 +8,28 @@ import { RelationInlineContentComponent } from "./RelationInlineBlockNote.plugin
 
 export interface GroupInlineState {
   id: string;
+  displayAvatar: boolean;
 }
 
 // Custom Slash Menu item to insert a block after the current one.
 export const groupItem = (editor: BNESchemaEditor) => ({
   title: "Add Group Inline",
+  key: "group",
   onItemClick: () => {
     // Inserting the content inline
     editor.insertInlineContent([
       {
         type: "group",
         props: {
-          id: undefined,
+          id: undefined as any,
           className: "",
           displayAvatar: true,
-          displayFullName: true,
         },
-      } as any,
+      },
     ]);
   },
   aliases: ["group", "group"],
-  group: "Relations",
+  // group: "Relations",
   icon: <GroupIcon />,
   subtext: "Used to insert a group inline.",
 });

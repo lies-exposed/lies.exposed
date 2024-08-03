@@ -6,12 +6,13 @@ import { BlockNoteEditorContext } from "../../BlockNoteEditorContext.js";
 import { type BNESchemaEditor } from "../../EditorSchema.js";
 import { RelationInlineContentComponent } from "./RelationInlineBlockNote.plugin.js";
 
-export interface GroupInlineState {
+export interface KeywordInlineState {
   id: string;
 }
 
 // Custom Slash Menu item to insert a block after the current one.
 export const keywordItem = (editor: BNESchemaEditor) => ({
+  key: 'keyword',
   title: "Add Keyword Inline",
   onItemClick: () => {
     // Inserting the content inline
@@ -19,13 +20,13 @@ export const keywordItem = (editor: BNESchemaEditor) => ({
       {
         type: "keyword",
         props: {
-          id: undefined,
+          id: undefined as any,
         },
-      } as any,
+      },
     ]);
   },
   aliases: ["keyword", "kw"],
-  group: "Relations",
+  // group: "Relations",
   icon: <Icons.RecentKeywordsIcon />,
   subtext: "Used to insert a keyword inline.",
 });
@@ -43,6 +44,7 @@ export const keywordInlineContentSpec = createReactInlineContentSpec(
   {
     render: ({
       inlineContent: {
+        type,
         props: { id },
       },
     }): React.ReactNode => {
@@ -52,7 +54,7 @@ export const keywordInlineContentSpec = createReactInlineContentSpec(
             editor ? (
               <RelationInlineContentComponent
                 editor={editor}
-                relation="keyword"
+                relation={type}
                 id={id}
                 relationProps={{ id }}
                 relationRenderer={{

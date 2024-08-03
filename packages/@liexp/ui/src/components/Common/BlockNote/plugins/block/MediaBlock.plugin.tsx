@@ -28,6 +28,7 @@ const DEFAULT_ID = "missing-id";
 // Slash menu item to insert an Alert block
 export const insertMedia = (editor: BNESchemaEditor) => ({
   title: "Media",
+  key: 'media-block',
   subtext: "Insert a media block",
   onItemClick: () => {
     insertOrUpdateBlock(editor, {
@@ -40,7 +41,7 @@ export const insertMedia = (editor: BNESchemaEditor) => ({
     });
   },
   aliases: ["video", "pdf", "media", "image", "photo"],
-  group: "Media",
+  // group: "Media",
   icon: <Icons.MediaIcon fontSize="small" />,
 });
 
@@ -124,13 +125,13 @@ export const MediaBlockPluginControl: React.FC<{
             control={
               <Checkbox
                 color="info"
-                disabled={false}
                 size="small"
                 checked={s.enableDescription}
-                onChange={(v, c) => {
+                onChange={(v) => {
+                  v.preventDefault();
                   setS({
                     ...s,
-                    enableDescription: c,
+                    enableDescription: v.target.checked,
                   });
                 }}
               />
@@ -202,7 +203,7 @@ export const mediaBlock = createReactBlockSpec(
       };
 
       return (
-        <Stack direction="column">
+        <Stack direction="column" width={"100%"}>
           <EditMenu
             editor={editor as any}
             onClick={() => {
@@ -216,7 +217,7 @@ export const mediaBlock = createReactBlockSpec(
             {id === DEFAULT_ID ? (
               <MediaBlockPluginControl
                 onRemove={onRemove}
-                data={{ id: "", enableDescription: false, height: 100 }}
+                data={{ id: "", enableDescription, height }}
                 onChange={onChange}
               />
             ) : (

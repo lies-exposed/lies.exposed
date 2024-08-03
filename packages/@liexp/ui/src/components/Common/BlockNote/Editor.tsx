@@ -23,13 +23,13 @@ const getCustomSlashMenuItems = (
   editor: BNESchemaEditor,
 ): DefaultReactSuggestionItem[] => [
   ...getDefaultReactSlashMenuItems(editor),
-  relationItem(editor),
   insertMedia(editor),
+  relationItem(editor),
   groupItem(editor),
   actorItem(editor),
   areaItem(editor),
-  insertEvent(editor),
   keywordItem(editor),
+  insertEvent(editor),
 ];
 
 export interface BNEditorProps {
