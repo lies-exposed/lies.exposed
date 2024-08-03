@@ -23,7 +23,7 @@ export const insertEvent = (editor: BNESchemaEditor) => ({
   },
   aliases: ["event", "book", "study"],
   group: "Events",
-  icon: <EventIcon type="Uncategorized" />,
+  icon: <EventIcon type="Uncategorized" fontSize="small" />,
 });
 
 export const EventBlockPluginControl: React.FC<{

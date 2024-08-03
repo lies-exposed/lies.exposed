@@ -37,8 +37,8 @@ export const relationItem = (editor: BNESchemaEditor) => ({
     ]);
   },
   aliases: ["ac", "gr", "kw", "relation", "rel"],
-  // group: "Relations",
-  icon: <Icons.GroupIcon />,
+  group: "Relations",
+  icon: <Icons.GroupIcon fontSize='small' />,
   subtext: "Used to insert a block with a relation.",
 });
 

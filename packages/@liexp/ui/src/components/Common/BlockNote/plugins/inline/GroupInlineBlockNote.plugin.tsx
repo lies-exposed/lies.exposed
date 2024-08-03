@@ -29,7 +29,7 @@ export const groupItem = (editor: BNESchemaEditor) => ({
     ]);
   },
   aliases: ["group", "group"],
-  // group: "Relations",
+  group: "Relations",
   icon: <GroupIcon />,
   subtext: "Used to insert a group inline.",
 });

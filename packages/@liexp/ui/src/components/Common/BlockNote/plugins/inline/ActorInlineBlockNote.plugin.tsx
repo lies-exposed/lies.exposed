@@ -31,8 +31,8 @@ export const actorItem = (editor: BNESchemaEditor) => ({
     ]);
   },
   aliases: ["actor", "ac"],
-  // group: "Relations",
-  icon: <ActorIcon />,
+  group: "Relations",
+  icon: <ActorIcon fontSize="small" />,
   subtext: "Used to insert a block with an actor.",
 });
 

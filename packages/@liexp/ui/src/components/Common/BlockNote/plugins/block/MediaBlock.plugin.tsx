@@ -27,8 +27,8 @@ const DEFAULT_ID = "missing-id";
 
 // Slash menu item to insert an Alert block
 export const insertMedia = (editor: BNESchemaEditor) => ({
-  title: "Media",
-  key: 'media-block',
+  title: "Media Block",
+  key: 'media-block-1',
   subtext: "Insert a media block",
   onItemClick: () => {
     insertOrUpdateBlock(editor, {
@@ -41,7 +41,7 @@ export const insertMedia = (editor: BNESchemaEditor) => ({
     });
   },
   aliases: ["video", "pdf", "media", "image", "photo"],
-  // group: "Media",
+  group: "Relations",
   icon: <Icons.MediaIcon fontSize="small" />,
 });
 
