@@ -2,8 +2,8 @@ import type * as Queue from "@liexp/shared/lib/io/http/Queue.js";
 import get from "lodash/get.js";
 import * as React from "react";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
-import { Button, Stack } from "../../mui/index.js";
-import { LoadingIndicator, useRecordContext } from "../react-admin.js";
+import { useRecordContext } from "../react-admin.js";
+import { OpenAIButton } from "./OpenAIButton.js";
 
 interface OpenAIPromptButtonProps {
   type?: Queue.QueueTypes;
@@ -49,18 +49,12 @@ export const OpenAIEmbeddingJobButton: React.FC<OpenAIPromptButtonProps> = ({
   };
 
   return (
-    <Stack direction="row">
-      <Button
-        variant="contained"
-        size="small"
-        onClick={() => {
-          if (isLoading) return;
-          ingestFile();
-        }}
-      >
-        OpenAI: Embed this file
-      </Button>
-      {isLoading && <LoadingIndicator />}
-    </Stack>
+    <OpenAIButton
+      model={model}
+      prompt={prompt}
+      onClick={ingestFile}
+      isLoading={isLoading}
+      label="Embed this file"
+    />
   );
 };
