@@ -57,11 +57,11 @@
     ]
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.609.0",
-    "@aws-sdk/client-sso-oidc": "^3.609.0",
-    "@aws-sdk/client-sts": "^3.609.0",
-    "@aws-sdk/lib-storage": "^3.609.0",
-    "@aws-sdk/s3-request-presigner": "^3.609.0",
+    "@aws-sdk/client-s3": "^3.623.0",
+    "@aws-sdk/client-sso-oidc": "^3.623.0",
+    "@aws-sdk/client-sts": "^3.623.0",
+    "@aws-sdk/lib-storage": "^3.623.0",
+    "@aws-sdk/s3-request-presigner": "^3.623.0",
     "@databases/escape-identifier": "^1.0.3",
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
