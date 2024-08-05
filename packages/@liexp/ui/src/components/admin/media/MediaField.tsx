@@ -21,11 +21,13 @@ interface MediaFieldProps extends FieldProps {
 export const MediaField: React.FC<MediaFieldProps> = ({
   sourceType,
   controls,
+  type: _type = 'type',
   ...props
 }) => {
   const record = useRecordContext(props);
   const src = get(record, props.source);
-  const type = props.type ? get(record, props.type) : undefined;
+  const type = get(record, _type);
+
 
   if (src === undefined) {
     return null;

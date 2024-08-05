@@ -49,7 +49,7 @@ export const DocumentaryList: React.FC<ListProps> = (props) => (
     <Datagrid rowClick="edit">
       <TextField source="payload.title" />
       <ReferenceField reference="media" source="payload.media">
-        <MediaField source="thumbnail" controls={false} />
+        <MediaField source="thumbnail" controls={false} sourceType='image/jpeg' />
       </ReferenceField>
 
       <ExcerptField source="excerpt" />
