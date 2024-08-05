@@ -1,14 +1,11 @@
 import { type ChatCompletion } from "openai/resources/index.js";
-import { LoadingIndicator } from "ra-ui-materialui";
 import * as React from "react";
 import { useOpenAI } from "../../../hooks/useOpenAI.js";
-import { Button, Stack } from "../../mui/index.js";
+import { OpenAIButton, type OpenAIButtonBaseProps } from "./OpenAIButton.js";
 
-interface OpenAIPromptButtonProps {
+interface OpenAIPromptButtonProps extends OpenAIButtonBaseProps {
   getUserMessage: (m: string) => string;
-  prompt?: string;
   value: string;
-  model?: string;
   onRequest: () => void;
   onResponse: (r: ChatCompletion) => void;
 }
@@ -57,18 +54,12 @@ export const OpenAIPromptButton: React.FC<OpenAIPromptButtonProps> = ({
   };
 
   return (
-    <Stack direction="row">
-      <Button
-        variant="contained"
-        size="small"
-        onClick={() => {
-          if (isLoading) return;
-          ingestFile();
-        }}
-      >
-        OpenAI: Ingest this file
-      </Button>
-      {isLoading && <LoadingIndicator />}
-    </Stack>
+    <OpenAIButton
+      label={"Ingest this file"}
+      model={model}
+      prompt={prompt}
+      onClick={ingestFile}
+      isLoading={isLoading}
+    />
   );
 };

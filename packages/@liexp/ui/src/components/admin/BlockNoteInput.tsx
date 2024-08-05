@@ -62,7 +62,7 @@ const RaBlockNoteInput: React.FC<RaBlockNoteInputProps> = ({
       component="div"
     >
       <Stack spacing={2}>
-        <Stack direction="row">
+        <Stack direction="row" spacing={2}>
           <OpenAIPromptButton
             value={getTextContents(value)}
             getUserMessage={(m) => m}

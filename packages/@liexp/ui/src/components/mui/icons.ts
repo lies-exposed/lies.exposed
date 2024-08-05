@@ -27,12 +27,14 @@ import {
   TagOutlined as RecentKeywordsIcon,
   OpenInFull,
   PinOutlined,
+  AutoAwesomeOutlined as AutoAwesome,
 } from "@mui/icons-material";
 
 export {
   AddCircle,
   ArrowDown,
   ArrowUp,
+  AutoAwesome,
   CheckBox,
   ChevronRight,
   Cancel,
