@@ -6,6 +6,7 @@ import { defineConfig } from "vite";
 export const AppEnv = defineEnv((t) => ({
   VITE_NODE_ENV: t.string,
   VITE_PUBLIC_URL: t.string,
+  VITE_OPENAI_URL: t.string,
   VITE_API_URL: t.string,
   VITE_WEB_URL: t.string,
   VITE_DEBUG: t.string,
