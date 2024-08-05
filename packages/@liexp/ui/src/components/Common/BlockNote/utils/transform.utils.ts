@@ -1,5 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type EventRelationIds } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type Option } from "fp-ts/lib/Option.js";
+import { type UUID } from 'io-ts-types';
 import { type BNBlock, type BNESchemaEditor } from "../EditorSchema.js";
 import { isValidValue } from "./isValidValue.js";
 
@@ -25,8 +27,8 @@ export function transform<T>(
 }
 
 interface InlineRelation {
-  id: string;
-  type: "actor" | "group" | "keyword" | "event" | "media";
+  id: UUID;
+  type: "actor" | "group" | "keyword" | "event" | "media" | "area";
 }
 
 const blockSerializer =
@@ -63,6 +65,7 @@ const inlineRelationsPluginSerializer = (
     case "keyword" as any:
     case "actor" as any:
     case "group" as any:
+    case "area" as any:
     case "media":
     case "event": {
       const pp = p as any;
@@ -90,13 +93,8 @@ const inlineRelationsPluginSerializer = (
   }
 };
 
-export interface InlineRelations {
-  actors: string[];
-  groups: string[];
-  keywords: string[];
-  media: string[];
+export interface InlineRelations extends EventRelationIds {
   events: string[];
-  links: string[];
 }
 
 export const relationsTransformer = (
@@ -109,6 +107,8 @@ export const relationsTransformer = (
     media: [],
     events: [],
     links: [],
+    areas: [],
+    groupsMembers: [],
   };
 
   return pipe(
@@ -126,6 +126,8 @@ export const relationsTransformer = (
           acc.media.push(r.id);
         } else if (r.type === "event" && !acc.events.includes(r.id)) {
           acc.events.push(r.id);
+        } else if (r.type === "area" && !acc.areas.includes(r.id)) {
+          acc.areas.push(r.id);
         }
         return acc;
       }),
