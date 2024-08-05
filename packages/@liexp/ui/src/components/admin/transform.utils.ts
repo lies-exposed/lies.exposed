@@ -1,3 +1,4 @@
+import { eventRelationIdsMonoid } from "@liexp/shared/lib/helpers/event/event.js";
 import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
@@ -9,6 +10,9 @@ import { type RaRecord } from "react-admin";
 import { uploadFile, type RawMedia } from "../../client/admin/MediaAPI.js";
 import { getTextContents } from "../Common/BlockNote/utils/getTextContents.js";
 import { isValidValue } from "../Common/BlockNote/utils/isValidValue.js";
+import {
+  relationsTransformer
+} from "../Common/BlockNote/utils/transform.utils.js";
 
 export const transformLinks = (links: any[]): any[] => {
   return links.reduce<(string | { url: string; publishDate: Date })[]>(
@@ -42,9 +46,12 @@ export const transformMedia = (newMedia: any[]): any[] => {
   }, []);
 };
 
-export const transformDeath = (
+type TransformEventFn = (
   data: any,
-): http.Events.CreateEventBody & { id: http.Common.UUID } => {
+  relations: http.Events.EventRelationIds,
+) => http.Events.CreateEventBody & { id: http.Common.UUID };
+
+export const transformDeath: TransformEventFn = (data, relations) => {
   return {
     ...data,
     payload: {
@@ -55,13 +62,26 @@ export const transformDeath = (
   };
 };
 
-export const transformUncategorized = (
-  data: any,
-): http.Events.CreateEventBody & { id: http.Common.UUID } => {
+export const transformUncategorized: TransformEventFn = (data, relations) => {
+  const { keywords, groups, actors } = eventRelationIdsMonoid.concat(
+    {
+      groups: data.payload.groups,
+      actors: data.payload.actors,
+      media: data.media,
+      keywords: data.payload.keywords,
+      areas: data.payload.location ? [data.payload.location] : [],
+      groupsMembers: [],
+      links: data.links,
+    },
+    { ...relations, areas: [], groupsMembers: [] },
+  );
   return {
     ...data,
+    keywords,
     payload: {
       ...data.payload,
+      groups,
+      actors,
       location:
         data.payload.location === "" ? undefined : data.payload.location,
       endDate:
@@ -70,9 +90,7 @@ export const transformUncategorized = (
   };
 };
 
-export const transformScientificStudy = (
-  data: any,
-): http.Events.CreateEventBody & { id: http.Common.UUID } => {
+export const transformScientificStudy: TransformEventFn = (data) => {
   return {
     ...data,
     payload: {
@@ -83,9 +101,7 @@ export const transformScientificStudy = (
   };
 };
 
-export const transformQuote = (
-  data: any,
-): http.Events.Quote.CreateQuoteBody & { id: http.Common.UUID } => {
+export const transformQuote: TransformEventFn = (data) => {
   return {
     ...data,
     payload: {
@@ -97,9 +113,7 @@ export const transformQuote = (
   };
 };
 
-const transformBook = (
-  data: any,
-): http.Events.Book.CreateBookBody & { id: http.Common.UUID } => {
+const transformBook: TransformEventFn = (data) => {
   return {
     ...data,
     payload: {
@@ -109,6 +123,24 @@ const transformBook = (
         : undefined,
     },
   };
+};
+
+const transformByType = (
+  data: any,
+  relations: http.Events.EventRelationIds,
+): http.Events.CreateEventBody & { id: http.Common.UUID } => {
+  switch (data.type) {
+    case EventTypes.DEATH.value:
+      return transformDeath(data, relations);
+    case EventTypes.SCIENTIFIC_STUDY.value:
+      return transformScientificStudy(data, relations);
+    case EventTypes.QUOTE.value:
+      return transformQuote(data, relations);
+    case EventTypes.BOOK.value:
+      return transformBook(data, relations);
+    default:
+      return transformUncategorized(data, relations);
+  }
 };
 
 export const transformEvent =
@@ -176,18 +208,9 @@ export const transformEvent =
       }),
     );
 
-    const event =
-      data.type === EventTypes.UNCATEGORIZED.value
-        ? transformUncategorized(data)
-        : data.type === EventTypes.DEATH.value
-          ? transformDeath(data)
-          : data.type === EventTypes.SCIENTIFIC_STUDY.value
-            ? transformScientificStudy(data)
-            : data.type === EventTypes.QUOTE.value
-              ? transformQuote(data)
-              : data.type === EventTypes.BOOK.value
-                ? transformBook(data)
-                : data;
+    const relations = relationsTransformer(data.excerpt);
+
+    const event = transformByType(data, {...relations, groupsMembers: []});
 
     // eslint-disable-next-line @typescript-eslint/return-await
     return pipe(
