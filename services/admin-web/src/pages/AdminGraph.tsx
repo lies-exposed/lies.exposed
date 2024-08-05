@@ -1,4 +1,5 @@
 import { GraphType } from "@liexp/shared/lib/io/http/graphs/Graph.js";
+import { type Graph } from '@liexp/shared/lib/io/http/index.js';
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import JSONInput from "@liexp/ui/lib/components/Common/JSON/JSONInput.js";
@@ -112,21 +113,21 @@ export const GraphEdit: React.FC<EditProps> = (props) => {
 export const GraphCreate: React.FC<CreateProps> = (props) => {
   const dataProvider = useDataProvider();
   return (
-    <Create
+    <Create<Graph.Graph>
       {...props}
       title="Create a Graph"
-      transform={(a: any) => transformGraph(dataProvider)(uuid(), a)}
+      transform={(a) => transformGraph(dataProvider)(uuid(), a)}
     >
       <SimpleForm>
         <Stack direction="row" width="100%" spacing={2}>
           <Stack direction="row" width="100%" spacing={2}>
             <TextWithSlugInput source="label" size="small" />
             <GraphTypeInput size="small" />
-            <JSONInput source="data" label="Data" fullWidth />
           </Stack>
         </Stack>
         <Stack width="100%">
           <GraphBuilderInput source="data" />
+          <JSONInput source="data" label="Data" fullWidth />
         </Stack>
 
         <Stack width="100%" spacing={2}>
