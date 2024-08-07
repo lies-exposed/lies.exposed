@@ -10,7 +10,6 @@
     "clean": "rm -rf build",
     "clean:data": "rm -rf ./public/media/actors ./public/media/groups ./public/media/images",
     "develop": "DOTENV_CONFIG_PATH=../../.env.local node --import tsx/esm -r dotenv/config src/serve.ts",
-    "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
     "lint": "eslint src",
     "serve": "pnpm tsx:dev ./src/serve",
     "start": "node -r dotenv/config build/serve.js",
@@ -21,10 +20,7 @@
     "watch": "tsc -b --watch"
   },
   "lint-staged": {
-    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix",
-    "src/**/*.+(ts|tsx|js|jsx|json|css)": [
-      "prettier --write"
-    ]
+    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"
   },
   "dependencies": {
     "cors": "^2.8.5",

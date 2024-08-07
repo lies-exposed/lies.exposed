@@ -5,7 +5,7 @@ import D from "debug";
 // eslint-disable-next-line import/no-named-as-default
 import prompts from "prompts";
 import { startContext, stopContext } from "./start-ctx.js";
-import { getOrphanMediaFlow } from '#flows/media/getOrphanMedia.flow.js';
+import { getOrphanMediaFlow } from "#flows/media/getOrphanMedia.flow.js";
 
 /**
  * Usage clean-space-media [--dry] [-i|--interactive]
@@ -25,10 +25,7 @@ const run = async (): Promise<any> => {
 
   D.enable(ctx.env.DEBUG);
 
-  const result = await pipe(
-    getOrphanMediaFlow(ctx)(),
-    throwTE,
-  );
+  const result = await pipe(getOrphanMediaFlow(ctx)(), throwTE);
 
   ctx.logger.info.log("Orphan media count: %d", result.orphans.length);
 

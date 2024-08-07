@@ -8,7 +8,7 @@ const run = async (): Promise<void> => {
   await pipe(
     upsertPinnedMessage(ctx)(20),
     fp.TE.chainFirst(() => ctx.db.close()),
-    throwTE
+    throwTE,
     // eslint-disable-next-line no-console
   ).then(console.log);
 

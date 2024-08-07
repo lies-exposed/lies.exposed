@@ -13,17 +13,13 @@
     "clean": "rm -rf build",
     "dev": "vite dev",
     "docker:dev": "vite dev",
-    "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
     "lint": "eslint src",
     "start": "vite start",
     "test": "vitest",
     "watch": "tsc -b --watch"
   },
   "lint-staged": {
-    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix",
-    "src/**/*.+(ts|tsx|js|jsx|json|css)": [
-      "prettier --write"
-    ]
+    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"
   },
   "browserslist": {
     "production": [
@@ -87,6 +83,7 @@
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-n": "^17.10.1",
+    "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-promise": "^6.6.0",
     "eslint-plugin-react": "^7.35.0",
     "page-metadata-parser": "^1.1.4",

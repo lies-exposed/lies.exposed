@@ -31,11 +31,11 @@ const run = async (): Promise<any> => {
           fs.readdirSync(messagesFolder),
           fp.A.last,
           fp.O.map((latest) => [latest]),
-          fp.O.getOrElse((): string[] => [])
+          fp.O.getOrElse((): string[] => []),
         )
       : tgNumber === "all"
-      ? fs.readdirSync(messagesFolder)
-      : [`${parseInt(tgNumber, 10)}.json`];
+        ? fs.readdirSync(messagesFolder)
+        : [`${parseInt(tgNumber, 10)}.json`];
 
   if (!messageFile) {
     // eslint-disable-next-line no-console
@@ -54,7 +54,7 @@ const run = async (): Promise<any> => {
 
   const result = await pipe(
     messageFile.map((f) =>
-      parseTGMessage(path.resolve(messagesFolder, f), deleteFile)
+      parseTGMessage(path.resolve(messagesFolder, f), deleteFile),
     ),
     separateTE,
     fp.T.map(({ left, right }) => {
@@ -65,7 +65,7 @@ const run = async (): Promise<any> => {
       return right;
     }),
     fp.TE.fromTask,
-    throwTE
+    throwTE,
   );
 
   await stopContext(ctx);

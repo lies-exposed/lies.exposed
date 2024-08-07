@@ -7,7 +7,7 @@ import {
   type ReactFlowProps,
   addEdge,
   useEdgesState,
-  useNodesState
+  useNodesState,
 } from "@xyflow/react";
 import React, { useCallback } from "react";
 import { AutocompleteActorInput } from "../../../Input/AutocompleteActorInput.js";
@@ -62,8 +62,11 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
   onGraphChange,
   onOptionsChange,
 }) => {
-  const [nodes, setNodes, onNodesChange] = useNodesState<NodeType>(initialNodes ?? []);
-  const [edges, setEdges, onEdgesChange] = useEdgesState<EdgeType>(initialEdges);
+  const [nodes, setNodes, onNodesChange] = useNodesState<NodeType>(
+    initialNodes ?? [],
+  );
+  const [edges, setEdges, onEdgesChange] =
+    useEdgesState<EdgeType>(initialEdges);
   const [menu, setMenu] = React.useState<Omit<
     NodeContextMenuProps,
     "onClick"
@@ -177,7 +180,7 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
           nodes.concat([
             {
               id: gg[0].id,
-              data: {...group, body: [], excerpt: [] },
+              data: { ...group, body: [], excerpt: [] },
               type: Group.Group.name,
               position: { x: 100, y: 100 },
             },
@@ -196,7 +199,7 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
           nodes.concat([
             {
               id: gg[0].id,
-              data: {...group, body: [], excerpt: [] },
+              data: { ...group, body: [], excerpt: [] },
               type: http.Actor.Actor.name,
               position: { x: 100, y: 100 },
             },

@@ -13,15 +13,11 @@
   "scripts": {
     "build": "tsc -b tsconfig.build.json",
     "clean": "rm -rf lib",
-    "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
     "lint": "eslint src",
     "watch": "tsc -b -w"
   },
   "lint-staged": {
-    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix",
-    "src/**/*.+(ts|tsx|js|jsx|json|css)": [
-      "prettier --write"
-    ]
+    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.623.0",
