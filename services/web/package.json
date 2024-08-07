@@ -20,7 +20,6 @@
     "clean": "rm -rf build",
     "dev": "DOTENV_CONFIG_PATH=.env node --import tsx/esm -r dotenv/config ./src/server/server.tsx",
     "docker:dev": "node --import tsx/esm -r dotenv/config ./src/server/server.tsx",
-    "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
     "lint": "eslint src",
     "scripts:make-avatars-mock": "tsx ./scripts/make-avatars-mock.ts",
     "serve": "node ./build/server/server.js",
@@ -29,10 +28,7 @@
     "watch:client": "DOTENV_CONFIG_PATH=.env.development vite dev"
   },
   "lint-staged": {
-    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix",
-    "src/**/*.+(ts|tsx|js|jsx|json|css)": [
-      "prettier --write"
-    ]
+    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"
   },
   "browserslist": {
     "production": [
@@ -146,6 +142,7 @@
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-n": "^17.10.1",
+    "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-promise": "^6.6.0",
     "eslint-plugin-react": "^7.35.0",
     "prettier": "^3.3.3",

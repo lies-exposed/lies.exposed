@@ -33,7 +33,6 @@
     "dev": "node --watch build/run.js",
     "dev:alpha": "DOTENV_CONFIG_PATH=.env.alpha pnpm dev",
     "docker:dev": "pnpm dev",
-    "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
     "lint": "eslint bin src",
     "migration:gen": "pnpm typeorm migration:generate -d ./ormconfig.js",
     "migration:revert": "pnpm typeorm migration:revert -d ./ormconfig.js",
@@ -51,10 +50,7 @@
     "watch:dev": "tsc -b --watch"
   },
   "lint-staged": {
-    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix",
-    "src/**/*.+(ts|tsx|js|jsx|json|css)": [
-      "prettier --write"
-    ]
+    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.623.0",
@@ -150,6 +146,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-prettier": "^5.2.1",
     "prettier": "^3.3.3",
     "prompts": "^2.4.2",
     "supertest": "^6.3.4",

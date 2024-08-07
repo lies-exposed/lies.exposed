@@ -4,11 +4,11 @@ import {
   type Node,
   type NodeProps,
   NodeResizer,
-  Position
+  Position,
 } from "@xyflow/react";
 import * as React from "react";
 
-export type GroupBoxNodeType = Node<Group.Group, 'group'>;
+export type GroupBoxNodeType = Node<Group.Group, "group">;
 
 // eslint-disable-next-line react/display-name, @typescript-eslint/no-redundant-type-constituents
 export const GroupBoxNode = React.memo<NodeProps<GroupBoxNodeType>>(

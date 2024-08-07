@@ -56,10 +56,7 @@ export const liftFetch = <B>(
 };
 
 interface HTTPProvider {
-  get: <T>(
-    url: string,
-    config?: AxiosRequestConfig,
-  ) => TE.TaskEither<Error, T>;
+  get: <T>(url: string, config?: AxiosRequestConfig) => TE.TaskEither<Error, T>;
   post: <T, R>(
     url: string,
     data?: T,

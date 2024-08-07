@@ -15,7 +15,7 @@ export interface AreaInlineState {
 // Custom Slash Menu item to insert a block after the current one.
 export const areaItem = (editor: BNESchemaEditor) => ({
   title: "Add Area Inline",
-  key: 'area',
+  key: "area",
   onItemClick: () => {
     // Inserting the content inline
     editor.insertInlineContent([

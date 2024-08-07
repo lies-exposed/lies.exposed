@@ -21,7 +21,7 @@ const run = async (): Promise<any> => {
         groups: [],
         platforms: { IG: true, TG: true },
         schedule: undefined,
-        useReply: false
+        useReply: false,
       },
       async (body) => {
         // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -42,9 +42,9 @@ const run = async (): Promise<any> => {
         // eslint-disable-next-line no-console
         console.log(result);
         return { code: result.code };
-      }
+      },
     ),
-    throwTE
+    throwTE,
   );
 
   await stopContext(ctx);

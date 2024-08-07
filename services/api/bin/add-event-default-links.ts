@@ -31,13 +31,13 @@ const run = async (): Promise<any> => {
                 qq.where(`event.type = 'ScientificStudy'`)
                   .orWhere(` event.type = 'Patent'`)
                   .orWhere(`event.type = 'Documentary'`);
-              })
+              }),
             )
 
             .printSql();
 
           return q.getMany();
-        })
+        }),
         // fp.TE.map(([ev]) => ev)
       ),
     }),
@@ -61,7 +61,7 @@ const run = async (): Promise<any> => {
             },
             fp.TE.fromIO,
             fp.TE.chain((id) =>
-              ctx.db.findOneOrFail(LinkEntity, { where: { id } })
+              ctx.db.findOneOrFail(LinkEntity, { where: { id } }),
             ),
             fp.TE.map((l) => {
               switch (e.type) {
@@ -96,16 +96,16 @@ const run = async (): Promise<any> => {
                 e.id,
                 e.type,
                 e.payload,
-                e.links
+                e.links,
               );
               return e;
-            })
+            }),
           );
         }),
-        fp.A.sequence(fp.TE.ApplicativeSeq)
-      )
+        fp.A.sequence(fp.TE.ApplicativeSeq),
+      ),
     ),
-    throwTE
+    throwTE,
   );
 
   pipe(
@@ -115,9 +115,9 @@ const run = async (): Promise<any> => {
         "Updated event %s (%s) => %O",
         e.id,
         e.type,
-        e.payload
+        e.payload,
       );
-    })
+    }),
   );
 
   await stopContext(ctx);

@@ -1,18 +1,21 @@
 import eslint from "@eslint/js";
+import prettier from "eslint-config-prettier";
 import fpTS from "eslint-plugin-fp-ts";
 import importPlugin from "eslint-plugin-import";
+import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import tseslint from "typescript-eslint";
 
 const config: any = tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
+  prettier,
+  eslintPluginPrettierRecommended,
   {
     extends: [
       // "standard-with-typescript",
       // "plugin:import/typescript",
       // "plugin:import/recommended",
-      // "prettier",
       // "plugin:fp-ts/recommended",
       // "plugin:fp-ts/recommended-requiring-type-checking",
       // "plugin:fp-ts/recommended",
