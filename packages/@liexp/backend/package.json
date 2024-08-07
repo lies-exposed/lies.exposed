@@ -50,7 +50,7 @@
     "@types/uuid": "^9.0.8",
     "exifreader": "^4.23.3",
     "fast-csv": "^5.0.1",
-    "langchain": "^0.2.10",
+    "langchain": "^0.2.13",
     "prettier": "^3.3.3",
     "puppeteer-core": "^21.11.0",
     "puppeteer-extra": "^3.3.6",
