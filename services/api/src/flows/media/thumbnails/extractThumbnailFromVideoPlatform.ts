@@ -1,4 +1,3 @@
-import { type PutObjectCommandInput } from "@aws-sdk/client-s3";
 import { toPuppeteerError } from "@liexp/backend/lib/providers/puppeteer.provider.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import {
@@ -6,42 +5,12 @@ import {
   type VideoPlatformMatch,
 } from "@liexp/shared/lib/helpers/media.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
-import {
-  getMediaKeyFromLocation,
-  getMediaThumbKey,
-} from "@liexp/shared/lib/utils/media.utils.js";
-import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Page } from "puppeteer-core";
-import { type ExtractThumbnailFlow } from "./ExtractThumbnailFlow.type.js";
-import { type TEFlow } from "#flows/flow.types.js";
-import { ServerError, toControllerError } from "#io/ControllerError.js";
-
-export const createFromRemote: TEFlow<
-  [string, string, Media.MediaType],
-  PutObjectCommandInput
-> = (ctx) => (id, location, contentType) => {
-  return pipe(
-    ctx.http.get<ReadableStream>(location, {
-      responseType: "stream",
-    }),
-    TE.mapLeft(toControllerError),
-    TE.map((stream) => {
-      const key = getMediaKeyFromLocation(location);
-
-      ctx.logger.debug.log("Key %s (%s) for location %s", key, id, location);
-
-      return {
-        Key: getMediaThumbKey(id, "image/jpg"),
-        Body: stream,
-        ACL: "public-read",
-        Bucket: ctx.env.SPACE_BUCKET,
-        ContentType: contentType,
-      };
-    }),
-  );
-};
+import { type ExtractThumbnailFromMediaFlow } from "./ExtractThumbnailFlow.type.js";
+import { fetchFromRemote } from "./fetchFromRemote.flow.js";
+import { toControllerError } from "#io/ControllerError.js";
 
 export const extractThumbnailFromVideoPlatform = (
   match: VideoPlatformMatch,
@@ -55,17 +24,16 @@ export const extractThumbnailFromVideoPlatform = (
     TE.tryCatch(async () => {
       switch (match.platform) {
         case "bitchute": {
-          await page.waitForSelector(".plyr__poster");
+          await page.waitForSelector("picture.vjs-poster img", {
+            timeout: 50_000,
+          });
 
-          return page.$eval(".plyr__poster", (el) => {
-            const style = el.getAttribute("style");
-
-            const coverUrl = style
-              ?.replace('background-image: url("', "")
-              .replace('");', "");
-
+          const coverUrl = await page.$eval("picture.vjs-poster img", (el) => {
+            const coverUrl = el.getAttribute("src");
             return coverUrl;
           });
+
+          return coverUrl;
         }
         case "youtube": {
           const selector = 'div[class*="thumbnail-overlay-image"]';
@@ -154,38 +122,39 @@ export const extractThumbnailFromVideoPlatform = (
   );
 };
 
-export const extractThumbnailFromIframe: ExtractThumbnailFlow<
+export const extractThumbnailFromIframe: ExtractThumbnailFromMediaFlow<
   Media.IframeVideoType
 > = (ctx) => (media) => {
   return pipe(
-    sequenceS(TE.ApplyPar)({
-      html: pipe(
-        ctx.puppeteer.execute({}, (b, page) => {
-          return TE.tryCatch(async () => {
-            await page.goto(media.location, { waitUntil: "networkidle0" });
-
-            return page;
-          }, toPuppeteerError);
-        }),
-
-        TE.mapLeft((e) => ServerError(e as any)),
-      ),
-      match: pipe(
+    TE.Do,
+    TE.bind("match", () =>
+      pipe(
         getPlatform(media.location),
         E.mapLeft(toControllerError),
         TE.fromEither,
       ),
-    }),
-    TE.chain(({ html, match }) => {
-      return pipe(
-        extractThumbnailFromVideoPlatform(match, html),
+    ),
+    TE.bind("page", () =>
+      pipe(
+        ctx.puppeteer.getBrowser({}),
+        TE.chain((browser) => {
+          return TE.tryCatch(async () => {
+            const page = await browser.newPage();
+            await page.goto(media.location, { waitUntil: "domcontentloaded" });
+
+            return page;
+          }, toPuppeteerError);
+        }),
         TE.mapLeft(toControllerError),
-        TE.chain((url) => createFromRemote(ctx)(media.id, url, "image/jpg")),
-        TE.map((url) => [url]),
-        TE.chainFirst(() =>
-          TE.tryCatch(() => html.browser().close(), toControllerError),
-        ),
+      ),
+    ),
+    TE.chain(({ page, match }) => {
+      return pipe(
+        extractThumbnailFromVideoPlatform(match, page),
+        TE.mapLeft(toControllerError),
+        TE.chain((url) => fetchFromRemote(ctx)(url)),
       );
     }),
+    TE.map((buffer) => [buffer]),
   );
 };

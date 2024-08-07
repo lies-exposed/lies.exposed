@@ -1,28 +1,46 @@
+import { ImageType, PDFType } from "@liexp/shared/lib/io/http/Media.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
+import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { SuggestedEntityRelationsBox } from "../links/SuggestedEntityRelationsBox.js";
 import {
   Button,
   Loading,
-  useDataProvider,
   useRecordContext,
   useUpdate,
 } from "../react-admin.js";
 
 export const MediaSuggestedEntityRelations: React.FC = () => {
   const record = useRecordContext<Media.Media>();
-  const dataProvider: any = useDataProvider();
+  const dataProvider = useDataProvider();
+
   const [loading, setLoading] = React.useState<boolean>(false);
   const [data, setData] = React.useState<any>(null);
   const [update, { isPending: isLoading }] = useUpdate();
 
   const finalLoading = loading || isLoading;
 
+  const canSuggestEntities =
+    record?.type &&
+    (record.type === PDFType.value ||
+      ImageType.types.includes(record.type as any));
+
   const doExtractNLPEntities = React.useCallback((): void => {
-    if (record) {
+    const body =
+      record?.type === PDFType.value
+        ? {
+            pdf: record.location,
+          }
+        : record?.type && ImageType.types.includes(record.type as any)
+          ? {
+              url: record.description,
+            }
+          : null;
+
+    if (body) {
       void dataProvider
-        .post("/admins/nlp/extract-entities", { pdf: record.location })
-        .then((res: any) => {
+        .post("/admins/nlp/extract-entities", body)
+        .then((res) => {
           setLoading(false);
           setData(res.data);
         });
@@ -60,11 +78,11 @@ export const MediaSuggestedEntityRelations: React.FC = () => {
   );
 
   React.useEffect(() => {
-    if (!data && !finalLoading) {
+    if (canSuggestEntities && !data && !finalLoading) {
       setLoading(true);
       doExtractNLPEntities();
     }
-  }, [data, finalLoading]);
+  }, [canSuggestEntities, data, finalLoading]);
 
   return (
     <div>

@@ -3,6 +3,7 @@ import { MediaArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
+import { sharpMock } from "../../../../test/__mocks__/sharp.mock.js";
 import { loginUser, saveUser } from "../../../../test/user.utils.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { UserEntity } from "#entities/User.entity.js";
@@ -39,6 +40,11 @@ describe("Create Media", () => {
     Test.mocks.puppeteer.page.goto.mockClear();
     Test.mocks.puppeteer.page.waitForSelector.mockClear();
     Test.mocks.puppeteer.page.$eval.mockClear();
+    sharpMock.keepExif.mockClear();
+    sharpMock.rotate.mockClear();
+    sharpMock.resize.mockClear();
+    sharpMock.toFormat.mockClear();
+    sharpMock.toBuffer.mockClear();
   });
 
   test("Should create a media from MP4 file location", async () => {
@@ -54,12 +60,6 @@ describe("Create Media", () => {
     Test.mocks.axios.get.mockImplementation(() => {
       return Promise.resolve({ data: Buffer.from([]) });
     });
-
-    const sharpMock = {
-      resize: vitest.fn().mockReturnThis(),
-      toFormat: vitest.fn().mockReturnThis(),
-      toBuffer: vitest.fn().mockResolvedValueOnce(Buffer.from([])),
-    };
 
     Test.mocks.sharp.mockImplementation(() => {
       return sharpMock;
@@ -180,15 +180,6 @@ describe("Create Media", () => {
         location: `https://example.com/${id}.jpg`,
         creator: undefined,
       }));
-
-    const sharpMock = {
-      resize: vitest.fn().mockReturnThis(),
-      toFormat: vitest.fn().mockReturnThis(),
-      toBuffer: vitest.fn().mockResolvedValueOnce(Buffer.from([])),
-    };
-    Test.mocks.sharp.mockImplementation(() => {
-      return sharpMock;
-    });
 
     const response = await Test.req
       .post("/v1/media")

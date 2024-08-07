@@ -1,14 +1,13 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { ImageType, type PDFType } from "@liexp/shared/lib/io/http/Media.js";
-import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import * as Canvas from "canvas";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type RenderParameters } from "pdfjs-dist/types/src/display/api.js";
 import { fetchPDF } from "../fetchPDF.flow.js";
-import { type ExtractThumbnailFlow } from "./ExtractThumbnailFlow.type.js";
+import { type ExtractThumbnailFromMediaFlow } from "./ExtractThumbnailFlow.type.js";
 import { toControllerError } from "#io/ControllerError.js";
 
-export const extractThumbnailFromPDF: ExtractThumbnailFlow<PDFType> =
+export const extractThumbnailFromPDF: ExtractThumbnailFromMediaFlow<PDFType> =
   (ctx) => (media) => {
     return pipe(
       fetchPDF(ctx)(media.location),
@@ -44,23 +43,7 @@ export const extractThumbnailFromPDF: ExtractThumbnailFlow<PDFType> =
         );
       }),
       TE.map((screenshotBuffer) => {
-        const thumbnailName = `${media.id}-thumbnail`;
-
-        const key = getMediaKey(
-          "media",
-          media.id,
-          thumbnailName,
-          ImageType.types[2].value,
-        );
-
-        return {
-          Key: key,
-          Body: screenshotBuffer,
-          ContentType: ImageType.types[2].value,
-          Bucket: ctx.env.SPACE_BUCKET,
-          ACL: "public-read" as const,
-        };
+        return [new Uint8Array(screenshotBuffer).buffer];
       }),
-      TE.map((s) => [s]),
     );
   };
