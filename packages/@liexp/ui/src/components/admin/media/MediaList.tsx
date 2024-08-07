@@ -65,10 +65,15 @@ export const MediaDataGrid: React.FC = () => {
         borderLeft: `5px solid ${r.transferable ? colors.amber[500] : "transparent"}`,
       })}
     >
-      <MediaField type="image/jpeg" source="thumbnail" controls={false} />
+      <MediaField
+        type="image/jpeg"
+        source="thumbnail"
+        controls={false}
+        sourceType="image/png"
+      />
       <FunctionField
         label="events"
-        render={(r: any) => {
+        render={(r) => {
           const url = r.location
             ? new URL(r.location)
             : {
