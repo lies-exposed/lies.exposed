@@ -1,4 +1,4 @@
-import fs from "fs";
+import * as fs from "node:fs/promises";
 import path from "path";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { PngType, type MP4Type } from "@liexp/shared/lib/io/http/Media.js";
@@ -7,7 +7,7 @@ import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import type Ffmpeg from "fluent-ffmpeg";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { downloadMP4Video } from "../downloadMP4Video.js";
-import { type ExtractThumbnailFlow } from "./ExtractThumbnailFlow.type.js";
+import { type ExtractThumbnailFromMediaFlow } from "./ExtractThumbnailFlow.type.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
 
@@ -68,7 +68,7 @@ export const takeVideoScreenshots: TEFlow<
     );
   };
 
-export const extractMP4Thumbnail: ExtractThumbnailFlow<MP4Type> =
+export const extractMP4Thumbnail: ExtractThumbnailFromMediaFlow<MP4Type> =
   (ctx) => (media) => {
     return pipe(
       TE.Do,
@@ -94,20 +94,21 @@ export const extractMP4Thumbnail: ExtractThumbnailFlow<MP4Type> =
           }),
         );
       }),
-      TE.map(({ screenshots }) => {
-        return screenshots.map(({ key, thumbnailName }) => ({
-          Key: key,
-          Body: fs.createReadStream(thumbnailName),
-          ContentType: PngType.value,
-          Bucket: ctx.env.SPACE_BUCKET,
-          ACL: "public-read",
-        }));
+      TE.bind("buffers", ({ screenshots }) => {
+        return pipe(
+          screenshots,
+          fp.A.traverse(TE.ApplicativePar)((screenshot) => {
+            return pipe(
+              TE.tryCatch(async () => {
+                return fs.readFile(screenshot.thumbnailName);
+              }, toControllerError),
+              TE.map((buffer) => new Uint8Array(buffer).buffer),
+            );
+          }),
+        );
       }),
-      // TE.chainFirst(() =>
-      //   TE.tryCatch(() => {
-      //     fs.rmSync(tempVideoFilePath);
-      //     return Promise.resolve();
-      //   }, toControllerError),
-      // ),
+      TE.map(({ buffers }) => {
+        return buffers;
+      }),
     );
   };
