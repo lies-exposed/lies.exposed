@@ -9,8 +9,8 @@ import {
   type ReactFlowProps,
 } from "@xyflow/react";
 import * as React from "react";
-import { type EdgeType } from './links/index.js';
-import { type NodeType } from './nodes/index.js';
+import { type EdgeType } from "./links/index.js";
+import { type NodeType } from "./nodes/index.js";
 import "@xyflow/react/dist/style.css";
 
 export interface FlowGraphProps extends ReactFlowProps<NodeType, EdgeType> {

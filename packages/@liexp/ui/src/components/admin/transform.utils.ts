@@ -10,9 +10,7 @@ import { type RaRecord } from "react-admin";
 import { uploadFile, type RawMedia } from "../../client/admin/MediaAPI.js";
 import { getTextContents } from "../Common/BlockNote/utils/getTextContents.js";
 import { isValidValue } from "../Common/BlockNote/utils/isValidValue.js";
-import {
-  relationsTransformer
-} from "../Common/BlockNote/utils/transform.utils.js";
+import { relationsTransformer } from "../Common/BlockNote/utils/transform.utils.js";
 
 export const transformLinks = (links: any[]): any[] => {
   return links.reduce<(string | { url: string; publishDate: Date })[]>(
@@ -210,7 +208,7 @@ export const transformEvent =
 
     const relations = relationsTransformer(data.excerpt);
 
-    const event = transformByType(data, {...relations, groupsMembers: []});
+    const event = transformByType(data, { ...relations, groupsMembers: [] });
 
     // eslint-disable-next-line @typescript-eslint/return-await
     return pipe(

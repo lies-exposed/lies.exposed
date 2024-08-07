@@ -1,21 +1,21 @@
-import { Position } from '@xyflow/react';
-import { layoutFromMap } from 'entitree-flex';
+import { Position } from "@xyflow/react";
+import { layoutFromMap } from "entitree-flex";
 
 const nodeWidth = 150;
 const nodeHeight = 36;
 
 const Orientation = {
-  Vertical: 'vertical' as const,
-  Horizontal: 'horizontal' as const,
+  Vertical: "vertical" as const,
+  Horizontal: "horizontal" as const,
 };
 
 const entitreeSettings = {
   clone: true, // returns a copy of the input, if your application does not allow editing the original object
   enableFlex: true, // has slightly better perfomance if turned off (node.width, node.height will not be read)
   firstDegreeSpacing: 100, // spacing in px between nodes belonging to the same source, eg children with same parent
-  nextAfterAccessor: 'spouses', // the side node prop used to go sideways, AFTER the current node
+  nextAfterAccessor: "spouses", // the side node prop used to go sideways, AFTER the current node
   nextAfterSpacing: 100, // the spacing of the "side" nodes AFTER the current node
-  nextBeforeAccessor: 'siblings', // the side node prop used to go sideways, BEFORE the current node
+  nextBeforeAccessor: "siblings", // the side node prop used to go sideways, BEFORE the current node
   nextBeforeSpacing: 100, // the spacing of the "side" nodes BEFORE the current node
   nodeHeight, // default node height in px
   nodeWidth, // default node width in px
@@ -23,15 +23,15 @@ const entitreeSettings = {
   rootX: 0, // set root position if other than 0
   rootY: 0, // set root position if other than 0
   secondDegreeSpacing: 100, // spacing in px between nodes not belonging to same parent eg "cousin" nodes
-  sourcesAccessor: 'parents', // the prop used as the array of ancestors ids
+  sourcesAccessor: "parents", // the prop used as the array of ancestors ids
   sourceTargetSpacing: 100, // the "vertical" spacing between nodes in vertical orientation, horizontal otherwise
-  targetsAccessor: 'children', // the prop used as the array of children ids
+  targetsAccessor: "children", // the prop used as the array of children ids
 };
 
 const { Top, Bottom, Left, Right } = Position;
 
-export const layoutElements = (tree: any, rootId: number, direction = 'TB') => {
-  const isTreeHorizontal = direction === 'LR';
+export const layoutElements = (tree: any, rootId: number, direction = "TB") => {
+  const isTreeHorizontal = direction === "LR";
 
   const { nodes: entitreeNodes, rels: entitreeEdges } = layoutFromMap<any>(
     rootId,
@@ -53,11 +53,11 @@ export const layoutElements = (tree: any, rootId: number, direction = 'TB') => {
 
     const newEdge: any = {};
 
-    newEdge.id = 'e' + sourceNode + targetNode;
+    newEdge.id = "e" + sourceNode + targetNode;
     newEdge.source = sourceNode;
     newEdge.target = targetNode;
-    newEdge.type = 'smoothstep';
-    newEdge.animated = 'true';
+    newEdge.type = "smoothstep";
+    newEdge.animated = "true";
 
     // Check if target node is spouse or sibling
     const isTargetSpouse = !!edge.target.isSpouse;
@@ -97,7 +97,7 @@ export const layoutElements = (tree: any, rootId: number, direction = 'TB') => {
 
     newNode.data = { label: node.name, direction, isRoot, ...node };
     newNode.id = node.id;
-    newNode.type = 'custom';
+    newNode.type = "custom";
 
     newNode.width = nodeWidth;
     newNode.height = nodeHeight;

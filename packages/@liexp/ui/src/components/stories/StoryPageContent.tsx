@@ -115,7 +115,16 @@ export const StoryPageContent: React.FC<StoryPageContentProps> = ({
         </Grid>
         <Grid item md={3}>
           <InlineRelationsPlugin
-            relations={{ actors, groups, keywords, media, links, events, groupsMembers: [], areas: [] }}
+            relations={{
+              actors,
+              groups,
+              keywords,
+              media,
+              links,
+              events,
+              groupsMembers: [],
+              areas: [],
+            }}
             onActorClick={onActorClick}
             onGroupClick={onGroupClick}
             onKeywordClick={onKeywordClick}

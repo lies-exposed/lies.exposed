@@ -19,16 +19,12 @@
   "scripts": {
     "build": "tsc -b tsconfig.build.json",
     "clean": "rm -rf lib",
-    "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
     "lint": "eslint src",
     "test": "vitest",
     "watch": "tsc -b -w"
   },
   "lint-staged": {
-    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix",
-    "src/**/*.+(ts|tsx|js|jsx|json|css)": [
-      "prettier --write"
-    ]
+    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"
   },
   "dependencies": {
     "@blocknote/core": "^0.15.3",
@@ -146,6 +142,7 @@
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-prettier": "^5.2.1",
     "openai": "^4.55.1",
     "prettier": "^3.3.3",
     "typescript": "^5.4.5",

@@ -23,7 +23,7 @@ import { type BNESchemaEditor } from "../../EditorSchema.js";
 // Custom Slash Menu item to insert a block after the current one.
 export const relationItem = (editor: BNESchemaEditor) => ({
   title: "Add relation Inline",
-  key: 'relation',
+  key: "relation",
   onItemClick: () => {
     // Inserting the content inline
     editor.insertInlineContent([
@@ -38,7 +38,7 @@ export const relationItem = (editor: BNESchemaEditor) => ({
   },
   aliases: ["ac", "gr", "kw", "relation", "rel"],
   group: "Relations",
-  icon: <Icons.GroupIcon fontSize='small' />,
+  icon: <Icons.GroupIcon fontSize="small" />,
   subtext: "Used to insert a block with a relation.",
 });
 

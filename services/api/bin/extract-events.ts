@@ -12,7 +12,10 @@ import {
   type DataPayloadLink,
 } from "#flows/events/extractFromURL.flow.js";
 import { getOneAdminOrFail } from "#flows/users/getOneUserOrFail.flow.js";
-import { toControllerError, type ControllerError } from "#io/ControllerError.js";
+import {
+  toControllerError,
+  type ControllerError,
+} from "#io/ControllerError.js";
 
 const run = async (): Promise<void> => {
   const [, , url] = process.argv;
@@ -28,9 +31,9 @@ const run = async (): Promise<void> => {
       user: getOneAdminOrFail(ctx),
       browser: pipe(
         ctx.puppeteer.getBrowser({
-          headless: 'new',
+          headless: "new",
         }),
-        TE.mapLeft(toControllerError)
+        TE.mapLeft(toControllerError),
       ),
     }),
     TE.chainTaskK(({ browser: b, user }) => {
@@ -44,7 +47,7 @@ const run = async (): Promise<void> => {
                 extractEventFromURL(ctx)(p, user, l.url),
                 TE.chain(
                   (
-                    ev
+                    ev,
                   ): TE.TaskEither<
                     ControllerError,
                     [O.Option<DataPayloadLink>, O.Option<EventV2Entity>]
@@ -62,14 +65,14 @@ const run = async (): Promise<void> => {
 
                         return pipe(
                           ctx.db.save(EventV2Entity, [ev.value]),
-                          TE.map((ss) => ss[0])
+                          TE.map((ss) => ss[0]),
                         );
                       }),
-                      TE.map((s) => [O.none, O.some(s)])
+                      TE.map((s) => [O.none, O.some(s)]),
                     );
-                  }
-                )
-              )
+                  },
+                ),
+              ),
             ),
             TE.map((ev) => {
               return ev.reduce(
@@ -91,9 +94,9 @@ const run = async (): Promise<void> => {
                   total: ev.length,
                   failed: [] as DataPayloadLink[],
                   succeed: [] as EventV2Entity[],
-                }
+                },
               );
-            })
+            }),
           );
         }),
         TE.fold(
@@ -109,11 +112,11 @@ const run = async (): Promise<void> => {
           (r) => async () => {
             await b.close();
             return r;
-          }
-        )
+          },
+        ),
       );
     }),
-    throwTE
+    throwTE,
   );
 
   ctx.logger.info.log("Output: %O", result);

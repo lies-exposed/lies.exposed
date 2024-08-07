@@ -6,7 +6,7 @@ import {
   getDefaultReactSlashMenuItems,
   useCreateBlockNote,
 } from "@blocknote/react";
-import { pipe } from 'fp-ts/lib/function.js';
+import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { styled } from "../../../theme/index.js";
 import { BlockNoteEditorContext } from "./BlockNoteEditorContext.js";
@@ -22,17 +22,16 @@ import { toInitialContent } from "./utils/utils.js";
 
 const getCustomSlashMenuItems = (
   editor: BNESchemaEditor,
-): DefaultReactSuggestionItem[] =>
-  [
-    ...getDefaultReactSlashMenuItems(editor),
-    insertMedia(editor),
-    relationItem(editor),
-    groupItem(editor),
-    actorItem(editor),
-    areaItem(editor),
-    keywordItem(editor),
-    insertEvent(editor),
-  ];
+): DefaultReactSuggestionItem[] => [
+  ...getDefaultReactSlashMenuItems(editor),
+  insertMedia(editor),
+  relationItem(editor),
+  groupItem(editor),
+  actorItem(editor),
+  areaItem(editor),
+  keywordItem(editor),
+  insertEvent(editor),
+];
 
 export interface BNEditorProps {
   readOnly: boolean;
@@ -84,8 +83,8 @@ export const BNEditor: React.FC<BNEditorProps> = ({
             getItems={async (query) => {
               return pipe(
                 getCustomSlashMenuItems(editor),
-                suggestions => filterSuggestionItems(suggestions, query),
-                items => Promise.resolve(items)
+                (suggestions) => filterSuggestionItems(suggestions, query),
+                (items) => Promise.resolve(items),
               );
             }}
           />

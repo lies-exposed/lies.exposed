@@ -17,11 +17,12 @@ import { type HTTPProvider, liftFetch } from "../http/http.provider.js";
 
 const apiLogger = GetLogger("API");
 
-export type SerializedPropsType<P> = P extends Record<string, unknown>
-  ? {
-      [k in RequiredKeys<P>]: serializedType<P[k]>;
-    }
-  : never;
+export type SerializedPropsType<P> =
+  P extends Record<string, unknown>
+    ? {
+        [k in RequiredKeys<P>]: serializedType<P[k]>;
+      }
+    : never;
 
 export type TypeOfEndpointInstanceInput<E extends MinimalEndpointInstance> = [
   RequiredKeys<E["Input"]>,

@@ -4,7 +4,7 @@ import { PathReporter } from "io-ts/lib/PathReporter.js";
 import { startContext } from "./start-ctx.js";
 import { createStats } from "#flows/stats/createStats.flow.js";
 
-const toError = (m: string):string => `
+const toError = (m: string): string => `
 
   ${m}
 
@@ -37,16 +37,16 @@ const run = async (): Promise<void> => {
         ctx.logger.error.log("Error %O", err);
         ctx.logger.error.log(
           "Details %O",
-          PathReporter.report((err.details as any).errors)
+          PathReporter.report((err.details as any).errors),
         );
         return err;
       },
       (r) => {
         ctx.logger.info.log("Output: %O", r);
         return r;
-      }
+      },
     ),
-    throwTE
+    throwTE,
   );
 };
 

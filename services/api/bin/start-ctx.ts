@@ -18,7 +18,7 @@ export const startContext = async (env?: any): Promise<RouteContext> => {
     parseENV({ ...process.env, TG_BOT_POLLING: "false", ...env }),
     fp.TE.fromEither,
     fp.TE.chain(makeContext),
-    throwTE
+    throwTE,
   );
 };
 

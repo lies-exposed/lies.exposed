@@ -12,7 +12,7 @@ export interface KeywordInlineState {
 
 // Custom Slash Menu item to insert a block after the current one.
 export const keywordItem = (editor: BNESchemaEditor) => ({
-  key: 'keyword',
+  key: "keyword",
   title: "Add Keyword Inline",
   onItemClick: () => {
     // Inserting the content inline
@@ -27,7 +27,7 @@ export const keywordItem = (editor: BNESchemaEditor) => ({
   },
   aliases: ["keyword", "kw"],
   group: "Relations",
-  icon: <Icons.RecentKeywordsIcon fontSize='small' />,
+  icon: <Icons.RecentKeywordsIcon fontSize="small" />,
   subtext: "Used to insert a keyword inline.",
 });
 
