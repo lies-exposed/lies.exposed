@@ -63,10 +63,10 @@ export const transformDeath: TransformEventFn = (data, relations) => {
 export const transformUncategorized: TransformEventFn = (data, relations) => {
   const { keywords, groups, actors } = eventRelationIdsMonoid.concat(
     {
-      groups: data.payload.groups,
-      actors: data.payload.actors,
-      media: data.media,
-      keywords: data.payload.keywords,
+      groups: data.payload.groups ?? [],
+      actors: data.payload.actors ?? [],
+      media: data.media ?? [],
+      keywords: data.payload.keywords ?? [],
       areas: data.payload.location ? [data.payload.location] : [],
       groupsMembers: [],
       links: data.links,
