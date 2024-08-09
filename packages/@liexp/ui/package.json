@@ -148,5 +148,5 @@
     "typescript": "^5.4.5",
     "vitest-mock-extended": "^2.0.0"
   },
-  "packageManager": "pnpm@9.4.0"
+  "packageManager": "pnpm@9.7.0"
 }
