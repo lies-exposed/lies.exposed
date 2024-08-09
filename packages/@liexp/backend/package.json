@@ -74,5 +74,5 @@
     "wink-nlp": "^2.3.0",
     "wink-nlp-utils": "^2.1.0"
   },
-  "packageManager": "pnpm@9.4.0"
+  "packageManager": "pnpm@9.7.0"
 }
