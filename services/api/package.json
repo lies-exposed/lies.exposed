@@ -149,7 +149,7 @@
     "eslint-plugin-prettier": "^5.2.1",
     "prettier": "^3.3.3",
     "prompts": "^2.4.2",
-    "supertest": "^6.3.4",
+    "supertest": "^7.0.0",
     "typeorm-uml": "^1.6.5",
     "vite-tsconfig-paths": "^4.3.2",
     "vitest": "^2.0.5",
