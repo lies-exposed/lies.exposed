@@ -36,9 +36,7 @@ const config = defineViteConfig({
     process.env.VITE_NODE_ENV === "production"
       ? "tsconfig.build.json"
       : "tsconfig.json",
-      plugins: [
-        reactVirtualized()
-      ]
+  plugins: [reactVirtualized()],
 });
 
 export default defineConfig(config);

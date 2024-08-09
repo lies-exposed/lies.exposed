@@ -1,4 +1,3 @@
-import { TupleWithId } from "@liexp/core/lib/fp/utils/TupleWithId.js";
 import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
 import { MEDIA } from "@liexp/shared/lib/io/http/Media.js";
@@ -6,8 +5,8 @@ import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useConfiguration } from "../../context/ConfigurationContext.js";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
-import EventCard from "../Cards/Events/EventCard.js";
 import { EventCardGrid } from "../Cards/Events/EventCardGrid.js";
+import EventSlimCard from "../Cards/Events/EventSlimCard.js";
 import { AutocompleteInput } from "./AutocompleteInput.js";
 
 interface AutocompleteEventInputProps {
@@ -66,27 +65,24 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
           }}
         />
       )}
-      renderOption={(props, item, state) => (
-        <EventCard
-          key={item.id}
-          showRelations={false}
-          layout="horizontal"
-          event={{
-            ...toSearchEvent(item, {
-              media: new Map((item.media as any[]).map(TupleWithId.of)),
-            }),
-          }}
-          onEventClick={() => {
-            onChange(
-              selectedItems.filter((i) => i.id !== item.id).concat(item),
-            );
-          }}
-          defaultImage={conf.platforms.web.defaultImage}
-          style={{
-            maxHeight: 200,
-          }}
-        />
-      )}
+      renderOption={(props, item, state) => {
+        return (
+          <EventSlimCard
+            key={item.id}
+            layout="horizontal"
+            event={item}
+            onEventClick={() => {
+              onChange(
+                selectedItems.filter((i) => i.id !== item.id).concat(item),
+              );
+            }}
+            defaultImage={conf.platforms.web.defaultImage}
+            style={{
+              maxHeight: 200,
+            }}
+          />
+        );
+      }}
       onItemsChange={onChange}
       {...props}
     />
