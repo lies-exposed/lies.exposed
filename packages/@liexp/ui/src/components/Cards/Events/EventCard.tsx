@@ -99,7 +99,7 @@ const EventCard: React.FC<EventCardProps> = ({
                     overflow: "hidden",
                   }}
                 >
-                  <BNEditor content={event.excerpt as any} readOnly />
+                  <BNEditor content={event.excerpt} readOnly />
                 </Box>
               ) : null}
 
