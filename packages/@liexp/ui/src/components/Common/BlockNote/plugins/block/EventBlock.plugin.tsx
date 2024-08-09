@@ -1,6 +1,7 @@
 import { insertOrUpdateBlock } from "@blocknote/core";
 import { createReactBlockSpec } from "@blocknote/react";
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
+import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import * as React from "react";
 import EventsBox from "../../../../../containers/EventsBox.js";
 import { AutocompleteEventInput } from "../../../../Input/AutocompleteEventInput.js";
@@ -9,6 +10,8 @@ import { EventIcon } from "../../../Icons/index.js";
 import { type BNESchemaEditor } from "../../EditorSchema.js";
 import { EditMenu } from "../EditMenu/EditMenu.js";
 
+const DEFAULT_ID = "missing-id";
+
 // Slash menu item to insert an Event block
 export const insertEvent = (editor: BNESchemaEditor) => ({
   title: "Event",
@@ -16,8 +19,9 @@ export const insertEvent = (editor: BNESchemaEditor) => ({
   onItemClick: () => {
     insertOrUpdateBlock(editor, {
       type: "event",
+      id: uuid(),
       props: {
-        id: "",
+        id: DEFAULT_ID,
       },
     });
   },
@@ -33,7 +37,7 @@ export const EventBlockPluginControl: React.FC<{
 }> = ({ data, onChange, onRemove: remove, ...props }) => {
   return (
     <Stack
-      style={{ height: 350 }}
+      style={{ height: 200 }}
       direction={"row"}
       alignItems={"center"}
       justifyItems={"flex-start"}
@@ -80,7 +84,7 @@ export const eventBlock = createReactBlockSpec(
     type: "event",
     propSchema: {
       id: {
-        default: "",
+        default: DEFAULT_ID,
       },
     },
     content: "inline",
@@ -109,13 +113,6 @@ export const eventBlock = createReactBlockSpec(
               id: newId,
             },
           });
-        } else {
-          insertOrUpdateBlock(editor, {
-            type: "event",
-            props: {
-              id: newId,
-            },
-          });
         }
       };
 
@@ -123,10 +120,10 @@ export const eventBlock = createReactBlockSpec(
         <EditMenu
           editor={editor as any}
           onClick={() => {
-            onChange("");
+            onChange(DEFAULT_ID);
           }}
         >
-          {id === "" ? (
+          {id === DEFAULT_ID ? (
             <EventBlockPluginControl
               onRemove={onRemove}
               data={{ events: [] }}

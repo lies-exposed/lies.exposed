@@ -44,7 +44,7 @@ export const EditMenu: React.FC<
                 onClick();
               }}
               style={{
-                marginRight: 16,
+                marginRight: 8,
               }}
             >
               <Icons.DragIndicator fontSize={"small"} />

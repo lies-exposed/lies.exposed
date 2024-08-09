@@ -7,7 +7,7 @@ import { styled } from "../../../theme/index.js";
 import { Grid } from "../../mui/index.js";
 import EventCard, { type EventCardProps } from "./EventCard.js";
 
-interface EventCardGridProps {
+export interface EventCardGridProps {
   events: Events.SearchEvent.SearchEvent[];
   onItemClick: (e: Events.SearchEvent.SearchEvent) => void;
   showItemRelations?: boolean;

@@ -22,16 +22,18 @@ import { toInitialContent } from "./utils/utils.js";
 
 const getCustomSlashMenuItems = (
   editor: BNESchemaEditor,
-): DefaultReactSuggestionItem[] => [
-  ...getDefaultReactSlashMenuItems(editor),
-  insertMedia(editor),
-  relationItem(editor),
-  groupItem(editor),
-  actorItem(editor),
-  areaItem(editor),
-  keywordItem(editor),
-  insertEvent(editor),
-];
+): DefaultReactSuggestionItem[] => {
+  return [
+    ...getDefaultReactSlashMenuItems(editor),
+    insertMedia(editor),
+    relationItem(editor),
+    groupItem(editor),
+    actorItem(editor),
+    areaItem(editor),
+    keywordItem(editor),
+    insertEvent(editor),
+  ];
+};
 
 export interface BNEditorProps {
   readOnly: boolean;
@@ -65,6 +67,11 @@ export const BNEditor: React.FC<BNEditorProps> = ({
     ...initialContent,
   }) as BNESchemaEditor;
 
+  const slashMenuItems = React.useMemo(
+    () => getCustomSlashMenuItems(editor),
+    [editor],
+  );
+
   return (
     <div style={{ height: "100%", width: "100%" }}>
       <BlockNoteEditorContext.Provider value={editor}>
@@ -82,7 +89,7 @@ export const BNEditor: React.FC<BNEditorProps> = ({
             // Replaces the default Slash Menu items with our custom ones.
             getItems={async (query) => {
               return pipe(
-                getCustomSlashMenuItems(editor),
+                slashMenuItems,
                 (suggestions) => filterSuggestionItems(suggestions, query),
                 (items) => Promise.resolve(items),
               );
