@@ -13,5 +13,5 @@ if [ $RET -ne 0 ]; then
   docker network create reverseproxy
 fi
 
-docker compose -f $DIR/docker-compose.reverse-proxy.yml --env-file ./services/api/.env.local up --force-recreate -d
+docker compose -f $DIR/docker-compose.reverse-proxy.yml --env-file ./services/api/.env.local up --force-recreate -d "$@"
 
