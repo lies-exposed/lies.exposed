@@ -192,8 +192,8 @@ importers:
         specifier: ^5.0.1
         version: 5.0.1
       langchain:
-        specifier: ^0.2.13
-        version: 0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@langchain/community@0.2.24)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0)
+        specifier: ^0.2.15
+        version: 0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@langchain/community@0.2.25)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0)
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
@@ -817,8 +817,8 @@ importers:
         specifier: ^5.2.1
         version: 5.2.1(@types/eslint@8.56.11)(eslint-config-prettier@9.1.0(eslint@8.57.0))(eslint@8.57.0)(prettier@3.3.3)
       openai:
-        specifier: ^4.55.1
-        version: 4.55.1(zod@3.23.8)
+        specifier: ^4.55.4
+        version: 4.55.4(zod@3.23.8)
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
@@ -877,8 +877,8 @@ importers:
         specifier: ^2.2.21
         version: 2.2.21(fp-ts@2.16.9)
       openai:
-        specifier: ^4.55.1
-        version: 4.55.1(zod@3.23.8)
+        specifier: ^4.55.4
+        version: 4.55.4(zod@3.23.8)
       ra-core:
         specifier: ^5.1.1
         version: 5.1.1(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.52.1(react@18.3.1))(react-router-dom@6.26.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.26.0(react@18.3.1))(react@18.3.1)
@@ -938,8 +938,8 @@ importers:
         specifier: ^4.17.7
         version: 4.17.7
       '@types/node':
-        specifier: ^20.14.14
-        version: 20.14.14
+        specifier: ^20.14.15
+        version: 20.14.15
       '@types/react':
         specifier: ^18.3.3
         version: 18.3.3
@@ -993,7 +993,7 @@ importers:
         version: 5.5.4
       vite:
         specifier: ^5.3.5
-        version: 5.3.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.5)
+        version: 5.3.5(@types/node@20.14.15)(sass@1.77.8)(terser@5.31.5)
 
   services/api:
     dependencies:
@@ -1022,14 +1022,14 @@ importers:
         specifier: ^11.13.0
         version: 11.13.0(@emotion/react@11.13.0(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1)
       '@langchain/anthropic':
-        specifier: ^0.2.13
-        version: 0.2.13(langchain@0.2.13)(openai@4.55.1(zod@3.23.8))
+        specifier: ^0.2.14
+        version: 0.2.14(langchain@0.2.15)(openai@4.55.4(zod@3.23.8))
       '@langchain/community':
-        specifier: ^0.2.24
-        version: 0.2.24(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0)
+        specifier: ^0.2.25
+        version: 0.2.25(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0)
       '@langchain/openai':
         specifier: ^0.2.6
-        version: 0.2.6(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13(langchain@0.2.13)(openai@4.55.1(zod@3.23.8)))(@langchain/community@0.2.24(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))
+        version: 0.2.6(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14(langchain@0.2.15)(openai@4.55.4(zod@3.23.8)))(@langchain/community@0.2.25(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))
       '@liexp/backend':
         specifier: workspace:*
         version: link:../../packages/@liexp/backend
@@ -1112,8 +1112,8 @@ importers:
         specifier: ^9.0.2
         version: 9.0.2
       langchain:
-        specifier: ^0.2.13
-        version: 0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13(langchain@0.2.13)(openai@4.55.1(zod@3.23.8)))(@langchain/community@0.2.24(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0)
+        specifier: ^0.2.15
+        version: 0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14(langchain@0.2.15)(openai@4.55.4(zod@3.23.8)))(@langchain/community@0.2.25(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0)
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -1127,8 +1127,8 @@ importers:
         specifier: ^0.66.0
         version: 0.66.0(request@2.88.2)
       openai:
-        specifier: ^4.55.1
-        version: 4.55.1(zod@3.23.8)
+        specifier: ^4.55.4
+        version: 4.55.4(zod@3.23.8)
       page-metadata-parser:
         specifier: ^1.1.4
         version: 1.1.4
@@ -1230,8 +1230,8 @@ importers:
         specifier: ^1.4.11
         version: 1.4.11
       '@types/node':
-        specifier: ^20.14.14
-        version: 20.14.14
+        specifier: ^20.14.15
+        version: 20.14.15
       '@types/node-cron':
         specifier: ^3.0.11
         version: 3.0.11
@@ -1288,13 +1288,13 @@ importers:
         version: 1.6.5(@oclif/config@1.18.17)(typeorm@0.3.20(pg@8.12.0))
       vite-tsconfig-paths:
         specifier: ^4.3.2
-        version: 4.3.2(typescript@5.5.4)(vite@5.3.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.5))
+        version: 4.3.2(typescript@5.5.4)(vite@5.3.5(@types/node@20.14.15)(sass@1.77.8)(terser@5.31.5))
       vitest:
         specifier: ^2.0.5
-        version: 2.0.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.5)
+        version: 2.0.5(@types/node@20.14.15)(sass@1.77.8)(terser@5.31.5)
       vitest-mock-extended:
         specifier: ^2.0.0
-        version: 2.0.0(typescript@5.5.4)(vitest@2.0.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.5))
+        version: 2.0.0(typescript@5.5.4)(vitest@2.0.5(@types/node@20.14.15)(sass@1.77.8)(terser@5.31.5))
 
   services/storybook:
     dependencies:
@@ -1724,8 +1724,8 @@ importers:
         specifier: ^1.3.5
         version: 1.3.5
       '@types/node':
-        specifier: ^20.14.14
-        version: 20.14.14
+        specifier: ^20.14.15
+        version: 20.14.15
       '@types/reach__router':
         specifier: ^1.3.15
         version: 1.3.15
@@ -1803,7 +1803,7 @@ importers:
         version: 5.5.4
       vite:
         specifier: ^5.3.5
-        version: 5.3.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.5)
+        version: 5.3.5(@types/node@20.14.15)(sass@1.77.8)(terser@5.31.5)
 
 packages:
 
@@ -3311,12 +3311,12 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@langchain/anthropic@0.2.13':
-    resolution: {integrity: sha512-/alz3V3+8R25GM4jtNuPsPTeC39a4/mqsBx4gv7qBP5ENnH2xERse4dtSW8Tk7AHZNacZl8KKTMQi4N4c9NiSQ==}
+  '@langchain/anthropic@0.2.14':
+    resolution: {integrity: sha512-qTFlsMej8SE0hz6IrqcQTkza/TGnlc7Tq/9W65TjQGLX51rGCYkprbLfpTi/LL9gahdB9VvB2Q5knUL0/N/xtQ==}
     engines: {node: '>=18'}
 
-  '@langchain/community@0.2.24':
-    resolution: {integrity: sha512-FkrNWG0u8XjXqbhDEY6oh3C1K2/+czvuSMqKifK95ALWacK3WiXsAbluS80CldnYm+WsLoHgEK+dlXKNIrIxrQ==}
+  '@langchain/community@0.2.25':
+    resolution: {integrity: sha512-LrqbWyfgzclUumPYet8HcxMNoHE57M6BVku6vebtAz8BO10unPRtRkv7Kay7yGfGg0oZkipWKfp0CCtpK15Nag==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-crypto/sha256-js': ^5.0.0
@@ -5151,6 +5151,9 @@ packages:
 
   '@types/node@20.14.14':
     resolution: {integrity: sha512-d64f00982fS9YoOgJkAMolK7MN8Iq3TDdVjchbYHdEmjth/DHowx82GnoA+tVUAN+7vxfYUgAzi+JXbKNd2SDQ==}
+
+  '@types/node@20.14.15':
+    resolution: {integrity: sha512-Fz1xDMCF/B00/tYSVMlmK7hVeLh7jE5f3B7X1/hmV0MJBwE27KlS7EvD/Yp+z1lm8mVhwV5w+n8jOZG8AfTlKw==}
 
   '@types/node@22.2.0':
     resolution: {integrity: sha512-bm6EG6/pCpkxDf/0gDNDdtDILMOHgaQBVOJGdwsqClnxA3xL6jtMv76rLBc006RVMWbmaf0xbmom4Z/5o2nRkQ==}
@@ -8562,8 +8565,8 @@ packages:
   konva@9.3.14:
     resolution: {integrity: sha512-Gmm5lyikGYJyogKQA7Fy6dKkfNh350V6DwfZkid0RVrGYP2cfCsxuMxgF5etKeCv7NjXYpJxKqi1dYkIkX/dcA==}
 
-  langchain@0.2.13:
-    resolution: {integrity: sha512-PQoDLEoFPyeqUE8YS+Eoxo8F+6ltNeJv/ijiNGp/eomHnVxHkqTXqc9/JK6bii6O/WryOClT7kVNPpVrMNNdzg==}
+  langchain@0.2.15:
+    resolution: {integrity: sha512-SW4YdRnNPNDRhu6vsxHhxwx+OhDcQsOuiQ/K5gzsUMXUkgbS+y8kG3Kjgs08MXgKAkT4IKW0f2/o1B+2n0Lubw==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-sdk/client-s3': '*'
@@ -9579,6 +9582,15 @@ packages:
 
   openai@4.55.1:
     resolution: {integrity: sha512-FziYJcWl+SAGbt5AcRIzVzNcnKohpEMQdtzVOmHFbBp/if7x2+ACqgxF2XUbyi2PcKONPcVpmtG5h9qoDAEXwQ==}
+    hasBin: true
+    peerDependencies:
+      zod: ^3.23.8
+    peerDependenciesMeta:
+      zod:
+        optional: true
+
+  openai@4.55.4:
+    resolution: {integrity: sha512-TEC75Y6U/OKIJp9fHao3zkTYfKLYGqXdD2TI+xN2Zd5W8KNKvv6E4/OBTOW7jg7fySfrBrhy5fYzBbyBcdHEtQ==}
     hasBin: true
     peerDependencies:
       zod: ^3.23.8
@@ -14376,14 +14388,14 @@ snapshots:
     dependencies:
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.14.14
+      '@types/node': 22.2.0
       jest-mock: 29.7.0
 
   '@jest/fake-timers@29.7.0':
     dependencies:
       '@jest/types': 29.6.3
       '@sinonjs/fake-timers': 10.3.0
-      '@types/node': 20.14.14
+      '@types/node': 22.2.0
       jest-message-util: 29.7.0
       jest-mock: 29.7.0
       jest-util: 29.7.0
@@ -14396,7 +14408,7 @@ snapshots:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 20.14.14
+      '@types/node': 22.2.0
       '@types/yargs': 15.0.19
       chalk: 4.1.2
 
@@ -14405,7 +14417,7 @@ snapshots:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 20.14.14
+      '@types/node': 22.2.0
       '@types/yargs': 17.0.33
       chalk: 4.1.2
 
@@ -14441,10 +14453,10 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@langchain/anthropic@0.2.13(langchain@0.2.13)(openai@4.55.1(zod@3.23.8))':
+  '@langchain/anthropic@0.2.14(langchain@0.2.15)(openai@4.55.4(zod@3.23.8))':
     dependencies:
       '@anthropic-ai/sdk': 0.22.0
-      '@langchain/core': 0.2.21(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@langchain/community@0.2.24)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8))
+      '@langchain/core': 0.2.21(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@langchain/community@0.2.25)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0))(openai@4.55.4(zod@3.23.8))
       fast-xml-parser: 4.4.1
       zod: 3.23.8
       zod-to-json-schema: 3.23.1(zod@3.23.8)
@@ -14453,16 +14465,16 @@ snapshots:
       - langchain
       - openai
 
-  '@langchain/community@0.2.24(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0)':
+  '@langchain/community@0.2.25(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0)':
     dependencies:
-      '@langchain/core': 0.2.21(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13(langchain@0.2.13)(openai@4.55.1(zod@3.23.8)))(@langchain/community@0.2.24(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8))
-      '@langchain/openai': 0.2.6(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13(langchain@0.2.13)(openai@4.55.1(zod@3.23.8)))(@langchain/community@0.2.24(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))
+      '@langchain/core': 0.2.21(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14(langchain@0.2.15)(openai@4.55.4(zod@3.23.8)))(@langchain/community@0.2.25(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.4(zod@3.23.8))
+      '@langchain/openai': 0.2.6(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14(langchain@0.2.15)(openai@4.55.4(zod@3.23.8)))(@langchain/community@0.2.25(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))
       binary-extensions: 2.3.0
       expr-eval: 2.0.2
       flat: 5.0.2
       js-yaml: 4.1.0
-      langchain: 0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13(langchain@0.2.13)(openai@4.55.1(zod@3.23.8)))(@langchain/community@0.2.24(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0)
-      langsmith: 0.1.41(6dacerkgecyyucaqyq2agqjs3y)
+      langchain: 0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14(langchain@0.2.15)(openai@4.55.4(zod@3.23.8)))(@langchain/community@0.2.25(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0)
+      langsmith: 0.1.41(7gujwn7de6rkxpik4m6m5rrejm)
       uuid: 10.0.0
       zod: 3.23.8
       zod-to-json-schema: 3.23.1(zod@3.23.8)
@@ -14496,16 +14508,16 @@ snapshots:
       - peggy
       - pyodide
 
-  '@langchain/community@0.2.24(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0)':
+  '@langchain/community@0.2.25(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0)':
     dependencies:
-      '@langchain/core': 0.2.21(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@langchain/community@0.2.24)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8))
-      '@langchain/openai': 0.2.6(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@langchain/community@0.2.24)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))
+      '@langchain/core': 0.2.21(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@langchain/community@0.2.25)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0))(openai@4.55.4(zod@3.23.8))
+      '@langchain/openai': 0.2.6(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@langchain/community@0.2.25)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0))
       binary-extensions: 2.3.0
       expr-eval: 2.0.2
       flat: 5.0.2
       js-yaml: 4.1.0
-      langchain: 0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@langchain/community@0.2.24)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0)
-      langsmith: 0.1.41(@langchain/core@0.2.21(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@langchain/community@0.2.24)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8)))(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@langchain/community@0.2.24)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8))
+      langchain: 0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@langchain/community@0.2.25)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0)
+      langsmith: 0.1.41(@langchain/core@0.2.21(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@langchain/community@0.2.25)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0))(openai@4.55.4(zod@3.23.8)))(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@langchain/community@0.2.25)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0))(openai@4.55.4(zod@3.23.8))
       uuid: 10.0.0
       zod: 3.23.8
       zod-to-json-schema: 3.23.1(zod@3.23.8)
@@ -14516,7 +14528,6 @@ snapshots:
       ignore: 5.3.1
       jsonwebtoken: 9.0.2
       pdf-parse: 1.1.1
-      pg: 8.12.0
       typeorm: 0.3.20(pg@8.12.0)
       ws: 8.18.0
     transitivePeerDependencies:
@@ -14538,13 +14549,13 @@ snapshots:
       - pyodide
     optional: true
 
-  '@langchain/core@0.2.21(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13(langchain@0.2.13)(openai@4.55.1(zod@3.23.8)))(@langchain/community@0.2.24(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8))':
+  '@langchain/core@0.2.21(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14(langchain@0.2.15)(openai@4.55.4(zod@3.23.8)))(@langchain/community@0.2.25(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.4(zod@3.23.8))':
     dependencies:
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.12
-      langsmith: 0.1.41(6dacerkgecyyucaqyq2agqjs3y)
+      langsmith: 0.1.41(7gujwn7de6rkxpik4m6m5rrejm)
       mustache: 4.2.0
       p-queue: 6.6.2
       p-retry: 4.6.2
@@ -14555,13 +14566,13 @@ snapshots:
       - langchain
       - openai
 
-  '@langchain/core@0.2.21(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@langchain/community@0.2.24)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8))':
+  '@langchain/core@0.2.21(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@langchain/community@0.2.25)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0))(openai@4.55.4(zod@3.23.8))':
     dependencies:
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.12
-      langsmith: 0.1.41(@langchain/core@0.2.21(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@langchain/community@0.2.24)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8)))(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@langchain/community@0.2.24)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8))
+      langsmith: 0.1.41(@langchain/core@0.2.21(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@langchain/community@0.2.25)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0))(openai@4.55.4(zod@3.23.8)))(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@langchain/community@0.2.25)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0))(openai@4.55.4(zod@3.23.8))
       mustache: 4.2.0
       p-queue: 6.6.2
       p-retry: 4.6.2
@@ -14572,39 +14583,39 @@ snapshots:
       - langchain
       - openai
 
-  '@langchain/openai@0.2.6(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13(langchain@0.2.13)(openai@4.55.1(zod@3.23.8)))(@langchain/community@0.2.24(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))':
+  '@langchain/openai@0.2.6(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14(langchain@0.2.15)(openai@4.55.4(zod@3.23.8)))(@langchain/community@0.2.25(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))':
     dependencies:
-      '@langchain/core': 0.2.21(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13(langchain@0.2.13)(openai@4.55.1(zod@3.23.8)))(@langchain/community@0.2.24(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8))
+      '@langchain/core': 0.2.21(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14(langchain@0.2.15)(openai@4.55.4(zod@3.23.8)))(@langchain/community@0.2.25(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.4(zod@3.23.8))
       js-tiktoken: 1.0.12
-      openai: 4.55.1(zod@3.23.8)
+      openai: 4.55.4(zod@3.23.8)
       zod: 3.23.8
       zod-to-json-schema: 3.23.1(zod@3.23.8)
     transitivePeerDependencies:
       - encoding
       - langchain
 
-  '@langchain/openai@0.2.6(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@langchain/community@0.2.24)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))':
+  '@langchain/openai@0.2.6(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@langchain/community@0.2.25)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0))':
     dependencies:
-      '@langchain/core': 0.2.21(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@langchain/community@0.2.24)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8))
+      '@langchain/core': 0.2.21(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@langchain/community@0.2.25)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0))(openai@4.55.4(zod@3.23.8))
       js-tiktoken: 1.0.12
-      openai: 4.55.1(zod@3.23.8)
+      openai: 4.55.4(zod@3.23.8)
       zod: 3.23.8
       zod-to-json-schema: 3.23.1(zod@3.23.8)
     transitivePeerDependencies:
       - encoding
       - langchain
 
-  '@langchain/textsplitters@0.0.3(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13(langchain@0.2.13)(openai@4.55.1(zod@3.23.8)))(@langchain/community@0.2.24(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8))':
+  '@langchain/textsplitters@0.0.3(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14(langchain@0.2.15)(openai@4.55.4(zod@3.23.8)))(@langchain/community@0.2.25(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.4(zod@3.23.8))':
     dependencies:
-      '@langchain/core': 0.2.21(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13(langchain@0.2.13)(openai@4.55.1(zod@3.23.8)))(@langchain/community@0.2.24(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8))
+      '@langchain/core': 0.2.21(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14(langchain@0.2.15)(openai@4.55.4(zod@3.23.8)))(@langchain/community@0.2.25(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.4(zod@3.23.8))
       js-tiktoken: 1.0.12
     transitivePeerDependencies:
       - langchain
       - openai
 
-  '@langchain/textsplitters@0.0.3(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@langchain/community@0.2.24)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8))':
+  '@langchain/textsplitters@0.0.3(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@langchain/community@0.2.25)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0))(openai@4.55.4(zod@3.23.8))':
     dependencies:
-      '@langchain/core': 0.2.21(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@langchain/community@0.2.24)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8))
+      '@langchain/core': 0.2.21(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@langchain/community@0.2.25)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0))(openai@4.55.4(zod@3.23.8))
       js-tiktoken: 1.0.12
     transitivePeerDependencies:
       - langchain
@@ -16315,7 +16326,7 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 20.14.14
+      '@types/node': 20.14.15
 
   '@types/bs58@4.0.4':
     dependencies:
@@ -16334,21 +16345,21 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 20.14.14
+      '@types/node': 20.14.15
 
   '@types/conventional-commits-parser@5.0.0':
     dependencies:
-      '@types/node': 20.14.14
+      '@types/node': 22.2.0
 
   '@types/cookiejar@2.1.5': {}
 
   '@types/cors@2.8.17':
     dependencies:
-      '@types/node': 20.14.14
+      '@types/node': 20.14.15
 
   '@types/cross-spawn@6.0.6':
     dependencies:
-      '@types/node': 20.14.14
+      '@types/node': 22.2.0
 
   '@types/d3-array@3.0.3': {}
 
@@ -16540,7 +16551,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.1':
     dependencies:
-      '@types/node': 20.14.14
+      '@types/node': 22.2.0
       '@types/qs': 6.9.15
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -16565,7 +16576,7 @@ snapshots:
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 20.14.14
+      '@types/node': 22.2.0
 
   '@types/hast@2.3.10':
     dependencies:
@@ -16619,12 +16630,12 @@ snapshots:
 
   '@types/node-fetch@2.6.11':
     dependencies:
-      '@types/node': 20.14.14
+      '@types/node': 18.19.44
       form-data: 4.0.0
 
   '@types/node-forge@1.3.11':
     dependencies:
-      '@types/node': 20.14.14
+      '@types/node': 22.2.0
 
   '@types/node-telegram-bot-api@0.64.7':
     dependencies:
@@ -16639,6 +16650,10 @@ snapshots:
     dependencies:
       undici-types: 5.26.5
 
+  '@types/node@20.14.15':
+    dependencies:
+      undici-types: 5.26.5
+
   '@types/node@22.2.0':
     dependencies:
       undici-types: 6.13.0
@@ -16649,13 +16664,13 @@ snapshots:
 
   '@types/pg@8.11.6':
     dependencies:
-      '@types/node': 20.14.14
+      '@types/node': 20.14.15
       pg-protocol: 1.6.1
       pg-types: 4.0.2
 
   '@types/prompts@2.4.9':
     dependencies:
-      '@types/node': 20.14.14
+      '@types/node': 20.14.15
       kleur: 3.0.3
 
   '@types/prop-types@15.7.12': {}
@@ -16727,12 +16742,12 @@ snapshots:
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 20.14.14
+      '@types/node': 22.2.0
 
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 20.14.14
+      '@types/node': 22.2.0
       '@types/send': 0.17.4
 
   '@types/stack-utils@2.0.3': {}
@@ -16741,7 +16756,7 @@ snapshots:
     dependencies:
       '@types/cookiejar': 2.1.5
       '@types/methods': 1.1.4
-      '@types/node': 20.14.14
+      '@types/node': 20.14.15
 
   '@types/supertest@6.0.2':
     dependencies:
@@ -16788,7 +16803,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 20.14.14
+      '@types/node': 22.2.0
     optional: true
 
   '@typescript-eslint/eslint-plugin@7.18.0(@typescript-eslint/parser@7.18.0(eslint@8.57.0)(typescript@5.5.4))(eslint@8.57.0)(typescript@5.5.4)':
@@ -17936,7 +17951,7 @@ snapshots:
 
   chrome-launcher@0.15.2:
     dependencies:
-      '@types/node': 20.14.14
+      '@types/node': 22.2.0
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2
@@ -20402,7 +20417,7 @@ snapshots:
       '@jest/environment': 29.7.0
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.14.14
+      '@types/node': 22.2.0
       jest-mock: 29.7.0
       jest-util: 29.7.0
 
@@ -20423,13 +20438,13 @@ snapshots:
   jest-mock@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 20.14.14
+      '@types/node': 22.2.0
       jest-util: 29.7.0
 
   jest-util@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 20.14.14
+      '@types/node': 22.2.0
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11
@@ -20446,7 +20461,7 @@ snapshots:
 
   jest-worker@29.7.0:
     dependencies:
-      '@types/node': 20.14.14
+      '@types/node': 22.2.0
       jest-util: 29.7.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
@@ -20736,16 +20751,16 @@ snapshots:
 
   konva@9.3.14: {}
 
-  langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13(langchain@0.2.13)(openai@4.55.1(zod@3.23.8)))(@langchain/community@0.2.24(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0):
+  langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14(langchain@0.2.15)(openai@4.55.4(zod@3.23.8)))(@langchain/community@0.2.25(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0):
     dependencies:
-      '@langchain/core': 0.2.21(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13(langchain@0.2.13)(openai@4.55.1(zod@3.23.8)))(@langchain/community@0.2.24(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8))
-      '@langchain/openai': 0.2.6(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13(langchain@0.2.13)(openai@4.55.1(zod@3.23.8)))(@langchain/community@0.2.24(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))
-      '@langchain/textsplitters': 0.0.3(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13(langchain@0.2.13)(openai@4.55.1(zod@3.23.8)))(@langchain/community@0.2.24(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8))
+      '@langchain/core': 0.2.21(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14(langchain@0.2.15)(openai@4.55.4(zod@3.23.8)))(@langchain/community@0.2.25(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.4(zod@3.23.8))
+      '@langchain/openai': 0.2.6(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14(langchain@0.2.15)(openai@4.55.4(zod@3.23.8)))(@langchain/community@0.2.25(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))
+      '@langchain/textsplitters': 0.0.3(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14(langchain@0.2.15)(openai@4.55.4(zod@3.23.8)))(@langchain/community@0.2.25(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.4(zod@3.23.8))
       binary-extensions: 2.3.0
       js-tiktoken: 1.0.12
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
-      langsmith: 0.1.41(6dacerkgecyyucaqyq2agqjs3y)
+      langsmith: 0.1.41(7gujwn7de6rkxpik4m6m5rrejm)
       openapi-types: 12.1.3
       p-retry: 4.6.2
       uuid: 10.0.0
@@ -20755,8 +20770,8 @@ snapshots:
     optionalDependencies:
       '@aws-sdk/client-s3': 3.623.0
       '@aws-sdk/credential-provider-node': 3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0)
-      '@langchain/anthropic': 0.2.13(langchain@0.2.13)(openai@4.55.1(zod@3.23.8))
-      '@langchain/community': 0.2.24(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0)
+      '@langchain/anthropic': 0.2.14(langchain@0.2.15)(openai@4.55.4(zod@3.23.8))
+      '@langchain/community': 0.2.25(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0)
       axios: 1.7.3(debug@4.3.6)
       fast-xml-parser: 4.4.1
       handlebars: 4.7.8
@@ -20768,16 +20783,16 @@ snapshots:
       - encoding
       - openai
 
-  langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@langchain/community@0.2.24)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0):
+  langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@langchain/community@0.2.25)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0):
     dependencies:
-      '@langchain/core': 0.2.21(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@langchain/community@0.2.24)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8))
-      '@langchain/openai': 0.2.6(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@langchain/community@0.2.24)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))
-      '@langchain/textsplitters': 0.0.3(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@langchain/community@0.2.24)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8))
+      '@langchain/core': 0.2.21(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@langchain/community@0.2.25)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0))(openai@4.55.4(zod@3.23.8))
+      '@langchain/openai': 0.2.6(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@langchain/community@0.2.25)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0))
+      '@langchain/textsplitters': 0.0.3(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@langchain/community@0.2.25)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0))(openai@4.55.4(zod@3.23.8))
       binary-extensions: 2.3.0
       js-tiktoken: 1.0.12
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
-      langsmith: 0.1.41(@langchain/core@0.2.21(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@langchain/community@0.2.24)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8)))(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@langchain/community@0.2.24)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8))
+      langsmith: 0.1.41(@langchain/core@0.2.21(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@langchain/community@0.2.25)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0))(openai@4.55.4(zod@3.23.8)))(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@langchain/community@0.2.25)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0))(openai@4.55.4(zod@3.23.8))
       openapi-types: 12.1.3
       p-retry: 4.6.2
       uuid: 10.0.0
@@ -20787,8 +20802,8 @@ snapshots:
     optionalDependencies:
       '@aws-sdk/client-s3': 3.623.0
       '@aws-sdk/credential-provider-node': 3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0)
-      '@langchain/anthropic': 0.2.13(langchain@0.2.13)(openai@4.55.1(zod@3.23.8))
-      '@langchain/community': 0.2.24(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0)
+      '@langchain/anthropic': 0.2.14(langchain@0.2.15)(openai@4.55.4(zod@3.23.8))
+      '@langchain/community': 0.2.25(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0)
       axios: 1.7.3(debug@4.3.6)
       d3-dsv: 3.0.1
       fast-xml-parser: 4.4.1
@@ -20801,7 +20816,7 @@ snapshots:
       - encoding
       - openai
 
-  langsmith@0.1.41(6dacerkgecyyucaqyq2agqjs3y):
+  langsmith@0.1.41(7gujwn7de6rkxpik4m6m5rrejm):
     dependencies:
       '@types/uuid': 9.0.8
       commander: 10.0.1
@@ -20810,11 +20825,11 @@ snapshots:
       semver: 7.6.3
       uuid: 9.0.1
     optionalDependencies:
-      '@langchain/core': 0.2.21(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13(langchain@0.2.13)(openai@4.55.1(zod@3.23.8)))(@langchain/community@0.2.24(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8))
-      langchain: 0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13(langchain@0.2.13)(openai@4.55.1(zod@3.23.8)))(@langchain/community@0.2.24(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0)
-      openai: 4.55.1(zod@3.23.8)
+      '@langchain/core': 0.2.21(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14(langchain@0.2.15)(openai@4.55.4(zod@3.23.8)))(@langchain/community@0.2.25(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.4(zod@3.23.8))
+      langchain: 0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14(langchain@0.2.15)(openai@4.55.4(zod@3.23.8)))(@langchain/community@0.2.25(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@smithy/util-utf8@2.3.0)(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.12.0)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(axios@1.7.3(debug@4.3.6))(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0)
+      openai: 4.55.4(zod@3.23.8)
 
-  langsmith@0.1.41(@langchain/core@0.2.21(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@langchain/community@0.2.24)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8)))(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@langchain/community@0.2.24)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8)):
+  langsmith@0.1.41(@langchain/core@0.2.21(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@langchain/community@0.2.25)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0))(openai@4.55.4(zod@3.23.8)))(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@langchain/community@0.2.25)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0))(openai@4.55.4(zod@3.23.8)):
     dependencies:
       '@types/uuid': 9.0.8
       commander: 10.0.1
@@ -20823,9 +20838,9 @@ snapshots:
       semver: 7.6.3
       uuid: 9.0.1
     optionalDependencies:
-      '@langchain/core': 0.2.21(langchain@0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@langchain/community@0.2.24)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0))(openai@4.55.1(zod@3.23.8))
-      langchain: 0.2.13(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.13)(@langchain/community@0.2.24)(axios@1.7.3(debug@4.3.6))(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.1(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.12.0))(ws@8.18.0)
-      openai: 4.55.1(zod@3.23.8)
+      '@langchain/core': 0.2.21(langchain@0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@langchain/community@0.2.25)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0))(openai@4.55.4(zod@3.23.8))
+      langchain: 0.2.15(@aws-sdk/client-s3@3.623.0)(@aws-sdk/credential-provider-node@3.623.0(@aws-sdk/client-sso-oidc@3.623.0(@aws-sdk/client-sts@3.623.0))(@aws-sdk/client-sts@3.623.0))(@langchain/anthropic@0.2.14)(@langchain/community@0.2.25)(axios@1.7.3)(d3-dsv@3.0.1)(fast-xml-parser@4.4.1)(handlebars@4.7.8)(ignore@5.3.1)(openai@4.55.4(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0)
+      openai: 4.55.4(zod@3.23.8)
 
   lazy-cache@0.2.7: {}
 
@@ -21899,6 +21914,20 @@ snapshots:
       is-wsl: 2.2.0
 
   openai@4.55.1(zod@3.23.8):
+    dependencies:
+      '@types/node': 18.19.44
+      '@types/node-fetch': 2.6.11
+      abort-controller: 3.0.0
+      agentkeepalive: 4.5.0
+      form-data-encoder: 1.7.2
+      formdata-node: 4.4.1
+      node-fetch: 2.7.0
+    optionalDependencies:
+      zod: 3.23.8
+    transitivePeerDependencies:
+      - encoding
+
+  openai@4.55.4(zod@3.23.8):
     dependencies:
       '@types/node': 18.19.44
       '@types/node-fetch': 2.6.11
@@ -24561,13 +24590,13 @@ snapshots:
       unist-util-stringify-position: 3.0.3
       vfile-message: 3.1.4
 
-  vite-node@2.0.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.5):
+  vite-node@2.0.5(@types/node@20.14.15)(sass@1.77.8)(terser@5.31.5):
     dependencies:
       cac: 6.7.14
       debug: 4.3.6
       pathe: 1.1.2
       tinyrainbow: 1.2.0
-      vite: 5.3.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.5)
+      vite: 5.3.5(@types/node@20.14.15)(sass@1.77.8)(terser@5.31.5)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -24601,13 +24630,13 @@ snapshots:
 
   vite-plugin-optimizer@1.4.3: {}
 
-  vite-tsconfig-paths@4.3.2(typescript@5.5.4)(vite@5.3.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.5)):
+  vite-tsconfig-paths@4.3.2(typescript@5.5.4)(vite@5.3.5(@types/node@20.14.15)(sass@1.77.8)(terser@5.31.5)):
     dependencies:
       debug: 4.3.6
       globrex: 0.1.2
       tsconfck: 3.0.3(typescript@5.5.4)
     optionalDependencies:
-      vite: 5.3.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.5)
+      vite: 5.3.5(@types/node@20.14.15)(sass@1.77.8)(terser@5.31.5)
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -24623,13 +24652,13 @@ snapshots:
       - supports-color
       - typescript
 
-  vite@5.3.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.5):
+  vite@5.3.5(@types/node@20.14.15)(sass@1.77.8)(terser@5.31.5):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.39
       rollup: 4.19.1
     optionalDependencies:
-      '@types/node': 20.14.14
+      '@types/node': 20.14.15
       fsevents: 2.3.3
       sass: 1.77.8
       terser: 5.31.5
@@ -24645,11 +24674,11 @@ snapshots:
       sass: 1.77.8
       terser: 5.31.5
 
-  vitest-mock-extended@2.0.0(typescript@5.5.4)(vitest@2.0.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.5)):
+  vitest-mock-extended@2.0.0(typescript@5.5.4)(vitest@2.0.5(@types/node@20.14.15)(sass@1.77.8)(terser@5.31.5)):
     dependencies:
       ts-essentials: 10.0.1(typescript@5.5.4)
       typescript: 5.5.4
-      vitest: 2.0.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.5)
+      vitest: 2.0.5(@types/node@20.14.15)(sass@1.77.8)(terser@5.31.5)
 
   vitest-mock-extended@2.0.0(typescript@5.5.4)(vitest@2.0.5(@types/node@22.2.0)(sass@1.77.8)(terser@5.31.5)):
     dependencies:
@@ -24657,7 +24686,7 @@ snapshots:
       typescript: 5.5.4
       vitest: 2.0.5(@types/node@22.2.0)(sass@1.77.8)(terser@5.31.5)
 
-  vitest@2.0.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.5):
+  vitest@2.0.5(@types/node@20.14.15)(sass@1.77.8)(terser@5.31.5):
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@vitest/expect': 2.0.5
@@ -24675,11 +24704,11 @@ snapshots:
       tinybench: 2.8.0
       tinypool: 1.0.0
       tinyrainbow: 1.2.0
-      vite: 5.3.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.5)
-      vite-node: 2.0.5(@types/node@20.14.14)(sass@1.77.8)(terser@5.31.5)
+      vite: 5.3.5(@types/node@20.14.15)(sass@1.77.8)(terser@5.31.5)
+      vite-node: 2.0.5(@types/node@20.14.15)(sass@1.77.8)(terser@5.31.5)
       why-is-node-running: 2.3.0
     optionalDependencies:
-      '@types/node': 20.14.14
+      '@types/node': 20.14.15
     transitivePeerDependencies:
       - less
       - lightningcss
