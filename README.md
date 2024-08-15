@@ -42,17 +42,17 @@ The local development require some modules to be installed on your machine:
 - node
 - pnpm
 - docker
-- docker-compose
+- docker compose
 
-The easiest way to run the project is by using `docker-compose`.
-The [docker-compose.yml](./docker-compose.yml) contains all the definitions to run the needed services.
+The easiest way to run the project is by using `docker compose`.
+The [compose.yml](./compose.yml) contains all the definitions to run the needed services.
 
-If you want to start developing with `docker-compose`:
+If you want to start developing with `docker compose`:
 
 ```sh
-docker-compose build # build base image
-docker-compose up -d db # starts db in background
-docker-compose up api web admin-web data # starts api, web, admin-web and data services
+docker compose build # build base image
+docker compose up -d db # starts db in background
+docker compose up api web admin-web data # starts api, web, admin-web and data services
 ```
 
 **N.B.: you need to run `pnpm api watch` in another shell to make the api container to trigger restart event**
@@ -73,6 +73,6 @@ Build the images first with
 ```
 
 ```sh
-# start docker compose for `deploy/docker-compose.yml`
+# start docker compose for `deploy/compose.yml`
 ./scripts/docker-deploy-test.sh
 ```

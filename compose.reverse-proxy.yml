@@ -1,7 +1,7 @@
 services:
   reverseproxy.dev:
     restart: always
-    image: nginxproxy/nginx-proxy:1.5.1
+    image: nginxproxy/nginx-proxy:1.6
     ports:
       - "80:80"
       # - 127.0.0.1:443:443
