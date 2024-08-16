@@ -75,7 +75,7 @@ const mergeEntitiesIntoPayloadByType = (
     case EVENT_TYPES.QUOTE:
       return {
         ...basePayload,
-        quote: "",
+        quote: basePayload.quote ?? basePayload.title ?? "Unknown Quote",
         details: undefined,
       } as QuotePayload;
     case EVENT_TYPES.DEATH:
@@ -89,10 +89,10 @@ const mergeEntitiesIntoPayloadByType = (
     case EVENT_TYPES.BOOK:
       return {
         ...basePayload,
+        title: (basePayload.title as string) ?? "Unknown Book",
         authors: actors.map((a) => makeBySubjectId("Actor", a)),
         publisher: undefined,
         media: { pdf: media[0], audio: undefined },
-        title: "",
       } as BookPayload;
     default:
       return basePayload as unknown as Event["payload"];

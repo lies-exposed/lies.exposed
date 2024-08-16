@@ -99,7 +99,7 @@ const RenderHeaderRow: React.FC<{
         </Grid>
       </ListSubheader>
       <StyledList className={classes.listItemUList}>
-        {events.map((e, i) =>
+        {events.map((_, i) =>
           renderRow({
             data: { ...data, events },
             index: i,

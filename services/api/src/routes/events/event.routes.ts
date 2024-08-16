@@ -3,6 +3,7 @@ import { CreateEventRoute } from "./createEvent.controller.js";
 import { DeleteEventRoute } from "./deleteEvent.controller.js";
 import { DeleteEventSuggestionRoute } from "./deleteEventSuggestion.controller.js";
 import { EditEventRoute } from "./editEvent.controller.js";
+import { MergeEventsRoute } from "./editManyEvents.route.js";
 import { GetEventRoute } from "./getEvent.controller.js";
 import { GetEventFromLinkRoute } from "./getEventFromLink.controller.js";
 import { ListEventRoute } from "./listEvents.controller.js";
@@ -20,6 +21,7 @@ export const MakeEventRoutes = (router: Router, ctx: ServerContext): void => {
   CreateEventFromSuggestionRoute(router, ctx);
   SearchEventsFromProviderRoute(router, ctx);
   CreateEventSuggestionRoute(router, ctx);
+  MergeEventsRoute(router, ctx);
   CreateEventRoute(router, ctx);
   EditEventSuggestionRoute(router, ctx);
   EditEventRoute(router, ctx);

@@ -5,6 +5,7 @@ import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { Stack } from "@mui/system";
 import { parseISO } from "date-fns";
 import * as React from "react";
+import { useConfiguration } from "../../../context/ConfigurationContext.js";
 import { BNEditor } from "../../Common/BlockNote/index.js";
 import { EventIcon } from "../../Common/Icons/index.js";
 import {
@@ -19,7 +20,7 @@ import {
 
 export interface EventSlimCardProps extends CardProps {
   event: Events.Event;
-  defaultImage: string;
+  defaultImage?: string;
   /** Optional image URL to display. If not provided, falls back to defaultImage. */
   image?: string;
   showMedia?: boolean;
@@ -33,12 +34,16 @@ const EventSlimCard: React.FC<EventSlimCardProps> = ({
   showMedia = true,
   showExcerpt = true,
   onEventClick,
-  defaultImage,
+  defaultImage: _defaultImage,
   image,
   layout = "vertical",
   ...props
 }) => {
-  const displayImage = image ?? defaultImage;
+  const conf = useConfiguration();
+
+  const displayImage =
+    image ?? _defaultImage ?? conf.platforms.web.defaultImage;
+
   const title = EventHelper.getTitle(event, {
     actors: [],
     groups: [],
