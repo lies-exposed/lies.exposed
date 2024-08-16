@@ -186,6 +186,20 @@ export const SearchEventsFromProvider = Endpoint({
   ),
 });
 
+export const EditManyEvents = Endpoint({
+  Method: "PUT",
+  getPath: () => `/events`,
+  Input: {
+    Body: t.type({
+      params: t.strict({
+        action: t.literal("merge"),
+        ids: t.array(UUID),
+      }),
+    }),
+  },
+  Output: SingleEventOutput,
+});
+
 export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/events/${id}`,
@@ -221,6 +235,7 @@ const events = ResourceEndpoints({
     GetSuggestions,
     GetSuggestion,
     SearchEventsFromProvider,
+    EditManyEvents,
   },
 });
 

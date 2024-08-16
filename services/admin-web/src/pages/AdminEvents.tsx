@@ -23,6 +23,8 @@ import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/
 import {
   BooleanField,
   BooleanInput,
+  BulkDeleteButton,
+  BulkUpdateButton,
   Datagrid,
   DateField,
   DateInput,
@@ -34,6 +36,7 @@ import {
   List,
   NumberInput,
   ReferenceField,
+  type RowClickFunction,
   SavedQueriesList,
   TextField,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
@@ -85,173 +88,193 @@ const eventsFilter = [
   <DateInput key="endDate" source="endDate" />,
 ];
 
-export const EventList: React.FC = () => (
-  <List
-    resource={RESOURCE}
-    filterDefaultValues={{
-      withDeleted: true,
-      draft: undefined,
-    }}
-    filters={eventsFilter}
-    perPage={25}
-    sort={{ field: "createdAt", order: "DESC" }}
-    aside={
-      <Card
-        sx={{
-          order: -1,
-          mr: 2,
-          mt: 0,
-          width: 300,
-          display: "flex",
-          flex: "1 0 auto",
-        }}
-      >
-        <CardContent>
-          <SavedQueriesList />
-          <FilterLiveSearch label="Search" source="q" />
-          <FilterList label="Media" icon={<Icons.PlayCircleOutline />}>
-            <FilterListItem label="Empty Media" value={{ emptyMedia: true }} />
-          </FilterList>
-          <FilterList label="Links" icon={<LinkIcon />}>
-            <FilterListItem label="Empty Links" value={{ emptyLinks: true }} />
-          </FilterList>
-          <FilterList label="Type" icon={<EventIcon type="Uncategorized" />}>
-            {EventType.types.map((t) => (
-              <FilterListItem
-                key={t.value}
-                label={
-                  <span>
-                    <EventIcon type={t.value} /> {t.value}
-                  </span>
-                }
-                value={{ eventType: [t.value] }}
-              />
-            ))}
-          </FilterList>
-        </CardContent>
-      </Card>
-    }
-  >
-    <Datagrid
-      rowSx={(record) => {
-        return {
-          backgroundColor: record.deletedAt ? alpha("#FF0000", 0.6) : undefined,
-        };
-      }}
-      rowClick={(_props, _id, record) => {
-        if (record.type === http.Events.EventTypes.SCIENTIFIC_STUDY.value) {
-          return `/scientific-studies/${record.id}`;
-        }
-
-        if (record.type === http.Events.EventTypes.DEATH.value) {
-          return `/deaths/${record.id}`;
-        }
-
-        if (record.type === http.Events.EventTypes.PATENT.value) {
-          return `/patents/${record.id}`;
-        }
-
-        if (record.type === http.Events.EventTypes.DOCUMENTARY.value) {
-          return `/documentaries/${record.id}`;
-        }
-
-        if (record.type === http.Events.EventTypes.TRANSACTION.value) {
-          return `/transactions/${record.id}`;
-        }
-
-        return `/events/${record.id}`;
-      }}
-    >
-      <BooleanField source="draft" />
-      <FunctionField
-        label="type"
-        render={(r) => {
-          const title = r.payload.title ?? r.payload.quote ?? r.payload.details;
-          return (
-            <Box>
-              <Stack direction="row" spacing={1} alignItems="center">
-                <EventIcon color="primary" type={r.type} />
-                <Typography display="inline" variant="subtitle1">
-                  {r.type}
-                </Typography>
-              </Stack>
-              {title ? (
-                <Typography style={{ display: "block" }}>{title}</Typography>
-              ) : undefined}
-              {r.payload.victim ? (
-                <ReferenceField source="payload.victim" reference="actors">
-                  <TextField source="username" />
-                </ReferenceField>
-              ) : undefined}
-            </Box>
-          );
-        }}
-      />
-      <ExcerptField label="excerpt" source="excerpt" />
-      <FunctionField source="links" render={(r) => r.links?.length ?? 0} />
-      <FunctionField source="media" render={(r) => r.media?.length ?? 0} />
-      <FunctionField
-        label="actors"
-        source="payload"
-        render={(r) => {
-          if (r?.type === Events.EventTypes.UNCATEGORIZED.value) {
-            return r.payload.actors.length;
-          }
-
-          if (r?.type === Events.EventTypes.SCIENTIFIC_STUDY.value) {
-            return r.payload.authors.length;
-          }
-
-          return 1;
-        }}
-      />
-
-      <FunctionField
-        label="groups"
-        source="payload"
-        render={(r) => {
-          if (r?.type === "Uncategorized") {
-            return r.payload.groups.length;
-          }
-
-          if (r?.type === "ScientificStudy") {
-            return r.payload.publisher ? 1 : 0;
-          }
-
-          return 0;
-        }}
-      />
-      <FunctionField
-        source="socialPosts"
-        render={(r) => r.socialPosts?.length ?? 0}
-      />
-      <FunctionField
-        label="groupsMembers"
-        source="payload"
-        render={(r) => {
-          if (r?.type === http.Events.EventTypes.UNCATEGORIZED.value) {
-            return r.payload.groupsMembers.length;
-          }
-
-          if (r?.type === http.Events.EventTypes.SCIENTIFIC_STUDY.value) {
-            return 0;
-          }
-
-          return 1;
-        }}
-      />
-      <FunctionField
-        label="Location"
-        source="payload.location.coordinates"
-        render={(r) => (r?.location?.coordinates ? <Icons.PinDrop /> : "-")}
-      />
-
-      <DateField source="date" />
-      <DateField source="updatedAt" />
-      <DateField source="createdAt" />
-    </Datagrid>
-  </List>
+const PostBulkActionButtons = () => (
+  <>
+    <BulkUpdateButton label="Merge" data={{ action: "merge" }} />
+    <BulkDeleteButton />
+  </>
 );
+
+export const EventList: React.FC = () => {
+  const onRowClick: RowClickFunction = (_props, _id, record) => {
+    if (record.type === http.Events.EventTypes.SCIENTIFIC_STUDY.value) {
+      return `/scientific-studies/${record.id}`;
+    }
+
+    if (record.type === http.Events.EventTypes.DEATH.value) {
+      return `/deaths/${record.id}`;
+    }
+
+    if (record.type === http.Events.EventTypes.PATENT.value) {
+      return `/patents/${record.id}`;
+    }
+
+    if (record.type === http.Events.EventTypes.DOCUMENTARY.value) {
+      return `/documentaries/${record.id}`;
+    }
+
+    if (record.type === http.Events.EventTypes.TRANSACTION.value) {
+      return `/transactions/${record.id}`;
+    }
+
+    return `/events/${record.id}`;
+  };
+  return (
+    <List
+      resource={RESOURCE}
+      filterDefaultValues={{
+        withDeleted: true,
+        draft: undefined,
+      }}
+      filters={eventsFilter}
+      perPage={25}
+      sort={{ field: "createdAt", order: "DESC" }}
+      aside={
+        <Card
+          sx={{
+            order: -1,
+            mr: 2,
+            mt: 0,
+            width: 300,
+            display: "flex",
+            flex: "1 0 auto",
+          }}
+        >
+          <CardContent>
+            <SavedQueriesList />
+            <FilterLiveSearch label="Search" source="q" />
+            <FilterList label="Media" icon={<Icons.PlayCircleOutline />}>
+              <FilterListItem
+                label="Empty Media"
+                value={{ emptyMedia: true }}
+              />
+            </FilterList>
+            <FilterList label="Links" icon={<LinkIcon />}>
+              <FilterListItem
+                label="Empty Links"
+                value={{ emptyLinks: true }}
+              />
+            </FilterList>
+            <FilterList label="Type" icon={<EventIcon type="Uncategorized" />}>
+              {EventType.types.map((t) => (
+                <FilterListItem
+                  key={t.value}
+                  label={
+                    <span>
+                      <EventIcon type={t.value} /> {t.value}
+                    </span>
+                  }
+                  value={{ eventType: [t.value] }}
+                />
+              ))}
+            </FilterList>
+          </CardContent>
+        </Card>
+      }
+    >
+      <Datagrid
+        rowSx={(record) => {
+          return {
+            backgroundColor: record.deletedAt
+              ? alpha("#FF0000", 0.6)
+              : undefined,
+          };
+        }}
+        rowClick={onRowClick}
+        bulkActionButtons={<PostBulkActionButtons />}
+      >
+        <BooleanField source="draft" />
+        <FunctionField
+          label="type"
+          render={(r) => {
+            const title =
+              r.payload.title ?? r.payload.quote ?? r.payload.details;
+            return (
+              <Box>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <EventIcon color="primary" type={r.type} />
+                  <Typography display="inline" variant="subtitle1">
+                    {r.type}
+                  </Typography>
+                </Stack>
+                {title ? (
+                  <Typography style={{ display: "block" }}>{title}</Typography>
+                ) : undefined}
+                {r.payload.victim ? (
+                  <ReferenceField source="payload.victim" reference="actors">
+                    <TextField source="username" />
+                  </ReferenceField>
+                ) : undefined}
+              </Box>
+            );
+          }}
+        />
+        <ExcerptField label="excerpt" source="excerpt" />
+        <FunctionField source="links" render={(r) => r.links?.length ?? 0} />
+        <FunctionField source="media" render={(r) => r.media?.length ?? 0} />
+        <FunctionField
+          label="actors"
+          source="payload"
+          render={(r) => {
+            if (r?.type === Events.EventTypes.UNCATEGORIZED.value) {
+              return r.payload.actors.length;
+            }
+
+            if (r?.type === Events.EventTypes.SCIENTIFIC_STUDY.value) {
+              return r.payload.authors.length;
+            }
+
+            return 1;
+          }}
+        />
+
+        <FunctionField
+          label="groups"
+          source="payload"
+          render={(r) => {
+            if (r?.type === "Uncategorized") {
+              return r.payload.groups.length;
+            }
+
+            if (r?.type === "ScientificStudy") {
+              return r.payload.publisher ? 1 : 0;
+            }
+
+            return 0;
+          }}
+        />
+        <FunctionField
+          source="socialPosts"
+          render={(r) => r.socialPosts?.length ?? 0}
+        />
+        <FunctionField
+          label="groupsMembers"
+          source="payload"
+          render={(r) => {
+            if (r?.type === http.Events.EventTypes.UNCATEGORIZED.value) {
+              return r.payload.groupsMembers.length;
+            }
+
+            if (r?.type === http.Events.EventTypes.SCIENTIFIC_STUDY.value) {
+              return 0;
+            }
+
+            return 1;
+          }}
+        />
+        <FunctionField
+          label="Location"
+          source="payload.location.coordinates"
+          render={(r) => (r?.location?.coordinates ? <Icons.PinDrop /> : "-")}
+        />
+
+        <DateField source="date" />
+        <DateField source="updatedAt" />
+        <DateField source="createdAt" />
+      </Datagrid>
+    </List>
+  );
+};
 
 export const EventEdit: React.FC = (props) => {
   return (
