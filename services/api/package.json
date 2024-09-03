@@ -24,7 +24,7 @@
     "config"
   ],
   "scripts": {
-    "bin:run": "pnpm tsx:build",
+    "bin:run": "pnpm tsx:build bin/cli.ts",
     "build": "tsc -b tsconfig.build.json",
     "clean": "rm -rf build",
     "db:diagram": "node -r tsx/cjs -T ./node_modules/.bin/typeorm-uml ormconfig.js -D LR -d ./data/media/docs/diagrams/typeorm-uml.png",

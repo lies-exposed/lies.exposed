@@ -4,7 +4,7 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import D from "debug";
 // eslint-disable-next-line import/no-named-as-default
 import prompts from "prompts";
-import { startContext, stopContext } from "./start-ctx.js";
+import { type CommandFlow } from "./command.type.js";
 import { getOrphanMediaFlow } from "#flows/media/getOrphanMedia.flow.js";
 
 /**
@@ -15,15 +15,9 @@ import { getOrphanMediaFlow } from "#flows/media/getOrphanMedia.flow.js";
  *
  * @returns void
  */
-const run = async (): Promise<any> => {
-  const dry = !!process.argv.find((a) => a === "--dry");
-  const interactive = !!process.argv.find(
-    (a) => a === "-i" || a === "--interactive",
-  );
-
-  const ctx = await startContext();
-
-  D.enable(ctx.env.DEBUG);
+export const cleanSpaceMedia: CommandFlow = async (ctx, args) => {
+  const dry = !!args.find((a) => a === "--dry");
+  const interactive = !!args.find((a) => a === "-i" || a === "--interactive");
 
   const result = await pipe(getOrphanMediaFlow(ctx)(), throwTE);
 
@@ -57,9 +51,4 @@ const run = async (): Promise<any> => {
       );
     }
   }
-
-  await stopContext(ctx);
 };
-
-// eslint-disable-next-line no-console
-void run().then(console.log).catch(console.error);

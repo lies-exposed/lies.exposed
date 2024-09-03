@@ -1,9 +1,8 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import D from "debug";
 // eslint-disable-next-line import/no-named-as-default
 import prompts from "prompts";
-import { startContext, stopContext } from "./start-ctx.js";
+import { type CommandFlow } from "./command.type.js";
 import { fetchActorFromWikipedia } from "#flows/actors/fetchAndCreateActorFromWikipedia.js";
 import { fetchAndCreateAreaFromWikipedia } from "#flows/areas/fetchAndCreateAreaFromWikipedia.js";
 import { fetchGroupFromWikipedia } from "#flows/groups/fetchGroupFromWikipedia.js";
@@ -16,8 +15,8 @@ import { fetchGroupFromWikipedia } from "#flows/groups/fetchGroupFromWikipedia.j
  *
  * @returns void
  */
-const run = async (): Promise<any> => {
-  const [, , type, search] = process.argv;
+export const createFromWikipedia: CommandFlow = async (ctx, args) => {
+  const [type, search] = args;
 
   if (!["area", "actor", "group"].includes(type)) {
     throw new Error(
@@ -28,10 +27,6 @@ const run = async (): Promise<any> => {
   if (!search) {
     throw new Error('Missing "search" param');
   }
-
-  const ctx = await startContext();
-
-  D.enable(ctx.env.DEBUG);
 
   const wpResult = await pipe(
     ctx.wp.search(search),
@@ -85,9 +80,4 @@ const run = async (): Promise<any> => {
   }
 
   ctx.logger.debug.log("Created %s %O", type, result);
-
-  await stopContext(ctx);
 };
-
-// eslint-disable-next-line no-console
-void run().then(console.log).catch(console.error);

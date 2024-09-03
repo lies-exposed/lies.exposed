@@ -4,7 +4,7 @@ import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { startContext, stopContext } from "./start-ctx.js";
+import { type CommandFlow } from "./command.type.js";
 import { type ActorEntity } from "#entities/Actor.entity.js";
 import { type GroupEntity } from "#entities/Group.entity.js";
 import { type KeywordEntity } from "#entities/Keyword.entity.js";
@@ -43,9 +43,7 @@ const makeAcronym = (s: string): string => {
   return chunks.map((c) => c.slice(0, 1).toUpperCase()).join("");
 };
 
-const run = async (): Promise<any> => {
-  const ctx = await startContext();
-
+export const upsertNLPEntities: CommandFlow = async (ctx) => {
   const requestWalker = walkPaginatedRequest(ctx);
 
   const result = await pipe(
@@ -119,9 +117,4 @@ const run = async (): Promise<any> => {
   )();
 
   ctx.logger.info.log("Output: %O", result);
-
-  await stopContext(ctx);
 };
-
-// eslint-disable-next-line no-console
-void run().catch(console.error);

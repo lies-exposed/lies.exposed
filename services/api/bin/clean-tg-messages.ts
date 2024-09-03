@@ -1,12 +1,9 @@
 import * as fs from "fs";
 import * as path from "path";
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { fc } from "@liexp/test/lib/index.js";
-import dotenv from "dotenv";
+import { type CommandFlow } from "./command.type.js";
 
-const run = (): void => {
-  dotenv.config();
-
+export const cleanTGMessages: CommandFlow = (ctx, _args) => {
   const messagesDir = path.resolve(__dirname, `../temp/tg/messages`);
 
   const messageFiles = fs.readdirSync(messagesDir, { encoding: "utf-8" });
@@ -16,6 +13,7 @@ const run = (): void => {
     console.log(m);
     const message = fs.readFileSync(path.resolve(messagesDir, m), "utf-8");
     const json = JSON.parse(message);
+
     fs.writeFileSync(
       path.resolve(messagesDir, m),
       JSON.stringify(
@@ -48,19 +46,3 @@ const run = (): void => {
     );
   });
 };
-
-// eslint-disable-next-line no-console
-pipe(
-  fp.IOE.tryCatch(run, fp.E.toError),
-  fp.IOE.fold(
-    (e) => () => {
-      // eslint-disable-next-line no-console
-      console.error(e);
-      process.exit(1);
-    },
-    () => () => {
-      // eslint-disable-next-line no-console
-      console.log("Done!");
-    },
-  ),
-)();

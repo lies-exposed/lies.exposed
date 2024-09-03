@@ -1,17 +1,10 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import D from "debug";
 import { IsNull } from "typeorm";
-import { startContext } from "../start-ctx.js";
+import { type CommandFlow } from "./command.type.js";
 import { AreaEntity } from "#entities/Area.entity.js";
 
-const run = async (): Promise<void> => {
-  //   const [, , url] = process.argv;
-
-  const ctx = await startContext();
-
-  D.enable(ctx.env.DEBUG);
-
+export const assignDefaultAreaFeaturedImage: CommandFlow = async (ctx) => {
   await pipe(
     ctx.db.find(AreaEntity, {
       where: {
@@ -44,5 +37,3 @@ const run = async (): Promise<void> => {
     .catch(console.error)
     .finally(() => process.exit(0));
 };
-
-void run();

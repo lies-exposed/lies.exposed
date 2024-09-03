@@ -2,13 +2,12 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { startContext, stopContext } from "./start-ctx.js";
+import { type CommandFlow } from "./command.type.js";
 import { GroupEntity } from "#entities/Group.entity.js";
 import { type ControllerError } from "#io/ControllerError.js";
 import { fetchGroups } from "#queries/groups/fetchGroups.query.js";
 
-const run = async (): Promise<void> => {
-  const ctx = await startContext();
+export const setDefaultGroupUsernames: CommandFlow = async (ctx) => {
   const requestWalker = walkPaginatedRequest(ctx);
   await pipe(
     requestWalker<[GroupEntity[], number], ControllerError, GroupEntity>(
@@ -37,8 +36,4 @@ const run = async (): Promise<void> => {
     throwTE,
     // eslint-disable-next-line no-console
   );
-  await stopContext(ctx);
 };
-
-// eslint-disable-next-line no-console
-void run().then(console.log).catch(console.error);

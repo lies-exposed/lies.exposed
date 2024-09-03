@@ -5,7 +5,7 @@ import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { findByURL } from "../src/queries/events/scientificStudy.query.js";
-import { startContext, stopContext } from "./start-ctx.js";
+import { type CommandFlow } from "./command.type.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import {
   extractEventFromURL,
@@ -17,14 +17,12 @@ import {
   type ControllerError,
 } from "#io/ControllerError.js";
 
-const run = async (): Promise<void> => {
-  const [, , url] = process.argv;
+export const extractEvents: CommandFlow = async (ctx, args) => {
+  const [url] = args;
 
   if (!url || url === "") {
     throw new Error("Missing url to fetch");
   }
-
-  const ctx = await startContext();
 
   const result = await pipe(
     sequenceS(TE.ApplicativePar)({
@@ -41,10 +39,10 @@ const run = async (): Promise<void> => {
         TE.tryCatch(() => b.pages().then((pp) => pp[0]), toControllerError),
         TE.chain((p) => {
           return pipe(
-            [{ url: url as any, type: "link" }],
+            [{ url: url, type: "link" }] as unknown as DataPayloadLink[],
             A.traverse(TE.ApplicativeSeq)((l) =>
               pipe(
-                extractEventFromURL(ctx)(p, user, l.url),
+                extractEventFromURL(ctx)(p, user, l),
                 TE.chain(
                   (
                     ev,
@@ -53,7 +51,7 @@ const run = async (): Promise<void> => {
                     [O.Option<DataPayloadLink>, O.Option<EventV2Entity>]
                   > => {
                     if (O.isNone(ev)) {
-                      return TE.right([O.some(l.url), O.none]);
+                      return TE.right([O.some(l), O.none]);
                     }
                     return pipe(
                       findByURL(ctx)(l.url),
@@ -120,9 +118,4 @@ const run = async (): Promise<void> => {
   );
 
   ctx.logger.info.log("Output: %O", result);
-
-  await stopContext(ctx);
 };
-
-// eslint-disable-next-line no-console
-run().then(console.log).catch(console.error);
