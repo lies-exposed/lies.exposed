@@ -1,17 +1,14 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import type * as TE from "fp-ts/lib/TaskEither.js";
 import { type UserEntity } from "#entities/User.entity.js";
 import { getUserByTelegramId } from "#flows/users/getUserByTelegramId.flow.js";
-import {
-  toControllerError,
-  type ControllerError,
-} from "#io/ControllerError.js";
+import { toControllerError } from "#io/ControllerError.js";
 import { type RouteContext } from "#routes/route.types.js";
+import { type TEControllerError } from "#types/TEControllerError.js";
 
 export const findUserOrReplyFlow =
   (ctx: RouteContext) =>
-  (te: (u: UserEntity) => TE.TaskEither<ControllerError, void>) =>
-  (chatId: number, userId?: number): TE.TaskEither<ControllerError, void> => {
+  (te: (u: UserEntity) => TEControllerError<void>) =>
+  (chatId: number, userId?: number): TEControllerError<void> => {
     const checkUserIdExists = pipe(
       userId ? getUserByTelegramId(ctx)(userId) : fp.TE.right(fp.O.none),
     );

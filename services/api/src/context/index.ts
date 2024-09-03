@@ -21,12 +21,12 @@ import * as ExifReader from "exifreader";
 import ffmpeg from "fluent-ffmpeg";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
+import MW from "nodemw";
 import metadataParser from "page-metadata-parser";
 import * as pdf from "pdfjs-dist/legacy/build/pdf.mjs";
 import * as puppeteer from "puppeteer-core";
 import { type VanillaPuppeteer } from "puppeteer-extra";
 import sharp from "sharp";
-import wk from "wikipedia";
 import WinkFn from "wink-nlp";
 import {
   toControllerError,
@@ -53,7 +53,30 @@ export const makeContext = (
 
   const wpProvider = WikipediaProvider({
     logger: logger.GetLogger("mw"),
-    client: wk,
+    client: new MW({
+      protocol: "https",
+      server: "en.wikipedia.org",
+      path: "/w",
+      debug: true,
+      concurrency: 5,
+    }),
+    restClient: axios.default.create({
+      baseURL: "https://en.wikipedia.org/api/rest_v1",
+    }),
+  });
+
+  const rationalWikiProvider = WikipediaProvider({
+    logger: logger.GetLogger("mw"),
+    client: new MW({
+      protocol: "https",
+      server: "rationalwiki.org",
+      path: "/w",
+      debug: true,
+      concurrency: 5,
+    }),
+    restClient: axios.default.create({
+      baseURL: "https://rationalwiki.org/api/rest_v1",
+    }),
   });
 
   const fsClient = GetFSClient();
@@ -132,6 +155,7 @@ export const makeContext = (
       ),
       pdf: fp.TE.right(PDFProvider({ client: pdf })),
       wp: fp.TE.right(wpProvider),
+      rw: fp.TE.right(rationalWikiProvider),
       ig: fp.TE.right(
         IGProvider({
           logger: logger.GetLogger("ig"),
