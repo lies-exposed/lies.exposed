@@ -35,7 +35,7 @@ export const MakeCreateActorRoute: Route = (r, ctx) => {
               ),
               TE.map(([actor]) => actor),
             )
-          : searchActorAndCreateFromWikipedia(ctx)(body.search),
+          : searchActorAndCreateFromWikipedia(ctx)(body.search, "wikipedia"),
 
         TE.chain((actor) =>
           ctx.db.findOneOrFail(ActorEntity, {

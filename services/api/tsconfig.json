@@ -34,6 +34,8 @@
       "#providers/*": ["providers/*"],
       "#queries/*": ["queries/*"],
       "#routes/*": ["routes/*"],
+      "#services/*": ["services/*"],
+      "#types/*": ["types/*"],
       "#utils/*": ["utils/*"]
     }
   },

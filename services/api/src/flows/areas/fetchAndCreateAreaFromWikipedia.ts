@@ -1,5 +1,4 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
 import { type Area, type Media } from "@liexp/shared/lib/io/http/index.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
@@ -10,47 +9,39 @@ import { fetchCoordinates } from "./fetchCoordinates.flow.js";
 import { AreaEntity } from "#entities/Area.entity.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
-import { fetchFromWikipedia } from "#flows/wikipedia/fetchFromWikipedia.js";
-import { toControllerError } from "#io/ControllerError.js";
+import {
+  fetchFromWikipedia,
+  type WikiProviders,
+} from "#flows/wikipedia/fetchFromWikipedia.js";
 import { toAreaIO } from "#routes/areas/Area.io.js";
 import { toMediaIO } from "#routes/media/media.io.js";
+import { getWikiProvider } from "#services/entityFromWikipedia.service.js";
 
 export const fetchAndCreateAreaFromWikipedia: TEFlow<
-  [string],
+  [string, WikiProviders],
   { area: Area.Area; media: Media.Media[] }
-> = (ctx) => (pageId) => {
+> = (ctx) => (title, wp) => {
   return pipe(
     TE.Do,
-    TE.bind("wikipedia", () => fetchFromWikipedia(ctx)(pageId)),
-    TE.bind("excerpt", ({ wikipedia }) =>
-      pipe(
-        toInitialValue(wikipedia.intro),
-        TE.right,
-        TE.mapLeft(toControllerError),
-      ),
+    TE.bind("wpProvider", () => TE.right(getWikiProvider(ctx)(wp))),
+    TE.bind("wikipedia", ({ wpProvider }) =>
+      fetchFromWikipedia(wpProvider)(title),
     ),
-    TE.map(({ wikipedia: { page, featuredMedia }, excerpt }) => {
-      ctx.logger.debug.log("Area fetched from wikipedia %s: %O", page.title, {
+    TE.map(({ wikipedia: { slug, featuredMedia, intro } }) => {
+      ctx.logger.debug.log("Area fetched from wikipedia %s: %O", title, {
         featuredMedia,
       });
-
-      const slug = pipe(
-        page.fullurl.split("/"),
-        fp.A.last,
-        fp.O.map(getUsernameFromDisplayName),
-        fp.O.getOrElse(() => getUsernameFromDisplayName(pageId)),
-      );
 
       return {
         area: {
           id: undefined as any,
-          label: page.title,
+          label: title,
           slug,
-          excerpt,
+          excerpt: toInitialValue(intro),
           geometry: { type: "Point" as const, coordinates: [0, 0] },
           color: generateRandomColor(),
           media: [],
-          body: excerpt,
+          body: null,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -60,8 +51,8 @@ export const fetchAndCreateAreaFromWikipedia: TEFlow<
               thumbnail: undefined,
               type: contentTypeFromFileExt(featuredMedia),
               location: featuredMedia,
-              label: page.title,
-              description: page.title,
+              label: title,
+              description: title,
               creator: undefined,
               events: [],
               links: [],

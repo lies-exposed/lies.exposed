@@ -1,50 +1,40 @@
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
+import { type WikipediaProvider } from "@liexp/backend/lib/providers/wikipedia/wikipedia.provider.js";
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { type Page } from "wikipedia";
 import { type TEFlow } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
 
 interface LoadedPage {
-  page: Page;
   featuredMedia: string | undefined;
+  slug: string;
   intro: string;
 }
 
-export const fetchFromWikipedia: TEFlow<[string], LoadedPage> =
-  (ctx) => (pageId) => {
+export type WikiProviders = "wikipedia" | "rationalwiki";
+
+type FetchFromWikipediaFlow = TEFlow<[string], LoadedPage, WikipediaProvider>;
+
+export const fetchFromWikipedia: FetchFromWikipediaFlow =
+  (wp: WikipediaProvider) => (title) => {
     return pipe(
-      ctx.wp.parse(pageId),
-      TE.mapLeft(toControllerError),
-      TE.chain((p) => {
-        return TE.tryCatch(async () => {
-          const media = await p.media();
-
-          const featuredMedia = pipe(
-            media.items.filter((i) => i.type === "image"),
-            fp.A.head,
-            fp.O.chainNullableK((r) => r.srcset?.[0]?.src),
-            fp.O.map((url) => ensureHTTPS(url)),
-            fp.O.toUndefined,
-          );
-
-          const intro = await p.intro();
-
-          return {
-            page: p,
-            featuredMedia,
-            intro,
-          };
-        }, toControllerError);
-      }),
+      TE.Do,
+      TE.bind("page", () =>
+        pipe(wp.articleSummary(title), TE.mapLeft(toControllerError)),
+      ),
+      TE.map(({ page }) => ({
+        slug: getUsernameFromDisplayName(page.titles.canonical),
+        featuredMedia: page.thumbnail?.source ?? page.originalimage?.source,
+        intro: page.extract,
+      })),
     );
   };
 
-export const searchAndParseFromWikipedia: TEFlow<[string], LoadedPage> =
-  (ctx) => (search) => {
+export const searchAndParseFromWikipedia: FetchFromWikipediaFlow =
+  (wp) => (search) => {
     return pipe(
-      ctx.wp.search(search),
+      wp.search(search),
       TE.mapLeft(toControllerError),
-      TE.chain((p) => fetchFromWikipedia(ctx)(p.results[0].pageid)),
+      TE.chain((p) => fetchFromWikipedia(wp)(p[0].title)),
     );
   };
