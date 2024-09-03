@@ -1,8 +1,8 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { PathReporter } from "io-ts/lib/PathReporter.js";
-import { startContext } from "./start-ctx.js";
-import { createStats } from "#flows/stats/createStats.flow.js";
+import { type CommandFlow } from "./command.type.js";
+import { createStats as createStatsFlow } from "#flows/stats/createStats.flow.js";
 
 const toError = (m: string): string => `
 
@@ -13,8 +13,8 @@ const toError = (m: string): string => `
   create-stats.ts $type $id
 `;
 
-const run = async (): Promise<void> => {
-  const [, , _type, id] = process.argv;
+export const createStats: CommandFlow = async (ctx, args): Promise<void> => {
+  const [_type, id] = args;
 
   if (!_type) {
     throw new Error(toError(`Missing parameter 'type' `));
@@ -22,16 +22,14 @@ const run = async (): Promise<void> => {
 
   const type: "keywords" | "groups" | "actors" = _type as any;
   // eslint-disable-next-line no-console
-  console.log("Creating stats for type ", type);
+  ctx.logger.info.log("Creating stats for type ", type);
 
   if (!id) {
     throw new Error(toError(`Missing parameter 'id' `));
   }
 
-  const ctx = await startContext();
-
   return pipe(
-    createStats(ctx)(type, id),
+    createStatsFlow(ctx)(type, id),
     fp.TE.bimap(
       (err) => {
         ctx.logger.error.log("Error %O", err);
@@ -49,6 +47,3 @@ const run = async (): Promise<void> => {
     throwTE,
   );
 };
-
-// eslint-disable-next-line no-console
-void run().catch(console.error);

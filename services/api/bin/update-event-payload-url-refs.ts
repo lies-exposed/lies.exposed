@@ -2,7 +2,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { Brackets } from "typeorm";
-import { startContext, stopContext } from "./start-ctx.js";
+import { type CommandFlow } from "./command.type.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { fetchAndSave } from "#flows/links/link.flow.js";
 import { getOneAdminOrFail } from "#flows/users/getOneUserOrFail.flow.js";
@@ -13,9 +13,7 @@ import { getOneAdminOrFail } from "#flows/users/getOneUserOrFail.flow.js";
  *
  * @returns void
  */
-const run = async (): Promise<any> => {
-  const ctx = await startContext();
-
+export const updateEventPayloadURLRefs: CommandFlow = async (ctx) => {
   const events = await pipe(
     sequenceS(fp.TE.ApplicativePar)({
       creator: getOneAdminOrFail(ctx),
@@ -117,9 +115,4 @@ const run = async (): Promise<any> => {
       );
     }),
   );
-
-  await stopContext(ctx);
 };
-
-// eslint-disable-next-line no-console
-void run().then(console.log).catch(console.error);

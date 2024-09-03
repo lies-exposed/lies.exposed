@@ -9,10 +9,9 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { JsonContains } from "typeorm";
-import { startContext, stopContext } from "./start-ctx.js";
+import { type CommandFlow } from "./command.type.js";
 import { AreaEntity } from "#entities/Area.entity.js";
 import { toControllerError } from "#io/ControllerError.js";
-const parseKMZ = require("parse2-kmz");
 
 interface GEOFeature {
   type: "Feature";
@@ -22,9 +21,10 @@ interface GEOFeature {
   };
 }
 
-const run = async (): Promise<any> => {
-  const ctx = await startContext();
-  const [, , pathToKMZ] = process.argv;
+export const importFromKMZ: CommandFlow = async (ctx, args) => {
+  const [pathToKMZ] = args;
+
+  const parseKMZ = await import("parse2-kmz");
 
   const result = await pipe(
     TE.tryCatch(() => {
@@ -69,9 +69,4 @@ const run = async (): Promise<any> => {
   );
 
   ctx.logger.info.log("Output: %O", entities);
-
-  await stopContext(ctx);
 };
-
-// eslint-disable-next-line no-console
-void run().catch(console.error);

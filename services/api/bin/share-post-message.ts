@@ -2,12 +2,10 @@
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import prompts from "prompts";
-import { startContext, stopContext } from "./start-ctx.js";
+import { type CommandFlow } from "./command.type.js";
 import { postToIG } from "#flows/social-posts/postToIG.flow.js";
 
-const run = async (): Promise<any> => {
-  const ctx = await startContext();
-
+export const sharePostMessage: CommandFlow = async (ctx) => {
   await pipe(
     postToIG(ctx)(
       {
@@ -46,9 +44,4 @@ const run = async (): Promise<any> => {
     ),
     throwTE,
   );
-
-  await stopContext(ctx);
 };
-
-// eslint-disable-next-line no-console
-run().catch(console.error);

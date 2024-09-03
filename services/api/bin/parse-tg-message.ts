@@ -1,13 +1,8 @@
-/* eslint-disable import/first */
-/* eslint-disable @typescript-eslint/no-var-requires */
-
 import * as fs from "fs";
 import * as path from "path";
-import { loadENV } from "@liexp/core/lib/env/utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { separateTE, throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import D from "debug";
-import { startContext, stopContext } from "./start-ctx.js";
+import { type CommandFlow } from "./command.type.js";
 import { parseTGMessageFlow } from "#flows/tg/parseMessages.flow.js";
 
 /**
@@ -18,10 +13,8 @@ import { parseTGMessageFlow } from "#flows/tg/parseMessages.flow.js";
  *
  * @returns void
  */
-const run = async (): Promise<any> => {
-  loadENV(process.cwd(), process.env.DOTENV_CONFIG_PATH ?? "../../.env");
-
-  const [, , tgNumber, _deleteFile] = process.argv;
+export const parseTGMessage: CommandFlow = async (ctx, args): Promise<any> => {
+  const [tgNumber, _deleteFile] = args;
 
   const messagesFolder = path.resolve(process.cwd(), `temp/tg/messages`);
 
@@ -45,10 +38,6 @@ const run = async (): Promise<any> => {
 
   const deleteFile = _deleteFile === "true";
 
-  const ctx = await startContext();
-
-  D.enable(ctx.env.DEBUG);
-
   ctx.logger.info.log("Reading message %d", messageFile.length);
   const parseTGMessage = parseTGMessageFlow(ctx);
 
@@ -68,10 +57,5 @@ const run = async (): Promise<any> => {
     throwTE,
   );
 
-  await stopContext(ctx);
-
   return result;
 };
-
-// eslint-disable-next-line no-console
-void run().then(console.log).catch(console.error);
