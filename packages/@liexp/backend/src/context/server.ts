@@ -32,6 +32,8 @@ export interface ServerContext {
   pdf: PDFProvider;
   /** Wikipedia Provider */
   wp: WikipediaProvider;
+  /** RationalWiki Provider */
+  rw: WikipediaProvider;
   /**
    * Natural Language Provider
    */

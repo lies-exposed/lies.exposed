@@ -6,8 +6,8 @@ import { type RouteContext } from "#routes/route.types.js";
  * Flow is a curried function of {@link RouteContext} that returns
  * synchronous result
  */
-export type Flow<Args extends any[], R> = (
-  ctx: RouteContext,
+export type Flow<Args extends any[], R, Context = RouteContext> = (
+  ctx: Context,
 ) => (...args: Args) => R;
 
 /**
@@ -15,8 +15,8 @@ export type Flow<Args extends any[], R> = (
  * a TaskEither
  *
  */
-export type TEFlow<Args extends any[], R> = (
-  ctx: RouteContext,
+export type TEFlow<Args extends any[], R, Context = RouteContext> = (
+  ctx: Context,
 ) => (...args: Args) => TE.TaskEither<ControllerError, R>;
 
 export type TEFlow2<R> = (

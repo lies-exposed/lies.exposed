@@ -17,7 +17,7 @@ export const MakeCreateGroupRoute: Route = (r, ctx) => {
       return pipe(
         CreateGroupBody.is(body)
           ? TE.right(body)
-          : searchGroupAndCreateFromWikipedia(ctx)(body.search),
+          : searchGroupAndCreateFromWikipedia(ctx)(body.search, "wikipedia"),
         TE.chain(({ color, ...b }) =>
           ctx.db.save(GroupEntity, [
             {
