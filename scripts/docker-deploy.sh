@@ -53,11 +53,11 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
 
     docker compose --env-file .env.api run -d --name api-migration api pnpm migration:run
 
-    docker compose --env-file .env.api run -d --rm --name upsert-nlp-entities api pnpm bin:run ./bin/upsert-nlp-entities.ts
-    docker compose --env-file .env.api run -d --rm --name upsert-tg-pinned-message api pnpm bin:run ./bin/upsert-tg-pinned-message.ts
-    docker compose --env-file .env.api run -d --rm --name parse-all-tg-messages api pnpm bin:run ./bin/parse-tg-message.ts all true
-    docker compose --env-file .env.api run -d --rm --name clean-space-media api pnpm bin:run ./bin/clean-space-media.ts --dry
-    docker compose --env-file .env.api run -d --name assign-default-area-featured-image api pnpm bin:run ./bin/area/assign-default-featured-image.ts
+    docker compose --env-file .env.api run -d --rm --name upsert-nlp-entities api pnpm bin:run upsert-nlp-entities
+    docker compose --env-file .env.api run -d --rm --name upsert-tg-pinned-message api pnpm bin:run upsert-tg-pinned-message
+    docker compose --env-file .env.api run -d --rm --name parse-all-tg-messages api pnpm bin:run parse-tg-message all true
+    docker compose --env-file .env.api run -d --rm --name clean-space-media api pnpm bin:run clean-space-media --dry
+    docker compose --env-file .env.api run -d --name assign-default-area-featured-image api pnpm bin:run assign-default-area-featured-image
 
     cd ~/
     # list top 5 bigger files
