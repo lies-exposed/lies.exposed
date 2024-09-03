@@ -106,7 +106,7 @@ export type InfiniteMasonryProps = MasonryProps &
 let masonryRef: Masonry | null = null;
 const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
   any,
-  InfiniteMasonryProps
+  Omit<InfiniteMasonryProps, "ref">
 > = (
   {
     columnCount: defaultColumnCount,
@@ -116,6 +116,8 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
     width,
     CellRenderer,
     onMasonryRef,
+    autoHeight,
+    height,
     ...props
   },
   ref,
@@ -166,6 +168,8 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
       }}
       {...props}
       width={width}
+      height={height}
+      autoHeight={autoHeight}
       cellCount={items.length}
       cellMeasurerCache={cellCache}
       cellPositioner={positionerCache}
