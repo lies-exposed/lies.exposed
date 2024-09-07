@@ -71,7 +71,7 @@
     "@visx/scale": "^3.5.0",
     "@visx/tooltip": "^3.3.0",
     "@xyflow/react": "^12.2.1",
-    "axios": "^1.7.3",
+    "axios": "^1.7.7",
     "bs58": "^5.0.0",
     "clsx": "^2.1.0",
     "compression": "^1.7.4",
@@ -146,7 +146,7 @@
     "eslint-plugin-promise": "^6.6.0",
     "eslint-plugin-react": "^7.35.2",
     "prettier": "^3.3.3",
-    "tsx": "^4.16.5",
+    "tsx": "^4.19.0",
     "typescript": "^5.4.5",
     "vite": "^5.3.5"
   },
