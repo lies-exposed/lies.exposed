@@ -20,6 +20,7 @@ export interface FAIconProps extends FontAwesomeIconProps {
     | "align-center"
     | "align-justify"
     | "text-height"
+    | "edit"
     | "italic"
     | "underline"
     | "code"
