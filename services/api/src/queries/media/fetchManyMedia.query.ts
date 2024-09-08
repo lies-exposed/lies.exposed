@@ -185,7 +185,7 @@ export const fetchManyMedia: TEFlow<
         fp.O.getOrElse(() => false),
       );
       if (includeDeleted) {
-        q.where("media.deletedAt IS NOT NULL").withDeleted();
+        q.andWhere("media.deletedAt IS NOT NULL").withDeleted();
       }
 
       return q;
