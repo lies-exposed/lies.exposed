@@ -20,6 +20,8 @@ debug.enable(import.meta.env.VITE_DEBUG ?? "@liexp:*:error");
 // watch for font awesome icons
 dom.watch();
 
+import "@liexp/ui/lib/components/Common/Icons/library.js";
+
 // import main css
 import "./index.css";
 

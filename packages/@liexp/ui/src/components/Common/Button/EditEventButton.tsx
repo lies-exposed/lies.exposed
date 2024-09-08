@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import { type UUID } from "io-ts-types/lib/UUID.js";
 import { useAuthProvider } from "ra-core";
@@ -7,6 +6,7 @@ import { useConfiguration } from "../../../context/ConfigurationContext.js";
 import { getAdminLink } from "../../../utils/links.utils.js";
 import { EditEventModal } from "../../Modal/EditEventModal.js";
 import { Link } from "../../mui/index.js";
+import { FAIcon } from "../Icons/FAIcon.js";
 
 interface EditEventButtonProps {
   admin?: boolean;
@@ -59,7 +59,7 @@ const EditEventButton: React.FC<EditEventButtonProps> = ({ admin, id }) => {
 
   return (
     <Link {...linkProps}>
-      <FontAwesomeIcon
+      <FAIcon
         icon="edit"
         onClick={() => {
           setOpen(true);
