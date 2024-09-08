@@ -174,6 +174,7 @@ export const RelationInlineContentComponent: React.FC<{
       },
       size: "small",
       selectedItems: [],
+      autoFocus: true,
       onChange: (a: any[]) => {
         const currentBlock =
           editor.document.find((tt) =>
