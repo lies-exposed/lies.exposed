@@ -78,7 +78,7 @@
     "date-fns": "^2.30.0",
     "debug": "*",
     "domino": "^2.1.6",
-    "exifreader": "^4.23.3",
+    "exifreader": "^4.23.5",
     "express": "^4.19.2",
     "express-http-proxy": "^2.1.1",
     "express-jwt": "^8.4.1",
@@ -146,8 +146,8 @@
     "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-import-resolver-typescript": "^3.6.1",
-    "eslint-plugin-import": "^2.29.1",
+    "eslint-import-resolver-typescript": "^3.6.3",
+    "eslint-plugin-import": "^2.30.0",
     "eslint-plugin-prettier": "^5.2.1",
     "prettier": "^3.3.3",
     "prompts": "^2.4.2",
@@ -155,7 +155,7 @@
     "typeorm-uml": "^1.6.5",
     "vite-tsconfig-paths": "^4.3.2",
     "vitest": "^2.0.5",
-    "vitest-mock-extended": "^2.0.0"
+    "vitest-mock-extended": "^2.0.2"
   },
   "packageManager": "pnpm@9.7.0"
 }

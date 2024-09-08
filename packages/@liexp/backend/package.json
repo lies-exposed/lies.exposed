@@ -45,7 +45,7 @@
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node-telegram-bot-api": "^0.64.7",
     "@types/uuid": "^9.0.8",
-    "exifreader": "^4.23.3",
+    "exifreader": "^4.23.5",
     "fast-csv": "^5.0.1",
     "langchain": "^0.2.18",
     "prettier": "^3.3.3",

@@ -65,7 +65,7 @@
     "web-vitals": "^3.5.2"
   },
   "devDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.20.0",
+    "@rollup/rollup-linux-x64-gnu": "^4.21.2",
     "@testing-library/dom": "^9.3.3",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.5.1",
@@ -80,16 +80,16 @@
     "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-import-resolver-typescript": "^3.6.1",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-n": "^17.10.1",
+    "eslint-import-resolver-typescript": "^3.6.3",
+    "eslint-plugin-import": "^2.30.0",
+    "eslint-plugin-n": "^17.10.2",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-promise": "^6.6.0",
     "eslint-plugin-react": "^7.35.2",
     "page-metadata-parser": "^1.1.4",
     "prettier": "^3.3.3",
     "typescript": "^5.4.5",
-    "vite": "^5.3.5"
+    "vite": "^5.4.3"
   },
   "packageManager": "pnpm@9.7.0"
 }
