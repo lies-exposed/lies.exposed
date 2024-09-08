@@ -35,13 +35,27 @@ export const LinkDataGrid: React.FC<DatagridProps> = (props) => {
                   controls={false}
                 />
               </Stack>
-              <Stack direction="column">
-                <TextField
-                  source="title"
-                  style={{ fontWeight: 600, marginBottom: 5 }}
-                />
-                <TextField source="description" />
-              </Stack>
+              <FunctionField
+                render={(record) => (
+                  <Stack direction="column">
+                    <TextField
+                      source="title"
+                      record={record}
+                      style={{ fontWeight: 600, marginBottom: 5 }}
+                    />
+                    <TextField
+                      source="description"
+                      record={{
+                        ...record,
+                        description:
+                          record.description.length > 300
+                            ? record.description.substring(0, 300).concat("...")
+                            : record.description,
+                      }}
+                    />
+                  </Stack>
+                )}
+              />
             </Stack>
           );
         }}

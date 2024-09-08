@@ -1,4 +1,4 @@
-import { ImageType } from "@liexp/shared/lib/io/http/Media.js";
+import { ImageType, type Media } from "@liexp/shared/lib/io/http/Media.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import * as React from "react";
 import {
@@ -17,6 +17,8 @@ import {
   useRefresh,
   type EditProps,
   type FieldProps,
+  ToolbarClasses,
+  Toolbar,
 } from "react-admin";
 import { transformMedia } from "../../../client/admin/MediaAPI.js";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
@@ -39,7 +41,7 @@ import { GenerateThumbnailButton } from "./button/GenerateThumbnailButton.js";
 import { MediaTGPostButton } from "./button/MediaTGPostButton.js";
 import { MediaInput } from "./input/MediaInput.js";
 
-const EditTitle: React.FC<EditProps> = ({ record }: any) => {
+const EditTitle: React.FC<EditProps<Media>> = ({ record }) => {
   return <span>Media {record?.description}</span>;
 };
 
@@ -138,20 +140,28 @@ const MediaEditToolbar: React.FC = () => {
   const record = useRecordContext();
   return (
     <React.Fragment>
-      <Stack direction={"column"} spacing={2}>
-        <Box>
-          <SaveButton />
-        </Box>
-        <Box
-          style={{
-            display: "flex",
-            alignItems: "flex-center",
-            justifyContent: "flex-end",
-          }}
+      <Toolbar>
+        <Stack
+          direction={"row"}
+          spacing={2}
+          justifyContent={"center"}
+          className={ToolbarClasses.defaultToolbar}
         >
-          {record?.deletedAt ? <DeleteWithConfirmButton /> : <DeleteButton />}
-        </Box>
-      </Stack>
+          <Box style={{ width: "50%" }}>
+            <SaveButton />
+          </Box>
+          <Box
+            style={{
+              width: "50%",
+              display: "flex",
+              alignItems: "flex-end",
+              justifyContent: "flex-end",
+            }}
+          >
+            {record?.deletedAt ? <DeleteWithConfirmButton /> : <DeleteButton />}
+          </Box>
+        </Stack>
+      </Toolbar>
     </React.Fragment>
   );
 };
