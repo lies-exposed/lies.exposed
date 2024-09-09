@@ -1,3 +1,4 @@
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type CreateEventBody } from "@liexp/shared/lib/io/http/Events/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import * as React from "react";
@@ -9,18 +10,17 @@ import {
 } from "react-admin";
 import { useNavigate } from "react-router";
 import { Box, MenuItem, Select } from "../../mui/index.js";
-
 interface CreateEventButtonProps {
   transform: (
     t: io.http.Events.EventType,
-    record: RaRecord,
+    record: RaRecord<UUID>,
   ) => Promise<CreateEventBody>;
 }
 
 export const CreateEventButton: React.FC<CreateEventButtonProps> = ({
   transform,
 }) => {
-  const record = useRecordContext();
+  const record = useRecordContext<RaRecord<UUID>>();
   const navigate = useNavigate();
   const apiProvider = useDataProvider();
 

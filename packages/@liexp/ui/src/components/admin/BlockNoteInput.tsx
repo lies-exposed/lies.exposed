@@ -9,10 +9,7 @@ import {
 import { ErrorBoundary } from "react-error-boundary";
 import { BNEditor, type BNEditorProps } from "../Common/BlockNote/index.js";
 import { getTextContents } from "../Common/BlockNote/utils/getTextContents.js";
-import {
-  fromSlateToBlockNote,
-  toInitialValue,
-} from "../Common/BlockNote/utils/utils.js";
+import { toInitialValue } from "../Common/BlockNote/utils/utils.js";
 import { ErrorBox } from "../Common/ErrorBox.js";
 import JSONInput from "../Common/JSON/JSONInput.js";
 import { FormControlLabel, Paper, Stack, Switch } from "../mui/index.js";
@@ -42,7 +39,7 @@ const RaBlockNoteInput: React.FC<RaBlockNoteInputProps> = ({
     field: { value, onChange },
   } = useInput({
     source,
-    format: fromSlateToBlockNote,
+    format: toInitialValue,
     defaultValue,
   });
 

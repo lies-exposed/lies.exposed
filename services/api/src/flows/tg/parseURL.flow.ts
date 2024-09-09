@@ -8,7 +8,6 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import type * as puppeteer from "puppeteer-core";
 import { Equal } from "typeorm";
 import { LinkEntity } from "#entities/Link.entity.js";
-import { MediaEntity } from "#entities/Media.entity.js";
 import { type UserEntity } from "#entities/User.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import { fetchAndSave } from "#flows/links/link.flow.js";
@@ -56,17 +55,19 @@ export const parseURLs: TEFlow<
                       takeLinkScreenshot(ctx)(link),
                       TE.chain((buffer) => uploadScreenshot(ctx)(link, buffer)),
                       TE.chain((screenshot) =>
-                        ctx.db.save(MediaEntity, [
+                        ctx.db.save(LinkEntity, [
                           {
-                            ...link.image,
-                            ...screenshot,
-                            label: link.title,
-                            description: link.description,
-                            links: [link],
+                            ...link,
+                            image: {
+                              ...link.image,
+                              ...screenshot,
+                              label: link.title,
+                              description: link.description,
+                            },
                           },
                         ]),
                       ),
-                      TE.map((media) => ({ ...link, image: media[0] })),
+                      TE.map(([media]) => media),
                     ),
               ),
             ),
