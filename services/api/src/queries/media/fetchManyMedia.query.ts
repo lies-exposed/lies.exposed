@@ -23,7 +23,7 @@ const defaultQuery: http.Media.GetListMediaQuery = {
   emptyEvents: fp.O.none,
   emptyLinks: fp.O.none,
   emptyAreas: fp.O.none,
-  deletedOnly: fp.O.none,
+  includeDeleted: fp.O.none,
   spCount: fp.O.none,
   onlyUnshared: fp.O.none,
   _sort: fp.O.some("updatedAt"),
@@ -48,7 +48,7 @@ export const fetchManyMedia: TEFlow<
     emptyLinks,
     emptyThumbnail,
     emptyAreas,
-    deletedOnly,
+    includeDeleted,
     exclude,
     spCount,
     onlyUnshared,
@@ -180,13 +180,16 @@ export const fetchManyMedia: TEFlow<
         );
       }
 
-      const includeDeleted = pipe(
-        deletedOnly,
-        fp.O.getOrElse(() => false),
+      // include deleted
+      pipe(
+        includeDeleted,
+        fp.O.fold(
+          () => {},
+          () => {
+            q.andWhere("media.deletedAt IS NOT NULL").withDeleted();
+          },
+        ),
       );
-      if (includeDeleted) {
-        q.andWhere("media.deletedAt IS NOT NULL").withDeleted();
-      }
 
       return q;
     },

@@ -83,7 +83,7 @@ export const GetListMediaQuery = t.type(
     emptyEvents: optionFromNullable(BooleanFromString),
     emptyLinks: optionFromNullable(BooleanFromString),
     emptyAreas: optionFromNullable(BooleanFromString),
-    deletedOnly: optionFromNullable(BooleanFromString),
+    includeDeleted: optionFromNullable(BooleanFromString),
     creator: optionFromNullable(UUID),
     keywords: optionFromNullable(t.array(UUID)),
     spCount: optionFromNullable(NumberFromString),
