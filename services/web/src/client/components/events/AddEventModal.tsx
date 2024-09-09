@@ -1,6 +1,6 @@
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
-import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import CreateEventCard from "@liexp/ui/lib/components/Cards/Events/CreateEventCard.js";
 import EventCard from "@liexp/ui/lib/components/Cards/Events/EventCard.js";
 import { toBNDocument } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";

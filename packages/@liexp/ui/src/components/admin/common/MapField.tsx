@@ -1,4 +1,4 @@
-import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import get from "lodash/get.js";
 import has from "lodash/has.js";
 import Feature from "ol/Feature.js";

@@ -1,7 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type URL } from "@liexp/shared/lib/io/http/Common/index.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
-import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -48,7 +48,7 @@ export const fetchAsLink: TEFlow<
                   mOpt,
                   O.alt(() =>
                     O.some<MediaEntity>({
-                      id: uuid() as any,
+                      id: uuid(),
                       label: defaults?.title ?? m.description ?? m.url,
                       thumbnail: image,
                       location: image,
@@ -82,17 +82,15 @@ export const fetchAsLink: TEFlow<
       ),
       TE.map((meta): LinkEntity => {
         ctx.logger.debug.log("Creating link %O", meta);
-        let publishDate: any = DateFromISOString.decode(meta.date);
-        if (E.isRight(publishDate)) {
-          publishDate = publishDate.right;
-        } else {
-          publishDate = undefined;
-        }
+        const publishDate = pipe(
+          DateFromISOString.decode(meta.date),
+          E.getOrElse((): Date | null => null),
+        );
 
         return {
-          id: uuid() as any,
+          id: uuid(),
           title: meta.title,
-          url: url as any,
+          url,
           description: meta.description ?? meta.title,
           publishDate,
           image: meta.image,

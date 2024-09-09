@@ -1,9 +1,9 @@
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { parseDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI.js";
 import { fromSlateToBlockNote } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";

@@ -1,4 +1,4 @@
-import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";

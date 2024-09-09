@@ -1,4 +1,4 @@
-import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type MigrationInterface, type QueryRunner } from "typeorm";
 import { LinkEntity } from "#entities/Link.entity.js";
 

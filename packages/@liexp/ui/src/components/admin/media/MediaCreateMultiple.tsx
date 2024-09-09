@@ -1,4 +1,5 @@
 import { parseURL } from "@liexp/shared/lib/helpers/media.js";
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
   ImageType,
   MP3Type,
@@ -8,7 +9,6 @@ import {
 } from "@liexp/shared/lib/io/http/Media.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";

@@ -1,4 +1,4 @@
-import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { useReactFlow } from "@xyflow/react";
 import React, { useCallback } from "react";
 import { IconButton, Icons, Stack } from "../../../../mui/index.js";

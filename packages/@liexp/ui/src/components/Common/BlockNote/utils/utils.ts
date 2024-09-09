@@ -1,6 +1,6 @@
 import { BlockNoteEditor } from "@blocknote/core";
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type BNESchemaEditor, schema, type BNBlock } from "../EditorSchema.js";
 import { PARAGRAPH_TYPE } from "./customSlate.js";

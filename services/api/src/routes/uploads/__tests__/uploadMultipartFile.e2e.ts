@@ -1,7 +1,7 @@
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { PngType } from "@liexp/shared/lib/io/http/Media.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 
 describe("Upload file", () => {
