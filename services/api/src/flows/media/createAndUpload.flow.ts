@@ -1,11 +1,11 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { type UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
   IframeVideoType,
   type MediaType,
 } from "@liexp/shared/lib/io/http/Media.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
-import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { createThumbnail } from "./thumbnails/createThumbnail.flow.js";
 import { MediaEntity } from "#entities/Media.entity.js";
@@ -15,7 +15,7 @@ export const createAndUpload: TEFlow<
   [
     Media.CreateMedia,
     { Body: any; ContentType?: MediaType },
-    string | undefined,
+    UUID | undefined,
     boolean,
   ],
   MediaEntity
@@ -24,7 +24,7 @@ export const createAndUpload: TEFlow<
   (createMediaData, { Body, ContentType }, id, extractThumb) => {
     ctx.logger.debug.log("Create media and upload %s", createMediaData);
 
-    const mediaId = id ?? (uuid() as any);
+    const mediaId = id ?? uuid();
 
     return pipe(
       TE.Do,

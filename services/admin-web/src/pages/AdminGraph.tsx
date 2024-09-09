@@ -1,7 +1,7 @@
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { GraphType } from "@liexp/shared/lib/io/http/graphs/Graph.js";
 import { type Graph } from "@liexp/shared/lib/io/http/index.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
-import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import JSONInput from "@liexp/ui/lib/components/Common/JSON/JSONInput.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";

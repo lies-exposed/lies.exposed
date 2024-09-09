@@ -2,8 +2,8 @@ import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { type UUID } from "io-ts-types/lib/UUID.js";
 import { type Metadata } from "page-metadata-parser";
+import { uuid } from "../io/http/Common/UUID.js";
 import { http } from "../io/index.js";
-import { uuid } from "../utils/uuid.js";
 
 export const getSuggestions =
   (createExcerptValue: (b: string) => Promise<any>) =>
@@ -65,7 +65,7 @@ export const getSuggestions =
       ]),
     );
     const commonSuggestion = {
-      id: uuid() as any,
+      id: uuid(),
       excerpt: suggestedExcerpt,
       body: {},
       draft: true,

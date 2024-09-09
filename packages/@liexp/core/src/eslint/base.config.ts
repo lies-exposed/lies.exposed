@@ -63,12 +63,12 @@ const config: any = tseslint.config(
         "error",
         {
           patterns: [
-            "moment",
             "react-admin",
             "!@liexp/ui/lib/components/admin/react-admin",
             "@liexp/core/src",
             "@liexp/shared/src",
             "@liexp/ui/src",
+            "uuid",
           ],
         },
       ],
