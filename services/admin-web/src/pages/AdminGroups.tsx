@@ -5,7 +5,6 @@ import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provide
 import { parseDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI.js";
-import { fromSlateToBlockNote } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput.js";
 import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField.js";
@@ -118,9 +117,11 @@ const transformGroup =
       ? uploadImages(apiProvider)("groups", data.id as string, [
           { file: data.avatar.rawFile, type: data.avatar.rawFile.type },
         ])
-      : TE.right([
-          { location: data.avatar, type: "image/jpeg" as Media.MediaType },
-        ]);
+      : data.avatar
+        ? TE.right([
+            { location: data.avatar, type: "image/jpeg" as Media.MediaType },
+          ])
+        : TE.right([]);
 
     const newMembers = (data.newMembers ?? []).map((m: any) => ({
       ...m,
@@ -132,8 +133,8 @@ const transformGroup =
       uploadAvatar,
       TE.map((locations) => ({
         ...data,
-        excerpt: fromSlateToBlockNote(data.excerpt),
-        body: fromSlateToBlockNote(data.body),
+        excerpt: data.excerpt,
+        body: data.body,
         avatar: locations[0].location,
         startDate: data.startDate?.includes("T")
           ? data.startDate
@@ -255,16 +256,20 @@ export const GroupCreate: React.FC<CreateProps> = (props) => {
 
             return (
               <Box>
-                <ColorInput source="color" />
-                <DateInput source="startDate" />
-                <DateInput source="endDate" />
-                <TextWithSlugInput source="name" slugSource="username" />
-                <GroupKindInput source="kind" />
+                <ColorInput source="color" required />
+                <DateInput source="startDate" required />
+                <DateInput source="endDate" required />
+                <TextWithSlugInput
+                  source="name"
+                  slugSource="username"
+                  required
+                />
+                <GroupKindInput source="kind" required />
                 <GroupMemberArrayInput source="members" />
                 <ImageInput source="avatar">
                   <ImageField source="" src="src" />
                 </ImageInput>
-                <BlockNoteInput source="excerpt" onlyText />
+                <BlockNoteInput source="excerpt" onlyText isRequired={true} />
                 <BlockNoteInput source="body" />
               </Box>
             );

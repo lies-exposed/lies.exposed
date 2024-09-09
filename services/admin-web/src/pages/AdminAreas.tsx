@@ -1,6 +1,5 @@
 import { type Area } from "@liexp/shared/lib/io/http/Area.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
-import { fromSlateToBlockNote } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import { MapInput } from "@liexp/ui/lib/components/admin/MapInput.js";
 import { AreaTGPostButton } from "@liexp/ui/lib/components/admin/areas/button/AreaTGPostButton.js";
@@ -118,7 +117,7 @@ const transformArea = ({
   const media = transformMedia(newMediaRef);
   return {
     ...area,
-    body: fromSlateToBlockNote(area.body),
+    body: area.body,
     featuredImage: area.featuredImage?.id,
     media: area.media.concat(media),
   };

@@ -25,20 +25,20 @@ interface MessageParserAPI {
   parseDocument: TEFlow2<MediaEntity[]>;
   parsePhoto: TEFlow2<MediaEntity[]>;
   parseVideo: TEFlow2<MediaEntity[]>;
-  parseURL: TEFlow<[puppeteer.Page, UserEntity], LinkEntity[]>;
+  parseURLs: TEFlow<[puppeteer.Page, UserEntity], LinkEntity[]>;
   parsePlatformMedia: TEFlow<[puppeteer.Page, UserEntity], MediaEntity[]>;
 }
 
-const takeURLFromMessageEntity =
+const takeURLsFromMessageEntity =
   (text?: string) =>
   (acc: URL[], e: TelegramBot.MessageEntity): URL[] => {
     if (e.type === "url" && text) {
       return acc.concat(
-        text.substring(e.offset, e.offset + e.length) as any as URL,
+        text.substring(e.offset, e.offset + e.length) as unknown as URL,
       );
     }
     if (e.type === "text_link") {
-      return acc.concat(e.url as any as URL);
+      return acc.concat(e.url as unknown as URL);
     }
     return acc;
   };
@@ -48,11 +48,11 @@ export const MessageParser = (
 ): MessageParserAPI => {
   const { url: urlEntity, video: videoURLS } = [
     ...(message.entities ?? []).reduce(
-      takeURLFromMessageEntity(message.text),
+      takeURLsFromMessageEntity(message.text),
       [],
     ),
     ...(message.caption_entities ?? []).reduce(
-      takeURLFromMessageEntity(message.caption),
+      takeURLsFromMessageEntity(message.caption),
       [],
     ),
   ]
@@ -148,7 +148,7 @@ export const MessageParser = (
             ),
         ),
       ),
-    parseURL: (ctx) => (page, creator) => parseURLs(ctx)(urls, creator, page),
+    parseURLs: (ctx) => (page, creator) => parseURLs(ctx)(urls, creator, page),
     parsePlatformMedia: (ctx) => (p, creator) =>
       pipe(
         platformMediaURLs,

@@ -55,8 +55,16 @@ export const extractThumbnailFromVideoPlatform = (
         }
         case "peertube":
         case "odysee": {
-          const selector = ".vjs-poster";
-          await page.waitForSelector(selector);
+          let selector = ".vjs-poster";
+
+          const element = await page
+            .waitForSelector(selector, { timeout: 10_000 })
+            .catch(() => null);
+
+          if (!element) {
+            await page.waitForSelector(".content__cover");
+            selector = ".content__cover";
+          }
 
           return page.$eval(selector, (el) => {
             const style = el.getAttribute("style");

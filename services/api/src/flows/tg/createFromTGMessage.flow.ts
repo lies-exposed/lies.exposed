@@ -47,8 +47,8 @@ export const createFromTGMessage: TEFlow<
             TE.mapLeft(toControllerError),
           ),
           (page) =>
-            sequenceS(TE.ApplicativePar)({
-              link: messageParser.parseURL(ctx)(page, creator),
+            sequenceS(TE.ApplicativeSeq)({
+              link: messageParser.parseURLs(ctx)(page, creator),
               photos: messageParser.parsePhoto(ctx),
               videos: messageParser.parseVideo(ctx),
               documents: messageParser.parseDocument(ctx),

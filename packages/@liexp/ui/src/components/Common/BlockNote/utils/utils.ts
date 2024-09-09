@@ -1,5 +1,6 @@
 import { BlockNoteEditor } from "@blocknote/core";
 import { fp } from "@liexp/core/lib/fp/index.js";
+import { BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type BNESchemaEditor, schema, type BNBlock } from "../EditorSchema.js";
@@ -25,7 +26,7 @@ export const deserializeSlatePluginToBlockNoteEditor = (p: {
   return fp.O.none;
 };
 
-export const fromSlateToBlockNote = (
+export const formatSlateToBlockNoteValue = (
   v: SlateValue,
 ): BNESchemaEditor["document"] | null => {
   if (isValidSlateValue(v)) {
@@ -38,31 +39,35 @@ export const fromSlateToBlockNote = (
 };
 
 const toInitialValueS = (value: string): BNBlock[] => {
-  return value.split("\n").map((v) => ({
-    id: uuid(),
-    type: "paragraph",
-    props: {
-      textColor: "default",
-      backgroundColor: "default",
-      textAlignment: "left",
-    },
-    children: [],
-    content: [{ type: "text", text: v, styles: {} }],
-  })) as any[];
+  return value.split("\n").map(
+    (v): BNBlock => ({
+      id: uuid(),
+      type: "paragraph",
+      props: {
+        textColor: "default",
+        backgroundColor: "default",
+        textAlignment: "left",
+      },
+      children: [],
+      content: [{ type: "text", text: v, styles: {} }],
+    }),
+  );
 };
 
-function toInitialValue(v: string): any[];
-function toInitialValue(v: unknown): any[] | undefined;
-function toInitialValue(v: any): any[] | undefined {
+function toInitialValue(v: string): BNBlock[];
+function toInitialValue(v: unknown): BNBlock[] | undefined;
+function toInitialValue(v: any): BNBlock[] | undefined {
   if (typeof v === "string") {
     return toInitialValueS(v);
   }
+
   if (isValidSlateValue(v)) {
-    const result = fromSlateToBlockNote(v);
+    const result = formatSlateToBlockNoteValue(v);
     return result ? result : undefined;
   }
-  if (Array.isArray(v) && v.length > 0) {
-    return v as any[];
+
+  if (Array.isArray(v) && BlockNoteDocument.is(v)) {
+    return v as unknown as BNBlock[];
   }
 
   return undefined;
@@ -70,7 +75,9 @@ function toInitialValue(v: any): any[] | undefined {
 
 export { toInitialValue };
 
-export const toInitialContent = (v: unknown): { initialContent?: any[] } => {
+export const toInitialContent = (
+  v: unknown,
+): { initialContent?: BNBlock[] } => {
   const initialValue = toInitialValue(v);
   if (initialValue) {
     return { initialContent: initialValue };
@@ -96,6 +103,6 @@ export const toBNDocument = async (
 };
 
 export const toBNDocumentTE = (
-  v: any,
+  v: unknown,
 ): TaskEither<Error, BNESchemaEditor["document"] | null> =>
   fp.TE.tryCatch(() => toBNDocument(v), fp.E.toError);
