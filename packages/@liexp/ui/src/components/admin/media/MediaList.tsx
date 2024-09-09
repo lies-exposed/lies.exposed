@@ -46,7 +46,12 @@ const mediaFilters = [
     size="small"
   />,
   <MediaTypeInput key="type" source="type" alwaysOn size="small" />,
-  <BooleanInput key="deletedOnly" source="deletedOnly" alwaysOn size="small" />,
+  <BooleanInput
+    key="includeDeleted"
+    source="includeDeleted"
+    alwaysOn
+    size="small"
+  />,
 ];
 
 export const MediaDataGrid: React.FC = () => {
