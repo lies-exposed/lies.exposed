@@ -10,15 +10,4 @@ export default tseslint.config(...baseConfig, {
       project: ["./tsconfig.json"],
     },
   },
-  settings: {
-    "import/ignore": ["uuid"],
-  },
-  rules: {
-    "no-restricted-imports": [
-      "error",
-      {
-        patterns: ["moment", "@liexp/core/src", "@liexp/test/src"],
-      },
-    ],
-  },
 });

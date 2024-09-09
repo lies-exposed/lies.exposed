@@ -1,5 +1,5 @@
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { Events } from "@liexp/shared/lib/io/http/index.js";
-import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { EventIcon } from "@liexp/ui/lib/components/Common/Icons/EventIcon.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput.js";

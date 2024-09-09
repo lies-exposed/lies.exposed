@@ -1,7 +1,7 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { EventSuggestion, Events } from "@liexp/shared/lib/io/http/index.js";
-import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import { addWeeks, subWeeks } from "date-fns";
 import * as A from "fp-ts/lib/Array.js";
@@ -87,7 +87,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
         );
 
         const commonSuggestion = {
-          id: uuid() as any,
+          id: uuid(),
           excerpt: excerpt,
           body: null,
           draft: true,
@@ -114,7 +114,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                   payload: {
                     title: suggestedTitle,
                     website: l.id,
-                    media: uuid() as any,
+                    media: uuid(),
                     authors: {
                       actors: [],
                       groups: [],
@@ -164,7 +164,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
               ...commonSuggestion,
               type: Events.EventTypes.DEATH.value,
               payload: {
-                victim: uuid() as any,
+                victim: uuid(),
                 location: undefined as any,
               },
             },

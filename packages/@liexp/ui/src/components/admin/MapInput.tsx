@@ -1,6 +1,6 @@
 import { Polygon } from "@liexp/shared/lib/io/http/Common/Geometry/index.js";
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { http } from "@liexp/shared/lib/io/index.js";
-import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import get from "lodash/get";
 import type Feature from "ol/Feature.js";
 import { type FeatureLike } from "ol/Feature.js";

@@ -1,8 +1,8 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { PngType } from "@liexp/shared/lib/io/http/Media.js";
 import { AdminEdit, type User } from "@liexp/shared/lib/io/http/User.js";
-import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
@@ -41,7 +41,7 @@ export const MakeTakeLinkScreenshotRoute = (
           fp.O.map(fp.A.of),
           fp.O.getOrElse((): Partial<MediaEntity>[] => [
             {
-              id: uuid() as any,
+              id: uuid(),
               label: link.title,
               description: link.description ?? link.title,
               type: PngType.value,

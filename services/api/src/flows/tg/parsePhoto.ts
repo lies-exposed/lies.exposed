@@ -1,6 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { MediaType } from "@liexp/shared/lib/io/http/Media.js";
-import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import type TelegramBot from "node-telegram-bot-api";

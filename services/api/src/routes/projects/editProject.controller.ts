@@ -1,6 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints, AddEndpoint } from "@liexp/shared/lib/endpoints/index.js";
-import { uuid } from "@liexp/shared/lib/utils/uuid.js";
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Router } from "express";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";

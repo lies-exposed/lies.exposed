@@ -1,7 +1,7 @@
 import { insertOrUpdateBlock } from "@blocknote/core";
 import { createReactBlockSpec } from "@blocknote/react";
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
-import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import * as React from "react";
 import EventsBox from "../../../../../containers/EventsBox.js";
 import { AutocompleteEventInput } from "../../../../Input/AutocompleteEventInput.js";

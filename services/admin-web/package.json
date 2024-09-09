@@ -61,7 +61,6 @@
     "react-router-dom": "^6.26.1",
     "react-virtualized": "^9.22.5",
     "slick-carousel": "^1.8.1",
-    "uuid": "^9.0.1",
     "web-vitals": "^3.5.2"
   },
   "devDependencies": {

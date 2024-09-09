@@ -1,4 +1,5 @@
 import { getShareMedia } from "@liexp/shared/lib/helpers/event/index.js";
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { ImageType } from "@liexp/shared/lib/io/http/Media.js";
 import { type CreateSocialPost } from "@liexp/shared/lib/io/http/SocialPost.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
@@ -6,7 +7,6 @@ import {
   contentTypeFromFileExt,
   fileExtFromContentType,
 } from "@liexp/shared/lib/utils/media.utils.js";
-import { uuid } from "@liexp/shared/lib/utils/uuid.js";
 import kebabCase from "lodash/kebabCase.js";
 import * as React from "react";
 import { useConfiguration } from "../../../context/ConfigurationContext.js";
@@ -366,7 +366,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
             columns={payload.media.length > 3 ? 3 : media.length}
             hideDescription
             media={payload.media.map((m) => ({
-              id: uuid() as any,
+              id: uuid(),
               creator: undefined,
               createdAt: new Date(),
               updatedAt: new Date(),
