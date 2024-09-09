@@ -1,11 +1,10 @@
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { type UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { http } from "@liexp/shared/lib/io/index.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI.js";
-import { fromSlateToBlockNote } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import { EntitreeGraph } from "@liexp/ui/lib/components/Common/Graph/Flow/EntitreeGraph/EntitreeGraph.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import { ActorDataGrid } from "@liexp/ui/lib/components/admin/actors/ActorDataGrid.js";
@@ -68,7 +67,10 @@ export const ActorList: React.FC = () => (
 
 const transformActor =
   (dataProvider: APIRESTClient) =>
-  async (id: string, data: RaRecord): Promise<RaRecord> => {
+  async (
+    id: string,
+    { newMemberIn = [], ...data }: RaRecord<UUID>,
+  ): Promise<RaRecord> => {
     if (data._from === "wikipedia") {
       return data;
     }
@@ -90,11 +92,17 @@ const transformActor =
       imagesTask,
       TE.map(([avatar]) => ({
         ...data,
-        body: fromSlateToBlockNote(data.body),
-        excerpt: fromSlateToBlockNote(data.excerpt),
+        body: data.body,
+        excerpt: data.excerpt,
         type: avatar.type,
         id,
         avatar: avatar.location,
+        memberIn: data.memberIn.concat(
+          newMemberIn.map((m: any) => ({
+            ...m,
+            endDate: m.endDate !== "" ? m.endDate : undefined,
+          })),
+        ),
       })),
       throwTE,
     );
@@ -122,17 +130,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
       {...props}
       actions={<EditActions />}
       preview={<ActorPreview />}
-      transform={({ newMemberIn = [], ...a }) =>
-        transformActor(dataProvider)(a.id, {
-          ...a,
-          memberIn: a.memberIn.concat(
-            newMemberIn.map((m: any) => ({
-              ...m,
-              endDate: m.endDate !== "" ? m.endDate : undefined,
-            })),
-          ),
-        })
-      }
+      transform={(a) => transformActor(dataProvider)(a.id, a)}
     >
       <TabbedForm>
         <FormTab label="generals">
@@ -177,7 +175,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
         <FormTab label="Events">
           <ReferenceManyEventField source="id" target="actors[]" />
           <CreateEventButton
-            transform={async (t, r: any) => {
+            transform={async (t, r) => {
               if (t === http.Events.EventTypes.DEATH.value) {
                 return {
                   draft: true,
@@ -224,7 +222,7 @@ export const ActorCreate: React.FC<CreateProps> = (props) => {
     <Create
       {...props}
       title="Create an Actor"
-      transform={(a: any) => transformActor(dataProvider)(uuid(), a)}
+      transform={(a) => transformActor(dataProvider)(uuid(), a)}
     >
       <SimpleForm>
         <SelectInput

@@ -1,6 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type URL } from "@liexp/shared/lib/io/http/Common/index.js";
+import { ImageType } from "@liexp/shared/lib/io/http/Media.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";
@@ -10,8 +11,8 @@ import { type Metadata } from "page-metadata-parser";
 import { Equal } from "typeorm";
 import { type TEFlow } from "../flow.types.js";
 import { LinkEntity } from "#entities/Link.entity.js";
-import { MediaEntity } from "#entities/Media.entity.js";
 import { type UserEntity } from "#entities/User.entity.js";
+import { findOneByLocationOrElse } from "#flows/media/findOneByLocationOrElse.flow.js";
 import { ServerError, type ControllerError } from "#io/ControllerError.js";
 
 export const fetchAsLink: TEFlow<
@@ -38,45 +39,21 @@ export const fetchAsLink: TEFlow<
       })),
       TE.chain((m) =>
         pipe(
-          m.image,
-          fp.O.fromNullable,
-          fp.O.map((image) =>
-            pipe(
-              ctx.db.findOne(MediaEntity, { where: { location: image } }),
-              TE.map((mOpt) =>
-                pipe(
-                  mOpt,
-                  O.alt(() =>
-                    O.some<MediaEntity>({
-                      id: uuid(),
-                      label: defaults?.title ?? m.description ?? m.url,
-                      thumbnail: image,
-                      location: image,
-                      description: defaults?.title ?? m.description ?? m.url,
-                      type: "image/jpeg",
-                      createdAt: new Date(),
-                      updatedAt: new Date(),
-                      creator,
-                      events: [],
-                      areas: [],
-                      links: [],
-                      stories: [],
-                      keywords: [],
-                      featuredIn: [],
-                      deletedAt: null,
-                      extra: null,
-                    }),
-                  ),
-                ),
-              ),
-            ),
+          findOneByLocationOrElse(ctx)(
+            m,
+            (image) => ({
+              id: uuid(),
+              label: defaults?.title ?? m.description ?? m.url,
+              thumbnail: image,
+              location: image,
+              description: defaults?.title ?? m.description ?? m.url,
+              type: ImageType.types[0].value,
+            }),
+            creator,
           ),
-          fp.O.getOrElse(() =>
-            TE.right<ControllerError, O.Option<MediaEntity>>(O.none),
-          ),
-          TE.map((image) => ({
+          TE.map((media) => ({
             ...m,
-            image: pipe(image, fp.O.toNullable),
+            image: fp.O.toNullable(media),
           })),
         ),
       ),

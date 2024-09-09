@@ -13,6 +13,7 @@ import React, { useCallback } from "react";
 import { AutocompleteActorInput } from "../../../Input/AutocompleteActorInput.js";
 import { AutocompleteGroupInput } from "../../../Input/AutocompleteGroupInput.js";
 import { FormControlLabel, Stack, Switch } from "../../../mui/index.js";
+import { toInitialValue } from "../../BlockNote/utils/utils.js";
 import {
   NodeContextMenu,
   type NodeContextMenuProps,
@@ -199,7 +200,11 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
           nodes.concat([
             {
               id: gg[0].id,
-              data: { ...group, body: [], excerpt: [] },
+              data: {
+                ...group,
+                body: [],
+                excerpt: toInitialValue(group.fullName),
+              },
               type: http.Actor.Actor.name,
               position: { x: 100, y: 100 },
             },

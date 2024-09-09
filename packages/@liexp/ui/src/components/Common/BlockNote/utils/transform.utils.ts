@@ -68,7 +68,7 @@ const inlineRelationsPluginSerializer = (
     case "area" as any:
     case "media":
     case "event": {
-      const pp = p as any;
+      const pp: any = p;
       return pipe(
         pp.props?.id,
         fp.O.fromNullable,

@@ -17,7 +17,7 @@ function getText(linkText: string): string {
 }
 
 // find the link, by going over all links on the page
-async function findByLink(
+async function findLinkInPage(
   page: puppeteer.Page,
   linkString: RegExp,
 ): Promise<puppeteer.ElementHandle<HTMLButtonElement> | null> {
@@ -41,7 +41,7 @@ const REJECT_ACTION_TEXT_REGEXP =
   /(reject all|disagree|rifiuta tutto |agree)/gi;
 
 const rejectCookieModal = async (page: puppeteer.Page): Promise<void> => {
-  const button = await findByLink(page, REJECT_ACTION_TEXT_REGEXP);
+  const button = await findLinkInPage(page, REJECT_ACTION_TEXT_REGEXP);
   await button?.click();
 };
 
