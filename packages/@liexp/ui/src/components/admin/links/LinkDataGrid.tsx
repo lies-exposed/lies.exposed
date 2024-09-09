@@ -64,7 +64,7 @@ export const LinkDataGrid: React.FC<DatagridProps> = (props) => {
       {isAdmin && (
         <ReferenceField source="creator" reference="users">
           <FunctionField
-            render={(u: any) => `${u.firstName} ${u.lastName} (${u.username})`}
+            render={(u) => `${u.firstName} ${u.lastName} (${u.username})`}
           />
         </ReferenceField>
       )}
@@ -74,7 +74,7 @@ export const LinkDataGrid: React.FC<DatagridProps> = (props) => {
 
       <FunctionField
         label="resources.links.fields.relations"
-        render={(r: any) => {
+        render={(r) => {
           return (
             <Stack direction="column" minWidth={150}>
               {[

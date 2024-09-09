@@ -9,7 +9,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import debug from "debug";
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
-import AdminPage from "./AdminPage.js";
 import { configuration } from "./configuration/index.js";
 import reportWebVitals from "./reportWebVitals.js";
 
@@ -25,7 +24,11 @@ import "@liexp/ui/lib/components/Common/Icons/library.js";
 // import main css
 import "./index.css";
 
-const container: any = document.getElementById("root");
+const AdminPage = React.lazy(() => import("./AdminPage.js"));
+
+const container =
+  document.getElementById("root") ?? document.createElement("div");
+
 const root = ReactDOM.createRoot(container);
 root.render(
   <React.StrictMode>
