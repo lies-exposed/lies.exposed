@@ -26,6 +26,8 @@ pnpm packages:build
 cd ./services/admin-web;
 pnpm build:app
 cd ../../;
+sudo rm -rf "/var/www/html/${HOST}/admin/"
+sudo mkdir -p "/var/www/html/${HOST}/admin/"
 cp -r /root/node/app/current/services/admin-web/build/* "/var/www/html/${HOST}/admin/"
 
 # build storybook
