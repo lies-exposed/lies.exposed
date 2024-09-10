@@ -20,9 +20,9 @@
     "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.645.0",
-    "@aws-sdk/lib-storage": "^3.645.0",
-    "@aws-sdk/s3-request-presigner": "^3.645.0",
+    "@aws-sdk/client-s3": "^3.649.0",
+    "@aws-sdk/lib-storage": "^3.649.0",
+    "@aws-sdk/s3-request-presigner": "^3.649.0",
     "@databases/escape-identifier": "^1.0.3",
     "@databases/sql": "^3.3.0",
     "@liexp/core": "workspace:*",
@@ -40,7 +40,7 @@
     "@aws-sdk/client-s3": "^3",
     "@aws-sdk/lib-storage": "^3",
     "@aws-sdk/s3-request-presigner": "^3",
-    "@aws-sdk/types": "^3",
+    "@aws-sdk/types": "^3.649.0",
     "@types/fluent-ffmpeg": "^2.1.26",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node-telegram-bot-api": "^0.64.7",
