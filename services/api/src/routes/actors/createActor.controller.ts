@@ -28,6 +28,7 @@ export const MakeCreateActorRoute: Route = (r, ctx) => {
                 ctx.db.save(ActorEntity, [
                   {
                     ...body,
+                    avatar: body.avatar ? { id: body.avatar } : null,
                     bornOn: body.bornOn?.toISOString(),
                     diedOn: body.diedOn?.toISOString(),
                   },
@@ -42,7 +43,7 @@ export const MakeCreateActorRoute: Route = (r, ctx) => {
             where: { id: Equal(actor.id) },
           }),
         ),
-        TE.chainEitherK(ActorIO.decodeSingle),
+        TE.chainEitherK((a) => ActorIO.decodeSingle(a, ctx.env.SPACE_ENDPOINT)),
         TE.map((page) => ({
           body: {
             data: page,

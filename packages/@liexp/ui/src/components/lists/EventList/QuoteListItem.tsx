@@ -111,7 +111,13 @@ export const QuoteListItem: React.FC<QuoteListItemProps> = ({
                 justifyContent: "center",
               }}
             >
-              <Avatar src={item.payload.subject.id.avatar} size="xlarge" />
+              <Avatar
+                src={
+                  item.payload.subject.id.avatar?.thumbnail ??
+                  item.payload.subject.id.avatar?.location
+                }
+                size="xlarge"
+              />
             </Grid>
           ) : null}
         </Grid>

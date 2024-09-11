@@ -49,7 +49,7 @@ export const QuoteEventPageContent: React.FC<QuoteEventPageContentProps> = ({
           justifyContent: "center",
         }}
       >
-        <Avatar src={item.payload.subject.id.avatar} size="xlarge" />
+        <Avatar src={item.payload.subject.id.avatar?.location} size="xlarge" />
       </Grid>
     </Grid>
   );

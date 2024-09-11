@@ -16,7 +16,7 @@ export const GroupChipCount: React.FC<GroupChipCountProps> = ({
   return (
     <ChipCount
       {...props}
-      avatar={<Avatar src={group.avatar} />}
+      avatar={<Avatar src={group.avatar?.thumbnail} />}
       color={toColorHash(group.color)}
     />
   );

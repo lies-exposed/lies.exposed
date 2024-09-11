@@ -2,13 +2,16 @@ import {
   ActorArb,
   type ActorArbType,
 } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
+import { MediaArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
+import { MediaEntity } from "#entities/Media.entity.js";
 
 describe("List Actor", () => {
   let Test: AppTest, authorizationToken: string, actors: ActorArbType[];
+  const avatars = tests.fc.sample(MediaArb, 100);
 
   beforeAll(async () => {
     Test = await GetAppTest();
@@ -16,7 +19,9 @@ describe("List Actor", () => {
       id: "1",
     } as any)()}`;
 
-    actors = tests.fc.sample(ActorArb, 100);
+    actors = avatars.flatMap((avatar) =>
+      tests.fc.sample(ActorArb, 1).map((a) => ({ ...a, avatar })),
+    );
 
     await throwTE(
       Test.ctx.db.save(
@@ -27,6 +32,7 @@ describe("List Actor", () => {
           bornOn: undefined,
           diedOn: undefined,
           death: undefined,
+          avatar: a.avatar as any,
         })),
       ),
     );
@@ -37,6 +43,13 @@ describe("List Actor", () => {
       Test.ctx.db.delete(
         ActorEntity,
         actors.map((a) => a.id),
+      ),
+    );
+
+    await throwTE(
+      Test.ctx.db.delete(
+        MediaEntity,
+        avatars.map((a) => a.id),
       ),
     );
 

@@ -1,5 +1,8 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { type ResourcesNames } from "@liexp/shared/lib/io/http/index.js";
+import {
+  type Media,
+  type ResourcesNames,
+} from "@liexp/shared/lib/io/http/index.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { Avatar } from "../components/Common/Avatar.js";
@@ -111,7 +114,7 @@ export interface SplitPageTemplateProps {
     | React.ReactNode
     | {
         name: string;
-        avatar?: string;
+        avatar?: Media.Media;
       };
   asideBottom?: React.ReactNode;
   tabs: {

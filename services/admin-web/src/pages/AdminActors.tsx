@@ -1,4 +1,5 @@
-import { type UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { type Media } from "@liexp/shared/lib/io/http/Media.js";
 import { http } from "@liexp/shared/lib/io/index.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
@@ -18,6 +19,7 @@ import { EventsNetworkGraphFormTab } from "@liexp/ui/lib/components/admin/events
 import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceGroupInput.js";
 import { SearchLinksButton } from "@liexp/ui/lib/components/admin/links/SearchLinksButton.js";
 import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField.js";
+import ReferenceMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceMediaInput.js";
 import ActorPreview from "@liexp/ui/lib/components/admin/previews/ActorPreview.js";
 import {
   ArrayInput,
@@ -27,6 +29,7 @@ import {
   DateInput,
   FormDataConsumer,
   FormTab,
+  FunctionField,
   ImageField,
   ImageInput,
   List,
@@ -45,6 +48,7 @@ import {
 import { LazyFormTabContent } from "@liexp/ui/lib/components/admin/tabs/LazyFormTabContent.js";
 import { Grid } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
+import { toError } from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
@@ -74,29 +78,58 @@ const transformActor =
     if (data._from === "wikipedia") {
       return data;
     }
-    const imagesTask = data.avatar?.rawFile
-      ? uploadImages(dataProvider)("actors", id, [
-          { file: data.avatar.rawFile, type: data.avatar.rawFile.type },
-        ])
-      : typeof data.avatar === "string"
-        ? TE.right([
+
+    // eslint-disable-next-line @typescript-eslint/return-await
+    return pipe(
+      TE.Do,
+      TE.bind("avatar", (): TE.TaskEither<Error, Partial<Media>[]> => {
+        if (data.avatar?.rawFile) {
+          return pipe(
+            uploadImages(dataProvider)("actors", id, [
+              { file: data.avatar.rawFile, type: data.avatar.rawFile.type },
+            ]),
+          );
+        }
+
+        if (!UUID.is(data.avatar)) {
+          return TE.right([
             {
               location: data.avatar,
               type: contentTypeFromFileExt(data.avatar),
             },
-          ])
-        : TE.right([]);
-
-    // eslint-disable-next-line @typescript-eslint/return-await
-    return pipe(
-      imagesTask,
-      TE.map(([avatar]) => ({
+          ]);
+        }
+        return TE.right([{ id: data.avatar }]);
+      }),
+      TE.bind("avatarMedia", ({ avatar }) => {
+        if (UUID.is(avatar[0].id)) {
+          return TE.right({ id: avatar[0].id });
+        }
+        return pipe(
+          TE.tryCatch(
+            () =>
+              dataProvider.create("media", {
+                data: {
+                  ...avatar[0],
+                  events: [],
+                  links: [],
+                  keywords: [],
+                  areas: [],
+                  label: data.fullName,
+                  description: data.fullName,
+                },
+              }),
+            toError,
+          ),
+          TE.map((r) => r.data),
+        );
+      }),
+      TE.map(({ avatarMedia }) => ({
         ...data,
         body: data.body,
         excerpt: data.excerpt,
-        type: avatar.type,
         id,
-        avatar: avatar.location,
+        avatar: avatarMedia.id,
         memberIn: data.memberIn.concat(
           newMemberIn.map((m: any) => ({
             ...m,
@@ -134,7 +167,11 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
     >
       <TabbedForm>
         <FormTab label="generals">
-          <MediaField source="avatar" type="image/jpeg" controls={false} />
+          <MediaField
+            source="avatar.thumbnail"
+            type="image/jpeg"
+            controls={false}
+          />
           <ColorInput source="color" />
           <TextWithSlugInput source="fullName" slugSource="username" />
           <DateInput source="bornOn" />
@@ -144,9 +181,19 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
           <DateField source="updatedAt" />
         </FormTab>
         <FormTab label="Avatar">
-          <ImageInput source="avatar">
-            <ImageField source="src" />
-          </ImageInput>
+          <ReferenceMediaInput source="avatar.id" />
+          <FunctionField
+            render={(r) => {
+              if (!r.avatar) {
+                return (
+                  <ImageInput source="avatar">
+                    <ImageField source="" />
+                  </ImageInput>
+                );
+              }
+              return null;
+            }}
+          />
         </FormTab>
 
         <FormTab label="Content">

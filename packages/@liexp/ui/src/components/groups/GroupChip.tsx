@@ -40,7 +40,7 @@ export const GroupChip: React.FC<GroupChipProps> = ({
       }}
     >
       {pipe(
-        fp.O.fromNullable(group.avatar),
+        fp.O.fromNullable(group.avatar?.thumbnail),
         fp.O.map((src) => (
           <Avatar
             key={group.id}

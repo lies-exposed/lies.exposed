@@ -23,7 +23,7 @@ const ActorPage: React.FC<{ actorId: string }> = ({ actorId }) => {
           <Box style={{ height: "100%" }}>
             <SEO
               title={actor.fullName}
-              image={actor.avatar ?? ""}
+              image={actor.avatar?.thumbnail ?? actor.avatar?.location}
               urlPath={`actors/${actor.id}`}
             />
             <ActorTemplate

@@ -88,8 +88,7 @@ export const MakeListGroupMemberRoute = (
         listGroupsMembersTE,
         TE.chainEitherK(([results, count]) =>
           pipe(
-            results,
-            GroupMemberIO.decodeMany,
+            GroupMemberIO.decodeMany(results, ctx.env.SPACE_ENDPOINT),
             E.map((data) => ({ data, count })),
           ),
         ),

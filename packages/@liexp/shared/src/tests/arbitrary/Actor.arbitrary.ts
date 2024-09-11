@@ -4,7 +4,7 @@ import * as t from "io-ts";
 import * as http from "../../io/http/index.js";
 import { formatDate } from "../../utils/date.utils.js";
 import { HumanReadableStringArb } from "./HumanReadableString.arbitrary.js";
-import { placeKitten } from "./Media.arbitrary.js";
+import { MediaArb } from "./Media.arbitrary.js";
 import { ColorArb } from "./common/Color.arbitrary.js";
 import { UUIDArb } from "./common/UUID.arbitrary.js";
 
@@ -29,6 +29,7 @@ export const ActorArb: tests.fc.Arbitrary<ActorArbType> = tests
         "deletedAt",
         "bornOn",
         "diedOn",
+        "avatar",
       ]),
     ),
   )
@@ -40,7 +41,7 @@ export const ActorArb: tests.fc.Arbitrary<ActorArbType> = tests
       HumanReadableStringArb({ count: 4, joinChar: "-" }),
     )[0],
     color: tests.fc.sample(ColorArb, 1)[0],
-    avatar: placeKitten(),
+    avatar: tests.fc.sample(MediaArb, 1)[0],
     excerpt: null,
     memberIn: [],
     body: null,

@@ -35,6 +35,7 @@ export const fetchActors =
     return pipe(
       db.manager
         .createQueryBuilder(ActorEntity, "actors")
+        .leftJoinAndSelect("actors.avatar", "avatar")
         .loadAllRelationIds({ relations: ["memberIn"] }),
       (q) => {
         if (O.isSome(ids)) {

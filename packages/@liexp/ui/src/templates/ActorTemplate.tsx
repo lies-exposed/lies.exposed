@@ -69,7 +69,7 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
           >
             <SEO
               title={actor.fullName}
-              image={actor.avatar ?? ""}
+              image={actor.avatar?.location}
               urlPath={`actors/${actor.id}`}
             />
             <SplitPageTemplate

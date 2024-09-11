@@ -5,15 +5,18 @@ import {
   DeleteDateColumn,
   Entity,
   Index,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   type Relation,
   UpdateDateColumn,
 } from "typeorm";
 import { EventV2Entity } from "./Event.v2.entity.js";
 import { GroupMemberEntity } from "./GroupMember.entity.js";
+import { MediaEntity } from "./Media.entity.js";
 import { StoryEntity } from "./Story.entity.js";
 
 @Entity("actor")
@@ -30,7 +33,15 @@ export class ActorEntity {
   username: string;
 
   @Column({ type: "varchar", nullable: true })
-  avatar: string | null;
+  old_avatar: string | null;
+
+  @OneToOne(() => MediaEntity, {
+    eager: true,
+    cascade: true,
+    nullable: true,
+  })
+  @JoinColumn()
+  avatar: Relation<MediaEntity> | null;
 
   @Column({ type: "varchar", nullable: false })
   color: string;

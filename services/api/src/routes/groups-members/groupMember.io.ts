@@ -10,11 +10,12 @@ import { GroupIO } from "#routes/groups/group.io.js";
 
 const toGroupMemberIO = (
   groupMember: GroupMemberEntity,
+  spaceEndpoint: string,
 ): E.Either<ControllerError, io.http.GroupMember.GroupMember> => {
   return pipe(
     sequenceS(E.Applicative)({
-      group: GroupIO.decodeSingle(groupMember.group),
-      actor: ActorIO.decodeSingle(groupMember.actor),
+      group: GroupIO.decodeSingle(groupMember.group, spaceEndpoint),
+      actor: ActorIO.decodeSingle(groupMember.actor, spaceEndpoint),
     }),
     E.chain(({ group, actor }) =>
       pipe(

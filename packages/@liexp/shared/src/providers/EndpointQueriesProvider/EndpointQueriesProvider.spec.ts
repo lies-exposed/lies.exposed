@@ -34,6 +34,13 @@ describe("EndpointQueriesProvider", () => {
   it("should have Actor get", async () => {
     const [actorData] = fc.sample(ActorArb, 1).map((a) => ({
       ...a,
+      avatar: a.avatar
+        ? {
+            ...a.avatar,
+            createdAt: a.avatar.createdAt.toISOString(),
+            updatedAt: a.avatar.updatedAt.toISOString(),
+          }
+        : undefined,
       createdAt: a.createdAt.toISOString(),
       updatedAt: a.updatedAt.toISOString(),
     }));
@@ -51,6 +58,13 @@ describe("EndpointQueriesProvider", () => {
 
     expect(actor).toMatchObject({
       ...actorData,
+      avatar: actorData.avatar
+        ? {
+            ...actorData.avatar,
+            createdAt: parseISO(actorData.avatar.createdAt),
+            updatedAt: parseISO(actorData.avatar.updatedAt),
+          }
+        : undefined,
       bornOn: actorData.bornOn ? new Date(actorData.bornOn) : undefined,
       updatedAt: parseISO(actorData.updatedAt),
       createdAt: parseISO(actorData.createdAt),
@@ -58,8 +72,15 @@ describe("EndpointQueriesProvider", () => {
   });
 
   it("should have Actor getList", async () => {
-    const actorData = fc.sample(ActorArb, 1).map((a) => ({
+    const actorData = fc.sample(ActorArb, 10).map((a) => ({
       ...a,
+      avatar: a.avatar
+        ? {
+            ...a.avatar,
+            createdAt: a.avatar.createdAt.toISOString(),
+            updatedAt: a.avatar.updatedAt.toISOString(),
+          }
+        : undefined,
       createdAt: a.createdAt.toISOString(),
       updatedAt: a.updatedAt.toISOString(),
     }));
@@ -86,6 +107,11 @@ describe("EndpointQueriesProvider", () => {
     expect(actor).toMatchObject({
       data: actorData.map((a) => ({
         ...a,
+        avatar: {
+          ...a.avatar!,
+          createdAt: parseISO(a.avatar!.createdAt),
+          updatedAt: parseISO(a.avatar!.updatedAt),
+        },
         bornOn: a.bornOn ? new Date(a.bornOn) : undefined,
         updatedAt: parseISO(a.updatedAt),
         createdAt: parseISO(a.createdAt),
@@ -97,6 +123,11 @@ describe("EndpointQueriesProvider", () => {
   it("should have Actor Custom Query", async () => {
     const actorData = fc.sample(ActorArb, 1).map((a) => ({
       ...a,
+      avatar: {
+        ...a.avatar!,
+        createdAt: a.avatar!.createdAt.toISOString(),
+        updatedAt: a.avatar!.updatedAt.toISOString(),
+      },
       createdAt: a.createdAt.toISOString(),
       updatedAt: a.updatedAt.toISOString(),
     }));
@@ -128,6 +159,11 @@ describe("EndpointQueriesProvider", () => {
     expect(actor).toMatchObject({
       data: actorData.map((a) => ({
         ...a,
+        avatar: {
+          ...a.avatar,
+          createdAt: parseISO(a.avatar.createdAt),
+          updatedAt: parseISO(a.avatar.updatedAt),
+        },
         bornOn: a.bornOn ? new Date(a.bornOn) : undefined,
         updatedAt: parseISO(a.updatedAt),
         createdAt: parseISO(a.createdAt),
@@ -138,6 +174,11 @@ describe("EndpointQueriesProvider", () => {
   it("should have Actor Custom Query Override", async () => {
     const actorData = fc.sample(ActorArb, 1).map((a) => ({
       ...a,
+      avatar: {
+        ...a.avatar!,
+        createdAt: a.avatar!.createdAt.toISOString(),
+        updatedAt: a.avatar!.updatedAt.toISOString(),
+      },
       createdAt: a.createdAt.toISOString(),
       updatedAt: a.updatedAt.toISOString(),
     }));
@@ -173,6 +214,11 @@ describe("EndpointQueriesProvider", () => {
     expect(actor).toMatchObject({
       data: actorData.map((a) => ({
         ...a,
+        avatar: {
+          ...a.avatar,
+          createdAt: parseISO(a.avatar.createdAt),
+          updatedAt: parseISO(a.avatar.updatedAt),
+        },
         bornOn: a.bornOn ? new Date(a.bornOn) : undefined,
         updatedAt: parseISO(a.updatedAt),
         createdAt: parseISO(a.createdAt),
