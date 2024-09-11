@@ -13,8 +13,8 @@ import {
   fetchFromWikipedia,
   type WikiProviders,
 } from "#flows/wikipedia/fetchFromWikipedia.js";
-import { toAreaIO } from "#routes/areas/Area.io.js";
-import { toMediaIO } from "#routes/media/media.io.js";
+import { AreaIO } from "#routes/areas/Area.io.js";
+import { MediaIO } from "#routes/media/media.io.js";
 import { getWikiProvider } from "#services/entityFromWikipedia.service.js";
 
 export const fetchAndCreateAreaFromWikipedia: TEFlow<
@@ -123,15 +123,15 @@ export const fetchAndCreateAreaFromWikipedia: TEFlow<
             TE.bind("area", ({ media }) => saveAreaTask(media)),
             fp.TE.chainEitherK(({ area }) =>
               sequenceS(fp.E.Applicative)({
-                area: toAreaIO(area, ctx.env.SPACE_ENDPOINT),
+                area: AreaIO.decodeSingle(area, ctx.env.SPACE_ENDPOINT),
                 media: pipe(
-                  (area.media ?? []).map((m) =>
-                    toMediaIO(
-                      { ...m, areas: m.areas.map((a): any => a.id) },
-                      ctx.env.SPACE_ENDPOINT,
-                    ),
+                  MediaIO.decodeMany(
+                    (area.media ?? []).map((m) => ({
+                      ...m,
+                      areas: m.areas.map((a): any => a.id),
+                    })),
+                    ctx.env.SPACE_ENDPOINT,
                   ),
-                  fp.A.sequence(fp.E.Applicative),
                 ),
               }),
             ),

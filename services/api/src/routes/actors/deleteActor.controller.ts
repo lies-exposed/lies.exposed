@@ -4,7 +4,7 @@ import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type Route } from "../route.types.js";
-import { toActorIO } from "./actor.io.js";
+import { ActorIO } from "./actor.io.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
@@ -31,7 +31,7 @@ export const MakeDeleteActorRoute: Route = (
             actor: db.softDelete(ActorEntity, id),
           }),
         ),
-        TE.chainEitherK(toActorIO),
+        TE.chainEitherK(ActorIO.decodeSingle),
         TE.map((page) => ({
           body: {
             data: page,

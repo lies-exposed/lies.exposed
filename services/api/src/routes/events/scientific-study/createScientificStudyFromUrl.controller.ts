@@ -8,7 +8,7 @@
 // import { EventV2Entity } from "#entities/Event.v2.entity.js";
 // import { extractFromURL } from "#flows/events/extractFromURL.flow.js";
 // import { ServerError, toControllerError } from "#io/ControllerError.js";
-// import { toEventV2IO } from "#routes/events/eventV2.io.js";
+// import { EventV2IO } from "#routes/events/eventV2.io.js";
 // import { Route } from "#routes/route.types.js";
 
 // export const MakeCreateScientificStudyFromURLRoute: Route = (r, ctx) => {
@@ -57,7 +57,7 @@
 //           }
 //           return TE.right(existingEvent.value);
 //         }),
-//         TE.chainEitherK(toEventV2IO),
+//         TE.chainEitherK(EventV2IO),
 //         TE.map((data) => ({
 //           body: {
 //             data,

@@ -1,7 +1,7 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { toKeywordIO } from "./keyword.io.js";
+import { KeywordIO } from "./keyword.io.js";
 import { KeywordEntity } from "#entities/Keyword.entity.js";
 import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
@@ -19,7 +19,7 @@ export const MakeEditKeywordsRoute: Route = (r, { db, logger, jwt }) => {
             loadRelationIds: true,
           }),
         ),
-        TE.chainEitherK(toKeywordIO),
+        TE.chainEitherK(KeywordIO.decodeSingle),
         TE.map((actor) => ({
           body: {
             data: actor,

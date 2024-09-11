@@ -6,7 +6,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal, Raw } from "typeorm";
 import { ActorEntity } from "../../entities/Actor.entity.js";
 import { type RouteContext } from "../route.types.js";
-import { toActorIO } from "./actor.io.js";
+import { ActorIO } from "./actor.io.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 
 export const MakeGetActorRoute = (r: Router, ctx: RouteContext): void => {
@@ -33,7 +33,10 @@ export const MakeGetActorRoute = (r: Router, ctx: RouteContext): void => {
         ctx.logger.debug.log("Actor %O", actor);
         ctx.logger.debug.log("Actor events %O", events);
         return pipe(
-          toActorIO({ ...actor, events: events.map((e) => e.id) as any }),
+          ActorIO.decodeSingle({
+            ...actor,
+            events: events.map((e) => e.id) as any,
+          }),
           TE.fromEither,
         );
       }),

@@ -10,7 +10,7 @@ import { Equal } from "typeorm";
 import { LinkEntity } from "#entities/Link.entity.js";
 import { extractRelationsFromURL } from "#flows/nlp/extractRelationsFromURL.flow.js";
 import { type ControllerError, ServerError } from "#io/ControllerError.js";
-import { toLinkIO } from "#routes/links/link.io.js";
+import { LinkIO } from "#routes/links/link.io.js";
 import { type RouteContext } from "#routes/route.types.js";
 
 export const MakeGetMetadataRoute = (r: Router, ctx: RouteContext): void => {
@@ -40,7 +40,7 @@ export const MakeGetMetadataRoute = (r: Router, ctx: RouteContext): void => {
               : ctx.urlMetadata.fetchMetadata(url, {}, (e) => ServerError()),
             link: pipe(
               link,
-              O.map(toLinkIO),
+              O.map(LinkIO.decodeSingle),
               O.map(TE.fromEither),
               O.getOrElse(() =>
                 TE.right<ControllerError, Link.Link | undefined>(undefined),

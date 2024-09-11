@@ -6,7 +6,7 @@ import { AdminEdit, type User } from "@liexp/shared/lib/io/http/User.js";
 import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { toLinkIO } from "./link.io.js";
+import { LinkIO } from "./link.io.js";
 import { LinkEntity } from "#entities/Link.entity.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { UserEntity } from "#entities/User.entity.js";
@@ -98,16 +98,11 @@ export const MakeTakeLinkScreenshotRoute = (
           ),
         ),
         TE.map(({ media, link }) => ({ link: { ...link, media } })),
-        TE.chain(({ link }) =>
-          pipe(
-            toLinkIO(link),
-            TE.fromEither,
-            TE.map((data) => ({
-              body: { data },
-              statusCode: 200,
-            })),
-          ),
-        ),
+        TE.chainEitherK(({ link }) => LinkIO.decodeSingle(link)),
+        TE.map((data) => ({
+          body: { data },
+          statusCode: 200,
+        })),
       );
     },
   );

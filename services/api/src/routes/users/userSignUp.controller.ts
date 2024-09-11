@@ -4,7 +4,7 @@ import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { UserStatusPending } from "@liexp/shared/lib/io/http/User.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { toUserIO } from "./user.io.js";
+import { UserIO } from "./user.io.js";
 import { UserEntity } from "#entities/User.entity.js";
 import { type Route } from "#routes/route.types.js";
 import * as passwordUtils from "#utils/password.utils.js";
@@ -30,7 +30,7 @@ export const MakeSignUpUserRoute: Route = (r, ctx) => {
             },
           ]),
         ),
-        TE.chainEitherK(([user]) => toUserIO(user)),
+        TE.chainEitherK(([user]) => UserIO.decodeSingle(user)),
         TE.map((data) => ({
           body: { data },
           statusCode: 200,

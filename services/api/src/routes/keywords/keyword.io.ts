@@ -4,8 +4,9 @@ import { toColor } from "@liexp/shared/lib/utils/colors.js";
 import * as E from "fp-ts/lib/Either.js";
 import { type KeywordEntity } from "../../entities/Keyword.entity.js";
 import { type ControllerError, DecodeError } from "#io/ControllerError.js";
+import { IOCodec } from "#io/DomainCodec.js";
 
-export const toKeywordIO = (
+const toKeywordIO = (
   keyword: KeywordEntity,
 ): E.Either<ControllerError, io.http.Keyword.Keyword> => {
   return pipe(
@@ -21,3 +22,5 @@ export const toKeywordIO = (
     ),
   );
 };
+
+export const KeywordIO = IOCodec(toKeywordIO, "keyword");

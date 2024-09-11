@@ -3,7 +3,7 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { TRANSACTION } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { toEventV2IO } from "../eventV2.io.js";
+import { EventV2IO } from "../eventV2.io.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { type Route } from "#routes/route.types.js";
 
@@ -16,7 +16,7 @@ export const MakeGetTransactionEventRoute: Route = (r, ctx) => {
           relations: ["media", "keywords", "links"],
         },
       }),
-      TE.chainEitherK(toEventV2IO),
+      TE.chainEitherK(EventV2IO.decodeSingle),
       TE.map((data) => ({
         body: { data },
         statusCode: 200,

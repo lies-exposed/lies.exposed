@@ -5,7 +5,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type Route } from "../../route.types.js";
 import { editEventQuery } from "../queries/editEvent.query.js";
-import { toDocumentaryIO } from "./documentary.io.js";
+import { DocumentaryIO } from "./documentary.io.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 
 export const MakeEditDocumentaryEventRoute: Route = (r, ctx) => {
@@ -34,7 +34,7 @@ export const MakeEditDocumentaryEventRoute: Route = (r, ctx) => {
             loadRelationIds: true,
           }),
         ),
-        TE.chainEitherK(toDocumentaryIO),
+        TE.chainEitherK(DocumentaryIO.decodeSingle),
         TE.map((data) => ({
           body: {
             data,

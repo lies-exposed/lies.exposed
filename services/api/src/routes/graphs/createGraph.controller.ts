@@ -3,7 +3,7 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { toGraphIO } from "./graph.io.js";
+import { GraphIO } from "./graph.io.js";
 import { GraphEntity } from "#entities/Graph.entity.js";
 import { type RouteContext } from "#routes/route.types.js";
 
@@ -16,7 +16,7 @@ export const MakeCreateGraphRoute = (r: Router, ctx: RouteContext): void => {
         ctx.db.save(GraphEntity, [
           { ...body, graphType: type, options: options ?? {}, id: uuid() },
         ]),
-        TE.chainEitherK(([data]) => toGraphIO(data)),
+        TE.chainEitherK(([data]) => GraphIO.decodeSingle(data)),
         TE.map((data) => ({
           body: {
             data,

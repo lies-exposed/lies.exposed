@@ -3,7 +3,7 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { BOOK } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { toBookIO } from "./book.io.js";
+import { EventV2IO } from "../eventV2.io.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { type Route } from "#routes/route.types.js";
 
@@ -27,7 +27,7 @@ export const MakeEditBookEventRoute: Route = (r, ctx) => {
           ]),
         ),
         TE.chainEitherK(([book]) =>
-          toBookIO({
+          EventV2IO.decodeSingle({
             ...book,
             keywords: book.keywords.map((k) => k.id as any),
             media: book.media.map((m) => m.id as any),

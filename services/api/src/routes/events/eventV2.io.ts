@@ -1,27 +1,34 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import * as E from "fp-ts/lib/Either.js";
-import { toBookIO } from "./books/book.io.js";
-import { toDocumentaryIO } from "./documentary/documentary.io.js";
-import { toQuoteIO } from "./quotes/quote.io.js";
+import { BookIO } from "./books/book.io.js";
+import { DocumentaryIO } from "./documentary/documentary.io.js";
+import { QuoteIO } from "./quotes/quote.io.js";
 import { type EventV2Entity } from "#entities/Event.v2.entity.js";
 import { DecodeError, type ControllerError } from "#io/ControllerError.js";
+import { IOCodec } from "#io/DomainCodec.js";
 
-export const toEventV2IO = (
+const toEventV2IO = (
   event: EventV2Entity,
 ): E.Either<ControllerError, io.http.Events.Event> => {
   return pipe(
-    event.type === io.http.Events.EventTypes.QUOTE.value
-      ? toQuoteIO(event)
-      : event.type === io.http.Events.EventTypes.DOCUMENTARY.value
-        ? toDocumentaryIO(event)
-        : event.type === io.http.Events.EventTypes.BOOK.value
-          ? toBookIO(event)
-          : E.right(event as any),
-    E.chain((event) =>
+    E.Do,
+    E.bind("eventSpecs", () => {
+      if (event.type === io.http.Events.EventTypes.QUOTE.value) {
+        return QuoteIO.decodeSingle(event);
+      }
+      if (event.type === io.http.Events.EventTypes.DOCUMENTARY.value) {
+        return DocumentaryIO.decodeSingle(event);
+      }
+      if (event.type === io.http.Events.EventTypes.BOOK.value) {
+        return BookIO.decodeSingle(event);
+      }
+      return E.right(event as any);
+    }),
+    E.chain(({ eventSpecs }) =>
       pipe(
         io.http.Events.Event.decode({
-          ...event,
+          ...eventSpecs,
           excerpt: event.excerpt ?? undefined,
           body: event.body ?? undefined,
           date: event.date.toISOString(),
@@ -37,3 +44,5 @@ export const toEventV2IO = (
     ),
   );
 };
+
+export const EventV2IO = IOCodec(toEventV2IO, "event");

@@ -3,8 +3,9 @@ import * as io from "@liexp/shared/lib/io/index.js";
 import * as E from "fp-ts/lib/Either.js";
 import { type StoryEntity } from "#entities/Story.entity.js";
 import { type ControllerError, DecodeError } from "#io/ControllerError.js";
+import { IOCodec } from "#io/DomainCodec.js";
 
-export const toStoryIO = ({
+const toStoryIO = ({
   body,
   body2,
   creator,
@@ -45,3 +46,5 @@ export const toStoryIO = ({
     E.mapLeft((e) => DecodeError(`Failed to decode "Story" (${story.id})`, e)),
   );
 };
+
+export const StoryIO = IOCodec(toStoryIO, "story");

@@ -6,7 +6,7 @@ import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type Route } from "../route.types.js";
-import { toActorIO } from "./actor.io.js";
+import { ActorIO } from "./actor.io.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { foldOptionals } from "#utils/foldOptionals.utils.js";
@@ -57,7 +57,7 @@ export const MakeEditActorRoute: Route = (r, { db, logger, jwt }) => {
             },
           }),
         ),
-        TE.chainEitherK(toActorIO),
+        TE.chainEitherK(ActorIO.decodeSingle),
         TE.map((actor) => ({
           body: {
             data: actor,

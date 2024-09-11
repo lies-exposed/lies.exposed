@@ -1,12 +1,11 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { BOOK } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
+import { EventV2IO } from "../eventV2.io.js";
 import { searchEventV2Query } from "../queries/searchEventsV2.query.js";
-import { toBookIO } from "./book.io.js";
 import { type Route } from "#routes/route.types.js";
 import { getORMOptions } from "#utils/orm.utils.js";
 
@@ -67,12 +66,11 @@ export const MakeListBookEventRoute: Route = (r, ctx) => {
         //   out.results,
         //   (out.results[0].payload as any).authors,
         // ]),
-        TE.chain(({ results, totals: { books } }) =>
+        TE.chainEitherK(({ results, totals: { books } }) =>
           pipe(
             results,
-            A.traverse(E.Applicative)(toBookIO),
-            TE.fromEither,
-            TE.map((data) => ({ data, total: books })),
+            EventV2IO.decodeMany,
+            E.map((data) => ({ data, total: books })),
           ),
         ),
         TE.map((body) => ({

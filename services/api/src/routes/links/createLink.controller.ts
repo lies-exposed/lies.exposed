@@ -5,7 +5,7 @@ import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { toLinkIO } from "./link.io.js";
+import { LinkIO } from "./link.io.js";
 import { LinkEntity } from "#entities/Link.entity.js";
 import { UserEntity } from "#entities/User.entity.js";
 import { fetchAsLink } from "#flows/links/link.flow.js";
@@ -45,7 +45,7 @@ export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
                       ...m,
                       events: [],
                       title: m.title,
-                      url: sanitizeURL(m.url as any),
+                      url: sanitizeURL(m.url),
                       keywords: [],
                       creator: { id: u.id },
                     },
@@ -56,7 +56,7 @@ export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
             }),
           ),
         ),
-        TE.chainEitherK(toLinkIO),
+        TE.chainEitherK(LinkIO.decodeSingle),
         TE.map((data) => ({
           body: { data },
           statusCode: 200,

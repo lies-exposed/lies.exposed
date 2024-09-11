@@ -2,12 +2,11 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type Router } from "express";
-import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import * as t from "io-ts";
-import { toEventV2IO } from "./eventV2.io.js";
+import { EventV2IO } from "./eventV2.io.js";
 import { searchEventV2Query } from "./queries/searchEventsV2.query.js";
 import { type RouteContext } from "#routes/route.types.js";
 import { getORMOptions } from "#utils/orm.utils.js";
@@ -89,8 +88,7 @@ export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {
       TE.chain(({ results, ...rest }) =>
         pipe(
           results,
-          A.map((e) => toEventV2IO(e)),
-          A.sequence(E.Applicative),
+          EventV2IO.decodeMany,
           E.map((data) => ({ data, ...rest })),
           TE.fromEither,
         ),

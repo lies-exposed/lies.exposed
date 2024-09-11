@@ -6,7 +6,7 @@ import { type Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { toLinkIO } from "./link.io.js";
+import { LinkIO } from "./link.io.js";
 import { LinkEntity } from "#entities/Link.entity.js";
 import { ServerError } from "#io/ControllerError.js";
 import { type RouteContext } from "#routes/route.types.js";
@@ -52,7 +52,7 @@ export const MakeEditLinkMetadataRoute = (
             loadRelationIds: { relations: ["events"] },
           }),
         ),
-        TE.chainEitherK(toLinkIO),
+        TE.chainEitherK(LinkIO.decodeSingle),
         TE.map((data) => ({
           body: { data },
           statusCode: 200,
