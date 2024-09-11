@@ -48,7 +48,7 @@ export const LinkDataGrid: React.FC<DatagridProps> = (props) => {
                       record={{
                         ...record,
                         description:
-                          record.description.length > 300
+                          record.description?.length > 300
                             ? record.description.substring(0, 300).concat("...")
                             : record.description,
                       }}
