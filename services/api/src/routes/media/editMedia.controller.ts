@@ -8,7 +8,7 @@ import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import * as t from "io-ts";
 import { Equal } from "typeorm";
-import { toMediaIO } from "./media.io.js";
+import { MediaIO } from "./media.io.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { extractMP4Extra } from "#flows/media/extra/extractMP4Extra.js";
 import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
@@ -145,7 +145,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
         ),
         TE.chain(([media]) =>
           TE.fromEither(
-            toMediaIO(
+            MediaIO.decodeSingle(
               {
                 ...media,
                 creator: media.creator?.id as any,

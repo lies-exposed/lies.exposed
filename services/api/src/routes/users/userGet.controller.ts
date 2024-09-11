@@ -3,7 +3,7 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { toUserIO } from "./user.io.js";
+import { UserIO } from "./user.io.js";
 import { UserEntity } from "#entities/User.entity.js";
 import { type RouteContext } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
@@ -14,7 +14,7 @@ export const MakeUserGetRoute = (r: Router, ctx: RouteContext): void => {
     ({ params: { id } }, req) => {
       return pipe(
         ctx.db.findOneOrFail(UserEntity, { where: { id: Equal(id) } }),
-        TE.chainEitherK(toUserIO),
+        TE.chainEitherK(UserIO.decodeSingle),
         TE.map((user) => ({
           body: { data: user },
           statusCode: 200,

@@ -6,7 +6,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { ActorEntity } from "../../entities/Actor.entity.js";
 import { type Route } from "../route.types.js";
-import { toActorIO } from "./actor.io.js";
+import { ActorIO } from "./actor.io.js";
 import { searchActorAndCreateFromWikipedia } from "#flows/actors/fetchAndCreateActorFromWikipedia.js";
 import { ServerError } from "#io/ControllerError.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
@@ -42,7 +42,7 @@ export const MakeCreateActorRoute: Route = (r, ctx) => {
             where: { id: Equal(actor.id) },
           }),
         ),
-        TE.chainEitherK(toActorIO),
+        TE.chainEitherK(ActorIO.decodeSingle),
         TE.map((page) => ({
           body: {
             data: page,

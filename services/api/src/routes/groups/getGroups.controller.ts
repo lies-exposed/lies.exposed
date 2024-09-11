@@ -5,24 +5,22 @@ import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { fetchGroups } from "../../queries/groups/fetchGroups.query.js";
 import { type RouteContext } from "../route.types.js";
-import { toGroupIO } from "./group.io.js";
+import { GroupIO } from "./group.io.js";
 
 export const MakeListGroupRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Group.List, ({ query }) => {
     return pipe(
       pipe(
         fetchGroups(ctx)(query),
-        fp.TE.chain(([results, total]) =>
+        fp.TE.chainEitherK(([results, total]) =>
           pipe(
-            results,
-            fp.A.traverse(E.Applicative)((g) =>
-              toGroupIO({
+            GroupIO.decodeMany(
+              results.map((g) => ({
                 ...g,
                 members: g.members.map((d) => d.id) as any,
-              }),
+              })),
             ),
-            TE.fromEither,
-            TE.map((data) => ({ total, data })),
+            E.map((data) => ({ total, data })),
           ),
         ),
       ),

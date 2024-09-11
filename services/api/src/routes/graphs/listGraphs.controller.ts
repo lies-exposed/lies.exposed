@@ -3,7 +3,7 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Like } from "typeorm";
-import { toGraphIO } from "./graph.io.js";
+import { GraphIO } from "./graph.io.js";
 import { GraphEntity } from "#entities/Graph.entity.js";
 import { type RouteContext } from "#routes/route.types.js";
 import { foldOptionals } from "#utils/foldOptionals.utils.js";
@@ -17,7 +17,7 @@ export const MakeListGraphsRoute = (r: Router, ctx: RouteContext): void => {
       TE.chainEitherK(([data, total]) =>
         pipe(
           data,
-          fp.A.traverse(fp.E.Applicative)(toGraphIO),
+          GraphIO.decodeMany,
           fp.E.map((data) => ({ data, total })),
         ),
       ),

@@ -3,7 +3,7 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type RouteContext } from "../route.types.js";
-import { toEventV2IO } from "./eventV2.io.js";
+import { EventV2IO } from "./eventV2.io.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 
 export const GetEventRoute = (r: Router, ctx: RouteContext): void => {
@@ -22,7 +22,7 @@ export const GetEventRoute = (r: Router, ctx: RouteContext): void => {
 
     return pipe(
       selectEventTask,
-      TE.chainEitherK(toEventV2IO),
+      TE.chainEitherK(EventV2IO.decodeSingle),
       TE.map((data) => ({
         body: {
           data,

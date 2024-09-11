@@ -1,13 +1,11 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as A from "fp-ts/lib/Array.js";
-import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { In, Not } from "typeorm";
 import { type Route } from "../route.types.js";
-import { toStoryIO } from "./story.io.js";
+import { StoryIO } from "./story.io.js";
 import { StoryEntity } from "#entities/Story.entity.js";
 import { getORMOptions } from "#utils/orm.utils.js";
 
@@ -52,7 +50,7 @@ export const MakeListStoryRoute: Route = (r, { env, db, logger }) => {
                 ],
               },
             }),
-            TE.chainEitherK(A.traverse(E.Applicative)(toStoryIO)),
+            TE.chainEitherK(StoryIO.decodeMany),
           ),
           total: db.count(StoryEntity),
         }),

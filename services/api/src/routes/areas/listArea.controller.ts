@@ -1,11 +1,9 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
-import * as A from "fp-ts/lib/Array.js";
-import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Route } from "../route.types.js";
-import { toAreaIO } from "./Area.io.js";
+import { AreaIO } from "./Area.io.js";
 import { fetchAreas } from "#queries/areas/fetchAreas.query.js";
 import { RequestDecoder } from "#utils/authenticationHandler.js";
 
@@ -20,7 +18,7 @@ export const MakeListAreaRoute: Route = (r, ctx) => {
       TE.chain(([areas, total]) => {
         return pipe(
           areas,
-          A.traverse(E.Applicative)((a) => toAreaIO(a, ctx.env.SPACE_ENDPOINT)),
+          (aa) => AreaIO.decodeMany(aa, ctx.env.SPACE_ENDPOINT),
           TE.fromEither,
           TE.map((data) => ({ total, data })),
         );

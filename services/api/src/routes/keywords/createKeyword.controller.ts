@@ -4,7 +4,7 @@ import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type Route } from "../route.types.js";
-import { toKeywordIO } from "./keyword.io.js";
+import { KeywordIO } from "./keyword.io.js";
 import { KeywordEntity } from "#entities/Keyword.entity.js";
 import { ServerError } from "#io/ControllerError.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
@@ -27,7 +27,7 @@ export const MakeCreateKeywordRoute: Route = (r, { db, logger, jwt }) => {
             loadRelationIds: true,
           }),
         ),
-        TE.chainEitherK(toKeywordIO),
+        TE.chainEitherK(KeywordIO.decodeSingle),
         TE.map((page) => ({
           body: {
             data: page,

@@ -25,7 +25,6 @@ import {
 } from "@liexp/shared/lib/io/http/index.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as IOE from "fp-ts/lib/IOEither.js";
 import * as O from "fp-ts/lib/Option.js";
@@ -42,16 +41,16 @@ import {
   toControllerError,
   type ControllerError,
 } from "#io/ControllerError.js";
-import { toActorIO } from "#routes/actors/actor.io.js";
-import { toEventV2IO } from "#routes/events/eventV2.io.js";
+import { ActorIO } from "#routes/actors/actor.io.js";
+import { EventV2IO } from "#routes/events/eventV2.io.js";
 import {
   searchEventV2Query,
   type SearchEventOutput,
 } from "#routes/events/queries/searchEventsV2.query.js";
-import { toGroupIO } from "#routes/groups/group.io.js";
-import { toGroupMemberIO } from "#routes/groups-members/groupMember.io.js";
-import { toKeywordIO } from "#routes/keywords/keyword.io.js";
-import { toMediaIO } from "#routes/media/media.io.js";
+import { GroupIO } from "#routes/groups/group.io.js";
+import { GroupMemberIO } from "#routes/groups-members/groupMember.io.js";
+import { KeywordIO } from "#routes/keywords/keyword.io.js";
+import { MediaIO } from "#routes/media/media.io.js";
 
 export const createStatsByEntityType: TEFlow<
   [StatsType, string],
@@ -196,8 +195,7 @@ export const createStatsByEntityType: TEFlow<
     TE.chain((results) =>
       pipe(
         results,
-        A.map((e) => toEventV2IO(e)),
-        A.sequence(E.Applicative),
+        EventV2IO.decodeMany,
         TE.fromEither,
         TE.chain((events) => {
           return pipe(
@@ -214,32 +212,26 @@ export const createStatsByEntityType: TEFlow<
                 },
                 actors: pipe(
                   actors,
-                  A.map((a) => toActorIO(a)),
-                  A.sequence(E.Applicative),
+                  ActorIO.decodeMany,
                   E.getOrElse((): Actor.Actor[] => []),
                 ),
                 groups: pipe(
                   groups,
-                  A.map((a) => toGroupIO(a)),
-                  A.sequence(E.Applicative),
+                  GroupIO.decodeMany,
                   E.getOrElse((): Group.Group[] => []),
                 ),
                 groupsMembers: pipe(
                   groupsMembers,
-                  A.map(toGroupMemberIO),
-                  A.sequence(E.Applicative),
+                  GroupMemberIO.decodeMany,
                   E.getOrElse((): GroupMember.GroupMember[] => []),
                 ),
                 media: pipe(
-                  media,
-                  A.map((m) => toMediaIO(m, ctx.env.SPACE_ENDPOINT)),
-                  A.sequence(E.Applicative),
+                  MediaIO.decodeMany(media, ctx.env.SPACE_ENDPOINT),
                   E.getOrElse((): Media.Media[] => []),
                 ),
                 keywords: pipe(
                   keywords,
-                  A.map(toKeywordIO),
-                  A.sequence(E.Applicative),
+                  KeywordIO.decodeMany,
                   E.getOrElse((): Keyword.Keyword[] => []),
                 ),
                 links: [],

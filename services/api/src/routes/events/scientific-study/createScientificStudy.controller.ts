@@ -14,7 +14,7 @@ import { type MediaEntity } from "#entities/Media.entity.js";
 import { UserEntity } from "#entities/User.entity.js";
 import { createEventFromURL } from "#flows/events/scientific-studies/createFromURL.flow.js";
 import { type ControllerError } from "#io/ControllerError.js";
-import { toEventV2IO } from "#routes/events/eventV2.io.js";
+import { EventV2IO } from "#routes/events/eventV2.io.js";
 import { type Route, type RouteContext } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { ensureUserExists } from "#utils/user.utils.js";
@@ -99,7 +99,7 @@ export const MakeCreateScientificStudyRoute: Route = (r, ctx) => {
 
       return pipe(
         scientificStudyTask,
-        TE.chainEitherK(toEventV2IO),
+        TE.chainEitherK(EventV2IO.decodeSingle),
         TE.map((data) => ({
           body: {
             data,

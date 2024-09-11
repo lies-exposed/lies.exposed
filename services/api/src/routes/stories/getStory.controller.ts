@@ -2,7 +2,7 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Route } from "../route.types.js";
-import { toStoryIO } from "./story.io.js";
+import { StoryIO } from "./story.io.js";
 import { StoryEntity } from "#entities/Story.entity.js";
 
 export const MakeGetStoryRoute: Route = (r, ctx) => {
@@ -22,7 +22,7 @@ export const MakeGetStoryRoute: Route = (r, ctx) => {
           ],
         },
       }),
-      TE.chainEitherK(toStoryIO),
+      TE.chainEitherK(StoryIO.decodeSingle),
       TE.map((data) => ({
         body: {
           data,

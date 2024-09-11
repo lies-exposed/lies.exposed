@@ -12,11 +12,11 @@ import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type TEFlow } from "#flows/flow.types.js";
-import { toActorIO } from "#routes/actors/actor.io.js";
+import { ActorIO } from "#routes/actors/actor.io.js";
 import { fetchRelations } from "#routes/events/queries/fetchEventRelations.query.js";
-import { toGroupIO } from "#routes/groups/group.io.js";
-import { toKeywordIO } from "#routes/keywords/keyword.io.js";
-import { toMediaIO } from "#routes/media/media.io.js";
+import { GroupIO } from "#routes/groups/group.io.js";
+import { KeywordIO } from "#routes/keywords/keyword.io.js";
+import { MediaIO } from "#routes/media/media.io.js";
 
 export const fetchEventsRelations: TEFlow<
   [Events.Event[], boolean],
@@ -55,29 +55,22 @@ export const fetchEventsRelations: TEFlow<
             events: fp.TE.right(events),
             actors: pipe(
               relations.actors,
-              fp.A.traverse(fp.E.Applicative)(toActorIO),
+              ActorIO.decodeMany,
               fp.TE.fromEither,
             ),
             groups: pipe(
-              relations.groups,
-              fp.A.traverse(fp.E.Applicative)((g) =>
-                toGroupIO({ ...g, members: [] }),
-              ),
+              relations.groups.map((g) => ({ ...g, members: [] })),
+              GroupIO.decodeMany,
               fp.TE.fromEither,
             ),
             keywords: pipe(
               relations.keywords,
-              fp.A.traverse(fp.E.Applicative)(toKeywordIO),
+              KeywordIO.decodeMany,
               fp.TE.fromEither,
             ),
             media: pipe(
-              relations.media,
-              fp.A.traverse(fp.E.Applicative)((m) =>
-                toMediaIO(
-                  { ...m, links: [], keywords: [], events: [] },
-                  ctx.env.SPACE_ENDPOINT,
-                ),
-              ),
+              relations.media.map((m) => ({ ...m, links: [], keywords: [] })),
+              (mm) => MediaIO.decodeMany(mm, ctx.env.SPACE_ENDPOINT),
               fp.TE.fromEither,
             ),
             groupsMembers: TE.right([]),

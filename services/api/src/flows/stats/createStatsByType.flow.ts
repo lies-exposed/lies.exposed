@@ -14,9 +14,9 @@ import {
   type SearchEvent,
 } from "@liexp/shared/lib/io/http/Events/index.js";
 import {
+  type Media,
   type Events,
   type GroupMember,
-  type Media,
 } from "@liexp/shared/lib/io/http/index.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
@@ -37,7 +37,7 @@ import {
   toControllerError,
   type ControllerError,
 } from "#io/ControllerError.js";
-import { toEventV2IO } from "#routes/events/eventV2.io.js";
+import { EventV2IO } from "#routes/events/eventV2.io.js";
 import {
   searchEventV2Query,
   type SearchEventOutput,
@@ -234,8 +234,7 @@ export const createStatsByType: TEFlow<
     TE.chain((results) =>
       pipe(
         results,
-        A.map((e) => toEventV2IO(e)),
-        A.sequence(E.Applicative),
+        EventV2IO.decodeMany,
         TE.fromEither,
         TE.chain((events) => {
           return pipe(
@@ -282,7 +281,20 @@ export const createStatsByType: TEFlow<
                           subGroups: [],
                           startDate: g.startDate ?? undefined,
                           endDate: g.endDate ?? undefined,
-                          avatar: g.avatar ?? undefined,
+                          avatar: pipe(
+                            fp.O.fromNullable(g.avatar),
+                            fp.O.map(
+                              (avatar) => fp.E.right(avatar),
+                              // MediaIO.decodeSingle(
+                              //   avatar,
+                              //   ctx.env.SPACE_ENDPOINT,
+                              // ),
+                            ),
+                            fp.O.fold(
+                              () => undefined,
+                              E.getOrElse((): string | undefined => undefined),
+                            ),
+                          ),
                           members: [],
                         },
                       ]),
@@ -296,7 +308,20 @@ export const createStatsByType: TEFlow<
                           bornOn: (a.bornOn as any) ?? undefined,
                           diedOn: (a.diedOn as any) ?? undefined,
                           color: a.color as any,
-                          avatar: a.avatar ?? undefined,
+                          avatar: pipe(
+                            fp.O.fromNullable(a.avatar),
+                            fp.O.map(
+                              (avatar) => fp.E.right(avatar),
+                              // MediaIO.decodeSingle(
+                              //   avatar,
+                              //   ctx.env.SPACE_ENDPOINT,
+                              // ),
+                            ),
+                            fp.O.fold(
+                              () => undefined,
+                              E.getOrElse((): string | undefined => undefined),
+                            ),
+                          ),
                           memberIn: [],
                         },
                       ]),

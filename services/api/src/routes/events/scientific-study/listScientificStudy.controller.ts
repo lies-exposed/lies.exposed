@@ -1,11 +1,10 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import * as A from "fp-ts/lib/Array.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { searchEventV2Query } from "../queries/searchEventsV2.query.js";
-import { toEventV2IO } from "#routes/events/eventV2.io.js";
+import { EventV2IO } from "#routes/events/eventV2.io.js";
 import { type Route } from "#routes/route.types.js";
 import { getORMOptions } from "#utils/orm.utils.js";
 
@@ -65,9 +64,9 @@ export const MakeListScientificStudyRoute: Route = (
         }),
         TE.chain(({ results, totals: { scientificStudies } }) =>
           pipe(
-            A.sequence(TE.ApplicativeSeq)(
-              results.map((r) => TE.fromEither(toEventV2IO(r))),
-            ),
+            results,
+            EventV2IO.decodeMany,
+            TE.fromEither,
             TE.map((data) => ({ data, total: scientificStudies })),
           ),
         ),

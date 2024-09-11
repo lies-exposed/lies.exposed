@@ -3,15 +3,16 @@ import * as io from "@liexp/shared/lib/io/index.js";
 import * as E from "fp-ts/lib/Either.js";
 import { type AreaEntity } from "../../entities/Area.entity.js";
 import { type ControllerError, DecodeError } from "#io/ControllerError.js";
-import { toMediaIO } from "#routes/media/media.io.js";
+import { IOCodec } from "#io/DomainCodec.js";
+import { MediaIO } from "#routes/media/media.io.js";
 
-export const toAreaIO = (
+const toAreaIO = (
   { featuredImage, ...area }: AreaEntity,
   spaceEndpoint: string,
 ): E.Either<ControllerError, io.http.Area.Area> => {
   return pipe(
     featuredImage
-      ? toMediaIO(featuredImage, spaceEndpoint)
+      ? MediaIO.decodeSingle(featuredImage, spaceEndpoint)
       : E.right<ControllerError, io.http.Media.Media | null>(null),
     fp.E.chain((media) =>
       pipe(
@@ -40,3 +41,5 @@ export const toAreaIO = (
     ),
   );
 };
+
+export const AreaIO = IOCodec(toAreaIO, "area");

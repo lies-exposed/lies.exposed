@@ -3,8 +3,9 @@ import { Book } from "@liexp/shared/lib/io/http/Events/index.js";
 import * as E from "fp-ts/lib/Either.js";
 import { type EventV2Entity } from "#entities/Event.v2.entity.js";
 import { type ControllerError, DecodeError } from "#io/ControllerError.js";
+import { IOCodec } from "#io/DomainCodec.js";
 
-export const toBookIO = (
+const toBookIO = (
   book: EventV2Entity,
 ): E.Either<ControllerError, Book.Book> => {
   return pipe(
@@ -24,3 +25,5 @@ export const toBookIO = (
     E.mapLeft((errors) => DecodeError("Failed to decode book", errors)),
   );
 };
+
+export const BookIO = IOCodec(toBookIO, "book");

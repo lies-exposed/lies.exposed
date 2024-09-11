@@ -3,7 +3,7 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { toGraphIO } from "./graph.io.js";
+import { GraphIO } from "./graph.io.js";
 import { GraphEntity } from "#entities/Graph.entity.js";
 import { type RouteContext } from "#routes/route.types.js";
 
@@ -19,7 +19,7 @@ export const MakeEditGraphRoute = (r: Router, ctx: RouteContext): void => {
         TE.chain(() =>
           ctx.db.findOneOrFail(GraphEntity, { where: { id: Equal(id) } }),
         ),
-        TE.chainEitherK((data) => toGraphIO(data)),
+        TE.chainEitherK((data) => GraphIO.decodeSingle(data)),
         TE.map((data) => ({
           body: {
             data,

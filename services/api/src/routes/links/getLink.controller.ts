@@ -5,7 +5,7 @@ import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type RouteContext } from "../route.types.js";
-import { toLinkIO } from "./link.io.js";
+import { LinkIO } from "./link.io.js";
 import { LinkEntity } from "#entities/Link.entity.js";
 import { RequestDecoder } from "#utils/authenticationHandler.js";
 
@@ -22,7 +22,7 @@ export const MakeGetLinksRoute = (r: Router, ctx: RouteContext): void => {
         loadRelationIds: { relations: ["events", "keywords", "creator"] },
         withDeleted: isAdmin,
       }),
-      TE.chainEitherK(toLinkIO),
+      TE.chainEitherK(LinkIO.decodeSingle),
       TE.map((data) => ({
         body: { data },
         statusCode: 200,

@@ -3,7 +3,7 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
-import { toEventV2IO } from "#routes/events/eventV2.io.js";
+import { EventV2IO } from "#routes/events/eventV2.io.js";
 import { type Route } from "#routes/route.types.js";
 
 export const MakeGetScientificStudyRoute: Route = (r, { db }) => {
@@ -15,7 +15,7 @@ export const MakeGetScientificStudyRoute: Route = (r, { db }) => {
           relations: ["media", "keywords", "links"],
         },
       }),
-      TE.chainEitherK(toEventV2IO),
+      TE.chainEitherK(EventV2IO.decodeSingle),
       TE.map((data) => ({
         body: {
           data,

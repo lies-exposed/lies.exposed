@@ -3,7 +3,7 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { UserStatusApproved } from "@liexp/shared/lib/io/http/User.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { toUserIO } from "./user.io.js";
+import { UserIO } from "./user.io.js";
 import { UserEntity } from "#entities/User.entity.js";
 import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
@@ -26,7 +26,7 @@ export const MakeUserCreateRoute: Route = (r, ctx) => {
             },
           ]),
         ),
-        TE.chainEitherK(([user]) => toUserIO(user)),
+        TE.chainEitherK(([user]) => UserIO.decodeSingle(user)),
         TE.map((data) => ({
           body: { data },
           statusCode: 200,

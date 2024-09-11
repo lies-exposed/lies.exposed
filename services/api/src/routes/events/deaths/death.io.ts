@@ -3,8 +3,9 @@ import * as io from "@liexp/shared/lib/io/index.js";
 import * as E from "fp-ts/lib/Either.js";
 import { type DeathEventViewEntity } from "#entities/events/DeathEvent.entity.js";
 import { type ControllerError, DecodeError } from "#io/ControllerError.js";
+import { IOCodec } from "#io/DomainCodec.js";
 
-export const toDeathIO = (
+const toDeathIO = (
   event: DeathEventViewEntity,
 ): E.Either<ControllerError, io.http.Events.Death.Death> => {
   return pipe(
@@ -24,3 +25,5 @@ export const toDeathIO = (
     ),
   );
 };
+
+export const DeathIO = IOCodec(toDeathIO, "death");

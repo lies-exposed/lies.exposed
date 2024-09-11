@@ -6,7 +6,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { GroupEntity } from "../../entities/Group.entity.js";
 import { type Route } from "../route.types.js";
-import { toGroupIO } from "./group.io.js";
+import { GroupIO } from "./group.io.js";
 import { searchGroupAndCreateFromWikipedia } from "#flows/groups/fetchGroupFromWikipedia.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
@@ -36,7 +36,7 @@ export const MakeCreateGroupRoute: Route = (r, ctx) => {
             where: { id: Equal(group.id) },
           }),
         ),
-        TE.chainEitherK(toGroupIO),
+        TE.chainEitherK(GroupIO.decodeSingle),
         TE.map((data) => ({
           body: {
             data,
