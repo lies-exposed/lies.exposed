@@ -4,7 +4,7 @@ import { relationsTransformer } from "@liexp/ui/lib/components/Common/BlockNote/
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { toStoryIO } from "./story.io.js";
+import { StoryIO } from "./story.io.js";
 import { StoryEntity } from "#entities/Story.entity.js";
 import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
@@ -67,7 +67,7 @@ export const MakeEditStoryRoute: Route = (r, ctx) => {
             },
           }),
         ),
-        TE.chainEitherK(toStoryIO),
+        TE.chainEitherK(StoryIO.decodeSingle),
         TE.map((data) => ({
           body: {
             data,

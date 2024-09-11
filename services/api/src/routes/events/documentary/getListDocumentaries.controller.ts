@@ -1,12 +1,11 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { DOCUMENTARY } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { searchEventV2Query } from "../queries/searchEventsV2.query.js";
-import { toDocumentaryIO } from "./documentary.io.js";
+import { DocumentaryIO } from "./documentary.io.js";
 import { type Route } from "#routes/route.types.js";
 import { getORMOptions } from "#utils/orm.utils.js";
 
@@ -65,12 +64,11 @@ export const MakeGetListDocumentaryEventRoute: Route = (r, ctx) => {
           withDrafts: O.getOrElse(() => false)(withDrafts),
           ...ormOptions,
         }),
-        TE.chain(({ results, totals: { documentaries } }) =>
+        TE.chainEitherK(({ results, totals: { documentaries } }) =>
           pipe(
             results,
-            A.traverse(E.Applicative)(toDocumentaryIO),
-            TE.fromEither,
-            TE.map((data) => ({ data, total: documentaries })),
+            DocumentaryIO.decodeMany,
+            E.map((data) => ({ data, total: documentaries })),
           ),
         ),
         TE.map((body) => ({

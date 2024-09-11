@@ -5,8 +5,9 @@ import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
 import * as E from "fp-ts/lib/Either.js";
 import { type GroupEntity } from "#entities/Group.entity.js";
 import { DecodeError, type ControllerError } from "#io/ControllerError.js";
+import { IOCodec } from "#io/DomainCodec.js";
 
-export const toGroupIO = (
+const toGroupIO = (
   group: GroupEntity,
 ): E.Either<ControllerError, io.http.Group.Group> => {
   return pipe(
@@ -25,3 +26,5 @@ export const toGroupIO = (
     E.mapLeft((e) => DecodeError(`Failed to decode group (${group.id})`, e)),
   );
 };
+
+export const GroupIO = IOCodec(toGroupIO, "group");

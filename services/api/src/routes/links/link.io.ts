@@ -4,8 +4,9 @@ import * as io from "@liexp/shared/lib/io/index.js";
 import * as E from "fp-ts/lib/Either.js";
 import { type LinkEntity } from "#entities/Link.entity.js";
 import { type ControllerError, DecodeError } from "#io/ControllerError.js";
+import { IOCodec } from "#io/DomainCodec.js";
 
-export const toLinkIO = (
+const toLinkIO = (
   link: LinkEntity,
 ): E.Either<ControllerError, io.http.Link.Link> => {
   return pipe(
@@ -39,3 +40,5 @@ export const toLinkIO = (
     E.mapLeft((e) => DecodeError(`Failed to decode link (${link.id})`, e)),
   );
 };
+
+export const LinkIO = IOCodec(toLinkIO, "link");

@@ -4,13 +4,12 @@ import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { EventSuggestion, Events } from "@liexp/shared/lib/io/http/index.js";
 import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import { addWeeks, subWeeks } from "date-fns";
-import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Metadata } from "page-metadata-parser";
 import { Equal } from "typeorm";
-import { toEventV2IO } from "./eventV2.io.js";
+import { EventV2IO } from "./eventV2.io.js";
 import { searchEventV2Query } from "./queries/searchEventsV2.query.js";
 import { LinkEntity } from "#entities/Link.entity.js";
 import {
@@ -222,8 +221,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
             TE.chain(({ results, firstDate, lastDate, ...rest }) =>
               pipe(
                 results,
-                A.map(toEventV2IO),
-                A.sequence(E.Applicative),
+                EventV2IO.decodeMany,
                 E.map((data) => ({
                   data,
                   suggestions,

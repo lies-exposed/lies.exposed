@@ -4,7 +4,7 @@ import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { toDocumentaryIO } from "./documentary.io.js";
+import { DocumentaryIO } from "./documentary.io.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { type Route } from "#routes/route.types.js";
 
@@ -46,7 +46,7 @@ export const MakeCreateDocumentaryReleaseRoute: Route = (r, { db, logger }) => {
             },
           }),
         ),
-        TE.chainEitherK(toDocumentaryIO),
+        TE.chainEitherK(DocumentaryIO.decodeSingle),
         TE.map((data) => ({
           body: {
             data,

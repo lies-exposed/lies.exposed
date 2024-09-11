@@ -3,8 +3,9 @@ import * as io from "@liexp/shared/lib/io/index.js";
 import * as E from "fp-ts/lib/Either.js";
 import { type UserEntity } from "#entities/User.entity.js";
 import { type ControllerError, DecodeError } from "#io/ControllerError.js";
+import { IOCodec } from "#io/DomainCodec.js";
 
-export const toUserIO = ({
+const toUserIO = ({
   passwordHash,
   ...user
 }: UserEntity): E.Either<ControllerError, io.http.User.User> => {
@@ -17,3 +18,5 @@ export const toUserIO = ({
     E.mapLeft((e) => DecodeError(`Failed to decode user (${user.id})`, e)),
   );
 };
+
+export const UserIO = IOCodec(toUserIO, "user");

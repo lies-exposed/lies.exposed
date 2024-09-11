@@ -5,7 +5,7 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import kebabCase from "lodash/kebabCase.js";
 import { AreaEntity } from "#entities/Area.entity.js";
 import { fetchAndCreateAreaFromWikipedia } from "#flows/areas/fetchAndCreateAreaFromWikipedia.js";
-import { toAreaIO } from "#routes/areas/Area.io.js";
+import { AreaIO } from "#routes/areas/Area.io.js";
 import { type RouteContext } from "#routes/route.types.js";
 import { EntityFromWikipediaService } from "#services/entityFromWikipedia.service.js";
 
@@ -32,7 +32,7 @@ export const areaCommand = (ctx: RouteContext): TGBotProvider => {
               flow(
                 fp.O.chain((a) =>
                   pipe(
-                    toAreaIO(a, ctx.env.SPACE_ENDPOINT),
+                    AreaIO.decodeSingle(a, ctx.env.SPACE_ENDPOINT),
                     fp.E.fold(() => fp.O.none, fp.O.some),
                   ),
                 ),

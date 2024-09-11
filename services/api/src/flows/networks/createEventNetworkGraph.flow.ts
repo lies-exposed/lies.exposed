@@ -44,13 +44,13 @@ import {
   toControllerError,
   type ControllerError,
 } from "#io/ControllerError.js";
-import { toActorIO } from "#routes/actors/actor.io.js";
-import { toEventV2IO } from "#routes/events/eventV2.io.js";
+import { ActorIO } from "#routes/actors/actor.io.js";
+import { EventV2IO } from "#routes/events/eventV2.io.js";
 import { fetchRelations } from "#routes/events/queries/fetchEventRelations.query.js";
 import { infiniteSearchEventQuery } from "#routes/events/queries/searchEventsV2.query.js";
-import { toGroupIO } from "#routes/groups/group.io.js";
-import { toKeywordIO } from "#routes/keywords/keyword.io.js";
-import { toMediaIO } from "#routes/media/media.io.js";
+import { GroupIO } from "#routes/groups/group.io.js";
+import { KeywordIO } from "#routes/keywords/keyword.io.js";
+import { MediaIO } from "#routes/media/media.io.js";
 
 interface GetEventGraphOpts {
   events: SearchEvent.SearchEvent[];
@@ -349,7 +349,7 @@ export const createEventNetworkGraph: TEFlow<
         relations: ["keywords", "media"],
       },
     }),
-    TE.chainEitherK((ev) => toEventV2IO({ ...ev, links: [] })),
+    TE.chainEitherK((ev) => EventV2IO.decodeSingle({ ...ev, links: [] })),
     ctx.logger.debug.logInTaskEither(`event %O`),
     // get all relations for the given event
     fp.TE.map((event) => ({
@@ -393,37 +393,26 @@ export const createEventNetworkGraph: TEFlow<
     }),
     TE.chain(({ event, relations }) =>
       sequenceS(TE.ApplicativePar)({
-        event: fp.TE.right(event),
-        actors: pipe(
-          relations.actors,
-          fp.A.traverse(fp.E.Applicative)(toActorIO),
-          fp.TE.fromEither,
-        ),
+        event: TE.right(event),
+        actors: pipe(ActorIO.decodeMany(relations.actors), fp.TE.fromEither),
         groups: pipe(
-          relations.groups,
-          fp.A.traverse(fp.E.Applicative)((g) =>
-            toGroupIO({ ...g, members: [] }),
-          ),
+          relations.groups.map((g) => ({ ...g, members: [] })),
+          GroupIO.decodeMany,
           fp.TE.fromEither,
         ),
         keywords: pipe(
           relations.keywords,
-          fp.A.traverse(fp.E.Applicative)(toKeywordIO),
+          KeywordIO.decodeMany,
           fp.TE.fromEither,
         ),
         media: pipe(
-          relations.media,
-          fp.A.traverse(fp.E.Applicative)((m) =>
-            toMediaIO(
-              {
-                ...m,
-                links: [],
-                keywords: [],
-                events: [],
-              },
-              ctx.env.SPACE_ENDPOINT,
-            ),
-          ),
+          relations.media.map((m) => ({
+            ...m,
+            links: [],
+            keywords: [],
+            events: [],
+          })),
+          (mm) => MediaIO.decodeMany(mm, ctx.env.SPACE_ENDPOINT),
           fp.TE.fromEither,
         ),
       }),
@@ -456,10 +445,8 @@ export const createEventNetworkGraph: TEFlow<
                 [key]: O.some([k]),
                 order: { date: "DESC" },
               }),
-              fp.TE.chainEitherK(
-                fp.A.traverse(fp.E.Applicative)((ev) =>
-                  toEventV2IO({ ...ev, links: [] }),
-                ),
+              fp.TE.chainEitherK((evs) =>
+                EventV2IO.decodeMany(evs.map((ev) => ({ ...ev, links: [] }))),
               ),
               fp.TE.map((ee): [string, NetworkGraphOutput] => [
                 k,

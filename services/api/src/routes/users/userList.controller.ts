@@ -2,10 +2,8 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as A from "fp-ts/lib/Array.js";
-import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { toUserIO } from "./user.io.js";
+import { UserIO } from "./user.io.js";
 import { UserEntity } from "#entities/User.entity.js";
 import { type RouteContext } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
@@ -23,7 +21,7 @@ export const MakeUserListRoute = (r: Router, ctx: RouteContext): void => {
         sequenceS(TE.ApplicativePar)({
           data: pipe(
             ctx.db.find(UserEntity, { ...findOptions }),
-            TE.chainEitherK(A.traverse(E.Applicative)(toUserIO)),
+            TE.chainEitherK(UserIO.decodeMany),
           ),
           total: ctx.db.count(UserEntity),
         }),

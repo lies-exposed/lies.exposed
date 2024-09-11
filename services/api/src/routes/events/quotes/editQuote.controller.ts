@@ -4,7 +4,7 @@ import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import { QUOTE } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { toQuoteIO } from "./quote.io.js";
+import { QuoteIO } from "./quote.io.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { type Route } from "#routes/route.types.js";
 
@@ -47,7 +47,7 @@ export const MakeEditQuoteRoute: Route = (r, { db, logger }) => {
             },
           }),
         ),
-        TE.chainEitherK(toQuoteIO),
+        TE.chainEitherK(QuoteIO.decodeSingle),
         TE.map((data) => ({
           body: {
             data,

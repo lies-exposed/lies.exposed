@@ -5,7 +5,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { GroupEntity } from "../../entities/Group.entity.js";
 import { type RouteContext } from "../route.types.js";
-import { toGroupIO } from "./group.io.js";
+import { GroupIO } from "./group.io.js";
 
 export const MakeGetGroupRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Group.Get, ({ params: { id } }) => {
@@ -16,7 +16,7 @@ export const MakeGetGroupRoute = (r: Router, ctx: RouteContext): void => {
           relations: ["members"],
         },
       }),
-      TE.chainEitherK(toGroupIO),
+      TE.chainEitherK(GroupIO.decodeSingle),
       TE.map((data) => ({
         body: {
           data,

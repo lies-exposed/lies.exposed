@@ -7,7 +7,7 @@ import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal, In } from "typeorm";
 import { type RouteContext } from "../route.types.js";
-import { toLinkIO } from "./link.io.js";
+import { LinkIO } from "./link.io.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { type KeywordEntity } from "#entities/Keyword.entity.js";
 import { LinkEntity } from "#entities/Link.entity.js";
@@ -151,7 +151,7 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
             ),
           ),
         ),
-        TE.chainEitherK(toLinkIO),
+        TE.chainEitherK(LinkIO.decodeSingle),
         TE.map((data) => ({
           body: { data },
           statusCode: 200,

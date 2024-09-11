@@ -6,7 +6,7 @@ import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { GroupEntity } from "../../entities/Group.entity.js";
-import { toGroupIO } from "./group.io.js";
+import { GroupIO } from "./group.io.js";
 import { type RouteContext } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
@@ -48,7 +48,7 @@ export const MakeEditGroupRoute = (r: Router, ctx: RouteContext): void => {
           }),
         ),
         // ctx.logger.debug.logInTaskEither("Updated group %O"),
-        TE.chainEitherK(toGroupIO),
+        TE.chainEitherK(GroupIO.decodeSingle),
         TE.map((data) => ({
           body: {
             data,

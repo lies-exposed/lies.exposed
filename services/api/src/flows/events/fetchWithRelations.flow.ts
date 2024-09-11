@@ -1,4 +1,4 @@
-import { fp, flow, pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   type GetNetworkQuery,
@@ -18,7 +18,7 @@ import { fetchEventsRelations } from "./fetchEventsRelations.flow.js";
 import { type EventV2Entity } from "#entities/Event.v2.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import { type ControllerError } from "#io/ControllerError.js";
-import { toEventV2IO } from "#routes/events/eventV2.io.js";
+import { EventV2IO } from "#routes/events/eventV2.io.js";
 import {
   searchEventV2Query,
   type SearchEventOutput,
@@ -66,9 +66,7 @@ export const fetchEventsWithRelations: TEFlow<
         0,
         100,
       ),
-      TE.chainEitherK(
-        flow(fp.A.map(toEventV2IO), fp.A.sequence(fp.E.Applicative)),
-      ),
+      TE.chainEitherK(EventV2IO.decodeMany),
       TE.chain((events) => fetchEventsRelations(ctx)(events, isAdmin)),
     );
   };

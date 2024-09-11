@@ -1,12 +1,11 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints, AddEndpoint } from "@liexp/shared/lib/endpoints/index.js";
 import { type Router } from "express";
-import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type RouteContext } from "../route.types.js";
-import { toGroupMemberIO } from "./groupMember.io.js";
+import { GroupMemberIO } from "./groupMember.io.js";
 import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
 import { getORMOptions } from "#utils/orm.utils.js";
 
@@ -90,7 +89,7 @@ export const MakeListGroupMemberRoute = (
         TE.chainEitherK(([results, count]) =>
           pipe(
             results,
-            A.traverse(E.Applicative)(toGroupMemberIO),
+            GroupMemberIO.decodeMany,
             E.map((data) => ({ data, count })),
           ),
         ),

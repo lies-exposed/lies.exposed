@@ -4,7 +4,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { AreaEntity } from "../../entities/Area.entity.js";
 import { type Route } from "../route.types.js";
-import { toAreaIO } from "./Area.io.js";
+import { AreaIO } from "./Area.io.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeCreateAreaRoute: Route = (r, { db, logger, jwt, env }) => {
@@ -25,7 +25,7 @@ export const MakeCreateAreaRoute: Route = (r, { db, logger, jwt, env }) => {
           return db.save(AreaEntity, [body]);
         }),
         fp.TE.map(([a]) => a),
-        TE.chainEitherK((a) => toAreaIO(a, env.SPACE_ENDPOINT)),
+        TE.chainEitherK((a) => AreaIO.decodeSingle(a, env.SPACE_ENDPOINT)),
         TE.map((page) => ({
           body: {
             data: page,

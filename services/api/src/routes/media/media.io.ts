@@ -4,8 +4,9 @@ import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
 import * as E from "fp-ts/lib/Either.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
 import { type ControllerError, DecodeError } from "#io/ControllerError.js";
+import { IOCodec } from "#io/DomainCodec.js";
 
-export const toMediaIO = (
+const toMediaIO = (
   media: MediaEntity,
   spaceEndpoint: string,
 ): E.Either<ControllerError, io.http.Media.Media> => {
@@ -32,3 +33,5 @@ export const toMediaIO = (
     E.mapLeft((e) => DecodeError(`Failed to decode media (${media.id})`, e)),
   );
 };
+
+export const MediaIO = IOCodec(toMediaIO, "media");

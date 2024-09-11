@@ -25,7 +25,7 @@ import {
   differenceInDays,
   subYears,
 } from "@liexp/shared/lib/utils/date.utils.js";
-import { toEventV2IO } from "../../routes/events/eventV2.io.js";
+import { EventV2IO } from "../../routes/events/eventV2.io.js";
 import { cleanItemsFromSlateFields } from "../../utils/clean.utils.js";
 import { fetchEventsByRelation } from "../events/fetchByRelations.flow.js";
 import { fetchEventsRelations } from "../events/fetchEventsRelations.flow.js";
@@ -217,9 +217,7 @@ export const createFlowGraph: TEFlow<
         relations,
         emptyRelations,
       }),
-      fp.TE.chainEitherK(({ results }) =>
-        pipe(results.map(toEventV2IO), fp.A.sequence(fp.E.Applicative)),
-      ),
+      fp.TE.chainEitherK(({ results }) => pipe(results, EventV2IO.decodeMany)),
       fp.TE.chain((events) => fetchEventsRelations(ctx)(events, isAdmin)),
       fp.TE.map(getFlowGraph(ctx.logger)),
     );

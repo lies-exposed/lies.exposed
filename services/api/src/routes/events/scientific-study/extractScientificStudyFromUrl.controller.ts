@@ -14,7 +14,7 @@ import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { UserEntity } from "#entities/User.entity.js";
 import { extractEventFromURL } from "#flows/events/extractFromURL.flow.js";
 import { ServerError, toControllerError } from "#io/ControllerError.js";
-import { toEventV2IO } from "#routes/events/eventV2.io.js";
+import { EventV2IO } from "#routes/events/eventV2.io.js";
 import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { ensureUserExists } from "#utils/user.utils.js";
@@ -88,7 +88,7 @@ export const MakeExtractScientificStudyFromURLRoute: Route = (r, ctx) => {
             ),
           );
         }),
-        TE.chainEitherK(toEventV2IO),
+        TE.chainEitherK(EventV2IO.decodeSingle),
         TE.map((data) => ({
           body: {
             data,

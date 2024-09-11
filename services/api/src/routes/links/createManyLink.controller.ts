@@ -4,10 +4,9 @@ import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { type Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as A from "fp-ts/lib/Array.js";
-import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { In } from "typeorm";
-import { toLinkIO } from "./link.io.js";
+import { LinkIO } from "./link.io.js";
 import { LinkEntity } from "#entities/Link.entity.js";
 import { UserEntity } from "#entities/User.entity.js";
 import { fetchAndSave } from "#flows/links/link.flow.js";
@@ -50,7 +49,7 @@ export const MakeCreateManyLinkRoute = (r: Router, ctx: RouteContext): void => {
             A.sequence(TE.ApplicativeSeq),
           );
         }),
-        TE.chainEitherK(A.traverse(E.Applicative)(toLinkIO)),
+        TE.chainEitherK(LinkIO.decodeMany),
         TE.map((data) => ({
           body: { data },
           statusCode: 200,

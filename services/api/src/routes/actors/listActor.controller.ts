@@ -1,12 +1,10 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Router } from "express";
-import * as A from "fp-ts/lib/Array.js";
-import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { fetchActors } from "../../queries/actors/fetchActors.query.js";
 import { type RouteContext } from "../route.types.js";
-import { toActorIO } from "./actor.io.js";
+import { ActorIO } from "./actor.io.js";
 
 export const MakeListPageRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Actor.List, ({ query }) => {
@@ -15,7 +13,7 @@ export const MakeListPageRoute = (r: Router, ctx: RouteContext): void => {
       TE.chain(({ results, total }) =>
         pipe(
           results,
-          A.traverse(E.Applicative)(toActorIO),
+          ActorIO.decodeMany,
           TE.fromEither,
           TE.map((results) => ({
             total,

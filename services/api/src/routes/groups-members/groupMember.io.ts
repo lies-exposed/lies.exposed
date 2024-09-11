@@ -4,16 +4,17 @@ import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as E from "fp-ts/lib/Either.js";
 import { type GroupMemberEntity } from "../../entities/GroupMember.entity.js";
 import { DecodeError, type ControllerError } from "#io/ControllerError.js";
-import { toActorIO } from "#routes/actors/actor.io.js";
-import { toGroupIO } from "#routes/groups/group.io.js";
+import { IOCodec } from "#io/DomainCodec.js";
+import { ActorIO } from "#routes/actors/actor.io.js";
+import { GroupIO } from "#routes/groups/group.io.js";
 
-export const toGroupMemberIO = (
+const toGroupMemberIO = (
   groupMember: GroupMemberEntity,
 ): E.Either<ControllerError, io.http.GroupMember.GroupMember> => {
   return pipe(
     sequenceS(E.Applicative)({
-      group: toGroupIO(groupMember.group),
-      actor: toActorIO(groupMember.actor),
+      group: GroupIO.decodeSingle(groupMember.group),
+      actor: ActorIO.decodeSingle(groupMember.actor),
     }),
     E.chain(({ group, actor }) =>
       pipe(
@@ -33,3 +34,5 @@ export const toGroupMemberIO = (
     ),
   );
 };
+
+export const GroupMemberIO = IOCodec(toGroupMemberIO, "GroupMember");

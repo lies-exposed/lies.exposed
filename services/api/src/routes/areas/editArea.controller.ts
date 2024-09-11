@@ -8,7 +8,7 @@ import { type Option } from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type Route } from "../route.types.js";
-import { toAreaIO } from "./Area.io.js";
+import { AreaIO } from "./Area.io.js";
 import { AreaEntity } from "#entities/Area.entity.js";
 import { foldOptionals } from "#utils/foldOptionals.utils.js";
 
@@ -77,7 +77,7 @@ export const MakeEditAreaRoute: Route = (r, { db, geo, env, logger }) => {
             },
           }),
         ),
-        TE.chainEitherK((a) => toAreaIO(a, env.SPACE_ENDPOINT)),
+        TE.chainEitherK((a) => AreaIO.decodeSingle(a, env.SPACE_ENDPOINT)),
         TE.map((page) => ({
           body: {
             data: page,

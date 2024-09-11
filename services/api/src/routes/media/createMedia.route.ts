@@ -4,7 +4,7 @@ import { parseURL } from "@liexp/shared/lib/helpers/media.js";
 import { MP4Type } from "@liexp/shared/lib/io/http/Media.js";
 import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { toMediaIO } from "./media.io.js";
+import { MediaIO } from "./media.io.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { extractMP4Extra } from "#flows/media/extra/extractMP4Extra.js";
 import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
@@ -68,7 +68,9 @@ export const MakeCreateMediaRoute = (r: Router, ctx: RouteContext): void => {
             }),
           ),
         ),
-        TE.chainEitherK((media) => toMediaIO(media[0], ctx.env.SPACE_ENDPOINT)),
+        TE.chainEitherK((media) =>
+          MediaIO.decodeSingle(media[0], ctx.env.SPACE_ENDPOINT),
+        ),
         TE.map((data) => ({
           body: {
             data,

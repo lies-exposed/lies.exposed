@@ -4,7 +4,7 @@ import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type RouteContext } from "../route.types.js";
-import { toGroupMemberIO } from "./groupMember.io.js";
+import { GroupMemberIO } from "./groupMember.io.js";
 import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
@@ -23,7 +23,7 @@ export const MakeDeleteGroupMemberRoute = (
           relations: ["actor", "group"],
         }),
         TE.chainFirst(() => ctx.db.softDelete(GroupMemberEntity, id)),
-        TE.chainEitherK(toGroupMemberIO),
+        TE.chainEitherK(GroupMemberIO.decodeSingle),
         TE.map((data) => ({
           body: {
             data,
