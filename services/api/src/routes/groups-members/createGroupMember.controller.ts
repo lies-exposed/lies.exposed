@@ -8,7 +8,10 @@ import { GroupMemberIO } from "./groupMember.io.js";
 import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
-export const MakeCreateGroupMemberRoute: Route = (r, { db, logger, jwt }) => {
+export const MakeCreateGroupMemberRoute: Route = (
+  r,
+  { db, logger, jwt, env },
+) => {
   AddEndpoint(r, authenticationHandler({ logger, jwt }, ["admin:create"]))(
     Endpoints.GroupMember.Create,
     ({ body }) => {
@@ -26,7 +29,9 @@ export const MakeCreateGroupMemberRoute: Route = (r, { db, logger, jwt }) => {
             relations: ["actor", "group"],
           }),
         ),
-        TE.chainEitherK(GroupMemberIO.decodeSingle),
+        TE.chainEitherK((g) =>
+          GroupMemberIO.decodeSingle(g, env.SPACE_ENDPOINT),
+        ),
         TE.map((page) => ({
           body: {
             data: page,

@@ -1,21 +1,25 @@
-import { ActorArb, GroupArb } from "@liexp/shared/lib/tests/index.js";
+import { ActorArb, GroupArb, MediaArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
+import { pipe } from "fp-ts/lib/function.js";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 import { loginUser, saveUser } from "../../../../test/user.utils.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";
 import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
+import { MediaEntity } from "#entities/Media.entity.js";
 import { UserEntity } from "#entities/User.entity.js";
 
 describe("Edit Actor", () => {
   let Test: AppTest;
   let user: any;
   let authorizationToken: string;
+  const [avatar] = tests.fc.sample(MediaArb, 1);
   let actor = tests.fc.sample(ActorArb, 1).map((a) => ({
     ...a,
     death: undefined,
     memberIn: [] as any[],
+    avatar,
   }))[0];
 
   beforeAll(async () => {
@@ -24,12 +28,38 @@ describe("Edit Actor", () => {
     const { authorization } = await loginUser(Test)(user);
     authorizationToken = authorization;
 
-    await throwTE(Test.ctx.db.save(ActorEntity, [actor]));
+    await pipe(
+      Test.ctx.db.save(MediaEntity, [
+        {
+          ...avatar,
+          events: [],
+          links: [],
+          keywords: [],
+          stories: [],
+          socialPosts: [],
+          areas: [],
+          featuredInAreas: [],
+          featuredInStories: [],
+          creator: null,
+        },
+      ]),
+      throwTE,
+    );
+
+    await throwTE(
+      Test.ctx.db.save(ActorEntity, [
+        {
+          ...actor,
+          avatar: actor.avatar?.id as any,
+        },
+      ]),
+    );
   });
 
   afterAll(async () => {
     await throwTE(Test.ctx.db.delete(ActorEntity, [actor.id]));
     await throwTE(Test.ctx.db.delete(UserEntity, [user.id]));
+    await throwTE(Test.ctx.db.delete(MediaEntity, [avatar.id]));
     await Test.utils.e2eAfterAll();
   });
 
@@ -55,7 +85,7 @@ describe("Edit Actor", () => {
     const response = await Test.req
       .put(`/v1/actors/${actor.id}`)
       .set("Authorization", authorizationToken)
-      .send(editActor);
+      .send({ ...editActor, avatar: avatar?.id });
 
     expect(response.status).toEqual(200);
     expect(response.body.data).toMatchObject({
@@ -71,6 +101,18 @@ describe("Edit Actor", () => {
       const groups = tests.fc.sample(GroupArb, 10).map((g) => ({
         ...g,
         members: [],
+        avatar: {
+          ...g.avatar,
+          events: [],
+          keywords: [],
+          areas: [],
+          stories: [],
+          links: [],
+          featuredIn: [],
+          socialPosts: [],
+          featuredInStories: [],
+          creator: null,
+        },
       }));
 
       await throwTE(Test.ctx.db.save(GroupEntity, groups));
@@ -90,6 +132,7 @@ describe("Edit Actor", () => {
       const otherGroups = tests.fc.sample(GroupArb, 10).map((g) => ({
         ...g,
         members: [],
+        avatar: null,
       }));
 
       await throwTE(Test.ctx.db.save(GroupEntity, otherGroups));

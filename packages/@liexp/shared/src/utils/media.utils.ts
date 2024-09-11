@@ -44,6 +44,14 @@ export const fileExtFromContentType = (c: Media.ValidContentType): string => {
   }
 };
 
+export const extensionFromURL = (u: string): string => {
+  const [, ext] = pipe(u.split("."));
+  if (!ext) {
+    return "jpg";
+  }
+  return ext;
+};
+
 export const getResourceAndIdFromLocation = (
   u: string,
 ): Option<{ resource: string; id: string }> => {

@@ -43,7 +43,7 @@ export const ActorChip: React.FC<ActorChipProps> = ({
       }}
     >
       {pipe(
-        O.fromNullable(displayAvatar ? actor.avatar : null),
+        O.fromNullable(displayAvatar ? actor.avatar?.thumbnail : null),
         O.map((src) => (
           <Avatar
             key={actor.id}

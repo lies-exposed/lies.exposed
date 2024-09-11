@@ -111,6 +111,7 @@ const initAppTest = async (): Promise<AppTest> => {
       ig: mocks.ig,
       fs: GetFSClient(),
       wp: mocks.wiki,
+      rw: mocks.wiki,
       urlMetadata: {
         fetchHTML: (url: string, opts: any) => {
           return TE.tryCatch(
@@ -166,11 +167,11 @@ const initAppTest = async (): Promise<AppTest> => {
           return pipe(
             sequenceS(TE.ApplicativeSeq)({
               link: liftFind(LinkEntity),
-              media: liftFind(MediaEntity),
               keyword: liftFind(KeywordEntity),
               groupMembers: liftFind(GroupMemberEntity),
               actor: liftFind(ActorEntity),
               group: liftFind(GroupEntity),
+              media: liftFind(MediaEntity),
               event: liftFind(EventV2Entity),
               area: liftFind(AreaEntity),
             }),

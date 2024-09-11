@@ -61,7 +61,7 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
           >
             <SEO
               title={group.name}
-              image={group.avatar}
+              image={group.avatar?.location}
               urlPath={`groups/${group.id}`}
             />
             <SplitPageTemplate

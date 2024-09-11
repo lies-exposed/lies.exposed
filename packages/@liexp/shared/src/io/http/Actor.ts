@@ -1,9 +1,11 @@
 import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { UUID } from "io-ts-types/lib/UUID.js";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { BaseProps } from "./Common/BaseProps.js";
 import { BlockNoteDocument } from "./Common/BlockNoteDocument.js";
 import { Color } from "./Common/Color.js";
+import { CreateMedia, Media } from "./Media.js";
 import { GetListQuery } from "./Query/index.js";
 
 export const ACTORS = t.literal("actors");
@@ -31,7 +33,7 @@ export const AddActorBody = t.strict(
     color: t.string,
     excerpt: BlockNoteDocument,
     body: t.union([BlockNoteDocument, t.any, t.undefined]),
-    avatar: t.union([t.undefined, t.string]),
+    avatar: t.union([UUID, CreateMedia, t.undefined]),
     bornOn: t.union([DateFromISOString, t.undefined]),
     diedOn: t.union([DateFromISOString, t.undefined]),
   },
@@ -45,7 +47,7 @@ export const Actor = t.strict(
     ...BaseProps.type.props,
     fullName: t.string,
     username: t.string,
-    avatar: t.union([t.undefined, t.string]),
+    avatar: t.union([Media, t.undefined]),
     color: Color,
     memberIn: t.array(t.string),
     death: t.union([t.undefined, t.string]),

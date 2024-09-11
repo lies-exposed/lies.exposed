@@ -26,7 +26,7 @@ export const GroupMemberListItem: React.FC<
       onClick={(e) => onClick?.(item, e)}
     >
       {pipe(
-        O.fromNullable(item.actor.avatar),
+        O.fromNullable(item.actor.avatar?.thumbnail),
         O.map((src) => (
           <Avatar
             key={`group-member-actor-${item.actor.id}`}
@@ -38,7 +38,7 @@ export const GroupMemberListItem: React.FC<
         O.toNullable,
       )}
       {pipe(
-        O.fromNullable(item.group.avatar),
+        O.fromNullable(item.group.avatar?.thumbnail),
         O.map((src) => (
           <Avatar
             key={`group-member-group-${item.group.id}`}

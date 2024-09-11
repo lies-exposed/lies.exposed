@@ -18,10 +18,11 @@ export const MakeCreateGroupRoute: Route = (r, ctx) => {
         CreateGroupBody.is(body)
           ? TE.right(body)
           : searchGroupAndCreateFromWikipedia(ctx)(body.search, "wikipedia"),
-        TE.chain(({ color, ...b }) =>
+        TE.chain(({ color, avatar, ...b }) =>
           ctx.db.save(GroupEntity, [
             {
               ...b,
+              avatar: { id: avatar },
               color: color.replace("#", ""),
               members: b.members.map((m) => ({
                 ...m,
@@ -36,7 +37,7 @@ export const MakeCreateGroupRoute: Route = (r, ctx) => {
             where: { id: Equal(group.id) },
           }),
         ),
-        TE.chainEitherK(GroupIO.decodeSingle),
+        TE.chainEitherK((g) => GroupIO.decodeSingle(g, ctx.env.SPACE_ENDPOINT)),
         TE.map((data) => ({
           body: {
             data,

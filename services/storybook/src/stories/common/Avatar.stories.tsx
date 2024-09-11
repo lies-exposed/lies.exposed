@@ -24,7 +24,7 @@ const Template: StoryFn<AvatarProps> = (props) => {
         const actor = actors.data[0];
         return (
           <MainContent>
-            <Avatar {...props} src={actor.avatar} />
+            <Avatar {...props} src={actor.avatar?.thumbnail} />
           </MainContent>
         );
       }}

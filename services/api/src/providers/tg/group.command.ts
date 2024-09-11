@@ -1,6 +1,7 @@
 import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.js";
 import { flow, fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
+import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import type TelegramBot from "node-telegram-bot-api";
@@ -34,7 +35,25 @@ export const groupCommand = (ctx: RouteContext): TGBotProvider => {
           ctx.db.findOne(GroupEntity, { where: { username: search } }),
         fetchAndSave: flow(
           fetchGroupFromWikipedia(ctx),
-          fp.TE.chain((g) => ctx.db.save(GroupEntity, [{ ...g, members: [] }])),
+          fp.TE.chain((g) =>
+            ctx.db.save(GroupEntity, [
+              {
+                ...g,
+                avatar: UUID.is(g.avatar)
+                  ? {
+                      id: g.avatar,
+                    }
+                  : {
+                      ...g.avatar,
+                      events: [],
+                      links: [],
+                      keywords: [],
+                      areas: [],
+                    },
+                members: [],
+              },
+            ]),
+          ),
           fp.TE.map((g) => g[0]),
         ),
         getSuccessMessage: getSuccessMessage,

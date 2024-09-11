@@ -54,13 +54,12 @@ export const fetchEventsRelations: TEFlow<
           sequenceS(TE.ApplicativePar)({
             events: fp.TE.right(events),
             actors: pipe(
-              relations.actors,
-              ActorIO.decodeMany,
+              ActorIO.decodeMany(relations.actors, ctx.env.SPACE_ENDPOINT),
               fp.TE.fromEither,
             ),
             groups: pipe(
               relations.groups.map((g) => ({ ...g, members: [] })),
-              GroupIO.decodeMany,
+              (gg) => GroupIO.decodeMany(gg, ctx.env.SPACE_ENDPOINT),
               fp.TE.fromEither,
             ),
             keywords: pipe(

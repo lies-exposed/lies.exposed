@@ -1,5 +1,7 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type CreateGroupBody } from "@liexp/shared/lib/io/http/Group.js";
+import { ImageType } from "@liexp/shared/lib/io/http/Media.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -28,7 +30,21 @@ export const fetchGroupFromWikipedia: TEFlow<
         endDate: undefined,
         members: [],
         excerpt: toInitialValue(intro),
-        avatar: avatar as any,
+        avatar: avatar
+          ? {
+              id: uuid(),
+              label: title,
+              description: intro,
+              location: avatar,
+              thumbnail: undefined,
+              type: ImageType.types[0].value,
+              extra: undefined,
+              events: [],
+              links: [],
+              keywords: [],
+              areas: [],
+            }
+          : undefined,
         color: generateRandomColor(),
         body: undefined,
       };

@@ -394,10 +394,13 @@ export const createEventNetworkGraph: TEFlow<
     TE.chain(({ event, relations }) =>
       sequenceS(TE.ApplicativePar)({
         event: TE.right(event),
-        actors: pipe(ActorIO.decodeMany(relations.actors), fp.TE.fromEither),
+        actors: pipe(
+          ActorIO.decodeMany(relations.actors, ctx.env.SPACE_ENDPOINT),
+          fp.TE.fromEither,
+        ),
         groups: pipe(
           relations.groups.map((g) => ({ ...g, members: [] })),
-          GroupIO.decodeMany,
+          (groups) => GroupIO.decodeMany(groups, ctx.env.SPACE_ENDPOINT),
           fp.TE.fromEither,
         ),
         keywords: pipe(
