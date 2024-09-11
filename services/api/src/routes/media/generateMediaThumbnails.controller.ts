@@ -1,9 +1,9 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { type UUID } from "io-ts-types";
 import { Equal } from "typeorm";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";

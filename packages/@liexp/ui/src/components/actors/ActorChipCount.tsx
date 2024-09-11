@@ -16,7 +16,7 @@ export const ActorChipCount: React.FC<ActorChipCountProps> = ({
   return (
     <ChipCount
       {...props}
-      avatar={<Avatar src={actor.avatar} />}
+      avatar={<Avatar src={actor.avatar?.thumbnail} />}
       color={toColorHash(actor.color)}
     />
   );

@@ -13,10 +13,10 @@ export const ActorDataGrid: React.FC = () => {
     >
       <FunctionField
         source="username"
-        render={() => {
+        render={(r) => {
           return (
             <Box style={{ display: "flex" }}>
-              <AvatarField source="avatar" />
+              <AvatarField source="avatar.thumbnail" />
               <Box
                 style={{
                   display: "flex",
@@ -31,7 +31,7 @@ export const ActorDataGrid: React.FC = () => {
           );
         }}
       />
-      <FunctionField label="Groups" render={(r: any) => r.memberIn.length} />
+      <FunctionField label="Groups" render={(r) => r.memberIn.length} />
       <DateField source="updatedAt" showTime={true} />
     </Datagrid>
   );

@@ -11,14 +11,22 @@ import { ActorEntity } from "#entities/Actor.entity.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { foldOptionals } from "#utils/foldOptionals.utils.js";
 
-export const MakeEditActorRoute: Route = (r, { db, logger, jwt }) => {
+export const MakeEditActorRoute: Route = (r, { db, logger, jwt, env }) => {
   AddEndpoint(r, authenticationHandler({ logger, jwt }, ["admin:create"]))(
     Endpoints.Actor.Edit,
-    ({ params: { id }, body: { memberIn, bornOn, diedOn, ...body } }) => {
+    ({
+      params: { id },
+      body: { memberIn, bornOn, diedOn, avatar, ...body },
+    }) => {
       const updateData = {
         ...foldOptionals({ ...body }),
         bornOn: O.toUndefined(bornOn) as any,
         diedOn: O.toUndefined(diedOn) as any,
+        avatar: pipe(
+          avatar,
+          O.map((a) => ({ id: a })),
+          O.toUndefined,
+        ),
         memberIn: pipe(
           memberIn,
           O.map(
@@ -57,7 +65,7 @@ export const MakeEditActorRoute: Route = (r, { db, logger, jwt }) => {
             },
           }),
         ),
-        TE.chainEitherK(ActorIO.decodeSingle),
+        TE.chainEitherK((a) => ActorIO.decodeSingle(a, env.SPACE_ENDPOINT)),
         TE.map((actor) => ({
           body: {
             data: actor,

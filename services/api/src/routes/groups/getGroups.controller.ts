@@ -19,6 +19,7 @@ export const MakeListGroupRoute = (r: Router, ctx: RouteContext): void => {
                 ...g,
                 members: g.members.map((d) => d.id) as any,
               })),
+              ctx.env.SPACE_ENDPOINT,
             ),
             E.map((data) => ({ total, data })),
           ),

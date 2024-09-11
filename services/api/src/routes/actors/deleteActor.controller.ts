@@ -31,7 +31,7 @@ export const MakeDeleteActorRoute: Route = (
             actor: db.softDelete(ActorEntity, id),
           }),
         ),
-        TE.chainEitherK(ActorIO.decodeSingle),
+        TE.chainEitherK((a) => ActorIO.decodeSingle(a, env.SPACE_ENDPOINT)),
         TE.map((page) => ({
           body: {
             data: page,

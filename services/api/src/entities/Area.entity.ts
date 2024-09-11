@@ -50,13 +50,10 @@ export class AreaEntity {
     eager: true,
     cascade: false,
     nullable: true,
-    onDelete: "SET NULL",
   })
   featuredImage: Relation<MediaEntity | null>;
 
-  @ManyToMany(() => MediaEntity, (m) => m.areas, {
-    onDelete: "SET NULL",
-  })
+  @ManyToMany(() => MediaEntity, (m) => m.areas, {})
   @JoinTable()
   media: Relation<MediaEntity[] | null>;
 

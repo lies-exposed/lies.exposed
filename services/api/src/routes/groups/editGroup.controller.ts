@@ -13,12 +13,22 @@ import { authenticationHandler } from "#utils/authenticationHandler.js";
 export const MakeEditGroupRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r, authenticationHandler(ctx, ["admin:edit"]))(
     Endpoints.Group.Edit,
-    ({ params: { id }, body }) => {
+    ({ params: { id }, body: { members, avatar, ...body } }) => {
       ctx.logger.debug.log("Updating group with %O", body);
 
       const groupUpdate = {
         ...body,
-        members: body.members.map((m) => {
+        avatar: UUID.is(avatar)
+          ? { id: avatar }
+          : {
+              ...avatar,
+              events: [],
+              links: [],
+              keywords: [],
+              areas: [],
+              stories: [],
+            },
+        members: members.map((m) => {
           if (UUID.is(m)) {
             return {
               id: m,
@@ -48,7 +58,7 @@ export const MakeEditGroupRoute = (r: Router, ctx: RouteContext): void => {
           }),
         ),
         // ctx.logger.debug.logInTaskEither("Updated group %O"),
-        TE.chainEitherK(GroupIO.decodeSingle),
+        TE.chainEitherK((g) => GroupIO.decodeSingle(g, ctx.env.SPACE_ENDPOINT)),
         TE.map((data) => ({
           body: {
             data,

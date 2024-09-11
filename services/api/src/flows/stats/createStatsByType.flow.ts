@@ -42,6 +42,7 @@ import {
   searchEventV2Query,
   type SearchEventOutput,
 } from "#routes/events/queries/searchEventsV2.query.js";
+import { MediaIO } from "#routes/media/media.io.js";
 
 interface StatsCache {
   events: string[];
@@ -283,16 +284,17 @@ export const createStatsByType: TEFlow<
                           endDate: g.endDate ?? undefined,
                           avatar: pipe(
                             fp.O.fromNullable(g.avatar),
-                            fp.O.map(
-                              (avatar) => fp.E.right(avatar),
-                              // MediaIO.decodeSingle(
-                              //   avatar,
-                              //   ctx.env.SPACE_ENDPOINT,
-                              // ),
+                            fp.O.map((avatar) =>
+                              MediaIO.decodeSingle(
+                                avatar,
+                                ctx.env.SPACE_ENDPOINT,
+                              ),
                             ),
                             fp.O.fold(
                               () => undefined,
-                              E.getOrElse((): string | undefined => undefined),
+                              E.getOrElse(
+                                (): Media.Media | undefined => undefined,
+                              ),
                             ),
                           ),
                           members: [],
@@ -310,16 +312,17 @@ export const createStatsByType: TEFlow<
                           color: a.color as any,
                           avatar: pipe(
                             fp.O.fromNullable(a.avatar),
-                            fp.O.map(
-                              (avatar) => fp.E.right(avatar),
-                              // MediaIO.decodeSingle(
-                              //   avatar,
-                              //   ctx.env.SPACE_ENDPOINT,
-                              // ),
+                            fp.O.map((avatar) =>
+                              MediaIO.decodeSingle(
+                                avatar,
+                                ctx.env.SPACE_ENDPOINT,
+                              ),
                             ),
                             fp.O.fold(
                               () => undefined,
-                              E.getOrElse((): string | undefined => undefined),
+                              E.getOrElse(
+                                (): Media.Media | undefined => undefined,
+                              ),
                             ),
                           ),
                           memberIn: [],

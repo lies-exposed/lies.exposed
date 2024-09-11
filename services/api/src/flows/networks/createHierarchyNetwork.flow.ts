@@ -211,18 +211,18 @@ export const createStatsByEntityType: TEFlow<
                   totals: EventTotalsMonoid.empty,
                 },
                 actors: pipe(
-                  actors,
-                  ActorIO.decodeMany,
+                  ActorIO.decodeMany(actors, ctx.env.SPACE_ENDPOINT),
                   E.getOrElse((): Actor.Actor[] => []),
                 ),
                 groups: pipe(
-                  groups,
-                  GroupIO.decodeMany,
+                  GroupIO.decodeMany(groups, ctx.env.SPACE_ENDPOINT),
                   E.getOrElse((): Group.Group[] => []),
                 ),
                 groupsMembers: pipe(
-                  groupsMembers,
-                  GroupMemberIO.decodeMany,
+                  GroupMemberIO.decodeMany(
+                    groupsMembers,
+                    ctx.env.SPACE_ENDPOINT,
+                  ),
                   E.getOrElse((): GroupMember.GroupMember[] => []),
                 ),
                 media: pipe(

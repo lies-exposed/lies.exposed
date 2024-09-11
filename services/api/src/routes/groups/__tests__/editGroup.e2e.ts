@@ -1,3 +1,4 @@
+import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
@@ -7,6 +8,7 @@ import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { loginUser, saveUser } from "../../../../test/user.utils.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";
+import { MediaEntity } from "#entities/Media.entity.js";
 import { UserEntity } from "#entities/User.entity.js";
 
 describe("Edit Group", () => {
@@ -16,16 +18,19 @@ describe("Edit Group", () => {
   const actors = fc.sample(ActorArb, 10);
   const [group] = fc.sample(GroupArb, 1).map((g) => ({
     ...g,
-    avatar: "",
+    avatar: undefined,
     subGroups: [],
   }));
+  const media = [...actors.map((a) => a.avatar), group.avatar].filter(
+    (m): m is Media.Media => !!m,
+  );
 
   beforeAll(async () => {
     appTest = await GetAppTest();
     const user = await saveUser(appTest, ["admin:create"]);
     users.push(user);
-    await throwTE(appTest.ctx.db.save(ActorEntity, actors as any[]));
 
+    await throwTE(appTest.ctx.db.save(ActorEntity, actors as any[]));
     await throwTE(appTest.ctx.db.save(GroupEntity, [group] as any[]));
 
     const { authorization } = await loginUser(appTest)(user);
@@ -46,6 +51,10 @@ describe("Edit Group", () => {
         users.map((u) => u.id),
       ),
     );
+
+    const mediaIds = media.map((m) => m.id);
+
+    await throwTE(appTest.ctx.db.delete(MediaEntity, mediaIds));
     await appTest.utils.e2eAfterAll();
   });
 
@@ -66,6 +75,7 @@ describe("Edit Group", () => {
   test("Should edit the group", async () => {
     const updateData = {
       ...group,
+      avatar: actors[0].avatar?.id,
       body: toInitialValue("new group body"),
     };
 

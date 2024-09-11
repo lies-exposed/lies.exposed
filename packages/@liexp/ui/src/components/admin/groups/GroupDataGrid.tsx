@@ -13,10 +13,10 @@ export const GroupDataGrid: React.FC = () => {
     >
       <FunctionField
         source="username"
-        render={(r: any) => {
+        render={() => {
           return (
             <Box style={{ display: "flex" }}>
-              <AvatarField source="avatar" />
+              <AvatarField source="avatar.thumbnail" />
               <Box
                 style={{
                   display: "flex",

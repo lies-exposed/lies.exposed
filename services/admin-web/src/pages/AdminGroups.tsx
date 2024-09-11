@@ -1,8 +1,9 @@
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { parseDate } from "@liexp/shared/lib/utils/date.utils.js";
+import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
@@ -15,6 +16,7 @@ import ReferenceManyEventField from "@liexp/ui/lib/components/admin/events/Refer
 import { EventsNetworkGraphFormTab } from "@liexp/ui/lib/components/admin/events/tabs/EventsNetworkGraphFormTab.js";
 import { GroupDataGrid } from "@liexp/ui/lib/components/admin/groups/GroupDataGrid.js";
 import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField.js";
+import ReferenceMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceMediaInput.js";
 import GroupPreview from "@liexp/ui/lib/components/admin/previews/GroupPreview.js";
 import {
   ArrayInput,
@@ -48,6 +50,7 @@ import { Box, Grid, Typography } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
+import { toError } from "fp-ts/lib/Either";
 import * as React from "react";
 
 const RESOURCE = "groups";
@@ -113,16 +116,6 @@ const transformGroup =
       return data;
     }
 
-    const uploadAvatar = data.avatar?.rawFile
-      ? uploadImages(apiProvider)("groups", data.id as string, [
-          { file: data.avatar.rawFile, type: data.avatar.rawFile.type },
-        ])
-      : data.avatar
-        ? TE.right([
-            { location: data.avatar, type: "image/jpeg" as Media.MediaType },
-          ])
-        : TE.right([]);
-
     const newMembers = (data.newMembers ?? []).map((m: any) => ({
       ...m,
       body: {},
@@ -130,15 +123,59 @@ const transformGroup =
     const members = (data.members ?? []).concat(newMembers);
 
     return pipe(
-      uploadAvatar,
-      TE.map((locations) => ({
+      TE.Do,
+      TE.bind("avatar", (): TE.TaskEither<Error, Partial<Media.Media>[]> => {
+        if (data.avatar?.rawFile) {
+          return pipe(
+            uploadImages(apiProvider)("groups", data.id as any, [
+              { file: data.avatar.rawFile, type: data.avatar.rawFile.type },
+            ]),
+          );
+        }
+
+        if (!UUID.is(data.avatar)) {
+          return TE.right([
+            {
+              location: data.avatar,
+              type: contentTypeFromFileExt(data.avatar),
+            },
+          ]);
+        }
+        return TE.right([{ id: data.avatar }]);
+      }),
+      TE.bind("avatarMedia", ({ avatar }) => {
+        if (UUID.is(avatar[0].id)) {
+          return TE.right({ id: avatar[0].id });
+        }
+        return pipe(
+          TE.tryCatch(
+            () =>
+              apiProvider.create("media", {
+                data: {
+                  ...avatar[0],
+                  events: [],
+                  links: [],
+                  keywords: [],
+                  areas: [],
+                  label: data.name,
+                  description: data.name,
+                },
+              }),
+            toError,
+          ),
+          TE.map((r) => r.data),
+        );
+      }),
+      TE.map(({ avatarMedia }) => ({
         ...data,
         excerpt: data.excerpt,
         body: data.body,
-        avatar: locations[0].location,
-        startDate: data.startDate?.includes("T")
-          ? data.startDate
-          : parseDate(data.startDate).toISOString(),
+        avatar: avatarMedia.id,
+        startDate: data.startDate
+          ? data.startDate.includes("T")
+            ? data.startDate
+            : parseDate(data.startDate).toISOString()
+          : undefined,
         endDate: data.endDate
           ? data.endDate.includes("T")
             ? data.endDate
@@ -180,7 +217,11 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
             </Grid>
             <Grid item md={6}>
               <GroupKindInput source="kind" />
-              <MediaField source="avatar" type="image/jpeg" controls={false} />
+              <MediaField
+                source="avatar.thumbnail"
+                type="image/jpeg"
+                controls={false}
+              />
               <Box style={{ display: "flex", flexDirection: "column" }}>
                 <DateField source="updatedAt" showTime={true} />
                 <DateField source="createdAt" showTime={true} />
@@ -190,7 +231,8 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           <BlockNoteInput source="excerpt" />
         </FormTab>
         <FormTab label="Avatar">
-          <MediaField source="avatar" type="image/jpeg" controls={false} />
+          <ReferenceMediaInput source="avatar.id" />
+
           <ImageInput source="avatar">
             <ImageField source="" src="src" />
           </ImageInput>

@@ -9,6 +9,7 @@ import { BaseProps } from "./Common/BaseProps.js";
 import { BlockNoteDocument } from "./Common/BlockNoteDocument.js";
 import { Color } from "./Common/Color.js";
 import { ListOutput, Output } from "./Common/Output.js";
+import { CreateMedia, Media } from "./Media.js";
 import { GetListQuery } from "./Query/index.js";
 
 export const GROUPS = t.literal("groups");
@@ -61,7 +62,7 @@ export const CreateGroupBody = t.strict(
     username: t.string,
     color: t.string,
     kind: GroupKind,
-    avatar: t.string,
+    avatar: t.union([UUID, CreateMedia, t.undefined]),
     excerpt: t.union([BlockNoteDocument, t.any, t.undefined]),
     body: t.union([BlockNoteDocument, t.any, t.undefined]),
     startDate: t.union([DateFromISOString, t.undefined]),
@@ -115,7 +116,7 @@ export const Group = t.strict(
     color: Color,
     startDate: t.union([DateFromISOString, t.undefined]),
     endDate: t.union([DateFromISOString, t.undefined]),
-    avatar: t.union([t.undefined, t.string]),
+    avatar: t.union([Media, t.undefined]),
     subGroups: t.array(t.string),
     members: t.array(t.string),
     excerpt: t.union([t.any, t.null]),

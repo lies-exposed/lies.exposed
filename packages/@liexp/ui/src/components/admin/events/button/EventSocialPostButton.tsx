@@ -81,7 +81,7 @@ export const EventSocialPostButton: React.FC<{ id: UUID }> = ({ id }) => {
                 groups: subject.type === "Group" ? [subject.id] : [],
                 media: subject.id.avatar
                   ? pipe(
-                      subject.id.avatar.split("."),
+                      subject.id.avatar.location.split("."),
                       fp.A.last,
                       fp.O.map((ext) => [
                         {

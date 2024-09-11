@@ -5,14 +5,17 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   type Relation,
   UpdateDateColumn,
 } from "typeorm";
 import { GroupMemberEntity } from "./GroupMember.entity.js";
+import { MediaEntity } from "./Media.entity.js";
 import { StoryEntity } from "./Story.entity.js";
 
 @Entity("group")
@@ -30,7 +33,15 @@ export class GroupEntity {
   color: string;
 
   @Column({ type: "varchar", nullable: true })
-  avatar: string | null;
+  old_avatar: string | null;
+
+  @OneToOne(() => MediaEntity, {
+    eager: true,
+    cascade: true,
+    nullable: true,
+  })
+  @JoinColumn()
+  avatar: Relation<MediaEntity> | null;
 
   @Column({
     enum: io.http.Group.GroupKind.types.map((t) => t.value),

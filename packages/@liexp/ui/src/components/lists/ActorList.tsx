@@ -42,7 +42,7 @@ export const ActorListItem: React.FC<ActorListItemProps> = ({
       }}
     >
       {pipe(
-        O.fromNullable(item.avatar),
+        O.fromNullable(item.avatar?.thumbnail),
         O.map((src) => (
           <Avatar
             key={item.id}
