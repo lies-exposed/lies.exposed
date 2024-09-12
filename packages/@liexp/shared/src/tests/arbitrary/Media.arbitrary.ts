@@ -2,6 +2,7 @@ import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import * as tests from "@liexp/test";
 import * as t from "io-ts";
 import * as http from "../../io/http/index.js";
+import { UUIDArb } from "./common/UUID.arbitrary.js";
 
 const mediaProps = propsOmit(http.Media.Media, [
   "id",
@@ -47,7 +48,7 @@ export const MediaArb: tests.fc.Arbitrary<http.Media.Media> = tests
           socialPosts: undefined,
           location,
           thumbnail,
-          id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
+          id: tests.fc.sample(UUIDArb, 1)[0],
           createdAt: new Date(),
           updatedAt: new Date(),
           deletedAt: undefined,

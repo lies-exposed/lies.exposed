@@ -35,6 +35,7 @@ const toAreaIO = (
           geometry: area.geometry,
           createdAt: area.createdAt.toISOString(),
           updatedAt: area.updatedAt.toISOString(),
+          deletedAt: area.deletedAt?.toISOString(),
         }),
         E.mapLeft((e) => DecodeError(`Failed to decode area (${area.id})`, e)),
       ),

@@ -17,7 +17,7 @@ export const fetchAreas: TEFlow<
   [AreaEntity[], number]
 > =
   (ctx) =>
-  ({ q: search, ids, draft, ...query }, isAdmin) => {
+  ({ q: search, ids, draft, withDeleted, ...query }, isAdmin) => {
     const findOptions = getORMOptions({ ...query }, ctx.env.DEFAULT_PAGE_SIZE);
 
     return pipe(
@@ -53,11 +53,19 @@ export const fetchAreas: TEFlow<
                 ids: ids.value,
               });
             }
-            if (isAdmin && O.isSome(draft)) {
-              q.andWhere("draft = :draft", { draft: draft.value });
-            } else {
-              q.andWhere("draft = :draft", { draft: false });
+
+            if (isAdmin) {
+              if (O.isSome(draft)) {
+                q.andWhere("draft = :draft", { draft: draft.value });
+              } else {
+                q.andWhere("draft = :draft", { draft: false });
+              }
+
+              if (O.isSome(withDeleted)) {
+                q.withDeleted();
+              }
             }
+
             return q;
           },
           (q) => {

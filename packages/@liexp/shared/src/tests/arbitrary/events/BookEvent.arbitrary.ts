@@ -3,6 +3,7 @@ import { fc, getArbitrary } from "@liexp/test";
 import * as t from "io-ts";
 import * as Events from "../../../io/http/Events/index.js";
 import { DateArb } from "../Date.arbitrary.js";
+import { UUIDArb } from "../common/UUID.arbitrary.js";
 
 export const BookEventArb = getArbitrary(
   t.strict(
@@ -23,22 +24,22 @@ export const BookEventArb = getArbitrary(
   ),
 ).map((p) => ({
   ...p,
-  id: fc.sample(fc.uuid(), 1)[0],
+  id: fc.sample(UUIDArb, 1)[0],
   date: fc.sample(DateArb, 1)[0],
   createdAt: fc.sample(DateArb, 1)[0],
   updatedAt: fc.sample(DateArb, 1)[0],
   deletedAt: undefined,
   excerpt: undefined,
   body: undefined,
-  media: fc.sample(fc.uuid(), 5) as any[],
-  keywords: fc.sample(fc.uuid(), 5) as any[],
-  links: fc.sample(fc.uuid(), 5) as any[],
+  media: fc.sample(UUIDArb, 5),
+  keywords: fc.sample(UUIDArb, 5),
+  links: fc.sample(UUIDArb, 5),
   socialPosts: [],
   payload: {
     title: fc.sample(fc.string(), 1)[0],
     authors: [],
     media: {
-      pdf: fc.sample(fc.uuid(), 1)[0],
+      pdf: fc.sample(UUIDArb, 1)[0],
       audio: undefined,
     },
     publisher: undefined,

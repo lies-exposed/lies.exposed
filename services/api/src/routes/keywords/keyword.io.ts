@@ -16,6 +16,7 @@ const toKeywordIO = (
       color: keyword.color ? toColor(keyword.color) : "000000",
       createdAt: keyword.createdAt.toISOString(),
       updatedAt: keyword.updatedAt.toISOString(),
+      deletedAt: keyword.deletedAt?.toISOString() ?? undefined,
     }),
     E.mapLeft((e) =>
       DecodeError(`Failed to decode keyword (${keyword.id})`, e),

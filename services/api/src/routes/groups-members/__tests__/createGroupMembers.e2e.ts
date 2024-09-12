@@ -1,5 +1,6 @@
 import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
+import { UUIDArb } from "@liexp/shared/lib/tests/arbitrary/common/UUID.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
@@ -61,7 +62,7 @@ describe("Create Group Member", () => {
 
   test("Should return a 401", async () => {
     const response = await Test.req.post("/v1/groups-members").send({
-      group: tests.fc.sample(tests.fc.uuid(), 1)[0],
+      group: tests.fc.sample(UUIDArb, 1)[0],
     });
 
     expect(response.status).toEqual(401);
@@ -73,7 +74,7 @@ describe("Create Group Member", () => {
       .set("Authorization", authorizationToken)
       .send({
         group: actors[0].id,
-        actor: tests.fc.sample(tests.fc.uuid(), 1)[0],
+        actor: tests.fc.sample(UUIDArb, 1)[0],
       });
 
     expect(response.status).toEqual(400);
