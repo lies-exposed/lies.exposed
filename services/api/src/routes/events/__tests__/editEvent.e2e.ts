@@ -5,6 +5,7 @@ import { UncategorizedArb } from "@liexp/shared/lib/tests/arbitrary/Event.arbitr
 import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
 import { LinkArb } from "@liexp/shared/lib/tests/arbitrary/Link.arbitrary.js";
 import { MediaArb } from "@liexp/shared/lib/tests/arbitrary/Media.arbitrary.js";
+import { UUIDArb } from "@liexp/shared/lib/tests/arbitrary/common/UUID.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { fc } from "@liexp/test";
 import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
@@ -36,7 +37,7 @@ describe("Edit Event", () => {
   }));
   const [group] = fc.sample(GroupArb, 1);
   const groupMember = {
-    id: fc.sample(fc.uuid(), 1)[0],
+    id: fc.sample(UUIDArb, 1)[0],
     actor,
     group,
     startDate: new Date(),

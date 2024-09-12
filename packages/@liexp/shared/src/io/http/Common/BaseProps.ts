@@ -8,6 +8,7 @@ export const BaseProps = t.strict(
     // type: t.string,
     createdAt: DateFromISOString,
     updatedAt: DateFromISOString,
+    deletedAt: t.union([DateFromISOString, t.null, t.undefined]),
   },
   "BaseProps",
 );

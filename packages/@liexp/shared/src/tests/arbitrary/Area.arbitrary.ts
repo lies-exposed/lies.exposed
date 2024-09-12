@@ -1,10 +1,12 @@
 import * as tests from "@liexp/test";
 import * as t from "io-ts";
 import * as http from "../../io/http/index.js";
+import { UUIDArb } from "./common/UUID.arbitrary.js";
 
 const {
   createdAt,
   updatedAt,
+  deletedAt,
   id,
   media,
   events,
@@ -29,7 +31,7 @@ export const AreaArb: tests.fc.Arbitrary<AreaArbType> = tests
   .getArbitrary(t.strict({ ...areaProps }))
   .map((p) => ({
     ...p,
-    id: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
+    id: tests.fc.sample(UUIDArb, 1)[0],
     slug: tests.fc.sample(tests.fc.string({ minLength: 40 }), 1)[0],
     media: [],
     events: [],
@@ -49,4 +51,5 @@ export const AreaArb: tests.fc.Arbitrary<AreaArbType> = tests
     socialPosts: [],
     createdAt: new Date(),
     updatedAt: new Date(),
+    deletedAt: undefined,
   }));

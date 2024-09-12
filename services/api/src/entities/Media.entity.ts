@@ -70,6 +70,7 @@ export class MediaEntity {
 
   @ManyToMany(() => AreaEntity, (a) => a.media, {
     cascade: false,
+    onDelete: "SET NULL",
   })
   areas: Relation<AreaEntity[]>;
 

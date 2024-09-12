@@ -3,10 +3,12 @@ import * as t from "io-ts";
 import * as http from "../../io/http/index.js";
 import { AreaArb } from "./Area.arbitrary.js";
 import { ColorArb } from "./common/Color.arbitrary.js";
+import { UUIDArb } from "./common/UUID.arbitrary.js";
 
 const {
   createdAt: _createdAt,
   updatedAt: _updatedAt,
+  deletedAt: _deletedAt,
   areas,
   media,
   startDate: _startDate,
@@ -20,7 +22,7 @@ export const ProjectArb: tests.fc.Arbitrary<http.Project.Project> = tests
   .getArbitrary(t.strict({ ...projectProps }))
   .map((p) => ({
     ...p,
-    id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
+    id: tests.fc.sample(UUIDArb, 1)[0],
     startDate: new Date(),
     endDate: new Date(),
     color: tests.fc.sample(ColorArb, 1)[0],
@@ -29,4 +31,5 @@ export const ProjectArb: tests.fc.Arbitrary<http.Project.Project> = tests
     // media: tests.fc.sample(getImageArb(), 10),
     createdAt: new Date(),
     updatedAt: new Date(),
+    deletedAt: undefined,
   }));

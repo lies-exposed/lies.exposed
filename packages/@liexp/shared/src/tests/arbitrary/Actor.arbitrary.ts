@@ -6,6 +6,7 @@ import { formatDate } from "../../utils/date.utils.js";
 import { HumanReadableStringArb } from "./HumanReadableString.arbitrary.js";
 import { placeKitten } from "./Media.arbitrary.js";
 import { ColorArb } from "./common/Color.arbitrary.js";
+import { UUIDArb } from "./common/UUID.arbitrary.js";
 
 export type ActorArbType = Omit<http.Actor.Actor, "bornOn" | "diedOn"> & {
   memberIn: any[];
@@ -25,6 +26,7 @@ export const ActorArb: tests.fc.Arbitrary<ActorArbType> = tests
         "memberIn",
         "createdAt",
         "updatedAt",
+        "deletedAt",
         "bornOn",
         "diedOn",
       ]),
@@ -32,7 +34,7 @@ export const ActorArb: tests.fc.Arbitrary<ActorArbType> = tests
   )
   .map((p) => ({
     ...p,
-    id: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
+    id: tests.fc.sample(UUIDArb, 1)[0],
     fullName: tests.fc.sample(HumanReadableStringArb({ count: 4 }), 1)[0],
     username: tests.fc.sample(
       HumanReadableStringArb({ count: 4, joinChar: "-" }),
@@ -47,4 +49,5 @@ export const ActorArb: tests.fc.Arbitrary<ActorArbType> = tests
     diedOn: undefined,
     createdAt: new Date(),
     updatedAt: new Date(),
+    deletedAt: undefined,
   }));

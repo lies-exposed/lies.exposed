@@ -1,5 +1,6 @@
 import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
+import { UUIDArb } from "@liexp/shared/lib/tests/arbitrary/common/UUID.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
@@ -24,7 +25,7 @@ describe("List Group Member", () => {
     group: g,
     startDate: new Date(),
     body: { content: "Group member" },
-    id: tests.fc.sample(tests.fc.uuid(), 1)[0],
+    id: tests.fc.sample(UUIDArb, 1)[0],
   }));
 
   beforeAll(async () => {

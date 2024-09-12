@@ -1,9 +1,10 @@
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import { Grid, Stack } from "../../mui/index.js";
+import { Box, Grid, Stack, Typography } from "../../mui/index.js";
 import {
   Button,
   Edit,
+  FunctionField,
   useDataProvider,
   useRecordContext,
   useRefresh,
@@ -25,6 +26,7 @@ export const EditForm: React.FC<React.PropsWithChildren<EditFormProps>> = ({
 }) => {
   const [showPreview, setShowPreview] = React.useState(false);
   const resource = useResourceContext();
+
   return (
     <Edit
       title={title}
@@ -46,6 +48,34 @@ export const EditForm: React.FC<React.PropsWithChildren<EditFormProps>> = ({
           </Stack>
         </Grid>
         <Grid item md={showPreview ? 6 : 12} lg={showPreview ? 6 : 12}>
+          <FunctionField
+            render={(r) => {
+              if (r?.deletedAt) {
+                return (
+                  <Stack
+                    display={"flex"}
+                    spacing={2}
+                    direction={"row"}
+                    style={{
+                      backgroundColor: "red",
+                      color: "white",
+                    }}
+                    marginTop={2}
+                    marginBottom={2}
+                    alignItems={"center"}
+                    justifyContent={"center"}
+                  >
+                    <Box>
+                      <Typography variant="subtitle1" fontWeight={"bold"}>
+                        Element deleted
+                      </Typography>
+                    </Box>
+                  </Stack>
+                );
+              }
+              return null;
+            }}
+          />
           {children}
         </Grid>
 
