@@ -5,6 +5,7 @@ import * as http from "../../io/http/index.js";
 import { DateArb } from "./Date.arbitrary.js";
 import { CreateKeywordArb, TagArb } from "./Keyword.arbitrary.js";
 import { URLArb } from "./URL.arbitrary.js";
+import { UUIDArb } from "./common/UUID.arbitrary.js";
 
 interface CreateEventBodyArbOpts {
   linksIds?: boolean;
@@ -33,10 +34,10 @@ export const CreateEventBodyArb = ({
     body: undefined,
     payload: {
       title: "",
-      actors: fc.sample(fc.uuidV(4)) as any,
-      groups: fc.sample(fc.uuidV(4)) as any,
-      groupsMembers: fc.sample(fc.uuidV(4)) as any,
-      location: undefined as any,
+      actors: fc.sample(UUIDArb),
+      groups: fc.sample(UUIDArb),
+      groupsMembers: fc.sample(UUIDArb),
+      location: undefined,
       endDate: fc.sample(
         fc.oneof(fc.constant(undefined), DateArb),
         1,
@@ -55,7 +56,7 @@ export const CreateEventBodyArb = ({
               url: URLArb,
               publishDate: DateArb,
             }),
-            fc.uuidV(4),
+            UUIDArb,
           )
         : fc.record({
             url: URLArb,
@@ -97,7 +98,7 @@ export type UncategorizedArbType = Omit<
 export const UncategorizedArb: fc.Arbitrary<UncategorizedArbType> =
   getArbitrary(t.strict(uncategorizedProps)).map((u) => ({
     ...u,
-    id: fc.sample(fc.uuid(), 1)[0] as any,
+    id: fc.sample(UUIDArb, 1)[0],
     type: http.Events.EventTypes.UNCATEGORIZED.value,
     date: fc.sample(DateArb, 1)[0],
     createdAt: fc.sample(DateArb, 1)[0],
@@ -105,15 +106,15 @@ export const UncategorizedArb: fc.Arbitrary<UncategorizedArbType> =
     deletedAt: undefined,
     excerpt: undefined,
     body: undefined,
-    media: fc.sample(fc.uuid(), 5) as any[],
-    keywords: fc.sample(fc.uuid(), 5) as any[],
-    links: fc.sample(fc.uuid(), 5) as any[],
+    media: fc.sample(UUIDArb, 5),
+    keywords: fc.sample(UUIDArb, 5),
+    links: fc.sample(UUIDArb, 5),
     payload: {
       title: fc.sample(fc.string(), 1)[0],
       location: undefined,
-      actors: fc.sample(fc.uuid(), 5) as any[],
-      groups: fc.sample(fc.uuid(), 5) as any[],
-      groupsMembers: fc.sample(fc.uuid(), 5) as any[],
+      actors: fc.sample(UUIDArb, 5),
+      groups: fc.sample(UUIDArb, 5),
+      groupsMembers: fc.sample(UUIDArb, 5),
       endDate: undefined,
     },
     socialPosts: undefined,

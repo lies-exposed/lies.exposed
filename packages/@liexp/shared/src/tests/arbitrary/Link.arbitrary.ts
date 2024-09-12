@@ -6,6 +6,7 @@ import { DateArb } from "./Date.arbitrary.js";
 import { HumanReadableStringArb } from "./HumanReadableString.arbitrary.js";
 import { MediaArb } from "./Media.arbitrary.js";
 import { URLArb } from "./URL.arbitrary.js";
+import { UUIDArb } from "./common/UUID.arbitrary.js";
 
 const linksProps = propsOmit(http.Link.Link, [
   "id",
@@ -32,7 +33,7 @@ export const LinkArb: tests.fc.Arbitrary<http.Link.Link> = tests
       ...m,
       type: "image/jpg" as const,
     }))[0],
-    id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
+    id: tests.fc.sample(UUIDArb, 1)[0],
     url: tests.fc.sample(URLArb, 1)[0],
     publishDate: tests.fc.sample(DateArb, 1)[0],
     events: [],

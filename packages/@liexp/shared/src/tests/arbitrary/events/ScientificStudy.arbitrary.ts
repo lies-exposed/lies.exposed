@@ -4,6 +4,7 @@ import * as t from "io-ts";
 import * as http from "../../../io/http/index.js";
 import { MIN_DATE, MAX_DATE, DateArb } from "../Date.arbitrary.js";
 import { URLArb } from "../URL.arbitrary.js";
+import { UUIDArb } from "../common/UUID.arbitrary.js";
 
 const createScientificStudyProps = propsOmit(
   http.Events.ScientificStudy.CreateScientificStudyBody.types[0],
@@ -19,9 +20,9 @@ export const CreateScientificStudyArb: tests.fc.Arbitrary<http.Events.Scientific
     body: {} as any,
     payload: {
       title: tests.fc.sample(tests.fc.string(), 1)[0] as any,
-      authors: tests.fc.sample(tests.fc.uuidV(4), 2) as any,
+      authors: tests.fc.sample(UUIDArb, 2),
       image: tests.fc.sample(URLArb, 1)[0],
-      publisher: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
+      publisher: tests.fc.sample(UUIDArb, 1)[0],
       url: tests.fc.sample(URLArb, 1)[0],
     },
     media: [] as any,
@@ -49,15 +50,15 @@ const scientificStudyProps = propsOmit(
 export const ScientificStudyArb: tests.fc.Arbitrary<http.Events.ScientificStudy.ScientificStudy> =
   tests.getArbitrary(t.strict(scientificStudyProps)).map((body) => ({
     ...body,
-    id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
+    id: tests.fc.sample(UUIDArb, 1)[0] as any,
     date: tests.fc.sample(tests.fc.date({ min: MIN_DATE, max: MAX_DATE }))[0],
     excerpt: {},
     body: {},
     payload: {
       title: tests.fc.sample(tests.fc.string(), 1)[0],
       body: tests.fc.sample(tests.fc.object(), 1)[0],
-      authors: tests.fc.sample(tests.fc.uuidV(4), 2) as any,
-      publisher: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
+      authors: tests.fc.sample(UUIDArb, 2),
+      publisher: tests.fc.sample(UUIDArb, 1)[0],
       image: tests.fc.sample(URLArb, 1)[0],
       url: tests.fc.sample(URLArb, 1)[0],
     },

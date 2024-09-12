@@ -22,6 +22,7 @@ const toGroupIO = (
       subGroups: [],
       createdAt: group.createdAt.toISOString(),
       updatedAt: group.updatedAt.toISOString(),
+      deletedAt: group.deletedAt?.toISOString() ?? undefined,
     }),
     E.mapLeft((e) => DecodeError(`Failed to decode group (${group.id})`, e)),
   );

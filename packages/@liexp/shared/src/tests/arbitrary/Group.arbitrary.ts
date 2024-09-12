@@ -4,6 +4,7 @@ import * as t from "io-ts";
 import * as http from "../../io/http/index.js";
 import { HumanReadableStringArb } from "./HumanReadableString.arbitrary.js";
 import { ColorArb } from "./common/Color.arbitrary.js";
+import { UUIDArb } from "./common/UUID.arbitrary.js";
 
 export const GroupArb: tests.fc.Arbitrary<
   http.Group.Group & { members: any[] }
@@ -21,12 +22,13 @@ export const GroupArb: tests.fc.Arbitrary<
         "endDate",
         "createdAt",
         "updatedAt",
+        "deletedAt",
       ]),
     ),
   )
   .map((p) => ({
     ...p,
-    id: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
+    id: tests.fc.sample(UUIDArb, 1)[0],
     name: tests.fc.sample(HumanReadableStringArb(), 1)[0],
     username: tests.fc.sample(HumanReadableStringArb({ joinChar: "-" }), 1)[0],
     color: tests.fc.sample(ColorArb, 1)[0],
@@ -37,4 +39,5 @@ export const GroupArb: tests.fc.Arbitrary<
     endDate: new Date(),
     createdAt: new Date(),
     updatedAt: new Date(),
+    deletedAt: undefined,
   }));
