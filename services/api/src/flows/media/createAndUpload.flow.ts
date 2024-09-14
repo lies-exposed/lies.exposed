@@ -70,7 +70,7 @@ export const createAndUpload: TEFlow<
             ...createMediaData,
             events: [],
             links: [],
-            featuredIn: [],
+            featuredInStories: [],
             keywords: [],
             areas: [],
             id: mediaId,
