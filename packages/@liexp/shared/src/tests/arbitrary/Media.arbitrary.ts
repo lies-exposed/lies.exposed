@@ -17,7 +17,7 @@ const mediaProps = propsOmit(http.Media.Media, [
   "events",
   "keywords",
   "areas",
-  "featuredIn",
+  "featuredInStories",
   "socialPosts",
 ]);
 
@@ -40,7 +40,7 @@ export const MediaArb: tests.fc.Arbitrary<http.Media.Media> = tests
           events: [],
           links: [],
           keywords: [],
-          featuredIn: [],
+          featuredInStories: [],
           areas: [],
           type: http.Media.PngType.value,
           creator: undefined,

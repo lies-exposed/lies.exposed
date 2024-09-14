@@ -22,7 +22,7 @@ const toMediaIO = (
       events: media.events ?? [],
       keywords: media.keywords ?? [],
       areas: media.areas ?? [],
-      featuredIn: media.featuredIn ?? [],
+      featuredInStories: media.featuredInStories ?? [],
       socialPosts: media.socialPosts ?? [],
       thumbnail: media.thumbnail ? ensureHTTPS(media.thumbnail) : undefined,
       transferable: !media.location.includes(spaceEndpoint),

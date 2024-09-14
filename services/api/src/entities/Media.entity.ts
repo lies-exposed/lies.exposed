@@ -74,10 +74,15 @@ export class MediaEntity {
   })
   areas: Relation<AreaEntity[]>;
 
+  @OneToMany(() => AreaEntity, (a) => a.featuredImage, {
+    cascade: false,
+  })
+  featuredInAreas: Relation<AreaEntity[]>;
+
   @OneToMany(() => StoryEntity, (a) => a.featuredImage, {
     cascade: false,
   })
-  featuredIn: Relation<StoryEntity[]>;
+  featuredInStories: Relation<StoryEntity[]>;
 
   @ManyToMany(() => StoryEntity, (a) => a.media, {
     cascade: false,

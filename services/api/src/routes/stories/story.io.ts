@@ -36,7 +36,7 @@ const toStoryIO = ({
             events: [],
             links: [],
             areas: [],
-            featuredIn: [],
+            featuredInStories: [],
           }
         : undefined,
       date: story.date?.toISOString() ?? new Date().toISOString(),

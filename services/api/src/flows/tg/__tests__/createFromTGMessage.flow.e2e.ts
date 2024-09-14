@@ -230,7 +230,7 @@ describe("Create From TG Message", () => {
         photos: [
           {
             ...media,
-            featuredIn: [],
+            featuredInStories: [],
             events: [],
             links: [],
           },

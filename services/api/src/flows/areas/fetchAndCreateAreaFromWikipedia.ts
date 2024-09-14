@@ -57,7 +57,7 @@ export const fetchAndCreateAreaFromWikipedia: TEFlow<
               events: [],
               links: [],
               keywords: [],
-              featuredIn: [],
+              featuredInStories: [],
               deletedAt: undefined,
               createdAt: new Date(),
               updatedAt: new Date(),

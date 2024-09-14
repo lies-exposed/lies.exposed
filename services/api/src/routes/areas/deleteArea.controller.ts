@@ -11,8 +11,13 @@ export const MakeDeleteAreaRoute: Route = (r, { db, env }) => {
     return pipe(
       db.findOneOrFail(AreaEntity, {
         where: { id: Equal(id) },
+        withDeleted: true,
       }),
-      TE.chainFirst(() => db.softDelete(AreaEntity, id)),
+      TE.chainFirst((area) =>
+        area.deletedAt
+          ? db.delete(AreaEntity, id)
+          : db.softDelete(AreaEntity, id),
+      ),
       TE.chainEitherK((a) => AreaIO.decodeSingle(a, env.SPACE_ENDPOINT)),
       TE.map((page) => ({
         body: {

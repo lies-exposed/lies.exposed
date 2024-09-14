@@ -165,7 +165,7 @@ export const Media = t.strict(
     id: UUID,
     type: MediaType,
     creator: t.union([UUID, t.undefined]),
-    featuredIn: t.union([t.array(UUID), t.undefined]),
+    featuredInStories: t.union([t.array(UUID), t.undefined]),
     socialPosts: t.union([t.array(UUID), t.undefined]),
     createdAt: DateFromISOString,
     updatedAt: DateFromISOString,

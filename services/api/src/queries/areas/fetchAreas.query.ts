@@ -40,16 +40,13 @@ export const fetchAreas: TEFlow<
           },
           (q) => {
             if (O.isSome(search)) {
-              return q.where(
-                "lower(unaccent(area.label)) LIKE lower(:search)",
-                {
-                  search: `%${search.value}%`,
-                },
-              );
+              q.andWhere("lower(unaccent(area.label)) LIKE :search", {
+                search: `%${search.value.toLowerCase()}%`,
+              });
             }
 
             if (O.isSome(ids)) {
-              return q.andWhere("area.id IN (:...ids)", {
+              q.andWhere("area.id IN (:...ids)", {
                 ids: ids.value,
               });
             }
@@ -84,13 +81,13 @@ export const fetchAreas: TEFlow<
           (q) => {
             return q.skip(findOptions.skip).take(findOptions.take);
           },
-          // (q) => {
-          //   ctx.logger.debug.log(
-          //     `list area query: %O`,
-          //     q.getQueryAndParameters()
-          //   );
-          //   return q;
-          // }
+          (q) => {
+            // ctx.logger.debug.log(
+            //   `list area query: %O`,
+            //   q.getQueryAndParameters(),
+            // );
+            return q;
+          },
         );
       }, toControllerError),
       TE.fromIOEither,
