@@ -57,7 +57,9 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     docker compose --env-file .env.api run -d --rm --name upsert-tg-pinned-message api pnpm bin:run upsert-tg-pinned-message
     docker compose --env-file .env.api run -d --rm --name parse-all-tg-messages api pnpm bin:run parse-tg-message all true
     docker compose --env-file .env.api run -d --rm --name clean-space-media api pnpm bin:run clean-space-media --dry
+    docker compose --env-file .env.api run -d --rm --name extract-actor-and-group-avatar api pnpm bin:run extract-actor-and-group-avatar
     docker compose --env-file .env.api run -d --name assign-default-area-featured-image api pnpm bin:run assign-default-area-featured-image
+
 
     cd ~/
     # list top 5 bigger files
