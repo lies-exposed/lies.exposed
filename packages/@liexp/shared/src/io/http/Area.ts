@@ -16,6 +16,7 @@ export const ListAreaQuery = t.type(
     ...GetListQuery.props,
     ids: optionFromNullable(t.array(UUID)),
     draft: optionFromNullable(BooleanFromString),
+    withDeleted: optionFromNullable(BooleanFromString),
   },
   "ListAreaQuery",
 );

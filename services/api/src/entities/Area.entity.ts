@@ -46,15 +46,17 @@ export class AreaEntity {
   @Column({ type: "json", nullable: true })
   body: Record<string, any> | null;
 
-  @ManyToOne(() => MediaEntity, (v) => v.areas, {
+  @ManyToOne(() => MediaEntity, (v) => v.featuredInAreas, {
     eager: true,
     cascade: false,
     nullable: true,
-    onDelete: "NO ACTION",
+    onDelete: "SET NULL",
   })
   featuredImage: Relation<MediaEntity | null>;
 
-  @ManyToMany(() => MediaEntity, (m) => m.areas)
+  @ManyToMany(() => MediaEntity, (m) => m.areas, {
+    onDelete: "SET NULL",
+  })
   @JoinTable()
   media: Relation<MediaEntity[] | null>;
 

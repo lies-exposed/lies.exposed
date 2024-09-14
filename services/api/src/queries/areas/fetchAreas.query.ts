@@ -17,7 +17,7 @@ export const fetchAreas: TEFlow<
   [AreaEntity[], number]
 > =
   (ctx) =>
-  ({ q: search, ids, draft, ...query }, isAdmin) => {
+  ({ q: search, ids, draft, withDeleted, ...query }, isAdmin) => {
     const findOptions = getORMOptions({ ...query }, ctx.env.DEFAULT_PAGE_SIZE);
 
     return pipe(
@@ -40,24 +40,29 @@ export const fetchAreas: TEFlow<
           },
           (q) => {
             if (O.isSome(search)) {
-              return q.where(
-                "lower(unaccent(area.label)) LIKE lower(:search)",
-                {
-                  search: `%${search.value}%`,
-                },
-              );
+              q.andWhere("lower(unaccent(area.label)) LIKE :search", {
+                search: `%${search.value.toLowerCase()}%`,
+              });
             }
 
             if (O.isSome(ids)) {
-              return q.andWhere("area.id IN (:...ids)", {
+              q.andWhere("area.id IN (:...ids)", {
                 ids: ids.value,
               });
             }
-            if (isAdmin && O.isSome(draft)) {
-              q.andWhere("draft = :draft", { draft: draft.value });
-            } else {
-              q.andWhere("draft = :draft", { draft: false });
+
+            if (isAdmin) {
+              if (O.isSome(draft)) {
+                q.andWhere("draft = :draft", { draft: draft.value });
+              } else {
+                q.andWhere("draft = :draft", { draft: false });
+              }
+
+              if (O.isSome(withDeleted)) {
+                q.withDeleted();
+              }
             }
+
             return q;
           },
           (q) => {
@@ -76,13 +81,13 @@ export const fetchAreas: TEFlow<
           (q) => {
             return q.skip(findOptions.skip).take(findOptions.take);
           },
-          // (q) => {
-          //   ctx.logger.debug.log(
-          //     `list area query: %O`,
-          //     q.getQueryAndParameters()
-          //   );
-          //   return q;
-          // }
+          (q) => {
+            // ctx.logger.debug.log(
+            //   `list area query: %O`,
+            //   q.getQueryAndParameters(),
+            // );
+            return q;
+          },
         );
       }, toControllerError),
       TE.fromIOEither,

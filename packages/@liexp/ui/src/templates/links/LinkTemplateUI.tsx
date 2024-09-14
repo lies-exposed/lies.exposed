@@ -33,7 +33,7 @@ export const LinkTemplateUI: React.FC<LinkTemplateUIProps> = ({
                 events: [],
                 links: [],
                 keywords: [],
-                featuredIn: [],
+                featuredInStories: [],
                 areas: [],
                 creator: undefined,
                 createdAt: new Date(),

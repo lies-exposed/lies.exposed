@@ -46,7 +46,7 @@ export const getSuggestions =
               createdAt: new Date(),
               updatedAt: new Date(),
               deletedAt: undefined,
-              featuredIn: [],
+              featuredInStories: [],
               socialPosts: [],
             }
           : null,
