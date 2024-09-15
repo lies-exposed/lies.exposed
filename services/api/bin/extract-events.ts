@@ -4,7 +4,6 @@ import * as A from "fp-ts/lib/Array.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { findByURL } from "../src/queries/events/scientificStudy.query.js";
 import { type CommandFlow } from "./command.type.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import {
@@ -16,6 +15,7 @@ import {
   toControllerError,
   type ControllerError,
 } from "#io/ControllerError.js";
+import { findByURL } from "#queries/events/scientificStudy.query.js";
 
 export const extractEvents: CommandFlow = async (ctx, args) => {
   const [url] = args;
