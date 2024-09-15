@@ -1,6 +1,5 @@
 import * as fs from "fs";
 import * as path from "path";
-import { fc } from "@liexp/test/lib/index.js";
 import { type CommandFlow } from "./command.type.js";
 
 export const cleanTGMessages: CommandFlow = (ctx, _args) => {
@@ -19,25 +18,21 @@ export const cleanTGMessages: CommandFlow = (ctx, _args) => {
       JSON.stringify(
         {
           ...json,
-          chat: fc.sample(
-            fc.record({
-              id: fc.nat(),
-              first_name: fc.string(),
-              last_name: fc.string(),
-              username: fc.string(),
-              type: fc.constant("private"),
-            }),
-          )[0],
-          from: fc.sample(
-            fc.record({
-              id: fc.nat(),
-              is_bot: fc.boolean(),
-              first_name: fc.string(),
-              last_name: fc.string(),
-              username: fc.string(),
-              language_code: fc.constant("en"),
-            }),
-          )[0],
+          chat: {
+            id: 0,
+            first_name: "API",
+            last_name: "CLI",
+            username: "api-cli",
+            type: "private",
+          },
+          from: {
+            id: 0,
+            is_bot: false,
+            first_name: "API",
+            last_name: "CLI",
+            username: "api-cli",
+            language_code: "en",
+          },
         },
         null,
         2,

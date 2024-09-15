@@ -433,6 +433,12 @@ importers:
       debug:
         specifier: '*'
         version: 4.3.7
+      fast-check:
+        specifier: ^2.25.0
+        version: 2.25.0
+      fast-check-io-ts:
+        specifier: ^0.5.0
+        version: 0.5.0(fast-check@2.25.0)(fp-ts@2.16.9)(io-ts@2.2.21(fp-ts@2.16.9))
       fp-ts:
         specifier: ^2.16.6
         version: 2.16.9
@@ -443,12 +449,6 @@ importers:
         specifier: ^0.5.19
         version: 0.5.19(fp-ts@2.16.9)(io-ts@2.2.21(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))
     devDependencies:
-      fast-check:
-        specifier: ^2.25.0
-        version: 2.25.0
-      fast-check-io-ts:
-        specifier: ^0.5.0
-        version: 0.5.0(fast-check@2.25.0)(fp-ts@2.16.9)(io-ts@2.2.21(fp-ts@2.16.9))
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
