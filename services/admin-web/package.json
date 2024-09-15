@@ -64,7 +64,7 @@
     "web-vitals": "^3.5.2"
   },
   "devDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.21.2",
+    "@rollup/rollup-linux-x64-gnu": "^4.21.3",
     "@testing-library/dom": "^9.3.3",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.5.1",
@@ -87,8 +87,8 @@
     "eslint-plugin-react": "^7.35.2",
     "page-metadata-parser": "^1.1.4",
     "prettier": "^3.3.3",
-    "typescript": "^5.4.5",
-    "vite": "^5.4.3"
+    "typescript": "^5.6.2",
+    "vite": "^5.4.5"
   },
   "packageManager": "pnpm@9.7.0"
 }

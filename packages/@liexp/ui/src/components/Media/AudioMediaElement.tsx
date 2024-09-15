@@ -56,7 +56,7 @@ const AudioMediaElement: React.FC<AudioMediaElementProps> = ({
                 const paused = ref.current?.audioEl.current?.paused;
                 const played = ref.current?.audioEl.current?.played;
 
-                if (!paused ?? played?.length) {
+                if (!paused || played?.length) {
                   void ref.current?.audioEl.current?.pause();
                 } else {
                   void ref.current?.audioEl.current?.play();

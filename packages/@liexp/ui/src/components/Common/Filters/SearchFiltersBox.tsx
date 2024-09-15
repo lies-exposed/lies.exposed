@@ -177,11 +177,10 @@ const SearchFiltersBar: React.FC<SearchFiltersBarProps> = ({
 
   const hasActiveFilters = React.useMemo(() => {
     return (
-      (query.actors?.length ?? 0) > 0 ??
-      (query.groups?.length ?? 0) > 0 ??
-      (query.keywords?.length ?? 0) > 0 ??
-      query.startDate ??
-      query.endDate
+      (query.actors?.length ?? 0) > 0 ||
+      (query.groups?.length ?? 0) > 0 ||
+      (query.keywords?.length ?? 0) > 0 ||
+      (query.startDate ?? query.endDate)
     );
   }, [query]);
 
