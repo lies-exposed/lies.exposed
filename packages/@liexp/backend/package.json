@@ -46,7 +46,7 @@
     "@types/node-telegram-bot-api": "^0.64.7",
     "exifreader": "^4.23.5",
     "fast-csv": "^5.0.1",
-    "langchain": "^0.2.18",
+    "langchain": "^0.2.20",
     "prettier": "^3.3.3",
     "puppeteer-core": "^21.11.0",
     "puppeteer-extra": "^3.3.6",
