@@ -47,8 +47,8 @@
     "@mui/material": "^5.16.7",
     "@mui/styles": "^5.16.7",
     "@mui/system": "^5.16.7",
-    "@mui/x-data-grid": "^7.16.0",
-    "@tanstack/react-query": "^5.55.4",
+    "@mui/x-data-grid": "^7.17.0",
+    "@tanstack/react-query": "^5.56.2",
     "@visx/axis": "^3.10.1",
     "@visx/chord": "^3.3.0",
     "@visx/clip-path": "^3.3.0",
@@ -72,7 +72,7 @@
     "@visx/tooltip": "^3.3.0",
     "@visx/wordcloud": "^3.3.0",
     "@visx/zoom": "^3.3.0",
-    "@xyflow/react": "^12.2.1",
+    "@xyflow/react": "^12.3.0",
     "axios": "^1.7.7",
     "chroma-js": "^2.6.0",
     "clsx": "^2.1.0",
@@ -121,7 +121,7 @@
     "waveform-data": "^4.5.0"
   },
   "devDependencies": {
-    "@tanstack/eslint-plugin-query": "^5.53.0",
+    "@tanstack/eslint-plugin-query": "^5.56.1",
     "@types/chroma-js": "^2.4.4",
     "@types/d3": "^7.4.3",
     "@types/d3-hierarchy": "^3.1.7",
