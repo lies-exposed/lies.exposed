@@ -10,6 +10,7 @@ on:
       - "packages/@liexp/shared/**"
       - "packages/@liexp/backend/**"
       - "packages/@liexp/ui/**"
+      - "services/api/**"
 
 env:
   API_IMAGE_TAG: ghcr.io/lies-exposed/liexp-api:alpha-latest
