@@ -6,10 +6,10 @@ on:
       - release/alpha
     paths:
       - ".github/workflows/**"
-      - 'packages/@liexp/core/**'
-      - 'packages/@liexp/shared/**'
-      - 'packages/@liexp/ui/**'
-      - 'services/web/**'
+      - "packages/@liexp/core/**"
+      - "packages/@liexp/shared/**"
+      - "packages/@liexp/ui/**"
+      - "services/web/**"
 
 env:
   WEB_IMAGE_TAG: ghcr.io/lies-exposed/liexp-web:alpha-latest
