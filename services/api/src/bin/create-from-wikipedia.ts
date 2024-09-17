@@ -6,17 +6,23 @@ import { type CommandFlow } from "./command.type.js";
 import { fetchActorFromWikipedia } from "#flows/actors/fetchAndCreateActorFromWikipedia.js";
 import { fetchAndCreateAreaFromWikipedia } from "#flows/areas/fetchAndCreateAreaFromWikipedia.js";
 import { fetchGroupFromWikipedia } from "#flows/groups/fetchGroupFromWikipedia.js";
+import { type WikiProviders } from "#flows/wikipedia/fetchFromWikipedia.js";
 
 /**
  * Usage create-from-wikipedia $type $search
  *
  * $type        type of entity to create  (actor|area|group)
  * $search      text used as query for wikipedia search api
+ * $provider    wiki provider: 'wikipedia' | 'rationalwiki' (default 'wikipedia')
  *
  * @returns void
  */
 export const createFromWikipedia: CommandFlow = async (ctx, args) => {
-  const [type, search] = args;
+  const [type, search, provider = "wikipedia"] = args as [
+    string,
+    string,
+    WikiProviders | undefined,
+  ];
 
   if (!["area", "actor", "group"].includes(type)) {
     throw new Error(
@@ -47,13 +53,19 @@ export const createFromWikipedia: CommandFlow = async (ctx, args) => {
   let result;
   if (type === "area") {
     result = await pipe(
-      fetchAndCreateAreaFromWikipedia(ctx)(pageTitle),
+      fetchAndCreateAreaFromWikipedia(ctx)(pageTitle, provider),
       throwTE,
     );
   } else if (type === "actor") {
-    result = await pipe(fetchActorFromWikipedia(ctx)(pageTitle), throwTE);
+    result = await pipe(
+      fetchActorFromWikipedia(ctx)(pageTitle, provider),
+      throwTE,
+    );
   } else if (type === "group") {
-    result = await pipe(fetchGroupFromWikipedia(ctx)(pageTitle), throwTE);
+    result = await pipe(
+      fetchGroupFromWikipedia(ctx)(pageTitle, provider),
+      throwTE,
+    );
   }
 
   ctx.logger.debug.log("Created %s %O", type, result);

@@ -41,7 +41,6 @@
   },
   "include": [
     "../../node_modules/vitest/globals.d.ts",
-    "./bin",
     "./src",
     "./scripts",
     "./test",

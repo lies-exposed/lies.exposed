@@ -26,7 +26,7 @@
     "config"
   ],
   "scripts": {
-    "bin:run": "pnpm tsx:build bin/cli.ts",
+    "bin:run": "node ./build/bin/cli.js",
     "build": "tsc -b tsconfig.build.json",
     "clean": "rm -rf build",
     "db:diagram": "node -r tsx/cjs -T ./node_modules/.bin/typeorm-uml ormconfig.js -D LR -d ./data/media/docs/diagrams/typeorm-uml.png",
@@ -35,7 +35,7 @@
     "dev": "node --watch build/run.js",
     "dev:alpha": "DOTENV_CONFIG_PATH=.env.alpha pnpm dev",
     "docker:dev": "pnpm dev",
-    "lint": "eslint bin src",
+    "lint": "eslint src",
     "migration:gen": "pnpm typeorm migration:generate -d ./ormconfig.js",
     "migration:revert": "pnpm typeorm migration:revert -d ./ormconfig.js",
     "migration:run": "pnpm typeorm migration:run -d ./ormconfig.js",
