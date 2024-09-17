@@ -9,12 +9,10 @@ import {
   ManyToMany,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   type Relation,
 } from "typeorm";
-import { ActorEntity } from "./Actor.entity.js";
 import { AreaEntity } from "./Area.entity.js";
 import { EventV2Entity } from "./Event.v2.entity.js";
 import { KeywordEntity } from "./Keyword.entity.js";
@@ -94,18 +92,6 @@ export class MediaEntity {
     cascade: false,
   })
   keywords: Relation<KeywordEntity[]>;
-
-  @OneToOne(() => ActorEntity, (a) => a.avatar, {
-    cascade: false,
-    nullable: true,
-  })
-  actor?: Relation<ActorEntity> | null;
-
-  // @OneToOne(() => GroupEntity, {
-  //   cascade: false,
-  //   nullable: true,
-  // })
-  // group?: Relation<GroupEntity>;
 
   socialPosts?: SocialPostEntity[];
 
