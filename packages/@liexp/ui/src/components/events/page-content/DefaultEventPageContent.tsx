@@ -3,7 +3,7 @@ import {
   MP3Type,
   MP4Type,
   OGGType,
-} from "@liexp/shared/lib/io/http/Media.js";
+} from "@liexp/shared/lib/io/http/Media/index.js";
 import { type Events, type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useModal } from "../../../hooks/useModal.js";

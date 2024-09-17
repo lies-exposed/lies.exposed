@@ -1,5 +1,5 @@
 import { type Group } from "@liexp/shared/lib/io/http/Group.js";
-import { MediaType } from "@liexp/shared/lib/io/http/Media.js";
+import { MediaType } from "@liexp/shared/lib/io/http/Media/index.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI.js";

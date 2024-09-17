@@ -4,7 +4,7 @@ import {
   PDFType,
   ImageType,
   type MediaType,
-} from "@liexp/shared/lib/io/http/Media.js";
+} from "@liexp/shared/lib/io/http/Media/index.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import axios from "axios";
 import * as TE from "fp-ts/lib/TaskEither.js";

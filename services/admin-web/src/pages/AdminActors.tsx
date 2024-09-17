@@ -1,5 +1,5 @@
 import { UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type Media } from "@liexp/shared/lib/io/http/Media.js";
+import { type Media } from "@liexp/shared/lib/io/http/Media/index.js";
 import { http } from "@liexp/shared/lib/io/index.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";

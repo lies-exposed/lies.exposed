@@ -6,7 +6,7 @@ import {
   MP4Type,
   OGGType,
   PDFType,
-} from "@liexp/shared/lib/io/http/Media.js";
+} from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";

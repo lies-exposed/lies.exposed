@@ -5,7 +5,7 @@ import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { BaseProps } from "../Common/BaseProps.js";
 import { markdownRemark } from "../Common/Markdown.js";
 import { BySubjectId, For } from "../Common/index.js";
-import { Media } from "../Media.js";
+import { Media } from "../Media/Media.js";
 
 export const PROTEST = t.literal("Protest");
 export const Protest = t.strict(

@@ -1,4 +1,4 @@
-import { ImageType } from "@liexp/shared/lib/io/http/Media.js";
+import { ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";

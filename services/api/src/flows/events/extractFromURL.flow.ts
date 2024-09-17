@@ -4,7 +4,7 @@ import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type URL as URLT } from "@liexp/shared/lib/io/http/Common/index.js";
 import { type EventType } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { type ImageType } from "@liexp/shared/lib/io/http/Media.js";
+import { type ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
 import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import { parse } from "date-fns";
 import { sequenceS } from "fp-ts/lib/Apply.js";

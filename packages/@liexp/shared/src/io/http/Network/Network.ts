@@ -10,7 +10,7 @@ import { EventTotals } from "../Events/EventTotals.js";
 import { EVENTS, type EventType } from "../Events/index.js";
 import { Group, GROUPS } from "../Group.js";
 import { Keyword, KEYWORDS } from "../Keyword.js";
-import { Media } from "../Media.js";
+import { Media } from "../Media/Media.js";
 
 export const NetworkType = t.union(
   [KEYWORDS, ACTORS, GROUPS, EVENTS, t.literal("hierarchy")],

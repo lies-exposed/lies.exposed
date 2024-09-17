@@ -1,6 +1,6 @@
 import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
-import { MEDIA } from "@liexp/shared/lib/io/http/Media.js";
+import { MEDIA } from "@liexp/shared/lib/io/http/Media/index.js";
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useConfiguration } from "../../context/ConfigurationContext.js";

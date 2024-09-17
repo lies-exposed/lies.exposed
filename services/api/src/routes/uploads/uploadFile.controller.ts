@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { PngType } from "@liexp/shared/lib/io/http/Media.js";
+import { PngType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import * as bodyParser from "body-parser";
 import { type Router } from "express";
 import * as T from "fp-ts/lib/Task.js";

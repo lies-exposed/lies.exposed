@@ -1,4 +1,4 @@
-import { type Media } from "@liexp/shared/lib/io/http/Media.js";
+import { type Media } from "@liexp/shared/lib/io/http/Media/Media.js";
 import { type Link } from "@liexp/shared/lib/io/http/index.js";
 import get from "lodash/get.js";
 import * as React from "react";

@@ -4,7 +4,7 @@ import type * as Group from "../../Group.js";
 import type * as GroupMember from "../../GroupMember.js";
 import type * as Keyword from "../../Keyword.js";
 import type * as Link from "../../Link.js";
-import type * as Media from "../../Media.js";
+import type * as Media from "../../Media/index.js";
 import type * as Death from "../Death.js";
 import type * as Documentary from "../Documentary.js";
 import * as EventTotals from "../EventTotals.js";

@@ -2,7 +2,7 @@ import { flow, fp } from "@liexp/core/lib/fp/index.js";
 import { getRelationIdsFromEventRelations } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
 import { type Link } from "@liexp/shared/lib/io/http/Link.js";
-import { type Media } from "@liexp/shared/lib/io/http/Media.js";
+import { type Media } from "@liexp/shared/lib/io/http/Media/Media.js";
 import { type EventSuggestion } from "@liexp/shared/lib/io/http/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import { type Either } from "fp-ts/lib/Either.js";

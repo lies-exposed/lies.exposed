@@ -6,7 +6,7 @@ import { type Group } from "../Group.js";
 import { type GroupMember } from "../GroupMember.js";
 import { type Keyword } from "../Keyword.js";
 import { type Link } from "../Link.js";
-import { type Media } from "../Media.js";
+import { type Media } from "../Media/Media.js";
 import * as Arrest from "./Arrest.js";
 import * as Book from "./Book.js";
 import * as Death from "./Death.js";

@@ -1,4 +1,4 @@
-import { ImageType } from "@liexp/shared/lib/io/http/Media.js";
+import { ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
 import { PUBLISHED, TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost.js";
 import { SocialPostPlatformIcon } from "@liexp/ui/lib/components/admin/SocialPost/SocialPostEdit.js";
 import ReferenceArrayMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceArrayMediaInput.js";

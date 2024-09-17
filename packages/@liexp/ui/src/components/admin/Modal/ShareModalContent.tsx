@@ -1,6 +1,6 @@
 import { getShareMedia } from "@liexp/shared/lib/helpers/event/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { ImageType } from "@liexp/shared/lib/io/http/Media.js";
+import { ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
 import { type CreateSocialPost } from "@liexp/shared/lib/io/http/SocialPost.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import {

@@ -1,4 +1,4 @@
-import { type MediaType } from "@liexp/shared/lib/io/http/Media.js";
+import { type MediaType } from "@liexp/shared/lib/io/http/Media/index.js";
 import * as React from "react";
 import {
   AutocompleteArrayInput,

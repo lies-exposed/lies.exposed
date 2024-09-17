@@ -1,5 +1,8 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { ImageType, type PDFType } from "@liexp/shared/lib/io/http/Media.js";
+import {
+  ImageType,
+  type PDFType,
+} from "@liexp/shared/lib/io/http/Media/index.js";
 import * as Canvas from "canvas";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type RenderParameters } from "pdfjs-dist/types/src/display/api.js";

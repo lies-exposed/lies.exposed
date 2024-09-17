@@ -4,7 +4,7 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
 import { Area } from "./Area.js";
 import { BaseProps } from "./Common/BaseProps.js";
 import { Color } from "./Common/Color.js";
-import { Media } from "./Media.js";
+import { Media } from "./Media/Media.js";
 
 export const PROJECT_FRONTMATTER = t.literal("ProjectFrontmatter");
 export type PROJECT_FRONTMATTER = t.TypeOf<typeof PROJECT_FRONTMATTER>;

@@ -1,4 +1,4 @@
-import { type MediaType } from "@liexp/shared/lib/io/http/Media.js";
+import { type MediaType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import { MainContent } from "@liexp/ui/lib/components/MainContent.js";
 import MediaElement, {
   type MediaElementProps,

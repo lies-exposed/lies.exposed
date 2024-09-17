@@ -4,7 +4,7 @@ import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord.js";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
 import { URL } from "../io/http/Common/index.js";
 import { Link } from "../io/http/Link.js";
-import * as Media from "../io/http/Media.js";
+import * as Media from "../io/http/Media/index.js";
 import { ExtractEntitiesWithNLPOutput } from "../io/http/admin/ExtractNLPEntities.js";
 import { ResourceEndpoints } from "./types.js";
 

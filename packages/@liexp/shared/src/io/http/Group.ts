@@ -9,7 +9,7 @@ import { BaseProps } from "./Common/BaseProps.js";
 import { BlockNoteDocument } from "./Common/BlockNoteDocument.js";
 import { Color } from "./Common/Color.js";
 import { ListOutput, Output } from "./Common/Output.js";
-import { CreateMedia, Media } from "./Media.js";
+import { CreateMedia, Media } from "./Media/Media.js";
 import { GetListQuery } from "./Query/index.js";
 
 export const GROUPS = t.literal("groups");

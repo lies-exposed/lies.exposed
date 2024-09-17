@@ -1,4 +1,4 @@
-import { VideoExtra } from "../../io/http/Media.js";
+import { VideoExtra } from "../../io/http/Media/index.js";
 import {
   type SocialPost,
   type SocialPostBodyMultipleMedia,
