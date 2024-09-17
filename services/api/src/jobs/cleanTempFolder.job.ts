@@ -23,5 +23,5 @@ export const cleanTempFolder = (ctx: RouteContext): Cron.ScheduledTask =>
         ctx.logger.error.log(`Clean up temp folder error %O`, err);
       });
     },
-    { name: "CLEAN_TEMP_FOLDER" },
+    { name: "TEMP_FOLDER_CLEAN_UP" },
   );

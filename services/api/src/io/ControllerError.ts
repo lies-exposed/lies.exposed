@@ -3,7 +3,9 @@ import { type JWTError } from "@liexp/backend/lib/providers/jwt/jwt.provider.js"
 import { type NERError } from "@liexp/backend/lib/providers/ner/ner.provider.js";
 import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
 import { type SpaceError } from "@liexp/backend/lib/providers/space/space.provider.js";
+import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import * as t from "io-ts";
+import { failure } from "io-ts/lib/PathReporter.js";
 import { IOError } from "ts-shared/lib/errors.js";
 
 export const APIStatusCode = t.union(
@@ -85,6 +87,7 @@ export type ControllerError =
   | SpaceError
   | FSError
   | NERError
+  | APIError
   | _BadRequestError
   | _NotFoundError
   | _ServerError
@@ -93,9 +96,6 @@ export type ControllerError =
   | IOError;
 
 export const toControllerError = (e: unknown): ControllerError => {
-  // eslint-disable-next-line no-console
-  console.error(e);
-
   if (e instanceof IOError) {
     return e;
   }
@@ -108,8 +108,24 @@ export const toControllerError = (e: unknown): ControllerError => {
     });
   }
 
+  // eslint-disable-next-line no-console
+  console.error(e);
+
   return new IOError(`UnknownError: ${String(e)}`, {
     kind: "ServerError",
     status: "Unknown Error",
   });
 };
+
+export const report = (err: ControllerError): string => {
+  const parsedError =
+    err.details.kind === "DecodingError"
+      ? err.details.errors
+        ? failure(err.details.errors as any[])
+        : []
+      : ((err.details.meta as any[]) ?? []);
+
+  return `${err.name}: ${err.details.kind} - ${parsedError}`;
+};
+
+export default { report, toControllerError };

@@ -185,7 +185,7 @@ describe("Create Media", () => {
     expect(Test.mocks.axios.get).toHaveBeenCalledTimes(2);
     expect(Test.mocks.sharp).toHaveBeenCalledTimes(2);
     expect(sharpMock.resize).toHaveBeenCalledWith({
-      width: 400,
+      width: 300,
       fit: "cover",
       withoutEnlargement: true,
     });

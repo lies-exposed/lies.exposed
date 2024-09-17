@@ -13,13 +13,14 @@ import {
   type WikiProviders,
 } from "#flows/wikipedia/fetchFromWikipedia.js";
 import { NotFoundError, toControllerError } from "#io/ControllerError.js";
+import { getWikiProvider } from "#services/entityFromWikipedia.service.js";
 
 export const fetchActorFromWikipedia: TEFlow<
   [string, WikiProviders],
   AddActorBody
 > = (ctx) => (title, wp) => {
   return pipe(
-    fetchFromWikipedia(wp === "wikipedia" ? ctx.wp : ctx.rw)(title),
+    fetchFromWikipedia(getWikiProvider(ctx)(wp))(title),
     TE.chain(({ featuredMedia: avatar, intro, slug }) => {
       ctx.logger.debug.log("Actor fetched from wikipedia %s", title);
 
@@ -98,7 +99,6 @@ export const fetchAndCreateActorFromWikipedia: TEFlow<
 
 /**
  * Search the given "search" string on wikipedia and create an actor from the first result.
- *
  * @param ctx - RouteContext
  * @param search - string to search on wikipedia
  * @returns

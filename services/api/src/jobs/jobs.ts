@@ -6,6 +6,7 @@ import { cleanTempFolder } from "./cleanTempFolder.job.js";
 import { type CronFnOpts } from "./cron-task.type.js";
 import { generateMissingThumbnailsCron } from "./generateMissingMedia.job.js";
 import { processOpenAIQueue } from "./processOpenAIQueue.job.js";
+import { regenerateMediaThumbnailJob } from "./regenerateMediaThumbnail.job.js";
 import { postOnSocialJob } from "./socialPostScheduler.job.js";
 import { type RouteContext } from "#routes/route.types.js";
 
@@ -34,66 +35,48 @@ export const CronJobs = (ctx: RouteContext): CronJobsHooks => {
 
   cronLogger.info.log("Setting up cron jobs...");
 
-  cronLogger.debug.log(
-    `Setting up "SOCIAL_POST" cron task: %s`,
-    ctx.env.SOCIAL_POSTING_CRON,
-  );
   const postOnSocialTask = Cron.schedule(
     ctx.env.SOCIAL_POSTING_CRON,
     liftT(postOnSocialJob(ctx)),
-    { runOnInit: false, scheduled: false, name: "SOCIAL_POST" },
+    { runOnInit: false, scheduled: false, name: "SOCIAL_POSTING" },
   );
 
-  cronLogger.debug.log(
-    `Setting up "CLEAN_TEMP_FOLDER" cron task: %s`,
-    ctx.env.TEMP_FOLDER_CLEAN_UP_CRON,
-  );
   const cleanTempFolderTask = cleanTempFolder(ctx);
-
-  cronLogger.debug.log(
-    `Setting up "GENERATE_MISSING_THUMBNAILS" cron task: %s`,
-    ctx.env.GENERATE_MISSING_THUMBNAILS_CRON,
-  );
   const generateMissingThumbnailsTask = generateMissingThumbnailsCron(ctx);
 
-  cronLogger.debug.log(
-    `Setting up "PROCESS_EMBEDDINGS_QUEUE" cron task: %s`,
-    ctx.env.PROCESS_QUEUE_JOB_CRON,
-  );
   const processEmbeddingsQueueTask = Cron.schedule(
     ctx.env.PROCESS_QUEUE_JOB_CRON,
     liftT(processOpenAIQueue(ctx)),
-    { name: "PROCESS_EMBEDDINGS_QUEUE", scheduled: false, runOnInit: false },
+    { name: "PROCESS_QUEUE_JOB", scheduled: false, runOnInit: false },
+  );
+
+  const regenerateMediaThumbnailTask = Cron.schedule(
+    ctx.env.REGENERATE_MEDIA_THUMBNAILS_CRON,
+    liftT(regenerateMediaThumbnailJob(ctx)),
+    { name: "REGENERATE_MEDIA_THUMBNAILS", scheduled: false, runOnInit: true },
   );
 
   return {
     onBootstrap() {
-      // postOnSocialTask.start();
+      Cron.getTasks().forEach((task) => {
+        const taskName = (task as any).options.name;
+        const envCron = (ctx.env as any)[`${taskName}_CRON`];
+        cronLogger.debug.log("New task %s scheduled at %s", taskName, envCron);
+      });
+
+      postOnSocialTask.start();
       cleanTempFolderTask.start();
       generateMissingThumbnailsTask.start();
-      // processEmbeddingsQueueTask.start();
-
-      // Cron.getTasks().forEach((task) => {
-      //   cronLogger.debug.log("New task: %s", (task as any).options.name);
-      // });
+      regenerateMediaThumbnailTask.start();
+      processEmbeddingsQueueTask.stop();
     },
     onShutdown() {
-      // eslint-disable-next-line no-console
-      // serverLogger.debug.log(
-      //   "Removing vaccine data download cron task..."
-      // );
-      // downloadVaccineDataTask.stop();
-      cronLogger.info.log(`Removing "post on social" cron task...`);
-      postOnSocialTask.stop();
-      cronLogger.info.log(`Removing "clean up temp folder" cron task...`);
-      cleanTempFolderTask.stop();
-      cronLogger.info.log(
-        `Removing "generate missing thumbnails" cron task...`,
-      );
-      generateMissingThumbnailsTask.stop();
-
-      cronLogger.info.log(`Removing "process embeddings queue" cron task...`);
-      processEmbeddingsQueueTask.stop();
+      // stop all tasks
+      Cron.getTasks().forEach((task) => {
+        const taskName = (task as any).options.name;
+        cronLogger.info.log(`Removing "${taskName}" cron task...`);
+        task.stop();
+      });
     },
   };
 };
