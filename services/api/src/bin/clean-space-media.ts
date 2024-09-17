@@ -1,7 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { formatDistanceToNow } from "@liexp/shared/lib/utils/date.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import D from "debug";
 // eslint-disable-next-line import/no-named-as-default
 import prompts from "prompts";
 import { type CommandFlow } from "./command.type.js";
