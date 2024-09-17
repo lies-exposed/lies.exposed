@@ -40,6 +40,7 @@ export const fetchGroups =
     return pipe(
       db.manager
         .createQueryBuilder(GroupEntity, "group")
+        .leftJoinAndSelect("group.avatar", "avatar")
         .leftJoinAndSelect("group.members", "members")
         .leftJoinAndSelect("members.actor", "actor"),
       (q) => {
