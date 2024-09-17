@@ -18,7 +18,13 @@ const createThumbnailTask =
   (m: MediaEntity): TEControllerError<MediaEntity> => {
     return pipe(
       createThumbnail(ctx)(m),
-      fp.TE.orElse(() => {
+      fp.TE.orElse((e) => {
+        ctx.logger.debug.log(
+          "Failed to generate thumbnail for %s: %s \n %s",
+          m.id,
+          e.details.kind,
+          JSON.stringify(e.details),
+        );
         return fp.TE.right<ControllerError, string[]>([]);
       }),
       fp.TE.map((thumbs) => ({
@@ -27,7 +33,7 @@ const createThumbnailTask =
           ...ThumbnailsExtraMonoid.empty,
           ...MediaExtraMonoid.empty,
           ...m.extra,
-          needRegenerateThumbnail: thumbs.length > 0,
+          needRegenerateThumbnail: thumbs.length === 0,
         },
       })),
 
@@ -70,8 +76,6 @@ const convertManyMediaTask =
  * @returns void
  */
 export const regenerateMediaThumbnailJob: CronJobTE = (ctx) => (opts) => {
-  ctx.logger.debug.log("Regenerate %smedia thumbnail for %s");
-
   return pipe(
     fp.TE.Do,
     fp.TE.bind("media", () =>

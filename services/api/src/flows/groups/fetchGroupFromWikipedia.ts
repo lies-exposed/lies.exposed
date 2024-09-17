@@ -11,6 +11,7 @@ import {
   type WikiProviders,
 } from "#flows/wikipedia/fetchFromWikipedia.js";
 import { NotFoundError, toControllerError } from "#io/ControllerError.js";
+import { getWikiProvider } from "#services/entityFromWikipedia.service.js";
 
 export const fetchGroupFromWikipedia: TEFlow<
   [string, WikiProviders],
@@ -19,7 +20,7 @@ export const fetchGroupFromWikipedia: TEFlow<
   return pipe(
     TE.Do,
     TE.bind("wikipedia", () =>
-      fetchFromWikipedia(wp === "wikipedia" ? ctx.wp : ctx.rw)(title),
+      fetchFromWikipedia(getWikiProvider(ctx)(wp))(title),
     ),
     TE.map(({ wikipedia: { featuredMedia: avatar, intro, slug } }) => {
       const group = {

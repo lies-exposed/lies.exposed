@@ -44,8 +44,8 @@ export const Config = (env: ENV, cwd: string): AppConfig => {
     },
     events: EventsConfig,
     media: {
-      thumbnailWidth: 400,
-      thumbnailHeight: 300,
+      thumbnailWidth: 300,
+      thumbnailHeight: 200,
     },
     dirs: {
       cwd,
