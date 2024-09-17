@@ -37,7 +37,6 @@ COPY --from=build /usr/src/app/packages/@liexp/shared/package.json /prod/package
 COPY --from=build /usr/src/app/packages/@liexp/ui/lib /prod/packages/@liexp/ui/lib
 COPY --from=build /usr/src/app/packages/@liexp/ui/package.json /prod/packages/@liexp/ui/package.json
 
-COPY --from=build /usr/src/app/services/api/bin /prod/services/api/bin
 COPY --from=build /usr/src/app/services/api/build /prod/services/api/build
 COPY --from=build /usr/src/app/services/api/package.json /prod/services/api/package.json
 COPY --from=build /usr/src/app/services/api/tsconfig.json /prod/services/api/tsconfig.json
