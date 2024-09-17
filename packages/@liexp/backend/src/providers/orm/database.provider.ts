@@ -100,14 +100,14 @@ export const toError =
     l.error.log("An error occurred %O", e);
 
     if (e instanceof IOError) {
-      return e as any;
+      return e as DBError;
     }
 
     if (e instanceof Error) {
       return new DBError(e.message, {
         kind: "ServerError",
         status: (override?.status ?? 500) + "",
-        meta: [e.stack],
+        meta: [e.name, e.stack],
       });
     }
 
