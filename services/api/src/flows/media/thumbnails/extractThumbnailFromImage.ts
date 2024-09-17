@@ -1,5 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { type ImageType } from "@liexp/shared/lib/io/http/Media.js";
+import { type ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type ExtractThumbnailFromMediaFlow } from "./ExtractThumbnailFlow.type.js";
 import { fetchFromRemote } from "./fetchFromRemote.flow.js";

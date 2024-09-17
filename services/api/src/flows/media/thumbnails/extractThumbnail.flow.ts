@@ -1,6 +1,9 @@
 import { type PutObjectCommandInput } from "@aws-sdk/client-s3";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { ImageType, type MediaType } from "@liexp/shared/lib/io/http/Media.js";
+import {
+  ImageType,
+  type MediaType,
+} from "@liexp/shared/lib/io/http/Media/index.js";
 import { Media } from "@liexp/shared/lib/io/http/index.js";
 import { getMediaThumbKey } from "@liexp/shared/lib/utils/media.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";

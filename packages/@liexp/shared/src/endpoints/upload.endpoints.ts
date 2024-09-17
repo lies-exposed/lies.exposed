@@ -2,7 +2,7 @@ import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
 import { ACTORS } from "../io/http/Actor.js";
 import { GROUPS } from "../io/http/Group.js";
-import { ValidContentType } from "../io/http/Media.js";
+import { ValidContentType } from "../io/http/Media/MediaType.js";
 
 export const UploadResource = t.union(
   [

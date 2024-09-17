@@ -5,7 +5,7 @@ import { BaseProps } from "./Common/BaseProps.js";
 import { BlockNoteDocument } from "./Common/BlockNoteDocument.js";
 import { Geometry } from "./Common/Geometry/index.js";
 import { UUID } from "./Common/UUID.js";
-import { Media } from "./Media.js";
+import { Media } from "./Media/Media.js";
 import { GetListQuery } from "./Query/GetListQuery.js";
 
 export const AREAS = t.literal("areas");

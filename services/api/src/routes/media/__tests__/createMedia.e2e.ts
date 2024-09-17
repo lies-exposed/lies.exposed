@@ -1,4 +1,4 @@
-import { IframeVideoType } from "@liexp/shared/lib/io/http/Media.js";
+import { IframeVideoType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import { MediaArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";

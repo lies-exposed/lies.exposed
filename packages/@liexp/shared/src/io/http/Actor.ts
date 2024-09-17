@@ -5,7 +5,7 @@ import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { BaseProps } from "./Common/BaseProps.js";
 import { BlockNoteDocument } from "./Common/BlockNoteDocument.js";
 import { Color } from "./Common/Color.js";
-import { CreateMedia, Media } from "./Media.js";
+import { CreateMedia, Media } from "./Media/Media.js";
 import { GetListQuery } from "./Query/index.js";
 
 export const ACTORS = t.literal("actors");

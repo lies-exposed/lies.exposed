@@ -17,7 +17,7 @@ import {
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
-import { ValidContentType } from "@liexp/shared/lib/io/http/Media.js";
+import { ValidContentType } from "@liexp/shared/lib/io/http/Media/index.js";
 import {
   type GetNetworkQuery,
   type NetworkGraphOutput,

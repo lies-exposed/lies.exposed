@@ -1,5 +1,8 @@
 import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
-import { MediaType, type MediaExtra } from "@liexp/shared/lib/io/http/Media.js";
+import {
+  MediaType,
+  type MediaExtra,
+} from "@liexp/shared/lib/io/http/Media/index.js";
 import {
   Column,
   CreateDateColumn,

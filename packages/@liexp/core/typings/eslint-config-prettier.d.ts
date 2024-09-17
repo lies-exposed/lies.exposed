@@ -1,4 +1,4 @@
 declare module "eslint-config-prettier" {
-    var plugin: any;
+  var plugin: any;
   export = plugin
 }

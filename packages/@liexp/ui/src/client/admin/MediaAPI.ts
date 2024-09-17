@@ -1,5 +1,8 @@
 import { parseURL } from "@liexp/shared/lib/helpers/media.js";
-import { MP4Type, type MediaType } from "@liexp/shared/lib/io/http/Media.js";
+import {
+  MP4Type,
+  type MediaType,
+} from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import axios from "axios";

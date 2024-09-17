@@ -4,7 +4,7 @@ import { UUID } from "io-ts-types/lib/UUID.js";
 import { optionFromUndefined } from "../../Common/optionFromUndefined.js";
 import { BlockNoteDocument } from "../Common/BlockNoteDocument.js";
 import { CreateLink } from "../Link.js";
-import { MediaType } from "../Media.js";
+import { MediaType } from "../Media/index.js";
 
 export const EditEventBody = t.strict(
   {

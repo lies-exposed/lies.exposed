@@ -1,4 +1,4 @@
-import { MediaType } from "@liexp/shared/lib/io/http/Media.js";
+import { MediaType } from "@liexp/shared/lib/io/http/Media/index.js";
 import {
   Column,
   CreateDateColumn,

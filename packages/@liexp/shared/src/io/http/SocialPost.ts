@@ -9,7 +9,7 @@ import { EVENTS } from "./Events/index.js";
 import { GROUPS, Group } from "./Group.js";
 import { KEYWORDS, Keyword } from "./Keyword.js";
 import { LINKS } from "./Link.js";
-import { MEDIA } from "./Media.js";
+import { MEDIA } from "./Media/Media.js";
 import { GetListQuery } from "./Query/index.js";
 
 export const SocialPostPhoto = t.type(

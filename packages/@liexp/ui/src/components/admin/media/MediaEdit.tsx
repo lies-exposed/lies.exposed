@@ -1,4 +1,7 @@
-import { ImageType, type Media } from "@liexp/shared/lib/io/http/Media.js";
+import {
+  ImageType,
+  type Media,
+} from "@liexp/shared/lib/io/http/Media/index.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import * as React from "react";
 import {

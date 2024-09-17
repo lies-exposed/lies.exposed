@@ -1,7 +1,7 @@
 import { flow, fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type AddActorBody } from "@liexp/shared/lib/io/http/Actor.js";
 import { uuid, UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { ImageType } from "@liexp/shared/lib/io/http/Media.js";
+import { ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";

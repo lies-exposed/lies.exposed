@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { PngType } from "@liexp/shared/lib/io/http/Media.js";
+import { PngType } from "@liexp/shared/lib/io/http/Media/index.js";
 import { getMediaThumbKey } from "@liexp/shared/lib/utils/media.utils.js";
 import type * as puppeteer from "puppeteer-core";
 import { type LinkEntity } from "#entities/Link.entity.js";

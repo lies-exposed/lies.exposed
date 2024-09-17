@@ -1,7 +1,7 @@
 import { type Stream } from "stream";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
-import { PDFType } from "@liexp/shared/lib/io/http/Media.js";
+import { PDFType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import {
   SocialPostDocument,
   SocialPostPhoto,

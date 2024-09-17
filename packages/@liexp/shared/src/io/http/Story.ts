@@ -3,7 +3,7 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
 import { UUID } from "io-ts-types/lib/UUID.js";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { BaseProps } from "./Common/BaseProps.js";
-import { Media } from "./Media.js";
+import { Media } from "./Media/Media.js";
 
 export const EditStoryBody = t.strict(
   {

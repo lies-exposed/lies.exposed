@@ -1,7 +1,7 @@
 import { type BySubject } from "../../Common/index.js";
 import type * as Keyword from "../../Keyword.js";
 import type * as Link from "../../Link.js";
-import type * as Media from "../../Media.js";
+import type * as Media from "../../Media/Media.js";
 import type * as Book from "../Book.js";
 
 export interface SearchBookEvent

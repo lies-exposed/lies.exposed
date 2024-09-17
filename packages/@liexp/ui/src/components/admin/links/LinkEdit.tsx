@@ -1,4 +1,4 @@
-import { ImageType } from "@liexp/shared/lib/io/http/Media.js";
+import { ImageType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import * as React from "react";
 import { Grid, Stack, Toolbar } from "../../mui/index.js";

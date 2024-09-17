@@ -1,4 +1,4 @@
-import { ImageType, PDFType } from "@liexp/shared/lib/io/http/Media.js";
+import { ImageType, PDFType } from "@liexp/shared/lib/io/http/Media/index.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";

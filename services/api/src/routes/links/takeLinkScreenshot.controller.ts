@@ -1,7 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { PngType } from "@liexp/shared/lib/io/http/Media.js";
+import { PngType } from "@liexp/shared/lib/io/http/Media/index.js";
 import { AdminEdit, type User } from "@liexp/shared/lib/io/http/User.js";
 import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";

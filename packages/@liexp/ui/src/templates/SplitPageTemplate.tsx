@@ -107,15 +107,19 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
   },
 }));
 
+interface AsideSubject {
+  name: string;
+  avatar?: Media.Media;
+}
+
+const isAsideSubject = (a: unknown): a is AsideSubject => {
+  return (a as any).name !== undefined && (a as any).avatar !== undefined;
+};
+
 export interface SplitPageTemplateProps {
   tab: number;
   onTabChange: (t: number) => void;
-  aside:
-    | React.ReactNode
-    | {
-        name: string;
-        avatar?: Media.Media;
-      };
+  aside: React.ReactNode | AsideSubject;
   asideBottom?: React.ReactNode;
   tabs: {
     label: string;
@@ -169,11 +173,10 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
   }, [_tabs, tab]);
 
   const asideNode = React.useMemo((): React.ReactNode => {
-    if ((aside as any).name) {
-      const as: any = aside;
+    if (isAsideSubject(aside)) {
       return [
         pipe(
-          fp.O.fromNullable(as.avatar),
+          fp.O.fromNullable(aside.avatar?.thumbnail),
           fp.O.fold(
             () => <div key="aside-avatar" />,
             (src) => (
@@ -190,12 +193,12 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
         ),
         <Box key="aside-name" className={classes.name}>
           <Typography component="h1" variant="h4">
-            {as.name}
+            {aside.name}
           </Typography>
         </Box>,
       ];
     }
-    return aside as any as React.ReactNode;
+    return aside;
   }, [aside]);
 
   return (

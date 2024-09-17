@@ -6,7 +6,7 @@ import { optionFromUndefined } from "../../../Common/optionFromUndefined.js";
 import { ACTORS } from "../../Actor.js";
 import { GROUPS } from "../../Group.js";
 import { KEYWORDS } from "../../Keyword.js";
-import { MEDIA } from "../../Media.js";
+import { MEDIA } from "../../Media/Media.js";
 import {
   GetListQuery,
   GetListQueryDateRange,

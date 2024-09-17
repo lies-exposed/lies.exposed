@@ -3,7 +3,7 @@ import { UUID } from "io-ts-types/lib/UUID.js";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { Endpoint } from "ts-endpoint";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
-import { CreateMedia, MediaExtra } from "../io/http/Media.js";
+import { CreateMedia, MediaExtra } from "../io/http/Media/index.js";
 import { Media } from "../io/http/index.js";
 import { ResourceEndpoints } from "./types.js";
 
@@ -27,19 +27,6 @@ export const Get = Endpoint({
   },
   Output: SingleMediaOutput,
 });
-
-// const CreateMediaBody = t.strict(
-//   {
-//     type: MediaType,
-//     location: t.string,
-//     description: t.string,
-//     extra: t.union([t.any, t.undefined]),
-//     areas: t.array(UUID),
-//     keywords: t.array(UUID),
-//     events: t.array(UUID),
-//   },
-//   "CreateImageBody",
-// );
 
 export const Create = Endpoint({
   Method: "POST",

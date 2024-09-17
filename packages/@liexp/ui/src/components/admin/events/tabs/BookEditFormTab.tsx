@@ -1,4 +1,7 @@
-import { AudioType, PDFType } from "@liexp/shared/lib/io/http/Media.js";
+import {
+  AudioType,
+  PDFType,
+} from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import * as React from "react";
 import { TextInput, type EditProps } from "react-admin";
 import { Box } from "../../../mui/index.js";

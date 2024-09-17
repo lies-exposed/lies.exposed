@@ -4,7 +4,7 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { optionFromUndefined } from "../Common/optionFromUndefined.js";
 import { URL, UUID } from "./Common/index.js";
-import { CreateMedia, MediaType } from "./Media.js";
+import { CreateMedia, MediaType } from "./Media/index.js";
 import {
   GetListQuery,
   GetListQueryDateRange,

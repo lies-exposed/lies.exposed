@@ -5,7 +5,7 @@ import { optionFromUndefined } from "../../Common/optionFromUndefined.js";
 import { BlockNoteDocument } from "../Common/BlockNoteDocument.js";
 import { UUID } from "../Common/UUID.js";
 import { CreateLink } from "../Link.js";
-import { CreateMedia } from "../Media.js";
+import { CreateMedia } from "../Media/Media.js";
 
 const createLinkProps = propsOmit(CreateLink, ["events"]);
 const CreateEventLink = t.strict(createLinkProps, "CreateEventLink");

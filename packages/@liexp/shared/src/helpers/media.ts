@@ -2,7 +2,7 @@ import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as t from "io-ts";
 import { type URL } from "../io/http/Common/index.js";
-import { MediaType } from "../io/http/Media.js";
+import { MediaType } from "../io/http/Media/MediaType.js";
 
 type Youtube = "youtube";
 type Bitchute = "bitchute";

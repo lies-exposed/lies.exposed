@@ -12,15 +12,6 @@ const config: any = tseslint.config(
   prettier,
   eslintPluginPrettierRecommended,
   {
-    extends: [
-      // "standard-with-typescript",
-      // "plugin:import/typescript",
-      // "plugin:import/recommended",
-      // "plugin:fp-ts/recommended",
-      // "plugin:fp-ts/recommended-requiring-type-checking",
-      // "plugin:fp-ts/recommended",
-      // "plugin:fp-ts/recommended-requiring-type-checking",
-    ],
     plugins: { "fp-ts": fpTS, import: importPlugin },
     languageOptions: {
       parserOptions: {
