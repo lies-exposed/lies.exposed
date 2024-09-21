@@ -1,6 +1,5 @@
 import { loadENV } from "@liexp/core/lib/env/utils.js";
 import D from "debug";
-import { addEventDefaultLinks } from "./add-event-default-links.js";
 import { assignDefaultAreaFeaturedImage } from "./assign-default-area-featured-image.js";
 import { cleanSpaceMedia } from "./clean-space-media.js";
 import { cleanTGMessages } from "./clean-tg-messages.js";
@@ -20,7 +19,6 @@ import { upsertNLPEntities } from "./upsert-nlp-entities.js";
 import { upsertTGPinnedMessage } from "./upsert-tg-pinned-message.js";
 
 const commands: Record<string, CommandFlow> = {
-  "add-event-default-links": addEventDefaultLinks,
   "assign-default-area-featured-image": assignDefaultAreaFeaturedImage,
   "clean-space-media": cleanSpaceMedia,
   "clean-tg-messages": cleanTGMessages,
