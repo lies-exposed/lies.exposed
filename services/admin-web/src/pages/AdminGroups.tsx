@@ -3,7 +3,6 @@ import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { parseDate } from "@liexp/shared/lib/utils/date.utils.js";
-import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
@@ -95,7 +94,7 @@ const groupFilters = [
   >
     <AutocompleteArrayInput
       source="id"
-      optionText={(r: any) => {
+      optionText={(r) => {
         return r?.fullName !== undefined ? `${r.fullName}` : "No actor";
       }}
       size="small"
@@ -133,18 +132,26 @@ const transformGroup =
           );
         }
 
-        if (!UUID.is(data.avatar)) {
+        if (UUID.is(data.avatar?.id)) {
           return TE.right([
             {
-              location: data.avatar,
-              type: contentTypeFromFileExt(data.avatar),
+              id: data.avatar.id,
             },
           ]);
         }
-        return TE.right([{ id: data.avatar }]);
+
+        if (!UUID.is(data.avatar)) {
+          return TE.right([
+            {
+              id: data.avatar.id,
+            },
+          ]);
+        }
+
+        return TE.right([]);
       }),
       TE.bind("avatarMedia", ({ avatar }) => {
-        if (UUID.is(avatar[0].id)) {
+        if (UUID.is(avatar[0]?.id)) {
           return TE.right({ id: avatar[0].id });
         }
         return pipe(
@@ -282,7 +289,7 @@ export const GroupCreate: React.FC<CreateProps> = (props) => {
     <Create
       title="Create a Group"
       {...props}
-      transform={(g: any) => transformGroup(dataProvider)({ ...g, id: uuid() })}
+      transform={(g) => transformGroup(dataProvider)({ ...g, id: uuid() })}
     >
       <SimpleForm>
         <SelectInput
