@@ -1,5 +1,4 @@
 import eslint from "@eslint/js";
-import prettier from "eslint-config-prettier";
 import fpTS from "eslint-plugin-fp-ts";
 import importPlugin from "eslint-plugin-import";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
@@ -7,9 +6,9 @@ import tseslint from "typescript-eslint";
 
 const config: any = tseslint.config(
   eslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
-  ...tseslint.configs.stylisticTypeChecked,
-  prettier,
+  ...tseslint.configs.recommended,
+  ...tseslint.configs.recommendedTypeCheckedOnly,
+  ...tseslint.configs.stylisticTypeCheckedOnly,
   eslintPluginPrettierRecommended,
   {
     plugins: { "fp-ts": fpTS, import: importPlugin },
@@ -87,6 +86,12 @@ const config: any = tseslint.config(
       "@typescript-eslint/no-unsafe-return": ["off"],
       "@typescript-eslint/no-unused-vars": ["off"],
       "@typescript-eslint/no-unsafe-call": ["off"],
+    },
+  },
+  {
+    files: ["test/**/*.ts", "**/*.spec.ts", "**/*.e2e.ts"],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
     },
   },
 );
