@@ -5,6 +5,7 @@ import {
   useRefresh,
   type FieldProps,
   Button,
+  NumberInput,
 } from "react-admin";
 import { useModal } from "../../../../hooks/useModal.js";
 import { Box, Stack } from "../../../mui/index.js";
@@ -51,8 +52,6 @@ export const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
   const apiProvider = useDataProvider<any>();
   const [modal, showModal] = useModal();
 
-  const thumbnails = record?.extra?.thumbnails ?? [];
-
   const handleThumbnailUpdate = React.useCallback(
     (thumbnail: string) => {
       if (record?.id) {
@@ -77,7 +76,7 @@ export const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
           });
       }
     },
-    [record?.id, record?.thumbnail, thumbnails],
+    [record?.id, record?.thumbnail, record?.extra],
   );
 
   const handleThumbnailsGenerate = React.useCallback(() => {
@@ -101,21 +100,51 @@ export const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
     });
   }, [record?.thumbnail, record?.extra?.thumbnails]);
 
+  const thumbnailExtra = React.useMemo(() => {
+    if (record?.extra) {
+      const thumbnails = record?.extra?.thumbnails ?? [];
+      return (
+        <Stack>
+          <Stack direction="row" spacing={2}>
+            <Box>
+              <NumberInput
+                source="extra.thumbnailWidth"
+                label="Thumb Width"
+                size="small"
+              />
+            </Box>
+            <Box>
+              <NumberInput
+                source="extra.thumbnailHeight"
+                label="Thumb Height"
+                size="small"
+              />
+            </Box>
+          </Stack>
+
+          {thumbnails.length > 0 ? (
+            <Button
+              onClick={handleThumbnailPick}
+              label={`Pick a thumbnail (${thumbnails.length})`}
+              variant="outlined"
+            />
+          ) : (
+            <Button
+              onClick={handleThumbnailsGenerate}
+              label="Generate Thumbnail"
+              variant="contained"
+            />
+          )}
+        </Stack>
+      );
+    }
+
+    return null;
+  }, [record?.extra]);
+
   return (
     <Stack direction="row" spacing={2}>
-      {thumbnails.length > 0 ? (
-        <Button
-          onClick={handleThumbnailPick}
-          label={`Pick a thumbnail (${thumbnails.length})`}
-          variant="outlined"
-        />
-      ) : (
-        <Button
-          onClick={handleThumbnailsGenerate}
-          label="Generate Thumbnail"
-          variant="contained"
-        />
-      )}
+      {thumbnailExtra}
       {modal}
     </Stack>
   );
