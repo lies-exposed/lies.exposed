@@ -17,7 +17,7 @@ import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js"
 import { GetOpenAIProvider } from "@liexp/shared/lib/providers/openai/openai.provider.js";
 import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import * as axios from "axios";
-import * as ExifReader from "exifreader";
+import ExifReader from "exifreader";
 import ffmpeg from "fluent-ffmpeg";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
@@ -99,7 +99,7 @@ export const makeContext = (
     baseURL: env.OPENAI_URL,
   });
 
-  const config = Config(env);
+  const config = Config(env, process.cwd());
 
   return pipe(
     sequenceS(fp.TE.ApplicativePar)({
@@ -165,7 +165,7 @@ export const makeContext = (
           nlp: WinkFn,
         }),
       ),
-      config: fp.TE.right<ControllerError, RouteContext["config"]>(config),
+      config: fp.TE.right(config),
     }),
     fp.TE.mapLeft((e) => ({
       ...e,

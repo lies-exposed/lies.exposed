@@ -1,3 +1,4 @@
+import { mkdirSync } from "fs";
 import path from "path";
 import type * as cors from "cors";
 import { type ENV } from "#io/ENV.js";
@@ -22,7 +23,21 @@ export interface AppConfig {
   events: EventsConfig;
 }
 
-export const Config = (env: ENV): AppConfig => {
+export const Config = (env: ENV, cwd: string): AppConfig => {
+  const tempRoot = path.resolve(cwd, "temp");
+
+  const tempFolders = {
+    root: tempRoot,
+    media: path.resolve(tempRoot, "media"),
+    nlp: path.resolve(tempRoot, "nlp"),
+    queue: path.resolve(tempRoot, "queue"),
+    stats: path.resolve(tempRoot, "stats"),
+  };
+
+  Object.values(tempFolders).forEach((folder) => {
+    mkdirSync(folder, { recursive: true });
+  });
+
   return {
     cors: {
       origin: env.NODE_ENV === "production" ? true : "*",
@@ -33,14 +48,8 @@ export const Config = (env: ENV): AppConfig => {
       thumbnailHeight: 300,
     },
     dirs: {
-      cwd: process.cwd(),
-      temp: {
-        root: path.resolve(process.cwd(), "temp"),
-        media: path.resolve(process.cwd(), "temp/media"),
-        nlp: path.resolve(process.cwd(), "temp/nlp"),
-        queue: path.resolve(process.cwd(), "temp/queue"),
-        stats: path.resolve(process.cwd(), "temp/stats"),
-      },
+      cwd,
+      temp: tempFolders,
     },
   };
 };
