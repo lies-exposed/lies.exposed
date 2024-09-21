@@ -152,7 +152,7 @@ export const GetPuppeteerProvider = <P extends VanillaPuppeteer>(
       TE.fromEither,
       TE.chain((executablePath) => {
         return TE.tryCatch(async () => {
-          const p = addExtra(pup as any);
+          const p = addExtra(pup);
           p.use(puppeteerStealth());
 
           const options = {
@@ -170,10 +170,10 @@ export const GetPuppeteerProvider = <P extends VanillaPuppeteer>(
         }, toPuppeteerError);
       }),
       TE.map((b) => {
-        b.on("error", (e: any) => {
+        b.on("error", (e) => {
           puppeteerLogger.error.log("browser error", e);
         });
-        b.on("disconnected", (e: any) => {
+        b.on("disconnected", (e) => {
           puppeteerLogger.debug.log("browser disconnected", e);
         });
         return b;

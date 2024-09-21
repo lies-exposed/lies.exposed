@@ -1,6 +1,7 @@
 import { MediaArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
+import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { loginUser, saveUser } from "../../../../test/user.utils.js";
@@ -27,7 +28,8 @@ describe("Create Actor", () => {
           areas: [],
           socialPosts: [],
           stories: [],
-          featuredIn: [],
+          featuredInAreas: [],
+          featuredInStories: [],
           creator: null,
           extra: null,
         },
@@ -89,8 +91,8 @@ describe("Create Actor", () => {
   });
 
   test("Should create actor", async () => {
-    const excerpt = [{ type: "paragraph", content: "my excerpt" }];
-    const body = [{ type: "paragraph", content: "my body" }];
+    const excerpt = toInitialValue("my excerpt");
+    const body = toInitialValue("my body");
     const response = await Test.req
       .post("/v1/actors")
       .set("Authorization", authorizationToken)

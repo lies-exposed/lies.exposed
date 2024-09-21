@@ -15,24 +15,24 @@ type QueriesProp =
   | QueriesRecord
   | ((qq: EndpointsQueryProvider["Queries"]) => QueriesRecord);
 
-type RenderFn<Q extends QueriesProp> = (
-  data: Q extends QueriesRecord
+type RenderFnData<Q extends QueriesProp> = Q extends QueriesRecord
+  ? {
+      [K in keyof Q]: Q[K] extends UseQueryResult<infer A, APIError>
+        ? NonNullable<QueryObserverSuccessResult<A, APIError>["data"]>
+        : never;
+    }
+  : Q extends (...args: any[]) => QueriesRecord
     ? {
-        [K in keyof Q]: Q[K] extends UseQueryResult<infer A, APIError>
+        [K in keyof ReturnType<Q>]: ReturnType<Q>[K] extends UseQueryResult<
+          infer A,
+          APIError
+        >
           ? NonNullable<QueryObserverSuccessResult<A, APIError>["data"]>
           : never;
       }
-    : Q extends (...args: any[]) => QueriesRecord
-      ? {
-          [K in keyof ReturnType<Q>]: ReturnType<Q>[K] extends UseQueryResult<
-            infer A,
-            APIError
-          >
-            ? NonNullable<QueryObserverSuccessResult<A, APIError>["data"]>
-            : never;
-        }
-      : never,
-) => JSX.Element;
+    : never;
+
+type RenderFn<Q extends QueriesProp> = (data: RenderFnData<Q>) => JSX.Element;
 
 interface QueriesRendererProps<Q extends QueriesProp> {
   loader?: "fullsize" | "default";
@@ -83,7 +83,7 @@ const QueriesRenderer = <Q extends QueriesProp>({
       isLoading: false,
       isError: false,
       errors: initialErrors,
-      data: {},
+      data: {} as RenderFnData<Q>,
     },
   );
 
@@ -110,7 +110,7 @@ const QueriesRenderer = <Q extends QueriesProp>({
     return <div />;
   }
 
-  return props.render(data as any);
+  return props.render(data);
 };
 
 export default QueriesRenderer;

@@ -1,3 +1,4 @@
+import { isAxiosError } from "axios";
 import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as R from "fp-ts/lib/Record.js";
@@ -23,8 +24,8 @@ import { type APIRESTClient } from "../../providers/api-rest.provider.js";
 import { throwTE } from "../../utils/task.utils.js";
 
 const toError = (e: unknown): APIError => {
-  if ((e as any).name === "AxiosError") {
-    return toAPIError((e as any).response.data);
+  if (isAxiosError(e)) {
+    return toAPIError(e.response?.data);
   }
   return toAPIError(e);
 };

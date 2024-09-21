@@ -76,6 +76,7 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
               tab={tab}
               onTabChange={onTabChange}
               aside={{
+                id: actor.id,
                 name: actor.fullName,
                 avatar: actor.avatar,
               }}

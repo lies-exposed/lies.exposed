@@ -108,12 +108,13 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
 }));
 
 interface AsideSubject {
+  id: string;
   name: string;
   avatar?: Media.Media;
 }
 
 const isAsideSubject = (a: unknown): a is AsideSubject => {
-  return (a as any).name !== undefined && (a as any).avatar !== undefined;
+  return (a as any).id !== undefined && (a as any).name !== undefined;
 };
 
 export interface SplitPageTemplateProps {
@@ -174,30 +175,33 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
 
   const asideNode = React.useMemo((): React.ReactNode => {
     if (isAsideSubject(aside)) {
-      return [
-        pipe(
-          fp.O.fromNullable(aside.avatar?.thumbnail),
-          fp.O.fold(
-            () => <div key="aside-avatar" />,
-            (src) => (
-              <Avatar
-                key="aside-avatar"
-                className={classes.avatar}
-                size="xlarge"
-                src={src}
-                fit="cover"
-                style={{ marginBottom: 50 }}
-              />
+      return (
+        <Stack>
+          {pipe(
+            fp.O.fromNullable(aside.avatar?.thumbnail),
+            fp.O.fold(
+              () => <div key="aside-avatar" />,
+              (src) => (
+                <Avatar
+                  key="aside-avatar"
+                  className={classes.avatar}
+                  size="xlarge"
+                  src={src}
+                  fit="cover"
+                  style={{ marginBottom: 50 }}
+                />
+              ),
             ),
-          ),
-        ),
-        <Box key="aside-name" className={classes.name}>
-          <Typography component="h1" variant="h4">
-            {aside.name}
-          </Typography>
-        </Box>,
-      ];
+          )}
+          <Box key="aside-name" className={classes.name}>
+            <Typography component="h1" variant="h4">
+              {aside.name}
+            </Typography>
+          </Box>
+        </Stack>
+      );
     }
+
     return aside;
   }, [aside]);
 
@@ -212,7 +216,7 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
           justifyContent={"start"}
         >
           <Box className={classes.sidebar}>
-            {React.Children.toArray(asideNode)}
+            {asideNode}
             <Box className={classes.editButtonBox}>
               {share ? (
                 <ShareButtons

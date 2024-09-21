@@ -66,7 +66,7 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
             <SplitPageTemplate
               tab={tab}
               onTabChange={onTabChange}
-              aside={{ name: `#${keyword.tag}` }}
+              aside={{ id: keyword.id, name: `#${keyword.tag}` }}
               tabs={[
                 { label: "General" },
                 { label: "Flow" },

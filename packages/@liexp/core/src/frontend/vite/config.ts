@@ -128,7 +128,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
         external: ["react", "react-dom"],
       },
       plugins: [
-        image() as any,
+        image(),
         cssInjectedByJsPlugin(),
         optimizer({}),
         tsConfigPaths({

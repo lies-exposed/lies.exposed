@@ -68,6 +68,7 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
               tab={tab}
               onTabChange={onTabChange}
               aside={{
+                id: group.id,
                 name: group.name,
                 avatar: group.avatar,
               }}

@@ -1,5 +1,6 @@
 import { eventRelationIdsMonoid } from "@liexp/shared/lib/helpers/event/event.js";
 import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { type MediaType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
@@ -181,7 +182,7 @@ export const transformEvent =
           "media",
           id,
           r.location.rawFile,
-          r.location.rawFile.type as any,
+          r.location.rawFile.type as MediaType,
         ),
       ),
       A.sequence(TE.ApplicativePar),

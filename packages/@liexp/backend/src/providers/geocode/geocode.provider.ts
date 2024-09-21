@@ -10,10 +10,28 @@ interface GeocodeSearch {
   lon: string;
 }
 
-export class GeocodeError extends IOError {}
+export class GeocodeError extends IOError {
+  name = "GeocodeError";
+}
 
 const toGeocodeError = (e: unknown): GeocodeError => {
-  return e as any;
+  if (e instanceof IOError) {
+    return e as GeocodeError;
+  }
+
+  if (e instanceof Error) {
+    return new GeocodeError(e.message, {
+      kind: "ServerError",
+      status: "500",
+      meta: e.stack,
+    });
+  }
+
+  return new GeocodeError("Unknown error", {
+    kind: "ServerError",
+    status: "500",
+    meta: e,
+  });
 };
 
 export interface GeocodeProvider {

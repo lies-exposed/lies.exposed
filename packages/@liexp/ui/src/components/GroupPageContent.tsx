@@ -45,7 +45,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
         }}
       >
         <Grid item lg={6} md={6} sm={12}>
-          <BNEditor content={group.excerpt as any} readOnly={true} />
+          <BNEditor content={group.excerpt} readOnly={true} />
         </Grid>
         <Grid item lg={6}>
           <Typography variant="h6">Members</Typography>

@@ -94,7 +94,7 @@ const KeywordsDistributionGraph: React.FC<
   Pick<KeywordsDistributionGraphProps, "onClick"> & {
     count?: number;
   }
-> = ({ count, ...props }) => {
+> = ({ count = 40, ...props }) => {
   return (
     <QueriesRenderer
       queries={(Q) => ({

@@ -23,10 +23,8 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
     <Grid className="actor-page-content" container spacing={2}>
       <Grid item md={9} sm={8}>
         {actor.death ? <DeathBox id={actor.death} /> : null}
-        {actor.excerpt ? (
-          <BNEditor content={actor.excerpt as any} readOnly />
-        ) : null}
-        {actor.body ? <BNEditor content={actor.body as any} readOnly /> : null}
+        {actor.excerpt ? <BNEditor content={actor.excerpt} readOnly /> : null}
+        {actor.body ? <BNEditor content={actor.body} readOnly /> : null}
       </Grid>
       {groups.length > 0 ? (
         <Grid

@@ -124,7 +124,7 @@ const pgFormat: FormatConfig = {
 };
 
 const GetDatabaseClient: GetDatabaseClient = (ctx) => {
-  const formatQuery = (sql: SQLQuery): { text: string; values: any } => {
+  const formatQuery = (sql: SQLQuery): { text: string; values: unknown[] } => {
     const format = sql.format(pgFormat);
     ctx.logger.debug.log(
       `SQL Formatted %s with params %O`,
@@ -212,9 +212,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       // );
       return TE.tryCatch(
         () =>
-          ctx.connection.manager.save(entity, data, options) as any as Promise<
-            E[]
-          >,
+          ctx.connection.manager.save(entity, data, options) as Promise<E[]>,
         handleError(),
       );
     },
