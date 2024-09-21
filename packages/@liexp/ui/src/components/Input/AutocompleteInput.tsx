@@ -37,6 +37,7 @@ export const AutocompleteInput = <T extends { id: string }>({
   renderOption,
   searchToFilter,
   onItemsChange,
+  autoFocus,
   ...props
 }: AutocompleteInputProps<T>): React.ReactElement => {
   const [inputValue, setInputValue] = React.useState<string>("");
@@ -107,6 +108,7 @@ export const AutocompleteInput = <T extends { id: string }>({
           <TextField
             {...params}
             placeholder={placeholder}
+            autoFocus={autoFocus}
             InputProps={{
               ...params.InputProps,
               type: "search",
