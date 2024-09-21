@@ -24,7 +24,7 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
           {typeof area.body === "string" ? (
             <div>{area.body}</div>
           ) : (
-            <BNEditor content={area.body as any} readOnly />
+            <BNEditor content={area.body} readOnly />
           )}
         </Box>
         <MediaSliderBox

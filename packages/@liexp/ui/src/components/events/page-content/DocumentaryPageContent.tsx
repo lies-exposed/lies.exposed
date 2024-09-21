@@ -39,11 +39,11 @@ export const DocumentaryPageContent: React.FC<DocumentaryPageContentProps> = ({
       </Grid>
       <Grid item>
         <Box style={{ marginBottom: theme.spacing(2) }}>
-          <BNEditor content={event.excerpt as any} readOnly={true} />
+          <BNEditor content={event.excerpt} readOnly={true} />
         </Box>
 
         <Box style={{ marginBottom: theme.spacing(2) }}>
-          <BNEditor content={event.body as any} readOnly={true} />
+          <BNEditor content={event.body} readOnly={true} />
         </Box>
       </Grid>
     </Grid>

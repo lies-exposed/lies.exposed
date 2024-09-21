@@ -18,7 +18,7 @@ type InfiniteLinksListBoxProps = Omit<
 };
 
 export const InfiniteLinksListBox: React.FC<InfiniteLinksListBoxProps> = ({
-  listProps,
+  listProps: { getItem, type, ...listProps },
   onLinkClick,
   filter,
   ...props
@@ -30,9 +30,8 @@ export const InfiniteLinksListBox: React.FC<InfiniteLinksListBoxProps> = ({
         useListQuery: (Q) => Q.Queries.Link.list,
         listProps: {
           type: "masonry",
-
           getItem: (data: any[], index: number) => {
-            return data[index];
+            return getItem ? getItem(data, index) : data[index];
           },
           // eslint-disable-next-line react/display-name
           CellRenderer: React.forwardRef<any, CellRendererProps>(
@@ -73,7 +72,7 @@ export const InfiniteLinksListBox: React.FC<InfiniteLinksListBoxProps> = ({
               );
             },
           ),
-          ...(listProps as any),
+          ...listProps,
         },
         ...props,
       }}

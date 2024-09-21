@@ -21,16 +21,18 @@ const toBase64SourceImg = (base64: string): string =>
 //   textBackground: Color;
 // };
 
-const useLayer = (props: Partial<BuildImageLayer>): [BuildImageLayer, any] => {
+const useLayer = (
+  props: Partial<BuildImageLayer>,
+): [BuildImageLayer, React.Dispatch<React.SetStateAction<BuildImageLayer>>] => {
   const [layer, setLayer] = React.useState<BuildImageLayer>({
     width: 100,
     height: 100,
     blend: "add",
     gravity: "north",
     background: toColor("000000"),
-    type: props.type ?? ("watermark" as any),
+    type: "watermark",
     ...props,
-  });
+  } as BuildImageLayer);
 
   return [layer, setLayer];
 };
@@ -42,8 +44,8 @@ export const LayerBox: React.FC<{
     onLayerChange({
       ...layer,
       ...u,
-      type: u.type ?? (layer.type as any),
-    });
+      type: u.type ?? layer.type,
+    } as BuildImageLayer);
   };
   return (
     <Box>
@@ -85,7 +87,7 @@ export const LayerBox: React.FC<{
                   return typeof v === "string"
                     ? v
                     : Array.isArray(v)
-                      ? (v as any)[0].name
+                      ? v[0].name
                       : v.name;
                 }}
                 items={GRAVITY_OPTIONS.map((c) => ({
@@ -111,7 +113,7 @@ export const LayerBox: React.FC<{
                   return typeof v === "string"
                     ? v
                     : Array.isArray(v)
-                      ? (v as any)[0].name
+                      ? v[0].name
                       : v.name;
                 }}
                 items={BLEND_OPTIONS.map((c) => ({ id: c, name: c }))}

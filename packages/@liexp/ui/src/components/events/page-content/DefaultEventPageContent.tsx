@@ -88,12 +88,12 @@ export const DefaultEventPageContent: React.FC<
       <Grid item>
         {event.excerpt ? (
           <Box style={{ marginBottom: theme.spacing(2) }}>
-            <BNEditor content={event.excerpt as any} readOnly />
+            <BNEditor content={event.excerpt} readOnly />
           </Box>
         ) : null}
         {event.body ? (
           <Box style={{ marginBottom: theme.spacing(2) }}>
-            <BNEditor content={event.body as any} readOnly />
+            <BNEditor content={event.body} readOnly />
           </Box>
         ) : null}
       </Grid>

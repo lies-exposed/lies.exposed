@@ -1,7 +1,7 @@
 import englishMessages from "ra-language-english";
 
 export default {
-  ...(englishMessages as any),
+  ...englishMessages,
   resources: {
     actors: {
       name: "Actor |||| Actors",

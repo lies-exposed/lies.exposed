@@ -29,38 +29,24 @@ export const EventTitle: React.FC<EventTitleProps> = ({
         return <ScientificStudyEventTitle {...{ ...props, source, record }} />;
       case http.Events.EventTypes.DEATH.value:
         return (
-          <DeathEventTitle
-            {...(props as any)}
-            source={source}
-            record={record}
-          />
+          <DeathEventTitle {...{ ...props, source: source as any, record }} />
         );
       case http.Events.EventTypes.PATENT.value:
         return (
-          <PatentEventTitle
-            {...(props as any)}
-            source={source}
-            record={record}
-          />
+          <PatentEventTitle {...{ ...props, source: source as any, record }} />
         );
       case http.Events.EventTypes.DOCUMENTARY.value:
         return (
           <DocumentaryReleaseTitle
-            {...(props as any)}
-            source={source}
-            record={record}
+            {...{ ...props, source: source as any, record }}
           />
         );
       case http.Events.EventTypes.TRANSACTION.value:
         return <TransactionTitle {...props} record={record} />;
       case http.Events.EventTypes.QUOTE.value:
-        return (
-          <QuoteTitle {...(props as any)} source={source} record={record} />
-        );
+        return <QuoteTitle {...{ ...props, source: source as any, record }} />;
       case http.Events.EventTypes.BOOK.value:
-        return (
-          <BookTitle {...(props as any)} source={source} record={record} />
-        );
+        return <BookTitle {...{ ...props, source: source as any, record }} />;
     }
   }
   return <span>No record</span>;
