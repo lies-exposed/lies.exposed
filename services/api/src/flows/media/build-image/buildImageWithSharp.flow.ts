@@ -1,5 +1,8 @@
 import path from "path";
-import { type ImgProcError } from "@liexp/backend/lib/providers/imgproc/imgproc.provider.js";
+import {
+  decodeExifTag,
+  type ImgProcError,
+} from "@liexp/backend/lib/providers/imgproc/imgproc.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   type BuildImageLayer,
@@ -84,8 +87,8 @@ const addMediaImageLayer: TEFlow<
       pipe(
         parent?.width && parent.height
           ? fp.TE.right<ImgProcError, ExifReader.Tags>({
-              "Image Width": parent.width,
-              "Image Height": parent.width,
+              "Image Width": { value: parent.width },
+              "Image Height": { value: parent.width },
             } as any)
           : ctx.imgProc.readExif(buf as any, {}),
         fp.TE.map((exif) => ({ exif, buf })),
@@ -100,12 +103,14 @@ const addMediaImageLayer: TEFlow<
           input: buf,
           left: 0,
           top: 0,
-          width: (typeof exif["Image Width"]?.value === "string"
-            ? exif["Image Width"]?.value
-            : (parent?.width ?? DEFAULT_TEXT_WIDTH)) as number,
-          height: (typeof exif["Image Height"]?.value === "string"
-            ? exif["Image Height"]?.value
-            : (parent?.height ?? DEFAULT_TEXT_HEIGHT)) as number,
+          width:
+            decodeExifTag(exif["Image Width"]) ??
+            parent?.width ??
+            DEFAULT_TEXT_WIDTH,
+          height:
+            decodeExifTag(exif["Image Height"]) ??
+            parent?.height ??
+            DEFAULT_TEXT_HEIGHT,
         },
       ];
     }),
