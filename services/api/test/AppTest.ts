@@ -35,8 +35,9 @@ import { LinkEntity } from "#entities/Link.entity.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { toControllerError } from "#io/ControllerError.js";
 import { ENV } from "#io/ENV.js";
-import { EventsConfig } from "#queries/config/index.js";
 import { getDataSource } from "#utils/data-source.js";
+import { Config } from '#app/config.js';
+import { GetFFMPEGProvider } from '@liexp/backend/lib/providers/ffmpeg.provider.js';
 
 vi.mock("axios");
 vi.mock("page-metadata-parser");
@@ -60,7 +61,6 @@ const initAppTest = async (): Promise<AppTest> => {
 
   const logger = GetLogger("test");
 
-  const cwd = path.resolve(__dirname, "../");
   // if (!g.dataSource) {
   //   const dataSource = getDataSource(process.env as any, false);
   //   g.dataSource = await dataSource.initialize();
@@ -82,29 +82,9 @@ const initAppTest = async (): Promise<AppTest> => {
       env,
       db,
       logger,
-      config: {
-        cors: {},
-        events: EventsConfig,
-        dirs: {
-          cwd,
-          temp: {
-            root: path.resolve(cwd, "temp"),
-            media: path.resolve(cwd, "temp/media"),
-            stats: path.resolve(cwd, "temp/stats"),
-            nlp: path.resolve(cwd, "temp/nlp"),
-            queue: path.resolve(cwd, "temp/queue"),
-          },
-        },
-      },
+      config: Config(env),
       jwt: GetJWTProvider({ secret: env.JWT_SECRET, logger }),
-      ffmpeg: {
-        ffprobe: (file: any) => {
-          return TE.right({} as any);
-        },
-        runCommand: () => {
-          return TE.right(undefined);
-        },
-      },
+      ffmpeg: GetFFMPEGProvider(mocks.ffmpeg),
       puppeteer: GetPuppeteerProvider(mocks.puppeteer, { headless: "new" }, mocks.puppeteer.devices),
       tg: mocks.tg,
       s3: MakeSpaceProvider(mocks.s3 as any),
@@ -129,7 +109,7 @@ const initAppTest = async (): Promise<AppTest> => {
       http: HTTPProvider(mocks.axios as any),
       imgProc: MakeImgProcClient({
         logger,
-        exifR: {} as any,
+        exifR: mocks.exifR,
         client: mocks.sharp as any,
       }),
       ner: GetNERProvider({
