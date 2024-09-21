@@ -1,7 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { MP4Type } from "@liexp/shared/lib/io/http/Media/index.js";
-import { Media } from "@liexp/shared/lib/io/http/index.js";
 import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
 import { type Router } from "express";
 import * as O from "fp-ts/lib/Option.js";
@@ -10,7 +8,7 @@ import * as t from "io-ts";
 import { Equal } from "typeorm";
 import { MediaIO } from "./media.io.js";
 import { MediaEntity } from "#entities/Media.entity.js";
-import { extractMP4Extra } from "#flows/media/extra/extractMP4Extra.js";
+import { extractMediaExtra } from "#flows/media/extra/extractMediaExtra.flow.js";
 import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
 import { transferFromExternalProvider } from "#flows/media/transferFromExternalProvider.flow.js";
 import { type RouteContext } from "#routes/route.types.js";
@@ -99,21 +97,9 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
             : TE.right(location),
         ),
         TE.bind("extra", ({ media }) =>
-          O.isSome(overrideExtra) && media.type === MP4Type.value
-            ? extractMP4Extra(ctx)({ ...media, type: MP4Type.value })
-            : TE.right(
-                extra
-                  ? ({
-                      ...media.extra,
-                      ...extra,
-                      duration: Media.TimeExtra.is(media.extra)
-                        ? media.extra.duration
-                        : Media.TimeExtra.is(extra)
-                          ? extra.duration
-                          : undefined,
-                    } as any)
-                  : null,
-              ),
+          O.isSome(overrideExtra)
+            ? extractMediaExtra(ctx)(media)
+            : TE.right(extra ?? media.extra),
         ),
         ctx.logger.debug.logInTaskEither(`Updates %O`),
         TE.chain(({ thumbnail, location, media, extra }) =>

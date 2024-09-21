@@ -44,7 +44,7 @@ const convertLocationToMediaEntity =
                 keywords: [],
                 areas: [],
                 creator: null,
-                extra: undefined,
+                extra: null,
                 type: contentTypeFromFileExt(extensionFromURL(avatar)),
                 stories: [],
                 featuredInStories: [],

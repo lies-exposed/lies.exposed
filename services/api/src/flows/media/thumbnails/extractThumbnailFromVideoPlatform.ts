@@ -8,6 +8,7 @@ import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Page } from "puppeteer-core";
+import { type SimpleMedia } from "../simpleIMedia.type.js";
 import { type ExtractThumbnailFromMediaFlow } from "./ExtractThumbnailFlow.type.js";
 import { fetchFromRemote } from "./fetchFromRemote.flow.js";
 import { toControllerError } from "#io/ControllerError.js";
@@ -131,7 +132,7 @@ export const extractThumbnailFromVideoPlatform = (
 };
 
 export const extractThumbnailFromIframe: ExtractThumbnailFromMediaFlow<
-  Media.IframeVideoType
+  SimpleMedia<Media.IframeVideoType>
 > = (ctx) => (media) => {
   return pipe(
     TE.Do,

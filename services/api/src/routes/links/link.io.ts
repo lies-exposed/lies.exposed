@@ -1,5 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { ImageMediaExtraMonoid } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import * as E from "fp-ts/lib/Either.js";
 import { type LinkEntity } from "#entities/Link.entity.js";
@@ -19,7 +20,12 @@ const toLinkIO = (
             ...link.image,
             label: link.image.label ?? undefined,
             description: link.image.description ?? undefined,
-            extra: link.image.extra ?? undefined,
+            extra: link.image.extra
+              ? ImageMediaExtraMonoid.concat(
+                  ImageMediaExtraMonoid.empty,
+                  link.image.extra,
+                )
+              : undefined,
             thumbnail: link.image.thumbnail ?? undefined,
             links: link.image.links ?? [],
             events: link.image.events ?? [],

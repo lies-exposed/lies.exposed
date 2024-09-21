@@ -1,19 +1,17 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
-  PDFType,
   ImageType,
+  PDFType,
   type MediaType,
 } from "@liexp/shared/lib/io/http/Media/index.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import axios from "axios";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import * as t from "io-ts";
 import { type TEFlow } from "#flows/flow.types.js";
 import {
   toControllerError,
   type ControllerError,
-  ServerError,
 } from "#io/ControllerError.js";
 
 type TransferableMediaType = ImageType | PDFType;
@@ -32,7 +30,10 @@ export const transferFromExternalProvider: TEFlow<
       mimeType,
       TE.fromPredicate(
         (t): t is TransferableMediaType => ImageType.is(t) || PDFType.is(t),
-        () => ServerError(),
+        () =>
+          toControllerError(
+            new Error(`Can't transfer this media type: ${mimeType}`),
+          ),
       ),
       TE.chain((mType) =>
         pipe(
@@ -55,6 +56,5 @@ export const transferFromExternalProvider: TEFlow<
         ),
       ),
       TE.map((r) => r.Location),
-      TE.filterOrElse(t.string.is, () => toControllerError(new Error())),
     );
   };

@@ -1,12 +1,11 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { parseURL } from "@liexp/shared/lib/helpers/media.js";
-import { MP4Type } from "@liexp/shared/lib/io/http/Media/index.js";
 import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { MediaIO } from "./media.io.js";
 import { MediaEntity } from "#entities/Media.entity.js";
-import { extractMP4Extra } from "#flows/media/extra/extractMP4Extra.js";
+import { extractMediaExtra } from "#flows/media/extra/extractMediaExtra.flow.js";
 import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
 import { type RouteContext } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
@@ -52,11 +51,7 @@ export const MakeCreateMediaRoute = (r: Router, ctx: RouteContext): void => {
               ]),
             ),
             TE.bind("thumbnail", ({ media }) => createThumbnail(ctx)(media[0])),
-            TE.bind("extra", ({ media }) =>
-              media[0].type === MP4Type.value
-                ? extractMP4Extra(ctx)({ ...media[0], type: MP4Type.value })
-                : TE.right(undefined),
-            ),
+            TE.bind("extra", ({ media }) => extractMediaExtra(ctx)(media[0])),
             TE.chain(({ media, thumbnail, extra }) => {
               return ctx.db.save(MediaEntity, [
                 {

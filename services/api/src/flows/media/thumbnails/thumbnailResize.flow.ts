@@ -9,7 +9,8 @@ export const resizeThumbnailFlow: TEFlow<[ArrayBuffer], Buffer> =
           .keepExif()
           .rotate()
           .resize({
-            width: 640,
+            width: ctx.config.media.thumbnailWidth,
+            fit: "cover",
             withoutEnlargement: true,
           })
           .toFormat("png")

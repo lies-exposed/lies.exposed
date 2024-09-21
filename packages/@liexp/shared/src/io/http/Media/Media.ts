@@ -37,6 +37,7 @@ export const GetListMediaQuery = t.type(
     creator: optionFromNullable(UUID),
     spCount: optionFromNullable(NumberFromString),
     onlyUnshared: optionFromNullable(BooleanFromString),
+    needRegenerateThumbnail: optionFromNullable(BooleanFromString),
   },
   "MediaListQuery",
 );
@@ -48,7 +49,7 @@ export const CreateMedia = t.strict(
     label: t.union([t.string, t.undefined]),
     description: t.union([t.string, t.undefined]),
     thumbnail: t.union([t.string, t.undefined]),
-    extra: MediaExtra,
+    extra: t.union([MediaExtra, t.undefined]),
     type: MediaType,
     events: t.array(UUID),
     links: t.array(UUID),

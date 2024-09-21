@@ -1,8 +1,12 @@
 import { flow, fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type MediaExtra } from "@liexp/shared/lib/io/http/Media/index.js";
+import {
+  ThumbnailsExtraMonoid,
+  type VideoExtra,
+} from "@liexp/shared/lib/io/http/Media/index.js";
 import type Ffmpeg from "fluent-ffmpeg";
 import { downloadMP4Video } from "../downloadMP4Video.js";
-import { type SimpleMedia } from "../thumbnails/extractMP4Thumbnail.flow.js";
+import { type SimpleMP4Media } from "../thumbnails/extractMP4Thumbnail.flow.js";
+import { extractThumbnailsExtra } from "./extractThumbnailsExtra.flow.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
 
@@ -10,7 +14,7 @@ export const extractVideoFFProbeData: TEFlow<[string], Ffmpeg.FfprobeData> = (
   ctx,
 ) => flow(ctx.ffmpeg.ffprobe, fp.TE.mapLeft(toControllerError));
 
-export const extractMP4Extra: TEFlow<[SimpleMedia], MediaExtra> =
+export const extractMP4Extra: TEFlow<[SimpleMP4Media], VideoExtra> =
   (ctx) => (media) => {
     return pipe(
       fp.TE.Do,
@@ -20,10 +24,18 @@ export const extractMP4Extra: TEFlow<[SimpleMedia], MediaExtra> =
       fp.TE.bind("metadata", ({ tempVideoFilePath }) =>
         extractVideoFFProbeData(ctx)(tempVideoFilePath),
       ),
-      fp.TE.map(({ metadata }) => ({
+      fp.TE.bind("thumbnailExtra", () => {
+        if (media.thumbnail) {
+          return extractThumbnailsExtra(ctx)(media.thumbnail);
+        }
+        return fp.TE.right(ThumbnailsExtraMonoid.empty);
+      }),
+      fp.TE.map(({ metadata, thumbnailExtra }) => ({
+        ...thumbnailExtra,
+        width: metadata.streams[0].width,
+        height: metadata.streams[0].height,
         // keep duration in seconds
         duration: Math.floor(metadata.format.duration ?? 0),
-        thumbnails: [],
       })),
     );
   };
