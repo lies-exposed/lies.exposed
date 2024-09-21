@@ -101,7 +101,7 @@ const convertManyMediaTask =
     );
   };
 /**
- * Usage add-event-default-links
+ * Usage extract-actor-and-group-avatar
  *
  * $search      text used as query for wikipedia search api
  *
