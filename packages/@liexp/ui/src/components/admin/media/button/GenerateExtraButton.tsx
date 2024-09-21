@@ -1,13 +1,16 @@
+import { ImageMediaExtra } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import get from "lodash/get";
 import * as React from "react";
 import {
+  BooleanInput,
+  NumberInput,
   useDataProvider,
   useRecordContext,
   useRefresh,
   type FieldProps,
 } from "react-admin";
-import { Button, Stack, Typography } from "../../../mui/index.js";
+import { Box, Button, Stack, Typography } from "../../../mui/index.js";
 import { DurationField } from "../DurationField.js";
 
 export const GenerateExtraButton: React.FC<FieldProps<Media.Media>> = ({
@@ -15,9 +18,9 @@ export const GenerateExtraButton: React.FC<FieldProps<Media.Media>> = ({
   record: _record,
   ...props
 }) => {
-  const record: any =
-    _record ?? useRecordContext<Media.Media>({ ...props, source: "media" });
-  const extra = get(record, source);
+  const record = _record ?? useRecordContext<Media.Media>({ ...props, source });
+
+  const extra = get<Media.Media, "extra">(record, source as "extra");
   const refresh = useRefresh();
   const apiProvider = useDataProvider();
 
@@ -36,6 +39,36 @@ export const GenerateExtraButton: React.FC<FieldProps<Media.Media>> = ({
   // wrap $extra in react memo
   const extraFields = React.useMemo(() => {
     if (extra) {
+      if (ImageMediaExtra.is(extra)) {
+        return (
+          <Stack direction="column" spacing={1}>
+            <Typography variant="body1">Extra</Typography>
+            <Stack direction="row" spacing={2}>
+              <Box>
+                <NumberInput
+                  source="extra.width"
+                  label="width"
+                  value={extra.width}
+                />
+              </Box>
+              <Box>
+                <NumberInput
+                  source="extra.height"
+                  label="height"
+                  value={extra.height}
+                />
+              </Box>
+            </Stack>
+
+            <BooleanInput
+              source="extra.needRegenerateThumbnail"
+              label="Need Regenerate Thumbnail"
+              value={extra.needRegenerateThumbnail}
+            />
+          </Stack>
+        );
+      }
+
       return (
         <Stack direction="column" spacing={2}>
           <Typography variant="body1">Extra</Typography>
@@ -46,7 +79,7 @@ export const GenerateExtraButton: React.FC<FieldProps<Media.Media>> = ({
       );
     }
     return null;
-  }, [extra]);
+  }, [record, extra]);
 
   if (!record) {
     return null;

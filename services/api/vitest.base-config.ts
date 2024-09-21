@@ -9,7 +9,7 @@ export const PathnameAlias = (url: string) =>  (mockPath: string): string => {
 const toAlias = PathnameAlias(import.meta.url)
 
 export const baseConfig = defineConfig({
-  root: toAlias('./'),
+  root: toAlias("./"),
   test: {
     environment: "node",
     watch: false,

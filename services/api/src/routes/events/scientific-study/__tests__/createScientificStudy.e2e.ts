@@ -35,11 +35,19 @@ describe("Create Scientific Study", () => {
 
     await throwTE(
       appTest.ctx.db.save(ActorEntity, [
-        { ...actor, diedOn: undefined, bornOn: undefined, memberIn: [] },
+        {
+          ...actor,
+          avatar: undefined,
+          diedOn: undefined,
+          bornOn: undefined,
+          memberIn: [],
+        },
       ]),
     );
     await throwTE(
-      appTest.ctx.db.save(GroupEntity, [{ ...group, members: [] }]),
+      appTest.ctx.db.save(GroupEntity, [
+        { ...group, avatar: undefined, members: [] },
+      ]),
     );
 
     admin = await saveUser(appTest, [AdminCreate.value]);

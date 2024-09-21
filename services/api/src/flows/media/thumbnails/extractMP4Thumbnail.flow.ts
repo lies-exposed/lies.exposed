@@ -5,23 +5,21 @@ import {
   PngType,
   type MP4Type,
 } from "@liexp/shared/lib/io/http/Media/index.js";
-import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import type Ffmpeg from "fluent-ffmpeg";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { downloadMP4Video } from "../downloadMP4Video.js";
+import { type SimpleMedia } from "../simpleIMedia.type.js";
 import { type ExtractThumbnailFromMediaFlow } from "./ExtractThumbnailFlow.type.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
 
-export type SimpleMedia = Pick<Media.Media, "id" | "location"> & {
-  type: MP4Type;
-};
+export type SimpleMP4Media = SimpleMedia<MP4Type>;
 
 export const takeVideoScreenshots: TEFlow<
   [
     {
-      media: SimpleMedia;
+      media: SimpleMP4Media;
       filename: string;
       tempVideoFilePath: string;
       opts: Ffmpeg.ScreenshotsConfig;
@@ -71,47 +69,48 @@ export const takeVideoScreenshots: TEFlow<
     );
   };
 
-export const extractMP4Thumbnail: ExtractThumbnailFromMediaFlow<MP4Type> =
-  (ctx) => (media) => {
-    return pipe(
-      TE.Do,
-      TE.bind("tempVideoFilePath", () =>
-        downloadMP4Video(ctx)(media, ctx.config.dirs.temp.media),
-      ),
-      TE.bind("screenshots", ({ tempVideoFilePath }) => {
-        const filename = `${media.id}-thumb-%i.png`;
+export const extractMP4Thumbnail: ExtractThumbnailFromMediaFlow<
+  SimpleMP4Media
+> = (ctx) => (media) => {
+  return pipe(
+    TE.Do,
+    TE.bind("tempVideoFilePath", () =>
+      downloadMP4Video(ctx)(media, ctx.config.dirs.temp.media),
+    ),
+    TE.bind("screenshots", ({ tempVideoFilePath }) => {
+      const filename = `${media.id}-thumb-%i.png`;
 
-        const screenshotOpts = {
-          timemarks: ["10%", "20%"],
-          folder: ctx.config.dirs.temp.media,
+      const screenshotOpts = {
+        timemarks: ["10%", "20%"],
+        folder: ctx.config.dirs.temp.media,
+        filename,
+        count: 2,
+      };
+
+      return pipe(
+        takeVideoScreenshots(ctx)({
+          media,
           filename,
-          count: 2,
-        };
-
-        return pipe(
-          takeVideoScreenshots(ctx)({
-            media,
-            filename,
-            tempVideoFilePath,
-            opts: screenshotOpts,
-          }),
-        );
-      }),
-      TE.bind("buffers", ({ screenshots }) => {
-        return pipe(
-          screenshots,
-          fp.A.traverse(TE.ApplicativePar)((screenshot) => {
-            return pipe(
-              TE.tryCatch(async () => {
-                return fs.readFile(screenshot.thumbnailName);
-              }, toControllerError),
-              TE.map((buffer) => new Uint8Array(buffer).buffer),
-            );
-          }),
-        );
-      }),
-      TE.map(({ buffers }) => {
-        return buffers;
-      }),
-    );
-  };
+          tempVideoFilePath,
+          opts: screenshotOpts,
+        }),
+      );
+    }),
+    TE.bind("buffers", ({ screenshots }) => {
+      return pipe(
+        screenshots,
+        fp.A.traverse(TE.ApplicativePar)((screenshot) => {
+          return pipe(
+            TE.tryCatch(async () => {
+              return fs.readFile(screenshot.thumbnailName);
+            }, toControllerError),
+            TE.map((buffer) => new Uint8Array(buffer).buffer),
+          );
+        }),
+      );
+    }),
+    TE.map(({ buffers }) => {
+      return buffers;
+    }),
+  );
+};

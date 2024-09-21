@@ -58,6 +58,7 @@ export const createAndUpload: TEFlow<
                   ...createMediaData,
                   id: mediaId,
                   location,
+                  thumbnail: null,
                 }),
                 TE.map((s) => s[0]),
               )

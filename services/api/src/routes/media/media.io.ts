@@ -1,4 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { MediaExtraMonoid } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
 import * as E from "fp-ts/lib/Either.js";
@@ -10,6 +11,10 @@ const toMediaIO = (
   media: MediaEntity,
   spaceEndpoint: string,
 ): E.Either<ControllerError, io.http.Media.Media> => {
+  const extra = media.extra
+    ? MediaExtraMonoid.concat(MediaExtraMonoid.empty, media.extra)
+    : undefined;
+
   return pipe(
     io.http.Media.AdminMedia.decode({
       ...media,
@@ -17,7 +22,7 @@ const toMediaIO = (
       description: media.description ?? undefined,
       location: ensureHTTPS(media.location),
       creator: media.creator ?? undefined,
-      extra: media.extra ?? undefined,
+      extra,
       links: media.links ?? [],
       events: media.events ?? [],
       keywords: media.keywords ?? [],

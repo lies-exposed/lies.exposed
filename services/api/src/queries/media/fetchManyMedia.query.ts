@@ -26,6 +26,7 @@ const defaultQuery: http.Media.GetListMediaQuery = {
   includeDeleted: fp.O.none,
   spCount: fp.O.none,
   onlyUnshared: fp.O.none,
+  needRegenerateThumbnail: fp.O.none,
   _sort: fp.O.some("updatedAt"),
   _order: fp.O.some("DESC"),
   _end: fp.O.some(20 as any),
@@ -52,6 +53,7 @@ export const fetchManyMedia: TEFlow<
     exclude,
     spCount,
     onlyUnshared,
+    needRegenerateThumbnail,
     ...ormQuery
   } = query;
 
@@ -180,6 +182,15 @@ export const fetchManyMedia: TEFlow<
         );
       }
 
+      if (fp.O.isSome(needRegenerateThumbnail)) {
+        q.andWhere(
+          `"media"."extra" ->> 'needRegenerateThumbnail' = :needRegenerateThumbnail`,
+          {
+            needRegenerateThumbnail: needRegenerateThumbnail.value,
+          },
+        );
+      }
+
       // include deleted
       pipe(
         includeDeleted,
@@ -207,7 +218,7 @@ export const fetchManyMedia: TEFlow<
       //   findOptions.take,
       // );
 
-      ctx.logger.debug.log(q.getSql(), q.getParameters());
+      // ctx.logger.debug.log(q.getSql(), q.getParameters());
 
       return q.skip(findOptions.skip).take(findOptions.take);
     },

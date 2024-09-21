@@ -19,7 +19,7 @@ const SelectThumbnailModalContent: React.FC<{
 
   return (
     <Stack direction={"column"} spacing={2}>
-      <Stack direction="row" flexWrap={"wrap"} spacing={2}>
+      <Stack direction="row" flexWrap={"wrap"} spacing={2} height={100}>
         {thumbnails.map((t) => (
           <Box
             key={t}
@@ -77,7 +77,7 @@ export const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
           });
       }
     },
-    [record?.id],
+    [record?.id, record?.thumbnail, thumbnails],
   );
 
   const handleThumbnailsGenerate = React.useCallback(() => {
@@ -99,13 +99,7 @@ export const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
         />
       );
     });
-  }, [record?.id]);
-
-  // React.useEffect(() => {
-  //   if (record.extra?.thumbnails?.length) {
-  //     handleThumbnailPick();
-  //   }
-  // }, [record?.id]);
+  }, [record?.thumbnail, record?.extra?.thumbnails]);
 
   return (
     <Stack direction="row" spacing={2}>

@@ -1,4 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { ImageMediaExtraMonoid } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
 import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import Cron from "node-cron";
@@ -29,6 +30,7 @@ export const generateMissingThumbnailsCron = (
                     id: m.id,
                     location: ensureHTTPS(m.location),
                     type: m.type,
+                    thumbnail: null,
                   }),
                   fp.TE.mapLeft(toControllerError),
                   fp.TE.filterOrElse(
@@ -39,18 +41,24 @@ export const generateMissingThumbnailsCron = (
                   fp.TE.fold<ControllerError, string[], Partial<MediaEntity>>(
                     (e) =>
                       fp.T.of({
-                        extra: {
-                          ...m.extra,
-                          thumbnails: { error: e.message },
-                        },
+                        extra: ImageMediaExtraMonoid.concat(
+                          ImageMediaExtraMonoid.empty,
+                          {
+                            ...m.extra,
+                            thumbnails: { error: e.message },
+                          },
+                        ),
                       }),
                     (l) =>
                       fp.T.of({
                         thumbnail: l[0],
-                        extra: {
-                          ...m.extra,
-                          thumbnails: l,
-                        },
+                        extra: ImageMediaExtraMonoid.concat(
+                          ImageMediaExtraMonoid.empty,
+                          {
+                            ...m.extra,
+                            thumbnails: l,
+                          },
+                        ),
                       }),
                   ),
                   fp.TE.fromTask,
@@ -82,7 +90,5 @@ export const generateMissingThumbnailsCron = (
         ctx.logger.error.log(`Generate missing thumbnails %O`, err);
       });
     },
-    {
-      name: "GENERATE_MISSING_THUMBNAILS_CRON",
-    },
+    { name: "GENERATE_MISSING_THUMBNAILS" },
   );
