@@ -5,6 +5,7 @@ import * as O from "fp-ts/lib/Option.js";
 import * as R from "fp-ts/lib/Record.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import * as S from "fp-ts/lib/string.js";
+import { type Int } from "io-ts";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { type RouteContext } from "#routes/route.types.js";
 import { getORMOptions } from "#utils/orm.utils.js";
@@ -14,8 +15,8 @@ import { getORMOptions } from "#utils/orm.utils.js";
 const defaultQuery: http.Actor.GetListActorQuery = {
   ids: O.none,
   q: O.none,
-  _end: O.some(20 as any),
-  _start: O.some(0 as any),
+  _end: O.some(20 as Int),
+  _start: O.some(0 as Int),
   _order: O.some("DESC"),
   _sort: O.some("createdAt"),
 };

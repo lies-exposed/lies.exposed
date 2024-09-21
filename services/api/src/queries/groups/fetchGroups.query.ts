@@ -3,6 +3,7 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
 import * as O from "fp-ts/lib/Option.js";
 import type * as TE from "fp-ts/lib/TaskEither.js";
+import { type Int } from "io-ts";
 import { GroupEntity } from "#entities/Group.entity.js";
 import { type RouteContext } from "#routes/route.types.js";
 import { addOrder, getORMOptions } from "#utils/orm.utils.js";
@@ -13,8 +14,8 @@ const defaultQuery: http.Group.GetGroupListQuery = {
   ids: O.none,
   q: O.none,
   members: O.none,
-  _end: O.some(20 as any),
-  _start: O.some(0 as any),
+  _end: O.some(20 as Int),
+  _start: O.some(0 as Int),
   _order: O.some("DESC"),
   _sort: O.some("createdAt"),
 };

@@ -9,6 +9,7 @@ import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
+import { type Int } from "io-ts";
 import { type DeepPartial } from "typeorm";
 import { type ActorEntity } from "#entities/Actor.entity.js";
 import { type GroupEntity } from "#entities/Group.entity.js";
@@ -159,7 +160,7 @@ export const fetchRelations =
               ids: input.actors,
               _end: pipe(
                 input.actors,
-                fp.O.map((a) => a.length as any),
+                fp.O.map((a) => a.length as Int),
               ),
             }),
             fp.TE.map((r) => r.results),
@@ -171,7 +172,7 @@ export const fetchRelations =
               ids: input.groups,
               _end: pipe(
                 input.groups,
-                fp.O.map((a) => a.length as any),
+                fp.O.map((a) => a.length as Int),
               ),
             }),
             fp.TE.map(([results]) => results),
@@ -184,7 +185,7 @@ export const fetchRelations =
                 ids: input.keywords,
                 _end: pipe(
                   input.keywords,
-                  fp.O.map((a) => a.length as any),
+                  fp.O.map((a) => a.length as Int),
                 ),
               },
               isAdmin,
@@ -198,7 +199,7 @@ export const fetchRelations =
               ids: input.media,
               _end: pipe(
                 input.media,
-                fp.O.map((m) => m.length as any),
+                fp.O.map((m) => m.length as Int),
               ),
             }),
             fp.TE.map(([results]) => results),
