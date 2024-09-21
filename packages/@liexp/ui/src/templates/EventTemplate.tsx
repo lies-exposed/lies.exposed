@@ -17,7 +17,6 @@ import { EventIcon } from "../components/Common/Icons/EventIcon.js";
 import { EventPageContent } from "../components/EventPageContent.js";
 import { GroupMembersList } from "../components/GroupMembersBox.js";
 import { KeywordsBox } from "../components/KeywordsBox.js";
-import { LinksListBox } from "../components/LinksBox.js";
 import SEO from "../components/SEO.js";
 import AreasMap from "../components/area/AreasMap.js";
 import { EventRelatedEvents } from "../components/events/EventRelatedEvents/EventRelatedEvents.js";
@@ -33,6 +32,7 @@ import {
 } from "../components/mui/index.js";
 import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox.js";
 import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventsNetworkGraphBox/EventsNetworkGraphBox.js";
+import { LinksListBox } from "../containers/link/LinksListBox.js";
 import { useConfiguration } from "../context/ConfigurationContext.js";
 import { styled, useTheme } from "../theme/index.js";
 import { SplitPageTemplate } from "./SplitPageTemplate.js";

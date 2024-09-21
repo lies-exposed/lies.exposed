@@ -1,8 +1,11 @@
 import { type GetListLinkQuery } from "@liexp/shared/lib/io/http/Link.js";
 import * as React from "react";
-import { type serializedType } from "ts-io-error/lib/Codec.js";
-import QueriesRenderer from "./QueriesRenderer.js";
-import { LinksList, type LinksListProps } from "./lists/LinkList.js";
+import { type serializedType } from "ts-io-error/lib/Codec";
+import QueriesRenderer from "../../components/QueriesRenderer.js";
+import {
+  LinksList,
+  type LinksListProps,
+} from "../../components/lists/LinkList.js";
 import {
   Accordion,
   AccordionDetails,
@@ -10,55 +13,9 @@ import {
   Box,
   Icons,
   Typography,
-} from "./mui/index.js";
+} from "../../components/mui/index.js";
 
-// interface LinksListProps {
-//   layout?: "list" | { md: number; sm: number; lg: number };
-//   links: http.Link.Link[];
-//   onClick: (l: http.Link.Link) => void;
-// }
-
-// export const LinksList: React.FC<LinksListProps> = ({
-//   layout = "list",
-//   links,
-//   onClick,
-// }) => {
-//   const gridProps =
-//     layout === "list"
-//       ? {
-//           md: 12,
-//           lg: 12,
-//           sm: 12,
-//           xs: 12,
-//         }
-//       : layout;
-//   return (
-//     <Grid
-//       container
-//       spacing={2}
-//       style={{
-//         maxHeight: "100%",
-//         display: "flex",
-//         alignItems: "center",
-//       }}
-//     >
-//       {links.map((l, i) => (
-//         <Grid
-//           {...gridProps}
-//           key={l.id}
-//           item
-//           style={{
-//             display: "flex",
-//           }}
-//         >
-//           <LinkCard link={{ ...l, selected: false }} onClick={onClick} />
-//         </Grid>
-//       ))}
-//     </Grid>
-//   );
-// };
-
-interface LinksBoxProps extends Omit<LinksListProps, "links"> {
+export interface LinksBoxProps extends Omit<LinksListProps, "links"> {
   filter: Partial<serializedType<typeof GetListLinkQuery>>;
   defaultExpanded?: boolean;
   style?: React.CSSProperties;
@@ -145,38 +102,6 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
               />
             </AccordionDetails>
           </Accordion>
-        );
-      }}
-    />
-  );
-};
-
-export const LinksListBox: React.FC<LinksBoxProps> = ({
-  filter,
-  onItemClick,
-  column,
-}) => {
-  const perPage = filter?.ids?.length ?? 20;
-
-  return (
-    <QueriesRenderer
-      queries={(Q) => ({
-        links: Q.Link.list.useQuery(
-          {
-            pagination: { page: 1, perPage },
-            filter,
-          },
-          undefined,
-          true,
-        ),
-      })}
-      render={({ links: { data: links } }) => {
-        return (
-          <LinksList
-            column={column}
-            links={links.map((l) => ({ ...l, selected: true }))}
-            onItemClick={onItemClick}
-          />
         );
       }}
     />

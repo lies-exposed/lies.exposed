@@ -2,12 +2,12 @@ import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/
 import { type Keyword, type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { KeywordsBox } from "../components/KeywordsBox.js";
-import { LinksBox } from "../components/LinksBox.js";
 import MediaElement from "../components/Media/MediaElement.js";
 import { Box, Typography } from "../components/mui/index.js";
 import EventsBox from "../containers/EventsBox.js";
 import { EventsPanelBox } from "../containers/EventsPanel.js";
 import { MediaBox } from "../containers/MediaBox.js";
+import { LinksBox } from "../containers/link/LinksBox.js";
 import { SplitPageTemplate } from "./SplitPageTemplate.js";
 
 export interface MediaTemplateUIProps {
