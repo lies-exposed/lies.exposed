@@ -6,7 +6,24 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import type sharp from "sharp";
 import { IOError } from "ts-io-error";
 
-export class ImgProcError extends IOError {}
+export class ImgProcError extends IOError {
+  name = "ImgProcError";
+}
+
+export const decodeExifTag = (
+  tag:
+    | ExifReader.XmpTag
+    | ExifReader.TypedTag<any>
+    | ExifReader.ValueTag
+    | { description: string; value: number }
+    | undefined,
+): number | undefined => {
+  if (tag?.value) {
+    return tag.value;
+  }
+
+  return undefined;
+};
 
 export const toError =
   (l: logger.Logger) =>
@@ -45,7 +62,7 @@ export interface ImgProcClient {
   readExif: (
     file: string | File,
     options: Parameters<typeof load>[1],
-  ) => TE.TaskEither<ImgProcError, ExifReader.XmpTags>;
+  ) => TE.TaskEither<ImgProcError, ExifReader.Tags>;
 }
 
 export interface MakeImgProcClientConfig {
