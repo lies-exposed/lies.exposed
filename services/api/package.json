@@ -138,7 +138,7 @@
     "@types/node-telegram-bot-api": "^0.64.7",
     "@types/pg": "^8.11.10",
     "@types/prompts": "^2.4.9",
-    "@types/react": "^18.3.6",
+    "@types/react": "^18.3.8",
     "@types/react-dom": "^18.3.0",
     "@types/supertest": "^6.0.2",
     "dotenv": "^16.4.5",
