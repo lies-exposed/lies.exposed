@@ -5,6 +5,7 @@ import { Endpoint } from "ts-endpoint";
 import { GetSearchEventsQuery } from "../../io/http/Events/SearchEvents/SearchEventsQuery.js";
 import * as http from "../../io/http/index.js";
 import { ResourceEndpoints } from "../types.js";
+import { PaginationQuery } from "io/http/Query/PaginationQuery.js";
 
 const SingleEventOutput = http.Common.Output(http.Events.Event, "Event");
 export const ListEventOutput = t.strict(
@@ -127,7 +128,7 @@ export const GetFromLink = Endpoint({
   Method: "GET",
   getPath: () => `/events-from-link`,
   Input: {
-    Query: t.type({ url: http.Common.URL }),
+    Query: t.type({ url: http.Common.URL, ...PaginationQuery.props }),
   },
   Output: t.intersection(
     [

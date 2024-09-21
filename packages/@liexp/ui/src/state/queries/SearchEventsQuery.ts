@@ -169,9 +169,9 @@ const searchEventsQ =
       api.Event.List({
         Query: {
           ...query,
-          _start,
-          _end,
-        } as any,
+          _start: _start.toString(),
+          _end: _end.toString(),
+        },
       }),
       TE.mapLeft((e) => {
         log.error.log(`API Error %O`, e.details);
@@ -303,10 +303,10 @@ export const getEventsFromLinkQuery =
           api.Event.Custom.GetFromLink({
             Query: {
               url,
-              _start: 0,
-              _end: 20,
+              _start: "0",
+              _end: "20",
             },
-          } as any),
+          }),
           TE.chain(({ data, suggestions, total, totals }) => {
             return pipe(
               getNewRelationIds(data, searchEventsQueryCache),

@@ -34,7 +34,7 @@ const ActorPreview: React.FC = () => {
           <ThemeProvider theme={ECOTheme}>
             <ActorTemplate
               actor={a}
-              query={{} as any}
+              query={{ hash: "actor-preview" }}
               onQueryChange={() => undefined}
               tab={0}
               onTabChange={() => undefined}

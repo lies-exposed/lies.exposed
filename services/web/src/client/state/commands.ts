@@ -33,7 +33,9 @@ export const getEventFromLink = (
       pipe(
         api.Endpoints.Event.Custom.GetFromLink({
           Query: {
-            url: params.url as any,
+            url: params.url,
+            _start: null,
+            _end: null,
           },
         }),
       ),

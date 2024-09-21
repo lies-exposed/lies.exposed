@@ -22,7 +22,7 @@ export const QuoteEventPageContent: React.FC<QuoteEventPageContentProps> = ({
     >
       <Grid item md={6} sm={6} xs={12} style={{ padding: 10 }}>
         <Typography style={{ display: "flex" }} variant="subtitle1">
-          <BNEditor content={item.excerpt as any} readOnly={true} />
+          <BNEditor content={item.excerpt} readOnly={true} />
         </Typography>
         <Typography variant="caption" fontStyle="italic">
           {item.payload.details}
