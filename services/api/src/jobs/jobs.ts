@@ -73,9 +73,9 @@ export const CronJobs = (ctx: RouteContext): CronJobsHooks => {
       generateMissingThumbnailsTask.start();
       // processEmbeddingsQueueTask.start();
 
-      Cron.getTasks().forEach((task) => {
-        cronLogger.debug.log("New task: %s", (task as any).options.name);
-      });
+      // Cron.getTasks().forEach((task) => {
+      //   cronLogger.debug.log("New task: %s", (task as any).options.name);
+      // });
     },
     onShutdown() {
       // eslint-disable-next-line no-console
