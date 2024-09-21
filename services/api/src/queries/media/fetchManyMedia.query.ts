@@ -29,8 +29,8 @@ const defaultQuery: http.Media.GetListMediaQuery = {
   needRegenerateThumbnail: fp.O.none,
   _sort: fp.O.some("updatedAt"),
   _order: fp.O.some("DESC"),
-  _end: fp.O.some(20 as any),
-  _start: fp.O.some(0 as any),
+  _end: fp.O.some(20 as t.Int),
+  _start: fp.O.some(0 as t.Int),
 };
 export const fetchManyMedia: TEFlow<
   [Partial<http.Media.GetListMediaQuery>],

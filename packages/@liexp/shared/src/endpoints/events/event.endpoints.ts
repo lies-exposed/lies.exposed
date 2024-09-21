@@ -3,9 +3,9 @@ import { UUID } from "io-ts-types/lib/UUID.js";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { Endpoint } from "ts-endpoint";
 import { GetSearchEventsQuery } from "../../io/http/Events/SearchEvents/SearchEventsQuery.js";
+import { PaginationQuery } from "../../io/http/Query/PaginationQuery.js";
 import * as http from "../../io/http/index.js";
 import { ResourceEndpoints } from "../types.js";
-import { PaginationQuery } from "io/http/Query/PaginationQuery.js";
 
 const SingleEventOutput = http.Common.Output(http.Events.Event, "Event");
 export const ListEventOutput = t.strict(
