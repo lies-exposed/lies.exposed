@@ -28,6 +28,7 @@ import * as puppeteer from "puppeteer-core";
 import { type VanillaPuppeteer } from "puppeteer-extra";
 import sharp from "sharp";
 import WinkFn from "wink-nlp";
+import { Config } from "#app/config.js";
 import {
   toControllerError,
   type ControllerError,
@@ -36,7 +37,6 @@ import { type ENV } from "#io/ENV.js";
 import { LangchainProviderReader } from "#providers/ai/langchain.provider.js";
 import { createS3Provider } from "#providers/context/s3.context.js";
 import { GetQueueProvider } from "#providers/queue.provider.js";
-import { EventsConfig } from "#queries/config/index.js";
 import { type RouteContext } from "#routes/route.types.js";
 import { getDataSource } from "#utils/data-source.js";
 
@@ -99,22 +99,8 @@ export const makeContext = (
     baseURL: env.OPENAI_URL,
   });
 
-  const config = {
-    cors: {
-      origin: env.NODE_ENV === "production" ? true : "*",
-    },
-    events: EventsConfig,
-    dirs: {
-      cwd: process.cwd(),
-      temp: {
-        root: path.resolve(process.cwd(), "temp"),
-        media: path.resolve(process.cwd(), "temp/media"),
-        nlp: path.resolve(process.cwd(), "temp/nlp"),
-        queue: path.resolve(process.cwd(), "temp/queue"),
-        stats: path.resolve(process.cwd(), "temp/stats"),
-      },
-    },
-  };
+  const config = Config(env);
+
   return pipe(
     sequenceS(fp.TE.ApplicativePar)({
       logger: fp.TE.right(serverLogger),
