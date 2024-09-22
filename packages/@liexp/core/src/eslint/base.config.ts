@@ -1,17 +1,19 @@
 import eslint from "@eslint/js";
 import fpTS from "eslint-plugin-fp-ts";
 import importPlugin from "eslint-plugin-import";
+import jsdoc from "eslint-plugin-jsdoc";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import tseslint from "typescript-eslint";
 
 const config: any = tseslint.config(
   eslint.configs.recommended,
+  jsdoc.configs["flat/recommended-typescript-error"],
   ...tseslint.configs.recommended,
   ...tseslint.configs.recommendedTypeCheckedOnly,
   ...tseslint.configs.stylisticTypeCheckedOnly,
   eslintPluginPrettierRecommended,
   {
-    plugins: { "fp-ts": fpTS, import: importPlugin },
+    plugins: { "fp-ts": fpTS, import: importPlugin, jsdoc },
     languageOptions: {
       parserOptions: {
         project: ["./tsconfig.json"],

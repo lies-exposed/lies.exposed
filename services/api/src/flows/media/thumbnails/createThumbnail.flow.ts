@@ -4,6 +4,11 @@ import { type SimpleMedia } from "../simpleIMedia.type.js";
 import { extractThumbnail } from "./extractThumbnail.flow.js";
 import { type TEFlow } from "#flows/flow.types.js";
 
+/**
+ * Extract thumbnails from media and upload to s3
+ *
+ *
+ */
 export const createThumbnail: TEFlow<[SimpleMedia], string[]> =
   (ctx) => (media) => {
     return pipe(
