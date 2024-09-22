@@ -124,17 +124,6 @@ describe("Create Media", () => {
       // download thumbnail (buffer)
       .mockResolvedValueOnce({ data: Buffer.from([]) });
 
-    Test.mocks.exifR.load.mockResolvedValueOnce({
-      ["Image Width"]: {
-        value: 300,
-        description: "Image Width",
-      },
-      ["Image Height"]: {
-        value: 100,
-        description: "Image Height",
-      },
-    } as any);
-
     ffmpegCommandMock.on.mockImplementation(function (
       this: typeof ffmpegCommandMock,
       event,
@@ -167,6 +156,17 @@ describe("Create Media", () => {
     Test.mocks.sharp.mockImplementation(() => {
       return sharpMock;
     });
+
+    Test.mocks.exifR.load.mockResolvedValue({
+      ["Image Width"]: {
+        value: 300,
+        description: "Image Width",
+      },
+      ["Image Height"]: {
+        value: 100,
+        description: "Image Height",
+      },
+    } as any);
 
     const uploadThumbLocation = tests.fc.sample(tests.fc.webUrl(), 1)[0];
     Test.mocks.s3.classes.Upload.mockReset().mockImplementation(() => ({
@@ -255,8 +255,8 @@ describe("Create Media", () => {
 
     expect(response.status).toEqual(200);
 
-    // fetch thumbnail from youtube
-    expect(Test.mocks.axios.get).toHaveBeenCalledTimes(1);
+    // fetch thumbnail from youtube and read its exif metadata
+    expect(Test.mocks.axios.get).toHaveBeenCalledTimes(2);
 
     expect(Test.mocks.s3.client.send).toHaveBeenCalledTimes(0);
 
@@ -273,8 +273,8 @@ describe("Create Media", () => {
       extra: {
         width: 0,
         height: 0,
-        thumbnailWidth: 0,
-        thumbnailHeight: 0,
+        thumbnailWidth: 300,
+        thumbnailHeight: 100,
         thumbnails: ["https://example.com/thumbnail.jpg"],
         needRegenerateThumbnail: false,
       },

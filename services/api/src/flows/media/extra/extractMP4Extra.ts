@@ -6,7 +6,6 @@ import {
 import type Ffmpeg from "fluent-ffmpeg";
 import { downloadMP4Video } from "../downloadMP4Video.js";
 import { type SimpleMP4Media } from "../thumbnails/extractMP4Thumbnail.flow.js";
-import { extractThumbnailsExtra } from "./extractThumbnailsExtra.flow.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
 
@@ -24,14 +23,8 @@ export const extractMP4Extra: TEFlow<[SimpleMP4Media], VideoExtra> =
       fp.TE.bind("metadata", ({ tempVideoFilePath }) =>
         extractVideoFFProbeData(ctx)(tempVideoFilePath),
       ),
-      fp.TE.bind("thumbnailExtra", () => {
-        if (media.thumbnail) {
-          return extractThumbnailsExtra(ctx)(media.thumbnail);
-        }
-        return fp.TE.right(ThumbnailsExtraMonoid.empty);
-      }),
-      fp.TE.map(({ metadata, thumbnailExtra }) => ({
-        ...thumbnailExtra,
+      fp.TE.map(({ metadata }) => ({
+        ...ThumbnailsExtraMonoid.empty,
         width: metadata.streams[0].width,
         height: metadata.streams[0].height,
         // keep duration in seconds

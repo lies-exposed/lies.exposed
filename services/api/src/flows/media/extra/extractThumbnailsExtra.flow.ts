@@ -21,7 +21,6 @@ export const extractThumbnailsExtra: TEFlow<[string], ThumbnailsExtra> =
         return {
           thumbnailWidth: dimensions.width ?? 0,
           thumbnailHeight: dimensions.height ?? 0,
-          ...dimensions,
           thumbnails: [],
           needRegenerateThumbnail,
         };

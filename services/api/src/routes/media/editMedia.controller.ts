@@ -84,7 +84,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
                   `${m.id}-thumb`,
                   m.type,
                 )
-              : TE.right(O.toNullable(thumbnail)),
+              : TE.right(O.toNullable(thumbnail ?? m.thumbnail)),
         ),
         TE.bind("location", ({ media }) =>
           O.isSome(transfer)

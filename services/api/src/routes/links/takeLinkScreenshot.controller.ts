@@ -62,7 +62,7 @@ export const MakeTakeLinkScreenshotRoute = (
             ),
             TE.chain((user) =>
               ctx.db.findOneOrFail(UserEntity, {
-                where: { id: Equal((user as any).id) },
+                where: { id: Equal(user.id) },
               }),
             ),
           ),

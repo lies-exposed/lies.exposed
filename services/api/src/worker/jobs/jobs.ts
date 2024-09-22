@@ -61,7 +61,7 @@ export const CronJobs = (ctx: RouteContext): CronJobsHooks => {
       Cron.getTasks().forEach((task) => {
         const taskName = (task as any).options.name;
         const envCron = (ctx.env as any)[`${taskName}_CRON`];
-        cronLogger.debug.log("New task %s scheduled at %s", taskName, envCron);
+        cronLogger.info.log("New task %s scheduled at %s", taskName, envCron);
       });
 
       postOnSocialTask.start();
