@@ -32,6 +32,7 @@ services:
       options:
           max-file: 5
           max-size: 10m
+    mem_limit: 1G
 
   worker:
     extends: api-base
@@ -39,6 +40,7 @@ services:
     environment:
       TG_BOT_POLLING: "false"
     command:  pnpm start:worker
+    mem_limit: 512M
 
   web:
     image: ghcr.io/lies-exposed/liexp-web:alpha-latest
