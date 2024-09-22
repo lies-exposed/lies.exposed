@@ -73,5 +73,14 @@ const run = (): T.Task<void> => {
   );
 };
 
-// eslint-disable-next-line no-console
-run()().then(console.log).catch(console.error);
+run()()
+  .then((m) => {
+    // eslint-disable-next-line no-console
+    console.log(m);
+    process.exit(0);
+  })
+  .catch((e) => {
+    // eslint-disable-next-line
+  console.error(e);
+    process.exit(1);
+  });
