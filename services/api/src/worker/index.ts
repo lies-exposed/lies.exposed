@@ -33,6 +33,8 @@ const run = (): Promise<void> => {
       // cron jobs
       const cronJobs = CronJobs(ctx);
 
+      cronJobs.onBootstrap();
+
       ctx.tg.api.on("polling_error", (e) => {
         ctx.logger.error.log(`TG Bot error during polling %O`, e);
       });
