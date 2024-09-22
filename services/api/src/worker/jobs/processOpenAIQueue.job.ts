@@ -1,6 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { getLangchainProviderFlow } from "../flows/ai/getLangchainProvider.flow.js";
 import { type CronJobTE } from "./cron-task.type.js";
+import { getLangchainProviderFlow } from "#flows/ai/getLangchainProvider.flow.js";
 import { JobProcessor } from "#flows/ai/jobProcessor.js";
 
 export const defaultQuestion = `Can you summarize the text in 100 words maximum?`;

@@ -44,7 +44,7 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     export API_UID=$(id pptruser -u)
     export API_GID=$(id pptruser -g)
     docker compose --env-file .env.api pull
-    docker compose --env-file .env.api up --build --force-recreate -d --wait api
+    docker compose --env-file .env.api up --build --force-recreate -d --wait api worker
     docker compose --env-file .env.web up --build --force-recreate -d --wait --no-deps web
     docker system prune -f
     docker builder prune -f --all
