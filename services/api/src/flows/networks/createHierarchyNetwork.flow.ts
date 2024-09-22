@@ -187,7 +187,7 @@ export const createStatsByEntityType: TEFlow<
             take: amount,
           }),
         (r) => r.total,
-        (r) => r.results,
+        (r) => TE.right(r.results),
         0,
         50,
       ),

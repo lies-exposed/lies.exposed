@@ -4,6 +4,7 @@ import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
+import { type Int } from "io-ts";
 import { type CommandFlow } from "./command.type.js";
 import { type ActorEntity } from "#entities/Actor.entity.js";
 import { type GroupEntity } from "#entities/Group.entity.js";
@@ -55,22 +56,22 @@ export const upsertNLPEntities: CommandFlow = async (ctx) => {
       >(
         ({ skip, amount }) =>
           fetchActors(ctx)({
-            _start: O.some(skip as any),
-            _end: O.some(amount as any),
+            _start: O.some(skip as Int),
+            _end: O.some(amount as Int),
           }),
         ({ total }) => total,
-        ({ results }) => results,
+        ({ results }) => TE.right(results),
         0,
         50,
       ),
       groups: requestWalker<[GroupEntity[], number], DBError, GroupEntity>(
         ({ skip, amount }) =>
           fetchGroups(ctx)({
-            _start: O.some(skip as any),
-            _end: O.some(amount as any),
+            _start: O.some(skip as Int),
+            _end: O.some(amount as Int),
           }),
         ([, t]) => t,
-        ([rr]) => rr,
+        ([rr]) => TE.right(rr),
         0,
         50,
       ),
@@ -82,13 +83,13 @@ export const upsertNLPEntities: CommandFlow = async (ctx) => {
         ({ skip, amount }) =>
           fetchKeywords(ctx)(
             {
-              _start: O.some(skip as any),
-              _end: O.some(amount as any),
+              _start: O.some(skip as Int),
+              _end: O.some(amount as Int),
             },
             true,
           ),
         ([, t]) => t,
-        ([rr]) => rr,
+        ([rr]) => TE.right(rr),
         0,
         50,
       ),

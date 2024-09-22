@@ -2,6 +2,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { type Int } from "io-ts";
 import { type CommandFlow } from "./command.type.js";
 import { GroupEntity } from "#entities/Group.entity.js";
 import { type ControllerError } from "#io/ControllerError.js";
@@ -15,11 +16,11 @@ export const setDefaultGroupUsernames: CommandFlow = async (ctx) => {
         fetchGroups(ctx)({
           _order: fp.O.some("DESC"),
           _sort: fp.O.some("createdAt"),
-          _start: fp.O.some(input.skip as any),
-          _end: fp.O.some(input.amount as any),
+          _start: fp.O.some(input.skip as Int),
+          _end: fp.O.some(input.amount as Int),
         }),
       (r) => r[1],
-      (r) => r[0],
+      (r) => fp.TE.right(r[0]),
       0,
       20,
     ),

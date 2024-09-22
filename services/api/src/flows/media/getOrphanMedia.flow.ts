@@ -36,11 +36,13 @@ export const getOrphanMediaFlow: TEFlow<[], GetOrphanMediaFlowOutput> =
           }),
         (r) => r.Contents?.length ?? 0,
         (d) =>
-          d.Contents?.filter(
-            (e) =>
-              e.Key?.startsWith("public") &&
-              !e.Key?.startsWith("public/.gitkeep"),
-          ) ?? [],
+          fp.TE.right(
+            d.Contents?.filter(
+              (e) =>
+                e.Key?.startsWith("public") &&
+                !e.Key?.startsWith("public/.gitkeep"),
+            ) ?? [],
+          ),
         0,
         1000,
       ),

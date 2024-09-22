@@ -637,7 +637,7 @@ export const infiniteSearchEventQuery =
       ({ skip, amount }) =>
         searchEventV2Query(ctx)({ ...query, skip, take: amount }),
       (r) => r.total,
-      (r) => r.results,
+      (r) => TE.right(r.results),
       0,
       50,
     );

@@ -21,7 +21,7 @@ export const walkPaginatedRequest =
   <A, E, D>(
     apiReqFn: (i: ReqInput<D>) => TE.TaskEither<E, A>,
     getTotal: (r: A) => number,
-    getData: (r: A) => D[],
+    getData: (r: A) => TE.TaskEither<E, D[]>,
     skip: number,
     amount: number,
   ): TE.TaskEither<E, D[]> => {
@@ -43,9 +43,16 @@ export const walkPaginatedRequest =
           )}`,
         })),
         fp.TE.chain((r) => {
+          return pipe(
+            getData(r),
+            fp.TE.map((data) => ({
+              total: getTotal(r),
+              data,
+            })),
+          );
+        }),
+        fp.TE.chain(({ total, data }) => {
           // logger.debug('Response: %o', r);
-          const total = getTotal(r);
-          const data = getData(r);
           logger.debug.log("Total %d, results size %d", total, data.length);
 
           if (amount < total) {
