@@ -1,4 +1,4 @@
-import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
+import { APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import * as React from "react";
 import { type FallbackProps } from "react-error-boundary";
 import {
@@ -14,23 +14,44 @@ import {
 
 export const ErrorBox = ({ error: e }: FallbackProps): JSX.Element => {
   const error = React.useMemo((): APIError => {
-    if (e.name === "APIError" && Array.isArray(e.details)) {
+    if (e instanceof APIError) {
       return e;
     }
     if (e instanceof Error) {
-      return {
-        name: "APIError",
-        message: e.message,
-        details: [e.stack ?? JSON.stringify(e, null, 2)],
-      };
+      return new APIError(e.message, {
+        kind: "ServerError",
+        status: "500",
+        meta: [e.stack ?? JSON.stringify(e, null, 2)],
+      });
     }
 
-    return {
-      name: "APIError",
-      message: "Unknown error",
-      details: [JSON.stringify(e, null, 2)],
-    };
+    return new APIError("Unknown error", {
+      kind: "ClientError",
+      status: "400",
+      meta: [JSON.stringify(e, null, 2)],
+    });
   }, [e]);
+
+  const details = React.useMemo(() => {
+    if (
+      error.details.kind === "ServerError" ||
+      error.details.kind === "ClientError"
+    ) {
+      return <div>{JSON.stringify(error.details.meta)}</div>;
+    }
+
+    if (error.details.kind === "DecodingError") {
+      return (
+        <div>
+          {error.details.errors.map((detail: any, i) => (
+            <code key={i}>{detail}</code>
+          ))}
+        </div>
+      );
+    }
+
+    return null;
+  }, [error]);
 
   return (
     <Card>
@@ -49,11 +70,7 @@ export const ErrorBox = ({ error: e }: FallbackProps): JSX.Element => {
       <CardContent>
         <Accordion>
           <AccordionSummary>Details</AccordionSummary>
-          <AccordionDetails>
-            {error.details.map((detail, i) => (
-              <code key={i}>{detail}</code>
-            ))}
-          </AccordionDetails>
+          <AccordionDetails>{details}</AccordionDetails>
         </Accordion>
       </CardContent>
     </Card>

@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
+import { toAPIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import type * as http from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type AxiosError } from "axios";
@@ -69,12 +69,7 @@ export const GetAuthProvider = (
         user,
         fp.O.fromNullable,
         fp.O.chainNullableK((u) => JSON.parse(u)?.permissions),
-        fp.E.fromOption(
-          () =>
-            new APIError("User is missing", [
-              "User is missing in local storage",
-            ]),
-        ),
+        fp.E.fromOption(() => toAPIError("User is missing in local storage")),
         fp.TE.fromEither,
         throwTE,
       );

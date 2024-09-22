@@ -1,11 +1,10 @@
 import { isAxiosError } from "axios";
 import * as A from "fp-ts/lib/Array.js";
-import * as E from "fp-ts/lib/Either.js";
+import type * as E from "fp-ts/lib/Either.js";
 import * as R from "fp-ts/lib/Record.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import type * as t from "io-ts";
-import { PathReporter } from "io-ts/lib/PathReporter.js";
 // eslint-disable-next-line no-restricted-imports
 import type { GetListParams, GetListResult, GetOneResult } from "react-admin";
 import {
@@ -21,6 +20,7 @@ import { type EndpointsMapType } from "../../endpoints/Endpoints.js";
 import { type ResourceEndpoints } from "../../endpoints/types.js";
 import { toAPIError, type APIError } from "../../io/http/Error/APIError.js";
 import { type APIRESTClient } from "../../providers/api-rest.provider.js";
+import { fromValidationErrors } from "../../providers/http/http.provider.js";
 import { throwTE } from "../../utils/task.utils.js";
 
 const toError = (e: unknown): APIError => {
@@ -37,17 +37,7 @@ export const dataProviderRequestLift = <B extends { data: any }>(
   return pipe(
     TE.tryCatch(lp, toError),
     TE.chain((content) => {
-      return pipe(
-        decode(content),
-        E.mapLeft(
-          (e): APIError => ({
-            name: `APIError`,
-            message: `Validation Failed for codec`,
-            details: PathReporter.report(E.left(e)),
-          }),
-        ),
-        TE.fromEither,
-      );
+      return pipe(decode(content), fromValidationErrors, TE.fromEither);
     }),
   );
 };

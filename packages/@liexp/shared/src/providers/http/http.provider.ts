@@ -1,5 +1,4 @@
 import { flow, pipe } from "@liexp/core/lib/fp/index.js";
-import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import {
   type AxiosInstance,
   type AxiosRequestConfig,
@@ -9,27 +8,14 @@ import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter.js";
-import { APIError } from "../../io/http/Error/APIError.js";
-
-const apiLogger = GetLogger("http");
-
-export const toAPIError = (e: unknown): APIError => {
-  // eslint-disable-next-line
-  apiLogger.error.log("An error occurred %O", e);
-  if ((e as any)?.name === "APIError") {
-    return e as any;
-  }
-
-  if (e instanceof Error) {
-    return new APIError(e.message, []);
-  }
-
-  return new APIError("An error occurred", []);
-};
+import { APIError, toAPIError } from "../../io/http/Error/APIError.js";
 
 export const fromValidationErrors = flow(
   E.mapLeft((e: t.Errors): APIError => {
-    return new APIError("Validation failed.", PathReporter.report(E.left(e)));
+    return new APIError("Validation failed.", {
+      kind: "DecodingError",
+      errors: PathReporter.report(E.left(e)),
+    });
   }),
 );
 
@@ -41,16 +27,7 @@ export const liftFetch = <B>(
     TE.tryCatch(lp, toAPIError),
     TE.map((d) => d.data),
     TE.chain((content) => {
-      return pipe(
-        decode(content),
-        E.mapLeft((e): APIError => {
-          return new APIError(
-            "Validation failed.",
-            PathReporter.report(E.left(e)),
-          );
-        }),
-        TE.fromEither,
-      );
+      return pipe(decode(content), fromValidationErrors, TE.fromEither);
     }),
   );
 };
