@@ -9,6 +9,11 @@ const toError = (e: unknown): ControllerError => {
   return ServerError([e as any]);
 };
 
+/**
+ * Hash the given password with crypto
+ * @param password - the password to hash
+ * @returns a {@link TE.TaskEither<ControllerError, string>} with the hashed password
+ */
 export function hash(password: string): TE.TaskEither<ControllerError, string> {
   return TE.tryCatch(
     () =>
@@ -25,6 +30,12 @@ export function hash(password: string): TE.TaskEither<ControllerError, string> {
   );
 }
 
+/**
+ * Verify if the given password matches the hash
+ * @param password - the password to verify
+ * @param hash - the hash to compare
+ * @returns a {@link TE.TaskEither<ControllerError, boolean>} with the result of the comparison
+ */
 export function verify(
   password: string,
   hash: string,

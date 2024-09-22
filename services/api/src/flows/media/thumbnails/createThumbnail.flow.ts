@@ -6,8 +6,8 @@ import { type TEFlow } from "#flows/flow.types.js";
 
 /**
  * Extract thumbnails from media and upload to s3
- *
- *
+ * @param ctx - Route context {@type RouteContext}
+ * @returns an array of thumbnail urls
  */
 export const createThumbnail: TEFlow<[SimpleMedia], string[]> =
   (ctx) => (media) => {
