@@ -115,7 +115,7 @@
     "world-atlas": "2.0.2"
   },
   "devDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.21.3",
+    "@rollup/rollup-linux-x64-gnu": "^4.22.4",
     "@types/bs58": "^4.0.4",
     "@types/compression": "^1.7.5",
     "@types/d3": "^7.4.3",
@@ -148,7 +148,7 @@
     "prettier": "^3.3.3",
     "tsx": "^4.19.1",
     "typescript": "^5.6.2",
-    "vite": "^5.4.5"
+    "vite": "^5.4.7"
   },
   "packageManager": "pnpm@9.10.0+sha512.73a29afa36a0d092ece5271de5177ecbf8318d454ecd701343131b8ebc0c1a91c487da46ab77c8e596d6acf1461e3594ced4becedf8921b074fbd8653ed7051c"
 }
