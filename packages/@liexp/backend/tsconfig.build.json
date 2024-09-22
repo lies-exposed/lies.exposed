@@ -3,6 +3,6 @@
   "compilerOptions": {
     "composite": false
   },
-  "include": ["./src", "./src/**/*.json"],
+  "include": ["./src", "./typings", "../shared/typings", "./src/**/*.json"],
   "exclude": ["node_modules", "lib", "./src/**/*.spec.ts"]
 }

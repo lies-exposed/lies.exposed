@@ -6,21 +6,15 @@
     "rootDir": "./src",
     "jsx": "react-jsx",
     "tsBuildInfoFile": "build/.tsbuildinfo",
-    "typeRoots": [
-      "./typings",
-      "../../packages/@liexp/backend/typings",
-      "../../packages/@liexp/shared/typings"
-    ],
     "declaration": true,
-    "skipLibCheck": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization": false
   },
-  "include": ["./src"],
-  "exclude": ["**/__tests__/**", "*/__mocks__/**", "./test/**"],
-  "references": [
-    { "path": "../../packages/@liexp/shared" },
-    { "path": "../../packages/@liexp/backend" },
-    { "path": "../../packages/@liexp/ui" }
-  ]
+  "include": [
+    "./src",
+    "./typings",
+    "../../packages/@liexp/shared/typings",
+    "../../packages/@liexp/backend/typings",
+  ],
+  "exclude": ["**/__tests__/**", "*/__mocks__/**", "./test/**", "**/*.spec.ts"]
 }

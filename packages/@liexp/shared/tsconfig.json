@@ -15,10 +15,6 @@
     "outDir": "./lib",
     "baseUrl": "./src",
     "rootDir": "./",
-    "typeRoots": [
-      "../../../node_modules/@types",
-      "typings"
-    ],
     "tsBuildInfoFile": "lib/.tsbuildinfo"
   },
   "references": [
@@ -30,11 +26,10 @@
     }
   ],
   "include": [
-    "../../../node_modules/vitest/globals.d.ts",
     "./src",
+    "./typings",
     "./src/**/*.json",
-    "./test",
-    "eslint.config.js"
+    "./test"
   ],
   "exclude": ["node_modules", "lib"]
 }
