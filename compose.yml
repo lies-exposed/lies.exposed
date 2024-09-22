@@ -47,7 +47,7 @@ services:
     #   timeout: 20s
     #   retries: 3
 
-  api.liexp.dev:
+  api-base:
     build:
       context: .
       target: dev
@@ -72,6 +72,12 @@ services:
     tty: true
     stdin_open: true
     working_dir: /usr/src/app/services/api
+
+  api.liexp.dev:
+    extends: api-base
+    depends_on:
+      - db.liexp.dev
+      - fra1.space.liexp.dev
     healthcheck:
       test: ["CMD", "curl", "-f", "http://api.liexp.dev/v1/healthcheck"]
       interval: 10s
@@ -83,6 +89,13 @@ services:
     mem_limit: 1G
     networks:
       - reverseproxy
+
+  worker.liexp.dev:
+    extends: api-base
+    command: pnpm docker:worker-dev
+    environment:
+      TG_BOT_POLLING: "false"
+    mem_limit: 512M
 
   liexp.dev:
     build:

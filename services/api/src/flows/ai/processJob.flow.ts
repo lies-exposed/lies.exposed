@@ -2,11 +2,11 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type QueueTypes } from "@liexp/shared/lib/io/http/Queue.js";
 import { type Queue } from "@liexp/shared/lib/io/http/index.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
+import { defaultQuestion } from "../../worker/jobs/processOpenAIQueue.job.js";
 import { getLangchainProviderFlow } from "./getLangchainProvider.flow.js";
 import { loadDocs } from "./loadDocs.flow.js";
 import { type EmbeddingJob } from "#flows/ai/EmbeddingJob.js";
 import { type ControllerError } from "#io/ControllerError.js";
-import { defaultQuestion } from "#jobs/processOpenAIQueue.job.js";
 import {
   type LangchainProvider,
   type LangchainDocument,

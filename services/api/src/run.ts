@@ -1,15 +1,14 @@
-/* eslint-disable import/order, import/first */
-import { parseENV } from "#utils/env.utils.js";
 import { loadENV } from "@liexp/core/lib/env/utils.js";
+import { fp } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import D from "debug";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { CronJobs } from "./jobs/jobs.js";
 import { makeApp } from "./app/index.js";
 import { makeContext } from "./context/index.js";
 import ControllerError from "#io/ControllerError.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { parseENV } from "#utils/env.utils.js";
 
 const run = (): Promise<void> => {
   process.env.NODE_ENV = process.env.NODE_ENV ?? "development";
@@ -17,11 +16,11 @@ const run = (): Promise<void> => {
   const serverLogger = logger.GetLogger("api");
 
   if (process.env.NODE_ENV === "development") {
+    loadENV(process.cwd(), ".env.local");
     loadENV(process.cwd(), ".env");
-    loadENV(process.cwd(), ".env.local", true);
-
-    D.enable(process.env.DEBUG ?? "*");
   }
+
+  D.enable(process.env.DEBUG ?? "*");
 
   return pipe(
     parseENV(process.env),
@@ -33,9 +32,6 @@ const run = (): Promise<void> => {
     })),
     TE.mapLeft(ControllerError.report),
     TE.chain(({ ctx, app }) => {
-      // cron jobs
-      const cronJobs = CronJobs(ctx);
-
       const server = app.listen(
         ctx.env.SERVER_PORT,
         ctx.env.SERVER_HOST,
@@ -44,8 +40,6 @@ const run = (): Promise<void> => {
             `Server is listening ${ctx.env.SERVER_HOST}:${ctx.env.SERVER_PORT}`,
           );
 
-          cronJobs.onBootstrap();
-
           ctx.tg.api.on("polling_error", (e) => {
             serverLogger.error.log(`TG Bot error during polling %O`, e);
           });
@@ -53,13 +47,6 @@ const run = (): Promise<void> => {
       );
 
       process.on("beforeExit", () => {
-        // eslint-disable-next-line no-console
-        // serverLogger.debug.log(
-        //   "Removing vaccine data download cron task..."
-        // );
-        // downloadVaccineDataTask.stop();
-        cronJobs.onShutdown();
-
         // eslint-disable-next-line no-console
         serverLogger.debug.log("closing server...");
         server.close();
@@ -85,11 +72,10 @@ const run = (): Promise<void> => {
 
       server.on("error", (e) => {
         serverLogger.error.log("An error occurred %O", e);
-        cronJobs.onShutdown();
         process.exit(1);
       });
 
-      return TE.right(undefined);
+      return fp.TE.right(undefined);
     }),
     throwTE,
   );

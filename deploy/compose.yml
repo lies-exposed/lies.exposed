@@ -1,21 +1,22 @@
 services:
 
-  api:
+  api-base:
     image: ghcr.io/lies-exposed/liexp-api:alpha-latest
-    container_name: liexp-api
     user: $API_UID:$API_GID
     env_file:
       - .env.api
-    ports:
-      - "127.0.0.1:4010:4010"
-    # expose:
-    #   - 4010
     volumes:
       - ./certs/:/prod/services/api/certs/:ro
       - ./temp/:/prod/services/api/temp/:rw
       - ./temp/db/:/prod/services/api/db/:rw
       - ./config/:/prod/services/api/config/:rw
     working_dir: /prod/services/api
+
+  api:
+    extends: api-base
+    container_name: liexp-api
+    ports:
+      - "127.0.0.1:4010:4010"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:4010/v1/healthcheck"]
       interval: 10s
@@ -31,6 +32,13 @@ services:
       options:
           max-file: 5
           max-size: 10m
+
+  worker:
+    extends: api-base
+    container_name: liexp-worker
+    environment:
+      TG_BOT_POLLING: "false"
+    command:  pnpm start:worker
 
   web:
     image: ghcr.io/lies-exposed/liexp-web:alpha-latest
