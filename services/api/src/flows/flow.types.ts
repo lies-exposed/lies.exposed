@@ -13,7 +13,9 @@ export type Flow<Args extends any[], R, Context = RouteContext> = (
 /**
  * TEFlow is a curried function of {@link RouteContext} that returns
  * a TaskEither
- *
+ * @param Args - Arguments of the function
+ * @param R - Return type of the function
+ * @param Context - Context of the function {@link RouteContext}
  */
 export type TEFlow<Args extends any[], R, Context = RouteContext> = (
   ctx: Context,

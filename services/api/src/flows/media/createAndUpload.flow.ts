@@ -11,6 +11,11 @@ import { createThumbnail } from "./thumbnails/createThumbnail.flow.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
 
+/**
+ * Create the media with its thumbnail and upload it to the S3 bucket.
+ * @param ctx - Route context {@link RouteContext}
+ * @returns a media entity {@link MediaEntity}
+ */
 export const createAndUpload: TEFlow<
   [
     Media.CreateMedia,
