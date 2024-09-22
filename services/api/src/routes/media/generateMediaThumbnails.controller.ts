@@ -26,6 +26,7 @@ const generateThumbnailDeferred =
             extra: {
               ...m.extra,
               thumbnails,
+              needRegenerateThumbnail: false,
             },
           },
         ]),

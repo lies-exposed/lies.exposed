@@ -50,14 +50,20 @@ export const MakeCreateMediaRoute = (r: Router, ctx: RouteContext): void => {
                 },
               ]),
             ),
-            TE.bind("thumbnail", ({ media }) => createThumbnail(ctx)(media[0])),
+            TE.bind("thumbnails", ({ media }) =>
+              createThumbnail(ctx)(media[0]),
+            ),
             TE.bind("extra", ({ media }) => extractMediaExtra(ctx)(media[0])),
-            TE.chain(({ media, thumbnail, extra }) => {
+            TE.chain(({ media, thumbnails, extra }) => {
               return ctx.db.save(MediaEntity, [
                 {
                   ...media[0],
-                  thumbnail: thumbnail[0],
-                  extra,
+                  thumbnail: thumbnails[0],
+                  extra: {
+                    ...extra,
+                    thumbnails,
+                    needRegenerateThumbnail: false,
+                  },
                 },
               ]);
             }),

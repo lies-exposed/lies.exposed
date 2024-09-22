@@ -1,34 +1,54 @@
+import { ThumbnailsExtra } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
 import * as React from "react";
 import {
-  useDataProvider,
   useRecordContext,
   useRefresh,
   type FieldProps,
   Button,
   NumberInput,
 } from "react-admin";
+import { useDataProvider } from "../../../../hooks/useDataProvider.js";
 import { useModal } from "../../../../hooks/useModal.js";
-import { Box, Stack } from "../../../mui/index.js";
+import { Box, Stack, Typography } from "../../../mui/index.js";
 
 const SelectThumbnailModalContent: React.FC<{
-  thumbnails: string[];
+  extra: ThumbnailsExtra;
   defaultThumbnail?: string;
   onClose: () => void;
   onThumbnailSelect: (t: string) => void;
-}> = ({ thumbnails, defaultThumbnail, onClose, onThumbnailSelect }) => {
+}> = ({ extra, defaultThumbnail, onClose, onThumbnailSelect }) => {
   const [thumbnail, setThumbnail] = React.useState(defaultThumbnail);
+
+  if (ThumbnailsExtra.type.props.thumbnails.types[0].is(extra.thumbnails)) {
+    return <Typography color="error">{extra.thumbnails.error}</Typography>;
+  }
 
   return (
     <Stack direction={"column"} spacing={2}>
-      <Stack direction="row" flexWrap={"wrap"} spacing={2} height={100}>
-        {thumbnails.map((t) => (
+      <Stack
+        direction="row"
+        flexWrap={"wrap"}
+        spacing={2}
+        alignItems={"center"}
+        justifyContent={"center"}
+      >
+        {(extra.thumbnails ?? []).map((t) => (
           <Box
             key={t}
             onClick={() => {
               setThumbnail(t);
             }}
+            style={{
+              boxShadow: `0 0 5px ${thumbnail === t ? "blue" : "transparent"}`,
+            }}
           >
-            <img src={t} style={{ width: 400, height: 100 }} />
+            <img
+              src={t}
+              style={{
+                width: extra.thumbnailWidth ?? 400,
+                height: extra.thumbnailHeight ?? "auto",
+              }}
+            />
           </Box>
         ))}
       </Stack>
@@ -39,7 +59,7 @@ const SelectThumbnailModalContent: React.FC<{
           }
           onClose();
         }}
-        variant="outlined"
+        variant="contained"
         label="Use the thumbnail"
       />
     </Stack>
@@ -49,7 +69,7 @@ const SelectThumbnailModalContent: React.FC<{
 export const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
   const record = useRecordContext(props);
   const refresh = useRefresh();
-  const apiProvider = useDataProvider<any>();
+  const apiProvider = useDataProvider();
   const [modal, showModal] = useModal();
 
   const handleThumbnailUpdate = React.useCallback(
@@ -91,7 +111,7 @@ export const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
     showModal("Pick the thumbnail", (onClose) => {
       return (
         <SelectThumbnailModalContent
-          thumbnails={record?.extra?.thumbnails}
+          extra={record?.extra}
           defaultThumbnail={record?.thumbnail}
           onClose={onClose}
           onThumbnailSelect={handleThumbnailUpdate}

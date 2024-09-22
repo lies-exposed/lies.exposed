@@ -1,8 +1,9 @@
 import { type Keyword, type Media } from "@liexp/shared/lib/io/http/index.js";
 import { formatDate, parseISO } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";
-import { useDataProvider, useRecordContext } from "react-admin";
+import { useRecordContext } from "react-admin";
 import { useConfiguration } from "../../../../context/ConfigurationContext.js";
+import { useDataProvider } from "../../../../hooks/useDataProvider.js";
 import { CircularProgress } from "../../../mui/index.js";
 import { SocialPostButton } from "../../common/SocialPostButton.js";
 
@@ -20,8 +21,8 @@ export const KeywordTGPostButton: React.FC = () => {
       onLoadSharePayloadClick={async () => {
         const url = `${conf.platforms.web.url}/media/${record.id}`;
 
-        const media: Media.Media[] = await apiProvider
-          .getList("media", {
+        const media = await apiProvider
+          .getList<Media.Media>("media", {
             filter: { keywords: [record.id] },
             pagination: { perPage: 1, page: 1 },
             sort: { order: "ASC", field: "createdAt" },
