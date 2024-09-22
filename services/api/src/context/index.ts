@@ -1,6 +1,6 @@
 import * as path from "path";
 import { MakeURLMetadata } from "@liexp/backend/lib/providers/URLMetadata.provider.js";
-import { GetFFMPEGProvider } from "@liexp/backend/lib/providers/ffmpeg.provider.js";
+import { GetFFMPEGProvider } from "@liexp/backend/lib/providers/ffmpeg/ffmpeg.provider.js";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { GeocodeProvider } from "@liexp/backend/lib/providers/geocode/geocode.provider.js";
 import { IGProvider } from "@liexp/backend/lib/providers/ig/ig.provider.js";

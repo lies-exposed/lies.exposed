@@ -15,9 +15,15 @@
     "outDir": "./lib",
     "baseUrl": "./src",
     "rootDir": "./src",
-    "typeRoots": ["../shared/typings", "./typings"],
     "tsBuildInfoFile": "lib/.tsbuildinfo"
   },
+  "include": [
+    "./src",
+    "./typings",
+    "../shared/typings",
+    "./src/**/*.json"
+  ],
+  "exclude": ["node_modules", "lib"],
   "references": [
     {
       "path": "../core"
@@ -26,11 +32,4 @@
       "path": "../shared"
     }
   ],
-  "include": [
-    "../../../node_modules/vitest/globals.d.ts",
-    "./src",
-    "./src/**/*.json",
-    "eslint.config.js"
-  ],
-  "exclude": ["node_modules", "lib"]
 }

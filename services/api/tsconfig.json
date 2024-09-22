@@ -8,12 +8,6 @@
     "rootDir": "./",
     "lib": ["DOM", "ES2022"],
     "tsBuildInfoFile": "build/.tsbuildinfo",
-    "typeRoots": [
-      "./typings",
-      "../../node_modules/@types",
-      "../../packages/@liexp/backend/typings",
-      "../../packages/@liexp/shared/typings"
-    ],
     "target": "ES6",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
@@ -40,17 +34,17 @@
     }
   },
   "include": [
-    "../../node_modules/vitest/globals.d.ts",
     "./src",
+    "./typings",
+    "../../packages/@liexp/shared/typings",
+    "../../packages/@liexp/backend/typings",
     "./scripts",
     "./test",
-    "eslint.config.js",
-    "vitest.workspace.ts"
   ],
   "exclude": ["**/build", "**/lib"],
   "references": [
-    { "path": "../../packages/@liexp/backend" },
     { "path": "../../packages/@liexp/shared" },
+    { "path": "../../packages/@liexp/backend" },
     { "path": "../../packages/@liexp/ui" }
   ]
 }

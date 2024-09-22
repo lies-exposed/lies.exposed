@@ -14,7 +14,7 @@
     "resolveJsonModule": true,
     "noImplicitReturns": true,
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": ["node_modules/@types", "packages/@liexp/*/typings"],
+    "typeRoots": ["node_modules/@types", "node_modules/vitest/globals", "packages/@liexp/*/typings"],
     "baseUrl": ".",
     "paths": {
       "@liexp/core/*": ["packages/@liexp/core/src/*"],

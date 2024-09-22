@@ -14,16 +14,15 @@
   "exclude": [
     "node_modules",
     "lib",
-    "eslint.config.js",
     "src/**/*.spec.ts",
     "test"
   ],
   "references": [
     {
-      "path": "../core"
+      "path": "../core/tsconfig.build.json"
     },
     {
-      "path": "../test"
+      "path": "../test/tsconfig.build.json"
     }
   ],
 }

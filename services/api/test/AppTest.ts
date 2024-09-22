@@ -37,7 +37,8 @@ import { toControllerError } from "#io/ControllerError.js";
 import { ENV } from "#io/ENV.js";
 import { getDataSource } from "#utils/data-source.js";
 import { Config } from '#app/config.js';
-import { GetFFMPEGProvider } from '@liexp/backend/lib/providers/ffmpeg.provider.js';
+import { GetFFMPEGProvider } from '@liexp/backend/lib/providers/ffmpeg/ffmpeg.provider.js';
+import { vi } from 'vitest'
 
 vi.mock("axios");
 vi.mock("page-metadata-parser");
