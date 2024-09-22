@@ -203,7 +203,7 @@ describe("Create Media", () => {
         height: expect.any(Number),
         thumbnailWidth: 300,
         thumbnailHeight: 100,
-        thumbnails: [],
+        thumbnails: [uploadThumbLocation, uploadThumbLocation],
         needRegenerateThumbnail: false,
       },
       socialPosts: [],
@@ -218,7 +218,7 @@ describe("Create Media", () => {
   test("Should create a media from iframe/video location", async () => {
     const [media] = tests.fc
       .sample(MediaArb, 1)
-      .map(({ createdAt, updatedAt, id, ...m }, i) => ({
+      .map(({ createdAt, updatedAt, deletedAt, id, ...m }, i) => ({
         ...m,
         id,
         label: `label-${id}`,
@@ -261,7 +261,6 @@ describe("Create Media", () => {
     expect(Test.mocks.s3.client.send).toHaveBeenCalledTimes(0);
 
     expect({
-      extra: undefined,
       deletedAt: undefined,
       ...response.body.data,
     }).toMatchObject({
@@ -271,6 +270,14 @@ describe("Create Media", () => {
       description: media.description ?? media.label,
       thumbnail: uploadThumbLocation,
       creator: users[0].id,
+      extra: {
+        width: 0,
+        height: 0,
+        thumbnailWidth: 0,
+        thumbnailHeight: 0,
+        thumbnails: ["https://example.com/thumbnail.jpg"],
+        needRegenerateThumbnail: false,
+      },
       socialPosts: [],
       transferable: true,
       createdAt: expect.any(String),
