@@ -11,6 +11,12 @@ services:
       - ./temp/db/:/prod/services/api/db/:rw
       - ./config/:/prod/services/api/config/:rw
     working_dir: /prod/services/api
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+          max-file: 5
+          max-size: 10m
 
   api:
     extends: api-base
@@ -24,23 +30,17 @@ services:
       retries: 10
       start_period: 30s
     command: pnpm start
-    restart: always
-    depends_on:
-      - telegram-bot-api
-    logging:
-      driver: "json-file"
-      options:
-          max-file: 5
-          max-size: 10m
     mem_limit: 1G
 
   worker:
     extends: api-base
     container_name: liexp-worker
     environment:
-      TG_BOT_POLLING: "false"
+      TG_BOT_POLLING: "true"
     command:  pnpm start:worker
     mem_limit: 512M
+    depends_on:
+      - telegram-bot-api
 
   web:
     image: ghcr.io/lies-exposed/liexp-web:alpha-latest

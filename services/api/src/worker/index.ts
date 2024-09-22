@@ -1,5 +1,6 @@
 /* eslint-disable import/order, import/first */
 import ControllerError from "#io/ControllerError.js";
+import { TGMessageCommands } from "#providers/tg/index.js";
 import { parseENV } from "#utils/env.utils.js";
 import { loadENV } from "@liexp/core/lib/env/utils.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
@@ -32,6 +33,12 @@ const run = (): Promise<void> => {
       // cron jobs
       const cronJobs = CronJobs(ctx);
 
+      ctx.tg.api.on("polling_error", (e) => {
+        ctx.logger.error.log(`TG Bot error during polling %O`, e);
+      });
+
+      TGMessageCommands(ctx);
+
       process.on("beforeExit", () => {
         // eslint-disable-next-line no-console
         // serverLogger.debug.log(
@@ -39,6 +46,18 @@ const run = (): Promise<void> => {
         // );
         // downloadVaccineDataTask.stop();
         cronJobs.onShutdown();
+
+        void ctx.tg
+          .stopPolling({})()
+          // eslint-disable-next-line no-console
+          .then(
+            (b) => {
+              ctx.logger.debug.log(`TG bot polling stop`);
+            },
+            (e) => {
+              ctx.logger.error.log(`TG Bot error during polling stop %O`, e);
+            },
+          );
 
         void ctx.db
           .close()()

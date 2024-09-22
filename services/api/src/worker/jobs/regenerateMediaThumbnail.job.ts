@@ -98,16 +98,18 @@ export const regenerateMediaThumbnailJob: CronJobTE = (ctx) => (opts) => {
         media: media.length,
       };
     }),
-    ctx.logger.debug.logInTaskEither("regenerateMediaThumbnail"),
     fp.TE.matchE(
       () => {
         return fp.T.of(
           ctx.logger.error.log("Failed to regenerate media thumbnail"),
         );
       },
-      () => {
+      ({ media }) => {
         return fp.T.of(
-          ctx.logger.info.log("Regenerate media thumbnail successfully"),
+          ctx.logger.info.log(
+            "Regenerate %d media thumbnail successfully",
+            media,
+          ),
         );
       },
     ),

@@ -53,7 +53,7 @@ export const CronJobs = (ctx: RouteContext): CronJobsHooks => {
   const regenerateMediaThumbnailTask = Cron.schedule(
     ctx.env.REGENERATE_MEDIA_THUMBNAILS_CRON,
     liftT(regenerateMediaThumbnailJob(ctx)),
-    { name: "REGENERATE_MEDIA_THUMBNAILS", scheduled: false, runOnInit: true },
+    { name: "REGENERATE_MEDIA_THUMBNAILS", scheduled: true, runOnInit: false },
   );
 
   return {

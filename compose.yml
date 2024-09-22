@@ -94,8 +94,13 @@ services:
     extends: api-base
     command: pnpm docker:worker-dev
     environment:
-      TG_BOT_POLLING: "false"
+      TG_BOT_POLLING: "true"
     mem_limit: 512M
+    depends_on:
+      - db.liexp.dev
+      - fra1.space.liexp.dev
+    networks:
+      - reverseproxy
 
   liexp.dev:
     build:
