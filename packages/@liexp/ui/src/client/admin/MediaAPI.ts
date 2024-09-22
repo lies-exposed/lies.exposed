@@ -184,7 +184,7 @@ export const transformMedia =
         ...data,
         id: data.id.toString(),
         ...media,
-        label: data.label ?? data.description,
+        label: data.label && data.label !== "" ? data.label : data.description,
         extra,
         events,
         links,
