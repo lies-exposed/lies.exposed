@@ -11,19 +11,36 @@ export const MakeAdminGetMediaStatsRoute: Route = (r, ctx) => {
     () => {
       return pipe(
         getMediaAdminStatsFlow(ctx)(),
-        TE.map(({ orphans: data, temp, noThumbnails, total }) => ({
-          body: {
-            data: { ...data, temp, noThumbnails },
+        TE.map(
+          ({
+            orphans: data,
+            temp,
+            noThumbnails,
+            needRegenerateThumbnail,
             total,
-            totals: {
-              orphans: data.orphans.length,
-              match: data.match.length,
-              temp: temp.length,
-              noThumbnails: noThumbnails.length,
+          }) => ({
+            body: {
+              data: {
+                ...data,
+                temp,
+                noThumbnails: noThumbnails.map(({ label, id }) => ({
+                  label,
+                  id,
+                })),
+                needRegenerateThumbnail: [],
+              },
+              total,
+              totals: {
+                orphans: data.orphans.length,
+                match: data.match.length,
+                temp: temp.length,
+                noThumbnails: noThumbnails.length,
+                needRegenerateThumbnail,
+              },
             },
-          },
-          statusCode: 201,
-        })),
+            statusCode: 201,
+          }),
+        ),
       );
     },
   );

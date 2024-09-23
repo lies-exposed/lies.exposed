@@ -11,6 +11,10 @@ import {
   ExtractEntitiesWithNLPInput,
   ExtractEntitiesWithNLPOutput,
 } from "../io/http/admin/ExtractNLPEntities.js";
+import {
+  AdminMediaStats,
+  AdminMediaStatsTotals,
+} from "../io/http/admin/stats/AdminMediaStats.js";
 import { ResourceEndpoints } from "./types.js";
 
 export const List = Endpoint({
@@ -100,18 +104,8 @@ export const GetMediaStats = Endpoint({
   Method: "GET",
   getPath: () => `/admins/media/stats`,
   Output: t.strict({
-    data: t.strict({
-      orphans: t.array(t.any),
-      match: t.array(t.any),
-      temp: t.array(t.any),
-      noThumbnails: t.array(t.any),
-    }),
-    totals: t.strict({
-      orphans: t.number,
-      match: t.number,
-      temp: t.number,
-      noThumbnails: t.number,
-    }),
+    data: AdminMediaStats,
+    totals: AdminMediaStatsTotals,
     total: t.number,
   }),
 });

@@ -1,5 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
+import { Brackets } from "typeorm";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { type TEFlow } from "#flows/flow.types.js";
 import {
@@ -32,6 +33,29 @@ export const getMediaWithoutThumbnailsFlow: TEFlow<[], MediaEntity[]> =
     );
   };
 
+export const getMediaInNeedToRegenerateThumbnailFlow: TEFlow<[], number> =
+  (ctx) => () => {
+    return pipe(
+      ctx.db.execQuery(() => {
+        return (
+          ctx.db.manager
+            .createQueryBuilder(MediaEntity, "media")
+            .where(
+              new Brackets((qb) => {
+                return qb
+                  .where(
+                    `("media"."extra" ->> 'needRegenerateThumbnail')::boolean = 'true'`,
+                  )
+                  .orWhere("media.extra -> 'needRegenerateThumbnail' is null ");
+              }),
+            )
+            // .printSql()
+            .getCount()
+        );
+      }),
+    );
+  };
+
 export const getMediaAdminStatsFlow: TEFlow<
   [],
   {
@@ -39,6 +63,7 @@ export const getMediaAdminStatsFlow: TEFlow<
     orphans: GetOrphanMediaFlowOutput;
     temp: any[];
     noThumbnails: MediaEntity[];
+    needRegenerateThumbnail: number;
   }
 > = (ctx) => () => {
   return pipe(
@@ -47,6 +72,7 @@ export const getMediaAdminStatsFlow: TEFlow<
       orphans: getOrphanMediaFlow(ctx)(),
       temp: getTempMediaCountFlow(ctx)(),
       noThumbnails: getMediaWithoutThumbnailsFlow(ctx)(),
+      needRegenerateThumbnail: getMediaInNeedToRegenerateThumbnailFlow(ctx)(),
     }),
   );
 };

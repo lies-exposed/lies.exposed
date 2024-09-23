@@ -183,12 +183,24 @@ export const fetchManyMedia: TEFlow<
       }
 
       if (fp.O.isSome(needRegenerateThumbnail)) {
-        q.andWhere(
-          `"media"."extra" ->> 'needRegenerateThumbnail' = :needRegenerateThumbnail`,
-          {
-            needRegenerateThumbnail: needRegenerateThumbnail.value,
-          },
-        );
+        if (needRegenerateThumbnail.value) {
+          q.andWhere(
+            new Brackets((qb) => {
+              return qb
+                .where(
+                  `("media"."extra" ->> 'needRegenerateThumbnail')::boolean = 'true'`,
+                )
+                .orWhere("media.extra -> 'needRegenerateThumbnail' is null ");
+            }),
+          );
+        } else {
+          q.andWhere(
+            `"media"."extra" ->> 'needRegenerateThumbnail' = :needRegenerateThumbnail`,
+            {
+              needRegenerateThumbnail: needRegenerateThumbnail.value,
+            },
+          );
+        }
       }
 
       // include deleted

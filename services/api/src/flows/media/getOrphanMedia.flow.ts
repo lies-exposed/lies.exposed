@@ -17,7 +17,8 @@ export interface GetOrphanMediaFlowOutput {
   match: _Object[];
 }
 
-type ObjectMediaPair = [_Object, Option<any>];
+type ItemObject = ActorEntity | GroupEntity | MediaEntity;
+type ObjectMediaPair = [_Object, Option<ItemObject>];
 
 export const getOrphanMediaFlow: TEFlow<[], GetOrphanMediaFlowOutput> =
   (ctx) => () => {
@@ -54,7 +55,7 @@ export const getOrphanMediaFlow: TEFlow<[], GetOrphanMediaFlowOutput> =
             return o;
           },
           fp.A.traverse(fp.TE.ApplicativeSeq)(
-            (e): TaskEither<ControllerError, [_Object, Option<any>]> => {
+            (e): TaskEither<ControllerError, ObjectMediaPair> => {
               if (e.Key) {
                 const resourceAndId = getResourceAndIdFromLocation(e.Key);
 
@@ -67,9 +68,6 @@ export const getOrphanMediaFlow: TEFlow<[], GetOrphanMediaFlowOutput> =
                           {
                             location: Like(`%${e.Key}`),
                           },
-                          {
-                            thumbnail: Like(`%${e.Key}`),
-                          },
                         ],
                       });
                     }
@@ -78,10 +76,7 @@ export const getOrphanMediaFlow: TEFlow<[], GetOrphanMediaFlowOutput> =
                       return ctx.db.findOne(ActorEntity, {
                         where: [
                           {
-                            id: Equal(id as any),
-                          },
-                          {
-                            avatar: Like(`%/actors/${id}/%`),
+                            id: Equal(id),
                           },
                         ],
                       });
@@ -91,12 +86,7 @@ export const getOrphanMediaFlow: TEFlow<[], GetOrphanMediaFlowOutput> =
                       return ctx.db.findOne(GroupEntity, {
                         where: [
                           {
-                            // avatar: Like(`%/actors/${id}/%`),
-                            id: Equal(id as any),
-                            // avatar: Like(`%/groups/${id}/%`),
-                          },
-                          {
-                            avatar: Like(`%/groups/${id}/%`),
+                            id: Equal(id),
                           },
                         ],
                       });
@@ -104,7 +94,7 @@ export const getOrphanMediaFlow: TEFlow<[], GetOrphanMediaFlowOutput> =
                     return fp.TE.right(fp.O.none);
                   }),
                   fp.O.getOrElse(() =>
-                    fp.TE.right<ControllerError, Option<any>>(fp.O.none),
+                    fp.TE.right<ControllerError, Option<ItemObject>>(fp.O.none),
                   ),
                   fp.TE.map((entity): ObjectMediaPair => [e, entity]),
                 );
