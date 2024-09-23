@@ -4,6 +4,7 @@ import { pipe } from "fp-ts/lib/function.js";
 import { UUID } from "io-ts-types/lib/UUID.js";
 import { type UploadResource } from "../endpoints/upload.endpoints.js";
 import * as Media from "../io/http/Media/index.js";
+import { ResourcesNames } from "../io/http/ResourcesNames.js";
 
 export const contentTypeFromFileExt = (c: string): Media.ValidContentType => {
   switch (c) {
@@ -54,12 +55,13 @@ export const extensionFromURL = (u: string): string => {
 
 export const getResourceAndIdFromLocation = (
   u: string,
-): Option<{ resource: string; id: string }> => {
+): Option<{ resource: string; id: UUID }> => {
   const [, resource, id] = pipe(u.split("/"));
 
-  if (resource && UUID.is(id)) {
+  if (ResourcesNames.is(resource) && UUID.is(id)) {
     return fp.O.some({ resource, id });
   }
+
   return fp.O.none;
 };
 

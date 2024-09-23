@@ -1,4 +1,8 @@
 import {
+  type AdminMediaStats,
+  type AdminMediaStatsTotals,
+} from "@liexp/shared/lib/io/http/admin/stats/AdminMediaStats.js";
+import {
   LinkIcon,
   MediaIcon,
 } from "@liexp/ui/lib/components/Common/Icons/index.js";
@@ -28,6 +32,17 @@ export const AdminStats: React.FC = () => {
     [],
   );
 
+  const onNeedRegenerateThumbnailClick = React.useCallback(
+    (resource: string) => () => {
+      navigate(
+        `/${resource}?filter=${JSON.stringify({
+          needRegenerateThumbnail: true,
+        })}`,
+      );
+    },
+    [],
+  );
+
   const onNoPublishDateClick = React.useCallback(
     (resource: string) => () => {
       navigate(
@@ -50,6 +65,9 @@ export const AdminStats: React.FC = () => {
               <Stack>
                 <MediaStatsCard
                   onNoThumbnailsClick={onNoThumbnailsClick("media")}
+                  onRegenerateThumbnailClick={onNeedRegenerateThumbnailClick(
+                    "media",
+                  )}
                   data={media.data}
                   total={media.total}
                   totals={media.totals}
@@ -71,15 +89,17 @@ export const AdminStats: React.FC = () => {
 
 const MediaStatsCard: React.FC<{
   onNoThumbnailsClick: () => void;
-  data: { orphans: any[]; match: any[]; temp: any[]; noThumbnails: any[] };
+  onRegenerateThumbnailClick: () => void;
+  data: AdminMediaStats;
   total: number;
-  totals: {
-    orphans: number;
-    match: number;
-    temp: number;
-    noThumbnails: number;
-  };
-}> = ({ data, total, totals, onNoThumbnailsClick }) => {
+  totals: AdminMediaStatsTotals;
+}> = ({
+  data,
+  total,
+  totals,
+  onNoThumbnailsClick,
+  onRegenerateThumbnailClick,
+}) => {
   return (
     <Card>
       <CardContent>
@@ -91,6 +111,18 @@ const MediaStatsCard: React.FC<{
         >
           <MediaIcon />
           <Typography variant="h5">Media ({total})</Typography>
+        </Stack>
+
+        <Stack
+          alignContent={"center"}
+          alignItems={"center"}
+          direction="row"
+          spacing={2}
+        >
+          <Typography>Need Thumbnail Regeneration:</Typography>
+          <Typography variant="h6" onClick={onRegenerateThumbnailClick}>
+            {totals.needRegenerateThumbnail}
+          </Typography>
         </Stack>
 
         <Stack

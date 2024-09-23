@@ -3,7 +3,10 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type TEFlow } from "#flows/flow.types.js";
 
-export const getTempMediaCountFlow: TEFlow<[], any[]> = (ctx) => () => {
+export const getTempMediaCountFlow: TEFlow<
+  [],
+  { filePath: string; fileRelativePath: string; fileSize: number }[]
+> = (ctx) => () => {
   const mediaTempFilesCachePath = path.resolve(
     ctx.config.dirs.temp.stats,
     `media/temp-files.json`,
