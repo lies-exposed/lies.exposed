@@ -30,10 +30,10 @@ export type GetLogger = (name: string) => Logger;
 export const GetLogger = (name: string): Logger => {
   const logger = baseLogger.extend(name);
   const debug = logger.extend("debug");
-  const info = logger.extend(name).extend("info");
-  const warn = logger.extend(name).extend("warn");
-  const error = logger.extend(name).extend("error");
-  const test = logger.extend(name).extend("test");
+  const info = logger.extend("info");
+  const warn = logger.extend("warn");
+  const error = logger.extend("error");
+  const test = logger.extend("test");
 
   const logInPipe =
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
