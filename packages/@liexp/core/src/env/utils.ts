@@ -3,13 +3,16 @@ import * as dotenv from "dotenv";
 
 export const loadENV = (
   root?: string,
-  p?: string,
+  envFile?: string,
   override?: boolean,
 ): void => {
   root = root ?? process.cwd();
-  p = p ?? process.env.DOTENV_CONFIG_PATH ?? ".env";
 
-  const envPath = path.resolve(root, p);
+  if (envFile === undefined) {
+    return;
+  }
+  const envPath = path.resolve(root, envFile);
+
   dotenv.config({
     path: envPath,
     override: override ?? false,

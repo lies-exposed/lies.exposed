@@ -19,9 +19,9 @@ const run = (): Promise<void> => {
   if (process.env.NODE_ENV === "development") {
     loadENV(process.cwd(), ".env.local");
     loadENV(process.cwd(), ".env");
-  }
 
-  D.enable(process.env.DEBUG ?? "*");
+    D.enable(process.env.DEBUG ?? "*");
+  }
 
   return pipe(
     parseENV(process.env),
