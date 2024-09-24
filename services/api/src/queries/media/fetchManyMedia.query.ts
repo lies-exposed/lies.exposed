@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type http } from "@liexp/shared/lib/io/index.js";
+import { http } from "@liexp/shared/lib/io/index.js";
 import * as t from "io-ts";
 import { Brackets } from "typeorm";
 import { MediaEntity } from "#entities/Media.entity.js";
@@ -7,36 +7,11 @@ import { type TEFlow } from "#flows/flow.types.js";
 import { leftJoinSocialPosts } from "#queries/socialPosts/leftJoinSocialPosts.query.js";
 import { addOrder, getORMOptions } from "#utils/orm.utils.js";
 
-const defaultQuery: http.Media.GetListMediaQuery = {
-  type: fp.O.none,
-  ids: fp.O.none,
-  exclude: fp.O.none,
-  creator: fp.O.none,
-  events: fp.O.none,
-  areas: fp.O.none,
-  keywords: fp.O.none,
-  locations: fp.O.none,
-  q: fp.O.none,
-  startDate: fp.O.none,
-  endDate: fp.O.none,
-  emptyThumbnail: fp.O.none,
-  emptyEvents: fp.O.none,
-  emptyLinks: fp.O.none,
-  emptyAreas: fp.O.none,
-  includeDeleted: fp.O.none,
-  spCount: fp.O.none,
-  onlyUnshared: fp.O.none,
-  needRegenerateThumbnail: fp.O.none,
-  _sort: fp.O.some("updatedAt"),
-  _order: fp.O.some("DESC"),
-  _end: fp.O.some(20 as t.Int),
-  _start: fp.O.some(0 as t.Int),
-};
 export const fetchManyMedia: TEFlow<
   [Partial<http.Media.GetListMediaQuery>],
   [MediaEntity[], number]
 > = (ctx) => (_query) => {
-  const query = { ...defaultQuery, ..._query };
+  const query = { ...http.Media.GetListMediaQueryMonoid.empty, ..._query };
   const {
     q: search,
     ids,
@@ -54,6 +29,7 @@ export const fetchManyMedia: TEFlow<
     spCount,
     onlyUnshared,
     needRegenerateThumbnail,
+    hasExtraThumbnailsError,
     ...ormQuery
   } = query;
 
@@ -194,11 +170,32 @@ export const fetchManyMedia: TEFlow<
             }),
           );
         } else {
+          q.andWhere(`"media"."extra" ->> 'needRegenerateThumbnail' = false`);
+        }
+      }
+
+      if (fp.O.isSome(hasExtraThumbnailsError)) {
+        if (hasExtraThumbnailsError.value) {
           q.andWhere(
-            `"media"."extra" ->> 'needRegenerateThumbnail' = :needRegenerateThumbnail`,
-            {
-              needRegenerateThumbnail: needRegenerateThumbnail.value,
-            },
+            new Brackets((qb) => {
+              return qb
+                .where(
+                  `("media"."extra" -> 'thumbnails' ->> 'error') IS NOT NULL`,
+                )
+                .orWhere(`("media"."extra" -> 'thumbnails' ->> 'error') != ''`);
+            }),
+          );
+        } else {
+          q.andWhere(
+            new Brackets((qb) => {
+              return qb
+                .where(
+                  `("media"."extra" -> 'thumbnails' ->> 'error')::text IS NULL`,
+                )
+                .orWhere(
+                  `("media"."extra" -> 'thumbnails' ->> 'error'::text)::text = ''`,
+                );
+            }),
           );
         }
       }
