@@ -13,7 +13,7 @@ import { EditMenu } from "../EditMenu/EditMenu.js";
 const DEFAULT_ID = "missing-id";
 
 // Slash menu item to insert an Event block
-export const insertEvent = (editor: BNESchemaEditor) => ({
+export const insertEventBlock = (editor: BNESchemaEditor) => ({
   title: "Event",
   subtext: "Insert an event block",
   onItemClick: () => {
