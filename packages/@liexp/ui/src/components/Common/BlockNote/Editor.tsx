@@ -11,8 +11,9 @@ import * as React from "react";
 import { styled } from "../../../theme/index.js";
 import { BlockNoteEditorContext } from "./BlockNoteEditorContext.js";
 import { type BNESchemaEditor, schema } from "./EditorSchema.js";
-import { insertEvent } from "./plugins/block/EventBlock.plugin.js";
-import { insertMedia } from "./plugins/block/MediaBlock.plugin.js";
+import { insertEventBlock } from "./plugins/block/EventBlock.plugin.js";
+import { insertLinkBlock } from "./plugins/block/LinkBlock.plugin.js";
+import { insertMediaBlock } from "./plugins/block/MediaBlock.plugin.js";
 import { actorItem } from "./plugins/inline/ActorInlineBlockNote.plugin.js";
 import { areaItem } from "./plugins/inline/AreaInlineBlockNote.plugin.js";
 import { groupItem } from "./plugins/inline/GroupInlineBlockNote.plugin.js";
@@ -25,13 +26,15 @@ const getCustomSlashMenuItems = (
 ): DefaultReactSuggestionItem[] => {
   return [
     ...getDefaultReactSlashMenuItems(editor),
-    insertMedia(editor),
     relationItem(editor),
     groupItem(editor),
     actorItem(editor),
     areaItem(editor),
     keywordItem(editor),
-    insertEvent(editor),
+    // blocks
+    insertEventBlock(editor),
+    insertMediaBlock(editor),
+    insertLinkBlock(editor),
   ];
 };
 

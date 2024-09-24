@@ -178,7 +178,7 @@ export const RelationInlineContentComponent: React.FC<{
       onChange: (a: any[]) => {
         const currentBlock =
           editor.document.find((tt) =>
-            ((tt.content as any) ?? []).find((t: any) => {
+            ((tt.content as any[]) ?? []).find((t) => {
               return (
                 t.type === "relation" ||
                 (t.type === relation &&

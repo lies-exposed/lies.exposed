@@ -2,12 +2,10 @@ import { insertOrUpdateBlock } from "@blocknote/core";
 import { createReactBlockSpec } from "@blocknote/react";
 import { UUID } from "io-ts-types/lib/UUID.js";
 import * as React from "react";
-import MediaSliderBox from "../../../../../containers/MediaSliderBox.js";
-import { AutocompleteMediaInput } from "../../../../Input/AutocompleteMediaInput.js";
+import { LinksBox } from "../../../../../containers/link/LinksBox.js";
+import { AutocompleteLinkInput } from "../../../../Input/AutocompleteLinkInput.js";
 import {
   Box,
-  Checkbox,
-  FormControlLabel,
   Grid,
   IconButton,
   Icons,
@@ -17,56 +15,49 @@ import {
 import { type BNESchemaEditor } from "../../EditorSchema.js";
 import { EditMenu } from "../EditMenu/EditMenu.js";
 
-interface MediaBlockProps {
+interface LinkBlockProps {
   id: string;
-  enableDescription: boolean;
   height: number;
 }
+
+export const LINK_BLOCK_PLUGIN_TYPE = "liexp-link-block";
 
 const DEFAULT_ID = "missing-id";
 
 // Slash menu item to insert an Alert block
-export const insertMediaBlock = (editor: BNESchemaEditor) => ({
-  title: "Media Block",
-  key: "media-block-1",
-  subtext: "Insert a media block",
+export const insertLinkBlock = (editor: BNESchemaEditor) => ({
+  title: "Link Block",
+  key: "link-block-1",
+  subtext: "Insert a Link block",
   onItemClick: () => {
     insertOrUpdateBlock(editor, {
-      type: "media",
+      type: LINK_BLOCK_PLUGIN_TYPE,
       props: {
         id: DEFAULT_ID,
-        enableDescription: false,
         height: 100,
       },
     });
   },
-  aliases: ["video", "pdf", "media", "image", "photo"],
-  group: "Relation Blocks",
-  icon: <Icons.MediaIcon fontSize="small" />,
+  aliases: ["link"],
+  group: "Blocks",
+  icon: <Icons.LinkIcon fontSize="small" />,
 });
 
-export const MediaBlockPluginRenderer: React.FC<{
-  data: MediaBlockProps;
+export const LinkBlockPluginRenderer: React.FC<{
+  data: LinkBlockProps;
 }> = ({ ...props }) => {
   const ids = props.data?.id.split(",").filter(UUID.is) ?? [];
   const height = props.data.height ?? 200;
-  const enableDescription = props.data.enableDescription ?? false;
 
   if (ids.length > 0) {
     return (
       <Box style={{ width: "100%", maxWidth: 1400, flexGrow: 0 }}>
-        <MediaSliderBox
-          enableDescription={enableDescription}
-          disableZoom={false}
-          query={{
-            filter: { ids: ids },
-            pagination: { page: 1, perPage: ids.length },
-            sort: {
-              field: "id",
-              order: "ASC",
-            },
+        <LinksBox
+          filter={{
+            ids: ids,
           }}
-          itemStyle={() => ({ height })}
+          onItemClick={() => {}}
+          style={{ width: "100%", height: height }}
         />
       </Box>
     );
@@ -75,21 +66,20 @@ export const MediaBlockPluginRenderer: React.FC<{
   return <div>Select a media...</div>;
 };
 
-export const MediaBlockPluginControl: React.FC<{
-  data: MediaBlockProps;
+export const LinkBlockPluginControl: React.FC<{
+  data: LinkBlockProps;
   onRemove: () => void;
-  onChange: (data: MediaBlockProps) => void;
+  onChange: (data: LinkBlockProps) => void;
 }> = ({ onRemove: remove, data, ...props }) => {
   const [s, setS] = React.useState({
-    media:
+    links:
       data.id?.split(",").flatMap((id) => (UUID.is(id) ? [{ id }] : [])) ?? [],
     height: data.height ?? 200,
-    enableDescription: data.enableDescription ?? false,
   });
 
   const selectedItems = React.useMemo(
-    () => ([] as any[]).concat(s.media ? s.media : []),
-    [s.media],
+    () => (s.links ? s.links : []),
+    [s.links],
   );
 
   return (
@@ -103,11 +93,11 @@ export const MediaBlockPluginControl: React.FC<{
     >
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12}>
-          <AutocompleteMediaInput
+          <AutocompleteLinkInput
             discrete={false}
-            selectedItems={selectedItems}
+            selectedItems={selectedItems as any[]}
             onChange={(items) => {
-              setS({ ...s, media: items });
+              setS({ ...s, links: items });
             }}
           />
         </Grid>
@@ -120,34 +110,14 @@ export const MediaBlockPluginControl: React.FC<{
             }}
           />
         </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                color="info"
-                size="small"
-                checked={s.enableDescription}
-                onChange={(v) => {
-                  v.preventDefault();
-                  setS({
-                    ...s,
-                    enableDescription: v.target.checked,
-                  });
-                }}
-              />
-            }
-            label="Enable description?"
-          />
-        </Grid>
-
         <Grid item xs={12} sm={12} md={12}>
           <IconButton
             size="small"
-            disabled={s.media.length < 1}
+            disabled={s.links.length < 1}
             onClick={() => {
               props.onChange({
                 ...s,
-                id: s.media.map((m) => m.id).join(","),
+                id: s.links.map((m) => m.id).join(","),
               });
             }}
           >
@@ -166,15 +136,12 @@ export const MediaBlockPluginControl: React.FC<{
   );
 };
 
-export const mediaBlock = createReactBlockSpec(
+export const linkBlock = createReactBlockSpec(
   {
-    type: "media",
+    type: LINK_BLOCK_PLUGIN_TYPE,
     propSchema: {
       id: {
         default: DEFAULT_ID,
-      },
-      enableDescription: {
-        default: false,
       },
       height: {
         default: 150,
@@ -185,7 +152,7 @@ export const mediaBlock = createReactBlockSpec(
   {
     render: ({
       block: {
-        props: { id, enableDescription, height },
+        props: { id, height },
       },
       editor,
     }): React.ReactNode => {
@@ -195,9 +162,10 @@ export const mediaBlock = createReactBlockSpec(
         editor.removeBlocks([currentCursor.block]);
       };
 
-      const onChange = ({ ...mediaBlockProps }: MediaBlockProps): void => {
+      const onChange = ({ ...mediaBlockProps }: LinkBlockProps): void => {
         insertOrUpdateBlock(editor, {
-          type: "media",
+          ...currentCursor,
+          type: LINK_BLOCK_PLUGIN_TYPE,
           props: { ...mediaBlockProps },
         });
       };
@@ -209,21 +177,18 @@ export const mediaBlock = createReactBlockSpec(
             onClick={() => {
               onChange({
                 id: DEFAULT_ID,
-                enableDescription: false,
                 height: 100,
               });
             }}
           >
-            {id === DEFAULT_ID ? (
-              <MediaBlockPluginControl
+            {editor.isEditable ? (
+              <LinkBlockPluginControl
                 onRemove={onRemove}
-                data={{ id: "", enableDescription, height }}
+                data={{ id, height }}
                 onChange={onChange}
               />
             ) : (
-              <MediaBlockPluginRenderer
-                data={{ id: id, enableDescription, height }}
-              />
+              <LinkBlockPluginRenderer data={{ id, height }} />
             )}
           </EditMenu>
         </Stack>

@@ -4,6 +4,10 @@ import {
   defaultInlineContentSpecs,
 } from "@blocknote/core";
 import { eventBlock } from "./plugins/block/EventBlock.plugin.js";
+import {
+  LINK_BLOCK_PLUGIN_TYPE,
+  linkBlock,
+} from "./plugins/block/LinkBlock.plugin.js";
 import { mediaBlock } from "./plugins/block/MediaBlock.plugin.js";
 import { actorInlineContentSpec } from "./plugins/inline/ActorInlineBlockNote.plugin.js";
 import { areaInlineContentSpec } from "./plugins/inline/AreaInlineBlockNote.plugin.js";
@@ -29,6 +33,7 @@ export const schema = BlockNoteSchema.create({
     ...otherBlockSpecs,
     media: mediaBlock,
     event: eventBlock,
+    [LINK_BLOCK_PLUGIN_TYPE]: linkBlock,
   },
 });
 

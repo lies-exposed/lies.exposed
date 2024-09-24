@@ -3,7 +3,6 @@ import * as React from "react";
 import LinkCard from "../../components/Cards/LinkCard.js";
 import { LinksList } from "../../components/lists/LinkList.js";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
-import { Grid, Typography } from "../mui/index.js";
 import { AutocompleteInput } from "./AutocompleteInput.js";
 
 export interface AutocompleteLinkInputProps {
@@ -28,7 +27,7 @@ export const AutocompleteLinkInput: React.FC<AutocompleteLinkInputProps> = ({
           ? a
           : (a.description ?? a.title ?? "no description")
       }
-      searchToFilter={(description) => ({ description })}
+      searchToFilter={(q) => ({ q })}
       selectedItems={selectedItems}
       query={(p) => Queries.Link.list.useQuery(p, undefined, discrete)}
       renderTags={(items) => (
@@ -44,25 +43,22 @@ export const AutocompleteLinkInput: React.FC<AutocompleteLinkInputProps> = ({
         />
       )}
       renderOption={(props, item, state) => (
-        <Grid container>
-          <Grid item md={3}>
-            <LinkCard
-              key={item.id}
-              link={{
-                ...item,
-                selected: false,
-              }}
-              onClick={() => {
-                onChange(
-                  selectedItems.filter((i) => i.id !== item.id).concat(item),
-                );
-              }}
-            />
-          </Grid>
-          <Grid item md={9}>
-            <Typography>{item.description}</Typography>
-          </Grid>
-        </Grid>
+        <LinkCard
+          key={item.id}
+          link={{
+            ...item,
+            selected: false,
+          }}
+          variant="horizontal"
+          onClick={() => {
+            onChange(
+              selectedItems.filter((i) => i.id !== item.id).concat(item),
+            );
+          }}
+          style={{
+            height: 200,
+          }}
+        />
       )}
       onItemsChange={onChange}
       {...props}
