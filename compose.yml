@@ -69,8 +69,6 @@ services:
       - ./packages/@liexp:/usr/src/app/packages/@liexp:ro
       - ./services/api:/usr/src/app/services/api:cached
       - ./services/api/temp:/usr/src/app/services/api/temp:rw
-    tty: true
-    stdin_open: true
     working_dir: /usr/src/app/services/api
 
   api.liexp.dev:

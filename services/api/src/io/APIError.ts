@@ -47,7 +47,7 @@ export const fromIOError = (e: IOError): APIError => {
           ? 500
           : (e.status as APIStatusCode),
         name: e.details.kind,
-        message: "",
+        message: e.message,
         details: e.details.meta as any,
       };
   }

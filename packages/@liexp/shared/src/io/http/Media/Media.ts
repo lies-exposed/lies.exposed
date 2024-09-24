@@ -1,3 +1,5 @@
+import { fp } from "@liexp/core/lib/fp/index.js";
+import { type Monoid } from "fp-ts/lib/Monoid.js";
 import * as t from "io-ts";
 import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
@@ -38,10 +40,41 @@ export const GetListMediaQuery = t.type(
     spCount: optionFromNullable(NumberFromString),
     onlyUnshared: optionFromNullable(BooleanFromString),
     needRegenerateThumbnail: optionFromNullable(BooleanFromString),
+    hasExtraThumbnailsError: optionFromNullable(BooleanFromString),
   },
   "MediaListQuery",
 );
 export type GetListMediaQuery = t.TypeOf<typeof GetListMediaQuery>;
+
+export const GetListMediaQueryMonoid: Monoid<GetListMediaQuery> = {
+  empty: {
+    type: fp.O.none,
+    ids: fp.O.none,
+    exclude: fp.O.none,
+    creator: fp.O.none,
+    events: fp.O.none,
+    areas: fp.O.none,
+    keywords: fp.O.none,
+    locations: fp.O.none,
+    q: fp.O.none,
+    startDate: fp.O.none,
+    endDate: fp.O.none,
+    emptyThumbnail: fp.O.none,
+    emptyEvents: fp.O.none,
+    emptyLinks: fp.O.none,
+    emptyAreas: fp.O.none,
+    includeDeleted: fp.O.none,
+    spCount: fp.O.none,
+    onlyUnshared: fp.O.none,
+    needRegenerateThumbnail: fp.O.none,
+    hasExtraThumbnailsError: fp.O.none,
+    _sort: fp.O.some("updatedAt"),
+    _order: fp.O.some("DESC"),
+    _end: fp.O.some(20 as t.Int),
+    _start: fp.O.some(0 as t.Int),
+  },
+  concat: (x, y) => ({ ...x, ...y }),
+};
 
 export const CreateMedia = t.strict(
   {

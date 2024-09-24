@@ -1,14 +1,16 @@
 import { flow, fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   MediaExtraMonoid,
+  type ThumbnailsExtra,
   ThumbnailsExtraMonoid,
 } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
 import { ImageType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
+import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type Int } from "io-ts";
 import { type CronJobTE } from "./cron-task.type.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
-import { type ControllerError } from "#io/ControllerError.js";
+import ControllerErrorM, { type ControllerError } from "#io/ControllerError.js";
 import { fetchManyMedia } from "#queries/media/fetchManyMedia.query.js";
 import { type RouteContext } from "#routes/route.types.js";
 import { type TEControllerError } from "#types/TEControllerError.js";
@@ -18,22 +20,29 @@ const createThumbnailTask =
   (m: MediaEntity): TEControllerError<MediaEntity> => {
     return pipe(
       createThumbnail(ctx)(m),
-      fp.TE.orElse((e) => {
-        ctx.logger.debug.log(
-          "Failed to generate thumbnail for %s: %s \n %s",
-          m.id,
-          e.details.kind,
-          JSON.stringify(e.details),
-        );
-        return fp.TE.right<ControllerError, string[]>([]);
-      }),
+      fp.TE.orElse(
+        (e): TaskEither<ControllerError, ThumbnailsExtra["thumbnails"]> => {
+          ctx.logger.debug.log(
+            "Failed to generate thumbnail for %s: %s \n %s",
+            m.id,
+            e.details.kind,
+            JSON.stringify(e.details),
+          );
+          return fp.TE.right({
+            error: ControllerErrorM.report(e),
+          });
+        },
+      ),
       fp.TE.map((thumbs) => ({
-        thumbnail: thumbs[0],
+        thumbnail: Array.isArray(thumbs) ? thumbs[0] : null,
         extra: {
           ...ThumbnailsExtraMonoid.empty,
           ...MediaExtraMonoid.empty,
           ...m.extra,
-          needRegenerateThumbnail: thumbs.length === 0,
+          thumbnails: thumbs,
+          needRegenerateThumbnail: !(
+            Array.isArray(thumbs) && thumbs.length >= 1
+          ),
         },
       })),
 
@@ -83,13 +92,20 @@ export const regenerateMediaThumbnailJob: CronJobTE = (ctx) => (opts) => {
         fetchManyMedia(ctx)({
           type: fp.O.some(ImageType.types.map((t) => t.value)),
           needRegenerateThumbnail: fp.O.some(true),
+          hasExtraThumbnailsError: fp.O.some(false),
           _start: fp.O.some(0 as Int),
           _end: fp.O.some(50 as Int),
         }),
-        fp.TE.chain((mm) =>
-          convertManyMediaTask(ctx)((gg) => ctx.db.save(MediaEntity, gg))(
-            mm[0],
-          ),
+        fp.TE.map((mm) => {
+          ctx.logger.debug.log(
+            "Regenerating %d thumbnails over %d media without thumbnail",
+            mm[0].length,
+            mm[1],
+          );
+          return mm[0];
+        }),
+        fp.TE.chain(
+          convertManyMediaTask(ctx)((gg) => ctx.db.save(MediaEntity, gg)),
         ),
       ),
     ),
