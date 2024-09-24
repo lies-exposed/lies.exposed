@@ -44,21 +44,21 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     export API_UID=$(id pptruser -u)
     export API_GID=$(id pptruser -g)
     docker compose --env-file .env.api pull
-    docker compose --env-file .env.api up --build --force-recreate -d --wait api worker
+    docker compose up --build --force-recreate -d --wait api worker
     docker compose --env-file .env.web up --build --force-recreate -d --wait --no-deps web
     docker system prune -f
     docker builder prune -f --all
 
     nginx -s reload
 
-    docker compose --env-file .env.api run -d --name api-migration api pnpm migration:run
+    docker compose run -d --name api-migration api pnpm migration:run
 
-    docker compose --env-file .env.api run -d --rm --name upsert-nlp-entities api pnpm bin:run upsert-nlp-entities
-    docker compose --env-file .env.api run -d --rm --name upsert-tg-pinned-message api pnpm bin:run upsert-tg-pinned-message
-    docker compose --env-file .env.api run -d --rm --name parse-all-tg-messages api pnpm bin:run parse-tg-message all true
-    docker compose --env-file .env.api run -d --rm --name clean-space-media api pnpm bin:run clean-space-media --dry
-    docker compose --env-file .env.api run -d --name extract-actor-and-group-avatar api pnpm bin:run extract-actor-and-group-avatar
-    docker compose --env-file .env.api run -d --name assign-default-area-featured-image api pnpm bin:run assign-default-area-featured-image
+    docker compose run -d --rm --name upsert-nlp-entities api pnpm bin:run upsert-nlp-entities
+    docker compose run -d --rm --name upsert-tg-pinned-message api pnpm bin:run upsert-tg-pinned-message
+    docker compose run -d --rm --name parse-all-tg-messages api pnpm bin:run parse-tg-message all true
+    docker compose run -d --rm --name clean-space-media api pnpm bin:run clean-space-media --dry
+    docker compose run -d --name extract-actor-and-group-avatar api pnpm bin:run extract-actor-and-group-avatar
+    docker compose run -d --name assign-default-area-featured-image api pnpm bin:run assign-default-area-featured-image
 
 
     cd ~/

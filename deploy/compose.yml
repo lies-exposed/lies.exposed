@@ -23,6 +23,8 @@ services:
     container_name: liexp-api
     ports:
       - "127.0.0.1:4010:4010"
+    env_file:
+      - .env.api
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:4010/v1/healthcheck"]
       interval: 10s
@@ -35,6 +37,8 @@ services:
   worker:
     extends: api-base
     container_name: liexp-worker
+    env_file:
+      - .env.api
     environment:
       TG_BOT_POLLING: "true"
     command:  pnpm start:worker
