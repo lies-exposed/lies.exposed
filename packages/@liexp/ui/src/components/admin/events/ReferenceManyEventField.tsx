@@ -23,7 +23,7 @@ const ReferenceManyEventField: React.FC<
       <Datagrid rowClick="edit" isRowSelectable={() => false}>
         <BooleanField source="draft" />
         <FunctionField
-          render={(r: any) => {
+          render={(r) => {
             return (
               <Box>
                 <EventIcon type={r.type} style={{ marginRight: 10 }} />

@@ -1,38 +1,41 @@
-import { MP4Type } from "@liexp/shared/lib/io/http/Media/index.js";
+import { MediaType, MP4Type } from "@liexp/shared/lib/io/http/Media/index.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import * as React from "react";
-import { Box, Stack, Typography, colors } from "../../mui/index.js";
+import { EventIcon } from "../../Common/Icons/EventIcon.js";
+import { AreaIcon } from "../../Common/Icons/FAIcon.js";
+import { LinkIcon, MediaIcon } from "../../mui/icons.js";
+import {
+  Box,
+  Card,
+  CardContent,
+  colors,
+  Icons,
+  Stack,
+  Typography,
+} from "../../mui/index.js";
 import {
   BooleanInput,
   Datagrid,
   DateField,
+  FilterList,
+  FilterListItem,
+  FilterLiveSearch,
   FunctionField,
   List,
   LoadingPage,
   NumberInput,
   ReferenceField,
-  TextInput,
+  SavedQueriesList,
   useGetIdentity,
   usePermissions,
   type ListProps,
 } from "../react-admin";
 import { toFormattedDuration } from "./DurationField.js";
 import { MediaField } from "./MediaField.js";
-import { MediaTypeInput } from "./input/MediaTypeInput.js";
 
 const RESOURCE = "media";
 
 const mediaFilters = [
-  <TextInput key="search" label="Search" source="q" alwaysOn size="small" />,
-  <BooleanInput
-    key="emptyThumbnail"
-    source="emptyThumbnail"
-    alwaysOn
-    size="small"
-  />,
-  <BooleanInput key="emptyEvents" source="emptyEvents" alwaysOn size="small" />,
-  <BooleanInput key="emptyLinks" source="emptyLinks" alwaysOn size="small" />,
-  <BooleanInput key="emptyAreas" source="emptyAreas" alwaysOn size="small" />,
   <BooleanInput
     key="onlyUnshared"
     source="onlyUnshared"
@@ -45,7 +48,6 @@ const mediaFilters = [
     source="spCount"
     size="small"
   />,
-  <MediaTypeInput key="type" source="type" alwaysOn size="small" />,
   <BooleanInput
     key="includeDeleted"
     source="includeDeleted"
@@ -121,14 +123,14 @@ export const MediaDataGrid: React.FC = () => {
         <ReferenceField source="creator" reference="users">
           <FunctionField
             label="creator"
-            render={(r: any) => (r ? `${r.firstName} ${r.lastName}` : "")}
+            render={(r) => (r ? `${r.firstName} ${r.lastName}` : "")}
           />
         </ReferenceField>
       )}
 
       <FunctionField
         label="resources.links.fields.relations"
-        render={(r: any) => {
+        render={(r) => {
           return (
             <Stack direction="column" minWidth={150}>
               {[
@@ -168,6 +170,67 @@ export const MediaDataGrid: React.FC = () => {
   );
 };
 
+const MediaListAside: React.FC = () => {
+  return (
+    <Card
+      sx={{
+        order: -1,
+        mr: 2,
+        mt: 0,
+        width: 300,
+        maxWidth: 300,
+        display: "flex",
+        flex: "1 0 auto",
+      }}
+    >
+      <CardContent style={{ width: "100%" }}>
+        <SavedQueriesList />
+        <FilterLiveSearch label="Search" source="q" />
+        <FilterList label="Media" icon={<Icons.PlayCircleOutline />}>
+          <FilterListItem
+            label="Empty Thumbnail"
+            value={{ emptyThumbnail: true }}
+          />
+          <FilterListItem
+            label="Need Thumbnail Regeneration"
+            value={{ needRegenerateThumbnail: true }}
+          />
+        </FilterList>
+        <FilterList label="Relations" icon={<LinkIcon />}>
+          <FilterListItem
+            label="Empty Links"
+            value={{ emptyLinks: true }}
+            icon={<LinkIcon />}
+          />
+          <FilterListItem
+            label="Empty Areas"
+            value={{ emptyAreas: true }}
+            icon={<AreaIcon />}
+          />
+          <FilterListItem
+            label="Empty Events"
+            value={{ emptyEvents: true }}
+            icon={<EventIcon type="Uncategorized" />}
+          />
+        </FilterList>
+        <FilterList label="Type" icon={<MediaIcon />}>
+          {MediaType.types.map((t) => (
+            <FilterListItem
+              key={t.value}
+              label={
+                <span>
+                  <MediaIcon /> {t.value}
+                </span>
+              }
+              value={{ type: [t.value] }}
+            />
+          ))}
+        </FilterList>
+      </CardContent>
+    </Card>
+  );
+};
+
 export const MediaList: React.FC<ListProps> = (props) => {
   const { data, isLoading } = useGetIdentity();
   const { permissions, isLoading: isLoadingPermissions } = usePermissions();
@@ -190,6 +253,7 @@ export const MediaList: React.FC<ListProps> = (props) => {
         _order: "DESC",
         emptyValues: false,
       }}
+      aside={<MediaListAside />}
       perPage={25}
     >
       <MediaDataGrid />

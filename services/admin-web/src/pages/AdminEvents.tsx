@@ -95,42 +95,7 @@ export const EventList: React.FC = () => (
     filters={eventsFilter}
     perPage={25}
     sort={{ field: "createdAt", order: "DESC" }}
-    aside={
-      <Card
-        sx={{
-          order: -1,
-          mr: 2,
-          mt: 0,
-          width: 300,
-          display: "flex",
-          flex: "1 0 auto",
-        }}
-      >
-        <CardContent>
-          <SavedQueriesList />
-          <FilterLiveSearch label="Search" source="q" />
-          <FilterList label="Media" icon={<Icons.PlayCircleOutline />}>
-            <FilterListItem label="Empty Media" value={{ emptyMedia: true }} />
-          </FilterList>
-          <FilterList label="Links" icon={<LinkIcon />}>
-            <FilterListItem label="Empty Links" value={{ emptyLinks: true }} />
-          </FilterList>
-          <FilterList label="Type" icon={<EventIcon type="Uncategorized" />}>
-            {EventType.types.map((t) => (
-              <FilterListItem
-                key={t.value}
-                label={
-                  <span>
-                    <EventIcon type={t.value} /> {t.value}
-                  </span>
-                }
-                value={{ eventType: [t.value] }}
-              />
-            ))}
-          </FilterList>
-        </CardContent>
-      </Card>
-    }
+    aside={<EventListAside />}
   >
     <Datagrid
       rowSx={(record) => {
@@ -290,5 +255,43 @@ export const EventEdit: React.FC = (props) => {
         </FormDataConsumer>
       )}
     </EditEventForm>
+  );
+};
+const EventListAside: React.FC = () => {
+  return (
+    <Card
+      sx={{
+        order: -1,
+        mr: 2,
+        mt: 0,
+        width: 300,
+        display: "flex",
+        flex: "1 0 auto",
+      }}
+    >
+      <CardContent>
+        <SavedQueriesList />
+        <FilterLiveSearch label="Search" source="q" />
+        <FilterList label="Media" icon={<Icons.PlayCircleOutline />}>
+          <FilterListItem label="Empty Media" value={{ emptyMedia: true }} />
+        </FilterList>
+        <FilterList label="Links" icon={<LinkIcon />}>
+          <FilterListItem label="Empty Links" value={{ emptyLinks: true }} />
+        </FilterList>
+        <FilterList label="Type" icon={<EventIcon type="Uncategorized" />}>
+          {EventType.types.map((t) => (
+            <FilterListItem
+              key={t.value}
+              label={
+                <span>
+                  <EventIcon type={t.value} /> {t.value}
+                </span>
+              }
+              value={{ eventType: [t.value] }}
+            />
+          ))}
+        </FilterList>
+      </CardContent>
+    </Card>
   );
 };

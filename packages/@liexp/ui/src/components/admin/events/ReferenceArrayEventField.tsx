@@ -21,7 +21,7 @@ const ReferenceArrayEventField: React.FC<
     <Datagrid rowClick="edit">
       <BooleanField source="draft" />
       <FunctionField
-        render={(r: any) => {
+        render={(r) => {
           return (
             <Box>
               <EventIcon type={r.type} style={{ marginRight: 10 }} />

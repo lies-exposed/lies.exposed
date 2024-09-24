@@ -91,7 +91,7 @@ export const UncategorizedEventList: React.FC<ListProps> = (props) => (
         source="payload.location"
         render={(r) => (r?.location?.coordinates ? <PinDropIcon /> : "-")}
       />
-      <FunctionField source="links" render={(r: any) => r.links?.length ?? 0} />
+      <FunctionField source="links" render={(r) => r.links?.length ?? 0} />
       <DateField source="startDate" />
       <DateField source="endDate" />
       <DateField source="updatedAt" />

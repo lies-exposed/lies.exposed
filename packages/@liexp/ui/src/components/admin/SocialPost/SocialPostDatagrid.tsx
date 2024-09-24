@@ -26,10 +26,10 @@ export const SocialPostDataGrid: React.FC<DatagridProps> = (props) => {
       <TextField source="type" />
       <FunctionField
         source="content.title"
-        onClick={(e: any) => {
+        onClick={(e) => {
           e.preventDefault();
         }}
-        render={(r: any) => (
+        render={(r) => (
           <Link to={`/${r.type}/${r.entity}`}>{r.content?.title}</Link>
         )}
       />
@@ -37,7 +37,7 @@ export const SocialPostDataGrid: React.FC<DatagridProps> = (props) => {
       <NumberField source="publishCount" />
       <FunctionField
         label="Platforms"
-        render={(r: any) => {
+        render={(r) => {
           return (
             <Box>
               <TelegramIcon

@@ -89,7 +89,7 @@ export const EventSuggestionList: React.FC<ListProps> = (props) => {
       <Datagrid rowClick="edit">
         <FunctionField
           label="type"
-          render={(r: any) => {
+          render={(r) => {
             return (
               <Box>
                 <EventIcon color="primary" type={r.payload.event.type} />{" "}
@@ -134,11 +134,11 @@ export const EventSuggestionList: React.FC<ListProps> = (props) => {
         <DateField source="payload.event.date" />
         <FunctionField
           source="payload.event.links"
-          render={(r: any) => r.links?.length ?? 0}
+          render={(r) => r.links?.length ?? 0}
         />
         <FunctionField
           source="payload.media"
-          render={(r: any) => r.media?.length ?? 0}
+          render={(r) => r.media?.length ?? 0}
         />
         <DateField source="createdAt" />
         <DateField source="updatedAt" />

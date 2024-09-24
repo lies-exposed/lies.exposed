@@ -33,7 +33,7 @@ export const GroupDataGrid: React.FC = () => {
       />
       <FunctionField
         source="members"
-        render={(r: any) => {
+        render={(r) => {
           return r.members?.length ?? 0;
         }}
       />
