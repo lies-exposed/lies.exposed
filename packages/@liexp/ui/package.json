@@ -81,7 +81,7 @@
     "d3-sankey": "^0.12.3",
     "d3-sankey-circular": "^0.34.0",
     "d3-scale": "^3.3.0",
-    "date-fns": "^2.30.0",
+    "date-fns": "^4.1.0",
     "entitree-flex": "^0.4.1",
     "fp-ts": "^2.16.6",
     "geotiff": "^2.1.3",
