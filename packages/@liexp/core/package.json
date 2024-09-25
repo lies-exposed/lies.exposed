@@ -28,7 +28,7 @@
     "io-ts-types": "^0.5.19",
     "vite-plugin-css-injected-by-js": "^3.5.1",
     "vite-plugin-optimizer": "^1.4.3",
-    "vite-tsconfig-paths": "^4.3.2"
+    "vite-tsconfig-paths": "^5.0.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.1.0",
