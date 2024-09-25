@@ -234,8 +234,8 @@ importers:
         specifier: ^1.4.3
         version: 1.4.3
       vite-tsconfig-paths:
-        specifier: ^4.3.2
-        version: 4.3.2(typescript@5.6.2)(vite@5.4.7(@types/node@22.5.5)(sass@1.79.3)(terser@5.33.0))
+        specifier: ^5.0.1
+        version: 5.0.1(typescript@5.6.2)(vite@5.4.7(@types/node@22.5.5)(sass@1.79.3)(terser@5.33.0))
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3.1.0
@@ -416,8 +416,8 @@ importers:
         specifier: ^5.6.2
         version: 5.6.2
       vite-tsconfig-paths:
-        specifier: ^4.3.2
-        version: 4.3.2(typescript@5.6.2)(vite@5.4.7(@types/node@22.5.5)(sass@1.79.3)(terser@5.33.0))
+        specifier: ^5.0.1
+        version: 5.0.1(typescript@5.6.2)(vite@5.4.7(@types/node@22.5.5)(sass@1.79.3)(terser@5.33.0))
       vitest:
         specifier: ^2.1.1
         version: 2.1.1(@types/node@22.5.5)(sass@1.79.3)(terser@5.33.0)
@@ -1266,8 +1266,8 @@ importers:
         specifier: ^1.6.5
         version: 1.6.5(@oclif/config@1.18.17)(typeorm@0.3.20(pg@8.12.0))
       vite-tsconfig-paths:
-        specifier: ^4.3.2
-        version: 4.3.2(typescript@5.6.2)(vite@5.4.7(@types/node@20.16.5)(sass@1.79.3)(terser@5.33.0))
+        specifier: ^5.0.1
+        version: 5.0.1(typescript@5.6.2)(vite@5.4.7(@types/node@20.16.5)(sass@1.79.3)(terser@5.33.0))
       vitest:
         specifier: ^2.1.1
         version: 2.1.1(@types/node@20.16.5)(sass@1.79.3)(terser@5.33.0)
@@ -12002,8 +12002,8 @@ packages:
   vite-plugin-optimizer@1.4.3:
     resolution: {integrity: sha512-m1AFakemDxSNIwxsTYykBFuQxkKJLI8207RNAg33N5km2aE29cP+Jt41xbfdrALOU2VKYWGFlBz64GMbIser4A==}
 
-  vite-tsconfig-paths@4.3.2:
-    resolution: {integrity: sha512-0Vd/a6po6Q+86rPlntHye7F31zA2URZMbH8M3saAZ/xR9QoGN/L21bxEGfXdWmFdNkqPpRdxFT7nmNe12e9/uA==}
+  vite-tsconfig-paths@5.0.1:
+    resolution: {integrity: sha512-yqwv+LstU7NwPeNqajZzLEBVpUFU6Dugtb2P84FXuvaoYA+/70l9MHE+GYfYAycVyPSDYZ7mjOFuYBRqlEpTig==}
     peerDependencies:
       vite: '*'
     peerDependenciesMeta:
@@ -24775,7 +24775,7 @@ snapshots:
 
   vite-plugin-optimizer@1.4.3: {}
 
-  vite-tsconfig-paths@4.3.2(typescript@5.6.2)(vite@5.4.7(@types/node@20.16.5)(sass@1.79.3)(terser@5.33.0)):
+  vite-tsconfig-paths@5.0.1(typescript@5.6.2)(vite@5.4.7(@types/node@20.16.5)(sass@1.79.3)(terser@5.33.0)):
     dependencies:
       debug: 4.3.7
       globrex: 0.1.2
@@ -24786,7 +24786,7 @@ snapshots:
       - supports-color
       - typescript
 
-  vite-tsconfig-paths@4.3.2(typescript@5.6.2)(vite@5.4.7(@types/node@22.5.5)(sass@1.79.3)(terser@5.33.0)):
+  vite-tsconfig-paths@5.0.1(typescript@5.6.2)(vite@5.4.7(@types/node@22.5.5)(sass@1.79.3)(terser@5.33.0)):
     dependencies:
       debug: 4.3.7
       globrex: 0.1.2
