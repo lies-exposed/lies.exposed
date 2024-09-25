@@ -2,7 +2,17 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
-    directory: "/"
+    directories:
+      - "/"
+      - "/packages/@liexp/core"
+      - "/packages/@liexp/backend"
+      - "/packages/@liexp/test"
+      - "/packages/@liexp/shared"
+      - "/packages/@liexp/ui"
+      - "/services/api"
+      - "/services/web"
+      - "/services/admin-web"
+      - "/services/storybook"
     schedule:
       interval: "daily"
     open-pull-requests-limit: 10
@@ -19,26 +29,6 @@ updates:
       - dependency-name: "query-string"
         versions: ["8.x"]
     groups:
-      production-dependencies:
-        dependency-type: "production"
-        exclude-patterns:
-          - "@aws-sdk/*"
-          - "ra-*"
-          - "react-core"
-          - "react-admin"
-          - "*visx*"
-          - "*mui*"
-
-      development-dependencies:
-        dependency-type: "development"
-        exclude-patterns:
-          - "*vite*"
-          - "@types/*"
-          - "@typescript-eslint/*"
-          - "typescript-eslint*"
-          - "eslint*"
-          - "*uuid"
-
       aws-sdk:
         patterns:
           - "@aws-sdk/*"
@@ -50,41 +40,11 @@ updates:
           - "@typescript-eslint/*"
           - "typescript-eslint*"
           - "eslint*"
-
-  - package-ecosystem: "npm"
-    directory: "/packages/@liexp/core"
-    schedule:
-      interval: "daily"
-    target-branch: "daily"
-    open-pull-requests-limit: 5
-    versioning-strategy: increase-if-necessary
-    groups:
       uuid:
         patterns:
           - "*uuid"
           - "uuid"
 
-  - package-ecosystem: "npm"
-    directory: "/packages/@liexp/shared"
-    schedule:
-      interval: "daily"
-    target-branch: "daily"
-    open-pull-requests-limit: 5
-    versioning-strategy: increase-if-necessary
-    groups:
-      uuid:
-        patterns:
-          - "*uuid"
-          - "uuid"
-
-  - package-ecosystem: "npm"
-    directory: "/packages/@liexp/ui"
-    schedule:
-      interval: "daily"
-    open-pull-requests-limit: 5
-    target-branch: "daily"
-    versioning-strategy: increase-if-necessary
-    groups:
       mui:
         patterns:
           - "*mui*"
@@ -96,34 +56,3 @@ updates:
       visx:
         patterns:
           - "*visx*"
-
-
-  - package-ecosystem: "npm"
-    directory: "/services/api"
-    schedule:
-      interval: "daily"
-    open-pull-requests-limit: 5
-    target-branch: "daily"
-    versioning-strategy: increase-if-necessary
-
-  - package-ecosystem: "npm"
-    directory: "/services/web"
-    schedule:
-      interval: "daily"
-    open-pull-requests-limit: 5
-    target-branch: "daily"
-    versioning-strategy: increase-if-necessary
-
-  - package-ecosystem: "npm"
-    directory: "/services/admin-web"
-    schedule:
-      interval: "daily"
-    open-pull-requests-limit: 5
-    target-branch: "daily"
-    versioning-strategy: increase-if-necessary
-    groups:
-      react-admin:
-        patterns:
-          - "ra-*"
-          - "react-core"
-          - "react-admin"
