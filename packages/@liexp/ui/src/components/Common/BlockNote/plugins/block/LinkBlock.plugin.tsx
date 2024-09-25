@@ -2,7 +2,7 @@ import { insertOrUpdateBlock } from "@blocknote/core";
 import { createReactBlockSpec } from "@blocknote/react";
 import { UUID } from "io-ts-types/lib/UUID.js";
 import * as React from "react";
-import { LinksBox } from "../../../../../containers/link/LinksBox.js";
+import { LinksBox } from "../../../../../containers/link/LinksBox/index.js";
 import { AutocompleteLinkInput } from "../../../../Input/AutocompleteLinkInput.js";
 import {
   Box,

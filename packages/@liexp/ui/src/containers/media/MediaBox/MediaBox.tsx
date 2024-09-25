@@ -2,9 +2,9 @@ import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { type serializedType } from "ts-io-error/lib/Codec.js";
-import QueriesRenderer from "../components/QueriesRenderer.js";
-import { MediaList } from "../components/lists/MediaList.js";
-import { Box, Pagination } from "../components/mui/index.js";
+import QueriesRenderer from "../../../components/QueriesRenderer.js";
+import { MediaList } from "../../../components/lists/MediaList.js";
+import { Box, Pagination } from "../../../components/mui/index.js";
 
 export interface MediaBoxProps {
   filter: Partial<serializedType<typeof Endpoints.Media.List.Input.Query>>;
@@ -17,7 +17,7 @@ export interface MediaBoxProps {
   discrete?: boolean;
 }
 
-export const MediaBox: React.FC<MediaBoxProps> = ({
+const MediaBox: React.FC<MediaBoxProps> = ({
   filter,
   limit,
   onClick,
@@ -86,3 +86,5 @@ export const MediaBox: React.FC<MediaBoxProps> = ({
     />
   );
 };
+
+export default MediaBox;

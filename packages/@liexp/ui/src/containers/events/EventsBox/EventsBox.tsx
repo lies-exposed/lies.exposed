@@ -1,15 +1,15 @@
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
 import * as React from "react";
-import { type EventCardProps } from "../components/Cards/Events/EventCard.js";
-import { EventCardGrid } from "../components/Cards/Events/EventCardGrid.js";
-import QueriesRenderer from "../components/QueriesRenderer.js";
-import { Grid, Typography } from "../components/mui/index.js";
-import { useAPI } from "../hooks/useAPI.js";
+import { type EventCardProps } from "../../../components/Cards/Events/EventCard.js";
+import { EventCardGrid } from "../../../components/Cards/Events/EventCardGrid.js";
+import QueriesRenderer from "../../../components/QueriesRenderer.js";
+import { Grid, Typography } from "../../../components/mui/index.js";
+import { useAPI } from "../../../hooks/useAPI.js";
 import {
   searchEventsQuery,
   type SearchEventQueryInput,
-} from "../state/queries/SearchEventsQuery.js";
-import { useTheme } from "../theme/index.js";
+} from "../../../state/queries/SearchEventsQuery.js";
+import { useTheme } from "../../../theme/index.js";
 
 export interface EventsBoxProps {
   title?: string;

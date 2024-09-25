@@ -1,9 +1,9 @@
 import * as React from "react";
-import QueriesRenderer from "../../components/QueriesRenderer.js";
-import { LinksList } from "../../components/lists/LinkList.js";
-import { type LinksBoxProps } from "./LinksBox.js";
+import QueriesRenderer from "../../../components/QueriesRenderer.js";
+import { LinksList } from "../../../components/lists/LinkList.js";
+import { type LinksBoxProps } from "../LinksBox/LinksBox.js";
 
-export const LinksListBox: React.FC<LinksBoxProps> = ({
+const LinksListBox: React.FC<LinksBoxProps> = ({
   filter,
   onItemClick,
   column,
@@ -34,3 +34,5 @@ export const LinksListBox: React.FC<LinksBoxProps> = ({
     />
   );
 };
+
+export default LinksListBox;

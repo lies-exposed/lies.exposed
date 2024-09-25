@@ -15,11 +15,11 @@ import QueriesRenderer from "../components/QueriesRenderer.js";
 import SEO from "../components/SEO.js";
 import { Box, Grid } from "../components/mui/index.js";
 import { EventsPanelBox } from "../containers/EventsPanel.js";
-import { MediaBox } from "../containers/MediaBox.js";
 import { StatsPanelBox } from "../containers/StatsPanelBox.js";
 import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox.js";
 import { EventNetworkGraphBoxWithFilters } from "../containers/graphs/EventsNetworkGraphBox/EventsNetworkGraphBox.js";
-import { LinksListBox } from "../containers/link/LinksListBox.js";
+import { LinksListBox } from "../containers/link/LinkListBox/index.js";
+import { MediaBox } from "../containers/media/MediaBox/index.js";
 import { type SearchEventsQueryInputNoPagination } from "../state/queries/SearchEventsQuery.js";
 import { SplitPageTemplate } from "./SplitPageTemplate.js";
 

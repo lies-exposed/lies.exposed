@@ -1,11 +1,11 @@
 import { type GetListLinkQuery } from "@liexp/shared/lib/io/http/Link.js";
 import * as React from "react";
 import { type serializedType } from "ts-io-error/lib/Codec";
-import QueriesRenderer from "../../components/QueriesRenderer.js";
+import QueriesRenderer from "../../../components/QueriesRenderer.js";
 import {
   LinksList,
   type LinksListProps,
-} from "../../components/lists/LinkList.js";
+} from "../../../components/lists/LinkList.js";
 import {
   Accordion,
   AccordionDetails,
@@ -13,7 +13,7 @@ import {
   Box,
   Icons,
   Typography,
-} from "../../components/mui/index.js";
+} from "../../../components/mui/index.js";
 
 export interface LinksBoxProps extends Omit<LinksListProps, "links"> {
   filter: Partial<serializedType<typeof GetListLinkQuery>>;
@@ -23,7 +23,7 @@ export interface LinksBoxProps extends Omit<LinksListProps, "links"> {
   onClose?: () => void;
 }
 
-export const LinksBox: React.FC<LinksBoxProps> = ({
+const LinksBox: React.FC<LinksBoxProps> = ({
   filter,
   defaultExpanded = false,
   onOpen,
@@ -107,3 +107,5 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
     />
   );
 };
+
+export default LinksBox;

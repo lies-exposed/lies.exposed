@@ -8,8 +8,8 @@ import {
 import { parseISO, subYears } from "date-fns";
 import * as React from "react";
 import { type serializedType } from "ts-io-error/lib/Codec.js";
-import ActorsBox from "../../../containers/ActorsBox.js";
 import { GroupsBox } from "../../../containers/GroupsBox.js";
+import { ActorsBox } from "../../../containers/actors/ActorsBox/index.js";
 import { styled, useTheme } from "../../../theme/index.js";
 import {
   DateRangePicker,

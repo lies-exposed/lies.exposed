@@ -3,7 +3,7 @@ import { createReactBlockSpec } from "@blocknote/react";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import EventsBox from "../../../../../containers/EventsBox.js";
+import { EventsBox } from "../../../../../containers/events/EventsBox/index.js";
 import { AutocompleteEventInput } from "../../../../Input/AutocompleteEventInput.js";
 import { Box, IconButton, Icons, Stack } from "../../../../mui/index.js";
 import { EventIcon } from "../../../Icons/index.js";

@@ -4,10 +4,10 @@ import * as React from "react";
 import { KeywordsBox } from "../components/KeywordsBox.js";
 import MediaElement from "../components/Media/MediaElement.js";
 import { Box, Typography } from "../components/mui/index.js";
-import EventsBox from "../containers/EventsBox.js";
 import { EventsPanelBox } from "../containers/EventsPanel.js";
-import { MediaBox } from "../containers/MediaBox.js";
-import { LinksBox } from "../containers/link/LinksBox.js";
+import { EventsBox } from "../containers/events/EventsBox/index.js";
+import { LinksBox } from "../containers/link/LinksBox/index.js";
+import { MediaBox } from "../containers/media/MediaBox/index.js";
 import { SplitPageTemplate } from "./SplitPageTemplate.js";
 
 export interface MediaTemplateUIProps {

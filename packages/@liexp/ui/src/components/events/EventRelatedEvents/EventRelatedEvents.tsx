@@ -1,6 +1,6 @@
 import { Events } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import EventsBox from "../../../containers/EventsBox.js";
+import { EventsBox } from "../../../containers/events/EventsBox/index.js";
 import { Stack } from "../../mui/index.js";
 
 export const EventRelatedEvents: React.FC<{

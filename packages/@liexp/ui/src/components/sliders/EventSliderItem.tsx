@@ -6,7 +6,7 @@ import * as A from "fp-ts/lib/Array.js";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
-import { LinksBox } from "../../containers/link/LinksBox.js";
+import { LinksBox } from "../../containers/link/LinksBox/index.js";
 import { styled } from "../../theme/index.js";
 import { getTextContentsCapped } from "../Common/BlockNote/utils/getTextContentsCapped.js";
 import { isValidValue } from "../Common/BlockNote/utils/isValidValue.js";

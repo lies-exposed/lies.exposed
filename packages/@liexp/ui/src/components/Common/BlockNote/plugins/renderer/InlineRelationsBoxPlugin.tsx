@@ -6,9 +6,9 @@ import {
   type Media,
 } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import ActorsBox from "../../../../../containers/ActorsBox.js";
 import { GroupsBox } from "../../../../../containers/GroupsBox.js";
-import { MediaBox } from "../../../../../containers/MediaBox.js";
+import { ActorsBox } from "../../../../../containers/actors/ActorsBox/index.js";
+import { MediaBox } from "../../../../../containers/media/MediaBox/index.js";
 import { styled } from "../../../../../theme/index.js";
 import { KeywordsBox } from "../../../../KeywordsBox.js";
 import { Box } from "../../../../mui/index.js";

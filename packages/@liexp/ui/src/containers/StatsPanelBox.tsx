@@ -14,8 +14,8 @@ import { KeywordChipCount } from "../components/keywords/KeywordChipCount.js";
 import { Box, Typography } from "../components/mui/index.js";
 import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
 import { styled } from "../theme/index.js";
-import { ActorsBoxWrapper } from "./ActorsBox.js";
 import { GroupsBoxWrapper } from "./GroupsBox.js";
+import { ActorsBoxWrapper } from "./actors/ActorsBox/index.js";
 
 const PREFIX = "EventsPanel";
 
