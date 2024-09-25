@@ -34,8 +34,6 @@ updates:
         exclude-patterns:
           - "*vite*"
           - "@types/*"
-          - "@storybook/*"
-          - "storybook"
           - "@typescript-eslint/*"
           - "typescript-eslint*"
           - "eslint*"
@@ -71,3 +69,63 @@ updates:
       visx:
         patterns:
           - "*visx*"
+
+  - package-ecosystem: "npm"
+    directory: "/packages/@liexp/shared"
+    schedule:
+      interval: "daily"
+    target-branch: "daily"
+    versioning-strategy: increase-if-necessary
+    groups:
+      uuid:
+        patterns:
+          - "*uuid"
+          - "uuid"
+
+  - package-ecosystem: "npm"
+    directory: "/packages/@liexp/ui"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 10
+    target-branch: "daily"
+    versioning-strategy: increase-if-necessary
+    groups:
+      # aws-sdk:
+      #   patterns:
+      #     - "@aws-sdk/*"
+      react-admin:
+        patterns:
+          - "ra-*"
+          - "react-core"
+          - "react-admin"
+      vite:
+        patterns:
+          - "*vite*"
+      # storybook:
+      #   patterns:
+      #     - "@storybook/*"
+      #     - "storybook"
+      # eslint:
+      #   patterns:
+      #     - "@typescript-eslint/*"
+      #     - "typescript-eslint*"
+      #     - "eslint*"
+      # uuid:
+      #   patterns:
+      #     - "*uuid"
+      #     - "uuid"
+      mui:
+        patterns:
+          - "*mui*"
+      visx:
+        patterns:
+          - "*visx*"
+
+
+  - package-ecosystem: "npm"
+    directory: "/services/api"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 10
+    target-branch: "daily"
+    versioning-strategy: increase-if-necessary
