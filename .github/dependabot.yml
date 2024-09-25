@@ -42,39 +42,34 @@ updates:
       aws-sdk:
         patterns:
           - "@aws-sdk/*"
-      react-admin:
-        patterns:
-          - "ra-*"
-          - "react-core"
-          - "react-admin"
       vite:
         patterns:
           - "*vite*"
-      storybook:
-        patterns:
-          - "@storybook/*"
-          - "storybook"
       eslint:
         patterns:
           - "@typescript-eslint/*"
           - "typescript-eslint*"
           - "eslint*"
+
+  - package-ecosystem: "npm"
+    directory: "/packages/@liexp/core"
+    schedule:
+      interval: "daily"
+    target-branch: "daily"
+    open-pull-requests-limit: 5
+    versioning-strategy: increase-if-necessary
+    groups:
       uuid:
         patterns:
           - "*uuid"
           - "uuid"
-      mui:
-        patterns:
-          - "*mui*"
-      visx:
-        patterns:
-          - "*visx*"
 
   - package-ecosystem: "npm"
     directory: "/packages/@liexp/shared"
     schedule:
       interval: "daily"
     target-branch: "daily"
+    open-pull-requests-limit: 5
     versioning-strategy: increase-if-necessary
     groups:
       uuid:
@@ -86,37 +81,18 @@ updates:
     directory: "/packages/@liexp/ui"
     schedule:
       interval: "daily"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 5
     target-branch: "daily"
     versioning-strategy: increase-if-necessary
     groups:
-      # aws-sdk:
-      #   patterns:
-      #     - "@aws-sdk/*"
+      mui:
+        patterns:
+          - "*mui*"
       react-admin:
         patterns:
           - "ra-*"
           - "react-core"
           - "react-admin"
-      vite:
-        patterns:
-          - "*vite*"
-      # storybook:
-      #   patterns:
-      #     - "@storybook/*"
-      #     - "storybook"
-      # eslint:
-      #   patterns:
-      #     - "@typescript-eslint/*"
-      #     - "typescript-eslint*"
-      #     - "eslint*"
-      # uuid:
-      #   patterns:
-      #     - "*uuid"
-      #     - "uuid"
-      mui:
-        patterns:
-          - "*mui*"
       visx:
         patterns:
           - "*visx*"
@@ -126,6 +102,28 @@ updates:
     directory: "/services/api"
     schedule:
       interval: "daily"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 5
     target-branch: "daily"
     versioning-strategy: increase-if-necessary
+
+  - package-ecosystem: "npm"
+    directory: "/services/web"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 5
+    target-branch: "daily"
+    versioning-strategy: increase-if-necessary
+
+  - package-ecosystem: "npm"
+    directory: "/services/admin-web"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 5
+    target-branch: "daily"
+    versioning-strategy: increase-if-necessary
+    groups:
+      react-admin:
+        patterns:
+          - "ra-*"
+          - "react-core"
+          - "react-admin"
