@@ -43,7 +43,6 @@ const run = (): Promise<void> => {
       );
 
       process.on("beforeExit", () => {
-        // eslint-disable-next-line no-console
         serverLogger.debug.log("closing server...");
         server.close();
 
@@ -65,7 +64,6 @@ const run = (): Promise<void> => {
   );
 };
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
 run().catch((e) => {
   // eslint-disable-next-line
   console.error(e);

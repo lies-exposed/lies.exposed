@@ -125,8 +125,8 @@ describe("Create Scientific Study", () => {
     appTest.mocks.ner.winkMethods.learnCustomEntities.mockResolvedValueOnce(
       {} as any,
     );
-    appTest.mocks.ner.doc.out.mockReturnValue([]),
-      appTest.mocks.ner.doc.sentences.mockReturnValue({ each: vi.fn() } as any);
+    appTest.mocks.ner.doc.out.mockReturnValue([]);
+    appTest.mocks.ner.doc.sentences.mockReturnValue({ each: vi.fn() } as any);
     appTest.mocks.ner.doc.customEntities.mockReturnValue({
       out: vi.fn().mockReturnValue([]),
     } as any);

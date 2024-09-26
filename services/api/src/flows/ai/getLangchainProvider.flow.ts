@@ -22,7 +22,6 @@ export const getLangchainProviderFlow: TEFlow2<{
   langchain: LangchainProvider;
   localAiProxyUrl: string;
 }> = (ctx) => {
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   return pipe(
     fp.TE.Do,
     fp.TE.bind("localAiProxyUrl", () =>

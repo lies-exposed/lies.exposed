@@ -1,6 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-// eslint-disable-next-line import/no-named-as-default
+
 import prompts from "prompts";
 import { type CommandFlow } from "./command.type.js";
 import { fetchActorFromWikipedia } from "#flows/actors/fetchAndCreateActorFromWikipedia.js";

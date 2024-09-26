@@ -7,7 +7,7 @@ export const defaultQuestion = `Can you summarize the text in 100 words maximum?
 
 export const processOpenAIQueue: CronJobTE = (ctx) => (opts) => {
   ctx.logger.info.log("Start processing OpenAI queue...");
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+
   return pipe(
     fp.TE.Do,
     fp.TE.bind("langchain", () =>

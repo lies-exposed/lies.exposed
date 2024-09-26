@@ -21,7 +21,7 @@ export const createStats: CommandFlow = async (ctx, args): Promise<void> => {
   }
 
   const type: "keywords" | "groups" | "actors" = _type as any;
-  // eslint-disable-next-line no-console
+
   ctx.logger.info.log("Creating stats for type ", type);
 
   if (!id) {

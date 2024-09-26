@@ -71,7 +71,6 @@ export const makeApp = (ctx: RouteContext): express.Express => {
     )();
   });
   app.use(function (err: any, req: any, res: any, next: any) {
-    // eslint-disable-next-line no-console
     try {
       ctx.logger.error.log(
         "An error occurred during %s %s %O",

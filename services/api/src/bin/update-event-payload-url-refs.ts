@@ -105,7 +105,7 @@ export const updateEventPayloadURLRefs: CommandFlow = async (ctx) => {
 
   pipe(
     events,
-    // eslint-disable-next-line array-callback-return
+
     fp.A.map((e): void => {
       ctx.logger.debug.log(
         "Updated event %s (%s) => %O",

@@ -1,4 +1,3 @@
-/* eslint-disable import/no-named-as-default */
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import prompts from "prompts";
@@ -22,7 +21,6 @@ export const sharePostMessage: CommandFlow = async (ctx) => {
         useReply: false,
       },
       async (body) => {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         const { totp_two_factor_on } = body.two_factor_info;
         // decide which method to use
         const verificationMethod = totp_two_factor_on ? "0" : "1"; // default to 1 for SMS

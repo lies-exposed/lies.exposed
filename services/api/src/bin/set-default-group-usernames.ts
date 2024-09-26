@@ -35,6 +35,5 @@ export const setDefaultGroupUsernames: CommandFlow = async (ctx) => {
       groups.map((g) => ({ id: g.id, name: g.name, username: g.username })),
     ),
     throwTE,
-    // eslint-disable-next-line no-console
   );
 };
