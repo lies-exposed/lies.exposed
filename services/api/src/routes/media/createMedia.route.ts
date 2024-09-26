@@ -1,6 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { parseURL } from "@liexp/shared/lib/helpers/media.js";
+import { parseURL } from "@liexp/shared/lib/helpers/media.helper.js";
 import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { MediaIO } from "./media.io.js";

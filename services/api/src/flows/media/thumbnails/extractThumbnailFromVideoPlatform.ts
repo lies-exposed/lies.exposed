@@ -3,7 +3,7 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import {
   getPlatform,
   type VideoPlatformMatch,
-} from "@liexp/shared/lib/helpers/media.js";
+} from "@liexp/shared/lib/helpers/media.helper.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -11,28 +11,42 @@ import { type Page } from "puppeteer-core";
 import { type SimpleMedia } from "../simpleIMedia.type.js";
 import { type ExtractThumbnailFromMediaFlow } from "./ExtractThumbnailFlow.type.js";
 import { fetchFromRemote } from "./fetchFromRemote.flow.js";
-import { toControllerError } from "#io/ControllerError.js";
+import { type TEFlow } from "#flows/flow.types.js";
+import {
+  type ControllerError,
+  toControllerError,
+} from "#io/ControllerError.js";
 
-export const extractThumbnailFromVideoPlatform = (
-  match: VideoPlatformMatch,
-  page: Page,
-): TE.TaskEither<Error, string> => {
-  const toError = (m: VideoPlatformMatch): Error => {
-    return new Error(`Can't find cover for platform '${m.platform}'`);
+export const extractThumbnailFromVideoPlatform: TEFlow<
+  [VideoPlatformMatch, Page],
+  string
+> = (ctx) => (match, page) => {
+  const toError = (m: VideoPlatformMatch): ControllerError => {
+    return toControllerError(
+      new Error(`Can't find cover for platform '${m.platform}'`),
+    );
   };
+
+  ctx.logger.debug.log("Extracting thumbnail from video platform %j", match);
 
   return pipe(
     TE.tryCatch(async () => {
       switch (match.platform) {
         case "bitchute": {
-          await page.waitForSelector("picture.vjs-poster img", {
-            timeout: 50_000,
+          const selector = "picture.vjs-poster img";
+          await page.waitForSelector(selector, {
+            timeout: 20_000,
           });
 
-          const coverUrl = await page.$eval("picture.vjs-poster img", (el) => {
+          ctx.logger.debug.log(`Found element ${selector}`);
+          const coverUrl = await page.$eval(selector, (el) => {
             const coverUrl = el.getAttribute("src");
             return coverUrl;
           });
+
+          ctx.logger.debug.log(
+            `Thumbnail from selector ${selector}: ${coverUrl}`,
+          );
 
           return coverUrl;
         }
@@ -121,7 +135,7 @@ export const extractThumbnailFromVideoPlatform = (
           return undefined;
         }
       }
-    }, E.toError),
+    }, toControllerError),
     TE.chain((thumb) => {
       if (!thumb) {
         return TE.left(toError(match));
@@ -134,6 +148,8 @@ export const extractThumbnailFromVideoPlatform = (
 export const extractThumbnailFromIframe: ExtractThumbnailFromMediaFlow<
   SimpleMedia<Media.IframeVideoType>
 > = (ctx) => (media) => {
+  ctx.logger.debug.log("Extracting thumbnail from iframe %s", media.location);
+
   return pipe(
     TE.Do,
     TE.bind("match", () =>
@@ -143,27 +159,25 @@ export const extractThumbnailFromIframe: ExtractThumbnailFromMediaFlow<
         TE.fromEither,
       ),
     ),
-    TE.bind("page", () =>
+    TE.bind("buffer", ({ match }) =>
       pipe(
-        ctx.puppeteer.getBrowser({}),
-        TE.chain((browser) => {
-          return TE.tryCatch(async () => {
-            const page = await browser.newPage();
-            await page.goto(media.location, { waitUntil: "domcontentloaded" });
-
-            return page;
-          }, toPuppeteerError);
+        ctx.puppeteer.execute({}, (browser, page) => {
+          return pipe(
+            TE.tryCatch(async () => {
+              ctx.logger.debug.log("Opening page %s", media.location);
+              await page.goto(media.location, { waitUntil: "networkidle2" });
+            }, toPuppeteerError),
+            TE.chain(() => {
+              return pipe(
+                extractThumbnailFromVideoPlatform(ctx)(match, page),
+                TE.chain((url) => fetchFromRemote(ctx)(url)),
+              );
+            }),
+          );
         }),
         TE.mapLeft(toControllerError),
       ),
     ),
-    TE.chain(({ page, match }) => {
-      return pipe(
-        extractThumbnailFromVideoPlatform(match, page),
-        TE.mapLeft(toControllerError),
-        TE.chain((url) => fetchFromRemote(ctx)(url)),
-      );
-    }),
-    TE.map((buffer) => [buffer]),
+    TE.map(({ buffer }) => [buffer]),
   );
 };

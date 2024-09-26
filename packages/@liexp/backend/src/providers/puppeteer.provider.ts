@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as logger from "@liexp/core/lib/logger/index.js";
+import { differenceInSeconds } from "date-fns";
 import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
@@ -157,7 +158,8 @@ export const GetPuppeteerProvider = <P extends VanillaPuppeteer>(
           const options = {
             executablePath,
             headless: true,
-            args: ["--no-sandbox"],
+            args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-gpu"],
+            protocolTimeout: 30_000,
             ...defaultOpts,
             ...opts,
           };
@@ -169,11 +171,17 @@ export const GetPuppeteerProvider = <P extends VanillaPuppeteer>(
         }, toPuppeteerError);
       }),
       TE.map((b) => {
+        const connectedAt = new Date();
         b.on("error", (e) => {
           puppeteerLogger.error.log("browser error", e);
         });
         b.on("disconnected", (e) => {
-          puppeteerLogger.debug.log("browser disconnected", e);
+          puppeteerLogger.debug.log(
+            "browser disconnected %ds",
+            differenceInSeconds(new Date(), connectedAt, {
+              roundingMethod: "ceil",
+            }),
+          );
         });
         return b;
       }),

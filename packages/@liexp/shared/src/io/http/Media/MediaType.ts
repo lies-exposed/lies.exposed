@@ -50,3 +50,9 @@ export const ValidContentType = t.union([
   MediaType.types[6],
 ]);
 export type ValidContentType = t.TypeOf<typeof ValidContentType>;
+
+export const TransferableType = t.union(
+  [ImageType, AudioType, MP3Type, MP4Type, PDFType],
+  "TransferableType",
+);
+export type TransferableType = t.TypeOf<typeof TransferableType>;
