@@ -29,7 +29,6 @@ export const KeywordsBoxWrapper: React.FC<KeywordsBoxWrapperProps> = ({
         ),
       })}
       render={({ keywords }) => {
-        // eslint-disable-next-line react/jsx-key
         return children(keywords);
       }}
     />
@@ -65,7 +64,6 @@ export const KeywordsBox: React.FC<KeywordsBoxProps> = ({
               }}
             >
               {({ data: keywords }) => {
-                // eslint-disable-next-line react/jsx-key
                 return (
                   <KeywordList
                     keywords={keywords.map((a) => ({ ...a, selected: true }))}

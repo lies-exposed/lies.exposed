@@ -32,7 +32,6 @@ export const GroupsBoxWrapper: React.FC<GroupsBoxWrapperProps> = ({
         ),
       }}
       render={({ groups }) => {
-        // eslint-disable-next-line react/jsx-key
         return children(groups);
       }}
     />

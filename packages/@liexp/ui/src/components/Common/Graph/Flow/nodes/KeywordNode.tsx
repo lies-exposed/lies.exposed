@@ -4,7 +4,7 @@ import * as React from "react";
 import { KeywordListItem } from "../../../../lists/KeywordList.js";
 
 export type KeywordNodeType = Node<Keyword, typeof Keyword.name>;
-// eslint-disable-next-line react/display-name, @typescript-eslint/no-redundant-type-constituents
+// eslint-disable-next-line react/display-name
 export const KeywordNode = React.memo<NodeProps<KeywordNodeType>>(
   ({ data, selected }) => {
     return (

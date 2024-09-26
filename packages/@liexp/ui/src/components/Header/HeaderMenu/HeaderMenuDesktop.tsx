@@ -101,7 +101,6 @@ export const HeaderMenuDesktop: React.FC<HeaderMenuProps> = ({
       setAnchorEl(ref?.current ?? null);
       setSelectedMenuItem(m);
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       onMenuItemClick(m);
     }
   };

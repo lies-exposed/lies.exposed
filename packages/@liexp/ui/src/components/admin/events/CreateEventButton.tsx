@@ -38,7 +38,6 @@ export const CreateEventButton: React.FC<CreateEventButtonProps> = ({
         size="small"
         value={type}
         onChange={(e) => {
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
           setType(e.target.value as any);
         }}
         style={{

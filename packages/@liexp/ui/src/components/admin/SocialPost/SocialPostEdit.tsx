@@ -90,7 +90,6 @@ const SocialPostEditFormTabTelegram: React.FC = () => {
       <SocialPostButton
         type={record.type}
         onLoadSharePayloadClick={async () =>
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
           Promise.resolve(record.result.tg as any)
         }
       />

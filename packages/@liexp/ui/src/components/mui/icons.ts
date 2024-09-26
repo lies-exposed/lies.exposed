@@ -1,5 +1,3 @@
-/* eslint-disable no-restricted-imports */
-
 import {
   AddCircle,
   ArrowDownward as ArrowDown,

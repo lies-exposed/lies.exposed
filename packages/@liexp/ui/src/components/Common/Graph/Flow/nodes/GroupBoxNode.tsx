@@ -10,7 +10,7 @@ import * as React from "react";
 
 export type GroupBoxNodeType = Node<Group.Group, "group">;
 
-// eslint-disable-next-line react/display-name, @typescript-eslint/no-redundant-type-constituents
+// eslint-disable-next-line react/display-name
 export const GroupBoxNode = React.memo<NodeProps<GroupBoxNodeType>>(
   ({ data, ...rest }) => {
     return (

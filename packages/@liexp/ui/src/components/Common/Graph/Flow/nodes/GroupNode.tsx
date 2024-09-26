@@ -5,7 +5,7 @@ import { GroupListItem } from "../../../../lists/GroupList.js";
 
 export type GroupNodeType = Node<Group.Group, typeof Group.Group.name>;
 
-// eslint-disable-next-line react/display-name, @typescript-eslint/no-redundant-type-constituents
+// eslint-disable-next-line react/display-name
 export const GroupNode = React.memo<NodeProps<GroupNodeType>>(({ data }) => {
   return (
     <React.Suspense>

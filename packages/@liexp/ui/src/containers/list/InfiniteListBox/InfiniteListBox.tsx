@@ -81,7 +81,6 @@ export const InfiniteListBox = <
     { _start: number; _end: number }
   >({
     initialPageParam: { _start: 0, _end: 20 },
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
     queryKey,
     queryFn: (opts) => {
       const pageParam: any = paramsToPagination(

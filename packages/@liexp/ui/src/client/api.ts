@@ -57,10 +57,11 @@ export const GetAuthProvider = (
     checkAuth: async () => {
       const auth = localStorage.getItem("auth");
       // console.log("auth", auth);
-      auth
-        ? await Promise.resolve()
-        : // eslint-disable-next-line prefer-promise-reject-errors
-          await Promise.reject();
+      if (auth) {
+        await Promise.resolve();
+      } else {
+        await Promise.reject(new Error("Not authenticated"));
+      }
     },
     checkError,
     getPermissions: async () => {
