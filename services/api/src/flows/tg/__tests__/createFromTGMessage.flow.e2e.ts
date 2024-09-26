@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import path from "path";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { getPlatformEmbedURL } from "@liexp/shared/lib/helpers/media.js";
+import { getPlatformEmbedURL } from "@liexp/shared/lib/helpers/media.helper.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
 import { HumanReadableStringArb } from "@liexp/shared/lib/tests/arbitrary/HumanReadableString.arbitrary.js";

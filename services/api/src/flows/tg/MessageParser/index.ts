@@ -3,7 +3,7 @@ import { isExcludedURL } from "@liexp/shared/lib/helpers/link.helper.js";
 import {
   type VideoPlatformMatch,
   getPlatform,
-} from "@liexp/shared/lib/helpers/media.js";
+} from "@liexp/shared/lib/helpers/media.helper.js";
 import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import * as E from "fp-ts/lib/Either.js";

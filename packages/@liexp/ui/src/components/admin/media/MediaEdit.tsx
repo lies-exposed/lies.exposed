@@ -1,5 +1,6 @@
 import {
   ImageType,
+  TransferableType,
   type Media,
 } from "@liexp/shared/lib/io/http/Media/index.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
@@ -55,6 +56,11 @@ const TransferButton: React.FC<FieldProps & { target?: "thumbnail" }> = ({
   const refresh = useRefresh();
   const record = useRecordContext(props);
   const apiProvider = useDataProvider();
+
+  if (!TransferableType.is(record?.type)) {
+    return null;
+  }
+
   return (
     <Button
       variant="contained"

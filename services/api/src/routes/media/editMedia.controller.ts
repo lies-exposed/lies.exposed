@@ -84,7 +84,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
                   `${m.id}-thumb`,
                   m.type,
                 )
-              : TE.right(O.toNullable(thumbnail ?? m.thumbnail)),
+              : TE.right(O.toNullable(thumbnail) ?? m.thumbnail),
         ),
         TE.bind("location", ({ media }) =>
           O.isSome(transfer)
@@ -96,9 +96,9 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
               )
             : TE.right(location),
         ),
-        TE.bind("extra", ({ media }) =>
+        TE.bind("extra", ({ media, thumbnail, location }) =>
           O.isSome(overrideExtra)
-            ? extractMediaExtra(ctx)(media)
+            ? extractMediaExtra(ctx)({ ...media, thumbnail, location })
             : TE.right(extra ?? media.extra),
         ),
         ctx.logger.debug.logInTaskEither(`Updates %O`),

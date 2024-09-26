@@ -1,4 +1,4 @@
-import { parseURL } from "@liexp/shared/lib/helpers/media.js";
+import { parseURL } from "@liexp/shared/lib/helpers/media.helper.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
   ImageType,

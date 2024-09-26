@@ -1,4 +1,7 @@
-import { ThumbnailsExtra } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
+import {
+  type ThumbnailsExtra,
+  ThumbnailsExtraError,
+} from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
 import * as React from "react";
 import {
   useRecordContext,
@@ -17,9 +20,12 @@ const SelectThumbnailModalContent: React.FC<{
   onClose: () => void;
   onThumbnailSelect: (t: string) => void;
 }> = ({ extra, defaultThumbnail, onClose, onThumbnailSelect }) => {
-  const [thumbnail, setThumbnail] = React.useState(defaultThumbnail);
+  const [thumbnail, setThumbnail] = React.useState(
+    defaultThumbnail ??
+      (Array.isArray(extra.thumbnails) ? extra.thumbnails[0] : undefined),
+  );
 
-  if (ThumbnailsExtra.type.props.thumbnails.types[0].is(extra.thumbnails)) {
+  if (ThumbnailsExtraError.is(extra.thumbnails)) {
     return <Typography color="error">{extra.thumbnails.error}</Typography>;
   }
 
@@ -45,8 +51,9 @@ const SelectThumbnailModalContent: React.FC<{
             <img
               src={t}
               style={{
-                width: extra.thumbnailWidth ?? 400,
-                height: extra.thumbnailHeight ?? "auto",
+                width: extra.thumbnailWidth === 0 ? 400 : extra.thumbnailWidth,
+                height:
+                  extra.thumbnailHeight === 0 ? "auto" : extra.thumbnailHeight,
               }}
             />
           </Box>
@@ -84,6 +91,7 @@ export const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
             ...extra,
             thumbnails: [],
           },
+          overrideExtra: true,
         };
         void apiProvider
           .update(`media`, {
@@ -148,13 +156,7 @@ export const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
               label={`Pick a thumbnail (${thumbnails.length})`}
               variant="outlined"
             />
-          ) : (
-            <Button
-              onClick={handleThumbnailsGenerate}
-              label="Generate Thumbnail"
-              variant="contained"
-            />
-          )}
+          ) : null}
         </Stack>
       );
     }
@@ -163,8 +165,13 @@ export const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
   }, [record?.extra]);
 
   return (
-    <Stack direction="row" spacing={2}>
+    <Stack direction="column" spacing={2}>
       {thumbnailExtra}
+      <Button
+        onClick={handleThumbnailsGenerate}
+        label="Generate Thumbnail"
+        variant="contained"
+      />
       {modal}
     </Stack>
   );

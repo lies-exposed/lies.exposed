@@ -1,7 +1,7 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { fc } from "@liexp/test";
 import { UUIDArb } from "../../tests/arbitrary/common/UUID.arbitrary.js";
-import { getPlatform } from "../media.js";
+import { getPlatform } from "../media.helper.js";
 
 describe("@helpers/media", () => {
   describe("parse external media url", () => {
