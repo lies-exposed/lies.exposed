@@ -1,4 +1,3 @@
-/* eslint-disable import/default */
 import * as fs from "fs";
 import * as logger from "@liexp/core/lib/logger/index.js";
 import * as E from "fp-ts/lib/Either.js";

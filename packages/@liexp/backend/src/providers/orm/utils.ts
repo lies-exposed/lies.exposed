@@ -5,7 +5,7 @@ interface Operations {
   some: Operation;
 }
 
-const joinPaths = (paths: string[], last?: undefined | string): string =>
+const joinPaths = (paths: string[], last?: string): string =>
   paths
     .map((p) => `'${p}'`)
     .reduce(

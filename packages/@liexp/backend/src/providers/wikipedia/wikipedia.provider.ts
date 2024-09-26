@@ -37,7 +37,7 @@ export interface WikipediaProvider {
   /**
    * Retrieve article content (in wikitext format)
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   article: (title: string) => TE.TaskEither<Error, string>;
   articleInfo: (
     title: string,

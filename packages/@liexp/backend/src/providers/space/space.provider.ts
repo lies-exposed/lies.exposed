@@ -35,7 +35,7 @@ export const toError = (e: unknown): IOError => {
   if (e instanceof IOError) {
     return e;
   }
-  // eslint-disable-next-line
+
   s3Logger.error.log("Space Error %O", e);
   if (e instanceof Error) {
     return new SpaceError(e.message, {

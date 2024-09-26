@@ -52,6 +52,7 @@ export const GetCSVUtil = ({ log }: CSVUtilOptions): CSVUtil => {
 
             if (E.isLeft(decoded)) {
               log.debug.log("Decode failed %O", PathReporter.report(decoded));
+              // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
               reject(decoded.left);
               return;
             }
