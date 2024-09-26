@@ -4,8 +4,8 @@ import reactConfig from "@liexp/core/lib/eslint/react.config.js";
 export default tseslint.config(...reactConfig, {
   languageOptions: {
     parserOptions: {
-      tsconfigRootDir: import.meta.resolve,
-      project: ["./tsconfig.json"],
+      tsconfigRootDir: import.meta.dirname,
+      project: "./tsconfig.json",
     },
   },
   rules: {
