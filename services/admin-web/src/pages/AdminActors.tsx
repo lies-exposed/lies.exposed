@@ -186,7 +186,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
               if (!r.avatar) {
                 return (
                   <ImageInput source="avatar">
-                    <ImageField source="" />
+                    <ImageField source="thumbnail" />
                   </ImageInput>
                 );
               }
@@ -300,7 +300,7 @@ export const ActorCreate: React.FC<CreateProps> = (props) => {
                 </Grid>
                 <Grid item md={6} sm={12}>
                   <ImageInput source="avatar">
-                    <ImageField source="" />
+                    <ImageField source="thumbnail" />
                   </ImageInput>
                 </Grid>
                 <Grid item md={12}>

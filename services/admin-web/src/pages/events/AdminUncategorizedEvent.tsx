@@ -137,7 +137,7 @@ export const UncategorizedEventCreate: React.FC = (props) => {
           <ReferenceArrayField source="payload.actors" reference="actors">
             <Datagrid rowClick="edit">
               <TextField source="fullName" />
-              <AvatarField source="avatar" />
+              <AvatarField source="avatar.thumbnail" />
             </Datagrid>
           </ReferenceArrayField>
           <ReferenceArrayGroupMemberInput
@@ -149,8 +149,8 @@ export const UncategorizedEventCreate: React.FC = (props) => {
             reference="groups-members"
           >
             <Datagrid rowClick="edit">
-              <AvatarField source="actor.avatar" />
-              <AvatarField source="group.avatar" />
+              <AvatarField source="actor.avatar.thumbnail" />
+              <AvatarField source="group.avatar.thumbnail" />
               <DateField source="startDate" />
               <DateField source="endDate" />
             </Datagrid>
@@ -160,7 +160,7 @@ export const UncategorizedEventCreate: React.FC = (props) => {
           <ReferenceArrayField reference="groups" source="payload.groups">
             <Datagrid rowClick="edit">
               <TextField source="name" />
-              <AvatarField source="avatar" fullWidth={false} />
+              <AvatarField source="avatar.thumbnail" />
             </Datagrid>
           </ReferenceArrayField>
         </FormTab>

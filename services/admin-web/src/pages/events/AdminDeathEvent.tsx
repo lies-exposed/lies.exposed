@@ -60,7 +60,7 @@ export const DeathList: React.FC<ListProps> = (props) => (
     <Datagrid rowClick="edit">
       <BooleanField source="draft" />
       <ReferenceField source="payload.victim" reference="actors">
-        <AvatarField source="avatar" />
+        <AvatarField source="avatar.thumbnail" />
       </ReferenceField>
       <ExcerptField source="excerpt" />
       <DateField source="date" />
