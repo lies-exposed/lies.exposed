@@ -79,7 +79,6 @@ const transformActor =
       return data;
     }
 
-    // eslint-disable-next-line @typescript-eslint/return-await
     return pipe(
       TE.Do,
       TE.bind("avatar", (): TE.TaskEither<Error, Partial<Media>[]> => {
