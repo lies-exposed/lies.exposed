@@ -17,7 +17,7 @@ export const ReferenceBySubjectField: React.FC<
     ? get(record, `${source}.type`)
     : get(record, "type");
   const sourceId = source ? `${source}.id` : "id";
-  const sourceAvatar = "avatar";
+  const sourceAvatar = "avatar.thumbnail";
 
   if (ByActor.type.props.type.is(sourceType)) {
     return (

@@ -3,7 +3,7 @@ import { MakeCreateGroupMemberRoute } from "./createGroupMember.controller.js";
 import { MakeDeleteGroupMemberRoute } from "./deleteGroupMember.controller.js";
 import { MakeEditGroupMemberRoute } from "./editGroupMember.controller.js";
 import { MakeGetGroupMemberRoute } from "./getGroupMember.controller.js";
-import { MakeListGroupMemberRoute } from "./getGroupMembers.controller.js";
+import { MakeListGroupMemberRoute } from "./listGroupMembers.controller.js";
 import { type RouteContext } from "#routes/route.types.js";
 
 export const MakeGroupMemberRoutes = (

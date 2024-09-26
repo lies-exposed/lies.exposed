@@ -51,7 +51,7 @@ export const ScientificStudiesList: React.FC<ListProps> = (props) => (
       <TextField source="payload.title" />
       <BooleanField source="draft" />
       <ReferenceField source="payload.publisher" reference="groups">
-        <AvatarField source="avatar" />
+        <AvatarField source="avatar.thumbnail" />
       </ReferenceField>
       <DateField source="date" />
       <DateField source="updatedAt" />

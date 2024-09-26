@@ -1,4 +1,4 @@
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints, AddEndpoint } from "@liexp/shared/lib/endpoints/index.js";
 import { type Router } from "express";
 import * as E from "fp-ts/lib/Either.js";
@@ -42,6 +42,8 @@ export const MakeListGroupMemberRoute = (
             q.innerJoinAndSelect("groupsMembers.group", "group");
           }
 
+          q.leftJoinAndSelect("group.avatar", "groupAvatar");
+
           if (O.isSome(query.actor)) {
             q.innerJoinAndSelect(
               "groupsMembers.actor",
@@ -54,16 +56,19 @@ export const MakeListGroupMemberRoute = (
           } else {
             q.innerJoinAndSelect("groupsMembers.actor", "actor");
           }
+
+          q.leftJoinAndSelect("actor.avatar", "actorAvatar");
+
           return q;
         },
         (q) => {
           ctx.logger.debug.log("Ids %O", query.ids);
-          if (query.ids._tag === "Some") {
+          if (fp.O.isSome(query.ids)) {
             return q.andWhere("groupsMembers.id IN (:...ids)", {
               ids: query.ids.value,
             });
           }
-          if (search._tag === "Some") {
+          if (fp.O.isSome(search)) {
             const likeTerm = `%${search.value}%`;
             ctx.logger.debug.log("Searching by excerpt %s", likeTerm);
             return q.andWhere("groupsMembers.excerpt LIKE :likeTerm", {

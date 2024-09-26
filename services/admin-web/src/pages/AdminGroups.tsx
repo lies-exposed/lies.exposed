@@ -241,7 +241,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           <ReferenceMediaInput source="avatar.id" />
 
           <ImageInput source="avatar">
-            <ImageField source="" src="src" />
+            <ImageField source="thumbnail" />
           </ImageInput>
         </FormTab>
         <FormTab label="Body">
@@ -263,7 +263,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           >
             <Datagrid rowClick="edit">
               <TextField source="id" />
-              <AvatarField source="actor.avatar" />
+              <AvatarField source="actor.avatar.thumbnail" />
               <TextField source="actor.fullName" />
               <DateField source="startDate" />
               <DateField source="endDate" />
@@ -316,7 +316,7 @@ export const GroupCreate: React.FC<CreateProps> = (props) => {
                 <GroupKindInput source="kind" required />
                 <GroupMemberArrayInput source="members" />
                 <ImageInput source="avatar">
-                  <ImageField source="" src="src" />
+                  <ImageField source="thumbnail" />
                 </ImageInput>
                 <BlockNoteInput source="excerpt" onlyText isRequired={true} />
                 <BlockNoteInput source="body" />

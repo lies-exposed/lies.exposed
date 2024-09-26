@@ -57,7 +57,7 @@ export const UncategorizedEventEditTab: React.FC<
             reference="actors"
           >
             <Datagrid rowClick="edit">
-              <AvatarField source="avatar" />
+              <AvatarField source="avatar.thumbnail" />
               <TextField source="fullName" />
             </Datagrid>
           </ReferenceArrayField>
@@ -76,8 +76,8 @@ export const UncategorizedEventEditTab: React.FC<
             reference="groups-members"
           >
             <Datagrid rowClick="edit">
-              <AvatarField source="actor.avatar" />
-              <AvatarField source="group.avatar" />
+              <AvatarField source="actor.avatar.thumbnail" />
+              <AvatarField source="group.avatar.thumbnail" />
             </Datagrid>
           </ReferenceArrayField>
         </Grid>
