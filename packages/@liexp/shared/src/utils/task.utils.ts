@@ -6,6 +6,7 @@ import { pipe } from "fp-ts/lib/function.js";
 export const throwTE = async <E, A>(te: TE.TaskEither<E, A>): Promise<A> => {
   return te().then((rr) => {
     if (rr._tag === "Left") {
+      // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
       return Promise.reject(rr.left);
     }
     return Promise.resolve(rr.right);
