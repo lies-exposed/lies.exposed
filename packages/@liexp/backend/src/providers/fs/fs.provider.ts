@@ -17,7 +17,6 @@ export class FSError extends IOError {
 }
 
 export const toFSError = (e: unknown): FSError => {
-  // eslint-disable-next-line
   fsLogger.error.log("Error caught %O", e);
   if (e instanceof Error) {
     return new FSError(e.message, {

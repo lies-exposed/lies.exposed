@@ -261,7 +261,6 @@ export const routes: ServerRoute[] = [
         return [
           ...commonQueries.flatMap((c) => c(Q, conf)),
           {
-            // eslint-disable-next-line @tanstack/query/exhaustive-deps
             queryKey: ["event", { id: eventId }, true, true],
             queryFn: () => Promise.resolve(event),
           },
@@ -661,7 +660,6 @@ export const routes: ServerRoute[] = [
         return [
           ...commonQueries.flatMap((c) => c(Q, conf)),
           {
-            // eslint-disable-next-line @tanstack/query/exhaustive-deps
             queryKey: storyKey,
             queryFn: () => Promise.resolve(story),
           },

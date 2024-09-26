@@ -72,7 +72,6 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
       throw new Error("No event matched");
     }
 
-    // eslint-disable-next-line no-console
     // console.log(Events.Event.decode(plainEvent));
 
     await apiProvider

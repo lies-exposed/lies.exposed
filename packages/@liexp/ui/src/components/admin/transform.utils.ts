@@ -211,7 +211,6 @@ export const transformEvent =
 
     const event = transformByType(data, { ...relations, groupsMembers: [] });
 
-    // eslint-disable-next-line @typescript-eslint/return-await
     return pipe(
       mediaTask,
       TE.map((media) => ({

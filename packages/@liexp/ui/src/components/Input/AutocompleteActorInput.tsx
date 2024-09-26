@@ -32,7 +32,6 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
       query={(p) =>
         options
           ? useQuery({
-              // eslint-disable-next-line @tanstack/query/exhaustive-deps
               queryKey: ["actor-options"],
               queryFn: () => Promise.resolve({ data: options }),
             })

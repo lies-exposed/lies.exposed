@@ -14,9 +14,9 @@ const URLMetadataInput: React.FC<URLMetadataInputProps> = ({
 }) => {
   const {
     field: { onChange, value, ...inputRest },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     formState,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     fieldState,
     ...rest
   } = useInput(props);

@@ -1,4 +1,4 @@
-/* eslint-disable import/order, import/first */
+/* eslint-disable import/order */
 import ControllerError from "#io/ControllerError.js";
 import { TGMessageCommands } from "#providers/tg/index.js";
 import { parseENV } from "#utils/env.utils.js";
@@ -42,7 +42,6 @@ const run = (): Promise<void> => {
       TGMessageCommands(ctx);
 
       process.on("beforeExit", () => {
-        // eslint-disable-next-line no-console
         // serverLogger.debug.log(
         //   "Removing vaccine data download cron task..."
         // );
@@ -51,7 +50,7 @@ const run = (): Promise<void> => {
 
         void ctx.tg
           .stopPolling({})()
-          // eslint-disable-next-line no-console
+
           .then(
             (b) => {
               ctx.logger.debug.log(`TG bot polling stop`);
@@ -74,7 +73,6 @@ const run = (): Promise<void> => {
   );
 };
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
 run().catch((e) => {
   // eslint-disable-next-line
   console.error(e);

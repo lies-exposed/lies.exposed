@@ -22,7 +22,6 @@ const headersSerializer = (c: BNBlock): Option<SerializedHeader[]> => {
       return fp.O.some([{ text, type: c.type, level: c.props.level ?? 6 }]);
     }
     default:
-      // eslint-disable-next-line no-console
       // console.log("header not handled", c);
       return fp.O.none;
   }

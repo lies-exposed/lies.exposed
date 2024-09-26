@@ -126,7 +126,6 @@ export const EntityFromWikipediaService: EntityFromWikipediaService =
                           callbackQueryListeners[api.chatId],
                         );
 
-                        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
                         delete callbackQueryListeners[api.chatId];
 
                         return fp.TE.right(undefined);

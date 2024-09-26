@@ -28,7 +28,6 @@ export const decodeExifTag = (
 export const toError =
   (l: logger.Logger) =>
   (e: unknown): ImgProcError => {
-    // eslint-disable-next-line
     l.error.log("Space Error %O", e);
     if (e instanceof Error) {
       return {

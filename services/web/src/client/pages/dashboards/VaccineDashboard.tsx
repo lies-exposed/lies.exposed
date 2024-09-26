@@ -153,11 +153,10 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
                     {
                       ...e,
                       date: lastDate,
-                      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+
                       people_vaccinated:
                         last.people_vaccinated + e.people_vaccinated,
                       total_vaccinations:
-                        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
                         last.total_vaccinations + e.total_vaccinations,
                     },
                   ])(acc);
@@ -188,7 +187,6 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
             (d) => d.Cumulative_deaths - covid2020TotalDeaths,
           ),
         );
-        // eslint-disable-next-line
 
         const deathRate2020 = (covid2020TotalDeaths / populationNumber) * 100;
         const immunityRate2020 = 100 - deathRate2020;

@@ -8,7 +8,7 @@ import { scaleQuantize } from "@visx/scale";
 import { Zoom } from "@visx/zoom";
 import * as React from "react";
 import * as topojson from "topojson-client";
-// eslint-disable-next-line import/no-unresolved
+
 import type { GeometryCollection, Topology } from "topojson-specification";
 import worldTopology from "./world-topo.json";
 

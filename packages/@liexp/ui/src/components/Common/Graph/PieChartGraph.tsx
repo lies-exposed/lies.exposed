@@ -76,12 +76,13 @@ export const PieChartGraph = <S extends any>({
               animate={animate}
               getLabel={(arc) => getLabel(arc.data)}
               onClickDatum={({ data }) => {
-                animate &&
+                if (animate) {
                   setSelectedSlice(
                     selectedSlice !== null && selectedSlice === getKey(data)
                       ? null
                       : getKey(data),
                   );
+                }
               }}
               getColor={(arc) => getSliceColor(getKey(arc.data))}
             />

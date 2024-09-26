@@ -281,7 +281,6 @@ export const transformNetworkOutput = (
 
   const relationNodes = [...actorNodes, ...groupNodes, ...keywordNodes].filter(
     (r) =>
-      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       relationLinks.some(
         (l) => r.data.id === l.target || r.data.id === l.source,
       ) || ids?.includes(r.data.id),

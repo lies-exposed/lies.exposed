@@ -31,7 +31,6 @@ export type ExpandableListProps<
   D extends React.ElementType<any> = "ul",
 > = ListProps<A, D> & { limit: number };
 
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 export const ExpandableList = <A, D extends React.ElementType<any> = "ul">({
   data,
   limit,

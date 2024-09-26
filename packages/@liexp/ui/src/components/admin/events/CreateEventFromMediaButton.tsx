@@ -30,7 +30,6 @@ export const CreateEventFromMediaButton: React.FC = () => {
       eventRelationIdsMonoid.empty,
     ).then((suggestions) => suggestions.find((t) => t.event.type === type));
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { newLinks: _newLinks, ...event }: any = suggestion?.event ?? {
       newLinks: [],
     };

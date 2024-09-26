@@ -112,7 +112,6 @@ const MapInput: React.FC<MapInputProps> = ({
     };
   }, [props.type]);
 
-  // eslint-disable-next-line
   // console.log({ mapContainer, mapClassName });
 
   return (

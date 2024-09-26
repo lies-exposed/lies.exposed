@@ -22,7 +22,6 @@ const run = (): T.Task<void> => {
   return pipe(
     ENV.decode(process.env),
     E.orElse((e) => {
-      // eslint-disable-next-line
       log.error.log(
         "process.env decode failed %O",
         PathReporter.report(E.left(e)),

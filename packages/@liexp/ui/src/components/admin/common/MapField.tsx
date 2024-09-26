@@ -34,7 +34,7 @@ type MapFieldProps = FieldProps & {
 
 export const MapField: React.FC<MapFieldProps> = (props) => {
   const mapContainer = React.createRef<HTMLDivElement>();
-  // eslint-disable-next-line
+
   const [id] = React.useState(uuid());
   const mapClassName = `map-field-${id}`;
   const value =
@@ -46,7 +46,7 @@ export const MapField: React.FC<MapFieldProps> = (props) => {
     if (document.querySelector(`.${mapClassName}`)?.innerHTML === "") {
       const format = getDefaultFormat();
       const features = value ? [new Feature(format.readGeometry(value))] : [];
-      // eslint-disable-next-line
+
       // console.log(features);
       const featuresSource = new VectorSource({ features });
       const featuresLayer = new VectorLayer({ source: featuresSource });

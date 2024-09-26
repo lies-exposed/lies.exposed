@@ -8,7 +8,7 @@ import { postToSocialPlatforms } from "#flows/social-posts/postToPlatforms.flow.
 
 export const postOnSocialJob: CronJobTE = (ctx) => (opts) => {
   ctx.logger.info.log("Start posting on social task...");
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+
   const date = opts === "manual" || opts === "init" ? new Date() : opts;
   return pipe(
     ctx.db.find(SocialPostEntity, {

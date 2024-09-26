@@ -1,6 +1,3 @@
-/* eslint-disable import/first */
-/* eslint-disable @typescript-eslint/no-var-requires */
-
 // other imports
 import path from "path";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";

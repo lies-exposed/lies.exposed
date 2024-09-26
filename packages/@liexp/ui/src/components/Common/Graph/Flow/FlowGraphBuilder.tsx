@@ -74,11 +74,11 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
   > | null>(null);
   const ref = React.useRef<HTMLElement | null>(null);
   // this ref stores the current dragged node
-  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
+
   const dragRef = React.useRef<NodeType | null>(null);
 
   // target is the node that the node is dragged over
-  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
+
   const [target, setTarget] = React.useState<null | NodeType>(null);
 
   // settings like debug, snap-to-grid, etc.

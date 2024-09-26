@@ -93,23 +93,23 @@ export const getPlatform = (
   url: string,
 ): E.Either<Error, VideoPlatformMatch> => {
   // youtube
-  const ytVideoMatch = url.match(ytVideoRegExp);
+  const ytVideoMatch = ytVideoRegExp.exec(url);
   if (ytVideoMatch !== null && typeof ytVideoMatch[1] === "string") {
     return E.right({ platform: "youtube", id: ytVideoMatch[1] });
   }
 
-  const ytEmbedMatch = url.match(ytVideoEmbedRegExp);
+  const ytEmbedMatch = ytVideoEmbedRegExp.exec(url);
   if (ytEmbedMatch !== null && typeof ytEmbedMatch[1] === "string") {
     return E.right({ platform: "youtube", id: ytEmbedMatch[1] });
   }
 
-  const matchBitchute = url.match(bitchuteVideoRegExp);
+  const matchBitchute = bitchuteVideoRegExp.exec(url);
   if (matchBitchute !== null && typeof matchBitchute[2] === "string") {
     return E.right({ platform: "bitchute", id: matchBitchute[2] });
   }
 
   // Odysee
-  const odyseeMatch = url.match(odyseeVideoRegExp);
+  const odyseeMatch = odyseeVideoRegExp.exec(url);
   if (
     typeof odyseeMatch?.[2] === "string" &&
     typeof odyseeMatch?.[3] === "string"
@@ -122,7 +122,7 @@ export const getPlatform = (
   }
 
   // rumble
-  const rumbleMatch = url.match(rumbleEmbedVideoRegExp);
+  const rumbleMatch = rumbleEmbedVideoRegExp.exec(url);
   if (
     rumbleMatch &&
     t.string.is(rumbleMatch[1]) &&
@@ -135,7 +135,7 @@ export const getPlatform = (
     });
   }
 
-  const rumblePageMatch = url.match(rumblePageVideoRegExp);
+  const rumblePageMatch = rumblePageVideoRegExp.exec(url);
   if (rumblePageMatch) {
     return E.right({
       platform: "rumble",
@@ -144,7 +144,7 @@ export const getPlatform = (
     });
   }
 
-  const dailyMotionMatch = url.match(dailyMotionRegExp);
+  const dailyMotionMatch = dailyMotionRegExp.exec(url);
   if (dailyMotionMatch) {
     return E.right({
       platform: "dailymotion",
@@ -153,7 +153,7 @@ export const getPlatform = (
     });
   }
 
-  const dailyMotionMatch2 = url.match(dailyMotionRegExp2);
+  const dailyMotionMatch2 = dailyMotionRegExp2.exec(url);
   if (dailyMotionMatch2) {
     return E.right({
       platform: "dailymotion",
@@ -162,7 +162,7 @@ export const getPlatform = (
     });
   }
 
-  const peertubeMatch = url.match(peertubeVideoRegExp);
+  const peertubeMatch = peertubeVideoRegExp.exec(url);
 
   if (
     typeof peertubeMatch?.[1] === "string" &&
@@ -176,7 +176,7 @@ export const getPlatform = (
     });
   }
 
-  const peertubeEmbedMatch = url.match(peertubeEmbedVideoRegExp);
+  const peertubeEmbedMatch = peertubeEmbedVideoRegExp.exec(url);
 
   if (
     typeof peertubeEmbedMatch?.[1] === "string" &&

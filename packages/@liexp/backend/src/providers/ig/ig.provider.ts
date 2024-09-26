@@ -73,7 +73,6 @@ export const IGProvider = (opts: IGProviderOpts): IGProvider => {
         .login(opts.credentials.username, opts.credentials.password)
         .catch(async (err) => {
           if (err instanceof IgLoginTwoFactorRequiredError) {
-            // eslint-disable-next-line @typescript-eslint/naming-convention
             const { username, totp_two_factor_on, two_factor_identifier } =
               err.response.body.two_factor_info;
             // decide which method to use

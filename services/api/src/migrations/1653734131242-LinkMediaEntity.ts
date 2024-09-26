@@ -19,7 +19,6 @@ export class LinkMediaEntity1653734131242 implements MigrationInterface {
     );
 
     await Promise.all(
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       links
         .filter((l: any) => l.image !== null)
         .map(async (l: any) => {

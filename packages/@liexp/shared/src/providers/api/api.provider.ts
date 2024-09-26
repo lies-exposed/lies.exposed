@@ -58,8 +58,7 @@ type API = {
           ? {
               [K in keyof CC]: TERequest<CC[K]>;
             }
-          : // eslint-disable-next-line @typescript-eslint/ban-types
-            {};
+          : object;
       }
     : never;
 } & HTTPProvider;
@@ -104,12 +103,10 @@ const API = (client: AxiosInstance): API => {
           MinimalEndpointInstance,
           MinimalEndpointInstance,
           MinimalEndpointInstance,
-          // eslint-disable-next-line @typescript-eslint/ban-types
           Record<string, MinimalEndpointInstance>
         >,
       ],
       API
-      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     >({} as API, (q, [k, { Custom, ...e }]) => ({
       ...q,
       [k]: pipe(
