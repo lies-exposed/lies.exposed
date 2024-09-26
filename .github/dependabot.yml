@@ -22,8 +22,12 @@ updates:
       # Allow both direct and indirect updates for all packages
       - dependency-type: "all"
     ignore:
+      - dependency-name: "@types/express"
+        versions: ["5.x"]
       - dependency-name: "@types/mime"
         versions: ["2.x", "3.x"]
+      - dependency-name: "@types/node"
+        versions: ["22.x"]
       - dependency-name: "fast-check"
         versions: ["3.x"]
       - dependency-name: "query-string"
