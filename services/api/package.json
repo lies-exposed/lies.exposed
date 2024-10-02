@@ -108,7 +108,7 @@
     "pdf-parse": "^1.1.1",
     "pdfjs-dist": "^4.6.82",
     "pg": "^8.11.5",
-    "puppeteer-core": "^21.11.0",
+    "puppeteer-core": "^23.5.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "react": "^18.3.1",
