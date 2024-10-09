@@ -170,6 +170,9 @@ importers:
       '@aws-sdk/types':
         specifier: ^3.649.0
         version: 3.654.0
+      '@langchain/core':
+        specifier: ^0.2.20
+        version: 0.2.31(openai@4.64.0(zod@3.23.8))
       '@types/fluent-ffmpeg':
         specifier: ^2.1.26
         version: 2.1.26
@@ -187,7 +190,7 @@ importers:
         version: 5.0.1
       langchain:
         specifier: ^0.2.20
-        version: 0.2.20(@aws-sdk/client-s3@3.658.1)(@aws-sdk/credential-provider-node@3.658.1(@aws-sdk/client-sso-oidc@3.658.1(@aws-sdk/client-sts@3.658.1))(@aws-sdk/client-sts@3.658.1))(@langchain/anthropic@0.3.3)(axios@1.7.7(debug@4.3.7))(cheerio@1.0.0)(d3-dsv@3.0.1)(fast-xml-parser@4.5.0)(handlebars@4.7.8)(ignore@6.0.2)(openai@4.64.0(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.13.0))(ws@8.18.0)
+        version: 0.2.20(@aws-sdk/client-s3@3.658.1)(@aws-sdk/credential-provider-node@3.658.1(@aws-sdk/client-sso-oidc@3.658.1(@aws-sdk/client-sts@3.658.1))(@aws-sdk/client-sts@3.658.1))(@langchain/anthropic@0.3.3(@langchain/core@0.2.31(openai@4.64.0(zod@3.23.8))))(axios@1.7.7(debug@4.3.7))(cheerio@1.0.0)(d3-dsv@3.0.1)(fast-xml-parser@4.5.0)(handlebars@4.7.8)(ignore@6.0.2)(openai@4.64.0(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.13.0))(ws@8.18.0)
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
@@ -14589,9 +14592,10 @@ snapshots:
       - encoding
       - openai
 
-  '@langchain/anthropic@0.3.3':
+  '@langchain/anthropic@0.3.3(@langchain/core@0.2.31(openai@4.64.0(zod@3.23.8)))':
     dependencies:
       '@anthropic-ai/sdk': 0.27.3
+      '@langchain/core': 0.2.31(openai@4.64.0(zod@3.23.8))
       fast-xml-parser: 4.5.0
       zod: 3.23.8
       zod-to-json-schema: 3.23.3(zod@3.23.8)
@@ -20789,7 +20793,7 @@ snapshots:
       - encoding
       - openai
 
-  langchain@0.2.20(@aws-sdk/client-s3@3.658.1)(@aws-sdk/credential-provider-node@3.658.1(@aws-sdk/client-sso-oidc@3.658.1(@aws-sdk/client-sts@3.658.1))(@aws-sdk/client-sts@3.658.1))(@langchain/anthropic@0.3.3)(axios@1.7.7(debug@4.3.7))(cheerio@1.0.0)(d3-dsv@3.0.1)(fast-xml-parser@4.5.0)(handlebars@4.7.8)(ignore@6.0.2)(openai@4.64.0(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.13.0))(ws@8.18.0):
+  langchain@0.2.20(@aws-sdk/client-s3@3.658.1)(@aws-sdk/credential-provider-node@3.658.1(@aws-sdk/client-sso-oidc@3.658.1(@aws-sdk/client-sts@3.658.1))(@aws-sdk/client-sts@3.658.1))(@langchain/anthropic@0.3.3(@langchain/core@0.2.31(openai@4.64.0(zod@3.23.8))))(axios@1.7.7(debug@4.3.7))(cheerio@1.0.0)(d3-dsv@3.0.1)(fast-xml-parser@4.5.0)(handlebars@4.7.8)(ignore@6.0.2)(openai@4.64.0(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.13.0))(ws@8.18.0):
     dependencies:
       '@langchain/core': 0.2.31(openai@4.64.0(zod@3.23.8))
       '@langchain/openai': 0.2.11
@@ -20808,7 +20812,7 @@ snapshots:
     optionalDependencies:
       '@aws-sdk/client-s3': 3.658.1
       '@aws-sdk/credential-provider-node': 3.658.1(@aws-sdk/client-sso-oidc@3.658.1(@aws-sdk/client-sts@3.658.1))(@aws-sdk/client-sts@3.658.1)
-      '@langchain/anthropic': 0.3.3
+      '@langchain/anthropic': 0.3.3(@langchain/core@0.2.31(openai@4.64.0(zod@3.23.8)))
       axios: 1.7.7(debug@4.3.7)
       cheerio: 1.0.0
       d3-dsv: 3.0.1
