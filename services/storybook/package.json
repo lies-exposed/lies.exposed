@@ -21,9 +21,6 @@
     "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"
   },
   "dependencies": {
-    "@blocknote/core": "^0.15.10",
-    "@blocknote/mantine": "^0.15.10",
-    "@blocknote/react": "^0.15.10",
     "@emotion/cache": "^11.13.1",
     "@emotion/react": "^11.13.3",
     "@emotion/server": "^11.11.0",

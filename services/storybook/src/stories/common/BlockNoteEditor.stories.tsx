@@ -1,4 +1,3 @@
-import { BlockNoteView } from "@blocknote/mantine";
 import {
   BNEditor,
   type BNEditorProps,
@@ -8,7 +7,7 @@ import * as React from "react";
 
 const meta: Meta = {
   title: "Components/Common/BlockNoteEditor",
-  component: BlockNoteView,
+  component: BNEditor,
   argTypes: {},
 };
 
