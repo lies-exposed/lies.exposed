@@ -10,7 +10,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { BNEditor, type BNEditorProps } from "../Common/BlockNote/index.js";
 import { getTextContents } from "../Common/BlockNote/utils/getTextContents.js";
 import { toInitialValue } from "../Common/BlockNote/utils/utils.js";
-import { ErrorBox } from "../Common/ErrorBox.js";
+import { ResettableErrorBox } from "../Common/ErrorBox.js";
 import JSONInput from "../Common/JSON/JSONInput.js";
 import { FormControlLabel, Paper, Stack, Switch } from "../mui/index.js";
 import { OpenAIPromptButton } from "./media/OpenAIIngestButton.js";
@@ -88,7 +88,11 @@ const RaBlockNoteInput: React.FC<RaBlockNoteInputProps> = ({
           />
         </Stack>
 
-        <ErrorBoundary FallbackComponent={ErrorBox}>
+        <ErrorBoundary
+          fallbackRender={(props) => (
+            <ResettableErrorBox {...props} style={{ maxWidth: 800 }} />
+          )}
+        >
           <Paper
             elevation={5}
             style={{
