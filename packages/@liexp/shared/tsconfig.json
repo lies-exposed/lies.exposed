@@ -19,7 +19,7 @@
       "../../../node_modules/@types",
       "typings"
     ],
-    "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo"
+    "tsBuildInfoFile": "lib/.tsbuildinfo"
   },
   "references": [
     {

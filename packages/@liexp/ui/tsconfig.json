@@ -16,7 +16,7 @@
     "baseUrl": "./",
     "rootDir": "./",
     "typeRoots": ["../shared/typings", "./typings"],
-    "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo"
+    "tsBuildInfoFile": "lib/.tsbuildinfo"
   },
   "references": [
     {

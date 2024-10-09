@@ -1,7 +1,6 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "tsBuildInfoFile": "lib/tsconfig.build.tsbuildinfo",
     "typeRoots": [
       "typings"
     ],
