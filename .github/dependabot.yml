@@ -28,6 +28,8 @@ updates:
         versions: ["2.x", "3.x"]
       - dependency-name: "@types/node"
         versions: ["22.x"]
+      - dependency-name: "@mui/*"
+        versions: ["6.x"]
       - dependency-name: "fast-check"
         versions: ["3.x"]
       - dependency-name: "query-string"
@@ -36,6 +38,9 @@ updates:
       aws-sdk:
         patterns:
           - "@aws-sdk/*"
+      blocknote:
+        patterns:
+          - "@blocknote/*"
       vite:
         patterns:
           - "*vite*"
