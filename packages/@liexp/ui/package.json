@@ -43,7 +43,7 @@
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
     "@mui/icons-material": "^5.16.7",
-    "@mui/lab": "5.0.0-alpha.170",
+    "@mui/lab": "5.0.0-alpha.173",
     "@mui/material": "^5.16.7",
     "@mui/styles": "^5.16.7",
     "@mui/system": "^5.16.7",
