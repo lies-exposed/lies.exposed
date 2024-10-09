@@ -29,7 +29,7 @@ export const extractEvents: CommandFlow = async (ctx, args) => {
       user: getOneAdminOrFail(ctx),
       browser: pipe(
         ctx.puppeteer.getBrowser({
-          headless: "new",
+          headless: true,
         }),
         TE.mapLeft(toControllerError),
       ),

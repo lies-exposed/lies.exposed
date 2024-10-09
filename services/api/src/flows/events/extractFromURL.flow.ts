@@ -49,14 +49,14 @@ const extractEventFromProviderLink: TEFlow<
 
         // get "Results" element next element sibling
         let contentTitle = await p
-          .$x('//h3[contains(text(), "Results")]')
-          .then((els) => els[0]);
+          .$$('//h3[contains(text(), "Results")]')
+          .then((els) => els.at(0));
 
         contentTitle =
           contentTitle ??
           (await p
-            .$x('//h2[contains(text(), "Abstract")]')
-            .then((els) => els[0]));
+            .$$('//h2[contains(text(), "Abstract")]')
+            .then((els) => els.at(0)));
 
         // get "Results" element next element sibling
         const contentText = await contentTitle?.evaluate(
@@ -90,11 +90,11 @@ const extractEventFromProviderLink: TEFlow<
 
         // get "Results" element next element sibling
         const contentTitle = await p
-          .$x('//strong[contains(text(), "Results")]')
-          .then((els) => els[0]);
+          .$$('//strong[contains(text(), "Results")]')
+          .then((els) => els.at(0));
 
         // get "Results" element next element sibling
-        const contentText = await contentTitle.evaluate(
+        const contentText = await contentTitle?.evaluate(
           (el) => el.nextSibling?.textContent,
         );
 
@@ -118,11 +118,11 @@ const extractEventFromProviderLink: TEFlow<
 
         // search for strong el with "Results" text
         const contentTitle = await p
-          .$x('//strong[contains(text(), "Results")]')
-          .then((els) => els[0]);
+          .$$('//strong[contains(text(), "Results")]')
+          .then((els) => els.at(0));
 
         // get "Results" element next element sibling
-        const contentText = await contentTitle.evaluate(
+        const contentText = await contentTitle?.evaluate(
           (el) => el.nextSibling?.textContent,
         );
 

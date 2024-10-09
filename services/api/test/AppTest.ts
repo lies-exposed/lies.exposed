@@ -86,7 +86,7 @@ const initAppTest = async (): Promise<AppTest> => {
       config: Config(env, path.resolve(__dirname, "..")),
       jwt: GetJWTProvider({ secret: env.JWT_SECRET, logger }),
       ffmpeg: GetFFMPEGProvider(mocks.ffmpeg),
-      puppeteer: GetPuppeteerProvider(mocks.puppeteer, { headless: "new" }, mocks.puppeteer.devices),
+      puppeteer: GetPuppeteerProvider(mocks.puppeteer, { headless: "shell" }, mocks.puppeteer.devices),
       tg: mocks.tg,
       s3: MakeSpaceProvider(mocks.s3 as any),
       ig: mocks.ig,

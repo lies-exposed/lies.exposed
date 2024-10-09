@@ -114,7 +114,7 @@ describe("Create Scientific Study", () => {
     appTest.mocks.puppeteer.page.waitForSelector.mockResolvedValueOnce(
       undefined,
     );
-    appTest.mocks.puppeteer.page.$x.mockResolvedValueOnce([
+    appTest.mocks.puppeteer.page.$$.mockResolvedValueOnce([
       {
         evaluate: vi.fn().mockResolvedValue(description),
       },
