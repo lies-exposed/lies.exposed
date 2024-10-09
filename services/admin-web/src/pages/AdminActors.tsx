@@ -52,6 +52,7 @@ import { toError } from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
+import * as t from "io-ts";
 import * as React from "react";
 
 const actorFilters = [
@@ -90,7 +91,7 @@ const transformActor =
           );
         }
 
-        if (!UUID.is(data.avatar)) {
+        if (t.string.is(data.avatar)) {
           return TE.right([
             {
               location: data.avatar,
