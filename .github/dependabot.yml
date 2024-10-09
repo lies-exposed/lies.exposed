@@ -41,6 +41,9 @@ updates:
       blocknote:
         patterns:
           - "@blocknote/*"
+      langchain:
+        patterns:
+          - "@langchain/*"
       vite:
         patterns:
           - "*vite*"
