@@ -62,7 +62,7 @@ export const takeLinkScreenshot: TEFlow<[LinkEntity], Buffer> =
             await rejectCookieModal(page);
             await new Promise<void>((resolve) => setTimeout(resolve, 1000));
             const screenshot = await page.screenshot();
-            return screenshot;
+            return Buffer.from(screenshot);
           }, toControllerError),
           fp.TE.chainFirst(() =>
             fp.TE.tryCatch(async () => {
