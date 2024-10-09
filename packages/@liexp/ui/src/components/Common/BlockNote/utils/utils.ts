@@ -2,8 +2,14 @@ import { BlockNoteEditor } from "@blocknote/core";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { type Option } from "fp-ts/lib/Option.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
-import { type BNESchemaEditor, schema, type BNBlock } from "../EditorSchema.js";
+import {
+  type BNESchemaEditor,
+  schema,
+  type BNBlock,
+  type BNEditorDocument,
+} from "../EditorSchema.js";
 import { PARAGRAPH_TYPE } from "./customSlate.js";
 import {
   type SlateValue,
@@ -11,16 +17,52 @@ import {
   transform as transformSlate,
 } from "./slate.utils.js";
 
+const toContent = (v: string) => ({
+  type: "text" as const,
+  text: v,
+  styles: {},
+});
+
+const toParagraph = (v: string): BNBlock => {
+  const content = toContent(v);
+  return {
+    id: uuid(),
+    type: "paragraph",
+    props: {
+      textColor: "default",
+      backgroundColor: "default",
+      textAlignment: "left",
+    },
+    children: [],
+    content: [content],
+  };
+};
+
+const extractText = (v: undefined | string): string[] => {
+  if (v === undefined) {
+    return [];
+  }
+  return v.split("\n").filter((v) => v !== "");
+};
+
 export const deserializeSlatePluginToBlockNoteEditor = (p: {
   type: string;
   children?: { text: string }[];
-}) => {
+}): Option<BNBlock[]> => {
   if (p.type === PARAGRAPH_TYPE) {
     return fp.O.some(
-      (p.children ?? []).map((c: any) => ({
-        type: "paragraph",
-        content: c.text,
-      })),
+      (p.children ?? []).flatMap((v) => {
+        const chunks = extractText(v.text);
+        if (chunks.length === 0) {
+          return [];
+        }
+        return [
+          {
+            ...toParagraph(chunks[0]),
+            content: chunks.map((v) => toContent(v)),
+          } as BNBlock,
+        ];
+      }),
     );
   }
   return fp.O.none;
@@ -28,36 +70,21 @@ export const deserializeSlatePluginToBlockNoteEditor = (p: {
 
 export const formatSlateToBlockNoteValue = (
   v: SlateValue,
-): BNESchemaEditor["document"] | null => {
+): BNEditorDocument | null => {
   if (isValidSlateValue(v)) {
-    return (
-      (transformSlate(v, deserializeSlatePluginToBlockNoteEditor) as any[]) ??
-      null
-    );
+    return transformSlate(v, deserializeSlatePluginToBlockNoteEditor) ?? null;
   }
-  return v as any;
+  return v;
 };
 
 const toInitialValueS = (value: string): BNBlock[] => {
-  return value.split("\n").map(
-    (v): BNBlock => ({
-      id: uuid(),
-      type: "paragraph",
-      props: {
-        textColor: "default",
-        backgroundColor: "default",
-        textAlignment: "left",
-      },
-      children: [],
-      content: [{ type: "text", text: v, styles: {} }],
-    }),
-  );
+  return value.split("\n").map((v): BNBlock => toParagraph(v));
 };
 
 function toInitialValue(v: string): BNBlock[];
 function toInitialValue(v: unknown): BNBlock[] | undefined;
 function toInitialValue(v: any): BNBlock[] | undefined {
-  if (typeof v === "string") {
+  if (typeof v === "string" && v !== "") {
     return toInitialValueS(v);
   }
 

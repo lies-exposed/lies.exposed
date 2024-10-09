@@ -1,7 +1,9 @@
 import * as React from "react";
 import type { BNEditorProps } from "./Editor";
 
-let BNEditor: any;
+let BNEditor:
+  | React.FC<BNEditorProps>
+  | React.LazyExoticComponent<React.FC<BNEditorProps>>;
 
 if (typeof window === "undefined") {
   // eslint-disable-next-line react/display-name
