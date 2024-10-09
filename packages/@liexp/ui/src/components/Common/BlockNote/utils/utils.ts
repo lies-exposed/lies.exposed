@@ -1,5 +1,5 @@
 import { BlockNoteEditor } from "@blocknote/core";
-import { fp } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Option } from "fp-ts/lib/Option.js";
@@ -50,8 +50,9 @@ export const deserializeSlatePluginToBlockNoteEditor = (p: {
   children?: { text: string }[];
 }): Option<BNBlock[]> => {
   if (p.type === PARAGRAPH_TYPE) {
-    return fp.O.some(
-      (p.children ?? []).flatMap((v) => {
+    return pipe(
+      p.children ?? [],
+      fp.A.chain((v) => {
         const chunks = extractText(v.text);
         if (chunks.length === 0) {
           return [];
@@ -63,6 +64,7 @@ export const deserializeSlatePluginToBlockNoteEditor = (p: {
           } as BNBlock,
         ];
       }),
+      fp.O.fromPredicate(fp.A.isNonEmpty),
     );
   }
   return fp.O.none;

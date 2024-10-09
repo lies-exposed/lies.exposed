@@ -2,13 +2,13 @@ import { fp } from "@liexp/core/lib/fp/index.js";
 import { type Option } from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import {
-  PARAGRAPH_TYPE,
-  KEYWORD_INLINE,
-  GROUP_INLINE,
   ACTOR_INLINE,
   COMPONENT_PICKER_POPOVER_PLUGIN,
   EVENT_BLOCK_PLUGIN,
+  GROUP_INLINE,
+  KEYWORD_INLINE,
   MEDIA_BLOCK_PLUGIN,
+  PARAGRAPH_TYPE,
   isEventBlockCell,
   isMediaBlockCell,
   isSlatePlugin,
@@ -48,6 +48,8 @@ export function transform<T>(
     v.rows,
     fp.A.map(deserializeRow((c) => deserializeCell(f)(c))),
     fp.A.flatten,
+    fp.O.fromPredicate(fp.A.isNonEmpty),
+    fp.O.toNullable,
   );
 }
 
