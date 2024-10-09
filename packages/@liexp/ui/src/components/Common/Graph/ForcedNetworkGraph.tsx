@@ -283,7 +283,7 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
 
     const actorOrGroupImage = actorOrGroupPattern
       .append("svg:image")
-      .attr("xlink:href", (d) => d.data.avatar);
+      .attr("xlink:href", (d) => d.data.avatar.thumbnail);
 
     const eventNodeNode = nodeG.filter(
       (n) =>
