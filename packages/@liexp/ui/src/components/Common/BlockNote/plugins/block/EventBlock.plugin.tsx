@@ -1,6 +1,8 @@
 import { insertOrUpdateBlock } from "@blocknote/core";
 import { createReactBlockSpec } from "@blocknote/react";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import EventsBox from "../../../../../containers/EventsBox.js";
@@ -11,30 +13,79 @@ import { type BNESchemaEditor } from "../../EditorSchema.js";
 import { EditMenu } from "../EditMenu/EditMenu.js";
 
 const DEFAULT_ID = "missing-id";
+const DEFAULT_TYPE = "missing-type";
 
+interface InsertEventBlockProps {
+  title: string;
+  type: EventType;
+}
 // Slash menu item to insert an Event block
-export const insertEventBlock = (editor: BNESchemaEditor) => ({
+const insertEventBlock =
+  ({ title, type }: InsertEventBlockProps) =>
+  (editor: BNESchemaEditor) => ({
+    title,
+    subtext: "Insert an event block",
+    onItemClick: () => {
+      insertOrUpdateBlock(editor, {
+        type: "event",
+        id: uuid(),
+        props: {
+          id: DEFAULT_ID,
+          type,
+        },
+      });
+    },
+    aliases: [type, type].map((v) => v.toLowerCase()),
+    group: "Events",
+    icon: <EventIcon type={type} fontSize="small" />,
+  });
+
+export const insertBookEventBlock = insertEventBlock({
+  title: "Book",
+  type: EventTypes.BOOK.value,
+});
+
+export const insertDeathEventBlock = insertEventBlock({
+  title: "Death",
+  type: EventTypes.DEATH.value,
+});
+
+export const insertDocumentaryEventBlock = insertEventBlock({
+  title: "Documentary",
+  type: EventTypes.DOCUMENTARY.value,
+});
+
+export const insertPatentEventBlock = insertEventBlock({
   title: "Event",
-  subtext: "Insert an event block",
-  onItemClick: () => {
-    insertOrUpdateBlock(editor, {
-      type: "event",
-      id: uuid(),
-      props: {
-        id: DEFAULT_ID,
-      },
-    });
-  },
-  aliases: ["event", "book", "study"],
-  group: "Events",
-  icon: <EventIcon type="Uncategorized" fontSize="small" />,
+  type: EventTypes.PATENT.value,
+});
+
+export const insertQuoteEventBlock = insertEventBlock({
+  title: "Quote",
+  type: EventTypes.QUOTE.value,
+});
+
+export const insertScientificStudyEventBlock = insertEventBlock({
+  title: "Scientific",
+  type: EventTypes.SCIENTIFIC_STUDY.value,
+});
+
+export const insertTransactionEventBlock = insertEventBlock({
+  title: "Transaction",
+  type: EventTypes.TRANSACTION.value,
+});
+
+export const insertUncategorizedEventBlock = insertEventBlock({
+  title: "Uncategorized",
+  type: EventTypes.UNCATEGORIZED.value,
 });
 
 export const EventBlockPluginControl: React.FC<{
   data: { events: Events.Event[] };
+  type?: EventType;
   onChange: (id: string) => void;
   onRemove: () => void;
-}> = ({ data, onChange, onRemove: remove, ...props }) => {
+}> = ({ data, onChange, onRemove: remove, type, ...props }) => {
   return (
     <Stack
       style={{ height: 200 }}
@@ -47,6 +98,7 @@ export const EventBlockPluginControl: React.FC<{
           style={{ width: "100%" }}
           discrete={false}
           selectedItems={data.events}
+          filter={{ eventType: type ? [type] : undefined }}
           onChange={(items) => {
             if (items.length > 0) {
               onChange(items[0].id);
@@ -86,6 +138,10 @@ export const eventBlock = createReactBlockSpec(
       id: {
         default: DEFAULT_ID,
       },
+      type: {
+        default: DEFAULT_TYPE as EventType | typeof DEFAULT_TYPE,
+        values: [...EventType.types.map((v) => v.value), DEFAULT_TYPE],
+      },
     },
     content: "inline",
   },
@@ -93,7 +149,7 @@ export const eventBlock = createReactBlockSpec(
     render: ({
       block: {
         id: blockId,
-        props: { id },
+        props: { id, type },
       },
       editor,
     }): React.ReactNode => {
@@ -128,6 +184,7 @@ export const eventBlock = createReactBlockSpec(
               onRemove={onRemove}
               data={{ events: [] }}
               onChange={onChange}
+              type={type === DEFAULT_TYPE ? undefined : (type as EventType)}
             />
           ) : (
             <EventBlockPluginRenderer id={id} />

@@ -1,14 +1,12 @@
-// import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { Stack } from "@mui/system";
-// import { useQuery } from "@tanstack/react-query";
 import { parseISO } from "date-fns";
 import * as React from "react";
 import { BNEditor } from "../../Common/BlockNote/index.js";
+import { isValidValue } from "../../Common/BlockNote/utils/isValidValue.js";
 import { EventIcon } from "../../Common/Icons/index.js";
-// import QueriesRenderer from "../../QueriesRenderer.js";
 import {
   Box,
   Card,
@@ -88,7 +86,7 @@ const EventSlimCard: React.FC<EventSlimCardProps> = ({
             />
 
             <CardContent>
-              {event.excerpt ? (
+              {isValidValue(event.excerpt) ? (
                 <Box
                   style={{
                     maxHeight: 100,

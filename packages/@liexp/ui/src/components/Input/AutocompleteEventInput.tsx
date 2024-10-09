@@ -1,5 +1,6 @@
 import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
+import { type EventType } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { MEDIA } from "@liexp/shared/lib/io/http/Media/index.js";
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
@@ -12,6 +13,7 @@ import { AutocompleteInput } from "./AutocompleteInput.js";
 interface AutocompleteEventInputProps {
   className?: string;
   discrete?: boolean;
+  filter?: Partial<{ eventType: EventType[] }>;
   selectedItems: Events.Event[];
   onChange: (items: Events.Event[]) => void;
   style?: React.CSSProperties;
@@ -21,6 +23,7 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
   selectedItems,
   onChange,
   discrete = true,
+  filter,
   ...props
 }) => {
   const { Queries } = useEndpointQueries();
@@ -48,6 +51,7 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
           {
             ...p,
             filter: {
+              ...filter,
               ...p.filter,
               // TODO: implement this on backend
               relations: [MEDIA.value],

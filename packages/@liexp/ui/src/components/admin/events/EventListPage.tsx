@@ -83,16 +83,15 @@ export const EventDataGrid: React.FC = () => {
         render={(r) => {
           return (
             <Box>
-              <EventIcon color="primary" type={r.type} />
-              <Typography display="inline" variant="subtitle1">
-                {r.type}
-              </Typography>{" "}
+              <EventIcon color="primary" type={r.type} />{" "}
               {[
                 io.http.Events.EventTypes.UNCATEGORIZED.value,
                 io.http.Events.EventTypes.SCIENTIFIC_STUDY.value,
+                io.http.Events.EventTypes.BOOK.value,
               ].includes(r.type) ? (
                 <Typography>{r.payload.title}</Typography>
-              ) : (
+              ) : null}
+              {r.type === io.http.Events.EventTypes.DEATH.value && (
                 <ReferenceField source="payload.victim" reference="actors">
                   <TextField source="username" />
                 </ReferenceField>

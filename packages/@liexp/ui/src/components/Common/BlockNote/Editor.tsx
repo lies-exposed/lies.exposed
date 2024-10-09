@@ -11,7 +11,16 @@ import * as React from "react";
 import { styled } from "../../../theme/index.js";
 import { BlockNoteEditorContext } from "./BlockNoteEditorContext.js";
 import { type BNESchemaEditor, schema } from "./EditorSchema.js";
-import { insertEventBlock } from "./plugins/block/EventBlock.plugin.js";
+import {
+  insertUncategorizedEventBlock,
+  insertDocumentaryEventBlock,
+  insertQuoteEventBlock,
+  insertDeathEventBlock,
+  insertScientificStudyEventBlock,
+  insertBookEventBlock,
+  insertPatentEventBlock,
+  insertTransactionEventBlock,
+} from "./plugins/block/EventBlock.plugin.js";
 import { insertLinkBlock } from "./plugins/block/LinkBlock.plugin.js";
 import { insertMediaBlock } from "./plugins/block/MediaBlock.plugin.js";
 import { actorItem } from "./plugins/inline/ActorInlineBlockNote.plugin.js";
@@ -32,7 +41,14 @@ const getCustomSlashMenuItems = (
     areaItem(editor),
     keywordItem(editor),
     // blocks
-    insertEventBlock(editor),
+    insertBookEventBlock(editor),
+    insertDeathEventBlock(editor),
+    insertDocumentaryEventBlock(editor),
+    insertPatentEventBlock(editor),
+    insertQuoteEventBlock(editor),
+    insertScientificStudyEventBlock(editor),
+    insertTransactionEventBlock(editor),
+    insertUncategorizedEventBlock(editor),
     insertMediaBlock(editor),
     insertLinkBlock(editor),
   ];
@@ -70,10 +86,12 @@ export const BNEditor: React.FC<BNEditorProps> = ({
     ...initialContent,
   }) as BNESchemaEditor;
 
-  const slashMenuItems = React.useMemo(
-    () => getCustomSlashMenuItems(editor),
-    [editor],
-  );
+  const slashMenuItems = React.useMemo(() => {
+    if (editor.isEditable) {
+      return getCustomSlashMenuItems(editor);
+    }
+    return [];
+  }, [editor.isEditable]);
 
   return (
     <div style={{ height: "100%", width: "100%" }}>
