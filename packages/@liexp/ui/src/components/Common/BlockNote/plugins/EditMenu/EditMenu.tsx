@@ -50,7 +50,6 @@ export const EditMenu: React.FC<
               <Icons.DragIndicator fontSize={"small"} />
             </IconButton>
           </Stack>
-
           {children}
         </Stack>
       );
