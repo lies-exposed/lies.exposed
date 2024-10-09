@@ -166,7 +166,7 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                   onQueryChange(
                     {
                       ...q,
-                      actors: [actor.id].concat(q.actors ?? ([] as any[])),
+                      actors: [actor.id, ...(q.actors ?? [])],
                     },
                     tab,
                   );

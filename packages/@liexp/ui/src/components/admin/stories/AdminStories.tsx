@@ -72,7 +72,7 @@ export const StoryList: React.FC<ListProps> = (props) => {
         </Stack>
 
         <FunctionField
-          render={(record: any) => {
+          render={(record) => {
             return (
               <Box>
                 <div>Links: {record.links.length}</div>

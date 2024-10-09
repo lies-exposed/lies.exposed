@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { type Option } from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
@@ -133,12 +134,12 @@ const deserializePlugin: DeserializeSlatePluginFN<InlineRelation> = (p) => {
 
 const deserializeCell =
   <T>(deserializePlugin: DeserializeSlatePluginFN<T>) =>
-  (c: any): Option<T[]> => {
+  (cell: any): Option<T[]> => {
     // console.log("cell", c);
-    if (c.dataI18n?.en?.slate) {
-      if (isSlatePlugin(c)) {
+    if (cell.dataI18n?.en?.slate) {
+      if (isSlatePlugin(cell)) {
         // console.log("is slate plugin");
-        const plugins: any[] = c.dataI18n.en.slate;
+        const plugins: any[] = cell.dataI18n.en.slate;
 
         return pipe(
           plugins.map((p) =>
@@ -162,17 +163,17 @@ const deserializeCell =
       }
     }
 
-    if (isMediaBlockCell(c) || isEventBlockCell(c)) {
+    if (isMediaBlockCell(cell) || isEventBlockCell(cell)) {
       return deserializePlugin({
-        ...c.plugin,
-        type: c.plugin?.id,
-        data: c.dataI18n?.en,
+        ...cell.plugin,
+        type: cell.plugin?.id,
+        data: cell.dataI18n?.en,
       });
     }
 
     // console.log("not a slate plugin");
     return pipe(
-      transform({ rows: c.rows ?? [] }, deserializePlugin),
+      transform({ rows: cell.rows ?? [] }, deserializePlugin),
       fp.O.fromNullable,
     );
   };
