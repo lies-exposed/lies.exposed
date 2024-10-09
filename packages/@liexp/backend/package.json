@@ -41,7 +41,7 @@
     "@aws-sdk/lib-storage": "^3",
     "@aws-sdk/s3-request-presigner": "^3",
     "@aws-sdk/types": "^3.649.0",
-    "@langchain/core": "^0.2.20",
+    "@langchain/core": "^0.3.8",
     "@types/fluent-ffmpeg": "^2.1.26",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node-telegram-bot-api": "^0.64.7",
