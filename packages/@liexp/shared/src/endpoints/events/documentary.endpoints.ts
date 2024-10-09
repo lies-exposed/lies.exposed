@@ -3,15 +3,12 @@ import * as t from "io-ts";
 import { UUID } from "io-ts-types/lib/UUID.js";
 import { Endpoint } from "ts-endpoint";
 import { ListOutput, Output } from "../../io/http/Common/Output.js";
-import { Events } from "../../io/http/index.js";
+import * as Documentary from "../../io/http/Events/Documentary.js";
 import { ResourceEndpoints } from "../types.js";
 
-const SingleDocumentaryOutput = Output(
-  Events.Documentary.Documentary,
-  "Documentary",
-);
+const SingleDocumentaryOutput = Output(Documentary.Documentary, "Documentary");
 const ListDocumentariesOutput = ListOutput(
-  Events.Documentary.Documentary,
+  Documentary.Documentary,
   "Documentaries",
 );
 
@@ -19,7 +16,7 @@ export const List = Endpoint({
   Method: "GET",
   getPath: () => "/documentaries",
   Input: {
-    Query: Events.Documentary.DocumentaryListQuery.type,
+    Query: Documentary.DocumentaryListQuery.type,
   },
   Output: ListDocumentariesOutput,
 });
@@ -39,7 +36,7 @@ export const Create = Endpoint({
   Input: {
     Query: undefined,
     Body: t.strict(
-      propsOmit(Events.Documentary.CreateDocumentaryBody, ["type"]),
+      propsOmit(Documentary.CreateDocumentaryBody, ["type"]),
       "CreateDocumentaryReleaseBody",
     ),
   },
@@ -52,7 +49,7 @@ export const Edit = Endpoint({
   Input: {
     Params: t.type({ id: UUID }),
     Body: t.strict(
-      propsOmit(Events.Documentary.EditDocumentaryBody, ["type"]),
+      propsOmit(Documentary.EditDocumentaryBody, ["type"]),
       "EditDocumentaryReleaseBody",
     ),
   },
