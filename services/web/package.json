@@ -108,7 +108,7 @@
     "topojson-server": "3.0.1",
     "ts-endpoint": "^2.0.0",
     "ts-endpoint-express": "^2.0.0",
-    "uuid": "^9.0.1",
+    "uuid": "^10.0.0",
     "world-atlas": "2.0.2"
   },
   "devDependencies": {
@@ -130,7 +130,7 @@
     "@types/throttle-debounce": "^5.0.2",
     "@types/topojson-client": "^3.1.5",
     "@types/topojson-server": "^3.0.4",
-    "@types/uuid": "^9.0.8",
+    "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^8.7.0",
     "@typescript-eslint/parser": "^8.7.0",
     "dotenv": "^16.4.5",
