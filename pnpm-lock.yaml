@@ -1900,6 +1900,7 @@ packages:
   '@aws-sdk/middleware-user-agent@3.667.0':
     resolution: {integrity: sha512-NJoPMV+9hpN90iZ2SgOpFmY6MJW71gGyT28kt0C68B0tBadYpT/J6WW8J7gxwdLA7d2CBwHbFGphTPWXXl+jzw==}
     engines: {node: '>=16.0.0'}
+    deprecated: Please use @aws-sdk/client-* packages with v3.668.0 or higher instead of v3.667.0
 
   '@aws-sdk/region-config-resolver@3.667.0':
     resolution: {integrity: sha512-iNr+JhhA902JMKHG9IwT9YdaEx6KGl6vjAL5BRNeOjfj4cZYMog6Lz/IlfOAltMtT0w88DAHDEFrBd2uO0l2eg==}
@@ -2344,8 +2345,8 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
-  '@babel/plugin-transform-export-namespace-from@7.25.7':
-    resolution: {integrity: sha512-h3MDAP5l34NQkkNulsTNyjdaR+OiB0Im67VU//sFupouP8Q6m9Spy7l66DcaAQxtmCqGdanPByLsnwFttxKISQ==}
+  '@babel/plugin-transform-export-namespace-from@7.25.8':
+    resolution: {integrity: sha512-sPtYrduWINTQTW7FtOy99VCTWp4H23UX7vYcut7S4CIMEXU+54zKX9uCoGkLsWXteyaMXzVHgzWbLfQ1w4GZgw==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
@@ -13339,11 +13340,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@babel/plugin-transform-export-namespace-from@7.25.7(@babel/core@7.25.7)':
+  '@babel/plugin-transform-export-namespace-from@7.25.8(@babel/core@7.25.7)':
     dependencies:
       '@babel/core': 7.25.7
       '@babel/helper-plugin-utils': 7.25.7
-      '@babel/plugin-syntax-export-namespace-from': 7.8.3(@babel/core@7.25.7)
 
   '@babel/plugin-transform-flow-strip-types@7.25.7(@babel/core@7.25.7)':
     dependencies:
@@ -13664,7 +13664,7 @@ snapshots:
       '@babel/plugin-transform-duplicate-named-capturing-groups-regex': 7.25.7(@babel/core@7.25.7)
       '@babel/plugin-transform-dynamic-import': 7.25.7(@babel/core@7.25.7)
       '@babel/plugin-transform-exponentiation-operator': 7.25.7(@babel/core@7.25.7)
-      '@babel/plugin-transform-export-namespace-from': 7.25.7(@babel/core@7.25.7)
+      '@babel/plugin-transform-export-namespace-from': 7.25.8(@babel/core@7.25.7)
       '@babel/plugin-transform-for-of': 7.25.7(@babel/core@7.25.7)
       '@babel/plugin-transform-function-name': 7.25.7(@babel/core@7.25.7)
       '@babel/plugin-transform-json-strings': 7.25.7(@babel/core@7.25.7)
