@@ -1900,6 +1900,7 @@ packages:
   '@aws-sdk/middleware-user-agent@3.667.0':
     resolution: {integrity: sha512-NJoPMV+9hpN90iZ2SgOpFmY6MJW71gGyT28kt0C68B0tBadYpT/J6WW8J7gxwdLA7d2CBwHbFGphTPWXXl+jzw==}
     engines: {node: '>=16.0.0'}
+    deprecated: Please use @aws-sdk/client-* packages with v3.668.0 or higher instead of v3.667.0
 
   '@aws-sdk/region-config-resolver@3.667.0':
     resolution: {integrity: sha512-iNr+JhhA902JMKHG9IwT9YdaEx6KGl6vjAL5BRNeOjfj4cZYMog6Lz/IlfOAltMtT0w88DAHDEFrBd2uO0l2eg==}
@@ -2290,8 +2291,8 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
-  '@babel/plugin-transform-class-static-block@7.25.7':
-    resolution: {integrity: sha512-rvUUtoVlkDWtDWxGAiiQj0aNktTPn3eFynBcMC2IhsXweehwgdI9ODe+XjWw515kEmv22sSOTp/rxIRuTiB7zg==}
+  '@babel/plugin-transform-class-static-block@7.25.8':
+    resolution: {integrity: sha512-e82gl3TCorath6YLf9xUwFehVvjvfqFhdOo4+0iVIVju+6XOi5XHkqB3P2AXnSwoeTX0HBoXq5gJFtvotJzFnQ==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.12.0
@@ -13276,12 +13277,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@babel/plugin-transform-class-static-block@7.25.7(@babel/core@7.25.7)':
+  '@babel/plugin-transform-class-static-block@7.25.8(@babel/core@7.25.7)':
     dependencies:
       '@babel/core': 7.25.7
       '@babel/helper-create-class-features-plugin': 7.25.7(@babel/core@7.25.7)
       '@babel/helper-plugin-utils': 7.25.7
-      '@babel/plugin-syntax-class-static-block': 7.14.5(@babel/core@7.25.7)
     transitivePeerDependencies:
       - supports-color
 
@@ -13655,7 +13655,7 @@ snapshots:
       '@babel/plugin-transform-block-scoped-functions': 7.25.7(@babel/core@7.25.7)
       '@babel/plugin-transform-block-scoping': 7.25.7(@babel/core@7.25.7)
       '@babel/plugin-transform-class-properties': 7.25.7(@babel/core@7.25.7)
-      '@babel/plugin-transform-class-static-block': 7.25.7(@babel/core@7.25.7)
+      '@babel/plugin-transform-class-static-block': 7.25.8(@babel/core@7.25.7)
       '@babel/plugin-transform-classes': 7.25.7(@babel/core@7.25.7)
       '@babel/plugin-transform-computed-properties': 7.25.7(@babel/core@7.25.7)
       '@babel/plugin-transform-destructuring': 7.25.7(@babel/core@7.25.7)
