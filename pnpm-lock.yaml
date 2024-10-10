@@ -1900,6 +1900,7 @@ packages:
   '@aws-sdk/middleware-user-agent@3.667.0':
     resolution: {integrity: sha512-NJoPMV+9hpN90iZ2SgOpFmY6MJW71gGyT28kt0C68B0tBadYpT/J6WW8J7gxwdLA7d2CBwHbFGphTPWXXl+jzw==}
     engines: {node: '>=16.0.0'}
+    deprecated: Please use @aws-sdk/client-* packages with v3.668.0 or higher instead of v3.667.0
 
   '@aws-sdk/region-config-resolver@3.667.0':
     resolution: {integrity: sha512-iNr+JhhA902JMKHG9IwT9YdaEx6KGl6vjAL5BRNeOjfj4cZYMog6Lz/IlfOAltMtT0w88DAHDEFrBd2uO0l2eg==}
@@ -2476,8 +2477,8 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
-  '@babel/plugin-transform-private-property-in-object@7.25.7':
-    resolution: {integrity: sha512-LzA5ESzBy7tqj00Yjey9yWfs3FKy4EmJyKOSWld144OxkTji81WWnUT8nkLUn+imN/zHL8ZQlOu/MTUAhHaX3g==}
+  '@babel/plugin-transform-private-property-in-object@7.25.8':
+    resolution: {integrity: sha512-8Uh966svuB4V8RHHg0QJOB32QK287NBksJOByoKmHMp1TAobNniNalIkI2i5IPj5+S9NYCG4VIjbEuiSN8r+ow==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
@@ -13492,13 +13493,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@babel/plugin-transform-private-property-in-object@7.25.7(@babel/core@7.25.7)':
+  '@babel/plugin-transform-private-property-in-object@7.25.8(@babel/core@7.25.7)':
     dependencies:
       '@babel/core': 7.25.7
       '@babel/helper-annotate-as-pure': 7.25.7
       '@babel/helper-create-class-features-plugin': 7.25.7(@babel/core@7.25.7)
       '@babel/helper-plugin-utils': 7.25.7
-      '@babel/plugin-syntax-private-property-in-object': 7.14.5(@babel/core@7.25.7)
     transitivePeerDependencies:
       - supports-color
 
@@ -13685,7 +13685,7 @@ snapshots:
       '@babel/plugin-transform-optional-chaining': 7.25.7(@babel/core@7.25.7)
       '@babel/plugin-transform-parameters': 7.25.7(@babel/core@7.25.7)
       '@babel/plugin-transform-private-methods': 7.25.7(@babel/core@7.25.7)
-      '@babel/plugin-transform-private-property-in-object': 7.25.7(@babel/core@7.25.7)
+      '@babel/plugin-transform-private-property-in-object': 7.25.8(@babel/core@7.25.7)
       '@babel/plugin-transform-property-literals': 7.25.7(@babel/core@7.25.7)
       '@babel/plugin-transform-regenerator': 7.25.7(@babel/core@7.25.7)
       '@babel/plugin-transform-reserved-words': 7.25.7(@babel/core@7.25.7)
@@ -15193,7 +15193,7 @@ snapshots:
       '@babel/plugin-transform-optional-chaining': 7.25.7(@babel/core@7.25.7)
       '@babel/plugin-transform-parameters': 7.25.7(@babel/core@7.25.7)
       '@babel/plugin-transform-private-methods': 7.25.7(@babel/core@7.25.7)
-      '@babel/plugin-transform-private-property-in-object': 7.25.7(@babel/core@7.25.7)
+      '@babel/plugin-transform-private-property-in-object': 7.25.8(@babel/core@7.25.7)
       '@babel/plugin-transform-react-display-name': 7.25.7(@babel/core@7.25.7)
       '@babel/plugin-transform-react-jsx': 7.25.7(@babel/core@7.25.7)
       '@babel/plugin-transform-react-jsx-self': 7.25.7(@babel/core@7.25.7)
