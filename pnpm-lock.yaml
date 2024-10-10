@@ -1900,6 +1900,7 @@ packages:
   '@aws-sdk/middleware-user-agent@3.667.0':
     resolution: {integrity: sha512-NJoPMV+9hpN90iZ2SgOpFmY6MJW71gGyT28kt0C68B0tBadYpT/J6WW8J7gxwdLA7d2CBwHbFGphTPWXXl+jzw==}
     engines: {node: '>=16.0.0'}
+    deprecated: Please use @aws-sdk/client-* packages with v3.668.0 or higher instead of v3.667.0
 
   '@aws-sdk/region-config-resolver@3.667.0':
     resolution: {integrity: sha512-iNr+JhhA902JMKHG9IwT9YdaEx6KGl6vjAL5BRNeOjfj4cZYMog6Lz/IlfOAltMtT0w88DAHDEFrBd2uO0l2eg==}
@@ -2380,8 +2381,8 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
-  '@babel/plugin-transform-logical-assignment-operators@7.25.7':
-    resolution: {integrity: sha512-iImzbA55BjiovLyG2bggWS+V+OLkaBorNvc/yJoeeDQGztknRnDdYfp2d/UPmunZYEnZi6Lg8QcTmNMHOB0lGA==}
+  '@babel/plugin-transform-logical-assignment-operators@7.25.8':
+    resolution: {integrity: sha512-f5W0AhSbbI+yY6VakT04jmxdxz+WsID0neG7+kQZbCOjuyJNdL5Nn4WIBm4hRpKnUcO9lP0eipUhFN12JpoH8g==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
@@ -13379,11 +13380,10 @@ snapshots:
       '@babel/core': 7.25.7
       '@babel/helper-plugin-utils': 7.25.7
 
-  '@babel/plugin-transform-logical-assignment-operators@7.25.7(@babel/core@7.25.7)':
+  '@babel/plugin-transform-logical-assignment-operators@7.25.8(@babel/core@7.25.7)':
     dependencies:
       '@babel/core': 7.25.7
       '@babel/helper-plugin-utils': 7.25.7
-      '@babel/plugin-syntax-logical-assignment-operators': 7.10.4(@babel/core@7.25.7)
 
   '@babel/plugin-transform-member-expression-literals@7.25.7(@babel/core@7.25.7)':
     dependencies:
@@ -13669,7 +13669,7 @@ snapshots:
       '@babel/plugin-transform-function-name': 7.25.7(@babel/core@7.25.7)
       '@babel/plugin-transform-json-strings': 7.25.7(@babel/core@7.25.7)
       '@babel/plugin-transform-literals': 7.25.7(@babel/core@7.25.7)
-      '@babel/plugin-transform-logical-assignment-operators': 7.25.7(@babel/core@7.25.7)
+      '@babel/plugin-transform-logical-assignment-operators': 7.25.8(@babel/core@7.25.7)
       '@babel/plugin-transform-member-expression-literals': 7.25.7(@babel/core@7.25.7)
       '@babel/plugin-transform-modules-amd': 7.25.7(@babel/core@7.25.7)
       '@babel/plugin-transform-modules-commonjs': 7.25.7(@babel/core@7.25.7)
@@ -15183,7 +15183,7 @@ snapshots:
       '@babel/plugin-transform-for-of': 7.25.7(@babel/core@7.25.7)
       '@babel/plugin-transform-function-name': 7.25.7(@babel/core@7.25.7)
       '@babel/plugin-transform-literals': 7.25.7(@babel/core@7.25.7)
-      '@babel/plugin-transform-logical-assignment-operators': 7.25.7(@babel/core@7.25.7)
+      '@babel/plugin-transform-logical-assignment-operators': 7.25.8(@babel/core@7.25.7)
       '@babel/plugin-transform-modules-commonjs': 7.25.7(@babel/core@7.25.7)
       '@babel/plugin-transform-named-capturing-groups-regex': 7.25.7(@babel/core@7.25.7)
       '@babel/plugin-transform-nullish-coalescing-operator': 7.25.7(@babel/core@7.25.7)
