@@ -75,7 +75,7 @@ export const InfiniteListBox = <
     APIError,
     {
       pages: { data: any[]; total: number }[];
-      lastPage: { data: any[]; total: number };
+      pageParams: Array<{ _start: number; _end: number }>;
     },
     any,
     { _start: number; _end: number }
@@ -124,12 +124,12 @@ export const InfiniteListBox = <
   const handleLoadMoreRows = React.useCallback(
     async (props: any) => {
       if (hasNextPage && !(isFetchingNextPage || isRefetching)) {
-        const pageParams = {
-          _start: props.startIndex,
-          _end: props.stopIndex + 1 - props.startIndex,
-        } as any;
+        // const pageParams = {
+        //   _start: props.startIndex,
+        //   _end: props.stopIndex + 1 - props.startIndex,
+        // } as any;
         // console.log("handleLoadMoreRows", pageParams);
-        await fetchNextPage(pageParams);
+        await fetchNextPage({ cancelRefetch: false });
       }
     },
     [fetchNextPage, hasNextPage, isFetchingNextPage, isRefetching],
@@ -167,7 +167,7 @@ export const InfiniteListBox = <
                   total={total}
                   items={items}
                   ref={registerChild}
-                  onMasonryRef={(r: any, cellCache: any) => {
+                  onMasonryRef={(r: Masonry, cellCache: CellMeasurerCache) => {
                     setMasonryRef({ masonryRef: r, cellCache });
                   }}
                   onCellsRendered={onRowsRendered}

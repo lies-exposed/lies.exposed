@@ -96,7 +96,7 @@ const cellCache = new CellMeasurerCache({
   fixedHeight: false,
 });
 
-export type InfiniteMasonryProps = MasonryProps &
+type InfiniteMasonryProps = React.PropsWithoutRef<MasonryProps> &
   InfiniteListBaseProps & {
     CellRenderer: CellRenderer;
     columnCount?: number;
@@ -105,8 +105,8 @@ export type InfiniteMasonryProps = MasonryProps &
 
 let masonryRef: Masonry | null = null;
 const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
-  any,
-  Omit<InfiniteMasonryProps, "ref">
+  Masonry,
+  React.PropsWithoutRef<InfiniteMasonryProps>
 > = (
   {
     columnCount: defaultColumnCount,
@@ -146,7 +146,7 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
       // setTimeout(() => {
       const newColumnCount = isDownMD ? (isDownSM ? 1 : 3) : 4;
       if (newColumnCount !== columnCount) {
-        masonryRef?.props.cellPositioner.reset({
+        positionerCache.reset({
           columnCount: newColumnCount,
           columnWidth: width / newColumnCount,
         });
@@ -163,7 +163,7 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
   return (
     <StyledMasonry
       ref={(r) => {
-        masonryRef = r as any;
+        masonryRef = r;
         r = ref as any;
       }}
       {...props}
@@ -196,4 +196,8 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
   );
 };
 
-export const InfiniteMasonry = React.forwardRef(InfiniteMasonryForwardRef);
+const InfiniteMasonry = React.forwardRef<Masonry, InfiniteMasonryProps>(
+  InfiniteMasonryForwardRef,
+);
+
+export { InfiniteMasonry, type InfiniteMasonryProps };
