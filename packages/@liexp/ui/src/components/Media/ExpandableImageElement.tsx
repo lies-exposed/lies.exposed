@@ -61,7 +61,8 @@ interface ExpandableImageElementProps {
   className?: string;
   media: Omit<Media.Media, "type"> & { type: Media.ImageType };
   style?: React.CSSProperties;
-  onLoad?: (rect: DOMRect) => void;
+  onLoad?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   disableZoom?: boolean;
 }
 
@@ -70,6 +71,7 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
   className,
   style,
   onLoad,
+  onClick,
   disableZoom = false,
 }) => {
   const [modal, showModal] = useModal({ disablePortal: false });
@@ -118,20 +120,19 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
       display="flex"
       alignItems="center"
       justifyContent="center"
+      onClick={(e) => {
+        if (onClick) {
+          e.stopPropagation();
+          onClick(e);
+        }
+      }}
     >
       <img
         className={boxClasses.image}
         src={media.thumbnail}
         style={style}
-        onLoad={(e) => {
-          const rect = new DOMRect(
-            e.currentTarget.clientLeft,
-            e.currentTarget.clientTop,
-            e.currentTarget.offsetWidth,
-            e.currentTarget.offsetHeight,
-          );
-
-          onLoad?.(rect);
+        onLoad={() => {
+          onLoad?.();
         }}
         loading="lazy"
       />

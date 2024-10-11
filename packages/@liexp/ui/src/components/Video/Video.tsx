@@ -57,13 +57,7 @@ export const Video: React.FC<VideoProps> = ({
 
   const showVideo = loaded && !disableZoom;
   return (
-    <Root
-      className={clsx(classes.wrapper, className)}
-      style={style}
-      onClick={() => {
-        setLoaded(true);
-      }}
-    >
+    <Root className={clsx(classes.wrapper, className)} style={style}>
       {showVideo ? (
         <video
           controls={controls}
