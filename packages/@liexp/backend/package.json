@@ -29,7 +29,7 @@
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
     "@liexp/test": "workspace:*",
-    "date-fns": "^2.30.0",
+    "date-fns": "^4.1.0",
     "fp-ts": "^2.16.6",
     "io-ts": "^2.2.21",
     "jsonwebtoken": "^9.0.2",

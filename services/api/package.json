@@ -78,7 +78,7 @@
     "canvas": "^2.11.2",
     "cors": "2.8.5",
     "cronstrue": "^2.50.0",
-    "date-fns": "^2.30.0",
+    "date-fns": "^4.1.0",
     "debug": "*",
     "domino": "^2.1.6",
     "exifreader": "^4.23.5",
