@@ -5,7 +5,7 @@ import { clsx } from "clsx";
 import * as React from "react";
 import { styled } from "../../theme/index.js";
 import { type ListItemProps } from "../Common/List.js";
-import MediaElement from "../Media/MediaElement.js";
+import MediaElement, { type MediaElementProps } from "../Media/MediaElement.js";
 import { Box } from "../mui/index.js";
 
 export interface Media extends io.Media.Media {
@@ -57,16 +57,13 @@ const StyledBox = styled(Box)({
   },
 });
 
-interface MediaListItemProps extends ListItemProps<Media> {
-  style?: React.CSSProperties;
-  hideDescription?: boolean;
-  disableZoom?: boolean;
-}
+type MediaListItemProps = ListItemProps<Media> &
+  Omit<MediaElementProps, "media">;
 
 export const MediaListItem: React.ForwardRefRenderFunction<
   any,
   MediaListItemProps
-> = ({ style, onClick, item, hideDescription, disableZoom }, ref) => {
+> = ({ style, onClick, item, enableDescription, disableZoom }, ref) => {
   return (
     <StyledBox className={clsx(classes.root)} style={style} ref={ref}>
       <Box
@@ -81,12 +78,12 @@ export const MediaListItem: React.ForwardRefRenderFunction<
         <MediaElement
           className={classes.media}
           media={item}
-          enableDescription={!hideDescription}
+          enableDescription={enableDescription}
           disableZoom={disableZoom}
           onClick={
             onClick
               ? (e: any) => {
-                  onClick(item, e);
+                  onClick?.(item, e);
                 }
               : undefined
           }
@@ -142,7 +139,7 @@ export const MediaListItemCell: React.FC<
 export interface MediaListProps {
   className?: string;
   media: Media[];
-  hideDescription?: boolean;
+  enableDescription?: boolean;
   disableZoom?: boolean;
   onItemClick?: (item: Media) => void;
   style?: React.CSSProperties;
@@ -176,7 +173,7 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
       itemStyle,
       gutterSize = 20,
       columns = 4,
-      hideDescription = true,
+      enableDescription,
       disableZoom = true,
     },
     ref,
@@ -213,7 +210,7 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
                     item={m}
                     onClick={onItemClick}
                     width={Math.floor(width / columns)}
-                    hideDescription={hideDescription}
+                    enableDescription={enableDescription}
                     disableZoom={disableZoom}
                     style={itemStyle}
                   />

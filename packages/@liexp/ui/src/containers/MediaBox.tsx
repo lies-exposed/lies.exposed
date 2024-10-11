@@ -11,7 +11,7 @@ export interface MediaBoxProps {
   onClick: (e: Media.Media) => void;
   limit?: number;
   perPage?: number;
-  hideDescription?: boolean;
+  enableDescription?: boolean;
   disableZoom?: boolean;
   columns?: number;
   discrete?: boolean;

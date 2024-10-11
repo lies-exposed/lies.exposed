@@ -166,7 +166,6 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
                   style={{ width: "100%", height: 200 }}
                   itemStyle={{ width: "auto", margin: "auto", height: "100%" }}
                   columns={media.length > 3 ? 3 : media.length}
-                  hideDescription
                   media={media.map((m) => ({ ...m, selected: true }))}
                   onItemClick={() => {}}
                 />
@@ -364,7 +363,6 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
             style={{ width: "100%", maxHeight: 300 }}
             itemStyle={{ maxHeight: 300 }}
             columns={payload.media.length > 3 ? 3 : media.length}
-            hideDescription
             media={payload.media.map((m) => ({
               id: uuid(),
               creator: undefined,

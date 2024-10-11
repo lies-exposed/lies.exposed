@@ -37,7 +37,6 @@ export const AutocompleteMediaInput: React.FC<AutocompleteMediaInputProps> = ({
             selected: true,
           }))}
           style={{ flexWrap: "wrap", flexDirection: "column" }}
-          hideDescription={true}
           itemStyle={{ height: 50, maxWidth: 80 }}
           onItemClick={(a: any) => {
             onChange(items.filter((i) => i.id !== a.id));
@@ -54,7 +53,6 @@ export const AutocompleteMediaInput: React.FC<AutocompleteMediaInputProps> = ({
                 selected: false,
               }}
               style={{ height: 100 }}
-              hideDescription={true}
               onClick={() => {
                 onChange(
                   selectedItems.filter((i) => i.id !== item.id).concat(item),

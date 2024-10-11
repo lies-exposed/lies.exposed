@@ -67,7 +67,6 @@ export const DefaultEventPageContent: React.FC<
                 maxWidth: 800,
                 maxHeight: 600,
               }}
-              hideDescription={true}
               disableZoom={!isOnlyOneMedia}
             />
           ) : mediaLayout === "slider" ? (

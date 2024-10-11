@@ -30,7 +30,7 @@ const Root = styled("div")(() => ({
 }));
 
 interface AudioMediaElementProps {
-  media: Omit<Media.Media, "type"> & { type: Media.OGGType | Media.MP3Type };
+  media: Omit<Media.Media, "type"> & { type: Media.AudioType };
   className?: string;
   style?: React.CSSProperties;
   onLoad?: () => void;
@@ -43,6 +43,10 @@ const AudioMediaElement: React.FC<AudioMediaElementProps> = ({
   ...props
 }) => {
   const ref = React.createRef<_ReactAudioPlayer>();
+
+  React.useEffect(() => {
+    onLoad?.();
+  }, []);
 
   return (
     <Root className={classes.root}>

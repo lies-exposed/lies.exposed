@@ -76,7 +76,6 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
             // console.log("on error capture", e);
             // e.preventDefault();
           }}
-          onLoad={onLoad}
         />
       ) : (
         <VideoCover

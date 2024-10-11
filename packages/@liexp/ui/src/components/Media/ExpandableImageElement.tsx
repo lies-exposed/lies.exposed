@@ -43,7 +43,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
     overflow: "hidden",
   },
   [`& .${boxClasses.image}`]: {
-    width: "auto",
+    width: "100%",
     height: "100%",
     maxWidth: 2000,
     maxHeight: 800,
@@ -61,7 +61,7 @@ interface ExpandableImageElementProps {
   className?: string;
   media: Omit<Media.Media, "type"> & { type: Media.ImageType };
   style?: React.CSSProperties;
-  onLoad?: () => void;
+  onLoad?: (rect: DOMRect) => void;
   disableZoom?: boolean;
 }
 
@@ -110,6 +110,7 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
       </StyledModalContent>
     ));
   }, [modal, media]);
+
   return (
     <StyledBox
       className={clsx(boxClasses.root, className)}
@@ -120,9 +121,18 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
     >
       <img
         className={boxClasses.image}
-        src={media.location}
+        src={media.thumbnail}
         style={style}
-        onLoad={onLoad}
+        onLoad={(e) => {
+          const rect = new DOMRect(
+            e.currentTarget.clientLeft,
+            e.currentTarget.clientTop,
+            e.currentTarget.offsetWidth,
+            e.currentTarget.offsetHeight,
+          );
+
+          onLoad?.(rect);
+        }}
         loading="lazy"
       />
       {!disableZoom ? (

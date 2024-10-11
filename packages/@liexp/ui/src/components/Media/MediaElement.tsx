@@ -79,7 +79,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
             media={{ ...media, type: "iframe/video" }}
           />
         );
-      case Media.MediaType.types[6].value: {
+      case Media.PDFType.value: {
         return (
           <PDFMediaElement
             {...props}
@@ -90,7 +90,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
           />
         );
       }
-      case Media.MediaType.types[5].value: {
+      case Media.MP4Type.value: {
         return (
           <Video
             {...props}
@@ -109,14 +109,14 @@ const MediaElement: React.FC<MediaElementProps> = ({
           />
         );
       }
-      case Media.MediaType.types[4].value:
-      case Media.MediaType.types[3].value: {
+      case Media.AudioType.types[0].value:
+      case Media.AudioType.types[1].value: {
         return (
           <AudioMediaElement
             {...props}
             style={itemStyle}
             className={clsx(classes.item, itemClassName)}
-            media={media as any}
+            media={{ ...media, type: media.type as Media.AudioType }}
           />
         );
       }
