@@ -61,4 +61,6 @@ const run = async ([command, ...args]: string[]): Promise<void> => {
   }
 };
 
-void run(process.argv.splice(2));
+void run(process.argv.splice(2))
+  .then(() => process.exit(0))
+  .catch(() => process.exit(1));
